@@ -1,6 +1,6 @@
 # Roadmap Unificado — pm-workspace / Savia
 
-**Updated:** 2026-06-05 | **Version:** v6.17.0 | **555 commands · 70 agents · 101 skills · 75 hooks · 390 test suites · Active backlog 18 items (~86h)** — ver `## Active Stack — 2026-06-05`
+**Updated:** 2026-06-05 | **Version:** v6.17.0 | **555 commands · 70 agents · 101 skills · 75 hooks · 390 test suites · Active backlog 19 items (~118h)** — ver `## Active Stack — 2026-06-05`
 
 ---
 
@@ -737,6 +737,12 @@ Google Sheets · ServiceNow/SAP · Tableau · Kafka · VS Code ext · Cloud voic
 | 2 | SPEC-159 | Async Tribunal Fan-out | 8h | — |
 | 3 | SPEC-160 (tool-erg) | Tool Ergonomics Auto-Audit | 5h | — |
 
+### Tier 1A — Era 199 Wave 1 (Application Code Twin, total ~32h)
+
+| # | ID | Título | Esfuerzo | Deps |
+|---|---|---|---|---|
+| 1 | SPEC-190 | Application Code Twin — Gemelo Inteligente de Código | 28-35h | SPEC-169 ✓ (IN_REVIEW) + SPEC-156 ✓ |
+
 ### Tier 3 — Era 197 Flowsint + Wave 2/3 Era 199 (multiplicadores, total ~24h)
 
 | # | ID | Título | Esfuerzo | Deps |
@@ -765,11 +771,11 @@ Google Sheets · ServiceNow/SAP · Tableau · Kafka · VS Code ext · Cloud voic
 
 ### Decisión operativa (próximas 3 sesiones)
 
-1. **Sprint inmediato**: Tier 2 — SPEC-157 (6h, implementada PR #814) → SPEC-169 (11h, IN_REVIEW PR #815) → SPEC-159 (8h, siguiente).
+1. **Sprint inmediato**: Tier 2 — SPEC-169 (IN_REVIEW PR #815) → SPEC-190 Slice 1 (arrancar en rama propia).
 2. **Sprint siguiente**: SPEC-159 (8h, zero deps) → SPEC-160 (5h, zero deps).
-3. **Después**: Tier 3 en orden (SE-151 → SE-152 → SPEC-181/182).
+3. **Después**: SPEC-190 Slices 2-9 + Tier 3 en orden (SE-151 → SE-152 → SPEC-181/182).
 
-### Total backlog activo: ~103h (20 items)
+### Total backlog activo: ~118h (19 items)
 
 ---
 
