@@ -1,7 +1,7 @@
 ---
-twin_id: "proyecto-alpha"
+twin_id: "pryct-lp-anon"
 spec_version: "1.0"
-last_refresh: "2026-06-05T16:34:36Z"
+last_refresh: "2026-06-XX"
 stale_after_days: 14
 token_budget: 2000
 health: green
@@ -9,19 +9,19 @@ predictions:
   sprint_slip:
     value: 0.10
     confidence: 0.65
-    evidence_ref: "/home/monica/savia/projects/proyecto-alpha/sprints/sprint-001"
+    evidence_ref: "case-study/sprints/sprint-001"
   next_blocker:
-    value: "no blockers detected"
+    value: "[blocker details redacted]"
     confidence: 0.7
-    evidence_ref: "/home/monica/savia/projects/proyecto-alpha/CLAUDE.md"
+    evidence_ref: "case-study/CLAUDE.md"
   scope_drift:
     value: 0.30
     confidence: 0.6
-    evidence_ref: "/home/monica/savia/projects/proyecto-alpha/backlog"
+    evidence_ref: "case-study/backlog"
   aggregate_health:
     value: green
     confidence: 0.75
-    evidence_ref: "/home/monica/savia/projects/proyecto-alpha/twin.md"
+    evidence_ref: "case-study/twin.md"
 ---
 
 ## Estado

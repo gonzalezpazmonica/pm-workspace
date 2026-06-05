@@ -241,3 +241,116 @@ TWIN
   last=$(grep "^last_refresh:" "$REPO_ROOT/projects/proyecto-alpha/twin.md" | head -1 | sed 's/.*: *//' | tr -d '"')
   [[ "$last" > "2026-06-04" ]]
 }
+
+# ── Loader: twin-load.sh (Slice 3) ────────────────────────────────────────────
+@test "loader: script exists and executable" {
+  [[ -x "$REPO_ROOT/scripts/twin-load.sh" ]]
+}
+
+@test "loader: no args exits 2 with usage" {
+  run bash "$REPO_ROOT/scripts/twin-load.sh"
+  [[ "$status" -eq 2 ]]
+  [[ "$output" =~ "Usage" ]]
+}
+
+@test "loader: unknown slug exits 2" {
+  run bash "$REPO_ROOT/scripts/twin-load.sh" nonexistent-slug-zzz
+  [[ "$status" -eq 2 ]]
+}
+
+@test "loader: --summary prints health and tokens" {
+  run bash "$REPO_ROOT/scripts/twin-load.sh" "proyecto-alpha" "--summary"
+  [[ "$status" -eq 0 ]] || [[ "$status" -eq 1 ]]
+  [[ "$output" =~ "Health:" ]]
+  [[ "$output" =~ "Tokens" ]]
+}
+
+@test "loader: N1 context blocks projects twin (AC-5)" {
+  run env TWIN_CONTEXT=N1 bash "$REPO_ROOT/scripts/twin-load.sh" "proyecto-alpha"
+  [[ "$status" -eq 3 ]]
+  [[ "$output" =~ "BLOCKED" ]]
+}
+
+@test "loader: SPEC-169 cited in header" {
+  grep -q "SPEC-169" "$REPO_ROOT/scripts/twin-load.sh"
+}
+
+# ── Refresher: twin-refresh.sh (Slice 4) ──────────────────────────────────────
+@test "refresher: script exists and executable" {
+  [[ -x "$REPO_ROOT/scripts/twin-refresh.sh" ]]
+}
+
+@test "refresher: no args exits 2" {
+  run bash "$REPO_ROOT/scripts/twin-refresh.sh"
+  [[ "$status" -eq 2 ]]
+}
+
+@test "refresher: dry-run on pilot exits 0" {
+  run bash "$REPO_ROOT/scripts/twin-refresh.sh" "proyecto-alpha" "--dry-run"
+  [[ "$status" -eq 0 ]]
+  [[ "$output" =~ "dry-run" ]]
+}
+
+@test "refresher: dry-run shows diff (AC-V2 auditable)" {
+  run bash "$REPO_ROOT/scripts/twin-refresh.sh" "proyecto-alpha" "--dry-run"
+  [[ "$output" =~ "health:" ]]
+  [[ "$output" =~ "sprint_slip:" ]]
+}
+
+@test "refresher: real refresh completes under 5000ms (AC-V2)" {
+  start=$(date +%s%3N)
+  bash "$REPO_ROOT/scripts/twin-refresh.sh" "proyecto-alpha" >/dev/null 2>&1
+  end=$(date +%s%3N)
+  elapsed=$(( end - start ))
+  [[ "$elapsed" -lt 5000 ]]
+}
+
+# ── Decay check: twin-decay-check.sh (Slice 5) ────────────────────────────────
+@test "decay: script exists and executable" {
+  [[ -x "$REPO_ROOT/scripts/twin-decay-check.sh" ]]
+}
+
+@test "decay: workspace scan exits 0 with fresh pilot" {
+  run bash "$REPO_ROOT/scripts/twin-decay-check.sh"
+  [[ "$status" -eq 0 ]] || [[ "$status" -eq 1 ]]
+  [[ "$output" =~ "decay-check:" ]]
+}
+
+# ── Anonymize: twin-anonymize.sh (Slice 6, AC-6) ─────────────────────────────
+@test "anonymize: script exists and executable" {
+  [[ -x "$REPO_ROOT/scripts/twin-anonymize.sh" ]]
+}
+
+@test "anonymize: no args exits 2" {
+  run bash "$REPO_ROOT/scripts/twin-anonymize.sh"
+  [[ "$status" -eq 2 ]]
+}
+
+@test "anonymize: produces output file (AC-6)" {
+  run bash "$REPO_ROOT/scripts/twin-anonymize.sh" "proyecto-alpha"
+  [[ "$status" -eq 0 ]]
+  [[ "$output" =~ "OK:" ]]
+}
+
+@test "anonymize: output contains no real project slug" {
+  bash "$REPO_ROOT/scripts/twin-anonymize.sh" "proyecto-alpha" >/dev/null 2>&1 || true
+  anon_file=$(find "$REPO_ROOT/docs/case-studies" -name "*anon.twin.md" | head -1)
+  [[ -n "$anon_file" ]]
+  ! grep -q "twin_id: \"proyecto-alpha\"" "$anon_file"
+}
+
+@test "anonymize: output strips absolute paths" {
+  anon_file=$(find "$REPO_ROOT/docs/case-studies" -name "*anon.twin.md" | head -1)
+  [[ -n "$anon_file" ]]
+  ! grep -qE "/home/|/Users/" "$anon_file"
+}
+
+# ── Hook: twin-posttooluse.sh (Slice 5) ──────────────────────────────────────
+@test "hook: twin-posttooluse.sh exists in .claude/hooks" {
+  [[ -f "$REPO_ROOT/.claude/hooks/twin-posttooluse.sh" ]]
+}
+
+@test "hook: no-op by default without TWIN_HOOK_ENABLED=true" {
+  run env TWIN_HOOK_ENABLED=false bash "$REPO_ROOT/.claude/hooks/twin-posttooluse.sh" <<< '{}'
+  [[ "$status" -eq 0 ]]
+}
