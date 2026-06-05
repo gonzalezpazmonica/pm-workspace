@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=903577983aec41cacb4664ce900d2f2848938b99f9159b0891e08cdab0850231
-timestamp=2026-06-05T20:57:10Z
-branch=feature/spec-190-slice-5
-head_commit=81796ab7
-signature=dc91b8a107e0ac6645201e20e437528e8a097546402e35b54ba299287b797bc4
+diff_hash=c5151a034c0e83e29b1491b0ed0b473a15b20ae84b4b637d8cbc51f987ef324c
+timestamp=2026-06-05T22:55:41Z
+branch=feature/spec-190-slice-8
+head_commit=c7fd1951
+signature=65b6ca1b40cffecce3b0c81366709dca49b09e63396712e39164a8032ee9cabd
