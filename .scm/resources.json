@@ -1,6 +1,6 @@
 {
-  "hash": "50b58e6fc78b",
-  "total": 1200,
+  "hash": "87618a2402bb",
+  "total": 1202,
   "resources": [
     {
       "category": "analysis",
@@ -2306,6 +2306,34 @@
       "kind": "agent",
       "path": ".claude/agents/code-reviewer.md",
       "description": ">"
+    },
+    {
+      "category": "development",
+      "name": "code-twin-init",
+      "intents": [
+        "code",
+        "estructura",
+        "init",
+        "proyecto",
+        "scaffold"
+      ],
+      "kind": "script",
+      "path": "scripts/code-twin-init.sh",
+      "description": "code-twin-init.sh — Scaffold estructura vacía de ACT para un proyecto"
+    },
+    {
+      "category": "development",
+      "name": "code-twin-lint",
+      "intents": [
+        "code",
+        "files",
+        "index",
+        "jsonl",
+        "lint"
+      ],
+      "kind": "script",
+      "path": "scripts/code-twin-lint.sh",
+      "description": "code-twin-lint.sh — Valida Code Twin Files (CTF), CTI (index.md) y seeds JSONL"
     },
     {
       "category": "development",
