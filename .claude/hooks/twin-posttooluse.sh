@@ -1,13 +1,13 @@
 #!/usr/bin/env bash
 # twin-posttooluse.sh — Hook PostToolUse: dispara refresh de twins en eventos relevantes
 # Spec: SPEC-169 AC-4
+set -uo pipefail
 # Profile tier: standard
 # Hook: PostToolUse (mcp__github__*)
 # Eventos: cierre de sprint (branch merge), cambio de estado de work item,
 #          merge de PR que toque projects/*/
 # Wire-ready: TWIN_HOOK_ENABLED=true activa el refresh automático.
 # Sin esa variable, el hook es no-op (safe by default).
-set -uo pipefail
 
 HOOK_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 ROOT_DIR="${CLAUDE_PROJECT_DIR:-$(cd "$HOOK_DIR/../.." && pwd)}"
