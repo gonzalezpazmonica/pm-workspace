@@ -1,6 +1,6 @@
 # Roadmap Unificado — pm-workspace / Savia
 
-**Updated:** 2026-06-05 | **Version:** v6.16.0 | **554 commands · 70 agents · 101 skills · 74 hooks · 389 test suites · Active backlog 19 items (~97h)** — ver `## Active Stack — 2026-06-05`
+**Updated:** 2026-06-05 | **Version:** v6.17.0 | **555 commands · 70 agents · 101 skills · 75 hooks · 390 test suites · Active backlog 18 items (~86h)** — ver `## Active Stack — 2026-06-05`
 
 ---
 
@@ -733,7 +733,7 @@ Google Sheets · ServiceNow/SAP · Tableau · Kafka · VS Code ext · Cloud voic
 
 | # | ID | Título | Esfuerzo | Deps |
 |---|---|---|---|---|
-| 1 | SPEC-169 | Project Twin artefacto versionado | 11h | SPEC-156 ✓ + zero-leakage ✓ |
+| 1 | SPEC-169 | Project Twin artefacto versionado | 11h | SPEC-156 ✓ + zero-leakage ✓ — IN_REVIEW PR #815 |
 | 2 | SPEC-159 | Async Tribunal Fan-out | 8h | — |
 | 3 | SPEC-160 (tool-erg) | Tool Ergonomics Auto-Audit | 5h | — |
 
@@ -765,7 +765,7 @@ Google Sheets · ServiceNow/SAP · Tableau · Kafka · VS Code ext · Cloud voic
 
 ### Decisión operativa (próximas 3 sesiones)
 
-1. **Sprint inmediato**: Tier 2 — SPEC-157 (6h, desbloquea agentes contexto) → SPEC-169 (11h, dep SPEC-156 ✓ + zero-leakage ✓).
+1. **Sprint inmediato**: Tier 2 — SPEC-157 (6h, implementada PR #814) → SPEC-169 (11h, IN_REVIEW PR #815) → SPEC-159 (8h, siguiente).
 2. **Sprint siguiente**: SPEC-159 (8h, zero deps) → SPEC-160 (5h, zero deps).
 3. **Después**: Tier 3 en orden (SE-151 → SE-152 → SPEC-181/182).
 
@@ -784,9 +784,9 @@ Google Sheets · ServiceNow/SAP · Tableau · Kafka · VS Code ext · Cloud voic
 | # | ID | Propuesta | Status | Esfuerzo | Notas |
 |---|----|-----------|--------|----------|-------|
 | 1 | SPEC-156 | Token Budget Frontmatter | IMPLEMENTED | 4h | Tier 1A. Slice 1 (frontmatter 70/70 agentes) PR #790. Slice 2 (hook PreToolUse) PR #791 mergeado 2026-06-01. |
-| 2 | SPEC-157 | Context Pre-Flight Check | PROPOSED | 6h | Tier 1B. Depende de SPEC-156. |
+| 2 | SPEC-157 | Context Pre-Flight Check | IMPLEMENTED (PR #814) | 6h | Tier 1B. Depende de SPEC-156. |
 | 3 | SPEC-158 | Workflow vs Agent Decision Gate | IMPLEMENTED (2026-06-04) | 3h | Tier 1C. Comando /decide-architecture. |
-| 4 | SPEC-169 | Project Twin como artefacto versionado | PROPOSED | 11h | Tier 1B. Twin = proyecto. Refresh event-driven, predicciones acotadas, N4 + N1 anonimizado. Depende de SPEC-156 + skill `zero-project-leakage`. Compatible con SPEC-165 no bloqueante. |
+| 4 | SPEC-169 | Project Twin como artefacto versionado | IN_REVIEW (PR #815) | 11h | Tier 1B. Twin = proyecto. Refresh event-driven, predicciones acotadas, N4 + N1 anonimizado. Depende de SPEC-156 + skill `zero-project-leakage`. Compatible con SPEC-165 no bloqueante. |
 
 ### Tier 2 — MEDIUM (sprint siguiente, total 13h)
 
