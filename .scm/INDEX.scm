@@ -1,6 +1,6 @@
 # Savia Capability Map — INDEX
-> hash: 96a7a008ea11 | resources: 1195
-> 555 commands · 100 skills · 70 agents · 470 scripts
+> hash: 804884bdefd8 | resources: 1200
+> 555 commands · 100 skills · 70 agents · 475 scripts
 
 [analysis] /a11y-report — accesibilidad,completos,conformidad,código,declaración — cmd:.claude/commands/a11y-report.md
 [analysis] Trace Optimize — across,distributed,optimize,rates,sampling — cmd:.claude/commands/trace-optimize.md
@@ -295,6 +295,9 @@
 [development] tech-research-agent — autónoma,específico,investigación,tema,técnica — skill:.claude/skills/tech-research-agent/SKILL.md
 [development] tolaria-open — base,desktop,knowledge,open,path — cmd:.claude/commands/tolaria-open.md
 [development] tribunal-benchmark — benchmark,phase,spec,tribunal — script:scripts/tribunal-benchmark.sh
+[development] twin-anonymize — anonymize,datos,organización,spec,twin — script:scripts/twin-anonymize.sh
+[development] twin-load — carga,load,muestra,proyecto,spec — script:scripts/twin-load.sh
+[development] twin-refresh — predicciones,recalcula,refresh,spec,twin — script:scripts/twin-refresh.sh
 [development] ua-analyze — anything,codebase,generate,graph,knowledge — cmd:.claude/commands/ua-analyze.md
 [development] ua-diff — analyze,changes,codebase,graph,impact — cmd:.claude/commands/ua-diff.md
 [development] ua-domain — business,codebase,concepts,domain,extract — cmd:.claude/commands/ua-domain.md
@@ -926,6 +929,7 @@
 [planning] tribunal-status — depth,evaluations,pending,queue,recent — cmd:.claude/commands/tribunal-status.md
 [planning] truth-tribunal-orchestrator — aggregates,applies,convenes,drives,iteration — agent:.claude/agents/truth-tribunal-orchestrator.md
 [planning] truth-tribunal-worker — consume,queued,tribunal,truth,verification — script:scripts/truth-tribunal-worker.sh
+[planning] twin-decay-check — check,days,decay,escanea,marca — script:scripts/twin-decay-check.sh
 [planning] typescript-developer —  — agent:.claude/agents/typescript-developer.md
 [planning] ua-bridge — anything,between,bridge,savia,understand — script:scripts/ua-bridge.sh
 [planning] ua-dashboard — browser,dashboard,graph,interactive,knowledge — cmd:.claude/commands/ua-dashboard.md
@@ -1189,6 +1193,7 @@
 [quality] testplan-generate — generación,pbis,plan,pruebas,specs — cmd:.claude/commands/testplan-generate.md
 [quality] testplan-results —  — cmd:.claude/commands/testplan-results.md
 [quality] testplan-status —  — cmd:.claude/commands/testplan-status.md
+[quality] twin-linter — contra,linter,schema,spec,twin — script:scripts/twin-linter.sh
 [quality] verification-lattice — allá,capa,code,estándar,multi — skill:.claude/skills/verification-lattice/SKILL.md
 [quality] visual-digest — ambigüedades,capturas,contexto,contextual,detectan — agent:.claude/agents/visual-digest.md
 [quality] visual-qa — against,analysis,analyze,assurance,capabilities — cmd:.claude/commands/visual-qa.md
