@@ -1,6 +1,6 @@
 # Roadmap Unificado — pm-workspace / Savia
 
-**Updated:** 2026-06-05 | **Version:** v6.15.0 | **554 commands · 70 agents · 101 skills · 73 hooks · 388 test suites · Active backlog 20 items (~103h)** — ver `## Active Stack — 2026-06-05`
+**Updated:** 2026-06-05 | **Version:** v6.16.0 | **554 commands · 70 agents · 101 skills · 74 hooks · 389 test suites · Active backlog 19 items (~97h)** — ver `## Active Stack — 2026-06-05`
 
 ---
 
@@ -622,7 +622,7 @@ Specs APPROVED antes de 2026-04-26 NO requieren la sección retroactivamente. SE
 | Status | Count | Notas |
 |--------|-------|-------|
 | Implemented (merged) | ~100 | incl. SPEC-125, 155, 156 (slices 1+2), 158, 180, 184, 185, 186, SE-081/082/083/084/086/089/091/092/093/094/100/104/153/160/161/162/167 |
-| Proposed (active backlog) | 20 | ver `## Active Stack — 2026-06-05` |
+| Proposed (active backlog) | 19 | ver `## Active Stack — 2026-06-05` |
 | Approved (no PR yet) | ~5 | SPEC-OPC-AGENTSYNC, SPEC-SCM-COVERAGE, SPEC-SCM-FRESHCHECK, SPEC-OPC-CROSS-AUDIT |
 | Research / time-boxed | 2 | SPEC-023, SPEC-027, SPEC-162 (self-evolving tools) |
 | Archive | 24 | renumbered/superseded — ver `docs/propuestas/archive/` |
@@ -719,6 +719,7 @@ Google Sheets · ServiceNow/SAP · Tableau · Kafka · VS Code ext · Cloud voic
 | SPEC-184 | Write-time non-blocking validators | PR #808 |
 | SPEC-158 | /decide-architecture workflow vs agent gate | PR #809 |
 | SPEC-125 Slices 1-3 | Recommendation Tribunal + expertise asymmetry + memory feedback loop | PR #812, #813 |
+| SPEC-157 | Context Pre-Flight Check — multi-source token estimator + PreToolUse hook | PR #814 |
 
 ### Tier 1 — Wave 1 Era 199 — CERRADO (SPEC-180 + SPEC-184 + SPEC-185 merged PR #806/807/808)
 
@@ -732,10 +733,9 @@ Google Sheets · ServiceNow/SAP · Tableau · Kafka · VS Code ext · Cloud voic
 
 | # | ID | Título | Esfuerzo | Deps |
 |---|---|---|---|---|
-| 1 | SPEC-157 | Context Pre-Flight Check | 6h | SPEC-156 ✓ |
-| 2 | SPEC-169 | Project Twin artefacto versionado | 11h | SPEC-156 ✓ + zero-leakage ✓ |
-| 3 | SPEC-159 | Async Tribunal Fan-out | 8h | — |
-| 4 | SPEC-160 (tool-erg) | Tool Ergonomics Auto-Audit | 5h | — |
+| 1 | SPEC-169 | Project Twin artefacto versionado | 11h | SPEC-156 ✓ + zero-leakage ✓ |
+| 2 | SPEC-159 | Async Tribunal Fan-out | 8h | — |
+| 3 | SPEC-160 (tool-erg) | Tool Ergonomics Auto-Audit | 5h | — |
 
 ### Tier 3 — Era 197 Flowsint + Wave 2/3 Era 199 (multiplicadores, total ~24h)
 
