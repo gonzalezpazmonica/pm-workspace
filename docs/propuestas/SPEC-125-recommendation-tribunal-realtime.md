@@ -304,10 +304,14 @@ Artefactos:
 
 ### Slice 3 (M, 8-10h) — Memory feedback loop + calibración
 
+> **Status (2026-06-05):** Slice 3 artifacts delivered. Hook is WIRE-READY (NO-OP por defecto, mismo gate que la regla madre). Activación requiere edición humana de `.claude/settings.json` y `RECOMMENDATION_TRIBUNAL_FOLLOWUP_ACTIVE=1`. Classifier expandido para regression coverage: 5/6 patterns cazados por heurística pura; el 6º (fabricated entities con flags inventados) queda explícitamente delegado al `hallucination-fast-judge` de Slice 2 (LLM-based).
+
 - `.opencode/hooks/recommendation-tribunal-followup.sh` (capture next-turn user reaction)
-- `scripts/recommendation-tribunal/calibrate.sh` (lectura de followups → derivación de nuevos feedback memories)
-- Tests de regresión sobre los catches conocidos (las 6 patterns del problema reportado)
+- `scripts/recommendation-tribunal/followup-record.sh` (recorder de respuestas — clasifica fp/fn/neutral)
+- `scripts/recommendation-tribunal/calibrate.sh` (lectura de followups → derivación de feedback memories en directorio del usuario)
+- Tests de regresión sobre los catches conocidos (las 6 patterns del problema reportado, 5/6 por heurística + 1/6 deferred a jueces LLM)
 - `docs/rules/domain/tribunal-calibration.md` (cómo evolucionan los pesos del tribunal con la memoria)
+- `tests/test-spec-125-slice-3-memory-feedback-loop.bats` (42 tests, score 86/100 certified)
 
 ## Acceptance criteria
 
