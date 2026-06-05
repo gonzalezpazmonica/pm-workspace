@@ -469,10 +469,6 @@ SCHEMA
 }
 
 # ---------------------------------------------------------------------------
-# Safety & structure checks
-# ---------------------------------------------------------------------------
-
-# ---------------------------------------------------------------------------
 # Slice 2 fixtures: domain CTFs
 # ---------------------------------------------------------------------------
 
@@ -507,6 +503,20 @@ SCHEMA
 
 @test "Slice2: fixture application/queries.md → exit 0" {
   run bash "$LINT" "$FX/application/queries.md"
+  [ "$status" -eq 0 ]
+}
+
+# ---------------------------------------------------------------------------
+# Slice 3 fixtures: infrastructure CTFs
+# ---------------------------------------------------------------------------
+
+@test "Slice3: fixture infrastructure/repos/item-repository.md → exit 0" {
+  run bash "$LINT" "$FX/infrastructure/repos/item-repository.md"
+  [ "$status" -eq 0 ]
+}
+
+@test "Slice3: fixture infrastructure/external/notification-client.md → exit 0" {
+  run bash "$LINT" "$FX/infrastructure/external/notification-client.md"
   [ "$status" -eq 0 ]
 }
 

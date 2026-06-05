@@ -112,9 +112,70 @@ status: DRAFT
 STUB
 done
 
+# Create infrastructure DRAFT stubs
+cat > "${TWIN_DIR}/infrastructure/db/schema.md" << STUB
+---
+module_id: db-schema
+layer: infrastructure
+version: "0.1.0"
+last_sync: "${NOW}"
+token_budget: 300
+stale_after_days: 30
+depends_on: []
+provides:
+  - TODO
+status: DRAFT
+---
+# DB Schema — ${SLUG}
+
+<!-- TODO: document tables, columns, types, constraints here -->
+<!-- Format: ## Table: {name} | column | type | nullable | -->
+<!-- Approve and set status: STABLE before running code-twin-lint.sh -->
+STUB
+
+cat > "${TWIN_DIR}/infrastructure/repos/example-repository.md" << STUB
+---
+module_id: ExampleRepository
+layer: infrastructure
+version: "0.1.0"
+last_sync: "${NOW}"
+token_budget: 300
+stale_after_days: 14
+depends_on:
+  - domain-entities
+provides:
+  - TODO
+status: DRAFT
+---
+# ExampleRepository — ${SLUG}
+
+<!-- TODO: document repository methods, queries, side effects here -->
+<!-- Approve and set status: STABLE before running code-twin-lint.sh -->
+STUB
+
+cat > "${TWIN_DIR}/infrastructure/external/example-client.md" << STUB
+---
+module_id: ExampleClient
+layer: infrastructure
+version: "0.1.0"
+last_sync: "${NOW}"
+token_budget: 300
+stale_after_days: 30
+depends_on: []
+provides:
+  - TODO
+status: DRAFT
+---
+# ExampleClient — ${SLUG}
+
+<!-- TODO: document external HTTP client methods, endpoints, timeouts here -->
+<!-- Approve and set status: STABLE before running code-twin-lint.sh -->
+STUB
+
 echo "OK: code-twin scaffold created at ${TWIN_DIR}"
 echo "  layers: meta/ domain/ application/ infrastructure/ api/ frontend/"
 echo "  domain stubs: entities.md value-objects.md business-rules.md (DRAFT)"
 echo "  application stubs: use-cases.md commands.md queries.md (DRAFT)"
+echo "  infrastructure stubs: db/schema.md repos/example-repository.md external/example-client.md (DRAFT)"
 echo "  next: edit stubs, set status: STABLE, then run code-twin-extract.sh"
 exit 0

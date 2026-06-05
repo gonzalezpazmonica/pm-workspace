@@ -179,6 +179,43 @@ teardown() {
 }
 
 # ---------------------------------------------------------------------------
+# Infrastructure stubs (AC-5 extended)
+# ---------------------------------------------------------------------------
+
+@test "Slice3: creates infrastructure/db/schema.md stub" {
+  bash "$INIT" "$TMP_PROJECT"
+  [ -f "$TMP_PROJECT/code-twin/infrastructure/db/schema.md" ]
+}
+
+@test "Slice3: creates infrastructure/repos/example-repository.md stub" {
+  bash "$INIT" "$TMP_PROJECT"
+  [ -f "$TMP_PROJECT/code-twin/infrastructure/repos/example-repository.md" ]
+}
+
+@test "Slice3: creates infrastructure/external/example-client.md stub" {
+  bash "$INIT" "$TMP_PROJECT"
+  [ -f "$TMP_PROJECT/code-twin/infrastructure/external/example-client.md" ]
+}
+
+@test "Slice3: infrastructure stubs have status DRAFT" {
+  bash "$INIT" "$TMP_PROJECT"
+  for stub in "infrastructure/db/schema.md" "infrastructure/repos/example-repository.md" "infrastructure/external/example-client.md"; do
+    grep -q "status: DRAFT" "$TMP_PROJECT/code-twin/${stub}" || {
+      echo "stub missing DRAFT: $stub" >&2; return 1
+    }
+  done
+}
+
+@test "Slice3: infrastructure stubs have layer: infrastructure" {
+  bash "$INIT" "$TMP_PROJECT"
+  for stub in "infrastructure/db/schema.md" "infrastructure/repos/example-repository.md" "infrastructure/external/example-client.md"; do
+    grep -q "^layer: infrastructure" "$TMP_PROJECT/code-twin/${stub}" || {
+      echo "stub missing infrastructure layer: $stub" >&2; return 1
+    }
+  done
+}
+
+# ---------------------------------------------------------------------------
 # Error handling (AC-5)
 # ---------------------------------------------------------------------------
 
