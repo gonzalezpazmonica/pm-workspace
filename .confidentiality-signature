@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=80b004dc0412db04a59709c3ab64ea7052f6cba1e3d56be1fcedde9e0e71e8ab
-timestamp=2026-06-05T15:12:06Z
+diff_hash=522129c41a6a9e5d7e80c77d6e920cb004348d3b349bcecaad5e38111e2fce7a
+timestamp=2026-06-05T15:48:28Z
 branch=feature/spec-157-context-preflight-check
-head_commit=feacfe6f
-signature=8b218a46fe8654e29b98c217605ffe8c263e00413d8c2a5b35a8870b2a30f0db
+head_commit=b6427df7
+signature=aaee67c51bb03883efb03d909dc56d8ffd53757e9970985783e29e998a051378
