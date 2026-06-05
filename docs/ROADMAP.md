@@ -1,6 +1,6 @@
 # Roadmap Unificado — pm-workspace / Savia
 
-**Updated:** 2026-06-04 | **Version:** v6.15.0 | **554 commands · 70 agents · 101 skills · 71 hooks · 388 test suites · Active backlog 24 items (~115h)** — ver `## Active Stack — 2026-06-04`
+**Updated:** 2026-06-05 | **Version:** v6.15.0 | **554 commands · 70 agents · 101 skills · 73 hooks · 388 test suites · Active backlog 20 items (~103h)** — ver `## Active Stack — 2026-06-05`
 
 ---
 
@@ -615,14 +615,14 @@ Specs APPROVED antes de 2026-04-26 NO requieren la sección retroactivamente. SE
 
 ---
 
-## SPECs — Status Summary (snapshot 2026-06-04)
+## SPECs — Status Summary (snapshot 2026-06-05)
 
 > Fuente real: `docs/propuestas/SPEC-*.md` (151 ficheros) + git log. Conteos previos eran stale.
 
 | Status | Count | Notas |
 |--------|-------|-------|
-| Implemented (merged) | ~95 | incl. SPEC-155, 156 (slices 1+2), 186, SE-081/082/083/084/086/089/091/092/093/094/100/104/153/160/161/162/167 |
-| Proposed (active backlog) | 24 | ver `## Active Stack — 2026-06-04` |
+| Implemented (merged) | ~100 | incl. SPEC-125, 155, 156 (slices 1+2), 158, 180, 184, 185, 186, SE-081/082/083/084/086/089/091/092/093/094/100/104/153/160/161/162/167 |
+| Proposed (active backlog) | 20 | ver `## Active Stack — 2026-06-05` |
 | Approved (no PR yet) | ~5 | SPEC-OPC-AGENTSYNC, SPEC-SCM-COVERAGE, SPEC-SCM-FRESHCHECK, SPEC-OPC-CROSS-AUDIT |
 | Research / time-boxed | 2 | SPEC-023, SPEC-027, SPEC-162 (self-evolving tools) |
 | Archive | 24 | renumbered/superseded — ver `docs/propuestas/archive/` |
@@ -690,12 +690,12 @@ Google Sheets · ServiceNow/SAP · Tableau · Kafka · VS Code ext · Cloud voic
 
 ---
 
-## Active Stack — 2026-06-04 (supersedes 2026-05-23 + 2026-05-30 + Era 199 waves)
+## Active Stack — 2026-06-05 (supersedes 2026-06-04)
 
 > Limpieza: 3 bloques de repriorización previos colapsados aquí. Estado verificado contra `git log` + PRs merged.
 > Criterio: scoring canónico (PM Impact 30% · Anti lock-in 25% · FOSS 20% · Inverse complexity 15% · Flow 10%).
 
-### Recientemente cerrado (2026-05-27 → 2026-06-04)
+### Recientemente cerrado (2026-05-27 → 2026-06-05)
 
 | ID | Título | Cerrado vía |
 |---|---|---|
@@ -714,14 +714,13 @@ Google Sheets · ServiceNow/SAP · Tableau · Kafka · VS Code ext · Cloud voic
 | SE-091 | Caveman always-on + tribunal hooks | PR #803 |
 | SE-092 | ADO bridge | PR #761 |
 | SE-093, SE-094, SE-100, SE-104 | Zero-leak + hooks integrity + docs migration + ethical principles | PR #783, #785 |
+| SPEC-185 | Critical-facts 150-token cap + validator | PR #806 |
+| SPEC-180 | Sentinel markers @generated/@user safe-regen | PR #807 |
+| SPEC-184 | Write-time non-blocking validators | PR #808 |
+| SPEC-158 | /decide-architecture workflow vs agent gate | PR #809 |
+| SPEC-125 Slices 1-3 | Recommendation Tribunal + expertise asymmetry + memory feedback loop | PR #812, #813 |
 
-### Tier 1 — Pendientes Wave 1 Era 199 (independientes, paralelizables, total 7-11h)
-
-| # | ID | Título | Esfuerzo | Notas |
-|---|---|---|---|---|
-| 1 | SPEC-180 | Sentinel markers @generated/@user safe-regen | 2-3h | P1. Zero deps. |
-| 2 | SPEC-184 | Write-time validator non-blocking (warn) | 3-4h | P1. Zero deps. |
-| 3 | SPEC-185 | Critical-facts 150-token cap | 1-2h | P2. Zero deps. Free-win. |
+### Tier 1 — Wave 1 Era 199 — CERRADO (SPEC-180 + SPEC-184 + SPEC-185 merged PR #806/807/808)
 
 ### Tier 1 — Wave 1 Era 200 (causal architecture, meta-spec + sub-specs)
 
@@ -729,15 +728,14 @@ Google Sheets · ServiceNow/SAP · Tableau · Kafka · VS Code ext · Cloud voic
 |---|---|---|---|---|
 | - | SPEC-188 | Root-Cause Investigation Architecture (meta-spec) | 6-8h (doc) · ~80-120h impl | P0. Coordina SPEC-043/065/108/125 + 5 piezas nuevas. Fase 0 cierra hallazgo G3 (feedback_root_cause_always.md). |
 
-### Tier 2 — Era 198 abierta (Anthropic Effective Agents, total 33h)
+### Tier 2 — Era 198 abierta (Anthropic Effective Agents, total 30h)
 
 | # | ID | Título | Esfuerzo | Deps |
 |---|---|---|---|---|
-| 4 | SPEC-157 | Context Pre-Flight Check | 6h | SPEC-156 ✓ |
-| 5 | SPEC-158 | Workflow vs Agent Decision Gate | 3h | — |
-| 6 | SPEC-169 | Project Twin artefacto versionado | 11h | SPEC-156 ✓ + zero-leakage ✓ |
-| 7 | SPEC-159 | Async Tribunal Fan-out | 8h | — |
-| 8 | SPEC-160 (tool-erg) | Tool Ergonomics Auto-Audit | 5h | — |
+| 1 | SPEC-157 | Context Pre-Flight Check | 6h | SPEC-156 ✓ |
+| 2 | SPEC-169 | Project Twin artefacto versionado | 11h | SPEC-156 ✓ + zero-leakage ✓ |
+| 3 | SPEC-159 | Async Tribunal Fan-out | 8h | — |
+| 4 | SPEC-160 (tool-erg) | Tool Ergonomics Auto-Audit | 5h | — |
 
 ### Tier 3 — Era 197 Flowsint + Wave 2/3 Era 199 (multiplicadores, total ~24h)
 
@@ -745,7 +743,7 @@ Google Sheets · ServiceNow/SAP · Tableau · Kafka · VS Code ext · Cloud voic
 |---|---|---|---|---|
 | 9 | SE-151 | Índice físico project_id grafo memoria | 3h | SE-162 ✓ |
 | 10 | SE-152 | Frontmatter consumes/produces en SKILL.md | 6h | SE-084 ✓ |
-| 11 | SPEC-181 | L0-L3 context budgets por tier | 4-6h | SPEC-180 |
+| 11 | SPEC-181 | L0-L3 context budgets por tier | 4-6h | SPEC-180 ✓ |
 | 12 | SPEC-182 | Bitemporal timeline frontmatter | 6-8h | — |
 | 13 | SPEC-183 | Reconciliation 3-bucket | 5-7h | SPEC-182 |
 
@@ -767,11 +765,11 @@ Google Sheets · ServiceNow/SAP · Tableau · Kafka · VS Code ext · Cloud voic
 
 ### Decisión operativa (próximas 3 sesiones)
 
-1. **Sprint inmediato**: Tier 1 completo en paralelo (SPEC-180 + SPEC-184 + SPEC-185 = 7-11h, free-wins).
-2. **Sprint siguiente**: Tier 2 — empezar por SPEC-158 (3h, zero deps) → SPEC-157 (desbloquea agentes) → SPEC-169.
+1. **Sprint inmediato**: Tier 2 — SPEC-157 (6h, desbloquea agentes contexto) → SPEC-169 (11h, dep SPEC-156 ✓ + zero-leakage ✓).
+2. **Sprint siguiente**: SPEC-159 (8h, zero deps) → SPEC-160 (5h, zero deps).
 3. **Después**: Tier 3 en orden (SE-151 → SE-152 → SPEC-181/182).
 
-### Total backlog activo: ~115h (24 items)
+### Total backlog activo: ~103h (20 items)
 
 ---
 

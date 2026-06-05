@@ -1,7 +1,7 @@
 ---
 spec_id: SPEC-180
 title: Sentinel-safe regeneration primitive
-status: PROPOSED
+status: IMPLEMENTED
 tier: 1
 priority: P1
 effort: 2-3h

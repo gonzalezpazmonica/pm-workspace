@@ -1,7 +1,7 @@
 ---
 spec_id: SPEC-185
 title: Critical-facts 150-token cap (anchor superior persistente)
-status: PROPOSED
+status: IMPLEMENTED
 tier: 1
 priority: P2
 effort: 1-2h
