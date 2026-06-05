@@ -58,6 +58,8 @@ declare -a CRITICAL_PATTERNS=(
   'workaround.*(gate|hook|check|safety)'
   'temporary (override|bypass|skip)'
   'lower the threshold'
+  'lower (the )?(coverage|test|quality|security|gate|review) (threshold|bar|requirement|standard)'
+  '(reduce|drop|loosen|relax) (the )?(coverage|threshold|gate|requirement|rule|standard)'
   '(baja|baj[áa]|reduce|reduc[íi]) (el|la|los|las) (umbral|threshold|cobertura|coverage)'
   '[ -]+no-(verify|gpg-sign|hooks)'
   'force(.| )push'
@@ -78,12 +80,17 @@ declare -a HIGH_PATTERNS=(
   'database (migration|schema change)'
   'rotate.*credential|leak.*credential'
   'should not (run|execute|enable|disable)'
+  '(--?p|--password|--token|--pat|--secret|--api[ -]?key)[= ][a-z0-9!@#$%^&*_+-]{6,}'
+  '(token|password|pat|secret|api[ -]?key)\s*=\s*[a-z0-9!@#$%^&*_+-]{6,}'
+  'pass (your|the) (token|password|pat|secret|credential|api[ -]?key)'
 )
 
 # Medium: ordinary recommendations / suggestions / fixes
 declare -a MEDIUM_PATTERNS=(
   'te recomiendo|yo recomendaría|sugiero'
   'should (use|change|add|remove|update|switch|migrate)'
+  '(per|according to|cita) (rule|regla|spec|policy)[^.]*should'
+  'you should '
   'deberías|tendrías que'
   '(lo |la )(correcto|mejor) es'
   'el problema es|la causa es|root cause'
