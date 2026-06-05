@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=493aa2006cffb11994c8e74db90ec8765998a2e52b2f806304ba153a006bf9a8
-timestamp=2026-06-05T17:19:01Z
-branch=feature/spec-169-project-twin
-head_commit=a234677a
-signature=2523a434107f9484f3668cb7f2b734c6e615c99ed01bb95fd0f63daede91cf49
+diff_hash=482e6efbbaa082420c2c74d65b9ca422bfef585386adda98ea439e7eb6d3487a
+timestamp=2026-06-05T18:12:52Z
+branch=feature/spec-190-application-code-twin
+head_commit=10ac973b
+signature=1dd667b2c8ec030fd47d8e90ca4ff071020c7a4c6236caad48688db6ba48dba9

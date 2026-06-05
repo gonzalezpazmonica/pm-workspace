@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 # code-twin-init.sh — Scaffold estructura vacía de ACT para un proyecto
-# Spec: SPEC-190 · Slice 1
+# Spec: SPEC-190 · Slice 1+2
 # Usage: bash scripts/code-twin-init.sh <projects/{slug}>
-# Creates: {slug}/code-twin/ with index.md + layer subdirs
+# Creates: {slug}/code-twin/ with index.md + layer subdirs + DRAFT stubs
 # Exit: 0 OK | 1 dir exists | 2 usage error
 set -uo pipefail
 
@@ -68,7 +68,53 @@ status: DRAFT
 <!-- Fill in: DDD/Clean/Hexagonal/Layered/etc -->
 META
 
+# Create domain DRAFT stubs
+for stub in entities value-objects business-rules; do
+  cat > "${TWIN_DIR}/domain/${stub}.md" << STUB
+---
+module_id: ${stub}
+layer: domain
+version: "0.1.0"
+last_sync: "${NOW}"
+token_budget: 300
+stale_after_days: 30
+depends_on: []
+provides:
+  - TODO
+status: DRAFT
+---
+# ${stub} — ${SLUG}
+
+<!-- TODO: document domain ${stub} here -->
+<!-- Approve and set status: STABLE before running code-twin-lint.sh -->
+STUB
+done
+
+# Create application DRAFT stubs
+for stub in use-cases commands queries; do
+  cat > "${TWIN_DIR}/application/${stub}.md" << STUB
+---
+module_id: ${stub}
+layer: application
+version: "0.1.0"
+last_sync: "${NOW}"
+token_budget: 300
+stale_after_days: 14
+depends_on: []
+provides:
+  - TODO
+status: DRAFT
+---
+# ${stub} — ${SLUG}
+
+<!-- TODO: document application ${stub} here -->
+<!-- Approve and set status: STABLE before running code-twin-lint.sh -->
+STUB
+done
+
 echo "OK: code-twin scaffold created at ${TWIN_DIR}"
 echo "  layers: meta/ domain/ application/ infrastructure/ api/ frontend/"
-echo "  next: edit ${TWIN_DIR}/meta/tech-stack.md, then run code-twin-extract.sh"
+echo "  domain stubs: entities.md value-objects.md business-rules.md (DRAFT)"
+echo "  application stubs: use-cases.md commands.md queries.md (DRAFT)"
+echo "  next: edit stubs, set status: STABLE, then run code-twin-extract.sh"
 exit 0

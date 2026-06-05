@@ -472,6 +472,48 @@ SCHEMA
 # Safety & structure checks
 # ---------------------------------------------------------------------------
 
+# ---------------------------------------------------------------------------
+# Slice 2 fixtures: domain CTFs
+# ---------------------------------------------------------------------------
+
+@test "Slice2: fixture domain/entities.md → exit 0" {
+  run bash "$LINT" "$FX/domain/entities.md"
+  [ "$status" -eq 0 ]
+}
+
+@test "Slice2: fixture domain/value-objects.md → exit 0" {
+  run bash "$LINT" "$FX/domain/value-objects.md"
+  [ "$status" -eq 0 ]
+}
+
+@test "Slice2: fixture domain/business-rules.md → exit 0" {
+  run bash "$LINT" "$FX/domain/business-rules.md"
+  [ "$status" -eq 0 ]
+}
+
+# ---------------------------------------------------------------------------
+# Slice 2 fixtures: application CTFs
+# ---------------------------------------------------------------------------
+
+@test "Slice2: fixture application/use-cases.md → exit 0" {
+  run bash "$LINT" "$FX/application/use-cases.md"
+  [ "$status" -eq 0 ]
+}
+
+@test "Slice2: fixture application/commands.md → exit 0" {
+  run bash "$LINT" "$FX/application/commands.md"
+  [ "$status" -eq 0 ]
+}
+
+@test "Slice2: fixture application/queries.md → exit 0" {
+  run bash "$LINT" "$FX/application/queries.md"
+  [ "$status" -eq 0 ]
+}
+
+# ---------------------------------------------------------------------------
+# Safety & structure checks
+# ---------------------------------------------------------------------------
+
 @test "script has set -uo pipefail" {
   grep -q "set -uo pipefail" "$LINT"
 }
