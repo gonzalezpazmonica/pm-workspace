@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=5ea209141eb37df4e19b11f1309e8c98b7be640260a360c3cae21ab933455ca2
-timestamp=2026-06-04T21:31:26Z
-branch=feature/spec-187-iah-principles-alignment
-head_commit=c78a0165
-signature=eaa61f876048384cf09a2403364e22eb26903ef96778ee65cdd000f3f35e4522
+diff_hash=4d4b2f0b60de3db1ac8fcf8de7546e4a11cb2c07c09c3b318194a29b862ecda5
+timestamp=2026-06-05T05:13:43Z
+branch=feature/spec-188-root-cause-investigation-architecture
+head_commit=4fa9c4d5
+signature=c44c1bf6a18b90888817315a4da4b5c4ab3663c2be8a9e605957a02424682d12

@@ -6,6 +6,20 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
+## [Unreleased] — 2026-06-04 · SPEC-188 Root-Cause Investigation Architecture (meta-spec)
+
+Added: docs/propuestas/SPEC-188-root-cause-investigation-architecture.md — meta-spec
+PROPOSED que coordina 4 sub-specs existentes (SPEC-043 responsibility-judge,
+SPEC-065 execution-supervisor, SPEC-108 sentry-rca, SPEC-125 recommendation-tribunal)
+e identifica 5 gaps no cubiertos en el sistema causal actual: G1 sealed contract
+tests, G2 calibration POST-CODE-CHANGE, G3 failure pattern memory con frequency,
+G4 diagnostic quality metrics longitudinal, G5 decision trace artifact. Define
+5 piezas nuevas (P1-P5) con esquema, ubicacion, contratos cruzados, y plan
+fasificado (Fase 0-4). Fase 0 cierra deuda tecnica detectada:
+feedback_root_cause_always.md referenciado por memory-conflict-judge pero
+inexistente en path canonico. Era 200 Wave 1 Tier 1 P0. Estimacion 6-8h spec
+doc; ~80-120h implementacion completa via sub-specs ejecutables.
+
 ## [Unreleased] — 2026-06-04 · SPEC-158 Workflow vs Agent decision gate
 
 Added: /decide-architecture command + scripts/decide-architecture.sh
