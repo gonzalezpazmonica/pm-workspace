@@ -121,11 +121,11 @@ JSON
   RECOMMENDATION_TRIBUNAL_AUDIT_DIR="$TMP_AUDIT" \
     bash "$RECORDER" --hash bbbccc --text "vetaste de mas"
   local first
-  first=$(grep '"user_response_classification"' "$TMP_AUDIT/2026-06-05/bbbcccdddeee.json")
+  first=$(python3 -c "import json,sys; d=json.load(open(sys.argv[1])); print(d['user_response_classification'])" "$TMP_AUDIT/2026-06-05/bbbcccdddeee.json")
   RECOMMENDATION_TRIBUNAL_AUDIT_DIR="$TMP_AUDIT" \
     bash "$RECORDER" --hash bbbccc --text "vetaste de mas"
   local second
-  second=$(grep '"user_response_classification"' "$TMP_AUDIT/2026-06-05/bbbcccdddeee.json")
+  second=$(python3 -c "import json,sys; d=json.load(open(sys.argv[1])); print(d['user_response_classification'])" "$TMP_AUDIT/2026-06-05/bbbcccdddeee.json")
   [ "$first" = "$second" ]
 }
 

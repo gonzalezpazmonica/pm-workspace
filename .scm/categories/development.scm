@@ -1,5 +1,5 @@
 # development — Savia Capability Map (L1)
-> 153 resources
+> 156 resources
 
 - **/a11y-monitor** (cmd): Monitorización continua de regresiones de accesibilidad. Integración en CI/CD. Alertas cuando score baja por debajo de threshold. Digest semanal. Previene regresiones bloqueando deploys con fallos a11y.
 - **/speckit.checklist** (cmd): Alias spec-kit compatible. Gate de calidad final con verification-lattice multi-capa. Invoca skill verification-lattice. Compatible con github/spec-kit.
@@ -140,6 +140,9 @@
 - **tech-research-agent** (skill): Usar cuando se necesita investigación técnica autónoma sobre un tema específico.
 - **tolaria-open** (cmd): Open Tolaria desktop knowledge base on the Savia workspace (or specified path)
 - **tribunal-benchmark** (script): tribunal-benchmark.sh — SPEC-106 Phase 3.
+- **twin-anonymize** (script): twin-anonymize.sh — Genera vista N1 de un twin sin datos de organización (SPEC-169 AC-6)
+- **twin-load** (script): twin-load.sh — Carga y muestra el twin de un proyecto (SPEC-169 AC-2, AC-5)
+- **twin-refresh** (script): twin-refresh.sh — Recalcula predicciones del twin sin LLM (SPEC-169 AC-3, AC-V2)
 - **ua-analyze** (cmd): Generate knowledge graph for any codebase using Understand-Anything
 - **ua-diff** (cmd): Analyze impact of uncommitted changes on the codebase graph
 - **ua-domain** (cmd): Extract business domain concepts and processes from any codebase

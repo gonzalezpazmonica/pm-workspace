@@ -3,3 +3,4 @@
 # Each entry MUST cite spec/rule explaining deliberate non-registration.
 recommendation-tribunal-pre-output.sh	SPEC-125 Slice 1 — WIRE-READY, activation requires deliberate human review of full tribunal infrastructure batch. See header of the .sh file.
 recommendation-tribunal-followup.sh	SPEC-125 Slice 3 — WIRE-READY, NO-OP por defecto. Activacion requiere edicion humana de .claude/settings.json y RECOMMENDATION_TRIBUNAL_FOLLOWUP_ACTIVE=1. Mismo gate que Slice 1 (recommendation-tribunal-pre-output.sh).
+twin-posttooluse.sh	SPEC-169 AC-4 — Hook PostToolUse WIRE-READY, NO-OP por defecto sin TWIN_HOOK_ENABLED=true. Activacion requiere configuracion explicita en settings.json.
