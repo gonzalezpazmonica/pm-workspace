@@ -226,19 +226,19 @@ teardown() {
 
 @test "ac-v1: simulate AuthService.login exits 0 for valid user" {
   run bash "$SIM" AuthService login \
-    '{"email":"alice@savia.local","password":"alice-pass"}' "$SEEDS"
+    '{"email":"alice@example.com","password":"alice-pass"}' "$SEEDS"
   [ "$status" -eq 0 ]
 }
 
 @test "ac-v1: simulate output contains confidence header" {
   run bash "$SIM" AuthService login \
-    '{"email":"alice@savia.local","password":"alice-pass"}' "$SEEDS"
+    '{"email":"alice@example.com","password":"alice-pass"}' "$SEEDS"
   echo "$output" | grep -q "SIMULATION"
 }
 
 @test "ac-v1: simulate confidence ≥ 0.7" {
   json=$(bash "$SIM" AuthService login \
-    '{"email":"alice@savia.local","password":"alice-pass"}' "$SEEDS" | tail -n +2)
+    '{"email":"alice@example.com","password":"alice-pass"}' "$SEEDS" | tail -n +2)
   conf=$(echo "$json" | jq '.confidence')
   # Use awk for float comparison
   LC_NUMERIC=C awk -v c="$conf" 'BEGIN { exit (c >= 0.7) ? 0 : 1 }'
@@ -246,26 +246,26 @@ teardown() {
 
 @test "ac-v1: simulate result contains token" {
   json=$(bash "$SIM" AuthService login \
-    '{"email":"alice@savia.local","password":"alice-pass"}' "$SEEDS" | tail -n +2)
+    '{"email":"alice@example.com","password":"alice-pass"}' "$SEEDS" | tail -n +2)
   echo "$json" | jq -e '.result.token' | grep -q "sim-token"
 }
 
 @test "ac-v1: simulate result has db_trace READ on users" {
   json=$(bash "$SIM" AuthService login \
-    '{"email":"alice@savia.local","password":"alice-pass"}' "$SEEDS" | tail -n +2)
+    '{"email":"alice@example.com","password":"alice-pass"}' "$SEEDS" | tail -n +2)
   echo "$json" | jq -e '.db_trace[] | select(.op=="READ" and .table=="users")' > /dev/null
 }
 
 @test "ac-v1: simulate saves result to output/code-twin-pilot-sim-result.json" {
   bash "$SIM" AuthService login \
-    '{"email":"alice@savia.local","password":"alice-pass"}' "$SEEDS" \
+    '{"email":"alice@example.com","password":"alice-pass"}' "$SEEDS" \
     | tail -n +2 > "$OUT_DIR/code-twin-pilot-sim-result.json"
   [ -s "$OUT_DIR/code-twin-pilot-sim-result.json" ]
 }
 
 @test "ac-v1: saved result has confidence ≥ 0.7" {
   bash "$SIM" AuthService login \
-    '{"email":"alice@savia.local","password":"alice-pass"}' "$SEEDS" \
+    '{"email":"alice@example.com","password":"alice-pass"}' "$SEEDS" \
     | tail -n +2 > "$OUT_DIR/code-twin-pilot-sim-result.json"
   conf=$(jq '.confidence' "$OUT_DIR/code-twin-pilot-sim-result.json")
   LC_NUMERIC=C awk -v c="$conf" 'BEGIN { exit (c >= 0.7) ? 0 : 1 }'
@@ -277,37 +277,37 @@ teardown() {
 
 @test "ac-v1: simulate exits 1 for unknown email" {
   run bash "$SIM" AuthService login \
-    '{"email":"nobody@savia.local","password":"irrelevant"}' "$SEEDS"
+    '{"email":"nobody@example.com","password":"irrelevant"}' "$SEEDS"
   [ "$status" -eq 1 ]
 }
 
 @test "ac-v1: simulate returns INVALID_CREDENTIALS for unknown user" {
   json=$(bash "$SIM" AuthService login \
-    '{"email":"nobody@savia.local","password":"irrelevant"}' "$SEEDS" | tail -n +2)
+    '{"email":"nobody@example.com","password":"irrelevant"}' "$SEEDS" | tail -n +2)
   echo "$json" | jq -e '.error.code == "INVALID_CREDENTIALS"' > /dev/null
 }
 
 @test "ac-v1: simulate returns INVALID_CREDENTIALS for wrong password" {
   json=$(bash "$SIM" AuthService login \
-    '{"email":"alice@savia.local","password":"wrong"}' "$SEEDS" | tail -n +2)
+    '{"email":"alice@example.com","password":"wrong"}' "$SEEDS" | tail -n +2)
   echo "$json" | jq -e '.error.code == "INVALID_CREDENTIALS"' > /dev/null
 }
 
 @test "ac-v1: simulate exits 1 for disabled user" {
   run bash "$SIM" AuthService login \
-    '{"email":"charlie@savia.local","password":"charlie-pass"}' "$SEEDS"
+    '{"email":"charlie@example.com","password":"charlie-pass"}' "$SEEDS"
   [ "$status" -eq 1 ]
 }
 
 @test "ac-v1: simulate returns USER_DISABLED for disabled user" {
   json=$(bash "$SIM" AuthService login \
-    '{"email":"charlie@savia.local","password":"charlie-pass"}' "$SEEDS" | tail -n +2)
+    '{"email":"charlie@example.com","password":"charlie-pass"}' "$SEEDS" | tail -n +2)
   echo "$json" | jq -e '.error.code == "USER_DISABLED"' > /dev/null
 }
 
 @test "ac-v1: simulate error has status 401 for invalid credentials" {
   json=$(bash "$SIM" AuthService login \
-    '{"email":"nobody@savia.local","password":"x"}' "$SEEDS" | tail -n +2)
+    '{"email":"nobody@example.com","password":"x"}' "$SEEDS" | tail -n +2)
   echo "$json" | jq -e '.error.status == 401' > /dev/null
 }
 
@@ -350,7 +350,7 @@ teardown() {
 
 @test "edge: simulate confidence boundary — never zero for valid logic" {
   json=$(bash "$SIM" AuthService login \
-    '{"email":"alice@savia.local","password":"alice-pass"}' "$SEEDS" | tail -n +2)
+    '{"email":"alice@example.com","password":"alice-pass"}' "$SEEDS" | tail -n +2)
   conf=$(echo "$json" | jq '.confidence')
   # boundary: confidence must be > 0
   LC_NUMERIC=C awk -v c="$conf" 'BEGIN { exit (c > 0) ? 0 : 1 }'
@@ -358,14 +358,14 @@ teardown() {
 
 @test "edge: simulate confidence boundary — never exactly 1.0" {
   json=$(bash "$SIM" AuthService login \
-    '{"email":"alice@savia.local","password":"alice-pass"}' "$SEEDS" | tail -n +2)
+    '{"email":"alice@example.com","password":"alice-pass"}' "$SEEDS" | tail -n +2)
   conf=$(echo "$json" | jq '.confidence')
   LC_NUMERIC=C awk -v c="$conf" 'BEGIN { exit (c < 1.0) ? 0 : 1 }'
 }
 
 @test "edge: simulate output header line is not null or empty" {
   run bash "$SIM" AuthService login \
-    '{"email":"alice@savia.local","password":"alice-pass"}' "$SEEDS"
+    '{"email":"alice@example.com","password":"alice-pass"}' "$SEEDS"
   [[ "$output" =~ "SIMULATION" ]]
 }
 
@@ -383,25 +383,25 @@ teardown() {
 
 @test "assert: simulate success output contains module_id field" {
   run bash "$SIM" AuthService login \
-    '{"email":"alice@savia.local","password":"alice-pass"}' "$SEEDS"
+    '{"email":"alice@example.com","password":"alice-pass"}' "$SEEDS"
   [[ "$output" =~ "module_id" ]]
 }
 
 @test "assert: simulate success output contains method field" {
   run bash "$SIM" AuthService login \
-    '{"email":"alice@savia.local","password":"alice-pass"}' "$SEEDS"
+    '{"email":"alice@example.com","password":"alice-pass"}' "$SEEDS"
   [[ "$output" =~ "method" ]]
 }
 
 @test "assert: simulate output json is valid per python3 json.loads" {
   json=$(bash "$SIM" AuthService login \
-    '{"email":"alice@savia.local","password":"alice-pass"}' "$SEEDS" | tail -n +2)
+    '{"email":"alice@example.com","password":"alice-pass"}' "$SEEDS" | tail -n +2)
   echo "$json" | python3 -c "import sys,json; json.load(sys.stdin)" 2>/dev/null
 }
 
 @test "assert: simulate disabled user output json is valid" {
   json=$(bash "$SIM" AuthService login \
-    '{"email":"charlie@savia.local","password":"charlie-pass"}' "$SEEDS" | tail -n +2)
+    '{"email":"charlie@example.com","password":"charlie-pass"}' "$SEEDS" | tail -n +2)
   echo "$json" | python3 -c "import sys,json; json.load(sys.stdin)" 2>/dev/null
 }
 
