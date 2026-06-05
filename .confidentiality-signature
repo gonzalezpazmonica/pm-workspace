@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=b678d4964e4824b6a356e27a8494dd16f57ca52cfed201d6940833fd3264ad22
-timestamp=2026-06-05T10:50:40Z
-branch=feature/spec-125-slice-3-memory-feedback-loop
-head_commit=95bb8a53
-signature=4aeaf85d8eeec9c3bd8272efbe0141cad9c775283e6bfb11db51d350b2db3a94
+diff_hash=2a8489ebb67fab29d976d7d119f6b6dcd973a11dd3697c8f8d8766bd9951bc27
+timestamp=2026-06-05T14:51:03Z
+branch=main
+head_commit=1d6d7534
+signature=c545fd134bdc93cfde7d354562dee8dd4b1fe18084d081bb952a23b4c6e69b26
