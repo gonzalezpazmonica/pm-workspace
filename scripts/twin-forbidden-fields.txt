@@ -1,0 +1,15 @@
+# twin-forbidden-fields.txt — Campos prohibidos en cuerpo de twin.md
+# Spec: SPEC-169 AC-7 — Una entrada por línea, formato: regex_pattern
+# El linter scripts/twin-linter.sh carga este fichero en runtime.
+# Editar aquí para extender la lista; el linter no necesita cambios.
+\bassigned_to\b
+\bassignee\b
+\bowner\b
+\bevaluation\b
+\bcompetencia\b
+\bperformance\b
+\b1on1\b
+\bone_on_one\b
+\bfeedback_personal\b
+\bsalar(io|y)\b
+\bcompensation\b
