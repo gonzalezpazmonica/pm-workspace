@@ -1,5 +1,5 @@
 # memory — Savia Capability Map (L1)
-> 98 resources
+> 99 resources
 
 - **auto-compact** (script): auto-compact.sh — Disparado automáticamente cuando contexto > 85%
 - **biblio-search** (cmd): >
@@ -27,6 +27,7 @@
 - **context-load** (cmd): >
 - **context-optimize** (cmd): Analizar patrones de uso de contexto y sugerir optimizaciones al context-map
 - **context-optimized-dev** (skill): Usar cuando se desarrolla con presupuesto de contexto limitado.
+- **context-preflight-check** (script): ─────────────────────────────────────────────────────────────────────────────
 - **context-profile** (cmd): Perfilar consumo de contexto — qué consume más, generación de flame-graph, comparación entre sesiones
 - **context-receipts-validate** (script): context-receipts-validate.sh — SE-030
 - **context-restate-anchor** (script): context-restate-anchor.sh — SE-029-R

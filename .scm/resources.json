@@ -1,6 +1,6 @@
 {
-  "hash": "2e2060f71a75",
-  "total": 1194,
+  "hash": "660cc4f98a8f",
+  "total": 1195,
   "resources": [
     {
       "category": "analysis",
@@ -4741,6 +4741,14 @@
       "kind": "skill",
       "path": ".claude/skills/context-optimized-dev/SKILL.md",
       "description": "Usar cuando se desarrolla con presupuesto de contexto limitado."
+    },
+    {
+      "category": "memory",
+      "name": "context-preflight-check",
+      "intents": [],
+      "kind": "script",
+      "path": "scripts/context-preflight-check.sh",
+      "description": "─────────────────────────────────────────────────────────────────────────────"
     },
     {
       "category": "memory",
