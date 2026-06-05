@@ -294,10 +294,13 @@ Artefactos:
 
 ### Slice 2 (M, 8-10h) — Asymmetric expertise + audit trail
 
-- `~/.claude/profiles/users/monica/expertise.md` (sembrado inicial — qué áreas marca Mónica como `blind`)
-- `scripts/recommendation-tribunal/expertise-rewrite.sh` (rewrite con explanation/alternatives/verification)
-- `output/recommendation-tribunal/<date>/<hash>.json` (audit log persistence)
-- `scripts/recommendation-tribunal-search.sh` (CLI de inspección de audit trail)
+> **Status (2026-06-05):** Slice 2 artifacts delivered. Wire orchestrator -> expertise-rewrite is deferred to Slice 2-advanced (requires real Task tool wiring outside scope of artifact PR).
+
+- `.claude/profiles/users/template/expertise.md` (TEMPLATE generico — datos personales son responsabilidad del usuario, NO se commitean)
+- `scripts/recommendation-tribunal/expertise-rewrite.sh` (rewrite con explanation/alternatives/verification — solo activo en `audit_level: blind`)
+- `output/recommendation-tribunal/<date>/<hash>.json` (audit log persistence — ya emitido por Slice 1)
+- `scripts/recommendation-tribunal-search.sh` (CLI de inspeccion de audit trail con filtros --from/--to/--verdict/--risk/--hash + --summary + --json)
+- `tests/test-spec-125-slice-2-asymmetric-expertise.bats` (BATS suite certificada por SPEC-055 quality gate)
 
 ### Slice 3 (M, 8-10h) — Memory feedback loop + calibración
 
