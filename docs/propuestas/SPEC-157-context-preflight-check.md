@@ -1,7 +1,7 @@
 ---
 id: SPEC-157
 title: Context Pre-Flight Check
-status: PROPOSED
+status: IMPLEMENTED
 priority: HIGH
 estimated_hours: 6
 tier: 1B

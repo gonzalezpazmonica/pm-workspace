@@ -1,6 +1,6 @@
 # Savia Capability Map — INDEX
-> hash: 9f8112872fde | resources: 1194
-> 555 commands · 100 skills · 70 agents · 469 scripts
+> hash: 96a7a008ea11 | resources: 1195
+> 555 commands · 100 skills · 70 agents · 470 scripts
 
 [analysis] /a11y-report — accesibilidad,completos,conformidad,código,declaración — cmd:.claude/commands/a11y-report.md
 [analysis] Trace Optimize — across,distributed,optimize,rates,sampling — cmd:.claude/commands/trace-optimize.md
@@ -368,6 +368,7 @@
 [memory] context-load —  — cmd:.claude/commands/context-load.md
 [memory] context-optimize — analizar,context,contexto,optimizaciones,patrones — cmd:.claude/commands/context-optimize.md
 [memory] context-optimized-dev — contexto,desarrolla,limitado,presupuesto — skill:.claude/skills/context-optimized-dev/SKILL.md
+[memory] context-preflight-check —  — script:scripts/context-preflight-check.sh
 [memory] context-profile — comparación,consume,consumo,contexto,flame — cmd:.claude/commands/context-profile.md
 [memory] context-receipts-validate — context,receipts,validate — script:scripts/context-receipts-validate.sh
 [memory] context-restate-anchor — anchor,context,restate — script:scripts/context-restate-anchor.sh

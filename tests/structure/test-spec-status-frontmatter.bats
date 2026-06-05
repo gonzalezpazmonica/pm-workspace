@@ -64,8 +64,8 @@ teardown() {
     "$PROPS/SPEC-103-deterministic-first-digests.md"
 }
 
-@test "post-batch-83: SPEC-125 status is IN_PROGRESS (Slice 1 done, NOT activated)" {
-  grep -qE '^status:[[:space:]]+IN_PROGRESS[[:space:]]*$' \
+@test "post-batch-83: SPEC-125 status is IMPLEMENTED (all slices done, merged PR #813)" {
+  grep -qE '^status:[[:space:]]+IMPLEMENTED[[:space:]]*$' \
     "$PROPS/SPEC-125-recommendation-tribunal-realtime.md"
 }
 
