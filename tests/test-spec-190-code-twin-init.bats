@@ -216,6 +216,54 @@ teardown() {
 }
 
 # ---------------------------------------------------------------------------
+# API + Frontend stubs (Slice 4)
+# ---------------------------------------------------------------------------
+
+@test "Slice4: creates api/routes.md stub" {
+  bash "$INIT" "$TMP_PROJECT"
+  [ -f "$TMP_PROJECT/code-twin/api/routes.md" ]
+}
+
+@test "Slice4: creates api/error-codes.md stub" {
+  bash "$INIT" "$TMP_PROJECT"
+  [ -f "$TMP_PROJECT/code-twin/api/error-codes.md" ]
+}
+
+@test "Slice4: api stubs have layer: api" {
+  bash "$INIT" "$TMP_PROJECT"
+  grep -q "^layer: api" "$TMP_PROJECT/code-twin/api/routes.md"
+  grep -q "^layer: api" "$TMP_PROJECT/code-twin/api/error-codes.md"
+}
+
+@test "Slice4: api stubs have status DRAFT" {
+  bash "$INIT" "$TMP_PROJECT"
+  grep -q "status: DRAFT" "$TMP_PROJECT/code-twin/api/routes.md"
+  grep -q "status: DRAFT" "$TMP_PROJECT/code-twin/api/error-codes.md"
+}
+
+@test "Slice4: creates frontend/components.md stub" {
+  bash "$INIT" "$TMP_PROJECT"
+  [ -f "$TMP_PROJECT/code-twin/frontend/components.md" ]
+}
+
+@test "Slice4: frontend stub has layer: frontend" {
+  bash "$INIT" "$TMP_PROJECT"
+  grep -q "^layer: frontend" "$TMP_PROJECT/code-twin/frontend/components.md"
+}
+
+@test "Slice4: frontend stub has status DRAFT" {
+  bash "$INIT" "$TMP_PROJECT"
+  grep -q "status: DRAFT" "$TMP_PROJECT/code-twin/frontend/components.md"
+}
+
+@test "Slice4: api DRAFT stubs are rejected by linter (by design)" {
+  bash "$INIT" "$TMP_PROJECT"
+  run bash "$LINT" "$TMP_PROJECT/code-twin/api/routes.md"
+  [ "$status" -eq 2 ]
+  [[ "$output" == *"DRAFT"* ]]
+}
+
+# ---------------------------------------------------------------------------
 # Error handling (AC-5)
 # ---------------------------------------------------------------------------
 

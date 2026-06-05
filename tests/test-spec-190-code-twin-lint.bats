@@ -521,6 +521,25 @@ SCHEMA
 }
 
 # ---------------------------------------------------------------------------
+# Slice 4 fixtures: api + frontend CTFs
+# ---------------------------------------------------------------------------
+
+@test "Slice4: fixture api/routes.md → exit 0" {
+  run bash "$LINT" "$FX/api/routes.md"
+  [ "$status" -eq 0 ]
+}
+
+@test "Slice4: fixture api/error-codes.md → exit 0" {
+  run bash "$LINT" "$FX/api/error-codes.md"
+  [ "$status" -eq 0 ]
+}
+
+@test "Slice4: fixture frontend/item-list-component.md → exit 0" {
+  run bash "$LINT" "$FX/frontend/item-list-component.md"
+  [ "$status" -eq 0 ]
+}
+
+# ---------------------------------------------------------------------------
 # Safety & structure checks
 # ---------------------------------------------------------------------------
 
