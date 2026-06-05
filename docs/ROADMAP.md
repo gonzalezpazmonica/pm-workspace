@@ -723,6 +723,12 @@ Google Sheets · ServiceNow/SAP · Tableau · Kafka · VS Code ext · Cloud voic
 | 2 | SPEC-184 | Write-time validator non-blocking (warn) | 3-4h | P1. Zero deps. |
 | 3 | SPEC-185 | Critical-facts 150-token cap | 1-2h | P2. Zero deps. Free-win. |
 
+### Tier 1 — Wave 1 Era 200 (causal architecture, meta-spec + sub-specs)
+
+| # | ID | Título | Esfuerzo | Notas |
+|---|---|---|---|---|
+| - | SPEC-188 | Root-Cause Investigation Architecture (meta-spec) | 6-8h (doc) · ~80-120h impl | P0. Coordina SPEC-043/065/108/125 + 5 piezas nuevas. Fase 0 cierra hallazgo G3 (feedback_root_cause_always.md). |
+
 ### Tier 2 — Era 198 abierta (Anthropic Effective Agents, total 33h)
 
 | # | ID | Título | Esfuerzo | Deps |
