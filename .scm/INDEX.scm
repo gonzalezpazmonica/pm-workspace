@@ -1,6 +1,6 @@
 # Savia Capability Map — INDEX
-> hash: adb7a272384c | resources: 1193
-> 555 commands · 100 skills · 70 agents · 468 scripts
+> hash: 9f8112872fde | resources: 1194
+> 555 commands · 100 skills · 70 agents · 469 scripts
 
 [analysis] /a11y-report — accesibilidad,completos,conformidad,código,declaración — cmd:.claude/commands/a11y-report.md
 [analysis] Trace Optimize — across,distributed,optimize,rates,sampling — cmd:.claude/commands/trace-optimize.md
@@ -1050,6 +1050,7 @@
 [quality] qa-wizard — engineer,interactive,onboarding,wizard — cmd:.claude/commands/qa-wizard.md
 [quality] rbac-management — acceso,audita,gestionan,permisos,roles — skill:.claude/skills/rbac-management/SKILL.md
 [quality] rbac-manager — access,audit,based,control,grant — cmd:.claude/commands/rbac-manager.md
+[quality] recommendation-tribunal-search — audit,inspection,recommendation,search,slice — script:scripts/recommendation-tribunal-search.sh
 [quality] record-start — audit,recording,replay,session,start — cmd:.claude/commands/record-start.md
 [quality] ref-resolve — preview,references,resolve,resource — cmd:.claude/commands/ref-resolve.md
 [quality] release-readiness — checklist,compliance,deployment,docs,features — cmd:.claude/commands/release-readiness.md

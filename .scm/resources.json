@@ -1,6 +1,6 @@
 {
-  "hash": "a19bab4b4af0",
-  "total": 1193,
+  "hash": "2e2060f71a75",
+  "total": 1194,
   "resources": [
     {
       "category": "analysis",
@@ -13501,6 +13501,20 @@
       "kind": "cmd",
       "path": ".claude/commands/rbac-manager.md",
       "description": "Role-based access control — grant, revoke, audit roles and permissions"
+    },
+    {
+      "category": "quality",
+      "name": "recommendation-tribunal-search",
+      "intents": [
+        "audit",
+        "inspection",
+        "recommendation",
+        "search",
+        "slice"
+      ],
+      "kind": "script",
+      "path": "scripts/recommendation-tribunal-search.sh",
+      "description": "recommendation-tribunal-search.sh — SPEC-125 Slice 2: CLI for audit-trail inspection."
     },
     {
       "category": "quality",
