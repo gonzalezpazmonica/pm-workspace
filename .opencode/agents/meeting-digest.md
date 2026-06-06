@@ -8,14 +8,14 @@ description: >
   perfiles de equipo desde reuniones, o se necesita extraer informacion de negocio de una
   conversacion grabada.
 tools:
-  - Read
-  - Glob
-  - Grep
-  - Task
-  - Write
-  - Edit
+  read: true
+  glob: true
+  grep: true
+  task: true
+  write: true
+  edit: true
 model: mid
-color: teal
+color: "#008080"
 maxTurns: 20
 max_context_tokens: 80000
 output_max_tokens: 4000

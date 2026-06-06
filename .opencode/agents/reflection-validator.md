@@ -8,11 +8,11 @@ description: >
   trade-offs, detecting that a response optimizes the wrong variable,
   or validating that advice actually achieves the stated goal.
 tools:
-  - Read
-  - Glob
-  - Grep
+  read: true
+  glob: true
+  grep: true
 model: heavy
-color: purple
+color: "#9933CC"
 maxTurns: 15
 max_context_tokens: 8000
 output_max_tokens: 800

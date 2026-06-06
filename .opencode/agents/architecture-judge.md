@@ -3,7 +3,10 @@ name: architecture-judge
 description: Code Review Court judge — boundaries, coupling, layer violations, patterns
 model: mid
 permission_level: L1
-tools: [Read, Glob, Grep]
+tools:
+  read: true
+  glob: true
+  grep: true
 token_budget:
   per_invocation: 60000
   context_window_target: 8500

@@ -10,12 +10,12 @@ description: >
   de un cambio en las reglas, o se calibra una evaluación de competencias de un programador.
   También para resolver conflictos entre requisitos o detectar casos no cubiertos.
 tools:
-  - Read
-  - Glob
-  - Grep
-  - Bash
+  read: true
+  glob: true
+  grep: true
+  bash: true
 model: heavy
-color: purple
+color: "#9933CC"
 maxTurns: 25
 max_context_tokens: 8000
 output_max_tokens: 500

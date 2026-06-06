@@ -8,12 +8,12 @@ description: >
   información de infraestructura, datos personales (GDPR) o cualquier dato sensible
   que no deba estar en un repositorio público. Devuelve APROBADO o BLOQUEADO.
 tools:
-  - Bash
-  - Read
-  - Glob
-  - Grep
+  bash: true
+  read: true
+  glob: true
+  grep: true
 model: heavy
-color: red
+color: "#FF0000"
 maxTurns: 20
 max_context_tokens: 12000
 output_max_tokens: 1000

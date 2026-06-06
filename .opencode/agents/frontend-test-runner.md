@@ -2,12 +2,18 @@
 name: frontend-test-runner
 permission_level: L4
 description: Post-commit frontend test execution — unit, component, e2e, coverage
-tools: [Read, Write, Bash, Glob, Grep, Task]
+tools:
+  read: true
+  write: true
+  bash: true
+  glob: true
+  grep: true
+  task: true
 model: mid
 skills: [spec-driven-development]
 permissionMode: acceptEdits
 maxTurns: 30
-color: lime
+color: "#9ACD32"
 isolation: worktree
 token_budget:
   per_invocation: 60000

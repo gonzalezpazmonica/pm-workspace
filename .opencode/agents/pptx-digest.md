@@ -6,13 +6,20 @@ description: >
   notas del presentador, imagenes, diagramas y datos de graficos. Usa contexto REAL del
   proyecto. Actualiza documentos de contexto vivos. Usar PROACTIVELY cuando se detectan
   PPTX nuevos en carpetas de proyecto o SharePoint.
-tools: [Read, Write, Edit, Bash, Glob, Grep, Task]
+tools:
+  read: true
+  write: true
+  edit: true
+  bash: true
+  glob: true
+  grep: true
+  task: true
 model: heavy
 permissionMode: plan
 maxTurns: 30
 max_context_tokens: 80000
 output_max_tokens: 4000
-color: red
+color: "#FF0000"
 token_budget:
   per_invocation: 100000
   context_window_target: 8500

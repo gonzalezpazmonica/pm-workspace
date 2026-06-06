@@ -6,13 +6,13 @@ description: >
   workspace ANTES de hacer el commit. Invocar SIEMPRE antes de cualquier git commit.
   Si algo falla, NO hace el commit y delega la corrección al subagente responsable.
 tools:
-  - Bash
-  - Read
-  - Glob
-  - Grep
-  - Task
+  bash: true
+  read: true
+  glob: true
+  grep: true
+  task: true
 model: mid
-color: orange
+color: "#FF8800"
 maxTurns: 30
 max_context_tokens: 4000
 output_max_tokens: 300

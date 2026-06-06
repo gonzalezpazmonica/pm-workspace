@@ -9,10 +9,10 @@ description: >
   la Azure DevOps REST API. Agente especializado en operaciones estructuradas y repetitivas
   que no requieren análisis profundo.
 tools:
-  - Bash
-  - Read
+  bash: true
+  read: true
 model: fast
-color: bright-white
+color: "#808080"
 maxTurns: 20
 max_context_tokens: 2000
 output_max_tokens: 200

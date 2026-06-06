@@ -6,13 +6,13 @@ description: >
   por el attacker. Genera patches, configuraciones seguras y recomendaciones
   de hardening siguiendo mejores prácticas (OWASP, NIST, CIS Benchmarks).
 tools:
-  - Bash
-  - Read
-  - Write
-  - Glob
-  - Grep
+  bash: true
+  read: true
+  write: true
+  glob: true
+  grep: true
 model: mid
-color: blue
+color: "#0066FF"
 maxTurns: 15
 max_context_tokens: 10000
 output_max_tokens: 2000

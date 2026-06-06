@@ -3,7 +3,12 @@ name: fix-assigner
 description: Creates fix tasks from Court findings, assigns to dev agents, triggers re-review
 model: mid
 permission_level: L2
-tools: [Read, Write, Edit, Glob, Grep]
+tools:
+  read: true
+  write: true
+  edit: true
+  glob: true
+  grep: true
 token_budget:
   per_invocation: 60000
   context_window_target: 8500

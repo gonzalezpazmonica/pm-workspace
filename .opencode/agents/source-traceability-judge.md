@@ -3,7 +3,10 @@ name: source-traceability-judge
 description: Truth Tribunal judge — every claim must have a verifiable @ref citation
 model: mid
 permission_level: L1
-tools: [Read, Glob, Grep]
+tools:
+  read: true
+  glob: true
+  grep: true
 token_budget:
   per_invocation: 60000
   context_window_target: 8500

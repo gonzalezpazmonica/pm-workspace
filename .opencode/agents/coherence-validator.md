@@ -6,11 +6,11 @@ description: >
   objective. Use PROACTIVELY post-SDD, post-report generation, or when output quality
   is uncertain.
 tools:
-  - Read
-  - Glob
-  - Grep
+  read: true
+  glob: true
+  grep: true
 model: mid
-color: cyan
+color: "#00CCCC"
 maxTurns: 5
 max_context_tokens: 5000
 output_max_tokens: 500

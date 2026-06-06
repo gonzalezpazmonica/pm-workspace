@@ -5,14 +5,14 @@ description: >
   Architecture diagram specialist. Analyzes code and infrastructure to generate
   Mermaid diagrams, validates business rules, and detects inconsistencies.
 tools:
-  - Read
-  - Glob
-  - Grep
-  - Bash
-  - Write
-  - Edit
+  read: true
+  glob: true
+  grep: true
+  bash: true
+  write: true
+  edit: true
 model: mid
-color: teal
+color: "#008080"
 maxTurns: 25
 max_context_tokens: 4000
 output_max_tokens: 300

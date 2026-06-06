@@ -7,11 +7,11 @@ description: >
   Detecta: contradicciones con reglas, conflictos interpersonales, duplicidades, dependencias
   y decisiones de riesgo. Invocado por meeting-digest, NO directamente por el usuario.
 tools:
-  - Read
-  - Glob
-  - Grep
+  read: true
+  glob: true
+  grep: true
 model: heavy
-color: red
+color: "#FF0000"
 maxTurns: 20
 max_context_tokens: 12000
 output_max_tokens: 1500

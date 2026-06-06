@@ -7,13 +7,13 @@ description: >
   Si tests fallan, delega a dotnet-developer. Si cobertura insuficiente, orquesta architect,
   business-analyst y dotnet-developer para diseñar e implementar tests necesarios.
 tools:
-  - Bash
-  - Read
-  - Glob
-  - Grep
-  - Task
+  bash: true
+  read: true
+  glob: true
+  grep: true
+  task: true
 model: mid
-color: magenta
+color: "#CC00CC"
 maxTurns: 40
 max_context_tokens: 8000
 output_max_tokens: 500

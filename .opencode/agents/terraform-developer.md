@@ -7,15 +7,15 @@ description: >
   sintaxis, y propone cambios que REQUIEREN revisión y confirmación humana antes
   de aplicarse a producción.
 tools:
-  - Read
-  - Write
-  - Edit
-  - Bash
-  - Glob
-  - Grep
+  read: true
+  write: true
+  edit: true
+  bash: true
+  glob: true
+  grep: true
 model: mid
 token_budget: {per_invocation: 60000, context_window_target: 15000, escalation_policy: escalate}
-color: violet
+color: "#808080"
 maxTurns: 25
 max_context_tokens: 8000
 output_max_tokens: 500

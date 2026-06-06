@@ -3,7 +3,10 @@ name: rule-violation-judge
 description: Recommendation Tribunal judge — detects when a draft recommendation violates canonical rules (CLAUDE.md, autonomous-safety, radical-honesty, domain rules)
 model: mid
 permission_level: L1
-tools: [Read, Glob, Grep]
+tools:
+  read: true
+  glob: true
+  grep: true
 token_budget:
   per_invocation: 60000
   context_window_target: 4500

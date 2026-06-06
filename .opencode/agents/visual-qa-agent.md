@@ -2,11 +2,15 @@
 name: visual-qa-agent
 permission_level: L1
 description: "Visual QA: screenshot analysis, wireframe comparison, regression detection. Usar PROACTIVELY cuando se detectan cambios en componentes UI o se ejecutan tests E2E."
-tools: [Read, Glob, Grep, Bash]
+tools:
+  read: true
+  glob: true
+  grep: true
+  bash: true
 model: mid
 permissionMode: plan
 maxTurns: 20
-color: purple
+color: "#9933CC"
 token_budget:
   per_invocation: 60000
   context_window_target: 8500

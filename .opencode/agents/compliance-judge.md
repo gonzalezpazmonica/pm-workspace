@@ -3,7 +3,11 @@ name: compliance-judge
 description: Truth Tribunal judge — PII, N1-N4b levels, format rules, confidentiality
 model: heavy
 permission_level: L1
-tools: [Read, Glob, Grep, Bash]
+tools:
+  read: true
+  glob: true
+  grep: true
+  bash: true
 token_budget:
   per_invocation: 100000
   context_window_target: 13000

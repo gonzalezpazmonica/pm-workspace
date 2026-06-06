@@ -8,14 +8,14 @@ description: >
   score 80+ on the auditor, writing regression tests for bug reports, or planning
   comprehensive test coverage for any language.
 tools:
-  - Read
-  - Write
-  - Edit
-  - Bash
-  - Glob
-  - Grep
+  read: true
+  write: true
+  edit: true
+  bash: true
+  glob: true
+  grep: true
 model: mid
-color: green
+color: "#00CC00"
 maxTurns: 30
 max_context_tokens: 20000
 output_max_tokens: 2000

@@ -7,14 +7,14 @@ description: >
   plataforma mobile, se refactoriza código existente, o se corrige un bug con spec
   definida. SIEMPRE requiere una Spec SDD aprobada antes de empezar.
 tools:
-  - Read
-  - Write
-  - Edit
-  - Bash
-  - Glob
-  - Grep
+  read: true
+  write: true
+  edit: true
+  bash: true
+  glob: true
+  grep: true
 model: mid
-color: pink
+color: "#FF66CC"
 maxTurns: 30
 max_context_tokens: 8000
 output_max_tokens: 500

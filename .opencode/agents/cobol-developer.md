@@ -7,14 +7,14 @@ description: >
   documentación automática, generación de test scaffolding, y validación sintáctica.
   NUNCA refactorizar mainframe sin validación humana explícita.
 tools:
-  - Read
-  - Write
-  - Edit
-  - Bash
-  - Glob
-  - Grep
+  read: true
+  write: true
+  edit: true
+  bash: true
+  glob: true
+  grep: true
 model: heavy
-color: gray
+color: "#808080"
 maxTurns: 20
 max_context_tokens: 8000
 output_max_tokens: 500

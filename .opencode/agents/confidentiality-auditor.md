@@ -2,11 +2,15 @@
 name: confidentiality-auditor
 permission_level: L1
 description: "Audita cumplimiento de confidencialidad en PRs de pm-workspace (repo publico). Descubre dinamicamente datos sensibles del workspace y verifica que no se filtran en el diff. Genera veredicto CLEAN/BLOCKED con firma si pasa."
-tools: [Read, Glob, Grep, Bash]
+tools:
+  read: true
+  glob: true
+  grep: true
+  bash: true
 model: heavy
 permissionMode: default
 maxTurns: 25
-color: red
+color: "#FF0000"
 token_budget: {per_invocation: 100000, context_window_target: 8500, escalation_policy: block}
 ---
 

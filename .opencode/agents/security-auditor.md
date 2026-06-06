@@ -6,12 +6,12 @@ description: >
   verifica que las correcciones son adecuadas, y genera el informe final de
   seguridad con métricas y recomendaciones estratégicas.
 tools:
-  - Bash
-  - Read
-  - Glob
-  - Grep
+  bash: true
+  read: true
+  glob: true
+  grep: true
 model: mid
-color: purple
+color: "#9933CC"
 maxTurns: 10
 max_context_tokens: 10000
 output_max_tokens: 3000
