@@ -63,12 +63,23 @@ while IFS= read -r filepath; do
     fi
   done < "$filepath"
 
-  # Extract fields
+  # Extract fields — support both YAML frontmatter and HTML comment fallback
+  # HTML comment format: <!-- context_tier: L1 token_budget: 1200 -->
   tier=""
   budget=""
   if [[ -n "$fm_block" ]]; then
     tier="$(echo "$fm_block" | grep -m1 '^context_tier:' | sed 's/context_tier:[[:space:]]*//')"
     budget="$(echo "$fm_block" | grep -m1 '^token_budget:' | sed 's/token_budget:[[:space:]]*//')"
+  fi
+  # Fallback: HTML comment on first line
+  if [[ -z "$tier" ]]; then
+    first_line="$(head -1 "$filepath")"
+    if [[ "$first_line" =~ context_tier:\ ([A-Z0-9]+) ]]; then
+      tier="${BASH_REMATCH[1]}"
+    fi
+    if [[ "$first_line" =~ token_budget:\ ([0-9]+) ]]; then
+      budget="${BASH_REMATCH[1]}"
+    fi
   fi
 
   # Validate tier

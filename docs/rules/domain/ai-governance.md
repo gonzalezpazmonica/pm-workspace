@@ -1,7 +1,5 @@
 ---
 paths: ["**/compliance/**", "**/model-card*", "**/risk-assessment*", "**/audit-log*"]
-context_tier: L3
-token_budget: 1452
 ---
 
 # Gobernanza de IA — Reglas de Dominio

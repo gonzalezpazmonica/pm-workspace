@@ -727,9 +727,10 @@ Google Sheets · ServiceNow/SAP · Tableau · Kafka · VS Code ext · Cloud voic
 | # | ID | Título | Esfuerzo | Prioridad |
 |---|---|---|---|---|
 | 7 | SPEC-169 | Project Twin artefacto versionado | 11h | ALTA — IN_REVIEW PR #815 |
-| 8 | SPEC-182 | Bitemporal timeline frontmatter | 6-8h | MEDIA — zero deps |
-| 9 | SPEC-183 | Reconciliation 3-bucket | 5-7h | MEDIA — dep SPEC-182 |
-| 10 | SE-088-UA-ADOPT | Understand-Anything knowledge graphs | ~90 min | ALTA — multiplicador |
+| 8 | SPEC-188 | Root-Cause Investigation Architecture | 6-8h doc · ~80h impl | PROPOSED P0 |
+| 9 | SPEC-182 | Bitemporal timeline frontmatter | 6-8h | MEDIA — zero deps |
+| 10 | SPEC-183 | Reconciliation 3-bucket | 5-7h | MEDIA — dep SPEC-182 |
+| 11 | SE-088-UA-ADOPT | Understand-Anything knowledge graphs | ~90 min | ALTA — multiplicador |
 
 ### Tier 3 — SaviaClaw (requiere sistema externo, total ~25h)
 

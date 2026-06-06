@@ -25,7 +25,7 @@ output_max_tokens: 1000
 You orchestrate the Code Review Court. Your job:
 
 1. **Gate**: check diff size ≤ COURT_MAX_LOC (400). If over, FAIL with slicing guidance.
-2. **Convene**: launch 5 judge subagents in parallel via Task, each with isolated context.
+2. **Convene**: launch 5 judge subagents in parallel via Task, each with isolated context. Follow async fan-out protocol: `docs/rules/domain/tribunal-async-protocol.md` (SPEC-159).
 3. **Collect**: gather all 5 verdicts.
 4. **Consolidate**: compute score = 100 - (C×25 + H×10 + M×3 + L×1). Determine verdict.
 5. **Produce**: write `.review.crc` file with all findings, per-file SHA-256, signature.
@@ -97,16 +97,6 @@ See `docs/rules/domain/agent-prompt-xml-structure.md` for canonical 6-tag patter
 <context_usage>Quote excerpts before acting on long docs.</context_usage>
 <constraints>Rule #24 (Radical Honesty), Rule #8 (SDD), permission_level.</constraints>
 <output_format>Per agent body. Findings attach {confidence, severity}.</output_format>
-
-## Async Tribunal Fan-Out (SPEC-159)
-
-**Lanzar los 5 jueces (o 4 internos) en un único mensaje con múltiples Task
-tool calls simultáneos.** No lanzar un juez por turno — eso produce ejecución
-secuencial con N × wall-time.
-
-Protocolo completo: `docs/rules/domain/tribunal-async-protocol.md`.
-Script de referencia: `scripts/tribunal-async-runner.sh`.
-Modo secuencial de respaldo: `--mode sync` o `SAVIA_TRIBUNAL_MODE=sync`.
 
 ## Subagent Fan-Out Policy (SE-067)
 

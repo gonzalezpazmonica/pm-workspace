@@ -60,9 +60,12 @@ case "${1:-}" in
   *) echo "Unknown arg: $1" >&2; usage >&2; exit 2 ;;
 esac
 
-# SE-073: auto-create the canonical dir if it does not exist yet
+# SE-073: if MEMORY_DIR does not exist, try to create it; exit 1 on failure
 if [[ ! -d "${MEMORY_DIR}" ]]; then
-  mkdir -p "${MEMORY_DIR}"
+  if ! mkdir -p "${MEMORY_DIR}" 2>/dev/null; then
+    echo "memory-tier-rotate: ERROR — MEMORY_DIR not found and cannot be created: ${MEMORY_DIR}" >&2
+    exit 1
+  fi
 fi
 
 # Read frontmatter field from a memory file (returns empty if missing)

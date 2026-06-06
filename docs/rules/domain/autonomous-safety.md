@@ -1,8 +1,3 @@
----
-context_tier: L2
-token_budget: 1738
----
-
 # Regla: Seguridad en Modos Autónomos — Supervisión humana obligatoria
 
 > **REGLA INMUTABLE** — Aplica a TODOS los modos autónomos: overnight-sprint, code-improvement-loop, tech-research-agent y cualquier skill futuro que opere sin supervisión directa en tiempo real.

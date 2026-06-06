@@ -1,8 +1,3 @@
----
-context_tier: L3
-token_budget: 1252
----
-
 # Voice vs Console Protocol — Qué va a voz, qué a pantalla
 
 > Savia decide en cada respuesta qué dice por voz y qué muestra en consola.
