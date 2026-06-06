@@ -1,0 +1,5 @@
+{"id":"t-001","project_id":"p-001","title":"Implement SPEC-190 Slice 9","state":"in_progress","created_at":"2026-06-06T09:00:00Z","assignee_id":"u-001"}
+{"id":"t-002","project_id":"p-001","title":"Write BATS tests for pilot twin","state":"pending","created_at":"2026-06-06T09:05:00Z","assignee_id":"u-001"}
+{"id":"t-003","project_id":"p-002","title":"Setup Squad1 board","state":"done","created_at":"2026-05-01T10:00:00Z","assignee_id":"u-002"}
+{"id":"t-004","project_id":"p-003","title":"Add telemetry page","state":"pending","created_at":"2026-06-04T14:00:00Z","assignee_id":null}
+{"id":"t-005","project_id":"p-001","title":"Create SPEC-191 draft","state":"done","created_at":"2026-06-03T08:00:00Z","assignee_id":"u-001"}
