@@ -53,14 +53,16 @@ chmod +x scripts/azdevops-queries.sh
 ./scripts/azdevops-queries.sh sprint ProjectAlpha "ProjectAlpha Team"
 ```
 
-## Step 6 — Open with Claude Code
+## Step 6 — Open with Claude Code / OpenCode
 
 ```bash
 # From the pm-workspace/ root
-claude
+claude         # Claude Code
+# or:
+opencode       # OpenCode
 ```
 
-Claude Code will automatically read `CLAUDE.md` and have access to all commands and skills.
+The AI coding assistant will automatically read `CLAUDE.md` and have access to all commands and skills.
 
 ---
 

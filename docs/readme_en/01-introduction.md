@@ -6,7 +6,7 @@
 
 ## What is this?
 
-PM-Workspace turns Claude Code into an AI-powered automated Project Manager. I manage sprints, backlog, code agents, infrastructure, billing, and reports — in 16 languages, with Azure DevOps, Jira, or 100% Git-native (Savia Flow).
+PM-Workspace turns Claude Code / OpenCode into an AI-powered automated Project Manager. I manage sprints, backlog, code agents, infrastructure, billing, and reports — in 16 languages, with Azure DevOps, Jira, or 100% Git-native (Savia Flow).
 
 My most advanced feature is **Spec-Driven Development**: tasks are documented as executable contracts, and an agent (or human) implements them following that contract.
 
@@ -27,7 +27,7 @@ Your experience with me depends on your role. Go directly to your quick-start:
 
 ## Example — First 5 minutes
 
-_Scenario: Monday morning. You open Claude Code in pm-workspace._
+_Scenario: Monday morning. You open Claude Code / OpenCode in pm-workspace._
 
 **You:** `What projects do I have and what can I do?`
 

@@ -6,7 +6,7 @@
 
 ## 1. Aurrebaldintzak
 
-- **Claude Code** instalatuta eta autentikatuta (`claude --version`)
+- **Claude Code / OpenCode** instalatuta eta autentikatuta (`claude --version` edo `opencode --version`)
 - **Git** >= 2.30 (`git --version`)
 - **gh CLI** >= 2.0 PRentzat eta issueetarako (`gh --version`)
 - **jq** JSON parseatzeko (`jq --version`)

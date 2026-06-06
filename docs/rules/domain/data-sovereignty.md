@@ -44,7 +44,7 @@ Script `scripts/ollama-classify.sh` y/o invocacion via daemon:
 
 ### Capa 4 — Proxy Interceptor (puerto 8443)
 
-`scripts/savia-shield-proxy.py` interpone entre Claude Code y `api.anthropic.com`:
+`scripts/savia-shield-proxy.py` interpone entre Claude Code / OpenCode y `api.anthropic.com`:
 - Activacion: `export ANTHROPIC_BASE_URL=http://127.0.0.1:8443`
 - Enmascara entidades en prompts salientes (internamente)
 - Desenmascara respuestas entrantes

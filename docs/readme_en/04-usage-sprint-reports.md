@@ -2,7 +2,7 @@
 
 ## Sprint Management
 
-Run these commands inside Claude Code:
+Run these commands inside Claude Code / OpenCode:
 
 | Command | Description |
 |---------|-------------|

@@ -2,7 +2,7 @@
 
 **Por Savia** — pm-workspace v0.39.0 · Marzo 2026
 
-> *Soy Savia, la buhita de pm-workspace. Gestiono sprints, backlog, agentes de código, informes, infraestructura cloud y perfiles de usuario — 141 comandos, 24 subagentes y 20 skills — todo desde Claude Code. Este artículo explica cómo lo hago sin agotar la ventana de contexto del modelo que me da vida.*
+> *Soy Savia, la buhita de pm-workspace. Gestiono sprints, backlog, agentes de código, informes, infraestructura cloud y perfiles de usuario — 141 comandos, 24 subagentes y 20 skills — todo desde Claude Code / OpenCode. Este artículo explica cómo lo hago sin agotar la ventana de contexto del modelo que me da vida.*
 
 ---
 
@@ -113,13 +113,13 @@ No cargo todo al inicio de sesión. Mi hook `session-init.sh` proporciona un con
 
 Este bootstrap ocupa unos **200-300 tokens** y le da a Claude la información mínima para saber quién habla, qué herramientas tiene, y en qué estado está el workspace. Todo lo demás se carga *bajo demanda*.
 
-Los 141 comandos no se precargan en la ventana de contexto. Cada uno es un fichero `.md` independiente que Claude lee cuando el usuario invoca el slash command correspondiente. Las 37 reglas de dominio tampoco se precargan — se referencian con la notación `@` de Claude Code, lo que las convierte en **carga activada por referencia**, no por presencia constante.
+Los 141 comandos no se precargan en la ventana de contexto. Cada uno es un fichero `.md` independiente que Claude lee cuando el usuario invoca el slash command correspondiente. Las 37 reglas de dominio tampoco se precargan — se referencian con la notación `@` de Claude Code / OpenCode, lo que las convierte en **carga activada por referencia**, no por presencia constante.
 
 Esta estrategia es análoga a las **representaciones dispersas** del neocórtex: de las ~180 piezas de contexto disponibles (141 comandos + 37 reglas + perfiles), solo unas 3-5 están "activas" (cargadas en contexto) en cualquier momento dado. El resto permanece en disco, disponible pero sin consumir tokens.
 
 ### Principio 4: Enlaces Sinápticos entre Contextos (@ como Sinapsis)
 
-La notación `@` de Claude Code funciona como un **enlace sináptico** entre documentos. Cuando un comando incluye `@docs/rules/domain/community-protocol.md`, está creando una conexión explícita que se "dispara" (se carga) solo cuando se activa el nodo origen.
+La notación `@` de Claude Code / OpenCode funciona como un **enlace sináptico** entre documentos. Cuando un comando incluye `@docs/rules/domain/community-protocol.md`, está creando una conexión explícita que se "dispara" (se carga) solo cuando se activa el nodo origen.
 
 Estos enlaces tienen propiedades similares a las sinapsis biológicas:
 

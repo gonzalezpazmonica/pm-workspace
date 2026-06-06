@@ -6,7 +6,7 @@
 
 ## Why it matters
 
-28.6% of adults with cognitive disabilities of working age are employed (vs 75% without disability). Many work in tech — Fundación ONCE has trained over 30,000 people with disabilities in digital skills. pm-workspace runs in the terminal (Claude Code), which is already accessible as text and keyboard. But we can go much further: actively guide, adapt outputs, and respect each person's pace.
+28.6% of adults with cognitive disabilities of working age are employed (vs 75% without disability). Many work in tech — Fundación ONCE has trained over 30,000 people with disabilities in digital skills. pm-workspace runs in the terminal (Claude Code / OpenCode), which is already accessible as text and keyboard. But we can go much further: actively guide, adapt outputs, and respect each person's pace.
 
 ---
 

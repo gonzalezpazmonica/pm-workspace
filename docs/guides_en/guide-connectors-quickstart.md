@@ -1,6 +1,6 @@
 # Connect external tools in 1 minute
 
-pm-workspace integrates with external tools using MCP (Model Context Protocol). Claude Connectors are the fastest way: 1 click, OAuth managed by Anthropic, auto-synced to Claude Code immediately.
+pm-workspace integrates with external tools using MCP (Model Context Protocol). Claude Connectors are the fastest way: 1 click, OAuth managed by Anthropic, auto-synced to Claude Code / OpenCode immediately.
 
 ## Via Connectors (recommended)
 
@@ -9,7 +9,7 @@ pm-workspace integrates with external tools using MCP (Model Context Protocol). 
 1. **Open** [claude.ai/settings/connectors](https://claude.ai/settings/connectors)
 2. **Find** the tool (GitHub, Slack, Jira, Notion, Sentry, Figma, Google Drive, etc.)
 3. **Click** "Connect" → authorize OAuth
-4. **Done** — available instantly in Claude Code, Desktop, and Mobile
+4. **Done** — available instantly in Claude Code / OpenCode, Desktop, and Mobile
 
 **Requirement:** Pro, Max, Team, or Enterprise plan.
 
@@ -25,7 +25,7 @@ claude mcp add --transport http {name} {server-url}
 
 ## Verify your connection
 
-In Claude Code:
+In Claude Code / OpenCode:
 - `/mcp` — Lists all connected MCP servers
 - `/integration-status` — Checks pm-workspace integrations
 

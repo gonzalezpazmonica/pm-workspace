@@ -52,7 +52,7 @@ install -d -o "$USER_NAME" -g "$USER_NAME" -m 0755 "$STATE_DIR"
 echo "==> Writing $SYSTEM_UNIT (paths derived from USER_HOME=$USER_HOME)"
 cat > "$SYSTEM_UNIT" <<EOF
 [Unit]
-Description=Savia Bridge — HTTPS bridge to Claude Code CLI
+Description=Savia Bridge — HTTPS bridge to Claude Code / OpenCode CLI
 Documentation=file://${REPO_DIR}/scripts/savia-bridge.py
 After=network-online.target
 Wants=network-online.target

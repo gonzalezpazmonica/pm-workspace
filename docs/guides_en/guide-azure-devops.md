@@ -38,7 +38,7 @@ Save your PAT in the specified file (never in the repo).
 
 ### 3. First contact with Savia
 
-Open Claude Code and say:
+Open Claude Code / OpenCode and say:
 
 > "Hi, I'm Ana, PM at a software consulting firm. We use Azure DevOps."
 

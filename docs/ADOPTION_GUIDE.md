@@ -28,7 +28,7 @@
 
 ### ¿Qué es PM-Workspace?
 
-PM-Workspace es una plataforma de gestión de proyectos con IA que convierte a Claude Code (la herramienta de programación con IA de Anthropic) en un **Project Manager automatizado**. Funciona con Azure DevOps, Jira, o 100% Git-native con Savia Flow. Proporciona 360+ comandos, 38 skills especializadas y 27 subagentes de IA que cubren desde el sprint planning hasta la implementación de código por agentes, con soporte para 16 lenguajes y 12 sectores regulados.
+PM-Workspace es una plataforma de gestión de proyectos con IA que convierte a Claude Code / OpenCode (herramientas de programación con IA) en un **Project Manager automatizado**. Funciona con Azure DevOps, Jira, o 100% Git-native con Savia Flow. Proporciona 360+ comandos, 38 skills especializadas y 27 subagentes de IA que cubren desde el sprint planning hasta la implementación de código por agentes, con soporte para 16 lenguajes y 12 sectores regulados.
 
 ### ¿Por qué adoptarlo en una consultora?
 
@@ -118,7 +118,7 @@ Para una consultora que empieza con PM-Workspace, el plan recomendado es **Pro (
 
 ### 4.0 Instalación rápida (recomendada)
 
-Un solo comando instala Claude Code + PM-Workspace + dependencias + smoke test:
+Un solo comando instala Claude Code / OpenCode + PM-Workspace + dependencias + smoke test:
 
 **macOS / Linux:**
 
@@ -218,7 +218,7 @@ Al clonar, encontrarás esta estructura:
 
 | Directorio | Contenido | Editable |
 |------------|-----------|----------|
-| `CLAUDE.md` | Punto de entrada de Claude Code (constantes globales) | Sí |
+| `CLAUDE.md` | Punto de entrada del AI coding assistant (constantes globales) | Sí |
 | `.opencode/commands/` | 360+ slash commands para flujos PM | Avanzado |
 | `.opencode/skills/` | 31 skills especializadas | Avanzado |
 | `.opencode/agents/` | 27 subagentes IA | Avanzado |
@@ -273,10 +273,12 @@ AZURE_DEVOPS_ORG_URL = "https://dev.azure.com/TU-ORGANIZACIóN"
 
 ## 7. Primeros Comandos: Tu Primera Mañana
 
-Con todo configurado, abre Claude Code desde la raíz del workspace:
+Con todo configurado, abre Claude Code / OpenCode desde la raíz del workspace:
 
 ```bash
-cd ~/claude && claude
+cd ~/claude && claude   # Claude Code
+# o bien:
+cd ~/claude && opencode  # OpenCode
 ```
 
 ### 7.1 Verificar que Claude conoce el workspace

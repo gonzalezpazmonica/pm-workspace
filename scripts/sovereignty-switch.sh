@@ -26,7 +26,7 @@ Commands:
 Environment variables set by this script:
   SAVIA_PROVIDER        Active provider name
   SAVIA_MODEL           Active model name
-  ANTHROPIC_BASE_URL    (for Claude Code compatibility)
+  ANTHROPIC_BASE_URL    (for Claude Code / OpenCode compatibility)
   OPENAI_BASE_URL       (for OpenCode compatibility)
 EOF
 }
@@ -95,7 +95,7 @@ cmd_local() {
   echo "  Model: $model"
   echo "  Ollama: http://localhost:11434"
   echo ""
-  echo "  For Claude Code: export ANTHROPIC_BASE_URL=http://localhost:11434/v1"
+  echo "  For Claude Code / OpenCode: export ANTHROPIC_BASE_URL=http://localhost:11434/v1"
   echo "  For OpenCode:    opencode --provider ollama --model $model"
 }
 

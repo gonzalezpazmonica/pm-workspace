@@ -18,7 +18,7 @@
 
 ## ¿Por qué Savia para una ONG?
 
-- **Coste cero**: sin licencias. Git + Claude Code es todo lo que necesitas.
+- **Coste cero**: sin licencias. Git + Claude Code / OpenCode es todo lo que necesitas.
 - **Justificación de horas**: `/flow-timesheet` genera informes para subvenciones (esencial para fondos públicos).
 - **Privacidad**: datos de beneficiarios nunca en el repo (regla PII-Free + cifrado E2E).
 - **Trabajo de campo offline**: Travel Mode para zonas sin conexión.

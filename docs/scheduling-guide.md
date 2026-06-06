@@ -1,7 +1,7 @@
 # Scheduling Guide — /loop vs /schedule vs Routines vs cron
 
 > Guía para elegir el mecanismo correcto de ejecución programada/recurrente
-> en pm-workspace, tras la introducción de Claude Code Routines (2026-04-14).
+> en pm-workspace, tras la introducción de Claude Code Routines / OpenCode Scheduled Tasks (2026-04-14).
 
 ---
 
@@ -9,7 +9,7 @@
 
 | Mecanismo | Dónde vive | Vida | Mín. intervalo | Triggers |
 |-----------|-----------|------|----------------|----------|
-| **`/loop` skill** | Sesión Claude Code actual | Mientras la sesión esté abierta | N/A (pacing libre o manual) | Solo cron simple |
+| **`/loop` skill** | Sesión Claude Code / OpenCode actual | Mientras la sesión esté abierta | N/A (pacing libre o manual) | Solo cron simple |
 | **`/schedule` skill (cloud)** | Servidores Anthropic (remote-trigger) | Persistente cross-sesión | 1 hora | cron, API, eventos |
 | **Desktop Scheduled Tasks** | Tu máquina (Desktop app) | Persistente mientras Desktop corra | 1 minuto | cron local |
 | **cron del SO** | Sistema operativo | Siempre | 1 minuto | cron |
@@ -48,19 +48,19 @@ Usar cuando:
 - Intervalo < 1 hora
 - El ordenador estará encendido durante la ventana de ejecución
 
-Requisito: Desktop app de Claude Code abierta.
+Requisito: Desktop app de Claude Code abierta (o sesión OpenCode activa).
 
 Ejemplo típico: digest diario de reuniones en carpetas locales de proyecto.
 
 ### cron del SO — Fallback determinista
 
 Usar solo si:
-- No puedes depender de Claude Code estando activo
+- No puedes depender de Claude Code / OpenCode estando activo
 - La tarea es un script puro sin necesidad de LLM
 - O la tarea debe correr incluso si la cuenta/sesión caduca
 
 pm-workspace prefiere `/schedule` o Desktop Scheduled Tasks sobre cron del SO
-porque mantienen el ciclo completo dentro del ecosistema Claude Code (auditoría,
+porque mantienen el ciclo completo dentro del ecosistema Claude Code / OpenCode (auditoría,
 logs, compactación de contexto).
 
 ---

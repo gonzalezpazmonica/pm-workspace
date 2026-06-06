@@ -87,7 +87,7 @@ Si el equipo cambia de opinión y elige MongoDB, la siguiente línea tendra `"re
 ~/.claude/projects/*/memory/
 ```
 
-Aquí guardo lo que aprendo sobre ti: que prefieres informes cortos, que trabajas con Azure DevOps, que tu equipo usa sprints de 2 semanas. Claude Code carga estos ficheros automáticamente cuando empezamos a hablar. Son markdown normal — los puedes leer y editar.
+Aquí guardo lo que aprendo sobre ti: que prefieres informes cortos, que trabajas con Azure DevOps, que tu equipo usa sprints de 2 semanas. Claude Code / OpenCode carga estos ficheros automáticamente cuando empezamos a hablar. Son markdown normal — los puedes leer y editar.
 
 ### El conocimiento de cada proyecto (la parte más rica)
 

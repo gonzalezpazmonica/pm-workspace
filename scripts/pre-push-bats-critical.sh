@@ -156,4 +156,34 @@ fi
 
 log ""
 log "pre-push-bats: ✅ $test_count related test file(s) passed"
+
+# ── G14 — Skill quality gate (SE-084 Slice 2) ─────────────────────────────
+# Run skill-catalog-auditor on any modified SKILL.md or DOMAIN.md files.
+# Blocks push if auditor returns FAIL for any modified skill.
+
+modified_skills=$(echo "$changed_files" \
+  | grep -E '^\.opencode/skills/[^/]+/(SKILL|DOMAIN)\.md$' \
+  | sed -E 's|^\.opencode/skills/([^/]+)/.*|\1|' \
+  | sort -u || true)
+
+if [[ -n "$modified_skills" ]]; then
+  log ""
+  log "pre-push-bats: G14 — checking $(echo "$modified_skills" | wc -l | tr -d ' ') modified skill(s)..."
+  g14_fail=0
+  while IFS= read -r skill; do
+    [[ -z "$skill" ]] && continue
+    log "  auditing skill: $skill"
+    if ! bash "$REPO_ROOT/scripts/skill-catalog-auditor.sh" --skill "$skill"; then
+      log "G14 FAIL: skill '$skill' failed quality gate"
+      g14_fail=1
+    fi
+  done <<< "$modified_skills"
+  if [[ "$g14_fail" -ne 0 ]]; then
+    log ""
+    log "pre-push-bats: ❌ G14 skill quality gate FAILED — fix skill(s) before push"
+    exit 1
+  fi
+  log "pre-push-bats: ✅ G14 skill quality gate passed"
+fi
+
 exit 0

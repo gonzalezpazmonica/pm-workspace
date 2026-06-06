@@ -1,10 +1,22 @@
 # Provider-Agnostic Tech Debt — Skills & Scripts
 
 > Snapshot: 2026-05-02. Ref: Auditoria completa de vendor lock-in.
-> Ultima actualizacion: post Era 193 (SaviaClaw DeepSeek migration).
+> Ultima actualizacion: 2026-06-06 — SPEC-OPC-VENDOR-REFS implementada.
 > Este documento trackea la deuda tecnica restante tras las fases 1-3 de migracion.
 
-## Providers disponibles en el host (2026-05-02)
+## Resumen SPEC-OPC-VENDOR-REFS (2026-06-06)
+
+SPEC-OPC-VENDOR-REFS cerro la deuda de vendor lock-in en docs/ y scripts/:
+
+- **Scripts arreglados**: `run-hook.sh` — `$CLAUDE_PROJECT_DIR` sin fallback → añadido fallback `${CLAUDE_PROJECT_DIR:-${OPENCODE_PROJECT_DIR:-$PWD}}`.
+- **Docs actualizados**: ~55 ficheros (getting-started, SETUP, guides, readme, savia-shield, memory, architecture, hooks, propuestas, quick-starts) — referencias "Claude Code" exclusivas → "Claude Code / OpenCode".
+- **Verificacion AC-01**: `$CLAUDE_PROJECT_DIR` sin fallback en scripts/ → 0 ocurrencias.
+- **Verificacion AC-02**: frases exclusividad en docs/ → 0 ocurrencias.
+- **Verificacion AC-06**: `bash -n` en todos los scripts modificados → OK.
+
+## Deuda residual (post SPEC-OPC-VENDOR-REFS)
+
+### Providers disponibles en el host (2026-05-02)
 
 | Provider | Via | Modelos | Coste /1M input |
 |----------|-----|---------|----------------|
@@ -12,7 +24,7 @@
 | **Anthropic** | Claude Code / OpenCode | Claude Sonnet 4, Haiku 4.5 | $3.00 / $0.80 |
 | **Qwen local** | Ollama | Qwen2.5:3b, Qwen2.5:7b (instalados), Qwen3.6 disponible | Gratis (local) |
 
-## Skills — 51/92 con vendor references (55%)
+### Skills — 51/92 con vendor references — pendiente
 
 No son bloqueantes de runtime porque las skills son documentos Markdown
 interpretados por LLMs, no codigo ejecutable. Pero contienen instrucciones
@@ -50,21 +62,21 @@ Solo `savia-identity` y `savia-memory` declaran `compatibility: opencode`.
 Los otros 90 skills no tienen campo `compatibility`. Anadirlo es mecanico
 (1 linea por SKILL.md) pero tedioso (90 archivos).
 
-## Scripts — hallazgos ya resueltos
+### Scripts — hallazgos resueltos en SPEC-OPC-VENDOR-REFS
 
 - `api.anthropic.com` → `$SAVIA_API_UPSTREAM` con fallback (5 scripts fixed)
-- `$CLAUDE_PROJECT_DIR` sin fallback → verificado: los scripts usan fallback o computan el path
+- `$CLAUDE_PROJECT_DIR` sin fallback → **CERRADO** en `run-hook.sh` (SPEC-OPC-VENDOR-REFS 2026-06-06)
 - `@anthropic-ai/claude-code` → es el nombre real del paquete npm, no es lock-in
 - `call_claude()` hardcodeado en SaviaClaw → migrado a `llm_backend.py` (OpenCode + DeepSeek, Era 193)
 - Nombre del servidor ("Lima") en codigo y docs → reemplazado por "host" (PII cleanup, Era 193)
 
-## Lazy Loading & Context — OK
+### Lazy Loading & Context — OK
 
 El sistema de lazy loading funciona por convencion (el LLM decide que leer).
 Los 15 paths en la Lazy Reference de CLAUDE.md y los 10 de AGENTS.md existen.
 No requiere fixes.
 
-## .scm / .acm / .hcm — OK
+### .scm / .acm / .hcm — OK
 
 - `.scm/`: 1128 recursos indexados (100%). 534 commands, 92 skills, 70 agents, 432 scripts.
 - `.acm/` y `.hcm/`: son por-proyecto, su ausencia en raiz es por diseno.

@@ -195,7 +195,7 @@ with open(path, "w") as f:
 print("Hooks wired in settings.json")
 PY
 
-  echo "Cognitive Debt enabled. Hooks active on next Claude Code restart."
+  echo "Cognitive Debt enabled. Hooks active on next Claude Code / OpenCode restart."
   echo "Disable any time: bash scripts/cognitive-debt.sh disable"
 }
 

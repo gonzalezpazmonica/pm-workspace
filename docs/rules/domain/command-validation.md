@@ -26,13 +26,13 @@ ANTES de hacer commit, si los cambios incluyen ficheros en `.opencode/commands/`
 ## Qué NO puede validar (limitaciones)
 
 - Ejecución real del comando (los slash commands se inyectan como prompt al usuario)
-- Contexto total real (depende de qué reglas `@` cargue Claude Code en la sesión)
+- Contexto total real (depende de qué reglas `@` cargue el AI coding assistant en la sesión)
 - Calidad del output que produce el comando
 
 ## Umbral de prompt estimado
 
 El umbral de 200 líneas (comando + CLAUDE.md) es conservador.
-Si Claude Code carga además muchas reglas `@`, el prompt puede excederse aun así.
+Si el AI coding assistant carga además muchas reglas `@`, el prompt puede excederse aun así.
 En ese caso → reducir el comando o eliminar referencias externas.
 
 ## Ejemplo de uso
