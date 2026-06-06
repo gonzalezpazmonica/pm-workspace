@@ -1,3 +1,8 @@
+---
+context_tier: L3
+token_budget: 1185
+---
+
 # Regla: Attention-anchor vocabulary
 
 > Nombres canónicos para 4 patterns que pm-workspace ya implementa, alineados con el catálogo Genesis (`danielmeppiel/genesis`). Adopción 100% vocabulary, 0 código nuevo. Vigente desde SE-080.

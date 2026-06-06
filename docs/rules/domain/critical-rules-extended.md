@@ -1,3 +1,8 @@
+---
+context_tier: L2
+token_budget: 734
+---
+
 # Reglas Criticas — Referencia Extendida (9-25)
 
 > Rules 1-8 inline in CLAUDE.md. Este fichero contiene las reglas 9-25 con detalle.

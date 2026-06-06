@@ -3,6 +3,8 @@ name: vertical-detection
 description: Algoritmo de detección de verticales no-software para proponer extensiones a pm-workspace
 auto_load: false
 paths: []
+context_tier: L3
+token_budget: 1036
 ---
 
 # Detección de Verticales — Algoritmo 5 Fases

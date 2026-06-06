@@ -1,3 +1,8 @@
+---
+context_tier: L3
+token_budget: 1056
+---
+
 # Hook Profiles — SAVIA_HOOK_PROFILE
 
 > **Por qué existe esto**: Los LLMs olvidan instrucciones ~20% de las veces.

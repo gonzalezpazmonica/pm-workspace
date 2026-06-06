@@ -4,6 +4,8 @@ paths:
   - "**/*.jsx"
   - "**/*.vue"
   - "**/frontend-*"
+context_tier: L2
+token_budget: 857
 ---
 
 # Frontend Component Rules

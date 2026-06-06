@@ -1,3 +1,8 @@
+---
+context_tier: L3
+token_budget: 1189
+---
+
 # Model alias schema — user-extensible mappings (SPEC-127 Slice 1)
 
 > **Rule** — Agents and commands declare abstract capability tiers (`model: heavy|mid|fast`)

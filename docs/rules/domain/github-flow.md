@@ -3,6 +3,8 @@ paths:
   - "**/.github/**"
   - "**/.gitignore"
   - "**/.gitattributes"
+context_tier: L3
+token_budget: 1744
 ---
 
 # GitHub Flow — Reglas de Branching

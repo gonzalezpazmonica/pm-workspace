@@ -1,3 +1,8 @@
+---
+context_tier: L3
+token_budget: 1245
+---
+
 # Subagent fallback mode (single-shot expanded prompt) — SPEC-127 Slice 4
 
 > **Rule** — Orchestrator agents that delegate work to subagents via the

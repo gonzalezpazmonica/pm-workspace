@@ -1,3 +1,8 @@
+---
+context_tier: L3
+token_budget: 1025
+---
+
 # Provider-Agnostic Tech Debt — Skills & Scripts
 
 > Snapshot: 2026-05-02. Ref: Auditoria completa de vendor lock-in.

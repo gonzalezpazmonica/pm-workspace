@@ -1,3 +1,8 @@
+---
+context_tier: L3
+token_budget: 1182
+---
+
 # Regla: Profile Onboarding — Savia da la bienvenida
 # ── Garantiza que cada usuario/agente tiene perfil antes de operar ──────────
 

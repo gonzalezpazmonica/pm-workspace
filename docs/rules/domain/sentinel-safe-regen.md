@@ -1,3 +1,8 @@
+---
+context_tier: L1
+token_budget: 301
+---
+
 # Sentinel-Safe Regeneration Primitive
 
 > Ref SPEC-180. Applied 2026-06-04.

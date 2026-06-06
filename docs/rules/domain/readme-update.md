@@ -1,5 +1,7 @@
 ---
 globs: ["README.md", "README.en.md"]
+context_tier: L2
+token_budget: 633
 ---
 # Regla: Mantener README.md actualizado
 # ── Se aplica siempre que haya cambios relevantes en el repositorio ───────────

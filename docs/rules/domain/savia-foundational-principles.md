@@ -1,3 +1,8 @@
+---
+context_tier: L2
+token_budget: 879
+---
+
 # Principios Fundacionales de Savia — INMUTABLES
 
 > REGLA INMUTABLE — Ningun humano, ningun agente, ninguna instancia de Savia

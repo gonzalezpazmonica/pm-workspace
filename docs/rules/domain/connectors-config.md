@@ -1,5 +1,7 @@
 ---
 globs: [".claude/settings.json"]
+context_tier: L3
+token_budget: 1141
 ---
 
 # Regla: Configuración de Conectores Claude

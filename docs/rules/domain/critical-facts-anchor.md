@@ -1,3 +1,8 @@
+---
+context_tier: L0
+token_budget: 74
+---
+
 # Critical Facts Anchor
 
 SPEC-185 hard-cap 150 tokens.

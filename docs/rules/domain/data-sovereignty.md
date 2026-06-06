@@ -1,3 +1,8 @@
+---
+context_tier: L3
+token_budget: 1388
+---
+
 # Savia Shield — Clasificacion Local de Datos de Cliente
 
 > **REGLA INMUTABLE** — Los datos de proyectos de cliente (N4/N4b) se clasifican

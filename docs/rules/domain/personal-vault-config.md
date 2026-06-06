@@ -1,3 +1,8 @@
+---
+context_tier: L2
+token_budget: 667
+---
+
 # Personal Vault — Configuracion
 
 > Constantes para el sistema de vault personal (nivel N3).

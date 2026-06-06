@@ -3,6 +3,8 @@ paths:
   - "**/ai-exposure*"
   - "**/ai-labor*"
   - "**/exposure-*"
+context_tier: L2
+token_budget: 817
 ---
 
 # AI Exposure Metrics — Métricas de Exposición Laboral a la IA

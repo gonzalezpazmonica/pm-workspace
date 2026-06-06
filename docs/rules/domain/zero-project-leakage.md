@@ -1,3 +1,8 @@
+---
+context_tier: L2
+token_budget: 570
+---
+
 # Zero Project Leakage — Regla de Aislamiento Absoluto
 
 > **REGLA INMUTABLE** — Complementa PII-Free (#20) y context-placement (#N4).

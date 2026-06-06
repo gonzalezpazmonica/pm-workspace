@@ -1,5 +1,7 @@
 ---
 globs: [".claude/settings.json", ".opencode/hooks/**"]
+context_tier: L2
+token_budget: 881
 ---
 
 # Async Hooks Configuration

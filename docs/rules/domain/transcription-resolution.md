@@ -1,3 +1,8 @@
+---
+context_tier: L3
+token_budget: 1013
+---
+
 # Transcription Resolution — Correccion de errores ASR en transcripciones
 
 > Los transcriptores de IA (Teams, Meet, Zoom) cometen errores foneticos sistematicos:

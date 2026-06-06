@@ -2,6 +2,8 @@
 description: Regla cross-cutting de separación de marcado y lógica
 globs:
 context: on-demand
+context_tier: L3
+token_budget: 1134
 ---
 
 # Separación de Marcado, Consultas y Estilos — Regla Transversal

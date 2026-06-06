@@ -1,6 +1,8 @@
 ---
 name: adversarial-security
 description: Protocolo de seguridad adversarial — Red Team / Blue Team / Auditor
+context_tier: L2
+token_budget: 580
 ---
 
 # Adversarial Security Protocol

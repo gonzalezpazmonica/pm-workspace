@@ -5,6 +5,8 @@ developer_type: all
 context_cost: medium
 paths:
   - ".opencode/commands/compliance-*.md"
+context_tier: L3
+token_budget: 1139
 ---
 
 # Regulatory Compliance — Regla de Dominio

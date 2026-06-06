@@ -1,3 +1,8 @@
+---
+context_tier: L2
+token_budget: 456
+---
+
 # Workflow vs Agent Decision Gate
 
 > Ref SPEC-158. Applied 2026-06-04.

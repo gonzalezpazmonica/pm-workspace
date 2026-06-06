@@ -1,3 +1,8 @@
+---
+context_tier: L2
+token_budget: 354
+---
+
 # Guardrail: Puntos Suspensivos NO son Truncamiento
 
 ## Problema

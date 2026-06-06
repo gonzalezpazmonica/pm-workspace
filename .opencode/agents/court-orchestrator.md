@@ -98,6 +98,16 @@ See `docs/rules/domain/agent-prompt-xml-structure.md` for canonical 6-tag patter
 <constraints>Rule #24 (Radical Honesty), Rule #8 (SDD), permission_level.</constraints>
 <output_format>Per agent body. Findings attach {confidence, severity}.</output_format>
 
+## Async Tribunal Fan-Out (SPEC-159)
+
+**Lanzar los 5 jueces (o 4 internos) en un único mensaje con múltiples Task
+tool calls simultáneos.** No lanzar un juez por turno — eso produce ejecución
+secuencial con N × wall-time.
+
+Protocolo completo: `docs/rules/domain/tribunal-async-protocol.md`.
+Script de referencia: `scripts/tribunal-async-runner.sh`.
+Modo secuencial de respaldo: `--mode sync` o `SAVIA_TRIBUNAL_MODE=sync`.
+
 ## Subagent Fan-Out Policy (SE-067)
 
 Fan-out paralelo para items independientes. Ver `docs/propuestas/SE-067-orchestrator-fanout-adaptive-thinking.md`.

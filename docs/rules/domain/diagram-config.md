@@ -1,5 +1,7 @@
 ---
 globs: [".opencode/skills/diagram-*/**", "projects/*/diagrams/**"]
+context_tier: L3
+token_budget: 1032
 ---
 
 # Regla: Configuración de Diagramas de Arquitectura

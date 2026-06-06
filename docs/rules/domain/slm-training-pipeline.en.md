@@ -1,3 +1,8 @@
+---
+context_tier: L3
+token_budget: 1196
+---
+
 # SLM Training Pipeline — Software Scaffolding
 
 > **Priority**: P1-Tier1 · **Status**: APPROVED (2026-04-19)

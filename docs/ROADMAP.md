@@ -292,7 +292,7 @@ Era exprés (1 día). Trigger: tras Era 186 hook ratchet closure, audit profunda
 
 **Era 188 — Foundations (in progress; cierra cuando PR #717 merge)**:
 - ✅ **SE-072** Verified Memory Axiom — IMPLEMENTED batch 57
-- **SE-073** Memory Index Cap Tiered — APPROVED (M 4h)
+- **SE-073** Memory Index Cap Tiered — **IMPLEMENTED** (M 4h)
 - **SE-074** Parallel spec execution — APPROVED (M 8h Slice 1 + S 3h Slice 1.5 + S 4h Slice 2 + M 6h Slice 3 = L 21h)
 - **SE-075** Voicebox adoption — Slices 1+2 IMPLEMENTED 2026-04-27 (task-queue.py + savia-voice-chunk.sh + sentence-splitter.py, BATS 53/53 certified); Slice 3 (Kokoro 82M CPU) DEFERRED — requires explicit user authorization for ~500MB model download
 - **SE-076** QueryWeaver patterns — IMPLEMENTED 2026-04-27 (3 slices: episodic memory + AzDo schema graph + LLM healer; AC-08/09/12 follow-up evolutivo)
@@ -715,12 +715,12 @@ Google Sheets · ServiceNow/SAP · Tableau · Kafka · VS Code ext · Cloud voic
 
 | # | ID | Título | Esfuerzo | Prioridad |
 |---|---|---|---|---|
-| 1 | SE-151 | Índice físico project_id grafo memoria | 3h | ALTA — dep SE-162 ✓ |
-| 2 | SE-152 | Frontmatter consumes/produces en SKILL.md | 6h | ALTA — dep SE-084 ✓ |
-| 3 | SPEC-181 | L0-L3 context budgets por tier | 4-6h | ALTA — dep SPEC-180 ✓ |
-| 4 | SPEC-159 | Async Tribunal Fan-out | 8h | ALTA — zero deps |
-| 5 | SPEC-160 | Tool Ergonomics Auto-Audit | 5h | MEDIA — zero deps |
-| 6 | SE-073 | Memory Index Cap Tiered | 4h | MEDIA — APPROVED |
+| 1 | SE-151 | Índice físico project_id grafo memoria | 3h | **IMPLEMENTED** |
+| 2 | SE-152 | Frontmatter consumes/produces en SKILL.md | 6h | **IMPLEMENTED** |
+| 3 | SPEC-181 | L0-L3 context budgets por tier | 4-6h | **IMPLEMENTED** |
+| 4 | SPEC-159 | Async Tribunal Fan-out | 8h | **IMPLEMENTED** |
+| 5 | SPEC-160 | Tool Ergonomics Auto-Audit | 5h | **IMPLEMENTED** |
+| 6 | SE-073 | Memory Index Cap Tiered | 4h | **IMPLEMENTED** |
 
 ### Tier 2 — Specs grandes (workspace, total ~30h)
 
@@ -767,8 +767,8 @@ Google Sheets · ServiceNow/SAP · Tableau · Kafka · VS Code ext · Cloud voic
 
 | # | ID | Propuesta | Status | Esfuerzo | Notas |
 |---|----|-----------|--------|----------|-------|
-| 4 | SPEC-159 | Async Tribunal Fan-out | PROPOSED | 8h | Tier 2D. court + truth-tribunal a Promise.all. |
-| 5 | SPEC-160 | Tool Ergonomics Auto-Audit | PROPOSED | 5h | Tier 2E. Script mensual, limite 3 PRs/mes. |
+| 4 | SPEC-159 | Async Tribunal Fan-out | **IMPLEMENTED** | 8h | Tier 2D. court + truth-tribunal a Promise.all. |
+| 5 | SPEC-160 | Tool Ergonomics Auto-Audit | **IMPLEMENTED** | 5h | Tier 2E. Script mensual, limite 3 PRs/mes. |
 
 ### Tier 3 — LOW (research backlog, total 12h)
 
@@ -812,7 +812,7 @@ Archivos: `docs/propuestas/SPEC-156..160-*.md` + `SPEC-162-self-evolving-tools-r
 
 | # | ID | Propuesta | Status | Prioridad | Esfuerzo | Deps |
 |---|----|-----------|--------|-----------|----------|------|
-| 5 | SPEC-181 | L0-L3 context token budgets por tier | PROPOSED | P2 | 4-6h | SPEC-180 |
+| 5 | SPEC-181 | L0-L3 context token budgets por tier | **IMPLEMENTED** | P2 | 4-6h | SPEC-180 |
 | 6 | SPEC-182 | Bitemporal timeline frontmatter | PROPOSED | P2 | 6-8h | — |
 
 ### Wave 3 — Dependiente de Wave 2 (total 5-7h)

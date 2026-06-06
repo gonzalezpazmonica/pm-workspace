@@ -1,3 +1,8 @@
+---
+context_tier: L3
+token_budget: 1352
+---
+
 # Opus 4.7 Calibration Playbook
 
 > SE-070 Slice 3. How to decide whether to upgrade a single agent from

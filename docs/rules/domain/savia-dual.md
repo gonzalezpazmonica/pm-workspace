@@ -1,3 +1,8 @@
+---
+context_tier: L3
+token_budget: 1342
+---
+
 # Savia Dual — Inference Sovereignty Layer
 
 > Transparent failover between Anthropic API and a local Ollama instance.

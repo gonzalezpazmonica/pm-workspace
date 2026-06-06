@@ -1,3 +1,8 @@
+---
+context_tier: L3
+token_budget: 1312
+---
+
 # Savia Meeting Participant — Etiquette Protocol
 
 > Savia participa en reuniones como persona digital: escucha, digiere,

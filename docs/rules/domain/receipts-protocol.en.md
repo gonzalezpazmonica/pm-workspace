@@ -1,3 +1,8 @@
+---
+context_tier: L3
+token_budget: 970
+---
+
 # Receipts Protocol — claims without verifiable source are marked UNVERIFIED
 
 > **SE-030 Slice 1 — Receipts-first governance**

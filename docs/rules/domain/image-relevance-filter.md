@@ -1,3 +1,8 @@
+---
+context_tier: L3
+token_budget: 1697
+---
+
 # Image Relevance Filter — deterministic-first triage pre-Vision
 
 > **SPEC**: SPEC-103 (`docs/propuestas/SPEC-103-deterministic-first-digests.md`)

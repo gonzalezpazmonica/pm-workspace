@@ -1,3 +1,8 @@
+---
+context_tier: L1
+token_budget: 508
+---
+
 # Caveman Default — Restricciones base de Savia
 
 > Siempre activo. No requiere invocacion. Parte de la identidad de Savia.

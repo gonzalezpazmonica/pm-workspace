@@ -1,3 +1,8 @@
+---
+context_tier: L2
+token_budget: 791
+---
+
 # Skill Maturity Kanban — 4 estados canónicos
 
 > Pattern alignment: `Modern Web Guidance gd audit` (clean-room) — SE-167.

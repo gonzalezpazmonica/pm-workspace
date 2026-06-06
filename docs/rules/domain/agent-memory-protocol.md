@@ -1,5 +1,7 @@
 ---
 paths: ["public-agent-memory/**", "private-agent-memory/**", "projects/*/agent-memory/**"]
+context_tier: L2
+token_budget: 718
 ---
 
 # Agent Memory Protocol — Persistent Knowledge Across Sessions

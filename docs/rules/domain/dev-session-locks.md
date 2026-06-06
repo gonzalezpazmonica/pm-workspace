@@ -1,3 +1,8 @@
+---
+context_tier: L2
+token_budget: 727
+---
+
 # Regla: Dev-Session Locks — Recuperacion de Crash
 
 > Inspirado en GSD 2: disk state machine con lock files y PID detection.

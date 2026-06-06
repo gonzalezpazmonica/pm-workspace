@@ -4,6 +4,8 @@ description: Protocolo de interacción para trabajo guiado — cómo Savia acomp
 type: domain
 auto_load: false
 load_trigger: "accessibility.guided_work == true OR /guided-work command"
+context_tier: L3
+token_budget: 1040
 ---
 
 # Protocolo de Trabajo Guiado

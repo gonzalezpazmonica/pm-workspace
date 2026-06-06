@@ -1,3 +1,8 @@
+---
+context_tier: L2
+token_budget: 550
+---
+
 # GraphRAG Quality Gates — SE-030-T
 
 > 12 thresholds derivados del bytebell "Three-Layer GraphRAG Evaluation Framework" (Dic '25). Se chequean en `eval-run` y el Court. Fallar cualquier threshold bloquea `sprint-close`.

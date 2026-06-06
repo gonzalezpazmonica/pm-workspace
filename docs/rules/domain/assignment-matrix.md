@@ -1,5 +1,7 @@
 ---
 globs: [".opencode/agents/**"]
+context_tier: L3
+token_budget: 1055
 ---
 
 # Assignment Matrix — Task Type → Agent Routing

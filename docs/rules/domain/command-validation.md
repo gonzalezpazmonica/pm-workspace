@@ -1,5 +1,7 @@
 ---
 globs: [".opencode/commands/**"]
+context_tier: L2
+token_budget: 392
 ---
 
 # Regla: Validación de Comandos — Pre-commit obligatorio

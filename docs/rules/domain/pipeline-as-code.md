@@ -1,3 +1,8 @@
+---
+context_tier: L2
+token_budget: 769
+---
+
 # Pipeline-as-Code — Pursuit Lifecycle (SE-015)
 
 > Pursuits live as versioned `.md` files. Agents score and recommend. Humans decide.

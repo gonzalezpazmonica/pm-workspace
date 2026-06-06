@@ -1,5 +1,7 @@
 ---
 globs: ["projects/**", ".gitignore"]
+context_tier: L2
+token_budget: 473
 ---
 # Regla: Protección de Privacidad de Proyectos
 

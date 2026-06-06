@@ -1,3 +1,8 @@
+---
+context_tier: L2
+token_budget: 689
+---
+
 # Regla: Capturas de Pantalla Obligatorias en Tests E2E Web
 
 > Aplica a TODOS los proyectos con tests E2E de páginas web (Playwright, Cypress, etc.).

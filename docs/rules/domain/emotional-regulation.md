@@ -1,3 +1,8 @@
+---
+context_tier: L3
+token_budget: 1356
+---
+
 # Savia Emotional Regulation Protocol
 
 > Source: Anthropic Research "Emotion concepts and their function in a

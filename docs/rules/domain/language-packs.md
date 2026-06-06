@@ -1,3 +1,8 @@
+---
+context_tier: L2
+token_budget: 752
+---
+
 # Language Packs (16 lenguajes)
 
 > Guía completa de incorporación: `docs/guia-incorporacion-lenguajes.md`

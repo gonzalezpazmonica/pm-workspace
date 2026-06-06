@@ -1,3 +1,8 @@
+---
+context_tier: L2
+token_budget: 2505
+---
+
 # Regla: Configuración PM-Workspace
 # ── Constantes de configuración Azure DevOps y proyectos ─────────────────────
 

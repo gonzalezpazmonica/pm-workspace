@@ -1,3 +1,8 @@
+---
+context_tier: L2
+token_budget: 627
+---
+
 # Regla: Politicas Declarativas de Agentes
 
 > Inspirado en NVIDIA NemoClaw: sandbox orchestration con politicas YAML hot-reloadable.

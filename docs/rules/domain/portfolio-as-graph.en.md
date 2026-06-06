@@ -1,3 +1,8 @@
+---
+context_tier: L3
+token_budget: 1337
+---
+
 # Portfolio-as-Graph — Cross-Project Dependencies
 
 > **SPEC-SE-020 Slice 1** — foundational rule + schema.

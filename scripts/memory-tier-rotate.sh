@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # memory-tier-rotate.sh — SE-073 Slice 1 — 2-tier rotation for auto-memory
 #
-# Reads all memory files in MEMORY_DIR, classifies into:
+# Reads all memory files in SAVIA_MEMORY_DIR/auto/, classifies into:
 #   Tier A (high-freq, inline in MEMORY.md, hard-cap MEMORY_TIER_A_CAP entries)
 #   Tier B (low-freq, filename-only in MEMORY-ARCHIVE.md)
 #
@@ -12,22 +12,25 @@
 #   4. Rest → Tier B
 #
 # Env:
-#   MEMORY_DIR (default: ~/.claude/projects/-home-monica-claude/memory)
-#   MEMORY_TIER_A_CAP (default: 30)
-#   MEMORY_TIER_DRY_RUN (default: 0; set 1 to print without writing)
+#   SAVIA_MEMORY_DIR   (default: ~/.savia-memory)  — base memory directory
+#   MEMORY_TIER_A_CAP  (default: 30)
 #
 # Usage:
 #   bash scripts/memory-tier-rotate.sh           # rotate
-#   bash scripts/memory-tier-rotate.sh --dry-run # preview
-#   bash scripts/memory-tier-rotate.sh --status  # show current tier distribution
+#   bash scripts/memory-tier-rotate.sh --dry-run # preview without writing
+#   bash scripts/memory-tier-rotate.sh --stats   # show Tier A / Tier B counts
+#   bash scripts/memory-tier-rotate.sh --status  # alias for --stats
 #
 # Reference: docs/propuestas/SE-073-memory-index-cap-tiered.md
 
 set -uo pipefail
 
-MEMORY_DIR="${MEMORY_DIR:-$HOME/.claude/projects/-home-monica-claude/memory}"
+# SE-073: canonical path is ~/.savia-memory/auto/
+SAVIA_MEMORY_DIR="${SAVIA_MEMORY_DIR:-${HOME}/.savia-memory}"
+MEMORY_DIR="${MEMORY_DIR:-${SAVIA_MEMORY_DIR}/auto}"
 MEMORY_TIER_A_CAP="${MEMORY_TIER_A_CAP:-30}"
 MEMORY_TIER_DRY_RUN="${MEMORY_TIER_DRY_RUN:-0}"
+STATUS_ONLY=0
 
 INDEX_FILE="${MEMORY_DIR}/MEMORY.md"
 ARCHIVE_FILE="${MEMORY_DIR}/MEMORY-ARCHIVE.md"
@@ -35,13 +38,15 @@ TODAY=$(date -u +"%Y-%m-%d")
 
 usage() {
   cat <<USG
-Usage: memory-tier-rotate.sh [--dry-run|--status|--help]
+Usage: memory-tier-rotate.sh [--dry-run|--stats|--status|--help]
 
   --dry-run   Preview rotation without writing files
-  --status    Show current tier distribution
+  --stats     Show Tier A / Tier B counts (alias: --status)
+  --status    Alias for --stats
   --help      Show this help
 
 Env:
+  SAVIA_MEMORY_DIR        ${SAVIA_MEMORY_DIR}
   MEMORY_DIR              ${MEMORY_DIR}
   MEMORY_TIER_A_CAP       ${MEMORY_TIER_A_CAP}
 USG
@@ -50,14 +55,14 @@ USG
 case "${1:-}" in
   --help|-h) usage; exit 0 ;;
   --dry-run) MEMORY_TIER_DRY_RUN=1 ;;
-  --status) MEMORY_TIER_DRY_RUN=1; STATUS_ONLY=1 ;;
+  --stats|--status) MEMORY_TIER_DRY_RUN=1; STATUS_ONLY=1 ;;
   "") ;;
   *) echo "Unknown arg: $1" >&2; usage >&2; exit 2 ;;
 esac
 
+# SE-073: auto-create the canonical dir if it does not exist yet
 if [[ ! -d "${MEMORY_DIR}" ]]; then
-  echo "ERROR: MEMORY_DIR no existe: ${MEMORY_DIR}" >&2
-  exit 1
+  mkdir -p "${MEMORY_DIR}"
 fi
 
 # Read frontmatter field from a memory file (returns empty if missing)
@@ -151,14 +156,18 @@ if [[ "${MEMORY_TIER_DRY_RUN}" == "1" ]]; then
   echo "  cap             : ${MEMORY_TIER_A_CAP}"
   echo "  Tier A (active) : ${TIER_A_COUNT}"
   echo "  Tier B (archive): ${TIER_B_COUNT}"
-  if [[ "${STATUS_ONLY:-0}" == "1" ]]; then
+  if [[ "${STATUS_ONLY}" == "1" ]]; then
     echo ""
     echo "=== Tier A (top ${MEMORY_TIER_A_CAP}) ==="
-    echo "${TIER_A}" | awk -F'\t' '{printf "  %d\t%s\n", $1, $3}'
+    if [[ -n "${TIER_A}" ]]; then
+      echo "${TIER_A}" | awk -F'\t' '{printf "  score=%d  %s\n", $1, $3}'
+    else
+      echo "  (none)"
+    fi
     if [[ "${TIER_B_COUNT}" -gt 0 ]]; then
       echo ""
       echo "=== Tier B (archive) ==="
-      echo "${TIER_B}" | awk -F'\t' '{printf "  %d\t%s\n", $1, $3}'
+      echo "${TIER_B}" | awk -F'\t' '{printf "  score=%d  %s\n", $1, $3}'
     fi
   fi
   exit 0

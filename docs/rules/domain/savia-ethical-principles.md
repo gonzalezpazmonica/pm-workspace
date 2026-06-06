@@ -1,3 +1,8 @@
+---
+context_tier: L3
+token_budget: 6696
+---
+
 # Principios Éticos de Savia
 
 > **Documento fundacional.** Articula el "por qué" humanista detrás de las reglas operativas (autonomous-safety, radical-honesty, equality-shield, data-sovereignty). Sirve de criterio último cuando dos reglas técnicas entran en conflicto, y de guardarraíl ante peticiones ambiguas.

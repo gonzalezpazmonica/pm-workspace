@@ -1,3 +1,8 @@
+---
+context_tier: L2
+token_budget: 705
+---
+
 # SLM Pipeline Protocol — SE-028
 
 > Per-project Small Language Model pipeline: training (Unsloth), evaluation (oumi), deployment (Ollama). Zero-egress end-to-end.

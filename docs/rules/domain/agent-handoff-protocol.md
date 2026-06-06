@@ -1,3 +1,8 @@
+---
+context_tier: L3
+token_budget: 1150
+---
+
 # Agent Handoff Protocol — SPEC-121
 
 > Convención **handoff-as-function** para transiciones entre agentes en pipelines SDD. Inspirado en OpenAI Agents SDK.

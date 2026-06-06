@@ -1,6 +1,8 @@
 ---
 description: Protocolo de desarrollo optimizado para contexto — 5 fases con aislamiento
 globs: ["**/dev-session*", "**/spec-slice*", "**/*.spec.md"]
+context_tier: L3
+token_budget: 1375
 ---
 
 # Dev Session Protocol — Desarrollo con contexto limitado

@@ -1,3 +1,8 @@
+---
+context_tier: L2
+token_budget: 582
+---
+
 # Project Twin as Code — Regla canónica
 # Spec: SPEC-169 · Status: IMPLEMENTED
 

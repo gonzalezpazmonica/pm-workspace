@@ -1,3 +1,8 @@
+---
+context_tier: L2
+token_budget: 496
+---
+
 # Double opt-in protocol for autonomous skills — SPEC-186
 
 > Era 199 Wave 1. Apéndice extraído de `docs/rules/domain/autonomous-safety.md` para mantener el host bajo el cap de 150 líneas (Rule 11). Cierra el vector de activación accidental de skills autónomas por env vars heredadas en shells persistentes o runners CI.

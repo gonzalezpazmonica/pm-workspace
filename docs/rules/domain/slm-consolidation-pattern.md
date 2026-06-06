@@ -1,3 +1,8 @@
+---
+context_tier: L2
+token_budget: 852
+---
+
 # SLM Consolidation Pattern (SE-049)
 
 > Pattern canonico para unificar 16 scripts `slm-*.sh` en un solo dispatcher `scripts/slm.sh` con subcommands. Slice 1 scaffolding publicado en batch 38.

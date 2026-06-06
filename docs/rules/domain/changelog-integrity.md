@@ -1,5 +1,7 @@
 ---
 globs: ["CHANGELOG.md"]
+context_tier: L2
+token_budget: 461
 ---
 
 # Regla: CHANGELOG.md — Integridad y Buenas Prácticas

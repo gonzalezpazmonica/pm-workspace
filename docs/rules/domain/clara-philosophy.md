@@ -1,5 +1,7 @@
 ---
 globs: [".opencode/skills/**"]
+context_tier: L2
+token_budget: 477
 ---
 
 # Clara Philosophy — Multi-Level Documentation Standard

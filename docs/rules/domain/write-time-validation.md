@@ -1,3 +1,8 @@
+---
+context_tier: L1
+token_budget: 311
+---
+
 # Write-Time Non-Blocking Validation
 
 > Ref SPEC-184. Applied 2026-06-04.

@@ -1,3 +1,8 @@
+---
+context_tier: L3
+token_budget: 1243
+---
+
 # Spec OpenCode Implementation Plan — Rule
 
 > Cada spec APPROVED desde 2026-04-26 incluye sección obligatoria documentando cómo se implementa en OpenCode además de Claude Code. Sin esta sección no es soberanía técnica, es deuda con vendor lock-in.

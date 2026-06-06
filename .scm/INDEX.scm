@@ -1,6 +1,6 @@
 # Savia Capability Map — INDEX
-> hash: ccd7499ceb8a | resources: 1214
-> 556 commands · 102 skills · 70 agents · 486 scripts
+> hash: d1bdda7cb88f | resources: 1218
+> 556 commands · 102 skills · 70 agents · 490 scripts
 
 [analysis] /a11y-report — accesibilidad,completos,conformidad,código,declaración — cmd:.claude/commands/a11y-report.md
 [analysis] Trace Optimize — across,distributed,optimize,rates,sampling — cmd:.claude/commands/trace-optimize.md
@@ -303,6 +303,7 @@
 [development] tech-research — autonomous,designated,generates,human,investigates — cmd:.claude/commands/tech-research.md
 [development] tech-research-agent — autónoma,específico,investigación,tema,técnica — skill:.claude/skills/tech-research-agent/SKILL.md
 [development] tolaria-open — base,desktop,knowledge,open,path — cmd:.claude/commands/tolaria-open.md
+[development] tribunal-async-runner — async,runner,spec,tribunal — script:scripts/tribunal-async-runner.sh
 [development] tribunal-benchmark — benchmark,phase,spec,tribunal — script:scripts/tribunal-benchmark.sh
 [development] twin-anonymize — anonymize,datos,organización,spec,twin — script:scripts/twin-anonymize.sh
 [development] twin-load — carga,load,muestra,proyecto,spec — script:scripts/twin-load.sh
@@ -325,6 +326,7 @@
 [governance] aepd-compliance — aepd,agéntica,auditoría,cumplimiento,fases — cmd:.claude/commands/aepd-compliance.md
 [governance] audit-alert — acceso,alertas,alto,anómalos,automáticas — cmd:.claude/commands/audit-alert.md
 [governance] audit-all-bats — audit,auditor,bats,over,probe — script:scripts/audit-all-bats.sh
+[governance] audit-context-budget — audit,budget,context,slice,spec — script:scripts/audit-context-budget.sh
 [governance] audit-export — audit,auditorías,compliant,exportar,externas — cmd:.claude/commands/audit-export.md
 [governance] audit-mcp-templates — audit,spec,templates — script:scripts/audit-mcp-templates.sh
 [governance] audit-search — acción,audit,búsqueda,confianza,contextual — cmd:.claude/commands/audit-search.md
@@ -872,6 +874,7 @@
 [planning] skill-propose — auto,nuevo,observaciones,proponer,repetitivo — cmd:.claude/commands/skill-propose.md
 [planning] skill-rank — based,data,effectiveness,invocation,ranking — cmd:.claude/commands/skill-rank.md
 [planning] skill-read — bajo,carga,completo,contenido,demanda — cmd:.claude/commands/skill-read.md
+[planning] skill-routing-index — index,routing,skill — script:scripts/skill-routing-index.sh
 [planning] skills-lock — integrity,lock,skills,verification — script:scripts/skills-lock.sh
 [planning] skills-md-generate — across,deterministic,force,handling,locale — script:scripts/skills-md-generate.sh
 [planning] skillssh-adapter — adapter,paquetes,publicables,skills — script:scripts/skillssh-adapter.sh
@@ -1207,6 +1210,7 @@
 [quality] testplan-generate — generación,pbis,plan,pruebas,specs — cmd:.claude/commands/testplan-generate.md
 [quality] testplan-results —  — cmd:.claude/commands/testplan-results.md
 [quality] testplan-status —  — cmd:.claude/commands/testplan-status.md
+[quality] tool-ergonomics-audit — audit,auto,ergonomics,spec,tool — script:scripts/tool-ergonomics-audit.sh
 [quality] twin-linter — contra,linter,schema,spec,twin — script:scripts/twin-linter.sh
 [quality] verification-lattice — allá,capa,code,estándar,multi — skill:.claude/skills/verification-lattice/SKILL.md
 [quality] visual-digest — ambigüedades,capturas,contexto,contextual,detectan — agent:.claude/agents/visual-digest.md

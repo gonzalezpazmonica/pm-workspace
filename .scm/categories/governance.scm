@@ -1,10 +1,11 @@
 # governance — Savia Capability Map (L1)
-> 33 resources
+> 34 resources
 
 - **/training-compliance** (cmd): >
 - **aepd-compliance** (cmd): Auditoría de cumplimiento AEPD para IA agéntica — framework 4 fases
 - **audit-alert** (cmd): Alertas automáticas por patrones anómalos — horario inusual, comandos de riesgo, volumen alto, acceso sensible.
 - **audit-all-bats** (script): audit-all-bats.sh — SE-039 Slice 1 probe: run test-auditor over all .bats.
+- **audit-context-budget** (script): audit-context-budget.sh — SPEC-181 Slice 3
 - **audit-export** (cmd): Exportar audit trail en JSON/CSV/PDF para auditorías externas. ISO 42001 & NIST AI RMF compliant.
 - **audit-mcp-templates** (script): SPEC-141 · audit-mcp-templates.sh
 - **audit-search** (cmd): Búsqueda contextual en audit trail — fecha, acción, usuario, proyecto, confianza. NL search y regex.

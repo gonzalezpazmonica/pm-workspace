@@ -3,6 +3,8 @@ name: rbac-model
 description: "Role-Based Access Control — 4-tier permission matrix with role inheritance and audit trail"
 auto_load: false
 paths: [".opencode/commands/rbac-manager*", ".opencode/skills/rbac-management/*"]
+context_tier: L3
+token_budget: 1254
 ---
 
 # Regla: RBAC File-Based (Role-Based Access Control)

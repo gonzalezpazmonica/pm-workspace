@@ -1,3 +1,8 @@
+---
+context_tier: L2
+token_budget: 776
+---
+
 # Regla: Parallel Spec Merge Queue
 
 > Coordina el orden de merge de las branches producidas por `parallel-specs-orchestrator.sh`. Operativo desde Slice 2 de SE-074. NUNCA mergea, NUNCA hace push, NUNCA force.

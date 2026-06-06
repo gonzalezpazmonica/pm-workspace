@@ -1,3 +1,8 @@
+---
+context_tier: L2
+token_budget: 723
+---
+
 # ZeroClaw Meeting Protocol — Live Diarization + Voice Memory
 
 > Savia escucha reuniones, identifica quién habla, y digiere el contexto.

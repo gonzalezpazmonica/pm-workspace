@@ -3,6 +3,8 @@ name: Performance Anti-Patterns
 description: Umbrales de rendimiento cross-language, patrones N+1, blocking async y memory allocation
 globs: ["**/*.cs", "**/*.ts", "**/*.tsx", "**/*.js", "**/*.py", "**/*.java", "**/*.go", "**/*.rs"]
 context_cost: low
+context_tier: L3
+token_budget: 1160
 ---
 
 # Performance Anti-Patterns — Cross-Language

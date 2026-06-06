@@ -1,5 +1,7 @@
 ---
 globs: [".opencode/commands/**", "data/confidence-log.jsonl"]
+context_tier: L2
+token_budget: 977
 ---
 
 # Regla: NL Command Resolution

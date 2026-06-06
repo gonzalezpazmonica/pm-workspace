@@ -1,3 +1,8 @@
+---
+context_tier: L3
+token_budget: 1303
+---
+
 # Verified Memory Axiom — SE-072
 
 > **"No Execution, No Memory."** Inspirado en GenericAgent (lsdefine/GenericAgent, 6.8k ⭐). Memoria persistente debe reflejar hechos verificados — no intenciones, suposiciones, plans no ejecutados.

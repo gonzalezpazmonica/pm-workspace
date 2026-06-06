@@ -3,6 +3,8 @@ name: context-aging
 description: Protocolo de envejecimiento semantico con sectores cognitivos y temporalidad
 auto_load: false
 paths: []
+context_tier: L2
+token_budget: 721
 ---
 
 # Context Aging Protocol

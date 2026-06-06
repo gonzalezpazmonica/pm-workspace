@@ -1,3 +1,8 @@
+---
+context_tier: L2
+token_budget: 863
+---
+
 # Research Stack — Backend Chain
 
 > Cadena de backends para research agents: orden de preferencia, fallbacks, y consideraciones de legalidad.

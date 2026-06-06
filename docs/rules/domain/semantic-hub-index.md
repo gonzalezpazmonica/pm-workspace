@@ -3,6 +3,8 @@ name: semantic-hub-index
 description: Índice de dependencias entre reglas, comandos y agentes — topología de red semántica
 auto_load: false
 paths: []
+context_tier: L2
+token_budget: 828
 ---
 
 # Semantic Hub Index

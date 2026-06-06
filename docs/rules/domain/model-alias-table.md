@@ -1,3 +1,8 @@
+---
+context_tier: L2
+token_budget: 577
+---
+
 # Model alias table — provider-agnostic resolution
 
 > **Rule** — Agents and commands declare abstract capability tiers

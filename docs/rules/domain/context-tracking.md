@@ -3,6 +3,8 @@ name: context-tracking
 description: Protocolo de tracking de uso de contexto para optimización del context-map
 auto_load: false
 paths: []
+context_tier: L2
+token_budget: 592
 ---
 
 # Context Tracking Protocol

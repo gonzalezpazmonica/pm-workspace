@@ -1,3 +1,8 @@
+---
+context_tier: L1
+token_budget: 193
+---
+
 # Regla: BATS Antes de Commit
 
 ## Cuándo aplica

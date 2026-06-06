@@ -1,3 +1,8 @@
+---
+context_tier: L2
+token_budget: 592
+---
+
 # MCP Catalog Policy — SPEC-141
 
 > **Rule** — Antes de activar un MCP server público de terceros, pasar el

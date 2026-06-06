@@ -1,5 +1,7 @@
 ---
 globs: [".claude/profiles/**"]
+context_tier: L3
+token_budget: 1204
 ---
 
 # Adaptive Output — Context-Aware Communication Styles

@@ -1,3 +1,8 @@
+---
+context_tier: L2
+token_budget: 741
+---
+
 # Regla: AGENTS.md source of truth
 
 > Define cómo se mantiene `AGENTS.md` (el espejo cross-frontend) sin perder coherencia con `.opencode/agents/*.md`. Vigente desde SE-078.

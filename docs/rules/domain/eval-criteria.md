@@ -3,6 +3,8 @@ name: eval-criteria
 description: Criterios base G-Eval por tipo de output — usados por /eval-output
 auto_load: false
 paths: []
+context_tier: L2
+token_budget: 785
 ---
 
 # Criterios de Evaluación G-Eval
