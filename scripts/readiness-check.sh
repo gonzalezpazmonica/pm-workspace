@@ -45,7 +45,7 @@ check critical "bash >= 4.0" "LC_ALL=C bash --version | head -1 | grep -E 'versi
 check critical "git" "git --version"
 check critical "python3" "command -v python3"
 check critical "jq" "command -v jq"
-check recommended "node/npm (for Claude Code)" "command -v node"
+check recommended "node/npm (for Claude Code / OpenCode)" "command -v node"
 check recommended "bats (test runner)" "command -v bats"
 
 # --- 2. Workspace structure ---

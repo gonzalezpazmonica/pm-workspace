@@ -17,7 +17,7 @@ Capa 2 — SEARXNG (Docker auto-start)
   Se levanta solo cuando se necesita.
 
 Capa 3 — CLAUDE WEBSEARCH (fallback)
-  Herramientas nativas de Claude Code.
+  Herramientas nativas de Claude Code / OpenCode.
   Se usa solo si Docker no disponible.
 ```
 

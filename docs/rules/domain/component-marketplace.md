@@ -69,7 +69,7 @@ El catálogo web proporciona una interfaz gráfica para descubrir, filtrar y rev
 1. **Búsqueda:** Use `/component-search` o visite https://aitmpl.com
 2. **Evaluación:** Revise descripción, requisitos y ejemplos
 3. **Instalación:** Use `npx claude-code-templates@latest --agent {ruta}`
-4. **Integración:** Configure en su flujo de Claude Code
+4. **Integración:** Configure en su flujo de Claude Code / OpenCode
 5. **Feedback:** Reporte mejoras o incompatibilidades
 
 ## Consideraciones de Compatibilidad

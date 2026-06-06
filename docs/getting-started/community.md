@@ -8,11 +8,11 @@ category: getting-started
 
 Savia Core is a sovereign agentic PM workspace. It runs entirely on your
 machine, manages sprints, backlogs, specs, and code through 49 specialized
-agents — all orchestrated from your terminal via Claude Code.
+agents — all orchestrated from your terminal via Claude Code / OpenCode.
 
 ## Prerequisites
 
-- [Claude Code](https://claude.ai/code) CLI installed
+- [Claude Code](https://claude.ai/code) or [OpenCode](https://opencode.ai) CLI installed
 - Git repository initialized
 - Bash 4+ (macOS: `brew install bash`)
 

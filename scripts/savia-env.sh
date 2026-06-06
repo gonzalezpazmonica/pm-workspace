@@ -15,7 +15,7 @@ set -uo pipefail
 savia_has_hooks() {
   case "${SAVIA_PROVIDER:-}" in
     copilot)  return 1 ;;  # OpenCode-Copilot Enterprise: zero hook surface
-    localai)  return 0 ;;  # LocalAI runs under Claude Code shell
+    localai)  return 0 ;;  # LocalAI runs under Claude Code / OpenCode shell
     claude)   return 0 ;;  # Full PreToolUse/PostToolUse/Stop surface
     unknown)  return 0 ;;  # Permissive: let downstream gates catch gaps
     *)        return 0 ;;  # OpenCode-Claude: ~25 events via plugin TS
@@ -26,7 +26,7 @@ savia_has_slash_commands() {
   case "${SAVIA_PROVIDER:-}" in
     copilot)  return 1 ;;  # Zero slash mechanism
     claude)   return 0 ;;  # Native slash commands
-    localai)  return 0 ;;  # Claude Code shell
+    localai)  return 0 ;;  # AI coding assistant shell
     unknown)  return 0 ;;  # Permissive
     *)        return 0 ;;  # OpenCode-Claude: .opencode/commands/
   esac
@@ -260,7 +260,7 @@ savia_autonomous_reviewer() {
 # parent environment WIN over .env (precedence: explicit env > .env > defaults).
 # This is the canonical place to declare workspace-wide flags like
 # SAVIA_HEURISTIC_ENFORCE — opencode.json's "env" key is unsupported and
-# Claude Code's settings.json shouldn't carry workspace-specific runtime flags.
+# Claude Code's / OpenCode's settings.json shouldn't carry workspace-specific runtime flags.
 _savia_load_dotenv() {
   local envfile="$1/.env"
   [[ -f "$envfile" ]] || return 0

@@ -15,7 +15,7 @@ NODE_VER="22.22.1"
 show_help() {
   echo -e "${BOLD}Savia Sovereignty Pack${NC} — Build offline USB installer"
   echo "Usage: sovereignty-pack.sh [--tier 1|2|3] [--dest PATH] [--arch amd64|arm64] [--dry-run]"
-  echo "  Tier 1 (~4GB): voice + LLM 3b | Tier 2 (~9GB): + Claude Code + LLM 7b"
+  echo "  Tier 1 (~4GB): voice + LLM 3b | Tier 2 (~9GB): + Claude Code / OpenCode + LLM 7b"
   echo "  Tier 3 (~20GB): + LLM 14b + Whisper medium"
 }
 

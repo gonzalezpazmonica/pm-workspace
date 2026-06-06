@@ -6,7 +6,7 @@
 
 ## Primeros 10 minutos
 
-Abre Claude Code en la raíz de pm-workspace y ejecuta estos tres comandos:
+Abre Claude Code / OpenCode en la raíz de pm-workspace y ejecuta estos tres comandos:
 
 ```
 /sprint-status --project MiProyecto

@@ -28,7 +28,7 @@ en el dashboard de Shield (1-6, 8).
 ### Flujo de prompts (Capa 0 — proxy)
 
 ```
-Claude Code → ANTHROPIC_BASE_URL=localhost:8443
+Claude Code / OpenCode → ANTHROPIC_BASE_URL=localhost:8443
   → savia-shield-proxy.py intercepta el prompt
   → enmascara entidades (personas, empresas, IPs, proyectos)
   → envia prompt limpio a api.anthropic.com
@@ -38,7 +38,7 @@ Claude Code → ANTHROPIC_BASE_URL=localhost:8443
 ### Flujo de escritura de ficheros (Capas 1-3 — hooks)
 
 ```
-Claude Code → hook PreToolUse → data-sovereignty-gate.sh
+Claude Code / OpenCode → hook PreToolUse → data-sovereignty-gate.sh
   → curl POST localhost:8444/gate (daemon unificado)
   → daemon: regex + NER + NFKC + base64 + cross-write → BLOCK/ALLOW
 ```
@@ -90,7 +90,7 @@ Clasificador semantico para texto que pasa regex y NER:
 
 ### Capa 4 — Proxy Interceptor (puerto 8443)
 
-Intercepta TODO el trafico entre Claude Code y la API de Anthropic:
+Intercepta TODO el trafico entre Claude Code / OpenCode y la API de Anthropic:
 
 - `savia-shield-proxy.py` en localhost:8443
 - Enmascara entidades en prompts salientes (personas, empresas, IPs, proyectos)

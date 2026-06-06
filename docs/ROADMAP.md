@@ -304,12 +304,12 @@ Era exprés (1 día). Trigger: tras Era 186 hook ratchet closure, audit profunda
 - ✅ **SE-080** Attention-anchor vocabulary — IMPLEMENTED (Genesis B8/B9/A7/A9 named)
 
 **Era 190 — Skill discipline + Pocock pattern adoption (APPROVED 2026-04-27)**:
-- **SE-081** Pocock skills quick-wins — APPROVED priority alta (S 2h) — caveman + zoom-out + grill-me, zero código, MIT clean-room
-- **SE-082** Architectural vocabulary discipline — APPROVED priority alta (M 4h) — Module/Interface/Seam/Adapter/Depth/Locality, extiende SE-080
-- **SE-083** TDD vertical-slice skill — APPROVED priority media (S 2h) — anti-horizontal-slicing reinforcement
-- **SE-084** Skill catalog quality audit — APPROVED priority alta (M 6h, 2 slices) — auditor + G14 gate sobre skills modificados
+- **SE-081** Pocock skills quick-wins — **IMPLEMENTED** priority alta (S 2h) — caveman + zoom-out + grill-me, zero código, MIT clean-room
+- **SE-082** Architectural vocabulary discipline — **IMPLEMENTED** priority alta (M 4h) — Module/Interface/Seam/Adapter/Depth/Locality, extiende SE-080
+- **SE-083** TDD vertical-slice skill — **IMPLEMENTED** priority media (S 2h) — anti-horizontal-slicing reinforcement
+- **SE-084** Skill catalog quality audit — **IMPLEMENTED** priority alta (M 6h, 2 slices) — auditor + G14 gate sobre skills modificados
 - **SE-085** Write-a-skill meta-skill — APPROVED priority baja (S 2h) — meta-disciplina post SE-084
-- **SE-086** Ubiquitous-language extractor — APPROVED priority media (M 5h, 2 slices) — DDD glossary + memory-graph bridge
+- **SE-086** Ubiquitous-language extractor — **IMPLEMENTED** priority media (M 5h, 2 slices) — DDD glossary + memory-graph bridge
 - **SE-087** Design-an-interface parallel skill — APPROVED priority media (M 4h) — N=3 alternativas vía sub-agentes paralelos
 
 **Era 192 — Knowledge Graph Adoption (proposed 2026-05-02)**:
@@ -415,11 +415,11 @@ Post-auditoria de alineacion OpenCode (inicio de sesion 2026-05-02). 4 gaps dete
 
 | Spec | Titulo | Agent time | Prioridad | Depende de | Bloquea |
 |---|---|---|---|---|---|
-| **SPEC-SCM-COVERAGE** | Cerrar gaps de frontmatter SCM (court-review, trace-optimize) | ~10 min | ALTA | — | SE-084 Slice 1 |
-| **SPEC-OPC-AGENTSYNC** | Replicar decision-trees/ a .opencode/agents/ + fix conversion script | ~15 min | ALTA | — | — |
-| **SPEC-SCM-FRESHCHECK** | Fix --check mode en generate-capability-map.py (read-only) | ~25 min | ALTA | — | SE-084 Slice 1 |
-| **SPEC-OPC-VENDOR-REFS** | Auditar y corregir referencias exclusivas a Claude Code en docs/scripts | ~45 min | ALTA | — | — |
-| **SPEC-OPC-CROSS-AUDIT** | Script de auditoria continua .opencode/ vs .claude/ | ~30 min | MEDIA | SPEC-OPC-AGENTSYNC | — |
+| **SPEC-SCM-COVERAGE** | Cerrar gaps de frontmatter SCM (court-review, trace-optimize) | ~10 min | ALTA | **IMPLEMENTED** | SE-084 Slice 1 |
+| **SPEC-OPC-AGENTSYNC** | Replicar decision-trees/ a .opencode/agents/ + fix conversion script | ~15 min | ALTA | **IMPLEMENTED** | — |
+| **SPEC-SCM-FRESHCHECK** | Fix --check mode en generate-capability-map.py (read-only) | ~25 min | ALTA | **IMPLEMENTED** | SE-084 Slice 1 |
+| **SPEC-OPC-VENDOR-REFS** | Auditar y corregir referencias exclusivas a Claude Code en docs/scripts | ~45 min | ALTA | **IMPLEMENTED** | — |
+| **SPEC-OPC-CROSS-AUDIT** | Script de auditoria continua .opencode/ vs .claude/ | ~30 min | MEDIA | **IMPLEMENTED** | SPEC-OPC-AGENTSYNC |
 
 ### Hallazgos de auditoria (2026-05-02)
 

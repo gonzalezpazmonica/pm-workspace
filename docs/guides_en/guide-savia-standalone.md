@@ -10,7 +10,7 @@
 - **Total portability**: the repository IS your management tool. Clone and work.
 - **End-to-end encryption**: internal messaging with RSA-4096 + AES-256-CBC.
 - **Travel mode**: carry it on a USB and work offline.
-- **Zero cost**: you only need Git and Claude Code.
+- **Zero cost**: you only need Git and Claude Code / OpenCode.
 
 ---
 

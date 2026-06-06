@@ -4,14 +4,14 @@
 
 ```
 ~/savia/                        ← Working root AND GitHub repository
-├── CLAUDE.md                    ← Claude Code entry point (≤150 lines)
+├── CLAUDE.md                    ← AI coding assistant entry point (≤150 lines)
 ├── .claudeignore                ← Excludes worktrees and languages from auto-loading
 ├── .gitignore                   ← Privacy: real projects, secrets, local config
 ├── docs/SETUP.md                ← Step-by-step configuration guide
 ├── README.md / README.en.md     ← Main documentation (ES/EN)
 │
 ├── .claude/
-│   ├── settings.local.json      ← Claude Code permissions (git-ignored)
+│   ├── settings.local.json      ← AI coding assistant permissions (git-ignored)
 │   │
 │   ├── commands/                ← 360+ slash commands
 │   │   ├── help.md              ← /help — catalog + first steps
@@ -118,9 +118,9 @@
 
 ## `.claudeignore`
 
-Controls which directories are **not loaded into context** by Claude Code:
+Controls which directories are **not loaded into context** by the AI coding assistant:
 
-- `.claude/worktrees/` — Claude Code creates workspace copies per session; without exclusion, they saturate the context
+- `.claude/worktrees/` — Claude Code / OpenCode create workspace copies per session; without exclusion, they saturate the context
 - `docs/rules/languages/` — 21 convention files (6,900+ lines) loaded on-demand when an agent needs them
 
 > Without `.claudeignore`, auto-loaded context exceeds limits and all slash commands fail with "Prompt is too long".

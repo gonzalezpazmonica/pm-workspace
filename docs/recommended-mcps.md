@@ -4,7 +4,7 @@ pm-workspace se conecta a herramientas externas mediante MCP (Model Context Prot
 
 ## Vía 1: Claude Connectors (recomendado)
 
-Los Connectors son MCP servers revisados por Anthropic con OAuth gestionado. Se activan en [claude.ai/settings/connectors](https://claude.ai/settings/connectors) y quedan disponibles automáticamente en Claude Code, Claude Desktop y Claude Mobile.
+Los Connectors son MCP servers revisados por Anthropic con OAuth gestionado. Se activan en [claude.ai/settings/connectors](https://claude.ai/settings/connectors) y quedan disponibles automáticamente en Claude Code / OpenCode, Claude Desktop y Claude Mobile.
 
 **Requisito:** Plan Pro, Max, Team o Enterprise.
 

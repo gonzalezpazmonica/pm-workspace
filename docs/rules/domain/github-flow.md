@@ -138,7 +138,7 @@ Excepción: la sección `## Resumen` en PRs es bilingüe (español para la PM + 
 
 ## En este workspace
 
-Claude Code **nunca** hace commit directamente en `main`. Siempre se parte de `main` y se vuelve a `main`:
+Claude Code / OpenCode **nunca** hace commit directamente en `main`. Siempre se parte de `main` y se vuelve a `main`:
 
 1. **Partir de `main`**: `git checkout main && git pull` antes de empezar cualquier tarea
 2. **Crear rama**: `git checkout -b feature/#ID-descripcion` si hay tarea DevOps, o `git checkout -b feature/descripcion` si no la hay (nombre ≤ 5 palabras, `#ID` no cuenta)

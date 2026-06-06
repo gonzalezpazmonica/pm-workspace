@@ -90,7 +90,7 @@ Descartar:
 
 ## Integracion con auto-memory
 
-Usar los tipos de memoria de Claude Code:
+Usar los tipos de memoria del AI coding assistant (Claude Code / OpenCode):
 - `feedback`: correcciones del usuario sobre como trabajar
 - `project`: decisiones y descubrimientos del proyecto/workspace
 - `user`: patrones y preferencias del usuario

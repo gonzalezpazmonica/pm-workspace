@@ -87,5 +87,5 @@ auto_sync_on_change: true
 SaviaHub vive FUERA del repo pm-workspace (`~/.savia-hub/`), pero los
 comandos de pm-workspace lo gestionan. Esto permite:
 1. Múltiples instancias de pm-workspace comparten el mismo SaviaHub
-2. SaviaHub no contamina el contexto de Claude Code
+2. SaviaHub no contamina el contexto de Claude Code / OpenCode
 3. Backup independiente del workspace

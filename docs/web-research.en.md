@@ -17,7 +17,7 @@ Layer 2 — SEARXNG (Docker auto-start)
   Starts automatically when needed.
 
 Layer 3 — CLAUDE WEBSEARCH (fallback)
-  Native Claude Code tools.
+  Native Claude Code / OpenCode tools.
   Used only when Docker unavailable.
 ```
 

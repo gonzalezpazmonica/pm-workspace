@@ -6,7 +6,7 @@
 
 ## Por qué importa
 
-El 28,6% de los adultos con discapacidad cognitiva en edad laboral están empleados (vs 75% sin discapacidad). Muchos trabajan en tecnología — Fundación ONCE ha formado a más de 30.000 personas con discapacidad en competencias digitales. pm-workspace funciona en terminal (Claude Code), que ya es accesible por ser texto y teclado. Pero podemos ir mucho más allá: guiar activamente, adaptar outputs, y respetar el ritmo de cada persona.
+El 28,6% de los adultos con discapacidad cognitiva en edad laboral están empleados (vs 75% sin discapacidad). Muchos trabajan en tecnología — Fundación ONCE ha formado a más de 30.000 personas con discapacidad en competencias digitales. pm-workspace funciona en terminal (Claude Code / OpenCode), que ya es accesible por ser texto y teclado. Pero podemos ir mucho más allá: guiar activamente, adaptar outputs, y respetar el ritmo de cada persona.
 
 ---
 

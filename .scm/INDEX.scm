@@ -1,6 +1,6 @@
 # Savia Capability Map — INDEX
-> hash: c856018d4114 | resources: 1208
-> 555 commands · 100 skills · 70 agents · 483 scripts
+> hash: 478b8eab4969 | resources: 1209
+> 555 commands · 100 skills · 70 agents · 484 scripts
 
 [analysis] /a11y-report — accesibilidad,completos,conformidad,código,declaración — cmd:.claude/commands/a11y-report.md
 [analysis] Trace Optimize — across,distributed,optimize,rates,sampling — cmd:.claude/commands/trace-optimize.md
@@ -1032,7 +1032,7 @@
 [quality] model-upgrade-auditor — agents,audits,backed,eval,evidence — agent:.claude/agents/model-upgrade-auditor.md
 [quality] mutation-audit — calidad,mediante,medir,mutation,quiere — skill:.claude/skills/mutation-audit/SKILL.md
 [quality] mutation-audit — audit,mutation,slice,testing — script:scripts/mutation-audit.sh
-[quality] opencode-cross-audit — alignment,audit,claude,cross,opencode — script:scripts/opencode-cross-audit.sh
+[quality] opencode-cross-audit — audit,cross,opencode,scripts — script:scripts/opencode-cross-audit.sh
 [quality] opencode-parity-audit — audit,opencode,parity,slice — script:scripts/opencode-parity-audit.sh
 [quality] overnight-sprint — autonomous,creates,executes,human,launch — cmd:.claude/commands/overnight-sprint.md
 [quality] pentester —  — agent:.claude/agents/pentester.md
@@ -1090,6 +1090,7 @@
 [quality] security-scan — audit,scan,security,workspace — script:scripts/security-scan.sh
 [quality] skill-audit — audit,auditor,baseline,catalog,quality — script:scripts/skill-audit.sh
 [quality] skill-catalog-audit — audit,catalog,skill,slice — script:scripts/skill-catalog-audit.sh
+[quality] skill-catalog-auditor — auditor,catalog,quality,skill,slice — script:scripts/skill-catalog-auditor.sh
 [quality] skill-maturity-audit — audit,kanban,maturity,skill — script:scripts/skill-maturity-audit.sh
 [quality] skills-usage-audit — audit,audita,skills,usage,workspace — script:scripts/skills-usage-audit.sh
 [quality] sovereignty-audit — audit,cognitive,data,diagnose,lock — cmd:.claude/commands/sovereignty-audit.md

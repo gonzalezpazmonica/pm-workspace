@@ -145,7 +145,7 @@ Run tests: `bash scripts/test-hooks.sh` or `bats tests/hooks/*.bats`
 
 ## Key Principles
 
-1. **Fail safely**: Hooks never crash Claude Code session (exit 0 fallback)
+1. **Fail safely**: Hooks never crash Claude Code / OpenCode session (exit 0 fallback)
 2. **No false positives**: Extensive whitelisting to avoid blocking legitimate code
 3. **Context aware**: Hooks respect file types, extensions, paths (excludes tests, migrations, configs)
 4. **Composable**: Multiple hooks work together without interference (correct exit codes)
@@ -167,4 +167,4 @@ bash -x .opencode/hooks/block-credential-leak.sh < test-input.json
 bats tests/hooks/test-block-credential-leak.sh
 ```
 
-Check hook output in Claude Code console or task execution logs.
+Check hook output in Claude Code / OpenCode console or task execution logs.

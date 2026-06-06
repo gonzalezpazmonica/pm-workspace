@@ -53,15 +53,17 @@ chmod +x scripts/azdevops-queries.sh
 ./scripts/azdevops-queries.sh sprint ProyectoAlpha "ProyectoAlpha Team"
 ```
 
-## Paso 6 — Abrir con Claude Code
+## Paso 6 — Abrir con Claude Code / OpenCode
 
 ```bash
 # Siempre desde la raíz del workspace (donde está el CLAUDE.md y la carpeta .claude/)
 cd ~/savia    # o el directorio donde hayas clonado el repositorio
-claude
+claude         # Claude Code
+# o bien:
+opencode       # OpenCode
 ```
 
-Claude Code cargará `CLAUDE.md` automáticamente, activará los 360+ comandos y las 38 skills,
+El AI coding assistant cargará `CLAUDE.md` automáticamente, activará los 360+ comandos y las 38 skills,
 detectará el lenguaje del proyecto y cargará las convenciones y agente apropiados.
 Todas las buenas prácticas del flujo Explorar → Planificar → Implementar → Commit están preconfiguradas.
 

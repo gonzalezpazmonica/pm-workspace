@@ -34,7 +34,7 @@ settings.json (5 hook events)
 ### Phase 1: Command Invocation
 
 1. User invokes `/command-name --param value`
-2. Claude Code loads command definition from `.opencode/commands/command-name.md`
+2. The AI coding assistant (Claude Code / OpenCode) loads command definition from `.opencode/commands/command-name.md`
 3. Command frontmatter parsed: `model`, `context_cost`, `allowed-tools`, `arguments`
 
 ### Phase 2: Hook Validation (PreToolUse)
@@ -84,7 +84,7 @@ settings.json (5 hook events)
 
 ```
 pm-workspace/
-├── .claude/                      ← Claude Code configuration
+├── .claude/                      ← AI coding assistant configuration
 │   ├── commands/                 (454 commands: slash workflows)
 │   ├── skills/                   (67 skills: reusable capabilities)
 │   │   ├── spec-driven-development/
@@ -102,7 +102,7 @@ pm-workspace/
 │   ├── agent-memory/             (persistent agent learning)
 │   ├── compliance/               (compliance checks runner)
 │   ├── settings.json             (hooks configuration)
-│   └── README.md                 (Claude Code setup guide)
+│   └── README.md                 (AI coding assistant setup guide)
 │
 ├── docs/                         ← Public documentation
 │   ├── ARCHITECTURE.md           (this file)
@@ -228,7 +228,7 @@ pm-workspace/
 |---|---|---|
 | Session init | ~5s | File I/O (safety net) |
 | Command invocation | <100ms | Hook validation |
-| Simple skill execution | ~10s | Claude Code inference |
+| Simple skill execution | ~10s | AI inference (Claude Code / OpenCode) |
 | SDD pipeline (full) | ~2-5min | Agent orchestration + code generation |
 | Test suite run | ~30s | BATS execution |
 

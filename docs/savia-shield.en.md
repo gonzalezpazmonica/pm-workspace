@@ -24,7 +24,7 @@ a data leak occurs that violates NDAs and GDPR.
 ### Main flow (daemon active)
 
 ```
-Claude Code → hook PreToolUse → data-sovereignty-gate.sh
+Claude Code / OpenCode → hook PreToolUse → data-sovereignty-gate.sh
   → curl POST localhost:8444/gate (unified daemon)
   → daemon: regex + NER + NFKC + base64 + cross-write → BLOCK/ALLOW
 ```
@@ -212,7 +212,7 @@ After running, all communication with the API goes through the proxy which
 masks sensitive entities automatically.
 
 **Without daemon:** the gate and audit hooks still work in fallback mode
-(regex + NFKC + base64 + cross-write). Claude Code never blocks due to
+(regex + NFKC + base64 + cross-write). Claude Code / OpenCode never blocks due to
 a missing daemon.
 
 ---

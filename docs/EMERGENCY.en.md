@@ -23,7 +23,7 @@ This pre-downloads the Ollama installer and LLM model to local cache (~5-10GB). 
 ## When to activate emergency mode?
 
 Activate emergency mode if:
-- Claude Code is not responding or showing connection errors
+- Claude Code / OpenCode is not responding or showing connection errors
 - The LLM provider (Anthropic) has a service outage
 - There's no internet connection but you need to keep working
 - You want to test pm-workspace without cloud dependency
@@ -68,7 +68,7 @@ You should see all green (✓). If there are issues, the script tells you what t
 source ~/.pm-workspace-emergency.env
 ```
 
-Claude Code will now use the local LLM instead of the cloud.
+Claude Code / OpenCode will now use the local LLM instead of the cloud.
 
 ## What you can do in emergency mode
 
