@@ -115,11 +115,10 @@ if [[ "$LIST_ONLY" == "true" ]]; then
   for agent_dir in "${EVALS_DIR}"/*/; do
     [[ -d "$agent_dir" ]] || continue
     agent="$(basename "$agent_dir")"
-    # Skip non-agent directories (memory benchmarks, etc.)
-    [[ -d "${agent_dir}/eval-01"* ]] 2>/dev/null || \
-      compgen -d "${agent_dir}eval-" &>/dev/null || true
-    cases=("${agent_dir}"eval-*/  )
-    [[ "${cases[0]}" == "${agent_dir}eval-*/" ]] && continue  # no cases
+    # Count eval cases with a loop (SC2144: -d doesn't work with globs)
+    case_count=0
+    for d in "${agent_dir}"eval-*/; do [[ -d "$d" ]] && case_count=$((case_count+1)); done
+    [[ "$case_count" -eq 0 ]] && continue
     echo "  Agent: ${agent}"
     for case_dir in "${agent_dir}"eval-*/; do
       [[ -d "$case_dir" ]] || continue
