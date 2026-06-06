@@ -3,6 +3,8 @@ rule_id: bitemporal-timeline-schema
 title: Bitemporal Timeline Schema
 status: ACTIVE
 ref: SPEC-182
+context_tier: L3
+token_budget: 400
 ---
 
 # Bitemporal Timeline Schema — SPEC-182

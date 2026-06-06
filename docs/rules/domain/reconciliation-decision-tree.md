@@ -4,6 +4,8 @@ title: Reconciliation 3-bucket decision tree
 status: ACTIVE
 ref: SPEC-183
 deps: [SPEC-182]
+context_tier: L3
+token_budget: 700
 ---
 
 # Reconciliation 3-bucket Decision Tree — SPEC-183
