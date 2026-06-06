@@ -190,7 +190,7 @@ build_json() {
 
   out+='"skills": {'
   first=true
-  for sk in $(echo "${!skill_consumes[@]} ${!skill_produces[@]}" | tr ' ' '\n' | sort -u); do
+  for sk in $(echo "${!skill_consumes[*]} ${!skill_produces[*]}" | tr ' ' '\n' | sort -u); do
     $first || out+=', '
     local c_arr='[]'
     local p_arr='[]'
