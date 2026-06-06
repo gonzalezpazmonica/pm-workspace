@@ -1,6 +1,6 @@
 # Savia Capability Map — INDEX
-> hash: 7f8617797709 | resources: 1203
-> 555 commands · 100 skills · 70 agents · 478 scripts
+> hash: f630d49122e7 | resources: 1204
+> 555 commands · 100 skills · 70 agents · 479 scripts
 
 [analysis] /a11y-report — accesibilidad,completos,conformidad,código,declaración — cmd:.claude/commands/a11y-report.md
 [analysis] Trace Optimize — across,distributed,optimize,rates,sampling — cmd:.claude/commands/trace-optimize.md
@@ -188,6 +188,7 @@
 [development] code-twin-init — code,estructura,init,proyecto,scaffold — script:scripts/code-twin-init.sh
 [development] code-twin-lint — code,files,index,jsonl,lint — script:scripts/code-twin-lint.sh
 [development] code-twin-simulate — code,simulate,slice,spec,twin — script:scripts/code-twin-simulate.sh
+[development] code-twin-validate-spec — code,slice,spec,twin,validate — script:scripts/code-twin-validate-spec.sh
 [development] codebase-map — agentes,comandos,dependencias,generar,internas — cmd:.claude/commands/codebase-map.md
 [development] codebase-map — agentes,comandos,dependencias,mapa,reglas — skill:.claude/skills/codebase-map/SKILL.md
 [development] codegraph — callees,callers,código,indexación,navegación — skill:.claude/skills/codegraph/SKILL.md
