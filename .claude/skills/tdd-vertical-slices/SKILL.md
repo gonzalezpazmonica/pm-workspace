@@ -8,6 +8,9 @@ summary: |
 maturity: stable
 context: fork
 agent: any
+trigger:
+  type: keyword
+  keywords: [tdd, test-first, red-green, vertical slice, anti-horizontal]
 ---
 
 ## Subagent Scope Guard

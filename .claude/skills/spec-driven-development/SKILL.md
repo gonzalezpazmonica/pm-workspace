@@ -12,6 +12,9 @@ agent: business-analyst
 category: "sdd-framework"
 tags: ["sdd", "specs", "development", "agents"]
 priority: "high"
+trigger:
+  type: keyword
+  keywords: [spec, sdd, especificación ejecutable, specification]
 ---
 
 ## Subagent Scope Guard
