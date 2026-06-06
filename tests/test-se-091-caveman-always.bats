@@ -169,3 +169,42 @@ SETTINGS="${BATS_TEST_DIRNAME}/../.claude/settings.json"
   echo "Score: $score/100" >&3
   [[ "$score" -ge 80 ]]
 }
+
+# ── Isolation (setup/teardown with tmpdir) ────────────────────────────────────
+
+setup() {
+  HOOK_TMPDIR="$(mktemp -d)"
+}
+
+teardown() {
+  rm -rf "$HOOK_TMPDIR"
+}
+
+# ── Edge cases ────────────────────────────────────────────────────────────────
+
+@test "edge: empty TOOL_NAME → hooks are no-op (exit 0)" {
+  run env OPENCODE_TOOL_NAME="" OPENCODE_TOOL_INPUT_PATH="main.py" bash "$GRILL_HOOK"
+  [ "$status" -eq 0 ]
+}
+
+@test "edge: null/empty FILE_PATH → grill-me exits 0 (no match)" {
+  run env OPENCODE_TOOL_NAME="Edit" OPENCODE_TOOL_INPUT_PATH="" bash "$GRILL_HOOK"
+  [ "$status" -eq 0 ]
+}
+
+@test "edge: nonexistent file path still exits 0 (hooks are non-blocking)" {
+  run env OPENCODE_TOOL_NAME="Write" OPENCODE_TOOL_INPUT_PATH="/nonexistent/path/file.py" bash "$GRILL_HOOK"
+  [ "$status" -eq 0 ]
+}
+
+@test "edge: zero-length filename exits 0 for zoom-out" {
+  run env OPENCODE_TOOL_NAME="Edit" OPENCODE_TOOL_INPUT_PATH="" bash "$ZOOM_HOOK"
+  [ "$status" -eq 0 ]
+}
+
+@test "edge: no args to hooks exits 0 (hooks never require args)" {
+  run bash "$GRILL_HOOK"
+  [ "$status" -eq 0 ]
+  run bash "$ZOOM_HOOK"
+  [ "$status" -eq 0 ]
+}
