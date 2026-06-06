@@ -1,3 +1,8 @@
+---
+context_tier: L2
+token_budget: 908
+---
+
 # Agent Prompt XML Structure (SE-068)
 
 > Canonical XML tag set for Opus 4.7 agent prompts. Source: Anthropic Opus 4.7 migration guide — "Put longform data at the top of your prompt, above your query. Queries at the end can improve response quality by up to 30% on complex, multi-document inputs."

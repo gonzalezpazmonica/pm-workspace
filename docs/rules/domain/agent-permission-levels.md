@@ -1,3 +1,8 @@
+---
+context_tier: L3
+token_budget: 1077
+---
+
 # Agent Permission Levels — 5-Tier Access Control
 
 > Complementa agent-policies.yaml con niveles granulares por agente.

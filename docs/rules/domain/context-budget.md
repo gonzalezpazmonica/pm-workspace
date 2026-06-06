@@ -1,5 +1,7 @@
 ---
 globs: [".opencode/commands/spec-generate*", ".opencode/commands/dev-session*"]
+context_tier: L2
+token_budget: 332
 ---
 
 # context-budget — Presupuestos de Contexto por Operación

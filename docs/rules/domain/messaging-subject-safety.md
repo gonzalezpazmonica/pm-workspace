@@ -3,6 +3,8 @@ paths:
   - "**/messaging-*"
   - "**/savia-send*"
   - "**/savia-reply*"
+context_tier: L2
+token_budget: 931
 ---
 
 # Regla: Seguridad del Subject en Mensajería Cifrada

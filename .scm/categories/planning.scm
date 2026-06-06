@@ -1,5 +1,5 @@
 # planning — Savia Capability Map (L1)
-> 532 resources
+> 533 resources
 
 - **/accreditation-track** (cmd): >
 - **/decide-architecture** (cmd): Clasifica una tarea como WORKFLOW (deterministica) o AGENT (loop). Bias hacia workflow per Anthropic. Sugiere plantilla inicial. Mide accuracy contra corpus curado de 20 tareas.
@@ -420,6 +420,7 @@
 - **skill-propose** (cmd): Proponer nuevo skill desde un workflow repetitivo — auto-genera scaffold si 3+ observaciones
 - **skill-rank** (cmd): Show skill effectiveness ranking based on invocation data
 - **skill-read** (cmd): Carga el contenido completo de un skill bajo demanda (progressive disclosure)
+- **skill-routing-index** (script): skill-routing-index.sh — SE-152
 - **skills-lock** (script): skills-lock.sh — SHA-256 integrity verification for skills
 - **skills-md-generate** (script): Force C locale for deterministic sort + awk text handling across machines
 - **skillssh-adapter** (script): ── skills.sh Adapter — Genera paquetes publicables para skills.sh ──

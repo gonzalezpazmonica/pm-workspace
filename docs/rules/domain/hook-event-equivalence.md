@@ -1,3 +1,8 @@
+---
+context_tier: L2
+token_budget: 893
+---
+
 # Claude Code ↔ OpenCode — Hook Event Equivalence
 
 > Provider-agnostic reference for hook event mapping between frontends.

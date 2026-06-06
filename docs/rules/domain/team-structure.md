@@ -3,6 +3,8 @@ name: team-structure
 description: "Multi-team coordination architecture — departments, boundaries, RACI, escalation"
 auto_load: false
 paths: [".opencode/commands/team-orchestrator*", ".opencode/skills/team-coordination/*"]
+context_tier: L3
+token_budget: 1119
 ---
 
 # Regla: Estructura Multi-Equipo

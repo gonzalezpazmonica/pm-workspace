@@ -1,3 +1,8 @@
+---
+context_tier: L2
+token_budget: 530
+---
+
 # Regla: Workflow PM — Convenciones, Cadencia y Comandos
 # ── Referencia operativa compacta ────────────────────────────────────────────
 

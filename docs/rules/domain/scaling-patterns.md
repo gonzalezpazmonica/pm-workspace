@@ -3,6 +3,8 @@ name: scaling-patterns
 description: "Scaling tiers (small/medium/large), optimization recommendations, vendor sync patterns, knowledge search, CI/CD governance"
 auto_load: false
 paths: [".opencode/commands/scale-optimizer*", ".opencode/skills/scaling-operations/*"]
+context_tier: L2
+token_budget: 798
 ---
 
 # Regla: Patrones de Escalabilidad

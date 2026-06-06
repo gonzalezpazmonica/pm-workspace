@@ -1,5 +1,7 @@
 ---
 globs: [".opencode/agents/**"]
+context_tier: L2
+token_budget: 932
 ---
 
 # Handoff Templates — Transiciones Estandarizadas entre Agentes

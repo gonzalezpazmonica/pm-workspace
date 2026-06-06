@@ -1,3 +1,8 @@
+---
+context_tier: L3
+token_budget: 1697
+---
+
 # Recommendation Tribunal — real-time audit de recomendaciones conversacionales
 
 > **SPEC**: SPEC-125 (`docs/propuestas/SPEC-125-recommendation-tribunal-realtime.md`)

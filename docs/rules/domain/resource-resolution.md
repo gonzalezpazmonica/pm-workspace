@@ -1,5 +1,7 @@
 ---
 globs: [".opencode/commands/**", ".opencode/skills/**"]
+context_tier: L2
+token_budget: 497
 ---
 # resource-resolution — Rule for @ Reference Resolution
 

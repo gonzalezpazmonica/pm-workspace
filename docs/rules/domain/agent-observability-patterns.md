@@ -1,5 +1,7 @@
 ---
 globs: [".opencode/hooks/agent-trace-log.sh"]
+context_tier: L2
+token_budget: 671
 ---
 
 # Patrones de Observabilidad de Agentes — Inspirado en claude-code-templates Analytics

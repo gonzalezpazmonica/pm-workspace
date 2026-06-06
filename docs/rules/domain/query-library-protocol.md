@@ -1,3 +1,8 @@
+---
+context_tier: L3
+token_budget: 1418
+---
+
 # Query Library Protocol — SE-031
 
 > **Regla**: WIQL / JQL / Savia Flow queries viven como snippets versionados en `.claude/queries/`, accesibles por ID. Nunca inline en commands nuevos.

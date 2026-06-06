@@ -2,6 +2,8 @@
 paths:
   - "**/savia-hub*"
   - "**/hub-sync*"
+context_tier: L2
+token_budget: 708
 ---
 
 # Regla: SaviaHub Modo Vuelo y Sincronización

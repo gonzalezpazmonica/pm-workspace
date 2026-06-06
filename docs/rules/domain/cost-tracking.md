@@ -3,6 +3,8 @@ name: cost-tracking
 description: "Cost Tracking — Append-only ledger, burn calculation, forecasting, alerts"
 auto_load: false
 paths: [".opencode/commands/cost-center*", ".opencode/skills/cost-management/*"]
+context_tier: L2
+token_budget: 721
 ---
 
 # Regla: Seguimiento de Costes

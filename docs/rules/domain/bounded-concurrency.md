@@ -1,3 +1,8 @@
+---
+context_tier: L3
+token_budget: 1063
+---
+
 # Bounded Concurrency — doctrina pm-workspace
 
 > **Regla**: cualquier codigo que spawnee procesos/goroutines/threads en paralelo DEBE tener un limite explicito en el codigo del llamante. La ausencia de limite no es "default razonable", es bug latente.

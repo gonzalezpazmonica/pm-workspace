@@ -1,3 +1,8 @@
+---
+context_tier: L3
+token_budget: 1069
+---
+
 # Managed Agents Patterns — Brain/Hands/Session Architecture
 
 > Inspired by Anthropic's Managed Agents engineering post (2026-04-14).

@@ -4,6 +4,8 @@ description: Adapta la salida de todos los comandos según las preferencias de a
 type: domain
 auto_load: true
 load_trigger: "siempre — se carga al inicio de sesión para verificar si hay perfil de accesibilidad"
+context_tier: L3
+token_budget: 1142
 ---
 
 # Regla de Adaptación de Output por Accesibilidad

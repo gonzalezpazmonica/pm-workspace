@@ -3,6 +3,8 @@ name: backup-protocol
 description: Protocolo de backup cifrado para datos locales de pm-workspace
 auto_load: false
 paths: []
+context_tier: L2
+token_budget: 767
 ---
 
 # Protocolo de Backup — Cifrado y Nube

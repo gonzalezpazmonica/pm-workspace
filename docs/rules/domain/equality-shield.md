@@ -1,3 +1,8 @@
+---
+context_tier: L2
+token_budget: 877
+---
+
 # Equality Shield — Regla de Igualdad Activa
 
 > Implementa el principio §4 (Dignidad humana frente a deshumanización) de `docs/rules/domain/savia-ethical-principles.md`.

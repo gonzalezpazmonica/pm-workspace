@@ -1,20 +1,22 @@
 #!/usr/bin/env python3
 """
-knowledge-graph.py — SE-162: Knowledge Graph sobre memoria Savia.
+knowledge-graph.py — SE-162 / SE-151: Knowledge Graph sobre memoria Savia.
 
 Builds a typed-edge graph (entities + relations) in SQLite from plain-text
 sources (.md, .jsonl). SQLite is a derived cache — plain text stays source of
 truth.
 
 Usage:
-    python3 scripts/knowledge-graph.py build   [--db PATH] [--root PATH]
-    python3 scripts/knowledge-graph.py query   "question" [--db PATH] [--limit N]
-    python3 scripts/knowledge-graph.py impact  "entity"   [--db PATH] [--depth N]
-    python3 scripts/knowledge-graph.py status             [--db PATH]
-    python3 scripts/knowledge-graph.py entities [--type TYPE] [--db PATH]
+    python3 scripts/knowledge-graph.py build   [--db PATH] [--root PATH] [--project SLUG]
+    python3 scripts/knowledge-graph.py query   "question" [--db PATH] [--limit N] [--project SLUG]
+    python3 scripts/knowledge-graph.py impact  "entity"   [--db PATH] [--depth N] [--project SLUG]
+    python3 scripts/knowledge-graph.py status             [--db PATH] [--project SLUG]
+    python3 scripts/knowledge-graph.py entities [--type TYPE] [--db PATH] [--project SLUG]
 
 Entity types : project, person, skill, decision, spec, concept, tool, rule
 Relation types: uses, owns, blocks, depends_on, decided, implements, mentions
+
+SE-151: --project SLUG tags all entities on build and filters on read.
 """
 
 from __future__ import annotations
@@ -43,9 +45,10 @@ CREATE TABLE IF NOT EXISTS entities (
     id         INTEGER PRIMARY KEY AUTOINCREMENT,
     name       TEXT    NOT NULL,
     type       TEXT    NOT NULL,
+    project_id TEXT,
     first_seen TEXT    DEFAULT (datetime('now')),
     last_seen  TEXT    DEFAULT (datetime('now')),
-    UNIQUE(name, type)
+    UNIQUE(name, type, project_id)
 );
 
 CREATE TABLE IF NOT EXISTS relations (
@@ -64,6 +67,7 @@ CREATE INDEX IF NOT EXISTS idx_rel_a   ON relations(entity_a);
 CREATE INDEX IF NOT EXISTS idx_rel_b   ON relations(entity_b);
 CREATE INDEX IF NOT EXISTS idx_ent_name ON entities(name);
 CREATE INDEX IF NOT EXISTS idx_ent_type ON entities(type);
+CREATE INDEX IF NOT EXISTS idx_ent_project ON entities(project_id);
 """
 
 # ── Extraction patterns ───────────────────────────────────────────────────────
@@ -90,20 +94,68 @@ def open_db(db_path: Path) -> sqlite3.Connection:
     conn = sqlite3.connect(str(db_path))
     conn.execute("PRAGMA journal_mode=WAL")
     conn.execute("PRAGMA foreign_keys=ON")
-    conn.executescript(SCHEMA)
+    # Create tables using schema without project_id unique constraint first (compat)
+    _SCHEMA_COMPAT = """
+CREATE TABLE IF NOT EXISTS entities (
+    id         INTEGER PRIMARY KEY AUTOINCREMENT,
+    name       TEXT    NOT NULL,
+    type       TEXT    NOT NULL,
+    first_seen TEXT    DEFAULT (datetime('now')),
+    last_seen  TEXT    DEFAULT (datetime('now')),
+    UNIQUE(name, type)
+);
+CREATE TABLE IF NOT EXISTS relations (
+    id         INTEGER PRIMARY KEY AUTOINCREMENT,
+    entity_a   INTEGER NOT NULL REFERENCES entities(id) ON DELETE CASCADE,
+    relation   TEXT    NOT NULL,
+    entity_b   INTEGER NOT NULL REFERENCES entities(id) ON DELETE CASCADE,
+    valid_from TEXT    DEFAULT (datetime('now')),
+    valid_to   TEXT    DEFAULT NULL,
+    source     TEXT,
+    confidence REAL    DEFAULT 1.0,
+    UNIQUE(entity_a, relation, entity_b)
+);
+CREATE INDEX IF NOT EXISTS idx_rel_a    ON relations(entity_a);
+CREATE INDEX IF NOT EXISTS idx_rel_b    ON relations(entity_b);
+CREATE INDEX IF NOT EXISTS idx_ent_name ON entities(name);
+CREATE INDEX IF NOT EXISTS idx_ent_type ON entities(type);
+"""
+    conn.executescript(_SCHEMA_COMPAT)
+    # SE-151: add project_id column if missing (idempotent migration)
+    cols = {row[1] for row in conn.execute("PRAGMA table_info(entities)")}
+    if "project_id" not in cols:
+        conn.execute("ALTER TABLE entities ADD COLUMN project_id TEXT")
+        conn.execute(
+            "CREATE INDEX IF NOT EXISTS idx_ent_project ON entities(project_id)"
+        )
     conn.commit()
     return conn
 
 
-def upsert_entity(conn: sqlite3.Connection, name: str, etype: str) -> int:
+def upsert_entity(conn: sqlite3.Connection, name: str, etype: str,
+                   project_id: str | None = None) -> int:
+    """SE-151: upsert entity.
+    Entities are globally de-duped by (name, type). project_id is a tag:
+    each entity can be tagged to at most one project (last write wins within
+    a build cycle). cmd_build with --project X deletes all X-tagged entities
+    before ingesting, so isolation is maintained per project.
+    """
     name = name.strip()[:200]
     conn.execute(
-        "INSERT OR IGNORE INTO entities(name, type) VALUES(?,?)", (name, etype)
+        "INSERT OR IGNORE INTO entities(name, type, project_id) VALUES(?,?,?)",
+        (name, etype, project_id)
     )
-    conn.execute(
-        "UPDATE entities SET last_seen=datetime('now') WHERE name=? AND type=?",
-        (name, etype),
-    )
+    # Update last_seen; if project_id provided, retag (within this build project_id is consistent)
+    if project_id is not None:
+        conn.execute(
+            "UPDATE entities SET last_seen=datetime('now'), project_id=? WHERE name=? AND type=?",
+            (project_id, name, etype),
+        )
+    else:
+        conn.execute(
+            "UPDATE entities SET last_seen=datetime('now') WHERE name=? AND type=?",
+            (name, etype),
+        )
     row = conn.execute(
         "SELECT id FROM entities WHERE name=? AND type=?", (name, etype)
     ).fetchone()
@@ -144,7 +196,7 @@ def extract_entities_from_text(text: str) -> list[tuple[str, str]]:
 
 # ── Sources ──────────────────────────────────────────────────────────────────
 
-def ingest_memory_store(conn: sqlite3.Connection) -> int:
+def ingest_memory_store(conn: sqlite3.Connection, project_id: str | None = None) -> int:
     """Ingest output/.memory-store.jsonl."""
     if not MEMORY_STORE.exists():
         return 0
@@ -164,12 +216,12 @@ def ingest_memory_store(conn: sqlite3.Connection) -> int:
             if etype not in ("decision", "discovery", "feedback", "concept",
                              "spec", "rule", "tool", "project"):
                 etype = "concept"
-            topic_id = upsert_entity(conn, topic, etype)
+            topic_id = upsert_entity(conn, topic, etype, project_id)
             entities = extract_entities_from_text(f"{topic} {content}")
             for name, t in entities:
                 if name == topic:
                     continue
-                eid = upsert_entity(conn, name, t)
+                eid = upsert_entity(conn, name, t, project_id)
                 upsert_relation(conn, topic_id, "mentions", eid,
                                 source=str(MEMORY_STORE), confidence=0.8)
             count += 1
@@ -177,7 +229,7 @@ def ingest_memory_store(conn: sqlite3.Connection) -> int:
     return count
 
 
-def ingest_memory_cache_db(conn: sqlite3.Connection) -> int:
+def ingest_memory_cache_db(conn: sqlite3.Connection, project_id: str | None = None) -> int:
     """Ingest ~/.savia/memory-cache.db entries."""
     if not MEMORY_CACHE_DB.exists():
         return 0
@@ -199,12 +251,12 @@ def ingest_memory_cache_db(conn: sqlite3.Connection) -> int:
             etype = "concept"
         if etype == "index":
             etype = "concept"
-        topic_id = upsert_entity(conn, topic_key, etype)
+        topic_id = upsert_entity(conn, topic_key, etype, project_id)
         entities = extract_entities_from_text(str(content))
         for name, t in entities:
             if name == topic_key:
                 continue
-            eid = upsert_entity(conn, name, t)
+            eid = upsert_entity(conn, name, t, project_id)
             upsert_relation(conn, topic_id, "mentions", eid,
                             source="memory-cache.db", confidence=0.7)
         count += 1
@@ -213,7 +265,7 @@ def ingest_memory_cache_db(conn: sqlite3.Connection) -> int:
     return count
 
 
-def ingest_roadmap(conn: sqlite3.Connection) -> int:
+def ingest_roadmap(conn: sqlite3.Connection, project_id: str | None = None) -> int:
     """Extract spec→spec depends_on relations from ROADMAP.md."""
     roadmap = ROOT / "docs" / "ROADMAP.md"
     if not roadmap.exists():
@@ -222,9 +274,9 @@ def ingest_roadmap(conn: sqlite3.Connection) -> int:
     specs = RE_SPEC.findall(text)
     count = 0
     # Wire project node
-    proj_id = upsert_entity(conn, "pm-workspace", "project")
+    proj_id = upsert_entity(conn, "pm-workspace", "project", project_id)
     for spec_name in set(specs):
-        spec_id = upsert_entity(conn, spec_name.upper(), "spec")
+        spec_id = upsert_entity(conn, spec_name.upper(), "spec", project_id)
         upsert_relation(conn, proj_id, "implements", spec_id,
                         source="docs/ROADMAP.md", confidence=0.9)
         count += 1
@@ -241,34 +293,34 @@ def ingest_roadmap(conn: sqlite3.Connection) -> int:
         all_in_line = RE_SPEC.findall(line)
         for candidate in all_in_line:
             if candidate.upper() != dep:
-                a = upsert_entity(conn, candidate.upper(), "spec")
-                b = upsert_entity(conn, dep, "spec")
+                a = upsert_entity(conn, candidate.upper(), "spec", project_id)
+                b = upsert_entity(conn, dep, "spec", project_id)
                 upsert_relation(conn, a, "depends_on", b,
                                 source="docs/ROADMAP.md", confidence=0.85)
     conn.commit()
     return count
 
 
-def ingest_rules(conn: sqlite3.Connection) -> int:
+def ingest_rules(conn: sqlite3.Connection, project_id: str | None = None) -> int:
     """Extract rule nodes from docs/rules/domain/*.md."""
     rules_dir = ROOT / "docs" / "rules" / "domain"
     if not rules_dir.exists():
         return 0
     count = 0
-    proj_id = upsert_entity(conn, "pm-workspace", "project")
+    proj_id = upsert_entity(conn, "pm-workspace", "project", project_id)
     for md in rules_dir.glob("*.md"):
-        rule_id = upsert_entity(conn, md.stem, "rule")
+        rule_id = upsert_entity(conn, md.stem, "rule", project_id)
         upsert_relation(conn, proj_id, "uses", rule_id,
                         source=str(md.relative_to(ROOT)), confidence=1.0)
         text = md.read_text(errors="ignore")[:3000]  # cap for perf
         for spec_name in RE_SPEC.findall(text):
-            spec_id = upsert_entity(conn, spec_name.upper(), "spec")
+            spec_id = upsert_entity(conn, spec_name.upper(), "spec", project_id)
             upsert_relation(conn, rule_id, "implements", spec_id,
                             source=str(md.relative_to(ROOT)), confidence=0.8)
         # mentions: tools / concepts cited in the rule text
         for name, etype in extract_entities_from_text(text):
             if etype in ("tool", "concept") and name != md.stem:
-                eid = upsert_entity(conn, name, etype)
+                eid = upsert_entity(conn, name, etype, project_id)
                 upsert_relation(conn, rule_id, "mentions", eid,
                                 source=str(md.relative_to(ROOT)), confidence=0.7)
         count += 1
@@ -278,24 +330,41 @@ def ingest_rules(conn: sqlite3.Connection) -> int:
 
 # ── Commands ─────────────────────────────────────────────────────────────────
 
+
+
+
 def cmd_build(args: argparse.Namespace) -> None:
     db = Path(args.db)
+    project_id: str | None = getattr(args, "project", None) or None
     conn = open_db(db)
 
-    # Reset
-    conn.execute("DELETE FROM relations")
-    conn.execute("DELETE FROM entities")
+    # Reset: if project_id given, only delete entities for that project
+    if project_id:
+        # Delete relations touching entities from this project first
+        conn.execute(
+            """DELETE FROM relations WHERE entity_a IN (
+                SELECT id FROM entities WHERE project_id=?
+            ) OR entity_b IN (
+                SELECT id FROM entities WHERE project_id=?
+            )""",
+            (project_id, project_id),
+        )
+        conn.execute("DELETE FROM entities WHERE project_id=?", (project_id,))
+    else:
+        conn.execute("DELETE FROM relations")
+        conn.execute("DELETE FROM entities")
     conn.commit()
 
-    n_store = ingest_memory_store(conn)
-    n_cache = ingest_memory_cache_db(conn)
-    n_road  = ingest_roadmap(conn)
-    n_rules = ingest_rules(conn)
+    n_store = ingest_memory_store(conn, project_id)
+    n_cache = ingest_memory_cache_db(conn, project_id)
+    n_road  = ingest_roadmap(conn, project_id)
+    n_rules = ingest_rules(conn, project_id)
 
     total_e = conn.execute("SELECT COUNT(*) FROM entities").fetchone()[0]
     total_r = conn.execute("SELECT COUNT(*) FROM relations").fetchone()[0]
 
-    print(f"BUILD complete — {db}")
+    proj_label = f" [project={project_id}]" if project_id else ""
+    print(f"BUILD complete{proj_label} — {db}")
     print(f"  Sources: memory-store({n_store}), memory-cache({n_cache}), "
           f"roadmap({n_road}), rules({n_rules})")
     print(f"  Entities: {total_e}  Relations: {total_r}")
@@ -306,16 +375,34 @@ def cmd_status(args: argparse.Namespace) -> None:
     if not db.exists():
         print("Graph not built — run: python3 scripts/knowledge-graph.py build")
         return
+    project_id: str | None = getattr(args, "project", None) or None
     conn = open_db(db)
-    total_e = conn.execute("SELECT COUNT(*) FROM entities").fetchone()[0]
-    total_r = conn.execute("SELECT COUNT(*) FROM relations").fetchone()[0]
-    print(f"Knowledge Graph — {db}")
+    if project_id:
+        total_e = conn.execute(
+            "SELECT COUNT(*) FROM entities WHERE project_id=?", (project_id,)
+        ).fetchone()[0]
+        total_r = conn.execute(
+            """SELECT COUNT(*) FROM relations WHERE entity_a IN (
+                SELECT id FROM entities WHERE project_id=?
+            ) OR entity_b IN (
+                SELECT id FROM entities WHERE project_id=?
+            )""",
+            (project_id, project_id),
+        ).fetchone()[0]
+    else:
+        total_e = conn.execute("SELECT COUNT(*) FROM entities").fetchone()[0]
+        total_r = conn.execute("SELECT COUNT(*) FROM relations").fetchone()[0]
+    proj_label = f" [project={project_id}]" if project_id else ""
+    print(f"Knowledge Graph{proj_label} — {db}")
     print(f"  Entities : {total_e}")
     print(f"  Relations: {total_r}")
     print()
     print("  Entities by type:")
+    where = "WHERE project_id=?" if project_id else ""
+    params = (project_id,) if project_id else ()
     for row in conn.execute(
-        "SELECT type, COUNT(*) FROM entities GROUP BY type ORDER BY 2 DESC"
+        f"SELECT type, COUNT(*) FROM entities {where} GROUP BY type ORDER BY 2 DESC",
+        params
     ):
         print(f"    {row[0]:15s} {row[1]}")
     print()
@@ -331,15 +418,24 @@ def cmd_entities(args: argparse.Namespace) -> None:
     if not db.exists():
         print("Graph not built — run: python3 scripts/knowledge-graph.py build")
         sys.exit(1)
+    project_id: str | None = getattr(args, "project", None) or None
     conn = open_db(db)
-    where = "WHERE type=?" if args.type else ""
-    params = (args.type,) if args.type else ()
+    conditions = []
+    params_list: list = []
+    if args.type:
+        conditions.append("type=?")
+        params_list.append(args.type)
+    if project_id:
+        conditions.append("project_id=?")
+        params_list.append(project_id)
+    where = ("WHERE " + " AND ".join(conditions)) if conditions else ""
     rows = conn.execute(
-        f"SELECT name, type FROM entities {where} ORDER BY type, name",
-        params
+        f"SELECT name, type, project_id FROM entities {where} ORDER BY type, name",
+        tuple(params_list)
     ).fetchall()
-    for name, etype in rows:
-        print(f"{etype:12s}  {name}")
+    for name, etype, proj in rows:
+        proj_label = f"  [{proj}]" if proj else ""
+        print(f"{etype:12s}  {name}{proj_label}")
 
 
 def cmd_query(args: argparse.Namespace) -> None:
@@ -347,25 +443,30 @@ def cmd_query(args: argparse.Namespace) -> None:
     if not db.exists():
         print("Graph not built — run: python3 scripts/knowledge-graph.py build")
         sys.exit(1)
+    project_id: str | None = getattr(args, "project", None) or None
     conn = open_db(db)
     q = f"%{args.question}%"
+    proj_filter = "AND e.project_id=?" if project_id else ""
+    proj_params = (project_id,) if project_id else ()
     rows = conn.execute(
-        """SELECT e.name, e.type,
+        f"""SELECT e.name, e.type,
                   r.relation,
                   e2.name as target
            FROM entities e
            JOIN relations r ON (r.entity_a=e.id OR r.entity_b=e.id)
            JOIN entities e2 ON (CASE WHEN r.entity_a=e.id THEN r.entity_b ELSE r.entity_a END = e2.id)
-           WHERE e.name LIKE ? OR e.type LIKE ?
+           WHERE (e.name LIKE ? OR e.type LIKE ?) {proj_filter}
            ORDER BY e.name
            LIMIT ?""",
-        (q, q, args.limit)
+        (q, q) + proj_params + (args.limit,)
     ).fetchall()
     if not rows:
         # fallback: plain entity search
+        fallback_where = "WHERE name LIKE ?" + (" AND project_id=?" if project_id else "")
+        fallback_params = (q,) + proj_params + (args.limit,)
         rows2 = conn.execute(
-            "SELECT name, type FROM entities WHERE name LIKE ? LIMIT ?",
-            (q, args.limit)
+            f"SELECT name, type FROM entities {fallback_where} LIMIT ?",
+            fallback_params
         ).fetchall()
         if rows2:
             print(f"Entities matching '{args.question}':")
@@ -434,23 +535,28 @@ def main() -> None:
 
     p_build = sub.add_parser("build", help="Build/rebuild graph from sources")
     p_build.add_argument("--db", default=str(DEFAULT_DB))
+    p_build.add_argument("--project", default=None, help="SE-151: tag entities with project slug")
 
     p_status = sub.add_parser("status", help="Show graph statistics")
     p_status.add_argument("--db", default=str(DEFAULT_DB))
+    p_status.add_argument("--project", default=None, help="SE-151: filter by project slug")
 
     p_ent = sub.add_parser("entities", help="List entities")
     p_ent.add_argument("--type", help="Filter by type")
     p_ent.add_argument("--db", default=str(DEFAULT_DB))
+    p_ent.add_argument("--project", default=None, help="SE-151: filter by project slug")
 
     p_q = sub.add_parser("query", help="Query graph")
     p_q.add_argument("question", help="Search term")
     p_q.add_argument("--limit", type=int, default=20)
     p_q.add_argument("--db", default=str(DEFAULT_DB))
+    p_q.add_argument("--project", default=None, help="SE-151: filter by project slug")
 
     p_imp = sub.add_parser("impact", help="Show impact cascade")
     p_imp.add_argument("entity", help="Entity name (partial match)")
     p_imp.add_argument("--depth", type=int, default=3)
     p_imp.add_argument("--db", default=str(DEFAULT_DB))
+    p_imp.add_argument("--project", default=None, help="SE-151: filter by project slug")
 
     args = parser.parse_args()
     if not args.command:

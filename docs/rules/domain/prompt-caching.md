@@ -1,5 +1,7 @@
 ---
 globs: ["CLAUDE.md"]
+context_tier: L2
+token_budget: 497
 ---
 # Prompt Caching Strategy
 

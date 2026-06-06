@@ -1,3 +1,8 @@
+---
+context_tier: L3
+token_budget: 1100
+---
+
 # Session Memory Protocol [SPEC-013 + SPEC-016 + SPEC-041]
 
 > Savia extrae y persiste conocimiento valioso ANTES de perderlo.

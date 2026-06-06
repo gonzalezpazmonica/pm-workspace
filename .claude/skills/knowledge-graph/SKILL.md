@@ -12,6 +12,10 @@ context_cost: medium
 category: "communication"
 tags: ["knowledge-graph", "entities", "relations", "queries"]
 priority: "medium"
+consumes:
+  - workspace_files
+produces:
+  - graph_db
 ---
 
 # Skill: knowledge-graph

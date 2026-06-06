@@ -3,6 +3,8 @@ name: Consensus Protocol — Multi-Judge Validation
 description: Orquestación de 3 jueces (reflection, code-review, business) para validar specs y PRs
 globs: ["**/*.md", "**/*.cs", "**/*.ts"]
 context_cost: medium
+context_tier: L2
+token_budget: 875
 ---
 
 # Consensus Protocol — Multi-Judge Validation

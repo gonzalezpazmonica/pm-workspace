@@ -4,6 +4,8 @@ paths:
   - "**/savia-send*"
   - "**/savia-reply*"
   - "**/savia-broadcast*"
+context_tier: L2
+token_budget: 801
 ---
 
 # Configuración de Mensajería — WhatsApp, Nextcloud Talk e Inbox

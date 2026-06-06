@@ -2,6 +2,8 @@
 paths:
   - "**/messaging-whatsapp*"
   - "**/whatsapp*"
+context_tier: L2
+token_budget: 384
 ---
 
 # Anexo: WhatsApp — Configuración Detallada

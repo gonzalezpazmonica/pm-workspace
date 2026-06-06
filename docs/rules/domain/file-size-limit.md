@@ -1,5 +1,7 @@
 ---
 globs: [".opencode/commands/**", ".opencode/agents/**", ".opencode/skills/**", "docs/rules/**"]
+context_tier: L2
+token_budget: 492
 ---
 
 # Regla: Limite de 150 lineas — Solo configuracion del workspace

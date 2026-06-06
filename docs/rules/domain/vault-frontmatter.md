@@ -1,3 +1,8 @@
+---
+context_tier: L3
+token_budget: 1089
+---
+
 # Regla: Frontmatter obligatorio en Vault de proyecto (F1)
 
 > **REGLA INMUTABLE** — Todo `*.md` bajo `projects/*/vault/` DEBE incluir frontmatter YAML válido.

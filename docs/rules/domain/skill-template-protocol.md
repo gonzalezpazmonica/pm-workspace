@@ -1,3 +1,8 @@
+---
+context_tier: L2
+token_budget: 812
+---
+
 # Skill Template Protocol — SE-153
 
 > Plantilla canónica para crear nuevas skills. Patrón "Authoritative Paths First" (inspirado en flowsint). Reduce coste de contexto y elimina inferencia incorrecta de firmas/paths por agentes.

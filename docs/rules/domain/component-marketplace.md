@@ -1,5 +1,7 @@
 ---
 globs: [".opencode/skills/**", ".opencode/agents/**"]
+context_tier: L2
+token_budget: 732
 ---
 
 # Integración pm-workspace con claude-code-templates Marketplace

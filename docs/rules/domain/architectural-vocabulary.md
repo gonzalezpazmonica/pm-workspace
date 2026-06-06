@@ -1,3 +1,8 @@
+---
+context_tier: L3
+token_budget: 1500
+---
+
 # Architectural Vocabulary — Module / Interface / Seam / Adapter / Depth / Locality
 
 > **Pattern alignment**: extiende `attention-anchor.md` (SE-080 Genesis B8 ATTENTION ANCHOR). Vocabulario obligatorio para `architect` y `architecture-judge` agents, y para outputs arquitectónicos (specs, code reviews, refactor plans).

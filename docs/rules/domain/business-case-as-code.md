@@ -1,3 +1,8 @@
+---
+context_tier: L2
+token_budget: 652
+---
+
 # Business-Case-as-Code — Valuation Lifecycle (SE-016)
 
 > Living business cases that agents recompute. Humans decide stop/go.

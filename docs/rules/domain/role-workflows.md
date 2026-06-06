@@ -3,6 +3,8 @@ name: role-workflows
 description: Rutinas diarias y flujos de trabajo específicos por rol del usuario
 auto_load: false
 paths: []
+context_tier: L3
+token_budget: 1470
 ---
 
 # Workflows por Rol — Rutinas Adaptativas de Savia

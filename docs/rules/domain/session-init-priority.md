@@ -3,6 +3,8 @@ name: session-init-priority
 description: Sistema de prioridades para compresión del session-init hook
 auto_load: false
 paths: []
+context_tier: L2
+token_budget: 437
 ---
 
 # Session-Init Priority System

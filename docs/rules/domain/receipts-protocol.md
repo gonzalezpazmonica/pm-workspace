@@ -1,3 +1,8 @@
+---
+context_tier: L3
+token_budget: 1013
+---
+
 # Receipts Protocol — SE-030
 
 > **Receipt-first governance**: toda afirmación de un agente sobre código, spec o decisión debe incluir citas verificables. Inspirado en bytebell sub-4% hallucination paper.

@@ -1,3 +1,8 @@
+---
+context_tier: L2
+token_budget: 770
+---
+
 # Robotics Safety — Reglas de seguridad para el mundo físico
 
 > El código que controla hardware puede causar daño físico.

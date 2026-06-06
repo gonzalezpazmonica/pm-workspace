@@ -1,3 +1,8 @@
+---
+context_tier: L3
+token_budget: 1324
+---
+
 # Regla: Configuración Multi-Entorno
 # ── Soporte para entornos DEV / PRE / PRO (configurable) ────────────────────
 

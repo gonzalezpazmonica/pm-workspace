@@ -6,6 +6,8 @@ paths:
   - "**/Dockerfile"
   - "**/docker-compose*.yml"
   - "**/*.cdktf.*"
+context_tier: L3
+token_budget: 1372
 ---
 
 # Regla: Infrastructure as Code — Soporte Multi-Cloud

@@ -3,6 +3,8 @@ name: example-patterns
 description: Estándar para escribir ejemplos (few-shot) en commands y skills — el tipo de contexto más potente
 auto_load: false
 paths: []
+context_tier: L2
+token_budget: 621
 ---
 
 # Regla: Example Patterns — Few-shot en Commands y Skills

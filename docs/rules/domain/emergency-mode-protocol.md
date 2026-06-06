@@ -1,3 +1,8 @@
+---
+context_tier: L3
+token_budget: 1168
+---
+
 # Emergency Mode Protocol — SPEC-122
 
 > Savia conserva capacidad operativa si la API de Anthropic cae. LocalAI actúa como shim drop-in vía `/v1/messages` (compat Anthropic desde v3.10.0).

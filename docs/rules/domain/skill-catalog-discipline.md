@@ -1,3 +1,8 @@
+---
+context_tier: L3
+token_budget: 1198
+---
+
 # Regla: Skill Catalog Discipline
 
 > Vocabulario y disciplina obligatorios para CADA skill nuevo o modificado en `.opencode/skills/`. Enforced by pr-plan G14 (SE-084 Slice 2). Pattern source: `mattpocock/skills/write-a-skill/SKILL.md` (MIT, clean-room).

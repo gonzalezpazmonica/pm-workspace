@@ -2,6 +2,8 @@
 description: Reglas centralizadas de code review automatizado
 globs:
 context: on-demand
+context_tier: L2
+token_budget: 686
 ---
 
 # Code Review Rules

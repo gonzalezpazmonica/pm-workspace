@@ -1,5 +1,7 @@
 ---
 globs: [".opencode/hooks/**", ".opencode/agents/commit-guardian.md"]
+context_tier: L2
+token_budget: 875
 ---
 
 # Commit Guardian: Checks de Referencia Detallados

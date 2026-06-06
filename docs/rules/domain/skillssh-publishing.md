@@ -2,6 +2,8 @@
 paths:
   - "**/skillssh-*"
   - "**/skills-publish*"
+context_tier: L2
+token_budget: 671
 ---
 
 # skills.sh Publishing — Adaptación de Skills PM-Workspace

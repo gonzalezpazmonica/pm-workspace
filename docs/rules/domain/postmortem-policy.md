@@ -1,5 +1,7 @@
 ---
 globs: ["output/postmortems/**"]
+context_tier: L2
+token_budget: 337
 ---
 # Regla: Postmortem Obligatorio para Incidentes con MTTR > 30 minutos
 

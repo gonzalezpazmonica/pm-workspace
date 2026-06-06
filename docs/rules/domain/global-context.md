@@ -1,3 +1,8 @@
+---
+context_tier: L2
+token_budget: 576
+---
+
 # Global Context — Company DNA for All Agents
 
 > Inspired by FAIR-Perplexica's GLOBAL_CONTEXT pattern.

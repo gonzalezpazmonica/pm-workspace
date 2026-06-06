@@ -1,3 +1,8 @@
+---
+context_tier: L3
+token_budget: 1496
+---
+
 # Pre-Output Rules — TTSR-inspired validator (SE-150)
 
 > **SE-150** — Catálogo de reglas del `pre-output-validator.sh`.

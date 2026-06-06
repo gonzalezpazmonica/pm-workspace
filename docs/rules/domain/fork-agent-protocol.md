@@ -5,6 +5,8 @@ type: domain
 refs:
   - docs/specs/SPEC-FORK-AGENT-PREFIX.spec.md
   - scripts/fork-agents.sh
+context_tier: L3
+token_budget: 997
 ---
 
 # Fork Agent Protocol — Prefijo Cacheable

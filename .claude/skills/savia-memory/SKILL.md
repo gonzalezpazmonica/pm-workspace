@@ -6,6 +6,10 @@ compatibility: opencode
 metadata:
   audience: pm
   workflow: memory-management
+consumes:
+  - session_data
+produces:
+  - memory_entry
 ---
 
 # Skill: savia-memory

@@ -1,3 +1,8 @@
+---
+context_tier: L2
+token_budget: 961
+---
+
 # Regla: Aislamiento de Memoria de Agentes — 3 Niveles
 
 > **REGLA INMUTABLE** — Aplica a TODOS los agentes sin excepcion.

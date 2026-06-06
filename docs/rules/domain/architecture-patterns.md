@@ -4,6 +4,8 @@ description: Catálogo de patrones de arquitectura cross-language con markers de
 developer_type: all
 context_cost: medium
 paths: [".opencode/commands/arch-*.md"]
+context_tier: L3
+token_budget: 1344
 ---
 
 # Patrones de Arquitectura — Referencia Rápida

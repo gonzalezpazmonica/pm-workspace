@@ -3,6 +3,8 @@ paths:
   - "**/*.xlsx"
   - "**/excel-*"
   - "**/time-tracking*"
+context_tier: L2
+token_budget: 537
 ---
 
 # Excel Templates — Estructura de Plantillas CSV

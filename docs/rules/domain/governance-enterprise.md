@@ -3,6 +3,8 @@ name: governance-enterprise
 description: "Enterprise governance matrix (GDPR, AEPD, ISO 27001, EU AI Act), compliance controls, decision registry"
 auto_load: false
 paths: [".opencode/commands/governance-enterprise*", ".opencode/skills/governance-enterprise/*"]
+context_tier: L3
+token_budget: 1352
 ---
 
 # Regla: Gobernanza Empresarial

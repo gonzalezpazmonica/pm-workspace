@@ -1,3 +1,8 @@
+---
+context_tier: L3
+token_budget: 1473
+---
+
 # Tribunal Calibration — Memory feedback loop sin reentreno
 
 > **SPEC**: SPEC-125 seccion 6 (`docs/propuestas/SPEC-125-recommendation-tribunal-realtime.md`)

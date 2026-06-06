@@ -1,6 +1,8 @@
 ---
 name: instincts-protocol
 description: Protocolo de aprendizaje y aplicación de instintos de Savia
+context_tier: L2
+token_budget: 445
 ---
 
 # Instincts Protocol — Aprendizaje Adaptativo

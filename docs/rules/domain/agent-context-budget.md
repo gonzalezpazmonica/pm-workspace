@@ -3,6 +3,8 @@ name: agent-context-budget
 description: Protocolo de budget de tokens para subagentes — control de consumo de contexto
 auto_load: false
 paths: []
+context_tier: L2
+token_budget: 626
 ---
 
 # Agent Context Budget Protocol

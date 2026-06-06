@@ -1,3 +1,8 @@
+---
+context_tier: L3
+token_budget: 1031
+---
+
 # Regla: OpenCode ↔ Savia bridge
 
 > Permite operar pm-workspace desde OpenCode v1.14 sin perder hooks, AUTONOMOUS_REVIEWER ni la base instalada de skills/agents. Vigente desde SE-077 Slice 1+2.

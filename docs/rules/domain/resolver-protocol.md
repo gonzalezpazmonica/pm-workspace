@@ -1,3 +1,8 @@
+---
+context_tier: L2
+token_budget: 699
+---
+
 # Resolver Protocol — SE-160
 
 > Patrón GBrain RESOLVER.md adaptado a pm-workspace. Tabla explícita intent → skill/agent que reduce la carga del contexto central y hace el routing editable sin prompt engineering.

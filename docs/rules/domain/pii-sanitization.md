@@ -1,3 +1,8 @@
+---
+context_tier: L2
+token_budget: 690
+---
+
 # PII Sanitization — Zero Personal Data in Public Repo
 
 > Prioridad: **CRÍTICA** — Aplica a TODO artefacto versionado.

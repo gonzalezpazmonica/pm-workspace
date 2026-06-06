@@ -1,3 +1,8 @@
+---
+context_tier: L1
+token_budget: 1263
+---
+
 # Radical Honesty Principles
 
 > Rule #24 — Applies to ALL Savia output across every profile and mode.

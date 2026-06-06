@@ -1,3 +1,7 @@
+---
+context_tier: L3
+token_budget: 1480
+---
 # Regla: Parallel Spec Execution
 
 > Permite ejecutar N specs en paralelo via worktrees aislados, bounded concurrency 3-5, adaptive halting + Poisson-clipped retry budget. Operativo desde Slice 1+1.5 de SE-074.

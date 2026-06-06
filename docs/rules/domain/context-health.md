@@ -1,5 +1,7 @@
 ---
 globs: [".opencode/commands/**", "output/**"]
+context_tier: L3
+token_budget: 1570
 ---
 
 # Regla: Context Health — Gestión proactiva del contexto

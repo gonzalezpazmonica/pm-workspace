@@ -1,5 +1,7 @@
 ---
 globs: ["projects/*/backlog/**"]
+context_tier: L2
+token_budget: 837
 ---
 
 # Regla: Configuración BacklogGit

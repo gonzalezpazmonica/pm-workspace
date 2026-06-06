@@ -1,3 +1,8 @@
+---
+context_tier: L3
+token_budget: 1631
+---
+
 # Engineering Principles from the Linux Kernel
 
 > Era 211. Distilled from mapping the Linux kernel tree at

@@ -1,3 +1,8 @@
+---
+context_tier: L2
+token_budget: 917
+---
+
 # Neurodivergent Profile Integration — SPEC-061
 
 > Complementa accessibility-output.md con dimensiones neurodivergentes.

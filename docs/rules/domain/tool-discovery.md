@@ -3,6 +3,8 @@ name: tool-discovery
 description: Agrupación semántica de 360+ comandos en capability groups para reducir tool overload
 auto_load: false
 paths: []
+context_tier: L2
+token_budget: 761
 ---
 
 # Regla: Tool Discovery — Capability Groups
