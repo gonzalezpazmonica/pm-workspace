@@ -1,6 +1,6 @@
 {
-  "hash": "d11af6fc35bd",
-  "total": 1207,
+  "hash": "51e505021879",
+  "total": 1208,
   "resources": [
     {
       "category": "analysis",
@@ -2320,6 +2320,20 @@
       "kind": "script",
       "path": "scripts/code-twin-anonymize.sh",
       "description": "code-twin-anonymize.sh — SPEC-190 Slice 8 (AC-14)"
+    },
+    {
+      "category": "development",
+      "name": "code-twin-extract",
+      "intents": [
+        "code",
+        "extract",
+        "slice",
+        "spec",
+        "twin"
+      ],
+      "kind": "script",
+      "path": "scripts/code-twin-extract.sh",
+      "description": "code-twin-extract.sh — SPEC-190 Slice 7"
     },
     {
       "category": "development",

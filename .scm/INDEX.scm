@@ -1,6 +1,6 @@
 # Savia Capability Map — INDEX
-> hash: d3832973103f | resources: 1207
-> 555 commands · 100 skills · 70 agents · 482 scripts
+> hash: c856018d4114 | resources: 1208
+> 555 commands · 100 skills · 70 agents · 483 scripts
 
 [analysis] /a11y-report — accesibilidad,completos,conformidad,código,declaración — cmd:.claude/commands/a11y-report.md
 [analysis] Trace Optimize — across,distributed,optimize,rates,sampling — cmd:.claude/commands/trace-optimize.md
@@ -186,6 +186,7 @@
 [development] code-patterns — catálogo,código,ejemplos,equipo,patterns — cmd:.claude/commands/code-patterns.md
 [development] code-reviewer —  — agent:.claude/agents/code-reviewer.md
 [development] code-twin-anonymize — anonymize,code,slice,spec,twin — script:scripts/code-twin-anonymize.sh
+[development] code-twin-extract — code,extract,slice,spec,twin — script:scripts/code-twin-extract.sh
 [development] code-twin-init — code,estructura,init,proyecto,scaffold — script:scripts/code-twin-init.sh
 [development] code-twin-lint — code,files,index,jsonl,lint — script:scripts/code-twin-lint.sh
 [development] code-twin-load — code,load,slice,spec,twin — script:scripts/code-twin-load.sh
