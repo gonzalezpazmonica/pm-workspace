@@ -1,5 +1,7 @@
 ---
 globs: ["data/confidence-log.jsonl"]
+context_tier: L2
+token_budget: 952
 ---
 
 # Regla: Confidence Calibration Protocol

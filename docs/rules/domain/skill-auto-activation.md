@@ -1,6 +1,8 @@
 ---
 name: skill-auto-activation
 description: Regla para activación inteligente de skills basada en contexto
+context_tier: L2
+token_budget: 895
 ---
 
 # Skill Auto-Activation Protocol

@@ -1,3 +1,8 @@
+---
+context_tier: L2
+token_budget: 902
+---
+
 # Application Code Twin (ACT)
 Spec: SPEC-190 — Gemelo markdown del código fuente. Lee bajo demanda. No sustituye al código — snapshot interpretativo para razonamiento de agentes.
 

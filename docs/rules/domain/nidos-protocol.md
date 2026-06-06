@@ -1,3 +1,8 @@
+---
+context_tier: L2
+token_budget: 648
+---
+
 # Savia Nidos — Parallel Terminal Isolation Protocol
 
 > Each nido is a named git worktree on a local path, isolated from cloud sync.

@@ -1,5 +1,7 @@
 ---
 globs: ["**/*test*", "**/*.cs"]
+context_tier: L3
+token_budget: 1541
 ---
 
 # Test Runner: Coverage Scripts y Comandos por Lenguaje

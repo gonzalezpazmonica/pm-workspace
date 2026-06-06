@@ -1,5 +1,7 @@
 ---
 globs: ["scripts/azdevops-queries.sh"]
+context_tier: L2
+token_budget: 840
 ---
 
 # Migración REST/CLI → MCP — Guía de equivalencias

@@ -1,3 +1,8 @@
+---
+context_tier: L2
+token_budget: 753
+---
+
 # Knowledge Graph — Memoria Savia con aristas tipadas
 
 > SE-162. Engine: `scripts/knowledge-graph.py` (stdlib Python, sin pip deps).

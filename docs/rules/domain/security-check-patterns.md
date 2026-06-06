@@ -1,5 +1,7 @@
 ---
 globs: [".opencode/hooks/**"]
+context_tier: L3
+token_budget: 1018
 ---
 # Seguridad: Patrones de Detección Detallados
 

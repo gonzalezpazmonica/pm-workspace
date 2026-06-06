@@ -1,3 +1,8 @@
+---
+context_tier: L1
+token_budget: 290
+---
+
 # Self-Improvement Loop (Rule #21)
 
 ## Trigger

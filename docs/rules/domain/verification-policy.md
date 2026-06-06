@@ -2,6 +2,8 @@
 name: verification-policy
 description: Mandatory layers for verification. Gates and retry policies.
 context: domain
+context_tier: L2
+token_budget: 757
 ---
 
 # Verification Policy — Mandatory Layers & Gates

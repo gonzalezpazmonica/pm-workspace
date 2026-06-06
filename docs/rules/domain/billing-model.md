@@ -3,6 +3,8 @@ name: billing-model
 description: "Cost Management & Billing — Rate tables, timesheets, budgets, invoices, EAC calculations"
 auto_load: false
 paths: [".opencode/commands/cost-center*", ".opencode/skills/cost-management/*"]
+context_tier: L2
+token_budget: 858
 ---
 
 # Regla: Modelo de Facturación

@@ -1,3 +1,8 @@
+---
+context_tier: L3
+token_budget: 1039
+---
+
 # Ubiquitous Language — Glosario per-proyecto
 
 > SE-086. Skill: `.claude/skills/ubiquitous-language/`. Extractor: `scripts/extract-domain-entities.py`.

@@ -1,6 +1,8 @@
 ---
 name: parallel-execution
 context: global
+context_tier: L2
+token_budget: 602
 ---
 
 # Regla: Ejecución paralela de agentes

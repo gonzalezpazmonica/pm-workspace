@@ -1,3 +1,8 @@
+---
+context_tier: L2
+token_budget: 922
+---
+
 # Test Quality Gate — SLA
 
 > Doctrine document for SE-039 Slice 3 enforcement.

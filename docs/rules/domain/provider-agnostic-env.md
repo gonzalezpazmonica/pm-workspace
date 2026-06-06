@@ -1,3 +1,8 @@
+---
+context_tier: L3
+token_budget: 1119
+---
+
 # Provider-agnostic environment layer (SPEC-127 Slice 1)
 
 > **Rule** — Hooks, scripts and skills MUST resolve workspace path and provider

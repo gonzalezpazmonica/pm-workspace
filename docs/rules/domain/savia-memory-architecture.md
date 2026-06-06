@@ -1,3 +1,8 @@
+---
+context_tier: L3
+token_budget: 1492
+---
+
 # Savia Memory Architecture
 
 > Canonical reference: unified view of all memory layers in pm-workspace.

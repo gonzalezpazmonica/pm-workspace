@@ -7,6 +7,13 @@ context_cost: low
 category: "meta"
 tags: ["template", "scaffold"]
 priority: "low"
+# SE-152: Semantic routing fields (optional — omit if not applicable)
+# consumes:        # inputs que esta skill necesita para ejecutarse
+#   - spec         # valores típicos: spec, pbi, project_slug, sprint_data,
+#   - project_slug #   workspace_files, session_data, task, report, graph_db
+# produces:        # artefactos que esta skill genera como output
+#   - report       # valores típicos: spec, report, implementation, memory_entry,
+#   - CONTEXT.md   #   graph_db, CONTEXT.md, pr, test_suite
 ---
 
 <!--

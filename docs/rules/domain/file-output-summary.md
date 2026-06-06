@@ -1,3 +1,8 @@
+---
+context_tier: L2
+token_budget: 608
+---
+
 # Regla: Resumen por pantalla tras generar fichero de datos
 
 > **REGLA OPERATIVA** — Aplica cuando el usuario solicita datos y Savia genera un fichero como resultado (informes, listados, exports, queries persistidas).

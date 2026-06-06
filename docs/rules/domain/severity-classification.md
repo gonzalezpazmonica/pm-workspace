@@ -1,5 +1,7 @@
 ---
 globs: [".opencode/commands/code-audit*", ".opencode/commands/sprint-review*", ".opencode/commands/pr-*"]
+context_tier: L2
+token_budget: 942
 ---
 # Severity Classification — Rule of Three
 

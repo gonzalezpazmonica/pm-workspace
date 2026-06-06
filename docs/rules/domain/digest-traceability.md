@@ -1,3 +1,8 @@
+---
+context_tier: L3
+token_budget: 1111
+---
+
 # Regla: Trazabilidad de Digestiones — Idempotencia Universal
 
 > **REGLA OBLIGATORIA** — Aplica a TODOS los proyectos y a TODA fuente de datos procesada por Savia.

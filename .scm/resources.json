@@ -1,6 +1,6 @@
 {
-  "hash": "bc76a496436e",
-  "total": 1214,
+  "hash": "bad56180cfc3",
+  "total": 1218,
   "resources": [
     {
       "category": "analysis",
@@ -3901,6 +3901,19 @@
     },
     {
       "category": "development",
+      "name": "tribunal-async-runner",
+      "intents": [
+        "async",
+        "runner",
+        "spec",
+        "tribunal"
+      ],
+      "kind": "script",
+      "path": "scripts/tribunal-async-runner.sh",
+      "description": "tribunal-async-runner.sh — SPEC-159: Async Tribunal Fan-out"
+    },
+    {
+      "category": "development",
       "name": "tribunal-benchmark",
       "intents": [
         "benchmark",
@@ -4192,6 +4205,20 @@
       "kind": "script",
       "path": "scripts/audit-all-bats.sh",
       "description": "audit-all-bats.sh — SE-039 Slice 1 probe: run test-auditor over all .bats."
+    },
+    {
+      "category": "governance",
+      "name": "audit-context-budget",
+      "intents": [
+        "audit",
+        "budget",
+        "context",
+        "slice",
+        "spec"
+      ],
+      "kind": "script",
+      "path": "scripts/audit-context-budget.sh",
+      "description": "audit-context-budget.sh — SPEC-181 Slice 3"
     },
     {
       "category": "governance",
@@ -11159,6 +11186,18 @@
     },
     {
       "category": "planning",
+      "name": "skill-routing-index",
+      "intents": [
+        "index",
+        "routing",
+        "skill"
+      ],
+      "kind": "script",
+      "path": "scripts/skill-routing-index.sh",
+      "description": "skill-routing-index.sh — SE-152"
+    },
+    {
+      "category": "planning",
       "name": "skills-lock",
       "intents": [
         "integrity",
@@ -15491,6 +15530,20 @@
       "kind": "cmd",
       "path": ".claude/commands/testplan-status.md",
       "description": ">"
+    },
+    {
+      "category": "quality",
+      "name": "tool-ergonomics-audit",
+      "intents": [
+        "audit",
+        "auto",
+        "ergonomics",
+        "spec",
+        "tool"
+      ],
+      "kind": "script",
+      "path": "scripts/tool-ergonomics-audit.sh",
+      "description": "tool-ergonomics-audit.sh — SPEC-160: Tool Ergonomics Auto-Audit"
     },
     {
       "category": "quality",

@@ -1,3 +1,8 @@
+---
+context_tier: L2
+token_budget: 515
+---
+
 # PR Signing Protocol — Zero re-sign commits
 
 > Evitar el bucle firma→commit→diff cambiado→firma invalida→re-firmar.

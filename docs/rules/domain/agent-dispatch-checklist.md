@@ -1,5 +1,7 @@
 ---
 globs: [".opencode/agents/**", "CHANGELOG.md"]
+context_tier: L2
+token_budget: 479
 ---
 
 # Regla: Checklist de Dispatch a Agentes

@@ -103,6 +103,32 @@ audit_skill() {
       [[ "$status" == "OK" ]] && status="WARN"
       reasons+=("SKILL.md: no file path reference found")
     fi
+
+    # SE-152: If consumes: or produces: present, values must be non-empty lists
+    local fm_block=""
+    local in_fm=false
+    local se152_line_num=0
+    while IFS= read -r se152_line; do
+      se152_line_num=$((se152_line_num + 1))
+      if [[ $se152_line_num -eq 1 && "$se152_line" == "---" ]]; then in_fm=true; continue; fi
+      if $in_fm && [[ "$se152_line" == "---" ]]; then break; fi
+      $in_fm && fm_block="${fm_block}${se152_line}"$'\n'
+      [[ $se152_line_num -gt 40 ]] && break
+    done < "$skill_md"
+
+    if echo "$fm_block" | grep -q '^consumes:'; then
+      if echo "$fm_block" | grep -qE '^consumes:[[:space:]]*\[\]'; then
+        status="FAIL"
+        reasons+=("SKILL.md: consumes is empty array []")
+      fi
+    fi
+
+    if echo "$fm_block" | grep -q '^produces:'; then
+      if echo "$fm_block" | grep -qE '^produces:[[:space:]]*\[\]'; then
+        status="FAIL"
+        reasons+=("SKILL.md: produces is empty array []")
+      fi
+    fi
   fi
 
   if [[ -f "$domain_md" ]]; then

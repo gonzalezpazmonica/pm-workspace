@@ -1,3 +1,8 @@
+---
+context_tier: L2
+token_budget: 994
+---
+
 # Court External Judges Policy — SPEC-124
 
 > Política para incluir jueces externos (OSS o de terceros) en el Code Review Court de Savia. Diversidad de criterio sin lock-in.

@@ -1,3 +1,8 @@
+---
+context_tier: L2
+token_budget: 884
+---
+
 # MCP Token Overhead — doctrina pm-workspace
 
 > **Regla**: los MCP servers cuestan tokens en CADA mensaje, no solo al arrancar. Auditar + podar + cargar on-demand.

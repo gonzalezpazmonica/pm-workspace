@@ -1,3 +1,8 @@
+---
+context_tier: L3
+token_budget: 1227
+---
+
 # PR Natural-Language Summary — Rule
 
 > Cada PR debe abrir con un párrafo en lenguaje no técnico que cualquier persona pueda leer y entender qué cambia, por qué importa, y qué se gana.

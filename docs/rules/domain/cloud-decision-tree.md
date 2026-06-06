@@ -3,6 +3,8 @@ paths:
   - "**/cloud-*"
   - "**/*.tf"
   - "**/*.bicep"
+context_tier: L2
+token_budget: 896
 ---
 
 # Infrastructure Agent: Cloud Decision Tree y Tier Recommendations

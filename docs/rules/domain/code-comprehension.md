@@ -1,6 +1,8 @@
 ---
 name: code-comprehension
 description: Every dev-session completion SHOULD trigger comprehension report. Code Review E1 includes "debuggable at 3AM?" criterion.
+context_tier: L3
+token_budget: 1121
 ---
 
 # Code Comprehension Rule — Debuggability at 3AM

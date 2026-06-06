@@ -2,6 +2,8 @@
 paths:
   - "**/ai-competency*"
   - "**/competency-*"
+context_tier: L2
+token_budget: 967
 ---
 
 # AI Competency Framework — Habilidades para la Era IA

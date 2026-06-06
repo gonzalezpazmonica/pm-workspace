@@ -1,6 +1,8 @@
 ---
 name: risk-escalation
 description: Escalation policies for code review based on risk score
+context_tier: L2
+token_budget: 484
 ---
 
 # Rule: Risk-Based Escalation

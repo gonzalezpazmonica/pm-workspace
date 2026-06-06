@@ -2,6 +2,8 @@
 paths:
   - "**/wellbeing-*"
   - "**/guardian-*"
+context_tier: L3
+token_budget: 1008
 ---
 
 # Regla: Configuración del Wellbeing Guardian

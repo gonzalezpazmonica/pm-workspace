@@ -1,3 +1,8 @@
+---
+context_tier: L3
+token_budget: 1044
+---
+
 # Secret Redaction Policy — SPEC-142
 
 > **Rule** — `.opencode/plugins/guards/auto-redact-credentials.ts` mutates

@@ -1,3 +1,8 @@
+---
+context_tier: L2
+token_budget: 415
+---
+
 # Review Agents Reporting Policy (SE-066)
 
 > Canonical reference block. Review/judge/auditor agents point here instead of duplicating the body per agent.

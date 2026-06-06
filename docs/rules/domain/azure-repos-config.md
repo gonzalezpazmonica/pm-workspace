@@ -2,6 +2,8 @@
 paths:
   - "**/azure-pipelines*.yml"
   - "**/.azuredevops/**"
+context_tier: L2
+token_budget: 461
 ---
 
 # Regla: Configuración Azure Repos

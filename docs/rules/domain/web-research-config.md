@@ -1,3 +1,8 @@
+---
+context_tier: L2
+token_budget: 592
+---
+
 # Web Research — Configuration and Protocol
 
 > Savia puede buscar en la web para resolver gaps de información pública.

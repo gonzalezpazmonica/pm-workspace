@@ -1,3 +1,8 @@
+---
+context_tier: L3
+token_budget: 1163
+---
+
 # ZeroClaw Sensory Protocol — Ingesta, digestión y persistencia
 
 > Todo dato que entre por ZeroClaw se clasifica, digiere y persiste

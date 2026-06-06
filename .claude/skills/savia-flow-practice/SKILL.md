@@ -10,6 +10,11 @@ globs: []
 category: "pm-operations"
 tags: ["savia-flow", "dual-track", "methodology", "outcomes"]
 priority: "medium"
+consumes:
+  - task
+  - pbi
+produces:
+  - spec
 ---
 
 # Savia Flow — Implementación Práctica

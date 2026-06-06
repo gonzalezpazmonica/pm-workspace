@@ -1,3 +1,8 @@
+---
+context_tier: L3
+token_budget: 1221
+---
+
 # Human Code Maps (.hcm) — Lucha activa contra la deuda cognitiva
 
 > Osmani (2024): devs pasan 58% del tiempo leyendo código. La deuda cognitiva

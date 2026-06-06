@@ -1,5 +1,7 @@
 ---
 globs: ["**/*.tsx", "**/*.jsx", "**/*.vue", "**/*.css", "**/*.scss"]
+context_tier: L2
+token_budget: 757
 ---
 # Visual Quality Gates
 

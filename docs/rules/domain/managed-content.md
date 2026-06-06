@@ -1,5 +1,7 @@
 ---
 globs: ["README.md", "CHANGELOG.md"]
+context_tier: L2
+token_budget: 448
 ---
 
 # Rule: Managed Content Markers — Safe Auto-Generated Content

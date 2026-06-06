@@ -1,3 +1,8 @@
+---
+context_tier: L2
+token_budget: 977
+---
+
 # Hashline Edit Protocol — Stale-File Protection for L3 Agents (SE-149)
 
 > **Rule** — All L3 agents (dotnet-developer, typescript-developer, python-developer,

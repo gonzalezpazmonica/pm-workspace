@@ -1,3 +1,8 @@
+---
+context_tier: L2
+token_budget: 711
+---
+
 # Code Review Court — Multi-Judge Agentic Review
 
 > Era 220. 5 specialized judges review AI-generated code in parallel.

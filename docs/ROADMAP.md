@@ -1,6 +1,6 @@
 # Roadmap Unificado — pm-workspace / Savia
 
-**Updated:** 2026-06-05 | **Version:** v6.17.0 | **555 commands · 70 agents · 101 skills · 75 hooks · 390 test suites · Active backlog 19 items (~118h)** — ver `## Active Stack — 2026-06-05`
+**Updated:** 2026-06-06 | **Version:** v6.18.0 | **556 commands · 70 agents · 102 skills · 75 hooks · 411 test suites · Active backlog 12 items (~85h)** — ver `## Active Stack — 2026-06-06`
 
 ---
 
@@ -292,7 +292,7 @@ Era exprés (1 día). Trigger: tras Era 186 hook ratchet closure, audit profunda
 
 **Era 188 — Foundations (in progress; cierra cuando PR #717 merge)**:
 - ✅ **SE-072** Verified Memory Axiom — IMPLEMENTED batch 57
-- **SE-073** Memory Index Cap Tiered — APPROVED (M 4h)
+- **SE-073** Memory Index Cap Tiered — **IMPLEMENTED** (M 4h)
 - **SE-074** Parallel spec execution — APPROVED (M 8h Slice 1 + S 3h Slice 1.5 + S 4h Slice 2 + M 6h Slice 3 = L 21h)
 - **SE-075** Voicebox adoption — Slices 1+2 IMPLEMENTED 2026-04-27 (task-queue.py + savia-voice-chunk.sh + sentence-splitter.py, BATS 53/53 certified); Slice 3 (Kokoro 82M CPU) DEFERRED — requires explicit user authorization for ~500MB model download
 - **SE-076** QueryWeaver patterns — IMPLEMENTED 2026-04-27 (3 slices: episodic memory + AzDo schema graph + LLM healer; AC-08/09/12 follow-up evolutivo)
@@ -622,7 +622,7 @@ Specs APPROVED antes de 2026-04-26 NO requieren la sección retroactivamente. SE
 | Status | Count | Notas |
 |--------|-------|-------|
 | Implemented (merged) | ~100 | incl. SPEC-125, 155, 156 (slices 1+2), 158, 180, 184, 185, 186, SE-081/082/083/084/086/089/091/092/093/094/100/104/153/160/161/162/167 |
-| Proposed (active backlog) | 19 | ver `## Active Stack — 2026-06-05` |
+| Proposed (active backlog) | 12 | ver `## Active Stack — 2026-06-06` |
 | Approved (no PR yet) | ~5 | SPEC-OPC-AGENTSYNC, SPEC-SCM-COVERAGE, SPEC-SCM-FRESHCHECK, SPEC-OPC-CROSS-AUDIT |
 | Research / time-boxed | 2 | SPEC-023, SPEC-027, SPEC-162 (self-evolving tools) |
 | Archive | 24 | renumbered/superseded — ver `docs/propuestas/archive/` |
@@ -690,92 +690,62 @@ Google Sheets · ServiceNow/SAP · Tableau · Kafka · VS Code ext · Cloud voic
 
 ---
 
-## Active Stack — 2026-06-05 (supersedes 2026-06-04)
+## Active Stack — 2026-06-06 (supersedes 2026-06-05)
 
-> Limpieza: 3 bloques de repriorización previos colapsados aquí. Estado verificado contra `git log` + PRs merged.
+> Estado verificado contra `git log` + PRs #816→#824 merged.
 > Criterio: scoring canónico (PM Impact 30% · Anti lock-in 25% · FOSS 20% · Inverse complexity 15% · Flow 10%).
 
-### Recientemente cerrado (2026-05-27 → 2026-06-05)
+### Recientemente cerrado (2026-06-05 → 2026-06-06)
 
 | ID | Título | Cerrado vía |
 |---|---|---|
-| SPEC-155 | Plugin hook args shape fix | PR #787, #795 |
-| SPEC-156 | Token Budget Frontmatter (Slices 1+2) | PR #790, #791 |
-| SPEC-186 | Double opt-in autonomous gates | PR #796 |
-| SE-160 | RESOLVER.md dispatch | PR #797 |
-| SE-161 | PROTECTED_JOB_NAMES | PR #789 |
-| SE-153 | Template SKILL.md authoritative paths | PR #798 |
-| SE-162 | Knowledge Graph memoria Savia | PR #801 |
-| SE-167 | Skill Maturity Kanban | PR #800 |
-| SE-086 | Ubiquitous-language extractor | PR #802 |
-| SE-082, SE-083, SE-084 | Vocabulary + TDD + skill audit | PR #720, #721 |
-| SE-081 | Pocock skills | PR #719, #753 |
-| SE-089 | SaviaClaw DeepSeek | PR #750 |
-| SE-091 | Caveman always-on + tribunal hooks | PR #803 |
-| SE-092 | ADO bridge | PR #761 |
-| SE-093, SE-094, SE-100, SE-104 | Zero-leak + hooks integrity + docs migration + ethical principles | PR #783, #785 |
-| SPEC-185 | Critical-facts 150-token cap + validator | PR #806 |
-| SPEC-180 | Sentinel markers @generated/@user safe-regen | PR #807 |
-| SPEC-184 | Write-time non-blocking validators | PR #808 |
-| SPEC-158 | /decide-architecture workflow vs agent gate | PR #809 |
-| SPEC-125 Slices 1-3 | Recommendation Tribunal + expertise asymmetry + memory feedback loop | PR #812, #813 |
-| SPEC-157 | Context Pre-Flight Check — multi-source token estimator + PreToolUse hook | PR #814 |
+| SPEC-190 Slices 1-9 | Application Code Twin completo | PR #816→#822 |
+| SPEC-SCM-COVERAGE/AGENTSYNC/FRESHCHECK | Era 191 foundation fixes | PR #823 |
+| SPEC-OPC-CROSS-AUDIT | opencode-cross-audit.sh drift detection | PR #823 |
+| SPEC-OPC-VENDOR-REFS | Vendor-agnostic docs (83 ficheros) | PR #823 |
+| SE-081/082/083 | Pocock skills + arch vocabulary + TDD skill | PR #823 |
+| SE-084 Slices 1+2 | Skill catalog auditor + G14 gate | PR #823 |
+| SE-086 Slices 1+2 | Ubiquitous-language extractor + KG bridge | PR #823 |
+| SE-085/087 | Write-a-skill + design-an-interface skills | PR #824 |
+| SE-091 | Caveman always-on + auto tribunal hooks | PR #824 |
+| SE-093 | Zero project leakage isolation check | PR #824 |
+| SE-094 | Documentation health auditor | PR #824 |
 
-### Tier 1 — Wave 1 Era 199 — CERRADO (SPEC-180 + SPEC-184 + SPEC-185 merged PR #806/807/808)
+### Tier 1 — Inmediato (workspace, sin deps externas, total ~30h)
 
-### Tier 1 — Wave 1 Era 200 (causal architecture, meta-spec + sub-specs)
-
-| # | ID | Título | Esfuerzo | Notas |
+| # | ID | Título | Esfuerzo | Prioridad |
 |---|---|---|---|---|
-| - | SPEC-188 | Root-Cause Investigation Architecture (meta-spec) | 6-8h (doc) · ~80-120h impl | P0. Coordina SPEC-043/065/108/125 + 5 piezas nuevas. Fase 0 cierra hallazgo G3 (feedback_root_cause_always.md). |
+| 1 | SE-151 | Índice físico project_id grafo memoria | 3h | **IMPLEMENTED** |
+| 2 | SE-152 | Frontmatter consumes/produces en SKILL.md | 6h | **IMPLEMENTED** |
+| 3 | SPEC-181 | L0-L3 context budgets por tier | 4-6h | **IMPLEMENTED** |
+| 4 | SPEC-159 | Async Tribunal Fan-out | 8h | **IMPLEMENTED** |
+| 5 | SPEC-160 | Tool Ergonomics Auto-Audit | 5h | **IMPLEMENTED** |
+| 6 | SE-073 | Memory Index Cap Tiered | 4h | **IMPLEMENTED** |
 
-### Tier 2 — Era 198 abierta (Anthropic Effective Agents, total 30h)
+### Tier 2 — Specs grandes (workspace, total ~30h)
 
-| # | ID | Título | Esfuerzo | Deps |
+| # | ID | Título | Esfuerzo | Prioridad |
 |---|---|---|---|---|
-| 1 | SPEC-169 | Project Twin artefacto versionado | 11h | SPEC-156 ✓ + zero-leakage ✓ — IN_REVIEW PR #815 |
-| 2 | SPEC-159 | Async Tribunal Fan-out | 8h | — |
-| 3 | SPEC-160 (tool-erg) | Tool Ergonomics Auto-Audit | 5h | — |
+| 7 | SPEC-169 | Project Twin artefacto versionado | 11h | ALTA — IN_REVIEW PR #815 |
+| 8 | SPEC-188 | Root-Cause Investigation Architecture | 6-8h doc · ~80h impl | PROPOSED P0 |
+| 9 | SPEC-182 | Bitemporal timeline frontmatter | 6-8h | MEDIA — zero deps |
+| 10 | SPEC-183 | Reconciliation 3-bucket | 5-7h | MEDIA — dep SPEC-182 |
+| 11 | SE-088-UA-ADOPT | Understand-Anything knowledge graphs | ~90 min | ALTA — multiplicador |
 
-### Tier 1A — Era 199 Wave 1 (Application Code Twin, total ~32h)
+### Tier 3 — SaviaClaw (requiere sistema externo, total ~25h)
 
-| # | ID | Título | Esfuerzo | Deps |
+| # | ID | Título | Esfuerzo | Prioridad |
 |---|---|---|---|---|
-| 1 | SPEC-190 | Application Code Twin — Gemelo Inteligente de Código | 28-35h | SPEC-169 ✓ (IN_REVIEW) + SPEC-156 ✓ |
+| 11 | SE-089-SC-DEEPSEEK | Provider-agnostic LLM + DeepSeek migration | ~120 min | CRITICA |
+| 12 | SE-095/096/097 | SaviaClaw self-monitoring + cron + streaming | ~135 min | CRITICA |
 
-### Tier 3 — Era 197 Flowsint + Wave 2/3 Era 199 (multiplicadores, total ~24h)
+### Decisión operativa
 
-| # | ID | Título | Esfuerzo | Deps |
-|---|---|---|---|---|
-| 9 | SE-151 | Índice físico project_id grafo memoria | 3h | SE-162 ✓ |
-| 10 | SE-152 | Frontmatter consumes/produces en SKILL.md | 6h | SE-084 ✓ |
-| 11 | SPEC-181 | L0-L3 context budgets por tier | 4-6h | SPEC-180 ✓ |
-| 12 | SPEC-182 | Bitemporal timeline frontmatter | 6-8h | — |
-| 13 | SPEC-183 | Reconciliation 3-bucket | 5-7h | SPEC-182 |
+1. **Ahora**: Tier 1 items 1-4 (SE-151/152/SPEC-181/159) — todos workspace-only, sin deps externas.
+2. **Siguiente**: SPEC-169 (cerrar PR #815) → SE-088-UA-ADOPT.
+3. **Después**: Tier 3 SaviaClaw cuando haya acceso al sistema.
 
-### Tier 4 — Memoria, calidad, SaviaClaw (alta complejidad, total ~52h)
-
-| # | ID | Título | Esfuerzo | Notas |
-|---|---|---|---|---|
-| 14 | SE-163 | Dream cycle upgrade (Haiku pre-filter) | 6h | -70% coste overnight-sprint |
-| 15 | SE-170 | Transclusion macros en SKILL.md | 3h | Post SE-084 ✓ |
-| 16 | SE-171 | Contradiction detector sobre memoria | 8h | Post SE-162 ✓ + SE-151 |
-| 17 | SE-172 | markitdown capa 0 digestión universal | 6h | MIT, refactor 6 digest-agents |
-| 18 | SE-095 | SaviaClaw self-monitoring | 5h | Post SE-089 ✓ |
-| 19 | SE-096 | SaviaClaw cron infrastructure | 6h | Post SE-095 |
-| 20 | SE-165 | /workspace-health scoring + remediate | 8h | Script base ya existe |
-| 21 | SE-166 | Skill Calibration Pipeline (uplift) | 12h | Requiere corpus evals |
-| 22 | SE-168 | Negative demos para skills críticas | ~4h | Post SE-166 |
-| 23 | SE-169 | Token pruning evidencia uplift | ~6h | Post SE-166 |
-| 24 | SPEC-162 | Self-Evolving Tools (research) | 12h | Time-boxed, go/no-go |
-
-### Decisión operativa (próximas 3 sesiones)
-
-1. **Sprint inmediato**: Tier 2 — SPEC-169 (IN_REVIEW PR #815) → SPEC-190 Slice 1 (arrancar en rama propia).
-2. **Sprint siguiente**: SPEC-159 (8h, zero deps) → SPEC-160 (5h, zero deps).
-3. **Después**: SPEC-190 Slices 2-9 + Tier 3 en orden (SE-151 → SE-152 → SPEC-181/182).
-
-### Total backlog activo: ~118h (19 items)
+### Total backlog activo: ~85h (12 items agrupados)
 
 ---
 
@@ -798,8 +768,8 @@ Google Sheets · ServiceNow/SAP · Tableau · Kafka · VS Code ext · Cloud voic
 
 | # | ID | Propuesta | Status | Esfuerzo | Notas |
 |---|----|-----------|--------|----------|-------|
-| 4 | SPEC-159 | Async Tribunal Fan-out | PROPOSED | 8h | Tier 2D. court + truth-tribunal a Promise.all. |
-| 5 | SPEC-160 | Tool Ergonomics Auto-Audit | PROPOSED | 5h | Tier 2E. Script mensual, limite 3 PRs/mes. |
+| 4 | SPEC-159 | Async Tribunal Fan-out | **IMPLEMENTED** | 8h | Tier 2D. court + truth-tribunal a Promise.all. |
+| 5 | SPEC-160 | Tool Ergonomics Auto-Audit | **IMPLEMENTED** | 5h | Tier 2E. Script mensual, limite 3 PRs/mes. |
 
 ### Tier 3 — LOW (research backlog, total 12h)
 
@@ -843,7 +813,7 @@ Archivos: `docs/propuestas/SPEC-156..160-*.md` + `SPEC-162-self-evolving-tools-r
 
 | # | ID | Propuesta | Status | Prioridad | Esfuerzo | Deps |
 |---|----|-----------|--------|-----------|----------|------|
-| 5 | SPEC-181 | L0-L3 context token budgets por tier | PROPOSED | P2 | 4-6h | SPEC-180 |
+| 5 | SPEC-181 | L0-L3 context token budgets por tier | **IMPLEMENTED** | P2 | 4-6h | SPEC-180 |
 | 6 | SPEC-182 | Bitemporal timeline frontmatter | PROPOSED | P2 | 6-8h | — |
 
 ### Wave 3 — Dependiente de Wave 2 (total 5-7h)

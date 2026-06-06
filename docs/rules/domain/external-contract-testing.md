@@ -1,3 +1,8 @@
+---
+context_tier: L2
+token_budget: 574
+---
+
 # External Contract Testing
 
 > Trabajo derivado de SPEC-155 (silent security regression detectada 2026-05-30 tras migración OpenCode v1.14+).

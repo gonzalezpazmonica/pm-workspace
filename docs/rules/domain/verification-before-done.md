@@ -1,3 +1,8 @@
+---
+context_tier: L2
+token_budget: 804
+---
+
 # Verification Before Done (Rule #22)
 
 ## Principle

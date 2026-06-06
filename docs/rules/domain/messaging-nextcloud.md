@@ -2,6 +2,8 @@
 paths:
   - "**/messaging-nextcloud*"
   - "**/nextcloud*"
+context_tier: L2
+token_budget: 415
 ---
 
 # Anexo: Nextcloud Talk — Configuración Detallada

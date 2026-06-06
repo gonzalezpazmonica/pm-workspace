@@ -1,5 +1,7 @@
 ---
 globs: ["data/evals/**"]
+context_tier: L2
+token_budget: 438
 ---
 
 # Política de Evaluaciones — Automatización y Alertas

@@ -1,3 +1,8 @@
+---
+context_tier: L2
+token_budget: 923
+---
+
 # Security Scanners — catálogo y uso
 
 > Inventario de scanners de seguridad del workspace. Complementa Savia Shield + PII + confidentiality stack.

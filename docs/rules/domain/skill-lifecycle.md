@@ -1,3 +1,8 @@
+---
+context_tier: L2
+token_budget: 480
+---
+
 # Regla: Ciclo de Vida de Skills
 
 > Inspirado en Everything Claude Code: continuous learning loop con 100+ skills.

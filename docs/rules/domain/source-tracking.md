@@ -1,5 +1,7 @@
 ---
 globs: [".opencode/commands/**", "docs/rules/domain/**"]
+context_tier: L2
+token_budget: 557
 ---
 # Source Tracking — Trazabilidad de Fuentes
 

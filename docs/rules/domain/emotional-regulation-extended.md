@@ -1,3 +1,8 @@
+---
+context_tier: L2
+token_budget: 822
+---
+
 # Savia Emotional Regulation — Extended Protocol (Parts 3-5)
 
 > Companion to `emotional-regulation.md` (Parts 1-2).

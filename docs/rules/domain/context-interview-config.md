@@ -2,6 +2,8 @@
 paths:
   - "**/context-interview*"
   - "**/interview-*"
+context_tier: L3
+token_budget: 1013
 ---
 
 # Regla: Configuración del Asistente de Análisis de Contexto

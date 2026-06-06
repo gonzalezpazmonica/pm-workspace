@@ -1,3 +1,8 @@
+---
+context_tier: L2
+token_budget: 538
+---
+
 # Regla: CodeGraph — Confidencialidad y gitignore obligatorio
 
 > **REGLA INMUTABLE** — Complementa Rule #20 (PII-Free) y zero-project-leakage.md.

@@ -3,6 +3,8 @@ name: Changelog Enforcement
 description: Fuerza la actualización de CHANGELOG.md con cada nueva versión y PR de feature
 globs: ["CHANGELOG.md", ".opencode/commands/*.md", ".opencode/skills/*/SKILL.md", "docs/rules/domain/*.md"]
 context_cost: low
+context_tier: L2
+token_budget: 659
 ---
 
 # Regla: Actualización obligatoria de CHANGELOG.md

@@ -1,5 +1,7 @@
 ---
 globs: ["projects/*/policies/**"]
+context_tier: L2
+token_budget: 435
 ---
 # Regla: Configuración de Puertas SDLC
 

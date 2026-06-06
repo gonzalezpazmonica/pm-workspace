@@ -25,7 +25,7 @@ output_max_tokens: 1000
 You orchestrate the Code Review Court. Your job:
 
 1. **Gate**: check diff size ≤ COURT_MAX_LOC (400). If over, FAIL with slicing guidance.
-2. **Convene**: launch 5 judge subagents in parallel via Task, each with isolated context.
+2. **Convene**: launch 5 judge subagents in parallel via Task, each with isolated context. Follow async fan-out protocol: `docs/rules/domain/tribunal-async-protocol.md` (SPEC-159).
 3. **Collect**: gather all 5 verdicts.
 4. **Consolidate**: compute score = 100 - (C×25 + H×10 + M×3 + L×1). Determine verdict.
 5. **Produce**: write `.review.crc` file with all findings, per-file SHA-256, signature.

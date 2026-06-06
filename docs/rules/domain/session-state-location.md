@@ -1,3 +1,8 @@
+---
+context_tier: L2
+token_budget: 535
+---
+
 # Session State — Ubicación canónica
 
 > **Rule** — El estado de sesión (RESUME, handoffs entre turnos largos, memoria

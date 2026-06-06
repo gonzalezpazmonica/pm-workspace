@@ -5,6 +5,8 @@ paths:
   - "**/Dockerfile"
   - "**/docker-compose*"
   - "**/infrastructure-*"
+context_tier: L2
+token_budget: 856
 ---
 
 # Anexo: IaC — Patrones Multi-Cloud Detallados

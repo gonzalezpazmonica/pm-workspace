@@ -2,6 +2,8 @@
 paths:
   - "**/client-profile*"
   - "**/client-*"
+context_tier: L2
+token_budget: 806
 ---
 
 # Regla: Configuración de Perfiles de Cliente

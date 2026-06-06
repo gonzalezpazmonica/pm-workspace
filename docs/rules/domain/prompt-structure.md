@@ -3,6 +3,8 @@ name: prompt-structure
 description: Alineación con la estructura de 10 capas de prompt óptimo — reasoning guidance y output templates
 auto_load: false
 paths: []
+context_tier: L2
+token_budget: 664
 ---
 
 # Regla: Prompt Structure — Razonamiento guiado y templates de output

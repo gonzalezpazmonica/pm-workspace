@@ -3,6 +3,8 @@ name: community-protocol
 description: Guardrails de privacidad y protocolo para interacción comunitaria con GitHub
 auto_load: false
 paths: []
+context_tier: L2
+token_budget: 954
 ---
 
 # Protocolo de Comunidad — Guardrails de Privacidad

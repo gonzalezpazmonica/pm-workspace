@@ -1,5 +1,7 @@
 ---
 globs: [".opencode/commands/**"]
+context_tier: L2
+token_budget: 630
 ---
 
 # Regla: UX Feedback — Estándares de retroalimentación para comandos

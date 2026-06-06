@@ -1,3 +1,8 @@
+---
+context_tier: L2
+token_budget: 919
+---
+
 # Truth Tribunal — Weights by Report Type (SPEC-106)
 
 Pesos aplicados al score consolidado de los 7 jueces segun `report_type`.

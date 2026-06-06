@@ -4,6 +4,8 @@ description: Adapta el lenguaje de code reviews para ser constructivo y respetuo
 type: domain
 auto_load: false
 load_trigger: "/pr-review OR /spec-verify OR /spec-review OR accessibility.review_sensitivity == true"
+context_tier: L2
+token_budget: 930
 ---
 
 # Regla de Revisión Inclusiva

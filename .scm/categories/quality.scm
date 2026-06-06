@@ -1,5 +1,5 @@
 # quality — Savia Capability Map (L1)
-> 231 resources
+> 232 resources
 
 - **/a11y-audit** (cmd): Auditoría de accesibilidad WCAG 2.2 completa con escaneo de HTML/componentes. Detecta: alt text faltante, problemas de contraste, navegación por teclado, etiquetas ARIA, gestión de focus, jerarquía de encabezados, etiquetas de formularios.
 - **/a11y-fix** (cmd): Correcciones automáticas de accesibilidad con verificación y preview. Genera código de fix para issues detectados por /a11y-audit. Preview antes de aplicar. Verifica que no introduce nuevos problemas. Covers: alt text, ARIA attributes, focu
@@ -223,6 +223,7 @@
 - **testplan-generate** (cmd): Generación de plan de pruebas desde specs SDD o PBIs
 - **testplan-results** (cmd): >
 - **testplan-status** (cmd): >
+- **tool-ergonomics-audit** (script): tool-ergonomics-audit.sh — SPEC-160: Tool Ergonomics Auto-Audit
 - **twin-linter** (script): twin-linter.sh — Valida twin.md contra schema SPEC-169
 - **verification-lattice** (skill): Usar cuando se necesita verificación multi-capa más allá del code review estándar.
 - **visual-digest** (agent): Digestión de imágenes con OCR contextual — 5 pasadas. Fotos de pizarras, notas manuscritas, diagramas en papel, capturas de reuniones. Usa contexto REAL del proyecto para resolver ambigüedades. PROACTIVELY cuando se detectan imágenes en car

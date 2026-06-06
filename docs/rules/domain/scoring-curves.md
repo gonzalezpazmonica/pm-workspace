@@ -1,5 +1,7 @@
 ---
 globs: [".opencode/commands/code-audit*", ".opencode/commands/sprint-review*"]
+context_tier: L3
+token_budget: 1039
 ---
 # Scoring Curves — Piecewise Linear Normalization
 
