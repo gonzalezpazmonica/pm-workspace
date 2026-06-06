@@ -63,7 +63,7 @@ esac
 # SE-073: if MEMORY_DIR does not exist, try to create it; exit 1 on failure
 if [[ ! -d "${MEMORY_DIR}" ]]; then
   if ! mkdir -p "${MEMORY_DIR}" 2>/dev/null; then
-    echo "memory-tier-rotate: ERROR — MEMORY_DIR not found and cannot be created: ${MEMORY_DIR}" >&2
+    echo "memory-tier-rotate: ERROR — MEMORY_DIR no existe y no se puede crear: ${MEMORY_DIR}" >&2
     exit 1
   fi
 fi
