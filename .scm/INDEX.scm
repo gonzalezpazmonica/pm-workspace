@@ -1,6 +1,6 @@
 # Savia Capability Map — INDEX
-> hash: cd0959d21b87 | resources: 1205
-> 555 commands · 100 skills · 70 agents · 480 scripts
+> hash: c856018d4114 | resources: 1208
+> 555 commands · 100 skills · 70 agents · 483 scripts
 
 [analysis] /a11y-report — accesibilidad,completos,conformidad,código,declaración — cmd:.claude/commands/a11y-report.md
 [analysis] Trace Optimize — across,distributed,optimize,rates,sampling — cmd:.claude/commands/trace-optimize.md
@@ -185,10 +185,13 @@
 [development] code-improvement-loop — autónoma,código,ejecutar,mejora,plano — skill:.claude/skills/code-improvement-loop/SKILL.md
 [development] code-patterns — catálogo,código,ejemplos,equipo,patterns — cmd:.claude/commands/code-patterns.md
 [development] code-reviewer —  — agent:.claude/agents/code-reviewer.md
+[development] code-twin-anonymize — anonymize,code,slice,spec,twin — script:scripts/code-twin-anonymize.sh
 [development] code-twin-extract — code,extract,slice,spec,twin — script:scripts/code-twin-extract.sh
 [development] code-twin-init — code,estructura,init,proyecto,scaffold — script:scripts/code-twin-init.sh
 [development] code-twin-lint — code,files,index,jsonl,lint — script:scripts/code-twin-lint.sh
+[development] code-twin-load — code,load,slice,spec,twin — script:scripts/code-twin-load.sh
 [development] code-twin-simulate — code,simulate,slice,spec,twin — script:scripts/code-twin-simulate.sh
+[development] code-twin-sync-check — check,code,slice,spec,sync — script:scripts/code-twin-sync-check.sh
 [development] code-twin-validate-spec — code,slice,spec,twin,validate — script:scripts/code-twin-validate-spec.sh
 [development] codebase-map — agentes,comandos,dependencias,generar,internas — cmd:.claude/commands/codebase-map.md
 [development] codebase-map — agentes,comandos,dependencias,mapa,reglas — skill:.claude/skills/codebase-map/SKILL.md
