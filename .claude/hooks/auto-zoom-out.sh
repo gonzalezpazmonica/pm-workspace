@@ -1,23 +1,13 @@
 #!/bin/bash
+# auto-zoom-out.sh — SE-091 Slice 2: inject zoom-out context on architecture edits
+# Ref: SPEC-SE-091-CAVEMAN-ALWAYS, docs/rules/domain/caveman-default.md
 set -uo pipefail
-# auto-zoom-out.sh — PreToolUse: inyecta zoom-out constraints al editar arquitectura
-# Non-blocking. Se dispara antes de Edit/Write sobre archivos de arquitectura/docs.
 
-TOOL="${1:-}"
-FILE_PATH="${2:-}"
+TOOL_NAME="${OPENCODE_TOOL_NAME:-}"
+FILE_PATH="${OPENCODE_TOOL_INPUT_PATH:-${OPENCODE_TOOL_INPUT_FILE_PATH:-}}"
 
-# Solo para herramientas que modifican archivos
-[[ "$TOOL" != "Edit" && "$TOOL" != "Write" ]] && exit 0
+[[ "$TOOL_NAME" =~ ^(Edit|Write)$ ]] || exit 0
+[[ "$FILE_PATH" =~ (docs/architecture|docs/propuestas|\.arch\.md|ROADMAP\.md|SPEC-.*\.md) ]] || exit 0
 
-# Archivos de arquitectura y documentacion estructural
-[[ "$FILE_PATH" =~ docs/(architecture|propuestas|specs|rules)/ ]] || \
-[[ "$FILE_PATH" =~ \.(arch|design)\.md$ ]] || \
-[[ "$FILE_PATH" =~ (ROADMAP|ARCHITECTURE)\.md$ ]] || exit 0
-
-# Inyectar instruccion zoom-out en stderr para que el LLM la vea
-cat >&2 << 'ZOOMOUT'
-[zoom-out auto] Editing architecture/doc. Before changing: what dependencies does this affect?
-What second-order effects? What else would break? Map the impact, then write.
-ZOOMOUT
-
-exit 0
+echo "[auto-zoom-out] Zoom out: what dependencies does this affect? Second-order effects? What would break?" >&2
+exit 0  # WARN only — never block

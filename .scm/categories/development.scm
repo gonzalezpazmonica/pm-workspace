@@ -1,5 +1,5 @@
 # development — Savia Capability Map (L1)
-> 164 resources
+> 165 resources
 
 - **/a11y-monitor** (cmd): Monitorización continua de regresiones de accesibilidad. Integración en CI/CD. Alertas cuando score baja por debajo de threshold. Digest semanal. Previene regresiones bloqueando deploys con fallos a11y.
 - **/speckit.checklist** (cmd): Alias spec-kit compatible. Gate de calidad final con verification-lattice multi-capa. Invoca skill verification-lattice. Compatible con github/spec-kit.
@@ -52,6 +52,7 @@
 - **dag-typing-validate** (script): dag-typing-validate.sh — SE-034 Slice 1 prototype validator.
 - **decide-architecture** (script): decide-architecture.sh — SPEC-158
 - **deps-validate** (script): deps-validate.sh — SPEC-SE-020 Slice 1 schema validator for deps.yaml.
+- **design-an-interface** (skill): Skill para disenar una interfaz con N=3 alternativas en paralelo y recomendar la mejor segun vocabulario arquitectonico del proyecto.
 - **dev-orchestrator** (agent): Analiza specs y crea planes de implementación con slices, dependencias y presupuestos de contexto
 - **dev-session** (cmd): Orquestar desarrollo de un spec mediante 5 fases con aislamiento de contexto y persistencia en disco
 - **dev-session-discard** (script): dev-session-discard.sh — Discard a dev-session cleanly

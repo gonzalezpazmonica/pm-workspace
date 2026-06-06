@@ -45,6 +45,7 @@ To use a skill: read `<path>` and follow its instructions.
 | context-task-classifier | `.opencode/skills/context-task-classifier/SKILL.md` | Usar antes de compactar contexto para clasificar la tarea del turno actual. |
 | cost-management | `.opencode/skills/cost-management/SKILL.md` | Usar cuando se gestionan timesheets, presupuestos, facturas o forecasting de costes. |
 | dag-scheduling | `.opencode/skills/dag-scheduling/SKILL.md` | Usar cuando se orquestan múltiples agentes SDD con dependencias entre ellos. |
+| design-an-interface | `.opencode/skills/design-an-interface/SKILL.md` | Skill para disenar una interfaz con N=3 alternativas en paralelo y recomendar la mejor segun voca... |
 | developer-experience | `.opencode/skills/developer-experience/SKILL.md` | Usar cuando se mide o mejora la experiencia de desarrollo del equipo. |
 | devops-validation | `.opencode/skills/devops-validation/SKILL.md` | Usar cuando se conecta un proyecto nuevo a Azure DevOps para validar su configuración Agile. |
 | diagram-generation | `.opencode/skills/diagram-generation/SKILL.md` | Usar cuando se necesita generar diagramas de arquitectura o flujo desde código o infraestructura. |
@@ -115,4 +116,5 @@ To use a skill: read `<path>` and follow its instructions.
 | weekly-report | `.opencode/skills/weekly-report/SKILL.md` | Usar cuando se genera el informe semanal de estado del proyecto. |
 | wellbeing-guardian | `.opencode/skills/wellbeing-guardian/SKILL.md` | Usar cuando se monitorizan señales de bienestar individual en el equipo. |
 | workspace-integrity | `.opencode/skills/workspace-integrity/SKILL.md` | Usar cuando se audita la integridad del workspace (drift, reglas, agentes, baseline). |
+| write-a-skill | `.opencode/skills/write-a-skill/SKILL.md` | Guia para crear una nueva skill correctamente en pm-workspace. Usar cuando una tarea se repite 2+... |
 | zoom-out | `.opencode/skills/zoom-out/SKILL.md` | Elevates perspective from trees to forest. Maps architecture, dependencies, and second-order effe... |
