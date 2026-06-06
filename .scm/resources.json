@@ -1,6 +1,6 @@
 {
-  "hash": "619f23d3d1e0",
-  "total": 1204,
+  "hash": "63c8fcfdcecd",
+  "total": 1205,
   "resources": [
     {
       "category": "analysis",
@@ -2362,6 +2362,20 @@
       "kind": "script",
       "path": "scripts/code-twin-simulate.sh",
       "description": "code-twin-simulate.sh — SPEC-190 Slice 5"
+    },
+    {
+      "category": "development",
+      "name": "code-twin-validate-spec",
+      "intents": [
+        "code",
+        "slice",
+        "spec",
+        "twin",
+        "validate"
+      ],
+      "kind": "script",
+      "path": "scripts/code-twin-validate-spec.sh",
+      "description": "code-twin-validate-spec.sh — SPEC-190 Slice 6"
     },
     {
       "category": "development",
