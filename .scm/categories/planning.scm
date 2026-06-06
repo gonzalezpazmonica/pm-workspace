@@ -1,5 +1,5 @@
 # planning — Savia Capability Map (L1)
-> 529 resources
+> 532 resources
 
 - **/accreditation-track** (cmd): >
 - **/decide-architecture** (cmd): Clasifica una tarea como WORKFLOW (deterministica) o AGENT (loop). Bias hacia workflow per Anthropic. Sugiere plantilla inicial. Mide accuracy contra corpus curado de 20 tareas.
@@ -323,9 +323,11 @@
 - **profile-setup** (cmd): Savia te conoce — configuración del perfil en conversación natural.
 - **profile-show** (cmd): Savia muestra tu perfil actual.
 - **profile-switch** (cmd): Savia cambia de usuario — cambiar perfil activo.
+- **project-activate** (cmd): Activa un proyecto como contexto activo en Savia: actualiza active-user.md y crea el directorio de memoria por proyecto si no existe. (SPEC-SE-093-ZERO-LEAK)
 - **project-assign** (cmd): >
 - **project-audit** (cmd): >
 - **project-context** (script): project-context.sh — Project isolation for Savia (SE-093)
+- **project-isolation-check** (script): project-isolation-check.sh — Verifica aislamiento de contexto por proyecto (SPEC-SE-093-ZERO-LEAK)
 - **project-kickoff** (cmd): >
 - **project-new** (cmd): >
 - **project-release-plan** (cmd): >
@@ -530,3 +532,4 @@
 - **wiki-sync** (cmd): >
 - **workspace-doctor** (cmd): >
 - **workspace-health** (script): workspace-health.sh — Comprehensive health dashboard for pm-workspace
+- **write-a-skill** (skill): Guia para crear una nueva skill correctamente en pm-workspace. Usar cuando una tarea se repite 2+ veces o tarda mas de 15 min.

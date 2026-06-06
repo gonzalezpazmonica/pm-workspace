@@ -1,6 +1,6 @@
 # Savia Capability Map — INDEX
-> hash: 478b8eab4969 | resources: 1209
-> 555 commands · 100 skills · 70 agents · 484 scripts
+> hash: ccd7499ceb8a | resources: 1214
+> 556 commands · 102 skills · 70 agents · 486 scripts
 
 [analysis] /a11y-report — accesibilidad,completos,conformidad,código,declaración — cmd:.claude/commands/a11y-report.md
 [analysis] Trace Optimize — across,distributed,optimize,rates,sampling — cmd:.claude/commands/trace-optimize.md
@@ -207,6 +207,7 @@
 [development] dag-typing-validate — prototype,slice,typing,validate,validator — script:scripts/dag-typing-validate.sh
 [development] decide-architecture — architecture,decide,spec — script:scripts/decide-architecture.sh
 [development] deps-validate — deps,schema,slice,spec,validate — script:scripts/deps-validate.sh
+[development] design-an-interface — alternativas,arquitectonico,disenar,interfaz,mejor — skill:.claude/skills/design-an-interface/SKILL.md
 [development] dev-orchestrator — analiza,contexto,crea,dependencias,implementación — agent:.claude/agents/dev-orchestrator.md
 [development] dev-session — aislamiento,contexto,desarrollo,disco,fases — cmd:.claude/commands/dev-session.md
 [development] dev-session-discard — cleanly,discard,session — script:scripts/dev-session-discard.sh
@@ -774,9 +775,11 @@
 [planning] profile-setup — configuración,conoce,conversación,natural,perfil — cmd:.claude/commands/profile-setup.md
 [planning] profile-show — actual,muestra,perfil,savia — cmd:.claude/commands/profile-show.md
 [planning] profile-switch — activo,cambia,cambiar,perfil,savia — cmd:.claude/commands/profile-switch.md
+[planning] project-activate — activa,active,activo,actualiza,contexto — cmd:.claude/commands/project-activate.md
 [planning] project-assign —  — cmd:.claude/commands/project-assign.md
 [planning] project-audit —  — cmd:.claude/commands/project-audit.md
 [planning] project-context — context,isolation,project,savia — script:scripts/project-context.sh
+[planning] project-isolation-check — aislamiento,check,contexto,isolation,leak — script:scripts/project-isolation-check.sh
 [planning] project-kickoff —  — cmd:.claude/commands/project-kickoff.md
 [planning] project-new —  — cmd:.claude/commands/project-new.md
 [planning] project-release-plan —  — cmd:.claude/commands/project-release-plan.md
@@ -981,6 +984,7 @@
 [planning] wiki-sync —  — cmd:.claude/commands/wiki-sync.md
 [planning] workspace-doctor —  — cmd:.claude/commands/workspace-doctor.md
 [planning] workspace-health — comprehensive,dashboard,health,workspace — script:scripts/workspace-health.sh
+[planning] write-a-skill — correctamente,crear,guia,nueva,repite — skill:.claude/skills/write-a-skill/SKILL.md
 [quality] /a11y-audit — accesibilidad,aria,auditoría,completa,componentes — cmd:.claude/commands/a11y-audit.md
 [quality] /a11y-fix — accesibilidad,aplicar,aria,attributes,audit — cmd:.claude/commands/a11y-fix.md
 [quality] /drift-check — archivos,audita,claude,detecta,divergencias — cmd:.claude/commands/drift-check.md
@@ -1008,6 +1012,7 @@
 [quality] coverage-report — coverage,generate,report,test,workspace — script:scripts/coverage-report.sh
 [quality] decide-architecture-corpus-test — architecture,corpus,decide,spec,test — script:scripts/decide-architecture-corpus-test.sh
 [quality] dependencies-audit —  — cmd:.claude/commands/dependencies-audit.md
+[quality] doc-health-audit — audit,auditor,documentation,health — script:scripts/doc-health-audit.sh
 [quality] docs-quality-audit — agentes,auditar,basada,calidad,documentacion — cmd:.claude/commands/docs-quality-audit.md
 [quality] drift-auditor — auditoría,cambios,config,convergencia,código — agent:.claude/agents/drift-auditor.md
 [quality] executive-audit — audit,executive,workspace — script:scripts/executive-audit.sh

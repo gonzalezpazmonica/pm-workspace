@@ -1,21 +1,14 @@
 #!/bin/bash
+# auto-grill-me.sh — SE-091 Slice 2: inject grill-me context on code edits
+# Ref: SPEC-SE-091-CAVEMAN-ALWAYS, docs/rules/domain/caveman-default.md
 set -uo pipefail
-# auto-grill-me.sh — PreToolUse: inyecta grill-me constraints al editar codigo
-# Non-blocking. Se dispara antes de Edit/Write sobre archivos de codigo.
 
-TOOL="${1:-}"
-FILE_PATH="${2:-}"
+TOOL_NAME="${OPENCODE_TOOL_NAME:-}"
+FILE_PATH="${OPENCODE_TOOL_INPUT_PATH:-${OPENCODE_TOOL_INPUT_FILE_PATH:-}}"
 
-# Solo para herramientas que modifican archivos
-[[ "$TOOL" != "Edit" && "$TOOL" != "Write" ]] && exit 0
+# Only trigger on Edit/Write to code files
+[[ "$TOOL_NAME" =~ ^(Edit|Write)$ ]] || exit 0
+[[ "$FILE_PATH" =~ \.(py|sh|ts|js|cs|go|rs|java|rb|php)$ ]] || exit 0
 
-# Solo archivos de codigo
-[[ "$FILE_PATH" =~ \.(py|sh|ts|js|cs|go|rs|java|rb|php|swift|kt|scala|ex|exs)$ ]] || exit 0
-
-# Inyectar instruccion grill-me en stderr para que el LLM la vea
-cat >&2 << 'GRILLME'
-[grill-me auto] Editing code. Before writing, hunt: edge cases with empty/null/very-large inputs,
-unstated assumptions, missing error handling, untested paths, silent failure modes.
-GRILLME
-
-exit 0
+echo "[auto-grill-me] Hunt weaknesses: edge cases, unstated assumptions, error paths, untested branches." >&2
+exit 0  # WARN only — never block

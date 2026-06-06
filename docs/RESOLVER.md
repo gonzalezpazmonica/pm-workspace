@@ -46,7 +46,7 @@
 
 <!-- AUTO_BEGIN — do not edit; regenerate via scripts/resolver-md-generate.sh -->
 
-### Skills (99)
+### Skills (101)
 
 | Intent (skill) | Target | Cuándo usar |
 |---|---|---|
@@ -78,6 +78,7 @@
 | `context-task-classifier` | skill:context-task-classifier | Usar antes de compactar contexto para clasificar la tarea del turno actual. |
 | `cost-management` | skill:cost-management | Usar cuando se gestionan timesheets, presupuestos, facturas o forecasting de costes. |
 | `dag-scheduling` | skill:dag-scheduling | Usar cuando se orquestan múltiples agentes SDD con dependencias entre ellos. |
+| `design-an-interface` | skill:design-an-interface | Skill para disenar una interfaz con N=3 alternativas en paralelo y recomendar la mejor ... |
 | `developer-experience` | skill:developer-experience | Usar cuando se mide o mejora la experiencia de desarrollo del equipo. |
 | `devops-validation` | skill:devops-validation | Usar cuando se conecta un proyecto nuevo a Azure DevOps para validar su configuración ... |
 | `diagram-generation` | skill:diagram-generation | Usar cuando se necesita generar diagramas de arquitectura o flujo desde código o infra... |
@@ -148,6 +149,7 @@
 | `weekly-report` | skill:weekly-report | Usar cuando se genera el informe semanal de estado del proyecto. |
 | `wellbeing-guardian` | skill:wellbeing-guardian | Usar cuando se monitorizan señales de bienestar individual en el equipo. |
 | `workspace-integrity` | skill:workspace-integrity | Usar cuando se audita la integridad del workspace (drift, reglas, agentes, baseline). |
+| `write-a-skill` | skill:write-a-skill | Guia para crear una nueva skill correctamente en pm-workspace. Usar cuando una tarea se... |
 | `zoom-out` | skill:zoom-out | Elevates perspective from trees to forest. Maps architecture, dependencies, and second-... |
 
 ### Agents (71)

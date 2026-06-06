@@ -308,9 +308,9 @@ Era exprés (1 día). Trigger: tras Era 186 hook ratchet closure, audit profunda
 - **SE-082** Architectural vocabulary discipline — **IMPLEMENTED** priority alta (M 4h) — Module/Interface/Seam/Adapter/Depth/Locality, extiende SE-080
 - **SE-083** TDD vertical-slice skill — **IMPLEMENTED** priority media (S 2h) — anti-horizontal-slicing reinforcement
 - **SE-084** Skill catalog quality audit — **IMPLEMENTED** priority alta (M 6h, 2 slices) — auditor + G14 gate sobre skills modificados
-- **SE-085** Write-a-skill meta-skill — APPROVED priority baja (S 2h) — meta-disciplina post SE-084
+- **SE-085** Write-a-skill meta-skill — **IMPLEMENTED** priority baja (S 2h) — meta-disciplina post SE-084
 - **SE-086** Ubiquitous-language extractor — **IMPLEMENTED** priority media (M 5h, 2 slices) — DDD glossary + memory-graph bridge
-- **SE-087** Design-an-interface parallel skill — APPROVED priority media (M 4h) — N=3 alternativas vía sub-agentes paralelos
+- **SE-087** Design-an-interface parallel skill — **IMPLEMENTED** priority media (M 4h) — N=3 alternativas vía sub-agentes paralelos
 
 **Era 192 — Knowledge Graph Adoption (proposed 2026-05-02)**:
 
@@ -369,7 +369,7 @@ cada turno. Hooks auto-grill-me y auto-zoom-out activados en PreToolUse.
 
 | Spec | Titulo | Agent time | Prioridad |
 |---|---|---|---|
-| **SPEC-SE-091-CAVEMAN-ALWAYS** | Caveman always-on + auto tribunal hooks | ~30 min | ALTA |
+| **SPEC-SE-091-CAVEMAN-ALWAYS** | Caveman always-on + auto tribunal hooks | ~30 min | **IMPLEMENTED** |
 
 **Era 196 — Production PM Operations (proposed 2026-05-02)**:
 
@@ -379,8 +379,8 @@ aislamiento multi-proyecto, auditoria de salud de documentacion. 3 specs, ~195 m
 | Spec | Titulo | Agent time | Prioridad |
 |---|---|---|---|
 | **SPEC-SE-092-PM-BACKEND** | Bridge Azure DevOps/Jira — comandos PM a datos reales | ~90 min | CRITICA |
-| **SPEC-SE-093-ZERO-LEAK** | Zero project leakage enforcement | ~60 min | CRITICA |
-| **SPEC-SE-094-DOC-AUDIT** | Doc health auditor — broken links + stale refs | ~45 min | ALTA |
+| **SPEC-SE-093-ZERO-LEAK** | Zero project leakage enforcement | ~60 min | **IMPLEMENTED** |
+| **SPEC-SE-094-DOC-AUDIT** | Doc health auditor — broken links + stale refs | ~45 min | **IMPLEMENTED** |
 
 **Era 197 — SaviaClaw Autonomy (proposed 2026-05-02)**:
 
