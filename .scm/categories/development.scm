@@ -34,6 +34,7 @@
 - **code-twin-init** (script): code-twin-init.sh — Scaffold estructura vacía de ACT para un proyecto
 - **code-twin-lint** (script): code-twin-lint.sh — Valida Code Twin Files (CTF), CTI (index.md) y seeds JSONL
 - **code-twin-simulate** (script): code-twin-simulate.sh — SPEC-190 Slice 5
+- **code-twin-validate-spec** (script): code-twin-validate-spec.sh — SPEC-190 Slice 6
 - **codebase-map** (cmd): Generar mapa de dependencias internas del workspace: comandos → agentes → reglas → skills
 - **codebase-map** (skill): Usar cuando se necesita un mapa de dependencias del workspace (comandos→agentes→reglas→skills).
 - **codegraph** (skill): Usar cuando se necesita indexación AST persistente para navegación de callers/callees en el código.
