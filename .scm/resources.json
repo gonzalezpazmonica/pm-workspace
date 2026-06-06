@@ -1,6 +1,6 @@
 {
-  "hash": "67f9a6a29850",
-  "total": 1206,
+  "hash": "d11af6fc35bd",
+  "total": 1207,
   "resources": [
     {
       "category": "analysis",
@@ -2390,6 +2390,20 @@
       "kind": "script",
       "path": "scripts/code-twin-sync-check.sh",
       "description": "code-twin-sync-check.sh — SPEC-190 Slice 8 (AC-12)"
+    },
+    {
+      "category": "development",
+      "name": "code-twin-validate-spec",
+      "intents": [
+        "code",
+        "slice",
+        "spec",
+        "twin",
+        "validate"
+      ],
+      "kind": "script",
+      "path": "scripts/code-twin-validate-spec.sh",
+      "description": "code-twin-validate-spec.sh — SPEC-190 Slice 6"
     },
     {
       "category": "development",
