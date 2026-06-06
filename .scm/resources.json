@@ -1,6 +1,6 @@
 {
-  "hash": "db46a259310b",
-  "total": 1209,
+  "hash": "bc76a496436e",
+  "total": 1214,
   "resources": [
     {
       "category": "analysis",
@@ -2612,6 +2612,20 @@
       "kind": "script",
       "path": "scripts/deps-validate.sh",
       "description": "deps-validate.sh — SPEC-SE-020 Slice 1 schema validator for deps.yaml."
+    },
+    {
+      "category": "development",
+      "name": "design-an-interface",
+      "intents": [
+        "alternativas",
+        "arquitectonico",
+        "disenar",
+        "interfaz",
+        "mejor"
+      ],
+      "kind": "skill",
+      "path": ".claude/skills/design-an-interface/SKILL.md",
+      "description": "Skill para disenar una interfaz con N=3 alternativas en paralelo y recomendar la mejor segun vocabulario arquitectonico del proyecto."
     },
     {
       "category": "development",
@@ -9938,6 +9952,20 @@
     },
     {
       "category": "planning",
+      "name": "project-activate",
+      "intents": [
+        "activa",
+        "active",
+        "activo",
+        "actualiza",
+        "contexto"
+      ],
+      "kind": "cmd",
+      "path": ".claude/commands/project-activate.md",
+      "description": "Activa un proyecto como contexto activo en Savia: actualiza active-user.md y crea el directorio de memoria por proyecto si no existe. (SPEC-SE-093-ZERO-LEAK)"
+    },
+    {
+      "category": "planning",
       "name": "project-assign",
       "intents": [],
       "kind": "cmd",
@@ -9964,6 +9992,20 @@
       "kind": "script",
       "path": "scripts/project-context.sh",
       "description": "project-context.sh — Project isolation for Savia (SE-093)"
+    },
+    {
+      "category": "planning",
+      "name": "project-isolation-check",
+      "intents": [
+        "aislamiento",
+        "check",
+        "contexto",
+        "isolation",
+        "leak"
+      ],
+      "kind": "script",
+      "path": "scripts/project-isolation-check.sh",
+      "description": "project-isolation-check.sh — Verifica aislamiento de contexto por proyecto (SPEC-SE-093-ZERO-LEAK)"
     },
     {
       "category": "planning",
@@ -12567,6 +12609,20 @@
       "description": "workspace-health.sh — Comprehensive health dashboard for pm-workspace"
     },
     {
+      "category": "planning",
+      "name": "write-a-skill",
+      "intents": [
+        "correctamente",
+        "crear",
+        "guia",
+        "nueva",
+        "repite"
+      ],
+      "kind": "skill",
+      "path": ".claude/skills/write-a-skill/SKILL.md",
+      "description": "Guia para crear una nueva skill correctamente en pm-workspace. Usar cuando una tarea se repite 2+ veces o tarda mas de 15 min."
+    },
+    {
       "category": "quality",
       "name": "/a11y-audit",
       "intents": [
@@ -12935,6 +12991,19 @@
       "kind": "cmd",
       "path": ".claude/commands/dependencies-audit.md",
       "description": ">"
+    },
+    {
+      "category": "quality",
+      "name": "doc-health-audit",
+      "intents": [
+        "audit",
+        "auditor",
+        "documentation",
+        "health"
+      ],
+      "kind": "script",
+      "path": "scripts/doc-health-audit.sh",
+      "description": "doc-health-audit.sh — Documentation Health Auditor"
     },
     {
       "category": "quality",
