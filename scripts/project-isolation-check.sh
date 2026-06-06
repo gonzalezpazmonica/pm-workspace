@@ -129,7 +129,7 @@ fi
 # ── Determinar status global ──────────────────────────────────────────────────
 if [[ $FAIL_COUNT -gt 0 ]]; then
   OVERALL="FAIL"
-  EXIT_CODE=2
+  EXIT_CODE=1
 elif [[ $WARN_COUNT -gt 0 ]]; then
   OVERALL="WARN"
   EXIT_CODE=1
