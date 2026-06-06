@@ -13,7 +13,6 @@ provides:
   - refreshToken
   - validateToken
 stale_after_days: 7
-status: DRAFT
 ---
 
 # AuthService

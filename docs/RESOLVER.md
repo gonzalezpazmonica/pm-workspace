@@ -150,7 +150,7 @@
 | `workspace-integrity` | skill:workspace-integrity | Usar cuando se audita la integridad del workspace (drift, reglas, agentes, baseline). |
 | `zoom-out` | skill:zoom-out | Elevates perspective from trees to forest. Maps architecture, dependencies, and second-... |
 
-### Agents (70)
+### Agents (71)
 
 | Intent (agent) | Target | Cuándo usar |
 |---|---|---|
@@ -161,6 +161,7 @@
 | `calibration-judge` | agent:calibration-judge | Truth Tribunal judge — confidence statements match evidence strength |
 | `cobol-developer` | agent:cobol-developer | Asistencia en código COBOL/mainframe. IMPORTANTE: La mayoría de tareas COBOL deben re... |
 | `code-reviewer` | agent:code-reviewer | Revisión de código .NET como quality gate antes de merge. Usar PROACTIVELY cuando: se... |
+| `code-twin-agent` | agent:code-twin-agent | Agente especializado en consultar el Application Code Twin de un proyecto. Usa code-twi... |
 | `cognitive-judge` | agent:cognitive-judge | Code Review Court judge — debuggability at 3AM, naming, complexity, logs |
 | `coherence-judge` | agent:coherence-judge | Truth Tribunal judge — internal consistency (sums, dates, entities) |
 | `coherence-validator` | agent:coherence-validator | Verifies that generated outputs (specs, reports, code) actually match the stated object... |
