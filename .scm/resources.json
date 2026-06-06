@@ -1,6 +1,6 @@
 {
-  "hash": "bad56180cfc3",
-  "total": 1218,
+  "hash": "c61949739e84",
+  "total": 1223,
   "resources": [
     {
       "category": "analysis",
@@ -515,6 +515,20 @@
       "kind": "cmd",
       "path": ".claude/commands/promotion-engine.md",
       "description": "Gestiona promociones: crear, activar, desactivar, evaluar, reportes"
+    },
+    {
+      "category": "analysis",
+      "name": "reconciliation-stats",
+      "intents": [
+        "append",
+        "classification",
+        "metrics",
+        "reconciliation",
+        "report"
+      ],
+      "kind": "script",
+      "path": "scripts/reconciliation-stats.sh",
+      "description": "reconciliation-stats.sh — Append/report reconciliation classification metrics"
     },
     {
       "category": "analysis",
@@ -2032,6 +2046,48 @@
       "kind": "cmd",
       "path": ".claude/commands/trace-analyze.md",
       "description": "Análisis profundo de trazas específicas con detección de cuellos de botella y cadenas de errores"
+    },
+    {
+      "category": "development",
+      "name": "UA Analyze",
+      "intents": [
+        "analyze",
+        "anything",
+        "codebase",
+        "generate",
+        "graph"
+      ],
+      "kind": "cmd",
+      "path": ".claude/commands/ua-analyze.md",
+      "description": "Analyze codebase with Understand-Anything to generate knowledge graph"
+    },
+    {
+      "category": "development",
+      "name": "UA Diff",
+      "intents": [
+        "analyze",
+        "changes",
+        "codebase",
+        "graph",
+        "impact"
+      ],
+      "kind": "cmd",
+      "path": ".claude/commands/ua-diff.md",
+      "description": "Analyze impact of uncommitted changes on the codebase knowledge graph"
+    },
+    {
+      "category": "development",
+      "name": "UA Domain",
+      "intents": [
+        "business",
+        "codebase",
+        "concepts",
+        "domain",
+        "extract"
+      ],
+      "kind": "cmd",
+      "path": ".claude/commands/ua-domain.md",
+      "description": "Extract business domain concepts and processes from any codebase"
     },
     {
       "category": "development",
@@ -3887,6 +3943,20 @@
     },
     {
       "category": "development",
+      "name": "timeline-append",
+      "intents": [
+        "append",
+        "decision",
+        "entry",
+        "file",
+        "spec"
+      ],
+      "kind": "script",
+      "path": "scripts/timeline-append.sh",
+      "description": "timeline-append.sh — Append a bi-temporal timeline entry to a spec/decision file"
+    },
+    {
+      "category": "development",
       "name": "tolaria-open",
       "intents": [
         "base",
@@ -3969,48 +4039,6 @@
     },
     {
       "category": "development",
-      "name": "ua-analyze",
-      "intents": [
-        "anything",
-        "codebase",
-        "generate",
-        "graph",
-        "knowledge"
-      ],
-      "kind": "cmd",
-      "path": ".claude/commands/ua-analyze.md",
-      "description": "Generate knowledge graph for any codebase using Understand-Anything"
-    },
-    {
-      "category": "development",
-      "name": "ua-diff",
-      "intents": [
-        "analyze",
-        "changes",
-        "codebase",
-        "graph",
-        "impact"
-      ],
-      "kind": "cmd",
-      "path": ".claude/commands/ua-diff.md",
-      "description": "Analyze impact of uncommitted changes on the codebase graph"
-    },
-    {
-      "category": "development",
-      "name": "ua-domain",
-      "intents": [
-        "business",
-        "codebase",
-        "concepts",
-        "domain",
-        "extract"
-      ],
-      "kind": "cmd",
-      "path": ".claude/commands/ua-domain.md",
-      "description": "Extract business domain concepts and processes from any codebase"
-    },
-    {
-      "category": "development",
       "name": "ua-onboard",
       "intents": [
         "codebase",
@@ -4022,6 +4050,20 @@
       "kind": "cmd",
       "path": ".claude/commands/ua-onboard.md",
       "description": "Generate a guided onboarding tour for any codebase"
+    },
+    {
+      "category": "development",
+      "name": "understand-anything",
+      "intents": [
+        "analizar",
+        "anything",
+        "codebase",
+        "dominio",
+        "estructurales"
+      ],
+      "kind": "skill",
+      "path": ".claude/skills/understand-anything/SKILL.md",
+      "description": "Usar cuando se necesita analizar un codebase con Understand-Anything para generar knowledge graphs estructurales y de dominio."
     },
     {
       "category": "development",
@@ -11933,6 +11975,20 @@
     },
     {
       "category": "planning",
+      "name": "timeline-query",
+      "intents": [
+        "field",
+        "historical",
+        "query",
+        "temporal",
+        "timeline"
+      ],
+      "kind": "script",
+      "path": "scripts/timeline-query.sh",
+      "description": "timeline-query.sh — Query historical value of a field from bi-temporal timeline"
+    },
+    {
+      "category": "planning",
       "name": "token-estimator",
       "intents": [
         "before",
@@ -13798,6 +13854,20 @@
       "kind": "script",
       "path": "scripts/recommendation-tribunal-search.sh",
       "description": "recommendation-tribunal-search.sh — SPEC-125 Slice 2: CLI for audit-trail inspection."
+    },
+    {
+      "category": "quality",
+      "name": "reconciler",
+      "intents": [
+        "auditor",
+        "auto",
+        "buckets",
+        "classifies",
+        "conflict"
+      ],
+      "kind": "agent",
+      "path": ".claude/agents/reconciler.md",
+      "description": "Classifies contradictions into 3 buckets: evolution, auto-resolve, conflict-doc. Invoked by drift-auditor."
     },
     {
       "category": "quality",

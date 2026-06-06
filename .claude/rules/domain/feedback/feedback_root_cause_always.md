@@ -1,108 +1,60 @@
 ---
-type: feedback
-slug: root_cause_always
-source: SPEC-188 Fase 0 (cierre hallazgo G3)
-created: 2026-06-04
-verified_source: docs/propuestas/SPEC-188-root-cause-investigation-architecture.md
-related:
-  - SPEC-043
-  - SPEC-065
-  - SPEC-108
-  - SPEC-125
-  - SE-072
-  - docs/rules/domain/verified-memory-axiom.md
-status: active
+context_tier: L2
+token_budget: 800
+spec: SPEC-188
+phase: 0
+created: 2026-06-06
 ---
 
-# feedback_root_cause_always
+# Feedback Root Cause Always — Savia Memory Rule
 
-Memoria canonica de feedback. Referenciada por `memory-conflict-judge`
-(Recommendation Tribunal) y por `verified-memory-axiom.md`. Creada en
-SPEC-188 Fase 0 para cerrar el hallazgo G3: el sistema referenciaba
-esta memoria como si existiera, pero el fichero no estaba en ningun
-path. Ahora si esta.
+Cuando Savia detecta un fallo repetido, SIEMPRE registrar la causa raíz en memoria
+antes de continuar. Nunca parchear síntomas sin documentar la causa.
 
-## Regla canonica
+## Regla
 
-NEVER propose shortcuts (lower thresholds, skip tests, retry without
-investigation, hook-skip flags, mark tests as expected-failure). ALWAYS
-investigate the root cause first.
+Formato obligatorio al registrar un fallo recurrente:
+
+```
+root_cause: <causa>
+pattern: <patrón>
+prevention: <acción preventiva>
+```
+
+## Ejemplos
+
+**Ejemplo 1 — threshold bajado sin causa**
+```
+root_cause: test falla con score real 72/100, umbral estaba en 80
+pattern: agente baja umbral para pasar CI en vez de arreglar código
+prevention: investigar por qué el score bajó antes de tocar el umbral
+```
+**Ejemplo 2 — retry sin cambio causal**
+```
+root_cause: push rechazado por hook de firmas; agente reintentó 6 veces
+pattern: mismo parche superficial repetido sin alterar hipótesis causal
+prevention: tras attempt 3 del mismo target, parar y razonar (SPEC-065)
+```
+**Ejemplo 3 — spec marcada IMPLEMENTED sin ACs completos**
+```
+root_cause: 2 de 5 ACs no pasan; agente marcó IMPLEMENTED de todas formas
+pattern: spec status actualizado antes de validar criterios de aceptación
+prevention: IMPLEMENTED solo si TODOS los ACs verificados con evidencia
+```
 
 ## Patrones prohibidos
 
-Estos patrones, si aparecen en una recomendacion o en un diff de
-agente, son violaciones directas de esta memoria:
+1. Bajar umbral sin `Causal-Evidence:` documentado.
+2. `pytest.mark.skip` / `xfail` sin issue tracked + root cause.
+3. Retry N=3+ del mismo action+target con variantes superficiales.
+4. `--no-verify` en commits o push (hooks existen por algo).
+5. Modificar assertion en test para que pase.
+6. Marcar SPEC IMPLEMENTED con ACs incompletos.
 
-1. Bajar umbral para que pase CI: parametro reducido sin explicacion
-   causal. Si el test falla con score real, hay que entender por que,
-   no silenciarlo.
-2. Marcar test como skip / xfail / pending sin issue tracked + root
-   cause documentada: `pytest.mark.skip`, `it.skip`, `xfail`,
-   `expected_failure` sin enlace a investigacion.
-3. Re-intentar la misma operacion 3+ veces con variantes superficiales
-   del mismo parche: el patron N=3 dispara `execution-supervisor`
-   (SPEC-065). Tras attempt 3, parar y razonar.
-4. Usar `--no-verify` en commits o push: los hooks existen por algo.
-   Saltarlos es bypass de safety, no productividad.
-5. Comentar o eliminar assertion en test para que pase: el test es
-   contrato, no friccion a remover.
-6. "Solo por esta vez" seguido de un atajo: los "solo por esta vez"
-   se acumulan en deuda invisible.
-7. Cambiar el threshold del scoring sin spec / sin justificacion ligada
-   a la causa real: el threshold es decision, no variable libre.
-8. Bajar criterios de aceptacion de una spec porque la implementacion
-   no llega: la implementacion debe llegar, no los criterios bajar.
-9. Marcar SPEC como IMPLEMENTED cuando los criterios de aceptacion no
-   se cumplen integramente: solo IMPLEMENTED si los AC pasan.
-10. Re-ejecutar tests "a ver si esta vez pasan" sin cambio causal: la
-    flakiness es un sintoma, no aleatoriedad benigna.
+## Consumidores
 
-## Que SI esta permitido (con justificacion documentada)
+- `memory-conflict-judge` (SPEC-125): veto si recomendación viola estos patrones.
+- `responsibility-judge` (SPEC-043): bloquea PreToolUse shortcut patterns.
+- `execution-supervisor` (SPEC-065): exhibe esta memoria tras attempt 3.
 
-- Bajar threshold si la spec lo aprueba explicitamente con razon
-  documentada (`Causal-Evidence:` poblado).
-- Skip temporal con issue abierto en backlog + ETA de reactivacion +
-  root cause documentada.
-- Bypass de hook si hay incidente operativo declarado + `[hotfix]`
-  trailer + commit follow-up para arreglar el hook.
-- Re-intentar una operacion si el cambio entre intentos altera la
-  causa hipotetizada (no solo el parche superficial).
-
-## Por que importa
-
-El daño de un atajo no es el atajo, es la repeticion. Cada vez que un
-agente baja un threshold, instala el patron "baja threshold cuando
-falle". Tres meses despues, los tests no garantizan nada porque sus
-thresholds han bajado todos. El sistema deja de ser sistema y pasa a
-ser teatro de sistema.
-
-La causa raiz es mas cara de encontrar (15 min de investigacion vs 30s
-de parche) pero MAS barata a largo plazo: no re-aparece, no genera
-patrones de evasion, no degrada confianza en metricas.
-
-## Quien consume esta memoria
-
-- `memory-conflict-judge` (Recommendation Tribunal, SPEC-125): score 0
-  + `veto: true` si una recomendacion viola estos patrones.
-- `responsibility-judge` (SPEC-043 cuando implementado): bloquea
-  PreToolUse Edit/Write que matche estos patrones en codigo.
-- `execution-supervisor` (SPEC-065 cuando implementado): tras attempt
-  3 del mismo action+target, exhibe esta memoria en el reflection.
-- `recommendation-tribunal-orchestrator`: aggregator final usa este
-  file como input de evidencia.
-- Humano revisor (E1 SDD): referencia rapida al evaluar PRs.
-
-## Bridge con SPEC-188 (P1 Failure Pattern Memory)
-
-Cuando P1 este implementado, ocurrencias repetidas del mismo patron
-(ej. "agente X bajo threshold N veces") se contaran en
-`failure_patterns`. A `occurrences >= 10`, P1 sugiere promocion de
-subpattern especifico a nueva regla `feedback_*.md`. Este fichero es
-el bootstrap.
-
-## Cambios
-
-- 2026-06-04: creacion (SPEC-188 Fase 0, cierre G3). Contenido inicial
-  derivado de SPEC-125, SPEC-043, verified-memory-axiom. Path elegido:
-  `.claude/rules/domain/feedback/` (N1, semantically rule of behavior).
-  Status: active.
+Ref: SPEC-188 Fase 0 — cierre hallazgo G3. Path canónico: `.claude/rules/domain/feedback/` (N1).

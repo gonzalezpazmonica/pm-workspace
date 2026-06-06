@@ -10,6 +10,11 @@ wave: 1
 deps: [SE-072, SPEC-106]
 unblocks: [SPEC-043, SPEC-065, SPEC-108, SPEC-125]
 origin: active-user-2026-06-04 (analisis sintoma vs causa raiz)
+timeline:
+  - from: "2026-06-05"
+    learned: "2026-06-05"
+    value: "PROPOSED"
+    source: "docs(spec): SPEC-188 Root-Cause Investigation Architecture meta-spec (#811)"
 ---
 
 # SPEC-188 — Root-Cause Investigation Architecture

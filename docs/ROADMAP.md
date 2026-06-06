@@ -1,6 +1,6 @@
 # Roadmap Unificado — pm-workspace / Savia
 
-**Updated:** 2026-06-06 | **Version:** v6.18.0 | **556 commands · 70 agents · 102 skills · 75 hooks · 411 test suites · Active backlog 12 items (~85h)** — ver `## Active Stack — 2026-06-06`
+**Updated:** 2026-06-06 | **Version:** v6.18.0 | **556 commands · 70 agents · 102 skills · 75 hooks · 411 test suites · Active backlog 6 items (~55h)** — ver `## Active Stack — 2026-06-06`
 
 ---
 
@@ -710,6 +710,8 @@ Google Sheets · ServiceNow/SAP · Tableau · Kafka · VS Code ext · Cloud voic
 | SE-091 | Caveman always-on + auto tribunal hooks | PR #824 |
 | SE-093 | Zero project leakage isolation check | PR #824 |
 | SE-094 | Documentation health auditor | PR #824 |
+| SPEC-169 | Project Twin artefacto versionado — Application Code Twin completo | PR #825 |
+| SPEC-188 Fase 0 | feedback_root_cause_always.md — deuda técnica memory-conflict-judge | PR #826 |
 
 ### Tier 1 — Inmediato (workspace, sin deps externas, total ~30h)
 
@@ -726,7 +728,7 @@ Google Sheets · ServiceNow/SAP · Tableau · Kafka · VS Code ext · Cloud voic
 
 | # | ID | Título | Esfuerzo | Prioridad |
 |---|---|---|---|---|
-| 7 | SPEC-169 | Project Twin artefacto versionado | 11h | ALTA — IN_REVIEW PR #815 |
+| 7 | SPEC-169 | Project Twin artefacto versionado | 11h | **IMPLEMENTED** PR #815 |
 | 8 | SPEC-188 | Root-Cause Investigation Architecture | 6-8h doc · ~80h impl | PROPOSED P0 |
 | 9 | SPEC-182 | Bitemporal timeline frontmatter | 6-8h | MEDIA — zero deps |
 | 10 | SPEC-183 | Reconciliation 3-bucket | 5-7h | MEDIA — dep SPEC-182 |
@@ -741,11 +743,11 @@ Google Sheets · ServiceNow/SAP · Tableau · Kafka · VS Code ext · Cloud voic
 
 ### Decisión operativa
 
-1. **Ahora**: Tier 1 items 1-4 (SE-151/152/SPEC-181/159) — todos workspace-only, sin deps externas.
-2. **Siguiente**: SPEC-169 (cerrar PR #815) → SE-088-UA-ADOPT.
-3. **Después**: Tier 3 SaviaClaw cuando haya acceso al sistema.
+1. **Ahora**: SE-088-UA-ADOPT (desbloqueado) → SPEC-182 → SPEC-183.
+2. **Siguiente**: SPEC-188 Fases 1-4 (sub-specs a crear) → SE-074.
+3. **Después**: Tier 3 SaviaClaw.
 
-### Total backlog activo: ~85h (12 items agrupados)
+### Total backlog activo: ~55h (6 items agrupados)
 
 ---
 

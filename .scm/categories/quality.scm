@@ -1,5 +1,5 @@
 # quality — Savia Capability Map (L1)
-> 232 resources
+> 233 resources
 
 - **/a11y-audit** (cmd): Auditoría de accesibilidad WCAG 2.2 completa con escaneo de HTML/componentes. Detecta: alt text faltante, problemas de contraste, navegación por teclado, etiquetas ARIA, gestión de focus, jerarquía de encabezados, etiquetas de formularios.
 - **/a11y-fix** (cmd): Correcciones automáticas de accesibilidad con verificación y preview. Genera código de fix para issues detectados por /a11y-audit. Preview antes de aplicar. Verifica que no introduce nuevos problemas. Covers: alt text, ARIA attributes, focu
@@ -85,6 +85,7 @@
 - **rbac-management** (skill): Usar cuando se gestionan roles, permisos o se audita el acceso de usuarios.
 - **rbac-manager** (cmd): Role-based access control — grant, revoke, audit roles and permissions
 - **recommendation-tribunal-search** (script): recommendation-tribunal-search.sh — SPEC-125 Slice 2: CLI for audit-trail inspection.
+- **reconciler** (agent): Classifies contradictions into 3 buckets: evolution, auto-resolve, conflict-doc. Invoked by drift-auditor.
 - **record-start** (cmd): Start recording session for audit and replay
 - **ref-resolve** (cmd): Resolve and preview resource references
 - **release-readiness** (cmd): Checklist de release — features, tests, docs, compliance, deployment

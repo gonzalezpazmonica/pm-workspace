@@ -1,5 +1,5 @@
 # planning — Savia Capability Map (L1)
-> 533 resources
+> 534 resources
 
 - **/accreditation-track** (cmd): >
 - **/decide-architecture** (cmd): Clasifica una tarea como WORKFLOW (deterministica) o AGENT (loop). Bias hacia workflow per Anthropic. Sugiere plantilla inicial. Mide accuracy contra corpus curado de 20 tareas.
@@ -477,6 +477,7 @@
 - **terraform-developer** (agent): >
 - **threat-model** (cmd): >
 - **tier3-probes** (skill): Usar cuando se valida la viabilidad de herramientas Tier 3 antes de adoptarlas en el workspace.
+- **timeline-query** (script): timeline-query.sh — Query historical value of a field from bi-temporal timeline
 - **token-estimator** (script): token-estimator.sh — Estimate token cost before execution
 - **tool-catalog** (cmd): Catálogo categorizado de herramientas (400+ comandos)
 - **tool-result-trim** (script): tool-result-trim.sh — Deterministic hard cap for tool result output
