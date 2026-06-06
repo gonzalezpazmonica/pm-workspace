@@ -60,12 +60,14 @@ case "${1:-}" in
   *) echo "Unknown arg: $1" >&2; usage >&2; exit 2 ;;
 esac
 
-# SE-073: if MEMORY_DIR does not exist, try to create it; exit 1 on failure
+# SE-073: if MEMORY_DIR does not exist → fail when explicitly set, auto-create for default
+_default_mem="${SAVIA_MEMORY_DIR:-${HOME}/.savia-memory}/auto"
 if [[ ! -d "${MEMORY_DIR}" ]]; then
-  if ! mkdir -p "${MEMORY_DIR}" 2>/dev/null; then
-    echo "memory-tier-rotate: ERROR — MEMORY_DIR no existe y no se puede crear: ${MEMORY_DIR}" >&2
+  if [[ "${MEMORY_DIR}" != "${_default_mem}" ]]; then
+    echo "memory-tier-rotate: ERROR — MEMORY_DIR no existe: ${MEMORY_DIR}" >&2
     exit 1
   fi
+  mkdir -p "${MEMORY_DIR}" 2>/dev/null || { echo "ERROR — no se puede crear: ${MEMORY_DIR}" >&2; exit 1; }
 fi
 
 # Read frontmatter field from a memory file (returns empty if missing)
