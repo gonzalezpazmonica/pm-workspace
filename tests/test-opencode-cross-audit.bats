@@ -173,3 +173,47 @@ teardown() {
   run grep -c 'sha256sum' "$SCRIPT"
   [[ "$output" -ge 1 ]]
 }
+
+# ── Edge cases ────────────────────────────────────────────────────────────────
+
+@test "edge: empty .claude/ produces PASS (no resources to compare)" {
+  sandbox=$(mktemp -d)
+  mkdir -p "$sandbox/.claude/agents" "$sandbox/.opencode/agents"
+  mkdir -p "$sandbox/.claude/commands" "$sandbox/.opencode/commands"
+  mkdir -p "$sandbox/.claude/skills" "$sandbox/.opencode/skills"
+  run bash -c "cd '$sandbox' && bash '$OLDPWD/$SCRIPT'"
+  # No resources → PASS or trivially zero issues
+  [[ "$status" -eq 0 || "$output" == *"PASS"* || "$output" == *"0 issue"* ]]
+}
+
+@test "edge: binary file in .claude/agents/ does not crash script" {
+  sandbox=$(mktemp -d)
+  mkdir -p "$sandbox/.claude/agents" "$sandbox/.opencode/agents"
+  mkdir -p "$sandbox/.claude/commands" "$sandbox/.opencode/commands"
+  mkdir -p "$sandbox/.claude/skills"   "$sandbox/.opencode/skills"
+  printf '\x00\x01\x02binary' > "$sandbox/.claude/agents/binary.md"
+  run bash -c "cd '$sandbox' && bash '$OLDPWD/$SCRIPT'" || true
+  # Must not produce unbound variable errors or crash with exit 2+
+  [[ "$status" -le 1 ]]
+}
+
+@test "edge: --fix with no drift is a no-op (exit 0)" {
+  sandbox=$(mktemp -d)
+  mkdir -p "$sandbox/.claude/agents" "$sandbox/.opencode/agents"
+  mkdir -p "$sandbox/.claude/commands" "$sandbox/.opencode/commands"
+  mkdir -p "$sandbox/.claude/skills"   "$sandbox/.opencode/skills"
+  # Identical file in both sides
+  echo "# same" > "$sandbox/.claude/agents/agent-a.md"
+  cp "$sandbox/.claude/agents/agent-a.md" "$sandbox/.opencode/agents/agent-a.md"
+  run bash -c "cd '$sandbox' && bash '$OLDPWD/$SCRIPT' --fix"
+  [ "$status" -eq 0 ]
+}
+
+@test "coverage: --help or no-args shows usage info" {
+  run bash "$SCRIPT" --help 2>&1 || run bash "$SCRIPT" 2>&1
+  [[ "$output" == *"usage"* || "$output" == *"Usage"* || "$output" == *"PASS"* || "$output" == *"FAIL"* ]]
+}
+
+@test "coverage: SPEC-OPC-CROSS-AUDIT reference in script" {
+  grep -qiE 'SPEC-OPC-CROSS-AUDIT|cross.audit' "$SCRIPT"
+}

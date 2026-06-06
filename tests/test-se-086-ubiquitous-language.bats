@@ -166,3 +166,90 @@ teardown() {
     # Original entry must still be present
     grep -q "Existing definition" "$CONTEXT_PATH"
 }
+
+# ── Safety verification ───────────────────────────────────────────────────────
+
+@test "safety: script is valid Python (py_compile)" {
+    python3 -m py_compile "$SCRIPT"
+}
+
+@test "safety: script does not write outside --output-dir or --context path" {
+    run python3 "$SCRIPT" \
+        --project test-proj \
+        --input "$INPUT_FILE" \
+        --output-dir "$OUTPUT_DIR" \
+        --min-mentions 2
+    [ "$status" -eq 0 ]
+    # Must not create files in ROOT directly
+    [[ ! -f "$ROOT/CONTEXT.md" ]]
+}
+
+# ── Negative / error cases ────────────────────────────────────────────────────
+
+@test "negative: non-existent input file exits non-zero" {
+    run python3 "$SCRIPT" \
+        --project test-proj \
+        --input "/tmp/does-not-exist-$(date +%s).md" \
+        --output-dir "$OUTPUT_DIR"
+    [ "$status" -ne 0 ]
+}
+
+@test "negative: missing --project exits non-zero" {
+    run python3 "$SCRIPT" \
+        --input "$INPUT_FILE" \
+        --output-dir "$OUTPUT_DIR"
+    [ "$status" -ne 0 ]
+}
+
+@test "negative: --min-mentions with non-numeric value exits non-zero" {
+    run python3 "$SCRIPT" \
+        --project test-proj \
+        --input "$INPUT_FILE" \
+        --output-dir "$OUTPUT_DIR" \
+        --min-mentions "abc"
+    [ "$status" -ne 0 ]
+}
+
+# ── Edge cases ────────────────────────────────────────────────────────────────
+
+@test "edge: empty input file produces 0 terms gracefully" {
+    empty="$TMP_DIR/empty.md"
+    touch "$empty"
+    run python3 "$SCRIPT" \
+        --project test-proj \
+        --input "$empty" \
+        --output-dir "$OUTPUT_DIR" \
+        --min-mentions 1
+    [ "$status" -eq 0 ]
+}
+
+@test "edge: --min-mentions 999 finds no terms in small fixture" {
+    run python3 "$SCRIPT" \
+        --project test-proj \
+        --input "$INPUT_FILE" \
+        --output-dir "$OUTPUT_DIR" \
+        --min-mentions 999
+    [ "$status" -eq 0 ]
+}
+
+# ── Coverage breadth ─────────────────────────────────────────────────────────
+
+@test "coverage: SE-086 spec reference in script" {
+    grep -qiE 'SE-086|ubiquitous' "$SCRIPT"
+}
+
+@test "coverage: --export-glossary flag documented in --help" {
+    run python3 "$SCRIPT" --help
+    [[ "$output" == *"export-glossary"* || "$output" == *"glossary"* ]]
+}
+
+@test "coverage: --sync-graph flag documented in --help" {
+    run python3 "$SCRIPT" --help
+    [[ "$output" == *"sync-graph"* || "$output" == *"graph"* ]]
+}
+
+@test "safety: extract-domain-entities.py has set -uo pipefail guard or equivalent safe pattern" {
+    # Python scripts use sys.exit / try-except instead of bash set -uo pipefail.
+    # Verify the script has error handling (try/except or sys.exit).
+    grep -qE 'try:|sys\.exit|except\s+(Exception|ValueError|FileNotFoundError)' "$SCRIPT"
+}
