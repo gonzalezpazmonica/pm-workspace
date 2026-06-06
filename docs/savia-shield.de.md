@@ -25,7 +25,7 @@ Besprechungen, entsteht ein Datenleck, das NDAs und die DSGVO verletzt.
 ### Hauptablauf (Daemon aktiv)
 
 ```
-Claude Code → Hook PreToolUse → data-sovereignty-gate.sh
+Claude Code / OpenCode → Hook PreToolUse → data-sovereignty-gate.sh
   → curl POST localhost:8444/gate (vereinheitlichter Daemon)
   → Daemon: regex + NER + NFKC + base64 + cross-write → BLOCK/ALLOW
 ```

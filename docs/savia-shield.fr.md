@@ -26,7 +26,7 @@ NDAs et le RGPD.
 ### Flux principal (daemon actif)
 
 ```
-Claude Code → hook PreToolUse → data-sovereignty-gate.sh
+Claude Code / OpenCode → hook PreToolUse → data-sovereignty-gate.sh
   → curl POST localhost:8444/gate (daemon unifié)
   → daemon : regex + NER + NFKC + base64 + cross-write → BLOCK/ALLOW
 ```

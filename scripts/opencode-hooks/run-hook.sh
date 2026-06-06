@@ -8,6 +8,7 @@ set -uo pipefail
 #   run-hook.sh pre-commit-review
 
 HOOK_NAME="$1"
+CLAUDE_PROJECT_DIR="${CLAUDE_PROJECT_DIR:-${OPENCODE_PROJECT_DIR:-$PWD}}"
 HOOK_SCRIPT="$CLAUDE_PROJECT_DIR/.opencode/hooks/$HOOK_NAME.sh"
 
 if [ ! -f "$HOOK_SCRIPT" ]; then

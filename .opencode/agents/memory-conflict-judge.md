@@ -3,10 +3,7 @@ name: memory-conflict-judge
 description: Recommendation Tribunal judge — detects when a draft recommendation contradicts the active user's auto-memory (feedback_*, user_*)
 model: mid
 permission_level: L1
-tools:
-  read: true
-  glob: true
-  grep: true
+tools: [Read, Glob, Grep]
 token_budget:
   per_invocation: 60000
   context_window_target: 4000

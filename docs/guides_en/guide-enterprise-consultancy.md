@@ -42,7 +42,7 @@ If your consulting firm is smaller (5–50 people), start with the [Quick Start 
 - **Scope**: Clone repo → Setup profiles → First sprint with `/sprint-sync`
 - **Success**: Sprint completed, metrics captured, team adopts `/daily-standup`
 - **Risks**: Lack of SDD training, access to Azure DevOps/Jira
-- **Installation**: Claude Code + pm-workspace CLI on each dev's laptop
+- **Installation**: Claude Code / OpenCode + pm-workspace CLI on each dev's laptop
 
 ### **Phase 1: Vertical Expansion (8 weeks)**
 
@@ -146,7 +146,7 @@ savia sovereignty-audit --client client-alpha --output report.json
 
 - **Specs**: Plain Markdown in Git. Importable to Jira, Linear, Azure DevOps.
 - **SDD**: Plain YAML. No proprietary format.
-- **Agents/Skills**: Python + YAML. Works in Cursor, VS Code, Claude Code, offline.
+- **Agents/Skills**: Python + YAML. Works in Cursor, VS Code, Claude Code / OpenCode, offline.
 - **Client data**: Never stored on Anthropic servers. Only in your Git + Azure/AWS.
 
 ### Savia vs. 100% Copilot
@@ -285,7 +285,7 @@ cd savia
 ./install.sh --profile consultancy
 
 # Result:
-# - Claude Code + pm-workspace CLI ready
+# - Claude Code / OpenCode + pm-workspace CLI ready
 # - Team profiles generated (CEO, CTO, Dev, QA, etc.)
 ```
 

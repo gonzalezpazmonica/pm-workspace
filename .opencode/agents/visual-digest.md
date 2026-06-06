@@ -2,17 +2,11 @@
 name: visual-digest
 permission_level: L2
 description: "Digestión de imágenes con OCR contextual — 5 pasadas. Fotos de pizarras, notas manuscritas, diagramas en papel, capturas de reuniones. Usa contexto REAL del proyecto para resolver ambigüedades. PROACTIVELY cuando se detectan imágenes en carpetas de reuniones o documentos."
-tools:
-  read: true
-  write: true
-  edit: true
-  bash: true
-  glob: true
-  grep: true
+tools: [Read, Write, Edit, Bash, Glob, Grep]
 model: heavy
 permissionMode: default
 maxTurns: 30
-color: "#FF8800"
+color: orange
 token_budget:
   per_invocation: 100000
   context_window_target: 13000

@@ -181,7 +181,7 @@ Open an Issue on GitHub with one of these prefixes in the title:
 [QUESTION] How do I configure the workspace for projects with multiple repos?
 ```
 
-Always include: Claude Code versión used (`claude --versión`), which command or skill is involved, what behavior you expected and what you got, and whether it's reproducible with the `sala-reservas` test project in mock mode.
+Always include: Claude Code / OpenCode version used (`claude --version` or `opencode --version`), which command or skill is involved, what behavior you expected and what you got, and whether it's reproducible with the `sala-reservas` test project in mock mode.
 
 ## Code of conduct
 

@@ -6,7 +6,7 @@
 
 ## 1. Prerequisits
 
-- **Claude Code** instal·lat i autenticat (`claude --version`)
+- **Claude Code / OpenCode** instal·lat i autenticat (`claude --version` o `opencode --version`)
 - **Git** >= 2.30 (`git --version`)
 - **gh CLI** >= 2.0 per a PRs i issues (`gh --version`)
 - **jq** per a parseig JSON (`jq --version`)

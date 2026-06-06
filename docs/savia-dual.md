@@ -6,12 +6,12 @@
 
 ## La idea
 
-pm-workspace depende de Claude Code, que a su vez depende de la API de
+pm-workspace depende de Claude Code / OpenCode, que a su vez dependen de la API de
 Anthropic. Esa dependencia es un punto único de fallo: un outage, una
 cuota agotada, un corte de red y pierdes la herramienta.
 
 Savia Dual elimina ese punto único añadiendo un **proxy transparente** que
-enruta las peticiones de Claude Code al primer upstream que responda bien:
+enruta las peticiones de Claude Code / OpenCode al primer upstream que responda bien:
 
 1. Primero intenta **Anthropic** (calidad máxima, latencia baja)
 2. Si falla o tarda demasiado, cae a **Ollama local** con gemma4
@@ -23,14 +23,14 @@ a ninguna.
 ## Arquitectura
 
 ```
-Claude Code ──► savia-dual-proxy (127.0.0.1:8787)
+Claude Code / OpenCode ──► savia-dual-proxy (127.0.0.1:8787)
                    │
                    ├─► api.anthropic.com      (primario)
                    │
                    └─► 127.0.0.1:11434        (fallback, Ollama gemma4)
 ```
 
-Claude Code apunta al proxy vía `ANTHROPIC_BASE_URL=http://127.0.0.1:8787`.
+Claude Code / OpenCode apunta al proxy vía `ANTHROPIC_BASE_URL=http://127.0.0.1:8787`.
 El proxy habla protocolo Anthropic `/v1/messages` a ambos lados — Ollama
 ≥ 0.20.0 incluye ese endpoint nativo, sin necesidad de traductor.
 

@@ -9,7 +9,7 @@ pm-workspace se integra con herramientas externas usando MCP (Model Context Prot
 1. **Abre** [claude.ai/settings/connectors](https://claude.ai/settings/connectors)
 2. **Busca** la herramienta (GitHub, Slack, Jira, Notion, Sentry, Figma, Google Drive, etc.)
 3. **Haz clic** en "Conectar" → autoriza OAuth
-4. **Listo** — disponible inmediatamente en Claude Code, Desktop y Mobile
+4. **Listo** — disponible inmediatamente en Claude Code / OpenCode, Desktop y Mobile
 
 **Requisito:** Plan Pro, Max, Team o Enterprise.
 
@@ -25,7 +25,7 @@ claude mcp add --transport http {nombre} {url-del-server}
 
 ## Verifica la conexión
 
-En Claude Code:
+En Claude Code / OpenCode:
 - `/mcp` — Lista todos los servidores MCP conectados
 - `/integration-status` — Comprueba integraciones de pm-workspace
 

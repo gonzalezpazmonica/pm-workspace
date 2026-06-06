@@ -6,10 +6,10 @@ description: >
   confidenciales NO se filtren a ficheros del proyecto. Verifica limites de secciones
   confidenciales y clasifica datos sensibles. Invocado por meeting-digest, NO directamente.
 tools:
-  read: true
-  grep: true
+  - Read
+  - Grep
 model: heavy
-color: "#808080"
+color: amber
 maxTurns: 10
 max_context_tokens: 12000
 output_max_tokens: 1000

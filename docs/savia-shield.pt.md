@@ -26,7 +26,7 @@ que viola NDAs e RGPD.
 ### Fluxo principal (daemon ativo)
 
 ```
-Claude Code → hook PreToolUse → data-sovereignty-gate.sh
+Claude Code / OpenCode → hook PreToolUse → data-sovereignty-gate.sh
   → curl POST localhost:8444/gate (daemon unificado)
   → daemon: regex + NER + NFKC + base64 + cross-write → BLOCK/ALLOW
 ```

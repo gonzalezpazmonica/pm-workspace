@@ -8,13 +8,13 @@ description: >
   se crea o actualiza un CLAUDE.md de proyecto, se genera un resumen de sprint o retrospectiva
   para documentación interna, o se redacta cualquier documento técnico del repositorio.
 tools:
-  read: true
-  write: true
-  edit: true
-  glob: true
-  bash: true
+  - Read
+  - Write
+  - Edit
+  - Glob
+  - Bash
 model: fast
-color: "#FFFFFF"
+color: white
 maxTurns: 20
 max_context_tokens: 8000
 output_max_tokens: 500

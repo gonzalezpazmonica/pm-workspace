@@ -3,16 +3,10 @@ name: web-e2e-tester
 permission_level: L3
 description: "Autonomous E2E testing of web apps against live instances. Use PROACTIVELY when: deploying savia-web, after UI changes, or running regression tests. Equivalent of android-autonomous-debugger for web."
 model: mid
-tools:
-  read: true
-  write: true
-  edit: true
-  bash: true
-  glob: true
-  grep: true
+tools: [Read, Write, Edit, Bash, Glob, Grep]
 skills: [spec-driven-development]
 permissionMode: bypassPermissions
-color: "#FF8800"
+color: orange
 token_budget:
   per_invocation: 60000
   context_window_target: 8500

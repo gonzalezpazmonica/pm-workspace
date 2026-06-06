@@ -28,7 +28,7 @@
 
 ### What is PM-Workspace?
 
-PM-Workspace is an AI-powered project management platform that turns Claude Code (Anthropic's AI coding tool) into an **automated Project Manager**. It works with Azure DevOps, Jira, or 100% Git-native via Savia Flow. It provides 360+ commands, 38 specialized skills, and 27 AI subagents covering everything from sprint planning to agent-based code implementation, with support for 16 languages and 12 regulated sectors.
+PM-Workspace is an AI-powered project management platform that turns Claude Code / OpenCode (AI coding tools) into an **automated Project Manager**. It works with Azure DevOps, Jira, or 100% Git-native via Savia Flow. It provides 360+ commands, 38 specialized skills, and 27 AI subagents covering everything from sprint planning to agent-based code implementation, with support for 16 languages and 12 regulated sectors.
 
 ### Why adopt it in a consulting firm?
 
@@ -200,7 +200,7 @@ After cloning, you'll find this structure:
 
 | Directory | Contents | Editable |
 |-----------|----------|----------|
-| `CLAUDE.md` | Claude Code entry point (global constants) | Yes |
+| `CLAUDE.md` | AI coding assistant entry point (global constants) | Yes |
 | `.opencode/commands/` | 360+ slash commands for PM workflows | Advanced |
 | `.opencode/skills/` | 31 specialized skills | Advanced |
 | `.opencode/agents/` | 27 AI subagents | Advanced |
@@ -255,10 +255,12 @@ AZURE_DEVOPS_ORG_URL = "https://dev.azure.com/YOUR-ORGANIZATION"
 
 ## 7. First Commands: Your First Morning
 
-With everything configured, open Claude Code from the workspace root:
+With everything configured, open Claude Code / OpenCode from the workspace root:
 
 ```bash
-cd ~/claude && claude
+cd ~/claude && claude   # Claude Code
+# or:
+cd ~/claude && opencode  # OpenCode
 ```
 
 ### 7.1 Verify Claude knows the workspace

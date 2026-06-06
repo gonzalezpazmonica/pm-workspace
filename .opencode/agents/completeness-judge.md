@@ -3,8 +3,7 @@ name: completeness-judge
 description: Truth Tribunal judge — report covers what its title/abstract promises
 model: mid
 permission_level: L1
-tools:
-  read: true
+tools: [Read]
 token_budget:
   per_invocation: 60000
   context_window_target: 8500

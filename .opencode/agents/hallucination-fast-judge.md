@@ -3,11 +3,7 @@ name: hallucination-fast-judge
 description: Recommendation Tribunal judge — verifies that entities cited in a draft (files, functions, flags, libs, paths, commands) actually exist via tool calls
 model: fast
 permission_level: L1
-tools:
-  read: true
-  glob: true
-  grep: true
-  bash: true
+tools: [Read, Glob, Grep, Bash]
 token_budget:
   per_invocation: 30000
   context_window_target: 3500

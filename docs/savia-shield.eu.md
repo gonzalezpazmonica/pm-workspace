@@ -27,7 +27,7 @@ auditatu dezaketeena.
 ### Fluxu nagusia (daemon aktibo)
 
 ```
-Claude Code → hook PreToolUse → data-sovereignty-gate.sh
+Claude Code / OpenCode → hook PreToolUse → data-sovereignty-gate.sh
   → curl POST localhost:8444/gate (daemon bateratua)
   → daemon: regex + NER + NFKC + base64 + cross-write → BLOCK/ALLOW
 ```

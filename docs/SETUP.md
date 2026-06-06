@@ -79,9 +79,9 @@ chmod +x scripts/azdevops-queries.sh
 
 ---
 
-## Paso 6 — Configurar Claude Code para Agentes (opcional pero recomendado)
+## Paso 6 — Configurar Claude Code / OpenCode para Agentes (opcional pero recomendado)
 
-Para usar Spec-Driven Development con agentes Claude, necesitas la CLI de Claude Code disponible en el PATH:
+Para usar Spec-Driven Development con agentes Claude, necesitas la CLI de Claude Code o OpenCode disponible en el PATH:
 
 ```bash
 # Verificar que claude CLI está instalado
@@ -104,20 +104,22 @@ echo ${ANTHROPIC_API_KEY:0:10}...   # Solo mostrar los primeros 10 chars
 
 ---
 
-## Paso 7 — Abrir con Claude Code
+## Paso 7 — Abrir con Claude Code / OpenCode
 
 ```bash
 # Desde la raíz de pm-workspace/
-claude
+claude   # Claude Code
+# o bien:
+opencode  # OpenCode
 ```
 
-Claude Code leerá automáticamente `CLAUDE.md` y estará listo para usar.
+El frontend leerá automáticamente `CLAUDE.md` y estará listo para usar.
 
 ---
 
 ## Comandos Disponibles
 
-Una vez dentro de Claude Code:
+Una vez dentro de Claude Code / OpenCode:
 
 ### Gestión de Sprint y Reporting
 
@@ -159,7 +161,7 @@ Una vez dentro de Claude Code:
 
 ```
 CLAUDE.md                                    ← Léelo primero (contexto global + constantes)
-.opencode/skills/                              ← Skills que Claude Code puede invocar
+.opencode/skills/                              ← Skills que el AI coding assistant puede invocar
   ├── pbi-decomposition/SKILL.md             ← Descomposición inteligente de PBIs
   └── spec-driven-development/SKILL.md       ← SDD: specs para humanos y agentes
       └── references/

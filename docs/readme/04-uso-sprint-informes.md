@@ -2,7 +2,7 @@
 
 ## Gestión de Sprint
 
-Ejecuta estos comandos dentro de Claude Code:
+Ejecuta estos comandos dentro de Claude Code / OpenCode:
 
 | Comando | Descripción |
 |---------|-------------|

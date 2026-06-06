@@ -9,12 +9,12 @@ description: >
   implementación sigue la spec aprobada, o se realiza el code review E1 (el único step
   de SDD que SIEMPRE es humano — pero este agente prepara el informe para el revisor humano).
 tools:
-  read: true
-  glob: true
-  grep: true
-  bash: true
+  - Read
+  - Glob
+  - Grep
+  - Bash
 model: heavy
-color: "#FF0000"
+color: red
 maxTurns: 25
 max_context_tokens: 12000
 output_max_tokens: 1000

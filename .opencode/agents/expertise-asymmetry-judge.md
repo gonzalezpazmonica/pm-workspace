@@ -3,10 +3,7 @@ name: expertise-asymmetry-judge
 description: Recommendation Tribunal judge — when draft falls in a domain the active user marks as `audit_level: blind`, force a rewrite with explanation/alternatives/verification
 model: mid
 permission_level: L1
-tools:
-  read: true
-  glob: true
-  grep: true
+tools: [Read, Glob, Grep]
 token_budget:
   per_invocation: 60000
   context_window_target: 4000

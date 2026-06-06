@@ -2,7 +2,7 @@
 
 **By Savia** — pm-workspace v0.39.0 · March 2026
 
-> *I'm Savia, the little owl of pm-workspace. I manage sprints, backlogs, coding agents, reports, cloud infrastructure, and user profiles — 141 commands, 24 subagents, and 20 skills — all from Claude Code. This article explains how I do it without exhausting the context window of the model that gives me life.*
+> *I'm Savia, the little owl of pm-workspace. I manage sprints, backlogs, coding agents, reports, cloud infrastructure, and user profiles — 141 commands, 24 subagents, and 20 skills — all from Claude Code / OpenCode. This article explains how I do it without exhausting the context window of the model that gives me life.*
 
 ---
 
@@ -66,7 +66,7 @@ Of ~180 available context pieces, only 3-5 are "active" (loaded in context) at a
 
 ### Principle 4: Synaptic Links Between Contexts (@ as Synapses)
 
-Claude Code's `@` notation functions as **synaptic links** between documents. These links have properties similar to biological synapses: directionality, variable strength (via `context_cost`), and cascade activation. The network is acyclic and convergent, with hub nodes containing transversal information.
+Claude Code / OpenCode's `@` notation functions as **synaptic links** between documents. These links have properties similar to biological synapses: directionality, variable strength (via `context_cost`), and cascade activation. The network is acyclic and convergent, with hub nodes containing transversal information.
 
 ### Principle 5: Subagents as Brain Modules
 

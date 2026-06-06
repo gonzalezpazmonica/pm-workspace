@@ -17,7 +17,7 @@
 
 ## ¿Por qué Savia para una startup?
 
-- **Coste cero**: Git + Claude Code. Sin licencias de Jira, Asana ni Linear.
+- **Coste cero**: Git + Claude Code / OpenCode. Sin licencias de Jira, Asana ni Linear.
 - **Velocidad**: de idea a spec ejecutable en minutos con SDD.
 - **Un solo repo para todo**: código, gestión, docs, comunicación.
 - **Escala contigo**: empiezas con Savia Flow standalone, añades Azure DevOps/Jira cuando crezcas.

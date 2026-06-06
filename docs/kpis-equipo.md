@@ -1,6 +1,6 @@
 # KPIs del Equipo — Métricas y Umbrales
 
-> Define los KPIs que Claude Code debe calcular, sus fuentes de datos y los umbrales para el semáforo de estado.
+> Define los KPIs que Claude Code / OpenCode debe calcular, sus fuentes de datos y los umbrales para el semáforo de estado.
 
 ## Constantes de KPIs
 

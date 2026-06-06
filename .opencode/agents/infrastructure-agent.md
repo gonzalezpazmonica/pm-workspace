@@ -7,14 +7,14 @@ description: >
   propone escalados que REQUIEREN aprobación humana. Soporta Azure, AWS, GCP,
   Terraform y otras herramientas IaC.
 tools:
-  read: true
-  write: true
-  edit: true
-  bash: true
-  glob: true
-  grep: true
+  - Read
+  - Write
+  - Edit
+  - Bash
+  - Glob
+  - Grep
 model: heavy
-color: "#FF8800"
+color: orange
 maxTurns: 35
 max_context_tokens: 2000
 output_max_tokens: 200

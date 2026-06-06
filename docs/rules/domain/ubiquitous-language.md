@@ -44,19 +44,36 @@ python3 scripts/extract-domain-entities.py --project pm-workspace --auto-update
 
 # Desde un fichero específico
 python3 scripts/extract-domain-entities.py --project X --input docs/spec.md
+
+# Slice 1: generar/sobreescribir projects/{slug}/CONTEXT.md completo desde los términos extraídos
+python3 scripts/extract-domain-entities.py --project X --export-glossary
+
+# Slice 2: registrar términos extraídos como entidades tipo "concept" en el knowledge graph
+python3 scripts/extract-domain-entities.py --project X --sync-graph
+
+# Combinado: exportar glosario Y sincronizar grafo en una sola pasada
+python3 scripts/extract-domain-entities.py --project X --export-glossary --sync-graph
 ```
 
 Output: `output/domain-entity-report-<project>-YYYYMMDD.md`
 Columnas: `term | mentions | inferred definition | status`
+
+`--export-glossary` genera `projects/{project}/CONTEXT.md` (crea directorio si no existe).
+`--sync-graph` llama a `scripts/knowledge-graph.py` para registrar los términos como entidades
+tipo `concept` con relación `DOMAIN_TERM` desde la entidad del proyecto.
+`--graph-db <path>` permite especificar un DB SQLite alternativo (default: `output/knowledge-graph.db`).
 
 ## Bridge a Knowledge Graph (SE-162)
 
 ```bash
 # Después de build, añade edges DOMAIN_TERM al grafo
 python3 scripts/knowledge-graph-domain-bridge.py
+
+# Alternativa directa vía extractor (Slice 2):
+python3 scripts/extract-domain-entities.py --project X --sync-graph
 ```
 
-Cada término de `CONTEXT.md` genera: `[project] --DOMAIN_TERM--> [concept] term`.
+Cada término genera: `[project] --DOMAIN_TERM--> [concept] term`.
 
 ## Invariantes (AC spec SE-086)
 
@@ -67,10 +84,12 @@ Cada término de `CONTEXT.md` genera: `[project] --DOMAIN_TERM--> [concept] term
 - AC-06: 3 status: new / existing / inconsistent.
 - AC-07: --auto-update marca [REVIEW], nunca sobreescribe definiciones existentes.
 - AC-08: Sin --auto-update, no modifica CONTEXT.md.
+- AC-09 (Slice 1): --export-glossary genera projects/{slug}/CONTEXT.md con todos los términos encontrados.
+- AC-10 (Slice 2): --sync-graph registra términos como concept en knowledge graph sin fallar si el DB no existe.
 
 ## No-objetivos
 
-- No genera definiciones autoritativas — siempre [REVIEW] en auto-update.
-- No borra términos existentes de CONTEXT.md.
+- No genera definiciones autoritativas — siempre [REVIEW] en auto-update / export-glossary.
+- No borra términos existentes de CONTEXT.md (sólo --export-glossary sobreescribe el fichero completo).
 - No sustituye ADRs para decisiones arquitectónicas.
-- No crea CONTEXT.md sin confirmación (skill) o sin --auto-update (script).
+- No crea CONTEXT.md sin confirmación (skill) o sin --auto-update / --export-glossary (script).

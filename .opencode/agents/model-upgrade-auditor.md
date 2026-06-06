@@ -2,13 +2,7 @@
 name: model-upgrade-auditor
 permission_level: L1
 description: "Audits agents, skills, and prompts for workarounds that newer models may no longer need. Proposes simplifications with eval-backed evidence."
-tools:
-  read: true
-  write: true
-  glob: true
-  grep: true
-  bash: true
-  task: true
+tools: [Read, Write, Glob, Grep, Bash, Task]
 model: heavy
 token_budget:
   per_invocation: 100000
@@ -16,7 +10,7 @@ token_budget:
   escalation_policy: block
 permissionMode: acceptEdits
 maxTurns: 40
-color: "#CC00CC"
+color: magenta
 ---
 
 # Model Upgrade Auditor

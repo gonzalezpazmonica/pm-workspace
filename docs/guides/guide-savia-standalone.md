@@ -10,7 +10,7 @@
 - **Portabilidad total**: el repositorio ES tu herramienta de gestión. Clona y trabaja.
 - **Cifrado E2E**: mensajería interna con RSA-4096 + AES-256-CBC.
 - **Travel mode**: llévalo en un USB y trabaja offline.
-- **Coste cero**: solo necesitas Git y Claude Code.
+- **Coste cero**: solo necesitas Git y Claude Code / OpenCode.
 
 ---
 

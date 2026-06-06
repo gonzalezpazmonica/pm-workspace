@@ -1,6 +1,6 @@
 # Agent Teams para SDD Paralelo
 
-> Coordinación de múltiples agentes Claude Code trabajando en paralelo en sprints SDD.
+> Coordinación de múltiples agentes (Claude Code / OpenCode) trabajando en paralelo en sprints SDD.
 > Feature experimental: requiere `CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1` (ya habilitado en settings.json).
 
 ---

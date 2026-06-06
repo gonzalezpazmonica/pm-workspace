@@ -176,7 +176,7 @@ cmd_inject() {
 
   local lines; lines=$(wc -l < "$target")
   echo "Session summary ready for injection: $target ($lines lines)"
-  echo "This file will be automatically loaded by Claude Code's memory system."
+  echo "This file will be automatically loaded by the AI coding assistant's memory system."
 }
 
 # ── Status ───────────────────────────────────────────────────────────────────

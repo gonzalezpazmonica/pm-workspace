@@ -23,7 +23,7 @@ Esto pre-descarga el instalador de Ollama y el modelo LLM en caché local (~5-10
 ## ¿Cuándo activar el modo emergencia?
 
 Activa el modo emergencia si:
-- Claude Code no responde o da errores de conexión
+- Claude Code / OpenCode no responde o da errores de conexión
 - El proveedor de LLM (Anthropic) tiene una caída de servicio
 - No hay conexión a internet pero necesitas seguir trabajando
 - Quieres probar pm-workspace sin depender del cloud
@@ -68,7 +68,7 @@ Deberías ver todo en verde (✓). Si hay problemas, el script te dice qué hace
 source ~/.pm-workspace-emergency.env
 ```
 
-Ahora Claude Code usará el LLM local en lugar del cloud.
+Ahora Claude Code / OpenCode usará el LLM local en lugar del cloud.
 
 ## Qué puedes hacer en modo emergencia
 

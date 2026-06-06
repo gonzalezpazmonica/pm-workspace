@@ -3,15 +3,11 @@ name: dev-orchestrator
 decision_tree: decision-trees/dev-orchestrator-decisions.md
 permission_level: L4
 description: Analiza specs y crea planes de implementación con slices, dependencias y presupuestos de contexto
-tools:
-  read: true
-  glob: true
-  grep: true
-  bash: true
+tools: [Read, Glob, Grep, Bash]
 model: mid
 permissionMode: plan
 maxTurns: 20
-color: "#00CCCC"
+color: cyan
 max_context_tokens: 8000
 output_max_tokens: 500
 token_budget:

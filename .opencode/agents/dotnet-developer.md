@@ -9,14 +9,14 @@ description: >
   spec definida. SIEMPRE requiere una Spec SDD aprobada antes de empezar, salvo para
   fixes triviales de una sola línea.
 tools:
-  read: true
-  write: true
-  edit: true
-  bash: true
-  glob: true
-  grep: true
+  - Read
+  - Write
+  - Edit
+  - Bash
+  - Glob
+  - Grep
 model: mid
-color: "#00CC00"
+color: green
 maxTurns: 40
 max_context_tokens: 8000
 output_max_tokens: 500

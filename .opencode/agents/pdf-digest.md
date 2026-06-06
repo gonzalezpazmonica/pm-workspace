@@ -7,20 +7,13 @@ description: >
   proyecto para resolver ambiguedades y enriquecer la extraccion. Actualiza documentos de
   contexto vivos tras la digestion. Usar PROACTIVELY cuando se detectan PDFs nuevos en
   carpetas de proyecto o SharePoint.
-tools:
-  read: true
-  write: true
-  edit: true
-  bash: true
-  glob: true
-  grep: true
-  task: true
+tools: [Read, Write, Edit, Bash, Glob, Grep, Task]
 model: heavy
 permissionMode: plan
 maxTurns: 30
 max_context_tokens: 80000
 output_max_tokens: 4000
-color: "#808080"
+color: indigo
 token_budget:
   per_invocation: 100000
   context_window_target: 13000

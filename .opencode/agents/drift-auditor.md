@@ -2,15 +2,11 @@
 name: drift-auditor
 permission_level: L1
 description: "Auditoría de convergencia repo: detecta drift entre docs, config y código. Usar PROACTIVELY tras cambios grandes o al inicio de sprint."
-tools:
-  read: true
-  glob: true
-  grep: true
-  bash: true
+tools: [Read, Glob, Grep, Bash]
 model: heavy
 permissionMode: plan
 maxTurns: 20
-color: "#FFD700"
+color: yellow
 max_context_tokens: 10000
 output_max_tokens: 1000
 token_budget:

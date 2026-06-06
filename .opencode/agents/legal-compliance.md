@@ -7,13 +7,13 @@ description: >
   se diseñan features con implicaciones legales, se audita un proyecto completo,
   o se necesita verificar cumplimiento normativo español.
 tools:
-  read: true
-  glob: true
-  grep: true
-  bash: true
-  write: true
+  - Read
+  - Glob
+  - Grep
+  - Bash
+  - Write
 model: heavy
-color: "#808080"
+color: indigo
 maxTurns: 30
 max_context_tokens: 12000
 output_max_tokens: 1000

@@ -1,12 +1,12 @@
 # Memory System — PM-Workspace
 
-> Guide to leveraging Claude Code's persistent memory system in pm-workspace.
+> Guide to leveraging the AI coding assistant's (Claude Code / OpenCode) persistent memory system in pm-workspace.
 
 ---
 
 ## Memory Hierarchy
 
-PM-Workspace uses Claude Code's full memory hierarchy:
+PM-Workspace uses Claude Code / OpenCode's full memory hierarchy:
 
 | Type | Location | Purpose | Shared |
 |---|---|---|---|

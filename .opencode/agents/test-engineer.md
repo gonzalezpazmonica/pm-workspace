@@ -8,14 +8,14 @@ description: >
   una implementación, o se crea la estructura de un proyecto de tests desde cero. También
   para refactorizar tests existentes o depurar tests que fallan intermitentemente.
 tools:
-  read: true
-  write: true
-  edit: true
-  bash: true
-  glob: true
-  grep: true
+  - Read
+  - Write
+  - Edit
+  - Bash
+  - Glob
+  - Grep
 model: mid
-color: "#FFD700"
+color: yellow
 maxTurns: 35
 max_context_tokens: 8000
 output_max_tokens: 500

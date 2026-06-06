@@ -2,13 +2,7 @@
 name: feasibility-probe
 permission_level: L3
 description: "Validates spec feasibility by attempting a time-boxed prototype. Produces viability report with score, blocking sections, and decomposition suggestions."
-tools:
-  read: true
-  write: true
-  edit: true
-  bash: true
-  glob: true
-  grep: true
+tools: [Read, Write, Edit, Bash, Glob, Grep]
 model: mid
 token_budget:
   per_invocation: 60000
@@ -16,7 +10,7 @@ token_budget:
   escalation_policy: escalate
 permissionMode: bypassPermissions
 maxTurns: 30
-color: "#FFD700"
+color: yellow
 ---
 
 # Feasibility Probe Agent

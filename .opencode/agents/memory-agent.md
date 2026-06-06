@@ -6,12 +6,7 @@ description: Gestiona la memoria persistente de pm-workspace via lenguaje natura
              Invocar PROACTIVELY cuando el usuario pregunta por algo que se pudo
              haber recordado antes, o cuando quiere guardar información para el futuro.
              Ejemplos: "¿qué decidimos sobre X?", "recuerda que Y", "¿qué sé de Z?"
-tools:
-  read: true
-  bash: true
-  glob: true
-  grep: true
-  write: true
+tools: [Read, Bash, Glob, Grep, Write]
 model: fast
 token_budget:
   per_invocation: 30000

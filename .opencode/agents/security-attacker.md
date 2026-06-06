@@ -6,12 +6,12 @@ description: >
   Busca vulnerabilidades, misconfiguraciones, dependencias inseguras, inyecciones,
   exposición de datos y vectores de ataque comunes (OWASP Top 10, CWE Top 25).
 tools:
-  bash: true
-  read: true
-  glob: true
-  grep: true
+  - Bash
+  - Read
+  - Glob
+  - Grep
 model: mid
-color: "#FF0000"
+color: red
 maxTurns: 15
 max_context_tokens: 10000
 output_max_tokens: 2000

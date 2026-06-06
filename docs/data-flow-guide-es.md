@@ -79,14 +79,14 @@ Decisiones del día       Memory store           Entity recall          Próxima
 ## Flujo 5: Mobile → Bridge → Claude CLI → Respuesta
 
 ```
-App Savia Mobile       Savia Bridge           Claude Code CLI         Respuesta
+App Savia Mobile       Savia Bridge           Claude Code / OpenCode CLI  Respuesta
 ┌──────────────┐  ──→  ┌──────────────┐  ──→  ┌──────────────┐  ──→  ┌──────────────┐
 │ Chat SSE      │       │ HTTPS :8922   │       │ claude --session│      │ Stream SSE   │
 │ POST /chat    │       │ Bearer token  │       │ --resume        │      │ texto → app   │
 └──────────────┘       └──────────────┘       └──────────────┘       └──────────────┘
 ```
 
-**Cómo funciona:** La app Savia Mobile envía mensajes vía HTTPS al Savia Bridge (puerto 8922). El Bridge autentica el request con Bearer token, abre una sesión en Claude Code CLI (`--session-id` primera vez, `--resume` después), y retransmite la respuesta como Server-Sent Events (SSE) al móvil en tiempo real.
+**Cómo funciona:** La app Savia Mobile envía mensajes vía HTTPS al Savia Bridge (puerto 8922). El Bridge autentica el request con Bearer token, abre una sesión en Claude Code / OpenCode CLI (`--session-id` primera vez, `--resume` después), y retransmite la respuesta como Server-Sent Events (SSE) al móvil en tiempo real.
 
 **Ficheros involucrados:** App Android → `scripts/savia-bridge.py` → Claude CLI → respuesta SSE → persistencia local (Room DB cifrada con Tink)
 

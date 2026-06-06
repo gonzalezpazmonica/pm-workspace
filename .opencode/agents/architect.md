@@ -9,12 +9,12 @@ description: >
   módulos, o se valida la viabilidad técnica antes de implementar. También para detectar
   deuda técnica y proponer refactorizaciones estructurales.
 tools:
-  read: true
-  glob: true
-  grep: true
-  bash: true
+  - Read
+  - Glob
+  - Grep
+  - Bash
 model: heavy
-color: "#0066FF"
+color: blue
 maxTurns: 30
 max_context_tokens: 12000
 output_max_tokens: 1000

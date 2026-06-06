@@ -7,14 +7,14 @@ description: >
   Express, Fastify o Prisma), se refactoriza código existente, o se corrige un bug con spec definida.
   SIEMPRE requiere una Spec SDD aprobada antes de empezar, salvo para fixes triviales de una sola línea.
 tools:
-  read: true
-  write: true
-  edit: true
-  bash: true
-  glob: true
-  grep: true
+  - Read
+  - Write
+  - Edit
+  - Bash
+  - Glob
+  - Grep
 model: mid
-color: "#0066FF"
+color: blue
 maxTurns: 30
 max_context_tokens: 8000
 output_max_tokens: 500

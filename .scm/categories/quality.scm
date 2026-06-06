@@ -1,5 +1,5 @@
 # quality — Savia Capability Map (L1)
-> 229 resources
+> 230 resources
 
 - **/a11y-audit** (cmd): Auditoría de accesibilidad WCAG 2.2 completa con escaneo de HTML/componentes. Detecta: alt text faltante, problemas de contraste, navegación por teclado, etiquetas ARIA, gestión de focus, jerarquía de encabezados, etiquetas de formularios.
 - **/a11y-fix** (cmd): Correcciones automáticas de accesibilidad con verificación y preview. Genera código de fix para issues detectados por /a11y-audit. Preview antes de aplicar. Verifica que no introduce nuevos problemas. Covers: alt text, ARIA attributes, focu
@@ -52,7 +52,7 @@
 - **model-upgrade-auditor** (agent): Audits agents, skills, and prompts for workarounds that newer models may no longer need. Proposes simplifications with eval-backed evidence.
 - **mutation-audit** (skill): Usar cuando se quiere medir la calidad real de los tests mediante mutation testing.
 - **mutation-audit** (script): mutation-audit.sh — SE-035 Slice 1 mutation testing audit.
-- **opencode-cross-audit** (script): opencode-cross-audit.sh — Verifies .opencode/ vs .claude/ resource alignment
+- **opencode-cross-audit** (script): scripts/opencode-cross-audit.sh
 - **opencode-parity-audit** (script): opencode-parity-audit.sh — SE-077 Slice 2
 - **overnight-sprint** (cmd): Launch autonomous overnight sprint — executes low-risk tasks, creates PRs for human review
 - **pentester** (agent): >
@@ -110,6 +110,7 @@
 - **security-scan** (script): security-scan.sh — Security audit for pm-workspace
 - **skill-audit** (script): skill-audit.sh — Baseline skill catalog quality auditor (SE-084 Slice 1)
 - **skill-catalog-audit** (script): skill-catalog-audit.sh — SE-084 Slice 1.
+- **skill-catalog-auditor** (script): skill-catalog-auditor.sh — SE-084 Slice 1 — Skill catalog quality auditor
 - **skill-maturity-audit** (script): skill-maturity-audit.sh — SE-167 Skill Maturity Kanban
 - **skills-usage-audit** (script): skills-usage-audit.sh — Audita uso de los 91 skills de pm-workspace.
 - **sovereignty-audit** (cmd): Cognitive sovereignty audit — diagnose AI vendor lock-in risk and data portability

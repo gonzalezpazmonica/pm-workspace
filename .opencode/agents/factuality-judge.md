@@ -3,11 +3,7 @@ name: factuality-judge
 description: Truth Tribunal judge — factual accuracy of claims against verifiable sources
 model: heavy
 permission_level: L1
-tools:
-  read: true
-  glob: true
-  grep: true
-  bash: true
+tools: [Read, Glob, Grep, Bash]
 token_budget:
   per_invocation: 100000
   context_window_target: 13000

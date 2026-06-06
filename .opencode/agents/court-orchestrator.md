@@ -4,14 +4,7 @@ decision_tree: decision-trees/court-orchestrator-decisions.md
 description: Convenes the Code Review Court, manages fix cycles, produces .review.crc
 model: heavy
 permission_level: L4
-tools:
-  read: true
-  write: true
-  edit: true
-  bash: true
-  glob: true
-  grep: true
-  task: true
+tools: [Read, Write, Edit, Bash, Glob, Grep, Task]
 token_budget:
   per_invocation: 100000
   context_window_target: 13000

@@ -3,10 +3,7 @@ name: correctness-judge
 description: Code Review Court judge — logic, tests, edge cases, error paths
 model: mid
 permission_level: L1
-tools:
-  read: true
-  glob: true
-  grep: true
+tools: [Read, Glob, Grep]
 token_budget:
   per_invocation: 60000
   context_window_target: 8500

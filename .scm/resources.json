@@ -1,6 +1,6 @@
 {
-  "hash": "51e505021879",
-  "total": 1208,
+  "hash": "db46a259310b",
+  "total": 1209,
   "resources": [
     {
       "category": "analysis",
@@ -13272,15 +13272,14 @@
       "category": "quality",
       "name": "opencode-cross-audit",
       "intents": [
-        "alignment",
         "audit",
-        "claude",
         "cross",
-        "opencode"
+        "opencode",
+        "scripts"
       ],
       "kind": "script",
       "path": "scripts/opencode-cross-audit.sh",
-      "description": "opencode-cross-audit.sh — Verifies .opencode/ vs .claude/ resource alignment"
+      "description": "scripts/opencode-cross-audit.sh"
     },
     {
       "category": "quality",
@@ -13990,6 +13989,20 @@
       "kind": "script",
       "path": "scripts/skill-catalog-audit.sh",
       "description": "skill-catalog-audit.sh — SE-084 Slice 1."
+    },
+    {
+      "category": "quality",
+      "name": "skill-catalog-auditor",
+      "intents": [
+        "auditor",
+        "catalog",
+        "quality",
+        "skill",
+        "slice"
+      ],
+      "kind": "script",
+      "path": "scripts/skill-catalog-auditor.sh",
+      "description": "skill-catalog-auditor.sh — SE-084 Slice 1 — Skill catalog quality auditor"
     },
     {
       "category": "quality",

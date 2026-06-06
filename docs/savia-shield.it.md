@@ -26,7 +26,7 @@ che viola NDA e GDPR.
 ### Flusso principale (daemon attivo)
 
 ```
-Claude Code → hook PreToolUse → data-sovereignty-gate.sh
+Claude Code / OpenCode → hook PreToolUse → data-sovereignty-gate.sh
   → curl POST localhost:8444/gate (daemon unificato)
   → daemon: regex + NER + NFKC + base64 + cross-write → BLOCK/ALLOW
 ```

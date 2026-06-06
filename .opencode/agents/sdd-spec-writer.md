@@ -9,14 +9,14 @@ description: >
   por un agente Claude, o se crea la estructura de specs para un sprint. Este agente sintetiza
   el trabajo de architect y business-analyst en un contrato de implementación accionable.
 tools:
-  read: true
-  write: true
-  edit: true
-  glob: true
-  grep: true
-  bash: true
+  - Read
+  - Write
+  - Edit
+  - Glob
+  - Grep
+  - Bash
 model: heavy
-color: "#00CCCC"
+color: cyan
 maxTurns: 35
 max_context_tokens: 8000
 output_max_tokens: 500

@@ -9,7 +9,7 @@ Para URLs que requieren extracción de contenido (no solo snippet/title de searc
 ```
 1. Cache local (TTL por categoría)
      ↓ (miss)
-2. WebFetch tool (Claude Code)
+2. WebFetch tool (Claude Code / OpenCode)
      ↓ (403/429/503/empty)
 3. scripts/scrapling-fetch.sh --json
      ↓ (scrapling no instalado)
@@ -56,7 +56,7 @@ Para activar Scrapling como MCP server nativo (opt-in, NO default):
 3. Auditar: `bash scripts/mcp-security-audit.sh` (MCP-01..MCP-11 deben pasar)
 4. Copiar entry `template.scrapling` desde `.claude/mcp-templates/scrapling.json` a `.claude/mcp.json → mcpServers`
 5. NO añadir `autoApprove` (regla MCP-02)
-6. Reiniciar Claude Code
+6. Reiniciar Claude Code / OpenCode
 
 El MCP expone capacidades de fetch adaptativo al LLM directamente. Uso opt-in porque la activación requiere Chromium (~500MB) y dependencias pesadas. Ver `.claude/mcp-templates/scrapling.json` para la config template.
 

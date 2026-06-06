@@ -7,14 +7,14 @@ description: >
   migraciones), se refactoriza código existente, o se corrige un bug con spec definida.
   SIEMPRE requiere una Spec SDD aprobada antes de empezar.
 tools:
-  read: true
-  write: true
-  edit: true
-  bash: true
-  glob: true
-  grep: true
+  - Read
+  - Write
+  - Edit
+  - Bash
+  - Glob
+  - Grep
 model: mid
-color: "#00CCCC"
+color: cyan
 maxTurns: 30
 max_context_tokens: 8000
 output_max_tokens: 500
