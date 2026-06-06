@@ -118,3 +118,27 @@ SPEC-121 introduce `handoff-as-function` como protocolo ligero para transiciones
 **Regla práctica**: si el handoff cabe en 7 campos YAML, usa `handoff-as-function`. Si necesitas párrafos explicativos, análisis de contexto o múltiples receptores, usa agent-notes.
 
 Validación de handoff-as-function: `bash scripts/validate-handoff.sh --file handoff.yaml`.
+
+---
+
+## Integracion con Orchestration Protocol (SE-205)
+
+Para flujos con 4+ agentes en paralelo (court-orchestrator, dev-orchestrator
+coordinando multiples workers), las agent-notes de texto libre son insuficientes.
+Usar `scripts/orchestration-protocol.sh` como capa de mensajeria tipada.
+
+| Dimension | Agent Notes | Orchestration Protocol (SE-205) |
+|---|---|---|
+| Formato | Markdown libre con frontmatter YAML | JSON tipado, schema fijo |
+| Persiste entre sesiones | Si (ficheros en `agent-notes/`) | Si (`.savia/orchestration/`) |
+| Circuit breaker | No | Si: 3 fallos -> task=failed |
+| Task states verificables | No | Si: pending/dispatched/completed/failed/blocked |
+| Heartbeat para tareas largas | No | Si: tipo `heartbeat` |
+| Para uso en | Documentacion de decisiones | Coordinacion runtime de agentes paralelos |
+
+Flujo combinado recomendado:
+1. Agente escribe agent-note con contexto y decisiones (persistencia larga)
+2. Coordinador usa `orchestration-protocol.sh send --type worker_done` para senalar completitud (runtime)
+
+Referencia completa: `docs/rules/domain/orchestration-protocol.md`
+CLI: `bash scripts/orchestration-protocol.sh --help`

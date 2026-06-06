@@ -1,5 +1,5 @@
 # planning — Savia Capability Map (L1)
-> 533 resources
+> 534 resources
 
 - **/accreditation-track** (cmd): >
 - **/decide-architecture** (cmd): Clasifica una tarea como WORKFLOW (deterministica) o AGENT (loop). Bias hacia workflow per Anthropic. Sugiere plantilla inicial. Mide accuracy contra corpus curado de 20 tareas.
@@ -283,6 +283,7 @@
 - **onboarding-dev** (skill): Usar cuando se incorpora un desarrollador nuevo al proyecto y necesita buddy IA.
 - **operational-point-selector** (script): operational-point-selector.sh — SE-029 Slice 4.
 - **opus47-calibration-scorecard** (script): opus47-calibration-scorecard.sh — SE-070 Slice 1
+- **orchestration-protocol** (script): scripts/orchestration-protocol.sh — SE-205: typed inter-agent messaging
 - **orgchart-import** (cmd): >
 - **orgchart-import** (skill): Usar cuando se importa un organigrama para extraer la estructura del equipo.
 - **oumi-probe** (script): oumi-probe.sh — SE-028 Slice 1 oumi integration viability probe.

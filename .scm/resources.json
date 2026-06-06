@@ -1,6 +1,6 @@
 {
-  "hash": "bad56180cfc3",
-  "total": 1218,
+  "hash": "f56bcd451756",
+  "total": 1220,
   "resources": [
     {
       "category": "analysis",
@@ -257,6 +257,20 @@
       "kind": "cmd",
       "path": ".claude/commands/agent-trace.md",
       "description": "Dashboard de trazas de ejecución de agentes con tokens, duración y resultado"
+    },
+    {
+      "category": "analysis",
+      "name": "agent-wait-idle",
+      "intents": [
+        "agent",
+        "detect",
+        "idle",
+        "process",
+        "wait"
+      ],
+      "kind": "script",
+      "path": "scripts/agent-wait-idle.sh",
+      "description": "agent-wait-idle.sh — SE-206: detect when an AI agent process is idle"
     },
     {
       "category": "analysis",
@@ -9444,6 +9458,20 @@
       "kind": "script",
       "path": "scripts/opus47-calibration-scorecard.sh",
       "description": "opus47-calibration-scorecard.sh — SE-070 Slice 1"
+    },
+    {
+      "category": "planning",
+      "name": "orchestration-protocol",
+      "intents": [
+        "agent",
+        "inter",
+        "messaging",
+        "orchestration",
+        "protocol"
+      ],
+      "kind": "script",
+      "path": "scripts/orchestration-protocol.sh",
+      "description": "scripts/orchestration-protocol.sh — SE-205: typed inter-agent messaging"
     },
     {
       "category": "planning",
