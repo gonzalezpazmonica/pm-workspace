@@ -1,6 +1,6 @@
 {
-  "hash": "63c8fcfdcecd",
-  "total": 1205,
+  "hash": "51e505021879",
+  "total": 1208,
   "resources": [
     {
       "category": "analysis",
@@ -2309,6 +2309,20 @@
     },
     {
       "category": "development",
+      "name": "code-twin-anonymize",
+      "intents": [
+        "anonymize",
+        "code",
+        "slice",
+        "spec",
+        "twin"
+      ],
+      "kind": "script",
+      "path": "scripts/code-twin-anonymize.sh",
+      "description": "code-twin-anonymize.sh — SPEC-190 Slice 8 (AC-14)"
+    },
+    {
+      "category": "development",
       "name": "code-twin-extract",
       "intents": [
         "code",
@@ -2351,6 +2365,20 @@
     },
     {
       "category": "development",
+      "name": "code-twin-load",
+      "intents": [
+        "code",
+        "load",
+        "slice",
+        "spec",
+        "twin"
+      ],
+      "kind": "script",
+      "path": "scripts/code-twin-load.sh",
+      "description": "code-twin-load.sh — SPEC-190 Slice 8 (AC-10)"
+    },
+    {
+      "category": "development",
       "name": "code-twin-simulate",
       "intents": [
         "code",
@@ -2362,6 +2390,20 @@
       "kind": "script",
       "path": "scripts/code-twin-simulate.sh",
       "description": "code-twin-simulate.sh — SPEC-190 Slice 5"
+    },
+    {
+      "category": "development",
+      "name": "code-twin-sync-check",
+      "intents": [
+        "check",
+        "code",
+        "slice",
+        "spec",
+        "sync"
+      ],
+      "kind": "script",
+      "path": "scripts/code-twin-sync-check.sh",
+      "description": "code-twin-sync-check.sh — SPEC-190 Slice 8 (AC-12)"
     },
     {
       "category": "development",

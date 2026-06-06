@@ -29,7 +29,7 @@ Identidad del humano al volante + memoria auto persistida fuera del repo.
 
 ## Estructura
 
-`.claude/{agents(70), commands(560), profiles, hooks(75/76reg), rules/{domain,languages}, skills(99), settings.json}` · `docs/` · `projects/` · `scripts/` · `tests/`
+`.claude/{agents(71), commands(560), profiles, hooks(75/76reg), rules/{domain,languages}, skills(99), settings.json}` · `docs/` · `projects/` · `scripts/` · `tests/`
 
 ## Reglas Críticas (Rules 1-8, inline)
 
@@ -50,7 +50,7 @@ Identidad del humano al volante + memoria auto persistida fuera del repo.
 | Config pm-workspace (constantes, paths) | `docs/rules/domain/pm-config.md` | Necesitas un path/constante de pm-workspace |
 | Proyectos activos privados | `.claude/rules/pm-config.local.md` | Necesitas identificar un proyecto real |
 | Cadencia scrum, comandos | `docs/rules/domain/pm-workflow.md` | Sprint planning, ceremonias, catálogo comandos |
-| Catálogo 70 agentes | `docs/rules/domain/agents-catalog.md` | Selección de agente para una tarea |
+| Catálogo 71 agentes | `docs/rules/domain/agents-catalog.md` | Selección de agente para una tarea |
 | Agent teams SDD | `docs/agent-teams-sdd.md` | Orquestación multi-agente SDD |
 | Agent notes protocol | `docs/agent-notes-protocol.md` | Handoff entre agentes |
 | 16 Language Packs | `docs/rules/domain/language-packs.md` | Detectar lenguaje de un proyecto |
