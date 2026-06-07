@@ -23,7 +23,12 @@ set -uo pipefail
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
 # Resolve symlink: .opencode/skills -> .claude/skills
-SKILLS_DIR="$(cd -P "$ROOT/.opencode/skills" && pwd)"
+# Allow override via SAVIA_SKILLS_DIR for testing
+if [[ -n "${SAVIA_SKILLS_DIR:-}" ]]; then
+  SKILLS_DIR="$SAVIA_SKILLS_DIR"
+else
+  SKILLS_DIR="$(cd -P "$ROOT/.opencode/skills" && pwd)"
+fi
 OUTPUT_DIR="$ROOT/output"
 DATE_STAMP="$(date +%Y%m%d)"
 
@@ -54,6 +59,30 @@ count_total=0
 # Storage for --json and --fix-report
 results_json=()
 results_table=()
+
+# ── SE-209: Check description format ─────────────────────────────────────────
+# Returns: sets global _desc_warn_reasons (array) — caller merges into reasons
+# Emits WARN if description < 20 chars or missing trigger keyword
+check_description_format() {
+  local skill_md="$1"
+  _desc_warn_reasons=()
+
+  local raw_desc
+  raw_desc=$(awk '/^---/{p++} p==1 && /^description:/' "$skill_md" \
+    | sed 's/^description:[[:space:]]*//')
+  # Strip surrounding quotes (single or double)
+  local desc="${raw_desc#[\"\']}"
+  desc="${desc%[\"\']}"
+  local desc_len="${#desc}"
+
+  if [[ "$desc_len" -lt 20 ]]; then
+    _desc_warn_reasons+=("SKILL.md: description < 20 chars (SE-209: too short to be useful)")
+  fi
+
+  if ! echo "$desc" | grep -qE "(when|cuando|Usar|Use)"; then
+    _desc_warn_reasons+=("SKILL.md: description missing trigger keyword (SE-209: add when/cuando/Usar/Use)")
+  fi
+}
 
 # ── Audit single skill dir ───────────────────────────────────────────────────
 audit_skill() {
@@ -94,8 +123,14 @@ audit_skill() {
     local skill_lines
     skill_lines=$(wc -l < "$skill_md")
     if [[ "$skill_lines" -gt 150 ]]; then
+      [[ "$status" == "OK" ]] && status="FAIL"
+      reasons+=("SKILL.md: ${skill_lines} lines ≥ 150 (hard limit exceeded)")
+    fi
+
+    # SE-208: WARN if SKILL.md > 100 lines (progressive disclosure recommended)
+    if [[ "$skill_lines" -gt 100 && "$skill_lines" -le 150 ]]; then
       [[ "$status" == "OK" ]] && status="WARN"
-      reasons+=("SKILL.md: ${skill_lines} lines (max 150)")
+      reasons+=("SKILL.md: ${skill_lines} lines > 100 (SE-208: progressive disclosure recommended)")
     fi
 
     # 7. SKILL.md references at least one file path (contains /)
@@ -143,6 +178,13 @@ audit_skill() {
       status="FAIL"
       reasons+=("SKILL.md: contains potentially malicious pattern (atob/base64-decode/hex-escape/hardcoded-secret)")
     fi
+
+    # SE-209: description format check
+    check_description_format "$skill_md"
+    for _r in "${_desc_warn_reasons[@]}"; do
+      [[ "$status" == "OK" ]] && status="WARN"
+      reasons+=("$_r")
+    done
   fi
 
   if [[ -f "$domain_md" ]]; then

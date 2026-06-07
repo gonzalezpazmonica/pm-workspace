@@ -126,7 +126,7 @@ for item in data:
   mkdir -p "${fake_skills}/fat-skill"
   {
     printf -- '---\nname: fat\ndescription: "Fat skill"\n---\n\nrefs path/to/file\n'
-    yes "padding line" | head -145
+    yes "padding line" | head -100
   } > "${fake_skills}/fat-skill/SKILL.md"
   printf 'Domain 1\nDomain 2\nDomain 3\nDomain 4\n' > "${fake_skills}/fat-skill/DOMAIN.md"
 
@@ -135,7 +135,7 @@ for item in data:
   run bash "$patched"
   [ "$status" -eq 0 ]
   echo "$output" | grep "fat-skill" | grep -q "WARN"
-  echo "$output" | grep "fat-skill" | grep -q "151"
+  echo "$output" | grep "fat-skill" | grep -qE "10[0-9] lines"
 }
 
 # ── Exit code semantics ───────────────────────────────────────────────────────

@@ -143,7 +143,8 @@ Detalles: **`references/review-metrics.md`** (review checklist, Azure DevOps upd
 
 Formato delta (ADDED/MODIFIED/REMOVED) en lugar de reescribir. Consolidar con `/spec-verify` al cerrar sprint. Detalle: @references/compliance-matrix.md
 
----
-
 ## Referencias
 Templates: `references/spec-template.md` · `references/layer-assignment-matrix.md` · `references/compliance-matrix.md` | Execution: `references/agent-invocation.md` · `references/review-metrics.md` | Comandos: `/spec-generate`, `/spec-implement`, `/spec-review`, `/spec-verify`
+
+## Anti-patterns
+Ver satélite: `REFERENCE.md` — anti-patterns de AC no verificables y merge sin aprobación humana (SE-210).

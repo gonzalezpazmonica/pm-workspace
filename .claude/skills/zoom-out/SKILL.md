@@ -54,3 +54,6 @@ Organize observations in layers:
 - Don't restate what they already know (add VALUE, not summary)
 - Don't stay at the same level (your job is to zoom OUT)
 - Don't make design decisions (you observe and map, you don't prescribe)
+
+**❌ Zoom-out de todo el sistema**: revisar toda la arquitectura cuando la pregunta es sobre un componente concreto → respuesta demasiado abstracta para la decisión en curso, paraliza en lugar de orientar.
+**✓ Correcto**: elevar exactamente un nivel de abstracción sobre el componente en discusión.

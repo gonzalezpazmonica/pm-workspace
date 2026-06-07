@@ -49,3 +49,11 @@ Group findings by severity:
 **HIGH**: will break under predictable non-happy-path conditions.
 **MEDIUM**: missing error handling, unclear contract, untested path.
 **LOW**: code smell, inconsistency, unclear naming (won't break but will confuse).
+
+## Anti-patterns
+
+**❌ Crítica genérica**: listar defectos de cualquier código (naming, style) en lugar de los específicos del artefacto bajo revisión → ruido sin señal, el equipo ignora el output.
+**✓ Correcto**: cada hallazgo nombra el artefacto concreto, la condición de fallo, y la consecuencia.
+
+**❌ Activar en código no propuesto**: usar grill-me sobre código legacy no relacionado con el cambio en revisión → scope creep, review infinita.
+**✓ Correcto**: grill-me aplica solo al diff o artefacto que se está mergeando o proponiendo.
