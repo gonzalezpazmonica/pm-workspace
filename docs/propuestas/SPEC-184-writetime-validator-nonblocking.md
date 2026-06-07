@@ -12,6 +12,16 @@ deps: []
 unblocks: []
 origin: output/research/obsidian-second-brain-mejoras-cupulas-20260601.md
 inspiration: obsidian-second-brain `validate-ai-first.sh` PostToolUse hook (warn-non-blocking pattern)
+timeline:
+  - from: "2026-06-01"
+    until: "2026-06-04"
+    learned: "2026-06-01"
+    value: "PROPOSED"
+    source: "feat(roadmap): Era 199 -- 7 SPECs from obsidian-second-brain analysis (#794)"
+  - from: "2026-06-04"
+    learned: "2026-06-04"
+    value: "IMPLEMENTED"
+    source: "feat(spec-184): write-time non-blocking validators (#808)"
 ---
 
 # SPEC-184 — Write-time validator non-blocking

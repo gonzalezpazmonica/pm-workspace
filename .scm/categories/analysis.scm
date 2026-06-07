@@ -42,6 +42,7 @@
 - **org-metrics** (cmd): Métricas DORA y de delivery agregadas a nivel de organización
 - **prevention-metrics** (cmd): Métricas de prevención: bugs prevenidos vs encontrados, shift-left effectiveness, early detection rate. Paradigma QA de prevención sobre detección.
 - **promotion-engine** (cmd): Gestiona promociones: crear, activar, desactivar, evaluar, reportes
+- **reconciliation-stats** (script): reconciliation-stats.sh — Append/report reconciliation classification metrics
 - **report-capacity** (cmd): Muestra el estado de capacidades del equipo — disponibilidad, asignación y alertas de sobre-carga.
 - **report-executive** (cmd): Genera el informe ejecutivo multi-proyecto para dirección en formato Word o PowerPoint.
 - **report-hours** (cmd): Genera el informe de imputación de horas del sprint actual o especificado.

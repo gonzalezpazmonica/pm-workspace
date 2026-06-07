@@ -1,5 +1,5 @@
 # development — Savia Capability Map (L1)
-> 166 resources
+> 168 resources
 
 - **/a11y-monitor** (cmd): Monitorización continua de regresiones de accesibilidad. Integración en CI/CD. Alertas cuando score baja por debajo de threshold. Digest semanal. Previene regresiones bloqueando deploys con fallos a11y.
 - **/speckit.checklist** (cmd): Alias spec-kit compatible. Gate de calidad final con verification-lattice multi-capa. Invoca skill verification-lattice. Compatible con github/spec-kit.
@@ -10,6 +10,9 @@
 - **/speckit.specify** (cmd): Alias spec-kit compatible. Captura el what inicial de una spec (JTBD + PRD). Invoca skill product-discovery de Savia. Compatible con github/spec-kit.
 - **/speckit.tasks** (cmd): Alias spec-kit compatible. Descomposición de spec en tasks accionables. Invoca skill pbi-decomposition. Compatible con github/spec-kit.
 - **Trace Analyze** (cmd): Análisis profundo de trazas específicas con detección de cuellos de botella y cadenas de errores
+- **UA Analyze** (cmd): Analyze codebase with Understand-Anything to generate knowledge graph
+- **UA Diff** (cmd): Analyze impact of uncommitted changes on the codebase knowledge graph
+- **UA Domain** (cmd): Extract business domain concepts and processes from any codebase
 - **agents-opencode-convert** (script): agents-opencode-convert.sh — SPEC-127 Slice 2b-ii (final migration prep)
 - **arch-compare** (cmd): Comparar dos patrones de arquitectura para toma de decisiones
 - **arch-detect** (cmd): Detectar el patrón de arquitectura de un repositorio o proyecto
@@ -147,16 +150,15 @@
 - **statusline-provider** (script): statusline-provider.sh — HUD data provider for Claude Code statusline
 - **tech-research** (cmd): Launch autonomous technical research — investigates topics, generates reports, notifies designated human
 - **tech-research-agent** (skill): Usar cuando se necesita investigación técnica autónoma sobre un tema específico.
+- **timeline-append** (script): timeline-append.sh — Append a bi-temporal timeline entry to a spec/decision file
 - **tolaria-open** (cmd): Open Tolaria desktop knowledge base on the Savia workspace (or specified path)
 - **tribunal-async-runner** (script): tribunal-async-runner.sh — SPEC-159: Async Tribunal Fan-out
 - **tribunal-benchmark** (script): tribunal-benchmark.sh — SPEC-106 Phase 3.
 - **twin-anonymize** (script): twin-anonymize.sh — Genera vista N1 de un twin sin datos de organización (SPEC-169 AC-6)
 - **twin-load** (script): twin-load.sh — Carga y muestra el twin de un proyecto (SPEC-169 AC-2, AC-5)
 - **twin-refresh** (script): twin-refresh.sh — Recalcula predicciones del twin sin LLM (SPEC-169 AC-3, AC-V2)
-- **ua-analyze** (cmd): Generate knowledge graph for any codebase using Understand-Anything
-- **ua-diff** (cmd): Analyze impact of uncommitted changes on the codebase graph
-- **ua-domain** (cmd): Extract business domain concepts and processes from any codebase
 - **ua-onboard** (cmd): Generate a guided onboarding tour for any codebase
+- **understand-anything** (skill): Usar cuando se necesita analizar un codebase con Understand-Anything para generar knowledge graphs estructurales y de dominio.
 - **validate-consensus** (cmd): Lanzar panel de 3 jueces para validar specs, PRs y decisiones
 - **validate-pbi-spec-links** (script): validate-pbi-spec-links.sh — Check bidirectional PBI ↔ Spec links
 - **validate-spec** (script): validate-spec.sh — SPEC-071: Declarative spec validation without LLM

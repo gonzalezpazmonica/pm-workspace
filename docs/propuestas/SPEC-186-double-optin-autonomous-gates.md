@@ -11,6 +11,16 @@ deps: []
 unblocks: []
 origin: output/research/obsidian-second-brain-mejoras-cupulas-20260601.md
 inspiration: obsidian-second-brain politica "explicit + scoped" para acciones destructivas
+timeline:
+  - from: "2026-06-01"
+    until: "2026-06-02"
+    learned: "2026-06-01"
+    value: "PROPOSED"
+    source: "feat(roadmap): Era 199 -- 7 SPECs from obsidian-second-brain analysis (#794)"
+  - from: "2026-06-02"
+    learned: "2026-06-02"
+    value: "IMPLEMENTED"
+    source: "feat(spec-186): double opt-in for autonomous skills Era 199 Wave 1 (#796)"
 ---
 
 # SPEC-186 — Double opt-in para gates autonomos
