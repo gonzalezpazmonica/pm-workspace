@@ -143,36 +143,5 @@ SIEMPRE → Generar audit log
 | Crashes por sesión | ≤ 3 |
 | Tiempo medio por tarea | ≤ AGENT_TASK_TIMEOUT_MINUTES |
 
-## Detección dinámica de idle — SE-206
 
-En lugar de `sleep` fijo para esperar al agente entre tareas, usar
-`scripts/agent-wait-idle.sh` para detección basada en actividad real:
-
-```bash
-bash scripts/agent-wait-idle.sh \
-  --pid "$AGENT_PID" \
-  --log "/tmp/agent-$TASK_ID.log" \
-  --timeout "$((AGENT_TASK_TIMEOUT_MINUTES * 60))" \
-  --idle-threshold 5 \
-  --json
-```
-
-Exit 0 = idle listo · Exit 1 = timeout · Exit 2 = proceso terminado.
-Ref: `docs/rules/domain/agent-idle-protocol.md` (SE-206).
-
-## Detección dinámica de idle — SE-206
-
-En lugar de `sleep` fijo para esperar al agente entre tareas, usar
-`scripts/agent-wait-idle.sh` para detección basada en actividad real:
-
-```bash
-bash scripts/agent-wait-idle.sh \
-  --pid "$AGENT_PID" \
-  --log "/tmp/agent-$TASK_ID.log" \
-  --timeout "$((AGENT_TASK_TIMEOUT_MINUTES * 60))" \
-  --idle-threshold 5 \
-  --json
-```
-
-Exit 0 = idle listo · Exit 1 = timeout · Exit 2 = proceso terminado.
-Ref: `docs/rules/domain/agent-idle-protocol.md` (SE-206).
+> **SE-206**: Para detección dinámica de idle entre tareas usar `scripts/agent-wait-idle.sh`. Ver `docs/rules/domain/agent-idle-protocol.md`.
