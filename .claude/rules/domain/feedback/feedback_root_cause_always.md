@@ -1,60 +1,67 @@
 ---
+type: feedback
+slug: root_cause_always
+source: SPEC-188 Fase 0 (cierre hallazgo G3)
+created: 2026-06-04
+verified_source: docs/propuestas/SPEC-188-root-cause-investigation-architecture.md
+related:
+  - SPEC-043
+  - SPEC-065
+  - SPEC-108
+  - SPEC-125
+  - SE-072
+  - docs/rules/domain/verified-memory-axiom.md
+status: active
 context_tier: L2
 token_budget: 800
 spec: SPEC-188
 phase: 0
-created: 2026-06-06
 ---
 
-# Feedback Root Cause Always — Savia Memory Rule
+# feedback_root_cause_always
 
-Cuando Savia detecta un fallo repetido, SIEMPRE registrar la causa raíz en memoria
-antes de continuar. Nunca parchear síntomas sin documentar la causa.
+Memoria canonica de feedback. Referenciada por memory-conflict-judge
+(Recommendation Tribunal), responsibility-judge (SPEC-043) y
+execution-supervisor (SPEC-065).
 
-## Regla
+Creada en SPEC-188 Fase 0 para cerrar el hallazgo G3.
 
-Formato obligatorio al registrar un fallo recurrente:
+## Regla canonica
 
-```
-root_cause: <causa>
-pattern: <patrón>
-prevention: <acción preventiva>
-```
-
-## Ejemplos
-
-**Ejemplo 1 — threshold bajado sin causa**
-```
-root_cause: test falla con score real 72/100, umbral estaba en 80
-pattern: agente baja umbral para pasar CI en vez de arreglar código
-prevention: investigar por qué el score bajó antes de tocar el umbral
-```
-**Ejemplo 2 — retry sin cambio causal**
-```
-root_cause: push rechazado por hook de firmas; agente reintentó 6 veces
-pattern: mismo parche superficial repetido sin alterar hipótesis causal
-prevention: tras attempt 3 del mismo target, parar y razonar (SPEC-065)
-```
-**Ejemplo 3 — spec marcada IMPLEMENTED sin ACs completos**
-```
-root_cause: 2 de 5 ACs no pasan; agente marcó IMPLEMENTED de todas formas
-pattern: spec status actualizado antes de validar criterios de aceptación
-prevention: IMPLEMENTED solo si TODOS los ACs verificados con evidencia
-```
+NEVER propose shortcuts (lower thresholds, skip tests, retry without
+investigation, hook-skip flags, mark tests as expected-failure). ALWAYS
+investigate the root cause first.
 
 ## Patrones prohibidos
 
-1. Bajar umbral sin `Causal-Evidence:` documentado.
-2. `pytest.mark.skip` / `xfail` sin issue tracked + root cause.
-3. Retry N=3+ del mismo action+target con variantes superficiales.
-4. `--no-verify` en commits o push (hooks existen por algo).
-5. Modificar assertion en test para que pase.
-6. Marcar SPEC IMPLEMENTED con ACs incompletos.
+1. Bajar umbral para que pase CI sin explicacion causal documentada.
+2. Marcar test como skip/xfail/pending sin issue tracked y root cause.
+3. Re-intentar la misma operacion 3 o mas veces con variantes superficiales.
+4. Usar --no-verify en commits o push sin incidente declarado.
+5. Comentar o eliminar assertion en test para que pase.
+6. Solo por esta vez seguido de un atajo no documentado.
+7. Cambiar threshold de scoring sin spec ni justificacion causal.
+8. Bajar criterios de aceptacion porque la implementacion no llega.
+9. Marcar SPEC como IMPLEMENTED cuando los AC no se cumplen integramente.
+10. Re-ejecutar tests a ver si esta vez pasan sin cambio causal.
+
+## Que SI esta permitido con justificacion documentada
+
+- Bajar threshold si la spec lo aprueba con Causal-Evidence poblado.
+- Skip temporal con issue abierto, ETA y root cause documentada.
+- Bypass de hook si hay incidente operativo declarado con [hotfix] trailer.
+
+## Por que importa
+
+Cada atajo instala el patron. Tres meses despues, los tests no
+garantizan nada porque sus thresholds han bajado todos.
 
 ## Consumidores
 
-- `memory-conflict-judge` (SPEC-125): veto si recomendación viola estos patrones.
-- `responsibility-judge` (SPEC-043): bloquea PreToolUse shortcut patterns.
-- `execution-supervisor` (SPEC-065): exhibe esta memoria tras attempt 3.
+- memory-conflict-judge (Recommendation Tribunal, SPEC-125): veto si viola estos patrones.
+- responsibility-judge (SPEC-043 cuando implementado): bloquea PreToolUse shortcut patterns.
+- execution-supervisor (SPEC-065 cuando implementado): exhibe esta memoria tras attempt 3.
 
-Ref: SPEC-188 Fase 0 — cierre hallazgo G3. Path canónico: `.claude/rules/domain/feedback/` (N1).
+## Cambios
+
+- 2026-06-04: creacion (SPEC-188 Fase 0, cierre G3).
