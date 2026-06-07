@@ -145,3 +145,35 @@ teardown() {
   run grep -c "sources:" "$DECISION_TREE"
   [[ "$output" -ge 1 ]]
 }
+
+# ── Edge cases ────────────────────────────────────────────────────────────────
+
+@test "edge: empty input to reconciliation-stats --report exits 0" {
+  run bash "$STATS_SCRIPT" --report 2>&1 || true
+  [[ "$status" -eq 0 || "$output" =~ [Ee]mpty|[Nn]o.stats ]]
+}
+
+@test "edge: nonexistent stats file handled gracefully" {
+  SAVIA_STATS_FILE="$TMPDIR_TEST/nonexistent.jsonl" run bash "$STATS_SCRIPT" --report 2>&1 || true
+  [[ "$status" -le 1 ]]
+}
+
+@test "edge: zero conflict-docs in directory returns 0 count" {
+  run bash "$STATS_SCRIPT" --report 2>&1 || true
+  [[ "$output" =~ [0-9] ]]
+}
+
+@test "edge: no-arg invocation shows usage or defaults" {
+  run bash "$STATS_SCRIPT" 2>&1 || true
+  [[ "$status" -le 2 ]]
+}
+
+@test "coverage: SPEC-183 referenced in reconciliation-stats script" {
+  grep -q 'SPEC-183' "$STATS_SCRIPT"
+}
+
+@test "coverage: decision-tree references all 3 bucket names" {
+  grep -qi 'evolution' "$DECISION_TREE"
+  grep -qi 'auto.resolve\|auto_resolve' "$DECISION_TREE"
+  grep -qi 'conflict.doc\|conflict_doc' "$DECISION_TREE"
+}

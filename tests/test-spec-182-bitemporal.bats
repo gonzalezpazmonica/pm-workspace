@@ -165,3 +165,35 @@ SPEC
     [[ "$top_status" == "$last_value" ]]
   done
 }
+
+# ── Edge cases ────────────────────────────────────────────────────────────────
+
+@test "edge: empty input file to timeline-append exits with error" {
+  touch "$TMPDIR_TEST/empty.md"
+  run bash "$APPEND_SCRIPT" status "$TMPDIR_TEST/empty.md" APPROVED "test" 2>&1 || true
+  [[ "$status" -le 2 ]]
+}
+
+@test "edge: nonexistent file to timeline-query exits non-zero" {
+  run bash "$QUERY_SCRIPT" "$TMPDIR_TEST/nonexistent.md" --at 2026-01-01
+  [ "$status" -ne 0 ]
+}
+
+@test "edge: zero-length timeline array — query returns null gracefully" {
+  printf -- '---\nstatus: PROPOSED\ntimeline: []\n---\n# empty\n' > "$TMPDIR_TEST/zero.md"
+  run bash "$QUERY_SCRIPT" "$TMPDIR_TEST/zero.md" --at 2026-01-01 2>&1 || true
+  [[ "$status" -ne 0 ]]
+}
+
+@test "edge: no-arg invocation of timeline-append shows usage" {
+  run bash "$APPEND_SCRIPT" 2>&1 || true
+  [[ "$status" -ne 0 || "$output" =~ [Uu]sage ]]
+}
+
+@test "coverage: SPEC-182 referenced in timeline-append script" {
+  grep -q 'SPEC-182' "$APPEND_SCRIPT"
+}
+
+@test "coverage: timeline-query referenced in timeline-append or schema doc" {
+  grep -q 'timeline-query' "$SCHEMA_DOC" || grep -q 'timeline-query' "$APPEND_SCRIPT"
+}

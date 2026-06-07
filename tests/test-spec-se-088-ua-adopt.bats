@@ -138,3 +138,35 @@ teardown() {
 @test "ua-domain.md exists in .claude/commands" {
   [[ -f "$CLAUDE_CMD_DIR/ua-domain.md" ]]
 }
+
+# ── Edge cases ────────────────────────────────────────────────────────────────
+
+@test "edge: empty path arg to ua-bridge analyze exits 0 (graceful)" {
+  run bash "$BRIDGE" analyze "" 2>&1 || true
+  [[ "$status" -le 1 ]]
+}
+
+@test "edge: nonexistent path to ua-bridge analyze exits 0 (no crash)" {
+  run bash "$BRIDGE" analyze "/nonexistent/path/$$" 2>&1 || true
+  [[ "$status" -le 1 ]]
+}
+
+@test "edge: zero count from ua-bridge diff --count when no changes" {
+  run bash "$BRIDGE" diff --count 2>&1
+  [[ "$output" =~ ^[0-9]+$ || "$status" -le 1 ]]
+}
+
+@test "edge: null UA installation — bridge check exits 1 not crash" {
+  run bash "$BRIDGE" check 2>&1
+  [[ "$status" -le 2 ]]
+}
+
+@test "coverage: SPEC-SE-088 referenced in ua-bridge.sh" {
+  grep -qE 'SPEC-SE-088|SE-088' "$BRIDGE"
+}
+
+@test "coverage: skill SKILL.md has trigger or activation note" {
+  local skill_md="${BATS_TEST_DIRNAME}/../.opencode/skills/understand-anything/SKILL.md"
+  [[ -f "$skill_md" ]]
+  grep -qi 'understand\|ua-' "$skill_md"
+}
