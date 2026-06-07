@@ -1,6 +1,6 @@
 {
-  "hash": "9fe3d5ed6b94",
-  "total": 1232,
+  "hash": "543eb6e1c4ff",
+  "total": 1236,
   "resources": [
     {
       "category": "analysis",
@@ -2245,6 +2245,20 @@
     },
     {
       "category": "development",
+      "name": "block-pat-file-write",
+      "intents": [
+        "block",
+        "file",
+        "paths",
+        "slice",
+        "spec"
+      ],
+      "kind": "script",
+      "path": "scripts/block-pat-file-write.sh",
+      "description": "block-pat-file-write.sh — SPEC-SE-036 Slice 2: block writes to PAT file paths"
+    },
+    {
+      "category": "development",
       "name": "budget-guard",
       "intents": [
         "budget",
@@ -2823,6 +2837,20 @@
     },
     {
       "category": "development",
+      "name": "failure-pattern-memory",
+      "intents": [
+        "failure",
+        "fase",
+        "memory",
+        "pattern",
+        "spec"
+      ],
+      "kind": "script",
+      "path": "scripts/failure-pattern-memory.sh",
+      "description": "failure-pattern-memory.sh — SPEC-188 Fase 1: Failure Pattern Memory store"
+    },
+    {
+      "category": "development",
       "name": "feasibility-probe",
       "intents": [
         "attempt",
@@ -3007,6 +3035,18 @@
       "kind": "script",
       "path": "scripts/instinct-collapse-detector.sh",
       "description": "instinct-collapse-detector.sh — SPEC-045 Phase 1: detect exploration collapse"
+    },
+    {
+      "category": "development",
+      "name": "jwt-mint",
+      "intents": [
+        "ephemeral",
+        "mint",
+        "spec"
+      ],
+      "kind": "script",
+      "path": "scripts/jwt-mint.sh",
+      "description": "jwt-mint.sh — SPEC-SE-036: API key → JWT ephemeral mint"
     },
     {
       "category": "development",
@@ -12912,6 +12952,20 @@
       "kind": "cmd",
       "path": ".claude/commands/court-review.md",
       "description": "Convene the Code Review Court to evaluate implementation quality across 6 judges"
+    },
+    {
+      "category": "quality",
+      "name": "Failure Patterns",
+      "intents": [
+        "agent",
+        "analysis",
+        "before",
+        "checking",
+        "error"
+      ],
+      "kind": "cmd",
+      "path": ".claude/commands/failure-patterns.md",
+      "description": "List, show and resolve failure patterns from the Failure Pattern Memory store. Use when reviewing recurring agent errors, post-mortem analysis, or checking if an error has been seen before."
     },
     {
       "category": "quality",

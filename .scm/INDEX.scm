@@ -1,6 +1,6 @@
 # Savia Capability Map — INDEX
-> hash: 4292bc5717cf | resources: 1232
-> 556 commands · 103 skills · 71 agents · 502 scripts
+> hash: d205b95ebd8a | resources: 1236
+> 557 commands · 103 skills · 71 agents · 505 scripts
 
 [analysis] /a11y-report — accesibilidad,completos,conformidad,código,declaración — cmd:.claude/commands/a11y-report.md
 [analysis] Trace Optimize — across,distributed,optimize,rates,sampling — cmd:.claude/commands/trace-optimize.md
@@ -180,6 +180,7 @@
 [development] arch-suggest — arquitectura,basadas,detección,mejoras,previa — cmd:.claude/commands/arch-suggest.md
 [development] ast-quality-gate — agnostic,analyzer,code,gate,language — script:scripts/ast-quality-gate.sh
 [development] best-practices-check — against,best,claude,code,evaluate — cmd:.claude/commands/best-practices-check.md
+[development] block-pat-file-write — block,file,paths,slice,spec — script:scripts/block-pat-file-write.sh
 [development] budget-guard — budget,context,guard,monitor,spec — script:scripts/budget-guard.sh
 [development] build-azdo-schema-graph — azdo,build,graph,schema,slice — script:scripts/build-azdo-schema-graph.sh
 [development] build-skill-manifest — build,frontmatter,manifest,manifesto,skill — script:scripts/build-skill-manifest.sh
@@ -222,6 +223,7 @@
 [development] eval-agent — agent,eval,evaluation,runner,spec — script:scripts/eval-agent.sh
 [development] eval-run — against,criteria,evaluation,execute,specified — cmd:.claude/commands/eval-run.md
 [development] execution-supervisor — advisory,execution,reflection,spec,supervisor — script:scripts/execution-supervisor.sh
+[development] failure-pattern-memory — failure,fase,memory,pattern,spec — script:scripts/failure-pattern-memory.sh
 [development] feasibility-probe — attempt,boxed,feasibility,prototype,spec — cmd:.claude/commands/feasibility-probe.md
 [development] feasibility-probe — implementarla,spec,técnicamente,validar,viable — skill:.claude/skills/feasibility-probe/SKILL.md
 [development] feasibility-probe — attempting,blocking,boxed,decomposition,feasibility — agent:.claude/agents/feasibility-probe.md
@@ -236,6 +238,7 @@
 [development] index-rebuild —  — cmd:.claude/commands/index-rebuild.md
 [development] install-git-hooks — hooks,instala,install,opencode,workspace — script:scripts/install-git-hooks.sh
 [development] instinct-collapse-detector — collapse,detect,detector,exploration,instinct — script:scripts/instinct-collapse-detector.sh
+[development] jwt-mint — ephemeral,mint,spec — script:scripts/jwt-mint.sh
 [development] localai-readiness-check — check,localai,readiness,spec — script:scripts/localai-readiness-check.sh
 [development] marketplace-install — claude,code,components,install,marketplace — cmd:.claude/commands/marketplace-install.md
 [development] mcp-browse — catálogo,claude,code,disponibles,explorar — cmd:.claude/commands/mcp-browse.md
@@ -1006,6 +1009,7 @@
 [quality] /drift-check — archivos,audita,claude,detecta,divergencias — cmd:.claude/commands/drift-check.md
 [quality] /speckit.analyze — alias,compatible,consensus,cruzado,github — cmd:.claude/commands/speckit.analyze.md
 [quality] Court Review — across,code,convene,court,evaluate — cmd:.claude/commands/court-review.md
+[quality] Failure Patterns — agent,analysis,before,checking,error — cmd:.claude/commands/failure-patterns.md
 [quality] adversarial-security — auditar,blue,pipeline,proyecto,seguridad — skill:.claude/skills/adversarial-security/SKILL.md
 [quality] ai-audit-log — agente,auditoría,cuándo,datos,ejecutó — cmd:.claude/commands/ai-audit-log.md
 [quality] ai-exposure-audit — auditoría,desplazamiento,exposición,exposure,observed — cmd:.claude/commands/ai-exposure-audit.md

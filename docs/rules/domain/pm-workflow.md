@@ -23,7 +23,7 @@ token_budget: 530
 - **Sprints:** `Sprint YYYY-NN` (ej: `Sprint 2026-04`)
 - **Informes:** `YYYYMMDD-tipo-proyecto.ext`
 
-## 📟 Comandos Disponibles (561)
+## 📟 Comandos Disponibles (562)
 
 > Tabla completa: `.opencode/commands/references/command-catalog.md`
 > Catálogo interactivo: `/help [filtro]`
