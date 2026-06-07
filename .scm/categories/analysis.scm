@@ -1,5 +1,5 @@
 # analysis — Savia Capability Map (L1)
-> 60 resources
+> 61 resources
 
 - **/a11y-report** (cmd): Reporte de conformidad de accesibilidad para stakeholders y legal. Tres formatos: ejecutivo (resumen + score), técnico (detalles completos + código), legal (declaración VPAT/Section 508). Tracking de tendencias. Exportable.
 - **Trace Optimize** (cmd): Optimize trace spans and sampling rates across distributed services
