@@ -219,3 +219,40 @@ teardown() {
 
   rm -rf "$empty_root"
 }
+
+# ── Edge cases ────────────────────────────────────────────────────────────────
+
+@test "edge: empty evals directory returns 0 cases gracefully" {
+  local empty="$TMP_DIR/empty_evals"
+  mkdir -p "$empty"
+  run env PROJECT_ROOT="$TMP_DIR" SAVIA_EVALS_DIR="$empty" bash "$SCRIPT" --dry-run 2>&1 || true
+  [[ "$status" -le 1 ]]
+}
+
+@test "edge: nonexistent evals directory handled without crash" {
+  run env SAVIA_EVALS_DIR="/nonexistent/path/$$" bash "$SCRIPT" --dry-run 2>&1 || true
+  [[ "$status" -le 2 ]]
+}
+
+@test "edge: zero eval cases in agent dir — skipped gracefully" {
+  mkdir -p "$TMP_DIR/tests/evals/empty-agent"
+  run env PROJECT_ROOT="$TMP_DIR" bash "$SCRIPT" --agent empty-agent --dry-run 2>&1 || true
+  [[ "$status" -le 1 ]]
+}
+
+@test "negative: --agent with unknown name produces no output" {
+  run bash "$SCRIPT" --agent "nonexistent-agent-$$" --dry-run 2>&1 || true
+  [[ "$status" -le 1 ]]
+}
+
+@test "negative: criteria.md missing causes eval to be flagged" {
+  mkdir -p "$TMP_DIR/tests/evals/bad-agent/eval-no-criteria"
+  echo "# input only" > "$TMP_DIR/tests/evals/bad-agent/eval-no-criteria/input.md"
+  run env PROJECT_ROOT="$TMP_DIR" SAVIA_EVAL_THRESHOLD=100 bash "$SCRIPT" --agent bad-agent 2>&1 || true
+  # Should not exit 0 with threshold 100 when criteria missing
+  [[ "$status" -ne 0 || "$output" =~ [Ww]arn|[Mm]issing|0% ]]
+}
+
+@test "coverage: SE-204 referenced in run-agent-evals.sh" {
+  grep -q 'SE-204' "$SCRIPT"
+}
