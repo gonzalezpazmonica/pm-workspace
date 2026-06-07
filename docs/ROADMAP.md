@@ -741,6 +741,16 @@ Google Sheets · ServiceNow/SAP · Tableau · Kafka · VS Code ext · Cloud voic
 
 ### Total backlog activo: ~60h (6 items core + Tier 3)
 
+### Era 203 — Eval-driven improvement loop (DeepAgents pattern, ~1 día)
+
+| # | ID | Título | Esfuerzo | Prioridad |
+|---|---|---|---|---|
+| 1 | SE-215 | Eval-driven skill improvement loop | M | P1 |
+
+Origen: `output/research/deepagents-savia-20260607.md`. Patrón `better-harness` de langchain-ai/deepagents (24k stars). Dep: SE-204 ✓ + code-improvement-loop ✓.
+
+---
+
 ### Era 202 — Memory intelligence upgrade (Memanto patterns, ~1 semana)
 
 | # | ID | Título | Esfuerzo | Prioridad |
