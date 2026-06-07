@@ -146,35 +146,30 @@ teardown() {
   [[ "$output" -ge 1 ]]
 }
 
-# ── Isolation ─────────────────────────────────────────────────────────────────
-
-setup() { ISO_TMP="$(mktemp -d)"; }
-teardown() { rm -rf "$ISO_TMP"; }
-
 # ── Edge cases ────────────────────────────────────────────────────────────────
 
 @test "edge: empty input to reconciliation-stats --report exits 0" {
-  run bash "$STATS" --report 2>&1 || true
+  run bash "$STATS_SCRIPT" --report 2>&1 || true
   [[ "$status" -eq 0 || "$output" =~ [Ee]mpty|[Nn]o.stats ]]
 }
 
 @test "edge: nonexistent stats file handled gracefully" {
-  SAVIA_STATS_FILE="$ISO_TMP/nonexistent.jsonl" run bash "$STATS" --report 2>&1 || true
+  SAVIA_STATS_FILE="$TMPDIR_TEST/nonexistent.jsonl" run bash "$STATS_SCRIPT" --report 2>&1 || true
   [[ "$status" -le 1 ]]
 }
 
 @test "edge: zero conflict-docs in directory returns 0 count" {
-  run bash "$STATS" --report 2>&1 || true
+  run bash "$STATS_SCRIPT" --report 2>&1 || true
   [[ "$output" =~ [0-9] ]]
 }
 
 @test "edge: no-arg invocation shows usage or defaults" {
-  run bash "$STATS" 2>&1 || true
+  run bash "$STATS_SCRIPT" 2>&1 || true
   [[ "$status" -le 2 ]]
 }
 
 @test "coverage: SPEC-183 referenced in reconciliation-stats script" {
-  grep -q 'SPEC-183' "$STATS"
+  grep -q 'SPEC-183' "$STATS_SCRIPT"
 }
 
 @test "coverage: decision-tree references all 3 bucket names" {

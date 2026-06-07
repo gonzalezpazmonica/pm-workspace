@@ -139,11 +139,6 @@ teardown() {
   [[ -f "$CLAUDE_CMD_DIR/ua-domain.md" ]]
 }
 
-# ── Isolation ─────────────────────────────────────────────────────────────────
-
-setup() { ISO_TMP="$(mktemp -d)"; }
-teardown() { rm -rf "$ISO_TMP"; }
-
 # ── Edge cases ────────────────────────────────────────────────────────────────
 
 @test "edge: empty path arg to ua-bridge analyze exits 0 (graceful)" {
@@ -152,7 +147,7 @@ teardown() { rm -rf "$ISO_TMP"; }
 }
 
 @test "edge: nonexistent path to ua-bridge analyze exits 0 (no crash)" {
-  run bash "$BRIDGE" analyze "/nonexistent/path/$(date +%s)" 2>&1 || true
+  run bash "$BRIDGE" analyze "/nonexistent/path/$$" 2>&1 || true
   [[ "$status" -le 1 ]]
 }
 
