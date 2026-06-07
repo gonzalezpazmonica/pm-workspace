@@ -761,6 +761,19 @@ Origen: `output/research/mattpocock-skills-savia-20260607.md`. Patrones de mattp
 
 ---
 
+### Era 202 — Memory intelligence upgrade (Memanto patterns, ~1 semana)
+
+| # | ID | Título | Esfuerzo | Prioridad |
+|---|---|---|---|---|
+| 1 | SE-211 | Typed memory schema (13 tipos semánticos) en KG | M | P1 |
+| 2 | SE-212 | Recall budget experiment — validar cap empíricamente | S | P1 |
+| 3 | SE-213 | Confidence + provenance en KG entries | S | P2 |
+| 4 | SE-214 | Conflict detection en memory-store save | L | P2 |
+
+Origen: `output/research/memanto-savia-20260607.md`. Patrones de Memanto (typed memory, recall budget, conflict detection). Specs: `docs/propuestas/SE-211..SE-214-*.md`.
+
+---
+
 ## Era 198 — Anthropic Effective Agents Alignment (PROPOSED 2026-05-31)
 
 **Origen**: tesis Anthropic "Building Effective Agents" (Barry Zhang, 2026).
