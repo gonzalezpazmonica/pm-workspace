@@ -1,10 +1,7 @@
 ---
 name: spec-driven-development
 description: "Usar cuando se escribe, valida o implementa una spec ejecutable SDD."
-summary: |
-  Genera specs ejecutables como contratos de implementacion.
-  Flujo: analyst -> architect -> spec-writer -> developer -> test -> review.
-  Input: Task de Azure DevOps. Output: spec.md accionable por agentes.
+summary: "Genera specs ejecutables. Flujo: analyst->architect->spec-writer->developer->test. Input: Task ADO."
 maturity: stable
 context: fork
 context_cost: high
@@ -12,9 +9,7 @@ agent: business-analyst
 category: "sdd-framework"
 tags: ["sdd", "specs", "development", "agents"]
 priority: "high"
-trigger:
-  type: keyword
-  keywords: [spec, sdd, especificación ejecutable, specification]
+trigger: {type: keyword, keywords: [spec, sdd, especificacion ejecutable, specification]}
 ---
 
 ## Subagent Scope Guard
