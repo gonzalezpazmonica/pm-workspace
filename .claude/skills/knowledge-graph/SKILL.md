@@ -12,6 +12,9 @@ context_cost: medium
 category: "communication"
 tags: ["knowledge-graph", "entities", "relations", "queries"]
 priority: "medium"
+trigger:
+  type: keyword
+  keywords: [grafo, knowledge graph, entidades, relaciones, kg]
 consumes:
   - workspace_files
 produces:

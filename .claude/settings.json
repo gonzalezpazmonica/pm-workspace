@@ -722,6 +722,7 @@
       }
     ]
   },
+  "_doc_se202_example": "SE-202 agent hook pattern — to enable: add to PreToolUse hooks: { \"type\": \"command\", \"command\": \"bash \\\"$CLAUDE_PROJECT_DIR\\\"/scripts/agent-hook-runner.sh --agent security-guardian --event \\\"{\\\"tool\\\":\\\"$TOOL_NAME\\\",\\\"tool_input\\\":\\\"$TOOL_INPUT\\\"}\\\"\", \"timeout\": 30 } — exit 0=allow, exit 2=deny. Ref: docs/rules/domain/agent-hook-protocol.md",
   "permissions": {
     "defaultMode": "auto"
   },

@@ -6,6 +6,9 @@ compatibility: opencode
 metadata:
   audience: pm
   workflow: memory-management
+trigger:
+  type: keyword
+  keywords: [recuerda, memory, guarda, memoriza, olvidas, recall]
 consumes:
   - session_data
 produces:

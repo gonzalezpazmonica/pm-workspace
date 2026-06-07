@@ -8,6 +8,9 @@ metadata:
   audience: architect, developer
   workflow: design, review
   origin: mattpocock/skills (MIT)
+trigger:
+  type: keyword
+  keywords: [zoom out, big picture, segunda orden, second-order, dependencies]
 ---
 
 # zoom-out — Architectural perspective shift

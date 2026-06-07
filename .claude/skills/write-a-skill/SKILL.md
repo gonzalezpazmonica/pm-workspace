@@ -7,6 +7,9 @@ context_cost: low
 category: "meta"
 tags: ["meta", "skill-authoring", "quality-gate"]
 priority: "medium"
+trigger:
+  type: keyword
+  keywords: [crea skill, nueva skill, write-a-skill, skill nuevo]
 ---
 
 # Skill: Write a Skill
