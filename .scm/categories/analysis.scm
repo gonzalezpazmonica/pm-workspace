@@ -1,5 +1,5 @@
 # analysis — Savia Capability Map (L1)
-> 61 resources
+> 62 resources
 
 - **/a11y-report** (cmd): Reporte de conformidad de accesibilidad para stakeholders y legal. Tres formatos: ejecutivo (resumen + score), técnico (detalles completos + código), legal (declaración VPAT/Section 508). Tracking de tendencias. Exportable.
 - **Trace Optimize** (cmd): Optimize trace spans and sampling rates across distributed services
@@ -21,6 +21,7 @@
 - **agent-size-audit** (script): agent-size-audit.sh — SE-038 Slice 1 probe: measure size of every agent.
 - **agent-size-remediation-plan** (script): agent-size-remediation-plan.sh — SE-052 Slice 1 agent-size analyzer.
 - **agent-trace** (cmd): Dashboard de trazas de ejecución de agentes con tokens, duración y resultado
+- **agent-wait-idle** (script): agent-wait-idle.sh — SE-206: detect when an AI agent process is idle
 - **ai-risk-assessment** (cmd): Evaluación de riesgo de agentes según categorías EU AI Act
 - **async-standup** (cmd): Recogida asíncrona de standups — cada dev reporta cuando quiera, Savia compila
 - **case-recompute** (cmd): Recompute NPV, IRR, and risk-adjusted NPV for a business case
