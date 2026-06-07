@@ -246,3 +246,49 @@ GATE_SCRIPT="scripts/pre-push-bats-critical.sh"
   ! echo "$result" | grep -q "foo"
 }
 
+# ── ASM-1/ASM-2 — body length and malicious pattern checks ───────────────────
+
+@test "ASM-1: skill with empty body (< 20 chars) is flagged FAIL" {
+  local skill_dir="${FAKE_ROOT}/skills/empty-body-skill"
+  mkdir -p "$skill_dir"
+  printf -- '---\nname: empty-body-skill\ndescription: test\n---\nhi\n' > "${skill_dir}/SKILL.md"
+  printf -- '# domain\ncontent here\nmore content here\nfour lines\n' > "${skill_dir}/DOMAIN.md"
+  run env SKILLS_DIR="${FAKE_ROOT}/skills" bash "$SCRIPT" 2>&1
+  [[ "$output" == *"FAIL"* ]]
+}
+
+@test "ASM-1: skill with sufficient body content passes" {
+  local skill_dir="${FAKE_ROOT}/skills/good-body-skill"
+  mkdir -p "$skill_dir"
+  printf -- '---\nname: good-body-skill\ndescription: a valid skill\n---\n\n# Skill content\n\nThis skill does something useful with scripts/foo.sh when needed.\n' > "${skill_dir}/SKILL.md"
+  printf -- '# domain\ncontent here\nmore content here\nfour lines\n' > "${skill_dir}/DOMAIN.md"
+  run env SKILLS_DIR="${FAKE_ROOT}/skills" bash "$SCRIPT" 2>&1
+  [[ "$output" != *"body too short"* ]]
+}
+
+@test "ASM-2: skill with hardcoded password is flagged FAIL" {
+  local skill_dir="${FAKE_ROOT}/skills/secret-skill"
+  mkdir -p "$skill_dir"
+  printf -- '---\nname: secret-skill\ndescription: bad skill\n---\n\n# Config\n\npassword = "supersecret123"\nUse scripts/config.sh to configure.\n' > "${skill_dir}/SKILL.md"
+  printf -- '# domain\ncontent here\nmore content here\nfour lines\n' > "${skill_dir}/DOMAIN.md"
+  run env SKILLS_DIR="${FAKE_ROOT}/skills" bash "$SCRIPT" 2>&1
+  [[ "$output" == *"malicious"* || "$output" == *"FAIL"* ]]
+}
+
+@test "ASM-2: skill with atob() call is flagged FAIL" {
+  local skill_dir="${FAKE_ROOT}/skills/atob-skill"
+  mkdir -p "$skill_dir"
+  printf -- '---\nname: atob-skill\ndescription: suspicious skill\n---\n\n# Usage\n\nRun atob("aGVsbG8=") to decode. Uses scripts/decode.sh.\n' > "${skill_dir}/SKILL.md"
+  printf -- '# domain\ncontent here\nmore content here\nfour lines\n' > "${skill_dir}/DOMAIN.md"
+  run env SKILLS_DIR="${FAKE_ROOT}/skills" bash "$SCRIPT" 2>&1
+  [[ "$output" == *"malicious"* || "$output" == *"FAIL"* ]]
+}
+
+@test "ASM-2: normal skill without suspicious patterns passes" {
+  local skill_dir="${FAKE_ROOT}/skills/clean-skill"
+  mkdir -p "$skill_dir"
+  printf -- '---\nname: clean-skill\ndescription: a clean skill\n---\n\n# Usage\n\nThis skill uses scripts/helper.sh to process data safely.\n' > "${skill_dir}/SKILL.md"
+  printf -- '# domain\ncontent here\nmore content here\nfour lines\n' > "${skill_dir}/DOMAIN.md"
+  run env SKILLS_DIR="${FAKE_ROOT}/skills" bash "$SCRIPT" 2>&1
+  [[ "$output" != *"malicious"* ]]
+}

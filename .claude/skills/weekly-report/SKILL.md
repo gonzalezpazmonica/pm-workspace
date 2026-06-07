@@ -3,6 +3,9 @@ name: weekly-report
 description: "Usar cuando se genera el informe semanal de estado del proyecto."
 model: mid
 context_cost: medium
+trigger:
+  type: keyword
+  keywords: [informe semanal, weekly, reporte semanal]
 consumes:
   - sprint_data
 produces:

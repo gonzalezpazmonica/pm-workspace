@@ -7,6 +7,9 @@ metadata:
   audience: developer
   workflow: review, pre-commit
   origin: mattpocock/skills (MIT)
+trigger:
+  type: keyword
+  keywords: [brutal, caveman, sin filtros, honestidad brutal, strip]
 ---
 
 # caveman — Brutally honest minimal review

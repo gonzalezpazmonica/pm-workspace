@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=33928afc9256ab75ad9b504aa7fd96ec753f7c1ee844a4c9a57abf71c5be530d
-timestamp=2026-06-07T09:47:42Z
-branch=feature/roadmap-batch2
-head_commit=c22e08e3
-signature=9f2786e8ed59d8bbdc77a8001c639bbd6e1b85133c6a78afffe22b52b330776b
+diff_hash=e7c46834c829fe6899a5e99af30179e23ba9e8fb3f4c1b5bfce8c72ab8aee94b
+timestamp=2026-06-07T13:49:02Z
+branch=feature/openhands-patterns
+head_commit=f6ba8cac
+signature=7b9e70cc18bc950174ee1f19c87ce648696c365929704a77b4fbc1b09436f89d

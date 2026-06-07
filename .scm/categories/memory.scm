@@ -1,5 +1,5 @@
 # memory — Savia Capability Map (L1)
-> 99 resources
+> 100 resources
 
 - **auto-compact** (script): auto-compact.sh — Disparado automáticamente cuando contexto > 85%
 - **biblio-search** (cmd): >
@@ -19,6 +19,7 @@
 - **context-caching** (skill): Usar cuando se optimiza el orden de carga de contexto para maximizar cache hits.
 - **context-calibration-measure** (script): context-calibration-measure.sh — Measure context usage patterns
 - **context-compress** (cmd): Compresión semántica de contexto — mantener significado, reducir tokens (80% reduction)
+- **context-condenser** (script): context-condenser.sh — SE-200: rolling window context compression
 - **context-defer** (cmd): Sistema de carga diferida — cargar comandos/reglas solo cuando se necesitan (85% reducción de overhead)
 - **context-distortion-measure** (script): context-distortion-measure.sh — SE-029-M
 - **context-frozen-check** (script): context-frozen-check.sh — SE-029-F

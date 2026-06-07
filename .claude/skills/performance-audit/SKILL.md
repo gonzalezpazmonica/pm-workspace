@@ -18,6 +18,9 @@ references:
 category: "quality"
 tags: ["performance", "hotspots", "async", "optimization"]
 priority: "medium"
+trigger:
+  type: keyword
+  keywords: [performance, hotspot, lento, optimiza, bottleneck, rendimiento]
 ---
 
 # Performance Audit Intelligence
