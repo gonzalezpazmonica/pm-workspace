@@ -1,5 +1,5 @@
 # analysis — Savia Capability Map (L1)
-> 62 resources
+> 63 resources
 
 - **/a11y-report** (cmd): Reporte de conformidad de accesibilidad para stakeholders y legal. Tres formatos: ejecutivo (resumen + score), técnico (detalles completos + código), legal (declaración VPAT/Section 508). Tracking de tendencias. Exportable.
 - **Trace Optimize** (cmd): Optimize trace spans and sampling rates across distributed services
@@ -32,6 +32,7 @@
 - **debt-prioritize** (cmd): >
 - **debt-track** (cmd): >
 - **enterprise-dashboard** (cmd): Enterprise analytics — portfolio metrics, team health, risk matrix, forecasting
+- **eval-improvement-suggest** (script): eval-improvement-suggest.sh — SE-215: generate skill improvement proposals from eval reports
 - **eval-report** (cmd): Generate evaluation report with scoring and analysis
 - **excel-report** (cmd): Generar plantillas Excel interactivas con Claude-in-Excel para reporting
 - **executive-reporting** (skill): Usar cuando se genera un informe ejecutivo multi-proyecto para dirección.
