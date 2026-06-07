@@ -79,3 +79,11 @@ Usar `scripts/memory-store.sh save` con el formato:
 ```
 
 Tipos: decision, pattern, context, feedback, lesson, reference
+
+## Anti-patterns
+
+**❌ Guardar sin tipo**: usar `--type custom` para todo en lugar del tipo semántico correcto (`decision`, `discovery`, `bug`, etc.) → memoria no recuperable por topic, búsquedas devuelven ruido.
+**✓ Correcto**: seleccionar el tipo que mejor describe la naturaleza del dato antes de guardar.
+
+**❌ Guardar sin source**: omitir `--source skill:<name>` o `--source session` → trazabilidad rota, entries huérfanas sin origen verificable.
+**✓ Correcto**: siempre incluir `--source` con el skill, comando o sesión que originó la entrada.

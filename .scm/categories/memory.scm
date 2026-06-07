@@ -1,5 +1,5 @@
 # memory — Savia Capability Map (L1)
-> 100 resources
+> 102 resources
 
 - **auto-compact** (script): auto-compact.sh — Disparado automáticamente cuando contexto > 85%
 - **biblio-search** (cmd): >
@@ -58,6 +58,7 @@
 - **memory-check** (cmd): >
 - **memory-check** (script): memory-check.sh — Health check of all Savia memory layers
 - **memory-compress** (cmd): Compresión semántica de memorias (engrams). Reduce tokens hasta 80% preservando fidelidad mediante extracción de entidades, resumen de eventos, condensación de decisiones y deduplicación de contexto.
+- **memory-conflict-check** (script): memory-conflict-check.sh — SE-214: detect conflicting memory entries
 - **memory-conflict-judge** (agent): Recommendation Tribunal judge — detects when a draft recommendation contradicts the active user's auto-memory (feedback_*, user_*)
 - **memory-consolidate** (cmd): Consolidate and compress memory entries to save context
 - **memory-context** (cmd): >
@@ -68,6 +69,7 @@
 - **memory-index-rebuild** (script): memory-index-rebuild.sh — rebuild auto/MEMORY.md index from JSONL store
 - **memory-prune** (cmd): Poda semántica inteligente de memorias. Archiva engrams de baja importancia, mantiene críticas. Usa scores de /memory-importance. Reversible con restore.
 - **memory-recall** (cmd): Retrieve relevant memories for current context
+- **memory-recall-audit** (script): memory-recall-audit.sh — SE-212: measure MEMORY.md recall budget utilization
 - **memory-rotate** (cmd): Execute context rotation manually — daily, weekly, monthly cycles
 - **memory-save** (cmd): >
 - **memory-save** (script): memory-save.sh — Save, upsert, entity, session-summary (sourced by memory-store.sh)

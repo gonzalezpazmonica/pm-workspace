@@ -1,5 +1,7 @@
 ---
 name: _template
+# SE-209 canonical description format: "[qué hace]. Usar cuando [trigger 1], [trigger 2], o [trigger 3]. Max 200 chars."
+# Example: "Audita compliance legal. Usar cuando se crea un contrato, se procesa PII, o hay incertidumbre sobre RGPD."
 description: "TEMPLATE — copia este directorio para crear una skill nueva. NO se carga en runtime."
 maturity: template
 context: standalone
@@ -23,7 +25,20 @@ priority: "low"
   2. Replace ALL `<placeholder>` markers below.
   3. Update frontmatter `name`, `description`, `tags`.
   4. Delete this HOW TO block before commit.
-  5. Skill must stay ≤150 lines (Rule #11).
+
+  SIZE LIMITS (SE-208) — TARGET: ≤100 lines | WARN: >100 | FAIL: ≥150
+  -------------------------------------------------------------------
+  Keep SKILL.md as the lean entry point. Extract heavy content to satellites:
+
+  .claude/skills/<name>/
+  ├── SKILL.md      ← ≤100 lines: entry, workflow, references  ← YOU ARE HERE
+  ├── REFERENCE.md  ← extensive technical reference, tables, criteria
+  ├── tests.md      ← test cases, negative examples, anti-patterns
+  ├── examples.md   ← concrete input/output examples
+  └── DOMAIN.md     ← only when real domain terminology exists (not by default)
+
+  Satellites are NOT loaded by default — the agent reads them on demand.
+  SKILL.md links to satellites in the ## Related section.
 
   PATTERN: "Authoritative Paths First" (SE-153)
   ---------------------------------------------

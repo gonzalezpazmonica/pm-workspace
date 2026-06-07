@@ -1,22 +1,25 @@
 #!/usr/bin/env python3
 """
-knowledge-graph.py — SE-162 / SE-151: Knowledge Graph sobre memoria Savia.
+knowledge-graph.py — SE-162 / SE-151 / SE-211 / SE-213: Knowledge Graph sobre memoria Savia.
 
 Builds a typed-edge graph (entities + relations) in SQLite from plain-text
 sources (.md, .jsonl). SQLite is a derived cache — plain text stays source of
 truth.
 
 Usage:
-    python3 scripts/knowledge-graph.py build   [--db PATH] [--root PATH] [--project SLUG]
-    python3 scripts/knowledge-graph.py query   "question" [--db PATH] [--limit N] [--project SLUG]
+    python3 scripts/knowledge-graph.py build   [--db PATH] [--root PATH] [--project SLUG] [--memory-type TYPE]
+    python3 scripts/knowledge-graph.py query   "question" [--db PATH] [--limit N] [--project SLUG] [--min-confidence FLOAT]
     python3 scripts/knowledge-graph.py impact  "entity"   [--db PATH] [--depth N] [--project SLUG]
     python3 scripts/knowledge-graph.py status             [--db PATH] [--project SLUG]
-    python3 scripts/knowledge-graph.py entities [--type TYPE] [--db PATH] [--project SLUG]
+    python3 scripts/knowledge-graph.py entities [--type TYPE] [--db PATH] [--project SLUG] [--min-confidence FLOAT]
 
 Entity types : project, person, skill, decision, spec, concept, tool, rule
 Relation types: uses, owns, blocks, depends_on, decided, implements, mentions
 
 SE-151: --project SLUG tags all entities on build and filters on read.
+SE-211: memory_type column — 13 semantic types (fact/decision/instruction/preference/goal/
+        commitment/event/learning/error/observation/relationship/context/artifact).
+SE-213: confidence REAL + provenance TEXT fields for quality-filtered queries.
 """
 
 from __future__ import annotations
@@ -31,6 +34,14 @@ from collections import deque
 from pathlib import Path
 
 # ── Paths ────────────────────────────────────────────────────────────────────
+
+# ── SE-211: 13 semantic memory types (Memanto-inspired) ────────────────────────
+
+MEMORY_TYPES = frozenset({
+    "fact", "decision", "instruction", "preference", "goal",
+    "commitment", "event", "learning", "error", "observation",
+    "relationship", "context", "artifact",
+})
 
 ROOT = Path(os.environ.get("PROJECT_ROOT", Path(__file__).parent.parent))
 DEFAULT_DB = Path(os.environ.get("KG_DB", Path.home() / ".savia" / "knowledge-graph.db"))
@@ -128,33 +139,85 @@ CREATE INDEX IF NOT EXISTS idx_ent_type ON entities(type);
         conn.execute(
             "CREATE INDEX IF NOT EXISTS idx_ent_project ON entities(project_id)"
         )
+    # SE-211: add memory_type column (idempotent migration)
+    if "memory_type" not in cols:
+        try:
+            conn.execute(
+                "ALTER TABLE entities ADD COLUMN memory_type TEXT DEFAULT 'unknown'"
+            )
+        except Exception:
+            pass  # column already exists
+    # SE-213: add confidence and provenance columns (idempotent migration)
+    if "confidence" not in cols:
+        try:
+            conn.execute(
+                "ALTER TABLE entities ADD COLUMN confidence REAL DEFAULT 0.8"
+            )
+        except Exception:
+            pass
+    if "provenance" not in cols:
+        try:
+            conn.execute(
+                "ALTER TABLE entities ADD COLUMN provenance TEXT DEFAULT 'unknown'"
+            )
+        except Exception:
+            pass
     conn.commit()
     return conn
 
 
-def upsert_entity(conn: sqlite3.Connection, name: str, etype: str,
-                   project_id: str | None = None) -> int:
-    """SE-151: upsert entity.
+def upsert_entity(
+    conn: sqlite3.Connection,
+    name: str,
+    etype: str,
+    project_id: str | None = None,
+    memory_type: str | None = None,
+    confidence: float = 0.8,
+    provenance: str = "unknown",
+) -> int:
+    """SE-151/SE-211/SE-213: upsert entity with memory_type, confidence, provenance.
+
     Entities are globally de-duped by (name, type). project_id is a tag:
     each entity can be tagged to at most one project (last write wins within
     a build cycle). cmd_build with --project X deletes all X-tagged entities
     before ingesting, so isolation is maintained per project.
+
+    SE-211: memory_type must be one of MEMORY_TYPES; falls back to 'unknown' with
+    a WARN to stderr when an unrecognised type is supplied.
+    SE-213: confidence (0.0-1.0, default 0.8) and provenance track data quality.
     """
     name = name.strip()[:200]
+
+    # SE-211: validate memory_type
+    resolved_mtype: str = "unknown"
+    if memory_type is not None:
+        if memory_type in MEMORY_TYPES:
+            resolved_mtype = memory_type
+        else:
+            print(
+                f"[WARN] SE-211: unknown memory_type '{memory_type}' — storing as 'unknown'",
+                file=sys.stderr,
+            )
+
     conn.execute(
-        "INSERT OR IGNORE INTO entities(name, type, project_id) VALUES(?,?,?)",
-        (name, etype, project_id)
+        "INSERT OR IGNORE INTO entities(name, type, project_id, memory_type, confidence, provenance)"
+        " VALUES(?,?,?,?,?,?)",
+        (name, etype, project_id, resolved_mtype, confidence, provenance),
     )
     # Update last_seen; if project_id provided, retag (within this build project_id is consistent)
     if project_id is not None:
         conn.execute(
-            "UPDATE entities SET last_seen=datetime('now'), project_id=? WHERE name=? AND type=?",
-            (project_id, name, etype),
+            "UPDATE entities SET last_seen=datetime('now'), project_id=?,"
+            " memory_type=?, confidence=?, provenance=?"
+            " WHERE name=? AND type=?",
+            (project_id, resolved_mtype, confidence, provenance, name, etype),
         )
     else:
         conn.execute(
-            "UPDATE entities SET last_seen=datetime('now') WHERE name=? AND type=?",
-            (name, etype),
+            "UPDATE entities SET last_seen=datetime('now'),"
+            " memory_type=?, confidence=?, provenance=?"
+            " WHERE name=? AND type=?",
+            (resolved_mtype, confidence, provenance, name, etype),
         )
     row = conn.execute(
         "SELECT id FROM entities WHERE name=? AND type=?", (name, etype)
@@ -216,12 +279,28 @@ def ingest_memory_store(conn: sqlite3.Connection, project_id: str | None = None)
             if etype not in ("decision", "discovery", "feedback", "concept",
                              "spec", "rule", "tool", "project"):
                 etype = "concept"
-            topic_id = upsert_entity(conn, topic, etype, project_id)
+            # SE-211: map store type to memory_type; SE-213: provenance explicit_statement
+            _mtype_map = {
+                "decision": "decision", "discovery": "observation",
+                "bug": "error", "architecture": "artifact",
+                "pattern": "learning", "session-summary": "context",
+                "feedback": "observation", "episode": "event",
+            }
+            m_type = _mtype_map.get(etype, "unknown")
+            topic_id = upsert_entity(
+                conn, topic, etype, project_id,
+                memory_type=m_type,
+                confidence=0.8,
+                provenance="explicit_statement",
+            )
             entities = extract_entities_from_text(f"{topic} {content}")
             for name, t in entities:
                 if name == topic:
                     continue
-                eid = upsert_entity(conn, name, t, project_id)
+                eid = upsert_entity(conn, name, t, project_id,
+                                    memory_type="unknown",
+                                    confidence=0.7,
+                                    provenance="inferred")
                 upsert_relation(conn, topic_id, "mentions", eid,
                                 source=str(MEMORY_STORE), confidence=0.8)
             count += 1
@@ -414,13 +493,14 @@ def cmd_status(args: argparse.Namespace) -> None:
 
 
 def cmd_entities(args: argparse.Namespace) -> None:
+    """SE-211/SE-213: list entities with optional memory_type and min-confidence filters."""
     db = Path(args.db)
     if not db.exists():
         print("Graph not built — run: python3 scripts/knowledge-graph.py build")
         sys.exit(1)
     project_id: str | None = getattr(args, "project", None) or None
     conn = open_db(db)
-    conditions = []
+    conditions: list[str] = []
     params_list: list = []
     if args.type:
         conditions.append("type=?")
@@ -428,14 +508,36 @@ def cmd_entities(args: argparse.Namespace) -> None:
     if project_id:
         conditions.append("project_id=?")
         params_list.append(project_id)
+    # SE-211: filter by memory_type
+    mtype_filter: str | None = getattr(args, "memory_type", None)
+    if mtype_filter:
+        conditions.append("memory_type=?")
+        params_list.append(mtype_filter)
+    # SE-213: filter by minimum confidence
+    min_conf: float | None = getattr(args, "min_confidence", None)
+    if min_conf is not None:
+        conditions.append("confidence>=?")
+        params_list.append(min_conf)
     where = ("WHERE " + " AND ".join(conditions)) if conditions else ""
     rows = conn.execute(
-        f"SELECT name, type, project_id FROM entities {where} ORDER BY type, name",
-        tuple(params_list)
+        f"SELECT name, type, project_id, memory_type, confidence, provenance"
+        f" FROM entities {where} ORDER BY type, name",
+        tuple(params_list),
     ).fetchall()
-    for name, etype, proj in rows:
-        proj_label = f"  [{proj}]" if proj else ""
-        print(f"{etype:12s}  {name}{proj_label}")
+    use_json = getattr(args, "json_output", False)
+    if use_json:
+        result = []
+        for name, etype, proj, mtype, conf, prov in rows:
+            result.append({
+                "name": name, "type": etype, "project_id": proj,
+                "memory_type": mtype, "confidence": conf, "provenance": prov,
+            })
+        print(json.dumps(result, indent=2))
+    else:
+        for name, etype, proj, mtype, conf, prov in rows:
+            proj_label = f"  [{proj}]" if proj else ""
+            mtype_label = f"  mt:{mtype}" if mtype and mtype != "unknown" else ""
+            print(f"{etype:12s}  {name}{proj_label}{mtype_label}  conf:{conf:.2f}")
 
 
 def cmd_query(args: argparse.Namespace) -> None:
@@ -536,13 +638,21 @@ def main() -> None:
     p_build = sub.add_parser("build", help="Build/rebuild graph from sources")
     p_build.add_argument("--db", default=str(DEFAULT_DB))
     p_build.add_argument("--project", default=None, help="SE-151: tag entities with project slug")
+    p_build.add_argument("--memory-type", dest="memory_type", default=None,
+                         help="SE-211: override default memory_type for all ingested entities")
 
     p_status = sub.add_parser("status", help="Show graph statistics")
     p_status.add_argument("--db", default=str(DEFAULT_DB))
     p_status.add_argument("--project", default=None, help="SE-151: filter by project slug")
 
     p_ent = sub.add_parser("entities", help="List entities")
-    p_ent.add_argument("--type", help="Filter by type")
+    p_ent.add_argument("--type", help="Filter by entity type")
+    p_ent.add_argument("--memory-type", dest="memory_type", default=None,
+                       help="SE-211: filter by memory_type (decision/fact/…)")
+    p_ent.add_argument("--min-confidence", dest="min_confidence", type=float, default=None,
+                       help="SE-213: filter entities by minimum confidence (0.0-1.0)")
+    p_ent.add_argument("--json", dest="json_output", action="store_true",
+                       help="Output as JSON (includes memory_type, confidence, provenance)")
     p_ent.add_argument("--db", default=str(DEFAULT_DB))
     p_ent.add_argument("--project", default=None, help="SE-151: filter by project slug")
 
