@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=2215f579269a00b7e59b8e43dac74ca03327e83c3a65fa7281ab3058b60647b5
-timestamp=2026-06-07T10:47:37Z
+diff_hash=bda01324b679d93d95088283419618a9b04e5f0ddcf8f14101fa5a1428fdd9ce
+timestamp=2026-06-07T11:57:14Z
 branch=feature/openhands-patterns
-head_commit=6d5d2ce9
-signature=4d391d486831113eb67ebf065507dad4802e57510a7aaecbf460a528491558dc
+head_commit=25245b00
+signature=2de26fb83fcf51314a75e6c2d461d8e8b883841fc3aa7eb616f8140c7fde346d
