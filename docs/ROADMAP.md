@@ -1,6 +1,6 @@
 # Roadmap Unificado — pm-workspace / Savia
 
-**Updated:** 2026-06-07 | **Version:** v6.18.0 | **556 commands · 70 agents · 102 skills · 75 hooks · 411 test suites · Active backlog 8 items (~62h)** — ver `## Active Stack — 2026-06-06`
+**Updated:** 2026-06-07 | **Version:** v6.19.0 | **556 commands · 72 agents · 103 skills · 75 hooks · 430+ test suites · Active backlog 6 items (~60h)** — ver `## Active Stack — 2026-06-07`
 
 ---
 
@@ -690,86 +690,56 @@ Google Sheets · ServiceNow/SAP · Tableau · Kafka · VS Code ext · Cloud voic
 
 ---
 
-## Active Stack — 2026-06-06 (supersedes 2026-06-05)
+## Active Stack — 2026-06-07 (supersedes 2026-06-06)
 
-> Estado verificado contra `git log` + PRs #816→#824 merged.
+> Estado verificado contra `git log` + PRs #816→#828 merged + #829/#830 en CI.
 > Criterio: scoring canónico (PM Impact 30% · Anti lock-in 25% · FOSS 20% · Inverse complexity 15% · Flow 10%).
 
-### Recientemente cerrado (2026-06-05 → 2026-06-06)
+### Recientemente cerrado (2026-06-06 → 2026-06-07)
 
 | ID | Título | Cerrado vía |
 |---|---|---|
-| SPEC-190 Slices 1-9 | Application Code Twin completo | PR #816→#822 |
-| SPEC-SCM-COVERAGE/AGENTSYNC/FRESHCHECK | Era 191 foundation fixes | PR #823 |
-| SPEC-OPC-CROSS-AUDIT | opencode-cross-audit.sh drift detection | PR #823 |
-| SPEC-OPC-VENDOR-REFS | Vendor-agnostic docs (83 ficheros) | PR #823 |
-| SE-081/082/083 | Pocock skills + arch vocabulary + TDD skill | PR #823 |
-| SE-084 Slices 1+2 | Skill catalog auditor + G14 gate | PR #823 |
-| SE-086 Slices 1+2 | Ubiquitous-language extractor + KG bridge | PR #823 |
-| SE-085/087 | Write-a-skill + design-an-interface skills | PR #824 |
-| SE-091 | Caveman always-on + auto tribunal hooks | PR #824 |
-| SE-093 | Zero project leakage isolation check | PR #824 |
-| SE-094 | Documentation health auditor | PR #824 |
-| SPEC-169 | Project Twin artefacto versionado — Application Code Twin completo | PR #825 |
-| SPEC-188 Fase 0 | feedback_root_cause_always.md — deuda técnica memory-conflict-judge | PR #826 |
+| SE-151/152/073 | KG project_id · consumes/produces · memory 2-tier | PR #825 |
+| SPEC-181/159/160 | Context budgets · async tribunal · tool ergonomics | PR #825 |
+| SE-088-UA-ADOPT | Understand-Anything bridge + 7 commands | PR #826 |
+| SPEC-182 Slices 1-3 | Bitemporal timeline schema + scripts + pilot | PR #826 |
+| SPEC-183 Slices 1-2 | Reconciliation 3-bucket agent + stats | PR #826 |
+| SPEC-188 Fase 0 | feedback_root_cause_always.md | PR #826 |
+| SE-200..204 | OpenHands patterns: condenser, critic, hooks, keyword triggers, eval harness | PR #827 |
+| SE-205/206/207 | Orca patterns: orchestration protocol, idle detection, LER template | PR #828 |
 
-### Tier 1 — Inmediato (workspace, sin deps externas, total ~30h)
+### En CI — pendientes de merge
 
-| # | ID | Título | Esfuerzo | Prioridad |
-|---|---|---|---|---|
-| 1 | SE-151 | Índice físico project_id grafo memoria | 3h | **IMPLEMENTED** |
-| 2 | SE-152 | Frontmatter consumes/produces en SKILL.md | 6h | **IMPLEMENTED** |
-| 3 | SPEC-181 | L0-L3 context budgets por tier | 4-6h | **IMPLEMENTED** |
-| 4 | SPEC-159 | Async Tribunal Fan-out | 8h | **IMPLEMENTED** |
-| 5 | SPEC-160 | Tool Ergonomics Auto-Audit | 5h | **IMPLEMENTED** |
-| 6 | SE-073 | Memory Index Cap Tiered | 4h | **IMPLEMENTED** |
+| PR | Contenido | Estado |
+|---|---|---|
+| #829 | SE-208/209/210 + SE-211/212/213/214 (Pocock + Memanto) | CI en progreso |
+| #830 | SE-215 + SPEC-182 Slice 4 + SPEC-183 Slices 3+4 | CI en progreso |
 
-### Tier 2 — Specs grandes (workspace, total ~30h)
+### Backlog priorizado — qué sigue
 
-| # | ID | Título | Esfuerzo | Prioridad |
-|---|---|---|---|---|
-| 7 | SPEC-169 | Project Twin artefacto versionado | 11h | **IMPLEMENTED** PR #815 |
-| 8 | SPEC-188 | Root-Cause Investigation Architecture | 6-8h doc · ~80h impl | PROPOSED P0 |
-| 9 | SPEC-182 | Bitemporal timeline frontmatter | 6-8h | MEDIA — zero deps |
-| 10 | SPEC-183 | Reconciliation 3-bucket | 5-7h | MEDIA — dep SPEC-182 |
-| 11 | SE-088-UA-ADOPT | Understand-Anything knowledge graphs | ~90 min | ALTA — multiplicador |
+| # | ID | Qué | Esfuerzo | Prioridad | Deps |
+|---|---|---|---|---|---|
+| 1 | **SPEC-188 Fase 1** | Failure Pattern Memory (desbloquea SPEC-108) | ~16h | P0 | Fase 0 ✓ |
+| 2 | **SE-074** | Parallel spec execution (4 slices) | ~21h | P1 | APPROVED |
+| 3 | **SPEC-SE-036** | JWT Mint efímero — Rule #1 a infra, sustituye PAT | 10-14h | P1 | — |
+| 4 | **SPEC-SE-037** | Audit JSONB Trigger — compliance ISO/EU AI Act/GDPR | 6-8h | P1 | — |
+| 5 | **SPEC-182 Slice 4** | Timeline status guard (PostCommit hint) | 2h | P2 | En PR #830 |
+| 6 | **SPEC-183 Slices 3+4** | Drift-auditor integration + pilot | 3h | P2 | En PR #830 |
 
-### Tier 3 — SaviaClaw (requiere sistema externo, total ~25h)
+### Tier 3 — SaviaClaw (requiere sistema externo)
 
-| # | ID | Título | Esfuerzo | Prioridad |
-|---|---|---|---|---|
-| 11 | SE-089-SC-DEEPSEEK | Provider-agnostic LLM + DeepSeek migration | ~120 min | CRITICA |
-| 12 | SE-095/096/097 | SaviaClaw self-monitoring + cron + streaming | ~135 min | CRITICA |
+| ID | Qué | Esfuerzo |
+|---|---|---|
+| SE-089 | Provider-agnostic LLM + DeepSeek migration | ~120 min |
+| SE-095/096/097 | Self-monitoring + cron + streaming | ~135 min |
 
 ### Decisión operativa
 
-1. **Ahora**: SE-088-UA-ADOPT (desbloqueado) → SPEC-182 → SPEC-183.
-2. **Siguiente**: SPEC-188 Fases 1-4 (sub-specs a crear) → SE-074.
-3. **Después**: Tier 3 SaviaClaw.
+1. **Tras merge #829/#830**: arrancar SPEC-188 Fase 1 (mayor impacto, desbloquea cadena causal).
+2. **Siguiente batch**: SE-074 (parallel spec) + SPEC-SE-036 (JWT) — ambos APPROVED.
+3. **Después**: Tier 3 SaviaClaw cuando haya acceso.
 
-### Total backlog activo: ~55h (6 items agrupados)
-
-### Era 201 — Skill quality discipline (Pocock patterns, ~2 días)
-
-| # | ID | Título | Esfuerzo | Prioridad |
-|---|---|---|---|---|
-| 1 | SE-208 | SKILL.md hard limit 100 lines + progressive disclosure | B | P1 |
-| 2 | SE-209 | Canonical description format for SKILL.md | B | P1 |
-| 3 | SE-210 | Anti-patterns section in 6 critical skills | M | P2 |
-
-Origen: `output/research/mattpocock-skills-savia-20260607.md`. Patrones de mattpocock/skills (120k stars). Specs: `docs/propuestas/SE-208..SE-210-*.md`.
-
----
-
-### Era 203 — Eval-driven improvement loop (DeepAgents pattern, ~1 día)
-
-| # | ID | Título | Esfuerzo | Prioridad |
-|---|---|---|---|---|
-| 1 | SE-215 | Eval-driven skill improvement loop | M | P1 |
-
-Origen: `output/research/deepagents-savia-20260607.md`. Patrón `better-harness` de langchain-ai/deepagents (24k stars). Dep: SE-204 ✓ + code-improvement-loop ✓.
-
----
+### Total backlog activo: ~60h (6 items core + Tier 3)
 
 ### Era 202 — Memory intelligence upgrade (Memanto patterns, ~1 semana)
 
