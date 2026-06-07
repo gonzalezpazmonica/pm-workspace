@@ -142,3 +142,6 @@ SIEMPRE → Generar audit log
 | Tasa de aceptación (PRs merged por humano) | ≥ 70% |
 | Crashes por sesión | ≤ 3 |
 | Tiempo medio por tarea | ≤ AGENT_TASK_TIMEOUT_MINUTES |
+
+
+> **SE-206**: Para detección dinámica de idle entre tareas usar `scripts/agent-wait-idle.sh`. Ver `docs/rules/domain/agent-idle-protocol.md`.

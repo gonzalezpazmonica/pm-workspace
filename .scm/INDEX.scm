@@ -1,6 +1,6 @@
 # Savia Capability Map — INDEX
-> hash: 8dd15aa4a131 | resources: 1228
-> 556 commands · 103 skills · 71 agents · 498 scripts
+> hash: 88a72bc57c6b | resources: 1230
+> 556 commands · 103 skills · 71 agents · 500 scripts
 
 [analysis] /a11y-report — accesibilidad,completos,conformidad,código,declaración — cmd:.claude/commands/a11y-report.md
 [analysis] Trace Optimize — across,distributed,optimize,rates,sampling — cmd:.claude/commands/trace-optimize.md
@@ -22,6 +22,7 @@
 [analysis] agent-size-audit — agent,audit,every,measure,probe — script:scripts/agent-size-audit.sh
 [analysis] agent-size-remediation-plan — agent,analyzer,plan,remediation,size — script:scripts/agent-size-remediation-plan.sh
 [analysis] agent-trace — agentes,dashboard,duración,ejecución,resultado — cmd:.claude/commands/agent-trace.md
+[analysis] agent-wait-idle — agent,detect,idle,process,wait — script:scripts/agent-wait-idle.sh
 [analysis] ai-risk-assessment — agentes,categorías,evaluación,riesgo,según — cmd:.claude/commands/ai-risk-assessment.md
 [analysis] async-standup — asíncrona,compila,quiera,recogida,reporta — cmd:.claude/commands/async-standup.md
 [analysis] case-recompute — adjusted,business,case,recompute,risk — cmd:.claude/commands/case-recompute.md
@@ -742,6 +743,7 @@
 [planning] onboarding-dev — buddy,desarrollador,incorpora,nuevo,proyecto — skill:.claude/skills/onboarding-dev/SKILL.md
 [planning] operational-point-selector — operational,point,selector,slice — script:scripts/operational-point-selector.sh
 [planning] opus47-calibration-scorecard — calibration,opus,scorecard,slice — script:scripts/opus47-calibration-scorecard.sh
+[planning] orchestration-protocol — agent,inter,messaging,orchestration,protocol — script:scripts/orchestration-protocol.sh
 [planning] orgchart-import —  — cmd:.claude/commands/orgchart-import.md
 [planning] orgchart-import — equipo,estructura,extraer,importa,organigrama — skill:.claude/skills/orgchart-import/SKILL.md
 [planning] oumi-probe — integration,oumi,probe,slice,viability — script:scripts/oumi-probe.sh
