@@ -284,7 +284,7 @@ PY
 }
 
 @test "SE-213 edge: negative confidence value handled gracefully" {
-  run python3 scripts/knowledge-graph.py entities --min-confidence -- -0.1 2>&1 || true
+  run python3 scripts/knowledge-graph.py entities --min-confidence -0.1 2>&1 || true
   [ "$status" -le 1 ]
 }
 
@@ -318,8 +318,9 @@ PY
 }
 
 @test "SE-213 edge: nonexistent database path creates new DB gracefully" {
-  local tmpdb; tmpdb="$(mktemp -d)/test.db"
-  run python3 scripts/knowledge-graph.py --db "$tmpdb" status 2>&1 || true
+  local tmpdb; tmpdb="$(mktemp).db"
+  run python3 scripts/knowledge-graph.py entities --db "$tmpdb" 2>&1 || true
+  rm -f "$tmpdb"
   [ "$status" -le 1 ]
 }
 

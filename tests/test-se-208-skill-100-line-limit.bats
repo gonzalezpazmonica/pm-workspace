@@ -163,10 +163,10 @@ SKILLEOF
 
 # ── Edge cases ────────────────────────────────────────────────────────────────
 @test "SE-208 edge: skill with exactly 100 lines is OK (boundary)" {
-  mkdir -p "$FAKE_ROOT/skills/boundary-skill"
-  { printf -- '---\nname: boundary\ndescription: "Boundary skill. Usar cuando boundary."\n---\n\nrefs path/to/file\n'; yes "x" | head -94; } > "$FAKE_ROOT/skills/boundary-skill/SKILL.md"
-  printf 'domain content here\nmore here\nthird line\nfourth\n' > "$FAKE_ROOT/skills/boundary-skill/DOMAIN.md"
-  run env SAVIA_SKILLS_DIR="$FAKE_ROOT/skills" bash "$ROOT/$AUDITOR" 2>&1
+  mkdir -p "$TMPDIR_TEST/skills/boundary-skill"
+  { printf -- '---\nname: boundary\ndescription: "Boundary skill. Usar cuando boundary."\n---\n\nrefs path/to/file\n'; yes "x" | head -94; } > "$TMPDIR_TEST/skills/boundary-skill/SKILL.md"
+  printf 'domain content here\nmore here\nthird line\nfourth\n' > "$TMPDIR_TEST/skills/boundary-skill/DOMAIN.md"
+  run env SAVIA_SKILLS_DIR="$TMPDIR_TEST/skills" bash "$ROOT/$AUDITOR" 2>&1
   [[ "$output" != *"boundary-skill"*"WARN"* ]] || [[ "$output" == *"OK"* ]]
 }
 
@@ -176,8 +176,8 @@ SKILLEOF
 }
 
 @test "SE-208 edge: empty skills directory returns PASS with 0 total" {
-  mkdir -p "$FAKE_ROOT/empty_skills"
-  run env SAVIA_SKILLS_DIR="$FAKE_ROOT/empty_skills" bash "$ROOT/$AUDITOR" 2>&1
+  mkdir -p "$TMPDIR_TEST/empty_skills"
+  run env SAVIA_SKILLS_DIR="$TMPDIR_TEST/empty_skills" bash "$ROOT/$AUDITOR" 2>&1
   [ "$status" -eq 0 ]
 }
 

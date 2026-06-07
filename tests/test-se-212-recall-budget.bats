@@ -198,7 +198,7 @@ print('OK count:', d['total'])
 }
 
 @test "SE-212 edge: nonexistent MEMORY.md path exits gracefully" {
-  run SAVIA_MEMORY_FILE="/nonexistent/$$" bash scripts/memory-recall-audit.sh 2>&1 || true
+  run bash scripts/memory-recall-audit.sh --memory-file "/nonexistent/$$" 2>&1 || true
   [ "$status" -le 2 ]
 }
 

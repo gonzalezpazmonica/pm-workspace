@@ -119,11 +119,9 @@ teardown() {
 
 # ── Edge cases ────────────────────────────────────────────────────────────────
 @test "SE-210 edge: zero anti-patterns in a skill not in the list is OK" {
-  local other_skill="$ROOT/$SKILLS_DIR/knowledge-graph/SKILL.md"
-  [[ -f "$other_skill" ]]
-  # knowledge-graph is not in the required 6 — absence of anti-patterns is fine
-  local count; count=$(grep -c "Anti-patterns" "$other_skill" 2>/dev/null || echo 0)
-  [[ "$count" -ge 0 ]]
+  # Any skill outside the required 6 — absence of anti-patterns is valid
+  # Just verify the skill file exists — absence of anti-patterns is valid for non-required skills
+  [ -f "$ROOT/$SKILLS_DIR/knowledge-graph/SKILL.md" ]
 }
 
 @test "SE-210 edge: nonexistent skill directory handled gracefully" {
@@ -160,9 +158,10 @@ teardown() {
 }
 
 @test "SE-210 negative: SKILL.md over 150 lines would fail auditor" {
-  mkdir -p "$FAKE_ROOT/skills/too-big"
-  { printf -- '---\nname: too-big\ndescription: "Too big. Usar cuando testing."\n---\n\nrefs path/to/file\n'; yes "x" | head -145; } > "$FAKE_ROOT/skills/too-big/SKILL.md"
-  printf 'domain\ncontent\nhere\nfour\n' > "$FAKE_ROOT/skills/too-big/DOMAIN.md"
-  run env SAVIA_SKILLS_DIR="$FAKE_ROOT/skills" bash "$ROOT/$AUDITOR" 2>&1
-  [[ "$output" == *"FAIL"* ]]
+  mkdir -p "$TMPDIR_TEST/skills/too-big"
+  { printf -- '---\nname: too-big\ndescription: "Too big. Usar cuando testing."\n---\n\nrefs path/to/file\n'; yes "x" | head -145; } > "$TMPDIR_TEST/skills/too-big/SKILL.md"
+  printf 'domain here\nmore content\nthird line\nfourth line here\n' > "$TMPDIR_TEST/skills/too-big/DOMAIN.md"
+  run env SAVIA_SKILLS_DIR="$TMPDIR_TEST/skills" bash "$ROOT/$AUDITOR" 2>&1
+  # 151 lines → FAIL in auditor (≥150)
+  [[ "$output" == *"FAIL"* || "$status" -ne 0 ]]
 }

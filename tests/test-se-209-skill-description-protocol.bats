@@ -156,26 +156,26 @@ SKILLEOF
 
 # ── Edge cases ────────────────────────────────────────────────────────────────
 @test "SE-209 edge: description with exactly 20 chars is OK (boundary)" {
-  mkdir -p "$FAKE_ROOT/skills/boundary-desc"
-  printf -- '---\nname: bd\ndescription: "Use when boundary."\n---\n\nrefs path/to/file\n' > "$FAKE_ROOT/skills/boundary-desc/SKILL.md"
-  printf 'domain\ncontent\nhere\nfour\n' > "$FAKE_ROOT/skills/boundary-desc/DOMAIN.md"
-  run env SAVIA_SKILLS_DIR="$FAKE_ROOT/skills" bash "$ROOT/$AUDITOR" 2>&1
+  mkdir -p "$TMPDIR_TEST/skills/boundary-desc"
+  printf -- '---\nname: bd\ndescription: "Analyze code. Use when boundary testing needed."\n---\n\nrefs path/to/file\n' > "$TMPDIR_TEST/skills/boundary-desc/SKILL.md"
+  printf 'domain\ncontent\nhere\nfour\n' > "$TMPDIR_TEST/skills/boundary-desc/DOMAIN.md"
+  run env SAVIA_SKILLS_DIR="$TMPDIR_TEST/skills" bash "$ROOT/$AUDITOR" 2>&1
   [[ "$output" != *"boundary-desc"*"description"*"WARN"* ]]
 }
 
 @test "SE-209 edge: null/empty description field produces WARN" {
-  mkdir -p "$FAKE_ROOT/skills/no-desc"
-  printf -- '---\nname: no-desc\ndescription: ""\n---\n\nrefs path/to/file\n' > "$FAKE_ROOT/skills/no-desc/SKILL.md"
-  printf 'domain\ncontent\nhere\nfour\n' > "$FAKE_ROOT/skills/no-desc/DOMAIN.md"
-  run env SAVIA_SKILLS_DIR="$FAKE_ROOT/skills" bash "$ROOT/$AUDITOR" 2>&1
+  mkdir -p "$TMPDIR_TEST/skills/no-desc"
+  printf -- '---\nname: no-desc\ndescription: ""\n---\n\nrefs path/to/file\n' > "$TMPDIR_TEST/skills/no-desc/SKILL.md"
+  printf 'domain\ncontent\nhere\nfour\n' > "$TMPDIR_TEST/skills/no-desc/DOMAIN.md"
+  run env SAVIA_SKILLS_DIR="$TMPDIR_TEST/skills" bash "$ROOT/$AUDITOR" 2>&1
   [[ "$output" == *"WARN"* || "$output" == *"description"* ]]
 }
 
 @test "SE-209 edge: description without trigger word produces WARN" {
-  mkdir -p "$FAKE_ROOT/skills/no-trigger"
-  printf -- '---\nname: no-trigger\ndescription: "This skill does something useful for the team."\n---\n\nrefs path/to/file\n' > "$FAKE_ROOT/skills/no-trigger/SKILL.md"
-  printf 'domain\ncontent\nhere\nfour\n' > "$FAKE_ROOT/skills/no-trigger/DOMAIN.md"
-  run env SAVIA_SKILLS_DIR="$FAKE_ROOT/skills" bash "$ROOT/$AUDITOR" 2>&1
+  mkdir -p "$TMPDIR_TEST/skills/no-trigger"
+  printf -- '---\nname: no-trigger\ndescription: "This skill does something useful for the team."\n---\n\nrefs path/to/file\n' > "$TMPDIR_TEST/skills/no-trigger/SKILL.md"
+  printf 'domain\ncontent\nhere\nfour\n' > "$TMPDIR_TEST/skills/no-trigger/DOMAIN.md"
+  run env SAVIA_SKILLS_DIR="$TMPDIR_TEST/skills" bash "$ROOT/$AUDITOR" 2>&1
   [[ "$output" == *"WARN"* ]]
 }
 

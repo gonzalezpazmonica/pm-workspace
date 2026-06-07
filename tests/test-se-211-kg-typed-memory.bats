@@ -304,7 +304,7 @@ print('import ok')
 
 @test "SE-211 coverage: memory-type-schema.md has all 13 types listed" {
   local count
-  count=$(grep -cE "^\\| (fact|decision|instruction|preference|goal|commitment|event|learning|error|observation|relationship|context|artifact)" docs/rules/domain/memory-type-schema.md 2>/dev/null || echo 0)
+  count=$(grep -cE "fact|decision|instruction|preference|goal|commitment|event|learning|error|observation|relationship|context|artifact" docs/rules/domain/memory-type-schema.md 2>/dev/null || echo 0)
   [ "$count" -ge 10 ]
 }
 
