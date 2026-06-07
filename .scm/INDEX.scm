@@ -1,6 +1,6 @@
 # Savia Capability Map — INDEX
-> hash: 204f5bad5584 | resources: 1225
-> 556 commands · 103 skills · 71 agents · 495 scripts
+> hash: 88a72bc57c6b | resources: 1230
+> 556 commands · 103 skills · 71 agents · 500 scripts
 
 [analysis] /a11y-report — accesibilidad,completos,conformidad,código,declaración — cmd:.claude/commands/a11y-report.md
 [analysis] Trace Optimize — across,distributed,optimize,rates,sampling — cmd:.claude/commands/trace-optimize.md
@@ -12,6 +12,7 @@
 [analysis] agent-cost — agentes,coste,estimado,proyecto,sprint — cmd:.claude/commands/agent-cost.md
 [analysis] agent-efficiency — agentes,completadas,eficiencia,ratio,specs — cmd:.claude/commands/agent-efficiency.md
 [analysis] agent-file-map — agentes,deben,externos,ficheros,localizar — skill:.claude/skills/agent-file-map/SKILL.md
+[analysis] agent-hook-runner — agent,gate,hook,hooks,runner — script:scripts/agent-hook-runner.sh
 [analysis] agent-journal — agent,append,autónomos,journal,jsonl — script:scripts/agent-journal.sh
 [analysis] agent-memory — fragments,inspect,manage,memory,persistent — cmd:.claude/commands/agent-memory.md
 [analysis] agent-notes-archive —  — cmd:.claude/commands/agent-notes-archive.md
@@ -378,6 +379,7 @@
 [memory] context-caching — cache,carga,contexto,hits,maximizar — skill:.claude/skills/context-caching/SKILL.md
 [memory] context-calibration-measure — calibration,context,measure,patterns,usage — script:scripts/context-calibration-measure.sh
 [memory] context-compress — compresión,contexto,mantener,reducir,reduction — cmd:.claude/commands/context-compress.md
+[memory] context-condenser — compression,condenser,context,rolling,window — script:scripts/context-condenser.sh
 [memory] context-defer — carga,cargar,comandos,diferida,necesitan — cmd:.claude/commands/context-defer.md
 [memory] context-distortion-measure — context,distortion,measure — script:scripts/context-distortion-measure.sh
 [memory] context-frozen-check — check,context,frozen — script:scripts/context-frozen-check.sh
@@ -836,6 +838,7 @@
 [planning] rule-manifest-integrity — index,integrity,manifest,rule,slice — script:scripts/rule-manifest-integrity.sh
 [planning] rule-usage-analyzer — across,analyze,analyzer,domain,rule — script:scripts/rule-usage-analyzer.sh
 [planning] rule-violation-judge — autonomous,canonical,claude,detects,domain — agent:.claude/agents/rule-violation-judge.md
+[planning] run-agent-evals — agent,agents,critical,evals,evaluation — script:scripts/run-agent-evals.sh
 [planning] rust-developer —  — agent:.claude/agents/rust-developer.md
 [planning] sbom-generate —  — cmd:.claude/commands/sbom-generate.md
 [planning] scale-optimizer — analyze,benchmark,growing,improvements,optimization — cmd:.claude/commands/scale-optimizer.md
@@ -876,6 +879,7 @@
 [planning] skill-evaluation — apropiado,dada,seleccionar,skill,tarea — skill:.claude/skills/skill-evaluation/SKILL.md
 [planning] skill-feedback-log — append,feedback,invocation,jsonl,skill — script:scripts/skill-feedback-log.sh
 [planning] skill-feedback-rank — compute,effectiveness,feedback,generate,rank — script:scripts/skill-feedback-rank.sh
+[planning] skill-keyword-detector — auto,based,detect,detector,keyword — script:scripts/skill-keyword-detector.sh
 [planning] skill-propose — auto,nuevo,observaciones,proponer,repetitivo — cmd:.claude/commands/skill-propose.md
 [planning] skill-rank — based,data,effectiveness,invocation,ranking — cmd:.claude/commands/skill-rank.md
 [planning] skill-read — bajo,carga,completo,contenido,demanda — cmd:.claude/commands/skill-read.md
@@ -946,6 +950,7 @@
 [planning] travel-sync — bidireccional,máquina,sincroniza,workspace — cmd:.claude/commands/travel-sync.md
 [planning] travel-unpack — desempaca,máquina,nueva,workspace — cmd:.claude/commands/travel-unpack.md
 [planning] travel-verify — integridad,paquete,verifica,viaje — cmd:.claude/commands/travel-verify.md
+[planning] tribunal-critic — critic,quantitative,scoring,tribunal,verdicts — script:scripts/tribunal-critic.sh
 [planning] tribunal-status — depth,evaluations,pending,queue,recent — cmd:.claude/commands/tribunal-status.md
 [planning] truth-tribunal-orchestrator — aggregates,applies,convenes,drives,iteration — agent:.claude/agents/truth-tribunal-orchestrator.md
 [planning] truth-tribunal-worker — consume,queued,tribunal,truth,verification — script:scripts/truth-tribunal-worker.sh

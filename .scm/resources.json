@@ -1,6 +1,6 @@
 {
-  "hash": "3b40280e1a76",
-  "total": 1225,
+  "hash": "57b82bf53d0f",
+  "total": 1230,
   "resources": [
     {
       "category": "analysis",
@@ -139,6 +139,20 @@
       "kind": "skill",
       "path": ".claude/skills/agent-file-map/SKILL.md",
       "description": "Usar cuando se trabaja con ficheros externos al workspace que los agentes deben localizar."
+    },
+    {
+      "category": "analysis",
+      "name": "agent-hook-runner",
+      "intents": [
+        "agent",
+        "gate",
+        "hook",
+        "hooks",
+        "runner"
+      ],
+      "kind": "script",
+      "path": "scripts/agent-hook-runner.sh",
+      "description": "agent-hook-runner.sh — SE-202: semantic LLM gate for hooks"
     },
     {
       "category": "analysis",
@@ -4891,6 +4905,20 @@
       "kind": "cmd",
       "path": ".claude/commands/context-compress.md",
       "description": "Compresión semántica de contexto — mantener significado, reducir tokens (80% reduction)"
+    },
+    {
+      "category": "memory",
+      "name": "context-condenser",
+      "intents": [
+        "compression",
+        "condenser",
+        "context",
+        "rolling",
+        "window"
+      ],
+      "kind": "script",
+      "path": "scripts/context-condenser.sh",
+      "description": "context-condenser.sh — SE-200: rolling window context compression"
     },
     {
       "category": "memory",
@@ -10695,6 +10723,20 @@
     },
     {
       "category": "planning",
+      "name": "run-agent-evals",
+      "intents": [
+        "agent",
+        "agents",
+        "critical",
+        "evals",
+        "evaluation"
+      ],
+      "kind": "script",
+      "path": "scripts/run-agent-evals.sh",
+      "description": "run-agent-evals.sh — SE-204: evaluation harness for critical agents"
+    },
+    {
+      "category": "planning",
       "name": "rust-developer",
       "intents": [],
       "kind": "agent",
@@ -11211,6 +11253,20 @@
       "kind": "script",
       "path": "scripts/skill-feedback-rank.sh",
       "description": "skill-feedback-rank.sh — Compute skill effectiveness and generate ranking"
+    },
+    {
+      "category": "planning",
+      "name": "skill-keyword-detector",
+      "intents": [
+        "auto",
+        "based",
+        "detect",
+        "detector",
+        "keyword"
+      ],
+      "kind": "script",
+      "path": "scripts/skill-keyword-detector.sh",
+      "description": "skill-keyword-detector.sh — SE-203: detect which skills to auto-load based on keyword triggers"
     },
     {
       "category": "planning",
@@ -12135,6 +12191,20 @@
       "kind": "cmd",
       "path": ".claude/commands/travel-verify.md",
       "description": "Verifica integridad de un paquete de viaje en USB."
+    },
+    {
+      "category": "planning",
+      "name": "tribunal-critic",
+      "intents": [
+        "critic",
+        "quantitative",
+        "scoring",
+        "tribunal",
+        "verdicts"
+      ],
+      "kind": "script",
+      "path": "scripts/tribunal-critic.sh",
+      "description": "tribunal-critic.sh — SE-201: quantitative scoring for tribunal verdicts"
     },
     {
       "category": "planning",
