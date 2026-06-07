@@ -7,6 +7,9 @@ metadata:
   audience: developer, qa
   workflow: review, pre-merge
   origin: mattpocock/skills (MIT)
+trigger:
+  type: keyword
+  keywords: [grill, weaknesses, edge cases, adversarial, hunt weaknesses]
 ---
 
 # grill-me — Adversarial weakness hunting

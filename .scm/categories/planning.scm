@@ -1,5 +1,5 @@
 # planning — Savia Capability Map (L1)
-> 535 resources
+> 537 resources
 
 - **/accreditation-track** (cmd): >
 - **/decide-architecture** (cmd): Clasifica una tarea como WORKFLOW (deterministica) o AGENT (loop). Bias hacia workflow per Anthropic. Sugiere plantilla inicial. Mide accuracy contra corpus curado de 20 tareas.
@@ -283,7 +283,6 @@
 - **onboarding-dev** (skill): Usar cuando se incorpora un desarrollador nuevo al proyecto y necesita buddy IA.
 - **operational-point-selector** (script): operational-point-selector.sh — SE-029 Slice 4.
 - **opus47-calibration-scorecard** (script): opus47-calibration-scorecard.sh — SE-070 Slice 1
-- **orchestration-protocol** (script): scripts/orchestration-protocol.sh — SE-205: typed inter-agent messaging
 - **orgchart-import** (cmd): >
 - **orgchart-import** (skill): Usar cuando se importa un organigrama para extraer la estructura del equipo.
 - **oumi-probe** (script): oumi-probe.sh — SE-028 Slice 1 oumi integration viability probe.
@@ -378,6 +377,7 @@
 - **rule-manifest-integrity** (script): rule-manifest-integrity.sh — SE-057 Slice 1 rule-manifest + INDEX integrity.
 - **rule-usage-analyzer** (script): rule-usage-analyzer.sh — Analyze domain rule usage across the workspace
 - **rule-violation-judge** (agent): Recommendation Tribunal judge — detects when a draft recommendation violates canonical rules (CLAUDE.md, autonomous-safety, radical-honesty, domain rules)
+- **run-agent-evals** (script): run-agent-evals.sh — SE-204: evaluation harness for critical agents
 - **rust-developer** (agent): >
 - **sbom-generate** (cmd): >
 - **scale-optimizer** (cmd): Scaling optimization — analyze, benchmark, recommend improvements for growing organizations
@@ -418,6 +418,7 @@
 - **skill-evaluation** (skill): Usar cuando se necesita seleccionar el skill más apropiado para una tarea dada.
 - **skill-feedback-log** (script): skill-feedback-log.sh — Append skill invocation to JSONL log
 - **skill-feedback-rank** (script): skill-feedback-rank.sh — Compute skill effectiveness and generate ranking
+- **skill-keyword-detector** (script): skill-keyword-detector.sh — SE-203: detect which skills to auto-load based on keyword triggers
 - **skill-propose** (cmd): Proponer nuevo skill desde un workflow repetitivo — auto-genera scaffold si 3+ observaciones
 - **skill-rank** (cmd): Show skill effectiveness ranking based on invocation data
 - **skill-read** (cmd): Carga el contenido completo de un skill bajo demanda (progressive disclosure)
@@ -488,6 +489,7 @@
 - **travel-sync** (cmd): Sincroniza workspace bidireccional entre máquina y USB.
 - **travel-unpack** (cmd): Desempaca tu workspace desde USB en una nueva máquina.
 - **travel-verify** (cmd): Verifica integridad de un paquete de viaje en USB.
+- **tribunal-critic** (script): tribunal-critic.sh — SE-201: quantitative scoring for tribunal verdicts
 - **tribunal-status** (cmd): Show Truth Tribunal queue depth, recent verdicts, and pending evaluations
 - **truth-tribunal-orchestrator** (agent): Truth Tribunal orchestrator — convenes 7 judges, aggregates scores, applies vetos, drives iteration
 - **truth-tribunal-worker** (script): truth-tribunal-worker.sh — Consume queued Truth Tribunal verification

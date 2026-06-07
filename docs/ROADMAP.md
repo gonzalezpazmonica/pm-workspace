@@ -749,6 +749,29 @@ Google Sheets · ServiceNow/SAP · Tableau · Kafka · VS Code ext · Cloud voic
 
 ### Total backlog activo: ~55h (6 items agrupados)
 
+### Era 201 — Skill quality discipline (Pocock patterns, ~2 días)
+
+| # | ID | Título | Esfuerzo | Prioridad |
+|---|---|---|---|---|
+| 1 | SE-208 | SKILL.md hard limit 100 lines + progressive disclosure | B | P1 |
+| 2 | SE-209 | Canonical description format for SKILL.md | B | P1 |
+| 3 | SE-210 | Anti-patterns section in 6 critical skills | M | P2 |
+
+Origen: `output/research/mattpocock-skills-savia-20260607.md`. Patrones de mattpocock/skills (120k stars). Specs: `docs/propuestas/SE-208..SE-210-*.md`.
+
+---
+
+### Era 202 — Memory intelligence upgrade (Memanto patterns, ~1 semana)
+
+| # | ID | Título | Esfuerzo | Prioridad |
+|---|---|---|---|---|
+| 1 | SE-211 | Typed memory schema (13 tipos semánticos) en KG | M | P1 |
+| 2 | SE-212 | Recall budget experiment — validar cap empíricamente | S | P1 |
+| 3 | SE-213 | Confidence + provenance en KG entries | S | P2 |
+| 4 | SE-214 | Conflict detection en memory-store save | L | P2 |
+
+Origen: `output/research/memanto-savia-20260607.md`. Patrones de Memanto (typed memory, recall budget, conflict detection). Specs: `docs/propuestas/SE-211..SE-214-*.md`.
+
 ---
 
 ## Era 198 — Anthropic Effective Agents Alignment (PROPOSED 2026-05-31)

@@ -11,6 +11,7 @@
 - **agent-cost** (cmd): Coste estimado de uso de agentes por sprint/proyecto
 - **agent-efficiency** (cmd): Ratio de eficiencia de agentes — specs completadas, re-work y tiempos
 - **agent-file-map** (skill): Usar cuando se trabaja con ficheros externos al workspace que los agentes deben localizar.
+- **agent-hook-runner** (script): agent-hook-runner.sh — SE-202: semantic LLM gate for hooks
 - **agent-journal** (script): agent-journal.sh — Append-only JSONL journal para agent-runs autónomos.
 - **agent-memory** (cmd): Inspect and manage persistent memory fragments for subagents.
 - **agent-notes-archive** (cmd): >

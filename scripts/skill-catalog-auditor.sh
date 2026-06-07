@@ -129,6 +129,20 @@ audit_skill() {
         reasons+=("SKILL.md: produces is empty array []")
       fi
     fi
+
+    # ASM-1: SKILL.md body must have meaningful content (>= 20 chars outside frontmatter)
+    local body_content
+    body_content=$(awk '/^---$/{p++; next} p>=2' "$skill_md" | tr -d '[:space:]')
+    if [[ ${#body_content} -lt 20 ]]; then
+      status="FAIL"
+      reasons+=("SKILL.md: body too short (< 20 non-whitespace chars)")
+    fi
+
+    # ASM-2: SKILL.md must not contain malicious patterns (atob, base64 decode, hex escapes, hardcoded secrets)
+    if grep -qE '(atob\(|btoa\(|Buffer\.from\([^,]+,\s*['"'"'"]base64['"'"'"]|\\x[0-9a-fA-F]{2}\\x[0-9a-fA-F]{2}\\x|password\s*=\s*['"'"'"][^'"'"'"]{6,}|api_key\s*=\s*['"'"'"][^'"'"'"]{10,}|secret\s*=\s*['"'"'"][^'"'"'"]{10,})' "$skill_md" 2>/dev/null; then
+      status="FAIL"
+      reasons+=("SKILL.md: contains potentially malicious pattern (atob/base64-decode/hex-escape/hardcoded-secret)")
+    fi
   fi
 
   if [[ -f "$domain_md" ]]; then
