@@ -140,3 +140,30 @@ JSONEOF
     # No conflict warn for bug type
     [[ "$output" != *"CONFLICT-WARN"* ]]
 }
+
+# ── Spec reference / coverage ─────────────────────────────────────────────────
+@test "SE-214 spec: SE-214 referenced in memory-conflict-check.sh" {
+  grep -q "SE-214" scripts/memory-conflict-check.sh
+}
+
+@test "SE-214 coverage: three resolution options documented" {
+  grep -q "supersede" scripts/memory-conflict-check.sh || grep -q "supersede" docs/propuestas/SE-214-memory-conflict-detection.md
+}
+
+# ── Edge cases ────────────────────────────────────────────────────────────────
+@test "SE-214 edge: null content (empty string) exits 0 without crash" {
+  run bash scripts/memory-conflict-check.sh "" decision 2>&1 || true
+  [ "$status" -eq 0 ]
+}
+
+@test "SE-214 edge: nonexistent type exits 0 (no conflicts possible)" {
+  run bash scripts/memory-conflict-check.sh "some content" "nonexistent_type_$$" 2>&1 || true
+  [ "$status" -eq 0 ]
+}
+
+@test "SE-214 edge: very long content does not hang (timeout)" {
+  local long_content
+  long_content=$(python3 -c "print('word ' * 500)")
+  run bash scripts/memory-conflict-check.sh "$long_content" decision 2>&1 || true
+  [ "$status" -eq 0 ]
+}

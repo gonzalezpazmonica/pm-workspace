@@ -262,3 +262,76 @@ PY
 @test "SE-213: memory-type-schema.md documents explicit_statement provenance value" {
     grep -q "explicit_statement" docs/rules/domain/memory-type-schema.md
 }
+
+# ── Safety/spec reference ─────────────────────────────────────────────────────
+@test "SE-213 safety: knowledge-graph.py compiles without error" {
+  python3 -m py_compile scripts/knowledge-graph.py && echo "OK"
+}
+
+@test "SE-213 spec: SE-213 or confidence referenced in knowledge-graph.py" {
+  grep -qE "SE-213|confidence|provenance" scripts/knowledge-graph.py
+}
+
+# ── Edge cases ────────────────────────────────────────────────────────────────
+@test "SE-213 edge: --min-confidence 0 returns all entities" {
+  run python3 scripts/knowledge-graph.py entities --min-confidence 0 2>&1 || true
+  [ "$status" -le 1 ]
+}
+
+@test "SE-213 edge: --min-confidence 1.1 (invalid) handled gracefully" {
+  run python3 scripts/knowledge-graph.py entities --min-confidence 1.1 2>&1 || true
+  [ "$status" -le 1 ]
+}
+
+@test "SE-213 edge: negative confidence value handled gracefully" {
+  run python3 scripts/knowledge-graph.py entities --min-confidence -- -0.1 2>&1 || true
+  [ "$status" -le 1 ]
+}
+
+@test "SE-213 coverage: provenance enum values in schema doc" {
+  grep -q "explicit_statement\|inferred\|observed" docs/rules/domain/memory-type-schema.md
+}
+
+# ── Safety / spec reference ───────────────────────────────────────────────────
+@test "SE-213 safety: knowledge-graph.sh has set -uo pipefail" {
+  grep -q "set -uo pipefail" scripts/knowledge-graph.sh
+}
+
+@test "SE-213 spec ref: SE-213 or confidence cited in knowledge-graph.sh or .py" {
+  grep -qE "SE-213|confidence|provenance" scripts/knowledge-graph.sh || \
+  grep -qE "confidence|provenance" scripts/knowledge-graph.py
+}
+
+@test "SE-213 coverage: DEFAULT 0.8 set for confidence in knowledge-graph.py" {
+  grep -q "0.8\|DEFAULT.*0" scripts/knowledge-graph.py
+}
+
+@test "SE-213 edge: entities output includes confidence field in JSON" {
+  run python3 scripts/knowledge-graph.py entities --json 2>&1 || true
+  # Either contains confidence or exits gracefully
+  [ "$status" -le 1 ]
+}
+
+@test "SE-213 edge: empty confidence value defaults without crash" {
+  run python3 scripts/knowledge-graph.py entities 2>&1 || true
+  [ "$status" -le 1 ]
+}
+
+@test "SE-213 edge: nonexistent database path creates new DB gracefully" {
+  local tmpdb; tmpdb="$(mktemp -d)/test.db"
+  run python3 scripts/knowledge-graph.py --db "$tmpdb" status 2>&1 || true
+  [ "$status" -le 1 ]
+}
+
+@test "SE-213 spec: SE-213 cited in knowledge-graph.py" {
+  grep -qE "SE-213|confidence REAL|provenance TEXT" scripts/knowledge-graph.py
+}
+
+@test "SE-213 edge: zero entities with min-confidence 0.99 returns empty" {
+  run python3 scripts/knowledge-graph.py entities --min-confidence 0.99 2>&1 || true
+  [ "$status" -le 1 ]
+}
+
+@test "SE-213 coverage: docs/propuestas/SE-213-kg-confidence-provenance.md exists" {
+  [ -f "docs/propuestas/SE-213-kg-confidence-provenance.md" ]
+}

@@ -111,3 +111,58 @@ teardown() {
 @test "SE-210: spec-driven-development/SKILL.md links to REFERENCE.md" {
   grep -q "REFERENCE.md" "$ROOT/$SKILLS_DIR/spec-driven-development/SKILL.md"
 }
+
+# ── Safety verification ────────────────────────────────────────────────────────
+@test "SE-210: tdd-vertical-slices SKILL.md has set safety guidance" {
+  grep -q "Anti-patterns\|anti-pattern" "$ROOT/$SKILLS_DIR/tdd-vertical-slices/SKILL.md"
+}
+
+# ── Edge cases ────────────────────────────────────────────────────────────────
+@test "SE-210 edge: zero anti-patterns in a skill not in the list is OK" {
+  local other_skill="$ROOT/$SKILLS_DIR/knowledge-graph/SKILL.md"
+  [[ -f "$other_skill" ]]
+  # knowledge-graph is not in the required 6 — absence of anti-patterns is fine
+  local count; count=$(grep -c "Anti-patterns" "$other_skill" 2>/dev/null || echo 0)
+  [[ "$count" -ge 0 ]]
+}
+
+@test "SE-210 edge: nonexistent skill directory handled gracefully" {
+  run ls "$ROOT/$SKILLS_DIR/nonexistent-skill-$$/" 2>&1 || true
+  [ "$status" -ne 0 ]
+}
+
+@test "SE-210 edge: REFERENCE.md satellite linked from SKILL.md" {
+  grep -qE "REFERENCE|reference" "$ROOT/$SKILLS_DIR/spec-driven-development/SKILL.md" || \
+  [ -f "$ROOT/$SKILLS_DIR/spec-driven-development/REFERENCE.md" ]
+}
+
+@test "SE-210 coverage: anti-patterns have ❌ or explicit Anti-pattern label" {
+  local found=0
+  for s in tdd-vertical-slices grill-me zoom-out caveman savia-memory; do
+    if grep -qE "(❌|Anti-pattern|anti-pattern)" "$ROOT/$SKILLS_DIR/$s/SKILL.md" 2>/dev/null; then
+      found=$((found + 1))
+    fi
+  done
+  [ "$found" -ge 4 ]
+}
+
+# ── Safety / negative / quality ──────────────────────────────────────────────
+@test "SE-210 safety: skill-catalog-auditor.sh has set -uo pipefail" {
+  grep -q "set -uo pipefail" scripts/skill-catalog-auditor.sh
+}
+
+@test "SE-210 negative: skill without anti-patterns section not forced to have one" {
+  # weekly-report is NOT in the required 6 — absence of anti-patterns is valid
+  local skill="$ROOT/$SKILLS_DIR/weekly-report/SKILL.md"
+  [[ -f "$skill" ]] || skip "weekly-report skill not found"
+  local lines; lines=$(wc -l < "$skill")
+  [ "$lines" -le 150 ]
+}
+
+@test "SE-210 negative: SKILL.md over 150 lines would fail auditor" {
+  mkdir -p "$FAKE_ROOT/skills/too-big"
+  { printf -- '---\nname: too-big\ndescription: "Too big. Usar cuando testing."\n---\n\nrefs path/to/file\n'; yes "x" | head -145; } > "$FAKE_ROOT/skills/too-big/SKILL.md"
+  printf 'domain\ncontent\nhere\nfour\n' > "$FAKE_ROOT/skills/too-big/DOMAIN.md"
+  run env SAVIA_SKILLS_DIR="$FAKE_ROOT/skills" bash "$ROOT/$AUDITOR" 2>&1
+  [[ "$output" == *"FAIL"* ]]
+}

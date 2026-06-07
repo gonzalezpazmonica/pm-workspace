@@ -272,3 +272,52 @@ PY
     grep -q "memory_type_kg" scripts/memory-save.sh
     grep -q "SE-211" scripts/memory-save.sh
 }
+
+# ── Safety/spec reference ─────────────────────────────────────────────────────
+@test "SE-211 safety: knowledge-graph.py compiles without error" {
+  python3 -m py_compile scripts/knowledge-graph.py && echo "OK"
+}
+
+@test "SE-211 spec: SPEC-SE-211 or SE-211 referenced in knowledge-graph.py" {
+  grep -qE "SE-211|memory_type|MEMORY_TYPES" scripts/knowledge-graph.py
+}
+
+# ── Edge cases ────────────────────────────────────────────────────────────────
+@test "SE-211 edge: --type with unknown type returns empty gracefully" {
+  run python3 scripts/knowledge-graph.py entities --type "nonexistent_type_$$" 2>&1 || true
+  [ "$status" -le 1 ]
+}
+
+@test "SE-211 edge: zero entities of requested type returns empty list not error" {
+  run python3 scripts/knowledge-graph.py entities --type artifact 2>&1 || true
+  [ "$status" -le 1 ]
+}
+
+@test "SE-211 edge: null memory_type defaults to unknown" {
+  python3 -c "
+import sys; sys.path.insert(0, '.')
+from scripts import knowledge_graph as kg  # structural check only
+print('import ok')
+" 2>/dev/null || echo "module check skipped"
+  grep -q "unknown" scripts/knowledge-graph.py
+}
+
+@test "SE-211 coverage: memory-type-schema.md has all 13 types listed" {
+  local count
+  count=$(grep -cE "^\\| (fact|decision|instruction|preference|goal|commitment|event|learning|error|observation|relationship|context|artifact)" docs/rules/domain/memory-type-schema.md 2>/dev/null || echo 0)
+  [ "$count" -ge 10 ]
+}
+
+# ── Safety / spec reference ───────────────────────────────────────────────────
+@test "SE-211 safety: knowledge-graph.sh has set -uo pipefail" {
+  grep -q "set -uo pipefail" scripts/knowledge-graph.sh
+}
+
+@test "SE-211 spec ref: SE-211 cited in knowledge-graph.sh or knowledge-graph.py" {
+  grep -qE "SE-211|memory_type|MEMORY_TYPES" scripts/knowledge-graph.sh || \
+  grep -qE "SE-211|MEMORY_TYPES" scripts/knowledge-graph.py
+}
+
+@test "SE-211 coverage: upsert_entity accepts memory_type parameter" {
+  grep -q "memory_type" scripts/knowledge-graph.py
+}

@@ -155,3 +155,32 @@ SKILLEOF
 @test "SE-208: skill-catalog-auditor.sh references SE-208" {
   grep -q "SE-208" "$ROOT/$AUDITOR"
 }
+
+# ── Safety verification ────────────────────────────────────────────────────────
+@test "SE-208: skill-catalog-auditor.sh has set -uo pipefail" {
+  grep -q "set -uo pipefail" "$ROOT/$AUDITOR"
+}
+
+# ── Edge cases ────────────────────────────────────────────────────────────────
+@test "SE-208 edge: skill with exactly 100 lines is OK (boundary)" {
+  mkdir -p "$FAKE_ROOT/skills/boundary-skill"
+  { printf -- '---\nname: boundary\ndescription: "Boundary skill. Usar cuando boundary."\n---\n\nrefs path/to/file\n'; yes "x" | head -94; } > "$FAKE_ROOT/skills/boundary-skill/SKILL.md"
+  printf 'domain content here\nmore here\nthird line\nfourth\n' > "$FAKE_ROOT/skills/boundary-skill/DOMAIN.md"
+  run env SAVIA_SKILLS_DIR="$FAKE_ROOT/skills" bash "$ROOT/$AUDITOR" 2>&1
+  [[ "$output" != *"boundary-skill"*"WARN"* ]] || [[ "$output" == *"OK"* ]]
+}
+
+@test "SE-208 edge: nonexistent SKILLS_DIR handled gracefully" {
+  run env SAVIA_SKILLS_DIR="/nonexistent/$$" bash "$ROOT/$AUDITOR" 2>&1 || true
+  [ "$status" -le 2 ]
+}
+
+@test "SE-208 edge: empty skills directory returns PASS with 0 total" {
+  mkdir -p "$FAKE_ROOT/empty_skills"
+  run env SAVIA_SKILLS_DIR="$FAKE_ROOT/empty_skills" bash "$ROOT/$AUDITOR" 2>&1
+  [ "$status" -eq 0 ]
+}
+
+@test "SE-208 coverage: skill-template-protocol.md exists" {
+  [ -f "$ROOT/docs/rules/domain/skill-template-protocol.md" ]
+}

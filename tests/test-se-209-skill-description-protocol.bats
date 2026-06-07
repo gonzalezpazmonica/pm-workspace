@@ -148,3 +148,37 @@ SKILLEOF
 @test "SE-209: skill-catalog-auditor.sh references SE-209" {
   grep -q "SE-209" "$ROOT/$AUDITOR"
 }
+
+# ── Safety verification ────────────────────────────────────────────────────────
+@test "SE-209: skill-catalog-auditor.sh has set -uo pipefail" {
+  grep -q "set -uo pipefail" "$ROOT/$AUDITOR"
+}
+
+# ── Edge cases ────────────────────────────────────────────────────────────────
+@test "SE-209 edge: description with exactly 20 chars is OK (boundary)" {
+  mkdir -p "$FAKE_ROOT/skills/boundary-desc"
+  printf -- '---\nname: bd\ndescription: "Use when boundary."\n---\n\nrefs path/to/file\n' > "$FAKE_ROOT/skills/boundary-desc/SKILL.md"
+  printf 'domain\ncontent\nhere\nfour\n' > "$FAKE_ROOT/skills/boundary-desc/DOMAIN.md"
+  run env SAVIA_SKILLS_DIR="$FAKE_ROOT/skills" bash "$ROOT/$AUDITOR" 2>&1
+  [[ "$output" != *"boundary-desc"*"description"*"WARN"* ]]
+}
+
+@test "SE-209 edge: null/empty description field produces WARN" {
+  mkdir -p "$FAKE_ROOT/skills/no-desc"
+  printf -- '---\nname: no-desc\ndescription: ""\n---\n\nrefs path/to/file\n' > "$FAKE_ROOT/skills/no-desc/SKILL.md"
+  printf 'domain\ncontent\nhere\nfour\n' > "$FAKE_ROOT/skills/no-desc/DOMAIN.md"
+  run env SAVIA_SKILLS_DIR="$FAKE_ROOT/skills" bash "$ROOT/$AUDITOR" 2>&1
+  [[ "$output" == *"WARN"* || "$output" == *"description"* ]]
+}
+
+@test "SE-209 edge: description without trigger word produces WARN" {
+  mkdir -p "$FAKE_ROOT/skills/no-trigger"
+  printf -- '---\nname: no-trigger\ndescription: "This skill does something useful for the team."\n---\n\nrefs path/to/file\n' > "$FAKE_ROOT/skills/no-trigger/SKILL.md"
+  printf 'domain\ncontent\nhere\nfour\n' > "$FAKE_ROOT/skills/no-trigger/DOMAIN.md"
+  run env SAVIA_SKILLS_DIR="$FAKE_ROOT/skills" bash "$ROOT/$AUDITOR" 2>&1
+  [[ "$output" == *"WARN"* ]]
+}
+
+@test "SE-209 coverage: Description Protocol in skill-template-protocol.md" {
+  grep -qi "description protocol\|Description Protocol" "$ROOT/docs/rules/domain/skill-template-protocol.md"
+}

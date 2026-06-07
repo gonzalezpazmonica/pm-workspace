@@ -180,3 +180,29 @@ print('OK count:', d['total'])
     ls "$TMPDIR_TEST/output/memory-recall-audit-*.md" 2>/dev/null || \
     echo "output file may be in workspace output/ — skip file check"
 }
+
+# ── Spec reference / coverage ─────────────────────────────────────────────────
+@test "SE-212 spec: SE-212 referenced in memory-recall-audit.sh" {
+  grep -q "SE-212" scripts/memory-recall-audit.sh
+}
+
+@test "SE-212 coverage: --simulate-k flag documented in --help or usage" {
+  run bash scripts/memory-recall-audit.sh --help 2>&1 || run bash scripts/memory-recall-audit.sh 2>&1 || true
+  [[ "$output" =~ simulate|help|Usage ]] || grep -q "simulate-k" scripts/memory-recall-audit.sh
+}
+
+# ── Edge cases ────────────────────────────────────────────────────────────────
+@test "SE-212 edge: --simulate-k 0 does not crash" {
+  run bash scripts/memory-recall-audit.sh --simulate-k 0 2>&1 || true
+  [ "$status" -le 2 ]
+}
+
+@test "SE-212 edge: nonexistent MEMORY.md path exits gracefully" {
+  run SAVIA_MEMORY_FILE="/nonexistent/$$" bash scripts/memory-recall-audit.sh 2>&1 || true
+  [ "$status" -le 2 ]
+}
+
+@test "SE-212 edge: large --simulate-k value (10000) handled without overflow" {
+  run bash scripts/memory-recall-audit.sh --simulate-k 10000 2>&1 || true
+  [ "$status" -le 1 ]
+}
