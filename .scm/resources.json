@@ -1,6 +1,6 @@
 {
-  "hash": "57b82bf53d0f",
-  "total": 1230,
+  "hash": "9fe3d5ed6b94",
+  "total": 1232,
   "resources": [
     {
       "category": "analysis",
@@ -5415,6 +5415,20 @@
     },
     {
       "category": "memory",
+      "name": "memory-conflict-check",
+      "intents": [
+        "check",
+        "conflict",
+        "conflicting",
+        "detect",
+        "entries"
+      ],
+      "kind": "script",
+      "path": "scripts/memory-conflict-check.sh",
+      "description": "memory-conflict-check.sh — SE-214: detect conflicting memory entries"
+    },
+    {
+      "category": "memory",
       "name": "memory-conflict-judge",
       "intents": [
         "active",
@@ -5546,6 +5560,20 @@
       "kind": "cmd",
       "path": ".claude/commands/memory-recall.md",
       "description": "Retrieve relevant memories for current context"
+    },
+    {
+      "category": "memory",
+      "name": "memory-recall-audit",
+      "intents": [
+        "audit",
+        "budget",
+        "measure",
+        "memory",
+        "recall"
+      ],
+      "kind": "script",
+      "path": "scripts/memory-recall-audit.sh",
+      "description": "memory-recall-audit.sh — SE-212: measure MEMORY.md recall budget utilization"
     },
     {
       "category": "memory",

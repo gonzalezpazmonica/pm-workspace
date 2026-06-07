@@ -1,6 +1,6 @@
 # Savia Capability Map — INDEX
-> hash: 88a72bc57c6b | resources: 1230
-> 556 commands · 103 skills · 71 agents · 500 scripts
+> hash: 4292bc5717cf | resources: 1232
+> 556 commands · 103 skills · 71 agents · 502 scripts
 
 [analysis] /a11y-report — accesibilidad,completos,conformidad,código,declaración — cmd:.claude/commands/a11y-report.md
 [analysis] Trace Optimize — across,distributed,optimize,rates,sampling — cmd:.claude/commands/trace-optimize.md
@@ -418,6 +418,7 @@
 [memory] memory-check —  — cmd:.claude/commands/memory-check.md
 [memory] memory-check — check,health,layers,memory,savia — script:scripts/memory-check.sh
 [memory] memory-compress — compresión,condensación,contexto,decisiones,deduplicación — cmd:.claude/commands/memory-compress.md
+[memory] memory-conflict-check — check,conflict,conflicting,detect,entries — script:scripts/memory-conflict-check.sh
 [memory] memory-conflict-judge — active,auto,contradicts,detects,draft — agent:.claude/agents/memory-conflict-judge.md
 [memory] memory-consolidate — compress,consolidate,context,entries,memory — cmd:.claude/commands/memory-consolidate.md
 [memory] memory-context —  — cmd:.claude/commands/memory-context.md
@@ -428,6 +429,7 @@
 [memory] memory-index-rebuild — auto,index,jsonl,memory,rebuild — script:scripts/memory-index-rebuild.sh
 [memory] memory-prune — archiva,baja,críticas,engrams,importance — cmd:.claude/commands/memory-prune.md
 [memory] memory-recall — context,current,memories,relevant,retrieve — cmd:.claude/commands/memory-recall.md
+[memory] memory-recall-audit — audit,budget,measure,memory,recall — script:scripts/memory-recall-audit.sh
 [memory] memory-rotate — context,cycles,daily,execute,manually — cmd:.claude/commands/memory-rotate.md
 [memory] memory-save —  — cmd:.claude/commands/memory-save.md
 [memory] memory-save — entity,memory,save,session,sourced — script:scripts/memory-save.sh

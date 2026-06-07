@@ -120,6 +120,14 @@ Tras todos los tests verdes, busca refactor candidates:
 - `docs/rules/domain/architectural-vocabulary.md` (SE-082) — Module/Interface/Seam/Adapter discipline. Aplica al diseño de la interface antes de escribir el primer test.
 - `.opencode/agents/test-architect.md` — agente que aplica TDD; consulta este skill antes de generar suites.
 
+## Anti-patterns
+
+**❌ Horizontal slicing**: escribir todos los tests antes de cualquier implementación → tests acoplados a implementación, fallos en cascada al refactorizar, behavior imaginado en lugar de real.
+**✓ Correcto**: un test → un ciclo RED/GREEN → siguiente test.
+
+**❌ Slice demasiado grueso**: abarcar >1 comportamiento observable en un slice → fallo de RED/GREEN imposible de aislar, refactor bloqueado.
+**✓ Correcto**: cada slice verifica exactamente un comportamiento observable a través de la interfaz pública.
+
 ## Atribución
 
 `mattpocock/skills/tdd/SKILL.md` — MIT — pattern only, prosa propia. La disciplina anti-horizontal-slicing es la contribución central de Pocock que pm-workspace adopta explícitamente.

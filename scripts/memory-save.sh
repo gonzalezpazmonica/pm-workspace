@@ -159,6 +159,20 @@ EOF
     local importance_tier
     importance_tier=$(map_type_to_importance_tier "$type")
 
+    # SE-211: map store type to semantic memory_type for KG
+    local memory_type_kg="unknown"
+    case "$type" in
+        decision)        memory_type_kg="decision" ;;
+        discovery)       memory_type_kg="observation" ;;
+        bug)             memory_type_kg="error" ;;
+        architecture)    memory_type_kg="artifact" ;;
+        pattern)         memory_type_kg="learning" ;;
+        session-summary) memory_type_kg="context" ;;
+        episode)         memory_type_kg="event" ;;
+        feedback)        memory_type_kg="observation" ;;
+        *)               memory_type_kg="unknown" ;;
+    esac
+
     # SE-076 Slice 1: build entities array for episodes (and any type that supplies refs)
     local entities_json="[]"
     if [[ -n "$entities" ]]; then
@@ -173,7 +187,7 @@ EOF
         entities_json="$entities_json]"
     fi
 
-    local json="{\"ts\":\"$now\",\"type\":\"$type\",\"sector\":\"$sector\",\"domain\":\"$domain\",\"title\":\"$title\",\"content\":\"$content\",\"concepts\":$concepts_json,\"tokens_est\":$tokens_est,\"topic_key\":\"${topic_key}\",\"project\":\"${project:-null}\",\"hash\":\"$hash\",\"rev\":$rev,\"valid_from\":\"$vf\",\"importance_tier\":\"$importance_tier\",\"quality\":\"$quality\",\"questions\":[]"
+    local json="{\"ts\":\"$now\",\"type\":\"$type\",\"sector\":\"$sector\",\"domain\":\"$domain\",\"title\":\"$title\",\"content\":\"$content\",\"concepts\":$concepts_json,\"tokens_est\":$tokens_est,\"topic_key\":\"${topic_key}\",\"project\":\"${project:-null}\",\"hash\":\"$hash\",\"rev\":$rev,\"valid_from\":\"$vf\",\"importance_tier\":\"$importance_tier\",\"quality\":\"$quality\",\"memory_type\":\"$memory_type_kg\",\"questions\":[]"
     [[ "$supersedes" != "null" ]] && json="$json,\"supersedes\":\"$supersedes\""
     [[ "$expires_at" != "null" ]] && json="$json,\"expires_at\":\"$expires_at\""
     [[ -n "$supersedes_key" ]] && json="$json,\"supersedes_key\":\"$supersedes_key\""
@@ -184,6 +198,11 @@ EOF
     echo "✓ Guardado: $title (topic: $topic_key, rev: $rev)"
     _update_memory_index "$topic_key" "$title" "$type" 2>/dev/null || true
     _maybe_rebuild_index
+
+    # SE-214: optional conflict check (activated by SAVIA_CONFLICT_CHECK=true)
+    if [[ "${SAVIA_CONFLICT_CHECK:-false}" == "true" ]]; then
+        bash "$(dirname "$0")/memory-conflict-check.sh" "$content" "$type" 2>&1 || true
+    fi
 }
 
 cmd_entity() { local action="${1:-list}" query= etype= proj=; shift 2>/dev/null || true
