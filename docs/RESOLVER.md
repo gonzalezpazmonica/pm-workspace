@@ -46,7 +46,7 @@
 
 <!-- AUTO_BEGIN — do not edit; regenerate via scripts/resolver-md-generate.sh -->
 
-### Skills (101)
+### Skills (102)
 
 | Intent (skill) | Target | Cuándo usar |
 |---|---|---|
@@ -143,6 +143,7 @@
 | `time-tracking-report` | skill:time-tracking-report | Usar cuando se generan informes de imputación de horas en Excel o Word. |
 | `topic-cluster` | skill:topic-cluster | Usar cuando se agrupan retros, PBIs o incidentes en topics para detectar patrones trans... |
 | `ubiquitous-language` | skill:ubiquitous-language | Usar cuando se necesita extraer o consolidar el glosario de términos de dominio de un ... |
+| `understand-anything` | skill:understand-anything | Usar cuando se necesita analizar un codebase con Understand-Anything para generar knowl... |
 | `verification-lattice` | skill:verification-lattice | Usar cuando se necesita verificación multi-capa más allá del code review estándar. |
 | `voice-inbox` | skill:voice-inbox | Usar cuando se procesan mensajes de voz para transcribirlos y convertirlos en acciones. |
 | `web-research` | skill:web-research | Usar cuando se necesita buscar en la web para resolver gaps de contexto (docs, versione... |
@@ -152,7 +153,7 @@
 | `write-a-skill` | skill:write-a-skill | Guia para crear una nueva skill correctamente en pm-workspace. Usar cuando una tarea se... |
 | `zoom-out` | skill:zoom-out | Elevates perspective from trees to forest. Maps architecture, dependencies, and second-... |
 
-### Agents (71)
+### Agents (72)
 
 | Intent (agent) | Target | Cuándo usar |
 |---|---|---|
@@ -204,6 +205,7 @@
 | `pr-agent-judge` | agent:pr-agent-judge | External 5th judge of the Code Review Court — wraps qodo-ai/pr-agent OSS (SPEC-124). ... |
 | `python-developer` | agent:python-developer | Implementación de código Python (FastAPI/Django) siguiendo specs SDD aprobadas. Usar ... |
 | `recommendation-tribunal-orchestrator` | agent:recommendation-tribunal-orchestrator | Recommendation Tribunal orchestrator — convenes 4 fast judges in parallel, aggregates... |
+| `reconciler` | agent:reconciler | Classifies contradictions into 3 buckets: evolution, auto-resolve, conflict-doc. Invoke... |
 | `reflection-validator` | agent:reflection-validator | Meta-cognitive validation of responses and decisions (System 2). Use PROACTIVELY when: ... |
 | `ruby-developer` | agent:ruby-developer | Implementación de código Ruby on Rails siguiendo specs SDD aprobadas. Usar PROACTIVEL... |
 | `rule-violation-judge` | agent:rule-violation-judge | Recommendation Tribunal judge — detects when a draft recommendation violates canonica... |

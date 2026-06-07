@@ -11,6 +11,16 @@ deps: []
 unblocks: []
 origin: output/research/obsidian-second-brain-mejoras-cupulas-20260601.md
 inspiration: obsidian-second-brain `critical-facts.md` (anclaje superior <150 tokens, leido siempre)
+timeline:
+  - from: "2026-06-01"
+    until: "2026-06-05"
+    learned: "2026-06-01"
+    value: "PROPOSED"
+    source: "feat(roadmap): Era 199 -- 7 SPECs from obsidian-second-brain analysis (#794)"
+  - from: "2026-06-05"
+    learned: "2026-06-05"
+    value: "IMPLEMENTED"
+    source: "feat(spec-157): Context Pre-Flight Check multi-source token estimator (#814)"
 ---
 
 # SPEC-185 — Critical-facts 150-token cap

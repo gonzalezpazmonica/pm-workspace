@@ -11,6 +11,11 @@ deps: [SE-104]
 unblocks: []
 origin: active-user-2026-06-04
 inspiration: 10 principios esenciales de la IAH
+timeline:
+  - from: "2026-06-05"
+    learned: "2026-06-05"
+    value: "PROPOSED"
+    source: "docs(spec): SPEC-187 IAH principles alignment proposal (#810)"
 ---
 
 # SPEC-187 — Alineacion principios eticos Savia con marco IAH
