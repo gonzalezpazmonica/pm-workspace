@@ -1,6 +1,6 @@
 # Savia Capability Map — INDEX
-> hash: d1bdda7cb88f | resources: 1218
-> 556 commands · 102 skills · 70 agents · 490 scripts
+> hash: 74986cb59649 | resources: 1223
+> 556 commands · 103 skills · 71 agents · 493 scripts
 
 [analysis] /a11y-report — accesibilidad,completos,conformidad,código,declaración — cmd:.claude/commands/a11y-report.md
 [analysis] Trace Optimize — across,distributed,optimize,rates,sampling — cmd:.claude/commands/trace-optimize.md
@@ -42,6 +42,7 @@
 [analysis] org-metrics — agregadas,delivery,dora,métricas,nivel — cmd:.claude/commands/org-metrics.md
 [analysis] prevention-metrics — bugs,detección,detection,early,effectiveness — cmd:.claude/commands/prevention-metrics.md
 [analysis] promotion-engine — activar,crear,desactivar,evaluar,gestiona — cmd:.claude/commands/promotion-engine.md
+[analysis] reconciliation-stats — append,classification,metrics,reconciliation,report — script:scripts/reconciliation-stats.sh
 [analysis] report-capacity — alertas,asignación,capacidades,carga,disponibilidad — cmd:.claude/commands/report-capacity.md
 [analysis] report-executive — dirección,ejecutivo,formato,informe,multi — cmd:.claude/commands/report-executive.md
 [analysis] report-hours — actual,especificado,horas,imputación,informe — cmd:.claude/commands/report-hours.md
@@ -165,6 +166,9 @@
 [development] /speckit.specify — alias,captura,compatible,discovery,github — cmd:.claude/commands/speckit.specify.md
 [development] /speckit.tasks — accionables,alias,compatible,decomposition,descomposición — cmd:.claude/commands/speckit.tasks.md
 [development] Trace Analyze — análisis,botella,cadenas,cuellos,detección — cmd:.claude/commands/trace-analyze.md
+[development] UA Analyze — analyze,anything,codebase,generate,graph — cmd:.claude/commands/ua-analyze.md
+[development] UA Diff — analyze,changes,codebase,graph,impact — cmd:.claude/commands/ua-diff.md
+[development] UA Domain — business,codebase,concepts,domain,extract — cmd:.claude/commands/ua-domain.md
 [development] agents-opencode-convert — agents,convert,final,migration,opencode — script:scripts/agents-opencode-convert.sh
 [development] arch-compare — arquitectura,comparar,decisiones,patrones,toma — cmd:.claude/commands/arch-compare.md
 [development] arch-detect — arquitectura,detectar,patrón,proyecto,repositorio — cmd:.claude/commands/arch-detect.md
@@ -302,16 +306,15 @@
 [development] statusline-provider — claude,code,data,provider,statusline — script:scripts/statusline-provider.sh
 [development] tech-research — autonomous,designated,generates,human,investigates — cmd:.claude/commands/tech-research.md
 [development] tech-research-agent — autónoma,específico,investigación,tema,técnica — skill:.claude/skills/tech-research-agent/SKILL.md
+[development] timeline-append — append,decision,entry,file,spec — script:scripts/timeline-append.sh
 [development] tolaria-open — base,desktop,knowledge,open,path — cmd:.claude/commands/tolaria-open.md
 [development] tribunal-async-runner — async,runner,spec,tribunal — script:scripts/tribunal-async-runner.sh
 [development] tribunal-benchmark — benchmark,phase,spec,tribunal — script:scripts/tribunal-benchmark.sh
 [development] twin-anonymize — anonymize,datos,organización,spec,twin — script:scripts/twin-anonymize.sh
 [development] twin-load — carga,load,muestra,proyecto,spec — script:scripts/twin-load.sh
 [development] twin-refresh — predicciones,recalcula,refresh,spec,twin — script:scripts/twin-refresh.sh
-[development] ua-analyze — anything,codebase,generate,graph,knowledge — cmd:.claude/commands/ua-analyze.md
-[development] ua-diff — analyze,changes,codebase,graph,impact — cmd:.claude/commands/ua-diff.md
-[development] ua-domain — business,codebase,concepts,domain,extract — cmd:.claude/commands/ua-domain.md
 [development] ua-onboard — codebase,generate,guided,onboarding,tour — cmd:.claude/commands/ua-onboard.md
+[development] understand-anything — analizar,anything,codebase,dominio,estructurales — skill:.claude/skills/understand-anything/SKILL.md
 [development] validate-consensus — decisiones,jueces,lanzar,panel,specs — cmd:.claude/commands/validate-consensus.md
 [development] validate-pbi-spec-links — bidirectional,check,links,spec,validate — script:scripts/validate-pbi-spec-links.sh
 [development] validate-spec — declarative,spec,validate,validation,without — script:scripts/validate-spec.sh
@@ -931,6 +934,7 @@
 [planning] terraform-developer —  — agent:.claude/agents/terraform-developer.md
 [planning] threat-model —  — cmd:.claude/commands/threat-model.md
 [planning] tier3-probes — adoptarlas,herramientas,tier,valida,viabilidad — skill:.claude/skills/tier3-probes/SKILL.md
+[planning] timeline-query — field,historical,query,temporal,timeline — script:scripts/timeline-query.sh
 [planning] token-estimator — before,cost,estimate,estimator,execution — script:scripts/token-estimator.sh
 [planning] tool-catalog — categorizado,catálogo,comandos,herramientas — cmd:.claude/commands/tool-catalog.md
 [planning] tool-result-trim — deterministic,hard,output,result,tool — script:scripts/tool-result-trim.sh
@@ -1072,6 +1076,7 @@
 [quality] rbac-management — acceso,audita,gestionan,permisos,roles — skill:.claude/skills/rbac-management/SKILL.md
 [quality] rbac-manager — access,audit,based,control,grant — cmd:.claude/commands/rbac-manager.md
 [quality] recommendation-tribunal-search — audit,inspection,recommendation,search,slice — script:scripts/recommendation-tribunal-search.sh
+[quality] reconciler — auditor,auto,buckets,classifies,conflict — agent:.claude/agents/reconciler.md
 [quality] record-start — audit,recording,replay,session,start — cmd:.claude/commands/record-start.md
 [quality] ref-resolve — preview,references,resolve,resource — cmd:.claude/commands/ref-resolve.md
 [quality] release-readiness — checklist,compliance,deployment,docs,features — cmd:.claude/commands/release-readiness.md

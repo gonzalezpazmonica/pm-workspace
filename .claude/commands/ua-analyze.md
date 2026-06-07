@@ -1,28 +1,38 @@
 ---
-name: ua-analyze
-description: Generate knowledge graph for any codebase using Understand-Anything
+name: UA Analyze
+description: Analyze codebase with Understand-Anything to generate knowledge graph
 ---
 
 # /ua-analyze — Codebase Knowledge Graph
 
-Analyzes a codebase and generates a `knowledge-graph.json` with files,
-functions, classes, dependencies, and domain concepts.
+Analyzes a codebase and generates a `knowledge-graph.json` with structural nodes
+(files, functions, classes, dependencies), domain nodes (business processes,
+flows), and knowledge nodes (entities, claims, relations).
 
-Uses [Understand-Anything](https://github.com/Lum1104/Understand-Anything),
-a multi-agent pipeline compatible with 13 languages.
+Uses Understand-Anything multi-agent pipeline. If UA is not available, falls back
+to `scripts/knowledge-graph.py`.
 
 ## Usage
 
 ```
-/ua-analyze ~/claude           # analyze Savia workspace
-/ua-analyze ~/projects/foo     # analyze a specific project
+/ua-analyze .               # analyze current workspace
+/ua-analyze ~/projects/foo  # analyze a specific project
+```
+
+## Fallback (UA not installed)
+
+```bash
+python3 scripts/knowledge-graph.py .
 ```
 
 ## Output
 
-- `~/.opencode/understand-anything/knowledge-graph.json`
-- Interactive dashboard at `http://localhost:5174` (via `/ua-dashboard`)
+- `knowledge-graph.json` — nodes + edges for all codebase entities
+- Interactive dashboard via `/ua-dashboard` at `http://localhost:5174`
 
 ## Prerequisites
 
 Run `/ua-install` first if Understand-Anything is not installed.
+Bridge: `bash scripts/ua-bridge.sh analyze [path]`
+
+Ref: SPEC-SE-088-UA-ADOPT
