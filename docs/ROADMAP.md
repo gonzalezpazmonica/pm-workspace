@@ -1,6 +1,6 @@
 # Roadmap Unificado — pm-workspace / Savia
 
-**Updated:** 2026-06-06 | **Version:** v6.18.0 | **556 commands · 70 agents · 102 skills · 75 hooks · 411 test suites · Active backlog 6 items (~55h)** — ver `## Active Stack — 2026-06-06`
+**Updated:** 2026-06-07 | **Version:** v6.18.0 | **556 commands · 70 agents · 102 skills · 75 hooks · 411 test suites · Active backlog 8 items (~62h)** — ver `## Active Stack — 2026-06-06`
 
 ---
 
@@ -758,6 +758,16 @@ Google Sheets · ServiceNow/SAP · Tableau · Kafka · VS Code ext · Cloud voic
 | 3 | SE-210 | Anti-patterns section in 6 critical skills | M | P2 |
 
 Origen: `output/research/mattpocock-skills-savia-20260607.md`. Patrones de mattpocock/skills (120k stars). Specs: `docs/propuestas/SE-208..SE-210-*.md`.
+
+---
+
+### Era 203 — Eval-driven improvement loop (DeepAgents pattern, ~1 día)
+
+| # | ID | Título | Esfuerzo | Prioridad |
+|---|---|---|---|---|
+| 1 | SE-215 | Eval-driven skill improvement loop | M | P1 |
+
+Origen: `output/research/deepagents-savia-20260607.md`. Patrón `better-harness` de langchain-ai/deepagents (24k stars). Dep: SE-204 ✓ + code-improvement-loop ✓.
 
 ---
 
