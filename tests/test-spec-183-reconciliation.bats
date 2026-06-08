@@ -160,6 +160,7 @@ teardown() {
 
 @test "edge: zero conflict-docs in directory returns 0 count" {
   run bash "$STATS_SCRIPT" --report 2>&1 || true
+  # Either contains a number (stats) or a message — both valid for empty store
   [[ "$status" -le 1 ]]
 }
 

@@ -1,5 +1,5 @@
 # development — Savia Capability Map (L1)
-> 170 resources
+> 173 resources
 
 - **/a11y-monitor** (cmd): Monitorización continua de regresiones de accesibilidad. Integración en CI/CD. Alertas cuando score baja por debajo de threshold. Digest semanal. Previene regresiones bloqueando deploys con fallos a11y.
 - **/speckit.checklist** (cmd): Alias spec-kit compatible. Gate de calidad final con verification-lattice multi-capa. Invoca skill verification-lattice. Compatible con github/spec-kit.
@@ -22,6 +22,7 @@
 - **arch-suggest** (cmd): Sugerir mejoras de arquitectura basadas en detección previa
 - **ast-quality-gate** (script): ast-quality-gate.sh — Language-agnostic code quality meta-analyzer
 - **best-practices-check** (cmd): Evaluate workspace against Claude Code best practices
+- **block-pat-file-write** (script): block-pat-file-write.sh — SPEC-SE-036 Slice 2: block writes to PAT file paths
 - **budget-guard** (script): budget-guard.sh — Context budget monitor (SPEC-022 F1)
 - **build-azdo-schema-graph** (script): build-azdo-schema-graph.sh — SE-076 Slice 2
 - **build-skill-manifest** (script): build-skill-manifest.sh — Genera manifesto de skills desde frontmatter
@@ -64,6 +65,7 @@
 - **eval-agent** (script): eval-agent.sh — Agent Evaluation Runner (SPEC-036)
 - **eval-run** (cmd): Execute evaluation against specified criteria
 - **execution-supervisor** (script): execution-supervisor.sh — Advisory reflection trigger (SPEC-065)
+- **failure-pattern-memory** (script): failure-pattern-memory.sh — SPEC-188 Fase 1: Failure Pattern Memory store
 - **feasibility-probe** (cmd): Validate spec feasibility with a time-boxed prototype attempt
 - **feasibility-probe** (skill): Usar cuando se necesita validar si una spec es técnicamente viable antes de implementarla.
 - **feasibility-probe** (agent): Validates spec feasibility by attempting a time-boxed prototype. Produces viability report with score, blocking sections, and decomposition suggestions.
@@ -78,6 +80,7 @@
 - **index-rebuild** (cmd): >
 - **install-git-hooks** (script): install-git-hooks.sh — Instala hooks de Git para PM‑Workspace en OpenCode
 - **instinct-collapse-detector** (script): instinct-collapse-detector.sh — SPEC-045 Phase 1: detect exploration collapse
+- **jwt-mint** (script): jwt-mint.sh — SPEC-SE-036: API key → JWT ephemeral mint
 - **localai-readiness-check** (script): localai-readiness-check.sh — SPEC-122
 - **marketplace-install** (cmd): Install components from claude-code-templates marketplace
 - **mcp-browse** (cmd): Explorar catálogo de MCPs disponibles (66+) via claude-code-templates
