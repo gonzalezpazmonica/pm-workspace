@@ -1,6 +1,6 @@
 # Savia Capability Map — INDEX
-> hash: 4292bc5717cf | resources: 1232
-> 556 commands · 103 skills · 71 agents · 502 scripts
+> hash: d1a2662dabb0 | resources: 1235
+> 556 commands · 103 skills · 71 agents · 505 scripts
 
 [analysis] /a11y-report — accesibilidad,completos,conformidad,código,declaración — cmd:.claude/commands/a11y-report.md
 [analysis] Trace Optimize — across,distributed,optimize,rates,sampling — cmd:.claude/commands/trace-optimize.md
@@ -33,6 +33,7 @@
 [analysis] debt-prioritize —  — cmd:.claude/commands/debt-prioritize.md
 [analysis] debt-track —  — cmd:.claude/commands/debt-track.md
 [analysis] enterprise-dashboard — analytics,enterprise,forecasting,health,matrix — cmd:.claude/commands/enterprise-dashboard.md
+[analysis] eval-improvement-suggest — eval,generate,improvement,proposals,reports — script:scripts/eval-improvement-suggest.sh
 [analysis] eval-report — analysis,evaluation,generate,report,scoring — cmd:.claude/commands/eval-report.md
 [analysis] excel-report — claude,excel,generar,interactivas,plantillas — cmd:.claude/commands/excel-report.md
 [analysis] executive-reporting — dirección,ejecutivo,informe,multi,proyecto — skill:.claude/skills/executive-reporting/SKILL.md
@@ -267,6 +268,7 @@
 [development] prompt-suggestion-engine — driven,engine,optimization,phase,prompt — script:scripts/prompt-suggestion-engine.sh
 [development] reaction-engine — engine,phase,reaction,spec — script:scripts/reaction-engine.sh
 [development] rebuild-folder-indexes — folder,indexes,rebuild — script:scripts/rebuild-folder-indexes.sh
+[development] reconciliation-pilot — docs,pilot,reconciler,reconciliation,slice — script:scripts/reconciliation-pilot.sh
 [development] requirement-pushback — analyze,generate,pushback,questions,requirement — script:scripts/requirement-pushback.sh
 [development] retro-patterns — action,análisis,items,patrones,recurrentes — cmd:.claude/commands/retro-patterns.md
 [development] rpi-status — active,implement,plan,progress,research — cmd:.claude/commands/rpi-status.md
@@ -309,6 +311,7 @@
 [development] tech-research — autonomous,designated,generates,human,investigates — cmd:.claude/commands/tech-research.md
 [development] tech-research-agent — autónoma,específico,investigación,tema,técnica — skill:.claude/skills/tech-research-agent/SKILL.md
 [development] timeline-append — append,decision,entry,file,spec — script:scripts/timeline-append.sh
+[development] timeline-status-guard — append,changes,guard,slice,spec — script:scripts/timeline-status-guard.sh
 [development] tolaria-open — base,desktop,knowledge,open,path — cmd:.claude/commands/tolaria-open.md
 [development] tribunal-async-runner — async,runner,spec,tribunal — script:scripts/tribunal-async-runner.sh
 [development] tribunal-benchmark — benchmark,phase,spec,tribunal — script:scripts/tribunal-benchmark.sh

@@ -2,7 +2,7 @@
 module_id: NotificationClient
 layer: infrastructure
 version: "1.0.0"
-last_sync: "2026-06-01T14:30:00Z"
+last_sync: "2026-06-08T14:30:00Z"
 token_budget: 310
 stale_after_days: 30
 depends_on: []

@@ -262,7 +262,16 @@ echo "  Report: ${REPORT_FILE}"
 
 if (( score < THRESHOLD )); then
   echo "FAIL: Score ${score}% is below threshold ${THRESHOLD}%" >&2
+  # SE-215: auto-suggest improvements if score below threshold
+  if [[ "${SAVIA_EVAL_AUTO_SUGGEST:-false}" == "true" ]]; then
+    bash "$(dirname "$0")/eval-improvement-suggest.sh" 2>&1 || true
+  fi
   exit 1
+fi
+
+# SE-215: auto-suggest improvements if score below threshold
+if [[ "${SAVIA_EVAL_AUTO_SUGGEST:-false}" == "true" && "$score" -lt "${SAVIA_EVAL_THRESHOLD:-80}" ]]; then
+  bash "$(dirname "$0")/eval-improvement-suggest.sh" 2>&1 || true
 fi
 
 exit 0
