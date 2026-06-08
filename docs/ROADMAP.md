@@ -293,7 +293,7 @@ Era exprés (1 día). Trigger: tras Era 186 hook ratchet closure, audit profunda
 **Era 188 — Foundations (in progress; cierra cuando PR #717 merge)**:
 - ✅ **SE-072** Verified Memory Axiom — IMPLEMENTED batch 57
 - **SE-073** Memory Index Cap Tiered — **IMPLEMENTED** (M 4h)
-- **SE-074** Parallel spec execution — APPROVED (M 8h Slice 1 + S 3h Slice 1.5 + S 4h Slice 2 + M 6h Slice 3 = L 21h)
+- **SE-074** Parallel spec execution — **IMPLEMENTED** (M 8h Slice 1 + S 3h Slice 1.5 + S 4h Slice 2 + M 6h Slice 3 = L 21h)
 - **SE-075** Voicebox adoption — Slices 1+2 IMPLEMENTED 2026-04-27 (task-queue.py + savia-voice-chunk.sh + sentence-splitter.py, BATS 53/53 certified); Slice 3 (Kokoro 82M CPU) DEFERRED — requires explicit user authorization for ~500MB model download
 - **SE-076** QueryWeaver patterns — IMPLEMENTED 2026-04-27 (3 slices: episodic memory + AzDo schema graph + LLM healer; AC-08/09/12 follow-up evolutivo)
 
