@@ -1,6 +1,6 @@
 {
-  "hash": "543eb6e1c4ff",
-  "total": 1236,
+  "hash": "cedc5fe398d6",
+  "total": 1239,
   "resources": [
     {
       "category": "analysis",
@@ -401,6 +401,20 @@
       "kind": "cmd",
       "path": ".claude/commands/enterprise-dashboard.md",
       "description": "Enterprise analytics — portfolio metrics, team health, risk matrix, forecasting"
+    },
+    {
+      "category": "analysis",
+      "name": "eval-improvement-suggest",
+      "intents": [
+        "eval",
+        "generate",
+        "improvement",
+        "proposals",
+        "reports"
+      ],
+      "kind": "script",
+      "path": "scripts/eval-improvement-suggest.sh",
+      "description": "eval-improvement-suggest.sh — SE-215: generate skill improvement proposals from eval reports"
     },
     {
       "category": "analysis",
@@ -3447,6 +3461,20 @@
     },
     {
       "category": "development",
+      "name": "reconciliation-pilot",
+      "intents": [
+        "docs",
+        "pilot",
+        "reconciler",
+        "reconciliation",
+        "slice"
+      ],
+      "kind": "script",
+      "path": "scripts/reconciliation-pilot.sh",
+      "description": "reconciliation-pilot.sh — SPEC-183 Slice 4: run reconciler pilot on pm-workspace docs"
+    },
+    {
+      "category": "development",
       "name": "requirement-pushback",
       "intents": [
         "analyze",
@@ -4022,6 +4050,20 @@
       "kind": "script",
       "path": "scripts/timeline-append.sh",
       "description": "timeline-append.sh — Append a bi-temporal timeline entry to a spec/decision file"
+    },
+    {
+      "category": "development",
+      "name": "timeline-status-guard",
+      "intents": [
+        "append",
+        "changes",
+        "guard",
+        "slice",
+        "spec"
+      ],
+      "kind": "script",
+      "path": "scripts/timeline-status-guard.sh",
+      "description": "timeline-status-guard.sh — SPEC-182 Slice 4: suggest timeline-append when status changes"
     },
     {
       "category": "development",

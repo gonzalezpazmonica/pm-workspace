@@ -169,6 +169,17 @@
   "autoupdate": false,
   "snapshot": true,
   "share": "manual",
+  "_hooks_doc": {
+    "_comment": "SPEC-182 Slice 4 — PostToolUse hint (not activated by default to avoid CI interference). To enable: add to hooks.PostToolUse the command: bash scripts/timeline-status-guard.sh 2>&1 || true. The guard exits 0 always and emits TIMELINE-HINT lines to stderr when a .md status: changed without a timeline: entry update.",
+    "_example": {
+      "PostToolUse": [
+        {
+          "command": "bash scripts/timeline-status-guard.sh 2>&1 || true",
+          "description": "Suggest timeline-append when status: changes without timeline entry"
+        }
+      ]
+    }
+  },
   "mcp": {
     "ppt": {
       "type": "local",

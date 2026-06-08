@@ -35,6 +35,7 @@ FILE=""
 SOURCE=""
 CONFIDENCE=""
 REPORT_MODE=false
+PILOT_MODE=false
 
 while [[ $# -gt 0 ]]; do
   case "$1" in
@@ -43,11 +44,61 @@ while [[ $# -gt 0 ]]; do
     --source)     shift; SOURCE="${1:-}" ;;
     --confidence) shift; CONFIDENCE="${1:-}" ;;
     --report)     REPORT_MODE=true ;;
+    pilot)        PILOT_MODE=true ;;
     --help|-h)    usage ;;
     *) echo "ERROR: unknown option: $1" >&2; exit 1 ;;
   esac
   shift
 done
+
+# ── Pilot mode ─────────────────────────────────────────────────────────────────
+if [[ "$PILOT_MODE" == "true" ]]; then
+  WORKSPACE_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+  TODAY="$(date +%Y%m%d)"
+  OUTPUT_FILE="$WORKSPACE_ROOT/output/reconciliation-pilot-${TODAY}.md"
+
+  # Scan docs/rules/domain/*.md for same-term different definitions heuristic
+  declare -A TERM_SEEN
+  CONTRADICTIONS=()
+
+  while IFS= read -r -d '' f; do
+    while IFS= read -r line; do
+      term="$(echo "$line" | sed -E 's/^\*\*([A-Za-z][A-Za-z0-9 _-]*)\*\*.*$/\1/;s/^### ([A-Za-z][A-Za-z0-9 _-]*)$/\1/' | xargs)"
+      [[ -z "$term" ]] && continue
+      norm="$(echo "$term" | tr '[:upper:]' '[:lower:]' | tr -s ' _-' ' ' | xargs)"
+      [[ -z "$norm" ]] && continue
+      if [[ -n "${TERM_SEEN[$norm]+x}" ]] && [[ "${TERM_SEEN[$norm]}" != "$f" ]]; then
+        CONTRADICTIONS+=("$norm|${TERM_SEEN[$norm]}|$f")
+        # Log to stats file
+        bash "$SCRIPT_NAME" --bucket "conflict-doc" --file "$f" \
+          --source "pilot-scan-${TODAY}" 2>/dev/null || true
+      else
+        TERM_SEEN[$norm]="$f"
+      fi
+    done < <(grep -nE '^\*\*[A-Za-z][A-Za-z0-9 _-]{2,40}\*\*[: ]|^### [A-Za-z][A-Za-z0-9 _-]{2,40}$' "$f" 2>/dev/null || true)
+  done < <(find "$WORKSPACE_ROOT/docs/rules/domain" -name '*.md' -type f -print0 2>/dev/null)
+
+  mkdir -p "$WORKSPACE_ROOT/output"
+  {
+    echo "---"
+    echo "generated_by: reconciliation-stats.sh pilot"
+    echo "date: $(date -u +%Y-%m-%d)"
+    echo "spec: SPEC-183"
+    echo "---"
+    echo ""
+    echo "# Reconciliation Pilot Scan — ${TODAY}"
+    echo ""
+    echo "Potential contradictions found: ${#CONTRADICTIONS[@]}"
+    echo ""
+    for c in "${CONTRADICTIONS[@]}"; do
+      term="${c%%|*}"; rest="${c#*|}"; f1="${rest%%|*}"; f2="${rest##*|}"
+      echo "- \`$term\`: \`$f1\` vs \`$f2\`"
+    done
+  } > "$OUTPUT_FILE"
+  echo "Pilot scan complete. Contradictions found: ${#CONTRADICTIONS[@]}"
+  echo "Report: $OUTPUT_FILE"
+  exit 0
+fi
 
 # ── Report mode ────────────────────────────────────────────────────────────────
 if [[ "$REPORT_MODE" == "true" ]]; then
