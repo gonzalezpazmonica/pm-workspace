@@ -1,5 +1,5 @@
 # development — Savia Capability Map (L1)
-> 168 resources
+> 170 resources
 
 - **/a11y-monitor** (cmd): Monitorización continua de regresiones de accesibilidad. Integración en CI/CD. Alertas cuando score baja por debajo de threshold. Digest semanal. Previene regresiones bloqueando deploys con fallos a11y.
 - **/speckit.checklist** (cmd): Alias spec-kit compatible. Gate de calidad final con verification-lattice multi-capa. Invoca skill verification-lattice. Compatible con github/spec-kit.
@@ -109,6 +109,7 @@
 - **prompt-suggestion-engine** (script): prompt-suggestion-engine.sh — SPEC-044 Phase 2: trace-driven prompt optimization
 - **reaction-engine** (script): reaction-engine.sh — SPEC-050 Phase 1: Reaction Engine
 - **rebuild-folder-indexes** (script): rebuild-folder-indexes.sh
+- **reconciliation-pilot** (script): reconciliation-pilot.sh — SPEC-183 Slice 4: run reconciler pilot on pm-workspace docs
 - **requirement-pushback** (script): requirement-pushback.sh — Analyze a spec and generate pushback questions
 - **retro-patterns** (cmd): Análisis de patrones en retrospectivas — temas recurrentes, action items sin resolver
 - **rpi-status** (cmd): Track progress of active RPI (Research → Plan → Implement) workflows.
@@ -151,6 +152,7 @@
 - **tech-research** (cmd): Launch autonomous technical research — investigates topics, generates reports, notifies designated human
 - **tech-research-agent** (skill): Usar cuando se necesita investigación técnica autónoma sobre un tema específico.
 - **timeline-append** (script): timeline-append.sh — Append a bi-temporal timeline entry to a spec/decision file
+- **timeline-status-guard** (script): timeline-status-guard.sh — SPEC-182 Slice 4: suggest timeline-append when status changes
 - **tolaria-open** (cmd): Open Tolaria desktop knowledge base on the Savia workspace (or specified path)
 - **tribunal-async-runner** (script): tribunal-async-runner.sh — SPEC-159: Async Tribunal Fan-out
 - **tribunal-benchmark** (script): tribunal-benchmark.sh — SPEC-106 Phase 3.
