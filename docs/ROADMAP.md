@@ -1,6 +1,6 @@
 # Roadmap Unificado — pm-workspace / Savia
 
-**Updated:** 2026-06-07 | **Version:** v6.19.0 | **556 commands · 72 agents · 103 skills · 75 hooks · 430+ test suites · Active backlog 6 items (~60h)** — ver `## Active Stack — 2026-06-07`
+**Updated:** 2026-06-08 | **Version:** v6.20.0 | **562 commands · 72 agents · 103 skills · 75 hooks · 450+ test suites · Active backlog 4 items (~19h)** — ver `## Active Stack — 2026-06-07`
 
 ---
 
@@ -708,23 +708,27 @@ Google Sheets · ServiceNow/SAP · Tableau · Kafka · VS Code ext · Cloud voic
 | SE-200..204 | OpenHands patterns: condenser, critic, hooks, keyword triggers, eval harness | PR #827 |
 | SE-205/206/207 | Orca patterns: orchestration protocol, idle detection, LER template | PR #828 |
 
-### En CI — pendientes de merge
+### Recién cerrado (2026-06-08)
 
-| PR | Contenido | Estado |
+| ID | Título | PR |
 |---|---|---|
-| #829 | SE-208/209/210 + SE-211/212/213/214 (Pocock + Memanto) | CI en progreso |
-| #830 | SE-215 + SPEC-182 Slice 4 + SPEC-183 Slices 3+4 | CI en progreso |
+| SE-208/209/210 | Pocock skill quality (100-line limit, description format, anti-patterns) | #829 |
+| SE-211/212/213/214 | Memanto memory patterns (typed KG, recall audit, confidence, conflict detection) | #829 |
+| SE-215 | Eval-driven skill improvement loop | #830 |
+| SPEC-182 Slice 4 | Timeline status guard | #830 |
+| SPEC-183 Slices 3+4 | Drift-auditor integration + pilot | #830 |
+| SPEC-188 Fase 1 | Failure Pattern Memory (resolves G3) | #831 |
+| SPEC-SE-036 | JWT Mint efímero (Slices 1+2) | #831 |
+| SE-074 | Parallel spec execution | #831 (ROADMAP fix — was already IMPLEMENTED) |
 
-### Backlog priorizado — qué sigue
+### Backlog restante
 
 | # | ID | Qué | Esfuerzo | Prioridad | Deps |
 |---|---|---|---|---|---|
-| 1 | **SPEC-188 Fase 1** | Failure Pattern Memory (desbloquea SPEC-108) | ~16h | P0 | Fase 0 ✓ |
-| 2 | **SE-074** | Parallel spec execution (4 slices) | ~21h | P1 | APPROVED |
-| 3 | **SPEC-SE-036** | JWT Mint efímero — Rule #1 a infra, sustituye PAT | 10-14h | P1 | — |
-| 4 | **SPEC-SE-037** | Audit JSONB Trigger — compliance ISO/EU AI Act/GDPR | 6-8h | P1 | — |
-| 5 | **SPEC-182 Slice 4** | Timeline status guard (PostCommit hint) | 2h | P2 | En PR #830 |
-| 6 | **SPEC-183 Slices 3+4** | Drift-auditor integration + pilot | 3h | P2 | En PR #830 |
+| 1 | **SPEC-SE-037** | Audit JSONB Trigger — compliance ISO/EU AI Act/GDPR | 6-8h | P1 | — |
+| 2 | **SPEC-SE-036 Slice 3** | JWT sunset opt-in (PAT file migration) | 4h | P2 | Slice 1+2 ✓ |
+| 3 | **SPEC-188 Fase 2** | Sealed Contract Tests | ~8h | P2 | Fase 1 ✓ |
+| 4 | **SPEC-188 Fases 3+4** | Causal confidence + diagnostic metrics | ~56h | P3 | Fase 2 |
 
 ### Tier 3 — SaviaClaw (requiere sistema externo)
 
