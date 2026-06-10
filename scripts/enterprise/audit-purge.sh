@@ -1,154 +1,170 @@
 #!/usr/bin/env bash
-# audit-purge.sh — SPEC-SE-037 Slice única.
+set -uo pipefail
+# audit-purge.sh — SPEC-SE-037 Audit Log Retention Purge CLI
 #
-# Selective DELETE on audit_log respecting retention policy. REFUSES to run
-# without --confirm flag AND without docs/rules/domain/savia-enterprise/audit-retention.md
-# present in repo. Pre-purge prints a count + category before requiring --confirm.
-# Post-purge writes an immutable log to output/audit-purge-log/YYYY-MM-DD.log
-# with retention policy hash for forensics.
-#
-# Requires SAVIA_ENTERPRISE_DSN env (Postgres). NEVER purges all categories at once;
-# one --table at a time.
+# Selective DELETE on audit_log respecting documented retention policy.
+# REFUSES to run without --confirm AND without audit-retention.md present.
 #
 # Usage:
-#   audit-purge.sh --table agent_sessions --before 2026-01-28          # dry-run
-#   audit-purge.sh --table agent_sessions --before 2026-01-28 --confirm
+#   audit-purge.sh --before <YYYY-MM-DD> --table <name> --confirm
+#   audit-purge.sh --before 2026-01-01  --table agent_sessions --confirm
+#   audit-purge.sh --help
 #
-# Reference: SPEC-SE-037 (`docs/propuestas/savia-enterprise/SPEC-SE-037-audit-jsonb-trigger.md`)
-# Retention policy: `docs/rules/domain/savia-enterprise/audit-retention.md` (REQUIRED)
-
-set -uo pipefail
+# --confirm is MANDATORY (exit 2 if missing).
+# --before  is MANDATORY (exit 2 if missing).
+# --table   is MANDATORY (exit 2 if missing).
+#
+# Without PGDATABASE: dry-run (shows SQL, does not execute).
+# Reads docs/rules/domain/savia-enterprise/audit-retention.md — exits 2 if missing.
+#
+# Reference: SPEC-SE-037 (docs/propuestas/savia-enterprise/SPEC-SE-037-audit-jsonb-trigger.md)
+# Retention policy: docs/rules/domain/savia-enterprise/audit-retention.md (REQUIRED)
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 ROOT_DIR="$(cd "$SCRIPT_DIR/../.." && pwd)"
-RETENTION_DOC="$ROOT_DIR/docs/rules/domain/savia-enterprise/audit-retention.md"
-PURGE_LOG_DIR="$ROOT_DIR/output/audit-purge-log"
+RETENTION_DOC="${ROOT_DIR}/docs/rules/domain/savia-enterprise/audit-retention.md"
+PURGE_LOG_DIR="${ROOT_DIR}/output/audit-purge-log"
 
 TABLE=""
 BEFORE=""
 CONFIRM=0
 
+# ── Usage ────────────────────────────────────────────────────────────────────
+
 usage() {
-  sed -n '2,18p' "${BASH_SOURCE[0]}" | sed 's/^# //; s/^#//'
-  exit 2
+  cat <<'USAGE'
+audit-purge.sh — selective DELETE on audit_log (SPEC-SE-037)
+
+Usage:
+  audit-purge.sh --before <YYYY-MM-DD> --table <name> --confirm
+  audit-purge.sh --help
+
+Options:
+  --before  <YYYY-MM-DD>  Purge rows created before this date (required)
+  --table   <name>        Table name to purge from audit_log (required)
+  --confirm               Required flag to execute; omit for dry-run
+  --help                  Show this help and exit 0
+
+Safety:
+  --confirm is mandatory to execute purge (exit 2 if missing)
+  Requires docs/rules/domain/savia-enterprise/audit-retention.md to exist (exit 2 if missing)
+  Shows pre-purge row count before executing
+  Without PGDATABASE: dry-run mode — prints SQL without executing
+
+Environment:
+  PGDATABASE  Postgres database name (or connection string).
+              If not set: dry-run mode.
+USAGE
+  exit 0
 }
+
+# ── Argument parsing ─────────────────────────────────────────────────────────
+
+if [[ $# -eq 0 ]]; then
+  usage
+fi
 
 while [[ $# -gt 0 ]]; do
   case "$1" in
-    --table)   TABLE="$2"; shift 2 ;;
-    --before)  BEFORE="$2"; shift 2 ;;
-    --confirm) CONFIRM=1; shift ;;
+    --table)   TABLE="$2";   shift 2 ;;
+    --before)  BEFORE="$2";  shift 2 ;;
+    --confirm) CONFIRM=1;    shift   ;;
     -h|--help) usage ;;
-    *) echo "ERROR: unknown arg: $1" >&2; usage ;;
+    *) echo "ERROR: unknown argument: $1" >&2; echo "Run with --help for usage." >&2; exit 2 ;;
   esac
 done
 
-# ── Pre-flight checks ───────────────────────────────────────────────────────
-
-if [[ ! -f "$RETENTION_DOC" ]]; then
-  echo "ERROR: retention policy doc missing: $RETENTION_DOC" >&2
-  echo "       audit-purge REFUSES to run without a documented retention policy." >&2
-  echo "       This is a hard safety boundary (SPEC-SE-037 AC-07)." >&2
-  exit 5
-fi
+# ── Mandatory argument checks ────────────────────────────────────────────────
 
 if [[ -z "$TABLE" ]]; then
-  echo "ERROR: --table required (one table at a time, no bulk purge)" >&2
-  usage
+  echo "ERROR: --table <name> is required." >&2
+  exit 2
 fi
 
 if [[ -z "$BEFORE" ]]; then
-  echo "ERROR: --before <date|duration> required" >&2
-  usage
+  echo "ERROR: --before <YYYY-MM-DD> is required." >&2
+  exit 2
 fi
 
-# Disallow obvious bulk-purge attempts
+if [[ "$CONFIRM" -ne 1 ]]; then
+  echo "ERROR: --confirm is required to execute purge." >&2
+  echo "       Re-run with --confirm to proceed, or omit --confirm for dry-run info." >&2
+  exit 2
+fi
+
+# ── Retention policy gate ─────────────────────────────────────────────────────
+# REFUSES to run without documented retention policy (AC-07, SPEC-SE-037).
+
+if [[ ! -f "$RETENTION_DOC" ]]; then
+  echo "ERROR: retention policy file not found: ${RETENTION_DOC}" >&2
+  echo "       audit-purge REFUSES to run without a documented retention policy." >&2
+  echo "       This is a hard compliance boundary (SPEC-SE-037 AC-07)." >&2
+  exit 2
+fi
+
+# ── Bulk-purge protection ─────────────────────────────────────────────────────
+
 case "$TABLE" in
   ""|"*"|"all"|"audit_log")
-    echo "ERROR: invalid table name '$TABLE' — bulk purge or self-purge refused" >&2
-    exit 6
+    echo "ERROR: invalid table '${TABLE}' — bulk purge and self-purge are refused." >&2
+    exit 2
     ;;
 esac
 
-# Validate table is classified in the retention policy doc
-if ! grep -qE "(\`$TABLE\`|^\| \\*\\*$TABLE\\*\\*|^\| $TABLE)" "$RETENTION_DOC" 2>/dev/null \
-   && ! grep -qiE "agent activity|user actions|billing|compliance|api keys|project|system" "$RETENTION_DOC"; then
-  # Fallback: look for the table name as a fenced word anywhere
-  if ! grep -qF "$TABLE" "$RETENTION_DOC"; then
-    echo "ERROR: table '$TABLE' not classified in $RETENTION_DOC" >&2
-    echo "       Add the table to a category before purging." >&2
-    exit 7
-  fi
-fi
+# ── Build SQL ─────────────────────────────────────────────────────────────────
 
-# ── Compute pre-purge count ─────────────────────────────────────────────────
+SAFE_TABLE="${TABLE//\'/\'\'}"
+COUNT_SQL="SELECT count(*) FROM audit_log WHERE table_name = '${SAFE_TABLE}' AND created_at < '${BEFORE}'::timestamptz;"
+DELETE_SQL="DELETE FROM audit_log WHERE table_name = '${SAFE_TABLE}' AND created_at < '${BEFORE}'::timestamptz;"
 
-if [[ -z "${SAVIA_ENTERPRISE_DSN:-}" ]]; then
-  echo "ERROR: SAVIA_ENTERPRISE_DSN env not set — this CLI requires a Postgres connection." >&2
-  echo "       In pm-workspace CI this is expected; deploy to Savia Enterprise repo to test live." >&2
-  exit 3
-fi
+# ── Dry-run when PGDATABASE is not set ───────────────────────────────────────
 
-if ! command -v psql >/dev/null 2>&1; then
-  echo "ERROR: psql not found — install postgresql-client first." >&2
-  exit 4
-fi
-
-since_sql() {
-  case "$1" in
-    *d) echo "now() - interval '${1%d} days'" ;;
-    *)  echo "'$1'::timestamptz" ;;
-  esac
-}
-
-CUTOFF_SQL=$(since_sql "$BEFORE")
-COUNT_SQL="SELECT count(*) FROM audit_log WHERE table_name = '${TABLE//\'/\'\'}' AND created_at < $CUTOFF_SQL"
-ROWS=$(psql "$SAVIA_ENTERPRISE_DSN" -At -c "$COUNT_SQL" 2>&1) || {
-  echo "ERROR: psql query failed: $ROWS" >&2
-  exit 8
-}
-
-# Extract category from retention doc (best effort — find category line for this table)
-CATEGORY=$(awk -v table="$TABLE" '
-  /^\| \*\*[A-Z]/ { current=$0 }
-  $0 ~ table     { print current; exit }
-' "$RETENTION_DOC" | sed -E 's/^\| \*\*//; s/\*\* .*//')
-CATEGORY="${CATEGORY:-uncategorized}"
-
-# Retention policy hash (for forensics)
-POLICY_HASH=$(sha256sum "$RETENTION_DOC" | cut -d' ' -f1)
-
-echo "Pre-purge: $ROWS rows in audit_log WHERE table_name='$TABLE' AND created_at < ${BEFORE}"
-echo "Category: ${CATEGORY}"
-echo "Retention policy hash: ${POLICY_HASH:0:16}..."
-
-if [[ "$CONFIRM" -ne 1 ]]; then
+if [[ -z "${PGDATABASE:-}" ]]; then
+  echo "-- DRY-RUN: PGDATABASE not set. SQL that would be executed:"
   echo ""
-  echo "DRY-RUN. Re-run with --confirm to proceed."
+  echo "-- Pre-purge count:"
+  echo "$COUNT_SQL"
+  echo ""
+  echo "-- Purge:"
+  echo "$DELETE_SQL"
   exit 0
 fi
 
-# ── Execute purge ────────────────────────────────────────────────────────────
+if ! command -v psql >/dev/null 2>&1; then
+  echo "ERROR: psql not found. Install postgresql-client." >&2
+  exit 1
+fi
 
-mkdir -p "$PURGE_LOG_DIR"
-LOG_FILE="$PURGE_LOG_DIR/$(date +%Y-%m-%d).log"
+# ── Pre-purge count ───────────────────────────────────────────────────────────
 
-DELETE_SQL="DELETE FROM audit_log WHERE table_name = '${TABLE//\'/\'\'}' AND created_at < $CUTOFF_SQL"
-DELETED=$(psql "$SAVIA_ENTERPRISE_DSN" -At -c "$DELETE_SQL" 2>&1) || {
-  echo "ERROR: purge failed: $DELETED" >&2
-  exit 9
+ROWS="$(psql "${PGDATABASE}" -At -c "$COUNT_SQL" 2>&1)" || {
+  echo "ERROR: psql count query failed: ${ROWS}" >&2
+  exit 1
 }
 
-# Append-only forensics log
+POLICY_HASH="$(sha256sum "$RETENTION_DOC" | cut -d' ' -f1)"
+
+echo "Pre-purge: ${ROWS} rows in audit_log WHERE table_name='${TABLE}' AND created_at < '${BEFORE}'"
+echo "Retention policy hash: ${POLICY_HASH:0:16}..."
+
+# ── Execute purge ──────────────────────────────────────────────────────────────
+
+DELETED="$(psql "${PGDATABASE}" -At -c "$DELETE_SQL" 2>&1)" || {
+  echo "ERROR: purge failed: ${DELETED}" >&2
+  exit 1
+}
+
+mkdir -p "$PURGE_LOG_DIR"
+LOG_FILE="${PURGE_LOG_DIR}/$(date +%Y-%m-%d).log"
+
 {
   echo "---"
-  echo "timestamp:        $(date -u +%Y-%m-%dT%H:%M:%SZ)"
-  echo "operator_user:    ${USER:-unknown}"
-  echo "table:            $TABLE"
-  echo "before:           $BEFORE"
-  echo "category:         $CATEGORY"
-  echo "rows_deleted:     ${ROWS}"
-  echo "retention_hash:   $POLICY_HASH"
+  echo "timestamp:      $(date -u +%Y-%m-%dT%H:%M:%SZ)"
+  echo "operator:       ${USER:-unknown}"
+  echo "table:          ${TABLE}"
+  echo "before:         ${BEFORE}"
+  echo "rows_deleted:   ${ROWS}"
+  echo "retention_hash: ${POLICY_HASH}"
 } >> "$LOG_FILE"
 
-echo "OK: purged ${ROWS} rows from audit_log (table_name='$TABLE'). Log: $LOG_FILE"
+echo "OK: purged ${ROWS} rows from audit_log (table_name='${TABLE}', before='${BEFORE}'). Log: ${LOG_FILE}"

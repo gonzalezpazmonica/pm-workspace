@@ -1,6 +1,6 @@
 # Savia Capability Map — INDEX
-> hash: 8db04c0f9f62 | resources: 1239
-> 557 commands · 103 skills · 71 agents · 508 scripts
+> hash: 921bed80ee73 | resources: 1242
+> 557 commands · 103 skills · 71 agents · 511 scripts
 
 [analysis] /a11y-report — accesibilidad,completos,conformidad,código,declaración — cmd:.claude/commands/a11y-report.md
 [analysis] Trace Optimize — across,distributed,optimize,rates,sampling — cmd:.claude/commands/trace-optimize.md
@@ -116,6 +116,7 @@
 [communication] savia-hub-init — init,initialize,local,repository,savia — script:scripts/savia-hub-init.sh
 [communication] savia-hub-sync — local,repositorio,saviahub,sincroniza,workspace — skill:.claude/skills/savia-hub-sync/SKILL.md
 [communication] savia-identity — cargar,completa,comportamiento,identidad,inicio — skill:.claude/skills/savia-identity/SKILL.md
+[communication] savia-ignore — exclusion,ignore,layer,savia,specific — script:scripts/savia-ignore.sh
 [communication] savia-inbox —  — cmd:.claude/commands/savia-inbox.md
 [communication] savia-index — index,savia — script:scripts/savia-index.sh
 [communication] savia-index-rebuild — index,rebuild,savia — script:scripts/savia-index-rebuild.sh
@@ -240,6 +241,7 @@
 [development] install-git-hooks — hooks,instala,install,opencode,workspace — script:scripts/install-git-hooks.sh
 [development] instinct-collapse-detector — collapse,detect,detector,exploration,instinct — script:scripts/instinct-collapse-detector.sh
 [development] jwt-mint — ephemeral,mint,spec — script:scripts/jwt-mint.sh
+[development] kg-export — codebase,export,memory,pattern,snapshot — script:scripts/kg-export.sh
 [development] localai-readiness-check — check,localai,readiness,spec — script:scripts/localai-readiness-check.sh
 [development] marketplace-install — claude,code,components,install,marketplace — cmd:.claude/commands/marketplace-install.md
 [development] mcp-browse — catálogo,claude,code,disponibles,explorar — cmd:.claude/commands/mcp-browse.md
@@ -708,6 +710,7 @@
 [planning] java-developer —  — agent:.claude/agents/java-developer.md
 [planning] jira-connect — alternativa,azure,cloud,conectar,devops — cmd:.claude/commands/jira-connect.md
 [planning] jira-sync —  — cmd:.claude/commands/jira-sync.md
+[planning] kg-query — names,qualified,query — script:scripts/kg-query.sh
 [planning] knowledge-graph — conocimiento,construye,consulta,entidades,grafo — skill:.claude/skills/knowledge-graph/SKILL.md
 [planning] knowledge-graph — graph,knowledge,shell,wrapper — script:scripts/knowledge-graph.sh
 [planning] knowledge-prime — configuración,código,documento,generar,priming — cmd:.claude/commands/knowledge-prime.md

@@ -1,6 +1,6 @@
 {
-  "hash": "cedc5fe398d6",
-  "total": 1239,
+  "hash": "f5624c4d0597",
+  "total": 1242,
   "resources": [
     {
       "category": "analysis",
@@ -1425,6 +1425,20 @@
       "kind": "skill",
       "path": ".claude/skills/savia-identity/SKILL.md",
       "description": "Usar al inicio de sesión para cargar la identidad completa y las reglas de comportamiento de Savia."
+    },
+    {
+      "category": "communication",
+      "name": "savia-ignore",
+      "intents": [
+        "exclusion",
+        "ignore",
+        "layer",
+        "savia",
+        "specific"
+      ],
+      "kind": "script",
+      "path": "scripts/savia-ignore.sh",
+      "description": "savia-ignore.sh — SE-218 S5: tool-specific exclusion layer"
     },
     {
       "category": "communication",
@@ -3061,6 +3075,20 @@
       "kind": "script",
       "path": "scripts/jwt-mint.sh",
       "description": "jwt-mint.sh — SPEC-SE-036: API key → JWT ephemeral mint"
+    },
+    {
+      "category": "development",
+      "name": "kg-export",
+      "intents": [
+        "codebase",
+        "export",
+        "memory",
+        "pattern",
+        "snapshot"
+      ],
+      "kind": "script",
+      "path": "scripts/kg-export.sh",
+      "description": "kg-export.sh — SE-218 S2: KG snapshot versionado (codebase-memory-mcp pattern)"
     },
     {
       "category": "development",
@@ -9087,6 +9115,18 @@
       "kind": "cmd",
       "path": ".claude/commands/jira-sync.md",
       "description": ">"
+    },
+    {
+      "category": "planning",
+      "name": "kg-query",
+      "intents": [
+        "names",
+        "qualified",
+        "query"
+      ],
+      "kind": "script",
+      "path": "scripts/kg-query.sh",
+      "description": "kg-query.sh — SE-218 S3: query KG con qualified names"
     },
     {
       "category": "planning",

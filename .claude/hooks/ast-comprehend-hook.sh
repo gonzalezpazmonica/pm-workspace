@@ -1,115 +1,130 @@
-#!/bin/bash
+#!/usr/bin/env bash
 set -uo pipefail
-# ast-comprehend-hook.sh — PreToolUse(Edit): inyecta mapa estructural antes de editar
-# Matcher: Edit | Async: false | No bloquea nunca (RN-COMP-02): exit 0 siempre
+# ast-comprehend-hook.sh — PreToolUse(Grep|Glob): inyecta contexto ACM no-bloqueante
+# SE-218 S1: hook augmentation pattern (codebase-memory-mcp)
+# Exit: siempre 0. Nunca intercepta Read.
+#
+# Matcher: Grep|Glob | Async: false
+# Contrato: emite {"additionalContext":"..."} si ACM tiene resultados, stdout vacío si no.
+# NUNCA intercepta Read — invariante de seguridad (rompe read-before-edit).
 
 WORKSPACE_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 SCRIPT="$WORKSPACE_ROOT/scripts/ast-comprehend.sh"
-MIN_LINES=50
-COMPLEXITY_WARN=15
 
-# ── Leer target del input JSON ────────────────────────────────────────────────
+# ── Leer input JSON ───────────────────────────────────────────────────────────
 
 INPUT_JSON=""
 if [[ ! -t 0 ]]; then
-  INPUT_JSON=$(cat)
+  INPUT_JSON=$(cat) || true
 fi
 
-TARGET=""
-if [[ -n "$INPUT_JSON" ]]; then
-  TARGET=$(echo "$INPUT_JSON" | python3 -c "
+[[ -z "$INPUT_JSON" ]] && exit 0
+
+# ── Extraer tool_name ─────────────────────────────────────────────────────────
+
+TOOL_NAME=$(python3 -c "
+import sys, json
+try:
+  d = json.loads('''$( echo "$INPUT_JSON" | python3 -c "import sys,json; print(json.dumps(sys.stdin.read()))" 2>/dev/null || echo '""' )''')
+  print(d.get('tool_name', ''))
+except:
+  print('')
+" 2>/dev/null || true)
+
+# Fallback: usar python3 con stdin si el quoting inline falló
+if [[ -z "$TOOL_NAME" ]]; then
+  TOOL_NAME=$(echo "$INPUT_JSON" | python3 -c "
 import sys, json
 try:
   d = json.load(sys.stdin)
-  fp = d.get('tool_input', {}).get('file_path', '') or d.get('file_path', '')
-  print(fp)
+  print(d.get('tool_name', ''))
 except:
   print('')
 " 2>/dev/null || true)
 fi
 
-if [[ -z "$TARGET" ]]; then
-  TARGET="${CLAUDE_TOOL_INPUT_FILE_PATH:-}"
-fi
+# ── Filtro: solo Grep y Glob. NUNCA Read. ────────────────────────────────────
 
-[[ -z "$TARGET" || ! -f "$TARGET" ]] && exit 0
+case "${TOOL_NAME:-}" in
+  Grep|Glob) ;;   # continuar
+  *)         exit 0 ;;  # silencio — incluye Read, Edit, Bash, etc.
+esac
 
-# ── Verificar mínimo de líneas ────────────────────────────────────────────────
+# ── Sin ACM disponible: silencio ──────────────────────────────────────────────
 
-LINE_COUNT=$(wc -l < "$TARGET" 2>/dev/null || echo "0")
-[[ "$LINE_COUNT" -lt "$MIN_LINES" ]] && exit 0
 [[ ! -f "$SCRIPT" ]] && exit 0
 
-# ── Ejecutar extracción superficial ──────────────────────────────────────────
+# ── Extraer pattern/query del input ──────────────────────────────────────────
 
-COMPREHENSION_OUTPUT=$(timeout 15 bash "$SCRIPT" "$TARGET" --surface-only 2>/dev/null || true)
-[[ -z "$COMPREHENSION_OUTPUT" ]] && exit 0
-
-# ── Extraer métricas ──────────────────────────────────────────────────────────
-
-_py_extract() {
-  echo "$COMPREHENSION_OUTPUT" | python3 -c "$1" 2>/dev/null || echo "?"
-}
-
-N_CLASSES=$(_py_extract "
-import sys,json
+PATTERN=$(echo "$INPUT_JSON" | python3 -c "
+import sys, json
 try:
-  d=json.load(sys.stdin); print(len(d.get('structure',d).get('classes',[])))
-except: print('?')")
+  d = json.load(sys.stdin)
+  ti = d.get('tool_input', d)
+  # Grep usa 'pattern', Glob usa 'pattern' también
+  p = ti.get('pattern', '') or ti.get('query', '') or ti.get('include', '')
+  print(p)
+except:
+  print('')
+" 2>/dev/null || true)
 
-N_FUNCTIONS=$(_py_extract "
-import sys,json
+[[ -z "$PATTERN" ]] && exit 0
+
+# ── Consultar ACM con el pattern ──────────────────────────────────────────────
+
+ACM_RESULT=$(timeout 10 bash "$SCRIPT" "$WORKSPACE_ROOT" --surface-only 2>/dev/null | \
+  python3 -c "
+import sys, json
 try:
-  d=json.load(sys.stdin); print(len(d.get('structure',d).get('functions',[])))
-except: print('?')")
+  data = json.load(sys.stdin)
+  pattern = '$( printf '%s' "$PATTERN" | python3 -c "import sys; s=sys.stdin.read(); print(s.replace(chr(39), chr(39)+chr(92)+chr(39)+chr(39)))" 2>/dev/null || echo "$PATTERN" )'
+  # Buscar coincidencias en funciones, clases e imports
+  matches = []
+  structure = data.get('structure', data)
+  for fn in structure.get('functions', []):
+    name = fn.get('name', '') if isinstance(fn, dict) else str(fn)
+    if pattern.lower() in name.lower():
+      matches.append('function: ' + name)
+  for cls in structure.get('classes', []):
+    name = cls.get('name', '') if isinstance(cls, dict) else str(cls)
+    if pattern.lower() in name.lower():
+      matches.append('class: ' + name)
+  for imp in data.get('imports', []):
+    name = imp.get('module', imp.get('name', '')) if isinstance(imp, dict) else str(imp)
+    if pattern.lower() in name.lower():
+      matches.append('import: ' + name)
+  print(json.dumps(matches))
+except:
+  print('[]')
+" 2>/dev/null || echo "[]")
 
-COMPLEXITY=$(_py_extract "
-import sys,json
+# ── Emitir additionalContext si hay resultados ────────────────────────────────
+
+MATCH_COUNT=$(echo "$ACM_RESULT" | python3 -c "
+import sys, json
 try:
-  d=json.load(sys.stdin); c=d.get('complexity',{})
-  print(c.get('total_decision_points',d.get('complexity_approx','?')))
-except: print('?')")
+  print(len(json.loads(sys.stdin.read())))
+except:
+  print(0)
+" 2>/dev/null || echo "0")
 
-TOOL_USED=$(_py_extract "
-import sys,json
+if [[ "${MATCH_COUNT:-0}" -gt 0 ]]; then
+  MATCHES_TEXT=$(echo "$ACM_RESULT" | python3 -c "
+import sys, json
 try:
-  d=json.load(sys.stdin); print(d.get('meta',{}).get('tool','grep-structural'))
-except: print('grep-structural')")
+  items = json.loads(sys.stdin.read())
+  print('\n'.join(items))
+except:
+  print('')
+" 2>/dev/null || true)
 
-FILENAME=$(basename "$TARGET")
-
-WARN_MSG=""
-if [[ "$COMPLEXITY" =~ ^[0-9]+$ && "$COMPLEXITY" -gt "$COMPLEXITY_WARN" ]]; then
-  WARN_MSG=" ⚠️  Complejidad alta ($COMPLEXITY puntos de decisión) — proceder con cautela."
+  if [[ -n "$MATCHES_TEXT" ]]; then
+    python3 -c "
+import json, sys
+msg = 'ACM matches for ' + repr('$PATTERN') + ':\n' + '''$MATCHES_TEXT'''
+print(json.dumps({'additionalContext': msg}))
+" 2>/dev/null || true
+  fi
 fi
-
-# ── Emitir contexto estructural ───────────────────────────────────────────────
-
-cat <<CONTEXT_EOF
-
-╔══════════════════════════════════════════════════════════════╗
-║  🔍 AST Comprehension — Pre-edit context                    ║
-╚══════════════════════════════════════════════════════════════╝
-Fichero: $TARGET
-Líneas:  $LINE_COUNT  |  Clases: $N_CLASSES  |  Funciones: $N_FUNCTIONS
-Complejidad aproximada: $COMPLEXITY puntos de decisión  [extractor: $TOOL_USED]$WARN_MSG
-
-Mapa estructural (JSON):
-$(_py_extract "
-import sys,json
-try:
-  d=json.load(sys.stdin)
-  out={}
-  if 'structure' in d: out['structure']=d['structure']
-  elif 'classes' in d or 'functions' in d:
-    out['classes']=d.get('classes',[]); out['functions']=d.get('functions',[])
-  if d.get('imports'): out['imports']=d['imports']
-  if 'complexity' in d: out['complexity']=d['complexity']
-  elif 'complexity_approx' in d: out['complexity_approx']=d['complexity_approx']
-  print(json.dumps(out,ensure_ascii=False,indent=2))
-except Exception as e: print(str(e)[:200])")
-
-────────────────────────────────────────────────────────────────
-CONTEXT_EOF
 
 exit 0

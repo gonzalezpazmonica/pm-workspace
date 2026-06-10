@@ -65,11 +65,35 @@ get_details() {
   done < "$LOG_FILE" | tail -"$max"
 }
 
+flush_log() {
+  local mode="best"
+  # Parse --mode flag or positional
+  while [[ $# -gt 0 ]]; do
+    case "$1" in
+      --mode) mode="${2:-best}"; shift 2 ;;
+      best|fast) mode="$1"; shift ;;
+      *) echo "ERROR: unknown argument '$1'" >&2; exit 2 ;;
+    esac
+  done
+  [[ "$mode" != "best" && "$mode" != "fast" ]] && echo "ERROR: mode must be 'best' or 'fast'" >&2 && exit 2
+  [[ ! -f "$LOG_FILE" ]] && echo "WARN: no log file to flush" >&2 && exit 0
+
+  local level=9
+  [[ "$mode" == "fast" ]] && level=3
+
+  command -v zstd >/dev/null 2>&1 || { echo "WARN: zstd not available — flush skipped" >&2; exit 0; }
+
+  local out="${LOG_FILE}.zst"
+  zstd -"$level" -f -q "$LOG_FILE" -o "$out" 2>/dev/null || { echo "WARN: zstd failed — flush skipped" >&2; exit 0; }
+  echo "FLUSHED mode=$mode file=$out size=$(wc -c < "$out" 2>/dev/null || echo '?')" >&2
+}
+
 case "$cmd" in
   log)      log_entry "$@" ;;
   attempts) count_attempts "${1:?action}" "${2:?target}" ;;
   details)  get_details "${1:?action}" "${2:?target}" "${3:-10}" ;;
   history)  show_history "${1:-}" ;;
   reset)    rm -f "$LOG_FILE"; echo "Log cleared." ;;
-  help|*)   echo "Usage: $0 log|attempts|details|history|reset [args]" ;;
+  flush)    flush_log "$@" ;;
+  help|*)   echo "Usage: $0 log|attempts|details|history|reset|flush [args]" ;;
 esac

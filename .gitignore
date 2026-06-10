@@ -157,3 +157,6 @@ console-*.log
 # Obsidian workspace vault
 vault/.obsidian/
 .obsidian/workspace.json
+
+# KG snapshot dir (opt-in versioning via .gitattributes)
+.savia-kg/*.db

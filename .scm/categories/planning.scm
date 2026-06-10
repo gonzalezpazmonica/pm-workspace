@@ -1,5 +1,5 @@
 # planning — Savia Capability Map (L1)
-> 538 resources
+> 539 resources
 
 - **/accreditation-track** (cmd): >
 - **/decide-architecture** (cmd): Clasifica una tarea como WORKFLOW (deterministica) o AGENT (loop). Bias hacia workflow per Anthropic. Sugiere plantilla inicial. Mide accuracy contra corpus curado de 20 tareas.
@@ -240,6 +240,7 @@
 - **java-developer** (agent): >
 - **jira-connect** (cmd): Conectar y sincronizar con Jira Cloud como alternativa a Azure DevOps
 - **jira-sync** (cmd): >
+- **kg-query** (script): kg-query.sh — SE-218 S3: query KG con qualified names
 - **knowledge-graph** (skill): Usar cuando se construye o consulta el grafo de conocimiento de entidades del proyecto.
 - **knowledge-graph** (script): knowledge-graph.sh — SE-162: Shell wrapper for knowledge-graph.py
 - **knowledge-prime** (cmd): Generar documento de priming AI desde código y configuración del proyecto
