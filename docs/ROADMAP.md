@@ -1,6 +1,6 @@
 # Roadmap Unificado — pm-workspace / Savia
 
-**Updated:** 2026-06-08 | **Version:** v6.20.0 | **562 commands · 72 agents · 103 skills · 75 hooks · 450+ test suites · Active backlog 4 items (~19h)** — ver `## Active Stack — 2026-06-07`
+**Updated:** 2026-06-10 | **Version:** v6.20.0 | **562 commands · 72 agents · 103 skills · 75 hooks · 450+ test suites · Active backlog 10 items (~27h P1+P2)** — ver `## Active Stack — 2026-06-10`
 
 ---
 
@@ -690,23 +690,25 @@ Google Sheets · ServiceNow/SAP · Tableau · Kafka · VS Code ext · Cloud voic
 
 ---
 
-## Active Stack — 2026-06-07 (supersedes 2026-06-06)
+## Active Stack — 2026-06-09 (supersedes 2026-06-07)
 
-> Estado verificado contra `git log` + PRs #816→#828 merged + #829/#830 en CI.
+> Estado verificado contra `git log` + PRs #829/#830/#831 merged + #832 en revisión.
 > Criterio: scoring canónico (PM Impact 30% · Anti lock-in 25% · FOSS 20% · Inverse complexity 15% · Flow 10%).
 
-### Recientemente cerrado (2026-06-06 → 2026-06-07)
+### Recién cerrado (2026-06-08/10)
 
-| ID | Título | Cerrado vía |
+| ID | Título | PR |
 |---|---|---|
-| SE-151/152/073 | KG project_id · consumes/produces · memory 2-tier | PR #825 |
-| SPEC-181/159/160 | Context budgets · async tribunal · tool ergonomics | PR #825 |
-| SE-088-UA-ADOPT | Understand-Anything bridge + 7 commands | PR #826 |
-| SPEC-182 Slices 1-3 | Bitemporal timeline schema + scripts + pilot | PR #826 |
-| SPEC-183 Slices 1-2 | Reconciliation 3-bucket agent + stats | PR #826 |
-| SPEC-188 Fase 0 | feedback_root_cause_always.md | PR #826 |
-| SE-200..204 | OpenHands patterns: condenser, critic, hooks, keyword triggers, eval harness | PR #827 |
-| SE-205/206/207 | Orca patterns: orchestration protocol, idle detection, LER template | PR #828 |
+| SE-208/209/210 | Pocock skill quality (100-line limit, description format, anti-patterns) | #829 |
+| SE-211/212/213/214 | Memanto memory patterns (typed KG, recall audit, confidence, conflict detection) | #829 |
+| SE-215 | Eval-driven skill improvement loop | #830 |
+| SPEC-182 Slice 4 | Timeline status guard | #830 |
+| SPEC-183 Slices 3+4 | Drift-auditor integration + pilot | #830 |
+| SPEC-188 Fase 1 | Failure Pattern Memory (resolves G3) | #831 |
+| SPEC-SE-036 Slices 1+2 | JWT Mint efímero | #831 |
+| fix(opencode) | Schema cleanup + nvm bin discovery | #832 (en revisión) |
+| SE-217 S1+S2+S3 | autoresearch patterns: agent-run-log, time-budget, surface-guard | #833 (en revisión) |
+| SE-216 S1+S2+S3 | evo patterns: scratchpad, gates, frontier strategies | #833 (en revisión) |
 
 ### Recién cerrado (2026-06-08)
 
@@ -721,14 +723,20 @@ Google Sheets · ServiceNow/SAP · Tableau · Kafka · VS Code ext · Cloud voic
 | SPEC-SE-036 | JWT Mint efímero (Slices 1+2) | #831 |
 | SE-074 | Parallel spec execution | #831 (ROADMAP fix — was already IMPLEMENTED) |
 
-### Backlog restante
+### Backlog restante — repriorizado 2026-06-10
 
 | # | ID | Qué | Esfuerzo | Prioridad | Deps |
 |---|---|---|---|---|---|
 | 1 | **SPEC-SE-037** | Audit JSONB Trigger — compliance ISO/EU AI Act/GDPR | 6-8h | P1 | — |
 | 2 | **SPEC-SE-036 Slice 3** | JWT sunset opt-in (PAT file migration) | 4h | P2 | Slice 1+2 ✓ |
 | 3 | **SPEC-188 Fase 2** | Sealed Contract Tests | ~8h | P2 | Fase 1 ✓ |
-| 4 | **SPEC-188 Fases 3+4** | Causal confidence + diagnostic metrics | ~56h | P3 | Fase 2 |
+| 4 | **SE-218 S5** | `.saviaignore` — exclusiones específicas de herramienta | ~1h | P2 | — |
+| 5 | **SE-218 S4** | Tiered flush en session-action-log | ~1h | P2 | — |
+| 6 | **SE-218 S1** | Hook augmentation no-bloqueante (ast-comprehend refactor) | ~2h | P2 | — |
+| 7 | **SE-218 S3** | Qualified names en KG | ~2h | P2 | SE-162 ✓ |
+| 8 | **SE-218 S2** | KG snapshot versionado (`.savia-kg/graph.db.zst`) | ~3h | P2 | SE-162 ✓ |
+| 9 | **SE-216 Slice 4** | Experiment Graph — tree search | ~6h | P3 | SE-216 S1+S2+S3 ✓ |
+| 10 | **SPEC-188 Fases 3+4** | Causal confidence + diagnostic metrics | ~56h | P3 | Fase 2 |
 
 ### Tier 3 — SaviaClaw (requiere sistema externo)
 
@@ -737,13 +745,44 @@ Google Sheets · ServiceNow/SAP · Tableau · Kafka · VS Code ext · Cloud voic
 | SE-089 | Provider-agnostic LLM + DeepSeek migration | ~120 min |
 | SE-095/096/097 | Self-monitoring + cron + streaming | ~135 min |
 
-### Decisión operativa
+### Decisión operativa 2026-06-10
 
-1. **Tras merge #829/#830**: arrancar SPEC-188 Fase 1 (mayor impacto, desbloquea cadena causal).
-2. **Siguiente batch**: SE-074 (parallel spec) + SPEC-SE-036 (JWT) — ambos APPROVED.
-3. **Después**: Tier 3 SaviaClaw cuando haya acceso.
+1. **SE-217 + SE-216 S1-S3 IMPLEMENTED** — batch #833 en revisión. 110 tests verde.
+2. **SE-218** (codebase-memory patterns, ~9h, P2) — propuesta creada, pendiente de aprobación.
+3. **SE-216 Slice 4** (tree search, P3) — solo si los slices 1-3 demuestran valor en producción.
+4. **SPEC-SE-037** (P1 compliance) — siguiente prioritario.
+4. **Tier 3** cuando haya acceso.
 
-### Total backlog activo: ~60h (6 items core + Tier 3)
+### Total backlog activo: ~27h core (P1+P2) + ~62h P3 + Tier 3
+
+
+
+### Era 204 — evo patterns: scratchpad, gates, frontier strategies, tree search (~2 días)
+
+| # | ID | Título | Esfuerzo | Prioridad |
+|---|---|---|---|---|
+| 1 | SE-216 Slice 2 | Inherited Gates — quality gates pre/post con herencia en cascada | S (~3h) | P2 |
+| 2 | SE-216 Slice 1 | Agent Scratchpad — estado compartido estructurado entre subagentes | M (~4h) | P2 |
+| 3 | SE-216 Slice 3 | Frontier Strategies — 5 políticas de selección (argmax, top-k, ε-greedy, softmax, pareto_per_task) | M (~4h) | P2 |
+| 4 | SE-216 Slice 4 | Experiment Graph — grafo persistente de experimentos (tree search sobre hill climb) | L (~6h) | P3 |
+
+Origen: https://github.com/evo-hq/evo (v0.5.0, Apache-2.0). Patrones de orquestación multi-agente: scratchpad compartido, gates anti-trampa, búsqueda en árbol. Spec: `docs/propuestas/SE-216-evo-patterns.md`. Dep: SE-211 ✓ · SE-215 ✓ · code-improvement-loop ✓ · overnight-sprint ✓ · dag-scheduling ✓.
+
+---
+
+### Era 205 — codebase-memory patterns: 5 patrones de code intelligence (~1 día)
+
+| # | ID | Título | Esfuerzo | Prioridad |
+|---|---|---|---|---|
+| 1 | SE-218 S5 | `.saviaignore` — exclusiones específicas de herramienta | S (~1h) | P2 |
+| 2 | SE-218 S4 | Tiered flush en session-action-log (best/fast) | S (~1h) | P2 |
+| 3 | SE-218 S1 | Hook augmentation no-bloqueante (ast-comprehend-hook refactor) | S (~2h) | P2 |
+| 4 | SE-218 S3 | Qualified names en KG (`<project>.<module>.<name>`) | S (~2h) | P2 |
+| 5 | SE-218 S2 | KG snapshot versionado en repo (`.savia-kg/graph.db.zst`) | M (~3h) | P2 |
+
+Origen: https://github.com/DeusData/codebase-memory-mcp (3.2k stars, MIT, arXiv:2603.27277). Patrones: hook augmentation no-bloqueante, team-shared graph artifact, qualified names, tiered export, `.cbmignore`. Spec: `docs/propuestas/SE-218-codebase-memory-patterns.md`. Dep: SE-162 ✓ · ast-comprehend-hook ✓.
+
+---
 
 ### Era 203 — Eval-driven improvement loop (DeepAgents pattern, ~1 día)
 
@@ -752,6 +791,18 @@ Google Sheets · ServiceNow/SAP · Tableau · Kafka · VS Code ext · Cloud voic
 | 1 | SE-215 | Eval-driven skill improvement loop | M | P1 |
 
 Origen: `output/research/deepagents-savia-20260607.md`. Patrón `better-harness` de langchain-ai/deepagents (24k stars). Dep: SE-204 ✓ + code-improvement-loop ✓.
+
+---
+
+### Era 204b — autoresearch patterns: run-log, time-budget, surface-guard (~1 día)
+
+| # | ID | Título | Esfuerzo | Prioridad |
+|---|---|---|---|---|
+| 1 | SE-217 Slice 1 | Agent Run Log — TSV keep/discard/crash por experimento | S (~3h) | P1 |
+| 2 | SE-217 Slice 3 | Surface Guard — superficie editable declarada por run | S (~2h) | P1 |
+| 3 | SE-217 Slice 2 | Time Budget Enforcer — presupuesto fijo como unidad de comparación | S (~2h) | P1 |
+
+Origen: https://github.com/karpathy/autoresearch (85.8k stars, MIT). Patrones: `results.tsv` (log estructurado), time budget fijo, `program.md` / `prepare.py` (surface declaration). Spec: `docs/propuestas/SE-217-autoresearch-patterns.md`. Dep: session-action-log ✓ · autonomous-safety ✓.
 
 ---
 
