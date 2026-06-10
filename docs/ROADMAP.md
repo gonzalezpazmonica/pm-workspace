@@ -1,6 +1,6 @@
 # Roadmap Unificado — pm-workspace / Savia
 
-**Updated:** 2026-06-10 | **Version:** v6.20.0 | **562 commands · 72 agents · 103 skills · 75 hooks · 450+ test suites · Active backlog 5 items (~18h P1+P2)** — ver `## Active Stack — 2026-06-10`
+**Updated:** 2026-06-10 | **Version:** v6.20.0 | **562 commands · 72 agents · 103 skills · 75 hooks · 450+ test suites · Active backlog 10 items (~27h P1+P2)** — ver `## Active Stack — 2026-06-10`
 
 ---
 
@@ -730,8 +730,13 @@ Google Sheets · ServiceNow/SAP · Tableau · Kafka · VS Code ext · Cloud voic
 | 1 | **SPEC-SE-037** | Audit JSONB Trigger — compliance ISO/EU AI Act/GDPR | 6-8h | P1 | — |
 | 2 | **SPEC-SE-036 Slice 3** | JWT sunset opt-in (PAT file migration) | 4h | P2 | Slice 1+2 ✓ |
 | 3 | **SPEC-188 Fase 2** | Sealed Contract Tests | ~8h | P2 | Fase 1 ✓ |
-| 4 | **SE-216 Slice 4** | Experiment Graph — tree search | ~6h | P3 | SE-216 S1+S2+S3 ✓ |
-| 5 | **SPEC-188 Fases 3+4** | Causal confidence + diagnostic metrics | ~56h | P3 | Fase 2 |
+| 4 | **SE-218 S5** | `.saviaignore` — exclusiones específicas de herramienta | ~1h | P2 | — |
+| 5 | **SE-218 S4** | Tiered flush en session-action-log | ~1h | P2 | — |
+| 6 | **SE-218 S1** | Hook augmentation no-bloqueante (ast-comprehend refactor) | ~2h | P2 | — |
+| 7 | **SE-218 S3** | Qualified names en KG | ~2h | P2 | SE-162 ✓ |
+| 8 | **SE-218 S2** | KG snapshot versionado (`.savia-kg/graph.db.zst`) | ~3h | P2 | SE-162 ✓ |
+| 9 | **SE-216 Slice 4** | Experiment Graph — tree search | ~6h | P3 | SE-216 S1+S2+S3 ✓ |
+| 10 | **SPEC-188 Fases 3+4** | Causal confidence + diagnostic metrics | ~56h | P3 | Fase 2 |
 
 ### Tier 3 — SaviaClaw (requiere sistema externo)
 
@@ -743,11 +748,12 @@ Google Sheets · ServiceNow/SAP · Tableau · Kafka · VS Code ext · Cloud voic
 ### Decisión operativa 2026-06-10
 
 1. **SE-217 + SE-216 S1-S3 IMPLEMENTED** — batch #833 en revisión. 110 tests verde.
-2. **SE-216 Slice 4** (tree search, P3) — solo si los slices 1-3 demuestran valor en producción.
-3. **SPEC-SE-037** (P1 compliance) — siguiente prioritario.
+2. **SE-218** (codebase-memory patterns, ~9h, P2) — propuesta creada, pendiente de aprobación.
+3. **SE-216 Slice 4** (tree search, P3) — solo si los slices 1-3 demuestran valor en producción.
+4. **SPEC-SE-037** (P1 compliance) — siguiente prioritario.
 4. **Tier 3** cuando haya acceso.
 
-### Total backlog activo: ~18h core (P1+P2) + ~62h P3 + Tier 3
+### Total backlog activo: ~27h core (P1+P2) + ~62h P3 + Tier 3
 
 
 
@@ -761,6 +767,20 @@ Google Sheets · ServiceNow/SAP · Tableau · Kafka · VS Code ext · Cloud voic
 | 4 | SE-216 Slice 4 | Experiment Graph — grafo persistente de experimentos (tree search sobre hill climb) | L (~6h) | P3 |
 
 Origen: https://github.com/evo-hq/evo (v0.5.0, Apache-2.0). Patrones de orquestación multi-agente: scratchpad compartido, gates anti-trampa, búsqueda en árbol. Spec: `docs/propuestas/SE-216-evo-patterns.md`. Dep: SE-211 ✓ · SE-215 ✓ · code-improvement-loop ✓ · overnight-sprint ✓ · dag-scheduling ✓.
+
+---
+
+### Era 205 — codebase-memory patterns: 5 patrones de code intelligence (~1 día)
+
+| # | ID | Título | Esfuerzo | Prioridad |
+|---|---|---|---|---|
+| 1 | SE-218 S5 | `.saviaignore` — exclusiones específicas de herramienta | S (~1h) | P2 |
+| 2 | SE-218 S4 | Tiered flush en session-action-log (best/fast) | S (~1h) | P2 |
+| 3 | SE-218 S1 | Hook augmentation no-bloqueante (ast-comprehend-hook refactor) | S (~2h) | P2 |
+| 4 | SE-218 S3 | Qualified names en KG (`<project>.<module>.<name>`) | S (~2h) | P2 |
+| 5 | SE-218 S2 | KG snapshot versionado en repo (`.savia-kg/graph.db.zst`) | M (~3h) | P2 |
+
+Origen: https://github.com/DeusData/codebase-memory-mcp (3.2k stars, MIT, arXiv:2603.27277). Patrones: hook augmentation no-bloqueante, team-shared graph artifact, qualified names, tiered export, `.cbmignore`. Spec: `docs/propuestas/SE-218-codebase-memory-patterns.md`. Dep: SE-162 ✓ · ast-comprehend-hook ✓.
 
 ---
 
