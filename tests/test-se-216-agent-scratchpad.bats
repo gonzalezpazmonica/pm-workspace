@@ -249,3 +249,30 @@ _pad() {
   grep -qF '"Hypo A"' "$(_pad)"
   grep -qF '"Hypo B"' "$(_pad)"
 }
+
+# ---------------------------------------------------------------------------
+# Edge cases
+# ---------------------------------------------------------------------------
+
+@test "edge: generate with empty context-files list does not crash" {
+  # _cmd_generate is called internally; empty context is valid
+  run bash "$SCRIPT" generate \
+    --run-id "edge-empty-ctx" \
+    --agents "agent-a" \
+    --context-files ""
+  [ "$status" -eq 0 ]
+}
+
+@test "edge: annotate on nonexistent run-id exits with clear error" {
+  run bash "$SCRIPT" annotate \
+    --run-id "nonexistent-run-xyz" \
+    --agent "test-agent" \
+    --finding "something"
+  [ "$status" -ne 0 ]
+  [[ "$output" == *"not found"* ]] || [[ "$output" == *"ERROR"* ]] || [[ "$output" == *"No existe"* ]] || [[ "$output" == *"does not exist"* ]]
+}
+
+@test "edge: read with nonexistent run-id exits with clear error" {
+  run bash "$SCRIPT" read --run-id "nonexistent-xyz-999"
+  [ "$status" -ne 0 ]
+}

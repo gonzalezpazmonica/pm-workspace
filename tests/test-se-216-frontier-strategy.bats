@@ -4,6 +4,16 @@
 
 SCRIPT="scripts/frontier-strategy.sh"
 
+setup() {
+  # Isolated tmp dir per test — avoids cross-test contamination
+  TEST_TMPDIR="$(mktemp -d)"
+  export AGENT_SCRATCHPAD_OUTPUT_DIR="$TEST_TMPDIR"
+}
+
+teardown() {
+  rm -rf "$TEST_TMPDIR"
+}
+
 # ---------------------------------------------------------------------------
 # Fixtures
 # ---------------------------------------------------------------------------
@@ -370,4 +380,16 @@ assert len(data) == 5, f'Expected 5, got {len(data)}'
 ids = [d['id'] for d in data]
 assert len(set(ids)) == 5, f'IDs not distinct: {ids}'
 "
+}
+
+# ---------------------------------------------------------------------------
+# T-25: internal _select_py dispatcher is exercised by all strategies
+# ---------------------------------------------------------------------------
+@test "T-25: _select_py dispatcher handles all 5 strategies without crash" {
+  for strategy in argmax top_k epsilon_greedy softmax pareto_per_task; do
+    run bash "$SCRIPT" select --strategy "$strategy" --k 1 --input-json "$THREE_ITEMS"
+    [ "$status" -eq 0 ]
+    # Output must be valid JSON array (verifies _select_py returned correctly)
+    echo "$output" | python3 -c "import sys,json; d=json.load(sys.stdin); assert isinstance(d,list)"
+  done
 }
