@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
+set -uo pipefail
 # pr-summary-gate.sh — Bloquea gh pr create si .pr-summary.md no pasa revision LLM
 # Ref: docs/rules/domain/pr-natural-language-summary.md
 # Hook type: command (PreToolUse, matcher: Bash(gh pr create*))
 # Exits: 0 = ok (o skip), 2 = blocked
-set -uo pipefail
 
 source "$(dirname "${BASH_SOURCE[0]}")/../../scripts/savia-env.sh"
 export CLAUDE_PROJECT_DIR="${CLAUDE_PROJECT_DIR:-$SAVIA_WORKSPACE_DIR}"
