@@ -198,6 +198,7 @@
 - **focus-mode** (cmd): Modo single-task — carga una sola tarea y oculta distracciones
 - **fork-agents** (script): fork-agents.sh — Lanza N invocaciones paralelas de Claude con prefijo cacheable
 - **frontend-developer** (agent): >
+- **frontier-strategy** (script): frontier-strategy.sh — SE-216 Slice 3: frontier selection strategies
 - **gdrive-upload** (cmd): >
 - **generate-capability-map** (script): ── generate-capability-map.sh — Thin wrapper around the Python generator.
 - **generate-critical-facts** (script): scripts/generate-critical-facts.sh
