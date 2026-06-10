@@ -5,7 +5,7 @@
 
 setup() {
   HOOK="$BATS_TEST_DIRNAME/../.claude/hooks/ast-comprehend-hook.sh"
-  export CLAUDE_PROJECT_DIR="/home/monica/savia"
+  export CLAUDE_PROJECT_DIR="$(cd "$BATS_TEST_DIRNAME/.." && pwd)"
 }
 
 # 1. Hook existe y es ejecutable

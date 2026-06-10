@@ -2,7 +2,7 @@
 # tests/test-se-218-s2-kg-export.bats — SE-218 S2: KG snapshot versionado
 # Ref: docs/propuestas/SE-218-codebase-memory-patterns.md
 
-SCRIPT="/home/monica/savia/scripts/kg-export.sh"
+SCRIPT="${BATS_TEST_DIRNAME}/../scripts/kg-export.sh"
 
 setup() {
   TEST_TMPDIR="$(mktemp -d)"

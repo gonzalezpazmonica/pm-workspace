@@ -77,7 +77,7 @@ done
 # ── Mandatory argument checks ────────────────────────────────────────────────
 
 if [[ -z "$TABLE" ]]; then
-  echo "ERROR: --table <name> is required." >&2
+  echo "ERROR: --table required -- specify the table to purge from audit_log." >&2
   exit 2
 fi
 
@@ -97,17 +97,20 @@ fi
 
 if [[ ! -f "$RETENTION_DOC" ]]; then
   echo "ERROR: retention policy file not found: ${RETENTION_DOC}" >&2
-  echo "       audit-purge REFUSES to run without a documented retention policy." >&2
-  echo "       This is a hard compliance boundary (SPEC-SE-037 AC-07)." >&2
-  exit 2
+  echo "       audit-purge REFUSES to run — no documented retention policy." >&2
+  exit 5
 fi
 
 # ── Bulk-purge protection ─────────────────────────────────────────────────────
 
 case "$TABLE" in
-  ""|"*"|"all"|"audit_log")
-    echo "ERROR: invalid table '${TABLE}' — bulk purge and self-purge are refused." >&2
-    exit 2
+  ""|"*"|"all")
+    echo "ERROR: bulk purge refused -- --table '${TABLE}' targets all audit records." >&2
+    exit 6
+    ;;
+  "audit_log")
+    echo "ERROR: self-purge refused -- cannot purge audit_log itself." >&2
+    exit 6
     ;;
 esac
 
