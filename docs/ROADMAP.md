@@ -1,6 +1,6 @@
 # Roadmap Unificado — pm-workspace / Savia
 
-**Updated:** 2026-06-09 | **Version:** v6.20.0 | **562 commands · 72 agents · 103 skills · 75 hooks · 450+ test suites · Active backlog 11 items (~53h P1+P2)** — ver `## Active Stack — 2026-06-09`
+**Updated:** 2026-06-10 | **Version:** v6.20.0 | **562 commands · 72 agents · 103 skills · 75 hooks · 450+ test suites · Active backlog 5 items (~18h P1+P2)** — ver `## Active Stack — 2026-06-10`
 
 ---
 
@@ -710,6 +710,19 @@ Google Sheets · ServiceNow/SAP · Tableau · Kafka · VS Code ext · Cloud voic
 | SE-217 S1+S2+S3 | autoresearch patterns: agent-run-log, time-budget, surface-guard | #833 (en revisión) |
 | SE-216 S1+S2+S3 | evo patterns: scratchpad, gates, frontier strategies | #833 (en revisión) |
 
+### Recién cerrado (2026-06-08)
+
+| ID | Título | PR |
+|---|---|---|
+| SE-208/209/210 | Pocock skill quality (100-line limit, description format, anti-patterns) | #829 |
+| SE-211/212/213/214 | Memanto memory patterns (typed KG, recall audit, confidence, conflict detection) | #829 |
+| SE-215 | Eval-driven skill improvement loop | #830 |
+| SPEC-182 Slice 4 | Timeline status guard | #830 |
+| SPEC-183 Slices 3+4 | Drift-auditor integration + pilot | #830 |
+| SPEC-188 Fase 1 | Failure Pattern Memory (resolves G3) | #831 |
+| SPEC-SE-036 | JWT Mint efímero (Slices 1+2) | #831 |
+| SE-074 | Parallel spec execution | #831 (ROADMAP fix — was already IMPLEMENTED) |
+
 ### Backlog restante — repriorizado 2026-06-10
 
 | # | ID | Qué | Esfuerzo | Prioridad | Deps |
@@ -719,7 +732,6 @@ Google Sheets · ServiceNow/SAP · Tableau · Kafka · VS Code ext · Cloud voic
 | 3 | **SPEC-188 Fase 2** | Sealed Contract Tests | ~8h | P2 | Fase 1 ✓ |
 | 4 | **SE-216 Slice 4** | Experiment Graph — tree search | ~6h | P3 | SE-216 S1+S2+S3 ✓ |
 | 5 | **SPEC-188 Fases 3+4** | Causal confidence + diagnostic metrics | ~56h | P3 | Fase 2 |
-| 11 | **SE-216 Slice 4** | Experiment Graph — tree search | ~6h | P3 | SE-216 S1+S2+S3 |
 
 ### Tier 3 — SaviaClaw (requiere sistema externo)
 

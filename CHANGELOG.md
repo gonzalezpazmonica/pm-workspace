@@ -332,6 +332,12 @@ outside the fork are included. Branch:
   unmask-applied flag.
 
 
+## [6.14.3] — 2026-06-09
+
+### Fixed
+- opencode.json: remove unknown schema fields (`_hooks_doc`, `_comment`, `websearch`, `subtask`) that caused startup failure on strict schema validation
+- scripts/savia-bridge.py: probe nvm versioned bin paths in `find_claude_cli()` so bridge resolves the claude binary regardless of active nvm node version
+
 ## [6.14.2] — 2026-05-08
 
 - Repair CI pipeline: fix missing .opencode/ dirs in test setups, align test generators with .claude/ paths, sync agents converter output, update stale baseline, add CHANGELOG reference link
@@ -9006,6 +9012,7 @@ Initial public release of PM-Workspace.
 
 [6.3.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v6.2.0...v6.3.0
 [6.14.1]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v6.14.0...v6.14.1
+[6.14.3]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v6.14.2...v6.14.3
 [6.14.2]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v6.14.1...v6.14.2
 [6.14.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v6.13.0...v6.14.0
 [6.13.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v6.12.0...v6.13.0

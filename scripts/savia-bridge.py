@@ -796,6 +796,13 @@ def find_claude_cli() -> str:
         Path.home() / ".local" / "bin" / "claude",
         Path("/usr/local/bin/claude"),
         Path.home() / ".npm-global" / "bin" / "claude",
+        *(
+            nvm_bin / "claude"
+            for nvm_bin in sorted(
+                (Path.home() / ".nvm" / "versions" / "node").glob("*/bin"),
+                reverse=True,
+            )
+        ),
     ]:
         if path.exists():
             return str(path)
