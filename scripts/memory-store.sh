@@ -206,7 +206,8 @@ source "$SCRIPT_DIR/memory-search.sh"
 
 # --- Dispatcher ---
 cmd_suggest_topic() {
-    local t="${1:-}" ti="${2:-}"    [[ -z "$t" || -z "$ti" ]] && { echo "Uso: suggest-topic {type} {title}"; return 1; }
+    local t="${1:-}" ti="${2:-}"
+    [[ -z "$t" || -z "$ti" ]] && { echo "Uso: suggest-topic {type} {title}"; return 1; }
     suggest_topic_key "$t" "$ti"
 }
 
