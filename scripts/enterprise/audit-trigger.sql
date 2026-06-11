@@ -1,8 +1,7 @@
--- Template: audit-trigger.sql — SPEC-SE-037 Append-Only JSONB Audit Trigger
--- Full canonical SQL: audit_log table, trigger function, attach_audit procedure.
+-- audit-trigger.sql — SPEC-SE-037 Append-Only JSONB Audit Trigger
 --
--- Compliance primitive: append-only audit_log + generic trigger function.
--- Adjuntable a cualquier tabla regulada. Postgres >= 14, no extensions.
+-- Compliance primitive: append-only audit_log + generic trigger function
+-- adjuntable a cualquier tabla regulada. Postgres >= 14, no extensions.
 --
 -- AC-01 Tabla append-only (REVOKE UPDATE/DELETE)
 -- AC-02 audit_trigger_fn() table-agnostic (9 campos)
@@ -10,13 +9,12 @@
 -- AC-04 RLS multi-tenant (SPEC-SE-002)
 -- AC-11 Migration: 5 tablas reguladas
 --
--- Pattern: dreamxist/balance supabase/migrations/00006_audit_log.sql (MIT, clean-room re-implementation)
 -- Reference: SPEC-SE-037 (docs/propuestas/savia-enterprise/SPEC-SE-037-audit-jsonb-trigger.md)
--- Doc: docs/rules/domain/savia-enterprise/audit-trigger-primitive.md
+-- Pattern: dreamxist/balance supabase/migrations/00006_audit_log.sql (MIT, clean-room re-implementation)
 
 BEGIN;
 
--- 1. Tabla audit_log append-only
+-- ── 1. Tabla audit_log append-only ──────────────────────────────────────────
 
 CREATE TABLE IF NOT EXISTS audit_log (
   id           bigserial    PRIMARY KEY,
@@ -25,10 +23,10 @@ CREATE TABLE IF NOT EXISTS audit_log (
   operation    text         NOT NULL CHECK (operation IN ('INSERT', 'UPDATE', 'DELETE')),
   old_row      jsonb,
   new_row      jsonb,
-  user_id      text,
-  agent_id     text,
-  session_id   text,
-  tenant_id    uuid,
+  user_id      text,                 -- from current_setting('request.jwt.claims').sub
+  agent_id     text,                 -- from current_setting('savia.agent_id', true)
+  session_id   text,                 -- from current_setting('savia.session_id', true)
+  tenant_id    uuid,                 -- extracted from row.tenant_id, NOT from session setting
   created_at   timestamptz  NOT NULL DEFAULT now()
 );
 
@@ -36,16 +34,21 @@ CREATE TABLE IF NOT EXISTS audit_log (
 CREATE INDEX IF NOT EXISTS audit_log_tenant_table_time
   ON audit_log (tenant_id, table_name, created_at DESC);
 
+-- Secondary indexes for common filter patterns
 CREATE INDEX IF NOT EXISTS audit_log_operation_time
   ON audit_log (operation, created_at DESC);
 
 CREATE INDEX IF NOT EXISTS audit_log_agent_time
   ON audit_log (agent_id, created_at DESC);
 
--- Append-only enforcement: Writers can INSERT but NEVER UPDATE or DELETE.
+-- ── Append-only enforcement ──────────────────────────────────────────────────
+-- Writers (trigger function) can INSERT but NEVER UPDATE or DELETE.
+-- Retention purge runs as a dedicated role with explicit grant only.
+-- This enforces compliance-grade immutability at the DB layer.
 REVOKE UPDATE, DELETE ON audit_log FROM PUBLIC;
 
--- RLS multi-tenant isolation (SPEC-SE-002)
+-- ── RLS multi-tenant isolation (SPEC-SE-002) ─────────────────────────────────
+-- Fail-closed: if savia.tenant_id is not set, caller sees nothing.
 ALTER TABLE audit_log ENABLE ROW LEVEL SECURITY;
 
 DO $$ BEGIN
@@ -60,10 +63,10 @@ DO $$ BEGIN
   END IF;
 END $$;
 
--- 2. Generic trigger function audit_trigger_fn()
+-- ── 2. Generic trigger function audit_trigger_fn() ─────────────────────────
 -- Table-agnostic: captures 9 fields for every INSERT/UPDATE/DELETE.
--- Uses AFTER trigger semantics -- records the final committed state.
--- current_setting(..., true) silences missing-setting errors -> NULL default.
+-- Uses AFTER trigger semantics — records the final committed state.
+-- current_setting(..., true) silences missing-setting errors → NULL default.
 -- tenant_id extracted from the row itself (not from session) for integrity.
 
 CREATE OR REPLACE FUNCTION audit_trigger_fn() RETURNS trigger
@@ -75,6 +78,7 @@ DECLARE
   v_tenant_id  uuid;
   v_record_id  text;
 BEGIN
+  -- Extract caller identity from session settings (all silently NULL if not set)
   BEGIN
     v_user_id := current_setting('request.jwt.claims', true)::jsonb->>'sub';
   EXCEPTION WHEN others THEN
@@ -84,6 +88,8 @@ BEGIN
   v_agent_id   := current_setting('savia.agent_id',   true);
   v_session_id := current_setting('savia.session_id', true);
 
+  -- Extract tenant_id and record_id from the row (not from session setting)
+  -- to avoid drift between session context and actual row ownership.
   IF TG_OP = 'DELETE' THEN
     BEGIN v_tenant_id := (to_jsonb(OLD)->>'tenant_id')::uuid; EXCEPTION WHEN others THEN v_tenant_id := NULL; END;
     v_record_id := COALESCE(to_jsonb(OLD)->>'id', '');
@@ -110,7 +116,7 @@ BEGIN
 END;
 $$;
 
--- 3. Helper procedure: attach_audit(p_table regclass)
+-- ── 3. Helper procedure: attach_audit(p_table regclass) ────────────────────
 -- One-liner to add the audit trigger to any regulated table.
 -- Usage: CALL attach_audit('tenants'::regclass);
 -- Idempotent: drops existing trigger before creating.
@@ -120,8 +126,10 @@ LANGUAGE plpgsql AS $$
 DECLARE
   v_trigger_name text;
 BEGIN
+  -- Build trigger name: audit_<table> (replace schema dots with underscore)
   v_trigger_name := 'audit_' || replace(p_table::text, '.', '_');
 
+  -- Idempotent: drop if exists, then recreate
   EXECUTE format(
     'DROP TRIGGER IF EXISTS %I ON %s',
     v_trigger_name, p_table
@@ -138,8 +146,9 @@ BEGIN
 END;
 $$;
 
--- 4. Attach audit trigger to regulated tables
--- Run after creating the target tables. In pm-workspace: documentation only.
+-- ── 4. AC-11: Attach audit trigger to the 5 regulated tables ───────────────
+-- These CALL statements require the tables to exist (run after table migrations).
+-- In pm-workspace they serve as documentation; apply in Savia Enterprise repo.
 
 CALL attach_audit('tenants'::regclass);
 CALL attach_audit('projects'::regclass);

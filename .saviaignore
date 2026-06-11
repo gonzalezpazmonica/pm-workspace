@@ -1,0 +1,12 @@
+# .saviaignore — Savia tool-specific exclusion layer
+# Syntax: gitignore standard
+# Applied after .gitignore by Savia internal tools
+
+# Agent run logs (operational, non-PII)
+output/agent-run-log-*.tsv
+
+# KG snapshots
+.savia-kg/
+
+# Test temp fixtures
+tests/fixtures/tmp/
