@@ -1,5 +1,5 @@
 # analysis — Savia Capability Map (L1)
-> 63 resources
+> 68 resources
 
 - **/a11y-report** (cmd): Reporte de conformidad de accesibilidad para stakeholders y legal. Tres formatos: ejecutivo (resumen + score), técnico (detalles completos + código), legal (declaración VPAT/Section 508). Tracking de tendencias. Exportable.
 - **Trace Optimize** (cmd): Optimize trace spans and sampling rates across distributed services
@@ -11,15 +11,20 @@
 - **agent-cost** (cmd): Coste estimado de uso de agentes por sprint/proyecto
 - **agent-efficiency** (cmd): Ratio de eficiencia de agentes — specs completadas, re-work y tiempos
 - **agent-file-map** (skill): Usar cuando se trabaja con ficheros externos al workspace que los agentes deben localizar.
+- **agent-gate** (script): agent-gate.sh — SE-216 Slice 2: inherited quality gates for agent runs
 - **agent-hook-runner** (script): agent-hook-runner.sh — SE-202: semantic LLM gate for hooks
 - **agent-journal** (script): agent-journal.sh — Append-only JSONL journal para agent-runs autónomos.
 - **agent-memory** (cmd): Inspect and manage persistent memory fragments for subagents.
 - **agent-notes-archive** (cmd): >
 - **agent-run** (cmd): Launch a Claude agent on a Spec or batch of pending specs
+- **agent-run-log** (script): agent-run-log.sh — SE-217 Slice 1: append-only agent experiment log
 - **agent-run-logger** (script): agent-run-logger.sh — SE-148: AgentRunSummary telemetry logger
 - **agent-run-report** (script): agent-run-report.sh — SE-148: AgentRunSummary report generator
+- **agent-scratchpad** (script): agent-scratchpad.sh — SE-216 Slice 1: shared state document for parallel agents
 - **agent-size-audit** (script): agent-size-audit.sh — SE-038 Slice 1 probe: measure size of every agent.
 - **agent-size-remediation-plan** (script): agent-size-remediation-plan.sh — SE-052 Slice 1 agent-size analyzer.
+- **agent-surface-guard** (script): agent-surface-guard.sh — SE-217 Slice 3: declared editable surface for agent runs
+- **agent-time-budget** (script): agent-time-budget.sh — SE-217 Slice 2: time-budgeted command runner
 - **agent-trace** (cmd): Dashboard de trazas de ejecución de agentes con tokens, duración y resultado
 - **agent-wait-idle** (script): agent-wait-idle.sh — SE-206: detect when an AI agent process is idle
 - **ai-risk-assessment** (cmd): Evaluación de riesgo de agentes según categorías EU AI Act

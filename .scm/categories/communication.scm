@@ -1,5 +1,5 @@
 # communication — Savia Capability Map (L1)
-> 95 resources
+> 96 resources
 
 - **chat-notify** (cmd): Enviar notificación formateada a Google Chat
 - **chat-setup** (cmd): Guía de configuración de webhook de Google Chat
@@ -52,6 +52,7 @@
 - **savia-hub-init** (script): savia-hub-init.sh — Initialize SaviaHub local repository
 - **savia-hub-sync** (skill): Usar cuando se sincroniza el repositorio SaviaHub con el workspace local.
 - **savia-identity** (skill): Usar al inicio de sesión para cargar la identidad completa y las reglas de comportamiento de Savia.
+- **savia-ignore** (script): savia-ignore.sh — SE-218 S5: tool-specific exclusion layer
 - **savia-inbox** (cmd): >
 - **savia-index** (script): ── savia-index.sh ──────────────────────────────────────────────────────────
 - **savia-index-rebuild** (script): ── savia-index-rebuild.sh ──────────────────────────────────────────────────

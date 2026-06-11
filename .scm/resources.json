@@ -1,6 +1,6 @@
 {
-  "hash": "cedc5fe398d6",
-  "total": 1239,
+  "hash": "b3fd2f7e4413",
+  "total": 1248,
   "resources": [
     {
       "category": "analysis",
@@ -142,6 +142,20 @@
     },
     {
       "category": "analysis",
+      "name": "agent-gate",
+      "intents": [
+        "agent",
+        "gate",
+        "gates",
+        "inherited",
+        "quality"
+      ],
+      "kind": "script",
+      "path": "scripts/agent-gate.sh",
+      "description": "agent-gate.sh — SE-216 Slice 2: inherited quality gates for agent runs"
+    },
+    {
+      "category": "analysis",
       "name": "agent-hook-runner",
       "intents": [
         "agent",
@@ -206,6 +220,20 @@
     },
     {
       "category": "analysis",
+      "name": "agent-run-log",
+      "intents": [
+        "agent",
+        "append",
+        "experiment",
+        "only",
+        "slice"
+      ],
+      "kind": "script",
+      "path": "scripts/agent-run-log.sh",
+      "description": "agent-run-log.sh — SE-217 Slice 1: append-only agent experiment log"
+    },
+    {
+      "category": "analysis",
       "name": "agent-run-logger",
       "intents": [
         "agent",
@@ -229,6 +257,20 @@
       "kind": "script",
       "path": "scripts/agent-run-report.sh",
       "description": "agent-run-report.sh — SE-148: AgentRunSummary report generator"
+    },
+    {
+      "category": "analysis",
+      "name": "agent-scratchpad",
+      "intents": [
+        "agent",
+        "agents",
+        "document",
+        "parallel",
+        "scratchpad"
+      ],
+      "kind": "script",
+      "path": "scripts/agent-scratchpad.sh",
+      "description": "agent-scratchpad.sh — SE-216 Slice 1: shared state document for parallel agents"
     },
     {
       "category": "analysis",
@@ -257,6 +299,34 @@
       "kind": "script",
       "path": "scripts/agent-size-remediation-plan.sh",
       "description": "agent-size-remediation-plan.sh — SE-052 Slice 1 agent-size analyzer."
+    },
+    {
+      "category": "analysis",
+      "name": "agent-surface-guard",
+      "intents": [
+        "agent",
+        "declared",
+        "editable",
+        "guard",
+        "runs"
+      ],
+      "kind": "script",
+      "path": "scripts/agent-surface-guard.sh",
+      "description": "agent-surface-guard.sh — SE-217 Slice 3: declared editable surface for agent runs"
+    },
+    {
+      "category": "analysis",
+      "name": "agent-time-budget",
+      "intents": [
+        "agent",
+        "budget",
+        "budgeted",
+        "command",
+        "runner"
+      ],
+      "kind": "script",
+      "path": "scripts/agent-time-budget.sh",
+      "description": "agent-time-budget.sh — SE-217 Slice 2: time-budgeted command runner"
     },
     {
       "category": "analysis",
@@ -1425,6 +1495,20 @@
       "kind": "skill",
       "path": ".claude/skills/savia-identity/SKILL.md",
       "description": "Usar al inicio de sesión para cargar la identidad completa y las reglas de comportamiento de Savia."
+    },
+    {
+      "category": "communication",
+      "name": "savia-ignore",
+      "intents": [
+        "exclusion",
+        "ignore",
+        "layer",
+        "savia",
+        "specific"
+      ],
+      "kind": "script",
+      "path": "scripts/savia-ignore.sh",
+      "description": "savia-ignore.sh — SE-218 S5: tool-specific exclusion layer"
     },
     {
       "category": "communication",
@@ -3061,6 +3145,20 @@
       "kind": "script",
       "path": "scripts/jwt-mint.sh",
       "description": "jwt-mint.sh — SPEC-SE-036: API key → JWT ephemeral mint"
+    },
+    {
+      "category": "development",
+      "name": "kg-export",
+      "intents": [
+        "codebase",
+        "export",
+        "memory",
+        "pattern",
+        "snapshot"
+      ],
+      "kind": "script",
+      "path": "scripts/kg-export.sh",
+      "description": "kg-export.sh — SE-218 S2: KG snapshot versionado (codebase-memory-mcp pattern)"
     },
     {
       "category": "development",
@@ -8597,6 +8695,20 @@
     },
     {
       "category": "planning",
+      "name": "frontier-strategy",
+      "intents": [
+        "frontier",
+        "selection",
+        "slice",
+        "strategies",
+        "strategy"
+      ],
+      "kind": "script",
+      "path": "scripts/frontier-strategy.sh",
+      "description": "frontier-strategy.sh — SE-216 Slice 3: frontier selection strategies"
+    },
+    {
+      "category": "planning",
       "name": "gdrive-upload",
       "intents": [],
       "kind": "cmd",
@@ -9087,6 +9199,18 @@
       "kind": "cmd",
       "path": ".claude/commands/jira-sync.md",
       "description": ">"
+    },
+    {
+      "category": "planning",
+      "name": "kg-query",
+      "intents": [
+        "names",
+        "qualified",
+        "query"
+      ],
+      "kind": "script",
+      "path": "scripts/kg-query.sh",
+      "description": "kg-query.sh — SE-218 S3: query KG con qualified names"
     },
     {
       "category": "planning",
