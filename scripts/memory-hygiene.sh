@@ -2,12 +2,16 @@
 # memory-hygiene.sh — SPEC-142: Limpieza automática de auto-memory
 # Ejecutar en background desde session-init para mantener MEMORY.md sano
 # Modo: idempotente, no-destructivo, max 200 líneas en MEMORY.md
+#
+# SE-073 alignment: path canónico es ~/.savia-memory/auto/ (no el legacy
+# ~/.claude/projects/-home-monica-claude/memory). Si se pasa un argumento
+# explícito, se respeta; en otro caso, se usa el canónico actual.
 set -euo pipefail
 
-MEMORY_DIR="${1:-$HOME/.claude/projects/-home-monica-claude/memory}"
+MEMORY_DIR="${1:-${SAVIA_MEMORY_DIR:-$HOME/.savia-memory}/auto}"
 MEMORY_INDEX="$MEMORY_DIR/MEMORY.md"
 ARCHIVE_DIR="$MEMORY_DIR/archive"
-MAX_INDEX_LINES=200
+MAX_INDEX_LINES="${MEMORY_INDEX_SOFT_CAP:-200}"
 CUTOFF_DAYS=90
 DRY_RUN="${DRY_RUN:-false}"
 STATS_FILE="/tmp/memory-hygiene-stats.txt"
@@ -45,33 +49,60 @@ if [[ -d "$MEMORY_DIR" ]]; then
   done < <(find "$MEMORY_DIR" -maxdepth 1 -name "*.md" -not -name "MEMORY.md" -print0 2>/dev/null)
 fi
 
-# ── 2. Dedup en MEMORY.md ──
+# ── 2. Dedup en MEMORY.md (por topic_key entre brackets) ──
+#
+# Formato canónico de entrada: "- {type}: {title} [{topic_key}]"
+# Mantener PRIMERA aparición (top = más reciente; nuevas se insertan al inicio).
 if [[ -f "$MEMORY_INDEX" ]]; then
   tmp_dedup=$(mktemp)
-  seen=()
-  dup_count=0
+  dup_count=$(python3 - "$MEMORY_INDEX" "$tmp_dedup" <<'PY' 2>/dev/null || echo 0
+import re, sys
+src, dst = sys.argv[1], sys.argv[2]
+with open(src, 'r', encoding='utf-8') as f:
+    lines = f.readlines()
+seen = set()
+out = []
+in_block = False
+dup = 0
+key_re = re.compile(r'\[([^\[\]]+)\]\s*$')
+for ln in lines:
+    s = ln.rstrip('\n')
+    if s == '<!-- ENTRIES_START -->':
+        in_block = True
+        out.append(ln)
+        continue
+    if s == '<!-- ENTRIES_END -->':
+        in_block = False
+        out.append(ln)
+        continue
+    if in_block and s.lstrip().startswith('- '):
+        m = key_re.search(s)
+        if m:
+            key = m.group(1)
+            if key in seen:
+                dup += 1
+                continue
+            seen.add(key)
+        out.append(ln)
+        continue
+    out.append(ln)
+with open(dst, 'w', encoding='utf-8') as f:
+    f.writelines(out)
+print(dup)
+PY
+)
+  dup_count="${dup_count:-0}"
 
-  while IFS= read -r line; do
-    # Extraer referencia de fichero de líneas tipo: - [title](file.md) — ...
-    ref=$(echo "$line" | grep -oP '\]\([^)]+\.md\)' | tr -d '()][' || true)
-    if [[ -n "$ref" ]]; then
-      already=false
-      for s in "${seen[@]:-}"; do
-        [[ "$s" == "$ref" ]] && already=true && break
-      done
-      if $already; then
-        (( dup_count++ )) || true
-        continue  # saltar duplicado
-      fi
-      seen+=("$ref")
+  if (( dup_count > 0 )); then
+    if ! is_dry_run; then
+      mv "$tmp_dedup" "$MEMORY_INDEX"
+      log "Dedup: $dup_count duplicados eliminados (por topic_key)"
+      deduped=$dup_count
+    else
+      log "[dry-run] Eliminaria $dup_count duplicados (por topic_key)"
+      rm -f "$tmp_dedup"
+      deduped=$dup_count
     fi
-    echo "$line" >> "$tmp_dedup"
-  done < "$MEMORY_INDEX"
-
-  if (( dup_count > 0 )) && ! is_dry_run; then
-    mv "$tmp_dedup" "$MEMORY_INDEX"
-    log "Dedup: $dup_count duplicados eliminados"
-    deduped=$dup_count
   else
     rm -f "$tmp_dedup"
   fi

@@ -50,29 +50,91 @@ iso8601_now() { date -u +"%Y-%m-%dT%H:%M:%SZ"; }
 
 # Update the canonical memory index at ~/.savia-memory/auto/MEMORY.md
 # Called after each successful JSONL save to keep the index in sync.
+#
+# Dedup contract: if topic_key already exists in the ENTRIES block, the line
+# is REPLACED in-place (preserving order). If absent, a new line is INSERTED
+# at the top of the block. This prevents the unbounded duplication that
+# previously inflated MEMORY.md from cap 200 to 730+ lines (SE-073/SPEC-142).
+#
+# Soft cap enforcement: if the resulting block exceeds MEMORY_INDEX_SOFT_CAP
+# entries (default 200), the oldest entries (bottom of block) are trimmed.
 _update_memory_index() {
     local topic_key="$1" title="$2" type="$3"
     local idx_file="${HOME}/.savia-memory/auto/MEMORY.md"
     [[ ! -f "$idx_file" ]] && return 0
+    [[ -z "$topic_key" || "$topic_key" == "null" ]] && return 0
+
     local entry="- ${type}: ${title} [${topic_key}]"
     entry="${entry:0:150}"
-    local tmp=$(mktemp)
-    local in_entries=false written=false
-    while IFS= read -r line; do
+    local marker="[${topic_key}]"
+    local soft_cap="${MEMORY_INDEX_SOFT_CAP:-200}"
+
+    local tmp; tmp=$(mktemp)
+    local in_entries=false replaced=false
+    # Pass 1 — copy file replacing the existing line for topic_key (if any)
+    while IFS= read -r line || [[ -n "$line" ]]; do
         if [[ "$line" == "<!-- ENTRIES_START -->" ]]; then
-            echo "$line" >> "$tmp"
-            echo "$entry" >> "$tmp"
-            in_entries=true; written=true
-            continue
+            in_entries=true; echo "$line" >> "$tmp"; continue
         fi
         if [[ "$line" == "<!-- ENTRIES_END -->" ]]; then
             in_entries=false; echo "$line" >> "$tmp"; continue
         fi
-        if $in_entries && ! $written; then
-            echo "$entry" >> "$tmp"; written=true
+        if $in_entries && [[ "$line" == *"$marker"* ]]; then
+            # Replace existing entry for this topic_key (idempotent update)
+            echo "$entry" >> "$tmp"; replaced=true; continue
         fi
         echo "$line" >> "$tmp"
     done < "$idx_file"
+
+    # Pass 2 — if no replacement happened, insert new entry at top of block
+    if ! $replaced; then
+        local tmp2; tmp2=$(mktemp)
+        local injected=false
+        while IFS= read -r line || [[ -n "$line" ]]; do
+            echo "$line" >> "$tmp2"
+            if ! $injected && [[ "$line" == "<!-- ENTRIES_START -->" ]]; then
+                echo "$entry" >> "$tmp2"; injected=true
+            fi
+        done < "$tmp"
+        mv "$tmp2" "$tmp"
+    fi
+
+    # Pass 3 — soft cap: trim oldest entries (bottom of block) if exceeded
+    local entry_count
+    entry_count=$(awk '/^<!-- ENTRIES_START -->$/{flag=1; next} /^<!-- ENTRIES_END -->$/{flag=0} flag && /^- /' "$tmp" | wc -l)
+    if (( entry_count > soft_cap )); then
+        local tmp3; tmp3=$(mktemp)
+        python3 - "$tmp" "$tmp3" "$soft_cap" <<'PY' 2>/dev/null || cp "$tmp" "$tmp3"
+import sys
+src, dst, cap = sys.argv[1], sys.argv[2], int(sys.argv[3])
+with open(src, 'r', encoding='utf-8') as f:
+    lines = f.readlines()
+out = []
+in_block = False
+block = []
+for ln in lines:
+    if ln.strip() == '<!-- ENTRIES_START -->':
+        in_block = True
+        out.append(ln)
+        continue
+    if ln.strip() == '<!-- ENTRIES_END -->':
+        in_block = False
+        # keep only first `cap` entries from block (top = newest)
+        kept = [b for b in block if b.lstrip().startswith('- ')][:cap]
+        out.extend(kept)
+        out.append(ln)
+        block = []
+        continue
+    if in_block:
+        block.append(ln)
+    else:
+        out.append(ln)
+with open(dst, 'w', encoding='utf-8') as f:
+    f.writelines(out)
+PY
+        mv "$tmp3" "$tmp"
+    fi
+
     mv "$tmp" "$idx_file"
 }
 
@@ -144,10 +206,14 @@ source "$SCRIPT_DIR/memory-search.sh"
 
 # --- Dispatcher ---
 cmd_suggest_topic() {
-    local t="${1:-}" ti="${2:-}"
-    [[ -z "$t" || -z "$ti" ]] && { echo "Uso: suggest-topic {type} {title}"; return 1; }
+    local t="${1:-}" ti="${2:-}"    [[ -z "$t" || -z "$ti" ]] && { echo "Uso: suggest-topic {type} {title}"; return 1; }
     suggest_topic_key "$t" "$ti"
 }
+
+# Skip dispatcher if sourced (allows tests to load functions without executing)
+if [[ "${BASH_SOURCE[0]}" != "${0}" ]]; then
+    return 0 2>/dev/null || true
+fi
 
 case "${1:-help}" in
     save) shift; cmd_save "$@" ;;

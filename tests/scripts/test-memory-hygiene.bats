@@ -57,20 +57,65 @@ teardown() {
   [[ -f "$recent_file" ]]
 }
 
-@test "MEMORY.md con duplicados → deduplicado" {
+@test "MEMORY.md con duplicados por topic_key → deduplicado" {
+  # Formato canónico actual: "- {type}: {title} [{topic_key}]"
+  # El bloque ENTRIES_START/END acota el área dedupada (resto del fichero intacto).
   cat > "$TMPDIR_MEM/MEMORY.md" << 'EOF'
-- [entry1](entry1.md) — first entry
-- [entry2](entry2.md) — second entry
-- [entry1](entry1.md) — duplicate of first
-- [entry3](entry3.md) — third entry
+# Header
+<!-- ENTRIES_START -->
+- decision: first save [decision/use-redis]
+- decision: another decision [decision/use-postgres]
+- decision: same key again [decision/use-redis]
+- discovery: third entry [discovery/coverage-gap]
+- decision: same key once more [decision/use-redis]
+<!-- ENTRIES_END -->
 EOF
-  touch "$TMPDIR_MEM/entry1.md" "$TMPDIR_MEM/entry2.md" "$TMPDIR_MEM/entry3.md"
 
   run bash "$SCRIPT" "$TMPDIR_MEM"
   [ "$status" -eq 0 ]
-  # Debería tener 3 líneas de entrada, no 4
-  count=$(grep -c '\[entry' "$TMPDIR_MEM/MEMORY.md" || true)
-  [ "$count" -eq 3 ]
+  # Tras dedup: 3 topic_keys únicos (use-redis, use-postgres, coverage-gap)
+  unique_keys=$(grep -oE '\[[^]]+\]' "$TMPDIR_MEM/MEMORY.md" | sort -u | wc -l)
+  [ "$unique_keys" -eq 3 ]
+  # El total de líneas con entries debe ser 3 (no 5)
+  entry_count=$(grep -c '^- ' "$TMPDIR_MEM/MEMORY.md" || true)
+  [ "$entry_count" -eq 3 ]
+  # El bloque ENTRIES_START/END sigue presente
+  grep -q '<!-- ENTRIES_START -->' "$TMPDIR_MEM/MEMORY.md"
+  grep -q '<!-- ENTRIES_END -->' "$TMPDIR_MEM/MEMORY.md"
+}
+
+@test "MEMORY.md sin duplicados → sin cambios" {
+  cat > "$TMPDIR_MEM/MEMORY.md" << 'EOF'
+# Header
+<!-- ENTRIES_START -->
+- decision: first [decision/a]
+- decision: second [decision/b]
+- discovery: third [discovery/c]
+<!-- ENTRIES_END -->
+EOF
+  before=$(md5sum "$TMPDIR_MEM/MEMORY.md" | cut -d' ' -f1)
+  run bash "$SCRIPT" "$TMPDIR_MEM"
+  [ "$status" -eq 0 ]
+  after=$(md5sum "$TMPDIR_MEM/MEMORY.md" | cut -d' ' -f1)
+  [ "$before" = "$after" ]
+}
+
+@test "MEMORY.md con duplicados → mantiene la primera aparición (más reciente)" {
+  # Las nuevas entries se insertan al inicio del bloque por memory-store.sh,
+  # así que la PRIMERA aparición de un topic_key es la más reciente y debe sobrevivir.
+  cat > "$TMPDIR_MEM/MEMORY.md" << 'EOF'
+<!-- ENTRIES_START -->
+- decision: NEW (rev 3) [decision/k]
+- decision: middle (rev 2) [decision/k]
+- decision: OLD (rev 1) [decision/k]
+<!-- ENTRIES_END -->
+EOF
+  run bash "$SCRIPT" "$TMPDIR_MEM"
+  [ "$status" -eq 0 ]
+  # Solo debe quedar la línea con "NEW (rev 3)"
+  grep -q "NEW (rev 3)" "$TMPDIR_MEM/MEMORY.md"
+  ! grep -q "OLD (rev 1)" "$TMPDIR_MEM/MEMORY.md"
+  ! grep -q "middle (rev 2)" "$TMPDIR_MEM/MEMORY.md"
 }
 
 @test "MEMORY.md con referencia rota → eliminada" {
