@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+set -uo pipefail
 # project-isolation-gate.sh — SE-093 Zero Project Leakage: enforce trust zones.
 # PreToolUse hook. BLOCKS cross-project references unless SAVIA_ALLOW_CROSS_PROJECT=1.
 #
@@ -8,7 +9,6 @@
 # with override per SE-073 (defense-in-depth, capability-based isolation).
 #
 # Override: export SAVIA_ALLOW_CROSS_PROJECT=1 before running the tool call.
-set -uo pipefail
 source "$(dirname "${BASH_SOURCE[0]}")/../../scripts/savia-env.sh"
 export CLAUDE_PROJECT_DIR="${CLAUDE_PROJECT_DIR:-$SAVIA_WORKSPACE_DIR}"
 
