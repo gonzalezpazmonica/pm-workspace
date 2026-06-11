@@ -28,7 +28,9 @@ PROJECT_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
 MODE=""
 JSON=0
 CATALOG_PATH="$PROJECT_ROOT/docs/rules/domain/agents-catalog.md"
-AGENTS_DIR="$PROJECT_ROOT/.claude/agents"
+# SE-073: source of truth = .opencode/agents/ (consistent with
+# scripts/agents-md-generate.sh). Override via AGENTS_DIR for tests.
+AGENTS_DIR="${AGENTS_DIR:-$PROJECT_ROOT/.opencode/agents}"
 
 usage() {
   cat <<EOF
