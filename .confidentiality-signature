@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=a4216042e164298c8dcfb9dc8dd028ae31e2934dbac7dd8c09345429cb50bad1
-timestamp=2026-06-11T12:22:13Z
-branch=main
-head_commit=b4541981
-signature=11d9c59f2f957fb9a700808324381d4f06f5a73a9adf254bee70c55632a23a9a
+diff_hash=618780f4292adfe005a3814ea5ee3a6172b93a4c78527b75a91d7bfdee8abfe9
+timestamp=2026-06-11T20:37:18Z
+branch=agent/jailbreak-defenses-20260611
+head_commit=5445eea2
+signature=f956acf549e60d8adea11306501d2ccccf81b60883773bcc746b168ca8b3e623
