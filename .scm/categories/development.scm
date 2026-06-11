@@ -1,5 +1,5 @@
 # development — Savia Capability Map (L1)
-> 173 resources
+> 174 resources
 
 - **/a11y-monitor** (cmd): Monitorización continua de regresiones de accesibilidad. Integración en CI/CD. Alertas cuando score baja por debajo de threshold. Digest semanal. Previene regresiones bloqueando deploys con fallos a11y.
 - **/speckit.checklist** (cmd): Alias spec-kit compatible. Gate de calidad final con verification-lattice multi-capa. Invoca skill verification-lattice. Compatible con github/spec-kit.
@@ -81,6 +81,7 @@
 - **install-git-hooks** (script): install-git-hooks.sh — Instala hooks de Git para PM‑Workspace en OpenCode
 - **instinct-collapse-detector** (script): instinct-collapse-detector.sh — SPEC-045 Phase 1: detect exploration collapse
 - **jwt-mint** (script): jwt-mint.sh — SPEC-SE-036: API key → JWT ephemeral mint
+- **kg-export** (script): kg-export.sh — SE-218 S2: KG snapshot versionado (codebase-memory-mcp pattern)
 - **localai-readiness-check** (script): localai-readiness-check.sh — SPEC-122
 - **marketplace-install** (cmd): Install components from claude-code-templates marketplace
 - **mcp-browse** (cmd): Explorar catálogo de MCPs disponibles (66+) via claude-code-templates
