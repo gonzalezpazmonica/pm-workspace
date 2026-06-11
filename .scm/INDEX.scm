@@ -1,6 +1,6 @@
 # Savia Capability Map — INDEX
-> hash: 6952fc1655c9 | resources: 1248
-> 557 commands · 103 skills · 71 agents · 517 scripts
+> hash: aeeca0db9de9 | resources: 1253
+> 557 commands · 103 skills · 71 agents · 522 scripts
 
 [analysis] /a11y-report — accesibilidad,completos,conformidad,código,declaración — cmd:.claude/commands/a11y-report.md
 [analysis] Trace Optimize — across,distributed,optimize,rates,sampling — cmd:.claude/commands/trace-optimize.md
@@ -25,6 +25,7 @@
 [analysis] agent-size-audit — agent,audit,every,measure,probe — script:scripts/agent-size-audit.sh
 [analysis] agent-size-remediation-plan — agent,analyzer,plan,remediation,size — script:scripts/agent-size-remediation-plan.sh
 [analysis] agent-surface-guard — agent,declared,editable,guard,runs — script:scripts/agent-surface-guard.sh
+[analysis] agent-tick — abtop,agent,heavy,light,pattern — script:scripts/agent-tick.sh
 [analysis] agent-time-budget — agent,budget,budgeted,command,runner — script:scripts/agent-time-budget.sh
 [analysis] agent-trace — agentes,dashboard,duración,ejecución,resultado — cmd:.claude/commands/agent-trace.md
 [analysis] agent-wait-idle — agent,detect,idle,process,wait — script:scripts/agent-wait-idle.sh
@@ -399,6 +400,7 @@
 [memory] context-interview — clientes,contexto,entrevista,estructurada,proyectos — cmd:.claude/commands/context-interview.md
 [memory] context-interview-conductor — contexto,entrevista,estructurado,guiada,mediante — skill:.claude/skills/context-interview-conductor/SKILL.md
 [memory] context-load —  — cmd:.claude/commands/context-load.md
+[memory] context-meter — abtop,class,context,first,meter — script:scripts/context-meter.sh
 [memory] context-optimize — analizar,context,contexto,optimizaciones,patrones — cmd:.claude/commands/context-optimize.md
 [memory] context-optimized-dev — contexto,desarrolla,limitado,presupuesto — skill:.claude/skills/context-optimized-dev/SKILL.md
 [memory] context-preflight-check —  — script:scripts/context-preflight-check.sh
@@ -462,11 +464,13 @@
 [memory] post-compaction — compactación,compaction,contexto,hook,inyecta — script:scripts/post-compaction.sh
 [memory] repos-search —  — cmd:.claude/commands/repos-search.md
 [memory] session-action-log — action,append,only,session,spec — script:scripts/session-action-log.sh
+[memory] session-cleanup — abtop,cleanup,orphan,pattern,process — script:scripts/session-cleanup.sh
 [memory] session-event-log — agents,durable,event,managed,pattern — script:scripts/session-event-log.sh
 [memory] session-init-bootstrap — async,bootstrap,init,session,slice — script:scripts/session-init-bootstrap.sh
 [memory] session-resume-index — index,metadata,multica,pattern,resume — script:scripts/session-resume-index.sh
 [memory] session-save —  — cmd:.claude/commands/session-save.md
 [memory] session-state-machine — machine,phase,session,spec,state — script:scripts/session-state-machine.sh
+[memory] session-status — abtop,consultable,pattern,session,snapshot — script:scripts/session-status.sh
 [memory] setup-memory — auto,estructura,inicializa,memory,proyecto — script:scripts/setup-memory.sh
 [memory] skill-optimize — agente,auto,autoresearch,bucle,optimizar — cmd:.claude/commands/skill-optimize.md
 [memory] slice-context-chain — between,chain,context,knowledge,session — script:scripts/slice-context-chain.sh
@@ -797,6 +801,7 @@
 [planning] probe-devops — acceso,azure,devops,diagnóstico,probe — script:scripts/probe-devops.sh
 [planning] product-catalog — actualizar,añadir,buscar,catálogo,exportar — cmd:.claude/commands/product-catalog.md
 [planning] product-discovery — análisis,descomponer,jtbd,pbis,producto — skill:.claude/skills/product-discovery/SKILL.md
+[planning] profile-discover — abtop,auto,discover,discovery,multi — script:scripts/profile-discover.sh
 [planning] profile-edit — actualiza,editar,perfil,savia,sección — cmd:.claude/commands/profile-edit.md
 [planning] profile-setup — configuración,conoce,conversación,natural,perfil — cmd:.claude/commands/profile-setup.md
 [planning] profile-show — actual,muestra,perfil,savia — cmd:.claude/commands/profile-show.md

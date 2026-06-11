@@ -1,6 +1,6 @@
 {
-  "hash": "b3fd2f7e4413",
-  "total": 1248,
+  "hash": "6504d60d8f6c",
+  "total": 1253,
   "resources": [
     {
       "category": "analysis",
@@ -313,6 +313,20 @@
       "kind": "script",
       "path": "scripts/agent-surface-guard.sh",
       "description": "agent-surface-guard.sh — SE-217 Slice 3: declared editable surface for agent runs"
+    },
+    {
+      "category": "analysis",
+      "name": "agent-tick",
+      "intents": [
+        "abtop",
+        "agent",
+        "heavy",
+        "light",
+        "pattern"
+      ],
+      "kind": "script",
+      "path": "scripts/agent-tick.sh",
+      "description": "agent-tick.sh — SE-219 S5: light/heavy tick separation (abtop tick_no_summaries pattern)"
     },
     {
       "category": "analysis",
@@ -5176,6 +5190,20 @@
     },
     {
       "category": "memory",
+      "name": "context-meter",
+      "intents": [
+        "abtop",
+        "class",
+        "context",
+        "first",
+        "meter"
+      ],
+      "kind": "script",
+      "path": "scripts/context-meter.sh",
+      "description": "context-meter.sh — SE-219 S2: context window % as first-class metric (abtop pattern)"
+    },
+    {
+      "category": "memory",
       "name": "context-optimize",
       "intents": [
         "analizar",
@@ -6011,6 +6039,20 @@
     },
     {
       "category": "memory",
+      "name": "session-cleanup",
+      "intents": [
+        "abtop",
+        "cleanup",
+        "orphan",
+        "pattern",
+        "process"
+      ],
+      "kind": "script",
+      "path": "scripts/session-cleanup.sh",
+      "description": "session-cleanup.sh — SE-219 S3: orphan process cleanup (abtop pattern)"
+    },
+    {
+      "category": "memory",
       "name": "session-event-log",
       "intents": [
         "agents",
@@ -6072,6 +6114,20 @@
       "kind": "script",
       "path": "scripts/session-state-machine.sh",
       "description": "session-state-machine.sh — SPEC-051 Phase 1: Session State Machine"
+    },
+    {
+      "category": "memory",
+      "name": "session-status",
+      "intents": [
+        "abtop",
+        "consultable",
+        "pattern",
+        "session",
+        "snapshot"
+      ],
+      "kind": "script",
+      "path": "scripts/session-status.sh",
+      "description": "session-status.sh — SE-219 S1: consultable session snapshot (abtop pattern)"
     },
     {
       "category": "memory",
@@ -10253,6 +10309,20 @@
       "kind": "skill",
       "path": ".claude/skills/product-discovery/SKILL.md",
       "description": "Usar antes de descomponer PBIs, cuando se necesita análisis JTBD y PRD del producto."
+    },
+    {
+      "category": "planning",
+      "name": "profile-discover",
+      "intents": [
+        "abtop",
+        "auto",
+        "discover",
+        "discovery",
+        "multi"
+      ],
+      "kind": "script",
+      "path": "scripts/profile-discover.sh",
+      "description": "profile-discover.sh — SE-219 S4: auto multi-profile discovery (abtop pattern)"
     },
     {
       "category": "planning",

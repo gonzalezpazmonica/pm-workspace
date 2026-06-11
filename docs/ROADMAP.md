@@ -711,10 +711,21 @@ Google Sheets · ServiceNow/SAP · Tableau · Kafka · VS Code ext · Cloud voic
 | SE-217 S1+S2+S3 | autoresearch patterns: agent-run-log, time-budget, surface-guard — 51 tests | #833 |
 | pr-summary-gate | Hook LLM que bloquea gh pr create sin summary de calidad | #833 |
 
-### En revisión
+### Recién cerrado (2026-06-07/10)
 
 | ID | Título | PR |
 |---|---|---|
+| SE-208/209/210 | Pocock skill quality (100-line limit, description format, anti-patterns) | #829 |
+| SE-211/212/213/214 | Memanto memory patterns (typed KG, recall audit, confidence, conflict detection) | #829 |
+| SE-215 | Eval-driven skill improvement loop | #830 |
+| SPEC-182 Slice 4 | Timeline status guard | #830 |
+| SPEC-183 Slices 3+4 | Drift-auditor integration + pilot | #830 |
+| SPEC-188 Fase 1 | Failure Pattern Memory (resolves G3) | #831 |
+| SPEC-SE-036 Slices 1+2 | JWT Mint efímero | #831 |
+| fix(opencode) | Schema cleanup + nvm bin discovery | #832 |
+| SE-216 S1+S2+S3 | evo patterns: scratchpad, gates, frontier strategies — 59 tests | #833 |
+| SE-217 S1+S2+S3 | autoresearch patterns: agent-run-log, time-budget, surface-guard — 51 tests | #833 |
+| pr-summary-gate | Hook LLM que bloquea gh pr create sin summary de calidad | #833 |
 | SPEC-SE-037 | Audit JSONB Trigger — compliance ISO/EU AI Act/GDPR | #834 |
 | SE-218 S1-S5 | codebase-memory patterns: hook augmentation, KG snapshot, qualified names, tiered flush, .saviaignore — 81 tests | #834 |
 
@@ -724,8 +735,9 @@ Google Sheets · ServiceNow/SAP · Tableau · Kafka · VS Code ext · Cloud voic
 |---|---|---|---|---|---|
 | 1 | **SPEC-SE-036 Slice 3** | JWT sunset opt-in (PAT file migration) | 4h | P2 | Slice 1+2 ✓ |
 | 2 | **SPEC-188 Fase 2** | Sealed Contract Tests | ~8h | P2 | Fase 1 ✓ |
-| 3 | **SE-216 Slice 4** | Experiment Graph — tree search | ~6h | P3 | SE-216 S1+S2+S3 ✓ |
-| 4 | **SPEC-188 Fases 3+4** | Causal confidence + diagnostic metrics | ~56h | P3 | Fase 2 |
+| 3 | **SE-219 S1-S5** | abtop patterns: session-status JSON, context% hook, orphan cleanup, multi-profile, tick separation | ~9h | P2 | — |
+| 4 | **SE-216 Slice 4** | Experiment Graph — tree search | ~6h | P3 | SE-216 S1+S2+S3 ✓ |
+| 5 | **SPEC-188 Fases 3+4** | Causal confidence + diagnostic metrics | ~56h | P3 | Fase 2 |
 
 ### Tier 3 — SaviaClaw (requiere sistema externo)
 
@@ -771,6 +783,20 @@ Origen: https://github.com/evo-hq/evo (v0.5.0, Apache-2.0). Patrones de orquesta
 | 5 | SE-218 S2 | KG snapshot versionado en repo (`.savia-kg/graph.db.zst`) | M (~3h) | P2 |
 
 Origen: https://github.com/DeusData/codebase-memory-mcp (3.2k stars, MIT, arXiv:2603.27277). Patrones: hook augmentation no-bloqueante, team-shared graph artifact, qualified names, tiered export, `.cbmignore`. Spec: `docs/propuestas/SE-218-codebase-memory-patterns.md`. Dep: SE-162 ✓ · ast-comprehend-hook ✓.
+
+---
+
+### Era 206 — abtop patterns: observabilidad de sesiones de agente (~1 día)
+
+| # | ID | Título | Esfuerzo | Prioridad |
+|---|---|---|---|---|
+| 1 | SE-219 S1 | `session-status.sh --json` — snapshot de sesión consultable | S (~1h) | P2 |
+| 2 | SE-219 S2 | Context window % como métrica de primer nivel en hooks | S (~2h) | P2 |
+| 3 | SE-219 S3 | Limpieza de procesos huérfanos al cerrar sesión | S (~1h) | P2 |
+| 4 | SE-219 S4 | Multi-profile discovery automático por convención de nombres | S (~1h) | P2 |
+| 5 | SE-219 S5 | Separación tick barato / operación costosa en loops autónomos | S (~2h) | P2 |
+
+Origen: https://github.com/graykode/abtop (2.7k stars, MIT). Patrones: JSON snapshot para scripting, context% como métrica de primer nivel, orphan port/process detection, multi-profile discovery, tick_no_summaries separation. Spec: `docs/propuestas/SE-219-abtop-patterns.md`. Dep: session-action-log ✓ · autonomous-safety ✓ · overnight-sprint ✓.
 
 ---
 
