@@ -1,6 +1,13 @@
 #!/usr/bin/env bash
-# project-isolation-gate.sh — SE-093 Zero Project Leakage: warns on cross-project refs
-# PreToolUse hook. NEVER blocks — only warns. Reads tool input from stdin.
+# project-isolation-gate.sh — SE-093 Zero Project Leakage: enforce trust zones.
+# PreToolUse hook. BLOCKS cross-project references unless SAVIA_ALLOW_CROSS_PROJECT=1.
+#
+# Trust zones (jailbreak research §3.4): each project is a zone with its own
+# trust boundary. Data crossing the boundary requires explicit consent. WARN
+# without enforcement (previous behavior) was insufficient — promoted to BLOCK
+# with override per SE-073 (defense-in-depth, capability-based isolation).
+#
+# Override: export SAVIA_ALLOW_CROSS_PROJECT=1 before running the tool call.
 set -uo pipefail
 source "$(dirname "${BASH_SOURCE[0]}")/../../scripts/savia-env.sh"
 export CLAUDE_PROJECT_DIR="${CLAUDE_PROJECT_DIR:-$SAVIA_WORKSPACE_DIR}"
@@ -26,7 +33,21 @@ for proj_dir in "$PROJECTS_DIR"/*/; do
   [[ "$pname" == "savia-web" ]] && continue
 
   if echo "$HOOK_INPUT" | grep -q "projects/${pname}/" 2>/dev/null; then
-    printf '{"hookSpecificOutput":{"hookEventName":"PreToolUse","additionalContext":"CROSS-PROJECT: referencing %s while active is %s"}}\n' "$pname" "$ACTIVE"
+    if [[ "${SAVIA_ALLOW_CROSS_PROJECT:-0}" == "1" ]]; then
+      # Override active: log to audit but allow
+      AUDIT_LOG="${WORKSPACE}/output/cross-project-audit.jsonl"
+      mkdir -p "$(dirname "$AUDIT_LOG")" 2>/dev/null || true
+      ts=$(date -u +%Y-%m-%dT%H:%M:%SZ 2>/dev/null || echo "unknown")
+      printf '{"ts":"%s","active":"%s","cross_ref":"%s","override":true}\n' \
+        "$ts" "$ACTIVE" "$pname" >> "$AUDIT_LOG" 2>/dev/null || true
+      printf '{"hookSpecificOutput":{"hookEventName":"PreToolUse","additionalContext":"CROSS-PROJECT (override allowed): %s while active is %s"}}\n' "$pname" "$ACTIVE"
+      continue
+    fi
+    # BLOCK
+    echo "BLOCKED [Project Isolation Gate]: cross-project ref to '$pname' while active is '$ACTIVE'." >&2
+    echo "  Override (one-shot): SAVIA_ALLOW_CROSS_PROJECT=1 <command>" >&2
+    echo "  Or: change active project (.savia/active-project)." >&2
+    exit 2
   fi
 done
 
