@@ -1,5 +1,5 @@
 # planning — Savia Capability Map (L1)
-> 540 resources
+> 541 resources
 
 - **/accreditation-track** (cmd): >
 - **/decide-architecture** (cmd): Clasifica una tarea como WORKFLOW (deterministica) o AGENT (loop). Bias hacia workflow per Anthropic. Sugiere plantilla inicial. Mide accuracy contra corpus curado de 20 tareas.
@@ -322,6 +322,7 @@
 - **probe-devops** (script): probe-devops.sh — diagnóstico de acceso a Azure DevOps usando la
 - **product-catalog** (cmd): Gestiona el catálogo de productos: añadir, actualizar, listar, buscar y exportar
 - **product-discovery** (skill): Usar antes de descomponer PBIs, cuando se necesita análisis JTBD y PRD del producto.
+- **profile-discover** (script): profile-discover.sh — SE-219 S4: auto multi-profile discovery (abtop pattern)
 - **profile-edit** (cmd): Savia actualiza tu perfil — editar una sección.
 - **profile-setup** (cmd): Savia te conoce — configuración del perfil en conversación natural.
 - **profile-show** (cmd): Savia muestra tu perfil actual.

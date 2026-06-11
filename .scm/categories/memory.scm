@@ -1,5 +1,5 @@
 # memory — Savia Capability Map (L1)
-> 102 resources
+> 105 resources
 
 - **auto-compact** (script): auto-compact.sh — Disparado automáticamente cuando contexto > 85%
 - **biblio-search** (cmd): >
@@ -26,6 +26,7 @@
 - **context-interview** (cmd): Entrevista estructurada de contexto para proyectos y clientes
 - **context-interview-conductor** (skill): Usar cuando se necesita recopilar contexto estructurado de un usuario mediante entrevista guiada.
 - **context-load** (cmd): >
+- **context-meter** (script): context-meter.sh — SE-219 S2: context window % as first-class metric (abtop pattern)
 - **context-optimize** (cmd): Analizar patrones de uso de contexto y sugerir optimizaciones al context-map
 - **context-optimized-dev** (skill): Usar cuando se desarrolla con presupuesto de contexto limitado.
 - **context-preflight-check** (script): ─────────────────────────────────────────────────────────────────────────────
@@ -89,11 +90,13 @@
 - **post-compaction** (script): post-compaction.sh - Hook que inyecta contexto de memoria tras compactación
 - **repos-search** (cmd): >
 - **session-action-log** (script): session-action-log.sh — Append-only session action log (SPEC-065)
+- **session-cleanup** (script): session-cleanup.sh — SE-219 S3: orphan process cleanup (abtop pattern)
 - **session-event-log** (script): session-event-log.sh — Managed Agents pattern: durable session log
 - **session-init-bootstrap** (script): session-init-bootstrap.sh — SE-045 Slice 1 async bootstrap.
 - **session-resume-index** (script): session-resume-index.sh — Multica pattern: session resumption metadata
 - **session-save** (cmd): >
 - **session-state-machine** (script): session-state-machine.sh — SPEC-051 Phase 1: Session State Machine
+- **session-status** (script): session-status.sh — SE-219 S1: consultable session snapshot (abtop pattern)
 - **setup-memory** (script): setup-memory.sh — Inicializa estructura de auto memory para un proyecto
 - **skill-optimize** (cmd): Auto-optimizar el prompt de un skill o agente con bucle AutoResearch
 - **slice-context-chain** (script): slice-context-chain.sh — Knowledge chain between dev-session slices
