@@ -14,6 +14,10 @@ set -uo pipefail
 # - Idempotente: si el bloque ---origin ya existe, no lo duplica.
 # - NO modifica el contenido, solo prefija el bloque.
 # - Fallback silencioso: cualquier error retorna stdin original (no rompe Read).
+#
+# hook-audit-detector: HOOK-04
+# (silenciar errores en `source savia-env.sh` es intencional: el hook debe
+#  ser passthrough incluso si savia-env no esta disponible — ver linea 16)
 
 # Resolucion robusta del workspace
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"

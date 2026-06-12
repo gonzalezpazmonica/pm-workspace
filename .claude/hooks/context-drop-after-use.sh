@@ -9,6 +9,10 @@ set -uo pipefail
 # Inspiracion: Context-Minimization (Beurer-Kellner 2025).
 #
 # Audit: cada decision se loggea en output/context-drop-audit.jsonl.
+#
+# hook-audit-detector: HOOK-04
+# (silenciar errores en `source savia-env.sh` es intencional: passthrough
+#  silencioso si savia-env no esta disponible)
 
 # Resolucion robusta del workspace
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"

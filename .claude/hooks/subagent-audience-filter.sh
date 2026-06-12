@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
 set -uo pipefail
+# hook-audit-detector: HOOK-04
+# (silenciar errores en `source savia-env.sh` es intencional: passthrough
+#  silencioso si savia-env no esta disponible)
 # subagent-audience-filter.sh — SE-221 Slice 3 — Subagent audience filter
 # PreToolUse hook para Task: cuando un subagente arranca, filtra los imports
 # lazy candidatos a aquellos donde el subagente esta en `audience`.

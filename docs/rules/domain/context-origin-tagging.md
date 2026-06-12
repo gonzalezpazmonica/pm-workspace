@@ -1,5 +1,5 @@
 ---
-context_tier: L4
+context_tier: L3
 token_budget: 850
 audience: all-agents
 ---
