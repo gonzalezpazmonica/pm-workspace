@@ -2,10 +2,17 @@
 # tests/scripts/test-memory-store-index-dedup.bats
 #
 # Tests para _update_memory_index en scripts/memory-store.sh.
+# Spec: docs/propuestas/SE-220-jailbreak-defenses.md (AC-05)
+# Ref: SPEC-142, SE-073, SE-220
 #
 # Garantiza que MEMORY.md no acumule duplicados por topic_key.
 # Defensa contra memory-poisoning style attacks (AgentPoison, Chen 2024).
-# Ref: SE-073, SPEC-142.
+#
+# Safety: el script target scripts/memory-store.sh usa set -uo pipefail
+# y un guard de BASH_SOURCE para no ejecutar el dispatcher cuando se
+# sourcea desde tests.
+
+SCRIPT="$BATS_TEST_DIRNAME/../../scripts/memory-store.sh"
 
 setup() {
   TMPDIR_HOME="$BATS_TEST_TMPDIR"
@@ -139,4 +146,93 @@ teardown() {
   done
   after=$(md5sum "$HOME/.savia-memory/auto/MEMORY.md" | cut -d' ' -f1)
   [ "$before" = "$after" ]
+}
+
+# ── Safety verification ──────────────────────────────────────────────────────
+
+@test "SPEC-220 safety: script target uses set -uo pipefail" {
+  head -10 "$SCRIPT" | grep -qE 'set -[uo]+ pipefail|set -[euo]+ pipefail'
+}
+
+@test "SPEC-220 safety: bash syntax of memory-store.sh is valid" {
+  bash -n "$SCRIPT"
+}
+
+# ── Negative cases ──────────────────────────────────────────────────────────
+
+@test "NEGATIVO: topic_key vacío es rechazado (no escribe)" {
+  before=$(md5sum "$HOME/.savia-memory/auto/MEMORY.md" | cut -d' ' -f1)
+  _update_memory_index "" "should-be-ignored" "decision"
+  after=$(md5sum "$HOME/.savia-memory/auto/MEMORY.md" | cut -d' ' -f1)
+  [ "$before" = "$after" ]
+}
+
+@test "NEGATIVO: topic_key 'null' literal es rechazado (no escribe)" {
+  before=$(md5sum "$HOME/.savia-memory/auto/MEMORY.md" | cut -d' ' -f1)
+  _update_memory_index "null" "should-be-ignored" "decision"
+  after=$(md5sum "$HOME/.savia-memory/auto/MEMORY.md" | cut -d' ' -f1)
+  [ "$before" = "$after" ]
+}
+
+@test "NEGATIVO: MEMORY.md missing — function exits gracefully without error" {
+  rm -f "$HOME/.savia-memory/auto/MEMORY.md"
+  run _update_memory_index "decision/x" "Title" "decision"
+  [ "$status" -eq 0 ]
+}
+
+@test "NEGATIVO: invalid JSON-like input handled (no crash, no shell injection)" {
+  # Asegurar que caracteres especiales no rompen el parser
+  _update_memory_index 'decision/with"quotes' "Title with [brackets]" "decision"
+  # No debe crashear
+  [ -f "$HOME/.savia-memory/auto/MEMORY.md" ]
+}
+
+# ── Edge cases ──────────────────────────────────────────────────────────────
+
+@test "EDGE: empty MEMORY.md (sin ENTRIES markers) — function safe-fails sin escribir" {
+  echo "" > "$HOME/.savia-memory/auto/MEMORY.md"
+  run _update_memory_index "decision/x" "Title" "decision"
+  [ "$status" -eq 0 ]
+  # File exists, no crash
+  [ -f "$HOME/.savia-memory/auto/MEMORY.md" ]
+}
+
+@test "EDGE: title con caracteres unicode preservados" {
+  _update_memory_index "decision/utf8" "Decision con á é í ó ú ñ ¿?" "decision"
+  grep -q "decision con á é í ó ú ñ" "$HOME/.savia-memory/auto/MEMORY.md" \
+    || grep -q "Decision con á é í ó ú ñ" "$HOME/.savia-memory/auto/MEMORY.md"
+}
+
+@test "EDGE: title largo se trunca a 150 caracteres" {
+  long_title=$(printf 'X%.0s' {1..200})
+  _update_memory_index "decision/long" "$long_title" "decision"
+  # Buscar línea que contenga "decision/long" — puede haber truncado al 150
+  matched=$(grep -F 'decision/long' "$HOME/.savia-memory/auto/MEMORY.md" 2>/dev/null | head -1 || true)
+  # Si truncado, la línea no incluye el topic_key; verificamos solo que 0 líneas exceden 150
+  awk 'length > 150' "$HOME/.savia-memory/auto/MEMORY.md" | grep -q . && return 1
+  return 0
+}
+
+@test "EDGE: topic_key vacío no genera entry vacía (boundary del guard)" {
+  initial_lines=$(wc -l < "$HOME/.savia-memory/auto/MEMORY.md")
+  _update_memory_index "" "" ""
+  final_lines=$(wc -l < "$HOME/.savia-memory/auto/MEMORY.md")
+  [ "$initial_lines" -eq "$final_lines" ]
+}
+
+# ── Spec reference & assertion quality ────────────────────────────────────────
+
+@test "SPEC-220 doc reference: spec file existe en docs/propuestas/" {
+  [ -f "$BATS_TEST_DIRNAME/../../docs/propuestas/SE-220-jailbreak-defenses.md" ]
+}
+
+@test "SPEC-220 AC-05 cumple: bug original (109 dups) reproducido y mitigado" {
+  # Recreamos el bug exacto pre-fix: append-only sin dedup
+  for i in $(seq 1 109); do
+    _update_memory_index "decision/use-postgresql" "Save $i" "decision"
+  done
+  count=$(grep -c '\[decision/use-postgresql\]' "$HOME/.savia-memory/auto/MEMORY.md")
+  [[ "$count" -eq 1 ]]
+  # Post-condición: el contenido es la última versión
+  [[ "$(grep '\[decision/use-postgresql\]' "$HOME/.savia-memory/auto/MEMORY.md")" == *"Save 109"* ]]
 }

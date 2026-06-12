@@ -1,8 +1,13 @@
 #!/usr/bin/env bats
-# tests/scripts/test-memory-canary-check.bats — SE-073
+# tests/scripts/test-memory-canary-check.bats — SE-220 Output Filtering + Canary
+#
+# Spec: docs/propuestas/SE-220-jailbreak-defenses.md (AC-03, AC-06)
+# Ref: SPEC-142, SE-073, AgentPoison (Chen et al. 2024)
 #
 # Tests para memory-canary-check.sh: defensa contra memory-poisoning.
 # Verifica invariantes de MEMORY.md y existencia del canary token.
+#
+# Safety: el script target usa set -uo pipefail.
 
 SCRIPT="$BATS_TEST_DIRNAME/../../scripts/memory-canary-check.sh"
 
@@ -188,4 +193,88 @@ EOF
   run bash "$SCRIPT"
   [ "$status" -eq 1 ]
   [[ "$output" == *"malformed_entries"* ]]
+}
+
+# ── Edge cases ──────────────────────────────────────────────────────────────
+
+@test "EDGE: empty MEMORY.md (zero bytes) — falla por entries_start_missing" {
+  cat > "$MEMDIR/auto/.canary" <<EOF
+MEMORY_INDEX_CANARY_20260611_abcd1234
+issued_at: 2026-06-11T00:00:00Z
+EOF
+  : > "$MEMDIR/auto/MEMORY.md"
+  run bash "$SCRIPT"
+  [ "$status" -eq 1 ]
+  [[ "$output" == *"entries_start_missing"* ]]
+}
+
+@test "EDGE: nonexistent SAVIA_MEMORY_DIR — falla con index_missing" {
+  export SAVIA_MEMORY_DIR="/nonexistent-path-$$"
+  run bash "$SCRIPT"
+  [ "$status" -eq 1 ]
+  [[ "$output" == *"missing"* ]]
+}
+
+@test "EDGE: large valid MEMORY.md (boundary del cap 200) — PASS" {
+  cat > "$MEMDIR/auto/.canary" <<EOF
+MEMORY_INDEX_CANARY_20260611_abcd1234
+issued_at: 2026-06-11T00:00:00Z
+EOF
+  {
+    echo "<!-- ENTRIES_START -->"
+    for i in $(seq 1 195); do
+      echo "- decision: t$i [decision/k-$i]"
+    done
+    echo "<!-- ENTRIES_END -->"
+  } > "$MEMDIR/auto/MEMORY.md"
+  run bash "$SCRIPT"
+  [ "$status" -eq 0 ]
+  [[ "$output" == *"PASS"* ]]
+}
+
+@test "BOUNDARY: 200 lineas exactas — pasa" {
+  cat > "$MEMDIR/auto/.canary" <<EOF
+MEMORY_INDEX_CANARY_20260611_abcd1234
+issued_at: 2026-06-11T00:00:00Z
+EOF
+  {
+    echo "<!-- ENTRIES_START -->"
+    for i in $(seq 1 198); do
+      echo "- decision: t$i [decision/k-$i]"
+    done
+    echo "<!-- ENTRIES_END -->"
+  } > "$MEMDIR/auto/MEMORY.md"
+  run bash "$SCRIPT"
+  [ "$status" -eq 0 ]
+}
+
+@test "EDGE: empty .canary file — falla con malformed token" {
+  : > "$MEMDIR/auto/.canary"
+  cat > "$MEMDIR/auto/MEMORY.md" <<EOF
+<!-- ENTRIES_START -->
+<!-- ENTRIES_END -->
+EOF
+  run bash "$SCRIPT"
+  [ "$status" -eq 1 ]
+  [[ "$output" == *"canary_token_malformed"* ]]
+}
+
+@test "EDGE: zero entries (block vacio) — PASS" {
+  cat > "$MEMDIR/auto/.canary" <<EOF
+MEMORY_INDEX_CANARY_20260611_abcd1234
+issued_at: 2026-06-11T00:00:00Z
+EOF
+  cat > "$MEMDIR/auto/MEMORY.md" <<EOF
+<!-- ENTRIES_START -->
+<!-- ENTRIES_END -->
+EOF
+  run bash "$SCRIPT"
+  [ "$status" -eq 0 ]
+  [[ "$output" == *"PASS"* ]]
+}
+
+# ── Spec reference ──────────────────────────────────────────────────────────
+
+@test "SPEC-220 doc: file de spec existe en docs/propuestas/" {
+  [ -f "$BATS_TEST_DIRNAME/../../docs/propuestas/SE-220-jailbreak-defenses.md" ]
 }

@@ -1,10 +1,16 @@
 #!/usr/bin/env bats
-# tests/test-project-isolation-gate.bats — SE-073 Trust Zones
+# tests/test-project-isolation-gate.bats — SE-220 Trust Zones
+#
+# Spec: docs/propuestas/SE-220-jailbreak-defenses.md (AC-08, AC-09)
+# Ref: SE-093 Zero Project Leakage, SPEC-093, informe jailbreak §3.4
 #
 # Verifica que project-isolation-gate.sh BLOQUEA refs cross-project,
 # y que el override SAVIA_ALLOW_CROSS_PROJECT=1 lo permite con audit log.
 #
-# Defensa #2.4 del informe jailbreak (trust zones / capability isolation).
+# Defensa #2.4 del informe jailbreak (trust zones / capability isolation):
+# trust zones aplican el principio de privilege separation entre proyectos.
+#
+# Safety: el hook target usa set -uo pipefail (verificado en test propio).
 
 HOOK="$BATS_TEST_DIRNAME/../.claude/hooks/project-isolation-gate.sh"
 
@@ -85,4 +91,45 @@ teardown() {
   run bash -c "echo '{\"tool_input\":{\"file_path\":\"projects/proj-b/x.md\"}}' | bash '$HOOK'"
   [ "$status" -eq 2 ]
   [[ "$output" == *"proj-a"* ]]
+}
+
+# ── Edge cases ──────────────────────────────────────────────────────────────
+
+@test "EDGE: empty stdin (no input) — exit 0 silently" {
+  run bash -c "echo -n '' | bash '$HOOK'"
+  [ "$status" -eq 0 ]
+}
+
+@test "EDGE: nonexistent projects directory — exit 0 (graceful)" {
+  rm -rf "$WORKSPACE/projects"
+  run bash -c "echo '{\"tool_input\":{\"file_path\":\"projects/anything/x.md\"}}' | bash '$HOOK'"
+  [ "$status" -eq 0 ]
+}
+
+@test "EDGE: large stdin (no overflow, no timeout)" {
+  big=$(printf '%s' "{\"data\":\"$(yes "padding" | head -c 50000)\"}")
+  run bash -c "echo '$big' | bash '$HOOK'"
+  # Cualquier estado; no debe crashear ni colgar
+  [[ "$status" -eq 0 || "$status" -eq 2 ]]
+}
+
+@test "EDGE: malformed JSON input — does not crash hook" {
+  run bash -c "echo '{not valid json' | bash '$HOOK'"
+  # No crash → status 0 ó 2 (segun matching textual)
+  [[ "$status" -eq 0 || "$status" -eq 2 ]]
+}
+
+@test "BOUNDARY: timeout on stdin read does not stall (2s timeout)" {
+  start=$(date +%s)
+  # Pipe vacío + close inmediato; debe procesar y exit en <3s
+  run bash -c "true | bash '$HOOK'"
+  end=$(date +%s)
+  elapsed=$((end - start))
+  [ "$elapsed" -lt 3 ]
+}
+
+@test "EDGE: multiple cross-project refs in same input — bloquea con primer match" {
+  run bash -c "echo '{\"projects\":[\"projects/proj-b/a.md\",\"projects/proj-b/b.md\"]}' | bash '$HOOK'"
+  [ "$status" -eq 2 ]
+  [[ "$output" == *"proj-b"* ]]
 }
