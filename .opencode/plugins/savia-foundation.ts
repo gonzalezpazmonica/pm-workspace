@@ -44,6 +44,10 @@ import { tddGate } from "./guards/tdd-gate.ts";
 import { dataSovereigntyAudit } from "./guards/data-sovereignty-audit.ts";
 import { autoGrillMe } from "./guards/auto-grill-me.ts";
 import { autoZoomOut } from "./guards/auto-zoom-out.ts";
+// SE-221: context-engineering guards (port of bash hooks)
+import { contextOriginStamp } from "./guards/context-origin-stamp.ts";
+import { contextDropAfterUse } from "./guards/context-drop-after-use.ts";
+import { subagentAudienceFilter } from "./guards/subagent-audience-filter.ts";
 
 const BEFORE_GUARDS = [
   // Cheap guards first — fail fast.
@@ -61,10 +65,16 @@ const BEFORE_GUARDS = [
   // SE-091: caveman always-on reminders (non-blocking)
   autoGrillMe,
   autoZoomOut,
+  // SE-221 Slice 3: audience filter (PreToolUse `task`, non-blocking audit)
+  subagentAudienceFilter,
 ] as const;
 
 const AFTER_GUARDS = [
   dataSovereigntyAudit,
+  // SE-221 Slice 1: stamp origin block on long Read outputs
+  contextOriginStamp,
+  // SE-221 Slice 2: drop/stub/keep decision on long Read/WebFetch/Bash outputs
+  contextDropAfterUse,
 ] as const;
 
 // Model tier mapping for provider-agnostic agents (SPEC-127 / model-alias-schema.md)

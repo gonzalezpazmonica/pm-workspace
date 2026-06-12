@@ -55,6 +55,7 @@ fi
 case "$NORM_PATH" in
   */projects/*|projects/*|*/tenants/*|tenants/*|*.local.*|*/output/*|*private-agent-memory*|*/config.local/*|*/.savia/*|*/.claude/sessions/*|*settings.local.json*) exit 0 ;;
   */.opencode/hooks/*|.opencode/hooks/*) exit 0 ;;
+  */.opencode/plugins/*|.opencode/plugins/*) exit 0 ;;  # SE-221: plugin TS infra, igual semantica que hooks/
   */tests/hooks/*|tests/hooks/*) exit 0 ;;
 esac
 
