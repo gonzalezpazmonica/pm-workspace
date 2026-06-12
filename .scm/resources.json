@@ -1,6 +1,6 @@
 {
-  "hash": "6504d60d8f6c",
-  "total": 1253,
+  "hash": "904f79c8f155",
+  "total": 1255,
   "resources": [
     {
       "category": "analysis",
@@ -437,7 +437,7 @@
         "report"
       ],
       "kind": "agent",
-      "path": ".claude/agents/completeness-judge.md",
+      "path": ".opencode/agents/completeness-judge.md",
       "description": "Truth Tribunal judge — report covers what its title/abstract promises"
     },
     {
@@ -823,7 +823,7 @@
         "must"
       ],
       "kind": "agent",
-      "path": ".claude/agents/source-traceability-judge.md",
+      "path": ".opencode/agents/source-traceability-judge.md",
       "description": "Truth Tribunal judge — every claim must have a verifiable @ref citation"
     },
     {
@@ -942,7 +942,7 @@
       "name": "excel-digest",
       "intents": [],
       "kind": "agent",
-      "path": ".claude/agents/excel-digest.md",
+      "path": ".opencode/agents/excel-digest.md",
       "description": ">"
     },
     {
@@ -993,7 +993,7 @@
       "name": "meeting-confidentiality-judge",
       "intents": [],
       "kind": "agent",
-      "path": ".claude/agents/meeting-confidentiality-judge.md",
+      "path": ".opencode/agents/meeting-confidentiality-judge.md",
       "description": ">"
     },
     {
@@ -1009,7 +1009,7 @@
       "name": "meeting-digest",
       "intents": [],
       "kind": "agent",
-      "path": ".claude/agents/meeting-digest.md",
+      "path": ".opencode/agents/meeting-digest.md",
       "description": ">"
     },
     {
@@ -1017,7 +1017,7 @@
       "name": "meeting-risk-analyst",
       "intents": [],
       "kind": "agent",
-      "path": ".claude/agents/meeting-risk-analyst.md",
+      "path": ".opencode/agents/meeting-risk-analyst.md",
       "description": ">"
     },
     {
@@ -1111,7 +1111,7 @@
       "name": "pdf-digest",
       "intents": [],
       "kind": "agent",
-      "path": ".claude/agents/pdf-digest.md",
+      "path": ".opencode/agents/pdf-digest.md",
       "description": ">"
     },
     {
@@ -1119,7 +1119,7 @@
       "name": "pptx-digest",
       "intents": [],
       "kind": "agent",
-      "path": ".claude/agents/pptx-digest.md",
+      "path": ".opencode/agents/pptx-digest.md",
       "description": ">"
     },
     {
@@ -2044,7 +2044,7 @@
       "name": "word-digest",
       "intents": [],
       "kind": "agent",
-      "path": ".claude/agents/word-digest.md",
+      "path": ".opencode/agents/word-digest.md",
       "description": ">"
     },
     {
@@ -2514,7 +2514,15 @@
       "name": "code-reviewer",
       "intents": [],
       "kind": "agent",
-      "path": ".claude/agents/code-reviewer.md",
+      "path": ".opencode/agents/code-reviewer.md",
+      "description": ">"
+    },
+    {
+      "category": "development",
+      "name": "code-twin-agent",
+      "intents": [],
+      "kind": "agent",
+      "path": ".opencode/agents/code-twin-agent.md",
       "description": ">"
     },
     {
@@ -2848,7 +2856,7 @@
         "implementación"
       ],
       "kind": "agent",
-      "path": ".claude/agents/dev-orchestrator.md",
+      "path": ".opencode/agents/dev-orchestrator.md",
       "description": "Analiza specs y crea planes de implementación con slices, dependencias y presupuestos de contexto"
     },
     {
@@ -3000,7 +3008,7 @@
         "feasibility"
       ],
       "kind": "agent",
-      "path": ".claude/agents/feasibility-probe.md",
+      "path": ".opencode/agents/feasibility-probe.md",
       "description": "Validates spec feasibility by attempting a time-boxed prototype. Produces viability report with score, blocking sections, and decomposition suggestions."
     },
     {
@@ -3645,7 +3653,7 @@
       "name": "sdd-spec-writer",
       "intents": [],
       "kind": "agent",
-      "path": ".claude/agents/sdd-spec-writer.md",
+      "path": ".opencode/agents/sdd-spec-writer.md",
       "description": ">"
     },
     {
@@ -3951,7 +3959,7 @@
         "criteria"
       ],
       "kind": "agent",
-      "path": ".claude/agents/spec-judge.md",
+      "path": ".opencode/agents/spec-judge.md",
       "description": "Code Review Court judge — implementation vs approved spec, acceptance criteria"
     },
     {
@@ -4598,7 +4606,7 @@
         "rules"
       ],
       "kind": "agent",
-      "path": ".claude/agents/compliance-judge.md",
+      "path": ".opencode/agents/compliance-judge.md",
       "description": "Truth Tribunal judge — PII, N1-N4b levels, format rules, confidentiality"
     },
     {
@@ -4747,7 +4755,7 @@
       "name": "legal-compliance",
       "intents": [],
       "kind": "agent",
-      "path": ".claude/agents/legal-compliance.md",
+      "path": ".opencode/agents/legal-compliance.md",
       "description": ">"
     },
     {
@@ -5554,7 +5562,7 @@
         "persistente"
       ],
       "kind": "agent",
-      "path": ".claude/agents/memory-agent.md",
+      "path": ".opencode/agents/memory-agent.md",
       "description": "Gestiona la memoria persistente de pm-workspace via lenguaje natural."
     },
     {
@@ -5584,6 +5592,20 @@
       "kind": "script",
       "path": "scripts/memory-cache-rebuild.sh",
       "description": "memory-cache-rebuild.sh — Rebuild SQLite cache from .md memory files"
+    },
+    {
+      "category": "memory",
+      "name": "memory-canary-check",
+      "intents": [
+        "canary",
+        "check",
+        "filtering",
+        "memory",
+        "output"
+      ],
+      "kind": "script",
+      "path": "scripts/memory-canary-check.sh",
+      "description": "memory-canary-check.sh — SE-073 Output Filtering + Canary Tokens"
     },
     {
       "category": "memory",
@@ -5646,7 +5668,7 @@
         "draft"
       ],
       "kind": "agent",
-      "path": ".claude/agents/memory-conflict-judge.md",
+      "path": ".opencode/agents/memory-conflict-judge.md",
       "description": "Recommendation Tribunal judge — detects when a draft recommendation contradicts the active user's auto-memory (feedback_*, user_*)"
     },
     {
@@ -6695,7 +6717,7 @@
       "name": "architect",
       "intents": [],
       "kind": "agent",
-      "path": ".claude/agents/architect.md",
+      "path": ".opencode/agents/architect.md",
       "description": ">"
     },
     {
@@ -6767,7 +6789,7 @@
       "name": "azure-devops-operator",
       "intents": [],
       "kind": "agent",
-      "path": ".claude/agents/azure-devops-operator.md",
+      "path": ".opencode/agents/azure-devops-operator.md",
       "description": ">"
     },
     {
@@ -7095,7 +7117,7 @@
       "name": "business-analyst",
       "intents": [],
       "kind": "agent",
-      "path": ".claude/agents/business-analyst.md",
+      "path": ".opencode/agents/business-analyst.md",
       "description": ">"
     },
     {
@@ -7179,7 +7201,7 @@
         "statements"
       ],
       "kind": "agent",
-      "path": ".claude/agents/calibration-judge.md",
+      "path": ".opencode/agents/calibration-judge.md",
       "description": "Truth Tribunal judge — confidence statements match evidence strength"
     },
     {
@@ -7412,7 +7434,7 @@
       "name": "cobol-developer",
       "intents": [],
       "kind": "agent",
-      "path": ".claude/agents/cobol-developer.md",
+      "path": ".opencode/agents/cobol-developer.md",
       "description": ">"
     },
     {
@@ -7426,7 +7448,7 @@
         "judge"
       ],
       "kind": "agent",
-      "path": ".claude/agents/coherence-judge.md",
+      "path": ".opencode/agents/coherence-judge.md",
       "description": "Truth Tribunal judge — internal consistency (sums, dates, entities)"
     },
     {
@@ -7434,7 +7456,7 @@
       "name": "coherence-validator",
       "intents": [],
       "kind": "agent",
-      "path": ".claude/agents/coherence-validator.md",
+      "path": ".opencode/agents/coherence-validator.md",
       "description": ">"
     },
     {
@@ -7442,7 +7464,7 @@
       "name": "commit-guardian",
       "intents": [],
       "kind": "agent",
-      "path": ".claude/agents/commit-guardian.md",
+      "path": ".opencode/agents/commit-guardian.md",
       "description": ">"
     },
     {
@@ -7971,7 +7993,7 @@
       "name": "diagram-architect",
       "intents": [],
       "kind": "agent",
-      "path": ".claude/agents/diagram-architect.md",
+      "path": ".opencode/agents/diagram-architect.md",
       "description": ">"
     },
     {
@@ -8053,7 +8075,7 @@
       "name": "dotnet-developer",
       "intents": [],
       "kind": "agent",
-      "path": ".claude/agents/dotnet-developer.md",
+      "path": ".opencode/agents/dotnet-developer.md",
       "description": ">"
     },
     {
@@ -8430,7 +8452,7 @@
         "judge"
       ],
       "kind": "agent",
-      "path": ".claude/agents/factuality-judge.md",
+      "path": ".opencode/agents/factuality-judge.md",
       "description": "Truth Tribunal judge — factual accuracy of claims against verifiable sources"
     },
     {
@@ -8746,7 +8768,7 @@
       "name": "frontend-developer",
       "intents": [],
       "kind": "agent",
-      "path": ".claude/agents/frontend-developer.md",
+      "path": ".opencode/agents/frontend-developer.md",
       "description": ">"
     },
     {
@@ -8847,7 +8869,7 @@
       "name": "go-developer",
       "intents": [],
       "kind": "agent",
-      "path": ".claude/agents/go-developer.md",
+      "path": ".opencode/agents/go-developer.md",
       "description": ">"
     },
     {
@@ -8923,7 +8945,7 @@
         "draft"
       ],
       "kind": "agent",
-      "path": ".claude/agents/hallucination-fast-judge.md",
+      "path": ".opencode/agents/hallucination-fast-judge.md",
       "description": "Recommendation Tribunal judge — verifies that entities cited in a draft (files, functions, flags, libs, paths, commands) actually exist via tool calls"
     },
     {
@@ -8937,7 +8959,7 @@
         "judge"
       ],
       "kind": "agent",
-      "path": ".claude/agents/hallucination-judge.md",
+      "path": ".opencode/agents/hallucination-judge.md",
       "description": "Truth Tribunal judge — detects invented facts via SelfCheck-style consistency"
     },
     {
@@ -9151,7 +9173,7 @@
       "name": "infrastructure-agent",
       "intents": [],
       "kind": "agent",
-      "path": ".claude/agents/infrastructure-agent.md",
+      "path": ".opencode/agents/infrastructure-agent.md",
       "description": ">"
     },
     {
@@ -9231,7 +9253,7 @@
       "name": "java-developer",
       "intents": [],
       "kind": "agent",
-      "path": ".claude/agents/java-developer.md",
+      "path": ".opencode/agents/java-developer.md",
       "description": ">"
     },
     {
@@ -9525,7 +9547,7 @@
       "name": "mobile-developer",
       "intents": [],
       "kind": "agent",
-      "path": ".claude/agents/mobile-developer.md",
+      "path": ".opencode/agents/mobile-developer.md",
       "description": ">"
     },
     {
@@ -10056,7 +10078,7 @@
       "name": "php-developer",
       "intents": [],
       "kind": "agent",
-      "path": ".claude/agents/php-developer.md",
+      "path": ".opencode/agents/php-developer.md",
       "description": ">"
     },
     {
@@ -10652,7 +10674,7 @@
       "name": "python-developer",
       "intents": [],
       "kind": "agent",
-      "path": ".claude/agents/python-developer.md",
+      "path": ".opencode/agents/python-developer.md",
       "description": ">"
     },
     {
@@ -10727,7 +10749,7 @@
         "fast"
       ],
       "kind": "agent",
-      "path": ".claude/agents/recommendation-tribunal-orchestrator.md",
+      "path": ".opencode/agents/recommendation-tribunal-orchestrator.md",
       "description": "Recommendation Tribunal orchestrator — convenes 4 fast judges in parallel, aggregates scores, applies vetos, mutates output with banner. SYNC, <3s p95."
     },
     {
@@ -10818,7 +10840,7 @@
       "name": "reflection-validator",
       "intents": [],
       "kind": "agent",
-      "path": ".claude/agents/reflection-validator.md",
+      "path": ".opencode/agents/reflection-validator.md",
       "description": ">"
     },
     {
@@ -10980,7 +11002,7 @@
       "name": "ruby-developer",
       "intents": [],
       "kind": "agent",
-      "path": ".claude/agents/ruby-developer.md",
+      "path": ".opencode/agents/ruby-developer.md",
       "description": ">"
     },
     {
@@ -11022,7 +11044,7 @@
         "domain"
       ],
       "kind": "agent",
-      "path": ".claude/agents/rule-violation-judge.md",
+      "path": ".opencode/agents/rule-violation-judge.md",
       "description": "Recommendation Tribunal judge — detects when a draft recommendation violates canonical rules (CLAUDE.md, autonomous-safety, radical-honesty, domain rules)"
     },
     {
@@ -11044,7 +11066,7 @@
       "name": "rust-developer",
       "intents": [],
       "kind": "agent",
-      "path": ".claude/agents/rust-developer.md",
+      "path": ".opencode/agents/rust-developer.md",
       "description": ">"
     },
     {
@@ -12328,7 +12350,7 @@
       "name": "tech-writer",
       "intents": [],
       "kind": "agent",
-      "path": ".claude/agents/tech-writer.md",
+      "path": ".opencode/agents/tech-writer.md",
       "description": ">"
     },
     {
@@ -12336,7 +12358,7 @@
       "name": "terraform-developer",
       "intents": [],
       "kind": "agent",
-      "path": ".claude/agents/terraform-developer.md",
+      "path": ".opencode/agents/terraform-developer.md",
       "description": ">"
     },
     {
@@ -12535,7 +12557,7 @@
         "iteration"
       ],
       "kind": "agent",
-      "path": ".claude/agents/truth-tribunal-orchestrator.md",
+      "path": ".opencode/agents/truth-tribunal-orchestrator.md",
       "description": "Truth Tribunal orchestrator — convenes 7 judges, aggregates scores, applies vetos, drives iteration"
     },
     {
@@ -12571,7 +12593,7 @@
       "name": "typescript-developer",
       "intents": [],
       "kind": "agent",
-      "path": ".claude/agents/typescript-developer.md",
+      "path": ".opencode/agents/typescript-developer.md",
       "description": ">"
     },
     {
@@ -13284,7 +13306,7 @@
         "judge"
       ],
       "kind": "agent",
-      "path": ".claude/agents/architecture-judge.md",
+      "path": ".opencode/agents/architecture-judge.md",
       "description": "Code Review Court judge — boundaries, coupling, layer violations, patterns"
     },
     {
@@ -13367,7 +13389,7 @@
         "judge"
       ],
       "kind": "agent",
-      "path": ".claude/agents/cognitive-judge.md",
+      "path": ".opencode/agents/cognitive-judge.md",
       "description": "Code Review Court judge — debuggability at 3AM, naming, complexity, logs"
     },
     {
@@ -13395,7 +13417,7 @@
         "cumplimiento"
       ],
       "kind": "agent",
-      "path": ".claude/agents/confidentiality-auditor.md",
+      "path": ".opencode/agents/confidentiality-auditor.md",
       "description": "Audita cumplimiento de confidencialidad en PRs de pm-workspace (repo publico). Descubre dinamicamente datos sensibles del workspace y verifica que no se filtran en el diff. Genera veredicto CLEAN/BLOCKED con firma si pasa."
     },
     {
@@ -13436,7 +13458,7 @@
         "error"
       ],
       "kind": "agent",
-      "path": ".claude/agents/correctness-judge.md",
+      "path": ".opencode/agents/correctness-judge.md",
       "description": "Code Review Court judge — logic, tests, edge cases, error paths"
     },
     {
@@ -13450,7 +13472,7 @@
         "manages"
       ],
       "kind": "agent",
-      "path": ".claude/agents/court-orchestrator.md",
+      "path": ".opencode/agents/court-orchestrator.md",
       "description": "Convenes the Code Review Court, manages fix cycles, produces .review.crc"
     },
     {
@@ -13541,7 +13563,7 @@
         "código"
       ],
       "kind": "agent",
-      "path": ".claude/agents/drift-auditor.md",
+      "path": ".opencode/agents/drift-auditor.md",
       "description": "Auditoría de convergencia repo: detecta drift entre docs, config y código. Usar PROACTIVELY tras cambios grandes o al inicio de sprint."
     },
     {
@@ -13567,7 +13589,7 @@
         "domain"
       ],
       "kind": "agent",
-      "path": ".claude/agents/expertise-asymmetry-judge.md",
+      "path": ".opencode/agents/expertise-asymmetry-judge.md",
       "description": "Recommendation Tribunal judge — when draft falls in a domain the active user marks as `audit_level: blind`, force a rewrite with explanation/alternatives/verification"
     },
     {
@@ -13581,7 +13603,7 @@
         "findings"
       ],
       "kind": "agent",
-      "path": ".claude/agents/fix-assigner.md",
+      "path": ".opencode/agents/fix-assigner.md",
       "description": "Creates fix tasks from Court findings, assigns to dev agents, triggers re-review"
     },
     {
@@ -13595,7 +13617,7 @@
         "frontend"
       ],
       "kind": "agent",
-      "path": ".claude/agents/frontend-test-runner.md",
+      "path": ".opencode/agents/frontend-test-runner.md",
       "description": "Post-commit frontend test execution — unit, component, e2e, coverage"
     },
     {
@@ -13818,7 +13840,7 @@
         "evidence"
       ],
       "kind": "agent",
-      "path": ".claude/agents/model-upgrade-auditor.md",
+      "path": ".opencode/agents/model-upgrade-auditor.md",
       "description": "Audits agents, skills, and prompts for workarounds that newer models may no longer need. Proposes simplifications with eval-backed evidence."
     },
     {
@@ -13893,7 +13915,7 @@
       "name": "pentester",
       "intents": [],
       "kind": "agent",
-      "path": ".claude/agents/pentester.md",
+      "path": ".opencode/agents/pentester.md",
       "description": ">"
     },
     {
@@ -14018,7 +14040,7 @@
         "include"
       ],
       "kind": "agent",
-      "path": ".claude/agents/pr-agent-judge.md",
+      "path": ".opencode/agents/pr-agent-judge.md",
       "description": "External 5th judge of the Code Review Court — wraps qodo-ai/pr-agent OSS (SPEC-124). Opt-in via COURT_INCLUDE_PR_AGENT=true."
     },
     {
@@ -14282,7 +14304,7 @@
         "conflict"
       ],
       "kind": "agent",
-      "path": ".claude/agents/reconciler.md",
+      "path": ".opencode/agents/reconciler.md",
       "description": "Classifies contradictions into 3 buckets: evolution, auto-resolve, conflict-doc. Invoked by drift-auditor."
     },
     {
@@ -14457,7 +14479,7 @@
       "name": "security-attacker",
       "intents": [],
       "kind": "agent",
-      "path": ".claude/agents/security-attacker.md",
+      "path": ".opencode/agents/security-attacker.md",
       "description": ">"
     },
     {
@@ -14487,7 +14509,7 @@
       "name": "security-auditor",
       "intents": [],
       "kind": "agent",
-      "path": ".claude/agents/security-auditor.md",
+      "path": ".opencode/agents/security-auditor.md",
       "description": ">"
     },
     {
@@ -14503,7 +14525,7 @@
       "name": "security-defender",
       "intents": [],
       "kind": "agent",
-      "path": ".claude/agents/security-defender.md",
+      "path": ".opencode/agents/security-defender.md",
       "description": ">"
     },
     {
@@ -14511,7 +14533,7 @@
       "name": "security-guardian",
       "intents": [],
       "kind": "agent",
-      "path": ".claude/agents/security-guardian.md",
+      "path": ".opencode/agents/security-guardian.md",
       "description": ">"
     },
     {
@@ -14525,7 +14547,7 @@
         "injection"
       ],
       "kind": "agent",
-      "path": ".claude/agents/security-judge.md",
+      "path": ".opencode/agents/security-judge.md",
       "description": "Code Review Court judge — OWASP, PII, injection, auth, credentials"
     },
     {
@@ -14772,7 +14794,7 @@
       "name": "test-architect",
       "intents": [],
       "kind": "agent",
-      "path": ".claude/agents/test-architect.md",
+      "path": ".opencode/agents/test-architect.md",
       "description": ">"
     },
     {
@@ -15134,7 +15156,7 @@
       "name": "test-engineer",
       "intents": [],
       "kind": "agent",
-      "path": ".claude/agents/test-engineer.md",
+      "path": ".opencode/agents/test-engineer.md",
       "description": ">"
     },
     {
@@ -15599,7 +15621,7 @@
       "name": "test-runner",
       "intents": [],
       "kind": "agent",
-      "path": ".claude/agents/test-runner.md",
+      "path": ".opencode/agents/test-runner.md",
       "description": ">"
     },
     {
@@ -16070,7 +16092,7 @@
         "detectan"
       ],
       "kind": "agent",
-      "path": ".claude/agents/visual-digest.md",
+      "path": ".opencode/agents/visual-digest.md",
       "description": "Digestión de imágenes con OCR contextual — 5 pasadas. Fotos de pizarras, notas manuscritas, diagramas en papel, capturas de reuniones. Usa contexto REAL del proyecto para resolver ambigüedades. PROACTIVELY cuando se detectan imágenes en car"
     },
     {
@@ -16098,7 +16120,7 @@
         "detectan"
       ],
       "kind": "agent",
-      "path": ".claude/agents/visual-qa-agent.md",
+      "path": ".opencode/agents/visual-qa-agent.md",
       "description": "Visual QA: screenshot analysis, wireframe comparison, regression detection. Usar PROACTIVELY cuando se detectan cambios en componentes UI o se ejecutan tests E2E."
     },
     {
@@ -16126,7 +16148,7 @@
         "changes"
       ],
       "kind": "agent",
-      "path": ".claude/agents/web-e2e-tester.md",
+      "path": ".opencode/agents/web-e2e-tester.md",
       "description": "Autonomous E2E testing of web apps against live instances. Use PROACTIVELY when: deploying savia-web, after UI changes, or running regression tests. Equivalent of android-autonomous-debugger for web."
     },
     {

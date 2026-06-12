@@ -22,6 +22,7 @@ the Stop hook `agents-md-auto-regenerate.sh` whenever an agent file changes.
 | calibration-judge | mid | L1 | — | Truth Tribunal judge — confidence statements match evidence strength |
 | cobol-developer | heavy | L3 | — | Asistencia en código COBOL/mainframe. IMPORTANTE: La mayoría de tareas COBOL deben realizarlas humanos expertos en le... |
 | code-reviewer | heavy | L1 | — | Revisión de código .NET como quality gate antes de merge. Usar PROACTIVELY cuando: se completa una implementación y n... |
+| code-twin-agent | mid | L1 | — | Agente especializado en consultar el Application Code Twin de un proyecto. Usa code-twin-load.sh, code-twin-sync-chec... |
 | cognitive-judge | mid | L1 | — | Code Review Court judge — debuggability at 3AM, naming, complexity, logs |
 | coherence-judge | mid | L1 | — | Truth Tribunal judge — internal consistency (sums, dates, entities) |
 | coherence-validator | mid | L0 | — | Verifies that generated outputs (specs, reports, code) actually match the stated objective. Use PROACTIVELY post-SDD,... |
@@ -62,6 +63,7 @@ the Stop hook `agents-md-auto-regenerate.sh` whenever an agent file changes.
 | pr-agent-judge | mid | L1 | — | External 5th judge of the Code Review Court — wraps qodo-ai/pr-agent OSS (SPEC-124). Opt-in via COURT_INCLUDE_PR_AGEN... |
 | python-developer | mid | L3 | — | Implementación de código Python (FastAPI/Django) siguiendo specs SDD aprobadas. Usar PROACTIVELY cuando: se implement... |
 | recommendation-tribunal-orchestrator | mid | L2 | — | Recommendation Tribunal orchestrator — convenes 4 fast judges in parallel, aggregates scores, applies vetos, mutates ... |
+| reconciler | mid | L1 | — | Classifies contradictions into 3 buckets: evolution, auto-resolve, conflict-doc. Invoked by drift-auditor. |
 | reflection-validator | heavy | L0 | — | Meta-cognitive validation of responses and decisions (System 2). Use PROACTIVELY when: evaluating a response to a com... |
 | ruby-developer | mid | L3 | — | Implementación de código Ruby on Rails siguiendo specs SDD aprobadas. Usar PROACTIVELY cuando: se implementa una feat... |
 | rule-violation-judge | mid | L1 | — | Recommendation Tribunal judge — detects when a draft recommendation violates canonical rules (CLAUDE.md, autonomous-s... |

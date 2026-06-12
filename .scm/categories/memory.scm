@@ -1,5 +1,5 @@
 # memory — Savia Capability Map (L1)
-> 105 resources
+> 106 resources
 
 - **auto-compact** (script): auto-compact.sh — Disparado automáticamente cuando contexto > 85%
 - **biblio-search** (cmd): >
@@ -56,6 +56,7 @@
 - **memory-agent** (agent): Gestiona la memoria persistente de pm-workspace via lenguaje natural.
 - **memory-backup-pm** (script): memory-backup-pm.sh — Backup memory indices to PM repo (N4b, max privacy)
 - **memory-cache-rebuild** (script): memory-cache-rebuild.sh — Rebuild SQLite cache from .md memory files
+- **memory-canary-check** (script): memory-canary-check.sh — SE-073 Output Filtering + Canary Tokens
 - **memory-check** (cmd): >
 - **memory-check** (script): memory-check.sh — Health check of all Savia memory layers
 - **memory-compress** (cmd): Compresión semántica de memorias (engrams). Reduce tokens hasta 80% preservando fidelidad mediante extracción de entidades, resumen de eventos, condensación de decisiones y deduplicación de contexto.

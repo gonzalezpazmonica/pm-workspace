@@ -49,6 +49,20 @@ case "$FILE_PATH" in
   */docs/*|*/CLAUDE.md) IS_CONTEXT=true ;;
   */.claude/profiles/*) IS_CONTEXT=true ;;
 esac
+
+# SE-073 Spotlighting (jailbreak research §3.2): paths fuera del workspace son
+# untrusted por defecto (zero-trust externo). Cualquier .md fuera del repo
+# que se está leyendo se trata como contenido a escanear.
+WORKSPACE="${SAVIA_WORKSPACE_DIR:-$(git rev-parse --show-toplevel 2>/dev/null || pwd)}"
+case "$FILE_PATH" in
+  *.md|*.txt|*.html)
+    # Si el path NO está dentro del workspace, escanéalo (untrusted external)
+    if [[ "$FILE_PATH" != "$WORKSPACE"* ]] && [[ "$FILE_PATH" != /tmp/opencode/* ]]; then
+      IS_CONTEXT=true
+    fi
+    ;;
+esac
+
 [[ "$IS_CONTEXT" == "false" ]] && exit 0
 
 # File must exist and be readable

@@ -275,10 +275,32 @@ fi
 ) &
 disown 2>/dev/null || true
 
-# Limpieza de auto-memory en background (SPEC-142)
-for mh_path in "$HOME/claude/scripts/memory-hygiene.sh" "./scripts/memory-hygiene.sh"; do
+# Limpieza de auto-memory en background (SPEC-142, SE-073).
+# El path canónico es scripts/memory-hygiene.sh dentro del workspace.
+# La cadena de fallback resuelve workspace → cwd → home; primer hit gana.
+SI_HYGIENE_PATHS=(
+  "${SAVIA_WORKSPACE_DIR:-${CLAUDE_PROJECT_DIR:-}}/scripts/memory-hygiene.sh"
+  "$(pwd)/scripts/memory-hygiene.sh"
+  "$HOME/savia/scripts/memory-hygiene.sh"
+)
+for mh_path in "${SI_HYGIENE_PATHS[@]}"; do
+  [[ -z "$mh_path" || "$mh_path" == "/scripts/memory-hygiene.sh" ]] && continue
   if [ -f "$mh_path" ]; then
     bash "$mh_path" >/dev/null 2>&1 &
+    break
+  fi
+done
+
+# Memory canary check (SE-073, defensa anti memory-poisoning).
+# Solo verifica integridad — no modifica. Background, non-blocking.
+SI_CANARY_PATHS=(
+  "${SAVIA_WORKSPACE_DIR:-${CLAUDE_PROJECT_DIR:-}}/scripts/memory-canary-check.sh"
+  "$(pwd)/scripts/memory-canary-check.sh"
+)
+for cc_path in "${SI_CANARY_PATHS[@]}"; do
+  [[ -z "$cc_path" || "$cc_path" == "/scripts/memory-canary-check.sh" ]] && continue
+  if [ -f "$cc_path" ]; then
+    bash "$cc_path" >> "${SAVIA_WORKSPACE_DIR:-${CLAUDE_PROJECT_DIR:-/tmp}}/output/memory-canary.log" 2>&1 &
     break
   fi
 done
