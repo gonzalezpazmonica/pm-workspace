@@ -22,8 +22,18 @@ export type ToolInput = {
   args?: Record<string, unknown>;
 };
 
+// OpenCode v1.14 ToolOutput contract (per https://opencode.ai/docs/plugins/):
+//   - args: MUTABLE args object (input mirror)
+//   - title: tool display title
+//   - output: stdout/result text (mutable in tool.execute.after)
+//   - metadata: tool-specific metadata
+// SE-221 added output/title/metadata as optional fields so guards that mutate
+// output (context-origin-stamp, context-drop-after-use) can be typed end-to-end.
 export type ToolOutput = {
   args?: Record<string, unknown>;
+  title?: string;
+  output?: string;
+  metadata?: Record<string, unknown>;
 };
 
 function pickArgs(input?: ToolInput, output?: ToolOutput): Record<string, unknown> {
