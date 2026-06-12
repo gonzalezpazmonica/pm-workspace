@@ -166,6 +166,190 @@ def test_compute_scores_empty_graph(cgb):
     assert semantic == {}
 
 
+def test_compute_scores_no_semantic_match_zeros_all(cgb):
+    """When the query matches no node, every score must be 0.0.
+
+    Regression: v0.1 returned 0.40 for every node under irrelevant queries
+    because PageRank uniformly assigned positive structural mass. The fix
+    treats semantic_total == 0 as a fail-fast: selector returns nothing,
+    caller falls back to full Read.
+    """
+    graph = {
+        "nodes": {
+            "a": {"label": "A", "text": "vue pinia store", "kind": "code", "neighbors": ["b"]},
+            "b": {"label": "B", "text": "bridge sse stream", "kind": "code", "neighbors": []},
+        }
+    }
+    final, _, semantic = cgb.compute_scores(graph, "completely-unrelated-tachyon-flux")
+    assert sum(semantic.values()) == 0.0
+    assert all(v == 0.0 for v in final.values()), final
+
+
+def test_compute_scores_only_semantic_matches_get_promoted(cgb):
+    """Nodes with zero semantic match drop to 0.05 floor when others match."""
+    graph = {
+        "nodes": {
+            "match": {"label": "Match", "text": "authentication jwt", "kind": "doc", "neighbors": []},
+            "miss": {"label": "Miss", "text": "completely unrelated noise", "kind": "doc", "neighbors": []},
+        }
+    }
+    final, _, _ = cgb.compute_scores(graph, "authentication jwt")
+    assert final["match"] > 0.5
+    assert final["miss"] <= 0.05  # gated to floor
+
+
+def test_code_boost_only_when_semantic_positive(cgb):
+    """Multiplicative code-boost must NOT amplify zero-semantic nodes."""
+    graph = {
+        "nodes": {
+            "match_code": {"label": "MatchCode", "text": "auth flow handler", "kind": "code", "neighbors": []},
+            "miss_code": {"label": "MissCode", "text": "totally other thing", "kind": "code", "neighbors": []},
+            "match_doc": {"label": "MatchDoc", "text": "auth flow handler", "kind": "doc", "neighbors": []},
+        }
+    }
+    final, _, semantic = cgb.compute_scores(graph, "auth flow")
+    # match_code should outscore match_doc (boost amplifies)
+    assert final["match_code"] >= final["match_doc"]
+    # miss_code should drop to floor (no boost without semantic)
+    assert final["miss_code"] <= 0.05
+
+
+def test_adapter_acm_recursive_include(cgb, tmp_path):
+    """@include resolves recursively and merges nodes from child files."""
+    parent = tmp_path / "INDEX.acm"
+    child = tmp_path / "child.acm"
+    child.write_text(
+        "## ChildNode\nChild description with auth keyword.\n",
+        encoding="utf-8",
+    )
+    parent.write_text(
+        "## ParentNode\nParent description.\n@include child.acm\n",
+        encoding="utf-8",
+    )
+    graph = cgb.adapter_acm(parent)
+    nodes = graph["nodes"]
+    # Both files contribute nodes, prefixed by file stem
+    assert "index::parentnode" in nodes
+    assert "child::childnode" in nodes
+    # Parent body mentions @include → child's stem appears as a neighbor
+    assert "child" in nodes["index::parentnode"]["neighbors"]
+
+
+def test_adapter_acm_include_cycle_guard(cgb, tmp_path):
+    """Mutual @include must not recurse forever."""
+    a = tmp_path / "a.acm"
+    b = tmp_path / "b.acm"
+    a.write_text("## A\n@include b.acm\n", encoding="utf-8")
+    b.write_text("## B\n@include a.acm\n", encoding="utf-8")
+    # Should not raise / infinite-loop
+    graph = cgb.adapter_acm(a)
+    assert "a::a" in graph["nodes"]
+    assert "b::b" in graph["nodes"]
+
+
+def test_adapter_acm_missing_include_silently_skipped(cgb, tmp_path):
+    """A broken @include reference should not break the parent parse."""
+    parent = tmp_path / "INDEX.acm"
+    parent.write_text(
+        "## ParentNode\n@include does-not-exist.acm\n",
+        encoding="utf-8",
+    )
+    graph = cgb.adapter_acm(parent)
+    assert "index::parentnode" in graph["nodes"]
+
+
+def test_adapter_acm_node_id_collision_avoided(cgb, tmp_path):
+    """Two files with identical heading must produce distinct node ids."""
+    a = tmp_path / "a.acm"
+    b = tmp_path / "b.acm"
+    a.write_text("## Overview\nfile a body\n", encoding="utf-8")
+    b.write_text("## Overview\nfile b body\n", encoding="utf-8")
+    g_a = cgb.adapter_acm(a)
+    g_b = cgb.adapter_acm(b)
+    assert "a::overview" in g_a["nodes"]
+    assert "b::overview" in g_b["nodes"]
+    # No id collision when both are merged
+    merged = {**g_a["nodes"], **g_b["nodes"]}
+    assert len(merged) == 2
+
+
+def test_adapter_scm_flat_format_parses(cgb, tmp_path):
+    """SCM flat lines are parsed into nodes."""
+    p = tmp_path / "INDEX.scm"
+    p.write_text(
+        "# Header\n"
+        "> meta\n"
+        "[planning] /sprint-status — sprint,status,kanban — cmd:.claude/commands/sprint-status.md\n"
+        "[security] /security-scan — owasp,cve,scan — script:scripts/security-scan.sh\n",
+        encoding="utf-8",
+    )
+    graph = cgb.adapter_scm(p)
+    nodes = graph["nodes"]
+    assert "sprint-status" in nodes
+    assert "security-scan" in nodes
+    assert nodes["sprint-status"]["kind"] == "cmd"
+
+
+def test_adapter_scm_bullet_format_parses(cgb, tmp_path):
+    """SCM bullet (categories/*.scm) lines are parsed into nodes."""
+    p = tmp_path / "category.scm"
+    p.write_text(
+        "# category — Savia Capability Map\n"
+        "> 2 resources\n"
+        "- **/foo** (cmd): Does foo\n"
+        "- **/bar** (script): Runs bar\n",
+        encoding="utf-8",
+    )
+    graph = cgb.adapter_scm(p)
+    nodes = graph["nodes"]
+    assert "foo" in nodes
+    assert "bar" in nodes
+    assert nodes["foo"]["kind"] == "cmd"
+
+
+def test_quality_json_includes_dual_baselines(cgb, tmp_path):
+    """--quality-json must report both savings vs graph and vs raw file."""
+    p = tmp_path / "test.acm"
+    p.write_text(
+        "## Auth\nauth flow with jwt and login validation\n"
+        "## Payment\npayment processing\n"
+        "## Cache\ncache layer\n",
+        encoding="utf-8",
+    )
+    import subprocess
+    proc = subprocess.run(
+        [sys.executable, str(SCRIPT), str(p), "auth jwt", "--budget", "200",
+         "--quality-json", "--format", "markdown"],
+        capture_output=True, text=True, timeout=20,
+    )
+    assert proc.returncode == 0
+    # Last line of stderr is the quality JSON
+    lines = [ln for ln in proc.stderr.split("\n") if ln.strip()]
+    quality = json.loads(lines[-1])
+    assert "tokens_full" in quality
+    assert "tokens_full_file" in quality
+    assert "savings_pct" in quality
+    assert "savings_vs_file_pct" in quality
+    assert "top1_score" in quality
+
+
+def test_quality_json_zero_savings_when_no_match(cgb, tmp_path):
+    """When nothing is selected, savings_pct must be 0.0 (honest)."""
+    p = tmp_path / "test.acm"
+    p.write_text("## Foo\nfoo body\n## Bar\nbar body\n", encoding="utf-8")
+    import subprocess
+    proc = subprocess.run(
+        [sys.executable, str(SCRIPT), str(p), "completely-unrelated-tachyon",
+         "--budget", "200", "--quality-json", "--format", "markdown"],
+        capture_output=True, text=True, timeout=20,
+    )
+    lines = [ln for ln in proc.stderr.split("\n") if ln.strip()]
+    quality = json.loads(lines[-1])
+    assert quality["nodes_selected"] == 0
+    assert quality["savings_pct"] == 0.0
+    assert quality["savings_vs_file_pct"] == 0.0
+
+
 # ─────────────────────────────────────────────────────────────────────────────
 # Greedy budget selection
 # ─────────────────────────────────────────────────────────────────────────────
@@ -306,14 +490,16 @@ def test_make_token_counter_falls_back(cgb):
 def test_adapter_acm_parses_headings(cgb):
     graph = cgb.adapter_acm(FIXTURES / "sample.acm")
     nodes = graph["nodes"]
-    assert "authentication-service" in nodes
-    assert "userrepository" in nodes
-    assert nodes["authentication-service"]["kind"] == "doc"
+    # node ids are prefixed with `<file_stem>::` to avoid collisions across
+    # files merged via @include recursion.
+    assert "sample::authentication-service" in nodes
+    assert "sample::userrepository" in nodes
+    assert nodes["sample::authentication-service"]["kind"] == "doc"
 
 
 def test_adapter_acm_extracts_arrow_neighbors(cgb):
     graph = cgb.adapter_acm(FIXTURES / "sample.acm")
-    auth = graph["nodes"]["authentication-service"]
+    auth = graph["nodes"]["sample::authentication-service"]
     assert "userrepository" in auth["neighbors"]
     assert "jwtissuer" in auth["neighbors"]
 

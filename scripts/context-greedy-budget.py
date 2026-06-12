@@ -211,11 +211,36 @@ def compute_scores(
     docs = {nid: tokenize(nodes_dict[nid].get("text", "")) for nid in node_ids}
     tfidf = tfidf_scores(docs, query)
 
+    # Decision: query-aware combination.
+    # When a query is provided AND at least one node matches it semantically,
+    # the structural component acts as a TIE-BREAKER (multiplicative), not a
+    # floor. This prevents the failure mode where every node receives 0.40
+    # under irrelevant queries because PageRank assigns positive mass to all.
+    # When NO node matches (sum semantic == 0), fall back to pure structural
+    # so the selector still has something to rank against.
+    semantic_total = sum(tfidf.values())
     final: dict[str, float] = {}
     for nid in node_ids:
-        s = alpha * pr_norm[nid] + beta * tfidf[nid]
-        if nodes_dict[nid].get("kind") == "code":
-            s = min(1.0, s + code_boost)
+        sem = tfidf[nid]
+        struct = pr_norm[nid]
+        if semantic_total > 0:
+            # At least one node matches the query semantically. Linear
+            # combination, but structural is gated: zero-semantic nodes drop
+            # to "irrelevant floor" (0.05) so the default min_score=0.15
+            # filter excludes them. They can still ride along via neighbor
+            # decay if they are graph-connected to a high-scoring node.
+            if sem > 0:
+                s = alpha * struct + beta * sem
+                if nodes_dict[nid].get("kind") == "code":
+                    s = min(1.0, s * (1.0 + code_boost))
+            else:
+                s = 0.05
+        else:
+            # No semantic signal anywhere: query does not match this graph.
+            # Set all scores to 0.0 so min_score filter rejects everything.
+            # Caller sees nodes_selected=0 and can decide to fall back to
+            # full-file Read.
+            s = 0.0
         final[nid] = s
     return final, pr_norm, tfidf
 
@@ -375,39 +400,127 @@ def select_subgraph(
 # }
 
 
-def adapter_acm(path: Path) -> dict[str, Any]:
-    """Parse a .acm markdown file into the canonical graph form.
+def adapter_scm(path: Path) -> dict[str, Any]:
+    """Parse a .scm Savia Capability Map file into the canonical graph form.
 
-    Each `## Heading` or `### Heading` line becomes a node. Body lines until
-    next heading become the node's text. Wikilinks `[[other]]`, `→ Other` and
-    `@include other.acm` references in the body become neighbors.
+    Two SCM formats are recognized (auto-detected by inspecting the body):
+
+    1. INDEX.scm — flat lines:
+           [category] name — keywords — kind:path
+       Each line becomes a node; ``category`` and ``kind`` are stored as
+       attributes; ``keywords`` go into the searchable text.
+
+    2. categories/<cat>.scm — bullet lines:
+           - **/name** (kind): description
+       Each bullet becomes a node. The kind from the parens informs the
+       node ``kind`` attribute (cmd, skill, agent, script).
+
+    SCM has no explicit edges; ``neighbors`` are always empty. Scoring still
+    works because TF-IDF dominates and structural component falls back to
+    uniform PageRank for disconnected graphs.
     """
     if not path.exists():
-        raise FileNotFoundError(f"ACM file not found: {path}")
+        raise FileNotFoundError(f"SCM file not found: {path}")
     raw = path.read_text(encoding="utf-8", errors="replace")
+    nodes: dict[str, dict[str, Any]] = {}
+
+    flat_re = re.compile(r"^\[([^\]]+)\]\s+(.+?)\s+—\s+(.+?)\s+—\s+([a-z]+):(.+)$")
+    bullet_re = re.compile(r"^-\s+\*\*(/?[^*]+)\*\*\s+\(([a-z]+)\):\s*(.*)$")
+
+    for raw_line in raw.splitlines():
+        line = raw_line.rstrip()
+        if not line or line.startswith("#") or line.startswith(">"):
+            continue
+        m = flat_re.match(line)
+        if m:
+            category, name, keywords, kind, fpath = m.groups()
+            nid = _slugify(name)
+            if not nid:
+                continue
+            text = f"{name} {keywords} {fpath}"
+            existing = nodes.get(nid)
+            if existing is None:
+                nodes[nid] = {
+                    "label": name.strip(),
+                    "text": text,
+                    "kind": kind.strip(),
+                    "neighbors": [],
+                    "extra": {"category": category, "path": fpath.strip()},
+                }
+            else:
+                # Same name twice (e.g. cmd + script): merge text.
+                existing["text"] += " " + text
+            continue
+        m = bullet_re.match(line)
+        if m:
+            name, kind, description = m.groups()
+            nid = _slugify(name)
+            if not nid:
+                continue
+            nodes[nid] = {
+                "label": name.strip(),
+                "text": f"{name} {description}".strip(),
+                "kind": kind.strip(),
+                "neighbors": [],
+            }
+            continue
+    return {"nodes": nodes}
+
+
+def adapter_acm(path: Path, _seen: set[str] | None = None) -> dict[str, Any]:
+    """Parse a .acm markdown file into the canonical graph form.
+
+    Each ``## Heading`` or ``### Heading`` line becomes a node. Body lines
+    until the next heading become the node text.
+
+    ``@include other.acm`` references are resolved RECURSIVELY: nodes from the
+    included file are merged into the same graph. Each node id is prefixed
+    with ``<file_stem>::`` so headings in different files do not collide. This
+    lets the greedy selector rank sections across the whole .agent-maps tree
+    instead of one file at a time.
+
+    Cycle guard: ``_seen`` carries already-visited canonical paths.
+    """
+    if _seen is None:
+        _seen = set()
+    if not path.exists():
+        raise FileNotFoundError(f"ACM file not found: {path}")
+    canonical = path.resolve()
+    if str(canonical) in _seen:
+        return {"nodes": {}}
+    _seen.add(str(canonical))
+
+    raw = path.read_text(encoding="utf-8", errors="replace")
+    file_stem = canonical.stem.lower()
+    include_targets: list[Path] = []
 
     nodes: dict[str, dict[str, Any]] = {}
     current_id: str | None = None
     current_body: list[str] = []
     heading_re = re.compile(r"^(#{2,3})\s+(.+?)\s*$")
 
+    def _node_id(label: str) -> str:
+        slug = _slugify(label)
+        return f"{file_stem}::{slug}" if slug else f"{file_stem}::node"
+
     def flush() -> None:
         if current_id is None:
             return
         body = "\n".join(current_body).strip()
-        nodes[current_id]["text"] = body
-        # Detect neighbors
+        nodes[current_id]["text"] = (nodes[current_id]["label"] + " " + body).strip()
         nbrs: list[str] = []
         for ref in re.findall(r"\[\[([^\]]+)\]\]", body):
             nbrs.append(_slugify(ref))
-        for ref in re.findall(r"@include\s+([^\s]+)", body):
-            nbrs.append(_slugify(Path(ref).stem))
+        for ref in re.findall(r"@include\s+([^\s|]+)", body):
+            target = (canonical.parent / ref).resolve()
+            if target.exists() and target.suffix.lower() == ".acm":
+                include_targets.append(target)
+                nbrs.append(target.stem.lower())
         for ref in re.findall(r"→\s+([A-Za-z][\w\-]*)", body):
             nbrs.append(_slugify(ref))
-        # dedup, preserve order
-        seen = set()
+        seen_n: set[str] = set()
         nodes[current_id]["neighbors"] = [
-            n for n in nbrs if not (n in seen or seen.add(n))
+            n for n in nbrs if n and not (n in seen_n or seen_n.add(n))
         ]
 
     for line in raw.splitlines():
@@ -415,27 +528,33 @@ def adapter_acm(path: Path) -> dict[str, Any]:
         if m:
             flush()
             label = m.group(2).strip()
-            current_id = _slugify(label)
+            current_id = _node_id(label)
             nodes[current_id] = {
                 "label": label,
                 "text": "",
                 "kind": "doc",
                 "neighbors": [],
+                "extra": {"file": str(canonical), "level": len(m.group(1))},
             }
             current_body = []
         elif current_id is not None:
             current_body.append(line)
     flush()
 
-    # Fallback: if no headings, whole file is a single node
     if not nodes:
-        stem = path.stem or "doc"
-        nodes[stem] = {
-            "label": stem,
+        nodes[f"{file_stem}::body"] = {
+            "label": file_stem,
             "text": raw[:2000],
             "kind": "doc",
             "neighbors": [],
+            "extra": {"file": str(canonical), "level": 0},
         }
+
+    for target in include_targets:
+        sub = adapter_acm(target, _seen=_seen)
+        for sub_id, sub_attrs in sub["nodes"].items():
+            if sub_id not in nodes:
+                nodes[sub_id] = sub_attrs
 
     return {"nodes": nodes}
 
@@ -548,6 +667,8 @@ def auto_detect_adapter(path: Path) -> str:
     suffix = path.suffix.lower()
     if suffix == ".acm":
         return "acm"
+    if suffix == ".scm":
+        return "scm"
     if suffix in (".db", ".sqlite", ".sqlite3"):
         return "kg-sqlite"
     if suffix in (".jsonl", ".json"):
@@ -557,6 +678,7 @@ def auto_detect_adapter(path: Path) -> str:
 
 _ADAPTERS = {
     "acm": adapter_acm,
+    "scm": adapter_scm,
     "kg-sqlite": adapter_kg_sqlite,
     "jsonl-graph": adapter_jsonl_graph,
 }
@@ -717,7 +839,7 @@ def build_parser() -> argparse.ArgumentParser:
     p.add_argument(
         "--input-format",
         dest="input_format",
-        choices=["acm", "kg-sqlite", "jsonl-graph", "auto"],
+        choices=["acm", "scm", "kg-sqlite", "jsonl-graph", "auto"],
         default="auto",
         help="Input format (default: auto-detect by extension)",
     )
@@ -743,6 +865,13 @@ def build_parser() -> argparse.ArgumentParser:
         choices=["heuristic", "tiktoken"],
         default="heuristic",
         help="Token counter (default: heuristic, 4 chars per token)",
+    )
+    p.add_argument(
+        "--quality-json",
+        action="store_true",
+        help="Emit a single-line JSON quality report to stderr after output. "
+             "Fields: nodes_total, nodes_selected, tokens_full, tokens_subgraph, "
+             "savings_pct, top1_score, top3_avg_score, query, file.",
     )
     return p
 
@@ -795,6 +924,55 @@ def main(argv: list[str] | None = None) -> int:
         sys.stderr.write("\n")
         sys.stderr.write(format_explain_table(selected, final, structural, semantic, token_costs))
         sys.stderr.write("\n")
+
+    if args.quality_json:
+        # Two baselines for honest savings:
+        #   tokens_full_file  = raw file as Read would deliver (single file).
+        #   tokens_full_graph = serialize_node() over EVERY node in the
+        #                       expanded graph (apples-to-apples vs subgraph).
+        try:
+            tokens_full_file = counter(in_path.read_text(encoding="utf-8", errors="replace"))
+        except OSError:
+            tokens_full_file = 0
+        tokens_full_graph = sum(
+            counter(serialize_node(nid, graph["nodes"][nid]))
+            for nid in graph["nodes"]
+        )
+        sorted_scores = sorted((final[nid] for nid in selected), reverse=True)
+        top1 = sorted_scores[0] if sorted_scores else 0.0
+        top3_avg = (
+            sum(sorted_scores[:3]) / min(3, len(sorted_scores))
+            if sorted_scores else 0.0
+        )
+        # Honest savings: if nothing was selected, savings are 0 — the agent
+        # falls back to full Read, no tokens saved.
+        if stats["nodes_selected"] == 0:
+            savings_pct = 0.0
+            savings_vs_file_pct = 0.0
+        else:
+            savings_pct = (
+                round(max(0.0, (tokens_full_graph - stats["tokens_used"]) / tokens_full_graph * 100), 1)
+                if tokens_full_graph > 0 else 0.0
+            )
+            savings_vs_file_pct = (
+                round(max(0.0, (tokens_full_file - stats["tokens_used"]) / tokens_full_file * 100), 1)
+                if tokens_full_file > 0 else 0.0
+            )
+        quality = {
+            "nodes_total": stats["nodes_total"],
+            "nodes_selected": stats["nodes_selected"],
+            "tokens_full": tokens_full_graph,
+            "tokens_full_file": tokens_full_file,
+            "tokens_subgraph": stats["tokens_used"],
+            "tokens_budget": stats["tokens_budget"],
+            "savings_pct": savings_pct,
+            "savings_vs_file_pct": savings_vs_file_pct,
+            "top1_score": round(top1, 4),
+            "top3_avg_score": round(top3_avg, 4),
+            "query": args.query,
+            "file": str(in_path),
+        }
+        sys.stderr.write(json.dumps(quality) + "\n")
 
     return 0
 
