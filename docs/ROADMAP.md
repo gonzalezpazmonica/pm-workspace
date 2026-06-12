@@ -1,6 +1,6 @@
 # Roadmap Unificado — pm-workspace / Savia
 
-**Updated:** 2026-06-10 | **Version:** v6.20.0 | **562 commands · 72 agents · 103 skills · 76 hooks · 450+ test suites · Active backlog 4 items (~12h P2)** — ver `## Active Stack — 2026-06-10`
+**Updated:** 2026-06-11 | **Version:** v6.20.0 | **562 commands · 72 agents · 103 skills · 76 hooks · 450+ test suites · Active backlog 2 items (~12h P2)** — ver `## Active Stack — 2026-06-11`
 
 ---
 
@@ -690,28 +690,12 @@ Google Sheets · ServiceNow/SAP · Tableau · Kafka · VS Code ext · Cloud voic
 
 ---
 
-## Active Stack — 2026-06-10 (supersedes 2026-06-09)
+## Active Stack — 2026-06-11 (supersedes 2026-06-10)
 
-> Estado verificado contra `git log` + PRs #829-#833 merged + #834 en revisión.
+> Estado verificado contra `git log` + PRs #829-#835 merged.
 > Criterio: scoring canónico (PM Impact 30% · Anti lock-in 25% · FOSS 20% · Inverse complexity 15% · Flow 10%).
 
-### Recién cerrado (2026-06-07/10)
-
-| ID | Título | PR |
-|---|---|---|
-| SE-208/209/210 | Pocock skill quality (100-line limit, description format, anti-patterns) | #829 |
-| SE-211/212/213/214 | Memanto memory patterns (typed KG, recall audit, confidence, conflict detection) | #829 |
-| SE-215 | Eval-driven skill improvement loop | #830 |
-| SPEC-182 Slice 4 | Timeline status guard | #830 |
-| SPEC-183 Slices 3+4 | Drift-auditor integration + pilot | #830 |
-| SPEC-188 Fase 1 | Failure Pattern Memory (resolves G3) | #831 |
-| SPEC-SE-036 Slices 1+2 | JWT Mint efímero | #831 |
-| fix(opencode) | Schema cleanup + nvm bin discovery | #832 |
-| SE-216 S1+S2+S3 | evo patterns: scratchpad, gates, frontier strategies — 59 tests | #833 |
-| SE-217 S1+S2+S3 | autoresearch patterns: agent-run-log, time-budget, surface-guard — 51 tests | #833 |
-| pr-summary-gate | Hook LLM que bloquea gh pr create sin summary de calidad | #833 |
-
-### Recién cerrado (2026-06-07/10)
+### Recién cerrado (2026-06-07/11)
 
 | ID | Título | PR |
 |---|---|---|
@@ -728,16 +712,16 @@ Google Sheets · ServiceNow/SAP · Tableau · Kafka · VS Code ext · Cloud voic
 | pr-summary-gate | Hook LLM que bloquea gh pr create sin summary de calidad | #833 |
 | SPEC-SE-037 | Audit JSONB Trigger — compliance ISO/EU AI Act/GDPR | #834 |
 | SE-218 S1-S5 | codebase-memory patterns: hook augmentation, KG snapshot, qualified names, tiered flush, .saviaignore — 81 tests | #834 |
+| SE-219 S1-S5 | abtop patterns: session-status, context-meter, session-cleanup, profile-discover, agent-tick — 48 tests | #835 |
 
-### Backlog restante — repriorizado 2026-06-10
+### Backlog restante — repriorizado 2026-06-11
 
 | # | ID | Qué | Esfuerzo | Prioridad | Deps |
 |---|---|---|---|---|---|
 | 1 | **SPEC-SE-036 Slice 3** | JWT sunset opt-in (PAT file migration) | 4h | P2 | Slice 1+2 ✓ |
 | 2 | **SPEC-188 Fase 2** | Sealed Contract Tests | ~8h | P2 | Fase 1 ✓ |
-| 3 | **SE-219 S1-S5** | abtop patterns: session-status JSON, context% hook, orphan cleanup, multi-profile, tick separation | ~9h | P2 | — |
-| 4 | **SE-216 Slice 4** | Experiment Graph — tree search | ~6h | P3 | SE-216 S1+S2+S3 ✓ |
-| 5 | **SPEC-188 Fases 3+4** | Causal confidence + diagnostic metrics | ~56h | P3 | Fase 2 |
+| 3 | **SE-216 Slice 4** | Experiment Graph — tree search | ~6h | P3 | SE-216 S1+S2+S3 ✓ |
+| 4 | **SPEC-188 Fases 3+4** | Causal confidence + diagnostic metrics | ~56h | P3 | Fase 2 |
 
 ### Tier 3 — SaviaClaw (requiere sistema externo)
 
@@ -746,14 +730,13 @@ Google Sheets · ServiceNow/SAP · Tableau · Kafka · VS Code ext · Cloud voic
 | SE-089 | Provider-agnostic LLM + DeepSeek migration | ~120 min |
 | SE-095/096/097 | Self-monitoring + cron + streaming | ~135 min |
 
-### Decisión operativa 2026-06-10
+### Decisión operativa 2026-06-11
 
-1. **#833 MERGED** — SE-216/217 + pr-summary-gate. 110 tests.
-2. **#834 en revisión** — SE-037 (P1) + SE-218 S1-S5. 81 tests.
-3. **SPEC-SE-036 S3** — siguiente tras #834. Cierra la migración JWT iniciada en #831.
-4. **SPEC-188 F2** — siguiente natural tras S3. Depende de Fase 1 mergeada en #831.
-5. **SE-216 S4** (tree search, P3) — solo si S1-S3 demuestran valor en producción.
-6. **Tier 3** cuando haya acceso externo.
+1. **#835 MERGED** — SE-219 S1-S5 abtop patterns. 48 tests.
+2. **SPEC-SE-036 S3** — siguiente. Cierra la migración JWT iniciada en #831.
+3. **SPEC-188 F2** — tras S3. Depende de Fase 1 mergeada en #831.
+4. **SE-216 S4** (tree search, P3) — solo si S1-S3 demuestran valor en producción.
+5. **Tier 3** cuando haya acceso externo.
 
 ### Total backlog activo: ~12h core (P2) + ~62h P3 + Tier 3
 

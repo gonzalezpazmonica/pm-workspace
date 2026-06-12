@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=8845e16b2adfe1b9d8324f73c7cefacf6f9491b64a92cb8fdeac157051ae3606
-timestamp=2026-06-11T10:57:04Z
-branch=feat/se-219-abtop-patterns
-head_commit=53c3eedd
-signature=79947925b7ffcb0f6ade7c74a4998fdfb63f3b2ee911024d1a6f513e40c4e970
+diff_hash=cfc85a64ac91c0a90e5dde334351687e81cad468b1dad1954d4f8236ef17b15f
+timestamp=2026-06-12T07:21:22Z
+branch=agent/jailbreak-defenses-20260611
+head_commit=d8b4d8df
+signature=4cb4304202f6e993fb0270282d2550269d371097c1af9423e31b65c193eea77f

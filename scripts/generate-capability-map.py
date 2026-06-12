@@ -382,7 +382,9 @@ def _collect_resources(repo_root: Path) -> list[ResourceEntry]:
         name_fallback=lambda path: path.parent.name,
     ))
 
-    agents_glob = (repo_root / ".claude" / "agents").glob("*.md")
+    # SE-220: source of truth = .opencode/agents/ (consistent with
+    # agents-md-generate.sh and agents-catalog-sync.sh).
+    agents_glob = (repo_root / ".opencode" / "agents").glob("*.md")
     resources.extend(scan_markdown_resources(
         agents_glob, "agent", repo_root,
         name_fallback=lambda path: path.stem,
