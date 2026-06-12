@@ -629,6 +629,50 @@ def cmd_impact(args: argparse.Namespace) -> None:
 
 # ── CLI ──────────────────────────────────────────────────────────────────────
 
+def cmd_import_audience(args: argparse.Namespace) -> None:
+    """SE-221: import audience-cross.tsv as typed relations
+    (path_a) -[shared_audience]-> (path_b) with shared_count en source.
+    """
+    import csv
+    tsv_path = args.tsv
+    if not os.path.isfile(tsv_path):
+        print(f"ERROR: tsv not found: {tsv_path}", file=sys.stderr)
+        sys.exit(1)
+    conn = open_db(Path(args.db))
+    n_rels = 0
+    with open(tsv_path, "r", encoding="utf-8") as fh:
+        reader = csv.DictReader(fh, delimiter="\t")
+        for row in reader:
+            path_a = row.get("path_a", "").strip()
+            path_b = row.get("path_b", "").strip()
+            shared = row.get("shared_agents", "").strip()
+            count_raw = row.get("audience_count", "0").strip()
+            try:
+                count = int(count_raw)
+            except ValueError:
+                count = 0
+            if not path_a or not path_b or count < 1:
+                continue
+            a_id = upsert_entity(conn, path_a, "context-doc",
+                                 project_id=args.project,
+                                 memory_type="fact",
+                                 confidence=1.0,
+                                 provenance="se-221-audience-graph")
+            b_id = upsert_entity(conn, path_b, "context-doc",
+                                 project_id=args.project,
+                                 memory_type="fact",
+                                 confidence=1.0,
+                                 provenance="se-221-audience-graph")
+            source = f"shared_audience={shared};count={count}"
+            upsert_relation(conn, a_id, "shared_audience", b_id,
+                            source=source, confidence=1.0)
+            n_rels += 1
+    conn.commit()
+    if not getattr(args, "quiet", False):
+        print(f"imported {n_rels} shared_audience relations from {tsv_path}")
+    conn.close()
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(
         description="SE-162: Knowledge Graph sobre memoria Savia"
@@ -668,6 +712,15 @@ def main() -> None:
     p_imp.add_argument("--db", default=str(DEFAULT_DB))
     p_imp.add_argument("--project", default=None, help="SE-151: filter by project slug")
 
+    p_imp_aud = sub.add_parser("import-audience",
+                                help="SE-221: import context-audience-cross.tsv as shared_audience relations")
+    p_imp_aud.add_argument("--tsv", required=True,
+                            help="Path to context-audience-cross.tsv (output of context-audience-graph.py)")
+    p_imp_aud.add_argument("--db", default=str(DEFAULT_DB))
+    p_imp_aud.add_argument("--project", default=None,
+                            help="SE-151: tag entities with project slug")
+    p_imp_aud.add_argument("--quiet", action="store_true")
+
     args = parser.parse_args()
     if not args.command:
         parser.print_help()
@@ -679,6 +732,7 @@ def main() -> None:
         "entities": cmd_entities,
         "query": cmd_query,
         "impact": cmd_impact,
+        "import-audience": cmd_import_audience,
     }
     dispatch[args.command](args)
 
