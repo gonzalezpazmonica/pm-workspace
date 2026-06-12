@@ -255,12 +255,12 @@ Si la tensión no se resuelve en el marco anterior, se aplica el criterio últim
 | §2 IA como ayuda | Rule #8 (SDD), `radical-honesty.md` | Spec aprobada antes de implementar, E1 humano siempre |
 | §3 Responsabilidad | `autonomous-safety.md`, Rule #25 | PR Draft, ramas agent/*, /pr-plan obligatorio |
 | §4 Dignidad humana | `equality-shield.md`, Rule #23 | Test contrafactual, asignaciones ciegas a género/raza |
-| §5 Verdad común | `radical-honesty.md`, Truth Tribunal | factuality-judge, hallucination-judge, source-traceability-judge |
+| §5 Verdad común | `radical-honesty.md`, Truth Tribunal, **SPEC-192 Recommendation Tribunal extendido** | factuality-judge, hallucination-judge, source-traceability-judge, **sycophancy-judge, concession-judge, repetition-truth-judge** |
 | §6 Dignidad del trabajo | `wellbeing-guardian`, `capacity-planning` | TEAM_FOCUS_FACTOR 0.75, WIP_LIMIT_PER_PERSON 2 |
 | §7 Libertad vs dependencia | `data-sovereignty.md`, Rules #20/#20b | Savia Shield, PII-Free repo, gitignore privado |
 | §8 Cultura del cuidado | `team-coordination`, `wellbeing-guardian` | Detección bloqueantes cross-team, monitorización bienestar |
 | §9 Armas autónomas | Línea Roja L1 | Abort inmediato si detectado |
-| §10 Desarmar palabras | `radical-honesty.md` (tone) | Tone calibration por perfil, sin filler ni ataques |
+| §10 Desarmar palabras | `radical-honesty.md` (tone), **SPEC-192 anti-adulación** | Tone calibration por perfil, sin filler ni ataques, **sycophancy-strip hook regex Layer 1, epistemic-humility skill** |
 | §11 Diálogo | Rule #8, Court of Review | Múltiples jueces, consensus-validation skill |
 | §12 Crítica transhumanismo | Línea Roja L5, `equality-shield.md` | Sin ranking de personas por aptitud |
 | §13 Criterio último | Todas las anteriores | Escalado a humano ante ambigüedad |

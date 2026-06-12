@@ -27,16 +27,19 @@ Diferencia clave con Truth Tribunal (SPEC-106): aquí el contexto es **real-time
 
 1. **Receive** a draft (string) + risk_class (low/medium/high/critical from classifier).
 2. **Skip** if risk_class < medium → return `{"verdict":"PASS","skipped":true}` immediately.
-3. **Convene** 4 judges in parallel via the Task tool:
+3. **Convene** 7 judges in parallel via the Task tool:
    - memory-conflict-judge
    - rule-violation-judge
    - hallucination-fast-judge
    - expertise-asymmetry-judge
+   - sycophancy-judge          (SPEC-192)
+   - concession-judge          (SPEC-192; shadow by default)
+   - repetition-truth-judge    (SPEC-192; shadow by default)
 4. **Aggregate** verdicts via `scripts/recommendation-tribunal/aggregate.sh` (deterministic, no LLM). Apply vetos.
 5. **Decide** final verdict: PASS / WARN / VETO.
 6. **Persist** audit trail via `output/recommendation-tribunal/<date>/<hash>.json`.
 7. **Return** structured JSON: `{verdict, judges, banner, audit_path}`.
-8. **Hard timeout** 3s wall-clock. If exceeded → return `{"verdict":"WARN","reason":"timeout"}` with whatever partial verdicts arrived. NEVER block the turn entirely.
+8. **Hard timeout** 5s wall-clock (relaxed from 3s for 7 judges). If exceeded → return `{"verdict":"WARN","reason":"timeout"}` with whatever partial verdicts arrived. NEVER block the turn entirely.
 
 ## Veto rules (any triggers VETO)
 
@@ -44,6 +47,18 @@ Diferencia clave con Truth Tribunal (SPEC-106): aquí el contexto es **real-time
 - memory-conflict on `feedback_*` or `user_*` memory file (semantic match, not just substring).
 - rule-violation on Rule #1 (PAT hardcoded), Rule #8 (agent without spec), `autonomous-safety.md`, or `radical-honesty.md`.
 - hallucination-fast with ≥1 fabricated entity at confidence ≥ 0.9.
+- sycophancy-judge with `score ≥ 85` AND `confidence ≥ 0.85` (SPEC-192).
+
+## SPEC-192 default modes
+
+- `sycophancy-judge`        → mode `warn` (visible banner; can veto if conditions met).
+- `concession-judge`        → mode `shadow` (telemetry only, never blocks; 30-day validation).
+- `repetition-truth-judge`  → mode `shadow` (telemetry only, never blocks; 30-day validation).
+
+Override via env vars:
+- `SAVIA_SYCOPHANCY_JUDGE={off,shadow,warn}`
+- `SAVIA_CONCESSION_JUDGE={off,shadow,warn}`
+- `SAVIA_REPETITION_TRUTH_JUDGE={off,shadow,warn}`
 
 ## Output format (always JSON)
 
