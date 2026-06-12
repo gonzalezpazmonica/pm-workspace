@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
 diff_hash=6a6b90355e8a6a043554ef9072d8f78cd06c6535cea622660722bdf1c8c7f17a
-timestamp=2026-06-12T23:05:24Z
+timestamp=2026-06-12T23:12:42Z
 branch=agent/spec-189-greedy-context-budget
-head_commit=4c1d35fe
-signature=8da5e305e7d50d6daee51c8ceee98aee0eec3f4e395303ebda5a0e5304ae001a
+head_commit=5da7d72b
+signature=3760c44f7d63060e6a027966655cbcbdfc9ba8c26d0aaca6a895be298406328a
