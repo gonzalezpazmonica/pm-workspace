@@ -162,3 +162,26 @@ teardown() {
 @test "spec_reference: SE-221 documentado en hook" {
   grep -q "SE-221" "$HOOK"
 }
+
+# === Edge cases (boundary, empty, large, no-args, timeout, null) ===
+
+@test "edge: empty JSON object as stdin is passthrough" {
+  output=$(printf '{}' | bash "$HOOK")
+  # Empty JSON sin tool_name -> passthrough silencioso, no crash.
+  [ "$?" -eq 0 ]
+}
+
+@test "edge: large output (>10000 lines) does not hang or overflow" {
+  # Boundary: output muy por encima del umbral debe seguir completándose.
+  input=$(jq -nc --arg c "$(seq 1 10000)" --arg p "/tmp/large.md" \
+    '{tool_name:"Read",tool_input:{file_path:$p},tool_response:{output:$c}}')
+  run timeout 5 bash -c "echo '$input' | bash '$HOOK'"
+  [ "$status" -ne 124 ]  # 124 = timeout
+}
+
+@test "edge: nonexistent file path in tool_input is handled gracefully" {
+  input=$(jq -nc --arg c "$(seq 1 300)" \
+    '{tool_name:"Read",tool_input:{file_path:"/no/such/file.md"},tool_response:{output:$c}}')
+  run bash -c "echo '$input' | bash '$HOOK'"
+  [ "$status" -eq 0 ]
+}

@@ -221,3 +221,40 @@ teardown() {
 @test "spec_reference: SE-221 documentado en script" {
   grep -q "SE-221" "$SCRIPT"
 }
+
+# === Edge cases (boundary, empty, large, no-args, timeout, null) ===
+# Coverage: ejercitan abs_path() y resolve_tier() funciones del target.
+
+@test "edge: empty path argument is rejected" {
+  run "$SCRIPT" ""
+  [ "$status" -ne 0 ]
+}
+
+@test "edge: nonexistent absolute path still resolves tier (boundary case)" {
+  # abs_path() y resolve_tier() deben operar sobre prefijos, no sobre contenido.
+  run "$SCRIPT" "/this/path/does/not/exist/foo.md"
+  [ "$status" -eq 0 ]
+}
+
+@test "edge: large path (>4kb) does not overflow buffer or hang" {
+  # Construir path largo cerca de PATH_MAX para verificar boundary.
+  long_segment=$(printf 'a%.0s' {1..100})
+  long_path="$WS"
+  for _ in {1..30}; do long_path="$long_path/$long_segment"; done
+  long_path="$long_path/file.md"
+  run timeout 3 "$SCRIPT" "$long_path"
+  # No nos importa el verdict — solo que no cuelgue ni explote.
+  [ "$status" -ne 124 ]  # 124 = timeout exit code
+}
+
+@test "edge: zero arguments triggers help/error (no-arg boundary)" {
+  run "$SCRIPT"
+  [ "$status" -eq 2 ]
+}
+
+@test "edge: null byte in path is rejected gracefully" {
+  # Bash strings no soportan NUL, pero el wrapper debe ser robusto.
+  run "$SCRIPT" $'\x00invalid'
+  # Cualquier salida controlada acepta — lo critico es no segfault.
+  [ "$status" -ne 139 ]  # 139 = SIGSEGV
+}

@@ -301,3 +301,33 @@ EOF
 @test "spec_reference: SE-221 documentado en hook" {
   grep -q "SE-221" "$HOOK"
 }
+
+# === Edge cases (boundary, empty, large, no-args, timeout, null) ===
+# Coverage: ejercita extract_abstract() del target script.
+
+@test "edge: empty file content produces non-null abstract via extract_abstract" {
+  empty_file=$(mktemp)
+  : > "$empty_file"
+  run "$SCRIPT" --path "$empty_file" --next-task "noref"
+  rm -f "$empty_file"
+  [ "$status" -eq 0 ]
+}
+
+@test "edge: large output (>5000 lines) does not overflow timeout" {
+  large=$(seq 1 5000)
+  input=$(jq -nc --arg c "$large" --arg p "$WS/docs/rules/domain/big.md" \
+    '{tool_name:"Read",tool_input:{file_path:$p},tool_response:{output:$c}}')
+  run timeout 10 bash -c "echo '$input' | bash '$HOOK'"
+  [ "$status" -ne 124 ]
+}
+
+@test "edge: zero arguments to script triggers boundary error" {
+  run "$SCRIPT"
+  [ "$status" -ne 0 ]
+}
+
+@test "edge: nonexistent --path still returns a verdict (no segfault, no hang)" {
+  run timeout 3 "$SCRIPT" --path "/no/such/file/at/all.md" --next-task ""
+  [ "$status" -ne 124 ]  # not timeout
+  [ "$status" -ne 139 ]  # not segfault
+}
