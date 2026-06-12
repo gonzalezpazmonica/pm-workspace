@@ -1,6 +1,6 @@
 # Savia Capability Map — INDEX
-> hash: 001fe46752b5 | resources: 1255
-> 557 commands · 103 skills · 72 agents · 523 scripts
+> hash: a4674200963e | resources: 1261
+> 557 commands · 103 skills · 72 agents · 529 scripts
 
 [analysis] /a11y-report — accesibilidad,completos,conformidad,código,declaración — cmd:.claude/commands/a11y-report.md
 [analysis] Trace Optimize — across,distributed,optimize,rates,sampling — cmd:.claude/commands/trace-optimize.md
@@ -393,17 +393,23 @@
 [memory] context-budget-check — budget,check,context — script:scripts/context-budget-check.sh
 [memory] context-caching — cache,carga,contexto,hits,maximizar — skill:.claude/skills/context-caching/SKILL.md
 [memory] context-calibration-measure — calibration,context,measure,patterns,usage — script:scripts/context-calibration-measure.sh
+[memory] context-capability-check — capability,check,context,metadata,slice — script:scripts/context-capability-check.sh
 [memory] context-compress — compresión,contexto,mantener,reducir,reduction — cmd:.claude/commands/context-compress.md
 [memory] context-condenser — compression,condenser,context,rolling,window — script:scripts/context-condenser.sh
 [memory] context-defer — carga,cargar,comandos,diferida,necesitan — cmd:.claude/commands/context-defer.md
 [memory] context-distortion-measure — context,distortion,measure — script:scripts/context-distortion-measure.sh
+[memory] context-drop-after-use — context,decision,drop,engine,slice — script:scripts/context-drop-after-use.sh
+[memory] context-drop-metrics — context,drop,metrics,slice — script:scripts/context-drop-metrics.sh
+[memory] context-engineering-report — context,engineering,generator,report,slice — script:scripts/context-engineering-report.sh
 [memory] context-frozen-check — check,context,frozen — script:scripts/context-frozen-check.sh
+[memory] context-greedy-budget — budget,context,greedy,selection,spec — script:scripts/context-greedy-budget.sh
 [memory] context-interview — clientes,contexto,entrevista,estructurada,proyectos — cmd:.claude/commands/context-interview.md
 [memory] context-interview-conductor — contexto,entrevista,estructurado,guiada,mediante — skill:.claude/skills/context-interview-conductor/SKILL.md
 [memory] context-load —  — cmd:.claude/commands/context-load.md
 [memory] context-meter — abtop,class,context,first,meter — script:scripts/context-meter.sh
 [memory] context-optimize — analizar,context,contexto,optimizaciones,patrones — cmd:.claude/commands/context-optimize.md
 [memory] context-optimized-dev — contexto,desarrolla,limitado,presupuesto — skill:.claude/skills/context-optimized-dev/SKILL.md
+[memory] context-origin-tag — context,origin,slice,tagging — script:scripts/context-origin-tag.sh
 [memory] context-preflight-check —  — script:scripts/context-preflight-check.sh
 [memory] context-profile — comparación,consume,consumo,contexto,flame — cmd:.claude/commands/context-profile.md
 [memory] context-receipts-validate — context,receipts,validate — script:scripts/context-receipts-validate.sh

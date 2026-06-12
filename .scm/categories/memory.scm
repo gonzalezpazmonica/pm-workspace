@@ -1,5 +1,5 @@
 # memory — Savia Capability Map (L1)
-> 106 resources
+> 112 resources
 
 - **auto-compact** (script): auto-compact.sh — Disparado automáticamente cuando contexto > 85%
 - **biblio-search** (cmd): >
@@ -18,17 +18,23 @@
 - **context-budget-check** (script): ── context-budget-check.sh ──────────────────────────────────────────────────
 - **context-caching** (skill): Usar cuando se optimiza el orden de carga de contexto para maximizar cache hits.
 - **context-calibration-measure** (script): context-calibration-measure.sh — Measure context usage patterns
+- **context-capability-check** (script): context-capability-check.sh — SE-221 Slice 3 — Capability metadata validator
 - **context-compress** (cmd): Compresión semántica de contexto — mantener significado, reducir tokens (80% reduction)
 - **context-condenser** (script): context-condenser.sh — SE-200: rolling window context compression
 - **context-defer** (cmd): Sistema de carga diferida — cargar comandos/reglas solo cuando se necesitan (85% reducción de overhead)
 - **context-distortion-measure** (script): context-distortion-measure.sh — SE-029-M
+- **context-drop-after-use** (script): context-drop-after-use.sh — SE-221 Slice 2 — Drop-After-Use decision engine
+- **context-drop-metrics** (script): context-drop-metrics.sh — SE-221 Slice 2 — Drop-After-Use metrics
+- **context-engineering-report** (script): context-engineering-report.sh — SE-221 Slice 4 — Weekly report generator
 - **context-frozen-check** (script): context-frozen-check.sh — SE-029-F
+- **context-greedy-budget** (script): context-greedy-budget.sh — SPEC-189: Greedy context budget selection.
 - **context-interview** (cmd): Entrevista estructurada de contexto para proyectos y clientes
 - **context-interview-conductor** (skill): Usar cuando se necesita recopilar contexto estructurado de un usuario mediante entrevista guiada.
 - **context-load** (cmd): >
 - **context-meter** (script): context-meter.sh — SE-219 S2: context window % as first-class metric (abtop pattern)
 - **context-optimize** (cmd): Analizar patrones de uso de contexto y sugerir optimizaciones al context-map
 - **context-optimized-dev** (skill): Usar cuando se desarrolla con presupuesto de contexto limitado.
+- **context-origin-tag** (script): context-origin-tag.sh — SE-221 Slice 1 — Context Origin Tagging
 - **context-preflight-check** (script): ─────────────────────────────────────────────────────────────────────────────
 - **context-profile** (cmd): Perfilar consumo de contexto — qué consume más, generación de flame-graph, comparación entre sesiones
 - **context-receipts-validate** (script): context-receipts-validate.sh — SE-030
