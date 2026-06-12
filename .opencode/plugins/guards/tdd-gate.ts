@@ -88,18 +88,27 @@ export async function tddGate(input: ToolInput, output: ToolOutput): Promise<voi
     `test_${verdict.nameNoExt}.`,
   ];
 
-  // Walk up from the file's directory toward repo root, scanning each dir.
+  // Walk up from the file's directory toward repo root. At each level we
+  // scan the directory itself AND its conventional sibling test directories
+  // (__tests__, tests, test, spec, specs) — this mirrors Bun/Vitest/Jest
+  // conventions where production code lives in src/ and tests in __tests__/.
+  // Pre-fix bug: only top-level dirs were scanned, missing tests colocated
+  // in __tests__/ siblings. (Documented in RESUME-se-221-opencode-port.md.)
+  const TEST_SUBDIRS = ["__tests__", "tests", "test", "spec", "specs"];
   let dir = filePath.slice(0, filePath.lastIndexOf("/")) || "/";
   for (let depth = 0; depth < 8 && dir && dir !== "/"; depth++) {
-    try {
-      const entries = await readdir(dir);
-      for (const e of entries) {
-        if (candidatePatterns.some((p) => e.startsWith(p))) {
-          return; // test exists nearby — pass
+    const candidates: string[] = [dir, ...TEST_SUBDIRS.map((sub) => `${dir}/${sub}`)];
+    for (const probe of candidates) {
+      try {
+        const entries = await readdir(probe);
+        for (const e of entries) {
+          if (candidatePatterns.some((p) => e.startsWith(p))) {
+            return; // test exists nearby — pass
+          }
         }
+      } catch {
+        // dir unreadable — keep walking
       }
-    } catch {
-      // dir unreadable — keep walking
     }
     const next = dir.slice(0, dir.lastIndexOf("/")) || "/";
     if (next === dir) break;
