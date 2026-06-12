@@ -215,7 +215,8 @@ export function isScriptPath(path: string): boolean {
 
 // ── N1 destination classification ─────────────────────────────────────────
 
-const N1_DEST_RX = /(\/docs\/|\.claude\/rules\/|\.claude\/skills\/|\.claude\/agents\/|\.claude\/commands\/|\.claude\/hooks\/|scripts\/|tests\/|\.github\/|CLAUDE\.md|CHANGELOG\.md|README)/i;
+// SE-221: alineado con .claude/hooks/data-sovereignty-gate.sh linea 174. Incluye .opencode/{skills,agents,commands,hooks,plugins}/
+const N1_DEST_RX = /(\/docs\/|\.claude\/rules\/|\.claude\/skills\/|\.claude\/agents\/|\.claude\/commands\/|\.claude\/hooks\/|\.opencode\/skills\/|\.opencode\/agents\/|\.opencode\/commands\/|\.opencode\/hooks\/|\.opencode\/plugins\/|scripts\/|tests\/|\.github\/|CLAUDE\.md|CHANGELOG\.md|README)/i;
 
 export function isN1Destination(path: string): boolean {
   return N1_DEST_RX.test(path);
@@ -230,7 +231,8 @@ export function isPrivateDestination(path: string): boolean {
 }
 
 export function isHookSelfRef(path: string): boolean {
-  return /\/\.claude\/hooks\/|^\/?\.claude\/hooks\/|\/tests\/hooks\/|^tests\/hooks\//.test(path);
+  // SE-221: extendido para .opencode/{hooks,plugins}/
+  return /\/\.claude\/hooks\/|^\/?\.claude\/hooks\/|\/\.opencode\/hooks\/|^\/?\.opencode\/hooks\/|\/\.opencode\/plugins\/|^\/?\.opencode\/plugins\/|\/tests\/hooks\/|^tests\/hooks\//.test(path);
 }
 
 export function isShieldScript(path: string): boolean {
