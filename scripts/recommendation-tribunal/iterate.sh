@@ -105,6 +105,41 @@ case "$cmd" in
     fi
     echo "{\"logged\":true,\"file\":\"$log_file\"}"
     ;;
+  compute-temperature)
+    # SPEC-197 wired: returns the LLM temperature for the current iteration.
+    # Usage:
+    #   iterate.sh compute-temperature \
+    #       --iteration N --max-iter M \
+    #       [--max-t 0.9] [--min-t 0.1] [--exponent 2.0]
+    iter_val=""
+    max_iter=""
+    max_t="${SAVIA_ANNEAL_MAX_T:-0.9}"
+    min_t="${SAVIA_ANNEAL_MIN_T:-0.1}"
+    exponent="${SAVIA_ANNEAL_EXPONENT:-2.0}"
+    while [[ $# -gt 0 ]]; do
+      case "$1" in
+        --iteration) iter_val="$2"; shift 2 ;;
+        --max-iter) max_iter="$2"; shift 2 ;;
+        --max-t) max_t="$2"; shift 2 ;;
+        --min-t) min_t="$2"; shift 2 ;;
+        --exponent) exponent="$2"; shift 2 ;;
+        *) echo "ERROR: unknown arg: $1" >&2; exit 2 ;;
+      esac
+    done
+    if [[ -z "$iter_val" || -z "$max_iter" ]]; then
+      echo "ERROR: --iteration and --max-iter required" >&2
+      exit 2
+    fi
+    ANNEAL_SCRIPT="$ROOT_DIR/scripts/annealing-schedule.py"
+    if [[ ! -f "$ANNEAL_SCRIPT" ]]; then
+      # SPEC-197 module absent — return max_t (no annealing)
+      echo "{\"temperature\":$max_t,\"strategy\":\"no-annealing\",\"iteration\":$iter_val,\"max_iter\":$max_iter}"
+      exit 0
+    fi
+    exec python3 "$ANNEAL_SCRIPT" \
+      --index "$iter_val" --total "$max_iter" \
+      --max-t "$max_t" --min-t "$min_t" --exponent "$exponent" --json
+    ;;
   -h|--help|"")
     usage
     ;;
