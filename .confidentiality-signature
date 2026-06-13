@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
 diff_hash=e09e320af0e6246ceff5c8b2aa32fe6536f367490c570b2d930af5eb46f61918
-timestamp=2026-06-13T10:35:23Z
-branch=agent/spec-189-greedy-context-budget
-head_commit=ab89c5a5
-signature=9f3abef4a4954c90e0e24d8b8252572c0656c0925bd34c91222819bd4b46b498
+timestamp=2026-06-13T12:02:12Z
+branch=agent/fix-code-twin-fixture-aging
+head_commit=67696a12
+signature=ce90a51905e2ec0ea1163342309e26fb12495940f1db9ca89b16e120d0918fb2
