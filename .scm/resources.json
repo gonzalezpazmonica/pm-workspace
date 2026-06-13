@@ -1,6 +1,6 @@
 {
-  "hash": "cff46bd3668e",
-  "total": 1261,
+  "hash": "2a24fd9d270a",
+  "total": 1265,
   "resources": [
     {
       "category": "analysis",
@@ -2751,6 +2751,20 @@
     },
     {
       "category": "development",
+      "name": "concession-judge",
+      "intents": [
+        "changes",
+        "detects",
+        "evidence",
+        "judge",
+        "position"
+      ],
+      "kind": "agent",
+      "path": ".opencode/agents/concession-judge.md",
+      "description": "Recommendation Tribunal judge — detects position changes without new evidence (SPEC-192)"
+    },
+    {
+      "category": "development",
       "name": "dag-execute",
       "intents": [
         "agentes",
@@ -2898,6 +2912,20 @@
       "kind": "cmd",
       "path": ".claude/commands/dev-session-resume.md",
       "description": "Reanudar una dev-session interrumpida desde el ultimo checkpoint"
+    },
+    {
+      "category": "development",
+      "name": "epistemic-humility",
+      "intents": [
+        "adulación",
+        "asumido",
+        "auto",
+        "cesión",
+        "claim"
+      ],
+      "kind": "skill",
+      "path": ".claude/skills/epistemic-humility/SKILL.md",
+      "description": "Usar cuando se detecta riesgo de adulación, cesión sin evidencia, o claim repetido por el usuario asumido sin verificar. Trigger: tribunal SPEC-192 emite WARN/VETO o auto-detección léxica."
     },
     {
       "category": "development",
@@ -3595,6 +3623,20 @@
     },
     {
       "category": "development",
+      "name": "repetition-truth-judge",
+      "intents": [
+        "assumed",
+        "claims",
+        "detects",
+        "judge",
+        "recommendation"
+      ],
+      "kind": "agent",
+      "path": ".opencode/agents/repetition-truth-judge.md",
+      "description": "Recommendation Tribunal judge — detects user claims repeated and assumed true without verification (SPEC-192)"
+    },
+    {
+      "category": "development",
       "name": "requirement-pushback",
       "intents": [
         "analyze",
@@ -4128,6 +4170,20 @@
       "kind": "script",
       "path": "scripts/statusline-provider.sh",
       "description": "statusline-provider.sh — HUD data provider for Claude Code statusline"
+    },
+    {
+      "category": "development",
+      "name": "sycophancy-judge",
+      "intents": [
+        "conversational",
+        "detects",
+        "drafts",
+        "empty",
+        "judge"
+      ],
+      "kind": "agent",
+      "path": ".opencode/agents/sycophancy-judge.md",
+      "description": "Recommendation Tribunal judge — detects empty social validation in conversational drafts (SPEC-192)"
     },
     {
       "category": "development",

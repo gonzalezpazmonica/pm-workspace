@@ -1,6 +1,6 @@
 # Roadmap Unificado — pm-workspace / Savia
 
-**Updated:** 2026-06-13 | **Version:** v6.20.0 | **562 commands · 75 agents · 104 skills · 80 hooks · 450+ test suites · Active backlog 8 items (3 in PR review + 1 P0 nuevo + 4 P2/P3)** — ver `### Backlog restante — repriorizado 2026-06-13`
+**Updated:** 2026-06-13 | **Version:** v6.20.0 | **562 commands · 75 agents · 104 skills · 81 hooks · 470+ test suites · Active backlog 10 items (1 in PR review + 6 nuevas DiffusionGemma + 3 P2/P3 viejos)** — ver `### Backlog restante — repriorizado 2026-06-13`
 
 ---
 
@@ -718,14 +718,27 @@ Google Sheets · ServiceNow/SAP · Tableau · Kafka · VS Code ext · Cloud voic
 
 | # | ID | Qué | Esfuerzo | Prioridad | Deps |
 |---|---|---|---|---|---|
-| 1 | **SPEC-189** | Greedy Context Budget + Read injector hook | 88 tests, PR #838 | P1 | — |
-| 2 | **SPEC-192** | Anti-Adulation defense (3 LLM judges + Layer 1 hook + skill) | 68 tests, PR #839 | P0 | — |
-| 3 | **SPEC-193** | Context Provenance & Injection Hardening (12 components, 3 layers, 22 ACs) | 4-6d / 5-8h agente | P0 | SPEC-192 (hermana operacional) |
-| 4 | **SPEC-194** | Criterion Simulation Layer (meta-reflexion antes de aplicar; 11 components, 20 ACs; explicitamente simulacion no criterio) | 5-7d / 6-9h agente | P0 | SPEC-188 (memoria de fallos) |
-| 5 | **SPEC-SE-036 Slice 3** | JWT sunset opt-in (PAT file migration) | 4h | P2 | Slice 1+2 ✓ |
-| 6 | **SPEC-188 Fase 2** | Sealed Contract Tests | ~8h | P2 | Fase 1 ✓ |
-| 7 | **SE-216 Slice 4** | Experiment Graph — tree search | ~6h | P3 | SE-216 S1+S2+S3 ✓ |
-| 8 | **SPEC-188 Fases 3+4** | Causal confidence + diagnostic metrics | ~56h | P3 | Fase 2 |
+| 1 | **SPEC-195** | Iterative Tribunal con multi-criteria early stop (DiffusionGemma pattern) | 3-4d / 4-5h | P1 | extiende SPEC-125 |
+| 2 | **SPEC-196** | Freeze-done elements en orchestrator (early-cancel jueces tras VETO) | 1-2d / 2-3h | P1 | trivial, alto ROI |
+| 3 | **SPEC-197** | Annealing schedule en jueces meta-reflexivos | 2-3d / 2-3h | P2 | mejora SPEC-194 |
+| 4 | **SPEC-198** | JudgeVerdict frozen dataclass contract | 3-4d / 4-5h | P2 | refactor cross-juez |
+| 5 | **SPEC-199** | Historical context conditioning entre rondas (via embeddings) | 4-5d / 5-7h | P2 | depende SPEC-195 |
+| 6 | **SPEC-200** | Adaptive quality gate threshold (proporcional a la distribucion) | 2-3d / 2-3h | P3 | extiende SPEC-055 |
+| 7 | **SPEC-SE-036 Slice 3** | JWT sunset opt-in (PAT file migration) | 4h | P2 | Slice 1+2 ✓ |
+| 8 | **SPEC-188 Fase 2** | Sealed Contract Tests | ~8h | P2 | Fase 1 ✓ |
+| 9 | **SE-216 Slice 4** | Experiment Graph — tree search | ~6h | P3 | SE-216 S1+S2+S3 ✓ |
+| 10 | **SPEC-188 Fases 3+4** | Causal confidence + diagnostic metrics | ~56h | P3 | Fase 2 |
+
+### DiffusionGemma patterns (SPEC-195 a 200)
+
+Origen: analisis 2026-06-13 de [google-deepmind/gemma/diffusion](https://github.com/google-deepmind/gemma/tree/main/gemma/diffusion).
+Seis patrones extraidos: iterative refinement con early-stop multi-criterio (195),
+freeze-done per-batch (196), annealing temperature schedule (197), frozen dataclass
+contracts (198), historical-context-conditioning entre rondas (199 — adaptado a
+similarity search para LLM via API, NO self-conditioning literal), entropy-bound
+proporcional como quality threshold (200). Cuatro de ellas (195, 196, 197, 198)
+operan sobre el Recommendation Tribunal existente; las otras dos extienden infra
+ortogonal. Specs SPEC-189, 192, 193, 194 ya mergeadas (PRs #838 #839 #840).
 
 ### Tier 3 — SaviaClaw (requiere sistema externo)
 
