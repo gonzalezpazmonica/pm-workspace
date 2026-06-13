@@ -6,6 +6,23 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
+## [Unreleased] — 2026-06-13 · Wire SPEC-195/196/197/198/200
+
+Added: wiring opt-in de cinco specs implementadas previamente a sus
+consumidores reales en produccion. Defaults conservadores backward-compat.
+
+- SPEC-200 wired al CI test quality gate (adaptive threshold opt-in)
+- SPEC-198 wired al tribunal aggregator (judge verdict validation opt-in)
+- SPEC-197 wired al tribunal iterate (subcomando compute-temperature)
+- SPEC-196 documented en orchestrator agent prompt (early-cancel doc)
+- SPEC-195 documented en orchestrator agent prompt (iterative loop doc)
+
+Tests bats verdes, gate PASS, suite pytest sin regresion. Detalle en PR.
+
+Out of scope: SPEC-194 no existe todavia, tribunal-async-runner no
+modificado, orchestrator prompt LLM no shell glue. Branch dedicada.
+
+
 ## [Unreleased] — 2026-06-04 · SPEC-188 Root-Cause Investigation Architecture (meta-spec)
 
 Added: docs/propuestas/SPEC-188-root-cause-investigation-architecture.md — meta-spec
