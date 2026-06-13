@@ -1,6 +1,6 @@
 # Savia Capability Map — INDEX
-> hash: a4674200963e | resources: 1261
-> 557 commands · 103 skills · 72 agents · 529 scripts
+> hash: 2a0ecb48cdfd | resources: 1265
+> 557 commands · 104 skills · 75 agents · 529 scripts
 
 [analysis] /a11y-report — accesibilidad,completos,conformidad,código,declaración — cmd:.claude/commands/a11y-report.md
 [analysis] Trace Optimize — across,distributed,optimize,rates,sampling — cmd:.claude/commands/trace-optimize.md
@@ -217,6 +217,7 @@
 [development] competitive-design — competitive,design,generation,parallel,philosophies — script:scripts/competitive-design.sh
 [development] component-search — buscar,claude,code,componentes,marketplace — cmd:.claude/commands/component-search.md
 [development] comprehension-report — architectural,debugging,decisions,documents,failure — cmd:.claude/commands/comprehension-report.md
+[development] concession-judge — changes,detects,evidence,judge,position — agent:.opencode/agents/concession-judge.md
 [development] dag-execute — agentes,ejecutar,paralelo,pipeline,según — cmd:.claude/commands/dag-execute.md
 [development] dag-plan — ahorro,camino,crítico,ejecución,tiempo — cmd:.claude/commands/dag-plan.md
 [development] dag-scheduling — agentes,dependencias,ellos,múltiples,orquestan — skill:.claude/skills/dag-scheduling/SKILL.md
@@ -228,6 +229,7 @@
 [development] dev-session — aislamiento,contexto,desarrollo,disco,fases — cmd:.claude/commands/dev-session.md
 [development] dev-session-discard — cleanly,discard,session — script:scripts/dev-session-discard.sh
 [development] dev-session-resume — checkpoint,interrumpida,reanudar,session,ultimo — cmd:.claude/commands/dev-session-resume.md
+[development] epistemic-humility — adulación,asumido,auto,cesión,claim — skill:.claude/skills/epistemic-humility/SKILL.md
 [development] eval-agent — against,agent,bias,evaluate,golden — cmd:.claude/commands/eval-agent.md
 [development] eval-agent — agent,eval,evaluation,runner,spec — script:scripts/eval-agent.sh
 [development] eval-run — against,criteria,evaluation,execute,specified — cmd:.claude/commands/eval-run.md
@@ -281,6 +283,7 @@
 [development] reaction-engine — engine,phase,reaction,spec — script:scripts/reaction-engine.sh
 [development] rebuild-folder-indexes — folder,indexes,rebuild — script:scripts/rebuild-folder-indexes.sh
 [development] reconciliation-pilot — docs,pilot,reconciler,reconciliation,slice — script:scripts/reconciliation-pilot.sh
+[development] repetition-truth-judge — assumed,claims,detects,judge,recommendation — agent:.opencode/agents/repetition-truth-judge.md
 [development] requirement-pushback — analyze,generate,pushback,questions,requirement — script:scripts/requirement-pushback.sh
 [development] retro-patterns — action,análisis,items,patrones,recurrentes — cmd:.claude/commands/retro-patterns.md
 [development] rpi-status — active,implement,plan,progress,research — cmd:.claude/commands/rpi-status.md
@@ -320,6 +323,7 @@
 [development] spec156-migrate-token-budget — budget,flat,migrate,nested,object — script:scripts/spec156-migrate-token-budget.sh
 [development] specs-frontmatter-normalize — frontmatter,normalization,normalize,slice,specs — script:scripts/specs-frontmatter-normalize.sh
 [development] statusline-provider — claude,code,data,provider,statusline — script:scripts/statusline-provider.sh
+[development] sycophancy-judge — conversational,detects,drafts,empty,judge — agent:.opencode/agents/sycophancy-judge.md
 [development] tech-research — autonomous,designated,generates,human,investigates — cmd:.claude/commands/tech-research.md
 [development] tech-research-agent — autónoma,específico,investigación,tema,técnica — skill:.claude/skills/tech-research-agent/SKILL.md
 [development] timeline-append — append,decision,entry,file,spec — script:scripts/timeline-append.sh
