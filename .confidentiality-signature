@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=d3aee62777cc71f5989f854468d4a254238cff43c8b07f0c8c3d564239f958b9
-timestamp=2026-06-13T17:01:16Z
+diff_hash=46bd1972fd4a6965296ad8083ba3b0bacf2b9f715e3b7bbab11cad3365fb2604
+timestamp=2026-06-13T18:52:58Z
 branch=agent/wire-specs-195-200
-head_commit=e7cbd575
-signature=92e6ec04894aafb7de4c0be12a85b09cca067ebfe64dde07e6ce394f75a2f1b2
+head_commit=e43fa8f9
+signature=02a8e7c7b572ead823ba73a1f52b2857d7c903efcffe66d9cd597628d63cc541
