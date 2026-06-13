@@ -1,6 +1,6 @@
 # Roadmap Unificado — pm-workspace / Savia
 
-**Updated:** 2026-06-11 | **Version:** v6.20.0 | **562 commands · 72 agents · 103 skills · 76 hooks · 450+ test suites · Active backlog 2 items (~12h P2)** — ver `## Active Stack — 2026-06-11`
+**Updated:** 2026-06-13 | **Version:** v6.20.0 | **562 commands · 75 agents · 104 skills · 80 hooks · 450+ test suites · Active backlog 8 items (3 in PR review + 1 P0 nuevo + 4 P2/P3)** — ver `### Backlog restante — repriorizado 2026-06-13`
 
 ---
 
@@ -714,14 +714,18 @@ Google Sheets · ServiceNow/SAP · Tableau · Kafka · VS Code ext · Cloud voic
 | SE-218 S1-S5 | codebase-memory patterns: hook augmentation, KG snapshot, qualified names, tiered flush, .saviaignore — 81 tests | #834 |
 | SE-219 S1-S5 | abtop patterns: session-status, context-meter, session-cleanup, profile-discover, agent-tick — 48 tests | #835 |
 
-### Backlog restante — repriorizado 2026-06-11
+### Backlog restante — repriorizado 2026-06-13
 
 | # | ID | Qué | Esfuerzo | Prioridad | Deps |
 |---|---|---|---|---|---|
-| 1 | **SPEC-SE-036 Slice 3** | JWT sunset opt-in (PAT file migration) | 4h | P2 | Slice 1+2 ✓ |
-| 2 | **SPEC-188 Fase 2** | Sealed Contract Tests | ~8h | P2 | Fase 1 ✓ |
-| 3 | **SE-216 Slice 4** | Experiment Graph — tree search | ~6h | P3 | SE-216 S1+S2+S3 ✓ |
-| 4 | **SPEC-188 Fases 3+4** | Causal confidence + diagnostic metrics | ~56h | P3 | Fase 2 |
+| 1 | **SPEC-189** | Greedy Context Budget + Read injector hook | 88 tests, PR #838 | P1 | — |
+| 2 | **SPEC-192** | Anti-Adulation defense (3 LLM judges + Layer 1 hook + skill) | 68 tests, PR #839 | P0 | — |
+| 3 | **SPEC-193** | Context Provenance & Injection Hardening (12 components, 3 layers, 22 ACs) | 4-6d / 5-8h agente | P0 | SPEC-192 (hermana operacional) |
+| 4 | **SPEC-194** | Criterion Simulation Layer (meta-reflexion antes de aplicar; 11 components, 20 ACs; explicitamente simulacion no criterio) | 5-7d / 6-9h agente | P0 | SPEC-188 (memoria de fallos) |
+| 5 | **SPEC-SE-036 Slice 3** | JWT sunset opt-in (PAT file migration) | 4h | P2 | Slice 1+2 ✓ |
+| 6 | **SPEC-188 Fase 2** | Sealed Contract Tests | ~8h | P2 | Fase 1 ✓ |
+| 7 | **SE-216 Slice 4** | Experiment Graph — tree search | ~6h | P3 | SE-216 S1+S2+S3 ✓ |
+| 8 | **SPEC-188 Fases 3+4** | Causal confidence + diagnostic metrics | ~56h | P3 | Fase 2 |
 
 ### Tier 3 — SaviaClaw (requiere sistema externo)
 
