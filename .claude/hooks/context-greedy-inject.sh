@@ -46,10 +46,12 @@ set -uo pipefail
 #
 # Ref: SPEC-189 docs/propuestas/SPEC-189-greedy-context-budget.md
 
-# Allow direct invocation in tests; do not fail if savia-env.sh is absent.
-if [[ -f "$(dirname "${BASH_SOURCE[0]}")/../../scripts/savia-env.sh" ]]; then
-  # shellcheck disable=SC1091
-  source "$(dirname "${BASH_SOURCE[0]}")/../../scripts/savia-env.sh" 2>/dev/null || true
+# Source savia-env.sh — same convention as other hooks. If absent, the
+# script falls back to PROJECT_DIR/pwd-derived defaults.
+SAVIA_ENV="$(dirname "${BASH_SOURCE[0]}")/../../scripts/savia-env.sh"
+if [[ -f "$SAVIA_ENV" ]]; then
+  # shellcheck disable=SC1090
+  source "$SAVIA_ENV"
 fi
 export CLAUDE_PROJECT_DIR="${CLAUDE_PROJECT_DIR:-${SAVIA_WORKSPACE_DIR:-$(pwd)}}"
 
