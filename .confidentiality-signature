@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=e44b3343fc7e654a9e7ff0cf0892c24070612497cf6cefa283a88027890e83a5
-timestamp=2026-06-13T12:42:51Z
-branch=agent/specs-193-194-defense-meta
-head_commit=27c697a4
-signature=4d4c4408c05634eaedbb306d296bd092b02bdb2a132982c0540a2c48e98314dc
+diff_hash=5b5ce6dd96e73d42ecdca36e00e3f54ba0252d8595a5c51a642f570d35224d42
+timestamp=2026-06-13T13:45:07Z
+branch=agent/specs-195-200-diffusion-patterns
+head_commit=22362c65
+signature=3029da621411fe0e55691ab0e95293046d7d4e5e31d94cfee1df234446842f0e
