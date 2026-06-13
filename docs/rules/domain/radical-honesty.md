@@ -90,3 +90,36 @@ of 3 days is based on the happy path — with edge cases it's closer to
 Better plan: split it into the core (3 days, this sprint) and the
 edge cases (5 days, next sprint).
 ```
+
+## Enforcement (SPEC-192)
+
+Esta regla es declarativa pero ahora tiene mecanismo de cumplimiento real
+mediante tres capas:
+
+**Layer 1 (deterministic, sin LLM):** hook `.opencode/hooks/sycophancy-strip.sh`
+ejecuta regex contra el output del modelo. Bloquea (en mode=block) frases
+explicitas como "Buena pregunta", "Tienes razon", "Absolutamente" cuando
+aparecen al inicio del draft. Vease `scripts/anti-adulation/regex-patterns.json`
+para la lista completa.
+
+**Layer 2 (LLM judges):** Recommendation Tribunal (SPEC-125) extendido con tres
+jueces nuevos que evaluan adulacion semantica sutil:
+
+- `sycophancy-judge` (mode warn por defecto): detecta validacion social vacia
+  que no aporta contenido informativo.
+- `concession-judge` (mode shadow): detecta cambios de postura del asistente
+  sin nueva evidencia introducida por el usuario.
+- `repetition-truth-judge` (mode shadow): detecta claims repetidos por el
+  usuario y citados como hecho sin verificacion (illusory truth effect).
+
+**Layer 3 (skill activa):** `.opencode/skills/epistemic-humility/SKILL.md`
+proporciona protocolo de reemplazos concretos cuando el modelo se autodetecta
+en uno de los tres patrones. Carga automatica via tribunal trigger o keyword.
+
+Telemetria de los tres patrones se registra en
+`output/anti-adulation-telemetry.jsonl`. Datos recopilados por 30 dias antes
+de promover los modos shadow a warn.
+
+Bypass de emergencia: `SAVIA_ANTIADULATION=off` desactiva las tres capas.
+Solo justificable para tests; no para uso normal.
+

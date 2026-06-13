@@ -1,5 +1,5 @@
 # development — Savia Capability Map (L1)
-> 175 resources
+> 179 resources
 
 - **/a11y-monitor** (cmd): Monitorización continua de regresiones de accesibilidad. Integración en CI/CD. Alertas cuando score baja por debajo de threshold. Digest semanal. Previene regresiones bloqueando deploys con fallos a11y.
 - **/speckit.checklist** (cmd): Alias spec-kit compatible. Gate de calidad final con verification-lattice multi-capa. Invoca skill verification-lattice. Compatible con github/spec-kit.
@@ -51,6 +51,7 @@
 - **competitive-design** (script): competitive-design.sh — Parallel design generation with 3 philosophies
 - **component-search** (cmd): Buscar componentes en el marketplace claude-code-templates (5.788+ componentes)
 - **comprehension-report** (cmd): Generate mental model report for an implemented task. Documents architectural decisions, failure heuristics, and 3AM debugging guide.
+- **concession-judge** (agent): Recommendation Tribunal judge — detects position changes without new evidence (SPEC-192)
 - **dag-execute** (cmd): Ejecutar pipeline SDD con agentes en paralelo según DAG
 - **dag-plan** (cmd): Visualizar DAG de ejecución, camino crítico y ahorro de tiempo
 - **dag-scheduling** (skill): Usar cuando se orquestan múltiples agentes SDD con dependencias entre ellos.
@@ -62,6 +63,7 @@
 - **dev-session** (cmd): Orquestar desarrollo de un spec mediante 5 fases con aislamiento de contexto y persistencia en disco
 - **dev-session-discard** (script): dev-session-discard.sh — Discard a dev-session cleanly
 - **dev-session-resume** (cmd): Reanudar una dev-session interrumpida desde el ultimo checkpoint
+- **epistemic-humility** (skill): Usar cuando se detecta riesgo de adulación, cesión sin evidencia, o claim repetido por el usuario asumido sin verificar. Trigger: tribunal SPEC-192 emite WARN/VETO o auto-detección léxica.
 - **eval-agent** (cmd): Evaluate an agent against its golden set — precision, recall, hallucinations, bias (SPEC-036)
 - **eval-agent** (script): eval-agent.sh — Agent Evaluation Runner (SPEC-036)
 - **eval-run** (cmd): Execute evaluation against specified criteria
@@ -115,6 +117,7 @@
 - **reaction-engine** (script): reaction-engine.sh — SPEC-050 Phase 1: Reaction Engine
 - **rebuild-folder-indexes** (script): rebuild-folder-indexes.sh
 - **reconciliation-pilot** (script): reconciliation-pilot.sh — SPEC-183 Slice 4: run reconciler pilot on pm-workspace docs
+- **repetition-truth-judge** (agent): Recommendation Tribunal judge — detects user claims repeated and assumed true without verification (SPEC-192)
 - **requirement-pushback** (script): requirement-pushback.sh — Analyze a spec and generate pushback questions
 - **retro-patterns** (cmd): Análisis de patrones en retrospectivas — temas recurrentes, action items sin resolver
 - **rpi-status** (cmd): Track progress of active RPI (Research → Plan → Implement) workflows.
@@ -154,6 +157,7 @@
 - **spec156-migrate-token-budget** (script): SPEC-156 Slice 2 prep — migrate flat token_budget to nested object.
 - **specs-frontmatter-normalize** (script): specs-frontmatter-normalize.sh — SE-054 Slice 2+3 frontmatter normalization.
 - **statusline-provider** (script): statusline-provider.sh — HUD data provider for Claude Code statusline
+- **sycophancy-judge** (agent): Recommendation Tribunal judge — detects empty social validation in conversational drafts (SPEC-192)
 - **tech-research** (cmd): Launch autonomous technical research — investigates topics, generates reports, notifies designated human
 - **tech-research-agent** (skill): Usar cuando se necesita investigación técnica autónoma sobre un tema específico.
 - **timeline-append** (script): timeline-append.sh — Append a bi-temporal timeline entry to a spec/decision file

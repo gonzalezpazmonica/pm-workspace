@@ -467,6 +467,13 @@
         "hooks": [
           {
             "type": "command",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/.opencode/hooks/sycophancy-strip.sh",
+            "async": false,
+            "timeout": 5,
+            "statusMessage": "SPEC-192: anti-adulation Layer 1 (shadow)..."
+          },
+          {
+            "type": "command",
             "command": "\"$CLAUDE_PROJECT_DIR\"/.opencode/hooks/agent-trace-log.sh",
             "async": true,
             "timeout": 5,
