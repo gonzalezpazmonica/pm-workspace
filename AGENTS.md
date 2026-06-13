@@ -29,6 +29,7 @@ the Stop hook `agents-md-auto-regenerate.sh` whenever an agent file changes.
 | commit-guardian | mid | L4 | — | Guardian de commits: verifica que todos los cambios staged cumplen las reglas del workspace ANTES de hacer el commit.... |
 | completeness-judge | mid | L1 | — | Truth Tribunal judge — report covers what its title/abstract promises |
 | compliance-judge | heavy | L1 | — | Truth Tribunal judge — PII, N1-N4b levels, format rules, confidentiality |
+| concession-judge | mid | L1 | — | Recommendation Tribunal judge — detects position changes without new evidence (SPEC-192) |
 | confidentiality-auditor | heavy | L1 | — | Audita cumplimiento de confidencialidad en PRs de pm-workspace (repo publico). Descubre dinamicamente datos sensibles... |
 | correctness-judge | mid | L1 | — | Code Review Court judge — logic, tests, edge cases, error paths |
 | court-orchestrator | heavy | L4 | — | Convenes the Code Review Court, manages fix cycles, produces .review.crc |
@@ -65,6 +66,7 @@ the Stop hook `agents-md-auto-regenerate.sh` whenever an agent file changes.
 | recommendation-tribunal-orchestrator | mid | L2 | — | Recommendation Tribunal orchestrator — convenes 4 fast judges in parallel, aggregates scores, applies vetos, mutates ... |
 | reconciler | mid | L1 | — | Classifies contradictions into 3 buckets: evolution, auto-resolve, conflict-doc. Invoked by drift-auditor. |
 | reflection-validator | heavy | L0 | — | Meta-cognitive validation of responses and decisions (System 2). Use PROACTIVELY when: evaluating a response to a com... |
+| repetition-truth-judge | fast | L1 | — | Recommendation Tribunal judge — detects user claims repeated and assumed true without verification (SPEC-192) |
 | ruby-developer | mid | L3 | — | Implementación de código Ruby on Rails siguiendo specs SDD aprobadas. Usar PROACTIVELY cuando: se implementa una feat... |
 | rule-violation-judge | mid | L1 | — | Recommendation Tribunal judge — detects when a draft recommendation violates canonical rules (CLAUDE.md, autonomous-s... |
 | rust-developer | mid | L3 | — | Implementación de código Rust (Axum, Tokio) siguiendo specs SDD aprobadas. Usar PROACTIVELY cuando: se implementa una... |
@@ -76,6 +78,7 @@ the Stop hook `agents-md-auto-regenerate.sh` whenever an agent file changes.
 | security-judge | mid | L1 | — | Code Review Court judge — OWASP, PII, injection, auth, credentials |
 | source-traceability-judge | mid | L1 | — | Truth Tribunal judge — every claim must have a verifiable @ref citation |
 | spec-judge | mid | L1 | — | Code Review Court judge — implementation vs approved spec, acceptance criteria |
+| sycophancy-judge | mid | L1 | — | Recommendation Tribunal judge — detects empty social validation in conversational drafts (SPEC-192) |
 | tech-writer | fast | L2 | — | Documentación técnica: README, CHANGELOG, comentarios XML en C#, docs de proyecto. Usar PROACTIVELY cuando: se actual... |
 | terraform-developer | mid | L3 | — | Implementación de código Terraform (IaC) siguiendo specs SDD aprobadas. CRÍTICO: NUNCA ejecutar terraform apply autom... |
 | test-architect | mid | L3 | — | Designs and generates the highest quality tests across all 16 language packs and 14 test types. Use PROACTIVELY when:... |

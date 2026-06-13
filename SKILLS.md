@@ -55,6 +55,7 @@ To use a skill: read `<path>` and follow its instructions.
 | emergency-mode | `.opencode/skills/emergency-mode/SKILL.md` | Usar cuando la API de Anthropic está caída y se necesita continuar operando con LocalAI. |
 | enterprise-analytics | `.opencode/skills/enterprise-analytics/SKILL.md` | Usar cuando se necesitan métricas SPACE, aggregación de portfolio o forecasting empresarial. |
 | enterprise-onboarding | `.opencode/skills/enterprise-onboarding/SKILL.md` | Usar cuando se incorporan múltiples personas a la organización de forma masiva. |
+| epistemic-humility | `.opencode/skills/epistemic-humility/SKILL.md` | Usar cuando se detecta riesgo de adulación, cesión sin evidencia, o claim repetido por el usuar... |
 | evaluations-framework | `.opencode/skills/evaluations-framework/SKILL.md` | Usar cuando se diseñan o ejecutan evaluaciones de calidad de agentes y prompts. |
 | executive-reporting | `.opencode/skills/executive-reporting/SKILL.md` | Usar cuando se genera un informe ejecutivo multi-proyecto para dirección. |
 | feasibility-probe | `.opencode/skills/feasibility-probe/SKILL.md` | Usar cuando se necesita validar si una spec es técnicamente viable antes de implementarla. |
