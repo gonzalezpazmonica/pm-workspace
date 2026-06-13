@@ -1,0 +1,115 @@
+#!/usr/bin/env bash
+set -uo pipefail
+# iterate.sh — SPEC-195: Iterative tribunal loop controller.
+#
+# Drives the iterative refinement loop:
+#   1. Tribunal evaluates draft -> verdict + scores.
+#   2. If verdict == PASS or VETO: return immediately.
+#   3. If WARN: regenerate draft with judges' hints.
+#   4. Repeat from 1 until early_stop OR max_iter.
+#
+# This script does NOT call the LLM (that is the orchestrator agent's job).
+# It is the deterministic glue that:
+#   - tracks iteration state (draft hashes, judge scores per iter)
+#   - calls early_stop.py to decide if loop should terminate
+#   - persists history as JSONL for audit
+#
+# The orchestrator calls this script between rounds to know whether to stop.
+#
+# Usage:
+#   iterate.sh evaluate-stop \
+#       --iteration N \
+#       --max-iter 3 \
+#       --draft-hash <sha256> \
+#       --previous-draft-hash <sha256 | empty> \
+#       --judge-scores "85,92,78,..." \
+#       --entropy-threshold 5.0
+#
+#   iterate.sh log-iteration \
+#       --session-id <id> \
+#       --iteration N \
+#       --verdict PASS|WARN|VETO \
+#       --draft-hash <sha256> \
+#       --scores-csv "..." \
+#       --stop-reason "stability|entropy|max_iter|none"
+#
+# Master switch: SAVIA_TRIBUNAL_ITERATIVE=on|off (default off during pilot).
+#
+# Ref: SPEC-195 docs/propuestas/SPEC-195-iterative-tribunal-early-stop.md
+
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+ROOT_DIR="$(cd "$SCRIPT_DIR/../.." && pwd)"
+EARLY_STOP="$SCRIPT_DIR/early_stop.py"
+LOG_DIR="$ROOT_DIR/output/tribunal-iterations"
+
+# Master switch
+if [[ "${SAVIA_TRIBUNAL_ITERATIVE:-off}" == "off" ]]; then
+  echo '{"enabled":false,"reason":"SAVIA_TRIBUNAL_ITERATIVE=off"}'
+  exit 0
+fi
+
+usage() {
+  sed -n '2,30p' "${BASH_SOURCE[0]}" | sed 's/^# //; s/^#//'
+  exit 2
+}
+
+cmd="${1:-}"
+if [[ -z "$cmd" ]]; then
+  usage
+fi
+shift || true
+
+case "$cmd" in
+  evaluate-stop)
+    # Forward all args to early_stop.py
+    exec python3 "$EARLY_STOP" --json "$@"
+    ;;
+  log-iteration)
+    # Parse args
+    session_id=""
+    iteration=""
+    verdict=""
+    draft_hash=""
+    scores_csv=""
+    stop_reason=""
+    while [[ $# -gt 0 ]]; do
+      case "$1" in
+        --session-id) session_id="$2"; shift 2 ;;
+        --iteration) iteration="$2"; shift 2 ;;
+        --verdict) verdict="$2"; shift 2 ;;
+        --draft-hash) draft_hash="$2"; shift 2 ;;
+        --scores-csv) scores_csv="$2"; shift 2 ;;
+        --stop-reason) stop_reason="$2"; shift 2 ;;
+        *) echo "ERROR: unknown arg: $1" >&2; exit 2 ;;
+      esac
+    done
+    if [[ -z "$session_id" || -z "$iteration" || -z "$verdict" || -z "$draft_hash" ]]; then
+      echo "ERROR: --session-id, --iteration, --verdict, --draft-hash are required" >&2
+      exit 2
+    fi
+    mkdir -p "$LOG_DIR"
+    ts=$(date -Iseconds 2>/dev/null || date)
+    log_file="$LOG_DIR/$session_id.jsonl"
+    if command -v jq >/dev/null 2>&1; then
+      jq -nc \
+        --arg ts "$ts" --arg sid "$session_id" \
+        --arg iter "$iteration" --arg verdict "$verdict" \
+        --arg dh "$draft_hash" --arg sc "$scores_csv" \
+        --arg sr "$stop_reason" \
+        '{ts:$ts, session_id:$sid, iteration:($iter|tonumber? // 0), verdict:$verdict, draft_hash:$dh, scores_csv:$sc, stop_reason:$sr}' \
+        >> "$log_file"
+    else
+      printf '{"ts":"%s","session_id":"%s","iteration":%s,"verdict":"%s","draft_hash":"%s","scores_csv":"%s","stop_reason":"%s"}\n' \
+        "$ts" "$session_id" "$iteration" "$verdict" "$draft_hash" "$scores_csv" "$stop_reason" \
+        >> "$log_file"
+    fi
+    echo "{\"logged\":true,\"file\":\"$log_file\"}"
+    ;;
+  -h|--help|"")
+    usage
+    ;;
+  *)
+    echo "ERROR: unknown command: $cmd" >&2
+    usage
+    ;;
+esac
