@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=e6e00e84ada03f6711d51ea03b4a727b8d4f6042afeb86911f508a3d3d86fa3d
-timestamp=2026-06-13T19:38:30Z
-branch=agent/wire-specs-195-200
-head_commit=9076175d
-signature=8eb2314d0b4d1850f9dbfe0c1bbaa1f321256705bc828c34d169f0f7b1076ae8
+diff_hash=f805cb63fc312e00e65287533bd4f9935c7276c1eab14d8723f2fc9937947e07
+timestamp=2026-06-13T21:34:16Z
+branch=agent/activate-telemetria-warn
+head_commit=ef0143d2
+signature=2e1740609b592d5482dc2ef1d17d01b3ce52427d5a7d13772bdfc8ab61f42dc4
