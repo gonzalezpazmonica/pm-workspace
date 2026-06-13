@@ -1,6 +1,6 @@
 {
-  "hash": "904f79c8f155",
-  "total": 1255,
+  "hash": "cff46bd3668e",
+  "total": 1261,
   "resources": [
     {
       "category": "analysis",
@@ -5096,6 +5096,20 @@
     },
     {
       "category": "memory",
+      "name": "context-capability-check",
+      "intents": [
+        "capability",
+        "check",
+        "context",
+        "metadata",
+        "slice"
+      ],
+      "kind": "script",
+      "path": "scripts/context-capability-check.sh",
+      "description": "context-capability-check.sh — SE-221 Slice 3 — Capability metadata validator"
+    },
+    {
+      "category": "memory",
       "name": "context-compress",
       "intents": [
         "compresión",
@@ -5150,6 +5164,47 @@
     },
     {
       "category": "memory",
+      "name": "context-drop-after-use",
+      "intents": [
+        "context",
+        "decision",
+        "drop",
+        "engine",
+        "slice"
+      ],
+      "kind": "script",
+      "path": "scripts/context-drop-after-use.sh",
+      "description": "context-drop-after-use.sh — SE-221 Slice 2 — Drop-After-Use decision engine"
+    },
+    {
+      "category": "memory",
+      "name": "context-drop-metrics",
+      "intents": [
+        "context",
+        "drop",
+        "metrics",
+        "slice"
+      ],
+      "kind": "script",
+      "path": "scripts/context-drop-metrics.sh",
+      "description": "context-drop-metrics.sh — SE-221 Slice 2 — Drop-After-Use metrics"
+    },
+    {
+      "category": "memory",
+      "name": "context-engineering-report",
+      "intents": [
+        "context",
+        "engineering",
+        "generator",
+        "report",
+        "slice"
+      ],
+      "kind": "script",
+      "path": "scripts/context-engineering-report.sh",
+      "description": "context-engineering-report.sh — SE-221 Slice 4 — Weekly report generator"
+    },
+    {
+      "category": "memory",
       "name": "context-frozen-check",
       "intents": [
         "check",
@@ -5159,6 +5214,20 @@
       "kind": "script",
       "path": "scripts/context-frozen-check.sh",
       "description": "context-frozen-check.sh — SE-029-F"
+    },
+    {
+      "category": "memory",
+      "name": "context-greedy-budget",
+      "intents": [
+        "budget",
+        "context",
+        "greedy",
+        "selection",
+        "spec"
+      ],
+      "kind": "script",
+      "path": "scripts/context-greedy-budget.sh",
+      "description": "context-greedy-budget.sh — SPEC-189: Greedy context budget selection."
     },
     {
       "category": "memory",
@@ -5236,6 +5305,19 @@
       "kind": "skill",
       "path": ".claude/skills/context-optimized-dev/SKILL.md",
       "description": "Usar cuando se desarrolla con presupuesto de contexto limitado."
+    },
+    {
+      "category": "memory",
+      "name": "context-origin-tag",
+      "intents": [
+        "context",
+        "origin",
+        "slice",
+        "tagging"
+      ],
+      "kind": "script",
+      "path": "scripts/context-origin-tag.sh",
+      "description": "context-origin-tag.sh — SE-221 Slice 1 — Context Origin Tagging"
     },
     {
       "category": "memory",
