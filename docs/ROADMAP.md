@@ -1,6 +1,6 @@
 # Roadmap Unificado — pm-workspace / Savia
 
-**Updated:** 2026-06-13 | **Version:** v6.20.0 | **562 commands · 75 agents · 104 skills · 81 hooks · 470+ test suites · Active backlog 10 items (1 in PR review + 6 nuevas DiffusionGemma + 3 P2/P3 viejos)** — ver `### Backlog restante — repriorizado 2026-06-13`
+**Updated:** 2026-06-13 | **Version:** v6.20.0 | **562 commands · 75 agents · 104 skills · 81 hooks · 470+ test suites + 122 nuevos · Active backlog 5 items (SPEC-199 P2 desbloqueado + 4 P2/P3 viejos) · 5 specs DiffusionGemma implementadas (195, 196, 197, 198, 200) en 1 PR** — ver `### Backlog restante — repriorizado 2026-06-13`
 
 ---
 
@@ -718,12 +718,12 @@ Google Sheets · ServiceNow/SAP · Tableau · Kafka · VS Code ext · Cloud voic
 
 | # | ID | Qué | Esfuerzo | Prioridad | Deps |
 |---|---|---|---|---|---|
-| 1 | **SPEC-195** | Iterative Tribunal con multi-criteria early stop (DiffusionGemma pattern) | 3-4d / 4-5h | P1 | extiende SPEC-125 |
-| 2 | **SPEC-196** | Freeze-done elements en orchestrator (early-cancel jueces tras VETO) | 1-2d / 2-3h | P1 | trivial, alto ROI |
-| 3 | **SPEC-197** | Annealing schedule en jueces meta-reflexivos | 2-3d / 2-3h | P2 | mejora SPEC-194 |
-| 4 | **SPEC-198** | JudgeVerdict frozen dataclass contract | 3-4d / 4-5h | P2 | refactor cross-juez |
-| 5 | **SPEC-199** | Historical context conditioning entre rondas (via embeddings) | 4-5d / 5-7h | P2 | depende SPEC-195 |
-| 6 | **SPEC-200** | Adaptive quality gate threshold (proporcional a la distribucion) | 2-3d / 2-3h | P3 | extiende SPEC-055 |
+| 1 | ~~**SPEC-195**~~ | ~~Iterative Tribunal early-stop~~ ✓ implementado | 23 pytest + 13 bats | — | en PR de implementacion |
+| 2 | ~~**SPEC-196**~~ | ~~Freeze-done elements~~ ✓ implementado | 16 bats | — | en PR de implementacion |
+| 3 | ~~**SPEC-197**~~ | ~~Annealing schedule~~ ✓ implementado | 17 pytest | — | en PR de implementacion |
+| 4 | ~~**SPEC-198**~~ | ~~JudgeVerdict frozen dataclass~~ ✓ implementado | 32 pytest | — | en PR de implementacion |
+| 5 | ~~**SPEC-200**~~ | ~~Adaptive quality gate threshold~~ ✓ implementado | 21 pytest | — | en PR de implementacion |
+| 6 | **SPEC-199** | Historical context conditioning entre rondas (via embeddings) | 4-5d / 5-7h | P2 | depende SPEC-195 (ahora desbloqueado) |
 | 7 | **SPEC-SE-036 Slice 3** | JWT sunset opt-in (PAT file migration) | 4h | P2 | Slice 1+2 ✓ |
 | 8 | **SPEC-188 Fase 2** | Sealed Contract Tests | ~8h | P2 | Fase 1 ✓ |
 | 9 | **SE-216 Slice 4** | Experiment Graph — tree search | ~6h | P3 | SE-216 S1+S2+S3 ✓ |
