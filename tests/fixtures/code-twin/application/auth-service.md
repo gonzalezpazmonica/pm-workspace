@@ -12,7 +12,7 @@ provides:
   - logout
   - refreshToken
   - validateToken
-stale_after_days: 7
+stale_after_days: 3650  # SE-191 fix: avoid temporal aging of fixture
 ---
 
 # AuthService
