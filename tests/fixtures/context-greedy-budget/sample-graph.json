@@ -1,0 +1,20 @@
+{
+  "nodes": [
+    {"id": "auth_service", "label": "AuthService", "type": "code", "description": "Validates credentials and issues JWT tokens"},
+    {"id": "user_repo", "label": "UserRepository", "type": "code", "description": "User CRUD over PostgreSQL"},
+    {"id": "jwt_issuer", "label": "JwtIssuer", "type": "code", "description": "Signs and verifies JSON Web Tokens"},
+    {"id": "config", "label": "ConfigService", "type": "code", "description": "Loads runtime config"},
+    {"id": "payment_service", "label": "PaymentService", "type": "code", "description": "Credit card and SEPA transactions"},
+    {"id": "audit_log", "label": "AuditLog", "type": "code", "description": "Append-only payment events log"},
+    {"id": "cache", "label": "CacheLayer", "type": "code", "description": "Redis wrapper"},
+    {"id": "readme", "label": "README", "type": "doc", "description": "Project README documentation"}
+  ],
+  "edges": [
+    {"source": "auth_service", "target": "user_repo"},
+    {"source": "auth_service", "target": "jwt_issuer"},
+    {"source": "jwt_issuer", "target": "config"},
+    {"source": "payment_service", "target": "audit_log"},
+    {"source": "payment_service", "target": "cache"},
+    {"source": "user_repo", "target": "cache"}
+  ]
+}
