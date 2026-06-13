@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=4797e07bcf86ad54a4362015b8188e66f6032837afec20eb40003b1bf3b60da7
-timestamp=2026-06-12T20:08:44Z
-branch=feat/se-221-context-engineering
-head_commit=51642600
-signature=9b91ae7aa1f79ceab32d82b0ffd0f9a8949f89c490998d12c8cd1d19143c519d
+diff_hash=e09e320af0e6246ceff5c8b2aa32fe6536f367490c570b2d930af5eb46f61918
+timestamp=2026-06-13T10:35:23Z
+branch=agent/spec-189-greedy-context-budget
+head_commit=ab89c5a5
+signature=9f3abef4a4954c90e0e24d8b8252572c0656c0925bd34c91222819bd4b46b498

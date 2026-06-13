@@ -1,0 +1,54 @@
+# Sample ACM — fixture for SPEC-189 context-greedy-budget tests
+
+> hash: sha256:fixture | generated: 2026-06-12 | lines: 40
+
+## Authentication Service
+
+Validates user credentials and issues JWT tokens. Depends on the user
+repository and a hashing library. Entry point of the auth subsystem.
+
+→ UserRepository
+→ JwtIssuer
+
+## UserRepository
+
+Stores and retrieves user records from the database.
+
+@include database.acm
+
+## JwtIssuer
+
+Signs and verifies JWT tokens using the shared secret.
+
+→ ConfigService
+
+## ConfigService
+
+Loads runtime configuration from environment variables and config files.
+
+## DatabasePool
+
+Connection pool for PostgreSQL. Independent component, no inbound deps.
+
+## PaymentService
+
+Handles credit card and SEPA transactions. Calls the external payment
+gateway. Audits every operation.
+
+→ AuditLog
+
+## AuditLog
+
+Append-only log of payment events for compliance and rollback.
+
+## EmailNotifier
+
+Sends transactional emails. Independent — does not call other domain nodes.
+
+## CacheLayer
+
+Thin wrapper over Redis. Used by everyone but coupled to no specific node.
+
+## DeprecatedHelper
+
+Old utility kept for backward compatibility. Slated for removal.
