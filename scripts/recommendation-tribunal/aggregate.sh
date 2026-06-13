@@ -116,9 +116,55 @@ done
 
 # ── Helper: extract field from JSON (no jq dependency) ──────────────────────
 
+# SPEC-198 wired: optional JudgeVerdict validation when SAVIA_JUDGE_VERDICT_VALIDATE=on.
+# In that mode, each judge file is round-tripped through JudgeVerdict.from_dict
+# before extraction; validation errors are logged to
+# output/judge-verdict-validation-errors.jsonl but do NOT fail the gate
+# (backward compat preserved — aggregator still extracts via raw json).
+JV_VALIDATE_MODE="${SAVIA_JUDGE_VERDICT_VALIDATE:-off}"
+JV_VALIDATION_LOG="${SAVIA_JUDGE_VERDICT_LOG:-output/judge-verdict-validation-errors.jsonl}"
+# Subshell-safe dedup via filesystem marker
+_JV_RUN_DIR=""
+if [[ "$JV_VALIDATE_MODE" != "off" ]]; then
+  _JV_RUN_DIR=$(mktemp -d -t jv-validate-XXXXXX 2>/dev/null) || _JV_RUN_DIR=""
+  [[ -n "$_JV_RUN_DIR" ]] && trap 'rm -rf "$_JV_RUN_DIR"' EXIT
+fi
+
+_validate_judge_file() {
+  local f="$1"
+  [[ "$JV_VALIDATE_MODE" == "off" ]] && return 0
+  # subshell-safe dedup: marker file per validated path
+  if [[ -n "$_JV_RUN_DIR" ]]; then
+    local marker="$_JV_RUN_DIR/$(printf '%s' "$f" | tr '/' '_')"
+    [[ -f "$marker" ]] && return 0
+    : > "$marker"
+  fi
+  local script_dir
+  script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+  local jv="$script_dir/judge_verdict.py"
+  [[ ! -f "$jv" ]] && return 0  # SPEC-198 module absent, no-op
+  local err
+  err=$(python3 "$jv" "$f" 2>&1 >/dev/null) || true
+  if [[ -n "$err" ]]; then
+    mkdir -p "$(dirname "$JV_VALIDATION_LOG")" 2>/dev/null || true
+    if command -v jq >/dev/null 2>&1; then
+      jq -nc \
+        --arg ts "$(date -Iseconds 2>/dev/null || date)" \
+        --arg file "$f" \
+        --arg err "$err" \
+        '{ts:$ts, file:$file, error:$err, mode:"warn"}' \
+        >> "$JV_VALIDATION_LOG" 2>/dev/null || true
+    fi
+    [[ "$JV_VALIDATE_MODE" == "warn" ]] && \
+      echo "[SPEC-198] judge verdict validation failed: $f -- $err" >&2
+  fi
+  return 0  # never block aggregation
+}
+
 # get_field <file> <key>  →  prints value, empty if not found
 get_field() {
   local f="$1" key="$2"
+  _validate_judge_file "$f"
   python3 -c "
 import json,sys
 try:

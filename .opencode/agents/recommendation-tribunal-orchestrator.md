@@ -73,8 +73,11 @@ Diferencia clave con Truth Tribunal (SPEC-106): aquí el contexto es **real-time
 
 ## Reference
 
-SPEC-125 — `docs/propuestas/SPEC-125-recommendation-tribunal-realtime.md`
-Sibling: SPEC-106 Truth Tribunal (`truth-tribunal-orchestrator`) — async, reports.
+SPEC-125 (`docs/propuestas/SPEC-125-recommendation-tribunal-realtime.md`). Sibling: SPEC-106 Truth Tribunal — async.
+
+## Opt-in extensions (SPEC-195/196/197/198)
+
+`docs/rules/domain/recommendation-tribunal-extensions.md`. Toggles: `SAVIA_TRIBUNAL_EARLY_CANCEL=on` (early-cancel.sh; veto+conf>=0.95); `SAVIA_JUDGE_VERDICT_VALIDATE=warn` (judge_verdict.py); `SAVIA_TRIBUNAL_ITERATIVE=on` (iterate.sh evaluate-stop + compute-temperature).
 
 ## Fallback mode (SPEC-127 Slice 4)
 
