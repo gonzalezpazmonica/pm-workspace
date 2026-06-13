@@ -6,6 +6,28 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
+## [Unreleased] — 2026-06-13 · Docs/SCM gaps fix tras PR #844
+
+Fixed: cinco gaps detectados en auditoria post-merge.
+
+- generate-capability-map.py: scan_scripts ahora recorre subdirs depth-1
+  (scripts/<feature>/*.sh). Antes solo top-level scripts/*.sh, dejando
+  10 scripts del recommendation-tribunal sin indexar en .scm.
+- 8 nuevos scripts indexados en .scm/INDEX.scm (aggregate, banner,
+  calibrate, classifier, early-cancel, expertise-rewrite,
+  followup-record, iterate). Total recursos 1265 a 1296.
+- SPEC-195/196/197/198/200 frontmatter status PROPOSED a IMPLEMENTED.
+  Las cinco specs llevan implementadas, wireadas (#844) y activadas
+  en pilot (#845) pero el frontmatter no se actualizo al merge.
+- ROADMAP refleja PRs (#844 wiring + #845 telemetry pilot) en la
+  tabla de specs implementadas. Nueva seccion Telemetry pilot 30d.
+- Knowledge graph rebuilt: ahora incluye SPEC-189 hasta SPEC-200.
+  Antes faltaban 12 specs.
+
+Determinismo verificado: dos regeneraciones consecutivas del SCM
+producen el mismo hash. test-scm-determinism 19/19 pass.
+
+
 ## [Unreleased] — 2026-06-13 · Wire SPEC-195/196/197/198/200
 
 Added: wiring opt-in de cinco specs implementadas previamente a sus

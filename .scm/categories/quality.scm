@@ -1,5 +1,5 @@
 # quality — Savia Capability Map (L1)
-> 234 resources
+> 237 resources
 
 - **/a11y-audit** (cmd): Auditoría de accesibilidad WCAG 2.2 completa con escaneo de HTML/componentes. Detecta: alt text faltante, problemas de contraste, navegación por teclado, etiquetas ARIA, gestión de focus, jerarquía de encabezados, etiquetas de formularios.
 - **/a11y-fix** (cmd): Correcciones automáticas de accesibilidad con verificación y preview. Genera código de fix para issues detectados por /a11y-audit. Preview antes de aplicar. Verifica que no introduce nuevos problemas. Covers: alt text, ARIA attributes, focu
@@ -32,6 +32,8 @@
 - **doc-health-audit** (script): doc-health-audit.sh — Documentation Health Auditor
 - **docs-quality-audit** (cmd): Auditar calidad de documentacion basada en feedback de agentes
 - **drift-auditor** (agent): Auditoría de convergencia repo: detecta drift entre docs, config y código. Usar PROACTIVELY tras cambios grandes o al inicio de sprint.
+- **enterprise/audit-purge** (script): audit-purge.sh — SPEC-SE-037 Audit Log Retention Purge CLI
+- **enterprise/audit-search** (script): audit-search.sh — SPEC-SE-037 Audit Log CLI Inspector
 - **executive-audit** (script): executive-audit.sh — Executive Audit for PM Workspace
 - **expertise-asymmetry-judge** (agent): Recommendation Tribunal judge — when draft falls in a domain the active user marks as `audit_level: blind`, force a rewrite with explanation/alternatives/verification
 - **fix-assigner** (agent): Creates fix tasks from Court findings, assigns to dev agents, triggers re-review
@@ -225,6 +227,7 @@
 - **testplan-generate** (cmd): Generación de plan de pruebas desde specs SDD o PBIs
 - **testplan-results** (cmd): >
 - **testplan-status** (cmd): >
+- **tests/test-adb-wrapper** (script): ============================================================================
 - **tool-ergonomics-audit** (script): tool-ergonomics-audit.sh — SPEC-160: Tool Ergonomics Auto-Audit
 - **twin-linter** (script): twin-linter.sh — Valida twin.md contra schema SPEC-169
 - **verification-lattice** (skill): Usar cuando se necesita verificación multi-capa más allá del code review estándar.

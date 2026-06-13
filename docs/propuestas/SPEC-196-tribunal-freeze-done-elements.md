@@ -1,5 +1,5 @@
 ---
-status: PROPOSED
+status: IMPLEMENTED
 ---
 
 # SPEC-196 — Freeze-Done Elements in Tribunal Orchestrator

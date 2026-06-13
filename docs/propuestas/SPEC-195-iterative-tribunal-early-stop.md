@@ -1,5 +1,5 @@
 ---
-status: PROPOSED
+status: IMPLEMENTED
 ---
 
 # SPEC-195 — Iterative Tribunal with Multi-Criteria Early Stop

@@ -1,6 +1,6 @@
 # Savia Capability Map — INDEX
-> hash: 2a0ecb48cdfd | resources: 1265
-> 557 commands · 104 skills · 75 agents · 529 scripts
+> hash: 6bfb41db5c09 | resources: 1296
+> 557 commands · 104 skills · 75 agents · 560 scripts
 
 [analysis] /a11y-report — accesibilidad,completos,conformidad,código,declaración — cmd:.claude/commands/a11y-report.md
 [analysis] Trace Optimize — across,distributed,optimize,rates,sampling — cmd:.claude/commands/trace-optimize.md
@@ -229,6 +229,12 @@
 [development] dev-session — aislamiento,contexto,desarrollo,disco,fases — cmd:.claude/commands/dev-session.md
 [development] dev-session-discard — cleanly,discard,session — script:scripts/dev-session-discard.sh
 [development] dev-session-resume — checkpoint,interrumpida,reanudar,session,ultimo — cmd:.claude/commands/dev-session-resume.md
+[development] enterprise/api-key-create — create,creation,slice,spec — script:scripts/enterprise/api-key-create.sh
+[development] enterprise/api-key-list — inventory,list,slice,spec — script:scripts/enterprise/api-key-list.sh
+[development] enterprise/api-key-revoke — revocation,revoke,slice,spec — script:scripts/enterprise/api-key-revoke.sh
+[development] enterprise/delta-tier — delta,helper,spec,tier — script:scripts/enterprise/delta-tier.sh
+[development] enterprise/jwt-mint — lived,mint,primitive,short,slice — script:scripts/enterprise/jwt-mint.sh
+[development] enterprise/reconciliation-status — reconciliation,slice,spec,status,tenant — script:scripts/enterprise/reconciliation-status.sh
 [development] epistemic-humility — adulación,asumido,auto,cesión,claim — skill:.claude/skills/epistemic-humility/SKILL.md
 [development] eval-agent — against,agent,bias,evaluate,golden — cmd:.claude/commands/eval-agent.md
 [development] eval-agent — agent,eval,evaluation,runner,spec — script:scripts/eval-agent.sh
@@ -251,12 +257,15 @@
 [development] instinct-collapse-detector — collapse,detect,detector,exploration,instinct — script:scripts/instinct-collapse-detector.sh
 [development] jwt-mint — ephemeral,mint,spec — script:scripts/jwt-mint.sh
 [development] kg-export — codebase,export,memory,pattern,snapshot — script:scripts/kg-export.sh
+[development] llm-training/import-gguf — fine,gguf,import,model,ollama — script:scripts/llm-training/import-gguf.sh
+[development] llm-training/prepare-training-data — agent,data,extract,prepare,spec — script:scripts/llm-training/prepare-training-data.sh
 [development] localai-readiness-check — check,localai,readiness,spec — script:scripts/localai-readiness-check.sh
 [development] marketplace-install — claude,code,components,install,marketplace — cmd:.claude/commands/marketplace-install.md
 [development] mcp-browse — catálogo,claude,code,disponibles,explorar — cmd:.claude/commands/mcp-browse.md
 [development] mcp-server — claude,code,expone,herramientas,otros — cmd:.claude/commands/mcp-server.md
 [development] nd-autoconfig — accessibility,auto,autoconfig,configure,neurodivergent — script:scripts/nd-autoconfig.sh
 [development] nidos-dev-lib — lifecycle,nidos,savia,server,spec — script:scripts/nidos-dev-lib.sh
+[development] opencode-hooks/run-hook — adecuado,ejecuta,hook,input,json — script:scripts/opencode-hooks/run-hook.sh
 [development] opencode-install — install,opencode,slice — script:scripts/opencode-install.sh
 [development] opencode-migration-smoke — final,migration,opencode,prep,slice — script:scripts/opencode-migration-smoke.sh
 [development] opencode-monthly-canary — canary,monthly,opencode,slice — script:scripts/opencode-monthly-canary.sh
@@ -282,6 +291,14 @@
 [development] prompt-suggestion-engine — driven,engine,optimization,phase,prompt — script:scripts/prompt-suggestion-engine.sh
 [development] reaction-engine — engine,phase,reaction,spec — script:scripts/reaction-engine.sh
 [development] rebuild-folder-indexes — folder,indexes,rebuild — script:scripts/rebuild-folder-indexes.sh
+[development] recommendation-tribunal/aggregate — aggregate,aggregation,deterministic,judge,slice — script:scripts/recommendation-tribunal/aggregate.sh
+[development] recommendation-tribunal/banner — banner,render,slice,spec,tribunal — script:scripts/recommendation-tribunal/banner.sh
+[development] recommendation-tribunal/calibrate — calibrate,derive,feedback,followups,memories — script:scripts/recommendation-tribunal/calibrate.sh
+[development] recommendation-tribunal/classifier — actionable,classifier,detect,draft,recommendations — script:scripts/recommendation-tribunal/classifier.sh
+[development] recommendation-tribunal/early-cancel — cancel,done,early,elements,freeze — script:scripts/recommendation-tribunal/early-cancel.sh
+[development] recommendation-tribunal/expertise-rewrite — asymmetric,expertise,rewrite,slice,spec — script:scripts/recommendation-tribunal/expertise-rewrite.sh
+[development] recommendation-tribunal/followup-record — feedback,followup,loop,memory,record — script:scripts/recommendation-tribunal/followup-record.sh
+[development] recommendation-tribunal/iterate — controller,iterate,iterative,loop,spec — script:scripts/recommendation-tribunal/iterate.sh
 [development] reconciliation-pilot — docs,pilot,reconciler,reconciliation,slice — script:scripts/reconciliation-pilot.sh
 [development] repetition-truth-judge — assumed,claims,detects,judge,recommendation — agent:.opencode/agents/repetition-truth-judge.md
 [development] requirement-pushback — analyze,generate,pushback,questions,requirement — script:scripts/requirement-pushback.sh
@@ -742,6 +759,13 @@
 [planning] legalize-es — corpus,español,gestión,legalize,legislativo — script:scripts/legalize-es.sh
 [planning] lesson-extract — cross,current,extract,lesson,project — cmd:.claude/commands/lesson-extract.md
 [planning] lesson-pipeline — cross,lesson,lessons,pipeline,project — script:scripts/lesson-pipeline.sh
+[planning] lib/adb-wrapper —  — script:scripts/lib/adb-wrapper.sh
+[planning] lib/concurrent-executor — bounded,concurrent,execution,executor,parallel — script:scripts/lib/concurrent-executor.sh
+[planning] lib/enterprise-helpers — checks,enterprise,helpers,module,sourceable — script:scripts/lib/enterprise-helpers.sh
+[planning] lib/llm-healer — healer,slice — script:scripts/lib/llm-healer.sh
+[planning] lib/mock-env — environment,library,mock,reusable,scripts — script:scripts/lib/mock-env.sh
+[planning] lib/os-detect — defaults,detect,detection,path,portable — script:scripts/lib/os-detect.sh
+[planning] lib/slm-common — common,helpers,shared,slice,subcommands — script:scripts/lib/slm-common.sh
 [planning] linear-sync — bidireccional,cycles,issues,linear,métricas — cmd:.claude/commands/linear-sync.md
 [planning] managed-content — auto,documentos,generadas,marcadores,regeneran — skill:.claude/skills/managed-content/SKILL.md
 [planning] managed-scan — content,managed,outdated,scan,sections — cmd:.claude/commands/managed-scan.md
@@ -954,6 +978,10 @@
 [planning] strategy-map — contribución,dependencias,estratégico,iniciativas,mapa — cmd:.claude/commands/strategy-map.md
 [planning] subscriber-lifecycle — análisis,churn,ciclo,gestión,integral — cmd:.claude/commands/subscriber-lifecycle.md
 [planning] sustainable-pace — basado,capacidad,cálculo,histórico,real — cmd:.claude/commands/sustainable-pace.md
+[planning] sync-adapters/adapter-interface — adapter,adapters,backlog,common,interface — script:scripts/sync-adapters/adapter-interface.sh
+[planning] sync-adapters/azure-devops-adapter — adapter,azure,backlog,devops,local — script:scripts/sync-adapters/azure-devops-adapter.sh
+[planning] sync-adapters/github-issues-adapter — adapter,backlog,github,issues,local — script:scripts/sync-adapters/github-issues-adapter.sh
+[planning] sync-adapters/jira-adapter — adapter,backlog,cloud,jira,local — script:scripts/sync-adapters/jira-adapter.sh
 [planning] sync-calendars — calendarios,disponibilidad,microsoft,sincronizar,tenants — cmd:.claude/commands/sync-calendars.md
 [planning] sync-github-metadata — github,metadata,repo,sync,update — script:scripts/sync-github-metadata.sh
 [planning] sync-model-tiers — abstract,fast,heavy,model,provider — script:scripts/sync-model-tiers.sh
@@ -1064,6 +1092,8 @@
 [quality] doc-health-audit — audit,auditor,documentation,health — script:scripts/doc-health-audit.sh
 [quality] docs-quality-audit — agentes,auditar,basada,calidad,documentacion — cmd:.claude/commands/docs-quality-audit.md
 [quality] drift-auditor — auditoría,cambios,config,convergencia,código — agent:.opencode/agents/drift-auditor.md
+[quality] enterprise/audit-purge — audit,purge,retention,spec — script:scripts/enterprise/audit-purge.sh
+[quality] enterprise/audit-search — audit,inspector,search,spec — script:scripts/enterprise/audit-search.sh
 [quality] executive-audit — audit,executive,workspace — script:scripts/executive-audit.sh
 [quality] expertise-asymmetry-judge — active,alternatives,audit,blind,domain — agent:.opencode/agents/expertise-asymmetry-judge.md
 [quality] fix-assigner — agents,assigns,court,creates,findings — agent:.opencode/agents/fix-assigner.md
@@ -1257,6 +1287,7 @@
 [quality] testplan-generate — generación,pbis,plan,pruebas,specs — cmd:.claude/commands/testplan-generate.md
 [quality] testplan-results —  — cmd:.claude/commands/testplan-results.md
 [quality] testplan-status —  — cmd:.claude/commands/testplan-status.md
+[quality] tests/test-adb-wrapper —  — script:scripts/tests/test-adb-wrapper.sh
 [quality] tool-ergonomics-audit — audit,auto,ergonomics,spec,tool — script:scripts/tool-ergonomics-audit.sh
 [quality] twin-linter — contra,linter,schema,spec,twin — script:scripts/twin-linter.sh
 [quality] verification-lattice — allá,capa,code,estándar,multi — skill:.claude/skills/verification-lattice/SKILL.md
