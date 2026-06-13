@@ -46,7 +46,7 @@
 
 <!-- AUTO_BEGIN — do not edit; regenerate via scripts/resolver-md-generate.sh -->
 
-### Skills (102)
+### Skills (103)
 
 | Intent (skill) | Target | Cuándo usar |
 |---|---|---|
@@ -88,6 +88,7 @@
 | `emergency-mode` | skill:emergency-mode | Usar cuando la API de Anthropic está caída y se necesita continuar operando con LocalAI. |
 | `enterprise-analytics` | skill:enterprise-analytics | Usar cuando se necesitan métricas SPACE, aggregación de portfolio o forecasting empre... |
 | `enterprise-onboarding` | skill:enterprise-onboarding | Usar cuando se incorporan múltiples personas a la organización de forma masiva. |
+| `epistemic-humility` | skill:epistemic-humility | Usar cuando se detecta riesgo de adulación, cesión sin evidencia, o claim repetido po... |
 | `evaluations-framework` | skill:evaluations-framework | Usar cuando se diseñan o ejecutan evaluaciones de calidad de agentes y prompts. |
 | `executive-reporting` | skill:executive-reporting | Usar cuando se genera un informe ejecutivo multi-proyecto para dirección. |
 | `feasibility-probe` | skill:feasibility-probe | Usar cuando se necesita validar si una spec es técnicamente viable antes de implementa... |
@@ -153,7 +154,7 @@
 | `write-a-skill` | skill:write-a-skill | Guia para crear una nueva skill correctamente en pm-workspace. Usar cuando una tarea se... |
 | `zoom-out` | skill:zoom-out | Elevates perspective from trees to forest. Maps architecture, dependencies, and second-... |
 
-### Agents (72)
+### Agents (75)
 
 | Intent (agent) | Target | Cuándo usar |
 |---|---|---|
@@ -171,6 +172,7 @@
 | `commit-guardian` | agent:commit-guardian | Guardian de commits: verifica que todos los cambios staged cumplen las reglas del works... |
 | `completeness-judge` | agent:completeness-judge | Truth Tribunal judge — report covers what its title/abstract promises |
 | `compliance-judge` | agent:compliance-judge | Truth Tribunal judge — PII, N1-N4b levels, format rules, confidentiality |
+| `concession-judge` | agent:concession-judge | Recommendation Tribunal judge — detects position changes without new evidence (SPEC-192) |
 | `confidentiality-auditor` | agent:confidentiality-auditor | Audita cumplimiento de confidencialidad en PRs de pm-workspace (repo publico). Descubre... |
 | `correctness-judge` | agent:correctness-judge | Code Review Court judge — logic, tests, edge cases, error paths |
 | `court-orchestrator` | agent:court-orchestrator | Convenes the Code Review Court, manages fix cycles, produces .review.crc |
@@ -207,6 +209,7 @@
 | `recommendation-tribunal-orchestrator` | agent:recommendation-tribunal-orchestrator | Recommendation Tribunal orchestrator — convenes 4 fast judges in parallel, aggregates... |
 | `reconciler` | agent:reconciler | Classifies contradictions into 3 buckets: evolution, auto-resolve, conflict-doc. Invoke... |
 | `reflection-validator` | agent:reflection-validator | Meta-cognitive validation of responses and decisions (System 2). Use PROACTIVELY when: ... |
+| `repetition-truth-judge` | agent:repetition-truth-judge | Recommendation Tribunal judge — detects user claims repeated and assumed true without... |
 | `ruby-developer` | agent:ruby-developer | Implementación de código Ruby on Rails siguiendo specs SDD aprobadas. Usar PROACTIVEL... |
 | `rule-violation-judge` | agent:rule-violation-judge | Recommendation Tribunal judge — detects when a draft recommendation violates canonica... |
 | `rust-developer` | agent:rust-developer | Implementación de código Rust (Axum, Tokio) siguiendo specs SDD aprobadas. Usar PROAC... |
@@ -218,6 +221,7 @@
 | `security-judge` | agent:security-judge | Code Review Court judge — OWASP, PII, injection, auth, credentials |
 | `source-traceability-judge` | agent:source-traceability-judge | Truth Tribunal judge — every claim must have a verifiable @ref citation |
 | `spec-judge` | agent:spec-judge | Code Review Court judge — implementation vs approved spec, acceptance criteria |
+| `sycophancy-judge` | agent:sycophancy-judge | Recommendation Tribunal judge — detects empty social validation in conversational dra... |
 | `tech-writer` | agent:tech-writer | Documentación técnica: README, CHANGELOG, comentarios XML en C#, docs de proyecto. Us... |
 | `terraform-developer` | agent:terraform-developer | Implementación de código Terraform (IaC) siguiendo specs SDD aprobadas. CRÍTICO: NUN... |
 | `test-architect` | agent:test-architect | Designs and generates the highest quality tests across all 16 language packs and 14 tes... |

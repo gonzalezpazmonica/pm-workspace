@@ -20,9 +20,10 @@ set -uo pipefail
 #
 # Ref: SPEC-192 docs/propuestas/SPEC-192-anti-adulation-illusory-truth.md
 
-if [[ -f "$(dirname "${BASH_SOURCE[0]}")/../../scripts/savia-env.sh" ]]; then
-  # shellcheck disable=SC1091
-  source "$(dirname "${BASH_SOURCE[0]}")/../../scripts/savia-env.sh" 2>/dev/null || true
+SAVIA_ENV="$(dirname "${BASH_SOURCE[0]}")/../../scripts/savia-env.sh"
+if [[ -f "$SAVIA_ENV" ]]; then
+  # shellcheck disable=SC1090
+  source "$SAVIA_ENV"
 fi
 export CLAUDE_PROJECT_DIR="${CLAUDE_PROJECT_DIR:-${SAVIA_WORKSPACE_DIR:-$(pwd)}}"
 

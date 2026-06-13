@@ -52,7 +52,7 @@ case "${1:-}" in
   --judges)
     shift
     if [[ $# -lt 4 ]]; then
-      echo "ERROR: --judges requires at least 4 file paths (memory rule hallucination expertise)" >&2
+      echo "ERROR: --judges requires exactly 4 file paths (memory rule hallucination expertise) plus optional SPEC-192 flags (--sycophancy/--concession/--repetition-truth)" >&2
       exit 2
     fi
     # First 4 args are the canonical SPEC-125 judges
