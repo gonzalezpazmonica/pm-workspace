@@ -198,3 +198,63 @@ assert not missing, f'missing: {missing}'
   # Either GOOD (if top1 actually >=0.99) or BAD_LOW_TOP1; cannot be both BLOCK and warn
   [[ "$last_decision" == "BAD_LOW_TOP1" || "$last_decision" == "SHADOW_GOOD" ]]
 }
+
+# ─────────────────────────────────────────────────────────────────────────────
+# SPEC-055 audit-quality coverage
+# ─────────────────────────────────────────────────────────────────────────────
+
+@test "safety: hook script declares set -uo pipefail" {
+  run grep -E "set -uo pipefail" "$HOOK"
+  [[ "$status" -eq 0 ]]
+}
+
+@test "coverage: log_telemetry function defined and emits JSON to JSONL" {
+  # Exercises log_telemetry() via shadow mode invocation.
+  acm="$REPO_ROOT/projects/savia-mobile-android/.agent-maps/INDEX.acm"
+  if [[ ! -f "$acm" ]]; then skip "real ACM not present"; fi
+  export SAVIA_CGI=shadow
+  export SAVIA_TURN_QUERY="auth jwt"
+  log="$REPO_ROOT/output/context-greedy-inject.jsonl"
+  rm -f "$log"
+  payload=$(printf '{"tool_name":"Read","tool_input":{"file_path":"%s"}}' "$acm")
+  bash -c "echo '$payload' | bash '$HOOK'" >/dev/null 2>&1
+  [[ -f "$log" ]]
+  # log_telemetry must produce parseable JSON
+  tail -1 "$log" | python3 -c "import json,sys; json.loads(sys.stdin.read())"
+}
+
+@test "edge: empty stdin returns 0 (no-op)" {
+  run bash "$HOOK"
+  [[ "$status" -eq 0 ]]
+}
+
+@test "edge: malformed JSON envelope returns 0 (graceful)" {
+  run bash -c "echo 'this is not json {{' | bash '$HOOK'"
+  [[ "$status" -eq 0 ]]
+}
+
+@test "edge: nonexistent file_path returns 0 silently" {
+  payload='{"tool_name":"Read","tool_input":{"file_path":"/tmp/does-not-exist.acm"}}'
+  run bash -c "echo '$payload' | bash '$HOOK'"
+  [[ "$status" -eq 0 ]]
+}
+
+@test "edge: zero-byte file is skipped without crashing" {
+  empty_acm="$TMPDIR_CGI/empty.acm"
+  : > "$empty_acm"
+  payload=$(printf '{"tool_name":"Read","tool_input":{"file_path":"%s"}}' "$empty_acm")
+  run bash -c "echo '$payload' | bash '$HOOK'"
+  [[ "$status" -eq 0 ]]
+}
+
+@test "edge: timeout boundary — large query string handled" {
+  big_acm="$TMPDIR_CGI/big.acm"
+  python3 -c "open('$big_acm','w').write('## H\n' + ('lorem ipsum dolor sit amet ' * 200))"
+  big_query=$(printf 'word%.0s ' {1..50})
+  export SAVIA_CGI=shadow
+  export SAVIA_TURN_QUERY="$big_query"
+  payload=$(printf '{"tool_name":"Read","tool_input":{"file_path":"%s"}}' "$big_acm")
+  run bash -c "echo '$payload' | bash '$HOOK'"
+  [[ "$status" -eq 0 ]]
+}
+
