@@ -200,7 +200,12 @@ EOF
 # ── SPEC-195: orchestrator agent prompt has iterative loop section ────────────
 
 @test "SPEC-195 wire: orchestrator agent documents iterative loop" {
-  run grep "Iterative refinement loop" .opencode/agents/recommendation-tribunal-orchestrator.md
+  # SPEC-195 detail moved to extensions doc to respect Rule #22 agent size limit.
+  # Agent links to extensions doc, extensions doc has the iterative loop section.
+  run grep "Iterative refinement loop" docs/rules/domain/recommendation-tribunal-extensions.md
+  [ "$status" -eq 0 ]
+  # Agent itself must reference the extensions doc + the iterative toggle
+  run grep "SAVIA_TRIBUNAL_ITERATIVE" .opencode/agents/recommendation-tribunal-orchestrator.md
   [ "$status" -eq 0 ]
 }
 
