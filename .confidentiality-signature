@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=c23410d2c8fa7fb85dce309f94f8baf9f5d2c471c44b943e48a3ccf77206262c
-timestamp=2026-06-13T22:26:28Z
+diff_hash=0a84baf27b4a2e40640e5366938a53a4e96f8cdf5eb2ae857de3009ce0b1dab9
+timestamp=2026-06-14T06:18:56Z
 branch=agent/docs-scm-gaps-fix
-head_commit=144fdd1c
-signature=465fac7b3a3e5d29fd09bdafb9c2b60458b79c9594538737057ac13774f551d2
+head_commit=90b4b7d9
+signature=50bca150bfb546d68b3af41cb43af67a8b28af7d69a5b8dc400528cac4ef1f1a
