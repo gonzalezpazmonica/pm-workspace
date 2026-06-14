@@ -208,14 +208,38 @@ def scan_markdown_resources(pattern_glob: Path, kind: str, rel_root: Path,
 
 
 def scan_scripts(scripts_dir: Path, rel_root: Path) -> Iterable[ResourceEntry]:
-    """Yield ResourceEntry objects for shell scripts in scripts/."""
-    for file_path in sorted(scripts_dir.glob("*.sh")):
+    """Yield ResourceEntry objects for shell scripts in scripts/ (recursive).
+
+    Scans top-level scripts/*.sh AND immediate subdirs scripts/<name>/*.sh
+    so feature-grouped scripts (e.g. scripts/recommendation-tribunal/*.sh)
+    are indexed too. Recursion is depth-1 to avoid pulling in node_modules
+    or hidden caches. Symlinked dirs and dotted dirs are skipped.
+    """
+    sh_files: list[Path] = []
+    # Top level
+    sh_files.extend(sorted(scripts_dir.glob("*.sh")))
+    # Depth-1 subdirs (excluding hidden + node_modules + __pycache__)
+    for subdir in sorted(scripts_dir.iterdir()):
+        if not subdir.is_dir():
+            continue
+        if subdir.is_symlink():
+            continue
+        if subdir.name.startswith(".") or subdir.name in {"node_modules", "__pycache__"}:
+            continue
+        sh_files.extend(sorted(subdir.glob("*.sh")))
+
+    for file_path in sh_files:
         if not file_path.is_file():
             continue
         description = extract_script_description(file_path)
         if not description:
             continue
-        name = file_path.stem
+        # Use stem for top-level, prefix with subdir for nested to avoid name clashes
+        rel = file_path.relative_to(scripts_dir)
+        if rel.parent == Path("."):
+            name = file_path.stem
+        else:
+            name = f"{rel.parent.as_posix()}/{file_path.stem}"
         intents = extract_intents(description)
         category = classify_resource(name, description)
         rel_path = file_path.relative_to(rel_root).as_posix()

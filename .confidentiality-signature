@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=f805cb63fc312e00e65287533bd4f9935c7276c1eab14d8723f2fc9937947e07
-timestamp=2026-06-13T21:34:16Z
-branch=agent/activate-telemetria-warn
-head_commit=ef0143d2
-signature=2e1740609b592d5482dc2ef1d17d01b3ce52427d5a7d13772bdfc8ab61f42dc4
+diff_hash=0a84baf27b4a2e40640e5366938a53a4e96f8cdf5eb2ae857de3009ce0b1dab9
+timestamp=2026-06-14T06:18:56Z
+branch=agent/docs-scm-gaps-fix
+head_commit=90b4b7d9
+signature=50bca150bfb546d68b3af41cb43af67a8b28af7d69a5b8dc400528cac4ef1f1a

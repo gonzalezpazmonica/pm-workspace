@@ -1,6 +1,6 @@
 {
-  "hash": "2a24fd9d270a",
-  "total": 1265,
+  "hash": "5e96ea9367e4",
+  "total": 1296,
   "resources": [
     {
       "category": "analysis",
@@ -2915,6 +2915,86 @@
     },
     {
       "category": "development",
+      "name": "enterprise/api-key-create",
+      "intents": [
+        "create",
+        "creation",
+        "slice",
+        "spec"
+      ],
+      "kind": "script",
+      "path": "scripts/enterprise/api-key-create.sh",
+      "description": "api-key-create.sh — SPEC-SE-036 Slice 2: API key creation CLI."
+    },
+    {
+      "category": "development",
+      "name": "enterprise/api-key-list",
+      "intents": [
+        "inventory",
+        "list",
+        "slice",
+        "spec"
+      ],
+      "kind": "script",
+      "path": "scripts/enterprise/api-key-list.sh",
+      "description": "api-key-list.sh — SPEC-SE-036 Slice 2: API key inventory CLI."
+    },
+    {
+      "category": "development",
+      "name": "enterprise/api-key-revoke",
+      "intents": [
+        "revocation",
+        "revoke",
+        "slice",
+        "spec"
+      ],
+      "kind": "script",
+      "path": "scripts/enterprise/api-key-revoke.sh",
+      "description": "api-key-revoke.sh — SPEC-SE-036 Slice 2: API key revocation CLI."
+    },
+    {
+      "category": "development",
+      "name": "enterprise/delta-tier",
+      "intents": [
+        "delta",
+        "helper",
+        "spec",
+        "tier"
+      ],
+      "kind": "script",
+      "path": "scripts/enterprise/delta-tier.sh",
+      "description": "delta-tier.sh — SPEC-SE-035 helper"
+    },
+    {
+      "category": "development",
+      "name": "enterprise/jwt-mint",
+      "intents": [
+        "lived",
+        "mint",
+        "primitive",
+        "short",
+        "slice"
+      ],
+      "kind": "script",
+      "path": "scripts/enterprise/jwt-mint.sh",
+      "description": "jwt-mint.sh — SPEC-SE-036 Slice 1: short-lived JWT mint primitive."
+    },
+    {
+      "category": "development",
+      "name": "enterprise/reconciliation-status",
+      "intents": [
+        "reconciliation",
+        "slice",
+        "spec",
+        "status",
+        "tenant"
+      ],
+      "kind": "script",
+      "path": "scripts/enterprise/reconciliation-status.sh",
+      "description": "reconciliation-status.sh — SPEC-SE-035 Slice 1+3: tenant reconciliation CLI."
+    },
+    {
+      "category": "development",
       "name": "epistemic-humility",
       "intents": [
         "adulación",
@@ -3212,6 +3292,34 @@
     },
     {
       "category": "development",
+      "name": "llm-training/import-gguf",
+      "intents": [
+        "fine",
+        "gguf",
+        "import",
+        "model",
+        "ollama"
+      ],
+      "kind": "script",
+      "path": "scripts/llm-training/import-gguf.sh",
+      "description": "import-gguf.sh — SPEC-080: Import fine-tuned GGUF model into Ollama"
+    },
+    {
+      "category": "development",
+      "name": "llm-training/prepare-training-data",
+      "intents": [
+        "agent",
+        "data",
+        "extract",
+        "prepare",
+        "spec"
+      ],
+      "kind": "script",
+      "path": "scripts/llm-training/prepare-training-data.sh",
+      "description": "prepare-training-data.sh — SPEC-080: Extract training data from agent traces"
+    },
+    {
+      "category": "development",
       "name": "localai-readiness-check",
       "intents": [
         "check",
@@ -3292,6 +3400,20 @@
       "kind": "script",
       "path": "scripts/nidos-dev-lib.sh",
       "description": "nidos-dev-lib.sh — Dev server lifecycle for Savia nidos (SPEC-098)."
+    },
+    {
+      "category": "development",
+      "name": "opencode-hooks/run-hook",
+      "intents": [
+        "adecuado",
+        "ejecuta",
+        "hook",
+        "input",
+        "json"
+      ],
+      "kind": "script",
+      "path": "scripts/opencode-hooks/run-hook.sh",
+      "description": "run-hook.sh — Ejecuta un hook de PM‑Workspace con el input JSON adecuado"
     },
     {
       "category": "development",
@@ -3606,6 +3728,118 @@
       "kind": "script",
       "path": "scripts/rebuild-folder-indexes.sh",
       "description": "rebuild-folder-indexes.sh"
+    },
+    {
+      "category": "development",
+      "name": "recommendation-tribunal/aggregate",
+      "intents": [
+        "aggregate",
+        "aggregation",
+        "deterministic",
+        "judge",
+        "slice"
+      ],
+      "kind": "script",
+      "path": "scripts/recommendation-tribunal/aggregate.sh",
+      "description": "aggregate.sh — SPEC-125 Slice 1: deterministic aggregation of 4 judge verdicts."
+    },
+    {
+      "category": "development",
+      "name": "recommendation-tribunal/banner",
+      "intents": [
+        "banner",
+        "render",
+        "slice",
+        "spec",
+        "tribunal"
+      ],
+      "kind": "script",
+      "path": "scripts/recommendation-tribunal/banner.sh",
+      "description": "banner.sh — SPEC-125 Slice 1: render the tribunal verdict banner."
+    },
+    {
+      "category": "development",
+      "name": "recommendation-tribunal/calibrate",
+      "intents": [
+        "calibrate",
+        "derive",
+        "feedback",
+        "followups",
+        "memories"
+      ],
+      "kind": "script",
+      "path": "scripts/recommendation-tribunal/calibrate.sh",
+      "description": "calibrate.sh — SPEC-125 Slice 3: derive feedback memories from followups."
+    },
+    {
+      "category": "development",
+      "name": "recommendation-tribunal/classifier",
+      "intents": [
+        "actionable",
+        "classifier",
+        "detect",
+        "draft",
+        "recommendations"
+      ],
+      "kind": "script",
+      "path": "scripts/recommendation-tribunal/classifier.sh",
+      "description": "classifier.sh — SPEC-125 Slice 1: detect actionable recommendations in Savia's draft."
+    },
+    {
+      "category": "development",
+      "name": "recommendation-tribunal/early-cancel",
+      "intents": [
+        "cancel",
+        "done",
+        "early",
+        "elements",
+        "freeze"
+      ],
+      "kind": "script",
+      "path": "scripts/recommendation-tribunal/early-cancel.sh",
+      "description": "early-cancel.sh — SPEC-196: Freeze-done elements en Recommendation Tribunal."
+    },
+    {
+      "category": "development",
+      "name": "recommendation-tribunal/expertise-rewrite",
+      "intents": [
+        "asymmetric",
+        "expertise",
+        "rewrite",
+        "slice",
+        "spec"
+      ],
+      "kind": "script",
+      "path": "scripts/recommendation-tribunal/expertise-rewrite.sh",
+      "description": "expertise-rewrite.sh — SPEC-125 Slice 2: Asymmetric-expertise rewrite."
+    },
+    {
+      "category": "development",
+      "name": "recommendation-tribunal/followup-record",
+      "intents": [
+        "feedback",
+        "followup",
+        "loop",
+        "memory",
+        "record"
+      ],
+      "kind": "script",
+      "path": "scripts/recommendation-tribunal/followup-record.sh",
+      "description": "followup-record.sh — SPEC-125 Slice 3: Memory feedback loop."
+    },
+    {
+      "category": "development",
+      "name": "recommendation-tribunal/iterate",
+      "intents": [
+        "controller",
+        "iterate",
+        "iterative",
+        "loop",
+        "spec"
+      ],
+      "kind": "script",
+      "path": "scripts/recommendation-tribunal/iterate.sh",
+      "description": "iterate.sh — SPEC-195: Iterative tribunal loop controller."
     },
     {
       "category": "development",
@@ -9537,6 +9771,95 @@
     },
     {
       "category": "planning",
+      "name": "lib/adb-wrapper",
+      "intents": [],
+      "kind": "script",
+      "path": "scripts/lib/adb-wrapper.sh",
+      "description": "============================================================================"
+    },
+    {
+      "category": "planning",
+      "name": "lib/concurrent-executor",
+      "intents": [
+        "bounded",
+        "concurrent",
+        "execution",
+        "executor",
+        "parallel"
+      ],
+      "kind": "script",
+      "path": "scripts/lib/concurrent-executor.sh",
+      "description": "concurrent-executor.sh — Semaphore-bounded parallel task execution"
+    },
+    {
+      "category": "planning",
+      "name": "lib/enterprise-helpers",
+      "intents": [
+        "checks",
+        "enterprise",
+        "helpers",
+        "module",
+        "sourceable"
+      ],
+      "kind": "script",
+      "path": "scripts/lib/enterprise-helpers.sh",
+      "description": "enterprise-helpers.sh — Sourceable helpers for Enterprise module checks"
+    },
+    {
+      "category": "planning",
+      "name": "lib/llm-healer",
+      "intents": [
+        "healer",
+        "slice"
+      ],
+      "kind": "script",
+      "path": "scripts/lib/llm-healer.sh",
+      "description": "llm-healer.sh — SE-076 Slice 3"
+    },
+    {
+      "category": "planning",
+      "name": "lib/mock-env",
+      "intents": [
+        "environment",
+        "library",
+        "mock",
+        "reusable",
+        "scripts"
+      ],
+      "kind": "script",
+      "path": "scripts/lib/mock-env.sh",
+      "description": "mock-env.sh — Reusable mock environment library for pm-workspace scripts"
+    },
+    {
+      "category": "planning",
+      "name": "lib/os-detect",
+      "intents": [
+        "defaults",
+        "detect",
+        "detection",
+        "path",
+        "portable"
+      ],
+      "kind": "script",
+      "path": "scripts/lib/os-detect.sh",
+      "description": "scripts/lib/os-detect.sh — Portable OS detection and path defaults"
+    },
+    {
+      "category": "planning",
+      "name": "lib/slm-common",
+      "intents": [
+        "common",
+        "helpers",
+        "shared",
+        "slice",
+        "subcommands"
+      ],
+      "kind": "script",
+      "path": "scripts/lib/slm-common.sh",
+      "description": "slm-common.sh — Shared helpers for SLM subcommands (SE-049 Slice 1)."
+    },
+    {
+      "category": "planning",
       "name": "linear-sync",
       "intents": [
         "bidireccional",
@@ -12279,6 +12602,62 @@
     },
     {
       "category": "planning",
+      "name": "sync-adapters/adapter-interface",
+      "intents": [
+        "adapter",
+        "adapters",
+        "backlog",
+        "common",
+        "interface"
+      ],
+      "kind": "script",
+      "path": "scripts/sync-adapters/adapter-interface.sh",
+      "description": "adapter-interface.sh — Common interface for backlog sync adapters"
+    },
+    {
+      "category": "planning",
+      "name": "sync-adapters/azure-devops-adapter",
+      "intents": [
+        "adapter",
+        "azure",
+        "backlog",
+        "devops",
+        "local"
+      ],
+      "kind": "script",
+      "path": "scripts/sync-adapters/azure-devops-adapter.sh",
+      "description": "azure-devops-adapter.sh — Sync local backlog with Azure DevOps"
+    },
+    {
+      "category": "planning",
+      "name": "sync-adapters/github-issues-adapter",
+      "intents": [
+        "adapter",
+        "backlog",
+        "github",
+        "issues",
+        "local"
+      ],
+      "kind": "script",
+      "path": "scripts/sync-adapters/github-issues-adapter.sh",
+      "description": "github-issues-adapter.sh — Sync local backlog with GitHub Issues"
+    },
+    {
+      "category": "planning",
+      "name": "sync-adapters/jira-adapter",
+      "intents": [
+        "adapter",
+        "backlog",
+        "cloud",
+        "jira",
+        "local"
+      ],
+      "kind": "script",
+      "path": "scripts/sync-adapters/jira-adapter.sh",
+      "description": "jira-adapter.sh — Sync local backlog with Jira Cloud"
+    },
+    {
+      "category": "planning",
       "name": "sync-calendars",
       "intents": [
         "calendarios",
@@ -13703,6 +14082,32 @@
       "kind": "agent",
       "path": ".opencode/agents/drift-auditor.md",
       "description": "Auditoría de convergencia repo: detecta drift entre docs, config y código. Usar PROACTIVELY tras cambios grandes o al inicio de sprint."
+    },
+    {
+      "category": "quality",
+      "name": "enterprise/audit-purge",
+      "intents": [
+        "audit",
+        "purge",
+        "retention",
+        "spec"
+      ],
+      "kind": "script",
+      "path": "scripts/enterprise/audit-purge.sh",
+      "description": "audit-purge.sh — SPEC-SE-037 Audit Log Retention Purge CLI"
+    },
+    {
+      "category": "quality",
+      "name": "enterprise/audit-search",
+      "intents": [
+        "audit",
+        "inspector",
+        "search",
+        "spec"
+      ],
+      "kind": "script",
+      "path": "scripts/enterprise/audit-search.sh",
+      "description": "audit-search.sh — SPEC-SE-037 Audit Log CLI Inspector"
     },
     {
       "category": "quality",
@@ -16176,6 +16581,14 @@
       "kind": "cmd",
       "path": ".claude/commands/testplan-status.md",
       "description": ">"
+    },
+    {
+      "category": "quality",
+      "name": "tests/test-adb-wrapper",
+      "intents": [],
+      "kind": "script",
+      "path": "scripts/tests/test-adb-wrapper.sh",
+      "description": "============================================================================"
     },
     {
       "category": "quality",
