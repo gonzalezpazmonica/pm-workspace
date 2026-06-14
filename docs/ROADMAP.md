@@ -718,16 +718,28 @@ Google Sheets · ServiceNow/SAP · Tableau · Kafka · VS Code ext · Cloud voic
 
 | # | ID | Qué | Esfuerzo | Prioridad | Deps |
 |---|---|---|---|---|---|
-| 1 | ~~**SPEC-195**~~ | ~~Iterative Tribunal early-stop~~ ✓ implementado | 23 pytest + 13 bats | — | en PR de implementacion |
-| 2 | ~~**SPEC-196**~~ | ~~Freeze-done elements~~ ✓ implementado | 16 bats | — | en PR de implementacion |
-| 3 | ~~**SPEC-197**~~ | ~~Annealing schedule~~ ✓ implementado | 17 pytest | — | en PR de implementacion |
-| 4 | ~~**SPEC-198**~~ | ~~JudgeVerdict frozen dataclass~~ ✓ implementado | 32 pytest | — | en PR de implementacion |
-| 5 | ~~**SPEC-200**~~ | ~~Adaptive quality gate threshold~~ ✓ implementado | 21 pytest | — | en PR de implementacion |
+| 1 | ~~**SPEC-195**~~ | ~~Iterative Tribunal early-stop~~ ✓ implementado + wired (#844) | 23 pytest + 13 bats | — | mergeado |
+| 2 | ~~**SPEC-196**~~ | ~~Freeze-done elements~~ ✓ implementado + wired (#844) | 16 bats | — | mergeado |
+| 3 | ~~**SPEC-197**~~ | ~~Annealing schedule~~ ✓ implementado + wired (#844) | 17 pytest | — | mergeado |
+| 4 | ~~**SPEC-198**~~ | ~~JudgeVerdict frozen dataclass~~ ✓ implementado + wired + telemetry pilot warn (#844, #845) | 32 pytest | — | mergeado |
+| 5 | ~~**SPEC-200**~~ | ~~Adaptive quality gate threshold~~ ✓ implementado + wired + telemetry pilot warn (#844, #845) | 21 pytest | — | mergeado |
 | 6 | **SPEC-199** | Historical context conditioning entre rondas (via embeddings) | 4-5d / 5-7h | P2 | depende SPEC-195 (ahora desbloqueado) |
 | 7 | **SPEC-SE-036 Slice 3** | JWT sunset opt-in (PAT file migration) | 4h | P2 | Slice 1+2 ✓ |
 | 8 | **SPEC-188 Fase 2** | Sealed Contract Tests | ~8h | P2 | Fase 1 ✓ |
 | 9 | **SE-216 Slice 4** | Experiment Graph — tree search | ~6h | P3 | SE-216 S1+S2+S3 ✓ |
 | 10 | **SPEC-188 Fases 3+4** | Causal confidence + diagnostic metrics | ~56h | P3 | Fase 2 |
+
+### Telemetry pilot (30d desde 2026-06-13)
+
+PR #845 activo modo `warn` para SPEC-198 y SPEC-200 — las features generan
+telemetria pero no bloquean. Promocion `warn` → `on`/`block` se decidira
+tras revisar:
+- `output/quality-gate-history.jsonl` (SPEC-200 adaptive threshold)
+- `output/judge-verdict-validation-errors.jsonl` (SPEC-198 schema validation)
+- Artifacts `spec-200-telemetry-*` en GitHub Actions runs (retencion 30d)
+
+Recordatorio diario persistido en memoria como
+`decision/telemetria-wirings-revision-diaria`.
 
 ### DiffusionGemma patterns (SPEC-195 a 200)
 

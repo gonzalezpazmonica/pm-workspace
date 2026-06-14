@@ -1,5 +1,5 @@
 # planning — Savia Capability Map (L1)
-> 541 resources
+> 552 resources
 
 - **/accreditation-track** (cmd): >
 - **/decide-architecture** (cmd): Clasifica una tarea como WORKFLOW (deterministica) o AGENT (loop). Bias hacia workflow per Anthropic. Sugiere plantilla inicial. Mide accuracy contra corpus curado de 20 tareas.
@@ -251,6 +251,13 @@
 - **legalize-es** (script): legalize-es.sh — Gestión del corpus legislativo español (legalize-es)
 - **lesson-extract** (cmd): Extract a cross-project lesson from the current task
 - **lesson-pipeline** (script): lesson-pipeline.sh — SE-032: Cross-Project Lessons Pipeline
+- **lib/adb-wrapper** (script): ============================================================================
+- **lib/concurrent-executor** (script): concurrent-executor.sh — Semaphore-bounded parallel task execution
+- **lib/enterprise-helpers** (script): enterprise-helpers.sh — Sourceable helpers for Enterprise module checks
+- **lib/llm-healer** (script): llm-healer.sh — SE-076 Slice 3
+- **lib/mock-env** (script): mock-env.sh — Reusable mock environment library for pm-workspace scripts
+- **lib/os-detect** (script): scripts/lib/os-detect.sh — Portable OS detection and path defaults
+- **lib/slm-common** (script): slm-common.sh — Shared helpers for SLM subcommands (SE-049 Slice 1).
 - **linear-sync** (cmd): Sincronización bidireccional con Linear — issues, cycles, métricas unificadas
 - **managed-content** (skill): Usar cuando se regeneran secciones auto-generadas en documentos con marcadores de seguridad.
 - **managed-scan** (cmd): Scan managed content for stale or outdated sections
@@ -463,6 +470,10 @@
 - **strategy-map** (cmd): Mapa estratégico — iniciativas, dependencias, contribución a objetivos
 - **subscriber-lifecycle** (cmd): Gestión integral del ciclo de vida del suscriptor desde onboarding hasta análisis de churn
 - **sustainable-pace** (cmd): Cálculo de ritmo sostenible basado en histórico y capacidad real
+- **sync-adapters/adapter-interface** (script): adapter-interface.sh — Common interface for backlog sync adapters
+- **sync-adapters/azure-devops-adapter** (script): azure-devops-adapter.sh — Sync local backlog with Azure DevOps
+- **sync-adapters/github-issues-adapter** (script): github-issues-adapter.sh — Sync local backlog with GitHub Issues
+- **sync-adapters/jira-adapter** (script): jira-adapter.sh — Sync local backlog with Jira Cloud
 - **sync-calendars** (cmd): Sincronizar disponibilidad entre calendarios de dos tenants Microsoft 365
 - **sync-github-metadata** (script): sync-github-metadata.sh — Update GitHub repo metadata
 - **sync-model-tiers** (script): sync-model-tiers.sh — Resolve abstract model tiers (heavy|mid|fast) to provider-

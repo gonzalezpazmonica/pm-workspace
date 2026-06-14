@@ -1,5 +1,5 @@
 # development — Savia Capability Map (L1)
-> 179 resources
+> 196 resources
 
 - **/a11y-monitor** (cmd): Monitorización continua de regresiones de accesibilidad. Integración en CI/CD. Alertas cuando score baja por debajo de threshold. Digest semanal. Previene regresiones bloqueando deploys con fallos a11y.
 - **/speckit.checklist** (cmd): Alias spec-kit compatible. Gate de calidad final con verification-lattice multi-capa. Invoca skill verification-lattice. Compatible con github/spec-kit.
@@ -63,6 +63,12 @@
 - **dev-session** (cmd): Orquestar desarrollo de un spec mediante 5 fases con aislamiento de contexto y persistencia en disco
 - **dev-session-discard** (script): dev-session-discard.sh — Discard a dev-session cleanly
 - **dev-session-resume** (cmd): Reanudar una dev-session interrumpida desde el ultimo checkpoint
+- **enterprise/api-key-create** (script): api-key-create.sh — SPEC-SE-036 Slice 2: API key creation CLI.
+- **enterprise/api-key-list** (script): api-key-list.sh — SPEC-SE-036 Slice 2: API key inventory CLI.
+- **enterprise/api-key-revoke** (script): api-key-revoke.sh — SPEC-SE-036 Slice 2: API key revocation CLI.
+- **enterprise/delta-tier** (script): delta-tier.sh — SPEC-SE-035 helper
+- **enterprise/jwt-mint** (script): jwt-mint.sh — SPEC-SE-036 Slice 1: short-lived JWT mint primitive.
+- **enterprise/reconciliation-status** (script): reconciliation-status.sh — SPEC-SE-035 Slice 1+3: tenant reconciliation CLI.
 - **epistemic-humility** (skill): Usar cuando se detecta riesgo de adulación, cesión sin evidencia, o claim repetido por el usuario asumido sin verificar. Trigger: tribunal SPEC-192 emite WARN/VETO o auto-detección léxica.
 - **eval-agent** (cmd): Evaluate an agent against its golden set — precision, recall, hallucinations, bias (SPEC-036)
 - **eval-agent** (script): eval-agent.sh — Agent Evaluation Runner (SPEC-036)
@@ -85,12 +91,15 @@
 - **instinct-collapse-detector** (script): instinct-collapse-detector.sh — SPEC-045 Phase 1: detect exploration collapse
 - **jwt-mint** (script): jwt-mint.sh — SPEC-SE-036: API key → JWT ephemeral mint
 - **kg-export** (script): kg-export.sh — SE-218 S2: KG snapshot versionado (codebase-memory-mcp pattern)
+- **llm-training/import-gguf** (script): import-gguf.sh — SPEC-080: Import fine-tuned GGUF model into Ollama
+- **llm-training/prepare-training-data** (script): prepare-training-data.sh — SPEC-080: Extract training data from agent traces
 - **localai-readiness-check** (script): localai-readiness-check.sh — SPEC-122
 - **marketplace-install** (cmd): Install components from claude-code-templates marketplace
 - **mcp-browse** (cmd): Explorar catálogo de MCPs disponibles (66+) via claude-code-templates
 - **mcp-server** (cmd): Expone las herramientas de Savia como MCP server para otros proyectos Claude Code
 - **nd-autoconfig** (script): nd-autoconfig.sh — SPEC-061: Auto-configure accessibility.md from neurodivergent.md
 - **nidos-dev-lib** (script): nidos-dev-lib.sh — Dev server lifecycle for Savia nidos (SPEC-098).
+- **opencode-hooks/run-hook** (script): run-hook.sh — Ejecuta un hook de PM‑Workspace con el input JSON adecuado
 - **opencode-install** (script): opencode-install.sh — SE-077 Slice 1
 - **opencode-migration-smoke** (script): opencode-migration-smoke.sh — SPEC-127 Slice 2b-ii (final migration prep)
 - **opencode-monthly-canary** (script): opencode-monthly-canary.sh — SE-077 Slice 2
@@ -116,6 +125,14 @@
 - **prompt-suggestion-engine** (script): prompt-suggestion-engine.sh — SPEC-044 Phase 2: trace-driven prompt optimization
 - **reaction-engine** (script): reaction-engine.sh — SPEC-050 Phase 1: Reaction Engine
 - **rebuild-folder-indexes** (script): rebuild-folder-indexes.sh
+- **recommendation-tribunal/aggregate** (script): aggregate.sh — SPEC-125 Slice 1: deterministic aggregation of 4 judge verdicts.
+- **recommendation-tribunal/banner** (script): banner.sh — SPEC-125 Slice 1: render the tribunal verdict banner.
+- **recommendation-tribunal/calibrate** (script): calibrate.sh — SPEC-125 Slice 3: derive feedback memories from followups.
+- **recommendation-tribunal/classifier** (script): classifier.sh — SPEC-125 Slice 1: detect actionable recommendations in Savia's draft.
+- **recommendation-tribunal/early-cancel** (script): early-cancel.sh — SPEC-196: Freeze-done elements en Recommendation Tribunal.
+- **recommendation-tribunal/expertise-rewrite** (script): expertise-rewrite.sh — SPEC-125 Slice 2: Asymmetric-expertise rewrite.
+- **recommendation-tribunal/followup-record** (script): followup-record.sh — SPEC-125 Slice 3: Memory feedback loop.
+- **recommendation-tribunal/iterate** (script): iterate.sh — SPEC-195: Iterative tribunal loop controller.
 - **reconciliation-pilot** (script): reconciliation-pilot.sh — SPEC-183 Slice 4: run reconciler pilot on pm-workspace docs
 - **repetition-truth-judge** (agent): Recommendation Tribunal judge — detects user claims repeated and assumed true without verification (SPEC-192)
 - **requirement-pushback** (script): requirement-pushback.sh — Analyze a spec and generate pushback questions
