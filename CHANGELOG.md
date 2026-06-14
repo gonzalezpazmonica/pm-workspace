@@ -26,6 +26,24 @@ Fixed: cinco gaps detectados en auditoria post-merge.
 
 Determinismo verificado: dos regeneraciones consecutivas del SCM
 producen el mismo hash. test-scm-determinism 19/19 pass.
+## [Unreleased] — 2026-06-13 · Activate SPEC-198/200 telemetry pilot defaults
+
+Changed: tras mergear PR #844, los toggles SPEC-198/200 estaban presentes
+pero defaultaban a off. Esta entrada activa modo warn por default durante
+ventana de pilot 30 dias, segun decision pactada con el usuario.
+
+- savia-env.sh exporta SAVIA_QUALITY_GATE_ADAPTIVE=warn y
+  SAVIA_JUDGE_VERDICT_VALIDATE=warn por default cuando no hay override.
+- CI workflow ci.yml setea SAVIA_QUALITY_GATE_ADAPTIVE=warn en el step
+  Gate Test Quality y sube output/quality-gate-history.jsonl como
+  artifact (retencion 30 dias).
+- 11 tests nuevos en test-telemetria-pilot-defaults.bats que verifican
+  defaults, overrides explicitos, e2e generation de los dos JSONL.
+
+Backward compat: cualquier sesion que exporte explicitamente
+SAVIA_QUALITY_GATE_ADAPTIVE=off o SAVIA_JUDGE_VERDICT_VALIDATE=off
+mantiene comportamiento anterior. Promocion warn->on tras revision
+de telemetria de 30 dias.
 
 
 ## [Unreleased] — 2026-06-13 · Wire SPEC-195/196/197/198/200
