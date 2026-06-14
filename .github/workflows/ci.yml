@@ -165,7 +165,22 @@ jobs:
         run: bash scripts/audit-test-quality.sh --summary
 
       - name: "Gate: Test Quality (SPEC-055 — all tests >= 80)"
+        env:
+          # SPEC-200 telemetry pilot (30d): compute adaptive threshold and
+          # emit advisory to stderr, but still gate on fixed_min=80.
+          # Promote to 'on' once output/quality-gate-history.jsonl shows
+          # the adaptive threshold tracks the score distribution well.
+          SAVIA_QUALITY_GATE_ADAPTIVE: warn
         run: bash scripts/ci-test-quality-gate.sh
+
+      - name: "Upload SPEC-200 telemetry (quality-gate-history.jsonl)"
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: spec-200-telemetry-${{ github.run_number }}
+          path: output/quality-gate-history.jsonl
+          if-no-files-found: ignore
+          retention-days: 30
 
       - name: Run coverage report
         run: bash scripts/coverage-report.sh --ci

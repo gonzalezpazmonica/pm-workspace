@@ -302,6 +302,11 @@ if [[ "${BASH_SOURCE[0]}" != "${0}" ]]; then
   _savia_activate_venv "$SAVIA_WORKSPACE_DIR"
   export SAVIA_PROVIDER="${SAVIA_PROVIDER:-$(_resolve_provider)}"
   export SAVIA_PROJECT_SLUG="${SAVIA_PROJECT_SLUG:-$(_resolve_project_slug)}"
+  # ── Telemetry pilot defaults (SPEC-198/200, 30d window from 2026-06-13) ────
+  # Defaults to 'warn' so logs are produced without blocking. Override with
+  # env var or .env to disable. Promote to 'on' once telemetry data is reviewed.
+  export SAVIA_QUALITY_GATE_ADAPTIVE="${SAVIA_QUALITY_GATE_ADAPTIVE:-warn}"
+  export SAVIA_JUDGE_VERDICT_VALIDATE="${SAVIA_JUDGE_VERDICT_VALIDATE:-warn}"
 else
   # Direct invocation: print requested value
   case "${1:-}" in
