@@ -34,7 +34,8 @@ iso8601_now() { date -u +"%Y-%m-%dT%H:%M:%SZ"; }
 # Compute pattern_id: first 8 chars of sha256(agent + error_signature + file_glob)
 compute_pattern_id() {
     local agent="$1" error_sig="$2" file_glob="${3:-}"
-    printf '%s' "${agent}${error_sig}${file_glob}" | sha256sum | cut -c1-8
+    # SE-151: consolidated via scripts/content-fingerprint.sh
+    printf '%s' "${agent}${error_sig}${file_glob}" | bash "${BASH_SOURCE[0]%/*}/content-fingerprint.sh" 8
 }
 
 # python3 sqlite3 runner — avoids dependency on sqlite3 CLI binary

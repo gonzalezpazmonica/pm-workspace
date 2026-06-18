@@ -77,6 +77,9 @@ detect_language() {
 # ── SHA256 hash (first 8 chars) ──────────────────────────────────────────────
 file_hash() {
   local file="$1"
+  # SE-151 NOTE: NOT migrated to scripts/content-fingerprint.sh. Reason: this
+  # function has a 3-tier fallback (sha256sum -> shasum -> "nohash00") for
+  # macOS/minimal environments. Migration would lose that fallback.
   if command -v sha256sum &>/dev/null; then
     sha256sum "$file" | cut -c1-8
   elif command -v shasum &>/dev/null; then
