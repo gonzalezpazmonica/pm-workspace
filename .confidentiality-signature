@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=809dd002a7117a5990f964bf8692294c9b8b96eeb93a6dfe4128a8caef08056f
-timestamp=2026-06-18T22:55:14Z
-branch=agent/biochem-context-20260619
-head_commit=c90ebc88
-signature=143b01680e5dfb6d3f009c2e80d4c39aac21e7f4707dceb5cce23acebefeabda
+diff_hash=cb6668fad1d041ec426ae545a7f80819780a26fdbdbfc712b61cad3fdf82da76
+timestamp=2026-06-18T23:10:08Z
+branch=agent/spec-188-p3-contract-tests-20260619
+head_commit=4414f079
+signature=1f7a34a417412fd69efc4d80397d37392bae7e5e1a6095e9e86d8a668032b42c
