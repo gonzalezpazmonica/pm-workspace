@@ -181,10 +181,12 @@ run_with_branch() {
 # C4 fix: legitimate bypass via [contract-change|add|remove] commit message
 _make_repo_with_msg() {
   local msg="$1" tmp; tmp=$(mktemp -d)
-  cd "$tmp"
-  git init -q
-  git config user.email "t@t"; git config user.name "t"
-  echo x > a.txt; git add . && git commit -q -m "$msg"
+  git -C "$tmp" init -q
+  git -C "$tmp" config user.email "t@t"
+  git -C "$tmp" config user.name "t"
+  echo x > "$tmp/a.txt"
+  git -C "$tmp" add .
+  git -C "$tmp" commit -q -m "$msg"
   echo "$tmp"
 }
 
@@ -195,7 +197,7 @@ _run_bypass() {
   result=$(SAVIA_CONTRACT_ALLOWLIST="$ALLOWLIST" SAVIA_TEST_MODE=1 \
     _SAVIA_INTERNAL_TEST_BRANCH="agent/test" CLAUDE_PROJECT_DIR="$tmp" \
     bash -c "echo '$input' | bash '$HOOK'" 2>&1; echo "EXIT=$?")
-  cd "$REPO_ROOT"; rm -rf "$tmp"
+  rm -rf "$tmp"
   [[ "$result" == *"EXIT=$expect_exit"* ]]
 }
 
