@@ -46,7 +46,7 @@
 
 <!-- AUTO_BEGIN — do not edit; regenerate via scripts/resolver-md-generate.sh -->
 
-### Skills (103)
+### Skills (104)
 
 | Intent (skill) | Target | Cuándo usar |
 |---|---|---|
@@ -71,6 +71,7 @@
 | `codegraph` | skill:codegraph | Usar cuando se necesita indexación AST persistente para navegación de callers/callees... |
 | `company-messaging` | skill:company-messaging | Usar cuando se envían mensajes internos cifrados entre miembros de la organización v�... |
 | `consensus-validation` | skill:consensus-validation | Usar cuando una decisión técnica o recomendación necesita validación por panel de j... |
+| `content-fingerprint` | skill:content-fingerprint | Usar cuando se necesita un identificador corto, deterministico y reproducible derivado ... |
 | `context-caching` | skill:context-caching | Usar cuando se optimiza el orden de carga de contexto para maximizar cache hits. |
 | `context-interview-conductor` | skill:context-interview-conductor | Usar cuando se necesita recopilar contexto estructurado de un usuario mediante entrevis... |
 | `context-optimized-dev` | skill:context-optimized-dev | Usar cuando se desarrolla con presupuesto de contexto limitado. |

@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=0a84baf27b4a2e40640e5366938a53a4e96f8cdf5eb2ae857de3009ce0b1dab9
-timestamp=2026-06-14T06:18:56Z
-branch=agent/docs-scm-gaps-fix
-head_commit=90b4b7d9
-signature=50bca150bfb546d68b3af41cb43af67a8b28af7d69a5b8dc400528cac4ef1f1a
+diff_hash=44ee08f7d70e09748fae4c907195ffea9d59804a152732961511e7a3047e688c
+timestamp=2026-06-19T05:38:07Z
+branch=agent/biochem-context-20260619
+head_commit=9194d19e
+signature=e429129454f33bb420e3ab370b2fcd2b1bde6501a727d1965e8eadcd56aa01b0
