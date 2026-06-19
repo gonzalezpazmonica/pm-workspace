@@ -1,0 +1,1 @@
+SELECT * FROM users WHERE created_at > NOW() - INTERVAL 7 DAY

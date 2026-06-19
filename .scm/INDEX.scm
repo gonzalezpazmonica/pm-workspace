@@ -1,6 +1,6 @@
 # Savia Capability Map — INDEX
-> hash: 6bfb41db5c09 | resources: 1296
-> 557 commands · 104 skills · 75 agents · 560 scripts
+> hash: 707520a7bd29 | resources: 1298
+> 557 commands · 105 skills · 75 agents · 561 scripts
 
 [analysis] /a11y-report — accesibilidad,completos,conformidad,código,declaración — cmd:.claude/commands/a11y-report.md
 [analysis] Trace Optimize — across,distributed,optimize,rates,sampling — cmd:.claude/commands/trace-optimize.md
@@ -407,6 +407,7 @@
 [memory] changelog-consolidate — changelog,consolidate,fragments — script:scripts/changelog-consolidate.sh
 [memory] changelog-consolidate-if-needed — automation,changelog,consolidate,merge,needed — script:scripts/changelog-consolidate-if-needed.sh
 [memory] company-show — consolidado,contexto,ejecutivo,empresa,mostrar — cmd:.claude/commands/company-show.md
+[memory] content-fingerprint — consolidation,content,fingerprint,skill — script:scripts/content-fingerprint.sh
 [memory] context-age — antiguas,archiva,comprime,decision,decisiones — cmd:.claude/commands/context-age.md
 [memory] context-aging — aging,context — script:scripts/context-aging.sh
 [memory] context-benchmark — benchmark,contexto,información,posicionamiento — cmd:.claude/commands/context-benchmark.md
@@ -620,6 +621,7 @@
 [planning] conflict-check —  — cmd:.claude/commands/conflict-check.md
 [planning] confluence-publish —  — cmd:.claude/commands/confluence-publish.md
 [planning] consensus-validation — decisión,jueces,panel,recomendación,técnica — skill:.claude/skills/consensus-validation/SKILL.md
+[planning] content-fingerprint — cache,cadena,contenido,corto,derivado — skill:.claude/skills/content-fingerprint/SKILL.md
 [planning] contribute — contribuir,correcciones,github,ideas,mejoras — cmd:.claude/commands/contribute.md
 [planning] contribute — capa,comunidad,contribute,github,interacción — script:scripts/contribute.sh
 [planning] cost-center — billing,budgets,cost,forecasting,invoicing — cmd:.claude/commands/cost-center.md

@@ -1,0 +1,3 @@
+Near duplicate document number 1.
+Some shared content paragraph.
+Final invariant line.

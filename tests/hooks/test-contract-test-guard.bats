@@ -1,6 +1,10 @@
 #!/usr/bin/env bats
 # Tests for .claude/hooks/contract-test-guard.sh (SPEC-188-P3)
+# Ref: docs/specs/SPEC-188-P3-sealed-contract-tests.spec.md
 # Adversarial fixes applied: env var guard, path normalize, [contract-change] bypass
+
+# Auditor target hint (SPEC-055): used by scripts/test-auditor-engine.py
+HOOK=".claude/hooks/contract-test-guard.sh"
 
 setup() {
   REPO_ROOT="$(cd "${BATS_TEST_DIRNAME}/../.." && pwd -P)"
@@ -23,6 +27,22 @@ make_input() {
 run_with_branch() {
   local branch="$1" input="$2"
   _SAVIA_INTERNAL_TEST_BRANCH="$branch" bash -c "echo '$input' | bash '$HOOK'"
+}
+
+# ── Safety verification (SPEC-055 — auditor C2) ─────────────────────────────
+
+@test "safety: hook uses set -uo pipefail" {
+  run grep -E "^set -[eu]+o pipefail" "$HOOK"
+  [ "$status" -eq 0 ]
+}
+
+@test "safety: hook declares shebang" {
+  run head -1 "$HOOK"
+  [[ "$output" == "#!/usr/bin/env bash" ]]
+}
+
+@test "safety: hook is executable" {
+  [ -x "$HOOK" ]
 }
 
 # Block / allow cases

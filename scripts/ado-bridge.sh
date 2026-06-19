@@ -33,6 +33,9 @@ resolve_config() {
 }
 
 # ── Cache helpers ───────────────────────────────────────────────────────────────
+# SE-151 NOTE: NOT migrated to scripts/content-fingerprint.sh. Reason: the cksum
+# fallback below provides portability when sha256sum is unavailable. Migration
+# would lose that fallback. See docs/specs/SE-151-*.spec.md § "Lo que el criterio NO dice".
 cache_key() { local k="$1"; echo "$k" | sha256sum 2>/dev/null | cut -c1-16 || echo "$k" | cksum 2>/dev/null | cut -d' ' -f1 || echo "0"; }
 
 cache_get() {
