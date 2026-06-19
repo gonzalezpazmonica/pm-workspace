@@ -1,6 +1,6 @@
 {
-  "hash": "5e96ea9367e4",
-  "total": 1296,
+  "hash": "55cacb6a340b",
+  "total": 1298,
   "resources": [
     {
       "category": "analysis",
@@ -5294,6 +5294,19 @@
     },
     {
       "category": "memory",
+      "name": "content-fingerprint",
+      "intents": [
+        "consolidation",
+        "content",
+        "fingerprint",
+        "skill"
+      ],
+      "kind": "script",
+      "path": "scripts/content-fingerprint.sh",
+      "description": "content-fingerprint.sh — SE-151 consolidation skill"
+    },
+    {
+      "category": "memory",
       "name": "context-age",
       "intents": [
         "antiguas",
@@ -8070,6 +8083,20 @@
       "kind": "skill",
       "path": ".claude/skills/consensus-validation/SKILL.md",
       "description": "Usar cuando una decisión técnica o recomendación necesita validación por panel de jueces."
+    },
+    {
+      "category": "planning",
+      "name": "content-fingerprint",
+      "intents": [
+        "cache",
+        "cadena",
+        "contenido",
+        "corto",
+        "derivado"
+      ],
+      "kind": "skill",
+      "path": ".claude/skills/content-fingerprint/SKILL.md",
+      "description": "Usar cuando se necesita un identificador corto, deterministico y reproducible derivado del contenido de una cadena o fichero — cache keys, ids de patrones, fingerprints de docs."
     },
     {
       "category": "planning",

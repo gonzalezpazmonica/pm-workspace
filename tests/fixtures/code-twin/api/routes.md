@@ -4,7 +4,7 @@ layer: api
 version: "1.0.0"
 last_sync: "2026-06-08T14:30:00Z"
 token_budget: 450
-stale_after_days: 7
+stale_after_days: 3650  # SE-191 fix: avoid temporal aging of fixture
 depends_on:
   - item-use-cases
   - item-queries
