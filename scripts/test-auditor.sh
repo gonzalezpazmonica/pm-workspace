@@ -46,7 +46,8 @@ embed_hash() {
   today=$(date +%Y-%m-%d)
   local raw="${test_file}${score}${today}"
   local hash
-  hash=$(echo -n "$raw" | sha256sum | cut -c1-8)
+  # SE-151: consolidated via scripts/content-fingerprint.sh
+  hash=$(echo -n "$raw" | bash "${BASH_SOURCE[0]%/*}/content-fingerprint.sh" 8)
   local audit_line="# audit: score=${score} hash=${hash} date=${today}"
 
   # Remove existing audit line if present

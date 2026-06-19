@@ -38,6 +38,7 @@ To use a skill: read `<path>` and follow its instructions.
 | codegraph | `.opencode/skills/codegraph/SKILL.md` | Usar cuando se necesita indexación AST persistente para navegación de callers/callees en el có... |
 | company-messaging | `.opencode/skills/company-messaging/SKILL.md` | Usar cuando se envían mensajes internos cifrados entre miembros de la organización vía Company... |
 | consensus-validation | `.opencode/skills/consensus-validation/SKILL.md` | Usar cuando una decisión técnica o recomendación necesita validación por panel de jueces. |
+| content-fingerprint | `.opencode/skills/content-fingerprint/SKILL.md` | Usar cuando se necesita un identificador corto, deterministico y reproducible derivado del conten... |
 | context-caching | `.opencode/skills/context-caching/SKILL.md` | Usar cuando se optimiza el orden de carga de contexto para maximizar cache hits. |
 | context-interview-conductor | `.opencode/skills/context-interview-conductor/SKILL.md` | Usar cuando se necesita recopilar contexto estructurado de un usuario mediante entrevista guiada. |
 | context-optimized-dev | `.opencode/skills/context-optimized-dev/SKILL.md` | Usar cuando se desarrolla con presupuesto de contexto limitado. |

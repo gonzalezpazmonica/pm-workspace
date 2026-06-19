@@ -1,0 +1,3 @@
+This is document number 2.
+It contains some content about pattern number 2.
+Final line of document 2.

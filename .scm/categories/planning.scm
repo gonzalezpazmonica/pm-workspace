@@ -1,5 +1,5 @@
 # planning — Savia Capability Map (L1)
-> 552 resources
+> 553 resources
 
 - **/accreditation-track** (cmd): >
 - **/decide-architecture** (cmd): Clasifica una tarea como WORKFLOW (deterministica) o AGENT (loop). Bias hacia workflow per Anthropic. Sugiere plantilla inicial. Mide accuracy contra corpus curado de 20 tareas.
@@ -112,6 +112,7 @@
 - **conflict-check** (cmd): >
 - **confluence-publish** (cmd): >
 - **consensus-validation** (skill): Usar cuando una decisión técnica o recomendación necesita validación por panel de jueces.
+- **content-fingerprint** (skill): Usar cuando se necesita un identificador corto, deterministico y reproducible derivado del contenido de una cadena o fichero — cache keys, ids de patrones, fingerprints de docs.
 - **contribute** (cmd): Contribuir mejoras, ideas o correcciones al repositorio de pm-workspace en GitHub
 - **contribute** (script): contribute.sh — Capa de interacción con GitHub para comunidad
 - **cost-center** (cmd): Cost management and billing — timesheets, budgets, forecasting, invoicing

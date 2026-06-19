@@ -1,5 +1,5 @@
 # memory — Savia Capability Map (L1)
-> 112 resources
+> 113 resources
 
 - **auto-compact** (script): auto-compact.sh — Disparado automáticamente cuando contexto > 85%
 - **biblio-search** (cmd): >
@@ -11,6 +11,7 @@
 - **changelog-consolidate** (script): changelog-consolidate.sh — consolidate CHANGELOG.d/*.md fragments into
 - **changelog-consolidate-if-needed** (script): changelog-consolidate-if-needed.sh — SE-053 Slice 1 post-merge automation.
 - **company-show** (cmd): Mostrar perfil consolidado de la empresa — resumen ejecutivo del contexto organizacional
+- **content-fingerprint** (script): content-fingerprint.sh — SE-151 consolidation skill
 - **context-age** (cmd): Envejecimiento semántico del decision-log — comprime y archiva decisiones antiguas
 - **context-aging** (script): ── context-aging.sh ───────────────────────────────────────────────────────
 - **context-benchmark** (cmd): Benchmark de posicionamiento de información en el contexto
