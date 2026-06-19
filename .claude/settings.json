@@ -375,6 +375,17 @@
             "timeout": 3
           }
         ]
+      },
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/.opencode/hooks/contract-test-guard.sh",
+            "timeout": 3,
+            "statusMessage": "Verificando contract tests sellados (SPEC-188-P3)"
+          }
+        ]
       }
     ],
     "PostToolUse": [
