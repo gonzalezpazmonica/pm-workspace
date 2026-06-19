@@ -1,0 +1,10 @@
+# SPEC-188-P3 contract test allowlist
+# Each path is a sealed test that agents on agent/* branches cannot modify.
+# Promotion/demotion requires [contract-add] or [contract-remove] PR with
+# obligatory human review. See docs/specs/SPEC-188-P3-precommitment.md
+
+tests/hooks/test-block-force-push.bats
+tests/scripts/test-confidentiality-sign.bats
+tests/hooks/test-hook-pii-gate.bats
+tests/test-permissions-wildcard-audit.bats
+tests/test-validate-agent-permissions.bats
