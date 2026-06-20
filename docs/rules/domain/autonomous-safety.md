@@ -50,7 +50,7 @@ NUNCA  → Crear tareas en el backlog sin aprobación
 NUNCA  → Modificar configuración del proyecto basándose en hallazgos
 NUNCA  → Instalar dependencias nuevas
 
-SIEMPRE → Generar informe en output/research-{tema}-{fecha}.md
+SIEMPRE → Generar informe en output/research/{tema}-{YYYYMMDD}.md
 SIEMPRE → Notificar a AUTONOMOUS_RESEARCH_NOTIFY al completar
 SIEMPRE → Las recomendaciones son PROPUESTAS, no acciones
 ```

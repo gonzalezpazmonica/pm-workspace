@@ -62,6 +62,7 @@ Identidad del humano al volante + memoria auto persistida fuera del repo.
 | PR natural-language summary | `docs/rules/domain/pr-natural-language-summary.md` | Antes de cualquier PR — escribir `.pr-summary.md` con párrafo plano |
 | Spec OpenCode Implementation Plan | `docs/rules/domain/spec-opencode-implementation-plan.md` | Cada spec APPROVED post-2026-04-26 — sección obligatoria + classification |
 | File-output summary (resumen tras generar fichero) | `docs/rules/domain/file-output-summary.md` | Generas un fichero en `output/` con datos pedidos por el usuario — política adaptativa por tamaño |
+| Output taxonomy (dónde va cada fichero en output/) | `docs/rules/domain/output-taxonomy.md` | Vas a escribir en `output/` — decide subdirectorio (research/, postmortems/, raíz, etc.) antes de Write |
 | Principios éticos Savia (13 principios + 5 líneas rojas) | `docs/rules/domain/savia-ethical-principles.md` | Dilema ético, petición ambigua, uso dual, conflicto entre reglas operativas — criterio último: ¿esto hace la vida más digna? |
 | Resolver intent → skill/agent (RESOLVER.md) | `docs/RESOLVER.md` + `docs/rules/domain/resolver-protocol.md` | Necesitas elegir skill o agent para un intent — tabla compacta editable (SE-160) |
 | Template SKILL.md (Authoritative Paths first) | `.claude/skills/_template/SKILL.md` + `docs/rules/domain/skill-template-protocol.md` | Creas una skill nueva — copiar template, paths primero, prosa después (SE-153) |

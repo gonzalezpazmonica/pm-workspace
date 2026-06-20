@@ -726,8 +726,9 @@ Google Sheets · ServiceNow/SAP · Tableau · Kafka · VS Code ext · Cloud voic
 | 6 | **SPEC-199** | Historical context conditioning entre rondas (via embeddings) | 4-5d / 5-7h | P2 | depende SPEC-195 (ahora desbloqueado) |
 | 7 | **SPEC-SE-036 Slice 3** | JWT sunset opt-in (PAT file migration) | 4h | P2 | Slice 1+2 ✓ |
 | 8 | **SPEC-188 Fase 2** | Sealed Contract Tests | ~8h | P2 | Fase 1 ✓ |
-| 9 | **SE-216 Slice 4** | Experiment Graph — tree search | ~6h | P3 | SE-216 S1+S2+S3 ✓ |
-| 10 | **SPEC-188 Fases 3+4** | Causal confidence + diagnostic metrics | ~56h | P3 | Fase 2 |
+| 9 | **SE-220** | Speculative Tool Execution — draft+verify pattern (Slice 0 BLOQUEANTE) | ~18h (3h S0 + 15h S1-4) | P2 | feasibility ≥60% acceptance |
+| 10 | **SE-216 Slice 4** | Experiment Graph — tree search | ~6h | P3 | SE-216 S1+S2+S3 ✓ |
+| 11 | **SPEC-188 Fases 3+4** | Causal confidence + diagnostic metrics | ~56h | P3 | Fase 2 |
 
 ### Telemetry pilot (30d desde 2026-06-13)
 
@@ -809,6 +810,20 @@ Origen: https://github.com/DeusData/codebase-memory-mcp (3.2k stars, MIT, arXiv:
 | 5 | SE-219 S5 | Separación tick barato / operación costosa en loops autónomos | S (~2h) | P2 |
 
 Origen: https://github.com/graykode/abtop (2.7k stars, MIT). Patrones: JSON snapshot para scripting, context% como métrica de primer nivel, orphan port/process detection, multi-profile discovery, tick_no_summaries separation. Spec: `docs/propuestas/SE-219-abtop-patterns.md`. Dep: session-action-log ✓ · autonomous-safety ✓ · overnight-sprint ✓.
+
+---
+
+### Era 207 — Speculative Tool Execution (draft+verify pattern, ~18h)
+
+| # | ID | Título | Esfuerzo | Prioridad |
+|---|---|---|---|---|
+| 0 | SE-220 S0 | **Feasibility probe BLOQUEANTE** — acceptance rate ≥60% sobre `/sprint-status` o ABORT | S (~3h) | P2 |
+| 1 | SE-220 S1 | Tool call predictor + read-only whitelist (haiku/qwen2.5:3b) | M (~4h) | P2 |
+| 2 | SE-220 S2 | Async pre-execution wrapper con flock + cache TTL 30s | M (~5h) | P2 |
+| 3 | SE-220 S3 | Speculative skill pre-loading via pre-resolve hook | S (~3h) | P2 |
+| 4 | SE-220 S4 | Telemetry dashboard + GO/CONTINUE/KILL semanal | S (~3h) | P2 |
+
+Origen: investigación speculative decoding 2026-06-20 (papers Leviathan 2022, EAGLE-3 NeurIPS'25, Medusa, Lookahead). El decoder de Claude API es opaco — speculative decoding clásico NO aplica. El **principio** draft+verify SÍ aplica a la capa de orquestación: predictor barato (haiku) pre-ejecuta tool calls idempotentes en background mientras el orquestador (sonnet/opus) piensa. Spec: `docs/propuestas/SE-220-speculative-tool-execution.md`. priority_score = 78.4 (V=75, U=65, E=22) según SPEC-154. Dep: SE-202 (agent-hook-runner) ✓ + SE-217 (time-budget) ✓.
 
 ---
 
