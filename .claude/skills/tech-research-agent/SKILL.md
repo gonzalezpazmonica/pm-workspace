@@ -27,7 +27,7 @@ priority: "low"
 
 ## Qué produce
 
-1. **Informe de investigación** — `output/research-{tema}-{YYYYMMDD}.md`
+1. **Informe de investigación** — `output/research/{tema}-{YYYYMMDD}.md`
 2. **Recomendaciones accionables** — incluidas en el informe, NUNCA ejecutadas automáticamente
 3. **Audit log** — `output/agent-runs/research-{tema}-{YYYYMMDD}-audit.log`
 
@@ -68,7 +68,7 @@ Generar informe estructurado en output/
     ↓
 Notificar a AUTONOMOUS_RESEARCH_NOTIFY:
   "📋 Investigación completada: {tema}
-   Informe: output/research-{tema}-{fecha}.md
+   Informe: output/research/{tema}-{YYYYMMDD}.md
    Recomendaciones: {resumen de 2-3 líneas}"
 ```
 
