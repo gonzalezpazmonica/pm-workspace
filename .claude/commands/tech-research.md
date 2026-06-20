@@ -62,7 +62,7 @@ Si no se proporciona `--program`, generar plan y mostrar:
 ```
 🔍 Tech Research — Completado
 
-📄 Informe: output/research-{tema}-{fecha}.md
+📄 Informe: output/research/{tema}-{YYYYMMDD}.md
 👤 Notificado: {AUTONOMOUS_RESEARCH_NOTIFY}
 
 Recomendación (resumen):
