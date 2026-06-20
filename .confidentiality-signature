@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=3ca71158f258c32704180e957e19d3d3f7e6c5f9d007ca7179d96aad15111a49
-timestamp=2026-06-19T08:17:48Z
-branch=agent/spec-188-p3-contract-tests-20260619
-head_commit=a0c31f96
-signature=16c463a29a61deedd687c79c1378bbe236ec54860f4c9d49f3fa361ef8ba0430
+diff_hash=b06304a98326336f179302d2d1f7e2b2eb0fe35975548892d95afd6979670208
+timestamp=2026-06-20T12:25:20Z
+branch=feature/se-220-output-taxonomy
+head_commit=d1387345
+signature=a8868fa41adbc89a02703ee4a577b09859fc542121219fc8c290af5d0f4dc05d
