@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=aeda75d29acdd65a7cd86f6334666a0f16335e7ee7fae8270b8883c5579e1b61
-timestamp=2026-06-20T12:48:00Z
-branch=feature/se-220-output-taxonomy
-head_commit=842ff3f6
-signature=f91d6a90dd1952e5cf6bddd5243e1e25153cd2cdb87d0cebc22d2076c76dafa1
+diff_hash=1c7aae270eeb619c6a80396c3378e6cc6add69abb9c6d20d902369663415f3cf
+timestamp=2026-06-22T23:22:38Z
+branch=agent/se222-s0-resource-uri-20260623
+head_commit=bc63d743
+signature=ad310931f1311511e9801c64f1c087096a638c14887d77068854a935953d0bf8
