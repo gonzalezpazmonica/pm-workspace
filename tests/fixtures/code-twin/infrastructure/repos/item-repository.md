@@ -2,7 +2,7 @@
 module_id: ItemRepository
 layer: infrastructure
 version: "1.0.0"
-last_sync: "2026-06-08T14:30:00Z"
+last_sync: "2026-06-23T07:37:07Z"
 token_budget: 380
 stale_after_days: 14
 depends_on:
