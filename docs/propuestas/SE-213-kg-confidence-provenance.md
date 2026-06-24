@@ -1,7 +1,9 @@
 ---
 spec_id: SE-213
 title: Confidence and provenance fields in Knowledge Graph entries
-status: APPROVED
+status: IMPLEMENTED
+drift_note: "drift: components existed pre-triage (knowledge-graph.py has confidence REAL + provenance TEXT columns with idempotent migration + --min-confidence filter)"
+implemented_at: "2026-06-24"
 priority: P2
 effort: S
 era: 202
