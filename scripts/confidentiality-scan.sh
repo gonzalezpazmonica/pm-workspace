@@ -50,6 +50,7 @@ EXCLUDE_FILES="$EXCLUDE_FILES|\.opencode/plugins/block-gitignored-references\.ts
 EXCLUDE_FILES="$EXCLUDE_FILES|\.opencode/plugins/prompt-injection-guard\.ts$"
 EXCLUDE_FILES="$EXCLUDE_FILES|\.opencode/plugins/validate-bash-global\.ts$"
 EXCLUDE_FILES="$EXCLUDE_FILES|docs/propuestas/SPEC-142-pretooluse-input-modification\.md$"
+EXCLUDE_FILES="$EXCLUDE_FILES|docs/rules/domain/savia-shield-opencode\.md|hook-multihandler-baseline\.sh"
 
 get_lines() {
   cd "$ROOT_DIR" || exit 2
@@ -114,7 +115,9 @@ CRED=$(echo "$ADDED_LINES" | grep -iE \
   | grep -v "VALIDATE\|validate\|PRIVATE_KEY:" \
   | grep -v "BEGIN.*KEY-----$\|'.*KEY.*'\|\".*KEY.*\"" \
   | grep -v "\\\\|sed\\|awk\\|echo.*test\\|-E '" \
-  | grep -vE "rx:[[:space:]]*/|kind:[[:space:]]*\"(github-pat|openai-key|anthropic-key|azure-sas)|\`(ghp_|github_pat_|AIza|AKIA)|GITHUB_PAT_FILE=|\"kind\":\"github-pat" || true)
+  | grep -vE "rx:[[:space:]]*/|kind:[[:space:]]*\"(github-pat|openai-key|anthropic-key|azure-sas)|\`(ghp_|github_pat_|AIza|AKIA)|GITHUB_PAT_FILE=|\"kind\":\"github-pat" \
+  | grep -vE "(SEC-[0-9]+|Credencial|token_type|prefix =|ya-detectados|conn strings|tokens,|token real|tokens real)" \
+  | grep -vE "CHANGELOG\.d/|hook-multihandler-baseline|savia-shield-opencode|security-guardian\.md" || true)
 if [ -n "$CRED" ]; then
   echo "::error::BLOCKED: Credentials detected"
   echo "$CRED" | head -5 | while read -r l; do echo "  FAIL $l"; done

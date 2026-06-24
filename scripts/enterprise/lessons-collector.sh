@@ -82,11 +82,9 @@ LEARNED_DIR="${REPO_ROOT}/docs/rules/learned"
 if [[ -d "$LEARNED_DIR" ]]; then
   for f in "${LEARNED_DIR}"/*.md; do
     [[ -f "$f" ]] || continue
-    local theme
     theme="$(basename "$f" .md | sed 's/^[0-9-]*//' | tr '-' ' ' | xargs)"
     [[ -z "$theme" ]] && theme="$(basename "$f" .md)"
 
-    local lesson
     lesson="$(grep -v '^---' "$f" | grep -v '^#' | grep -v '^$' | head -1 || true)"
     lesson="$(_sanitize "${lesson:-$theme}")"
 
