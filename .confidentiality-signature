@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=017d6a9d2ca6f03f924f1e111b067f96eb9d802fa5409be6d3f652a5b2f1e759
-timestamp=2026-06-24T09:28:05Z
-branch=agent/se082-architectural-vocab-20260624
-head_commit=a77b3614
-signature=4684fd4514ac45b5c73a58728bf6a2be772227be7bf44bb2057a872107a9f5e6
+diff_hash=5bf2b4f93855d986dc1e5bb44fb1adb3817767ff4f3c2a54f2df20a02af84d6f
+timestamp=2026-06-24T10:28:56Z
+branch=HEAD
+head_commit=443c845f
+signature=e8d4b8d667c2e8e44faf7483ef651493229e18ca90e0de766d428a9cfe635e80
