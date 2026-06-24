@@ -136,6 +136,15 @@ SIEMPRE → Generar audit log
 
 > **Metricas**: PRs/sesion ≥5, aceptacion ≥70%, crashes ≤3. SE-206: `scripts/agent-wait-idle.sh`.
 
+## Loop Run Log
+
+Registra el inicio y fin de cada run:
+
+- Inicio: `bash scripts/loop-run-log.sh append --skill overnight-sprint --items 0 --actions 0 --escalations 0 --tokens 0 --outcome DONE --notes "started"`
+- Fin: actualizar con métricas reales del run (items_found, actions_taken, escalations, tokens_estimated, outcome real)
+
+Schema: `docs/rules/domain/loop-run-log-schema.md`
+
 ## Modo CI Unblock (--mode ci-unblock)
 
 Desbloquea PRs con CI roto por orden PR# ASC usando nidos.sh como aislamiento.
