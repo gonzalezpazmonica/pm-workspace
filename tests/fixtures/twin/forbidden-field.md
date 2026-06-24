@@ -1,7 +1,7 @@
 ---
 twin_id: "test-bad"
 spec_version: "1.0"
-last_refresh: "2026-06-05T00:00:00Z"
+last_refresh: "2026-06-23T07:35:14Z"
 stale_after_days: 14
 token_budget: 2000
 health: green
