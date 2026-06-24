@@ -238,7 +238,8 @@ TWIN
 }
 
 @test "pilot: twin.md last_refresh after SPEC-169 spec creation date" {
-  last=$(grep "^last_refresh:" "$REPO_ROOT/projects/proyecto-alpha/twin.md" | head -1 | sed 's/.*: *//' | tr -d '"')
+  # Extract YYYY-MM-DD from last_refresh: "YYYY-MM-DDTHH:MM:SSZ"
+  last=$(grep "^last_refresh:" "$REPO_ROOT/projects/proyecto-alpha/twin.md" | head -1 | grep -oE '"[^"]+"' | tr -d '"' | cut -c1-10)
   [[ "$last" > "2026-06-04" ]]
 }
 
