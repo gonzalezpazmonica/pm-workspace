@@ -16,6 +16,7 @@ priority: "low"
 # produces:        # artefactos que esta skill genera como output
 #   - report       # valores típicos: spec, report, implementation, memory_entry,
 #   - CONTEXT.md   #   graph_db, CONTEXT.md, pr, test_suite
+loop_level: L0  # L0=draft | L1=report-only | L2=assisted | L3=unattended — ver docs/rules/domain/loop-phasing.md
 ---
 
 <!--
