@@ -82,3 +82,20 @@ SPEC-125 (`docs/propuestas/SPEC-125-recommendation-tribunal-realtime.md`). Sibli
 ## Fallback mode (SPEC-127 Slice 4)
 
 `bash scripts/savia-orchestrator-helper.sh mode` → "fan-out" | "single-shot". When `single-shot`, run classifier inlined first; then 4 judges sequentially without Task, wrapping each via `wrap <judge> <file>`. Output schema unchanged. See `docs/rules/domain/subagent-fallback-mode.md`.
+
+## Tiered Execution — NOT applicable (SE-106 design decision)
+
+The Recommendation Tribunal does NOT use the tiered sequential model.
+
+**Reason**: The hard latency constraint p95 < 3s is incompatible with sequential Tier 0 execution.
+Sequential judges would add ~1-2s per judge, blowing the budget before Tier 1 even starts.
+The 4 judges remain ALWAYS parallel (single message with 4 Task calls).
+
+This is an explicit design decision documented in SE-106:
+> "Recommendation Tribunal: Hard rule '4 judges in parallel, never sequential' se mantiene.
+>  El budget de latencia p95 < 3s es incompatible con secuencial."
+
+If invoked via tribunal-tiered-runner.sh --tribunal recommendation, the runner
+returns immediately with {"verdict":"SKIPPED","reason":"recommendation_tribunal_always_parallel"}.
+
+Ref: docs/rules/domain/tribunal-execution.md (SE-106).

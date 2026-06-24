@@ -149,3 +149,50 @@ See `docs/rules/domain/agent-prompt-xml-structure.md` for canonical 6-tag patter
 - Subagent Fan-Out (SE-067): Opus 4.7 under-spawns por defecto. Fan-out paralelo en un turno para items independientes; NO spawn para single-response work. Ver `docs/propuestas/SE-067-orchestrator-fanout-adaptive-thinking.md`.
 - Reporting (SE-066): Coverage-first review. Cada finding con `{confidence, severity}`; downstream rankea. Ver `docs/rules/domain/review-agents-reporting-policy.md`.
 - Fallback mode (SPEC-127 Slice 4): `bash scripts/savia-orchestrator-helper.sh mode` → "fan-out"|"single-shot". En `single-shot` corre los 7 judges sequentially inlined (no Task), wrapping each via `wrap <judge> <file>`, early-stop on veto. Schema unchanged. Ver `docs/rules/domain/subagent-fallback-mode.md`.
+
+## Tiered Execution (SE-106)
+
+When `SAVIA_TIERED_TRIBUNAL=on`, invoke `scripts/tribunal-tiered-runner.sh` instead of launching all 7 judges in parallel:
+
+```bash
+bash scripts/tribunal-tiered-runner.sh \
+  --tribunal truth \
+  --draft <report_path> \
+  --mode sequential-first \
+  --tier0-judges compliance-judge,hallucination-judge,factuality-judge \
+  --tier1-judges source-traceability-judge,coherence-judge,calibration-judge,completeness-judge
+```
+
+### Tier 0 (sequential, early-stop on veto)
+
+| Order | Judge | Model | Reason |
+|---|---|---|---|
+| 1 | compliance-judge | heavy | PII/N-tier leak — regulatory absolute veto |
+| 2 | hallucination-judge | heavy | Fabrications confidence >=0.8 — frequent in AI reports |
+| 3 | factuality-judge | heavy | Claims contradicted by evidence |
+
+If any Tier 0 judge emits VETO: run terminates immediately, Tier 1 skipped.
+Estimated tokens saved on veto: ~78k (67% reduction vs full parallel run).
+
+### Tier 1 (parallel fan-out — only if Tier 0 PASS)
+
+Judges run simultaneously: source-traceability-judge, coherence-judge, calibration-judge, completeness-judge.
+
+### Schema addendum (.truth.crc optional fields, backward-compat)
+
+execution_mode: tiered  # "tiered" | "parallel" (legacy default if absent)
+tier_0:
+  judges_run: [compliance-judge, hallucination-judge]
+  stopped_at: hallucination-judge  # null if PASS
+  verdict: VETO
+tier_1:
+  judges_run: []         # empty if tier 0 stopped
+  execution: skipped     # "parallel" | "skipped"
+tokens_saved_vs_parallel: 78000
+
+### Override
+
+TRIBUNAL_FORCE_FULL_PANEL=1 disables tiered, runs all 7 judges in parallel.
+Use for: external audits requiring full panel, calibration A/B testing, debug.
+
+Ref: docs/rules/domain/tribunal-execution.md (SE-106).

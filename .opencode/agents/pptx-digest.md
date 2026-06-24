@@ -34,7 +34,14 @@ documentos de contexto del proyecto.
 
 **Dependencia**: `pip install python-pptx Pillow` (instalar si falta)
 
-## Fase 1 — Extraccion bruta (sin contexto)
+## Fase 1 — Extracción (Markitdown)
+
+Si MARKITDOWN_ENABLED=true: ejecutar `bash scripts/digest-extract.sh {input}`.
+El output Markdown canónico reemplaza el parsing propio. Si falla, usar parser histórico.
+
+<!-- SE-172: markitdown como capa 0 universal -->
+
+## Fase 1 — Extraccion bruta (sin contexto, parser histórico / fallback)
 
 1. Extraer metadatos: autor, fecha, titulo, num slides
 2. Para cada slide: texto de shapes, tablas, notas del presentador

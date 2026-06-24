@@ -1,7 +1,8 @@
 ---
 spec_id: SE-106
 title: Tiered tribunal execution — sequential Tier 0 + parallel Tier 1, early-stop on veto
-status: APPROVED
+status: IMPLEMENTED
+implemented_at: "2026-06-24"
 priority: media
 effort: M
 estimated_time: 5h
