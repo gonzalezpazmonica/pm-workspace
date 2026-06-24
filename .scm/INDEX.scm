@@ -1,6 +1,6 @@
 # Savia Capability Map — INDEX
-> hash: 707520a7bd29 | resources: 1298
-> 557 commands · 105 skills · 75 agents · 561 scripts
+> hash: e98dc9c2c84d | resources: 1300
+> 557 commands · 105 skills · 75 agents · 563 scripts
 
 [analysis] /a11y-report — accesibilidad,completos,conformidad,código,declaración — cmd:.claude/commands/a11y-report.md
 [analysis] Trace Optimize — across,distributed,optimize,rates,sampling — cmd:.claude/commands/trace-optimize.md
@@ -335,6 +335,7 @@
 [development] spec-status — approval,check,specification,state,status — cmd:.claude/commands/spec-status.md
 [development] spec-status-drift-audit — audit,detect,disk,drift,implemented — script:scripts/spec-status-drift-audit.sh
 [development] spec-status-normalize — across,audit,field,normalize,spec — script:scripts/spec-status-normalize.sh
+[development] spec-validator — field,frontmatter,resource,spec,validates — script:scripts/spec-validator.sh
 [development] spec-verify — against,criteria,implementation,specification,verify — cmd:.claude/commands/spec-verify.md
 [development] spec-verify-ui — componente,comprueba,cumple,implementado,spec — cmd:.claude/commands/spec-verify-ui.md
 [development] spec156-migrate-token-budget — budget,flat,migrate,nested,object — script:scripts/spec156-migrate-token-budget.sh
@@ -896,6 +897,7 @@
 [planning] rpi-start —  — cmd:.claude/commands/rpi-start.md
 [planning] ruby-developer —  — agent:.opencode/agents/ruby-developer.md
 [planning] rule-manifest-integrity — index,integrity,manifest,rule,slice — script:scripts/rule-manifest-integrity.sh
+[planning] rule-manifest-regenerate — manifest,regenerate,rule — script:scripts/rule-manifest-regenerate.sh
 [planning] rule-usage-analyzer — across,analyze,analyzer,domain,rule — script:scripts/rule-usage-analyzer.sh
 [planning] rule-violation-judge — autonomous,canonical,claude,detects,domain — agent:.opencode/agents/rule-violation-judge.md
 [planning] run-agent-evals — agent,agents,critical,evals,evaluation — script:scripts/run-agent-evals.sh

@@ -1,5 +1,5 @@
 # planning — Savia Capability Map (L1)
-> 553 resources
+> 554 resources
 
 - **/accreditation-track** (cmd): >
 - **/decide-architecture** (cmd): Clasifica una tarea como WORKFLOW (deterministica) o AGENT (loop). Bias hacia workflow per Anthropic. Sugiere plantilla inicial. Mide accuracy contra corpus curado de 20 tareas.
@@ -387,6 +387,7 @@
 - **rpi-start** (cmd): >
 - **ruby-developer** (agent): >
 - **rule-manifest-integrity** (script): rule-manifest-integrity.sh — SE-057 Slice 1 rule-manifest + INDEX integrity.
+- **rule-manifest-regenerate** (script): rule-manifest-regenerate.sh — SE-097
 - **rule-usage-analyzer** (script): rule-usage-analyzer.sh — Analyze domain rule usage across the workspace
 - **rule-violation-judge** (agent): Recommendation Tribunal judge — detects when a draft recommendation violates canonical rules (CLAUDE.md, autonomous-safety, radical-honesty, domain rules)
 - **run-agent-evals** (script): run-agent-evals.sh — SE-204: evaluation harness for critical agents
