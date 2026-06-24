@@ -1,5 +1,5 @@
 # communication — Savia Capability Map (L1)
-> 96 resources
+> 97 resources
 
 - **chat-notify** (cmd): Enviar notificación formateada a Google Chat
 - **chat-setup** (cmd): Guía de configuración de webhook de Google Chat
@@ -12,6 +12,7 @@
 - **meeting-digest** (cmd): >
 - **meeting-digest** (agent): >
 - **meeting-risk-analyst** (agent): >
+- **meeting-risk-analyst-runbook** (skill): 5-dimension risk analysis, alert classification, output format and memory rules
 - **meeting-summarize** (cmd): Transcribe y extrae action items de reuniones — Sprint Review, Retro, Planning, Daily
 - **meeting-transcript-extract** (skill): Usar cuando se necesita extraer la transcripción de una reunión Teams desde el browser.
 - **nctalk-search** (cmd): >

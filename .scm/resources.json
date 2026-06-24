@@ -1,6 +1,6 @@
 {
-  "hash": "2984c44e4b6a",
-  "total": 1301,
+  "hash": "da4216deb613",
+  "total": 1304,
   "resources": [
     {
       "category": "analysis",
@@ -1019,6 +1019,20 @@
       "kind": "agent",
       "path": ".opencode/agents/meeting-risk-analyst.md",
       "description": ">"
+    },
+    {
+      "category": "communication",
+      "name": "meeting-risk-analyst-runbook",
+      "intents": [
+        "alert",
+        "analysis",
+        "classification",
+        "dimension",
+        "format"
+      ],
+      "kind": "skill",
+      "path": ".claude/skills/meeting-risk-analyst-runbook/SKILL.md",
+      "description": "5-dimension risk analysis, alert classification, output format and memory rules"
     },
     {
       "category": "communication",
@@ -13148,6 +13162,20 @@
     },
     {
       "category": "planning",
+      "name": "truth-tribunal-runbook",
+      "intents": [
+        "evaluation",
+        "judge",
+        "multi",
+        "operational",
+        "orchestration"
+      ],
+      "kind": "skill",
+      "path": ".claude/skills/truth-tribunal-runbook/SKILL.md",
+      "description": "operational runbook for multi-judge evaluation orchestration"
+    },
+    {
+      "category": "planning",
       "name": "truth-tribunal-worker",
       "intents": [
         "consume",
@@ -16714,6 +16742,20 @@
       "kind": "agent",
       "path": ".opencode/agents/visual-digest.md",
       "description": "Digestión de imágenes con OCR contextual — 5 pasadas. Fotos de pizarras, notas manuscritas, diagramas en papel, capturas de reuniones. Usa contexto REAL del proyecto para resolver ambigüedades. PROACTIVELY cuando se detectan imágenes en car"
+    },
+    {
+      "category": "quality",
+      "name": "visual-digest-runbook",
+      "intents": [
+        "agent",
+        "context",
+        "digest",
+        "format",
+        "homonym"
+      ],
+      "kind": "skill",
+      "path": ".claude/skills/visual-digest-runbook/SKILL.md",
+      "description": "5-pass OCR pipeline, homonym protocol, output format and context update rules for visual-digest agent"
     },
     {
       "category": "quality",

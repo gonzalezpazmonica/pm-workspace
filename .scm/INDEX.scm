@@ -1,6 +1,6 @@
 # Savia Capability Map — INDEX
-> hash: d8b749fea26a | resources: 1301
-> 557 commands · 105 skills · 75 agents · 564 scripts
+> hash: 3f9531bd8018 | resources: 1304
+> 557 commands · 108 skills · 75 agents · 564 scripts
 
 [analysis] /a11y-report — accesibilidad,completos,conformidad,código,declaración — cmd:.claude/commands/a11y-report.md
 [analysis] Trace Optimize — across,distributed,optimize,rates,sampling — cmd:.claude/commands/trace-optimize.md
@@ -82,6 +82,7 @@
 [communication] meeting-digest —  — cmd:.claude/commands/meeting-digest.md
 [communication] meeting-digest —  — agent:.opencode/agents/meeting-digest.md
 [communication] meeting-risk-analyst —  — agent:.opencode/agents/meeting-risk-analyst.md
+[communication] meeting-risk-analyst-runbook — alert,analysis,classification,dimension,format — skill:.claude/skills/meeting-risk-analyst-runbook/SKILL.md
 [communication] meeting-summarize — action,daily,extrae,items,planning — cmd:.claude/commands/meeting-summarize.md
 [communication] meeting-transcript-extract — browser,extraer,reunión,teams,transcripción — skill:.claude/skills/meeting-transcript-extract/SKILL.md
 [communication] nctalk-search —  — cmd:.claude/commands/nctalk-search.md
@@ -1020,6 +1021,7 @@
 [planning] tribunal-critic — critic,quantitative,scoring,tribunal,verdicts — script:scripts/tribunal-critic.sh
 [planning] tribunal-status — depth,evaluations,pending,queue,recent — cmd:.claude/commands/tribunal-status.md
 [planning] truth-tribunal-orchestrator — aggregates,applies,convenes,drives,iteration — agent:.opencode/agents/truth-tribunal-orchestrator.md
+[planning] truth-tribunal-runbook — evaluation,judge,multi,operational,orchestration — skill:.claude/skills/truth-tribunal-runbook/SKILL.md
 [planning] truth-tribunal-worker — consume,queued,tribunal,truth,verification — script:scripts/truth-tribunal-worker.sh
 [planning] twin-decay-check — check,days,decay,escanea,marca — script:scripts/twin-decay-check.sh
 [planning] typescript-developer —  — agent:.opencode/agents/typescript-developer.md
@@ -1297,6 +1299,7 @@
 [quality] twin-linter — contra,linter,schema,spec,twin — script:scripts/twin-linter.sh
 [quality] verification-lattice — allá,capa,code,estándar,multi — skill:.claude/skills/verification-lattice/SKILL.md
 [quality] visual-digest — ambigüedades,capturas,contexto,contextual,detectan — agent:.opencode/agents/visual-digest.md
+[quality] visual-digest-runbook — agent,context,digest,format,homonym — skill:.claude/skills/visual-digest-runbook/SKILL.md
 [quality] visual-qa — against,analysis,analyze,assurance,capabilities — cmd:.claude/commands/visual-qa.md
 [quality] visual-qa-agent — analysis,cambios,comparison,componentes,detectan — agent:.opencode/agents/visual-qa-agent.md
 [quality] visual-regression — across,approval,automated,baseline,branches — cmd:.claude/commands/visual-regression.md

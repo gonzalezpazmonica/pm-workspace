@@ -1,5 +1,5 @@
 # planning — Savia Capability Map (L1)
-> 554 resources
+> 555 resources
 
 - **/accreditation-track** (cmd): >
 - **/decide-architecture** (cmd): Clasifica una tarea como WORKFLOW (deterministica) o AGENT (loop). Bias hacia workflow per Anthropic. Sugiere plantilla inicial. Mide accuracy contra corpus curado de 20 tareas.
@@ -509,6 +509,7 @@
 - **tribunal-critic** (script): tribunal-critic.sh — SE-201: quantitative scoring for tribunal verdicts
 - **tribunal-status** (cmd): Show Truth Tribunal queue depth, recent verdicts, and pending evaluations
 - **truth-tribunal-orchestrator** (agent): Truth Tribunal orchestrator — convenes 7 judges, aggregates scores, applies vetos, drives iteration
+- **truth-tribunal-runbook** (skill): operational runbook for multi-judge evaluation orchestration
 - **truth-tribunal-worker** (script): truth-tribunal-worker.sh — Consume queued Truth Tribunal verification
 - **twin-decay-check** (script): twin-decay-check.sh — Escanea todos los twins y marca STALE los que superaron stale_after_days
 - **typescript-developer** (agent): >
