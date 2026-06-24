@@ -40,6 +40,7 @@ set -uo pipefail
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 ROOT_DIR="$(cd "$SCRIPT_DIR/../.." && pwd)"
 EARLY_STOP="$SCRIPT_DIR/early_stop.py"
+HIST_CONTEXT="$SCRIPT_DIR/historical-context.py"
 LOG_DIR="$ROOT_DIR/output/tribunal-iterations"
 
 # Master switch
@@ -139,6 +140,19 @@ case "$cmd" in
     exec python3 "$ANNEAL_SCRIPT" \
       --index "$iter_val" --total "$max_iter" \
       --max-t "$max_t" --min-t "$min_t" --exponent "$exponent" --json
+    ;;
+  get-historical-context)
+    # SPEC-199: get historical context for iteration N+1.
+    # Usage: iterate.sh get-historical-context --draft "..." [--top-k 3] [--db path]
+    if [[ "${SAVIA_TRIBUNAL_HIST_CONTEXT:-off}" != "on" ]]; then
+      echo '{"similar_drafts":[],"context_text":"","tokens_estimate":0,"enabled":false}'
+      exit 0
+    fi
+    if [[ ! -f "$HIST_CONTEXT" ]]; then
+      echo '{"similar_drafts":[],"context_text":"","tokens_estimate":0,"enabled":false,"error":"historical-context.py not found"}'
+      exit 0
+    fi
+    exec python3 "$HIST_CONTEXT" "$@"
     ;;
   -h|--help|"")
     usage
