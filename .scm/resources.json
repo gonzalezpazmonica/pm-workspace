@@ -1,6 +1,6 @@
 {
-  "hash": "55cacb6a340b",
-  "total": 1298,
+  "hash": "525cb9a5b336",
+  "total": 1299,
   "resources": [
     {
       "category": "analysis",
@@ -4334,6 +4334,20 @@
       "kind": "script",
       "path": "scripts/spec-status-normalize.sh",
       "description": "spec-status-normalize.sh — audit and normalize `status:` field across all"
+    },
+    {
+      "category": "development",
+      "name": "spec-validator",
+      "intents": [
+        "field",
+        "frontmatter",
+        "resource",
+        "spec",
+        "validates"
+      ],
+      "kind": "script",
+      "path": "scripts/spec-validator.sh",
+      "description": "spec-validator.sh — SE-222 S0: validates resource: URI field in spec frontmatter"
     },
     {
       "category": "development",
