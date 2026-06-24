@@ -1,160 +1,973 @@
 {
-  "generated": "2026-04-16T19:10:44+02:00",
-  "total": 151,
+  "generated": "2026-06-24T08:06:13Z",
+  "total": 241,
   "tier1_count": 2,
   "tier2_count": 50,
-  "dormant_count": 99,
+  "dormant_count": 189,
   "rules": {
-    "adaptive-output.md": {"tier": "dormant", "consumers": ""},
-    "adversarial-security.md": {"tier": "dormant", "consumers": ""},
-    "agent-context-budget.md": {"tier": "dormant", "consumers": ""},
-    "agent-dispatch-checklist.md": {"tier": "dormant", "consumers": ""},
-    "agent-memory-isolation.md": {"tier": "dormant", "consumers": ""},
-    "agent-memory-protocol.md": {"tier": "dormant", "consumers": ""},
-    "agent-observability-patterns.md": {"tier": "dormant", "consumers": ""},
-    "agent-permission-levels.md": {"tier": "dormant", "consumers": ""},
-    "agent-policies.md": {"tier": "tier2", "consumers": ".opencode/commands/policy-check.md"},
-    "agent-self-memory.md": {"tier": "dormant", "consumers": ""},
-    "agents-catalog.md": {"tier": "dormant", "consumers": ""},
-    "ai-competency-framework.md": {"tier": "tier2", "consumers": ".opencode/commands/adoption-assess.md,.opencode/commands/ai-exposure-audit.md,.opencode/skills/ai-labor-impact/SKILL.md"},
-    "ai-exposure-metrics.md": {"tier": "tier2", "consumers": ".opencode/commands/ai-exposure-audit.md,.opencode/skills/ai-labor-impact/SKILL.md"},
-    "ai-governance.md": {"tier": "tier2", "consumers": ".opencode/skills/sovereignty-auditor/SKILL.md,.opencode/skills/sovereignty-auditor/references/cognitive-sovereignty.md"},
-    "architecture-patterns.md": {"tier": "tier2", "consumers": ".opencode/skills/architecture-intelligence/SKILL.md"},
-    "assignment-matrix.md": {"tier": "dormant", "consumers": ""},
-    "async-hooks-config.md": {"tier": "dormant", "consumers": ""},
-    "audit-trail-schema.md": {"tier": "tier2", "consumers": ".opencode/commands/governance-enterprise.md,.opencode/skills/governance-enterprise/SKILL.md"},
-    "autonomous-safety.md": {"tier": "tier1", "consumers": ".opencode/commands/code-improve.md,.opencode/commands/overnight-sprint.md,.opencode/commands/tech-research.md,.opencode/skills/code-improvement-loop/SKILL.md,.opencode/skills/onboarding-dev/SKILL.md,.opencode/skills/overnight-sprint/SKILL.md,.opencode/skills/tech-research-agent/SKILL.md,CLAUDE.md"},
-    "azure-repos-config.md": {"tier": "tier2", "consumers": ".opencode/commands/repos-branches.md,.opencode/commands/repos-list.md,.opencode/commands/repos-pr-create.md,.opencode/commands/repos-pr-review.md"},
-    "backlog-git-config.md": {"tier": "tier2", "consumers": ".opencode/commands/backlog-git.md,.opencode/skills/backlog-git-tracker/SKILL.md"},
-    "backup-protocol.md": {"tier": "tier2", "consumers": ".opencode/commands/backup.md,.opencode/commands/savia-travel-init.md,.opencode/commands/savia-travel-pack.md"},
-    "billing-model.md": {"tier": "tier2", "consumers": ".opencode/commands/cost-center.md,.opencode/skills/cost-management/SKILL.md"},
-    "business-case-as-code.md": {"tier": "dormant", "consumers": ""},
-    "changelog-enforcement.md": {"tier": "dormant", "consumers": ""},
-    "changelog-integrity.md": {"tier": "dormant", "consumers": ""},
-    "clara-philosophy.md": {"tier": "dormant", "consumers": ""},
-    "client-profile-config.md": {"tier": "tier2", "consumers": ".opencode/commands/backlog-git.md,.opencode/commands/client-profile.md,.opencode/commands/context-interview.md,.opencode/skills/client-profile-manager/SKILL.md"},
-    "cloud-decision-tree.md": {"tier": "tier2", "consumers": ".opencode/agents/infrastructure-agent.md"},
-    "code-comprehension.md": {"tier": "dormant", "consumers": ""},
-    "code-review-court.md": {"tier": "dormant", "consumers": ""},
-    "code-review-rules.md": {"tier": "dormant", "consumers": ""},
-    "command-ux-checklist.md": {"tier": "tier2", "consumers": ".opencode/commands/ai-confidence.md"},
-    "command-ux-feedback.md": {"tier": "dormant", "consumers": ""},
-    "command-validation.md": {"tier": "dormant", "consumers": ""},
-    "commit-checks-reference.md": {"tier": "tier2", "consumers": ".opencode/agents/commit-guardian.md"},
-    "community-protocol.md": {"tier": "tier2", "consumers": ".opencode/commands/contribute.md,.opencode/commands/feedback.md"},
-    "component-marketplace.md": {"tier": "dormant", "consumers": ""},
-    "confidence-protocol.md": {"tier": "dormant", "consumers": ""},
-    "connectors-config.md": {"tier": "dormant", "consumers": ""},
-    "consensus-protocol.md": {"tier": "tier2", "consumers": ".opencode/skills/consensus-validation/SKILL.md"},
-    "context-aging.md": {"tier": "dormant", "consumers": ""},
-    "context-budget.md": {"tier": "dormant", "consumers": ""},
-    "context-health.md": {"tier": "dormant", "consumers": ""},
-    "context-interview-config.md": {"tier": "tier2", "consumers": ".opencode/commands/context-interview.md,.opencode/skills/context-interview-conductor/SKILL.md"},
-    "context-placement-confirmation.md": {"tier": "tier2", "consumers": ".opencode/commands/confidentiality-check.md"},
-    "context-tracking.md": {"tier": "dormant", "consumers": ""},
-    "cost-tracking.md": {"tier": "tier2", "consumers": ".opencode/commands/cost-center.md,.opencode/skills/cost-management/SKILL.md"},
-    "coverage-scripts.md": {"tier": "tier2", "consumers": ".opencode/agents/test-runner.md"},
-    "critical-rules-extended.md": {"tier": "dormant", "consumers": ""},
-    "data-sovereignty.md": {"tier": "dormant", "consumers": ""},
-    "dev-session-locks.md": {"tier": "tier2", "consumers": ".opencode/commands/dev-session-resume.md"},
-    "dev-session-protocol.md": {"tier": "dormant", "consumers": ""},
-    "diagram-config.md": {"tier": "tier2", "consumers": ".opencode/skills/diagram-import/SKILL.md"},
-    "digest-traceability.md": {"tier": "dormant", "consumers": ""},
-    "dual-estimation.md": {"tier": "dormant", "consumers": ""},
-    "e2e-screenshot-validation.md": {"tier": "dormant", "consumers": ""},
-    "ellipsis-guardrail.md": {"tier": "dormant", "consumers": ""},
-    "emotional-regulation-extended.md": {"tier": "dormant", "consumers": ""},
-    "emotional-regulation.md": {"tier": "dormant", "consumers": ""},
-    "engineering-principles-from-kernel.md": {"tier": "dormant", "consumers": ""},
-    "enterprise-metrics.md": {"tier": "tier2", "consumers": ".opencode/commands/enterprise-dashboard.md,.opencode/skills/enterprise-analytics/SKILL.md"},
-    "environment-config.md": {"tier": "tier2", "consumers": ".opencode/skills/azure-pipelines/SKILL.md"},
-    "equality-shield.md": {"tier": "dormant", "consumers": ""},
-    "eval-criteria.md": {"tier": "tier2", "consumers": ".opencode/commands/eval-agent.md,.opencode/commands/eval-output.md"},
-    "eval-policy.md": {"tier": "dormant", "consumers": ""},
-    "example-patterns.md": {"tier": "dormant", "consumers": ""},
-    "excel-templates.md": {"tier": "dormant", "consumers": ""},
-    "file-size-limit.md": {"tier": "dormant", "consumers": ""},
-    "fork-agent-protocol.md": {"tier": "dormant", "consumers": ""},
-    "frontend-components.md": {"tier": "dormant", "consumers": ""},
-    "frontend-testing.md": {"tier": "dormant", "consumers": ""},
-    "github-flow.md": {"tier": "dormant", "consumers": ""},
-    "global-context.md": {"tier": "dormant", "consumers": ""},
-    "governance-enterprise.md": {"tier": "tier2", "consumers": ".opencode/commands/governance-enterprise.md,.opencode/skills/governance-enterprise/SKILL.md"},
-    "handoff-templates.md": {"tier": "dormant", "consumers": ""},
-    "hcm-maps.md": {"tier": "dormant", "consumers": ""},
-    "hook-profiles.md": {"tier": "dormant", "consumers": ""},
-    "iac-cloud-patterns.md": {"tier": "tier2", "consumers": ".opencode/agents/infrastructure-agent.md"},
-    "infrastructure-as-code.md": {"tier": "dormant", "consumers": ""},
-    "instincts-protocol.md": {"tier": "dormant", "consumers": ""},
-    "intelligent-hooks.md": {"tier": "dormant", "consumers": ""},
-    "language-packs.md": {"tier": "dormant", "consumers": ""},
-    "managed-agents-patterns.md": {"tier": "dormant", "consumers": ""},
-    "managed-content.md": {"tier": "dormant", "consumers": ""},
-    "mcp-migration.md": {"tier": "dormant", "consumers": ""},
-    "meeting-participant-etiquette.md": {"tier": "dormant", "consumers": ""},
-    "messaging-config.md": {"tier": "tier2", "consumers": ".opencode/commands/inbox-check.md,.opencode/commands/inbox-start.md,.opencode/commands/nctalk-search.md,.opencode/commands/notify-nctalk.md,.opencode/commands/notify-whatsapp.md,.opencode/commands/whatsapp-search.md"},
-    "messaging-nextcloud.md": {"tier": "dormant", "consumers": ""},
-    "messaging-subject-safety.md": {"tier": "dormant", "consumers": ""},
-    "messaging-whatsapp.md": {"tier": "dormant", "consumers": ""},
-    "neurodivergent-integration.md": {"tier": "dormant", "consumers": ""},
-    "nidos-protocol.md": {"tier": "tier2", "consumers": ".opencode/commands/nidos.md"},
-    "nl-command-resolution.md": {"tier": "dormant", "consumers": ""},
-    "onboarding-enterprise.md": {"tier": "tier2", "consumers": ".opencode/commands/onboard-enterprise.md,.opencode/skills/enterprise-onboarding/SKILL.md"},
-    "parallel-execution.md": {"tier": "dormant", "consumers": ""},
-    "performance-patterns.md": {"tier": "tier2", "consumers": ".opencode/commands/perf-audit.md"},
-    "personal-vault-config.md": {"tier": "dormant", "consumers": ""},
-    "pii-sanitization.md": {"tier": "dormant", "consumers": ""},
-    "pipeline-as-code.md": {"tier": "dormant", "consumers": ""},
-    "pm-config.md": {"tier": "tier2", "consumers": ".opencode/commands/ai-boundary.md,.opencode/commands/ai-incident.md,.opencode/commands/ai-safety-config.md,.opencode/commands/code-improve.md,.opencode/commands/overnight-sprint.md,.opencode/commands/repos-pr-list.md,.opencode/commands/tech-research.md"},
-    "pm-workflow.md": {"tier": "tier2", "consumers": ".opencode/skills/voice-inbox/SKILL.md"},
-    "postmortem-policy.md": {"tier": "dormant", "consumers": ""},
-    "pr-signing-protocol.md": {"tier": "dormant", "consumers": ""},
-    "pre-commit-bats.md": {"tier": "dormant", "consumers": ""},
-    "profile-onboarding.md": {"tier": "dormant", "consumers": ""},
-    "project-privacy-protection.md": {"tier": "dormant", "consumers": ""},
-    "prompt-caching.md": {"tier": "dormant", "consumers": ""},
-    "prompt-structure.md": {"tier": "dormant", "consumers": ""},
-    "radical-honesty.md": {"tier": "tier1", "consumers": "CLAUDE.md"},
-    "rbac-model.md": {"tier": "tier2", "consumers": ".opencode/commands/rbac-manager.md,.opencode/skills/rbac-management/SKILL.md"},
-    "readme-update.md": {"tier": "dormant", "consumers": ""},
-    "regulatory-compliance.md": {"tier": "tier2", "consumers": ".opencode/commands/vertical-education.md,.opencode/commands/vertical-finance.md,.opencode/commands/vertical-healthcare.md,.opencode/commands/vertical-legal.md"},
-    "resource-resolution.md": {"tier": "dormant", "consumers": ""},
-    "risk-escalation.md": {"tier": "dormant", "consumers": ""},
-    "robotics-safety.md": {"tier": "tier2", "consumers": ".opencode/commands/zeroclaw.md"},
-    "role-workflows.md": {"tier": "tier2", "consumers": ".opencode/commands/adoption-plan.md,.opencode/commands/daily-routine.md,.opencode/commands/health-dashboard.md,.opencode/commands/onboard.md"},
-    "savia-dual.md": {"tier": "dormant", "consumers": ""},
-    "savia-foundational-principles.md": {"tier": "dormant", "consumers": ""},
-    "savia-hub-config.md": {"tier": "tier2", "consumers": ".opencode/commands/backlog-git.md,.opencode/commands/client-profile.md,.opencode/commands/context-interview.md,.opencode/commands/savia-hub.md,.opencode/skills/backlog-git-tracker/SKILL.md,.opencode/skills/client-profile-manager/SKILL.md,.opencode/skills/context-interview-conductor/SKILL.md"},
-    "savia-hub-offline.md": {"tier": "tier2", "consumers": ".opencode/commands/savia-hub.md"},
-    "scaling-patterns.md": {"tier": "tier2", "consumers": ".opencode/commands/scale-optimizer.md,.opencode/skills/scaling-operations/SKILL.md"},
-    "scoring-curves.md": {"tier": "dormant", "consumers": ""},
-    "sdlc-gates.md": {"tier": "dormant", "consumers": ""},
-    "security-check-patterns.md": {"tier": "tier2", "consumers": ".opencode/agents/drift-auditor.md,.opencode/agents/security-guardian.md"},
-    "self-improvement.md": {"tier": "dormant", "consumers": ""},
-    "semantic-hub-index.md": {"tier": "tier2", "consumers": ".opencode/commands/hub-audit.md"},
-    "session-init-priority.md": {"tier": "dormant", "consumers": ""},
-    "session-memory-protocol.md": {"tier": "dormant", "consumers": ""},
-    "severity-classification.md": {"tier": "dormant", "consumers": ""},
-    "skill-auto-activation.md": {"tier": "dormant", "consumers": ""},
-    "skill-lifecycle.md": {"tier": "tier2", "consumers": ".opencode/commands/skill-propose.md"},
-    "skillssh-publishing.md": {"tier": "dormant", "consumers": ""},
-    "smart-frontmatter.md": {"tier": "dormant", "consumers": ""},
-    "source-tracking.md": {"tier": "dormant", "consumers": ""},
-    "team-structure.md": {"tier": "tier2", "consumers": ".opencode/commands/team-orchestrator.md,.opencode/skills/enterprise-onboarding/SKILL.md,.opencode/skills/team-coordination/SKILL.md"},
-    "template-separation.md": {"tier": "dormant", "consumers": ""},
-    "tool-discovery.md": {"tier": "dormant", "consumers": ""},
-    "tool-search-config.md": {"tier": "dormant", "consumers": ""},
-    "transcription-resolution.md": {"tier": "tier2", "consumers": ".opencode/agents/meeting-digest.md"},
-    "truth-tribunal-weights.md": {"tier": "dormant", "consumers": ""},
-    "verification-before-done.md": {"tier": "dormant", "consumers": ""},
-    "verification-policy.md": {"tier": "dormant", "consumers": ""},
-    "vertical-detection.md": {"tier": "tier2", "consumers": ".opencode/commands/vertical-propose.md"},
-    "visual-quality-gates.md": {"tier": "dormant", "consumers": ""},
-    "voice-console-protocol.md": {"tier": "dormant", "consumers": ""},
-    "web-research-config.md": {"tier": "tier2", "consumers": ".opencode/commands/web-research.md"},
-    "wellbeing-config.md": {"tier": "tier2", "consumers": ".opencode/commands/wellbeing-guardian.md,.opencode/skills/wellbeing-guardian/SKILL.md"},
-    "zero-project-leakage.md": {"tier": "dormant", "consumers": ""},
-    "zeroclaw-meeting-protocol.md": {"tier": "tier2", "consumers": ".opencode/commands/zeroclaw-meeting.md"},
-    "zeroclaw-sensory-protocol.md": {"tier": "tier2", "consumers": ".opencode/commands/zeroclaw-meeting.md"}
+    "accessibility-output.md": {
+      "tier": "dormant",
+      "consumers": ""
+    },
+    "adaptive-output.md": {
+      "tier": "dormant",
+      "consumers": ""
+    },
+    "adversarial-security.md": {
+      "tier": "dormant",
+      "consumers": ""
+    },
+    "agent-context-budget.md": {
+      "tier": "dormant",
+      "consumers": ""
+    },
+    "agent-dispatch-checklist.md": {
+      "tier": "dormant",
+      "consumers": ""
+    },
+    "agent-handoff-protocol.md": {
+      "tier": "dormant",
+      "consumers": ""
+    },
+    "agent-hook-protocol.md": {
+      "tier": "dormant",
+      "consumers": ""
+    },
+    "agent-idle-protocol.md": {
+      "tier": "dormant",
+      "consumers": ""
+    },
+    "agent-jwt-mint.md": {
+      "tier": "dormant",
+      "consumers": ""
+    },
+    "agent-memory-isolation.md": {
+      "tier": "dormant",
+      "consumers": ""
+    },
+    "agent-memory-protocol.md": {
+      "tier": "dormant",
+      "consumers": ""
+    },
+    "agent-observability-patterns.md": {
+      "tier": "dormant",
+      "consumers": ""
+    },
+    "agent-permission-levels.md": {
+      "tier": "dormant",
+      "consumers": ""
+    },
+    "agent-policies.md": {
+      "tier": "tier2",
+      "consumers": ".opencode/commands/policy-check.md"
+    },
+    "agent-prompt-xml-structure.md": {
+      "tier": "dormant",
+      "consumers": ""
+    },
+    "agents-catalog.md": {
+      "tier": "dormant",
+      "consumers": ""
+    },
+    "agent-self-memory.md": {
+      "tier": "dormant",
+      "consumers": ""
+    },
+    "agents-md-source-of-truth.md": {
+      "tier": "dormant",
+      "consumers": ""
+    },
+    "ai-competency-framework.md": {
+      "tier": "tier2",
+      "consumers": ".opencode/commands/adoption-assess.md,.opencode/commands/ai-exposure-audit.md,.opencode/skills/ai-labor-impact/SKILL.md"
+    },
+    "ai-exposure-metrics.md": {
+      "tier": "tier2",
+      "consumers": ".opencode/commands/ai-exposure-audit.md,.opencode/skills/ai-labor-impact/SKILL.md"
+    },
+    "ai-governance.md": {
+      "tier": "tier2",
+      "consumers": ".opencode/skills/sovereignty-auditor/SKILL.md,.opencode/skills/sovereignty-auditor/references/cognitive-sovereignty.md"
+    },
+    "application-code-twin.md": {
+      "tier": "dormant",
+      "consumers": ""
+    },
+    "architectural-vocabulary.md": {
+      "tier": "dormant",
+      "consumers": ""
+    },
+    "architecture-patterns.md": {
+      "tier": "tier2",
+      "consumers": ".opencode/skills/architecture-intelligence/SKILL.md"
+    },
+    "assignment-matrix.md": {
+      "tier": "dormant",
+      "consumers": ""
+    },
+    "async-hooks-config.md": {
+      "tier": "dormant",
+      "consumers": ""
+    },
+    "attention-anchor.md": {
+      "tier": "dormant",
+      "consumers": ""
+    },
+    "audit-trail-schema.md": {
+      "tier": "tier2",
+      "consumers": ".opencode/commands/governance-enterprise.md,.opencode/skills/governance-enterprise/SKILL.md"
+    },
+    "autonomous-safety.md": {
+      "tier": "tier1",
+      "consumers": ".opencode/commands/code-improve.md,.opencode/commands/overnight-sprint.md,.opencode/commands/tech-research.md,.opencode/skills/code-improvement-loop/SKILL.md,.opencode/skills/onboarding-dev/SKILL.md,.opencode/skills/overnight-sprint/SKILL.md,.opencode/skills/tech-research-agent/SKILL.md,CLAUDE.md"
+    },
+    "azure-repos-config.md": {
+      "tier": "tier2",
+      "consumers": ".opencode/commands/repos-branches.md,.opencode/commands/repos-list.md,.opencode/commands/repos-pr-create.md,.opencode/commands/repos-pr-review.md"
+    },
+    "backlog-git-config.md": {
+      "tier": "tier2",
+      "consumers": ".opencode/commands/backlog-git.md,.opencode/skills/backlog-git-tracker/SKILL.md"
+    },
+    "backup-protocol.md": {
+      "tier": "tier2",
+      "consumers": ".opencode/commands/backup.md,.opencode/commands/savia-travel-init.md,.opencode/commands/savia-travel-pack.md"
+    },
+    "billing-model.md": {
+      "tier": "tier2",
+      "consumers": ".opencode/commands/cost-center.md,.opencode/skills/cost-management/SKILL.md"
+    },
+    "bitemporal-timeline-schema.md": {
+      "tier": "dormant",
+      "consumers": ""
+    },
+    "bounded-concurrency.md": {
+      "tier": "dormant",
+      "consumers": ""
+    },
+    "business-case-as-code.md": {
+      "tier": "dormant",
+      "consumers": ""
+    },
+    "caveman-default.md": {
+      "tier": "dormant",
+      "consumers": ""
+    },
+    "changelog-enforcement.md": {
+      "tier": "dormant",
+      "consumers": ""
+    },
+    "changelog-integrity.md": {
+      "tier": "dormant",
+      "consumers": ""
+    },
+    "clara-philosophy.md": {
+      "tier": "dormant",
+      "consumers": ""
+    },
+    "client-profile-config.md": {
+      "tier": "tier2",
+      "consumers": ".opencode/commands/backlog-git.md,.opencode/commands/client-profile.md,.opencode/commands/context-interview.md,.opencode/skills/client-profile-manager/SKILL.md"
+    },
+    "cloud-decision-tree.md": {
+      "tier": "tier2",
+      "consumers": ".opencode/agents/infrastructure-agent.md"
+    },
+    "code-comprehension.md": {
+      "tier": "dormant",
+      "consumers": ""
+    },
+    "codegraph-confidentiality.md": {
+      "tier": "dormant",
+      "consumers": ""
+    },
+    "code-review-court.md": {
+      "tier": "dormant",
+      "consumers": ""
+    },
+    "code-review-rules.md": {
+      "tier": "dormant",
+      "consumers": ""
+    },
+    "command-ux-checklist.md": {
+      "tier": "tier2",
+      "consumers": ".opencode/commands/ai-confidence.md"
+    },
+    "command-ux-feedback.md": {
+      "tier": "dormant",
+      "consumers": ""
+    },
+    "command-validation.md": {
+      "tier": "dormant",
+      "consumers": ""
+    },
+    "commit-checks-reference.md": {
+      "tier": "tier2",
+      "consumers": ".opencode/agents/commit-guardian.md"
+    },
+    "community-protocol.md": {
+      "tier": "tier2",
+      "consumers": ".opencode/commands/contribute.md,.opencode/commands/feedback.md"
+    },
+    "component-marketplace.md": {
+      "tier": "dormant",
+      "consumers": ""
+    },
+    "confidence-protocol.md": {
+      "tier": "dormant",
+      "consumers": ""
+    },
+    "connectors-config.md": {
+      "tier": "dormant",
+      "consumers": ""
+    },
+    "consensus-protocol.md": {
+      "tier": "tier2",
+      "consumers": ".opencode/skills/consensus-validation/SKILL.md"
+    },
+    "context-aging.md": {
+      "tier": "dormant",
+      "consumers": ""
+    },
+    "context-audience-protocol.md": {
+      "tier": "dormant",
+      "consumers": ""
+    },
+    "context-budget.md": {
+      "tier": "dormant",
+      "consumers": ""
+    },
+    "context-condenser-protocol.md": {
+      "tier": "dormant",
+      "consumers": ""
+    },
+    "context-drop-after-use.md": {
+      "tier": "dormant",
+      "consumers": ""
+    },
+    "context-health.md": {
+      "tier": "dormant",
+      "consumers": ""
+    },
+    "context-interview-config.md": {
+      "tier": "tier2",
+      "consumers": ".opencode/commands/context-interview.md,.opencode/skills/context-interview-conductor/SKILL.md"
+    },
+    "context-origin-tagging.md": {
+      "tier": "dormant",
+      "consumers": ""
+    },
+    "context-placement-confirmation.md": {
+      "tier": "tier2",
+      "consumers": ".opencode/commands/confidentiality-check.md"
+    },
+    "context-tier-budgets.md": {
+      "tier": "dormant",
+      "consumers": ""
+    },
+    "context-tracking.md": {
+      "tier": "dormant",
+      "consumers": ""
+    },
+    "cost-tracking.md": {
+      "tier": "tier2",
+      "consumers": ".opencode/commands/cost-center.md,.opencode/skills/cost-management/SKILL.md"
+    },
+    "court-external-judges.md": {
+      "tier": "dormant",
+      "consumers": ""
+    },
+    "coverage-scripts.md": {
+      "tier": "tier2",
+      "consumers": ".opencode/agents/test-runner.md"
+    },
+    "critical-facts-anchor.md": {
+      "tier": "dormant",
+      "consumers": ""
+    },
+    "critical-rules-extended.md": {
+      "tier": "dormant",
+      "consumers": ""
+    },
+    "data-sovereignty.md": {
+      "tier": "dormant",
+      "consumers": ""
+    },
+    "dev-session-locks.md": {
+      "tier": "tier2",
+      "consumers": ".opencode/commands/dev-session-resume.md"
+    },
+    "dev-session-protocol.md": {
+      "tier": "dormant",
+      "consumers": ""
+    },
+    "diagram-config.md": {
+      "tier": "tier2",
+      "consumers": ".opencode/skills/diagram-import/SKILL.md"
+    },
+    "digest-traceability.md": {
+      "tier": "dormant",
+      "consumers": ""
+    },
+    "double-optin-protocol.md": {
+      "tier": "dormant",
+      "consumers": ""
+    },
+    "dual-estimation.md": {
+      "tier": "dormant",
+      "consumers": ""
+    },
+    "e2e-screenshot-validation.md": {
+      "tier": "dormant",
+      "consumers": ""
+    },
+    "ellipsis-guardrail.md": {
+      "tier": "dormant",
+      "consumers": ""
+    },
+    "emergency-mode-protocol.md": {
+      "tier": "dormant",
+      "consumers": ""
+    },
+    "emotional-regulation-extended.md": {
+      "tier": "dormant",
+      "consumers": ""
+    },
+    "emotional-regulation.md": {
+      "tier": "dormant",
+      "consumers": ""
+    },
+    "engineering-principles-from-kernel.md": {
+      "tier": "dormant",
+      "consumers": ""
+    },
+    "enterprise-metrics.md": {
+      "tier": "tier2",
+      "consumers": ".opencode/commands/enterprise-dashboard.md,.opencode/skills/enterprise-analytics/SKILL.md"
+    },
+    "environment-config.md": {
+      "tier": "tier2",
+      "consumers": ".opencode/skills/azure-pipelines/SKILL.md"
+    },
+    "equality-shield.md": {
+      "tier": "dormant",
+      "consumers": ""
+    },
+    "eval-criteria.md": {
+      "tier": "tier2",
+      "consumers": ".opencode/commands/eval-agent.md,.opencode/commands/eval-output.md"
+    },
+    "eval-policy.md": {
+      "tier": "dormant",
+      "consumers": ""
+    },
+    "example-patterns.md": {
+      "tier": "dormant",
+      "consumers": ""
+    },
+    "excel-templates.md": {
+      "tier": "dormant",
+      "consumers": ""
+    },
+    "external-contract-testing.md": {
+      "tier": "dormant",
+      "consumers": ""
+    },
+    "failure-pattern-memory.md": {
+      "tier": "dormant",
+      "consumers": ""
+    },
+    "file-output-summary.md": {
+      "tier": "dormant",
+      "consumers": ""
+    },
+    "file-size-limit.md": {
+      "tier": "dormant",
+      "consumers": ""
+    },
+    "fork-agent-protocol.md": {
+      "tier": "dormant",
+      "consumers": ""
+    },
+    "frontend-components.md": {
+      "tier": "dormant",
+      "consumers": ""
+    },
+    "frontend-testing.md": {
+      "tier": "dormant",
+      "consumers": ""
+    },
+    "github-flow.md": {
+      "tier": "dormant",
+      "consumers": ""
+    },
+    "global-context.md": {
+      "tier": "dormant",
+      "consumers": ""
+    },
+    "governance-enterprise.md": {
+      "tier": "tier2",
+      "consumers": ".opencode/commands/governance-enterprise.md,.opencode/skills/governance-enterprise/SKILL.md"
+    },
+    "graphrag-quality-gates.md": {
+      "tier": "dormant",
+      "consumers": ""
+    },
+    "guided-work-protocol.md": {
+      "tier": "dormant",
+      "consumers": ""
+    },
+    "handoff-templates.md": {
+      "tier": "dormant",
+      "consumers": ""
+    },
+    "hashline-edit-protocol.md": {
+      "tier": "dormant",
+      "consumers": ""
+    },
+    "hcm-maps.md": {
+      "tier": "dormant",
+      "consumers": ""
+    },
+    "hook-event-equivalence.md": {
+      "tier": "dormant",
+      "consumers": ""
+    },
+    "hook-profiles.md": {
+      "tier": "dormant",
+      "consumers": ""
+    },
+    "iac-cloud-patterns.md": {
+      "tier": "tier2",
+      "consumers": ".opencode/agents/infrastructure-agent.md"
+    },
+    "image-relevance-filter.md": {
+      "tier": "dormant",
+      "consumers": ""
+    },
+    "inclusive-review.md": {
+      "tier": "dormant",
+      "consumers": ""
+    },
+    "infrastructure-as-code.md": {
+      "tier": "dormant",
+      "consumers": ""
+    },
+    "instincts-protocol.md": {
+      "tier": "dormant",
+      "consumers": ""
+    },
+    "intelligent-hooks.md": {
+      "tier": "dormant",
+      "consumers": ""
+    },
+    "knowledge-graph.md": {
+      "tier": "dormant",
+      "consumers": ""
+    },
+    "language-packs.md": {
+      "tier": "dormant",
+      "consumers": ""
+    },
+    "lightweight-eng-review.md": {
+      "tier": "dormant",
+      "consumers": ""
+    },
+    "managed-agents-patterns.md": {
+      "tier": "dormant",
+      "consumers": ""
+    },
+    "managed-content.md": {
+      "tier": "dormant",
+      "consumers": ""
+    },
+    "mcp-catalog-policy.md": {
+      "tier": "dormant",
+      "consumers": ""
+    },
+    "mcp-migration.md": {
+      "tier": "dormant",
+      "consumers": ""
+    },
+    "mcp-overhead.md": {
+      "tier": "dormant",
+      "consumers": ""
+    },
+    "meeting-participant-etiquette.md": {
+      "tier": "dormant",
+      "consumers": ""
+    },
+    "memory-type-schema.md": {
+      "tier": "dormant",
+      "consumers": ""
+    },
+    "messaging-config.md": {
+      "tier": "tier2",
+      "consumers": ".opencode/commands/inbox-check.md,.opencode/commands/inbox-start.md,.opencode/commands/nctalk-search.md,.opencode/commands/notify-nctalk.md,.opencode/commands/notify-whatsapp.md,.opencode/commands/whatsapp-search.md"
+    },
+    "messaging-nextcloud.md": {
+      "tier": "dormant",
+      "consumers": ""
+    },
+    "messaging-subject-safety.md": {
+      "tier": "dormant",
+      "consumers": ""
+    },
+    "messaging-whatsapp.md": {
+      "tier": "dormant",
+      "consumers": ""
+    },
+    "model-alias-schema.md": {
+      "tier": "dormant",
+      "consumers": ""
+    },
+    "model-alias-table.md": {
+      "tier": "dormant",
+      "consumers": ""
+    },
+    "neurodivergent-integration.md": {
+      "tier": "dormant",
+      "consumers": ""
+    },
+    "nidos-protocol.md": {
+      "tier": "tier2",
+      "consumers": ".opencode/commands/nidos.md"
+    },
+    "nl-command-resolution.md": {
+      "tier": "dormant",
+      "consumers": ""
+    },
+    "onboarding-enterprise.md": {
+      "tier": "tier2",
+      "consumers": ".opencode/commands/onboard-enterprise.md,.opencode/skills/enterprise-onboarding/SKILL.md"
+    },
+    "opencode-savia-bridge.md": {
+      "tier": "dormant",
+      "consumers": ""
+    },
+    "opus47-calibration-playbook.md": {
+      "tier": "dormant",
+      "consumers": ""
+    },
+    "orchestration-protocol.md": {
+      "tier": "dormant",
+      "consumers": ""
+    },
+    "output-taxonomy.md": {
+      "tier": "dormant",
+      "consumers": ""
+    },
+    "parallel-execution.md": {
+      "tier": "dormant",
+      "consumers": ""
+    },
+    "parallel-spec-execution.md": {
+      "tier": "dormant",
+      "consumers": ""
+    },
+    "parallel-spec-merge-queue.md": {
+      "tier": "dormant",
+      "consumers": ""
+    },
+    "performance-patterns.md": {
+      "tier": "tier2",
+      "consumers": ".opencode/commands/perf-audit.md"
+    },
+    "personal-vault-config.md": {
+      "tier": "dormant",
+      "consumers": ""
+    },
+    "pii-sanitization.md": {
+      "tier": "dormant",
+      "consumers": ""
+    },
+    "pipeline-as-code.md": {
+      "tier": "dormant",
+      "consumers": ""
+    },
+    "pm-config.md": {
+      "tier": "tier2",
+      "consumers": ".opencode/commands/ai-boundary.md,.opencode/commands/ai-incident.md,.opencode/commands/ai-safety-config.md,.opencode/commands/code-improve.md,.opencode/commands/overnight-sprint.md,.opencode/commands/repos-pr-list.md,.opencode/commands/tech-research.md"
+    },
+    "pm-workflow.md": {
+      "tier": "tier2",
+      "consumers": ".opencode/skills/voice-inbox/SKILL.md"
+    },
+    "portfolio-as-graph.en.md": {
+      "tier": "dormant",
+      "consumers": ""
+    },
+    "portfolio-as-graph.md": {
+      "tier": "dormant",
+      "consumers": ""
+    },
+    "postmortem-policy.md": {
+      "tier": "dormant",
+      "consumers": ""
+    },
+    "pre-commit-bats.md": {
+      "tier": "dormant",
+      "consumers": ""
+    },
+    "pre-output-rules.md": {
+      "tier": "dormant",
+      "consumers": ""
+    },
+    "pr-natural-language-summary.md": {
+      "tier": "dormant",
+      "consumers": ""
+    },
+    "profile-onboarding.md": {
+      "tier": "dormant",
+      "consumers": ""
+    },
+    "project-privacy-protection.md": {
+      "tier": "dormant",
+      "consumers": ""
+    },
+    "project-twin-as-code.md": {
+      "tier": "dormant",
+      "consumers": ""
+    },
+    "prompt-caching.md": {
+      "tier": "dormant",
+      "consumers": ""
+    },
+    "prompt-structure.md": {
+      "tier": "dormant",
+      "consumers": ""
+    },
+    "provider-agnostic-env.md": {
+      "tier": "dormant",
+      "consumers": ""
+    },
+    "provider-agnostic-tech-debt.md": {
+      "tier": "dormant",
+      "consumers": ""
+    },
+    "pr-plan-scope-trace.md": {
+      "tier": "dormant",
+      "consumers": ""
+    },
+    "pr-signing-protocol.md": {
+      "tier": "dormant",
+      "consumers": ""
+    },
+    "query-library-protocol.md": {
+      "tier": "dormant",
+      "consumers": ""
+    },
+    "radical-honesty.md": {
+      "tier": "tier1",
+      "consumers": "CLAUDE.md"
+    },
+    "rbac-model.md": {
+      "tier": "tier2",
+      "consumers": ".opencode/commands/rbac-manager.md,.opencode/skills/rbac-management/SKILL.md"
+    },
+    "readme-update.md": {
+      "tier": "dormant",
+      "consumers": ""
+    },
+    "receipts-protocol.en.md": {
+      "tier": "dormant",
+      "consumers": ""
+    },
+    "receipts-protocol.md": {
+      "tier": "dormant",
+      "consumers": ""
+    },
+    "recommendation-tribunal-extensions.md": {
+      "tier": "dormant",
+      "consumers": ""
+    },
+    "recommendation-tribunal.md": {
+      "tier": "dormant",
+      "consumers": ""
+    },
+    "reconciliation-decision-tree.md": {
+      "tier": "dormant",
+      "consumers": ""
+    },
+    "regulatory-compliance.md": {
+      "tier": "tier2",
+      "consumers": ".opencode/commands/vertical-education.md,.opencode/commands/vertical-finance.md,.opencode/commands/vertical-healthcare.md,.opencode/commands/vertical-legal.md"
+    },
+    "research-stack.md": {
+      "tier": "dormant",
+      "consumers": ""
+    },
+    "resolver-protocol.md": {
+      "tier": "dormant",
+      "consumers": ""
+    },
+    "resource-resolution.md": {
+      "tier": "dormant",
+      "consumers": ""
+    },
+    "review-agents-reporting-policy.md": {
+      "tier": "dormant",
+      "consumers": ""
+    },
+    "risk-escalation.md": {
+      "tier": "dormant",
+      "consumers": ""
+    },
+    "robotics-safety.md": {
+      "tier": "tier2",
+      "consumers": ".opencode/commands/zeroclaw.md"
+    },
+    "role-workflows.md": {
+      "tier": "tier2",
+      "consumers": ".opencode/commands/adoption-plan.md,.opencode/commands/daily-routine.md,.opencode/commands/health-dashboard.md,.opencode/commands/onboard.md"
+    },
+    "savia-dual.md": {
+      "tier": "dormant",
+      "consumers": ""
+    },
+    "savia-ethical-principles.md": {
+      "tier": "dormant",
+      "consumers": ""
+    },
+    "savia-foundational-principles.md": {
+      "tier": "dormant",
+      "consumers": ""
+    },
+    "savia-hub-config.md": {
+      "tier": "tier2",
+      "consumers": ".opencode/commands/backlog-git.md,.opencode/commands/client-profile.md,.opencode/commands/context-interview.md,.opencode/commands/savia-hub.md,.opencode/skills/backlog-git-tracker/SKILL.md,.opencode/skills/client-profile-manager/SKILL.md,.opencode/skills/context-interview-conductor/SKILL.md"
+    },
+    "savia-hub-offline.md": {
+      "tier": "tier2",
+      "consumers": ".opencode/commands/savia-hub.md"
+    },
+    "savia-memory-architecture.md": {
+      "tier": "dormant",
+      "consumers": ""
+    },
+    "scaling-patterns.md": {
+      "tier": "tier2",
+      "consumers": ".opencode/commands/scale-optimizer.md,.opencode/skills/scaling-operations/SKILL.md"
+    },
+    "scoring-curves.md": {
+      "tier": "dormant",
+      "consumers": ""
+    },
+    "sdlc-gates.md": {
+      "tier": "dormant",
+      "consumers": ""
+    },
+    "secret-redaction-policy.md": {
+      "tier": "dormant",
+      "consumers": ""
+    },
+    "security-check-patterns.md": {
+      "tier": "tier2",
+      "consumers": ".opencode/agents/drift-auditor.md,.opencode/agents/security-guardian.md"
+    },
+    "security-scanners.md": {
+      "tier": "dormant",
+      "consumers": ""
+    },
+    "self-improvement.md": {
+      "tier": "dormant",
+      "consumers": ""
+    },
+    "semantic-hub-index.md": {
+      "tier": "tier2",
+      "consumers": ".opencode/commands/hub-audit.md"
+    },
+    "sentinel-safe-regen.md": {
+      "tier": "dormant",
+      "consumers": ""
+    },
+    "session-init-priority.md": {
+      "tier": "dormant",
+      "consumers": ""
+    },
+    "session-memory-protocol.md": {
+      "tier": "dormant",
+      "consumers": ""
+    },
+    "session-state-location.md": {
+      "tier": "dormant",
+      "consumers": ""
+    },
+    "severity-classification.md": {
+      "tier": "dormant",
+      "consumers": ""
+    },
+    "skill-auto-activation.md": {
+      "tier": "dormant",
+      "consumers": ""
+    },
+    "skill-catalog-discipline.md": {
+      "tier": "dormant",
+      "consumers": ""
+    },
+    "skill-lifecycle.md": {
+      "tier": "tier2",
+      "consumers": ".opencode/commands/skill-propose.md"
+    },
+    "skill-maturity-kanban.md": {
+      "tier": "dormant",
+      "consumers": ""
+    },
+    "skillssh-publishing.md": {
+      "tier": "dormant",
+      "consumers": ""
+    },
+    "skill-template-protocol.md": {
+      "tier": "dormant",
+      "consumers": ""
+    },
+    "skill-trigger-map.md": {
+      "tier": "dormant",
+      "consumers": ""
+    },
+    "slm-consolidation-pattern.md": {
+      "tier": "dormant",
+      "consumers": ""
+    },
+    "slm-pipeline-protocol.md": {
+      "tier": "dormant",
+      "consumers": ""
+    },
+    "slm-training-pipeline.en.md": {
+      "tier": "dormant",
+      "consumers": ""
+    },
+    "slm-training-pipeline.md": {
+      "tier": "dormant",
+      "consumers": ""
+    },
+    "smart-frontmatter.md": {
+      "tier": "dormant",
+      "consumers": ""
+    },
+    "source-tracking.md": {
+      "tier": "dormant",
+      "consumers": ""
+    },
+    "spec-opencode-implementation-plan.md": {
+      "tier": "dormant",
+      "consumers": ""
+    },
+    "subagent-fallback-mode.md": {
+      "tier": "dormant",
+      "consumers": ""
+    },
+    "team-structure.md": {
+      "tier": "tier2",
+      "consumers": ".opencode/commands/team-orchestrator.md,.opencode/skills/enterprise-onboarding/SKILL.md,.opencode/skills/team-coordination/SKILL.md"
+    },
+    "template-separation.md": {
+      "tier": "dormant",
+      "consumers": ""
+    },
+    "test-quality-gate.md": {
+      "tier": "dormant",
+      "consumers": ""
+    },
+    "tool-discovery.md": {
+      "tier": "dormant",
+      "consumers": ""
+    },
+    "tool-search-config.md": {
+      "tier": "dormant",
+      "consumers": ""
+    },
+    "transcription-resolution.md": {
+      "tier": "tier2",
+      "consumers": ".opencode/agents/meeting-digest.md"
+    },
+    "tribunal-async-protocol.md": {
+      "tier": "dormant",
+      "consumers": ""
+    },
+    "tribunal-calibration.md": {
+      "tier": "dormant",
+      "consumers": ""
+    },
+    "truth-tribunal-weights.md": {
+      "tier": "dormant",
+      "consumers": ""
+    },
+    "ubiquitous-language.md": {
+      "tier": "dormant",
+      "consumers": ""
+    },
+    "vault-frontmatter.md": {
+      "tier": "dormant",
+      "consumers": ""
+    },
+    "verification-before-done.md": {
+      "tier": "dormant",
+      "consumers": ""
+    },
+    "verification-policy.md": {
+      "tier": "dormant",
+      "consumers": ""
+    },
+    "verified-memory-axiom.md": {
+      "tier": "dormant",
+      "consumers": ""
+    },
+    "vertical-detection.md": {
+      "tier": "tier2",
+      "consumers": ".opencode/commands/vertical-propose.md"
+    },
+    "visual-quality-gates.md": {
+      "tier": "dormant",
+      "consumers": ""
+    },
+    "voice-console-protocol.md": {
+      "tier": "dormant",
+      "consumers": ""
+    },
+    "web-research-config.md": {
+      "tier": "tier2",
+      "consumers": ".opencode/commands/web-research.md"
+    },
+    "wellbeing-config.md": {
+      "tier": "tier2",
+      "consumers": ".opencode/commands/wellbeing-guardian.md,.opencode/skills/wellbeing-guardian/SKILL.md"
+    },
+    "workflow-vs-agent-decision-gate.md": {
+      "tier": "dormant",
+      "consumers": ""
+    },
+    "write-time-validation.md": {
+      "tier": "dormant",
+      "consumers": ""
+    },
+    "zeroclaw-meeting-protocol.md": {
+      "tier": "tier2",
+      "consumers": ".opencode/commands/zeroclaw-meeting.md"
+    },
+    "zeroclaw-sensory-protocol.md": {
+      "tier": "tier2",
+      "consumers": ".opencode/commands/zeroclaw-meeting.md"
+    },
+    "zero-project-leakage.md": {
+      "tier": "dormant",
+      "consumers": ""
+    },
+    "savia-enterprise/agent-jwt-mint.md": {
+      "tier": "dormant",
+      "consumers": ""
+    },
+    "savia-enterprise/audit-retention.md": {
+      "tier": "dormant",
+      "consumers": ""
+    },
+    "savia-enterprise/audit-trigger-primitive.md": {
+      "tier": "dormant",
+      "consumers": ""
+    },
+    "savia-enterprise/reconciliation-delta-engine.md": {
+      "tier": "dormant",
+      "consumers": ""
+    }
   }
 }
