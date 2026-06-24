@@ -1,0 +1,1 @@
+../test-validate-agent-permissions.bats
