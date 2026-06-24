@@ -1,7 +1,8 @@
 ---
 spec_id: SE-106
 title: Tiered tribunal execution — sequential Tier 0 + parallel Tier 1, early-stop on veto
-status: PROPOSED
+status: IMPLEMENTED
+applied_at: "2026-06-24"
 priority: media
 effort: M
 estimated_time: 5h
@@ -129,21 +130,21 @@ Documentar en CLAUDE.md y en cada orchestrator.
 
 ## Aceptación
 
-- [ ] AC-1: `scripts/savia-orchestrator-helper.sh tier` y `judges` funcionan.
-- [ ] AC-2: `truth-tribunal-orchestrator.md` reescrito con Tier 0/Tier 1, mantiene schema `.truth.crc` con campos nuevos.
-- [ ] AC-3: `court-orchestrator.md` reescrito con Tier 0/Tier 1, mantiene schema `.review.crc` con campos nuevos.
-- [ ] AC-4: `recommendation-tribunal-orchestrator.md` añade nota explicativa de por qué NO aplica tiered (latencia sync).
-- [ ] AC-5: Variable `TRIBUNAL_FORCE_FULL_PANEL=1` documentada y testeada.
-- [ ] AC-6: Tests BATS verifican early-stop on veto en Tier 0 (mock judges).
-- [ ] AC-7: Tests BATS verifican fan-out Tier 1 cuando Tier 0 PASS.
-- [ ] AC-8: Schema legacy `.truth.crc` v1 sigue siendo válido (backward-compat). Campo `execution_mode` opcional, default "parallel" si ausente.
-- [ ] AC-9: Documentado en `docs/rules/domain/tribunal-execution.md` (regla nueva, ≤150L).
-- [ ] AC-10: Métrica de tokens ahorrados expuesta en `output/recommendation-tribunal/` y `output/truth-tribunal/` audit logs (campo `tokens_saved_vs_parallel`).
-- [ ] AC-11: Path: `.opencode/agents/truth-tribunal-orchestrator.md` modificado.
-- [ ] AC-12: Path: `.opencode/agents/court-orchestrator.md` modificado.
-- [ ] AC-13: Path: `.opencode/agents/recommendation-tribunal-orchestrator.md` modificado (solo nota).
-- [ ] AC-14: Path: `scripts/savia-orchestrator-helper.sh` extendido con `tier`/`judges` actions.
-- [ ] AC-15: Path: `docs/rules/domain/tribunal-execution.md` creado.
+- [x] AC-1: `scripts/savia-orchestrator-helper.sh tier` y `judges` funcionan.
+- [x] AC-2: `truth-tribunal-orchestrator.md` reescrito con Tier 0/Tier 1, mantiene schema `.truth.crc` con campos nuevos.
+- [x] AC-3: `court-orchestrator.md` reescrito con Tier 0/Tier 1, mantiene schema `.review.crc` con campos nuevos.
+- [x] AC-4: `recommendation-tribunal-orchestrator.md` añade nota explicativa de por qué NO aplica tiered (latencia sync).
+- [x] AC-5: Variable `TRIBUNAL_FORCE_FULL_PANEL=1` documentada y testeada.
+- [x] AC-6: Tests BATS verifican early-stop on veto en Tier 0 (mock judges).
+- [x] AC-7: Tests BATS verifican fan-out Tier 1 cuando Tier 0 PASS.
+- [x] AC-8: Schema legacy `.truth.crc` v1 sigue siendo válido (backward-compat). Campo `execution_mode` opcional, default "parallel" si ausente.
+- [x] AC-9: Documentado en `docs/rules/domain/tribunal-execution.md` (regla nueva, <=150L).
+- [x] AC-10: Métrica `tokens_saved_vs_parallel` expuesta en `.truth.crc` y `.review.crc` audit fields.
+- [x] AC-11: Path: `.opencode/agents/truth-tribunal-orchestrator.md` modificado.
+- [x] AC-12: Path: `.opencode/agents/court-orchestrator.md` modificado.
+- [x] AC-13: Path: `.opencode/agents/recommendation-tribunal-orchestrator.md` modificado (solo nota).
+- [x] AC-14: Path: `scripts/savia-orchestrator-helper.sh` extendido con `tier`/`judges` actions.
+- [x] AC-15: Path: `docs/rules/domain/tribunal-execution.md` creado.
 
 ## Riesgos
 
