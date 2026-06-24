@@ -6,6 +6,7 @@ priority: P2
 effort: M
 era: 204
 origin: https://github.com/karpathy/autoresearch (85.8k stars, MIT)
+resource: "https://github.com/karpathy/autoresearch"
 inspiration: karpathy/autoresearch — autonomous ML research loop
 deps:
   - autonomous-safety.md (AGENT_TASK_TIMEOUT_MINUTES — implemented)

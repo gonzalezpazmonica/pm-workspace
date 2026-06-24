@@ -6,6 +6,7 @@ priority: P2
 effort: M
 era: 206
 origin: https://github.com/graykode/abtop (2.7k stars, MIT)
+resource: "https://github.com/graykode/abtop"
 inspiration: graykode/abtop v0.4.8 — htop for AI coding agents
 deps:
   - scripts/session-action-log.sh (implemented)
