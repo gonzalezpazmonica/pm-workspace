@@ -1,6 +1,6 @@
 # Roadmap Unificado — pm-workspace / Savia
 
-**Updated:** 2026-06-13 | **Version:** v6.20.0 | **562 commands · 75 agents · 104 skills · 81 hooks · 470+ test suites + 122 nuevos · Active backlog 5 items (SPEC-199 P2 desbloqueado + 4 P2/P3 viejos) · 5 specs DiffusionGemma implementadas (195, 196, 197, 198, 200) en 1 PR** — ver `### Backlog restante — repriorizado 2026-06-13`
+**Updated:** 2026-06-20 | **Version:** v6.20.0 | **562 commands · 75 agents · 104 skills · 81 hooks · 470+ test suites · Active backlog 7 items P2 + 3 items P3 · SE-222 OKF patterns añadido (Era 208)** — ver `### Backlog restante — repriorizado 2026-06-20`
 
 ---
 
@@ -714,7 +714,7 @@ Google Sheets · ServiceNow/SAP · Tableau · Kafka · VS Code ext · Cloud voic
 | SE-218 S1-S5 | codebase-memory patterns: hook augmentation, KG snapshot, qualified names, tiered flush, .saviaignore — 81 tests | #834 |
 | SE-219 S1-S5 | abtop patterns: session-status, context-meter, session-cleanup, profile-discover, agent-tick — 48 tests | #835 |
 
-### Backlog restante — repriorizado 2026-06-13
+### Backlog restante — repriorizado 2026-06-20
 
 | # | ID | Qué | Esfuerzo | Prioridad | Deps |
 |---|---|---|---|---|---|
@@ -727,8 +727,10 @@ Google Sheets · ServiceNow/SAP · Tableau · Kafka · VS Code ext · Cloud voic
 | 7 | **SPEC-SE-036 Slice 3** | JWT sunset opt-in (PAT file migration) | 4h | P2 | Slice 1+2 ✓ |
 | 8 | **SPEC-188 Fase 2** | Sealed Contract Tests | ~8h | P2 | Fase 1 ✓ |
 | 9 | **SE-220** | Speculative Tool Execution — draft+verify pattern (Slice 0 BLOQUEANTE) | ~18h (3h S0 + 15h S1-4) | P2 | feasibility ≥60% acceptance |
-| 10 | **SE-216 Slice 4** | Experiment Graph — tree search | ~6h | P3 | SE-216 S1+S2+S3 ✓ |
-| 11 | **SPEC-188 Fases 3+4** | Causal confidence + diagnostic metrics | ~56h | P3 | Fase 2 |
+| 10 | **SE-222 S0-S2** | OKF Adoptable Patterns — resource URI + log.md + index.md auto-gen | ~6h | P2 | — |
+| 11 | **SE-216 Slice 4** | Experiment Graph — tree search | ~6h | P3 | SE-216 S1+S2+S3 ✓ |
+| 12 | **SE-222 S3** | OKF back-fill resource: en 20 specs de alto valor | ~2h | P3 | SE-222 S0 |
+| 13 | **SPEC-188 Fases 3+4** | Causal confidence + diagnostic metrics | ~56h | P3 | Fase 2 |
 
 ### Telemetry pilot (30d desde 2026-06-13)
 
@@ -824,6 +826,19 @@ Origen: https://github.com/graykode/abtop (2.7k stars, MIT). Patrones: JSON snap
 | 4 | SE-220 S4 | Telemetry dashboard + GO/CONTINUE/KILL semanal | S (~3h) | P2 |
 
 Origen: investigación speculative decoding 2026-06-20 (papers Leviathan 2022, EAGLE-3 NeurIPS'25, Medusa, Lookahead). El decoder de Claude API es opaco — speculative decoding clásico NO aplica. El **principio** draft+verify SÍ aplica a la capa de orquestación: predictor barato (haiku) pre-ejecuta tool calls idempotentes en background mientras el orquestador (sonnet/opus) piensa. Spec: `docs/propuestas/SE-220-speculative-tool-execution.md`. priority_score = 78.4 (V=75, U=65, E=22) según SPEC-154. Dep: SE-202 (agent-hook-runner) ✓ + SE-217 (time-budget) ✓.
+
+---
+
+### Era 208 — OKF Adoptable Patterns (resource URI + log.md + index.md, ~8h)
+
+| # | ID | Título | Esfuerzo | Prioridad |
+|---|---|---|---|---|
+| 0 | SE-222 S0 | `resource:` URI en frontmatter de specs y reglas + validator WARN | S (~2h) | P2 |
+| 1 | SE-222 S1 | `log.md` convention — `docs/propuestas/LOG.md` append-only + `spec-lifecycle.sh` | S (~2h) | P2 |
+| 2 | SE-222 S2 | `index.md` auto-generado para `docs/propuestas/` via PostToolUse hook | S (~2h) | P2 |
+| 3 | SE-222 S3 | Back-fill `resource:` en ≥20 specs/reglas de alto valor | S (~2h) | P3 |
+
+Origen: análisis comparativo OKF (Google Cloud, 2026-06-12) vs modelo de cúpulas Savia (2026-06-20). OKF formaliza el patrón LLM-wiki de Karpathy — tres de sus convenciones son adoptables sin tocar el modelo N1-N4b: campo `resource:` como URI navegable al origen, fichero `log.md` de historial conceptual por directorio, e `index.md` de descubrimiento progresivo. Descartados: portabilidad inter-org (sistema cerrado), exportación como bundle OKF (rompe confidencialidad), SDK externo (tenemos grafo propio SE-162). Spec: `docs/propuestas/SE-222-okf-adoptable-patterns.md`. Sin dependencias bloqueantes.
 
 ---
 
