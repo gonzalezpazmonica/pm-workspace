@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=7ff885f512c4d27ab52a34b48607982a6df8dc2b523b52dc82b448a6676df07f
-timestamp=2026-06-24T09:08:20Z
-branch=agent/se227-tribunal-hard-gates-20260624
-head_commit=ea2694d6
-signature=a0f413ca65b65ccb97afed802f2250ca765d339b107c71e4867304c0b0ace4df
+diff_hash=2700a660b4169ddc9c25b105eaf88ec0e8e84b86e36ac4faf751a86b6c2697b7
+timestamp=2026-06-24T09:27:57Z
+branch=agent/se224-verbosity-sentinel-20260624
+head_commit=9432fbc7
+signature=364875709549cce53fde1ad8ebef746f7609ef186f02e42da0037b02c716d680
