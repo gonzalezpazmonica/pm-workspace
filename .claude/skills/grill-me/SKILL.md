@@ -57,3 +57,9 @@ Group findings by severity:
 
 **❌ Activar en código no propuesto**: usar grill-me sobre código legacy no relacionado con el cambio en revisión → scope creep, review infinita.
 **✓ Correcto**: grill-me aplica solo al diff o artefacto que se está mergeando o proponiendo.
+
+**❌ Praise-sandwich**: envolver la crítica en elogios para suavizarla → el mensaje crítico se diluye, el autor recuerda los elogios y minimiza los problemas.
+**✓ Correcto**: crítica directa sin wrapper. Los hallazgos hablan solos (Radical Honesty Rule #24).
+
+**❌ Rubber-stamp**: aprobar bajo presión de tiempo sin revisión real → los bugs críticos llegan a producción con el sello de aprobado.
+**✓ Correcto**: si no hay tiempo para una revisión real, se reporta BLOCKED — nunca LGTM vacío.

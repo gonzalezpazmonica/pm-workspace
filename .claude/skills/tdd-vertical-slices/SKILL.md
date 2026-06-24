@@ -128,6 +128,12 @@ Tras todos los tests verdes, busca refactor candidates:
 **❌ Slice demasiado grueso**: abarcar >1 comportamiento observable en un slice → fallo de RED/GREEN imposible de aislar, refactor bloqueado.
 **✓ Correcto**: cada slice verifica exactamente un comportamiento observable a través de la interfaz pública.
 
+**❌ Over-mocking**: mockear todo incluyendo el sistema bajo test → los tests pasan siempre porque nunca ejecutan código real, los bugs de integración se ocultan.
+**✓ Correcto**: mockear solo dependencias externas (red, I/O, tiempo); el sistema bajo test ejecuta código real.
+
+**❌ Test-after**: implementar primero y añadir tests retroactivamente → los tests documentan la implementación existente en lugar de guiarla, cero valor de diseño.
+**✓ Correcto**: RED antes de cualquier implementación — el test que falla prueba que el behavior no existe aún.
+
 ## Atribución
 
 `mattpocock/skills/tdd/SKILL.md` — MIT — pattern only, prosa propia. La disciplina anti-horizontal-slicing es la contribución central de Pocock que pm-workspace adopta explícitamente.

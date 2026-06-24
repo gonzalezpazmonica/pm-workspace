@@ -4,6 +4,9 @@ token_budget: 700
 se: SE-205
 created: 2026-06-07
 source: output/research/orca-savia-20260607.md §7.1
+usage: reference-only
+dormant_since: "2026-06-24"
+review_note: "Quarterly review 2026-Q2"
 ---
 
 # Orchestration Protocol — SE-205
