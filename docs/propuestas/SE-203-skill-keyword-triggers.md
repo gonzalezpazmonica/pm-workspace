@@ -1,7 +1,7 @@
 ---
 spec_id: SE-203
 title: Keyword triggers para skills
-status: APPROVED
+status: IMPLEMENTED
 tier: 1
 priority: P2
 effort: S
@@ -17,7 +17,7 @@ inspiration: OpenHands keyword-based skill routing — declarative trigger maps
 
 # SE-203 — Keyword triggers para skills
 
-> Estado: APPROVED · Tier 1 · P2 · Estimación S · Era 200 · Wave 1
+> Estado: IMPLEMENTED · Tier 1 · P2 · Estimación S · Era 200 · Wave 1
 
 ## Resumen
 

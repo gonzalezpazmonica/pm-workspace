@@ -6,7 +6,7 @@ set -uo pipefail
 
 THRESHOLD=${SAVIA_CRITIC_THRESHOLD:-80}
 MAX_ITER=${SAVIA_CRITIC_MAX_ITERATIONS:-3}
-SCORES_DIR="${PROJECT_ROOT:-$(pwd)}/.savia"
+SCORES_DIR="${PROJECT_ROOT:-$(pwd)}/output"
 SCORES_FILE="$SCORES_DIR/tribunal-scores.jsonl"
 
 # ── Argument parsing ────────────────────────────────────────────────────────
@@ -175,19 +175,38 @@ TOTAL_SCORE=$(( score_correctness + score_completeness + score_security + score_
 PASS_BOOL="false"
 [[ $TOTAL_SCORE -ge $THRESHOLD ]] && PASS_BOOL="true"
 
-# ── Log to .savia/tribunal-scores.jsonl ────────────────────────────────────
+# ── Build feedback string ────────────────────────────────────────────────────
+
+FEEDBACK_PARTS=()
+[[ $score_correctness -lt $WEIGHT_CORRECTNESS ]] && FEEDBACK_PARTS+=("correctness: add explicit PASS/FAIL verdict and remove CRITICAL issues")
+[[ $score_completeness -lt $WEIGHT_COMPLETENESS ]] && FEEDBACK_PARTS+=("completeness: cover ≥3 code areas (security, tests, errors, API, logging)")
+[[ $score_security -lt $WEIGHT_SECURITY ]] && FEEDBACK_PARTS+=("security: mention OWASP/CWE categories or confirm no issues found")
+[[ $score_spec -lt $WEIGHT_SPEC_COMPLIANCE ]] && FEEDBACK_PARTS+=("spec_compliance: reference AC-N or acceptance criteria explicitly")
+
+if [[ ${#FEEDBACK_PARTS[@]} -eq 0 ]]; then
+  FEEDBACK="All dimensions meet threshold."
+else
+  FEEDBACK="${FEEDBACK_PARTS[*]}"
+  # Join with "; "
+  FEEDBACK=$(IFS="; "; echo "${FEEDBACK_PARTS[*]}")
+fi
+
+# ── Log to output/tribunal-scores.jsonl ─────────────────────────────────────
 
 mkdir -p "$SCORES_DIR"
 TIMESTAMP="$(date -u +%Y-%m-%dT%H:%M:%SZ)"
 VERDICT_BASENAME="$(basename "$VERDICT_FILE")"
 
+# Escape feedback for JSON
+FEEDBACK_ESCAPED="${FEEDBACK//\"/\\\"}"
+
 cat >> "$SCORES_FILE" <<EOF
-{"timestamp":"$TIMESTAMP","verdict_file":"$VERDICT_BASENAME","score":$TOTAL_SCORE,"breakdown":{"correctness":$score_correctness,"completeness":$score_completeness,"security":$score_security,"spec_compliance":$score_spec},"pass":$PASS_BOOL,"threshold":$THRESHOLD}
+{"timestamp":"$TIMESTAMP","verdict_file":"$VERDICT_BASENAME","score":$TOTAL_SCORE,"breakdown":{"correctness":$score_correctness,"completeness":$score_completeness,"security":$score_security,"spec_compliance":$score_spec},"pass":$PASS_BOOL,"threshold":$THRESHOLD,"feedback":"$FEEDBACK_ESCAPED"}
 EOF
 
 # ── Output ──────────────────────────────────────────────────────────────────
 
-JSON_RESULT="{\"score\":$TOTAL_SCORE,\"breakdown\":{\"correctness\":$score_correctness,\"completeness\":$score_completeness,\"security\":$score_security,\"spec_compliance\":$score_spec},\"pass\":$PASS_BOOL,\"threshold\":$THRESHOLD}"
+JSON_RESULT="{\"score\":$TOTAL_SCORE,\"breakdown\":{\"correctness\":$score_correctness,\"completeness\":$score_completeness,\"security\":$score_security,\"spec_compliance\":$score_spec},\"pass\":$PASS_BOOL,\"threshold\":$THRESHOLD,\"feedback\":\"$FEEDBACK_ESCAPED\"}"
 
 if [[ "$JSON_OUTPUT" == true ]]; then
   echo "$JSON_RESULT"
@@ -202,6 +221,8 @@ else
   echo "─────────────────────────────────────"
   echo "Total          : $TOTAL_SCORE / 100  (threshold: $THRESHOLD)"
   echo "Result         : $([ "$PASS_BOOL" = "true" ] && echo PASS || echo FAIL)"
+  echo ""
+  echo "Feedback       : $FEEDBACK"
 fi
 
 # ── Exit codes ──────────────────────────────────────────────────────────────
@@ -215,7 +236,7 @@ else
     echo "" >&2
     echo "FAIL: score $TOTAL_SCORE < threshold $THRESHOLD" >&2
   else
-    echo "{\"error\":\"score_below_threshold\",\"score\":$TOTAL_SCORE,\"threshold\":$THRESHOLD}" >&2
+    echo "{\"error\":\"score_below_threshold\",\"score\":$TOTAL_SCORE,\"threshold\":$THRESHOLD,\"feedback\":\"$FEEDBACK_ESCAPED\"}" >&2
   fi
   exit 1
 fi

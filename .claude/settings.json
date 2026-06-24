@@ -836,6 +836,36 @@
           }
         ]
       }
+    ],
+    "PostTurn": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash \"$CLAUDE_PROJECT_DIR\"/scripts/context-condenser.sh --session-log \"${CLAUDE_PROJECT_DIR:-$(pwd)}/output/session-action-log.jsonl\" 2>/dev/null &",
+            "async": true,
+            "timeout": 10,
+            "statusMessage": "SE-200: comprobando ventana de contexto...",
+            "_spec": "SE-200",
+            "_default": "off — opt-in via SAVIA_CONDENSER_ENABLED=true"
+          }
+        ]
+      }
+    ],
+    "PreTurn": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "[ -z \"${SAVIA_SKILL_TRIGGERS:-}\" ] || bash \"$CLAUDE_PROJECT_DIR\"/scripts/skill-keyword-detector.sh --json \"${CLAUDE_HUMAN_TURN_INPUT:-}\" 2>/dev/null | grep -v '^\\[\\]$' >&2 || true",
+            "async": true,
+            "timeout": 5,
+            "statusMessage": "SE-203: detectando skill triggers...",
+            "_spec": "SE-203",
+            "_default": "off — opt-in via SAVIA_SKILL_TRIGGERS=true"
+          }
+        ]
+      }
     ]
   },
   "_doc_se202_example": "SE-202 agent hook pattern — to enable: add to PreToolUse hooks: { \"type\": \"command\", \"command\": \"bash \\\"$CLAUDE_PROJECT_DIR\\\"/scripts/agent-hook-runner.sh --agent security-guardian --event \\\"{\\\"tool\\\":\\\"$TOOL_NAME\\\",\\\"tool_input\\\":\\\"$TOOL_INPUT\\\"}\\\"\", \"timeout\": 30 } — exit 0=allow, exit 2=deny. Ref: docs/rules/domain/agent-hook-protocol.md",

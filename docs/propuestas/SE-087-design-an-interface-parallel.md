@@ -1,14 +1,14 @@
 ---
 id: SE-087
 title: SE-087 — Design-an-interface skill (parallel sub-agents for module interface alternatives)
-status: APPROVED
+status: IMPLEMENTED
 origin: mattpocock/skills/design-an-interface (MIT) — análisis 2026-04-27
 author: Savia
 priority: media
 effort: M 4h
 related: SE-074 parallel-specs-orchestrator, SE-082 architectural-vocabulary, architect agent
 approved_at: "2026-04-27"
-applied_at: null
+applied_at: "2026-06-24"
 expires: "2026-06-27"
 era: 190
 ---
