@@ -1,7 +1,7 @@
 ---
 spec_id: SE-220
 title: "Jailbreak defenses + context distribution optimization"
-status: PROPOSED
+status: APPROVED
 priority: P2
 effort: M
 era: 206

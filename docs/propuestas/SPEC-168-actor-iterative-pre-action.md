@@ -1,7 +1,7 @@
 ---
 id: SPEC-168
 title: Actor iterative pre-action (inner loop with world-model)
-status: PROPOSED
+status: APPROVED
 priority: LOW
 estimated_hours: 10
 tier: 3

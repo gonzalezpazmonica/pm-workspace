@@ -1,7 +1,7 @@
 ---
 spec_id: SPEC-191
 title: "Savia Telemetry — OpenTelemetry Observability Dashboard"
-status: PROPOSED
+status: APPROVED
 tier: 1B
 effort: TBD
 era: 199

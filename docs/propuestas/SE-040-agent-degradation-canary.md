@@ -1,7 +1,7 @@
 ---
 id: SE-040
 title: Agent Degradation Canary — detectar regresiones de modelo vía métricas canarias
-status: PROPOSED
+status: APPROVED
 origin: Issue anthropics/claude-code#42796 (research 2026-04-18) — degradación Claude Code desde febrero con extended thinking reducido
 author: Savia
 related: agent-trace skill, session-actions.jsonl, SPEC-108 agent self-improvement

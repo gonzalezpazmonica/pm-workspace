@@ -1,7 +1,7 @@
 ---
 id: SPEC-163
 title: Router Modo 1 / Modo 2 (System 1/2 dispatch)
-status: PROPOSED
+status: APPROVED
 priority: HIGH
 estimated_hours: 6
 tier: 1A

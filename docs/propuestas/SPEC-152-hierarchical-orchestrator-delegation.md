@@ -1,7 +1,7 @@
 ---
 spec_id: SPEC-152
 title: Delegación jerárquica en orquestadores — feature leads en lugar de fan-out plano
-status: PROPOSED
+status: APPROVED
 origin: Investigación 2026-05-23 (P8 + paper arXiv 2509.08646 "Architecting Resilient LLM Agents"). El patrón "Hierarchical Teams + Plan-and-Execute orchestrator + ReAct workers" es el consenso production 2026. Savia hoy hace orquestación plana (dev-orchestrator reparte directo a developers).
 severity: Media-Alta — contención de contexto y escalabilidad.
 effort: ~18h (M) — refactor de 2 orquestadores + tests.

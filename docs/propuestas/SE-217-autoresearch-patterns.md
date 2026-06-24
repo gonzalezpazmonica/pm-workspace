@@ -1,7 +1,7 @@
 ---
 spec_id: SE-217
 title: "autoresearch patterns: agent-run-log, time-budget, surface-guard"
-status: PROPOSED
+status: IMPLEMENTED
 priority: P2
 effort: M
 era: 204

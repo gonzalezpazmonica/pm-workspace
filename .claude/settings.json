@@ -297,6 +297,28 @@
         ]
       },
       {
+        "matcher": "Read|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"\"/.opencode/hooks/context-sanitize-input.sh",
+            "timeout": 8,
+            "statusMessage": "SPEC-193: sanitizando input Unicode..."
+          }
+        ]
+      },
+      {
+        "matcher": "Bash(bash*memory-store*save*)",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"\"/.opencode/hooks/memory-write-sanitize.sh",
+            "timeout": 8,
+            "statusMessage": "SPEC-193: sanitizando escritura de memoria..."
+          }
+        ]
+      },
+      {
         "matcher": "Agent",
         "hooks": [
           {
@@ -638,6 +660,16 @@
             "async": true,
             "timeout": 5000,
             "statusMessage": "Memory context priming..."
+          }
+        ]
+      },
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"\"/.opencode/hooks/re-anchor-redlines.sh",
+            "timeout": 5,
+            "statusMessage": "SPEC-193: re-anchor L1-L5 periodico..."
           }
         ]
       }

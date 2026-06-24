@@ -1,7 +1,7 @@
 ---
 id: SPEC-073
 title: SPEC-073: Query Keyword Expansion — Expansión de Consultas antes de Búsqueda
-status: PROPOSED
+status: APPROVED
 origin_date: "2026-03-25"
 migrated_at: "2026-04-19"
 migrated_from: body-prose

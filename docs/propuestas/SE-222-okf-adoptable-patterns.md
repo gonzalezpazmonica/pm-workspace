@@ -1,7 +1,7 @@
 ---
 spec_id: SE-222
 title: OKF Adoptable Patterns — resource URI + log.md convention + index.md progressive disclosure
-status: PROPOSED
+status: APPROVED
 priority: P2
 effort: S (~8h total: S0 2h + S1 2h + S2 2h + S3 2h)
 era: 208

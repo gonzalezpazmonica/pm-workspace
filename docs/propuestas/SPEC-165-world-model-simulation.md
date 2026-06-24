@@ -1,7 +1,7 @@
 ---
 id: SPEC-165
 title: World-model simulation for pre-action validation
-status: PROPOSED
+status: APPROVED
 priority: MEDIUM
 estimated_hours: 12
 tier: 2

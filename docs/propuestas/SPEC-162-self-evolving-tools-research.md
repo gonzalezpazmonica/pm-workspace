@@ -1,7 +1,7 @@
 ---
 id: SPEC-162
 title: Self-Evolving Tools (research)
-status: PROPOSED
+status: APPROVED
 priority: LOW
 estimated_hours: 12
 tier: 3F

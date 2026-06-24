@@ -1,7 +1,7 @@
 ---
 id: SPEC-159
 title: Async Tribunal Fan-out
-status: PROPOSED
+status: IMPLEMENTED
 priority: MEDIUM
 estimated_hours: 8
 tier: 2D

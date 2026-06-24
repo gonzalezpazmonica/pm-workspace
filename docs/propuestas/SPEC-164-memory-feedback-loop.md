@@ -1,7 +1,7 @@
 ---
 id: SPEC-164
 title: Memory feedback loop (auto-memory writes from outcomes)
-status: PROPOSED
+status: APPROVED
 priority: HIGH
 estimated_hours: 5
 tier: 1A

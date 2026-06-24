@@ -13,15 +13,46 @@
     "docs/rules/domain/caveman-default.md",
     "docs/rules/domain/agents-catalog.md"
   ],
+  "plugin": ["opencode-sandbox"],
+  "experimental": {
+    "sandbox": {
+      "policy_dir": ".opencode/sandbox-policies",
+      "default_policy": "default-readonly",
+      "fail_if_unavailable": false,
+      "enabled": false
+    }
+  },
   "agent": {
     "build": {
       "mode": "primary",
       "model": "github-copilot/claude-opus-4.7",
       "permission": {
         "edit": "allow",
-        "bash": "allow",
         "task": "allow",
-        "webfetch": "allow"
+        "webfetch": "allow",
+        "bash": {
+          "rm -rf *": "deny",
+          "rm -rf /*": "deny",
+          "chmod 777 *": "deny",
+          "chmod -R 777 *": "deny",
+          "curl * | sh": "deny",
+          "curl * | bash": "deny",
+          "wget * | sh": "deny",
+          "wget * | bash": "deny",
+          "git push --force *": "ask",
+          "git push -f *": "ask",
+          "git reset --hard *": "ask",
+          "git clean -fd *": "ask",
+          "git *": "allow",
+          "gh *": "allow",
+          "dotnet *": "allow",
+          "npm *": "allow",
+          "python3 *": "allow",
+          "pytest *": "allow",
+          "bats *": "allow",
+          "bash *": "allow",
+          "*": "allow"
+        }
       }
     },
     "plan": {

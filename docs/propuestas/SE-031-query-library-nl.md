@@ -1,7 +1,7 @@
 ---
 id: SE-031
 title: Query Library + NL-to-WIQL/JQL — Retool-inspired patterns
-status: PROPOSED
+status: APPROVED
 origin: Retool research (2026-04-18) — roba Query Library + NL-to-SQL patterns
 author: Savia
 related: nl-query skill, azure-devops-queries skill, savia-flow skill

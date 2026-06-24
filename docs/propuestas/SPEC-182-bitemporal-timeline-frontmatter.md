@@ -1,7 +1,7 @@
 ---
 spec_id: SPEC-182
 title: Bi-temporal timeline frontmatter on specs and decisions
-status: PROPOSED
+status: APPROVED
 tier: 1
 priority: P2
 effort: 6-8h
