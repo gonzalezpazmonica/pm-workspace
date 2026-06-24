@@ -1,5 +1,5 @@
 {
-  "hash": "b3e27de201d2",
+  "hash": "f8957aefe4e1",
   "total": 1300,
   "resources": [
     {
@@ -1693,7 +1693,7 @@
       ],
       "kind": "script",
       "path": "scripts/savia-orchestrator-helper.sh",
-      "description": "savia-orchestrator-helper.sh — SPEC-127 Slice 4"
+      "description": "savia-orchestrator-helper.sh — SPEC-127 Slice 4 + SE-106"
     },
     {
       "category": "communication",
