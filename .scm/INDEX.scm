@@ -1,6 +1,6 @@
 # Savia Capability Map — INDEX
-> hash: d8b749fea26a | resources: 1301
-> 557 commands · 105 skills · 75 agents · 564 scripts
+> hash: 4221001605fc | resources: 1303
+> 557 commands · 105 skills · 75 agents · 566 scripts
 
 [analysis] /a11y-report — accesibilidad,completos,conformidad,código,declaración — cmd:.claude/commands/a11y-report.md
 [analysis] Trace Optimize — across,distributed,optimize,rates,sampling — cmd:.claude/commands/trace-optimize.md
@@ -809,6 +809,7 @@
 [planning] orgchart-import — equipo,estructura,extraer,importa,organigrama — skill:.claude/skills/orgchart-import/SKILL.md
 [planning] oumi-probe — integration,oumi,probe,slice,viability — script:scripts/oumi-probe.sh
 [planning] outcome-track — entregó,esperado,feature,outcomes,post — cmd:.claude/commands/outcome-track.md
+[planning] output-cleanup — cleanup,ficheros,output,política,rotación — script:scripts/output-cleanup.sh
 [planning] output-compress — compress,output,stdin,stdout,tool — script:scripts/output-compress.sh
 [planning] overnight-sprint — autónoma,bajo,durante,ejecutar,forma — skill:.claude/skills/overnight-sprint/SKILL.md
 [planning] path-redact — absolute,containing,home,path,paths — script:scripts/path-redact.sh
@@ -1096,6 +1097,7 @@
 [quality] dependencies-audit —  — cmd:.claude/commands/dependencies-audit.md
 [quality] doc-health-audit — audit,auditor,documentation,health — script:scripts/doc-health-audit.sh
 [quality] docs-quality-audit — agentes,auditar,basada,calidad,documentacion — cmd:.claude/commands/docs-quality-audit.md
+[quality] dormant-rules-review — dormant,dormidas,reglas,review,revisión — script:scripts/dormant-rules-review.sh
 [quality] drift-auditor — auditoría,cambios,config,convergencia,código — agent:.opencode/agents/drift-auditor.md
 [quality] enterprise/audit-purge — audit,purge,retention,spec — script:scripts/enterprise/audit-purge.sh
 [quality] enterprise/audit-search — audit,inspector,search,spec — script:scripts/enterprise/audit-search.sh

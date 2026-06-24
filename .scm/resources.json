@@ -1,6 +1,6 @@
 {
-  "hash": "2984c44e4b6a",
-  "total": 1301,
+  "hash": "1226ce8b3301",
+  "total": 1303,
   "resources": [
     {
       "category": "analysis",
@@ -10423,6 +10423,20 @@
     },
     {
       "category": "planning",
+      "name": "output-cleanup",
+      "intents": [
+        "cleanup",
+        "ficheros",
+        "output",
+        "política",
+        "rotación"
+      ],
+      "kind": "script",
+      "path": "scripts/output-cleanup.sh",
+      "description": "output-cleanup.sh — Rotación de ficheros en output/ según política SE-101"
+    },
+    {
+      "category": "planning",
       "name": "output-compress",
       "intents": [
         "compress",
@@ -14137,6 +14151,20 @@
       "kind": "cmd",
       "path": ".claude/commands/docs-quality-audit.md",
       "description": "Auditar calidad de documentacion basada en feedback de agentes"
+    },
+    {
+      "category": "quality",
+      "name": "dormant-rules-review",
+      "intents": [
+        "dormant",
+        "dormidas",
+        "reglas",
+        "review",
+        "revisión"
+      ],
+      "kind": "script",
+      "path": "scripts/dormant-rules-review.sh",
+      "description": "dormant-rules-review.sh — Revisión trimestral de reglas dormidas (SE-103)"
     },
     {
       "category": "quality",

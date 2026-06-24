@@ -1,5 +1,5 @@
 # planning — Savia Capability Map (L1)
-> 554 resources
+> 555 resources
 
 - **/accreditation-track** (cmd): >
 - **/decide-architecture** (cmd): Clasifica una tarea como WORKFLOW (deterministica) o AGENT (loop). Bias hacia workflow per Anthropic. Sugiere plantilla inicial. Mide accuracy contra corpus curado de 20 tareas.
@@ -298,6 +298,7 @@
 - **orgchart-import** (skill): Usar cuando se importa un organigrama para extraer la estructura del equipo.
 - **oumi-probe** (script): oumi-probe.sh — SE-028 Slice 1 oumi integration viability probe.
 - **outcome-track** (cmd): Tracking de outcomes post-release — ¿la feature entregó el valor esperado?
+- **output-cleanup** (script): output-cleanup.sh — Rotación de ficheros en output/ según política SE-101
 - **output-compress** (script): output-compress.sh — Compress verbose tool output (stdin -> stdout)
 - **overnight-sprint** (skill): Usar cuando se quiere ejecutar tareas de bajo riesgo de forma autónoma durante la noche.
 - **path-redact** (script): path-redact.sh — Redact absolute paths containing $HOME from text
