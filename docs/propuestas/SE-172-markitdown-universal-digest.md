@@ -11,6 +11,7 @@ proposed_at: "2026-06-03"
 applied_at: null
 expires: "2026-09-03"
 era: 199
+resource: https://github.com/microsoft/markitdown
 ---
 
 # SE-172 — markitdown como capa 0 universal de digestión

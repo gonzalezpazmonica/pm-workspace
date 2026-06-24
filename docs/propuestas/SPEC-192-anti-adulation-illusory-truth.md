@@ -1,6 +1,7 @@
 ---
 status: IMPLEMENTED
 implemented_at: "2026-06-24"
+resource: https://doi.org/10.1037/xge0000098
 ---
 
 # SPEC-192 — Anti-Adulation & Illusory Truth Defense

@@ -1,6 +1,7 @@
 ---
 status: IMPLEMENTED
 implemented_at: "2026-06-24"
+resource: https://arxiv.org/abs/2402.00898
 ---
 
 # SPEC-193 — Context Provenance & Injection Hardening

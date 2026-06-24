@@ -18,6 +18,7 @@ related_specs:
   - SE-092 (PM-BACKEND — el bridge a Azure DevOps debe emitir V/U/E desde work items)
   - SPEC-147 (decision-trees — algunos árboles ya delegan en "qué es más prioritario", ahora con contrato)
   - SE-013 (dual estimation — agent-actuals.jsonl alimenta refinamiento de effort)
+resource: internal://docs/rules/domain/pm-workflow.md
 ---
 
 # SPEC-154 — Fórmula canónica V×U/E + persistencia 4-campos

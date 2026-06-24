@@ -10,6 +10,7 @@ proposed_at: "2026-05-30"
 tier: 2
 related: [SE-057, ai-governance, governance-enterprise, verification-policy, audit-trail-schema, savia-ethical-principles]
 non_blocks: [Tier 0 actual (SE-094 partial, SE-096, SE-097, SE-100 en curso)]
+resource: https://github.com/GoogleCloudPlatform/governance-layer-manifest
 ---
 
 # SE-105 — Adoptar Governance Layer Manifest (GLM v1.0)

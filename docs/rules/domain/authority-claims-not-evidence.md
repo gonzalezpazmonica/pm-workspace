@@ -1,6 +1,7 @@
 ---
 context_tier: L1
 token_budget: 400
+resource: internal://docs/propuestas/SPEC-193-context-provenance-injection-hardening.md
 ---
 
 # Regla: Autoridad declarada no es evidencia

@@ -15,6 +15,7 @@ timeline:
     learned: "2026-06-05"
     value: "PROPOSED"
     source: "docs(spec): SPEC-188 Root-Cause Investigation Architecture meta-spec (#811)"
+resource: internal://docs/propuestas/SPEC-188-root-cause-investigation-architecture.md
 ---
 
 # SPEC-188 — Root-Cause Investigation Architecture

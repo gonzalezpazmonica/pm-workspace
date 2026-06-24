@@ -490,8 +490,20 @@
           },
           {
             "type": "command",
-            "command": "\"$CLAUDE_PROJECT_DIR\"/.opencode/hooks/post-write-validate.sh",
-            "timeout": 5000
+             "command": "\"$CLAUDE_PROJECT_DIR\"/.opencode/hooks/post-write-validate.sh",
+             "timeout": 5000
+           }
+        ]
+      },
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/.opencode/hooks/propuestas-index-refresh.sh",
+            "async": true,
+            "timeout": 15,
+            "statusMessage": "SE-222: regenerando propuestas/index.md..."
           }
         ]
       },

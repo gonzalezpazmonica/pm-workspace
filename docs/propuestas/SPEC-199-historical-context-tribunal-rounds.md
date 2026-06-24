@@ -1,5 +1,7 @@
 ---
-status: APPROVED
+status: IMPLEMENTED
+implemented_at: "2026-06-24"
+resource: https://github.com/google-deepmind/gemma/tree/main/gemma/diffusion
 ---
 
 # SPEC-199 — Self-Conditioning Between Tribunal Rounds

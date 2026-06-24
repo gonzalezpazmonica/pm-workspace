@@ -1,6 +1,7 @@
 ---
 status: IMPLEMENTED
 implemented_at: "2026-06-24"
+resource: internal://docs/propuestas/SPEC-194-criterion-simulation-layer.md
 ---
 
 # SPEC-194 — Criterion Simulation Layer

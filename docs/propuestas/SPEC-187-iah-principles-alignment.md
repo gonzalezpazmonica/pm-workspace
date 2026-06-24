@@ -17,6 +17,7 @@ timeline:
     learned: "2026-06-05"
     value: "PROPOSED"
     source: "docs(spec): SPEC-187 IAH principles alignment proposal (#810)"
+resource: internal://docs/rules/domain/savia-ethical-principles.md
 ---
 
 # SPEC-187 — Alineacion principios eticos Savia con marco IAH

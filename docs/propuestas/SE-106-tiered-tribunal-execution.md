@@ -7,6 +7,7 @@ effort: M
 estimated_time: 5h
 depends_on: [SPEC-106, SPEC-124, SPEC-125, SPEC-127]
 source: user request 2026-05-30 (token savings on tribunal runs)
+resource: internal://docs/propuestas/SPEC-125-recommendation-tribunal.md
 ---
 
 # SE-106 — Tiered tribunal execution

@@ -1,11 +1,12 @@
 ---
 id: SPEC-163
 title: Router Modo 1 / Modo 2 (System 1/2 dispatch)
-status: APPROVED
+status: IMPLEMENTED
 priority: HIGH
 estimated_hours: 6
 tier: 1A
 origin: lecun-jepa-h-research-2026
+implemented_at: "2026-06-24"
 ---
 
 # SPEC-163 Router Modo 1 / Modo 2

@@ -1,6 +1,7 @@
 ---
 status: IMPLEMENTED
 implemented_at: "2026-06-24"
+resource: https://github.com/CarlosVallejoRuiz/slurp
 ---
 
 # SPEC-189 — Greedy Context Budget Selection
