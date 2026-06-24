@@ -1,5 +1,5 @@
 # planning — Savia Capability Map (L1)
-> 555 resources
+> 554 resources
 
 - **/accreditation-track** (cmd): >
 - **/decide-architecture** (cmd): Clasifica una tarea como WORKFLOW (deterministica) o AGENT (loop). Bias hacia workflow per Anthropic. Sugiere plantilla inicial. Mide accuracy contra corpus curado de 20 tareas.
@@ -300,8 +300,6 @@
 - **outcome-track** (cmd): Tracking de outcomes post-release — ¿la feature entregó el valor esperado?
 - **output-compress** (script): output-compress.sh — Compress verbose tool output (stdin -> stdout)
 - **overnight-sprint** (skill): Usar cuando se quiere ejecutar tareas de bajo riesgo de forma autónoma durante la noche.
-- **overnight-sprint-loop** (script): scripts/overnight-sprint-loop.sh — SE-226: stateless overnight-sprint orchestrator
-- **overnight-sprint-state** (script): scripts/overnight-sprint-state.sh — SE-226: stateless-session loop state management
 - **path-redact** (script): path-redact.sh — Redact absolute paths containing $HOME from text
 - **pbi-assign** (cmd): Assign or reassign tasks based on intelligent allocation
 - **pbi-decompose** (cmd): Decompose a PBI into granular technical tasks
@@ -350,6 +348,7 @@
 - **project-update** (skill): Usar cuando se necesita una actualización integral del proyecto activo desde todas las fuentes.
 - **project-update-devops** (script): project-update-devops.sh — wrapper que resuelve config real desde
 - **prompt-optimizer** (skill): Usar cuando se optimiza el prompt de un skill o agente para mejorar su efectividad.
+- **propuestas-index-gen** (script): propuestas-index-gen.sh — SE-222 S2: auto-generate INDEX.md for docs/propuestas/
 - **protect-project-privacy** (script): protect-project-privacy.sh — Barrera de protección contra publicación accidental de proyectos
 - **pursuit-bid** (cmd): Record bid/no-bid decision for a qualified pursuit
 - **pursuit-close** (cmd): Close a pursuit as won or lost and trigger post-mortem analysis
