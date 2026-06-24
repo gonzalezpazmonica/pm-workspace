@@ -1,6 +1,6 @@
 {
-  "hash": "55cacb6a340b",
-  "total": 1298,
+  "hash": "b3e27de201d2",
+  "total": 1300,
   "resources": [
     {
       "category": "analysis",
@@ -4240,6 +4240,20 @@
     },
     {
       "category": "development",
+      "name": "spec-lifecycle",
+      "intents": [
+        "append",
+        "lifecycle",
+        "only",
+        "spec",
+        "status"
+      ],
+      "kind": "script",
+      "path": "scripts/spec-lifecycle.sh",
+      "description": "spec-lifecycle.sh — SE-222 S1: spec status transitions + append-only LOG.md"
+    },
+    {
+      "category": "development",
       "name": "spec-opencode-plan-audit",
       "intents": [
         "approved",
@@ -4334,6 +4348,20 @@
       "kind": "script",
       "path": "scripts/spec-status-normalize.sh",
       "description": "spec-status-normalize.sh — audit and normalize `status:` field across all"
+    },
+    {
+      "category": "development",
+      "name": "spec-validator",
+      "intents": [
+        "field",
+        "frontmatter",
+        "resource",
+        "spec",
+        "validates"
+      ],
+      "kind": "script",
+      "path": "scripts/spec-validator.sh",
+      "description": "spec-validator.sh — SE-222 S0: validates resource: URI field in spec frontmatter"
     },
     {
       "category": "development",
