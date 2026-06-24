@@ -350,6 +350,7 @@
 - **project-update** (skill): Usar cuando se necesita una actualización integral del proyecto activo desde todas las fuentes.
 - **project-update-devops** (script): project-update-devops.sh — wrapper que resuelve config real desde
 - **prompt-optimizer** (skill): Usar cuando se optimiza el prompt de un skill o agente para mejorar su efectividad.
+- **propuestas-index-gen** (script): propuestas-index-gen.sh — SE-222 S2: auto-generate INDEX.md for docs/propuestas/
 - **protect-project-privacy** (script): protect-project-privacy.sh — Barrera de protección contra publicación accidental de proyectos
 - **pursuit-bid** (cmd): Record bid/no-bid decision for a qualified pursuit
 - **pursuit-close** (cmd): Close a pursuit as won or lost and trigger post-mortem analysis
