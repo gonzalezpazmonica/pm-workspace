@@ -1,6 +1,6 @@
 # Savia Capability Map — INDEX
-> hash: 6c9ba6cff7e0 | resources: 1300
-> 557 commands · 105 skills · 75 agents · 563 scripts
+> hash: 2eb32c7f81ad | resources: 1302
+> 557 commands · 105 skills · 75 agents · 565 scripts
 
 [analysis] /a11y-report — accesibilidad,completos,conformidad,código,declaración — cmd:.claude/commands/a11y-report.md
 [analysis] Trace Optimize — across,distributed,optimize,rates,sampling — cmd:.claude/commands/trace-optimize.md
@@ -1017,6 +1017,8 @@
 [planning] travel-unpack — desempaca,máquina,nueva,workspace — cmd:.claude/commands/travel-unpack.md
 [planning] travel-verify — integridad,paquete,verifica,viaje — cmd:.claude/commands/travel-verify.md
 [planning] tribunal-critic — critic,quantitative,scoring,tribunal,verdicts — script:scripts/tribunal-critic.sh
+[planning] tribunal-hard-gates — gates,hard,slice,tribunal — script:scripts/tribunal-hard-gates.sh
+[planning] tribunal-nonce-gen — entropy,generator,nonce,slice,tribunal — script:scripts/tribunal-nonce-gen.sh
 [planning] tribunal-status — depth,evaluations,pending,queue,recent — cmd:.claude/commands/tribunal-status.md
 [planning] truth-tribunal-orchestrator — aggregates,applies,convenes,drives,iteration — agent:.opencode/agents/truth-tribunal-orchestrator.md
 [planning] truth-tribunal-worker — consume,queued,tribunal,truth,verification — script:scripts/truth-tribunal-worker.sh

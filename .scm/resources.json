@@ -1,6 +1,6 @@
 {
-  "hash": "b3e27de201d2",
-  "total": 1300,
+  "hash": "d371a597bd48",
+  "total": 1302,
   "resources": [
     {
       "category": "analysis",
@@ -13103,6 +13103,33 @@
       "kind": "script",
       "path": "scripts/tribunal-critic.sh",
       "description": "tribunal-critic.sh — SE-201: quantitative scoring for tribunal verdicts"
+    },
+    {
+      "category": "planning",
+      "name": "tribunal-hard-gates",
+      "intents": [
+        "gates",
+        "hard",
+        "slice",
+        "tribunal"
+      ],
+      "kind": "script",
+      "path": "scripts/tribunal-hard-gates.sh",
+      "description": "tribunal-hard-gates.sh — SE-227 Slice 1"
+    },
+    {
+      "category": "planning",
+      "name": "tribunal-nonce-gen",
+      "intents": [
+        "entropy",
+        "generator",
+        "nonce",
+        "slice",
+        "tribunal"
+      ],
+      "kind": "script",
+      "path": "scripts/tribunal-nonce-gen.sh",
+      "description": "tribunal-nonce-gen.sh — SE-227 Slice 1 — E3 entropy nonce generator"
     },
     {
       "category": "planning",
