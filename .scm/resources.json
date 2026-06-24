@@ -1,6 +1,6 @@
 {
-  "hash": "525cb9a5b336",
-  "total": 1299,
+  "hash": "b3e27de201d2",
+  "total": 1300,
   "resources": [
     {
       "category": "analysis",
@@ -4237,6 +4237,20 @@
       "kind": "agent",
       "path": ".opencode/agents/spec-judge.md",
       "description": "Code Review Court judge — implementation vs approved spec, acceptance criteria"
+    },
+    {
+      "category": "development",
+      "name": "spec-lifecycle",
+      "intents": [
+        "append",
+        "lifecycle",
+        "only",
+        "spec",
+        "status"
+      ],
+      "kind": "script",
+      "path": "scripts/spec-lifecycle.sh",
+      "description": "spec-lifecycle.sh — SE-222 S1: spec status transitions + append-only LOG.md"
     },
     {
       "category": "development",
