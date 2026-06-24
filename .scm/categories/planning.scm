@@ -1,5 +1,5 @@
 # planning — Savia Capability Map (L1)
-> 555 resources
+> 554 resources
 
 - **/accreditation-track** (cmd): >
 - **/decide-architecture** (cmd): Clasifica una tarea como WORKFLOW (deterministica) o AGENT (loop). Bias hacia workflow per Anthropic. Sugiere plantilla inicial. Mide accuracy contra corpus curado de 20 tareas.
@@ -348,6 +348,7 @@
 - **project-update** (skill): Usar cuando se necesita una actualización integral del proyecto activo desde todas las fuentes.
 - **project-update-devops** (script): project-update-devops.sh — wrapper que resuelve config real desde
 - **prompt-optimizer** (skill): Usar cuando se optimiza el prompt de un skill o agente para mejorar su efectividad.
+- **propuestas-index-gen** (script): propuestas-index-gen.sh — SE-222 S2: auto-generate INDEX.md for docs/propuestas/
 - **protect-project-privacy** (script): protect-project-privacy.sh — Barrera de protección contra publicación accidental de proyectos
 - **pursuit-bid** (cmd): Record bid/no-bid decision for a qualified pursuit
 - **pursuit-close** (cmd): Close a pursuit as won or lost and trigger post-mortem analysis
@@ -506,8 +507,6 @@
 - **travel-unpack** (cmd): Desempaca tu workspace desde USB en una nueva máquina.
 - **travel-verify** (cmd): Verifica integridad de un paquete de viaje en USB.
 - **tribunal-critic** (script): tribunal-critic.sh — SE-201: quantitative scoring for tribunal verdicts
-- **tribunal-hard-gates** (script): tribunal-hard-gates.sh — SE-227 Slice 1
-- **tribunal-nonce-gen** (script): tribunal-nonce-gen.sh — SE-227 Slice 1 — E3 entropy nonce generator
 - **tribunal-status** (cmd): Show Truth Tribunal queue depth, recent verdicts, and pending evaluations
 - **truth-tribunal-orchestrator** (agent): Truth Tribunal orchestrator — convenes 7 judges, aggregates scores, applies vetos, drives iteration
 - **truth-tribunal-worker** (script): truth-tribunal-worker.sh — Consume queued Truth Tribunal verification
