@@ -1,14 +1,14 @@
 ---
 id: SE-085
 title: SE-085 — Write-a-skill meta-skill (skill creation discipline)
-status: APPROVED
+status: IMPLEMENTED
 origin: mattpocock/skills/write-a-skill (MIT) — análisis 2026-04-27
 author: Savia
 priority: baja
 effort: S 2h
 related: SE-084 (audit), SE-081/083/086/087 (skills nuevos siguiendo el pattern)
 approved_at: "2026-04-27"
-applied_at: null
+applied_at: "2026-06-24"
 expires: "2026-06-27"
 era: 190
 ---
