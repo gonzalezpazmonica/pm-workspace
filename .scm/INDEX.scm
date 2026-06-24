@@ -1,6 +1,6 @@
 # Savia Capability Map — INDEX
-> hash: 707520a7bd29 | resources: 1298
-> 557 commands · 105 skills · 75 agents · 561 scripts
+> hash: 6c9ba6cff7e0 | resources: 1300
+> 557 commands · 105 skills · 75 agents · 563 scripts
 
 [analysis] /a11y-report — accesibilidad,completos,conformidad,código,declaración — cmd:.claude/commands/a11y-report.md
 [analysis] Trace Optimize — across,distributed,optimize,rates,sampling — cmd:.claude/commands/trace-optimize.md
@@ -328,6 +328,7 @@
 [development] spec-id-duplicates-check — check,duplicates,gate,slice,spec — script:scripts/spec-id-duplicates-check.sh
 [development] spec-implement — agente,asigna,developer,humano,implementa — cmd:.claude/commands/spec-implement.md
 [development] spec-judge — acceptance,approved,code,court,criteria — agent:.opencode/agents/spec-judge.md
+[development] spec-lifecycle — append,lifecycle,only,spec,status — script:scripts/spec-lifecycle.sh
 [development] spec-opencode-plan-audit — approved,audit,every,implemented,include — script:scripts/spec-opencode-plan-audit.sh
 [development] spec-quality-auditor — auditor,deterministic,quality,scorer,spec — script:scripts/spec-quality-auditor.sh
 [development] spec-review — coherence,completeness,review,specification — cmd:.claude/commands/spec-review.md
@@ -335,6 +336,7 @@
 [development] spec-status — approval,check,specification,state,status — cmd:.claude/commands/spec-status.md
 [development] spec-status-drift-audit — audit,detect,disk,drift,implemented — script:scripts/spec-status-drift-audit.sh
 [development] spec-status-normalize — across,audit,field,normalize,spec — script:scripts/spec-status-normalize.sh
+[development] spec-validator — field,frontmatter,resource,spec,validates — script:scripts/spec-validator.sh
 [development] spec-verify — against,criteria,implementation,specification,verify — cmd:.claude/commands/spec-verify.md
 [development] spec-verify-ui — componente,comprueba,cumple,implementado,spec — cmd:.claude/commands/spec-verify-ui.md
 [development] spec156-migrate-token-budget — budget,flat,migrate,nested,object — script:scripts/spec156-migrate-token-budget.sh
