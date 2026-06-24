@@ -134,14 +134,14 @@ SIEMPRE → Registrar CADA intento en results.tsv
 SIEMPRE → Generar audit log
 ```
 
-## Métricas de éxito
+> **Metricas**: PRs/sesion ≥5, aceptacion ≥70%, crashes ≤3. SE-206: `scripts/agent-wait-idle.sh`.
 
-| Métrica | Objetivo |
-|---------|----------|
-| PRs creados por sesión | ≥ 5 |
-| Tasa de aceptación (PRs merged por humano) | ≥ 70% |
-| Crashes por sesión | ≤ 3 |
-| Tiempo medio por tarea | ≤ AGENT_TASK_TIMEOUT_MINUTES |
+## Modo CI Unblock (--mode ci-unblock)
 
+Desbloquea PRs con CI roto por orden PR# ASC usando nidos.sh como aislamiento.
+Ver `CI-UNBLOCK.md`. Prerequisito: `CI_UNBLOCK_NEST_ENABLED=true` + doble opt-in SPEC-186.
 
-> **SE-206**: Para detección dinámica de idle entre tareas usar `scripts/agent-wait-idle.sh`. Ver `docs/rules/domain/agent-idle-protocol.md`.
+```
+/overnight-sprint --mode ci-unblock [--repo owner/repo] [--limit N]
+```
+

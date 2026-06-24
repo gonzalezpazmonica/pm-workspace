@@ -119,7 +119,47 @@ Re-implementación clean-room de `dreamxist/balance` `supabase/migrations/202604
 
 ## No hace (esta Slice)
 
-- NO implementa hook `block-pat-file-write.sh` (Slice 3).
-- NO sunset de `~/.azure/devops-pat` (Slice 3, opt-in tras 1 sprint canary verde).
-- NO añade dependencia auth provider externo (Auth0 / Okta) — JWT firmado localmente.
+- block-pat-file-write.sh implementado (Slice 3 completado, ver seccion 6).
+- Sunset de ~/.azure/devops-pat: opt-in tras 1 sprint canary verde (ver seccion 7).
+- NO dependencia auth provider externo (no Auth0 / Okta) — JWT firmado localmente.
 - NO toca SSO de SPEC-SE-001 foundations (orthogonal).
+
+---
+
+## Slice 3 — Migration + sunset PAT files
+
+### 6. Hook block-pat-file-write.sh (AC-06)
+
+Ubicacion: .opencode/hooks/block-pat-file-write.sh
+
+Intercepta tool Write y Edit que apunte a un path con 'pat' (case-insensitive).
+Si el path no esta gitignored: BLOQUEADO con mensaje educativo.
+Si esta gitignored (p.ej. ~/.savia/secrets/agent.pat): permitido como fallback durante transicion.
+
+Registro en settings.json:
+  event: PreToolUse, matcher: Write|Edit, script: block-pat-file-write.sh
+
+### 7. PAT-shaped string detection en comandos (AC-07)
+
+block-credential-leak.sh extendido con patron SPEC-SE-036: detecta strings 40+ chars
+alfanumericos en contexto de autenticacion (=, ": ", "Bearer ", "Authorization: ").
+Excluye falsos positivos: hashes git puro (40 hex lowercase), paths filesystem.
+
+### 8. Guia de sunset PAT files (opt-in tras 1 sprint canary verde)
+
+Despues de verificar que el flujo JWT funciona durante 1 sprint completo:
+
+  Paso 1: auditar que scripts leen PAT files
+    grep -r 'cat.*pat|\.pat' scripts/ .opencode/hooks/
+
+  Paso 2: reemplazar cada $(cat $PAT_FILE) por el flow JWT:
+    export SAVIA_AGENT_API_KEY=$(cat ~/.savia/secrets/agent.key)
+    JWT=$(jwt-mint.sh --key-stdin --scope github:write <<<"$SAVIA_AGENT_API_KEY")
+
+  Paso 3: una vez migrado, revocar el token en azure/github y borrar el file:
+    rm -f ~/.azure/devops-pat ~/.savia/secrets/*.pat
+
+  Paso 4: marcar en SPEC-SE-036 "Slice 3 sunset completado YYYYMMDD"
+
+Invariante: mientras PAT files existan en disco (aunque gitignored), siguen siendo
+validos como fallback. El hook solo bloquea escrituras nuevas a paths no-gitignored.
