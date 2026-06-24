@@ -435,3 +435,50 @@ Métricas baseline (auditoría 2026-05-27, para futura comparativa):
 - INDEX.md 165 líneas · output/ 4.7 MB 312 ficheros >30d · 53 refs legacy `.claude/`
 
 Próxima auditoría: post-Tier 1+2.
+
+---
+
+## 14. Inyección 2026-06-24 — Research externa (4 repos, 5 aprendizajes)
+
+Origen: investigación paralela de SantanderAI, Google Research/timesfm, DeusData/codebase-memory-mcp, chopratejas/headroom. Todos PROPOSED; priorización por impacto/esfuerzo.
+
+### Orden de prioridad
+
+| Rank | Spec | Prio | Effort | Impacto | Por qué este orden |
+|---:|---|---|---|---|---|
+| 1 | **SE-223** codebase-memory-mcp Code Twin | P1 | M 6h | 120x reducción tokens estructurales | Mayor ROI inmediato. Slice 1 es smoke test: si falla en <2h, NO-GO sin coste. Desbloquea CRC (detect_changes). |
+| 2 | **SE-226** Stateless-session loop overnight-sprint | P1 | M 5h | Resiliencia modos autónomos | Evidencia directa: sesión se cortó hoy en checkout. El loop stateless previene pérdida de trabajo. |
+| 3 | **SE-224** Headroom effort routing + verbosity | P2 | S 3h | -29% output tokens en turns mecánicos | S effort con impacto directo en coste de sesiones largas. Slice 1 (sentinel) es XS. |
+| 4 | **SE-227** Mech-gov hard gates + E3 tribunales | P2 | M 6h | Reducción coste tribunales + anti pre-cooking | Antes de Slice 2 del Recommendation Tribunal (SPEC-125). Los gates mecánicos son prerequisito natural. |
+| 5 | **SE-225** TimesFM velocity forecast | P2 | M 5h | Forecasting cuantificado sprint | Diferido hasta tener 10+ sprints de historial. Fallback a EWMA si <10 puntos. |
+
+### DAG de dependencias
+
+```
+SE-223 (Code Twin MCP)
+  └─ Habilita: detect_changes en court-orchestrator (CRC pre-input)
+  └─ Relacionado: SE-162 (knowledge-graph), code-twin-agent
+
+SE-226 (stateless loop)
+  └─ Prerequisito natural para: SE-220 (overnight-sprint tasks pendientes)
+  └─ Aplicable también a: code-improvement-loop
+
+SE-224 (headroom)
+  └─ Slice 1 independiente (sentinel en cola system prompt)
+  └─ Slice 2 (effort router) complementa SE-226 (agents frescos = más turns mecánicos)
+
+SE-227 (hard gates)
+  └─ Prerequisito: antes de SPEC-125 Slice 2 (activar Recommendation Tribunal)
+  └─ Extiende: anti-adulation-telemetry.jsonl ya existente
+
+SE-225 (TimesFM)
+  └─ Sin dependencias técnicas. Diferir hasta 10+ sprints historial.
+```
+
+### Specs individuales
+
+- `docs/propuestas/SE-223-codebase-memory-mcp-code-twin.md`
+- `docs/propuestas/SE-224-headroom-effort-routing-verbosity.md`
+- `docs/propuestas/SE-225-timesfm-velocity-forecast.md`
+- `docs/propuestas/SE-226-stateless-session-loop-overnight-sprint.md`
+- `docs/propuestas/SE-227-mech-gov-hard-gates-tribunales.md`
