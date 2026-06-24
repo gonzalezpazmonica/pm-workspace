@@ -127,6 +127,21 @@ if echo "$COMMAND" | grep -iE 'sk-ant-[a-zA-Z0-9_-]{20,}' > /dev/null 2>&1; then
   exit 2
 fi
 
+# SPEC-SE-036 Slice 3: Detectar PAT-shaped strings en diff/comandos (40+ char hex/base64)
+# Patrón: strings de 40+ chars alfanuméricos contiguos que no sean paths, hashes de git,
+# ni checksums legítimos. Heurística conservadora: solo bloquea si aparece en contexto
+# de asignación (=, :, Bearer, Authorization).
+# Refs: SPEC-SE-036 AC-07, docs/rules/domain/savia-enterprise/agent-jwt-mint.md (Slice 3)
+if echo "$COMMAND" | grep -iE '(=|:\s*|Bearer\s+|Authorization:\s+)[A-Za-z0-9+/]{40,}[=]{0,2}([^A-Za-z0-9+/]|$)' > /dev/null 2>&1; then
+  # Excluir falsos positivos comunes: hashes git (40 hex), SHAs, base64 de ficheros legítimos
+  # Solo bloquear si NO es un hash git puro (40 hex lowercase) ni un path
+  if ! echo "$COMMAND" | grep -iE '(=|:\s*)[a-f0-9]{40}([^a-f0-9]|$)' > /dev/null 2>&1; then
+    echo "BLOQUEADO [SPEC-SE-036]: PAT-shaped string detectada (40+ chars en contexto de autenticación)." >&2
+    echo "Usa JWT efímero: jwt-mint.sh --key-stdin --scope <scope> o variable de entorno." >&2
+    exit 2
+  fi
+fi
+
 exit 0
 
 # Detectar PAT-shaped strings (SPEC-SE-036 Slice 3)

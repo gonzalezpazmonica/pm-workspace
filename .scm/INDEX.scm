@@ -1,6 +1,6 @@
 # Savia Capability Map — INDEX
-> hash: 6c9ba6cff7e0 | resources: 1300
-> 557 commands · 105 skills · 75 agents · 563 scripts
+> hash: f02bb4264154 | resources: 1302
+> 557 commands · 105 skills · 75 agents · 565 scripts
 
 [analysis] /a11y-report — accesibilidad,completos,conformidad,código,declaración — cmd:.claude/commands/a11y-report.md
 [analysis] Trace Optimize — across,distributed,optimize,rates,sampling — cmd:.claude/commands/trace-optimize.md
@@ -341,6 +341,7 @@
 [development] spec-verify-ui — componente,comprueba,cumple,implementado,spec — cmd:.claude/commands/spec-verify-ui.md
 [development] spec156-migrate-token-budget — budget,flat,migrate,nested,object — script:scripts/spec156-migrate-token-budget.sh
 [development] specs-frontmatter-normalize — frontmatter,normalization,normalize,slice,specs — script:scripts/specs-frontmatter-normalize.sh
+[development] speculative/feasibility-probe — execution,feasibility,probe,slice,speculative — script:scripts/speculative/feasibility-probe.sh
 [development] statusline-provider — claude,code,data,provider,statusline — script:scripts/statusline-provider.sh
 [development] sycophancy-judge — conversational,detects,drafts,empty,judge — agent:.opencode/agents/sycophancy-judge.md
 [development] tech-research — autonomous,designated,generates,human,investigates — cmd:.claude/commands/tech-research.md
@@ -859,6 +860,7 @@
 [planning] project-update — activo,actualización,fuentes,integral,proyecto — skill:.claude/skills/project-update/SKILL.md
 [planning] project-update-devops — config,devops,project,real,resuelve — script:scripts/project-update-devops.sh
 [planning] prompt-optimizer — agente,efectividad,mejorar,optimiza,prompt — skill:.claude/skills/prompt-optimizer/SKILL.md
+[planning] propuestas-index-gen — auto,docs,generate,index,propuestas — script:scripts/propuestas-index-gen.sh
 [planning] protect-project-privacy — accidental,barrera,contra,privacy,project — script:scripts/protect-project-privacy.sh
 [planning] pursuit-bid — decision,pursuit,qualified,record — cmd:.claude/commands/pursuit-bid.md
 [planning] pursuit-close — analysis,close,lost,mortem,post — cmd:.claude/commands/pursuit-close.md
