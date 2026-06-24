@@ -6,6 +6,7 @@ priority: P2
 effort: M
 era: 205
 origin: https://github.com/DeusData/codebase-memory-mcp (3.2k stars, MIT)
+resource: "https://github.com/DeusData/codebase-memory-mcp"
 inspiration: codebase-memory-mcp v0.7.0 — high-performance code intelligence engine (arXiv:2603.27277)
 deps:
   - scripts/knowledge-graph.py (implemented — SE-162)
