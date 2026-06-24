@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=8a3320817dc14a3c46dd2a2b184315bfbefadc9c3f3840c7b6d84474b5c09ae1
-timestamp=2026-06-24T16:47:46Z
+diff_hash=2a81fe8a182a7cb43972dcbc3dc94f0272d3aba8e3a3bfada7b2486e42b12e1c
+timestamp=2026-06-24T18:36:42Z
 branch=agent/se106-tiered-tribunal-20260624
-head_commit=b6c4db09
-signature=b96106fab6d0d0037d237efffa0aaef7c0f386fd93d7ee3e14e8f1f7b35fc985
+head_commit=a4768d5e
+signature=392f444b05ecb061ff0287f027e095b56325fbfb96d0a66d9c0bc51cb10fa369
