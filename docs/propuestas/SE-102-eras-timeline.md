@@ -1,8 +1,9 @@
 ---
 spec_id: SE-102
 title: Eras timeline consolidation (25 → 233 dispersed)
-status: APPROVED
+status: IMPLEMENTED
 approved_by: operator (2026-05-27)
+applied_at: 2026-06-24
 priority: P3
 effort: S
 estimated_time: 2h

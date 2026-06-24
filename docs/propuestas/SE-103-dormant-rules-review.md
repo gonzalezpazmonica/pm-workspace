@@ -1,8 +1,9 @@
 ---
 spec_id: SE-103
 title: Quarterly dormant rules review (~40 rules)
-status: APPROVED
+status: IMPLEMENTED
 approved_by: operator (2026-05-27)
+applied_at: 2026-06-24
 priority: P3
 effort: S
 estimated_time: 90 min
