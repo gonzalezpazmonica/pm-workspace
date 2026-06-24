@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=e578d3854366ec38d97ae38d34ea5f5544e3294e020dccb70b0f519a7e388ed9
-timestamp=2026-06-24T15:14:29Z
-branch=HEAD
-head_commit=1a9582c1
-signature=e73b975d7555c4d664345da4eecc890acdc6b7f35b6f304d4a1097ba1f11b615
+diff_hash=3595db1b84a4dbc75ab20c9fb80cbcdb72575989eeb2693aef6051c95a116d6e
+timestamp=2026-06-24T16:48:05Z
+branch=agent/spec-188-fase2-sealed-contracts-20260624
+head_commit=3c824572
+signature=90822f5c1fb0d5f7a8e25f8114704660623e0dafd7a4e7484a87bde406a93146
