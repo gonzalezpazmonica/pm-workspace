@@ -1,6 +1,6 @@
 # Savia Capability Map — INDEX
-> hash: 707520a7bd29 | resources: 1298
-> 557 commands · 105 skills · 75 agents · 561 scripts
+> hash: d8b749fea26a | resources: 1301
+> 557 commands · 105 skills · 75 agents · 564 scripts
 
 [analysis] /a11y-report — accesibilidad,completos,conformidad,código,declaración — cmd:.claude/commands/a11y-report.md
 [analysis] Trace Optimize — across,distributed,optimize,rates,sampling — cmd:.claude/commands/trace-optimize.md
@@ -328,6 +328,7 @@
 [development] spec-id-duplicates-check — check,duplicates,gate,slice,spec — script:scripts/spec-id-duplicates-check.sh
 [development] spec-implement — agente,asigna,developer,humano,implementa — cmd:.claude/commands/spec-implement.md
 [development] spec-judge — acceptance,approved,code,court,criteria — agent:.opencode/agents/spec-judge.md
+[development] spec-lifecycle — append,lifecycle,only,spec,status — script:scripts/spec-lifecycle.sh
 [development] spec-opencode-plan-audit — approved,audit,every,implemented,include — script:scripts/spec-opencode-plan-audit.sh
 [development] spec-quality-auditor — auditor,deterministic,quality,scorer,spec — script:scripts/spec-quality-auditor.sh
 [development] spec-review — coherence,completeness,review,specification — cmd:.claude/commands/spec-review.md
@@ -335,6 +336,7 @@
 [development] spec-status — approval,check,specification,state,status — cmd:.claude/commands/spec-status.md
 [development] spec-status-drift-audit — audit,detect,disk,drift,implemented — script:scripts/spec-status-drift-audit.sh
 [development] spec-status-normalize — across,audit,field,normalize,spec — script:scripts/spec-status-normalize.sh
+[development] spec-validator — field,frontmatter,resource,spec,validates — script:scripts/spec-validator.sh
 [development] spec-verify — against,criteria,implementation,specification,verify — cmd:.claude/commands/spec-verify.md
 [development] spec-verify-ui — componente,comprueba,cumple,implementado,spec — cmd:.claude/commands/spec-verify-ui.md
 [development] spec156-migrate-token-budget — budget,flat,migrate,nested,object — script:scripts/spec156-migrate-token-budget.sh
@@ -857,6 +859,7 @@
 [planning] project-update — activo,actualización,fuentes,integral,proyecto — skill:.claude/skills/project-update/SKILL.md
 [planning] project-update-devops — config,devops,project,real,resuelve — script:scripts/project-update-devops.sh
 [planning] prompt-optimizer — agente,efectividad,mejorar,optimiza,prompt — skill:.claude/skills/prompt-optimizer/SKILL.md
+[planning] propuestas-index-gen — auto,docs,generate,index,propuestas — script:scripts/propuestas-index-gen.sh
 [planning] protect-project-privacy — accidental,barrera,contra,privacy,project — script:scripts/protect-project-privacy.sh
 [planning] pursuit-bid — decision,pursuit,qualified,record — cmd:.claude/commands/pursuit-bid.md
 [planning] pursuit-close — analysis,close,lost,mortem,post — cmd:.claude/commands/pursuit-close.md
