@@ -1,5 +1,5 @@
 # quality — Savia Capability Map (L1)
-> 237 resources
+> 240 resources
 
 - **/a11y-audit** (cmd): Auditoría de accesibilidad WCAG 2.2 completa con escaneo de HTML/componentes. Detecta: alt text faltante, problemas de contraste, navegación por teclado, etiquetas ARIA, gestión de focus, jerarquía de encabezados, etiquetas de formularios.
 - **/a11y-fix** (cmd): Correcciones automáticas de accesibilidad con verificación y preview. Genera código de fix para issues detectados por /a11y-audit. Preview antes de aplicar. Verifica que no introduce nuevos problemas. Covers: alt text, ARIA attributes, focu
@@ -21,6 +21,7 @@
 - **cognitive-judge** (agent): Code Review Court judge — debuggability at 3AM, naming, complexity, logs
 - **comprehension-audit** (cmd): Scan recent implementations and identify which lack comprehension reports. Report coverage and recommendations.
 - **confidentiality-auditor** (agent): Audita cumplimiento de confidencialidad en PRs de pm-workspace (repo publico). Descubre dinamicamente datos sensibles del workspace y verifica que no se filtran en el diff. Genera veredicto CLEAN/BLOCKED con firma si pasa.
+- **confidentiality-auditor-runbook** (skill): Protocolo de descubrimiento dinamico de contexto sensible, criterios de auditoria por nivel N1/N4, variantes y reglas de exclusion del agente confidentiality-auditor. Cargar para el detalle completo del proceso de auditoria.
 - **confidentiality-check** (cmd): Auditoria pre-PR de confidencialidad y firma criptografica
 - **confidentiality-sign** (script): confidentiality-sign.sh — Cryptographic signature for confidentiality audit
 - **correctness-judge** (agent): Code Review Court judge — logic, tests, edge cases, error paths
@@ -109,6 +110,7 @@
 - **security-auto-remediation** (cmd): >
 - **security-defender** (agent): >
 - **security-guardian** (agent): >
+- **security-guardian-runbook** (skill): Protocolo detallado de los 9 SEC-checks, formato de informe y decision trees del agente security-guardian. Cargar cuando se necesita el detalle de cada check de auditoria de seguridad pre-commit.
 - **security-judge** (agent): Code Review Court judge — OWASP, PII, injection, auth, credentials
 - **security-pipeline** (cmd): >
 - **security-review** (cmd): >
@@ -195,6 +197,7 @@
 - **test-repo-management** (script): Test: Repo Management v0.71.0 (Era 13)
 - **test-review-community** (script): test-review-community.sh — Tests del protocolo de revisión comunitaria
 - **test-runner** (agent): >
+- **test-runner-runbook** (skill): Protocolo de ejecución paso a paso, tabla de delegación, formato de informe y decision trees del agente test-runner. Cargar cuando se necesita el detalle completo del flujo de tests y cobertura.
 - **test-savia-confidentiality** (script): test-savia-confidentiality.sh — E2E encrypted messaging confidentiality
 - **test-savia-crypto** (script): test-savia-crypto.sh — Tests for RSA+AES encryption
 - **test-savia-flow** (script): test-savia-flow.sh — Tests for Savia Flow on branch-based architecture (~25 tests)

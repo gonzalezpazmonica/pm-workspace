@@ -1,6 +1,6 @@
 # Savia Capability Map — INDEX
-> hash: 707520a7bd29 | resources: 1298
-> 557 commands · 105 skills · 75 agents · 561 scripts
+> hash: 70affa604b0d | resources: 1304
+> 557 commands · 110 skills · 75 agents · 562 scripts
 
 [analysis] /a11y-report — accesibilidad,completos,conformidad,código,declaración — cmd:.claude/commands/a11y-report.md
 [analysis] Trace Optimize — across,distributed,optimize,rates,sampling — cmd:.claude/commands/trace-optimize.md
@@ -200,6 +200,7 @@
 [development] code-improvement-loop — autónoma,código,ejecutar,mejora,plano — skill:.claude/skills/code-improvement-loop/SKILL.md
 [development] code-patterns — catálogo,código,ejemplos,equipo,patterns — cmd:.claude/commands/code-patterns.md
 [development] code-reviewer —  — agent:.opencode/agents/code-reviewer.md
+[development] code-reviewer-runbook — agente,arboles,calidad,cargar,checklists — skill:.claude/skills/code-reviewer-runbook/SKILL.md
 [development] code-twin-agent —  — agent:.opencode/agents/code-twin-agent.md
 [development] code-twin-anonymize — anonymize,code,slice,spec,twin — script:scripts/code-twin-anonymize.sh
 [development] code-twin-extract — code,extract,slice,spec,twin — script:scripts/code-twin-extract.sh
@@ -335,6 +336,7 @@
 [development] spec-status — approval,check,specification,state,status — cmd:.claude/commands/spec-status.md
 [development] spec-status-drift-audit — audit,detect,disk,drift,implemented — script:scripts/spec-status-drift-audit.sh
 [development] spec-status-normalize — across,audit,field,normalize,spec — script:scripts/spec-status-normalize.sh
+[development] spec-validator — field,frontmatter,resource,spec,validates — script:scripts/spec-validator.sh
 [development] spec-verify — against,criteria,implementation,specification,verify — cmd:.claude/commands/spec-verify.md
 [development] spec-verify-ui — componente,comprueba,cumple,implementado,spec — cmd:.claude/commands/spec-verify-ui.md
 [development] spec156-migrate-token-budget — budget,flat,migrate,nested,object — script:scripts/spec156-migrate-token-budget.sh
@@ -603,6 +605,7 @@
 [planning] coherence-judge — consistency,dates,entities,internal,judge — agent:.opencode/agents/coherence-judge.md
 [planning] coherence-validator —  — agent:.opencode/agents/coherence-validator.md
 [planning] commit-guardian —  — agent:.opencode/agents/commit-guardian.md
+[planning] commit-guardian-runbook — agente,cargar,checks,commit,completo — skill:.claude/skills/commit-guardian-runbook/SKILL.md
 [planning] company-edit — editar,empresa,identity,perfil,policies — cmd:.claude/commands/company-edit.md
 [planning] company-messaging — cifrados,company,envían,internos,mensajes — skill:.claude/skills/company-messaging/SKILL.md
 [planning] company-repo —  — cmd:.claude/commands/company-repo.md
@@ -1083,6 +1086,7 @@
 [quality] cognitive-judge — code,complexity,court,debuggability,judge — agent:.opencode/agents/cognitive-judge.md
 [quality] comprehension-audit — comprehension,coverage,identify,implementations,lack — cmd:.claude/commands/comprehension-audit.md
 [quality] confidentiality-auditor — audita,blocked,clean,confidencialidad,cumplimiento — agent:.opencode/agents/confidentiality-auditor.md
+[quality] confidentiality-auditor-runbook — agente,auditor,auditoria,cargar,completo — skill:.claude/skills/confidentiality-auditor-runbook/SKILL.md
 [quality] confidentiality-check — auditoria,confidencialidad,criptografica,firma — cmd:.claude/commands/confidentiality-check.md
 [quality] confidentiality-sign — audit,confidentiality,cryptographic,sign,signature — script:scripts/confidentiality-sign.sh
 [quality] correctness-judge — cases,code,court,edge,error — agent:.opencode/agents/correctness-judge.md
@@ -1171,6 +1175,7 @@
 [quality] security-auto-remediation —  — cmd:.claude/commands/security-auto-remediation.md
 [quality] security-defender —  — agent:.opencode/agents/security-defender.md
 [quality] security-guardian —  — agent:.opencode/agents/security-guardian.md
+[quality] security-guardian-runbook — agente,auditoria,cargar,check,checks — skill:.claude/skills/security-guardian-runbook/SKILL.md
 [quality] security-judge — auth,code,court,credentials,injection — agent:.opencode/agents/security-judge.md
 [quality] security-pipeline —  — cmd:.claude/commands/security-pipeline.md
 [quality] security-review —  — cmd:.claude/commands/security-review.md
@@ -1257,6 +1262,7 @@
 [quality] test-repo-management — management,repo,test — script:scripts/test-repo-management.sh
 [quality] test-review-community — community,comunitaria,protocolo,review,revisión — script:scripts/test-review-community.sh
 [quality] test-runner —  — agent:.opencode/agents/test-runner.md
+[quality] test-runner-runbook — agente,cargar,cobertura,completo,decision — skill:.claude/skills/test-runner-runbook/SKILL.md
 [quality] test-savia-confidentiality — confidentiality,encrypted,messaging,savia,test — script:scripts/test-savia-confidentiality.sh
 [quality] test-savia-crypto — crypto,encryption,savia,test,tests — script:scripts/test-savia-crypto.sh
 [quality] test-savia-flow — architecture,based,branch,flow,savia — script:scripts/test-savia-flow.sh

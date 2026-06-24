@@ -1,6 +1,6 @@
 {
-  "hash": "55cacb6a340b",
-  "total": 1298,
+  "hash": "b607cd852ba6",
+  "total": 1304,
   "resources": [
     {
       "category": "analysis",
@@ -2519,6 +2519,20 @@
     },
     {
       "category": "development",
+      "name": "code-reviewer-runbook",
+      "intents": [
+        "agente",
+        "arboles",
+        "calidad",
+        "cargar",
+        "checklists"
+      ],
+      "kind": "skill",
+      "path": ".claude/skills/code-reviewer-runbook/SKILL.md",
+      "description": "Checklists detallados, formato de informe y arboles de decision para el agente code-reviewer. Cargar cuando se necesita el detalle completo de checks de seguridad, calidad C#, SOLID y formato de veredicto."
+    },
+    {
+      "category": "development",
       "name": "code-twin-agent",
       "intents": [],
       "kind": "agent",
@@ -4334,6 +4348,20 @@
       "kind": "script",
       "path": "scripts/spec-status-normalize.sh",
       "description": "spec-status-normalize.sh — audit and normalize `status:` field across all"
+    },
+    {
+      "category": "development",
+      "name": "spec-validator",
+      "intents": [
+        "field",
+        "frontmatter",
+        "resource",
+        "spec",
+        "validates"
+      ],
+      "kind": "script",
+      "path": "scripts/spec-validator.sh",
+      "description": "spec-validator.sh — SE-222 S0: validates resource: URI field in spec frontmatter"
     },
     {
       "category": "development",
@@ -7851,6 +7879,20 @@
       "kind": "agent",
       "path": ".opencode/agents/commit-guardian.md",
       "description": ">"
+    },
+    {
+      "category": "planning",
+      "name": "commit-guardian-runbook",
+      "intents": [
+        "agente",
+        "cargar",
+        "checks",
+        "commit",
+        "completo"
+      ],
+      "kind": "skill",
+      "path": ".claude/skills/commit-guardian-runbook/SKILL.md",
+      "description": "Los 10 checks detallados, tabla de delegacion, formato de informe y restricciones del agente commit-guardian. Cargar cuando se necesita el detalle completo de la verificacion pre-commit."
     },
     {
       "category": "planning",
@@ -13966,6 +14008,20 @@
     },
     {
       "category": "quality",
+      "name": "confidentiality-auditor-runbook",
+      "intents": [
+        "agente",
+        "auditor",
+        "auditoria",
+        "cargar",
+        "completo"
+      ],
+      "kind": "skill",
+      "path": ".claude/skills/confidentiality-auditor-runbook/SKILL.md",
+      "description": "Protocolo de descubrimiento dinamico de contexto sensible, criterios de auditoria por nivel N1/N4, variantes y reglas de exclusion del agente confidentiality-auditor. Cargar para el detalle completo del proceso de auditoria."
+    },
+    {
+      "category": "quality",
       "name": "confidentiality-check",
       "intents": [
         "auditoria",
@@ -15108,6 +15164,20 @@
     },
     {
       "category": "quality",
+      "name": "security-guardian-runbook",
+      "intents": [
+        "agente",
+        "auditoria",
+        "cargar",
+        "check",
+        "checks"
+      ],
+      "kind": "skill",
+      "path": ".claude/skills/security-guardian-runbook/SKILL.md",
+      "description": "Protocolo detallado de los 9 SEC-checks, formato de informe y decision trees del agente security-guardian. Cargar cuando se necesita el detalle de cada check de auditoria de seguridad pre-commit."
+    },
+    {
+      "category": "quality",
       "name": "security-judge",
       "intents": [
         "auth",
@@ -16193,6 +16263,20 @@
       "kind": "agent",
       "path": ".opencode/agents/test-runner.md",
       "description": ">"
+    },
+    {
+      "category": "quality",
+      "name": "test-runner-runbook",
+      "intents": [
+        "agente",
+        "cargar",
+        "cobertura",
+        "completo",
+        "decision"
+      ],
+      "kind": "skill",
+      "path": ".claude/skills/test-runner-runbook/SKILL.md",
+      "description": "Protocolo de ejecución paso a paso, tabla de delegación, formato de informe y decision trees del agente test-runner. Cargar cuando se necesita el detalle completo del flujo de tests y cobertura."
     },
     {
       "category": "quality",

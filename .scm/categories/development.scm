@@ -1,5 +1,5 @@
 # development — Savia Capability Map (L1)
-> 196 resources
+> 198 resources
 
 - **/a11y-monitor** (cmd): Monitorización continua de regresiones de accesibilidad. Integración en CI/CD. Alertas cuando score baja por debajo de threshold. Digest semanal. Previene regresiones bloqueando deploys con fallos a11y.
 - **/speckit.checklist** (cmd): Alias spec-kit compatible. Gate de calidad final con verification-lattice multi-capa. Invoca skill verification-lattice. Compatible con github/spec-kit.
@@ -34,6 +34,7 @@
 - **code-improvement-loop** (skill): Usar cuando se quiere ejecutar mejora autónoma de código en segundo plano con PRs para revisión.
 - **code-patterns** (cmd): Catálogo de patterns del proyecto con ejemplos del propio código del equipo
 - **code-reviewer** (agent): >
+- **code-reviewer-runbook** (skill): Checklists detallados, formato de informe y arboles de decision para el agente code-reviewer. Cargar cuando se necesita el detalle completo de checks de seguridad, calidad C#, SOLID y formato de veredicto.
 - **code-twin-agent** (agent): >
 - **code-twin-anonymize** (script): code-twin-anonymize.sh — SPEC-190 Slice 8 (AC-14)
 - **code-twin-extract** (script): code-twin-extract.sh — SPEC-190 Slice 7
@@ -169,6 +170,7 @@
 - **spec-status** (cmd): Check specification status and approval state
 - **spec-status-drift-audit** (script): spec-status-drift-audit.sh — Detect specs marked PROPOSED but implemented on disk.
 - **spec-status-normalize** (script): spec-status-normalize.sh — audit and normalize `status:` field across all
+- **spec-validator** (script): spec-validator.sh — SE-222 S0: validates resource: URI field in spec frontmatter
 - **spec-verify** (cmd): Verify implementation against specification criteria
 - **spec-verify-ui** (cmd): Verificación spec↔UI — comprueba que el componente implementado cumple su spec SDD
 - **spec156-migrate-token-budget** (script): SPEC-156 Slice 2 prep — migrate flat token_budget to nested object.

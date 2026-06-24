@@ -1,5 +1,5 @@
 # planning — Savia Capability Map (L1)
-> 553 resources
+> 554 resources
 
 - **/accreditation-track** (cmd): >
 - **/decide-architecture** (cmd): Clasifica una tarea como WORKFLOW (deterministica) o AGENT (loop). Bias hacia workflow per Anthropic. Sugiere plantilla inicial. Mide accuracy contra corpus curado de 20 tareas.
@@ -94,6 +94,7 @@
 - **coherence-judge** (agent): Truth Tribunal judge — internal consistency (sums, dates, entities)
 - **coherence-validator** (agent): >
 - **commit-guardian** (agent): >
+- **commit-guardian-runbook** (skill): Los 10 checks detallados, tabla de delegacion, formato de informe y restricciones del agente commit-guardian. Cargar cuando se necesita el detalle completo de la verificacion pre-commit.
 - **company-edit** (cmd): Editar secciones del perfil de empresa — identity, structure, strategy, policies, technology, vertical
 - **company-messaging** (skill): Usar cuando se envían mensajes internos cifrados entre miembros de la organización vía Company Savia.
 - **company-repo** (cmd): >
