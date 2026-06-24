@@ -118,6 +118,9 @@ echo ""
 if $PASS; then
   echo "RESULT: PASS"
   exit 0
+elif [[ "$ADAPTIVE_MODE" == "warn" ]]; then
+  echo "RESULT: WARN — tests below quality threshold ($THRESHOLD) [advisory only, ADAPTIVE=warn]"
+  exit 0
 else
   echo "RESULT: FAIL — tests below quality threshold ($THRESHOLD)"
   exit 1
