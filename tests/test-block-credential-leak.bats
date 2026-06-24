@@ -79,3 +79,16 @@ teardown() {
 @test "coverage: SECRETS_PATTERN variable defined" {
   grep -q "SECRETS_PATTERN" "$SCRIPT"
 }
+
+# SPEC-SE-036 Slice 3 (AC-07): PAT-shaped string detection
+@test "se036: SPEC-SE-036 reference exists in script" {
+  grep -q "SPEC-SE-036" "$SCRIPT"
+}
+
+@test "se036: short string under 40 chars passes PAT detector" {
+  echo '{"tool_input":{"command":"export SHORT=abc123def456"}}' | bash "$SCRIPT"
+}
+
+@test "se036: clean command passes without auth context" {
+  echo '{"tool_input":{"command":"echo done"}}' | bash "$SCRIPT"
+}
