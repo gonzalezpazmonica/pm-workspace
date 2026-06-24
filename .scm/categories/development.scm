@@ -1,5 +1,5 @@
 # development — Savia Capability Map (L1)
-> 198 resources
+> 199 resources
 
 - **/a11y-monitor** (cmd): Monitorización continua de regresiones de accesibilidad. Integración en CI/CD. Alertas cuando score baja por debajo de threshold. Digest semanal. Previene regresiones bloqueando deploys con fallos a11y.
 - **/speckit.checklist** (cmd): Alias spec-kit compatible. Gate de calidad final con verification-lattice multi-capa. Invoca skill verification-lattice. Compatible con github/spec-kit.
@@ -175,6 +175,7 @@
 - **spec-verify-ui** (cmd): Verificación spec↔UI — comprueba que el componente implementado cumple su spec SDD
 - **spec156-migrate-token-budget** (script): SPEC-156 Slice 2 prep — migrate flat token_budget to nested object.
 - **specs-frontmatter-normalize** (script): specs-frontmatter-normalize.sh — SE-054 Slice 2+3 frontmatter normalization.
+- **speculative/feasibility-probe** (script): feasibility-probe.sh — SE-220 Slice 0: speculative tool execution feasibility.
 - **statusline-provider** (script): statusline-provider.sh — HUD data provider for Claude Code statusline
 - **sycophancy-judge** (agent): Recommendation Tribunal judge — detects empty social validation in conversational drafts (SPEC-192)
 - **tech-research** (cmd): Launch autonomous technical research — investigates topics, generates reports, notifies designated human
