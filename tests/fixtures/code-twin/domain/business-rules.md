@@ -2,7 +2,7 @@
 module_id: business-rules
 layer: domain
 version: "1.0.0"
-last_sync: "2026-06-08T14:30:00Z"
+last_sync: "2026-06-23T07:37:07Z"
 token_budget: 180
 stale_after_days: 30
 depends_on:
