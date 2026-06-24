@@ -1,7 +1,8 @@
 ---
 spec_id: SE-201
 title: Critic scoring cuantitativo en tribunales
-status: APPROVED
+status: IMPLEMENTED
+applied_at: "2026-06-24"
 tier: 1
 priority: P1
 effort: M

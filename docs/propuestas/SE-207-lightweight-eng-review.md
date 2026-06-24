@@ -1,7 +1,8 @@
 ---
 spec_id: SE-207
 title: Lightweight Engineering Review template for infra changes
-status: APPROVED
+status: IMPLEMENTED
+applied_at: "2026-06-24"
 priority: P2
 effort: B
 era: 200

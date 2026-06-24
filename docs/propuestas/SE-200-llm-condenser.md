@@ -1,7 +1,8 @@
 ---
 spec_id: SE-200
 title: LLM Condenser — rolling window context compression
-status: APPROVED
+status: IMPLEMENTED
+applied_at: "2026-06-24"
 tier: 1
 priority: P1
 effort: M

@@ -1,7 +1,8 @@
 ---
 spec_id: SE-203
 title: Keyword triggers para skills
-status: APPROVED
+status: IMPLEMENTED
+applied_at: "2026-06-24"
 tier: 1
 priority: P2
 effort: S

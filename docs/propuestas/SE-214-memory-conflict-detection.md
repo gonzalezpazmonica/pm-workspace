@@ -1,7 +1,8 @@
 ---
 spec_id: SE-214
 title: Conflict detection for decision and instruction memory entries
-status: APPROVED
+status: IMPLEMENTED
+applied_at: "2026-06-24"
 priority: P2
 effort: L
 era: 202

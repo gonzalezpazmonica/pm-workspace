@@ -1,7 +1,8 @@
 ---
 spec_id: SE-210
 title: Explicit anti-patterns section in critical skills
-status: APPROVED
+status: IMPLEMENTED
+applied_at: "2026-06-24"
 priority: P2
 effort: M
 era: 201

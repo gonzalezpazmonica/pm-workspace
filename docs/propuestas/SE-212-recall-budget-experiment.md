@@ -1,7 +1,8 @@
 ---
 spec_id: SE-212
 title: Recall budget experiment — validate MEMORY.md cap empirically
-status: APPROVED
+status: IMPLEMENTED
+applied_at: "2026-06-24"
 priority: P1
 effort: S
 era: 202

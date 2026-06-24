@@ -1,7 +1,8 @@
 ---
 spec_id: SE-211
 title: Typed memory schema — 13 semantic types in Knowledge Graph
-status: APPROVED
+status: IMPLEMENTED
+applied_at: "2026-06-24"
 priority: P1
 effort: M
 era: 202

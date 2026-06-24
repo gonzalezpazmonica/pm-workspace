@@ -1,7 +1,8 @@
 ---
 spec_id: SE-209
 title: Canonical description format for SKILL.md
-status: APPROVED
+status: IMPLEMENTED
+applied_at: "2026-06-24"
 priority: P1
 effort: B
 era: 201

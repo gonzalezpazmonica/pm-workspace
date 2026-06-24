@@ -1,7 +1,8 @@
 ---
 spec_id: SE-215
 title: Eval-driven skill improvement loop
-status: APPROVED
+status: IMPLEMENTED
+applied_at: "2026-06-24"
 priority: P1
 effort: M
 era: 203

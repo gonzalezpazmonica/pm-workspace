@@ -1,7 +1,8 @@
 ---
 spec_id: SE-206
 title: Agent idle detection — tui-idle equivalent
-status: APPROVED
+status: IMPLEMENTED
+applied_at: "2026-06-24"
 priority: P1
 effort: M
 era: 200

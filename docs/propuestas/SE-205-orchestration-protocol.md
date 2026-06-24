@@ -1,7 +1,8 @@
 ---
 spec_id: SE-205
 title: Typed inter-agent orchestration protocol
-status: APPROVED
+status: IMPLEMENTED
+applied_at: "2026-06-24"
 priority: P1
 effort: M
 era: 200
