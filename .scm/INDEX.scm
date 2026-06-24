@@ -1,6 +1,6 @@
 # Savia Capability Map — INDEX
-> hash: 6c9ba6cff7e0 | resources: 1300
-> 557 commands · 105 skills · 75 agents · 563 scripts
+> hash: cff69c6c05b4 | resources: 1302
+> 557 commands · 105 skills · 75 agents · 565 scripts
 
 [analysis] /a11y-report — accesibilidad,completos,conformidad,código,declaración — cmd:.claude/commands/a11y-report.md
 [analysis] Trace Optimize — across,distributed,optimize,rates,sampling — cmd:.claude/commands/trace-optimize.md
@@ -811,6 +811,8 @@
 [planning] outcome-track — entregó,esperado,feature,outcomes,post — cmd:.claude/commands/outcome-track.md
 [planning] output-compress — compress,output,stdin,stdout,tool — script:scripts/output-compress.sh
 [planning] overnight-sprint — autónoma,bajo,durante,ejecutar,forma — skill:.claude/skills/overnight-sprint/SKILL.md
+[planning] overnight-sprint-loop — loop,orchestrator,overnight,scripts,sprint — script:scripts/overnight-sprint-loop.sh
+[planning] overnight-sprint-state — loop,management,overnight,scripts,session — script:scripts/overnight-sprint-state.sh
 [planning] path-redact — absolute,containing,home,path,paths — script:scripts/path-redact.sh
 [planning] pbi-assign — allocation,assign,based,intelligent,reassign — cmd:.claude/commands/pbi-assign.md
 [planning] pbi-decompose — decompose,granular,tasks,technical — cmd:.claude/commands/pbi-decompose.md

@@ -1,6 +1,6 @@
 {
-  "hash": "b3e27de201d2",
-  "total": 1300,
+  "hash": "70eb765a3fec",
+  "total": 1302,
   "resources": [
     {
       "category": "analysis",
@@ -10448,6 +10448,34 @@
       "kind": "skill",
       "path": ".claude/skills/overnight-sprint/SKILL.md",
       "description": "Usar cuando se quiere ejecutar tareas de bajo riesgo de forma autónoma durante la noche."
+    },
+    {
+      "category": "planning",
+      "name": "overnight-sprint-loop",
+      "intents": [
+        "loop",
+        "orchestrator",
+        "overnight",
+        "scripts",
+        "sprint"
+      ],
+      "kind": "script",
+      "path": "scripts/overnight-sprint-loop.sh",
+      "description": "scripts/overnight-sprint-loop.sh — SE-226: stateless overnight-sprint orchestrator"
+    },
+    {
+      "category": "planning",
+      "name": "overnight-sprint-state",
+      "intents": [
+        "loop",
+        "management",
+        "overnight",
+        "scripts",
+        "session"
+      ],
+      "kind": "script",
+      "path": "scripts/overnight-sprint-state.sh",
+      "description": "scripts/overnight-sprint-state.sh — SE-226: stateless-session loop state management"
     },
     {
       "category": "planning",
