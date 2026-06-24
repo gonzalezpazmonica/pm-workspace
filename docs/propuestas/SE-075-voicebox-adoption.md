@@ -1,7 +1,7 @@
 ---
 id: SE-075
 title: SE-075 — Voicebox adoption — task_queue, auto-chunking, Kokoro CPU voice
-status: PARTIAL_IMPLEMENTED   # Slices 1+2 implemented; Slice 3 deferred (Kokoro download requires explicit user authorization)
+status: IN_PROGRESS   # Slices 1+2 implemented; Slice 3 deferred (Kokoro download requires explicit user authorization)
 origin: jamiepine/voicebox repo study 2026-04-26
 author: Savia
 priority: media
@@ -11,6 +11,8 @@ approved_at: "2026-04-26"
 applied_at: "2026-04-27"   # Slices 1+2; Slice 3 deferred
 expires: "2026-06-26"
 era: 188
+
+triage_note: "Slices 1+2 done; Slice 3 (Kokoro) deferred pending explicit user authorization"
 ---
 
 # SE-075 — Voicebox adoption

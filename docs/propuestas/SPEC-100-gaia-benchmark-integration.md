@@ -6,6 +6,8 @@ origin: HKUDS/AutoAgent analysis (2026-04-15)
 severity: Media
 effort: ~5 días (40h)
 priority: baja
+
+triage_note: "DEFERRED: 40h without clear ROI currently"
 ---
 
 # SPEC-100: GAIA Benchmark Integration

@@ -10,6 +10,8 @@ gap_link: ACM solo consumible por Claude Code; otros IDEs reinventan el índice
 approved_at: null
 applied_at: null
 expires: "2026-06-22"
+
+triage_note: "DEFERRED: on-demand only, no current IDE users"
 ---
 
 # SE-064 — ACM multi-host generator

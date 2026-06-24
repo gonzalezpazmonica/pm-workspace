@@ -1,6 +1,6 @@
 # Roadmap Unificado — pm-workspace / Savia
 
-**Updated:** 2026-06-24 | **Version:** v6.24.1 | **562 commands · 75 agents · 104 skills · 81 hooks · 1280+ tests · APPROVED backlog 10 (GPU-blocked/large/research) · 78+ specs implementadas en sesión** — ver `## Active Stack — 2026-06-24`
+**Updated:** 2026-06-24 | **Version:** v6.24.2 | **562 commands · 75 agents · 104 skills · 81 hooks · 1374 tests** — ver `## Backlog restante — 2026-06-24 post-limpieza`
 
 ---
 
@@ -1041,3 +1041,51 @@ Archivos: `docs/propuestas/SPEC-180..186-*.md`. Origen: `output/research/obsidia
 - Background-agent PostCompact por defecto (riesgo de drift no supervisado).
 - Integraciones Perplexity/Grok (data-sovereignty).
 - Sistema de 4 presets de contexto (sobre-ingenieria para workspace personal).
+
+---
+
+## Backlog restante — 2026-06-24 post-limpieza
+
+> Triage completo de 315 specs. Estado limpio post-sesión 2026-06-24.
+
+### Conteo por status
+
+| Status | Cantidad | Notas |
+|---|---|---|
+| **IMPLEMENTED** | 212 | En producción, mergeados |
+| **PROPOSED** | 56 | 41 enterprise + 15 bloqueados/diferidos con nota triage |
+| **ARCHIVED** | 31 | Superseded, non-spec docs, o reemplazados |
+| **APPROVED** | 9 | Bloqueados con nota explícita |
+| **IN_PROGRESS** | 3 | SPEC-150 (S2-6), SPEC-188 (F3-F4), SE-075 (Slice 3) |
+| **REJECTED** | 3 | SPEC-126, SPEC-143, SPEC-148 |
+| **ENTERPRISE_ONLY** | 1 | SE-045 (fuera de scope máquina dev) |
+
+### APPROVED bloqueados (9) — no accionables hasta desbloqueo
+
+| Spec | Bloqueo |
+|---|---|
+| SE-028 Oumi | GPU hardware |
+| SE-042 Voice Training | GPU hardware |
+| SPEC-023 LLM Trainer | GPU hardware, Phases 2-4 |
+| SPEC-080 Unsloth | GPU hardware |
+| SPEC-SE-027 SLM Training | GPU hardware |
+| SPEC-127 Provider-agnostic OpenCode | ~80h, sesión dedicada requerida |
+| SPEC-162 Self-Evolving Tools | Necesita 30d telemetría eval harness |
+| SPEC-190 Application Code Twin | ~28-35h, sesión dedicada requerida |
+| SPEC-191 Savia Telemetry | Depende de savia-web infra |
+
+### IN_PROGRESS pendientes (3)
+
+| Spec | Qué queda | Esfuerzo |
+|---|---|---|
+| SPEC-150 Hooks multi-handler | Slices 2-6: migrar a plugin TS | ~30h |
+| SPEC-188 Root-Cause F3+F4 | Fases 3+4 completas | ~50h |
+| SE-075 Voicebox Slice 3 | Kokoro 82M model download (~500MB) | ~3h post-autorización |
+
+### Próximas sesiones recomendadas
+
+1. **SE-075 Slice 3** — si se autoriza descarga Kokoro (~500MB): 3h
+2. **SPEC-150 S2-S6** — migración hooks TS: sesión dedicada ~30h
+3. **SPEC-127** — provider-agnostic compatibility: sesión dedicada ~80h
+4. **SPEC-190** — Application Code Twin: sesión dedicada ~30h
+5. **GPU desbloqueado** → SE-028/042, SPEC-023/080 entran automáticamente

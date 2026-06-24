@@ -6,6 +6,8 @@ origin: Auditoria 2026-04-07 (L-003)
 severity: Baja
 effort: ~6h agente
 priority: baja
+
+triage_note: "DEFERRED: savia-web paused"
 ---
 
 # SPEC-085: Savia Web — Modelo de datos completo

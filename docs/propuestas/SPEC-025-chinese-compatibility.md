@@ -5,6 +5,8 @@ status: PROPOSED
 origin_date: "2026-03-22"
 migrated_at: "2026-04-19"
 migrated_from: body-prose
+
+triage_note: "DEFERRED: no active Chinese-language users"
 ---
 
 # SPEC-025: Chinese (ZH) Compatibility Study

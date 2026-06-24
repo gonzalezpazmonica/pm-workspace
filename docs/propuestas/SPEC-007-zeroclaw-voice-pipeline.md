@@ -6,6 +6,8 @@ origin_date: "2026-03-21"
 migrated_at: "2026-04-18"
 migrated_from: body-prose
 priority: baja
+
+triage_note: "BLOCKED: ESP32 + mic hardware required"
 ---
 
 # SPEC-007: ZeroClaw Voice Pipeline — Conversación bidireccional fluida

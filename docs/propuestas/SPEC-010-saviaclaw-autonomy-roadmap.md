@@ -1,10 +1,12 @@
 ---
 id: SPEC-010
 title: SPEC-010: SaviaClaw Autonomy Roadmap
-status: IN_PROGRESS
+status: PROPOSED
 origin_date: "2026-03-21"
 migrated_at: "2026-04-18"
 migrated_from: body-prose
+
+triage_note: "hardware: SaviaClaw ESP32 + sensors required"
 ---
 
 # SPEC-010: SaviaClaw Autonomy Roadmap

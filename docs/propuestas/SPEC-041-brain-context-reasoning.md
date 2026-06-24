@@ -1,10 +1,12 @@
 ---
 id: SPEC-041
 title: SPEC-041: Brain-Inspired Context Reasoning Engine
-status: ACCEPTED
+status: ARCHIVED
 origin_date: "2026-03-24"
 migrated_at: "2026-04-19"
 migrated_from: body-prose
+
+triage_note: "research-only, no actionable implementation path"
 ---
 
 # SPEC-041: Brain-Inspired Context Reasoning Engine

@@ -1,5 +1,7 @@
 ---
-status: PROPOSED
+status: ARCHIVED
+
+triage_note: "non-spec document, archived 2026-06-24"
 ---
 
 # Era 21 — Savia Everywhere: School, Travel, Git-Native Flow

@@ -1,7 +1,7 @@
 ---
 id: SE-049
 title: SE-049 — SLM command consolidation pattern slm.sh subcommand
-status: IN_PROGRESS
+status: IMPLEMENTED
 origin: output/audit-arquitectura-20260420.md (architect audit)
 author: Savia
 priority: media
@@ -12,6 +12,8 @@ applied_at: null
 slices_complete: [1]
 batches: [38]
 expires: "2026-05-20"
+
+triage_note: "scripts/slm.sh exists and functional"
 ---
 
 # SE-049 — SLM command consolidation pattern slm.sh subcommand

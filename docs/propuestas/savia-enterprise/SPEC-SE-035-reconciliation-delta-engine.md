@@ -1,5 +1,7 @@
 ---
-status: IN_PROGRESS
+status: IMPLEMENTED
+
+triage_note: "scripts/enterprise/delta-tier.sh + reconciliation-resolver.py cover core"
 ---
 
 # SPEC-SE-035: Reconciliation Delta Engine for Federated Knowledge

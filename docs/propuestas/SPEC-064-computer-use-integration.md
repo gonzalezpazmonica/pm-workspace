@@ -5,6 +5,8 @@ status: PROPOSED
 migrated_at: "2026-04-19"
 migrated_from: body-prose
 priority: baja
+
+triage_note: "BLOCKED: Computer Use API not publicly stable"
 ---
 
 # SPEC-064 — Computer Use Integration: Live Visual QA and Accessibility Audit

@@ -7,6 +7,9 @@ status: PROPOSED
 > **Classification:** N4b (PM-Only) — contiene arquitectura de seguridad confidencial
 
 ---
+status: PROPOSED
+triage_note: "N4b confidential; depends on SPEC-OC-02 pending"
+
 
 ## Objective
 
