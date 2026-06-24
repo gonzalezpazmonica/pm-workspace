@@ -1,7 +1,7 @@
 ---
 spec_id: SPEC-188
 title: Root-Cause Investigation Architecture — meta-spec del sistema causal
-status: PROPOSED
+status: APPROVED
 tier: 1
 priority: P0
 effort: 6-8h (spec doc) · ~80-120h implementacion completa via sub-specs

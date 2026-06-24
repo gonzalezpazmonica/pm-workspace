@@ -1,7 +1,7 @@
 ---
 spec_id: SPEC-154
 title: Fórmula canónica de priorización (V×U/E) — 4 campos persistidos en specs, PBIs, ToDos y debt
-status: PROPOSED
+status: APPROVED
 origin: Conversación 2026-05-23. La filosofía "Prioridad = (Valor × Urgencia) / Esfuerzo" debe ser la función pura, auditable y contrafactual que gobierna toda decisión de priorización en Savia (humanos + agentes). Hoy `/backlog-prioritize` usa RICE/WSJF, `/debt-prioritize` usa scoring ad-hoc, el ROADMAP cita la fórmula sin definirla, y otros 30+ comandos inventan su propia escala. **Decisión 2026-05-23**: persistir los 4 campos (value, urgency, effort, priority_score) en TODO work item de Savia — specs, PBIs, Tasks, ToDos, debt. Sin persistencia, la fórmula colapsa entre sesiones.
 severity: Alta — sin formula canónica + persistencia, los agentes alucinan su propia escala. Y sin los 4 campos visibles en frontmatter/work item, la decisión NO es auditable (Rule #24).
 effort: ~24h (L) — librería scoring (3h) + adapters (2h) + extensión frontmatter (2h) + backfill specs (3h) + Azure DevOps fields (3h) + ToDos+debt persistence (2h) + 3 comandos piloto (3h) + tests (3h) + docs (3h).

@@ -1,6 +1,6 @@
 ---
 id: SPEC-053
-status: PROPOSED
+status: ARCHIVED
 priority: media
 ---
 

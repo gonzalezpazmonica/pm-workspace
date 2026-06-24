@@ -1,7 +1,7 @@
 ---
 id: SE-172
 title: SE-172 — markitdown como capa 0 universal de digestión
-status: PROPOSED
+status: APPROVED
 origin: microsoft/markitdown (MIT, 143k★, v0.1.6 2026-05-26) — análisis 2026-06-03
 author: Savia
 priority: media

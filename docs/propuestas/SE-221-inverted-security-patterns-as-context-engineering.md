@@ -1,7 +1,7 @@
 ---
 spec_id: SE-221
 title: "Inverted security patterns as context engineering: origin tagging, drop-after-use, capability metadata"
-status: PROPOSED
+status: APPROVED
 priority: P2
 effort: M
 era: 206

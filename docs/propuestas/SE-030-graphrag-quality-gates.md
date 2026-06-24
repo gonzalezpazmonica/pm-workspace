@@ -1,7 +1,7 @@
 ---
 id: SE-030
 title: GraphRAG Quality Gates — receipts + 12 thresholds + seam tests
-status: PROPOSED
+status: APPROVED
 origin: bytebell.ai blog series (Dic '25 – Ene '26)
 author: Savia
 related: SE-028, SE-029, knowledge-graph, eval-run, verify-full

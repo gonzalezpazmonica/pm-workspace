@@ -1,5 +1,5 @@
 ---
-status: PROPOSED
+status: APPROVED
 ---
 
 # SPEC-199 — Self-Conditioning Between Tribunal Rounds

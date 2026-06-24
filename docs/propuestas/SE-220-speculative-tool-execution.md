@@ -1,7 +1,7 @@
 ---
 spec_id: SE-220
 title: Speculative Tool Execution — draft+verify pattern aplicado a tool calls y skill loading
-status: PROPOSED
+status: APPROVED
 priority: P2
 effort: M (~18h)
 era: 207
