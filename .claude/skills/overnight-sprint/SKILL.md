@@ -11,7 +11,6 @@ agent: dev-orchestrator
 category: "sdd-framework"
 tags: ["autonomous", "overnight", "batch", "low-risk"]
 priority: "medium"
-loop_level: L2  # L0=draft | L1=report-only | L2=assisted | L3=unattended — ver docs/rules/domain/loop-phasing.md
 ---
 
 ## Subagent Scope Guard
@@ -137,14 +136,17 @@ SIEMPRE → Generar audit log
 
 > **Metricas**: PRs/sesion ≥5, aceptacion ≥70%, crashes ≤3. SE-206: `scripts/agent-wait-idle.sh`.
 
-## Loop State y Run Log
+## Loop State
 
-STATE.md + run log: `loop-state-init.sh`, `loop-run-log.sh`, schemas en `docs/rules/domain/`.
+Este skill usa STATE.md canónico. Schema: `docs/rules/domain/loop-state-schema.md`.
+Inicializar: `bash scripts/loop-state-init.sh --skill overnight-sprint`
 
 ## Modo CI Unblock (--mode ci-unblock)
 
-Desbloquea PRs con CI roto por orden PR# ASC. Ver `CI-UNBLOCK.md`. Prerequisito: `CI_UNBLOCK_NEST_ENABLED=true` + doble opt-in SPEC-186.
+Desbloquea PRs con CI roto por orden PR# ASC usando nidos.sh como aislamiento.
+Ver `CI-UNBLOCK.md`. Prerequisito: `CI_UNBLOCK_NEST_ENABLED=true` + doble opt-in SPEC-186.
 
 ```
 /overnight-sprint --mode ci-unblock [--repo owner/repo] [--limit N]
 ```
+
