@@ -1,0 +1,26 @@
+# loop-budget.md — Loop budget for <SKILL_NAME>
+# Replace SKILL_NAME with the actual skill directory name.
+# Place this file at: output/loop-budget/<SKILL_NAME>/loop-budget.md
+#
+# Ref: docs/rules/domain/loop-budget-schema.md
+# Checked by: scripts/loop-budget-check.sh
+#
+# Field reference:
+#   daily_token_cap      tokens/day (0 = unlimited)
+#   max_tasks_per_run    max items processed per autonomous run
+#   max_attempts_per_task  attempts before escalating to human
+#   kill_if              automatic stop conditions (list)
+#   pause_on_weekend     skip Saturday and Sunday
+#   last_reset           date of last daily counter reset (auto-managed)
+#   tokens_used_today    running token counter (auto-managed by --update-tokens)
+
+skill: <SKILL_NAME>
+daily_token_cap: 500000
+max_tasks_per_run: 20
+max_attempts_per_task: 3
+kill_if:
+  - ci_red_3d
+  - no_progress_2d
+pause_on_weekend: true
+last_reset: "YYYY-MM-DD"
+tokens_used_today: 0
