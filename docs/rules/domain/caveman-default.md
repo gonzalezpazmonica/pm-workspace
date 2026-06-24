@@ -49,3 +49,21 @@ El skill `caveman` en `.opencode/skills/caveman/` queda como documentacion
 de referencia y como modo extremo para invocacion explicita cuando se
 necesita el maximo nivel de desnudez. Las restricciones base de este
 archivo son menos extremas que el skill completo.
+
+## Verbosity Sentinel (SE-224)
+
+El hook `output-verbosity-sentinel.sh` (PostToolUse) emite un nivel de
+verbosidad recomendado tras cada tool call. El sentinel se inyecta en la
+**cola** del system prompt con el tag de idempotencia:
+
+```
+<!-- VERBOSITY_LEVEL:L2 -->
+```
+
+Niveles: `L1` = sin ceremony (ya cubierto arriba). `L2` (default para
+tool_result limpio) = L1 + no repetir contexto ya en ventana.
+
+Por que cola y no cabeza: prepend al system prompt invalida el prefix cache
+del provider en cada turn. Append no toca el prefijo cacheado. El coste de
+invalidar el prefix cache en sesiones largas (overnight-sprint) supera
+cualquier beneficio de inyectar la instruccion al inicio. Ref: SE-224.
