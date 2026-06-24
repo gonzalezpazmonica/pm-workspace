@@ -1,5 +1,6 @@
 ---
 context_tier: L2
+token_budget: 480
 spec: SPEC-188-P3
 status: ACTIVE
 ---
