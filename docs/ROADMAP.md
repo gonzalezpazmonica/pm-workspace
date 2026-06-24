@@ -1,6 +1,6 @@
 # Roadmap Unificado — pm-workspace / Savia
 
-**Updated:** 2026-06-24 | **Version:** v6.24.0 | **562 commands · 75 agents · 104 skills · 81 hooks · 470+ test suites · Active backlog 88 APPROVED (P0-P3) · triage masivo 141→26 PROPOSED** — ver `## Active Stack — 2026-06-24`
+**Updated:** 2026-06-24 | **Version:** v6.24.1 | **562 commands · 75 agents · 104 skills · 81 hooks · 1280+ tests · APPROVED backlog 10 (GPU-blocked/large/research) · 78+ specs implementadas en sesión** — ver `## Active Stack — 2026-06-24`
 
 ---
 
