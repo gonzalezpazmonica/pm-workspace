@@ -1,6 +1,6 @@
 {
-  "hash": "273e86d5d14f",
-  "total": 1306,
+  "hash": "0aae89b6a054",
+  "total": 1307,
   "resources": [
     {
       "category": "analysis",
@@ -4432,6 +4432,20 @@
       "kind": "script",
       "path": "scripts/specs-frontmatter-normalize.sh",
       "description": "specs-frontmatter-normalize.sh — SE-054 Slice 2+3 frontmatter normalization."
+    },
+    {
+      "category": "development",
+      "name": "speculative/feasibility-probe",
+      "intents": [
+        "execution",
+        "feasibility",
+        "probe",
+        "slice",
+        "speculative"
+      ],
+      "kind": "script",
+      "path": "scripts/speculative/feasibility-probe.sh",
+      "description": "feasibility-probe.sh — SE-220 Slice 0: speculative tool execution feasibility."
     },
     {
       "category": "development",

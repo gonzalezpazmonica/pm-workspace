@@ -1,5 +1,5 @@
 # development — Savia Capability Map (L1)
-> 199 resources
+> 200 resources
 
 - **/a11y-monitor** (cmd): Monitorización continua de regresiones de accesibilidad. Integración en CI/CD. Alertas cuando score baja por debajo de threshold. Digest semanal. Previene regresiones bloqueando deploys con fallos a11y.
 - **/speckit.checklist** (cmd): Alias spec-kit compatible. Gate de calidad final con verification-lattice multi-capa. Invoca skill verification-lattice. Compatible con github/spec-kit.
