@@ -1,4 +1,10 @@
 ---
+archived_at: "20260624"
+archived_by: SE-096
+reason: "Zero functional consumers (agents/hooks/skills/commands). INDEX.md reference only."
+---
+
+---
 context_tier: L3
 token_budget: 1492
 ---
