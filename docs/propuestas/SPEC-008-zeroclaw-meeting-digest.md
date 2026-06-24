@@ -1,13 +1,13 @@
 ---
 id: SPEC-008
 title: SPEC-008: ZeroClaw Meeting Digest — Speaker Diarization + Voice Memory
-status: PROPOSED
+status: ARCHIVED
 origin_date: "2026-03-21"
 migrated_at: "2026-04-18"
 migrated_from: body-prose
 priority: baja
 
-triage_note: "BLOCKED: ESP32 + Jabra mic required"
+triage_note: "blocked by SPEC-006+Jabra; meeting-digest skill covers software use case"
 ---
 
 # SPEC-008: ZeroClaw Meeting Digest — Speaker Diarization + Voice Memory

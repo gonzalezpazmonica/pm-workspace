@@ -1,13 +1,13 @@
 ---
 id: SPEC-058
 title: SPEC-058: OpenTelemetry Agent Tracing Standard
-status: PROPOSED
+status: ARCHIVED
 origin_date: "2026-03-30"
 migrated_at: "2026-04-19"
 migrated_from: body-prose
 priority: media
 
-triage_note: "BLOCKED: requires OTel collector infra + savia-web"
+triage_note: "superseded by SPEC-191 (same OTel domain, newer, APPROVED)"
 ---
 
 # SPEC-058: OpenTelemetry Agent Tracing Standard

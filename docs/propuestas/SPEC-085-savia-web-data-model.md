@@ -1,13 +1,13 @@
 ---
 spec_id: SPEC-085
 title: Savia Web Phase 1 — Modelo de datos completo (PBI history + tasks)
-status: PROPOSED
+status: ARCHIVED
 origin: Auditoria 2026-04-07 (L-003)
 severity: Baja
 effort: ~6h agente
 priority: baja
 
-triage_note: "DEFERRED: savia-web paused"
+triage_note: "savia-web explicitly paused; data model without target platform"
 ---
 
 # SPEC-085: Savia Web — Modelo de datos completo

@@ -1,13 +1,13 @@
 ---
 spec_id: SPEC-099
 title: gitagent Export Adapter — Make pm-workspace Agents Portable
-status: PROPOSED
+status: ARCHIVED
 origin: open-gitagent/gitagent analysis (2026-04-15)
 severity: Alta
 effort: ~16h (2 días)
 priority: baja
 
-triage_note: "DEFERRED: low priority, no active demand"
+triage_note: "16h effort for portability to undocumented framework; no demand"
 ---
 
 # SPEC-099: gitagent Export Adapter

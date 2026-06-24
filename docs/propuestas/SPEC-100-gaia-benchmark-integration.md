@@ -1,13 +1,13 @@
 ---
 spec_id: SPEC-100
 title: GAIA Benchmark Integration — External Quality Validation for Agents
-status: PROPOSED
+status: ARCHIVED
 origin: HKUDS/AutoAgent analysis (2026-04-15)
 severity: Media
 effort: ~5 días (40h)
 priority: baja
 
-triage_note: "DEFERRED: 40h without clear ROI currently"
+triage_note: "40h unclear ROI; eval-improvement-suggest.sh covers quality improvement loop"
 ---
 
 # SPEC-100: GAIA Benchmark Integration

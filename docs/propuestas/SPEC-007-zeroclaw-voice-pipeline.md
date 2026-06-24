@@ -1,13 +1,13 @@
 ---
 id: SPEC-007
 title: SPEC-007: ZeroClaw Voice Pipeline — Conversación bidireccional fluida
-status: PROPOSED
+status: ARCHIVED
 origin_date: "2026-03-21"
 migrated_at: "2026-04-18"
 migrated_from: body-prose
 priority: baja
 
-triage_note: "BLOCKED: ESP32 + mic hardware required"
+triage_note: "blocked by SPEC-006+mic hardware; no standalone value"
 ---
 
 # SPEC-007: ZeroClaw Voice Pipeline — Conversación bidireccional fluida

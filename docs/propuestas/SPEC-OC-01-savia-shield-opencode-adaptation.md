@@ -1,13 +1,15 @@
 # SPEC-OC-01 — Savia Shield OpenCode Adaptation
 
-status: PROPOSED
-> **Status:** DRAFT → IMPLEMENTING
+status: IMPLEMENTED
+> **Status:** IMPLEMENTED — 2026-06-24
 > **Branch:** machine-local/monica-opencode (private, never pushed to origin/main)
 > **Date:** 2026-05-04
 > **Classification:** N4b (PM-Only) — contiene arquitectura de seguridad confidencial
 
 ---
-status: PROPOSED
+status: IMPLEMENTED
+implemented_at: "2026-06-24"
+implemented_by: "Savia/OpenCode"
 triage_note: "N4b confidential; depends on SPEC-OC-02 pending"
 
 
