@@ -57,8 +57,7 @@ echo "  DB: $DB_PATH"
 echo ""
 
 # Extract sequences from DB
-# shellcheck disable=SC1054,SC1064,SC1065,SC1072,SC1073
-python3 - << PYEOF
+python3 - << 'PYEOF'
 import sqlite3, json, sys, os, re
 from datetime import datetime
 from pathlib import Path
