@@ -9,13 +9,15 @@
       "description": "Tenant isolation with RBAC per tenant"
     },
     "mcp-catalog": {
-      "enabled": false,
+      "enabled": true,
       "spec": "SE-003",
+      "implemented_at": "2026-06-24",
       "description": "Agnostic MCP servers (.NET, TS, Python)"
     },
     "agent-framework-interop": {
-      "enabled": false,
+      "enabled": true,
       "spec": "SE-004",
+      "implemented_at": "2026-06-24",
       "description": "Adapters for MS Agent Framework, LangGraph, SK, PydanticAI"
     },
     "sovereign-deployment": {
@@ -29,13 +31,15 @@
       "description": "AI Act, NIS2, DORA compliance with signed audit trail"
     },
     "enterprise-onboarding": {
-      "enabled": false,
+      "enabled": true,
       "spec": "SE-007",
+      "implemented_at": "2026-06-24",
       "description": "Batch onboarding with SSO/SAML adapters"
     },
     "observability": {
-      "enabled": false,
+      "enabled": true,
       "spec": "SE-009",
+      "implemented_at": "2026-06-24",
       "description": "Agnostic OTel stack with opt-in exporters"
     },
     "migration-path": {
