@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=aeda75d29acdd65a7cd86f6334666a0f16335e7ee7fae8270b8883c5579e1b61
-timestamp=2026-06-20T12:48:00Z
-branch=feature/se-220-output-taxonomy
-head_commit=842ff3f6
-signature=f91d6a90dd1952e5cf6bddd5243e1e25153cd2cdb87d0cebc22d2076c76dafa1
+diff_hash=307c9a5905c826eb3357101c73486572aebfb836413d1e8f7eb3a6e8470a6d63
+timestamp=2026-06-24T08:05:52Z
+branch=agent/se079-pr-plan-g13-20260624
+head_commit=75c72150
+signature=cd5b45871f2effb9eb34562a5cacc7a59364421241a628d22d536bdd36023405
