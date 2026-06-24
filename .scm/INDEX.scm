@@ -1,6 +1,6 @@
 # Savia Capability Map — INDEX
-> hash: 7b89c98b138a | resources: 1302
-> 557 commands · 105 skills · 75 agents · 565 scripts
+> hash: 7e679a45bfc1 | resources: 1303
+> 557 commands · 105 skills · 75 agents · 566 scripts
 
 [analysis] /a11y-report — accesibilidad,completos,conformidad,código,declaración — cmd:.claude/commands/a11y-report.md
 [analysis] Trace Optimize — across,distributed,optimize,rates,sampling — cmd:.claude/commands/trace-optimize.md
@@ -341,6 +341,7 @@
 [development] spec-verify-ui — componente,comprueba,cumple,implementado,spec — cmd:.claude/commands/spec-verify-ui.md
 [development] spec156-migrate-token-budget — budget,flat,migrate,nested,object — script:scripts/spec156-migrate-token-budget.sh
 [development] specs-frontmatter-normalize — frontmatter,normalization,normalize,slice,specs — script:scripts/specs-frontmatter-normalize.sh
+[development] speculative/feasibility-probe — execution,feasibility,probe,slice,speculative — script:scripts/speculative/feasibility-probe.sh
 [development] statusline-provider — claude,code,data,provider,statusline — script:scripts/statusline-provider.sh
 [development] sycophancy-judge — conversational,detects,drafts,empty,judge — agent:.opencode/agents/sycophancy-judge.md
 [development] tech-research — autonomous,designated,generates,human,investigates — cmd:.claude/commands/tech-research.md
