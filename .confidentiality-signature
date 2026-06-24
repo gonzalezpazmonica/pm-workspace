@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=ba2b1435a0ee5f2043c554ca8bbeb112128beb3f639ce91cbcaa55726d69fb0d
-timestamp=2026-06-24T09:28:29Z
-branch=agent/spec-se-036-slice3-jwt-sunset-20260623
-head_commit=40436f84
-signature=27a10d1e4899df8a4f90d56995cea31a9051ee952f4b9e587f7641e055389afc
+diff_hash=4ed5094f3c15f85973329a089bedc0ac7c7d039da6bb86fc64afbe67ddbb5d29
+timestamp=2026-06-24T10:19:27Z
+branch=HEAD
+head_commit=38f6a6ec
+signature=3ff733165741d71eebc3c3c985b63cdc215dc26ec58d418b5879acf03465cfd1
