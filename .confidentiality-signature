@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=67a9255df2b5e735a331c84a334da88c7c86880a3ccc90210af8870801d35f96
-timestamp=2026-06-24T09:28:16Z
-branch=agent/se097-rules-index-regen-20260624
-head_commit=169e8fd0
-signature=9439607a32194e90f826ae55cc0d048d17445458f73badc294b6f3dd440a3b97
+diff_hash=3bc69b3cb09d691e24ba244785da1bbc941c5078830de8681d3ffe8fe133b275
+timestamp=2026-06-24T10:28:12Z
+branch=HEAD
+head_commit=797688cb
+signature=2196b79f4d3e9ecdb4f475121c577d0be50922f1981f4c09552e43eb1f4adf86
