@@ -1,7 +1,8 @@
 ---
 spec_id: SPEC-188
 title: Root-Cause Investigation Architecture — meta-spec del sistema causal
-status: APPROVED
+status: IN_PROGRESS
+status_note: "Phase 3 (causal-confidence-scorer.py) + Phase 4 MVP (diagnostic-metrics-tracker.py) implemented 2026-06-24. Phases 1, 2, full P3/P4 pending."
 tier: 1
 priority: P0
 effort: 6-8h (spec doc) · ~80-120h implementacion completa via sub-specs
