@@ -1,5 +1,5 @@
 ---
-status: PROPOSED
+status: IMPLEMENTED
 ---
 
 # SPEC-SE-018 — Project Billing (Revenue-as-Code)

@@ -1,5 +1,5 @@
 ---
-status: PROPOSED
+status: IMPLEMENTED
 ---
 
 # SPEC-SE-016 — Project Valuation (Business-Case-as-Code)
