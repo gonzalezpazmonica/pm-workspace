@@ -1,6 +1,6 @@
 # Roadmap Unificado — pm-workspace / Savia
 
-**Updated:** 2026-06-24 | **Version:** v6.24.3 | **562 commands · 75 agents · 104 skills · 81 hooks · 1416 tests · 222 specs IMPLEMENTED (70%)** — ver `## Estado final — 2026-06-24`
+**Updated:** 2026-06-24 | **Version:** v6.24.4 | **562 commands · 75 agents · 104 skills · 81 hooks · 1653 tests · 245 specs IMPLEMENTED (78%)** — ver `## Estado final — 2026-06-24`
 
 ---
 
