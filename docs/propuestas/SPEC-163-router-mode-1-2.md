@@ -7,8 +7,12 @@ estimated_hours: 6
 tier: 1A
 origin: lecun-jepa-h-research-2026
 implemented_at: "2026-06-24"
+timeline:
+  - from: "2026-06-24"
+    learned: "2026-06-24"
+    value: "IMPLEMENTED"
+    source: "session:2026-06-24"
 ---
-
 # SPEC-163 Router Modo 1 / Modo 2
 
 ## Problema

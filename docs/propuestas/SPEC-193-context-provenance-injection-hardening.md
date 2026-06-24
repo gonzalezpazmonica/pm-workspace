@@ -2,8 +2,12 @@
 status: IMPLEMENTED
 implemented_at: "2026-06-24"
 resource: https://arxiv.org/abs/2402.00898
+timeline:
+  - from: "2026-06-24"
+    learned: "2026-06-24"
+    value: "IMPLEMENTED"
+    source: "session:2026-06-24"
 ---
-
 # SPEC-193 — Context Provenance & Injection Hardening
 
 > **Priority:** P0 · **Estimate (human):** 4-6d · **Estimate (agent):** 5-8h · **Category:** standard · **Type:** infrastructure

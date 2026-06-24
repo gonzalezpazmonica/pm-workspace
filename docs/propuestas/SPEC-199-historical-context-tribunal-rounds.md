@@ -2,8 +2,12 @@
 status: IMPLEMENTED
 implemented_at: "2026-06-24"
 resource: https://github.com/google-deepmind/gemma/tree/main/gemma/diffusion
+timeline:
+  - from: "2026-06-24"
+    learned: "2026-06-24"
+    value: "IMPLEMENTED"
+    source: "session:2026-06-24"
 ---
-
 # SPEC-199 — Self-Conditioning Between Tribunal Rounds
 
 > **Priority:** P2 · **Estimate (human):** 4-5d · **Estimate (agent):** 5-7h · **Category:** standard · **Type:** governance-extension

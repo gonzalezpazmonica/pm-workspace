@@ -1,7 +1,7 @@
 # Agent Credentials — API key → short-lived JWT
 
 > **SPEC**: SPEC-SE-036 (`docs/propuestas/savia-enterprise/SPEC-SE-036-api-key-jwt-mint.md`)
-> **Slice**: 1 (storage + mint primitive). Slices 2 (CLI commands) + 3 (sunset PAT files) follow.
+> **Slices implementados**: 1 (storage + mint primitive), 2 (CLI commands), 3 (migration + sunset PAT files)
 > **Status**: canonical. Replaces file-based PATs as the credential model for autonomous agents.
 
 ---
@@ -95,6 +95,137 @@ gh api -H "Authorization: Bearer $JWT" repos/...   # ejemplo conceptual
 
 ---
 
+## Migración PAT → JWT (Slice 3)
+
+> **Fundamento**: CLAUDE.md Rule #1 — `NUNCA hardcodear PAT — siempre $(cat $PAT_FILE)`.
+> Este proceso convierte esa convención en infraestructura: el hook y el pre-commit gate
+> bloquean la creación de nuevos PAT files, y los agentes deben usar JWT efímeros.
+
+### Verificar estado actual
+
+Detecta PAT files existentes en rutas conocidas:
+
+```bash
+# Rutas canónicas de credencial files en este workspace
+find ~/.azure ~/.savia ~/.config/savia \
+  -name "*devops*" -o -name "*github-pat*" 2>/dev/null
+
+# Verifica que el hook está activo
+bash .opencode/hooks/block-pat-file-write.sh --path /tmp/test-devops-pat 2>&1
+
+# Master switch actual (default: on)
+echo "SAVIA_PAT_BLOCK=${SAVIA_PAT_BLOCK:-on}"
+```
+
+### Proceso de migración
+
+**Paso 1 — Genera JWT_SIGNING_KEY** (si no existe):
+
+```bash
+mkdir -p ~/.savia/secrets && chmod 700 ~/.savia/secrets
+# Genera clave de 32 bytes y guárdala off-repo, mode 600
+openssl rand -base64 32 > ~/.savia/secrets/jwt-signing-key
+chmod 600 ~/.savia/secrets/jwt-signing-key
+export JWT_SIGNING_KEY=$(cat ~/.savia/secrets/jwt-signing-key)
+```
+
+**Paso 2 — Crea una API key con el scope mínimo necesario**:
+
+```bash
+# Scope recomendado para agent autonomy standard
+bash scripts/enterprise/api-key-create.sh \
+  --scope "azure-devops:read,github:write" \
+  --desc "overnight-sprint canary key $(date +%Y%m%d)"
+# Nota: el plaintext se muestra UNA vez — guárdalo en el vault local
+```
+
+**Paso 3 — Guarda la API key fuera del repo**:
+
+```bash
+# El plaintext impreso en el paso anterior (savia_XXXXXXXX...) va al vault:
+echo "savia_<plaintext_from_step2>" > ~/.savia/secrets/agent.key
+chmod 600 ~/.savia/secrets/agent.key
+# NUNCA commitear este fichero — está en .gitignore
+```
+
+**Paso 4 — Prueba que el JWT mint funciona**:
+
+```bash
+export SAVIA_AGENT_API_KEY=$(cat ~/.savia/secrets/agent.key)
+JWT=$(bash scripts/jwt-mint.sh --key-stdin --scope "azure-devops:read" \
+      <<<"$SAVIA_AGENT_API_KEY")
+# Verifica que el JWT tiene el formato correcto (3 partes base64url separadas por .)
+echo "$JWT" | awk -F. '{print NF" partes — OK si ==3"}'
+```
+
+**Paso 5 — Actualiza los scripts de invocación de agentes**:
+
+```bash
+# Modelo anterior (file-based):
+# Reemplaza:  export AZURE_DEVOPS_PAT=$(cat ~/.azure/devops-pat)
+# Con:        export SAVIA_AGENT_API_KEY=$(cat ~/.savia/secrets/agent.key)
+#
+# El agente llama internamente a scripts/jwt-mint.sh cuando necesita un token.
+# Ver agent-jwt-mint.md §3 para el flujo completo.
+```
+
+### Después de 1 sprint
+
+Con 1 sprint de uso real verificado (agentes funcionando con JWT, sin regresiones),
+borra el archivo de credencial de larga duración de forma segura:
+
+```bash
+# 1. Verifica que ningún script activo lo referencia:
+grep -r "devops-pat\|azure-pat\|github-pat" scripts/ .claude/ .opencode/ 2>/dev/null \
+  | grep -v "\.bats\|test-\|#\|block-pat"
+
+# 2. Revoca la credencial en el proveedor ANTES de borrar el archivo local:
+#    Azure DevOps: dev.azure.com > User Settings > Personal access tokens > Revoke
+#    GitHub:       github.com > Settings > Developer settings > Tokens > Delete
+
+# 3. Borra el archivo local con shred (sobrescribe antes de eliminar):
+shred -u ~/.azure/devops-pat 2>/dev/null || rm -f ~/.azure/devops-pat
+echo "credential file eliminated: $(date)" >> ~/.savia/migration-log.txt
+
+# 4. Confirma que el hook bloquea recreación:
+SAVIA_PAT_BLOCK=on bash .opencode/hooks/block-pat-file-write.sh \
+  --path /tmp/devops-pat 2>&1  # debe imprimir BLOCK
+```
+
+### Rollback
+
+Si algo falla durante la migración y necesitas volver al modelo anterior:
+
+```bash
+# 1. Desactiva temporalmente el hook de bloqueo:
+export SAVIA_PAT_BLOCK=off
+
+# 2. Regenera la credencial en el proveedor y restaura el archivo local:
+#    (seguir instrucciones del proveedor para generar nueva credencial)
+#    Guarda el valor en ~/.azure/devops-pat, chmod 600
+
+# 3. Restaura los scripts de invocación al modelo anterior:
+#    Reemplaza: export SAVIA_AGENT_API_KEY=...
+#    Con:       export AZURE_DEVOPS_PAT=$(cat ~/.azure/devops-pat)
+
+# 4. Documenta el rollback:
+echo "$(date): rollback — motivo: <describe aquí>" >> ~/.savia/migration-log.txt
+
+# IMPORTANTE: SAVIA_PAT_BLOCK=off es temporal.
+# Reactivar con SAVIA_PAT_BLOCK=on en cuanto el bloqueante esté resuelto.
+# Abrir issue para resolver el bloqueante antes del siguiente intento.
+```
+
+### Infraestructura de bloqueo activa (Slice 3)
+
+| Componente | Ubicación | Qué hace |
+|---|---|---|
+| Hook `block-pat-file-write.sh` | `.opencode/hooks/` | PreToolUse Write/Edit — bloquea writes a paths con `pat`/`token`/`secret` fuera de .gitignore |
+| Patrón PAT-shaped en `block-credential-leak.sh` | `.opencode/hooks/` | Detecta strings 40+ chars hex/base64 en comandos bash |
+| Master switch | `SAVIA_PAT_BLOCK=on\|off` | `on` por defecto — es seguridad, no opt-in |
+
+---
+
 ## Atribución
 
 Re-implementación clean-room de `dreamxist/balance` `supabase/migrations/20260404000002_api_keys.sql` (MIT). El esquema (sha256 hash + `key_prefix` UX + RLS) replica el patrón fuente. El JWT mint en bash es propio — la fuente original tiene el mint en TS edge function, ortogonal a este workspace.
@@ -117,9 +248,9 @@ Re-implementación clean-room de `dreamxist/balance` `supabase/migrations/202604
 - `scripts/enterprise/api-key-list.sh` — inventario filtrable por `--tenant`, `--active`, `--revoked`, `--json`. Nunca muestra `key_hash` ni plaintext (zero-leakage).
 - `scripts/enterprise/api-key-revoke.sh` — revoca por `--prefix` (8 chars). 4 safety layers: `--prefix` requerido, no bulk patterns (`all`/`*`/`%`), no wildcards, dry-run por defecto. Llama `CALL api_key_revoke(prefix, actor)`. WARNING explícito: JWTs minteados pre-revoke siguen vivos hasta TTL expiry (≤ 60 min).
 
-## No hace (esta Slice)
+## No hace
 
-- NO implementa hook `block-pat-file-write.sh` (Slice 3).
-- NO sunset de `~/.azure/devops-pat` (Slice 3, opt-in tras 1 sprint canary verde).
+- NO sustituye `pm-config.local.md` AUTONOMOUS_REVIEWER (otra capa).
+- NO promete zero-PAT inmediato — Slice 3 sunset es opt-in tras 1 sprint canary verde.
 - NO añade dependencia auth provider externo (Auth0 / Okta) — JWT firmado localmente.
 - NO toca SSO de SPEC-SE-001 foundations (orthogonal).

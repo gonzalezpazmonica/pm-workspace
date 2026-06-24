@@ -13,8 +13,12 @@ related_specs:
   - autonomous-safety.md (regla existente, este SPEC añade enforcement OS)
   - SPEC-150 (hooks multi-handler — el sandbox interactúa con permission.ask y tool.execute.before)
 resource: https://github.com/anthropics/sandbox-runtime
+timeline:
+  - from: "2026-06-24"
+    learned: "2026-06-24"
+    value: "IMPLEMENTED"
+    source: "session:2026-06-24"
 ---
-
 # SPEC-149 — Sandbox OS-level (OpenCode-native)
 
 ## Why

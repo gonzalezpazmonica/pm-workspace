@@ -2,8 +2,12 @@
 status: IMPLEMENTED
 implemented_at: "2026-06-24"
 resource: internal://docs/propuestas/SPEC-194-criterion-simulation-layer.md
+timeline:
+  - from: "2026-06-24"
+    learned: "2026-06-24"
+    value: "IMPLEMENTED"
+    source: "session:2026-06-24"
 ---
-
 # SPEC-194 — Criterion Simulation Layer
 
 > **Priority:** P0 · **Estimate (human):** 5-7d · **Estimate (agent):** 6-9h · **Category:** novel · **Type:** governance-infrastructure

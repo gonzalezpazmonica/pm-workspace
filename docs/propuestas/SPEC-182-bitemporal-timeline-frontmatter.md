@@ -1,7 +1,8 @@
 ---
 spec_id: SPEC-182
 title: Bi-temporal timeline frontmatter on specs and decisions
-status: APPROVED
+status: IMPLEMENTED
+implemented_at: "2026-06-24"
 tier: 1
 priority: P2
 effort: 6-8h
@@ -12,6 +13,11 @@ unblocks:
   - SPEC-183
 origin: output/research/obsidian-second-brain-mejoras-cupulas-20260601.md
 inspiration: obsidian-second-brain timeline frontmatter (bi-temporal facts)
+timeline:
+  - from: "2026-06-24"
+    learned: "2026-06-24"
+    value: "IMPLEMENTED"
+    source: "session:2026-06-24"
 ---
 
 # SPEC-182 — Bi-temporal `timeline:` frontmatter on specs and decisions

@@ -26,8 +26,12 @@ discarded:
   - OKF como formato de exportación (rompe modelo N1-N4b; bundle plano no tiene modelo de confidencialidad)
   - SDK / tooling OKF (dependencia externa innecesaria; Savia ya tiene su grafo SQLite)
   - Visualizador HTML de bundle (out of scope; Savia no necesita visualización externa)
+timeline:
+  - from: "2026-06-24"
+    learned: "2026-06-24"
+    value: "IMPLEMENTED"
+    source: "session:2026-06-24"
 ---
-
 # SE-222 — OKF Adoptable Patterns
 
 ## Why
