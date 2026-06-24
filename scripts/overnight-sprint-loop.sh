@@ -1,0 +1,308 @@
+#!/usr/bin/env bash
+# scripts/overnight-sprint-loop.sh — SE-226: stateless overnight-sprint orchestrator
+#
+# Usage:
+#   overnight-sprint-loop.sh --sprint-id <id> --tasks <json-file> [--max-tasks 10] [--dry-run]
+#
+# Behavior:
+#   - Reads state.json for each task; skips non-pending
+#   - Writes checkpoint BEFORE and AFTER each task
+#   - Model escalation: fast → mid → heavy (TOKEN_EXHAUSTION only)
+#   - Aborts after AGENT_MAX_CONSECUTIVE_FAILURES consecutive failures (default: 3)
+#   - Time-box per task: AGENT_TASK_TIMEOUT_MINUTES (default: 15)
+#   - Audit log: output/agent-runs/<sprint-id>-audit.log
+#   - stdlib-only bash; no external deps in the orchestrator
+#   - The loop manages state only; actual agent execution is done by the caller hook
+#
+# Ref: SE-226, docs/rules/domain/autonomous-safety.md
+set -uo pipefail
+
+# ── Path resolution ──────────────────────────────────────────────────────────
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+WORKSPACE_DIR="${SAVIA_WORKSPACE_DIR:-${CLAUDE_PROJECT_DIR:-${OPENCODE_PROJECT_DIR:-$(git -C "$SCRIPT_DIR" rev-parse --show-toplevel 2>/dev/null || dirname "$SCRIPT_DIR")}}}"
+AGENT_RUNS_DIR="$WORKSPACE_DIR/output/agent-runs"
+STATE_SCRIPT="$SCRIPT_DIR/overnight-sprint-state.sh"
+
+# ── Defaults ─────────────────────────────────────────────────────────────────
+MAX_CONSECUTIVE_FAILURES="${AGENT_MAX_CONSECUTIVE_FAILURES:-3}"
+TASK_TIMEOUT_MIN="${AGENT_TASK_TIMEOUT_MINUTES:-15}"
+MAX_TASKS=10
+DRY_RUN=0
+SPRINT_ID=""
+TASKS_FILE=""
+
+# Model tier progression (TOKEN_EXHAUSTION escalation only)
+MODEL_TIERS=("fast" "mid" "heavy")
+
+# ── Helpers ──────────────────────────────────────────────────────────────────
+_now()  { date -u +"%Y-%m-%dT%H:%M:%SZ"; }
+_log()  { printf '[%s] %s\n' "$(_now)" "$*"; }
+_err()  { printf 'ERROR: %s\n' "$*" >&2; exit 1; }
+_warn() { printf 'WARN:  %s\n' "$*" >&2; }
+
+_jq_available() { command -v jq &>/dev/null; }
+
+# Read a single value from state.json
+_state_value() {
+  local sprint_id="$1"
+  local query="$2"
+  local sf="$AGENT_RUNS_DIR/$sprint_id/state.json"
+  [[ -f "$sf" ]] || return 1
+  if _jq_available; then
+    jq -r "$query" "$sf"
+  else
+    python3 -c "
+import sys, json
+data = json.load(open('$sf'))
+import re
+parts = [p for p in re.split(r'[.\[\]]+', '$query') if p]
+val = data
+for p in parts:
+    if p.lstrip('-').isdigit():
+        val = val[int(p)]
+    else:
+        val = val.get(p, '')
+print(val if not isinstance(val, (dict, list)) else json.dumps(val))
+"
+  fi
+}
+
+# Get pending task IDs (returns space-separated list)
+_pending_tasks() {
+  local sprint_id="$1"
+  local sf="$AGENT_RUNS_DIR/$sprint_id/state.json"
+  [[ -f "$sf" ]] || return 1
+  if _jq_available; then
+    jq -r '.tasks[] | select(.status == "pending") | .id' "$sf"
+  else
+    python3 -c "
+import json
+data = json.load(open('$sf'))
+for t in data.get('tasks', []):
+    if t.get('status') == 'pending':
+        print(t['id'])
+"
+  fi
+}
+
+# Get task description by id
+_task_description() {
+  local sprint_id="$1"
+  local task_id="$2"
+  local sf="$AGENT_RUNS_DIR/$sprint_id/state.json"
+  if _jq_available; then
+    jq -r --argjson id "$task_id" '.tasks[] | select(.id == $id) | .description' "$sf"
+  else
+    python3 -c "
+import json
+data = json.load(open('$sf'))
+for t in data.get('tasks', []):
+    if str(t.get('id')) == '$task_id':
+        print(t.get('description', ''))
+        break
+"
+  fi
+}
+
+# Append to audit log
+_audit() {
+  local sprint_id="$1"
+  local message="$2"
+  local audit_file="$AGENT_RUNS_DIR/${sprint_id}-audit.log"
+  printf '[%s] %s\n' "$(_now)" "$message" >> "$audit_file"
+}
+
+# ── Agent runner hook ────────────────────────────────────────────────────────
+# This function is the integration point. By default it is a NO-OP that returns
+# PENDING (for testing / dry-run). Callers override it by sourcing this script
+# and redefining run_agent_task().
+#
+# Contract:
+#   run_agent_task <sprint_id> <task_id> <description> <model_tier>
+#   exits with:
+#     0 → success
+#     2 → TOKEN_EXHAUSTION (trigger model escalation)
+#     3 → OOM | TIMEOUT | INFRA_ERROR (abort without escalation)
+#     * → generic failure
+
+run_agent_task() {
+  local sprint_id="$1"
+  local task_id="$2"
+  local description="$3"
+  local model_tier="$4"
+
+  if [[ "$DRY_RUN" -eq 1 ]]; then
+    _log "DRY-RUN: would execute task $task_id '$description' with model $model_tier"
+    return 0
+  fi
+
+  # Default stub: caller must override this function for real execution.
+  _warn "run_agent_task not implemented — return PENDING"
+  return 0
+}
+
+# ── Arg parsing ──────────────────────────────────────────────────────────────
+parse_args() {
+  while [[ $# -gt 0 ]]; do
+    case "$1" in
+      --sprint-id)   SPRINT_ID="$2";   shift 2 ;;
+      --tasks)       TASKS_FILE="$2";  shift 2 ;;
+      --max-tasks)   MAX_TASKS="$2";   shift 2 ;;
+      --dry-run)     DRY_RUN=1;        shift   ;;
+      *) _err "unknown argument: $1" ;;
+    esac
+  done
+  [[ -n "$SPRINT_ID" ]]  || _err "--sprint-id required"
+  [[ -n "$TASKS_FILE" ]] || _err "--tasks required"
+  [[ -f "$TASKS_FILE" ]] || _err "tasks file not found: $TASKS_FILE"
+}
+
+# ── Main loop ────────────────────────────────────────────────────────────────
+run_loop() {
+  local sprint_id="$SPRINT_ID"
+  local audit_file="$AGENT_RUNS_DIR/${sprint_id}-audit.log"
+  mkdir -p "$AGENT_RUNS_DIR"
+
+  export OVERNIGHT_SPRINT_ID="$sprint_id"
+  export AGENT_RUNS_DIR
+
+  # Initialize state (idempotent — no-op if state already exists)
+  bash "$STATE_SCRIPT" init --sprint-id "$sprint_id" --tasks-file "$TASKS_FILE" >/dev/null
+
+  local started_at
+  started_at="$(_now)"
+  _audit "$sprint_id" "LOOP_START sprint_id=$sprint_id max_tasks=$MAX_TASKS dry_run=$DRY_RUN"
+  _log "Loop started: sprint=$sprint_id max_tasks=$MAX_TASKS timeout=${TASK_TIMEOUT_MIN}m dry_run=$DRY_RUN"
+
+  local tasks_run=0
+  local tasks_done=0
+  local tasks_failed=0
+  local consecutive_failures=0
+
+  while true; do
+    # Check task budget
+    if [[ "$tasks_run" -ge "$MAX_TASKS" ]]; then
+      _log "Reached max_tasks=$MAX_TASKS — stopping"
+      _audit "$sprint_id" "LOOP_STOP reason=max_tasks tasks_run=$tasks_run done=$tasks_done failed=$tasks_failed"
+      break
+    fi
+
+    # Check consecutive failure gate (autonomous-safety.md)
+    if [[ "$consecutive_failures" -ge "$MAX_CONSECUTIVE_FAILURES" ]]; then
+      _log "ABORT: consecutive_failures=$consecutive_failures >= max=$MAX_CONSECUTIVE_FAILURES"
+      _audit "$sprint_id" "LOOP_ABORT reason=max_consecutive_failures consecutive_failures=$consecutive_failures"
+      break
+    fi
+
+    # Read pending tasks
+    local pending_ids
+    pending_ids="$(_pending_tasks "$sprint_id" 2>/dev/null || echo "")"
+
+    if [[ -z "$pending_ids" ]]; then
+      _log "No pending tasks remaining — loop complete"
+      _audit "$sprint_id" "LOOP_STOP reason=no_pending_tasks done=$tasks_done failed=$tasks_failed"
+      break
+    fi
+
+    # Pick first pending task
+    local task_id
+    task_id="$(printf '%s\n' "$pending_ids" | head -1)"
+
+    local description
+    description="$(_task_description "$sprint_id" "$task_id")"
+
+    _log "Task $task_id: '$description'"
+    _audit "$sprint_id" "TASK_START task_id=$task_id description='$description'"
+
+    # Model escalation loop
+    local succeeded=0
+    local task_exit_code=0
+    local used_model="fast"
+
+    for model_tier in "${MODEL_TIERS[@]}"; do
+      used_model="$model_tier"
+
+      # Checkpoint BEFORE
+      bash "$STATE_SCRIPT" checkpoint \
+        --task-id "$task_id" \
+        --status in_progress \
+        --model "$model_tier" >/dev/null 2>&1
+
+      _log "  Attempting with model=$model_tier (timeout=${TASK_TIMEOUT_MIN}m)"
+
+      # Execute with time-box
+      local timeout_secs=$(( TASK_TIMEOUT_MIN * 60 ))
+      task_exit_code=0
+
+      if command -v timeout &>/dev/null; then
+        timeout "$timeout_secs" bash -c \
+          "run_agent_task '$sprint_id' '$task_id' '$description' '$model_tier'" \
+          || task_exit_code=$?
+      else
+        # Fallback without timeout (stdlib only)
+        run_agent_task "$sprint_id" "$task_id" "$description" "$model_tier" \
+          || task_exit_code=$?
+      fi
+
+      if [[ "$task_exit_code" -eq 0 ]]; then
+        succeeded=1
+        break
+      elif [[ "$task_exit_code" -eq 2 ]]; then
+        # TOKEN_EXHAUSTION → escalate model
+        _log "  TOKEN_EXHAUSTION on model=$model_tier — escalating"
+        _audit "$sprint_id" "MODEL_ESCALATION task_id=$task_id from=$model_tier"
+        # Update model_escalations counter in state
+        if _jq_available; then
+          local sf="$AGENT_RUNS_DIR/$sprint_id/state.json"
+          local new_json
+          new_json="$(jq '.model_escalations = (.model_escalations + 1)' "$sf")"
+          local tmp_f
+          tmp_f="$(mktemp "$(dirname "$sf")/.state-XXXXXX.tmp")"
+          printf '%s\n' "$new_json" > "$tmp_f"
+          mv -f "$tmp_f" "$sf"
+        fi
+        continue
+      else
+        # OOM / TIMEOUT / INFRA_ERROR — do NOT escalate model
+        _warn "  task $task_id exit=$task_exit_code — no escalation (OOM/INFRA/TIMEOUT)"
+        break
+      fi
+    done
+
+    # Checkpoint AFTER
+    if [[ "$succeeded" -eq 1 ]]; then
+      bash "$STATE_SCRIPT" complete --task-id "$task_id" >/dev/null 2>&1
+      _audit "$sprint_id" "TASK_DONE task_id=$task_id model=$used_model"
+      consecutive_failures=0
+      tasks_done=$(( tasks_done + 1 ))
+    else
+      local fail_reason="exit_code=$task_exit_code"
+      [[ "$task_exit_code" -eq 124 ]] && fail_reason="timeout_${TASK_TIMEOUT_MIN}m"
+      bash "$STATE_SCRIPT" fail \
+        --task-id "$task_id" \
+        --reason "$fail_reason" >/dev/null 2>&1
+      _audit "$sprint_id" "TASK_FAILED task_id=$task_id reason=$fail_reason"
+      consecutive_failures=$(( consecutive_failures + 1 ))
+      tasks_failed=$(( tasks_failed + 1 ))
+      _warn "  task $task_id failed ($fail_reason); consecutive_failures=$consecutive_failures"
+    fi
+
+    tasks_run=$(( tasks_run + 1 ))
+  done
+
+  local ended_at
+  ended_at="$(_now)"
+  _audit "$sprint_id" "LOOP_END started_at=$started_at ended_at=$ended_at done=$tasks_done failed=$tasks_failed"
+
+  _log "Loop ended: done=$tasks_done failed=$tasks_failed"
+
+  # Final status summary to stdout
+  bash "$STATE_SCRIPT" status 2>/dev/null || true
+}
+
+# ── Entrypoint ───────────────────────────────────────────────────────────────
+# Only run loop if script is invoked directly (not sourced)
+if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
+  parse_args "$@"
+  run_loop
+fi
