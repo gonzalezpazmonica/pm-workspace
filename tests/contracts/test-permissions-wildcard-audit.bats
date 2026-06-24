@@ -1,0 +1,1 @@
+../test-permissions-wildcard-audit.bats
