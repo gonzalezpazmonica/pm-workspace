@@ -148,3 +148,9 @@ bash scripts/savia-double-optin-check.sh --skill <nombre> --confirm-autonomous
 ```
 
 Detalle completo (mapeo skill→variable, auditoría, bypass de tests, exit codes): ver `docs/rules/domain/double-optin-protocol.md`.
+
+## Maker/Checker Split — SE-228 S2
+
+En modos L2+, el agente implementador y el verificador son instancias separadas.
+Regla canonica: docs/rules/domain/maker-checker-protocol.md.
+Script de apoyo: scripts/loop-verify.sh.
