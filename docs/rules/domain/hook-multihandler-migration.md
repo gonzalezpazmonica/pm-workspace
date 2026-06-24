@@ -1,17 +1,35 @@
 ---
-globs: [".claude/hooks/**", ".opencode/plugin/**", "scripts/hook-multihandler-baseline.sh"]
+globs: [".claude/hooks/**", ".opencode/plugins/**", "scripts/hook-multihandler-baseline.sh"]
 context_tier: L2
 token_budget: 1200
 spec_ref: SPEC-150
-status: in-progress
-slice_current: 1
+status: implemented
+slice_current: 2
+slice_final: 2
+updated: 2026-06-24
 created: 2026-06-24
 ---
 
 # Hook Multi-Handler Migration — Diseño
 
 > Slice 1 completado: baseline FP/FN establecido.
+> Slice 2 completado: sycophancy-guard.ts implementado (2026-06-24).
+> Slices 3-6 descartados — ver decisión de alcance reducido abajo.
 > Ref: `docs/propuestas/SPEC-150-hooks-multi-handler-migration.md`
+
+## Decisión de alcance reducido — 2026-06-24
+
+Slice 1 (probe global) midió FP rate = 0.00 (0%) en todos los 6 hooks evaluados.
+Con FP rate < 2%, el criterio de migración no se cumple para Slices 3-6.
+ROI de migración completa: bajo. Coste de mantenimiento del doble sistema: alto.
+
+**Decisión**: ejecutar solo Slice 2 (sycophancy-strip → sycophancy-guard.ts).
+Justificación: mayor valor semántico del candidato, bajo volumen de falsos positivos.
+
+- Slice 2 EJECUTADO: `.opencode/plugins/guards/sycophancy-guard.ts` + wired en AFTER_GUARDS.
+- Slices 3-6 DESCARTADOS: audit trail MCP, session summary, agent handler opt-in, audit script.
+- Bash hook `.opencode/hooks/sycophancy-strip.sh` se mantiene como Layer 1 fallback (SPEC-192).
+- Criterio de reapertura: si FP rate sube a >= 2% en cualquier hook, reabrir Slice correspondiente.
 
 ## Candidatos a migración (6 hooks evaluados en Slice 1)
 
@@ -55,12 +73,12 @@ Layer 2 (TypeScript plugin — semántico, LLM judge)
 
 ## Plan por fases
 
-- **Slice 1** (completado) — Baseline FP/FN, 20 inputs por hook
-- **Slice 2** — Migrar hooks semánticos a plugin TS con fallback
-- **Slice 3** — Audit trail via MCP (requiere SPEC-141)
-- **Slice 4** — Session summary via fetch
-- **Slice 5** — Agent handler opt-in
-- **Slice 6** — Audit script + docs + cobertura completa
+- **Slice 1** (completado 2026-06-24) — Baseline FP/FN, 20 inputs por hook. FP rate = 0.00.
+- **Slice 2** (completado 2026-06-24) — sycophancy-guard.ts implementado. Wired en AFTER_GUARDS.
+- **Slice 3** (descartado — ROI bajo, FP=0) — Audit trail via MCP
+- **Slice 4** (descartado — ROI bajo, FP=0) — Session summary via fetch
+- **Slice 5** (descartado — ROI bajo, FP=0) — Agent handler opt-in
+- **Slice 6** (descartado — ROI bajo, FP=0) — Audit script + docs + cobertura completa
 
 ## Coste operativo
 

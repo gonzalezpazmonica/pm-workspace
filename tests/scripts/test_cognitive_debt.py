@@ -167,6 +167,7 @@ class TestCLI:
         proc = self._run([
             "--session-hours", "0",
             "--verification-rate", "1.0",
+            "--hour-of-day", "10",  # mid-morning, no nocturnal penalty
             "--json",
         ])
         data = json.loads(proc.stdout)

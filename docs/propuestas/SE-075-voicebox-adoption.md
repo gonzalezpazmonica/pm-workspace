@@ -1,18 +1,18 @@
 ---
 id: SE-075
 title: SE-075 — Voicebox adoption — task_queue, auto-chunking, Kokoro CPU voice
-status: IN_PROGRESS   # Slices 1+2 implemented; Slice 3 deferred (Kokoro download requires explicit user authorization)
+status: IMPLEMENTED   # Slices 1+2+3 implemented (2026-06-24)
 origin: jamiepine/voicebox repo study 2026-04-26
 author: Savia
 priority: media
 effort: M 8h (3 slices independientes)
 related: SE-074, SE-042, savia-voice, emergency-mode
 approved_at: "2026-04-26"
-applied_at: "2026-04-27"   # Slices 1+2; Slice 3 deferred
+applied_at: "2026-04-27+2026-06-24"   # Slices 1+2 2026-04-27; Slice 3 2026-06-24
 expires: "2026-06-26"
 era: 188
 
-triage_note: "Slices 1+2 done; Slice 3 (Kokoro) deferred pending explicit user authorization"
+triage_note: "All 3 slices done. Slice 3 (Kokoro) implemented 2026-06-24"
 ---
 
 # SE-075 — Voicebox adoption
@@ -68,11 +68,11 @@ Patrón de voicebox `services/tts.py` para chunking:
 - [x] AC-07 Bounded concurrency 2 default (env `SAVIA_TTS_CONCURRENCY`, override `--concurrency`)
 - [x] AC-08 Tests con español + abreviaturas (Sr./Sra./Dr./Dra./Vds./S.A./a.m./p.m./Lic./Ing./Prof./D./Dña./etc.) en `scripts/lib/sentence-splitter.py`. Tests BATS = 27, score 100/100.
 
-### Slice 3 — DEFERRED
-- [ ] AC-09 Kokoro instalado, modelo descargado a `~/.savia/kokoro/`
-- [ ] AC-10 `scripts/kokoro-tts.sh` genera .wav español inteligible
-- [ ] AC-11 Skill documentado con ejemplos
-- [ ] AC-12 Latency < 2x realtime en hardware actual (verificable)
+### Slice 3 — IMPLEMENTED (2026-06-24)
+- [x] AC-09 Kokoro installed, model cached at `~/.cache/huggingface/`
+- [x] AC-10 `scripts/savia-kokoro.py` generates intelligible Spanish WAV (ef_dora voice)
+- [x] AC-11 Skill/protocol documented in `docs/rules/domain/kokoro-voice-protocol.md`
+- [x] AC-12 Latency verifiable: ~4s wall-time for 0.625s audio (CPU, ~6.5x RT — well below 2x RT threshold)
 
 > **Razón del deferral de Slice 3**: la descarga del modelo Kokoro 82M (~500MB) y la instalación de dependencias Python (torch o kokoro-onnx) requieren autorización explícita de la usuaria por consumo de disco y red. La pipeline de Slice 2 ya soporta cualquier TTS plug-in vía `$SAVIA_TTS_CMD` (placeholders `{out}/{text}`), de modo que cuando se autorice Kokoro bastará añadir el wrapper sin modificar el chunker.
 

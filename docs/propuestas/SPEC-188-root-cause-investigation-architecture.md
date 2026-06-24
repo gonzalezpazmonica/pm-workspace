@@ -1,8 +1,8 @@
 ---
 spec_id: SPEC-188
 title: Root-Cause Investigation Architecture — meta-spec del sistema causal
-status: IN_PROGRESS
-status_note: "Phase 3 (causal-confidence-scorer.py) + Phase 4 MVP (diagnostic-metrics-tracker.py) implemented 2026-06-24. Phases 1, 2, full P3/P4 pending."
+status: IMPLEMENTED
+status_note: "F1 failure-pattern-memory.sh DONE. F2 Sealed Contracts DONE. F3 DONE: causal-confidence-scorer.py + decision-trace-writer.py + decision-trace-capture.sh hook + test-causal-confidence-channel.bats (10/10) + decision-trace-protocol.md. F4 DONE: diagnostic-metrics-tracker.py + fix-survival-check.sh + monthly-diagnostic-report.sh + test-spec188-f4-survival.bats (10/10). All components present. 2026-06-24."
 tier: 1
 priority: P0
 effort: 6-8h (spec doc) · ~80-120h implementacion completa via sub-specs

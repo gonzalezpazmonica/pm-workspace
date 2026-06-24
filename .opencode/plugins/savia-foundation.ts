@@ -48,6 +48,8 @@ import { autoZoomOut } from "./guards/auto-zoom-out.ts";
 import { contextOriginStamp } from "./guards/context-origin-stamp.ts";
 import { contextDropAfterUse } from "./guards/context-drop-after-use.ts";
 import { subagentAudienceFilter } from "./guards/subagent-audience-filter.ts";
+// SPEC-150 Slice 2: sycophancy detection (TS port of sycophancy-strip.sh)
+import { sycophancyGuard } from "./guards/sycophancy-guard.ts";
 
 const BEFORE_GUARDS = [
   // Cheap guards first — fail fast.
@@ -75,6 +77,8 @@ const AFTER_GUARDS = [
   contextOriginStamp,
   // SE-221 Slice 2: drop/stub/keep decision on long Read/WebFetch/Bash outputs
   contextDropAfterUse,
+  // SPEC-150 Slice 2: adulation detection (shadow mode by default, non-blocking)
+  sycophancyGuard,
 ] as const;
 
 // Model tier mapping for provider-agnostic agents (SPEC-127 / model-alias-schema.md)
