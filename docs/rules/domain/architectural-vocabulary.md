@@ -38,14 +38,20 @@ _Avoid_: boundary (overload con DDD bounded context).
 ### Adapter
 **Definición**: cosa concreta que satisface una interface en un seam. Describe *rol* (qué slot ocupa), no sustancia (qué tiene dentro).
 
+_Avoid_: plugin, connector, provider (mezclan rol con sustancia o tecnología concreta — usa adapter cuando hablas del slot, implementation cuando hablas del interior).
+
 ### Depth
 **Definición**: leverage en la interface — cantidad de behavior que un caller (o test) puede ejercer por unidad de interface que tiene que aprender. Un module es **deep** cuando una gran cantidad de behavior se sienta detrás de una interface pequeña. Un module es **shallow** cuando la interface es casi tan compleja como la implementation.
+
+_Avoid_: abstraction, encapsulation (no son sinónimos — abstraction describe qué se oculta, encapsulation describe cómo; depth describe cuánto comportamiento compra el caller por cada unidad de interface que aprende).
 
 ### Leverage
 **Definición**: lo que callers ganan de Depth. Más capacidad por unidad de interface que tienen que aprender. Una implementation paga rendimiento a través de N call sites y M tests.
 
 ### Locality
 **Definición**: lo que maintainers ganan de Depth. Cambio, bugs, conocimiento y verificación se concentran en un sitio en lugar de extenderse a través de callers. Fix once, fixed everywhere.
+
+_Avoid_: isolation, cohesion (isolation es propiedad de pruebas —sin dependencias externas—; cohesion describe si las partes de un module encajan temáticamente; locality describe si los cambios se concentran en vez de propagarse).
 
 ## Principios ratchet
 
