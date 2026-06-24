@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=7ff885f512c4d27ab52a34b48607982a6df8dc2b523b52dc82b448a6676df07f
-timestamp=2026-06-24T09:11:32Z
+diff_hash=248778e920e5abc45d3a671b1b57a695f5ed80d2b8c431045bef92106a3d8f68
+timestamp=2026-06-24T09:27:54Z
 branch=agent/se227-tribunal-hard-gates-20260624
-head_commit=ea2694d6
-signature=a0f413ca65b65ccb97afed802f2250ca765d339b107c71e4867304c0b0ace4df
+head_commit=d0e45b4f
+signature=0af1911fa50af92351b6f5aadb972396b521a84297c3ba0a483174953ac4722b
