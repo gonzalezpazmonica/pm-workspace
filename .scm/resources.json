@@ -1,6 +1,6 @@
 {
-  "hash": "55cacb6a340b",
-  "total": 1298,
+  "hash": "5c2a50f446dd",
+  "total": 1300,
   "resources": [
     {
       "category": "analysis",
@@ -4337,6 +4337,20 @@
     },
     {
       "category": "development",
+      "name": "spec-validator",
+      "intents": [
+        "field",
+        "frontmatter",
+        "resource",
+        "spec",
+        "validates"
+      ],
+      "kind": "script",
+      "path": "scripts/spec-validator.sh",
+      "description": "spec-validator.sh — SE-222 S0: validates resource: URI field in spec frontmatter"
+    },
+    {
+      "category": "development",
       "name": "spec-verify",
       "intents": [
         "against",
@@ -4390,6 +4404,20 @@
       "kind": "script",
       "path": "scripts/specs-frontmatter-normalize.sh",
       "description": "specs-frontmatter-normalize.sh — SE-054 Slice 2+3 frontmatter normalization."
+    },
+    {
+      "category": "development",
+      "name": "speculative/feasibility-probe",
+      "intents": [
+        "execution",
+        "feasibility",
+        "probe",
+        "slice",
+        "speculative"
+      ],
+      "kind": "script",
+      "path": "scripts/speculative/feasibility-probe.sh",
+      "description": "feasibility-probe.sh — SE-220 Slice 0: speculative tool execution feasibility."
     },
     {
       "category": "development",
