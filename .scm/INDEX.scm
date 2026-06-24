@@ -1,6 +1,6 @@
 # Savia Capability Map — INDEX
-> hash: 3114f2c7e2ee | resources: 1305
-> 557 commands · 110 skills · 75 agents · 563 scripts
+> hash: 308871f624cb | resources: 1306
+> 557 commands · 110 skills · 75 agents · 564 scripts
 
 [analysis] /a11y-report — accesibilidad,completos,conformidad,código,declaración — cmd:.claude/commands/a11y-report.md
 [analysis] Trace Optimize — across,distributed,optimize,rates,sampling — cmd:.claude/commands/trace-optimize.md
@@ -861,6 +861,7 @@
 [planning] project-update — activo,actualización,fuentes,integral,proyecto — skill:.claude/skills/project-update/SKILL.md
 [planning] project-update-devops — config,devops,project,real,resuelve — script:scripts/project-update-devops.sh
 [planning] prompt-optimizer — agente,efectividad,mejorar,optimiza,prompt — skill:.claude/skills/prompt-optimizer/SKILL.md
+[planning] propuestas-index-gen — auto,docs,generate,index,propuestas — script:scripts/propuestas-index-gen.sh
 [planning] protect-project-privacy — accidental,barrera,contra,privacy,project — script:scripts/protect-project-privacy.sh
 [planning] pursuit-bid — decision,pursuit,qualified,record — cmd:.claude/commands/pursuit-bid.md
 [planning] pursuit-close — analysis,close,lost,mortem,post — cmd:.claude/commands/pursuit-close.md

@@ -1,6 +1,6 @@
 {
-  "hash": "edead0f63711",
-  "total": 1305,
+  "hash": "273e86d5d14f",
+  "total": 1306,
   "resources": [
     {
       "category": "analysis",
@@ -11089,6 +11089,20 @@
       "kind": "skill",
       "path": ".claude/skills/prompt-optimizer/SKILL.md",
       "description": "Usar cuando se optimiza el prompt de un skill o agente para mejorar su efectividad."
+    },
+    {
+      "category": "planning",
+      "name": "propuestas-index-gen",
+      "intents": [
+        "auto",
+        "docs",
+        "generate",
+        "index",
+        "propuestas"
+      ],
+      "kind": "script",
+      "path": "scripts/propuestas-index-gen.sh",
+      "description": "propuestas-index-gen.sh — SE-222 S2: auto-generate INDEX.md for docs/propuestas/"
     },
     {
       "category": "planning",
