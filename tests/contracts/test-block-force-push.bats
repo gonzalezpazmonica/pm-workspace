@@ -1,0 +1,1 @@
+../hooks/test-block-force-push.bats
