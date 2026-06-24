@@ -6,6 +6,7 @@ priority: P2
 effort: L
 era: 204
 origin: output/research/evo-hq-savia-20260609.md
+resource: "https://github.com/evo-hq/evo"
 inspiration: evo-hq/evo v0.5.0 (Apache-2.0) — autonomous codebase research
 deps:
   - SE-211 (typed memory schema — implemented)
