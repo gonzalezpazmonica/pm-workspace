@@ -1,7 +1,8 @@
 ---
 id: SPEC-029
 title: SPEC-029: Memory Agent — Memoria como Agente Conversacional
-status: ACCEPTED
+status: IMPLEMENTED
+applied_at: "2026-06-24"
 origin_date: "2026-03-25"
 migrated_at: "2026-04-19"
 migrated_from: body-prose

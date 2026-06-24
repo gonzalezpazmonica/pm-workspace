@@ -1,7 +1,8 @@
 ---
 id: SPEC-026
 title: SPEC-026: PreCompact Hook — Transcript Backup
-status: ACCEPTED
+status: IMPLEMENTED
+applied_at: "2026-06-24"
 origin_date: "2026-03-22"
 migrated_at: "2026-04-19"
 migrated_from: body-prose
