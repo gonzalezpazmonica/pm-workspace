@@ -2,14 +2,15 @@
 # rule-manifest-regenerate.sh — SE-097
 # Regenera docs/rules/domain/INDEX.md y rule-manifest.json desde el filesystem.
 #
+# Estrategia (Rule #22, ≤150 líneas):
+#   INDEX.md  = master index (punteros a sub-índices + sumario, ≤150 líneas)
+#   rule-manifest.json = listado completo de todos los .md con tier+consumers
+#
 # Usage:
 #   rule-manifest-regenerate.sh --dry-run   # imprime diff, no escribe
 #   rule-manifest-regenerate.sh --write     # regenera de verdad
 #
-# Output: INDEX.md ≤150 líneas organizado por categoría (domain/languages/feedback).
-#         rule-manifest.json actualizado con todos los .md actuales.
-#
-# Safety: idempotente. PURE_BASH. set -uo pipefail. No destruye datos.
+# Safety: idempotente. PURE_BASH + python3 (solo stdlib). set -uo pipefail.
 # Ref: SE-097, Rule #22 (150-line limit), SE-057 Slice 2.
 
 set -uo pipefail
@@ -50,191 +51,173 @@ fi
 
 [[ ! -d "$RULES_DIR" ]] && { echo "ERROR: directorio no encontrado: $RULES_DIR" >&2; exit 2; }
 
-# ── Extrae el título del frontmatter o de la primera línea H1 ─────────────────
+# ── Extrae el título del frontmatter o primera línea H1 ───────────────────────
 extract_title() {
   local file="$1"
   local title=""
-  # Intenta 'title:' en frontmatter YAML
-  title=$(grep -m1 '^title:' "$file" 2>/dev/null | sed 's/^title:[[:space:]]*//' | sed 's/^"\(.*\)"$/\1/' || true)
+  title=$(grep -m1 '^title:' "$file" 2>/dev/null | sed 's/^title:[[:space:]]*//' | sed 's/^"\(.*\)"$/\1/' | tr -d "'" || true)
   if [[ -z "$title" ]]; then
-    # Primer H1 en el documento
     title=$(grep -m1 '^# ' "$file" 2>/dev/null | sed 's/^# //' || true)
   fi
   if [[ -z "$title" ]]; then
     title="$(basename "$file" .md)"
   fi
-  # Trunca a 80 caracteres para que la tabla no explote
   echo "${title:0:80}"
 }
 
-# ── Extrae context_tier del frontmatter ───────────────────────────────────────
-extract_tier() {
-  local file="$1"
-  grep -m1 '^context_tier:' "$file" 2>/dev/null | sed 's/^context_tier:[[:space:]]*//' | tr -d '"' | tr -d "'" || echo "dormant"
-}
-
-# ── Asigna categoría visual a un fichero de domain/ ──────────────────────────
+# ── Asigna categoría compacta a un basename de fichero ────────────────────────
 assign_category() {
   local f="$1"
   case "$f" in
-    agent-*|agents-*|fork-agent*|managed-agents*)  echo "Agent Operation" ;;
-    ai-*|ai_*)                                      echo "AI Governance" ;;
-    audit-*|audit_*)                                echo "Audit" ;;
-    autonomous-safety*)                             echo "Autonomous Safety" ;;
-    backlog-git*)                                   echo "Backlog" ;;
-    changelog-*)                                    echo "Changelog" ;;
-    client-profile*)                               echo "Profile" ;;
-    cloud-*|iac-*|infrastructure-*)                echo "Infrastructure" ;;
-    code-review-court*|truth-tribunal*)            echo "Court/Review" ;;
-    code-review-rules*)                            echo "Meta Rules" ;;
-    command-*)                                     echo "Commands" ;;
-    commit-*)                                      echo "Commits" ;;
-    context-*)                                     echo "Context Mgmt" ;;
-    critical-rules*)                               echo "Meta Rules" ;;
-    data-sovereignty*)                             echo "Data Governance" ;;
-    double-optin*)                                 echo "Autonomous Safety" ;;
-    emergency-*)                                   echo "Emergency" ;;
-    eval-*)                                        echo "Evaluation" ;;
-    equality-shield*)                              echo "Shield/Security" ;;
-    governance-*)                                  echo "Governance" ;;
-    graphrag-*)                                    echo "GraphRAG" ;;
-    handoff-*)                                     echo "Handoffs" ;;
-    hook-*|async-hooks*|intelligent-hooks*)        echo "Hooks" ;;
-    knowledge-graph*|ubiquitous-*)                 echo "Knowledge" ;;
-    language-packs*)                               echo "Languages" ;;
-    managed-content*)                              echo "Content" ;;
-    mcp-*)                                         echo "MCP" ;;
-    memory-system*|session-memory*|session-state*) echo "Memory" ;;
-    messaging-*)                                   echo "Messaging" ;;
-    nidos-*)                                       echo "Nidos" ;;
-    output-taxonomy*|file-output*)                 echo "Output" ;;
-    pm-config*|pm-workflow*)                       echo "PM Config" ;;
-    postmortem-*)                                  echo "Postmortem" ;;
-    pr-*)                                          echo "PR Process" ;;
-    profile-*)                                     echo "Profile" ;;
-    radical-honesty*|caveman-*)                    echo "Radical Honesty" ;;
-    rbac-*)                                        echo "RBAC" ;;
-    receipts-*)                                    echo "Receipts" ;;
-    regulatory-*)                                  echo "Compliance" ;;
-    resolver-*)                                    echo "Routing" ;;
-    risk-*)                                        echo "Risk" ;;
-    savia-dual*)                                   echo "Savia Core" ;;
-    savia-ethical*|savia-foundational*)            echo "Savia Core" ;;
-    savia-hub*|savia-enterprise*|savia-memory*)    echo "Savia Core" ;;
-    security-*|adversarial-security*)              echo "Security" ;;
-    sentinel-*)                                    echo "Security" ;;
-    skill-*|skillssh-*)                            echo "Skills" ;;
-    slm-*)                                         echo "SLM" ;;
-    spec-*)                                        echo "Spec/SDD" ;;
-    subagent-*)                                    echo "Agent Operation" ;;
-    team-*|role-workflows*|onboarding-*)           echo "Teams" ;;
-    test-*)                                        echo "Testing" ;;
-    tool-*)                                        echo "Tools" ;;
-    tribunal-*|truth-*)                            echo "Tribunal" ;;
-    vault-*)                                       echo "Vault" ;;
-    verification-*|verified-*|write-time-*)        echo "Verification" ;;
-    vertical-*|workflow-vs-*)                      echo "Routing" ;;
-    voice-*|zeroclaw-*|transcription-*)            echo "Voice/Zeroclaw" ;;
-    web-research*)                                 echo "Web Research" ;;
-    wellbeing-*)                                   echo "Wellbeing" ;;
-    zero-project-*)                                echo "Security" ;;
-    *)                                             echo "Other" ;;
+    agent-*|agents-*|fork-agent*|managed-agents*|subagent-*) echo "agent-ops" ;;
+    ai-*)                                                     echo "ai-governance" ;;
+    audit-*)                                                  echo "audit" ;;
+    autonomous-safety*|double-optin*)                        echo "autonomous-safety" ;;
+    backlog-git*)                                             echo "backlog" ;;
+    changelog-*)                                              echo "changelog" ;;
+    client-profile*)                                         echo "profile" ;;
+    cloud-*|iac-*|infrastructure-*)                          echo "infrastructure" ;;
+    code-review-court*|truth-tribunal*)                      echo "court-review" ;;
+    code-review-rules*|critical-rules*)                      echo "meta-rules" ;;
+    command-ux*|command-validation*)                         echo "commands" ;;
+    commit-*)                                                 echo "commits" ;;
+    context-*)                                                echo "context-mgmt" ;;
+    data-sovereignty*)                                       echo "data-governance" ;;
+    emergency-*)                                              echo "emergency" ;;
+    eval-*)                                                   echo "evaluation" ;;
+    equality-shield*)                                        echo "shield" ;;
+    governance-*)                                             echo "governance" ;;
+    graphrag-*)                                               echo "graphrag" ;;
+    handoff-*|hcm-*)                                         echo "handoffs" ;;
+    hook-*|async-hooks*|intelligent-hooks*)                  echo "hooks" ;;
+    knowledge-graph*|ubiquitous-*)                           echo "knowledge" ;;
+    language-packs*)                                         echo "languages" ;;
+    managed-content*)                                        echo "content" ;;
+    mcp-*)                                                    echo "mcp" ;;
+    memory-system*|session-memory*|session-state*)           echo "memory" ;;
+    messaging-*)                                              echo "messaging" ;;
+    nidos-*)                                                  echo "nidos" ;;
+    output-taxonomy*|file-output*)                           echo "output" ;;
+    pm-config*|pm-workflow*)                                 echo "pm-config" ;;
+    postmortem-*)                                             echo "postmortem" ;;
+    pr-signing*|pr-natural*)                                  echo "pr-process" ;;
+    profile-*)                                                echo "profile" ;;
+    radical-honesty*|caveman-*)                              echo "radical-honesty" ;;
+    rbac-*)                                                   echo "rbac" ;;
+    receipts-*)                                               echo "receipts" ;;
+    regulatory-*)                                             echo "compliance" ;;
+    resolver-*)                                               echo "routing" ;;
+    risk-*)                                                   echo "risk" ;;
+    savia-dual*|savia-ethical*|savia-foundational*|savia-hub*|savia-memory*|savia-enterprise*) echo "savia-core" ;;
+    security-*|adversarial-security*|sentinel-*|secret-*)   echo "security" ;;
+    skill-*|skillssh-*)                                      echo "skills" ;;
+    slm-*)                                                    echo "slm" ;;
+    skill-catalog*|skill-maturity*|skill-template*|skill-trigger*) echo "skills" ;;
+    spec-*)                                                   echo "spec-sdd" ;;
+    team-*|role-workflows*|onboarding-*)                     echo "teams" ;;
+    test-*|pre-commit-bats*)                                  echo "testing" ;;
+    tool-*)                                                   echo "tools" ;;
+    tribunal-*)                                               echo "tribunal" ;;
+    vault-*)                                                  echo "vault" ;;
+    verification-*|verified-*|write-time-*)                  echo "verification" ;;
+    vertical-*|workflow-vs-*)                                echo "routing" ;;
+    voice-*|zeroclaw-*|transcription-*)                      echo "voice-zeroclaw" ;;
+    web-research*)                                            echo "web-research" ;;
+    wellbeing-*)                                              echo "wellbeing" ;;
+    zero-project-*)                                           echo "security" ;;
+    *)                                                        echo "other" ;;
   esac
 }
 
-# ── Genera el INDEX.md nuevo ──────────────────────────────────────────────────
-generate_index() {
+# ── Genera el INDEX.md maestro (≤150 líneas) ──────────────────────────────────
+generate_master_index() {
   local domain_count=0
   local lang_count=0
-  local total_lines=0
 
-  # Recoge todos los .md de domain/ (excluyendo INDEX.md y subdirectorios profundos)
-  declare -A cats
-  declare -A cat_entries  # cat -> "file|title\n..."
+  declare -A cat_count
+  declare -A cat_files  # cat -> "file1 file2 ..."
 
   while IFS= read -r f; do
     bn="$(basename "$f")"
     [[ "$bn" == "INDEX.md" ]] && continue
     cat="$(assign_category "$bn")"
-    title="$(extract_title "$f")"
-    # Append: cat_entries[cat] += "file|title\n"
-    cats["$cat"]=1
-    cat_entries["$cat"]+="${bn}|${title}"$'\n'
+    cat_count["$cat"]=$((${cat_count["$cat"]:-0} + 1))
+    cat_files["$cat"]+=" $bn"
     ((domain_count++)) || true
   done < <(find "$RULES_DIR" -maxdepth 1 -name "*.md" -type f | sort)
 
-  # Subdirectorio savia-enterprise también si existe
+  # savia-enterprise subdir
   if [[ -d "$RULES_DIR/savia-enterprise" ]]; then
     while IFS= read -r f; do
-      bn="$(basename "$f")"
-      title="$(extract_title "$f")"
-      cat="Savia Enterprise"
-      cats["$cat"]=1
-      cat_entries["$cat"]+="${bn}|${title}"$'\n'
+      bn="savia-enterprise/$(basename "$f")"
+      cat="savia-core"
+      cat_count["$cat"]=$((${cat_count["$cat"]:-0} + 1))
+      cat_files["$cat"]+=" $bn"
       ((domain_count++)) || true
     done < <(find "$RULES_DIR/savia-enterprise" -name "*.md" -type f | sort)
   fi
 
-  # Cuenta ficheros .md en languages/
   if [[ -d "$LANG_DIR" ]]; then
     lang_count=$(find "$LANG_DIR" -maxdepth 1 -name "*.md" -type f 2>/dev/null | wc -l)
   fi
 
-  # ── Escribe header ────────────────────────────────────────────────────────
   {
     echo "# Rules INDEX"
     echo ""
-    echo "> Auto-generated by \`bash scripts/rule-manifest-regenerate.sh --write\`. **Do not edit by hand.**"
-    echo "> Regen: SE-097. CI check: \`rule-manifest-integrity.sh\`. Rule #22: ≤150 lines."
+    echo "> Auto-generated. Do not edit by hand."
+    echo "> Regen: \`bash scripts/rule-manifest-regenerate.sh --write\`"
+    echo "> SE-097 | Rule #22 (≤150 lines) | CI: \`rule-manifest-integrity.sh\`"
     echo ""
-    echo "## Summary"
+    echo "## Totals"
     echo ""
-    echo "| Scope | Count |"
+    echo "| Scope | Files |"
     echo "|---|---|"
-    echo "| domain/ | $domain_count |"
-    echo "| languages/ | $lang_count |"
+    echo "| \`docs/rules/domain/\` | $domain_count |"
+    echo "| \`docs/rules/languages/\` | $lang_count |"
     echo ""
-
-    # ── domain/ por categorías ordenadas ──────────────────────────────────
-    echo "## domain/ — Rules by Category"
+    echo "## Categories (domain/)"
     echo ""
+    echo "| Category | Count | Key files |"
+    echo "|---|---|---|"
 
-    # Ordena las categorías
     local sorted_cats
-    sorted_cats=$(printf '%s\n' "${!cats[@]}" | sort)
+    sorted_cats=$(printf '%s\n' "${!cat_count[@]}" | sort)
 
     while IFS= read -r cat; do
       [[ -z "$cat" ]] && continue
-      echo "### $cat"
-      echo ""
-      echo "| File | Description |"
-      echo "|---|---|"
-      # Itera entries de esta categoría
-      while IFS='|' read -r file title; do
-        [[ -z "$file" ]] && continue
-        # Determina path relativo
-        if [[ -f "$RULES_DIR/$file" ]]; then
-          echo "| [\`$file\`](./$file) | $title |"
+      cnt="${cat_count[$cat]}"
+      local sample=""
+      local i=0
+      for fn in ${cat_files[$cat]:-}; do
+        [[ -z "$fn" ]] && continue
+        base="${fn##savia-enterprise/}"
+        base="${base%.md}"
+        if [[ $i -lt 3 ]]; then
+          [[ -n "$sample" ]] && sample+=", "
+          sample+="\`$base\`"
+          ((i++)) || true
         else
-          echo "| [\`$file\`](./savia-enterprise/$file) | $title |"
+          break
         fi
-      done <<< "${cat_entries[$cat]}"
-      echo ""
+      done
+      echo "| $cat | $cnt | $sample |"
     done <<< "$sorted_cats"
 
-    # ── languages/ ────────────────────────────────────────────────────────
-    echo "## languages/ — Language Packs"
     echo ""
-    echo "| File | Description |"
-    echo "|---|---|"
+    echo "## languages/"
+    echo ""
+    echo "| File |"
+    echo "|---|"
     if [[ -d "$LANG_DIR" ]]; then
       while IFS= read -r f; do
         bn="$(basename "$f")"
-        title="$(extract_title "$f")"
-        echo "| [\`$bn\`](../languages/$bn) | $title |"
+        echo "| [\`$bn\`](../languages/$bn) |"
       done < <(find "$LANG_DIR" -maxdepth 1 -name "*.md" -type f | sort)
     fi
     echo ""
+    echo "---"
+    echo ""
+    echo "> Full listing: \`rule-manifest.json\` ($domain_count entries)"
   }
 }
 
@@ -243,10 +226,6 @@ generate_manifest() {
   local ts
   ts="$(date -u +%Y-%m-%dT%H:%M:%SZ)"
 
-  # Lee manifest existente para preservar consumers
-  local existing_manifest="$MANIFEST_FILE"
-
-  # Collect all .md files
   local all_files=()
   while IFS= read -r f; do
     bn="$(basename "$f")"
@@ -263,8 +242,7 @@ generate_manifest() {
 
   local total="${#all_files[@]}"
 
-  # Emite JSON usando python3 para serialización correcta
-  python3 - "$existing_manifest" "$ts" "$total" "${all_files[@]}" <<'PYEOF'
+  python3 - "$MANIFEST_FILE" "$ts" "$total" "${all_files[@]}" <<'PYEOF'
 import sys, json
 
 existing_path = sys.argv[1]
@@ -272,7 +250,6 @@ ts            = sys.argv[2]
 total         = int(sys.argv[3])
 files         = sys.argv[4:]
 
-# Carga manifest existente para preservar consumers y tier conocidos
 try:
     with open(existing_path) as fh:
         existing = json.load(fh)
@@ -283,13 +260,11 @@ except Exception:
 rules = {}
 tier1 = tier2 = dormant = 0
 for f in files:
-    key = f  # puede ser "foo.md" o "savia-enterprise/foo.md"
-    base = key.split("/")[-1]  # para buscar en manifest existente sin el subdir
-    # Busca en manifest con la clave completa primero, luego con basename
-    old = existing_rules.get(key) or existing_rules.get(base) or {}
+    base = f.split("/")[-1]
+    old = existing_rules.get(f) or existing_rules.get(base) or {}
     tier      = old.get("tier", "dormant")
     consumers = old.get("consumers", "")
-    rules[key] = {"tier": tier, "consumers": consumers}
+    rules[f] = {"tier": tier, "consumers": consumers}
     if tier == "tier1":
         tier1 += 1
     elif tier == "tier2":
@@ -314,17 +289,13 @@ echo "=== rule-manifest-regenerate.sh (SE-097) ==="
 echo "Mode: $MODE"
 echo ""
 
-# Genera INDEX.md candidato en tmpfile
 TMP_INDEX="$(mktemp /tmp/rule-index-XXXXXX.md)"
-trap 'rm -f "$TMP_INDEX"' EXIT
-
-generate_index > "$TMP_INDEX"
-NEW_LINES=$(wc -l < "$TMP_INDEX")
-echo "INDEX.md candidato: $NEW_LINES líneas"
-
-# Genera manifest candidato en tmpfile
 TMP_MANIFEST="$(mktemp /tmp/rule-manifest-XXXXXX.json)"
 trap 'rm -f "$TMP_INDEX" "$TMP_MANIFEST"' EXIT
+
+generate_master_index > "$TMP_INDEX"
+NEW_LINES=$(wc -l < "$TMP_INDEX")
+echo "INDEX.md candidato: $NEW_LINES líneas (límite 150)"
 
 generate_manifest > "$TMP_MANIFEST"
 NEW_ENTRIES=$(python3 -c "import json; d=json.load(open('$TMP_MANIFEST')); print(d['total'])" 2>/dev/null || echo "?")
@@ -332,13 +303,8 @@ echo "Manifest candidato: $NEW_ENTRIES entries"
 echo ""
 
 if [[ "$MODE" == "dry-run" ]]; then
-  echo "--- DIFF INDEX.md ---"
-  if [[ -f "$INDEX_FILE" ]]; then
-    diff "$INDEX_FILE" "$TMP_INDEX" || true
-  else
-    echo "(INDEX.md no existe — se crearía nuevo)"
-    cat "$TMP_INDEX"
-  fi
+  echo "--- INDEX.md candidato ---"
+  cat "$TMP_INDEX"
   echo ""
   echo "--- Estadísticas manifest ---"
   python3 -c "
@@ -352,13 +318,19 @@ print(f'  dormant:   {d[\"dormant_count\"]}')
 " 2>/dev/null || true
   echo ""
   echo "dry-run completado. Sin cambios escritos."
+
+  if [[ "$NEW_LINES" -gt 150 ]]; then
+    echo "WARN: INDEX.md candidato supera 150 líneas ($NEW_LINES). Revisar categorías." >&2
+    exit 1
+  fi
   exit 0
 fi
 
 # ── --write ───────────────────────────────────────────────────────────────────
 if [[ "$NEW_LINES" -gt 150 ]]; then
-  echo "WARN: INDEX.md candidato tiene $NEW_LINES líneas > 150 (Rule #22)." >&2
-  echo "      Escribiendo igualmente — el regenerador activo reduce el contenido." >&2
+  echo "ERROR: INDEX.md candidato tiene $NEW_LINES líneas > 150 (Rule #22). Abortando --write." >&2
+  echo "       Ejecuta --dry-run para ver el candidato y reducir categorías." >&2
+  exit 1
 fi
 
 cp "$TMP_INDEX"    "$INDEX_FILE"

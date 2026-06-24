@@ -1,13 +1,13 @@
 ---
 spec_id: SE-097
 title: Regenerate docs/rules/INDEX.md from filesystem (manifest desync)
-status: APPROVED
+status: IMPLEMENTED
 approved_by: operator (2026-05-27)
 priority: P1
 effort: M
 estimated_time: 90 min
 depends_on: SE-057 Slice 2, SE-096
-source: output/20260527-auditoria-obsoleto-legado.md (Tier 2.5)
+applied_at: "2026-06-24"
 ---
 
 # SE-097 — Rules INDEX & manifest regeneration

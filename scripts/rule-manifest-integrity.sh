@@ -99,19 +99,32 @@ fi
 MISSING_FILES=()
 MISSING_ENTRIES=()
 if [[ "$MANIFEST_OK" == "true" ]]; then
-  # Extract rule file paths from manifest (heuristic: any value matching *.md)
+  # Extract rule file paths from manifest.
+  # SE-097: manifest format is {"rules": {"filename.md": {...}}}
+  # Keys of "rules" are the rule filenames. Fallback to old value-walker for
+  # legacy manifests that store filenames as string values.
   MANIFEST_FILES=$(python3 -c "
 import json, sys
 with open('$MANIFEST_FILE') as f:
     data = json.load(f)
-def walk(v):
-    if isinstance(v, dict):
-        for sub in v.values(): yield from walk(sub)
-    elif isinstance(v, list):
-        for item in v: yield from walk(item)
-    elif isinstance(v, str) and v.endswith('.md'):
-        yield v
-for path in walk(data):
+files = set()
+# Primary: keys of the 'rules' dict (SE-097 format)
+if 'rules' in data and isinstance(data['rules'], dict):
+    for k in data['rules']:
+        if k.endswith('.md'):
+            files.add(k)
+# Fallback: walk values for legacy format
+if not files:
+    def walk(v):
+        if isinstance(v, dict):
+            for sub in v.values(): yield from walk(sub)
+        elif isinstance(v, list):
+            for item in v: yield from walk(item)
+        elif isinstance(v, str) and v.endswith('.md'):
+            yield v
+    for path in walk(data):
+        files.add(path)
+for path in sorted(files):
     print(path)
 " 2>/dev/null | sort -u)
   MANIFEST_ENTRIES=$(echo "$MANIFEST_FILES" | grep -c '.md' 2>/dev/null || echo 0)
