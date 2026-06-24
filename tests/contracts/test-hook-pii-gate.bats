@@ -1,0 +1,1 @@
+../hooks/test-hook-pii-gate.bats
