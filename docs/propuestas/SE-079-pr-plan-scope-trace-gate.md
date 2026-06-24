@@ -8,7 +8,7 @@ priority: media
 effort: S 3h
 related: pr-plan, code-reviewer, SE-058 (G11 PR summary)
 approved_at: "2026-04-26"
-applied_at: null
+applied_at: "2026-06-24"
 expires: "2026-06-26"
 era: 189
 ---
