@@ -62,8 +62,8 @@ teardown() {
   [[ "$status" -eq 2 ]]
 }
 
-@test "negative: blocks write to .env.pat (case insensitive)" {
-  run bash -c 'echo "{\"tool_input\":{\"file_path\":\".env.PAT\"}}" | bash '"$SCRIPT"
+@test "negative: blocks write to secrets-pat.txt (case insensitive)" {
+  run bash -c 'echo "{\"tool_input\":{\"file_path\":\"secrets-pat.txt\"}}" | bash '"$SCRIPT"
   [[ "$status" -eq 2 ]]
 }
 
