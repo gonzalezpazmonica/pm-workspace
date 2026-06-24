@@ -1,5 +1,5 @@
 # planning — Savia Capability Map (L1)
-> 554 resources
+> 556 resources
 
 - **/accreditation-track** (cmd): >
 - **/decide-architecture** (cmd): Clasifica una tarea como WORKFLOW (deterministica) o AGENT (loop). Bias hacia workflow per Anthropic. Sugiere plantilla inicial. Mide accuracy contra corpus curado de 20 tareas.
@@ -507,6 +507,8 @@
 - **travel-unpack** (cmd): Desempaca tu workspace desde USB en una nueva máquina.
 - **travel-verify** (cmd): Verifica integridad de un paquete de viaje en USB.
 - **tribunal-critic** (script): tribunal-critic.sh — SE-201: quantitative scoring for tribunal verdicts
+- **tribunal-hard-gates** (script): tribunal-hard-gates.sh — SE-227 Slice 1
+- **tribunal-nonce-gen** (script): tribunal-nonce-gen.sh — SE-227 Slice 1 — E3 entropy nonce generator
 - **tribunal-status** (cmd): Show Truth Tribunal queue depth, recent verdicts, and pending evaluations
 - **truth-tribunal-orchestrator** (agent): Truth Tribunal orchestrator — convenes 7 judges, aggregates scores, applies vetos, drives iteration
 - **truth-tribunal-worker** (script): truth-tribunal-worker.sh — Consume queued Truth Tribunal verification
