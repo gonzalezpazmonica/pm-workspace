@@ -481,6 +481,13 @@
             "type": "command",
             "command": "\"$CLAUDE_PROJECT_DIR\"/.opencode/hooks/post-write-validate.sh",
             "timeout": 5000
+          },
+          {
+            "type": "command",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/.opencode/hooks/post-spec-edit-reindex.sh",
+            "async": true,
+            "timeout": 5,
+            "statusMessage": "Specs INDEX.md auto-regen (SE-222 S2)..."
           }
         ]
       },
