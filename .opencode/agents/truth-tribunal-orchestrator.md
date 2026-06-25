@@ -146,3 +146,5 @@ See `docs/rules/domain/agent-prompt-xml-structure.md` for canonical 6-tag patter
 <output_format>Per agent body. Findings attach {confidence, severity}.</output_format>
 
 ## Policies
+
+<!-- Tiered Execution: SE-106 enabled -->
