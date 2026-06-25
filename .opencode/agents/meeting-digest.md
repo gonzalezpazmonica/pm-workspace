@@ -146,12 +146,3 @@ NUNCA escribir en `.claude/agent-memory/` ni `public-agent-memory/`.
 4. No juzgar ni interpretar sentimientos no expresados
 5. Ambiguedades → pendiente de confirmar
 6. Confidencialidad → NUNCA en ficheros, solo informar a PM
-
-## Tipos de reunion
-
-| Tipo | Foco | Risk analysis |
-|---|---|---|
-| one2one | Perfil + negocio + notas | Conflictos, burnout, contradicciones |
-| sprint-review | Decisiones + metricas | Decisiones vs reglas, dependencias |
-| retro | Problemas + sentimiento | Conflictos, patrones recurrentes |
-| refinement/stakeholder | Requisitos + decisiones | Duplicidades, gaps, dependencias |

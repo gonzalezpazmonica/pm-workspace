@@ -146,11 +146,3 @@ Before writing output, check if `projects/{proyecto}/.context-index/PROJECT.ctx`
 Use `[digest-target]` entries to determine WHERE to store each type of extracted info.
 If no .ctx exists, use default paths (current behavior as fallback).
 
-## Reglas
-
-- SIEMPRE las 4 fases en orden
-- SIEMPRE leer ficheros reales del proyecto en Fase 2
-- NUNCA inventar texto — marcar [?]
-- NUNCA modificar el DOCX original
-- SIEMPRE registrar en _digest-log.md
-- Memoria: `projects/{proyecto}/agent-memory/word-digest/MEMORY.md`

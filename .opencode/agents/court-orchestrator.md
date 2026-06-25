@@ -146,30 +146,3 @@ bash scripts/tribunal-tiered-runner.sh \
 |---|---|---|---|
 | 1 | security-judge | mid | OWASP/credentials — merge blocker |
 | 2 | correctness-judge | mid | Broken logic/tests — rest irrelevant if code does not compile |
-
-If any Tier 0 judge emits VETO: run terminates immediately, Tier 1 skipped.
-Estimated tokens saved on veto: ~15k (60% reduction vs full parallel run).
-
-### Tier 1 (parallel fan-out — only if Tier 0 PASS)
-
-Judges run simultaneously: architecture-judge, cognitive-judge, spec-judge.
-If COURT_INCLUDE_PR_AGENT=true, pr-agent-judge also runs in Tier 1.
-
-### Schema addendum (.review.crc optional fields, backward-compat)
-
-execution_mode: tiered  # "tiered" | "parallel" (legacy default if absent)
-tier_0:
-  judges_run: [security-judge]
-  stopped_at: security-judge   # null if PASS
-  verdict: VETO
-tier_1:
-  judges_run: []       # empty if tier 0 stopped
-  execution: skipped   # "parallel" | "skipped"
-tokens_saved_vs_parallel: 15000
-
-### Override
-
-TRIBUNAL_FORCE_FULL_PANEL=1 disables tiered, runs all judges in parallel.
-Use for: external audits requiring full panel, calibration runs, debug.
-
-Ref: docs/rules/domain/tribunal-execution.md (SE-106).
