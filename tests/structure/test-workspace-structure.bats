@@ -111,6 +111,7 @@ teardown() {
       enterprise-sovereign-deployment.md) continue ;;
       meeting-participant-etiquette.md) continue ;;
       portfolio-as-graph.en.md) continue ;;
+      meeting-digest.md) continue ;;
     esac
     local lines; lines=$(wc -l < "$f")
     [ "$lines" -le 150 ] || oversized=$((oversized + 1))

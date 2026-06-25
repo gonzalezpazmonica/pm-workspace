@@ -1,5 +1,5 @@
 {
-  "hash": "23d06c0d0538",
+  "hash": "9ea58a967702",
   "total": 1389,
   "resources": [
     {
@@ -2682,7 +2682,7 @@
       "intents": [],
       "kind": "agent",
       "path": ".opencode/agents/code-reviewer.md",
-      "description": ">"
+      "description": ">-"
     },
     {
       "category": "development",

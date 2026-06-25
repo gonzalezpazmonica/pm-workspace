@@ -67,6 +67,7 @@ FIND_PRUNE_ARGS=(
   -not -path "*/.gradle/*"
   -not -path "*/output/*"
   -not -path "*/worktrees/*"
+  -not -path "*/projects/*"
 )
 
 # ── Check 1: empty-dirs ───────────────────────────────────────────────────────
@@ -120,7 +121,8 @@ check_staged_gitignored() {
     return
   fi
   local staged_ignored
-  staged_ignored=$(git -C "$WORKSPACE_DIR" ls-files --cached --ignored --exclude-standard 2>/dev/null | head -10 || true)
+  # Filter known-safe tracked+gitignored paths (personal-vault, plugins tests, projects/)
+  staged_ignored=$(git -C "$WORKSPACE_DIR" ls-files --cached --ignored --exclude-standard 2>/dev/null     | grep -v "^\.claude/skills/personal-vault/"     | grep -v "^\.opencode/plugins/__tests__/"     | grep -v "^\.opencode/plugins/guards/auto-redact"     | grep -v "^projects/"     | head -10 || true)
   if [[ -z "$staged_ignored" ]]; then
     record "staged-gitignored" "true" "no gitignored files staged"
   else

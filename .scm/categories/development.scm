@@ -35,7 +35,7 @@
 - **code-improve** (cmd): Launch autonomous code improvement loop — detects opportunities, applies improvements, creates PRs for review
 - **code-improvement-loop** (skill): Usar cuando se quiere ejecutar mejora autónoma de código en segundo plano con PRs para revisión.
 - **code-patterns** (cmd): Catálogo de patterns del proyecto con ejemplos del propio código del equipo
-- **code-reviewer** (agent): >
+- **code-reviewer** (agent): >-
 - **code-twin-agent** (agent): >
 - **code-twin-anonymize** (script): code-twin-anonymize.sh — SPEC-190 Slice 8 (AC-14)
 - **code-twin-extract** (script): code-twin-extract.sh — SPEC-190 Slice 7

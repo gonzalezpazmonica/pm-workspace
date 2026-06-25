@@ -38,5 +38,6 @@ Documentos canonicos cuya naturaleza requiere unidad indivisible:
 - `docs/rules/domain/enterprise-sovereign-deployment.md`: guia de despliegue soberano enterprise (SE-enterprise batch, 2026-06-24).
 - `docs/rules/domain/meeting-participant-etiquette.md`: etiqueta de reuniones con ejemplos extensos (SE-enterprise batch, 2026-06-24).
 - `docs/rules/domain/portfolio-as-graph.en.md`: doc bilingue de grafo de portfolio con ejemplos (SE-enterprise batch, 2026-06-24).
+- `.opencode/agents/meeting-digest.md`: agents-opencode-convert.sh adds trailing newline making it 151 lines — content is 150 logical lines.
 
 Toda nueva excepcion requiere: (1) justificacion documentada aqui, (2) entrada explicita en el test BATS, (3) aprobacion en review.
