@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+set -uo pipefail
 # criterion-simulation-challenge.sh — SPEC-194 Criterion Simulation Layer
 #
 # Pre-task / pre-spec-implement hook. Evaluates whether the task's framing
@@ -19,7 +20,6 @@
 #
 # Ref: SPEC-194 docs/propuestas/SPEC-194-criterion-simulation-layer.md
 
-set -uo pipefail
 
 # ── Master switch — default OFF (opt-in) ──────────────────────────────────────
 MASTER="${SAVIA_CRITERION_SIMULATION:-off}"

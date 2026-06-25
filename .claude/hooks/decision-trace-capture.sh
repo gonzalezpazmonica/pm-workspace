@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+set -uo pipefail
 # decision-trace-capture.sh — SPEC-188 F3 — PostToolUse hook
 # Detects architectural decision patterns in agent output and writes
 # a decision trace via decision-trace-writer.py.
@@ -11,7 +12,6 @@
 #                    recommend, discard, selected, rejected, I propose
 #
 # Ref: SPEC-188 F3 — docs/propuestas/SPEC-188-root-cause-investigation-architecture.md
-set -uo pipefail
 
 # ── Master switch ─────────────────────────────────────────────────────────
 SAVIA_DECISION_TRACE="${SAVIA_DECISION_TRACE:-off}"

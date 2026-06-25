@@ -159,7 +159,7 @@ if len(types) < 5:
 # ── Test 17: manifest NOT served publicly (AC-7) ──────────────────────────────
 @test "AC-7: manifest lives in .well-known/ not in a public web directory" {
   # Verify path is .well-known/ in repo (not /var/www or similar)
-  [[ "$MANIFEST" == */savia/.well-known/governance-layer-manifest.json ]]
+  [[ "$MANIFEST" == */.well-known/governance-layer-manifest.json ]]
 }
 
 # ── Test 18: glm-compute-digest runs and computes a digest ────────────────────

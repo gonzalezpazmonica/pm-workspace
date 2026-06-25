@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+set -uo pipefail
 # cognitive-debt-check.sh — SPEC-107 PostTurn hook.
 #
 # Emits a WARN banner on stderr when the active session exceeds
@@ -11,7 +12,6 @@
 # Integration: register as PostTurn hook in .claude/settings.json.
 # Reference: SPEC-107, MIT arXiv 2506.08872.
 
-set -uo pipefail
 
 # ── master switch ──────────────────────────────────────────────────────────────
 MONITOR="${SAVIA_COGNITIVE_MONITOR:-off}"

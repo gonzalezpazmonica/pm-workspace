@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+set -uo pipefail
 # memory-write-sanitize.sh — SPEC-193 Capa A, Componente 4.
 #
 # PreToolUse hook: sanitizes content before memory-store save operations.
@@ -15,7 +16,6 @@
 #   0 — pass
 #   2 — blocked
 
-set -uo pipefail
 
 # ── Master switch ────────────────────────────────────────────────────────────
 SAVIA_HARDENING="${SAVIA_HARDENING:-on}"

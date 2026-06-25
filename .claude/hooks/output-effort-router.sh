@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+set -uo pipefail
 # SE-224 Slice 2 — effort router
 # PreToolUse hook. Classifies the upcoming turn and emits effort level hint.
 #
@@ -19,7 +20,6 @@
 # Master switch: SAVIA_EFFORT_ROUTER=on|off  (default: on)
 # Always exit 0. Never blocks. Pure observability hook.
 
-set -uo pipefail
 
 # ── Master switch ─────────────────────────────────────────────────────────────
 if [[ "${SAVIA_EFFORT_ROUTER:-on}" == "off" ]]; then

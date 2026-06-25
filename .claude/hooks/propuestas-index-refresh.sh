@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+set -uo pipefail
 # propuestas-index-refresh.sh — PostToolUse hook: regenerate docs/propuestas/index.md
 # when a file in docs/propuestas/ is modified.
 #
@@ -8,7 +9,6 @@
 #
 # Wire-ready: safe by default (no-op if propuestas dir not found).
 
-set -uo pipefail
 
 HOOK_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 ROOT_DIR="${CLAUDE_PROJECT_DIR:-$(cd "$HOOK_DIR/../.." && pwd)}"

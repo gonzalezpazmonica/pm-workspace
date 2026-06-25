@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
+set -uo pipefail
 # block-pat-file-write.sh — SPEC-SE-036 Slice 3: PreToolUse hook — bloquea writes a paths PAT/token/secret
 # Hook: PreToolUse matcher Write|Edit
 # Master switch: SAVIA_PAT_BLOCK=on|off (default on — es seguridad, no opt-in)
 # Ref: docs/rules/domain/savia-enterprise/agent-jwt-mint.md
 # Ref: CLAUDE.md Rule #1
-set -uo pipefail
 
 # ── Master switch ─────────────────────────────────────────────────────────────
 SAVIA_PAT_BLOCK="${SAVIA_PAT_BLOCK:-on}"

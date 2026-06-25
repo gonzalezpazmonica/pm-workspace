@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
+set -uo pipefail
 # live-progress-emitter.sh — SPEC-042: PostToolUse hook that emits progress lines to stderr
 # Format: [SAVIA-PROGRESS] {agent}: {action} [{elapsed}ms]
 # Master switch: SAVIA_LIVE_PROGRESS=on (default off)
 # Event: PostToolUse | Async: true | Tier: observability (never blocks)
 
-set -uo pipefail
 
 ERR_LOG="$HOME/.savia/hook-errors.log"
 trap 'echo "[$(date +%H:%M:%S)] live-progress-emitter: $BASH_COMMAND failed (line $LINENO)" >> "$ERR_LOG" 2>/dev/null' ERR

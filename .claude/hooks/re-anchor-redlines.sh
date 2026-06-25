@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+set -uo pipefail
 # re-anchor-redlines.sh — SPEC-193 Capa C, Componente 11.
 #
 # UserPromptSubmit hook: every N=15 turns (or when session token count > 40000),
@@ -14,7 +15,6 @@
 # Exit codes:
 #   0 — always (non-blocking hook)
 
-set -uo pipefail
 
 # ── Master switch ────────────────────────────────────────────────────────────
 SAVIA_HARDENING="${SAVIA_HARDENING:-on}"

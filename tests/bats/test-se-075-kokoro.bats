@@ -11,6 +11,7 @@ TELEMETRY_FILE="$REPO_ROOT/output/kokoro-telemetry.jsonl"
 
 # ── Test 1: savia-kokoro.py exists and produces JSON ─────────────────────────
 @test "SE-075 AC-09: savia-kokoro.py exists and produces valid JSON" {
+  python3 -c "import kokoro" 2>/dev/null || skip "kokoro not installed in CI"
   [ -f "$KOKORO_PY" ]
   local out
   out="$(mktemp /tmp/bats-kokoro-XXXXXX.wav)"
@@ -63,6 +64,7 @@ assert d['duration_s'] > 0, 'duration_s must be > 0'
 
 # ── Test 5: telemetry JSONL is valid after synthesis ─────────────────────────
 @test "SE-075: telemetry JSONL written and parseable after synthesis" {
+  python3 -c "import kokoro" 2>/dev/null || skip "kokoro not installed in CI"
   local out tel_tmp
   out="$(mktemp /tmp/bats-kokoro-tel-XXXXXX.wav)"
 

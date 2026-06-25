@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
+set -uo pipefail
 # memory-feedback-task.sh — PostToolUse hook: extracts Task outcomes and writes to auto-memory
 # Spec: SPEC-164 (docs/propuestas/SPEC-164-memory-feedback-loop.md)
 # Hook type: PostToolUse (tool_name == "Task")
 # Master switch: SAVIA_MEMORY_FEEDBACK=on|off  (default: off — opt-in)
-set -uo pipefail
 
 HOOK_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 ROOT_DIR="${CLAUDE_PROJECT_DIR:-$(cd "$HOOK_DIR/../.." && pwd)}"

@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+set -uo pipefail
 # SE-224 Slice 1 — verbosity sentinel
 # PostToolUse hook. Classifies the current turn and emits verbosity level hint.
 #
@@ -15,7 +16,6 @@
 # Master switch: SAVIA_VERBOSITY_SENTINEL=on|off  (default: on)
 # Does NOT modify any files. Pure observability hook. Exit 0 always.
 
-set -uo pipefail
 
 # ── Master switch ─────────────────────────────────────────────────────────────
 if [[ "${SAVIA_VERBOSITY_SENTINEL:-on}" == "off" ]]; then
