@@ -34,14 +34,7 @@ Combina extraccion de texto (PyMuPDF) con lectura multimodal de imagenes embebid
 
 **Dependencia**: `pip install pymupdf` (instalar automaticamente si falta)
 
-## Fase 1 — Extracción (Markitdown)
-
-Si MARKITDOWN_ENABLED=true: ejecutar `bash scripts/digest-extract.sh {input}`.
-El output Markdown canónico reemplaza el parsing propio. Si falla, usar parser histórico.
-
-<!-- SE-172: markitdown como capa 0 universal -->
-
-## Fase 1 — Extraccion bruta (sin contexto, parser histórico / fallback)
+## Fase 1 — Extraccion bruta (sin contexto)
 
 1. Extraer texto de TODAS las paginas via PyMuPDF (`fitz.open` → `page.get_text()`)
 2. Extraer imagenes embebidas (`page.get_images()` → `fitz.Pixmap` → guardar PNG)

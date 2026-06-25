@@ -29,13 +29,6 @@ extraes datos precisos y detectas riesgos cruzando con el estado del proyecto.
 
 ## Proceso en 5 fases (0-4)
 
-## Fase 1 — Extracción (Markitdown)
-
-Si MARKITDOWN_ENABLED=true: ejecutar `bash scripts/digest-extract.sh {input}`.
-El output Markdown canónico reemplaza el parsing propio. Si falla, usar parser histórico.
-
-<!-- SE-172: markitdown como capa 0 universal -->
-
 ### Fase 0 — Transcription Resolution (pre-proceso)
 
 ANTES de extraer, corregir errores del transcriptor ASR usando contexto del proyecto.
@@ -146,3 +139,12 @@ NUNCA escribir en `.claude/agent-memory/` ni `public-agent-memory/`.
 4. No juzgar ni interpretar sentimientos no expresados
 5. Ambiguedades → pendiente de confirmar
 6. Confidencialidad → NUNCA en ficheros, solo informar a PM
+
+## Tipos de reunion
+
+| Tipo | Foco | Risk analysis |
+|---|---|---|
+| one2one | Perfil + negocio + notas | Conflictos, burnout, contradicciones |
+| sprint-review | Decisiones + metricas | Decisiones vs reglas, dependencias |
+| retro | Problemas + sentimiento | Conflictos, patrones recurrentes |
+| refinement/stakeholder | Requisitos + decisiones | Duplicidades, gaps, dependencias |

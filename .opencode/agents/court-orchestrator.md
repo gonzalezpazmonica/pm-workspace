@@ -126,23 +126,3 @@ handoff:
 ```
 
 Handoff: `docs/rules/domain/agent-handoff-protocol.md`. Fallback SPEC-127 Slice 4: `docs/rules/domain/subagent-fallback-mode.md`.
-
-## Tiered Execution (SE-106)
-
-When `SAVIA_TIERED_TRIBUNAL=on`, invoke `scripts/tribunal-tiered-runner.sh` instead of launching all judges in parallel:
-
-```bash
-bash scripts/tribunal-tiered-runner.sh \
-  --tribunal court \
-  --draft <diff_path> \
-  --mode sequential-first \
-  --tier0-judges security-judge,correctness-judge \
-  --tier1-judges architecture-judge,cognitive-judge,spec-judge
-```
-
-### Tier 0 (sequential, early-stop on veto)
-
-| Order | Judge | Model | Reason |
-|---|---|---|---|
-| 1 | security-judge | mid | OWASP/credentials — merge blocker |
-| 2 | correctness-judge | mid | Broken logic/tests — rest irrelevant if code does not compile |

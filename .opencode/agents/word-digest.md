@@ -38,14 +38,7 @@ pip install python-docx Pillow 2>/dev/null || pip3 install python-docx Pillow
 
 ## Pipeline de 4 fases
 
-### Fase 1 — Extracción (Markitdown)
-
-Si MARKITDOWN_ENABLED=true: ejecutar `bash scripts/digest-extract.sh {input}`.
-El output Markdown canónico reemplaza el parsing propio. Si falla, usar parser histórico.
-
-<!-- SE-172: markitdown como capa 0 universal -->
-
-### Fase 1 — Extraccion bruta (sin contexto, parser histórico / fallback)
+### Fase 1 — Extraccion bruta (sin contexto)
 
 1. Verificar que python-docx esta disponible. Si no: instalar
 2. Extraer metadatos: autor, fecha creacion, fecha modificacion, titulo
@@ -146,3 +139,11 @@ Before writing output, check if `projects/{proyecto}/.context-index/PROJECT.ctx`
 Use `[digest-target]` entries to determine WHERE to store each type of extracted info.
 If no .ctx exists, use default paths (current behavior as fallback).
 
+## Reglas
+
+- SIEMPRE las 4 fases en orden
+- SIEMPRE leer ficheros reales del proyecto en Fase 2
+- NUNCA inventar texto — marcar [?]
+- NUNCA modificar el DOCX original
+- SIEMPRE registrar en _digest-log.md
+- Memoria: `projects/{proyecto}/agent-memory/word-digest/MEMORY.md`

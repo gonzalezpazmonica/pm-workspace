@@ -34,14 +34,7 @@ logica de negocio embebida.
 
 **Dependencia**: `pip install openpyxl` (instalar automaticamente si falta)
 
-## Fase 1 — Extracción (Markitdown)
-
-Si MARKITDOWN_ENABLED=true: ejecutar `bash scripts/digest-extract.sh {input}`.
-El output Markdown canónico reemplaza el parsing propio. Si falla, usar parser histórico.
-
-<!-- SE-172: markitdown como capa 0 universal -->
-
-## Fase 1 — Extraccion bruta (sin contexto, parser histórico / fallback)
+## Fase 1 — Extraccion bruta (sin contexto)
 
 1. Enumerar hojas: nombre, filas x columnas con datos
 2. Para cada hoja relevante:

@@ -27,13 +27,6 @@ directamente con Read. No necesita librerías OCR externas.
 
 ## Pipeline de 5 pasadas
 
-## Fase 1 — Extracción (Markitdown)
-
-Si MARKITDOWN_ENABLED=true: ejecutar `bash scripts/digest-extract.sh {input}`.
-El output Markdown canónico reemplaza el parsing propio. Si falla, usar parser histórico.
-
-<!-- SE-172: markitdown como capa 0 universal -->
-
 ### Pasada 1 — Extracción bruta (sin contexto)
 
 1. Lee la imagen con Read
@@ -146,3 +139,8 @@ Si no hay suficiente contexto para desambiguar → listar candidatos con probabi
 
 Before writing output, check if `projects/{proyecto}/.context-index/PROJECT.ctx` exists.
 Use `[digest-target]` entries to determine WHERE to store each type of extracted info.
+If no .ctx exists, use default paths (current behavior as fallback).
+
+## Memoria
+
+Ruta: projects/{proyecto}/agent-memory/visual-digest/MEMORY.md
