@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 # scripts/overnight-sprint-loop.sh — SE-226: stateless overnight-sprint orchestrator
+set -uo pipefail
 #
 # Usage:
 #   overnight-sprint-loop.sh --sprint-id <id> --tasks <json-file> [--max-tasks 10] [--dry-run]

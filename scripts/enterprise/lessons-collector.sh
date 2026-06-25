@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 # lessons-collector.sh — SE-032 Cross-Project Lessons Pipeline
+set -uo pipefail
 # Aggregates lessons learned cross-project with anonymization.
 #
 # Usage:

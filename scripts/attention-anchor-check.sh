@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 # attention-anchor-check.sh — SE-080 pattern coverage verifier
+set -uo pipefail
 # Verifies that the 4 Genesis patterns (B8, B9, A7, A9) are each referenced
 # in at least one file in the workspace.
 #

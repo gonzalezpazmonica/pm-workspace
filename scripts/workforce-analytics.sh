@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 # scripts/workforce-analytics.sh — SPEC-SE-025 Agentic Workforce Analytics
+set -uo pipefail
 #
 # Aggregates agent data sources into a tabular or JSON report.
 #

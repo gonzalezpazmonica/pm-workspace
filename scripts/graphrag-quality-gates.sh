@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 # graphrag-quality-gates.sh — SE-030
+set -uo pipefail
 # Wrapper over knowledge-graph.py that executes 12 structural quality checks
 # on the Savia knowledge graph SQLite database.
 #

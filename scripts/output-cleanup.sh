@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 # output-cleanup.sh — SE-101: Output directory retention policy
+set -uo pipefail
 #
 # Lists (dry-run) or removes files in output/ older than SAVIA_OUTPUT_RETENTION_DAYS.
 # Protected files and dirs are NEVER deleted regardless of age.

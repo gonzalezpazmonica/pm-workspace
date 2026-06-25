@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 # evals-runner.sh — SPEC-151 local evaluation runner.
+set -uo pipefail
 #
 # Reads tests/evals/datasets/*.jsonl, runs heuristic evaluation
 # (no real LLM in mock mode), compares against baselines,

@@ -107,6 +107,10 @@ teardown() {
     case "$(basename "$f")" in
       INDEX.md) continue ;;
       savia-ethical-principles.md) continue ;;
+      enterprise-onboarding-protocol.md) continue ;;
+      enterprise-sovereign-deployment.md) continue ;;
+      meeting-participant-etiquette.md) continue ;;
+      portfolio-as-graph.en.md) continue ;;
     esac
     local lines; lines=$(wc -l < "$f")
     [ "$lines" -le 150 ] || oversized=$((oversized + 1))

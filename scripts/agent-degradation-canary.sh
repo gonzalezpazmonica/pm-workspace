@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 # agent-degradation-canary.sh — SE-040
+set -uo pipefail
 # Executes 3 hardcoded canary probes against existing scripts and validates
 # their output against known heuristics. Detects behavioral regressions.
 #

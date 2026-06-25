@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 # glm-validate.sh — Validates the GLM governance manifest for drift and completeness.
+set -uo pipefail
 #
 # Checks:
 #   1. .well-known/governance-layer-manifest.json exists and is valid JSON

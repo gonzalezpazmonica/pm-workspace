@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 # sso-adapter-check.sh — SPEC-SE-007: Verifica la configuración del SSO/SAML adapter
+set -uo pipefail
 #
 # Comprueba si el proveedor SSO/SAML está configurado y accesible.
 # En entornos sin SSO (single-tenant local), devuelve sso_not_configured=true.

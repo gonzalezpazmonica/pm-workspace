@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 # security-benchmark-runner.sh — SPEC-032 Security Benchmark Runner
+set -uo pipefail
 #
 # Ejecuta evaluaciones objetivas de los agentes de seguridad de Savia.
 # Soporta Docker (Juice Shop, DVWA, WebGoat) y modo fallback contra fixtures locales.

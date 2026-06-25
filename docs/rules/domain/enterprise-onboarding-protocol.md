@@ -2,6 +2,7 @@
 context_tier: L3
 spec: SE-007
 status: IMPLEMENTED
+token_budget: 1000
 ---
 
 # Enterprise Onboarding Protocol — Onboarding a escala con SSO/SAML
@@ -67,7 +68,6 @@ bash scripts/enterprise/onboarding-batch.sh --csv equipo.csv
 | Okta | SAML 2.0, OIDC | Internacional |
 | Google Workspace | OIDC | SMB |
 | Auth0 | OIDC | Startups |
-
 ### Configuración
 
 Crear `.claude/enterprise/sso.yaml` (gitignored):
@@ -152,7 +152,6 @@ El buddy:
 | Onboarding batch | 500 usuarios/ejecución | < 10 min para 50 usuarios |
 | SSO check | 1 provider | < 30s |
 | Dashboard | Sin límite | Local, instantáneo |
-
 ## Dependencias
 
 - SE-001: layer contract

@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 # knowledge-federator.sh — SE-023 Knowledge Federation
+set -uo pipefail
 # Aggregates cross-project knowledge patterns with N4 anonymization.
 #
 # Usage:

@@ -1,5 +1,5 @@
 ---
-context_tier: L1
+context_tier: L2
 token_budget: 400
 resource: internal://docs/propuestas/SPEC-193-context-provenance-injection-hardening.md
 ---

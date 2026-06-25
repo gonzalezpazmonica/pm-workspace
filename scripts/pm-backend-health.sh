@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 # pm-backend-health.sh — SE-092 MVP: detect PM backend configuration
+set -uo pipefail
 #
 # Outputs JSON with backend detection results.
 # Exit code: always 0 (no secrets exposed, safe to run anywhere).

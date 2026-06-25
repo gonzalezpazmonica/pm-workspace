@@ -1,3 +1,8 @@
+---
+context_tier: L3
+token_budget: 1000
+---
+
 # Agent Credentials — API key → short-lived JWT
 
 > **SPEC**: SPEC-SE-036 (`docs/propuestas/savia-enterprise/SPEC-SE-036-api-key-jwt-mint.md`)

@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 # spec-lifecycle.sh — SE-222 S1: spec status transitions + append-only LOG.md
+set -uo pipefail
 #
 # Helper to change the `status:` field of a spec and record the lifecycle
 # transition in docs/propuestas/LOG.md (append-only, most recent first).

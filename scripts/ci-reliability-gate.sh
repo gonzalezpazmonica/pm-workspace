@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 # ci-reliability-gate.sh — SPEC-SE-012
+set -uo pipefail
 #
 # Pre-push reliability check: detects frequent causes of CI failure before
 # git push. Run manually or via pr-plan.sh Gate G-pre-push (advisory).

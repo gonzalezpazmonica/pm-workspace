@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 # detect-frontend.sh — SPEC-INSTALLER-OPENCODE-MIGRATION
+set -uo pipefail
 #
 # Detecta que frontends AI estan disponibles en el sistema.
 # Usado por install.sh y documentacion de setup.

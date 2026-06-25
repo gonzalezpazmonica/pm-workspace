@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 # mcp-catalog-generate.sh — SPEC-SE-003: Genera catálogo de MCP servers del workspace
+set -uo pipefail
 #
 # Escanea .opencode/agents/, scripts/ y docs/rules/ para construir el catálogo
 # de los 7 MCP servers canónicos de Savia y los refleja en catalog.json.

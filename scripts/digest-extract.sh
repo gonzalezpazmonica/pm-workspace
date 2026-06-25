@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 # digest-extract.sh — Capa 0 universal de extracción via markitdown (SE-172)
+set -uo pipefail
 #
 # Usage: bash scripts/digest-extract.sh <input-file> [--output <md-file>] [--external]
 #

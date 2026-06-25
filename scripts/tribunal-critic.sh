@@ -6,7 +6,7 @@ set -uo pipefail
 
 THRESHOLD=${SAVIA_CRITIC_THRESHOLD:-80}
 MAX_ITER=${SAVIA_CRITIC_MAX_ITERATIONS:-3}
-SCORES_DIR="${PROJECT_ROOT:-$(pwd)}/output"
+SCORES_DIR="${SAVIA_CRITIC_SCORES_DIR:-${PROJECT_ROOT:-$(pwd)}/.savia}"
 SCORES_FILE="$SCORES_DIR/tribunal-scores.jsonl"
 
 # ── Argument parsing ────────────────────────────────────────────────────────

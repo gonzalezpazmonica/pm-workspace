@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 # tribunal-tiered-runner.sh — SE-106: Tiered tribunal execution
+set -uo pipefail
 #
 # Orchestrates the tiered hybrid model for Truth Tribunal and Code Review Court:
 #   - Tier 0: sequential judges, early-stop on veto (saves tokens when vetoed)

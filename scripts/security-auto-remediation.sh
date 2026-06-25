@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 # security-auto-remediation.sh — SPEC-070: Security Auto-Remediation PRs
+set -uo pipefail
 #
 # Orchestrates the Red→Blue→PR pipeline for security findings.
 #

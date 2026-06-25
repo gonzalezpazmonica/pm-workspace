@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 # savia-shield-check.sh — SPEC-OC-01
+set -uo pipefail
 #
 # Verifica el estado del Savia Shield para sesiones OpenCode.
 # Detecta si los plugins de sovereignty están activos, que el hook

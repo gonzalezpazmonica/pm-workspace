@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 # code-twin-sync-check.sh — SPEC-190 Slice 8 (AC-12)
+set -uo pipefail
 # Scans all CTFs in a twin directory and reports those whose
 # last_sync + stale_after_days < today.
 #

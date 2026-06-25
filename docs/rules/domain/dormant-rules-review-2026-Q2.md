@@ -1,3 +1,8 @@
+---
+context_tier: L3
+token_budget: 850
+---
+
 # Dormant Rules Review — Q2 2026
 
 Revision trimestral de reglas dormant del workspace.

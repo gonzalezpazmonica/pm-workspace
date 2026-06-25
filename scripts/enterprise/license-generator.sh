@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 # license-generator.sh — SPEC-SE-008 MIT License Generator for Savia Enterprise Components
+set -uo pipefail
 #
 # Genera licencias MIT para los componentes Savia Enterprise.
 #

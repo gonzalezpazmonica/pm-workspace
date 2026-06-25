@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 # memory-feedback-post-merge.sh — Writes a memory entry when a PR is merged.
+set -uo pipefail
 # Spec: SPEC-164 Slice 2
 #
 # Usage modes:

@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 # rules-index-generate.sh — SE-097
+set -uo pipefail
 # Scans docs/rules/domain/*.md (excluding archive/ subdirs) and generates
 # docs/rules/INDEX.md with a Markdown table ordered by context_tier (L1 first).
 #

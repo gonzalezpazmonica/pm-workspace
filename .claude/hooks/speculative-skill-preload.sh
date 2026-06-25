@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 # speculative-skill-preload.sh — PreToolUse hook for SE-220 Slice 3: skill pre-loading.
+set -uo pipefail
 #
 # When the tool being called is "Task" (sub-agent dispatch), this hook inspects
 # the intent and adds a [SPECULATIVE_SKILL_HINT: skill-name] annotation to

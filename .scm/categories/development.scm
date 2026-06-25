@@ -1,5 +1,5 @@
 # development — Savia Capability Map (L1)
-> 199 resources
+> 234 resources
 
 - **/a11y-monitor** (cmd): Monitorización continua de regresiones de accesibilidad. Integración en CI/CD. Alertas cuando score baja por debajo de threshold. Digest semanal. Previene regresiones bloqueando deploys con fallos a11y.
 - **/speckit.checklist** (cmd): Alias spec-kit compatible. Gate de calidad final con verification-lattice multi-capa. Invoca skill verification-lattice. Compatible con github/spec-kit.
@@ -21,6 +21,7 @@
 - **arch-recommend** (cmd): Recomendar la mejor arquitectura para un proyecto nuevo
 - **arch-suggest** (cmd): Sugerir mejoras de arquitectura basadas en detección previa
 - **ast-quality-gate** (script): ast-quality-gate.sh — Language-agnostic code quality meta-analyzer
+- **authority-claim-judge** (agent): Recommendation Tribunal judge — detects credential claims ("soy investigador"). NUNCA veto. (SPEC-193)
 - **best-practices-check** (cmd): Evaluate workspace against Claude Code best practices
 - **block-pat-file-write** (script): block-pat-file-write.sh — SPEC-SE-036 Slice 2: block writes to PAT file paths
 - **budget-guard** (script): budget-guard.sh — Context budget monitor (SPEC-022 F1)
@@ -29,6 +30,7 @@
 - **calendar-focus** (cmd): Crear bloque de focus para una tarea especifica — Deep Work protegido
 - **caveman** (skill): Strips all sugar-coating and marketing. Gives the brutally honest truth in the fewest possible words. Use when you suspect self-deception, before committing, or before shipping.
 - **check-coherence** (cmd): Validate that a spec, report, or code output actually matches its stated objective
+- **ci-reliability-gate** (script): ci-reliability-gate.sh — SPEC-SE-012
 - **code-comprehension-report** (skill): Usar cuando se ha completado una implementación SDD y se necesita documentar el modelo mental.
 - **code-improve** (cmd): Launch autonomous code improvement loop — detects opportunities, applies improvements, creates PRs for review
 - **code-improvement-loop** (skill): Usar cuando se quiere ejecutar mejora autónoma de código en segundo plano con PRs para revisión.
@@ -58,30 +60,56 @@
 - **dag-typing-validate** (script): dag-typing-validate.sh — SE-034 Slice 1 prototype validator.
 - **decide-architecture** (script): decide-architecture.sh — SPEC-158
 - **deps-validate** (script): deps-validate.sh — SPEC-SE-020 Slice 1 schema validator for deps.yaml.
-- **design-an-interface** (skill): Skill para disenar una interfaz con N=3 alternativas en paralelo y recomendar la mejor segun vocabulario arquitectonico del proyecto.
+- **design-an-interface** (skill): Design-an-interface skill with N=3 parallel alternatives and architectural vocabulary. Use when designing a new module interface, when user mentions 'varias alternativas', 'design this module', or '/design-interface'.
+- **detect-frontend** (script): detect-frontend.sh — SPEC-INSTALLER-OPENCODE-MIGRATION
 - **dev-orchestrator** (agent): Analiza specs y crea planes de implementación con slices, dependencias y presupuestos de contexto
 - **dev-session** (cmd): Orquestar desarrollo de un spec mediante 5 fases con aislamiento de contexto y persistencia en disco
 - **dev-session-discard** (script): dev-session-discard.sh — Discard a dev-session cleanly
 - **dev-session-resume** (cmd): Reanudar una dev-session interrumpida desde el ultimo checkpoint
+- **enterprise/agent-manifest-batch-export** (script): agent-manifest-batch-export.sh — SPEC-SE-004: Exporta todos los agentes a todos los frameworks
+- **enterprise/agent-manifest-export** (script): agent-manifest-export.sh — SPEC-SE-004: Exporta agentes Savia a otros frameworks
 - **enterprise/api-key-create** (script): api-key-create.sh — SPEC-SE-036 Slice 2: API key creation CLI.
 - **enterprise/api-key-list** (script): api-key-list.sh — SPEC-SE-036 Slice 2: API key inventory CLI.
 - **enterprise/api-key-revoke** (script): api-key-revoke.sh — SPEC-SE-036 Slice 2: API key revocation CLI.
+- **enterprise/commercial-terms-check** (script): commercial-terms-check.sh — SPEC-SE-008 License and Commercial Terms Verifier
+- **enterprise/compliance-check** (script): compliance-check.sh — SPEC-SE-006 Workspace Compliance Validator
+- **enterprise/compliance-evidence-collector** (script): compliance-evidence-collector.sh — SPEC-SE-026 Automated Compliance Evidence Collector
+- **enterprise/compliance-report-generator** (script): compliance-report-generator.sh — SPEC-SE-026 Compliance Report Generator
 - **enterprise/delta-tier** (script): delta-tier.sh — SPEC-SE-035 helper
+- **enterprise/deployment-status** (script): deployment-status.sh — Show current deployment mode for a tenant
 - **enterprise/jwt-mint** (script): jwt-mint.sh — SPEC-SE-036 Slice 1: short-lived JWT mint primitive.
+- **enterprise/license-generator** (script): license-generator.sh — SPEC-SE-008 MIT License Generator for Savia Enterprise Components
+- **enterprise/mcp-catalog-generate** (script): mcp-catalog-generate.sh — SPEC-SE-003: Genera catálogo de MCP servers del workspace
+- **enterprise/mcp-server-stub** (script): mcp-server-stub.sh — SPEC-SE-003: Genera scaffold de un MCP server
+- **enterprise/metrics-emitter** (script): metrics-emitter.sh — SPEC-SE-009: Emite métricas del workspace al OTel Collector
+- **enterprise/model-card-generator** (script): model-card-generator.sh — SPEC-SE-006 AI Act Model Cards for Registered Agents
+- **enterprise/onboarding-batch** (script): onboarding-batch.sh — SPEC-SE-007: Onboarding en bulk desde CSV
+- **enterprise/otel-collector-config** (script): otel-collector-config.sh — SPEC-SE-009: Genera configuración OTel Collector
+- **enterprise/project-evaluation** (script): project-evaluation.sh — SE-019 Project Evaluation (Lessons-as-Code)
+- **enterprise/project-valuation** (script): project-valuation.sh — SE-016 Project Valuation (Business-Case-as-Code)
+- **enterprise/prospect-create** (script): prospect-create.sh — SE-015 Project Prospect (Pipeline-as-Code)
+- **enterprise/prospect-pipeline** (script): prospect-pipeline.sh — SE-015 Project Prospect (Pipeline-as-Code)
 - **enterprise/reconciliation-status** (script): reconciliation-status.sh — SPEC-SE-035 Slice 1+3: tenant reconciliation CLI.
+- **enterprise/sovereign-activate** (script): sovereign-activate.sh — Configure workspace for sovereign/air-gap deployment
+- **enterprise/sow-create** (script): sow-create.sh — SE-017 Project Definition (SOW-as-Code)
+- **enterprise/sow-validate** (script): sow-validate.sh — SE-017 Project Definition (SOW-as-Code)
+- **enterprise/sso-adapter-check** (script): sso-adapter-check.sh — SPEC-SE-007: Verifica la configuración del SSO/SAML adapter
 - **epistemic-humility** (skill): Usar cuando se detecta riesgo de adulación, cesión sin evidencia, o claim repetido por el usuario asumido sin verificar. Trigger: tribunal SPEC-192 emite WARN/VETO o auto-detección léxica.
 - **eval-agent** (cmd): Evaluate an agent against its golden set — precision, recall, hallucinations, bias (SPEC-036)
 - **eval-agent** (script): eval-agent.sh — Agent Evaluation Runner (SPEC-036)
 - **eval-run** (cmd): Execute evaluation against specified criteria
+- **evals-runner** (script): evals-runner.sh — SPEC-151 local evaluation runner.
 - **execution-supervisor** (script): execution-supervisor.sh — Advisory reflection trigger (SPEC-065)
 - **failure-pattern-memory** (script): failure-pattern-memory.sh — SPEC-188 Fase 1: Failure Pattern Memory store
 - **feasibility-probe** (cmd): Validate spec feasibility with a time-boxed prototype attempt
 - **feasibility-probe** (skill): Usar cuando se necesita validar si una spec es técnicamente viable antes de implementarla.
 - **feasibility-probe** (agent): Validates spec feasibility by attempting a time-boxed prototype. Produces viability report with score, blocking sections, and decomposition suggestions.
+- **fiction-framing-judge** (agent): Recommendation Tribunal judge — detects persona-shift plus content-equivalent framing over sensitive domain (SPEC-193)
 - **gaia-benchmark-harness** (script): gaia-benchmark-harness.sh — SPEC-100 Slice 1 GAIA benchmark harness.
 - **gitagent-export** (script): gitagent-export.sh — SPEC-099 Slice 1 gitagent adapter.
 - **graph-build** (cmd): Construye el grafo de conocimiento PM para un proyecto
 - **graph-temporal-ops** (script): graph-temporal-ops.sh — SPEC-123
+- **hook-multihandler-baseline** (script): hook-multihandler-baseline.sh — SPEC-150 Slice 1
 - **hook-portability-classifier** (script): hook-portability-classifier.sh — SPEC-127 Slice 2
 - **human-code-map** (skill): Usar cuando se incorpora un dev nuevo, se toca un módulo sin mapa, o alguien re-lee el mismo código repetidamente.
 - **image-relevance-filter** (script): image-relevance-filter.sh — SPEC-103 Slice 1: deterministic-first image triage primitive.
@@ -97,6 +125,8 @@
 - **marketplace-install** (cmd): Install components from claude-code-templates marketplace
 - **mcp-browse** (cmd): Explorar catálogo de MCPs disponibles (66+) via claude-code-templates
 - **mcp-server** (cmd): Expone las herramientas de Savia como MCP server para otros proyectos Claude Code
+- **meta-reflection** (skill): Protocolo de las 4 meta-preguntas para cuestionar el encuadre de una tarea antes de ejecutarla. SPEC-194. Usar cuando criterion-simulation-judge activa con FRAME_DOUBT o FRAME_REJECT, o cuando el operador quiere reflexion manual antes de un
+- **monthly-diagnostic-report** (script): monthly-diagnostic-report.sh — SPEC-188 F4 — Monthly diagnostic quality report
 - **nd-autoconfig** (script): nd-autoconfig.sh — SPEC-061: Auto-configure accessibility.md from neurodivergent.md
 - **nidos-dev-lib** (script): nidos-dev-lib.sh — Dev server lifecycle for Savia nidos (SPEC-098).
 - **opencode-hooks/run-hook** (script): run-hook.sh — Ejecuta un hook de PM‑Workspace con el input JSON adecuado
@@ -122,6 +152,8 @@
 - **portfolio-deps-status** (script): portfolio-deps-status.sh — SPEC-SE-020 Slice 5 project status dashboard.
 - **portfolio-graph** (script): portfolio-graph.sh — SPEC-SE-020 Slice 2 dependency graph builder.
 - **pre-push-bats-critical** (script): pre-push-bats-critical.sh — SPEC-SE-012 Module 3.
+- **priority/roadmap-priority-report** (script): SPEC-154 Slice 6 — roadmap-priority-report.sh
+- **priority/validate-spec-frontmatter** (script): SPEC-154 Slice 2 — validate-spec-frontmatter.sh
 - **prompt-suggestion-engine** (script): prompt-suggestion-engine.sh — SPEC-044 Phase 2: trace-driven prompt optimization
 - **reaction-engine** (script): reaction-engine.sh — SPEC-050 Phase 1: Reaction Engine
 - **rebuild-folder-indexes** (script): rebuild-folder-indexes.sh
@@ -147,6 +179,7 @@
 - **setup-opencode-permissions** (script): setup-claude-permissions.sh — Genera settings.local.json con permisos recomendados
 - **setup-savia-web** (script): Setup, build, and serve savia-web on http://localhost:8081
 - **skill-loader** (script): skill-loader.sh — SPEC-144: Context-Aware Skill Loading
+- **skill-pattern-detector** (script): scripts/skill-pattern-detector.sh — SPEC-SE-030 Phase 1: Pattern Detection
 - **slm-deploy** (script): slm-deploy.sh — Orchestrate post-training deployment scaffolding.
 - **slm-registry** (script): slm-registry.sh — Model registry for trained SLMs (SPEC-SE-027 registry).
 - **smart-routing** (skill): Usar cuando se necesita descubrir o enrutar a un comando específico entre los 400+ disponibles.
@@ -175,6 +208,7 @@
 - **spec-verify-ui** (cmd): Verificación spec↔UI — comprueba que el componente implementado cumple su spec SDD
 - **spec156-migrate-token-budget** (script): SPEC-156 Slice 2 prep — migrate flat token_budget to nested object.
 - **specs-frontmatter-normalize** (script): specs-frontmatter-normalize.sh — SE-054 Slice 2+3 frontmatter normalization.
+- **speculative-telemetry-report** (script): speculative-telemetry-report.sh — Telemetry dashboard for SE-220 (Slice 4).
 - **speculative/feasibility-probe** (script): feasibility-probe.sh — SE-220 Slice 0: speculative tool execution feasibility.
 - **statusline-provider** (script): statusline-provider.sh — HUD data provider for Claude Code statusline
 - **sycophancy-judge** (agent): Recommendation Tribunal judge — detects empty social validation in conversational drafts (SPEC-192)
@@ -196,6 +230,7 @@
 - **verification-middleware** (script): verification-middleware.sh — Orchestrate 3 verification checks post-implementation
 - **verify-layer** (cmd): Run specific verification layer for debugging
 - **wireframe-check** (cmd): Validate implementation against wireframe/mockup designs. Register reference designs and verify implementation fidelity against specifications.
+- **workforce-analytics** (script): scripts/workforce-analytics.sh — SPEC-SE-025 Agentic Workforce Analytics
 - **workload-balance** (cmd): Equilibrado objetivo de carga de trabajo respetando especialidades del equipo
 - **workspace-doctor** (script): workspace-doctor.sh — Health check pm-workspace (SPEC-031)
 - **worktree-setup** (cmd): >

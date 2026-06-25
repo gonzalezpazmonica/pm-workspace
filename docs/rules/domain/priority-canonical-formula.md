@@ -1,5 +1,5 @@
 ---
-context_tier: L1
+context_tier: L2
 token_budget: 1400
 resource: internal://docs/rules/domain/priority-canonical-formula.md
 spec: SPEC-154

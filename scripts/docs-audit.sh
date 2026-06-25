@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 # docs-audit.sh — Audita la estructura actual de docs/ y propone mejoras
+set -uo pipefail
 #
 # Usage:
 #   bash scripts/docs-audit.sh [--json] [--output PATH]

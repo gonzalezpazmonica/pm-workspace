@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 # agents-size-checker.sh — SE-098: List agents by size, emit WARN/FAIL per Rule #22
+set -uo pipefail
 #
 # Rule #22 hard limits:
 #   WARN  > 200 lines  (approaching problematic territory)

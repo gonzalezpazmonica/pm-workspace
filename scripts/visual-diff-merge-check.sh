@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 # scripts/visual-diff-merge-check.sh — SPEC-046: Visual Diff QA at Merge Time
+set -uo pipefail
 #
 # Orchestrates a before/after visual comparison for UI-touching PRs.
 # Delegates semantic analysis to visual-qa-agent; handles orchestration,

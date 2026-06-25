@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 # savia-voice-chunk.sh — SE-075 Slice 2.
+set -uo pipefail
 # Long-form Spanish TTS chunker with bounded concurrency and ffmpeg crossfade.
 # Re-implementation of the chunking pattern in voicebox `services/tts.py`
 # (MIT license); clean-room — no source code copied.

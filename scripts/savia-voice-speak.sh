@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 # savia-voice-speak.sh — SE-075 Slice 3.
+set -uo pipefail
 # High-level text → synthesize → play integration for Savia.
 #
 # Usage:

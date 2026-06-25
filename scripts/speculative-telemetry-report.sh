@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 # speculative-telemetry-report.sh — Telemetry dashboard for SE-220 (Slice 4).
+set -uo pipefail
 #
 # Reads output/speculative-execution-telemetry.jsonl and computes:
 #   - cache_hit_rate       (cache_hit=true / total records with cache_hit field)

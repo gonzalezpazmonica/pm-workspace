@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 # client-health-report.sh — SE-024 Client Health Intelligence
+set -uo pipefail
 # Generates health report for all clients of a tenant.
 #
 # Usage:

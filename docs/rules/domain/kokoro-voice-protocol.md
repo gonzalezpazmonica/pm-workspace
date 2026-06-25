@@ -43,7 +43,6 @@ python3 scripts/savia-kokoro.py \
 | `ef_dora`  | Español  | Femenino | Default Savia — español (ES/LATAM) |
 | `em_alex`  | Español  | Masculino | Variación masculina en español |
 | `af_heart` | Inglés   | Femenino | Textos en inglés, documentación |
-
 Selección de voz:
 
 ```bash
@@ -64,7 +63,6 @@ bash scripts/savia-voice-speak.sh "Texto en voz masculina"
 | `SAVIA_KOKORO_LANG`   | `es`       | Código de idioma |
 | `SAVIA_KOKORO_SPEED`  | `1.0`      | Velocidad (0.5–2.0) |
 | `SAVIA_TTS_CMD`       | kokoro     | Override completo del backend TTS en voice-chunk.sh |
-
 ## Chunking automático
 
 Textos >500 caracteres se dividen automáticamente en frases usando
@@ -125,7 +123,6 @@ Comparativa con alternativas cloud:
 | Latencia | ~150x RT en CPU | Red (100-500ms) | N/A |
 | Privacidad | 100% local | Datos a cloud | 100% local |
 | Estado | IMPLEMENTADO | Disponible con API key | GPU-blocked |
-
 ## Troubleshooting
 
 **Kokoro no instalado:**

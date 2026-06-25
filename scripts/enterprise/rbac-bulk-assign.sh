@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 # rbac-bulk-assign.sh — Bulk-assign roles from a CSV file
+set -uo pipefail
 # SPEC: SPEC-SE-002 Multi-Tenant & RBAC
 #
 # Usage:

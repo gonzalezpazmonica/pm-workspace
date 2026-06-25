@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 # fix-survival-check.sh — SPEC-188 F4 — Weekly fix survival audit
+set -uo pipefail
 #
 # Scans git log for fix commits over the last N days, verifies each fix
 # is still present in main (not reverted), and reports survival metrics.

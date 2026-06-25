@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 # metrics-emitter.sh — SPEC-SE-009: Emite métricas del workspace al OTel Collector
+set -uo pipefail
 #
 # Lee ficheros de traza y calidad del workspace y emite métricas en formato
 # Prometheus text o OTLP JSON hacia el endpoint configurado.

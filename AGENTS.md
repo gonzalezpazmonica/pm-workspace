@@ -17,6 +17,8 @@ the Stop hook `agents-md-auto-regenerate.sh` whenever an agent file changes.
 |---|---|---|---|---|
 | architect | heavy | L1 | — | Diseño de arquitectura .NET y decisiones técnicas de alto nivel. Usar PROACTIVELY cuando: se diseña una nueva feature... |
 | architecture-judge | mid | L1 | — | Code Review Court judge — boundaries, coupling, layer violations, patterns |
+| archive-digest | mid | L2 | — | Digestión de formatos de archivo y contenido comprimido via markitdown (SE-172). Soporta ZIP (itera contenidos), EPub... |
+| authority-claim-judge | fast | L1 | — | Recommendation Tribunal judge — detects credential claims ("soy investigador"). NUNCA veto. (SPEC-193) |
 | azure-devops-operator | fast | L1 | — | Operaciones rápidas en Azure DevOps: consultas WIQL, actualización de work items, gestión de sprint, capacidades del ... |
 | business-analyst | heavy | L1 | — | Análisis de reglas de negocio, descomposición de PBIs, criterios de aceptación y evaluación de competencias del equip... |
 | calibration-judge | mid | L1 | — | Truth Tribunal judge — confidence statements match evidence strength |
@@ -31,8 +33,10 @@ the Stop hook `agents-md-auto-regenerate.sh` whenever an agent file changes.
 | compliance-judge | heavy | L1 | — | Truth Tribunal judge — PII, N1-N4b levels, format rules, confidentiality |
 | concession-judge | mid | L1 | — | Recommendation Tribunal judge — detects position changes without new evidence (SPEC-192) |
 | confidentiality-auditor | heavy | L1 | — | Audita cumplimiento de confidencialidad en PRs de pm-workspace (repo publico). Descubre dinamicamente datos sensibles... |
+| configurator | fast | L1 | — | Centralizes workspace dispatch decisions: selects skills, agents, rules, and memory queries for each user intent. Emi... |
 | correctness-judge | mid | L1 | — | Code Review Court judge — logic, tests, edge cases, error paths |
 | court-orchestrator | heavy | L4 | — | Convenes the Code Review Court, manages fix cycles, produces .review.crc |
+| criterion-simulation-judge | heavy | L1 | — | Criterion Simulation Layer judge — SPEC-194. Executes 4 meta-questions (frame challenge, historical priors, operator ... |
 | dev-orchestrator | mid | L4 | — | Analiza specs y crea planes de implementación con slices, dependencias y presupuestos de contexto |
 | diagram-architect | mid | L1 | — | Architecture diagram specialist. Analyzes code and infrastructure to generate Mermaid diagrams, validates business ru... |
 | dotnet-developer | mid | L3 | — | Implementación de código C#/.NET siguiendo specs SDD aprobadas. Usar PROACTIVELY cuando: se implementa una feature en... |
@@ -41,6 +45,7 @@ the Stop hook `agents-md-auto-regenerate.sh` whenever an agent file changes.
 | expertise-asymmetry-judge | mid | L1 | — | Recommendation Tribunal judge — when draft falls in a domain the active user marks as `audit_level: blind`, force a r... |
 | factuality-judge | heavy | L1 | — | Truth Tribunal judge — factual accuracy of claims against verifiable sources |
 | feasibility-probe | mid | L3 | — | Validates spec feasibility by attempting a time-boxed prototype. Produces viability report with score, blocking secti... |
+| fiction-framing-judge | mid | L1 | — | Recommendation Tribunal judge — detects persona-shift plus content-equivalent framing over sensitive domain (SPEC-193) |
 | fix-assigner | mid | L2 | — | Creates fix tasks from Court findings, assigns to dev agents, triggers re-review |
 | frontend-developer | mid | L3 | — | Implementación de código frontend (Angular y React) siguiendo specs SDD aprobadas. Usar PROACTIVELY cuando: se implem... |
 | frontend-test-runner | mid | L4 | — | Post-commit frontend test execution — unit, component, e2e, coverage |
@@ -78,6 +83,7 @@ the Stop hook `agents-md-auto-regenerate.sh` whenever an agent file changes.
 | security-judge | mid | L1 | — | Code Review Court judge — OWASP, PII, injection, auth, credentials |
 | source-traceability-judge | mid | L1 | — | Truth Tribunal judge — every claim must have a verifiable @ref citation |
 | spec-judge | mid | L1 | — | Code Review Court judge — implementation vs approved spec, acceptance criteria |
+| structural-framing-judge | mid | L1 | — | Recommendation Tribunal judge — detects output with manual/protocol form over CBRN or sensitive domain |
 | sycophancy-judge | mid | L1 | — | Recommendation Tribunal judge — detects empty social validation in conversational drafts (SPEC-192) |
 | tech-writer | fast | L2 | — | Documentación técnica: README, CHANGELOG, comentarios XML en C#, docs de proyecto. Usar PROACTIVELY cuando: se actual... |
 | terraform-developer | mid | L3 | — | Implementación de código Terraform (IaC) siguiendo specs SDD aprobadas. CRÍTICO: NUNCA ejecutar terraform apply autom... |

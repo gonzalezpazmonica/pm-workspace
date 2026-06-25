@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 # compliance-evidence-collector.sh — SPEC-SE-026 Automated Compliance Evidence Collector
+set -uo pipefail
 #
 # Recopila evidencias de compliance automaticamente desde artefactos del workspace.
 #

@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 # client-health-score.sh — SE-024 Client Health Intelligence
+set -uo pipefail
 # Calculates client health score (0-100) across 6 dimensions.
 #
 # Usage:

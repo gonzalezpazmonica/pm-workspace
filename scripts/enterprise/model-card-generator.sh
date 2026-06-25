@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 # model-card-generator.sh — SPEC-SE-006 AI Act Model Cards for Registered Agents
+set -uo pipefail
 #
 # Genera AI Act model cards para cada agente registrado en el workspace.
 # Lee:  .opencode/agents/*.md + .claude/enterprise/manifest.json

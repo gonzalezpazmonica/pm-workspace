@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 # pr-plan-gates.sh — Gate functions for pr-plan.sh (sourced, not executed)
+set -uo pipefail
 
 g0() {
   [[ ! -f "$FAILURE_FILE" ]] && return

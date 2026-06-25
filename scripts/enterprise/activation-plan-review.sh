@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 # activation-plan-review.sh — SE-034 Agent Activation Plan
+set -uo pipefail
 # Displays and validates a daily activation plan for PM review.
 #
 # Usage:

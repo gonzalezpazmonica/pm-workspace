@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 # speculative-pre-execute.sh — PostToolUse hook for SE-220 Speculative Execution (Slice 2).
+set -uo pipefail
 #
 # Fires after each tool call. Reads the tool output + turn context and
 # launches speculative pre-execution of the NEXT predicted tool in background,

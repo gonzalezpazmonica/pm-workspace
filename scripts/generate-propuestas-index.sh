@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 # generate-propuestas-index.sh — SE-222 S2: auto-generate docs/propuestas/index.md
+set -uo pipefail
 #
 # Scans all .md files in docs/propuestas/ (root + savia-enterprise/ subdir only,
 # non-recursive otherwise) and generates an index table sorted by status:

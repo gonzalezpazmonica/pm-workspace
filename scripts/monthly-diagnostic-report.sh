@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 # monthly-diagnostic-report.sh — SPEC-188 F4 — Monthly diagnostic quality report
+set -uo pipefail
 #
 # Generates a monthly Markdown report aggregating:
 #   - diagnostic-metrics-tracker.py stats (accuracy, confidence, rework rate)

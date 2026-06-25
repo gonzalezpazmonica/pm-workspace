@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 # scope-trace-gate.sh — G13 Scope-trace gate (standalone runner)
+set -uo pipefail
 # SE-079: verifica que los ficheros modificados trazán al scope declarado en la spec/task.
 #
 # Uso:

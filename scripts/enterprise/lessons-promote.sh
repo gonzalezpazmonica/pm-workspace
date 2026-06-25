@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 # lessons-promote.sh — SE-032 Cross-Project Lessons Pipeline
+set -uo pipefail
 # Promotes a cross-project lesson to a workspace rule.
 #
 # Usage:

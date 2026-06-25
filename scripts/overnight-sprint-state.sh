@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 # scripts/overnight-sprint-state.sh — SE-226: stateless-session loop state management
+set -uo pipefail
 # Manages state.json for overnight-sprint loops with atomic writes.
 #
 # Commands:

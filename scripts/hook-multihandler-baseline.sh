@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 # hook-multihandler-baseline.sh — SPEC-150 Slice 1
+set -uo pipefail
 #
 # Establishes FP/FN baseline for 6 critical hooks against 20 test inputs each.
 # Outputs JSON per hook and saves to tests/evals/hook-baselines/

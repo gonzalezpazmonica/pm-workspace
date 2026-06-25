@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 # rule-orphan-detector.sh — SE-048 Slice 1 rule usage audit.
+set -uo pipefail
 #
 # Para cada regla en `docs/rules/domain/*.md`, cuenta referencias reales
 # en: .opencode/agents/, .opencode/skills/, .opencode/commands/, scripts/, tests/,

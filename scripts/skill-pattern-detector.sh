@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 # scripts/skill-pattern-detector.sh — SPEC-SE-030 Phase 1: Pattern Detection
+set -uo pipefail
 #
 # Analyzes skill invocations to detect repeated command sequences.
 #

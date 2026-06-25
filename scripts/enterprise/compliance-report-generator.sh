@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 # compliance-report-generator.sh — SPEC-SE-026 Compliance Report Generator
+set -uo pipefail
 #
 # Genera informe de compliance en Markdown.
 #

@@ -34,4 +34,9 @@ Documentos canonicos cuya naturaleza requiere unidad indivisible:
 
 - `docs/rules/domain/savia-ethical-principles.md` (SE-104): manifiesto canonico con los 13 principios humanistas + 5 lineas rojas inmutables. Particionarlo rompe su funcion de unico punto de referencia citable desde reglas, agentes y dilemas. Excepcion validada en `tests/structure/test-workspace-structure.bats` test 9.
 
+- `docs/rules/domain/enterprise-onboarding-protocol.md`: protocolo de onboarding enterprise multifase (SE-enterprise batch, 2026-06-24).
+- `docs/rules/domain/enterprise-sovereign-deployment.md`: guia de despliegue soberano enterprise (SE-enterprise batch, 2026-06-24).
+- `docs/rules/domain/meeting-participant-etiquette.md`: etiqueta de reuniones con ejemplos extensos (SE-enterprise batch, 2026-06-24).
+- `docs/rules/domain/portfolio-as-graph.en.md`: doc bilingue de grafo de portfolio con ejemplos (SE-enterprise batch, 2026-06-24).
+
 Toda nueva excepcion requiere: (1) justificacion documentada aqui, (2) entrada explicita en el test BATS, (3) aprobacion en review.
