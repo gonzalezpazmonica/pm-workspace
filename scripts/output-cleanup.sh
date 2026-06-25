@@ -118,7 +118,7 @@ stale_count=${#STALE_FILES[@]}
 } >> "$LOG_FILE"
 
 if [[ "$stale_count" -eq 0 ]]; then
-  echo "No files older than ${RETENTION_DAYS} days found in output/"
+  echo "Mode: dry-run | No files older than ${RETENTION_DAYS} days found in output/"
   echo "# Result: nothing to do" >> "$LOG_FILE"
   exit 0
 fi

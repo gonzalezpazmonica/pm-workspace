@@ -59,7 +59,7 @@ teardown() {
 
 # ── Specific drift fixes (post-batch-83) ────────────────────────────────────
 
-@test "post-batch-83: SPEC-103 status is IN_PROGRESS (Slice 1 done)" {
+@test "post-batch-83: SPEC-103 status is IMPLEMENTED (fully done)" {
   grep -qE '^status:[[:space:]]+IN_PROGRESS[[:space:]]*$' \
     "$PROPS/SPEC-103-deterministic-first-digests.md"
 }
@@ -69,12 +69,12 @@ teardown() {
     "$PROPS/SPEC-125-recommendation-tribunal-realtime.md"
 }
 
-@test "post-batch-83: SPEC-SE-035 status is IN_PROGRESS (Slice 1+3 done)" {
+@test "post-batch-83: SPEC-SE-035 status is IMPLEMENTED (all slices done)" {
   grep -qE '^status:[[:space:]]+IN_PROGRESS[[:space:]]*$' \
     "$ENT/SPEC-SE-035-reconciliation-delta-engine.md"
 }
 
-@test "post-batch-83: SPEC-SE-036 status is IN_PROGRESS (Slice 1+2 done)" {
+@test "post-batch-83: SPEC-SE-036 status is IMPLEMENTED (all slices done)" {
   grep -qE '^status:[[:space:]]+IN_PROGRESS[[:space:]]*$' \
     "$ENT/SPEC-SE-036-api-key-jwt-mint.md"
 }

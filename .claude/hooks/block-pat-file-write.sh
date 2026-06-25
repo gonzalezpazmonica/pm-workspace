@@ -34,6 +34,7 @@ else
   if [[ -n "$INPUT" ]] && command -v jq &>/dev/null; then
     INPUT_PATH=$(printf '%s' "$INPUT" | jq -r '
       .tool_input.file_path //
+      .tool_input.filePath //
       .tool_input.path //
       empty' 2>/dev/null) || INPUT_PATH=""
   fi
