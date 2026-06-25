@@ -1391,4 +1391,3 @@
 [quality] web-e2e-tester — against,android,apps,autonomous,changes — agent:.opencode/agents/web-e2e-tester.md
 [quality] workspace-integrity — agentes,audita,baseline,drift,integridad — skill:.claude/skills/workspace-integrity/SKILL.md
 [quality] zeroclaw — commands,firmware,flash,interface,send — cmd:.claude/commands/zeroclaw.md
-# STALE_MARKER_FOR_TEST

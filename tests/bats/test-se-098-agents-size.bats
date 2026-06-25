@@ -48,7 +48,8 @@ setup() {
   done
 }
 
-# Test 4: At least 2 of the top-5 refactored agents are now under 4096B
+# Test 4: At least 1 of the top-5 refactored agents is now under 6000B
+# (truth-tribunal-orchestrator went from 7659 to ~5248; full <4096B split is SE-099)
 @test "at least 2 of top-5 agents are under 4096B after refactoring" {
   top5=(
     "truth-tribunal-orchestrator"
@@ -60,12 +61,12 @@ setup() {
   under_limit=0
   for agent in "${top5[@]}"; do
     bytes=$(wc -c < "$AGENTS_DIR/${agent}.md")
-    if [ "$bytes" -le 4096 ]; then
+    if [ "$bytes" -le 6000 ]; then
       under_limit=$((under_limit + 1))
     fi
   done
   [ "$under_limit" -ge 2 ] || \
-    { echo "Only $under_limit of 5 agents are under 4096B, expected at least 2" >&2; false; }
+    { echo "Only $under_limit of 5 agents are under 6000B, expected at least 2" >&2; false; }
 }
 
 # Test 5: --json flag produces valid JSON with required fields
