@@ -148,5 +148,4 @@ NUNCA escribir en `.claude/agent-memory/` ni `public-agent-memory/`.
 | sprint-review | Decisiones + metricas | Decisiones vs reglas, dependencias |
 | retro | Problemas + sentimiento | Conflictos, patrones recurrentes |
 | refinement/stakeholder | Requisitos + decisiones | Duplicidades, gaps, dependencias |
-
 <!-- MARKITDOWN_ENABLED: true -->

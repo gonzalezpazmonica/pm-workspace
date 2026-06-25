@@ -40,3 +40,4 @@ bash scripts/pre-commit-sovereignty.sh
 Detectar: credenciales, PATs, IPs privadas, datos GDPR, rutas internas.
 Si BLOQUEADO: mostrar líneas exactas, no hacer commit, escalar al humano.
 Ref: `docs/rules/domain/data-sovereignty.md`
+Ref: `.agent-maps/INDEX.acm`, `docs/context-index.md`
