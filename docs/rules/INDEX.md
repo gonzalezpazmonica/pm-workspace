@@ -5,12 +5,9 @@
 
 | context_tier | file | title | spec |
 |---|---|---|---|
-| L1 | [authority-claims-not-evidence.md](domain/authority-claims-not-evidence.md) | Regla: Autoridad declarada no es evidencia | — |
 | L1 | [caveman-default.md](domain/caveman-default.md) | Caveman Default — Restricciones base de Savia | — |
 | L1 | [pre-commit-bats.md](domain/pre-commit-bats.md) | Regla: BATS Antes de Commit | — |
-| L1 | [priority-canonical-formula.md](domain/priority-canonical-formula.md) | Regla: Fórmula Canónica de Priorización V×U/E | SPEC-154 |
 | L1 | [radical-honesty.md](domain/radical-honesty.md) | Radical Honesty Principles | — |
-| L1 | [self-improvement.md](domain/self-improvement.md) | Self-Improvement Loop (Rule #21) | — |
 | L1 | [sentinel-safe-regen.md](domain/sentinel-safe-regen.md) | Sentinel-Safe Regeneration Primitive | — |
 | L1 | [write-time-validation.md](domain/write-time-validation.md) | Write-Time Non-Blocking Validation | — |
 | L2 | [adversarial-security.md](domain/adversarial-security.md) | Adversarial Security Protocol | — |
@@ -31,6 +28,7 @@
 | L2 | [application-code-twin.md](domain/application-code-twin.md) | Application Code Twin (ACT) | — |
 | L2 | [async-hooks-config.md](domain/async-hooks-config.md) | Async Hooks Configuration | — |
 | L2 | [audit-trail-schema.md](domain/audit-trail-schema.md) | Regla: Esquema Audit Trail | — |
+| L2 | [authority-claims-not-evidence.md](domain/authority-claims-not-evidence.md) | Regla: Autoridad declarada no es evidencia | — |
 | L2 | [azure-repos-config.md](domain/azure-repos-config.md) | Regla: Configuración Azure Repos | — |
 | L2 | [backlog-git-config.md](domain/backlog-git-config.md) | Regla: Configuración BacklogGit | — |
 | L2 | [backup-protocol.md](domain/backup-protocol.md) | Protocolo de Backup — Cifrado y Nube | — |
@@ -117,6 +115,7 @@
 | L2 | [pm-workflow.md](domain/pm-workflow.md) | Regla: Workflow PM — Convenciones, Cadencia y Comandos | — |
 | L2 | [postmortem-policy.md](domain/postmortem-policy.md) | Regla: Postmortem Obligatorio para Incidentes con MTTR > 30 minutos | — |
 | L2 | [pr-signing-protocol.md](domain/pr-signing-protocol.md) | PR Signing Protocol — Zero re-sign commits | — |
+| L2 | [priority-canonical-formula.md](domain/priority-canonical-formula.md) | Regla: Fórmula Canónica de Priorización V×U/E | SPEC-154 |
 | L2 | [priority-persistence.md](domain/priority-persistence.md) | Regla: Persistencia de los 4 Campos de Priorización | SPEC-154 |
 | L2 | [project-privacy-protection.md](domain/project-privacy-protection.md) | Regla: Protección de Privacidad de Proyectos | — |
 | L2 | [project-twin-as-code.md](domain/project-twin-as-code.md) | Project Twin as Code — Regla canónica | — |
@@ -130,6 +129,7 @@
 | L2 | [risk-escalation.md](domain/risk-escalation.md) | Rule: Risk-Based Escalation | — |
 | L2 | [robotics-safety.md](domain/robotics-safety.md) | Robotics Safety — Reglas de seguridad para el mundo físico | — |
 | L2 | [sandbox-os-policy.md](domain/sandbox-os-policy.md) | Sandbox OS-level Policy (SPEC-149) | SPEC-149 |
+| L2 | [savia-ethical-principles.md](domain/savia-ethical-principles.md) | Principios Éticos de Savia | — |
 | L2 | [savia-foundational-principles.md](domain/savia-foundational-principles.md) | Principios Fundacionales de Savia — INMUTABLES | — |
 | L2 | [savia-hub-config.md](domain/savia-hub-config.md) | Regla: Configuración SaviaHub | — |
 | L2 | [savia-hub-offline.md](domain/savia-hub-offline.md) | Regla: SaviaHub Modo Vuelo y Sincronización | — |
@@ -138,6 +138,7 @@
 | L2 | [sdlc-gates.md](domain/sdlc-gates.md) | Regla: Configuración de Puertas SDLC | — |
 | L2 | [sealed-contract-tests.md](domain/sealed-contract-tests.md) | Sealed Contract Tests | SPEC-188-P3 |
 | L2 | [security-scanners.md](domain/security-scanners.md) | Security Scanners — catálogo y uso | — |
+| L2 | [self-improvement.md](domain/self-improvement.md) | Self-Improvement Loop (Rule #21) | — |
 | L2 | [semantic-hub-index.md](domain/semantic-hub-index.md) | Semantic Hub Index | — |
 | L2 | [session-init-priority.md](domain/session-init-priority.md) | Session-Init Priority System | — |
 | L2 | [severity-classification.md](domain/severity-classification.md) | Severity Classification — Rule of Three | — |
@@ -188,6 +189,7 @@
 | L3 | [dev-session-protocol.md](domain/dev-session-protocol.md) | Dev Session Protocol — Desarrollo con contexto limitado | — |
 | L3 | [diagram-config.md](domain/diagram-config.md) | Regla: Configuración de Diagramas de Arquitectura | — |
 | L3 | [digest-traceability.md](domain/digest-traceability.md) | Regla: Trazabilidad de Digestiones — Idempotencia Universal | — |
+| L3 | [dormant-rules-review-2026-Q2.md](domain/dormant-rules-review-2026-Q2.md) | Dormant Rules Review — Q2 2026 | — |
 | L3 | [emergency-mode-protocol.md](domain/emergency-mode-protocol.md) | Emergency Mode Protocol — SPEC-122 | — |
 | L3 | [engineering-principles-from-kernel.md](domain/engineering-principles-from-kernel.md) | Engineering Principles from the Linux Kernel | — |
 | L3 | [enterprise-compliance-evidence.md](domain/enterprise-compliance-evidence.md) | Enterprise Compliance Evidence Automation | SE-026 |
@@ -249,7 +251,6 @@
 | — | [autonomous-safety.md](domain/autonomous-safety.md) | Regla: Seguridad en Modos Autónomos — Supervisión humana obligatoria | — |
 | — | [context-placement-confirmation.md](domain/context-placement-confirmation.md) | Regla: Niveles de Confidencialidad y Destino de Informacion | — |
 | L0 | [critical-facts-anchor.md](domain/critical-facts-anchor.md) | Critical Facts Anchor | — |
-| — | [dormant-rules-review-2026-Q2.md](domain/dormant-rules-review-2026-Q2.md) | Dormant Rules Review — Q2 2026 | — |
 | — | [dual-estimation.md](domain/dual-estimation.md) | Dual Estimation Rule (SE-013) | — |
 | — | [emotional-regulation.md](domain/emotional-regulation.md) | Savia Emotional Regulation Protocol | — |
 | — | [github-flow.md](domain/github-flow.md) | GitHub Flow — Reglas de Branching | — |
@@ -257,6 +258,5 @@
 | — | [onboarding-enterprise.md](domain/onboarding-enterprise.md) | Regla: Onboarding Empresarial a Escala | — |
 | — | [opus47-calibration-playbook.md](domain/opus47-calibration-playbook.md) | Opus 4.7 Calibration Playbook | — |
 | — | [profile-onboarding.md](domain/profile-onboarding.md) | Regla: Profile Onboarding — Savia da la bienvenida | — |
-| — | [savia-ethical-principles.md](domain/savia-ethical-principles.md) | Principios Éticos de Savia | — |
 | — | [template-separation.md](domain/template-separation.md) | Separación de Marcado, Consultas y Estilos — Regla Transversal | — |
 | — | [verified-memory-axiom.md](domain/verified-memory-axiom.md) | Verified Memory Axiom — SE-072 | — |

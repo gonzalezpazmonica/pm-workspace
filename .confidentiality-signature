@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
 diff_hash=d72acae0c4ac8d56550227e2b7bc6280271902eb289e7f33219f71fb7328fec6
-timestamp=2026-06-25T12:12:05Z
-branch=agent/spec-triage-p0p1-20260624
-head_commit=400b84d1
+timestamp=2026-06-25T13:00:24Z
+branch=HEAD
+head_commit=3717f46e
 signature=01a9394d4f6f171c8e1f98522fd2f10fe18f8b99978d764a156ac94bd6ef19a9
