@@ -44,7 +44,7 @@ setup() {
     current=$(wc -c < "$AGENTS_DIR/${agent}.md")
     original="${originals[$agent]}"
     [ "$current" -lt "$original" ] || \
-      fail "Agent $agent is $current bytes, expected < $original (original size)"
+      { echo "Agent $agent is $current bytes, expected < $original (original size)" >&2; false; }
   done
 }
 
@@ -65,7 +65,7 @@ setup() {
     fi
   done
   [ "$under_limit" -ge 2 ] || \
-    fail "Only $under_limit of 5 agents are under 4096B, expected at least 2"
+    { echo "Only $under_limit of 5 agents are under 4096B, expected at least 2" >&2; false; }
 }
 
 # Test 5: --json flag produces valid JSON with required fields
