@@ -146,7 +146,3 @@ NUNCA escribir en `.claude/agent-memory/` ni `public-agent-memory/`.
 |---|---|---|
 | one2one | Perfil + negocio + notas | Conflictos, burnout, contradicciones |
 | sprint-review | Decisiones + metricas | Decisiones vs reglas, dependencias |
-| retro | Problemas + sentimiento | Conflictos, patrones recurrentes |
-| refinement/stakeholder | Requisitos + decisiones | Duplicidades, gaps, dependencias |
-
-<!-- MARKITDOWN_ENABLED: true -->
