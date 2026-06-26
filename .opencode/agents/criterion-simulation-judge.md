@@ -146,11 +146,3 @@ Reporta el numero de tokens usados en esta invocacion si puedes estimarlo.
 Si no puedes, pon 0.
 
 ## Ejemplo de banner_text para FRAME_DOUBT
-
-```
-Q1 posible drift: la spec propone "implementar cache distribuida" pero el
-problema declarado es "reducir latencia de lectura". Pueden no coincidir.
-Q3 operador: hora 23:15, override_rate=18. Riesgo de criterio relajado.
-Sugerencia: confirmar que cache es la causa raiz de la latencia, no un sintoma.
-soy simulacion de meta-reflexion, no tu criterio. Tu decides.
-```
