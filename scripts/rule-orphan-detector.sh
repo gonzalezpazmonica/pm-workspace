@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 # rule-orphan-detector.sh — SE-048 Slice 1 rule usage audit.
+set -uo pipefail
 #
 # Para cada regla en `docs/rules/domain/*.md`, cuenta referencias reales
 # en: .opencode/agents/, .opencode/skills/, .opencode/commands/, scripts/, tests/,
@@ -76,12 +77,16 @@ SCAN_PATHS=(
   "$PROJECT_ROOT/CLAUDE.md"
 )
 
-# Collect rule files
+# Collect rule files (skip archived rules — SE-096)
 RULE_FILES=()
 for f in "$RULES_DIR"/*.md; do
   [[ ! -f "$f" ]] && continue
   bn=$(basename "$f")
   [[ "$INCLUDE_INDEX" -eq 0 && "$bn" == "INDEX.md" ]] && continue
+  # Skip rules marked archived: true in frontmatter
+  if grep -qE '^archived: true' "$f" 2>/dev/null; then
+    continue
+  fi
   RULE_FILES+=("$f")
 done
 

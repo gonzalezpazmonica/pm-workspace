@@ -1,7 +1,7 @@
 ---
 spec_id: SPEC-187
 title: Alineacion principios eticos Savia con marco IAH (Inteligencia Artificial Humanista)
-status: PROPOSED
+status: IMPLEMENTED
 tier: 1
 priority: P1
 effort: 3-4h
@@ -10,17 +10,22 @@ wave: 1
 deps: [SE-104]
 unblocks: []
 origin: active-user-2026-06-04
+implemented_at: "2026-06-24"
 inspiration: 10 principios esenciales de la IAH
 timeline:
   - from: "2026-06-05"
     learned: "2026-06-05"
     value: "PROPOSED"
     source: "docs(spec): SPEC-187 IAH principles alignment proposal (#810)"
+  - from: "2026-06-24"
+    learned: "2026-06-24"
+    value: "IMPLEMENTED"
+    source: "session:2026-06-24"
+resource: internal://docs/rules/domain/savia-ethical-principles.md
 ---
-
 # SPEC-187 — Alineacion principios eticos Savia con marco IAH
 
-> Estado: PROPOSED · Tier 1 · P1 · Estimacion 3-4h · Era 200 · Wave 1
+> Estado: IMPLEMENTED · Tier 1 · P1 · Estimacion 3-4h · Era 200 · Wave 1
 
 ## Resumen
 

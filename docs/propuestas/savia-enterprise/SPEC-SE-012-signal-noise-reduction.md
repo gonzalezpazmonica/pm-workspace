@@ -1,5 +1,7 @@
 ---
-status: PROPOSED
+status: IMPLEMENTED
+implemented_at: "2026-06-24"
+implemented_scope: "Módulo 2 CI Reliability Gate (ci-reliability-gate.sh + G15 gate). Módulo 1 (bug matcher LLM) resuelto anteriormente."
 ---
 
 # SPEC-SE-012 — Signal/Noise Reduction: Hooks, CI Reliability y PR Queue

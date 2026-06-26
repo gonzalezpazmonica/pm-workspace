@@ -8,6 +8,8 @@ priority: P1-Tier1
 origin: Savia autonomous roadmap — oumi-ai/oumi research (2026-04-17)
 author: Savia
 related: [SPEC-SE-027, SPEC-023, SPEC-080, SE-042]
+
+triage_note: "BLOCKED: GPU required for training pipeline"
 ---
 
 # SE-028 — oumi Integration (complement to SE-027)

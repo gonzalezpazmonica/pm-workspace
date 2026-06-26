@@ -224,7 +224,7 @@ export function isN1Destination(path: string): boolean {
 
 // ── Private destination skip ──────────────────────────────────────────────
 
-const PRIVATE_DEST_RX = /(\/projects\/|^projects\/|\/tenants\/|^tenants\/|\.local\.|\/output\/|private-agent-memory|\/\.savia\/|\/\.claude\/sessions\/|settings\.local\.json|config\.local)/;
+const PRIVATE_DEST_RX = /(\/projects\/|^projects\/|\/tenants\/|^tenants\/|\.local\.|\/output\/|private-agent-memory|\/\.savia\/|\/\.claude\/sessions\/|settings\.local\.json|config\.local|\/tests\/fixtures\/|^tests\/fixtures\/)/; // SPEC-032: test fixtures are safe destinations
 
 export function isPrivateDestination(path: string): boolean {
   return PRIVATE_DEST_RX.test(path);

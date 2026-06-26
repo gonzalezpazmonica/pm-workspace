@@ -1,0 +1,38 @@
+version: "2.0.0"
+tenant: "test-dora-3106494"
+created_at: "2026-06-24T21:15:05Z"
+status: draft
+compliance_profile: "dora"
+checklist:
+  - id: tests_passing
+    description: All automated tests pass
+    required: true
+    passed: false
+  - id: change_window_approved
+    description: Change window approved by CAB
+    required: true
+    passed: false
+  - id: rollback_playbook_tested
+    description: Rollback playbook tested
+    required: true
+    passed: false
+  - id: incident_response_ready
+    description: Incident response team on standby
+    required: true
+    passed: false
+  - id: audit_trail_complete
+    description: All actions logged in audit trail
+    required: true
+    passed: false
+  - id: human_approval
+    description: Release manager sign-off
+    required: true
+    passed: false
+  - id: security_officer_approval
+    description: Security officer sign-off
+    required: true
+    passed: false
+  - id: model_cards_present
+    description: Documentation artifacts present
+    required: true
+    passed: false

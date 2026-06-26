@@ -72,6 +72,13 @@ VULN_OUTPUT=$(bash "$ROOT/scripts/vuln-scan.sh" --ci 2>&1)
 echo "$VULN_OUTPUT" | grep -q "FAIL" && VULN_FINDINGS=1
 SECURITY_SCORE=$( [ "$SEC_FINDINGS" -eq 0 ] && [ "$VULN_FINDINGS" -eq 0 ] && echo 100 || echo 50 )
 
+# SE-105: GLM governance manifest check (non-blocking, advisory)
+GLM_STATUS="skip"
+if [[ -x "$ROOT/scripts/glm-validate.sh" ]]; then
+  GLM_OUTPUT=$(cd "$ROOT" && bash "$ROOT/scripts/glm-validate.sh" 2>&1) || true
+  echo "$GLM_OUTPUT" | grep -q "^FAIL" && GLM_STATUS="fail" || GLM_STATUS="pass"
+fi
+
 # 5. Documentation
 DOCS_REQUIRED=("LICENSE" "README.md" "CHANGELOG.md" "CONTRIBUTING.md" "SECURITY.md" "docs/QUICK-START.md" "docs/ROADMAP.md")
 DOCS_PRESENT=0
@@ -133,6 +140,7 @@ else
   echo ""
   echo "  Components: $TOTAL_COMMANDS commands, $TOTAL_SKILLS skills,"
   echo "              $(count_glob "$ROOT/.opencode/agents/*.md") agents, $TOTAL_HOOKS hooks"
+  echo "  GLM governance manifest: $GLM_STATUS"
   echo ""
   echo "═══════════════════════════════════════════════════"
 fi

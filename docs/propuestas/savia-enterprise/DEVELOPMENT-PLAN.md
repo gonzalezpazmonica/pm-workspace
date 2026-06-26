@@ -1,5 +1,7 @@
 ---
-status: PROPOSED
+status: ARCHIVED
+
+triage_note: "planning document, superseded by ROADMAP.md + individual specs"
 ---
 
 # Savia Enterprise — Plan de desarrollo autónomo

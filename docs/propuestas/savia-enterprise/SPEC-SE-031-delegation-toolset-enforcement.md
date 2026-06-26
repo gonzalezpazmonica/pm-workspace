@@ -1,5 +1,7 @@
 ---
-status: PROPOSED
+status: ARCHIVED
+
+triage_note: "superseded: delegation-guard.sh in .opencode/hooks/ already implements this"
 ---
 
 # SPEC-SE-031: Delegation Toolset Enforcement

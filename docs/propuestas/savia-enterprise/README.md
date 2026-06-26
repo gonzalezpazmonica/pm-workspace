@@ -1,5 +1,7 @@
 ---
-status: PROPOSED
+status: ARCHIVED
+
+triage_note: "directory description, not an executable spec"
 ---
 
 # Savia → Savia Enterprise — Migración estratégica

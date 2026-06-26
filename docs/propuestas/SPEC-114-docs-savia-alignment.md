@@ -1,11 +1,13 @@
 ---
 id: SPEC-114
 title: Docs alignment post-SPEC-109/111/112/113
-status: SUPERSEDED
+status: ARCHIVED
 superseded_by: SE-078
 superseded_at: "2026-04-26"
 origin: task #21 docs audit (2026-04-17)
 author: Savia
+
+triage_note: "superseded status normalized to ARCHIVED"
 ---
 
 # SPEC-114 — Docs Savia Alignment

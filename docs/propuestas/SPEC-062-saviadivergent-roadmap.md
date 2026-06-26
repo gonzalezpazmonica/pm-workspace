@@ -5,6 +5,8 @@ status: PROPOSED
 migrated_at: "2026-04-19"
 migrated_from: body-prose
 priority: baja
+
+triage_note: "DEFERRED: depends on SPEC-060 user research"
 ---
 
 # SPEC-062 — SaviaDivergent Implementation Roadmap

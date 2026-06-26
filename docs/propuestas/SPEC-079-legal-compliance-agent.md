@@ -1,7 +1,7 @@
 ---
 id: SPEC-079
 title: SPEC-079 — Agente de Compliance Legal con legalize-es
-status: PROPOSED
+status: ARCHIVED
 migrated_at: "2026-04-19"
 migrated_from: body-prose
 ---

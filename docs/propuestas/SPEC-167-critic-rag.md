@@ -1,7 +1,7 @@
 ---
 id: SPEC-167
 title: Critic with RAG over external memory
-status: PROPOSED
+status: IMPLEMENTED
 priority: MEDIUM
 estimated_hours: 6
 tier: 2

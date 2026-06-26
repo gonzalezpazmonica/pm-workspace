@@ -1,0 +1,34 @@
+# SPEC-149 — Sandbox OS-level default policy
+# Applied when no mode-specific policy matches.
+mode: default-readonly
+
+filesystem:
+  allow_read:
+    - $REPO
+    - ~/.opencode
+    - ~/.claude/external-memory
+    - /usr
+    - /bin
+    - /lib
+    - /etc
+    - /tmp
+  allow_write:
+    - $REPO
+    - /tmp
+  deny:
+    - ~/.ssh
+    - ~/.gnupg
+    - ~/.aws
+    - ~/.azure
+    - ~/.config/gcloud
+
+network:
+  allow_domains:
+    - api.anthropic.com
+    - api.deepseek.com
+    - github.com
+    - api.github.com
+    - registry.npmjs.org
+    - pypi.org
+    - dev.azure.com
+  deny_default: true

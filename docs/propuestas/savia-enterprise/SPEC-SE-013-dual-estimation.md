@@ -1,5 +1,7 @@
 ---
-status: PROPOSED
+status: ARCHIVED
+
+triage_note: "docs/rules/domain/dual-estimation.md already exists with same content"
 ---
 
 # SPEC-SE-013 — Dual Estimation Rule (Human + Agent Pipeline)

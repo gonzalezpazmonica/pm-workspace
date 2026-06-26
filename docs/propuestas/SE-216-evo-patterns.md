@@ -1,7 +1,7 @@
 ---
 spec_id: SE-216
 title: "evo patterns: scratchpad, gates, frontier strategies, tree search"
-status: PROPOSED
+status: IMPLEMENTED
 priority: P2
 effort: L
 era: 204

@@ -1,7 +1,7 @@
 ---
 id: SPEC-161
 title: PROTECTED_JOB_NAMES — bloquear agentes costosos en bucles autónomos
-status: PROPOSED
+status: IMPLEMENTED
 priority: HIGH
 estimated_hours: 1
 tier: 1

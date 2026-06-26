@@ -1,0 +1,34 @@
+# SPEC-149 — overnight-sprint sandbox policy
+mode: overnight-sprint
+
+filesystem:
+  allow_read:
+    - $REPO
+    - ~/.opencode
+    - ~/.claude/external-memory
+    - /usr
+    - /bin
+    - /lib
+    - /etc
+    - /tmp
+  allow_write:
+    - $REPO/.opencode/worktrees
+    - $REPO/output
+    - $REPO/CHANGELOG.d
+    - /tmp
+  deny:
+    - ~/.ssh
+    - ~/.gnupg
+    - ~/.aws
+    - ~/.azure
+    - ~/.config/gcloud
+
+network:
+  allow_domains:
+    - api.anthropic.com
+    - api.deepseek.com
+    - github.com
+    - api.github.com
+    - registry.npmjs.org
+    - pypi.org
+  deny_default: true
