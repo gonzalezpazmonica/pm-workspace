@@ -1,7 +1,9 @@
 ---
 id: SE-085
 title: SE-085 — Write-a-skill meta-skill (skill creation discipline)
-status: APPROVED
+status: IMPLEMENTED
+drift_note: \"drift: components existed pre-triage (write-a-skill skill at .opencode/skills/write-a-skill/ is fully implemented)\"
+implemented_at: \"2026-06-24\"
 origin: mattpocock/skills/write-a-skill (MIT) — análisis 2026-04-27
 author: Savia
 priority: baja

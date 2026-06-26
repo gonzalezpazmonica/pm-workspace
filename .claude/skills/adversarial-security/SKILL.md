@@ -12,6 +12,9 @@ agent: security-attacker
 category: "governance"
 tags: ["security", "adversarial", "red-team", "blue-team"]
 priority: "high"
+trigger:
+  type: keyword
+  keywords: [vulnerabilidad, pentest, sql injection, xss, inyeccion, security audit, red team, blue team]
 ---
 
 ## Subagent Scope Guard

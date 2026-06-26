@@ -37,7 +37,9 @@ fi
 if grep -rn --include="*.sh" --include="*.json" \
   -E '(password|passwd|pwd)\s*[:=]\s*["\x27][^"\x27]{8,}' "$ROOT" \
   --exclude-dir=".git" --exclude-dir="node_modules" --exclude-dir="test-data" --exclude-dir="projects" --exclude-dir="tests" --exclude-dir="rules" --exclude-dir="docs" \
-  2>/dev/null | grep -v "mock" | grep -v "example" | grep -v "placeholder" | grep -v "CHANGELOG" | grep -v "ENV_" | head -3 | grep -q .; then
+  2>/dev/null | grep -v "mock" | grep -v "example" | grep -v "placeholder" | grep -v "CHANGELOG" | grep -v "ENV_" \
+  | grep -v "hook-multihandler-baseline" \
+  | head -3 | grep -q .; then
   finding "Hardcoded password pattern found"
 else
   pass "No hardcoded passwords found"

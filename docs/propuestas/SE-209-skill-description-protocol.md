@@ -1,7 +1,9 @@
 ---
 spec_id: SE-209
 title: Canonical description format for SKILL.md
-status: APPROVED
+status: IMPLEMENTED
+drift_note: "drift: components existed pre-triage (Description Protocol SE-209 section in docs/rules/domain/skill-template-protocol.md line 79 with canonical format + trigger validation)"
+implemented_at: "2026-06-24"
 priority: P1
 effort: B
 era: 201

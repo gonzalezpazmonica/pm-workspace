@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 # savia-voice-chunk.sh — SE-075 Slice 2.
+set -uo pipefail
 # Long-form Spanish TTS chunker with bounded concurrency and ffmpeg crossfade.
 # Re-implementation of the chunking pattern in voicebox `services/tts.py`
 # (MIT license); clean-room — no source code copied.
@@ -106,13 +107,21 @@ if [[ -z "$OUT" ]]; then
 fi
 
 # 3. Choose TTS command
+# SE-075 Slice 3: prefer Kokoro CPU TTS when available (chunks > 30s threshold
+# are passed here; Kokoro gives significantly better quality than espeak-ng).
+# Fallback chain: Kokoro → espeak-ng → espeak → error.
 if [[ -z "$TTS_CMD" ]]; then
-  if command -v espeak-ng >/dev/null 2>&1; then
+  KOKORO_PY="$SCRIPT_DIR/savia-kokoro.py"
+  if python3 -c "import kokoro" 2>/dev/null && [[ -f "$KOKORO_PY" ]]; then
+    TTS_CMD="python3 $KOKORO_PY --output {out} --text {text}"
+  elif command -v espeak-ng >/dev/null 2>&1; then
+    echo "WARNING: kokoro not available — falling back to espeak-ng" >&2
     TTS_CMD='espeak-ng -v es -w {out} {text}'
   elif command -v espeak >/dev/null 2>&1; then
+    echo "WARNING: kokoro not available — falling back to espeak" >&2
     TTS_CMD='espeak -v es -w {out} {text}'
   else
-    echo "ERROR: no TTS available — set SAVIA_TTS_CMD or install espeak-ng" >&2
+    echo "ERROR: no TTS available — install kokoro ('pip install kokoro soundfile') or espeak-ng" >&2
     exit 1
   fi
 fi

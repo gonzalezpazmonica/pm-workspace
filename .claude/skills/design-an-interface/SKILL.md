@@ -1,15 +1,19 @@
 ---
 name: design-an-interface
-description: "Skill para disenar una interfaz con N=3 alternativas en paralelo y recomendar la mejor segun vocabulario arquitectonico del proyecto."
+description: "Design-an-interface skill with N=3 parallel alternatives and architectural vocabulary. Use when designing a new module interface, when user mentions 'varias alternativas', 'design this module', or '/design-interface'."
 maturity: stable
 context: fork
 context_cost: medium
 category: "architecture"
 tags: ["architecture", "interface-design", "parallel-agents", "sdd"]
 priority: "high"
+attribution: "Clean-room re-implementation of mattpocock/skills/design-an-interface (MIT, 26.4k*). Prose and process are original."
+se: "SE-087"
 ---
 
 # Skill: Design an Interface
+
+> **Attribution**: Clean-room re-implementation of `mattpocock/skills/design-an-interface` (MIT). SE-087.
 
 Genera 3 disenos alternativos de interfaz en paralelo y consolida en tabla comparativa con recomendacion justificada.
 
@@ -49,31 +53,13 @@ Genera 3 disenos alternativos de interfaz en paralelo y consolida en tabla compa
 
 ## Workflow
 
-```
-Recibir: modulo + contexto + restricciones
-    |
-Lanzar 3 sub-agentes en paralelo (Task tool)
-    |
-Consolidar en tabla comparativa
-    |
-Recomendar con justificacion
-```
+`Recibir → Lanzar 3 sub-agentes paralelos (Task tool) → Consolidar tabla → Recomendar`
 
-### Sub-agentes en paralelo
+### Sub-agentes en paralelo (mismo mensaje, sin dependencias)
 
-Lanzar los tres en el mismo mensaje via Task tool (sin dependencias entre ellos):
-
-**Sub-agente A — Maxima simplicidad**
-- Filosofia: minimo de metodos, sin estado, maxima facilidad de uso.
-- Produce: nombre de interfaz, lista de metodos con tipos, invariantes, trade-offs.
-
-**Sub-agente B — Maxima flexibilidad**
-- Filosofia: extensible, plugin-friendly, facil de mockear en tests.
-- Produce: nombre de interfaz, lista de metodos con tipos, invariantes, trade-offs.
-
-**Sub-agente C — Pragmatico**
-- Filosofia: equilibrio entre A y B, inspirado en codigo existente del proyecto.
-- Produce: nombre de interfaz, lista de metodos con tipos, invariantes, trade-offs.
+**A — Maxima simplicidad**: minimo metodos, sin estado, facilidad de uso.
+**B — Maxima flexibilidad**: extensible, plugin-friendly, facil de mockear.
+**C — Pragmatico**: equilibrio A+B, inspirado en codigo existente del proyecto.
 
 ### Formato de output de cada sub-agente
 
@@ -111,7 +97,8 @@ Un parrafo usando vocabulario de `docs/rules/domain/architectural-vocabulary.md`
 
 ## Related
 
-- Rule: `docs/rules/domain/architectural-vocabulary.md`
+- Rule: `docs/rules/domain/architectural-vocabulary.md` (SE-082 — vocabulary obligatorio en outputs)
+- SE-074: `scripts/parallel-specs-orchestrator.sh` — para disenos grandes (>1h por agente), delegar coordinacion al orquestador paralelo en lugar de sub-agentes intra-sesion
 - Skill: `.opencode/skills/spec-driven-development/SKILL.md`
 - Agent: `.opencode/agents/architect.md`
 - Roadmap: `docs/ROADMAP.md`

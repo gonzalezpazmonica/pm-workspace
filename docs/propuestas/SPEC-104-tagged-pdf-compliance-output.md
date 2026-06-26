@@ -6,6 +6,8 @@ origin: opendataloader-pdf accessibility pipeline (2026-04-15)
 severity: Media
 effort: ~4h (bloqueado hasta opendataloader Q2 2026)
 priority: baja
+
+triage_note: "DEFERRED: blocked on SPEC-102"
 ---
 
 # SPEC-104: Tagged PDF Output for Compliance Reports

@@ -1,6 +1,6 @@
 # Roadmap Unificado — pm-workspace / Savia
 
-**Updated:** 2026-06-24 | **Version:** v6.24.0 | **562 commands · 75 agents · 104 skills · 81 hooks · 470+ test suites · Active backlog 88 APPROVED (P0-P3) · triage masivo 141→26 PROPOSED** — ver `## Active Stack — 2026-06-24`
+**Updated:** 2026-06-24 | **Version:** v6.24.4 | **562 commands · 75 agents · 104 skills · 81 hooks · 1653 tests · 245 specs IMPLEMENTED (78%)** — ver `## Estado final — 2026-06-24`
 
 ---
 
@@ -1043,3 +1043,103 @@ Archivos: `docs/propuestas/SPEC-180..186-*.md`. Origen: `output/research/obsidia
 - Background-agent PostCompact por defecto (riesgo de drift no supervisado).
 - Integraciones Perplexity/Grok (data-sovereignty).
 - Sistema de 4 presets de contexto (sobre-ingenieria para workspace personal).
+
+---
+
+## Backlog restante — 2026-06-24 post-limpieza
+
+> Triage completo de 315 specs. Estado limpio post-sesión 2026-06-24.
+
+### Conteo por status
+
+| Status | Cantidad | Notas |
+|---|---|---|
+| **IMPLEMENTED** | 212 | En producción, mergeados |
+| **PROPOSED** | 56 | 41 enterprise + 15 bloqueados/diferidos con nota triage |
+| **ARCHIVED** | 31 | Superseded, non-spec docs, o reemplazados |
+| **APPROVED** | 9 | Bloqueados con nota explícita |
+| **IN_PROGRESS** | 3 | SPEC-150 (S2-6), SPEC-188 (F3-F4), SE-075 (Slice 3) |
+| **REJECTED** | 3 | SPEC-126, SPEC-143, SPEC-148 |
+| **ENTERPRISE_ONLY** | 1 | SE-045 (fuera de scope máquina dev) |
+
+### APPROVED bloqueados (9) — no accionables hasta desbloqueo
+
+| Spec | Bloqueo |
+|---|---|
+| SE-028 Oumi | GPU hardware |
+| SE-042 Voice Training | GPU hardware |
+| SPEC-023 LLM Trainer | GPU hardware, Phases 2-4 |
+| SPEC-080 Unsloth | GPU hardware |
+| SPEC-SE-027 SLM Training | GPU hardware |
+| SPEC-127 Provider-agnostic OpenCode | ~80h, sesión dedicada requerida |
+| SPEC-162 Self-Evolving Tools | Necesita 30d telemetría eval harness |
+| SPEC-190 Application Code Twin | ~28-35h, sesión dedicada requerida |
+| SPEC-191 Savia Telemetry | Depende de savia-web infra |
+
+### IN_PROGRESS pendientes (3)
+
+| Spec | Qué queda | Esfuerzo |
+|---|---|---|
+| SPEC-150 Hooks multi-handler | Slices 2-6: migrar a plugin TS | ~30h |
+| SPEC-188 Root-Cause F3+F4 | Fases 3+4 completas | ~50h |
+| SE-075 Voicebox Slice 3 | Kokoro 82M model download (~500MB) | ~3h post-autorización |
+
+### Próximas sesiones recomendadas
+
+1. **SE-075 Slice 3** — si se autoriza descarga Kokoro (~500MB): 3h
+2. **SPEC-150 S2-S6** — migración hooks TS: sesión dedicada ~30h
+3. **SPEC-127** — provider-agnostic compatibility: sesión dedicada ~80h
+4. **SPEC-190** — Application Code Twin: sesión dedicada ~30h
+5. **GPU desbloqueado** → SE-028/042, SPEC-023/080 entran automáticamente
+
+---
+
+## Estado final — 2026-06-24
+
+> Triage completo de 315 specs. Roadmap limpio post-sesión.
+
+### Distribución por status
+
+| Status | Cantidad | % | Qué significa |
+|---|---|---|---|
+| **IMPLEMENTED** | **222** | 70% | En producción, funcionando |
+| **ARCHIVED** | **50** | 15% | Superseded, sin caso, hardware sin plan |
+| **PROPOSED** | 32 | 10% | 9 core bloqueados + 23 enterprise (await decisión) |
+| **APPROVED** | 7 | 2% | GPU-blocked (5) + sesiones largas (2) |
+| REJECTED | 3 | 0% | Descartados con evidencia |
+| ENTERPRISE_ONLY | 1 | 0% | SE-045 (scope exclusivo enterprise) |
+
+### Core PROPOSED (9) — condiciones de desbloqueo
+
+| Spec | Condición |
+|---|---|
+| SE-064 ACM multi-host | Usuario activo reporta Cursor/Windsurf en producción |
+| SPEC-009 Savia Teams | Teams Graph API disponible |
+| SPEC-017 Dependency USB | Proyecto air-gap real activo |
+| SPEC-060/062 SaviaDivergent | User research ≥3 usuarios neurodivergentes |
+| SPEC-064 Computer Use | Anthropic Computer Use API GA |
+| SPEC-102/104 PDF compliance | opendataloader-pdf GA release |
+| SPEC-OC-04 OpenCode Native | Aprobación humana slice por slice (Slice 1 trivial ~30min) |
+
+### Enterprise PROPOSED (23) — condición única
+
+Todos los 23 specs enterprise esperan una sola condición: **decisión estratégica de lanzar Savia Enterprise**. Sin esa decisión, son correctamente PROPOSED.
+
+### APPROVED bloqueados (7)
+
+| Spec | Bloqueo |
+|---|---|
+| SE-028 Oumi | GPU hardware |
+| SE-042 Voice Training | GPU hardware |
+| SPEC-023 LLM Trainer | GPU hardware |
+| SPEC-080 Unsloth | GPU hardware |
+| SPEC-SE-027 SLM | GPU hardware |
+| SPEC-127 OpenCode compat | Implementado — flip pendiente en PR #874 |
+| SPEC-190 Code Twin | Implementado — flip pendiente en PR #874 |
+
+### Próxima sesión
+
+1. **SPEC-OC-04 Slice 1** — symlink loop, ~30min, zero riesgo
+2. **GPU desbloqueado** → SE-028/042/023/080/SE-027 entran automáticamente
+3. **Decisión enterprise** → 23 specs pasan de PROPOSED a pipeline
+4. **Desbloqueo API/libs** → SPEC-064 (Computer Use), SPEC-102 (PDF)

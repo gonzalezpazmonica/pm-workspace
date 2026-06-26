@@ -1,11 +1,13 @@
 ---
 spec_id: SPEC-103
 title: Deterministic-first pattern for word / pptx / excel digest agents
-status: IN_PROGRESS
+status: IMPLEMENTED
 origin: opendataloader-pdf analysis pattern (2026-04-15)
 severity: Media
 effort: ~6h
 priority: baja
+
+triage_note: "covered by SE-172 markitdown layer 0 + digest agents"
 ---
 
 # SPEC-103: Deterministic-first Digests

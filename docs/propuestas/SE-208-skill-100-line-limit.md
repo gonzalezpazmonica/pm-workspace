@@ -1,7 +1,9 @@
 ---
 spec_id: SE-208
 title: SKILL.md hard limit 100 lines + progressive disclosure
-status: APPROVED
+status: IMPLEMENTED
+drift_note: "drift: components existed pre-triage (skill-catalog-auditor.sh has WARN>100/FAIL>=150 + skill-template-protocol.md has progressive disclosure section SE-208)"
+implemented_at: "2026-06-24"
 priority: P1
 effort: B
 era: 201

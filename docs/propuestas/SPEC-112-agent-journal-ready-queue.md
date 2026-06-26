@@ -1,9 +1,11 @@
 ---
 id: SPEC-112
 title: Agent-runs JSONL journal + ready-queue filter
-status: ACCEPTED
+status: IMPLEMENTED
 origin: Research henriquebastos/beans (2026-04-17)
 author: Savia
+
+triage_note: "drift: components existed pre-triage 2026-06-24"
 ---
 
 # SPEC-112 — Agent Journal + Ready Queue

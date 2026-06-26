@@ -1,7 +1,9 @@
 ---
 spec_id: SE-215
 title: Eval-driven skill improvement loop
-status: APPROVED
+status: IMPLEMENTED
+drift_note: "drift: components existed pre-triage (scripts/eval-improvement-suggest.sh Slice1 + SAVIA_EVAL_AUTO_SUGGEST hook in run-agent-evals.sh Slice3; Slice2 eval-driven mode in code-improvement-loop partial)"
+implemented_at: "2026-06-24"
 priority: P1
 effort: M
 era: 203

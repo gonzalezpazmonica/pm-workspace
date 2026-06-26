@@ -1,6 +1,7 @@
 ---
 context_tier: L2
 token_budget: 600
+resource: internal://docs/propuestas/SPEC-194-criterion-simulation-layer.md
 ---
 
 # Criterion Simulation Honesty — SPEC-194

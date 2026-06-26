@@ -105,3 +105,5 @@ If no .ctx exists, use default paths (current behavior as fallback).
 - SIEMPRE las 4 fases en orden
 - SIEMPRE traducir formulas a lenguaje natural
 - Memoria: `projects/{proyecto}/agent-memory/excel-digest/MEMORY.md`
+
+<!-- MARKITDOWN_ENABLED: true -->

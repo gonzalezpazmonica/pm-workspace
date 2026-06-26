@@ -1,7 +1,9 @@
 ---
 spec_id: SE-212
 title: Recall budget experiment — validate MEMORY.md cap empirically
-status: APPROVED
+status: IMPLEMENTED
+drift_note: "drift: components existed pre-triage (scripts/memory-recall-audit.sh implements the recall budget experiment with --simulate-k, --report, --json flags)"
+implemented_at: "2026-06-24"
 priority: P1
 effort: S
 era: 202

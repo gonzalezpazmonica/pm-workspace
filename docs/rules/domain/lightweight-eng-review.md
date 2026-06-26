@@ -2,6 +2,9 @@
 context_tier: L2
 token_budget: 600
 spec: SE-207
+usage: reference-only
+dormant_since: "2026-06-24"
+review_note: "Quarterly review 2026-Q2"
 ---
 
 # Lightweight Engineering Review (LER) — SE-207

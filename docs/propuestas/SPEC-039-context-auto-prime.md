@@ -1,10 +1,12 @@
 ---
 id: SPEC-039
 title: SPEC-039: Context Auto-Priming — Memoria que se Carga Sola
-status: ACCEPTED
+status: IMPLEMENTED
 origin_date: "2026-03-24"
 migrated_at: "2026-04-19"
 migrated_from: body-prose
+
+triage_note: "drift: components existed pre-triage 2026-06-24"
 ---
 
 # SPEC-039: Context Auto-Priming — Memoria que se Carga Sola
