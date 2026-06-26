@@ -27,4 +27,28 @@ if [ -n "$SNAPSHOT_SCRIPT" ]; then
   ( echo '' | bash "$SNAPSHOT_SCRIPT" save > /dev/null 2>&1 ) & disown
 fi
 
+# ── SE-229: Session Registry release + gc (fire-and-forget) ──────────────────
+REGISTRY_SCRIPT=""
+for reg_path in "${ROOT}/scripts/session-registry.sh" \
+                "./scripts/session-registry.sh" \
+                "${HOME}/savia/scripts/session-registry.sh"; do
+  if [ -x "$reg_path" ] 2>/dev/null; then
+    REGISTRY_SCRIPT="$reg_path"
+    break
+  fi
+done
+
+if [ -n "$REGISTRY_SCRIPT" ]; then
+  (
+    # Release current session if SAVIA_SESSION_ID is set
+    if [ -n "${SAVIA_SESSION_ID:-}" ]; then
+      bash "$REGISTRY_SCRIPT" release --session "$SAVIA_SESSION_ID" >/dev/null 2>&1 || true
+    fi
+    # GC stale entries if sessions file exists
+    if [ -f "${HOME}/.savia/active-sessions.jsonl" ]; then
+      bash "$REGISTRY_SCRIPT" gc >/dev/null 2>&1 || true
+    fi
+  ) & disown 2>/dev/null || true
+fi
+
 exit 0
