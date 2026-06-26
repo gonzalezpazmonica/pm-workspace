@@ -1,6 +1,6 @@
 # Savia Capability Map — INDEX
-> hash: df0bab3ff806 | resources: 1389
-> 557 commands · 106 skills · 81 agents · 645 scripts
+> hash: a0723d27322a | resources: 1395
+> 557 commands · 106 skills · 81 agents · 651 scripts
 
 [analysis] /a11y-report — accesibilidad,completos,conformidad,código,declaración — cmd:.claude/commands/a11y-report.md
 [analysis] Trace Optimize — across,distributed,optimize,rates,sampling — cmd:.claude/commands/trace-optimize.md
@@ -243,6 +243,7 @@
 [development] dev-session — aislamiento,contexto,desarrollo,disco,fases — cmd:.claude/commands/dev-session.md
 [development] dev-session-discard — cleanly,discard,session — script:scripts/dev-session-discard.sh
 [development] dev-session-resume — checkpoint,interrumpida,reanudar,session,ultimo — cmd:.claude/commands/dev-session-resume.md
+[development] dev-workflow-generate — generate,orchestrator,output,workflow — script:scripts/dev-workflow-generate.sh
 [development] enterprise/agent-manifest-batch-export — agent,agentes,batch,export,exporta — script:scripts/enterprise/agent-manifest-batch-export.sh
 [development] enterprise/agent-manifest-export — agent,agentes,export,exporta,frameworks — script:scripts/enterprise/agent-manifest-export.sh
 [development] enterprise/api-key-create — create,creation,slice,spec — script:scripts/enterprise/api-key-create.sh
@@ -545,6 +546,7 @@
 [memory] my-focus — carga,contexto,focus,identifica,item — cmd:.claude/commands/my-focus.md
 [memory] nl-query — comandos,consultas,habla,lenguaje,memorizar — cmd:.claude/commands/nl-query.md
 [memory] post-compaction — compactación,compaction,contexto,hook,inyecta — script:scripts/post-compaction.sh
+[memory] recursion-guard-export — context,export,guard,loop,prevention — script:scripts/recursion-guard-export.sh
 [memory] repos-search —  — cmd:.claude/commands/repos-search.md
 [memory] session-action-log — action,append,only,session,spec — script:scripts/session-action-log.sh
 [memory] session-cleanup — abtop,cleanup,orphan,pattern,process — script:scripts/session-cleanup.sh
@@ -603,6 +605,7 @@
 [planning] ast-comprehend — comprehend,comprehension,estructural,extractor,lenguaje — script:scripts/ast-comprehend.sh
 [planning] ast-comprehension — comprensión,código,desconocido,enteros,estructural — skill:.claude/skills/ast-comprehension/SKILL.md
 [planning] ast-quality-gate — calidad,código,generado,merge,verifica — skill:.claude/skills/ast-quality-gate/SKILL.md
+[planning] auto-loop-gate — auto,clarify,classifies,gate,loop — script:scripts/auto-loop-gate.sh
 [planning] azdevops-queries —  — script:scripts/azdevops-queries.sh
 [planning] azure-devops-operator —  — agent:.opencode/agents/azure-devops-operator.md
 [planning] azure-devops-queries — actualización,azure,consultas,datos,devops — skill:.claude/skills/azure-devops-queries/SKILL.md
@@ -1083,6 +1086,8 @@
 [planning] team-workload — asignados,balance,carga,equipo,horas — cmd:.claude/commands/team-workload.md
 [planning] tech-radar — adopt,hold,librerías,proyecto,radar — cmd:.claude/commands/tech-radar.md
 [planning] tech-writer —  — agent:.opencode/agents/tech-writer.md
+[planning] terminal-state-emit — agent,emit,emits,loop,reason — script:scripts/terminal-state-emit.sh
+[planning] terminal-state-read — agent,last,loop,read,reads — script:scripts/terminal-state-read.sh
 [planning] terraform-developer —  — agent:.opencode/agents/terraform-developer.md
 [planning] threat-model —  — cmd:.claude/commands/threat-model.md
 [planning] tier3-probes — adoptarlas,herramientas,tier,valida,viabilidad — skill:.claude/skills/tier3-probes/SKILL.md
@@ -1172,6 +1177,7 @@
 [quality] correctness-judge — cases,code,court,edge,error — agent:.opencode/agents/correctness-judge.md
 [quality] court-orchestrator — code,convenes,court,cycles,manages — agent:.opencode/agents/court-orchestrator.md
 [quality] court-review — code,court,helper,orchestration,review — script:scripts/court-review.sh
+[quality] court-turn-router — adaptive,code,court,review,router — script:scripts/court-turn-router.sh
 [quality] coverage-report — coverage,generate,report,test,workspace — script:scripts/coverage-report.sh
 [quality] decide-architecture-corpus-test — architecture,corpus,decide,spec,test — script:scripts/decide-architecture-corpus-test.sh
 [quality] dependencies-audit —  — cmd:.claude/commands/dependencies-audit.md

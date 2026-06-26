@@ -1,6 +1,6 @@
 {
-  "hash": "9ea58a967702",
-  "total": 1389,
+  "hash": "53be17241943",
+  "total": 1395,
   "resources": [
     {
       "category": "analysis",
@@ -3093,6 +3093,19 @@
       "kind": "cmd",
       "path": ".claude/commands/dev-session-resume.md",
       "description": "Reanudar una dev-session interrumpida desde el ultimo checkpoint"
+    },
+    {
+      "category": "development",
+      "name": "dev-workflow-generate",
+      "intents": [
+        "generate",
+        "orchestrator",
+        "output",
+        "workflow"
+      ],
+      "kind": "script",
+      "path": "scripts/dev-workflow-generate.sh",
+      "description": "dev-workflow-generate.sh — SE-232 Workflow-as-Output para dev-orchestrator"
     },
     {
       "category": "development",
@@ -7143,6 +7156,20 @@
     },
     {
       "category": "memory",
+      "name": "recursion-guard-export",
+      "intents": [
+        "context",
+        "export",
+        "guard",
+        "loop",
+        "prevention"
+      ],
+      "kind": "script",
+      "path": "scripts/recursion-guard-export.sh",
+      "description": "scripts/recursion-guard-export.sh — Sets SAVIA_LOOP_CONTEXT for recursion prevention"
+    },
+    {
+      "category": "memory",
       "name": "repos-search",
       "intents": [],
       "kind": "cmd",
@@ -7893,6 +7920,20 @@
       "kind": "skill",
       "path": ".claude/skills/ast-quality-gate/SKILL.md",
       "description": "Usar cuando se verifica la calidad de código generado por IA antes de merge."
+    },
+    {
+      "category": "planning",
+      "name": "auto-loop-gate",
+      "intents": [
+        "auto",
+        "clarify",
+        "classifies",
+        "gate",
+        "loop"
+      ],
+      "kind": "script",
+      "path": "scripts/auto-loop-gate.sh",
+      "description": "SE-230 Auto-Loop Gate — classifies requests into loop/single-shot/clarify"
     },
     {
       "category": "planning",
@@ -14000,6 +14041,34 @@
     },
     {
       "category": "planning",
+      "name": "terminal-state-emit",
+      "intents": [
+        "agent",
+        "emit",
+        "emits",
+        "loop",
+        "reason"
+      ],
+      "kind": "script",
+      "path": "scripts/terminal-state-emit.sh",
+      "description": "terminal-state-emit.sh — Emits structured termination reason for a loop/agent"
+    },
+    {
+      "category": "planning",
+      "name": "terminal-state-read",
+      "intents": [
+        "agent",
+        "last",
+        "loop",
+        "read",
+        "reads"
+      ],
+      "kind": "script",
+      "path": "scripts/terminal-state-read.sh",
+      "description": "terminal-state-read.sh — Reads the last terminal state for a loop/agent"
+    },
+    {
+      "category": "planning",
       "name": "terraform-developer",
       "intents": [],
       "kind": "agent",
@@ -15160,6 +15229,20 @@
       "kind": "script",
       "path": "scripts/court-review.sh",
       "description": "court-review.sh — Code Review Court orchestration helper"
+    },
+    {
+      "category": "quality",
+      "name": "court-turn-router",
+      "intents": [
+        "adaptive",
+        "code",
+        "court",
+        "review",
+        "router"
+      ],
+      "kind": "script",
+      "path": "scripts/court-turn-router.sh",
+      "description": "court-turn-router.sh — SE-231 Adaptive Turn Routing for Code Review Court"
     },
     {
       "category": "quality",
