@@ -145,6 +145,6 @@ SIEMPRE → Un PR por mejora (atómico, fácil de revisar)
 
 ## Cuándo NO usar
 
-- Para refactorings mayores que cambian arquitectura
-- Para actualizar dependencias major (breaking changes)
-- Si los tests no pasan o la mejora requiere decisión de diseño humana
+- Refactorings mayores que cambian arquitectura o dependencias major
+- Si los tests del proyecto no pasan
+- Mejoras que requieren decisiones de diseño humanas
