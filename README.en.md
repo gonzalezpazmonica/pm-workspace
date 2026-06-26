@@ -21,12 +21,15 @@ Sprints go off track. Backlogs grow without prioritization. Executive reports ar
 
 ```bash
 # 1. Install
+
 curl -fsSL https://raw.githubusercontent.com/gonzalezpazmonica/pm-workspace/main/install.sh | bash
 
 # 2. Open Claude Code in the directory
+
 cd pm-workspace && opencode
 
 # 3. Savia greets you and asks your name. Then:
+
 /sprint-status          # ← your first command
 ```
 
@@ -71,17 +74,21 @@ I'm the little owl that lives inside pm-workspace. I adapt to your role, your la
 **532 commands · 64 agents · 76 skills · 55 hooks · 16 languages · 160 test suites**
 
 ### Project management
+
 Sprints, burndown, capacity, dailies, retros, KPIs. Reports in Excel and PowerPoint. Monte Carlo prediction. Billing and costs.
 
 ### Spec-Driven Development (SDD)
+
 Tasks become specs. Agents implement in 16 languages (C#, TypeScript, Python, Java, Go, Rust, PHP, Ruby, Swift, Kotlin, Flutter, COBOL...) in isolated worktrees. Automated code review + mandatory human review.
 
 **`github/spec-kit` compatible**: slash commands `/speckit.constitution`, `/speckit.specify`, `/speckit.clarify`, `/speckit.plan`, `/speckit.tasks`, `/speckit.analyze`, `/speckit.implement` and `/speckit.checklist` are thin aliases that delegate to Savia's native SDD flow. See `docs/agent-teams-sdd.md`.
 
 ### Security and Code Review Court
+
 SAST against OWASP Top 10, Red/Blue/Auditor pipeline, dynamic pentesting, SBOM, compliance across 12 sectors. Savia Shield: local data classification with on-premise LLM, reversible masking, cryptographic PR signing. **Code Review Court**: 5 specialized judges (correctness, architecture, security, cognitive, spec) review in parallel with 0-100 scoring and a 400 LOC batch-size gate.
 
 ### Inference sovereignty
+
 Savia runs against the Anthropic API by default (maximum quality). When the cloud fails — cable down, outage, quota exhausted, unacceptable latency — there are two continuity options, both backed by a local Ollama instance with Gemma 4 variants selected by hardware:
 
 | Mode | Activation | When to use |
@@ -96,18 +103,23 @@ Both options keep your data inside your machine when running local. Inference so
 Docs: [Savia Dual](docs/savia-dual.md) · [Emergency Mode](docs/EMERGENCY.en.md) · Installers: `scripts/setup-savia-dual.{sh,ps1}`
 
 ### Persistent memory
+
 Plain text (JSONL). Entity recall, semantic search, cross-session continuity. Automatic decision extraction before compaction. AES-256 encrypted Personal Vault.
 
 ### Accessibility
+
 Guided work for people with disabilities (visual, motor, ADHD, autism, dyslexia). Micro-tasks, block detection, adaptive reformulation.
 
 ### Code intelligence
+
 Architecture detection (Clean, Hexagonal, DDD, CQRS, Microservices). Fitness functions. Human Code Maps (.hcm) that reduce cognitive debt.
 
 ### Autonomous modes
+
 Overnight sprint, code improvement, tech research. Agents propose on `agent/*` branches with Draft PRs — the human always decides.
 
 ### Extensions
+
 [Savia Mobile](projects/savia-mobile-android/README.md) (native Android) · [Savia Web](projects/savia-web/README.md) (Vue.js dashboards) · [SaviaClaw](zeroclaw/ROADMAP.md) (ESP32 + full-duplex voice)
 
 ---

@@ -121,6 +121,71 @@ Validación de handoff-as-function: `bash scripts/validate-handoff.sh --file han
 
 ---
 
+## Message Schema (SPEC-056)
+
+Agent messages exchanged via the Task tool can optionally be structured as
+typed `AgentMessage` objects for auditability, routing, and multimodal support.
+
+**Schema validator**: `scripts/agent-message-schema.py`
+
+```bash
+# Validate a JSON message file
+python3 scripts/agent-message-schema.py --validate msg.json   # exit 0 if valid
+
+# Print the full JSON Schema
+python3 scripts/agent-message-schema.py --schema
+
+# Print a valid example message
+python3 scripts/agent-message-schema.py --example
+```
+
+### Example valid message
+
+```json
+{
+  "id": "550e8400-e29b-41d4-a716-446655440000",
+  "sender": "dotnet-developer",
+  "receiver": "code-reviewer",
+  "role": "assistant",
+  "content_blocks": [
+    {
+      "type": "text",
+      "content": "Implementation complete. 3 files modified.",
+      "metadata": {}
+    },
+    {
+      "type": "result",
+      "content": "42/42 tests passed",
+      "metadata": {"tool": "dotnet test", "status": "pass"}
+    },
+    {
+      "type": "code",
+      "content": "public class UserService { ... }",
+      "metadata": {"language": "csharp", "path": "src/UserService.cs"}
+    }
+  ],
+  "ts": "2026-03-30T10:00:00Z",
+  "session_id": "session-abc-123"
+}
+```
+
+### ContentBlock types
+
+| Type | Use case |
+|------|----------|
+| `text` | General communication |
+| `code` | Code snippets with language metadata |
+| `result` | Test results, build output, tool results |
+| `error` | Structured error reporting with suggestion |
+| `decision` | Architecture or design decisions |
+
+When an agent produces output that will be passed to another agent, wrapping
+it in an `AgentMessage` enables automated audit trail reconstruction and
+cross-agent type safety. Use for flows with ≥3 agents or when the output
+includes mixed content (code + test results + decision).
+
+---
+
 ## Integracion con Orchestration Protocol (SE-205)
 
 Para flujos con 4+ agentes en paralelo (court-orchestrator, dev-orchestrator

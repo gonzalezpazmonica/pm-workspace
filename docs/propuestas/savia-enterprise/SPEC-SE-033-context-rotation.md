@@ -1,5 +1,7 @@
 ---
-status: PROPOSED
+status: ARCHIVED
+
+triage_note: "superseded: memory-hygiene.sh + context-rot-strategy skill cover all 3 cycles"
 ---
 
 # SPEC-SE-033: Context Rotation Strategy

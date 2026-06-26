@@ -62,6 +62,11 @@ teardown() {
   # Regenerate first to ensure fresh state
   python3 scripts/generate-capability-map.py >/dev/null 2>&1
   run bash "$CHECK"
+  # Print output for diagnosis if test fails
+  if [ "$status" -ne 0 ]; then
+    echo "EXIT: $status" >&2
+    echo "OUTPUT: $output" >&2
+  fi
   [ "$status" -eq 0 ]
   [[ "$output" == *"SCM Freshness"* ]]
   [[ "$output" == *"fresh vs tracked sources"* ]]

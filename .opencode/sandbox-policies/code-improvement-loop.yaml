@@ -1,0 +1,33 @@
+# SPEC-149 — code-improvement-loop sandbox policy
+mode: code-improvement-loop
+
+filesystem:
+  allow_read:
+    - $REPO
+    - ~/.opencode
+    - ~/.claude/external-memory
+    - /usr
+    - /bin
+    - /lib
+    - /etc
+    - /tmp
+  allow_write:
+    - $REPO
+    - /tmp
+  deny:
+    - ~/.ssh
+    - ~/.gnupg
+    - ~/.aws
+    - ~/.azure
+    - ~/.config/gcloud
+
+network:
+  allow_domains:
+    - api.anthropic.com
+    - api.deepseek.com
+    - github.com
+    - api.github.com
+    - registry.npmjs.org
+    - pypi.org
+    - dev.azure.com
+  deny_default: true

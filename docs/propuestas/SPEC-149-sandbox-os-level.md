@@ -1,18 +1,24 @@
 ---
 spec_id: SPEC-149
 title: Sandbox OS-level para modos autónomos — opencode-sandbox + permission block + Docker doble capa
-status: PROPOSED
+status: IMPLEMENTED
 origin: Investigación 2026-05-23 (P1) + paridad OpenCode. OpenCode no trae sandbox kernel-level por defecto; su bloque `permission` en `opencode.jsonc` es app-layer (allow/deny/ask glob). El plugin npm `opencode-sandbox` envuelve `@anthropic-ai/sandbox-runtime` (seatbelt/bubblewrap+proxy) para opencode. Bug feb-2026 (oh-my-openagent#2194) confirmó bypass de `external_directory: "deny"`.
 severity: Crítica — defensa en profundidad. La regla `autonomous-safety.md` exige fail-safes pero confía en disciplina del modelo.
 effort: ~20h (M) — wrapper + policy + tests + doc.
-priority: P1 — security hardening de modos autónomos.
+priority: P1
+implemented_at: "2026-06-24" — security hardening de modos autónomos.
 confidence: alta (mecanismo) / media (sin regresión en flujos existentes)
 bucket: Q3 2026
 related_specs:
   - autonomous-safety.md (regla existente, este SPEC añade enforcement OS)
   - SPEC-150 (hooks multi-handler — el sandbox interactúa con permission.ask y tool.execute.before)
+resource: https://github.com/anthropics/sandbox-runtime
+timeline:
+  - from: "2026-06-24"
+    learned: "2026-06-24"
+    value: "IMPLEMENTED"
+    source: "session:2026-06-24"
 ---
-
 # SPEC-149 — Sandbox OS-level (OpenCode-native)
 
 ## Why

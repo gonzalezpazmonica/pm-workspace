@@ -1,0 +1,37 @@
+# SPEC-149 — tech-research-agent sandbox policy (network-open for research)
+mode: tech-research-agent
+
+filesystem:
+  allow_read:
+    - $REPO
+    - ~/.opencode
+    - ~/.claude/external-memory
+    - /usr
+    - /bin
+    - /lib
+    - /etc
+    - /tmp
+  allow_write:
+    - $REPO/output
+    - /tmp
+  deny:
+    - ~/.ssh
+    - ~/.gnupg
+    - ~/.aws
+    - ~/.azure
+    - ~/.config/gcloud
+
+network:
+  allow_domains:
+    - api.anthropic.com
+    - api.deepseek.com
+    - github.com
+    - api.github.com
+    - pypi.org
+    - registry.npmjs.org
+    - arxiv.org
+    - docs.anthropic.com
+    - opencode.ai
+    - npmjs.com
+    - pkg.go.dev
+  deny_default: true

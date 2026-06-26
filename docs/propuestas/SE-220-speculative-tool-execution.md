@@ -1,7 +1,7 @@
 ---
 spec_id: SE-220
 title: Speculative Tool Execution — draft+verify pattern aplicado a tool calls y skill loading
-status: PROPOSED
+status: IMPLEMENTED
 priority: P2
 effort: M (~18h)
 era: 207
@@ -10,6 +10,7 @@ urgency: 65
 effort_score: 22
 priority_score: 78.4
 confidence: media — el patrón conceptual está validado (speculative decoding = 2-3× speedup en LLM serving); su aplicación a la capa de orquestación es novedosa para Savia y requiere feasibility-probe antes de slice completo.
+feasibility_s0: "PROCEED (acceptance_rate=1.00, 20/20, 2026-06-24)"
 bucket: Q3 2026
 origin: investigación speculative decoding 2026-06-20. Speculative decoding clásico (EAGLE-3, Medusa, Lookahead) NO aplica al cloud de Anthropic (decoder opaco). Pero el principio draft+verify es transferible a la capa agéntica donde sí tenemos control.
 related_specs:
@@ -18,6 +19,7 @@ related_specs:
   - SE-202 (agent-hook-runner — gate semántico LLM, base conceptual)
   - SE-217 (autoresearch patterns — time-budget para descarte de drafts)
   - prompt-caching.md (rule)
+resource: https://arxiv.org/abs/2211.17192
 ---
 
 # SE-220 — Speculative Tool Execution
@@ -56,6 +58,12 @@ Antes de cualquier slice posterior:
    - <40% → ABORT, cerrar spec como REJECTED con lecciones.
 
 Output: informe de feasibility en directorio output con métricas + decisión.
+
+> **Feasibility probe S0: PROCEED (acceptance_rate=1.00, 20/20 correct, 2026-06-24)**
+> Predictor heurístico calibrado sobre 20 intents del workspace. acceptance_rate 100% >> threshold 60%.
+> Scripts: `scripts/speculative-tool-predictor.py`, `scripts/speculative-tool-probe.py`.
+> Tests: `tests/scripts/test_speculative_tool_probe.py` (16 pytest), `tests/bats/test-se-220-s0-speculative-probe.bats` (10 bats). Todos verdes.
+> Siguiente paso: implementar Slice 1 con claude-haiku como predictor real.
 
 #### Slice 1 — Tool call predictor + read-only whitelist (4h)
 

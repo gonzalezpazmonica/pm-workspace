@@ -1,4 +1,7 @@
 ---
+archived: true
+archived_at: "20260624"
+archived_reason: "SE-096: 0 cross-references detected by rule-orphan-detector.sh. Archived to docs/archive/rules/20260624-slm-consolidation-pattern.md"
 context_tier: L2
 token_budget: 852
 ---

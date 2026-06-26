@@ -1,7 +1,7 @@
 ---
 id: SPEC-160
 title: Tool Ergonomics Auto-Audit
-status: PROPOSED
+status: IMPLEMENTED
 priority: MEDIUM
 estimated_hours: 5
 tier: 2E

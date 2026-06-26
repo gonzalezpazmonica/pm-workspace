@@ -1,0 +1,46 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "internal://docs/schemas/priority-v1.json",
+  "version": "1",
+  "title": "SPEC-154 Priority VxUdivE Schema v1",
+  "description": "Contrato JSON para PriorityInput y PriorityOutput.",
+  "definitions": {
+    "PriorityEffort": {
+      "type": "object",
+      "properties": {
+        "tokens": { "type": "integer", "minimum": 0 },
+        "human_review_hours": { "type": "number", "minimum": 0 },
+        "regression_risk": { "type": "integer", "minimum": 1, "maximum": 5 },
+        "cognitive_complexity": { "type": "integer", "minimum": 1, "maximum": 5 }
+      },
+      "required": ["tokens", "human_review_hours", "regression_risk", "cognitive_complexity"],
+      "additionalProperties": false
+    },
+    "PriorityInput": {
+      "type": "object",
+      "properties": {
+        "value": { "type": "integer", "minimum": 1, "maximum": 100 },
+        "urgency": { "type": "integer", "minimum": 1, "maximum": 100 },
+        "effort": { "$ref": "#/definitions/PriorityEffort" },
+        "item_id": { "type": "string" },
+        "context": { "type": "string" }
+      },
+      "required": ["value", "urgency", "effort"],
+      "additionalProperties": false
+    },
+    "PriorityOutput": {
+      "type": "object",
+      "properties": {
+        "priority_score": { "type": "number", "minimum": 0 },
+        "value": { "type": "integer", "minimum": 1, "maximum": 100 },
+        "urgency": { "type": "integer", "minimum": 1, "maximum": 100 },
+        "effort_normalized": { "type": "integer", "minimum": 1, "maximum": 100 },
+        "decision_trail": { "type": "string", "minLength": 1 },
+        "counterfactual": { "type": "string", "minLength": 1 }
+      },
+      "required": ["priority_score", "value", "urgency", "effort_normalized", "decision_trail", "counterfactual"],
+      "additionalProperties": false
+    }
+  },
+  "$ref": "#/definitions/PriorityInput"
+}
