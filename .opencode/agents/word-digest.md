@@ -147,5 +147,4 @@ If no .ctx exists, use default paths (current behavior as fallback).
 - NUNCA modificar el DOCX original
 - SIEMPRE registrar en _digest-log.md
 - Memoria: `projects/{proyecto}/agent-memory/word-digest/MEMORY.md`
-
 <!-- MARKITDOWN_ENABLED: true -->
