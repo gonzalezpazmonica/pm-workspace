@@ -1,5 +1,5 @@
 # memory — Savia Capability Map (L1)
-> 115 resources
+> 116 resources
 
 - **auto-compact** (script): auto-compact.sh — Disparado automáticamente cuando contexto > 85%
 - **biblio-search** (cmd): >
@@ -103,6 +103,7 @@
 - **session-cleanup** (script): session-cleanup.sh — SE-219 S3: orphan process cleanup (abtop pattern)
 - **session-event-log** (script): session-event-log.sh — Managed Agents pattern: durable session log
 - **session-init-bootstrap** (script): session-init-bootstrap.sh — SE-045 Slice 1 async bootstrap.
+- **session-registry** (script): session-registry.sh — Session coordination registry (SE-229 Slice 1)
 - **session-resume-index** (script): session-resume-index.sh — Multica pattern: session resumption metadata
 - **session-save** (cmd): >
 - **session-state-machine** (script): session-state-machine.sh — SPEC-051 Phase 1: Session State Machine

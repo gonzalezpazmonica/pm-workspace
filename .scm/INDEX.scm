@@ -1,6 +1,6 @@
 # Savia Capability Map — INDEX
-> hash: d7c8bb83fa73 | resources: 1390
-> 557 commands · 106 skills · 81 agents · 646 scripts
+> hash: 7f1d4d2bdec0 | resources: 1391
+> 557 commands · 106 skills · 81 agents · 647 scripts
 
 [analysis] /a11y-report — accesibilidad,completos,conformidad,código,declaración — cmd:.claude/commands/a11y-report.md
 [analysis] Trace Optimize — across,distributed,optimize,rates,sampling — cmd:.claude/commands/trace-optimize.md
@@ -550,6 +550,7 @@
 [memory] session-cleanup — abtop,cleanup,orphan,pattern,process — script:scripts/session-cleanup.sh
 [memory] session-event-log — agents,durable,event,managed,pattern — script:scripts/session-event-log.sh
 [memory] session-init-bootstrap — async,bootstrap,init,session,slice — script:scripts/session-init-bootstrap.sh
+[memory] session-registry — coordination,registry,session,slice — script:scripts/session-registry.sh
 [memory] session-resume-index — index,metadata,multica,pattern,resume — script:scripts/session-resume-index.sh
 [memory] session-save —  — cmd:.claude/commands/session-save.md
 [memory] session-state-machine — machine,phase,session,spec,state — script:scripts/session-state-machine.sh

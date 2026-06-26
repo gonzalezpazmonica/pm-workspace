@@ -1,6 +1,6 @@
 {
-  "hash": "845aa48ac8f5",
-  "total": 1390,
+  "hash": "923fd0b52abc",
+  "total": 1391,
   "resources": [
     {
       "category": "analysis",
@@ -7204,6 +7204,19 @@
       "kind": "script",
       "path": "scripts/session-init-bootstrap.sh",
       "description": "session-init-bootstrap.sh — SE-045 Slice 1 async bootstrap."
+    },
+    {
+      "category": "memory",
+      "name": "session-registry",
+      "intents": [
+        "coordination",
+        "registry",
+        "session",
+        "slice"
+      ],
+      "kind": "script",
+      "path": "scripts/session-registry.sh",
+      "description": "session-registry.sh — Session coordination registry (SE-229 Slice 1)"
     },
     {
       "category": "memory",
