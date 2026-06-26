@@ -21,12 +21,15 @@ Los sprints se descontrolan. El backlog crece sin priorizar. Los informes para d
 
 ```bash
 # 1. Instala
+
 curl -fsSL https://raw.githubusercontent.com/gonzalezpazmonica/pm-workspace/main/install.sh | bash
 
 # 2. Abre Claude Code en el directorio
+
 cd pm-workspace && opencode
 
 # 3. Savia te saluda y te pregunta tu nombre. Después:
+
 /sprint-status          # ← tu primer comando
 ```
 
@@ -71,17 +74,21 @@ Soy la buhita que vive dentro de pm-workspace. Me adapto a tu rol, tu idioma y t
 **532 comandos · 65 agentes · 86 skills · 58 hooks · 16 lenguajes · 283+ test suites**
 
 ### Gestión de proyectos
+
 Sprints, burndown, capacity, dailies, retros, KPIs. Informes en Excel y PowerPoint. Predicción con Monte Carlo. Facturación y costes.
 
 ### Desarrollo con specs ejecutables (SDD)
+
 Las tasks se convierten en specs. Los agentes implementan en 16 lenguajes (C#, TypeScript, Python, Java, Go, Rust, PHP, Ruby, Swift, Kotlin, Flutter, COBOL...) en worktrees aislados. Code review automático + revisión humana obligatoria.
 
 **Compatible con `github/spec-kit`**: los slash commands `/speckit.constitution`, `/speckit.specify`, `/speckit.clarify`, `/speckit.plan`, `/speckit.tasks`, `/speckit.analyze`, `/speckit.implement` y `/speckit.checklist` son aliases delgados que delegan en el flujo SDD nativo de Savia. Ver `docs/agent-teams-sdd.md`.
 
 ### Seguridad y Code Review Court
+
 SAST contra OWASP Top 10, pipeline Red/Blue/Auditor, pentesting dinámico, SBOM, compliance en 12 sectores. Savia Shield: clasificación local de datos con LLM on-premise, masking reversible, firma criptográfica de PRs. **Code Review Court**: 5 jueces especializados (correctness, architecture, security, cognitive, spec) revisan en paralelo con scoring 0-100 y gate de 400 LOC.
 
 ### Soberanía de inferencia
+
 Savia corre por defecto contra la API de Anthropic (calidad máxima). Si la nube falla — cable caído, outage, cuota agotada, latencia inaceptable — hay dos opciones de continuidad, ambas sobre Ollama local con variantes de Gemma 4 seleccionadas según tu hardware:
 
 | Modo | Activación | Cuándo usarlo |
@@ -96,18 +103,23 @@ Ambas opciones dejan los datos dentro de tu máquina en modo local. La soberaní
 Docs: [Savia Dual](docs/savia-dual.md) · [Emergency Mode](docs/EMERGENCY.md) · Instaladores: `scripts/setup-savia-dual.{sh,ps1}`
 
 ### Memoria persistente
+
 Texto plano (JSONL). Entity recall, búsqueda semántica, continuidad entre sesiones. Extracción automática de decisiones antes de compactar. Personal Vault cifrado AES-256.
 
 ### Accesibilidad
+
 Trabajo guiado para personas con discapacidad (visual, motora, TDAH, autismo, dislexia). Micro-tareas, detección de bloqueos, reformulación adaptativa.
 
 ### Inteligencia de código
+
 Detección de arquitectura (Clean, Hexagonal, DDD, CQRS, Microservices). Fitness functions. Human Code Maps (.hcm) que reducen la deuda cognitiva. Agent Code Maps (.acm) y `ast-comprehension` con motor opcional [CodeGraph](https://github.com/colbymchenry/codegraph) (MCP, opt-in por proyecto).
 
 ### Modos autónomos
+
 Sprint nocturno, mejora de código, investigación técnica. Los agentes proponen en ramas `agent/*` con PRs Draft — el humano siempre decide.
 
 ### Extensiones
+
 [Savia Mobile](projects/savia-mobile-android/README.md) (Android nativo) · [Savia Web](projects/savia-web/README.md) (Vue.js dashboards) · [SaviaClaw](zeroclaw/ROADMAP.md) (ESP32 + voz full-duplex)
 
 ---

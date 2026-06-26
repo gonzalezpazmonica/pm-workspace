@@ -1,5 +1,7 @@
 ---
-status: PROPOSED
+status: ARCHIVED
+
+triage_note: "non-spec document, archived 2026-06-24"
 ---
 
 # Onboarding con IA + Evaluaci&oacute;n de Expertise del Equipo

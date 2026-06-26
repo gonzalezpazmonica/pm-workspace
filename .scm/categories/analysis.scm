@@ -1,5 +1,5 @@
 # analysis — Savia Capability Map (L1)
-> 69 resources
+> 73 resources
 
 - **/a11y-report** (cmd): Reporte de conformidad de accesibilidad para stakeholders y legal. Tres formatos: ejecutivo (resumen + score), técnico (detalles completos + código), legal (declaración VPAT/Section 508). Tracking de tendencias. Exportable.
 - **Trace Optimize** (cmd): Optimize trace spans and sampling rates across distributed services
@@ -9,6 +9,7 @@
 - **agent-budget-lookup** (script): agent-budget-lookup.sh — Extract token budget from agent frontmatter
 - **agent-code-map** (skill): Usar cuando un agente necesita conocer la arquitectura del proyecto sin leer ficheros completos.
 - **agent-cost** (cmd): Coste estimado de uso de agentes por sprint/proyecto
+- **agent-degradation-canary** (script): agent-degradation-canary.sh — SE-040
 - **agent-efficiency** (cmd): Ratio de eficiencia de agentes — specs completadas, re-work y tiempos
 - **agent-file-map** (skill): Usar cuando se trabaja con ficheros externos al workspace que los agentes deben localizar.
 - **agent-gate** (script): agent-gate.sh — SE-216 Slice 2: inherited quality gates for agent runs
@@ -38,6 +39,8 @@
 - **debt-prioritize** (cmd): >
 - **debt-track** (cmd): >
 - **enterprise-dashboard** (cmd): Enterprise analytics — portfolio metrics, team health, risk matrix, forecasting
+- **enterprise/billing-report** (script): billing-report.sh — SE-018 Project Billing (IFRS 15)
+- **enterprise/client-health-report** (script): client-health-report.sh — SE-024 Client Health Intelligence
 - **eval-improvement-suggest** (script): eval-improvement-suggest.sh — SE-215: generate skill improvement proposals from eval reports
 - **eval-report** (cmd): Generate evaluation report with scoring and analysis
 - **excel-report** (cmd): Generar plantillas Excel interactivas con Claude-in-Excel para reporting
@@ -61,6 +64,7 @@
 - **risk-predict** (cmd): Predicción de riesgo del sprint basada en datos históricos y señales tempranas
 - **risk-scoring** (skill): Usar cuando se calcula el riesgo de una tarea para decidir el nivel de revisión requerido.
 - **rules-traceability** (skill): Usar cuando se mapean reglas de negocio a PBIs para trazabilidad completa.
+- **scope-trace-gate** (script): scope-trace-gate.sh — G13 Scope-trace gate (standalone runner)
 - **sheets-report** (cmd): Generate report and sync to Google Sheets
 - **solvency-report** (cmd): >
 - **source-traceability-judge** (agent): Truth Tribunal judge — every claim must have a verifiable @ref citation

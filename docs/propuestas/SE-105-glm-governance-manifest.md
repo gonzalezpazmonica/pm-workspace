@@ -1,7 +1,8 @@
 ---
 id: SE-105
 title: SE-105 — Adoptar Governance Layer Manifest (GLM v1.0) como capa de declaración interoperable
-status: PROPOSED
+status: IMPLEMENTED
+implemented_at: "2026-06-24"
 origin: external-analysis https://www.certifywebcontent.com/supervised-ai/governance-layer-manifest/ + análisis comparativo 2026-05-30
 author: Savia
 priority: media
@@ -10,6 +11,7 @@ proposed_at: "2026-05-30"
 tier: 2
 related: [SE-057, ai-governance, governance-enterprise, verification-policy, audit-trail-schema, savia-ethical-principles]
 non_blocks: [Tier 0 actual (SE-094 partial, SE-096, SE-097, SE-100 en curso)]
+resource: https://github.com/GoogleCloudPlatform/governance-layer-manifest
 ---
 
 # SE-105 — Adoptar Governance Layer Manifest (GLM v1.0)

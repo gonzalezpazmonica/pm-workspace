@@ -50,6 +50,7 @@ gate "G11" "PR natural-lang summary" g_summary
 gate "G12" "Spec OpenCode plan" g_opencode_plan
 gate "G13" "Scope-trace audit"  g13_scope_trace
 gate "G14" "Skill catalog audit" g14_skill_catalog
+gate "G15" "CI reliability (advisory)" g_pre_push_reliability
 echo ""
 echo "------------------------------------------------------------"
 if [[ -n "$STOPPED" ]]; then

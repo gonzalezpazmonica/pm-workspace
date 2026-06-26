@@ -5,6 +5,8 @@ status: PROPOSED
 migrated_at: "2026-04-19"
 migrated_from: body-prose
 priority: baja
+
+triage_note: "DEFERRED: needs user research + specific user feedback"
 ---
 
 # SPEC-060 — SaviaDivergent: Neurodivergent-Aware AI Work Companion

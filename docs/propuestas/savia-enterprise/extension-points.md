@@ -1,5 +1,7 @@
 ---
-status: PROPOSED
+status: ARCHIVED
+
+triage_note: "superseded by SE-002-extension-points.md"
 ---
 
 # Savia Enterprise — Extension Points

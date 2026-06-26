@@ -1,7 +1,7 @@
 ---
 spec_id: SPEC-181
 title: L0-L3 token budgets explicit per tier
-status: PROPOSED
+status: IMPLEMENTED
 tier: 1
 priority: P2
 effort: 4-6h

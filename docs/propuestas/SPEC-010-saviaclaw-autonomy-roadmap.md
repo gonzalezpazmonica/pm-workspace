@@ -1,10 +1,12 @@
 ---
 id: SPEC-010
 title: SPEC-010: SaviaClaw Autonomy Roadmap
-status: IN_PROGRESS
+status: ARCHIVED
 origin_date: "2026-03-21"
 migrated_at: "2026-04-18"
 migrated_from: body-prose
+
+triage_note: "roadmap doc without active owner; SPEC-004/006 archived"
 ---
 
 # SPEC-010: SaviaClaw Autonomy Roadmap

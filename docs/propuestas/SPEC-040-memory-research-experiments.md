@@ -1,10 +1,12 @@
 ---
 id: SPEC-040
 title: SPEC-040: Memory Research Experiments — I+D en Memoria Agentica
-status: IN_PROGRESS
+status: IMPLEMENTED
 origin_date: "2026-03-24"
 migrated_at: "2026-04-19"
 migrated_from: body-prose
+
+triage_note: "I+D ongoing, absorbed into memory-feedback-compactor + historical-context"
 ---
 
 # SPEC-040: Memory Research Experiments — I+D en Memoria Agentica

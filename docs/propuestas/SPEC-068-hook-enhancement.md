@@ -1,10 +1,12 @@
 ---
 id: SPEC-068
 title: "Hook Enhancement — PreCompact, PostCompact, PostToolUseFailure"
-status: SUPERSEDED
+status: ARCHIVED
 superseded_by: SPEC-071
 date: 2026-04-01
 era: 165
+
+triage_note: "superseded status normalized to ARCHIVED"
 ---
 
 # SPEC-068: Hook Enhancement — PreCompact, PostCompact, PostToolUseFailure

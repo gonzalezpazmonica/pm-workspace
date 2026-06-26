@@ -25,3 +25,11 @@
 
 - `docs/propuestas/SE-210-skill-antipatterns.md` — origen de estos anti-patterns
 - `docs/rules/domain/autonomous-safety.md` — Rule #8: NUNCA merge/approve autónomo
+**❌ Spec-after**: escribir la spec después de la implementación para documentar lo que se construyó → la spec no guia, solo describe; pierde el valor de contrato ejecutable.
+**✓ Correcto**: la spec se escribe y aprueba ANTES de cualquier implementación (Rule #8 SDD obligatorio).
+
+**❌ Waterfall-spec**: especificar cada detalle de implementación antes de cualquier código → la spec se vuelve obsoleta en cuanto empieza la implementación real, generando drift inmediato.
+**✓ Correcto**: la spec define el contrato (interface, tipos, AC) no los pasos de implementación. Los detalles emergen durante el desarrollo.
+
+**❌ Orphan-spec**: spec sin Acceptance Criteria verificables → nadie puede determinar cuándo está Done, el developer tipo human o agent no sabe cuándo parar.
+**✓ Correcto**: toda spec tiene al menos un AC en formato Given/When/Then con datos concretos y criterio medible.

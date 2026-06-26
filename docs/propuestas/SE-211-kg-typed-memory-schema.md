@@ -1,7 +1,9 @@
 ---
 spec_id: SE-211
 title: Typed memory schema — 13 semantic types in Knowledge Graph
-status: APPROVED
+status: IMPLEMENTED
+drift_note: "drift: components existed pre-triage (docs/rules/domain/memory-type-schema.md with 13 types + knowledge-graph.py with memory_type column + type mapping)"
+implemented_at: "2026-06-24"
 priority: P1
 effort: M
 era: 202

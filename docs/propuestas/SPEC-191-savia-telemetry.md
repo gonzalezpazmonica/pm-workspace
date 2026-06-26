@@ -1,7 +1,7 @@
 ---
 spec_id: SPEC-191
 title: "Savia Telemetry — OpenTelemetry Observability Dashboard"
-status: PROPOSED
+status: APPROVED
 tier: 1B
 effort: TBD
 era: 199
@@ -11,6 +11,8 @@ related_specs:
   - SPEC-190 (Application Code Twin — lifecycle.jsonl como fuente de datos compartida)
   - SPEC-186 (Double Opt-in — gates autónomos protegen workflows de agentes)
   - SPEC-162 (Knowledge Graph — entidades trazables desde telemetría)
+
+triage_note: "BLOCKED: depends on savia-web infrastructure"
 ---
 
 # SPEC-191 — Savia Telemetry

@@ -1,7 +1,7 @@
 ---
 spec_id: SE-218
 title: "codebase-memory patterns: hook augmentation, kg snapshot, qualified names, tiered export, saviaignore"
-status: PROPOSED
+status: IMPLEMENTED
 priority: P2
 effort: M
 era: 205

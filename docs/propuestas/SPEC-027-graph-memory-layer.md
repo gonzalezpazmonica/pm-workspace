@@ -1,13 +1,17 @@
 ---
 id: SPEC-027
 title: SPEC-027: Graph Memory Layer — Entity-Relation Extraction
-status: PROPOSED
+status: ARCHIVED
 converges_with: SPEC-123
 notes: SPEC-123 (graphiti temporal pattern) y SE-030 (GraphRAG quality gates) convergen en esta capa. Ver ROADMAP §Tier 6.
 origin_date: "2026-03-22"
 migrated_at: "2026-04-19"
 migrated_from: body-prose
 priority: media
+
+triage_note: "SUPERSEDED: covered by SE-162 + SE-211/214"
+
+triage_note: "superseded by SE-162 Knowledge Graph + SE-211 typed memory schema"
 ---
 
 # SPEC-027: Graph Memory Layer — Entity-Relation Extraction

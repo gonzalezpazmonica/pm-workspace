@@ -2,6 +2,9 @@
 globs: [".opencode/commands/**", "output/**"]
 context_tier: L3
 token_budget: 1570
+usage: reference-only
+dormant_since: "2026-06-24"
+review_note: "Quarterly review 2026-Q2"
 ---
 
 # Regla: Context Health — Gestión proactiva del contexto

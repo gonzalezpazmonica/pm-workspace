@@ -1,7 +1,7 @@
 ---
 id: SPEC-166
 title: Explicit configurator agent (centralize System 2 dispatch)
-status: PROPOSED
+status: IMPLEMENTED
 priority: MEDIUM
 estimated_hours: 8
 tier: 2

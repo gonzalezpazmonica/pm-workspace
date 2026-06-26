@@ -1,6 +1,7 @@
 ---
 id: SE-002
-status: PROPOSED
+status: IMPLEMENTED
+implemented_at: 2026-06-24
 ---
 
 # SE-002 — Extension Points Implementation

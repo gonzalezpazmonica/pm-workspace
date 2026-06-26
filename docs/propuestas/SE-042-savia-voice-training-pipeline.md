@@ -10,6 +10,8 @@ approved_at: "2026-04-19"
 approved_reason: "Strategic SLM pipeline — voice/persona data prep scaffolding priority"
 applied_at: null
 expires: "2026-06-18"
+
+triage_note: "BLOCKED: GPU required for Kokoro voice model training"
 ---
 
 # SE-042 — Savia Voice Training Pipeline

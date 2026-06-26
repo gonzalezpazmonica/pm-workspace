@@ -103,3 +103,5 @@ If no .ctx exists, use default paths (current behavior as fallback).
 - NUNCA modificar el PDF original
 - SIEMPRE registrar en _digest-log.md
 - Memoria: `projects/{proyecto}/agent-memory/pdf-digest/MEMORY.md`
+
+<!-- MARKITDOWN_ENABLED: true -->

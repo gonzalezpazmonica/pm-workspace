@@ -3,7 +3,7 @@
 # Usage: curl -fsSL https://raw.githubusercontent.com/gonzalezpazmonica/pm-workspace/main/.opencode/install.sh | bash
 #
 # Environment variables:
-#   SAVIA_HOME    — Installation directory (default: ~/claude)
+#   SAVIA_HOME    — Installation directory (default: ~/savia)
 #   SKIP_TESTS    — Set to 1 to skip smoke tests
 
 set -euo pipefail
@@ -30,7 +30,7 @@ if [[ "${1:-}" == "--help" || "${1:-}" == "-h" ]]; then
   echo "  --help, -h      Show this help message"
   echo ""
   echo "Environment variables:"
-  echo "  SAVIA_HOME      Installation directory (default: ~/claude)"
+  echo "  SAVIA_HOME      Installation directory (default: ~/savia)"
   echo "  SKIP_TESTS      Set to 1 to skip smoke tests"
   echo ""
   echo "Exit codes:"
@@ -134,7 +134,7 @@ ok "Prerequisites satisfied"
 # --- Step 3: Determine installation directory -----------------------------------
 step 3 "Choosing installation directory..."
 
-SAVIA_HOME="${SAVIA_HOME:-$HOME/claude}"
+SAVIA_HOME="${SAVIA_HOME:-$HOME/savia}"
 if [[ -d "$SAVIA_HOME" ]]; then
   info "$SAVIA_HOME already exists"
   if [[ -d "$SAVIA_HOME/.git" ]]; then

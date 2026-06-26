@@ -1,9 +1,11 @@
 ---
 id: SPEC-109
 title: Savia Self-Excellence — Opus 4.7 audit remediation (10 actions)
-status: IN_PROGRESS
+status: IMPLEMENTED
 origin: Opus 4.7 self-audit (2026-04-17), score 7.2/10
 author: Savia
+
+triage_note: "remediation items absorbed into SE-066..070 + drift checks"
 ---
 
 # SPEC-109 — Savia Self-Excellence

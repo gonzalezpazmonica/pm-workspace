@@ -13,6 +13,7 @@ spec_ref: SE-203
 
 | Skill | Keywords |
 |---|---|
+| `adversarial-security` | vulnerabilidad, pentest, sql injection, xss, inyeccion, security audit, red team, blue team |
 | `savia-memory` | recuerda, memory, guarda, memoriza, olvidas, recall |
 | `tdd-vertical-slices` | tdd, test-first, red-green, vertical slice, anti-horizontal |
 | `spec-driven-development` | spec, sdd, especificación ejecutable, specification |

@@ -46,7 +46,7 @@ To use a skill: read `<path>` and follow its instructions.
 | context-task-classifier | `.opencode/skills/context-task-classifier/SKILL.md` | Usar antes de compactar contexto para clasificar la tarea del turno actual. |
 | cost-management | `.opencode/skills/cost-management/SKILL.md` | Usar cuando se gestionan timesheets, presupuestos, facturas o forecasting de costes. |
 | dag-scheduling | `.opencode/skills/dag-scheduling/SKILL.md` | Usar cuando se orquestan múltiples agentes SDD con dependencias entre ellos. |
-| design-an-interface | `.opencode/skills/design-an-interface/SKILL.md` | Skill para disenar una interfaz con N=3 alternativas en paralelo y recomendar la mejor segun voca... |
+| design-an-interface | `.opencode/skills/design-an-interface/SKILL.md` | Design-an-interface skill with N=3 parallel alternatives and architectural vocabulary. Use when d... |
 | developer-experience | `.opencode/skills/developer-experience/SKILL.md` | Usar cuando se mide o mejora la experiencia de desarrollo del equipo. |
 | devops-validation | `.opencode/skills/devops-validation/SKILL.md` | Usar cuando se conecta un proyecto nuevo a Azure DevOps para validar su configuración Agile. |
 | diagram-generation | `.opencode/skills/diagram-generation/SKILL.md` | Usar cuando se necesita generar diagramas de arquitectura o flujo desde código o infraestructura. |
@@ -68,6 +68,7 @@ To use a skill: read `<path>` and follow its instructions.
 | managed-content | `.opencode/skills/managed-content/SKILL.md` | Usar cuando se regeneran secciones auto-generadas en documentos con marcadores de seguridad. |
 | meeting-transcript-extract | `.opencode/skills/meeting-transcript-extract/SKILL.md` | Usar cuando se necesita extraer la transcripción de una reunión Teams desde el browser. |
 | memvid-backup | `.opencode/skills/memvid-backup/SKILL.md` | Usar cuando se crea un backup portable de la memoria externa de Savia. |
+| meta-reflection | `.opencode/skills/meta-reflection/SKILL.md` | Protocolo de las 4 meta-preguntas para cuestionar el encuadre de una tarea antes de ejecutarla. S... |
 | model-upgrade-audit | `.opencode/skills/model-upgrade-audit/SKILL.md` | Usar cuando hay un modelo nuevo disponible y se quiere detectar prompt debt en el workspace. |
 | mutation-audit | `.opencode/skills/mutation-audit/SKILL.md` | Usar cuando se quiere medir la calidad real de los tests mediante mutation testing. |
 | nuclei-scanning | `.opencode/skills/nuclei-scanning/SKILL.md` | Usar cuando se escanean vulnerabilidades conocidas (CVEs, misconfigs) con Nuclei. |

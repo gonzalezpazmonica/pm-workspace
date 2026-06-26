@@ -1,7 +1,7 @@
 ---
 id: SE-055
 title: SE-055 — .opencode parity generator desde single source
-status: PROPOSED
+status: ARCHIVED
 origin: output/audit-arquitectura-20260420.md (architect audit)
 author: Savia
 priority: baja
