@@ -10,7 +10,8 @@ import { extractToolName, extractCommand, type ToolInput, type ToolOutput } from
 
 const BLOCK_RULES: Array<{ rx: RegExp; msg: string }> = [
   {
-    rx: /git\s+push\s+.*--force/i,
+    // Match --force or -f but NOT --force-with-lease
+    rx: /git\s+push\s+(?:.*\s)?(?:--force(?!-with-lease)|-f)(\s|$)/i,
     msg: "git push --force blocked. Use --force-with-lease instead.",
   },
   {
