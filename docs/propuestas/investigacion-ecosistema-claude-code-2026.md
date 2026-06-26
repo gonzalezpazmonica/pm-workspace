@@ -1,5 +1,7 @@
 ---
-status: PROPOSED
+status: ARCHIVED
+
+triage_note: "non-spec document, archived 2026-06-24"
 ---
 
 # Investigación: Ecosistema Claude Code — Mejoras para pm-workspace y Savia

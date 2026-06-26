@@ -1,8 +1,9 @@
 ---
 spec_id: SE-099
 title: Split remaining 22 oversized agents (post top-5)
-status: APPROVED
+status: IMPLEMENTED
 approved_by: operator (2026-05-27)
+implemented_at: 2026-06-24
 priority: P2
 effort: L
 estimated_time: 12h

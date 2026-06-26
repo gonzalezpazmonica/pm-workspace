@@ -1,0 +1,22 @@
+version: "5.0.0"
+tenant: "test-json-3106601"
+created_at: "2026-06-24T21:15:05Z"
+status: draft
+compliance_profile: "basic"
+checklist:
+  - id: tests_passing
+    description: All automated tests pass
+    required: true
+    passed: false
+  - id: changelog_updated
+    description: CHANGELOG updated with release notes
+    required: true
+    passed: false
+  - id: human_approval
+    description: At least one human approver sign-off
+    required: true
+    passed: false
+  - id: audit_trail_complete
+    description: All actions logged in audit trail
+    required: true
+    passed: false

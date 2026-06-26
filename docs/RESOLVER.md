@@ -46,7 +46,7 @@
 
 <!-- AUTO_BEGIN — do not edit; regenerate via scripts/resolver-md-generate.sh -->
 
-### Skills (104)
+### Skills (105)
 
 | Intent (skill) | Target | Cuándo usar |
 |---|---|---|
@@ -79,7 +79,7 @@
 | `context-task-classifier` | skill:context-task-classifier | Usar antes de compactar contexto para clasificar la tarea del turno actual. |
 | `cost-management` | skill:cost-management | Usar cuando se gestionan timesheets, presupuestos, facturas o forecasting de costes. |
 | `dag-scheduling` | skill:dag-scheduling | Usar cuando se orquestan múltiples agentes SDD con dependencias entre ellos. |
-| `design-an-interface` | skill:design-an-interface | Skill para disenar una interfaz con N=3 alternativas en paralelo y recomendar la mejor ... |
+| `design-an-interface` | skill:design-an-interface | Design-an-interface skill with N=3 parallel alternatives and architectural vocabulary. ... |
 | `developer-experience` | skill:developer-experience | Usar cuando se mide o mejora la experiencia de desarrollo del equipo. |
 | `devops-validation` | skill:devops-validation | Usar cuando se conecta un proyecto nuevo a Azure DevOps para validar su configuración ... |
 | `diagram-generation` | skill:diagram-generation | Usar cuando se necesita generar diagramas de arquitectura o flujo desde código o infra... |
@@ -101,6 +101,7 @@
 | `managed-content` | skill:managed-content | Usar cuando se regeneran secciones auto-generadas en documentos con marcadores de segur... |
 | `meeting-transcript-extract` | skill:meeting-transcript-extract | Usar cuando se necesita extraer la transcripción de una reunión Teams desde el browser. |
 | `memvid-backup` | skill:memvid-backup | Usar cuando se crea un backup portable de la memoria externa de Savia. |
+| `meta-reflection` | skill:meta-reflection | Protocolo de las 4 meta-preguntas para cuestionar el encuadre de una tarea antes de eje... |
 | `model-upgrade-audit` | skill:model-upgrade-audit | Usar cuando hay un modelo nuevo disponible y se quiere detectar prompt debt en el works... |
 | `mutation-audit` | skill:mutation-audit | Usar cuando se quiere medir la calidad real de los tests mediante mutation testing. |
 | `nuclei-scanning` | skill:nuclei-scanning | Usar cuando se escanean vulnerabilidades conocidas (CVEs, misconfigs) con Nuclei. |
@@ -155,12 +156,14 @@
 | `write-a-skill` | skill:write-a-skill | Guia para crear una nueva skill correctamente en pm-workspace. Usar cuando una tarea se... |
 | `zoom-out` | skill:zoom-out | Elevates perspective from trees to forest. Maps architecture, dependencies, and second-... |
 
-### Agents (75)
+### Agents (81)
 
 | Intent (agent) | Target | Cuándo usar |
 |---|---|---|
 | `architect` | agent:architect | Diseño de arquitectura .NET y decisiones técnicas de alto nivel. Usar PROACTIVELY cua... |
 | `architecture-judge` | agent:architecture-judge | Code Review Court judge — boundaries, coupling, layer violations, patterns |
+| `archive-digest` | agent:archive-digest | Digestión de formatos de archivo y contenido comprimido via markitdown (SE-172). Sopor... |
+| `authority-claim-judge` | agent:authority-claim-judge | Recommendation Tribunal judge — detects credential claims ("soy investigador"). NUNCA... |
 | `azure-devops-operator` | agent:azure-devops-operator | Operaciones rápidas en Azure DevOps: consultas WIQL, actualización de work items, ges... |
 | `business-analyst` | agent:business-analyst | Análisis de reglas de negocio, descomposición de PBIs, criterios de aceptación y eva... |
 | `calibration-judge` | agent:calibration-judge | Truth Tribunal judge — confidence statements match evidence strength |
@@ -175,8 +178,10 @@
 | `compliance-judge` | agent:compliance-judge | Truth Tribunal judge — PII, N1-N4b levels, format rules, confidentiality |
 | `concession-judge` | agent:concession-judge | Recommendation Tribunal judge — detects position changes without new evidence (SPEC-192) |
 | `confidentiality-auditor` | agent:confidentiality-auditor | Audita cumplimiento de confidencialidad en PRs de pm-workspace (repo publico). Descubre... |
+| `configurator` | agent:configurator | Centralizes workspace dispatch decisions: selects skills, agents, rules, and memory que... |
 | `correctness-judge` | agent:correctness-judge | Code Review Court judge — logic, tests, edge cases, error paths |
 | `court-orchestrator` | agent:court-orchestrator | Convenes the Code Review Court, manages fix cycles, produces .review.crc |
+| `criterion-simulation-judge` | agent:criterion-simulation-judge | Criterion Simulation Layer judge — SPEC-194. Executes 4 meta-questions (frame challen... |
 | `dev-orchestrator` | agent:dev-orchestrator | Analiza specs y crea planes de implementación con slices, dependencias y presupuestos ... |
 | `diagram-architect` | agent:diagram-architect | Architecture diagram specialist. Analyzes code and infrastructure to generate Mermaid d... |
 | `dotnet-developer` | agent:dotnet-developer | Implementación de código C#/.NET siguiendo specs SDD aprobadas. Usar PROACTIVELY cuan... |
@@ -185,6 +190,7 @@
 | `expertise-asymmetry-judge` | agent:expertise-asymmetry-judge | Recommendation Tribunal judge — when draft falls in a domain the active user marks as... |
 | `factuality-judge` | agent:factuality-judge | Truth Tribunal judge — factual accuracy of claims against verifiable sources |
 | `feasibility-probe` | agent:feasibility-probe | Validates spec feasibility by attempting a time-boxed prototype. Produces viability rep... |
+| `fiction-framing-judge` | agent:fiction-framing-judge | Recommendation Tribunal judge — detects persona-shift plus content-equivalent framing... |
 | `fix-assigner` | agent:fix-assigner | Creates fix tasks from Court findings, assigns to dev agents, triggers re-review |
 | `frontend-developer` | agent:frontend-developer | Implementación de código frontend (Angular y React) siguiendo specs SDD aprobadas. Us... |
 | `frontend-test-runner` | agent:frontend-test-runner | Post-commit frontend test execution — unit, component, e2e, coverage |
@@ -222,6 +228,7 @@
 | `security-judge` | agent:security-judge | Code Review Court judge — OWASP, PII, injection, auth, credentials |
 | `source-traceability-judge` | agent:source-traceability-judge | Truth Tribunal judge — every claim must have a verifiable @ref citation |
 | `spec-judge` | agent:spec-judge | Code Review Court judge — implementation vs approved spec, acceptance criteria |
+| `structural-framing-judge` | agent:structural-framing-judge | Recommendation Tribunal judge — detects output with manual/protocol form over CBRN or... |
 | `sycophancy-judge` | agent:sycophancy-judge | Recommendation Tribunal judge — detects empty social validation in conversational dra... |
 | `tech-writer` | agent:tech-writer | Documentación técnica: README, CHANGELOG, comentarios XML en C#, docs de proyecto. Us... |
 | `terraform-developer` | agent:terraform-developer | Implementación de código Terraform (IaC) siguiendo specs SDD aprobadas. CRÍTICO: NUN... |

@@ -1,14 +1,14 @@
 ---
 id: SE-086
 title: SE-086 — Ubiquitous-language extractor (DDD glossary from conversations + memory-graph)
-status: APPROVED
+status: IMPLEMENTED
 origin: mattpocock/skills/ubiquitous-language + domain-model (MIT) — análisis 2026-04-27
 author: Savia
 priority: media
 effort: M 5h
 related: SPEC-027 memory-graph, SE-076 episodic memory, SE-082 architectural-vocabulary
 approved_at: "2026-04-27"
-applied_at: null
+applied_at: "2026-06-24"
 expires: "2026-06-27"
 era: 190
 ---

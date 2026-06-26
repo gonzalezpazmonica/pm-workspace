@@ -138,3 +138,5 @@ If no .ctx exists, use default paths (current behavior as fallback).
 ## Memoria
 
 Ruta: projects/{proyecto}/agent-memory/visual-digest/MEMORY.md
+
+<!-- MARKITDOWN_ENABLED: true -->

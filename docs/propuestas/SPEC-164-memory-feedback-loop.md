@@ -1,13 +1,18 @@
 ---
 id: SPEC-164
 title: Memory feedback loop (auto-memory writes from outcomes)
-status: PROPOSED
+status: IMPLEMENTED
 priority: HIGH
 estimated_hours: 5
 tier: 1A
 origin: lecun-jepa-h-research-2026
+implemented_at: "2026-06-24"
+timeline:
+  - from: "2026-06-24"
+    learned: "2026-06-24"
+    value: "IMPLEMENTED"
+    source: "session:2026-06-24"
 ---
-
 # SPEC-164 Memory Feedback Loop
 
 ## Problema

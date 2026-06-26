@@ -1,5 +1,5 @@
 ---
-status: PROPOSED
+status: IMPLEMENTED
 ---
 
 # SPEC-SE-017 — Project Definition (SOW-as-Code)

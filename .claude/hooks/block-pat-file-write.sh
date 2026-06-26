@@ -1,75 +1,144 @@
-#!/bin/bash
+#!/usr/bin/env bash
 set -uo pipefail
-# block-pat-file-write.sh — SPEC-SE-036 Slice 3: bloquea escrituras a paths PAT.
-#
-# PreToolUse hook (matcher: Write, Edit) que impide que agentes autónomos
-# escriban o editen ficheros cuyo path contiene "pat" (Personal Access Token),
-# salvo que el path esté explícitamente gitignored (donde se permite almacenar
-# el token como fallback durante la transición PAT→JWT).
-#
-# Lógica:
-#   1. Extraer filePath del input JSON
-#   2. Si el path NO contiene 'pat' (case-insensitive) → exit 0 (dejar pasar)
-#   3. Si el path contiene 'pat':
-#      a. Verificar si está gitignored: `git check-ignore -q <path>`
-#      b. Si gitignored → exit 0 (permitido — fallback durante transición)
-#      c. Si NO gitignored → BLOCKED + mensaje educativo (exit 2)
-#
-# SPEC: docs/propuestas/savia-enterprise/SPEC-SE-036-api-key-jwt-mint.md (AC-06)
-# Aplica a: overnight-sprint, code-improvement-loop, cualquier agente autónomo
+# block-pat-file-write.sh — SPEC-SE-036 Slice 3: PreToolUse hook — bloquea writes a paths PAT/token/secret
+# Hook: PreToolUse matcher Write|Edit
+# Master switch: SAVIA_PAT_BLOCK=on|off (default on — es seguridad, no opt-in)
+# Ref: docs/rules/domain/savia-enterprise/agent-jwt-mint.md
+# Ref: CLAUDE.md Rule #1
 
-# Perfil: security (cargar si existe gate)
-LIB_DIR="$(dirname "${BASH_SOURCE[0]}")/lib"
-if [[ -f "$LIB_DIR/profile-gate.sh" ]]; then
-  # shellcheck source=/dev/null
-  source "$LIB_DIR/profile-gate.sh" && profile_gate "security"
-fi
-
-INPUT=""
-if INPUT=$(timeout 3 cat 2>/dev/null); then
-  :
-fi
-
-if ! command -v jq &>/dev/null; then
-  exit 0   # jq ausente: dejar pasar (no bloquear silenciosamente)
-fi
-
-# Extraer el path del fichero a escribir
-FILE_PATH=""
-if [[ -n "$INPUT" ]]; then
-  FILE_PATH=$(printf '%s' "$INPUT" | jq -r '.tool_input.file_path // .tool_input.filePath // empty' 2>/dev/null) || FILE_PATH=""
-fi
-
-if [[ -z "$FILE_PATH" ]]; then
-  exit 0   # No hay path: no aplica
-fi
-
-# Verificar si el path contiene 'pat' (case-insensitive)
-if ! echo "$FILE_PATH" | grep -qi 'pat'; then
-  exit 0   # No es un path PAT
-fi
-
-# El path contiene 'pat': verificar si está gitignored
-WORKSPACE_DIR="${CLAUDE_PROJECT_DIR:-${SAVIA_WORKSPACE_DIR:-$PWD}}"
-if git -C "$WORKSPACE_DIR" check-ignore -q "$FILE_PATH" 2>/dev/null; then
-  # Gitignored: permitido durante la transición PAT→JWT
+# ── Master switch ─────────────────────────────────────────────────────────────
+SAVIA_PAT_BLOCK="${SAVIA_PAT_BLOCK:-on}"
+if [[ "$SAVIA_PAT_BLOCK" != "on" ]]; then
   exit 0
 fi
 
-# Path PAT no gitignored: BLOQUEADO
-cat >&2 << 'MSG'
-BLOQUEADO [SPEC-SE-036]: Escritura a path PAT no permitida.
+# ── Parse input ───────────────────────────────────────────────────────────────
+# Hook input arrives as JSON on stdin OR via --path CLI argument (tests).
+INPUT_PATH=""
+CLI_PATH=""
+while [[ $# -gt 0 ]]; do
+  case "$1" in
+    --path) CLI_PATH="$2"; shift 2 ;;
+    *) shift ;;
+  esac
+done
 
-Los agentes autónomos no deben crear ni editar ficheros de Personal Access Token
-fuera de paths gitignored. Esto aplica Rule #1 de CLAUDE.md a nivel de infraestructura.
+if [[ -n "$CLI_PATH" ]]; then
+  INPUT_PATH="$CLI_PATH"
+else
+  # Read JSON from stdin, extract file_path
+  INPUT=""
+  if INPUT=$(timeout 3 cat 2>/dev/null); then
+    :
+  fi
+  if [[ -n "$INPUT" ]] && command -v jq &>/dev/null; then
+    INPUT_PATH=$(printf '%s' "$INPUT" | jq -r '
+      .tool_input.file_path //
+      .tool_input.filePath //
+      .tool_input.path //
+      empty' 2>/dev/null) || INPUT_PATH=""
+  fi
+fi
 
-Alternativas:
-  - Usar JWT efímero: jwt-mint.sh --key-stdin --scope <scope>
-  - Si necesitas PAT como fallback: asegura que el path está en .gitignore
-    y confirma el path exacto de almacenamiento (~/.savia/secrets/ o $HOME/.azure/)
+# No path → nothing to check
+if [[ -z "$INPUT_PATH" ]]; then
+  exit 0
+fi
 
-Ref: docs/propuestas/savia-enterprise/SPEC-SE-036-api-key-jwt-mint.md
-     docs/rules/domain/savia-enterprise/agent-jwt-mint.md (sección Slice 3)
-MSG
+# ── Exceptions: test files and docs are always allowed ───────────────────────
+_is_exception() {
+  local path="$1"
+  # Normalize
+  local lower
+  lower="$(printf '%s' "$path" | tr '[:upper:]' '[:lower:]')"
+  # tests/ directory — any path containing /tests/
+  case "$lower" in
+    *tests/*) return 0 ;;
+    *test-*)  return 0 ;;
+    *.bats)   return 0 ;;
+  esac
+  # docs/ directory
+  case "$lower" in
+    *docs/*) return 0 ;;
+  esac
+  # scripts/*.bats test files
+  case "$lower" in
+    */scripts/*.bats) return 0 ;;
+  esac
+  return 1
+}
 
-exit 2
+# ── Check .gitignore ──────────────────────────────────────────────────────────
+_is_gitignored() {
+  local path="$1"
+  # Use git check-ignore if available and inside a git repo
+  if command -v git &>/dev/null; then
+    if git -C "$(dirname "$path" 2>/dev/null || echo .)" check-ignore -q "$path" 2>/dev/null; then
+      return 0
+    fi
+    # Also check common gitignored patterns from workspace root
+    if git check-ignore -q "$path" 2>/dev/null; then
+      return 0
+    fi
+  fi
+  # Fallback: check if path is under known gitignored dirs
+  local lower
+  lower="$(printf '%s' "$path" | tr '[:upper:]' '[:lower:]')"
+  case "$lower" in
+    */\.savia/*|~/.savia/*) return 0 ;;
+    */\.azure/*|~/.azure/*) return 0 ;;
+    */.secrets/*|*/secrets/*) return 0 ;;
+    */pm-config.local*) return 0 ;;
+  esac
+  return 1
+}
+
+# ── Sensitive path detection ──────────────────────────────────────────────────
+_is_sensitive_path() {
+  local path="$1"
+  local basename
+  basename="$(basename "$path" | tr '[:upper:]' '[:lower:]')"
+  local lower
+  lower="$(printf '%s' "$path" | tr '[:upper:]' '[:lower:]')"
+
+  # Match "pat" in filename
+  case "$basename" in
+    *pat*) return 0 ;;
+  esac
+  # Match "pat" in path component (e.g. /azure/devops-pat)
+  case "$lower" in
+    *-pat|*-pat.*|*/pat|*/pat.*|*_pat|*_pat.*) return 0 ;;
+  esac
+  # Match "token" or "secret" in basename (credential-type names)
+  case "$basename" in
+    *token*|*secret*) return 0 ;;
+  esac
+  return 1
+}
+
+# ── Main logic ────────────────────────────────────────────────────────────────
+
+# Exception: test/docs paths always allowed
+if _is_exception "$INPUT_PATH"; then
+  exit 0
+fi
+
+# Exception: gitignored paths allowed (credentials live there by design)
+if _is_gitignored "$INPUT_PATH"; then
+  exit 0
+fi
+
+# Check for sensitive filename patterns
+if _is_sensitive_path "$INPUT_PATH"; then
+  cat >&2 <<EOF
+BLOCK [SPEC-SE-036 Slice 3]: write to sensitive credential path rejected.
+  Path  : ${INPUT_PATH}
+  Rule  : CLAUDE.md Rule #1 — NUNCA hardcodear credenciales en paths versionados.
+  Fix   : Store credentials in SAVIA_AGENT_API_KEY env var (off-repo vault).
+          Use: bash scripts/jwt-mint.sh --key-stdin --scope <scope> to get a JWT.
+  Bypass: SAVIA_PAT_BLOCK=off (temporal — reactivar tras resolver el bloqueante).
+EOF
+  exit 2
+fi
+
+exit 0

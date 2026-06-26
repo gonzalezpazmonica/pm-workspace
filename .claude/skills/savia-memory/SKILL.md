@@ -87,3 +87,11 @@ Tipos: decision, pattern, context, feedback, lesson, reference
 
 **❌ Guardar sin source**: omitir `--source skill:<name>` o `--source session` → trazabilidad rota, entries huérfanas sin origen verificable.
 **✓ Correcto**: siempre incluir `--source` con el skill, comando o sesión que originó la entrada.
+**❌ Bulk-dump**: guardar todo indiscriminadamente al final de la sesión → memoria saturada con ruido, las entradas valiosas quedan enterradas.
+**✓ Correcto**: guardar sólo los datos que tienen valor de recuperación real (decisiones, patrones, bugs con causa-raíz).
+
+**❌ No-recall**: guardar sin consultar nunca la memoria previa → la memoria crece pero no se usa, el agente repite los mismos errores sesión tras sesión.
+**✓ Correcto**: al inicio de cada sesión relevante, hacer recall del contexto anterior antes de proponer soluciones.
+
+**❌ Stale-reads**: usar entradas antiguas de memoria sin verificar frescura → decisiones basadas en contexto obsoleto, especialmente peligroso para rutas de ficheros y versiones.
+**✓ Correcto**: para entradas con fecha anterior a 30 días, verificar que siguen siendo válidas antes de actuar sobre ellas.

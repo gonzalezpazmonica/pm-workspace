@@ -1,7 +1,9 @@
 ---
 id: SPEC-074
 title: SPEC-074: Parallel Doc QA — Digestión Paralela de Múltiples Documentos
-status: PROPOSED
+status: IMPLEMENTED
+drift_note: "drift: components existed pre-triage (scripts/parallel-specs-orchestrator.sh labeled SE-074 Slice 1 — parallel spec execution with worktrees, bounded concurrency, port allocation)"
+implemented_at: "2026-06-24"
 origin_date: "2026-03-25"
 migrated_at: "2026-04-19"
 migrated_from: body-prose

@@ -1,0 +1,112 @@
+{
+  "version": "1.0",
+  "description": "SPEC-193 sensitive domain taxonomy for cross-turn correlation",
+  "domains": {
+    "chem-synthesis": {
+      "label": "Chemical synthesis and precursors",
+      "keywords": [
+        "synthesis",
+        "precursor",
+        "reagent",
+        "reaction",
+        "catalyst",
+        "yield",
+        "purification",
+        "solvent",
+        "oxidizer",
+        "nitration"
+      ],
+      "cbrn": true
+    },
+    "bio-pathogen": {
+      "label": "Biological pathogens",
+      "keywords": [
+        "pathogen",
+        "bacteria",
+        "virus",
+        "culture",
+        "amplification",
+        "inoculate",
+        "growth medium",
+        "toxin",
+        "spore"
+      ],
+      "cbrn": true
+    },
+    "nuclear-fissile": {
+      "label": "Nuclear fissile material",
+      "keywords": [
+        "nuclear",
+        "fissile",
+        "uranium",
+        "plutonium",
+        "enrichment",
+        "centrifuge",
+        "chain reaction",
+        "weapons grade"
+      ],
+      "cbrn": true
+    },
+    "radiological": {
+      "label": "Radiological materials",
+      "keywords": [
+        "radiological",
+        "isotope",
+        "radioactive",
+        "dispersal",
+        "dirty bomb",
+        "cesium",
+        "strontium",
+        "contamination"
+      ],
+      "cbrn": true
+    },
+    "weapons": {
+      "label": "Conventional weapons",
+      "keywords": [
+        "explosive",
+        "detonator",
+        "munition",
+        "weapon",
+        "firearm",
+        "bomb",
+        "improvised",
+        "incendiary"
+      ],
+      "cbrn": false
+    },
+    "manipulation": {
+      "label": "Psychological manipulation",
+      "keywords": [
+        "gaslighting",
+        "coercive control",
+        "grooming",
+        "psychological abuse",
+        "manipulation tactic"
+      ],
+      "cbrn": false
+    },
+    "self-harm": {
+      "label": "Self-harm methods",
+      "keywords": [
+        "suicide method",
+        "lethal dose",
+        "overdose",
+        "self-harm"
+      ],
+      "cbrn": false
+    },
+    "child-safety": {
+      "label": "Child exploitation",
+      "keywords": [
+        "child exploitation",
+        "minor abuse",
+        "predatory behavior"
+      ],
+      "cbrn": false
+    }
+  },
+  "convergence_threshold": 0.3,
+  "convergence_window": 10,
+  "convergence_minimum": 3
+}

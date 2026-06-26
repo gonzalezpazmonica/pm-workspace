@@ -1,7 +1,7 @@
 ---
 id: SPEC-156
 title: Token Budget Frontmatter for agents
-status: PROPOSED
+status: IMPLEMENTED
 priority: HIGH
 estimated_hours: 4
 tier: 1A

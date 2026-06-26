@@ -1,7 +1,7 @@
 ---
 id: SPEC-123
 title: Patrón temporal Graphiti en knowledge-graph skill
-status: PROPOSED
+status: IMPLEMENTED
 origin: Savia autonomous roadmap — Top pick #5 del research 2026-04-17
 author: Savia
 related: SAVIA-SUPERPOWERS-ROADMAP.md

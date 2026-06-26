@@ -8,6 +8,9 @@ status: PROPOSED
 > **Risk level:** ALTO — afecta 1.500+ ficheros, irreversible sin esfuerzo grande
 
 ---
+status: PROPOSED
+triage_note: "ALTO RIESGO: afecta 1500+ ficheros; requires SPEC-OC-01+02 first"
+
 
 ## 1. Problema
 

@@ -93,7 +93,7 @@ val_json() {
 
 @test "AC-5: duplicate-route produces valid JSON" {
   val_json "$SPEC_DUP" "$TWIN" > "$TMP_OUT/out.json"
-  python3 -c "import json,sys; json.load(open('$TMP_OUT/out.json'))" 
+  python3 -c "import json,sys; json.load(open('$TMP_OUT/out.json'))"
 }
 
 @test "AC-5: conflicts array is non-empty" {

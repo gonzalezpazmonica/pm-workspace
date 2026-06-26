@@ -1,7 +1,13 @@
 ---
-status: PROPOSED
+status: IMPLEMENTED
+implemented_at: "2026-06-24"
+resource: https://doi.org/10.1037/xge0000098
+timeline:
+  - from: "2026-06-24"
+    learned: "2026-06-24"
+    value: "IMPLEMENTED"
+    source: "session:2026-06-24"
 ---
-
 # SPEC-192 — Anti-Adulation & Illusory Truth Defense
 
 > **Priority:** P0 · **Estimate (human):** 3-4d · **Estimate (agent):** 4-6h · **Category:** standard · **Type:** infrastructure

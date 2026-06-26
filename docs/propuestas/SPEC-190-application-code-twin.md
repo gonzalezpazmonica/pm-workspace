@@ -1,7 +1,8 @@
 ---
 spec_id: SPEC-190
 title: "Application Code Twin — Gemelo Inteligente de Código"
-status: APPROVED
+status: IMPLEMENTED
+implemented_at: "2026-06-24"
 tier: 1A
 effort: 28-35h
 era: 199
@@ -21,7 +22,7 @@ related_specs:
 # SPEC-190 — Application Code Twin (ACT)
 ## Gemelo Inteligente de Código
 
-> Estado: PROPOSED · Tier 1A · Estimación 28-35 h · Era 199
+> Estado: IMPLEMENTED (2026-06-24) · Tier 1A · Estimación 28-35 h · Era 199
 > Origen: petición directa 2026-06-05 — evolución natural de SPEC-169
 > Dependencias bloqueantes: SPEC-169 (convenciones twin), SPEC-156 (token_budget)
 

@@ -12,3 +12,5 @@ section: Performance
 - se-221: Audience-Cross Graph — `scripts/context-audience-graph.py` produce TSV de pares con >=2 agentes compartidos en audience. Evidencia de conexiones cross-concept entre fragmentos no obviamente relacionados.
 - se-221: Knowledge Graph integracion — `scripts/knowledge-graph.py import-audience` ingiere el TSV como relacion tipada `(path_A) -[shared_audience]-> (path_B)` con `count` y agentes en `source`.
 - se-221: Metrics CLI — `scripts/context-drop-metrics.sh` reporta `total_tokens_saved`, `n_stubs`, `n_keeps`, `pct_saved` desde `output/context-drop-audit.jsonl`.
+- se-221: Capability Metadata extractor — `scripts/context-capability-metadata.py --file <path>` produce JSON `{origin, tier, audience, size_tokens, hash, last_loaded, cross_concept_refs}`. cross_concept_refs extrae SPEC-N, SE-N, Rule #N del contenido. Audience fallback `all` si sin frontmatter.
+- se-221: Tests — `tests/scripts/test_se221_context_patterns.py` (29 pytest) + `tests/bats/test-se-221-patterns.bats` (17 bats). 46 tests en verde.

@@ -1,7 +1,7 @@
 ---
 spec_id: SE-219
 title: "abtop patterns: session-status JSON, context% hook, orphan cleanup, multi-profile, tick separation"
-status: PROPOSED
+status: IMPLEMENTED
 priority: P2
 effort: M
 era: 206

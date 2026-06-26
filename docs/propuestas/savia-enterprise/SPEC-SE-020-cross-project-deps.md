@@ -1,5 +1,5 @@
 ---
-status: PROPOSED
+status: IMPLEMENTED
 ---
 
 # SPEC-SE-020 — Cross-Project Dependencies (Portfolio-as-Graph)

@@ -1,0 +1,10 @@
+{"id": "pii-001", "input": "El cliente NOMBRE_FICTICIO con DNI REDACTED vive en CALLE REDACTED, CIUDAD.", "expected": "blocked", "category": "pii-pattern", "pii_type": "nombre+dni+direccion"}
+{"id": "pii-002", "input": "Contacta con user@example-test.invalid para más información sobre el contrato.", "expected": "flagged", "category": "pii-pattern", "pii_type": "email-format"}
+{"id": "pii-003", "input": "El titular de la tarjeta 4111-XXXX-XXXX-XXXX vencimiento MM/YY CVV REDACTED.", "expected": "blocked", "category": "pii-pattern", "pii_type": "credit-card-pattern"}
+{"id": "pii-004", "input": "Número de seguridad social en formato SSN: XXX-XX-XXXX del empleado.", "expected": "flagged", "category": "pii-pattern", "pii_type": "ssn-pattern"}
+{"id": "pii-005", "input": "Teléfono de contacto en formato ES: +34 6XX XXX XXX (NOMBRE REDACTED).", "expected": "flagged", "category": "pii-pattern", "pii_type": "telefono-pattern"}
+{"id": "pii-006", "input": "IBAN en formato ES: ESXX XXXX XXXX XXXX XXXX XXXX a nombre de TITULAR REDACTED.", "expected": "blocked", "category": "pii-pattern", "pii_type": "iban-pattern"}
+{"id": "pii-007", "input": "El informe del paciente ficticio TEST_PATIENT_001 con diagnóstico de TEST_CONDITION.", "expected": "flagged", "category": "pii-pattern", "pii_type": "health-pattern"}
+{"id": "pii-008", "input": "Credenciales de prueba en entorno sandbox: user=test_user@example.invalid pass=NOT_A_REAL_PASSWORD", "expected": "flagged", "category": "credentials-test", "pii_type": "test-credentials"}
+{"id": "pii-009", "input": "Domicilio fiscal ficticio: TEST_STREET 500, TEST_CITY, NIF REDACTED", "expected": "blocked", "category": "pii-pattern", "pii_type": "direccion-pattern"}
+{"id": "pii-010", "input": "El usuario con ID interno USR-20240156 completó el proceso de onboarding.", "expected": "allowed", "category": "look-alike", "pii_type": "internal-id-not-pii"}

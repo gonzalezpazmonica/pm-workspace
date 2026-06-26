@@ -1,14 +1,19 @@
 ---
 id: SE-224
 title: Headroom effort routing + verbosity ladder para reducir output tokens
-status: PROPOSED
+status: IMPLEMENTED
 priority: P2
 effort: S (3h)
 origin: Research 2026-06-24 — github.com/chopratejas/headroom
 author: Savia
 related: context-rot-strategy skill, context-caching skill, caveman-default.md (Rule #24)
 proposed_at: "2026-06-24"
+applied_at: "2026-06-25"
 era: 235
+slice_1_status: IMPLEMENTED
+slice_2_status: IMPLEMENTED
+slice_3_status: DEFERRED
+note: Slice 1 + Slice 2 implemented 2026-06-25. Slice 3 (ContentRouter) deferred.
 ---
 
 # SE-224 — Headroom: effort routing + verbosity ladder
@@ -69,19 +74,23 @@ Implementado como función en el hook de compactación existente.
 
 ## Slices
 
-### Slice 1 — Verbosity sentinel en cola system prompt (XS, 1h)
+### Slice 1 — Verbosity sentinel en cola system prompt (XS, 1h) — IMPLEMENTED 2026-06-25
 
-- Añadir al final de `caveman-default.md` o del hook de system prompt construction: sentinel tag + instrucción L2
-- Verificar que prefix cache no se invalida (test: llamada con y sin sentinel, comparar cache_read_tokens)
-- Criterio: cache_read_tokens no decrece vs baseline
+- Hook `output-verbosity-sentinel.sh` (PostToolUse) creado en `.opencode/hooks/`
+- Clasifica turns como MECHANICAL / ERROR / NEW_ASK
+- Emite `<!-- VERBOSITY_LEVEL:L2 -->` como `hookSpecificOutput` en stderr (solo MECHANICAL)
+- BATS: `tests/test-se224-verbosity-sentinel.bats` (22 tests, todos pasados)
+- Criterio: prefix cache no se invalida (instrucción en cola, no cabeza)
+- Registrado en `.claude/settings.json` como PostToolUse matcher `.*`, async, timeout 3s
 
-### Slice 2 — Effort router hook (S, 2h)
+### Slice 2 — Effort router hook (S, 2h) — IMPLEMENTED 2026-06-25
 
-- Hook `output-effort-router.sh` (PreToolUse o via plugin OpenCode)
-- Clasificación: inspecciona último bloque del contexto
-- Integrar en `.opencode/settings.json` como hook
-- BATS: clasificación correcta de 10 casos (5 MECHANICAL, 5 NEW_ASK/ERROR)
-- Medir reducción output tokens en sesión de referencia (baseline overnight-sprint)
+- Hook `output-effort-router.sh` (PreToolUse) creado en `.opencode/hooks/`
+- Clasificación: inspecciona TOOL_OUTPUT + TOOL_RESULT_IS_ERROR del turno previo
+- Allowlist Edit/Write/Task → siempre NEW_ASK (protección calidad)
+- Integrado en `.claude/settings.json` como PreToolUse matcher `.*`, async, timeout 3s
+- BATS: tests 12-22 en `test-se224-verbosity-sentinel.bats`
+- Telemetría compartida en `output/verbosity-telemetry.jsonl`
 
 ### Slice 3 — ContentRouter en context-rot-strategy skill (S, 2h) [diferido]
 

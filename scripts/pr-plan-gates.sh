@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 # pr-plan-gates.sh — Gate functions for pr-plan.sh (sourced, not executed)
+set -uo pipefail
 
 g0() {
   [[ ! -f "$FAILURE_FILE" ]] && return
@@ -513,4 +514,40 @@ g14_skill_catalog() {
     return
   fi
   echo "${count} skill(s) audited — fail=${fail_count} warn=${warn_count}"
+}
+
+# ── G-pre-push: CI Reliability Gate (SPEC-SE-012, advisory) ─────────────────
+# Runs ci-reliability-gate.sh before push to surface common CI failure causes.
+# Non-blocking by design: failures emit WARN (never FAIL) so they do not stop
+# the pipeline. The operator decides whether to address them before pushing.
+g_pre_push_reliability() {
+  local gate_script="${BASH_SOURCE%/*}/ci-reliability-gate.sh"
+  if [[ ! -f "$gate_script" ]]; then
+    echo "WARN: ci-reliability-gate.sh not found — install SPEC-SE-012"
+    return
+  fi
+  if [[ ! -x "$gate_script" ]]; then
+    chmod +x "$gate_script" 2>/dev/null || true
+  fi
+  local out
+  out=$(bash "$gate_script" --json 2>/dev/null) || true
+  if [[ -z "$out" ]]; then
+    echo "WARN: ci-reliability-gate.sh produced no output"
+    return
+  fi
+  local all_passed
+  all_passed=$(echo "$out" | python3 -c "import json,sys; print(json.loads(sys.stdin.read()).get('all_passed','true'))" 2>/dev/null || echo "true")
+  if [[ "$all_passed" == "True" || "$all_passed" == "true" ]]; then
+    echo "all 8 CI checks passed"
+    return
+  fi
+  # Build a concise list of failing check names for the WARN message
+  local failing
+  failing=$(echo "$out" | python3 -c "
+import json, sys
+d = json.loads(sys.stdin.read())
+names = [c['name'] for c in d.get('checks', []) if not c.get('passed', True)]
+print(', '.join(names))
+" 2>/dev/null || echo "unknown")
+  echo "WARN: CI reliability issues detected: $failing — run 'bash scripts/ci-reliability-gate.sh' for details"
 }
