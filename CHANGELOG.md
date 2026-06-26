@@ -5,6 +5,25 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased] — 2026-06-26 · Enterprise 23 specs — PR #875
+
+Added: 23 specs enterprise implementadas en 5 batches (237 BATS + 1416 pytest).
+Fixed: bug en plugin `block-force-push.ts` — regex `/git\s+push\s+.*--force/i`
+bloqueaba falsamente `--force-with-lease` en ramas feature. Añadido lookahead
+negativo `(?!-with-lease)` y soporte para flag `-f`. 12 tests nuevos (TDD).
+
+- SE-006 Workspace Compliance Validator (30 scripts enterprise)
+- SE-023 Knowledge Federation
+- Rules: authority-claims, criterion-simulation-honesty, enterprise-governance,
+  enterprise-licensing, enterprise-mcp, enterprise-onboarding, enterprise-sovereign,
+  sandbox-os-policy
+- Hooks SPEC-193: context-sanitize-input, criterion-simulation-challenge,
+  memory-write-sanitize, re-anchor-redlines
+- Agent criterion-simulation-judge: restored ejemplo banner_text FRAME_DOUBT
+
+
+and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+
 ## [Unreleased] — 2026-06-13 · Docs/SCM gaps fix tras PR #844
 
 Fixed: cinco gaps detectados en auditoria post-merge.
