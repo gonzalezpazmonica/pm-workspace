@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=5266e33bc1439bb83dd500bf16b04b1e66cf6c36db0355f2a927e3b28ef1d556
-timestamp=2026-06-24T22:23:22Z
-branch=main
-head_commit=2647ee60
-signature=e91281551e5626587fc6f20545d5a6e081d64fb8eec8081e4130717cf3c1848e
+diff_hash=311e908dc89a1c58bb7335eba3a484ee35ab54176fd81a9693b5950d2f424924
+timestamp=2026-06-26T23:02:02Z
+branch=agent/se228-loop-engineering-spec-20260625-rebase
+head_commit=725e5005
+signature=b2cf6765a700f5c7df03fbff5b34cf1d9000dfe50b2a6cda19f73661e0f2948d
