@@ -3,6 +3,7 @@ name: help
 description: Catálogo de comandos y primeros pasos pendientes.
 model: github-copilot/claude-sonnet-4.5
 context_cost: low
+complexity_tier: mode1
 ---
 
 Filtro: $ARGUMENTS

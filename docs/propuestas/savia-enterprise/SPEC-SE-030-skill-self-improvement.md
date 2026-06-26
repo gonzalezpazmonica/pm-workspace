@@ -1,12 +1,14 @@
 ---
 id: SPEC-SE-030
 title: SPEC-SE-030: Skill Self-Improvement Pipeline
-status: PROPOSED
+status: IMPLEMENTED
 migrated_at: "2026-04-19"
 migrated_from: body-prose
 ---
 
 # SPEC-SE-030: Skill Self-Improvement Pipeline
+
+> **Implementation note**: Fase 1 (detection) implemented. Fases 2-3 (auto-proposal + refinement) are enterprise-only and require human approval.
 
 > **Estado**: Draft
 > **Prioridad**: P2 (Productividad)

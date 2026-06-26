@@ -1,4 +1,7 @@
 ---
+archived: true
+archived_at: "20260624"
+archived_reason: "SE-096: 0 cross-references detected by rule-orphan-detector.sh. Archived to docs/archive/rules/20260624-portfolio-as-graph.en.md"
 context_tier: L3
 token_budget: 1337
 ---
@@ -60,7 +63,6 @@ shared_resources:
 | `shared_resources[].projects` | array[string] | yes if present | ≥2 projects |
 | `shared_resources[].allocation_pct` | array[int] | yes if present | sum ≤ 100, len == projects len |
 | `shared_resources[].conflict` | bool | yes if present | true/false |
-
 ## 3. Validator
 
 `scripts/deps-validate.sh` validates a `deps.yaml` against the schema:
@@ -134,7 +136,6 @@ Transitions emit events (Slice 2+): `deps.at_risk`, `deps.blocked`,
 | **4** | `portfolio-contention` (over-alloc + collision + bus-factor) | merged |
 | 5 | Commands `/portfolio-graph`, `/portfolio-contention`, `/deps-status` | future |
 | 6 | Events + Savia Flow integration | future |
-
 ## 9. References
 
 - Spec: `docs/propuestas/savia-enterprise/SPEC-SE-020-cross-project-deps.md`

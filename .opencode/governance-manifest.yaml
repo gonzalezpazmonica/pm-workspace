@@ -1,0 +1,103 @@
+# GLM v1.0 - Savia pm-workspace Governance Manifest
+# Canonical machine-readable: .well-known/governance-layer-manifest.json
+# This YAML is the workspace-internal operational view.
+glm_version: "1.0"
+
+workspace:
+  name: "pm-workspace / Savia"
+  version: "v6.24.0"
+  description: "AI-augmented PM workspace with 75 agents, 104 skills, 81 hooks"
+
+capabilities:
+  - id: "code-generation"
+    description: "Generate and modify code in 16 languages"
+    audit_trail: true
+    human_approval_required: false
+
+  - id: "autonomous-agents"
+    description: "Overnight sprint, code improvement loop, tech research"
+    audit_trail: true
+    human_approval_required: true
+
+  - id: "data-access"
+    description: "Read workspace files, Azure DevOps, GitHub"
+    audit_trail: true
+    human_approval_required: false
+
+  - id: "tribunal-validation"
+    description: "Truth Tribunal 7 judges, Code Review Court 4-5 judges, Recommendation Tribunal 4 judges"
+    audit_trail: true
+    human_approval_required: false
+
+  - id: "sdd-pipeline"
+    description: "Spec-Driven Development full pipeline: sdd-spec-writer to developer to test-runner to code-reviewer"
+    audit_trail: true
+    human_approval_required: true
+
+constraints:
+  - id: "no-merge-without-human"
+    rule: "Rule 8 CLAUDE.md"
+    type: "hard"
+    enforcement: "agent:commit-guardian"
+
+  - id: "no-hardcoded-pat"
+    rule: "Rule 1 CLAUDE.md"
+    type: "hard"
+    enforcement: "hook:.opencode/hooks/block-credential-leak.sh"
+
+  - id: "autonomous-mode-requires-reviewer"
+    rule: "autonomous-safety.md"
+    type: "hard"
+    enforcement: "scripts/savia-env.sh:savia_autonomous_reviewer()"
+
+  - id: "sdd-requires-approved-spec"
+    rule: "Rule 8 CLAUDE.md"
+    type: "hard"
+    enforcement: "scripts/spec-approval-gate.sh"
+
+  - id: "autonomous-double-optin"
+    rule: "SPEC-186"
+    type: "hard"
+    enforcement: "scripts/savia-double-optin-check.sh"
+
+ethical_principles:
+  framework: "Savia IAH + 13 principios humanistas"
+  reference: "docs/rules/domain/savia-ethical-principles.md"
+  red_lines: 5
+  last_reviewed: "2026-06-24"
+  review_cadence: "semestral"
+
+data_governance:
+  sovereignty: "local-first"
+  pii_handling: "docs/rules/domain/context-placement-confirmation.md"
+  confidentiality_tiers: "tiered classification scheme"
+  external_transmission: "opt-in only via Savia Shield"
+  audit_trail_format: "append-only JSONL"
+  audit_trail_schema: "docs/rules/domain/audit-trail-schema.md"
+
+audit:
+  hooks_registered: 81
+  test_suites: 470
+  last_audit: "2026-06-24"
+  audit_tool: "scripts/savia-sandbox-doctor.sh"
+  glm_validate_tool: "scripts/glm-validate.sh"
+
+interoperability:
+  frontends:
+    - "Claude Code"
+    - "OpenCode"
+    - "Codex"
+    - "Cursor"
+  mcp_servers:
+    - "codebase-memory-mcp"
+    - "ppt-mcp"
+  standards:
+    - "SDD"
+    - "Rule 24 Radical Honesty"
+    - "SE-078 AGENTS.md"
+    - "SPEC-186 double-optin"
+
+manifest_digest:
+  type: "sha256"
+  canonical_source: ".well-known/governance-layer-manifest.json"
+  validate_with: "scripts/glm-verify.sh"

@@ -1,5 +1,5 @@
 # memory — Savia Capability Map (L1)
-> 113 resources
+> 115 resources
 
 - **auto-compact** (script): auto-compact.sh — Disparado automáticamente cuando contexto > 85%
 - **biblio-search** (cmd): >
@@ -11,6 +11,7 @@
 - **changelog-consolidate** (script): changelog-consolidate.sh — consolidate CHANGELOG.d/*.md fragments into
 - **changelog-consolidate-if-needed** (script): changelog-consolidate-if-needed.sh — SE-053 Slice 1 post-merge automation.
 - **company-show** (cmd): Mostrar perfil consolidado de la empresa — resumen ejecutivo del contexto organizacional
+- **configurator** (agent): Centralizes workspace dispatch decisions: selects skills, agents, rules, and memory queries for each user intent. Emits structured JSON decisions for orchestrators to consume.
 - **content-fingerprint** (script): content-fingerprint.sh — SE-151 consolidation skill
 - **context-age** (cmd): Envejecimiento semántico del decision-log — comprime y archiva decisiones antiguas
 - **context-aging** (script): ── context-aging.sh ───────────────────────────────────────────────────────
@@ -71,6 +72,7 @@
 - **memory-conflict-judge** (agent): Recommendation Tribunal judge — detects when a draft recommendation contradicts the active user's auto-memory (feedback_*, user_*)
 - **memory-consolidate** (cmd): Consolidate and compress memory entries to save context
 - **memory-context** (cmd): >
+- **memory-feedback-post-merge** (script): memory-feedback-post-merge.sh — Writes a memory entry when a PR is merged.
 - **memory-graph** (cmd): Grafo semántico de relaciones semánticas entre memorias. Construye knowledge graph de engrams. Consulta conexiones. Detecta memorias aisladas. Genera visualización Mermaid.
 - **memory-hygiene** (script): memory-hygiene.sh — SPEC-142: Limpieza automática de auto-memory
 - **memory-importance** (cmd): Scoring semántico de importancia de engrams usando fórmula composita (relevancia × recencia × frecuencia). Identifica memorias críticas para mantener y candidatas para poda.

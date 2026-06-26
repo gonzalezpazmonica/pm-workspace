@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 # rbac-check.sh — Verify if a user has permission to run a command in a tenant
+set -uo pipefail
 # SPEC: SE-002 Extension Points / SPEC-SE-002 Multi-Tenant
 #
 # Usage:

@@ -40,6 +40,7 @@ set -uo pipefail
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 ROOT_DIR="$(cd "$SCRIPT_DIR/../.." && pwd)"
 EARLY_STOP="$SCRIPT_DIR/early_stop.py"
+HIST_CONTEXT="$SCRIPT_DIR/historical-context.py"
 LOG_DIR="$ROOT_DIR/output/tribunal-iterations"
 
 # Master switch
@@ -61,6 +62,29 @@ shift || true
 
 case "$cmd" in
   evaluate-stop)
+    # SPEC-199: if historical context feature is enabled, build context block first
+    if [[ "${SAVIA_TRIBUNAL_HIST_CONTEXT:-off}" == "on" ]]; then
+      _hist_draft=""
+      _hist_session="${SAVIA_TRIBUNAL_SESSION_ID:-default}"
+      _hist_iter=0
+      _peek_args=("$@")
+      for (( _i=0; _i<${#_peek_args[@]}; _i++ )); do
+        if [[ "${_peek_args[$_i]}" == "--draft-hash" ]]; then
+          _hist_draft="${_peek_args[$((_i+1))]:-}"
+        fi
+        if [[ "${_peek_args[$_i]}" == "--iteration" ]]; then
+          _hist_iter="${_peek_args[$((_i+1))]:-0}"
+        fi
+      done
+      HIST_CTX=$(python3 "$SCRIPT_DIR/historical-context.py" \
+        --draft "${_hist_draft}" \
+        --top-k "${SAVIA_TRIBUNAL_HIST_TOP_K:-3}" \
+        --similarity-threshold "${SAVIA_TRIBUNAL_HIST_SIMILARITY_MIN:-0.6}" \
+        --session-id "${_hist_session}" \
+        --iteration "${_hist_iter}" \
+        2>/dev/null || echo '{"similar_drafts":[],"context_text":"","tokens_estimate":0,"is_zero_sc":true}')
+      export TRIBUNAL_HISTORICAL_CONTEXT="$HIST_CTX"
+    fi
     # Forward all args to early_stop.py
     exec python3 "$EARLY_STOP" --json "$@"
     ;;
@@ -139,6 +163,19 @@ case "$cmd" in
     exec python3 "$ANNEAL_SCRIPT" \
       --index "$iter_val" --total "$max_iter" \
       --max-t "$max_t" --min-t "$min_t" --exponent "$exponent" --json
+    ;;
+  get-historical-context)
+    # SPEC-199: get historical context for iteration N+1.
+    # Usage: iterate.sh get-historical-context --draft "..." [--top-k 3] [--db path]
+    if [[ "${SAVIA_TRIBUNAL_HIST_CONTEXT:-off}" != "on" ]]; then
+      echo '{"similar_drafts":[],"context_text":"","tokens_estimate":0,"enabled":false}'
+      exit 0
+    fi
+    if [[ ! -f "$HIST_CONTEXT" ]]; then
+      echo '{"similar_drafts":[],"context_text":"","tokens_estimate":0,"enabled":false,"error":"historical-context.py not found"}'
+      exit 0
+    fi
+    exec python3 "$HIST_CONTEXT" "$@"
     ;;
   -h|--help|"")
     usage

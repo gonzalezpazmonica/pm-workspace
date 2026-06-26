@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 # agent-manifest-batch-export.sh — SPEC-SE-004: Exporta todos los agentes a todos los frameworks
+set -uo pipefail
 #
 # Itera sobre todos los agentes en .opencode/agents/ y genera manifiestos
 # en todos los formatos soportados (o uno específico).

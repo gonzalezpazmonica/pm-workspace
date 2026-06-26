@@ -127,4 +127,42 @@ if echo "$COMMAND" | grep -iE 'sk-ant-[a-zA-Z0-9_-]{20,}' > /dev/null 2>&1; then
   exit 2
 fi
 
+# SPEC-SE-036 Slice 3: Detectar PAT-shaped strings en diff/comandos (40+ char hex/base64)
+# Patrón: strings de 40+ chars alfanuméricos contiguos que no sean paths, hashes de git,
+# ni checksums legítimos. Heurística conservadora: solo bloquea si aparece en contexto
+# de asignación (=, :, Bearer, Authorization).
+# Refs: SPEC-SE-036 AC-07, docs/rules/domain/savia-enterprise/agent-jwt-mint.md (Slice 3)
+if echo "$COMMAND" | grep -iE '(=|:\s*|Bearer\s+|Authorization:\s+)[A-Za-z0-9+/]{40,}[=]{0,2}([^A-Za-z0-9+/]|$)' > /dev/null 2>&1; then
+  # Excluir falsos positivos comunes: hashes git (40 hex), SHAs, base64 de ficheros legítimos
+  # Solo bloquear si NO es un hash git puro (40 hex lowercase) ni un path
+  if ! echo "$COMMAND" | grep -iE '(=|:\s*)[a-f0-9]{40}([^a-f0-9]|$)' > /dev/null 2>&1; then
+    echo "BLOQUEADO [SPEC-SE-036]: PAT-shaped string detectada (40+ chars en contexto de autenticación)." >&2
+    echo "Usa JWT efímero: jwt-mint.sh --key-stdin --scope <scope> o variable de entorno." >&2
+    exit 2
+  fi
+fi
+
+exit 0
+
+# Detectar PAT-shaped strings (SPEC-SE-036 Slice 3)
+# Patrón: strings de 40+ caracteres hex o base64 sin contexto de variable segura.
+# Fundamento: Azure DevOps PATs son 52 chars base64; GitHub classic tokens son 40 chars hex.
+# Solo aplica a comandos que no sean read/cat de rutas gitignored (evita falsos positivos).
+# Changelog: SPEC-SE-036-S3 — añadido 2026-06-24
+PAT_SHAPED_PATTERN='[A-Za-z0-9+/]{40,}'
+# Exclude safe contexts: $(cat ...), env var assignments with $VAR, and base64 encode/decode ops
+SAFE_CONTEXT_PATTERN='\$\(cat |\$\{[A-Z_]+\}|base64 (encode|decode|-d|-e|--decode)'
+if echo "$COMMAND" | grep -Eo "$PAT_SHAPED_PATTERN" 2>/dev/null | grep -qv "AKIA\|ghp_\|ghs_\|ghu_\|sk-\|eyJ\|hvs\." 2>/dev/null; then
+  # Candidate found — check it's not in a safe context
+  if ! echo "$COMMAND" | grep -qE "$SAFE_CONTEXT_PATTERN" 2>/dev/null; then
+    # Additional filter: exclude paths (contain / or .) and module names (dots between words)
+    CANDIDATE=$(echo "$COMMAND" | grep -Eo "$PAT_SHAPED_PATTERN" | head -1)
+    if [[ -n "$CANDIDATE" ]] && ! echo "$CANDIDATE" | grep -qE '\.|/' 2>/dev/null; then
+      echo "BLOQUEADO: PAT-shaped string detectada (40+ chars). Usa SAVIA_AGENT_API_KEY o vault en lugar de credenciales inline." >&2
+      exit 2
+    fi
+  fi
+fi
+
+
 exit 0

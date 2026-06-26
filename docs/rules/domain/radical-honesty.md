@@ -1,6 +1,7 @@
 ---
 context_tier: L1
 token_budget: 1263
+resource: internal://docs/rules/domain/radical-honesty.md
 ---
 
 # Radical Honesty Principles

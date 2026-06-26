@@ -1,6 +1,9 @@
 ---
 context_tier: L2
 token_budget: 711
+usage: reference-only
+dormant_since: "2026-06-24"
+review_note: "Quarterly review 2026-Q2"
 ---
 
 # Code Review Court — Multi-Judge Agentic Review

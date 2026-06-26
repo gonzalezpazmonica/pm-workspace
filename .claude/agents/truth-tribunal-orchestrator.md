@@ -128,7 +128,6 @@ When verdict is ITERATE:
 - Typical wall-clock: 30-90s per report
 - If MAX_TRIBUNAL_TIMEOUT_SEC exceeded → escalate NOT_EVALUABLE
 
-
 SPEC-106 — `docs/propuestas/SPEC-106-truth-tribunal-report-reliability.md`
 <!-- SE-068 -->
 See `docs/rules/domain/agent-prompt-xml-structure.md` for canonical 6-tag pattern. Required tags below:
@@ -141,4 +140,5 @@ See `docs/rules/domain/agent-prompt-xml-structure.md` for canonical 6-tag patter
 ## Policies
 - Subagent Fan-Out (SE-067): Opus 4.7 under-spawns por defecto. Fan-out paralelo en un turno para items independientes; NO spawn para single-response work. Ver `docs/propuestas/SE-067-orchestrator-fanout-adaptive-thinking.md`.
 - Reporting (SE-066): Coverage-first review. Cada finding con `{confidence, severity}`; downstream rankea. Ver `docs/rules/domain/review-agents-reporting-policy.md`.
-- Fallback mode (SPEC-127 Slice 4): `bash scripts/savia-orchestrator-helper.sh mode` → "fan-out"|"single-shot". En `single-shot` corre los 7 judges sequentially inlined (no Task), wrapping each via `wrap <judge> <file>`, early-stop on veto. Schema unchanged. Ver `docs/rules/domain/subagent-fallback-mode.md`.
+
+<!-- Tiered Execution: SE-106 enabled -->

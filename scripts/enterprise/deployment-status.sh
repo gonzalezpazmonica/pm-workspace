@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 # deployment-status.sh — Show current deployment mode for a tenant
+set -uo pipefail
 # SPEC: SPEC-SE-005 Sovereign Deployment
 #
 # Usage:

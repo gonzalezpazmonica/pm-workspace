@@ -1,7 +1,7 @@
 ---
 spec_id: SPEC-183
 title: Reconciliation 3-bucket resolution in drift-auditor
-status: APPROVED
+status: IMPLEMENTED
 tier: 2
 priority: P3
 effort: 5-7h

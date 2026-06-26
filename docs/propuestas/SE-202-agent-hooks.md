@@ -1,7 +1,7 @@
 ---
 spec_id: SE-202
 title: Agent-based hooks semanticos
-status: APPROVED
+status: IMPLEMENTED
 tier: 1
 priority: P2
 effort: M
@@ -17,7 +17,7 @@ inspiration: OpenHands agent-as-tool pattern — LLM agents as hook decision-mak
 
 # SE-202 — Agent-based hooks semanticos
 
-> Estado: APPROVED · Tier 1 · P2 · Estimacion M · Era 200 · Wave 1
+> Estado: IMPLEMENTED · Tier 1 · P2 · Estimacion M · Era 200 · Wave 1
 
 ## Resumen
 

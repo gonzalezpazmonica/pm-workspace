@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 # commercial-terms-check.sh — SPEC-SE-008 License and Commercial Terms Verifier
+set -uo pipefail
 #
 # Verifica que la instalacion cumple los terminos de uso de Savia Enterprise.
 # Checks:

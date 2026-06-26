@@ -408,6 +408,29 @@
             "statusMessage": "Verificando contract tests sellados (SPEC-188-P3)"
           }
         ]
+      },
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/.opencode/hooks/block-pat-file-write.sh",
+            "timeout": 5,
+            "statusMessage": "Savia Shield: bloqueando escritura a paths de credenciales..."
+          }
+        ]
+      },
+      {
+        "matcher": ".*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/.opencode/hooks/output-effort-router.sh",
+            "async": true,
+            "timeout": 3,
+            "statusMessage": "Effort router (SE-224)..."
+          }
+        ]
       }
     ],
     "PostToolUse": [
@@ -492,6 +515,25 @@
             "type": "command",
             "command": "\"$CLAUDE_PROJECT_DIR\"/.opencode/hooks/post-write-validate.sh",
             "timeout": 5000
+          },
+          {
+            "type": "command",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/.opencode/hooks/post-spec-edit-reindex.sh",
+            "async": true,
+            "timeout": 5,
+            "statusMessage": "Specs INDEX.md auto-regen (SE-222 S2)..."
+          }
+        ]
+      },
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/.opencode/hooks/propuestas-index-refresh.sh",
+            "async": true,
+            "timeout": 15,
+            "statusMessage": "SE-222: regenerando propuestas/index.md..."
           }
         ]
       },
@@ -561,6 +603,90 @@
             "async": false,
             "timeout": 8,
             "statusMessage": "Drop-after-use (SE-221)..."
+          }
+        ]
+      },
+      {
+        "matcher": ".*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/.opencode/hooks/output-verbosity-sentinel.sh",
+            "async": true,
+            "timeout": 3,
+            "statusMessage": "Verbosity sentinel (SE-224)..."
+          }
+        ]
+      },
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash .claude/hooks/speculative-pre-execute.sh"
+          }
+        ]
+      },
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash .claude/hooks/criterion-simulation-challenge.sh"
+          }
+        ]
+      },
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash .claude/hooks/router-mode-dispatch.sh"
+          }
+        ]
+      },
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash .claude/hooks/speculative-skill-preload.sh"
+          }
+        ]
+      },
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash .claude/hooks/memory-feedback-task.sh"
+          }
+        ]
+      },
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash .claude/hooks/cognitive-debt-check.sh"
+          }
+        ]
+      },
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash .claude/hooks/live-progress-emitter.sh"
+          }
+        ]
+      },
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash .claude/hooks/decision-trace-capture.sh"
           }
         ]
       }
@@ -810,6 +936,36 @@
             "async": true,
             "timeout": 3,
             "statusMessage": "Reloading config..."
+          }
+        ]
+      }
+    ],
+    "PostTurn": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash \"$CLAUDE_PROJECT_DIR\"/scripts/context-condenser.sh --session-log \"${CLAUDE_PROJECT_DIR:-$(pwd)}/output/session-action-log.jsonl\" 2>/dev/null &",
+            "async": true,
+            "timeout": 10,
+            "statusMessage": "SE-200: comprobando ventana de contexto...",
+            "_spec": "SE-200",
+            "_default": "off — opt-in via SAVIA_CONDENSER_ENABLED=true"
+          }
+        ]
+      }
+    ],
+    "PreTurn": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "[ -z \"${SAVIA_SKILL_TRIGGERS:-}\" ] || bash \"$CLAUDE_PROJECT_DIR\"/scripts/skill-keyword-detector.sh --json \"${CLAUDE_HUMAN_TURN_INPUT:-}\" 2>/dev/null | grep -v '^\\[\\]$' >&2 || true",
+            "async": true,
+            "timeout": 5,
+            "statusMessage": "SE-203: detectando skill triggers...",
+            "_spec": "SE-203",
+            "_default": "off — opt-in via SAVIA_SKILL_TRIGGERS=true"
           }
         ]
       }

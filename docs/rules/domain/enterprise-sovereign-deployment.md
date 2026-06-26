@@ -2,6 +2,7 @@
 context_tier: L3
 spec: SE-005
 status: IMPLEMENTED
+token_budget: 1000
 ---
 
 # Enterprise Sovereign Deployment
@@ -16,7 +17,6 @@ Guide for activating and operating Savia Enterprise in sovereign, air-gap, or hy
 | `hybrid` | Anthropic API | Yes (masked) | Masked/anonymised |
 | `sovereign` | Local runtime | No | No |
 | `air-gap` | Local runtime | No (blocked at hook) | No |
-
 Local runtimes supported: Ollama, vLLM, llama.cpp, LocalAI (OpenAI-compatible).
 
 ## Activation
@@ -116,7 +116,6 @@ it exits 0 (fail-open) to avoid blocking Core workflows.
 | **vLLM** | High-concurrency. OpenAI-compatible endpoint. |
 | **llama.cpp** | Edge hardware. HTTP server mode required. |
 | **LocalAI** | Drop-in OpenAI-compatible. Set `OPENAI_API_BASE`. |
-
 ## Hardware Reference Configurations
 
 | Hardware | RAM | Recommended model tier |
@@ -124,7 +123,6 @@ it exits 0 (fail-open) to avoid blocking Core workflows.
 | Framework Desktop (Ryzen AI MAX+ 395) | 128 GB unified | 32B comfortable |
 | Mac Studio M2 Ultra | 192 GB unified | 72B comfortable |
 | Workstation 2x RTX 4090 | 48 GB VRAM | 70B via vLLM |
-
 ## Agent Compatibility
 
 Agents are tagged `sovereign_compatible: true|partial|false` in their frontmatter.

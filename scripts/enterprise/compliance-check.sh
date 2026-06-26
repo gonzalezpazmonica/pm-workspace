@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 # compliance-check.sh — SPEC-SE-006 Workspace Compliance Validator
+set -uo pipefail
 #
 # Valida el workspace contra frameworks regulatorios.
 #

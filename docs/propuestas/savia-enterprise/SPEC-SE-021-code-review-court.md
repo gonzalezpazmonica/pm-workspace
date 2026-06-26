@@ -1,5 +1,7 @@
 ---
-status: PROPOSED
+status: ARCHIVED
+
+triage_note: "superseded: court-orchestrator.md + 5 judges already operational in core"
 ---
 
 # SPEC-SE-021 — Code Review Court

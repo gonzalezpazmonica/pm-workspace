@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 # mcp-server-stub.sh — SPEC-SE-003: Genera scaffold de un MCP server
+set -uo pipefail
 #
 # Genera la estructura de directorios y ficheros stub para un MCP server
 # a partir de la entrada del catálogo (catalog.json).

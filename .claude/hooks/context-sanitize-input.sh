@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+set -uo pipefail
 # context-sanitize-input.sh — SPEC-193 Capa A, Componente 3.
 #
 # PreToolUse hook: sanitizes text payload before Read/Write tools load
@@ -19,7 +20,6 @@
 #   0 — pass (or mode off/shadow/warn)
 #   2 — blocked
 
-set -uo pipefail
 
 # ── Master switch ────────────────────────────────────────────────────────────
 SAVIA_HARDENING="${SAVIA_HARDENING:-on}"

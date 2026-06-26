@@ -1,7 +1,7 @@
 ---
 spec_id: SE-201
 title: Critic scoring cuantitativo en tribunales
-status: APPROVED
+status: IMPLEMENTED
 tier: 1
 priority: P1
 effort: M
@@ -17,7 +17,7 @@ inspiration: OpenHands critic-scorer pattern — LLM rubric-based quantitative v
 
 # SE-201 — Critic scoring cuantitativo en tribunales
 
-> Estado: APPROVED · Tier 1 · P1 · Estimación M · Era 200 · Wave 1
+> Estado: IMPLEMENTED · Tier 1 · P1 · Estimación M · Era 200 · Wave 1
 
 ## Resumen
 

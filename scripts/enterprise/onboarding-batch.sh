@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 # onboarding-batch.sh — SPEC-SE-007: Onboarding en bulk desde CSV
+set -uo pipefail
 #
 # Lee un CSV con usuarios y crea perfiles en .claude/profiles/users/{slug}/
 # para cada uno. Soporta --dry-run para previsualización sin efectos.

@@ -1,5 +1,7 @@
 ---
-status: PROPOSED
+status: ARCHIVED
+
+triage_note: "non-spec document, archived 2026-06-24"
 ---
 
 # ADR: Claude Connectors vs MCP — Evaluación de Arquitectura de Integraciones

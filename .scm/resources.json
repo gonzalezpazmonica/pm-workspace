@@ -1,6 +1,6 @@
 {
-  "hash": "b3e27de201d2",
-  "total": 1300,
+  "hash": "9ea58a967702",
+  "total": 1389,
   "resources": [
     {
       "category": "analysis",
@@ -111,6 +111,18 @@
       "kind": "cmd",
       "path": ".claude/commands/agent-cost.md",
       "description": "Coste estimado de uso de agentes por sprint/proyecto"
+    },
+    {
+      "category": "analysis",
+      "name": "agent-degradation-canary",
+      "intents": [
+        "agent",
+        "canary",
+        "degradation"
+      ],
+      "kind": "script",
+      "path": "scripts/agent-degradation-canary.sh",
+      "description": "agent-degradation-canary.sh — SE-040"
     },
     {
       "category": "analysis",
@@ -488,6 +500,32 @@
     },
     {
       "category": "analysis",
+      "name": "enterprise/billing-report",
+      "intents": [
+        "billing",
+        "ifrs",
+        "project",
+        "report"
+      ],
+      "kind": "script",
+      "path": "scripts/enterprise/billing-report.sh",
+      "description": "billing-report.sh — SE-018 Project Billing (IFRS 15)"
+    },
+    {
+      "category": "analysis",
+      "name": "enterprise/client-health-report",
+      "intents": [
+        "client",
+        "health",
+        "intelligence",
+        "report"
+      ],
+      "kind": "script",
+      "path": "scripts/enterprise/client-health-report.sh",
+      "description": "client-health-report.sh — SE-024 Client Health Intelligence"
+    },
+    {
+      "category": "analysis",
       "name": "eval-improvement-suggest",
       "intents": [
         "eval",
@@ -792,6 +830,20 @@
     },
     {
       "category": "analysis",
+      "name": "scope-trace-gate",
+      "intents": [
+        "gate",
+        "runner",
+        "scope",
+        "standalone",
+        "trace"
+      ],
+      "kind": "script",
+      "path": "scripts/scope-trace-gate.sh",
+      "description": "scope-trace-gate.sh — G13 Scope-trace gate (standalone runner)"
+    },
+    {
+      "category": "analysis",
       "name": "sheets-report",
       "intents": [
         "generate",
@@ -911,6 +963,14 @@
     },
     {
       "category": "communication",
+      "name": "archive-digest",
+      "intents": [],
+      "kind": "agent",
+      "path": ".opencode/agents/archive-digest.md",
+      "description": ">"
+    },
+    {
+      "category": "communication",
       "name": "chat-notify",
       "intents": [
         "chat",
@@ -939,11 +999,53 @@
     },
     {
       "category": "communication",
+      "name": "digest-extract",
+      "intents": [
+        "capa",
+        "digest",
+        "extracción",
+        "extract",
+        "markitdown"
+      ],
+      "kind": "script",
+      "path": "scripts/digest-extract.sh",
+      "description": "digest-extract.sh — Capa 0 universal de extracción via markitdown (SE-172)"
+    },
+    {
+      "category": "communication",
       "name": "excel-digest",
       "intents": [],
       "kind": "agent",
       "path": ".opencode/agents/excel-digest.md",
       "description": ">"
+    },
+    {
+      "category": "communication",
+      "name": "glm-compute-digest",
+      "intents": [
+        "compute",
+        "computes",
+        "digest",
+        "governance",
+        "json"
+      ],
+      "kind": "script",
+      "path": "scripts/glm-compute-digest.sh",
+      "description": "glm-compute-digest.sh — Computes SHA-256 of governance-layer-manifest.json"
+    },
+    {
+      "category": "communication",
+      "name": "glm-verify",
+      "intents": [
+        "computed",
+        "digest",
+        "manifest",
+        "matches",
+        "value"
+      ],
+      "kind": "script",
+      "path": "scripts/glm-verify.sh",
+      "description": "glm-verify.sh — Verifies that manifest_digest.value matches computed SHA-256"
     },
     {
       "category": "communication",
@@ -1769,6 +1871,19 @@
     },
     {
       "category": "communication",
+      "name": "savia-sandbox-doctor",
+      "intents": [
+        "doctor",
+        "sandbox",
+        "savia",
+        "spec"
+      ],
+      "kind": "script",
+      "path": "scripts/savia-sandbox-doctor.sh",
+      "description": "SPEC-149 -- savia-sandbox-doctor.sh"
+    },
+    {
+      "category": "communication",
       "name": "savia-school",
       "intents": [
         "adapta",
@@ -1838,6 +1953,19 @@
       "kind": "cmd",
       "path": ".claude/commands/savia-shield.md",
       "description": "Gestión de Savia Shield: activar, desactivar y comprobar instalación del sistema de soberanía de datos. Desactivado por defecto."
+    },
+    {
+      "category": "communication",
+      "name": "savia-shield-check",
+      "intents": [
+        "check",
+        "savia",
+        "shield",
+        "spec"
+      ],
+      "kind": "script",
+      "path": "scripts/savia-shield-check.sh",
+      "description": "savia-shield-check.sh — SPEC-OC-01"
     },
     {
       "category": "communication",
@@ -1988,6 +2116,19 @@
       "kind": "script",
       "path": "scripts/savia-voice-chunk.sh",
       "description": "savia-voice-chunk.sh — SE-075 Slice 2."
+    },
+    {
+      "category": "communication",
+      "name": "savia-voice-speak",
+      "intents": [
+        "savia",
+        "slice",
+        "speak",
+        "voice"
+      ],
+      "kind": "script",
+      "path": "scripts/savia-voice-speak.sh",
+      "description": "savia-voice-speak.sh — SE-075 Slice 3."
     },
     {
       "category": "communication",
@@ -2343,6 +2484,20 @@
     },
     {
       "category": "development",
+      "name": "authority-claim-judge",
+      "intents": [
+        "claims",
+        "credential",
+        "detects",
+        "investigador",
+        "judge"
+      ],
+      "kind": "agent",
+      "path": ".opencode/agents/authority-claim-judge.md",
+      "description": "Recommendation Tribunal judge — detects credential claims (\"soy investigador\"). NUNCA veto. (SPEC-193)"
+    },
+    {
+      "category": "development",
       "name": "best-practices-check",
       "intents": [
         "against",
@@ -2455,6 +2610,18 @@
     },
     {
       "category": "development",
+      "name": "ci-reliability-gate",
+      "intents": [
+        "gate",
+        "reliability",
+        "spec"
+      ],
+      "kind": "script",
+      "path": "scripts/ci-reliability-gate.sh",
+      "description": "ci-reliability-gate.sh — SPEC-SE-012"
+    },
+    {
+      "category": "development",
       "name": "code-comprehension-report",
       "intents": [
         "completado",
@@ -2515,7 +2682,7 @@
       "intents": [],
       "kind": "agent",
       "path": ".opencode/agents/code-reviewer.md",
-      "description": ">"
+      "description": ">-"
     },
     {
       "category": "development",
@@ -2850,14 +3017,28 @@
       "name": "design-an-interface",
       "intents": [
         "alternativas",
-        "arquitectonico",
-        "disenar",
-        "interfaz",
-        "mejor"
+        "alternatives",
+        "architectural",
+        "design",
+        "designing"
       ],
       "kind": "skill",
       "path": ".claude/skills/design-an-interface/SKILL.md",
-      "description": "Skill para disenar una interfaz con N=3 alternativas en paralelo y recomendar la mejor segun vocabulario arquitectonico del proyecto."
+      "description": "Design-an-interface skill with N=3 parallel alternatives and architectural vocabulary. Use when designing a new module interface, when user mentions 'varias alternativas', 'design this module', or '/design-interface'."
+    },
+    {
+      "category": "development",
+      "name": "detect-frontend",
+      "intents": [
+        "detect",
+        "frontend",
+        "installer",
+        "migration",
+        "opencode"
+      ],
+      "kind": "script",
+      "path": "scripts/detect-frontend.sh",
+      "description": "detect-frontend.sh — SPEC-INSTALLER-OPENCODE-MIGRATION"
     },
     {
       "category": "development",
@@ -2915,6 +3096,34 @@
     },
     {
       "category": "development",
+      "name": "enterprise/agent-manifest-batch-export",
+      "intents": [
+        "agent",
+        "agentes",
+        "batch",
+        "export",
+        "exporta"
+      ],
+      "kind": "script",
+      "path": "scripts/enterprise/agent-manifest-batch-export.sh",
+      "description": "agent-manifest-batch-export.sh — SPEC-SE-004: Exporta todos los agentes a todos los frameworks"
+    },
+    {
+      "category": "development",
+      "name": "enterprise/agent-manifest-export",
+      "intents": [
+        "agent",
+        "agentes",
+        "export",
+        "exporta",
+        "frameworks"
+      ],
+      "kind": "script",
+      "path": "scripts/enterprise/agent-manifest-export.sh",
+      "description": "agent-manifest-export.sh — SPEC-SE-004: Exporta agentes Savia a otros frameworks"
+    },
+    {
+      "category": "development",
       "name": "enterprise/api-key-create",
       "intents": [
         "create",
@@ -2954,6 +3163,61 @@
     },
     {
       "category": "development",
+      "name": "enterprise/commercial-terms-check",
+      "intents": [
+        "check",
+        "commercial",
+        "license",
+        "spec",
+        "terms"
+      ],
+      "kind": "script",
+      "path": "scripts/enterprise/commercial-terms-check.sh",
+      "description": "commercial-terms-check.sh — SPEC-SE-008 License and Commercial Terms Verifier"
+    },
+    {
+      "category": "development",
+      "name": "enterprise/compliance-check",
+      "intents": [
+        "check",
+        "compliance",
+        "spec",
+        "validator",
+        "workspace"
+      ],
+      "kind": "script",
+      "path": "scripts/enterprise/compliance-check.sh",
+      "description": "compliance-check.sh — SPEC-SE-006 Workspace Compliance Validator"
+    },
+    {
+      "category": "development",
+      "name": "enterprise/compliance-evidence-collector",
+      "intents": [
+        "automated",
+        "collector",
+        "compliance",
+        "evidence",
+        "spec"
+      ],
+      "kind": "script",
+      "path": "scripts/enterprise/compliance-evidence-collector.sh",
+      "description": "compliance-evidence-collector.sh — SPEC-SE-026 Automated Compliance Evidence Collector"
+    },
+    {
+      "category": "development",
+      "name": "enterprise/compliance-report-generator",
+      "intents": [
+        "compliance",
+        "generator",
+        "report",
+        "spec"
+      ],
+      "kind": "script",
+      "path": "scripts/enterprise/compliance-report-generator.sh",
+      "description": "compliance-report-generator.sh — SPEC-SE-026 Compliance Report Generator"
+    },
+    {
+      "category": "development",
       "name": "enterprise/delta-tier",
       "intents": [
         "delta",
@@ -2964,6 +3228,20 @@
       "kind": "script",
       "path": "scripts/enterprise/delta-tier.sh",
       "description": "delta-tier.sh — SPEC-SE-035 helper"
+    },
+    {
+      "category": "development",
+      "name": "enterprise/deployment-status",
+      "intents": [
+        "current",
+        "deployment",
+        "mode",
+        "show",
+        "status"
+      ],
+      "kind": "script",
+      "path": "scripts/enterprise/deployment-status.sh",
+      "description": "deployment-status.sh — Show current deployment mode for a tenant"
     },
     {
       "category": "development",
@@ -2981,6 +3259,156 @@
     },
     {
       "category": "development",
+      "name": "enterprise/license-generator",
+      "intents": [
+        "components",
+        "enterprise",
+        "generator",
+        "license",
+        "savia"
+      ],
+      "kind": "script",
+      "path": "scripts/enterprise/license-generator.sh",
+      "description": "license-generator.sh — SPEC-SE-008 MIT License Generator for Savia Enterprise Components"
+    },
+    {
+      "category": "development",
+      "name": "enterprise/mcp-catalog-generate",
+      "intents": [
+        "catalog",
+        "catálogo",
+        "generate",
+        "servers",
+        "spec"
+      ],
+      "kind": "script",
+      "path": "scripts/enterprise/mcp-catalog-generate.sh",
+      "description": "mcp-catalog-generate.sh — SPEC-SE-003: Genera catálogo de MCP servers del workspace"
+    },
+    {
+      "category": "development",
+      "name": "enterprise/mcp-server-stub",
+      "intents": [
+        "scaffold",
+        "server",
+        "spec",
+        "stub"
+      ],
+      "kind": "script",
+      "path": "scripts/enterprise/mcp-server-stub.sh",
+      "description": "mcp-server-stub.sh — SPEC-SE-003: Genera scaffold de un MCP server"
+    },
+    {
+      "category": "development",
+      "name": "enterprise/metrics-emitter",
+      "intents": [
+        "collector",
+        "emite",
+        "emitter",
+        "metrics",
+        "métricas"
+      ],
+      "kind": "script",
+      "path": "scripts/enterprise/metrics-emitter.sh",
+      "description": "metrics-emitter.sh — SPEC-SE-009: Emite métricas del workspace al OTel Collector"
+    },
+    {
+      "category": "development",
+      "name": "enterprise/model-card-generator",
+      "intents": [
+        "agents",
+        "card",
+        "cards",
+        "generator",
+        "model"
+      ],
+      "kind": "script",
+      "path": "scripts/enterprise/model-card-generator.sh",
+      "description": "model-card-generator.sh — SPEC-SE-006 AI Act Model Cards for Registered Agents"
+    },
+    {
+      "category": "development",
+      "name": "enterprise/onboarding-batch",
+      "intents": [
+        "batch",
+        "bulk",
+        "onboarding",
+        "spec"
+      ],
+      "kind": "script",
+      "path": "scripts/enterprise/onboarding-batch.sh",
+      "description": "onboarding-batch.sh — SPEC-SE-007: Onboarding en bulk desde CSV"
+    },
+    {
+      "category": "development",
+      "name": "enterprise/otel-collector-config",
+      "intents": [
+        "collector",
+        "config",
+        "configuración",
+        "otel",
+        "spec"
+      ],
+      "kind": "script",
+      "path": "scripts/enterprise/otel-collector-config.sh",
+      "description": "otel-collector-config.sh — SPEC-SE-009: Genera configuración OTel Collector"
+    },
+    {
+      "category": "development",
+      "name": "enterprise/project-evaluation",
+      "intents": [
+        "code",
+        "evaluation",
+        "lessons",
+        "project"
+      ],
+      "kind": "script",
+      "path": "scripts/enterprise/project-evaluation.sh",
+      "description": "project-evaluation.sh — SE-019 Project Evaluation (Lessons-as-Code)"
+    },
+    {
+      "category": "development",
+      "name": "enterprise/project-valuation",
+      "intents": [
+        "business",
+        "case",
+        "code",
+        "project",
+        "valuation"
+      ],
+      "kind": "script",
+      "path": "scripts/enterprise/project-valuation.sh",
+      "description": "project-valuation.sh — SE-016 Project Valuation (Business-Case-as-Code)"
+    },
+    {
+      "category": "development",
+      "name": "enterprise/prospect-create",
+      "intents": [
+        "code",
+        "create",
+        "pipeline",
+        "project",
+        "prospect"
+      ],
+      "kind": "script",
+      "path": "scripts/enterprise/prospect-create.sh",
+      "description": "prospect-create.sh — SE-015 Project Prospect (Pipeline-as-Code)"
+    },
+    {
+      "category": "development",
+      "name": "enterprise/prospect-pipeline",
+      "intents": [
+        "code",
+        "pipeline",
+        "project",
+        "prospect"
+      ],
+      "kind": "script",
+      "path": "scripts/enterprise/prospect-pipeline.sh",
+      "description": "prospect-pipeline.sh — SE-015 Project Prospect (Pipeline-as-Code)"
+    },
+    {
+      "category": "development",
       "name": "enterprise/reconciliation-status",
       "intents": [
         "reconciliation",
@@ -2992,6 +3420,60 @@
       "kind": "script",
       "path": "scripts/enterprise/reconciliation-status.sh",
       "description": "reconciliation-status.sh — SPEC-SE-035 Slice 1+3: tenant reconciliation CLI."
+    },
+    {
+      "category": "development",
+      "name": "enterprise/sovereign-activate",
+      "intents": [
+        "activate",
+        "configure",
+        "deployment",
+        "sovereign",
+        "workspace"
+      ],
+      "kind": "script",
+      "path": "scripts/enterprise/sovereign-activate.sh",
+      "description": "sovereign-activate.sh — Configure workspace for sovereign/air-gap deployment"
+    },
+    {
+      "category": "development",
+      "name": "enterprise/sow-create",
+      "intents": [
+        "code",
+        "create",
+        "definition",
+        "project"
+      ],
+      "kind": "script",
+      "path": "scripts/enterprise/sow-create.sh",
+      "description": "sow-create.sh — SE-017 Project Definition (SOW-as-Code)"
+    },
+    {
+      "category": "development",
+      "name": "enterprise/sow-validate",
+      "intents": [
+        "code",
+        "definition",
+        "project",
+        "validate"
+      ],
+      "kind": "script",
+      "path": "scripts/enterprise/sow-validate.sh",
+      "description": "sow-validate.sh — SE-017 Project Definition (SOW-as-Code)"
+    },
+    {
+      "category": "development",
+      "name": "enterprise/sso-adapter-check",
+      "intents": [
+        "adapter",
+        "check",
+        "configuración",
+        "saml",
+        "spec"
+      ],
+      "kind": "script",
+      "path": "scripts/enterprise/sso-adapter-check.sh",
+      "description": "sso-adapter-check.sh — SPEC-SE-007: Verifica la configuración del SSO/SAML adapter"
     },
     {
       "category": "development",
@@ -3048,6 +3530,20 @@
       "kind": "cmd",
       "path": ".claude/commands/eval-run.md",
       "description": "Execute evaluation against specified criteria"
+    },
+    {
+      "category": "development",
+      "name": "evals-runner",
+      "intents": [
+        "evals",
+        "evaluation",
+        "local",
+        "runner",
+        "spec"
+      ],
+      "kind": "script",
+      "path": "scripts/evals-runner.sh",
+      "description": "evals-runner.sh — SPEC-151 local evaluation runner."
     },
     {
       "category": "development",
@@ -3121,6 +3617,20 @@
     },
     {
       "category": "development",
+      "name": "fiction-framing-judge",
+      "intents": [
+        "content",
+        "detects",
+        "domain",
+        "equivalent",
+        "framing"
+      ],
+      "kind": "agent",
+      "path": ".opencode/agents/fiction-framing-judge.md",
+      "description": "Recommendation Tribunal judge — detects persona-shift plus content-equivalent framing over sensitive domain (SPEC-193)"
+    },
+    {
+      "category": "development",
       "name": "gaia-benchmark-harness",
       "intents": [
         "benchmark",
@@ -3171,6 +3681,20 @@
       "kind": "script",
       "path": "scripts/graph-temporal-ops.sh",
       "description": "graph-temporal-ops.sh — SPEC-123"
+    },
+    {
+      "category": "development",
+      "name": "hook-multihandler-baseline",
+      "intents": [
+        "baseline",
+        "hook",
+        "multihandler",
+        "slice",
+        "spec"
+      ],
+      "kind": "script",
+      "path": "scripts/hook-multihandler-baseline.sh",
+      "description": "hook-multihandler-baseline.sh — SPEC-150 Slice 1"
     },
     {
       "category": "development",
@@ -3372,6 +3896,34 @@
       "kind": "cmd",
       "path": ".claude/commands/mcp-server.md",
       "description": "Expone las herramientas de Savia como MCP server para otros proyectos Claude Code"
+    },
+    {
+      "category": "development",
+      "name": "meta-reflection",
+      "intents": [
+        "activa",
+        "criterion",
+        "cuestionar",
+        "doubt",
+        "ejecutarla"
+      ],
+      "kind": "skill",
+      "path": ".claude/skills/meta-reflection/SKILL.md",
+      "description": "Protocolo de las 4 meta-preguntas para cuestionar el encuadre de una tarea antes de ejecutarla. SPEC-194. Usar cuando criterion-simulation-judge activa con FRAME_DOUBT o FRAME_REJECT, o cuando el operador quiere reflexion manual antes de un"
+    },
+    {
+      "category": "development",
+      "name": "monthly-diagnostic-report",
+      "intents": [
+        "diagnostic",
+        "monthly",
+        "quality",
+        "report",
+        "spec"
+      ],
+      "kind": "script",
+      "path": "scripts/monthly-diagnostic-report.sh",
+      "description": "monthly-diagnostic-report.sh — SPEC-188 F4 — Monthly diagnostic quality report"
     },
     {
       "category": "development",
@@ -3689,6 +4241,33 @@
       "kind": "script",
       "path": "scripts/pre-push-bats-critical.sh",
       "description": "pre-push-bats-critical.sh — SPEC-SE-012 Module 3."
+    },
+    {
+      "category": "development",
+      "name": "priority/roadmap-priority-report",
+      "intents": [
+        "priority",
+        "report",
+        "roadmap",
+        "slice",
+        "spec"
+      ],
+      "kind": "script",
+      "path": "scripts/priority/roadmap-priority-report.sh",
+      "description": "SPEC-154 Slice 6 — roadmap-priority-report.sh"
+    },
+    {
+      "category": "development",
+      "name": "priority/validate-spec-frontmatter",
+      "intents": [
+        "frontmatter",
+        "slice",
+        "spec",
+        "validate"
+      ],
+      "kind": "script",
+      "path": "scripts/priority/validate-spec-frontmatter.sh",
+      "description": "SPEC-154 Slice 2 — validate-spec-frontmatter.sh"
     },
     {
       "category": "development",
@@ -4029,6 +4608,20 @@
       "kind": "script",
       "path": "scripts/skill-loader.sh",
       "description": "skill-loader.sh — SPEC-144: Context-Aware Skill Loading"
+    },
+    {
+      "category": "development",
+      "name": "skill-pattern-detector",
+      "intents": [
+        "detection",
+        "detector",
+        "pattern",
+        "phase",
+        "scripts"
+      ],
+      "kind": "script",
+      "path": "scripts/skill-pattern-detector.sh",
+      "description": "scripts/skill-pattern-detector.sh — SPEC-SE-030 Phase 1: Pattern Detection"
     },
     {
       "category": "development",
@@ -4421,6 +5014,34 @@
     },
     {
       "category": "development",
+      "name": "speculative-telemetry-report",
+      "intents": [
+        "dashboard",
+        "report",
+        "slice",
+        "speculative",
+        "telemetry"
+      ],
+      "kind": "script",
+      "path": "scripts/speculative-telemetry-report.sh",
+      "description": "speculative-telemetry-report.sh — Telemetry dashboard for SE-220 (Slice 4)."
+    },
+    {
+      "category": "development",
+      "name": "speculative/feasibility-probe",
+      "intents": [
+        "execution",
+        "feasibility",
+        "probe",
+        "slice",
+        "speculative"
+      ],
+      "kind": "script",
+      "path": "scripts/speculative/feasibility-probe.sh",
+      "description": "feasibility-probe.sh — SE-220 Slice 0: speculative tool execution feasibility."
+    },
+    {
+      "category": "development",
       "name": "statusline-provider",
       "intents": [
         "claude",
@@ -4698,6 +5319,20 @@
     },
     {
       "category": "development",
+      "name": "workforce-analytics",
+      "intents": [
+        "agentic",
+        "analytics",
+        "scripts",
+        "spec",
+        "workforce"
+      ],
+      "kind": "script",
+      "path": "scripts/workforce-analytics.sh",
+      "description": "scripts/workforce-analytics.sh — SPEC-SE-025 Agentic Workforce Analytics"
+    },
+    {
+      "category": "development",
       "name": "workload-balance",
       "intents": [
         "carga",
@@ -4965,6 +5600,20 @@
     },
     {
       "category": "governance",
+      "name": "glm-validate",
+      "intents": [
+        "completeness",
+        "drift",
+        "governance",
+        "manifest",
+        "validate"
+      ],
+      "kind": "script",
+      "path": "scripts/glm-validate.sh",
+      "description": "glm-validate.sh — Validates the GLM governance manifest for drift and completeness."
+    },
+    {
+      "category": "governance",
       "name": "governance-audit",
       "intents": [
         "acciones",
@@ -5089,6 +5738,20 @@
       "kind": "script",
       "path": "scripts/opus47-compliance-check.sh",
       "description": "opus47-compliance-check.sh — Verifies Savia compliance with Opus 4.7 migration batches."
+    },
+    {
+      "category": "governance",
+      "name": "output-cleanup",
+      "intents": [
+        "cleanup",
+        "directory",
+        "output",
+        "policy",
+        "retention"
+      ],
+      "kind": "script",
+      "path": "scripts/output-cleanup.sh",
+      "description": "output-cleanup.sh — SE-101: Output directory retention policy"
     },
     {
       "category": "governance",
@@ -5319,6 +5982,20 @@
       "kind": "cmd",
       "path": ".claude/commands/company-show.md",
       "description": "Mostrar perfil consolidado de la empresa — resumen ejecutivo del contexto organizacional"
+    },
+    {
+      "category": "memory",
+      "name": "configurator",
+      "intents": [
+        "agents",
+        "centralizes",
+        "consume",
+        "decisions",
+        "dispatch"
+      ],
+      "kind": "agent",
+      "path": ".opencode/agents/configurator.md",
+      "description": "Centralizes workspace dispatch decisions: selects skills, agents, rules, and memory queries for each user intent. Emits structured JSON decisions for orchestrators to consume."
     },
     {
       "category": "memory",
@@ -6105,6 +6782,20 @@
       "kind": "cmd",
       "path": ".claude/commands/memory-context.md",
       "description": ">"
+    },
+    {
+      "category": "memory",
+      "name": "memory-feedback-post-merge",
+      "intents": [
+        "entry",
+        "feedback",
+        "memory",
+        "merge",
+        "merged"
+      ],
+      "kind": "script",
+      "path": "scripts/memory-feedback-post-merge.sh",
+      "description": "memory-feedback-post-merge.sh — Writes a memory entry when a PR is merged."
     },
     {
       "category": "memory",
@@ -7040,6 +7731,20 @@
       "kind": "script",
       "path": "scripts/agents-md-generate.sh",
       "description": "agents-md-generate.sh — SE-078"
+    },
+    {
+      "category": "planning",
+      "name": "agents-size-checker",
+      "intents": [
+        "agents",
+        "checker",
+        "emit",
+        "fail",
+        "list"
+      ],
+      "kind": "script",
+      "path": "scripts/agents-size-checker.sh",
+      "description": "agents-size-checker.sh — SE-098: List agents by size, emit WARN/FAIL per Rule #22"
     },
     {
       "category": "planning",
@@ -8228,6 +8933,14 @@
     },
     {
       "category": "planning",
+      "name": "criterion-simulation-judge",
+      "intents": [],
+      "kind": "agent",
+      "path": ".opencode/agents/criterion-simulation-judge.md",
+      "description": ">"
+    },
+    {
+      "category": "planning",
       "name": "criticality",
       "intents": [
         "criticality",
@@ -8741,11 +9454,264 @@
     },
     {
       "category": "planning",
+      "name": "enterprise/bench-match",
+      "intents": [
+        "bench",
+        "management",
+        "match",
+        "resource"
+      ],
+      "kind": "script",
+      "path": "scripts/enterprise/bench-match.sh",
+      "description": "bench-match.sh — SE-022 Resource Bench Management"
+    },
+    {
+      "category": "planning",
+      "name": "enterprise/bench-register",
+      "intents": [
+        "bench",
+        "management",
+        "register",
+        "resource"
+      ],
+      "kind": "script",
+      "path": "scripts/enterprise/bench-register.sh",
+      "description": "bench-register.sh — SE-022 Resource Bench Management"
+    },
+    {
+      "category": "planning",
+      "name": "enterprise/billing-milestone",
+      "intents": [
+        "billing",
+        "ifrs",
+        "milestone",
+        "project"
+      ],
+      "kind": "script",
+      "path": "scripts/enterprise/billing-milestone.sh",
+      "description": "billing-milestone.sh — SE-018 Project Billing (IFRS 15)"
+    },
+    {
+      "category": "planning",
+      "name": "enterprise/client-health-score",
+      "intents": [
+        "client",
+        "health",
+        "intelligence",
+        "score"
+      ],
+      "kind": "script",
+      "path": "scripts/enterprise/client-health-score.sh",
+      "description": "client-health-score.sh — SE-024 Client Health Intelligence"
+    },
+    {
+      "category": "planning",
+      "name": "enterprise/daily-activation-plan",
+      "intents": [
+        "activation",
+        "agent",
+        "daily",
+        "plan"
+      ],
+      "kind": "script",
+      "path": "scripts/enterprise/daily-activation-plan.sh",
+      "description": "daily-activation-plan.sh — SE-034 Agent Activation Plan"
+    },
+    {
+      "category": "planning",
+      "name": "enterprise/dep-graph",
+      "intents": [
+        "cross",
+        "dependencies",
+        "graph",
+        "project"
+      ],
+      "kind": "script",
+      "path": "scripts/enterprise/dep-graph.sh",
+      "description": "dep-graph.sh — SE-020 Cross-Project Dependencies"
+    },
+    {
+      "category": "planning",
+      "name": "enterprise/enterprise-migrate",
+      "intents": [
+        "command",
+        "core",
+        "enterprise",
+        "migrate",
+        "migration"
+      ],
+      "kind": "script",
+      "path": "scripts/enterprise/enterprise-migrate.sh",
+      "description": "enterprise-migrate.sh — Unified migration command: Core -> Enterprise"
+    },
+    {
+      "category": "planning",
+      "name": "enterprise/expertise-directory",
+      "intents": [
+        "directory",
+        "expertise",
+        "federation",
+        "knowledge"
+      ],
+      "kind": "script",
+      "path": "scripts/enterprise/expertise-directory.sh",
+      "description": "expertise-directory.sh — SE-023 Knowledge Federation"
+    },
+    {
+      "category": "planning",
+      "name": "enterprise/knowledge-federator",
+      "intents": [
+        "federation",
+        "federator",
+        "knowledge"
+      ],
+      "kind": "script",
+      "path": "scripts/enterprise/knowledge-federator.sh",
+      "description": "knowledge-federator.sh — SE-023 Knowledge Federation"
+    },
+    {
+      "category": "planning",
+      "name": "enterprise/lessons-collector",
+      "intents": [
+        "collector",
+        "cross",
+        "lessons",
+        "pipeline",
+        "project"
+      ],
+      "kind": "script",
+      "path": "scripts/enterprise/lessons-collector.sh",
+      "description": "lessons-collector.sh — SE-032 Cross-Project Lessons Pipeline"
+    },
+    {
+      "category": "planning",
+      "name": "enterprise/lessons-promote",
+      "intents": [
+        "cross",
+        "lessons",
+        "pipeline",
+        "project",
+        "promote"
+      ],
+      "kind": "script",
+      "path": "scripts/enterprise/lessons-promote.sh",
+      "description": "lessons-promote.sh — SE-032 Cross-Project Lessons Pipeline"
+    },
+    {
+      "category": "planning",
+      "name": "enterprise/rbac-bulk-assign",
+      "intents": [
+        "assign",
+        "bulk",
+        "file",
+        "rbac",
+        "roles"
+      ],
+      "kind": "script",
+      "path": "scripts/enterprise/rbac-bulk-assign.sh",
+      "description": "rbac-bulk-assign.sh — Bulk-assign roles from a CSV file"
+    },
+    {
+      "category": "planning",
+      "name": "enterprise/rbac-check",
+      "intents": [
+        "check",
+        "command",
+        "permission",
+        "rbac",
+        "tenant"
+      ],
+      "kind": "script",
+      "path": "scripts/enterprise/rbac-check.sh",
+      "description": "rbac-check.sh — Verify if a user has permission to run a command in a tenant"
+    },
+    {
+      "category": "planning",
+      "name": "enterprise/release-create",
+      "intents": [
+        "create",
+        "orchestration",
+        "release"
+      ],
+      "kind": "script",
+      "path": "scripts/enterprise/release-create.sh",
+      "description": "release-create.sh — SE-014 Release Orchestration"
+    },
+    {
+      "category": "planning",
+      "name": "enterprise/release-gate-check",
+      "intents": [
+        "check",
+        "gate",
+        "orchestration",
+        "release"
+      ],
+      "kind": "script",
+      "path": "scripts/enterprise/release-gate-check.sh",
+      "description": "release-gate-check.sh — SE-014 Release Orchestration"
+    },
+    {
+      "category": "planning",
+      "name": "enterprise/rollback-module",
+      "intents": [
+        "activation",
+        "enterprise",
+        "module",
+        "revert",
+        "rollback"
+      ],
+      "kind": "script",
+      "path": "scripts/enterprise/rollback-module.sh",
+      "description": "rollback-module.sh — Revert activation of an Enterprise module"
+    },
+    {
+      "category": "planning",
+      "name": "enterprise/tenant-activate",
+      "intents": [
+        "activate",
+        "mode",
+        "multi",
+        "tenant",
+        "workspace"
+      ],
+      "kind": "script",
+      "path": "scripts/enterprise/tenant-activate.sh",
+      "description": "tenant-activate.sh — Activate multi-tenant mode in the workspace"
+    },
+    {
+      "category": "planning",
+      "name": "enterprise/tenant-create",
+      "intents": [
+        "create",
+        "enterprise",
+        "savia",
+        "tenant"
+      ],
+      "kind": "script",
+      "path": "scripts/enterprise/tenant-create.sh",
+      "description": "tenant-create.sh — Create a new Savia Enterprise tenant"
+    },
+    {
+      "category": "planning",
       "name": "epic-plan",
       "intents": [],
       "kind": "cmd",
       "path": ".claude/commands/epic-plan.md",
       "description": ">"
+    },
+    {
+      "category": "planning",
+      "name": "eras-timeline-generate",
+      "intents": [
+        "docs",
+        "eras",
+        "generate",
+        "roadmap",
+        "timeline"
+      ],
+      "kind": "script",
+      "path": "scripts/eras-timeline-generate.sh",
+      "description": "eras-timeline-generate.sh — Genera docs/eras-timeline.md desde ROADMAP.md"
     },
     {
       "category": "planning",
@@ -9263,6 +10229,20 @@
     },
     {
       "category": "planning",
+      "name": "generate-propuestas-index",
+      "intents": [
+        "auto",
+        "docs",
+        "generate",
+        "index",
+        "propuestas"
+      ],
+      "kind": "script",
+      "path": "scripts/generate-propuestas-index.sh",
+      "description": "generate-propuestas-index.sh — SE-222 S2: auto-generate docs/propuestas/index.md"
+    },
+    {
+      "category": "planning",
       "name": "github-activity",
       "intents": [],
       "kind": "cmd",
@@ -9346,6 +10326,18 @@
       "kind": "script",
       "path": "scripts/graphrag-quality-gate.sh",
       "description": "graphrag-quality-gate.sh — SE-030-T"
+    },
+    {
+      "category": "planning",
+      "name": "graphrag-quality-gates",
+      "intents": [
+        "gates",
+        "graphrag",
+        "quality"
+      ],
+      "kind": "script",
+      "path": "scripts/graphrag-quality-gates.sh",
+      "description": "graphrag-quality-gates.sh — SE-030"
     },
     {
       "category": "planning",
@@ -10451,6 +11443,34 @@
     },
     {
       "category": "planning",
+      "name": "overnight-sprint-loop",
+      "intents": [
+        "loop",
+        "orchestrator",
+        "overnight",
+        "scripts",
+        "sprint"
+      ],
+      "kind": "script",
+      "path": "scripts/overnight-sprint-loop.sh",
+      "description": "scripts/overnight-sprint-loop.sh — SE-226: stateless overnight-sprint orchestrator"
+    },
+    {
+      "category": "planning",
+      "name": "overnight-sprint-state",
+      "intents": [
+        "loop",
+        "management",
+        "overnight",
+        "scripts",
+        "session"
+      ],
+      "kind": "script",
+      "path": "scripts/overnight-sprint-state.sh",
+      "description": "scripts/overnight-sprint-state.sh — SE-226: stateless-session loop state management"
+    },
+    {
+      "category": "planning",
       "name": "path-redact",
       "intents": [
         "absolute",
@@ -10694,6 +11714,19 @@
       "kind": "cmd",
       "path": ".claude/commands/plugin-validate.md",
       "description": "Validar estructura de plugin — skills, agents, commands e integridad"
+    },
+    {
+      "category": "planning",
+      "name": "pm-backend-health",
+      "intents": [
+        "backend",
+        "configuration",
+        "detect",
+        "health"
+      ],
+      "kind": "script",
+      "path": "scripts/pm-backend-health.sh",
+      "description": "pm-backend-health.sh — SE-092 MVP: detect PM backend configuration"
     },
     {
       "category": "planning",
@@ -11061,6 +12094,20 @@
       "kind": "skill",
       "path": ".claude/skills/prompt-optimizer/SKILL.md",
       "description": "Usar cuando se optimiza el prompt de un skill o agente para mejorar su efectividad."
+    },
+    {
+      "category": "planning",
+      "name": "propuestas-index-gen",
+      "intents": [
+        "auto",
+        "docs",
+        "generate",
+        "index",
+        "propuestas"
+      ],
+      "kind": "script",
+      "path": "scripts/propuestas-index-gen.sh",
+      "description": "propuestas-index-gen.sh — SE-222 S2: auto-generate INDEX.md for docs/propuestas/"
     },
     {
       "category": "planning",
@@ -11562,6 +12609,18 @@
       "kind": "agent",
       "path": ".opencode/agents/rule-violation-judge.md",
       "description": "Recommendation Tribunal judge — detects when a draft recommendation violates canonical rules (CLAUDE.md, autonomous-safety, radical-honesty, domain rules)"
+    },
+    {
+      "category": "planning",
+      "name": "rules-index-generate",
+      "intents": [
+        "generate",
+        "index",
+        "rules"
+      ],
+      "kind": "script",
+      "path": "scripts/rules-index-generate.sh",
+      "description": "rules-index-generate.sh — SE-097"
     },
     {
       "category": "planning",
@@ -12629,6 +13688,20 @@
     },
     {
       "category": "planning",
+      "name": "structural-framing-judge",
+      "intents": [
+        "cbrn",
+        "detects",
+        "domain",
+        "form",
+        "judge"
+      ],
+      "kind": "agent",
+      "path": ".opencode/agents/structural-framing-judge.md",
+      "description": "Recommendation Tribunal judge — detects output with manual/protocol form over CBRN or sensitive domain"
+    },
+    {
+      "category": "planning",
       "name": "subscriber-lifecycle",
       "intents": [
         "análisis",
@@ -13117,6 +14190,19 @@
       "kind": "cmd",
       "path": ".claude/commands/tribunal-status.md",
       "description": "Show Truth Tribunal queue depth, recent verdicts, and pending evaluations"
+    },
+    {
+      "category": "planning",
+      "name": "tribunal-tiered-runner",
+      "intents": [
+        "execution",
+        "runner",
+        "tiered",
+        "tribunal"
+      ],
+      "kind": "script",
+      "path": "scripts/tribunal-tiered-runner.sh",
+      "description": "tribunal-tiered-runner.sh — SE-106: Tiered tribunal execution"
     },
     {
       "category": "planning",
@@ -13883,6 +14969,20 @@
     },
     {
       "category": "quality",
+      "name": "attention-anchor-check",
+      "intents": [
+        "anchor",
+        "attention",
+        "check",
+        "coverage",
+        "pattern"
+      ],
+      "kind": "script",
+      "path": "scripts/attention-anchor-check.sh",
+      "description": "attention-anchor-check.sh — SE-080 pattern coverage verifier"
+    },
+    {
+      "category": "quality",
       "name": "audit",
       "intents": [
         "assessment",
@@ -14112,6 +15212,20 @@
     },
     {
       "category": "quality",
+      "name": "docs-audit",
+      "intents": [
+        "actual",
+        "audit",
+        "audita",
+        "docs",
+        "estructura"
+      ],
+      "kind": "script",
+      "path": "scripts/docs-audit.sh",
+      "description": "docs-audit.sh — Audita la estructura actual de docs/ y propone mejoras"
+    },
+    {
+      "category": "quality",
       "name": "docs-quality-audit",
       "intents": [
         "agentes",
@@ -14140,6 +15254,19 @@
     },
     {
       "category": "quality",
+      "name": "enterprise/activation-plan-review",
+      "intents": [
+        "activation",
+        "agent",
+        "plan",
+        "review"
+      ],
+      "kind": "script",
+      "path": "scripts/enterprise/activation-plan-review.sh",
+      "description": "activation-plan-review.sh — SE-034 Agent Activation Plan"
+    },
+    {
+      "category": "quality",
       "name": "enterprise/audit-purge",
       "intents": [
         "audit",
@@ -14163,6 +15290,20 @@
       "kind": "script",
       "path": "scripts/enterprise/audit-search.sh",
       "description": "audit-search.sh — SPEC-SE-037 Audit Log CLI Inspector"
+    },
+    {
+      "category": "quality",
+      "name": "enterprise/governance-audit-trail",
+      "intents": [
+        "audit",
+        "compliance",
+        "governance",
+        "signed",
+        "spec"
+      ],
+      "kind": "script",
+      "path": "scripts/enterprise/governance-audit-trail.sh",
+      "description": "governance-audit-trail.sh — SPEC-SE-006 Signed Audit Trail for Governance & Compliance"
     },
     {
       "category": "quality",
@@ -14203,6 +15344,20 @@
       "kind": "agent",
       "path": ".opencode/agents/fix-assigner.md",
       "description": "Creates fix tasks from Court findings, assigns to dev agents, triggers re-review"
+    },
+    {
+      "category": "quality",
+      "name": "fix-survival-check",
+      "intents": [
+        "audit",
+        "check",
+        "spec",
+        "survival",
+        "weekly"
+      ],
+      "kind": "script",
+      "path": "scripts/fix-survival-check.sh",
+      "description": "fix-survival-check.sh — SPEC-188 F4 — Weekly fix survival audit"
     },
     {
       "category": "quality",
@@ -15117,6 +16272,32 @@
       "kind": "cmd",
       "path": ".claude/commands/security-auto-remediation.md",
       "description": ">"
+    },
+    {
+      "category": "quality",
+      "name": "security-auto-remediation",
+      "intents": [
+        "auto",
+        "remediation",
+        "security",
+        "spec"
+      ],
+      "kind": "script",
+      "path": "scripts/security-auto-remediation.sh",
+      "description": "security-auto-remediation.sh — SPEC-070: Security Auto-Remediation PRs"
+    },
+    {
+      "category": "quality",
+      "name": "security-benchmark-runner",
+      "intents": [
+        "benchmark",
+        "runner",
+        "security",
+        "spec"
+      ],
+      "kind": "script",
+      "path": "scripts/security-benchmark-runner.sh",
+      "description": "security-benchmark-runner.sh — SPEC-032 Security Benchmark Runner"
     },
     {
       "category": "quality",
@@ -16686,6 +17867,20 @@
       "kind": "skill",
       "path": ".claude/skills/verification-lattice/SKILL.md",
       "description": "Usar cuando se necesita verificación multi-capa más allá del code review estándar."
+    },
+    {
+      "category": "quality",
+      "name": "visual-diff-merge-check",
+      "intents": [
+        "check",
+        "diff",
+        "merge",
+        "scripts",
+        "spec"
+      ],
+      "kind": "script",
+      "path": "scripts/visual-diff-merge-check.sh",
+      "description": "scripts/visual-diff-merge-check.sh — SPEC-046: Visual Diff QA at Merge Time"
     },
     {
       "category": "quality",

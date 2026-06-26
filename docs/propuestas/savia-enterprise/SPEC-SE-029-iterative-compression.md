@@ -1,9 +1,11 @@
 ---
 id: SPEC-SE-029
 title: SPEC-SE-029: Iterative Context Compression
-status: PROPOSED
+status: ARCHIVED
 migrated_at: "2026-04-19"
 migrated_from: body-prose
+
+triage_note: "superseded: scripts/iterative-compress.sh already implements described algorithm"
 ---
 
 # SPEC-SE-029: Iterative Context Compression

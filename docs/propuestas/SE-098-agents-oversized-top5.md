@@ -1,7 +1,8 @@
 ---
 spec_id: SE-098
 title: Split top-5 oversized agents (Rule #22 violations)
-status: APPROVED
+status: IMPLEMENTED
+implemented_at: 2026-06-24
 approved_by: operator (2026-05-27)
 priority: P1
 effort: M

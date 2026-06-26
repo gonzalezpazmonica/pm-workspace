@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 # rollback-module.sh — Revert activation of an Enterprise module
+set -uo pipefail
 # SPEC: SPEC-SE-010 Migration Path & Backward Compat
 #
 # Usage:

@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 # governance-audit-trail.sh — SPEC-SE-006 Signed Audit Trail for Governance & Compliance
+set -uo pipefail
 #
 # Gestiona el audit trail firmado para compliance Enterprise.
 #

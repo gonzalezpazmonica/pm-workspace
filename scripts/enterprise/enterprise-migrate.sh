@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 # enterprise-migrate.sh — Unified migration command: Core -> Enterprise
+set -uo pipefail
 # SPEC: SPEC-SE-010 Migration Path & Backward Compat
 #
 # Usage:

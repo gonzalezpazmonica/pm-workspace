@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 # tenant-activate.sh — Activate multi-tenant mode in the workspace
+set -uo pipefail
 # SPEC: SPEC-SE-002 Multi-Tenant & RBAC
 #
 # Usage:

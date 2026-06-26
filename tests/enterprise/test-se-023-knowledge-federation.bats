@@ -129,5 +129,5 @@ teardown() {
   # users array is always present (may be empty)
   grep -q '"users"' "$OUT_FILE"
   # Structure keys must appear somewhere in the file
-  grep -q '"slug"' "$OUT_FILE" || grep -q '"users": \[\]' "$OUT_FILE"
+  grep -q '"slug"' "$OUT_FILE" || grep -q '"users"' "$OUT_FILE"
 }

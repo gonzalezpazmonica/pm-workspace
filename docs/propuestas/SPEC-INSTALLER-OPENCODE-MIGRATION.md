@@ -1,13 +1,13 @@
 ---
 spec_id: SPEC-INSTALLER-OPENCODE-MIGRATION
 title: Migrar instaladores de Claude Code a OpenCode
-status: APPROVED
+status: IMPLEMENTED
 approved_by: operator (2026-05-07)
 ---
 
 # SPEC-INSTALLER-OPENCODE-MIGRATION — Migrar instaladores de Claude Code a OpenCode
 
-> **Status**: APPROVED
+> **Status**: IMPLEMENTED
 > **Approved**: —
 > **Spec version**: 1.0
 > **Parent**: SE-077 OpenCode v1.14 replatform

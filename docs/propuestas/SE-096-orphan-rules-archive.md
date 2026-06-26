@@ -1,8 +1,9 @@
 ---
 spec_id: SE-096
 title: Archive 9 orphan rules (zero cross-references)
-status: APPROVED
+status: IMPLEMENTED
 approved_by: operator (2026-05-27)
+implemented_at: "2026-06-24"
 priority: P1
 effort: S
 estimated_time: 60 min

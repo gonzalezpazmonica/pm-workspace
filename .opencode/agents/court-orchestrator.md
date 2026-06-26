@@ -126,3 +126,5 @@ handoff:
 ```
 
 Handoff: `docs/rules/domain/agent-handoff-protocol.md`. Fallback SPEC-127 Slice 4: `docs/rules/domain/subagent-fallback-mode.md`.
+
+<!-- Tiered Execution: SE-106 enabled -->

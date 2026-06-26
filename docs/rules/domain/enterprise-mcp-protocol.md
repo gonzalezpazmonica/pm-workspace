@@ -2,6 +2,7 @@
 context_tier: L3
 spec: SE-003
 status: IMPLEMENTED
+token_budget: 1000
 ---
 
 # Enterprise MCP Protocol — Catálogo y consumo de MCP servers Savia

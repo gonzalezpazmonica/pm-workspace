@@ -2,6 +2,7 @@
 context_tier: L3
 spec: SE-026
 status: IMPLEMENTED
+token_budget: 850
 ---
 
 # Enterprise Compliance Evidence Automation

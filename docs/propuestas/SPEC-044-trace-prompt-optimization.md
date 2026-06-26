@@ -1,6 +1,6 @@
 ---
 id: SPEC-044
-status: APPROVED
+status: IMPLEMENTED
 priority: media
 ---
 

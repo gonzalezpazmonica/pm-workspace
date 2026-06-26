@@ -1,5 +1,7 @@
 ---
-status: PROPOSED
+status: ARCHIVED
+
+triage_note: "non-spec document, archived 2026-06-24"
 ---
 
 # Propuesta de Incorporación: Awesome Claude Code → pm-workspace

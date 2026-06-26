@@ -2,6 +2,7 @@
 context_tier: L3
 spec: SE-006
 status: IMPLEMENTED
+token_budget: 900
 ---
 
 # Enterprise Governance Protocol

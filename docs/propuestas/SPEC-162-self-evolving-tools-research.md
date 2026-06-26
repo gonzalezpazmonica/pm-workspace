@@ -6,6 +6,8 @@ priority: LOW
 estimated_hours: 12
 tier: 3F
 origin: anthropic-effective-agents-thesis-2026
+
+triage_note: "BLOCKED: needs 30d telemetry from eval harness before go/no-go"
 ---
 
 # SPEC-162 Self-Evolving Tools (research)

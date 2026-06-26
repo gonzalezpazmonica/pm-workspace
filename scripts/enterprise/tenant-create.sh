@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 # tenant-create.sh — Create a new Savia Enterprise tenant
+set -uo pipefail
 # SPEC: SE-002 Extension Points / SPEC-SE-002 Multi-Tenant
 #
 # Usage:

@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 # otel-collector-config.sh — SPEC-SE-009: Genera configuración OTel Collector
+set -uo pipefail
 #
 # Genera la configuración de OpenTelemetry Collector para el workspace Savia
 # con el backend indicado. Produce también un docker-compose.observability.yml.

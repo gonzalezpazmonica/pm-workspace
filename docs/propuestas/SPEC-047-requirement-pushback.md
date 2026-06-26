@@ -1,7 +1,9 @@
 ---
 id: SPEC-047
 title: SPEC-047: Requirement Pushback Pass
-status: APPROVED
+status: IMPLEMENTED
+drift_note: "drift: components existed pre-triage (scripts/requirement-pushback.sh implemented + tests/evals/test-requirement-pushback.bats)"
+implemented_at: "2026-06-24"
 migrated_at: "2026-04-19"
 migrated_from: body-prose
 ---

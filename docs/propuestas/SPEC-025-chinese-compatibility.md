@@ -1,10 +1,12 @@
 ---
 id: SPEC-025
 title: SPEC-025: Chinese (ZH) Compatibility Study
-status: PROPOSED
+status: ARCHIVED
 origin_date: "2026-03-22"
 migrated_at: "2026-04-19"
 migrated_from: body-prose
+
+triage_note: "no Chinese-language users documented; no activation trigger"
 ---
 
 # SPEC-025: Chinese (ZH) Compatibility Study

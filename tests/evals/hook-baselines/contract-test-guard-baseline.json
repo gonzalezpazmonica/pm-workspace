@@ -1,0 +1,14 @@
+{
+  "hook": "contract-test-guard",
+  "hook_path": "/home/monica/savia/.claude/hooks/contract-test-guard.sh",
+  "fp_count": 0,
+  "fn_count": 10,
+  "tp_count": 0,
+  "tn_count": 10,
+  "fp_rate": 0.0000,
+  "fn_rate": 0.5000,
+  "avg_latency_ms": 8,
+  "total_invocations": 20,
+  "timestamp": "20260624T200628Z",
+  "slice": "SPEC-150-slice1-baseline"
+}

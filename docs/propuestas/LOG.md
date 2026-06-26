@@ -6,6 +6,10 @@
 > Each entry: date, spec ID, status transition, optional rationale.
 > Ref: SE-222 S1 OKF Adoptable Patterns (log.md convention).
 
+## 2026-06-24 SPEC-182 IMPLEMENTED
+Bi-temporal timeline frontmatter on specs and decisions
+SPEC-182 implementado: spec-timeline-append.py + spec-timeline-query.py + lifecycle --no-timeline + 10 back-fills + 21 tests
+
 ## 2026-06-23 SE-222 PROPOSED (S0 IMPLEMENTED)
 OKF Adoptable Patterns — resource: URI + log.md + index.md.
 S0 (resource: URI validator + 5 specs back-filled) implementado en PR #850.

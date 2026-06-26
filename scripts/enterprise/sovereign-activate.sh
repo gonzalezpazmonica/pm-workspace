@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 # sovereign-activate.sh — Configure workspace for sovereign/air-gap deployment
+set -uo pipefail
 # SPEC: SPEC-SE-005 Sovereign Deployment
 #
 # Usage:

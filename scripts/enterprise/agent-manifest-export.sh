@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 # agent-manifest-export.sh — SPEC-SE-004: Exporta agentes Savia a otros frameworks
+set -uo pipefail
 #
 # Lee el frontmatter YAML de un agente .opencode/agents/{name}.md y genera
 # el manifiesto en el formato del framework destino.

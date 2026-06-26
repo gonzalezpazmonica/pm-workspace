@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 # daily-activation-plan.sh — SE-034 Agent Activation Plan
+set -uo pipefail
 # Generates the daily agent activation plan for a session.
 #
 # Usage:
