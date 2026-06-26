@@ -143,10 +143,8 @@ Inicializar: `bash scripts/loop-state-init.sh --skill overnight-sprint`
 
 ## Modo CI Unblock (--mode ci-unblock)
 
-Desbloquea PRs con CI roto por orden PR# ASC usando nidos.sh como aislamiento.
-Ver `CI-UNBLOCK.md`. Prerequisito: `CI_UNBLOCK_NEST_ENABLED=true` + doble opt-in SPEC-186.
+Desbloquea PRs con CI roto por orden PR# ASC. Ver `CI-UNBLOCK.md`. Prerequisito: `CI_UNBLOCK_NEST_ENABLED=true` + doble opt-in SPEC-186.
 
 ```
 /overnight-sprint --mode ci-unblock [--repo owner/repo] [--limit N]
 ```
-
