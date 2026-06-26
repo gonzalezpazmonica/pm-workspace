@@ -128,13 +128,13 @@ TIMESTAMP="$(date -u +"%Y-%m-%dT%H:%M:%SZ")"
 
 # Generate adversarial prompt
 cat <<PROMPT
-================================================================================
+# -----------------------------------------------------------
 LOOP-VERIFY — Prompt adversarial para verificador (SE-228 S2)
 Generado: ${TIMESTAMP}
 Worktree: ${WORKTREE}
 ${SKILL_LINE}
 ${SPEC_LINE}
-================================================================================
+# -----------------------------------------------------------
 
 INSTRUCCIONES PARA EL VERIFICADOR
 ----------------------------------
@@ -178,7 +178,7 @@ FORMATO DE VEREDICTO:
 RECUERDA: default REJECT. La carga de la prueba está en el implementer.
 Si tienes dudas, RECHAZA y solicita clarificación.
 
-================================================================================
+# -----------------------------------------------------------
 PROMPT
 
 if [[ "$DRY_RUN" == false ]]; then
