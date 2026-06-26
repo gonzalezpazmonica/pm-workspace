@@ -1,6 +1,6 @@
 {
-  "hash": "9ea58a967702",
-  "total": 1389,
+  "hash": "845aa48ac8f5",
+  "total": 1390,
   "resources": [
     {
       "category": "analysis",
@@ -15512,6 +15512,20 @@
       "kind": "skill",
       "path": ".claude/skills/legal-compliance/SKILL.md",
       "description": "Usar cuando se audita compliance legal contra legislación española consolidada."
+    },
+    {
+      "category": "quality",
+      "name": "loop-phasing-audit",
+      "intents": [
+        "audit",
+        "audita",
+        "declarado",
+        "inferido",
+        "level"
+      ],
+      "kind": "script",
+      "path": "scripts/loop-phasing-audit.sh",
+      "description": "loop-phasing-audit.sh — Audita el nivel loop_level declarado vs inferido"
     },
     {
       "category": "quality",

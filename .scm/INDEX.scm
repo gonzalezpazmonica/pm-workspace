@@ -1,6 +1,6 @@
 # Savia Capability Map — INDEX
-> hash: df0bab3ff806 | resources: 1389
-> 557 commands · 106 skills · 81 agents · 645 scripts
+> hash: d7c8bb83fa73 | resources: 1390
+> 557 commands · 106 skills · 81 agents · 646 scripts
 
 [analysis] /a11y-report — accesibilidad,completos,conformidad,código,declaración — cmd:.claude/commands/a11y-report.md
 [analysis] Trace Optimize — across,distributed,optimize,rates,sampling — cmd:.claude/commands/trace-optimize.md
@@ -1198,6 +1198,7 @@
 [quality] knowledge-lint — base,check,health,knowledge,lint — script:scripts/knowledge-lint.sh
 [quality] legal-audit — auditoría,compliance,contra,española,legal — cmd:.claude/commands/legal-audit.md
 [quality] legal-compliance — audita,compliance,consolidada,contra,española — skill:.claude/skills/legal-compliance/SKILL.md
+[quality] loop-phasing-audit — audit,audita,declarado,inferido,level — script:scripts/loop-phasing-audit.sh
 [quality] markdownlint — dependency,markdownlint,native,wrapper — script:scripts/markdownlint.sh
 [quality] mcp-audit — across,audit,configs,overhead,server — script:scripts/mcp-audit.sh
 [quality] mcp-security-audit — audit,chain,config,security,slice — script:scripts/mcp-security-audit.sh
