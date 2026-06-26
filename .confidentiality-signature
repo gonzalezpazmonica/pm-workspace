@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=1b687c3919dc6733937ce8c19a1d6c75afe6f53c921eef3e504f954fcb0d4337
-timestamp=2026-06-26T20:36:18Z
+diff_hash=3c08dfbae662791cf4847db87830d6146c0b2342b0dca1523cadf0d306401360
+timestamp=2026-06-26T22:58:24Z
 branch=nido/se229-session-sync
-head_commit=209375aa
-signature=8fff59e759a6ba0db1607e75ad31f68c45af631a5e49107b3f87b0b7cb316fda
+head_commit=67dc169f
+signature=c4b78137786418cf9829af454a9658bb82f8f6919f2559e9abbfdef360702f83
