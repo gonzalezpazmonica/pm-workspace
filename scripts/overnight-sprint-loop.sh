@@ -32,6 +32,10 @@ DRY_RUN=0
 SPRINT_ID=""
 TASKS_FILE=""
 
+# Export loop context for recursion prevention (SPEC-RECURSION-GUARD)
+# shellcheck source=scripts/recursion-guard-export.sh
+source "$(dirname "$0")/recursion-guard-export.sh" "overnight-sprint"
+
 # Model tier progression (TOKEN_EXHAUSTION escalation only)
 MODEL_TIERS=("fast" "mid" "heavy")
 
