@@ -118,3 +118,49 @@ setup() {
   source "$EXPORT" "overnight-sprint"
   [ "$SAVIA_LOOP_CONTEXT" = "overnight-sprint:3" ]
 }
+
+# ── New cases (14 total) ──────────────────────────────────────────────────────
+
+# Test 9: source with no argument → return 1, SAVIA_LOOP_CONTEXT not modified
+@test "source export with no argument → return 1, SAVIA_LOOP_CONTEXT unchanged" {
+  # Run source in a subshell to capture rc; outer SAVIA_LOOP_CONTEXT stays unset
+  local result
+  result=$(bash --norc -c "
+    unset SAVIA_LOOP_CONTEXT
+    # shellcheck disable=SC1090
+    source \"$EXPORT\" 2>/dev/null
+    rc=\$?
+    echo \"rc=\${rc} ctx=\${SAVIA_LOOP_CONTEXT:-UNSET}\"
+  " 2>/dev/null) || true
+  # source returned non-zero (rc=1)
+  echo "$result" | grep -q "rc=1"
+  # SAVIA_LOOP_CONTEXT was not modified (remains UNSET in the subshell)
+  echo "$result" | grep -q "ctx=UNSET"
+}
+
+# Test 10: without SAVIA_LOOP_CONTEXT, any OPENCODE_TOOL_INPUT → exit 0
+@test "no SAVIA_LOOP_CONTEXT + any OPENCODE_TOOL_INPUT -> exit 0 (no context means no block)" {
+  unset SAVIA_LOOP_CONTEXT
+  export OPENCODE_TOOL_INPUT="overnight-sprint --sprint-id bar"
+  run bash "$HOOK"
+  [ "$status" -eq 0 ]
+}
+
+# Test 11: cross-loop depth: overnight-sprint (depth 1) → code-improvement-loop (depth 2)
+@test "cross-loop depth: overnight-sprint then code-improvement-loop → depth 2 with new name" {
+  unset SAVIA_LOOP_CONTEXT
+  # shellcheck disable=SC1090
+  source "$EXPORT" "overnight-sprint"
+  [ "$SAVIA_LOOP_CONTEXT" = "overnight-sprint:1" ]
+  # shellcheck disable=SC1090
+  source "$EXPORT" "code-improvement-loop"
+  [ "$SAVIA_LOOP_CONTEXT" = "code-improvement-loop:2" ]
+}
+
+# Test 12: OPENCODE_TOOL_INPUT unset + SAVIA_LOOP_CONTEXT set → exit 0 (no input = no loop)
+@test "OPENCODE_TOOL_INPUT unset + SAVIA_LOOP_CONTEXT set → exit 0 (no tool input to block)" {
+  export SAVIA_LOOP_CONTEXT="overnight-sprint:1"
+  unset OPENCODE_TOOL_INPUT
+  run bash "$HOOK"
+  [ "$status" -eq 0 ]
+}

@@ -80,6 +80,12 @@ done
 
 [[ -n "$LOOP" ]] || die "--loop is required"
 
+# Path traversal guard
+if [[ "$LOOP" == *"/"* ]]; then
+  echo "ERROR: --loop value must not contain '/': '$LOOP'" >&2
+  exit 2
+fi
+
 # ── Locate state file ─────────────────────────────────────────────────────────
 
 REPO_ROOT="${SAVIA_REPO_ROOT:-$(cd "$(dirname "$0")/.." && pwd)}"
@@ -106,7 +112,7 @@ echo "$LAST_LINE"
 # JSON format is deterministic (produced by terminal-state-emit.sh):
 #   {"ts":"...","loop":"...","reason":"<value>","message":"...","exit_code":<n>}
 
-REASON=$(printf '%s' "$LAST_LINE" | sed 's/.*"reason":"\([^"]*\)".*/\1/')
+REASON=$(grep -o '"reason":"[^"]*"' <<< "$LAST_LINE" | cut -d'"' -f4)
 
 if [[ -z "$REASON" || "$REASON" == "$LAST_LINE" ]]; then
   echo "ERROR: could not parse 'reason' from last state line" >&2
