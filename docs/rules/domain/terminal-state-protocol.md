@@ -104,11 +104,6 @@ historial completo de ejecuciones del mismo loop.
 | `unrecoverable_error` | 5 |
 | razón desconocida | 1 |
 
-**Por qué `user_abort=0`**: desde el punto de vista del proceso, `user_abort`
-es una terminación limpia — el usuario decidió parar. El orquestador distingue
-`completed` de `user_abort` leyendo el JSON (campo `reason`), no el exit code.
-El exit code 0 en ambos casos indica "no hay error de sistema".
-
 ## Integración con autonomous-safety.md
 
 Este protocolo complementa `docs/rules/domain/autonomous-safety.md`:
@@ -117,21 +112,3 @@ Este protocolo complementa `docs/rules/domain/autonomous-safety.md`:
   garantizando emisión incluso ante señales.
 - El estado `unrecoverable_error` activa siempre escalamiento humano,
   independientemente de `AGENT_MAX_CONSECUTIVE_FAILURES`.
-
-### Política de rotación del JSONL
-
-El fichero `terminal-state.jsonl` no tiene límite de tamaño automático.
-Se recomienda rotar con `loop-state-prune.sh` (SE-228 S1) cuando el fichero
-supere 500 líneas o 90 días de antigüedad.
-
-Si la última línea del JSONL no es JSON válido, `terminal-state-read.sh`
-devuelve exit 1 con mensaje `'could not parse reason from last entry'`.
-
-## Criterios de Aceptación
-
-- [ ] AC-01: emit `completed` → exit 0, JSON con `reason="completed"`
-- [ ] AC-02: emit `token_budget` → exit 2, JSON con `reason="token_budget"`
-- [ ] AC-03: emit razón desconocida → exit 1, mensaje de error
-- [ ] AC-04: read con JSONL existente → exit code refleja last reason
-- [ ] AC-05: read con JSONL inexistente → exit 1
-- [ ] AC-06: emit apenda a JSONL; read siempre lee la última línea
