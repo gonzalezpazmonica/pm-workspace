@@ -24,9 +24,17 @@ LOOP_PATTERNS=(
 _detect_loop() {
   local input="${1:-}"
   for pattern in "${LOOP_PATTERNS[@]}"; do
-    if printf '%s' "$input" | grep -qF "$pattern"; then
-      printf '%s' "$pattern"
-      return 0
+    if [[ "$pattern" == "loop_skill" ]]; then
+      # Match as JSON field OR as standalone word (avoid partial matches like my_loop_skill_ext)
+      if printf '%s' "$input" | grep -qE '"loop_skill"\s*:|loop_skill[^_[:alnum:]]|loop_skill$'; then
+        printf '%s' "$pattern"
+        return 0
+      fi
+    else
+      if printf '%s' "$input" | grep -qF "$pattern"; then
+        printf '%s' "$pattern"
+        return 0
+      fi
     fi
   done
   return 1
@@ -49,6 +57,7 @@ main() {
   printf '  Current context: %s\n' "${SAVIA_LOOP_CONTEXT}"
   printf "  Cannot launch '%s' from inside a running loop.\n" "${detected_loop}"
   printf "  To run nested loops, use 'SAVIA_LOOP_CONTEXT=' to clear (autonomous-safety Rule applies).\n"
+  printf "  Tool input (truncated): %s\n" "${tool_input:0:100}"
   exit 2
 }
 

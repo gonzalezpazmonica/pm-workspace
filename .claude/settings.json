@@ -36,7 +36,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "\"$CLAUDE_PROJECT_DIR\"/.opencode/hooks/recursion-guard.sh",
+            "command": "\"\"/.opencode/hooks/recursion-guard.sh",
             "timeout": 5,
             "statusMessage": "Recursion guard: verificando contexto de loop..."
           }
