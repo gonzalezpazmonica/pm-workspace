@@ -1,6 +1,9 @@
 ---
 context_tier: L3
 token_budget: 1150
+usage: reference-only
+dormant_since: "2026-06-24"
+review_note: "Quarterly review 2026-Q2"
 ---
 
 # Agent Handoff Protocol — SPEC-121

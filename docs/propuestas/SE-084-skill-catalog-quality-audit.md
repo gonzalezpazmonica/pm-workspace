@@ -1,14 +1,14 @@
 ---
 id: SE-084
 title: SE-084 — Skill catalog quality audit (Use-when triggers + progressive disclosure)
-status: APPROVED
+status: IMPLEMENTED
 origin: mattpocock/skills/write-a-skill (MIT) — meta-disciplina aplicada a 86 skills internos
 author: Savia
 priority: alta
 effort: M 6h
 related: SE-081, SE-082, SE-083, SE-085, SE-086, SE-087 (todos los nuevos skills se beneficien)
 approved_at: "2026-04-27"
-applied_at: null
+applied_at: "2026-06-24"
 expires: "2026-06-27"
 era: 190
 ---

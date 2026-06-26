@@ -1,7 +1,9 @@
 ---
 spec_id: SE-206
 title: Agent idle detection — tui-idle equivalent
-status: APPROVED
+status: IMPLEMENTED
+drift_note: "drift: components existed pre-triage (scripts/agent-wait-idle.sh + docs/rules/domain/agent-idle-protocol.md implemented)"
+implemented_at: "2026-06-24"
 priority: P1
 effort: M
 era: 200

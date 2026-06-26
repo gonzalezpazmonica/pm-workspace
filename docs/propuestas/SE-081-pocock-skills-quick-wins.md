@@ -1,7 +1,7 @@
 ---
 id: SE-081
 title: SE-081 — Pocock skills quick-wins (caveman + zoom-out + grill-me)
-status: APPLIED
+status: IMPLEMENTED
 origin: mattpocock/skills review (MIT, 26.4k stars) — análisis 2026-04-27
 author: Savia
 priority: alta
@@ -11,6 +11,8 @@ approved_at: "2026-04-27"
 applied_at: "2026-05-27"
 expires: "2026-06-27"
 era: 190
+
+triage_note: "APPLIED normalized to IMPLEMENTED"
 ---
 
 # SE-081 — Pocock skills quick-wins

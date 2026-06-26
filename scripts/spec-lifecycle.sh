@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 # spec-lifecycle.sh — SE-222 S1: spec status transitions + append-only LOG.md
+set -uo pipefail
 #
 # Helper to change the `status:` field of a spec and record the lifecycle
 # transition in docs/propuestas/LOG.md (append-only, most recent first).
@@ -44,11 +45,12 @@ NEW_STATUS=""
 NOTE=""
 BOOTSTRAP=0
 DRY_RUN=0
+NO_TIMELINE=0
 
 usage() {
   cat <<EOF
 Usage:
-  $0 --spec <path> --status <STATUS> [--note "rationale"] [--dry-run]
+  $0 --spec <path> --status <STATUS> [--note "rationale"] [--dry-run] [--no-timeline]
   $0 --bootstrap [--dry-run]
 
 Changes the status: field of a spec and appends an entry to
@@ -60,6 +62,7 @@ Options:
   --note TEXT       One-line rationale appended to LOG.md (optional)
   --bootstrap       Generate LOG.md from last 10 specs + git history (seed)
   --dry-run         Show what would happen, don't modify files
+  --no-timeline     Skip automatic timeline entry (spec-timeline-append.py)
   -h, --help        This help
 
 Exit codes:
@@ -68,17 +71,19 @@ Exit codes:
   2  Usage error (missing required args)
 
 Ref: SE-222 S1 OKF Adoptable Patterns
+Ref: SPEC-182 Bitemporal timeline frontmatter
 EOF
 }
 
 while [[ $# -gt 0 ]]; do
   case "$1" in
-    --spec)      SPEC="$2"; shift 2 ;;
-    --status)    NEW_STATUS="$2"; shift 2 ;;
-    --note)      NOTE="$2"; shift 2 ;;
-    --bootstrap) BOOTSTRAP=1; shift ;;
-    --dry-run)   DRY_RUN=1; shift ;;
-    -h|--help)   usage; exit 0 ;;
+    --spec)         SPEC="$2"; shift 2 ;;
+    --status)       NEW_STATUS="$2"; shift 2 ;;
+    --note)         NOTE="$2"; shift 2 ;;
+    --bootstrap)    BOOTSTRAP=1; shift ;;
+    --dry-run)      DRY_RUN=1; shift ;;
+    --no-timeline)  NO_TIMELINE=1; shift ;;
+    -h|--help)      usage; exit 0 ;;
     *) echo "ERROR: unknown arg '$1'" >&2; usage >&2; exit 2 ;;
   esac
 done
@@ -287,3 +292,20 @@ append_log_entry "$DATE_STR" "$SPEC_ID" "$NEW_STATUS" "$TITLE" "$NOTE"
 
 echo "Updated: $SPEC ($OLD_STATUS → $NEW_STATUS)"
 echo "Logged:  $LOG_FILE"
+
+# ── SPEC-182: auto-append bitemporal timeline entry ──────────────────────────
+if [[ "$NO_TIMELINE" -eq 0 ]]; then
+  TIMELINE_SCRIPT="$SCRIPT_DIR/spec-timeline-append.py"
+  if [[ -f "$TIMELINE_SCRIPT" ]]; then
+    python3 "$TIMELINE_SCRIPT" \
+      --file "$SPEC" \
+      --from "$DATE_STR" \
+      --learned "$DATE_STR" \
+      --value "$NEW_STATUS" \
+      --source "spec-lifecycle:auto" \
+      && echo "Timeline: entry appended ($NEW_STATUS)" \
+      || echo "WARN: timeline append failed (non-fatal)" >&2
+  else
+    echo "WARN: spec-timeline-append.py not found — skipping timeline (use --no-timeline to suppress)" >&2
+  fi
+fi

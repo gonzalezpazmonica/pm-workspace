@@ -1,7 +1,9 @@
 ---
 spec_id: SE-205
 title: Typed inter-agent orchestration protocol
-status: APPROVED
+status: IMPLEMENTED
+drift_note: "drift: components existed pre-triage (docs/rules/domain/orchestration-protocol.md + scripts/orchestration-protocol.sh + .savia/orchestration/ all implemented)"
+implemented_at: "2026-06-24"
 priority: P1
 effort: M
 era: 200

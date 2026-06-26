@@ -6,6 +6,8 @@ origin: opendataloader-pdf analysis (2026-04-15)
 severity: Alta
 effort: ~12h
 priority: baja
+
+triage_note: "DEFERRED: blocked on opendataloader Q2 2026"
 ---
 
 # SPEC-102: pdf-digest on opendataloader-pdf

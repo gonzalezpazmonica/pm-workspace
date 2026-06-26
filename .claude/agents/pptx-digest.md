@@ -95,3 +95,5 @@ If no .ctx exists, use default paths (current behavior as fallback).
 - NUNCA modificar el PPTX original
 - SIEMPRE registrar en _digest-log.md
 - Memoria: `projects/{proyecto}/agent-memory/pptx-digest/MEMORY.md`
+
+<!-- MARKITDOWN_ENABLED: true -->

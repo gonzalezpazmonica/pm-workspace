@@ -1,0 +1,117 @@
+{
+  "schema_version": "1.0",
+  "valid_from": "2026-06-24",
+  "supersedes": null,
+  "layer": {
+    "layer_type": "cross_cutting",
+    "vendor_layer_name": "Savia",
+    "vendor_layer_descriptor": "AI-supervised PM workspace with multi-layer governance for SDD pipelines"
+  },
+  "timing_axis": {
+    "position": "cross_cutting",
+    "surfaces": [
+      {
+        "layer_type": "substrate",
+        "anchor": "docs/rules/domain/audit-trail-schema.md",
+        "description": "Append-only JSONL audit trail per agent action"
+      },
+      {
+        "layer_type": "witness",
+        "anchor": "docs/savia-shield.md",
+        "description": "5-layer data sovereignty enforcement"
+      },
+      {
+        "layer_type": "boundary",
+        "anchor": "docs/rules/domain/verification-policy.md",
+        "description": "Risk-scored verification gates plus Code Review Court"
+      },
+      {
+        "layer_type": "closure",
+        "anchor": "docs/rules/domain/pr-signing-protocol.md",
+        "description": "Truth Tribunal plus signed PRs post-bind stabilization"
+      },
+      {
+        "layer_type": "reviewability",
+        "anchor": ".opencode/skills/verification-lattice/SKILL.md",
+        "description": "5-layer independent review lattice post-closure portable"
+      }
+    ]
+  },
+  "operational_scope": {
+    "does": [
+      "Multi-judge tribunal validation (Truth Tribunal 7 judges, Code Review Court 4-5 judges, Recommendation Tribunal 4 judges)",
+      "5-layer data sovereignty enforcement via Savia Shield",
+      "Append-only JSONL audit trail per agent action",
+      "Spec-Driven Development with mandatory human review at E1 gate",
+      "Risk-scored verification policy across 5 layers",
+      "75 specialized agents with explicit capability boundaries",
+      "Autonomous mode with double opt-in and human reviewer gate"
+    ],
+    "does_not": [
+      "Issue legal or forensic certifications of any kind",
+      "Substitute human review in critical decisions (Rule 8 CLAUDE.md, E1 gate is always human)",
+      "Guarantee absence of hallucinations — only detects and reduces via Truth Tribunal",
+      "Act as regulatory compliance authority (GDPR, EU AI Act, AEPD — external frameworks apply)",
+      "Process confidential data in cloud without Savia Shield enforcement",
+      "Approve or merge pull requests autonomously",
+      "Execute destructive infrastructure changes without human approval"
+    ]
+  },
+  "claims_boundary": {
+    "authoritative_layer_claim": "Savia provides multi-layer pre-merge governance for AI-agent-driven software delivery pipelines, with mandatory human review at risk-classified gates declared in docs/rules/domain/verification-policy.md",
+    "explicit_non_claims": [
+      "Savia does NOT certify legal validity of any output",
+      "Savia does NOT substitute for human judgment at E1 decision gates",
+      "Savia does NOT guarantee hallucination-free outputs",
+      "Savia does NOT act as authority on GDPR, EU AI Act, or AEPD compliance",
+      "Savia does NOT process confidential data outside its Shield boundary without explicit opt-in",
+      "Savia does NOT provide forensic evidence for legal proceedings",
+      "Savia does NOT issue financial, legal, or medical advice"
+    ],
+    "consumer_boundary_constraint": "Outputs of Savia governance layers are operational evidence and pre-merge gates. They are not legal certifications, regulatory attestations, or substitutes for human review at decision gates declared in docs/rules/domain/verification-policy.md. Any downstream consumer integrating Savia outputs into compliance workflows must apply their own regulatory layer."
+  },
+  "composition": {
+    "composable_with_types": [
+      "substrate",
+      "witness",
+      "boundary",
+      "closure",
+      "reviewability"
+    ],
+    "composable_with_manifests": []
+  },
+  "machine_readable_status": {
+    "boundary_readiness": "stable",
+    "authority_dependency": "none",
+    "execution_capability": true,
+    "reviewability_state": "portable"
+  },
+  "governance_metadata": {
+    "ethical_framework": "Savia IAH",
+    "ethical_framework_ref": "docs/rules/domain/savia-ethical-principles.md",
+    "red_lines": 5,
+    "agents": 75,
+    "skills": 104,
+    "hooks_registered": 81,
+    "languages_supported": 16,
+    "last_reviewed": "2026-06-24",
+    "review_cadence": "semestral"
+  },
+  "interoperability": {
+    "frontends": ["Claude Code", "OpenCode", "Codex", "Cursor"],
+    "mcp_servers": ["codebase-memory-mcp", "ppt-mcp"],
+    "standards": ["SDD", "SE-078 AGENTS.md auto-regeneration", "Rule 24 Radical Honesty", "SPEC-186 double-optin"]
+  },
+  "public_anchors": [
+    "docs/rules/domain/ai-governance.md",
+    "docs/rules/domain/savia-ethical-principles.md",
+    "docs/savia-shield.md",
+    "docs/rules/domain/verification-policy.md",
+    "docs/rules/domain/autonomous-safety.md",
+    "docs/rules/domain/audit-trail-schema.md"
+  ],
+  "manifest_digest": {
+    "type": "sha256",
+    "value": "f14e6bc858c8e7de6a2052455f1e115dbf9ed4d1ed6c46defe592a4fc9d8c320"
+  }
+}

@@ -5,6 +5,7 @@ allowed-tools: [Read, Edit, Write, Bash]
 argument-hint: "[enable|disable|status]"
 model: github-copilot/claude-sonnet-4.5
 context_cost: low
+complexity_tier: mode2
 ---
 
 # /savia-shield — Gestión de Savia Shield

@@ -3,12 +3,15 @@
 ## Paso 1 — Configurar el PAT de Azure DevOps
 
 ```bash
+
 # Crear el directorio y fichero del PAT
+
 mkdir -p $HOME/.azure
 echo -n "TU_PAT_AQUI" > $HOME/.azure/devops-pat
 chmod 600 $HOME/.azure/devops-pat
 
 # Verificar
+
 az devops configure --defaults organization=https://dev.azure.com/MI-ORGANIZACIóN
 export AZURE_DEVOPS_EXT_PAT=$(cat $HOME/.azure/devops-pat)
 az devops project list --output table
@@ -40,12 +43,17 @@ Repite para cada proyecto en `projects/proyecto-alpha/CLAUDE.md` y `projects/pro
 ## Paso 3 — Instalar dependencias de scripts
 
 ```bash
+
 # GitHub CLI (necesario para crear PRs y gestionar repos desde Claude Code)
+
 sudo apt update && sudo apt install gh -y   # Ubuntu/Debian
+
 # o: brew install gh                         # macOS
+
 gh auth login
 
 # Node.js dependencies para report-generator
+
 cd scripts/
 npm install
 cd ..
@@ -56,12 +64,15 @@ cd ..
 ## Paso 4 — Clonar el código fuente de cada proyecto
 
 ```bash
+
 # Proyecto Alpha
+
 cd projects/proyecto-alpha/source
 git clone https://dev.azure.com/MI-ORGANIZACIóN/ProyectoAlpha/_git/proyecto-alpha .
 cd ../../..
 
 # Proyecto Beta
+
 cd projects/proyecto-beta/source
 git clone https://dev.azure.com/MI-ORGANIZACIóN/ProyectoBeta/_git/proyecto-beta .
 cd ../../..
@@ -72,7 +83,9 @@ cd ../../..
 ## Paso 5 — Verificar la conexión
 
 ```bash
+
 # Test de conectividad básica
+
 chmod +x scripts/azdevops-queries.sh
 ./scripts/azdevops-queries.sh sprint ProyectoAlpha "ProyectoAlpha Team"
 ```
@@ -84,19 +97,26 @@ chmod +x scripts/azdevops-queries.sh
 Para usar Spec-Driven Development con agentes Claude, necesitas la CLI de Claude Code o OpenCode disponible en el PATH:
 
 ```bash
+
 # Verificar que claude CLI está instalado
+
 claude --version
 
 # Verificar que puedes invocar claude como subproceso (necesario para agent-run)
+
 echo "Test de invocación de agente:"
 claude --model claude-haiku-4-5-20251001 --max-turns 1 "Di 'Hola' en una sola palabra"
 
 # Crear directorio de logs de agentes
+
 mkdir -p output/agent-runs
 
 # Verificar variables de entorno de API (si usas clave de API directa)
+
 # Opción A: usar la misma sesión de claude autenticada
+
 # Opción B: usar ANTHROPIC_API_KEY
+
 echo ${ANTHROPIC_API_KEY:0:10}...   # Solo mostrar los primeros 10 chars
 ```
 
@@ -107,9 +127,13 @@ echo ${ANTHROPIC_API_KEY:0:10}...   # Solo mostrar los primeros 10 chars
 ## Paso 7 — Abrir con Claude Code / OpenCode
 
 ```bash
+
 # Desde la raíz de pm-workspace/
+
 claude   # Claude Code
+
 # o bien:
+
 opencode  # OpenCode
 ```
 

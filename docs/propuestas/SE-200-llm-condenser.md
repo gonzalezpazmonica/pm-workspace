@@ -1,7 +1,7 @@
 ---
 spec_id: SE-200
 title: LLM Condenser — rolling window context compression
-status: APPROVED
+status: IMPLEMENTED
 tier: 1
 priority: P1
 effort: M
@@ -16,7 +16,7 @@ inspiration: OpenHands context-condenser pattern (rolling window + episodic memo
 
 # SE-200 — LLM Condenser — rolling window context compression
 
-> Estado: APPROVED · Tier 1 · P1 · Estimación M · Era 200 · Wave 1
+> Estado: IMPLEMENTED · Tier 1 · P1 · Estimación M · Era 200 · Wave 1
 
 ## Resumen
 

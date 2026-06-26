@@ -1,5 +1,5 @@
 ---
-status: PROPOSED
+status: IMPLEMENTED
 ---
 
 # SPEC-SE-032: Cross-Project Lessons Pipeline

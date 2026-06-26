@@ -1,14 +1,14 @@
 ---
 id: SE-080
 title: SE-080 — Attention-anchor vocabulary (Genesis B8/B9/A7/A9 patterns)
-status: APPROVED
+status: IMPLEMENTED
 origin: Genesis review (danielmeppiel/genesis) — sub-agent report 2026-04-26
 author: Savia
 priority: media
 effort: S 2h
 related: SE-079, SE-074, SPEC-124 (Court), autonomous-safety
 approved_at: "2026-04-26"
-applied_at: null
+applied_at: "2026-06-24"
 expires: "2026-06-26"
 era: 189
 ---

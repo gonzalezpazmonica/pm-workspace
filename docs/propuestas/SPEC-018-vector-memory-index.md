@@ -1,10 +1,12 @@
 ---
 id: SPEC-018
 title: SPEC-018: Vector Memory Index — Semantic Search over Plain Text
-status: IN_PROGRESS
+status: IMPLEMENTED
 origin_date: "2026-03-22"
 migrated_at: "2026-04-19"
 migrated_from: body-prose
+
+triage_note: "scripts/memory-vector.py + embeddings-cache.py cover this"
 ---
 
 # SPEC-018: Vector Memory Index — Semantic Search over Plain Text

@@ -1,10 +1,12 @@
 ---
 id: SPEC-024
 title: SPEC-024: Documentation Audit — Savia en Primera Persona
-status: ACCEPTED
+status: ARCHIVED
 origin_date: "2026-03-22"
 migrated_at: "2026-04-19"
 migrated_from: body-prose
+
+triage_note: "content drift: docs already in primera persona, no script needed"
 ---
 
 # SPEC-024: Documentation Audit — Savia en Primera Persona

@@ -1,6 +1,6 @@
 ---
 id: SPEC-046
-status: PROPOSED
+status: IMPLEMENTED
 priority: media
 ---
 

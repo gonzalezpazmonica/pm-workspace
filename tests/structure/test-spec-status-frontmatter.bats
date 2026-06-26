@@ -59,8 +59,8 @@ teardown() {
 
 # ── Specific drift fixes (post-batch-83) ────────────────────────────────────
 
-@test "post-batch-83: SPEC-103 status is IN_PROGRESS (Slice 1 done)" {
-  grep -qE '^status:[[:space:]]+IN_PROGRESS[[:space:]]*$' \
+@test "post-batch-83: SPEC-103 status is IMPLEMENTED (fully done)" {
+  grep -qE '^status:[[:space:]]+IMPLEMENTED[[:space:]]*$' \
     "$PROPS/SPEC-103-deterministic-first-digests.md"
 }
 
@@ -69,13 +69,13 @@ teardown() {
     "$PROPS/SPEC-125-recommendation-tribunal-realtime.md"
 }
 
-@test "post-batch-83: SPEC-SE-035 status is IN_PROGRESS (Slice 1+3 done)" {
-  grep -qE '^status:[[:space:]]+IN_PROGRESS[[:space:]]*$' \
+@test "post-batch-83: SPEC-SE-035 status is IMPLEMENTED (all slices done)" {
+  grep -qE '^status:[[:space:]]+IMPLEMENTED[[:space:]]*$' \
     "$ENT/SPEC-SE-035-reconciliation-delta-engine.md"
 }
 
-@test "post-batch-83: SPEC-SE-036 status is IN_PROGRESS (Slice 1+2 done)" {
-  grep -qE '^status:[[:space:]]+IN_PROGRESS[[:space:]]*$' \
+@test "post-batch-83: SPEC-SE-036 status is IMPLEMENTED (all slices done)" {
+  grep -qE '^status:[[:space:]]+IMPLEMENTED[[:space:]]*$' \
     "$ENT/SPEC-SE-036-api-key-jwt-mint.md"
 }
 
@@ -145,7 +145,7 @@ teardown() {
     s=$(grep -m1 -oE '^status:[[:space:]]+[A-Za-z_|]+' "$f" | awk '{print $2}')
     [ -z "$s" ] && continue
     case "$s" in
-      PROPOSED|APPROVED|IN_PROGRESS|IMPLEMENTED|SUPERSEDED|REJECTED|ACCEPTED|PROPOSED\|IN_PROGRESS\|DONE)
+      PROPOSED|APPROVED|IN_PROGRESS|IMPLEMENTED|SUPERSEDED|REJECTED|ACCEPTED|ARCHIVED|PROPOSED\|IN_PROGRESS\|DONE)
         ;;
       *)
         echo "INVALID status '$s' in $(basename $f)" >&2

@@ -1,6 +1,6 @@
 ---
 id: SPEC-065
-status: PROPOSED
+status: IMPLEMENTED
 priority: media
 ---
 

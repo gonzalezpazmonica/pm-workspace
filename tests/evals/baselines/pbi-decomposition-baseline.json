@@ -1,0 +1,7 @@
+[
+  {"id": "pbi-001", "score": 0.82, "metrics": {"completeness": 0.85, "task_count_accuracy": 0.80, "hours_accuracy": 0.78}},
+  {"id": "pbi-002", "score": 0.79, "metrics": {"completeness": 0.80, "task_count_accuracy": 0.75, "hours_accuracy": 0.82}},
+  {"id": "pbi-003", "score": 0.88, "metrics": {"completeness": 0.90, "task_count_accuracy": 0.88, "hours_accuracy": 0.85}},
+  {"id": "pbi-004", "score": 0.91, "metrics": {"completeness": 0.92, "task_count_accuracy": 0.90, "hours_accuracy": 0.90}},
+  {"id": "pbi-005", "score": 0.75, "metrics": {"completeness": 0.78, "task_count_accuracy": 0.72, "hours_accuracy": 0.76}}
+]
