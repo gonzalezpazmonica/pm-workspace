@@ -32,6 +32,17 @@
     ],
     "PreToolUse": [
       {
+        "matcher": "Task",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"\"/.opencode/hooks/recursion-guard.sh",
+            "timeout": 5,
+            "statusMessage": "Recursion guard: verificando contexto de loop..."
+          }
+        ]
+      },
+      {
         "matcher": "Bash(gh pr create*)",
         "hooks": [
           {
