@@ -1,7 +1,7 @@
 ---
 id: SE-083
 title: SE-083 — TDD vertical-slice skill (anti-horizontal-slicing reinforcement)
-status: APPLIED
+status: IMPLEMENTED
 origin: mattpocock/skills/tdd (MIT) — análisis 2026-04-27
 author: Savia
 priority: media
@@ -11,6 +11,8 @@ approved_at: "2026-04-27"
 applied_at: "2026-05-27"
 expires: "2026-06-27"
 era: 190
+
+triage_note: "APPLIED normalized to IMPLEMENTED"
 ---
 
 # SE-083 — TDD vertical-slice skill

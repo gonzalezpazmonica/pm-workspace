@@ -1,5 +1,6 @@
 ---
-status: PROPOSED
+status: IMPLEMENTED
+implemented_at: 2026-06-24
 ---
 
 # SPEC-SE-003 — MCP Server Catalog

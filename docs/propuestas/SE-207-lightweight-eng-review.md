@@ -1,7 +1,9 @@
 ---
 spec_id: SE-207
 title: Lightweight Engineering Review template for infra changes
-status: APPROVED
+status: IMPLEMENTED
+drift_note: "drift: components existed pre-triage (docs/rules/domain/lightweight-eng-review.md implemented as full template)"
+implemented_at: "2026-06-24"
 priority: P2
 effort: B
 era: 200

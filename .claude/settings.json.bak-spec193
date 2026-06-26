@@ -1,0 +1,798 @@
+{
+  "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/.opencode/hooks/session-init.sh",
+            "timeout": 15,
+            "statusMessage": "Inicializando sesión PM-Workspace..."
+          },
+          {
+            "type": "command",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/.opencode/hooks/shield-autostart.sh",
+            "timeout": 25,
+            "statusMessage": "Savia Shield: levantando daemon + proxy..."
+          },
+          {
+            "type": "command",
+            "command": "bash \"$CLAUDE_PROJECT_DIR\"/scripts/check-daemon-auth.sh >/dev/null 2>&1 || echo \"[SPEC-SH02] browser-daemon auth expired — run: bash scripts/check-daemon-auth.sh\"",
+            "timeout": 5,
+            "statusMessage": "SPEC-SH02: verificando auth de browser-daemon..."
+          },
+          {
+            "type": "command",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/.opencode/hooks/emergency-mode-readiness.sh",
+            "timeout": 12,
+            "statusMessage": "Emergency-mode: verificando LocalAI fallback..."
+          }
+        ]
+      }
+    ],
+    "PreToolUse": [
+      {
+        "matcher": "Bash(gh pr create*)",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/.opencode/hooks/pr-summary-gate.sh",
+            "timeout": 100,
+            "statusMessage": "Revisando .pr-summary.md antes de abrir el PR..."
+          }
+        ]
+      },
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/.opencode/hooks/block-credential-leak.sh",
+            "timeout": 5,
+            "statusMessage": "Savia Shield: detectando credenciales..."
+          },
+          {
+            "type": "command",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/.opencode/hooks/block-force-push.sh",
+            "timeout": 5,
+            "statusMessage": "Savia Shield: bloqueando force-push..."
+          },
+          {
+            "type": "command",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/.opencode/hooks/block-branch-switch-dirty.sh",
+            "timeout": 5,
+            "statusMessage": "Verificando cambios antes de cambiar rama..."
+          },
+          {
+            "type": "command",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/.opencode/hooks/block-infra-destructive.sh",
+            "timeout": 5,
+            "statusMessage": "Savia Shield: bloqueando infra destructiva..."
+          },
+          {
+            "type": "command",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/.opencode/hooks/validate-bash-global.sh",
+            "statusMessage": "Validando comando...",
+            "timeout": 10
+          },
+          {
+            "type": "command",
+            "command": "bash \"$CLAUDE_PROJECT_DIR\"/.opencode/hooks/android-adb-validate.sh",
+            "name": "android-adb-validate",
+            "blocking": true,
+            "timeout": 5
+          }
+        ]
+      },
+      {
+        "matcher": "Bash(git commit*)",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/.opencode/hooks/prompt-hook-commit.sh",
+            "timeout": 5,
+            "statusMessage": "Prompt hook: validando semántica..."
+          },
+          {
+            "type": "command",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/.opencode/hooks/compliance-gate.sh",
+            "timeout": 30,
+            "statusMessage": "Compliance gate: verificando reglas..."
+          }
+        ]
+      },
+      {
+        "matcher": "Task",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/.opencode/hooks/agent-dispatch-validate.sh",
+            "timeout": 5,
+            "statusMessage": "Validando contexto del agente..."
+          },
+          {
+            "type": "command",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/.opencode/hooks/spec156-token-budget-projection.sh",
+            "timeout": 5,
+            "statusMessage": "SPEC-156: proyectando token budget..."
+          },
+          {
+            "type": "command",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/.opencode/hooks/context-preflight-check.sh",
+            "timeout": 8,
+            "statusMessage": "SPEC-157: preflight multi-source..."
+          },
+          {
+            "type": "command",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/.opencode/hooks/subagent-audience-filter.sh",
+            "async": true,
+            "timeout": 3,
+            "statusMessage": "Audience filter (SE-221)..."
+          }
+        ]
+      },
+      {
+        "matcher": "Edit|Write|Read|Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/.opencode/hooks/agent-tool-call-validate.sh",
+            "timeout": 5,
+            "statusMessage": "Validando parámetros de tool call..."
+          }
+        ]
+      },
+      {
+        "matcher": "Glob|Grep",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/.opencode/hooks/acm-enforcement.sh",
+            "timeout": 3,
+            "statusMessage": "ACM enforcement (SE-063)..."
+          }
+        ]
+      },
+      {
+        "matcher": "Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/.opencode/hooks/ast-comprehend-hook.sh",
+            "timeout": 15,
+            "statusMessage": "AST Comprehension: leyendo mapa estructural..."
+          }
+        ]
+      },
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/.opencode/hooks/memory-verified-gate.sh",
+            "timeout": 5,
+            "statusMessage": "SE-072: verificando provenance de memoria..."
+          },
+          {
+            "type": "command",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/.opencode/hooks/tdd-gate.sh",
+            "timeout": 10,
+            "statusMessage": "TDD gate: tests antes que código..."
+          },
+          {
+            "type": "command",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/.opencode/hooks/plan-gate.sh",
+            "statusMessage": "Verificando spec aprobada...",
+            "timeout": 10
+          },
+          {
+            "type": "command",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/.opencode/hooks/block-project-whitelist.sh",
+            "timeout": 5,
+            "statusMessage": "Verificando privacidad de proyectos..."
+          },
+          {
+            "type": "command",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/.opencode/hooks/data-sovereignty-gate.sh",
+            "timeout": 15,
+            "statusMessage": "Savia Shield: scanning..."
+          },
+          {
+            "type": "command",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/.opencode/hooks/vault-frontmatter-gate.sh",
+            "timeout": 5,
+            "statusMessage": "Vault frontmatter gate: validating YAML..."
+          },
+          {
+            "type": "command",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/.opencode/hooks/block-gitignored-references.sh",
+            "timeout": 5,
+            "statusMessage": "Checking for gitignored content in public files..."
+          },
+          {
+            "type": "command",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/.opencode/hooks/responsibility-judge.sh",
+            "timeout": 5,
+            "statusMessage": "Responsibility Judge: evaluando decisión..."
+          },
+          {
+            "type": "command",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/.opencode/hooks/validate-layer-contract.sh",
+            "timeout": 5,
+            "statusMessage": "SE-001: Core/Enterprise layer contract check..."
+          },
+          {
+            "type": "command",
+            "command": "bash \"$CLAUDE_PROJECT_DIR\"/.opencode/hooks/cognitive-debt-hypothesis-first.sh",
+            "name": "cognitive-debt-hypothesis-first",
+            "blocking": false,
+            "timeout": 3
+          }
+        ]
+      },
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/.opencode/hooks/agent-hook-premerge.sh",
+            "timeout": 30,
+            "statusMessage": "Agent hook: pre-merge quality gate..."
+          }
+        ]
+      },
+      {
+        "matcher": "Read|Edit|Write|Glob|Grep",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/.opencode/hooks/tool-call-healing.sh",
+            "timeout": 3,
+            "statusMessage": "Validando parametros..."
+          }
+        ]
+      },
+      {
+        "matcher": ".*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/.opencode/hooks/live-progress-hook.sh",
+            "async": true,
+            "timeout": 3
+          }
+        ]
+      },
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "http",
+            "url": "http://127.0.0.1:8444/gate",
+            "headers": {
+              "X-Shield-Token": "$SHIELD_TOKEN"
+            },
+            "allowedEnvVars": [
+              "SHIELD_TOKEN"
+            ],
+            "timeout": 5,
+            "statusMessage": "Savia Shield HTTP gate..."
+          }
+        ]
+      },
+      {
+        "matcher": "Read",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/.opencode/hooks/prompt-injection-guard.sh",
+            "timeout": 10
+          },
+          {
+            "type": "command",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/.opencode/hooks/context-greedy-inject.sh",
+            "timeout": 8,
+            "statusMessage": "SPEC-189: greedy context budget (shadow mode)..."
+          }
+        ]
+      },
+      {
+        "matcher": "Agent",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/.opencode/hooks/delegation-guard.sh",
+            "timeout": 10
+          }
+        ]
+      },
+      {
+        "matcher": "Task",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/.opencode/hooks/protected-job-guard.sh",
+            "timeout": 5
+          }
+        ]
+      },
+      {
+        "matcher": "Bash(git commit*)",
+        "hooks": [
+          {
+            "type": "prompt",
+            "prompt": "A git commit command is about to run. Evaluate if the commit message accurately describes the intent of the changes based on the command context.\n\nCommand: $ARGUMENTS\n\nRespond with {\"ok\": true} if the message is descriptive and follows conventional commit format (type(scope): description). Respond with {\"ok\": false, \"reason\": \"brief explanation\"} if the message is misleading, too vague, or does not match what the changes seem to do.",
+            "timeout": 10,
+            "model": "claude-haiku-4-5-20251001",
+            "statusMessage": "Semantic commit validation (Haiku)..."
+          }
+        ]
+      },
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "$CLAUDE_PROJECT_DIR/.opencode/hooks/savia-budget-guard.sh",
+            "timeout": 5
+          }
+        ]
+      },
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/.opencode/hooks/auto-grill-me.sh",
+            "name": "auto-grill-me",
+            "blocking": false,
+            "timeout": 5,
+            "statusMessage": "SE-091: grill-me — hunting weaknesses..."
+          }
+        ]
+      },
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/.opencode/hooks/auto-zoom-out.sh",
+            "name": "auto-zoom-out",
+            "blocking": false,
+            "timeout": 5,
+            "statusMessage": "SE-091: zoom-out — checking second-order effects..."
+          }
+        ]
+      },
+      {
+        "matcher": "Edit|Write|Read",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash \"$CLAUDE_PROJECT_DIR\"/.opencode/hooks/project-isolation-gate.sh",
+            "name": "project-isolation-gate",
+            "blocking": false,
+            "timeout": 3
+          }
+        ]
+      },
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/.opencode/hooks/contract-test-guard.sh",
+            "timeout": 3,
+            "statusMessage": "Verificando contract tests sellados (SPEC-188-P3)"
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Read",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/.opencode/hooks/acm-turn-marker.sh",
+            "async": true,
+            "timeout": 3,
+            "statusMessage": "ACM turn marker (SE-063)..."
+          },
+          {
+            "type": "command",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/.opencode/hooks/context-origin-stamp.sh",
+            "async": false,
+            "timeout": 5,
+            "statusMessage": "Origin tagging (SE-221)..."
+          }
+        ]
+      },
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/.opencode/hooks/post-edit-lint.sh",
+            "async": true,
+            "timeout": 30,
+            "statusMessage": "Auto-lint en background..."
+          },
+          {
+            "type": "command",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/.opencode/hooks/memory-auto-capture.sh",
+            "async": true,
+            "timeout": 10,
+            "statusMessage": "Capturando en memoria..."
+          },
+          {
+            "type": "command",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/.opencode/hooks/pbi-history-capture.sh",
+            "async": true,
+            "timeout": 10,
+            "statusMessage": "Registrando historial PBI..."
+          },
+          {
+            "type": "command",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/.opencode/hooks/token-tracker-middleware.sh",
+            "async": true,
+            "timeout": 5,
+            "statusMessage": "Monitorizando contexto..."
+          },
+          {
+            "type": "command",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/.opencode/hooks/data-sovereignty-audit.sh",
+            "async": true,
+            "timeout": 10,
+            "statusMessage": "Savia Shield: auditoria post-escritura..."
+          },
+          {
+            "type": "command",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/.opencode/hooks/post-report-write.sh",
+            "async": true,
+            "timeout": 5,
+            "statusMessage": "Truth Tribunal: encolando informe..."
+          },
+          {
+            "type": "command",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/.opencode/hooks/ast-quality-gate-hook.sh",
+            "async": true,
+            "timeout": 60,
+            "statusMessage": "AST Quality Gate: analizando código..."
+          },
+          {
+            "type": "command",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/.opencode/hooks/dual-estimation-gate.sh",
+            "timeout": 5,
+            "statusMessage": "Dual Estimation: verificando escalas..."
+          },
+          {
+            "type": "command",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/.opencode/hooks/post-write-validate.sh",
+            "timeout": 5000
+          }
+        ]
+      },
+      {
+        "matcher": "Task",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/.opencode/hooks/sycophancy-strip.sh",
+            "async": false,
+            "timeout": 5,
+            "statusMessage": "SPEC-192: anti-adulation Layer 1 (shadow)..."
+          },
+          {
+            "type": "command",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/.opencode/hooks/agent-trace-log.sh",
+            "async": true,
+            "timeout": 5,
+            "statusMessage": "Registrando traza de agente..."
+          },
+          {
+            "type": "command",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/.opencode/hooks/compress-agent-output.sh",
+            "async": true,
+            "timeout": 10,
+            "statusMessage": "Comprimiendo output de agente..."
+          }
+        ]
+      },
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/.opencode/hooks/bash-output-compress.sh",
+            "async": true,
+            "timeout": 10,
+            "statusMessage": "Comprimiendo output de bash..."
+          },
+          {
+            "type": "command",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/.opencode/hooks/competence-tracker.sh",
+            "async": true,
+            "timeout": 5,
+            "statusMessage": "Registrando competencia..."
+          }
+        ]
+      },
+      {
+        "matcher": "Edit|Write|Task",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash \"$CLAUDE_PROJECT_DIR\"/.opencode/hooks/cognitive-debt-telemetry.sh",
+            "name": "cognitive-debt-telemetry",
+            "blocking": false,
+            "timeout": 2
+          }
+        ]
+      },
+      {
+        "matcher": "Read|WebFetch|Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/.opencode/hooks/context-drop-after-use.sh",
+            "async": false,
+            "timeout": 8,
+            "statusMessage": "Drop-after-use (SE-221)..."
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/.opencode/hooks/session-end-snapshot.sh",
+            "async": true,
+            "timeout": 5,
+            "statusMessage": "Guardando snapshot de sesión..."
+          },
+          {
+            "type": "command",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/.opencode/hooks/pre-commit-review.sh",
+            "timeout": 30,
+            "statusMessage": "Revisando ficheros staged..."
+          },
+          {
+            "type": "command",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/.opencode/hooks/stop-quality-gate.sh",
+            "timeout": 15,
+            "statusMessage": "Verificando quality gates..."
+          },
+          {
+            "type": "command",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/.opencode/hooks/scope-guard.sh",
+            "timeout": 10,
+            "statusMessage": "Verificando scope de la spec..."
+          },
+          {
+            "type": "command",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/.opencode/hooks/stop-memory-extract.sh",
+            "async": true,
+            "timeout": 30,
+            "statusMessage": "Extrayendo memoria de sesion..."
+          },
+          {
+            "type": "command",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/.opencode/hooks/emotional-regulation-monitor.sh",
+            "async": true,
+            "timeout": 10,
+            "statusMessage": "Evaluando bienestar de sesión..."
+          },
+          {
+            "type": "command",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/.opencode/hooks/postponement-judge.sh",
+            "timeout": 5,
+            "statusMessage": "Verificando postergaciones injustificadas..."
+          }
+        ]
+      },
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/.opencode/hooks/agents-md-auto-regenerate.sh",
+            "async": true,
+            "timeout": 10,
+            "statusMessage": "Regenerando AGENTS.md..."
+          }
+        ]
+      }
+    ],
+    "SessionEnd": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/.opencode/hooks/session-end-memory.sh",
+            "timeout": 1500,
+            "statusMessage": "Extrayendo memoria de sesión..."
+          }
+        ]
+      }
+    ],
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/.opencode/hooks/user-prompt-intercept.sh",
+            "timeout": 3000,
+            "statusMessage": "Pre-procesando input..."
+          },
+          {
+            "type": "command",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/.opencode/hooks/stress-awareness-nudge.sh",
+            "timeout": 2000,
+            "statusMessage": "Emotional awareness check..."
+          },
+          {
+            "type": "command",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/.opencode/hooks/memory-prime-hook.sh",
+            "async": true,
+            "timeout": 5000,
+            "statusMessage": "Memory context priming..."
+          }
+        ]
+      }
+    ],
+    "CwdChanged": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/.opencode/hooks/cwd-changed-hook.sh",
+            "timeout": 3000
+          }
+        ]
+      }
+    ],
+    "PreCompact": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/.opencode/hooks/pre-compact-backup.sh",
+            "timeout": 10,
+            "statusMessage": "Backup pre-compactación..."
+          }
+        ]
+      }
+    ],
+    "PostCompact": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/scripts/post-compaction.sh",
+            "timeout": 10,
+            "statusMessage": "Recuperando memoria persistente tras compactación..."
+          }
+        ]
+      }
+    ],
+    "PostToolUseFailure": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/.opencode/hooks/post-tool-failure-log.sh",
+            "async": true,
+            "timeout": 5,
+            "statusMessage": "Registrando fallo de herramienta..."
+          }
+        ]
+      }
+    ],
+    "SubagentStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/.opencode/hooks/subagent-lifecycle.sh",
+            "async": true,
+            "timeout": 5,
+            "statusMessage": "Tracking agent lifecycle..."
+          }
+        ]
+      }
+    ],
+    "SubagentStop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/.opencode/hooks/subagent-lifecycle.sh",
+            "async": true,
+            "timeout": 5,
+            "statusMessage": "Logging agent completion..."
+          }
+        ]
+      }
+    ],
+    "TaskCreated": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/.opencode/hooks/task-lifecycle.sh",
+            "async": true,
+            "timeout": 5,
+            "statusMessage": "Logging task creation..."
+          }
+        ]
+      }
+    ],
+    "TaskCompleted": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/.opencode/hooks/task-lifecycle.sh",
+            "async": true,
+            "timeout": 5,
+            "statusMessage": "Logging task completion..."
+          }
+        ]
+      }
+    ],
+    "FileChanged": [
+      {
+        "matcher": "*.cs|*.py|*.ts|*.tsx|*.js|*.jsx|*.go|*.java|*.rs|*.rb|*.php",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/.opencode/hooks/file-changed-staleness.sh",
+            "async": true,
+            "timeout": 2,
+            "statusMessage": "Checking map staleness..."
+          }
+        ]
+      }
+    ],
+    "InstructionsLoaded": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/.opencode/hooks/instructions-tracker.sh",
+            "async": true,
+            "timeout": 3,
+            "statusMessage": "Tracking instructions..."
+          }
+        ]
+      }
+    ],
+    "ConfigChange": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/.opencode/hooks/config-reload.sh",
+            "async": true,
+            "timeout": 3,
+            "statusMessage": "Reloading config..."
+          }
+        ]
+      }
+    ]
+  },
+  "_doc_se202_example": "SE-202 agent hook pattern — to enable: add to PreToolUse hooks: { \"type\": \"command\", \"command\": \"bash \\\"$CLAUDE_PROJECT_DIR\\\"/scripts/agent-hook-runner.sh --agent security-guardian --event \\\"{\\\"tool\\\":\\\"$TOOL_NAME\\\",\\\"tool_input\\\":\\\"$TOOL_INPUT\\\"}\\\"\", \"timeout\": 30 } — exit 0=allow, exit 2=deny. Ref: docs/rules/domain/agent-hook-protocol.md",
+  "permissions": {
+    "defaultMode": "auto"
+  },
+  "env": {
+    "CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS": "1",
+    "CLAUDE_AUTOCOMPACT_PCT_OVERRIDE": "75",
+    "BASH_MAX_OUTPUT_LENGTH": "80000",
+    "TASK_MAX_OUTPUT_LENGTH": "80000",
+    "ENABLE_TOOL_SEARCH": "auto",
+    "CLAUDE_CODE_NO_FLICKER": "1"
+  }
+}

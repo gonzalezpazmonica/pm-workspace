@@ -8,6 +8,8 @@ priority: P1-Tier1
 migrated_at: "2026-04-19"
 migrated_from: body-prose
 related: [SPEC-SE-027, SPEC-023, SE-028, SE-042]
+
+triage_note: "BLOCKED: GPU required for Unsloth fine-tuning"
 ---
 
 # SPEC-080 — Entrenamiento de LLMs Especializados con Unsloth

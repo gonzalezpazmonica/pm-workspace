@@ -1,6 +1,6 @@
 # Roadmap Unificado — pm-workspace / Savia
 
-**Updated:** 2026-06-20 | **Version:** v6.20.0 | **562 commands · 75 agents · 104 skills · 81 hooks · 470+ test suites · Active backlog 7 items P2 + 3 items P3 · SE-222 OKF patterns añadido (Era 208)** — ver `### Backlog restante — repriorizado 2026-06-20`
+**Updated:** 2026-06-24 | **Version:** v6.24.4 | **562 commands · 75 agents · 104 skills · 81 hooks · 1653 tests · 245 specs IMPLEMENTED (78%)** — ver `## Estado final — 2026-06-24`
 
 ---
 
@@ -615,17 +615,17 @@ Specs APPROVED antes de 2026-04-26 NO requieren la sección retroactivamente. SE
 
 ---
 
-## SPECs — Status Summary (snapshot 2026-06-05)
+## SPECs — Status Summary (snapshot 2026-06-24)
 
-> Fuente real: `docs/propuestas/SPEC-*.md` (151 ficheros) + git log. Conteos previos eran stale.
+> Fuente real: `docs/propuestas/` (ficheros). Triage masivo sesión 2026-06-24.
 
 | Status | Count | Notas |
 |--------|-------|-------|
-| Implemented (merged) | ~100 | incl. SPEC-125, 155, 156 (slices 1+2), 158, 180, 184, 185, 186, SE-081/082/083/084/086/089/091/092/093/094/100/104/153/160/161/162/167 |
-| Proposed (active backlog) | 12 | ver `## Active Stack — 2026-06-06` |
-| Approved (no PR yet) | ~5 | SPEC-OPC-AGENTSYNC, SPEC-SCM-COVERAGE, SPEC-SCM-FRESHCHECK, SPEC-OPC-CROSS-AUDIT |
-| Research / time-boxed | 2 | SPEC-023, SPEC-027, SPEC-162 (self-evolving tools) |
-| Archive | 24 | renumbered/superseded — ver `docs/propuestas/archive/` |
+| Implemented (merged) | ~109 | incl. SE-216/217/218/219, SPEC-156/159/160/161, SPEC-048, SPEC-065, SPEC-120, SPEC-181 (drift fix) |
+| Approved (listos para implementar) | 88 | ver `## Active Stack — 2026-06-24` |
+| Proposed (diferidos legítimos) | 26 | hardware-blocked, sin demanda, research sin caso: ZeroClaw (004-009), robotics, OpenTelemetry, SaviaDivergent, Savia Web, Computer Use, OC-04, OC-01 |
+| Archived (superseded) | 16 | web-research (→skill), workspace-doctor (→workspace-integrity), security-skills-modular (→adversarial-security), responsibility-judge (→SE-065), exploration-collapse (→context-rot-strategy), etc. |
+| savia-enterprise/ | 41 | Tier 7 — sin demanda enterprise activa |
 
 
 ## Rejected
@@ -690,10 +690,90 @@ Google Sheets · ServiceNow/SAP · Tableau · Kafka · VS Code ext · Cloud voic
 
 ---
 
-## Active Stack — 2026-06-11 (supersedes 2026-06-10)
+## Active Stack — 2026-06-24 (supersedes 2026-06-20)
 
-> Estado verificado contra `git log` + PRs #829-#835 merged.
+> Triage masivo de specs 2026-06-24: 141 propuestas → 26 PROPOSED legítimos · 88 APPROVED listos · 8 drift fixes · 15 ARCHIVED (superseded).
 > Criterio: scoring canónico (PM Impact 30% · Anti lock-in 25% · FOSS 20% · Inverse complexity 15% · Flow 10%).
+
+### SPECs aprobados en sesión 2026-06-24 (listos para implementación)
+
+#### Tier P0 — Implementar primero
+
+| ID | Título | Esfuerzo | Deps |
+|---|---|---|---|
+| **SPEC-192** | Anti-Adulation & Illusory Truth Defense — 3 jueces nuevos + hook regex + skill | 4-6h | — |
+| **SPEC-193** | Context Provenance & Injection Hardening — origin tagging, drop-after-use | 5-8h | — |
+| **SPEC-194** | Criterion Simulation Layer — meta-reflexión pre-acción (novel) | 6-9h | — |
+
+#### Tier P1
+
+| ID | Título | Esfuerzo | Deps |
+|---|---|---|---|
+| **SPEC-189** | Greedy Context Budget Selection — selección dinámica de contexto | 3h | SPEC-156 ✓ |
+| **SPEC-187** | Alineación principios éticos IAH | 3-4h | — |
+| **SPEC-149** | Sandbox OS-level para modos autónomos — Docker doble capa | ~20h | — |
+
+#### Tier P2 — Sprint siguiente
+
+| ID | Título | Esfuerzo | Deps |
+|---|---|---|---|
+| **SPEC-199** | Self-Conditioning Between Tribunal Rounds (embeddings) | 5-7h | SPEC-195 ✓ |
+| **SPEC-188 F2** | Sealed Contract Tests | ~8h | F1 ✓ |
+| **SE-220-spec** | Speculative Tool Execution — draft+verify (S0 BLOQUEANTE ≥60%) | ~18h | feasibility probe |
+| **SE-222** | OKF Adoptable Patterns — resource URI + log.md + index.md | ~8h | — |
+| **SPEC-163** | Router Modo 1/Modo 2 — System 1/2 dispatch (haiku/opus) | TBD | — |
+| **SPEC-164** | Memory feedback loop — auto-memoria desde resultados reales | TBD | — |
+| **SE-106** | Tiered Tribunal Execution — Tier 0 seq + Tier 1 paralelo + early-stop | M | SPEC-159 ✓ |
+| **SE-172** | markitdown como capa 0 universal de digestión | 6h | — |
+| **SE-220-sec** | Prompt defense patterns + context distribution optimization | M | SE-221 |
+| **SE-221** | Inverted security patterns as context engineering | M | — |
+| **SPEC-SE-036 S3** | JWT sunset opt-in (PAT migration) | 4h | Slices 1+2 ✓ |
+
+#### Tier P2-P3 — Backlog aprobado
+
+| ID | Título | Esfuerzo | Prioridad |
+|---|---|---|---|
+| **SPEC-182** | Bitemporal timeline frontmatter | 6-8h | P2 |
+| **SPEC-183** | Reconciliation 3-bucket drift-auditor | 5-7h | P3 · dep SPEC-182 |
+| **SE-216 S4** | Experiment Graph — tree search | ~6h | P3 |
+| **SPEC-188 F3+4** | Causal confidence + diagnostic metrics | ~56h | P3 · dep F2 |
+| **SE-105** | GLM Governance Manifest v1.0 | 4h | P-media |
+| **SE-031** | Query Library NL-to-WIQL/JQL | M | dep SE-076 ✓ |
+| **SPEC-108** | Agent Self-Improvement Loop + Sentry RCA | ~16h | P-media |
+| **SPEC-123** | Graphiti Temporal Pattern en knowledge-graph | M | dep SE-162 ✓ |
+| **SPEC-042** | Live Progress Feedback | M | P-media |
+| **SPEC-049** | Depth-Adjustable Review | S | P-media |
+| **SPEC-050** | Reaction Engine SDD Pipeline | M | P-media |
+| **SPEC-051** | Session State Machine for Dev Sessions | M | P-media |
+| **SPEC-052** | Recursive Task Decomposition with Approval Gates | M | P-media |
+| **SPEC-056** | Typed Agent Message Protocol | M | P-media |
+| **SPEC-059** | Semantic Fault Handlers for Agent Recovery | M | P-media |
+| **SPEC-073** | Query Keyword Expansion | S | P-media |
+| **SPEC-074** | Parallel Doc QA | M | P-media |
+| **SPEC-076** | PENDING_USER_INPUT en agentes autónomos | S | P-media |
+| **SPEC-046** | Visual Diff QA Merge | S | P-media |
+| **SPEC-044** | Trace Prompt Optimization | M | P-media |
+| **SPEC-165** | World Model Simulation | M | dep SPEC-194 |
+| **SPEC-166** | Explicit Configurator Agent | M | dep SPEC-163 |
+| **SPEC-167** | Critic with RAG over external memory | M | dep SE-162 ✓ |
+| **SPEC-168** | Actor Iterative Pre-action | M | dep SPEC-165+166 |
+| **SPEC-154** | Fórmula canónica V×U/E — scoring specs/PBIs | ~24h | P3 |
+| **SPEC-150** | Hooks multi-handler migration (TS plugin) | ~35h | P3 |
+| **SPEC-151** | Evals CI Gate (DeepEval + Promptfoo) | ~24h | P7 |
+| **SPEC-152** | Delegación jerárquica en orquestadores | ~18h | P8 |
+| **SPEC-153** | Memory bitemporal + consolidación episodic→semantic | ~22h | P12 |
+| **SPEC-032** | Security Benchmarks | M | enterprise |
+| **SPEC-162** | Self-Evolving Tools (research time-boxed) | ~12h | Tier 3 |
+| **SPEC-107** | AI Cognitive Debt Mitigation | ~32h | research |
+| **SE-030** | GraphRAG Quality Gates | M | dep SE-162 ✓ |
+| **SE-040** | Agent Degradation Canary | S | P-baja |
+| **SPEC-191** | Savia Telemetry (OpenTelemetry) | TBD | infra externa |
+
+### Total aprobado (2026-06-24): ~85h P0-P2 core · ~200h P3+ backlog
+
+---
+
+## Active Stack — 2026-06-11 (histórico)
 
 ### Recién cerrado (2026-06-07/11)
 
@@ -961,3 +1041,103 @@ Archivos: `docs/propuestas/SPEC-180..186-*.md`. Origen: `output/research/obsidia
 - Background-agent PostCompact por defecto (riesgo de drift no supervisado).
 - Integraciones Perplexity/Grok (data-sovereignty).
 - Sistema de 4 presets de contexto (sobre-ingenieria para workspace personal).
+
+---
+
+## Backlog restante — 2026-06-24 post-limpieza
+
+> Triage completo de 315 specs. Estado limpio post-sesión 2026-06-24.
+
+### Conteo por status
+
+| Status | Cantidad | Notas |
+|---|---|---|
+| **IMPLEMENTED** | 212 | En producción, mergeados |
+| **PROPOSED** | 56 | 41 enterprise + 15 bloqueados/diferidos con nota triage |
+| **ARCHIVED** | 31 | Superseded, non-spec docs, o reemplazados |
+| **APPROVED** | 9 | Bloqueados con nota explícita |
+| **IN_PROGRESS** | 3 | SPEC-150 (S2-6), SPEC-188 (F3-F4), SE-075 (Slice 3) |
+| **REJECTED** | 3 | SPEC-126, SPEC-143, SPEC-148 |
+| **ENTERPRISE_ONLY** | 1 | SE-045 (fuera de scope máquina dev) |
+
+### APPROVED bloqueados (9) — no accionables hasta desbloqueo
+
+| Spec | Bloqueo |
+|---|---|
+| SE-028 Oumi | GPU hardware |
+| SE-042 Voice Training | GPU hardware |
+| SPEC-023 LLM Trainer | GPU hardware, Phases 2-4 |
+| SPEC-080 Unsloth | GPU hardware |
+| SPEC-SE-027 SLM Training | GPU hardware |
+| SPEC-127 Provider-agnostic OpenCode | ~80h, sesión dedicada requerida |
+| SPEC-162 Self-Evolving Tools | Necesita 30d telemetría eval harness |
+| SPEC-190 Application Code Twin | ~28-35h, sesión dedicada requerida |
+| SPEC-191 Savia Telemetry | Depende de savia-web infra |
+
+### IN_PROGRESS pendientes (3)
+
+| Spec | Qué queda | Esfuerzo |
+|---|---|---|
+| SPEC-150 Hooks multi-handler | Slices 2-6: migrar a plugin TS | ~30h |
+| SPEC-188 Root-Cause F3+F4 | Fases 3+4 completas | ~50h |
+| SE-075 Voicebox Slice 3 | Kokoro 82M model download (~500MB) | ~3h post-autorización |
+
+### Próximas sesiones recomendadas
+
+1. **SE-075 Slice 3** — si se autoriza descarga Kokoro (~500MB): 3h
+2. **SPEC-150 S2-S6** — migración hooks TS: sesión dedicada ~30h
+3. **SPEC-127** — provider-agnostic compatibility: sesión dedicada ~80h
+4. **SPEC-190** — Application Code Twin: sesión dedicada ~30h
+5. **GPU desbloqueado** → SE-028/042, SPEC-023/080 entran automáticamente
+
+---
+
+## Estado final — 2026-06-24
+
+> Triage completo de 315 specs. Roadmap limpio post-sesión.
+
+### Distribución por status
+
+| Status | Cantidad | % | Qué significa |
+|---|---|---|---|
+| **IMPLEMENTED** | **222** | 70% | En producción, funcionando |
+| **ARCHIVED** | **50** | 15% | Superseded, sin caso, hardware sin plan |
+| **PROPOSED** | 32 | 10% | 9 core bloqueados + 23 enterprise (await decisión) |
+| **APPROVED** | 7 | 2% | GPU-blocked (5) + sesiones largas (2) |
+| REJECTED | 3 | 0% | Descartados con evidencia |
+| ENTERPRISE_ONLY | 1 | 0% | SE-045 (scope exclusivo enterprise) |
+
+### Core PROPOSED (9) — condiciones de desbloqueo
+
+| Spec | Condición |
+|---|---|
+| SE-064 ACM multi-host | Usuario activo reporta Cursor/Windsurf en producción |
+| SPEC-009 Savia Teams | Teams Graph API disponible |
+| SPEC-017 Dependency USB | Proyecto air-gap real activo |
+| SPEC-060/062 SaviaDivergent | User research ≥3 usuarios neurodivergentes |
+| SPEC-064 Computer Use | Anthropic Computer Use API GA |
+| SPEC-102/104 PDF compliance | opendataloader-pdf GA release |
+| SPEC-OC-04 OpenCode Native | Aprobación humana slice por slice (Slice 1 trivial ~30min) |
+
+### Enterprise PROPOSED (23) — condición única
+
+Todos los 23 specs enterprise esperan una sola condición: **decisión estratégica de lanzar Savia Enterprise**. Sin esa decisión, son correctamente PROPOSED.
+
+### APPROVED bloqueados (7)
+
+| Spec | Bloqueo |
+|---|---|
+| SE-028 Oumi | GPU hardware |
+| SE-042 Voice Training | GPU hardware |
+| SPEC-023 LLM Trainer | GPU hardware |
+| SPEC-080 Unsloth | GPU hardware |
+| SPEC-SE-027 SLM | GPU hardware |
+| SPEC-127 OpenCode compat | Implementado — flip pendiente en PR #874 |
+| SPEC-190 Code Twin | Implementado — flip pendiente en PR #874 |
+
+### Próxima sesión
+
+1. **SPEC-OC-04 Slice 1** — symlink loop, ~30min, zero riesgo
+2. **GPU desbloqueado** → SE-028/042/023/080/SE-027 entran automáticamente
+3. **Decisión enterprise** → 23 specs pasan de PROPOSED a pipeline
+4. **Desbloqueo API/libs** → SPEC-064 (Computer Use), SPEC-102 (PDF)

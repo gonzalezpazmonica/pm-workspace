@@ -1,7 +1,9 @@
 ---
 spec_id: SE-204
 title: Evaluation harness minimo para agentes
-status: APPROVED
+status: IMPLEMENTED
+drift_note: "drift: components existed pre-triage (tests/evals/ with 3+ agents + scripts/run-agent-evals.sh + .opencode/skills/evaluations-framework/ all implemented)"
+implemented_at: "2026-06-24"
 tier: 1
 priority: P2
 effort: M

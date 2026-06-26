@@ -9,6 +9,8 @@ origin_date: "2026-03-22"
 migrated_at: "2026-04-19"
 migrated_from: body-prose
 related: [SPEC-SE-027, SPEC-080, SE-028, SE-042]
+
+triage_note: "BLOCKED: GPU required, Phases 2-4 pending hardware"
 ---
 
 # SPEC-023: Savia LLM Trainer — Context Brain Local

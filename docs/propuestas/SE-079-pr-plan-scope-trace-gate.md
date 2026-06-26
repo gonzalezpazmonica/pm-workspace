@@ -1,14 +1,14 @@
 ---
 id: SE-079
 title: SE-079 — pr-plan G13 scope-trace gate (anti scope-creep)
-status: APPROVED
+status: IMPLEMENTED
 origin: Karpathy "Surgical Changes" principle (forrestchang/andrej-karpathy-skills) — review 2026-04-26
 author: Savia
 priority: media
 effort: S 3h
 related: pr-plan, code-reviewer, SE-058 (G11 PR summary)
 approved_at: "2026-04-26"
-applied_at: null
+applied_at: "2026-06-24"
 expires: "2026-06-26"
 era: 189
 ---

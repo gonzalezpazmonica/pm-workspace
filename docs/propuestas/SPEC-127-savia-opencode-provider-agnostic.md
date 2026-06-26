@@ -1,7 +1,7 @@
 ---
 spec_id: SPEC-127
 title: Savia ↔ OpenCode provider-agnostic compatibility — inference-independent foundation
-status: APPROVED
+status: IMPLEMENTED
 approved_by: operator (2026-04-30)
 slice_1_status: IMPLEMENTED 2026-04-30
 slice_2a_status: IMPLEMENTED 2026-04-30 (hook portability classifier + 64-hook full classification)
@@ -23,6 +23,9 @@ related_specs:
 related_rules:
   - .claude/rules/domain/autonomous-safety.md
   - .claude/rules/domain/zero-project-leakage.md
+
+implemented_at: "2026-06-24"
+triage_note: "All slices 1-5 IMPLEMENTED (2026-04-30/05-01); Slice 3 NOT_NEEDED (native OpenCode slash commands). Status drift corrected 2026-06-24."
 ---
 
 # SPEC-127: Savia ↔ OpenCode provider-agnostic compatibility

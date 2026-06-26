@@ -1,8 +1,9 @@
 ---
 spec_id: SE-101
 title: Output dir retention policy (312 stale files, 4.7MB)
-status: APPROVED
+status: IMPLEMENTED
 approved_by: operator (2026-05-27)
+implemented_at: "2026-06-24"
 priority: P2
 effort: XS
 estimated_time: 30 min

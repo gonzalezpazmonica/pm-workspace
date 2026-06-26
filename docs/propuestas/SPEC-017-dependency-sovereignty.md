@@ -6,6 +6,8 @@ origin_date: "2026-03-22"
 migrated_at: "2026-04-18"
 migrated_from: body-prose
 priority: baja
+
+triage_note: "BLOCKED: requires physical USB drives + offline env"
 ---
 
 # SPEC-017: Dependency Sovereignty — USB Offline Installer
