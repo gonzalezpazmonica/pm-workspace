@@ -1,6 +1,6 @@
 {
-  "hash": "9ea58a967702",
-  "total": 1389,
+  "hash": "4b7c68c67795",
+  "total": 1390,
   "resources": [
     {
       "category": "analysis",
@@ -10918,6 +10918,19 @@
       "kind": "cmd",
       "path": ".claude/commands/linear-sync.md",
       "description": "Sincronización bidireccional con Linear — issues, cycles, métricas unificadas"
+    },
+    {
+      "category": "planning",
+      "name": "loop-budget-check",
+      "intents": [
+        "budget",
+        "check",
+        "loop",
+        "scripts"
+      ],
+      "kind": "script",
+      "path": "scripts/loop-budget-check.sh",
+      "description": "scripts/loop-budget-check.sh"
     },
     {
       "category": "planning",
