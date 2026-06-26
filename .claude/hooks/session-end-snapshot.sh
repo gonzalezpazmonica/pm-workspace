@@ -30,8 +30,7 @@ fi
 # ── SE-229: Session Registry release + gc (fire-and-forget) ──────────────────
 REGISTRY_SCRIPT=""
 for reg_path in "${ROOT}/scripts/session-registry.sh" \
-                "./scripts/session-registry.sh" \
-                "${HOME}/savia/scripts/session-registry.sh"; do
+                "./scripts/session-registry.sh"; do
   if [ -x "$reg_path" ] 2>/dev/null; then
     REGISTRY_SCRIPT="$reg_path"
     break
