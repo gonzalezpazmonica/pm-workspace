@@ -5,6 +5,32 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased] — 2026-06-26 · SE-229 Slice 1 — Session Registry MVP
+
+Added: sincronización de sesiones Savia paralelas (SE-229, Slice 1).
+
+- scripts/session-registry.sh: registro JSONL de sesiones activas con
+
+  operaciones register, claim, release, list y gc. Protección de escrituras
+  concurrentes mediante flock. Fallback a python3 cuando jq no está disponible.
+
+- docs/rules/domain/parallel-session-protocol.md: protocolo que obliga a toda
+
+  sesión autónoma a registrarse antes de operaciones git, reclamar su rama
+  y hacer release al terminar. Evita conflictos entre nidos y sesiones paralelas.
+
+- .claude/hooks/session-init.sh: hook de arranque que registra la sesión y
+
+  reclama la rama automáticamente cuando SAVIA_NIDO está set.
+
+- .claude/hooks/session-end-snapshot.sh: hook de cierre que libera la sesión
+
+  y ejecuta gc sobre entradas stale (heartbeat >10 min).
+
+- tests/test-session-registry.bats: 15 tests BATS que cubren register,
+
+  claim conflict, release, gc, list y edge cases de sesión duplicada.
+
 ## [Unreleased] — 2026-06-13 · Docs/SCM gaps fix tras PR #844
 
 Fixed: cinco gaps detectados en auditoria post-merge.
