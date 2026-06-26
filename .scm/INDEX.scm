@@ -1,6 +1,6 @@
 # Savia Capability Map — INDEX
-> hash: df0bab3ff806 | resources: 1389
-> 557 commands · 106 skills · 81 agents · 645 scripts
+> hash: 0a5156e361db | resources: 1388
+> 557 commands · 105 skills · 81 agents · 645 scripts
 
 [analysis] /a11y-report — accesibilidad,completos,conformidad,código,declaración — cmd:.claude/commands/a11y-report.md
 [analysis] Trace Optimize — across,distributed,optimize,rates,sampling — cmd:.claude/commands/trace-optimize.md
@@ -897,7 +897,6 @@
 [planning] pbi-jtbd —  — cmd:.claude/commands/pbi-jtbd.md
 [planning] pbi-plan-sprint — allocate,pbis,plan,sprint,upcoming — cmd:.claude/commands/pbi-plan-sprint.md
 [planning] pbi-prd —  — cmd:.claude/commands/pbi-prd.md
-[planning] personal-vault — escribe,memoria,perfil,personal,preferencias — skill:.claude/skills/personal-vault/SKILL.md
 [planning] php-developer —  — agent:.opencode/agents/php-developer.md
 [planning] platform-migrate — asistida,azure,devops,github,jira — cmd:.claude/commands/platform-migrate.md
 [planning] playbook-create — crear,evolutivos,framework,playbooks,repetitivas — cmd:.claude/commands/playbook-create.md

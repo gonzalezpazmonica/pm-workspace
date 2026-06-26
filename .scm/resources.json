@@ -1,6 +1,6 @@
 {
-  "hash": "9ea58a967702",
-  "total": 1389,
+  "hash": "301336fb9b2f",
+  "total": 1388,
   "resources": [
     {
       "category": "analysis",
@@ -11594,20 +11594,6 @@
       "kind": "cmd",
       "path": ".claude/commands/pbi-prd.md",
       "description": ">"
-    },
-    {
-      "category": "planning",
-      "name": "personal-vault",
-      "intents": [
-        "escribe",
-        "memoria",
-        "perfil",
-        "personal",
-        "preferencias"
-      ],
-      "kind": "skill",
-      "path": ".claude/skills/personal-vault/SKILL.md",
-      "description": "Usar cuando se lee o escribe el repositorio personal del usuario (perfil, preferencias, memoria)."
     },
     {
       "category": "planning",

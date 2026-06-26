@@ -1,5 +1,5 @@
 # planning — Savia Capability Map (L1)
-> 583 resources
+> 582 resources
 
 - **/accreditation-track** (cmd): >
 - **/decide-architecture** (cmd): Clasifica una tarea como WORKFLOW (deterministica) o AGENT (loop). Bias hacia workflow per Anthropic. Sugiere plantilla inicial. Mide accuracy contra corpus curado de 20 tareas.
@@ -335,7 +335,6 @@
 - **pbi-jtbd** (cmd): >
 - **pbi-plan-sprint** (cmd): Plan and allocate PBIs to upcoming sprint
 - **pbi-prd** (cmd): >
-- **personal-vault** (skill): Usar cuando se lee o escribe el repositorio personal del usuario (perfil, preferencias, memoria).
 - **php-developer** (agent): >
 - **platform-migrate** (cmd): Migración asistida entre plataformas — Azure DevOps ↔ Jira ↔ GitHub Projects ↔ Linear
 - **playbook-create** (cmd): Crear playbooks evolutivos para tareas repetitivas con framework ACE
