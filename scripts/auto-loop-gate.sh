@@ -7,31 +7,24 @@ set -uo pipefail
 
 # -- Recursion guard
 if [[ "${SAVIA_LOOP_CONTEXT:-}" != "" ]]; then
-  printf '{"decision":"SINGLE_SHOT","loop_skill":null,"convergence_criterion":null,"max_iterations":null,"rationale":"SAVIA_LOOP_CONTEXT already set — recursion blocked (context: %s)","proposal_text":null}\n' \
-    "${SAVIA_LOOP_CONTEXT}"
+  printf '{"decision":"SINGLE_SHOT","loop_skill":null,"convergence_criterion":null,"max_iterations":null,"rationale":"SAVIA_LOOP_CONTEXT already set — recursion blocked","proposal_text":null}\n'
   exit 0
 fi
 
 # -- Args
 REQUEST=""
 CONTEXT_FILE=""
-REQUEST_PROVIDED=false
 
 while [[ $# -gt 0 ]]; do
   case "$1" in
-    --request)  REQUEST="$2"; REQUEST_PROVIDED=true; shift 2 ;;
-    --context)  CONTEXT_FILE="$2";                   shift 2 ;;
+    --request)  REQUEST="$2";       shift 2 ;;
+    --context)  CONTEXT_FILE="$2";  shift 2 ;;
     *)          shift ;;
   esac
 done
 
-if [[ "$REQUEST_PROVIDED" == false ]]; then
-  echo "ERROR: --request is required" >&2
-  exit 1
-fi
-
 if [[ -z "$REQUEST" ]]; then
-  printf '{"decision":"SINGLE_SHOT","loop_skill":null,"convergence_criterion":null,"max_iterations":null,"rationale":"empty request — no pattern to classify","proposal_text":null}\n'
+  printf '{"decision":"SINGLE_SHOT","loop_skill":null,"convergence_criterion":null,"max_iterations":null,"rationale":"No request provided","proposal_text":null}\n'
   exit 0
 fi
 
@@ -66,7 +59,7 @@ elif has '\brefactor\b' && has '\b(coverage|cobertura|test)\b'; then
   CONVERGENCE="coverage_threshold_met"
   MAX_ITER=6
   RATIONALE="Refactor request with explicit coverage/test criterion"
-elif has '\b(code.{0,5}review|pr.{0,5}review|review[[:space:]]+de[[:space:]]+código|revisar[[:space:]]+(pr|código))\b'; then
+elif has '\b(code[[:space:]]+review|pr[[:space:]]+review|code-review|review[[:space:]]+pr)\b'; then
   DECISION="PROPOSE_LOOP"
   LOOP_SKILL="court-orchestrator"
   CONVERGENCE="court_no_blocking_findings"

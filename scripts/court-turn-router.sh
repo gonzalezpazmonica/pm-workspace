@@ -45,16 +45,6 @@ while [[ $# -gt 0 ]]; do
 done
 
 [[ -z "$FINDINGS_FILE" ]] && usage
-
-if [[ -n "$ROUND" ]] && ! [[ "$ROUND" =~ ^[0-9]+$ ]]; then
-  echo "ERROR: --round must be a non-negative integer, got: '$ROUND'" >&2
-  exit 2
-fi
-if [[ -n "$MAX_ROUND" ]] && ! [[ "$MAX_ROUND" =~ ^[0-9]+$ ]]; then
-  echo "ERROR: --max-round must be a positive integer, got: '$MAX_ROUND'" >&2
-  exit 2
-fi
-
 [[ -f "$FINDINGS_FILE" ]] || die "Findings file not found: $FINDINGS_FILE"
 
 CONTENT=$(cat "$FINDINGS_FILE" 2>/dev/null) || die "Cannot read file: $FINDINGS_FILE"
@@ -74,7 +64,7 @@ is_logic=0
 is_spec=0
 is_naming=0
 
-if echo "$LOWER" | grep -qiE 'injection|credential|owasp|pii|\bauth\b|xss|sql'; then
+if echo "$LOWER" | grep -qiE 'injection|credential|owasp|pii|auth|xss|sql'; then
   is_security=1
 fi
 

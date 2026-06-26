@@ -97,12 +97,6 @@ done
 
 # ── Validate reason ───────────────────────────────────────────────────────────
 
-# Guard against path traversal in --loop value
-if [[ "$LOOP" == *"/"* || "$LOOP" == *".."* ]]; then
-  echo "ERROR: --loop value must not contain '/' or '..': '$LOOP'" >&2
-  exit 2
-fi
-
 if ! valid_reason "$REASON"; then
   echo "ERROR: unknown termination reason: '$REASON'" >&2
   echo "Valid reasons: completed user_abort token_budget stop_hook max_turns unrecoverable_error" >&2
@@ -114,12 +108,8 @@ fi
 EXIT_CODE=$(reason_to_exit_code "$REASON")
 TIMESTAMP=$(date -u +"%Y-%m-%dT%H:%M:%SZ" 2>/dev/null || date -u +"%Y-%m-%dT%H:%M:%SZ")
 
-# Escape newlines in message (must happen before other JSON escaping)
-MSG_ESCAPED="${MESSAGE//$'\n'/\\n}"
-MSG_ESCAPED="${MSG_ESCAPED//$'\r'/\\r}"
-
 # Escape message for JSON (basic: backslash and double-quote)
-MESSAGE_ESCAPED=$(printf '%s' "$MSG_ESCAPED" | sed 's/\\/\\\\/g; s/"/\\"/g')
+MESSAGE_ESCAPED=$(printf '%s' "$MESSAGE" | sed 's/\\/\\\\/g; s/"/\\"/g')
 
 JSON="{\"ts\":\"${TIMESTAMP}\",\"loop\":\"${LOOP}\",\"reason\":\"${REASON}\",\"message\":\"${MESSAGE_ESCAPED}\",\"exit_code\":${EXIT_CODE}}"
 

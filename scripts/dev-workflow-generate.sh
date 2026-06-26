@@ -104,12 +104,10 @@ case "$language" in
 esac
 
 # ── Feature flags ─────────────────────────────────────────────────────────────
-# Security step: security-sensitive keywords (negation-aware: "no security" does not trigger)
+# Security step: spec mentions security-sensitive keywords
 has_security=false
-if echo "$spec_lower" | grep -qE '\bsecurity\b|\bauth\b|\bauthentication\b|\bauthorization\b|\bpii\b|\bcredential\b|\bjwt\b|\boauth\b|\bencrypt\b'; then
-  if ! echo "$spec_lower" | grep -qE '\b(no|non|without|not)[[:space:]-]+security\b'; then
-    has_security=true
-  fi
+if echo "$spec_lower" | grep -qE '\bsecurity\b|\bauth\b|\bauthentication\b|\bauthorization\b|\bpii\b|\bcredential\b|\btoken\b|\bjwt\b|\boauth\b|\bencrypt\b|\bpassword\b|\bsecret\b'; then
+  has_security=true
 fi
 
 # Test step: spec has ACs in [ ] checkbox format or explicit test section
@@ -189,7 +187,7 @@ if [[ "$has_tests" == "true" ]]; then
       "$impl_access" "false" "$test_step_id"
     add_step "test-engineer" \
       "Escribir tests unitarios e integración para los criterios de aceptación" \
-      "$impl_access" "false" "$impl_step_id"
+      "$arch_access" "false" "$impl_step_id"
   else
     add_step "test-engineer" \
       "Escribir tests unitarios e integración para los criterios de aceptación" \
