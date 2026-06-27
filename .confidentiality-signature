@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=9d6e5411893ff2406fce6d10964592d3f84829b5c7e7899177974d9a6a65f6e5
-timestamp=2026-06-27T08:06:07Z
-branch=agent/se228-s2-maker-checker-20260625
-head_commit=96b2a7f6
-signature=d5947b04446719b872bd605456ee3c4828a012516fb8f72af82d5f25e451f361
+diff_hash=6edf4ab4b256206f1d6bc07fa9a49bdcc8c9ce12bd3cb2f3a2070c99c72ce0ae
+timestamp=2026-06-27T10:27:48Z
+branch=agent/se228-s1-state-schema-20260625
+head_commit=7819cb3a
+signature=e0ca78e362eb43dc370612d706e5f39e0874b75e902cb3c79fc3029298005000
