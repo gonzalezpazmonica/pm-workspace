@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=9448bbaa30d5c19e82608e71dd1e88fd04ecdace46c53fd8ee9c129783a65d79
-timestamp=2026-06-27T16:18:35Z
+diff_hash=a493aa95fd116d6c1ae46ab1e380eb1efce8969112354354fb85687aa8ac7b47
+timestamp=2026-06-27T17:10:49Z
 branch=agent/se228-s4-loop-budget-20260625
-head_commit=1987c7fc
-signature=b6dfec0a047379025cfeae8cfaf25bc6b04977ed907ea85128ea559ea0c73969
+head_commit=1f9db373
+signature=befda2a53a456d5204bf24187ac01670919f44c4d02218d612d5fc919af64c0f
