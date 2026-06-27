@@ -248,6 +248,10 @@ if [ -n "${CLAUDE_ENV_FILE:-}" ]; then
   echo "export PM_SESSION_DATE=$(date +%Y-%m-%d)" >> "$CLAUDE_ENV_FILE"
 fi
 
+# ── SE-230: focal status en banner ───────────────────────────────────────────
+FOCAL_SUMMARY=$(timeout 0.5 bash "${SCRIPT_DIR}/../../scripts/focal-status.sh" --summary 2>/dev/null || echo "Focal: timeout")
+[ -n "$FOCAL_SUMMARY" ] && ITEMS+=("$FOCAL_SUMMARY")
+
 # ── Generar output (bash puro, sin jq) ───────────────────────────────────────
 CTX="PM-Workspace Init:"
 for item in "${ITEMS[@]}"; do
