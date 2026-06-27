@@ -1,6 +1,6 @@
 {
-  "hash": "abe5d480f82c",
-  "total": 1391,
+  "hash": "81feac4e1e3a",
+  "total": 1393,
   "resources": [
     {
       "category": "analysis",
@@ -7204,6 +7204,19 @@
       "kind": "script",
       "path": "scripts/session-init-bootstrap.sh",
       "description": "session-init-bootstrap.sh — SE-045 Slice 1 async bootstrap."
+    },
+    {
+      "category": "memory",
+      "name": "session-registry",
+      "intents": [
+        "coordination",
+        "registry",
+        "session",
+        "slice"
+      ],
+      "kind": "script",
+      "path": "scripts/session-registry.sh",
+      "description": "session-registry.sh — Session coordination registry (SE-229 Slice 1)"
     },
     {
       "category": "memory",
@@ -15540,6 +15553,20 @@
       "kind": "skill",
       "path": ".claude/skills/legal-compliance/SKILL.md",
       "description": "Usar cuando se audita compliance legal contra legislación española consolidada."
+    },
+    {
+      "category": "quality",
+      "name": "loop-phasing-audit",
+      "intents": [
+        "audit",
+        "audita",
+        "declarado",
+        "inferido",
+        "level"
+      ],
+      "kind": "script",
+      "path": "scripts/loop-phasing-audit.sh",
+      "description": "loop-phasing-audit.sh — Audita el nivel loop_level declarado vs inferido"
     },
     {
       "category": "quality",

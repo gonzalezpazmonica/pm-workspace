@@ -1,6 +1,6 @@
 # Savia Capability Map — INDEX
-> hash: b2f8d82f8ffb | resources: 1391
-> 557 commands · 106 skills · 81 agents · 647 scripts
+> hash: efdf2e9627d8 | resources: 1393
+> 557 commands · 106 skills · 81 agents · 649 scripts
 
 [analysis] /a11y-report — accesibilidad,completos,conformidad,código,declaración — cmd:.claude/commands/a11y-report.md
 [analysis] Trace Optimize — across,distributed,optimize,rates,sampling — cmd:.claude/commands/trace-optimize.md
@@ -550,6 +550,7 @@
 [memory] session-cleanup — abtop,cleanup,orphan,pattern,process — script:scripts/session-cleanup.sh
 [memory] session-event-log — agents,durable,event,managed,pattern — script:scripts/session-event-log.sh
 [memory] session-init-bootstrap — async,bootstrap,init,session,slice — script:scripts/session-init-bootstrap.sh
+[memory] session-registry — coordination,registry,session,slice — script:scripts/session-registry.sh
 [memory] session-resume-index — index,metadata,multica,pattern,resume — script:scripts/session-resume-index.sh
 [memory] session-save —  — cmd:.claude/commands/session-save.md
 [memory] session-state-machine — machine,phase,session,spec,state — script:scripts/session-state-machine.sh
@@ -1200,6 +1201,7 @@
 [quality] knowledge-lint — base,check,health,knowledge,lint — script:scripts/knowledge-lint.sh
 [quality] legal-audit — auditoría,compliance,contra,española,legal — cmd:.claude/commands/legal-audit.md
 [quality] legal-compliance — audita,compliance,consolidada,contra,española — skill:.claude/skills/legal-compliance/SKILL.md
+[quality] loop-phasing-audit — audit,audita,declarado,inferido,level — script:scripts/loop-phasing-audit.sh
 [quality] markdownlint — dependency,markdownlint,native,wrapper — script:scripts/markdownlint.sh
 [quality] mcp-audit — across,audit,configs,overhead,server — script:scripts/mcp-audit.sh
 [quality] mcp-security-audit — audit,chain,config,security,slice — script:scripts/mcp-security-audit.sh
