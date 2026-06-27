@@ -54,6 +54,7 @@
 - **knowledge-lint** (script): knowledge-lint.sh — LLM Wiki pattern: periodic knowledge base health check
 - **legal-audit** (cmd): Auditoría de compliance legal contra legislación española (legalize-es)
 - **legal-compliance** (skill): Usar cuando se audita compliance legal contra legislación española consolidada.
+- **loop-phasing-audit** (script): loop-phasing-audit.sh — Audita el nivel loop_level declarado vs inferido
 - **markdownlint** (script): Native markdownlint wrapper — no npm dependency.
 - **mcp-audit** (script): mcp-audit.sh — audit MCP server token overhead across configs
 - **mcp-security-audit** (script): mcp-security-audit.sh — SE-058 Slice 1 MCP supply-chain + config audit.
