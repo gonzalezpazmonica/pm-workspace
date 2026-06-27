@@ -12,6 +12,8 @@ cat /dev/stdin > /dev/null 2>&1 || true
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 ROOT="${SCRIPT_DIR}/.."
+# Derive SCRIPTS_DIR for SE-230 integration
+SCRIPTS_DIR="${ROOT}/scripts"
 
 SNAPSHOT_SCRIPT=""
 for spath in "$ROOT/scripts/context-snapshot.sh" "./scripts/context-snapshot.sh"; do
@@ -25,6 +27,11 @@ done
 # Stop hook latency is observable to user; snapshot work is best-effort.
 if [ -n "$SNAPSHOT_SCRIPT" ]; then
   ( echo '' | bash "$SNAPSHOT_SCRIPT" save > /dev/null 2>&1 ) & disown
+fi
+
+# SE-230: guardar estado focal al cerrar
+if [ -n "${SAVIA_NIDO:-}" ]; then
+  ( bash "$SCRIPTS_DIR/focal-switch.sh" --save-only --nido "$SAVIA_NIDO" > /dev/null 2>&1 ) & disown
 fi
 
 exit 0
