@@ -29,7 +29,7 @@ INDEX_FILE="$PROJECT_ROOT/docs/rules/INDEX.md"
 
 [[ ! -d "$RULES_DIR" ]] && { echo "ERROR: rules dir not found: $RULES_DIR" >&2; exit 2; }
 
-TODAY=$(date +%Y-%m-%d)
+TODAY=$(TZ=UTC date +%Y-%m-%d)
 
 # Generate INDEX content via Python (handles frontmatter extraction cleanly)
 TMP_INDEX=$(mktemp)

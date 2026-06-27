@@ -50,6 +50,8 @@ import { contextDropAfterUse } from "./guards/context-drop-after-use.ts";
 import { subagentAudienceFilter } from "./guards/subagent-audience-filter.ts";
 // SPEC-150 Slice 2: sycophancy detection (TS port of sycophancy-strip.sh)
 import { sycophancyGuard } from "./guards/sycophancy-guard.ts";
+// SE-229: block blind signing of confidentiality signature without prior audit
+import { blockBlindSigning } from "./guards/block-blind-signing.ts";
 
 const BEFORE_GUARDS = [
   // Cheap guards first — fail fast.
@@ -64,6 +66,8 @@ const BEFORE_GUARDS = [
   blockGitignoredReferences,
   promptInjectionGuard,
   tddGate,
+  // SE-229: confidentiality signature must follow real audit, not CI shortcuts
+  blockBlindSigning,
   // SE-091: caveman always-on reminders (non-blocking)
   autoGrillMe,
   autoZoomOut,
