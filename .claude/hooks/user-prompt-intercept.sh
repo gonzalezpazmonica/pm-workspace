@@ -65,6 +65,46 @@ if [[ "$CWD" == "$PROJECTS_DIR"/* ]]; then
   fi
 fi
 
+# Job 3: SE-230 Auto-Loop Gate (opt-in via SAVIA_AUTO_LOOP=enabled)
+# Skips if SAVIA_LOOP_CONTEXT is set (already inside a loop — recursion blocked by gate itself).
+if [[ "${SAVIA_AUTO_LOOP:-}" == "enabled" ]] && [[ ${#INPUT_TEXT} -gt 10 ]]; then
+  AUTO_LOOP_GATE="$REPO_ROOT/scripts/auto-loop-gate.sh"
+  if [[ -f "$AUTO_LOOP_GATE" ]]; then
+    GATE_OUTPUT=$(bash "$AUTO_LOOP_GATE" --request "$INPUT_TEXT" 2>/dev/null || true)
+    if [[ -n "$GATE_OUTPUT" ]]; then
+      GATE_DECISION=$(echo "$GATE_OUTPUT" | python3 -c "import sys,json; d=json.load(sys.stdin); print(d.get('decision',''))" 2>/dev/null || true)
+      if [[ "$GATE_DECISION" == "PROPOSE_LOOP" ]]; then
+        PROPOSAL=$(echo "$GATE_OUTPUT" | python3 -c "
+import sys, json
+d = json.load(sys.stdin)
+p = d.get('proposal_text') or ''
+print(p.replace('\\\\n', '\n'))
+" 2>/dev/null || true)
+        if [[ -n "$PROPOSAL" ]]; then
+          OUTPUT="${OUTPUT:+$OUTPUT
+}[SE-230 Auto-Loop Gate]
+$PROPOSAL
+[End Auto-Loop Gate]"
+          # Write proposal to tmp file for hooks that cannot use stdout
+          echo "$PROPOSAL" > "$SAVIA_TMP/auto-loop-proposal-$$.txt" 2>/dev/null || true
+        fi
+      elif [[ "$GATE_DECISION" == "CLARIFY_NEEDED" ]]; then
+        CLARIFY=$(echo "$GATE_OUTPUT" | python3 -c "
+import sys, json
+d = json.load(sys.stdin)
+print(d.get('proposal_text') or '')
+" 2>/dev/null || true)
+        if [[ -n "$CLARIFY" ]]; then
+          OUTPUT="${OUTPUT:+$OUTPUT
+}[SE-230 Clarification needed]
+$CLARIFY
+[End Clarification]"
+        fi
+      fi
+    fi
+  fi
+fi
+
 # Output context injection (if any)
 if [[ -n "$OUTPUT" ]]; then
   echo "$OUTPUT"
