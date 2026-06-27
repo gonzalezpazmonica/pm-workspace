@@ -283,8 +283,10 @@
 - **lib/os-detect** (script): scripts/lib/os-detect.sh — Portable OS detection and path defaults
 - **lib/slm-common** (script): slm-common.sh — Shared helpers for SLM subcommands (SE-049 Slice 1).
 - **linear-sync** (cmd): Sincronización bidireccional con Linear — issues, cycles, métricas unificadas
+- **loop-run-log** (script): loop-run-log.sh — CLI para gestión del run-log append-only de skills autónomas
 - **loop-state-init** (script): loop-state-init.sh — Inicializa STATE.md canónico para un skill autónomo
 - **loop-state-prune** (script): loop-state-prune.sh — Archiva ítems cerrados en Recently Resolved
+- **loop-verify** (script): loop-verify.sh — Genera prompt adversarial para sub-agente verificador (SE-228 S2)
 - **managed-content** (skill): Usar cuando se regeneran secciones auto-generadas en documentos con marcadores de seguridad.
 - **managed-scan** (cmd): Scan managed content for stale or outdated sections
 - **managed-sync** (cmd): Synchronize and regenerate managed content markers

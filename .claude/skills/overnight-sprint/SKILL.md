@@ -136,10 +136,10 @@ SIEMPRE → Generar audit log
 
 > **Metricas**: PRs/sesion ≥5, aceptacion ≥70%, crashes ≤3. SE-206: `scripts/agent-wait-idle.sh`.
 
-## Loop State
+## Loop State y Run Log
 
-Este skill usa STATE.md canónico. Schema: `docs/rules/domain/loop-state-schema.md`.
-Inicializar: `bash scripts/loop-state-init.sh --skill overnight-sprint`
+STATE.md canónico: schema `docs/rules/domain/loop-state-schema.md`, init con `scripts/loop-state-init.sh --skill overnight-sprint`.
+Run log append-only: `scripts/loop-run-log.sh append --skill overnight-sprint ...` (schema: `loop-run-log-schema.md`).
 
 ## Modo CI Unblock (--mode ci-unblock)
 
