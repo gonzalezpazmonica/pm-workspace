@@ -91,6 +91,8 @@
 | L2 | [language-packs.md](domain/language-packs.md) | Language Packs (16 lenguajes) | — |
 | L2 | [lightweight-eng-review.md](domain/lightweight-eng-review.md) | Lightweight Engineering Review (LER) — SE-207 | SE-207 |
 | L2 | [loop-run-log-schema.md](domain/loop-run-log-schema.md) | Loop Run Log — Schema | SE-228 |
+| L2 | [loop-budget-schema.md](domain/loop-budget-schema.md) | Loop Budget Schema — loop-budget.md | SE-228 |
+| L2 | [loop-phasing.md](domain/loop-phasing.md) | Loop Phasing — Niveles L0→L3 para skills autónomas | SE-228 |
 | L2 | [maker-checker-protocol.md](domain/maker-checker-protocol.md) | Maker/Checker Split Protocol — SE-228 S2 | SE-228 |
 | L2 | [managed-content.md](domain/managed-content.md) | Rule: Managed Content Markers — Safe Auto-Generated Content | — |
 | L2 | [mcp-catalog-policy.md](domain/mcp-catalog-policy.md) | MCP Catalog Policy — SPEC-141 | — |
