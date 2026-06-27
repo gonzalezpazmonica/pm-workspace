@@ -286,6 +286,7 @@
 - **loop-run-log** (script): loop-run-log.sh — CLI para gestión del run-log append-only de skills autónomas
 - **loop-state-init** (script): loop-state-init.sh — Inicializa STATE.md canónico para un skill autónomo
 - **loop-state-prune** (script): loop-state-prune.sh — Archiva ítems cerrados en Recently Resolved
+- **loop-budget-check** (script): scripts/loop-budget-check.sh — Verifica que el loop no exceda el budget declarado en loop-budget.md
 - **loop-verify** (script): loop-verify.sh — Genera prompt adversarial para sub-agente verificador (SE-228 S2)
 - **managed-content** (skill): Usar cuando se regeneran secciones auto-generadas en documentos con marcadores de seguridad.
 - **managed-scan** (cmd): Scan managed content for stale or outdated sections
