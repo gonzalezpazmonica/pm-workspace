@@ -803,14 +803,16 @@ Google Sheets · ServiceNow/SAP · Tableau · Kafka · VS Code ext · Cloud voic
 | 3 | ~~**SPEC-197**~~ | ~~Annealing schedule~~ ✓ implementado + wired (#844) | 17 pytest | — | mergeado |
 | 4 | ~~**SPEC-198**~~ | ~~JudgeVerdict frozen dataclass~~ ✓ implementado + wired + telemetry pilot warn (#844, #845) | 32 pytest | — | mergeado |
 | 5 | ~~**SPEC-200**~~ | ~~Adaptive quality gate threshold~~ ✓ implementado + wired + telemetry pilot warn (#844, #845) | 21 pytest | — | mergeado |
-| 6 | **SPEC-199** | Historical context conditioning entre rondas (via embeddings) | 4-5d / 5-7h | P2 | depende SPEC-195 (ahora desbloqueado) |
-| 7 | **SPEC-SE-036 Slice 3** | JWT sunset opt-in (PAT file migration) | 4h | P2 | Slice 1+2 ✓ |
-| 8 | **SPEC-188 Fase 2** | Sealed Contract Tests | ~8h | P2 | Fase 1 ✓ |
-| 9 | **SE-220** | Speculative Tool Execution — draft+verify pattern (Slice 0 BLOQUEANTE) | ~18h (3h S0 + 15h S1-4) | P2 | feasibility ≥60% acceptance |
-| 10 | **SE-222 S0-S2** | OKF Adoptable Patterns — resource URI + log.md + index.md auto-gen | ~6h | P2 | — |
-| 11 | **SE-216 Slice 4** | Experiment Graph — tree search | ~6h | P3 | SE-216 S1+S2+S3 ✓ |
-| 12 | **SE-222 S3** | OKF back-fill resource: en 20 specs de alto valor | ~2h | P3 | SE-222 S0 |
-| 13 | **SPEC-188 Fases 3+4** | Causal confidence + diagnostic metrics | ~56h | P3 | Fase 2 |
+| 6 | ~~**SPEC-199**~~ | ~~Historical context conditioning~~ ✓ mergeado (#855) | — | — | mergeado |
+| 7 | ~~**SPEC-SE-036 Slice 3**~~ | ~~JWT sunset opt-in~~ ✓ mergeado (#853) | — | — | mergeado |
+| 8 | ~~**SPEC-188 Fase 2**~~ | ~~Sealed Contract Tests~~ ✓ mergeado (#854) | — | — | mergeado |
+| 9 | ~~**SE-220 S0**~~ | ~~Speculative Tool Execution feasibility probe~~ ✓ mergeado (#856) | — | — | mergeado |
+| 10 | ~~**SE-222 S0-S2**~~ | ~~OKF Adoptable Patterns~~ ✓ mergeado (#850-852) | — | — | mergeado |
+| 11 | **SE-228 S1-S3** | Loop Engineering P1 batch — STATE.md + maker/checker + run-log | ~12h | P1 | — |
+| 12 | **SE-228 S4-S5** | Loop Engineering P2 batch — loop-budget + L1-L3 phasing | ~6h | P2 | SE-228 S1-S3 ✓ |
+| 13 | **SE-216 Slice 4** | Experiment Graph — tree search | ~6h | P3 | SE-216 S1+S2+S3 ✓ |
+| 14 | **SE-222 S3** | OKF back-fill resource: en 20 specs | ~2h | P3 | SE-222 S0 ✓ |
+| 15 | **SPEC-188 Fases 3+4** | Causal confidence + diagnostic metrics | ~56h | P3 | Fase 2 ✓ |
 
 ### Telemetry pilot (30d desde 2026-06-13)
 
