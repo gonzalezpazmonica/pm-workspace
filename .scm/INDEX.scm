@@ -1,6 +1,6 @@
 # Savia Capability Map — INDEX
-> hash: a0723d27322a | resources: 1395
-> 557 commands · 106 skills · 81 agents · 651 scripts
+> hash: bb1449e249b0 | resources: 1397
+> 557 commands · 106 skills · 81 agents · 653 scripts
 
 [analysis] /a11y-report — accesibilidad,completos,conformidad,código,declaración — cmd:.claude/commands/a11y-report.md
 [analysis] Trace Optimize — across,distributed,optimize,rates,sampling — cmd:.claude/commands/trace-optimize.md
@@ -848,6 +848,8 @@
 [planning] lib/os-detect — defaults,detect,detection,path,portable — script:scripts/lib/os-detect.sh
 [planning] lib/slm-common — common,helpers,shared,slice,subcommands — script:scripts/lib/slm-common.sh
 [planning] linear-sync — bidireccional,cycles,issues,linear,métricas — cmd:.claude/commands/linear-sync.md
+[planning] loop-run-log — append,autónomas,gestión,loop,only — script:scripts/loop-run-log.sh
+[planning] loop-verify — adversarial,agente,loop,prompt,verificador — script:scripts/loop-verify.sh
 [planning] managed-content — auto,documentos,generadas,marcadores,regeneran — skill:.claude/skills/managed-content/SKILL.md
 [planning] managed-scan — content,managed,outdated,scan,sections — cmd:.claude/commands/managed-scan.md
 [planning] managed-sync — content,managed,markers,regenerate,synchronize — cmd:.claude/commands/managed-sync.md

@@ -1,6 +1,6 @@
 {
-  "hash": "53be17241943",
-  "total": 1395,
+  "hash": "0cf8cd2409ae",
+  "total": 1397,
   "resources": [
     {
       "category": "analysis",
@@ -10959,6 +10959,34 @@
       "kind": "cmd",
       "path": ".claude/commands/linear-sync.md",
       "description": "Sincronización bidireccional con Linear — issues, cycles, métricas unificadas"
+    },
+    {
+      "category": "planning",
+      "name": "loop-run-log",
+      "intents": [
+        "append",
+        "autónomas",
+        "gestión",
+        "loop",
+        "only"
+      ],
+      "kind": "script",
+      "path": "scripts/loop-run-log.sh",
+      "description": "loop-run-log.sh — CLI para gestión del run-log append-only de skills autónomas"
+    },
+    {
+      "category": "planning",
+      "name": "loop-verify",
+      "intents": [
+        "adversarial",
+        "agente",
+        "loop",
+        "prompt",
+        "verificador"
+      ],
+      "kind": "script",
+      "path": "scripts/loop-verify.sh",
+      "description": "loop-verify.sh — Genera prompt adversarial para sub-agente verificador (SE-228 S2)"
     },
     {
       "category": "planning",
