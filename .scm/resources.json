@@ -1,5 +1,5 @@
 {
-  "hash": "abe5d480f82c",
+  "hash": "ddba82976ec5",
   "total": 1391,
   "resources": [
     {
@@ -10921,31 +10921,31 @@
     },
     {
       "category": "planning",
-      "name": "loop-run-log",
+      "name": "loop-state-init",
       "intents": [
-        "append",
-        "autónomas",
-        "gestión",
-        "loop",
-        "only"
+        "autónomo",
+        "canónico",
+        "inicializa",
+        "init",
+        "loop"
       ],
       "kind": "script",
-      "path": "scripts/loop-run-log.sh",
-      "description": "loop-run-log.sh — CLI para gestión del run-log append-only de skills autónomas"
+      "path": "scripts/loop-state-init.sh",
+      "description": "loop-state-init.sh — Inicializa STATE.md canónico para un skill autónomo"
     },
     {
       "category": "planning",
-      "name": "loop-verify",
+      "name": "loop-state-prune",
       "intents": [
-        "adversarial",
-        "agente",
+        "archiva",
+        "cerrados",
         "loop",
-        "prompt",
-        "verificador"
+        "prune",
+        "recently"
       ],
       "kind": "script",
-      "path": "scripts/loop-verify.sh",
-      "description": "loop-verify.sh — Genera prompt adversarial para sub-agente verificador (SE-228 S2)"
+      "path": "scripts/loop-state-prune.sh",
+      "description": "loop-state-prune.sh — Archiva ítems cerrados en Recently Resolved"
     },
     {
       "category": "planning",
