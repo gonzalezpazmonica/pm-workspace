@@ -1,5 +1,5 @@
 # planning — Savia Capability Map (L1)
-> 585 resources
+> 586 resources
 
 - **/accreditation-track** (cmd): >
 - **/decide-architecture** (cmd): Clasifica una tarea como WORKFLOW (deterministica) o AGENT (loop). Bias hacia workflow per Anthropic. Sugiere plantilla inicial. Mide accuracy contra corpus curado de 20 tareas.
@@ -283,6 +283,7 @@
 - **lib/os-detect** (script): scripts/lib/os-detect.sh — Portable OS detection and path defaults
 - **lib/slm-common** (script): slm-common.sh — Shared helpers for SLM subcommands (SE-049 Slice 1).
 - **linear-sync** (cmd): Sincronización bidireccional con Linear — issues, cycles, métricas unificadas
+- **loop-budget-check** (script): scripts/loop-budget-check.sh
 - **loop-run-log** (script): loop-run-log.sh — CLI para gestión del run-log append-only de skills autónomas
 - **loop-verify** (script): loop-verify.sh — Genera prompt adversarial para sub-agente verificador (SE-228 S2)
 - **managed-content** (skill): Usar cuando se regeneran secciones auto-generadas en documentos con marcadores de seguridad.
