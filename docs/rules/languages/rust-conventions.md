@@ -285,3 +285,6 @@ for item in &items {
 }
 ```
 
+## HTTP QUERY (RFC 10008)
+
+Ver `docs/rules/domain/http-query-method.md`.
