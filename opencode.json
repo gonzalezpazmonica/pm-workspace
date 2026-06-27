@@ -207,7 +207,7 @@
         "python3",
         "$HOME/.local/lib/python3.12/site-packages/ppt_mcp_server.py"
       ],
-      "enabled": true,
+      "enabled": false,
       "timeout": 30000
     },
     "codegraph": {
