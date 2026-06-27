@@ -1,5 +1,5 @@
 {
-  "hash": "03fb2103d1f6",
+  "hash": "4421621bb013",
   "total": 1392,
   "resources": [
     {
@@ -10921,6 +10921,19 @@
     },
     {
       "category": "planning",
+      "name": "loop-budget-check",
+      "intents": [
+        "budget",
+        "check",
+        "loop",
+        "scripts"
+      ],
+      "kind": "script",
+      "path": "scripts/loop-budget-check.sh",
+      "description": "scripts/loop-budget-check.sh"
+    },
+    {
+      "category": "planning",
       "name": "loop-run-log",
       "intents": [
         "append",
@@ -10932,34 +10945,6 @@
       "kind": "script",
       "path": "scripts/loop-run-log.sh",
       "description": "loop-run-log.sh — CLI para gestión del run-log append-only de skills autónomas"
-    },
-    {
-      "category": "planning",
-      "name": "loop-state-init",
-      "intents": [
-        "autónomo",
-        "canónico",
-        "inicializa",
-        "init",
-        "loop"
-      ],
-      "kind": "script",
-      "path": "scripts/loop-state-init.sh",
-      "description": "loop-state-init.sh — Inicializa STATE.md canónico para un skill autónomo"
-    },
-    {
-      "category": "planning",
-      "name": "loop-state-prune",
-      "intents": [
-        "archiva",
-        "cerrados",
-        "loop",
-        "prune",
-        "recently"
-      ],
-      "kind": "script",
-      "path": "scripts/loop-state-prune.sh",
-      "description": "loop-state-prune.sh — Archiva ítems cerrados en Recently Resolved"
     },
     {
       "category": "planning",
@@ -15554,6 +15539,20 @@
       "kind": "skill",
       "path": ".claude/skills/legal-compliance/SKILL.md",
       "description": "Usar cuando se audita compliance legal contra legislación española consolidada."
+    },
+    {
+      "category": "quality",
+      "name": "loop-phasing-audit",
+      "intents": [
+        "audit",
+        "audita",
+        "declarado",
+        "inferido",
+        "level"
+      ],
+      "kind": "script",
+      "path": "scripts/loop-phasing-audit.sh",
+      "description": "loop-phasing-audit.sh — Audita el nivel loop_level declarado vs inferido"
     },
     {
       "category": "quality",
