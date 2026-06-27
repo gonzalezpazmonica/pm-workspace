@@ -1,6 +1,6 @@
 {
-  "hash": "ee43afd07ce8",
-  "total": 1390,
+  "hash": "03fb2103d1f6",
+  "total": 1392,
   "resources": [
     {
       "category": "analysis",
@@ -10932,6 +10932,34 @@
       "kind": "script",
       "path": "scripts/loop-run-log.sh",
       "description": "loop-run-log.sh — CLI para gestión del run-log append-only de skills autónomas"
+    },
+    {
+      "category": "planning",
+      "name": "loop-state-init",
+      "intents": [
+        "autónomo",
+        "canónico",
+        "inicializa",
+        "init",
+        "loop"
+      ],
+      "kind": "script",
+      "path": "scripts/loop-state-init.sh",
+      "description": "loop-state-init.sh — Inicializa STATE.md canónico para un skill autónomo"
+    },
+    {
+      "category": "planning",
+      "name": "loop-state-prune",
+      "intents": [
+        "archiva",
+        "cerrados",
+        "loop",
+        "prune",
+        "recently"
+      ],
+      "kind": "script",
+      "path": "scripts/loop-state-prune.sh",
+      "description": "loop-state-prune.sh — Archiva ítems cerrados en Recently Resolved"
     },
     {
       "category": "planning",
