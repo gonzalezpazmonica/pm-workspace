@@ -123,3 +123,15 @@ Fan-out paralelo para items independientes. Ver `docs/propuestas/SE-067-orchestr
 ## Fallback mode (SPEC-127 Slice 4)
 
 `bash scripts/savia-orchestrator-helper.sh mode` → "fan-out" | "single-shot". When `single-shot`, plan slices sequentially without Task — for each slice, inline the target implementation agent's prompt via `inline-prompt <agent>`, run inlined, wrap output. Plan schema unchanged. See `docs/rules/domain/subagent-fallback-mode.md`.
+
+## Workflow-as-Output (SE-232)
+
+Cuando se te proporciona una spec SDD, puedes generar un workflow adaptativo
+ejecutando: `bash scripts/dev-workflow-generate.sh --spec <path>`
+
+El workflow generado tiene en cuenta: lenguaje del proyecto, implicaciones de
+seguridad, necesidad de tests separados, y paralelismo posible entre pasos.
+
+El output es un YAML con steps tipados (agent, subtask, access_list, blocking,
+parallel_with) que puede sustituir o complementar el plan.md clásico.
+Ver `docs/rules/domain/workflow-as-output.md` para schema completo y reglas.

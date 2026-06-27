@@ -1,5 +1,5 @@
 # memory — Savia Capability Map (L1)
-> 115 resources
+> 116 resources
 
 - **auto-compact** (script): auto-compact.sh — Disparado automáticamente cuando contexto > 85%
 - **biblio-search** (cmd): >
@@ -98,6 +98,7 @@
 - **my-focus** (cmd): Modo focus — identifica el item más prioritario y carga todo su contexto
 - **nl-query** (cmd): Consultas en lenguaje natural — habla con Savia sin memorizar comandos
 - **post-compaction** (script): post-compaction.sh - Hook que inyecta contexto de memoria tras compactación
+- **recursion-guard-export** (script): scripts/recursion-guard-export.sh — Sets SAVIA_LOOP_CONTEXT for recursion prevention
 - **repos-search** (cmd): >
 - **session-action-log** (script): session-action-log.sh — Append-only session action log (SPEC-065)
 - **session-cleanup** (script): session-cleanup.sh — SE-219 S3: orphan process cleanup (abtop pattern)

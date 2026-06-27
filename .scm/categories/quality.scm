@@ -1,5 +1,5 @@
 # quality — Savia Capability Map (L1)
-> 246 resources
+> 247 resources
 
 - **/a11y-audit** (cmd): Auditoría de accesibilidad WCAG 2.2 completa con escaneo de HTML/componentes. Detecta: alt text faltante, problemas de contraste, navegación por teclado, etiquetas ARIA, gestión de focus, jerarquía de encabezados, etiquetas de formularios.
 - **/a11y-fix** (cmd): Correcciones automáticas de accesibilidad con verificación y preview. Genera código de fix para issues detectados por /a11y-audit. Preview antes de aplicar. Verifica que no introduce nuevos problemas. Covers: alt text, ARIA attributes, focu
@@ -27,6 +27,7 @@
 - **correctness-judge** (agent): Code Review Court judge — logic, tests, edge cases, error paths
 - **court-orchestrator** (agent): Convenes the Code Review Court, manages fix cycles, produces .review.crc
 - **court-review** (script): court-review.sh — Code Review Court orchestration helper
+- **court-turn-router** (script): court-turn-router.sh — SE-231 Adaptive Turn Routing for Code Review Court
 - **coverage-report** (script): coverage-report.sh — Generate test coverage report for pm-workspace
 - **decide-architecture-corpus-test** (script): decide-architecture-corpus-test.sh — SPEC-158
 - **dependencies-audit** (cmd): >
