@@ -11,6 +11,7 @@ agent: dev-orchestrator
 category: "sdd-framework"
 tags: ["autonomous", "overnight", "batch", "low-risk"]
 priority: "medium"
+loop_level: L2  # L0=draft L1=report L2=assisted L3=unattended — ver loop-phasing.md
 ---
 
 ## Subagent Scope Guard
@@ -138,8 +139,7 @@ SIEMPRE → Generar audit log
 
 ## Loop State y Run Log
 
-STATE.md canónico: schema `docs/rules/domain/loop-state-schema.md`, init con `scripts/loop-state-init.sh --skill overnight-sprint`.
-Run log append-only: `scripts/loop-run-log.sh append --skill overnight-sprint ...` (schema: `loop-run-log-schema.md`).
+STATE.md + run log: `loop-state-init.sh`, `loop-run-log.sh`, schemas en `docs/rules/domain/`.
 
 ## Modo CI Unblock (--mode ci-unblock)
 

@@ -11,6 +11,7 @@ agent: code-reviewer
 category: "sdd-framework"
 tags: ["autonomous", "improvement", "refactoring", "pr-draft"]
 priority: "medium"
+loop_level: L2  # L0=draft | L1=report-only | L2=assisted | L3=unattended — ver docs/rules/domain/loop-phasing.md
 ---
 
 ## Subagent Scope Guard
@@ -146,5 +147,4 @@ SIEMPRE → Un PR por mejora (atómico, fácil de revisar)
 
 - Para refactorings mayores que cambian arquitectura
 - Para actualizar dependencias major (breaking changes)
-- Si los tests del proyecto no pasan
-- Para mejoras que requieren decisiones de diseño humanas
+- Si los tests no pasan o la mejora requiere decisión de diseño humana
