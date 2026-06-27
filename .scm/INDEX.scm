@@ -1,6 +1,6 @@
 # Savia Capability Map — INDEX
-> hash: 201eb9298012 | resources: 1392
-> 557 commands · 105 skills · 81 agents · 649 scripts
+> hash: 60d700658073 | resources: 1391
+> 557 commands · 106 skills · 81 agents · 647 scripts
 
 [analysis] /a11y-report — accesibilidad,completos,conformidad,código,declaración — cmd:.claude/commands/a11y-report.md
 [analysis] Trace Optimize — across,distributed,optimize,rates,sampling — cmd:.claude/commands/trace-optimize.md
@@ -845,9 +845,8 @@
 [planning] lib/os-detect — defaults,detect,detection,path,portable — script:scripts/lib/os-detect.sh
 [planning] lib/slm-common — common,helpers,shared,slice,subcommands — script:scripts/lib/slm-common.sh
 [planning] linear-sync — bidireccional,cycles,issues,linear,métricas — cmd:.claude/commands/linear-sync.md
-[planning] loop-budget-check — budget,check,loop,scripts — script:scripts/loop-budget-check.sh
-[planning] loop-run-log — append,autónomas,gestión,loop,only — script:scripts/loop-run-log.sh
-[planning] loop-verify — adversarial,agente,loop,prompt,verificador — script:scripts/loop-verify.sh
+[planning] loop-state-init — autónomo,canónico,inicializa,init,loop — script:scripts/loop-state-init.sh
+[planning] loop-state-prune — archiva,cerrados,loop,prune,recently — script:scripts/loop-state-prune.sh
 [planning] managed-content — auto,documentos,generadas,marcadores,regeneran — skill:.claude/skills/managed-content/SKILL.md
 [planning] managed-scan — content,managed,outdated,scan,sections — cmd:.claude/commands/managed-scan.md
 [planning] managed-sync — content,managed,markers,regenerate,synchronize — cmd:.claude/commands/managed-sync.md
@@ -900,6 +899,7 @@
 [planning] pbi-jtbd —  — cmd:.claude/commands/pbi-jtbd.md
 [planning] pbi-plan-sprint — allocate,pbis,plan,sprint,upcoming — cmd:.claude/commands/pbi-plan-sprint.md
 [planning] pbi-prd —  — cmd:.claude/commands/pbi-prd.md
+[planning] personal-vault — escribe,memoria,perfil,personal,preferencias — skill:.claude/skills/personal-vault/SKILL.md
 [planning] php-developer —  — agent:.opencode/agents/php-developer.md
 [planning] platform-migrate — asistida,azure,devops,github,jira — cmd:.claude/commands/platform-migrate.md
 [planning] playbook-create — crear,evolutivos,framework,playbooks,repetitivas — cmd:.claude/commands/playbook-create.md
@@ -1200,7 +1200,6 @@
 [quality] knowledge-lint — base,check,health,knowledge,lint — script:scripts/knowledge-lint.sh
 [quality] legal-audit — auditoría,compliance,contra,española,legal — cmd:.claude/commands/legal-audit.md
 [quality] legal-compliance — audita,compliance,consolidada,contra,española — skill:.claude/skills/legal-compliance/SKILL.md
-[quality] loop-phasing-audit — audit,audita,declarado,inferido,level — script:scripts/loop-phasing-audit.sh
 [quality] markdownlint — dependency,markdownlint,native,wrapper — script:scripts/markdownlint.sh
 [quality] mcp-audit — across,audit,configs,overhead,server — script:scripts/mcp-audit.sh
 [quality] mcp-security-audit — audit,chain,config,security,slice — script:scripts/mcp-security-audit.sh
@@ -1394,3 +1393,4 @@
 [quality] web-e2e-tester — against,android,apps,autonomous,changes — agent:.opencode/agents/web-e2e-tester.md
 [quality] workspace-integrity — agentes,audita,baseline,drift,integridad — skill:.claude/skills/workspace-integrity/SKILL.md
 [quality] zeroclaw — commands,firmware,flash,interface,send — cmd:.claude/commands/zeroclaw.md
+[planning] loop-budget-check — budget,check,loop,scripts — script:scripts/loop-budget-check.sh
