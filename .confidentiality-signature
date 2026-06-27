@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=f19bc09554035422e973d24d8a47b8cb20d6f04310f2534615aba47444b0cd78
-timestamp=2026-06-27T22:12:39Z
-branch=agent/se230-231-232-20260626
-head_commit=96d9e646
-signature=77a217f54a9390e50b4b9fe5072fc01301be8eaea5f2f54aee98ffb00d6886bd
+diff_hash=7aed45cc24b040d9d60cca4769d1fe56b10929c60f92bc2e220eed8729d16134
+timestamp=2026-06-27T23:09:02Z
+branch=nido/se232-domain-skills
+head_commit=5bdf86a0
+signature=a5157ac9ce390eb5ababbabfc94b8a7a4759bd12e8a63ef7c7c26a3f29f1c07d
