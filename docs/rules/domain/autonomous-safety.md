@@ -147,4 +147,4 @@ Era 199 Wave 1. Toda skill autónoma exige **dos confirmaciones independientes**
 bash scripts/savia-double-optin-check.sh --skill <nombre> --confirm-autonomous
 ```
 
-Detalle completo (mapeo skill→variable, auditoría, bypass de tests, exit codes): ver `docs/rules/domain/double-optin-protocol.md`.
+Detalle completo (mapeo skill→variable, auditoría, bypass de tests, exit codes): ver `docs/rules/domain/double-optin-protocol.md`. Modos L2+: `maker-checker-protocol.md` + `loop-verify.sh`.
