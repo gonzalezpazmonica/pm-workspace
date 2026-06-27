@@ -1,5 +1,5 @@
 # planning — Savia Capability Map (L1)
-> 586 resources
+> 585 resources
 
 - **/accreditation-track** (cmd): >
 - **/decide-architecture** (cmd): Clasifica una tarea como WORKFLOW (deterministica) o AGENT (loop). Bias hacia workflow per Anthropic. Sugiere plantilla inicial. Mide accuracy contra corpus curado de 20 tareas.
@@ -41,7 +41,6 @@
 - **ast-comprehend** (script): ast-comprehend.sh — Extractor estructural multi-lenguaje (ast-comprehension skill)
 - **ast-comprehension** (skill): Usar cuando se explora código desconocido y se necesita comprensión estructural sin leer ficheros enteros.
 - **ast-quality-gate** (skill): Usar cuando se verifica la calidad de código generado por IA antes de merge.
-- **auto-loop-gate** (script): SE-230 Auto-Loop Gate — classifies requests into loop/single-shot/clarify
 - **azdevops-queries** (script): =============================================================================
 - **azure-devops-operator** (agent): >
 - **azure-devops-queries** (skill): Usar cuando se necesitan consultas WIQL, actualización de work items o datos de sprint en Azure DevOps.
@@ -284,6 +283,8 @@
 - **lib/os-detect** (script): scripts/lib/os-detect.sh — Portable OS detection and path defaults
 - **lib/slm-common** (script): slm-common.sh — Shared helpers for SLM subcommands (SE-049 Slice 1).
 - **linear-sync** (cmd): Sincronización bidireccional con Linear — issues, cycles, métricas unificadas
+- **loop-run-log** (script): loop-run-log.sh — CLI para gestión del run-log append-only de skills autónomas
+- **loop-verify** (script): loop-verify.sh — Genera prompt adversarial para sub-agente verificador (SE-228 S2)
 - **managed-content** (skill): Usar cuando se regeneran secciones auto-generadas en documentos con marcadores de seguridad.
 - **managed-scan** (cmd): Scan managed content for stale or outdated sections
 - **managed-sync** (cmd): Synchronize and regenerate managed content markers
@@ -522,8 +523,6 @@
 - **team-workload** (cmd): Muestra la carga de trabajo por persona — items asignados, horas remaining y balance de equipo.
 - **tech-radar** (cmd): Radar tecnológico del proyecto — librerías, versiones, adopt/trial/hold/retire
 - **tech-writer** (agent): >
-- **terminal-state-emit** (script): terminal-state-emit.sh — Emits structured termination reason for a loop/agent
-- **terminal-state-read** (script): terminal-state-read.sh — Reads the last terminal state for a loop/agent
 - **terraform-developer** (agent): >
 - **threat-model** (cmd): >
 - **tier3-probes** (skill): Usar cuando se valida la viabilidad de herramientas Tier 3 antes de adoptarlas en el workspace.
