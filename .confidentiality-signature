@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=6edf4ab4b256206f1d6bc07fa9a49bdcc8c9ce12bd3cb2f3a2070c99c72ce0ae
-timestamp=2026-06-27T10:27:48Z
-branch=agent/se228-s1-state-schema-20260625
-head_commit=7819cb3a
-signature=e0ca78e362eb43dc370612d706e5f39e0874b75e902cb3c79fc3029298005000
+diff_hash=a493aa95fd116d6c1ae46ab1e380eb1efce8969112354354fb85687aa8ac7b47
+timestamp=2026-06-27T17:10:49Z
+branch=agent/se228-s4-loop-budget-20260625
+head_commit=1f9db373
+signature=befda2a53a456d5204bf24187ac01670919f44c4d02218d612d5fc919af64c0f
