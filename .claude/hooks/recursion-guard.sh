@@ -1,17 +1,10 @@
 #!/usr/bin/env bash
+set -uo pipefail
 # .opencode/hooks/recursion-guard.sh — PreToolUse hook
 # Blocks autonomous loop launch when already inside a running loop.
 # Ref: SPEC-RECURSION-GUARD, docs/rules/domain/autonomous-safety.md
-#
-# Exit codes:
-#   0 — allow (no loop context, or tool is not a loop)
-#   2 — block (recursive loop detected)
-#
-# Environment:
-#   SAVIA_LOOP_CONTEXT  format: "loop_name:depth"  e.g. "overnight-sprint:1"
-#   OPENCODE_TOOL_INPUT  JSON string of the current tool call input
-
-set -uo pipefail
+# Exit codes: 0=allow, 2=block (recursive loop detected)
+# Env: SAVIA_LOOP_CONTEXT="loop_name:depth", OPENCODE_TOOL_INPUT=JSON
 
 # Loop pattern list
 LOOP_PATTERNS=(
