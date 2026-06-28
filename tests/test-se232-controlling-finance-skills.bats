@@ -2,8 +2,8 @@
 # tests/test-se232-controlling-finance-skills.bats
 # Tests para las skills de controlling y finance (SE-232)
 
-CONTROLLING_DIR="/home/monica/.savia/nidos/se232-domain-skills/.opencode/skills/professional-domain/controlling"
-FINANCE_DIR="/home/monica/.savia/nidos/se232-domain-skills/.opencode/skills/professional-domain/finance"
+CONTROLLING_DIR="$(cd "$(dirname "$BATS_TEST_FILENAME")/.." && pwd)/.opencode/skills/professional-domain/controlling"
+FINANCE_DIR="$(cd "$(dirname "$BATS_TEST_FILENAME")/.." && pwd)/.opencode/skills/professional-domain/finance"
 
 # ──────────────────────────────────────────────────────────────────────────────
 # Tests 1-3: Los 3 skills controlling existen con sus 3 archivos

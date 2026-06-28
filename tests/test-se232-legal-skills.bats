@@ -2,8 +2,8 @@
 # tests/test-se232-legal-skills.bats
 # Tests para las skills de dominio profesional/legal (SE-232)
 
-SKILLS_DIR="/home/monica/.savia/nidos/se232-domain-skills/.opencode/skills/professional-domain/legal"
-DOCS_DIR="/home/monica/.savia/nidos/se232-domain-skills/docs/rules/domain"
+SKILLS_DIR="$(cd "$(dirname "$BATS_TEST_FILENAME")/.." && pwd)/.opencode/skills/professional-domain/legal"
+DOCS_DIR="$(cd "$(dirname "$BATS_TEST_FILENAME")/.." && pwd)/docs/rules/domain"
 
 # ──────────────────────────────────────────────────────────────────────────────
 # Tests 1-3: Los 3 skills legales existen con sus 3 archivos
