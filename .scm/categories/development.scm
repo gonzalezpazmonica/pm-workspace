@@ -1,5 +1,5 @@
 # development — Savia Capability Map (L1)
-> 234 resources
+> 235 resources
 
 - **/a11y-monitor** (cmd): Monitorización continua de regresiones de accesibilidad. Integración en CI/CD. Alertas cuando score baja por debajo de threshold. Digest semanal. Previene regresiones bloqueando deploys con fallos a11y.
 - **/speckit.checklist** (cmd): Alias spec-kit compatible. Gate de calidad final con verification-lattice multi-capa. Invoca skill verification-lattice. Compatible con github/spec-kit.
@@ -66,6 +66,7 @@
 - **dev-session** (cmd): Orquestar desarrollo de un spec mediante 5 fases con aislamiento de contexto y persistencia en disco
 - **dev-session-discard** (script): dev-session-discard.sh — Discard a dev-session cleanly
 - **dev-session-resume** (cmd): Reanudar una dev-session interrumpida desde el ultimo checkpoint
+- **dev-workflow-generate** (script): dev-workflow-generate.sh — SE-232 Workflow-as-Output para dev-orchestrator
 - **enterprise/agent-manifest-batch-export** (script): agent-manifest-batch-export.sh — SPEC-SE-004: Exporta todos los agentes a todos los frameworks
 - **enterprise/agent-manifest-export** (script): agent-manifest-export.sh — SPEC-SE-004: Exporta agentes Savia a otros frameworks
 - **enterprise/api-key-create** (script): api-key-create.sh — SPEC-SE-036 Slice 2: API key creation CLI.
