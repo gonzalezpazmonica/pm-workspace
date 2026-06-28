@@ -93,11 +93,11 @@ cmd_register() {
   local session_id="" nido="" branch="" task="" worktree=""
   while [[ $# -gt 0 ]]; do
     case "$1" in
-      --session)   session_id="$2"; shift 2 ;;
-      --nido)      nido="$2";       shift 2 ;;
-      --branch)    branch="$2";     shift 2 ;;
-      --task)      task="$2";       shift 2 ;;
-      --worktree)  worktree="$2";   shift 2 ;;
+      --session)           session_id="$2"; shift 2 ;;
+      --nido)              nido="$2";       shift 2 ;;
+      --branch)            branch="$2";     shift 2 ;;
+      --task)              task="$2";       shift 2 ;;
+      --worktree)          worktree="$2";   shift 2 ;;
       *) shift ;;
     esac
   done
@@ -107,6 +107,9 @@ cmd_register() {
   fi
 
   local now; now=$(_now_iso)
+
+  # SE-230: focal_state_path field
+  local focal_state_path="${HOME}/.savia/focal-state/${nido}.json"
 
   # Idempotency: if session_id already exists with status=active, update heartbeat
   if [[ -f "$SESSIONS_FILE" ]]; then
@@ -134,7 +137,8 @@ cmd_register() {
       --arg task "$task" \
       --arg worktree "$worktree" \
       --arg now "$now" \
-      '{session_id:$sid, pid:$pid, nido:$nido, branch:$branch, task:$task, worktree:$worktree, started_at:$now, heartbeat_at:$now, status:"active"}')
+      --arg fsp "$focal_state_path" \
+      '{session_id:$sid, pid:$pid, nido:$nido, branch:$branch, task:$task, worktree:$worktree, started_at:$now, heartbeat_at:$now, status:"active", focal_state_path:$fsp}')
   else
     local entry
     entry=$(python3 -c "
@@ -149,9 +153,10 @@ d = {
   'started_at': sys.argv[6],
   'heartbeat_at': sys.argv[6],
   'status':     'active',
+  'focal_state_path': sys.argv[7],
 }
 print(json.dumps(d))
-" "$session_id" "$nido" "$branch" "$task" "$worktree" "$now")
+" "$session_id" "$nido" "$branch" "$task" "$worktree" "$now" "$focal_state_path")
   fi
 
   _locked_append "$entry"
