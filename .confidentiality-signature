@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=3ae47948a8c77acbb70ba280af1e57c04be76babf1b4602d3ffe52f1b2e72002
-timestamp=2026-06-28T07:28:31Z
+diff_hash=15ccfb36751abe47c34cab667503cff3535862990ee900f48ef3c595203f4040
+timestamp=2026-06-28T07:28:50Z
 branch=nido/fix-opencode-startup-errors
-head_commit=65bf6130
-signature=7167f174a73324f613025e1f3ec8bff8a0422c3fe2858fc4868ed9f21829287b
+head_commit=d48c4315
+signature=4d3b79d809a6ec888caeed712576a5d7e4c0b16a4a3e0324efa3b05653c725e8
