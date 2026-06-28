@@ -339,8 +339,9 @@ if [[ -x "$_setup_md_dir/scripts/setup-merge-drivers.sh" ]]; then
 fi
 
 # ── SE-229: Session Registry integration ─────────────────────────────────────
+_si_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" 2>/dev/null && pwd)"
 REGISTRY_SCRIPT=""
-for reg_path in "$SCRIPT_DIR/../../scripts/session-registry.sh" \
+for reg_path in "${_si_dir}/../../scripts/session-registry.sh" \
                 "${SAVIA_WORKSPACE_DIR:-${CLAUDE_PROJECT_DIR:-}}/scripts/session-registry.sh" \
                 "./scripts/session-registry.sh"; do
   [[ -z "$reg_path" || "$reg_path" == "/scripts/session-registry.sh" ]] && continue
@@ -350,9 +351,8 @@ for reg_path in "$SCRIPT_DIR/../../scripts/session-registry.sh" \
   fi
 done
 
-# Resolve SCRIPT_DIR for relative path above (session-init.sh is in .claude/hooks/)
+# Fallback already covered above via _si_dir
 if [[ -z "$REGISTRY_SCRIPT" ]]; then
-  _si_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" 2>/dev/null && pwd)"
   _candidate="${_si_dir}/../../scripts/session-registry.sh"
   [[ -x "$_candidate" ]] && REGISTRY_SCRIPT="$_candidate"
 fi
