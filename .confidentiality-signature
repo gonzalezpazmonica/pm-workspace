@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=02ecebc70912cd148a6b90d85629683c9638cfc5b0ae1dc1386ab187e2008016
-timestamp=2026-06-28T17:21:35Z
-branch=nido/se248-kg-topology
-head_commit=53acaef5
-signature=87ffc9e8aa39be8409752454539dfa1e35df41b72a8a9910cf1a6776a1675d70
+diff_hash=3fa9c529c579309fd9f2a653dc71aeb7f65652d49f05bc07dec4bb84be3fcdb8
+timestamp=2026-06-28T17:24:21Z
+branch=HEAD
+head_commit=f969a95e
+signature=5ba35b975f18ffacb54c71006724aee1778ec009818bfca07c2a3caf04e6a878
