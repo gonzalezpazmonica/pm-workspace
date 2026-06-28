@@ -128,6 +128,7 @@
 | L2 | [pr-signing-protocol.md](domain/pr-signing-protocol.md) | PR Signing Protocol — Zero re-sign commits | — |
 | L2 | [priority-canonical-formula.md](domain/priority-canonical-formula.md) | Regla: Fórmula Canónica de Priorización V×U/E | SPEC-154 |
 | L2 | [priority-persistence.md](domain/priority-persistence.md) | Regla: Persistencia de los 4 Campos de Priorización | SPEC-154 |
+| L2 | [professional-domain-disclaimer.md](domain/professional-domain-disclaimer.md) | Disclaimers de Dominio Profesional | — |
 | L2 | [project-privacy-protection.md](domain/project-privacy-protection.md) | Regla: Protección de Privacidad de Proyectos | — |
 | L2 | [project-twin-as-code.md](domain/project-twin-as-code.md) | Project Twin as Code — Regla canónica | — |
 | L2 | [prompt-caching.md](domain/prompt-caching.md) | Prompt Caching Strategy | — |
@@ -272,7 +273,6 @@
 | — | [meeting-participant-etiquette.md](domain/meeting-participant-etiquette.md) | Savia Meeting Participant — Etiquette Protocol | — |
 | — | [onboarding-enterprise.md](domain/onboarding-enterprise.md) | Regla: Onboarding Empresarial a Escala | — |
 | — | [opus47-calibration-playbook.md](domain/opus47-calibration-playbook.md) | Opus 4.7 Calibration Playbook | — |
-| — | [professional-domain-disclaimer.md](domain/professional-domain-disclaimer.md) | Disclaimers de Dominio Profesional | — |
 | — | [profile-onboarding.md](domain/profile-onboarding.md) | Regla: Profile Onboarding — Savia da la bienvenida | — |
 | — | [template-separation.md](domain/template-separation.md) | Separación de Marcado, Consultas y Estilos — Regla Transversal | — |
 | — | [verified-memory-axiom.md](domain/verified-memory-axiom.md) | Verified Memory Axiom — SE-072 | — |

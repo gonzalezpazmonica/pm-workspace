@@ -46,7 +46,7 @@
 
 <!-- AUTO_BEGIN — do not edit; regenerate via scripts/resolver-md-generate.sh -->
 
-### Skills (108)
+### Skills (109)
 
 | Intent (skill) | Target | Cuándo usar |
 |---|---|---|
@@ -117,6 +117,7 @@
 | `personal-vault` | skill:personal-vault | Usar cuando se lee o escribe el repositorio personal del usuario (perfil, preferencias,... |
 | `pr-agent-judge` | skill:pr-agent-judge | Usar cuando se añade pr-agent como juez externo en el Code Review Court. |
 | `product-discovery` | skill:product-discovery | Usar antes de descomponer PBIs, cuando se necesita análisis JTBD y PRD del producto. |
+| `professional-domain` | skill:professional-domain | Family index for professional-domain skills (controlling, finance, labour, legal, sales... |
 | `project-update` | skill:project-update | Usar cuando se necesita una actualización integral del proyecto activo desde todas las... |
 | `prompt-optimizer` | skill:prompt-optimizer | Usar cuando se optimiza el prompt de un skill o agente para mejorar su efectividad. |
 | `rbac-management` | skill:rbac-management | Usar cuando se gestionan roles, permisos o se audita el acceso de usuarios. |
