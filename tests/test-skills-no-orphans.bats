@@ -38,6 +38,8 @@ teardown() {
 @test "every skill directory has SKILL.md" {
   local missing=0
   for d in "$SKILLS_DIR"/*/; do
+    # professional-domain is a namespace directory (family container), not a skill
+    [[ "$(basename "$d")" == "professional-domain" ]] && continue
     if [[ ! -f "$d/SKILL.md" ]]; then
       echo "MISSING SKILL.md: $d" >&2
       missing=$((missing+1))
@@ -49,6 +51,8 @@ teardown() {
 @test "every skill directory has DOMAIN.md" {
   local missing=0
   for d in "$SKILLS_DIR"/*/; do
+    # professional-domain is a namespace directory (family container), not a skill
+    [[ "$(basename "$d")" == "professional-domain" ]] && continue
     if [[ ! -f "$d/DOMAIN.md" ]]; then
       echo "MISSING DOMAIN.md: $d" >&2
       missing=$((missing+1))
@@ -159,9 +163,11 @@ teardown() {
 # ── Edge cases ─────────────────────────────────────────────────────────────
 
 @test "edge: no nested skill dirs with SKILL.md at wrong depth" {
-  # SKILL.md must be at depth 2 (SKILLS_DIR/{skill}/SKILL.md), not deeper
+  # SKILL.md must be at depth 2 (SKILLS_DIR/{skill}/SKILL.md) or depth 4
+  # (SKILLS_DIR/professional-domain/{family}/{skill}/SKILL.md). Other depths are invalid.
   local bad
-  bad=$(find "$SKILLS_DIR" -mindepth 3 -name 'SKILL.md' -type f | wc -l)
+  bad=$(find "$SKILLS_DIR" -mindepth 3 -name 'SKILL.md' -type f \
+    ! -path '*/professional-domain/*/*/SKILL.md' | wc -l)
   [[ "$bad" -eq 0 ]]
 }
 
