@@ -1,7 +1,7 @@
 #!/usr/bin/env bats
 # test-se230-s2-focal-dispatch.bats — 15 tests para focal-dispatch.sh + focal-decisions-log.sh
 
-NIDO_DIR="/home/monica/.savia/nidos/se230-focal-parallelization"
+NIDO_DIR="$(cd "$(dirname "$BATS_TEST_FILENAME")/.." && pwd)"
 FOCAL_DISPATCH="$NIDO_DIR/scripts/focal-dispatch.sh"
 FOCAL_LOG="$NIDO_DIR/scripts/focal-decisions-log.sh"
 TEST_FOCAL_DIR=""

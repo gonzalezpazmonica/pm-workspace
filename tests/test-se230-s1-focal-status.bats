@@ -1,7 +1,7 @@
 #!/usr/bin/env bats
 # test-se230-s1-focal-status.bats — 15 tests para focal-status.sh + focal-switch.sh
 
-NIDO_DIR="/home/monica/.savia/nidos/se230-focal-parallelization"
+NIDO_DIR="$(cd "$(dirname "$BATS_TEST_FILENAME")/.." && pwd)"
 FOCAL_STATUS="$NIDO_DIR/scripts/focal-status.sh"
 FOCAL_SWITCH="$NIDO_DIR/scripts/focal-switch.sh"
 TEST_FOCAL_DIR=""

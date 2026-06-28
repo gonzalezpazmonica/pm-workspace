@@ -1,7 +1,7 @@
 #!/usr/bin/env bats
 # test-se230-s3-checkin.bats — 10 tests para focal-checkin.sh
 
-NIDO_DIR="/home/monica/.savia/nidos/se230-focal-parallelization"
+NIDO_DIR="$(cd "$(dirname "$BATS_TEST_FILENAME")/.." && pwd)"
 FOCAL_CHECKIN="$NIDO_DIR/scripts/focal-checkin.sh"
 TEST_FOCAL_DIR=""
 
