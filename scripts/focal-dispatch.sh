@@ -67,7 +67,7 @@ for f in "${FOCAL_DIR}"/*.json; do
   nhd_desc=$(_json_nested "$json" "description")
   [[ -z "$nhd_desc" ]] && continue
   # next_human_decision: null check
-  local flat_json; flat_json=$(printf '%s' "$json" | tr -d '\n' | tr -s ' ')
+  flat_json=$(printf '%s' "$json" | tr -d '\n' | tr -s ' ')
   nhd_raw=$(printf '%s' "$flat_json" | grep -oP '"next_human_decision"\s*:\s*null' 2>/dev/null || true)
   [[ -n "$nhd_raw" ]] && continue
 
