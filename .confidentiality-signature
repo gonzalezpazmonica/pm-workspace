@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=60fd711cb4f7fb51204bee9ec544ec91a0dba99c47396a34001cb79b6a2cfeb8
-timestamp=2026-06-28T12:08:58Z
+diff_hash=818fa80191908dc850cc89c8d6edfa71e439272795f0d22470f39980a6ced08c
+timestamp=2026-06-28T12:09:11Z
 branch=nido/se239-247-security-hardening
-head_commit=cb7ec75e
-signature=ca335a03dbf8e539cf8240f627d0538a2bfc44d7e8c4a073e089a914109dbad7
+head_commit=00f4ddc0
+signature=d4b5f591e6fdfd71784acfb1d215ab45b3af01e12e8c524f45dcfab382bacc28
