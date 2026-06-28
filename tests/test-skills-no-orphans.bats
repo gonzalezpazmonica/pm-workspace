@@ -159,9 +159,11 @@ teardown() {
 # ── Edge cases ─────────────────────────────────────────────────────────────
 
 @test "edge: no nested skill dirs with SKILL.md at wrong depth" {
-  # SKILL.md must be at depth 2 (SKILLS_DIR/{skill}/SKILL.md), not deeper
+  # SKILL.md must be at depth 2 (SKILLS_DIR/{skill}/SKILL.md) or depth 4
+  # (SKILLS_DIR/professional-domain/{family}/{skill}/SKILL.md). Other depths are invalid.
   local bad
-  bad=$(find "$SKILLS_DIR" -mindepth 3 -name 'SKILL.md' -type f | wc -l)
+  bad=$(find "$SKILLS_DIR" -mindepth 3 -name 'SKILL.md' -type f \
+    ! -path '*/professional-domain/*/*/SKILL.md' | wc -l)
   [[ "$bad" -eq 0 ]]
 }
 
