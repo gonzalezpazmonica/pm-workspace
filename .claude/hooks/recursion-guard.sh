@@ -5,6 +5,10 @@ set -uo pipefail
 # Ref: SPEC-RECURSION-GUARD, docs/rules/domain/autonomous-safety.md
 # Exit codes: 0=allow, 2=block (recursive loop detected)
 # Env: SAVIA_LOOP_CONTEXT="loop_name:depth", OPENCODE_TOOL_INPUT=JSON
+#   SAVIA_LOOP_CONTEXT  format: "loop_name:depth"  e.g. "overnight-sprint:1"
+#   OPENCODE_TOOL_INPUT  JSON string of the current tool call input
+
+set -uo pipefail
 
 # Loop pattern list
 LOOP_PATTERNS=(

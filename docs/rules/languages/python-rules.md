@@ -727,3 +727,7 @@ def build_page():
 | **Critical** | Corregir antes de merge | ✅ Sí |
 | **Major** | Corregir en el sprint actual | 🟡 Depende |
 | **Minor** | Backlog técnico | ❌ No |
+
+## HTTP QUERY (RFC 10008)
+
+Ver `docs/rules/domain/http-query-method.md`.

@@ -125,3 +125,33 @@ Añadir en `.claude/settings.json` o `.claude/settings.local.json`:
   }
 }
 ```
+
+## HTTP QUERY (RFC 10008)
+
+QUERY es un método HTTP estándar (RFC 10008) — seguro, idempotente, cacheable, con body.
+Úsalo en lugar de POST para consultas complejas que no caben en la query string.
+
+**Servidor — Minimal API:**
+```csharp
+app.MapMethods("/search", ["QUERY"], async (HttpRequest req) => {
+    var criteria = await req.ReadFromJsonAsync<SearchCriteria>();
+    return Results.Ok(await searchService.FindAsync(criteria!));
+});
+```
+
+**Servidor — Controller (atributo):**
+```csharp
+[AcceptVerbs("QUERY")]
+public async Task<IActionResult> Search([FromBody] SearchCriteria criteria)
+    => Ok(await _service.FindAsync(criteria));
+```
+
+**Cliente — HttpClient:**
+```csharp
+var request = new HttpRequestMessage(new HttpMethod("QUERY"), "/api/search");
+request.Content = JsonContent.Create(criteria);
+var response = await httpClient.SendAsync(request);
+// O via extension: await httpClient.QueryAsync<Results>("/api/search", criteria);
+```
+
+Ver `docs/rules/domain/http-query-method.md` y `scripts/examples/http-query/`.
