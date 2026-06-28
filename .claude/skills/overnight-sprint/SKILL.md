@@ -145,3 +145,29 @@ Ver `CI-UNBLOCK.md`. Prerequisito: `CI_UNBLOCK_NEST_ENABLED=true` + doble opt-in
 /overnight-sprint --mode ci-unblock [--repo owner/repo] [--limit N]
 ```
 
+## Token Exhaustion Recovery (SE-250)
+
+Si una iteración falla con `AGENT_MAX_CONSECUTIVE_FAILURES` decrementado, antes de contar
+el fallo como lógico, ejecutar el detector:
+
+```bash
+bash scripts/detect-token-exhaustion.sh --log "$ITER_LOG"
+```
+
+Tabla de escalación de tier:
+
+| CAUSE            | current_tier | next_tier | Condición                        |
+|------------------|--------------|-----------|----------------------------------|
+| token_exhaustion | fast         | mid       | siempre                          |
+| token_exhaustion | mid          | heavy     | ALLOW_HEAVY_ESCALATION=true      |
+| token_exhaustion | heavy        | —         | abort, registrar hard_limit      |
+| logic_error      | cualquiera   | sin cambio | no escalar                      |
+| unknown          | cualquiera   | sin cambio | conservativo: no escalar        |
+
+Variables de control:
+- `ALLOW_HEAVY_ESCALATION=false` — default. Requiere opt-in explícito para escalar a heavy.
+- `AGENT_TOKEN_EXHAUSTION_RETRY=true` — default. Poner a `false` para deshabilitar.
+- `MAX_TIER_ESCALATIONS_PER_SPRINT=3` — límite total de escalaciones en una sesión.
+
+Registrar en `results.tsv`: `tier_escalated=true|false`, `original_tier`, `new_tier`.
+
