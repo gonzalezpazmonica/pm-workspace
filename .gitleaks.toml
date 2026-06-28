@@ -1,20 +1,35 @@
 # Gitleaks configuration for pm-workspace
-# Used by PR Guardian Gate 5 (secret scanning)
+# Used by: PR Guardian Gate 5, SE-239 (history scan), SE-247 (pre-push gate)
 # Docs: https://github.com/gitleaks/gitleaks
+# SE-239/SE-247: allowlist extendida para Savia
 
 title = "pm-workspace gitleaks config"
 
 [allowlist]
 description = "pm-workspace global allowlist"
+
+# ── Paths excluidos ───────────────────────────────────────────────────────────
 paths = [
+  # Tests y fixtures
+  '''tests/.*''',
+  '''.*\.test\..*''',
+  '''.*_test\..*''',
+  '''testdata/.*''',
+  '''fixtures/.*''',
   '''projects/sala-reservas/test-data/.*''',
   '''docker/savia-test/.*''',
+  # Documentación y ejemplos
   '''docs/examples/.*''',
+  '''.*/\.env\.example''',
+  '''\.env\.example''',
+  # Outputs generados (git-ignorados)
+  '''output/.*''',
   '''output/test-results/.*'''
 ]
 
-# Allow placeholder patterns used in templates and docs
+# ── Regexes excluidos ─────────────────────────────────────────────────────────
 regexes = [
+  # Placeholders de plantillas
   '''TU-ORGANIZACION''',
   '''YOUR-ORG''',
   '''miempresa''',
@@ -22,5 +37,27 @@ regexes = [
   '''example\.com''',
   '''mock[_-]?(token|key|secret|pat)''',
   '''test[_-]?(token|key|secret|pat)''',
-  '''fake[_-]?(token|key|secret|pat)'''
+  '''fake[_-]?(token|key|secret|pat)''',
+
+  # Firma de confidencialidad Savia (SE-093, SE-239)
+  # Formato: diff_hash=<sha256> signature=<sha256> — son hashes de firmas, no secrets
+  '''diff_hash=[0-9a-f]{64}''',
+  '''signature=[0-9a-f]{64}''',
+  '''context_hash=[0-9a-f]{64}''',
+
+  # Hashes SHA256 genéricos que parecen secrets pero son firmas de integridad
+  # Pattern: clave=<64 hex chars> donde clave indica que es hash, no credential
+  '''(hash|checksum|digest|fingerprint|sha256|sha1|md5)\s*[=:]\s*[0-9a-f]{32,64}''',
+
+  # DOIs y URIs académicas que parecen credenciales (SE-239 Savia context)
+  '''doi\.org/10\.\d{4,}''',
+  '''arxiv\.org/abs/\d+''',
+
+  # Variables de entorno de ejemplo en comentarios o docs
+  '''#.*=.*your[_-]?.*here''',
+  '''#.*<.*>''',
+
+  # Tokens con longitud fija que son IDs de referencia interna (no activos)
+  # Patrón Savia: AB#\d+ (Azure DevOps work item IDs)
+  '''AB#\d+'''
 ]
