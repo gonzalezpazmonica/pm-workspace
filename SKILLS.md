@@ -17,128 +17,129 @@ To use a skill: read `<path>` and follow its instructions.
 
 | Name | Path | Description |
 |---|---|---|
-| adversarial-security | `.claude/skills/adversarial-security/SKILL.md` | Usar cuando se necesita auditar la seguridad de un proyecto con pipeline Red Team / Blue Team. |
-| agent-code-map | `.claude/skills/agent-code-map/SKILL.md` | Usar cuando un agente necesita conocer la arquitectura del proyecto sin leer ficheros completos. |
-| agent-file-map | `.claude/skills/agent-file-map/SKILL.md` | Usar cuando se trabaja con ficheros externos al workspace que los agentes deben localizar. |
-| ai-labor-impact | `.claude/skills/ai-labor-impact/SKILL.md` | Usar cuando se analiza el impacto de la IA en el trabajo del equipo o la organización. |
-| android-autonomous-debugger | `.claude/skills/android-autonomous-debugger/SKILL.md` | Usar cuando se depuran o testean apps Android contra dispositivos físicos via USB/ADB. |
-| architecture-intelligence | `.claude/skills/architecture-intelligence/SKILL.md` | Usar cuando se diseña o revisa la arquitectura de un proyecto nuevo o existente. |
-| ast-comprehension | `.claude/skills/ast-comprehension/SKILL.md` | Usar cuando se explora código desconocido y se necesita comprensión estructural sin leer ficher... |
-| ast-quality-gate | `.claude/skills/ast-quality-gate/SKILL.md` | Usar cuando se verifica la calidad de código generado por IA antes de merge. |
-| azure-devops-queries | `.claude/skills/azure-devops-queries/SKILL.md` | Usar cuando se necesitan consultas WIQL, actualización de work items o datos de sprint en Azure ... |
-| azure-pipelines | `.claude/skills/azure-pipelines/SKILL.md` | Usar cuando se gestiona o depura CI/CD con Azure Pipelines. |
-| backlog-git-tracker | `.claude/skills/backlog-git-tracker/SKILL.md` | Usar cuando se capturan o comparan snapshots del backlog para detectar drift. |
-| banking-architecture | `.claude/skills/banking-architecture/SKILL.md` | Usar cuando se diseña o revisa arquitectura para proyectos del sector bancario. |
-| capacity-planning | `.claude/skills/capacity-planning/SKILL.md` | Usar cuando se calcula la capacidad del equipo para un sprint o periodo. |
-| caveman | `.claude/skills/caveman/SKILL.md` | Strips all sugar-coating and marketing. Gives the brutally honest truth in the fewest possible wo... |
-| client-profile-manager | `.claude/skills/client-profile-manager/SKILL.md` | Usar cuando se crean, actualizan o consultan perfiles de cliente en SaviaHub. |
-| code-comprehension-report | `.claude/skills/code-comprehension-report/SKILL.md` | Usar cuando se ha completado una implementación SDD y se necesita documentar el modelo mental. |
-| code-improvement-loop | `.claude/skills/code-improvement-loop/SKILL.md` | Usar cuando se quiere ejecutar mejora autónoma de código en segundo plano con PRs para revisión. |
-| codebase-map | `.claude/skills/codebase-map/SKILL.md` | Usar cuando se necesita un mapa de dependencias del workspace (comandos→agentes→reglas→skil... |
-| codegraph | `.claude/skills/codegraph/SKILL.md` | Usar cuando se necesita indexación AST persistente para navegación de callers/callees en el có... |
-| company-messaging | `.claude/skills/company-messaging/SKILL.md` | Usar cuando se envían mensajes internos cifrados entre miembros de la organización vía Company... |
-| consensus-validation | `.claude/skills/consensus-validation/SKILL.md` | Usar cuando una decisión técnica o recomendación necesita validación por panel de jueces. |
-| content-fingerprint | `.claude/skills/content-fingerprint/SKILL.md` | Usar cuando se necesita un identificador corto, deterministico y reproducible derivado del conten... |
-| context-caching | `.claude/skills/context-caching/SKILL.md` | Usar cuando se optimiza el orden de carga de contexto para maximizar cache hits. |
-| context-interview-conductor | `.claude/skills/context-interview-conductor/SKILL.md` | Usar cuando se necesita recopilar contexto estructurado de un usuario mediante entrevista guiada. |
-| context-optimized-dev | `.claude/skills/context-optimized-dev/SKILL.md` | Usar cuando se desarrolla con presupuesto de contexto limitado. |
-| context-rot-strategy | `.claude/skills/context-rot-strategy/SKILL.md` | Usar cuando una sesión larga se aproxima al límite de contexto y hay que decidir qué compactar. |
-| context-task-classifier | `.claude/skills/context-task-classifier/SKILL.md` | Usar antes de compactar contexto para clasificar la tarea del turno actual. |
-| cost-management | `.claude/skills/cost-management/SKILL.md` | Usar cuando se gestionan timesheets, presupuestos, facturas o forecasting de costes. |
-| dag-scheduling | `.claude/skills/dag-scheduling/SKILL.md` | Usar cuando se orquestan múltiples agentes SDD con dependencias entre ellos. |
-| design-an-interface | `.claude/skills/design-an-interface/SKILL.md` | Design-an-interface skill with N=3 parallel alternatives and architectural vocabulary. Use when d... |
-| developer-experience | `.claude/skills/developer-experience/SKILL.md` | Usar cuando se mide o mejora la experiencia de desarrollo del equipo. |
-| devops-validation | `.claude/skills/devops-validation/SKILL.md` | Usar cuando se conecta un proyecto nuevo a Azure DevOps para validar su configuración Agile. |
-| diagram-generation | `.claude/skills/diagram-generation/SKILL.md` | Usar cuando se necesita generar diagramas de arquitectura o flujo desde código o infraestructura. |
-| diagram-import | `.claude/skills/diagram-import/SKILL.md` | Usar cuando se importa un diagrama existente para extraer entidades y crear PBIs. |
-| doc-quality-feedback | `.claude/skills/doc-quality-feedback/SKILL.md` | Usar cuando se recopila feedback de calidad de documentación tras usar skills y reglas. |
-| ecosystem-watcher | `.claude/skills/ecosystem-watcher/SKILL.md` | Usar una vez al mes para detectar cambios relevantes en el ecosistema de herramientas externas. |
-| emergency-mode | `.claude/skills/emergency-mode/SKILL.md` | Usar cuando la API de Anthropic está caída y se necesita continuar operando con LocalAI. |
-| enterprise-analytics | `.claude/skills/enterprise-analytics/SKILL.md` | Usar cuando se necesitan métricas SPACE, aggregación de portfolio o forecasting empresarial. |
-| enterprise-onboarding | `.claude/skills/enterprise-onboarding/SKILL.md` | Usar cuando se incorporan múltiples personas a la organización de forma masiva. |
-| epistemic-humility | `.claude/skills/epistemic-humility/SKILL.md` | Usar cuando se detecta riesgo de adulación, cesión sin evidencia, o claim repetido por el usuar... |
-| evaluations-framework | `.claude/skills/evaluations-framework/SKILL.md` | Usar cuando se diseñan o ejecutan evaluaciones de calidad de agentes y prompts. |
-| executive-reporting | `.claude/skills/executive-reporting/SKILL.md` | Usar cuando se genera un informe ejecutivo multi-proyecto para dirección. |
-| feasibility-probe | `.claude/skills/feasibility-probe/SKILL.md` | Usar cuando se necesita validar si una spec es técnicamente viable antes de implementarla. |
-| governance-enterprise | `.claude/skills/governance-enterprise/SKILL.md` | Usar cuando se audita compliance, se registran decisiones o se certifican procesos enterprise. |
-| grill-me | `.claude/skills/grill-me/SKILL.md` | Adversarial review that hunts every weakness, assumption, edge case, and missing test. Opponent m... |
-| human-code-map | `.claude/skills/human-code-map/SKILL.md` | Usar cuando se incorpora un dev nuevo, se toca un módulo sin mapa, o alguien re-lee el mismo có... |
-| knowledge-graph | `.claude/skills/knowledge-graph/SKILL.md` | Usar cuando se construye o consulta el grafo de conocimiento de entidades del proyecto. |
-| legal-compliance | `.claude/skills/legal-compliance/SKILL.md` | Usar cuando se audita compliance legal contra legislación española consolidada. |
-| managed-content | `.claude/skills/managed-content/SKILL.md` | Usar cuando se regeneran secciones auto-generadas en documentos con marcadores de seguridad. |
-| meeting-transcript-extract | `.claude/skills/meeting-transcript-extract/SKILL.md` | Usar cuando se necesita extraer la transcripción de una reunión Teams desde el browser. |
-| memvid-backup | `.claude/skills/memvid-backup/SKILL.md` | Usar cuando se crea un backup portable de la memoria externa de Savia. |
-| meta-reflection | `.claude/skills/meta-reflection/SKILL.md` | Protocolo de las 4 meta-preguntas para cuestionar el encuadre de una tarea antes de ejecutarla. S... |
-| model-upgrade-audit | `.claude/skills/model-upgrade-audit/SKILL.md` | Usar cuando hay un modelo nuevo disponible y se quiere detectar prompt debt en el workspace. |
-| mutation-audit | `.claude/skills/mutation-audit/SKILL.md` | Usar cuando se quiere medir la calidad real de los tests mediante mutation testing. |
-| nuclei-scanning | `.claude/skills/nuclei-scanning/SKILL.md` | Usar cuando se escanean vulnerabilidades conocidas (CVEs, misconfigs) con Nuclei. |
-| onboarding-dev | `.claude/skills/onboarding-dev/SKILL.md` | Usar cuando se incorpora un desarrollador nuevo al proyecto y necesita buddy IA. |
-| org-meeting-capture | `.claude/skills/org-meeting-capture/SKILL.md` | Captura de Conocimiento Tácito de Reunión: extrae decisores, acuerdos informales y señales pol... |
-| org-political-landscape | `.claude/skills/org-political-landscape/SKILL.md` | Análisis de Paisaje Político Interno: detecta tensiones, alianzas y centros de poder a partir d... |
-| org-stakeholder-mapper | `.claude/skills/org-stakeholder-mapper/SKILL.md` | Mapeador de Stakeholders y Decisores: extrae roles formales y reales, motivaciones, alianzas y te... |
-| orgchart-import | `.claude/skills/orgchart-import/SKILL.md` | Usar cuando se importa un organigrama para extraer la estructura del equipo. |
-| overnight-sprint | `.claude/skills/overnight-sprint/SKILL.md` | Usar cuando se quiere ejecutar tareas de bajo riesgo de forma autónoma durante la noche. |
-| pbi-decomposition | `.claude/skills/pbi-decomposition/SKILL.md` | Usar cuando se descompone un PBI en tasks y se estiman las horas. |
-| pentesting | `.claude/skills/pentesting/SKILL.md` | Usar cuando se ejecuta un pentest contra una aplicación o infraestructura. |
-| performance-audit | `.claude/skills/performance-audit/SKILL.md` | Usar cuando se audita el rendimiento estático de código para detectar hotspots. |
-| personal-vault | `.claude/skills/personal-vault/SKILL.md` | Usar cuando se lee o escribe el repositorio personal del usuario (perfil, preferencias, memoria). |
-| pr-agent-judge | `.claude/skills/pr-agent-judge/SKILL.md` | Usar cuando se añade pr-agent como juez externo en el Code Review Court. |
-| product-discovery | `.claude/skills/product-discovery/SKILL.md` | Usar antes de descomponer PBIs, cuando se necesita análisis JTBD y PRD del producto. |
-| controlling-kpi-analyst | `.claude/skills/professional-domain/controlling/controlling-kpi-analyst/SKILL.md` | Evalúa KPIs de gestión, identifica tendencias y genera narrativa comentada con semáforo y aler... |
-| controlling-management-report | `.claude/skills/professional-domain/controlling/controlling-management-report/SKILL.md` | Genera informes de gestión mensual adaptados a la audiencia (CFO/CEO/board/operaciones) con narr... |
-| controlling-variance-analyzer | `.claude/skills/professional-domain/controlling/controlling-variance-analyzer/SKILL.md` | Análisis de desviaciones real vs budget con causa raíz, narrativa para dirección y semáforo RAG. |
-| finance-cash-flow-analyst | `.claude/skills/professional-domain/finance/finance-cash-flow-analyst/SKILL.md` | Análisis de liquidez y forecast de tesorería con ratios, períodos de riesgo y recomendaciones ... |
-| finance-financial-report-writer | `.claude/skills/professional-domain/finance/finance-financial-report-writer/SKILL.md` | Redacta informes financieros adaptados a la audiencia (inversores/banco/regulador/dirección) con... |
-| finance-investment-analyst | `.claude/skills/professional-domain/finance/finance-investment-analyst/SKILL.md` | Análisis de inversiones con Investment Memo estructurado, DCF, IRR/VAN/Payback y tablas de sensi... |
-| labour-conflict-resolver | `.claude/skills/professional-domain/labour/labour-conflict-resolver/SKILL.md` | Analiza conflictos laborales (individuales y colectivos) y propone mínimo 3 opciones de resoluci... |
-| labour-convention-analyzer | `.claude/skills/professional-domain/labour/labour-convention-analyzer/SKILL.md` | Extrae y analiza cláusulas de convenios colectivos españoles. Interpreta en lenguaje claro, se�... |
-| labour-document-drafter | `.claude/skills/professional-domain/labour/labour-document-drafter/SKILL.md` | Redacta documentos laborales (cartas disciplinarias, despido, extinción) con base en ET español... |
-| labour-onboarding-offboarding | `.claude/skills/professional-domain/labour/labour-onboarding-offboarding/SKILL.md` | Genera checklists y documentación de onboarding/offboarding laboral con plazos duros (alta SS an... |
-| legal-compliance-checker | `.claude/skills/professional-domain/legal/legal-compliance-checker/SKILL.md` | Verifica procesos o documentos contra regulaciones ES (RGPD, LO 3/2018, ET, CCom). Produce gaps y... |
-| legal-contract-reviewer | `.claude/skills/professional-domain/legal/legal-contract-reviewer/SKILL.md` | Revisión de contratos con matriz de riesgos RAG, red flags y resumen ejecutivo. Jurisdicción es... |
-| legal-document-drafter | `.claude/skills/professional-domain/legal/legal-document-drafter/SKILL.md` | Genera borradores de documentos legales ES (NDAs, cartas disciplinarias, acuerdos extinción). Ma... |
-| sales-account-research | `.claude/skills/professional-domain/sales/sales-account-research/SKILL.md` | Research de Cuenta Comercial: genera un Account Brief estructurado con snapshot, situación actua... |
-| sales-objection-analyzer | `.claude/skills/professional-domain/sales/sales-objection-analyzer/SKILL.md` | Analizador de Objeciones Comerciales: clasifica y responde objeciones según taxonomía y etapa d... |
-| sales-pipeline-analyst | `.claude/skills/professional-domain/sales/sales-pipeline-analyst/SKILL.md` | Analista de Pipeline de Ventas: analiza salud del pipeline con metodología MEDDIC y produce fore... |
-| sales-proposal-writer | `.claude/skills/professional-domain/sales/sales-proposal-writer/SKILL.md` | Redactor de Propuesta Comercial B2B: genera propuestas consultivas personalizadas con índice com... |
-| project-update | `.claude/skills/project-update/SKILL.md` | Usar cuando se necesita una actualización integral del proyecto activo desde todas las fuentes. |
-| prompt-optimizer | `.claude/skills/prompt-optimizer/SKILL.md` | Usar cuando se optimiza el prompt de un skill o agente para mejorar su efectividad. |
-| rbac-management | `.claude/skills/rbac-management/SKILL.md` | Usar cuando se gestionan roles, permisos o se audita el acceso de usuarios. |
-| reflection-validation | `.claude/skills/reflection-validation/SKILL.md` | Usar cuando una respuesta o decisión importante necesita validación metacognitiva (System 2). |
-| regulatory-compliance | `.claude/skills/regulatory-compliance/SKILL.md` | Usar cuando se valida el cumplimiento de marcos regulatorios sectoriales. |
-| reranker | `.claude/skills/reranker/SKILL.md` | Usar cuando se recibe un top-K ruidoso de búsqueda en memoria y se necesita reordenar por releva... |
-| resource-references | `.claude/skills/resource-references/SKILL.md` | Usar cuando se necesitan referencias a recursos y plantillas del workspace. |
-| risk-scoring | `.claude/skills/risk-scoring/SKILL.md` | Usar cuando se calcula el riesgo de una tarea para decidir el nivel de revisión requerido. |
-| rules-traceability | `.claude/skills/rules-traceability/SKILL.md` | Usar cuando se mapean reglas de negocio a PBIs para trazabilidad completa. |
-| savia-dual | `.claude/skills/savia-dual/SKILL.md` | Usar cuando la inferencia cloud falla, es lenta o está rate-limited y se necesita failover local. |
-| savia-flow-practice | `.claude/skills/savia-flow-practice/SKILL.md` | Usar cuando se implementa Savia Flow con dual-track y métricas de flujo en un proyecto. |
-| savia-hub-sync | `.claude/skills/savia-hub-sync/SKILL.md` | Usar cuando se sincroniza el repositorio SaviaHub con el workspace local. |
-| savia-identity | `.claude/skills/savia-identity/SKILL.md` | Usar al inicio de sesión para cargar la identidad completa y las reglas de comportamiento de Savia. |
-| savia-memory | `.claude/skills/savia-memory/SKILL.md` | Usar cuando se lee, escribe, busca o consolida la memoria persistente entre sesiones de Savia. |
-| savia-school | `.claude/skills/savia-school/SKILL.md` | Usar cuando el workspace se adapta para un entorno educativo con estudiantes menores de edad. |
-| scaling-operations | `.claude/skills/scaling-operations/SKILL.md` | Usar cuando se analiza el tier de escala de un servicio o se necesitan optimizaciones de capacidad. |
-| scheduled-messaging | `.claude/skills/scheduled-messaging/SKILL.md` | Usar cuando se configuran mensajes automáticos programados a plataformas de comunicación. |
-| skill-evaluation | `.claude/skills/skill-evaluation/SKILL.md` | Usar cuando se necesita seleccionar el skill más apropiado para una tarea dada. |
-| smart-calendar | `.claude/skills/smart-calendar/SKILL.md` | Usar cuando se gestiona la agenda inteligente con sincronización Outlook/Teams. |
-| smart-routing | `.claude/skills/smart-routing/SKILL.md` | Usar cuando se necesita descubrir o enrutar a un comando específico entre los 400+ disponibles. |
-| sovereignty-auditor | `.claude/skills/sovereignty-auditor/SKILL.md` | Usar cuando se audita el grado de dependencia cognitiva del equipo respecto a herramientas de IA. |
-| spec-driven-development | `.claude/skills/spec-driven-development/SKILL.md` | Usar cuando se escribe, valida o implementa una spec ejecutable SDD. |
-| sprint-management | `.claude/skills/sprint-management/SKILL.md` | Usar cuando se consulta el estado del sprint, se actualizan items o se genera el resumen. |
-| tdd-vertical-slices | `.claude/skills/tdd-vertical-slices/SKILL.md` | Test-driven development with vertical-slice red-green-refactor cycles. Use when applying TDD to a... |
-| team-coordination | `.claude/skills/team-coordination/SKILL.md` | Usar cuando se coordinan múltiples equipos, se asignan miembros o se detectan bloqueantes cross-... |
-| team-onboarding | `.claude/skills/team-onboarding/SKILL.md` | Usar cuando se incorpora un nuevo miembro al equipo y se evalúan sus competencias. |
-| tech-research-agent | `.claude/skills/tech-research-agent/SKILL.md` | Usar cuando se necesita investigación técnica autónoma sobre un tema específico. |
-| test-architect | `.claude/skills/test-architect/SKILL.md` | Usar cuando se diseñan o generan tests de alta calidad en cualquier lenguaje. |
-| tier3-probes | `.claude/skills/tier3-probes/SKILL.md` | Usar cuando se valida la viabilidad de herramientas Tier 3 antes de adoptarlas en el workspace. |
-| time-tracking-report | `.claude/skills/time-tracking-report/SKILL.md` | Usar cuando se generan informes de imputación de horas en Excel o Word. |
-| topic-cluster | `.claude/skills/topic-cluster/SKILL.md` | Usar cuando se agrupan retros, PBIs o incidentes en topics para detectar patrones transversales. |
-| ubiquitous-language | `.claude/skills/ubiquitous-language/SKILL.md` | Usar cuando se necesita extraer o consolidar el glosario de términos de dominio de un proyecto. ... |
-| understand-anything | `.claude/skills/understand-anything/SKILL.md` | Usar cuando se necesita analizar un codebase con Understand-Anything para generar knowledge graph... |
-| verification-lattice | `.claude/skills/verification-lattice/SKILL.md` | Usar cuando se necesita verificación multi-capa más allá del code review estándar. |
-| voice-inbox | `.claude/skills/voice-inbox/SKILL.md` | Usar cuando se procesan mensajes de voz para transcribirlos y convertirlos en acciones. |
-| web-research | `.claude/skills/web-research/SKILL.md` | Usar cuando se necesita buscar en la web para resolver gaps de contexto (docs, versiones, CVEs). |
-| weekly-report | `.claude/skills/weekly-report/SKILL.md` | Usar cuando se genera el informe semanal de estado del proyecto. |
-| wellbeing-guardian | `.claude/skills/wellbeing-guardian/SKILL.md` | Usar cuando se monitorizan señales de bienestar individual en el equipo. |
-| workspace-integrity | `.claude/skills/workspace-integrity/SKILL.md` | Usar cuando se audita la integridad del workspace (drift, reglas, agentes, baseline). |
-| write-a-skill | `.claude/skills/write-a-skill/SKILL.md` | Guia para crear una nueva skill correctamente en pm-workspace. Usar cuando una tarea se repite 2+... |
-| zoom-out | `.claude/skills/zoom-out/SKILL.md` | Elevates perspective from trees to forest. Maps architecture, dependencies, and second-order effe... |
+| adversarial-security | `.opencode/skills/adversarial-security/SKILL.md` | Usar cuando se necesita auditar la seguridad de un proyecto con pipeline Red Team / Blue Team. |
+| agent-code-map | `.opencode/skills/agent-code-map/SKILL.md` | Usar cuando un agente necesita conocer la arquitectura del proyecto sin leer ficheros completos. |
+| agent-file-map | `.opencode/skills/agent-file-map/SKILL.md` | Usar cuando se trabaja con ficheros externos al workspace que los agentes deben localizar. |
+| ai-labor-impact | `.opencode/skills/ai-labor-impact/SKILL.md` | Usar cuando se analiza el impacto de la IA en el trabajo del equipo o la organización. |
+| android-autonomous-debugger | `.opencode/skills/android-autonomous-debugger/SKILL.md` | Usar cuando se depuran o testean apps Android contra dispositivos físicos via USB/ADB. |
+| architecture-intelligence | `.opencode/skills/architecture-intelligence/SKILL.md` | Usar cuando se diseña o revisa la arquitectura de un proyecto nuevo o existente. |
+| ast-comprehension | `.opencode/skills/ast-comprehension/SKILL.md` | Usar cuando se explora código desconocido y se necesita comprensión estructural sin leer ficher... |
+| ast-quality-gate | `.opencode/skills/ast-quality-gate/SKILL.md` | Usar cuando se verifica la calidad de código generado por IA antes de merge. |
+| azure-devops-queries | `.opencode/skills/azure-devops-queries/SKILL.md` | Usar cuando se necesitan consultas WIQL, actualización de work items o datos de sprint en Azure ... |
+| azure-pipelines | `.opencode/skills/azure-pipelines/SKILL.md` | Usar cuando se gestiona o depura CI/CD con Azure Pipelines. |
+| backlog-git-tracker | `.opencode/skills/backlog-git-tracker/SKILL.md` | Usar cuando se capturan o comparan snapshots del backlog para detectar drift. |
+| banking-architecture | `.opencode/skills/banking-architecture/SKILL.md` | Usar cuando se diseña o revisa arquitectura para proyectos del sector bancario. |
+| capacity-planning | `.opencode/skills/capacity-planning/SKILL.md` | Usar cuando se calcula la capacidad del equipo para un sprint o periodo. |
+| caveman | `.opencode/skills/caveman/SKILL.md` | Strips all sugar-coating and marketing. Gives the brutally honest truth in the fewest possible wo... |
+| client-profile-manager | `.opencode/skills/client-profile-manager/SKILL.md` | Usar cuando se crean, actualizan o consultan perfiles de cliente en SaviaHub. |
+| code-comprehension-report | `.opencode/skills/code-comprehension-report/SKILL.md` | Usar cuando se ha completado una implementación SDD y se necesita documentar el modelo mental. |
+| code-improvement-loop | `.opencode/skills/code-improvement-loop/SKILL.md` | Usar cuando se quiere ejecutar mejora autónoma de código en segundo plano con PRs para revisión. |
+| codebase-map | `.opencode/skills/codebase-map/SKILL.md` | Usar cuando se necesita un mapa de dependencias del workspace (comandos→agentes→reglas→skil... |
+| codegraph | `.opencode/skills/codegraph/SKILL.md` | Usar cuando se necesita indexación AST persistente para navegación de callers/callees en el có... |
+| company-messaging | `.opencode/skills/company-messaging/SKILL.md` | Usar cuando se envían mensajes internos cifrados entre miembros de la organización vía Company... |
+| consensus-validation | `.opencode/skills/consensus-validation/SKILL.md` | Usar cuando una decisión técnica o recomendación necesita validación por panel de jueces. |
+| content-fingerprint | `.opencode/skills/content-fingerprint/SKILL.md` | Usar cuando se necesita un identificador corto, deterministico y reproducible derivado del conten... |
+| context-caching | `.opencode/skills/context-caching/SKILL.md` | Usar cuando se optimiza el orden de carga de contexto para maximizar cache hits. |
+| context-interview-conductor | `.opencode/skills/context-interview-conductor/SKILL.md` | Usar cuando se necesita recopilar contexto estructurado de un usuario mediante entrevista guiada. |
+| context-optimized-dev | `.opencode/skills/context-optimized-dev/SKILL.md` | Usar cuando se desarrolla con presupuesto de contexto limitado. |
+| context-rot-strategy | `.opencode/skills/context-rot-strategy/SKILL.md` | Usar cuando una sesión larga se aproxima al límite de contexto y hay que decidir qué compactar. |
+| context-task-classifier | `.opencode/skills/context-task-classifier/SKILL.md` | Usar antes de compactar contexto para clasificar la tarea del turno actual. |
+| cost-management | `.opencode/skills/cost-management/SKILL.md` | Usar cuando se gestionan timesheets, presupuestos, facturas o forecasting de costes. |
+| dag-scheduling | `.opencode/skills/dag-scheduling/SKILL.md` | Usar cuando se orquestan múltiples agentes SDD con dependencias entre ellos. |
+| design-an-interface | `.opencode/skills/design-an-interface/SKILL.md` | Design-an-interface skill with N=3 parallel alternatives and architectural vocabulary. Use when d... |
+| developer-experience | `.opencode/skills/developer-experience/SKILL.md` | Usar cuando se mide o mejora la experiencia de desarrollo del equipo. |
+| devops-validation | `.opencode/skills/devops-validation/SKILL.md` | Usar cuando se conecta un proyecto nuevo a Azure DevOps para validar su configuración Agile. |
+| diagram-generation | `.opencode/skills/diagram-generation/SKILL.md` | Usar cuando se necesita generar diagramas de arquitectura o flujo desde código o infraestructura. |
+| diagram-import | `.opencode/skills/diagram-import/SKILL.md` | Usar cuando se importa un diagrama existente para extraer entidades y crear PBIs. |
+| doc-quality-feedback | `.opencode/skills/doc-quality-feedback/SKILL.md` | Usar cuando se recopila feedback de calidad de documentación tras usar skills y reglas. |
+| ecosystem-watcher | `.opencode/skills/ecosystem-watcher/SKILL.md` | Usar una vez al mes para detectar cambios relevantes en el ecosistema de herramientas externas. |
+| emergency-mode | `.opencode/skills/emergency-mode/SKILL.md` | Usar cuando la API de Anthropic está caída y se necesita continuar operando con LocalAI. |
+| enterprise-analytics | `.opencode/skills/enterprise-analytics/SKILL.md` | Usar cuando se necesitan métricas SPACE, aggregación de portfolio o forecasting empresarial. |
+| enterprise-onboarding | `.opencode/skills/enterprise-onboarding/SKILL.md` | Usar cuando se incorporan múltiples personas a la organización de forma masiva. |
+| epistemic-humility | `.opencode/skills/epistemic-humility/SKILL.md` | Usar cuando se detecta riesgo de adulación, cesión sin evidencia, o claim repetido por el usuar... |
+| evaluations-framework | `.opencode/skills/evaluations-framework/SKILL.md` | Usar cuando se diseñan o ejecutan evaluaciones de calidad de agentes y prompts. |
+| executive-reporting | `.opencode/skills/executive-reporting/SKILL.md` | Usar cuando se genera un informe ejecutivo multi-proyecto para dirección. |
+| feasibility-probe | `.opencode/skills/feasibility-probe/SKILL.md` | Usar cuando se necesita validar si una spec es técnicamente viable antes de implementarla. |
+| governance-enterprise | `.opencode/skills/governance-enterprise/SKILL.md` | Usar cuando se audita compliance, se registran decisiones o se certifican procesos enterprise. |
+| grill-me | `.opencode/skills/grill-me/SKILL.md` | Adversarial review that hunts every weakness, assumption, edge case, and missing test. Opponent m... |
+| human-code-map | `.opencode/skills/human-code-map/SKILL.md` | Usar cuando se incorpora un dev nuevo, se toca un módulo sin mapa, o alguien re-lee el mismo có... |
+| knowledge-graph | `.opencode/skills/knowledge-graph/SKILL.md` | Usar cuando se construye o consulta el grafo de conocimiento de entidades del proyecto. |
+| legal-compliance | `.opencode/skills/legal-compliance/SKILL.md` | Usar cuando se audita compliance legal contra legislación española consolidada. |
+| managed-content | `.opencode/skills/managed-content/SKILL.md` | Usar cuando se regeneran secciones auto-generadas en documentos con marcadores de seguridad. |
+| meeting-transcript-extract | `.opencode/skills/meeting-transcript-extract/SKILL.md` | Usar cuando se necesita extraer la transcripción de una reunión Teams desde el browser. |
+| memvid-backup | `.opencode/skills/memvid-backup/SKILL.md` | Usar cuando se crea un backup portable de la memoria externa de Savia. |
+| meta-reflection | `.opencode/skills/meta-reflection/SKILL.md` | Protocolo de las 4 meta-preguntas para cuestionar el encuadre de una tarea antes de ejecutarla. S... |
+| model-upgrade-audit | `.opencode/skills/model-upgrade-audit/SKILL.md` | Usar cuando hay un modelo nuevo disponible y se quiere detectar prompt debt en el workspace. |
+| mutation-audit | `.opencode/skills/mutation-audit/SKILL.md` | Usar cuando se quiere medir la calidad real de los tests mediante mutation testing. |
+| nuclei-scanning | `.opencode/skills/nuclei-scanning/SKILL.md` | Usar cuando se escanean vulnerabilidades conocidas (CVEs, misconfigs) con Nuclei. |
+| onboarding-dev | `.opencode/skills/onboarding-dev/SKILL.md` | Usar cuando se incorpora un desarrollador nuevo al proyecto y necesita buddy IA. |
+| org-meeting-capture | `.opencode/skills/org-meeting-capture/SKILL.md` | Captura de Conocimiento Tácito de Reunión: extrae decisores, acuerdos informales y señales pol... |
+| org-political-landscape | `.opencode/skills/org-political-landscape/SKILL.md` | Análisis de Paisaje Político Interno: detecta tensiones, alianzas y centros de poder a partir d... |
+| org-stakeholder-mapper | `.opencode/skills/org-stakeholder-mapper/SKILL.md` | Mapeador de Stakeholders y Decisores: extrae roles formales y reales, motivaciones, alianzas y te... |
+| orgchart-import | `.opencode/skills/orgchart-import/SKILL.md` | Usar cuando se importa un organigrama para extraer la estructura del equipo. |
+| overnight-sprint | `.opencode/skills/overnight-sprint/SKILL.md` | Usar cuando se quiere ejecutar tareas de bajo riesgo de forma autónoma durante la noche. |
+| pbi-decomposition | `.opencode/skills/pbi-decomposition/SKILL.md` | Usar cuando se descompone un PBI en tasks y se estiman las horas. |
+| pentesting | `.opencode/skills/pentesting/SKILL.md` | Usar cuando se ejecuta un pentest contra una aplicación o infraestructura. |
+| performance-audit | `.opencode/skills/performance-audit/SKILL.md` | Usar cuando se audita el rendimiento estático de código para detectar hotspots. |
+| personal-vault | `.opencode/skills/personal-vault/SKILL.md` | Usar cuando se lee o escribe el repositorio personal del usuario (perfil, preferencias, memoria). |
+| pr-agent-judge | `.opencode/skills/pr-agent-judge/SKILL.md` | Usar cuando se añade pr-agent como juez externo en el Code Review Court. |
+| product-discovery | `.opencode/skills/product-discovery/SKILL.md` | Usar antes de descomponer PBIs, cuando se necesita análisis JTBD y PRD del producto. |
+| professional-domain | `.opencode/skills/professional-domain/SKILL.md` | Family index for professional-domain skills (controlling, finance, labour, legal, sales). Load in... |
+| controlling-kpi-analyst | `.opencode/skills/professional-domain/controlling/controlling-kpi-analyst/SKILL.md` | Evalúa KPIs de gestión, identifica tendencias y genera narrativa comentada con semáforo y aler... |
+| controlling-management-report | `.opencode/skills/professional-domain/controlling/controlling-management-report/SKILL.md` | Genera informes de gestión mensual adaptados a la audiencia (CFO/CEO/board/operaciones) con narr... |
+| controlling-variance-analyzer | `.opencode/skills/professional-domain/controlling/controlling-variance-analyzer/SKILL.md` | Análisis de desviaciones real vs budget con causa raíz, narrativa para dirección y semáforo RAG. |
+| finance-cash-flow-analyst | `.opencode/skills/professional-domain/finance/finance-cash-flow-analyst/SKILL.md` | Análisis de liquidez y forecast de tesorería con ratios, períodos de riesgo y recomendaciones ... |
+| finance-financial-report-writer | `.opencode/skills/professional-domain/finance/finance-financial-report-writer/SKILL.md` | Redacta informes financieros adaptados a la audiencia (inversores/banco/regulador/dirección) con... |
+| finance-investment-analyst | `.opencode/skills/professional-domain/finance/finance-investment-analyst/SKILL.md` | Análisis de inversiones con Investment Memo estructurado, DCF, IRR/VAN/Payback y tablas de sensi... |
+| labour-conflict-resolver | `.opencode/skills/professional-domain/labour/labour-conflict-resolver/SKILL.md` | Analiza conflictos laborales (individuales y colectivos) y propone mínimo 3 opciones de resoluci... |
+| labour-convention-analyzer | `.opencode/skills/professional-domain/labour/labour-convention-analyzer/SKILL.md` | Extrae y analiza cláusulas de convenios colectivos españoles. Interpreta en lenguaje claro, se�... |
+| labour-document-drafter | `.opencode/skills/professional-domain/labour/labour-document-drafter/SKILL.md` | Redacta documentos laborales (cartas disciplinarias, despido, extinción) con base en ET español... |
+| labour-onboarding-offboarding | `.opencode/skills/professional-domain/labour/labour-onboarding-offboarding/SKILL.md` | Genera checklists y documentación de onboarding/offboarding laboral con plazos duros (alta SS an... |
+| legal-compliance-checker | `.opencode/skills/professional-domain/legal/legal-compliance-checker/SKILL.md` | Verifica procesos o documentos contra regulaciones ES (RGPD, LO 3/2018, ET, CCom). Produce gaps y... |
+| legal-contract-reviewer | `.opencode/skills/professional-domain/legal/legal-contract-reviewer/SKILL.md` | Revisión de contratos con matriz de riesgos RAG, red flags y resumen ejecutivo. Jurisdicción es... |
+| legal-document-drafter | `.opencode/skills/professional-domain/legal/legal-document-drafter/SKILL.md` | Genera borradores de documentos legales ES (NDAs, cartas disciplinarias, acuerdos extinción). Ma... |
+| sales-account-research | `.opencode/skills/professional-domain/sales/sales-account-research/SKILL.md` | Research de Cuenta Comercial: genera un Account Brief estructurado con snapshot, situación actua... |
+| sales-objection-analyzer | `.opencode/skills/professional-domain/sales/sales-objection-analyzer/SKILL.md` | Analizador de Objeciones Comerciales: clasifica y responde objeciones según taxonomía y etapa d... |
+| sales-pipeline-analyst | `.opencode/skills/professional-domain/sales/sales-pipeline-analyst/SKILL.md` | Analista de Pipeline de Ventas: analiza salud del pipeline con metodología MEDDIC y produce fore... |
+| sales-proposal-writer | `.opencode/skills/professional-domain/sales/sales-proposal-writer/SKILL.md` | Redactor de Propuesta Comercial B2B: genera propuestas consultivas personalizadas con índice com... |
+| project-update | `.opencode/skills/project-update/SKILL.md` | Usar cuando se necesita una actualización integral del proyecto activo desde todas las fuentes. |
+| prompt-optimizer | `.opencode/skills/prompt-optimizer/SKILL.md` | Usar cuando se optimiza el prompt de un skill o agente para mejorar su efectividad. |
+| rbac-management | `.opencode/skills/rbac-management/SKILL.md` | Usar cuando se gestionan roles, permisos o se audita el acceso de usuarios. |
+| reflection-validation | `.opencode/skills/reflection-validation/SKILL.md` | Usar cuando una respuesta o decisión importante necesita validación metacognitiva (System 2). |
+| regulatory-compliance | `.opencode/skills/regulatory-compliance/SKILL.md` | Usar cuando se valida el cumplimiento de marcos regulatorios sectoriales. |
+| reranker | `.opencode/skills/reranker/SKILL.md` | Usar cuando se recibe un top-K ruidoso de búsqueda en memoria y se necesita reordenar por releva... |
+| resource-references | `.opencode/skills/resource-references/SKILL.md` | Usar cuando se necesitan referencias a recursos y plantillas del workspace. |
+| risk-scoring | `.opencode/skills/risk-scoring/SKILL.md` | Usar cuando se calcula el riesgo de una tarea para decidir el nivel de revisión requerido. |
+| rules-traceability | `.opencode/skills/rules-traceability/SKILL.md` | Usar cuando se mapean reglas de negocio a PBIs para trazabilidad completa. |
+| savia-dual | `.opencode/skills/savia-dual/SKILL.md` | Usar cuando la inferencia cloud falla, es lenta o está rate-limited y se necesita failover local. |
+| savia-flow-practice | `.opencode/skills/savia-flow-practice/SKILL.md` | Usar cuando se implementa Savia Flow con dual-track y métricas de flujo en un proyecto. |
+| savia-hub-sync | `.opencode/skills/savia-hub-sync/SKILL.md` | Usar cuando se sincroniza el repositorio SaviaHub con el workspace local. |
+| savia-identity | `.opencode/skills/savia-identity/SKILL.md` | Usar al inicio de sesión para cargar la identidad completa y las reglas de comportamiento de Savia. |
+| savia-memory | `.opencode/skills/savia-memory/SKILL.md` | Usar cuando se lee, escribe, busca o consolida la memoria persistente entre sesiones de Savia. |
+| savia-school | `.opencode/skills/savia-school/SKILL.md` | Usar cuando el workspace se adapta para un entorno educativo con estudiantes menores de edad. |
+| scaling-operations | `.opencode/skills/scaling-operations/SKILL.md` | Usar cuando se analiza el tier de escala de un servicio o se necesitan optimizaciones de capacidad. |
+| scheduled-messaging | `.opencode/skills/scheduled-messaging/SKILL.md` | Usar cuando se configuran mensajes automáticos programados a plataformas de comunicación. |
+| skill-evaluation | `.opencode/skills/skill-evaluation/SKILL.md` | Usar cuando se necesita seleccionar el skill más apropiado para una tarea dada. |
+| smart-calendar | `.opencode/skills/smart-calendar/SKILL.md` | Usar cuando se gestiona la agenda inteligente con sincronización Outlook/Teams. |
+| smart-routing | `.opencode/skills/smart-routing/SKILL.md` | Usar cuando se necesita descubrir o enrutar a un comando específico entre los 400+ disponibles. |
+| sovereignty-auditor | `.opencode/skills/sovereignty-auditor/SKILL.md` | Usar cuando se audita el grado de dependencia cognitiva del equipo respecto a herramientas de IA. |
+| spec-driven-development | `.opencode/skills/spec-driven-development/SKILL.md` | Usar cuando se escribe, valida o implementa una spec ejecutable SDD. |
+| sprint-management | `.opencode/skills/sprint-management/SKILL.md` | Usar cuando se consulta el estado del sprint, se actualizan items o se genera el resumen. |
+| tdd-vertical-slices | `.opencode/skills/tdd-vertical-slices/SKILL.md` | Test-driven development with vertical-slice red-green-refactor cycles. Use when applying TDD to a... |
+| team-coordination | `.opencode/skills/team-coordination/SKILL.md` | Usar cuando se coordinan múltiples equipos, se asignan miembros o se detectan bloqueantes cross-... |
+| team-onboarding | `.opencode/skills/team-onboarding/SKILL.md` | Usar cuando se incorpora un nuevo miembro al equipo y se evalúan sus competencias. |
+| tech-research-agent | `.opencode/skills/tech-research-agent/SKILL.md` | Usar cuando se necesita investigación técnica autónoma sobre un tema específico. |
+| test-architect | `.opencode/skills/test-architect/SKILL.md` | Usar cuando se diseñan o generan tests de alta calidad en cualquier lenguaje. |
+| tier3-probes | `.opencode/skills/tier3-probes/SKILL.md` | Usar cuando se valida la viabilidad de herramientas Tier 3 antes de adoptarlas en el workspace. |
+| time-tracking-report | `.opencode/skills/time-tracking-report/SKILL.md` | Usar cuando se generan informes de imputación de horas en Excel o Word. |
+| topic-cluster | `.opencode/skills/topic-cluster/SKILL.md` | Usar cuando se agrupan retros, PBIs o incidentes en topics para detectar patrones transversales. |
+| ubiquitous-language | `.opencode/skills/ubiquitous-language/SKILL.md` | Usar cuando se necesita extraer o consolidar el glosario de términos de dominio de un proyecto. ... |
+| understand-anything | `.opencode/skills/understand-anything/SKILL.md` | Usar cuando se necesita analizar un codebase con Understand-Anything para generar knowledge graph... |
+| verification-lattice | `.opencode/skills/verification-lattice/SKILL.md` | Usar cuando se necesita verificación multi-capa más allá del code review estándar. |
+| voice-inbox | `.opencode/skills/voice-inbox/SKILL.md` | Usar cuando se procesan mensajes de voz para transcribirlos y convertirlos en acciones. |
+| web-research | `.opencode/skills/web-research/SKILL.md` | Usar cuando se necesita buscar en la web para resolver gaps de contexto (docs, versiones, CVEs). |
+| weekly-report | `.opencode/skills/weekly-report/SKILL.md` | Usar cuando se genera el informe semanal de estado del proyecto. |
+| wellbeing-guardian | `.opencode/skills/wellbeing-guardian/SKILL.md` | Usar cuando se monitorizan señales de bienestar individual en el equipo. |
+| workspace-integrity | `.opencode/skills/workspace-integrity/SKILL.md` | Usar cuando se audita la integridad del workspace (drift, reglas, agentes, baseline). |
+| write-a-skill | `.opencode/skills/write-a-skill/SKILL.md` | Guia para crear una nueva skill correctamente en pm-workspace. Usar cuando una tarea se repite 2+... |
+| zoom-out | `.opencode/skills/zoom-out/SKILL.md` | Elevates perspective from trees to forest. Maps architecture, dependencies, and second-order effe... |

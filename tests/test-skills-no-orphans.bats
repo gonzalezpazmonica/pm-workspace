@@ -38,6 +38,8 @@ teardown() {
 @test "every skill directory has SKILL.md" {
   local missing=0
   for d in "$SKILLS_DIR"/*/; do
+    # professional-domain is a namespace directory (family container), not a skill
+    [[ "$(basename "$d")" == "professional-domain" ]] && continue
     if [[ ! -f "$d/SKILL.md" ]]; then
       echo "MISSING SKILL.md: $d" >&2
       missing=$((missing+1))
@@ -49,6 +51,8 @@ teardown() {
 @test "every skill directory has DOMAIN.md" {
   local missing=0
   for d in "$SKILLS_DIR"/*/; do
+    # professional-domain is a namespace directory (family container), not a skill
+    [[ "$(basename "$d")" == "professional-domain" ]] && continue
     if [[ ! -f "$d/DOMAIN.md" ]]; then
       echo "MISSING DOMAIN.md: $d" >&2
       missing=$((missing+1))

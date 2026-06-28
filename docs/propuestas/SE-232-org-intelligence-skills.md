@@ -1,7 +1,7 @@
 ---
 id: SE-232
 title: "Familia de Skills org-intelligence — mapa de poder y conocimiento organizativo tácito"
-status: PROPOSED
+status: IMPLEMENTED
 priority: P2
 effort: "M (8h)"
 author: Savia

@@ -46,7 +46,7 @@
 
 <!-- AUTO_BEGIN — do not edit; regenerate via scripts/resolver-md-generate.sh -->
 
-### Skills (105)
+### Skills (108)
 
 | Intent (skill) | Target | Cuándo usar |
 |---|---|---|
@@ -106,6 +106,9 @@
 | `mutation-audit` | skill:mutation-audit | Usar cuando se quiere medir la calidad real de los tests mediante mutation testing. |
 | `nuclei-scanning` | skill:nuclei-scanning | Usar cuando se escanean vulnerabilidades conocidas (CVEs, misconfigs) con Nuclei. |
 | `onboarding-dev` | skill:onboarding-dev | Usar cuando se incorpora un desarrollador nuevo al proyecto y necesita buddy IA. |
+| `org-meeting-capture` | skill:org-meeting-capture | Captura de Conocimiento Tácito de Reunión: extrae decisores, acuerdos informales y se... |
+| `org-political-landscape` | skill:org-political-landscape | Análisis de Paisaje Político Interno: detecta tensiones, alianzas y centros de poder ... |
+| `org-stakeholder-mapper` | skill:org-stakeholder-mapper | Mapeador de Stakeholders y Decisores: extrae roles formales y reales, motivaciones, ali... |
 | `orgchart-import` | skill:orgchart-import | Usar cuando se importa un organigrama para extraer la estructura del equipo. |
 | `overnight-sprint` | skill:overnight-sprint | Usar cuando se quiere ejecutar tareas de bajo riesgo de forma autónoma durante la noche. |
 | `pbi-decomposition` | skill:pbi-decomposition | Usar cuando se descompone un PBI en tasks y se estiman las horas. |

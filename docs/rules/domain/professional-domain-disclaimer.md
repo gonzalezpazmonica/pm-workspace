@@ -1,3 +1,9 @@
+---
+context_tier: L2
+token_budget: 800
+resource: internal://docs/rules/domain/professional-domain-disclaimer.md
+updated_at: "2026-06-28"
+---
 # Disclaimers de Dominio Profesional
 
 > Fuente de verdad para los textos de disclaimer que deben incluirse al final de cada output generado por las skills de dominio profesional. Las skills referencian este fichero con: "DISCLAIMER — texto completo de professional-domain-disclaimer.md sección [X]".
