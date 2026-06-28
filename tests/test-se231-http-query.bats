@@ -2,7 +2,7 @@
 # tests/test-se231-http-query.bats
 # SE-231 — HTTP QUERY Method (RFC 10008) — 20 tests
 
-NIDO="/home/monica/.savia/nidos/se231-http-query"
+NIDO="$(cd "$(dirname "$BATS_TEST_FILENAME")/.." && pwd)"
 DOMAIN_RULE="${NIDO}/docs/rules/domain/http-query-method.md"
 EXAMPLES="${NIDO}/scripts/examples/http-query"
 LANG="${NIDO}/docs/rules/languages"

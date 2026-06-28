@@ -2,7 +2,7 @@
 # tests/test-se231-syntax-check.bats
 # SE-231 — HTTP QUERY Method — syntax validation (5 tests)
 
-EXAMPLES="/home/monica/.savia/nidos/se231-http-query/scripts/examples/http-query"
+EXAMPLES="$(cd "$(dirname "$BATS_TEST_FILENAME")/.." && pwd)/scripts/examples/http-query"
 
 @test "1. server-fastapi.py pasa python3 -m py_compile" {
   python3 -m py_compile "${EXAMPLES}/server-fastapi.py"
