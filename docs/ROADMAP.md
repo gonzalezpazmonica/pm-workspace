@@ -1042,4 +1042,30 @@ Archivos: `docs/propuestas/SPEC-180..186-*.md`. Origen: `output/research/obsidia
 - Two-Output Rule (incompatible con tono Savia + Radical Honesty).
 - Background-agent PostCompact por defecto (riesgo de drift no supervisado).
 - Integraciones Perplexity/Grok (data-sovereignty).
+
+---
+
+## Research & Innovation Pipeline — 2026-06-28
+
+Investigaciones aplicadas. ROI validado antes de spec. Scripts ejecutables como evidencia.
+
+| ID | Titulo | Status | ROI | Deps | Esfuerzo |
+|---|---|---|---|---|---|
+| SE-248 | KG Topology Analysis (Forman-Ricci + Leiden) | **IN_PROGRESS** (PR #891) | Alto — metricas KG inmediatas | SE-162 | 4h |
+| SE-249 | RotatE Link Prediction dependencias implicitas | PROPOSED | Medio — requiere >=200 triples | SE-248 | 5h |
+| SE-250 | Agent Rotation overnight-sprint (token exhaustion) | PROPOSED | Alto — elimina fallo silencioso | — | 8h |
+| SE-251 | Hard gates mecanicos pre-tribunal | PROPOSED | Medio — ahorra LLM calls | — | 10h |
+
+### Fuentes de investigacion
+
+- `output/research/20260628-kg-optimization-state-of-art-2024-2025.md` — 6 tecnicas KG (TransE, Leiden, GAT, Forman-Ricci, PH, QAOA)
+- `output/research/geometria-no-euclidiana-knowledge-graphs-20260628.md` — Poincare, Spectral, Diffusion Maps
+- `output/research/20260624-santanderai-github-analysis.md` — Patrones ralph, mech-gov, llm_bridge
+- `output/research/20260626-fugu-savia-agentic-loops.md` — Fugu SE-230/231/232 (ya implementados)
+
+### Descartado por ROI insuficiente
+
+- QAOA (quantum-inspired): experimental para grafos <25 nodos, overhead conceptual elevado
+- ZX-calculus para KG no-cuanticos: analogias formales sin validacion empirica
+- Poincare embeddings: util solo con >500 nodos bien conectados; KG actual es un hub dominante
 - Sistema de 4 presets de contexto (sobre-ingenieria para workspace personal).
