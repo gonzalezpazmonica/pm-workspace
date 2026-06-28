@@ -141,7 +141,6 @@ SIEMPRE → Generar audit log
 
 Este skill usa STATE.md canónico. Schema: `docs/rules/domain/loop-state-schema.md`.
 Inicializar: `bash scripts/loop-state-init.sh --skill overnight-sprint`
-
 ## Modo CI Unblock (--mode ci-unblock)
 
 Desbloquea PRs con CI roto por orden PR# ASC. Ver `CI-UNBLOCK.md`. Prerequisito: `CI_UNBLOCK_NEST_ENABLED=true` + doble opt-in SPEC-186.
