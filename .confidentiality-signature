@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=26612122fde504497b4f2efd0be6c7260bffd5bb4acf73b10d41f30ec56b19ec
-timestamp=2026-06-27T20:13:37Z
-branch=agent/fix-opencode-startup-20260626
-head_commit=8ed80df8
-signature=76efe40af12b42a778dc17086c3b708c94d1c02526c866f0982285beae7aff5b
+diff_hash=dc2cf6a800dd15cb29b21e02011c9318bebefe1c203f00fcdd31db242cfb4b03
+timestamp=2026-06-27T23:08:48Z
+branch=agent/se230-231-232-20260626
+head_commit=0ce0a26f
+signature=8b053e747e3908a0b425d309491aee0b8091363fed7820223efa67359353db44
