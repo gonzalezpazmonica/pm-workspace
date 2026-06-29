@@ -12,8 +12,6 @@ cat /dev/stdin > /dev/null 2>&1 || true
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 ROOT="${SCRIPT_DIR}/.."
-# Derive SCRIPTS_DIR for SE-230 integration
-SCRIPTS_DIR="${ROOT}/scripts"
 
 SNAPSHOT_SCRIPT=""
 for spath in "$ROOT/scripts/context-snapshot.sh" "./scripts/context-snapshot.sh"; do

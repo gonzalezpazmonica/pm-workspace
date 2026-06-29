@@ -67,7 +67,7 @@
       }
     },
     "code-reviewer": {
-      "description": "Revisi\u00f3n de c\u00f3digo .NET como quality gate antes de merge. Focus: SOLID, OWASP, performance.",
+      "description": "Revisión de código .NET como quality gate antes de merge. Focus: SOLID, OWASP, performance.",
       "mode": "subagent",
       "model": "github-copilot/claude-opus-4.7",
       "permission": {
@@ -84,7 +84,7 @@
       "temperature": 0.1
     },
     "architect": {
-      "description": "Dise\u00f1o de arquitectura .NET y decisiones t\u00e9cnicas de alto nivel. SOLID, DDD, Clean Architecture.",
+      "description": "Diseño de arquitectura .NET y decisiones técnicas de alto nivel. SOLID, DDD, Clean Architecture.",
       "mode": "subagent",
       "model": "github-copilot/claude-opus-4.7",
       "permission": {
@@ -112,7 +112,7 @@
       }
     },
     "business-analyst": {
-      "description": "An\u00e1lisis de reglas de negocio, descomposici\u00f3n de PBIs, criterios de aceptaci\u00f3n.",
+      "description": "Análisis de reglas de negocio, descomposición de PBIs, criterios de aceptación.",
       "mode": "subagent",
       "model": "github-copilot/claude-sonnet-4.5",
       "permission": {
@@ -152,48 +152,48 @@
   },
   "command": {
     "sprint-status": {
-      "template": "Estado del sprint actual. Obt\u00e9n el sprint activo, calcula progreso, burndown y alertas de WIP. Usa la skill sprint-management. Carga el perfil activo para personalizar output.",
-      "description": "Estado del sprint \u2014 progreso, burndown, alertas",
+      "template": "Estado del sprint actual. Obtén el sprint activo, calcula progreso, burndown y alertas de WIP. Usa la skill sprint-management. Carga el perfil activo para personalizar output.",
+      "description": "Estado del sprint — progreso, burndown, alertas",
       "agent": "build"
     },
     "board-flow": {
-      "template": "Flujo del board \u2014 WIP por columna, aging, throughput, bloqueos. Analiza cuellos de botella y sugiere acciones.",
-      "description": "Board flow \u2014 WIP, aging, throughput",
+      "template": "Flujo del board — WIP por columna, aging, throughput, bloqueos. Analiza cuellos de botella y sugiere acciones.",
+      "description": "Board flow — WIP, aging, throughput",
       "agent": "build"
     },
     "my-sprint": {
       "template": "Items del sprint actual asignados al usuario activo. Muestra estado, remaining work, bloqueos.",
-      "description": "My sprint \u2014 items del usuario activo",
+      "description": "My sprint — items del usuario activo",
       "agent": "build"
     },
     "daily-routine": {
-      "template": "Rutina diaria: daily standup, revisi\u00f3n de bloqueos, plan del d\u00eda. Hora target: 09:15.",
-      "description": "Daily routine \u2014 standup y plan del d\u00eda",
+      "template": "Rutina diaria: daily standup, revisión de bloqueos, plan del día. Hora target: 09:15.",
+      "description": "Daily routine — standup y plan del día",
       "agent": "build"
     },
     "compact": {
-      "template": "Libera contexto compactando la sesi\u00f3n actual. Resume lo esencial y libera memoria.",
-      "description": "Compact \u2014 liberar contexto",
+      "template": "Libera contexto compactando la sesión actual. Resume lo esencial y libera memoria.",
+      "description": "Compact — liberar contexto",
       "agent": "build"
     },
     "my-focus": {
       "template": "Item prioritario del usuario activo. Muestra estado, bloqueos, dependencias y siguiente paso.",
-      "description": "Focus \u2014 item prioritario del usuario",
+      "description": "Focus — item prioritario del usuario",
       "agent": "build"
     },
     "savia-live": {
-      "template": "Savia live \u2014 estado actual del workspace: salud de agentes, hooks activos, memoria, sprint activo.",
-      "description": "Savia live \u2014 estado actual del workspace",
+      "template": "Savia live — estado actual del workspace: salud de agentes, hooks activos, memoria, sprint activo.",
+      "description": "Savia live — estado actual del workspace",
       "agent": "build"
     },
     "help": {
-      "template": "Cat\u00e1logo de comandos y agentes disponibles en pm-workspace. Agrupados por categor\u00eda.",
-      "description": "Help \u2014 cat\u00e1logo de comandos",
+      "template": "Catálogo de comandos y agentes disponibles en pm-workspace. Agrupados por categoría.",
+      "description": "Help — catálogo de comandos",
       "agent": "build"
     },
     "savia-shield": {
-      "template": "Gesti\u00f3n de Savia Shield. Argumentos: $ARGUMENTS. Por defecto 'status' si est\u00e1 vac\u00edo.\n\n- Si es 'status' o vac\u00edo: ejecuta `bash scripts/savia-shield-status.sh` y muestra el resultado. Si el script falla, determina manualmente: leer `.claude/settings.local.json` para SAVIA_SHIELD_ENABLED, curl a daemon (8444/health) y Ollama (11434/api/tags), y verificar hooks en `.opencode/hooks/`.\n- Si es 'enable': leer `.claude/settings.local.json`, poner env.SAVIA_SHIELD_ENABLED a \"true\", guardar, responder \"\u2705 Savia Shield activado.\"\n- Si es 'disable': leer `.claude/settings.local.json`, poner env.SAVIA_SHIELD_ENABLED a \"false\", guardar, responder \"\u26d4 Savia Shield desactivado.\"",
-      "description": "Savia Shield \u2014 estado, activar, desactivar",
+      "template": "Gestión de Savia Shield. Argumentos: $ARGUMENTS. Por defecto 'status' si está vacío.\n\n- Si es 'status' o vacío: ejecuta `bash scripts/savia-shield-status.sh` y muestra el resultado. Si el script falla, determina manualmente: leer `.claude/settings.local.json` para SAVIA_SHIELD_ENABLED, curl a daemon (8444/health) y Ollama (11434/api/tags), y verificar hooks en `.opencode/hooks/`.\n- Si es 'enable': leer `.claude/settings.local.json`, poner env.SAVIA_SHIELD_ENABLED a \"true\", guardar, responder \"✅ Savia Shield activado.\"\n- Si es 'disable': leer `.claude/settings.local.json`, poner env.SAVIA_SHIELD_ENABLED a \"false\", guardar, responder \"⛔ Savia Shield desactivado.\"",
+      "description": "Savia Shield — estado, activar, desactivar",
       "agent": "build"
     }
   },
@@ -201,15 +201,6 @@
   "snapshot": true,
   "share": "manual",
   "mcp": {
-    "ppt": {
-      "type": "local",
-      "command": [
-        "python3",
-        "$HOME/.local/lib/python3.12/site-packages/ppt_mcp_server.py"
-      ],
-      "enabled": false,
-      "timeout": 30000
-    },
     "codegraph": {
       "type": "local",
       "command": [
