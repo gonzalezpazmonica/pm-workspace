@@ -10,8 +10,8 @@ SCRIPT="${NIDO}/scripts/skills-schema-generate.sh"
 SCHEMA_JSON="${NIDO}/skills-schema.json"
 LLMS_TXT="${NIDO}/.llms.txt"
 
-# Skills dir del workspace real (tiene los 107 skills)
-WORKSPACE_SKILLS="/home/monica/savia/.opencode/skills"
+# Skills dir — usar el del propio repo (funciona tanto en local como en CI)
+WORKSPACE_SKILLS="${REPO_ROOT}/.opencode/skills"
 
 # ── Test 1: SE-238 spec existe ────────────────────────────────────────────────
 @test "SE-238 spec existe en docs/propuestas/" {

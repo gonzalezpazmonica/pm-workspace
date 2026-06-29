@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
 diff_hash=f444aaedf55cb30efa96d25a614198c443e9ae8214b8e0951300ccc1ddde796f
-timestamp=2026-06-29T18:16:50Z
+timestamp=2026-06-29T19:04:07Z
 branch=nido/se235-240-proto-architecture
-head_commit=cdf9a66f
+head_commit=893b44c6
 signature=a5286fef4c7be59a5c28070fd6b87957432964269b1a6c58f58cb2801484e8f0
