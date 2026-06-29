@@ -50,4 +50,9 @@ if [ -n "$REGISTRY_SCRIPT" ]; then
   ) & disown 2>/dev/null || true
 fi
 
+# SE-230: guardar estado focal al cerrar
+if [ -n "${SAVIA_NIDO:-}" ]; then
+  ( bash "$SCRIPTS_DIR/focal-switch.sh" --save-only --nido "$SAVIA_NIDO" > /dev/null 2>&1 ) & disown
+fi
+
 exit 0
