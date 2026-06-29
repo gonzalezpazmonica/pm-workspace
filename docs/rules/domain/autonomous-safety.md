@@ -142,9 +142,9 @@ Cuando un agente o skill se invoca como **subagente delegado** (recibe una tarea
 ## Doble opt-in para skills autónomas — SPEC-186
 
 Era 199 Wave 1. Toda skill autónoma exige **dos confirmaciones independientes** en cada invocación: variable de entorno persistente Y flag `--confirm-autonomous`. Helper canónico:
-
 ```
 bash scripts/savia-double-optin-check.sh --skill <nombre> --confirm-autonomous
 ```
-
 Detalle completo (mapeo skill→variable, auditoría, bypass de tests, exit codes): ver `docs/rules/domain/double-optin-protocol.md`. Modos L2+: `maker-checker-protocol.md` + `loop-verify.sh`.
+## Dual Pool — Proposal vs Result State (SE-235)
+Proposal = rama `agent/*` o nido no mergeado. Result = en main con PR aprobado humano. Ver `SE-235-dual-pool-proposal-result.md`.

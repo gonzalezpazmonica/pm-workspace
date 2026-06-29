@@ -1,0 +1,42 @@
+# Savia pm-workspace — LLM-readable index
+# Generado automáticamente (SE-238). No editar manualmente.
+# Ref: docs/propuestas/SE-238-skills-schema-discoverable.md
+
+## Skills (105)
+/skills-schema.json — schema programático de todos los skills (JSON, 105 entradas)
+/SKILLS.md — índice legible de skills con descripción y paths
+/skills-schema.md — tabla resumen de skills en formato Markdown
+
+## Agents (81)
+/AGENTS.md — catálogo de agentes con modelo, permisos y descripción
+
+## Rules
+/docs/rules/domain/ — reglas de dominio del workspace
+/docs/rules/domain/autonomous-safety.md — seguridad en modos autónomos, Dual Pool (SE-235)
+/docs/rules/domain/code-review-court.md — Code Review Court multi-juez
+/docs/rules/domain/court-numeric-scoring.md — scoring numérico para el court (SE-236)
+/docs/rules/domain/coarse-to-fine-gates.md — patrón coarse-to-fine en DAG scheduling (SE-237)
+
+## Specs
+/docs/propuestas/ — especificaciones técnicas (SE-XXX)
+/docs/propuestas/SE-235-dual-pool-proposal-result.md — Dual Pool Proposal vs Result State
+/docs/propuestas/SE-236-court-numeric-scoring.md — Scoring Numérico en Code Review Court
+/docs/propuestas/SE-237-coarse-to-fine-dag-pattern.md — Patrón Coarse-to-Fine en DAG Scheduling
+/docs/propuestas/SE-238-skills-schema-discoverable.md — Skills Schema Descubrible Programáticamente
+
+## Research
+/docs/research/proto-architecture-research.md — análisis de Proto (Arc Institute, 2026)
+
+## Scripts
+/scripts/court-score-aggregator.sh — agrega scores numéricos de jueces del court (SE-236)
+/scripts/dag-gate-cost-checker.sh — verifica orden coarse-to-fine en DAGs (SE-237)
+/scripts/skills-schema-generate.sh — genera skills-schema.json (SE-238)
+
+## Plugins
+/.opencode/plugins/guards/block-proposal-as-source.ts — bloquea referencias cross-pool (SE-235)
+
+## Tests
+/tests/test-se235-dual-pool.bats
+/tests/test-se236-court-scoring.bats
+/tests/test-se237-coarse-to-fine.bats
+/tests/test-se238-skills-schema.bats
