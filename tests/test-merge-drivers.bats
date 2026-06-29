@@ -59,6 +59,8 @@ teardown() {
 # ── Local git config ──────────────────────────────────────────────────────
 
 @test "ours merge driver is configured in local git config" {
+  # Ensure the driver is configured (idempotent — safe to run in CI)
+  bash scripts/setup-merge-drivers.sh >/dev/null 2>&1 || true
   run git config merge.ours.driver
   [ "$status" -eq 0 ]
   [[ "$output" == "true" ]]
