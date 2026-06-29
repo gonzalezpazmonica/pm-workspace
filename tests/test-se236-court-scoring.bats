@@ -4,7 +4,8 @@
 # Tests SE-236: Scoring Numérico en Code Review Court
 # Ref: docs/propuestas/SE-236-court-numeric-scoring.md
 
-NIDO="/home/monica/.savia/nidos/se235-240-proto-architecture"
+REPO_ROOT="$(cd "$BATS_TEST_DIRNAME/.." && pwd)"
+NIDO="$REPO_ROOT"
 SCRIPT="${NIDO}/scripts/court-score-aggregator.sh"
 
 # ── Test 1: SE-236 spec existe ────────────────────────────────────────────────

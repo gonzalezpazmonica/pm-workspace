@@ -4,7 +4,8 @@
 # Tests SE-238: Skills Schema Descubrible Programáticamente
 # Ref: docs/propuestas/SE-238-skills-schema-discoverable.md
 
-NIDO="/home/monica/.savia/nidos/se235-240-proto-architecture"
+REPO_ROOT="$(cd "$BATS_TEST_DIRNAME/.." && pwd)"
+NIDO="$REPO_ROOT"
 SCRIPT="${NIDO}/scripts/skills-schema-generate.sh"
 SCHEMA_JSON="${NIDO}/skills-schema.json"
 LLMS_TXT="${NIDO}/.llms.txt"

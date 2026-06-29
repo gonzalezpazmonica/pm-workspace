@@ -4,7 +4,8 @@
 # Tests SE-237: Patrón Coarse-to-Fine en DAG Scheduling
 # Ref: docs/propuestas/SE-237-coarse-to-fine-dag-pattern.md
 
-NIDO="/home/monica/.savia/nidos/se235-240-proto-architecture"
+REPO_ROOT="$(cd "$BATS_TEST_DIRNAME/.." && pwd)"
+NIDO="$REPO_ROOT"
 SCRIPT="${NIDO}/scripts/dag-gate-cost-checker.sh"
 
 # ── Fixture helpers ──────────────────────────────────────────────────────────

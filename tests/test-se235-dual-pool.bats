@@ -4,7 +4,8 @@
 # Tests SE-235: Formalización Dual Pool — Proposal State vs Result State
 # Ref: docs/propuestas/SE-235-dual-pool-proposal-result.md
 
-NIDO="/home/monica/.savia/nidos/se235-240-proto-architecture"
+REPO_ROOT="$(cd "$BATS_TEST_DIRNAME/.." && pwd)"
+NIDO="$REPO_ROOT"
 
 # ── Test 1: SE-235 spec existe ────────────────────────────────────────────────
 @test "SE-235 spec existe en docs/propuestas/" {
