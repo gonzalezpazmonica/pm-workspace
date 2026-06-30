@@ -7,7 +7,7 @@
             "type": "command",
             "command": "\"$CLAUDE_PROJECT_DIR\"/.opencode/hooks/session-init.sh",
             "timeout": 15,
-            "statusMessage": "Inicializando sesión PM-Workspace..."
+            "statusMessage": "Inicializando sesi\u00f3n PM-Workspace..."
           },
           {
             "type": "command",
@@ -17,7 +17,7 @@
           },
           {
             "type": "command",
-            "command": "bash \"$CLAUDE_PROJECT_DIR\"/scripts/check-daemon-auth.sh >/dev/null 2>&1 || echo \"[SPEC-SH02] browser-daemon auth expired — run: bash scripts/check-daemon-auth.sh\"",
+            "command": "bash \"$CLAUDE_PROJECT_DIR\"/scripts/check-daemon-auth.sh >/dev/null 2>&1 || echo \"[SPEC-SH02] browser-daemon auth expired \u2014 run: bash scripts/check-daemon-auth.sh\"",
             "timeout": 5,
             "statusMessage": "SPEC-SH02: verificando auth de browser-daemon..."
           },
@@ -102,7 +102,7 @@
             "type": "command",
             "command": "\"$CLAUDE_PROJECT_DIR\"/.opencode/hooks/prompt-hook-commit.sh",
             "timeout": 5,
-            "statusMessage": "Prompt hook: validando semántica..."
+            "statusMessage": "Prompt hook: validando sem\u00e1ntica..."
           },
           {
             "type": "command",
@@ -149,7 +149,7 @@
             "type": "command",
             "command": "\"$CLAUDE_PROJECT_DIR\"/.opencode/hooks/agent-tool-call-validate.sh",
             "timeout": 5,
-            "statusMessage": "Validando parámetros de tool call..."
+            "statusMessage": "Validando par\u00e1metros de tool call..."
           }
         ]
       },
@@ -188,7 +188,7 @@
             "type": "command",
             "command": "\"$CLAUDE_PROJECT_DIR\"/.opencode/hooks/tdd-gate.sh",
             "timeout": 10,
-            "statusMessage": "TDD gate: tests antes que código..."
+            "statusMessage": "TDD gate: tests antes que c\u00f3digo..."
           },
           {
             "type": "command",
@@ -224,7 +224,7 @@
             "type": "command",
             "command": "\"$CLAUDE_PROJECT_DIR\"/.opencode/hooks/responsibility-judge.sh",
             "timeout": 5,
-            "statusMessage": "Responsibility Judge: evaluando decisión..."
+            "statusMessage": "Responsibility Judge: evaluando decisi\u00f3n..."
           },
           {
             "type": "command",
@@ -380,7 +380,7 @@
             "name": "auto-grill-me",
             "blocking": false,
             "timeout": 5,
-            "statusMessage": "SE-091: grill-me — hunting weaknesses..."
+            "statusMessage": "SE-091: grill-me \u2014 hunting weaknesses..."
           }
         ]
       },
@@ -393,7 +393,7 @@
             "name": "auto-zoom-out",
             "blocking": false,
             "timeout": 5,
-            "statusMessage": "SE-091: zoom-out — checking second-order effects..."
+            "statusMessage": "SE-091: zoom-out \u2014 checking second-order effects..."
           }
         ]
       },
@@ -514,7 +514,7 @@
             "command": "\"$CLAUDE_PROJECT_DIR\"/.opencode/hooks/ast-quality-gate-hook.sh",
             "async": true,
             "timeout": 60,
-            "statusMessage": "AST Quality Gate: analizando código..."
+            "statusMessage": "AST Quality Gate: analizando c\u00f3digo..."
           },
           {
             "type": "command",
@@ -700,6 +700,18 @@
             "command": "bash .claude/hooks/decision-trace-capture.sh"
           }
         ]
+      },
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"\"/.opencode/hooks/bus-factor-warn.sh",
+            "async": true,
+            "timeout": 5,
+            "status": "warn-only"
+          }
+        ]
       }
     ],
     "Stop": [
@@ -710,7 +722,7 @@
             "command": "\"$CLAUDE_PROJECT_DIR\"/.opencode/hooks/session-end-snapshot.sh",
             "async": true,
             "timeout": 5,
-            "statusMessage": "Guardando snapshot de sesión..."
+            "statusMessage": "Guardando snapshot de sesi\u00f3n..."
           },
           {
             "type": "command",
@@ -742,7 +754,7 @@
             "command": "\"$CLAUDE_PROJECT_DIR\"/.opencode/hooks/emotional-regulation-monitor.sh",
             "async": true,
             "timeout": 10,
-            "statusMessage": "Evaluando bienestar de sesión..."
+            "statusMessage": "Evaluando bienestar de sesi\u00f3n..."
           },
           {
             "type": "command",
@@ -771,7 +783,7 @@
             "type": "command",
             "command": "\"$CLAUDE_PROJECT_DIR\"/.opencode/hooks/session-end-memory.sh",
             "timeout": 1500,
-            "statusMessage": "Extrayendo memoria de sesión..."
+            "statusMessage": "Extrayendo memoria de sesi\u00f3n..."
           }
         ]
       }
@@ -829,7 +841,7 @@
             "type": "command",
             "command": "\"$CLAUDE_PROJECT_DIR\"/.opencode/hooks/pre-compact-backup.sh",
             "timeout": 10,
-            "statusMessage": "Backup pre-compactación..."
+            "statusMessage": "Backup pre-compactaci\u00f3n..."
           }
         ]
       }
@@ -841,7 +853,7 @@
             "type": "command",
             "command": "\"$CLAUDE_PROJECT_DIR\"/scripts/post-compaction.sh",
             "timeout": 10,
-            "statusMessage": "Recuperando memoria persistente tras compactación..."
+            "statusMessage": "Recuperando memoria persistente tras compactaci\u00f3n..."
           }
         ]
       }
@@ -961,7 +973,7 @@
             "timeout": 10,
             "statusMessage": "SE-200: comprobando ventana de contexto...",
             "_spec": "SE-200",
-            "_default": "off — opt-in via SAVIA_CONDENSER_ENABLED=true"
+            "_default": "off \u2014 opt-in via SAVIA_CONDENSER_ENABLED=true"
           }
         ]
       }
@@ -976,13 +988,13 @@
             "timeout": 5,
             "statusMessage": "SE-203: detectando skill triggers...",
             "_spec": "SE-203",
-            "_default": "off — opt-in via SAVIA_SKILL_TRIGGERS=true"
+            "_default": "off \u2014 opt-in via SAVIA_SKILL_TRIGGERS=true"
           }
         ]
       }
     ]
   },
-  "_doc_se202_example": "SE-202 agent hook pattern — to enable: add to PreToolUse hooks: { \"type\": \"command\", \"command\": \"bash \\\"$CLAUDE_PROJECT_DIR\\\"/scripts/agent-hook-runner.sh --agent security-guardian --event \\\"{\\\"tool\\\":\\\"$TOOL_NAME\\\",\\\"tool_input\\\":\\\"$TOOL_INPUT\\\"}\\\"\", \"timeout\": 30 } — exit 0=allow, exit 2=deny. Ref: docs/rules/domain/agent-hook-protocol.md",
+  "_doc_se202_example": "SE-202 agent hook pattern \u2014 to enable: add to PreToolUse hooks: { \"type\": \"command\", \"command\": \"bash \\\"$CLAUDE_PROJECT_DIR\\\"/scripts/agent-hook-runner.sh --agent security-guardian --event \\\"{\\\"tool\\\":\\\"$TOOL_NAME\\\",\\\"tool_input\\\":\\\"$TOOL_INPUT\\\"}\\\"\", \"timeout\": 30 } \u2014 exit 0=allow, exit 2=deny. Ref: docs/rules/domain/agent-hook-protocol.md",
   "permissions": {
     "defaultMode": "auto"
   },

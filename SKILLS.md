@@ -30,6 +30,7 @@ To use a skill: read `<path>` and follow its instructions.
 | azure-pipelines | `.opencode/skills/azure-pipelines/SKILL.md` | Usar cuando se gestiona o depura CI/CD con Azure Pipelines. |
 | backlog-git-tracker | `.opencode/skills/backlog-git-tracker/SKILL.md` | Usar cuando se capturan o comparan snapshots del backlog para detectar drift. |
 | banking-architecture | `.opencode/skills/banking-architecture/SKILL.md` | Usar cuando se diseña o revisa arquitectura para proyectos del sector bancario. |
+| bus-factor-analysis | `.opencode/skills/bus-factor-analysis/SKILL.md` | Detecta el Bus Factor por modulo en un repositorio git usando el algoritmo CST(change-size-ratio)... |
 | capacity-planning | `.opencode/skills/capacity-planning/SKILL.md` | Usar cuando se calcula la capacidad del equipo para un sprint o periodo. |
 | caveman | `.opencode/skills/caveman/SKILL.md` | Strips all sugar-coating and marketing. Gives the brutally honest truth in the fewest possible wo... |
 | client-profile-manager | `.opencode/skills/client-profile-manager/SKILL.md` | Usar cuando se crean, actualizan o consultan perfiles de cliente en SaviaHub. |
@@ -41,6 +42,7 @@ To use a skill: read `<path>` and follow its instructions.
 | consensus-validation | `.opencode/skills/consensus-validation/SKILL.md` | Usar cuando una decisión técnica o recomendación necesita validación por panel de jueces. |
 | content-fingerprint | `.opencode/skills/content-fingerprint/SKILL.md` | Usar cuando se necesita un identificador corto, deterministico y reproducible derivado del conten... |
 | context-caching | `.opencode/skills/context-caching/SKILL.md` | Usar cuando se optimiza el orden de carga de contexto para maximizar cache hits. |
+| context-dome | `.opencode/skills/context-dome/SKILL.md` | Genera CONTEXT_DOME.md para modulos con Bus Factor bajo. Captura conocimiento tacito: proposito, ... |
 | context-interview-conductor | `.opencode/skills/context-interview-conductor/SKILL.md` | Usar cuando se necesita recopilar contexto estructurado de un usuario mediante entrevista guiada. |
 | context-optimized-dev | `.opencode/skills/context-optimized-dev/SKILL.md` | Usar cuando se desarrolla con presupuesto de contexto limitado. |
 | context-rot-strategy | `.opencode/skills/context-rot-strategy/SKILL.md` | Usar cuando una sesión larga se aproxima al límite de contexto y hay que decidir qué compactar. |

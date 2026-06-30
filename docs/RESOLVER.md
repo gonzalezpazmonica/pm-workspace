@@ -46,7 +46,7 @@
 
 <!-- AUTO_BEGIN — do not edit; regenerate via scripts/resolver-md-generate.sh -->
 
-### Skills (117)
+### Skills (119)
 
 | Intent (skill) | Target | Cuándo usar |
 |---|---|---|
@@ -63,6 +63,7 @@
 | `azure-pipelines` | skill:azure-pipelines | Usar cuando se gestiona o depura CI/CD con Azure Pipelines. |
 | `backlog-git-tracker` | skill:backlog-git-tracker | Usar cuando se capturan o comparan snapshots del backlog para detectar drift. |
 | `banking-architecture` | skill:banking-architecture | Usar cuando se diseña o revisa arquitectura para proyectos del sector bancario. |
+| `bus-factor-analysis` | skill:bus-factor-analysis | Detecta el Bus Factor por modulo en un repositorio git usando el algoritmo CST(change-s... |
 | `capacity-planning` | skill:capacity-planning | Usar cuando se calcula la capacidad del equipo para un sprint o periodo. |
 | `caveman` | skill:caveman | Strips all sugar-coating and marketing. Gives the brutally honest truth in the fewest p... |
 | `client-profile-manager` | skill:client-profile-manager | Usar cuando se crean, actualizan o consultan perfiles de cliente en SaviaHub. |
@@ -74,6 +75,7 @@
 | `consensus-validation` | skill:consensus-validation | Usar cuando una decisión técnica o recomendación necesita validación por panel de j... |
 | `content-fingerprint` | skill:content-fingerprint | Usar cuando se necesita un identificador corto, deterministico y reproducible derivado ... |
 | `context-caching` | skill:context-caching | Usar cuando se optimiza el orden de carga de contexto para maximizar cache hits. |
+| `context-dome` | skill:context-dome | Genera CONTEXT_DOME.md para modulos con Bus Factor bajo. Captura conocimiento tacito: p... |
 | `context-interview-conductor` | skill:context-interview-conductor | Usar cuando se necesita recopilar contexto estructurado de un usuario mediante entrevis... |
 | `context-optimized-dev` | skill:context-optimized-dev | Usar cuando se desarrolla con presupuesto de contexto limitado. |
 | `context-rot-strategy` | skill:context-rot-strategy | Usar cuando una sesión larga se aproxima al límite de contexto y hay que decidir qué... |
