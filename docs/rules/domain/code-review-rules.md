@@ -4,6 +4,9 @@ globs:
 context: on-demand
 context_tier: L2
 token_budget: 686
+usage: reference-only
+dormant_since: "2026-06-24"
+review_note: "Quarterly review 2026-Q2"
 ---
 
 # Code Review Rules

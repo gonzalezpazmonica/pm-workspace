@@ -3,6 +3,7 @@ name: sprint-status
 description: Estado del sprint actual — progreso, burndown, alertas.
 model: mid
 context_cost: medium
+complexity_tier: mode1
 ---
 
 # /sprint-status

@@ -1,5 +1,5 @@
 # quality — Savia Capability Map (L1)
-> 237 resources
+> 247 resources
 
 - **/a11y-audit** (cmd): Auditoría de accesibilidad WCAG 2.2 completa con escaneo de HTML/componentes. Detecta: alt text faltante, problemas de contraste, navegación por teclado, etiquetas ARIA, gestión de focus, jerarquía de encabezados, etiquetas de formularios.
 - **/a11y-fix** (cmd): Correcciones automáticas de accesibilidad con verificación y preview. Genera código de fix para issues detectados por /a11y-audit. Preview antes de aplicar. Verifica que no introduce nuevos problemas. Covers: alt text, ARIA attributes, focu
@@ -13,6 +13,7 @@
 - **android-autonomous-debugger** (skill): Usar cuando se depuran o testean apps Android contra dispositivos físicos via USB/ADB.
 - **architectural-vocabulary-audit** (script): architectural-vocabulary-audit.sh — SE-082 Slice única.
 - **architecture-judge** (agent): Code Review Court judge — boundaries, coupling, layer violations, patterns
+- **attention-anchor-check** (script): attention-anchor-check.sh — SE-080 pattern coverage verifier
 - **audit** (cmd): Generate professional executive audit report for workspace reliability assessment
 - **banking-data-governance** (cmd): Auditar gobierno de datos — lineage, clasificación, GDPR/LOPD, feature stores
 - **banking-mlops-audit** (cmd): Auditar pipeline MLOps — versionado, drift, XAI, model risk, scoring architectures
@@ -26,17 +27,22 @@
 - **correctness-judge** (agent): Code Review Court judge — logic, tests, edge cases, error paths
 - **court-orchestrator** (agent): Convenes the Code Review Court, manages fix cycles, produces .review.crc
 - **court-review** (script): court-review.sh — Code Review Court orchestration helper
+- **court-turn-router** (script): court-turn-router.sh — SE-231 Adaptive Turn Routing for Code Review Court
 - **coverage-report** (script): coverage-report.sh — Generate test coverage report for pm-workspace
 - **decide-architecture-corpus-test** (script): decide-architecture-corpus-test.sh — SPEC-158
 - **dependencies-audit** (cmd): >
 - **doc-health-audit** (script): doc-health-audit.sh — Documentation Health Auditor
+- **docs-audit** (script): docs-audit.sh — Audita la estructura actual de docs/ y propone mejoras
 - **docs-quality-audit** (cmd): Auditar calidad de documentacion basada en feedback de agentes
 - **drift-auditor** (agent): Auditoría de convergencia repo: detecta drift entre docs, config y código. Usar PROACTIVELY tras cambios grandes o al inicio de sprint.
+- **enterprise/activation-plan-review** (script): activation-plan-review.sh — SE-034 Agent Activation Plan
 - **enterprise/audit-purge** (script): audit-purge.sh — SPEC-SE-037 Audit Log Retention Purge CLI
 - **enterprise/audit-search** (script): audit-search.sh — SPEC-SE-037 Audit Log CLI Inspector
+- **enterprise/governance-audit-trail** (script): governance-audit-trail.sh — SPEC-SE-006 Signed Audit Trail for Governance & Compliance
 - **executive-audit** (script): executive-audit.sh — Executive Audit for PM Workspace
 - **expertise-asymmetry-judge** (agent): Recommendation Tribunal judge — when draft falls in a domain the active user marks as `audit_level: blind`, force a rewrite with explanation/alternatives/verification
 - **fix-assigner** (agent): Creates fix tasks from Court findings, assigns to dev agents, triggers re-review
+- **fix-survival-check** (script): fix-survival-check.sh — SPEC-188 F4 — Weekly fix survival audit
 - **frontend-test-runner** (agent): Post-commit frontend test execution — unit, component, e2e, coverage
 - **grill-me** (skill): Adversarial review that hunts every weakness, assumption, edge case, and missing test. Opponent mode — finds what will break before it breaks in production. Use when merging, when reviewing security-critical code, or when the solution feels
 - **hook-event-gap-audit** (script): hook-event-gap-audit.sh — Audita los 11 eventos de hook no cubiertos en pm-workspace
@@ -107,6 +113,8 @@
 - **security-audit-all** (script): security-audit-all.sh — Unified runner for all security scanners.
 - **security-auditor** (agent): >
 - **security-auto-remediation** (cmd): >
+- **security-auto-remediation** (script): security-auto-remediation.sh — SPEC-070: Security Auto-Remediation PRs
+- **security-benchmark-runner** (script): security-benchmark-runner.sh — SPEC-032 Security Benchmark Runner
 - **security-defender** (agent): >
 - **security-guardian** (agent): >
 - **security-judge** (agent): Code Review Court judge — OWASP, PII, injection, auth, credentials
@@ -231,6 +239,7 @@
 - **tool-ergonomics-audit** (script): tool-ergonomics-audit.sh — SPEC-160: Tool Ergonomics Auto-Audit
 - **twin-linter** (script): twin-linter.sh — Valida twin.md contra schema SPEC-169
 - **verification-lattice** (skill): Usar cuando se necesita verificación multi-capa más allá del code review estándar.
+- **visual-diff-merge-check** (script): scripts/visual-diff-merge-check.sh — SPEC-046: Visual Diff QA at Merge Time
 - **visual-digest** (agent): Digestión de imágenes con OCR contextual — 5 pasadas. Fotos de pizarras, notas manuscritas, diagramas en papel, capturas de reuniones. Usa contexto REAL del proyecto para resolver ambigüedades. PROACTIVELY cuando se detectan imágenes en car
 - **visual-qa** (cmd): Visual quality assurance via screenshot analysis. Analyze UI screenshots against design specs and reference images using vision capabilities.
 - **visual-qa-agent** (agent): Visual QA: screenshot analysis, wireframe comparison, regression detection. Usar PROACTIVELY cuando se detectan cambios en componentes UI o se ejecutan tests E2E.

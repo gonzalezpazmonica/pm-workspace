@@ -1,7 +1,9 @@
 ---
 spec_id: SE-220
 title: "Jailbreak defenses + context distribution optimization"
-status: APPROVED
+status: IMPLEMENTED
+drift_note: "drift: components existed pre-triage (all 17 ACs marked [x] in spec — memory-hygiene, canary-check, prompt-injection-guard, project-isolation-gate BLOCK, agents-catalog-sync, context-sanitize/ all implemented)"
+implemented_at: "2026-06-24"
 priority: P2
 effort: M
 era: 206

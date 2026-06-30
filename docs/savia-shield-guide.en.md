@@ -94,7 +94,6 @@ Shield protects the boundaries **N4/N4b towards N1**. Writing to private locatio
 
 > Full architecture: [docs/savia-shield.en.md](savia-shield.en.md) | Tests: `bats tests/test-data-sovereignty.bats`
 
-
 ## Era 171 (SPEC-071) Improvements
 
 - **Event coverage**: 17 of 28 Claude Code events covered (61%, previously 25%)

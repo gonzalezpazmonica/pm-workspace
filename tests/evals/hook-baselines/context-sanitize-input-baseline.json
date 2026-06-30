@@ -1,0 +1,14 @@
+{
+  "hook": "context-sanitize-input",
+  "hook_path": "/home/monica/savia/.claude/hooks/context-sanitize-input.sh",
+  "fp_count": 0,
+  "fn_count": 10,
+  "tp_count": 0,
+  "tn_count": 9,
+  "fp_rate": 0.0000,
+  "fn_rate": 0.5263,
+  "avg_latency_ms": 11,
+  "total_invocations": 19,
+  "timestamp": "20260624T200628Z",
+  "slice": "SPEC-150-slice1-baseline"
+}

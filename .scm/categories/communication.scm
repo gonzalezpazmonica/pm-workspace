@@ -1,9 +1,13 @@
 # communication — Savia Capability Map (L1)
-> 96 resources
+> 103 resources
 
+- **archive-digest** (agent): >
 - **chat-notify** (cmd): Enviar notificación formateada a Google Chat
 - **chat-setup** (cmd): Guía de configuración de webhook de Google Chat
+- **digest-extract** (script): digest-extract.sh — Capa 0 universal de extracción via markitdown (SE-172)
 - **excel-digest** (agent): >
+- **glm-compute-digest** (script): glm-compute-digest.sh — Computes SHA-256 of governance-layer-manifest.json
+- **glm-verify** (script): glm-verify.sh — Verifies that manifest_digest.value matches computed SHA-256
 - **inbox-check** (cmd): >
 - **inbox-start** (cmd): >
 - **masked-digest** (script): masked-digest.sh — Masked digestion pipeline
@@ -72,12 +76,14 @@
 - **savia-quota-tracker** (script): savia-quota-tracker.sh — SPEC-127 Slice 5
 - **savia-recall** (cmd): Recall and retrieve information from Savia memory
 - **savia-reply** (cmd): >
+- **savia-sandbox-doctor** (script): SPEC-149 -- savia-sandbox-doctor.sh
 - **savia-school** (skill): Usar cuando el workspace se adapta para un entorno educativo con estudiantes menores de edad.
 - **savia-school** (script): Savia School: Core educational vertical management library
 - **savia-school-security** (script): Savia School Security Layer: Encryption, Access Control, GDPR
 - **savia-send** (cmd): >
 - **savia-setup** (cmd): >
 - **savia-shield** (cmd): Gestión de Savia Shield: activar, desactivar y comprobar instalación del sistema de soberanía de datos. Desactivado por defecto.
+- **savia-shield-check** (script): savia-shield-check.sh — SPEC-OC-01
 - **savia-shield-setup** (script): savia-shield-setup.sh — Instalador de Savia Shield
 - **savia-shield-status** (script): savia-shield-status.sh — Status determinístico de las 8 capas de Savia Shield
 - **savia-sprint** (cmd): >
@@ -91,6 +97,7 @@
 - **savia-travel-ops** (script): savia-travel-ops.sh — Pack and init operations for savia-travel.sh
 - **savia-travel-pack** (cmd): >
 - **savia-voice-chunk** (script): savia-voice-chunk.sh — SE-075 Slice 2.
+- **savia-voice-speak** (script): savia-voice-speak.sh — SE-075 Slice 3.
 - **savia-watch** (script): savia-watch.sh — Live activity feed from Savia
 - **savia-watchdog** (script): savia-watchdog.sh — Emergency fallback: detect internet loss, activate local LLM
 - **slack-search** (cmd): >

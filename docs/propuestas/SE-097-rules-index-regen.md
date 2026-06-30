@@ -1,8 +1,9 @@
 ---
 spec_id: SE-097
 title: Regenerate docs/rules/INDEX.md from filesystem (manifest desync)
-status: APPROVED
+status: IMPLEMENTED
 approved_by: operator (2026-05-27)
+implemented_at: "2026-06-24"
 priority: P1
 effort: M
 estimated_time: 90 min

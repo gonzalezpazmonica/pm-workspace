@@ -1,6 +1,7 @@
 #!/bin/bash
 set -uo pipefail
-source "$(dirname "${BASH_SOURCE[0]}")/../../scripts/savia-env.sh"
+_si_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" 2>/dev/null && pwd)"
+source "${_si_dir}/../../scripts/savia-env.sh"
 export CLAUDE_PROJECT_DIR="${CLAUDE_PROJECT_DIR:-$SAVIA_WORKSPACE_DIR}"
 # session-init.sh — Arranque garantizado: sin red, sin jq, fallo = salida limpia
 
@@ -248,6 +249,10 @@ if [ -n "${CLAUDE_ENV_FILE:-}" ]; then
   echo "export PM_SESSION_DATE=$(date +%Y-%m-%d)" >> "$CLAUDE_ENV_FILE"
 fi
 
+# ── SE-230: focal status en banner ───────────────────────────────────────────
+FOCAL_SUMMARY=$(timeout 0.5 bash "${_si_dir}/../../scripts/focal-status.sh" --summary 2>/dev/null || echo "Focal: timeout")
+[ -n "$FOCAL_SUMMARY" ] && ITEMS+=("$FOCAL_SUMMARY")
+
 # ── Generar output (bash puro, sin jq) ───────────────────────────────────────
 CTX="PM-Workspace Init:"
 for item in "${ITEMS[@]}"; do
@@ -336,6 +341,50 @@ done
 _setup_md_dir="${CLAUDE_PROJECT_DIR:-${PWD:-.}}"
 if [[ -x "$_setup_md_dir/scripts/setup-merge-drivers.sh" ]]; then
   bash "$_setup_md_dir/scripts/setup-merge-drivers.sh" >/dev/null 2>&1 || true
+fi
+
+# ── SE-229: Session Registry integration ─────────────────────────────────────
+REGISTRY_SCRIPT=""
+for reg_path in "${_si_dir}/../../scripts/session-registry.sh" \
+                "${SAVIA_WORKSPACE_DIR:-${CLAUDE_PROJECT_DIR:-}}/scripts/session-registry.sh" \
+                "./scripts/session-registry.sh"; do
+  [[ -z "$reg_path" || "$reg_path" == "/scripts/session-registry.sh" ]] && continue
+  if [[ -x "$reg_path" ]]; then
+    REGISTRY_SCRIPT="$reg_path"
+    break
+  fi
+done
+
+# Fallback already covered above via _si_dir
+if [[ -z "$REGISTRY_SCRIPT" ]]; then
+  _candidate="${_si_dir}/../../scripts/session-registry.sh"
+  [[ -x "$_candidate" ]] && REGISTRY_SCRIPT="$_candidate"
+fi
+
+if [[ -n "$REGISTRY_SCRIPT" ]]; then
+  # List active sessions (timeout 2s to avoid adding latency)
+  ACTIVE_SESSIONS=$(timeout 2s bash "$REGISTRY_SCRIPT" list 2>/dev/null || true)
+  if [[ -n "$ACTIVE_SESSIONS" ]] && ! grep -q "No active sessions" <<< "$ACTIVE_SESSIONS" 2>/dev/null; then
+    ITEMS+=("Sesiones activas:\\n${ACTIVE_SESSIONS}")
+  fi
+
+  # Register current session if inside a nido
+  if [[ -n "${SAVIA_NIDO:-}" ]]; then
+    _SESSION_ID="${CLAUDE_SESSION_ID:-${PPID}-$(date +%s)}"
+    _REG_BRANCH="${BRANCH:-N/A}"
+    _REG_TASK="${SAVIA_TASK:-nido session}"
+    _REG_WORKTREE="${PWD:-}"
+    timeout 2s bash "$REGISTRY_SCRIPT" register \
+      --session "$_SESSION_ID" \
+      --nido    "$SAVIA_NIDO" \
+      --branch  "$_REG_BRANCH" \
+      --task    "$_REG_TASK" \
+      --worktree "$_REG_WORKTREE" \
+      >/dev/null 2>&1 || true
+    if [[ -n "${CLAUDE_ENV_FILE:-}" ]]; then
+      echo "export SAVIA_SESSION_ID=${_SESSION_ID}" >> "$CLAUDE_ENV_FILE"
+    fi
+  fi
 fi
 
 printf '{"hookSpecificOutput":{"hookEventName":"SessionStart","additionalContext":"%s"}}\n' "$CTX"

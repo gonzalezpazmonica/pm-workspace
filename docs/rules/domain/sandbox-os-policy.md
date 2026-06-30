@@ -1,6 +1,8 @@
 ---
 context_tier: L2
 spec: SPEC-149
+resource: https://www.npmjs.com/package/opencode-sandbox
+token_budget: 500
 ---
 
 # Sandbox OS-level Policy (SPEC-149)

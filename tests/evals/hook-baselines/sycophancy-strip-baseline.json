@@ -1,0 +1,14 @@
+{
+  "hook": "sycophancy-strip",
+  "hook_path": "/home/monica/savia/.claude/hooks/sycophancy-strip.sh",
+  "fp_count": 0,
+  "fn_count": 0,
+  "tp_count": 0,
+  "tn_count": 20,
+  "fp_rate": 0.0000,
+  "fn_rate": 0.0000,
+  "avg_latency_ms": 77,
+  "total_invocations": 20,
+  "timestamp": "20260624T200628Z",
+  "slice": "SPEC-150-slice1-baseline"
+}

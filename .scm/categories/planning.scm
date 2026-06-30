@@ -1,5 +1,5 @@
 # planning — Savia Capability Map (L1)
-> 554 resources
+> 585 resources
 
 - **/accreditation-track** (cmd): >
 - **/decide-architecture** (cmd): Clasifica una tarea como WORKFLOW (deterministica) o AGENT (loop). Bias hacia workflow per Anthropic. Sugiere plantilla inicial. Mide accuracy contra corpus curado de 20 tareas.
@@ -29,6 +29,7 @@
 - **agents-catalog-sync** (script): agents-catalog-sync.sh — SE-047 Slice 1 agents catalog auto-sync.
 - **agents-md-drift-check** (script): agents-md-drift-check.sh — SE-078
 - **agents-md-generate** (script): agents-md-generate.sh — SE-078
+- **agents-size-checker** (script): agents-size-checker.sh — SE-098: List agents by size, emit WARN/FAIL per Rule #22
 - **ai-boundary** (cmd): Definir matriz de límites explícitos: qué puede hacer Savia autónomamente vs requiere aprobación
 - **ai-confidence** (cmd): Transparencia: Savia muestra confianza, razonamiento, datos y limitaciones de cada recomendación
 - **ai-incident** (cmd): Registrar y analizar incidentes donde recomendaciones de Savia fueron incorrectas
@@ -121,6 +122,7 @@
 - **court-calendar** (cmd): >
 - **credential-proxy** (script): credential-proxy.sh — Managed Agents pattern: credential isolation
 - **credential-scan** (cmd): >
+- **criterion-simulation-judge** (agent): >
 - **criticality** (script): criticality.sh — Dispatcher for criticality operations
 - **criticality-assess** (cmd): Evaluar criticidad de un item con desglose de 5 dimensiones y perfil CoD
 - **criticality-dashboard** (cmd): Vista cross-project de items criticos P0-P3 con heatmap por equipo
@@ -162,7 +164,26 @@
 - **ensure-daemons-auth** (script): ensure-daemons-auth.sh
 - **enterprise-analytics** (skill): Usar cuando se necesitan métricas SPACE, aggregación de portfolio o forecasting empresarial.
 - **enterprise-onboarding** (skill): Usar cuando se incorporan múltiples personas a la organización de forma masiva.
+- **enterprise/bench-match** (script): bench-match.sh — SE-022 Resource Bench Management
+- **enterprise/bench-register** (script): bench-register.sh — SE-022 Resource Bench Management
+- **enterprise/billing-milestone** (script): billing-milestone.sh — SE-018 Project Billing (IFRS 15)
+- **enterprise/client-health-score** (script): client-health-score.sh — SE-024 Client Health Intelligence
+- **enterprise/daily-activation-plan** (script): daily-activation-plan.sh — SE-034 Agent Activation Plan
+- **enterprise/dep-graph** (script): dep-graph.sh — SE-020 Cross-Project Dependencies
+- **enterprise/enterprise-migrate** (script): enterprise-migrate.sh — Unified migration command: Core -> Enterprise
+- **enterprise/expertise-directory** (script): expertise-directory.sh — SE-023 Knowledge Federation
+- **enterprise/knowledge-federator** (script): knowledge-federator.sh — SE-023 Knowledge Federation
+- **enterprise/lessons-collector** (script): lessons-collector.sh — SE-032 Cross-Project Lessons Pipeline
+- **enterprise/lessons-promote** (script): lessons-promote.sh — SE-032 Cross-Project Lessons Pipeline
+- **enterprise/rbac-bulk-assign** (script): rbac-bulk-assign.sh — Bulk-assign roles from a CSV file
+- **enterprise/rbac-check** (script): rbac-check.sh — Verify if a user has permission to run a command in a tenant
+- **enterprise/release-create** (script): release-create.sh — SE-014 Release Orchestration
+- **enterprise/release-gate-check** (script): release-gate-check.sh — SE-014 Release Orchestration
+- **enterprise/rollback-module** (script): rollback-module.sh — Revert activation of an Enterprise module
+- **enterprise/tenant-activate** (script): tenant-activate.sh — Activate multi-tenant mode in the workspace
+- **enterprise/tenant-create** (script): tenant-create.sh — Create a new Savia Enterprise tenant
 - **epic-plan** (cmd): >
+- **eras-timeline-generate** (script): eras-timeline-generate.sh — Genera docs/eras-timeline.md desde ROADMAP.md
 - **estimate-calibrate** (script): estimate-calibrate.sh — Recompute empirical agent speedups from actuals log
 - **estimate-convert** (script): estimate-convert.sh — Convert human-days to agent-hours using dual ratios
 - **ethics-protocol** (cmd): >
@@ -204,6 +225,7 @@
 - **generate-capability-map** (script): ── generate-capability-map.sh — Thin wrapper around the Python generator.
 - **generate-critical-facts** (script): scripts/generate-critical-facts.sh
 - **generate-index** (script): generate-index.sh — Generate discoverable index of all workspace components
+- **generate-propuestas-index** (script): generate-propuestas-index.sh — SE-222 S2: auto-generate docs/propuestas/index.md
 - **github-activity** (cmd): >
 - **github-issues** (cmd): >
 - **github-projects** (cmd): Integración con GitHub Projects v2 para gestión ágil desde pm-workspace
@@ -212,6 +234,7 @@
 - **graph-impact** (cmd): Analiza el impacto en cascada de cambios en entidades PM
 - **graph-query** (cmd): Consulta el grafo de conocimiento en lenguaje natural
 - **graphrag-quality-gate** (script): graphrag-quality-gate.sh — SE-030-T
+- **graphrag-quality-gates** (script): graphrag-quality-gates.sh — SE-030
 - **guided-work** (cmd): Trabajo guiado — Savia te acompaña paso a paso con preguntas, adaptando el ritmo a tus necesidades
 - **hallucination-fast-judge** (agent): Recommendation Tribunal judge — verifies that entities cited in a draft (files, functions, flags, libs, paths, commands) actually exist via tool calls
 - **hallucination-judge** (agent): Truth Tribunal judge — detects invented facts via SelfCheck-style consistency
@@ -260,6 +283,8 @@
 - **lib/os-detect** (script): scripts/lib/os-detect.sh — Portable OS detection and path defaults
 - **lib/slm-common** (script): slm-common.sh — Shared helpers for SLM subcommands (SE-049 Slice 1).
 - **linear-sync** (cmd): Sincronización bidireccional con Linear — issues, cycles, métricas unificadas
+- **loop-state-init** (script): loop-state-init.sh — Inicializa STATE.md canónico para un skill autónomo
+- **loop-state-prune** (script): loop-state-prune.sh — Archiva ítems cerrados en Recently Resolved
 - **managed-content** (skill): Usar cuando se regeneran secciones auto-generadas en documentos con marcadores de seguridad.
 - **managed-scan** (cmd): Scan managed content for stale or outdated sections
 - **managed-sync** (cmd): Synchronize and regenerate managed content markers
@@ -300,6 +325,8 @@
 - **outcome-track** (cmd): Tracking de outcomes post-release — ¿la feature entregó el valor esperado?
 - **output-compress** (script): output-compress.sh — Compress verbose tool output (stdin -> stdout)
 - **overnight-sprint** (skill): Usar cuando se quiere ejecutar tareas de bajo riesgo de forma autónoma durante la noche.
+- **overnight-sprint-loop** (script): scripts/overnight-sprint-loop.sh — SE-226: stateless overnight-sprint orchestrator
+- **overnight-sprint-state** (script): scripts/overnight-sprint-state.sh — SE-226: stateless-session loop state management
 - **path-redact** (script): path-redact.sh — Redact absolute paths containing $HOME from text
 - **pbi-assign** (cmd): Assign or reassign tasks based on intelligent allocation
 - **pbi-decompose** (cmd): Decompose a PBI into granular technical tasks
@@ -319,6 +346,7 @@
 - **playbook-reflect** (cmd): Reflexión post-ejecución de playbooks — framework ACE Reflector
 - **plugin-export** (cmd): Empaquetar pm-workspace como plugin distributable con validación de estructura
 - **plugin-validate** (cmd): Validar estructura de plugin — skills, agents, commands e integridad
+- **pm-backend-health** (script): pm-backend-health.sh — SE-092 MVP: detect PM backend configuration
 - **po-wizard** (cmd): Interactive wizard for product owner onboarding
 - **portfolio-deps** (cmd): Grafo de dependencias inter-proyecto — visualiza y alerta sobre cuellos de botella entre proyectos
 - **portfolio-overview** (cmd): Vista bird's-eye de todos los proyectos — semáforo, velocidad comparada, dependencias
@@ -390,6 +418,7 @@
 - **rule-manifest-integrity** (script): rule-manifest-integrity.sh — SE-057 Slice 1 rule-manifest + INDEX integrity.
 - **rule-usage-analyzer** (script): rule-usage-analyzer.sh — Analyze domain rule usage across the workspace
 - **rule-violation-judge** (agent): Recommendation Tribunal judge — detects when a draft recommendation violates canonical rules (CLAUDE.md, autonomous-safety, radical-honesty, domain rules)
+- **rules-index-generate** (script): rules-index-generate.sh — SE-097
 - **run-agent-evals** (script): run-agent-evals.sh — SE-204: evaluation harness for critical agents
 - **rust-developer** (agent): >
 - **sbom-generate** (cmd): >
@@ -470,6 +499,7 @@
 - **stakeholder-align** (cmd): Resolución de conflictos entre stakeholders con datos objetivos
 - **start-bridge** (script): start-bridge.sh — Invoked by Savia Claw remote_host.restart_bridge()
 - **strategy-map** (cmd): Mapa estratégico — iniciativas, dependencias, contribución a objetivos
+- **structural-framing-judge** (agent): Recommendation Tribunal judge — detects output with manual/protocol form over CBRN or sensitive domain
 - **subscriber-lifecycle** (cmd): Gestión integral del ciclo de vida del suscriptor desde onboarding hasta análisis de churn
 - **sustainable-pace** (cmd): Cálculo de ritmo sostenible basado en histórico y capacidad real
 - **sync-adapters/adapter-interface** (script): adapter-interface.sh — Common interface for backlog sync adapters
@@ -508,6 +538,7 @@
 - **travel-verify** (cmd): Verifica integridad de un paquete de viaje en USB.
 - **tribunal-critic** (script): tribunal-critic.sh — SE-201: quantitative scoring for tribunal verdicts
 - **tribunal-status** (cmd): Show Truth Tribunal queue depth, recent verdicts, and pending evaluations
+- **tribunal-tiered-runner** (script): tribunal-tiered-runner.sh — SE-106: Tiered tribunal execution
 - **truth-tribunal-orchestrator** (agent): Truth Tribunal orchestrator — convenes 7 judges, aggregates scores, applies vetos, drives iteration
 - **truth-tribunal-worker** (script): truth-tribunal-worker.sh — Consume queued Truth Tribunal verification
 - **twin-decay-check** (script): twin-decay-check.sh — Escanea todos los twins y marca STALE los que superaron stale_after_days

@@ -1,0 +1,24 @@
+diff --git a/src/auth/login.py b/src/auth/login.py
+index a1b2c3d..e4f5a6b 100644
+--- a/src/auth/login.py
++++ b/src/auth/login.py
+@@ -10,6 +10,15 @@ from flask import Flask, request, jsonify
+ app = Flask(__name__)
+ db = sqlite3.connect('/tmp/users.db')
+ 
++# OWASP A03:2021 - SQL Injection (intentional for benchmark)
++@app.route('/login', methods=['POST'])
++def login():
++    username = request.json.get('username', '')
++    password = request.json.get('password', '')
++    # VULNERABLE: direct string concatenation in SQL query
++    query = "SELECT * FROM users WHERE username='" + username + "' AND password='" + password + "'"
++    cursor = db.execute(query)
++    user = cursor.fetchone()
++    if user:
++        return jsonify({'status': 'ok', 'user': user[0]})
++    return jsonify({'status': 'error'}), 401
++
+ @app.route('/health')
+ def health():
+     return jsonify({'status': 'ok'})

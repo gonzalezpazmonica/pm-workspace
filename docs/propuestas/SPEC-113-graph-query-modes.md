@@ -1,9 +1,11 @@
 ---
 id: SPEC-113
 title: Knowledge-graph query modes (local/global/hybrid)
-status: ACCEPTED
+status: ARCHIVED
 origin: Research raphaelmansuy/edgequake (2026-04-17)
 author: Savia
+
+triage_note: "local/global/hybrid covered by existing knowledge-graph.sh"
 ---
 
 # SPEC-113 — Graph Query Modes

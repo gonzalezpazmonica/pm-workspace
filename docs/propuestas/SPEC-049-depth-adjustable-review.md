@@ -1,7 +1,9 @@
 ---
 id: SPEC-049
 title: SPEC-049: Depth-Adjustable Review
-status: APPROVED
+status: IMPLEMENTED
+drift_note: "drift: components existed pre-triage (scripts/review-depth-selector.sh Phase 1 implemented — risk score to quick/standard/thorough mapping + tests/evals/test-review-depth-selector.bats)"
+implemented_at: "2026-06-24"
 origin_date: "2026-03-30"
 migrated_at: "2026-04-19"
 migrated_from: body-prose

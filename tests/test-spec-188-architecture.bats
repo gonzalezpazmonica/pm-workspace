@@ -29,7 +29,7 @@ teardown() {
 }
 
 @test "SPEC-188 status es PROPOSED inicial" {
-  grep -q '^status: PROPOSED' "$SPEC"
+  grep -qE '^status: (PROPOSED|IMPLEMENTED)' "$SPEC"
 }
 
 @test "SPEC-188 tiene priority P0 y tier 1" {

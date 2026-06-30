@@ -46,7 +46,7 @@
 
 <!-- AUTO_BEGIN — do not edit; regenerate via scripts/resolver-md-generate.sh -->
 
-### Skills (104)
+### Skills (117)
 
 | Intent (skill) | Target | Cuándo usar |
 |---|---|---|
@@ -58,6 +58,7 @@
 | `architecture-intelligence` | skill:architecture-intelligence | Usar cuando se diseña o revisa la arquitectura de un proyecto nuevo o existente. |
 | `ast-comprehension` | skill:ast-comprehension | Usar cuando se explora código desconocido y se necesita comprensión estructural sin l... |
 | `ast-quality-gate` | skill:ast-quality-gate | Usar cuando se verifica la calidad de código generado por IA antes de merge. |
+| `attack-surface-mapper` | skill:attack-surface-mapper | Mapear la superficie de ataque de un dominio: subdominios, OSINT, typosquatting. |
 | `azure-devops-queries` | skill:azure-devops-queries | Usar cuando se necesitan consultas WIQL, actualización de work items o datos de sprint... |
 | `azure-pipelines` | skill:azure-pipelines | Usar cuando se gestiona o depura CI/CD con Azure Pipelines. |
 | `backlog-git-tracker` | skill:backlog-git-tracker | Usar cuando se capturan o comparan snapshots del backlog para detectar drift. |
@@ -79,12 +80,14 @@
 | `context-task-classifier` | skill:context-task-classifier | Usar antes de compactar contexto para clasificar la tarea del turno actual. |
 | `cost-management` | skill:cost-management | Usar cuando se gestionan timesheets, presupuestos, facturas o forecasting de costes. |
 | `dag-scheduling` | skill:dag-scheduling | Usar cuando se orquestan múltiples agentes SDD con dependencias entre ellos. |
-| `design-an-interface` | skill:design-an-interface | Skill para disenar una interfaz con N=3 alternativas en paralelo y recomendar la mejor ... |
+| `dependency-scanner` | skill:dependency-scanner | Usar cuando se escanean vulnerabilidades en dependencias de proyectos (Node, Python, C#... |
+| `design-an-interface` | skill:design-an-interface | Design-an-interface skill with N=3 parallel alternatives and architectural vocabulary. ... |
 | `developer-experience` | skill:developer-experience | Usar cuando se mide o mejora la experiencia de desarrollo del equipo. |
 | `devops-validation` | skill:devops-validation | Usar cuando se conecta un proyecto nuevo a Azure DevOps para validar su configuración ... |
 | `diagram-generation` | skill:diagram-generation | Usar cuando se necesita generar diagramas de arquitectura o flujo desde código o infra... |
 | `diagram-import` | skill:diagram-import | Usar cuando se importa un diagrama existente para extraer entidades y crear PBIs. |
 | `doc-quality-feedback` | skill:doc-quality-feedback | Usar cuando se recopila feedback de calidad de documentación tras usar skills y reglas. |
+| `dynamic-web-tester` | skill:dynamic-web-tester | Testing dinámico de endpoints web: XSS (DalFox), SQLi (sqlmap), Nuclei. |
 | `ecosystem-watcher` | skill:ecosystem-watcher | Usar una vez al mes para detectar cambios relevantes en el ecosistema de herramientas e... |
 | `emergency-mode` | skill:emergency-mode | Usar cuando la API de Anthropic está caída y se necesita continuar operando con LocalAI. |
 | `enterprise-analytics` | skill:enterprise-analytics | Usar cuando se necesitan métricas SPACE, aggregación de portfolio o forecasting empre... |
@@ -93,18 +96,26 @@
 | `evaluations-framework` | skill:evaluations-framework | Usar cuando se diseñan o ejecutan evaluaciones de calidad de agentes y prompts. |
 | `executive-reporting` | skill:executive-reporting | Usar cuando se genera un informe ejecutivo multi-proyecto para dirección. |
 | `feasibility-probe` | skill:feasibility-probe | Usar cuando se necesita validar si una spec es técnicamente viable antes de implementa... |
+| `git-secret-scanner` | skill:git-secret-scanner | Escanea el historial git o los commits pendientes de push buscando secrets con gitleaks... |
 | `governance-enterprise` | skill:governance-enterprise | Usar cuando se audita compliance, se registran decisiones o se certifican procesos ente... |
 | `grill-me` | skill:grill-me | Adversarial review that hunts every weakness, assumption, edge case, and missing test. ... |
 | `human-code-map` | skill:human-code-map | Usar cuando se incorpora un dev nuevo, se toca un módulo sin mapa, o alguien re-lee el... |
+| `iac-security-scanner` | skill:iac-security-scanner | Usar cuando se escanea IaC (Terraform, Bicep, Dockerfile, docker-compose) con Trivy con... |
 | `knowledge-graph` | skill:knowledge-graph | Usar cuando se construye o consulta el grafo de conocimiento de entidades del proyecto. |
 | `legal-compliance` | skill:legal-compliance | Usar cuando se audita compliance legal contra legislación española consolidada. |
 | `managed-content` | skill:managed-content | Usar cuando se regeneran secciones auto-generadas en documentos con marcadores de segur... |
 | `meeting-transcript-extract` | skill:meeting-transcript-extract | Usar cuando se necesita extraer la transcripción de una reunión Teams desde el browser. |
 | `memvid-backup` | skill:memvid-backup | Usar cuando se crea un backup portable de la memoria externa de Savia. |
+| `meta-reflection` | skill:meta-reflection | Protocolo de las 4 meta-preguntas para cuestionar el encuadre de una tarea antes de eje... |
+| `mobile-security-scanner` | skill:mobile-security-scanner | Usar cuando se escanea un APK/AAB Android en busca de vulnerabilidades de seguridad. In... |
 | `model-upgrade-audit` | skill:model-upgrade-audit | Usar cuando hay un modelo nuevo disponible y se quiere detectar prompt debt en el works... |
 | `mutation-audit` | skill:mutation-audit | Usar cuando se quiere medir la calidad real de los tests mediante mutation testing. |
+| `network-recon` | skill:network-recon | Reconocimiento de red: port scan con nmap/RustScan + HTTP detection con httpx. |
 | `nuclei-scanning` | skill:nuclei-scanning | Usar cuando se escanean vulnerabilidades conocidas (CVEs, misconfigs) con Nuclei. |
 | `onboarding-dev` | skill:onboarding-dev | Usar cuando se incorpora un desarrollador nuevo al proyecto y necesita buddy IA. |
+| `org-meeting-capture` | skill:org-meeting-capture | Captura de Conocimiento Tácito de Reunión: extrae decisores, acuerdos informales y se... |
+| `org-political-landscape` | skill:org-political-landscape | Análisis de Paisaje Político Interno: detecta tensiones, alianzas y centros de poder ... |
+| `org-stakeholder-mapper` | skill:org-stakeholder-mapper | Mapeador de Stakeholders y Decisores: extrae roles formales y reales, motivaciones, ali... |
 | `orgchart-import` | skill:orgchart-import | Usar cuando se importa un organigrama para extraer la estructura del equipo. |
 | `overnight-sprint` | skill:overnight-sprint | Usar cuando se quiere ejecutar tareas de bajo riesgo de forma autónoma durante la noche. |
 | `pbi-decomposition` | skill:pbi-decomposition | Usar cuando se descompone un PBI en tasks y se estiman las horas. |
@@ -113,6 +124,7 @@
 | `personal-vault` | skill:personal-vault | Usar cuando se lee o escribe el repositorio personal del usuario (perfil, preferencias,... |
 | `pr-agent-judge` | skill:pr-agent-judge | Usar cuando se añade pr-agent como juez externo en el Code Review Court. |
 | `product-discovery` | skill:product-discovery | Usar antes de descomponer PBIs, cuando se necesita análisis JTBD y PRD del producto. |
+| `professional-domain` | skill:professional-domain | Family index for professional-domain skills (controlling, finance, labour, legal, sales... |
 | `project-update` | skill:project-update | Usar cuando se necesita una actualización integral del proyecto activo desde todas las... |
 | `prompt-optimizer` | skill:prompt-optimizer | Usar cuando se optimiza el prompt de un skill o agente para mejorar su efectividad. |
 | `rbac-management` | skill:rbac-management | Usar cuando se gestionan roles, permisos o se audita el acceso de usuarios. |
@@ -143,6 +155,7 @@
 | `test-architect` | skill:test-architect | Usar cuando se diseñan o generan tests de alta calidad en cualquier lenguaje. |
 | `tier3-probes` | skill:tier3-probes | Usar cuando se valida la viabilidad de herramientas Tier 3 antes de adoptarlas en el wo... |
 | `time-tracking-report` | skill:time-tracking-report | Usar cuando se generan informes de imputación de horas en Excel o Word. |
+| `tls-security-checker` | skill:tls-security-checker | Usar cuando se verifica TLS/SSL o security headers HTTP de un servidor web. Invocable p... |
 | `topic-cluster` | skill:topic-cluster | Usar cuando se agrupan retros, PBIs o incidentes en topics para detectar patrones trans... |
 | `ubiquitous-language` | skill:ubiquitous-language | Usar cuando se necesita extraer o consolidar el glosario de términos de dominio de un ... |
 | `understand-anything` | skill:understand-anything | Usar cuando se necesita analizar un codebase con Understand-Anything para generar knowl... |
@@ -155,12 +168,14 @@
 | `write-a-skill` | skill:write-a-skill | Guia para crear una nueva skill correctamente en pm-workspace. Usar cuando una tarea se... |
 | `zoom-out` | skill:zoom-out | Elevates perspective from trees to forest. Maps architecture, dependencies, and second-... |
 
-### Agents (75)
+### Agents (81)
 
 | Intent (agent) | Target | Cuándo usar |
 |---|---|---|
 | `architect` | agent:architect | Diseño de arquitectura .NET y decisiones técnicas de alto nivel. Usar PROACTIVELY cua... |
 | `architecture-judge` | agent:architecture-judge | Code Review Court judge — boundaries, coupling, layer violations, patterns |
+| `archive-digest` | agent:archive-digest | Digestión de formatos de archivo y contenido comprimido via markitdown (SE-172). Sopor... |
+| `authority-claim-judge` | agent:authority-claim-judge | Recommendation Tribunal judge — detects credential claims ("soy investigador"). NUNCA... |
 | `azure-devops-operator` | agent:azure-devops-operator | Operaciones rápidas en Azure DevOps: consultas WIQL, actualización de work items, ges... |
 | `business-analyst` | agent:business-analyst | Análisis de reglas de negocio, descomposición de PBIs, criterios de aceptación y eva... |
 | `calibration-judge` | agent:calibration-judge | Truth Tribunal judge — confidence statements match evidence strength |
@@ -175,8 +190,10 @@
 | `compliance-judge` | agent:compliance-judge | Truth Tribunal judge — PII, N1-N4b levels, format rules, confidentiality |
 | `concession-judge` | agent:concession-judge | Recommendation Tribunal judge — detects position changes without new evidence (SPEC-192) |
 | `confidentiality-auditor` | agent:confidentiality-auditor | Audita cumplimiento de confidencialidad en PRs de pm-workspace (repo publico). Descubre... |
+| `configurator` | agent:configurator | Centralizes workspace dispatch decisions: selects skills, agents, rules, and memory que... |
 | `correctness-judge` | agent:correctness-judge | Code Review Court judge — logic, tests, edge cases, error paths |
 | `court-orchestrator` | agent:court-orchestrator | Convenes the Code Review Court, manages fix cycles, produces .review.crc |
+| `criterion-simulation-judge` | agent:criterion-simulation-judge | Criterion Simulation Layer judge — SPEC-194. Executes 4 meta-questions (frame challen... |
 | `dev-orchestrator` | agent:dev-orchestrator | Analiza specs y crea planes de implementación con slices, dependencias y presupuestos ... |
 | `diagram-architect` | agent:diagram-architect | Architecture diagram specialist. Analyzes code and infrastructure to generate Mermaid d... |
 | `dotnet-developer` | agent:dotnet-developer | Implementación de código C#/.NET siguiendo specs SDD aprobadas. Usar PROACTIVELY cuan... |
@@ -185,6 +202,7 @@
 | `expertise-asymmetry-judge` | agent:expertise-asymmetry-judge | Recommendation Tribunal judge — when draft falls in a domain the active user marks as... |
 | `factuality-judge` | agent:factuality-judge | Truth Tribunal judge — factual accuracy of claims against verifiable sources |
 | `feasibility-probe` | agent:feasibility-probe | Validates spec feasibility by attempting a time-boxed prototype. Produces viability rep... |
+| `fiction-framing-judge` | agent:fiction-framing-judge | Recommendation Tribunal judge — detects persona-shift plus content-equivalent framing... |
 | `fix-assigner` | agent:fix-assigner | Creates fix tasks from Court findings, assigns to dev agents, triggers re-review |
 | `frontend-developer` | agent:frontend-developer | Implementación de código frontend (Angular y React) siguiendo specs SDD aprobadas. Us... |
 | `frontend-test-runner` | agent:frontend-test-runner | Post-commit frontend test execution — unit, component, e2e, coverage |
@@ -222,6 +240,7 @@
 | `security-judge` | agent:security-judge | Code Review Court judge — OWASP, PII, injection, auth, credentials |
 | `source-traceability-judge` | agent:source-traceability-judge | Truth Tribunal judge — every claim must have a verifiable @ref citation |
 | `spec-judge` | agent:spec-judge | Code Review Court judge — implementation vs approved spec, acceptance criteria |
+| `structural-framing-judge` | agent:structural-framing-judge | Recommendation Tribunal judge — detects output with manual/protocol form over CBRN or... |
 | `sycophancy-judge` | agent:sycophancy-judge | Recommendation Tribunal judge — detects empty social validation in conversational dra... |
 | `tech-writer` | agent:tech-writer | Documentación técnica: README, CHANGELOG, comentarios XML en C#, docs de proyecto. Us... |
 | `terraform-developer` | agent:terraform-developer | Implementación de código Terraform (IaC) siguiendo specs SDD aprobadas. CRÍTICO: NUN... |

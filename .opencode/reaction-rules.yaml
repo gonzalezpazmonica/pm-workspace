@@ -1,0 +1,47 @@
+# .opencode/reaction-rules.yaml — SPEC-050: Declarative SDD Pipeline Reaction Rules
+reactions:
+  spec-approved:
+    action: notify
+    auto: true
+    retries: 0
+    escalate_after: 0
+  pr-created:
+    action: trigger-ci
+    auto: true
+    retries: 0
+    escalate_after: 0
+  tests-failed:
+    action: send-to-agent
+    auto: true
+    retries: 2
+    escalate_after: 3
+  review-done:
+    action: notify
+    auto: true
+    retries: 0
+    escalate_after: 0
+  ci-failed:
+    action: send-to-agent
+    auto: true
+    retries: 2
+    escalate_after: 3
+  changes-requested:
+    action: send-to-agent
+    auto: true
+    retries: 1
+    escalate_after: 2
+  approved-and-green:
+    action: notify
+    auto: false
+    retries: 0
+    escalate_after: 0
+  agent-stuck:
+    action: notify
+    auto: true
+    retries: 0
+    escalate_after: 1
+  merge-conflicts:
+    action: notify
+    auto: true
+    retries: 0
+    escalate_after: 1

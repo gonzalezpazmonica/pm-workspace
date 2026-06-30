@@ -1,0 +1,66 @@
+{
+  "version": "1.0",
+  "target": "vulnerable-code-sample.py",
+  "total_expected": 5,
+  "findings": [
+    {
+      "id": "VULN-001",
+      "name": "Hardcoded Credentials",
+      "cwe": "CWE-798",
+      "severity": "critical",
+      "location": "vulnerable-code-sample.py",
+      "lines": [26, 27],
+      "pattern": "hardcoded.*(password|secret|key|token|credential)",
+      "description": "Credenciales hardcodeadas: DB_PASSWORD, API_SECRET_KEY directamente en codigo fuente.",
+      "detectable_by": ["security-attacker", "security-guardian", "nuclei"]
+    },
+    {
+      "id": "VULN-002",
+      "name": "SQL Injection",
+      "cwe": "CWE-89",
+      "severity": "critical",
+      "location": "vulnerable-code-sample.py",
+      "lines": [40, 41],
+      "pattern": "sql.*\\+.*request\\.",
+      "description": "Input de usuario concatenado directamente en query SQL sin parametrizacion.",
+      "detectable_by": ["security-attacker", "security-guardian", "pentester", "nuclei"]
+    },
+    {
+      "id": "VULN-003",
+      "name": "Reflected XSS",
+      "cwe": "CWE-79",
+      "severity": "high",
+      "location": "vulnerable-code-sample.py",
+      "lines": [51, 52],
+      "pattern": "render_template_string.*request\\.",
+      "description": "Input del usuario inyectado en template HTML sin sanitizacion.",
+      "detectable_by": ["security-attacker", "security-guardian", "pentester"]
+    },
+    {
+      "id": "VULN-004",
+      "name": "Path Traversal",
+      "cwe": "CWE-22",
+      "severity": "high",
+      "location": "vulnerable-code-sample.py",
+      "lines": [61, 62, 63],
+      "pattern": "os\\.path\\.join.*request\\.",
+      "description": "Path construido con input del usuario sin validacion. Permite leer ficheros arbitrarios.",
+      "detectable_by": ["security-attacker", "security-guardian", "pentester"]
+    },
+    {
+      "id": "VULN-005",
+      "name": "Command Injection",
+      "cwe": "CWE-78",
+      "severity": "critical",
+      "location": "vulnerable-code-sample.py",
+      "lines": [73, 74],
+      "pattern": "subprocess.*shell=True.*request\\.",
+      "description": "shell=True combinado con input del usuario sin validar. Permite ejecucion de comandos arbitrarios.",
+      "detectable_by": ["security-attacker", "security-guardian", "pentester"]
+    }
+  ],
+  "thresholds": {
+    "min_detection_rate": 0.70,
+    "max_false_positive_rate": 0.30
+  }
+}

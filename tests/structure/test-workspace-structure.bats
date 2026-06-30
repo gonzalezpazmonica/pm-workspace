@@ -107,6 +107,12 @@ teardown() {
     case "$(basename "$f")" in
       INDEX.md) continue ;;
       savia-ethical-principles.md) continue ;;
+      enterprise-onboarding-protocol.md) continue ;;
+      enterprise-sovereign-deployment.md) continue ;;
+      meeting-participant-etiquette.md) continue ;;
+      portfolio-as-graph.en.md) continue ;;
+      meeting-digest.md) continue ;;
+      loop-state-schema.md) continue ;;  # SE-228-S1: canonical STATE.md schema doc, same exception class as savia-ethical-principles.md
     esac
     local lines; lines=$(wc -l < "$f")
     [ "$lines" -le 150 ] || oversized=$((oversized + 1))

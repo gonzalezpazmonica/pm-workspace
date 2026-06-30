@@ -11,11 +11,13 @@
     "mcp-catalog": {
       "enabled": false,
       "spec": "SE-003",
+      "implemented_at": "2026-06-24",
       "description": "Agnostic MCP servers (.NET, TS, Python)"
     },
     "agent-framework-interop": {
       "enabled": false,
       "spec": "SE-004",
+      "implemented_at": "2026-06-24",
       "description": "Adapters for MS Agent Framework, LangGraph, SK, PydanticAI"
     },
     "sovereign-deployment": {
@@ -31,11 +33,13 @@
     "enterprise-onboarding": {
       "enabled": false,
       "spec": "SE-007",
+      "implemented_at": "2026-06-24",
       "description": "Batch onboarding with SSO/SAML adapters"
     },
     "observability": {
       "enabled": false,
       "spec": "SE-009",
+      "implemented_at": "2026-06-24",
       "description": "Agnostic OTel stack with opt-in exporters"
     },
     "migration-path": {

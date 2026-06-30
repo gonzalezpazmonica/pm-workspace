@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 # aggregate.sh — SPEC-125 Slice 1: deterministic aggregation of 4 judge verdicts.
+set -uo pipefail
 #
 # Reads 4 judge JSON outputs from stdin or files, applies veto rules, computes
 # final verdict (PASS|WARN|VETO), emits aggregate JSON to stdout.

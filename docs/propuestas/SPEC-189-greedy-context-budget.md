@@ -1,8 +1,13 @@
 ---
 status: IMPLEMENTED
 implemented_at: "2026-06-24"
+resource: https://github.com/CarlosVallejoRuiz/slurp
+timeline:
+  - from: "2026-06-24"
+    learned: "2026-06-24"
+    value: "IMPLEMENTED"
+    source: "session:2026-06-24"
 ---
-
 # SPEC-189 — Greedy Context Budget Selection
 
 > **Priority:** P1 · **Estimate (human):** 3d · **Estimate (agent):** 3h · **Category:** standard · **Type:** infrastructure

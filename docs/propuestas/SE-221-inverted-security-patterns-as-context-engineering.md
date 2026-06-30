@@ -1,7 +1,8 @@
 ---
 spec_id: SE-221
 title: "Inverted security patterns as context engineering: origin tagging, drop-after-use, capability metadata"
-status: APPROVED
+status: IMPLEMENTED
+implemented_at: "2026-06-24"
 priority: P2
 effort: M
 era: 206
@@ -19,6 +20,7 @@ deps:
   - SE-160 (RESOLVER.md) — el resolver intent->skill funciona como Plan-Then-Execute
   - SPEC-181 (context budgets en frontmatter) — proporciona el frontmatter base que extendemos
 created: 2026-06-12
+resource: internal://output/20260613-jailbreak-techniques-defensive-study.md
 ---
 
 # SE-221 — Patrones adversariales invertidos como ingenieria de contexto

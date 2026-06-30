@@ -13,7 +13,9 @@
     "docs/rules/domain/caveman-default.md",
     "docs/rules/domain/agents-catalog.md"
   ],
-  "plugin": ["opencode-sandbox"],
+  "plugin": [
+    "opencode-sandbox"
+  ],
   "experimental": {
     "sandbox": {
       "policy_dir": ".opencode/sandbox-policies",
@@ -199,15 +201,6 @@
   "snapshot": true,
   "share": "manual",
   "mcp": {
-    "ppt": {
-      "type": "local",
-      "command": [
-        "python3",
-        "$HOME/.local/lib/python3.12/site-packages/ppt_mcp_server.py"
-      ],
-      "enabled": true,
-      "timeout": 30000
-    },
     "codegraph": {
       "type": "local",
       "command": [
@@ -217,6 +210,15 @@
       ],
       "enabled": false,
       "timeout": 30000
+    },
+    "codebase-memory-mcp": {
+      "type": "local",
+      "command": [
+        "/home/monica/.local/bin/codebase-memory-mcp",
+        "serve"
+      ],
+      "enabled": true,
+      "timeout": 60000
     }
   }
 }

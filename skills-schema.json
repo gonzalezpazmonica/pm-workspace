@@ -1,0 +1,1306 @@
+{
+  "_meta": {
+    "generated": "2026-06-28",
+    "generator": "scripts/skills-schema-generate.sh",
+    "spec": "SE-238",
+    "total_skills": 117,
+    "description": "Schema programático de todos los skills de Savia pm-workspace. Optimizado para consumo por LLMs y agentes externos."
+  },
+  "skills": [
+    {
+      "skill_id": "adversarial-security",
+      "description": "Usar cuando se necesita auditar la seguridad de un proyecto con pipeline Red Team / Blue Team.",
+      "skill_path": ".opencode/skills/adversarial-security/SKILL.md",
+      "tags": [
+        "security",
+        "adversarial",
+        "red-team",
+        "blue-team"
+      ]
+    },
+    {
+      "skill_id": "agent-code-map",
+      "description": "Usar cuando un agente necesita conocer la arquitectura del proyecto sin leer ficheros completos.",
+      "skill_path": ".opencode/skills/agent-code-map/SKILL.md",
+      "tags": [
+        "acm",
+        "agent-maps",
+        "codemap",
+        "context",
+        "sdd",
+        "architecture"
+      ],
+      "example_trigger": "- Inicio de pipeline SDD (/codemap:load): dar contexto de arquitectura al agente"
+    },
+    {
+      "skill_id": "agent-file-map",
+      "description": "Usar cuando se trabaja con ficheros externos al workspace que los agentes deben localizar.",
+      "skill_path": ".opencode/skills/agent-file-map/SKILL.md",
+      "tags": [
+        "afm",
+        "agent-maps",
+        "external-files",
+        "context",
+        "file-index"
+      ],
+      "example_trigger": "- Onboarding de proyecto: crear INDEX.afm al inicializar el proyecto"
+    },
+    {
+      "skill_id": "ai-labor-impact",
+      "description": "Usar cuando se analiza el impacto de la IA en el trabajo del equipo o la organización.",
+      "skill_path": ".opencode/skills/ai-labor-impact/SKILL.md",
+      "tags": [
+        "ai-impact",
+        "labor",
+        "reskilling",
+        "workforce"
+      ]
+    },
+    {
+      "skill_id": "android-autonomous-debugger",
+      "description": "Usar cuando se depuran o testean apps Android contra dispositivos físicos via USB/ADB.",
+      "skill_path": ".opencode/skills/android-autonomous-debugger/SKILL.md",
+      "tags": [
+        "android",
+        "debugging",
+        "adb",
+        "mobile-testing"
+      ]
+    },
+    {
+      "skill_id": "architecture-intelligence",
+      "description": "Usar cuando se diseña o revisa la arquitectura de un proyecto nuevo o existente.",
+      "skill_path": ".opencode/skills/architecture-intelligence/SKILL.md",
+      "tags": [
+        "architecture",
+        "patterns",
+        "detection",
+        "recommendations"
+      ],
+      "outputs_hint": "Los templates de output están definidos en cada comando (/arch-detect, /arch-suggest, /arch-recommend)."
+    },
+    {
+      "skill_id": "ast-comprehension",
+      "description": "Usar cuando se explora código desconocido y se necesita comprensión estructural sin leer ficheros enteros.",
+      "skill_path": ".opencode/skills/ast-comprehension/SKILL.md",
+      "tags": [
+        "ast",
+        "comprehension",
+        "legacy",
+        "rlm",
+        "structural-analysis",
+        "pre-edit"
+      ],
+      "example_trigger": "- Pre-edición: antes de editar un fichero existente → pide solo el símbolo afectado + callers"
+    },
+    {
+      "skill_id": "ast-quality-gate",
+      "description": "Usar cuando se verifica la calidad de código generado por IA antes de merge.",
+      "skill_path": ".opencode/skills/ast-quality-gate/SKILL.md",
+      "tags": [
+        "ast",
+        "static-analysis",
+        "quality-gates",
+        "llm-patterns",
+        "sdd"
+      ],
+      "example_trigger": "- Post-implementación SDD: verificar código antes de PR"
+    },
+    {
+      "skill_id": "attack-surface-mapper",
+      "description": "Mapear la superficie de ataque de un dominio: subdominios, OSINT, typosquatting.",
+      "skill_path": ".opencode/skills/attack-surface-mapper/SKILL.md",
+      "tags": [
+        "attack-surface",
+        "subdominios",
+        "osint",
+        "dnstwist",
+        "subfinder"
+      ],
+      "example_trigger": "- \"mapea la superficie de ataque de...\""
+    },
+    {
+      "skill_id": "azure-devops-queries",
+      "description": "Usar cuando se necesitan consultas WIQL, actualización de work items o datos de sprint en Azure DevOps.",
+      "skill_path": ".opencode/skills/azure-devops-queries/SKILL.md",
+      "tags": [
+        "azure-devops",
+        "wiql",
+        "work-items",
+        "api"
+      ]
+    },
+    {
+      "skill_id": "azure-pipelines",
+      "description": "Usar cuando se gestiona o depura CI/CD con Azure Pipelines.",
+      "skill_path": ".opencode/skills/azure-pipelines/SKILL.md",
+      "tags": [
+        "pipelines",
+        "ci-cd",
+        "azure",
+        "deployment"
+      ]
+    },
+    {
+      "skill_id": "backlog-git-tracker",
+      "description": "Usar cuando se capturan o comparan snapshots del backlog para detectar drift.",
+      "skill_path": ".opencode/skills/backlog-git-tracker/SKILL.md",
+      "tags": [
+        "backlog",
+        "snapshot",
+        "audit",
+        "tracking"
+      ]
+    },
+    {
+      "skill_id": "banking-architecture",
+      "description": "Usar cuando se diseña o revisa arquitectura para proyectos del sector bancario.",
+      "skill_path": ".opencode/skills/banking-architecture/SKILL.md",
+      "tags": [
+        "banking",
+        "architecture",
+        "finance",
+        "compliance"
+      ],
+      "example_trigger": "- Proyecto detectado como bancario (score ≥55% en /banking-detect)"
+    },
+    {
+      "skill_id": "capacity-planning",
+      "description": "Usar cuando se calcula la capacidad del equipo para un sprint o periodo.",
+      "skill_path": ".opencode/skills/capacity-planning/SKILL.md",
+      "tags": [
+        "capacity",
+        "team",
+        "workload",
+        "planning"
+      ]
+    },
+    {
+      "skill_id": "caveman",
+      "description": "Strips all sugar-coating and marketing. Gives the brutally honest truth in the fewest possible words. Use when you suspect self-deception, before committing, or before shipping.",
+      "skill_path": ".opencode/skills/caveman/SKILL.md"
+    },
+    {
+      "skill_id": "client-profile-manager",
+      "description": "Usar cuando se crean, actualizan o consultan perfiles de cliente en SaviaHub.",
+      "skill_path": ".opencode/skills/client-profile-manager/SKILL.md",
+      "tags": [
+        "client",
+        "profile",
+        "crud",
+        "savia-hub"
+      ]
+    },
+    {
+      "skill_id": "code-comprehension-report",
+      "description": "Usar cuando se ha completado una implementación SDD y se necesita documentar el modelo mental.",
+      "skill_path": ".opencode/skills/code-comprehension-report/SKILL.md",
+      "tags": [
+        "comprehension",
+        "mental-model",
+        "debugging",
+        "documentation"
+      ],
+      "example_trigger": "- After implementing a feature (post-SDD completion)"
+    },
+    {
+      "skill_id": "code-improvement-loop",
+      "description": "Usar cuando se quiere ejecutar mejora autónoma de código en segundo plano con PRs para revisión.",
+      "skill_path": ".opencode/skills/code-improvement-loop/SKILL.md",
+      "tags": [
+        "autonomous",
+        "improvement",
+        "refactoring",
+        "pr-draft"
+      ]
+    },
+    {
+      "skill_id": "codebase-map",
+      "description": "Usar cuando se necesita un mapa de dependencias del workspace (comandos→agentes→reglas→skills).",
+      "skill_path": ".opencode/skills/codebase-map/SKILL.md",
+      "tags": [
+        "indexing",
+        "routing",
+        "dependencies",
+        "discovery"
+      ],
+      "outputs_hint": "Fichero: output/codebase-map-{YYYYMMDD}.md",
+      "example_trigger": "- Al inicio de sesion para entender que herramientas hay disponibles"
+    },
+    {
+      "skill_id": "codegraph",
+      "description": "Usar cuando se necesita indexación AST persistente para navegación de callers/callees en el código.",
+      "skill_path": ".opencode/skills/codegraph/SKILL.md",
+      "tags": [
+        "mcp",
+        "ast",
+        "tree-sitter",
+        "indexing",
+        "callers",
+        "impact",
+        "acm-engine"
+      ]
+    },
+    {
+      "skill_id": "company-messaging",
+      "description": "Usar cuando se envían mensajes internos cifrados entre miembros de la organización vía Company Savia.",
+      "skill_path": ".opencode/skills/company-messaging/SKILL.md",
+      "tags": [
+        "messaging",
+        "company",
+        "encryption",
+        "privacy"
+      ]
+    },
+    {
+      "skill_id": "consensus-validation",
+      "description": "Usar cuando una decisión técnica o recomendación necesita validación por panel de jueces.",
+      "skill_path": ".opencode/skills/consensus-validation/SKILL.md",
+      "tags": [
+        "consensus",
+        "validation",
+        "multi-judge",
+        "quality"
+      ]
+    },
+    {
+      "skill_id": "content-fingerprint",
+      "description": "Usar cuando se necesita un identificador corto, deterministico y reproducible derivado del contenido de una cadena o fichero — cache keys, ids de patrones, fingerprints de docs.",
+      "skill_path": ".opencode/skills/content-fingerprint/SKILL.md",
+      "example_trigger": "Cuando un script necesita derivar un identificador corto, reproducible y resistente a colisiones a partir de un contenido (cadena, fichero, agregado). Casos tipicos:"
+    },
+    {
+      "skill_id": "context-caching",
+      "description": "Usar cuando se optimiza el orden de carga de contexto para maximizar cache hits.",
+      "skill_path": ".opencode/skills/context-caching/SKILL.md",
+      "tags": [
+        "caching",
+        "performance",
+        "tokens",
+        "cost-optimization"
+      ]
+    },
+    {
+      "skill_id": "context-interview-conductor",
+      "description": "Usar cuando se necesita recopilar contexto estructurado de un usuario mediante entrevista guiada.",
+      "skill_path": ".opencode/skills/context-interview-conductor/SKILL.md",
+      "tags": [
+        "interview",
+        "context",
+        "structured",
+        "discovery"
+      ]
+    },
+    {
+      "skill_id": "context-optimized-dev",
+      "description": "Usar cuando se desarrolla con presupuesto de contexto limitado.",
+      "skill_path": ".opencode/skills/context-optimized-dev/SKILL.md",
+      "tags": [
+        "context",
+        "optimization",
+        "dev-session",
+        "slicing"
+      ]
+    },
+    {
+      "skill_id": "context-rot-strategy",
+      "description": "Usar cuando una sesión larga se aproxima al límite de contexto y hay que decidir qué compactar.",
+      "skill_path": ".opencode/skills/context-rot-strategy/SKILL.md",
+      "tags": [
+        "context",
+        "1M",
+        "rot",
+        "compact",
+        "session",
+        "opus-4-7"
+      ]
+    },
+    {
+      "skill_id": "context-task-classifier",
+      "description": "Usar antes de compactar contexto para clasificar la tarea del turno actual.",
+      "skill_path": ".opencode/skills/context-task-classifier/SKILL.md",
+      "inputs_hint": "Un turno de conversación (texto, markdown, diff, o stack trace) pasado",
+      "outputs_hint": "Una sola línea con la clase (modo texto) o JSON con detalles (modo --json):"
+    },
+    {
+      "skill_id": "cost-management",
+      "description": "Usar cuando se gestionan timesheets, presupuestos, facturas o forecasting de costes.",
+      "skill_path": ".opencode/skills/cost-management/SKILL.md",
+      "tags": [
+        "cost",
+        "budget",
+        "forecasting",
+        "invoicing"
+      ]
+    },
+    {
+      "skill_id": "dag-scheduling",
+      "description": "Usar cuando se orquestan múltiples agentes SDD con dependencias entre ellos.",
+      "skill_path": ".opencode/skills/dag-scheduling/SKILL.md",
+      "tags": [
+        "dag",
+        "parallel",
+        "orchestration",
+        "pipeline"
+      ]
+    },
+    {
+      "skill_id": "dependency-scanner",
+      "description": "Usar cuando se escanean vulnerabilidades en dependencias de proyectos (Node, Python, C#, Java, Go, Rust, Ruby) con Trivy fs. Genera SBOM CycloneDX.",
+      "skill_path": ".opencode/skills/dependency-scanner/SKILL.md",
+      "tags": [
+        "security",
+        "dependencies",
+        "trivy",
+        "sbom",
+        "cve",
+        "supply-chain"
+      ]
+    },
+    {
+      "skill_id": "design-an-interface",
+      "description": "Design-an-interface skill with N=3 parallel alternatives and architectural vocabulary. Use when designing a new module interface, when user mentions 'varias alternativas', 'design this module', or '/design-interface'.",
+      "skill_path": ".opencode/skills/design-an-interface/SKILL.md",
+      "tags": [
+        "architecture",
+        "interface-design",
+        "parallel-agents",
+        "sdd"
+      ],
+      "example_trigger": "- Se necesita disenar una interfaz nueva para un modulo y no hay precedente claro."
+    },
+    {
+      "skill_id": "developer-experience",
+      "description": "Usar cuando se mide o mejora la experiencia de desarrollo del equipo.",
+      "skill_path": ".opencode/skills/developer-experience/SKILL.md",
+      "tags": [
+        "dx",
+        "developer-experience",
+        "space",
+        "core4"
+      ]
+    },
+    {
+      "skill_id": "devops-validation",
+      "description": "Usar cuando se conecta un proyecto nuevo a Azure DevOps para validar su configuración Agile.",
+      "skill_path": ".opencode/skills/devops-validation/SKILL.md",
+      "tags": [
+        "validation",
+        "azure-devops",
+        "agile",
+        "configuration"
+      ]
+    },
+    {
+      "skill_id": "diagram-generation",
+      "description": "Usar cuando se necesita generar diagramas de arquitectura o flujo desde código o infraestructura.",
+      "skill_path": ".opencode/skills/diagram-generation/SKILL.md",
+      "tags": [
+        "diagrams",
+        "architecture",
+        "mermaid",
+        "draw-io"
+      ],
+      "example_trigger": "- Comando /diagram-generate — Genera diagrama completo"
+    },
+    {
+      "skill_id": "diagram-import",
+      "description": "Usar cuando se importa un diagrama existente para extraer entidades y crear PBIs.",
+      "skill_path": ".opencode/skills/diagram-import/SKILL.md",
+      "tags": [
+        "diagram-import",
+        "parsing",
+        "work-items",
+        "entities"
+      ],
+      "example_trigger": "- Comando /diagram-import — Importación completa"
+    },
+    {
+      "skill_id": "doc-quality-feedback",
+      "description": "Usar cuando se recopila feedback de calidad de documentación tras usar skills y reglas.",
+      "skill_path": ".opencode/skills/doc-quality-feedback/SKILL.md",
+      "tags": [
+        "feedback",
+        "documentation",
+        "self-improvement"
+      ],
+      "example_trigger": "- Despues de que un agente usa una skill o regla (automatico via protocol)"
+    },
+    {
+      "skill_id": "dynamic-web-tester",
+      "description": "Testing dinámico de endpoints web: XSS (DalFox), SQLi (sqlmap), Nuclei.",
+      "skill_path": ".opencode/skills/dynamic-web-tester/SKILL.md",
+      "tags": [
+        "xss",
+        "sqli",
+        "dalfox",
+        "sqlmap",
+        "nuclei",
+        "pentest-web",
+        "dynamic-testing"
+      ],
+      "example_trigger": "- \"test dinámico web\""
+    },
+    {
+      "skill_id": "ecosystem-watcher",
+      "description": "Usar una vez al mes para detectar cambios relevantes en el ecosistema de herramientas externas.",
+      "skill_path": ".opencode/skills/ecosystem-watcher/SKILL.md",
+      "tags": [
+        "watch",
+        "monthly",
+        "intelligence",
+        "awesome",
+        "cron"
+      ],
+      "inputs_hint": "- Watch list: docs/rules/domain/ecosystem-watch-list.yaml.",
+      "example_trigger": "- Cron mensual (1º de mes 09:00 UTC) vía GitHub Action."
+    },
+    {
+      "skill_id": "emergency-mode",
+      "description": "Usar cuando la API de Anthropic está caída y se necesita continuar operando con LocalAI.",
+      "skill_path": ".opencode/skills/emergency-mode/SKILL.md",
+      "tags": [
+        "emergency",
+        "localai",
+        "sovereignty",
+        "spec-122"
+      ],
+      "example_trigger": "- API de Anthropic caída (503/504/timeout > 5 min)"
+    },
+    {
+      "skill_id": "enterprise-analytics",
+      "description": "Usar cuando se necesitan métricas SPACE, aggregación de portfolio o forecasting empresarial.",
+      "skill_path": ".opencode/skills/enterprise-analytics/SKILL.md",
+      "tags": [
+        "analytics",
+        "space-metrics",
+        "portfolio",
+        "forecasting"
+      ]
+    },
+    {
+      "skill_id": "enterprise-onboarding",
+      "description": "Usar cuando se incorporan múltiples personas a la organización de forma masiva.",
+      "skill_path": ".opencode/skills/enterprise-onboarding/SKILL.md",
+      "tags": [
+        "onboarding",
+        "enterprise",
+        "batch-import",
+        "knowledge-transfer"
+      ]
+    },
+    {
+      "skill_id": "epistemic-humility",
+      "description": "Usar cuando se detecta riesgo de adulación, cesión sin evidencia, o claim repetido por el usuario asumido sin verificar. Trigger: tribunal SPEC-192 emite WARN/VETO o auto-detección léxica.",
+      "skill_path": ".opencode/skills/epistemic-humility/SKILL.md",
+      "tags": [
+        "sycophancy",
+        "illusory-truth",
+        "epistemic",
+        "honesty",
+        "spec-192"
+      ]
+    },
+    {
+      "skill_id": "evaluations-framework",
+      "description": "Usar cuando se diseñan o ejecutan evaluaciones de calidad de agentes y prompts.",
+      "skill_path": ".opencode/skills/evaluations-framework/SKILL.md",
+      "tags": [
+        "evaluations",
+        "quality",
+        "g-eval",
+        "scoring"
+      ]
+    },
+    {
+      "skill_id": "executive-reporting",
+      "description": "Usar cuando se genera un informe ejecutivo multi-proyecto para dirección.",
+      "skill_path": ".opencode/skills/executive-reporting/SKILL.md",
+      "tags": [
+        "executive",
+        "reports",
+        "powerpoint",
+        "word"
+      ]
+    },
+    {
+      "skill_id": "feasibility-probe",
+      "description": "Usar cuando se necesita validar si una spec es técnicamente viable antes de implementarla.",
+      "skill_path": ".opencode/skills/feasibility-probe/SKILL.md",
+      "tags": [
+        "feasibility",
+        "estimation",
+        "prototype",
+        "spec",
+        "planning"
+      ],
+      "inputs_hint": "| Param | Required | Default | Description |",
+      "outputs_hint": "Report saved to: output/feasibility/{spec-id}-probe.yaml"
+    },
+    {
+      "skill_id": "git-secret-scanner",
+      "description": "Escanea el historial git o los commits pendientes de push buscando secrets con gitleaks. SE-239/SE-247.",
+      "skill_path": ".opencode/skills/git-secret-scanner/SKILL.md",
+      "tags": [
+        "security",
+        "gitleaks",
+        "secret",
+        "git-history",
+        "pre-push"
+      ],
+      "outputs_hint": "| Fichero | Contenido |",
+      "example_trigger": "- \"escanea el historial\""
+    },
+    {
+      "skill_id": "governance-enterprise",
+      "description": "Usar cuando se audita compliance, se registran decisiones o se certifican procesos enterprise.",
+      "skill_path": ".opencode/skills/governance-enterprise/SKILL.md",
+      "tags": [
+        "governance",
+        "audit-trail",
+        "certification",
+        "enterprise"
+      ]
+    },
+    {
+      "skill_id": "grill-me",
+      "description": "Adversarial review that hunts every weakness, assumption, edge case, and missing test. Opponent mode — finds what will break before it breaks in production. Use when merging, when reviewing security-critical code, or when the solution feels too simple.",
+      "skill_path": ".opencode/skills/grill-me/SKILL.md"
+    },
+    {
+      "skill_id": "human-code-map",
+      "description": "Usar cuando se incorpora un dev nuevo, se toca un módulo sin mapa, o alguien re-lee el mismo código repetidamente.",
+      "skill_path": ".opencode/skills/human-code-map/SKILL.md",
+      "tags": [
+        "comprehension",
+        "cognitive-debt",
+        "documentation",
+        "onboarding",
+        "mental-model"
+      ]
+    },
+    {
+      "skill_id": "iac-security-scanner",
+      "description": "Usar cuando se escanea IaC (Terraform, Bicep, Dockerfile, docker-compose) con Trivy config para detectar misconfiguraciones de seguridad antes del merge.",
+      "skill_path": ".opencode/skills/iac-security-scanner/SKILL.md",
+      "tags": [
+        "security",
+        "iac",
+        "terraform",
+        "trivy",
+        "misconfiguration",
+        "devops"
+      ]
+    },
+    {
+      "skill_id": "knowledge-graph",
+      "description": "Usar cuando se construye o consulta el grafo de conocimiento de entidades del proyecto.",
+      "skill_path": ".opencode/skills/knowledge-graph/SKILL.md",
+      "tags": [
+        "knowledge-graph",
+        "entities",
+        "relations",
+        "queries"
+      ]
+    },
+    {
+      "skill_id": "legal-compliance",
+      "description": "Usar cuando se audita compliance legal contra legislación española consolidada.",
+      "skill_path": ".opencode/skills/legal-compliance/SKILL.md",
+      "tags": [
+        "legal",
+        "compliance",
+        "legislación",
+        "BOE",
+        "LOPDGDD",
+        "LSSI"
+      ]
+    },
+    {
+      "skill_id": "managed-content",
+      "description": "Usar cuando se regeneran secciones auto-generadas en documentos con marcadores de seguridad.",
+      "skill_path": ".opencode/skills/managed-content/SKILL.md",
+      "tags": [
+        "managed-content",
+        "markers",
+        "auto-generated",
+        "sync"
+      ]
+    },
+    {
+      "skill_id": "meeting-transcript-extract",
+      "description": "Usar cuando se necesita extraer la transcripción de una reunión Teams desde el browser.",
+      "skill_path": ".opencode/skills/meeting-transcript-extract/SKILL.md"
+    },
+    {
+      "skill_id": "memvid-backup",
+      "description": "Usar cuando se crea un backup portable de la memoria externa de Savia.",
+      "skill_path": ".opencode/skills/memvid-backup/SKILL.md",
+      "tags": [
+        "backup",
+        "memvid",
+        "portable",
+        "travel",
+        "integrity"
+      ],
+      "example_trigger": "- Backup de .claude/external-memory/ antes de cambios estructurales"
+    },
+    {
+      "skill_id": "meta-reflection",
+      "description": "Protocolo de las 4 meta-preguntas para cuestionar el encuadre de una tarea antes de ejecutarla. SPEC-194. Usar cuando criterion-simulation-judge activa con FRAME_DOUBT o FRAME_REJECT, o cuando el operador quiere reflexion manual antes de una decision de alto impacto.",
+      "skill_path": ".opencode/skills/meta-reflection/SKILL.md",
+      "tags": [
+        "meta-reflection",
+        "criterion-simulation",
+        "spec-194",
+        "frame",
+        "governance"
+      ]
+    },
+    {
+      "skill_id": "mobile-security-scanner",
+      "description": "Usar cuando se escanea un APK/AAB Android en busca de vulnerabilidades de seguridad. Integra con MobSF (Docker) y análisis básico como fallback.",
+      "skill_path": ".opencode/skills/mobile-security-scanner/SKILL.md",
+      "tags": [
+        "android",
+        "mobile",
+        "apk",
+        "MobSF",
+        "manifest",
+        "security",
+        "static-analysis"
+      ],
+      "outputs_hint": "- output/security/mobile-scan-YYYYMMDD.json — findings del APK",
+      "example_trigger": "- \"escanea el APK\", \"analiza la app Android\", \"seguridad android\""
+    },
+    {
+      "skill_id": "model-upgrade-audit",
+      "description": "Usar cuando hay un modelo nuevo disponible y se quiere detectar prompt debt en el workspace.",
+      "skill_path": ".opencode/skills/model-upgrade-audit/SKILL.md",
+      "tags": [
+        "model",
+        "upgrade",
+        "prompt-debt",
+        "simplification",
+        "audit"
+      ],
+      "inputs_hint": "| Param | Required | Default | Description |",
+      "outputs_hint": "Report: output/model-audit/{date}-audit.yaml"
+    },
+    {
+      "skill_id": "mutation-audit",
+      "description": "Usar cuando se quiere medir la calidad real de los tests mediante mutation testing.",
+      "skill_path": ".opencode/skills/mutation-audit/SKILL.md",
+      "tags": [
+        "testing",
+        "mutation",
+        "quality",
+        "zombies",
+        "ai-generated"
+      ],
+      "example_trigger": "- Sprint-end quality check sobre módulos críticos con tests AI-generated"
+    },
+    {
+      "skill_id": "network-recon",
+      "description": "Reconocimiento de red: port scan con nmap/RustScan + HTTP detection con httpx.",
+      "skill_path": ".opencode/skills/network-recon/SKILL.md",
+      "tags": [
+        "nmap",
+        "rustscan",
+        "httpx",
+        "port-scan",
+        "network-recon",
+        "recon"
+      ],
+      "example_trigger": "- \"escanea la red\""
+    },
+    {
+      "skill_id": "nuclei-scanning",
+      "description": "Usar cuando se escanean vulnerabilidades conocidas (CVEs, misconfigs) con Nuclei.",
+      "skill_path": ".opencode/skills/nuclei-scanning/SKILL.md",
+      "outputs_hint": "Fichero: output/security/nuclei-{fecha}.json"
+    },
+    {
+      "skill_id": "onboarding-dev",
+      "description": "Usar cuando se incorpora un desarrollador nuevo al proyecto y necesita buddy IA.",
+      "skill_path": ".opencode/skills/onboarding-dev/SKILL.md",
+      "tags": [
+        "onboarding",
+        "buddy-ia",
+        "documentation",
+        "ramp-up"
+      ]
+    },
+    {
+      "skill_id": "org-meeting-capture",
+      "description": "Captura de Conocimiento Tácito de Reunión: extrae decisores, acuerdos informales y señales políticas de transcripciones.",
+      "skill_path": ".opencode/skills/org-meeting-capture/SKILL.md",
+      "tags": [
+        "reuniones",
+        "conocimiento-tácito",
+        "transcripciones",
+        "org-intelligence",
+        "acuerdos-informales"
+      ]
+    },
+    {
+      "skill_id": "org-political-landscape",
+      "description": "Análisis de Paisaje Político Interno: detecta tensiones, alianzas y centros de poder a partir de un mapa de stakeholders.",
+      "skill_path": ".opencode/skills/org-political-landscape/SKILL.md",
+      "tags": [
+        "política-organizativa",
+        "alianzas",
+        "tensiones",
+        "poder",
+        "org-intelligence"
+      ]
+    },
+    {
+      "skill_id": "org-stakeholder-mapper",
+      "description": "Mapeador de Stakeholders y Decisores: extrae roles formales y reales, motivaciones, alianzas y tensiones de una organización.",
+      "skill_path": ".opencode/skills/org-stakeholder-mapper/SKILL.md",
+      "tags": [
+        "stakeholders",
+        "org-intelligence",
+        "poder",
+        "decisores",
+        "análisis-organizativo"
+      ]
+    },
+    {
+      "skill_id": "orgchart-import",
+      "description": "Usar cuando se importa un organigrama para extraer la estructura del equipo.",
+      "skill_path": ".opencode/skills/orgchart-import/SKILL.md",
+      "tags": [
+        "orgchart",
+        "import",
+        "teams",
+        "hierarchy"
+      ]
+    },
+    {
+      "skill_id": "overnight-sprint",
+      "description": "Usar cuando se quiere ejecutar tareas de bajo riesgo de forma autónoma durante la noche.",
+      "skill_path": ".opencode/skills/overnight-sprint/SKILL.md",
+      "tags": [
+        "autonomous",
+        "overnight",
+        "batch",
+        "low-risk"
+      ]
+    },
+    {
+      "skill_id": "pbi-decomposition",
+      "description": "Usar cuando se descompone un PBI en tasks y se estiman las horas.",
+      "skill_path": ".opencode/skills/pbi-decomposition/SKILL.md",
+      "tags": [
+        "pbi",
+        "decomposition",
+        "estimation",
+        "assignment"
+      ],
+      "example_trigger": "/pbi-decompose {id} | /pbi-assign {id} | /pbi-plan-sprint | NL: \"descompon el PBI #1234\""
+    },
+    {
+      "skill_id": "pentesting",
+      "description": "Usar cuando se ejecuta un pentest contra una aplicación o infraestructura.",
+      "skill_path": ".opencode/skills/pentesting/SKILL.md",
+      "tags": [
+        "pentesting",
+        "security",
+        "owasp",
+        "proof-based"
+      ]
+    },
+    {
+      "skill_id": "performance-audit",
+      "description": "Usar cuando se audita el rendimiento estático de código para detectar hotspots.",
+      "skill_path": ".opencode/skills/performance-audit/SKILL.md",
+      "tags": [
+        "performance",
+        "hotspots",
+        "async",
+        "optimization"
+      ],
+      "outputs_hint": "Directorio: output/performance/"
+    },
+    {
+      "skill_id": "personal-vault",
+      "description": "Usar cuando se lee o escribe el repositorio personal del usuario (perfil, preferencias, memoria).",
+      "skill_path": ".opencode/skills/personal-vault/SKILL.md"
+    },
+    {
+      "skill_id": "pr-agent-judge",
+      "description": "Usar cuando se añade pr-agent como juez externo en el Code Review Court.",
+      "skill_path": ".opencode/skills/pr-agent-judge/SKILL.md"
+    },
+    {
+      "skill_id": "product-discovery",
+      "description": "Usar antes de descomponer PBIs, cuando se necesita análisis JTBD y PRD del producto.",
+      "skill_path": ".opencode/skills/product-discovery/SKILL.md",
+      "tags": [
+        "discovery",
+        "jtbd",
+        "prd",
+        "product"
+      ]
+    },
+    {
+      "skill_id": "professional-domain",
+      "description": "Family index for professional-domain skills (controlling, finance, labour, legal, sales). Load individual skills from subdirectories.",
+      "skill_path": ".opencode/skills/professional-domain/SKILL.md"
+    },
+    {
+      "skill_id": "project-update",
+      "description": "Usar cuando se necesita una actualización integral del proyecto activo desde todas las fuentes.",
+      "skill_path": ".opencode/skills/project-update/SKILL.md"
+    },
+    {
+      "skill_id": "prompt-optimizer",
+      "description": "Usar cuando se optimiza el prompt de un skill o agente para mejorar su efectividad.",
+      "skill_path": ".opencode/skills/prompt-optimizer/SKILL.md",
+      "tags": [
+        "optimization",
+        "autoresearch",
+        "prompt-engineering",
+        "self-improvement"
+      ],
+      "example_trigger": "- Tras crear un skill o agente nuevo, para afinar su prompt"
+    },
+    {
+      "skill_id": "rbac-management",
+      "description": "Usar cuando se gestionan roles, permisos o se audita el acceso de usuarios.",
+      "skill_path": ".opencode/skills/rbac-management/SKILL.md",
+      "tags": [
+        "rbac",
+        "permissions",
+        "roles",
+        "access-control"
+      ]
+    },
+    {
+      "skill_id": "reflection-validation",
+      "description": "Usar cuando una respuesta o decisión importante necesita validación metacognitiva (System 2).",
+      "skill_path": ".opencode/skills/reflection-validation/SKILL.md",
+      "tags": [
+        "reflection",
+        "meta-cognitive",
+        "system2",
+        "assumptions"
+      ]
+    },
+    {
+      "skill_id": "regulatory-compliance",
+      "description": "Usar cuando se valida el cumplimiento de marcos regulatorios sectoriales.",
+      "skill_path": ".opencode/skills/regulatory-compliance/SKILL.md",
+      "tags": [
+        "compliance",
+        "regulatory",
+        "sector-detection",
+        "gdpr"
+      ]
+    },
+    {
+      "skill_id": "reranker",
+      "description": "Usar cuando se recibe un top-K ruidoso de búsqueda en memoria y se necesita reordenar por relevancia.",
+      "skill_path": ".opencode/skills/reranker/SKILL.md",
+      "tags": [
+        "reranking",
+        "retrieval",
+        "memory",
+        "cross-encoder",
+        "tokens"
+      ],
+      "inputs_hint": "json",
+      "outputs_hint": "json",
+      "example_trigger": "- Despues de memory-recall, savia-recall, cross-project-search con top-K grande"
+    },
+    {
+      "skill_id": "resource-references",
+      "description": "Usar cuando se necesitan referencias a recursos y plantillas del workspace.",
+      "skill_path": ".opencode/skills/resource-references/SKILL.md",
+      "tags": [
+        "resources",
+        "references",
+        "resolution",
+        "lazy-load"
+      ]
+    },
+    {
+      "skill_id": "risk-scoring",
+      "description": "Usar cuando se calcula el riesgo de una tarea para decidir el nivel de revisión requerido.",
+      "skill_path": ".opencode/skills/risk-scoring/SKILL.md",
+      "tags": [
+        "risk",
+        "scoring",
+        "escalation",
+        "review-routing"
+      ]
+    },
+    {
+      "skill_id": "rules-traceability",
+      "description": "Usar cuando se mapean reglas de negocio a PBIs para trazabilidad completa.",
+      "skill_path": ".opencode/skills/rules-traceability/SKILL.md",
+      "tags": [
+        "traceability",
+        "business-rules",
+        "pbi",
+        "matrix"
+      ]
+    },
+    {
+      "skill_id": "savia-dual",
+      "description": "Usar cuando la inferencia cloud falla, es lenta o está rate-limited y se necesita failover local.",
+      "skill_path": ".opencode/skills/savia-dual/SKILL.md"
+    },
+    {
+      "skill_id": "savia-flow-practice",
+      "description": "Usar cuando se implementa Savia Flow con dual-track y métricas de flujo en un proyecto.",
+      "skill_path": ".opencode/skills/savia-flow-practice/SKILL.md",
+      "tags": [
+        "savia-flow",
+        "dual-track",
+        "methodology",
+        "outcomes"
+      ]
+    },
+    {
+      "skill_id": "savia-hub-sync",
+      "description": "Usar cuando se sincroniza el repositorio SaviaHub con el workspace local.",
+      "skill_path": ".opencode/skills/savia-hub-sync/SKILL.md",
+      "tags": [
+        "sync",
+        "savia-hub",
+        "repository",
+        "backup"
+      ]
+    },
+    {
+      "skill_id": "savia-identity",
+      "description": "Usar al inicio de sesión para cargar la identidad completa y las reglas de comportamiento de Savia.",
+      "skill_path": ".opencode/skills/savia-identity/SKILL.md"
+    },
+    {
+      "skill_id": "savia-memory",
+      "description": "Usar cuando se lee, escribe, busca o consolida la memoria persistente entre sesiones de Savia.",
+      "skill_path": ".opencode/skills/savia-memory/SKILL.md"
+    },
+    {
+      "skill_id": "savia-school",
+      "description": "Usar cuando el workspace se adapta para un entorno educativo con estudiantes menores de edad.",
+      "skill_path": ".opencode/skills/savia-school/SKILL.md",
+      "tags": [
+        "education",
+        "gdpr",
+        "minors",
+        "school",
+        "privacy",
+        "rubrics"
+      ],
+      "example_trigger": "- Centros educativos que usan pm-workspace para gestionar proyectos"
+    },
+    {
+      "skill_id": "scaling-operations",
+      "description": "Usar cuando se analiza el tier de escala de un servicio o se necesitan optimizaciones de capacidad.",
+      "skill_path": ".opencode/skills/scaling-operations/SKILL.md",
+      "tags": [
+        "scaling",
+        "tier-analysis",
+        "benchmark",
+        "optimization"
+      ]
+    },
+    {
+      "skill_id": "scheduled-messaging",
+      "description": "Usar cuando se configuran mensajes automáticos programados a plataformas de comunicación.",
+      "skill_path": ".opencode/skills/scheduled-messaging/SKILL.md",
+      "tags": [
+        "scheduled",
+        "messaging",
+        "notifications",
+        "automation"
+      ]
+    },
+    {
+      "skill_id": "skill-evaluation",
+      "description": "Usar cuando se necesita seleccionar el skill más apropiado para una tarea dada.",
+      "skill_path": ".opencode/skills/skill-evaluation/SKILL.md",
+      "tags": [
+        "skill-eval",
+        "prompt-analysis",
+        "scoring",
+        "activation"
+      ]
+    },
+    {
+      "skill_id": "smart-calendar",
+      "description": "Usar cuando se gestiona la agenda inteligente con sincronización Outlook/Teams.",
+      "skill_path": ".opencode/skills/smart-calendar/SKILL.md",
+      "tags": [
+        "calendar",
+        "outlook",
+        "teams",
+        "focus",
+        "scheduling",
+        "deadlines",
+        "ceremonies"
+      ]
+    },
+    {
+      "skill_id": "smart-routing",
+      "description": "Usar cuando se necesita descubrir o enrutar a un comando específico entre los 400+ disponibles.",
+      "skill_path": ".opencode/skills/smart-routing/SKILL.md",
+      "tags": [
+        "routing",
+        "discovery",
+        "commands",
+        "intent"
+      ]
+    },
+    {
+      "skill_id": "sovereignty-auditor",
+      "description": "Usar cuando se audita el grado de dependencia cognitiva del equipo respecto a herramientas de IA.",
+      "skill_path": ".opencode/skills/sovereignty-auditor/SKILL.md",
+      "tags": [
+        "sovereignty",
+        "lock-in",
+        "ai-governance",
+        "audit"
+      ]
+    },
+    {
+      "skill_id": "spec-driven-development",
+      "description": "Usar cuando se escribe, valida o implementa una spec ejecutable SDD.",
+      "skill_path": ".opencode/skills/spec-driven-development/SKILL.md",
+      "tags": [
+        "sdd",
+        "specs",
+        "development",
+        "agents"
+      ]
+    },
+    {
+      "skill_id": "sprint-management",
+      "description": "Usar cuando se consulta el estado del sprint, se actualizan items o se genera el resumen.",
+      "skill_path": ".opencode/skills/sprint-management/SKILL.md",
+      "tags": [
+        "sprint",
+        "planning",
+        "scrum",
+        "velocity"
+      ]
+    },
+    {
+      "skill_id": "tdd-vertical-slices",
+      "description": "Test-driven development with vertical-slice red-green-refactor cycles. Use when applying TDD to a new feature or bug fix, when user mentions 'red-green-refactor', 'tdd', 'test-first', 'vertical slice' — explicitly avoids the 'horizontal slicing' anti-pattern (write all tests first, then all code) which produces brittle implementation-coupled tests.",
+      "skill_path": ".opencode/skills/tdd-vertical-slices/SKILL.md"
+    },
+    {
+      "skill_id": "team-coordination",
+      "description": "Usar cuando se coordinan múltiples equipos, se asignan miembros o se detectan bloqueantes cross-team.",
+      "skill_path": ".opencode/skills/team-coordination/SKILL.md",
+      "tags": [
+        "team",
+        "coordination",
+        "multi-team",
+        "blockers"
+      ]
+    },
+    {
+      "skill_id": "team-onboarding",
+      "description": "Usar cuando se incorpora un nuevo miembro al equipo y se evalúan sus competencias.",
+      "skill_path": ".opencode/skills/team-onboarding/SKILL.md",
+      "tags": [
+        "onboarding",
+        "competencies",
+        "ramp-up",
+        "team"
+      ]
+    },
+    {
+      "skill_id": "tech-research-agent",
+      "description": "Usar cuando se necesita investigación técnica autónoma sobre un tema específico.",
+      "skill_path": ".opencode/skills/tech-research-agent/SKILL.md",
+      "tags": [
+        "research",
+        "autonomous",
+        "investigation",
+        "reports"
+      ]
+    },
+    {
+      "skill_id": "test-architect",
+      "description": "Usar cuando se diseñan o generan tests de alta calidad en cualquier lenguaje.",
+      "skill_path": ".opencode/skills/test-architect/SKILL.md",
+      "tags": [
+        "testing",
+        "quality",
+        "bats",
+        "multi-language",
+        "test-strategy"
+      ]
+    },
+    {
+      "skill_id": "tier3-probes",
+      "description": "Usar cuando se valida la viabilidad de herramientas Tier 3 antes de adoptarlas en el workspace.",
+      "skill_path": ".opencode/skills/tier3-probes/SKILL.md",
+      "tags": [
+        "probes",
+        "viability",
+        "tier3",
+        "dependencies",
+        "feasibility"
+      ],
+      "example_trigger": "- Antes de pip install pesado para un champion Tier 3"
+    },
+    {
+      "skill_id": "time-tracking-report",
+      "description": "Usar cuando se generan informes de imputación de horas en Excel o Word.",
+      "skill_path": ".opencode/skills/time-tracking-report/SKILL.md",
+      "tags": [
+        "time-tracking",
+        "hours",
+        "excel",
+        "reporting"
+      ]
+    },
+    {
+      "skill_id": "tls-security-checker",
+      "description": "Usar cuando se verifica TLS/SSL o security headers HTTP de un servidor web. Invocable pre-deploy o en auditorías periódicas.",
+      "skill_path": ".opencode/skills/tls-security-checker/SKILL.md",
+      "tags": [
+        "tls",
+        "ssl",
+        "web-security",
+        "headers",
+        "testssl",
+        "wafw00f",
+        "deploy"
+      ],
+      "outputs_hint": "- TLS report: output/security/tls-check-{hostname}-YYYYMMDD.json",
+      "example_trigger": "- \"verifica TLS\", \"check TLS\", \"testssl\", \"análisis SSL\""
+    },
+    {
+      "skill_id": "topic-cluster",
+      "description": "Usar cuando se agrupan retros, PBIs o incidentes en topics para detectar patrones transversales.",
+      "skill_path": ".opencode/skills/topic-cluster/SKILL.md",
+      "tags": [
+        "clustering",
+        "bertopic",
+        "retrospectives",
+        "patterns",
+        "memory"
+      ],
+      "outputs_hint": "json",
+      "example_trigger": "- Al cierre de sprint: agrupar retros de N proyectos para detectar temas compartidos"
+    },
+    {
+      "skill_id": "ubiquitous-language",
+      "description": "Usar cuando se necesita extraer o consolidar el glosario de términos de dominio de un proyecto. Trigger: usuario dice 'extrae glosario', 'ubiquitous language', '/glossary', o hay >5 términos repetidos sin CONTEXT.md.",
+      "skill_path": ".opencode/skills/ubiquitous-language/SKILL.md",
+      "tags": [
+        "ddd",
+        "glossary",
+        "domain",
+        "context",
+        "ubiquitous-language"
+      ],
+      "example_trigger": "- User says \"extrae glosario\", \"ubiquitous language\", \"glossary\", \"/glossary\""
+    },
+    {
+      "skill_id": "understand-anything",
+      "description": "Usar cuando se necesita analizar un codebase con Understand-Anything para generar knowledge graphs estructurales y de dominio.",
+      "skill_path": ".opencode/skills/understand-anything/SKILL.md",
+      "tags": [
+        "knowledge-graph",
+        "codebase",
+        "domain",
+        "onboarding",
+        "diff-impact",
+        "ua"
+      ],
+      "example_trigger": "- Onboarding de proyecto nuevo (>500 ficheros)"
+    },
+    {
+      "skill_id": "verification-lattice",
+      "description": "Usar cuando se necesita verificación multi-capa más allá del code review estándar.",
+      "skill_path": ".opencode/skills/verification-lattice/SKILL.md",
+      "tags": [
+        "verification",
+        "multi-layer",
+        "pipeline",
+        "quality-gate"
+      ]
+    },
+    {
+      "skill_id": "voice-inbox",
+      "description": "Usar cuando se procesan mensajes de voz para transcribirlos y convertirlos en acciones.",
+      "skill_path": ".opencode/skills/voice-inbox/SKILL.md",
+      "tags": [
+        "voice",
+        "transcription",
+        "audio",
+        "whatsapp"
+      ]
+    },
+    {
+      "skill_id": "web-research",
+      "description": "Usar cuando se necesita buscar en la web para resolver gaps de contexto (docs, versiones, CVEs).",
+      "skill_path": ".opencode/skills/web-research/SKILL.md",
+      "tags": [
+        "search",
+        "web",
+        "cache",
+        "searxng",
+        "citations",
+        "gap-detection"
+      ],
+      "example_trigger": "- User asks about external technology (versions, APIs, configs)"
+    },
+    {
+      "skill_id": "weekly-report",
+      "description": "Usar cuando se genera el informe semanal de estado del proyecto.",
+      "skill_path": ".opencode/skills/weekly-report/SKILL.md"
+    },
+    {
+      "skill_id": "wellbeing-guardian",
+      "description": "Usar cuando se monitorizan señales de bienestar individual en el equipo.",
+      "skill_path": ".opencode/skills/wellbeing-guardian/SKILL.md",
+      "tags": [
+        "wellbeing",
+        "burnout",
+        "sustainable-pace",
+        "team-health"
+      ]
+    },
+    {
+      "skill_id": "workspace-integrity",
+      "description": "Usar cuando se audita la integridad del workspace (drift, reglas, agentes, baseline).",
+      "skill_path": ".opencode/skills/workspace-integrity/SKILL.md",
+      "tags": [
+        "integrity",
+        "audit",
+        "drift",
+        "workspace",
+        "hygiene"
+      ],
+      "example_trigger": "- Pre-push (manual check de drift antes de git push)"
+    },
+    {
+      "skill_id": "write-a-skill",
+      "description": "Guia para crear una nueva skill correctamente en pm-workspace. Usar cuando una tarea se repite 2+ veces o tarda mas de 15 min.",
+      "skill_path": ".opencode/skills/write-a-skill/SKILL.md",
+      "tags": [
+        "meta",
+        "skill-authoring",
+        "quality-gate"
+      ],
+      "example_trigger": "- Una tarea se repite 2+ veces en sesiones distintas."
+    },
+    {
+      "skill_id": "zoom-out",
+      "description": "Elevates perspective from trees to forest. Maps architecture, dependencies, and second-order effects before implementation decisions. Use when designing, when evaluating trade-offs, or at the start of design sessions.",
+      "skill_path": ".opencode/skills/zoom-out/SKILL.md"
+    }
+  ]
+}
