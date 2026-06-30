@@ -3,7 +3,7 @@
     "generated": "2026-06-28",
     "generator": "scripts/skills-schema-generate.sh",
     "spec": "SE-238",
-    "total_skills": 105,
+    "total_skills": 117,
     "description": "Schema programático de todos los skills de Savia pm-workspace. Optimizado para consumo por LLMs y agentes externos."
   },
   "skills": [
@@ -105,6 +105,19 @@
         "sdd"
       ],
       "example_trigger": "- Post-implementación SDD: verificar código antes de PR"
+    },
+    {
+      "skill_id": "attack-surface-mapper",
+      "description": "Mapear la superficie de ataque de un dominio: subdominios, OSINT, typosquatting.",
+      "skill_path": ".opencode/skills/attack-surface-mapper/SKILL.md",
+      "tags": [
+        "attack-surface",
+        "subdominios",
+        "osint",
+        "dnstwist",
+        "subfinder"
+      ],
+      "example_trigger": "- \"mapea la superficie de ataque de...\""
     },
     {
       "skill_id": "azure-devops-queries",
@@ -332,6 +345,19 @@
       ]
     },
     {
+      "skill_id": "dependency-scanner",
+      "description": "Usar cuando se escanean vulnerabilidades en dependencias de proyectos (Node, Python, C#, Java, Go, Rust, Ruby) con Trivy fs. Genera SBOM CycloneDX.",
+      "skill_path": ".opencode/skills/dependency-scanner/SKILL.md",
+      "tags": [
+        "security",
+        "dependencies",
+        "trivy",
+        "sbom",
+        "cve",
+        "supply-chain"
+      ]
+    },
+    {
       "skill_id": "design-an-interface",
       "description": "Design-an-interface skill with N=3 parallel alternatives and architectural vocabulary. Use when designing a new module interface, when user mentions 'varias alternativas', 'design this module', or '/design-interface'.",
       "skill_path": ".opencode/skills/design-an-interface/SKILL.md",
@@ -399,6 +425,21 @@
         "self-improvement"
       ],
       "example_trigger": "- Despues de que un agente usa una skill o regla (automatico via protocol)"
+    },
+    {
+      "skill_id": "dynamic-web-tester",
+      "description": "Testing dinámico de endpoints web: XSS (DalFox), SQLi (sqlmap), Nuclei.",
+      "skill_path": ".opencode/skills/dynamic-web-tester/SKILL.md",
+      "tags": [
+        "xss",
+        "sqli",
+        "dalfox",
+        "sqlmap",
+        "nuclei",
+        "pentest-web",
+        "dynamic-testing"
+      ],
+      "example_trigger": "- \"test dinámico web\""
     },
     {
       "skill_id": "ecosystem-watcher",
@@ -497,6 +538,20 @@
       "outputs_hint": "Report saved to: output/feasibility/{spec-id}-probe.yaml"
     },
     {
+      "skill_id": "git-secret-scanner",
+      "description": "Escanea el historial git o los commits pendientes de push buscando secrets con gitleaks. SE-239/SE-247.",
+      "skill_path": ".opencode/skills/git-secret-scanner/SKILL.md",
+      "tags": [
+        "security",
+        "gitleaks",
+        "secret",
+        "git-history",
+        "pre-push"
+      ],
+      "outputs_hint": "| Fichero | Contenido |",
+      "example_trigger": "- \"escanea el historial\""
+    },
+    {
       "skill_id": "governance-enterprise",
       "description": "Usar cuando se audita compliance, se registran decisiones o se certifican procesos enterprise.",
       "skill_path": ".opencode/skills/governance-enterprise/SKILL.md",
@@ -522,6 +577,19 @@
         "documentation",
         "onboarding",
         "mental-model"
+      ]
+    },
+    {
+      "skill_id": "iac-security-scanner",
+      "description": "Usar cuando se escanea IaC (Terraform, Bicep, Dockerfile, docker-compose) con Trivy config para detectar misconfiguraciones de seguridad antes del merge.",
+      "skill_path": ".opencode/skills/iac-security-scanner/SKILL.md",
+      "tags": [
+        "security",
+        "iac",
+        "terraform",
+        "trivy",
+        "misconfiguration",
+        "devops"
       ]
     },
     {
@@ -590,6 +658,22 @@
       ]
     },
     {
+      "skill_id": "mobile-security-scanner",
+      "description": "Usar cuando se escanea un APK/AAB Android en busca de vulnerabilidades de seguridad. Integra con MobSF (Docker) y análisis básico como fallback.",
+      "skill_path": ".opencode/skills/mobile-security-scanner/SKILL.md",
+      "tags": [
+        "android",
+        "mobile",
+        "apk",
+        "MobSF",
+        "manifest",
+        "security",
+        "static-analysis"
+      ],
+      "outputs_hint": "- output/security/mobile-scan-YYYYMMDD.json — findings del APK",
+      "example_trigger": "- \"escanea el APK\", \"analiza la app Android\", \"seguridad android\""
+    },
+    {
       "skill_id": "model-upgrade-audit",
       "description": "Usar cuando hay un modelo nuevo disponible y se quiere detectar prompt debt en el workspace.",
       "skill_path": ".opencode/skills/model-upgrade-audit/SKILL.md",
@@ -617,6 +701,20 @@
       "example_trigger": "- Sprint-end quality check sobre módulos críticos con tests AI-generated"
     },
     {
+      "skill_id": "network-recon",
+      "description": "Reconocimiento de red: port scan con nmap/RustScan + HTTP detection con httpx.",
+      "skill_path": ".opencode/skills/network-recon/SKILL.md",
+      "tags": [
+        "nmap",
+        "rustscan",
+        "httpx",
+        "port-scan",
+        "network-recon",
+        "recon"
+      ],
+      "example_trigger": "- \"escanea la red\""
+    },
+    {
       "skill_id": "nuclei-scanning",
       "description": "Usar cuando se escanean vulnerabilidades conocidas (CVEs, misconfigs) con Nuclei.",
       "skill_path": ".opencode/skills/nuclei-scanning/SKILL.md",
@@ -631,6 +729,42 @@
         "buddy-ia",
         "documentation",
         "ramp-up"
+      ]
+    },
+    {
+      "skill_id": "org-meeting-capture",
+      "description": "Captura de Conocimiento Tácito de Reunión: extrae decisores, acuerdos informales y señales políticas de transcripciones.",
+      "skill_path": ".opencode/skills/org-meeting-capture/SKILL.md",
+      "tags": [
+        "reuniones",
+        "conocimiento-tácito",
+        "transcripciones",
+        "org-intelligence",
+        "acuerdos-informales"
+      ]
+    },
+    {
+      "skill_id": "org-political-landscape",
+      "description": "Análisis de Paisaje Político Interno: detecta tensiones, alianzas y centros de poder a partir de un mapa de stakeholders.",
+      "skill_path": ".opencode/skills/org-political-landscape/SKILL.md",
+      "tags": [
+        "política-organizativa",
+        "alianzas",
+        "tensiones",
+        "poder",
+        "org-intelligence"
+      ]
+    },
+    {
+      "skill_id": "org-stakeholder-mapper",
+      "description": "Mapeador de Stakeholders y Decisores: extrae roles formales y reales, motivaciones, alianzas y tensiones de una organización.",
+      "skill_path": ".opencode/skills/org-stakeholder-mapper/SKILL.md",
+      "tags": [
+        "stakeholders",
+        "org-intelligence",
+        "poder",
+        "decisores",
+        "análisis-organizativo"
       ]
     },
     {
@@ -710,6 +844,11 @@
         "prd",
         "product"
       ]
+    },
+    {
+      "skill_id": "professional-domain",
+      "description": "Family index for professional-domain skills (controlling, finance, labour, legal, sales). Load individual skills from subdirectories.",
+      "skill_path": ".opencode/skills/professional-domain/SKILL.md"
     },
     {
       "skill_id": "project-update",
@@ -1024,6 +1163,22 @@
         "excel",
         "reporting"
       ]
+    },
+    {
+      "skill_id": "tls-security-checker",
+      "description": "Usar cuando se verifica TLS/SSL o security headers HTTP de un servidor web. Invocable pre-deploy o en auditorías periódicas.",
+      "skill_path": ".opencode/skills/tls-security-checker/SKILL.md",
+      "tags": [
+        "tls",
+        "ssl",
+        "web-security",
+        "headers",
+        "testssl",
+        "wafw00f",
+        "deploy"
+      ],
+      "outputs_hint": "- TLS report: output/security/tls-check-{hostname}-YYYYMMDD.json",
+      "example_trigger": "- \"verifica TLS\", \"check TLS\", \"testssl\", \"análisis SSL\""
     },
     {
       "skill_id": "topic-cluster",

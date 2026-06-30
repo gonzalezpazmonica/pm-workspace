@@ -46,7 +46,7 @@
 
 <!-- AUTO_BEGIN — do not edit; regenerate via scripts/resolver-md-generate.sh -->
 
-### Skills (109)
+### Skills (117)
 
 | Intent (skill) | Target | Cuándo usar |
 |---|---|---|
@@ -58,6 +58,7 @@
 | `architecture-intelligence` | skill:architecture-intelligence | Usar cuando se diseña o revisa la arquitectura de un proyecto nuevo o existente. |
 | `ast-comprehension` | skill:ast-comprehension | Usar cuando se explora código desconocido y se necesita comprensión estructural sin l... |
 | `ast-quality-gate` | skill:ast-quality-gate | Usar cuando se verifica la calidad de código generado por IA antes de merge. |
+| `attack-surface-mapper` | skill:attack-surface-mapper | Mapear la superficie de ataque de un dominio: subdominios, OSINT, typosquatting. |
 | `azure-devops-queries` | skill:azure-devops-queries | Usar cuando se necesitan consultas WIQL, actualización de work items o datos de sprint... |
 | `azure-pipelines` | skill:azure-pipelines | Usar cuando se gestiona o depura CI/CD con Azure Pipelines. |
 | `backlog-git-tracker` | skill:backlog-git-tracker | Usar cuando se capturan o comparan snapshots del backlog para detectar drift. |
@@ -79,12 +80,14 @@
 | `context-task-classifier` | skill:context-task-classifier | Usar antes de compactar contexto para clasificar la tarea del turno actual. |
 | `cost-management` | skill:cost-management | Usar cuando se gestionan timesheets, presupuestos, facturas o forecasting de costes. |
 | `dag-scheduling` | skill:dag-scheduling | Usar cuando se orquestan múltiples agentes SDD con dependencias entre ellos. |
+| `dependency-scanner` | skill:dependency-scanner | Usar cuando se escanean vulnerabilidades en dependencias de proyectos (Node, Python, C#... |
 | `design-an-interface` | skill:design-an-interface | Design-an-interface skill with N=3 parallel alternatives and architectural vocabulary. ... |
 | `developer-experience` | skill:developer-experience | Usar cuando se mide o mejora la experiencia de desarrollo del equipo. |
 | `devops-validation` | skill:devops-validation | Usar cuando se conecta un proyecto nuevo a Azure DevOps para validar su configuración ... |
 | `diagram-generation` | skill:diagram-generation | Usar cuando se necesita generar diagramas de arquitectura o flujo desde código o infra... |
 | `diagram-import` | skill:diagram-import | Usar cuando se importa un diagrama existente para extraer entidades y crear PBIs. |
 | `doc-quality-feedback` | skill:doc-quality-feedback | Usar cuando se recopila feedback de calidad de documentación tras usar skills y reglas. |
+| `dynamic-web-tester` | skill:dynamic-web-tester | Testing dinámico de endpoints web: XSS (DalFox), SQLi (sqlmap), Nuclei. |
 | `ecosystem-watcher` | skill:ecosystem-watcher | Usar una vez al mes para detectar cambios relevantes en el ecosistema de herramientas e... |
 | `emergency-mode` | skill:emergency-mode | Usar cuando la API de Anthropic está caída y se necesita continuar operando con LocalAI. |
 | `enterprise-analytics` | skill:enterprise-analytics | Usar cuando se necesitan métricas SPACE, aggregación de portfolio o forecasting empre... |
@@ -93,17 +96,21 @@
 | `evaluations-framework` | skill:evaluations-framework | Usar cuando se diseñan o ejecutan evaluaciones de calidad de agentes y prompts. |
 | `executive-reporting` | skill:executive-reporting | Usar cuando se genera un informe ejecutivo multi-proyecto para dirección. |
 | `feasibility-probe` | skill:feasibility-probe | Usar cuando se necesita validar si una spec es técnicamente viable antes de implementa... |
+| `git-secret-scanner` | skill:git-secret-scanner | Escanea el historial git o los commits pendientes de push buscando secrets con gitleaks... |
 | `governance-enterprise` | skill:governance-enterprise | Usar cuando se audita compliance, se registran decisiones o se certifican procesos ente... |
 | `grill-me` | skill:grill-me | Adversarial review that hunts every weakness, assumption, edge case, and missing test. ... |
 | `human-code-map` | skill:human-code-map | Usar cuando se incorpora un dev nuevo, se toca un módulo sin mapa, o alguien re-lee el... |
+| `iac-security-scanner` | skill:iac-security-scanner | Usar cuando se escanea IaC (Terraform, Bicep, Dockerfile, docker-compose) con Trivy con... |
 | `knowledge-graph` | skill:knowledge-graph | Usar cuando se construye o consulta el grafo de conocimiento de entidades del proyecto. |
 | `legal-compliance` | skill:legal-compliance | Usar cuando se audita compliance legal contra legislación española consolidada. |
 | `managed-content` | skill:managed-content | Usar cuando se regeneran secciones auto-generadas en documentos con marcadores de segur... |
 | `meeting-transcript-extract` | skill:meeting-transcript-extract | Usar cuando se necesita extraer la transcripción de una reunión Teams desde el browser. |
 | `memvid-backup` | skill:memvid-backup | Usar cuando se crea un backup portable de la memoria externa de Savia. |
 | `meta-reflection` | skill:meta-reflection | Protocolo de las 4 meta-preguntas para cuestionar el encuadre de una tarea antes de eje... |
+| `mobile-security-scanner` | skill:mobile-security-scanner | Usar cuando se escanea un APK/AAB Android en busca de vulnerabilidades de seguridad. In... |
 | `model-upgrade-audit` | skill:model-upgrade-audit | Usar cuando hay un modelo nuevo disponible y se quiere detectar prompt debt en el works... |
 | `mutation-audit` | skill:mutation-audit | Usar cuando se quiere medir la calidad real de los tests mediante mutation testing. |
+| `network-recon` | skill:network-recon | Reconocimiento de red: port scan con nmap/RustScan + HTTP detection con httpx. |
 | `nuclei-scanning` | skill:nuclei-scanning | Usar cuando se escanean vulnerabilidades conocidas (CVEs, misconfigs) con Nuclei. |
 | `onboarding-dev` | skill:onboarding-dev | Usar cuando se incorpora un desarrollador nuevo al proyecto y necesita buddy IA. |
 | `org-meeting-capture` | skill:org-meeting-capture | Captura de Conocimiento Tácito de Reunión: extrae decisores, acuerdos informales y se... |
@@ -148,6 +155,7 @@
 | `test-architect` | skill:test-architect | Usar cuando se diseñan o generan tests de alta calidad en cualquier lenguaje. |
 | `tier3-probes` | skill:tier3-probes | Usar cuando se valida la viabilidad de herramientas Tier 3 antes de adoptarlas en el wo... |
 | `time-tracking-report` | skill:time-tracking-report | Usar cuando se generan informes de imputación de horas en Excel o Word. |
+| `tls-security-checker` | skill:tls-security-checker | Usar cuando se verifica TLS/SSL o security headers HTTP de un servidor web. Invocable p... |
 | `topic-cluster` | skill:topic-cluster | Usar cuando se agrupan retros, PBIs o incidentes en topics para detectar patrones trans... |
 | `ubiquitous-language` | skill:ubiquitous-language | Usar cuando se necesita extraer o consolidar el glosario de términos de dominio de un ... |
 | `understand-anything` | skill:understand-anything | Usar cuando se necesita analizar un codebase con Understand-Anything para generar knowl... |

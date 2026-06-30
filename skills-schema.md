@@ -1,7 +1,7 @@
 # Skills Schema — Savia pm-workspace
 
 > Generado automáticamente por `scripts/skills-schema-generate.sh` (SE-238).
-> 105 skills indexados.
+> 117 skills indexados.
 
 | skill_id | description | tags |
 |----------|-------------|------|
@@ -13,6 +13,7 @@
 | architecture-intelligence | Usar cuando se diseña o revisa la arquitectura de un proyecto nuevo o existente. | architecture, patterns, detection, recommendations |
 | ast-comprehension | Usar cuando se explora código desconocido y se necesita comprensión estructural  | ast, comprehension, legacy, rlm, structural-analysis, pre-edit |
 | ast-quality-gate | Usar cuando se verifica la calidad de código generado por IA antes de merge. | ast, static-analysis, quality-gates, llm-patterns, sdd |
+| attack-surface-mapper | Mapear la superficie de ataque de un dominio: subdominios, OSINT, typosquatting. | attack-surface, subdominios, osint, dnstwist, subfinder |
 | azure-devops-queries | Usar cuando se necesitan consultas WIQL, actualización de work items o datos de  | azure-devops, wiql, work-items, api |
 | azure-pipelines | Usar cuando se gestiona o depura CI/CD con Azure Pipelines. | pipelines, ci-cd, azure, deployment |
 | backlog-git-tracker | Usar cuando se capturan o comparan snapshots del backlog para detectar drift. | backlog, snapshot, audit, tracking |
@@ -34,12 +35,14 @@
 | context-task-classifier | Usar antes de compactar contexto para clasificar la tarea del turno actual. | — |
 | cost-management | Usar cuando se gestionan timesheets, presupuestos, facturas o forecasting de cos | cost, budget, forecasting, invoicing |
 | dag-scheduling | Usar cuando se orquestan múltiples agentes SDD con dependencias entre ellos. | dag, parallel, orchestration, pipeline |
+| dependency-scanner | Usar cuando se escanean vulnerabilidades en dependencias de proyectos (Node, Pyt | security, dependencies, trivy, sbom, cve, supply-chain |
 | design-an-interface | Design-an-interface skill with N=3 parallel alternatives and architectural vocab | architecture, interface-design, parallel-agents, sdd |
 | developer-experience | Usar cuando se mide o mejora la experiencia de desarrollo del equipo. | dx, developer-experience, space, core4 |
 | devops-validation | Usar cuando se conecta un proyecto nuevo a Azure DevOps para validar su configur | validation, azure-devops, agile, configuration |
 | diagram-generation | Usar cuando se necesita generar diagramas de arquitectura o flujo desde código o | diagrams, architecture, mermaid, draw-io |
 | diagram-import | Usar cuando se importa un diagrama existente para extraer entidades y crear PBIs | diagram-import, parsing, work-items, entities |
 | doc-quality-feedback | Usar cuando se recopila feedback de calidad de documentación tras usar skills y  | feedback, documentation, self-improvement |
+| dynamic-web-tester | Testing dinámico de endpoints web: XSS (DalFox), SQLi (sqlmap), Nuclei. | xss, sqli, dalfox, sqlmap, nuclei, pentest-web, dynamic-testing |
 | ecosystem-watcher | Usar una vez al mes para detectar cambios relevantes en el ecosistema de herrami | watch, monthly, intelligence, awesome, cron |
 | emergency-mode | Usar cuando la API de Anthropic está caída y se necesita continuar operando con  | emergency, localai, sovereignty, spec-122 |
 | enterprise-analytics | Usar cuando se necesitan métricas SPACE, aggregación de portfolio o forecasting  | analytics, space-metrics, portfolio, forecasting |
@@ -48,19 +51,26 @@
 | evaluations-framework | Usar cuando se diseñan o ejecutan evaluaciones de calidad de agentes y prompts. | evaluations, quality, g-eval, scoring |
 | executive-reporting | Usar cuando se genera un informe ejecutivo multi-proyecto para dirección. | executive, reports, powerpoint, word |
 | feasibility-probe | Usar cuando se necesita validar si una spec es técnicamente viable antes de impl | feasibility, estimation, prototype, spec, planning |
+| git-secret-scanner | Escanea el historial git o los commits pendientes de push buscando secrets con g | security, gitleaks, secret, git-history, pre-push |
 | governance-enterprise | Usar cuando se audita compliance, se registran decisiones o se certifican proces | governance, audit-trail, certification, enterprise |
 | grill-me | Adversarial review that hunts every weakness, assumption, edge case, and missing | — |
 | human-code-map | Usar cuando se incorpora un dev nuevo, se toca un módulo sin mapa, o alguien re- | comprehension, cognitive-debt, documentation, onboarding, mental-model |
+| iac-security-scanner | Usar cuando se escanea IaC (Terraform, Bicep, Dockerfile, docker-compose) con Tr | security, iac, terraform, trivy, misconfiguration, devops |
 | knowledge-graph | Usar cuando se construye o consulta el grafo de conocimiento de entidades del pr | knowledge-graph, entities, relations, queries |
 | legal-compliance | Usar cuando se audita compliance legal contra legislación española consolidada. | legal, compliance, legislación, BOE, LOPDGDD, LSSI |
 | managed-content | Usar cuando se regeneran secciones auto-generadas en documentos con marcadores d | managed-content, markers, auto-generated, sync |
 | meeting-transcript-extract | Usar cuando se necesita extraer la transcripción de una reunión Teams desde el b | — |
 | memvid-backup | Usar cuando se crea un backup portable de la memoria externa de Savia. | backup, memvid, portable, travel, integrity |
 | meta-reflection | Protocolo de las 4 meta-preguntas para cuestionar el encuadre de una tarea antes | meta-reflection, criterion-simulation, spec-194, frame, governance |
+| mobile-security-scanner | Usar cuando se escanea un APK/AAB Android en busca de vulnerabilidades de seguri | android, mobile, apk, MobSF, manifest, security, static-analysis |
 | model-upgrade-audit | Usar cuando hay un modelo nuevo disponible y se quiere detectar prompt debt en e | model, upgrade, prompt-debt, simplification, audit |
 | mutation-audit | Usar cuando se quiere medir la calidad real de los tests mediante mutation testi | testing, mutation, quality, zombies, ai-generated |
+| network-recon | Reconocimiento de red: port scan con nmap/RustScan + HTTP detection con httpx. | nmap, rustscan, httpx, port-scan, network-recon, recon |
 | nuclei-scanning | Usar cuando se escanean vulnerabilidades conocidas (CVEs, misconfigs) con Nuclei | — |
 | onboarding-dev | Usar cuando se incorpora un desarrollador nuevo al proyecto y necesita buddy IA. | onboarding, buddy-ia, documentation, ramp-up |
+| org-meeting-capture | Captura de Conocimiento Tácito de Reunión: extrae decisores, acuerdos informales | reuniones, conocimiento-tácito, transcripciones, org-intelligence, acuerdos-informales |
+| org-political-landscape | Análisis de Paisaje Político Interno: detecta tensiones, alianzas y centros de p | política-organizativa, alianzas, tensiones, poder, org-intelligence |
+| org-stakeholder-mapper | Mapeador de Stakeholders y Decisores: extrae roles formales y reales, motivacion | stakeholders, org-intelligence, poder, decisores, análisis-organizativo |
 | orgchart-import | Usar cuando se importa un organigrama para extraer la estructura del equipo. | orgchart, import, teams, hierarchy |
 | overnight-sprint | Usar cuando se quiere ejecutar tareas de bajo riesgo de forma autónoma durante l | autonomous, overnight, batch, low-risk |
 | pbi-decomposition | Usar cuando se descompone un PBI en tasks y se estiman las horas. | pbi, decomposition, estimation, assignment |
@@ -69,6 +79,7 @@
 | personal-vault | Usar cuando se lee o escribe el repositorio personal del usuario (perfil, prefer | — |
 | pr-agent-judge | Usar cuando se añade pr-agent como juez externo en el Code Review Court. | — |
 | product-discovery | Usar antes de descomponer PBIs, cuando se necesita análisis JTBD y PRD del produ | discovery, jtbd, prd, product |
+| professional-domain | Family index for professional-domain skills (controlling, finance, labour, legal | — |
 | project-update | Usar cuando se necesita una actualización integral del proyecto activo desde tod | — |
 | prompt-optimizer | Usar cuando se optimiza el prompt de un skill o agente para mejorar su efectivid | optimization, autoresearch, prompt-engineering, self-improvement |
 | rbac-management | Usar cuando se gestionan roles, permisos o se audita el acceso de usuarios. | rbac, permissions, roles, access-control |
@@ -99,6 +110,7 @@
 | test-architect | Usar cuando se diseñan o generan tests de alta calidad en cualquier lenguaje. | testing, quality, bats, multi-language, test-strategy |
 | tier3-probes | Usar cuando se valida la viabilidad de herramientas Tier 3 antes de adoptarlas e | probes, viability, tier3, dependencies, feasibility |
 | time-tracking-report | Usar cuando se generan informes de imputación de horas en Excel o Word. | time-tracking, hours, excel, reporting |
+| tls-security-checker | Usar cuando se verifica TLS/SSL o security headers HTTP de un servidor web. Invo | tls, ssl, web-security, headers, testssl, wafw00f, deploy |
 | topic-cluster | Usar cuando se agrupan retros, PBIs o incidentes en topics para detectar patrone | clustering, bertopic, retrospectives, patterns, memory |
 | ubiquitous-language | Usar cuando se necesita extraer o consolidar el glosario de términos de dominio  | ddd, glossary, domain, context, ubiquitous-language |
 | understand-anything | Usar cuando se necesita analizar un codebase con Understand-Anything para genera | knowledge-graph, codebase, domain, onboarding, diff-impact, ua |
