@@ -3,7 +3,7 @@
     "generated": "2026-06-28",
     "generator": "scripts/skills-schema-generate.sh",
     "spec": "SE-238",
-    "total_skills": 117,
+    "total_skills": 119,
     "description": "Schema programático de todos los skills de Savia pm-workspace. Optimizado para consumo por LLMs y agentes externos."
   },
   "skills": [
@@ -165,6 +165,19 @@
       "example_trigger": "- Proyecto detectado como bancario (score ≥55% en /banking-detect)"
     },
     {
+      "skill_id": "bus-factor-analysis",
+      "description": ">",
+      "skill_path": ".opencode/skills/bus-factor-analysis/SKILL.md",
+      "tags": [
+        "bus-factor",
+        "knowledge-graph",
+        "git-analysis",
+        "risk",
+        "resilience"
+      ],
+      "example_trigger": "- Pre-sprint si hay devs de vacaciones o baja"
+    },
+    {
       "skill_id": "capacity-planning",
       "description": "Usar cuando se calcula la capacidad del equipo para un sprint o periodo.",
       "skill_path": ".opencode/skills/capacity-planning/SKILL.md",
@@ -279,6 +292,19 @@
         "tokens",
         "cost-optimization"
       ]
+    },
+    {
+      "skill_id": "context-dome",
+      "description": ">",
+      "skill_path": ".opencode/skills/context-dome/SKILL.md",
+      "tags": [
+        "context-dome",
+        "bus-factor",
+        "documentation",
+        "knowledge-transfer",
+        "resilience"
+      ],
+      "example_trigger": "bash"
     },
     {
       "skill_id": "context-interview-conductor",
