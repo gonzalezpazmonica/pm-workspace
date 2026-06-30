@@ -82,42 +82,24 @@ LOOP (hasta max_tasks o max_failures o fin de tareas):
   ↓
   Crear worktree aislado
   ↓
-  Implementar tarea (time-box: AGENT_TASK_TIMEOUT_MINUTES)
-  ↓
-  Ejecutar tests
-  ↓
-  ¿Tests pasan Y métricas no degradan?
-    SÍ → Crear PR Draft con reviewer → registrar en results.tsv como "pr-created"
-    NO → Descartar rama → registrar como "discarded"
-  ↓
-  ¿Crash o timeout?
-    SÍ → Registrar como "crash" o "timeout" → incrementar contador de fallos
-  ↓
-  ¿Fallos consecutivos >= AGENT_MAX_CONSECUTIVE_FAILURES?
-    SÍ → ABORT → registrar razón
-  ↓
-  Siguiente tarea
-    ↓
-Generar informe resumen
-    ↓
-Notificar a AUTONOMOUS_REVIEWER
+  Implementar tarea → tests → ¿pasan? → PR Draft / descartar
+  ↓ crash/timeout → contador fallos
+  ↓ fallos >= MAX → ABORT
+  ↓ Siguiente tarea → … → Informe → Notificar AUTONOMOUS_REVIEWER
 ```
 
 ## Cuándo NO usar
 
-- Para tareas de alto riesgo (cambios de arquitectura, migraciones, cambios de API pública)
-- Si no hay un reviewer humano configurado
-- Si los tests del proyecto no pasan (baseline roto)
-- Para tareas que requieren decisiones de diseño (el agente NO decide arquitectura)
+- Tareas de alto riesgo (arquitectura, migraciones, API pública)
+- Sin reviewer humano configurado / baseline roto
+- Tareas que requieren decisiones de diseño
 
 ## Formato de results.tsv
 
-```tsv
-timestamp	tarea_id	rama	status	tests_pass	metricas_delta	pr_url	descripcion
-2026-03-12T01:15:00	AB-1234	agent/overnight-20260312-fix-lint	pr-created	true	coverage:+2.1%	https://...	Fix linter warnings in auth module
-2026-03-12T01:32:00	AB-1235	agent/overnight-20260312-add-tests	pr-created	true	coverage:+5.3%	https://...	Add unit tests for user service
-2026-03-12T01:48:00	AB-1236	agent/overnight-20260312-refactor-dto	discarded	true	complexity:+0.2	-	Refactor DTOs - complexity increased
-2026-03-12T02:05:00	AB-1237	agent/overnight-20260312-update-deps	crash	-	-	-	Dependency update caused build failure
+```
+timestamp  tarea_id  rama  status  tests_pass  pr_url
+2026-03-12T01:15:00  AB-1234  agent/overnight-…  pr-created  true  https://…
+2026-03-12T02:05:00  AB-1237  agent/overnight-…  crash  -  -
 ```
 
 ## Restricciones estrictas
@@ -151,27 +133,12 @@ Desbloquea PRs con CI roto por orden PR# ASC. Ver `CI-UNBLOCK.md`. Prerequisito:
 
 ## Token Exhaustion Recovery (SE-250)
 
-Si una iteración falla con `AGENT_MAX_CONSECUTIVE_FAILURES` decrementado, antes de contar
-el fallo como lógico, ejecutar el detector:
+Si una iteración falla, detectar causa antes de contar el fallo:
 
 ```bash
 bash scripts/detect-token-exhaustion.sh --log "$ITER_LOG"
 ```
 
-Tabla de escalación de tier:
-
-| CAUSE            | current_tier | next_tier | Condición                        |
-|------------------|--------------|-----------|----------------------------------|
-| token_exhaustion | fast         | mid       | siempre                          |
-| token_exhaustion | mid          | heavy     | ALLOW_HEAVY_ESCALATION=true      |
-| token_exhaustion | heavy        | —         | abort, registrar hard_limit      |
-| logic_error      | cualquiera   | sin cambio | no escalar                      |
-| unknown          | cualquiera   | sin cambio | conservativo: no escalar        |
-
-Variables de control:
-- `ALLOW_HEAVY_ESCALATION=false` — default. Requiere opt-in explícito para escalar a heavy.
-- `AGENT_TOKEN_EXHAUSTION_RETRY=true` — default. Poner a `false` para deshabilitar.
-- `MAX_TIER_ESCALATIONS_PER_SPRINT=3` — límite total de escalaciones en una sesión.
-
-Registrar en `results.tsv`: `tier_escalated=true|false`, `original_tier`, `new_tier`.
+Escalación: `token_exhaustion` → subir tier (fast→mid, mid→heavy con `ALLOW_HEAVY_ESCALATION=true`).
+`logic_error` o `unknown` → no escalar. Registrar `tier_escalated` en `results.tsv`.
 

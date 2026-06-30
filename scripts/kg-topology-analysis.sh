@@ -38,6 +38,13 @@ Examples:
 USG
 }
 
+# ── --help early exit (before dependency gates) ─────────────────────────────
+
+if [[ "${1:-}" == "--help" || "${1:-}" == "-h" ]]; then
+  show_usage
+  exit 0
+fi
+
 # ── Gate: python3 present ────────────────────────────────────────────────────
 
 if ! command -v python3 &>/dev/null; then
@@ -72,11 +79,6 @@ if [[ $# -eq 0 ]]; then
     echo "Or: bash scripts/kg-topology-analysis.sh --input <json>" >&2
     exit 3
   fi
-fi
-
-if [[ "${1:-}" == "--help" || "${1:-}" == "-h" ]]; then
-  show_usage
-  exit 0
 fi
 
 # Pass all arguments directly to the Python script

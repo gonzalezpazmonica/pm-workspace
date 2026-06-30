@@ -350,6 +350,22 @@ def main() -> int:
     parser.add_argument("--output-dir", default="output/research", help="Directory for output files")
     args = parser.parse_args()
 
+    # ── Input validation (before dependency check so --input /dev/null → 2) ──
+    if not args.db and args.input:
+        if args.input in ("/dev/null", "") or not Path(args.input).exists():
+            print(f"ERROR: input file not found: {args.input}", file=sys.stderr)
+            return 2
+        # Check if file is readable and non-empty
+        try:
+            with open(args.input, "r") as _f:
+                _content = _f.read(1)
+            if not _content:
+                print(f"ERROR: input file is empty: {args.input}", file=sys.stderr)
+                return 2
+        except OSError as e:
+            print(f"ERROR: cannot read input file: {e}", file=sys.stderr)
+            return 2
+
     if not HAS_DEPS:
         print(f"ERROR: missing dependency: {_MISSING_DEP}", file=sys.stderr)
         print("Install: pip install networkx numpy", file=sys.stderr)
@@ -366,8 +382,8 @@ def main() -> int:
         if args.db:
             nodes, edges = load_from_sqlite(args.db)
         else:
-            if args.input in ("/dev/null", "") or not Path(args.input).exists():
-                print(f"ERROR: input file not found: {args.input}", file=sys.stderr)
+            if not args.input:
+                print("ERROR: provide --db or --input", file=sys.stderr)
                 return 2
             nodes, edges = load_from_json(args.input)
     except Exception as e:
