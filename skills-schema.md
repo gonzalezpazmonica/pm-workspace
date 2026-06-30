@@ -1,7 +1,7 @@
 # Skills Schema — Savia pm-workspace
 
 > Generado automáticamente por `scripts/skills-schema-generate.sh` (SE-238).
-> 117 skills indexados.
+> 119 skills indexados.
 
 | skill_id | description | tags |
 |----------|-------------|------|
@@ -18,6 +18,7 @@
 | azure-pipelines | Usar cuando se gestiona o depura CI/CD con Azure Pipelines. | pipelines, ci-cd, azure, deployment |
 | backlog-git-tracker | Usar cuando se capturan o comparan snapshots del backlog para detectar drift. | backlog, snapshot, audit, tracking |
 | banking-architecture | Usar cuando se diseña o revisa arquitectura para proyectos del sector bancario. | banking, architecture, finance, compliance |
+| bus-factor-analysis | > | bus-factor, knowledge-graph, git-analysis, risk, resilience |
 | capacity-planning | Usar cuando se calcula la capacidad del equipo para un sprint o periodo. | capacity, team, workload, planning |
 | caveman | Strips all sugar-coating and marketing. Gives the brutally honest truth in the f | — |
 | client-profile-manager | Usar cuando se crean, actualizan o consultan perfiles de cliente en SaviaHub. | client, profile, crud, savia-hub |
@@ -29,6 +30,7 @@
 | consensus-validation | Usar cuando una decisión técnica o recomendación necesita validación por panel d | consensus, validation, multi-judge, quality |
 | content-fingerprint | Usar cuando se necesita un identificador corto, deterministico y reproducible de | — |
 | context-caching | Usar cuando se optimiza el orden de carga de contexto para maximizar cache hits. | caching, performance, tokens, cost-optimization |
+| context-dome | > | context-dome, bus-factor, documentation, knowledge-transfer, resilience |
 | context-interview-conductor | Usar cuando se necesita recopilar contexto estructurado de un usuario mediante e | interview, context, structured, discovery |
 | context-optimized-dev | Usar cuando se desarrolla con presupuesto de contexto limitado. | context, optimization, dev-session, slicing |
 | context-rot-strategy | Usar cuando una sesión larga se aproxima al límite de contexto y hay que decidir | context, 1M, rot, compact, session, opus-4-7 |
