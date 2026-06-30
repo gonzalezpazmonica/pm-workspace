@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=20e538dc2761456d378fca08b9f07217490c968d010a7dfed422d02fcc296736
-timestamp=2026-06-30T07:45:33Z
+diff_hash=170ccb41179fa6ba296ca2fc298ca3ae39ec1e6dbcf19651ba72deb8e4e14103
+timestamp=2026-06-30T07:46:08Z
 branch=nido/se252-bus-factor-shield
-head_commit=35ef9da7
-signature=913657719b117ec5adee1294651c5abeae2b63eb44b6126724712304ad345db7
+head_commit=f7ac704f
+signature=d2b65729bb77bbf8fe86dfc4e485d0479229295fc9fdcf8fad90f7d4f43927f9
