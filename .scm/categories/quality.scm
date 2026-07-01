@@ -1,5 +1,5 @@
 # quality — Savia Capability Map (L1)
-> 247 resources
+> 260 resources
 
 - **/a11y-audit** (cmd): Auditoría de accesibilidad WCAG 2.2 completa con escaneo de HTML/componentes. Detecta: alt text faltante, problemas de contraste, navegación por teclado, etiquetas ARIA, gestión de focus, jerarquía de encabezados, etiquetas de formularios.
 - **/a11y-fix** (cmd): Correcciones automáticas de accesibilidad con verificación y preview. Genera código de fix para issues detectados por /a11y-audit. Preview antes de aplicar. Verifica que no introduce nuevos problemas. Covers: alt text, ARIA attributes, focu
@@ -11,6 +11,7 @@
 - **ai-audit-log** (cmd): Log de auditoría IA — quién ejecutó qué agente, sobre qué datos, cuándo
 - **ai-exposure-audit** (cmd): Auditoría de exposición IA por rol — observed exposure, riesgo de desplazamiento, reskilling
 - **android-autonomous-debugger** (skill): Usar cuando se depuran o testean apps Android contra dispositivos físicos via USB/ADB.
+- **android-manifest-audit** (script): SE-240 — Android Manifest Audit
 - **architectural-vocabulary-audit** (script): architectural-vocabulary-audit.sh — SE-082 Slice única.
 - **architecture-judge** (agent): Code Review Court judge — boundaries, coupling, layer violations, patterns
 - **attention-anchor-check** (script): attention-anchor-check.sh — SE-080 pattern coverage verifier
@@ -35,6 +36,8 @@
 - **docs-audit** (script): docs-audit.sh — Audita la estructura actual de docs/ y propone mejoras
 - **docs-quality-audit** (cmd): Auditar calidad de documentacion basada en feedback de agentes
 - **drift-auditor** (agent): Auditoría de convergencia repo: detecta drift entre docs, config y código. Usar PROACTIVELY tras cambios grandes o al inicio de sprint.
+- **dynamic-web-security-test** (script): dynamic-web-security-test.sh — SE-245 Dynamic Web Security Testing
+- **dynamic-web-tester** (skill): Testing dinámico de endpoints web: XSS (DalFox), SQLi (sqlmap), Nuclei.
 - **enterprise/activation-plan-review** (script): activation-plan-review.sh — SE-034 Agent Activation Plan
 - **enterprise/audit-purge** (script): audit-purge.sh — SPEC-SE-037 Audit Log Retention Purge CLI
 - **enterprise/audit-search** (script): audit-search.sh — SPEC-SE-037 Audit Log CLI Inspector
@@ -43,6 +46,7 @@
 - **expertise-asymmetry-judge** (agent): Recommendation Tribunal judge — when draft falls in a domain the active user marks as `audit_level: blind`, force a rewrite with explanation/alternatives/verification
 - **fix-assigner** (agent): Creates fix tasks from Court findings, assigns to dev agents, triggers re-review
 - **fix-survival-check** (script): fix-survival-check.sh — SPEC-188 F4 — Weekly fix survival audit
+- **focal-decisions-log** (script): focal-decisions-log.sh — Audit trail append-only de decisiones del director (SE-230 Slice 2)
 - **frontend-test-runner** (agent): Post-commit frontend test execution — unit, component, e2e, coverage
 - **grill-me** (skill): Adversarial review that hunts every weakness, assumption, edge case, and missing test. Opponent mode — finds what will break before it breaks in production. Use when merging, when reviewing security-critical code, or when the solution feels
 - **hook-event-gap-audit** (script): hook-event-gap-audit.sh — Audita los 11 eventos de hook no cubiertos en pm-workspace
@@ -50,13 +54,19 @@
 - **hook-latency-audit** (script): hook-latency-audit.sh — SE-037 Slice 1 hook latency enforcement audit.
 - **hook-test-coverage-audit** (script): hook-test-coverage-audit.sh — Detect hooks in .opencode/hooks/ without BATS tests.
 - **hub-audit** (cmd): Auditar dependencias entre reglas de dominio, comandos y agentes — recalcular el índice de hubs
+- **iac-security-baseline** (script): iac-security-baseline.sh — Genera .trivyignore inicial para un proyecto legacy
+- **iac-security-scan** (script): iac-security-scan.sh — IaC Security Scanning con Trivy
+- **iac-security-scanner** (skill): Usar cuando se escanea IaC (Terraform, Bicep, Dockerfile, docker-compose) con Trivy config para detectar misconfiguraciones de seguridad antes del merge.
 - **knowledge-lint** (cmd): Health check for the persistent knowledge base — detect orphans, stale refs, missing evidence
 - **knowledge-lint** (script): knowledge-lint.sh — LLM Wiki pattern: periodic knowledge base health check
 - **legal-audit** (cmd): Auditoría de compliance legal contra legislación española (legalize-es)
 - **legal-compliance** (skill): Usar cuando se audita compliance legal contra legislación española consolidada.
+- **loop-phasing-audit** (script): loop-phasing-audit.sh — Audita el nivel loop_level declarado vs inferido
 - **markdownlint** (script): Native markdownlint wrapper — no npm dependency.
 - **mcp-audit** (script): mcp-audit.sh — audit MCP server token overhead across configs
 - **mcp-security-audit** (script): mcp-security-audit.sh — SE-058 Slice 1 MCP supply-chain + config audit.
+- **mobile-security-scan** (script): SE-240 — Mobile Security Scan
+- **mobile-security-scanner** (skill): Usar cuando se escanea un APK/AAB Android en busca de vulnerabilidades de seguridad. Integra con MobSF (Docker) y análisis básico como fallback.
 - **model-upgrade-audit** (cmd): Audit workspace components for prompt debt that newer models may not need
 - **model-upgrade-audit** (skill): Usar cuando hay un modelo nuevo disponible y se quiere detectar prompt debt en el workspace.
 - **model-upgrade-auditor** (agent): Audits agents, skills, and prompts for workarounds that newer models may no longer need. Proposes simplifications with eval-backed evidence.
@@ -85,6 +95,7 @@
 - **pr-plan-queue-check** (script): pr-plan-queue-check.sh — SPEC-SE-012 Module 4.
 - **pr-rebase** (script): pr-rebase.sh — Rebase current PR branch onto origin/main and re-sign.
 - **pr-review** (cmd): >
+- **pre-push-security-gate** (script): SE-247 — Pre-push security gate
 - **prompt-security-scan** (script): prompt-security-scan.sh — Static analyzer for prompt injection/leakage
 - **python-sbom** (script): python-sbom.sh — SE-056 Slice 1 Python SBOM + requirements audit.
 - **qa-bug-triage** (cmd): Triage asistido de bugs — clasificación, duplicados, asignación sugerida
@@ -236,6 +247,8 @@
 - **testplan-results** (cmd): >
 - **testplan-status** (cmd): >
 - **tests/test-adb-wrapper** (script): ============================================================================
+- **tls-security-check** (script): SE-242 — TLS Security Check
+- **tls-security-checker** (skill): Usar cuando se verifica TLS/SSL o security headers HTTP de un servidor web. Invocable pre-deploy o en auditorías periódicas.
 - **tool-ergonomics-audit** (script): tool-ergonomics-audit.sh — SPEC-160: Tool Ergonomics Auto-Audit
 - **twin-linter** (script): twin-linter.sh — Valida twin.md contra schema SPEC-169
 - **verification-lattice** (skill): Usar cuando se necesita verificación multi-capa más allá del code review estándar.
@@ -245,5 +258,6 @@
 - **visual-qa-agent** (agent): Visual QA: screenshot analysis, wireframe comparison, regression detection. Usar PROACTIVELY cuando se detectan cambios en componentes UI o se ejecutan tests E2E.
 - **visual-regression** (cmd): Automated visual regression testing across builds and branches. Detect visual regressions with baseline comparison and approval workflows.
 - **web-e2e-tester** (agent): Autonomous E2E testing of web apps against live instances. Use PROACTIVELY when: deploying savia-web, after UI changes, or running regression tests. Equivalent of android-autonomous-debugger for web.
+- **web-headers-check** (script): SE-242 — Web Security Headers Check
 - **workspace-integrity** (skill): Usar cuando se audita la integridad del workspace (drift, reglas, agentes, baseline).
 - **zeroclaw** (cmd): Interface with ZeroClaw ESP32 — setup, test, send commands, flash firmware.
