@@ -1,5 +1,5 @@
 # development — Savia Capability Map (L1)
-> 235 resources
+> 236 resources
 
 - **/a11y-monitor** (cmd): Monitorización continua de regresiones de accesibilidad. Integración en CI/CD. Alertas cuando score baja por debajo de threshold. Digest semanal. Previene regresiones bloqueando deploys con fallos a11y.
 - **/speckit.checklist** (cmd): Alias spec-kit compatible. Gate de calidad final con verification-lattice multi-capa. Invoca skill verification-lattice. Compatible con github/spec-kit.
@@ -55,6 +55,7 @@
 - **comprehension-report** (cmd): Generate mental model report for an implemented task. Documents architectural decisions, failure heuristics, and 3AM debugging guide.
 - **concession-judge** (agent): Recommendation Tribunal judge — detects position changes without new evidence (SPEC-192)
 - **dag-execute** (cmd): Ejecutar pipeline SDD con agentes en paralelo según DAG
+- **dag-gate-cost-checker** (script): dag-gate-cost-checker.sh
 - **dag-plan** (cmd): Visualizar DAG de ejecución, camino crítico y ahorro de tiempo
 - **dag-scheduling** (skill): Usar cuando se orquestan múltiples agentes SDD con dependencias entre ellos.
 - **dag-typing-validate** (script): dag-typing-validate.sh — SE-034 Slice 1 prototype validator.

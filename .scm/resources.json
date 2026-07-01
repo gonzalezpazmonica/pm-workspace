@@ -1,6 +1,6 @@
 {
-  "hash": "58b44b8e3e00",
-  "total": 1399,
+  "hash": "27d92e853078",
+  "total": 1447,
   "resources": [
     {
       "category": "analysis",
@@ -409,6 +409,20 @@
       "kind": "cmd",
       "path": ".claude/commands/async-standup.md",
       "description": "Recogida asíncrona de standups — cada dev reporta cuando quiera, Savia compila"
+    },
+    {
+      "category": "analysis",
+      "name": "bus-factor-report",
+      "intents": [
+        "ejecutivo",
+        "factor",
+        "informe",
+        "report",
+        "scan"
+      ],
+      "kind": "script",
+      "path": "scripts/bus-factor-report.sh",
+      "description": "bus-factor-report.sh -- Informe ejecutivo del scan de Bus Factor."
     },
     {
       "category": "analysis",
@@ -1207,6 +1221,20 @@
       "kind": "cmd",
       "path": ".claude/commands/obs-dashboard.md",
       "description": "Dashboard de observabilidad digesto por rol — CEO, CTO, PM, Dev, QA, SRE"
+    },
+    {
+      "category": "communication",
+      "name": "org-meeting-capture",
+      "intents": [
+        "acuerdos",
+        "captura",
+        "conocimiento",
+        "decisores",
+        "extrae"
+      ],
+      "kind": "skill",
+      "path": ".claude/skills/org-meeting-capture/SKILL.md",
+      "description": "Captura de Conocimiento Tácito de Reunión: extrae decisores, acuerdos informales y señales políticas de transcripciones."
     },
     {
       "category": "communication",
@@ -2943,6 +2971,18 @@
       "kind": "cmd",
       "path": ".claude/commands/dag-execute.md",
       "description": "Ejecutar pipeline SDD con agentes en paralelo según DAG"
+    },
+    {
+      "category": "development",
+      "name": "dag-gate-cost-checker",
+      "intents": [
+        "checker",
+        "cost",
+        "gate"
+      ],
+      "kind": "script",
+      "path": "scripts/dag-gate-cost-checker.sh",
+      "description": "dag-gate-cost-checker.sh"
     },
     {
       "category": "development",
@@ -6185,6 +6225,28 @@
     },
     {
       "category": "memory",
+      "name": "context-dome",
+      "intents": [],
+      "kind": "skill",
+      "path": ".claude/skills/context-dome/SKILL.md",
+      "description": ">"
+    },
+    {
+      "category": "memory",
+      "name": "context-dome-generate",
+      "intents": [
+        "bajo",
+        "context",
+        "dome",
+        "generate",
+        "modulo"
+      ],
+      "kind": "script",
+      "path": "scripts/context-dome-generate.sh",
+      "description": "context-dome-generate.sh -- Genera CONTEXT_DOME.md por modulo con BF bajo."
+    },
+    {
+      "category": "memory",
       "name": "context-drop-after-use",
       "intents": [
         "context",
@@ -6528,6 +6590,20 @@
       "kind": "cmd",
       "path": ".claude/commands/entity-recall.md",
       "description": ">"
+    },
+    {
+      "category": "memory",
+      "name": "focal-switch",
+      "intents": [
+        "cambiar",
+        "contexto",
+        "focal",
+        "load",
+        "nido"
+      ],
+      "kind": "script",
+      "path": "scripts/focal-switch.sh",
+      "description": "focal-switch.sh — Off-load de contexto antes de cambiar de nido (SE-230 Slice 1)"
     },
     {
       "category": "memory",
@@ -7234,6 +7310,19 @@
     },
     {
       "category": "memory",
+      "name": "session-registry",
+      "intents": [
+        "coordination",
+        "registry",
+        "session",
+        "slice"
+      ],
+      "kind": "script",
+      "path": "scripts/session-registry.sh",
+      "description": "session-registry.sh — Session coordination registry (SE-229 Slice 1)"
+    },
+    {
+      "category": "memory",
       "name": "session-resume-index",
       "intents": [
         "index",
@@ -7923,6 +8012,32 @@
     },
     {
       "category": "planning",
+      "name": "attack-surface-map",
+      "intents": [
+        "attack",
+        "mapping",
+        "surface"
+      ],
+      "kind": "script",
+      "path": "scripts/attack-surface-map.sh",
+      "description": "attack-surface-map.sh — SE-243 Attack Surface Mapping"
+    },
+    {
+      "category": "planning",
+      "name": "attack-surface-mapper",
+      "intents": [
+        "ataque",
+        "dominio",
+        "mapear",
+        "osint",
+        "subdominios"
+      ],
+      "kind": "skill",
+      "path": ".claude/skills/attack-surface-mapper/SKILL.md",
+      "description": "Mapear la superficie de ataque de un dominio: subdominios, OSINT, typosquatting."
+    },
+    {
+      "category": "planning",
       "name": "auto-loop-gate",
       "intents": [
         "auto",
@@ -8270,6 +8385,41 @@
       "kind": "cmd",
       "path": ".claude/commands/burnout-radar.md",
       "description": "Detección temprana de señales de burnout con análisis de riesgo por miembro del equipo"
+    },
+    {
+      "category": "planning",
+      "name": "bus-factor-analysis",
+      "intents": [],
+      "kind": "skill",
+      "path": ".claude/skills/bus-factor-analysis/SKILL.md",
+      "description": ">"
+    },
+    {
+      "category": "planning",
+      "name": "bus-factor-distribute",
+      "intents": [
+        "developer",
+        "distribute",
+        "factor",
+        "knowledge",
+        "objetivo"
+      ],
+      "kind": "script",
+      "path": "scripts/bus-factor-distribute.sh",
+      "description": "bus-factor-distribute.sh -- Plan de knowledge transfer por developer objetivo."
+    },
+    {
+      "category": "planning",
+      "name": "bus-factor-scan",
+      "intents": [
+        "factor",
+        "orquestador",
+        "scan",
+        "wrapper"
+      ],
+      "kind": "script",
+      "path": "scripts/bus-factor-scan.sh",
+      "description": "bus-factor-scan.sh -- Wrapper orquestador para bus-factor-scan.py"
     },
     {
       "category": "planning",
@@ -8952,6 +9102,18 @@
     },
     {
       "category": "planning",
+      "name": "court-score-aggregator",
+      "intents": [
+        "aggregator",
+        "court",
+        "score"
+      ],
+      "kind": "script",
+      "path": "scripts/court-score-aggregator.sh",
+      "description": "court-score-aggregator.sh"
+    },
+    {
+      "category": "planning",
       "name": "credential-proxy",
       "intents": [
         "agents",
@@ -9132,6 +9294,48 @@
       "kind": "cmd",
       "path": ".claude/commands/dependency-map.md",
       "description": ">"
+    },
+    {
+      "category": "planning",
+      "name": "dependency-scan",
+      "intents": [
+        "dependency",
+        "scan",
+        "scanning",
+        "trivy",
+        "vulnerability"
+      ],
+      "kind": "script",
+      "path": "scripts/dependency-scan.sh",
+      "description": "dependency-scan.sh — Dependency Vulnerability Scanning con Trivy"
+    },
+    {
+      "category": "planning",
+      "name": "dependency-scanner",
+      "intents": [
+        "cyclonedx",
+        "dependencias",
+        "escanean",
+        "java",
+        "node"
+      ],
+      "kind": "skill",
+      "path": ".claude/skills/dependency-scanner/SKILL.md",
+      "description": "Usar cuando se escanean vulnerabilidades en dependencias de proyectos (Node, Python, C#, Java, Go, Rust, Ruby) con Trivy fs. Genera SBOM CycloneDX."
+    },
+    {
+      "category": "planning",
+      "name": "detect-token-exhaustion",
+      "intents": [
+        "agent",
+        "cause",
+        "classify",
+        "detect",
+        "exhaustion"
+      ],
+      "kind": "script",
+      "path": "scripts/detect-token-exhaustion.sh",
+      "description": "detect-token-exhaustion.sh — SE-250: classify agent failure cause"
     },
     {
       "category": "planning",
@@ -10171,6 +10375,48 @@
     },
     {
       "category": "planning",
+      "name": "focal-checkin",
+      "intents": [
+        "carga",
+        "check",
+        "checkin",
+        "cognitiva",
+        "focal"
+      ],
+      "kind": "script",
+      "path": "scripts/focal-checkin.sh",
+      "description": "focal-checkin.sh — Check-in scheduling y señal de carga cognitiva (SE-230 Slice 3)"
+    },
+    {
+      "category": "planning",
+      "name": "focal-dispatch",
+      "intents": [
+        "crítica",
+        "decisión",
+        "dispatch",
+        "focal",
+        "humana"
+      ],
+      "kind": "script",
+      "path": "scripts/focal-dispatch.sh",
+      "description": "focal-dispatch.sh — Prioriza y presenta la decisión humana más crítica (SE-230 Slice 2)"
+    },
+    {
+      "category": "planning",
+      "name": "focal-status",
+      "intents": [
+        "activos",
+        "agregada",
+        "focal",
+        "nidos",
+        "slice"
+      ],
+      "kind": "script",
+      "path": "scripts/focal-status.sh",
+      "description": "focal-status.sh — Vista agregada de nidos activos (SE-230 Slice 1)"
+    },
+    {
+      "category": "planning",
       "name": "focus-mode",
       "intents": [
         "carga",
@@ -10281,6 +10527,45 @@
       "kind": "script",
       "path": "scripts/generate-propuestas-index.sh",
       "description": "generate-propuestas-index.sh — SE-222 S2: auto-generate docs/propuestas/index.md"
+    },
+    {
+      "category": "planning",
+      "name": "git-history-secret-remediate",
+      "intents": [
+        "helper",
+        "history",
+        "remediation",
+        "secret"
+      ],
+      "kind": "script",
+      "path": "scripts/git-history-secret-remediate.sh",
+      "description": "SE-239 — Git history secret remediation helper"
+    },
+    {
+      "category": "planning",
+      "name": "git-history-secret-scan",
+      "intents": [
+        "history",
+        "scanning",
+        "secret"
+      ],
+      "kind": "script",
+      "path": "scripts/git-history-secret-scan.sh",
+      "description": "SE-239 — Git history secret scanning"
+    },
+    {
+      "category": "planning",
+      "name": "git-secret-scanner",
+      "intents": [
+        "buscando",
+        "commits",
+        "escanea",
+        "gitleaks",
+        "historial"
+      ],
+      "kind": "skill",
+      "path": ".claude/skills/git-secret-scanner/SKILL.md",
+      "description": "Escanea el historial git o los commits pendientes de push buscando secrets con gitleaks. SE-239/SE-247."
     },
     {
       "category": "planning",
@@ -10638,6 +10923,20 @@
     },
     {
       "category": "planning",
+      "name": "install-prepush-hook",
+      "intents": [
+        "actual",
+        "dado",
+        "hook",
+        "instala",
+        "push"
+      ],
+      "kind": "script",
+      "path": "scripts/install-prepush-hook.sh",
+      "description": "SE-247 — Instala el hook pre-push de seguridad en el repo actual o en uno dado."
+    },
+    {
+      "category": "planning",
       "name": "install-savia-bridge-system",
       "intents": [
         "bridge",
@@ -10740,6 +11039,18 @@
     },
     {
       "category": "planning",
+      "name": "kg-link-prediction",
+      "intents": [
+        "link",
+        "prediction",
+        "wrapper"
+      ],
+      "kind": "script",
+      "path": "scripts/kg-link-prediction.sh",
+      "description": "kg-link-prediction.sh — SE-249: wrapper for kg-link-prediction.py"
+    },
+    {
+      "category": "planning",
       "name": "kg-query",
       "intents": [
         "names",
@@ -10749,6 +11060,18 @@
       "kind": "script",
       "path": "scripts/kg-query.sh",
       "description": "kg-query.sh — SE-218 S3: query KG con qualified names"
+    },
+    {
+      "category": "planning",
+      "name": "kg-topology-analysis",
+      "intents": [
+        "analysis",
+        "topology",
+        "wrapper"
+      ],
+      "kind": "script",
+      "path": "scripts/kg-topology-analysis.sh",
+      "description": "kg-topology-analysis.sh — SE-248: wrapper for kg-topology-analysis.py"
     },
     {
       "category": "planning",
@@ -10989,6 +11312,34 @@
     },
     {
       "category": "planning",
+      "name": "loop-state-init",
+      "intents": [
+        "autónomo",
+        "canónico",
+        "inicializa",
+        "init",
+        "loop"
+      ],
+      "kind": "script",
+      "path": "scripts/loop-state-init.sh",
+      "description": "loop-state-init.sh — Inicializa STATE.md canónico para un skill autónomo"
+    },
+    {
+      "category": "planning",
+      "name": "loop-state-prune",
+      "intents": [
+        "archiva",
+        "cerrados",
+        "loop",
+        "prune",
+        "recently"
+      ],
+      "kind": "script",
+      "path": "scripts/loop-state-prune.sh",
+      "description": "loop-state-prune.sh — Archiva ítems cerrados en Recently Resolved"
+    },
+    {
+      "category": "planning",
       "name": "loop-verify",
       "intents": [
         "adversarial",
@@ -11181,6 +11532,32 @@
       "kind": "cmd",
       "path": ".claude/commands/my-sprint.md",
       "description": "Vista personal del sprint — items asignados, progreso, cycle time, PRs pendientes"
+    },
+    {
+      "category": "planning",
+      "name": "network-recon",
+      "intents": [
+        "detection",
+        "http",
+        "httpx",
+        "nmap",
+        "port"
+      ],
+      "kind": "skill",
+      "path": ".claude/skills/network-recon/SKILL.md",
+      "description": "Reconocimiento de red: port scan con nmap/RustScan + HTTP detection con httpx."
+    },
+    {
+      "category": "planning",
+      "name": "network-recon",
+      "intents": [
+        "network",
+        "recon",
+        "reconnaissance"
+      ],
+      "kind": "script",
+      "path": "scripts/network-recon.sh",
+      "description": "network-recon.sh — SE-246 Network Reconnaissance"
     },
     {
       "category": "planning",
@@ -11444,6 +11821,34 @@
       "kind": "script",
       "path": "scripts/orchestration-protocol.sh",
       "description": "scripts/orchestration-protocol.sh — SE-205: typed inter-agent messaging"
+    },
+    {
+      "category": "planning",
+      "name": "org-political-landscape",
+      "intents": [
+        "alianzas",
+        "análisis",
+        "centros",
+        "detecta",
+        "interno"
+      ],
+      "kind": "skill",
+      "path": ".claude/skills/org-political-landscape/SKILL.md",
+      "description": "Análisis de Paisaje Político Interno: detecta tensiones, alianzas y centros de poder a partir de un mapa de stakeholders."
+    },
+    {
+      "category": "planning",
+      "name": "org-stakeholder-mapper",
+      "intents": [
+        "alianzas",
+        "decisores",
+        "extrae",
+        "formales",
+        "mapeador"
+      ],
+      "kind": "skill",
+      "path": ".claude/skills/org-stakeholder-mapper/SKILL.md",
+      "description": "Mapeador de Stakeholders y Decisores: extrae roles formales y reales, motivaciones, alianzas y tensiones de una organización."
     },
     {
       "category": "planning",
@@ -11909,6 +12314,18 @@
     },
     {
       "category": "planning",
+      "name": "pre-tribunal-gates",
+      "intents": [
+        "deterministic",
+        "gates",
+        "tribunal"
+      ],
+      "kind": "script",
+      "path": "scripts/pre-tribunal-gates.sh",
+      "description": "pre-tribunal-gates.sh — SE-251: deterministic pre-tribunal gates"
+    },
+    {
+      "category": "planning",
       "name": "privacy-check-company",
       "intents": [
         "check",
@@ -11962,6 +12379,20 @@
       "kind": "skill",
       "path": ".claude/skills/product-discovery/SKILL.md",
       "description": "Usar antes de descomponer PBIs, cuando se necesita análisis JTBD y PRD del producto."
+    },
+    {
+      "category": "planning",
+      "name": "professional-domain",
+      "intents": [
+        "controlling",
+        "domain",
+        "family",
+        "finance",
+        "index"
+      ],
+      "kind": "skill",
+      "path": ".claude/skills/professional-domain/SKILL.md",
+      "description": "Family index for professional-domain skills (controlling, finance, labour, legal, sales). Load individual skills from subdirectories."
     },
     {
       "category": "planning",
@@ -13334,6 +13765,18 @@
     },
     {
       "category": "planning",
+      "name": "skills-schema-generate",
+      "intents": [
+        "generate",
+        "schema",
+        "skills"
+      ],
+      "kind": "script",
+      "path": "scripts/skills-schema-generate.sh",
+      "description": "skills-schema-generate.sh"
+    },
+    {
+      "category": "planning",
       "name": "skillssh-adapter",
       "intents": [
         "adapter",
@@ -13795,6 +14238,19 @@
       "kind": "cmd",
       "path": ".claude/commands/subscriber-lifecycle.md",
       "description": "Gestión integral del ciclo de vida del suscriptor desde onboarding hasta análisis de churn"
+    },
+    {
+      "category": "planning",
+      "name": "surface-map-authorize",
+      "intents": [
+        "authorization",
+        "authorize",
+        "helper",
+        "surface"
+      ],
+      "kind": "script",
+      "path": "scripts/surface-map-authorize.sh",
+      "description": "surface-map-authorize.sh — SE-243 Authorization helper"
     },
     {
       "category": "planning",
@@ -15051,6 +15507,18 @@
     },
     {
       "category": "quality",
+      "name": "android-manifest-audit",
+      "intents": [
+        "android",
+        "audit",
+        "manifest"
+      ],
+      "kind": "script",
+      "path": "scripts/android-manifest-audit.sh",
+      "description": "SE-240 — Android Manifest Audit"
+    },
+    {
+      "category": "quality",
       "name": "architectural-vocabulary-audit",
       "intents": [
         "architectural",
@@ -15378,6 +15846,33 @@
     },
     {
       "category": "quality",
+      "name": "dynamic-web-security-test",
+      "intents": [
+        "dynamic",
+        "security",
+        "test",
+        "testing"
+      ],
+      "kind": "script",
+      "path": "scripts/dynamic-web-security-test.sh",
+      "description": "dynamic-web-security-test.sh — SE-245 Dynamic Web Security Testing"
+    },
+    {
+      "category": "quality",
+      "name": "dynamic-web-tester",
+      "intents": [
+        "dalfox",
+        "dinámico",
+        "endpoints",
+        "nuclei",
+        "sqli"
+      ],
+      "kind": "skill",
+      "path": ".claude/skills/dynamic-web-tester/SKILL.md",
+      "description": "Testing dinámico de endpoints web: XSS (DalFox), SQLi (sqlmap), Nuclei."
+    },
+    {
+      "category": "quality",
       "name": "enterprise/activation-plan-review",
       "intents": [
         "activation",
@@ -15485,6 +15980,20 @@
     },
     {
       "category": "quality",
+      "name": "focal-decisions-log",
+      "intents": [
+        "append",
+        "audit",
+        "decisiones",
+        "decisions",
+        "director"
+      ],
+      "kind": "script",
+      "path": "scripts/focal-decisions-log.sh",
+      "description": "focal-decisions-log.sh — Audit trail append-only de decisiones del director (SE-230 Slice 2)"
+    },
+    {
+      "category": "quality",
       "name": "frontend-test-runner",
       "intents": [
         "commit",
@@ -15580,6 +16089,47 @@
       "kind": "cmd",
       "path": ".claude/commands/hub-audit.md",
       "description": "Auditar dependencias entre reglas de dominio, comandos y agentes — recalcular el índice de hubs"
+    },
+    {
+      "category": "quality",
+      "name": "iac-security-baseline",
+      "intents": [
+        "baseline",
+        "inicial",
+        "legacy",
+        "proyecto",
+        "security"
+      ],
+      "kind": "script",
+      "path": "scripts/iac-security-baseline.sh",
+      "description": "iac-security-baseline.sh — Genera .trivyignore inicial para un proyecto legacy"
+    },
+    {
+      "category": "quality",
+      "name": "iac-security-scan",
+      "intents": [
+        "scan",
+        "scanning",
+        "security",
+        "trivy"
+      ],
+      "kind": "script",
+      "path": "scripts/iac-security-scan.sh",
+      "description": "iac-security-scan.sh — IaC Security Scanning con Trivy"
+    },
+    {
+      "category": "quality",
+      "name": "iac-security-scanner",
+      "intents": [
+        "bicep",
+        "compose",
+        "config",
+        "detectar",
+        "docker"
+      ],
+      "kind": "skill",
+      "path": ".claude/skills/iac-security-scanner/SKILL.md",
+      "description": "Usar cuando se escanea IaC (Terraform, Bicep, Dockerfile, docker-compose) con Trivy config para detectar misconfiguraciones de seguridad antes del merge."
     },
     {
       "category": "quality",
@@ -15691,6 +16241,32 @@
       "kind": "script",
       "path": "scripts/mcp-security-audit.sh",
       "description": "mcp-security-audit.sh — SE-058 Slice 1 MCP supply-chain + config audit."
+    },
+    {
+      "category": "quality",
+      "name": "mobile-security-scan",
+      "intents": [
+        "mobile",
+        "scan",
+        "security"
+      ],
+      "kind": "script",
+      "path": "scripts/mobile-security-scan.sh",
+      "description": "SE-240 — Mobile Security Scan"
+    },
+    {
+      "category": "quality",
+      "name": "mobile-security-scanner",
+      "intents": [
+        "android",
+        "análisis",
+        "busca",
+        "básico",
+        "docker"
+      ],
+      "kind": "skill",
+      "path": ".claude/skills/mobile-security-scanner/SKILL.md",
+      "description": "Usar cuando se escanea un APK/AAB Android en busca de vulnerabilidades de seguridad. Integra con MobSF (Docker) y análisis básico como fallback."
     },
     {
       "category": "quality",
@@ -16058,6 +16634,18 @@
       "kind": "cmd",
       "path": ".claude/commands/pr-review.md",
       "description": ">"
+    },
+    {
+      "category": "quality",
+      "name": "pre-push-security-gate",
+      "intents": [
+        "gate",
+        "push",
+        "security"
+      ],
+      "kind": "script",
+      "path": "scripts/pre-push-security-gate.sh",
+      "description": "SE-247 — Pre-push security gate"
     },
     {
       "category": "quality",
@@ -17966,6 +18554,31 @@
     },
     {
       "category": "quality",
+      "name": "tls-security-check",
+      "intents": [
+        "check",
+        "security"
+      ],
+      "kind": "script",
+      "path": "scripts/tls-security-check.sh",
+      "description": "SE-242 — TLS Security Check"
+    },
+    {
+      "category": "quality",
+      "name": "tls-security-checker",
+      "intents": [
+        "auditorías",
+        "deploy",
+        "headers",
+        "http",
+        "invocable"
+      ],
+      "kind": "skill",
+      "path": ".claude/skills/tls-security-checker/SKILL.md",
+      "description": "Usar cuando se verifica TLS/SSL o security headers HTTP de un servidor web. Invocable pre-deploy o en auditorías periódicas."
+    },
+    {
+      "category": "quality",
       "name": "tool-ergonomics-audit",
       "intents": [
         "audit",
@@ -18089,6 +18702,18 @@
       "kind": "agent",
       "path": ".opencode/agents/web-e2e-tester.md",
       "description": "Autonomous E2E testing of web apps against live instances. Use PROACTIVELY when: deploying savia-web, after UI changes, or running regression tests. Equivalent of android-autonomous-debugger for web."
+    },
+    {
+      "category": "quality",
+      "name": "web-headers-check",
+      "intents": [
+        "check",
+        "headers",
+        "security"
+      ],
+      "kind": "script",
+      "path": "scripts/web-headers-check.sh",
+      "description": "SE-242 — Web Security Headers Check"
     },
     {
       "category": "quality",

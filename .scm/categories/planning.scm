@@ -1,5 +1,5 @@
 # planning — Savia Capability Map (L1)
-> 585 resources
+> 617 resources
 
 - **/accreditation-track** (cmd): >
 - **/decide-architecture** (cmd): Clasifica una tarea como WORKFLOW (deterministica) o AGENT (loop). Bias hacia workflow per Anthropic. Sugiere plantilla inicial. Mide accuracy contra corpus curado de 20 tareas.
@@ -41,6 +41,9 @@
 - **ast-comprehend** (script): ast-comprehend.sh — Extractor estructural multi-lenguaje (ast-comprehension skill)
 - **ast-comprehension** (skill): Usar cuando se explora código desconocido y se necesita comprensión estructural sin leer ficheros enteros.
 - **ast-quality-gate** (skill): Usar cuando se verifica la calidad de código generado por IA antes de merge.
+- **attack-surface-map** (script): attack-surface-map.sh — SE-243 Attack Surface Mapping
+- **attack-surface-mapper** (skill): Mapear la superficie de ataque de un dominio: subdominios, OSINT, typosquatting.
+- **auto-loop-gate** (script): SE-230 Auto-Loop Gate — classifies requests into loop/single-shot/clarify
 - **azdevops-queries** (script): =============================================================================
 - **azure-devops-operator** (agent): >
 - **azure-devops-queries** (skill): Usar cuando se necesitan consultas WIQL, actualización de work items o datos de sprint en Azure DevOps.
@@ -67,6 +70,9 @@
 - **billing-rate** (cmd): >
 - **board-flow** (cmd): Analiza el flujo de trabajo del board — WIP actual, cuellos de botella y métricas de flujo.
 - **burnout-radar** (cmd): Detección temprana de señales de burnout con análisis de riesgo por miembro del equipo
+- **bus-factor-analysis** (skill): >
+- **bus-factor-distribute** (script): bus-factor-distribute.sh -- Plan de knowledge transfer por developer objetivo.
+- **bus-factor-scan** (script): bus-factor-scan.sh -- Wrapper orquestador para bus-factor-scan.py
 - **business-analyst** (agent): >
 - **calendar-deadlines** (cmd): Deadlines proximos con estado de preparacion — nada se queda atras
 - **calendar-plan** (cmd): Planificar semana con focus blocks automaticos y priorizacion Eisenhower
@@ -120,6 +126,7 @@
 - **cost-management** (skill): Usar cuando se gestionan timesheets, presupuestos, facturas o forecasting de costes.
 - **count-commands** (script): count-commands.sh — SE-095: canonical counter for slash commands.
 - **court-calendar** (cmd): >
+- **court-score-aggregator** (script): court-score-aggregator.sh
 - **credential-proxy** (script): credential-proxy.sh — Managed Agents pattern: credential isolation
 - **credential-scan** (cmd): >
 - **criterion-simulation-judge** (agent): >
@@ -135,6 +142,9 @@
 - **dataset-version** (cmd): >
 - **deep-work** (cmd): Planificador de bloques de trabajo profundo basado en calendario y carga. Framework de Cal Newport aplicado a equipos de desarrollo.
 - **dependency-map** (cmd): >
+- **dependency-scan** (script): dependency-scan.sh — Dependency Vulnerability Scanning con Trivy
+- **dependency-scanner** (skill): Usar cuando se escanean vulnerabilidades en dependencias de proyectos (Node, Python, C#, Java, Go, Rust, Ruby) con Trivy fs. Genera SBOM CycloneDX.
+- **detect-token-exhaustion** (script): detect-token-exhaustion.sh — SE-250: classify agent failure cause
 - **developer-experience** (skill): Usar cuando se mide o mejora la experiencia de desarrollo del equipo.
 - **devops-validate** (cmd): >
 - **devops-validation** (skill): Usar cuando se conecta un proyecto nuevo a Azure DevOps para validar su configuración Agile.
@@ -217,6 +227,9 @@
 - **flow-timesheet** (cmd): Log hours spent on a task
 - **flow-timesheet-report** (cmd): Generate timesheet report for date range
 - **flow-velocity** (cmd): Show historical velocity metrics
+- **focal-checkin** (script): focal-checkin.sh — Check-in scheduling y señal de carga cognitiva (SE-230 Slice 3)
+- **focal-dispatch** (script): focal-dispatch.sh — Prioriza y presenta la decisión humana más crítica (SE-230 Slice 2)
+- **focal-status** (script): focal-status.sh — Vista agregada de nidos activos (SE-230 Slice 1)
 - **focus-mode** (cmd): Modo single-task — carga una sola tarea y oculta distracciones
 - **fork-agents** (script): fork-agents.sh — Lanza N invocaciones paralelas de Claude con prefijo cacheable
 - **frontend-developer** (agent): >
@@ -226,6 +239,9 @@
 - **generate-critical-facts** (script): scripts/generate-critical-facts.sh
 - **generate-index** (script): generate-index.sh — Generate discoverable index of all workspace components
 - **generate-propuestas-index** (script): generate-propuestas-index.sh — SE-222 S2: auto-generate docs/propuestas/index.md
+- **git-history-secret-remediate** (script): SE-239 — Git history secret remediation helper
+- **git-history-secret-scan** (script): SE-239 — Git history secret scanning
+- **git-secret-scanner** (skill): Escanea el historial git o los commits pendientes de push buscando secrets con gitleaks. SE-239/SE-247.
 - **github-activity** (cmd): >
 - **github-issues** (cmd): >
 - **github-projects** (cmd): Integración con GitHub Projects v2 para gestión ágil desde pm-workspace
@@ -256,6 +272,7 @@
 - **index-compact** (cmd): >
 - **index-status** (cmd): >
 - **infrastructure-agent** (agent): >
+- **install-prepush-hook** (script): SE-247 — Instala el hook pre-push de seguridad en el repo actual o en uno dado.
 - **install-savia-bridge-system** (script): install-savia-bridge-system.sh — Promote savia-bridge to a SYSTEM systemd unit.
 - **install-watchdog** (script): install-watchdog.sh — Installs savia-watchdog as systemd service
 - **instinct-manage** (cmd): >
@@ -265,7 +282,9 @@
 - **java-developer** (agent): >
 - **jira-connect** (cmd): Conectar y sincronizar con Jira Cloud como alternativa a Azure DevOps
 - **jira-sync** (cmd): >
+- **kg-link-prediction** (script): kg-link-prediction.sh — SE-249: wrapper for kg-link-prediction.py
 - **kg-query** (script): kg-query.sh — SE-218 S3: query KG con qualified names
+- **kg-topology-analysis** (script): kg-topology-analysis.sh — SE-248: wrapper for kg-topology-analysis.py
 - **knowledge-graph** (skill): Usar cuando se construye o consulta el grafo de conocimiento de entidades del proyecto.
 - **knowledge-graph** (script): knowledge-graph.sh — SE-162: Shell wrapper for knowledge-graph.py
 - **knowledge-prime** (cmd): Generar documento de priming AI desde código y configuración del proyecto
@@ -283,8 +302,11 @@
 - **lib/os-detect** (script): scripts/lib/os-detect.sh — Portable OS detection and path defaults
 - **lib/slm-common** (script): slm-common.sh — Shared helpers for SLM subcommands (SE-049 Slice 1).
 - **linear-sync** (cmd): Sincronización bidireccional con Linear — issues, cycles, métricas unificadas
+- **loop-budget-check** (script): scripts/loop-budget-check.sh
+- **loop-run-log** (script): loop-run-log.sh — CLI para gestión del run-log append-only de skills autónomas
 - **loop-state-init** (script): loop-state-init.sh — Inicializa STATE.md canónico para un skill autónomo
 - **loop-state-prune** (script): loop-state-prune.sh — Archiva ítems cerrados en Recently Resolved
+- **loop-verify** (script): loop-verify.sh — Genera prompt adversarial para sub-agente verificador (SE-228 S2)
 - **managed-content** (skill): Usar cuando se regeneran secciones auto-generadas en documentos con marcadores de seguridad.
 - **managed-scan** (cmd): Scan managed content for stale or outdated sections
 - **managed-sync** (cmd): Synchronize and regenerate managed content markers
@@ -299,6 +321,8 @@
 - **model-capability-resolver** (script): model-capability-resolver.sh — Resolve model capabilities from YAML registry
 - **my-learning** (cmd): Detección de tech stack gaps — código del developer vs best practices del proyecto
 - **my-sprint** (cmd): Vista personal del sprint — items asignados, progreso, cycle time, PRs pendientes
+- **network-recon** (skill): Reconocimiento de red: port scan con nmap/RustScan + HTTP detection con httpx.
+- **network-recon** (script): network-recon.sh — SE-246 Network Reconnaissance
 - **nidos** (cmd): Manage parallel terminal isolation with named git worktrees (Savia Nidos)
 - **nidos** (script): nidos.sh — Savia Nidos: parallel terminal isolation via named git worktrees
 - **nidos-lib** (script): nidos-lib.sh — Shared utilities for Savia Nidos
@@ -319,6 +343,8 @@
 - **operational-point-selector** (script): operational-point-selector.sh — SE-029 Slice 4.
 - **opus47-calibration-scorecard** (script): opus47-calibration-scorecard.sh — SE-070 Slice 1
 - **orchestration-protocol** (script): scripts/orchestration-protocol.sh — SE-205: typed inter-agent messaging
+- **org-political-landscape** (skill): Análisis de Paisaje Político Interno: detecta tensiones, alianzas y centros de poder a partir de un mapa de stakeholders.
+- **org-stakeholder-mapper** (skill): Mapeador de Stakeholders y Decisores: extrae roles formales y reales, motivaciones, alianzas y tensiones de una organización.
 - **orgchart-import** (cmd): >
 - **orgchart-import** (skill): Usar cuando se importa un organigrama para extraer la estructura del equipo.
 - **oumi-probe** (script): oumi-probe.sh — SE-028 Slice 1 oumi integration viability probe.
@@ -354,10 +380,12 @@
 - **postmortem-heuristics** (cmd): Extract debugging heuristics from postmortems
 - **pre-commit-sovereignty** (script): NOTE: -e omitted intentionally — grep returns 1 on no-match which would
 - **pre-output-validator** (script): pre-output-validator.sh — TTSR-inspired pre-output rule validator (SE-150)
+- **pre-tribunal-gates** (script): pre-tribunal-gates.sh — SE-251: deterministic pre-tribunal gates
 - **privacy-check-company** (script): privacy-check-company.sh — Privacy filter for company repo content
 - **probe-devops** (script): probe-devops.sh — diagnóstico de acceso a Azure DevOps usando la
 - **product-catalog** (cmd): Gestiona el catálogo de productos: añadir, actualizar, listar, buscar y exportar
 - **product-discovery** (skill): Usar antes de descomponer PBIs, cuando se necesita análisis JTBD y PRD del producto.
+- **professional-domain** (skill): Family index for professional-domain skills (controlling, finance, labour, legal, sales). Load individual skills from subdirectories.
 - **profile-discover** (script): profile-discover.sh — SE-219 S4: auto multi-profile discovery (abtop pattern)
 - **profile-edit** (cmd): Savia actualiza tu perfil — editar una sección.
 - **profile-setup** (cmd): Savia te conoce — configuración del perfil en conversación natural.
@@ -467,6 +495,7 @@
 - **skill-routing-index** (script): skill-routing-index.sh — SE-152
 - **skills-lock** (script): skills-lock.sh — SHA-256 integrity verification for skills
 - **skills-md-generate** (script): Force C locale for deterministic sort + awk text handling across machines
+- **skills-schema-generate** (script): skills-schema-generate.sh
 - **skillssh-adapter** (script): ── skills.sh Adapter — Genera paquetes publicables para skills.sh ──
 - **slm** (script): slm.sh — Unified SLM (Small Language Model) training toolchain dispatcher.
 - **slm-data-collect** (script): slm-data-collect.sh — Collect training data from workspace artifacts.
@@ -501,6 +530,7 @@
 - **strategy-map** (cmd): Mapa estratégico — iniciativas, dependencias, contribución a objetivos
 - **structural-framing-judge** (agent): Recommendation Tribunal judge — detects output with manual/protocol form over CBRN or sensitive domain
 - **subscriber-lifecycle** (cmd): Gestión integral del ciclo de vida del suscriptor desde onboarding hasta análisis de churn
+- **surface-map-authorize** (script): surface-map-authorize.sh — SE-243 Authorization helper
 - **sustainable-pace** (cmd): Cálculo de ritmo sostenible basado en histórico y capacidad real
 - **sync-adapters/adapter-interface** (script): adapter-interface.sh — Common interface for backlog sync adapters
 - **sync-adapters/azure-devops-adapter** (script): azure-devops-adapter.sh — Sync local backlog with Azure DevOps
@@ -523,6 +553,8 @@
 - **team-workload** (cmd): Muestra la carga de trabajo por persona — items asignados, horas remaining y balance de equipo.
 - **tech-radar** (cmd): Radar tecnológico del proyecto — librerías, versiones, adopt/trial/hold/retire
 - **tech-writer** (agent): >
+- **terminal-state-emit** (script): terminal-state-emit.sh — Emits structured termination reason for a loop/agent
+- **terminal-state-read** (script): terminal-state-read.sh — Reads the last terminal state for a loop/agent
 - **terraform-developer** (agent): >
 - **threat-model** (cmd): >
 - **tier3-probes** (skill): Usar cuando se valida la viabilidad de herramientas Tier 3 antes de adoptarlas en el workspace.

@@ -1,5 +1,5 @@
 # analysis — Savia Capability Map (L1)
-> 73 resources
+> 74 resources
 
 - **/a11y-report** (cmd): Reporte de conformidad de accesibilidad para stakeholders y legal. Tres formatos: ejecutivo (resumen + score), técnico (detalles completos + código), legal (declaración VPAT/Section 508). Tracking de tendencias. Exportable.
 - **Trace Optimize** (cmd): Optimize trace spans and sampling rates across distributed services
@@ -31,6 +31,7 @@
 - **agent-wait-idle** (script): agent-wait-idle.sh — SE-206: detect when an AI agent process is idle
 - **ai-risk-assessment** (cmd): Evaluación de riesgo de agentes según categorías EU AI Act
 - **async-standup** (cmd): Recogida asíncrona de standups — cada dev reporta cuando quiera, Savia compila
+- **bus-factor-report** (script): bus-factor-report.sh -- Informe ejecutivo del scan de Bus Factor.
 - **case-recompute** (cmd): Recompute NPV, IRR, and risk-adjusted NPV for a business case
 - **ceo-report** (cmd): Informe ejecutivo multi-proyecto para dirección — portfolio, riesgo, equipo, delivery
 - **completeness-judge** (agent): Truth Tribunal judge — report covers what its title/abstract promises
