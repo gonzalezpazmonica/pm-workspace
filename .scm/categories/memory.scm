@@ -1,5 +1,5 @@
 # memory — Savia Capability Map (L1)
-> 116 resources
+> 120 resources
 
 - **auto-compact** (script): auto-compact.sh — Disparado automáticamente cuando contexto > 85%
 - **biblio-search** (cmd): >
@@ -25,6 +25,8 @@
 - **context-condenser** (script): context-condenser.sh — SE-200: rolling window context compression
 - **context-defer** (cmd): Sistema de carga diferida — cargar comandos/reglas solo cuando se necesitan (85% reducción de overhead)
 - **context-distortion-measure** (script): context-distortion-measure.sh — SE-029-M
+- **context-dome** (skill): >
+- **context-dome-generate** (script): context-dome-generate.sh -- Genera CONTEXT_DOME.md por modulo con BF bajo.
 - **context-drop-after-use** (script): context-drop-after-use.sh — SE-221 Slice 2 — Drop-After-Use decision engine
 - **context-drop-metrics** (script): context-drop-metrics.sh — SE-221 Slice 2 — Drop-After-Use metrics
 - **context-engineering-report** (script): context-engineering-report.sh — SE-221 Slice 4 — Weekly report generator
@@ -52,6 +54,7 @@
 - **cross-project-search** (cmd): Búsqueda transversal de conocimiento entre todos los proyectos del portfolio
 - **digest-to-memory** (script): digest-to-memory.sh — Bridge: digest agents -> memory-store + graph
 - **entity-recall** (cmd): >
+- **focal-switch** (script): focal-switch.sh — Off-load de contexto antes de cambiar de nido (SE-230 Slice 1)
 - **generate-blocklist** (script): generate-blocklist.sh — Dynamic blocklist from workspace context
 - **generate-context-index** (script): generate-context-index.sh — Generate context index files for workspace and projects
 - **generate-global-context** (script): Generate compact global context for agent injection.

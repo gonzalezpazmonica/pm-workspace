@@ -1,5 +1,5 @@
 # communication — Savia Capability Map (L1)
-> 103 resources
+> 104 resources
 
 - **archive-digest** (agent): >
 - **chat-notify** (cmd): Enviar notificación formateada a Google Chat
@@ -24,6 +24,7 @@
 - **notify-slack** (cmd): >
 - **notify-whatsapp** (cmd): >
 - **obs-dashboard** (cmd): Dashboard de observabilidad digesto por rol — CEO, CTO, PM, Dev, QA, SRE
+- **org-meeting-capture** (skill): Captura de Conocimiento Tácito de Reunión: extrae decisores, acuerdos informales y señales políticas de transcripciones.
 - **pdf-digest** (agent): >
 - **pptx-digest** (agent): >
 - **savia-announce** (cmd): >
