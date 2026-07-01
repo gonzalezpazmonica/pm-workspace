@@ -13,7 +13,9 @@
     "docs/rules/domain/caveman-default.md",
     "docs/rules/domain/agents-catalog.md"
   ],
-  "plugin": [],
+  "plugin": [
+    "opencode-sandbox"
+  ],
   "experimental": {
     "sandbox": {
       "policy_dir": ".opencode/sandbox-policies",
