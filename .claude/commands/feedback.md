@@ -4,6 +4,7 @@ description: Abrir incidencias, ideas o mejoras como issues en el repositorio de
 developer_type: all
 agent: none
 context_cost: low
+tier: extended
 ---
 
 # /feedback {subcommand}

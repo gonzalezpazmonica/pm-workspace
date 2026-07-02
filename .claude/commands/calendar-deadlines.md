@@ -5,6 +5,7 @@ argument-hint: "[--days 14] [--project nombre]"
 allowed-tools: [Read, Glob, Grep, Bash]
 model: github-copilot/claude-sonnet-4.5
 context_cost: medium
+tier: core
 ---
 
 # /calendar-deadlines — Guardian de Deadlines

@@ -1,6 +1,7 @@
 ---
 name: travel-unpack
 description: Desempaca tu workspace desde USB en una nueva máquina.
+tier: extended
 ---
 
 # /travel-unpack — Desempacar Savia

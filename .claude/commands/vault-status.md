@@ -1,6 +1,7 @@
 ---
 name: vault-status
 description: "Estado del Personal Vault"
+tier: extended
 ---
 
 # /vault-status — Estado del Personal Vault

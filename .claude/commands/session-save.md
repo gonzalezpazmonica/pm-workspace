@@ -3,6 +3,7 @@ name: session-save
 description: >
   Guarda decisiones, resultados y pendientes de la sesión actual antes de /clear.
   Persiste el conocimiento entre sesiones para que /context-load lo recupere.
+tier: extended
 ---
 
 # Session Save — Persistencia entre sesiones

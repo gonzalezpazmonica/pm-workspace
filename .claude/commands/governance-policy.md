@@ -4,6 +4,7 @@ description: Definir política de uso de IA de la empresa — clasificación de 
 developer_type: all
 agent: none
 context_cost: low
+tier: extended
 ---
 
 # /governance-policy

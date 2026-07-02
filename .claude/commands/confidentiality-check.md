@@ -1,6 +1,7 @@
 ---
 name: confidentiality-check
 description: "Auditoria pre-PR de confidencialidad y firma criptografica"
+tier: extended
 ---
 
 # /confidentiality-check — Auditoria pre-PR de confidencialidad + firma

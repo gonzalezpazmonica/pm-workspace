@@ -3,6 +3,7 @@ name: inbox-check
 description: >
   Revisar mensajes nuevos en todos los canales de mensajería.
   Transcribir audios, interpretar peticiones y proponer acciones.
+tier: core
 ---
 
 # Inbox Check

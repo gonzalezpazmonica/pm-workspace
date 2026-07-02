@@ -7,6 +7,7 @@ argument-hint: "<nombre-proyecto>"
 allowed-tools: [Read, Write, Edit, Bash, Glob, Grep]
 model: github-copilot/claude-sonnet-4.5
 context_cost: medium
+tier: core
 ---
 
 # /project-new — Create New Project

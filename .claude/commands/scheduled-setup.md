@@ -4,6 +4,7 @@ description: Wizard interactivo para configurar notificaciones automáticas en p
 developer_type: pm
 agent: task
 context_cost: medium
+tier: extended
 ---
 
 # /scheduled-setup

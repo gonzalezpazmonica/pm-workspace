@@ -3,6 +3,7 @@ name: testplan-results
 description: >
   Resultados detallados de ejecución de tests en Azure DevOps.
   Análisis de fallos, tendencias y recomendaciones.
+tier: extended
 ---
 
 # TestPlan Results

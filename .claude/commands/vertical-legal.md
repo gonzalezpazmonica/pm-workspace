@@ -4,6 +4,7 @@ description: Extensión compliance para legal — GDPR, eDiscovery, contract lif
 developer_type: all
 agent: task
 context_cost: high
+tier: core
 ---
 
 # /vertical-legal [--analyze] [--fix] [--lang es|en]

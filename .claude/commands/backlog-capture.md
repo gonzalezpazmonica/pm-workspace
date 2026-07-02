@@ -3,6 +3,7 @@ name: backlog-capture
 description: >
   Crear PBIs desde input desestructurado: emails, notas de reunión,
   tickets de soporte, conversaciones de Slack.
+tier: core
 ---
 
 # Backlog Capture

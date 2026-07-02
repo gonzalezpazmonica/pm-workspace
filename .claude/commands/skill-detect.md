@@ -5,6 +5,7 @@ argument-hint: "[scan|propose|refine|status]"
 context_cost: low
 model: github-copilot/claude-sonnet-4.5
 allowed-tools: [Bash, Read]
+tier: core
 ---
 
 # /skill-detect — Deteccion y propuesta de skills (SE-030)

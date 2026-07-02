@@ -4,6 +4,7 @@ description: Checklist de release — features, tests, docs, compliance, deploym
 developer_type: all
 agent: task
 context_cost: high
+tier: extended
 ---
 
 # /release-readiness

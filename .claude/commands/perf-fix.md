@@ -4,6 +4,7 @@ description: Optimización test-first de hallazgos de rendimiento — crea tests
 developer_type: all
 agent: developer
 context_cost: medium
+tier: core
 ---
 
 # /perf-fix {PA-NNN} [PA-MMM...] [--dry-run]

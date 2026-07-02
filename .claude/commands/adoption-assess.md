@@ -4,6 +4,7 @@ description: Evaluar madurez de adopción de IA del equipo usando modelo ADKAR
 developer_type: all
 agent: task
 context_cost: medium
+tier: extended
 ---
 
 # /adoption-assess

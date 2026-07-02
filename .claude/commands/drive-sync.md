@@ -3,6 +3,7 @@ name: /drive-sync
 description: Bidirectional sync between local workspace and Google Drive
 argument-hint: "[project] [push|pull|status]"
 context_cost: medium
+tier: extended
 ---
 
 # /drive-sync

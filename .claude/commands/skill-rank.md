@@ -5,6 +5,7 @@ argument-hint: "[--detail SKILL] [--dormant] [--deprecated] [--export csv]"
 allowed-tools: [Read, Bash, Glob, Grep, Write]
 model: github-copilot/claude-sonnet-4.5
 context_cost: medium
+tier: core
 ---
 
 # /skill-rank

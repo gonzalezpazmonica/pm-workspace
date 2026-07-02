@@ -4,6 +4,7 @@ description: Log inmutable de todas las acciones de Savia — comandos, recomend
 developer_type: all
 agent: task
 context_cost: medium
+tier: extended
 ---
 
 # Audit Trail — Registro Completo e Inmutable

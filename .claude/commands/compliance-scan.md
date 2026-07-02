@@ -4,6 +4,7 @@ description: Escanear código fuente contra regulaciones del sector — detecci�
 developer_type: all
 agent: architect
 context_cost: medium
+tier: core
 ---
 
 # /compliance-scan {path} [--sector SECTOR] [--strict] [--lang es|en]

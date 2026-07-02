@@ -5,6 +5,7 @@ description: >
   QA, Security, DevOps. Informe consolidado con veredicto final.
 model: github-copilot/claude-sonnet-4.5
 context_cost: medium
+tier: core
 ---
 
 # Revisión Multi-Perspectiva de Pull Request

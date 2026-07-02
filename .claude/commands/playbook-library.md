@@ -4,6 +4,7 @@ description: Biblioteca compartida de playbooks maduros entre proyectos
 developer_type: all
 agent: task
 context_cost: high
+tier: extended
 ---
 
 # /playbook-library

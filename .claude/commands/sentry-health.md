@@ -3,6 +3,7 @@ name: sentry-health
 description: >
   Métricas de salud técnica del proyecto desde Sentry: errores, crash rate,
   performance, alertas activas. Alimenta sprint-status y kpi-dashboard.
+tier: extended
 ---
 
 # Salud Técnica — Sentry

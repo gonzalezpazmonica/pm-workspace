@@ -4,6 +4,7 @@ description: "Alias spec-kit compatible. Preguntas dirigidas para cerrar ambigü
 developer_type: all
 agent: task
 context_cost: medium
+tier: core
 ---
 
 # /speckit.clarify — Cerrar ambigüedad

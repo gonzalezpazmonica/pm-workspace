@@ -3,6 +3,7 @@ name: risk-log
 description: >
   Registro estructurado de riesgos del proyecto con probabilidad,
   impacto, mitigación y risk burndown chart.
+tier: extended
 ---
 
 # Risk Log

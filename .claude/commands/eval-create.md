@@ -1,6 +1,7 @@
 ---
 name: eval-create
 description: Create and configure evaluation criteria for outputs
+tier: extended
 ---
 
 ---

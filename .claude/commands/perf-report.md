@@ -4,6 +4,7 @@ description: Informe ejecutivo de rendimiento — hotspots, async issues, roadma
 developer_type: all
 agent: architect
 context_cost: medium
+tier: core
 ---
 
 # /perf-report {path} [--format md|docx] [--compare] [--sprint] [--lang es|en]

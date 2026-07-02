@@ -4,6 +4,7 @@ description: Visualizar alineación proyecto→OKR→estrategia corporativa
 developer_type: all
 agent: task
 context_cost: high
+tier: extended
 ---
 
 # /okr-align

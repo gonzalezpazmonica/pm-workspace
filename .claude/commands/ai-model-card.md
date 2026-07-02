@@ -4,6 +4,7 @@ description: Genera model card documentando agentes IA, modelos, tareas y decisi
 developer_type: agent-single
 agent: business-analyst
 context_cost: medium
+tier: core
 ---
 
 # AI Model Card Generator

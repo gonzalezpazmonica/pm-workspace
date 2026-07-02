@@ -3,6 +3,7 @@ name: spec-generate
 description: Genera una Spec ejecutable a partir de una Task de Azure DevOps, lista para implementación.
 model: github-copilot/claude-opus-4.7
 context_cost: high
+tier: core
 ---
 
 # /spec-generate

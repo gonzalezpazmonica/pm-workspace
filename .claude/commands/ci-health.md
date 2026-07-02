@@ -5,6 +5,7 @@ model: github-copilot/claude-sonnet-4.5
 context_cost: low
 allowed-tools: [Bash]
 argument-hint: "[--days N]"
+tier: core
 ---
 
 # /ci-health

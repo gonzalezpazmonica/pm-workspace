@@ -1,6 +1,7 @@
 ---
 name: ref-resolve
 description: Resolve and preview resource references
+tier: extended
 ---
 
 ---

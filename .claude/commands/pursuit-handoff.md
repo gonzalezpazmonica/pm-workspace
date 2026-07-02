@@ -5,6 +5,7 @@ argument-hint: "OPP-YYYY-NNN"
 context_cost: medium
 model: github-copilot/claude-sonnet-4.5
 allowed-tools: [Read, Write, Bash, Glob, Grep]
+tier: core
 ---
 
 # /pursuit-handoff — Sales-to-delivery handoff (SE-015)

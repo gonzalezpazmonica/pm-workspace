@@ -7,6 +7,7 @@ context_cost: low
 model: github-copilot/claude-sonnet-4.5
 allowed-tools: [Read, Bash, Glob, Grep]
 argument-hint: "{install|start|stop|status|test|logs}"
+tier: core
 ---
 
 # /savia-dual {subcomando}

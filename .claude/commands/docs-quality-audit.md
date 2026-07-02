@@ -5,6 +5,7 @@ argument-hint: "[--threshold 30] [--period 30d]"
 allowed-tools: [Read, Glob, Grep, Bash]
 model: github-copilot/claude-sonnet-4.5
 context_cost: medium
+tier: core
 ---
 
 # /docs-quality-audit — Auditar Calidad de Docs

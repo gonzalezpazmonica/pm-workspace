@@ -4,6 +4,7 @@ description: Generación de plan de pruebas desde specs SDD o PBIs
 developer_type: all
 agent: task
 context_cost: high
+tier: extended
 ---
 
 # /testplan-generate

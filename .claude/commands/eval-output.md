@@ -5,6 +5,7 @@ description: >
   con scoring G-Eval (1-10), comparación A/B Arena, y análisis de tool selection.
 model: github-copilot/claude-opus-4.7
 context_cost: high
+tier: core
 ---
 
 # /eval-output

@@ -3,6 +3,7 @@ name: nctalk-search
 description: >
   Buscar mensajes en Nextcloud Talk como contexto.
   Decisiones, acuerdos y conversaciones del equipo.
+tier: extended
 ---
 
 # Nextcloud Talk Search

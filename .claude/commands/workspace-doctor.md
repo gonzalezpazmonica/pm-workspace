@@ -9,6 +9,7 @@ context_cost: low
 allowed-tools:
   - Bash
   - Read
+tier: core
 ---
 
 # /workspace-doctor [--quick] [--fix]

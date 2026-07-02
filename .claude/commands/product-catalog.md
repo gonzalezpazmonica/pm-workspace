@@ -5,6 +5,7 @@ section: "Retail/eCommerce"
 category: "Inventory Management"
 keywords: ["productos", "catálogo", "SKU", "categorías"]
 author: "Claude Code"
+tier: extended
 ---
 
 ## Descripción

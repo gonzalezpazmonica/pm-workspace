@@ -4,6 +4,7 @@ description: Auditar gobierno de datos — lineage, clasificación, GDPR/LOPD, f
 developer_type: all
 agent: task
 context_cost: high
+tier: core
 ---
 
 # /banking-data-governance [--project {nombre}] [--focus lineage|classification|features|gdpr]

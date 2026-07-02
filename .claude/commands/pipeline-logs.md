@@ -3,6 +3,7 @@ name: pipeline-logs
 description: >
   Ver logs de una build de Azure Pipelines: timeline de stages,
   errores, warnings y duración por paso.
+tier: core
 ---
 
 # Pipeline Logs

@@ -3,6 +3,7 @@ name: sprint-release-notes
 description: >
   Generar release notes automáticas combinando work items completados,
   commits convencionales y PRs mergeados del sprint.
+tier: core
 ---
 
 # Sprint Release Notes

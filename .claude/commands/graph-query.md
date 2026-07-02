@@ -6,6 +6,7 @@ allowed-tools:
   - Grep
   - Bash
 context_cost: low
+tier: core
 ---
 
 # /graph-query {question} [--mode=local|global|hybrid|bypass]

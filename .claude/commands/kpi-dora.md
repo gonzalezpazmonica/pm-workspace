@@ -5,6 +5,7 @@ description: >
   change failure rate, MTTR y reliability.
 model: github-copilot/claude-sonnet-4.5
 context_cost: medium
+tier: core
 ---
 
 # KPI DORA

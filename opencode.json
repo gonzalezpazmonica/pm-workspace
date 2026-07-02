@@ -197,6 +197,11 @@
       "agent": "build"
     }
   },
+  "catalog": {
+    "tier_field": "tier",
+    "default_tier": "core",
+    "extended_on_demand": true
+  },
   "autoupdate": false,
   "snapshot": true,
   "share": "manual",

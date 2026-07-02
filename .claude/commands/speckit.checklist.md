@@ -4,6 +4,7 @@ description: "Alias spec-kit compatible. Gate de calidad final con verification-
 developer_type: all
 agent: task
 context_cost: high
+tier: core
 ---
 
 # /speckit.checklist — Gate de calidad final

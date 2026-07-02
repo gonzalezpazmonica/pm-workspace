@@ -1,6 +1,7 @@
 ---
 name: mcp-server-config
 description: Configure MCP servers and connection settings
+tier: extended
 ---
 
 ---

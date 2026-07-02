@@ -5,6 +5,7 @@ argument-hint: "<report-path> [--force]"
 allowed-tools: [Read, Write, Bash, Task, Glob, Grep]
 model: github-copilot/claude-opus-4.7
 context_cost: medium
+tier: core
 ---
 
 # /report-verify — Truth Tribunal verification

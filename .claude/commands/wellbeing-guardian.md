@@ -5,6 +5,7 @@ allowed-tools: [Read, Glob, Grep, Write, Edit]
 argument-hint: "[status|configure|breaks|report|pause] [--reason work|personal|hydration] [--week|--month] [--summary|--detailed]"
 model: github-copilot/claude-sonnet-4.5
 context_cost: low
+tier: core
 ---
 
 # /wellbeing-guardian — Sistema proactivo de bienestar individual

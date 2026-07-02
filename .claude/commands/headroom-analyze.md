@@ -2,6 +2,7 @@
 name: headroom-analyze
 description: Analizar el uso de tokens por bloque de contexto e identificar oportunidades de compresión
 arguments: "$ARGUMENTS = nombre del proyecto"
+tier: extended
 ---
 
 # /headroom-analyze

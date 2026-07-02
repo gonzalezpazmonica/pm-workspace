@@ -3,6 +3,7 @@ name: "deep-work"
 description: "Planificador de bloques de trabajo profundo basado en calendario y carga. Framework de Cal Newport aplicado a equipos de desarrollo."
 developer_type: all
 agent: task
+tier: extended
 ---
 
 # /deep-work

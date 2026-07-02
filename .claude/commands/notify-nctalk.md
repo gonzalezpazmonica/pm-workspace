@@ -3,6 +3,7 @@ name: notify-nctalk
 description: >
   Enviar notificaciones e informes a una sala de Nextcloud Talk.
   Funciona con cualquier instancia Nextcloud (self-hosted o cloud).
+tier: extended
 ---
 
 # Notify Nextcloud Talk

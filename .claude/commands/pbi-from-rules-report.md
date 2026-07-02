@@ -2,6 +2,7 @@
 name: pbi-from-rules-report
 description: Generate traceability matrix report without creating PBIs
 allowed-tools: Bash, Read, Write, Task
+tier: extended
 ---
 
 # /pbi-from-rules-report

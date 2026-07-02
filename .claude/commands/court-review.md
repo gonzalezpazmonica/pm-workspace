@@ -1,6 +1,7 @@
 ---
 name: Court Review
 description: Convene the Code Review Court to evaluate implementation quality across 6 judges
+tier: core
 ---
 
 # /court-review — Convene the Code Review Court

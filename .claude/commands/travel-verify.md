@@ -1,6 +1,7 @@
 ---
 name: travel-verify
 description: Verifica integridad de un paquete de viaje en USB.
+tier: extended
 ---
 
 # /travel-verify — Verificar paquete

@@ -1,6 +1,7 @@
 ---
 name: risk-assess
 description: Calculate and display risk score for a task with breakdown and review recommendations
+tier: extended
 ---
 
 # Command: /risk-assess

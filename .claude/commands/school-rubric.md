@@ -5,6 +5,7 @@ argument-hint: "<rubric_name> [--edit|--view]"
 allowed-tools: [Read, Write, Bash]
 model: github-copilot/claude-sonnet-4.5
 context_cost: medium
+tier: core
 ---
 
 # School Rubric

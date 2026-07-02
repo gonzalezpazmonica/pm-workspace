@@ -1,6 +1,7 @@
 ---
 name: cache-optimize
 description: Optimize caching strategy for performance and efficiency
+tier: extended
 ---
 
 ---

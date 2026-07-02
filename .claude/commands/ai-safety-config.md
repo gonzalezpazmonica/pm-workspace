@@ -4,6 +4,7 @@ description: Configurar 4 niveles de supervisión humana (inform/recommend/decid
 developer_type: all
 agent: none
 context_cost: low
+tier: extended
 ---
 
 # /ai-safety-config

@@ -5,6 +5,7 @@ argument-hint: "[--by-project|--by-student]"
 allowed-tools: [Read, Bash]
 model: github-copilot/claude-sonnet-4.5
 context_cost: medium
+tier: core
 ---
 
 # School Analytics

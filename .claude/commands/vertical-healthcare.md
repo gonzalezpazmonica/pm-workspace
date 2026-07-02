@@ -4,6 +4,7 @@ description: Extensión compliance para healthcare — HIPAA, HL7 FHIR, FDA 21 C
 developer_type: all
 agent: task
 context_cost: high
+tier: core
 ---
 
 # /vertical-healthcare [--analyze] [--fix] [--lang es|en]

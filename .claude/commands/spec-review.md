@@ -1,6 +1,7 @@
 ---
 name: spec-review
 description: Review specification for completeness and coherence
+tier: extended
 ---
 
 ---

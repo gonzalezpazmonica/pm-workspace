@@ -4,6 +4,7 @@ description: Conectar Savia a plataformas de observabilidad — Grafana, Datadog
 developer_type: all
 agent: task
 context_cost: high
+tier: extended
 ---
 
 # /obs-connect

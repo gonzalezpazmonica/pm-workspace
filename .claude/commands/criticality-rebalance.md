@@ -5,6 +5,7 @@ argument-hint: "[--project nombre] [--team equipo] [--dry-run]"
 allowed-tools: [Read, Write, Bash, Glob, Grep]
 model: github-copilot/claude-sonnet-4.5
 context_cost: medium
+tier: core
 ---
 
 # /criticality-rebalance — Rebalanceo por Criticidad

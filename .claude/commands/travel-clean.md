@@ -1,6 +1,7 @@
 ---
 name: travel-clean
 description: Elimina rastros de Savia de una máquina temporal.
+tier: extended
 ---
 
 # /travel-clean — Limpiar máquina

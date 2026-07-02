@@ -5,6 +5,7 @@ description: >
   rating de riesgo y roadmap de modernización (strangler fig pattern).
 model: github-copilot/claude-opus-4.7
 context_cost: high
+tier: core
 ---
 
 # Legacy Assess

@@ -4,6 +4,7 @@ description: >
   Extrae el historial completo de uno o varios sprints desde Azure DevOps:
   work items, revisiones (cambios de estado y tags) y relaciones (commits, PRs).
   Genera un JSON detallado por sprint en ~/.savia/sprint-history/.
+tier: core
 ---
 
 # /import-sprint-story

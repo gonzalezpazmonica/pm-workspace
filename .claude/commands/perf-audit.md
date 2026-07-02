@@ -4,6 +4,7 @@ description: Auditoría estática de rendimiento — detecta hotspots, async ant
 developer_type: all
 agent: architect
 context_cost: medium
+tier: core
 ---
 
 # /perf-audit {path} [--lang LANG] [--top N] [--strict] [--lang es|en]

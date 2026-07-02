@@ -5,6 +5,7 @@ allowed-tools: [Read, Glob, Grep, Write, Edit, Bash]
 argument-hint: "[portfolio|team-health|risk-matrix|forecast] [--project proyecto] [--team equipo] [--quarters 2]"
 model: github-copilot/claude-sonnet-4.5
 context_cost: medium
+tier: core
 ---
 
 # /enterprise-dashboard — Analytics Empresarial

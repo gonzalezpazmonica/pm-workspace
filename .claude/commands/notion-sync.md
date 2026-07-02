@@ -3,6 +3,7 @@ name: notion-sync
 description: >
   Sincronizar documentación del proyecto con Notion. Import/export de
   specs, decisiones arquitectónicas, onboarding y documentación técnica.
+tier: extended
 ---
 
 # Sync Documentación ↔ Notion

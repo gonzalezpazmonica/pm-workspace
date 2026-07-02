@@ -1,6 +1,7 @@
 ---
 name: travel-pack
 description: Empaca tu workspace en una unidad USB con cifrado AES-256.
+tier: extended
 ---
 
 # /travel-pack — Empacar Savia en USB

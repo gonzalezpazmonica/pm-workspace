@@ -3,6 +3,7 @@ name: verify-layer
 description: Run specific verification layer for debugging
 context_cost: medium
 argument-hint: "[layer-number] [task-id]"
+tier: extended
 ---
 
 # /verify-layer {N} {task-id}

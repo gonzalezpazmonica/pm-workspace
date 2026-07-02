@@ -7,6 +7,7 @@ argument-hint: "[create|connect|status|sync]"
 allowed-tools: [Read, Write, Bash, Glob, Grep]
 model: github-copilot/claude-sonnet-4.5
 context_cost: medium
+tier: core
 ---
 
 # Company Repo

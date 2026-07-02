@@ -4,6 +4,7 @@ description: Benchmark de posicionamiento de información en el contexto
 developer_type: all
 agent: none
 context_cost: high
+tier: extended
 ---
 
 # /context-benchmark

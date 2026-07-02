@@ -4,6 +4,7 @@ description: Aplicar corrección automática a hallazgos de compliance y re-veri
 developer_type: all
 agent: architect
 context_cost: high
+tier: core
 ---
 
 # /compliance-fix {issue-ids} [--dry-run]

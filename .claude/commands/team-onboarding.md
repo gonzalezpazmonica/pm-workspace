@@ -4,6 +4,7 @@ description: >
   Genera una guía de onboarding personalizada para un nuevo programador que se incorpora
   a un proyecto. Cubre las Fases 1-2: carga de contexto del proyecto y tour guiado
   del codebase. El mentor humano valida cada checkpoint.
+tier: core
 ---
 
 # Onboarding de Nuevo Miembro

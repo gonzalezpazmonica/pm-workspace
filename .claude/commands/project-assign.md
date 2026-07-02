@@ -3,6 +3,7 @@ name: project-assign
 description: >
   Phase 3 — Distribute release plan work across the team by profiles,
   skills, seniority, and capacity. Generates assignment matrix.
+tier: core
 ---
 
 # Project Assign

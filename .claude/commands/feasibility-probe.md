@@ -5,6 +5,7 @@ argument-hint: "<spec_path> [--budget 15]"
 allowed-tools: [Read, Write, Edit, Bash, Glob, Grep, Task]
 model: github-copilot/claude-sonnet-4.5
 context_cost: high
+tier: core
 ---
 
 # /feasibility-probe $ARGUMENTS

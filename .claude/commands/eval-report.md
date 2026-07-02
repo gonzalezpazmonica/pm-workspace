@@ -1,6 +1,7 @@
 ---
 name: eval-report
 description: Generate evaluation report with scoring and analysis
+tier: extended
 ---
 
 ---

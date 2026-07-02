@@ -1,6 +1,7 @@
 ---
 name: savia-recall
 description: Recall and retrieve information from Savia memory
+tier: core
 ---
 
 ---

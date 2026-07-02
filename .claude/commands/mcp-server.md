@@ -4,6 +4,7 @@ description: Expone las herramientas de Savia como MCP server para otros proyect
 developer_type: all
 agent: task
 context_cost: high
+tier: extended
 ---
 
 # /mcp-server

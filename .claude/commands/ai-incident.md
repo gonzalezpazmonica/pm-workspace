@@ -4,6 +4,7 @@ description: Registrar y analizar incidentes donde recomendaciones de Savia fuer
 developer_type: all
 agent: task
 context_cost: medium
+tier: extended
 ---
 
 # /ai-incident

@@ -5,6 +5,7 @@ argument-hint: "[agent-name] [--clear] [--list]"
 allowed-tools: [Read, Write, Edit, Glob, Grep, Bash]
 model: github-copilot/claude-sonnet-4.5
 context_cost: low
+tier: core
 ---
 
 # /agent-memory — Agent Memory Manager

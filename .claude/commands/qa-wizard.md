@@ -1,6 +1,7 @@
 ---
 name: qa-wizard
 description: Interactive wizard for QA engineer onboarding
+tier: extended
 ---
 
 ---

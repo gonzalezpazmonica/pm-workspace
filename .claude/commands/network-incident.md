@@ -3,6 +3,7 @@ name: network-incident
 description: "Gestión del ciclo de vida de incidentes de red con reporte, clasificación, escalado y resolución"
 icon: "🚨"
 category: "Telecomunicaciones"
+tier: extended
 ---
 
 # Incidentes de Red Telecomunicaciones

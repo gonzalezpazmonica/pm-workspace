@@ -1,6 +1,7 @@
 ---
 name: memory-search
 description: Search memory entries by keywords and topics
+tier: extended
 ---
 
 ---

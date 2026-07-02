@@ -4,6 +4,7 @@ description: Mapa estratégico — iniciativas, dependencias, contribución a ob
 developer_type: all
 agent: task
 context_cost: high
+tier: extended
 ---
 
 # /strategy-map

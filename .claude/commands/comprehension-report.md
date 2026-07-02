@@ -8,6 +8,7 @@ allowed-tools:
   - Grep
 model: github-copilot/claude-opus-4.7
 context_cost: medium
+tier: core
 ---
 
 # /comprehension-report

@@ -4,6 +4,7 @@ description: Transparencia: Savia muestra confianza, razonamiento, datos y limit
 developer_type: all
 agent: task
 context_cost: low
+tier: extended
 ---
 
 # /ai-confidence

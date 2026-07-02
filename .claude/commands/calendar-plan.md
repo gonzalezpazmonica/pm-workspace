@@ -5,6 +5,7 @@ argument-hint: "[--week current|next] [--project nombre]"
 allowed-tools: [Read, Write, Bash, Glob, Grep]
 model: github-copilot/claude-opus-4.7
 context_cost: high
+tier: core
 ---
 
 # /calendar-plan — Planificar Semana

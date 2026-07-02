@@ -4,6 +4,7 @@ description: Mapa de valor end-to-end — idea→producción, waste, cuellos de 
 developer_type: all
 agent: task
 context_cost: high
+tier: extended
 ---
 
 # /value-stream-map

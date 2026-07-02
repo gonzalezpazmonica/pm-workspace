@@ -1,6 +1,7 @@
 ---
 name: overnight-sprint
 description: Launch autonomous overnight sprint — executes low-risk tasks, creates PRs for human review
+tier: core
 ---
 
 # /overnight-sprint

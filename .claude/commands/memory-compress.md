@@ -4,6 +4,7 @@ description: Compresión semántica de memorias (engrams). Reduce tokens hasta 8
 developer_type: all
 agent: task
 context_cost: high
+tier: extended
 ---
 
 # /memory-compress

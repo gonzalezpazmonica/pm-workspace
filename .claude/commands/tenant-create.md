@@ -4,6 +4,7 @@ description: Crea un workspace aislado por departamento/equipo con perfiles de u
 developer_type: all
 agent: task
 context_cost: high
+tier: extended
 ---
 
 # /tenant-create — Crear Tenant Aislado

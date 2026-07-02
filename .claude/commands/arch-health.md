@@ -4,6 +4,7 @@ description: Salud arquitectónica — fitness functions, drift detection, coupl
 developer_type: all
 agent: task
 context_cost: high
+tier: extended
 ---
 
 # /arch-health

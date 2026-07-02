@@ -9,6 +9,7 @@ allowed-tools:
   - Write
   - Glob
   - Bash
+tier: extended
 ---
 
 # /insurance-claim {proyecto} {subcomando} [opciones]

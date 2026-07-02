@@ -5,6 +5,7 @@ argument-hint: "BC-YYYY-NNN"
 context_cost: medium
 model: github-copilot/claude-sonnet-4.5
 allowed-tools: [Read, Write, Bash, Glob, Grep]
+tier: core
 ---
 
 # /case-recompute — Recompute valuation (SE-016)

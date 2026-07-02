@@ -4,6 +4,7 @@ description: >
   Configurar git worktree para implementación paralela de agentes SDD.
   Automatiza creación, configuración y limpieza de worktrees.
 agent: commit-guardian
+tier: extended
 ---
 
 # /worktree-setup

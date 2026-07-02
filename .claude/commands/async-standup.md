@@ -3,6 +3,7 @@ name: async-standup
 description: Recogida asíncrona de standups — cada dev reporta cuando quiera, Savia compila
 agent: task
 context_cost: medium
+tier: extended
 ---
 
 # /async-standup

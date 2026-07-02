@@ -7,6 +7,7 @@ argument-hint: "[--all|--profiles|--messages|--projects|--specs|--timesheets]"
 allowed-tools: [Bash, Read, Glob]
 model: github-copilot/claude-sonnet-4.5
 context_cost: low
+tier: core
 ---
 
 # Index Rebuild

@@ -6,6 +6,7 @@ description: >
 agent: security-guardian
 skills:
   - azure-devops-queries
+tier: extended
 ---
 
 # /dependencies-audit

@@ -5,6 +5,7 @@ argument-hint: "OPP-YYYY-NNN [--sections executive-summary,technical-approach]"
 context_cost: medium
 model: github-copilot/claude-sonnet-4.5
 allowed-tools: [Read, Write, Bash, Glob, Grep]
+tier: core
 ---
 
 # /pursuit-draft — Draft proposal sections (SE-015)

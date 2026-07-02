@@ -1,6 +1,7 @@
 ---
 name: record-start
 description: Start recording session for audit and replay
+tier: extended
 ---
 
 ---

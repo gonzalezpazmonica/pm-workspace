@@ -4,6 +4,7 @@ description: Análisis de friction points y recomendaciones para mejorar la expe
 developer_type: agent-single
 agent: business-analyst
 context_cost: medium
+tier: extended
 ---
 
 # dx-recommendations

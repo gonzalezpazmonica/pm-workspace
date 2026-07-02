@@ -4,6 +4,7 @@ description: Comparar dos patrones de arquitectura para toma de decisiones
 developer_type: all
 agent: architect
 context_cost: low
+tier: extended
 ---
 
 # /arch-compare {pattern1} {pattern2}

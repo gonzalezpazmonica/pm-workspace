@@ -5,6 +5,7 @@ section: "Retail/eCommerce"
 category: "Marketing & Promotions"
 keywords: ["promociones", "descuentos", "ofertas", "campañas"]
 author: "Claude Code"
+tier: extended
 ---
 
 ## Descripción

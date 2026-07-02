@@ -3,6 +3,7 @@ name: meeting-agenda
 description: Generación inteligente de agendas basada en estado del sprint y temas pendientes
 agent: none
 context_cost: low
+tier: extended
 ---
 
 # /meeting-agenda

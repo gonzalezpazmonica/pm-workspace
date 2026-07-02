@@ -1,6 +1,7 @@
 ---
 name: sheets-setup
 description: Configure Google Sheets integration
+tier: extended
 ---
 
 ---

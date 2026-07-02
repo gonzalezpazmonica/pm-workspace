@@ -6,6 +6,7 @@ description: >
 developer_type: agent-single
 agent: architect
 context_cost: medium
+tier: extended
 ---
 
 # Debt Prioritize

@@ -4,6 +4,7 @@ description: Proponer extensión vertical para un sector no-software detectado e
 developer_type: all
 agent: none
 context_cost: medium
+tier: extended
 ---
 
 # /vertical-propose {nombre}

@@ -5,6 +5,7 @@ argument-hint: "start <spec-path> | next | status | review | abort"
 allowed-tools: [Read, Write, Bash, Glob, Grep, Task]
 model: github-copilot/claude-sonnet-4.5
 context_cost: high
+tier: core
 ---
 
 # /dev-session — Sesión de desarrollo optimizada para contexto

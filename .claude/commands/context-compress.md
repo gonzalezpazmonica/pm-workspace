@@ -4,6 +4,7 @@ description: Compresión semántica de contexto — mantener significado, reduci
 developer_type: all
 agent: task
 context_cost: high
+tier: extended
 ---
 
 # Comando: context-compress

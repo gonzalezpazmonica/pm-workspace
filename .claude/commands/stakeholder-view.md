@@ -1,6 +1,7 @@
 ---
 name: stakeholder-view
 description: Generate stakeholder-focused reporting view
+tier: extended
 ---
 
 ---

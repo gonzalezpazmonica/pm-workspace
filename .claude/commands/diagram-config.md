@@ -3,6 +3,7 @@ name: diagram-config
 description: >
   Configurar credenciales y conexión con Draw.io y/o Miro MCP.
   Verifica la conexión y guía en el setup inicial.
+tier: extended
 ---
 
 # Configuración de Herramientas de Diagramas

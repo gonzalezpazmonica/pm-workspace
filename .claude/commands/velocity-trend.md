@@ -5,6 +5,7 @@ developer_type: agent-single
 agent: azure-devops-operator
 context_cost: low
 model: github-copilot/claude-sonnet-4.5
+tier: core
 ---
 
 # Velocity Trend Analysis

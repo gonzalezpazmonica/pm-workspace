@@ -3,6 +3,7 @@ name: figma-extract
 description: >
   Extraer componentes UI y especificaciones de diseño desde Figma.
   Genera PBIs de UI, inventario de componentes y guías de implementación.
+tier: extended
 ---
 
 # Extraer Diseño desde Figma

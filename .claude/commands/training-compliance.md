@@ -11,6 +11,7 @@ allowed-tools:
   - Grep
   - Bash
   - Task
+tier: extended
 ---
 
 # /training-compliance — Cumplimiento Formativo

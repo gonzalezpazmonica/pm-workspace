@@ -1,6 +1,7 @@
 ---
 name: savia-hub
 description: Central hub for accessing Savia knowledge and tools
+tier: extended
 ---
 
 ---

@@ -1,6 +1,7 @@
 ---
 name: sheets-report
 description: Generate report and sync to Google Sheets
+tier: extended
 ---
 
 ---

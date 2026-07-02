@@ -5,6 +5,7 @@ model: github-copilot/claude-sonnet-4.5
 context_cost: medium
 allowed-tools: [Read, Bash, Glob]
 argument-hint: "<pipeline.yaml> [--dry-run]"
+tier: core
 ---
 
 # /pipeline-local-run

@@ -1,6 +1,7 @@
 ---
 name: risk-policy
 description: Display and manage risk scoring thresholds and policies
+tier: extended
 ---
 
 # Command: /risk-policy

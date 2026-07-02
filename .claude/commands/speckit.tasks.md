@@ -4,6 +4,7 @@ description: "Alias spec-kit compatible. Descomposición de spec en tasks accion
 developer_type: all
 agent: task
 context_cost: medium
+tier: core
 ---
 
 # /speckit.tasks — Descomposición en tasks

@@ -4,6 +4,7 @@ description: "Alias spec-kit compatible. Implementación supervisada de una spec
 developer_type: all
 agent: task
 context_cost: high
+tier: core
 ---
 
 # /speckit.implement — Implementación

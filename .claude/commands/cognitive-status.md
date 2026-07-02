@@ -3,6 +3,7 @@ name: cognitive-status
 description: Show cognitive-debt telemetry status (SPEC-107 Phase 1 — opt-in)
 permission_level: L1
 tools: [Bash]
+tier: extended
 ---
 
 # /cognitive-status

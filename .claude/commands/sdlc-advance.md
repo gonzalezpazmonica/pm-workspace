@@ -1,6 +1,7 @@
 ---
 name: sdlc-advance
 description: Advance work item through SDLC state machine
+tier: extended
 ---
 
 ---

@@ -3,6 +3,7 @@ name: confluence-publish
 description: >
   Publicar documentación del proyecto en Confluence. Convierte markdown
   a formato Confluence y crea/actualiza páginas en el espacio del proyecto.
+tier: extended
 ---
 
 # Publicar en Confluence

@@ -3,6 +3,7 @@ name: diagram-generate
 description: >
   Genera diagrama de arquitectura, flujo o secuencia a partir de la
   infraestructura y código del proyecto. Exporta a Draw.io, Miro o local.
+tier: core
 ---
 
 # Generar Diagrama de Arquitectura

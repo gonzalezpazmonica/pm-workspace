@@ -7,6 +7,7 @@ allowed-tools: [Read, Write, Edit, Glob, Grep, Bash]
 model: github-copilot/claude-sonnet-4.5
 context_cost: medium
 argument-hint: "{source} --dept {name} [--mode create|merge|overwrite] [--dry-run]"
+tier: core
 ---
 
 # Importar Organigrama → Estructura teams/

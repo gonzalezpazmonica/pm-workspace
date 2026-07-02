@@ -5,6 +5,7 @@ developer_type: all
 agent: task
 context_cost: high
 model: github-copilot/claude-opus-4.7
+tier: core
 ---
 
 # /governance-audit

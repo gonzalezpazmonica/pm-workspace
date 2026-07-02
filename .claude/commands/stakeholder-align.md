@@ -4,6 +4,7 @@ description: Resolución de conflictos entre stakeholders con datos objetivos
 developer_type: all
 agent: task
 context_cost: medium
+tier: extended
 ---
 
 # /stakeholder-align

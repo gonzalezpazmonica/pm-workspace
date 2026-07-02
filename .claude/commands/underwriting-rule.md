@@ -9,6 +9,7 @@ allowed-tools:
   - Write
   - Glob
   - Bash
+tier: extended
 ---
 
 # /underwriting-rule {proyecto} {subcomando} [opciones]

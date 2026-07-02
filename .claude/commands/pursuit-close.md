@@ -5,6 +5,7 @@ argument-hint: "OPP-YYYY-NNN won|lost [--competitor 'name']"
 context_cost: medium
 model: github-copilot/claude-sonnet-4.5
 allowed-tools: [Read, Write, Bash, Glob, Grep]
+tier: core
 ---
 
 # /pursuit-close — Close pursuit (SE-015)

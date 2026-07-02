@@ -3,6 +3,7 @@ name: memory-save
 description: >
   Guarda una observación en la memoria persistente. Tipos: decision, bug, pattern, convention, discovery.
   Soporta topic_key para evolucionar decisiones sin duplicar.
+tier: extended
 ---
 
 # ⚡ Guardar en Memoria Persistente

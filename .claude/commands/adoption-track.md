@@ -4,6 +4,7 @@ description: Tracking de adopción — comandos usados por rol, curva de aprendi
 developer_type: all
 agent: task
 context_cost: medium
+tier: extended
 ---
 
 # /adoption-track

@@ -1,6 +1,7 @@
 ---
 name: memory-recall
 description: Retrieve relevant memories for current context
+tier: core
 ---
 
 ---

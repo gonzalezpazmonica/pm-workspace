@@ -10,6 +10,7 @@ allowed-tools:
   - Glob
   - Grep
   - Bash
+tier: extended
 ---
 
 # /instinct-manage {subcommand} {args}

@@ -4,6 +4,7 @@ description: Onboarding conversacional de empresa — genera el perfil organizac
 developer_type: all
 agent: task
 context_cost: medium
+tier: extended
 ---
 
 # /company-setup

@@ -4,6 +4,7 @@ description: "Alias spec-kit compatible. Declara los principios inmutables de un
 developer_type: all
 agent: task
 context_cost: low
+tier: core
 ---
 
 # /speckit.constitution — Constitución del proyecto

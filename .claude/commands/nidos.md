@@ -5,6 +5,7 @@ argument-hint: "[create <name>|list|enter <name>|remove <name>|status]"
 allowed-tools: [Bash, Read]
 model: github-copilot/claude-sonnet-4.5
 context_cost: low
+tier: core
 ---
 
 # /nidos

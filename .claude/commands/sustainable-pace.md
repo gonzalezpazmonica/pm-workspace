@@ -4,6 +4,7 @@ description: Cálculo de ritmo sostenible basado en histórico y capacidad real
 developer_type: all
 agent: task
 context_cost: medium
+tier: extended
 ---
 
 # /sustainable-pace — Ritmo Sostenible

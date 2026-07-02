@@ -3,6 +3,7 @@ name: project-kickoff
 description: >
   Phase 5 — Compile audit + plan + assignments + roadmap into kickoff
   report. Notify PM. Create Sprint 1 backlog in Azure DevOps.
+tier: extended
 ---
 
 # Project Kickoff

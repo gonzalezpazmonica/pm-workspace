@@ -4,6 +4,7 @@ description: Detección temprana de señales de burnout con análisis de riesgo 
 developer_type: all
 agent: task
 context_cost: medium
+tier: extended
 ---
 
 # /burnout-radar — Detección Temprana de Burnout

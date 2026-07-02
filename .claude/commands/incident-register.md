@@ -11,6 +11,7 @@ allowed-tools:
   - Grep
   - Bash
   - Task
+tier: extended
 ---
 
 # /incident-register — Registro de Incidentes Clínicos

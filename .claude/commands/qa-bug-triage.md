@@ -4,6 +4,7 @@ description: Triage asistido de bugs — clasificación, duplicados, asignación
 developer_type: all
 agent: none
 context_cost: medium
+tier: extended
 ---
 
 # /qa-bug-triage

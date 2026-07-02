@@ -4,6 +4,7 @@ description: Validar arquitectura contra estándar BIAN y generar diagramas Arch
 developer_type: all
 agent: architect
 context_cost: high
+tier: core
 ---
 
 # /banking-bian [--project {nombre}] [--diagram] [--level 1-5]

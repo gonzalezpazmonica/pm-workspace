@@ -1,6 +1,7 @@
 ---
 name: UA Domain
 description: Extract business domain concepts and processes from any codebase
+tier: core
 ---
 
 # /ua-domain — Domain Concept Extraction

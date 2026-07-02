@@ -4,6 +4,7 @@ description: Auto-detectar proyecto bancario por entidades BIAN, Kafka, Snowflak
 developer_type: all
 agent: task
 context_cost: medium
+tier: core
 ---
 
 # /banking-detect [--project {nombre}] [--verbose]

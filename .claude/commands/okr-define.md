@@ -4,6 +4,7 @@ description: Definir Objectives y Key Results vinculados a proyectos
 developer_type: all
 agent: task
 context_cost: medium
+tier: extended
 ---
 
 # /okr-define

@@ -4,6 +4,7 @@ description: Reflexión post-ejecución de playbooks — framework ACE Reflector
 developer_type: all
 agent: task
 context_cost: high
+tier: extended
 ---
 
 # /playbook-reflect

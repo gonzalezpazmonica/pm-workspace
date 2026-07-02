@@ -1,6 +1,7 @@
 ---
 name: memory-index
 description: Build and maintain memory index for efficient retrieval
+tier: extended
 ---
 
 ---

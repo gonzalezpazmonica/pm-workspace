@@ -4,6 +4,7 @@ description: Limpiar la caché de code review
 agent-single: azure-devops-operator
 skills:
   - azure-devops-queries
+tier: extended
 ---
 
 # /review-cache-clear

@@ -4,6 +4,7 @@ description: Sugerir mejoras de arquitectura basadas en detección previa
 developer_type: all
 agent: architect
 context_cost: medium
+tier: extended
 ---
 
 # /arch-suggest {repo|path}

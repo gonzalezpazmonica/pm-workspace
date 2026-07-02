@@ -3,6 +3,7 @@ name: repos-branches
 description: >
   Gestión de branches en Azure Repos: listar, crear, comparar
   y verificar políticas de branch.
+tier: extended
 ---
 
 # Repos Branches

@@ -5,6 +5,7 @@ developer_type: all
 agent: task
 context_cost: high
 model: github-copilot/claude-sonnet-4.5
+tier: core
 ---
 
 # /obs-status

@@ -4,6 +4,7 @@ description: Análisis de impacto de features — esfuerzo vs valor, ROI, priori
 developer_type: all
 agent: task
 context_cost: high
+tier: extended
 ---
 
 # /feature-impact

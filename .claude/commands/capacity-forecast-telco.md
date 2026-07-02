@@ -3,6 +3,7 @@ name: capacity-forecast-telco
 description: "Medición, previsión y planificación de capacidad de red con alertas automáticas"
 icon: "📊"
 category: "Telecomunicaciones"
+tier: extended
 ---
 
 # Previsión de Capacidad Telecomunicaciones

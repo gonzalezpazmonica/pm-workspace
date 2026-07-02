@@ -1,6 +1,7 @@
 ---
 name: postmortem-heuristics
 description: Extract debugging heuristics from postmortems
+tier: extended
 ---
 
 ---

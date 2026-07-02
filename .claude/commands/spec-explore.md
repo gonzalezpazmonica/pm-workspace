@@ -1,6 +1,7 @@
 ---
 name: spec-explore
 description: Explore and analyze specification documents
+tier: extended
 ---
 
 ---

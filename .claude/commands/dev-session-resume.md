@@ -5,6 +5,7 @@ argument-hint: "{session-id}"
 allowed-tools: [Read, Glob, Grep, Bash, Write, Edit, Task]
 model: github-copilot/claude-opus-4.7
 context_cost: high
+tier: core
 ---
 
 # /dev-session-resume — Reanudar Dev-Session

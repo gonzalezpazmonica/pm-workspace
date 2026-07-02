@@ -1,6 +1,7 @@
 ---
 name: sheets-sync
 description: Synchronize data with Google Sheets
+tier: extended
 ---
 
 ---

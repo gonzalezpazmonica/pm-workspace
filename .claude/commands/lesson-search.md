@@ -5,6 +5,7 @@ argument-hint: "[--query keyword] [--domain domain]"
 context_cost: low
 model: github-copilot/claude-sonnet-4.5
 allowed-tools: [Bash, Read]
+tier: core
 ---
 
 # /lesson-search — Buscar lecciones cross-project (SE-032)

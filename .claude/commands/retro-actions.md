@@ -3,6 +3,7 @@ name: retro-actions
 description: >
   Seguimiento de action items de retrospectivas entre sprints.
   Ownership, estado y % de implementación.
+tier: extended
 ---
 
 # Retro Actions

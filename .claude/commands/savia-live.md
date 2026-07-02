@@ -5,6 +5,7 @@ model: github-copilot/claude-sonnet-4.5
 allowed-tools: [Bash, Read]
 context_cost: low
 complexity_tier: mode1
+tier: core
 ---
 
 # /savia-live
