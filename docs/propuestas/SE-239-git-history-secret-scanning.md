@@ -1,7 +1,7 @@
 ---
 id: SE-239
 title: "Git history secret scanning — TruffleHog + Gitleaks sobre historial completo"
-status: PROPOSED
+status: IMPLEMENTED
 priority: P1
 effort: M (10h — S1 3h + S2 3h + S3 4h)
 origin: Análisis defensivo hackingtool-plugin (AKCodez, 2026-06-28)
@@ -12,6 +12,8 @@ related:
   - nuclei-scanning skill
   - security-guardian agent
 proposed_at: "2026-06-28"
+resolved_at: "2026-07-02"
+implementation_pr: "#890"
 era: 237
 tools_from_hackingtool:
   - TruffleHog

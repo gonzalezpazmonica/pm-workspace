@@ -1,7 +1,7 @@
 ---
 id: SE-248
 title: "KG Topology Analysis — Forman-Ricci + Leiden sobre el grafo real de agentes/skills"
-status: PROPOSED
+status: IMPLEMENTED
 priority: P1
 effort: S (4h — S1 2h scripts + S2 1h integración + S3 1h tests)
 origin: Investigación output/research/20260628-kg-optimization-state-of-art-2024-2025.md
@@ -11,6 +11,8 @@ related:
   - SE-162 (Knowledge Graph implemented)
   - codebase-memory-mcp (grafo estructural)
 proposed_at: "2026-06-28"
+resolved_at: "2026-07-02"
+implementation_pr: "#891"
 era: 248
 roi: Alto — scripts ya escritos, output inmediato sobre el KG real del workspace
 ---

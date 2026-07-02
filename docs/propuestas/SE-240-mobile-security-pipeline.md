@@ -1,7 +1,7 @@
 ---
 id: SE-240
 title: "Mobile security pipeline — MobSF + Frida + Objection para APK/IPA analysis"
-status: PROPOSED
+status: IMPLEMENTED
 priority: P2
 effort: L (20h — S1 5h + S2 6h + S3 5h + S4 4h)
 origin: Análisis defensivo hackingtool-plugin (AKCodez, 2026-06-28)
@@ -13,6 +13,8 @@ related:
   - security-attacker/defender/auditor agents
   - SE-245 (dynamic-web-security-testing)
 proposed_at: "2026-06-28"
+resolved_at: "2026-07-02"
+implementation_pr: "#890"
 era: 237
 tools_from_hackingtool:
   - MobSF
