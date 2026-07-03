@@ -120,13 +120,17 @@ for _, tier, fname, title, spec_disp in rows:
 PY
 
 if $CHECK_MODE; then
-    if [[ -f "$INDEX_FILE" ]] && diff -q "$INDEX_FILE" "$TMP_INDEX" >/dev/null 2>&1; then
+    # Compare ignoring the auto-generated date header (line 1).
+    # The header contains a date stamp that changes daily but carries no
+    # structural information — excluding it avoids spurious CI failures
+    # when the index is otherwise up-to-date (fix for SE-097 --check gate).
+    if [[ -f "$INDEX_FILE" ]] && diff -q <(tail -n +2 "$INDEX_FILE") <(tail -n +2 "$TMP_INDEX") >/dev/null 2>&1; then
         echo "OK: docs/rules/INDEX.md is up-to-date"
         exit 0
     else
         echo "FAIL: docs/rules/INDEX.md is stale — run 'bash scripts/rules-index-generate.sh' to regenerate" >&2
         if [[ -f "$INDEX_FILE" ]]; then
-            diff "$INDEX_FILE" "$TMP_INDEX" | head -20 >&2
+            diff <(tail -n +2 "$INDEX_FILE") <(tail -n +2 "$TMP_INDEX") | head -20 >&2
         else
             echo "  INDEX.md does not exist yet" >&2
         fi

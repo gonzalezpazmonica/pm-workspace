@@ -1,8 +1,10 @@
 ---
 spec_id: SE-236
 title: "Scoring Numérico en Code Review Court"
-status: PROPOSED
+status: IMPLEMENTED
 created: 2026-06-28
+resolved_at: "2026-07-02"
+implementation_pr: "#889"
 author: savia
 context_tier: L2
 token_budget: 580

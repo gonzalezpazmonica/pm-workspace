@@ -1,13 +1,14 @@
 ---
 id: SE-223
 title: codebase-memory-mcp como backend del Code Twin system
-status: PROPOSED
+status: IMPLEMENTED
 priority: P1
 effort: M (6h)
 origin: Research 2026-06-24 — github.com/DeusData/codebase-memory-mcp (13k stars, arXiv 2603.27277)
 author: Savia
 related: code-twin-agent, scripts/code-twin-load.sh, SE-162 (knowledge-graph)
 proposed_at: "2026-06-24"
+resolved_at: "2026-07-02"
 era: 235
 ---
 

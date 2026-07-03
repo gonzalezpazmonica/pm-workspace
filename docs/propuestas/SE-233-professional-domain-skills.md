@@ -1,11 +1,13 @@
 ---
 id: SE-233
 title: "Familia de Skills professional-domain — ventas, legal, controlling, finanzas, RRHH"
-status: PROPOSED
+status: IMPLEMENTED
 priority: P2
 effort: "XL (16h)"
 author: Savia
 proposed_at: "2026-06-28"
+resolved_at: "2026-07-02"
+implementation_pr: "#887"
 era: 237
 tags: ["professional-domain", "sales", "legal", "controlling", "finance", "labour", "RRHH"]
 ---

@@ -1,7 +1,7 @@
 ---
 id: SE-241
 title: "IaC security scanning — Trivy + Prowler + ScoutSuite para Terraform, containers y cloud"
-status: PROPOSED
+status: IMPLEMENTED
 priority: P1
 effort: M (12h — S1 4h + S2 4h + S3 4h)
 origin: Análisis defensivo hackingtool-plugin (AKCodez, 2026-06-28)
@@ -14,6 +14,8 @@ related:
   - adversarial-security skill
   - docs/rules/domain/infrastructure-as-code.md
 proposed_at: "2026-06-28"
+resolved_at: "2026-07-02"
+implementation_pr: "#890"
 era: 237
 tools_from_hackingtool:
   - Trivy

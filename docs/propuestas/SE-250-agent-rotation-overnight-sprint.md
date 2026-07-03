@@ -1,7 +1,7 @@
 ---
 id: SE-250
 title: "Agent Rotation en overnight-sprint — token exhaustion recovery"
-status: PROPOSED
+status: IMPLEMENTED
 priority: P1
 effort: M (8h — S1 3h detector + S2 3h rotation logic + S3 2h tests)
 origin: Investigacion output/research/20260624-santanderai-github-analysis.md §3.1
@@ -11,6 +11,8 @@ related:
   - docs/rules/domain/autonomous-safety.md
   - scripts/savia-env.sh
 proposed_at: "2026-06-28"
+resolved_at: "2026-07-02"
+implementation_pr: "#891"
 era: 250
 roi: Alto — elimina la principal causa de fallo silencioso de overnight-sprint
 ---
