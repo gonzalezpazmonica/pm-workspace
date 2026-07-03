@@ -6,7 +6,7 @@
 
 | Total hooks | TS Guards | Git Hook mitigated | CI Job mitigated | NONE |
 |---|---|---|---|---|
-| 103 | 17 (16.5%) | 4 | 5 | 77 |
+| 105 | 17 (16.2%) | 4 | 5 | 79 |
 
 ## Bloqueantes sin cobertura ni mitigacion
 
@@ -14,10 +14,10 @@ Ninguno — AC-2.2 satisfecho.
 
 ## Cobertura real OpenCode
 
-- **TS Guards activos**: 17/103 (16.5%)
-- **Hooks sin cobertura TS**: 77 (74.8%)
+- **TS Guards activos**: 17/105 (16.2%)
+- **Hooks sin cobertura TS**: 79 (75.2%)
   - De los cuales son bloqueantes sin ninguna mitigacion: 0
-  - Eventos no disponibles en OpenCode (degradacion aceptada): 28
+  - Eventos no disponibles en OpenCode (degradacion aceptada): 29
 
 ## Full matrix
 
@@ -58,6 +58,7 @@ Ninguno — AC-2.2 satisfecho.
 | PostToolUse | post-write-validate.sh | no | NONE | warning | degradacion_documentada: solo Claude Code |
 | PostToolUse | propuestas-index-refresh.sh | no | NONE | warning | degradacion_documentada: solo Claude Code |
 | PostToolUse | speculative-pre-execute.sh | no | NONE | warning | degradacion_documentada: solo Claude Code |
+| PostToolUse | twin-posttooluse.sh | no | NONE | warning | degradacion_documentada: solo Claude Code |
 | PostToolUseFailure | post-tool-failure-log.sh | no | NONE | telemetria | evento PostToolUseFailure no disponible en OpenCode — degradacion_documentada |
 | PostTurn | context-condenser.sh | no | NONE | warning | evento PostTurn no disponible en OpenCode — degradacion_documentada |
 | PreCompact | pre-compact-backup.sh | no | NONE | warning | evento PreCompact no disponible en OpenCode — degradacion_documentada |
@@ -124,5 +125,6 @@ Ninguno — AC-2.2 satisfecho.
 | TaskCreated | task-lifecycle.sh | no | NONE | telemetria | evento TaskCreated no disponible en OpenCode — degradacion_documentada |
 | UserPromptSubmit | memory-prime-hook.sh | no | NONE | telemetria | evento UserPromptSubmit no disponible en OpenCode — degradacion_documentada |
 | UserPromptSubmit | re-anchor-redlines.sh | no | NONE | telemetria | evento UserPromptSubmit no disponible en OpenCode — degradacion_documentada |
+| UserPromptSubmit | recommendation-tribunal-followup.sh | no | NONE | telemetria | evento UserPromptSubmit no disponible en OpenCode — degradacion_documentada |
 | UserPromptSubmit | stress-awareness-nudge.sh | no | NONE | telemetria | evento UserPromptSubmit no disponible en OpenCode — degradacion_documentada |
 | UserPromptSubmit | user-prompt-intercept.sh | no | NONE | warning | evento UserPromptSubmit no disponible en OpenCode — degradacion_documentada |
