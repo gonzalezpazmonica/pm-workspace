@@ -1,4 +1,5 @@
 ---
+name: catalog
 tier: core
 description: "Busca comandos en catálogo extendido por keyword o área"
 ---
