@@ -103,6 +103,9 @@ jobs:
         run: bash scripts/changelog-spec-field-check.sh --warn
         continue-on-error: true
 
+      - name: "SE-253 errata: Validate opencode.json schema keys"
+        run: bash scripts/opencode-config-validate.sh --check
+
       - name: Run workspace test suite (mock mode)
         run: |
           chmod +x scripts/test-workspace.sh
@@ -156,7 +159,7 @@ jobs:
 
           # Update package lists and install dependencies
           sudo apt-get update -qq
-          sudo apt-get install -y jq git bash
+          sudo apt-get install -y jq git bash python3-pytest
 
           # Ensure git is properly configured for test environment
           git config --global user.email "ci@example.com"

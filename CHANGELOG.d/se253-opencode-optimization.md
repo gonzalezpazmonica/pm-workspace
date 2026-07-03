@@ -60,10 +60,24 @@ HOOKS-STRATEGY.md: "69 hooks" → "101 hooks".
 `scripts/language-boundary-check.sh` — warning pre-commit para scripts nuevos con >=5 jq.
 22 pytest + 25 BATS tests, AC-7.1 a AC-7.5.
 
+### Errata (2026-07-03)
+
+El campo `'catalog'` introducido en Slice 1 como clave top-level de
+`opencode.json` no es reconocido por OpenCode v1.16 y provocaba fallo de
+arranque del servidor. Eliminado.
+
+La funcionalidad de clasificacion de comandos ya opera via frontmatter
+(`tier` en cada `.md`) y `scripts/command-tier-audit.sh`. El campo en
+opencode.json era redundante.
+
+Prevencion: `scripts/opencode-config-validate.sh --check` valida que
+opencode.json solo contenga claves del schema conocido. Incluye guard en
+CI y 10 tests BATS.
+
 ### Total SE-253
 
 - 563 ficheros modificados
-- 7 scripts nuevos + 1 migración Python
+- 7 scripts nuevos + 1 migracion Python
 - 7 ficheros de infraestructura (TSV, dispatchers, _legacy)
 - 7 suites BATS (128 tests) + 22 pytest
-- Ahorro estimado: 48.6% reducción índice sesión, 97% reducción spawns por Edit
+- Ahorro estimado: 48.6% reduccion indice sesion, 97% reduccion spawns por Edit
