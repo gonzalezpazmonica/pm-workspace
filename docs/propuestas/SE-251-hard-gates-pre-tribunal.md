@@ -1,7 +1,7 @@
 ---
 id: SE-251
 title: "Hard gates mecanicos pre-tribunal para decisiones criticas"
-status: PROPOSED
+status: IMPLEMENTED
 priority: P2
 effort: M (10h — S1 4h gates + S2 3h integracion court-orchestrator + S3 3h tests)
 origin: Investigacion output/research/20260624-santanderai-github-analysis.md §3.2
@@ -11,6 +11,7 @@ related:
   - docs/rules/domain/autonomous-safety.md
   - scripts/risk-scoring.sh
 proposed_at: "2026-06-28"
+resolved_at: "2026-07-02"
 era: 251
 roi: Medio — mejora integridad de decisiones de alto impacto; requiere cambios en agentes existentes
 ---

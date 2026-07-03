@@ -1,7 +1,7 @@
 ---
 id: SE-246
 title: "Network recon skill — nmap/RustScan + httpx + Masscan para proyectos con infraestructura propia"
-status: PROPOSED
+status: IMPLEMENTED
 priority: P2
 effort: M (12h — S1 3h + S2 4h + S3 5h)
 origin: Análisis defensivo hackingtool-plugin (AKCodez, 2026-06-28)
@@ -12,6 +12,8 @@ related:
   - pentesting skill (usa network recon como Fase 1)
   - security-attacker agent
 proposed_at: "2026-06-28"
+resolved_at: "2026-07-02"
+implementation_pr: "#890"
 era: 237
 tools_from_hackingtool:
   - nmap

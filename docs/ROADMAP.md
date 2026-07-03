@@ -1094,20 +1094,69 @@ Archivos: `docs/propuestas/SPEC-180..186-*.md`. Origen: `output/research/obsidia
 
 ---
 
-## Estado final — 2026-06-24
+## Active Stack — 2026-07-02 (supersedes 2026-06-24)
 
-> Triage completo de 315 specs. Roadmap limpio post-sesión.
+> Sesión 2026-07-02: flip masivo post-merge. 21 specs actualizadas a IMPLEMENTED.
+> Kokoro SE-075 S3 autorizado. rules-index-generate.sh --check fix permanente.
+
+### Mergeado desde 2026-06-24 (ahora IMPLEMENTED)
+
+| ID | PR | Qué |
+|---|---|---|
+| SE-228 S1-S5 | #876-880 | Loop Engineering — STATE.md, maker/checker, run-log, loop-budget, phasing |
+| SE-229 S1 | #884 | Session registry MVP |
+| SE-230 | #883/#885 | Paralelización Focal + Auto-Loop Gate |
+| SE-231 | #883/#886 | HTTP QUERY method (RFC 10008) |
+| SE-232 | #883 | Workflow-as-Output (Fugu pattern) |
+| SE-233 | #887 | Professional Domain Skills (20 skills) |
+| SE-234 | #888 | OpenCode startup fixes |
+| SE-235-238 | #889 | Proto-inspired arch: Dual Pool, Court Scoring, Coarse-to-Fine, Skills Schema |
+| SE-239-247 | #890 | Security Hardening Suite (9 specs, 108 BATS) |
+| SE-248 | #891 | KG Topology Analysis (Forman-Ricci + Leiden) |
+| SE-252 | #893 | Bus Factor Shield (context domes, 93 BATS) |
+| SE-095/096/097-SC | — | SaviaClaw heartbeat + cron + streaming (en saviaclaw_headless.py) |
+
+### En curso (Sprint 1 — sesión 2026-07-02)
+
+| ID | Qué | Estado |
+|---|---|---|
+| SE-075 S3 | Kokoro 82M voice TTS — descarga autorizada | EN PROGRESO |
+| rules-index fix | `--check` ignora fecha header — permanente | ✅ DONE |
+
+### Próximos sprints
+
+**Sprint 2 (~15h agente):**
+- SPEC-182 Bitemporal timeline frontmatter (~7h) — anti-drift permanente
+- SPEC-183 Reconciliation 3-bucket drift-auditor (~6h) — dep SPEC-182
+
+**Sprint 3 (~24h agente):**
+- SPEC-108 Agent Self-Improvement Loop + Sentry RCA (~16h)
+- SPEC-164 Memory feedback loop (auto-memoria desde resultados)
+- SPEC-167 Critic con RAG external memory
+
+### Bloqueados (sin cambio)
+
+GPU: SE-028, SE-042, SPEC-023, SPEC-080, SPEC-SE-027.
+Sesiones largas: SPEC-150 (~30h), SPEC-127 (~80h).
+Infra: SPEC-191 (savia-web), SPEC-162 (30d telemetría).
+Enterprise: 23 specs esperando decisión estratégica.
+
+---
+
+## Estado final — 2026-07-02
+
+> Post flip masivo sesión 2026-07-02. +21 specs flipeadas a IMPLEMENTED.
 
 ### Distribución por status
 
 | Status | Cantidad | % | Qué significa |
 |---|---|---|---|
-| **IMPLEMENTED** | **222** | 70% | En producción, funcionando |
-| **ARCHIVED** | **50** | 15% | Superseded, sin caso, hardware sin plan |
-| **PROPOSED** | 32 | 10% | 9 core bloqueados + 23 enterprise (await decisión) |
-| **APPROVED** | 7 | 2% | GPU-blocked (5) + sesiones largas (2) |
+| **IMPLEMENTED** | **~243** | ~77% | En producción, funcionando |
+| **ARCHIVED** | **50** | ~16% | Superseded, sin caso, hardware sin plan |
+| **PROPOSED** | ~11 | ~3% | Core bloqueados + condición externa |
+| **APPROVED** | ~5 | ~2% | GPU-blocked |
 | REJECTED | 3 | 0% | Descartados con evidencia |
-| ENTERPRISE_ONLY | 1 | 0% | SE-045 (scope exclusivo enterprise) |
+| ENTERPRISE_ONLY | 1 | 0% | SE-045 |
 
 ### Core PROPOSED (9) — condiciones de desbloqueo
 

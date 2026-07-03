@@ -1,7 +1,7 @@
 ---
 id: SE-247
 title: "Pre-push security gate — Gitleaks como hook automático antes de cada push"
-status: PROPOSED
+status: IMPLEMENTED
 priority: P1
 effort: S (6h — S1 2h + S2 2h + S3 2h)
 origin: Análisis defensivo hackingtool-plugin (AKCodez, 2026-06-28)
@@ -12,6 +12,8 @@ related:
   - security-guardian agent
   - commit-guardian agent
 proposed_at: "2026-06-28"
+resolved_at: "2026-07-02"
+implementation_pr: "#890"
 era: 237
 tools_from_hackingtool:
   - Gitleaks

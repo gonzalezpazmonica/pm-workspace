@@ -1,7 +1,7 @@
 ---
 id: SE-243
 title: "Attack surface mapping — Amass + Subfinder + theHarvester + SpiderFoot + dnstwist"
-status: PROPOSED
+status: IMPLEMENTED
 priority: P2
 effort: M (12h — S1 3h + S2 4h + S3 5h)
 origin: Análisis defensivo hackingtool-plugin (AKCodez, 2026-06-28)
@@ -12,6 +12,8 @@ related:
   - security-attacker agent
   - SE-246 (network-recon-skill — reconocimiento de red, complementario)
 proposed_at: "2026-06-28"
+resolved_at: "2026-07-02"
+implementation_pr: "#890"
 era: 237
 tools_from_hackingtool:
   - Amass
