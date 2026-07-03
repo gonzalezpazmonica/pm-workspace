@@ -1,7 +1,6 @@
 # development — Savia Capability Map (L1)
-> 236 resources
+> 213 resources
 
-- **/a11y-monitor** (cmd): Monitorización continua de regresiones de accesibilidad. Integración en CI/CD. Alertas cuando score baja por debajo de threshold. Digest semanal. Previene regresiones bloqueando deploys con fallos a11y.
 - **/speckit.checklist** (cmd): Alias spec-kit compatible. Gate de calidad final con verification-lattice multi-capa. Invoca skill verification-lattice. Compatible con github/spec-kit.
 - **/speckit.clarify** (cmd): Alias spec-kit compatible. Preguntas dirigidas para cerrar ambigüedad en una spec. Invoca skill context-interview-conductor. Compatible con github/spec-kit.
 - **/speckit.constitution** (cmd): Alias spec-kit compatible. Declara los principios inmutables de un proyecto (constitution). Invoca skill savia-identity con args para constituir un proyecto. Compatible con github/spec-kit (>100k stars).
@@ -9,17 +8,10 @@
 - **/speckit.plan** (cmd): Alias spec-kit compatible. Diseño técnico de una spec ya capturada. Invoca skill spec-driven-development sección Plan. Compatible con github/spec-kit.
 - **/speckit.specify** (cmd): Alias spec-kit compatible. Captura el what inicial de una spec (JTBD + PRD). Invoca skill product-discovery de Savia. Compatible con github/spec-kit.
 - **/speckit.tasks** (cmd): Alias spec-kit compatible. Descomposición de spec en tasks accionables. Invoca skill pbi-decomposition. Compatible con github/spec-kit.
-- **Trace Analyze** (cmd): Análisis profundo de trazas específicas con detección de cuellos de botella y cadenas de errores
 - **UA Analyze** (cmd): Analyze codebase with Understand-Anything to generate knowledge graph
 - **UA Diff** (cmd): Analyze impact of uncommitted changes on the codebase knowledge graph
 - **UA Domain** (cmd): Extract business domain concepts and processes from any codebase
 - **agents-opencode-convert** (script): agents-opencode-convert.sh — SPEC-127 Slice 2b-ii (final migration prep)
-- **arch-compare** (cmd): Comparar dos patrones de arquitectura para toma de decisiones
-- **arch-detect** (cmd): Detectar el patrón de arquitectura de un repositorio o proyecto
-- **arch-fitness** (cmd): Ejecutar fitness functions de arquitectura para verificar integridad
-- **arch-health** (cmd): Salud arquitectónica — fitness functions, drift detection, coupling metrics
-- **arch-recommend** (cmd): Recomendar la mejor arquitectura para un proyecto nuevo
-- **arch-suggest** (cmd): Sugerir mejoras de arquitectura basadas en detección previa
 - **ast-quality-gate** (script): ast-quality-gate.sh — Language-agnostic code quality meta-analyzer
 - **authority-claim-judge** (agent): Recommendation Tribunal judge — detects credential claims ("soy investigador"). NUNCA veto. (SPEC-193)
 - **best-practices-check** (cmd): Evaluate workspace against Claude Code best practices
@@ -29,12 +21,12 @@
 - **build-skill-manifest** (script): build-skill-manifest.sh — Genera manifesto de skills desde frontmatter
 - **calendar-focus** (cmd): Crear bloque de focus para una tarea especifica — Deep Work protegido
 - **caveman** (skill): Strips all sugar-coating and marketing. Gives the brutally honest truth in the fewest possible words. Use when you suspect self-deception, before committing, or before shipping.
+- **changelog-spec-field-check** (script): Verifica que entradas CHANGELOG.d con feat(seNNN) tienen campo spec: SE-NNN
 - **check-coherence** (cmd): Validate that a spec, report, or code output actually matches its stated objective
 - **ci-reliability-gate** (script): ci-reliability-gate.sh — SPEC-SE-012
 - **code-comprehension-report** (skill): Usar cuando se ha completado una implementación SDD y se necesita documentar el modelo mental.
 - **code-improve** (cmd): Launch autonomous code improvement loop — detects opportunities, applies improvements, creates PRs for review
 - **code-improvement-loop** (skill): Usar cuando se quiere ejecutar mejora autónoma de código en segundo plano con PRs para revisión.
-- **code-patterns** (cmd): Catálogo de patterns del proyecto con ejemplos del propio código del equipo
 - **code-reviewer** (agent): >-
 - **code-twin-agent** (agent): >
 - **code-twin-anonymize** (script): code-twin-anonymize.sh — SPEC-190 Slice 8 (AC-14)
@@ -49,9 +41,7 @@
 - **codebase-map** (skill): Usar cuando se necesita un mapa de dependencias del workspace (comandos→agentes→reglas→skills).
 - **codegraph** (skill): Usar cuando se necesita indexación AST persistente para navegación de callers/callees en el código.
 - **cognitive-debt** (script): cognitive-debt.sh — SPEC-107 Phase 1 entry point.
-- **cognitive-status** (cmd): Show cognitive-debt telemetry status (SPEC-107 Phase 1 — opt-in)
 - **competitive-design** (script): competitive-design.sh — Parallel design generation with 3 philosophies
-- **component-search** (cmd): Buscar componentes en el marketplace claude-code-templates (5.788+ componentes)
 - **comprehension-report** (cmd): Generate mental model report for an implemented task. Documents architectural decisions, failure heuristics, and 3AM debugging guide.
 - **concession-judge** (agent): Recommendation Tribunal judge — detects position changes without new evidence (SPEC-192)
 - **dag-execute** (cmd): Ejecutar pipeline SDD con agentes en paralelo según DAG
@@ -99,7 +89,6 @@
 - **epistemic-humility** (skill): Usar cuando se detecta riesgo de adulación, cesión sin evidencia, o claim repetido por el usuario asumido sin verificar. Trigger: tribunal SPEC-192 emite WARN/VETO o auto-detección léxica.
 - **eval-agent** (cmd): Evaluate an agent against its golden set — precision, recall, hallucinations, bias (SPEC-036)
 - **eval-agent** (script): eval-agent.sh — Agent Evaluation Runner (SPEC-036)
-- **eval-run** (cmd): Execute evaluation against specified criteria
 - **evals-runner** (script): evals-runner.sh — SPEC-151 local evaluation runner.
 - **execution-supervisor** (script): execution-supervisor.sh — Advisory reflection trigger (SPEC-065)
 - **failure-pattern-memory** (script): failure-pattern-memory.sh — SPEC-188 Fase 1: Failure Pattern Memory store
@@ -125,8 +114,6 @@
 - **llm-training/prepare-training-data** (script): prepare-training-data.sh — SPEC-080: Extract training data from agent traces
 - **localai-readiness-check** (script): localai-readiness-check.sh — SPEC-122
 - **marketplace-install** (cmd): Install components from claude-code-templates marketplace
-- **mcp-browse** (cmd): Explorar catálogo de MCPs disponibles (66+) via claude-code-templates
-- **mcp-server** (cmd): Expone las herramientas de Savia como MCP server para otros proyectos Claude Code
 - **meta-reflection** (skill): Protocolo de las 4 meta-preguntas para cuestionar el encuadre de una tarea antes de ejecutarla. SPEC-194. Usar cuando criterion-simulation-judge activa con FRAME_DOUBT o FRAME_REJECT, o cuando el operador quiere reflexion manual antes de un
 - **monthly-diagnostic-report** (script): monthly-diagnostic-report.sh — SPEC-188 F4 — Monthly diagnostic quality report
 - **nd-autoconfig** (script): nd-autoconfig.sh — SPEC-061: Auto-configure accessibility.md from neurodivergent.md
@@ -170,7 +157,6 @@
 - **reconciliation-pilot** (script): reconciliation-pilot.sh — SPEC-183 Slice 4: run reconciler pilot on pm-workspace docs
 - **repetition-truth-judge** (agent): Recommendation Tribunal judge — detects user claims repeated and assumed true without verification (SPEC-192)
 - **requirement-pushback** (script): requirement-pushback.sh — Analyze a spec and generate pushback questions
-- **retro-patterns** (cmd): Análisis de patrones en retrospectivas — temas recurrentes, action items sin resolver
 - **rpi-status** (cmd): Track progress of active RPI (Research → Plan → Implement) workflows.
 - **rules-domain-index** (script): rules-domain-index.sh — SPEC-115
 - **sdd-spec-writer** (agent): >
@@ -191,7 +177,6 @@
 - **spec-budget** (script): spec-budget.sh — SE-074 Slice 1.5 — dynamic retry budget per spec effort
 - **spec-design** (cmd): Genera diseño técnico a partir de una spec existente — decisiones, flujo de datos, estrategia de testing.
 - **spec-driven-development** (skill): Usar cuando se escribe, valida o implementa una spec ejecutable SDD.
-- **spec-explore** (cmd): Explore and analyze specification documents
 - **spec-frontmatter-migrate** (script): spec-frontmatter-migrate.sh — SE-036 Slice 1.
 - **spec-generate** (cmd): Genera una Spec ejecutable a partir de una Task de Azure DevOps, lista para implementación.
 - **spec-id-duplicates-check** (script): spec-id-duplicates-check.sh — SE-044 Slice 1 spec ID uniqueness gate.
@@ -200,13 +185,10 @@
 - **spec-lifecycle** (script): spec-lifecycle.sh — SE-222 S1: spec status transitions + append-only LOG.md
 - **spec-opencode-plan-audit** (script): Audit: every APPROVED/IMPLEMENTED spec post-2026-04-26 must include
 - **spec-quality-auditor** (script): spec-quality-auditor.sh — Deterministic quality scorer for SDD specs
-- **spec-review** (cmd): Review specification for completeness and coherence
 - **spec-slice** (cmd): Analizar un spec y dividirlo en slices de implementación optimizados para contexto
-- **spec-status** (cmd): Check specification status and approval state
 - **spec-status-drift-audit** (script): spec-status-drift-audit.sh — Detect specs marked PROPOSED but implemented on disk.
 - **spec-status-normalize** (script): spec-status-normalize.sh — audit and normalize `status:` field across all
 - **spec-validator** (script): spec-validator.sh — SE-222 S0: validates resource: URI field in spec frontmatter
-- **spec-verify** (cmd): Verify implementation against specification criteria
 - **spec-verify-ui** (cmd): Verificación spec↔UI — comprueba que el componente implementado cumple su spec SDD
 - **spec156-migrate-token-budget** (script): SPEC-156 Slice 2 prep — migrate flat token_budget to nested object.
 - **specs-frontmatter-normalize** (script): specs-frontmatter-normalize.sh — SE-054 Slice 2+3 frontmatter normalization.
@@ -226,14 +208,9 @@
 - **twin-refresh** (script): twin-refresh.sh — Recalcula predicciones del twin sin LLM (SPEC-169 AC-3, AC-V2)
 - **ua-onboard** (cmd): Generate a guided onboarding tour for any codebase
 - **understand-anything** (skill): Usar cuando se necesita analizar un codebase con Understand-Anything para generar knowledge graphs estructurales y de dominio.
-- **validate-consensus** (cmd): Lanzar panel de 3 jueces para validar specs, PRs y decisiones
 - **validate-pbi-spec-links** (script): validate-pbi-spec-links.sh — Check bidirectional PBI ↔ Spec links
 - **validate-spec** (script): validate-spec.sh — SPEC-071: Declarative spec validation without LLM
 - **verification-middleware** (script): verification-middleware.sh — Orchestrate 3 verification checks post-implementation
-- **verify-layer** (cmd): Run specific verification layer for debugging
-- **wireframe-check** (cmd): Validate implementation against wireframe/mockup designs. Register reference designs and verify implementation fidelity against specifications.
 - **workforce-analytics** (script): scripts/workforce-analytics.sh — SPEC-SE-025 Agentic Workforce Analytics
-- **workload-balance** (cmd): Equilibrado objetivo de carga de trabajo respetando especialidades del equipo
 - **workspace-doctor** (script): workspace-doctor.sh — Health check pm-workspace (SPEC-031)
-- **worktree-setup** (cmd): >
 - **zoom-out** (skill): Elevates perspective from trees to forest. Maps architecture, dependencies, and second-order effects before implementation decisions. Use when designing, when evaluating trade-offs, or at the start of design sessions.

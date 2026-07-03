@@ -1,14 +1,10 @@
 # quality — Savia Capability Map (L1)
-> 260 resources
+> 235 resources
 
-- **/a11y-audit** (cmd): Auditoría de accesibilidad WCAG 2.2 completa con escaneo de HTML/componentes. Detecta: alt text faltante, problemas de contraste, navegación por teclado, etiquetas ARIA, gestión de focus, jerarquía de encabezados, etiquetas de formularios.
-- **/a11y-fix** (cmd): Correcciones automáticas de accesibilidad con verificación y preview. Genera código de fix para issues detectados por /a11y-audit. Preview antes de aplicar. Verifica que no introduce nuevos problemas. Covers: alt text, ARIA attributes, focu
-- **/drift-check** (cmd): Audita reglas CLAUDE.md vs. estado real del repo. Detecta divergencias, archivos huérfanos, tests faltantes y patrones de PII.
 - **/speckit.analyze** (cmd): Alias spec-kit compatible. Review cruzado de una spec antes de implementar. Invoca skill consensus-validation. Compatible con github/spec-kit.
 - **Court Review** (cmd): Convene the Code Review Court to evaluate implementation quality across 6 judges
 - **Failure Patterns** (cmd): List, show and resolve failure patterns from the Failure Pattern Memory store. Use when reviewing recurring agent errors, post-mortem analysis, or checking if an error has been seen before.
 - **adversarial-security** (skill): Usar cuando se necesita auditar la seguridad de un proyecto con pipeline Red Team / Blue Team.
-- **ai-audit-log** (cmd): Log de auditoría IA — quién ejecutó qué agente, sobre qué datos, cuándo
 - **ai-exposure-audit** (cmd): Auditoría de exposición IA por rol — observed exposure, riesgo de desplazamiento, reskilling
 - **android-autonomous-debugger** (skill): Usar cuando se depuran o testean apps Android contra dispositivos físicos via USB/ADB.
 - **android-manifest-audit** (script): SE-240 — Android Manifest Audit
@@ -21,9 +17,9 @@
 - **case-review** (cmd): Generate benefit realization review at 90/180/365 days
 - **ci-test-quality-gate** (script): ci-test-quality-gate.sh — CI gate: test quality + coverage
 - **cognitive-judge** (agent): Code Review Court judge — debuggability at 3AM, naming, complexity, logs
+- **command-tier-audit** (script): scripts/command-tier-audit.sh — SE-253 Slice 1
 - **comprehension-audit** (cmd): Scan recent implementations and identify which lack comprehension reports. Report coverage and recommendations.
 - **confidentiality-auditor** (agent): Audita cumplimiento de confidencialidad en PRs de pm-workspace (repo publico). Descubre dinamicamente datos sensibles del workspace y verifica que no se filtran en el diff. Genera veredicto CLEAN/BLOCKED con firma si pasa.
-- **confidentiality-check** (cmd): Auditoria pre-PR de confidencialidad y firma criptografica
 - **confidentiality-sign** (script): confidentiality-sign.sh — Cryptographic signature for confidentiality audit
 - **correctness-judge** (agent): Code Review Court judge — logic, tests, edge cases, error paths
 - **court-orchestrator** (agent): Convenes the Code Review Court, manages fix cycles, produces .review.crc
@@ -31,7 +27,6 @@
 - **court-turn-router** (script): court-turn-router.sh — SE-231 Adaptive Turn Routing for Code Review Court
 - **coverage-report** (script): coverage-report.sh — Generate test coverage report for pm-workspace
 - **decide-architecture-corpus-test** (script): decide-architecture-corpus-test.sh — SPEC-158
-- **dependencies-audit** (cmd): >
 - **doc-health-audit** (script): doc-health-audit.sh — Documentation Health Auditor
 - **docs-audit** (script): docs-audit.sh — Audita la estructura actual de docs/ y propone mejoras
 - **docs-quality-audit** (cmd): Auditar calidad de documentacion basada en feedback de agentes
@@ -53,6 +48,7 @@
 - **hook-injection-audit** (script): hook-injection-audit.sh — SE-060 Slice 1 hook injection patterns audit.
 - **hook-latency-audit** (script): hook-latency-audit.sh — SE-037 Slice 1 hook latency enforcement audit.
 - **hook-test-coverage-audit** (script): hook-test-coverage-audit.sh — Detect hooks in .opencode/hooks/ without BATS tests.
+- **hooks-coverage-matrix** (script): scripts/hooks-coverage-matrix.sh — SE-253 Slice 2
 - **hub-audit** (cmd): Auditar dependencias entre reglas de dominio, comandos y agentes — recalcular el índice de hubs
 - **iac-security-baseline** (script): iac-security-baseline.sh — Genera .trivyignore inicial para un proyecto legacy
 - **iac-security-scan** (script): iac-security-scan.sh — IaC Security Scanning con Trivy
@@ -82,7 +78,6 @@
 - **perf-report** (cmd): Informe ejecutivo de rendimiento — hotspots, async issues, roadmap y tendencias
 - **performance-audit** (skill): Usar cuando se audita el rendimiento estático de código para detectar hotspots.
 - **permissions-wildcard-audit** (script): permissions-wildcard-audit.sh — SE-059 Slice 1 permissions wildcard audit.
-- **postmortem-review** (cmd): Review and learn from past incident postmortems
 - **pr-agent-judge** (skill): Usar cuando se añade pr-agent como juez externo en el Code Review Court.
 - **pr-agent-judge** (agent): External 5th judge of the Code Review Court — wraps qodo-ai/pr-agent OSS (SPEC-124). Opt-in via COURT_INCLUDE_PR_AGENT=true.
 - **pr-agent-run** (script): pr-agent-run.sh — SPEC-124
@@ -98,38 +93,23 @@
 - **pre-push-security-gate** (script): SE-247 — Pre-push security gate
 - **prompt-security-scan** (script): prompt-security-scan.sh — Static analyzer for prompt injection/leakage
 - **python-sbom** (script): python-sbom.sh — SE-056 Slice 1 Python SBOM + requirements audit.
-- **qa-bug-triage** (cmd): Triage asistido de bugs — clasificación, duplicados, asignación sugerida
-- **qa-dashboard** (cmd): Dashboard de calidad — cobertura, tests flaky, bugs, escape rate, trends
-- **qa-regression-plan** (cmd): Plan de regresión basado en ficheros cambiados — impacto de cambios y suites a ejecutar
-- **qa-wizard** (cmd): Interactive wizard for QA engineer onboarding
 - **rbac-management** (skill): Usar cuando se gestionan roles, permisos o se audita el acceso de usuarios.
 - **rbac-manager** (cmd): Role-based access control — grant, revoke, audit roles and permissions
 - **recommendation-tribunal-search** (script): recommendation-tribunal-search.sh — SPEC-125 Slice 2: CLI for audit-trail inspection.
 - **reconciler** (agent): Classifies contradictions into 3 buckets: evolution, auto-resolve, conflict-doc. Invoked by drift-auditor.
-- **record-start** (cmd): Start recording session for audit and replay
-- **ref-resolve** (cmd): Resolve and preview resource references
-- **release-readiness** (cmd): Checklist de release — features, tests, docs, compliance, deployment
-- **repos-pr-review** (cmd): >
 - **review-cache** (script): review-cache.sh - Gestión de caché de code review
-- **review-cache-clear** (cmd): Limpiar la caché de code review
 - **review-cache-stats** (cmd): Estadísticas de la caché de code review
-- **review-community** (cmd): Revisar PRs, issues y contribuciones de la comunidad (protocolo privado de maintainer)
 - **review-community** (script): review-community.sh — Revisión de PRs/issues de la comunidad (LOCAL ONLY)
 - **review-depth-selector** (script): review-depth-selector.sh — Select review depth based on risk score
 - **rule-orphan-detector** (script): rule-orphan-detector.sh — SE-048 Slice 1 rule usage audit.
-- **scheduled-test** (cmd): Enviar test message para verificar integración de plataforma de notificaciones
-- **security-alerts** (cmd): >
 - **security-attacker** (agent): >
-- **security-audit** (cmd): >
 - **security-audit-all** (script): security-audit-all.sh — Unified runner for all security scanners.
 - **security-auditor** (agent): >
-- **security-auto-remediation** (cmd): >
 - **security-auto-remediation** (script): security-auto-remediation.sh — SPEC-070: Security Auto-Remediation PRs
 - **security-benchmark-runner** (script): security-benchmark-runner.sh — SPEC-032 Security Benchmark Runner
 - **security-defender** (agent): >
 - **security-guardian** (agent): >
 - **security-judge** (agent): Code Review Court judge — OWASP, PII, injection, auth, credentials
-- **security-pipeline** (cmd): >
 - **security-review** (cmd): >
 - **security-scan** (script): security-scan.sh — Security audit for pm-workspace
 - **skill-audit** (script): skill-audit.sh — Baseline skill catalog quality auditor (SE-084 Slice 1)
@@ -242,10 +222,7 @@
 - **test-vertical-detection** (script): test-vertical-detection.sh — Tests del sistema de detección de verticales
 - **test-verticals** (script): Test: Verticals v0.71.0 (Era 13)
 - **test-wellbeing-guardian** (script): test-wellbeing-guardian.sh — Structural tests for Wellbeing Guardian (Era 34 — v2.9.0)
-- **test-workspace** (script): ============================================================================
-- **testplan-generate** (cmd): Generación de plan de pruebas desde specs SDD o PBIs
-- **testplan-results** (cmd): >
-- **testplan-status** (cmd): >
+- **test-workspace** (script): test-workspace.sh — wrapper SE-253 Slice 7
 - **tests/test-adb-wrapper** (script): ============================================================================
 - **tls-security-check** (script): SE-242 — TLS Security Check
 - **tls-security-checker** (skill): Usar cuando se verifica TLS/SSL o security headers HTTP de un servidor web. Invocable pre-deploy o en auditorías periódicas.
@@ -254,9 +231,7 @@
 - **verification-lattice** (skill): Usar cuando se necesita verificación multi-capa más allá del code review estándar.
 - **visual-diff-merge-check** (script): scripts/visual-diff-merge-check.sh — SPEC-046: Visual Diff QA at Merge Time
 - **visual-digest** (agent): Digestión de imágenes con OCR contextual — 5 pasadas. Fotos de pizarras, notas manuscritas, diagramas en papel, capturas de reuniones. Usa contexto REAL del proyecto para resolver ambigüedades. PROACTIVELY cuando se detectan imágenes en car
-- **visual-qa** (cmd): Visual quality assurance via screenshot analysis. Analyze UI screenshots against design specs and reference images using vision capabilities.
 - **visual-qa-agent** (agent): Visual QA: screenshot analysis, wireframe comparison, regression detection. Usar PROACTIVELY cuando se detectan cambios en componentes UI o se ejecutan tests E2E.
-- **visual-regression** (cmd): Automated visual regression testing across builds and branches. Detect visual regressions with baseline comparison and approval workflows.
 - **web-e2e-tester** (agent): Autonomous E2E testing of web apps against live instances. Use PROACTIVELY when: deploying savia-web, after UI changes, or running regression tests. Equivalent of android-autonomous-debugger for web.
 - **web-headers-check** (script): SE-242 — Web Security Headers Check
 - **workspace-integrity** (skill): Usar cuando se audita la integridad del workspace (drift, reglas, agentes, baseline).
