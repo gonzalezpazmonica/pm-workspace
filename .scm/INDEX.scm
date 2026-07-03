@@ -1,6 +1,6 @@
 # Savia Capability Map — INDEX
-> hash: 4c68033708bb | resources: 1183
-> 287 commands · 120 skills · 81 agents · 695 scripts
+> hash: f7626c5e5803 | resources: 1184
+> 287 commands · 120 skills · 81 agents · 696 scripts
 
 [analysis] Trace Optimize — across,distributed,optimize,rates,sampling — cmd:.claude/commands/trace-optimize.md
 [analysis] agent-activity — activity,agent,executions,recent,show — cmd:.claude/commands/agent-activity.md
@@ -260,6 +260,7 @@
 [development] monthly-diagnostic-report — diagnostic,monthly,quality,report,spec — script:scripts/monthly-diagnostic-report.sh
 [development] nd-autoconfig — accessibility,auto,autoconfig,configure,neurodivergent — script:scripts/nd-autoconfig.sh
 [development] nidos-dev-lib — lifecycle,nidos,savia,server,spec — script:scripts/nidos-dev-lib.sh
+[development] opencode-config-validate — config,errata,opencode,scripts,slice — script:scripts/opencode-config-validate.sh
 [development] opencode-hooks/run-hook — adecuado,ejecuta,hook,input,json — script:scripts/opencode-hooks/run-hook.sh
 [development] opencode-install — install,opencode,slice — script:scripts/opencode-install.sh
 [development] opencode-migration-smoke — final,migration,opencode,prep,slice — script:scripts/opencode-migration-smoke.sh

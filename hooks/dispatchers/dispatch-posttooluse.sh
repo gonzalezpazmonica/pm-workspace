@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 # dispatch-posttooluse.sh — SE-253 Slice 4
+set -uo pipefail
 # Único punto de entrada PostToolUse. Lee routing-posttooluse.tsv y despacha.
 #
 # Input  : JSON de OpenCode/Claude Code en stdin
@@ -8,8 +9,6 @@
 #
 # Reducción: 17 entradas PostToolUse en settings.json → 1 spawn de este dispatcher
 # Ref    : docs/rules/domain/se-253-dispatcher-design.md
-
-set -uo pipefail
 
 REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 ROUTING="$REPO_ROOT/hooks/routing-posttooluse.tsv"

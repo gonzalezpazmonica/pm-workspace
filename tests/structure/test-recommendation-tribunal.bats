@@ -10,7 +10,7 @@ setup() {
   CLASSIFIER_ABS="$ROOT_DIR/$SCRIPT"
   AGG_ABS="$ROOT_DIR/scripts/recommendation-tribunal/aggregate.sh"
   BANNER_ABS="$ROOT_DIR/scripts/recommendation-tribunal/banner.sh"
-  HOOK_ABS="$ROOT_DIR/.opencode/hooks/recommendation-tribunal-pre-output.sh"
+  HOOK_ABS="$ROOT_DIR/.claude/hooks/_legacy/recommendation-tribunal-pre-output.sh"
   ORCH_ABS="$ROOT_DIR/.opencode/agents/recommendation-tribunal-orchestrator.md"
   JUDGE_DIR="$ROOT_DIR/.claude/agents"
   RULE_DOC="$ROOT_DIR/docs/rules/domain/recommendation-tribunal.md"

@@ -1,6 +1,6 @@
 {
-  "hash": "57908510cbcd",
-  "total": 1183,
+  "hash": "16c54c712152",
+  "total": 1184,
   "resources": [
     {
       "category": "analysis",
@@ -3373,6 +3373,20 @@
       "kind": "script",
       "path": "scripts/nidos-dev-lib.sh",
       "description": "nidos-dev-lib.sh — Dev server lifecycle for Savia nidos (SPEC-098)."
+    },
+    {
+      "category": "development",
+      "name": "opencode-config-validate",
+      "intents": [
+        "config",
+        "errata",
+        "opencode",
+        "scripts",
+        "slice"
+      ],
+      "kind": "script",
+      "path": "scripts/opencode-config-validate.sh",
+      "description": "scripts/opencode-config-validate.sh — SE-253 Slice 1 errata"
     },
     {
       "category": "development",

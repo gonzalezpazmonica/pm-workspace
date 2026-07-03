@@ -6,8 +6,8 @@
 
 setup() {
     REPO_ROOT="$(cd "$(dirname "$BATS_TEST_FILENAME")/../.." && pwd)"
-    DISPATCH_PRE="$REPO_ROOT/.opencode/hooks/dispatch-pretooluse.sh"
-    DISPATCH_POST="$REPO_ROOT/.opencode/hooks/dispatch-posttooluse.sh"
+    DISPATCH_PRE="$REPO_ROOT/hooks/dispatchers/dispatch-pretooluse.sh"
+    DISPATCH_POST="$REPO_ROOT/hooks/dispatchers/dispatch-posttooluse.sh"
     PRE_TSV="$REPO_ROOT/hooks/routing-pretooluse.tsv"
     POST_TSV="$REPO_ROOT/hooks/routing-posttooluse.tsv"
     BENCHMARK="$REPO_ROOT/scripts/benchmark-hook-dispatch.sh"

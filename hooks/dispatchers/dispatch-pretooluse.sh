@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 # dispatch-pretooluse.sh — SE-253 Slice 4
+set -uo pipefail
 # Único punto de entrada PreToolUse. Lee routing-pretooluse.tsv y despacha.
 #
 # Input  : JSON de OpenCode/Claude Code en stdin
@@ -7,8 +8,6 @@
 #
 # Reducción: 26 entradas PreToolUse en settings.json → 1 spawn de este dispatcher
 # Ref    : docs/rules/domain/se-253-dispatcher-design.md
-
-set -uo pipefail
 
 REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 ROUTING="$REPO_ROOT/hooks/routing-pretooluse.tsv"
