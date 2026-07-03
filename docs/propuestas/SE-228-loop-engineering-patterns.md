@@ -1,7 +1,7 @@
 ---
 spec_id: SE-228
 title: "Loop Engineering adoptable patterns — STATE.md spine, maker/checker split, run-log, loop-budget, L1-L3 phasing"
-status: PROPOSED
+status: IMPLEMENTED
 priority: P1
 effort: L (18h total — S1 4h + S2 4h + S3 4h + S4 3h + S5 3h)
 origin: https://github.com/cobusgreyling/loop-engineering (MIT, 2026-06)
@@ -15,6 +15,8 @@ related:
   - SE-219 (abtop patterns)
   - autonomous-safety.md
 proposed_at: "2026-06-25"
+resolved_at: "2026-07-02"
+implementation_pr: "#876-880"
 era: 236
 priority_score: 84.2
 value: 85

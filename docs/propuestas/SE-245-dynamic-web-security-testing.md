@@ -1,7 +1,7 @@
 ---
 id: SE-245
 title: "Dynamic web security testing — sqlmap + DalFox para endpoints generados por agentes"
-status: PROPOSED
+status: IMPLEMENTED
 priority: P2
 effort: L (16h — S1 4h + S2 4h + S3 4h + S4 4h)
 origin: Análisis defensivo hackingtool-plugin (AKCodez, 2026-06-28)
@@ -13,6 +13,8 @@ related:
   - SE-242 (tls-web-security-headers — TLS/headers, no SQLi/XSS)
   - SE-243 (attack-surface-mapping — reconocimiento previo)
 proposed_at: "2026-06-28"
+resolved_at: "2026-07-02"
+implementation_pr: "#890"
 era: 237
 tools_from_hackingtool:
   - sqlmap

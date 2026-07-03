@@ -1,7 +1,7 @@
 ---
 id: SE-249
 title: "RotatE Link Prediction — dependencias implícitas entre agentes y skills"
-status: PROPOSED
+status: IMPLEMENTED
 priority: P2
 effort: S (5h — S1 2h training loop + S2 2h integración + S3 1h tests)
 origin: Investigación output/research/20260628-kg-optimization-state-of-art-2024-2025.md §1
@@ -11,6 +11,7 @@ related:
   - scripts/knowledge-graph.sh
   - drift-auditor agent
 proposed_at: "2026-06-28"
+resolved_at: "2026-07-02"
 era: 249
 roi: Medio — detecta coupling implícito no documentado; requiere ~500 triples para que sea útil
 ---

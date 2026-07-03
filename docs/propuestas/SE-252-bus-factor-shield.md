@@ -1,9 +1,11 @@
 ---
 id: SE-252
 title: "Bus Factor Shield — Context Domes + Dependency Detection + Knowledge Distribution"
-status: APPROVED
+status: IMPLEMENTED
 author: Savia
 date: 2026-06-30
+resolved_at: "2026-07-02"
+implementation_pr: "#893"
 priority: P0
 origin: "Microsiervos 2026-06-29 — Factor autobús; investigación AVL/CST/RIG algorithms"
 related: SE-248, ubiquitous-language, codebase-memory-mcp, human-code-map
