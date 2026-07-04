@@ -4,6 +4,7 @@ description: Matriz de skills del equipo — quién sabe qué, bus factor, pair 
 developer_type: all
 agent: task
 context_cost: high
+tier: extended
 ---
 
 # /team-skills-matrix

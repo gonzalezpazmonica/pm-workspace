@@ -190,11 +190,18 @@ def scan_markdown_resources(pattern_glob: Path, kind: str, rel_root: Path,
     """
     Yield ResourceEntry objects for each markdown file matched by the glob.
     `name_fallback(path)` is called when frontmatter has no `name` key.
+
+    SE-253 Slice 1: commands with tier=extended are excluded from the core
+    index (they are loaded on-demand via /catalog). Skills and agents are
+    always included regardless of tier.
     """
     for file_path in pattern_glob:
         if not file_path.is_file():
             continue
         fields = parse_frontmatter(file_path)
+        # SE-253: skip extended-tier commands from core session index
+        if kind == "cmd" and fields.get("tier", "core").strip() == "extended":
+            continue
         description = fields.get("description", "").strip()
         if not description:
             continue

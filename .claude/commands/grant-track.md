@@ -10,6 +10,7 @@ allowed-tools:
   - Grep
   - Bash
   - Task
+tier: extended
 ---
 
 # /grant-track {proyecto} {subcommand} {args}

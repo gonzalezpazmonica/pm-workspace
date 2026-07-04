@@ -3,6 +3,7 @@ name: security-alerts
 description: >
   Alertas de seguridad desde Azure DevOps Advanced Security.
   CVEs, dependencias vulnerables, secrets expuestos.
+tier: extended
 ---
 
 # Security Alerts

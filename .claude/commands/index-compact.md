@@ -8,6 +8,7 @@ allowed-tools: [Bash, Read]
 model: github-copilot/claude-sonnet-4.5
 context_cost: low
 complexity_tier: mode1
+tier: core
 ---
 
 # Index Compact

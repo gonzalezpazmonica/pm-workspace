@@ -1,6 +1,7 @@
 ---
 name: record-export
 description: Export recorded session or data in multiple formats
+tier: extended
 ---
 
 ---

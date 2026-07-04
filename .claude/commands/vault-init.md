@@ -1,6 +1,7 @@
 ---
 name: vault-init
 description: "Inicializar Personal Vault del usuario"
+tier: extended
 ---
 
 # /vault-init — Inicializar Personal Vault

@@ -3,6 +3,7 @@ name: devops-validate
 description: >
   Validate Azure DevOps project configuration against pm-workspace
   ideal Agile requirements. Generates remediation plan if mismatches found.
+tier: extended
 ---
 
 # /devops-validate

@@ -4,6 +4,7 @@ description: Definir matriz de límites explícitos: qué puede hacer Savia aut�
 developer_type: all
 agent: none
 context_cost: low
+tier: extended
 ---
 
 # /ai-boundary

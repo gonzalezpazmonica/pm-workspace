@@ -4,11 +4,14 @@ set -uo pipefail
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 ROOT="$(dirname "$SCRIPT_DIR")"; cd "$ROOT"
 
-DRY=false; SKIP_PUSH=false; TITLE=""
+DRY=false; SKIP_PUSH=false; TITLE=""; GATE_MODE=false
 while [[ $# -gt 0 ]]; do
   case "$1" in
-    --dry-run) DRY=true; shift ;; --skip-push) SKIP_PUSH=true; shift ;;
-    --title) TITLE="$2"; shift 2 ;; *) shift ;;
+    --dry-run) DRY=true; shift ;;
+    --gate-mode) GATE_MODE=true; DRY=true; shift ;;
+    --skip-push) SKIP_PUSH=true; shift ;;
+    --title) TITLE="$2"; shift 2 ;;
+    *) shift ;;
   esac
 done
 
@@ -54,15 +57,26 @@ gate "G15" "CI reliability (advisory)" g_pre_push_reliability
 echo ""
 echo "------------------------------------------------------------"
 if [[ -n "$STOPPED" ]]; then
-  echo "  STOPPED at $STOPPED"
-  echo "------------------------------------------------------------"
-  bash "$SCRIPT_DIR/session-action-log.sh" log "pr-plan" "$BRANCH" "fail" "$STOPPED" >/dev/null 2>&1 || true
-  bash "$SCRIPT_DIR/execution-supervisor.sh" "pr-plan" "$BRANCH" "$STOPPED" 2>&1 || true
+  if $GATE_MODE; then
+    echo "  GATE: FAILED at $STOPPED"
+    echo "------------------------------------------------------------"
+  else
+    echo "  STOPPED at $STOPPED"
+    echo "------------------------------------------------------------"
+    bash "$SCRIPT_DIR/session-action-log.sh" log "pr-plan" "$BRANCH" "fail" "$STOPPED" >/dev/null 2>&1 || true
+    bash "$SCRIPT_DIR/execution-supervisor.sh" "pr-plan" "$BRANCH" "$STOPPED" 2>&1 || true
+  fi
   exit 1
 fi
 echo "  Result: $PASS PASS | $FAIL FAIL | $WARN WARN"
 echo "------------------------------------------------------------"
-$DRY && { echo -e "\n  --dry-run: no push."; exit 0; }
+$DRY && {
+  if $GATE_MODE; then
+    [[ $FAIL -gt 0 ]] && exit 1
+    exit 0
+  fi
+  echo -e "\n  --dry-run: no push."; exit 0
+}
 
 # Write sentinel — all gates passed, push-pr.sh can proceed
 touch .pr-plan-ok

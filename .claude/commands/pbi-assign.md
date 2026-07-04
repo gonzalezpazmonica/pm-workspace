@@ -1,6 +1,7 @@
 ---
 name: pbi-assign
 description: Assign or reassign tasks based on intelligent allocation
+tier: extended
 ---
 
 ---

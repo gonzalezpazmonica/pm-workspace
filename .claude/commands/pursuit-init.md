@@ -5,6 +5,7 @@ argument-hint: '"Client Name" "Opportunity Title" [--tenant tenant-id]'
 context_cost: low
 model: github-copilot/claude-sonnet-4.5
 allowed-tools: [Bash, Write, Read]
+tier: core
 ---
 
 # /pursuit-init — Create a new pursuit (SE-015)

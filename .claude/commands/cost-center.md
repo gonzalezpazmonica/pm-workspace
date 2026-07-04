@@ -4,6 +4,7 @@ description: "Cost management and billing — timesheets, budgets, forecasting, 
 allowed-tools: [Read, Write, Glob, Bash]
 model: github-copilot/claude-sonnet-4.5
 context_cost: medium
+tier: core
 ---
 
 # Cost Center — Cost Management & Billing

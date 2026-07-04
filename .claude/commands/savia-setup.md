@@ -8,6 +8,7 @@ argument-hint: ""
 allowed-tools: [Bash]
 model: github-copilot/claude-sonnet-4.5
 context_cost: low
+tier: core
 ---
 
 # Savia Setup

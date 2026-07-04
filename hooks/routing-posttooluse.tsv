@@ -1,0 +1,42 @@
+# routing-posttooluse.tsv — SE-253 Slice 4
+# Registro canónico de hooks PostToolUse para dispatch-posttooluse.sh
+# Columnas: matcher<TAB>hook_script<TAB>mode<TAB>bloqueante<TAB>descripcion
+# matcher : regex bash [[ "$TOOL" =~ $matcher ]]
+# mode    : spawn (subprocess) | source (mismo proceso — solo funciones puras)
+# bloqueante: yes (exit 2 aborta cadena) | no (PostToolUse hooks raramente bloquean)
+#
+# NOTA: PostToolUse hooks son predominantemente async/observacionales.
+# exit 2 en PostToolUse se loguea como warning pero NO bloquea el flujo principal.
+#
+# Generado desde .claude/settings.json PostToolUse — 17 entradas expandidas
+# -------------------------------------------------------------------
+Read	.opencode/hooks/acm-turn-marker.sh	spawn	no	ACM turn marker SE-063: marca turno de lectura (async)
+Read	.opencode/hooks/context-origin-stamp.sh	spawn	no	Origin tagging SE-221: etiqueta origen del contexto leido
+Edit|Write	.opencode/hooks/post-edit-lint.sh	spawn	no	Auto-lint en background tras edicion (async)
+Edit|Write	.opencode/hooks/memory-auto-capture.sh	spawn	no	Captura automatica en memoria tras escritura (async)
+Edit|Write	.opencode/hooks/pbi-history-capture.sh	spawn	no	Registra historial de PBI tras edicion (async)
+Edit|Write	.opencode/hooks/token-tracker-middleware.sh	spawn	no	Monitoriza consumo de contexto tras edicion (async)
+Edit|Write	.opencode/hooks/data-sovereignty-audit.sh	spawn	no	Savia Shield: auditoria post-escritura de soberania de datos (async)
+Edit|Write	.opencode/hooks/post-report-write.sh	spawn	no	Truth Tribunal: encola informe post-escritura (async)
+Edit|Write	.opencode/hooks/ast-quality-gate-hook.sh	spawn	no	AST Quality Gate: analiza calidad de codigo generado (async)
+Edit|Write	.opencode/hooks/dual-estimation-gate.sh	spawn	no	Dual Estimation: verifica coherencia de escalas de estimacion
+Edit|Write	.opencode/hooks/post-write-validate.sh	spawn	no	Validacion post-escritura de estructura del fichero
+Edit|Write	.opencode/hooks/post-spec-edit-reindex.sh	spawn	no	Specs INDEX.md auto-regen SE-222 S2 (async)
+Edit|Write	.opencode/hooks/propuestas-index-refresh.sh	spawn	no	SE-222: regenera propuestas/index.md tras edicion (async)
+Task	.opencode/hooks/sycophancy-strip.sh	spawn	no	SPEC-192: anti-adulation Layer 1 — limpia output de agentes
+Task	.opencode/hooks/agent-trace-log.sh	spawn	no	Registra traza de ejecucion del agente (async)
+Task	.opencode/hooks/compress-agent-output.sh	spawn	no	Comprime output de agente para ahorrar contexto (async)
+Bash	.opencode/hooks/bash-output-compress.sh	spawn	no	Comprime output de bash para ahorrar contexto (async)
+Bash	.opencode/hooks/competence-tracker.sh	spawn	no	Registra competencias observadas en output bash (async)
+Edit|Write|Task	.opencode/hooks/cognitive-debt-telemetry.sh	spawn	no	Telemetria de deuda cognitiva post-edicion (async)
+Read|WebFetch|Bash	.opencode/hooks/context-drop-after-use.sh	spawn	no	Drop-after-use SE-221: descarta contexto tras uso
+.*	.opencode/hooks/output-verbosity-sentinel.sh	spawn	no	Verbosity sentinel SE-224: detecta outputs verbosos (async)
+.*	.claude/hooks/speculative-pre-execute.sh	spawn	no	SE-220: ejecucion especulativa post-tool (async)
+Task	.claude/hooks/criterion-simulation-challenge.sh	spawn	no	Evalua framing de sub-tareas delegadas SPEC-194
+Task	.claude/hooks/router-mode-dispatch.sh	spawn	no	Clasifica Task calls mode1/mode2 SPEC-163
+Task	.claude/hooks/speculative-skill-preload.sh	spawn	no	Hint de skill al input de sub-agente SE-220 S3
+Task	.claude/hooks/memory-feedback-task.sh	spawn	no	Extrae outcomes de agentes SPEC-164
+.*	.claude/hooks/cognitive-debt-check.sh	spawn	no	Mide duracion de sesion SPEC-107
+.*	.claude/hooks/live-progress-emitter.sh	spawn	no	Emite progreso por cada tool call SPEC-042
+Task	.claude/hooks/decision-trace-capture.sh	spawn	no	Detecta decisiones en output de agentes SPEC-188 F3
+Write|Edit	.opencode/hooks/bus-factor-warn.sh	spawn	no	Warn-only: detecta ficheros con Bus Factor bajo tras edicion (async)

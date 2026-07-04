@@ -4,6 +4,7 @@ description: Validar pipelines Kafka/EDA — topologías, schemas, DLQ, Saga, id
 developer_type: all
 agent: architect
 context_cost: high
+tier: core
 ---
 
 # /banking-eda-validate [--project {nombre}] [--fix] [--focus topics|schemas|reliability]

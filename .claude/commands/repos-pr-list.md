@@ -3,6 +3,7 @@ name: repos-pr-list
 description: >
   Listar Pull Requests en Azure Repos: pendientes, asignados
   al PM, por reviewer, con estado de builds y votos.
+tier: extended
 ---
 
 # Repos PR List

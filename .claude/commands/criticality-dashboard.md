@@ -5,6 +5,7 @@ argument-hint: "[--project nombre] [--level portfolio|project|team|person]"
 allowed-tools: [Read, Bash, Glob, Grep]
 model: github-copilot/claude-sonnet-4.5
 context_cost: medium
+tier: core
 ---
 
 # /criticality-dashboard — Panel de Criticidad

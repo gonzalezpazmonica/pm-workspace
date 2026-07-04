@@ -5,6 +5,7 @@ context_cost: high
 developer_type: all
 agent: developer
 model: github-copilot/claude-opus-4.7
+tier: core
 ---
 
 # /dag-execute {task-id|spec-path}

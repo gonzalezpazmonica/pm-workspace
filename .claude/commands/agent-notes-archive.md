@@ -7,6 +7,7 @@ allowed-tools:
   - Read
   - Bash
   - Glob
+tier: extended
 ---
 
 # /agent-notes-archive {proyecto} [sprint]

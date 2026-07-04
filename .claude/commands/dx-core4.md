@@ -3,6 +3,7 @@ name: "dx-core4"
 description: "Marco DX Core 4 completo: velocidad, efectividad, calidad e impacto. Genera scorecard de experiencia del desarrollador."
 developer_type: all
 agent: task
+tier: extended
 ---
 
 # /dx-core4

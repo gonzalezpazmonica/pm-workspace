@@ -4,6 +4,7 @@ description: "Auditoría de accesibilidad WCAG 2.2 completa con escaneo de HTML/
 developer_type: all
 agent: task
 context_cost: medium
+tier: extended
 ---
 
 # /a11y-audit — Auditoría de Accesibilidad WCAG 2.2

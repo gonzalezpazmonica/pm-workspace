@@ -1,6 +1,7 @@
 ---
 name: ua-chat
 description: Semantic search the knowledge graph using natural language
+tier: core
 ---
 
 # /ua-chat — Semantic Knowledge Graph Search

@@ -3,6 +3,7 @@ name: retro-patterns
 description: Análisis de patrones en retrospectivas — temas recurrentes, action items sin resolver
 agent: task
 context_cost: high
+tier: extended
 ---
 
 # /retro-patterns

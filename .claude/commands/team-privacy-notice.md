@@ -4,6 +4,7 @@ description: >
   Genera la nota informativa de protección de datos (Art. 13-14 RGPD) que debe
   entregarse al trabajador ANTES de recoger datos de competencias. Rellena la
   plantilla con los datos de la empresa y del trabajador.
+tier: core
 ---
 
 # Generar Nota Informativa RGPD

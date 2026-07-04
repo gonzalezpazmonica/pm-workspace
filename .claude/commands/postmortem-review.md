@@ -1,6 +1,7 @@
 ---
 name: postmortem-review
 description: Review and learn from past incident postmortems
+tier: extended
 ---
 
 ---

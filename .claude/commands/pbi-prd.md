@@ -4,6 +4,7 @@ description: >
   Genera un Product Requirements Document (PRD) para un PBI. Lee el JTBD previo
   (si existe) y formaliza los requisitos funcionales, no funcionales, dependencias,
   riesgos y criterios de aceptación enriquecidos. Paso previo a /pbi-decompose.
+tier: core
 ---
 
 # Generar PRD para un PBI

@@ -1,6 +1,7 @@
 ---
 name: postmortem-create
 description: Create incident postmortem with structured analysis
+tier: extended
 ---
 
 ---

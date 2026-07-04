@@ -1,6 +1,7 @@
 ---
 name: memory-consolidate
 description: Consolidate and compress memory entries to save context
+tier: core
 ---
 
 ---

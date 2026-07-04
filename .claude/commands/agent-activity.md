@@ -5,6 +5,7 @@ model: github-copilot/claude-sonnet-4.5
 context_cost: low
 allowed-tools: [Read, Bash, Glob]
 argument-hint: "[--last N] [--format table|json]"
+tier: core
 ---
 
 # /agent-activity

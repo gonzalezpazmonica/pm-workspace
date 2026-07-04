@@ -4,6 +4,7 @@ description: Listar todas las tareas programadas y su configuración de notifica
 developer_type: pm
 agent: task
 context_cost: low
+tier: extended
 ---
 
 # /scheduled-list

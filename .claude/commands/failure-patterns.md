@@ -1,6 +1,7 @@
 ---
 name: Failure Patterns
 description: List, show and resolve failure patterns from the Failure Pattern Memory store. Use when reviewing recurring agent errors, post-mortem analysis, or checking if an error has been seen before.
+tier: core
 ---
 
 # /failure-patterns

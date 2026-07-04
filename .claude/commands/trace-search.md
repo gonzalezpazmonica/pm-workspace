@@ -4,6 +4,7 @@ description: Buscar y filtrar trazas across multiple observability platforms wit
 developer_type: all
 agent: task
 context_cost: high
+tier: extended
 ---
 
 # /trace-search

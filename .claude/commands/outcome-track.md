@@ -4,6 +4,7 @@ description: Tracking de outcomes post-release — ¿la feature entregó el valo
 developer_type: all
 agent: task
 context_cost: medium
+tier: extended
 ---
 
 # /outcome-track

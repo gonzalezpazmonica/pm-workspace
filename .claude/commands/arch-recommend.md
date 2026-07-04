@@ -4,6 +4,7 @@ description: Recomendar la mejor arquitectura para un proyecto nuevo
 developer_type: all
 agent: architect
 context_cost: medium
+tier: extended
 ---
 
 # /arch-recommend {requirements}

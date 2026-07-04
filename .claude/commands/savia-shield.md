@@ -6,6 +6,7 @@ argument-hint: "[enable|disable|status]"
 model: github-copilot/claude-sonnet-4.5
 context_cost: low
 complexity_tier: mode2
+tier: core
 ---
 
 # /savia-shield — Gestión de Savia Shield

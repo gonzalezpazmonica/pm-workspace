@@ -4,6 +4,7 @@ description: Reporte de gobernanza IA para management — cumplimiento normativo
 developer_type: all
 agent: task
 context_cost: medium
+tier: extended
 ---
 
 # /governance-report

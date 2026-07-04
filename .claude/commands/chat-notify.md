@@ -2,6 +2,7 @@
 name: chat-notify
 description: Enviar notificación formateada a Google Chat
 argument-hint: "[type] [project]"
+tier: extended
 ---
 
 # /chat-notify

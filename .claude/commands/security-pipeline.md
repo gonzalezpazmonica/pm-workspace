@@ -11,6 +11,7 @@ allowed-tools:
   - Grep
   - Bash
   - Task
+tier: extended
 ---
 
 # /security-pipeline {proyecto} [--scope {full|api|deps|config|secrets}] [--auto-pr]

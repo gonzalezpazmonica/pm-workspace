@@ -9,6 +9,7 @@ allowed-tools:
   - Grep
   - Bash
   - Task
+tier: extended
 ---
 
 # /bias-check Command

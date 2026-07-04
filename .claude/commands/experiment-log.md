@@ -10,6 +10,7 @@ allowed-tools:
   - Grep
   - Bash
   - Task
+tier: extended
 ---
 
 # /experiment-log {proyecto} {subcommand} {args}

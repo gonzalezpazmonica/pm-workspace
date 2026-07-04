@@ -3,6 +3,7 @@ name: wiki-publish
 description: >
   Publicar documentación y páginas en Azure DevOps Wiki.
   Soporta markdown, imágenes y estructura de páginas.
+tier: extended
 ---
 
 # Wiki Publish

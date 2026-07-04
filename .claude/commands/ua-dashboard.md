@@ -1,6 +1,7 @@
 ---
 name: ua-dashboard
 description: Start the interactive knowledge graph dashboard in browser
+tier: core
 ---
 
 # /ua-dashboard — Interactive Knowledge Graph Dashboard

@@ -5,6 +5,7 @@ description: >
   con Draw.io/Miro. Muestra links y metadata.
 model: github-copilot/claude-sonnet-4.5
 context_cost: low
+tier: core
 ---
 
 # Estado de Diagramas

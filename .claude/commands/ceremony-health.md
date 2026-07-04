@@ -4,6 +4,7 @@ description: Métricas de salud de ceremonias — duración, participación, res
 agent: task
 context_cost: medium
 model: github-copilot/claude-sonnet-4.5
+tier: core
 ---
 
 # /ceremony-health

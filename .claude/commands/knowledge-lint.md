@@ -5,6 +5,7 @@ argument-hint: "[--fix]"
 context_cost: low
 model: github-copilot/claude-sonnet-4.5
 allowed-tools: [Bash, Read]
+tier: core
 ---
 
 # /knowledge-lint — Knowledge base health check (LLM Wiki pattern)

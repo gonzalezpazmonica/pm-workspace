@@ -4,6 +4,7 @@ description: Poda semántica inteligente de memorias. Archiva engrams de baja im
 developer_type: all
 agent: task
 context_cost: high
+tier: extended
 ---
 
 # /memory-prune

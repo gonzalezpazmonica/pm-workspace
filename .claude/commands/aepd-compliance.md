@@ -4,6 +4,7 @@ description: Auditoría de cumplimiento AEPD para IA agéntica — framework 4 f
 developer_type: all
 agent: task
 context_cost: high
+tier: core
 ---
 
 # /aepd-compliance

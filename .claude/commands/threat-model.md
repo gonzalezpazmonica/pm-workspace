@@ -10,6 +10,7 @@ allowed-tools:
   - Grep
   - Bash
   - Task
+tier: extended
 ---
 
 # /threat-model {proyecto} [--framework {stride|pasta}]

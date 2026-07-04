@@ -4,6 +4,7 @@ description: Configurar estrategia de caché por capas con TTL y reglas de inval
 developer_type: all
 agent: none
 context_cost: high
+tier: extended
 ---
 
 # /cache-strategy

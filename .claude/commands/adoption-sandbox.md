@@ -4,6 +4,7 @@ description: Entorno seguro de práctica — experimentar con Savia sin miedo a 
 developer_type: all
 agent: task
 context_cost: high
+tier: extended
 ---
 
 # /adoption-sandbox

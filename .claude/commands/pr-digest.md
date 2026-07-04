@@ -1,6 +1,7 @@
 ---
 name: pr-digest
 description: Digestión contextual de un PR para revisión rápida. Analiza impacto, riesgos y genera resumen ejecutivo en español.
+tier: core
 ---
 
 # PR Digest — Análisis Contextual

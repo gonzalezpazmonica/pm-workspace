@@ -1,6 +1,7 @@
 ---
 name: record-stop
 description: Stop active recording session
+tier: extended
 ---
 
 ---

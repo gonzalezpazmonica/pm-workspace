@@ -4,6 +4,7 @@ description: Generar informe ejecutivo de compliance regulatorio con tendencias 
 developer_type: all
 agent: architect
 context_cost: high
+tier: core
 ---
 
 # /compliance-report {path} [--format md|docx] [--compare] [--lang es|en]

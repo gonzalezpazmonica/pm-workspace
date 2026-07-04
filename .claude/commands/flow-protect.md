@@ -3,6 +3,7 @@ name: "flow-protect"
 description: "Detector de context-switching y protector de flow state. Analiza densidad de reuniones, patrones de interrupciones, sobrecarga WIP."
 developer_type: all
 agent: task
+tier: extended
 ---
 
 # /flow-protect

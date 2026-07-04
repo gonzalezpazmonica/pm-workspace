@@ -4,6 +4,7 @@ description: Exportar audit trail en JSON/CSV/PDF para auditorías externas. ISO
 developer_type: all
 agent: task
 context_cost: medium
+tier: extended
 ---
 
 # Audit Export — Exportación para Auditorías Externas

@@ -5,6 +5,7 @@ allowed-tools: [Read, Glob, Grep, Write, Edit, Bash]
 argument-hint: "[analyze|benchmark|recommend|knowledge-search] [--search query]"
 model: github-copilot/claude-sonnet-4.5
 context_cost: medium
+tier: core
 ---
 
 # /scale-optimizer — Optimización de Escala

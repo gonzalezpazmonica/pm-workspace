@@ -8,6 +8,7 @@ allowed-tools:
   - Grep
   - Bash
   - Task
+tier: extended
 ---
 
 # Visual Regression Command

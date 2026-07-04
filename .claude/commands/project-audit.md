@@ -5,6 +5,7 @@ description: >
   architecture, debt, security, CI/CD. Prioritized action report.
 model: github-copilot/claude-opus-4.7
 context_cost: high
+tier: core
 ---
 
 # Project Audit

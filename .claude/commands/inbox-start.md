@@ -3,6 +3,7 @@ name: inbox-start
 description: >
   Iniciar monitor de inbox en background. Revisa canales cada N minutos
   mientras la sesión de Claude Code esté abierta.
+tier: core
 ---
 
 # Inbox Start

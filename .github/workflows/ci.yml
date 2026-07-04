@@ -99,6 +99,13 @@ jobs:
             exit 1
           fi
 
+      - name: "SE-253: Changelog spec-field check (warn -- promoted to block after Sprint 30)"
+        run: bash scripts/changelog-spec-field-check.sh --warn
+        continue-on-error: true
+
+      - name: "SE-253 errata: Validate opencode.json schema keys"
+        run: bash scripts/opencode-config-validate.sh --check
+
       - name: Run workspace test suite (mock mode)
         run: |
           chmod +x scripts/test-workspace.sh
@@ -152,7 +159,14 @@ jobs:
 
           # Update package lists and install dependencies
           sudo apt-get update -qq
-          sudo apt-get install -y jq git bash
+          sudo apt-get install -y jq git bash python3-pip
+          pip3 install pytest
+
+          # Install Node.js deps for test_workspace.py mock mode
+          npm install --prefix scripts
+
+          # Install Node.js deps for test_workspace.py mock mode
+          npm install --prefix scripts
 
           # Ensure git is properly configured for test environment
           git config --global user.email "ci@example.com"
@@ -315,3 +329,20 @@ jobs:
 
       - name: Run hook latency benchmark (strict — fail if any hook > 200ms)
         run: bash scripts/hook-latency-bench.sh --iterations 3 --threshold 200 --strict
+
+  agent-sync-check:
+    name: Agent Sync Check
+    runs-on: ubuntu-latest
+    if: |
+      contains(toJson(github.event.commits.*.modified), '.claude/agents') ||
+      contains(toJson(github.event.commits.*.modified), '.opencode/agents') ||
+      github.event_name == 'pull_request'
+    steps:
+      - name: Checkout
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+
+      - name: Install dependencies
+        run: sudo apt-get update -qq && sudo apt-get install -y python3
+
+      - name: SE-253 Agent sync guard — verify .claude/agents ↔ .opencode/agents
+        run: bash scripts/agents-catalog-sync.sh --check

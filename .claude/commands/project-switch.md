@@ -3,6 +3,7 @@ name: project-switch
 description: Cambia el proyecto activo de Savia para aislamiento de contexto (SE-093).
 model: fast
 context_cost: low
+tier: core
 ---
 
 # /project-switch

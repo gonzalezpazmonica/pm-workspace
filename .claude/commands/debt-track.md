@@ -6,6 +6,7 @@ description: >
   NOTA: Para análisis automatizado, ver /debt-analyze, /debt-prioritize, /debt-budget
 model: github-copilot/claude-sonnet-4.5
 context_cost: medium
+tier: core
 ---
 
 # Debt Track

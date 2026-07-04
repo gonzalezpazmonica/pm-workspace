@@ -4,6 +4,7 @@ description: "Alias spec-kit compatible. Captura el what inicial de una spec (JT
 developer_type: all
 agent: task
 context_cost: medium
+tier: core
 ---
 
 # /speckit.specify — Captura inicial de spec

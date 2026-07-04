@@ -4,6 +4,7 @@ description: Auditoría de compliance legal contra legislación española (legal
 agent: legal-compliance
 context_cost: medium
 argument-hint: "[--project PROJECT] [--scope rules|contract|architecture|policy|pbi|full] [--domain DOMAIN] [--ccaa CCAA]"
+tier: core
 ---
 
 # /legal-audit [--project PROJECT] [--scope SCOPE] [--domain DOMAIN] [--ccaa CCAA] [--format FORMAT]

@@ -4,6 +4,7 @@ description: Log de auditoría IA — quién ejecutó qué agente, sobre qué da
 developer_type: agent-single
 agent: azure-devops-operator
 context_cost: low
+tier: extended
 ---
 
 # AI Audit Log Generator

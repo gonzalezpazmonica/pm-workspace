@@ -4,6 +4,7 @@ description: Transcribe y extrae action items de reuniones — Sprint Review, Re
 developer_type: all
 agent: task
 context_cost: high
+tier: extended
 ---
 
 # /meeting-summarize

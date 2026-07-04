@@ -5,6 +5,7 @@ description: >
   de actividad, tamaño y última actualización.
 model: github-copilot/claude-sonnet-4.5
 context_cost: low
+tier: core
 ---
 
 # Repos List

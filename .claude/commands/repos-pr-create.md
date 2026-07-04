@@ -3,6 +3,7 @@ name: repos-pr-create
 description: >
   Crear Pull Request en Azure Repos con linking automático
   a work items, asignación de reviewers y auto-complete.
+tier: extended
 ---
 
 # Repos PR Create

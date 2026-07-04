@@ -10,17 +10,17 @@
 ## Modelo actual
 
 ```
-.opencode/hooks    → symlink a ../.claude/hooks    (69 hooks .sh)
+.opencode/hooks    → symlink a ../.claude/hooks    (101 hooks .sh — ver hooks-coverage-matrix.md)
 .opencode/.claude  → symlink a ../.claude          (settings.json incluido)
 ```
 
-Por tanto **no hay duplicación**: los 69 hooks son los mismos en ambos frontends.
+Por tanto **no hay duplicación**: los 101 hooks son los mismos en ambos frontends.
 La diferencia está en **quién los dispara**:
 
 | Frontend | Mecanismo de disparo | Cobertura |
 |---|---|---|
 | Claude Code nativo | `.claude/settings.json` directo | 100% (PreToolUse, PostToolUse, Stop, ...) |
-| OpenCode v1.14+ | Plugin TS en `.opencode/plugins/` mapea eventos a hooks | ~80% (eventos disponibles en OpenCode) |
+| OpenCode v1.14+ | Plugin TS en `.opencode/plugins/` mapea eventos a hooks | ver `docs/hooks-coverage-matrix.md` |
 | OpenCode-Copilot Enterprise | **Sin hooks** (no hay surface de eventos) | Degradación a git pre-commit + CI |
 | LocalAI emergency (SPEC-122) | `.claude/settings.json` directo (shell Claude con base URL local) | 100% |
 
@@ -36,7 +36,7 @@ Cubren todo el ciclo de vida de una herramienta. Fuente: `.claude/settings.json`
 - **Calidad bloqueante**: `tdd-gate.sh`, `stop-quality-gate.sh`, `data-sovereignty-gate.sh`.
 - **Calidad warning**: `plan-gate.sh`, `scope-guard.sh`, `agent-dispatch-validate.sh`, `cognitive-debt-*`.
 
-Total: 69 hooks · 72 registros en settings.json (algunos hooks se registran en múltiples eventos).
+Total: ver `docs/hooks-coverage-matrix.md` (scripts y registros auditados por SE-253).
 
 Auditoría: `bash scripts/hooks-integrity-check.sh` (SE-094).
 
@@ -96,3 +96,31 @@ La capa 1 (runtime) se pierde. Compensación:
 - `docs/rules/domain/provider-agnostic-env.md`
 - `scripts/hooks-integrity-check.sh`
 - `scripts/claude-md-drift-check.sh`
+
+---
+
+## Cobertura OpenCode real (SE-253)
+
+La cifra real de guards TS activos en `.opencode/plugins/savia-foundation.ts` frente a los
+hooks registrados en `.claude/settings.json` está auditada y versionada en:
+
+**[docs/hooks-coverage-matrix.md](../docs/hooks-coverage-matrix.md)**
+
+Resumen a 2026-07-03 (SE-253 Slice 2):
+
+| Metrica | Valor |
+|---|---|
+| Registraciones totales en settings.json | 103 |
+| Guards TS activos en savia-foundation.ts | 17 (16.5%) |
+| Mitigados via git hook | 4 |
+| Mitigados via CI | 5 |
+| Sin cobertura (degradacion documentada) | 77 |
+| Bloqueantes sin cobertura ni mitigacion | 0 |
+
+La degradacion en OpenCode puro (vs Claude Code nativo) es **conocida y documentada** por evento.
+Los 21 hooks bloqueantes sin TS guard tienen degradacion documentada en la matriz.
+Eventos no disponibles en OpenCode (Stop, SubagentStop, SessionStart, etc.): 19 eventos —
+estos hooks solo ejecutan en Claude Code nativo y en LocalAI emergency mode (SPEC-122).
+
+Para regenerar: `bash scripts/hooks-coverage-matrix.sh`
+Para verificar drift: `bash scripts/hooks-coverage-matrix.sh --check`

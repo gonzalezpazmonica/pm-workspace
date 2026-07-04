@@ -4,6 +4,7 @@ description: Correlación cruzada de datos de múltiples fuentes para análisis 
 developer_type: all
 agent: task
 context_cost: high
+tier: extended
 ---
 
 # /incident-correlate

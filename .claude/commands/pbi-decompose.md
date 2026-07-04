@@ -1,6 +1,7 @@
 ---
 name: pbi-decompose
 description: Decompose a PBI into granular technical tasks
+tier: core
 ---
 
 ---

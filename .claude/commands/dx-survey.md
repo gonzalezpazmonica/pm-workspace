@@ -4,6 +4,7 @@ description: Genera encuesta DX Core 4 adaptada al equipo y procesa respuestas
 developer_type: agent-single
 agent: business-analyst
 context_cost: medium
+tier: extended
 ---
 
 # dx-survey

@@ -4,6 +4,7 @@ description: Envejecimiento semántico del decision-log — comprime y archiva d
 developer_type: all
 agent: none
 context_cost: low
+tier: extended
 ---
 
 # /context-age

@@ -8,6 +8,7 @@ allowed-tools:
   - Bash
   - Task
 context_cost: medium
+tier: core
 ---
 
 # /graph-build {project}

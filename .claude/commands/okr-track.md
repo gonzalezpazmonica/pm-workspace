@@ -4,6 +4,7 @@ description: Tracking automático de progreso OKR desde métricas de sprint
 developer_type: all
 agent: task
 context_cost: high
+tier: extended
 ---
 
 # /okr-track

@@ -1,6 +1,7 @@
 ---
 name: ref-list
 description: List available resource references and their types
+tier: extended
 ---
 
 ---

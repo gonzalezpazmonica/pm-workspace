@@ -9,6 +9,7 @@ allowed-tools:
   - Write
   - Bash
   - Glob
+tier: extended
 ---
 
 # Flujo de Auto-Remediacion — security-pipeline Fase 4

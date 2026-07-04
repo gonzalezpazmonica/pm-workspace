@@ -4,6 +4,7 @@ description: Pre-descargar Ollama y modelo LLM en caché local para instalación
 developer_type: all
 agent: none
 context_cost: low
+tier: extended
 ---
 
 # /emergency-plan [--model MODEL]

@@ -4,6 +4,7 @@ description: Planificación inteligente de sprint — sugiere composición ópti
 developer_type: all
 agent: task
 context_cost: high
+tier: core
 ---
 
 # /sprint-autoplan

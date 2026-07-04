@@ -4,6 +4,7 @@ description: Crear playbooks evolutivos para tareas repetitivas con framework AC
 developer_type: all
 agent: task
 context_cost: high
+tier: extended
 ---
 
 # /playbook-create

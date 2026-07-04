@@ -5,6 +5,7 @@ allowed-tools: [Read, Glob, Grep, Write, Edit, Bash]
 argument-hint: "[import|checklist|progress|knowledge-transfer] [--file data.csv] [--person nombre] [--project proyecto]"
 model: github-copilot/claude-sonnet-4.5
 context_cost: medium
+tier: core
 ---
 
 # /onboard-enterprise — Onboarding Empresarial a Escala

@@ -5,6 +5,7 @@ argument-hint: "{skill-name|agent-name} [--fixture nombre] [--max-iterations 10]
 allowed-tools: [Read, Write, Edit, Bash, Glob, Grep, Task]
 model: github-copilot/claude-opus-4.7
 context_cost: high
+tier: core
 ---
 
 # /skill-optimize — Prompt Optimizer (patron AutoResearch)

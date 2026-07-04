@@ -4,6 +4,7 @@ description: "Correcciones automáticas de accesibilidad con verificación y pre
 developer_type: all
 agent: task
 context_cost: medium
+tier: extended
 ---
 
 # /a11y-fix — Correcciones Automáticas de Accesibilidad

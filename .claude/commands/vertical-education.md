@@ -4,6 +4,7 @@ description: Extensión compliance para educación — FERPA, accesibilidad educ
 developer_type: all
 agent: task
 context_cost: high
+tier: core
 ---
 
 # /vertical-education [--analyze] [--fix] [--lang es|en]

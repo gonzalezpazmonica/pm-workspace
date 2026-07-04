@@ -5,6 +5,7 @@ argument-hint: "[--stage qualification|proposal|won] [--tenant tenant-id]"
 context_cost: low
 model: github-copilot/claude-sonnet-4.5
 allowed-tools: [Bash, Read, Glob, Grep]
+tier: core
 ---
 
 # /pipeline-view — Opportunity pipeline dashboard (SE-015)

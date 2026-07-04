@@ -5,6 +5,7 @@ argument-hint: "[--scope full|agents|skills|rules] [--changed-since ERA-N]"
 allowed-tools: [Read, Write, Glob, Grep, Bash, Task]
 model: github-copilot/claude-opus-4.7
 context_cost: high
+tier: core
 ---
 
 # /model-upgrade-audit $ARGUMENTS

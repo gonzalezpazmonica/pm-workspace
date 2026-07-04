@@ -5,6 +5,7 @@ argument-hint: "[generate|show|status]"
 context_cost: low
 model: github-copilot/claude-sonnet-4.5
 allowed-tools: [Bash, Read]
+tier: core
 ---
 
 # /daily-plan — Plan de activacion de agentes (SE-034)

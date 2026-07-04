@@ -4,6 +4,7 @@ description: Audita reglas CLAUDE.md vs. estado real del repo. Detecta divergenc
 developer_type: all
 agent: task
 context_cost: high
+tier: extended
 ---
 
 # /drift-check — Auditoría de Convergencia Repo

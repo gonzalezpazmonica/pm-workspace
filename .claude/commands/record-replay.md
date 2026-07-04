@@ -1,6 +1,7 @@
 ---
 name: record-replay
 description: Replay and analyze recorded sessions or events
+tier: extended
 ---
 
 ---

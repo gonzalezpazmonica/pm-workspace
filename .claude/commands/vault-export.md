@@ -1,6 +1,7 @@
 ---
 name: vault-export
 description: "Exportar Personal Vault cifrado para portabilidad offline"
+tier: extended
 ---
 
 # /vault-export — Exportar Personal Vault cifrado

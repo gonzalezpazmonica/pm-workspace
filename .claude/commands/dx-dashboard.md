@@ -4,6 +4,7 @@ description: Dashboard DX con métricas automatizables de feedback loops, cognit
 developer_type: agent-single
 agent: azure-devops-operator
 context_cost: medium
+tier: extended
 ---
 
 # dx-dashboard

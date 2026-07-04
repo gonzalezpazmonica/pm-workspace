@@ -3,6 +3,7 @@ name: github-issues
 description: >
   Gestionar issues de GitHub: buscar, crear desde PBIs, sincronizar
   con Azure DevOps work items.
+tier: extended
 ---
 
 # Issues GitHub

@@ -4,6 +4,7 @@ description: Perfilar consumo de contexto — qué consume más, generación de 
 developer_type: all
 agent: task
 context_cost: high
+tier: extended
 ---
 
 # Comando: context-profile

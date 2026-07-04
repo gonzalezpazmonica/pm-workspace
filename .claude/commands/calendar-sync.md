@@ -5,6 +5,7 @@ argument-hint: "[--project nombre] [--days 7]"
 allowed-tools: [Read, Bash, Glob, Grep]
 model: github-copilot/claude-sonnet-4.5
 context_cost: medium
+tier: core
 ---
 
 # /calendar-sync — Sincronizar Calendario

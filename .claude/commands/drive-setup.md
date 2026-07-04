@@ -3,6 +3,7 @@ name: /drive-setup
 description: Create Google Drive folder structure with role-based permissions
 argument-hint: "[project]"
 context_cost: medium
+tier: extended
 ---
 
 # /drive-setup

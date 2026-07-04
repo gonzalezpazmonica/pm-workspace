@@ -4,6 +4,7 @@ description: "Control de versiones para backlogs de proyectos"
 model: github-copilot/claude-sonnet-4.5
 context_cost: medium
 allowed_tools: ["Bash", "Read", "Write", "Edit", "Task"]
+tier: core
 ---
 
 # /backlog-git — Versionado de backlogs

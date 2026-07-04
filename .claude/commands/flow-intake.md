@@ -6,6 +6,7 @@ agent: azure-devops-operator
 context_cost: moderate
 max_context: 4000
 allowed_modes: [pm, lead, all]
+tier: extended
 ---
 
 # /flow-intake — Intake Continuo de Features a Producción

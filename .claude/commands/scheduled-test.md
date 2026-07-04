@@ -4,6 +4,7 @@ description: Enviar test message para verificar integración de plataforma de no
 developer_type: pm
 agent: task
 context_cost: low
+tier: extended
 ---
 
 # /scheduled-test

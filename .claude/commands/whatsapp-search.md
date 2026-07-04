@@ -3,6 +3,7 @@ name: whatsapp-search
 description: >
   Buscar mensajes en WhatsApp como contexto para decisiones.
   Acuerdos, conversaciones, decisiones del equipo.
+tier: extended
 ---
 
 # WhatsApp Search

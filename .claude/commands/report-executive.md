@@ -3,6 +3,7 @@ name: report-executive
 description: Genera el informe ejecutivo multi-proyecto para dirección en formato Word o PowerPoint.
 model: github-copilot/claude-sonnet-4.5
 context_cost: medium
+tier: core
 ---
 
 # /report-executive

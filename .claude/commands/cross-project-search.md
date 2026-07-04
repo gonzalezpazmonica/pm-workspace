@@ -4,6 +4,7 @@ description: Búsqueda transversal de conocimiento entre todos los proyectos del
 developer_type: all
 agent: task
 context_cost: medium
+tier: extended
 ---
 
 # /cross-project-search

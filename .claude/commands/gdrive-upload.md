@@ -3,6 +3,7 @@ name: gdrive-upload
 description: >
   Subir informes y documentos generados a Google Drive. Organiza
   automáticamente en la carpeta del proyecto y comparte el link.
+tier: extended
 ---
 
 # Upload a Google Drive

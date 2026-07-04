@@ -1,6 +1,7 @@
 ---
 name: spec-status
 description: Check specification status and approval state
+tier: extended
 ---
 
 ---

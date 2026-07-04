@@ -4,6 +4,7 @@ description: Backup cifrado de perfiles, configuraciones y datos locales a NextC
 developer_type: all
 agent: none
 context_cost: low
+tier: core
 ---
 
 # /backup {subcommand}

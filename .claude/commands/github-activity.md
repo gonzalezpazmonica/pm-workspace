@@ -3,6 +3,7 @@ name: github-activity
 description: >
   Analizar actividad de un repositorio GitHub: PRs, commits, contributors.
   Usa el conector GitHub de Claude para acceso enriquecido.
+tier: extended
 ---
 
 # Actividad GitHub

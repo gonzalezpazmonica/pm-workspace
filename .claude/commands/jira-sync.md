@@ -3,6 +3,7 @@ name: jira-sync
 description: >
   Sincronizar issues de Jira con PBIs de Azure DevOps. Soporta sync
   bidireccional, mapeo de campos y detección de conflictos.
+tier: extended
 ---
 
 # Sync Jira ↔ Azure DevOps

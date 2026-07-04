@@ -6,6 +6,7 @@ argument-hint: "[show|init] [--team <name>]"
 allowed-tools: [Read, Bash, Glob]
 model: github-copilot/claude-sonnet-4.5
 context_cost: low
+tier: core
 ---
 
 # Savia Team

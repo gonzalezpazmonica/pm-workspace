@@ -4,6 +4,7 @@ description: Sistema de carga diferida — cargar comandos/reglas solo cuando se
 developer_type: all
 agent: task
 context_cost: high
+tier: extended
 ---
 
 # Comando: context-defer

@@ -4,6 +4,7 @@ description: Grafo semántico de relaciones semánticas entre memorias. Construy
 developer_type: all
 agent: task
 context_cost: high
+tier: extended
 ---
 
 # /memory-graph

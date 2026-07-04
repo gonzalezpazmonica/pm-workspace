@@ -3,6 +3,7 @@ name: pipeline-artifacts
 description: >
   Listar y descargar artefactos de una build de Azure Pipelines.
   Soporta filtro por nombre y tipo.
+tier: core
 ---
 
 # Pipeline Artifacts

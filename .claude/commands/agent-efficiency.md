@@ -4,6 +4,7 @@ description: Ratio de eficiencia de agentes — specs completadas, re-work y tie
 developer_type: agent-single
 agent: azure-devops-operator
 context_cost: low
+tier: extended
 ---
 
 # Comando: agent-efficiency

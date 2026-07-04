@@ -4,6 +4,7 @@ description: Equilibrado objetivo de carga de trabajo respetando especialidades 
 developer_type: all
 agent: task
 context_cost: medium
+tier: extended
 ---
 
 # /workload-balance — Equilibrado de Carga Objetiva

@@ -4,6 +4,7 @@ description: Análisis de sentimiento del equipo desde retros, standups y comuni
 developer_type: all
 agent: task
 context_cost: medium
+tier: extended
 ---
 
 # /team-sentiment — Sentimiento del Equipo

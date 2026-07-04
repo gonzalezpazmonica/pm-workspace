@@ -9,6 +9,7 @@ allowed-tools:
   - Write
   - Glob
   - Bash
+tier: extended
 ---
 
 # /solvency-report {proyecto} {subcomando} [opciones]

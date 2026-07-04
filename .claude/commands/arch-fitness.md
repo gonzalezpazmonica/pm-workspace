@@ -4,6 +4,7 @@ description: Ejecutar fitness functions de arquitectura para verificar integrida
 developer_type: all
 agent: architect
 context_cost: medium
+tier: extended
 ---
 
 # /arch-fitness {repo|path}

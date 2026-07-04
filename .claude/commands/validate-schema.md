@@ -2,6 +2,7 @@
 name: validate-schema
 description: Validar schema de frontmatter y settings.json
 agent: commit-guardian
+tier: core
 ---
 
 # /validate-schema

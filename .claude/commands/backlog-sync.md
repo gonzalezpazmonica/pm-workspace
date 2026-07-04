@@ -5,6 +5,7 @@ model: github-copilot/claude-sonnet-4.5
 context_cost: medium
 allowed-tools: [Read, Bash, Glob, Grep]
 argument-hint: "<pull|push|diff> --project <name> [--provider <azure-devops|jira|github>]"
+tier: core
 ---
 
 # /backlog-sync

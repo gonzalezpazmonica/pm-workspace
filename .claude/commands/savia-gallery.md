@@ -4,6 +4,7 @@ description: Catálogo visual/interactivo de comandos, skills y agentes por rol 
 developer_type: all
 agent: task
 context_cost: high
+tier: core
 ---
 
 # /savia-gallery

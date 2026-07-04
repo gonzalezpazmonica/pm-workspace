@@ -4,6 +4,7 @@ description: Lanzar panel de 3 jueces para validar specs, PRs y decisiones
 argument-hint: "{spec|pr|decision} {ref} [--force] [--explain] [--judges N]"
 allowed-tools: [Read, Bash, Glob, Write]
 context_cost: medium
+tier: extended
 ---
 
 # /validate-consensus {type} {ref} [options]

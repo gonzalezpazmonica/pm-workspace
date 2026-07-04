@@ -4,6 +4,7 @@ description: Conectar y sincronizar con Jira Cloud como alternativa a Azure DevO
 developer_type: all
 agent: task
 context_cost: high
+tier: extended
 ---
 
 # /jira-connect

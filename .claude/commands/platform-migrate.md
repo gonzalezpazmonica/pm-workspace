@@ -4,6 +4,7 @@ description: Migración asistida entre plataformas — Azure DevOps ↔ Jira ↔
 developer_type: all
 agent: task
 context_cost: high
+tier: extended
 ---
 
 # /platform-migrate

@@ -1,6 +1,7 @@
 ---
 name: memory-sync
 description: Sincroniza insights del sprint en los topic files de auto memory
+tier: extended
 ---
 
 # /memory-sync — Sincronización de Memoria por Proyecto

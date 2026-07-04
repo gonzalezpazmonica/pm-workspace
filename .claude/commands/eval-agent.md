@@ -5,6 +5,7 @@ argument-hint: "{agent} [--compare {date}]"
 allowed-tools: [Read, Write, Bash, Glob, Grep, Task]
 model: github-copilot/claude-opus-4.7
 context_cost: high
+tier: core
 ---
 
 # /eval-agent — Agent Evaluation (SPEC-036)

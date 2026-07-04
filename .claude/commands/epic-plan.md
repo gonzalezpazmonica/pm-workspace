@@ -8,6 +8,7 @@ skills:
   - pbi-decomposition
   - capacity-planning
   - azure-devops-queries
+tier: extended
 ---
 
 # /epic-plan

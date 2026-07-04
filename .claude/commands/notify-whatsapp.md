@@ -3,6 +3,7 @@ name: notify-whatsapp
 description: >
   Enviar notificaciones e informes por WhatsApp al PM o al grupo del equipo.
   Funciona con cuenta personal de WhatsApp (no requiere Business).
+tier: extended
 ---
 
 # Notify WhatsApp

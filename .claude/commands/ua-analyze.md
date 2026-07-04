@@ -1,6 +1,7 @@
 ---
 name: UA Analyze
 description: Analyze codebase with Understand-Anything to generate knowledge graph
+tier: core
 ---
 
 # /ua-analyze — Codebase Knowledge Graph

@@ -1,21 +1,7 @@
 {
-  "hash": "27d92e853078",
-  "total": 1447,
+  "hash": "e9c1c6089f7f",
+  "total": 1187,
   "resources": [
-    {
-      "category": "analysis",
-      "name": "/a11y-report",
-      "intents": [
-        "accesibilidad",
-        "completos",
-        "conformidad",
-        "código",
-        "declaración"
-      ],
-      "kind": "cmd",
-      "path": ".claude/commands/a11y-report.md",
-      "description": "Reporte de conformidad de accesibilidad para stakeholders y legal. Tres formatos: ejecutivo (resumen + score), técnico (detalles completos + código), legal (declaración VPAT/Section 508). Tracking de tendencias. Exportable."
-    },
     {
       "category": "analysis",
       "name": "Trace Optimize",
@@ -29,20 +15,6 @@
       "kind": "cmd",
       "path": ".claude/commands/trace-optimize.md",
       "description": "Optimize trace spans and sampling rates across distributed services"
-    },
-    {
-      "category": "analysis",
-      "name": "Trace Search",
-      "intents": [
-        "across",
-        "buscar",
-        "filtrar",
-        "language",
-        "multiple"
-      ],
-      "kind": "cmd",
-      "path": ".claude/commands/trace-search.md",
-      "description": "Buscar y filtrar trazas across multiple observability platforms with natural language support"
     },
     {
       "category": "analysis",
@@ -126,20 +98,6 @@
     },
     {
       "category": "analysis",
-      "name": "agent-efficiency",
-      "intents": [
-        "agentes",
-        "completadas",
-        "eficiencia",
-        "ratio",
-        "specs"
-      ],
-      "kind": "cmd",
-      "path": ".claude/commands/agent-efficiency.md",
-      "description": "Ratio de eficiencia de agentes — specs completadas, re-work y tiempos"
-    },
-    {
-      "category": "analysis",
       "name": "agent-file-map",
       "intents": [
         "agentes",
@@ -207,14 +165,6 @@
       "kind": "cmd",
       "path": ".claude/commands/agent-memory.md",
       "description": "Inspect and manage persistent memory fragments for subagents."
-    },
-    {
-      "category": "analysis",
-      "name": "agent-notes-archive",
-      "intents": [],
-      "kind": "cmd",
-      "path": ".claude/commands/agent-notes-archive.md",
-      "description": ">"
     },
     {
       "category": "analysis",
@@ -356,20 +306,6 @@
     },
     {
       "category": "analysis",
-      "name": "agent-trace",
-      "intents": [
-        "agentes",
-        "dashboard",
-        "duración",
-        "ejecución",
-        "resultado"
-      ],
-      "kind": "cmd",
-      "path": ".claude/commands/agent-trace.md",
-      "description": "Dashboard de trazas de ejecución de agentes con tokens, duración y resultado"
-    },
-    {
-      "category": "analysis",
       "name": "agent-wait-idle",
       "intents": [
         "agent",
@@ -381,34 +317,6 @@
       "kind": "script",
       "path": "scripts/agent-wait-idle.sh",
       "description": "agent-wait-idle.sh — SE-206: detect when an AI agent process is idle"
-    },
-    {
-      "category": "analysis",
-      "name": "ai-risk-assessment",
-      "intents": [
-        "agentes",
-        "categorías",
-        "evaluación",
-        "riesgo",
-        "según"
-      ],
-      "kind": "cmd",
-      "path": ".claude/commands/ai-risk-assessment.md",
-      "description": "Evaluación de riesgo de agentes según categorías EU AI Act"
-    },
-    {
-      "category": "analysis",
-      "name": "async-standup",
-      "intents": [
-        "asíncrona",
-        "compila",
-        "quiera",
-        "recogida",
-        "reporta"
-      ],
-      "kind": "cmd",
-      "path": ".claude/commands/async-standup.md",
-      "description": "Recogida asíncrona de standups — cada dev reporta cuando quiera, Savia compila"
     },
     {
       "category": "analysis",
@@ -476,22 +384,6 @@
     },
     {
       "category": "analysis",
-      "name": "debt-budget",
-      "intents": [],
-      "kind": "cmd",
-      "path": ".claude/commands/debt-budget.md",
-      "description": ">"
-    },
-    {
-      "category": "analysis",
-      "name": "debt-prioritize",
-      "intents": [],
-      "kind": "cmd",
-      "path": ".claude/commands/debt-prioritize.md",
-      "description": ">"
-    },
-    {
-      "category": "analysis",
       "name": "debt-track",
       "intents": [],
       "kind": "cmd",
@@ -554,34 +446,6 @@
     },
     {
       "category": "analysis",
-      "name": "eval-report",
-      "intents": [
-        "analysis",
-        "evaluation",
-        "generate",
-        "report",
-        "scoring"
-      ],
-      "kind": "cmd",
-      "path": ".claude/commands/eval-report.md",
-      "description": "Generate evaluation report with scoring and analysis"
-    },
-    {
-      "category": "analysis",
-      "name": "excel-report",
-      "intents": [
-        "claude",
-        "excel",
-        "generar",
-        "interactivas",
-        "plantillas"
-      ],
-      "kind": "cmd",
-      "path": ".claude/commands/excel-report.md",
-      "description": "Generar plantillas Excel interactivas con Claude-in-Excel para reporting"
-    },
-    {
-      "category": "analysis",
       "name": "executive-reporting",
       "intents": [
         "dirección",
@@ -593,14 +457,6 @@
       "kind": "skill",
       "path": ".claude/skills/executive-reporting/SKILL.md",
       "description": "Usar cuando se genera un informe ejecutivo multi-proyecto para dirección."
-    },
-    {
-      "category": "analysis",
-      "name": "impact-metric",
-      "intents": [],
-      "kind": "cmd",
-      "path": ".claude/commands/impact-metric.md",
-      "description": ">"
     },
     {
       "category": "analysis",
@@ -623,76 +479,6 @@
       "kind": "cmd",
       "path": ".claude/commands/kpi-dora.md",
       "description": ">"
-    },
-    {
-      "category": "analysis",
-      "name": "network-incident",
-      "intents": [
-        "ciclo",
-        "clasificación",
-        "escalado",
-        "gestión",
-        "incidentes"
-      ],
-      "kind": "cmd",
-      "path": ".claude/commands/network-incident.md",
-      "description": "Gestión del ciclo de vida de incidentes de red con reporte, clasificación, escalado y resolución"
-    },
-    {
-      "category": "analysis",
-      "name": "order-track",
-      "intents": [
-        "actualizar",
-        "crear",
-        "cumplir",
-        "devoluciones",
-        "estado"
-      ],
-      "kind": "cmd",
-      "path": ".claude/commands/order-track.md",
-      "description": "Gestiona pedidos: crear, actualizar estado, cumplir, procesar devoluciones y reportes"
-    },
-    {
-      "category": "analysis",
-      "name": "org-metrics",
-      "intents": [
-        "agregadas",
-        "delivery",
-        "dora",
-        "métricas",
-        "nivel"
-      ],
-      "kind": "cmd",
-      "path": ".claude/commands/org-metrics.md",
-      "description": "Métricas DORA y de delivery agregadas a nivel de organización"
-    },
-    {
-      "category": "analysis",
-      "name": "prevention-metrics",
-      "intents": [
-        "bugs",
-        "detección",
-        "detection",
-        "early",
-        "effectiveness"
-      ],
-      "kind": "cmd",
-      "path": ".claude/commands/prevention-metrics.md",
-      "description": "Métricas de prevención: bugs prevenidos vs encontrados, shift-left effectiveness, early detection rate. Paradigma QA de prevención sobre detección."
-    },
-    {
-      "category": "analysis",
-      "name": "promotion-engine",
-      "intents": [
-        "activar",
-        "crear",
-        "desactivar",
-        "evaluar",
-        "gestiona"
-      ],
-      "kind": "cmd",
-      "path": ".claude/commands/promotion-engine.md",
-      "description": "Gestiona promociones: crear, activar, desactivar, evaluar, reportes"
     },
     {
       "category": "analysis",
@@ -766,42 +552,6 @@
     },
     {
       "category": "analysis",
-      "name": "risk-assess",
-      "intents": [
-        "breakdown",
-        "calculate",
-        "display",
-        "recommendations",
-        "review"
-      ],
-      "kind": "cmd",
-      "path": ".claude/commands/risk-assess.md",
-      "description": "Calculate and display risk score for a task with breakdown and review recommendations"
-    },
-    {
-      "category": "analysis",
-      "name": "risk-log",
-      "intents": [],
-      "kind": "cmd",
-      "path": ".claude/commands/risk-log.md",
-      "description": ">"
-    },
-    {
-      "category": "analysis",
-      "name": "risk-policy",
-      "intents": [
-        "display",
-        "manage",
-        "policies",
-        "risk",
-        "scoring"
-      ],
-      "kind": "cmd",
-      "path": ".claude/commands/risk-policy.md",
-      "description": "Display and manage risk scoring thresholds and policies"
-    },
-    {
-      "category": "analysis",
       "name": "risk-predict",
       "intents": [
         "basada",
@@ -858,28 +608,6 @@
     },
     {
       "category": "analysis",
-      "name": "sheets-report",
-      "intents": [
-        "generate",
-        "google",
-        "report",
-        "sheets",
-        "sync"
-      ],
-      "kind": "cmd",
-      "path": ".claude/commands/sheets-report.md",
-      "description": "Generate report and sync to Google Sheets"
-    },
-    {
-      "category": "analysis",
-      "name": "solvency-report",
-      "intents": [],
-      "kind": "cmd",
-      "path": ".claude/commands/solvency-report.md",
-      "description": ">"
-    },
-    {
-      "category": "analysis",
       "name": "source-traceability-judge",
       "intents": [
         "citation",
@@ -891,34 +619,6 @@
       "kind": "agent",
       "path": ".opencode/agents/source-traceability-judge.md",
       "description": "Truth Tribunal judge — every claim must have a verifiable @ref citation"
-    },
-    {
-      "category": "analysis",
-      "name": "stakeholder-report",
-      "intents": [
-        "epics",
-        "informe",
-        "progreso",
-        "riesgos",
-        "roadmap"
-      ],
-      "kind": "cmd",
-      "path": ".claude/commands/stakeholder-report.md",
-      "description": "Informe para stakeholders — progreso por epics, roadmap visual, riesgos"
-    },
-    {
-      "category": "analysis",
-      "name": "stakeholder-view",
-      "intents": [
-        "focused",
-        "generate",
-        "reporting",
-        "stakeholder",
-        "view"
-      ],
-      "kind": "cmd",
-      "path": ".claude/commands/stakeholder-view.md",
-      "description": "Generate stakeholder-focused reporting view"
     },
     {
       "category": "analysis",
@@ -982,34 +682,6 @@
       "kind": "agent",
       "path": ".opencode/agents/archive-digest.md",
       "description": ">"
-    },
-    {
-      "category": "communication",
-      "name": "chat-notify",
-      "intents": [
-        "chat",
-        "enviar",
-        "formateada",
-        "google",
-        "notificación"
-      ],
-      "kind": "cmd",
-      "path": ".claude/commands/chat-notify.md",
-      "description": "Enviar notificación formateada a Google Chat"
-    },
-    {
-      "category": "communication",
-      "name": "chat-setup",
-      "intents": [
-        "chat",
-        "configuración",
-        "google",
-        "guía",
-        "webhook"
-      ],
-      "kind": "cmd",
-      "path": ".claude/commands/chat-setup.md",
-      "description": "Guía de configuración de webhook de Google Chat"
     },
     {
       "category": "communication",
@@ -1092,20 +764,6 @@
     },
     {
       "category": "communication",
-      "name": "meeting-agenda",
-      "intents": [
-        "agendas",
-        "basada",
-        "estado",
-        "generación",
-        "inteligente"
-      ],
-      "kind": "cmd",
-      "path": ".claude/commands/meeting-agenda.md",
-      "description": "Generación inteligente de agendas basada en estado del sprint y temas pendientes"
-    },
-    {
-      "category": "communication",
       "name": "meeting-confidentiality-judge",
       "intents": [],
       "kind": "agent",
@@ -1138,20 +796,6 @@
     },
     {
       "category": "communication",
-      "name": "meeting-summarize",
-      "intents": [
-        "action",
-        "daily",
-        "extrae",
-        "items",
-        "planning"
-      ],
-      "kind": "cmd",
-      "path": ".claude/commands/meeting-summarize.md",
-      "description": "Transcribe y extrae action items de reuniones — Sprint Review, Retro, Planning, Daily"
-    },
-    {
-      "category": "communication",
       "name": "meeting-transcript-extract",
       "intents": [
         "browser",
@@ -1166,14 +810,6 @@
     },
     {
       "category": "communication",
-      "name": "nctalk-search",
-      "intents": [],
-      "kind": "cmd",
-      "path": ".claude/commands/nctalk-search.md",
-      "description": ">"
-    },
-    {
-      "category": "communication",
       "name": "notify",
       "intents": [
         "cross",
@@ -1185,42 +821,6 @@
       "kind": "script",
       "path": "scripts/notify.sh",
       "description": "notify.sh — Cross-platform desktop notifications for Savia"
-    },
-    {
-      "category": "communication",
-      "name": "notify-nctalk",
-      "intents": [],
-      "kind": "cmd",
-      "path": ".claude/commands/notify-nctalk.md",
-      "description": ">"
-    },
-    {
-      "category": "communication",
-      "name": "notify-slack",
-      "intents": [],
-      "kind": "cmd",
-      "path": ".claude/commands/notify-slack.md",
-      "description": ">"
-    },
-    {
-      "category": "communication",
-      "name": "notify-whatsapp",
-      "intents": [],
-      "kind": "cmd",
-      "path": ".claude/commands/notify-whatsapp.md",
-      "description": ">"
-    },
-    {
-      "category": "communication",
-      "name": "obs-dashboard",
-      "intents": [
-        "dashboard",
-        "digesto",
-        "observabilidad"
-      ],
-      "kind": "cmd",
-      "path": ".claude/commands/obs-dashboard.md",
-      "description": "Dashboard de observabilidad digesto por rol — CEO, CTO, PM, Dev, QA, SRE"
     },
     {
       "category": "communication",
@@ -1586,20 +1186,6 @@
     },
     {
       "category": "communication",
-      "name": "savia-hub",
-      "intents": [
-        "accessing",
-        "central",
-        "knowledge",
-        "savia",
-        "tools"
-      ],
-      "kind": "cmd",
-      "path": ".claude/commands/savia-hub.md",
-      "description": "Central hub for accessing Savia knowledge and tools"
-    },
-    {
-      "category": "communication",
       "name": "savia-hub-init",
       "intents": [
         "init",
@@ -1835,20 +1421,6 @@
     },
     {
       "category": "communication",
-      "name": "savia-persona-tune",
-      "intents": [
-        "ajustar",
-        "específico",
-        "estilo",
-        "personalidad",
-        "proyecto"
-      ],
-      "kind": "cmd",
-      "path": ".claude/commands/savia-persona-tune.md",
-      "description": "Ajustar tono, estilo y personalidad de Savia para un proyecto específico"
-    },
-    {
-      "category": "communication",
       "name": "savia-preferences",
       "intents": [
         "manage",
@@ -2034,20 +1606,6 @@
       "category": "communication",
       "name": "savia-status",
       "intents": [
-        "current",
-        "health",
-        "metrics",
-        "pending",
-        "priorities"
-      ],
-      "kind": "cmd",
-      "path": ".claude/commands/savia-status.md",
-      "description": "Show Savia current status, health metrics, and top pending priorities"
-    },
-    {
-      "category": "communication",
-      "name": "savia-status",
-      "intents": [
         "doing",
         "right",
         "savia",
@@ -2188,14 +1746,6 @@
     },
     {
       "category": "communication",
-      "name": "slack-search",
-      "intents": [],
-      "kind": "cmd",
-      "path": ".claude/commands/slack-search.md",
-      "description": ">"
-    },
-    {
-      "category": "communication",
       "name": "voice-inbox",
       "intents": [
         "acciones",
@@ -2229,20 +1779,6 @@
       "kind": "cmd",
       "path": ".claude/commands/zeroclaw-meeting.md",
       "description": "Live meeting transcription via ZeroClaw — speaker diarization, voice identification, and digest."
-    },
-    {
-      "category": "development",
-      "name": "/a11y-monitor",
-      "intents": [
-        "accesibilidad",
-        "alertas",
-        "baja",
-        "bloqueando",
-        "continua"
-      ],
-      "kind": "cmd",
-      "path": ".claude/commands/a11y-monitor.md",
-      "description": "Monitorización continua de regresiones de accesibilidad. Integración en CI/CD. Alertas cuando score baja por debajo de threshold. Digest semanal. Previene regresiones bloqueando deploys con fallos a11y."
     },
     {
       "category": "development",
@@ -2344,20 +1880,6 @@
     },
     {
       "category": "development",
-      "name": "Trace Analyze",
-      "intents": [
-        "análisis",
-        "botella",
-        "cadenas",
-        "cuellos",
-        "detección"
-      ],
-      "kind": "cmd",
-      "path": ".claude/commands/trace-analyze.md",
-      "description": "Análisis profundo de trazas específicas con detección de cuellos de botella y cadenas de errores"
-    },
-    {
-      "category": "development",
       "name": "UA Analyze",
       "intents": [
         "analyze",
@@ -2411,90 +1933,6 @@
       "kind": "script",
       "path": "scripts/agents-opencode-convert.sh",
       "description": "agents-opencode-convert.sh — SPEC-127 Slice 2b-ii (final migration prep)"
-    },
-    {
-      "category": "development",
-      "name": "arch-compare",
-      "intents": [
-        "arquitectura",
-        "comparar",
-        "decisiones",
-        "patrones",
-        "toma"
-      ],
-      "kind": "cmd",
-      "path": ".claude/commands/arch-compare.md",
-      "description": "Comparar dos patrones de arquitectura para toma de decisiones"
-    },
-    {
-      "category": "development",
-      "name": "arch-detect",
-      "intents": [
-        "arquitectura",
-        "detectar",
-        "patrón",
-        "proyecto",
-        "repositorio"
-      ],
-      "kind": "cmd",
-      "path": ".claude/commands/arch-detect.md",
-      "description": "Detectar el patrón de arquitectura de un repositorio o proyecto"
-    },
-    {
-      "category": "development",
-      "name": "arch-fitness",
-      "intents": [
-        "arquitectura",
-        "ejecutar",
-        "fitness",
-        "functions",
-        "integridad"
-      ],
-      "kind": "cmd",
-      "path": ".claude/commands/arch-fitness.md",
-      "description": "Ejecutar fitness functions de arquitectura para verificar integridad"
-    },
-    {
-      "category": "development",
-      "name": "arch-health",
-      "intents": [
-        "arquitectónica",
-        "coupling",
-        "detection",
-        "drift",
-        "fitness"
-      ],
-      "kind": "cmd",
-      "path": ".claude/commands/arch-health.md",
-      "description": "Salud arquitectónica — fitness functions, drift detection, coupling metrics"
-    },
-    {
-      "category": "development",
-      "name": "arch-recommend",
-      "intents": [
-        "arquitectura",
-        "mejor",
-        "nuevo",
-        "proyecto",
-        "recomendar"
-      ],
-      "kind": "cmd",
-      "path": ".claude/commands/arch-recommend.md",
-      "description": "Recomendar la mejor arquitectura para un proyecto nuevo"
-    },
-    {
-      "category": "development",
-      "name": "arch-suggest",
-      "intents": [
-        "arquitectura",
-        "basadas",
-        "detección",
-        "mejoras",
-        "previa"
-      ],
-      "kind": "cmd",
-      "path": ".claude/commands/arch-suggest.md",
-      "description": "Sugerir mejoras de arquitectura basadas en detección previa"
     },
     {
       "category": "development",
@@ -2624,6 +2062,20 @@
     },
     {
       "category": "development",
+      "name": "changelog-spec-field-check",
+      "intents": [
+        "campo",
+        "changelog",
+        "entradas",
+        "feat",
+        "sennn"
+      ],
+      "kind": "script",
+      "path": "scripts/changelog-spec-field-check.sh",
+      "description": "Verifica que entradas CHANGELOG.d con feat(seNNN) tienen campo spec: SE-NNN"
+    },
+    {
+      "category": "development",
       "name": "check-coherence",
       "intents": [
         "actually",
@@ -2689,20 +2141,6 @@
       "kind": "skill",
       "path": ".claude/skills/code-improvement-loop/SKILL.md",
       "description": "Usar cuando se quiere ejecutar mejora autónoma de código en segundo plano con PRs para revisión."
-    },
-    {
-      "category": "development",
-      "name": "code-patterns",
-      "intents": [
-        "catálogo",
-        "código",
-        "ejemplos",
-        "equipo",
-        "patterns"
-      ],
-      "kind": "cmd",
-      "path": ".claude/commands/code-patterns.md",
-      "description": "Catálogo de patterns del proyecto con ejemplos del propio código del equipo"
     },
     {
       "category": "development",
@@ -2890,20 +2328,6 @@
     },
     {
       "category": "development",
-      "name": "cognitive-status",
-      "intents": [
-        "cognitive",
-        "debt",
-        "phase",
-        "show",
-        "spec"
-      ],
-      "kind": "cmd",
-      "path": ".claude/commands/cognitive-status.md",
-      "description": "Show cognitive-debt telemetry status (SPEC-107 Phase 1 — opt-in)"
-    },
-    {
-      "category": "development",
       "name": "competitive-design",
       "intents": [
         "competitive",
@@ -2915,20 +2339,6 @@
       "kind": "script",
       "path": "scripts/competitive-design.sh",
       "description": "competitive-design.sh — Parallel design generation with 3 philosophies"
-    },
-    {
-      "category": "development",
-      "name": "component-search",
-      "intents": [
-        "buscar",
-        "claude",
-        "code",
-        "componentes",
-        "marketplace"
-      ],
-      "kind": "cmd",
-      "path": ".claude/commands/component-search.md",
-      "description": "Buscar componentes en el marketplace claude-code-templates (5.788+ componentes)"
     },
     {
       "category": "development",
@@ -3572,20 +2982,6 @@
     },
     {
       "category": "development",
-      "name": "eval-run",
-      "intents": [
-        "against",
-        "criteria",
-        "evaluation",
-        "execute",
-        "specified"
-      ],
-      "kind": "cmd",
-      "path": ".claude/commands/eval-run.md",
-      "description": "Execute evaluation against specified criteria"
-    },
-    {
-      "category": "development",
       "name": "evals-runner",
       "intents": [
         "evals",
@@ -3924,34 +3320,6 @@
     },
     {
       "category": "development",
-      "name": "mcp-browse",
-      "intents": [
-        "catálogo",
-        "claude",
-        "code",
-        "disponibles",
-        "explorar"
-      ],
-      "kind": "cmd",
-      "path": ".claude/commands/mcp-browse.md",
-      "description": "Explorar catálogo de MCPs disponibles (66+) via claude-code-templates"
-    },
-    {
-      "category": "development",
-      "name": "mcp-server",
-      "intents": [
-        "claude",
-        "code",
-        "expone",
-        "herramientas",
-        "otros"
-      ],
-      "kind": "cmd",
-      "path": ".claude/commands/mcp-server.md",
-      "description": "Expone las herramientas de Savia como MCP server para otros proyectos Claude Code"
-    },
-    {
-      "category": "development",
       "name": "meta-reflection",
       "intents": [
         "activa",
@@ -4005,6 +3373,20 @@
       "kind": "script",
       "path": "scripts/nidos-dev-lib.sh",
       "description": "nidos-dev-lib.sh — Dev server lifecycle for Savia nidos (SPEC-098)."
+    },
+    {
+      "category": "development",
+      "name": "opencode-config-validate",
+      "intents": [
+        "config",
+        "errata",
+        "opencode",
+        "scripts",
+        "slice"
+      ],
+      "kind": "script",
+      "path": "scripts/opencode-config-validate.sh",
+      "description": "scripts/opencode-config-validate.sh — SE-253 Slice 1 errata"
     },
     {
       "category": "development",
@@ -4517,20 +3899,6 @@
     },
     {
       "category": "development",
-      "name": "retro-patterns",
-      "intents": [
-        "action",
-        "análisis",
-        "items",
-        "patrones",
-        "recurrentes"
-      ],
-      "kind": "cmd",
-      "path": ".claude/commands/retro-patterns.md",
-      "description": "Análisis de patrones en retrospectivas — temas recurrentes, action items sin resolver"
-    },
-    {
-      "category": "development",
       "name": "rpi-status",
       "intents": [
         "active",
@@ -4804,19 +4172,6 @@
     },
     {
       "category": "development",
-      "name": "spec-explore",
-      "intents": [
-        "analyze",
-        "documents",
-        "explore",
-        "specification"
-      ],
-      "kind": "cmd",
-      "path": ".claude/commands/spec-explore.md",
-      "description": "Explore and analyze specification documents"
-    },
-    {
-      "category": "development",
       "name": "spec-frontmatter-migrate",
       "intents": [
         "frontmatter",
@@ -4928,19 +4283,6 @@
     },
     {
       "category": "development",
-      "name": "spec-review",
-      "intents": [
-        "coherence",
-        "completeness",
-        "review",
-        "specification"
-      ],
-      "kind": "cmd",
-      "path": ".claude/commands/spec-review.md",
-      "description": "Review specification for completeness and coherence"
-    },
-    {
-      "category": "development",
       "name": "spec-slice",
       "intents": [
         "analizar",
@@ -4952,20 +4294,6 @@
       "kind": "cmd",
       "path": ".claude/commands/spec-slice.md",
       "description": "Analizar un spec y dividirlo en slices de implementación optimizados para contexto"
-    },
-    {
-      "category": "development",
-      "name": "spec-status",
-      "intents": [
-        "approval",
-        "check",
-        "specification",
-        "state",
-        "status"
-      ],
-      "kind": "cmd",
-      "path": ".claude/commands/spec-status.md",
-      "description": "Check specification status and approval state"
     },
     {
       "category": "development",
@@ -5008,20 +4336,6 @@
       "kind": "script",
       "path": "scripts/spec-validator.sh",
       "description": "spec-validator.sh — SE-222 S0: validates resource: URI field in spec frontmatter"
-    },
-    {
-      "category": "development",
-      "name": "spec-verify",
-      "intents": [
-        "against",
-        "criteria",
-        "implementation",
-        "specification",
-        "verify"
-      ],
-      "kind": "cmd",
-      "path": ".claude/commands/spec-verify.md",
-      "description": "Verify implementation against specification criteria"
     },
     {
       "category": "development",
@@ -5289,20 +4603,6 @@
     },
     {
       "category": "development",
-      "name": "validate-consensus",
-      "intents": [
-        "decisiones",
-        "jueces",
-        "lanzar",
-        "panel",
-        "specs"
-      ],
-      "kind": "cmd",
-      "path": ".claude/commands/validate-consensus.md",
-      "description": "Lanzar panel de 3 jueces para validar specs, PRs y decisiones"
-    },
-    {
-      "category": "development",
       "name": "validate-pbi-spec-links",
       "intents": [
         "bidirectional",
@@ -5345,33 +4645,6 @@
     },
     {
       "category": "development",
-      "name": "verify-layer",
-      "intents": [
-        "debugging",
-        "layer",
-        "specific",
-        "verification"
-      ],
-      "kind": "cmd",
-      "path": ".claude/commands/verify-layer.md",
-      "description": "Run specific verification layer for debugging"
-    },
-    {
-      "category": "development",
-      "name": "wireframe-check",
-      "intents": [
-        "against",
-        "designs",
-        "fidelity",
-        "implementation",
-        "mockup"
-      ],
-      "kind": "cmd",
-      "path": ".claude/commands/wireframe-check.md",
-      "description": "Validate implementation against wireframe/mockup designs. Register reference designs and verify implementation fidelity against specifications."
-    },
-    {
-      "category": "development",
       "name": "workforce-analytics",
       "intents": [
         "agentic",
@@ -5383,20 +4656,6 @@
       "kind": "script",
       "path": "scripts/workforce-analytics.sh",
       "description": "scripts/workforce-analytics.sh — SPEC-SE-025 Agentic Workforce Analytics"
-    },
-    {
-      "category": "development",
-      "name": "workload-balance",
-      "intents": [
-        "carga",
-        "equilibrado",
-        "equipo",
-        "especialidades",
-        "objetivo"
-      ],
-      "kind": "cmd",
-      "path": ".claude/commands/workload-balance.md",
-      "description": "Equilibrado objetivo de carga de trabajo respetando especialidades del equipo"
     },
     {
       "category": "development",
@@ -5414,14 +4673,6 @@
     },
     {
       "category": "development",
-      "name": "worktree-setup",
-      "intents": [],
-      "kind": "cmd",
-      "path": ".claude/commands/worktree-setup.md",
-      "description": ">"
-    },
-    {
-      "category": "development",
       "name": "zoom-out",
       "intents": [
         "architecture",
@@ -5436,14 +4687,6 @@
     },
     {
       "category": "governance",
-      "name": "/training-compliance",
-      "intents": [],
-      "kind": "cmd",
-      "path": ".claude/commands/training-compliance.md",
-      "description": ">"
-    },
-    {
-      "category": "governance",
       "name": "aepd-compliance",
       "intents": [
         "aepd",
@@ -5455,20 +4698,6 @@
       "kind": "cmd",
       "path": ".claude/commands/aepd-compliance.md",
       "description": "Auditoría de cumplimiento AEPD para IA agéntica — framework 4 fases"
-    },
-    {
-      "category": "governance",
-      "name": "audit-alert",
-      "intents": [
-        "acceso",
-        "alertas",
-        "alto",
-        "anómalos",
-        "automáticas"
-      ],
-      "kind": "cmd",
-      "path": ".claude/commands/audit-alert.md",
-      "description": "Alertas automáticas por patrones anómalos — horario inusual, comandos de riesgo, volumen alto, acceso sensible."
     },
     {
       "category": "governance",
@@ -5500,20 +4729,6 @@
     },
     {
       "category": "governance",
-      "name": "audit-export",
-      "intents": [
-        "audit",
-        "auditorías",
-        "compliant",
-        "exportar",
-        "externas"
-      ],
-      "kind": "cmd",
-      "path": ".claude/commands/audit-export.md",
-      "description": "Exportar audit trail en JSON/CSV/PDF para auditorías externas. ISO 42001 & NIST AI RMF compliant."
-    },
-    {
-      "category": "governance",
       "name": "audit-mcp-templates",
       "intents": [
         "audit",
@@ -5523,20 +4738,6 @@
       "kind": "script",
       "path": "scripts/audit-mcp-templates.sh",
       "description": "SPEC-141 · audit-mcp-templates.sh"
-    },
-    {
-      "category": "governance",
-      "name": "audit-search",
-      "intents": [
-        "acción",
-        "audit",
-        "búsqueda",
-        "confianza",
-        "contextual"
-      ],
-      "kind": "cmd",
-      "path": ".claude/commands/audit-search.md",
-      "description": "Búsqueda contextual en audit trail — fecha, acción, usuario, proyecto, confianza. NL search y regex."
     },
     {
       "category": "governance",
@@ -5551,28 +4752,6 @@
       "kind": "script",
       "path": "scripts/audit-test-quality.sh",
       "description": "audit-test-quality.sh — Classifies test scripts by quality level"
-    },
-    {
-      "category": "governance",
-      "name": "audit-trail",
-      "intents": [
-        "acciones",
-        "archivos",
-        "comandos",
-        "cumplimiento",
-        "decisiones"
-      ],
-      "kind": "cmd",
-      "path": ".claude/commands/audit-trail.md",
-      "description": "Log inmutable de todas las acciones de Savia — comandos, recomendaciones, decisiones, archivos modificados. Cumplimiento EU AI Act."
-    },
-    {
-      "category": "governance",
-      "name": "bias-check",
-      "intents": [],
-      "kind": "cmd",
-      "path": ".claude/commands/bias-check.md",
-      "description": ">"
     },
     {
       "category": "governance",
@@ -5614,14 +4793,6 @@
       "kind": "agent",
       "path": ".opencode/agents/compliance-judge.md",
       "description": "Truth Tribunal judge — PII, N1-N4b levels, format rules, confidentiality"
-    },
-    {
-      "category": "governance",
-      "name": "compliance-matrix",
-      "intents": [],
-      "kind": "cmd",
-      "path": ".claude/commands/compliance-matrix.md",
-      "description": ">"
     },
     {
       "category": "governance",
@@ -5695,19 +4866,6 @@
     },
     {
       "category": "governance",
-      "name": "governance-certify",
-      "intents": [
-        "certificación",
-        "checklist",
-        "documentación",
-        "modelo"
-      ],
-      "kind": "cmd",
-      "path": ".claude/commands/governance-certify.md",
-      "description": "Checklist de certificación — ISO 42001, EU AI Act, documentación de modelo"
-    },
-    {
-      "category": "governance",
       "name": "governance-enterprise",
       "intents": [
         "audit",
@@ -5733,42 +4891,6 @@
       "kind": "skill",
       "path": ".claude/skills/governance-enterprise/SKILL.md",
       "description": "Usar cuando se audita compliance, se registran decisiones o se certifican procesos enterprise."
-    },
-    {
-      "category": "governance",
-      "name": "governance-policy",
-      "intents": [
-        "aprobaciones",
-        "clasificación",
-        "definir",
-        "empresa",
-        "política"
-      ],
-      "kind": "cmd",
-      "path": ".claude/commands/governance-policy.md",
-      "description": "Definir política de uso de IA de la empresa — clasificación de riesgo, aprobaciones"
-    },
-    {
-      "category": "governance",
-      "name": "governance-report",
-      "intents": [
-        "cumplimiento",
-        "gobernanza",
-        "management",
-        "normativo",
-        "reporte"
-      ],
-      "kind": "cmd",
-      "path": ".claude/commands/governance-report.md",
-      "description": "Reporte de gobernanza IA para management — cumplimiento normativo, uso responsable"
-    },
-    {
-      "category": "governance",
-      "name": "insurance-policy",
-      "intents": [],
-      "kind": "cmd",
-      "path": ".claude/commands/insurance-policy.md",
-      "description": ">"
     },
     {
       "category": "governance",
@@ -5833,20 +4955,6 @@
       "kind": "skill",
       "path": ".claude/skills/regulatory-compliance/SKILL.md",
       "description": "Usar cuando se valida el cumplimiento de marcos regulatorios sectoriales."
-    },
-    {
-      "category": "governance",
-      "name": "sdlc-policy",
-      "intents": [
-        "configure",
-        "gates",
-        "policies",
-        "quality",
-        "sdlc"
-      ],
-      "kind": "cmd",
-      "path": ".claude/commands/sdlc-policy.md",
-      "description": "Configure SDLC policies and quality gates"
     },
     {
       "category": "governance",
@@ -5920,14 +5028,6 @@
     },
     {
       "category": "memory",
-      "name": "biblio-search",
-      "intents": [],
-      "kind": "cmd",
-      "path": ".claude/commands/biblio-search.md",
-      "description": ">"
-    },
-    {
-      "category": "memory",
       "name": "cache-analytics",
       "intents": [
         "ahorrados",
@@ -5939,62 +5039,6 @@
       "kind": "cmd",
       "path": ".claude/commands/cache-analytics.md",
       "description": "Métricas de hit rate, tokens ahorrados, latencia, ahorro de costes"
-    },
-    {
-      "category": "memory",
-      "name": "cache-invalidate",
-      "intents": [
-        "caché",
-        "capas",
-        "invalidación",
-        "rollback",
-        "seguro"
-      ],
-      "kind": "cmd",
-      "path": ".claude/commands/cache-invalidate.md",
-      "description": "Invalidación selectiva de capas de caché con rollback seguro"
-    },
-    {
-      "category": "memory",
-      "name": "cache-optimize",
-      "intents": [
-        "caching",
-        "efficiency",
-        "optimize",
-        "performance",
-        "strategy"
-      ],
-      "kind": "cmd",
-      "path": ".claude/commands/cache-optimize.md",
-      "description": "Optimize caching strategy for performance and efficiency"
-    },
-    {
-      "category": "memory",
-      "name": "cache-strategy",
-      "intents": [
-        "caché",
-        "capas",
-        "configurar",
-        "estrategia",
-        "invalidación"
-      ],
-      "kind": "cmd",
-      "path": ".claude/commands/cache-strategy.md",
-      "description": "Configurar estrategia de caché por capas con TTL y reglas de invalidación"
-    },
-    {
-      "category": "memory",
-      "name": "cache-warm",
-      "intents": [
-        "basado",
-        "caché",
-        "calentar",
-        "contexto",
-        "hora"
-      ],
-      "kind": "cmd",
-      "path": ".claude/commands/cache-warm.md",
-      "description": "Pre-calentar caché con contexto probable basado en hora y rol"
     },
     {
       "category": "memory",
@@ -6065,20 +5109,6 @@
     },
     {
       "category": "memory",
-      "name": "context-age",
-      "intents": [
-        "antiguas",
-        "archiva",
-        "comprime",
-        "decision",
-        "decisiones"
-      ],
-      "kind": "cmd",
-      "path": ".claude/commands/context-age.md",
-      "description": "Envejecimiento semántico del decision-log — comprime y archiva decisiones antiguas"
-    },
-    {
-      "category": "memory",
       "name": "context-aging",
       "intents": [
         "aging",
@@ -6087,19 +5117,6 @@
       "kind": "script",
       "path": "scripts/context-aging.sh",
       "description": "── context-aging.sh ───────────────────────────────────────────────────────"
-    },
-    {
-      "category": "memory",
-      "name": "context-benchmark",
-      "intents": [
-        "benchmark",
-        "contexto",
-        "información",
-        "posicionamiento"
-      ],
-      "kind": "cmd",
-      "path": ".claude/commands/context-benchmark.md",
-      "description": "Benchmark de posicionamiento de información en el contexto"
     },
     {
       "category": "memory",
@@ -6171,20 +5188,6 @@
     },
     {
       "category": "memory",
-      "name": "context-compress",
-      "intents": [
-        "compresión",
-        "contexto",
-        "mantener",
-        "reducir",
-        "reduction"
-      ],
-      "kind": "cmd",
-      "path": ".claude/commands/context-compress.md",
-      "description": "Compresión semántica de contexto — mantener significado, reducir tokens (80% reduction)"
-    },
-    {
-      "category": "memory",
       "name": "context-condenser",
       "intents": [
         "compression",
@@ -6196,20 +5199,6 @@
       "kind": "script",
       "path": "scripts/context-condenser.sh",
       "description": "context-condenser.sh — SE-200: rolling window context compression"
-    },
-    {
-      "category": "memory",
-      "name": "context-defer",
-      "intents": [
-        "carga",
-        "cargar",
-        "comandos",
-        "diferida",
-        "necesitan"
-      ],
-      "kind": "cmd",
-      "path": ".claude/commands/context-defer.md",
-      "description": "Sistema de carga diferida — cargar comandos/reglas solo cuando se necesitan (85% reducción de overhead)"
     },
     {
       "category": "memory",
@@ -6342,14 +5331,6 @@
     },
     {
       "category": "memory",
-      "name": "context-load",
-      "intents": [],
-      "kind": "cmd",
-      "path": ".claude/commands/context-load.md",
-      "description": ">"
-    },
-    {
-      "category": "memory",
       "name": "context-meter",
       "intents": [
         "abtop",
@@ -6361,20 +5342,6 @@
       "kind": "script",
       "path": "scripts/context-meter.sh",
       "description": "context-meter.sh — SE-219 S2: context window % as first-class metric (abtop pattern)"
-    },
-    {
-      "category": "memory",
-      "name": "context-optimize",
-      "intents": [
-        "analizar",
-        "context",
-        "contexto",
-        "optimizaciones",
-        "patrones"
-      ],
-      "kind": "cmd",
-      "path": ".claude/commands/context-optimize.md",
-      "description": "Analizar patrones de uso de contexto y sugerir optimizaciones al context-map"
     },
     {
       "category": "memory",
@@ -6409,20 +5376,6 @@
       "kind": "script",
       "path": "scripts/context-preflight-check.sh",
       "description": "─────────────────────────────────────────────────────────────────────────────"
-    },
-    {
-      "category": "memory",
-      "name": "context-profile",
-      "intents": [
-        "comparación",
-        "consume",
-        "consumo",
-        "contexto",
-        "flame"
-      ],
-      "kind": "cmd",
-      "path": ".claude/commands/context-profile.md",
-      "description": "Perfilar consumo de contexto — qué consume más, generación de flame-graph, comparación entre sesiones"
     },
     {
       "category": "memory",
@@ -6557,20 +5510,6 @@
     },
     {
       "category": "memory",
-      "name": "cross-project-search",
-      "intents": [
-        "búsqueda",
-        "conocimiento",
-        "portfolio",
-        "proyectos",
-        "transversal"
-      ],
-      "kind": "cmd",
-      "path": ".claude/commands/cross-project-search.md",
-      "description": "Búsqueda transversal de conocimiento entre todos los proyectos del portfolio"
-    },
-    {
-      "category": "memory",
       "name": "digest-to-memory",
       "intents": [
         "agents",
@@ -6649,34 +5588,6 @@
     },
     {
       "category": "memory",
-      "name": "headroom-analyze",
-      "intents": [
-        "analizar",
-        "bloque",
-        "compresión",
-        "contexto",
-        "identificar"
-      ],
-      "kind": "cmd",
-      "path": ".claude/commands/headroom-analyze.md",
-      "description": "Analizar el uso de tokens por bloque de contexto e identificar oportunidades de compresión"
-    },
-    {
-      "category": "memory",
-      "name": "headroom-apply",
-      "intents": [
-        "aplicar",
-        "compresión",
-        "contexto",
-        "optimizaciones",
-        "proyecto"
-      ],
-      "kind": "cmd",
-      "path": ".claude/commands/headroom-apply.md",
-      "description": "Aplicar optimizaciones de compresión al contexto de un proyecto"
-    },
-    {
-      "category": "memory",
       "name": "iterative-compress",
       "intents": [
         "compress",
@@ -6702,19 +5613,6 @@
       "kind": "cmd",
       "path": ".claude/commands/lesson-search.md",
       "description": "Search cross-project lessons by keyword or domain"
-    },
-    {
-      "category": "memory",
-      "name": "marketplace-search",
-      "intents": [
-        "components",
-        "discover",
-        "marketplace",
-        "search"
-      ],
-      "kind": "cmd",
-      "path": ".claude/commands/marketplace-search.md",
-      "description": "Search and discover components in marketplace"
     },
     {
       "category": "memory",
@@ -6810,20 +5708,6 @@
     },
     {
       "category": "memory",
-      "name": "memory-compress",
-      "intents": [
-        "compresión",
-        "condensación",
-        "contexto",
-        "decisiones",
-        "deduplicación"
-      ],
-      "kind": "cmd",
-      "path": ".claude/commands/memory-compress.md",
-      "description": "Compresión semántica de memorias (engrams). Reduce tokens hasta 80% preservando fidelidad mediante extracción de entidades, resumen de eventos, condensación de decisiones y deduplicación de contexto."
-    },
-    {
-      "category": "memory",
       "name": "memory-conflict-check",
       "intents": [
         "check",
@@ -6888,20 +5772,6 @@
     },
     {
       "category": "memory",
-      "name": "memory-graph",
-      "intents": [
-        "aisladas",
-        "conexiones",
-        "construye",
-        "consulta",
-        "detecta"
-      ],
-      "kind": "cmd",
-      "path": ".claude/commands/memory-graph.md",
-      "description": "Grafo semántico de relaciones semánticas entre memorias. Construye knowledge graph de engrams. Consulta conexiones. Detecta memorias aisladas. Genera visualización Mermaid."
-    },
-    {
-      "category": "memory",
       "name": "memory-hygiene",
       "intents": [
         "auto",
@@ -6916,34 +5786,6 @@
     },
     {
       "category": "memory",
-      "name": "memory-importance",
-      "intents": [
-        "candidatas",
-        "composita",
-        "críticas",
-        "engrams",
-        "frecuencia"
-      ],
-      "kind": "cmd",
-      "path": ".claude/commands/memory-importance.md",
-      "description": "Scoring semántico de importancia de engrams usando fórmula composita (relevancia × recencia × frecuencia). Identifica memorias críticas para mantener y candidatas para poda."
-    },
-    {
-      "category": "memory",
-      "name": "memory-index",
-      "intents": [
-        "build",
-        "efficient",
-        "index",
-        "maintain",
-        "memory"
-      ],
-      "kind": "cmd",
-      "path": ".claude/commands/memory-index.md",
-      "description": "Build and maintain memory index for efficient retrieval"
-    },
-    {
-      "category": "memory",
       "name": "memory-index-rebuild",
       "intents": [
         "auto",
@@ -6955,20 +5797,6 @@
       "kind": "script",
       "path": "scripts/memory-index-rebuild.sh",
       "description": "memory-index-rebuild.sh — rebuild auto/MEMORY.md index from JSONL store"
-    },
-    {
-      "category": "memory",
-      "name": "memory-prune",
-      "intents": [
-        "archiva",
-        "baja",
-        "críticas",
-        "engrams",
-        "importance"
-      ],
-      "kind": "cmd",
-      "path": ".claude/commands/memory-prune.md",
-      "description": "Poda semántica inteligente de memorias. Archiva engrams de baja importancia, mantiene críticas. Usa scores de /memory-importance. Reversible con restore."
     },
     {
       "category": "memory",
@@ -7015,14 +5843,6 @@
     {
       "category": "memory",
       "name": "memory-save",
-      "intents": [],
-      "kind": "cmd",
-      "path": ".claude/commands/memory-save.md",
-      "description": ">"
-    },
-    {
-      "category": "memory",
-      "name": "memory-save",
       "intents": [
         "entity",
         "memory",
@@ -7033,20 +5853,6 @@
       "kind": "script",
       "path": "scripts/memory-save.sh",
       "description": "memory-save.sh — Save, upsert, entity, session-summary (sourced by memory-store.sh)"
-    },
-    {
-      "category": "memory",
-      "name": "memory-search",
-      "intents": [
-        "entries",
-        "keywords",
-        "memory",
-        "search",
-        "topics"
-      ],
-      "kind": "cmd",
-      "path": ".claude/commands/memory-search.md",
-      "description": "Search memory entries by keywords and topics"
     },
     {
       "category": "memory",
@@ -7078,20 +5884,6 @@
     },
     {
       "category": "memory",
-      "name": "memory-stats",
-      "intents": [
-        "display",
-        "memory",
-        "optimization",
-        "recommendations",
-        "statistics"
-      ],
-      "kind": "cmd",
-      "path": ".claude/commands/memory-stats.md",
-      "description": "Display memory usage statistics and optimization recommendations"
-    },
-    {
-      "category": "memory",
       "name": "memory-status-check",
       "intents": [
         "capas",
@@ -7117,20 +5909,6 @@
       "kind": "script",
       "path": "scripts/memory-store.sh",
       "description": "memory-store.sh — JSONL persistent memory store for pm-workspace"
-    },
-    {
-      "category": "memory",
-      "name": "memory-sync",
-      "intents": [
-        "auto",
-        "files",
-        "insights",
-        "memory",
-        "sincroniza"
-      ],
-      "kind": "cmd",
-      "path": ".claude/commands/memory-sync.md",
-      "description": "Sincroniza insights del sprint en los topic files de auto memory"
     },
     {
       "category": "memory",
@@ -7246,14 +6024,6 @@
     },
     {
       "category": "memory",
-      "name": "repos-search",
-      "intents": [],
-      "kind": "cmd",
-      "path": ".claude/commands/repos-search.md",
-      "description": ">"
-    },
-    {
-      "category": "memory",
       "name": "session-action-log",
       "intents": [
         "action",
@@ -7334,14 +6104,6 @@
       "kind": "script",
       "path": "scripts/session-resume-index.sh",
       "description": "session-resume-index.sh — Multica pattern: session resumption metadata"
-    },
-    {
-      "category": "memory",
-      "name": "session-save",
-      "intents": [],
-      "kind": "cmd",
-      "path": ".claude/commands/session-save.md",
-      "description": ">"
     },
     {
       "category": "memory",
@@ -7484,22 +6246,6 @@
       "description": "Usar cuando se necesita buscar en la web para resolver gaps de contexto (docs, versiones, CVEs)."
     },
     {
-      "category": "memory",
-      "name": "whatsapp-search",
-      "intents": [],
-      "kind": "cmd",
-      "path": ".claude/commands/whatsapp-search.md",
-      "description": ">"
-    },
-    {
-      "category": "planning",
-      "name": "/accreditation-track",
-      "intents": [],
-      "kind": "cmd",
-      "path": ".claude/commands/accreditation-track.md",
-      "description": ">"
-    },
-    {
       "category": "planning",
       "name": "/decide-architecture",
       "intents": [
@@ -7512,114 +6258,6 @@
       "kind": "cmd",
       "path": ".claude/commands/decide-architecture.md",
       "description": "Clasifica una tarea como WORKFLOW (deterministica) o AGENT (loop). Bias hacia workflow per Anthropic. Sugiere plantilla inicial. Mide accuracy contra corpus curado de 20 tareas."
-    },
-    {
-      "category": "planning",
-      "name": "/drive-setup",
-      "intents": [
-        "based",
-        "create",
-        "drive",
-        "folder",
-        "google"
-      ],
-      "kind": "cmd",
-      "path": ".claude/commands/drive-setup.md",
-      "description": "Create Google Drive folder structure with role-based permissions"
-    },
-    {
-      "category": "planning",
-      "name": "/drive-sync",
-      "intents": [
-        "between",
-        "bidirectional",
-        "drive",
-        "google",
-        "local"
-      ],
-      "kind": "cmd",
-      "path": ".claude/commands/drive-sync.md",
-      "description": "Bidirectional sync between local workspace and Google Drive"
-    },
-    {
-      "category": "planning",
-      "name": "/health-kpi",
-      "intents": [],
-      "kind": "cmd",
-      "path": ".claude/commands/health-kpi.md",
-      "description": ">"
-    },
-    {
-      "category": "planning",
-      "name": "/incident-register",
-      "intents": [],
-      "kind": "cmd",
-      "path": ".claude/commands/incident-register.md",
-      "description": ">"
-    },
-    {
-      "category": "planning",
-      "name": "/pdca-cycle",
-      "intents": [],
-      "kind": "cmd",
-      "path": ".claude/commands/pdca-cycle.md",
-      "description": ">"
-    },
-    {
-      "category": "planning",
-      "name": "Compartir Recurso Entre Tenants",
-      "intents": [
-        "aprobación",
-        "comparte",
-        "configuración",
-        "controlado",
-        "deriva"
-      ],
-      "kind": "cmd",
-      "path": ".claude/commands/tenant-share.md",
-      "description": "Comparte recursos (playbooks, templates, skills, reglas) entre tenants con flujo de aprobación controlado, versionado y prevención de deriva de configuración"
-    },
-    {
-      "category": "planning",
-      "name": "Crear Tenant",
-      "intents": [
-        "acceso",
-        "aislado",
-        "basado",
-        "configuración",
-        "control"
-      ],
-      "kind": "cmd",
-      "path": ".claude/commands/tenant-create.md",
-      "description": "Crea un workspace aislado por departamento/equipo con perfiles de usuario, configuración de proyecto, herencia de perfiles empresariales y control de acceso basado en roles"
-    },
-    {
-      "category": "planning",
-      "name": "Error Investigate",
-      "intents": [
-        "analysis",
-        "asistida",
-        "cause",
-        "correlación",
-        "datos"
-      ],
-      "kind": "cmd",
-      "path": ".claude/commands/error-investigate.md",
-      "description": "Investigación asistida de errores en producción con root cause analysis y correlación de datos"
-    },
-    {
-      "category": "planning",
-      "name": "Incident Correlate",
-      "intents": [
-        "análisis",
-        "correlación",
-        "cruzada",
-        "datos",
-        "fuentes"
-      ],
-      "kind": "cmd",
-      "path": ".claude/commands/incident-correlate.md",
-      "description": "Correlación cruzada de datos de múltiples fuentes para análisis integral de incidentes"
     },
     {
       "category": "planning",
@@ -7735,70 +6373,6 @@
     },
     {
       "category": "planning",
-      "name": "adoption-assess",
-      "intents": [
-        "adkar",
-        "adopción",
-        "equipo",
-        "evaluar",
-        "madurez"
-      ],
-      "kind": "cmd",
-      "path": ".claude/commands/adoption-assess.md",
-      "description": "Evaluar madurez de adopción de IA del equipo usando modelo ADKAR"
-    },
-    {
-      "category": "planning",
-      "name": "adoption-plan",
-      "intents": [
-        "adopción",
-        "aprender",
-        "orden",
-        "personalizado",
-        "plan"
-      ],
-      "kind": "cmd",
-      "path": ".claude/commands/adoption-plan.md",
-      "description": "Plan personalizado de adopción de Savia por rol — qué aprender, en qué orden"
-    },
-    {
-      "category": "planning",
-      "name": "adoption-sandbox",
-      "intents": [
-        "entorno",
-        "errores",
-        "experimentar",
-        "miedo",
-        "práctica"
-      ],
-      "kind": "cmd",
-      "path": ".claude/commands/adoption-sandbox.md",
-      "description": "Entorno seguro de práctica — experimentar con Savia sin miedo a errores"
-    },
-    {
-      "category": "planning",
-      "name": "adoption-track",
-      "intents": [
-        "adopción",
-        "aprendizaje",
-        "comandos",
-        "curva",
-        "fricción"
-      ],
-      "kind": "cmd",
-      "path": ".claude/commands/adoption-track.md",
-      "description": "Tracking de adopción — comandos usados por rol, curva de aprendizaje, puntos de fricción"
-    },
-    {
-      "category": "planning",
-      "name": "adr-create",
-      "intents": [],
-      "kind": "cmd",
-      "path": ".claude/commands/adr-create.md",
-      "description": ">"
-    },
-    {
-      "category": "planning",
       "name": "advisor-config",
       "intents": [
         "advisor",
@@ -7864,48 +6438,6 @@
     },
     {
       "category": "planning",
-      "name": "ai-boundary",
-      "intents": [
-        "aprobación",
-        "autónomamente",
-        "definir",
-        "explícitos",
-        "hacer"
-      ],
-      "kind": "cmd",
-      "path": ".claude/commands/ai-boundary.md",
-      "description": "Definir matriz de límites explícitos: qué puede hacer Savia autónomamente vs requiere aprobación"
-    },
-    {
-      "category": "planning",
-      "name": "ai-confidence",
-      "intents": [
-        "confianza",
-        "datos",
-        "limitaciones",
-        "muestra",
-        "razonamiento"
-      ],
-      "kind": "cmd",
-      "path": ".claude/commands/ai-confidence.md",
-      "description": "Transparencia: Savia muestra confianza, razonamiento, datos y limitaciones de cada recomendación"
-    },
-    {
-      "category": "planning",
-      "name": "ai-incident",
-      "intents": [
-        "analizar",
-        "fueron",
-        "incidentes",
-        "incorrectas",
-        "recomendaciones"
-      ],
-      "kind": "cmd",
-      "path": ".claude/commands/ai-incident.md",
-      "description": "Registrar y analizar incidentes donde recomendaciones de Savia fueron incorrectas"
-    },
-    {
-      "category": "planning",
       "name": "ai-labor-impact",
       "intents": [
         "analiza",
@@ -7931,20 +6463,6 @@
       "kind": "cmd",
       "path": ".claude/commands/ai-model-card.md",
       "description": "Genera model card documentando agentes IA, modelos, tareas y decisiones"
-    },
-    {
-      "category": "planning",
-      "name": "ai-safety-config",
-      "intents": [
-        "acción",
-        "configurar",
-        "decide",
-        "execute",
-        "humana"
-      ],
-      "kind": "cmd",
-      "path": ".claude/commands/ai-safety-config.md",
-      "description": "Configurar 4 niveles de supervisión humana (inform/recommend/decide/execute) por tipo de acción"
     },
     {
       "category": "planning",
@@ -8339,6 +6857,20 @@
     },
     {
       "category": "planning",
+      "name": "benchmark-hook-dispatch",
+      "intents": [
+        "benchmark",
+        "dispatch",
+        "hook",
+        "scripts",
+        "slice"
+      ],
+      "kind": "script",
+      "path": "scripts/benchmark-hook-dispatch.sh",
+      "description": "scripts/benchmark-hook-dispatch.sh — SE-253 Slice 4"
+    },
+    {
+      "category": "planning",
       "name": "bertopic-probe",
       "intents": [
         "bertopic",
@@ -8349,14 +6881,6 @@
       "kind": "script",
       "path": "scripts/bertopic-probe.sh",
       "description": "bertopic-probe.sh — SE-033 Slice 1 BERTopic viability probe."
-    },
-    {
-      "category": "planning",
-      "name": "billing-rate",
-      "intents": [],
-      "kind": "cmd",
-      "path": ".claude/commands/billing-rate.md",
-      "description": ">"
     },
     {
       "category": "planning",
@@ -8371,20 +6895,6 @@
       "kind": "cmd",
       "path": ".claude/commands/board-flow.md",
       "description": "Analiza el flujo de trabajo del board — WIP actual, cuellos de botella y métricas de flujo."
-    },
-    {
-      "category": "planning",
-      "name": "burnout-radar",
-      "intents": [
-        "análisis",
-        "burnout",
-        "detección",
-        "equipo",
-        "miembro"
-      ],
-      "kind": "cmd",
-      "path": ".claude/commands/burnout-radar.md",
-      "description": "Detección temprana de señales de burnout con análisis de riesgo por miembro del equipo"
     },
     {
       "category": "planning",
@@ -8529,20 +7039,6 @@
     },
     {
       "category": "planning",
-      "name": "capacity-forecast-telco",
-      "intents": [
-        "alertas",
-        "automáticas",
-        "capacidad",
-        "medición",
-        "planificación"
-      ],
-      "kind": "cmd",
-      "path": ".claude/commands/capacity-forecast-telco.md",
-      "description": "Medición, previsión y planificación de capacidad de red con alertas automáticas"
-    },
-    {
-      "category": "planning",
       "name": "capacity-planning",
       "intents": [
         "calcula",
@@ -8598,6 +7094,20 @@
     },
     {
       "category": "planning",
+      "name": "catalog",
+      "intents": [
+        "busca",
+        "catálogo",
+        "comandos",
+        "extendido",
+        "keyword"
+      ],
+      "kind": "cmd",
+      "path": ".claude/commands/catalog.md",
+      "description": "Busca comandos en catálogo extendido por keyword o área"
+    },
+    {
+      "category": "planning",
       "name": "ceo-alerts",
       "intents": [
         "alertas",
@@ -8648,14 +7158,6 @@
       "kind": "script",
       "path": "scripts/changelog-fragment.sh",
       "description": "changelog-fragment.sh — create a CHANGELOG fragment for the current PR"
-    },
-    {
-      "category": "planning",
-      "name": "changelog-update",
-      "intents": [],
-      "kind": "cmd",
-      "path": ".claude/commands/changelog-update.md",
-      "description": ">"
     },
     {
       "category": "planning",
@@ -8778,20 +7280,6 @@
     },
     {
       "category": "planning",
-      "name": "company-edit",
-      "intents": [
-        "editar",
-        "empresa",
-        "identity",
-        "perfil",
-        "policies"
-      ],
-      "kind": "cmd",
-      "path": ".claude/commands/company-edit.md",
-      "description": "Editar secciones del perfil de empresa — identity, structure, strategy, policies, technology, vertical"
-    },
-    {
-      "category": "planning",
       "name": "company-messaging",
       "intents": [
         "cifrados",
@@ -8866,34 +7354,6 @@
       "kind": "script",
       "path": "scripts/company-repo-templates-init.sh",
       "description": "company-repo-templates-init.sh — Heredoc templates for repo initialization"
-    },
-    {
-      "category": "planning",
-      "name": "company-setup",
-      "intents": [
-        "completo",
-        "conversacional",
-        "empresa",
-        "onboarding",
-        "organizacional"
-      ],
-      "kind": "cmd",
-      "path": ".claude/commands/company-setup.md",
-      "description": "Onboarding conversacional de empresa — genera el perfil organizacional completo"
-    },
-    {
-      "category": "planning",
-      "name": "company-vertical",
-      "intents": [
-        "configurar",
-        "detectar",
-        "empresa",
-        "frameworks",
-        "mejores"
-      ],
-      "kind": "cmd",
-      "path": ".claude/commands/company-vertical.md",
-      "description": "Detectar y configurar la vertical de la empresa — regulaciones, frameworks y mejores prácticas del sector"
     },
     {
       "category": "planning",
@@ -8980,22 +7440,6 @@
     },
     {
       "category": "planning",
-      "name": "conflict-check",
-      "intents": [],
-      "kind": "cmd",
-      "path": ".claude/commands/conflict-check.md",
-      "description": ">"
-    },
-    {
-      "category": "planning",
-      "name": "confluence-publish",
-      "intents": [],
-      "kind": "cmd",
-      "path": ".claude/commands/confluence-publish.md",
-      "description": ">"
-    },
-    {
-      "category": "planning",
       "name": "consensus-validation",
       "intents": [
         "decisión",
@@ -9021,20 +7465,6 @@
       "kind": "skill",
       "path": ".claude/skills/content-fingerprint/SKILL.md",
       "description": "Usar cuando se necesita un identificador corto, deterministico y reproducible derivado del contenido de una cadena o fichero — cache keys, ids de patrones, fingerprints de docs."
-    },
-    {
-      "category": "planning",
-      "name": "contribute",
-      "intents": [
-        "contribuir",
-        "correcciones",
-        "github",
-        "ideas",
-        "mejoras"
-      ],
-      "kind": "cmd",
-      "path": ".claude/commands/contribute.md",
-      "description": "Contribuir mejoras, ideas o correcciones al repositorio de pm-workspace en GitHub"
     },
     {
       "category": "planning",
@@ -9094,14 +7524,6 @@
     },
     {
       "category": "planning",
-      "name": "court-calendar",
-      "intents": [],
-      "kind": "cmd",
-      "path": ".claude/commands/court-calendar.md",
-      "description": ">"
-    },
-    {
-      "category": "planning",
       "name": "court-score-aggregator",
       "intents": [
         "aggregator",
@@ -9125,14 +7547,6 @@
       "kind": "script",
       "path": "scripts/credential-proxy.sh",
       "description": "credential-proxy.sh — Managed Agents pattern: credential isolation"
-    },
-    {
-      "category": "planning",
-      "name": "credential-scan",
-      "intents": [],
-      "kind": "cmd",
-      "path": ".claude/commands/credential-scan.md",
-      "description": ">"
     },
     {
       "category": "planning",
@@ -9267,28 +7681,6 @@
     },
     {
       "category": "planning",
-      "name": "dataset-version",
-      "intents": [],
-      "kind": "cmd",
-      "path": ".claude/commands/dataset-version.md",
-      "description": ">"
-    },
-    {
-      "category": "planning",
-      "name": "deep-work",
-      "intents": [
-        "aplicado",
-        "basado",
-        "bloques",
-        "calendario",
-        "carga"
-      ],
-      "kind": "cmd",
-      "path": ".claude/commands/deep-work.md",
-      "description": "Planificador de bloques de trabajo profundo basado en calendario y carga. Framework de Cal Newport aplicado a equipos de desarrollo."
-    },
-    {
-      "category": "planning",
       "name": "dependency-map",
       "intents": [],
       "kind": "cmd",
@@ -9353,14 +7745,6 @@
     },
     {
       "category": "planning",
-      "name": "devops-validate",
-      "intents": [],
-      "kind": "cmd",
-      "path": ".claude/commands/devops-validate.md",
-      "description": ">"
-    },
-    {
-      "category": "planning",
       "name": "devops-validation",
       "intents": [
         "agile",
@@ -9379,14 +7763,6 @@
       "intents": [],
       "kind": "agent",
       "path": ".opencode/agents/diagram-architect.md",
-      "description": ">"
-    },
-    {
-      "category": "planning",
-      "name": "diagram-config",
-      "intents": [],
-      "kind": "cmd",
-      "path": ".claude/commands/diagram-config.md",
       "description": ">"
     },
     {
@@ -9443,6 +7819,19 @@
     },
     {
       "category": "planning",
+      "name": "doc-counts-check",
+      "intents": [
+        "check",
+        "counts",
+        "scripts",
+        "slice"
+      ],
+      "kind": "script",
+      "path": "scripts/doc-counts-check.sh",
+      "description": "scripts/doc-counts-check.sh — SE-253 Slice 5"
+    },
+    {
+      "category": "planning",
       "name": "doc-quality-feedback",
       "intents": [
         "calidad",
@@ -9476,62 +7865,6 @@
       "kind": "script",
       "path": "scripts/dual-estimate.sh",
       "description": "dual-estimate.sh — Dual estimation engine: agent-time vs human-time"
-    },
-    {
-      "category": "planning",
-      "name": "dx-core4",
-      "intents": [
-        "calidad",
-        "completo",
-        "core",
-        "desarrollador",
-        "efectividad"
-      ],
-      "kind": "cmd",
-      "path": ".claude/commands/dx-core4.md",
-      "description": "Marco DX Core 4 completo: velocidad, efectividad, calidad e impacto. Genera scorecard de experiencia del desarrollador."
-    },
-    {
-      "category": "planning",
-      "name": "dx-dashboard",
-      "intents": [
-        "automatizables",
-        "cognitive",
-        "dashboard",
-        "feedback",
-        "load"
-      ],
-      "kind": "cmd",
-      "path": ".claude/commands/dx-dashboard.md",
-      "description": "Dashboard DX con métricas automatizables de feedback loops, cognitive load y satisfacción"
-    },
-    {
-      "category": "planning",
-      "name": "dx-recommendations",
-      "intents": [
-        "análisis",
-        "equipo",
-        "experiencia",
-        "friction",
-        "mejorar"
-      ],
-      "kind": "cmd",
-      "path": ".claude/commands/dx-recommendations.md",
-      "description": "Análisis de friction points y recomendaciones para mejorar la experiencia del equipo"
-    },
-    {
-      "category": "planning",
-      "name": "dx-survey",
-      "intents": [
-        "adaptada",
-        "core",
-        "encuesta",
-        "equipo",
-        "procesa"
-      ],
-      "kind": "cmd",
-      "path": ".claude/commands/dx-survey.md",
-      "description": "Genera encuesta DX Core 4 adaptada al equipo y procesa respuestas"
     },
     {
       "category": "planning",
@@ -9586,20 +7919,6 @@
       "kind": "skill",
       "path": ".claude/skills/emergency-mode/SKILL.md",
       "description": "Usar cuando la API de Anthropic está caída y se necesita continuar operando con LocalAI."
-    },
-    {
-      "category": "planning",
-      "name": "emergency-plan",
-      "intents": [
-        "caché",
-        "descargar",
-        "instalación",
-        "local",
-        "modelo"
-      ],
-      "kind": "cmd",
-      "path": ".claude/commands/emergency-plan.md",
-      "description": "Pre-descargar Ollama y modelo LLM en caché local para instalación offline"
     },
     {
       "category": "planning",
@@ -9938,14 +8257,6 @@
     },
     {
       "category": "planning",
-      "name": "epic-plan",
-      "intents": [],
-      "kind": "cmd",
-      "path": ".claude/commands/epic-plan.md",
-      "description": ">"
-    },
-    {
-      "category": "planning",
       "name": "eras-timeline-generate",
       "intents": [
         "docs",
@@ -9988,14 +8299,6 @@
     },
     {
       "category": "planning",
-      "name": "ethics-protocol",
-      "intents": [],
-      "kind": "cmd",
-      "path": ".claude/commands/ethics-protocol.md",
-      "description": ">"
-    },
-    {
-      "category": "planning",
       "name": "eval-ablation-run",
       "intents": [
         "ablation",
@@ -10004,20 +8307,6 @@
       "kind": "script",
       "path": "scripts/eval-ablation-run.sh",
       "description": "eval-ablation-run.sh — SE-030-A"
-    },
-    {
-      "category": "planning",
-      "name": "eval-create",
-      "intents": [
-        "configure",
-        "create",
-        "criteria",
-        "evaluation",
-        "outputs"
-      ],
-      "kind": "cmd",
-      "path": ".claude/commands/eval-create.md",
-      "description": "Create and configure evaluation criteria for outputs"
     },
     {
       "category": "planning",
@@ -10073,14 +8362,6 @@
     },
     {
       "category": "planning",
-      "name": "experiment-log",
-      "intents": [],
-      "kind": "cmd",
-      "path": ".claude/commands/experiment-log.md",
-      "description": ">"
-    },
-    {
-      "category": "planning",
       "name": "factuality-judge",
       "intents": [
         "accuracy",
@@ -10095,42 +8376,6 @@
     },
     {
       "category": "planning",
-      "name": "feature-impact",
-      "intents": [
-        "análisis",
-        "esfuerzo",
-        "features",
-        "impacto",
-        "priorización"
-      ],
-      "kind": "cmd",
-      "path": ".claude/commands/feature-impact.md",
-      "description": "Análisis de impacto de features — esfuerzo vs valor, ROI, priorización"
-    },
-    {
-      "category": "planning",
-      "name": "feedback",
-      "intents": [
-        "abrir",
-        "ideas",
-        "incidencias",
-        "issues",
-        "mejoras"
-      ],
-      "kind": "cmd",
-      "path": ".claude/commands/feedback.md",
-      "description": "Abrir incidencias, ideas o mejoras como issues en el repositorio de pm-workspace"
-    },
-    {
-      "category": "planning",
-      "name": "figma-extract",
-      "intents": [],
-      "kind": "cmd",
-      "path": ".claude/commands/figma-extract.md",
-      "description": ">"
-    },
-    {
-      "category": "planning",
       "name": "flow-backlog-groom",
       "intents": [
         "backlog",
@@ -10141,20 +8386,6 @@
       "kind": "cmd",
       "path": ".claude/commands/flow-backlog-groom.md",
       "description": "Review and prioritize backlog items"
-    },
-    {
-      "category": "planning",
-      "name": "flow-board",
-      "intents": [
-        "dual",
-        "exploración",
-        "flow",
-        "producción",
-        "savia"
-      ],
-      "kind": "cmd",
-      "path": ".claude/commands/flow-board.md",
-      "description": "Visualizar tablero dual-track de Savia Flow (exploración + producción)"
     },
     {
       "category": "planning",
@@ -10172,20 +8403,6 @@
     },
     {
       "category": "planning",
-      "name": "flow-intake",
-      "intents": [
-        "asignar",
-        "builders",
-        "continuo",
-        "intake",
-        "items"
-      ],
-      "kind": "cmd",
-      "path": ".claude/commands/flow-intake.md",
-      "description": "Intake continuo — mover items Spec-Ready a Production y asignar a builders"
-    },
-    {
-      "category": "planning",
       "name": "flow-metrics",
       "intents": [
         "cycle",
@@ -10197,48 +8414,6 @@
       "kind": "cmd",
       "path": ".claude/commands/flow-metrics.md",
       "description": "Dashboard de métricas de flujo Savia Flow (cycle time, lead time, throughput, CFR)"
-    },
-    {
-      "category": "planning",
-      "name": "flow-protect",
-      "intents": [
-        "analiza",
-        "context",
-        "densidad",
-        "detector",
-        "flow"
-      ],
-      "kind": "cmd",
-      "path": ".claude/commands/flow-protect.md",
-      "description": "Detector de context-switching y protector de flow state. Analiza densidad de reuniones, patrones de interrupciones, sobrecarga WIP."
-    },
-    {
-      "category": "planning",
-      "name": "flow-setup",
-      "intents": [
-        "azure",
-        "campos",
-        "configurar",
-        "custom",
-        "devops"
-      ],
-      "kind": "cmd",
-      "path": ".claude/commands/flow-setup.md",
-      "description": "Configurar proyecto en Azure DevOps para Savia Flow (dual-track, campos custom, áreas)"
-    },
-    {
-      "category": "planning",
-      "name": "flow-spec",
-      "intents": [
-        "crear",
-        "ejecutable",
-        "exploración",
-        "exploration",
-        "outcome"
-      ],
-      "kind": "cmd",
-      "path": ".claude/commands/flow-spec.md",
-      "description": "Crear spec ejecutable desde outcome de exploración (puente exploration → production)"
     },
     {
       "category": "planning",
@@ -10467,11 +8642,40 @@
     },
     {
       "category": "planning",
-      "name": "gdrive-upload",
-      "intents": [],
-      "kind": "cmd",
-      "path": ".claude/commands/gdrive-upload.md",
-      "description": ">"
+      "name": "gate-init",
+      "intents": [
+        "gate",
+        "init",
+        "scripts"
+      ],
+      "kind": "script",
+      "path": "scripts/gate-init.sh",
+      "description": "scripts/gate-init.sh — SE-255"
+    },
+    {
+      "category": "planning",
+      "name": "gate-post-receive",
+      "intents": [
+        "gate",
+        "post",
+        "receive",
+        "scripts"
+      ],
+      "kind": "script",
+      "path": "scripts/gate-post-receive.sh",
+      "description": "scripts/gate-post-receive.sh — SE-255"
+    },
+    {
+      "category": "planning",
+      "name": "gate-teardown",
+      "intents": [
+        "gate",
+        "scripts",
+        "teardown"
+      ],
+      "kind": "script",
+      "path": "scripts/gate-teardown.sh",
+      "description": "scripts/gate-teardown.sh — SE-255"
     },
     {
       "category": "planning",
@@ -10569,63 +8773,11 @@
     },
     {
       "category": "planning",
-      "name": "github-activity",
-      "intents": [],
-      "kind": "cmd",
-      "path": ".claude/commands/github-activity.md",
-      "description": ">"
-    },
-    {
-      "category": "planning",
-      "name": "github-issues",
-      "intents": [],
-      "kind": "cmd",
-      "path": ".claude/commands/github-issues.md",
-      "description": ">"
-    },
-    {
-      "category": "planning",
-      "name": "github-projects",
-      "intents": [
-        "gestión",
-        "github",
-        "integración",
-        "projects",
-        "workspace"
-      ],
-      "kind": "cmd",
-      "path": ".claude/commands/github-projects.md",
-      "description": "Integración con GitHub Projects v2 para gestión ágil desde pm-workspace"
-    },
-    {
-      "category": "planning",
       "name": "go-developer",
       "intents": [],
       "kind": "agent",
       "path": ".opencode/agents/go-developer.md",
       "description": ">"
-    },
-    {
-      "category": "planning",
-      "name": "grant-track",
-      "intents": [],
-      "kind": "cmd",
-      "path": ".claude/commands/grant-track.md",
-      "description": ">"
-    },
-    {
-      "category": "planning",
-      "name": "graph-impact",
-      "intents": [
-        "analiza",
-        "cambios",
-        "cascada",
-        "entidades",
-        "impacto"
-      ],
-      "kind": "cmd",
-      "path": ".claude/commands/graph-impact.md",
-      "description": "Analiza el impacto en cascada de cambios en entidades PM"
     },
     {
       "category": "planning",
@@ -10861,41 +9013,11 @@
     },
     {
       "category": "planning",
-      "name": "hw-bom",
-      "intents": [],
-      "kind": "cmd",
-      "path": ".claude/commands/hw-bom.md",
-      "description": ">"
-    },
-    {
-      "category": "planning",
-      "name": "hw-revision",
-      "intents": [],
-      "kind": "cmd",
-      "path": ".claude/commands/hw-revision.md",
-      "description": ">"
-    },
-    {
-      "category": "planning",
       "name": "import-sprint-story",
       "intents": [],
       "kind": "cmd",
       "path": ".claude/commands/import-sprint-story.md",
       "description": ">"
-    },
-    {
-      "category": "planning",
-      "name": "incident-postmortem",
-      "intents": [
-        "action",
-        "analysis",
-        "cause",
-        "items",
-        "postmortem"
-      ],
-      "kind": "cmd",
-      "path": ".claude/commands/incident-postmortem.md",
-      "description": "Template de postmortem — timeline, root cause analysis, action items"
     },
     {
       "category": "planning",
@@ -10965,22 +9087,6 @@
     },
     {
       "category": "planning",
-      "name": "instinct-manage",
-      "intents": [],
-      "kind": "cmd",
-      "path": ".claude/commands/instinct-manage.md",
-      "description": ">"
-    },
-    {
-      "category": "planning",
-      "name": "insurance-claim",
-      "intents": [],
-      "kind": "cmd",
-      "path": ".claude/commands/insurance-claim.md",
-      "description": ">"
-    },
-    {
-      "category": "planning",
       "name": "integration-status",
       "intents": [
         "apis",
@@ -10995,46 +9101,10 @@
     },
     {
       "category": "planning",
-      "name": "inventory-manage",
-      "intents": [
-        "alertas",
-        "conteos",
-        "gestiona",
-        "inventario",
-        "reordenes"
-      ],
-      "kind": "cmd",
-      "path": ".claude/commands/inventory-manage.md",
-      "description": "Gestiona inventario: stock, reordenes, transferencias, conteos, alertas"
-    },
-    {
-      "category": "planning",
       "name": "java-developer",
       "intents": [],
       "kind": "agent",
       "path": ".opencode/agents/java-developer.md",
-      "description": ">"
-    },
-    {
-      "category": "planning",
-      "name": "jira-connect",
-      "intents": [
-        "alternativa",
-        "azure",
-        "cloud",
-        "conectar",
-        "devops"
-      ],
-      "kind": "cmd",
-      "path": ".claude/commands/jira-connect.md",
-      "description": "Conectar y sincronizar con Jira Cloud como alternativa a Azure DevOps"
-    },
-    {
-      "category": "planning",
-      "name": "jira-sync",
-      "intents": [],
-      "kind": "cmd",
-      "path": ".claude/commands/jira-sync.md",
       "description": ">"
     },
     {
@@ -11102,17 +9172,17 @@
     },
     {
       "category": "planning",
-      "name": "knowledge-prime",
+      "name": "language-boundary-check",
       "intents": [
-        "configuración",
-        "código",
-        "documento",
-        "generar",
-        "priming"
+        "boundary",
+        "check",
+        "language",
+        "scripts",
+        "slice"
       ],
-      "kind": "cmd",
-      "path": ".claude/commands/knowledge-prime.md",
-      "description": "Generar documento de priming AI desde código y configuración del proyecto"
+      "kind": "script",
+      "path": "scripts/language-boundary-check.sh",
+      "description": "scripts/language-boundary-check.sh — SE-253 Slice 7"
     },
     {
       "category": "planning",
@@ -11120,22 +9190,6 @@
       "intents": [],
       "kind": "cmd",
       "path": ".claude/commands/legacy-assess.md",
-      "description": ">"
-    },
-    {
-      "category": "planning",
-      "name": "legal-deadline",
-      "intents": [],
-      "kind": "cmd",
-      "path": ".claude/commands/legal-deadline.md",
-      "description": ">"
-    },
-    {
-      "category": "planning",
-      "name": "legal-template",
-      "intents": [],
-      "kind": "cmd",
-      "path": ".claude/commands/legal-template.md",
       "description": ">"
     },
     {
@@ -11268,20 +9322,6 @@
       "kind": "script",
       "path": "scripts/lib/slm-common.sh",
       "description": "slm-common.sh — Shared helpers for SLM subcommands (SE-049 Slice 1)."
-    },
-    {
-      "category": "planning",
-      "name": "linear-sync",
-      "intents": [
-        "bidireccional",
-        "cycles",
-        "issues",
-        "linear",
-        "métricas"
-      ],
-      "kind": "cmd",
-      "path": ".claude/commands/linear-sync.md",
-      "description": "Sincronización bidireccional con Linear — issues, cycles, métricas unificadas"
     },
     {
       "category": "planning",
@@ -11431,46 +9471,6 @@
     },
     {
       "category": "planning",
-      "name": "mcp-server-config",
-      "intents": [
-        "configure",
-        "connection",
-        "servers",
-        "settings"
-      ],
-      "kind": "cmd",
-      "path": ".claude/commands/mcp-server-config.md",
-      "description": "Configure MCP servers and connection settings"
-    },
-    {
-      "category": "planning",
-      "name": "mcp-server-start",
-      "intents": [
-        "initialize",
-        "instances",
-        "server",
-        "start"
-      ],
-      "kind": "cmd",
-      "path": ".claude/commands/mcp-server-start.md",
-      "description": "Start and initialize MCP server instances"
-    },
-    {
-      "category": "planning",
-      "name": "mcp-server-status",
-      "intents": [
-        "active",
-        "check",
-        "health",
-        "servers",
-        "status"
-      ],
-      "kind": "cmd",
-      "path": ".claude/commands/mcp-server-status.md",
-      "description": "Check status and health of active MCP servers"
-    },
-    {
-      "category": "planning",
       "name": "memvid-backup",
       "intents": [
         "backup",
@@ -11504,20 +9504,6 @@
       "kind": "script",
       "path": "scripts/model-capability-resolver.sh",
       "description": "model-capability-resolver.sh — Resolve model capabilities from YAML registry"
-    },
-    {
-      "category": "planning",
-      "name": "my-learning",
-      "intents": [
-        "best",
-        "código",
-        "detección",
-        "developer",
-        "gaps"
-      ],
-      "kind": "cmd",
-      "path": ".claude/commands/my-learning.md",
-      "description": "Detección de tech stack gaps — código del developer vs best practices del proyecto"
     },
     {
       "category": "planning",
@@ -11602,14 +9588,6 @@
     },
     {
       "category": "planning",
-      "name": "notion-sync",
-      "intents": [],
-      "kind": "cmd",
-      "path": ".claude/commands/notion-sync.md",
-      "description": ">"
-    },
-    {
-      "category": "planning",
       "name": "nuclei-scanning",
       "intents": [
         "conocidas",
@@ -11624,34 +9602,6 @@
     },
     {
       "category": "planning",
-      "name": "obs-connect",
-      "intents": [
-        "azure",
-        "conectar",
-        "datadog",
-        "grafana",
-        "insights"
-      ],
-      "kind": "cmd",
-      "path": ".claude/commands/obs-connect.md",
-      "description": "Conectar Savia a plataformas de observabilidad — Grafana, Datadog, Azure App Insights, OpenTelemetry"
-    },
-    {
-      "category": "planning",
-      "name": "obs-query",
-      "intents": [
-        "consultas",
-        "datadog",
-        "datos",
-        "language",
-        "lenguaje"
-      ],
-      "kind": "cmd",
-      "path": ".claude/commands/obs-query.md",
-      "description": "Consultas en lenguaje natural a datos de observabilidad — PromQL, KQL, Datadog Query Language"
-    },
-    {
-      "category": "planning",
       "name": "obs-status",
       "intents": [
         "check",
@@ -11663,48 +9613,6 @@
       "kind": "cmd",
       "path": ".claude/commands/obs-status.md",
       "description": "Health check de todas las fuentes de observabilidad conectadas"
-    },
-    {
-      "category": "planning",
-      "name": "okr-align",
-      "intents": [
-        "alineación",
-        "corporativa",
-        "estrategia",
-        "proyecto",
-        "visualizar"
-      ],
-      "kind": "cmd",
-      "path": ".claude/commands/okr-align.md",
-      "description": "Visualizar alineación proyecto→OKR→estrategia corporativa"
-    },
-    {
-      "category": "planning",
-      "name": "okr-define",
-      "intents": [
-        "definir",
-        "objectives",
-        "proyectos",
-        "results",
-        "vinculados"
-      ],
-      "kind": "cmd",
-      "path": ".claude/commands/okr-define.md",
-      "description": "Definir Objectives y Key Results vinculados a proyectos"
-    },
-    {
-      "category": "planning",
-      "name": "okr-track",
-      "intents": [
-        "automático",
-        "métricas",
-        "progreso",
-        "sprint",
-        "tracking"
-      ],
-      "kind": "cmd",
-      "path": ".claude/commands/okr-track.md",
-      "description": "Tracking automático de progreso OKR desde métricas de sprint"
     },
     {
       "category": "planning",
@@ -11888,20 +9796,6 @@
     },
     {
       "category": "planning",
-      "name": "outcome-track",
-      "intents": [
-        "entregó",
-        "esperado",
-        "feature",
-        "outcomes",
-        "post"
-      ],
-      "kind": "cmd",
-      "path": ".claude/commands/outcome-track.md",
-      "description": "Tracking de outcomes post-release — ¿la feature entregó el valor esperado?"
-    },
-    {
-      "category": "planning",
       "name": "output-compress",
       "intents": [
         "compress",
@@ -11972,20 +9866,6 @@
     },
     {
       "category": "planning",
-      "name": "pbi-assign",
-      "intents": [
-        "allocation",
-        "assign",
-        "based",
-        "intelligent",
-        "reassign"
-      ],
-      "kind": "cmd",
-      "path": ".claude/commands/pbi-assign.md",
-      "description": "Assign or reassign tasks based on intelligent allocation"
-    },
-    {
-      "category": "planning",
       "name": "pbi-decompose",
       "intents": [
         "decompose",
@@ -11996,20 +9876,6 @@
       "kind": "cmd",
       "path": ".claude/commands/pbi-decompose.md",
       "description": "Decompose a PBI into granular technical tasks"
-    },
-    {
-      "category": "planning",
-      "name": "pbi-decompose-batch",
-      "intents": [
-        "decompose",
-        "multiple",
-        "pbis",
-        "tasks",
-        "technical"
-      ],
-      "kind": "cmd",
-      "path": ".claude/commands/pbi-decompose-batch.md",
-      "description": "Decompose multiple PBIs into technical tasks"
     },
     {
       "category": "planning",
@@ -12026,53 +9892,11 @@
     },
     {
       "category": "planning",
-      "name": "pbi-from-rules",
-      "intents": [
-        "business",
-        "matrix",
-        "pbis",
-        "rules",
-        "traceability"
-      ],
-      "kind": "cmd",
-      "path": ".claude/commands/pbi-from-rules.md",
-      "description": "Map business rules to PBIs with traceability matrix"
-    },
-    {
-      "category": "planning",
-      "name": "pbi-from-rules-report",
-      "intents": [
-        "creating",
-        "generate",
-        "matrix",
-        "pbis",
-        "report"
-      ],
-      "kind": "cmd",
-      "path": ".claude/commands/pbi-from-rules-report.md",
-      "description": "Generate traceability matrix report without creating PBIs"
-    },
-    {
-      "category": "planning",
       "name": "pbi-jtbd",
       "intents": [],
       "kind": "cmd",
       "path": ".claude/commands/pbi-jtbd.md",
       "description": ">"
-    },
-    {
-      "category": "planning",
-      "name": "pbi-plan-sprint",
-      "intents": [
-        "allocate",
-        "pbis",
-        "plan",
-        "sprint",
-        "upcoming"
-      ],
-      "kind": "cmd",
-      "path": ".claude/commands/pbi-plan-sprint.md",
-      "description": "Plan and allocate PBIs to upcoming sprint"
     },
     {
       "category": "planning",
@@ -12103,76 +9927,6 @@
       "kind": "agent",
       "path": ".opencode/agents/php-developer.md",
       "description": ">"
-    },
-    {
-      "category": "planning",
-      "name": "platform-migrate",
-      "intents": [
-        "asistida",
-        "azure",
-        "devops",
-        "github",
-        "jira"
-      ],
-      "kind": "cmd",
-      "path": ".claude/commands/platform-migrate.md",
-      "description": "Migración asistida entre plataformas — Azure DevOps ↔ Jira ↔ GitHub Projects ↔ Linear"
-    },
-    {
-      "category": "planning",
-      "name": "playbook-create",
-      "intents": [
-        "crear",
-        "evolutivos",
-        "framework",
-        "playbooks",
-        "repetitivas"
-      ],
-      "kind": "cmd",
-      "path": ".claude/commands/playbook-create.md",
-      "description": "Crear playbooks evolutivos para tareas repetitivas con framework ACE"
-    },
-    {
-      "category": "planning",
-      "name": "playbook-evolve",
-      "intents": [
-        "ciclo",
-        "curator",
-        "evolucionar",
-        "generator",
-        "insights"
-      ],
-      "kind": "cmd",
-      "path": ".claude/commands/playbook-evolve.md",
-      "description": "Evolucionar playbook con insights — ciclo Generator→Reflector→Curator (ACE)"
-    },
-    {
-      "category": "planning",
-      "name": "playbook-library",
-      "intents": [
-        "biblioteca",
-        "compartida",
-        "maduros",
-        "playbooks",
-        "proyectos"
-      ],
-      "kind": "cmd",
-      "path": ".claude/commands/playbook-library.md",
-      "description": "Biblioteca compartida de playbooks maduros entre proyectos"
-    },
-    {
-      "category": "planning",
-      "name": "playbook-reflect",
-      "intents": [
-        "ejecución",
-        "framework",
-        "playbooks",
-        "post",
-        "reflector"
-      ],
-      "kind": "cmd",
-      "path": ".claude/commands/playbook-reflect.md",
-      "description": "Reflexión post-ejecución de playbooks — framework ACE Reflector"
     },
     {
       "category": "planning",
@@ -12214,75 +9968,6 @@
       "kind": "script",
       "path": "scripts/pm-backend-health.sh",
       "description": "pm-backend-health.sh — SE-092 MVP: detect PM backend configuration"
-    },
-    {
-      "category": "planning",
-      "name": "po-wizard",
-      "intents": [
-        "interactive",
-        "onboarding",
-        "owner",
-        "product",
-        "wizard"
-      ],
-      "kind": "cmd",
-      "path": ".claude/commands/po-wizard.md",
-      "description": "Interactive wizard for product owner onboarding"
-    },
-    {
-      "category": "planning",
-      "name": "portfolio-deps",
-      "intents": [
-        "alerta",
-        "botella",
-        "cuellos",
-        "dependencias",
-        "grafo"
-      ],
-      "kind": "cmd",
-      "path": ".claude/commands/portfolio-deps.md",
-      "description": "Grafo de dependencias inter-proyecto — visualiza y alerta sobre cuellos de botella entre proyectos"
-    },
-    {
-      "category": "planning",
-      "name": "portfolio-overview",
-      "intents": [
-        "bird",
-        "comparada",
-        "dependencias",
-        "proyectos",
-        "semáforo"
-      ],
-      "kind": "cmd",
-      "path": ".claude/commands/portfolio-overview.md",
-      "description": "Vista bird's-eye de todos los proyectos — semáforo, velocidad comparada, dependencias"
-    },
-    {
-      "category": "planning",
-      "name": "postmortem-create",
-      "intents": [
-        "analysis",
-        "create",
-        "incident",
-        "postmortem",
-        "structured"
-      ],
-      "kind": "cmd",
-      "path": ".claude/commands/postmortem-create.md",
-      "description": "Create incident postmortem with structured analysis"
-    },
-    {
-      "category": "planning",
-      "name": "postmortem-heuristics",
-      "intents": [
-        "debugging",
-        "extract",
-        "heuristics",
-        "postmortems"
-      ],
-      "kind": "cmd",
-      "path": ".claude/commands/postmortem-heuristics.md",
-      "description": "Extract debugging heuristics from postmortems"
     },
     {
       "category": "planning",
@@ -12354,20 +10039,6 @@
     },
     {
       "category": "planning",
-      "name": "product-catalog",
-      "intents": [
-        "actualizar",
-        "añadir",
-        "buscar",
-        "catálogo",
-        "exportar"
-      ],
-      "kind": "cmd",
-      "path": ".claude/commands/product-catalog.md",
-      "description": "Gestiona el catálogo de productos: añadir, actualizar, listar, buscar y exportar"
-    },
-    {
-      "category": "planning",
       "name": "product-discovery",
       "intents": [
         "análisis",
@@ -12407,20 +10078,6 @@
       "kind": "script",
       "path": "scripts/profile-discover.sh",
       "description": "profile-discover.sh — SE-219 S4: auto multi-profile discovery (abtop pattern)"
-    },
-    {
-      "category": "planning",
-      "name": "profile-edit",
-      "intents": [
-        "actualiza",
-        "editar",
-        "perfil",
-        "savia",
-        "sección"
-      ],
-      "kind": "cmd",
-      "path": ".claude/commands/profile-edit.md",
-      "description": "Savia actualiza tu perfil — editar una sección."
     },
     {
       "category": "planning",
@@ -12519,14 +10176,6 @@
       "kind": "script",
       "path": "scripts/project-isolation-check.sh",
       "description": "project-isolation-check.sh — Verifica aislamiento de contexto por proyecto (SPEC-SE-093-ZERO-LEAK)"
-    },
-    {
-      "category": "planning",
-      "name": "project-kickoff",
-      "intents": [],
-      "kind": "cmd",
-      "path": ".claude/commands/project-kickoff.md",
-      "description": ">"
     },
     {
       "category": "planning",
@@ -12830,47 +10479,6 @@
     },
     {
       "category": "planning",
-      "name": "record-export",
-      "intents": [
-        "data",
-        "export",
-        "formats",
-        "multiple",
-        "recorded"
-      ],
-      "kind": "cmd",
-      "path": ".claude/commands/record-export.md",
-      "description": "Export recorded session or data in multiple formats"
-    },
-    {
-      "category": "planning",
-      "name": "record-replay",
-      "intents": [
-        "analyze",
-        "events",
-        "recorded",
-        "replay",
-        "sessions"
-      ],
-      "kind": "cmd",
-      "path": ".claude/commands/record-replay.md",
-      "description": "Replay and analyze recorded sessions or events"
-    },
-    {
-      "category": "planning",
-      "name": "record-stop",
-      "intents": [
-        "active",
-        "recording",
-        "session",
-        "stop"
-      ],
-      "kind": "cmd",
-      "path": ".claude/commands/record-stop.md",
-      "description": "Stop active recording session"
-    },
-    {
-      "category": "planning",
       "name": "recover-savia",
       "intents": [
         "claude",
@@ -12882,20 +10490,6 @@
       "kind": "script",
       "path": "scripts/recover-savia.sh",
       "description": "recover-savia.sh — Launch a clean Claude session OUTSIDE pm-workspace"
-    },
-    {
-      "category": "planning",
-      "name": "ref-list",
-      "intents": [
-        "available",
-        "list",
-        "references",
-        "resource",
-        "their"
-      ],
-      "kind": "cmd",
-      "path": ".claude/commands/ref-list.md",
-      "description": "List available resource references and their types"
     },
     {
       "category": "planning",
@@ -12947,34 +10541,10 @@
     },
     {
       "category": "planning",
-      "name": "repos-branches",
-      "intents": [],
-      "kind": "cmd",
-      "path": ".claude/commands/repos-branches.md",
-      "description": ">"
-    },
-    {
-      "category": "planning",
       "name": "repos-list",
       "intents": [],
       "kind": "cmd",
       "path": ".claude/commands/repos-list.md",
-      "description": ">"
-    },
-    {
-      "category": "planning",
-      "name": "repos-pr-create",
-      "intents": [],
-      "kind": "cmd",
-      "path": ".claude/commands/repos-pr-create.md",
-      "description": ">"
-    },
-    {
-      "category": "planning",
-      "name": "repos-pr-list",
-      "intents": [],
-      "kind": "cmd",
-      "path": ".claude/commands/repos-pr-list.md",
       "description": ">"
     },
     {
@@ -13056,14 +10626,6 @@
       "kind": "skill",
       "path": ".claude/skills/resource-references/SKILL.md",
       "description": "Usar cuando se necesitan referencias a recursos y plantillas del workspace."
-    },
-    {
-      "category": "planning",
-      "name": "retro-actions",
-      "intents": [],
-      "kind": "cmd",
-      "path": ".claude/commands/retro-actions.md",
-      "description": ">"
     },
     {
       "category": "planning",
@@ -13159,14 +10721,6 @@
     },
     {
       "category": "planning",
-      "name": "sbom-generate",
-      "intents": [],
-      "kind": "cmd",
-      "path": ".claude/commands/sbom-generate.md",
-      "description": ">"
-    },
-    {
-      "category": "planning",
       "name": "scale-optimizer",
       "intents": [
         "analyze",
@@ -13195,34 +10749,6 @@
     },
     {
       "category": "planning",
-      "name": "scheduled-create",
-      "intents": [
-        "automáticas",
-        "crear",
-        "notificaciones",
-        "programada",
-        "tarea"
-      ],
-      "kind": "cmd",
-      "path": ".claude/commands/scheduled-create.md",
-      "description": "Crear tarea programada con notificaciones automáticas"
-    },
-    {
-      "category": "planning",
-      "name": "scheduled-list",
-      "intents": [
-        "configuración",
-        "listar",
-        "notificaciones",
-        "programadas",
-        "tareas"
-      ],
-      "kind": "cmd",
-      "path": ".claude/commands/scheduled-list.md",
-      "description": "Listar todas las tareas programadas y su configuración de notificaciones"
-    },
-    {
-      "category": "planning",
       "name": "scheduled-messaging",
       "intents": [
         "automáticos",
@@ -13234,20 +10760,6 @@
       "kind": "skill",
       "path": ".claude/skills/scheduled-messaging/SKILL.md",
       "description": "Usar cuando se configuran mensajes automáticos programados a plataformas de comunicación."
-    },
-    {
-      "category": "planning",
-      "name": "scheduled-setup",
-      "intents": [
-        "automáticas",
-        "configurar",
-        "interactivo",
-        "mensajería",
-        "notificaciones"
-      ],
-      "kind": "cmd",
-      "path": ".claude/commands/scheduled-setup.md",
-      "description": "Wizard interactivo para configurar notificaciones automáticas en plataformas de mensajería"
     },
     {
       "category": "planning",
@@ -13452,64 +10964,6 @@
     },
     {
       "category": "planning",
-      "name": "sdlc-advance",
-      "intents": [
-        "advance",
-        "item",
-        "machine",
-        "sdlc",
-        "state"
-      ],
-      "kind": "cmd",
-      "path": ".claude/commands/sdlc-advance.md",
-      "description": "Advance work item through SDLC state machine"
-    },
-    {
-      "category": "planning",
-      "name": "sdlc-status",
-      "intents": [
-        "current",
-        "sdlc",
-        "show",
-        "state",
-        "transitions"
-      ],
-      "kind": "cmd",
-      "path": ".claude/commands/sdlc-status.md",
-      "description": "Show current SDLC state and transitions"
-    },
-    {
-      "category": "planning",
-      "name": "sentry-bugs",
-      "intents": [],
-      "kind": "cmd",
-      "path": ".claude/commands/sentry-bugs.md",
-      "description": ">"
-    },
-    {
-      "category": "planning",
-      "name": "sentry-health",
-      "intents": [],
-      "kind": "cmd",
-      "path": ".claude/commands/sentry-health.md",
-      "description": ">"
-    },
-    {
-      "category": "planning",
-      "name": "service-catalog-telco",
-      "intents": [
-        "catálogo",
-        "configuración",
-        "definiciones",
-        "gestión",
-        "precios"
-      ],
-      "kind": "cmd",
-      "path": ".claude/commands/service-catalog-telco.md",
-      "description": "Gestión del catálogo de servicios de telecom con definiciones, configuración y precios"
-    },
-    {
-      "category": "planning",
       "name": "setup-merge-drivers",
       "intents": [
         "configure",
@@ -13549,32 +11003,6 @@
       "kind": "script",
       "path": "scripts/setup-savia-remote.sh",
       "description": "setup-savia-remote.sh — Run ONCE on the remote server as root/sudo."
-    },
-    {
-      "category": "planning",
-      "name": "sheets-setup",
-      "intents": [
-        "configure",
-        "google",
-        "integration",
-        "sheets"
-      ],
-      "kind": "cmd",
-      "path": ".claude/commands/sheets-setup.md",
-      "description": "Configure Google Sheets integration"
-    },
-    {
-      "category": "planning",
-      "name": "sheets-sync",
-      "intents": [
-        "data",
-        "google",
-        "sheets",
-        "synchronize"
-      ],
-      "kind": "cmd",
-      "path": ".claude/commands/sheets-sync.md",
-      "description": "Synchronize data with Google Sheets"
     },
     {
       "category": "planning",
@@ -14171,20 +11599,6 @@
     },
     {
       "category": "planning",
-      "name": "stakeholder-align",
-      "intents": [
-        "conflictos",
-        "datos",
-        "objetivos",
-        "resolución",
-        "stakeholders"
-      ],
-      "kind": "cmd",
-      "path": ".claude/commands/stakeholder-align.md",
-      "description": "Resolución de conflictos entre stakeholders con datos objetivos"
-    },
-    {
-      "category": "planning",
       "name": "start-bridge",
       "intents": [
         "bridge",
@@ -14196,20 +11610,6 @@
       "kind": "script",
       "path": "scripts/start-bridge.sh",
       "description": "start-bridge.sh — Invoked by Savia Claw remote_host.restart_bridge()"
-    },
-    {
-      "category": "planning",
-      "name": "strategy-map",
-      "intents": [
-        "contribución",
-        "dependencias",
-        "estratégico",
-        "iniciativas",
-        "mapa"
-      ],
-      "kind": "cmd",
-      "path": ".claude/commands/strategy-map.md",
-      "description": "Mapa estratégico — iniciativas, dependencias, contribución a objetivos"
     },
     {
       "category": "planning",
@@ -14227,20 +11627,6 @@
     },
     {
       "category": "planning",
-      "name": "subscriber-lifecycle",
-      "intents": [
-        "análisis",
-        "churn",
-        "ciclo",
-        "gestión",
-        "integral"
-      ],
-      "kind": "cmd",
-      "path": ".claude/commands/subscriber-lifecycle.md",
-      "description": "Gestión integral del ciclo de vida del suscriptor desde onboarding hasta análisis de churn"
-    },
-    {
-      "category": "planning",
       "name": "surface-map-authorize",
       "intents": [
         "authorization",
@@ -14251,20 +11637,6 @@
       "kind": "script",
       "path": "scripts/surface-map-authorize.sh",
       "description": "surface-map-authorize.sh — SE-243 Authorization helper"
-    },
-    {
-      "category": "planning",
-      "name": "sustainable-pace",
-      "intents": [
-        "basado",
-        "capacidad",
-        "cálculo",
-        "histórico",
-        "real"
-      ],
-      "kind": "cmd",
-      "path": ".claude/commands/sustainable-pace.md",
-      "description": "Cálculo de ritmo sostenible basado en histórico y capacidad real"
     },
     {
       "category": "planning",
@@ -14474,34 +11846,6 @@
     },
     {
       "category": "planning",
-      "name": "team-sentiment",
-      "intents": [
-        "análisis",
-        "comunicaciones",
-        "equipo",
-        "retros",
-        "sentimiento"
-      ],
-      "kind": "cmd",
-      "path": ".claude/commands/team-sentiment.md",
-      "description": "Análisis de sentimiento del equipo desde retros, standups y comunicaciones"
-    },
-    {
-      "category": "planning",
-      "name": "team-skills-matrix",
-      "intents": [
-        "equipo",
-        "factor",
-        "matriz",
-        "pair",
-        "programming"
-      ],
-      "kind": "cmd",
-      "path": ".claude/commands/team-skills-matrix.md",
-      "description": "Matriz de skills del equipo — quién sabe qué, bus factor, pair programming"
-    },
-    {
-      "category": "planning",
       "name": "team-workload",
       "intents": [
         "asignados",
@@ -14570,14 +11914,6 @@
       "intents": [],
       "kind": "agent",
       "path": ".opencode/agents/terraform-developer.md",
-      "description": ">"
-    },
-    {
-      "category": "planning",
-      "name": "threat-model",
-      "intents": [],
-      "kind": "cmd",
-      "path": ".claude/commands/threat-model.md",
       "description": ">"
     },
     {
@@ -14662,72 +11998,6 @@
       "kind": "skill",
       "path": ".claude/skills/topic-cluster/SKILL.md",
       "description": "Usar cuando se agrupan retros, PBIs o incidentes en topics para detectar patrones transversales."
-    },
-    {
-      "category": "planning",
-      "name": "travel-clean",
-      "intents": [
-        "elimina",
-        "máquina",
-        "rastros",
-        "savia",
-        "temporal"
-      ],
-      "kind": "cmd",
-      "path": ".claude/commands/travel-clean.md",
-      "description": "Elimina rastros de Savia de una máquina temporal."
-    },
-    {
-      "category": "planning",
-      "name": "travel-pack",
-      "intents": [
-        "cifrado",
-        "empaca",
-        "unidad",
-        "workspace"
-      ],
-      "kind": "cmd",
-      "path": ".claude/commands/travel-pack.md",
-      "description": "Empaca tu workspace en una unidad USB con cifrado AES-256."
-    },
-    {
-      "category": "planning",
-      "name": "travel-sync",
-      "intents": [
-        "bidireccional",
-        "máquina",
-        "sincroniza",
-        "workspace"
-      ],
-      "kind": "cmd",
-      "path": ".claude/commands/travel-sync.md",
-      "description": "Sincroniza workspace bidireccional entre máquina y USB."
-    },
-    {
-      "category": "planning",
-      "name": "travel-unpack",
-      "intents": [
-        "desempaca",
-        "máquina",
-        "nueva",
-        "workspace"
-      ],
-      "kind": "cmd",
-      "path": ".claude/commands/travel-unpack.md",
-      "description": "Desempaca tu workspace desde USB en una nueva máquina."
-    },
-    {
-      "category": "planning",
-      "name": "travel-verify",
-      "intents": [
-        "integridad",
-        "paquete",
-        "verifica",
-        "viaje"
-      ],
-      "kind": "cmd",
-      "path": ".claude/commands/travel-verify.md",
-      "description": "Verifica integridad de un paquete de viaje en USB."
     },
     {
       "category": "planning",
@@ -14875,14 +12145,6 @@
       "kind": "script",
       "path": "scripts/ua-install.sh",
       "description": "ua-install.sh — Install Understand-Anything plugin for Savia"
-    },
-    {
-      "category": "planning",
-      "name": "underwriting-rule",
-      "intents": [],
-      "kind": "cmd",
-      "path": ".claude/commands/underwriting-rule.md",
-      "description": ">"
     },
     {
       "category": "planning",
@@ -15078,20 +12340,6 @@
     },
     {
       "category": "planning",
-      "name": "value-stream-map",
-      "intents": [
-        "botella",
-        "cuellos",
-        "idea",
-        "mapa",
-        "producción"
-      ],
-      "kind": "cmd",
-      "path": ".claude/commands/value-stream-map.md",
-      "description": "Mapa de valor end-to-end — idea→producción, waste, cuellos de botella"
-    },
-    {
-      "category": "planning",
       "name": "vault",
       "intents": [
         "dispatcher",
@@ -15101,33 +12349,6 @@
       "kind": "script",
       "path": "scripts/vault.sh",
       "description": "vault.sh — Personal Vault dispatcher (N3)"
-    },
-    {
-      "category": "planning",
-      "name": "vault-export",
-      "intents": [
-        "cifrado",
-        "exportar",
-        "offline",
-        "personal",
-        "portabilidad"
-      ],
-      "kind": "cmd",
-      "path": ".claude/commands/vault-export.md",
-      "description": "Exportar Personal Vault cifrado para portabilidad offline"
-    },
-    {
-      "category": "planning",
-      "name": "vault-init",
-      "intents": [
-        "inicializar",
-        "personal",
-        "usuario",
-        "vault"
-      ],
-      "kind": "cmd",
-      "path": ".claude/commands/vault-init.md",
-      "description": "Inicializar Personal Vault del usuario"
     },
     {
       "category": "planning",
@@ -15145,44 +12366,6 @@
     },
     {
       "category": "planning",
-      "name": "vault-restore",
-      "intents": [
-        "maquina",
-        "nueva",
-        "personal",
-        "restaurar",
-        "vault"
-      ],
-      "kind": "cmd",
-      "path": ".claude/commands/vault-restore.md",
-      "description": "Restaurar Personal Vault en nueva maquina"
-    },
-    {
-      "category": "planning",
-      "name": "vault-status",
-      "intents": [
-        "estado",
-        "personal",
-        "vault"
-      ],
-      "kind": "cmd",
-      "path": ".claude/commands/vault-status.md",
-      "description": "Estado del Personal Vault"
-    },
-    {
-      "category": "planning",
-      "name": "vault-sync",
-      "intents": [
-        "personal",
-        "sincronizar",
-        "vault"
-      ],
-      "kind": "cmd",
-      "path": ".claude/commands/vault-sync.md",
-      "description": "Sincronizar Personal Vault"
-    },
-    {
-      "category": "planning",
       "name": "velocity-trend",
       "intents": [
         "anomalías",
@@ -15194,42 +12377,6 @@
       "kind": "cmd",
       "path": ".claude/commands/velocity-trend.md",
       "description": "Tendencia de velocity con media móvil, detección de anomalías y factores explicativos"
-    },
-    {
-      "category": "planning",
-      "name": "verify-full",
-      "intents": [
-        "branch",
-        "layer",
-        "pipeline",
-        "task",
-        "verification"
-      ],
-      "kind": "cmd",
-      "path": ".claude/commands/verify-full.md",
-      "description": "Run 5-layer verification pipeline on task/branch"
-    },
-    {
-      "category": "planning",
-      "name": "vertical-propose",
-      "intents": [
-        "detectado",
-        "extensión",
-        "proponer",
-        "proyecto",
-        "sector"
-      ],
-      "kind": "cmd",
-      "path": ".claude/commands/vertical-propose.md",
-      "description": "Proponer extensión vertical para un sector no-software detectado en el proyecto"
-    },
-    {
-      "category": "planning",
-      "name": "volunteer-manage",
-      "intents": [],
-      "kind": "cmd",
-      "path": ".claude/commands/volunteer-manage.md",
-      "description": ">"
     },
     {
       "category": "planning",
@@ -15274,20 +12421,6 @@
     },
     {
       "category": "planning",
-      "name": "webhook-config",
-      "intents": [
-        "azure",
-        "configurar",
-        "devops",
-        "eventos",
-        "fuentes"
-      ],
-      "kind": "cmd",
-      "path": ".claude/commands/webhook-config.md",
-      "description": "Configurar webhooks para recibir eventos push de Azure DevOps, GitHub y otras fuentes"
-    },
-    {
-      "category": "planning",
       "name": "wellbeing-guardian",
       "intents": [
         "alerts",
@@ -15313,22 +12446,6 @@
       "kind": "skill",
       "path": ".claude/skills/wellbeing-guardian/SKILL.md",
       "description": "Usar cuando se monitorizan señales de bienestar individual en el equipo."
-    },
-    {
-      "category": "planning",
-      "name": "wiki-publish",
-      "intents": [],
-      "kind": "cmd",
-      "path": ".claude/commands/wiki-publish.md",
-      "description": ">"
-    },
-    {
-      "category": "planning",
-      "name": "wiki-sync",
-      "intents": [],
-      "kind": "cmd",
-      "path": ".claude/commands/wiki-sync.md",
-      "description": ">"
     },
     {
       "category": "planning",
@@ -15364,48 +12481,6 @@
       "kind": "skill",
       "path": ".claude/skills/write-a-skill/SKILL.md",
       "description": "Guia para crear una nueva skill correctamente en pm-workspace. Usar cuando una tarea se repite 2+ veces o tarda mas de 15 min."
-    },
-    {
-      "category": "quality",
-      "name": "/a11y-audit",
-      "intents": [
-        "accesibilidad",
-        "aria",
-        "auditoría",
-        "completa",
-        "componentes"
-      ],
-      "kind": "cmd",
-      "path": ".claude/commands/a11y-audit.md",
-      "description": "Auditoría de accesibilidad WCAG 2.2 completa con escaneo de HTML/componentes. Detecta: alt text faltante, problemas de contraste, navegación por teclado, etiquetas ARIA, gestión de focus, jerarquía de encabezados, etiquetas de formularios."
-    },
-    {
-      "category": "quality",
-      "name": "/a11y-fix",
-      "intents": [
-        "accesibilidad",
-        "aplicar",
-        "aria",
-        "attributes",
-        "audit"
-      ],
-      "kind": "cmd",
-      "path": ".claude/commands/a11y-fix.md",
-      "description": "Correcciones automáticas de accesibilidad con verificación y preview. Genera código de fix para issues detectados por /a11y-audit. Preview antes de aplicar. Verifica que no introduce nuevos problemas. Covers: alt text, ARIA attributes, focu"
-    },
-    {
-      "category": "quality",
-      "name": "/drift-check",
-      "intents": [
-        "archivos",
-        "audita",
-        "claude",
-        "detecta",
-        "divergencias"
-      ],
-      "kind": "cmd",
-      "path": ".claude/commands/drift-check.md",
-      "description": "Audita reglas CLAUDE.md vs. estado real del repo. Detecta divergencias, archivos huérfanos, tests faltantes y patrones de PII."
     },
     {
       "category": "quality",
@@ -15462,20 +12537,6 @@
       "kind": "skill",
       "path": ".claude/skills/adversarial-security/SKILL.md",
       "description": "Usar cuando se necesita auditar la seguridad de un proyecto con pipeline Red Team / Blue Team."
-    },
-    {
-      "category": "quality",
-      "name": "ai-audit-log",
-      "intents": [
-        "agente",
-        "auditoría",
-        "cuándo",
-        "datos",
-        "ejecutó"
-      ],
-      "kind": "cmd",
-      "path": ".claude/commands/ai-audit-log.md",
-      "description": "Log de auditoría IA — quién ejecutó qué agente, sobre qué datos, cuándo"
     },
     {
       "category": "quality",
@@ -15644,6 +12705,20 @@
     },
     {
       "category": "quality",
+      "name": "command-tier-audit",
+      "intents": [
+        "audit",
+        "command",
+        "scripts",
+        "slice",
+        "tier"
+      ],
+      "kind": "script",
+      "path": "scripts/command-tier-audit.sh",
+      "description": "scripts/command-tier-audit.sh — SE-253 Slice 1"
+    },
+    {
+      "category": "quality",
       "name": "comprehension-audit",
       "intents": [
         "comprehension",
@@ -15669,19 +12744,6 @@
       "kind": "agent",
       "path": ".opencode/agents/confidentiality-auditor.md",
       "description": "Audita cumplimiento de confidencialidad en PRs de pm-workspace (repo publico). Descubre dinamicamente datos sensibles del workspace y verifica que no se filtran en el diff. Genera veredicto CLEAN/BLOCKED con firma si pasa."
-    },
-    {
-      "category": "quality",
-      "name": "confidentiality-check",
-      "intents": [
-        "auditoria",
-        "confidencialidad",
-        "criptografica",
-        "firma"
-      ],
-      "kind": "cmd",
-      "path": ".claude/commands/confidentiality-check.md",
-      "description": "Auditoria pre-PR de confidencialidad y firma criptografica"
     },
     {
       "category": "quality",
@@ -15780,14 +12842,6 @@
       "kind": "script",
       "path": "scripts/decide-architecture-corpus-test.sh",
       "description": "decide-architecture-corpus-test.sh — SPEC-158"
-    },
-    {
-      "category": "quality",
-      "name": "dependencies-audit",
-      "intents": [],
-      "kind": "cmd",
-      "path": ".claude/commands/dependencies-audit.md",
-      "description": ">"
     },
     {
       "category": "quality",
@@ -16075,6 +13129,20 @@
       "kind": "script",
       "path": "scripts/hook-test-coverage-audit.sh",
       "description": "hook-test-coverage-audit.sh — Detect hooks in .opencode/hooks/ without BATS tests."
+    },
+    {
+      "category": "quality",
+      "name": "hooks-coverage-matrix",
+      "intents": [
+        "coverage",
+        "hooks",
+        "matrix",
+        "scripts",
+        "slice"
+      ],
+      "kind": "script",
+      "path": "scripts/hooks-coverage-matrix.sh",
+      "description": "scripts/hooks-coverage-matrix.sh — SE-253 Slice 2"
     },
     {
       "category": "quality",
@@ -16470,20 +13538,6 @@
     },
     {
       "category": "quality",
-      "name": "postmortem-review",
-      "intents": [
-        "incident",
-        "learn",
-        "past",
-        "postmortems",
-        "review"
-      ],
-      "kind": "cmd",
-      "path": ".claude/commands/postmortem-review.md",
-      "description": "Review and learn from past incident postmortems"
-    },
-    {
-      "category": "quality",
       "name": "pr-agent-judge",
       "intents": [
         "agent",
@@ -16677,61 +13731,6 @@
     },
     {
       "category": "quality",
-      "name": "qa-bug-triage",
-      "intents": [
-        "asignación",
-        "asistido",
-        "bugs",
-        "clasificación",
-        "duplicados"
-      ],
-      "kind": "cmd",
-      "path": ".claude/commands/qa-bug-triage.md",
-      "description": "Triage asistido de bugs — clasificación, duplicados, asignación sugerida"
-    },
-    {
-      "category": "quality",
-      "name": "qa-dashboard",
-      "intents": [
-        "bugs",
-        "calidad",
-        "cobertura",
-        "dashboard",
-        "escape"
-      ],
-      "kind": "cmd",
-      "path": ".claude/commands/qa-dashboard.md",
-      "description": "Dashboard de calidad — cobertura, tests flaky, bugs, escape rate, trends"
-    },
-    {
-      "category": "quality",
-      "name": "qa-regression-plan",
-      "intents": [
-        "basado",
-        "cambiados",
-        "cambios",
-        "ejecutar",
-        "ficheros"
-      ],
-      "kind": "cmd",
-      "path": ".claude/commands/qa-regression-plan.md",
-      "description": "Plan de regresión basado en ficheros cambiados — impacto de cambios y suites a ejecutar"
-    },
-    {
-      "category": "quality",
-      "name": "qa-wizard",
-      "intents": [
-        "engineer",
-        "interactive",
-        "onboarding",
-        "wizard"
-      ],
-      "kind": "cmd",
-      "path": ".claude/commands/qa-wizard.md",
-      "description": "Interactive wizard for QA engineer onboarding"
-    },
-    {
-      "category": "quality",
       "name": "rbac-management",
       "intents": [
         "acceso",
@@ -16788,55 +13787,6 @@
     },
     {
       "category": "quality",
-      "name": "record-start",
-      "intents": [
-        "audit",
-        "recording",
-        "replay",
-        "session",
-        "start"
-      ],
-      "kind": "cmd",
-      "path": ".claude/commands/record-start.md",
-      "description": "Start recording session for audit and replay"
-    },
-    {
-      "category": "quality",
-      "name": "ref-resolve",
-      "intents": [
-        "preview",
-        "references",
-        "resolve",
-        "resource"
-      ],
-      "kind": "cmd",
-      "path": ".claude/commands/ref-resolve.md",
-      "description": "Resolve and preview resource references"
-    },
-    {
-      "category": "quality",
-      "name": "release-readiness",
-      "intents": [
-        "checklist",
-        "compliance",
-        "deployment",
-        "docs",
-        "features"
-      ],
-      "kind": "cmd",
-      "path": ".claude/commands/release-readiness.md",
-      "description": "Checklist de release — features, tests, docs, compliance, deployment"
-    },
-    {
-      "category": "quality",
-      "name": "repos-pr-review",
-      "intents": [],
-      "kind": "cmd",
-      "path": ".claude/commands/repos-pr-review.md",
-      "description": ">"
-    },
-    {
-      "category": "quality",
       "name": "review-cache",
       "intents": [
         "cache",
@@ -16851,19 +13801,6 @@
     },
     {
       "category": "quality",
-      "name": "review-cache-clear",
-      "intents": [
-        "caché",
-        "code",
-        "limpiar",
-        "review"
-      ],
-      "kind": "cmd",
-      "path": ".claude/commands/review-cache-clear.md",
-      "description": "Limpiar la caché de code review"
-    },
-    {
-      "category": "quality",
       "name": "review-cache-stats",
       "intents": [
         "caché",
@@ -16874,20 +13811,6 @@
       "kind": "cmd",
       "path": ".claude/commands/review-cache-stats.md",
       "description": "Estadísticas de la caché de code review"
-    },
-    {
-      "category": "quality",
-      "name": "review-community",
-      "intents": [
-        "comunidad",
-        "contribuciones",
-        "issues",
-        "maintainer",
-        "privado"
-      ],
-      "kind": "cmd",
-      "path": ".claude/commands/review-community.md",
-      "description": "Revisar PRs, issues y contribuciones de la comunidad (protocolo privado de maintainer)"
     },
     {
       "category": "quality",
@@ -16933,40 +13856,10 @@
     },
     {
       "category": "quality",
-      "name": "scheduled-test",
-      "intents": [
-        "enviar",
-        "integración",
-        "message",
-        "notificaciones",
-        "plataforma"
-      ],
-      "kind": "cmd",
-      "path": ".claude/commands/scheduled-test.md",
-      "description": "Enviar test message para verificar integración de plataforma de notificaciones"
-    },
-    {
-      "category": "quality",
-      "name": "security-alerts",
-      "intents": [],
-      "kind": "cmd",
-      "path": ".claude/commands/security-alerts.md",
-      "description": ">"
-    },
-    {
-      "category": "quality",
       "name": "security-attacker",
       "intents": [],
       "kind": "agent",
       "path": ".opencode/agents/security-attacker.md",
-      "description": ">"
-    },
-    {
-      "category": "quality",
-      "name": "security-audit",
-      "intents": [],
-      "kind": "cmd",
-      "path": ".claude/commands/security-audit.md",
       "description": ">"
     },
     {
@@ -16989,14 +13882,6 @@
       "intents": [],
       "kind": "agent",
       "path": ".opencode/agents/security-auditor.md",
-      "description": ">"
-    },
-    {
-      "category": "quality",
-      "name": "security-auto-remediation",
-      "intents": [],
-      "kind": "cmd",
-      "path": ".claude/commands/security-auto-remediation.md",
       "description": ">"
     },
     {
@@ -17054,14 +13939,6 @@
       "kind": "agent",
       "path": ".opencode/agents/security-judge.md",
       "description": "Code Review Court judge — OWASP, PII, injection, auth, credentials"
-    },
-    {
-      "category": "quality",
-      "name": "security-pipeline",
-      "intents": [],
-      "kind": "cmd",
-      "path": ".claude/commands/security-pipeline.md",
-      "description": ">"
     },
     {
       "category": "quality",
@@ -18509,40 +15386,15 @@
     {
       "category": "quality",
       "name": "test-workspace",
-      "intents": [],
+      "intents": [
+        "slice",
+        "test",
+        "workspace",
+        "wrapper"
+      ],
       "kind": "script",
       "path": "scripts/test-workspace.sh",
-      "description": "============================================================================"
-    },
-    {
-      "category": "quality",
-      "name": "testplan-generate",
-      "intents": [
-        "generación",
-        "pbis",
-        "plan",
-        "pruebas",
-        "specs"
-      ],
-      "kind": "cmd",
-      "path": ".claude/commands/testplan-generate.md",
-      "description": "Generación de plan de pruebas desde specs SDD o PBIs"
-    },
-    {
-      "category": "quality",
-      "name": "testplan-results",
-      "intents": [],
-      "kind": "cmd",
-      "path": ".claude/commands/testplan-results.md",
-      "description": ">"
-    },
-    {
-      "category": "quality",
-      "name": "testplan-status",
-      "intents": [],
-      "kind": "cmd",
-      "path": ".claude/commands/testplan-status.md",
-      "description": ">"
+      "description": "test-workspace.sh — wrapper SE-253 Slice 7"
     },
     {
       "category": "quality",
@@ -18649,20 +15501,6 @@
     },
     {
       "category": "quality",
-      "name": "visual-qa",
-      "intents": [
-        "against",
-        "analysis",
-        "analyze",
-        "assurance",
-        "capabilities"
-      ],
-      "kind": "cmd",
-      "path": ".claude/commands/visual-qa.md",
-      "description": "Visual quality assurance via screenshot analysis. Analyze UI screenshots against design specs and reference images using vision capabilities."
-    },
-    {
-      "category": "quality",
       "name": "visual-qa-agent",
       "intents": [
         "analysis",
@@ -18674,20 +15512,6 @@
       "kind": "agent",
       "path": ".opencode/agents/visual-qa-agent.md",
       "description": "Visual QA: screenshot analysis, wireframe comparison, regression detection. Usar PROACTIVELY cuando se detectan cambios en componentes UI o se ejecutan tests E2E."
-    },
-    {
-      "category": "quality",
-      "name": "visual-regression",
-      "intents": [
-        "across",
-        "approval",
-        "automated",
-        "baseline",
-        "branches"
-      ],
-      "kind": "cmd",
-      "path": ".claude/commands/visual-regression.md",
-      "description": "Automated visual regression testing across builds and branches. Detect visual regressions with baseline comparison and approval workflows."
     },
     {
       "category": "quality",

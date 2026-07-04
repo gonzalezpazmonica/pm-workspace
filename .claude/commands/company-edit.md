@@ -4,6 +4,7 @@ description: Editar secciones del perfil de empresa — identity, structure, str
 developer_type: all
 agent: none
 context_cost: low
+tier: extended
 ---
 
 # /company-edit

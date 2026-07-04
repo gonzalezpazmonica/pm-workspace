@@ -1,6 +1,7 @@
 ---
 name: profile-edit
 description: Savia actualiza tu perfil — editar una sección.
+tier: extended
 ---
 
 # /profile-edit — Savia actualiza tu perfil

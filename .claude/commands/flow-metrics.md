@@ -7,6 +7,7 @@ context_cost: moderate
 model: github-copilot/claude-sonnet-4.5
 max_context: 5000
 allowed_modes: [pm, lead, ceo, all]
+tier: core
 ---
 
 # /flow-metrics — Dashboard de Métricas de Flujo

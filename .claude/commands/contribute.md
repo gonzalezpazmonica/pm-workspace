@@ -4,6 +4,7 @@ description: Contribuir mejoras, ideas o correcciones al repositorio de pm-works
 developer_type: all
 agent: none
 context_cost: low
+tier: extended
 ---
 
 # /contribute {subcommand}

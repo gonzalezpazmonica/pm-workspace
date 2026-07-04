@@ -4,6 +4,7 @@ description: Scoring semántico de importancia de engrams usando fórmula compos
 developer_type: all
 agent: task
 context_cost: high
+tier: extended
 ---
 
 # /memory-importance

@@ -1,9 +1,7 @@
 # communication — Savia Capability Map (L1)
-> 104 resources
+> 91 resources
 
 - **archive-digest** (agent): >
-- **chat-notify** (cmd): Enviar notificación formateada a Google Chat
-- **chat-setup** (cmd): Guía de configuración de webhook de Google Chat
 - **digest-extract** (script): digest-extract.sh — Capa 0 universal de extracción via markitdown (SE-172)
 - **excel-digest** (agent): >
 - **glm-compute-digest** (script): glm-compute-digest.sh — Computes SHA-256 of governance-layer-manifest.json
@@ -11,19 +9,12 @@
 - **inbox-check** (cmd): >
 - **inbox-start** (cmd): >
 - **masked-digest** (script): masked-digest.sh — Masked digestion pipeline
-- **meeting-agenda** (cmd): Generación inteligente de agendas basada en estado del sprint y temas pendientes
 - **meeting-confidentiality-judge** (agent): >
 - **meeting-digest** (cmd): >
 - **meeting-digest** (agent): >
 - **meeting-risk-analyst** (agent): >
-- **meeting-summarize** (cmd): Transcribe y extrae action items de reuniones — Sprint Review, Retro, Planning, Daily
 - **meeting-transcript-extract** (skill): Usar cuando se necesita extraer la transcripción de una reunión Teams desde el browser.
-- **nctalk-search** (cmd): >
 - **notify** (script): notify.sh — Cross-platform desktop notifications for Savia
-- **notify-nctalk** (cmd): >
-- **notify-slack** (cmd): >
-- **notify-whatsapp** (cmd): >
-- **obs-dashboard** (cmd): Dashboard de observabilidad digesto por rol — CEO, CTO, PM, Dev, QA, SRE
 - **org-meeting-capture** (skill): Captura de Conocimiento Tácito de Reunión: extrae decisores, acuerdos informales y señales políticas de transcripciones.
 - **pdf-digest** (agent): >
 - **pptx-digest** (agent): >
@@ -53,7 +44,6 @@
 - **savia-gallery** (cmd): Catálogo visual/interactivo de comandos, skills y agentes por rol y vertical
 - **savia-goal** (cmd): Establece, gestiona y persigue objetivos persistentes cross-turn — equivalente Savia de /goal de Codex
 - **savia-goal** (script): savia-goal.sh — Goal lifecycle management for Savia
-- **savia-hub** (cmd): Central hub for accessing Savia knowledge and tools
 - **savia-hub-init** (script): savia-hub-init.sh — Initialize SaviaHub local repository
 - **savia-hub-sync** (skill): Usar cuando se sincroniza el repositorio SaviaHub con el workspace local.
 - **savia-identity** (skill): Usar al inicio de sesión para cargar la identidad completa y las reglas de comportamiento de Savia.
@@ -72,7 +62,6 @@
 - **savia-messaging-privacy** (script): savia-messaging-privacy.sh — Subject sensitivity check
 - **savia-orchestrator-helper** (script): savia-orchestrator-helper.sh — SPEC-127 Slice 4
 - **savia-pbi** (cmd): >
-- **savia-persona-tune** (cmd): Ajustar tono, estilo y personalidad de Savia para un proyecto específico
 - **savia-preferences** (script): savia-preferences.sh — manage ~/.savia/preferences.yaml (SPEC-127 Slice 1)
 - **savia-quota-tracker** (script): savia-quota-tracker.sh — SPEC-127 Slice 5
 - **savia-recall** (cmd): Recall and retrieve information from Savia memory
@@ -88,7 +77,6 @@
 - **savia-shield-setup** (script): savia-shield-setup.sh — Instalador de Savia Shield
 - **savia-shield-status** (script): savia-shield-status.sh — Status determinístico de las 8 capas de Savia Shield
 - **savia-sprint** (cmd): >
-- **savia-status** (cmd): Show Savia current status, health metrics, and top pending priorities
 - **savia-status** (script): savia-status.sh — What is Savia doing right now?
 - **savia-team** (cmd): >
 - **savia-timesheet** (cmd): >
@@ -101,7 +89,6 @@
 - **savia-voice-speak** (script): savia-voice-speak.sh — SE-075 Slice 3.
 - **savia-watch** (script): savia-watch.sh — Live activity feed from Savia
 - **savia-watchdog** (script): savia-watchdog.sh — Emergency fallback: detect internet loss, activate local LLM
-- **slack-search** (cmd): >
 - **voice-inbox** (skill): Usar cuando se procesan mensajes de voz para transcribirlos y convertirlos en acciones.
 - **word-digest** (agent): >
 - **zeroclaw-meeting** (cmd): Live meeting transcription via ZeroClaw — speaker diarization, voice identification, and digest.

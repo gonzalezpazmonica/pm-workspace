@@ -5,6 +5,7 @@ argument-hint: "{nombre} [--from-pattern descripcion]"
 allowed-tools: [Read, Write, Glob, Grep, Bash, Task]
 model: github-copilot/claude-opus-4.7
 context_cost: high
+tier: core
 ---
 
 # /skill-propose — Proponer Skill desde Workflow Repetitivo

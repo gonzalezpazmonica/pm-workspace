@@ -5,6 +5,7 @@ argument-hint: "OPP-YYYY-NNN go|no-go [--rationale 'reason']"
 context_cost: low
 model: github-copilot/claude-sonnet-4.5
 allowed-tools: [Read, Write, Bash]
+tier: core
 ---
 
 # /pursuit-bid — Record bid decision (SE-015)

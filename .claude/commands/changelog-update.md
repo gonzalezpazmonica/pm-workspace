@@ -5,6 +5,7 @@ description: >
   versión/release. Clasifica los cambios por tipo (feat, fix, docs, etc.) usando
   los commits convencionales del workspace. Opcionalmente sugiere bump de versión
   semántica. Delega la redacción final a tech-writer.
+tier: extended
 ---
 
 # Actualización de CHANGELOG

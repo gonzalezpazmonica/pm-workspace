@@ -5,6 +5,7 @@ argument-hint: "<alias> <project_name> <rubric_name>"
 allowed-tools: [Bash, Read, Write]
 model: github-copilot/claude-sonnet-4.5
 context_cost: medium
+tier: core
 ---
 
 # School Evaluate

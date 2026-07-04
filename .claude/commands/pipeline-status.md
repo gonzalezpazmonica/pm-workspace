@@ -5,6 +5,7 @@ description: >
   duración media y alertas de fallos recientes.
 model: github-copilot/claude-sonnet-4.5
 context_cost: low
+tier: core
 ---
 
 # Pipeline Status

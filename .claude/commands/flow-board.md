@@ -6,6 +6,7 @@ agent: azure-devops-operator
 context_cost: moderate
 max_context: 4000
 allowed_modes: [pm, lead, dev, qa, all]
+tier: extended
 ---
 
 # /flow-board — Visualizar Tablero Dual-Track Savia Flow

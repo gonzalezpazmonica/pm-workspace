@@ -4,6 +4,7 @@ description: Catálogo categorizado de herramientas (400+ comandos)
 model: github-copilot/claude-sonnet-4.5
 context_cost: low
 allowed_tools: ["Glob", "Read"]
+tier: core
 ---
 
 # /tool-catalog [categoría]
