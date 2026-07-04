@@ -159,7 +159,8 @@ jobs:
 
           # Update package lists and install dependencies
           sudo apt-get update -qq
-          sudo apt-get install -y jq git bash python3-pytest
+          sudo apt-get install -y jq git bash python3-pip
+          pip3 install pytest
 
           # Ensure git is properly configured for test environment
           git config --global user.email "ci@example.com"
