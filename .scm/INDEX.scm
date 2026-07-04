@@ -1,6 +1,6 @@
 # Savia Capability Map — INDEX
-> hash: 8c07af5413b3 | resources: 1187
-> 287 commands · 120 skills · 81 agents · 699 scripts
+> hash: e516ef617eaa | resources: 1190
+> 287 commands · 120 skills · 81 agents · 702 scripts
 
 [analysis] Trace Optimize — across,distributed,optimize,rates,sampling — cmd:.claude/commands/trace-optimize.md
 [analysis] agent-activity — activity,agent,executions,recent,show — cmd:.claude/commands/agent-activity.md
@@ -70,6 +70,7 @@
 [communication] pdf-digest —  — agent:.opencode/agents/pdf-digest.md
 [communication] pptx-digest —  — agent:.opencode/agents/pptx-digest.md
 [communication] savia-announce —  — cmd:.claude/commands/savia-announce.md
+[communication] savia-attest — attest,savia,scripts,slice — script:scripts/savia-attest.sh
 [communication] savia-backup — backup,restore,savia,script — script:scripts/savia-backup.sh
 [communication] savia-board —  — cmd:.claude/commands/savia-board.md
 [communication] savia-branch — abstraction,branch,company,layer,savia — script:scripts/savia-branch.sh
@@ -572,6 +573,7 @@
 [planning] count-commands — canonical,commands,count,counter,slash — script:scripts/count-commands.sh
 [planning] court-score-aggregator — aggregator,court,score — script:scripts/court-score-aggregator.sh
 [planning] credential-proxy — agents,credential,isolation,managed,pattern — script:scripts/credential-proxy.sh
+[planning] criterio-cite — cite,criterio,scripts,slice — script:scripts/criterio-cite.sh
 [planning] criterion-simulation-judge —  — agent:.opencode/agents/criterion-simulation-judge.md
 [planning] criticality — criticality,dispatcher,operations — script:scripts/criticality.sh
 [planning] criticality-assess — criticidad,desglose,dimensiones,evaluar,item — cmd:.claude/commands/criticality-assess.md
@@ -819,6 +821,7 @@
 [planning] rule-usage-analyzer — across,analyze,analyzer,domain,rule — script:scripts/rule-usage-analyzer.sh
 [planning] rule-violation-judge — autonomous,canonical,claude,detects,domain — agent:.opencode/agents/rule-violation-judge.md
 [planning] rules-index-generate — generate,index,rules — script:scripts/rules-index-generate.sh
+[planning] run-adversarial-evals — adversarial,evals,scripts,slice — script:scripts/run-adversarial-evals.sh
 [planning] run-agent-evals — agent,agents,critical,evals,evaluation — script:scripts/run-agent-evals.sh
 [planning] rust-developer —  — agent:.opencode/agents/rust-developer.md
 [planning] scale-optimizer — analyze,benchmark,growing,improvements,optimization — cmd:.claude/commands/scale-optimizer.md

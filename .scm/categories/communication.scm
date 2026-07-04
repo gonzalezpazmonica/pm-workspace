@@ -1,5 +1,5 @@
 # communication — Savia Capability Map (L1)
-> 91 resources
+> 92 resources
 
 - **archive-digest** (agent): >
 - **digest-extract** (script): digest-extract.sh — Capa 0 universal de extracción via markitdown (SE-172)
@@ -19,6 +19,7 @@
 - **pdf-digest** (agent): >
 - **pptx-digest** (agent): >
 - **savia-announce** (cmd): >
+- **savia-attest** (script): scripts/savia-attest.sh — SE-255 Slice 6
 - **savia-backup** (script): Savia Backup & Restore Script
 - **savia-board** (cmd): >
 - **savia-branch** (script): savia-branch.sh — Git branch abstraction layer for Company Savia v3
