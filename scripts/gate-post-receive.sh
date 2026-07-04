@@ -27,7 +27,7 @@ while read -r old_sha new_sha ref; do
 
   # Detect bare repo path
   WORKTREE=$(mktemp -d)
-  GATE_REPO="${GIT_DIR:-$HOME/.savia/gate.git}"
+  GATE_REPO="/home/monica/.savia/gate.git"
   unset GIT_DIR
   unset GIT_WORK_TREE
   git init --quiet "$WORKTREE"
