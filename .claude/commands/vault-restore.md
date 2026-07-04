@@ -1,6 +1,7 @@
 ---
 name: vault-restore
 description: "Restaurar Personal Vault en nueva maquina"
+tier: extended
 ---
 
 # /vault-restore — Restaurar Personal Vault en nueva maquina

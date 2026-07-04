@@ -4,6 +4,7 @@ description: Template de postmortem — timeline, root cause analysis, action it
 developer_type: all
 agent: none
 context_cost: medium
+tier: extended
 ---
 
 # /incident-postmortem

@@ -6,6 +6,7 @@ agent: task
 context_cost: moderate
 max_context: 5000
 allowed_modes: [pm, lead, dev, all]
+tier: extended
 ---
 
 # /knowledge-prime — Generar Priming Doc para AI

@@ -6,6 +6,7 @@ agent: sdd-spec-writer
 context_cost: moderate
 max_context: 4000
 allowed_modes: [pm, lead, all]
+tier: extended
 ---
 
 # /flow-spec — Crear Spec Ejecutable desde Outcome

@@ -1,6 +1,7 @@
 ---
 name: pbi-decompose-batch
 description: Decompose multiple PBIs into technical tasks
+tier: extended
 ---
 
 ---

@@ -4,6 +4,7 @@ description: >
   Escanear historial de git buscando credenciales filtradas.
   Detecta API keys, tokens, passwords y certificados privados.
 agent: security-guardian
+tier: extended
 ---
 
 # /credential-scan

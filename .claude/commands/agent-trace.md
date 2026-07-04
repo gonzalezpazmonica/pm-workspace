@@ -4,6 +4,7 @@ description: Dashboard de trazas de ejecución de agentes con tokens, duración 
 developer_type: agent-single
 agent: azure-devops-operator
 context_cost: low
+tier: extended
 ---
 
 # Comando: agent-trace

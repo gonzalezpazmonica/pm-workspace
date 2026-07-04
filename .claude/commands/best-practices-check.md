@@ -5,6 +5,7 @@ model: github-copilot/claude-sonnet-4.5
 context_cost: medium
 allowed-tools: [Read, Bash, Glob, Grep]
 argument-hint: "[--format brief|full]"
+tier: core
 ---
 
 # /best-practices-check

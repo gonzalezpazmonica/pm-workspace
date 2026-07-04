@@ -1,6 +1,7 @@
 ---
 name: agent-run
 description: Launch a Claude agent on a Spec or batch of pending specs
+tier: core
 ---
 
 ---

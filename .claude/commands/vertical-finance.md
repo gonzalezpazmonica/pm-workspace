@@ -4,6 +4,7 @@ description: Extensión compliance para finanzas — SOX, Basel III, MiFID II, P
 developer_type: all
 agent: task
 context_cost: high
+tier: core
 ---
 
 # /vertical-finance [--analyze] [--fix] [--lang es|en]

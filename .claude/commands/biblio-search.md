@@ -10,6 +10,7 @@ allowed-tools:
   - Grep
   - Bash
   - Task
+tier: extended
 ---
 
 # /biblio-search {proyecto} {subcommand} {args}

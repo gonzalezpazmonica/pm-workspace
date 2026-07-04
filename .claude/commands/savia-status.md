@@ -1,6 +1,7 @@
 ---
 name: savia-status
 description: "Show Savia current status, health metrics, and top pending priorities"
+tier: extended
 ---
 
 # /savia-status

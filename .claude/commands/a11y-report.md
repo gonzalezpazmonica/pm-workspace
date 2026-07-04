@@ -4,6 +4,7 @@ description: "Reporte de conformidad de accesibilidad para stakeholders y legal.
 developer_type: all
 agent: task
 context_cost: medium
+tier: extended
 ---
 
 # /a11y-report — Reporte de Conformidad WCAG 2.2

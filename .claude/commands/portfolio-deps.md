@@ -4,6 +4,7 @@ description: Grafo de dependencias inter-proyecto — visualiza y alerta sobre c
 developer_type: all
 agent: task
 context_cost: high
+tier: extended
 ---
 
 # /portfolio-deps

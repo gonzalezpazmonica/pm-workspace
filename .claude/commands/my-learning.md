@@ -4,6 +4,7 @@ description: Detección de tech stack gaps — código del developer vs best pra
 developer_type: all
 agent: task
 context_cost: high
+tier: extended
 ---
 
 # /my-learning

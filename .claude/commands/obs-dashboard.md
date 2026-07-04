@@ -4,6 +4,7 @@ description: Dashboard de observabilidad digesto por rol — CEO, CTO, PM, Dev, 
 developer_type: all
 agent: task
 context_cost: high
+tier: extended
 ---
 
 # /obs-dashboard

@@ -3,6 +3,7 @@ name: context-load
 description: >
   Carga de contexto al inicio de sesión. Lee estado del workspace, decisiones
   recientes, último session save y actividad Git para arrancar con el big picture.
+tier: extended
 ---
 
 # Carga de Contexto — Inicio de Sesión

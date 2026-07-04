@@ -1,6 +1,7 @@
 ---
 name: managed-sync
 description: Synchronize and regenerate managed content markers
+tier: core
 ---
 
 ---

@@ -3,6 +3,7 @@ name: diagram-import
 description: >
   Importa un diagrama de arquitectura (Draw.io, Miro o local) y genera
   Features, PBIs y Tasks en Azure DevOps. Valida reglas de negocio antes.
+tier: core
 ---
 
 # Importar Diagrama → Generar Work Items

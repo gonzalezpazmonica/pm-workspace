@@ -1,6 +1,7 @@
 ---
 name: UA Diff
 description: Analyze impact of uncommitted changes on the codebase knowledge graph
+tier: core
 ---
 
 # /ua-diff — Change Impact Analysis

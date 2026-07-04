@@ -6,6 +6,7 @@ argument-hint: "{feature-name} [--project name] [--skip-research]"
 allowed-tools: [Read, Write, Edit, Bash, Glob, Grep, Task]
 model: github-copilot/claude-opus-4.7
 context_cost: high
+tier: core
 ---
 
 # /rpi-start — Research → Plan → Implement Workflow

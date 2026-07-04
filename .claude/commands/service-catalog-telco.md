@@ -3,6 +3,7 @@ name: service-catalog-telco
 description: "Gestión del catálogo de servicios de telecom con definiciones, configuración y precios"
 icon: "📋"
 category: "Telecomunicaciones"
+tier: extended
 ---
 
 # Catálogo de Servicios Telecomunicaciones

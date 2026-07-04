@@ -4,6 +4,7 @@ description: Consultas en lenguaje natural a datos de observabilidad — PromQL,
 developer_type: all
 agent: task
 context_cost: high
+tier: extended
 ---
 
 # /obs-query

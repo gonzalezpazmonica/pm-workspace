@@ -3,6 +3,7 @@ name: repos-search
 description: >
   Buscar código en repositorios de Azure DevOps. Soporta filtro
   por repo, tipo de fichero y ruta.
+tier: extended
 ---
 
 # Repos Search

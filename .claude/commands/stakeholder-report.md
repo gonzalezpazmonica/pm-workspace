@@ -4,6 +4,7 @@ description: Informe para stakeholders — progreso por epics, roadmap visual, r
 developer_type: all
 agent: none
 context_cost: medium
+tier: extended
 ---
 
 # /stakeholder-report

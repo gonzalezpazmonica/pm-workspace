@@ -4,6 +4,7 @@ description: "Add a task to Savia's todo list. Usage: /task-create Investigate t
 argument-hint: "<description of the task>"
 allowed-tools: [TaskCreate]
 model: github-copilot/claude-sonnet-4.5
+tier: core
 ---
 
 Create a task from the user's input. The full text after `/task-create` is the task.

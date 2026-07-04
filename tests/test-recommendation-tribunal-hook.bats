@@ -7,7 +7,7 @@
 # un evento PreOutput en Claude Code que aún no existe en 2026-06; este test
 # protege la regresión del flujo detect-only.
 
-HOOK="$BATS_TEST_DIRNAME/../.claude/hooks/recommendation-tribunal-pre-output.sh"
+HOOK="$BATS_TEST_DIRNAME/../.claude/hooks/_legacy/recommendation-tribunal-pre-output.sh"
 ROOT="$BATS_TEST_DIRNAME/.."
 
 setup() {

@@ -5,6 +5,7 @@ argument-hint: "<query> [--cache-only] [--cache-stats] [--cache-clear] [--searxn
 allowed-tools: [Read, Bash, WebSearch, WebFetch, Write]
 model: github-copilot/claude-sonnet-4.5
 context_cost: medium
+tier: core
 ---
 
 # /web-research — Búsqueda web para resolver gaps de contexto

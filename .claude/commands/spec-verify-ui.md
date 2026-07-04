@@ -6,6 +6,7 @@ agent: task
 context_cost: high
 model: github-copilot/claude-sonnet-4.5
 argument-hint: "[spec-path] [--generate-tests] [--fix] [--lang es|en]"
+tier: core
 ---
 
 # /spec-verify-ui — Verificación Spec↔UI

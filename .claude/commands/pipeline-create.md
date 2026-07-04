@@ -3,6 +3,7 @@ name: pipeline-create
 description: >
   Crear una nueva pipeline en Azure Pipelines desde template YAML.
   Preview y confirmación antes de crear.
+tier: core
 ---
 
 # Pipeline Create

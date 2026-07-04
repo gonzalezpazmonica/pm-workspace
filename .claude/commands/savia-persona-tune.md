@@ -6,6 +6,7 @@ agent: task
 context_cost: low
 max_context: 3000
 allowed_modes: [pm, lead, all]
+tier: extended
 ---
 
 # /savia-persona-tune — Behavioral AI Trainer

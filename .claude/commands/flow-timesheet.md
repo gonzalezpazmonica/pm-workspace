@@ -5,6 +5,7 @@ argument-hint: "<@handle> <task_id> <hours> [notes]"
 allowed-tools: [Bash]
 model: github-copilot/claude-sonnet-4.5
 context_cost: low
+tier: core
 ---
 
 # Log Timesheet

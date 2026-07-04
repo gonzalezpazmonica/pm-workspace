@@ -5,6 +5,7 @@ context_cost: medium
 developer_type: all
 agent: business-analyst
 model: github-copilot/claude-sonnet-4.5
+tier: core
 ---
 
 # /dag-plan {task-id}

@@ -5,6 +5,7 @@ description: >
   específicas (stakeholders, componentes, decisiones) a través de sesiones.
 model: github-copilot/claude-sonnet-4.5
 context_cost: low
+tier: core
 ---
 
 # /entity-recall

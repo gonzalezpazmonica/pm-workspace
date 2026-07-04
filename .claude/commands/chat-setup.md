@@ -1,6 +1,7 @@
 ---
 name: chat-setup
 description: Guía de configuración de webhook de Google Chat
+tier: extended
 ---
 
 # /chat-setup

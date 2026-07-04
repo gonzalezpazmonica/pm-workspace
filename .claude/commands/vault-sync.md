@@ -1,6 +1,7 @@
 ---
 name: vault-sync
 description: "Sincronizar Personal Vault"
+tier: extended
 ---
 
 # /vault-sync — Sincronizar Personal Vault

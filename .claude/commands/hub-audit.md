@@ -4,6 +4,7 @@ description: Auditar dependencias entre reglas de dominio, comandos y agentes â€
 developer_type: all
 agent: none
 context_cost: medium
+tier: core
 ---
 
 # /hub-audit

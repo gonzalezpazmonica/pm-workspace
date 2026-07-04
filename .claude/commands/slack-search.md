@@ -3,6 +3,7 @@ name: slack-search
 description: >
   Buscar mensajes y decisiones en Slack como contexto para
   reglas de negocio, retrospectivas o análisis de proyecto.
+tier: extended
 ---
 
 # Buscar en Slack

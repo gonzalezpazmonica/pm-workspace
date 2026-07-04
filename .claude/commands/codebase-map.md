@@ -5,6 +5,7 @@ argument-hint: "[--focus commands|agents|rules|skills] [--orphans]"
 allowed-tools: [Read, Glob, Grep, Bash]
 model: github-copilot/claude-sonnet-4.5
 context_cost: medium
+tier: core
 ---
 
 # /codebase-map — Mapa de Dependencias Internas

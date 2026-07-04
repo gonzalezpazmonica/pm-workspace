@@ -1,6 +1,7 @@
 ---
 name: tolaria-open
 description: Open Tolaria desktop knowledge base on the Savia workspace (or specified path)
+tier: core
 ---
 
 # /tolaria-open — Open Tolaria visual knowledge base

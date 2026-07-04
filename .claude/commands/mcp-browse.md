@@ -1,6 +1,7 @@
 ---
 name: mcp-browse
 description: Explorar catálogo de MCPs disponibles (66+) via claude-code-templates
+tier: extended
 ---
 
 # Catálogo de MCPs

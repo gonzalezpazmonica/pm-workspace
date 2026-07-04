@@ -7,6 +7,7 @@ argument-hint: "--role {dev|pm|qa} [--project name]"
 allowed-tools: [Read, Write, Glob, Grep, Bash, Task]
 model: github-copilot/claude-sonnet-4.5
 context_cost: medium
+tier: core
 ---
 
 # /onboard — New Team Member Onboarding

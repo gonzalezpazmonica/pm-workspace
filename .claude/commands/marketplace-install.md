@@ -1,6 +1,7 @@
 ---
 name: marketplace-install
 description: Install components from claude-code-templates marketplace
+tier: core
 ---
 
 ---

@@ -4,6 +4,7 @@ description: Configurar webhooks para recibir eventos push de Azure DevOps, GitH
 developer_type: all
 agent: task
 context_cost: medium
+tier: extended
 ---
 
 # /webhook-config

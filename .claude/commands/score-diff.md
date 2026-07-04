@@ -9,6 +9,7 @@ allowed-tools:
   - Grep
   - Bash
   - Task
+tier: core
 ---
 
 # /score-diff — Compare Workspace Metrics Between Versions

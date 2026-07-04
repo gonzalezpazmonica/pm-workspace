@@ -3,6 +3,7 @@ name: testplan-status
 description: >
   Estado de Test Plans en Azure DevOps: planes activos,
   suites, casos de test, ejecución y cobertura.
+tier: extended
 ---
 
 # TestPlan Status

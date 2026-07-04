@@ -1,6 +1,7 @@
 ---
 name: ua-install
 description: Install or update the Understand-Anything knowledge graph plugin
+tier: core
 ---
 
 # /ua-install — Install Understand-Anything

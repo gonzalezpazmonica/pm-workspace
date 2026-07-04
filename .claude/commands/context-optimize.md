@@ -4,6 +4,7 @@ description: Analizar patrones de uso de contexto y sugerir optimizaciones al co
 developer_type: all
 agent: none
 context_cost: medium
+tier: extended
 ---
 
 # /context-optimize

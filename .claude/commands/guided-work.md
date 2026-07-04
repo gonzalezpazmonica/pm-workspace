@@ -4,6 +4,7 @@ description: Trabajo guiado — Savia te acompaña paso a paso con preguntas, ad
 model: github-copilot/claude-sonnet-4.5
 context_cost: medium
 allowed_tools: ["Read", "Write", "Edit", "Bash", "Task"]
+tier: core
 ---
 
 # /guided-work [opciones]

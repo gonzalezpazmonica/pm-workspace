@@ -7,6 +7,7 @@ argument-hint: "<fichero> [--type one2one|retro|review|refinement|stakeholder] [
 model: github-copilot/claude-sonnet-4.5
 context_cost: high
 allowed-tools: [Read, Write, Edit, Glob, Grep, Bash, Task]
+tier: core
 ---
 
 # Digestion de Reuniones

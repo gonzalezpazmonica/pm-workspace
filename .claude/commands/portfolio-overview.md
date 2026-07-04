@@ -4,6 +4,7 @@ description: Vista bird's-eye de todos los proyectos — semáforo, velocidad co
 developer_type: all
 agent: none
 context_cost: medium
+tier: extended
 ---
 
 # /portfolio-overview

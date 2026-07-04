@@ -4,6 +4,7 @@ description: Sincronización bidireccional con Linear — issues, cycles, métri
 developer_type: all
 agent: task
 context_cost: high
+tier: extended
 ---
 
 # /linear-sync

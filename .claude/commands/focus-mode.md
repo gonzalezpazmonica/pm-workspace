@@ -4,6 +4,7 @@ description: Modo single-task — carga una sola tarea y oculta distracciones
 model: github-copilot/claude-sonnet-4.5
 context_cost: low
 allowed_tools: ["Read", "Write"]
+tier: core
 ---
 
 # /focus-mode [opciones]

@@ -5,6 +5,7 @@ argument-hint: "[--domain domain --problem \"...\" --solution \"...\"]"
 context_cost: low
 model: github-copilot/claude-sonnet-4.5
 allowed-tools: [Bash, Read]
+tier: core
 ---
 
 # /lesson-extract — Extraer leccion cross-project (SE-032)

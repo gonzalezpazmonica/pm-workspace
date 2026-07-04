@@ -3,6 +3,7 @@ name: project-release-plan
 description: >
   Phase 2 — Generate prioritized release plan from audit + backlog.
   Respects dependencies, risk, and business value.
+tier: core
 ---
 
 # Project Release Plan

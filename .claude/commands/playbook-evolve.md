@@ -4,6 +4,7 @@ description: Evolucionar playbook con insights — ciclo Generator→Reflector�
 developer_type: all
 agent: task
 context_cost: high
+tier: extended
 ---
 
 # /playbook-evolve

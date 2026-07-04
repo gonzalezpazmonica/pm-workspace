@@ -5,6 +5,7 @@ argument-hint: "[--tenant tenant-id]"
 context_cost: medium
 model: github-copilot/claude-sonnet-4.5
 allowed-tools: [Read, Bash, Glob, Grep]
+tier: core
 ---
 
 # /case-kill-check — Kill recommendation scan (SE-016)

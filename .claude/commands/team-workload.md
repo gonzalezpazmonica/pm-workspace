@@ -3,6 +3,7 @@ name: team-workload
 description: Muestra la carga de trabajo por persona — items asignados, horas remaining y balance de equipo.
 model: github-copilot/claude-sonnet-4.5
 context_cost: medium
+tier: core
 ---
 
 # /team-workload

@@ -1,6 +1,7 @@
 ---
 name: ua-onboard
 description: Generate a guided onboarding tour for any codebase
+tier: core
 ---
 
 # /ua-onboard — Codebase Onboarding Guide

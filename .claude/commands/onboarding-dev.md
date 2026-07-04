@@ -1,6 +1,7 @@
 ---
 name: onboarding-dev
 description: Technical onboarding with AI Buddy — auto-generates project docs, personalized plan, and 3-layer buddy agent
+tier: core
 ---
 
 # /onboarding-dev

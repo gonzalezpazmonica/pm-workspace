@@ -4,6 +4,7 @@ description: Alertas automáticas por patrones anómalos — horario inusual, co
 developer_type: all
 agent: task
 context_cost: medium
+tier: extended
 ---
 
 # Audit Alert — Detección de Anomalías

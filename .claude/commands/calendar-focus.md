@@ -5,6 +5,7 @@ argument-hint: "{tarea} [--duration 90m] [--when tomorrow-morning]"
 allowed-tools: [Read, Write, Bash, Glob, Grep]
 model: github-copilot/claude-sonnet-4.5
 context_cost: low
+tier: core
 ---
 
 # /calendar-focus — Bloque de Deep Work

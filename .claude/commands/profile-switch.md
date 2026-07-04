@@ -3,6 +3,7 @@ name: profile-switch
 description: Savia cambia de usuario — cambiar perfil activo.
 model: github-copilot/claude-sonnet-4.5
 context_cost: low
+tier: core
 ---
 
 # /profile-switch — Savia cambia de usuario

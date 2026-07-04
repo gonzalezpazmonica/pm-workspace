@@ -5,6 +5,7 @@ argument-hint: "[--project nombre]"
 allowed-tools: [Read, Bash, Glob, Grep]
 model: github-copilot/claude-sonnet-4.5
 context_cost: medium
+tier: core
 ---
 
 # /calendar-today — Vista del Dia

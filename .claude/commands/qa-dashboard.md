@@ -4,6 +4,7 @@ description: Dashboard de calidad — cobertura, tests flaky, bugs, escape rate,
 developer_type: all
 agent: none
 context_cost: medium
+tier: extended
 ---
 
 # /qa-dashboard

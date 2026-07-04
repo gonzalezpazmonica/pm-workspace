@@ -4,6 +4,7 @@ description: "Clasifica una tarea como WORKFLOW (deterministica) o AGENT (loop).
 developer_type: all
 agent: task
 context_cost: low
+tier: core
 ---
 
 # /decide-architecture — Workflow vs Agent decision gate

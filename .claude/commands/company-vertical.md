@@ -4,6 +4,7 @@ description: Detectar y configurar la vertical de la empresa — regulaciones, f
 developer_type: all
 agent: task
 context_cost: medium
+tier: extended
 ---
 
 # /company-vertical

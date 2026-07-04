@@ -1,6 +1,7 @@
 ---
 name: profile-setup
 description: Savia te conoce — configuración del perfil en conversación natural.
+tier: core
 ---
 
 # /profile-setup — Savia te conoce

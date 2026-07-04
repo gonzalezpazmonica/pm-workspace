@@ -4,6 +4,7 @@ description: Investigación asistida de errores en producción con root cause an
 developer_type: all
 agent: task
 context_cost: high
+tier: extended
 ---
 
 # /error-investigate

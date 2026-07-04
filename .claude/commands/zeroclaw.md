@@ -5,6 +5,7 @@ argument-hint: "setup | test | ping | led | info | sensors | flash | interactive
 allowed-tools: [Read, Bash, Write]
 model: github-copilot/claude-sonnet-4.5
 context_cost: low
+tier: core
 ---
 
 # /zeroclaw — ZeroClaw ESP32 Interface

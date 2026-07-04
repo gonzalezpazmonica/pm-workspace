@@ -4,6 +4,7 @@ description: Pre-calentar caché con contexto probable basado en hora y rol
 developer_type: all
 agent: none
 context_cost: high
+tier: extended
 ---
 
 # /cache-warm

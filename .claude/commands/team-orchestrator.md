@@ -5,6 +5,7 @@ allowed-tools: [Read, Glob, Grep, Write, Edit, Bash]
 argument-hint: "[create|assign|deps|sync|status] {dept} {team} [--critical] [--dept engineering] [--all]"
 model: github-copilot/claude-sonnet-4.5
 context_cost: medium
+tier: core
 ---
 
 # /team-orchestrator — Coordinación multi-equipo

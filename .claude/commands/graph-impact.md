@@ -6,6 +6,7 @@ allowed-tools:
   - Grep
   - Bash
 context_cost: medium
+tier: extended
 ---
 
 # /graph-impact {change}

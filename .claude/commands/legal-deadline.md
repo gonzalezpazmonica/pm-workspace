@@ -12,6 +12,7 @@ allowed-tools:
   - Grep
   - Bash
   - Task
+tier: extended
 ---
 
 # Gestor de Plazos Legales

@@ -5,6 +5,7 @@ model: github-copilot/claude-sonnet-4.5
 context_cost: low
 allowed-tools: [Read, Bash, Glob]
 argument-hint: "[--json]"
+tier: core
 ---
 
 # /context-status

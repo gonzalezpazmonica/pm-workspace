@@ -3,6 +3,7 @@ name: dependency-map
 description: >
   Mapa de dependencias entre PBIs, Features y equipos.
   Alertas de bloqueo y grafo visual para sprint planning.
+tier: core
 ---
 
 # Dependency Map

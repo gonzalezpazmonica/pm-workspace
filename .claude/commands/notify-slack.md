@@ -3,6 +3,7 @@ name: notify-slack
 description: >
   Enviar notificación o informe al canal de Slack del proyecto.
   Soporta texto libre, resultados de otros comandos y formateo Slack.
+tier: extended
 ---
 
 # Notificar en Slack

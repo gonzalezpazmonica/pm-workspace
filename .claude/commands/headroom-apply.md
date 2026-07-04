@@ -2,6 +2,7 @@
 name: headroom-apply
 description: Aplicar optimizaciones de compresión al contexto de un proyecto
 arguments: "$ARGUMENTS = nombre del proyecto [--apply]"
+tier: extended
 ---
 
 # /headroom-apply

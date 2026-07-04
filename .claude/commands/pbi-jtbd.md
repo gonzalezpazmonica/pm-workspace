@@ -4,6 +4,7 @@ description: >
   Genera un documento Jobs to be Done (JTBD) para un PBI antes de descomponerlo
   en tasks técnicas. Captura el por qué del usuario: situación, motivación,
   resultado esperado, pain points y criterios de éxito.
+tier: core
 ---
 
 # Generar JTBD para un PBI

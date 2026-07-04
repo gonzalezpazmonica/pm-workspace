@@ -6,6 +6,7 @@ argument-hint: "[--stack dotnet|python|node] [--role pm|dev|qa]"
 allowed-tools: [Read, Glob, Grep]
 model: github-copilot/claude-sonnet-4.5
 context_cost: low
+tier: core
 ---
 
 # /mcp-recommend — MCP Recommendations

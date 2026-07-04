@@ -5,6 +5,7 @@ developer_type: pm
 agent: azure-devops-operator
 context_cost: moderate
 allowed_modes: [pm, lead, all]
+tier: extended
 ---
 
 # /flow-setup — Configurar Savia Flow en Azure DevOps

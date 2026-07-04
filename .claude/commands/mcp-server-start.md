@@ -1,6 +1,7 @@
 ---
 name: mcp-server-start
 description: Start and initialize MCP server instances
+tier: extended
 ---
 
 ---

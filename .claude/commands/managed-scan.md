@@ -1,6 +1,7 @@
 ---
 name: managed-scan
 description: Scan managed content for stale or outdated sections
+tier: core
 ---
 
 ---

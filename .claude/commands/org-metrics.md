@@ -4,6 +4,7 @@ description: Métricas DORA y de delivery agregadas a nivel de organización
 developer_type: all
 agent: task
 context_cost: high
+tier: extended
 ---
 
 # /org-metrics

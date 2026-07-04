@@ -3,6 +3,7 @@ name: "prevention-metrics"
 description: "Métricas de prevención: bugs prevenidos vs encontrados, shift-left effectiveness, early detection rate. Paradigma QA de prevención sobre detección."
 developer_type: all
 agent: task
+tier: extended
 ---
 
 # /prevention-metrics

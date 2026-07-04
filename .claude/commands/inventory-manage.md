@@ -5,6 +5,7 @@ section: "Retail/eCommerce"
 category: "Inventory Management"
 keywords: ["inventario", "stock", "almacén", "reorden"]
 author: "Claude Code"
+tier: extended
 ---
 
 ## Descripción

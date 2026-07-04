@@ -1,0 +1,57 @@
+# routing-pretooluse.tsv — SE-253 Slice 4
+# Registro canónico de hooks PreToolUse para dispatch-pretooluse.sh
+# Columnas: matcher<TAB>hook_script<TAB>mode<TAB>bloqueante<TAB>descripcion
+# matcher : regex bash [[ "$TOOL" =~ $matcher ]]
+# mode    : spawn (subprocess) | source (mismo proceso — solo funciones puras)
+# bloqueante: yes (exit 2 aborta cadena) | no (warning, continua)
+#
+# ORDEN IMPORTA: los hooks se ejecutan en el orden de este fichero.
+# Los hooks bloqueantes deben ir antes de los no-bloqueantes cuando protejan el mismo tool.
+#
+# Generado desde .claude/settings.json PreToolUse — 26 entradas expandidas
+# -------------------------------------------------------------------
+Task	.opencode/hooks/recursion-guard.sh	spawn	yes	Recursion guard: evita loops de Task anidados
+Bash	.opencode/hooks/pr-summary-gate.sh	spawn	yes	Verifica .pr-summary.md antes de gh pr create
+Bash	.opencode/hooks/block-credential-leak.sh	spawn	yes	Savia Shield: detecta y bloquea credenciales hardcodeadas
+Bash	.opencode/hooks/block-force-push.sh	spawn	yes	Savia Shield: bloquea git push --force
+Bash	.opencode/hooks/block-branch-switch-dirty.sh	spawn	yes	Bloquea cambio de rama con cambios sin commitear
+Bash	.opencode/hooks/block-infra-destructive.sh	spawn	yes	Savia Shield: bloquea comandos de infra destructivos
+Bash	.opencode/hooks/validate-bash-global.sh	spawn	yes	Valida comando bash contra lista de patrones globales
+Bash	.opencode/hooks/android-adb-validate.sh	spawn	yes	Valida comandos ADB contra dispositivos Android
+Bash	.opencode/hooks/prompt-hook-commit.sh	spawn	yes	Valida semantica del mensaje de commit
+Bash	.opencode/hooks/compliance-gate.sh	spawn	yes	Compliance gate: verifica reglas del workspace antes de commit
+Task	.opencode/hooks/agent-dispatch-validate.sh	spawn	yes	Valida contexto y parametros del agente antes de dispatch
+Task	.opencode/hooks/spec156-token-budget-projection.sh	spawn	yes	SPEC-156: proyecta token budget antes de lanzar agente
+Task	.opencode/hooks/context-preflight-check.sh	spawn	yes	SPEC-157: preflight multi-source de contexto
+Task	.opencode/hooks/subagent-audience-filter.sh	spawn	no	Audience filter SE-221: filtra output para el destinatario
+Edit|Write|Read|Bash	.opencode/hooks/agent-tool-call-validate.sh	spawn	yes	Valida parametros de tool call antes de ejecutar
+Glob|Grep	.opencode/hooks/acm-enforcement.sh	spawn	yes	ACM enforcement SE-063: controla acceso a modulos
+Edit	.opencode/hooks/ast-comprehend-hook.sh	spawn	no	AST Comprehension: genera mapa estructural del fichero
+Edit|Write	.opencode/hooks/memory-verified-gate.sh	spawn	yes	SE-072: verifica provenance de memoria antes de escritura
+Edit|Write	.opencode/hooks/tdd-gate.sh	spawn	yes	TDD gate: requiere tests antes que codigo de produccion
+Edit|Write	.opencode/hooks/plan-gate.sh	spawn	no	Verifica que existe spec aprobada antes de editar
+Edit|Write	.opencode/hooks/block-project-whitelist.sh	spawn	yes	Verifica privacidad: bloquea escritura a paths no autorizados
+Edit|Write	.opencode/hooks/data-sovereignty-gate.sh	spawn	yes	Savia Shield: escanea datos sensibles antes de escribir
+Edit|Write	.opencode/hooks/vault-frontmatter-gate.sh	spawn	yes	Vault frontmatter gate: valida YAML de frontmatter
+Edit|Write	.opencode/hooks/block-gitignored-references.sh	spawn	yes	Bloquea referencias a contenido gitignored en ficheros publicos
+Edit|Write	.opencode/hooks/responsibility-judge.sh	spawn	yes	Responsibility Judge: evalua nivel de responsabilidad de la decision
+Edit|Write	.opencode/hooks/validate-layer-contract.sh	spawn	yes	SE-001: verifica contrato de capas Core/Enterprise
+Edit|Write	.opencode/hooks/cognitive-debt-hypothesis-first.sh	spawn	no	Detecta patrones de deuda cognitiva antes de editar
+Bash	.opencode/hooks/agent-hook-premerge.sh	spawn	yes	Agent hook: quality gate pre-merge
+Read|Edit|Write|Glob|Grep	.opencode/hooks/tool-call-healing.sh	spawn	yes	Valida y corrige parametros de tool call mal formados
+.*	.opencode/hooks/live-progress-hook.sh	spawn	no	Emite progreso en tiempo real (async)
+Edit|Write	.opencode/hooks/prompt-injection-guard.sh	spawn	yes	Detecta inyeccion de prompts en ficheros a editar
+Read	.opencode/hooks/prompt-injection-guard.sh	spawn	yes	Detecta inyeccion de prompts en ficheros leidos
+Read	.opencode/hooks/context-greedy-inject.sh	spawn	yes	SPEC-189: greedy context budget injection (shadow mode)
+Read|Write	.opencode/hooks/context-sanitize-input.sh	spawn	yes	SPEC-193: sanitiza input Unicode antes de procesar
+Bash	.opencode/hooks/memory-write-sanitize.sh	spawn	yes	SPEC-193: sanitiza escritura de memoria ante patrones peligrosos
+Agent	.opencode/hooks/delegation-guard.sh	spawn	yes	Controla scope de delegacion a subagentes
+Task	.opencode/hooks/protected-job-guard.sh	spawn	yes	Protege jobs marcados como inmutables de ser reemplazados
+.*	.opencode/hooks/output-effort-router.sh	spawn	no	Effort router SE-224: clasifica esfuerzo del output (async)
+Edit|Write	.opencode/hooks/block-pat-file-write.sh	spawn	yes	Savia Shield: bloquea escritura a paths de credenciales
+Edit|Write	.opencode/hooks/auto-grill-me.sh	spawn	no	SE-091: grill-me — caza debilidades antes de editar
+Edit|Write	.opencode/hooks/auto-zoom-out.sh	spawn	no	SE-091: zoom-out — verifica efectos de segundo orden
+Edit|Write|Read	.opencode/hooks/project-isolation-gate.sh	spawn	no	Aislamiento de proyectos: evita contaminacion cross-project
+Edit|Write	.opencode/hooks/contract-test-guard.sh	spawn	no	Verifica contract tests sellados SPEC-188-P3
+Write|Edit	.opencode/hooks/block-pat-file-write.sh	spawn	yes	Savia Shield: bloquea escritura a paths de credenciales (Write order)
+.*	.opencode/hooks/savia-budget-guard.sh	spawn	no	Monitoriza y alerta sobre presupuesto de contexto Savia

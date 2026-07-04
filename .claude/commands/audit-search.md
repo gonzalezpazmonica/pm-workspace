@@ -4,6 +4,7 @@ description: Búsqueda contextual en audit trail — fecha, acción, usuario, pr
 developer_type: all
 agent: task
 context_cost: medium
+tier: extended
 ---
 
 # Audit Search — Búsqueda Contextual en Audit Trail

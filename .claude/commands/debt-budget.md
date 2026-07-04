@@ -6,6 +6,7 @@ description: >
 developer_type: agent-single
 agent: business-analyst
 context_cost: low
+tier: extended
 ---
 
 # Debt Budget

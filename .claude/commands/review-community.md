@@ -4,6 +4,7 @@ description: Revisar PRs, issues y contribuciones de la comunidad (protocolo pri
 developer_type: all
 agent: none
 context_cost: medium
+tier: extended
 ---
 
 # /review-community {subcommand}

@@ -5,6 +5,7 @@ argument-hint: "[setup|status|conflicts|clean] [--days 14] [--busy]"
 allowed-tools: [Read, Write, Bash, Glob, Grep]
 model: github-copilot/claude-sonnet-4.5
 context_cost: medium
+tier: core
 ---
 
 # /sync-calendars — Sincronizacion Multi-Tenant

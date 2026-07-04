@@ -1,6 +1,7 @@
 ---
 name: pbi-plan-sprint
 description: Plan and allocate PBIs to upcoming sprint
+tier: extended
 ---
 
 ---

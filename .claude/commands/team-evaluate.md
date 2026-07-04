@@ -3,6 +3,7 @@ name: team-evaluate
 description: >
   Evaluación interactiva de competencias de un programador.
   Genera perfil de expertise para el algoritmo de asignación. Cumple RGPD.
+tier: core
 ---
 
 # Evaluación de Competencias

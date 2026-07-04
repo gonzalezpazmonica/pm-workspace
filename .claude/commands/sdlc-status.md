@@ -1,6 +1,7 @@
 ---
 name: sdlc-status
 description: Show current SDLC state and transitions
+tier: extended
 ---
 
 ---

@@ -4,6 +4,7 @@ description: Invalidación selectiva de capas de caché con rollback seguro
 developer_type: all
 agent: none
 context_cost: high
+tier: extended
 ---
 
 # /cache-invalidate

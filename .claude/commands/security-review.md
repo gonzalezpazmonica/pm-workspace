@@ -13,6 +13,7 @@ allowed-tools:
   - Task
 model: github-copilot/claude-opus-4.7
 context_cost: high
+tier: core
 ---
 
 # /security-review {spec_file}

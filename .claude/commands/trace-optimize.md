@@ -1,6 +1,7 @@
 ---
 name: Trace Optimize
 description: Optimize trace spans and sampling rates across distributed services
+tier: core
 ---
 
 # /trace-optimize — Analyze agent traces and suggest prompt improvements

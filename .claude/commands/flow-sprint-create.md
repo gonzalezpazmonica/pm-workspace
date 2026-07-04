@@ -5,6 +5,7 @@ argument-hint: "<goal> <start_date> <end_date> [capacity_h]"
 allowed-tools: [Bash]
 model: github-copilot/claude-sonnet-4.5
 context_cost: low
+tier: core
 ---
 
 # Create Sprint

@@ -1,6 +1,7 @@
 ---
 name: spec-verify
 description: Verify implementation against specification criteria
+tier: extended
 ---
 
 ---

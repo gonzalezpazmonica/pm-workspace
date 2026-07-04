@@ -4,6 +4,7 @@ description: Catálogo de patterns del proyecto con ejemplos del propio código 
 developer_type: all
 agent: task
 context_cost: high
+tier: extended
 ---
 
 # /code-patterns

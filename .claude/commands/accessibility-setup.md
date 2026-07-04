@@ -4,6 +4,7 @@ description: Configura las preferencias de accesibilidad de Savia para adaptarse
 model: github-copilot/claude-sonnet-4.5
 context_cost: low
 allowed_tools: ["Read", "Write", "Edit"]
+tier: core
 ---
 
 # /accessibility-setup

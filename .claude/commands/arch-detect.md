@@ -4,6 +4,7 @@ description: Detectar el patrón de arquitectura de un repositorio o proyecto
 developer_type: all
 agent: architect
 context_cost: medium
+tier: extended
 ---
 
 # /arch-detect {repo|path}

@@ -6,6 +6,7 @@ agent: none
 context_cost: low
 model: github-copilot/claude-sonnet-4.5
 complexity_tier: mode1
+tier: core
 ---
 
 # /daily-routine

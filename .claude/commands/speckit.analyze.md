@@ -4,6 +4,7 @@ description: "Alias spec-kit compatible. Review cruzado de una spec antes de imp
 developer_type: all
 agent: task
 context_cost: high
+tier: core
 ---
 
 # /speckit.analyze — Review cruzado

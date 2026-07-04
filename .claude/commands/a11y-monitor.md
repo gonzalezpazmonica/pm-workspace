@@ -4,6 +4,7 @@ description: "Monitorización continua de regresiones de accesibilidad. Integrac
 developer_type: all
 agent: task
 context_cost: medium
+tier: extended
 ---
 
 # /a11y-monitor — Monitorización Continua de Accesibilidad

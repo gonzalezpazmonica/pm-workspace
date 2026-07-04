@@ -5,6 +5,7 @@ allowed-tools: [Read, Glob, Grep, Write, Edit, Bash]
 argument-hint: "[audit-trail|compliance-check|decision-registry|certify] [--user @handle] [--since YYYY-MM-DD] [--action type]"
 model: github-copilot/claude-sonnet-4.5
 context_cost: medium
+tier: core
 ---
 
 # /governance-enterprise — Gobernanza Empresarial

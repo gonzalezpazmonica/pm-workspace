@@ -5,6 +5,7 @@ argument-hint: "<spec-path> [--max-files 3] [--max-tokens 15000]"
 allowed-tools: [Read, Write, Bash, Glob, Grep]
 model: github-copilot/claude-sonnet-4.5
 context_cost: medium
+tier: core
 ---
 
 # /spec-slice — Particionado de specs en slices ejecutables

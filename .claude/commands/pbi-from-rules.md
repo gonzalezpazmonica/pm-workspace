@@ -2,6 +2,7 @@
 name: pbi-from-rules
 description: Map business rules to PBIs with traceability matrix
 allowed-tools: Bash, Read, Write, Task
+tier: extended
 ---
 
 # /pbi-from-rules

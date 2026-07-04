@@ -5,6 +5,7 @@ argument-hint: "OPP-YYYY-NNN [--tenant tenant-id]"
 context_cost: medium
 model: github-copilot/claude-sonnet-4.5
 allowed-tools: [Read, Write, Bash, Glob, Grep]
+tier: core
 ---
 
 # /case-init — Create business case (SE-016)

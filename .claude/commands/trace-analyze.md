@@ -4,6 +4,7 @@ description: Análisis profundo de trazas específicas con detección de cuellos
 developer_type: all
 agent: task
 context_cost: high
+tier: extended
 ---
 
 # /trace-analyze

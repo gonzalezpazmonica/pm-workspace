@@ -1,6 +1,7 @@
 ---
 name: memory-stats
 description: Display memory usage statistics and optimization recommendations
+tier: extended
 ---
 
 ---

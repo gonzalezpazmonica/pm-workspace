@@ -4,6 +4,7 @@ description: Crear tarea programada con notificaciones automáticas
 developer_type: pm
 agent: task
 context_cost: medium
+tier: extended
 ---
 
 # /scheduled-create

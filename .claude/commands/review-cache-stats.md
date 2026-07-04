@@ -6,6 +6,7 @@ skills:
   - azure-devops-queries
 model: github-copilot/claude-sonnet-4.5
 context_cost: low
+tier: core
 ---
 
 # /review-cache-stats

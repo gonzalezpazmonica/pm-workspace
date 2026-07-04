@@ -4,6 +4,7 @@ description: Validar que ficheros del workspace cumplen ≤150 líneas
 agent: commit-guardian
 model: github-copilot/claude-sonnet-4.5
 context_cost: low
+tier: core
 ---
 
 # /validate-filesize

@@ -3,6 +3,7 @@ name: wiki-sync
 description: >
   Sincronizar documentación entre ficheros locales y Azure DevOps Wiki.
   Bidireccional: local→wiki y wiki→local.
+tier: extended
 ---
 
 # Wiki Sync

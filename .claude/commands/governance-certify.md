@@ -4,6 +4,7 @@ description: Checklist de certificación — ISO 42001, EU AI Act, documentació
 developer_type: all
 agent: task
 context_cost: high
+tier: extended
 ---
 
 # /governance-certify

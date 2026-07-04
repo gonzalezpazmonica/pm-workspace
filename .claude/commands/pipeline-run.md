@@ -3,6 +3,7 @@ name: pipeline-run
 description: >
   Ejecutar una pipeline de Azure Pipelines con confirmación previa.
   Soporta selección de branch, variables y stages.
+tier: core
 ---
 
 # Pipeline Run

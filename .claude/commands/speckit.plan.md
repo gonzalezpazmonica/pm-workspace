@@ -4,6 +4,7 @@ description: "Alias spec-kit compatible. Diseño técnico de una spec ya captura
 developer_type: all
 agent: task
 context_cost: high
+tier: core
 ---
 
 # /speckit.plan — Plan técnico

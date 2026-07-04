@@ -1,6 +1,7 @@
 ---
 name: marketplace-search
 description: Search and discover components in marketplace
+tier: extended
 ---
 
 ---

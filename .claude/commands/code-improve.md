@@ -1,6 +1,7 @@
 ---
 name: code-improve
 description: Launch autonomous code improvement loop — detects opportunities, applies improvements, creates PRs for review
+tier: core
 ---
 
 # /code-improve

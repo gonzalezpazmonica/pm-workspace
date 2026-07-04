@@ -5,6 +5,7 @@ description: >
   en Azure DevOps. Muestra estado, votos, comentarios pendientes y antigüedad.
 model: github-copilot/claude-sonnet-4.5
 context_cost: medium
+tier: core
 ---
 
 # Pull Requests Pendientes de Revisión

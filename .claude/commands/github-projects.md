@@ -4,6 +4,7 @@ description: Integración con GitHub Projects v2 para gestión ágil desde pm-wo
 developer_type: all
 agent: task
 context_cost: high
+tier: extended
 ---
 
 # /github-projects

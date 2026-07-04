@@ -1,6 +1,7 @@
 ---
 name: marketplace-publish
 description: Publish components to marketplace registry
+tier: core
 ---
 
 ---

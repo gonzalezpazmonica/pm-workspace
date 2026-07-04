@@ -5,6 +5,7 @@ section: "Retail/eCommerce"
 category: "Order Management"
 keywords: ["pedidos", "seguimiento", "entregas", "devoluciones"]
 author: "Claude Code"
+tier: extended
 ---
 
 ## Descripción

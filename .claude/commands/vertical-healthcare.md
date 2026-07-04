@@ -4,6 +4,7 @@ description: Extensión compliance para healthcare — HIPAA, HL7 FHIR, FDA 21 C
 developer_type: all
 agent: task
 context_cost: high
+tier: core
 ---
 
 # /vertical-healthcare [--analyze] [--fix] [--lang es|en]
@@ -147,4 +148,3 @@ Guardar en: `output/healthcare-compliance-{fecha}.md`
 - Skill: `@.opencode/skills/regulatory-compliance/SKILL.md`
 - Regla: `@docs/rules/domain/regulatory-compliance.md`
 - Comando relacionado: `/compliance-scan --sector healthcare`
-

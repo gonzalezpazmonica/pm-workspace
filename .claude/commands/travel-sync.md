@@ -1,6 +1,7 @@
 ---
 name: travel-sync
 description: Sincroniza workspace bidireccional entre máquina y USB.
+tier: extended
 ---
 
 # /travel-sync — Sincronizar viaje

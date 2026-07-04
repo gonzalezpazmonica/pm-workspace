@@ -5,6 +5,7 @@ developer_type: all
 agent: none
 context_cost: low
 model: github-copilot/claude-sonnet-4.5
+tier: core
 ---
 
 # /update {subcommand}

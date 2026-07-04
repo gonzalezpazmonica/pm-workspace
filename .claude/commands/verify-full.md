@@ -3,6 +3,7 @@ name: verify-full
 description: Run 5-layer verification pipeline on task/branch
 context_cost: high
 argument-hint: "[task-id or branch-name]"
+tier: extended
 ---
 
 # /verify-full {task-id}

@@ -8,6 +8,7 @@ allowed-tools:
   - Grep
   - Bash
   - Task
+tier: extended
 ---
 
 # Wireframe Check Command

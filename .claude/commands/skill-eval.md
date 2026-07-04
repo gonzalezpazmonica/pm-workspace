@@ -10,6 +10,7 @@ allowed-tools:
   - Glob
   - Grep
   - Bash
+tier: core
 ---
 
 # /skill-eval {subcommand} {args}

@@ -4,6 +4,7 @@ description: Plan personalizado de adopción de Savia por rol — qué aprender,
 developer_type: all
 agent: task
 context_cost: medium
+tier: extended
 ---
 
 # /adoption-plan

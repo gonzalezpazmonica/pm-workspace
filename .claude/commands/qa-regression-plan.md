@@ -4,6 +4,7 @@ description: Plan de regresión basado en ficheros cambiados — impacto de camb
 developer_type: all
 agent: task
 context_cost: high
+tier: extended
 ---
 
 # /qa-regression-plan

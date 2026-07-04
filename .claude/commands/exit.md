@@ -4,6 +4,7 @@ description: >
   Cierra la sesión actual de forma limpia: persiste el estado en ROADMAP.md,
   guarda un RESUME-{slug}.md con el goal de la próxima sesión, hace commit
   opcional del roadmap, y deja todo listo para retomar tras un cuelgue.
+tier: core
 ---
 
 # /exit — Cierre de sesión persistente

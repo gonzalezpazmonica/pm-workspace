@@ -5,6 +5,7 @@ argument-hint: "[daily|weekly|monthly|status]"
 context_cost: low
 model: github-copilot/claude-sonnet-4.5
 allowed-tools: [Bash, Read]
+tier: core
 ---
 
 # /memory-rotate — Rotacion manual de contexto (SE-033)

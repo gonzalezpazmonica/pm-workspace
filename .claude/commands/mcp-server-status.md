@@ -1,6 +1,7 @@
 ---
 name: mcp-server-status
 description: Check status and health of active MCP servers
+tier: extended
 ---
 
 ---

@@ -3,6 +3,7 @@ name: repos-pr-review
 description: >
   Review multi-perspectiva de un PR en Azure Repos. Analiza
   desde BA, Dev, QA, Security y DevOps (reutiliza patrón pr-review).
+tier: extended
 ---
 
 # Repos PR Review

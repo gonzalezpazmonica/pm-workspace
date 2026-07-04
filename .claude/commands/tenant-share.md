@@ -4,6 +4,7 @@ description: Comparte recursos (playbooks, templates, skills, reglas) entre tena
 developer_type: all
 agent: task
 context_cost: high
+tier: extended
 ---
 
 # /tenant-share — Compartir Recursos Entre Tenants

@@ -5,6 +5,7 @@ argument-hint: "{item-id} [--project nombre]"
 allowed-tools: [Read, Bash, Glob, Grep]
 model: github-copilot/claude-sonnet-4.5
 context_cost: low
+tier: core
 ---
 
 # /criticality-assess — Evaluacion de Criticidad

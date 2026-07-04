@@ -1,6 +1,7 @@
 ---
 name: tech-research
 description: Launch autonomous technical research — investigates topics, generates reports, notifies designated human
+tier: core
 ---
 
 # /tech-research

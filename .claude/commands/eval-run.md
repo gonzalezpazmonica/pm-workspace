@@ -1,6 +1,7 @@
 ---
 name: eval-run
 description: Execute evaluation against specified criteria
+tier: extended
 ---
 
 ---

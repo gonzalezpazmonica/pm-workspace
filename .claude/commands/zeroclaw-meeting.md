@@ -5,6 +5,7 @@ argument-hint: "start | stop | voice enroll <name> | voice list | voice delete <
 allowed-tools: [Read, Bash, Write]
 model: github-copilot/claude-sonnet-4.5
 context_cost: medium
+tier: core
 ---
 
 # /zeroclaw meeting — Reuniones en vivo con ZeroClaw

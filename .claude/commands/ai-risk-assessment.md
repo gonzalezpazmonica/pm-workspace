@@ -4,6 +4,7 @@ description: Evaluación de riesgo de agentes según categorías EU AI Act
 developer_type: agent-single
 agent: security-guardian
 context_cost: medium
+tier: extended
 ---
 
 # AI Risk Assessment Command

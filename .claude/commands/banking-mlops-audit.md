@@ -4,6 +4,7 @@ description: Auditar pipeline MLOps — versionado, drift, XAI, model risk, scor
 developer_type: all
 agent: task
 context_cost: high
+tier: core
 ---
 
 # /banking-mlops-audit [--project {nombre}] [--focus pipeline|risk|xai|scoring]

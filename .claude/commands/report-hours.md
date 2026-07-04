@@ -3,6 +3,7 @@ name: report-hours
 description: Genera el informe de imputación de horas del sprint actual o especificado.
 model: github-copilot/claude-sonnet-4.5
 context_cost: medium
+tier: core
 ---
 
 # /report-hours

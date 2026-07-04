@@ -4,6 +4,7 @@ description: Generar plantillas Excel interactivas con Claude-in-Excel para repo
 developer_type: all
 agent: task
 context_cost: medium
+tier: extended
 ---
 
 # /excel-report

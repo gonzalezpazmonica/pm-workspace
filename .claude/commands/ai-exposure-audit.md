@@ -6,6 +6,7 @@ agent: task
 context_cost: high
 model: github-copilot/claude-sonnet-4.5
 argument-hint: "[--team equipo] [--role rol] [--threshold 50] [--lang es|en]"
+tier: core
 ---
 
 # /ai-exposure-audit — Auditoría de Exposición IA

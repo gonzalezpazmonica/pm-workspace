@@ -3,6 +3,7 @@ name: sentry-bugs
 description: >
   Crear PBIs en Azure DevOps a partir de errores frecuentes en Sentry.
   Analiza issues, agrupa por causa raíz y propone work items.
+tier: extended
 ---
 
 # Bugs desde Sentry → PBIs

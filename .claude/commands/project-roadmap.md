@@ -3,6 +3,7 @@ name: project-roadmap
 description: >
   Phase 4 — Generate visual roadmap from release plan: timeline,
   milestones, dependencies. Mermaid gantt → Draw.io/Miro.
+tier: core
 ---
 
 # Project Roadmap
