@@ -38,7 +38,9 @@ while read -r old_sha new_sha ref; do
     continue
   fi
 
-  # Run pr-plan in gate mode (non-interactive, exit 1 on failure)
+  # Export GIT_DIR so all git commands in pr-plan find the repo
+  export GIT_DIR="$GIT_DIR"
+  export GIT_WORK_TREE="$WORKTREE"
   cd "$WORKTREE"
   echo "  Running pr-plan --gate-mode ..."
   echo ""
