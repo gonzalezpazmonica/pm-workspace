@@ -16,27 +16,27 @@ trap cleanup EXIT
 GATE_REMOTE="upstream"
 GREEN='\033[0;32m'; RED='\033[0;31m'; NC='\033[0m'
 
+# Cache upstream URL from bare repo
+UPSTREAM_URL=$(git remote get-url upstream 2>/dev/null || echo "")
+
 while read -r old_sha new_sha ref; do
   [[ "$ref" =~ ^refs/heads/ ]] || continue
   branch="${ref#refs/heads/}"
   echo ""
   echo "=== Gate: $branch ==="
-  echo ""
 
-  # Clone bare repo into temp worktree with proper git linkage
+  # Init fresh worktree and fetch branch from bare repo
   WORKTREE=$(mktemp -d)
-  if ! git clone --quiet "$GIT_DIR" "$WORKTREE" 2>/dev/null; then
-    echo -e "${RED}GATE ERROR${NC}: clone failed"
+  git init --quiet "$WORKTREE"
+  cd "$WORKTREE"
+
+  if ! git fetch --quiet "$GIT_DIR" "$branch" 2>/dev/null; then
+    echo -e "  ${RED}GATE ERROR${NC}: fetch failed"
     continue
   fi
-  cd "$WORKTREE"
-  git checkout "$branch" 2>/dev/null || true
+  git checkout -b "$branch" FETCH_HEAD --quiet 2>/dev/null || true
 
-  # Add upstream remote (clone inherits origin but not other remotes)
-  UPSTREAM_URL=$(git --git-dir="$GIT_DIR" remote get-url upstream 2>/dev/null || echo "")
-  if [[ -n "$UPSTREAM_URL" ]]; then
-    git remote add upstream "$UPSTREAM_URL" 2>/dev/null || true
-  fi
+  [[ -n "$UPSTREAM_URL" ]] && git remote add upstream "$UPSTREAM_URL" 2>/dev/null || true
 
   echo "  Running pr-plan --gate-mode ..."
   echo ""
