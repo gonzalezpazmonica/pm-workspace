@@ -25,12 +25,16 @@ while read -r old_sha new_sha ref; do
   echo ""
   echo "=== Gate: $branch ==="
 
-  # Init fresh worktree and fetch branch from bare repo
+  # Init fresh worktree, store bare repo path before unsetting GIT_DIR
   WORKTREE=$(mktemp -d)
+  GATE_REPO="$GIT_DIR"
   git init --quiet "$WORKTREE"
+
+  # Unset GIT_DIR so git discovers worktree's .git, not bare repo
+  unset GIT_DIR
   cd "$WORKTREE"
 
-  if ! git fetch --quiet "$GIT_DIR" "$branch" 2>/dev/null; then
+  if ! git fetch --quiet "$GATE_REPO" "$branch" 2>/dev/null; then
     echo -e "  ${RED}GATE ERROR${NC}: fetch failed"
     continue
   fi
