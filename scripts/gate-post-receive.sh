@@ -25,9 +25,9 @@ while read -r old_sha new_sha ref; do
   echo ""
   echo "=== Gate: $branch ==="
 
-  # Detect bare repo path (post-receive hook sets GIT_DIR, but unset it before worktree ops)
+  # Detect bare repo path
   WORKTREE=$(mktemp -d)
-  GATE_REPO="${GIT_DIR:-$(cd "$(dirname "$0")/.." && pwd)}"
+  GATE_REPO="${GIT_DIR:-$HOME/.savia/gate.git}"
   unset GIT_DIR
   unset GIT_WORK_TREE
   git init --quiet "$WORKTREE"
