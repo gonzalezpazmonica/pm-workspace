@@ -38,9 +38,8 @@ while read -r old_sha new_sha ref; do
     continue
   fi
 
-  # Export GIT_DIR so all git commands in pr-plan find the repo
-  export GIT_DIR="$GIT_DIR"
-  export GIT_WORK_TREE="$WORKTREE"
+  # Link worktree to bare repo so git commands work without env vars
+  echo "gitdir: $GIT_DIR" > "$WORKTREE/.git"
   cd "$WORKTREE"
   echo "  Running pr-plan --gate-mode ..."
   echo ""
