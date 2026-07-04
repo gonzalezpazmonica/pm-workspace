@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 set -uo pipefail
-source "$(dirname "${BASH_SOURCE[0]}")/../../scripts/savia-env.sh"
+source "$(dirname "${BASH_SOURCE[0]}")/../../../scripts/savia-env.sh"
 export CLAUDE_PROJECT_DIR="${CLAUDE_PROJECT_DIR:-$SAVIA_WORKSPACE_DIR}"
 # recommendation-tribunal-pre-output.sh — SPEC-125 Slice 1 hook.
 #

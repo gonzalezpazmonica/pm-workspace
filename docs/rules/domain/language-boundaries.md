@@ -1,6 +1,7 @@
 ---
 context_tier: L2
 spec: SE-253
+token_budget: 1200
 title: "Language Boundaries — bash vs Python"
 ---
 
