@@ -25,9 +25,9 @@ while read -r old_sha new_sha ref; do
   echo ""
   echo "=== Gate: $branch ==="
 
-  # Detect bare repo path
+  # Detect bare repo path. $GIT_DIR may be '.' (relative) in hook context.
   WORKTREE=$(mktemp -d)
-  GATE_REPO="/home/monica/.savia/gate.git"
+  GATE_REPO="$(cd "${GIT_DIR:-.}" && pwd)"
   unset GIT_DIR
   unset GIT_WORK_TREE
   git init --quiet "$WORKTREE"
