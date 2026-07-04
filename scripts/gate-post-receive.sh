@@ -56,6 +56,7 @@ while read -r old_sha new_sha ref; do
     fi
 
     echo "  Forwarding to $GATE_REMOTE/$branch ..."
+    git pull --rebase "$GATE_REMOTE" "$branch" 2>/dev/null || true
     if git push "$GATE_REMOTE" "$branch" 2>&1; then
       echo -e "${GREEN}=== GATE PASSED -> $GATE_REMOTE/$branch ===${NC}"
     else
