@@ -16,7 +16,7 @@ cleanup() {
 }
 trap cleanup EXIT
 
-UPSTREAM_REMOTE="origin-upstream"
+GATE_REMOTE="upstream"
 GREEN='\033[0;32m'; RED='\033[0;31m'; YEL='\033[0;33m'; NC='\033[0m'
 
 while read -r old_sha new_sha ref; do
@@ -58,13 +58,13 @@ while read -r old_sha new_sha ref; do
     fi
 
     # Forward to upstream
-    echo "  Forwarding to $UPSTREAM_REMOTE/$branch ..."
-    if git push "$UPSTREAM_REMOTE" "$branch" 2>&1; then
+    echo "  Forwarding to $GATE_REMOTE/$branch ..."
+    if git push "$GATE_REMOTE" "$branch" 2>&1; then
       echo ""
-      echo -e "${GREEN}=== GATE PASSED → pushed to $UPSTREAM_REMOTE/$branch ===${NC}"
+      echo -e "${GREEN}=== GATE PASSED → pushed to $GATE_REMOTE/$branch ===${NC}"
     else
       echo ""
-      echo -e "${RED}=== GATE ERROR${NC}: push to $UPSTREAM_REMOTE failed ==="
+      echo -e "${RED}=== GATE ERROR${NC}: push to $GATE_REMOTE failed ==="
     fi
   else
     echo ""

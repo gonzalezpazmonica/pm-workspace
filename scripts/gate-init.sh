@@ -82,7 +82,8 @@ if $DRY_RUN; then
   echo "  2. git init --bare $GATE_DIR"
   echo "  3. cp scripts/gate-post-receive.sh -> $GATE_DIR/hooks/post-receive"
   echo "  4. git remote add origin $GATE_DIR"
-  echo "  5. git config savia.gate.enabled true"
+  echo "  5. git --git-dir=$GATE_DIR remote add upstream <url>"
+  echo "  6. git config savia.gate.enabled true"
   echo ""
   echo "  Current origin: $CURRENT_ORIGIN"
   exit 0
@@ -115,8 +116,13 @@ echo -n "4. Pointing origin to gate ... "
 git remote add origin "$GATE_DIR"
 echo -e "${GRN}done${NC}"
 
-# 5. Register metadata
-echo -n "5. Registering gate config ... "
+# 5. Configure upstream remote in the bare repo so the hook can forward
+echo -n "5. Configuring upstream in bare repo ... "
+git --git-dir="$GATE_DIR" remote add upstream "$CURRENT_ORIGIN"
+echo -e "${GRN}done${NC}"
+
+# 6. Register metadata
+echo -n "6. Registering gate config ... "
 git config savia.gate.enabled true
 git config savia.gate.upstream "$UPSTREAM_NAME"
 git config savia.gate.dir "$GATE_DIR"
@@ -125,8 +131,8 @@ echo -e "${GRN}done${NC}"
 echo ""
 echo -e "${GRN}=== Gate activated ===${NC}"
 echo ""
-echo "  origin:          $GATE_DIR (gate)"
-echo "  origin-upstream: $(git remote get-url $UPSTREAM_NAME | head -c 50)..."
+echo "  origin:   $GATE_DIR (gate)"
+echo "  upstream: $(git --git-dir="$GATE_DIR" remote get-url upstream | head -c 60)..."
 echo ""
 echo "  git push origin <rama>  -> gate runs pr-plan -> forwards if green"
 echo "  Revert: bash scripts/gate-teardown.sh"
