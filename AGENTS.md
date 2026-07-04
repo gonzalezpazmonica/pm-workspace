@@ -1,3 +1,5 @@
+# Referencia: .claude/CONSTITUCION.md — constitucion operativa de Savia
+
 # AGENTS.md
 
 > Auto-generated from `.opencode/agents/*.md`. **Do not edit by hand.**
