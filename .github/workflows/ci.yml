@@ -162,6 +162,12 @@ jobs:
           sudo apt-get install -y jq git bash python3-pip
           pip3 install pytest
 
+          # Install Node.js deps for test_workspace.py mock mode
+          npm install --prefix scripts
+
+          # Install Node.js deps for test_workspace.py mock mode
+          npm install --prefix scripts
+
           # Ensure git is properly configured for test environment
           git config --global user.email "ci@example.com"
           git config --global user.name "CI Runner"
