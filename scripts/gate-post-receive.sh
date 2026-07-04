@@ -32,6 +32,12 @@ while read -r old_sha new_sha ref; do
   cd "$WORKTREE"
   git checkout "$branch" 2>/dev/null || true
 
+  # Add upstream remote (clone inherits origin but not other remotes)
+  UPSTREAM_URL=$(git --git-dir="$GIT_DIR" remote get-url upstream 2>/dev/null || echo "")
+  if [[ -n "$UPSTREAM_URL" ]]; then
+    git remote add upstream "$UPSTREAM_URL" 2>/dev/null || true
+  fi
+
   echo "  Running pr-plan --gate-mode ..."
   echo ""
 
