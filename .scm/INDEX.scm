@@ -1,6 +1,6 @@
 # Savia Capability Map — INDEX
-> hash: f7626c5e5803 | resources: 1184
-> 287 commands · 120 skills · 81 agents · 696 scripts
+> hash: 8c07af5413b3 | resources: 1187
+> 287 commands · 120 skills · 81 agents · 699 scripts
 
 [analysis] Trace Optimize — across,distributed,optimize,rates,sampling — cmd:.claude/commands/trace-optimize.md
 [analysis] agent-activity — activity,agent,executions,recent,show — cmd:.claude/commands/agent-activity.md
@@ -657,6 +657,9 @@
 [planning] fork-agents — agents,cacheable,claude,fork,invocaciones — script:scripts/fork-agents.sh
 [planning] frontend-developer —  — agent:.opencode/agents/frontend-developer.md
 [planning] frontier-strategy — frontier,selection,slice,strategies,strategy — script:scripts/frontier-strategy.sh
+[planning] gate-init — gate,init,scripts — script:scripts/gate-init.sh
+[planning] gate-post-receive — gate,post,receive,scripts — script:scripts/gate-post-receive.sh
+[planning] gate-teardown — gate,scripts,teardown — script:scripts/gate-teardown.sh
 [planning] generate-capability-map — around,capability,generate,generator,python — script:scripts/generate-capability-map.sh
 [planning] generate-critical-facts — critical,facts,generate,scripts — script:scripts/generate-critical-facts.sh
 [planning] generate-index — components,discoverable,generate,index,workspace — script:scripts/generate-index.sh

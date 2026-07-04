@@ -1,5 +1,5 @@
 # planning — Savia Capability Map (L1)
-> 478 resources
+> 481 resources
 
 - **/decide-architecture** (cmd): Clasifica una tarea como WORKFLOW (deterministica) o AGENT (loop). Bias hacia workflow per Anthropic. Sugiere plantilla inicial. Mide accuracy contra corpus curado de 20 tareas.
 - **_template** (skill): TEMPLATE — copia este directorio para crear una skill nueva. NO se carga en runtime.
@@ -185,6 +185,9 @@
 - **fork-agents** (script): fork-agents.sh — Lanza N invocaciones paralelas de Claude con prefijo cacheable
 - **frontend-developer** (agent): >
 - **frontier-strategy** (script): frontier-strategy.sh — SE-216 Slice 3: frontier selection strategies
+- **gate-init** (script): scripts/gate-init.sh — SE-255
+- **gate-post-receive** (script): scripts/gate-post-receive.sh — SE-255
+- **gate-teardown** (script): scripts/gate-teardown.sh — SE-255
 - **generate-capability-map** (script): ── generate-capability-map.sh — Thin wrapper around the Python generator.
 - **generate-critical-facts** (script): scripts/generate-critical-facts.sh
 - **generate-index** (script): generate-index.sh — Generate discoverable index of all workspace components

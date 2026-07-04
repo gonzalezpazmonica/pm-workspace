@@ -1,6 +1,6 @@
 {
-  "hash": "16c54c712152",
-  "total": 1184,
+  "hash": "e9c1c6089f7f",
+  "total": 1187,
   "resources": [
     {
       "category": "analysis",
@@ -8639,6 +8639,43 @@
       "kind": "script",
       "path": "scripts/frontier-strategy.sh",
       "description": "frontier-strategy.sh — SE-216 Slice 3: frontier selection strategies"
+    },
+    {
+      "category": "planning",
+      "name": "gate-init",
+      "intents": [
+        "gate",
+        "init",
+        "scripts"
+      ],
+      "kind": "script",
+      "path": "scripts/gate-init.sh",
+      "description": "scripts/gate-init.sh — SE-255"
+    },
+    {
+      "category": "planning",
+      "name": "gate-post-receive",
+      "intents": [
+        "gate",
+        "post",
+        "receive",
+        "scripts"
+      ],
+      "kind": "script",
+      "path": "scripts/gate-post-receive.sh",
+      "description": "scripts/gate-post-receive.sh — SE-255"
+    },
+    {
+      "category": "planning",
+      "name": "gate-teardown",
+      "intents": [
+        "gate",
+        "scripts",
+        "teardown"
+      ],
+      "kind": "script",
+      "path": "scripts/gate-teardown.sh",
+      "description": "scripts/gate-teardown.sh — SE-255"
     },
     {
       "category": "planning",
