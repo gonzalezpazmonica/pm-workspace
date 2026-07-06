@@ -166,11 +166,14 @@ setup() {
 }
 
 @test "AC-3.3b: captura de override escribe entrada en ledger" {
-  BEFORE=$(wc -l < "$REPO_ROOT/data/relacion/ledger.jsonl")
-  run bash "$REPO_ROOT/scripts/relacion-capture.sh" override "Test: operadora descarto borrador X"
+  TMP_LEDGER=$(mktemp)
+  cp "$REPO_ROOT/data/relacion/ledger.jsonl" "$TMP_LEDGER"
+  BEFORE=$(wc -l < "$TMP_LEDGER")
+  run env LEDGER="$TMP_LEDGER" bash "$REPO_ROOT/scripts/relacion-capture.sh" override "Test: operadora descarto borrador X"
   [ "$status" -eq 0 ]
-  AFTER=$(wc -l < "$REPO_ROOT/data/relacion/ledger.jsonl")
+  AFTER=$(wc -l < "$TMP_LEDGER")
   [ "$AFTER" -gt "$BEFORE" ]
+  rm -f "$TMP_LEDGER"
 }
 
 @test "AC-3.3c: captura con tipo invalido rechaza" {

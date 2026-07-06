@@ -8,7 +8,7 @@
 set -euo pipefail
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 ROOT="$(dirname "$SCRIPT_DIR")"
-LEDGER="$ROOT/data/relacion/ledger.jsonl"
+LEDGER="${LEDGER:-$ROOT/data/relacion/ledger.jsonl}"
 TIPO="${1:-}"
 TEXTO="${2:-}"
 CLAIM_ID=""
