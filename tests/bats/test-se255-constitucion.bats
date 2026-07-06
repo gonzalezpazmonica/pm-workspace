@@ -126,7 +126,7 @@ setup() {
 @test "AC-6.2: atestacion genera fichero de salida" {
   run bash "$REPO_ROOT/scripts/savia-attest.sh"
   [ "$status" -eq 0 ]
-  [ -f "$REPO_ROOT/output/atestacion/"*.md ]
+  ls "$REPO_ROOT/output/atestacion/"*.md >/dev/null 2>&1
 }
 
 @test "AC-6.3: atestacion menciona matriz nivel-N x destino" {
@@ -138,4 +138,63 @@ setup() {
   run bash "$REPO_ROOT/scripts/savia-attest.sh"
   FILES=("$REPO_ROOT/output/atestacion/"*.md)
   grep -q "hash\|firma\|sha256" "${FILES[-1]}" || true
+}
+
+# ── Slice 2 extended: bootstrap ────────────────────────────────────────────
+
+@test "AC-2.2a: criterio-init.sh existe y es ejecutable" {
+  [ -f "$REPO_ROOT/scripts/criterio-init.sh" ]
+  [ -x "$REPO_ROOT/scripts/criterio-init.sh" ]
+}
+
+@test "AC-2.2b: criterio-init genera borradores en data/relacion/criterio-drafts" {
+  run bash "$REPO_ROOT/scripts/criterio-init.sh"
+  [ "$status" -eq 0 ]
+  [ -f "$REPO_ROOT/data/relacion/criterio-drafts/CRIT-PROPUESTAS.md" ]
+}
+
+@test "AC-2.2c: borradores tienen provenance:INFERRED (no activos)" {
+  run bash "$REPO_ROOT/scripts/criterio-init.sh"
+  grep -q "INFERRED" "$REPO_ROOT/data/relacion/criterio-drafts/CRIT-PROPUESTAS.md"
+}
+
+# ── Slice 3 extended: captura automatica ────────────────────────────────────
+
+@test "AC-3.3a: relacion-capture.sh existe y es ejecutable" {
+  [ -f "$REPO_ROOT/scripts/relacion-capture.sh" ]
+  [ -x "$REPO_ROOT/scripts/relacion-capture.sh" ]
+}
+
+@test "AC-3.3b: captura de override escribe entrada en ledger" {
+  BEFORE=$(wc -l < "$REPO_ROOT/data/relacion/ledger.jsonl")
+  run bash "$REPO_ROOT/scripts/relacion-capture.sh" override "Test: operadora descarto borrador X"
+  [ "$status" -eq 0 ]
+  AFTER=$(wc -l < "$REPO_ROOT/data/relacion/ledger.jsonl")
+  [ "$AFTER" -gt "$BEFORE" ]
+}
+
+@test "AC-3.3c: captura con tipo invalido rechaza" {
+  run bash "$REPO_ROOT/scripts/relacion-capture.sh" tipo_inventado "test"
+  [ "$status" -ne 0 ]
+}
+
+@test "AC-3.4a: relacion-report.sh existe y es ejecutable" {
+  [ -f "$REPO_ROOT/scripts/relacion-report.sh" ]
+  [ -x "$REPO_ROOT/scripts/relacion-report.sh" ]
+}
+
+@test "AC-3.4b: report muestra estadisticas del ledger" {
+  run bash "$REPO_ROOT/scripts/relacion-report.sh"
+  [ "$status" -eq 0 ]
+  [[ "$output" == *"Libro"* ]] || [[ "$output" == *"Total"* ]]
+}
+
+# ── Slice 5 extended: guard plugin ──────────────────────────────────────────
+
+@test "AC-5.3a: guard require-criterion-cite.ts existe" {
+  [ -f "$REPO_ROOT/.opencode/plugins/guards/require-criterion-cite.ts" ]
+}
+
+@test "AC-5.3b: test del guard existe" {
+  [ -f "$REPO_ROOT/.opencode/plugins/__tests__/require-criterion-cite.test.ts" ]
 }

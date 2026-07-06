@@ -1,5 +1,5 @@
 # planning — Savia Capability Map (L1)
-> 483 resources
+> 485 resources
 
 - **/decide-architecture** (cmd): Clasifica una tarea como WORKFLOW (deterministica) o AGENT (loop). Bias hacia workflow per Anthropic. Sugiere plantilla inicial. Mide accuracy contra corpus curado de 20 tareas.
 - **_template** (skill): TEMPLATE — copia este directorio para crear una skill nueva. NO se carga en runtime.
@@ -101,6 +101,7 @@
 - **court-score-aggregator** (script): court-score-aggregator.sh
 - **credential-proxy** (script): credential-proxy.sh — Managed Agents pattern: credential isolation
 - **criterio-cite** (script): scripts/criterio-cite.sh — SE-255 Slice 5
+- **criterio-init** (script): scripts/criterio-init.sh — SE-255 Slice 2
 - **criterion-simulation-judge** (agent): >
 - **criticality** (script): criticality.sh — Dispatcher for criticality operations
 - **criticality-assess** (cmd): Evaluar criticidad de un item con desglose de 5 dimensiones y perfil CoD
@@ -334,6 +335,7 @@
 - **reflection-validation** (skill): Usar cuando una respuesta o decisión importante necesita validación metacognitiva (System 2).
 - **reflection-validator** (agent): >
 - **refresh-agent-maps** (script): refresh-agent-maps.sh
+- **relacion-capture** (script): scripts/relacion-capture.sh — SE-255 Slice 3
 - **release-backfill** (script): release-backfill.sh — Create missing GitHub releases from git tags
 - **repos-list** (cmd): >
 - **reranker** (skill): Usar cuando se recibe un top-K ruidoso de búsqueda en memoria y se necesita reordenar por relevancia.

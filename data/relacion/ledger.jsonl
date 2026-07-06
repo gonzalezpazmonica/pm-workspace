@@ -1,1 +1,3 @@
 {"entry_id":"SEED-001","tipo":"bootstrap","ts":"2026-07-05T00:00:00Z","provenance":"system_init","texto":"Libro de la relacion inicializado. Savia-SE-255 Slice 3.","hash_prev":null}
+{"entry_id": "override-20260706-212717-2133554", "tipo": "override", "texto": "Test: operadora descarto borrador X", "ts": "2026-07-06T19:27:17Z", "provenance": "auto_capture", "hash_prev": "26e67b38dbc297f6775b8d608d173bf20fba7757c79a7576d164827bf37ca545"}
+{"entry_id": "override-20260706-212731-2134448", "tipo": "override", "texto": "Test: operadora descarto borrador X", "ts": "2026-07-06T19:27:31Z", "provenance": "auto_capture", "hash_prev": "68d97910360c873bb8804106d45c995c9de44ec7ad334376b9f7af81c9e51760"}

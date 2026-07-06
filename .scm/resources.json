@@ -1,6 +1,6 @@
 {
-  "hash": "67f841fae6f8",
-  "total": 1190,
+  "hash": "b51dd1820106",
+  "total": 1193,
   "resources": [
     {
       "category": "analysis",
@@ -493,6 +493,19 @@
       "kind": "script",
       "path": "scripts/reconciliation-stats.sh",
       "description": "reconciliation-stats.sh — Append/report reconciliation classification metrics"
+    },
+    {
+      "category": "analysis",
+      "name": "relacion-report",
+      "intents": [
+        "relacion",
+        "report",
+        "scripts",
+        "slice"
+      ],
+      "kind": "script",
+      "path": "scripts/relacion-report.sh",
+      "description": "scripts/relacion-report.sh — SE-255 Slice 3"
     },
     {
       "category": "analysis",
@@ -7576,6 +7589,19 @@
     },
     {
       "category": "planning",
+      "name": "criterio-init",
+      "intents": [
+        "criterio",
+        "init",
+        "scripts",
+        "slice"
+      ],
+      "kind": "script",
+      "path": "scripts/criterio-init.sh",
+      "description": "scripts/criterio-init.sh — SE-255 Slice 2"
+    },
+    {
+      "category": "planning",
       "name": "criterion-simulation-judge",
       "intents": [],
       "kind": "agent",
@@ -10550,6 +10576,19 @@
       "kind": "script",
       "path": "scripts/refresh-agent-maps.sh",
       "description": "refresh-agent-maps.sh"
+    },
+    {
+      "category": "planning",
+      "name": "relacion-capture",
+      "intents": [
+        "capture",
+        "relacion",
+        "scripts",
+        "slice"
+      ],
+      "kind": "script",
+      "path": "scripts/relacion-capture.sh",
+      "description": "scripts/relacion-capture.sh — SE-255 Slice 3"
     },
     {
       "category": "planning",
