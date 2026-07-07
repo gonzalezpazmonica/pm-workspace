@@ -1,5 +1,5 @@
 # planning — Savia Capability Map (L1)
-> 485 resources
+> 487 resources
 
 - **/decide-architecture** (cmd): Clasifica una tarea como WORKFLOW (deterministica) o AGENT (loop). Bias hacia workflow per Anthropic. Sugiere plantilla inicial. Mide accuracy contra corpus curado de 20 tareas.
 - **_template** (skill): TEMPLATE — copia este directorio para crear una skill nueva. NO se carga en runtime.
@@ -336,6 +336,7 @@
 - **reflection-validator** (agent): >
 - **refresh-agent-maps** (script): refresh-agent-maps.sh
 - **relacion-capture** (script): scripts/relacion-capture.sh — SE-255 Slice 3
+- **relacion-detect-conflicts** (script): scripts/relacion-detect-conflicts.sh — SE-256 Slice 2
 - **release-backfill** (script): release-backfill.sh — Create missing GitHub releases from git tags
 - **repos-list** (cmd): >
 - **reranker** (skill): Usar cuando se recibe un top-K ruidoso de búsqueda en memoria y se necesita reordenar por relevancia.
@@ -478,6 +479,7 @@
 - **vault** (script): vault.sh — Personal Vault dispatcher (N3)
 - **vault-ops** (script): vault-ops.sh — Personal Vault operations library (N3). Sourced by vault.sh.
 - **velocity-trend** (cmd): Tendencia de velocity con media móvil, detección de anomalías y factores explicativos
+- **verify-principal** (script): scripts/verify-principal.sh — SE-256 Slice 3
 - **vuln-scan** (script): vuln-scan.sh — Vulnerability scanner for pm-workspace scripts
 - **wave-executor** (script): wave-executor.sh — Generic wave execution engine for DAG task graphs
 - **wave-executor-lib** (script): wave-executor-lib.sh — Helper functions for wave-executor.sh

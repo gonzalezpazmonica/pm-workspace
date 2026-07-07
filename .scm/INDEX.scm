@@ -1,6 +1,6 @@
 # Savia Capability Map — INDEX
-> hash: fdce658311ba | resources: 1193
-> 287 commands · 120 skills · 81 agents · 705 scripts
+> hash: ad469e71f590 | resources: 1196
+> 287 commands · 120 skills · 81 agents · 708 scripts
 
 [analysis] Trace Optimize — across,distributed,optimize,rates,sampling — cmd:.claude/commands/trace-optimize.md
 [analysis] agent-activity — activity,agent,executions,recent,show — cmd:.claude/commands/agent-activity.md
@@ -459,6 +459,7 @@
 [memory] nl-query — comandos,consultas,habla,lenguaje,memorizar — cmd:.claude/commands/nl-query.md
 [memory] post-compaction — compactación,compaction,contexto,hook,inyecta — script:scripts/post-compaction.sh
 [memory] recursion-guard-export — context,export,guard,loop,prevention — script:scripts/recursion-guard-export.sh
+[memory] save-nudge — nudge,save,scripts,slice — script:scripts/save-nudge.sh
 [memory] session-action-log — action,append,only,session,spec — script:scripts/session-action-log.sh
 [memory] session-cleanup — abtop,cleanup,orphan,pattern,process — script:scripts/session-cleanup.sh
 [memory] session-event-log — agents,durable,event,managed,pattern — script:scripts/session-event-log.sh
@@ -810,6 +811,7 @@
 [planning] reflection-validator —  — agent:.opencode/agents/reflection-validator.md
 [planning] refresh-agent-maps — agent,maps,refresh — script:scripts/refresh-agent-maps.sh
 [planning] relacion-capture — capture,relacion,scripts,slice — script:scripts/relacion-capture.sh
+[planning] relacion-detect-conflicts — conflicts,detect,relacion,scripts,slice — script:scripts/relacion-detect-conflicts.sh
 [planning] release-backfill — backfill,create,github,missing,release — script:scripts/release-backfill.sh
 [planning] repos-list —  — cmd:.claude/commands/repos-list.md
 [planning] reranker — búsqueda,memoria,recibe,relevancia,reordenar — skill:.claude/skills/reranker/SKILL.md
@@ -952,6 +954,7 @@
 [planning] vault — dispatcher,personal,vault — script:scripts/vault.sh
 [planning] vault-ops — library,operations,personal,sourced,vault — script:scripts/vault-ops.sh
 [planning] velocity-trend — anomalías,detección,explicativos,factores,media — cmd:.claude/commands/velocity-trend.md
+[planning] verify-principal — principal,scripts,slice,verify — script:scripts/verify-principal.sh
 [planning] vuln-scan — scan,scanner,scripts,vuln,vulnerability — script:scripts/vuln-scan.sh
 [planning] wave-executor — engine,execution,executor,generic,graphs — script:scripts/wave-executor.sh
 [planning] wave-executor-lib — executor,functions,helper,wave — script:scripts/wave-executor-lib.sh
