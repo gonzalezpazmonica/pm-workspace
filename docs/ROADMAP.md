@@ -1114,6 +1114,8 @@ Archivos: `docs/propuestas/SPEC-180..186-*.md`. Origen: `output/research/obsidia
 | SE-239-247 | #890 | Security Hardening Suite (9 specs, 108 BATS) |
 | SE-248 | #891 | KG Topology Analysis (Forman-Ricci + Leiden) |
 | SE-252 | #893 | Bus Factor Shield (context domes, 93 BATS) |
+| SE-255 | #896 | Constitución operativa (criterio, relación, lealtad, 35 BATS) |
+| SE-256 | — | Patrones engram: save-nudge, conflictos, principal (10 BATS) |
 | SE-095/096/097-SC | — | SaviaClaw heartbeat + cron + streaming (en saviaclaw_headless.py) |
 
 ### En curso (Sprint 1 — sesión 2026-07-02)
