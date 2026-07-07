@@ -1,6 +1,6 @@
 {
-  "hash": "b51dd1820106",
-  "total": 1193,
+  "hash": "2083672101ed",
+  "total": 1196,
   "resources": [
     {
       "category": "analysis",
@@ -6050,6 +6050,19 @@
     },
     {
       "category": "memory",
+      "name": "save-nudge",
+      "intents": [
+        "nudge",
+        "save",
+        "scripts",
+        "slice"
+      ],
+      "kind": "script",
+      "path": "scripts/save-nudge.sh",
+      "description": "scripts/save-nudge.sh — SE-256 Slice 1"
+    },
+    {
+      "category": "memory",
       "name": "session-action-log",
       "intents": [
         "action",
@@ -10592,6 +10605,20 @@
     },
     {
       "category": "planning",
+      "name": "relacion-detect-conflicts",
+      "intents": [
+        "conflicts",
+        "detect",
+        "relacion",
+        "scripts",
+        "slice"
+      ],
+      "kind": "script",
+      "path": "scripts/relacion-detect-conflicts.sh",
+      "description": "scripts/relacion-detect-conflicts.sh — SE-256 Slice 2"
+    },
+    {
+      "category": "planning",
       "name": "release-backfill",
       "intents": [
         "backfill",
@@ -12455,6 +12482,19 @@
       "kind": "cmd",
       "path": ".claude/commands/velocity-trend.md",
       "description": "Tendencia de velocity con media móvil, detección de anomalías y factores explicativos"
+    },
+    {
+      "category": "planning",
+      "name": "verify-principal",
+      "intents": [
+        "principal",
+        "scripts",
+        "slice",
+        "verify"
+      ],
+      "kind": "script",
+      "path": "scripts/verify-principal.sh",
+      "description": "scripts/verify-principal.sh — SE-256 Slice 3"
     },
     {
       "category": "planning",
