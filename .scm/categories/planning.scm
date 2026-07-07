@@ -1,5 +1,5 @@
 # planning — Savia Capability Map (L1)
-> 481 resources
+> 485 resources
 
 - **/decide-architecture** (cmd): Clasifica una tarea como WORKFLOW (deterministica) o AGENT (loop). Bias hacia workflow per Anthropic. Sugiere plantilla inicial. Mide accuracy contra corpus curado de 20 tareas.
 - **_template** (skill): TEMPLATE — copia este directorio para crear una skill nueva. NO se carga en runtime.
@@ -100,6 +100,8 @@
 - **count-commands** (script): count-commands.sh — SE-095: canonical counter for slash commands.
 - **court-score-aggregator** (script): court-score-aggregator.sh
 - **credential-proxy** (script): credential-proxy.sh — Managed Agents pattern: credential isolation
+- **criterio-cite** (script): scripts/criterio-cite.sh — SE-255 Slice 5
+- **criterio-init** (script): scripts/criterio-init.sh — SE-255 Slice 2
 - **criterion-simulation-judge** (agent): >
 - **criticality** (script): criticality.sh — Dispatcher for criticality operations
 - **criticality-assess** (cmd): Evaluar criticidad de un item con desglose de 5 dimensiones y perfil CoD
@@ -333,6 +335,7 @@
 - **reflection-validation** (skill): Usar cuando una respuesta o decisión importante necesita validación metacognitiva (System 2).
 - **reflection-validator** (agent): >
 - **refresh-agent-maps** (script): refresh-agent-maps.sh
+- **relacion-capture** (script): scripts/relacion-capture.sh — SE-255 Slice 3
 - **release-backfill** (script): release-backfill.sh — Create missing GitHub releases from git tags
 - **repos-list** (cmd): >
 - **reranker** (skill): Usar cuando se recibe un top-K ruidoso de búsqueda en memoria y se necesita reordenar por relevancia.
@@ -347,6 +350,7 @@
 - **rule-usage-analyzer** (script): rule-usage-analyzer.sh — Analyze domain rule usage across the workspace
 - **rule-violation-judge** (agent): Recommendation Tribunal judge — detects when a draft recommendation violates canonical rules (CLAUDE.md, autonomous-safety, radical-honesty, domain rules)
 - **rules-index-generate** (script): rules-index-generate.sh — SE-097
+- **run-adversarial-evals** (script): scripts/run-adversarial-evals.sh — SE-255 Slice 1
 - **run-agent-evals** (script): run-agent-evals.sh — SE-204: evaluation harness for critical agents
 - **rust-developer** (agent): >
 - **scale-optimizer** (cmd): Scaling optimization — analyze, benchmark, recommend improvements for growing organizations

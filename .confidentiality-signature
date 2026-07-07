@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=fd2fcd6dd2524bc05a6e3b750a025ca4852e974447cab34b19fffc4c008cf270
-timestamp=2026-07-04T18:35:15Z
-branch=nido/se253-opencode-optimization
-head_commit=c73b4ed9
-signature=2f8ee419ef7fc20236300737e410ed0962b7cf8b1a64b875197475b1147f65bf
+diff_hash=b0d61ce7348ee55f2fbb220bd48d8dc39cac22fe14af4cb8f34ddd2c1c3157a8
+timestamp=2026-07-06T21:33:50Z
+branch=agent/se255-constitucion
+head_commit=bc5901bd
+signature=239a2fdbed8e167eed3a2e8aa4271f742ada51cd5bd9f9f23a7bd6068b139aeb
