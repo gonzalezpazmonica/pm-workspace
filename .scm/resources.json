@@ -1,6 +1,6 @@
 {
-  "hash": "e9c1c6089f7f",
-  "total": 1187,
+  "hash": "b51dd1820106",
+  "total": 1193,
   "resources": [
     {
       "category": "analysis",
@@ -496,6 +496,19 @@
     },
     {
       "category": "analysis",
+      "name": "relacion-report",
+      "intents": [
+        "relacion",
+        "report",
+        "scripts",
+        "slice"
+      ],
+      "kind": "script",
+      "path": "scripts/relacion-report.sh",
+      "description": "scripts/relacion-report.sh — SE-255 Slice 3"
+    },
+    {
+      "category": "analysis",
       "name": "report-capacity",
       "intents": [
         "alertas",
@@ -859,6 +872,19 @@
       "kind": "cmd",
       "path": ".claude/commands/savia-announce.md",
       "description": ">"
+    },
+    {
+      "category": "communication",
+      "name": "savia-attest",
+      "intents": [
+        "attest",
+        "savia",
+        "scripts",
+        "slice"
+      ],
+      "kind": "script",
+      "path": "scripts/savia-attest.sh",
+      "description": "scripts/savia-attest.sh — SE-255 Slice 6"
     },
     {
       "category": "communication",
@@ -7550,6 +7576,32 @@
     },
     {
       "category": "planning",
+      "name": "criterio-cite",
+      "intents": [
+        "cite",
+        "criterio",
+        "scripts",
+        "slice"
+      ],
+      "kind": "script",
+      "path": "scripts/criterio-cite.sh",
+      "description": "scripts/criterio-cite.sh — SE-255 Slice 5"
+    },
+    {
+      "category": "planning",
+      "name": "criterio-init",
+      "intents": [
+        "criterio",
+        "init",
+        "scripts",
+        "slice"
+      ],
+      "kind": "script",
+      "path": "scripts/criterio-init.sh",
+      "description": "scripts/criterio-init.sh — SE-255 Slice 2"
+    },
+    {
+      "category": "planning",
       "name": "criterion-simulation-judge",
       "intents": [],
       "kind": "agent",
@@ -10527,6 +10579,19 @@
     },
     {
       "category": "planning",
+      "name": "relacion-capture",
+      "intents": [
+        "capture",
+        "relacion",
+        "scripts",
+        "slice"
+      ],
+      "kind": "script",
+      "path": "scripts/relacion-capture.sh",
+      "description": "scripts/relacion-capture.sh — SE-255 Slice 3"
+    },
+    {
+      "category": "planning",
       "name": "release-backfill",
       "intents": [
         "backfill",
@@ -10696,6 +10761,19 @@
       "kind": "script",
       "path": "scripts/rules-index-generate.sh",
       "description": "rules-index-generate.sh — SE-097"
+    },
+    {
+      "category": "planning",
+      "name": "run-adversarial-evals",
+      "intents": [
+        "adversarial",
+        "evals",
+        "scripts",
+        "slice"
+      ],
+      "kind": "script",
+      "path": "scripts/run-adversarial-evals.sh",
+      "description": "scripts/run-adversarial-evals.sh — SE-255 Slice 1"
     },
     {
       "category": "planning",

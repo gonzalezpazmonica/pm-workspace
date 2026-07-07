@@ -1,5 +1,5 @@
 # analysis — Savia Capability Map (L1)
-> 50 resources
+> 51 resources
 
 - **Trace Optimize** (cmd): Optimize trace spans and sampling rates across distributed services
 - **agent-activity** (cmd): Show structured activity log of recent agent executions
@@ -38,6 +38,7 @@
 - **kpi-dashboard** (cmd): Muestra el dashboard completo con todos los KPIs definidos en docs/kpis-equipo.md.
 - **kpi-dora** (cmd): >
 - **reconciliation-stats** (script): reconciliation-stats.sh — Append/report reconciliation classification metrics
+- **relacion-report** (script): scripts/relacion-report.sh — SE-255 Slice 3
 - **report-capacity** (cmd): Muestra el estado de capacidades del equipo — disponibilidad, asignación y alertas de sobre-carga.
 - **report-executive** (cmd): Genera el informe ejecutivo multi-proyecto para dirección en formato Word o PowerPoint.
 - **report-hours** (cmd): Genera el informe de imputación de horas del sprint actual o especificado.

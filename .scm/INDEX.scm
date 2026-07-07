@@ -1,6 +1,6 @@
 # Savia Capability Map — INDEX
-> hash: 8c07af5413b3 | resources: 1187
-> 287 commands · 120 skills · 81 agents · 699 scripts
+> hash: fdce658311ba | resources: 1193
+> 287 commands · 120 skills · 81 agents · 705 scripts
 
 [analysis] Trace Optimize — across,distributed,optimize,rates,sampling — cmd:.claude/commands/trace-optimize.md
 [analysis] agent-activity — activity,agent,executions,recent,show — cmd:.claude/commands/agent-activity.md
@@ -39,6 +39,7 @@
 [analysis] kpi-dashboard — completo,dashboard,definidos,docs,equipo — cmd:.claude/commands/kpi-dashboard.md
 [analysis] kpi-dora —  — cmd:.claude/commands/kpi-dora.md
 [analysis] reconciliation-stats — append,classification,metrics,reconciliation,report — script:scripts/reconciliation-stats.sh
+[analysis] relacion-report — relacion,report,scripts,slice — script:scripts/relacion-report.sh
 [analysis] report-capacity — alertas,asignación,capacidades,carga,disponibilidad — cmd:.claude/commands/report-capacity.md
 [analysis] report-executive — dirección,ejecutivo,formato,informe,multi — cmd:.claude/commands/report-executive.md
 [analysis] report-hours — actual,especificado,horas,imputación,informe — cmd:.claude/commands/report-hours.md
@@ -70,6 +71,7 @@
 [communication] pdf-digest —  — agent:.opencode/agents/pdf-digest.md
 [communication] pptx-digest —  — agent:.opencode/agents/pptx-digest.md
 [communication] savia-announce —  — cmd:.claude/commands/savia-announce.md
+[communication] savia-attest — attest,savia,scripts,slice — script:scripts/savia-attest.sh
 [communication] savia-backup — backup,restore,savia,script — script:scripts/savia-backup.sh
 [communication] savia-board —  — cmd:.claude/commands/savia-board.md
 [communication] savia-branch — abstraction,branch,company,layer,savia — script:scripts/savia-branch.sh
@@ -572,6 +574,8 @@
 [planning] count-commands — canonical,commands,count,counter,slash — script:scripts/count-commands.sh
 [planning] court-score-aggregator — aggregator,court,score — script:scripts/court-score-aggregator.sh
 [planning] credential-proxy — agents,credential,isolation,managed,pattern — script:scripts/credential-proxy.sh
+[planning] criterio-cite — cite,criterio,scripts,slice — script:scripts/criterio-cite.sh
+[planning] criterio-init — criterio,init,scripts,slice — script:scripts/criterio-init.sh
 [planning] criterion-simulation-judge —  — agent:.opencode/agents/criterion-simulation-judge.md
 [planning] criticality — criticality,dispatcher,operations — script:scripts/criticality.sh
 [planning] criticality-assess — criticidad,desglose,dimensiones,evaluar,item — cmd:.claude/commands/criticality-assess.md
@@ -805,6 +809,7 @@
 [planning] reflection-validation — decisión,importante,metacognitiva,respuesta,system — skill:.claude/skills/reflection-validation/SKILL.md
 [planning] reflection-validator —  — agent:.opencode/agents/reflection-validator.md
 [planning] refresh-agent-maps — agent,maps,refresh — script:scripts/refresh-agent-maps.sh
+[planning] relacion-capture — capture,relacion,scripts,slice — script:scripts/relacion-capture.sh
 [planning] release-backfill — backfill,create,github,missing,release — script:scripts/release-backfill.sh
 [planning] repos-list —  — cmd:.claude/commands/repos-list.md
 [planning] reranker — búsqueda,memoria,recibe,relevancia,reordenar — skill:.claude/skills/reranker/SKILL.md
@@ -819,6 +824,7 @@
 [planning] rule-usage-analyzer — across,analyze,analyzer,domain,rule — script:scripts/rule-usage-analyzer.sh
 [planning] rule-violation-judge — autonomous,canonical,claude,detects,domain — agent:.opencode/agents/rule-violation-judge.md
 [planning] rules-index-generate — generate,index,rules — script:scripts/rules-index-generate.sh
+[planning] run-adversarial-evals — adversarial,evals,scripts,slice — script:scripts/run-adversarial-evals.sh
 [planning] run-agent-evals — agent,agents,critical,evals,evaluation — script:scripts/run-agent-evals.sh
 [planning] rust-developer —  — agent:.opencode/agents/rust-developer.md
 [planning] scale-optimizer — analyze,benchmark,growing,improvements,optimization — cmd:.claude/commands/scale-optimizer.md
