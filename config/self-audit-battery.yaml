@@ -1,0 +1,62 @@
+# Self-Audit Battery — SE-258 Slice 3
+# Declarative list of checks executed by /self-audit.
+# Each entry: id, script, description, severity, timeout (seconds).
+# Severities: critical, high, medium
+version: "1.0"
+name: "Savia Self-Audit Battery"
+max_duration_minutes: 10
+
+battery:
+  - id: "memory-liveness"
+    script: "scripts/memory-liveness-check.sh"
+    description: "Verifica que la memoria persistente responde"
+    severity: "critical"
+    timeout: 30
+
+  - id: "tracked-vs-nivel"
+    script: "scripts/tracked-vs-nivel.sh"
+    description: "Verifica que no hay ficheros protegidos trackeados"
+    severity: "critical"
+    timeout: 10
+
+  - id: "ledger-integrity"
+    script: "scripts/verify-ledger-chain.sh"
+    description: "Verifica integridad de la cadena de hashes del ledger"
+    severity: "critical"
+    timeout: 5
+
+  - id: "agent-sync"
+    script: "scripts/agents-md-drift-check.sh"
+    description: "Verifica que AGENTS.md esta sincronizado"
+    severity: "high"
+    timeout: 10
+
+  - id: "doc-counts"
+    script: "scripts/claude-md-drift-check.sh"
+    description: "Compara contadores documentados vs reales"
+    severity: "high"
+    timeout: 15
+
+  - id: "changelog-spec"
+    script: "scripts/changelog-spec-field-check.sh"
+    description: "Verifica que CHANGELOG.d tiene campos spec"
+    severity: "medium"
+    timeout: 5
+
+  - id: "context-budget"
+    script: "scripts/context-budget-check.sh"
+    description: "Mide el presupuesto de contexto de arranque"
+    severity: "medium"
+    timeout: 30
+
+  - id: "tier-audit"
+    script: "scripts/command-tier-audit.sh"
+    description: "Audita niveles tier de comandos"
+    severity: "medium"
+    timeout: 20
+
+sampling:
+  enabled: true
+  count: 3
+  archive_dir: "specs-archive/2026"
+  auto_only: true

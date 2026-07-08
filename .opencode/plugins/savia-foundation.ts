@@ -93,6 +93,10 @@ const AFTER_GUARDS = [
 import { readFileSync, existsSync } from "node:fs";
 import { homedir } from "node:os";
 import { join } from "node:path";
+import { statSync } from "node:fs";
+
+let _tierMapLastMtime = 0;
+let _tierMapCache: Record<string, string> = {};
 
 function loadModelTierMap(): Record<string, string> {
   const prefsPath = join(homedir(), ".savia", "preferences.yaml");
@@ -114,7 +118,25 @@ function loadModelTierMap(): Record<string, string> {
   }
 }
 
+function getModelTierMap(): Record<string, string> {
+  const prefsPath = join(homedir(), ".savia", "preferences.yaml");
+  try {
+    const mtime = statSync(prefsPath).mtimeMs;
+    if (mtime > _tierMapLastMtime) {
+      _tierMapCache = loadModelTierMap();
+      _tierMapLastMtime = mtime;
+    }
+  } catch {
+    _tierMapCache = {};
+  }
+  return _tierMapCache;
+}
+
 const MODEL_TIER_MAP: Record<string, string> = loadModelTierMap();
+_tierMapLastMtime = (() => {
+  try { return statSync(join(homedir(), ".savia", "preferences.yaml")).mtimeMs; } catch { return 0; }
+})();
+_tierMapCache = { ...MODEL_TIER_MAP };
 
 export const SaviaFoundationPlugin: Plugin = async ({ project, $, directory }) => {
   return {
@@ -122,9 +144,10 @@ export const SaviaFoundationPlugin: Plugin = async ({ project, $, directory }) =
       // Resolve abstract model tiers in agent definitions so the provider
       // never receives an unknown model ID like "heavy" or "mid".
       if (cfg.agent && typeof cfg.agent === "object") {
+        const tierMap = getModelTierMap();
         for (const agentDef of Object.values(cfg.agent) as any[]) {
-          if (agentDef?.model && MODEL_TIER_MAP[agentDef.model]) {
-            agentDef.model = MODEL_TIER_MAP[agentDef.model];
+          if (agentDef?.model && tierMap[agentDef.model]) {
+            agentDef.model = tierMap[agentDef.model];
           }
         }
       }

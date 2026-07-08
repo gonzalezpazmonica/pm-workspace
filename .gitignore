@@ -99,6 +99,8 @@ teams/*
 # ── Confidence Log — Datos privados del sistema de calibración ─────────────────
 /data/*
 !/data/agent-actuals.example.jsonl
+# SE-258: Ledger identity asset — never track in public repo
+/data/relacion/
 backups/
 
 # Capturas de pantalla de los test

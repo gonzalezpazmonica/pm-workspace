@@ -1,0 +1,57 @@
+name: Install Smoke Test
+
+on:
+  schedule:
+    - cron: '0 6 * * 0'
+  workflow_dispatch:
+
+concurrency:
+  group: install-smoke
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  smoke-test:
+    name: Clean install smoke test
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+
+      - name: Install workspace dependencies
+        run: bash .opencode/install.sh
+
+      - name: Verify post-install structure
+        run: |
+          echo "=== Verifying workspace structure ==="
+          for dir in .opencode/agents .opencode/hooks .opencode/commands scripts; do
+            test -d "$dir" || { echo "FAIL: $dir missing"; exit 1; }
+          done
+          test -f .opencode/package.json || { echo "FAIL: .opencode/package.json missing"; exit 1; }
+          test -f scripts/savia-env.sh || { echo "FAIL: savia-env.sh missing"; exit 1; }
+          echo "=== Workspace structure OK ==="
+
+      - name: Install npm dependencies
+        run: npm install --prefix .opencode
+
+      - name: Verify scripts are executable
+        run: |
+          test -x scripts/savia-env.sh || { echo "FAIL: savia-env.sh not executable"; exit 1; }
+          test -x scripts/verify-ledger-chain.sh || { echo "FAIL: verify-ledger-chain.sh not executable"; exit 1; }
+          echo "=== Scripts executable OK ==="
+
+      - name: Run basic syntax check
+        run: |
+          echo "=== Running basic validation ==="
+          bash -n .opencode/hooks/block-sensitive-tracking.sh
+          bash -n scripts/tracked-vs-nivel.sh
+          bash -n scripts/self-audit.sh
+          bash -n scripts/verify-ledger-chain.sh
+          echo "=== Syntax checks OK ==="
+
+      - name: Smoke test result
+        run: echo "SMOKE TEST: PASSED"

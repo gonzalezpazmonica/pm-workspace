@@ -490,6 +490,38 @@ jobs:
               'NOT exempt: PRs touching `.claude/rules/`, `.opencode/hooks/`, `.github/workflows/`, or `.claude/settings.json`.';
             core.setFailed(msg);
 
+
+      # ─── Gate 8b: Spec Archive Required for feat(seXXX) PRs ───
+      - name: "Gate 8b: Spec Archive Required"
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const pr = context.payload.pull_request;
+            const title = pr.title || '';
+            const specMatch = title.match(/^feat\((se\d+|SE-\d+)\)/);
+            if (!specMatch) {
+              core.info('✅ Gate 8b: Not a feat(seXXX) PR, skipped');
+              return;
+            }
+            const specId = specMatch[1].toLowerCase().replace('-', '');
+            
+            const allFiles = await github.paginate(
+              github.rest.pulls.listFiles,
+              { owner: context.repo.owner, repo: context.repo.repo,
+                pull_number: pr.number, per_page: 100 }
+            );
+            const files = allFiles.map(f => f.filename);
+            
+            const changelogFragment = files.some(f =>
+              f.startsWith('CHANGELOG.d/') && f.includes(specId)
+            );
+            
+            if (!changelogFragment) {
+              core.warning('Gate 8b WARN: feat(' + specId + ') PR without CHANGELOG.d/' + specId + ' fragment. SE-258 S4 requires every feat(seXXX) PR to include a CHANGELOG.d entry with spec: field.');
+            } else {
+              core.info('✅ Gate 8b: CHANGELOG.d/' + specId + ' fragment found');
+            }
+
       # ─── Gate 9: PR Digest for Maintainer ───
       - name: "Gate 9: PR Digest"
         if: github.event.action == 'opened'

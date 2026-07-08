@@ -1,6 +1,6 @@
 # Savia Capability Map — INDEX
-> hash: 4d3153ae9ca6 | resources: 1198
-> 287 commands · 120 skills · 81 agents · 710 scripts
+> hash: ee586bf431e5 | resources: 1202
+> 287 commands · 120 skills · 81 agents · 714 scripts
 
 [analysis] Trace Optimize — across,distributed,optimize,rates,sampling — cmd:.claude/commands/trace-optimize.md
 [analysis] agent-activity — activity,agent,executions,recent,show — cmd:.claude/commands/agent-activity.md
@@ -165,7 +165,7 @@
 [development] build-skill-manifest — build,frontmatter,manifest,manifesto,skill — script:scripts/build-skill-manifest.sh
 [development] calendar-focus — bloque,crear,deep,especifica,focus — cmd:.claude/commands/calendar-focus.md
 [development] caveman — before,brutally,coating,committing,deception — skill:.claude/skills/caveman/SKILL.md
-[development] changelog-spec-field-check — campo,changelog,entradas,feat,sennn — script:scripts/changelog-spec-field-check.sh
+[development] changelog-spec-field-check — changelog,check,field,slice,spec — script:scripts/changelog-spec-field-check.sh
 [development] check-coherence — actually,code,matches,objective,output — cmd:.claude/commands/check-coherence.md
 [development] ci-reliability-gate — gate,reliability,spec — script:scripts/ci-reliability-gate.sh
 [development] code-comprehension-report — completado,documentar,implementación,mental,modelo — skill:.claude/skills/code-comprehension-report/SKILL.md
@@ -822,6 +822,7 @@
 [planning] resolve-pr-conflicts — auto,conflicts,recurring,resolve,resolver — script:scripts/resolve-pr-conflicts.sh
 [planning] resolver-md-generate — generate,resolver — script:scripts/resolver-md-generate.sh
 [planning] resource-references — necesitan,plantillas,recursos,referencias,workspace — skill:.claude/skills/resource-references/SKILL.md
+[planning] restore-drill — drill,restore,slice — script:scripts/restore-drill.sh
 [planning] rpi-start —  — cmd:.claude/commands/rpi-start.md
 [planning] ruby-developer —  — agent:.opencode/agents/ruby-developer.md
 [planning] rule-manifest-integrity — index,integrity,manifest,rule,slice — script:scripts/rule-manifest-integrity.sh
@@ -927,6 +928,7 @@
 [planning] tool-catalog — categorizado,catálogo,comandos,herramientas — cmd:.claude/commands/tool-catalog.md
 [planning] tool-result-trim — deterministic,hard,output,result,tool — script:scripts/tool-result-trim.sh
 [planning] topic-cluster — agrupan,detectar,incidentes,patrones,pbis — skill:.claude/skills/topic-cluster/SKILL.md
+[planning] tracked-vs-nivel — nivel,slice,tracked — script:scripts/tracked-vs-nivel.sh
 [planning] tribunal-critic — critic,quantitative,scoring,tribunal,verdicts — script:scripts/tribunal-critic.sh
 [planning] tribunal-status — depth,evaluations,pending,queue,recent — cmd:.claude/commands/tribunal-status.md
 [planning] tribunal-tiered-runner — execution,runner,tiered,tribunal — script:scripts/tribunal-tiered-runner.sh
@@ -956,6 +958,7 @@
 [planning] vault — dispatcher,personal,vault — script:scripts/vault.sh
 [planning] vault-ops — library,operations,personal,sourced,vault — script:scripts/vault-ops.sh
 [planning] velocity-trend — anomalías,detección,explicativos,factores,media — cmd:.claude/commands/velocity-trend.md
+[planning] verify-ledger-chain — chain,ledger,slice,verify — script:scripts/verify-ledger-chain.sh
 [planning] verify-principal — principal,scripts,slice,verify — script:scripts/verify-principal.sh
 [planning] vuln-scan — scan,scanner,scripts,vuln,vulnerability — script:scripts/vuln-scan.sh
 [planning] wave-executor — engine,execution,executor,generic,graphs — script:scripts/wave-executor.sh
@@ -1076,6 +1079,7 @@
 [quality] security-judge — auth,code,court,credentials,injection — agent:.opencode/agents/security-judge.md
 [quality] security-review —  — cmd:.claude/commands/security-review.md
 [quality] security-scan — audit,scan,security,workspace — script:scripts/security-scan.sh
+[quality] self-audit — audit,self,slice — script:scripts/self-audit.sh
 [quality] skill-audit — audit,auditor,baseline,catalog,quality — script:scripts/skill-audit.sh
 [quality] skill-catalog-audit — audit,catalog,skill,slice — script:scripts/skill-catalog-audit.sh
 [quality] skill-catalog-auditor — auditor,catalog,quality,skill,slice — script:scripts/skill-catalog-auditor.sh
