@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=e6ae1a957a6dcfffe1e831cf0faad1c8fb216f2a4aaf00fb4967c29fd9ffdbe3
-timestamp=2026-07-08T05:26:59Z
-branch=agent/se257-consolidacion
-head_commit=167897a0
-signature=a3fb63c1caa84fc2bfb66187068fb82ec278feb7840b13dacafe5a19ef7879a2
+diff_hash=312bfcb49eb20f060373d3b01617d728374c449bb680b647584a457db951128b
+timestamp=2026-07-08T21:27:13Z
+branch=agent/se258-brechas-identitarias
+head_commit=36853cdb6
+signature=6613f4ebef9f425f6c225f2d93eacbee2d7cd6868ff1f371db8fe8227f49eca3
