@@ -33,9 +33,12 @@ for entry in "$CHANGELOG_DIR"/*.md; do
   
   # Check spec file exists
   found=0
-  if [ -f "$SPECS_DIR/${spec_id}"*.md ] 2>/dev/null || [ -f "$SPECS_DIR/${spec_id^^}"*.md ] 2>/dev/null; then
-    found=1
-  fi
+  for pattern in "$SPECS_DIR/${spec_id}" "$SPECS_DIR/${spec_id^^}"; do
+    if compgen -G "${pattern}*.md" > /dev/null 2>&1; then
+      found=1
+      break
+    fi
+  done
   if [ "$found" -eq 0 ] && [ -d "$ARCHIVE_DIR" ]; then
     if find "$ARCHIVE_DIR" -name "*${spec_id}*" -o -name "*${spec_id^^}*" 2>/dev/null | grep -q .; then
       found=1
