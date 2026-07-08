@@ -6,6 +6,10 @@ on:
   pull_request:
     branches: [main]
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
 permissions:
   contents: read
 
@@ -13,6 +17,7 @@ jobs:
   validate:
     name: Validate workspace
     runs-on: ubuntu-latest
+    timeout-minutes: 15
 
     steps:
       - name: Checkout
@@ -106,6 +111,10 @@ jobs:
       - name: "SE-253 errata: Validate opencode.json schema keys"
         run: bash scripts/opencode-config-validate.sh --check
 
+      - name: "SE-257: Memory liveness check"
+        run: bash scripts/memory-liveness-check.sh
+        continue-on-error: true
+
       - name: Run workspace test suite (mock mode)
         run: |
           chmod +x scripts/test-workspace.sh
@@ -143,6 +152,7 @@ jobs:
           echo "All required files present."
 
   bats-tests:
+    timeout-minutes: 60
     name: BATS Hook Tests
     runs-on: ubuntu-latest
 
@@ -209,6 +219,7 @@ jobs:
         run: bash scripts/ci-extended-checks.sh
 
   lint-markdown:
+    timeout-minutes: 15
     name: Lint Markdown
     runs-on: ubuntu-latest
 
@@ -316,6 +327,7 @@ jobs:
           echo "✅ Frontmatter valid ($WARNED legacy commands without frontmatter)."
 
   hook-perf-gate:
+    timeout-minutes: 10
     name: Hook Latency Gate
     runs-on: ubuntu-latest
     steps:
@@ -331,6 +343,7 @@ jobs:
         run: bash scripts/hook-latency-bench.sh --iterations 3 --threshold 200 --strict
 
   agent-sync-check:
+    timeout-minutes: 5
     name: Agent Sync Check
     runs-on: ubuntu-latest
     if: |

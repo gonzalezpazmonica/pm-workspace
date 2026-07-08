@@ -1116,6 +1116,7 @@ Archivos: `docs/propuestas/SPEC-180..186-*.md`. Origen: `output/research/obsidia
 | SE-252 | #893 | Bus Factor Shield (context domes, 93 BATS) |
 | SE-255 | #896 | Constitución operativa (criterio, relación, lealtad, 35 BATS) |
 | SE-256 | — | Patrones engram: save-nudge, conflictos, principal (10 BATS) |
+| SE-257 | — | Consolidación: CRITERIO 33 entradas, memoria canonica, CI timeouts |
 | SE-095/096/097-SC | — | SaviaClaw heartbeat + cron + streaming (en saviaclaw_headless.py) |
 
 ### En curso (Sprint 1 — sesión 2026-07-02)

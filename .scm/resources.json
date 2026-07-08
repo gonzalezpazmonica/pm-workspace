@@ -1,6 +1,6 @@
 {
-  "hash": "2083672101ed",
-  "total": 1196,
+  "hash": "2cf96c3ed7fa",
+  "total": 1198,
   "resources": [
     {
       "category": "analysis",
@@ -5826,6 +5826,20 @@
     },
     {
       "category": "memory",
+      "name": "memory-liveness-check",
+      "intents": [
+        "check",
+        "liveness",
+        "memory",
+        "scripts",
+        "slice"
+      ],
+      "kind": "script",
+      "path": "scripts/memory-liveness-check.sh",
+      "description": "scripts/memory-liveness-check.sh — SE-257 Slice 2"
+    },
+    {
+      "category": "memory",
       "name": "memory-recall",
       "intents": [
         "context",
@@ -7612,6 +7626,19 @@
       "kind": "script",
       "path": "scripts/criterio-init.sh",
       "description": "scripts/criterio-init.sh — SE-255 Slice 2"
+    },
+    {
+      "category": "planning",
+      "name": "criterio-validate",
+      "intents": [
+        "criterio",
+        "scripts",
+        "slice",
+        "validate"
+      ],
+      "kind": "script",
+      "path": "scripts/criterio-validate.sh",
+      "description": "scripts/criterio-validate.sh — SE-257 Slice 1"
     },
     {
       "category": "planning",

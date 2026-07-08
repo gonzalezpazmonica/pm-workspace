@@ -1,6 +1,6 @@
 # Savia Capability Map — INDEX
-> hash: ad469e71f590 | resources: 1196
-> 287 commands · 120 skills · 81 agents · 708 scripts
+> hash: 4d3153ae9ca6 | resources: 1198
+> 287 commands · 120 skills · 81 agents · 710 scripts
 
 [analysis] Trace Optimize — across,distributed,optimize,rates,sampling — cmd:.claude/commands/trace-optimize.md
 [analysis] agent-activity — activity,agent,executions,recent,show — cmd:.claude/commands/agent-activity.md
@@ -443,6 +443,7 @@
 [memory] memory-feedback-post-merge — entry,feedback,memory,merge,merged — script:scripts/memory-feedback-post-merge.sh
 [memory] memory-hygiene — auto,automática,hygiene,limpieza,memory — script:scripts/memory-hygiene.sh
 [memory] memory-index-rebuild — auto,index,jsonl,memory,rebuild — script:scripts/memory-index-rebuild.sh
+[memory] memory-liveness-check — check,liveness,memory,scripts,slice — script:scripts/memory-liveness-check.sh
 [memory] memory-recall — context,current,memories,relevant,retrieve — cmd:.claude/commands/memory-recall.md
 [memory] memory-recall-audit — audit,budget,measure,memory,recall — script:scripts/memory-recall-audit.sh
 [memory] memory-rotate — context,cycles,daily,execute,manually — cmd:.claude/commands/memory-rotate.md
@@ -577,6 +578,7 @@
 [planning] credential-proxy — agents,credential,isolation,managed,pattern — script:scripts/credential-proxy.sh
 [planning] criterio-cite — cite,criterio,scripts,slice — script:scripts/criterio-cite.sh
 [planning] criterio-init — criterio,init,scripts,slice — script:scripts/criterio-init.sh
+[planning] criterio-validate — criterio,scripts,slice,validate — script:scripts/criterio-validate.sh
 [planning] criterion-simulation-judge —  — agent:.opencode/agents/criterion-simulation-judge.md
 [planning] criticality — criticality,dispatcher,operations — script:scripts/criticality.sh
 [planning] criticality-assess — criticidad,desglose,dimensiones,evaluar,item — cmd:.claude/commands/criticality-assess.md
