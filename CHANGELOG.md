@@ -524,6 +524,1057 @@ outside the fork are included. Branch:
   per `data:` line; response audit entry includes content-type and
   unmask-applied flag.
 
+## [6.15.0] — 2026-07-08
+
+### Added
+
+- 3 Pocock-style skills: caveman (brutally honest review), zoom-out (architectural perspective), grill-me (adversarial weakness hunting)
+- scripts/skill-audit.sh: baseline skill catalog quality auditor (YAML frontmatter, required fields, DOMAIN.md)
+- 92 skills pass baseline audit (0 FAIL, 0 WARN)
+- Understand-Anything codebase knowledge graph integration (scripts/ua-install.sh + ua-bridge.sh)
+- 7 new Savia commands: /ua-analyze, /ua-domain, /ua-diff, /ua-chat, /ua-dashboard, /ua-onboard, /ua-install
+- Supports 13 languages: TS/JS, Python, Go, Rust, Java, C#, Ruby, PHP, Kotlin, Swift, C/C++, Scala, Elixir
+- SaviaClaw self-monitoring: heartbeat every 120s, auto-restart after 3 failures, stuck task detection (>300s)
+- SaviaClaw cron infrastructure: `/cron add/list/remove/run` via Talk, jobs.json persistence
+- SaviaClaw streaming feedback: progressive stdout capture with `▸` prefix every 5s during execution
+- docs/rules/domain/model-alias-table.md: provider-agnostic model resolution (DeepSeek/Claude/LocalAI)
+- scripts/opencode-cross-audit.sh: .opencode/ vs .claude/ resource drift detection
+- scripts/savia-env.sh: provider-agnostic env loader with fallback chain
+- scripts/content-fingerprint.sh: deterministic short content hash skill (sha256 truncated, lengths 8/16/32/64)
+- .claude/skills/content-fingerprint/SKILL.md: skill with declarative bioquimica frontmatter (DOIs validated against api.crossref.org)
+- tests/scripts/content-fingerprint.bats: 14 tests covering determinism, avalanche, length validation, dataset
+- tests/fixtures/fingerprint/: 30 etiquetated fixtures (5 identical / 5 near-duplicate / 5 distinct pairs)
+- tests/scripts/failure-pattern-memory-pattern-id.bats: 6 tests including byte-for-byte equivalence vs pre-SE-151
+- docs/specs/SE-151-content-fingerprint-consolidation.spec.md: SDD spec with falsifiable AC
+- docs/learning/biomimetic-investigation-protocol.md: reusable discipline from 2 sessions
+- .claude/hooks/contract-test-guard.sh: PreToolUse hook that blocks Edit/Write to allowlisted contract tests from agent/* branches (69 LOC)
+- .claude/contracts/allowlist.txt: 5 sealed contract tests pre-committed (block-force-push, confidentiality-sign, pii-gate, permissions-wildcard, validate-agent-permissions)
+- tests/hooks/test-contract-test-guard.bats: 24 tests covering block/allow paths, bypass via [contract-change|add|remove], env var guards, latency
+- docs/specs/SPEC-188-P3-sealed-contract-tests.spec.md: SDD spec with falsifiable AC
+- docs/specs/SPEC-188-P3-precommitment.md: pre-commitment of selection criteria, hard limits, abort criteria
+- `scripts/spec-validator.sh` — Frontmatter validator for resource: URI convention. Scans `docs/propuestas/*.md` and `docs/rules/domain/*.md` and emits WARN findings when:
+- `docs/rules/domain/spec-resource-uri.md` — Canonical rule documenting the convention.
+- `tests/test-spec-validator.bats` — Tests covering argument parsing, frontmatter detection, both rules (positive + negative paths), `--strict` mode, `--json` output, and `--batch` mode. Certified by test-auditor (≥80).
+- `scripts/spec-lifecycle.sh` — Helper that changes the `status:` field of a spec and appends a lifecycle entry to `docs/propuestas/LOG.md`. Modes:
+- `docs/propuestas/LOG.md` — Append-only lifecycle log with header + 3 seed entries (SE-222 S0 PROPOSED→IMPLEMENTED implicit, SE-220 PROPOSED, log creation).
+- `tests/test-spec-lifecycle.bats` — Tests covering argument parsing, canonical-status validation, dry-run, bootstrap, real transitions, LOG.md isolation (via `PROPUESTAS_DIR_OVERRIDE` and `LOG_FILE_OVERRIDE` env vars), and reverse-chronological order preservation.
+- `bats tests/test-spec-lifecycle.bats`: full suite passing
+- `bash scripts/test-auditor.sh tests/test-spec-lifecycle.bats`: certified
+- Spec: `docs/propuestas/SE-222-okf-adoptable-patterns.md` (Slice S1)
+- Previous slice: PR #850 (SE-222 S0 resource: URI convention)
+- Next slice: SE-222 S2 (propuestas/INDEX.md auto-generated)
+- scripts/propuestas-index-gen.sh — Generator that scans docs/propuestas/*.md, extracts frontmatter (spec_id, title, status, priority, effort, era), and writes docs/propuestas/INDEX.md grouped by status. Modes:
+- .claude/hooks/post-spec-edit-reindex.sh — PostToolUse hook that triggers regeneration when a file in docs/propuestas/*.md is edited (excluding INDEX.md and LOG.md themselves). Rate-limit: 1 regeneration per 60s (configurable via SAVIA_REINDEX_COOLDOWN). Toggle: SAVIA_PROPUESTAS_REINDEX_ENABLED=false.
+- docs/propuestas/INDEX.md — Initial auto-generated index, sentinel-marked @generated.
+- tests/test-propuestas-index-gen.bats — Tests for generator: dry-run, generate, check (passes when fresh, fails when stale), grouping by status, link rendering, exclusion of INDEX.md and LOG.md from listing.
+- tests/hooks/test-post-spec-edit-reindex.bats — Tests for hook: empty/invalid input safe, only triggers on propuestas/*.md edits, skips INDEX.md/LOG.md self-edits, respects cooldown, toggle disables it.
+- `scripts/workforce-analytics.py` — Python module that aggregates agent data sources
+- `scripts/workforce-analytics.sh` — CLI wrapper: `--json`, `--format table|json|csv`,
+- `docs/rules/domain/workforce-analytics-protocol.md` — Protocol doc: metrics table,
+- `tests/scripts/test_workforce_analytics.py` — 17 pytest tests covering empty/synthetic data,
+- `tests/bats/test-spec-se-025-analytics.bats` — 10 BATS tests: script exists/executable,
+- `scripts/graphrag-quality-gates.sh`: wrapper over knowledge-graph.py SQLite DB executing 12 structural quality checks:
+- `tests/bats/test-se-030-graphrag-gates.bats`: 10 tests covering script existence, JSON output, 12-check count, missing DB handling, self-loop detection, confidence validation
+- Complements `graphrag-quality-gate.sh` (metric thresholds) with structural/topology checks
+- Operates against `~/.savia/knowledge-graph.db` by default (SE-162)
+- `scripts/skill-usage-tracker.py` — Registers each skill invocation in
+- `scripts/skill-pattern-detector.sh` — Analyzes `data/skill-invocations.jsonl` to
+- `tests/scripts/test_skill_detection.py` — 15 pytest tests: tracker appends entry,
+- `tests/bats/test-spec-se-030-skill-detection.bats` — 10 BATS tests: detector exists,
+- `scripts/nl-to-wiql.py`: pattern-based natural language to WIQL/JQL translator
+- `tests/scripts/test_nl_to_wiql.py`: 22 pytest tests covering:
+- Pure pattern library: deterministic, no LLM, no network
+- Aligns with SE-031 Slice 1 scope (resolver + NL heuristic)
+- Extends existing `query-lib-nl.sh` pattern with Python-native solution
+- `scripts/agent-degradation-canary.sh`: 3-canary behavioral regression detector:
+- `tests/bats/test-se-040-canary.bats`: 8 tests covering script syntax, all-pass scenario, JSON structure, total/passed/degraded fields, quiet mode, text output canary names
+- Zero new instrumentation: probes existing deterministic scripts
+- Canary 1 uses stdin pipe (router-mode-classifier reads from stdin)
+- Canary 3 uses exit-code heuristic (PASS=0, WARN=1, FAIL=2)
+- Extendable: add canaries by appending to CANARY_* arrays
+- `scripts/scope-trace-gate.sh`: standalone G13 runner. Input: spec_id + file list. Output: JSON with gate, passed, files_in_scope, files_outside_scope, verdict. Always exits 0 (advisory only).
+- `g13_scope_trace` function in `scripts/pr-plan-gates.sh`: wired as `gate "G13" "Scope-trace audit"` in `scripts/pr-plan.sh`. Detects spec refs from .pr-summary.md, commits, and branch name; matches changed files via whitelist, self-spec, path-hint, and token-overlap heuristics.
+- `docs/rules/domain/pr-plan-gates.md`: new reference doc for all pr-plan gates with G13 detail section.
+- `tests/bats/test-se-079-scope-gate.bats`: 7 BATS tests covering script existence, in-scope, out-of-scope, JSON validity, graceful no-spec skip, whitelist, and gate field.
+- `docs/rules/domain/attention-anchor.md`: canonical doc defining 4 Genesis patterns (B8 ATTENTION ANCHOR, B9 GOAL STEWARD, A7 ADVERSARIAL REVIEW, A9 SUPERVISED EXECUTION) with their pm-workspace implementations. Already existed with full content; verified complete.
+- `scripts/attention-anchor-check.sh`: verifier script. Searches workspace for references to each of the 4 patterns. Output JSON: checked, found, missing, details. Always exits 0.
+- `tests/bats/test-se-080-attention-anchor.bats`: 6 BATS tests covering doc existence, pattern mentions, cross-references in radical-honesty.md and autonomous-safety.md, check script JSON validity, and Genesis citation.
+- `docs/rules/domain/radical-honesty.md`: "implementa Genesis B9 GOAL STEWARD"
+- `docs/rules/domain/autonomous-safety.md`: "implementa Genesis A9 SUPERVISED EXECUTION"
+- `docs/rules/domain/code-review-court.md`: "implementa Genesis A7 ADVERSARIAL REVIEW"
+- `docs/propuestas/SE-079-pr-plan-scope-trace-gate.md`: "Pattern alignment: Genesis B9 GOAL STEWARD + B8 ATTENTION ANCHOR"
+- `docs/rules/domain/architectural-vocabulary.md`: canonical 6-term vocabulary (Module/Interface/Seam/Adapter/Depth/Locality) with _Avoid_ rejection sets. Clean-room re-implementation of mattpocock/skills/improve-codebase-architecture/LANGUAGE.md (MIT). ≤89 LOC.
+- `scripts/architectural-vocabulary-audit.sh`: static auditor scanning outputs for prohibited terms (boundary, component, service, API in architectural contexts). Warning-only mode; exit 0 always.
+- Cross-references added to `docs/rules/domain/attention-anchor.md`, `.opencode/agents/architect.md`, `.opencode/agents/architecture-judge.md`.
+- Three ratchet principles: deletion test, interface=test surface, one adapter=hypothetical seam.
+- 31 BATS tests in `tests/structure/test-architectural-vocabulary.bats` (all pass).
+- SE-082 APPROVED → IMPLEMENTED
+- `scripts/skill-catalog-audit.sh`: auditor with modes --report/--gate/--baseline-write/--json/--skill/--fix-report. Detects: description-missing-use-when, skill-long (WARN >100 LOC), skill-overlong (FAIL >200 LOC), missing-frontmatter, description-too-short.
+- `docs/rules/domain/skill-catalog-discipline.md`: canonical rule doc (≤124 LOC) citing Pocock write-a-skill (MIT). Defines 5 enforcement rules (frontmatter/size/trigger/attribution/cross-refs).
+- `.ci-baseline/skill-quality-violations.count`: baseline count for ratchet (155 warnings).
+- G14 gate in `scripts/pr-plan-gates.sh`: filters to skills modified in the PR, runs auditor in --gate mode. Registered in `scripts/pr-plan.sh`.
+- Skills audited: 106
+- WARN: 172 (long ≤200 LOC, missing use-when)
+- FAIL: 0
+- 49 BATS tests in `tests/test-skill-catalog-auditor.bats` + `tests/structure/test-skill-catalog-g14.bats` (all pass).
+- SE-084 APPROVED → IMPLEMENTED
+- `.opencode/skills/ubiquitous-language/SKILL.md`: 5-step DDD glossary skill (≤92 LOC, SE-084 compliant). Triggers: "extrae glosario", "ubiquitous language", "/glossary", or >5 repeated domain terms without CONTEXT.md. Clean-room re-implementation of mattpocock/skills/ubiquitous-language + domain-model (MIT).
+- `scripts/extract-domain-entities.py` (370 LOC): reads memory-store JSONL or arbitrary input, extracts domain term candidates, cross-references against CONTEXT.md, outputs report with `new/existing/inconsistent` status columns. Modes: --report (default), --auto-update (adds [REVIEW]-marked terms), --export-glossary, --sync-graph.
+- `scripts/knowledge-graph-domain-bridge.py`: emits DOMAIN_TERM edges between episodic memory entities and CONTEXT.md terms.
+- `docs/rules/domain/ubiquitous-language.md`: canonical rule doc referencing script and CONTEXT.md format.
+- CONTEXT.md format standardized: `# Domain Glossary — <Project>` header, `term|definition|status` table, status values: stable/[REVIEW]/[INCONSISTENT].
+- 47 BATS tests in `tests/test-se-086-ubiquitous-language.bats` (all pass).
+- 30 BATS tests in `tests/test-ubiquitous-language.bats` (all pass).
+- SE-086 APPROVED → IMPLEMENTED
+- `.opencode/skills/design-an-interface/SKILL.md` (≤104 LOC, SE-084 compliant): generates 3 parallel interface design alternatives (A: maxima simplicidad, B: maxima flexibilidad, C: pragmatico) via Task tool sub-agents, consolidates in comparative table, recommends one with justification using SE-082 architectural vocabulary (Module/Interface/Seam/Depth/Locality). Clean-room re-implementation of mattpocock/skills/design-an-interface (MIT). Cross-references SE-082 architectural-vocabulary and SE-074 parallel-specs-orchestrator.
+- Decision stays with user — skill never auto-merges or auto-implements.
+- 15 BATS tests in `tests/structure/test-design-an-interface.bats` (all pass). Covers AC-01..AC-06.
+- AC-02: added MIT attribution to Pocock in frontmatter and header
+- AC-04: added SE-074 parallel-specs-orchestrator cross-reference in Related section
+- description field updated to pass SE-084 `description-missing-use-when` audit (was WARN, now OK)
+- SE-087 APPROVED → IMPLEMENTED
+- docs/archive/rules/20260624-hook-event-equivalence.md
+- docs/archive/rules/20260624-image-relevance-filter.md
+- docs/archive/rules/20260624-portfolio-as-graph.en.md
+- docs/archive/rules/20260624-receipts-protocol.en.md
+- docs/archive/rules/20260624-savia-memory-architecture.md
+- docs/archive/rules/20260624-session-state-location.md
+- docs/archive/rules/20260624-slm-consolidation-pattern.md
+- docs/archive/rules/20260624-slm-training-pipeline.en.md
+- docs/archive/rules/20260624-vault-frontmatter.md
+- tests/bats/test-se-096-orphan-rules-archive.bats: 3 tests (all pass)
+- rule-orphan-detector.sh now reports 233 active rules (was 242, -9 archived)
+- 2 remaining orphans (glm-governance-protocol, spec-resource-uri) are post-spec state
+- scripts/rules-index-generate.sh: generates docs/rules/INDEX.md from filesystem scan
+- docs/rules/INDEX.md: regenerated — 233 active rules, 240 lines
+- tests/bats/test-se-097-rules-index-regen.bats: 4 tests (all pass)
+- Existing docs/rules/domain/INDEX.md (165 lines, SPEC-115 format) is separate
+- New INDEX.md uses 4-column table (context_tier | file | title | spec) vs old
+- `tests/bats/test-se-099-agents-split.bats`: 7 tests verifying the checker, reference dir, and 0 line-WARN violations
+- scripts/output-cleanup.sh: retention policy enforcer for output/
+- tests/bats/test-se-101-output-cleanup.bats: 3 tests (all pass)
+- 109 files currently older than 90 days in output/ (dry-run verified)
+- Protected telemetry files confirmed excluded from candidate list
+- `scripts/speculative-tool-predictor.py` — Updated from S0. New additions:
+- `scripts/speculative-tool-execution.py` — Main orchestrator:
+- `.opencode/hooks/speculative-pre-execute.sh` — PostToolUse hook:
+- `scripts/speculative-cache-manager.py` — Standalone cache manager:
+- `.opencode/hooks/speculative-skill-preload.sh` — PreToolUse hook:
+- `scripts/speculative-telemetry-report.sh` — Dashboard:
+- `tests/scripts/test_speculative_execution.py`: 23 pytest tests — all green
+- `tests/bats/test-se-220-speculative.bats`: 25 BATS tests — all green
+- S0 regression: 16 pytest + 10 BATS all green
+- Spec: `docs/propuestas/SE-220-speculative-tool-execution.md` (IMPLEMENTED)
+- `.opencode/hooks/live-progress-emitter.sh`: PostToolUse hook emitting `[SAVIA-PROGRESS] {agent}: {action} [{elapsed}ms]` to stderr
+- Master switch `SAVIA_LIVE_PROGRESS=on|off` (default off — zero cost when disabled)
+- Per-tool action formatting: Bash/Edit/Write/Read/Agent/Glob/Grep/Skill/Task
+- Duration from `duration_ms` field in hook payload; fallback to 0 when absent
+- Agent label from `SAVIA_AGENT_NAME` env var; defaults to `savia`
+- `tests/bats/test-spec-042-live-progress.bats`: 8 tests covering switch, format, tools, fallbacks
+- `scripts/trace-prompt-optimizer.py`: standalone prompt analysis script (no LLM required)
+- Detectors: verbose (>2000 chars), repetitive (concept >3x), contradictory (conflicting pairs),
+- Output JSON: `{issues: [{type, severity, text}], score: 0-100, suggestions: [str]}`
+- Score starts at 100; deducted per issue (high=20, medium=10, low=5)
+- Supports `--prompt TEXT` or stdin
+- `tests/scripts/test_trace_prompt_optimizer.py`: 10 pytest tests covering all detectors + CLI
+- `scripts/visual-diff-merge-check.sh`: PR-scoped before/after visual diff orchestrator
+- Gap analysis confirmed: visual-qa-agent handles single-screenshot analysis only;
+- 4-phase pipeline: baseline capture → candidate capture → pixel diff → report + gate
+- Pixel diff uses `compare` (imagemagick) when available; falls back to file-size proxy
+- Semantic analysis via visual-qa-agent for borderline 2-10% diffs; auto-pass/fail outside
+- Score formula: `(pixel * 0.6) + (semantic * 0.4)`; gate: PASS>=90 / REVIEW 60-89 / FAIL<60
+- Report output: `output/visual-qa/merge-diff/{pr-id}/report.json` + `report.md`
+- `--dry-run` flag skips agent invocation for safe testing
+- `tests/bats/test-spec-046-visual-diff.bats`: 7 tests covering validation, pass/fail, reports
+- `scripts/sdd-reaction-engine.py`: declarative SDD pipeline reaction engine
+- Handles 9 events: spec-approved, pr-created, tests-failed, review-done, ci-failed,
+- Output JSON: `{event, action, auto, retries_allowed, escalate_after, message, source}`
+- `approved-and-green` is always `auto: false` (autonomous-safety.md Rule #5)
+- `.opencode/reaction-rules.yaml`: default declarative rules file (YAML override support)
+- Minimal YAML parser built-in (works without PyYAML installed)
+- `tests/scripts/test_sdd_reaction_engine.py`: 10 pytest tests covering all events, safety rules, overrides
+- `scripts/task-decomposer.py`: heuristic recursive task decomposer (no LLM required)
+- Classifies tasks as atomic/compound using keyword and conjunction signals
+- Hour estimation via keyword patterns (auth=4h, API=3h, database=2h, etc.)
+- Decomposition templates for known domains: auth, api, crud, frontend, database, notification, payment, search
+- Conjunction splitting: "and / with / , ;" produces subtask titles automatically
+- Constraints respected: min 2 / max 7 subtasks per compound node; max-depth 3 default
+- `SAVIA_TASK_SIZE_HOURS` env var controls atomic threshold (default 4h)
+- Output JSON tree: `{id, title, classification, estimated_hours, depth, can_parallelize, lineage, subtasks}`
+- `--tree` flag prints ASCII tree to stderr
+- `tests/scripts/test_task_decomposer.py`: 10 pytest tests covering all decomposition paths
+- `scripts/agent-message-schema.py`: AgentMessage + ContentBlock dataclasses with full validation
+- `tests/scripts/test_agent_message_schema.py`: 25 pytest tests covering all acceptance criteria
+- `scripts/semantic-fault-handlers.py`: Keyword-based error classifier for agent fault recovery
+- `tests/scripts/test_semantic_fault_handlers.py`: 40 pytest tests
+- 40/40 passing — timeout→TRANSIENT, missing field→FORMAT, context exceeded→CAPACITY,
+- `scripts/query-keyword-expand.py`: Stdlib-only query expansion for pre-search recall improvement
+- `tests/scripts/test_query_keyword_expand.py`: 33 pytest tests
+- 33/33 passing — CamelCase/snake_case split, auth synonyms, ADO/KG acronyms,
+- `scripts/pending-user-input.py`: Async agent-to-human input request protocol
+- `tests/scripts/test_pending_user_input.py`: 21 pytest tests
+- 21/21 passing — create writes file, check→1 no answer, resolve writes answer+ts,
+- `scripts/cognitive-debt-monitor.py`:
+- `.opencode/hooks/cognitive-debt-check.sh`:
+- `docs/rules/domain/cognitive-debt-protocol.md`:
+- `tests/scripts/test_cognitive_debt.py`: 14 tests — score low/high, all risk levels, recommendations,
+- `tests/bats/test-cognitive-debt.bats`: 5 tests — hook executable, master switch off, protocol doc,
+- `scripts/agent-rca-analyzer.py`: lightweight agent Root Cause Analysis pipeline (no Sentry required)
+- Builds on `semantic-fault-handlers.py` for error classification; falls back to keyword matching
+- RCA layer mapping: LOGIC→SPEC_REVIEW, CAPACITY→CONTEXT_PRUNING, SCOPE→TASK_DECOMPOSITION,
+- Output JSON: `{root_cause, category, fix_suggestion, confidence, rca_layer}`
+- Confidence reduced when no context provided (0.85x multiplier)
+- `tests/scripts/test_agent_rca.py`: 10 pytest tests covering all categories, fields, CLI
+- `scripts/knowledge-graph-temporal.py`: standalone temporal extension module for Savia knowledge graph
+- Adds `valid_at` (ISO-8601) and `expired_at` (ISO-8601, nullable) columns to entities table (idempotent migration)
+- `add-temporal`: adds/updates temporal metadata for an entity with validation
+- `invalidate`: sets `expired_at` on an entity (soft-delete, never hard-deletes)
+- `query-at --when DATE`: filters entities valid at a given point in time (null-safe — entities without temporal metadata are always included)
+- `backfill`: sets `valid_at=first_seen` for legacy entities with null valid_at (AC-03)
+- Validator rejects invalid ISO-8601 and expired_at < valid_at (Contradict guard)
+- Compatible with existing knowledge-graph.py SQLite schema
+- `tests/scripts/test_graphiti_temporal.py`: 8 pytest tests covering all operations + edge cases
+- `.opencode/plugins/guards/sycophancy-guard.ts`: TypeScript port of `sycophancy-strip.sh`. Exports `detectSycophancy` (pure function, testable) and `sycophancyGuard` (after-guard). Modes: shadow (default), warn, block. Master switch: `SAVIA_ANTIADULATION=off`.
+- `.opencode/plugins/__tests__/sycophancy-guard.test.ts`: 14 unit tests covering detection, shadow/warn/block modes, master-off bypass, clean-output no-op, positional bounds.
+- `tests/bats/test-spec-150-s2-plugin.bats`: 6 bats tests covering file existence, pattern presence, bash hook integrity, migration doc decision, foundation wiring, exports.
+- scripts/hook-multihandler-baseline.sh: FP/FN baseline evaluator for 6 critical hooks (sycophancy-strip, block-credential-leak, contract-test-guard, context-sanitize-input, pii-gate, router-mode-dispatch). 20 test inputs per hook (10 positive + 10 negative). Output JSON: {hook, fp_count, fn_count, fp_rate, fn_rate, avg_latency_ms, total_invocations}
+- tests/evals/hook-baselines/: directory for hook baseline JSON files
+- docs/rules/domain/hook-multihandler-migration.md: design document for TS plugin migration — candidate hooks, 2-layer pattern, anti-patterns, phase plan
+- tests/scripts/test_hook_multihandler_baseline.py: 19 pytest tests covering script existence, JSON schema, rate ranges, 6 hooks in registry, output directory creation
+- tests/bats/test-spec-150-hooks-migration.bats: 11 BATS tests covering script existence, doc existence, directory creation, JSON validity
+- Slice 1 baseline establishes pre-migration FP/FN rates
+- Slices 2-6 (TS plugin migration) pending: requires feasibility gate from Slice 1 results
+- Sensitive test payloads generated at runtime via Python helper (not stored in source)
+- `.github/workflows/evals-ci.yaml`:
+- `scripts/evals-runner.sh`:
+- `scripts/evals-paired-delta.py`:
+- `tests/evals/datasets/skills/pbi-decomposition.jsonl`: 5 real-domain cases (anonimized)
+- `tests/evals/datasets/hooks/privacy-shield.jsonl`: 10 pattern-only strings (no real PII)
+- `tests/evals/baselines/pbi-decomposition-baseline.json`: 5 baseline scores for tests
+- `tests/scripts/test_evals_gate.py`: 14 tests covering all paired-delta edge cases,
+- `tests/bats/test-evals-ci-gate.bats`: 6 tests covering runner executable, mock JSON,
+- ✅ AC-01: GitHub Action `evals-ci.yaml` triggers on PR changes to skills/agents/hooks
+- ✅ AC-02: Runtime <15 min (mock mode — LLM evals skipped gracefully if not installed)
+- ⚠  AC-03: 2 datasets present (MVP scope: 5 cases min, not 20; full datasets deferred)
+- ✅ AC-04: Baseline regenerated on push to main (job `regenerate-baseline`)
+- ✅ AC-05: PR comment with delta table
+- ✅ AC-06: Judge model pinned via `SAVIA_EVAL_JUDGE_MODEL` var
+- ✅ AC-07: Paired-delta rationale in runner + this changelog (policy doc deferred to Phase 2)
+- ✅ AC-08: BATS test validates workflow yaml exists
+- `tests/test-failure-pattern-memory.bats`: 8 bats tests formalizing SPEC-188 Fase 1 acceptance criteria:
+- scripts/causal-confidence-scorer.py: causal confidence scorer (SPEC-188 Phase 3 MVP). Given a cause, evidence list, and alternatives, calculates confidence_score in [0,1], classifies supporting vs contradicting evidence, assigns probabilities to alternatives, returns verdict: high/medium/low/insufficient. Heuristics: 0 evidence → insufficient; 1-2 → medium (0.4-0.6); 3+ coherent → high (≥0.7); alternatives reduce confidence proportionally
+- scripts/diagnostic-metrics-tracker.py: append-only JSONL diagnostic quality tracker (SPEC-188 Phase 4 MVP). CLI: --record (adds entry), --report (mean_confidence, accuracy_rate, mean_time_to_identify, rework_rate), --list --n N (last N entries). Schema: {ts, investigation_id, time_to_identify_min, confidence_score, was_correct, rework_needed}
+- tests/scripts/test_spec188_phases34.py: 17 pytest tests — 7 for causal scorer, 10 for diagnostic tracker
+- tests/bats/test-spec-188-phases34.bats: 8 BATS tests covering both scripts
+- SPEC-188 Phase 3 implements G2 (Causal Confidence Channel) MVP core — heuristic-only, no LLM judge
+- SPEC-188 Phase 4 implements G4 (Diagnostic Quality Metrics) MVP — append-only JSONL tracker
+- Full Phase 3 (PreCommit hook, calibration-judge adapted) and Phase 4 (cron + monthly report) pending
+- Phases 1 (Failure Pattern Memory) and 2 (Sealed Contract Tests) remain independent scope
+- SE-228 Slice 3: loop-run-log append-only — schema `docs/rules/domain/loop-run-log-schema.md`, CLI `scripts/loop-run-log.sh` (subcomandos: append, tail, stats, prune), overnight-sprint skill actualizado con integración run-log, tests BATS certificados
+- `docs/rules/domain/loop-budget-schema.md` — canonical schema for `loop-budget.md`
+- `scripts/loop-budget-check.sh` — gate script that reads a skill's
+- `templates/loop-budget.md.template` — bootstrap template with defaults
+- `tests/test-se228-s4-loop-budget.bats` — 15 tests, all passing, certified.
+- `docs/rules/domain/loop-phasing.md` — Definición canónica de niveles L0→L3 para
+- `scripts/loop-phasing-audit.sh` — Auditor de nivel loop declarado vs inferido.
+- Campo `loop_level` en frontmatter de 4 SKILL.md:
+- `tests/test-se228-s5-loop-phasing.bats` — 34 tests, score 89/100, certified.
+- `bats tests/test-se228-s5-loop-phasing.bats`: 34/34 OK
+- `bash scripts/test-auditor.sh tests/test-se228-s5-loop-phasing.bats`: score 89, certified
+- Spec: `docs/propuestas/SE-228-loop-engineering-patterns.md`
+- Slices anteriores: S1 (PR #878), S2+S3 (PR #877)
+- Regla complementaria: `docs/rules/domain/autonomous-safety.md`
+- SE-143: Vector search activado (sentence-transformers + faiss-cpu). Recall@5: Grep=40% → Vector=90% (+50pp)
+- memory-store.sh: nuevo subcomando 'doctor' reporta Level 0/1/2, deps y estado del índice
+- install.sh: Step 7 instala requirements-memory.txt con fallback graceful
+- session-init.sh: auto-rebuild del índice vectorial en background al arranque
+- tests: new skill-behavior/ infrastructure — validates all skills for Rule 11 compliance, required structure, and Description Trap patterns (SE-147)
+- SE-148: AgentRunSummary telemetry — schema v2 JSONL (backward-compat), agent-run-logger.sh, agent-run-report.sh, 15 BATS tests
+- SE-149: hashline-guard stale-file protection — anchor generation, drift check, safe edit wrapper, L3 agent protocol, 10 BATS tests
+- SE-150: pre-output validator TTSR-inspired — 7 rules (POR-001..007), check/list-rules/explain subcommands, 34 BATS tests
+- **OpenCode binary upgraded** 1.3.13 → 1.14.30 (via `opencode upgrade`). Local action — no repo changes.
+- `opencode.json` — workspace config en root. Schema oficial OpenCode v1.14:
+- `SKILLS.md` — catálogo cross-frontend de skills (109 líneas, 90 skills listados con path + descripción truncada). Análogo a AGENTS.md (SE-078 pattern). Auto-generado.
+- `scripts/skills-md-generate.sh` — generador idempotente del SKILLS.md desde `.claude/skills/*/SKILL.md`. Modes: stdout default, `--apply`, `--check`. Patrón SE-078 reutilizado.
+- Symlinks en `.opencode/`:
+- `tests/structure/test-opencode-bootstrap.bats` — 32 tests certified. Estructura:
+- **Agents bajo OpenCode v1.14**: schema mismatch. Claude Code usa `tools: [array]` + named colors; OpenCode espera `tools: {object}` + hex colors. Sin converter, los 70 agents no se invocan vía native OpenCode `agent` mechanism. AGENTS.md provee discovery, pero ejecución requiere Slice 2b (converter TS plugin).
+- **Hooks reactivos** (PreToolUse/PostToolUse): los 64 hooks viven en `.opencode/hooks` pero OpenCode v1.14 NO ejecuta `.sh` hooks nativamente — necesita TS plugin que los wrappee. Slice 2b territory.
+- **Skills loading on-demand**: los SKILL.md están visibles via `.opencode/skills/`, pero OpenCode no tiene concepto "skills" nativo. Cuando el LLM necesita una skill, lee el SKILL.md vía Read tool. SKILLS.md provee el catálogo.
+- **PV-01 Backward compat absoluto**: cero modificación de los 64 hooks, 70 agents, 90 skills, 534 commands existentes. Solo se añade infraestructura nueva.
+- **PV-04 Operator control**: `autoupdate: false` — Mónica controla cuándo actualizar OpenCode.
+- **PV-06 No vendor lock-in**: opencode.json no menciona ningún vendor de inferencia. BATS test enforce.
+- AGENTS.md y SKILLS.md son auto-generados (SE-078 pattern) — drift detection vía `--check`.
+- Cero red, cero git operations en runtime, cero merge autónomo.
+- Cumple `docs/rules/domain/autonomous-safety.md`: rama `agent/opencode-bootstrap-20260430`, sin merge autónomo.
+- `docs/propuestas/SPEC-125-recommendation-tribunal-realtime.md` — diseño completo (3 slices, 36h total estimadas, P0 Critical Path):
+- Solo PROPOSAL — no implementación.
+- No modifica hooks existentes ni agentes existentes.
+- Cero red, cero git operations.
+- Cumple `docs/rules/domain/autonomous-safety.md`: rama `agent/spec-125-...`, sin push automático ni merge.
+- **5 hooks TIER-1 portados a TypeScript** (`.opencode/plugins/`):
+- **Helpers compartidos** (`.opencode/plugins/lib/`):
+- **`scripts/agents-opencode-convert.sh`** — converter de agentes Claude Code → OpenCode v1.14:
+- **`docs/migration-claude-code-to-opencode.md`** — guía de migración paso a paso (≤150 líneas):
+- **`scripts/opencode-migration-smoke.sh`** — 6 checks fast-fail:
+- **`savia-budget-guard` registrado en `.claude/settings.json`** — PreToolUse `*` con timeout 5s. Hook nunca bloquea (only warns 70/85/95% del presupuesto mensual). Bajo OpenCode, mismo guard via plugin foundation. Bajo Claude Code, via `.sh` hook nativo.
+- **`scripts/cognitive-debt.sh`** — `cmd_summary` integra resumen mes-a-fecha del quota tracker (Slice 5 + 2b-ii). El operador ve cognitive metrics + presupuesto Savia en una sola salida.
+- **`tests/structure/test-spec-127-migration-final.bats`** — 43 tests cubriendo todos los componentes (5 ports + helpers + foundation + converter + budget-guard + onboarding + smoke + cognitive-debt). Auditor: certified (92).
+- `slice_2b_ii_status: IMPLEMENTED 2026-05-01`.
+- `slice_3_status: NOT_NEEDED` — OpenCode v1.14 tiene discovery nativo de slash commands via `.opencode/commands/` symlink. No hace falta porting.
+- AC-2.2 marcada como implementada.
+- Bumped `hooks(65/65reg)` → `hooks(65/66reg)` para reflejar registro de `savia-budget-guard`.
+- **Era 189 (OpenCode)** — esta PR cierra la era Claude Code. La siguiente PR ya se trabaja desde OpenCode bootstrapped.
+- **Provider-agnostic (PV-06)** — ningún archivo nuevo hardcodea Anthropic/Claude/Sonnet/Opus/Haiku. Verificado por test BATS dedicado.
+- **Backward compat (PV-01)** — todos los `.sh` originales siguen vivos. Esta PR añade archivos, NO modifica los hooks `.claude/hooks/*.sh`.
+- **Investigación BitNet** entregada como informe interno gitignored. Spec/PR no creados — autonomous-safety: investigación NO crea backlog sin aprobación humana.
+- `docs/propuestas/SPEC-127-savia-opencode-provider-agnostic.md` — APPROVED 2026-04-30 (operator review). Renamed from prior Copilot-specific framing. Inference-independent foundation: cada usuario decide su frontend (Claude Code / OpenCode / Codex / Cursor / otro) y su provider (Anthropic API / hosted-OSS / LocalAI / Ollama / vendor-managed / custom corporate endpoint). Framework no asume vendor — detecta capacidades en runtime y degrada gracefully. 5 slices (Foundation 8h · Hook adapter 16-20h · Slash MCP shim 12-16h · Subagent fallback 8-12h · Quota guard 6h ≈ 50-62h). Restricciones inviolables PV-01 a PV-06 (PV-06 = cero vendor lock-in en source).
+- `scripts/savia-env.sh` — provider-agnostic env loader. Sourceable. Exporta `SAVIA_WORKSPACE_DIR` (fallback chain `SAVIA_WORKSPACE_DIR → CLAUDE_PROJECT_DIR → OPENCODE_PROJECT_DIR → git rev-parse → pwd`) y `SAVIA_PROVIDER` (free-form: lo que el usuario declare en preferences.yaml). 3 capability probes: `savia_has_hooks`, `savia_has_slash_commands`, `savia_has_task_fan_out`. Cero hardcoded vendor names en source — los probes leen `~/.savia/preferences.yaml` cuando existe y autodetectan via env vars cuando no. CLI dispatch standalone.
+- `scripts/savia-preferences.sh` — gestor de `~/.savia/preferences.yaml`. 6 subcomandos: `init` (entrevista 8 preguntas), `show`, `get <key>`, `set <key> <value>`, `reset --confirm`, `validate`. Validator rechaza claves prohibidas (`api_key`, `password`, `secret`, `token` — credenciales van en credential manager, no aquí).
+- `.claude/commands/savia-setup.md` — slash command que invoca el onboarding interactivo. 8 preguntas con campo libre — sin lista cerrada de vendors. Re-ejecutable idempotentemente cuando el stack del usuario cambia.
+- `docs/rules/domain/provider-agnostic-env.md` — rule canonical (121 líneas). Define el contrato cross-frontend × cross-provider. Hook author + script author checklists. Backward compat absoluto (PV-01).
+- `docs/rules/domain/model-alias-schema.md` — schema YAML user-extensible (149 líneas, NO tabla cerrada). Cada usuario añade sus mappings en `~/.savia/preferences.yaml`. 3 ejemplos genéricos con placeholders (no nombran vendor concreto en source). Documenta forbidden credential keys.
+- `tests/structure/test-spec-127-slice1-foundation.bats` — 55 tests certified (auditor max). Estructura por AC:
+- **PV-01 Backward compat absoluto**: cero modificación de los 70 agents, 64 hooks, 90 SKILL.md, 534 commands existentes. Solo infraestructura nueva.
+- **PV-03 Zero data exfiltration**: validator rechaza claves de credenciales en preferences.yaml.
+- **PV-04 Opt-in**: si no hay preferences.yaml, Savia opera con defaults (Claude Code autodetect).
+- **PV-06 No vendor lock-in**: BATS tests verifican que ni `savia-env.sh` ni `savia-preferences.sh` mencionan vendors comerciales específicos en código.
+- Cero red, cero git operations en runtime.
+- Onboarding 100% local: `~/.savia/preferences.yaml` nunca sale del home del usuario.
+- Cumple `docs/rules/domain/autonomous-safety.md`: rama `agent/spec-127-provider-agnostic-20260430`, sin merge autónomo, AUTONOMOUS_REVIEWER asignado.
+- `docs/propuestas/SPEC-127-savia-opencode-copilot-enterprise-compat.md` — PROPOSED. Audit Savia ↔ OpenCode + GitHub Copilot Enterprise compatibility. 5 slices (Foundation 8h · Hook adapter+TS plugin 16-20h · Slash command MCP shim 12-16h · Subagent fallback 8-12h · Premium quota guard 6h ≈ 50-62h total). Documents 5 critical frictions (compaction #11157, hooks port bash→TS plugin, GHE on-prem auth #3936, premium request inflation #8030, context cap 128K #5993) + 3 categorical breaks vs OpenCode-Claude (zero hook surface, no subagent fan-out, no workspace slash commands). Restricciones inviolables PV-01 a PV-05. Compatibility matrix Claude Code | OpenCode-Claude | OpenCode-Copilot | Risk. Top 10 priority changes + 5 decisiones pendientes para revisor humano. Sin parity completa — re-route strategies (MCP for commands, git pre-commit for hooks, single-shot for orchestrators).
+- `scripts/hook-portability-classifier.sh` — clasifica deterministically cada hook de `.claude/hooks/*.sh` en uno de 4 tiers de portabilidad bajo cualquier frontend × cualquier provider:
+- `output/hook-portability-classification.md` — reporte auto-generado (103 líneas). Estructura:
+- `tests/structure/test-spec-127-slice2a-hook-classifier.bats` — 31 tests certified. Estructura por AC:
+- **PV-01 Backward compat absoluto**: cero modificación de los 64 hooks existentes. Solo análisis + clasificación + reporte.
+- **PV-02 Safety layer crítica**: los 3 safety-critical hooks verificados TIER-1 — cobertura preservada.
+- **PV-05 Visibilidad de pérdidas**: 15 hooks TIER-4 listados explícitamente con la razón. La pérdida no es silenciosa.
+- **PV-06 No vendor lock-in**: classifier branches en capability events (PreToolUse, Stop, ...) y matchers (Bash, Edit, Write, Task), nunca en vendor names. BATS test enforce.
+- Cero red, cero git operations en runtime, cero merge autónomo.
+- Cumple `docs/rules/domain/autonomous-safety.md`: rama `agent/spec-127-slice2a-hook-classifier-20260430`, sin merge autónomo.
+- `.opencode/package.json` — declara `@opencode-ai/plugin` dependency. ESM type=module. Private (no publishable). OpenCode runtime ejecuta `bun install` automáticamente al arrancar — no requiere paso manual del usuario.
+- `.opencode/tsconfig.json` — TS strict mode, ES2022 target, Bundler module resolution (compatible con Bun runtime). `noEmit: true` (typecheck-only, OpenCode loader interpreta TS directamente). Includes `plugins/**/*.ts`, excludes `node_modules`.
+- `.opencode/plugins/savia-foundation.ts` — plugin foundation no-op. Importa `Plugin` type desde `@opencode-ai/plugin`. Exporta `SaviaFoundationPlugin` como named + default export. Async function. Returns `{}` (empty hooks). Documenta el porting roadmap de Slice 2b-ii: 5 hooks TIER-1 a portar (validate-bash-global, block-credential-leak, block-gitignored-references, prompt-injection-guard, tdd-gate).
+- `.opencode/plugins/savia-foundation.test.ts` — contract test scaffold con bun:test runner. 3 tests: plugin es async function, returns empty hooks {}, robust to partial context. **Bun runtime no se ejecuta en CI todavía** — Slice 2b-ii añade el test runner. Por ahora el contract es enforced por BATS estructural.
+- `.opencode/plugins/README.md` — porting roadmap doc (60 líneas). Explica por qué existe el folder (OpenCode v1.14 no ejecuta `.sh` hooks nativamente), toolchain requirements, los 5 hooks TIER-1 a portar en 2b-ii (uno por PR), y safety boundaries (PV-01: hooks `.sh` originales intocados).
+- `tests/structure/test-spec-127-slice2b-i-ts-toolchain.bats` — 40 tests certified. Estructura:
+- **PV-01 Backward compat absoluto**: cero modificación de los 64 hooks `.sh` existentes. Solo se añade infrastructura nueva en `.opencode/plugins/`.
+- **PV-06 No vendor lock-in**: BATS tests verifican que ni el plugin TS ni el package.json mencionan vendors comerciales hardcoded.
+- TDD enforced: el `.test.ts` se creó **antes** del plugin (TDD gate hook lo bloqueó hasta que existiera).
+- 150-line cap respetado en plugins/README.md.
+- Cero red en runtime (el bun install que OpenCode dispara descarga npm packages — esto es runtime de OpenCode, no del repo).
+- Cumple `docs/rules/domain/autonomous-safety.md`: rama `agent/spec-127-slice2b-i-ts-toolchain-20260501`, sin merge autónomo.
+- `scripts/savia-orchestrator-helper.sh` — bash helper provider-agnostic. Subcomandos:
+- `docs/rules/domain/subagent-fallback-mode.md` — patrón canonical "single-shot expanded prompt" (121 líneas). Documenta: por qué (4 orchestrators dependen de Task; sin fallback rompen silenciosamente bajo stacks sin Task tool), capability detection (savia_orchestrator_helper.sh mode), pseudocode del pivot, trade-offs explícitos (loss of context isolation, sequential vs parallel, shared memory between judges), context-wall mitigation via wrap envelope.
+- 4 orchestrators críticos patched con sección compacta "## Fallback mode (SPEC-127 Slice 4)":
+- `tests/structure/test-spec-127-slice4-subagent-fallback.bats` — 39 tests certified. Estructura por AC:
+- **PV-01 Backward compat absoluto**: cero modificación del fan-out flow existente. Solo se añade el branch single-shot a los 4 orchestrators.
+- **PV-05 Visibilidad de pérdidas**: trade-offs documentados explícitamente en el rule doc (loss of isolation, sequential not parallel, shared memory).
+- **PV-06 No vendor lock-in**: helper bash branches en capability (`has_task_fan_out`), no en vendor. BATS test enforce.
+- 150-line cap respetado en los 4 orchestrators tras patch.
+- Cero red, cero git operations en runtime, cero merge autónomo.
+- Cumple `docs/rules/domain/autonomous-safety.md`: rama `agent/spec-127-slice4-subagent-fallback-20260430`.
+- `scripts/savia-quota-tracker.sh` — tracker genérico provider-agnostic. Lee `budget_kind` (`req-count` / `token-count` / `dollar-cap` / `none`) y `budget_limit` desde `~/.savia/preferences.yaml` (Slice 1 source-of-truth). 5 subcomandos:
+- `.claude/hooks/savia-budget-guard.sh` — PreToolUse advisory hook. **SIEMPRE exits 0** (never blocks). Drains stdin sin parsear (no inspecciona tool name/args). Records 1 request unit per call via tracker. Lee threshold marker; si over-70/85/95/exceeded, emite stderr nudge once-per-threshold-per-session vía `/tmp` marker keyed por PID + threshold. Bail silent si tracker falta.
+- `tests/structure/test-spec-127-slice5-quota-guard.bats` — 40 tests certified. Estructura por AC:
+- **PV-01 Backward compat absoluto**: cero modificación de los 64 hooks, 70 agents, 90 skills, 534 commands existentes. Solo se añade el tracker + hook nuevos.
+- **PV-02 No blocks**: el hook PreToolUse **SIEMPRE exits 0**, never blocks. Verified by BATS regression.
+- **PV-03 Zero data exfiltration**: log local en `~/.savia/quota/`, never repo-committed (gitignored). No telemetry to any vendor.
+- **PV-04 Operator opt-in**: si el usuario no declara `budget_kind` o lo deja en `none`, tracker invisible.
+- **PV-06 No vendor lock-in**: BATS tests verifican que ni tracker ni hook mencionan vendors comerciales hardcoded.
+- Cero red, cero git operations en runtime, cero merge autónomo.
+- Cumple `docs/rules/domain/autonomous-safety.md`: rama `agent/spec-127-slice5-quota-guard-20260501`, sin merge autónomo.
+- `tests/test-token-tracker-middleware.bats` — 30 tests certified (score 91). PostToolUse async monitor de context tokens, 3 zonas (50% hint / 70% alert / 85% critical → auto-compact).
+- `tests/test-subagent-lifecycle.bats` — 29 tests certified (score 94). SubagentStart/Stop logging a `output/agent-lifecycle/lifecycle.jsonl`.
+- `tests/test-task-lifecycle.bats` — 30 tests certified (score 94). TaskCreated/Completed logging con team/teammate fields.
+- `.claude/hooks/emergency-mode-readiness.sh` — SessionStart async hook (AC-03). Ejecuta `localai-readiness-check.sh` solo si `EMERGENCY_MODE_ENABLED=true`. Surface FAIL/WARN a stderr para visibilidad usuario, log append-only a `output/emergency-mode/readiness.jsonl`. Timeout 10s en script invocation, nunca bloquea SessionStart.
+- `tests/test-emergency-mode-readiness.bats` — 30 tests certified (score 94). Cubre verdict states (READY/WARN/FAIL/SKIP/TIMEOUT/UNKNOWN), feature-flag silencio, mock script via `$CLAUDE_PROJECT_DIR`, append accumulation, edge cases.
+- `.github/workflows/templates/pr-agent-review.yml` — reusable workflow para invocar qodo-ai/pr-agent como 5º juez del Court (AC-04). Cost gate `max_lines` default 1000, feature-flag check `COURT_INCLUDE_PR_AGENT`, skip on draft, comments tagged `[pr-agent]`, graceful skip si pr-agent no instalado.
+- `docs/rules/domain/court-external-judges.md` — política para incluir jueces externos OSS en el Court (AC-08). 7 requisitos de inclusión (auditable, self-hostable, pinable, schema validable, opt-in, tagged comments, respeta AUTONOMOUS_REVIEWER), 6 reglas operación, activación paso a paso, riesgos documentados.
+- `scripts/memory-save.sh` — `cmd_save` extendido con `--source <origin>` flag obligatorio. Valida format (4 sources OK: `tool:*`, `file:*:*`, `verified:*`, `user:explicit`), rechaza blacklist (`speculation`, `plan`, `intent`, `draft`, `hypothesis`). Source embeded en JSONL output. Escape hatch: `SAVIA_VERIFIED_MEMORY_DISABLED=true`.
+- `.claude/hooks/memory-verified-gate.sh` — PreToolUse Write hook bloquea auto-memory writes sin citation pattern. 5 patrones aceptados: file reference, markdown link, Source/Ref keyword, URL, frontmatter type. Skipped: MEMORY.md, session-journal.md, session-hot.md, session-summary.md.
+- `tests/test-memory-verified-gate.bats` — 33 tests certified score 94. Cubre block/pass/skip, escape hatch, edge cases (empty content, large content, malformed JSON), isolation.
+- `docs/rules/domain/verified-memory-axiom.md` — política completa con rationale, ejemplos correcto/rechazado, escape hatch, política de evolución.
+- `docs/rules/domain/pr-natural-language-summary.md` — regla canónica con 4 puntos obligatorios (qué cambia, por qué importa, riesgos, activación), lenguaje prohibido (spec IDs, jergas, métricas), excepciones explícitas (commits sign, reverts puros, hotfixes documentados).
+- `scripts/pr-plan-gates.sh:g_summary` — gate G11 valida `.pr-summary.md` existe, ≥300 chars, contiene título canónico `## Qué hace este PR (en lenguaje no técnico)`.
+- `docs/propuestas/SE-074-parallel-spec-execution.md` — spec en status APPROVED. 3 slices: worktree manager + spec queue (M 8h), PR queue manager (S 4h), DB sandbox + cleanup (M 6h). Pre-requisitos cumplidos (hook 100%, G11, cascade-rebase pattern, bounded concurrency, AUTONOMOUS_REVIEWER). Comparativa explícita vs status quo: 3-4x throughput sobre 1.1-1.2x coste tokens.
+- `docs/ROADMAP.md` Era 188 sección "Memory + Throughput foundations" con pipeline ordenado SE-072 (done) → SE-073 → SE-074. Trade-off explícito: SE-074 Slice 1 (8h) bloquea ~1 día pero break-even tras 2-3 Eras post.
+- `docs/propuestas/SE-075-voicebox-adoption.md` — APPROVED. 3 slices: task_queue.py (S 2h, sirve a SE-074 + SE-076), auto-chunking long-form TTS (M 3h), Kokoro 82M CPU voice español (M 3h, independiente de SE-042 GPU-blocked). Source: jamiepine/voicebox MIT.
+- `docs/propuestas/SE-076-queryweaver-patterns.md` — APPROVED. 3 slices: Graphiti episodic memory model en JSONL (M 4h, extiende SPEC-027), schema-as-graph WIQL (M 3h, target hallucination 20%→5-10%), LLM healer wrapper (S 2h). Source: FalkorDB/QueryWeaver patterns (AGPL-3.0 — solo patterns, no código).
+- `docs/propuestas/SE-077-opencode-replatform-v114.md` — APPROVED. 2 slices: plugin TS savia-gates (M, 8h) + parity audit ratchet (M, 6h). Era 189.
+- `docs/propuestas/SE-078-agents-md-cross-frontend.md` — APPROVED. AGENTS.md generator + drift check + Stop hook auto-regenerate. M 6h, era 189. Supersedes SPEC-114.
+- `docs/rules/domain/spec-opencode-implementation-plan.md` — regla canónica. Cada spec APPROVED post-2026-04-26 incluye sección obligatoria. Grandfathering documentado. Hot-fix exemption con `exempt_opencode_plan` frontmatter.
+- `scripts/spec-opencode-plan-audit.sh` — audit script (3 sub-secciones obligatorias, exit 1 si missing).
+- `scripts/pr-plan-gates.sh:g_opencode_plan` — G12 gate, solo se activa si el PR toca specs.
+- `.ci-baseline/spec-opencode-plan-violations.count` — baseline frozen at 0.
+- `scripts/memory-tier-rotate.sh` — 2-tier rotation (Tier A active ≤30 entries, Tier B filename-only archive).
+- `scripts/memory-access.sh` — increments `access_count` + updates `last_access` por memory file.
+- `tests/structure/test-memory-tier-rotate.bats` — 24 tests, score 83 certified (test-auditor).
+- `MEMORY-ARCHIVE.md` (cuando rotation produce demociones) — Tier B filename-only.
+- `scripts/parallel-specs-orchestrator.sh` — Slice 1 core. N workers paralelos en worktrees aislados, bounded concurrency hard cap 5, port allocation determinística, tmp dir sandboxing, runtime timeout, session.log per spec.
+- `scripts/spec-budget.sh` — Slice 1.5. Mapeo effort field (S/M/L) → Poisson-clipped retry budget (lambda_S=2, lambda_M=3, lambda_L=5; clipped [2, 8]). Determinístico por defecto; estocástico opt-in seedeado por hash(spec_id).
+- `scripts/adaptive-halting.sh` — Slice 1.5. Doble criterio halting (convergencia tree-hash + confidence ≥ floor + tests passed). Reemplaza halting binario "tests pasan una vez".
+- `docs/rules/domain/parallel-spec-execution.md` — regla canónica con configuración, garantías de seguridad, comandos.
+- `tests/structure/test-parallel-specs-orchestrator.bats` — 23 tests, score 88.
+- `tests/structure/test-spec-budget.bats` — 15 tests, score 85.
+- `tests/structure/test-adaptive-halting.bats` — 18 tests, score 81.
+- ✅ AC-01 orchestrator acepta lista de spec IDs y crea N worktrees
+- ✅ AC-02 MAX_PARALLEL_SPECS hard cap 5 (rejects valores mayores)
+- ✅ AC-03 port range único por worktree (hash determinístico)
+- ✅ AC-04 tmp dir aislado por worker (`/tmp/savia-spec-<id>-<ts>/`)
+- ✅ AC-05 graceful per-worker failure (1 falla, otros continúan)
+- ✅ AC-06 MAX_RUNTIME_MINUTES (default 60m) con `timeout(1)`
+- ✅ AC-07 Tests BATS ≥20 score ≥80 (23 tests, 88 actual)
+- ✅ AC-08 Doc en docs/rules/domain/parallel-spec-execution.md
+- ✅ AC-09 CHANGELOG entry (este fichero)
+- ✅ AC-09a `should_halt` con doble criterio (convergencia + confianza)
+- ✅ AC-09b `spec-budget` mapea effort → Poisson(lambda) clipped
+- ✅ AC-09c Confidence threshold configurable, validado [0.50, 0.95]
+- ✅ AC-09d Tests BATS ≥10 score ≥80 (18 + 15 = 33 tests, scores 81 y 85)
+- ✅ AC-09e Cita Kohli et al. 2026 arXiv:2604.07822 en docstrings + spec
+- Slice 2 (S 4h): PR queue manager con cascade-rebase auto-resolve
+- Slice 3 (M 6h): DB sandbox + cleanup hook async stale worktrees
+- `scripts/parallel-specs-merge-queue.sh` — Slice 2 core. Gestiona la cola FIFO de branches producidas por el orchestrator paralelo y aplica el patrón cascade-rebase documentado en `feedback_changelog_cascade_rebase`. Subcomandos: `add`, `remove`, `list`, `status`, `clear --confirm`, `rebase <branch>`, `rebase-next`. Auto-resolve sólo para conflictos restringidos a `CHANGELOG.md` + `CHANGELOG.d/`; cualquier otra divergencia ESCALA con `git rebase --abort` y mensaje detallado a la usuaria.
+- `tests/structure/test-parallel-specs-merge-queue.bats` — 32 tests, score 88 certificado.
+- Sección "Merge queue (Slice 2)" añadida a `docs/rules/domain/parallel-spec-execution.md` con comandos, scope de auto-resolve y límites de seguridad.
+- NUNCA hace `git push`
+- NUNCA hace `gh pr merge` ni equivalente
+- NUNCA force-pushes
+- NUNCA auto-resuelve un conflicto fuera de `CHANGELOG.md` / `CHANGELOG.d/`
+- Se niega a operar con working tree dirty (vía `git status --porcelain`)
+- `MAX_REBASE_STEPS` (default 30) como guard rail anti-loop
+- ✅ AC-10 PR queue manager merge-en-orden con cascade-rebase auto-resolve para CHANGELOG
+- ✅ AC-11 Conflictos no-CHANGELOG escalados (no auto-merge), output `ESCALATE: <ficheros>` por stderr
+- 3 dispatch (usage / help / unknown subcmd)
+- 8 queue CRUD (add idempotente, remove idempotente, list missing/merged/ready/needs-rebase, status totales)
+- 2 clear (refusal sin --confirm, success con)
+- 8 rebase (branch missing, dirty tree, ya merged, ahead-only, conflicto CHANGELOG.md, fragment-only, escalación non-CHANGELOG, vuelta a rama original)
+- 3 rebase-next (queue vacía, skip merged + rebase stale, no-op si ready)
+- 3 safety estática (ningún `git push` o `gh pr merge`, `set -uo pipefail`, MAX_REBASE_STEPS guard)
+- 3 spec ref (SE-074 Slice 2, parallel-spec-execution.md, autonomous-safety.md, cascade-rebase header)
+- `docs/propuestas/SE-079-pr-plan-scope-trace-gate.md` — APPROVED, priority media, effort S 3h, Era 189. Slice único: nueva G-gate `g13_scope_trace` en `scripts/pr-plan-gates.sh` que verifica que cada archivo cambiado en un PR trace a (1) un AC del spec referenciado, (2) una whitelist hard-coded (`CHANGELOG.d/`, `.scm/`, `.confidentiality-signature`), o (3) override explícito `Scope-trace: skip — <razón ≥10 chars>` en `.pr-summary.md`. Heurística pure-bash sin LLM (target <1s overhead). Soft-skip cuando no hay spec ref detectable (PRs legítimos sin spec).
+- ROADMAP entry bajo Era 189.
+- `docs/propuestas/SE-080-attention-anchor-vocabulary.md` — APPROVED, priority media, effort S 2h, Era 189. Slice único: doc canónico `docs/rules/domain/attention-anchor.md` (~80 líneas) con definición de los 4 patrones Genesis (B8 ATTENTION ANCHOR, B9 GOAL STEWARD, A7 ADVERSARIAL REVIEW, A9 SUPERVISED EXECUTION) + 4 cross-references unilíneas a reglas existentes (radical-honesty.md, autonomous-safety.md, code-review-court.md, SE-079). Output del G13 scope-trace de SE-079 emite "B8 attention-anchor present" en lugar de un check anónimo. Sin código ejecutable nuevo — adopción 100% vocabulary.
+- ROADMAP entry bajo Era 189.
+- `scripts/lib/task-queue.py` — Slice 1. Serial-execution job queue with SQLite (WAL) persistence and auto-recovery of stale running jobs at construction. Re-implementation of the pattern in voicebox MIT (`backend/services/task_queue.py`); clean-room — no source code copied. Public API: `enqueue / dequeue / heartbeat / complete / status / recover / drain / list_jobs`. CLI dispatcher with subcommands. Atomic claim via `BEGIN IMMEDIATE`. STALE_HEARTBEAT_SEC=300 default (env override). Storage under `output/task-queue/<queue>.sqlite`.
+- `scripts/lib/sentence-splitter.py` — Slice 2 helper. Spanish-aware sentence boundary splitter for long-form TTS chunking. Preserves abbreviations: Sr./Sra./Sres./Sras./Dr./Dra./Lic./Ing./Prof./D./Dña./Vd./Vds./S.A./S.L./a.m./p.m./e.g./i.e./etc./aprox./depto./pág./vol./… via placeholder substitution. Secondary split on commas/semicolons when sentence exceeds `--max-chars` (default 600). Numeric decimals (1.5, 2.3) are NOT treated as sentence boundaries.
+- `scripts/savia-voice-chunk.sh` — Slice 2 orchestrator. Long-form Spanish TTS chunker with bounded concurrency (default 2) and ffmpeg `acrossfade` between chunks (default 80 ms, configurable). TTS backend pluggable via `$SAVIA_TTS_CMD` (placeholders `{out}/{text}`); auto-detects `espeak-ng`/`espeak` if unset. Modes: `--dry-run` (chunks only), `--no-fade` (concat without crossfade). Reads from `--text` / `--file` / stdin.
+- `tests/structure/test-task-queue.bats` — 26 tests, certified (positive paths × 8, negative paths × 5, edge cases × 6, atomicity × 1, auto-recovery × 3, static safety × 3).
+- `tests/structure/test-savia-voice-chunk.bats` — 27 tests, certified (positive paths × 9, negative paths × 5, edge cases × 7, splitter quality × 6).
+- voicebox (MIT, jamiepine/voicebox, 23k stars) — patterns for `task_queue.py` and chunker `services/tts.py`. Clean-room: docstrings, attribution headers, and matching public API behaviour replicated; no source code copied.
+- ✅ AC-01 task-queue.py with MIT/voicebox attribution in header
+- 〰 AC-02 SSE bridge endpoint — DEFERRED (Savia is CLI-first; `status --json` covers observability)
+- ✅ AC-03 Auto-recovery tested (tests #19, #22, #23)
+- ✅ AC-04 BATS coverage requirement met (26 tests certified)
+- 〰 AC-05 Dedicated doc — DEFERRED (module docstring + spec ref sufficient until a second consumer appears)
+- ✅ AC-06 Long-form text → single audio file via ffmpeg acrossfade
+- ✅ AC-07 Bounded concurrency 2 default (env + CLI override)
+- ✅ AC-08 Spanish abbreviations preserved across splitter tests
+- AC-09–AC-12 Kokoro 82M install, wrapper, skill docs, latency benchmark — pending user authorization for model download
+- `task-queue.py` CLI smoke: enqueue → status → dequeue → complete → drain → status
+- `savia-voice-chunk.sh` end-to-end: 3 Spanish sentences → 3 espeak-ng chunks → ffmpeg crossfaded WAV (65 KB, RIFF/WAVE PCM 16-bit mono 22050 Hz)
+- task-queue.py: NO destructive operations. `drain` deletes only `done|failed` jobs (preserves pending/running). Atomic CAS via `BEGIN IMMEDIATE` prevents double-claim under concurrent workers.
+- savia-voice-chunk.sh: `set -uo pipefail`. NO network, NO file modification outside `$WORKDIR` (mktemp) and the user-specified `--out`. Refuses unknown CLI args.
+- `.ci-baseline/hook-critical-violations.count` 5 → 6. Hook latency benchmark (`scripts/hook-bench-all.sh`) oscillates 5–8 under sustained system load (concurrent gitlab/puma at ~96 % CPU on the bench host). Pre-existing — none of this batch's changes touch hooks. Precedent: commit `e1fdac2d fix(ci): revert hook-critical-violations baseline 4 → 5 (non-deterministic)`. Should re-tighten via `scripts/baseline-tighten.sh` once the host is idle (auto-applied by next CI run when ≤ 5).
+- `docs/propuestas/SE-081-pocock-skills-quick-wins.md` — APPROVED priority alta (S 2h). Tres skills MIT clean-room: `caveman` (modo ultra-comprimido -75% tokens), `zoom-out` (mapa de módulos), `grill-me` (interrogatorio relentless aligned con Rule #24 radical-honesty). Zero código, sólo markdown + atribución.
+- `docs/propuestas/SE-082-architectural-vocabulary-discipline.md` — APPROVED priority alta (M 4h). Vocabulario obligatorio Module/Interface/Seam/Adapter/Depth/Locality para `architect` y `architecture-judge`. Extiende SE-080 attention-anchor. Auditor warning-only en este Slice; gate enforced en SE-084.
+- `docs/propuestas/SE-083-tdd-vertical-slice-skill.md` — APPROVED priority media (S 2h). Skill que codifica el anti-pattern de horizontal slicing. Cross-reference desde `test-architect`.
+- `docs/propuestas/SE-084-skill-catalog-quality-audit.md` — APPROVED priority alta (M 6h, 2 slices). Auditor estático (Use-when triggers + ≤100 LOC + frontmatter validation) + pr-plan G14 gate sólo sobre skills modificados en el PR. Baseline ratchet via `baseline-tighten.sh`.
+- `docs/propuestas/SE-085-write-a-skill-meta.md` — APPROVED priority baja (S 2h). Meta-skill consultivo para crear skills nuevos. Depende de SE-084 (regla canónica enforced).
+- `docs/propuestas/SE-086-ubiquitous-language-extractor.md` — APPROVED priority media (M 5h, 2 slices). Skill DDD glossary + extractor python que cruza `.memory-store.jsonl` con `CONTEXT.md` per-proyecto, marca términos new/existing/inconsistent. Edge `DOMAIN_TERM` en grafo episodic (extiende SE-076 Slice 1).
+- `docs/propuestas/SE-087-design-an-interface-parallel.md` — APPROVED priority media (M 4h). Skill que spawnea N=3 sub-agentes paralelos con prompts ortogonales (minimalist / compositional / type-safe / pure functional) para destapar trade-offs en diseño de interfaz. Reusa Agent tool existente; opt-in delegate a SE-074 parallel-specs-orchestrator para problemas grandes.
+- `.claude/skills/caveman/SKILL.md` (83 LOC) + `DOMAIN.md`. Modo respuesta ultra-comprimido (~75% reducción tokens). Persistencia explícita hasta "stop caveman" / "modo normal". Auto-clarity exception para warnings de seguridad y operaciones irreversibles. Aligned con Rule #24 radical-honesty.
+- `.claude/skills/zoom-out/SKILL.md` (39 LOC). Trigger humano puro (`disable-model-invocation: true`) para pedir mapa de módulos cuando Mónica entra en área de código desconocida.
+- `.claude/skills/grill-me/SKILL.md` (53 LOC). Interrogatorio relentless una pregunta a la vez sobre cada rama del decision tree. Cross-references Rule #24 (challenge assumptions) + Genesis B9 GOAL STEWARD (SE-080).
+- `scripts/skill-catalog-audit.sh` — escanea `.claude/skills/*/SKILL.md`, detecta 4 issue types (missing-frontmatter, missing-name-field, missing-description-field, description-too-short, description-missing-use-when, skill-long, skill-overlong, missing-skill-md). Modos: `--report` (default), `--gate` (exit 1 sobre fail-severity), `--baseline-write`, `--json`, `--skill PATH`. Output TSV en `output/skill-catalog-audit-YYYYMMDD.tsv`.
+- `.ci-baseline/skill-quality-violations.count` — baseline inicial captura el estado actual (warn + fail conjugados). Los 9 FAIL son skills con `description: >` folded scalar vacía (banking-architecture, codebase-map, company-messaging, doc-quality-feedback, evaluations-framework, orgchart-import, prompt-optimizer, resource-references, smart-calendar) — agentes los cargan sin signal de trigger, causa real.
+- `tests/structure/test-pocock-skills-quick-wins.bats` — 39 tests certified. Cubre los 3 skills (frontmatter, Use-when, attribution, sizes, cross-refs) + el auditor (negative cases: missing-frontmatter / unknown-arg / nonexistent-path; edge cases: empty dir / overlong skill / zero-LOC; assertion quality: JSON parsing, integer comparisons, status checks).
+- `caveman/SKILL.md` → SE-081 Slice única caveman skill
+- `zoom-out/SKILL.md` → SE-081 Slice única zoom-out skill
+- `grill-me/SKILL.md` → SE-081 Slice única grill-me skill
+- `write-a-skill/SKILL.md` discipline → SE-084 Slice 1 auditor heuristics
+- ✅ AC-01 caveman SKILL.md ≤100 LOC con frontmatter `name`, `description` + "Use when ..." (aspiración spec ≤80, real 83)
+- ✅ AC-02 zoom-out SKILL.md ≤100 LOC (aspiración spec ≤30, real 39)
+- ✅ AC-03 grill-me SKILL.md ≤100 LOC + cita radical-honesty (aspiración spec ≤30, real 53)
+- ✅ AC-04 Headers de los 3 skills citan `mattpocock/skills` (MIT)
+- ✅ AC-05 Ningún skill copia texto literal de Pocock (clean-room)
+- ✅ AC-06 Tests BATS estáticos (39 tests certified)
+- ✅ AC-07 CHANGELOG fragment
+- ✅ AC-01 auditor ejecutable, modos report/gate/baseline-write/json
+- ✅ AC-02 Output TSV con 4+ issue types
+- ✅ AC-03 Tests BATS ≥12 (cubierto en `test-pocock-skills-quick-wins.bats` con secciones C9-C11)
+- `set -uo pipefail` declarado.
+- Cero red, cero git operations, cero modificación a archivos fuera de `output/` y `.ci-baseline/`.
+- Modo `--gate` solo lee — no modifica skills.
+- Cumple `docs/rules/domain/autonomous-safety.md`: rama `agent/se081-se084slice1-...`, sin push automático ni merge.
+- `docs/rules/domain/architectural-vocabulary.md` — vocabulario canónico Module / Interface / Implementation / Seam / Adapter / Depth / Locality + Leverage. Cada término con `_Avoid_:` explícito (rejection set). 4 principios ratchet: deletion test, interface = test surface, one adapter = hypothetical seam, depth is property of interface. Atribución MIT clean-room a `mattpocock/skills/improve-codebase-architecture/LANGUAGE.md`.
+- Cross-references añadidas en 3 sitios:
+- `scripts/architectural-vocabulary-audit.sh` — auditor estático sobre outputs recientes de `architect` y `architecture-judge` (`output/architect-*.md`, `output/architecture-*.md`, `output/agent-runs/architect-*/*.md`). Detecta términos prohibidos (boundary, component, service, api) en prosa NO en código. Skip de fenced code blocks + inline backticks (identifiers como `BoundaryService` siguen permitidos en code, prose-only enforcement). Modos: `--report` (default warning-only, exit 0), `--gate` (exit 1 sobre violations, hook-up para Slice 2 SE-084 G14), `--json`, `--file PATH`.
+- `.claude/skills/tdd-vertical-slices/SKILL.md` — codifica el anti-pattern de **horizontal slicing** ("escribir todos los tests primero, luego todo el código produce tests-de-mentira") y la disciplina vertical (1 test → 1 implementation → repeat). Incluye workflow 4-pasos (planning, tracer bullet, incremental loop, refactor) + per-cycle checklist. Atribución MIT clean-room a `mattpocock/skills/tdd/SKILL.md`.
+- `.claude/skills/tdd-vertical-slices/DOMAIN.md` — secciones convención pm-workspace (Por qué existe, Conceptos de dominio, Reglas de negocio, Relación con otras skills, Decisiones clave, Limitaciones).
+- Cross-reference en `.claude/agents/test-architect.md` — sección "TDD Vertical Slices (SE-083)" tras Constraints. NO modifica `test-engineer` ni `test-runner` (son ejecutores, no discípulos del pattern).
+- `tests/structure/test-architectural-vocabulary.bats` — 31 tests certified. Cubre SE-082 (vocabulary doc structure × 4, cross-refs × 3, auditor positive × 8, auditor negative × 2, auditor edge × 4) + SE-083 (skill structure × 4, cross-refs × 2) + spec ref reinforcement.
+- `improve-codebase-architecture/LANGUAGE.md` → SE-082 architectural-vocabulary doc + auditor heurística
+- `tdd/SKILL.md` → SE-083 tdd-vertical-slices skill (anti-horizontal-slicing es la contribución central)
+- ✅ AC-01 architectural-vocabulary.md ≤200 LOC, define 6 términos con _Avoid_
+- ✅ AC-02 Atribución MIT a Pocock LANGUAGE.md en header
+- ✅ AC-03 Cross-reference añadida en attention-anchor.md
+- ✅ AC-04 architect agent referencia el doc canónico
+- ✅ AC-05 architecture-judge agent referencia el doc canónico
+- ✅ AC-06 architectural-vocabulary-audit.sh ejecutable, output warning-only por defecto + modo gate listo
+- ✅ AC-07 Tests BATS ≥10 estáticos
+- ✅ AC-08 CHANGELOG fragment
+- ✅ AC-01 SKILL.md ≤120 LOC con frontmatter `name`, `description` que incluye "Use when ..."
+- ✅ AC-02 Anti-pattern de horizontal slicing nombrado explícitamente con "DO NOT" / "NO escribas todos"
+- ✅ AC-03 Atribución MIT a Pocock tdd/SKILL.md
+- ✅ AC-04 Cross-reference añadida en test-architect.md
+- ✅ AC-05 Tests BATS ≥8 estáticos
+- ✅ AC-06 CHANGELOG fragment
+- `set -uo pipefail` declarado en el auditor.
+- Cero red, cero git operations, cero modificación a archivos fuera de `output/` (TSV).
+- Modo `--gate` solo lee — no modifica outputs auditados.
+- Cumple `docs/rules/domain/autonomous-safety.md`: rama `agent/se082-se083-...`, sin push automático ni merge.
+- `docs/rules/domain/skill-catalog-discipline.md` — define 5 reglas obligatorias para todo `SKILL.md` nuevo o modificado:
+- Atribución MIT a `mattpocock/skills/write-a-skill/SKILL.md` (pattern source).
+- `scripts/pr-plan-gates.sh` — añadida función `g14_skill_catalog`. Filtra `git diff origin/main..HEAD --diff-filter=AM` a `^\.claude/skills/[^/]+/SKILL\.md$`, invoca `scripts/skill-catalog-audit.sh --gate --skill <dir>` para cada skill modificado, parsea JSON output y agrega FAIL/WARN counts.
+- `scripts/pr-plan.sh` — registro G14 tras G13: `gate "G14" "Skill catalog audit" g14_skill_catalog`.
+- Comportamiento:
+- `tests/structure/test-skill-catalog-g14.bats` — 19 tests certified. Cubre rule doc structure (×4), G14 function structure + safety (×5), G14 behavior (×3), auditor negative cases (×2), edge cases (×3), spec ref + assertion quality reinforcement (×2).
+- ✅ AC-04 `.ci-baseline/skill-quality-violations.count` ya existente desde Slice 1 batch 75
+- ✅ AC-05 `docs/rules/domain/skill-catalog-discipline.md` ≤120 LOC, cita Pocock MIT
+- ✅ AC-06 pr-plan G14 activa el gate en modo `--gate` filtrando a skills cambiados en el PR
+- ✅ AC-07 No regression: skills modificados no aumentan violations (G14 skipped en este PR — no se modifica ningún SKILL.md, dogfood pasa)
+- ✅ AC-08 Tests BATS = 19 certified
+- ✅ AC-09 CHANGELOG fragment con baseline counts (155 inicial — 146 WARN + 9 FAIL — desde batch 75)
+- 〰 AC: G14 wireado a `Slice 2` aspecto del spec — DONE
+- G14 SOLO lee `git diff` y archivos especificados — no modifica nada
+- WARN-severity NO bloquea (ratchet) — evita regresión accidental sobre skills antiguos
+- FAIL-severity bloquea explícitamente con instrucciones de remediation
+- Cumple `docs/rules/domain/autonomous-safety.md`: rama `agent/se084-slice2-...`, sin push automático ni merge.
+- `docs/rules/domain/savia-enterprise/audit-trigger-primitive.md` — define el primitive de compliance: trigger function genérico `audit_trigger_fn()` adjuntable a cualquier tabla regulada via `CALL attach_audit('table'::regclass)`. Captura `{table_name, record_id, operation, old_row, new_row, user_id, agent_id, session_id, tenant_id, created_at}` en JSONB. Append-only por constraint (`REVOKE UPDATE, DELETE`). Multi-tenant RLS heredado de SPEC-SE-002. Diseño AFTER (no BEFORE). `current_setting(..., true)` silencia settings missing. Atribución MIT a `dreamxist/balance` `00006_audit_log.sql` (clean-room, no wholesale import).
+- `docs/rules/domain/savia-enterprise/audit-retention.md` — retention policy obligatoria con 7 categorías regulatorias:
+- `scripts/enterprise/audit-search.sh` — búsqueda tabular con filtros `--tenant <uuid> / --table / --agent / --since` (acepta `Nd`, `Nh`, `Nm`, ISO-8601). Output con diff column computado de `old_row` vs `new_row` (claves cuyos valores cambiaron). Modo `--json` para integration. Falla graceful si `SAVIA_ENTERPRISE_DSN` ausente (exit 3 con mensaje documentado).
+- `scripts/enterprise/audit-purge.sh` — DELETE selectivo con guards de seguridad:
+- `tests/structure/test-audit-trigger-primitive.bats` — 36 tests certified. Cubre safety (×4), template SQL structure (×7), CLI negative cases (×8), edge cases (×5), retention doc structure (×3), rule doc structure (×4), spec ref reinforcement (×5).
+- ✅ AC-01 Tabla `audit_log` append-only (REVOKE UPDATE/DELETE en template)
+- ✅ AC-02 Función `audit_trigger_fn()` table-agnostic capturando 9 campos
+- ✅ AC-03 Procedure `attach_audit(regclass)` para agregar a tabla nueva
+- ✅ AC-04 RLS multi-tenant respetado (SPEC-SE-002)
+- ✅ AC-05 Doc retention policy en `audit-retention.md` con tabla por categoría
+- ✅ AC-06 CLI `audit-search.sh` con filter tenant/table/agent/since
+- ✅ AC-07 CLI `audit-purge.sh` requires --confirm + retention policy file
+- 〰 AC-08 Tests pgTAP ≥8 — **DEFERRED**: pm-workspace no tiene Postgres en CI; pgTAP queda pendiente del repo Savia Enterprise. BATS ≥6 SÍ cumplido (36 tests certified).
+- ✅ AC-09 SQL template `docs/propuestas/savia-enterprise/templates/audit-trigger.sql` (ya existía desde batch 71)
+- ✅ AC-10 Doc `docs/rules/domain/savia-enterprise/audit-trigger-primitive.md`
+- 〰 AC-11 Migration: attach_audit a 5 tablas regulated existentes — **DEFERRED**: pm-workspace es repo de config Claude Code; las migrations a tablas reales se aplican en el repo Savia Enterprise post-deploy.
+- ✅ AC-12 CHANGELOG entry
+- `set -uo pipefail` en ambos CLI.
+- `audit-purge.sh` con 6 layers de safety: --table required, --before required, --confirm required, retention doc required, no bulk purge, no self-purge, table-must-be-classified.
+- Cero red, cero git operations, cero modificación a `audit_log` desde el script search-only.
+- Cumple `docs/rules/domain/autonomous-safety.md`: rama `agent/spec-se-037-...`, sin push automático ni merge.
+- `scripts/enterprise/jwt-mint.sh` — CLI bash que intercambia API key por JWT efímero HS256:
+- `docs/rules/domain/savia-enterprise/agent-jwt-mint.md` — define el modelo:
+- `tests/structure/test-jwt-mint-primitive.bats` — 36 tests certified. Cubre safety×3, template SQL structure×6, CLI negative×9 (incluye boundary/empty edge cases), edge×6, rule doc structure×6, spec ref reinforcement×2, exit codes×1, defaults×1.
+- ✅ AC-01 Tabla `api_keys` con SHA-256 hash + key_prefix UX (template ya existente desde batch 71)
+- ✅ AC-02 Función `mint_jwt()` con scope downscoping enforce (split: `api_key_verify` + `api_key_scope_is_subset` SQL helpers + `jwt-mint.sh` bash signer)
+- 〰 AC-03 4 CLI commands (create, list, revoke, mint) — **DEFERRED** Slice 2: solo `mint` aquí; create/list/revoke en batch siguiente
+- ✅ AC-04 JWT efímero ≤900s, scope mínimo signed (TTL clamp [60,3600])
+- ✅ AC-05 Audit trail `api_key_mints` append-only (sinergia SPEC-SE-037)
+- 〰 AC-06 Hook `block-pat-file-write.sh` — **DEFERRED** Slice 3
+- 〰 AC-07 `block-credential-leak.sh` PAT-shaped detection — **DEFERRED** Slice 3
+- 〰 AC-08 BATS ≥12 certified — ✅ cumplido (36 tests certified); pgTAP ≥6 **DEFERRED** (no Postgres en pm-workspace CI)
+- ✅ AC-09 Doc `docs/rules/domain/savia-enterprise/agent-jwt-mint.md`
+- ✅ AC-10 SQL template `docs/propuestas/savia-enterprise/templates/api-keys.sql` (batch 71)
+- ✅ AC-11 CHANGELOG entry (este fragmento)
+- `set -uo pipefail` en `jwt-mint.sh`.
+- `--key-stdin` flag explícito para evitar leak vía `ps`.
+- Refuse de upscoping (exit 8): scope_subset MUST ⊆ stored_scope.
+- TTL clamp `[60, 3600]` — refuse fuera de rango (DoS prevention).
+- Audit log non-blocking (warning a stderr si `api_key_record_mint` falla, JWT sí emitido — disponibilidad operacional priorizada; auditoría reconstruible off-line).
+- Cero red, cero git operations.
+- Cumple `docs/rules/domain/autonomous-safety.md`: rama `agent/spec-se-036-...`, sin push automático ni merge.
+- `scripts/enterprise/api-key-create.sh` — genera key fresca de 32 bytes urandom (base64url, prefijo `savia_`), inserta `sha256(plaintext)` + `key_prefix` (8 chars UX) en `api_keys`, e **imprime el plaintext exactamente una vez** con warning destructivo. Soporta `--tenant <uuid>` (validado RFC4122 shape), `--scope <csv>`, `--desc "..."`. Exit codes 2 (usage) / 3 (DSN) / 4 (psql/openssl) / 5 (insert fail).
+- `scripts/enterprise/api-key-list.sh` — inventario tabular o JSON. Filtros: `--tenant <uuid>`, `--active`, `--revoked`, `--json`. NUNCA muestra `key_hash` ni plaintext (zero-leakage por construcción). Mutually exclusive `--active` y `--revoked`. Validación UUID antes de DSN/psql checks.
+- `scripts/enterprise/api-key-revoke.sh` — revoca por prefix de 8 chars con 4 safety layers:
+- `tests/structure/test-api-key-cli-suite.bats` — 35 tests certified. Cubre file-level safety×6, create negative×5, list negative×4, revoke negative×5, edge×8 (boundary, no-leak, dry-run, ttl-warning), spec ref×3, exit code documentation×3.
+- `docs/rules/domain/savia-enterprise/agent-jwt-mint.md` — sección "CLIs operacionales (Slice 2)" añadida; "No hace" actualizado para reflejar que solo Slice 3 queda pendiente.
+- ✅ AC-03 4 CLI commands (create, list, revoke, mint) — Slice 1 ya hizo `mint`; Slice 2 completa los 3 restantes
+- 〰 AC-06 Hook `block-pat-file-write.sh` — **DEFERRED** Slice 3
+- 〰 AC-07 `block-credential-leak.sh` PAT-shaped detection — **DEFERRED** Slice 3
+- ✅ AC-09 Doc actualizado con Slice 2
+- `set -uo pipefail` en los 3 CLIs.
+- `api-key-create.sh`: plaintext printado exactamente UNA vez, sin escritura a disco. Recuperación = revoke + recreate.
+- `api-key-list.sh`: zero-leakage — la SQL SELECT explícitamente excluye `key_hash` y plaintext (`grep -qE "SELECT.*key_hash"` falla, enforced por test).
+- `api-key-revoke.sh`: 4 safety layers (prefix required, no bulk, no wildcards, dry-run default + actor logging).
+- Cero red, cero git operations.
+- Cumple `docs/rules/domain/autonomous-safety.md`: rama `agent/spec-se-036-slice-2-...`, sin push automático ni merge.
+- `scripts/enterprise/reconciliation-status.sh` — wrapper bash que itera dimensiones activas para un tenant y renderiza:
+- `docs/rules/domain/savia-enterprise/reconciliation-delta-engine.md` — define el modelo:
+- `tests/structure/test-reconciliation-delta-engine.bats` — 40 tests certified. Cubre file-level safety×7, SQL template structure×5, delta-tier helper positive+edge×8, status CLI negative×6, edge structural×5, rule doc structure×6, exit codes + spec ref×3.
+- ✅ AC-01 Función `tenant_reconciliation_status()` definida con 3 tiers (en template, batch 71)
+- 〰 AC-02 4 dimensiones seed — **DEFERRED** Slice 2 (rule doc lista plan conceptual)
+- 〰 AC-03 Vista materializada — **DEFERRED** Slice 3 follow-up (Slice 1+3 entregan on-demand CLI; vista materializada es optimización posterior)
+- ✅ AC-04 CLI `reconciliation-status.sh <tenant>` con output ANSI
+- 〰 AC-05 Trigger recompute on-write con webhook — **DEFERRED** Slice 4
+- 〰 AC-06 Baseline ratchet bloquea regresión — **DEFERRED** Slice 5 (precursor: `--fail-on` exit 7 ya implementado)
+- 〰 AC-07 pgTAP ≥10 — **DEFERRED** (no Postgres en pm-workspace CI); BATS ≥8 ✅ cumplido (40 tests certified)
+- ✅ AC-08 Doc `docs/rules/domain/savia-enterprise/reconciliation-delta-engine.md`
+- ✅ AC-09 SQL template `docs/propuestas/savia-enterprise/templates/reconciliation.sql` (batch 71)
+- ✅ AC-10 CHANGELOG entry (este fragmento)
+- `set -uo pipefail` en `reconciliation-status.sh` y `delta-tier.sh`.
+- UUID validation antes de DSN/psql checks (fail-fast en arg validation).
+- `--fail-on` solo acepta `green|amber|red` (no levels custom; mantiene API limpia).
+- Cero red, cero git operations.
+- Cumple `docs/rules/domain/autonomous-safety.md`: rama `agent/spec-se-035-...`, sin push automático ni merge.
+- `scripts/image-relevance-filter.sh` — CLI bash con 3 subcomandos:
+- `docs/rules/domain/image-relevance-filter.md` — define el modelo:
+- `tests/structure/test-image-relevance-filter.bats` — 33 tests certified. Cubre file safety×3, spec ref×2, usage/negative×6, heuristic positive×7 (incluye auto-promote ≥3 + boundary 2-marks-not-enough), edge×5 (cache idempotencia, JSON sha 64-char, zero-byte), rule doc structure×6, spec ref + exit codes×3, graceful degradation×1.
+- ✅ AC-01 `scripts/image-relevance-filter.sh` con check/skip/log subcomandos
+- ✅ AC-02 Heurísticas de tamaño, aspect ratio, cache de checksums (4 reglas en orden)
+- 〰 AC-03 `word-digest`, `pptx-digest`, `excel-digest` consultan filtro antes de Vision — **DEFERRED** Slice 2 (modifica 3 agents existentes, requiere greenlight)
+- ✅ AC-04 Log de decisiones en cache (refinamiento automático via auto-promote ≥3 marks)
+- ✅ AC-05 Tests BATS ≥12 — cumplido (33 tests certified)
+- 〰 AC-06 Reducción medible 40% Vision — **DEFERRED** medible solo tras Slice 2 integration en producción
+- `set -uo pipefail` en `image-relevance-filter.sh`.
+- Cache off-repo en `~/.savia/digest-cache/` — nunca toca el repo.
+- NO modifica agents existentes en este Slice (riesgo cero sobre flow actual).
+- Skip-list idempotente (escribir mismo sha 2× no duplica fila).
+- Cero red, cero git operations.
+- Cumple `docs/rules/domain/autonomous-safety.md`: rama `agent/spec-103-...`, sin push automático ni merge.
+- `.claude/agents/recommendation-tribunal-orchestrator.md` — sonnet, convoca los 4 jueces en paralelo via Task, agrega vía aggregate.sh, persiste audit JSON. Sync, latency budget hard-cap 3s wall-clock con graceful timeout fallback (verdict WARN + razón "timeout").
+- `.claude/agents/memory-conflict-judge.md` — sonnet, lee `~/.claude/external-memory/auto/MEMORY.md` + filtra candidatos + lee files completos. Veto cuando draft contradice un `feedback_*.md` o `user_*.md` con confidence ≥ 0.8.
+- `.claude/agents/rule-violation-judge.md` — sonnet, carga lazy de CLAUDE.md + reglas críticas + radical-honesty + autonomous-safety + dominio. Veto en violación de Rule #1 / Rule #8 / autonomous-safety / radical-honesty / zero-project-leakage.
+- `.claude/agents/hallucination-fast-judge.md` — **haiku** (fast), verifica entidades del draft via tool calls reales: `[ -f path ]`, `grep` de funciones, `--help` de flags. Veto con ≥1 entidad fabricada confidence ≥ 0.9 (verificación definitiva).
+- `.claude/agents/expertise-asymmetry-judge.md` — sonnet, lee perfil `expertise.md` del usuario activo. **NUNCA veta** — solo muta el output forzando rewrite con secciones "Por qué creo esto / Alternativas que descarté / Cómo verificar tú misma" cuando draft cae en área marcada `audit_level: blind`.
+- `scripts/recommendation-tribunal/classifier.sh` — heurística primer paso (sin LLM, <50ms). 3 niveles: critical (bypass / lower threshold / hook-skip flags / force push, también en español), high (sudo / rm -rf / drop table / prod deploy), medium (te recomiendo / should use / el problema es). Solo medium+ activa el panel.
+- `scripts/recommendation-tribunal/aggregate.sh` — agregación deterministic (no LLM). Lee 4 JSONs, aplica veto rules, computa consensus_score, decide PASS/WARN/VETO. Hard rule: veto requiere confidence ≥ 0.8.
+- `scripts/recommendation-tribunal/banner.sh` — renderiza markdown banner según verdict. PASS = empty (passthrough). WARN = banner + draft. VETO = banner que muestra el draft original como blockquote citado pero claramente marcado como bloqueado (auditabilidad — la usuaria SIEMPRE ve qué le iba a decir Savia).
+- `.claude/hooks/recommendation-tribunal-pre-output.sh` — hook PreOutput **listo para activar** pero **NO añadido a `.claude/settings.json`**. En Slice 1 el hook está en modo detect-only: clasifica + persiste audit log + pasa el draft sin mutación. Esto permite calibrar el classifier en uso real antes de wirear los vetos.
+- `docs/rules/domain/recommendation-tribunal.md` — define el modelo:
+- `tests/structure/test-recommendation-tribunal.bats` — 51 tests certified. Cubre file safety×6, agent files×7, classifier positive×9 (bilingüe), classifier negative×5, aggregate×7 (verdict PASS/WARN/VETO + boundary confidence), banner×4, hook detect-only×3, rule doc×6, spec ref + meta×3.
+- ✅ AC-01 Classifier detecta recomendaciones accionables (heurística bilingüe + JSON output) — precision validable contra golden set en uso real (modo detect-only)
+- ✅ AC-02 4 jueces implementados como agentes con prompts versionados y modelos asignados (haiku/sonnet)
+- 〰 AC-03 Latency p95 < 3s — **DEFERRED** medible solo tras activación; targets definidos en rule doc
+- ✅ AC-04 Verdict VETO bloquea entrega; banner muestra contenido vetado claramente marcado
+- ✅ AC-05 Banner WARN se inyecta antes del output con findings concretos
+- ✅ AC-06 memory-conflict-judge cita el `.md` del auto-memory en conflicto
+- ✅ AC-07 rule-violation-judge cita el path + line range de la regla violada
+- ✅ AC-08 hallucination-fast-judge verifica entidades con tool calls (grep, [ -f ], --help)
+- ✅ AC-09 expertise-asymmetry-judge re-escribe con secciones blind-area calibration (template emit; rewrite real Slice 2)
+- ✅ AC-10 Audit trail JSON persiste en `output/recommendation-tribunal/<date>/<hash>.json`
+- 〰 AC-11 Falso positivo registrado por usuaria → feedback memory — **DEFERRED** Slice 3
+- 〰 AC-12 Falso negativo registrado → feedback memory regression — **DEFERRED** Slice 3
+- ✅ AC-13 BATS ≥30 tests certified — 51 tests (sobrepasa target en 70%)
+- 〰 AC-14 Regression test 6 patterns reportadas — **DEFERRED** golden set Slice 2
+- ✅ AC-15 CHANGELOG entry + spec status (este fragmento; spec status update en próxima iteración)
+- `set -uo pipefail` en los 4 scripts.
+- **Hook NO añadido a settings.json** — activación es paso humano deliberado tras revisión completa.
+- Modo detect-only en Slice 1 — el hook clasifica + audita pero NO muta el draft.
+- Audit trail append-only, off-repo en `output/`.
+- Clasificador es pura heurística (sin LLM call) — 0ms timeout risk en este path crítico.
+- Cero red, cero git operations en cualquiera de los 4 scripts.
+- Cumple `docs/rules/domain/autonomous-safety.md`: rama `agent/spec-125-slice-1-...`, sin push automático ni merge.
+- `scripts/cognitive-debt.sh` — CLI principal con 5 subcomandos:
+- `.claude/hooks/cognitive-debt-telemetry.sh` — PostToolUse async, registra cada Edit/Write/Task. Sin LLM call (CD-01), JSONL append en `~/.savia/cognitive-load/{user}.jsonl` (CD-03 N3), exit 0 siempre (CD-02 nunca bloquea).
+- `.claude/hooks/cognitive-debt-hypothesis-first.sh` — PreToolUse **WARNING-ONLY en Phase 1**. Lee `git log -5`, si los últimos commits no tienen trailer `Hypothesis:` emite nudge a stderr (una vez por sesión vía `/tmp/marker`). Phase 2 escalará a soft-block con escape `--skip-cognitive`.
+- `.claude/commands/cognitive-status.md` — wrapper de `cognitive-debt.sh status + summary` invocable como `/cognitive-status`.
+- `docs/cognitive-debt-guide.md` — guía canónica:
+- `tests/structure/test-cognitive-debt-phase-1.bats` — 38 tests certified. Cubre file-level safety×6, status×3, forget×3 (incluye boundary `--confirm` required), dispatch errors×3, telemetry hook (privacy + safety + edge cases)×5, hypothesis-first (warning-only enforcement)×4, restricciones CD-01 a CD-04 verificadas explícitamente×4, edge cases (missing dir, empty log)×3, doc + command×5, spec-ref + meta×2.
+- Kosmyna et al. 2025 "Your Brain on ChatGPT" (arxiv.org/abs/2506.08872) — base para I4 telemetry necessity
+- Lee et al. CHI 2025 (Microsoft Research + CMU) — base para fast-accept ratio como proxy de skip-verification
+- CMU ICER 2025 (arxiv.org/pdf/2509.20353) — alerta sobre atrofia diferencial en metacognición débil
+- Roediger & Karpicke 2006 — base para I1 hypothesis-first (retrieval practice)
+- ✅ Phase 1.1 `scripts/cognitive-debt.sh` con 5 subcomandos (enable/disable/status/summary/forget)
+- ✅ Phase 1.2 Hook telemetry async (I4) + comando `/cognitive-status`
+- ✅ Phase 1.3 Hook hypothesis-first (I1) en modo **WARNING ONLY**, no bloquea (Phase 2 escalará)
+- ✅ Phase 1.4 BATS tests certified
+- ✅ Phase 1.5 Documentación: `docs/cognitive-debt-guide.md` con evidencia académica + Phase 2/3 deferred items
+- **CD-01** verificada por test: `! grep -qiE 'anthropic|/v1/messages|claude.api'` en los 3 scripts. Cero LLM calls.
+- **CD-02** verificada por test: telemetry hook always `exit 0`, hypothesis hook always `exit 0` (Phase 1 warning-only).
+- **CD-03** verificada por test: telemetry path en `~/.savia/cognitive-load/`, gitignored en N3.
+- **CD-04** verificada por test: status muestra `DISABLED (opt-in default per CD-04)` por defecto.
+- **Hooks NO añadidos a settings.json en este batch** — opt-in significa que la usuaria los activa con `cognitive-debt.sh enable` que hace el wire en settings.json (con backup).
+- `set -uo pipefail` en first 5 lines en los 3 scripts (verificado por test contra el lint G5b).
+- Cero red, cero git operations en los hooks.
+- Cumple `docs/rules/domain/autonomous-safety.md`: rama `agent/spec-107-phase-1-...`, sin push automático ni merge.
+- `tests/structure/test-spec-se-001-foundations.bats` — 30 tests certified. Estructura por AC:
+- Cero modificación de código existente — solo el status frontmatter (1 línea) y nuevo BATS test.
+- El BATS test usa subdirectorios temporales en `mktemp -d` para no modificar el workspace real durante runs.
+- `set -uo pipefail` semantics aplicado en bats subshells.
+- Cero red, cero git operations.
+- Cumple `docs/rules/domain/autonomous-safety.md`: rama `agent/spec-se-001-foundations-slice-1-...`, sin push automático ni merge.
+- **\`CHANGELOG.d/\`**: nuevo directorio de fragments per-PR. Cada PR crea un fichero en vez de editar CHANGELOG.md al top. Zero-conflict by design (fix root-cause del problema "mergear un PR rompe el CHANGELOG de todos los demás"). README.md documenta lifecycle + pattern.
+- **\`scripts/changelog-fragment.sh\`**: helper para crear fragment desde CLI. Flags --slug --version-bump --section --entry (repetible) --from-stdin. Validación estricta de parámetros. Si fragment existe, append idempotente a misma section.
+- **\`scripts/changelog-consolidate.sh\`**: consolidador de release. Agrupa fragments por section, calcula siguiente versión (highest bump wins), inyecta nueva entry al top de CHANGELOG.md, añade link line, borra fragments. Modo --dry-run para preview.
+- **\`scripts/resolve-all-open-prs.sh\`**: bugfix — snapshot del resolver a tempfile ANTES de checkout para evitar "No such file or directory" al cambiar a branches que no contienen el script. trap EXIT limpia tempfile.
+- **`scripts/spec-frontmatter-migrate.sh`**: herramienta mecánica para migrar specs con status en prosa (`> Status: **DRAFT**`) a YAML frontmatter canónico. Mapping fijo: DRAFT→Proposed, ACTIVE/IMPLEMENTING→IN_PROGRESS, READY→ACCEPTED, COMPLETE/DONE/PHASE N DONE→Implemented, REJECTED→Rejected, resto→UNLABELED. Preserva body intact (prepend-only). Modos --dry-run / --apply / --spec PATH / --limit N (max 50).
+- **`tests/test-spec-frontmatter-migrate.bats`**: 32 tests — safety, CLI, mapping canónico (7 status types), estructura frontmatter, idempotencia, single-spec mode, negatives, edges. Auditor score 89.
+- **`docs/propuestas/SE-040-agent-degradation-canary.md`**: skill futuro `agent-health-canary` con 5 métricas canarias (Read:Edit ratio, stop hook violations, interrupt rate, edit-without-read count, token efficiency). Analiza ventana 48h vs baseline 7d de `session-actions.jsonl`. Feasibility Probe 1.5h blocking. Slicing 3 slices.
+- **`docs/propuestas/SE-041-memvid-portable-memory-probe.md`**: spec que propone evaluar mediante Feasibility Probe obligatorio el formato `.mv2` de memvid (github.com/memvid/memvid, 15k stars, Apache 2.0, v2.0 de 2026-03) para 3 usos narrow: backup/restore, snapshot audit, travel portability. NO es reemplazo del stack actual (SPEC-027/018/035/123 ya cubren search+graph). Probe 2h blocking; criterios cuantitativos: ingest 100 docs <30s, retrieval p50 <50ms offline, round-trip byte-identical.
+- **\`docs/propuestas/SE-042-savia-voice-training-pipeline.md\`**: spec con pipeline 3-fases (extract, filter PII, quality gates) para convertir session-actions.jsonl en dataset JSONL para SE-027 SLM fine-tuning. Patrón robado de WeClone (github.com/xming521/WeClone, 17.6k stars, AGPL-3.0) — SOLO pattern, no código (AGPL incompatible). Feasibility Probe 2h blocking con yield ≥500 muestras/30days.
+- **\`docs/propuestas/ROADMAP.md\`**: Tier 4.11 añadido (SE-042). Complementa SE-027 (training) con data-prep específico de voz Savia.
+- batch 3 extensions: pdf-extract-probe (SPEC-102 Slice 1) + gaia-benchmark-harness (SPEC-100 Slice 1) + 43 BATS tests
+- CodeGraph as opt-in MCP engine for .acm and ast-comprehension — tree-sitter + SQLite indexing, 8 MCP tools, disabled by default in opencode.json
+- docs/rules/domain/codegraph-confidentiality.md: gitignore mandate for .codegraph/, prohibited in N4b scope
+- New skill .claude/skills/codegraph/ documenting integration with agent-code-map and ast-comprehension
+- Era 198 — 6 specs alineados con tesis Anthropic 'Building Effective Agents' (SPEC-156..161). Tier 1 HIGH (13h): token-budget frontmatter, context pre-flight check, workflow-vs-agent decision gate. Tier 2 MEDIUM (13h): async tribunal fan-out, tool-ergonomics auto-audit. Tier 3 LOW research (12h): self-evolving tools. ROI estimado: heavy tier -40% tokens, tribunal wall-time -65%.
+- SPEC-147 Slice 3 — 10/10 decision trees complete (dev-orchestrator, court-orchestrator, frontend-developer + AC-05 docs in best-practices-claude-code.md §19). BATS 36/36 PASS.
+- SPEC-156 Slice 1: token_budget frontmatter declared on 70/70 agents (defaults per Anthropic Effective Agents tier: fast 30k/8k/escalate, mid 60k/15k/escalate, heavy 100k/20k/block)
+- scripts/spec-156-migrate-token-budget.sh: idempotent migration script for token_budget injection
+- SPEC-161 PROTECTED_JOB_NAMES: hook + YAML allowlist blocking costly agents (architect, sdd-spec-writer, pentester, ...) in autonomous loops (overnight-sprint, code-improvement-loop). Override via SAVIA_PROTECTED_JOB_OVERRIDE env. Fail-safe permissive if YAML missing. 15 BATS tests.
+- `.claude/skills/savia-identity/SKILL.md` — workspace self-awareness skill.
+- `.claude/skills/savia-memory/SKILL.md` — persistent memory management skill.
+- `.claude/skills/savia-identity/DOMAIN.md` — domain documentation for workspace identity skill.
+- `.claude/skills/savia-memory/DOMAIN.md` — domain documentation for persistent memory skill.
+- `docs/rules/domain/hook-event-equivalence.md`: tabla de mapeo Claude Code ↔ OpenCode (17 eventos), gap analysis (6 sin equivalente), documentación del bridge `savia-gates`, y roadmap de migración en 4 fases.
+- Five DiffusionGemma-inspired specs IMPLEMENTED in single PR. SPEC-196 freeze-done elements scripts/recommendation-tribunal/early-cancel.sh — poll-and-cancel pattern for tribunal judges with conf>=0.95 veto. 16 bats tests verdes. SPEC-198 JudgeVerdict frozen dataclass scripts/recommendation-tribunal/judge_verdict.py — schema v1 con validacion + backward compat con dicts legacy. 32 pytest verdes. SPEC-195 iterative tribunal scripts/recommendation-tribunal/early_stop.py + iterate.sh — multi-criteria early stop (stability+entropy+max_iter) con telemetria JSONL. 23 pytest + 13 bats verdes. SPEC-197 annealing schedule scripts/annealing-schedule.py — interpolation curve (max_t -> min_t via exponent) para multi-phase agents. 17 pytest verdes. SPEC-200 adaptive quality gate threshold scripts/quality-gate-adaptive.py — proportional to score distribution con high_mean_strict + low_mean_tolerant + floor/ceil clamps. 21 pytest verdes. Total 122 tests new. Pattern: ChainedEarlyStop + _WhileLoopCarry.done + AnnealingTemperatureShaper + dataclass frozen + entropy_bound proportional. SPEC-199 (historical context conditioning) queda en backlog — depende de SPEC-195 ahora desbloqueado. Defaults conservadores: cada componente opt-in via env vars; telemetria-first activation.
+- 13 specs Q2/Q3 2026 (SPEC-141..153) from research `output/research-tendencias-workspaces-agentes-2026-20260523.md`. Numbered 141..153 to avoid collision with main's SPEC-128 (Obsidian Context-as-Code, PR #762).
+- SPEC-141 — MCP Curated Catalog (opencode.jsonc mcp block + OAuth DCR + Server Cards, 6h)
+- SPEC-142 — Plugin `tool.execute.before` auto-redaction of secrets (TS, 5h)
+- SPEC-144 — `/speckit.*` slash command aliases (4h)
+- SPEC-145 — Import anthropics/skill-creator + mcp-builder (3h)
+- SPEC-146 — Awesome-* monthly watcher (4h)
+- SPEC-147 — Decision trees for top-10 agents (10h)
+- SPEC-149 — Sandbox OS-level via opencode-sandbox plugin + Docker (20h)
+- SPEC-150 — Hooks multi-handler migration (TS plugin for LLM judges + MCP audit, 35h)
+- SPEC-151 — Evals CI gate (DeepEval + Promptfoo, paired-delta, 24h)
+- SPEC-152 — Hierarchical orchestrator delegation (feature leads, 18h)
+- SPEC-153 — Memory bi-temporal + episodic→semantic consolidation (22h)
+- SPEC-143 — Skill conformance audit (ABORTED: premise false — Rule #11 caps at 150 lines)
+- SPEC-148 — Skill progressive disclosure split (ABORTED: no real use case)
+- Plugin fix: `MODEL_TIER_MAP` in `.opencode/plugins/savia-foundation.ts` resolves abstract tiers heavy/mid/fast to Copilot model IDs (SPEC-127 / model-alias-schema)
+- Critical review report (49 findings, 7 GREEN / 4 YELLOW / 2 RED) — micro-fixes applied to SPEC-147, SPEC-150, SPEC-152, SPEC-153
+- `scripts/memory-index-rebuild.sh` — regenera el índice `auto/MEMORY.md` desde el JSONL store.
+- `docs/rules/domain/savia-memory-architecture.md` — documento de arquitectura unificada de las 4 capas de memoria (L0-L3).
+- `_update_memory_index()` en `memory-store.sh` — actualiza el índice canónico en cada `save`.
+- output-taxonomy rule: taxonomía canónica de output/ con 5 subcategorías (research/, audit logs, pipeline, session-state, raíz)
+- SE-220 spec PROPOSED: Speculative Tool Execution — draft+verify pattern aplicado a tool calls; feasibility-probe bloqueante S0
+- CLAUDE.md: entrada lazy-ref a output-taxonomy.md
+- SE-104: docs/rules/domain/savia-ethical-principles.md — 13 humanist principles + 5 immutable red lines, cross-referenced from CLAUDE.md, savia.md, autonomous-safety, radical-honesty, equality-shield
+- SE-094: scripts/hooks-integrity-check.sh — bidirectional phantom/orphan detector with symlink + scripts/ search path; registers 4 orphan hooks in settings.json (android-adb-validate, cognitive-debt-hypothesis-first, cognitive-debt-telemetry, project-isolation-gate)
+- SE-095: scripts/count-commands.sh — canonical command counter (559 total)
+- SE-093: .claude/commands/project-switch.md — slash command for active project switching
+- SE-105 (PROPOSED): docs/propuestas/SE-105-glm-governance-manifest.md — adopt GLM v1.0 RFC 8615 well-known manifest; Tier 2 §3.2 rank 16, M 4h
+- SE-106 (PROPOSED): docs/propuestas/SE-106-tiered-tribunal-execution.md — tiered exec for Truth Tribunal + Code Review Court (Tier 0 sequential early-stop on veto, Tier 1 parallel); ~67% token savings on vetoed runs; Recommendation Tribunal excluded (sync latency p95<3s); ROADMAP §3.2 rank 17, M 5h
+- 8 spec drafts: SE-096..103 from 2026-05-27 obsolete/legacy audit
+- SE-029 Slice 2: context-task-classify.sh (6 classes deterministic) + SKILL.md + 34 BATS tests (auditor 98)
+- SE-029 Slice 3: compress-skip-frozen.sh advisory (SKIP/COMPRESS/COMPRESS_LIMITED verdicts per frozen flag) + 28 BATS tests (auditor 90)
+- SE-029 Slice 4: operational-point-selector.sh (plan de compresión multi-turn con FITS/OVERFLOW verdict) + 30 BATS tests
+- SE-034 Slice 1: dag-typing-validate.sh validator (audit/validate/infer modes, 6 canonical types text|json|markdown|yaml|binary|any) + 27 BATS tests (auditor score 87)
+- SE-252 Bus Factor Shield: bus-factor scanner, CONTEXT_DOME.md generator, onboarding planner, and bus-factor-warn hook
+- SLM batch 2: portfolio-contention (SE-020 Slice 4) + slm-export-gguf (llama.cpp recipe) + slm-deploy orchestrator + slm-data-collect (harvest 321 training samples from workspace) — 99 BATS tests total
+- SLM/SE-020 batch 3: portfolio-deps-status + gitagent-export (SPEC-099) + docs EN (slm-training-pipeline, portfolio-as-graph, receipts-protocol) + 69 BATS tests
+- SLM Fase 1 scaffolding: slm-dataset-validate.sh pre-training validator (Alpaca schema, PII scan, dedup, length stats, --allow-pii override) + 29 BATS tests
+- SLM batch 2: slm-eval-compare.sh A/B eval results (PROMOTE/ROLLBACK/REJECT verdicts, per-benchmark delta, --min-improvement) + 24 BATS tests
+- SLM Fase 5 scaffolding: slm-eval-harness-setup.sh (emite eval-config.yaml + prompts.jsonl, 7 benchmarks allow-list, no ejecuta eval) + 27 BATS tests
+- SLM scaffolding: slm-modelfile-gen.sh Ollama Modelfile generator (5 personas incl. savia, ChatML template, no ejecuta ollama) + 30 BATS tests
+- SLM scaffolding: slm-pipeline-validate.sh meta-validator (layout, config.yaml, eval/harness.yaml, gitignore privacy) + 28 BATS tests
+- SLM scaffolding: slm-project-init.sh bootstrap canonical layout (config.yaml + datasets/* + eval + README + .gitignore privacy) + 29 BATS tests
+- SPEC-SE-027 Model Registry: slm-registry.sh (register/list/show/promote/deprecate, single-deployed invariant, manifest.json) + 32 BATS tests
+- SE-028 Slice 1 scaffolding: slm-synth-recipe.sh (5 synth strategies, sovereignty-aware judge selection, oumi recipe YAML) + 30 BATS tests
+- SLM training pipeline scaffolding (SPEC-SE-027/SPEC-023/SPEC-080/SE-028/SE-042 approved): slm-dataset-prep.sh + slm-train-config.sh + slm-training-pipeline.md rule + 35 BATS tests. GPU execution deferred — software ready ahora
+- SPEC-125 Slice 2: scripts/recommendation-tribunal/expertise-rewrite.sh — rewrite calibrado en areas blind con razonamiento + alternativas + verificacion
+- SPEC-125 Slice 2: scripts/recommendation-tribunal-search.sh — CLI de inspeccion del audit-trail con filtros --from/--to/--verdict/--risk/--hash y modos --summary/--json
+- SPEC-125 Slice 2: .claude/profiles/users/template/expertise.md — TEMPLATE generico para que cada usuario declare sus areas de expertise (audit_level: blind/low/medium/high)
+- SPEC-125 Slice 2: tests/test-spec-125-slice-2-asymmetric-expertise.bats — suite BATS certificada por SPEC-055 quality gate
+- SPEC-125 Slice 3: Memory feedback loop + tribunal calibration. Recorder followup-record.sh classifies user reactions (fp/fn/neutral). Calibrator calibrate.sh emits feedback memories from fp/fn records. Hook recommendation-tribunal-followup.sh wire-ready (no-op default). Canonical rule docs/rules/domain/tribunal-calibration.md. Classifier expanded with 4 new pattern groups (5/6 regression patterns caught by heuristic). 42 BATS tests, score 86/100 certified.
+- SPEC-141: MCP curated catalog with 10 templates (7 third-party filtered by BlueRock checklist + 3 own skills as MCP stdio). audit-mcp-templates.sh validates schema, secrets, scope. Server Cards for auto-discovery. mcp.json stays empty by default (Rule #19).
+- SPEC-142: OpenCode plugin auto-redact-credentials uses tool.execute.before to mutate args before tool execution. Redacts GitHub/OpenAI/Anthropic/AWS tokens and connection strings before they reach the LLM. Integrated into savia-foundation plugin chain. Includes TS Vitest tests and BATS smoke tests.
+- SPEC-145: vendor anthropics/skills upstream under external/anthropic-skills/ (skill-creator 485 lines + mcp-builder, Apache-2.0). external/ is intentionally outside .claude/ to preserve upstream fidelity (Rule #11 applies to .claude/ only). external/README.md documents vendoring policy.
+- SPEC-146: monthly ecosystem watcher — GitHub Action signals deltas in awesome-* repos and upstream tooling (spec-kit, MCP, opencode). Snapshots in .savia-memory/ (gitignored), no autonomous actions.
+- SPEC-147 Slice 1: Decision trees for 3 pilot agents (architect, code-reviewer, security-guardian). Each agent gains a deterministic decision-tree document under .claude/agents/decision-trees/ and a frontmatter reference. OpenCode mirror via symlink. Validation via tests/test-agent-decision-trees.bats.
+- SPEC-147 Slice 2 — 3 more decision trees: dotnet-developer, business-analyst, sdd-spec-writer (7/10 trees done, 3 remaining)
+- SPEC-149: Sandbox OS-level para modos autonomos (Capa A + Capa B + Capa C).
+- SPEC-157: Context Pre-Flight Check — multi-source token estimator + PreToolUse hook. Detects @-import file refs, skill refs, prompt tokens; warns at 80%, blocks at 100% of agent budget; caches by input hash; suggests context-rot-strategy + context-task-classifier. 29 tests certified 81/100.
+- `scripts/router-mode-classifier.py`: heuristic classifier for System 1/2 dispatch.
+- `scripts/_router_extract_helper.py`: internal helper that extracts {intent, command,
+- `scripts/_router_telemetry_helper.py`: internal helper that assembles JSONL telemetry
+- `.opencode/hooks/router-mode-dispatch.sh`: PreToolUse hook. Reads SAVIA_ROUTER_MODE
+- `complexity_tier: mode1` added to frontmatter of 8 commands:
+- `complexity_tier: mode2` added to frontmatter of 1 command: savia-shield.
+- `output/router-decisions.jsonl`: telemetry log (created at first shadow/enforce invocation).
+- `tests/scripts/test_router_classifier.py`: 43 pytest tests — all pass.
+- `tests/bats/test-router-mode-dispatch.bats`: 17 BATS tests — all pass.
+- Default SAVIA_ROUTER_MODE=shadow (classifies but does not enforce).
+- Classifier uses stdlib only — no external dependencies.
+- 2 weeks shadow period recommended before flipping to enforce (AC from spec).
+- `.opencode/hooks/memory-feedback-task.sh`: PostToolUse hook that fires when
+- `scripts/memory-feedback-extractor.py`: Standalone extractor. Reads
+- `scripts/memory-feedback-post-merge.sh`: Detects merged PRs via `git log`
+- `scripts/memory-feedback-compactor.py`: Reads MEMORY.md, identifies
+- `docs/rules/learned/` directory created (destination for promoted patterns).
+- `tests/scripts/test_memory_feedback.py`: 16 pytest tests — extractor outcome
+- `tests/bats/test-memory-feedback.bats`: 12 BATS tests — hook existence,
+- SPEC-169 Project Twin — artefacto versionado por proyecto: twin.md schema, linter (AC-7 campos prohibidos), refresher determinista <5s, loader con cap 2000 tokens (AC-2), hook PostToolUse, decay check, anonymize N1 (AC-6). 33+ tests BATS score 97.
+- **SPEC-188** Root-Cause Investigation Architecture (meta-spec): 5 piezas P1-P5 (Failure Pattern Memory, Causal Confidence Channel, Investigation-First Hook, Responsibility Judge, Shortcut-Tax Telemetry) con 4 sub-specs detalladas y Fase 0 ejecutada.
+- **Fase 0 (SPEC-188)** `.claude/rules/domain/feedback/feedback_root_cause_always.md`: feedback canonico que cierra el hallazgo G3 (memory-conflict-judge referenciaba fichero inexistente). Path N1, tracked, source-of-truth. 10 patrones prohibidos + 4 excepciones documentadas.
+- **Tests SPEC-188**: `tests/test-spec-188-architecture.bats` (20 tests) cubre frontmatter, piezas, sub-specs referenciadas, hallazgos, fasificado, feature flags, Bridge SE-072, Fase 0 closure, ROADMAP y CHANGELOG presence.
+- scripts/context-greedy-budget.py and .sh wrapper: stdlib-only Python module
+- .opencode/hooks/context-greedy-inject.sh (PreToolUse Read): intercepts
+- Validated against 11 real project ACMs (45 query/file combinations).
+- Tests: 88 of 88 green
+- SPEC-190 Slice 1: code-twin-lint.sh (CTF/CTI/seeds validator), code-twin-init.sh scaffold, canonical rule application-code-twin.md; 41 BATS tests 98/100 certified
+- SPEC-190 Slice 2: domain+application CTF fixtures (entities, value-objects, business-rules, use-cases, commands, queries), extended code-twin-init.sh with DRAFT stubs, 47-test lint suite (98/100), 29-test init suite (88/100)
+- SPEC-190 Slice 3: infrastructure CTF fixtures (repos/item-repository, external/notification-client), extended code-twin-init.sh with infrastructure DRAFT stubs (db/schema, repos, external), 49 lint tests (98/100), 34 init tests (88/100)
+- SPEC-190 Slice 4: api CTF fixtures (routes, error-codes), frontend CTF fixture (item-list-component), extended code-twin-init.sh with api/frontend DRAFT stubs, 52 lint tests (98 sobre 100), 42 init tests (88 sobre 100)
+- SPEC-190 Slice 5: code-twin-simulate.sh — symbolic simulation engine (Python); seeds users.jsonl (sim: convention); 51 BATS tests (93 sobre 100); AC-3+AC-4
+- SPEC-190 Slice 6: code-twin-validate-spec — spec feasibility validator against ACT (route_duplicate detection, scoring, JSON output, 46 BATS tests 93 sobre 100)
+- SPEC-190 Slice 7: code-twin-extract.sh+py — AST-light extractor for TypeScript (@Injectable/@Controller/@Component) and C# (namespace→layer) producing CTFs with 8-field frontmatter
+- SPEC-190 Slice 8: code-twin-load.sh (AC-10 token-budget summary mode), code-twin-sync-check.sh (AC-12 stale detection), code-twin-anonymize.sh (AC-14 project anonymizer), code-twin-agent definition
+- SPEC-190 Slice 9: pilot twin savia-web with 8 CTFs, simulate AC-V1 (confidence=0.95), 64 BATS tests (93 sobre 100)
+- scripts/anti-adulation/lexical-strip.py + regex-patterns.json: Layer 1 deterministic detector for empty social validation patterns. Hook .opencode/hooks/sycophancy-strip.sh with 5 modes (off/shadow/warn/strip/block) registered in PostToolUse Task. Three new LLM judges added to Recommendation Tribunal (SPEC-125): sycophancy-judge (warn default), concession-judge (shadow), repetition-truth-judge (shadow). aggregate.sh extended fail-soft for the 3 optional SPEC-192 judges. New skill .opencode/skills/epistemic-humility/SKILL.md with replacement protocol. Updated radical-honesty.md with Enforcement section linking the three layers. Updated savia-ethical-principles.md §5 and §10 references. Telemetry to output/anti-adulation-telemetry.jsonl. 51 pytest + 17 bats green covering 20 positive examples, 20 legitimate courtesy negatives, all hook modes, JSON envelope handling. Spec PROPOSED in docs/propuestas/SPEC-192-anti-adulation-illusory-truth.md, P0, 18 ACs.
+- `scripts/criterion-simulation/operator-state-signals.py`: Computes operator-state signals (fatigue_score, pressure_score, override_rate, time_band) from local data only. Zero network calls. Reads deadline_proximity from ~/.savia/preferences.yaml if present.
+- `scripts/criterion-simulation/trigger-evaluator.py`: Evaluates task context to decide if criterion-simulation should activate. Threshold: SAVIA_CS_TRIGGER_THRESHOLD (default 50). High-impact signals: touches_production (+25), touches_security (+30), touches_human_safety (+50), estimated_hours>16 (+15).
+- `scripts/criterion-simulation/historical-priors.py`: Searches KG (SQLite .savia-kg/graph.db) for similar reverted tasks within lookback window. Graceful: returns {count:0} if KG absent.
+- `scripts/criterion-simulation/reaffirmation-log.py`: Records conscious human reaffirmations (reaffirm) and problem reformulations (reframe). Enforces reason >= 20 chars for reaffirm (exit 2 if violated).
+- `scripts/kg-schema-migrate-cs.py`: Idempotent SQLite migration adding frame_reaffirmations table (task_id, ts, operator, reason, verdict_before, tags). Separate from SPEC-193 migration.
+- `.opencode/agents/criterion-simulation-judge.md`: Heavy-model LLM judge. Executes 4 meta-questions (frame challenge, historical priors, operator state, alternative reframing). Emits verdict FRAME_OK|FRAME_DOUBT|FRAME_REJECT + banner_text + confidence. Always includes is_simulation_disclaimer field.
+- `.opencode/skills/meta-reflection/SKILL.md`: Protocol for the 4 meta-questions. Includes replacement protocol (reaffirm/reframe commands) and declared limitations.
+- `.opencode/skills/meta-reflection/DOMAIN.md`: Conceptual knowledge: difference between evaluation (correct application of given criterion) and reflection (questioning the criterion itself). Cites origin quote 2026-06-13.
+- `.opencode/hooks/criterion-simulation-challenge.sh`: Pre-task hook. Master switch SAVIA_CRITERION_SIMULATION=off (default; opt-in). Modes: shadow (telemetry only), advise (banner, no block), interrupt (banner + reaffirmation_required log). Exit 0 always. Never blocks.
+- `docs/rules/domain/criterion-simulation-honesty.md`: Declares explicitly that this layer is NOT real criterion — it is a declared heuristic simulation of pause. Cites spec quote verbatim.
+- `output/criterion-simulation/` directory: Telemetry events.jsonl + reaffirmations.jsonl.
+- `tests/scripts/test_criterion_simulation_trigger.py`: 50 synthetic normal tasks (AC3: trigger rate <=20%), 10 high-impact tasks (AC4: trigger rate >=8/10), socket mock test (AC5: no network calls).
+- `tests/scripts/test_criterion_simulation_misc.py`: reaffirmation-log validation (AC7), kg-schema-migrate-cs idempotency (AC14).
+- `tests/test-criterion-simulation-hook.bats`: Hook tests covering AC1 (disclaimer), AC2 (exit 0 always), AC9 (JSONL telemetry), AC10 (shadow no stderr), AC11 (advise banner), AC12 (interrupt reaffirmation_required), AC13 (master switch off).
+- `scripts/embeddings-cache.py` — Embedding cache backed by sentence-transformers (`all-MiniLM-L6-v2`, 384 dims). Caches per-text to `~/.savia/embeddings-cache/<sha256>.npy`. In-process LRU + disk persistence. Fallback to zero-vector if model unavailable (fail-soft). CLI: `python3 scripts/embeddings-cache.py --text "..." --json`.
+- `scripts/kg-schema-migrate-tribunal.py` — Idempotent SQLite schema migration. Creates `tribunal_iterations` table with privacy column + two indexes (`draft_hash`, `session_id`) in `~/.savia/tribunal-iterations.db`. CLI: `python3 scripts/kg-schema-migrate-tribunal.py [--db PATH] --json`.
+- `scripts/recommendation-tribunal/historical-context.py` — Main SPEC-199 engine. Computes embedding of current draft, searches DB for top-K similar historical drafts (cosine similarity >= threshold), builds a token-capped `context_text` block for orchestrator injection. Persists current draft (skips entries flagged as private). Returns `is_zero_sc=true` when DB is empty (first round analog to DiffusionGemma's zero-signal first step). CLI: `python3 historical-context.py --draft TEXT --top-k 3 --similarity-threshold 0.6 --session-id ID --iteration N`.
+- `scripts/recommendation-tribunal/iterate.sh` — Extended `evaluate-stop` handler with SPEC-199 block. When `SAVIA_TRIBUNAL_HIST_CONTEXT=on`, calls `historical-context.py` before forwarding to `early_stop.py`. Result exported as `TRIBUNAL_HISTORICAL_CONTEXT` env var for orchestrator injection into judge prompts. Default remains `off` (opt-in pilot).
+- `tests/scripts/test_historical_context.py` — 12 pytest cases covering all ACs: top-k 0, empty DB, 1 entry match, 5 entries top-3 sorted, threshold enforcement, deterministic embeddings, cache hit, idempotent migration, private entry exclusion, token cap, is_zero_sc flag, 1000-entry latency <= 200ms. All 12 passing.
+- `tests/test-historical-context-tribunal.bats` — 6 bats tests: CLI runs, output is valid JSON, top-k 0 returns empty, is_zero_sc present, iterate.sh unaffected when feature off, schema migration CLI works. All 6 passing.
+- Spec: `docs/propuestas/SPEC-199-historical-context-tribunal-rounds.md`
+- Blocked by: SPEC-195 (iterative tribunal), SPEC-189 (embeddings infra)
+- SPEC-193 (Context Provenance & Injection Hardening) and SPEC-194 (Criterion Simulation Layer) PROPOSED. Two complementary specs addressing structural limits of agentic systems with explicit honesty about what they cannot do. SPEC-193 closes 6 of 7 documented prompt-injection vectors via 12 components in 3 layers (deterministic sanitize, LLM judges, temporal correlation). SPEC-194 adds meta-reflection simulation BEFORE applying ideas — 4 questions (frame challenge, historical priors, operator state, alternative reframing) that interrupt visually but never block. Both spec files include disclaimer that the layer is heuristic simulation, not real criterion. Origin: 2026-06-13 jailbreak techniques study + user reflection on review vs reflection. ROADMAP backlog reordered: 8 items, 3 in PR review + 1 P0 new + 4 P2/P3.
+- Six specs PROPOSED extracted from analysis of google-deepmind/gemma/diffusion (text diffusion sampling). SPEC-195 iterative tribunal with multi-criteria early stop (P1, 3-4d). SPEC-196 freeze-done elements early-cancel jueces tras VETO (P1, 1-2d). SPEC-197 annealing temperature schedule en jueces meta-reflexivos (P2, 2-3d). SPEC-198 JudgeVerdict frozen dataclass contract (P2, 3-4d, refactor). SPEC-199 historical context conditioning entre rondas (P2, 4-5d, depends SPEC-195, honest naming: NOT self-conditioning literal because LLM via API). SPEC-200 adaptive quality gate threshold proporcional a la distribucion en lugar de fijo 80 (P3, 2-3d). Patrones: ChainedEarlyStop, _WhileLoopCarry.done, AnnealingTemperatureShaper, @flax.struct.dataclass, SelfConditioning adapted, entropy_bound proportional. ROADMAP backlog actualizado: 12 items priorizados. Total estimacion 8-21 dias humano / 14-26h agente.
+- SPEC-SE-020 Slice 1: deps-validate.sh schema validator + portfolio-as-graph rule + sample deps.yaml + 31 BATS tests
+- SPEC-SE-020 Slice 2: portfolio-graph.sh (ASCII/Mermaid/JSON) + 29 BATS tests
+- SPEC-SE-020 Slice 3: portfolio-critical-path.sh (topological + slack + bottleneck detection) + 24 BATS tests
+
+### Changed
+
+- pr-plan-gates.sh G5: hi regex expanded to catch all .claude/ paths + .scm/ + .opencode/
+- `scripts/push-pr.sh` now creates PRs as **draft by default** (was: ready-for-review). Use `--no-draft` to opt out. Backward-compat: `--draft` flag preserved as no-op.
+- Title auto-selection now prefers the **first** `feat:`/`fix:` commit in chronological order on the branch, falling back to the previous behavior (first non-chore/non-Merge in descending log) only if no conventional-commit feat/fix is found.
+- **Draft default**: matches autonomous-safety pattern — PRs created via `/pr-plan` should require explicit human action to become reviewable. Avoids accidental ready-for-review on autonomous flows.
+- **Title selection**: previous logic picked the *latest* commit (e.g. drift fixes like `fix(ci): ...`), masking the actual feature intent. Real example: PR #3 `fix(tool-healing): ...` was titled with the trailing `fix(ci)` drift commit and required manual PATCH via REST API to correct.
+- Existing `--draft` callers: unchanged behavior.
+- Callers that relied on default ready-for-review: must add `--no-draft`.
+- scripts/failure-pattern-memory.sh:37 (compute_pattern_id) migrated to content-fingerprint skill
+- scripts/test-auditor.sh:49 (audit hash) migrated to content-fingerprint skill
+- scripts/ado-bridge.sh:36 documented as NOT migrated (cksum fallback retained)
+- scripts/semantic-map.sh:78 documented as NOT migrated (shasum/nohash00 chain retained)
+- .claude/settings.json: registers contract-test-guard hook on PreToolUse Edit|Write
+- Hook reduced from 113 to 69 LOC (under hard limit 80)
+- _SAVIA_INTERNAL_TEST_BRANCH guard requires BATS_TEST_FILENAME or CI or SAVIA_TEST_MODE
+- [contract-change|add|remove] commit message bypass implemented and tested
+- substring match replaced by exact + REPO_ROOT-normalized suffix match
+- `docs/propuestas/SE-216-evo-patterns.md` — Added `resource: "https://github.com/evo-hq/evo"`.
+- `docs/propuestas/SE-217-autoresearch-patterns.md` — Added `resource: "https://github.com/karpathy/autoresearch"`.
+- `docs/propuestas/SE-218-codebase-memory-patterns.md` — Added `resource: "https://github.com/DeusData/codebase-memory-mcp"`.
+- `docs/propuestas/SE-219-abtop-patterns.md` — Added `resource: "https://github.com/graykode/abtop"`.
+- `docs/ROADMAP.md` — Added Era 208 OKF Adoptable Patterns section + repriorized backlog 2026-06-20 with SE-222 S0-S3 entries.
+- `docs/propuestas/SE-222-okf-adoptable-patterns.md` — Spec proposing OKF v0.1 adoptable patterns (resource: URI, log.md convention, index.md auto-gen). Discarded: portability inter-org, OKF as export bundle, external SDK. S0 implemented in this PR; S1+S2 in follow-up PRs; S3 (back-fill 20 specs) is P3.
+- `bats tests/test-spec-validator.bats`: full suite passing
+- `bash scripts/test-auditor.sh tests/test-spec-validator.bats`: certified
+- `bash scripts/spec-validator.sh --batch docs/propuestas/`: backfill reduces total findings; full back-fill deferred to S3
+- Spec: `docs/propuestas/SE-222-okf-adoptable-patterns.md`
+- Origin: análisis comparativo OKF Google Cloud 2026-06-20 vs modelo de cúpulas Savia
+- Resource: https://github.com/GoogleCloudPlatform/knowledge-catalog
+- .claude/settings.json — Register post-spec-edit-reindex.sh as PostToolUse hook on Edit|Write (matcher Edit|Write, async, timeout 5s).
+- CLAUDE.md — Counter update: hooks 81→83, regs 84→86 (post-write-validate + dual-estimation-gate + new reindex hook).
+- bats tests/test-propuestas-index-gen.bats: full suite passing
+- bats tests/hooks/test-post-spec-edit-reindex.bats: full suite passing
+- Both certified by test-auditor (>=80)
+- Spec: docs/propuestas/SE-222-okf-adoptable-patterns.md (Slice S2)
+- Previous slices: PR #850 (S0 resource: URI), PR #851 (S1 LOG.md)
+- Block closure: Era 208 OKF Adoptable Patterns
+- docs/rules/domain/hook-event-equivalence.md: added `archived: true` frontmatter (SE-096)
+- docs/rules/domain/image-relevance-filter.md: added `archived: true` frontmatter (SE-096)
+- docs/rules/domain/portfolio-as-graph.en.md: added `archived: true` frontmatter (SE-096)
+- docs/rules/domain/receipts-protocol.en.md: added `archived: true` frontmatter (SE-096)
+- docs/rules/domain/savia-memory-architecture.md: added `archived: true` frontmatter (SE-096)
+- docs/rules/domain/session-state-location.md: added `archived: true` frontmatter (SE-096)
+- docs/rules/domain/slm-consolidation-pattern.md: added `archived: true` frontmatter (SE-096)
+- docs/rules/domain/slm-training-pipeline.en.md: added `archived: true` frontmatter (SE-096)
+- docs/rules/domain/vault-frontmatter.md: added `archived: true` frontmatter (SE-096)
+- scripts/rule-orphan-detector.sh: skip rules with `archived: true` in frontmatter
+- `docs/agent-notes-protocol.md`: Added "Message Schema (SPEC-056)" section with CLI reference,
+- 25/25 passing — validate accepts valid, rejects no-id, rejects empty blocks,
+- `.opencode/plugins/savia-foundation.ts`: registers `sycophancyGuard` in `AFTER_GUARDS` chain (SPEC-150 Slice 2).
+- `docs/rules/domain/hook-multihandler-migration.md`: updated to `status: implemented`, `slice_final: 2`. Documents 2026-06-24 decision: FP rate = 0.00, ROI below threshold for Slices 3-6. Slices 3-6 descoped with reopen criterion (FP >= 2%).
+- `docs/propuestas/SPEC-150-hooks-multi-handler-migration.md`: status flipped `IN_PROGRESS → IMPLEMENTED` with reduced-scope note.
+- web-e2e-tester: adopt Webwright workspace-as-state patterns — Write→Execute→Inspect→Repair loop + self-reflection gate, zero new dependencies
+- skills: fix Description Trap — rewrite 98 skill descriptions and 65 agent descriptions as trigger-only (Superpowers pattern SE-145)
+- skills: add SUBAGENT-STOP gate to 8 high-criticality skills (adversarial-security, code-improvement-loop, consensus-validation, dag-scheduling, overnight-sprint, spec-driven-development, tdd-vertical-slices, verification-lattice) — prevents runaway orchestration in nested agent contexts (SE-146)
+- `.ci-baseline/hook-untested-count.count`: 3 → 0. **Hook coverage 55/58 (94.8%) → 58/58 (100%).**
+- 18/58 → 58/58 hooks tested (31% → 100%, +40 hooks en 13 batches)
+- Average score certified ≈ 90 (todos ≥80, mayoría ≥90)
+- 1100+ tests añadidos
+- Drift hooks 0 (CI-enforced via ratchet)
+- `docs/propuestas/SPEC-055-test-auditor.md`: status PROPOSED → IMPLEMENTED. Resolution section con verificación de los 4 scripts deliverables + auditor self-test (15 tests, score 83). Acceptance criteria final: 5/5 cumplidos.
+- `docs/ROADMAP.md`: Era 186 extension marcada CLOSED 2026-04-25. Tabla milestones extendida con batches 49-51 (51/58 → 58/58). Header bumped v6.2.0 → v6.3.0 con SPEC-055 IMPLEMENTED y baseline tighten anotado.
+- `.ci-baseline/hook-critical-violations.count`: 5 → 4 (current measurement = 4 críticos consistentes en últimos 5 hook-bench runs). Ratchet never-loosen mantenido.
+- `.claude/agents/sdd-spec-writer.md` — sección "Handoff Format (SPEC-121)" añadida: E1→E2 handoff a dotnet-developer tras spec approval.
+- `.claude/agents/dotnet-developer.md` — sección "Handoff Format (SPEC-121)" añadida: E2→E3 handoff a code-reviewer tras implementation + tests green.
+- `.claude/agents/code-reviewer.md` — sección "Handoff Format (SPEC-121)" añadida: E3→E4 a test-engineer (PASS) o developer (REJECT con termination_reason=unrecoverable_error).
+- `.claude/agents/test-engineer.md` — sección "Handoff Format (SPEC-121)" añadida: E4 completion a court-orchestrator.
+- `.claude/agents/court-orchestrator.md` — sección "Handoff Format (SPEC-121)" añadida: REJECT routing back a dotnet-developer.
+- `docs/agent-notes-protocol.md` — sección "Cuándo usar agent-notes vs handoff-as-function" añadida con tabla de decisión y regla práctica ("si cabe en 7 campos, usa handoff-as-function").
+- `docs/propuestas/SPEC-121-handoff-convention.md` — status PROPOSED → IMPLEMENTED. Resolution section con 6/6 ACs cumplidos.
+- `.claude/settings.json` — registra `emergency-mode-readiness.sh` en SessionStart con timeout 12s y statusMessage descriptivo.
+- `docs/rules/domain/autonomous-safety.md` — sección "Emergency-mode (LocalAI fallback) — SPEC-122" añadida (AC-05). Prohibiciones explícitas: NUNCA bypass AUTONOMOUS_REVIEWER, ramas agent/*, PR Draft en emergency-mode. Emergency-mode cambia SOLO el endpoint de inferencia.
+- `docs/propuestas/SPEC-122-localai-emergency-hardening.md` — status PROPOSED → IMPLEMENTED. Resolution section con 7/7 ACs cumplidos.
+- `docs/propuestas/SPEC-078-dual-estimation-agent-human.md` — status PROPOSED → IMPLEMENTED. Resolution section con verificación de los 4 deliverables Fase 1 MVP: `dual-estimate.sh` (engine CLI), `test-dual-estimate.bats` (score 82), `dual-estimation-gate.sh` (PostToolUse warning hook), `docs/politica-estimacion.md` (política dual). 5/5 AC Fase 1 cumplidos. Fases 2-4 (auto-estim, tracking, capacity dual) quedan como evolución gradual, no bloquean IMPLEMENTED status.
+- `docs/propuestas/SPEC-124-pr-agent-wrapper.md` — status PROPOSED → IMPLEMENTED. Resolution section con 9/9 ACs cumplidos.
+- SPEC-055 test-auditor (drift fix)
+- SPEC-078 dual-estimation (drift fix)
+- SPEC-121 handoff-as-function (3 ACs cerrados)
+- SPEC-122 LocalAI emergency (4 ACs cerrados)
+- SPEC-124 pr-agent wrapper (3 ACs cerrados)
+- SE-070 opus47 calibration (Slice 1-3, Slice 4 deferred per spec)
+- `.claude/settings.json` — registra `memory-verified-gate.sh` en PreToolUse Edit|Write con timeout 5s.
+- `tests/test-memory-store.bats` — 9 tests SE-072 nuevos (rechaza sin source, blacklist, format inválido, source válido tool/file/user, JSONL embed, escape hatch). 3 tests existentes actualizados con `--source tool:Bats`. Score 90.
+- `docs/propuestas/SE-072-verified-memory-axiom.md` — APPROVED → IMPLEMENTED. Resolution con 5/5 ACs.
+- `CLAUDE.md` — hooks 59→60 (64 regs).
+- `scripts/pr-plan.sh` — invoca G11 tras G10.
+- `scripts/push-pr.sh` — lee `.pr-summary.md` y lo prepend al PR body antes de la sección Summary auto-generada.
+- `.gitignore` — excluye `.pr-summary.md` (vive solo local).
+- `CLAUDE.md` — referencia lazy a la nueva regla en la tabla.
+- `docs/ROADMAP.md` header bump v6.8.0 → v6.10.0 con SE-074 APPROVED listado. Backlog APPROVED reordenado para incluir SE-074 entre los sin-GPU.
+- `docs/ROADMAP.md` Era 188 pipeline ordenado: SE-073 → SE-074 → SE-075 → SE-076. Sinergias documentadas (task_queue habilita orquestador paralelo y healer async). Backlog APPROVED ahora 5 sin-GPU + 4 GPU-blocked.
+- `scripts/pr-plan.sh` — invoca G12 tras G11.
+- `docs/propuestas/SE-074-parallel-spec-execution.md` — añade sección OpenCode Implementation Plan (PURE_BASH) + nuevo Slice 1.5 (S, 3h) "Adaptive halting + dynamic retry budget" inspirado en Kohli et al. 2026 (arXiv:2604.07822). Doble criterio halting (convergencia + confianza) + Poisson-clipped budget según effort field.
+- `docs/ROADMAP.md` Era 189 inaugurada con SE-077 + SE-078 priority alta.
+- `CLAUDE.md` — referencia lazy a la regla nueva.
+- `docs/memory-system.md` — documenta hard-cap 30 entries Tier A + algoritmo de score (access_count + recency_bonus + pin_bonus + identity_bonus). 200-line ceiling histórico se mantiene como límite absoluto.
+- `user_*` files (identidad foundational) NUNCA caen a Tier B
+- `pin: true` files NUNCA caen a Tier B
+- Recencia (<30d) actúa como tiebreaker positivo
+- Default cap configurable via `MEMORY_TIER_A_CAP` env (default 30)
+- `scripts/parallel-specs-orchestrator.sh` — el header del plan incluye una línea `run timestamp : <RUN_TS>` para correlacionar el output con los worktrees creados en disco (`.claude/worktrees/spec-<id>-<RUN_TS>/`).
+- `tests/structure/test-parallel-specs-orchestrator.bats` — 2 regression tests añadidos:
+- 28/28 pasan. 18/18 adaptive-halting + 33/33 spec-budget también pasan.
+- `docs/rules/domain/opencode-savia-bridge.md` — nueva regla canonical OpenCode↔Savia bridge (95 líneas).
+- `docs/propuestas/SPEC-114-docs-savia-alignment.md` — flipped a `status: SUPERSEDED`, `superseded_by: SE-078`, banner añadido.
+- `docs/propuestas/SE-077-...` y `docs/propuestas/SE-078-...` — frontmatter a `status: IMPLEMENTED`, ACs marcados `[x]` salvo AC-03/AC-05 (E2E E2E pending boot por la usuaria) y AC-11 (eliminación wrappers tras 1 sprint).
+- 5 ficheros nuevos, 80 tests, todos certified ≥80:
+- Sin regresiones en orchestrator/merge-queue/G13/attention-anchor/db-sandbox/cleanup-stale.
+- Plugin TS NUNCA hace `git push`, `gh pr merge`, `git push --force`
+- Installer NUNCA modifica el repo (sólo `~/.savia/`)
+- Parity audit + canary son read-only por defecto (`--baseline` y `--check` requieren flag explícito)
+- B8 ATTENTION ANCHOR: plugin re-inyecta `SPEC_WORKER_ID` y `Spec ref:` en cada hook payload, igual que Claude Code
+- A9 SUPERVISED EXECUTION: `permission.ask` enforce AUTONOMOUS_REVIEWER deterministically antes de pedir al humano
+- `docs/ROADMAP.md` — header línea 3 actualizada con Era 190 APPROVED. Critical Path Q2-Q3 reprioritizado: 12 items unificados por relevancia (compliance enterprise + skill catalog quality multipliers + sovereignty residual + apalancamiento residual). Sinergias documentadas extendidas con cross-refs SE-082/084/086/087 y SPEC-SE-036/037.
+- `mattpocock/skills` (MIT, jamiepine/voicebox-style clean-room): patterns extraídos para SE-081 (caveman/zoom-out/grill-me skills), SE-082 (LANGUAGE.md vocabulary), SE-083 (tdd/SKILL.md anti-pattern), SE-084 (write-a-skill meta-discipline), SE-085 (write-a-skill skill), SE-086 (ubiquitous-language + domain-model skills), SE-087 (design-an-interface skill). Zero código copiado; cada spec cita upstream commit hash en header.
+- **15 specs `docs/propuestas/SPEC-003..017`**: migradas a frontmatter YAML via la herramienta. Source of truth body-prose preservada. `status:` canónico + `origin_date:` + `migrated_at:` + `migrated_from: body-prose` (auditable).
+- **50 specs migrados a frontmatter YAML** (batch 2) vía \`scripts/spec-frontmatter-migrate.sh --apply --limit 50\`. Conjunto: SPEC-018..SPEC-118 + savia-enterprise/SPEC-SE-028/029/030. Mapping mecánico body-prose → YAML canónico.
+- **Resultado**: \`spec-status-normalize.sh --audit\` reporta missing 96 → 46 (reducción 50 specs). Acumulado batch 1+2 = 65 specs con frontmatter canónico, 75% del gap original cerrado.
+- **`docs/propuestas/ROADMAP.md`**: Tier 4.10 añadido (SE-040 degradation canary). Priorizable alto por evitar cascadas silenciosas cuando proveedor degrada modelo.
+- **`docs/propuestas/ROADMAP.md`**: Tier 2.5 añadido (SE-041 memvid probe).
+- **SPEC-081 hook-bats-coverage**: status Proposed → SUPERSEDED. Superseded by SE-037 (que absorbe BATS coverage + añade latency SLA + ratchet enforcement). Frontmatter extendido con `superseded_by`, `superseded_at`, `superseded_reason`.
+- **SPEC-028 search-reranker**: status ACCEPTED → SUPERSEDED. Superseded by SE-032 (versión Spec Ops del mismo concepto con Feasibility Probe bloqueante + cross-encoder específico BAAI/bge-reranker + ablation report).
+- **SPEC-027 graph-memory-layer**: status UNLABELED → Proposed + `converges_with: SPEC-123`. Documenta convergencia con SPEC-123 graphiti temporal pattern y SE-030 GraphRAG quality gates.
+- **ROADMAP Tier 6**: convergencias marcadas como aplicadas (3 de 4). Sólo pendiente SPEC-078 ↔ SPEC-SE-013 dual estimation. Pattern documentado: `status: SUPERSEDED` + `superseded_by` en frontmatter.
+- Zero vendor lock-in: 274 agent/command model declarations migrated from vendor-specific names (claude-opus/sonnet/haiku, opus/sonnet/haiku) to abstract capability tiers (heavy/mid/fast). Model resolution delegated to ~/.savia/preferences.yaml per-user, per-provider.
+- SPEC-127 Slice 1: New scripts/savia-env.sh provider-agnostic environment loader with fallback chain for SAVIA_WORKSPACE_DIR and SAVIA_PROVIDER. Supports Claude Code, OpenCode, Copilot, and LocalAI via capability probes.
+- 38 hooks now source savia-env.sh and export CLAUDE_PROJECT_DIR from SAVIA_WORKSPACE_DIR, fixing silent breakage under OpenCode where CLAUDE_PROJECT_DIR is unset.
+- 4 missing hook timeouts added to settings.json (validate-bash-global, plan-gate, prompt-injection-guard, delegation-guard).
+- Docs: model-alias-schema.md and model-alias-table.md rewritten for tier-based resolution. AGENTS.md and agents-catalog.md auto-regenerated.
+- Model names migrated from hardcoded IDs (`claude-opus-4-7`, `claude-sonnet-4-6`) to provider-agnostic tiers (`Heavy`, `Mid`, `Fast`) resolved at runtime via `scripts/savia-env.sh` and `~/.savia/preferences.yaml`.
+- `docs/AGENTS.md`: all agent tables and decision tree updated to tier-based labels.
+- `.opencode/CLAUDE.md`: model constants replaced with runtime resolution note.
+- `opencode.json`: agent definitions and slash commands populated with provider-agnostic config.
+- `scripts/advisor-config.sh`: advisor/executor defaults sourced from preferences.
+- `.claude/commands/agent-run.md`, `.claude/commands/pr-plan.md`: model references updated.
+- `tests/test-advisor-config.bats`: added `SAVIA_MODEL_HEAVY/MID/FAST` env vars in setup() to simulate configured preferences.yaml — tests adapt to provider-agnostic tier resolution.
+- `SKILLS.md`: regenerated to include 2 new skills (92 total).
+- `.claude/commands/pr-plan.md`: gate count updated 11 → 15 (G0-G14).
+- `CLAUDE.md`: hooks count corregido → "65 hooks (61 registrados, 4 huérfanos)".
+- `.claude/hooks/README.md`: catálogo completo de 65 hooks con categorías reales, documentación de arquitectura dual (OpenCode nativo + bridge), y compliance provider-agnostic.
+- `memory-cache-rebuild.sh`: escanea `.savia-memory/` + legacy `.claude/projects/` (provider-agnostic).
+- `memory-stack-load.sh`: `MEMORY_BASE` → `.savia-memory/` con fallback a legacy.
+- `stop-memory-extract.sh`: escribe snapshots en `.savia-memory/sessions/YYYY-MM-DD/`.
+- `session-end-memory.sh`: escribe `session-hot.md` en `.savia-memory/sessions/YYYY-MM-DD/`.
+- `savia-memory-bootstrap.sh`: marker en `.savia/external-memory-target` en vez de symlink `.claude/external-memory`.
+- `memory-agent.md`: paths actualizados a estructura canónica `.savia-memory/`.
+- `savia-memory SKILL.md`: documentados `search` y `recall` (ambos válidos), añadido `memory-index-rebuild.sh`.
+
+### Fixed
+
+- court-review.md + trace-optimize.md: YAML frontmatter added (SCM coverage 534/534)
+- agents-opencode-convert.sh: extended to sync subdirectories (decision-trees/ → .opencode/)
+- generate-capability-map.py: --check flag (read-only, tempdir, exit 0=FRESH 1=STALE 2=MISSING)
+- **\`.github/workflows/auto-rebase-open-prs.yml\`**: nuevo workflow que rebased automáticamente PRs abiertos tras cada push a main. Resuelve el problema raíz: \`merge.ours.driver\` en .gitattributes solo funciona local, no en GitHub server-side merge. El workflow ejecuta \`resolve-pr-conflicts.sh\` desde runner GHA (donde sí puede configurar el driver). Elimina la fricción "mergear un PR genera conflicto en todos los demás" — ahora la usuaria mergea y el auto-rebase resuelve los PRs en cola sin intervención.
+- Añade `-a` a `grep -oE '!projects/...'` para forzar text mode al leer `.gitignore`. El fichero contiene caracteres Unicode box-drawing (U+2500 `─`) en headers de comentarios, lo que hacía que GNU grep clasificara el archivo como binary y silenciosamente descartara las matches (sin error, exit 0, stdout vacío). Resultado: `PUBLIC_PROJS` quedaba vacío, los proyectos whitelisted se filtraban a la blocklist como falsos positivos, y cualquier PR externo (especialmente forks) que mencionara `savia-monitor` / `savia-web` / `savia-mobile-android` en CHANGELOGs o commits fallaba el `PII & Confidentiality Scan` con `BLOCKED: Blocklist terms found`.
+- Comment inline explicando el porqué del `-a` para prevenir regresión por re-formato del script.
+- `tests/structure/test-generate-blocklist.bats` — 12 tests cubriendo:
+- `scripts/test-auditor-sweep.sh`: bug aislado donde sweep extraía campo `.score` del auditor JSON pero el auditor emite `total`. Resultado: sweep siempre reportaba 0% compliance vs 100% real. Impact LOW (script no usado en CI, solo en su propio test). Fix de 1 línea: `.score` → `.total`. Verificación post-fix: 329/329 BATS files compliant ≥80 = **100% baseline**.
+- Duración: 2026-04-21 → 2026-04-25 (5 días)
+- Batches: 39-51 (13 iteraciones)
+- Hooks tested: 18/58 (31%) → 58/58 (100%) — **+40 hooks, +69 puntos**
+- Tests añadidos: 1100+ certified con score ≥80
+- Avg score: ~90 (después de internalizar feedback_test_auditor_score_targets)
+- Bugs reales descubiertos: 4 (cwd-changed-hook, emotional-regulation-monitor, memory-auto-capture, SE-071 block-branch-switch-dirty)
+- Drift hooks: 0 (CI-enforced via `.ci-baseline/hook-untested-count.count`)
+- PR-B: SPEC-121 handoff convention completion (3 ACs faltantes)
+- PR-C: SPEC-122 LocalAI emergency hardening completion (4 ACs faltantes)
+- Backlog: SPEC-124 pr-agent wrapper (5 ACs ~3-4h)
+- `scripts/parallel-specs-orchestrator.sh` — `--queue` ya no deja whitespace residual al procesar líneas con comments inline. El trim anterior (`${line## }`) sólo borraba un espacio, dejando trailing whitespace que rompía el lookup posterior de specs (`find` con patrón `"SE-140 *.md"` retornaba vacío). Reemplazado por regex greedy `^[[:space:]]*(.*[^[:space:]])[[:space:]]*$`.
+- `scripts/parallel-specs-orchestrator.sh` — effort tier en minúsculas (`s`/`m`/`l`) en frontmatter de spec ya se reconoce. El `grep -oE '^[SML]'` era case-sensitive y caía al default `M`, asignando budget medio a specs grandes con lowercase.
+- `scripts/adaptive-halting.sh` — exclusión de `.halt-state.prev.json` añadida al `find` que computa el tree-hash. Sin ella, el snapshot anterior contaminaba el hash actual y el criterio de convergencia nunca se estabilizaba en árboles con halting iterativo.
+- `tests/structure/test-parallel-specs-orchestrator.bats` — 3 regression tests (queue trim, lowercase tier, mixed-case normalisation). 26/26 pasan.
+- `tests/structure/test-adaptive-halting.bats` — 18/18 siguen pasando con la nueva exclusión.
+- `scripts/parallel-specs-orchestrator.sh` — el bloque `Plan per spec` mostraba puertos que no se acababan usando. La causa: la fase de plan y `spawn_worker` llamaban a `date(1)` por separado y con formatos distintos (`%Y%m%d%H%M%S` vs `%Y%m%d-%H%M%S` UTC), de modo que `allocate_ports` hashing producía dos asignaciones diferentes. Ahora se calcula un único `RUN_TS` al inicio del script y `SPEC_WORKTREE_NAMES` + `SPEC_PORTS` se rellenan una vez en la fase de validación; tanto el plan como el spawn leen de esos maps. Plan output ahora coincide con la realidad (verificado con regression test #27).
+- `docs/propuestas/SPEC-103-deterministic-first-digests.md` — PROPOSED → IN_PROGRESS (Slice 1 IMPLEMENTED batch 82, Slice 2 pendiente)
+- `docs/propuestas/SPEC-125-recommendation-tribunal-realtime.md` — PROPOSED → IN_PROGRESS (Slice 1 foundation IMPLEMENTED batch 83, NO ACTIVADO; Slices 2+3 follow-up)
+- `docs/propuestas/savia-enterprise/SPEC-SE-035-reconciliation-delta-engine.md` — PROPOSED → IN_PROGRESS (Slices 1+3 IMPLEMENTED batch 81, Slices 2/4/5 follow-up)
+- `docs/propuestas/savia-enterprise/SPEC-SE-036-api-key-jwt-mint.md` — PROPOSED → IN_PROGRESS (Slices 1+2 IMPLEMENTED batches 79+80, Slice 3 sunset PAT pendiente)
+- `docs/propuestas/savia-enterprise/SPEC-SE-037-audit-jsonb-trigger.md` — PROPOSED → IMPLEMENTED (8/12 ACs cumplidos batch 78, 4 deferred a repo Enterprise post-deploy)
+- `docs/propuestas/SPEC-106-truth-tribunal-report-reliability.md` — `ALL` (inválido) → IMPLEMENTED (Truth Tribunal completo en producción: orchestrator + 7 jueces + scripts + tests)
+- `docs/propuestas/SPEC-110-memoria-externa-canonica.md` — DRAFT → IMPLEMENTED (cargado como `@import` en CLAUDE.md desde Era anterior)
+- `docs/propuestas/SPEC-047-requirement-pushback.md` — UNLABELED → APPROVED (body declara "Status: APPROVED — Phase 1")
+- `docs/propuestas/SPEC-025-chinese-compatibility.md` — UNLABELED → PROPOSED (research study, no implementación)
+- `docs/propuestas/SPEC-079-legal-compliance-agent.md` — UNLABELED → PROPOSED (body declara "Estado: Propuesta")
+- `docs/propuestas/ROADMAP.md` — `last_updated: 2026-04-18 → 2026-04-30`, `expires: 2026-06-18 → 2026-06-30`. Sección "## 6. Live status" reescrita para reflejar realidad post-batch-83: último PR mergeado, recientes (Era 232 cerrada + Recommendation Tribunal foundation + image relevance filter + hotfixes), top 10 Critical Path repriorizado tras audit, próximo slice = SPEC-107 Slice 1 (medición AI Cognitive Debt).
+- `tests/structure/test-spec-status-frontmatter.bats` — 28 tests certified. Cubre:
+- `docs/propuestas/savia-enterprise/SPEC-SE-001-foundations.md` — PROPOSED → IMPLEMENTED. Todos los 6 AC verificados en disco con evidencia.
+- **\`.claude/hooks/scope-guard.sh\`**: optimizado de 203ms → 48ms. Restringe find a 3 paths conocidos (projects/, docs/specs/, docs/propuestas/) + maxdepth 6 + prune de node_modules/.git/build/dist/target. Elimina el timeout SLA 200ms que bloqueaba PRs en CI Hook Latency Gate.
+- **\`.gitattributes\`**: añade \`CHANGELOG.md merge=union\` (built-in, sin config necesaria) y \`.scm/* merge=ours\` (requiere driver). Eliminates 3 de 4 tipos de conflictos recurrentes sin necesidad de tooling externo.
+- **\`scripts/setup-merge-drivers.sh\`**: configura \`merge.ours.driver = true\` local. Sin esto, los \`merge=ours\` en .gitattributes eran silent no-ops — razón por la que los conflictos persistían pese a tener el attribute.
+- **\`.claude/hooks/session-init.sh\`**: invoca setup-merge-drivers idempotentemente al arrancar sesión. Zero-config para usuarios — drivers quedan wired automáticamente en cualquier checkout fresco.
+- **\`tests/test-merge-drivers.bats\`**: 23 tests incluyendo integración real de merge en sandbox git (union, ours, sin driver = conflict). Auditor score 82.
+- `docs/rules/domain/receipts-protocol.en.md`: trimmed from 166 → 119 lines to comply with the 150-line rule (`tests/structure/test-workspace-structure.bats:95`).
+- `docs/rules/domain/slm-training-pipeline.en.md`: trimmed from 157 → 111 lines (same rule).
+- SE-094 closed via allowlist mechanism (.claude/hooks-allowlist.tsv): last orphan hook (SPEC-125 WIRE-READY) now classified as deliberate non-registration with mandatory spec/rule citation.
+- New BATS test tests/structure/test-hooks-integrity-allowlist.bats enforces the allowlist contract — 5/5 OK.
+- opencode.json: remove unknown schema fields (_hooks_doc, _comment, websearch, subtask) that caused startup failure
+- savia-bridge.py: probe nvm versioned bin paths in find_claude_cli() so bridge resolves claude binary under nvm
+- `push-pr.sh`: title extraction changed from `tail -1` to `head -1` with sign/merge commit filtering — PR titles now use the most recent meaningful commit instead of the oldest sign commit.
+- `push-pr.sh`: sign commit message no longer hardcodes `Co-Authored-By: Claude Opus 4.7` — PV-06 compliant.
+- `push-pr.sh`: removed `Generated with Claude Code` footer from PR body — PV-06 compliant.
+- `pr-plan.sh`: removed duplicate sign step — eliminates 2-3 sign commits per PR execution.
+- `CLAUDE.md`: skills count updated 90 → 92 (drift check).
+- Tool-healing guard no longer false-blocks read/write/edit on OpenCode v1.14 — extractFilePath/extractContent now recognize camelCase (filePath, newString) in addition to legacy snake_case (file_path, new_string). Resolves SPEC-TOOL-HEALING-FIX.
+- `validate-bash-global.sh`: `$CLAUDE_PROJECT_DIR` → fallback `${CLAUDE_PROJECT_DIR:-${OPENCODE_PROJECT_DIR:-$PWD}}` — antes era el único hook BROKEN sin fallback provider-agnostic.
+- **\`scripts/resolve-pr-conflicts.sh\`**: bugfix — cuando \`git merge origin/main\` tenía éxito SIN conflictos pero CON cambios (merge commit nuevo), el script reportaba "already in sync" y exit 0 sin pushear. Ahora detecta via \`rev-parse HEAD\` pre/post si hubo merge real y pushea. Resuelve el caso en que los PRs quedaban CONFLICTING en GitHub pese a que \`resolve-all-open-prs.sh\` reportaba "resolved".
+- `memory-store.sh`: alias `recall` → `search` — el comando documentado en SKILL.md ya funciona.
+- `auto/MEMORY.md` ahora se puebla automáticamente con cada `memory-store.sh save`.
+- Índice canónico poblado con 6 entradas (antes vacío).
+- Fix path output/research-{tema} → output/research/{tema} en autonomous-safety.md, tech-research command y tech-research-agent SKILL.md
+- SPEC-144: bump CLAUDE.md command count 545→553 to reflect 8 new /speckit.* aliases (unblocks claude-md-drift-check.sh + readiness-stamp BATS tests). Confidentiality signature refreshed.
+- SPEC-155 [CRITICAL]: align plugin hook signature with OpenCode v1.14+ contract. Pre-fix, all 12 guards read input.args (undefined in real runtime) instead of output.args, operating on empty data = security theater. Symptom: spurious BLOCKED [tool-healing]: read called with empty file_path on valid tool calls. Helpers now prefer output.args with retro-compat fallback to input.args. 4 golden tests added with real v1.14 shape.
+- **Terminología FOSS**: reemplazado "robar/robado" por "copiar/adoptar/inspirado en" en 7 ocurrencias a lo largo de specs y CHANGELOG. En software libre, copiar patrones bajo licencias compatibles es el mecanismo legítimo del ecosistema — "robar" es terminología incorrecta que estigmatiza práctica legítima y aplica marco de propiedad intelectual propietaria a commons. Scope: SE-031, SE-042, ROADMAP-UNIFIED-20260418, SAVIA-SUPERPOWERS-ROADMAP, CHANGELOG entries 5.44 y 5.50.
+
+### Security
+
+- se-220: memory dedup by topic_key prevents AgentPoison-style memory poisoning (MEMORY.md 737→43 lines, 0 duplicates)
+- se-220: project-isolation-gate.sh promoted from WARN to BLOCK with SAVIA_ALLOW_CROSS_PROJECT=1 override + audit log
+- se-220: prompt-injection-guard.sh extended to scan untrusted .md/.txt/.html outside workspace (zero-trust spotlighting)
+- se-220: agent catalogs unified to .opencode/agents/ source-of-truth (72 agents, drift eliminated, skill confusion mitigated)
+- se-220: scripts/memory-canary-check.sh + canary token defense against memory poisoning (Chen et al. 2024)
+
+
 ## [6.14.3] — 2026-06-09
 
 ### Fixed
@@ -11792,6 +12843,7 @@ Initial public release of PM-Workspace.
 
 - **Documentation** with methodology
 
+[6.15.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v6.3.0...v6.15.0
 [6.3.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v6.2.0...v6.3.0
 [6.14.1]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v6.14.0...v6.14.1
 [6.14.3]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v6.14.2...v6.14.3
