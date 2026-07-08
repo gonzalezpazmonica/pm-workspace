@@ -1,5 +1,5 @@
 # memory — Savia Capability Map (L1)
-> 93 resources
+> 94 resources
 
 - **auto-compact** (script): auto-compact.sh — Disparado automáticamente cuando contexto > 85%
 - **cache-analytics** (cmd): Métricas de hit rate, tokens ahorrados, latencia, ahorro de costes
@@ -61,6 +61,7 @@
 - **memory-feedback-post-merge** (script): memory-feedback-post-merge.sh — Writes a memory entry when a PR is merged.
 - **memory-hygiene** (script): memory-hygiene.sh — SPEC-142: Limpieza automática de auto-memory
 - **memory-index-rebuild** (script): memory-index-rebuild.sh — rebuild auto/MEMORY.md index from JSONL store
+- **memory-liveness-check** (script): scripts/memory-liveness-check.sh — SE-257 Slice 2
 - **memory-recall** (cmd): Retrieve relevant memories for current context
 - **memory-recall-audit** (script): memory-recall-audit.sh — SE-212: measure MEMORY.md recall budget utilization
 - **memory-rotate** (cmd): Execute context rotation manually — daily, weekly, monthly cycles

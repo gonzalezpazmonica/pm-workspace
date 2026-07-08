@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=ae8d30fd4d4e06da418fcaad770798916b21888a2adecb709cdfda1e53f381c3
-timestamp=2026-07-07T07:24:12Z
-branch=agent/se256-engram-patterns
-head_commit=2c924ee0
-signature=3033e8c1eb0edf3c0951dac0c1f06f803380458d4c24620aad31e0514611d426
+diff_hash=e6ae1a957a6dcfffe1e831cf0faad1c8fb216f2a4aaf00fb4967c29fd9ffdbe3
+timestamp=2026-07-08T05:26:59Z
+branch=agent/se257-consolidacion
+head_commit=167897a0
+signature=a3fb63c1caa84fc2bfb66187068fb82ec278feb7840b13dacafe5a19ef7879a2
