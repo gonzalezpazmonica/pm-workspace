@@ -6,6 +6,22 @@ setup() {
   CONSTITUCION="$REPO_ROOT/.claude/CONSTITUCION.md"
   CRITERIO="$REPO_ROOT/CRITERIO.md"
   CRITERIO_SCHEMA="$REPO_ROOT/schemas/criterio.schema.json"
+  LEDGER="$REPO_ROOT/data/relacion/ledger.jsonl"
+  # SE-258 S1: ledger is no longer tracked in git. For tests that need it,
+  # seed a temp copy if the real one is absent.
+  if [[ ! -f "$LEDGER" ]]; then
+    mkdir -p "$(dirname "$LEDGER")"
+    printf '{"entry_id":"SEED-001","tipo":"bootstrap","ts":"2026-07-05T00:00:00Z","provenance":"system_init","texto":"Libro de la relacion inicializado.","hash_prev":null}\n' > "$LEDGER"
+    _LEDGER_SEEDED=1
+  else
+    _LEDGER_SEEDED=0
+  fi
+}
+
+teardown() {
+  if [[ "${_LEDGER_SEEDED:-0}" -eq 1 ]]; then
+    rm -f "$LEDGER"
+  fi
 }
 
 # ── Slice 1: CONSTITUCION.md ────────────────────────────────────────────────
