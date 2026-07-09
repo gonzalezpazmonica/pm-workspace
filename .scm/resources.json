@@ -1,6 +1,6 @@
 {
-  "hash": "2cf96c3ed7fa",
-  "total": 1198,
+  "hash": "1f61d2104209",
+  "total": 1202,
   "resources": [
     {
       "category": "analysis",
@@ -2090,15 +2090,15 @@
       "category": "development",
       "name": "changelog-spec-field-check",
       "intents": [
-        "campo",
         "changelog",
-        "entradas",
-        "feat",
-        "sennn"
+        "check",
+        "field",
+        "slice",
+        "spec"
       ],
       "kind": "script",
       "path": "scripts/changelog-spec-field-check.sh",
-      "description": "Verifica que entradas CHANGELOG.d con feat(seNNN) tienen campo spec: SE-NNN"
+      "description": "changelog-spec-field-check.sh — SE-258 Slice 4"
     },
     {
       "category": "development",
@@ -10748,6 +10748,18 @@
     },
     {
       "category": "planning",
+      "name": "restore-drill",
+      "intents": [
+        "drill",
+        "restore",
+        "slice"
+      ],
+      "kind": "script",
+      "path": "scripts/restore-drill.sh",
+      "description": "restore-drill.sh — SE-258 Slice 2"
+    },
+    {
+      "category": "planning",
       "name": "rpi-start",
       "intents": [],
       "kind": "cmd",
@@ -12133,6 +12145,18 @@
     },
     {
       "category": "planning",
+      "name": "tracked-vs-nivel",
+      "intents": [
+        "nivel",
+        "slice",
+        "tracked"
+      ],
+      "kind": "script",
+      "path": "scripts/tracked-vs-nivel.sh",
+      "description": "tracked-vs-nivel.sh — SE-258 Slice 1"
+    },
+    {
+      "category": "planning",
       "name": "tribunal-critic",
       "intents": [
         "critic",
@@ -12509,6 +12533,19 @@
       "kind": "cmd",
       "path": ".claude/commands/velocity-trend.md",
       "description": "Tendencia de velocity con media móvil, detección de anomalías y factores explicativos"
+    },
+    {
+      "category": "planning",
+      "name": "verify-ledger-chain",
+      "intents": [
+        "chain",
+        "ledger",
+        "slice",
+        "verify"
+      ],
+      "kind": "script",
+      "path": "scripts/verify-ledger-chain.sh",
+      "description": "verify-ledger-chain.sh — SE-258 Slice 2"
     },
     {
       "category": "planning",
@@ -14105,6 +14142,18 @@
       "kind": "script",
       "path": "scripts/security-scan.sh",
       "description": "security-scan.sh — Security audit for pm-workspace"
+    },
+    {
+      "category": "quality",
+      "name": "self-audit",
+      "intents": [
+        "audit",
+        "self",
+        "slice"
+      ],
+      "kind": "script",
+      "path": "scripts/self-audit.sh",
+      "description": "self-audit.sh — SE-258 Slice 3"
     },
     {
       "category": "quality",

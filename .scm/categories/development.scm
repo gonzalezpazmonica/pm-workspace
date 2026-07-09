@@ -21,7 +21,7 @@
 - **build-skill-manifest** (script): build-skill-manifest.sh — Genera manifesto de skills desde frontmatter
 - **calendar-focus** (cmd): Crear bloque de focus para una tarea especifica — Deep Work protegido
 - **caveman** (skill): Strips all sugar-coating and marketing. Gives the brutally honest truth in the fewest possible words. Use when you suspect self-deception, before committing, or before shipping.
-- **changelog-spec-field-check** (script): Verifica que entradas CHANGELOG.d con feat(seNNN) tienen campo spec: SE-NNN
+- **changelog-spec-field-check** (script): changelog-spec-field-check.sh — SE-258 Slice 4
 - **check-coherence** (cmd): Validate that a spec, report, or code output actually matches its stated objective
 - **ci-reliability-gate** (script): ci-reliability-gate.sh — SPEC-SE-012
 - **code-comprehension-report** (skill): Usar cuando se ha completado una implementación SDD y se necesita documentar el modelo mental.

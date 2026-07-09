@@ -1,5 +1,5 @@
 # quality — Savia Capability Map (L1)
-> 235 resources
+> 236 resources
 
 - **/speckit.analyze** (cmd): Alias spec-kit compatible. Review cruzado de una spec antes de implementar. Invoca skill consensus-validation. Compatible con github/spec-kit.
 - **Court Review** (cmd): Convene the Code Review Court to evaluate implementation quality across 6 judges
@@ -112,6 +112,7 @@
 - **security-judge** (agent): Code Review Court judge — OWASP, PII, injection, auth, credentials
 - **security-review** (cmd): >
 - **security-scan** (script): security-scan.sh — Security audit for pm-workspace
+- **self-audit** (script): self-audit.sh — SE-258 Slice 3
 - **skill-audit** (script): skill-audit.sh — Baseline skill catalog quality auditor (SE-084 Slice 1)
 - **skill-catalog-audit** (script): skill-catalog-audit.sh — SE-084 Slice 1.
 - **skill-catalog-auditor** (script): skill-catalog-auditor.sh — SE-084 Slice 1 — Skill catalog quality auditor
