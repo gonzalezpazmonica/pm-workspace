@@ -64,11 +64,11 @@ Construir el sistema **Context-as-Code (CaC)** sobre Obsidian:
 
 ### 1.3 No-Goals (explícito)
 
-- ❌ NO vendorizamos `kepano/obsidian-skills` (decisión D-2). No clonamos ese repo. Sí miramos su README como referencia conceptual.
-- ❌ NO sincronizamos vaults entre máquinas. Cada vault vive en su `projects/{slug}/vault/` local.
-- ❌ NO instalamos plugins Obsidian que envíen datos a cloud (Smart Connections, Copilot for Obsidian, Obsidian Sync para vaults N4+).
-- ❌ NO tocamos el adaptación a OpenCode pendiente (rama `agent/spec-oc-04-opencode-native-20260506`) hasta cerrar esta spec.
-- ❌ NO generamos un vault global del workspace pm-workspace en este slice. Solo vaults por proyecto.
+- FAIL NO vendorizamos `kepano/obsidian-skills` (decisión D-2). No clonamos ese repo. Sí miramos su README como referencia conceptual.
+- FAIL NO sincronizamos vaults entre máquinas. Cada vault vive en su `projects/{slug}/vault/` local.
+- FAIL NO instalamos plugins Obsidian que envíen datos a cloud (Smart Connections, Copilot for Obsidian, Obsidian Sync para vaults N4+).
+- FAIL NO tocamos el adaptación a OpenCode pendiente (rama `agent/spec-oc-04-opencode-native-20260506`) hasta cerrar esta spec.
+- FAIL NO generamos un vault global del workspace pm-workspace en este slice. Solo vaults por proyecto.
 
 ---
 

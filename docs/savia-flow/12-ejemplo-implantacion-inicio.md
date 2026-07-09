@@ -117,15 +117,15 @@ la usuaria → /flow-intake
 
 Savia muestra los items Spec-Ready:
 ```
-📋 Items Spec-Ready: 2
+ Items Spec-Ready: 2
   #1001 User Registration — Outcome: User Onboarding
   #1002 Profile Setup Wizard — Outcome: User Onboarding
 
-👥 Capacidad builders:
-  Ana (Front): 0/2 WIP ✅
-  Isabel (Back): 0/2 WIP ✅
+ Capacidad builders:
+  Ana (Front): 0/2 WIP OK
+  Isabel (Back): 0/2 WIP OK
 
-📌 Asignación propuesta:
+ Asignación propuesta:
   #1001 → Isabel (back: auth-service) + Ana (front: registration page)
   #1002 → Ana (front: profile wizard) — esperar a que #1001 esté en Gates
 ```

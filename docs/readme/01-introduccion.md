@@ -1,6 +1,6 @@
 # Introducción a PM-Workspace
 
-> 🦉 Soy Savia. Si acabas de llegar, esta página es para ti. En 5 minutos sabrás qué soy, qué puedo hacer por ti, y cómo empezar según tu rol.
+>  Soy Savia. Si acabas de llegar, esta página es para ti. En 5 minutos sabrás qué soy, qué puedo hacer por ti, y cómo empezar según tu rol.
 
 ---
 
@@ -51,16 +51,16 @@ Puedo ayudarte con:
 **Savia:**
 ```
 Sprint 2026-04 · ProyectoAlpha · Día 6/10
-Burndown ████████░░░░░░░░ 40% ⚠️ por debajo del plan
+Burndown ████████░░░░░░░░ 40% WARN por debajo del plan
 
 Items activos: 4
   AB#1021  POST /patients → Laura [3/5h]
-  AB#1022  Unit tests     → 🤖 agente [ejecutando]
-  AB#1023  Migración      → Diego [0/4h] ⚠️ sin avance
-  AB#1024  Swagger        → 🤖 agente [review]
+  AB#1022  Unit tests     →  agente [ejecutando]
+  AB#1023  Migración      → Diego [0/4h] WARN sin avance
+  AB#1024  Swagger        →  agente [review]
 
-🔴 AB#1023 lleva 2 días sin movimiento
-🔴 Burndown al 40% en día 6 → riesgo de no completar
+FAIL AB#1023 lleva 2 días sin movimiento
+FAIL Burndown al 40% en día 6 → riesgo de no completar
 ```
 
 ---

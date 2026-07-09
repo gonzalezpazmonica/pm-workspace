@@ -42,7 +42,7 @@ PM-Workspace is an AI-powered project management platform that turns Claude Code
 
 PM-Workspace does not replace the PM or the human team. Architecture decisions, Code Review, client negotiation, and people management remain human responsibilities. AI assists, automates repetitive tasks, and informs — but never decides for you.
 
-> **💡 For management:** Estimated ROI is 60-70% reduction in sprint administrative management time + 40-60% of repetitive technical tasks automated by AI agents, at a monthly cost of $20-200/user depending on the plan chosen.
+> ** For management:** Estimated ROI is 60-70% reduction in sprint administrative management time + 40-60% of repetitive technical tasks automated by AI agents, at a monthly cost of $20-200/user depending on the plan chosen.
 
 ---
 
@@ -104,7 +104,7 @@ For a consulting firm starting with PM-Workspace, the recommended plan is **Pro 
 | Team | $25-150/mo per seat | Yes (Premium) | Teams with centralized billing |
 | Enterprise | Custom | Yes | Large consulting firms (>50 users) |
 
-> **💡 Tip:** Start with 1-2 Pro licenses for the PM and Tech Lead. If ROI is positive after 2-3 sprints, scale to the rest of the team or negotiate a Team/Enterprise plan.
+> ** Tip:** Start with 1-2 Pro licenses for the PM and Tech Lead. If ROI is positive after 2-3 sprints, scale to the rest of the team or negotiate a Team/Enterprise plan.
 
 ### 3.3 Activate the subscription
 
@@ -175,7 +175,7 @@ git clone https://github.com/gonzalezpazmonica/pm-workspace.git ~/claude
 cd ~/claude
 ```
 
-> **⚠️ Important:** The `~/claude/` directory is both your working directory and the GitHub repository. Always work from this root.
+> **WARN Important:** The `~/claude/` directory is both your working directory and the GitHub repository. Always work from this root.
 
 ### 5.2 Install script dependencies
 
@@ -231,7 +231,7 @@ echo -n "PASTE_YOUR_PAT_HERE" > $HOME/.azure/devops-pat
 chmod 600 $HOME/.azure/devops-pat
 ```
 
-> **🔒 Security:** The PAT is never hardcoded in any repository file. PM-Workspace always reads it dynamically with `$(cat $HOME/.azure/devops-pat)`.
+> ** Security:** The PAT is never hardcoded in any repository file. PM-Workspace always reads it dynamically with `$(cat $HOME/.azure/devops-pat)`.
 
 ### 6.3 Configure Azure CLI
 
@@ -305,7 +305,7 @@ Generates an Excel with 4 tabs (Summary, By person, By PBI, Agents) ready to del
 
 Velocity, cycle time, lead time, bug escape rate, and more — all calculated automatically from real Azure DevOps data.
 
-> **💡 Recommendation:** During the first 2 weeks, use only `/sprint-status`, `/team-workload`, and `/report-hours`. Get comfortable with these 3 commands before moving on to PBI decomposition and SDD.
+> ** Recommendation:** During the first 2 weeks, use only `/sprint-status`, `/team-workload`, and `/report-hours`. Get comfortable with these 3 commands before moving on to PBI decomposition and SDD.
 
 ---
 
@@ -448,7 +448,7 @@ Claude reads the project's `CLAUDE.md`, `equipo.md`, `reglas-negocio.md`, and th
 
 Claude conducts an interactive questionnaire in groups of 3 questions. It assesses 12 .NET/C# competencies, 7 transversal ones, and the project's domain competencies. Each is rated 1-5 (Shu-Ha-Ri scale: Apprentice → Reference) with verifiable evidence. The result is saved to `equipo.md` to improve future assignments.
 
-> **⚖️ Legal compliance:** The system uses legitimate interest (Art. 6.1.f GDPR) as the legal basis, not consent. The privacy notice is NOT a consent form but a rights communication per GDPR Arts. 13-14 and the LOPDGDD (Organic Law 3/2018). Data is stored with minimization (no personal data beyond name and level) and is protected by `.gitignore`.
+> ** Legal compliance:** The system uses legitimate interest (Art. 6.1.f GDPR) as the legal basis, not consent. The privacy notice is NOT a consent form but a rights communication per GDPR Arts. 13-14 and the LOPDGDD (Organic Law 3/2018). Data is stored with minimization (no personal data beyond name and level) and is protected by `.gitignore`.
 
 ---
 

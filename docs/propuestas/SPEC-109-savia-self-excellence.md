@@ -20,7 +20,7 @@ Auditoría profunda de Opus 4.7 (`output/audit-savia-self-20260417.md` + `audit-
 - Radical Honesty redundante en 7 archivos sin jerarquía
 - 27 agents sin `model:` canónico declarado
 - Contradicción tono base en `savia.md`
-- `autonomous-safety.md:82` usa emoji ❌ violando Rule #24
+- `autonomous-safety.md:82` usa emoji FAIL violando Rule #24
 - `savia.md` 223 líneas, over-engineered
 - Prompts con workarounds obsoletos de modelos pre-Opus-4.7
 
@@ -55,11 +55,11 @@ Cada PR: pr-plan → push → CI → admin-merge (si Verify Audit Signature fall
 
 ## Acceptance Criteria
 
-1. ✅ Los 10 items resueltos (item 8 queda como spec SPEC-110 para sprint futuro)
-2. ✅ Re-auditoría mide score ≥ 8.5/10 en mismos ejes
-3. ✅ Sin regresiones: BATS tests pasan, confidentiality scan limpio
-4. ✅ CLAUDE.md counts match realidad en CI (drift-check en readiness)
-5. ✅ Radical Honesty definida en un único archivo canónico, otros referencian vía @-import
+1. OK Los 10 items resueltos (item 8 queda como spec SPEC-110 para sprint futuro)
+2. OK Re-auditoría mide score ≥ 8.5/10 en mismos ejes
+3. OK Sin regresiones: BATS tests pasan, confidentiality scan limpio
+4. OK CLAUDE.md counts match realidad en CI (drift-check en readiness)
+5. OK Radical Honesty definida en un único archivo canónico, otros referencian vía @-import
 
 ## Non-goals
 

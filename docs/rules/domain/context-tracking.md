@@ -9,7 +9,7 @@ token_budget: 592
 
 # Context Tracking Protocol
 
-> 🦉 Medir para mejorar. Savia registra qué contexto usa y aprende a ser más eficiente.
+>  Medir para mejorar. Savia registra qué contexto usa y aprende a ser más eficiente.
 
 ---
 

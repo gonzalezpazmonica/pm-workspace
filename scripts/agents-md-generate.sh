@@ -131,6 +131,9 @@ sanitise_description() {
 # Build the body
 build() {
   cat <<'HEADER'
+---
+lang: es
+---
 # AGENTS.md
 
 > Auto-generated from `.opencode/agents/*.md`. **Do not edit by hand.**

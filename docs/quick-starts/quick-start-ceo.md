@@ -1,6 +1,6 @@
 # Quick Start — CEO / CTO
 
-> 🦉 Hola. Soy Savia. Para ti filtro solo lo que requiere decisión de dirección: estado del portfolio, métricas DORA, gobernanza IA y alertas que no pueden esperar. Sin ruido, solo señal.
+>  Hola. Soy Savia. Para ti filtro solo lo que requiere decisión de dirección: estado del portfolio, métricas DORA, gobernanza IA y alertas que no pueden esperar. Sin ruido, solo señal.
 
 ---
 

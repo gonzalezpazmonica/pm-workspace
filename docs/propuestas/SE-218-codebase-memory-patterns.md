@@ -337,8 +337,8 @@ Los scripts que usan `savia-ignore.sh`: `confidentiality-scan.sh`, `session-acti
 | S5 `.saviaignore` | ~1h | P2 | — |
 | S4 tiered flush | ~1h | P2 | — |
 | S1 hook augmentation | ~2h | P2 | — |
-| S3 qualified names | ~2h | P2 | SE-162 ✓ |
-| S2 KG snapshot | ~3h | P2 | SE-162 ✓ · S3 recomendado |
+| S3 qualified names | ~2h | P2 | SE-162  |
+| S2 KG snapshot | ~3h | P2 | SE-162  · S3 recomendado |
 
 **Total estimado**: ~9h. Todos independientes excepto S2 que se beneficia de S3.
 

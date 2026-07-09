@@ -1,6 +1,6 @@
 # Introduction to PM-Workspace
 
-> 🦉 I'm Savia. If you just arrived, this page is for you. In 5 minutes you'll know what I am, what I can do for you, and how to start based on your role.
+>  I'm Savia. If you just arrived, this page is for you. In 5 minutes you'll know what I am, what I can do for you, and how to start based on your role.
 
 ---
 
@@ -51,16 +51,16 @@ Where shall we start? If it's Monday, I recommend /sprint-status.
 **Savia:**
 ```
 Sprint 2026-04 · ProjectAlpha · Day 6/10
-Burndown ████████░░░░░░░░ 40% ⚠️ below plan
+Burndown ████████░░░░░░░░ 40% WARN below plan
 
 Active items: 4
   AB#1021  POST /patients → Laura [3/5h]
-  AB#1022  Unit tests     → 🤖 agent [running]
-  AB#1023  Migration      → Diego [0/4h] ⚠️ no progress
-  AB#1024  Swagger        → 🤖 agent [review]
+  AB#1022  Unit tests     →  agent [running]
+  AB#1023  Migration      → Diego [0/4h] WARN no progress
+  AB#1024  Swagger        →  agent [review]
 
-🔴 AB#1023 has had no movement for 2 days
-🔴 Burndown at 40% on day 6 → risk of not completing
+FAIL AB#1023 has had no movement for 2 days
+FAIL Burndown at 40% on day 6 → risk of not completing
 ```
 
 ---

@@ -31,14 +31,14 @@ Añadir una sección `## Ejemplos` después de los parámetros, antes del flujo:
 ```markdown
 ## Ejemplos
 
-**✅ Correcto:**
+**OK Correcto:**
 ```
 Entrada: /mi-comando --project alpha --focus security
 Salida esperada: Informe en output/audits/20260305-security-alpha.md
-  Score: 7.2/10 | 🔴 2 críticos | 🟡 3 mejorables
+  Score: 7.2/10 | FAIL 2 críticos | WARN 3 mejorables
 ```
 
-**❌ Incorrecto:**
+**FAIL Incorrecto:**
 ```
 Entrada: /mi-comando alpha
 Salida incorrecta: Volcado de 200 líneas en la conversación sin guardar fichero

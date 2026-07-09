@@ -35,11 +35,11 @@ lo que rompe el contexto y cansa a ambas.
 
 | Mecanismo | Visible en UI | Tiempo real | Dinámico | Limitación |
 |-----------|:---:|:---:|:---:|---|
-| `statusMessage` en hooks | ✅ | ✅ | ❌ texto fijo | Solo al ejecutar el hook |
-| TaskCreate/TaskUpdate | ✅ | ✅ | ✅ | Requiere Agent Teams activos |
-| Log file + `tail -f` | ✅ (terminal) | ✅ | ✅ | Requiere segunda terminal |
-| `/statusline` | ✅ | ✅ | ❌ | Config estática, no por tarea |
-| Anuncios en conversación | ✅ | ✅ | ✅ | Depende de disciplina de Savia |
+| `statusMessage` en hooks | OK | OK | FAIL texto fijo | Solo al ejecutar el hook |
+| TaskCreate/TaskUpdate | OK | OK | OK | Requiere Agent Teams activos |
+| Log file + `tail -f` | OK (terminal) | OK | OK | Requiere segunda terminal |
+| `/statusline` | OK | OK | FAIL | Config estática, no por tarea |
+| Anuncios en conversación | OK | OK | OK | Depende de disciplina de Savia |
 
 **Conclusión:** No hay un mecanismo nativo de live feed. La solución óptima combina
 tres capas: comportamiento, hooks y un fichero de estado watchable.
@@ -107,7 +107,7 @@ LOG="$HOME/.savia/live.log"
 mkdir -p "$HOME/.savia"
 
 if [[ "$1" == "--compact" ]]; then
-  tail -f "$LOG" | grep -E "^(▶|✓|⚠|❌|━)"
+  tail -f "$LOG" | grep -E "^(▶|✓|⚠|FAIL|━)"
 else
   tail -f "$LOG"
 fi
@@ -128,10 +128,10 @@ TS=$(date "+%H:%M:%S")
 case "$TOOL_NAME" in
   Bash)   echo "[$TS] ⚙  Ejecutando: $(echo $TOOL_INPUT | jq -r '.description // .command[:60]')" >> "$LOG" ;;
   Edit)   echo "[$TS] ✏  Editando:   $(echo $TOOL_INPUT | jq -r '.file_path' | sed 's|.*/||')" >> "$LOG" ;;
-  Write)  echo "[$TS] 📝 Escribiendo: $(echo $TOOL_INPUT | jq -r '.file_path' | sed 's|.*/||')" >> "$LOG" ;;
+  Write)  echo "[$TS]  Escribiendo: $(echo $TOOL_INPUT | jq -r '.file_path' | sed 's|.*/||')" >> "$LOG" ;;
   Read)   echo "[$TS] 👁  Leyendo:    $(echo $TOOL_INPUT | jq -r '.file_path' | sed 's|.*/||')" >> "$LOG" ;;
-  Task)   echo "[$TS] 🤖 Agente:     $(echo $TOOL_INPUT | jq -r '.description[:60]')" >> "$LOG" ;;
-  Glob)   echo "[$TS] 🔍 Buscando:   $(echo $TOOL_INPUT | jq -r '.pattern')" >> "$LOG" ;;
+  Task)   echo "[$TS]  Agente:     $(echo $TOOL_INPUT | jq -r '.description[:60]')" >> "$LOG" ;;
+  Glob)   echo "[$TS]  Buscando:   $(echo $TOOL_INPUT | jq -r '.pattern')" >> "$LOG" ;;
   Grep)   echo "[$TS] 🔎 Grep:       $(echo $TOOL_INPUT | jq -r '.pattern[:40]')" >> "$LOG" ;;
 esac
 exit 0
@@ -144,7 +144,7 @@ exit 0
 [09:15:34] ✏  Editando:   guide-sovereignty.md
 [09:15:34] 👁  Leyendo:    guide-startup.md
 [09:15:35] ✏  Editando:   guide-startup.md
-[09:15:36] 🔍 Buscando:   docs/guides_en/*.md
+[09:15:36]  Buscando:   docs/guides_en/*.md
 ```
 
 **Rotación:** El log se trunca al inicio de cada sesión (SessionStart hook).
@@ -236,7 +236,7 @@ Esto hace el queue visible en el panel de Tasks de Claude Code.
 **Obligatorio para Savia en CUALQUIER tarea con ≥3 pasos:**
 
 1. **Antes de empezar**: mostrar plan + duración estimada
-2. **Cada paso completado**: `✓ Paso N/M — [descripción]`
+2. **Cada paso completado**: ` Paso N/M — [descripción]`
 3. **Al cambiar fichero en lote**: `  → [nombre-fichero]` (compacto)
 4. **Al encontrar bloqueo**: notificar inmediatamente, no trabajar en silencio
 5. **Al finalizar**: resumen con métricas (ficheros tocados, cambios, siguiente acción)

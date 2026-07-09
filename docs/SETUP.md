@@ -27,7 +27,7 @@ az devops project list --output table
 
 ## Paso 2 — Editar las constantes
 
-Abre `CLAUDE.md` y edita la sección `⚙️ CONSTANTES DE CONFIGURACIÓN`:
+Abre `CLAUDE.md` y edita la sección ` CONSTANTES DE CONFIGURACIÓN`:
 
 ```
 AZURE_DEVOPS_ORG_URL   → URL de tu organización
@@ -239,7 +239,7 @@ output/agent-runs/                           ← Logs de ejecuciones de agentes
 
 ## Roadmap de Implementación (según propuesta)
 
-- **Semanas 1-2 (Fase 1):** ✅ Estructura creada — Configurar PAT y probar conectividad
+- **Semanas 1-2 (Fase 1):** OK Estructura creada — Configurar PAT y probar conectividad
 - **Semanas 3-4 (Fase 2):** Iterar con `/sprint-status` y `/team-workload` — documentar ajustes
 - **Semanas 5-6 (Fase 3):** Activar `/report-hours` y `/report-executive` con datos reales
 - **Semanas 7-8 (Fase 4):** Activar SDD — generar primeras specs con `/spec-generate` y probar agente con una task piloto

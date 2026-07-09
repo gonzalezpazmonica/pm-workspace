@@ -81,9 +81,9 @@ Modos: `--report` (default, exit 0), `--gate` (exit 1 si fail-severity ≥ N), `
 
 ## Dependencias
 
-- ✅ pr-plan G14 reservado en SE-078 (slot vacío)
-- ✅ `scripts/baseline-tighten.sh` existe (SE-046)
-- ✅ 86 skills bajo `.opencode/skills/` accesibles
+- OK pr-plan G14 reservado en SE-078 (slot vacío)
+- OK `scripts/baseline-tighten.sh` existe (SE-046)
+- OK 86 skills bajo `.opencode/skills/` accesibles
 - Recomendado pero no bloqueante: SE-081/083/085/086/087 mergeados primero (los nuevos skills compliant by design); si vienen después, ya respetan el gate
 
 ## OpenCode Implementation Plan

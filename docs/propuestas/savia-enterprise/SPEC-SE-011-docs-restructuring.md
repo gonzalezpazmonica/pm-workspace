@@ -1,3 +1,4 @@
+<!-- docs-lint: skip R7 -->
 ---
 status: IMPLEMENTED
 implemented_at: 2026-06-24

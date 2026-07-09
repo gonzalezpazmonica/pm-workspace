@@ -58,7 +58,7 @@ Terminar con:
 
 **Sin inclusive-review:**
 ```
-❌ REJECT
+FAIL REJECT
 - Bug en línea 34: el null check está mal
 - Error: falta validación de input
 - El naming no sigue convenciones

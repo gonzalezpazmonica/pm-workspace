@@ -15,7 +15,7 @@ fragmented. AI agents amplify both good and bad practices — DORA 2025
 proved "AI amplifies team dysfunction as often as capability."
 
 Savia Models provide complete, opinionated, executable specifications.
-Not guidelines. Models. Like awesome-design-md's DESIGN.md but for the
+Not guidelines. Models. Like excellent-design-md's DESIGN.md but for the
 entire software development lifecycle.
 
 ## The 3 Principles
@@ -34,11 +34,11 @@ agent integration, CI/CD pipeline — all concrete and actionable.
 ### 3. Philosophy before specification
 
 Every section starts with WHY before WHAT. Understanding intent
-enables principled deviation. Inspired by awesome-design-md.
+enables principled deviation. Inspired by excellent-design-md.
 
 ---
 
-## The 9 Sections (adapted from awesome-design-md)
+## The 9 Sections (adapted from excellent-design-md)
 
 | # | Section | Purpose |
 |---|---------|---------|
@@ -102,13 +102,13 @@ Each project scored 0-3 per section against its model:
 
 ## Sources
 
-- awesome-design-md (VoltAgent) — 9-section executable spec format
+- excellent-design-md (VoltAgent) — 9-section executable spec format
 - Claude Code — hook-first, lazy-loading, subagent isolation
 - DORA 2025 — AI amplifies dysfunction as often as capability
 - Thoughtworks/arXiv — SDD as emerging standard methodology
 - Jason Taylor/Ardalis — Clean Architecture .NET templates
 - Three Dots Labs — Clean Architecture Go (pragmatic)
-- mehdihadeli/awesome-software-architecture — curated patterns
+- mehdihadeli/excellent-software-architecture — curated patterns
 - Anthropic 2026 Agentic Coding Trends Report
 - Hexagonal Architecture convergence across all stacks
 

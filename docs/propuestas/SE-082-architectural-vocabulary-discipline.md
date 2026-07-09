@@ -89,8 +89,8 @@ Atribución MIT a Pocock LANGUAGE.md en header. Re-implementación clean-room �
 
 ## Dependencias
 
-- ✅ SE-080 attention-anchor.md IMPLEMENTED (batch 69)
-- ✅ `architect` y `architecture-judge` agents existen
+- OK SE-080 attention-anchor.md IMPLEMENTED (batch 69)
+- OK `architect` y `architecture-judge` agents existen
 - Sin bloqueantes. Independiente de SE-081 / SE-083 / SE-084.
 
 ## OpenCode Implementation Plan

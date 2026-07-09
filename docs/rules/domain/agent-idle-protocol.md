@@ -54,7 +54,7 @@ esac
 
 | Agent / Shell      | Idle indicator            |
 |--------------------|---------------------------|
-| Claude Code        | `> ` or `❯ ` at line start |
+| Claude Code        | `> ` or ` ` at line start |
 | OpenCode           | Blank line after assistant turn |
 | Generic bash       | Shell prompt `$ ` or `# ` |
 | tmux pane idle     | Cursor at column 0 after newline |

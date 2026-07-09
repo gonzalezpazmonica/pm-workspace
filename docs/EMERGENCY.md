@@ -60,7 +60,7 @@ Si tu equipo tiene **menos de 16GB de RAM**, usa un modelo más pequeño:
 ./scripts/emergency-status.sh
 ```
 
-Deberías ver todo en verde (✓). Si hay problemas, el script te dice qué hacer.
+Deberías ver todo en verde (). Si hay problemas, el script te dice qué hacer.
 
 ### Paso 3: Activar el modo emergencia
 

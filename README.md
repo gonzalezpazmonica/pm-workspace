@@ -1,4 +1,4 @@
-<img width="1856" height="560" alt="pm-workspace header" src="https://raw.githubusercontent.com/gonzalezpazmonica/pm-workspace/main/docs/images/pm-workspace-header.png" />
+<!-- Header image removed per SE-259 S2 -->
 
 **Español** | [English](README.en.md) | [Galego](README.gl.md) | [Euskara](README.eu.md) | [Català](README.ca.md) | [Français](README.fr.md) | [Deutsch](README.de.md) | [Português](README.pt.md) | [Italiano](README.it.md)
 
@@ -52,7 +52,7 @@ Savia se adapta a ti. Si eres PM, te muestra sprints y capacity. Si eres develop
 
 ---
 
-## Hola, soy Savia 🦉
+## Hola, soy Savia 
 
 Soy la buhita que vive dentro de pm-workspace. Me adapto a tu rol, tu idioma y tu forma de trabajar. Funciono con Azure DevOps, Jira, o 100% Git-native con Savia Flow.
 
@@ -120,7 +120,7 @@ Sprint nocturno, mejora de código, investigación técnica. Los agentes propone
 
 ### Extensiones
 
-[Savia Mobile](projects/savia-mobile-android/README.md) (Android nativo) · [Savia Web](projects/savia-web/README.md) (Vue.js dashboards) · [SaviaClaw](zeroclaw/ROADMAP.md) (ESP32 + voz full-duplex)
+[Savia Mobile](projects/savia-mobile-android/README.md) (Android nativo) · Savia Web (Vue.js dashboards) · [SaviaClaw](zeroclaw/ROADMAP.md) (ESP32 + voz full-duplex)
 
 ---
 

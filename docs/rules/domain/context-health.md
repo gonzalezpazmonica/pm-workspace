@@ -23,18 +23,18 @@ Los comandos NUNCA deben volcar información extensa en la conversación.
 **Regla:** Si un resultado supera 30 líneas → guardar en fichero, mostrar resumen.
 
 ```
-❌ MAL: Volcar 200 líneas de audit en la conversación
-✅ BIEN: Guardar en output/audits/..., mostrar 10 líneas de resumen + ruta
+FAIL MAL: Volcar 200 líneas de audit en la conversación
+OK BIEN: Guardar en output/audits/..., mostrar 10 líneas de resumen + ruta
 ```
 
 Formato obligatorio para resultados extensos:
 ```
-📊 Resumen (5-10 líneas máximo en conversación)
-   Score global: 6.2/10 | 🔴 3 críticos | 🟡 5 mejorables | 🟢 4 correctos
+ Resumen (5-10 líneas máximo en conversación)
+   Score global: 6.2/10 | FAIL 3 críticos | WARN 5 mejorables | OK 4 correctos
    Top crítico: SQL injection en AuthController (3 sprints sin resolver)
 
-📄 Detalle completo: output/audits/YYYYMMDD-audit-proyecto.md
-💡 Siguiente paso: /project-release-plan --project proyecto
+ Detalle completo: output/audits/YYYYMMDD-audit-proyecto.md
+ Siguiente paso: /project-release-plan --project proyecto
 ```
 
 ## 1b. Output Compression (SPEC-OUTPUT-COMPRESS)
@@ -69,10 +69,10 @@ Esto evita que el análisis intermedio contamine el contexto principal.
 | Alerta | 70-85% | Bloquear operaciones pesadas | 95-99% |
 | Crítica | >85% | Bloquear todo | <95% |
 
-**Mensajes por zona:** Gradual → `💡 Contexto al XX% — /compact cuando puedas.` · Alerta → `⚠️ Contexto alto — sin operaciones pesadas.` · Crítica → `❌ Compacta ahora.`
+**Mensajes por zona:** Gradual → ` Contexto al XX% — /compact cuando puedas.` · Alerta → `WARN Contexto alto — sin operaciones pesadas.` · Crítica → `FAIL Compacta ahora.`
 
 ### Regla principal
-**TRAS CADA slash command** → terminar con `⚡ /compact` en el banner de finalización.
+**TRAS CADA slash command** → terminar con ` /compact` en el banner de finalización.
 
 ### Al compactar, SIEMPRE preservar
 - Ficheros modificados en la sesión

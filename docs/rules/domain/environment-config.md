@@ -51,7 +51,7 @@ proyecto/
 │   ├── appsettings.DEV.json       ← Config específica DEV (sin secrets)
 │   ├── appsettings.PRE.json       ← Config específica PRE (sin secrets)
 │   └── appsettings.PRO.json       ← Config específica PRO (sin secrets)
-├── config.local/                  ← 🔒 git-ignorado
+├── config.local/                  ←  git-ignorado
 │   ├── .env.DEV                   ← Secrets DEV (connection strings, API keys)
 │   ├── .env.PRE                   ← Secrets PRE
 │   └── .env.PRO                   ← Secrets PRO

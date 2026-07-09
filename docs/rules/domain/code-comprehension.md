@@ -21,9 +21,9 @@ Operationally: the `/comprehension-report` mental model can be understood and ac
 
 Every dev-session completion (per `dev-session-protocol.md`) **SHOULD** trigger:
 ```
-✅ Tests pass
-✅ Code review approved
-⚠️ Generate mental model? /comprehension-report {task-id}
+OK Tests pass
+OK Code review approved
+WARN Generate mental model? /comprehension-report {task-id}
 ```
 
 The "SHOULD" means Savia suggests it, user confirms. Not mandatory, but strongly recommended for:
@@ -45,16 +45,16 @@ Checklist:
 - [ ] On-call runbook feasible (can diagnose without source)
 
 **Rejection criteria:**
-- 🔴 Silently failing error handling (catch {} or suppress)
-- 🔴 No way to diagnose (no logs, no metrics, no error messages)
-- 🔴 Implicit assumptions not documented (race conditions, timing, config)
-- 🔴 External dependency without timeout or fallback
+- FAIL Silently failing error handling (catch {} or suppress)
+- FAIL No way to diagnose (no logs, no metrics, no error messages)
+- FAIL Implicit assumptions not documented (race conditions, timing, config)
+- FAIL External dependency without timeout or fallback
 
 ### Mental Model Freshness
 
 Flag if code changed significantly since last report:
 ```
-⚠️ Code AB#2847 has changed 15% since last comprehension report (2026-03-05).
+WARN Code AB#2847 has changed 15% since last comprehension report (2026-03-05).
    Recommend: /comprehension-report AB#2847 --refresh
 ```
 
@@ -120,12 +120,12 @@ Deploy to staging
 
 Rule header in activity:
 ```
-✅ Código listo para producción
-✅ Tests pasan
-✅ Code review aprobado
-🎯 Modelo mental documentado: output/comprehension/...
+OK Código listo para producción
+OK Tests pasan
+OK Code review aprobado
+ Modelo mental documentado: output/comprehension/...
 
-💡 "¿Debuggeable a las 3AM?" — verificado en code review.
+ "¿Debuggeable a las 3AM?" — verificado en code review.
 ```
 
 ## Related

@@ -81,8 +81,8 @@ Coste de no adoptar: tres patrones útiles quedan sólo en cabeza de Mónica, no
 
 ## Dependencias
 
-- ✅ Rule #24 estable (radical-honesty.md)
-- ✅ `.opencode/skills/` directory existe (86 skills hoy)
+- OK Rule #24 estable (radical-honesty.md)
+- OK `.opencode/skills/` directory existe (86 skills hoy)
 - Sin bloqueantes externos. Independiente de SE-082..SE-087.
 
 ## OpenCode Implementation Plan

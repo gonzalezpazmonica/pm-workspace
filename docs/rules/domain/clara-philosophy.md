@@ -46,11 +46,11 @@ Code / SKILL.md (how to use the skill, implementation details)
 ## Validation
 
 `/plugin-validate` checks for:
-- ✅ SKILL.md exists in every skill directory
-- ✅ DOMAIN.md exists in every skill directory
-- ✅ DOMAIN.md ≤ 60 lines
-- ✅ Required sections present
-- ✅ No orphaned domains (domain skills not in skills/)
+- OK SKILL.md exists in every skill directory
+- OK DOMAIN.md exists in every skill directory
+- OK DOMAIN.md ≤ 60 lines
+- OK Required sections present
+- OK No orphaned domains (domain skills not in skills/)
 
 ## Spanish Content
 

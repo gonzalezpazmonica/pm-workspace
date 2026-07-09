@@ -100,10 +100,10 @@ Sin dependencia FalkorDB ni graphiti-core (AGPL bloqueante). Implementar el PATR
 
 | Capacidad | Hoy | Post Slice 1 | Post Slice 1+2+3 |
 |---|---|---|---|
-| Memoria episódica con TTL | ❌ | ✅ | ✅ |
-| Hybrid search (vector + grafo) | Vector only | ✅ | ✅ |
+| Memoria episódica con TTL | FAIL | OK | OK |
+| Hybrid search (vector + grafo) | Vector only | OK | OK |
 | WIQL hallucination rate | ~20% (estimado) | ~20% | ~5-10% (target) |
-| Auto-recovery de queries fallidas | ❌ | ❌ | ✅ |
+| Auto-recovery de queries fallidas | FAIL | FAIL | OK |
 
 ## Referencias
 

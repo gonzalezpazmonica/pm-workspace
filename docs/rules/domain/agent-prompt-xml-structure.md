@@ -94,10 +94,10 @@ Para migrar un agent existente:
 
 ## Anti-patterns
 
-- ❌ XML tags en agentes haiku/sonnet-4-6 ligeros (overhead sin beneficio)
-- ❌ Duplicar contenido narrativo en XML tags (elegir uno)
-- ❌ Tags custom fuera del set canónico (no hay `<critical>`, `<important>`, `<notes>`)
-- ❌ Query del usuario insertada en medio de la estructura (debe ir AL FINAL)
+- FAIL XML tags en agentes haiku/sonnet-4-6 ligeros (overhead sin beneficio)
+- FAIL Duplicar contenido narrativo en XML tags (elegir uno)
+- FAIL Tags custom fuera del set canónico (no hay `<critical>`, `<important>`, `<notes>`)
+- FAIL Query del usuario insertada en medio de la estructura (debe ir AL FINAL)
 
 ## Evidencia
 

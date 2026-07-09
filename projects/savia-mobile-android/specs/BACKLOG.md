@@ -5,127 +5,127 @@ El proyecto completó la **Fase 0** (Foundation) con éxito. Las fases 1-4 (Chat
 
 ---
 
-## Fase 0: Foundation — ✅ COMPLETADA
+## Fase 0: Foundation — OK COMPLETADA
 
-### PBI-001: Configuración del Proyecto ✅ DONE
+### PBI-001: Configuración del Proyecto OK DONE
 **Historia:** Como desarrollador, quiero un proyecto Android con arquitectura limpia para construir sobre base sólida.
 
 **Aceptación:**
-- ✅ Kotlin + Jetpack Compose (Material 3)
-- ✅ Módulos Clean Architecture: `:app`, `:domain`, `:data`
-- ✅ Hilt para inyección de dependencias (todos los módulos)
-- ✅ Gradle con Kotlin DSL (`build.gradle.kts`)
-- ✅ minSdk 26 (Android 8.0)
-- ✅ Compilación sin errores: `./gradlew assembleDebug`
+- OK Kotlin + Jetpack Compose (Material 3)
+- OK Módulos Clean Architecture: `:app`, `:domain`, `:data`
+- OK Hilt para inyección de dependencias (todos los módulos)
+- OK Gradle con Kotlin DSL (`build.gradle.kts`)
+- OK minSdk 26 (Android 8.0)
+- OK Compilación sin errores: `./gradlew assembleDebug`
 
 **Implementación:** Estructura modular completa con separación clara entre capas.
 
 ---
 
-### PBI-002: Cliente HTTP y Serialización ✅ DONE
+### PBI-002: Cliente HTTP y Serialización OK DONE
 **Historia:** Como usuario, quiero que la app se conecte a Claude API para chatear con Savia.
 
 **Aceptación:**
-- ✅ Retrofit 2.11.0 + OkHttp 4.12.0 (no Ktor)
-- ✅ Kotlinx Serialization para JSON (type-safe)
-- ✅ SSE (Server-Sent Events) streaming implementado
-- ✅ Timeouts configurados (lectura 120s para streaming)
-- ✅ Error handling: red errors, auth errors
-- ✅ Interceptor HTTP para logging (HEADERS level)
+- OK Retrofit 2.11.0 + OkHttp 4.12.0 (no Ktor)
+- OK Kotlinx Serialization para JSON (type-safe)
+- OK SSE (Server-Sent Events) streaming implementado
+- OK Timeouts configurados (lectura 120s para streaming)
+- OK Error handling: red errors, auth errors
+- OK Interceptor HTTP para logging (HEADERS level)
 
 **Decisión:** Retrofit elegido por ecosistema Android maduro. Ktor es multiplataforma pero menos común en Android.
 
 ---
 
-### PBI-003: Cifrado de Credenciales ✅ DONE
+### PBI-003: Cifrado de Credenciales OK DONE
 **Historia:** Como PM, quiero que mis credenciales se almacenen seguros en el dispositivo.
 
 **Aceptación:**
-- ✅ Google Tink 1.10.0 (no EncryptedSharedPreferences deprecated)
-- ✅ AES-256-GCM para AEAD encryption
-- ✅ Android Keystore (hardware-backed en dispositivos modernos)
-- ✅ TinkKeyManager con lazy initialization
-- ✅ Master key persistente en SharedPreferences
-- ✅ Contexto (AAD) para verificación de autenticidad
+- OK Google Tink 1.10.0 (no EncryptedSharedPreferences deprecated)
+- OK AES-256-GCM para AEAD encryption
+- OK Android Keystore (hardware-backed en dispositivos modernos)
+- OK TinkKeyManager con lazy initialization
+- OK Master key persistente en SharedPreferences
+- OK Contexto (AAD) para verificación de autenticidad
 
 **Implementación:** TinkKeyManager.kt con métodos `encryptString()`, `decryptString()`. Master key automático en primer uso.
 
 ---
 
-### PBI-004: Servicios de API ✅ DONE
+### PBI-004: Servicios de API OK DONE
 **Historia:** Como usuario, quiero comunicarme con Claude API directamente.
 
 **Aceptación:**
-- ✅ ClaudeApiService (Retrofit interface)
-- ✅ Streaming de respuestas via OkHttp EventSource
-- ✅ Manejo de deltas de texto (StreamDelta.Text, .Error, .Done)
-- ✅ API key almacenada con Tink (cifrada)
-- ✅ Reintentos con backoff exponencial (OkHttp interceptor)
+- OK ClaudeApiService (Retrofit interface)
+- OK Streaming de respuestas via OkHttp EventSource
+- OK Manejo de deltas de texto (StreamDelta.Text, .Error, .Done)
+- OK API key almacenada con Tink (cifrada)
+- OK Reintentos con backoff exponencial (OkHttp interceptor)
 
 **Implementación:** ClaudeApiService implementa protocol Anthropic Messages API v1.
 
 ---
 
-### PBI-005: Servicio Bridge (local HTTP) ✅ DONE
+### PBI-005: Servicio Bridge (local HTTP) OK DONE
 **Historia:** Como power user, quiero conectar a un bridge local para contexto enriquecido.
 
 **Aceptación:**
-- ✅ SaviaBridgeService (OkHttp, no Retrofit)
-- ✅ Endpoints: POST `/chat`, GET `/health`
-- ✅ SSE streaming desde bridge
-- ✅ Autenticación Bearer token
-- ✅ Aceptación de certificados self-signed (VPN)
-- ✅ Timeout extendido 300s (streaming largo)
-- ✅ Enrutamiento transparente: Bridge si existe, fallback API
+- OK SaviaBridgeService (OkHttp, no Retrofit)
+- OK Endpoints: POST `/chat`, GET `/health`
+- OK SSE streaming desde bridge
+- OK Autenticación Bearer token
+- OK Aceptación de certificados self-signed (VPN)
+- OK Timeout extendido 300s (streaming largo)
+- OK Enrutamiento transparente: Bridge si existe, fallback API
 
 **Implementación:** SaviaBridgeService.kt con `sendMessageStream()` y `healthCheck()`. Routing en ChatRepositoryImpl.
 
 ---
 
-### PBI-006: Tema Violet/Mauve ✅ DONE
+### PBI-006: Tema Violet/Mauve OK DONE
 **Historia:** Como usuario, quiero una interfaz visual coherente con identidad Savia.
 
 **Aceptación:**
-- ✅ Paleta violet/mauve (#6B4C9A primario)
-- ✅ Material 3 color system (light + dark mode)
-- ✅ Colores burbujas chat: violet usuario, lavanda asistente
-- ✅ Accesibilidad: contraste WCAG AA mínimo
-- ✅ Colors.kt completamente documentado
+- OK Paleta violet/mauve (#6B4C9A primario)
+- OK Material 3 color system (light + dark mode)
+- OK Colores burbujas chat: violet usuario, lavanda asistente
+- OK Accesibilidad: contraste WCAG AA mínimo
+- OK Colors.kt completamente documentado
 
 **Decisión:** Violet elegido por asociación con sabiduría y claridad. Mauve para tonos secundarios suaves.
 
 ---
 
-### PBI-007: Módulo de Inyección de Dependencias ✅ DONE
+### PBI-007: Módulo de Inyección de Dependencias OK DONE
 **Historia:** Como desarrollador, quiero DI centralizado para singletons y factories.
 
 **Aceptación:**
-- ✅ NetworkModule para OkHttpClient (2 variantes: API + Bridge)
-- ✅ Retrofit singleton
-- ✅ ClaudeApiService singleton
-- ✅ SaviaBridgeService singleton
-- ✅ Json (Kotlinx Serialization) singleton
-- ✅ Hilt @Module + @Provides
+- OK NetworkModule para OkHttpClient (2 variantes: API + Bridge)
+- OK Retrofit singleton
+- OK ClaudeApiService singleton
+- OK SaviaBridgeService singleton
+- OK Json (Kotlinx Serialization) singleton
+- OK Hilt @Module + @Provides
 
 **Implementación:** NetworkModule.kt con providers para ambos clientes HTTP. Bridge client con TLS permisivo (seguridad por VPN + token).
 
 ---
 
-### PBI-008: Seguridad: Gestión de Secretos ✅ DONE
+### PBI-008: Seguridad: Gestión de Secretos OK DONE
 **Historia:** Como admin, quiero garantizar que los secrets nunca expongan en logs ni memoria.
 
 **Aceptación:**
-- ✅ API keys solo en KeyStore (nunca en SharedPrefs sin cifrar)
-- ✅ Tokens bearer no loggueados
-- ✅ HttpLoggingInterceptor a nivel HEADERS (nunca BODY)
-- ✅ SecureStorage wrapper sobre Tink
-- ✅ Protección contra memory dumps
+- OK API keys solo en KeyStore (nunca en SharedPrefs sin cifrar)
+- OK Tokens bearer no loggueados
+- OK HttpLoggingInterceptor a nivel HEADERS (nunca BODY)
+- OK SecureStorage wrapper sobre Tink
+- OK Protección contra memory dumps
 
 **Implementación:** TinkKeyManager + SecurityRepository cifran todo. Tokens borrados de memoria post-uso.
 
 ---
 
-## Fase 1: Chat MVP — 📋 BACKLOG (Futuro)
+## Fase 1: Chat MVP —  BACKLOG (Futuro)
 
 ### PBI-009: Pantalla de Chat
 **Historia:** Como usuario, quiero conversar con Savia en una interfaz limpia.
@@ -155,7 +155,7 @@ El proyecto completó la **Fase 0** (Foundation) con éxito. Las fases 1-4 (Chat
 
 ---
 
-## Fase 2: Dashboard — 📋 BACKLOG (Futuro)
+## Fase 2: Dashboard —  BACKLOG (Futuro)
 
 ### PBI-013: Dashboard de Salud
 **Historia:** Como PM, quiero ver métricas de workspace en un vistazo.
@@ -178,7 +178,7 @@ El proyecto completó la **Fase 0** (Foundation) con éxito. Las fases 1-4 (Chat
 
 ---
 
-## Fase 3: Conexiones SSH — 📋 BACKLOG (Futuro)
+## Fase 3: Conexiones SSH —  BACKLOG (Futuro)
 
 ### PBI-016: Generación de Keypair
 **Historia:** Como power user, quiero generar mi keypair SSH para conectar.
@@ -201,7 +201,7 @@ El proyecto completó la **Fase 0** (Foundation) con éxito. Las fases 1-4 (Chat
 
 ---
 
-## Fase 4: Polish & Launch — 📋 BACKLOG (Futuro)
+## Fase 4: Polish & Launch —  BACKLOG (Futuro)
 
 ### PBI-019: Onboarding
 **Historia:** Como nuevo usuario, quiero flujo guiado de setup.
@@ -242,11 +242,11 @@ El proyecto completó la **Fase 0** (Foundation) con éxito. Las fases 1-4 (Chat
 
 | Fase | Estado | PBIs | Completados |
 |------|--------|------|------------|
-| Fase 0: Foundation | ✅ DONE | 8 | 8/8 (100%) |
-| Fase 1: Chat MVP | 📋 BACKLOG | 4 | 0/4 (0%) |
-| Fase 2: Dashboard | 📋 BACKLOG | 3 | 0/3 (0%) |
-| Fase 3: SSH | 📋 BACKLOG | 3 | 0/3 (0%) |
-| Fase 4: Launch | 📋 BACKLOG | 6 | 0/6 (0%) |
+| Fase 0: Foundation | OK DONE | 8 | 8/8 (100%) |
+| Fase 1: Chat MVP |  BACKLOG | 4 | 0/4 (0%) |
+| Fase 2: Dashboard |  BACKLOG | 3 | 0/3 (0%) |
+| Fase 3: SSH |  BACKLOG | 3 | 0/3 (0%) |
+| Fase 4: Launch |  BACKLOG | 6 | 0/6 (0%) |
 | **Total** | | **24** | **8/24 (33%)** |
 
 **Velocidad:** Fase 0 completada en tiempo estimado con calidad de producción.

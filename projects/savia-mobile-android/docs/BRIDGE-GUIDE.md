@@ -200,9 +200,9 @@ openssl req -x509 -newkey rsa:2048 \
 ```
 
 **Seguridad:**
-- ✅ En red local/VPN: seguro (no hay MITM)
-- ✅ Autenticación con token mitiga riesgos
-- 🔄 Futuro: Certificate pinning por fingerprint (en cliente Android)
+- OK En red local/VPN: seguro (no hay MITM)
+- OK Autenticación con token mitiga riesgos
+-  Futuro: Certificate pinning por fingerprint (en cliente Android)
 
 ### Token de Autenticación
 

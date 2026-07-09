@@ -15,7 +15,7 @@ implemented_at: "2026-04-24"
 
 ## Why
 
-`github/spec-kit` (88.9k ⭐, 30+ backends) se está convirtiendo en el estándar de facto para Spec-Driven Development en 2026. Savia ya tiene SDD maduro, pero su template propio puede divergir del estándar industria, dificultando:
+`github/spec-kit` (88.9k , 30+ backends) se está convirtiendo en el estándar de facto para Spec-Driven Development en 2026. Savia ya tiene SDD maduro, pero su template propio puede divergir del estándar industria, dificultando:
 
 - Adopción externa por colaboradores
 - Intercambio de specs entre Savia y otros tooling (Copilot, Gemini, Cursor)

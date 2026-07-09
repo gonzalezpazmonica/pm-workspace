@@ -302,4 +302,4 @@ El cerebro lo resuelve con neuronas, sinapsis y el córtex prefrontal. Yo lo res
 
 ---
 
-*🦉 Savia — pm-workspace v0.39.0 · Este artículo forma parte de la documentación de pm-workspace y se publica bajo licencia MIT.*
+* Savia — pm-workspace v0.39.0 · Este artículo forma parte de la documentación de pm-workspace y se publica bajo licencia MIT.*

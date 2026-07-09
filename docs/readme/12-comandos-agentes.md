@@ -410,7 +410,7 @@ Usuario: /pbi-plan-sprint --project Alpha
   │  Si code-reviewer RECHAZA:               │
   │    → {lang}-developer corrige            │
   │    → re-build → re-review (máx 2x)      │
-  │  Si todo ✅ → git commit                 │
+  │  Si todo OK → git commit                 │
   └──────────────────────────────────────────┘
            ↓
   ┌─ test-runner (Sonnet) ──────────────────┐
@@ -420,7 +420,7 @@ Usuario: /pbi-plan-sprint --project Alpha
   │  Si tests fallan:                       │
   │    → {lang}-developer corrige (máx 2x)  │
   │  Si tests pasan → verifica cobertura    │
-  │    ≥ TEST_COVERAGE_MIN_PERCENT → ✅     │
+  │    ≥ TEST_COVERAGE_MIN_PERCENT → OK     │
   │    < TEST_COVERAGE_MIN_PERCENT →        │
   │      architect (análisis gaps) →        │
   │      business-analyst (casos test) →    │
@@ -447,7 +447,7 @@ PM: /infra-plan {proyecto} {env}
   │  5. PROPONER: INFRA-PROPOSAL.md           │
   └───────────────────────────────────────────┘
            ↓
-  ⚠️ REVISIÓN HUMANA OBLIGATORIA
+  WARN REVISIÓN HUMANA OBLIGATORIA
   El PM revisa la propuesta, el coste y aprueba
            ↓
   HUMANO ejecuta: terraform apply / az create

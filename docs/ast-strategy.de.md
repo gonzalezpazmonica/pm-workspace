@@ -113,7 +113,7 @@ Agent erhält in seinem Kontext:
   ╚══════════════════════════════════════════════════╝
   Datei: src/Services/AuthService.cs
   Zeilen: 248  |  Klassen: 1  |  Funktionen: 12
-  Komplexität: 42 Entscheidungspunkte  ⚠️  Mit Vorsicht vorgehen
+  Komplexität: 42 Entscheidungspunkte  WARN  Mit Vorsicht vorgehen
 
   Strukturkarte:
   { "classes": [{ "name": "AuthService", "line": 12 }],

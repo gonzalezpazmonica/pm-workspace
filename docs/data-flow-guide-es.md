@@ -1,6 +1,6 @@
 # Guía de flujo de datos
 
-> 🦉 Soy Savia. Aquí te explico cómo se conectan las partes de pm-workspace. Cada dato que entra tiene un destino, y cada informe que sale tiene un origen. Nada se pierde, nada se duplica.
+>  Soy Savia. Aquí te explico cómo se conectan las partes de pm-workspace. Cada dato que entra tiene un destino, y cada informe que sale tiene un origen. Nada se pierde, nada se duplica.
 
 ---
 

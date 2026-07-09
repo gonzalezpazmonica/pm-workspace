@@ -41,12 +41,12 @@ php artisan test --filter=Feature
 - **Contracts:** Usar interfaces del namespace `Illuminate\Contracts`; nunca depender de clases concretas
 
 ```php
-// ✅ Bien
+// OK Bien
 class OrderService {
     public function __construct(private OrderRepository $orders) {}
 }
 
-// ❌ Mal
+// FAIL Mal
 class OrderService {
     private $orders;
     public function __construct() {
@@ -285,11 +285,11 @@ Añadir en `.claude/settings.json`:
 #### PHP-SEC-01 — Credenciales hardcodeadas
 **Severidad**: Blocker
 ```php
-// ❌ Noncompliant
+// FAIL Noncompliant
 define('API_KEY', 'sk-1234567890abcdef');
 $password = 'SuperSecret123';
 
-// ✅ Compliant
+// OK Compliant
 $apiKey = config('services.api.key');
 $password = env('DB_PASSWORD');
 ```
@@ -297,10 +297,10 @@ $password = env('DB_PASSWORD');
 #### PHP-SEC-02 — Unescaped output (XSS)
 **Severidad**: Blocker
 ```php
-// ❌ Noncompliant
+// FAIL Noncompliant
 echo $userData['name'];  // vulnerable si $userData viene de usuario
 
-// ✅ Compliant
+// OK Compliant
 echo htmlspecialchars($userData['name'], ENT_QUOTES, 'UTF-8');
 // O en Blade:
 {{ $userData['name'] }}  <!-- escapa automáticamente -->
@@ -311,23 +311,23 @@ echo htmlspecialchars($userData['name'], ENT_QUOTES, 'UTF-8');
 #### PHP-BUG-01 — Type coercion bugs
 **Severidad**: Major
 ```php
-// ❌ Noncompliant
+// FAIL Noncompliant
 if ($status == 0) { } // "0" == 0 es true, peligroso
 
-// ✅ Compliant
+// OK Compliant
 if ($status === 0) { } // comparación estricta
 ```
 
 #### PHP-BUG-02 — N+1 queries en loops
 **Severidad**: Major
 ```php
-// ❌ Noncompliant
+// FAIL Noncompliant
 $orders = Order::all();
 foreach ($orders as $order) {
     echo $order->user->name;  // N queries
 }
 
-// ✅ Compliant
+// OK Compliant
 $orders = Order::with('user')->get();  // eager loading
 foreach ($orders as $order) {
     echo $order->user->name;
@@ -350,7 +350,7 @@ Usar early returns, extraer métodos y simplificar condicionales.
 **Severidad**: Critical
 Código PHP no debe contener lógica de negocio en controllers. Usar action classes o services.
 ```php
-// ❌ Noncompliant - Lógica en controller
+// FAIL Noncompliant - Lógica en controller
 public function store(Request $request) {
     $order = Order::create($request->validated());
     $user = $order->user;
@@ -358,7 +358,7 @@ public function store(Request $request) {
     Queue::push(...);
 }
 
-// ✅ Compliant - Usar action/service
+// OK Compliant - Usar action/service
 public function store(StoreOrderRequest $request, CreateOrderAction $action) {
     $order = $action->execute($request->validated());
     return response()->json(new OrderResource($order), 201);

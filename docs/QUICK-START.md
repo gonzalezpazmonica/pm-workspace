@@ -4,7 +4,7 @@
 
 ## What is pm-workspace?
 
-An AI coding assistant workspace (Claude Code / OpenCode) for Project Managers, with 454 commands, 67 skills, 33 agents, and 17 safety hooks — all orchestrated through natural language.
+An AI coding assistant workspace (Claude Code / OpenCode) for Project Managers, with hundreds of commands, skills, agents, and safety hooks — all orchestrated through natural language.
 
 ## First Steps
 
@@ -38,9 +38,9 @@ bash scripts/generate-index.sh --markdown
 
 Every skill has a maturity level in its frontmatter:
 
-- **stable** (51) — production-ready, well-documented, tested
-- **beta** (2) — functional but may evolve
-- **alpha** (14) — experimental, missing frontmatter or documentation
+- **stable** — production-ready, well-documented, tested
+- **beta** — functional but may evolve
+- **alpha** — experimental, missing frontmatter or documentation
 
 ## Safety Hooks
 

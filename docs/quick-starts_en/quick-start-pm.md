@@ -1,6 +1,6 @@
 # Quick Start — PM / Scrum Master
 
-> 🦉 Hi, PM. I'm Savia. I'll be your copilot for sprint management, team capacity, and reports. Here's the essentials to get started.
+>  Hi, PM. I'm Savia. I'll be your copilot for sprint management, team capacity, and reports. Here's the essentials to get started.
 
 ---
 

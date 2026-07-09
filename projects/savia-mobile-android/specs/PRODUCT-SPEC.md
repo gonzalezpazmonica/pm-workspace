@@ -26,26 +26,26 @@
 
 ### 3.1 Home (Dashboard)
 
-**Estado: ✅ FUNCIONAL (via REST /dashboard)**
+**Estado: OK FUNCIONAL (via REST /dashboard)**
 
 La pantalla Home obtiene todos sus datos en una sola llamada REST al endpoint Bridge `GET /dashboard`. El Bridge lee los datos directamente del disco (CLAUDE.md, mock JSON files), sin depender de Claude CLI. Esto hace que la carga sea rapida (~5ms) y fiable.
 
 | Funcionalidad | UI | Datos | Estado |
 |---|---|---|---|
-| Saludo personalizado ("Good morning, {nombre}") | ✅ greeting del dashboard | ✅ `GET /dashboard` → user.greeting | **OK** |
-| Selector de proyecto (dropdown con buscador) | ✅ DropdownMenu con OutlinedTextField | ✅ `GET /dashboard` → projects[] | **OK** |
-| Selector de sprint (dropdown con buscador) | ✅ DropdownMenu con OutlinedTextField | ✅ `GET /dashboard` → sprint.name | **OK** |
-| Sprint Progress (barra + SP completados/total) | ✅ LinearProgressIndicator + texto | ✅ `GET /dashboard` → sprint.progress/completedPoints/totalPoints | **OK** |
-| Métricas: items bloqueados | ✅ MetricCard | ✅ `GET /dashboard` → blockedItems | **OK** |
-| Métricas: horas de hoy | ✅ MetricCard | ✅ `GET /dashboard` → hoursToday | **OK** |
-| My Tasks (tareas Active) | ✅ MyTasksSection | ✅ `GET /dashboard` → myTasks[] | **OK** |
-| Recent Activity (últimos items) | ✅ ActivityItem lista | ✅ `GET /dashboard` → recentActivity[] | **OK** |
-| Quick Actions: "See Board" | ✅ Navega a KanbanScreen | N/A | **OK** |
-| Quick Actions: "Approvals" | ✅ Navega a ApprovalsScreen | N/A | **OK** |
-| FAB: captura rápida | ✅ FloatingActionButton | N/A | **OK** |
-| Refresh en TopAppBar | ✅ Botón con icono | Refresca todo (loadDashboardData) | **OK** |
-| Logo de Savia en TopAppBar | ✅ SaviaLogo component | Identificación visual | **OK** |
-| Versión visible en TopAppBar | ✅ VersionBadge component | BuildConfig.VERSION_NAME | **OK** |
+| Saludo personalizado ("Good morning, {nombre}") | OK greeting del dashboard | OK `GET /dashboard` → user.greeting | **OK** |
+| Selector de proyecto (dropdown con buscador) | OK DropdownMenu con OutlinedTextField | OK `GET /dashboard` → projects[] | **OK** |
+| Selector de sprint (dropdown con buscador) | OK DropdownMenu con OutlinedTextField | OK `GET /dashboard` → sprint.name | **OK** |
+| Sprint Progress (barra + SP completados/total) | OK LinearProgressIndicator + texto | OK `GET /dashboard` → sprint.progress/completedPoints/totalPoints | **OK** |
+| Métricas: items bloqueados | OK MetricCard | OK `GET /dashboard` → blockedItems | **OK** |
+| Métricas: horas de hoy | OK MetricCard | OK `GET /dashboard` → hoursToday | **OK** |
+| My Tasks (tareas Active) | OK MyTasksSection | OK `GET /dashboard` → myTasks[] | **OK** |
+| Recent Activity (últimos items) | OK ActivityItem lista | OK `GET /dashboard` → recentActivity[] | **OK** |
+| Quick Actions: "See Board" | OK Navega a KanbanScreen | N/A | **OK** |
+| Quick Actions: "Approvals" | OK Navega a ApprovalsScreen | N/A | **OK** |
+| FAB: captura rápida | OK FloatingActionButton | N/A | **OK** |
+| Refresh en TopAppBar | OK Botón con icono | Refresca todo (loadDashboardData) | **OK** |
+| Logo de Savia en TopAppBar | OK SaviaLogo component | Identificación visual | **OK** |
+| Versión visible en TopAppBar | OK VersionBadge component | BuildConfig.VERSION_NAME | **OK** |
 
 **Arquitectura**: HomeViewModel llama a `projectRepository.getDashboard()` que hace `GET /dashboard` al Bridge. El Bridge lee los datos del workspace (CLAUDE.md para metadata de proyectos, mock-sprint.json para datos de sprint, mock-workitems.json para tareas). Auto-selecciona el primer proyecto que tenga datos de sprint.
 
@@ -53,25 +53,25 @@ La pantalla Home obtiene todos sus datos en una sola llamada REST al endpoint Br
 
 ### 3.2 Chat
 
-**Estado: ✅ FUNCIONAL**
+**Estado: OK FUNCIONAL**
 
 | Funcionalidad | Estado | Notas |
 |---|---|---|
-| Interfaz Compose + Material 3 | ✅ | Tema violeta/malva correcto |
-| SSE Streaming | ✅ | Flow<StreamDelta> con Text/Done/Error |
-| Historial persistente (Room DB) | ✅ | ChatRepository.getMessages() Flow |
-| Sistema dual (Bridge + API fallback) | ✅ | Chequea hasBridgeConfig() primero |
-| Markdown rendering (Markwon) | ✅ | StrikethroughPlugin + TablePlugin |
-| Autocompletado de slash commands | ✅ | 6 comandos predefinidos en ChatInput |
-| Error handling con snackbar | ✅ | SnackbarHostState en error |
-| Auto-scroll al final | ✅ | animateScrollToItem en LaunchedEffect |
-| session_id | ✅ | UUID dinámico generado por ChatViewModel |
+| Interfaz Compose + Material 3 | OK | Tema violeta/malva correcto |
+| SSE Streaming | OK | Flow<StreamDelta> con Text/Done/Error |
+| Historial persistente (Room DB) | OK | ChatRepository.getMessages() Flow |
+| Sistema dual (Bridge + API fallback) | OK | Chequea hasBridgeConfig() primero |
+| Markdown rendering (Markwon) | OK | StrikethroughPlugin + TablePlugin |
+| Autocompletado de slash commands | OK | 6 comandos predefinidos en ChatInput |
+| Error handling con snackbar | OK | SnackbarHostState en error |
+| Auto-scroll al final | OK | animateScrollToItem en LaunchedEffect |
+| session_id | OK | UUID dinámico generado por ChatViewModel |
 
 **Nota**: El Chat funciona correctamente cuando el Bridge está activo. Usa un session_id UUID generado dinámicamente por ChatViewModel. El Bridge convierte automaticamente session_ids no-UUID a UUID v5 deterministas. Room Database es la única fuente de verdad (SSoT) para mensajes — el ViewModel se suscribe a un Flow de Room vía `subscribeToMessages()` y no añade mensajes manualmente al estado, evitando duplicados.
 
 ### 3.3 Commands
 
-**Estado: ✅ FUNCIONAL (UI only)**
+**Estado: OK FUNCIONAL (UI only)**
 
 - 10 familias de comandos organizadas (hardcoded)
 - Ejecución directa para comandos read-only
@@ -80,53 +80,53 @@ La pantalla Home obtiene todos sus datos en una sola llamada REST al endpoint Br
 
 ### 3.4 Profile
 
-**Estado: ✅ FUNCIONAL**
+**Estado: OK FUNCIONAL**
 
 | Funcionalidad | Estado | Fuente de datos |
 |---|---|---|
-| Cabecera: avatar, nombre, email, rol, org | ✅ | GET `/profile` (REST directo) |
-| Stats: sprints, PBIs, horas | ✅ | GET `/profile` → campo `stats` |
-| Proyectos activos con selector | ✅ | `getProjects()` → GET `/dashboard` (REST, fiable) |
-| Check Updates (siempre visible) | ✅ | GET `/update/check` (REST directo) |
-| Download Update | ✅ | GET `/update/download` → FileProvider → install intent |
-| Progreso de descarga | ✅ | LinearProgressIndicator en UI |
-| Instalación automática post-descarga | ✅ | ACTION_VIEW intent via FileProvider |
-| Versión de app (siempre visible) | ✅ | BuildConfig.VERSION_NAME |
-| Navegación a Settings | ✅ | TopAppBar engranaje |
-| Estado sin Bridge: "Configure Bridge" + Retry | ✅ | Fallback UI |
-| Carga paralela (profile + projects) | ✅ | async(Dispatchers.IO) |
-| Timeout 20s | ✅ | withTimeout(20_000) |
+| Cabecera: avatar, nombre, email, rol, org | OK | GET `/profile` (REST directo) |
+| Stats: sprints, PBIs, horas | OK | GET `/profile` → campo `stats` |
+| Proyectos activos con selector | OK | `getProjects()` → GET `/dashboard` (REST, fiable) |
+| Check Updates (siempre visible) | OK | GET `/update/check` (REST directo) |
+| Download Update | OK | GET `/update/download` → FileProvider → install intent |
+| Progreso de descarga | OK | LinearProgressIndicator en UI |
+| Instalación automática post-descarga | OK | ACTION_VIEW intent via FileProvider |
+| Versión de app (siempre visible) | OK | BuildConfig.VERSION_NAME |
+| Navegación a Settings | OK | TopAppBar engranaje |
+| Estado sin Bridge: "Configure Bridge" + Retry | OK | Fallback UI |
+| Carga paralela (profile + projects) | OK | async(Dispatchers.IO) |
+| Timeout 20s | OK | withTimeout(20_000) |
 
 ### 3.4.1 TopAppBar — Logo + Versión (Todas las pantallas)
 
-**Estado: ✅ FUNCIONAL**
+**Estado: OK FUNCIONAL**
 
 | Elemento | Componentes | Pantallas | Estado |
 |---|---|---|---|
-| Logo Savia + Versión | SaviaLogo + VersionBadge | Home, Chat, Commands, Profile, Settings, GitConfig, TeamManagement, Company, Kanban, Approvals, Capture | ✅ |
+| Logo Savia + Versión | SaviaLogo + VersionBadge | Home, Chat, Commands, Profile, Settings, GitConfig, TeamManagement, Company, Kanban, Approvals, Capture | OK |
 
 **Descripción**: Todas las 13 pantallas principales incluyen en su TopAppBar el logo de Savia (identificación visual del producto) y un badge con la versión actual de la app (BuildConfig.VERSION_NAME). Esto proporciona consistencia visual y permite al usuario verificar la versión instalada en cualquier momento.
 
 ### 3.5 Settings
 
-**Estado: ✅ FUNCIONAL**
+**Estado: OK FUNCIONAL**
 
 | Funcionalidad | Estado | Fuente de datos |
 |---|---|---|
-| Bridge status card (verde/roja) | ✅ | SecurityRepository.hasBridgeConfig() |
-| Perfil de usuario (nombre + email) | ✅ | GET `/profile` |
-| Git Configuration | ✅ | GET/PUT `/git-config` |
-| Team management | ✅ | GET/PUT `/team` |
-| Company profile | ✅ | GET/PUT `/company` |
-| Theme selector (SYSTEM/LIGHT/DARK) | ✅ | Local (SecureStorage) |
-| Language selector (SYSTEM/ES/EN) | ✅ | Local (SecureStorage) |
-| About (versión app + Bridge) | ✅ | BuildConfig + /health |
-| Check Updates (duplicado) | ✅ | GET `/update/check` |
-| Disconnect con confirmación | ✅ | AlertDialog → deleteBridgeConfig() |
+| Bridge status card (verde/roja) | OK | SecurityRepository.hasBridgeConfig() |
+| Perfil de usuario (nombre + email) | OK | GET `/profile` |
+| Git Configuration | OK | GET/PUT `/git-config` |
+| Team management | OK | GET/PUT `/team` |
+| Company profile | OK | GET/PUT `/company` |
+| Theme selector (SYSTEM/LIGHT/DARK) | OK | Local (SecureStorage) |
+| Language selector (SYSTEM/ES/EN) | OK | Local (SecureStorage) |
+| About (versión app + Bridge) | OK | BuildConfig + /health |
+| Check Updates (duplicado) | OK | GET `/update/check` |
+| Disconnect con confirmación | OK | AlertDialog → deleteBridgeConfig() |
 
 ### 3.6 Bridge Setup Dialog
 
-**Estado: ✅ FUNCIONAL**
+**Estado: OK FUNCIONAL**
 
 - **Campos**: Host, Port (default 8922), Token (texto plano, falta toggle visibilidad)
 - **Validación**: Host no vacío, port 1-65535, token no vacío
@@ -138,7 +138,7 @@ La pantalla Home obtiene todos sus datos en una sola llamada REST al endpoint Br
 
 ### 3.7 Onboarding
 
-**Estado: ✅ FUNCIONAL**
+**Estado: OK FUNCIONAL**
 
 - AppStartupViewModel detecta Bridge configurado
 - Detección de idioma (Locale.getDefault().language)
@@ -146,13 +146,13 @@ La pantalla Home obtiene todos sus datos en una sola llamada REST al endpoint Br
 
 ## 4. Navegación
 
-### Bottom Navigation (4 tabs) ✅
+### Bottom Navigation (4 tabs) OK
 1. **Home** (Forum icon) — Dashboard
 2. **Chat** (Chat icon) — Conversación con Claude
 3. **Commands** (Bolt icon) — Comandos slash
 4. **Profile** (Person icon) — Perfil y proyectos
 
-### Pantallas secundarias ✅
+### Pantallas secundarias OK
 - **Settings**: Desde Home (TopAppBar) y Profile (TopAppBar)
 - **Git Config**: Desde Settings
 - **Team Management**: Desde Settings
@@ -162,7 +162,7 @@ La pantalla Home obtiene todos sus datos en una sola llamada REST al endpoint Br
 - **Capture**: Desde Home → FAB
 - **Time Log**: Desde Home (futuro)
 
-### Comportamiento ✅
+### Comportamiento OK
 - `popUpTo(startDestination)` con `launchSingleTop = true`
 - Sin `saveState/restoreState`
 - Start destination: Home
@@ -172,32 +172,32 @@ La pantalla Home obtiene todos sus datos en una sola llamada REST al endpoint Br
 ### Endpoints REST directos (FIABLES)
 | Endpoint | Método | Auth | Uso | Estado |
 |----------|--------|------|-----|--------|
-| `/health` | GET | No | Health check | ✅ Funciona |
-| `/profile` | GET | Bearer | Perfil de usuario | ✅ Funciona |
-| `/profile` | PUT | Bearer | Guardar preferencias | ✅ Funciona |
-| `/git-config` | GET | Bearer | Leer config Git | ✅ Funciona |
-| `/git-config` | PUT | Bearer | Actualizar config Git | ✅ Funciona |
-| `/team` | GET | Bearer | Listar equipo | ✅ Funciona |
-| `/team` | PUT | Bearer | CRUD equipo | ✅ Funciona |
-| `/company` | GET | Bearer | Perfil empresa | ✅ Funciona |
-| `/company` | PUT | Bearer | Actualizar empresa | ✅ Funciona |
-| `/update/check` | GET | No | Comprobar actualizaciones | ✅ Funciona |
-| `/update/download` | GET | No | Descargar APK | ✅ Funciona |
-| `/openapi.json` | GET | No | Spec OpenAPI | ✅ Funciona |
-| `/sessions` | GET | Bearer | Listar sesiones Claude | ✅ Funciona |
-| `/connectors` | GET | Bearer | Estado conectores | ✅ Funciona |
-| `/logs` | GET | Bearer | Logs del Bridge | ✅ Funciona |
+| `/health` | GET | No | Health check | OK Funciona |
+| `/profile` | GET | Bearer | Perfil de usuario | OK Funciona |
+| `/profile` | PUT | Bearer | Guardar preferencias | OK Funciona |
+| `/git-config` | GET | Bearer | Leer config Git | OK Funciona |
+| `/git-config` | PUT | Bearer | Actualizar config Git | OK Funciona |
+| `/team` | GET | Bearer | Listar equipo | OK Funciona |
+| `/team` | PUT | Bearer | CRUD equipo | OK Funciona |
+| `/company` | GET | Bearer | Perfil empresa | OK Funciona |
+| `/company` | PUT | Bearer | Actualizar empresa | OK Funciona |
+| `/update/check` | GET | No | Comprobar actualizaciones | OK Funciona |
+| `/update/download` | GET | No | Descargar APK | OK Funciona |
+| `/openapi.json` | GET | No | Spec OpenAPI | OK Funciona |
+| `/sessions` | GET | Bearer | Listar sesiones Claude | OK Funciona |
+| `/connectors` | GET | Bearer | Estado conectores | OK Funciona |
+| `/logs` | GET | Bearer | Logs del Bridge | OK Funciona |
 
-| `/dashboard` | GET | Bearer | Dashboard completo (projects, sprint, tasks) | ✅ Funciona |
+| `/dashboard` | GET | Bearer | Dashboard completo (projects, sprint, tasks) | OK Funciona |
 
 ### Endpoint Chat (FRÁGIL para datos estructurados)
 | Endpoint | Método | Auth | Uso | Estado | Nota |
 |----------|--------|------|-----|--------|------|
-| `/chat` | POST | Bearer | Chat conversacional SSE | ✅ Para chat funciona | — |
-| `/chat` | POST | Bearer | Obtener projects vía slash command | ⚠️ FRÁGIL — depende de Claude CLI | Migrado a `/dashboard` REST |
-| `/chat` | POST | Bearer | Sprint status vía slash command | ⚠️ FRÁGIL — depende de Claude CLI | Considera usar `/dashboard` |
-| `/chat` | POST | Bearer | Board flow vía slash command | ⚠️ FRÁGIL — depende de Claude CLI | Considera usar `/dashboard` |
-| `/chat` | POST | Bearer | Time entries vía slash command | ⚠️ FRÁGIL — depende de Claude CLI | Considera usar `/dashboard` |
+| `/chat` | POST | Bearer | Chat conversacional SSE | OK Para chat funciona | — |
+| `/chat` | POST | Bearer | Obtener projects vía slash command | WARN FRÁGIL — depende de Claude CLI | Migrado a `/dashboard` REST |
+| `/chat` | POST | Bearer | Sprint status vía slash command | WARN FRÁGIL — depende de Claude CLI | Considera usar `/dashboard` |
+| `/chat` | POST | Bearer | Board flow vía slash command | WARN FRÁGIL — depende de Claude CLI | Considera usar `/dashboard` |
+| `/chat` | POST | Bearer | Time entries vía slash command | WARN FRÁGIL — depende de Claude CLI | Considera usar `/dashboard` |
 
 ### Timeouts y resiliencia
 - `sendChatCommand()`: timeout de 15 segundos (para comandos slash)
@@ -253,7 +253,7 @@ La pantalla Home obtiene todos sus datos en una sola llamada REST al endpoint Br
 - Prueba chat con JSON response y conversión de non-UUID session_id
 - Prueba install server: page, update/check, openapi
 
-### APK Integration Tests (✅ FUNCIONAL)
+### APK Integration Tests (OK FUNCIONAL)
 - **16+ tests ADB black-box contra Bridge en localhost**
 - Valida: emulador, Bridge reachable, API contract, port forwarding, APK install, Bridge config via UI, Home content, dashboard data, selectors, config persistence, navegación Chat/Commands/Profile/Home, logcat errors, update check
 - **Ubicación**: `scripts/tests/test_apk_integration.py`

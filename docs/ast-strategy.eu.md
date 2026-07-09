@@ -113,7 +113,7 @@ Agenteek bere testuinguruan jasotzen du:
   ╚══════════════════════════════════════════════════╝
   Fitxategia: src/Services/AuthService.cs
   Lerroak: 248  |  Klaseak: 1  |  Funtzioak: 12
-  Konplexutasuna: 42 erabaki-puntu  ⚠️  Arretaz jokatu
+  Konplexutasuna: 42 erabaki-puntu  WARN  Arretaz jokatu
 
   Egitura-mapa:
   { "classes": [{ "name": "AuthService", "line": 12 }],

@@ -57,9 +57,9 @@ Si conflicto: mover uno de los agentes a cohorte siguiente
 
 | Escenario | Timeout | Acción |
 |-----------|---------|--------|
-| Agente completa antes de T | — | ✅ Continuar |
-| Agente excede T | 30 min | ❌ Terminar |
-| Cohorte incompleta | 30 min | ❌ DETENER |
+| Agente completa antes de T | — | OK Continuar |
+| Agente excede T | 30 min | FAIL Terminar |
+| Cohorte incompleta | 30 min | FAIL DETENER |
 
 ---
 

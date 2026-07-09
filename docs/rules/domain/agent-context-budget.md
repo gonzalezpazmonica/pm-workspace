@@ -12,7 +12,7 @@ review_note: "Quarterly review 2026-Q2"
 
 # Agent Context Budget Protocol
 
-> 🦉 Cada agente tiene un presupuesto. Gastar solo lo necesario.
+>  Cada agente tiene un presupuesto. Gastar solo lo necesario.
 
 ---
 

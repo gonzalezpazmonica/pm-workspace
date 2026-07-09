@@ -75,7 +75,7 @@ PM-Workspace tiene una arquitectura basada en archivos Markdown que Claude Code 
     └── ★ política-igualdad.md    ← NUEVO: Política de igualdad del workspace
 ```
 
-Los archivos marcados con ★ son nuevos. La intervención se diseña en **cinco niveles** de profundidad, desde directivas globales hasta validación por proyecto.
+Los archivos marcados con  son nuevos. La intervención se diseña en **cinco niveles** de profundidad, desde directivas globales hasta validación por proyecto.
 
 ### 2.2 Estrategia de debiasing multicapa
 
@@ -263,7 +263,7 @@ Si se detecta un patrón sospechoso:
 
 ### Ejemplo de output
 ```text
-⚠️ Equality Shield: Se detectó concentración de tareas de infra
+WARN Equality Shield: Se detectó concentración de tareas de infra
    en Diego (4/5 tareas). Laura tiene expertise documentado en
    K8s (equipo.md). Rebalanceando: AB#1023 → Laura.
    Justificación: expertise equivalente + balance de carga.
@@ -319,28 +319,28 @@ comunicaciones del sprint actual para detectar posibles sesgos.
   Proyecto: ProyectoAlpha
 ═══════════════════════════════════════════════════
 
-  📊 Distribución de asignaciones
+   Distribución de asignaciones
   ────────────────────────────────
-  Laura S.   │ BE: 2  FE: 1  Test: 1  Docs: 0  Infra: 1 │ ✅ Equilibrado
-  Diego T.   │ BE: 3  FE: 0  Test: 0  Docs: 0  Infra: 2 │ ⚠️ Concentración BE+Infra
-  Ana R.     │ BE: 1  FE: 2  Test: 1  Docs: 1  Infra: 0 │ ✅ Equilibrado
-  Carlos M.  │ BE: 1  FE: 1  Test: 2  Docs: 1  Infra: 0 │ ✅ Equilibrado
+  Laura S.   │ BE: 2  FE: 1  Test: 1  Docs: 0  Infra: 1 │ OK Equilibrado
+  Diego T.   │ BE: 3  FE: 0  Test: 0  Docs: 0  Infra: 2 │ WARN Concentración BE+Infra
+  Ana R.     │ BE: 1  FE: 2  Test: 1  Docs: 1  Infra: 0 │ OK Equilibrado
+  Carlos M.  │ BE: 1  FE: 1  Test: 2  Docs: 1  Infra: 0 │ OK Equilibrado
 
-  🔍 Test contrafactual
+   Test contrafactual
   ────────────────────────
-  ✅ 12/15 asignaciones pasan el test contrafactual.
-  ⚠️ 3 asignaciones requieren revisión:
+  OK 12/15 asignaciones pasan el test contrafactual.
+  WARN 3 asignaciones requieren revisión:
      AB#1031 (Docs API) → Ana R. — ¿Por expertise o por patrón?
      AB#1035 (K8s deploy) → Diego T. — Laura tiene expertise K8s.
      AB#1040 (UX review) → Ana R. — Todos tienen formación UX.
 
-  📝 Auditoría de tono
+   Auditoría de tono
   ────────────────────────
-  ✅ Tono uniforme en review del sprint.
-  ⚠️ Retro: Se usa "gran esfuerzo" con Ana y "buen trabajo"
+  OK Tono uniforme en review del sprint.
+  WARN Retro: Se usa "gran esfuerzo" con Ana y "buen trabajo"
      con Diego para logros equivalentes. Normalizar.
 
-  📈 Recomendaciones
+   Recomendaciones
   ────────────────────────
   1. Rotar tareas de infra entre Laura y Diego en próximo sprint.
   2. Asignar próxima task de arquitectura a Ana (objetivo

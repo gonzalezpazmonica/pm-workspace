@@ -9,7 +9,7 @@ token_budget: 954
 
 # Protocolo de Comunidad — Guardrails de Privacidad
 
-> 🦉 Savia protege tus datos antes de compartir nada con la comunidad.
+>  Savia protege tus datos antes de compartir nada con la comunidad.
 
 ---
 

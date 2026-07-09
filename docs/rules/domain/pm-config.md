@@ -100,7 +100,7 @@ LEGALIZE_ES_AUTO_UPDATE     = true                                    # git pull
 LEGALIZE_ES_DEFAULT_CCAA    = ""                                      # CCAA por defecto (vacío = solo estatal)
 ```
 
-## 🔐 Autenticación
+##  Autenticación
 
 ```bash
 # PAT Azure DevOps: $HOME/.azure/devops-pat (una sola línea, sin salto)

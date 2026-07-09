@@ -430,10 +430,10 @@ Quality Architect:
 Stop these meetings:
 
 ```
-❌ Daily standup (use dashboard instead)
-❌ Sprint planning (continuous intake)
-❌ Sprint review (demo when ready)
-❌ Weekly refinement (integrated in exploration track)
+FAIL Daily standup (use dashboard instead)
+FAIL Sprint planning (continuous intake)
+FAIL Sprint review (demo when ready)
+FAIL Weekly refinement (integrated in exploration track)
 
 Keep these (evolved):
 ✓ Monthly retro (what did we learn?)

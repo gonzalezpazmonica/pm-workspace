@@ -209,11 +209,11 @@ Añadir en `.claude/settings.json` o `.claude/settings.local.json`:
 #### RUST-SEC-01 — Credenciales hardcodeadas
 **Severidad**: Blocker
 ```rust
-// ❌ Noncompliant
+// FAIL Noncompliant
 const API_KEY: &str = "sk-1234567890abcdef";
 let password = "SuperSecret123";
 
-// ✅ Compliant
+// OK Compliant
 let api_key = std::env::var("API_KEY").expect("API_KEY not set");
 let password = std::env::var("DB_PASSWORD")?;
 ```
@@ -221,10 +221,10 @@ let password = std::env::var("DB_PASSWORD")?;
 #### RUST-SEC-02 — Unsafe sin justificación documentada
 **Severidad**: Blocker
 ```rust
-// ❌ Noncompliant
+// FAIL Noncompliant
 unsafe { ptr.read() }  // sin comentario explicativo
 
-// ✅ Compliant
+// OK Compliant
 // SAFETY: ptr viene de una Box válida y la Box no se reusa tras este read
 unsafe { ptr.read() }
 ```
@@ -234,10 +234,10 @@ unsafe { ptr.read() }
 #### RUST-BUG-01 — unwrap() sin manejo de error
 **Severidad**: Major
 ```rust
-// ❌ Noncompliant
+// FAIL Noncompliant
 let file = std::fs::read_to_string("data.txt").unwrap();  // panic si no existe
 
-// ✅ Compliant
+// OK Compliant
 let file = std::fs::read_to_string("data.txt")?;
 // o
 let file = std::fs::read_to_string("data.txt")
@@ -247,12 +247,12 @@ let file = std::fs::read_to_string("data.txt")
 #### RUST-BUG-02 — Bloqueo en async sin spawn_blocking
 **Severidad**: Major
 ```rust
-// ❌ Noncompliant
+// FAIL Noncompliant
 async fn fetch_data() {
     let data = expensive_cpu_work();  // bloquea el executor
 }
 
-// ✅ Compliant
+// OK Compliant
 async fn fetch_data() {
     let data = tokio::task::spawn_blocking(expensive_cpu_work).await?;
 }
@@ -274,12 +274,12 @@ Usar early returns, extraer métodos y simplificar condicionales.
 **Severidad**: Critical
 Código Rust no debe clonar datos innecesariamente en caminos críticos.
 ```rust
-// ❌ Noncompliant - Clone en loop
+// FAIL Noncompliant - Clone en loop
 for item in items {
     process(item.clone());  // clone innecesario
 }
 
-// ✅ Compliant - Usar referencia
+// OK Compliant - Usar referencia
 for item in &items {
     process(item);
 }

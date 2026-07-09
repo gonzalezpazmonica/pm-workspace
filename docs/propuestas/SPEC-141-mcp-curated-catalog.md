@@ -26,7 +26,7 @@ Hoy `mcp.json` está intencionalmente vacío para arranque rápido (Rule #19, ar
 - Cada vez que un agente necesita docs frescas reinventa el grep (`Context7` resolvería).
 - Operaciones repetidas en GitHub van por bash + token plain (el MCP oficial GitHub-go es más seguro).
 - No hay un patrón para exponer skills propias (savia-memory, savia-recall, knowledge-graph) como MCP servers consumibles por OpenCode/Cursor/Codex.
-- BlueRock (mayo 2026) detectó SSRF en 36.7% y falta de auth en 41% de servers públicos — instalar a ciegas desde awesome-mcp-servers es ahora un riesgo de seguridad medible.
+- BlueRock (mayo 2026) detectó SSRF en 36.7% y falta de auth en 41% de servers públicos — instalar a ciegas desde excellent-mcp-servers es ahora un riesgo de seguridad medible.
 
 ## Scope
 

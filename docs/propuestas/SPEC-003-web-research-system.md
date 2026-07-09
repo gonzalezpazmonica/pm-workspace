@@ -194,8 +194,8 @@ Azure SDK incluye rate limiting por defecto desde v12.0 [web:1].
 El límite es configurable via RetryOptions [web:1][web:2].
 
 ---
-📚 [web:1] docs.microsoft.com/azure-sdk-retry · 2026-03-15
-📚 [web:2] github.com/Azure/azure-sdk-for-net/issues/28834 · 2026-01-10
+ [web:1] docs.microsoft.com/azure-sdk-retry · 2026-03-15
+ [web:2] github.com/Azure/azure-sdk-for-net/issues/28834 · 2026-01-10
 ```
 
 ---
@@ -256,7 +256,7 @@ Usuario: "¿cómo configuro CORS en ASP.NET 8?"
 
 Las búsquedas web se citan con tipo `web:`:
 ```markdown
-📚 Fuentes:
+ Fuentes:
 - web:docs.microsoft.com/aspnet/cors — CORS en ASP.NET 8
 - rule:template-separation.md — Regla de separación
 ```
@@ -265,7 +265,7 @@ Las búsquedas web se citan con tipo `web:`:
 
 Si `WEB_RESEARCH_ENABLED=true` pero no hay red:
 ```
-⚠️ Sin conexión — búsqueda web no disponible.
+WARN Sin conexión — búsqueda web no disponible.
    Cache local: 23 resultados almacenados.
    ¿Buscar en cache? [S/n]
 ```

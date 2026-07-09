@@ -4,17 +4,17 @@ status: ARCHIVED
 triage_note: "non-spec document, archived 2026-06-24"
 ---
 
-# Propuesta de Incorporación: Awesome Claude Code → pm-workspace
+# Propuesta de Incorporación: excellent Claude Code → pm-workspace
 
 **Fecha:** 2026-02-26
-**Fuente analizada:** [hesreallyhim/awesome-claude-code](https://github.com/hesreallyhim/awesome-claude-code) v2.0.1
+**Fuente analizada:** [hesreallyhim/excellent-claude-code](https://github.com/hesreallyhim/excellent-claude-code) v2.0.1
 **Destino:** pm-workspace (github.com/gonzalezpazmonica/pm-workspace)
 
 ---
 
 ## Resumen ejecutivo
 
-Tras un análisis exhaustivo del repositorio awesome-claude-code (209 recursos curados, 10 categorías, 50+ scripts, 11 workflows) y su cruce con la arquitectura actual de pm-workspace, se identifican **7 incorporaciones viables** que enriquecen el workspace sin generar conflictos con las reglas existentes, y **5 elementos descartados** por redundancia o incompatibilidad.
+Tras un análisis exhaustivo del repositorio excellent-claude-code (209 recursos curados, 10 categorías, 50+ scripts, 11 workflows) y su cruce con la arquitectura actual de pm-workspace, se identifican **7 incorporaciones viables** que enriquecen el workspace sin generar conflictos con las reglas existentes, y **5 elementos descartados** por redundancia o incompatibilidad.
 
 ---
 
@@ -267,4 +267,4 @@ Cada propuesta fue cruzada con las siguientes reglas existentes:
 
 ---
 
-*Propuesta generada a partir del análisis cruzado de awesome-claude-code v2.0.1 y pm-workspace.*
+*Propuesta generada a partir del análisis cruzado de excellent-claude-code v2.0.1 y pm-workspace.*

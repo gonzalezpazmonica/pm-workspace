@@ -1,11 +1,11 @@
 ---
 spec_id: SPEC-146
-title: Watcher mensual de awesome-* repos y upstream tooling (skill-creator, spec-kit, MCP servers)
+title: Watcher mensual de excellent-* repos y upstream tooling (skill-creator, spec-kit, MCP servers)
 status: IMPLEMENTED
 implementation_pr: 767
 implementation_date: "2026-05-23"
 slices_done: "1"
-origin: Investigación 2026-05-23 (P10). El ecosistema (Claude Code, OpenCode, MCP, awesome-claude-code, awesome-agent-skills, awesome-mcp-servers) cambia semanalmente. Sin watcher, Savia re-pide investigación manual cada 3 meses.
+origin: Investigación 2026-05-23 (P10). El ecosistema (Claude Code, OpenCode, MCP, excellent-claude-code, excellent-agent-skills, excellent-mcp-servers) cambia semanalmente. Sin watcher, Savia re-pide investigación manual cada 3 meses.
 severity: Baja — vigilancia continua, no urgencia.
 effort: ~4h (S) — cron + diff + report skill.
 priority: P10 — automatiza inteligencia competitiva.
@@ -18,7 +18,7 @@ related_specs:
   - SPEC-145 (skill-creator/mcp-builder — el watcher detecta updates)
 ---
 
-# SPEC-146 — Awesome Repos Monthly Watcher
+# SPEC-146 — excellent Repos Monthly Watcher
 
 ## Why
 
@@ -26,9 +26,9 @@ La investigación 2026-05-23 (research-tendencias-workspaces-agentes-2026-202605
 
 Los recursos vigilados deberían ser los que cambian con relevancia para Savia:
 
-- `hesreallyhim/awesome-claude-code` — índice curado, suele aparecer 1-2 entries/semana.
-- `VoltAgent/awesome-agent-skills` — >1000 skills, deltas semanales.
-- `punkpeye/awesome-mcp-servers` — >22k servers listados.
+- `hesreallyhim/excellent-claude-code` — índice curado, suele aparecer 1-2 entries/semana.
+- `VoltAgent/excellent-agent-skills` — >1000 skills, deltas semanales.
+- `punkpeye/excellent-mcp-servers` — >22k servers listados.
 - `anthropics/skills` — skill-creator/mcp-builder/webapp-testing, releases periódicas.
 - `github/spec-kit` — releases de slash commands.
 - `modelcontextprotocol/servers` — reference servers.
@@ -48,11 +48,11 @@ Un cron mensual barre los repos, calcula deltas vs el último snapshot, genera u
 2. **Lista vigilada** (`docs/rules/domain/ecosystem-watch-list.yaml`):
    ```yaml
    repos:
-     - github: hesreallyhim/awesome-claude-code
+     - github: hesreallyhim/excellent-claude-code
        interest: nuevos plugins/agents/skills
-     - github: VoltAgent/awesome-agent-skills
+     - github: VoltAgent/excellent-agent-skills
        interest: catalog growth, top categorías
-     - github: punkpeye/awesome-mcp-servers
+     - github: punkpeye/excellent-mcp-servers
        interest: nuevos servers con auth/oauth, filtrar SSRF
      - github: anthropics/skills
        interest: nuevos skills oficiales, releases
@@ -105,8 +105,8 @@ docs/rules/domain/
 
 .savia-memory/
 └── ecosystem-snapshots/
-    ├── awesome-claude-code-2026-05.md
-    ├── awesome-agent-skills-2026-05.md
+    ├── excellent-claude-code-2026-05.md
+    ├── excellent-agent-skills-2026-05.md
     └── ...
 
 output/

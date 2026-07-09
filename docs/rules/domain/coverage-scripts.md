@@ -24,8 +24,8 @@ dotnet test [path-al-sln] --configuration Release --verbosity normal 2>&1
 ```
 
 Interpretar resultado:
-- ✅ Todos los tests pasan → continuar con Paso 4
-- 🔴 Tests fallidos → ir a Paso 3b (delegación a `dotnet-developer`)
+- OK Todos los tests pasan → continuar con Paso 4
+- FAIL Tests fallidos → ir a Paso 3b (delegación a `dotnet-developer`)
 
 ### Paso 3b — Tests fallidos: delegar corrección
 
@@ -65,8 +65,8 @@ cat ./output/coverage-report/Summary.txt
 ```
 
 Interpretar resultado:
-- ✅ Cobertura ≥ TEST_COVERAGE_MIN_PERCENT (80%) → informe de éxito
-- 🔴 Cobertura < 80% → ir a Paso 5 (orquestación de mejora)
+- OK Cobertura ≥ TEST_COVERAGE_MIN_PERCENT (80%) → informe de éxito
+- FAIL Cobertura < 80% → ir a Paso 5 (orquestación de mejora)
 
 ## Paso 5 — Cobertura insuficiente: orquestar mejora
 
@@ -108,8 +108,8 @@ Delegar con:
 | Cobertura insuficiente (análisis) | `architect` | Informe cobertura + umbral + áreas con gaps |
 | Cobertura insuficiente (casos) | `business-analyst` | Análisis architect + reglas negocio |
 | Cobertura insuficiente (código) | `dotnet-developer` | Análisis architect + casos business-analyst |
-| Tests fallan 2+ veces | ❌ Humano | Informe completo ambos intentos |
-| Cobertura no alcanzada 2 ciclos | ❌ Humano | Informe cobertura + tests creados + gaps |
+| Tests fallan 2+ veces | FAIL Humano | Informe completo ambos intentos |
+| Cobertura no alcanzada 2 ciclos | FAIL Humano | Informe cobertura + tests creados + gaps |
 
 ## Formato del informe de ejecución
 
@@ -123,19 +123,19 @@ Delegar con:
   Commit ............................ [hash corto] — [mensaje]
 
   ── Tests ──────────────────────────────────────────────
-  Tests unitarios ................... ✅ XX/XX passed
-  Tests integración ................. ✅ XX/XX passed / ⏭️ no aplica
-  Total ............................. ✅ XX tests passed, 0 failed
+  Tests unitarios ................... OK XX/XX passed
+  Tests integración ................. OK XX/XX passed / ⏭️ no aplica
+  Total ............................. OK XX tests passed, 0 failed
 
   ── Cobertura ──────────────────────────────────────────
   Cobertura global .................. XX.X%
   Umbral mínimo ..................... 80%
-  Estado ............................ ✅ CUMPLE / 🔴 NO CUMPLE (faltan X.X%)
+  Estado ............................ OK CUMPLE / FAIL NO CUMPLE (faltan X.X%)
 
   ── Acciones tomadas ───────────────────────────────────
   [Lista de delegaciones y resultados]
 
-  RESULTADO: ✅ APROBADO / 🔴 ESCALADO AL HUMANO
+  RESULTADO: OK APROBADO / FAIL ESCALADO AL HUMANO
 ═════════════════════════════════════════════════════════════
 ```
 

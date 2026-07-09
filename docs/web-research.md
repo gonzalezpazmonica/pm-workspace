@@ -82,8 +82,8 @@ Savia detecta automáticamente cuando una pregunta es sobre información públic
 Después de cada comando, Savia sugiere 2-3 comandos de follow-up:
 
 ```
-✅ /sprint-status completado
-💡 Siguientes pasos:
+OK /sprint-status completado
+ Siguientes pasos:
    → /board-flow (ver cuellos de botella)
    → /risk-predict (predicción de completitud)
    → /team-workload (balance de carga)

@@ -12,7 +12,7 @@ token_budget: 592
 ## Por qué este checklist
 
 BlueRock (mayo 2026) detectó SSRF en 36.7% y falta de auth en 41% de
-servers MCP públicos. Instalar a ciegas desde `awesome-mcp-servers` es
+servers MCP públicos. Instalar a ciegas desde `excellent-mcp-servers` es
 un riesgo medible. La política mínima:
 
 ## Checklist BlueRock (obligatorio para terceros)
@@ -54,10 +54,10 @@ wrapper `mcp-remote --transport http-only` como stdio.
 
 ## Anti-patterns
 
-- ❌ Activar un server con `autoApprove` global.
-- ❌ Activar un server público sin pasar el audit script.
-- ❌ Persistir tokens en el repo. Usar `${env:VAR}` o `opencode mcp auth`.
-- ❌ Concede scope `write` por defecto. Empezar read-only.
+- FAIL Activar un server con `autoApprove` global.
+- FAIL Activar un server público sin pasar el audit script.
+- FAIL Persistir tokens en el repo. Usar `${env:VAR}` o `opencode mcp auth`.
+- FAIL Concede scope `write` por defecto. Empezar read-only.
 
 ## Auditoría continua
 

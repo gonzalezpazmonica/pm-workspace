@@ -210,11 +210,11 @@ Añadir en `.claude/settings.json`:
 #### SWIFT-SEC-01 — Credenciales hardcodeadas
 **Severidad**: Blocker
 ```swift
-// ❌ Noncompliant
+// FAIL Noncompliant
 let apiKey = "sk-1234567890abcdef"
 let password = "SuperSecret123"
 
-// ✅ Compliant
+// OK Compliant
 let apiKey = Bundle.main.infoDictionary?["API_KEY"] as? String
 let password = Keychain.read(key: "db_password")
 ```
@@ -222,12 +222,12 @@ let password = Keychain.read(key: "db_password")
 #### SWIFT-SEC-02 — URL scheme sin validación
 **Severidad**: Blocker
 ```swift
-// ❌ Noncompliant
+// FAIL Noncompliant
 if let url = URL(string: userInput) {
     UIApplication.shared.open(url)  // podría abrir URL maliciosa
 }
 
-// ✅ Compliant
+// OK Compliant
 let allowed = ["https", "http"]
 if let url = URL(string: userInput),
    allowed.contains(url.scheme ?? "") {
@@ -240,10 +240,10 @@ if let url = URL(string: userInput),
 #### SWIFT-BUG-01 — Force unwrap (!) sin null checking
 **Severidad**: Major
 ```swift
-// ❌ Noncompliant
+// FAIL Noncompliant
 let user = getUser()!  // crash si nil
 
-// ✅ Compliant
+// OK Compliant
 guard let user = getUser() else { return }
 // o
 if let user = getUser() { process(user) }
@@ -252,12 +252,12 @@ if let user = getUser() { process(user) }
 #### SWIFT-BUG-02 — Retain cycle en closures
 **Severidad**: Major
 ```swift
-// ❌ Noncompliant
+// FAIL Noncompliant
 apiClient.fetch { result in
     self.data = result  // captura fuerte de self
 }
 
-// ✅ Compliant
+// OK Compliant
 apiClient.fetch { [weak self] result in
     self?.data = result  // captura débil de self
 }
@@ -279,13 +279,13 @@ Usar early returns, extraer métodos y simplificar condicionales.
 **Severidad**: Critical
 Código Swift no debe actualizar la UI desde un hilo no-principal.
 ```swift
-// ❌ Noncompliant
+// FAIL Noncompliant
 DispatchQueue.global().async {
     let data = fetchData()
     self.label.text = data  // actualizar UI en background thread
 }
 
-// ✅ Compliant
+// OK Compliant
 Task { @MainActor in
     let data = try await fetchData()
     self.label.text = data  // garantizado en main thread

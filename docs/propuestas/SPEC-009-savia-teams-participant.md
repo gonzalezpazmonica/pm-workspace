@@ -107,7 +107,7 @@ Auth: Client credentials (service principal)
 
 2. Al iniciar la reunión:
    → Se une al chat de la reunión
-   → Publica: "Savia aquí. Escuchando y tomando notas. 📝"
+   → Publica: "Savia aquí. Escuchando y tomando notas. "
    → Lee transcript en polling (cada 10s)
 
 3. Durante la reunión:
@@ -117,7 +117,7 @@ Auth: Client credentials (service principal)
      c. Meeting Participant (detectar si debe hablar)
    → Si le preguntan en el chat: responde en chat
    → Si detecta ventana + info crítica: posta en chat
-     con prefijo "⚠️" para distinguir de respuestas normales
+     con prefijo "WARN" para distinguir de respuestas normales
 
 4. Al terminar:
    → Descarga transcript completo
@@ -152,7 +152,7 @@ No necesita voiceprints. Teams ya resuelve la identidad.
 ### Savia interviene proactivamente (solo si CRÍTICO)
 
 ```
-⚠️ Savia: Atención — lo que se acaba de decidir sobre cambiar el
+WARN Savia: Atención — lo que se acaba de decidir sobre cambiar el
 scope del módulo de pagos contradice la decisión del 15-mar
 (decisión-log #47). ¿Queréis que detalle la contradicción?
 ```
@@ -160,7 +160,7 @@ scope del módulo de pagos contradice la decisión del 15-mar
 ### Post-reunión (automático)
 
 ```
-📋 Resumen de reunión — Sprint Review 2026-06
+ Resumen de reunión — Sprint Review 2026-06
 
 Participantes: Carlos, María, Pedro, Ana
 Duración: 45 min
@@ -179,7 +179,7 @@ Riesgos detectados:
 Preguntas sin responder:
   - ¿Quién se encarga del deploy a PRE?
 
-📄 Detalle: projects/alpha/meetings/20260321-sprint-review.md
+ Detalle: projects/alpha/meetings/20260321-sprint-review.md
 ```
 
 ## Configuración
@@ -223,7 +223,7 @@ TEAMS_POST_DIGEST        = true   # publicar digest al terminar
 ### Fase C — Intervención proactiva en chat
 
 - Detecta ventanas (pausa en transcript)
-- Publica alertas críticas con ⚠️
+- Publica alertas críticas con WARN
 - Mismo protocolo de etiqueta que ZeroClaw
 
 ### Fase D — Audio + pantalla compartida (ACS)

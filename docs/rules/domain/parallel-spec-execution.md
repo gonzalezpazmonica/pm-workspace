@@ -108,13 +108,13 @@ En modo determinístico (default tests/CI: `SPEC_BUDGET_DETERMINISTIC=1`), devue
 
 El orquestador respeta TODAS las reglas de `docs/rules/domain/autonomous-safety.md`:
 
-- ❌ NO hace auto-merge de PRs producidos por workers
-- ❌ NO bypassa AUTONOMOUS_REVIEWER
-- ❌ NO mueve workers en main directamente — cada uno crea su rama `agent/spec-<id>-...`
-- ✅ Per-worker timeout vía `MAX_RUNTIME_MINUTES`
-- ✅ Per-worker session log en `output/parallel-runs/<spec_id>/session.log`
-- ✅ Failure de un worker NO mata a los demás (graceful per-worker failure, AC-05)
-- ✅ Hard cap 5 enforced (rechaza valores mayores en el script)
+- FAIL NO hace auto-merge de PRs producidos por workers
+- FAIL NO bypassa AUTONOMOUS_REVIEWER
+- FAIL NO mueve workers en main directamente — cada uno crea su rama `agent/spec-<id>-...`
+- OK Per-worker timeout vía `MAX_RUNTIME_MINUTES`
+- OK Per-worker session log en `output/parallel-runs/<spec_id>/session.log`
+- OK Failure de un worker NO mata a los demás (graceful per-worker failure, AC-05)
+- OK Hard cap 5 enforced (rechaza valores mayores en el script)
 
 ## Cleanup
 

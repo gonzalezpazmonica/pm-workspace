@@ -1,6 +1,6 @@
 # Quick Start — Product Owner
 
-> 🦉 Hola, Product Owner. Soy Savia. Te ayudo a medir el impacto de lo que entregas, gestionar stakeholders y mantener el backlog alineado con la estrategia. Aquí tienes lo esencial.
+>  Hola, Product Owner. Soy Savia. Te ayudo a medir el impacto de lo que entregas, gestionar stakeholders y mantener el backlog alineado con la estrategia. Aquí tienes lo esencial.
 
 ---
 

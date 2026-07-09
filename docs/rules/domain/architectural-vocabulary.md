@@ -7,7 +7,7 @@ token_budget: 1500
 
 > **Pattern alignment**: extiende `attention-anchor.md` (SE-080 Genesis B8 ATTENTION ANCHOR). Vocabulario obligatorio para `architect` y `architecture-judge` agents, y para outputs arquitectónicos (specs, code reviews, refactor plans).
 >
-> **Source**: re-implementación del patrón `mattpocock/skills/improve-codebase-architecture/LANGUAGE.md` (MIT, 26.4k⭐) — clean-room, prosa propia. SE-082.
+> **Source**: re-implementación del patrón `mattpocock/skills/improve-codebase-architecture/LANGUAGE.md` (MIT, 26.4k) — clean-room, prosa propia. SE-082.
 
 ## Por qué
 

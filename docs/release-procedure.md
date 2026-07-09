@@ -1,6 +1,6 @@
 # Procedimiento de Release — pm-workspace
 
-> 🦉 Protocolo obligatorio para cada nueva versión. Seguir en orden estricto.
+>  Protocolo obligatorio para cada nueva versión. Seguir en orden estricto.
 
 ---
 
@@ -109,7 +109,7 @@ Si hay conflictos por squash merge: `git checkout --ours` para ficheros conocido
 □ Meta ficheros actualizados (CLAUDE, READMEs, CHANGELOG, context-map, role-workflows)
 □ Counts actualizados en TODOS los test-*.sh
 □ Test suite nuevo creado y pasando
-□ bash scripts/validate-ci-local.sh → ✅
+□ bash scripts/validate-ci-local.sh → OK
 □ Commit + tag
 □ Push + PR + merge
 □ CI verde en main
@@ -119,4 +119,4 @@ Si hay conflictos por squash merge: `git checkout --ours` para ficheros conocido
 
 ---
 
-*🦉 Si el CI falla, NO avanzar a la siguiente versión. Corregir primero.*
+* Si el CI falla, NO avanzar a la siguiente versión. Corregir primero.*

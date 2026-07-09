@@ -1,6 +1,6 @@
 # Quick Start — CEO / CTO
 
-> 🦉 Hi. I'm Savia. For you, I filter only what requires executive decisions: portfolio status, DORA metrics, AI governance, and alerts that can't wait. No noise, just signal.
+>  Hi. I'm Savia. For you, I filter only what requires executive decisions: portfolio status, DORA metrics, AI governance, and alerts that can't wait. No noise, just signal.
 
 ---
 

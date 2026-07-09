@@ -11,10 +11,10 @@ token_budget: 898
 
 **ANTES de ejecutar la lógica:**
 ```
-✅ Proyecto encontrado: projects/alpha/CLAUDE.md
-✅ Azure DevOps configurado (PAT válido)
-✅ Equipo.md encontrado
-❌ Falta: AZURE_DEVOPS_ORG_URL contiene placeholder "MI-ORGANIZACION"
+OK Proyecto encontrado: projects/alpha/CLAUDE.md
+OK Azure DevOps configurado (PAT válido)
+OK Equipo.md encontrado
+FAIL Falta: AZURE_DEVOPS_ORG_URL contiene placeholder "MI-ORGANIZACION"
 ```
 
 Si falta configuración → Modo interactivo:
@@ -27,12 +27,12 @@ Si falta configuración → Modo interactivo:
 
 Ejemplo:
 ```
-❌ Falta: AZURE_DEVOPS_ORG_URL contiene placeholder "MI-ORGANIZACION"
+FAIL Falta: AZURE_DEVOPS_ORG_URL contiene placeholder "MI-ORGANIZACION"
   Este dato es necesario para conectar con tu organización Azure DevOps.
   → ¿Cuál es la URL de tu organización?
     Ejemplo: https://dev.azure.com/mi-empresa
   PM responde: https://dev.azure.com/acme-corp
-  ✅ Guardado AZURE_DEVOPS_ORG_URL = "https://dev.azure.com/acme-corp"
+  OK Guardado AZURE_DEVOPS_ORG_URL = "https://dev.azure.com/acme-corp"
      en CLAUDE.md
   → Reintentando verificación...
 ```
@@ -41,17 +41,17 @@ Ejemplo:
 
 Para comandos con múltiples pasos:
 ```
-📋 Paso 1/4 — Recopilando datos del sprint...
-📋 Paso 2/4 — Calculando métricas DORA (esto puede tardar ~30s)...
-📋 Paso 3/4 — Analizando deuda técnica...
-📋 Paso 4/4 — Generando informe...
+ Paso 1/4 — Recopilando datos del sprint...
+ Paso 2/4 — Calculando métricas DORA (esto puede tardar ~30s)...
+ Paso 3/4 — Analizando deuda técnica...
+ Paso 4/4 — Generando informe...
 ```
 
 ## Manejo de Errores
 
 **Errores no-críticos (continuar disponible):**
 ```
-⚠️ Error en paso 2/4 — No se pudo conectar con Azure DevOps
+WARN Error en paso 2/4 — No se pudo conectar con Azure DevOps
    Causa: PAT expirado o sin permisos de lectura
    Acción sugerida: Regenera el PAT en dev.azure.com → User Settings → PATs
    ¿Quieres continuar sin los datos de pipelines? (el informe será parcial)
@@ -59,7 +59,7 @@ Para comandos con múltiples pasos:
 
 **Errores críticos (parar):**
 ```
-❌ Error crítico — No se encontró projects/{proyecto}/CLAUDE.md
+FAIL Error crítico — No se encontró projects/{proyecto}/CLAUDE.md
    Este fichero es obligatorio para identificar el proyecto.
    Ejecuta `/help --setup` para configurar el proyecto,
    o crea el fichero manualmente siguiendo la plantilla en docs/SETUP.md
@@ -70,26 +70,26 @@ Para comandos con múltiples pasos:
 **Éxito completo:**
 ```
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-✅ /comando:nombre — Completado
+OK /comando:nombre — Completado
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-📄 Informe guardado en: output/YYYYMMDD-tipo-proyecto.md
-⏱️  Duración: ~45s
+ Informe guardado en: output/YYYYMMDD-tipo-proyecto.md
+  Duración: ~45s
 ```
 
 **Éxito parcial (con avisos):**
 ```
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-⚠️ /comando:nombre — Completado con avisos
+WARN /comando:nombre — Completado con avisos
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-📄 Informe guardado en: output/YYYYMMDD-tipo-proyecto.md
-⚠️  2 dimensiones sin datos (marcadas N/A)
-⏱️  Duración: ~30s
+ Informe guardado en: output/YYYYMMDD-tipo-proyecto.md
+WARN  2 dimensiones sin datos (marcadas N/A)
+  Duración: ~30s
 ```
 
 **Error irrecuperable:**
 ```
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-❌ /comando:nombre — No ejecutado
+FAIL /comando:nombre — No ejecutado
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 Motivo: No se encontró el proyecto "alpha"
 Sugerencia: Ejecuta `/help --setup` para ver proyectos configurados

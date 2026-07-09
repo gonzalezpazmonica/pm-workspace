@@ -60,13 +60,13 @@ Required table columns: `module_id`, `layer`, `path`, `provides`, `tokens`.
 
 | Scenario | Use ACT | Use Real Code |
 |---|---|---|
-| Spec authoring / planning | ✓ | — |
-| Understanding architecture | ✓ | — |
-| Impact analysis | ✓ | — |
-| Production debugging | — | ✓ |
-| Security audit | — | ✓ |
-| CTF is stale | — | ✓ |
-| Implementing exact logic | — | ✓ |
+| Spec authoring / planning |  | — |
+| Understanding architecture |  | — |
+| Impact analysis |  | — |
+| Production debugging | — |  |
+| Security audit | — |  |
+| CTF is stale | — |  |
+| Implementing exact logic | — |  |
 
 **Rule**: ACT is a map, not the territory. When the map and territory disagree,
 the territory (source code) wins.

@@ -80,8 +80,8 @@ Atribución MIT a `mattpocock/skills/tdd/SKILL.md` en header. Clean-room — la 
 
 ## Dependencias
 
-- ✅ test-architect agent existe
-- ✅ `.opencode/skills/` directory existe
+- OK test-architect agent existe
+- OK `.opencode/skills/` directory existe
 - Sin bloqueantes externos. Independiente de SE-081/SE-082/SE-084.
 
 ## OpenCode Implementation Plan

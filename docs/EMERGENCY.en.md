@@ -60,7 +60,7 @@ If your machine has **less than 16GB RAM**, use a smaller model:
 ./scripts/emergency-status.sh
 ```
 
-You should see all green (✓). If there are issues, the script tells you what to do.
+You should see all green (). If there are issues, the script tells you what to do.
 
 ### Step 3: Activate emergency mode
 

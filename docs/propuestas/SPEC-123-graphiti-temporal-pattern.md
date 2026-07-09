@@ -12,7 +12,7 @@ priority: media
 
 ## Why
 
-Graphiti (getzep, 25.1k ⭐) demostró que **cada edge en un knowledge graph debe tener validez temporal**: `valid_from` y `invalid_at`. Esto resuelve:
+Graphiti (getzep, 25.1k ) demostró que **cada edge en un knowledge graph debe tener validez temporal**: `valid_from` y `invalid_at`. Esto resuelve:
 
 - Re-estimación de PBIs sin reescribir historia ("quién poseía qué cuando")
 - Velocity histórica con trazabilidad

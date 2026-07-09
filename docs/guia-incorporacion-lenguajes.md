@@ -185,7 +185,7 @@ Protocolo de reporte idéntico a csharp-rules.md:
 
 ### Criterios de calidad
 
-- [ ] Cada regla tiene ejemplo ❌ incorrecto y ✅ correcto
+- [ ] Cada regla tiene ejemplo FAIL incorrecto y OK correcto
 - [ ] Las severidades están correctamente asignadas
 - [ ] Las reglas de arquitectura reflejan la separación de capas del framework
 - [ ] Se incluyen IDs de regla (SonarQube, ESLint, Clippy, etc.) cuando existen
@@ -374,7 +374,7 @@ FORMAT_COMMAND      = "{format_command}"
 Añadir el nuevo Language Pack a la tabla de Language Packs en `CLAUDE.md`:
 
 ```markdown
-| {Lenguaje} | {lang}-conventions.md | {lang}-rules.md | {lang}-developer | ✅ |
+| {Lenguaje} | {lang}-conventions.md | {lang}-rules.md | {lang}-developer | OK |
 ```
 
 ### 6.2 Actualizar README.md
@@ -438,19 +438,19 @@ Para el comando `/context-load`, detectar el Language Pack automáticamente:
 
 | Lenguaje | Conventions | Rules | Agent | Layer Matrix | Estado |
 |---|---|---|---|---|---|
-| C#/.NET | `dotnet-conventions.md` | `csharp-rules.md` | `dotnet-developer` | `layer-assignment-matrix.md` | ✅ Producción |
-| TypeScript/Node.js | `typescript-conventions.md` | `typescript-rules.md` | `typescript-developer` | `layer-assignment-matrix-typescript.md` | ✅ |
-| Angular | `angular-conventions.md` | (usa typescript-rules) | `frontend-developer` | `layer-assignment-matrix-angular.md` | ✅ |
-| React | `react-conventions.md` | (usa typescript-rules) | `frontend-developer` | `layer-assignment-matrix-react.md` | ✅ |
-| Java/Spring | `java-conventions.md` | `java-rules.md` | `java-developer` | `layer-assignment-matrix-java.md` | ✅ |
-| Python | `python-conventions.md` | `python-rules.md` | `python-developer` | `layer-assignment-matrix-python.md` | ✅ |
-| Go | `go-conventions.md` | `go-rules.md` | `go-developer` | `layer-assignment-matrix-go.md` | ✅ |
-| Rust | `rust-conventions.md` | `rust-rules.md` | `rust-developer` | `layer-assignment-matrix-rust.md` | ✅ |
-| PHP/Laravel | `php-conventions.md` | `php-rules.md` | `php-developer` | `layer-assignment-matrix-php.md` | ✅ |
-| Swift/iOS | `swift-conventions.md` | `swift-rules.md` | `mobile-developer` | `layer-assignment-matrix-swift.md` | ✅ |
-| Kotlin/Android | `kotlin-conventions.md` | `kotlin-rules.md` | `mobile-developer` | `layer-assignment-matrix-kotlin.md` | ✅ |
-| Ruby/Rails | `ruby-conventions.md` | `ruby-rules.md` | `ruby-developer` | `layer-assignment-matrix-ruby.md` | ✅ |
-| VB.NET | `vbnet-conventions.md` | (usa csharp-rules) | `dotnet-developer` | (usa layer-assignment-matrix.md) | ✅ |
-| COBOL | `cobol-conventions.md` | `cobol-rules.md` | `cobol-developer` | `layer-assignment-matrix-cobol.md` | ✅ |
-| Terraform/IaC | `terraform-conventions.md` | `terraform-rules.md` | `terraform-developer` | `layer-assignment-matrix-terraform.md` | ✅ |
-| Flutter/Dart | `flutter-conventions.md` | `flutter-rules.md` | `mobile-developer` | `layer-assignment-matrix-flutter.md` | ✅ |
+| C#/.NET | `dotnet-conventions.md` | `csharp-rules.md` | `dotnet-developer` | `layer-assignment-matrix.md` | OK Producción |
+| TypeScript/Node.js | `typescript-conventions.md` | `typescript-rules.md` | `typescript-developer` | `layer-assignment-matrix-typescript.md` | OK |
+| Angular | `angular-conventions.md` | (usa typescript-rules) | `frontend-developer` | `layer-assignment-matrix-angular.md` | OK |
+| React | `react-conventions.md` | (usa typescript-rules) | `frontend-developer` | `layer-assignment-matrix-react.md` | OK |
+| Java/Spring | `java-conventions.md` | `java-rules.md` | `java-developer` | `layer-assignment-matrix-java.md` | OK |
+| Python | `python-conventions.md` | `python-rules.md` | `python-developer` | `layer-assignment-matrix-python.md` | OK |
+| Go | `go-conventions.md` | `go-rules.md` | `go-developer` | `layer-assignment-matrix-go.md` | OK |
+| Rust | `rust-conventions.md` | `rust-rules.md` | `rust-developer` | `layer-assignment-matrix-rust.md` | OK |
+| PHP/Laravel | `php-conventions.md` | `php-rules.md` | `php-developer` | `layer-assignment-matrix-php.md` | OK |
+| Swift/iOS | `swift-conventions.md` | `swift-rules.md` | `mobile-developer` | `layer-assignment-matrix-swift.md` | OK |
+| Kotlin/Android | `kotlin-conventions.md` | `kotlin-rules.md` | `mobile-developer` | `layer-assignment-matrix-kotlin.md` | OK |
+| Ruby/Rails | `ruby-conventions.md` | `ruby-rules.md` | `ruby-developer` | `layer-assignment-matrix-ruby.md` | OK |
+| VB.NET | `vbnet-conventions.md` | (usa csharp-rules) | `dotnet-developer` | (usa layer-assignment-matrix.md) | OK |
+| COBOL | `cobol-conventions.md` | `cobol-rules.md` | `cobol-developer` | `layer-assignment-matrix-cobol.md` | OK |
+| Terraform/IaC | `terraform-conventions.md` | `terraform-rules.md` | `terraform-developer` | `layer-assignment-matrix-terraform.md` | OK |
+| Flutter/Dart | `flutter-conventions.md` | `flutter-rules.md` | `mobile-developer` | `layer-assignment-matrix-flutter.md` | OK |

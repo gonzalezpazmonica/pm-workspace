@@ -34,7 +34,7 @@ Si `WEB_RESEARCH_AUTO_DETECT=true`, Savia detecta gaps en la conversación:
 
 Si `WEB_RESEARCH_CONFIRM=true`, Savia pregunta antes de buscar:
 ```
-🌐 Necesito buscar en la web: "{query sanitizada}"
+ Necesito buscar en la web: "{query sanitizada}"
    Categoría: {docs|cve|versions|code|general}
    ¿Busco? [S/n]
 ```
@@ -54,7 +54,7 @@ URLs de Azure DevOps, connection strings. Si el query queda vacío → abortar.
 Resultados web se citan con `[web:N]` inline y footer:
 ```
 Azure SDK incluye retry por defecto [web:1].
-📚 [web:1] learn.microsoft.com/azure-sdk-retry
+ [web:1] learn.microsoft.com/azure-sdk-retry
 ```
 
 ## Integración con context-budget

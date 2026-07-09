@@ -62,13 +62,13 @@ El resultado se guarda en `output/sovereignty-scan-YYYYMMDD.md`.
 Savia identifica las dimensiones con score < 70 y te da acciones concretas, ordenadas por impacto/esfuerzo. Ejemplo:
 
 ```
-🔴 D2 Independencia LLM: 35/100
+FAIL D2 Independencia LLM: 35/100
    → Acción: Configura Emergency Mode para operar offline
    → Comando: /emergency-mode setup
    → Esfuerzo: 15 minutos
    → Impacto: +35 puntos en D2
 
-🟡 D4 Gobernanza del consumo: 58/100
+WARN D4 Gobernanza del consumo: 58/100
    → Acción: Crea una política de gobernanza de IA
    → Comando: /governance-policy create
    → Esfuerzo: 30 minutos
@@ -141,7 +141,7 @@ D3 Grafo org.       85  █████████████████░�
 D4 Gobernanza       58  ████████████░░░░░░░░  Sin governance policy formal
 D5 Salida           80  ████████████████░░░░  Docs completos, backups OK
 
-⚠️ D4 bajo 70 → /governance-policy create
+WARN D4 bajo 70 → /governance-policy create
 ```
 
 La consultora tiene un score alto porque pm-workspace guarda todo en Git por diseño. El punto débil es la gobernanza formal (no tienen política documentada). Con `/sovereignty-audit recommend`, obtienen la acción concreta para subir 20 puntos.

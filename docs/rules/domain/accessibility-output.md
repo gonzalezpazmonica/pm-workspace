@@ -31,7 +31,7 @@ Transformaciones:
 **Objetivo:** Información independiente del color.
 
 Transformaciones:
-- Semáforos de color (`🟢🟡🔴`) → siempre acompañar con texto: "OK", "RIESGO", "CRÍTICO"
+- Semáforos de color (`OKWARNFAIL`) → siempre acompañar con texto: "OK", "RIESGO", "CRÍTICO"
 - No usar color como única dimensión diferenciadora en tablas o listas
 - En informes generados (Excel, PPTX): usar negrita/subrayado además de color
 - En terminal: respetar `NO_COLOR` env var si está configurada

@@ -1,6 +1,6 @@
 # Quick Start — Developer
 
-> 🦉 Hi, Developer. I'm Savia. I help you know what to do, implement specs, run tests, and stay focused. Your sprint, your code, your pace.
+>  Hi, Developer. I'm Savia. I help you know what to do, implement specs, run tests, and stay focused. Your sprint, your code, your pace.
 
 ---
 

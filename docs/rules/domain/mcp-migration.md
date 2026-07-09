@@ -13,14 +13,14 @@ y los MCP tools equivalentes de `@azure-devops/mcp`.
 
 | Función script | MCP tool equivalente | Estado | Notas |
 |---|---|---|---|
-| `get_current_sprint` | `get_team_iterations` | ✅ Migrado | MCP devuelve iteraciones del equipo con fechas |
-| `get_sprint_items` | `run_wiql_query` + `get_work_item` | ✅ Migrado | WIQL idéntico, get details por ID |
-| `get_board_status` | `run_wiql_query` + `get_work_item` | ✅ Migrado | Misma WIQL, agrupar por estado en Claude |
-| `update_workitem` | `update_work_item` | ✅ Migrado | MCP soporta update de campos |
-| `batch_get_workitems` | `get_work_item` (por ID) | ✅ Migrado | Llamar por cada ID (MCP no tiene batch nativo) |
-| `get_burndown_data` | ❌ No hay equivalente MCP | 🟡 Mantener script | Requiere Analytics OData, MCP no lo cubre |
-| `get_team_capacities` | ❌ No hay equivalente MCP | 🟡 Mantener script | Requiere Work API (capacities), MCP no lo cubre |
-| `get_velocity_history` | `get_team_iterations` (parcial) | 🟡 Híbrido | MCP da iteraciones, velocity requiere cálculo con SP completados por sprint |
+| `get_current_sprint` | `get_team_iterations` | OK Migrado | MCP devuelve iteraciones del equipo con fechas |
+| `get_sprint_items` | `run_wiql_query` + `get_work_item` | OK Migrado | WIQL idéntico, get details por ID |
+| `get_board_status` | `run_wiql_query` + `get_work_item` | OK Migrado | Misma WIQL, agrupar por estado en Claude |
+| `update_workitem` | `update_work_item` | OK Migrado | MCP soporta update de campos |
+| `batch_get_workitems` | `get_work_item` (por ID) | OK Migrado | Llamar por cada ID (MCP no tiene batch nativo) |
+| `get_burndown_data` | FAIL No hay equivalente MCP | WARN Mantener script | Requiere Analytics OData, MCP no lo cubre |
+| `get_team_capacities` | FAIL No hay equivalente MCP | WARN Mantener script | Requiere Work API (capacities), MCP no lo cubre |
+| `get_velocity_history` | `get_team_iterations` (parcial) | WARN Híbrido | MCP da iteraciones, velocity requiere cálculo con SP completados por sprint |
 
 ## Regla de decisión
 

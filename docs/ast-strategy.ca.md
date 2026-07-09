@@ -113,7 +113,7 @@ Agent rep al seu context:
   ╚══════════════════════════════════════════════════╝
   Fitxer: src/Services/AuthService.cs
   Línies:  248  |  Classes: 1  |  Funcions: 12
-  Complexitat: 42 punts de decisió  ⚠️  Procediu amb cautela
+  Complexitat: 42 punts de decisió  WARN  Procediu amb cautela
 
   Mapa estructural:
   { "classes": [{ "name": "AuthService", "line": 12 }],

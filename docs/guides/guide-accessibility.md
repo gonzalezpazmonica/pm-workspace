@@ -1,6 +1,6 @@
 # Guía de Accesibilidad — Savia para todos
 
-> 🦉 Soy Savia. Me adapto a ti. Esta guía explica cómo trabajo con personas con diferentes necesidades, paso a paso.
+>  Soy Savia. Me adapto a ti. Esta guía explica cómo trabajo con personas con diferentes necesidades, paso a paso.
 
 ---
 
@@ -30,7 +30,7 @@ El 28,6% de los adultos con discapacidad cognitiva en edad laboral están emplea
 **Cómo cambia Savia:**
 - Los burndown ASCII (`████░░░░`) se convierten en texto: "Progreso: 40%, 35 SP completados de 88"
 - Las tablas complejas se convierten en listas descriptivas
-- Los semáforos de color siempre incluyen texto: "CRÍTICO" en vez de solo 🔴
+- Los semáforos de color siempre incluyen texto: "CRÍTICO" en vez de solo FAIL
 - Los separadores decorativos desaparecen
 - Los informes generados (DOCX, PPTX) usan texto descriptivo para gráficos
 

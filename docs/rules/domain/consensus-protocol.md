@@ -66,9 +66,9 @@ Fórmula: `score = (reflection × W_r) + (code × W_c) + (business × W_b)`
 
 | Score | Verdict | Acción |
 |---|---|---|
-| ≥ 0.75 | APPROVED ✅ | Proceder |
-| 0.50-0.74 | CONDITIONAL ⚠️ | Correcciones, re-validar |
-| < 0.50 | REJECTED ❌ | Reworking |
+| ≥ 0.75 | APPROVED OK | Proceder |
+| 0.50-0.74 | CONDITIONAL WARN | Correcciones, re-validar |
+| < 0.50 | REJECTED FAIL | Reworking |
 
 ---
 
@@ -96,7 +96,7 @@ Si un juez difiere > 0.5 del promedio:
 
 - **Total para 3 jueces:** 120 segundos máximo
 - Por juez: 40 segundos
-- Si timeout: usar respuesta parcial (marcar ⚠️)
+- Si timeout: usar respuesta parcial (marcar WARN)
 - Si > 2 jueces timeout: CONDITIONAL (insuficiencia de datos)
 
 ---
@@ -121,11 +121,11 @@ Contiene: input, judges array, veto status, summary (score, verdict, dissents, a
 
 ## Antipatterns (NUNCA)
 
-- ❌ Saltarse jueces por timeout
-- ❌ Override de veto por scoring
-- ❌ Usar consensus selectivamente
-- ❌ Ignorar dissents en CONDITIONAL
-- ❌ Auto-approve si falta juez
+- FAIL Saltarse jueces por timeout
+- FAIL Override de veto por scoring
+- FAIL Usar consensus selectivamente
+- FAIL Ignorar dissents en CONDITIONAL
+- FAIL Auto-approve si falta juez
 
 ---
 

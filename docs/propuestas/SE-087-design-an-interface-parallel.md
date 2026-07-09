@@ -87,8 +87,8 @@ Si el problema es lo bastante grande (>1h por agente), el skill puede pasar la c
 
 ## Dependencias
 
-- ✅ Agent tool con subagent_type=architect existe
-- ✅ SE-074 parallel-specs-orchestrator implementado (no bloqueante para casos pequeños)
+- OK Agent tool con subagent_type=architect existe
+- OK SE-074 parallel-specs-orchestrator implementado (no bloqueante para casos pequeños)
 - **Recomendado**: SE-082 architectural-vocabulary IMPLEMENTED antes (vocabulario en outputs); si después, los sub-agentes usan vocabulario libre y SE-082 corregirá retroactivamente
 - Sin bloqueantes externos.
 

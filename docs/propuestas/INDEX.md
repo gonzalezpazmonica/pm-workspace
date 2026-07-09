@@ -33,13 +33,13 @@
 | SPEC-080 | SPEC-080 — Entrenamiento de LLMs Especializados con Unsloth | P1-Tier1 | — | — | [SPEC-080-custom-llm-training-unsloth.md](./SPEC-080-custom-llm-training-unsloth.md) |
 | SPEC-162 | Self-Evolving Tools (research) | LOW | — | — | [SPEC-162-self-evolving-tools-research.md](./SPEC-162-self-evolving-tools-research.md) |
 | SPEC-191 | Savia Telemetry — OpenTelemetry Observability Dashboard | — | TBD | 199 | [SPEC-191-savia-telemetry.md](./SPEC-191-savia-telemetry.md) |
-| SPEC-SE-027 | SPEC-SE-027: SLM Training Pipeline — Soberanía de Modelos | P1-Tier1 | — | — | [SPEC-SE-027-slm-training.md](./SPEC-SE-027-slm-training.md) |
+| SPEC-SE-027 | SPEC-SE-027: SLM Training Pipeline — Soberanía de Modelos | P1-Tier1 | — | — | [SPEC-SE-027-slm-training.md](./savia-enterprise/SPEC-SE-027-slm-training.md) |
 
 ## IMPLEMENTED (267)
 
 | ID | Title | Priority | Effort | Era | File |
 |---|---|---|---|---|---|
-| SE-002 | — | — | — | — | [SE-002-extension-points.md](./SE-002-extension-points.md) |
+| SE-002 | — | — | — | — | [SE-002-extension-points.md](./savia-enterprise/SE-002-extension-points.md) |
 | SE-029 | Rate-distortion-aware context compression — Savia Dual Compact v2 | — | — | — | [SE-029-rate-distortion-context.md](./SE-029-rate-distortion-context.md) |
 | SE-030 | GraphRAG Quality Gates — receipts + 12 thresholds + seam tests | baja | — | — | [SE-030-graphrag-quality-gates.md](./SE-030-graphrag-quality-gates.md) |
 | SE-031 | Query Library + NL-to-WIQL/JQL — Retool-inspired patterns | media | — | — | [SE-031-query-library-nl.md](./SE-031-query-library-nl.md) |
@@ -232,7 +232,7 @@
 | SPEC-142 | Plugin tool.execute.before — auto-redaction de PATs y secrets via mutación de args | P4 — UX y seguridad determinista. | ~5h (S) — 1 plugin TS + tests + 1 doc. | — | [SPEC-142-pretooluse-input-modification.md](./SPEC-142-pretooluse-input-modification.md) |
 | SPEC-144 | /speckit.* slash command aliases — compatibilidad cross-tool con github/spec-kit | P6 — multiplicador de adopción. | ~4h (S) — 8 ficheros de redirección + tests. | — | [SPEC-144-speckit-slash-aliases.md](./SPEC-144-speckit-slash-aliases.md) |
 | SPEC-145 | Importar anthropics/skill-creator y anthropics/mcp-builder como skills oficiales | P9 — quality of life para el propio mantenimiento de Savia. | ~3h (S) — clonado + verificación + integración. | — | [SPEC-145-import-skill-creator-mcp-builder.md](./SPEC-145-import-skill-creator-mcp-builder.md) |
-| SPEC-146 | Watcher mensual de awesome-* repos y upstream tooling (skill-creator, spec-kit, MCP servers) | P10 — automatiza inteligencia competitiva. | ~4h (S) — cron + diff + report skill. | — | [SPEC-146-awesome-repos-monthly-watcher.md](./SPEC-146-awesome-repos-monthly-watcher.md) |
+| SPEC-146 | Watcher mensual de excellent-* repos y upstream tooling (skill-creator, spec-kit, MCP servers) | P10 — automatiza inteligencia competitiva. | ~4h (S) — cron + diff + report skill. | — | [SPEC-146-excellent-repos-monthly-watcher.md](./SPEC-146-excellent-repos-monthly-watcher.md) |
 | SPEC-147 | Decision trees para los 10 agentes top — completar de 1/10 a 10/10 | P13 — calidad de agentes. | ~10h (M) — 1h por decision tree. | — | [SPEC-147-decision-trees-top-agents.md](./SPEC-147-decision-trees-top-agents.md) |
 | SPEC-149 | Sandbox OS-level para modos autónomos — opencode-sandbox + permission block + Docker doble capa | P1 | ~20h (M) — wrapper + policy + tests + doc. | — | [SPEC-149-sandbox-os-level.md](./SPEC-149-sandbox-os-level.md) |
 | SPEC-150 | Hooks multi-handler — migrar gates críticos a plugin TS (OpenCode events + composición) | P3 — calidad y reducción de falsos positivos. | ~35h (L) — recalibrado 2026-05-23 tras review: Slice 1 (baseline FP/FN 6 hooks × 100 invocaciones) son 4-6h reales; Slice 5 (`agent` handler experimental) puede salir scope si presupuesto aprieta. Original 24h era agresivo. | — | [SPEC-150-hooks-multi-handler-migration.md](./SPEC-150-hooks-multi-handler-migration.md) |
@@ -275,37 +275,37 @@
 | SPEC-199 | — | — | — | — | [SPEC-199-historical-context-tribunal-rounds.md](./SPEC-199-historical-context-tribunal-rounds.md) |
 | SPEC-200 | — | — | — | — | [SPEC-200-adaptive-quality-gate-threshold.md](./SPEC-200-adaptive-quality-gate-threshold.md) |
 | SPEC-INSTALLER-OPENCODE-MIGRATION | Migrar instaladores de Claude Code a OpenCode | — | — | — | [SPEC-INSTALLER-OPENCODE-MIGRATION.md](./SPEC-INSTALLER-OPENCODE-MIGRATION.md) |
-| SPEC-SE-001 | — | — | — | — | [SPEC-SE-001-foundations.md](./SPEC-SE-001-foundations.md) |
-| SPEC-SE-002 | — | — | — | — | [SPEC-SE-002-multi-tenant.md](./SPEC-SE-002-multi-tenant.md) |
-| SPEC-SE-003 | — | — | — | — | [SPEC-SE-003-mcp-catalog.md](./SPEC-SE-003-mcp-catalog.md) |
-| SPEC-SE-004 | — | — | — | — | [SPEC-SE-004-agent-framework-interop.md](./SPEC-SE-004-agent-framework-interop.md) |
-| SPEC-SE-005 | — | — | — | — | [SPEC-SE-005-sovereign-deployment.md](./SPEC-SE-005-sovereign-deployment.md) |
-| SPEC-SE-006 | — | — | — | — | [SPEC-SE-006-governance-compliance.md](./SPEC-SE-006-governance-compliance.md) |
-| SPEC-SE-007 | — | — | — | — | [SPEC-SE-007-enterprise-onboarding.md](./SPEC-SE-007-enterprise-onboarding.md) |
-| SPEC-SE-008 | — | — | — | — | [SPEC-SE-008-licensing-distribution.md](./SPEC-SE-008-licensing-distribution.md) |
-| SPEC-SE-009 | — | — | — | — | [SPEC-SE-009-observability.md](./SPEC-SE-009-observability.md) |
-| SPEC-SE-010 | — | — | — | — | [SPEC-SE-010-migration-path.md](./SPEC-SE-010-migration-path.md) |
-| SPEC-SE-011 | — | — | — | — | [SPEC-SE-011-docs-restructuring.md](./SPEC-SE-011-docs-restructuring.md) |
-| SPEC-SE-012 | — | — | — | — | [SPEC-SE-012-signal-noise-reduction.md](./SPEC-SE-012-signal-noise-reduction.md) |
-| SPEC-SE-014 | — | — | — | — | [SPEC-SE-014-release-orchestration.md](./SPEC-SE-014-release-orchestration.md) |
-| SPEC-SE-015 | — | — | — | — | [SPEC-SE-015-project-prospect.md](./SPEC-SE-015-project-prospect.md) |
-| SPEC-SE-016 | — | — | — | — | [SPEC-SE-016-project-valuation.md](./SPEC-SE-016-project-valuation.md) |
-| SPEC-SE-017 | — | — | — | — | [SPEC-SE-017-project-definition.md](./SPEC-SE-017-project-definition.md) |
-| SPEC-SE-018 | — | — | — | — | [SPEC-SE-018-project-billing.md](./SPEC-SE-018-project-billing.md) |
-| SPEC-SE-019 | — | — | — | — | [SPEC-SE-019-project-evaluation.md](./SPEC-SE-019-project-evaluation.md) |
-| SPEC-SE-020 | — | — | — | — | [SPEC-SE-020-cross-project-deps.md](./SPEC-SE-020-cross-project-deps.md) |
-| SPEC-SE-022 | — | — | — | — | [SPEC-SE-022-resource-bench.md](./SPEC-SE-022-resource-bench.md) |
-| SPEC-SE-023 | — | — | — | — | [SPEC-SE-023-knowledge-federation.md](./SPEC-SE-023-knowledge-federation.md) |
-| SPEC-SE-024 | — | — | — | — | [SPEC-SE-024-client-health.md](./SPEC-SE-024-client-health.md) |
-| SPEC-SE-025 | — | — | — | — | [SPEC-SE-025-agentic-workforce-analytics.md](./SPEC-SE-025-agentic-workforce-analytics.md) |
-| SPEC-SE-026 | — | — | — | — | [SPEC-SE-026-compliance-evidence.md](./SPEC-SE-026-compliance-evidence.md) |
-| SPEC-SE-028 | SPEC-SE-028: Prompt Injection Guard — Context File Scanning | — | — | — | [SPEC-SE-028-prompt-injection-guard.md](./SPEC-SE-028-prompt-injection-guard.md) |
-| SPEC-SE-030 | SPEC-SE-030: Skill Self-Improvement Pipeline | — | — | — | [SPEC-SE-030-skill-self-improvement.md](./SPEC-SE-030-skill-self-improvement.md) |
-| SPEC-SE-032 | — | — | — | — | [SPEC-SE-032-cross-project-lessons.md](./SPEC-SE-032-cross-project-lessons.md) |
-| SPEC-SE-034 | — | — | — | — | [SPEC-SE-034-agent-activation-plan.md](./SPEC-SE-034-agent-activation-plan.md) |
-| SPEC-SE-035 | — | — | — | — | [SPEC-SE-035-reconciliation-delta-engine.md](./SPEC-SE-035-reconciliation-delta-engine.md) |
-| SPEC-SE-036 | — | — | — | — | [SPEC-SE-036-api-key-jwt-mint.md](./SPEC-SE-036-api-key-jwt-mint.md) |
-| SPEC-SE-037 | — | — | — | — | [SPEC-SE-037-audit-jsonb-trigger.md](./SPEC-SE-037-audit-jsonb-trigger.md) |
+| SPEC-SE-001 | — | — | — | — | [SPEC-SE-001-foundations.md](./savia-enterprise/SPEC-SE-001-foundations.md) |
+| SPEC-SE-002 | — | — | — | — | [SPEC-SE-002-multi-tenant.md](./savia-enterprise/SPEC-SE-002-multi-tenant.md) |
+| SPEC-SE-003 | — | — | — | — | [SPEC-SE-003-mcp-catalog.md](./savia-enterprise/SPEC-SE-003-mcp-catalog.md) |
+| SPEC-SE-004 | — | — | — | — | [SPEC-SE-004-agent-framework-interop.md](./savia-enterprise/SPEC-SE-004-agent-framework-interop.md) |
+| SPEC-SE-005 | — | — | — | — | [SPEC-SE-005-sovereign-deployment.md](./savia-enterprise/SPEC-SE-005-sovereign-deployment.md) |
+| SPEC-SE-006 | — | — | — | — | [SPEC-SE-006-governance-compliance.md](./savia-enterprise/SPEC-SE-006-governance-compliance.md) |
+| SPEC-SE-007 | — | — | — | — | [SPEC-SE-007-enterprise-onboarding.md](./savia-enterprise/SPEC-SE-007-enterprise-onboarding.md) |
+| SPEC-SE-008 | — | — | — | — | [SPEC-SE-008-licensing-distribution.md](./savia-enterprise/SPEC-SE-008-licensing-distribution.md) |
+| SPEC-SE-009 | — | — | — | — | [SPEC-SE-009-observability.md](./savia-enterprise/SPEC-SE-009-observability.md) |
+| SPEC-SE-010 | — | — | — | — | [SPEC-SE-010-migration-path.md](./savia-enterprise/SPEC-SE-010-migration-path.md) |
+| SPEC-SE-011 | — | — | — | — | [SPEC-SE-011-docs-restructuring.md](./savia-enterprise/SPEC-SE-011-docs-restructuring.md) |
+| SPEC-SE-012 | — | — | — | — | [SPEC-SE-012-signal-noise-reduction.md](./savia-enterprise/SPEC-SE-012-signal-noise-reduction.md) |
+| SPEC-SE-014 | — | — | — | — | [SPEC-SE-014-release-orchestration.md](./savia-enterprise/SPEC-SE-014-release-orchestration.md) |
+| SPEC-SE-015 | — | — | — | — | [SPEC-SE-015-project-prospect.md](./savia-enterprise/SPEC-SE-015-project-prospect.md) |
+| SPEC-SE-016 | — | — | — | — | [SPEC-SE-016-project-valuation.md](./savia-enterprise/SPEC-SE-016-project-valuation.md) |
+| SPEC-SE-017 | — | — | — | — | [SPEC-SE-017-project-definition.md](./savia-enterprise/SPEC-SE-017-project-definition.md) |
+| SPEC-SE-018 | — | — | — | — | [SPEC-SE-018-project-billing.md](./savia-enterprise/SPEC-SE-018-project-billing.md) |
+| SPEC-SE-019 | — | — | — | — | [SPEC-SE-019-project-evaluation.md](./savia-enterprise/SPEC-SE-019-project-evaluation.md) |
+| SPEC-SE-020 | — | — | — | — | [SPEC-SE-020-cross-project-deps.md](./savia-enterprise/SPEC-SE-020-cross-project-deps.md) |
+| SPEC-SE-022 | — | — | — | — | [SPEC-SE-022-resource-bench.md](./savia-enterprise/SPEC-SE-022-resource-bench.md) |
+| SPEC-SE-023 | — | — | — | — | [SPEC-SE-023-knowledge-federation.md](./savia-enterprise/SPEC-SE-023-knowledge-federation.md) |
+| SPEC-SE-024 | — | — | — | — | [SPEC-SE-024-client-health.md](./savia-enterprise/SPEC-SE-024-client-health.md) |
+| SPEC-SE-025 | — | — | — | — | [SPEC-SE-025-agentic-workforce-analytics.md](./savia-enterprise/SPEC-SE-025-agentic-workforce-analytics.md) |
+| SPEC-SE-026 | — | — | — | — | [SPEC-SE-026-compliance-evidence.md](./savia-enterprise/SPEC-SE-026-compliance-evidence.md) |
+| SPEC-SE-028 | SPEC-SE-028: Prompt Injection Guard — Context File Scanning | — | — | — | [SPEC-SE-028-prompt-injection-guard.md](./savia-enterprise/SPEC-SE-028-prompt-injection-guard.md) |
+| SPEC-SE-030 | SPEC-SE-030: Skill Self-Improvement Pipeline | — | — | — | [SPEC-SE-030-skill-self-improvement.md](./savia-enterprise/SPEC-SE-030-skill-self-improvement.md) |
+| SPEC-SE-032 | — | — | — | — | [SPEC-SE-032-cross-project-lessons.md](./savia-enterprise/SPEC-SE-032-cross-project-lessons.md) |
+| SPEC-SE-034 | — | — | — | — | [SPEC-SE-034-agent-activation-plan.md](./savia-enterprise/SPEC-SE-034-agent-activation-plan.md) |
+| SPEC-SE-035 | — | — | — | — | [SPEC-SE-035-reconciliation-delta-engine.md](./savia-enterprise/SPEC-SE-035-reconciliation-delta-engine.md) |
+| SPEC-SE-036 | — | — | — | — | [SPEC-SE-036-api-key-jwt-mint.md](./savia-enterprise/SPEC-SE-036-api-key-jwt-mint.md) |
+| SPEC-SE-037 | — | — | — | — | [SPEC-SE-037-audit-jsonb-trigger.md](./savia-enterprise/SPEC-SE-037-audit-jsonb-trigger.md) |
 
 ## REJECTED (3)
 
@@ -327,11 +327,11 @@
 | ID | Title | Priority | Effort | Era | File |
 |---|---|---|---|---|---|
 | adr-connectors-vs-mcp | — | — | — | — | [adr-connectors-vs-mcp.md](./adr-connectors-vs-mcp.md) |
-| DEVELOPMENT-PLAN | — | — | — | — | [DEVELOPMENT-PLAN.md](./DEVELOPMENT-PLAN.md) |
+| DEVELOPMENT-PLAN | — | — | — | — | [DEVELOPMENT-PLAN.md](./savia-enterprise/DEVELOPMENT-PLAN.md) |
 | era21-masterplan | — | — | — | — | [era21-masterplan.md](./era21-masterplan.md) |
-| extension-points | — | — | — | — | [extension-points.md](./extension-points.md) |
+| extension-points | — | — | — | — | [extension-points.md](./savia-enterprise/extension-points.md) |
 | investigacion-ecosistema- | — | — | — | — | [investigacion-ecosistema-claude-code-2026.md](./investigacion-ecosistema-claude-code-2026.md) |
-| propuesta-incorporacion-a | — | — | — | — | [propuesta-incorporacion-awesome-claude-code.md](./propuesta-incorporacion-awesome-claude-code.md) |
+| propuesta-incorporacion-a | — | — | — | — | [propuesta-incorporacion-excellent-claude-code.md](./propuesta-incorporacion-excellent-claude-code.md) |
 | propuesta-onboarding-y-ev | — | — | — | — | [propuesta-onboarding-y-evaluacion.md](./propuesta-onboarding-y-evaluacion.md) |
 | propuesta-pr-guardian-sys | — | — | — | — | [propuesta-pr-guardian-system.md](./propuesta-pr-guardian-system.md) |
 | ROADMAP | Savia Roadmap — Canonical single source of truth | — | — | — | [ROADMAP.md](./ROADMAP.md) |
@@ -372,11 +372,11 @@
 | SPEC-100 | GAIA Benchmark Integration — External Quality Validation for Agents | baja | ~5 días (40h) | — | [SPEC-100-gaia-benchmark-integration.md](./SPEC-100-gaia-benchmark-integration.md) |
 | SPEC-113 | Knowledge-graph query modes (local/global/hybrid) | — | — | — | [SPEC-113-graph-query-modes.md](./SPEC-113-graph-query-modes.md) |
 | SPEC-114 | Docs alignment post-SPEC-109/111/112/113 | — | — | — | [SPEC-114-docs-savia-alignment.md](./SPEC-114-docs-savia-alignment.md) |
-| SPEC-SE-013 | — | — | — | — | [SPEC-SE-013-dual-estimation.md](./SPEC-SE-013-dual-estimation.md) |
-| SPEC-SE-021 | — | — | — | — | [SPEC-SE-021-code-review-court.md](./SPEC-SE-021-code-review-court.md) |
-| SPEC-SE-029 | SPEC-SE-029: Iterative Context Compression | — | — | — | [SPEC-SE-029-iterative-compression.md](./SPEC-SE-029-iterative-compression.md) |
-| SPEC-SE-031 | — | — | — | — | [SPEC-SE-031-delegation-toolset-enforcement.md](./SPEC-SE-031-delegation-toolset-enforcement.md) |
-| SPEC-SE-033 | — | — | — | — | [SPEC-SE-033-context-rotation.md](./SPEC-SE-033-context-rotation.md) |
+| SPEC-SE-013 | — | — | — | — | [SPEC-SE-013-dual-estimation.md](./savia-enterprise/SPEC-SE-013-dual-estimation.md) |
+| SPEC-SE-021 | — | — | — | — | [SPEC-SE-021-code-review-court.md](./savia-enterprise/SPEC-SE-021-code-review-court.md) |
+| SPEC-SE-029 | SPEC-SE-029: Iterative Context Compression | — | — | — | [SPEC-SE-029-iterative-compression.md](./savia-enterprise/SPEC-SE-029-iterative-compression.md) |
+| SPEC-SE-031 | — | — | — | — | [SPEC-SE-031-delegation-toolset-enforcement.md](./savia-enterprise/SPEC-SE-031-delegation-toolset-enforcement.md) |
+| SPEC-SE-033 | — | — | — | — | [SPEC-SE-033-context-rotation.md](./savia-enterprise/SPEC-SE-033-context-rotation.md) |
 
 ---
 

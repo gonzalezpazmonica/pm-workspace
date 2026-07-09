@@ -53,32 +53,32 @@ PM-Workspace tiene 457+ slash commands. Escribirlos en chat es tedioso en móvil
 
 | Familia | Icono | Comandos móvil-friendly | Tipo |
 |---------|-------|------------------------|------|
-| **Sprint** | 🏃 | sprint-status, sprint-forecast, velocity-trend, board-flow, kpi-dashboard | Solo lectura |
-| **Mi Trabajo** | 👤 | my-sprint (nuevo), team-workload, pbi-assign | Lectura + acción |
-| **Backlog** | 📋 | backlog-capture, pbi-decompose, pbi-jtbd | Escritura rápida |
-| **Horas** | ⏱️ | report-hours, daily-log (nuevo) | Escritura rápida |
-| **Calidad** | ✅ | pr-pending, testplan-status, security-alerts | Solo lectura |
-| **Equipo** | 👥 | team-workload, report-capacity, team-onboarding | Solo lectura |
-| **Repos** | 🔀 | repos-pr-list, pr-review (resumen), repos-branches | Lectura + links |
-| **Pipelines** | 🚀 | pipeline-status, pipeline-run | Lectura + 1 acción |
-| **Infra** | ☁️ | infra-status, infra-estimate | Solo lectura |
-| **Conectores** | 🔗 | notify-slack, notify-whatsapp, slack-search | Acción rápida |
+| **Sprint** |  | sprint-status, sprint-forecast, velocity-trend, board-flow, kpi-dashboard | Solo lectura |
+| **Mi Trabajo** |  | my-sprint (nuevo), team-workload, pbi-assign | Lectura + acción |
+| **Backlog** |  | backlog-capture, pbi-decompose, pbi-jtbd | Escritura rápida |
+| **Horas** |  | report-hours, daily-log (nuevo) | Escritura rápida |
+| **Calidad** | OK | pr-pending, testplan-status, security-alerts | Solo lectura |
+| **Equipo** |  | team-workload, report-capacity, team-onboarding | Solo lectura |
+| **Repos** |  | repos-pr-list, pr-review (resumen), repos-branches | Lectura + links |
+| **Pipelines** |  | pipeline-status, pipeline-run | Lectura + 1 acción |
+| **Infra** |  | infra-status, infra-estimate | Solo lectura |
+| **Conectores** |  | notify-slack, notify-whatsapp, slack-search | Acción rápida |
 
 #### UX del Command Palette
 
 ```
 ┌──────────────────────────────┐
-│ 🔍 Buscar comando...        │
+│  Buscar comando...        │
 ├──────────────────────────────┤
 │ Sprint │ Mi Trabajo │ Backlog│ ← Tabs scrollables
 ├──────────────────────────────┤
 │ ┌────────┐ ┌────────┐       │
-│ │ 🏃     │ │ 📊     │       │ ← Grid 2 columnas
+│ │ 🏃     │ │      │       │ ← Grid 2 columnas
 │ │ Sprint │ │ Veloci- │       │
 │ │ Status │ │ dad     │       │
 │ └────────┘ └────────┘       │
 │ ┌────────┐ ┌────────┐       │
-│ │ 🎯     │ │ 📈     │       │
+│ │      │ │      │       │
 │ │ Board  │ │ KPI    │       │
 │ │ Flow   │ │ Dash   │       │
 │ └────────┘ └────────┘       │
@@ -168,11 +168,11 @@ La pantalla actual de Dashboard (Sessions) solo muestra conversaciones. Podría 
 │ │ ████████████░░░░  12/15  │ │
 │ └──────────────────────────┘ │
 │ ┌────────────┐┌────────────┐ │
-│ │ 🔴 3       ││ ⏱️ 6.5h    │ │ ← Widget doble
+│ │ FAIL 3       ││  6.5h    │ │ ← Widget doble
 │ │ Bloqueados ││ Hoy logadas│ │
 │ └────────────┘└────────────┘ │
 │ ┌──────────────────────────┐ │
-│ │ 📋 Mis tareas (5)       │ │ ← Widget: lista compacta
+│ │  Mis tareas (5)       │ │ ← Widget: lista compacta
 │ │ • Fix auth bug    [▓▓░]  │ │
 │ │ • Update API docs [▓░░]  │ │
 │ │ • Review PR #45   [░░░]  │ │
@@ -184,7 +184,7 @@ La pantalla actual de Dashboard (Sessions) solo muestra conversaciones. Podría 
 │ │ Pipeline deploy OK       │ │
 │ └──────────────────────────┘ │
 ├──────────────────────────────┤
-│ 💬 Chat  │ 🏠 Home │ ⚡ Cmd │ ← Nav inferior rediseñada
+│ 💬 Chat  │ 🏠 Home │  Cmd │ ← Nav inferior rediseñada
 └──────────────────────────────┘
 ```
 
@@ -236,13 +236,13 @@ La imputación de horas es una tarea diaria obligatoria en muchas empresas. Hace
 
 ```
 ┌──────────────────────────────┐
-│ ⏱️ Tiempo Hoy: 6h 30m       │
+│  Tiempo Hoy: 6h 30m       │
 ├──────────────────────────────┤
 │ Task     │ Horas │ Estado    │
 │──────────│───────│──────────│
-│ PBI-234  │ 3.0h  │ ✅       │
-│ PBI-456  │ 2.5h  │ ✅       │
-│ PBI-789  │ 1.0h  │ 🔄       │
+│ PBI-234  │ 3.0h  │ OK       │
+│ PBI-456  │ 2.5h  │ OK       │
+│ PBI-789  │ 1.0h  │        │
 ├──────────────────────────────┤
 │ [+ Añadir entrada]          │
 └──────────────────────────────┘
@@ -302,15 +302,15 @@ Ciertas acciones en PM-Workspace requieren aprobación humana (infra, deploys a 
 
 ```
 ┌──────────────────────────────┐
-│ ⚡ Pendiente de tu aprobación │
+│  Pendiente de tu aprobación │
 ├──────────────────────────────┤
 │ 🔀 PR #67: Fix auth cache   │
 │ Juan García · hace 2h        │
-│ [✅ Aprobar] [❌ Rechazar]    │
+│ [OK Aprobar] [FAIL Rechazar]    │
 ├──────────────────────────────┤
 │ ☁️ Infra: Scale API to 4 pods│
 │ Coste: +€45/mes              │
-│ [✅ Aprobar] [❌ Rechazar]    │
+│ [OK Aprobar] [FAIL Rechazar]    │
 └──────────────────────────────┘
 ```
 
@@ -358,10 +358,10 @@ Ver el tablero del sprint requiere abrir Azure DevOps en el navegador.
 
 | Tab | Pantalla | Contenido |
 |-----|----------|-----------|
-| 🏠 **Home** | Dashboard inteligente | Widgets, actividad, resumen sprint |
-| 💬 **Chat** | Chat conversacional | Chat SSE actual + slash commands |
-| ⚡ **Comandos** | Command Palette | Familias, buscador, favoritos, recientes |
-| 👤 **Perfil** | Perfil + Settings | Datos usuario, proyecto, ajustes |
+|  **Home** | Dashboard inteligente | Widgets, actividad, resumen sprint |
+|  **Chat** | Chat conversacional | Chat SSE actual + slash commands |
+|  **Comandos** | Command Palette | Familias, buscador, favoritos, recientes |
+|  **Perfil** | Perfil + Settings | Datos usuario, proyecto, ajustes |
 
 ### Flujos principales
 

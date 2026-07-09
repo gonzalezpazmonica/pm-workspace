@@ -123,10 +123,10 @@ Artefactos:
 - BATS tests sobre los 5 artefactos.
 
 Acceptance criteria Slice 1:
-- AC-1.1: cada hook que use `CLAUDE_PROJECT_DIR` puede source `savia-env.sh` y obtener `SAVIA_WORKSPACE_DIR` con fallback funcional bajo cualquier shell. ✅ IMPLEMENTED.
-- AC-1.2: `~/.savia/preferences.yaml` schema permite a cualquier usuario declarar su stack (frontend × provider × capabilities × budget × auth). El comando `/savia-setup` entrevista interactivamente y persiste. Re-ejecutable idempotentemente. ✅ IMPLEMENTED.
-- AC-1.3: `model-alias-schema.md` documenta el schema YAML user-extensible con ≥3 ejemplos genéricos. Cero hardcoded vendor IDs en scripts — los mappings vienen de preferences.yaml. ✅ IMPLEMENTED.
-- AC-1.4: framework respeta preferences.yaml cuando existe; autodetect cuando no existe; `unknown` provider permitido y NO bloqueante. ✅ IMPLEMENTED.
+- AC-1.1: cada hook que use `CLAUDE_PROJECT_DIR` puede source `savia-env.sh` y obtener `SAVIA_WORKSPACE_DIR` con fallback funcional bajo cualquier shell. OK IMPLEMENTED.
+- AC-1.2: `~/.savia/preferences.yaml` schema permite a cualquier usuario declarar su stack (frontend × provider × capabilities × budget × auth). El comando `/savia-setup` entrevista interactivamente y persiste. Re-ejecutable idempotentemente. OK IMPLEMENTED.
+- AC-1.3: `model-alias-schema.md` documenta el schema YAML user-extensible con ≥3 ejemplos genéricos. Cero hardcoded vendor IDs en scripts — los mappings vienen de preferences.yaml. OK IMPLEMENTED.
+- AC-1.4: framework respeta preferences.yaml cuando existe; autodetect cuando no existe; `unknown` provider permitido y NO bloqueante. OK IMPLEMENTED.
 
 ### Slice 2 (M, 16-20h) — Hook portability classifier + critical TS plugin
 
@@ -143,10 +143,10 @@ Artefactos:
 - BATS tests para classifier + plugin TS skeleton: `tests/structure/test-spec-127-slice2a-hook-classifier.bats` (Slice 2a, classifier coverage).
 
 Acceptance criteria Slice 2:
-- AC-2.1: los 10 hooks top execution-weight tienen plan de portabilidad explícito por stack-class. ✅ IMPLEMENTED (Slice 2a) — `scripts/hook-portability-classifier.sh` clasifica los 64 hooks en TIER-1/2/3/4/LIB con razón + reroute target por hook.
-- AC-2.2: ≥5 hooks top-10 portados a TIER-1 (TS plugin) con tests. ✅ IMPLEMENTED (Slice 2b-ii) — 5 TIER-1 hooks portados a `.opencode/plugins/`: `validate-bash-global.ts`, `block-credential-leak.ts`, `block-gitignored-references.ts`, `prompt-injection-guard.ts`, `tdd-gate.ts`. Cada uno tiene su `.test.ts` con cobertura de bloqueo + edge cases. Foundation plugin (`savia-foundation.ts`) los encadena vía dispatcher `tool.execute.before`.
-- AC-2.3: `prompt-injection-guard`, `block-credential-leak` cubiertos en TIER-1 o TIER-2 — son safety-critical, PV-02. ✅ IMPLEMENTED (Slice 2a) — los 3 safety-critical hooks (block-credential-leak, block-gitignored-references, prompt-injection-guard) clasificados como TIER-1; verificado por BATS regression.
-- AC-2.4: clasificación de los 64 hooks documentada en `output/hook-portability-classification.md`. ✅ IMPLEMENTED (Slice 2a) — reporte auto-generado con definiciones de tier, summary counts, tabla per-hook, sección PV-02 safety check.
+- AC-2.1: los 10 hooks top execution-weight tienen plan de portabilidad explícito por stack-class. OK IMPLEMENTED (Slice 2a) — `scripts/hook-portability-classifier.sh` clasifica los 64 hooks en TIER-1/2/3/4/LIB con razón + reroute target por hook.
+- AC-2.2: ≥5 hooks top-10 portados a TIER-1 (TS plugin) con tests. OK IMPLEMENTED (Slice 2b-ii) — 5 TIER-1 hooks portados a `.opencode/plugins/`: `validate-bash-global.ts`, `block-credential-leak.ts`, `block-gitignored-references.ts`, `prompt-injection-guard.ts`, `tdd-gate.ts`. Cada uno tiene su `.test.ts` con cobertura de bloqueo + edge cases. Foundation plugin (`savia-foundation.ts`) los encadena vía dispatcher `tool.execute.before`.
+- AC-2.3: `prompt-injection-guard`, `block-credential-leak` cubiertos en TIER-1 o TIER-2 — son safety-critical, PV-02. OK IMPLEMENTED (Slice 2a) — los 3 safety-critical hooks (block-credential-leak, block-gitignored-references, prompt-injection-guard) clasificados como TIER-1; verificado por BATS regression.
+- AC-2.4: clasificación de los 64 hooks documentada en `output/hook-portability-classification.md`. OK IMPLEMENTED (Slice 2a) — reporte auto-generado con definiciones de tier, summary counts, tabla per-hook, sección PV-02 safety check.
 
 ### Slice 3 (M, 12-16h) — Slash command MCP shim
 
@@ -173,9 +173,9 @@ Artefactos:
 - Regression test: cada orchestrator produce el mismo veredicto-shape bajo Task (cuando disponible) y single-shot (cuando no) sobre 3 fixture inputs.
 
 Acceptance criteria Slice 4:
-- AC-4.1: 4 orchestrators críticos detectan capability y pivotan. ✅ IMPLEMENTED — los 4 (court, truth-tribunal, recommendation-tribunal, dev) declaran sección "## Fallback mode (SPEC-127 Slice 4)" que invoca `bash scripts/savia-orchestrator-helper.sh mode` y branches en fan-out/single-shot.
-- AC-4.2: Single-shot mode preserva el JSON output schema del orchestrator (audit trail compatible). ✅ IMPLEMENTED — `wrap` subcommand emite envelope `{agent, mode, result}` consistente regardless of mode. BATS verifica schema + UTF-8 preservation.
-- AC-4.3: BATS tests verifican equivalencia funcional sobre 3 inputs por orchestrator. ✅ IMPLEMENTED parcialmente — `tests/structure/test-spec-127-slice4-subagent-fallback.bats` cubre mode detection + envelope schema + inline-prompt extraction. Equivalencia funcional real (output side-by-side fan-out vs single-shot) requiere LLM execution — fuera de scope BATS estructural; deferred a tests E2E con harness LLM.
+- AC-4.1: 4 orchestrators críticos detectan capability y pivotan. OK IMPLEMENTED — los 4 (court, truth-tribunal, recommendation-tribunal, dev) declaran sección "## Fallback mode (SPEC-127 Slice 4)" que invoca `bash scripts/savia-orchestrator-helper.sh mode` y branches en fan-out/single-shot.
+- AC-4.2: Single-shot mode preserva el JSON output schema del orchestrator (audit trail compatible). OK IMPLEMENTED — `wrap` subcommand emite envelope `{agent, mode, result}` consistente regardless of mode. BATS verifica schema + UTF-8 preservation.
+- AC-4.3: BATS tests verifican equivalencia funcional sobre 3 inputs por orchestrator. OK IMPLEMENTED parcialmente — `tests/structure/test-spec-127-slice4-subagent-fallback.bats` cubre mode detection + envelope schema + inline-prompt extraction. Equivalencia funcional real (output side-by-side fan-out vs single-shot) requiere LLM execution — fuera de scope BATS estructural; deferred a tests E2E con harness LLM.
 
 ### Slice 5 (S, 6h) — Quota / budget guard
 
@@ -188,9 +188,9 @@ Artefactos:
 - Tests BATS sobre tracker.
 
 Acceptance criteria Slice 5:
-- AC-5.1: tracker detecta el tipo de cuota declarada en preferences.yaml y mide en consecuencia. ✅ IMPLEMENTED — `scripts/savia-quota-tracker.sh` lee `budget_kind` (req-count / token-count / dollar-cap / none) + `budget_limit` desde preferences.yaml y mantiene log JSONL en `~/.savia/quota/$USER.jsonl` (N3 gitignored).
-- AC-5.2: budget guard avisa (no bloquea) en thresholds 70%/85%/95%. ✅ IMPLEMENTED — `.opencode/hooks/savia-budget-guard.sh` registrado como PreToolUse advisory. SIEMPRE exit 0. Stderr nudge once-per-threshold-per-session via /tmp marker. Threshold states: under-70 / over-70 / over-85 / over-95 / exceeded.
-- AC-5.3: si no hay cuota declarada, tracker skip silenciosamente. ✅ IMPLEMENTED — `budget_kind: none` o vacío → tracker no escribe log + threshold returns "none" + hook silent (no stderr).
+- AC-5.1: tracker detecta el tipo de cuota declarada en preferences.yaml y mide en consecuencia. OK IMPLEMENTED — `scripts/savia-quota-tracker.sh` lee `budget_kind` (req-count / token-count / dollar-cap / none) + `budget_limit` desde preferences.yaml y mantiene log JSONL en `~/.savia/quota/$USER.jsonl` (N3 gitignored).
+- AC-5.2: budget guard avisa (no bloquea) en thresholds 70%/85%/95%. OK IMPLEMENTED — `.opencode/hooks/savia-budget-guard.sh` registrado como PreToolUse advisory. SIEMPRE exit 0. Stderr nudge once-per-threshold-per-session via /tmp marker. Threshold states: under-70 / over-70 / over-85 / over-95 / exceeded.
+- AC-5.3: si no hay cuota declarada, tracker skip silenciosamente. OK IMPLEMENTED — `budget_kind: none` o vacío → tracker no escribe log + threshold returns "none" + hook silent (no stderr).
 
 ---
 

@@ -1,8 +1,15 @@
+---
+lang: en
+---
+
 <img width="1856" height="560" alt="pm-workspace header" src="https://raw.githubusercontent.com/gonzalezpazmonica/pm-workspace/main/docs/images/pm-workspace-header.png" />
 
 **English** | [Español](README.md) | [Galego](README.gl.md) | [Euskara](README.eu.md) | [Català](README.ca.md) | [Français](README.fr.md) | [Deutsch](README.de.md) | [Português](README.pt.md) | [Italiano](README.it.md)
 
 # PM-Workspace
+
+> Courtesy translation. Reference version: [Spanish](README.md).
+> Last sync: 2026-07-09.
 
 [![CI](https://img.shields.io/github/actions/workflow/status/gonzalezpazmonica/pm-workspace/ci.yml?branch=main&label=CI&logo=github)](https://github.com/gonzalezpazmonica/pm-workspace/actions/workflows/ci.yml)
 [![Release](https://img.shields.io/github/v/release/gonzalezpazmonica/pm-workspace?logo=github)](https://github.com/gonzalezpazmonica/pm-workspace/releases)
@@ -52,7 +59,7 @@ Savia adapts to you. If you're a PM, she shows sprints and capacity. If you're a
 
 ---
 
-## Hi, I'm Savia 🦉
+## Hi, I'm Savia 
 
 I'm the little owl that lives inside pm-workspace. I adapt to your role, your language, and how you work. I work with Azure DevOps, Jira, or 100% Git-native with Savia Flow.
 
@@ -71,7 +78,7 @@ I'm the little owl that lives inside pm-workspace. I adapt to your role, your la
 
 ## What's inside
 
-**532 commands · 64 agents · 76 skills · 55 hooks · 16 languages · 160 test suites**
+**532 commands · 65 agents · 86 skills · 58 hooks · 16 languages · 283+ test suites**
 
 ### Project management
 
@@ -100,7 +107,7 @@ Emergency Mode replaces the upstream entirely via environment variables. Savia D
 
 Both options keep your data inside your machine when running local. Inference sovereignty complements data sovereignty: cloud when it works, local when it does not, without losing continuity or quality when cloud is available.
 
-Docs: [Savia Dual](docs/savia-dual.md) · [Emergency Mode](docs/EMERGENCY.en.md) · Installers: `scripts/setup-savia-dual.{sh,ps1}`
+Docs: [Savia Dual](docs/savia-dual.md) · [Emergency Mode](docs/EMERGENCY.md) · Installers: `scripts/setup-savia-dual.{sh,ps1}`
 
 ### Persistent memory
 
@@ -112,7 +119,7 @@ Guided work for people with disabilities (visual, motor, ADHD, autism, dyslexia)
 
 ### Code intelligence
 
-Architecture detection (Clean, Hexagonal, DDD, CQRS, Microservices). Fitness functions. Human Code Maps (.hcm) that reduce cognitive debt.
+Architecture detection (Clean, Hexagonal, DDD, CQRS, Microservices). Fitness functions. Human Code Maps (.hcm) that reduce cognitive debt. Agent Code Maps (.acm) and `ast-comprehension` with optional [CodeGraph](https://github.com/colbymchenry/codegraph) engine (MCP, opt-in per project).
 
 ### Autonomous modes
 
@@ -120,7 +127,7 @@ Overnight sprint, code improvement, tech research. Agents propose on `agent/*` b
 
 ### Extensions
 
-[Savia Mobile](projects/savia-mobile-android/README.md) (native Android) · [Savia Web](projects/savia-web/README.md) (Vue.js dashboards) · [SaviaClaw](zeroclaw/ROADMAP.md) (ESP32 + full-duplex voice)
+[Savia Mobile](projects/savia-mobile-android/README.md) (native Android) · Savia Web (Vue.js dashboards) · [SaviaClaw](zeroclaw/ROADMAP.md) (ESP32 + full-duplex voice)
 
 ---
 
@@ -131,8 +138,8 @@ pm-workspace/
 ├── .claude/
 │   ├── commands/       ← 532 commands
 │   ├── agents/         ← 65 specialized agents (7 with decision trees: SPEC-147)
-│   ├── skills/         ← 91 domain skills
-│   ├── hooks/          ← 55 deterministic hooks
+│   ├── skills/         ← 86 domain skills
+│   ├── hooks/          ← 58 deterministic hooks
 │   └── rules/          ← context and language rules
 ├── docs/               ← guides by role, scenario, sector
 ├── projects/           ← projects (git-ignored for privacy)

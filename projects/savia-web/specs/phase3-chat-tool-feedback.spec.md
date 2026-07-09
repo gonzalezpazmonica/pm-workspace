@@ -28,7 +28,7 @@ Savia works. Each tool_use event adds a line showing what Savia is doing.
 When the assistant bubble is streaming and tool_use events arrive:
 - Show an animated activity list below the initial text
 - Each tool shows: icon + tool name + brief description
-- Format: "📂 Reading proyecto-alpha/CLAUDE.md" or "🔍 Searching files..."
+- Format: " Reading proyecto-alpha/CLAUDE.md" or " Searching files..."
 - Auto-scroll to keep latest activity visible
 - Fade out when final text response arrives
 
@@ -36,16 +36,16 @@ When the assistant bubble is streaming and tool_use events arrive:
 
 | Tool | Display |
 |------|---------|
-| Read | 📄 Reading {file} |
-| Bash | ⚙️ Running command... |
-| Grep | 🔍 Searching... |
-| Glob | 📂 Finding files... |
-| Task | 🤖 Delegating to agent... |
-| Write | ✏️ Writing file... |
-| Edit | ✏️ Editing file... |
-| WebFetch | 🌐 Fetching web... |
-| WebSearch | 🌐 Searching web... |
-| Other | 🔧 Working... |
+| Read |  Reading {file} |
+| Bash |  Running command... |
+| Grep |  Searching... |
+| Glob |  Finding files... |
+| Task |  Delegating to agent... |
+| Write |  Writing file... |
+| Edit |  Editing file... |
+| WebFetch |  Fetching web... |
+| WebSearch |  Searching web... |
+| Other |  Working... |
 
 ### RF-03: Animated Indicator
 

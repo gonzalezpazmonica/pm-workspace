@@ -9,7 +9,7 @@ token_budget: 828
 
 # Semantic Hub Index
 
-> 🦉 Savia conoce su propia topología. Este índice mapea las conexiones.
+>  Savia conoce su propia topología. Este índice mapea las conexiones.
 
 ---
 

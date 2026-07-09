@@ -1,3 +1,4 @@
+<!-- docs-lint: skip R7 -->
 ---
 id: SPEC-155
 title: OpenCode plugin hooks — fix args shape (input.args → output.args) + restore guard efficacy

@@ -18,7 +18,7 @@ Al comenzar CUALQUIER comando, mostrar inmediatamente:
 
 ```
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-🚀 /comando:nombre — Descripción breve
+ /comando:nombre — Descripción breve
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ```
 
@@ -31,18 +31,18 @@ Detalles: **→ `command-ux-checklist.md`** (checklist, retry flow, ejemplos)
 
 ## 3. Progreso y Errores
 
-**Progreso**: `📋 Paso 1/4 — Recopilando datos...` Si tarda, informar: `(esto puede tardar ~30s)...`
+**Progreso**: ` Paso 1/4 — Recopilando datos...` Si tarda, informar: `(esto puede tardar ~30s)...`
 
-**Errores no-críticos**: `⚠️ Error en paso X — Causa — Acción sugerida — ¿Continuar?`
+**Errores no-críticos**: `WARN Error en paso X — Causa — Acción sugerida — ¿Continuar?`
 
-**Errores críticos**: `❌ Error crítico — Causa — Sugerencia`
+**Errores críticos**: `FAIL Error crítico — Causa — Sugerencia`
 
 Detalles: **→ `command-ux-checklist.md`**
 
 ## 4. Banner de Finalización
 
 **Siempre mostrar** al terminar (éxito completo / parcial / error):
-- Banner con status (✅/⚠️/❌)
+- Banner con status (OK/WARN/FAIL)
 - Ruta de fichero si se guardó
 - Duración
 - Sugerencia de siguiente paso si procede
@@ -69,12 +69,12 @@ Un comando SOLO hace lo que su `.md` define explícitamente:
 
 TRAS CADA slash command → incluir en banner:
 ```
-⚡ /compact — Ejecuta para liberar contexto antes del siguiente comando
+ /compact — Ejecuta para liberar contexto antes del siguiente comando
 ```
 
 **Si PM pide otro comando sin compactar:**
 ```
-⚠️ Contexto alto — ejecuta `/compact` antes de continuar.
+WARN Contexto alto — ejecuta `/compact` antes de continuar.
 ```
 
 **Aplicación**: TODOS los comandos sin excepción.

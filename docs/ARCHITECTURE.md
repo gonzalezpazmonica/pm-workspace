@@ -5,23 +5,23 @@ pm-workspace is a hierarchical system where settings.json gates drive orchestrat
 ## Component Hierarchy
 
 ```
-settings.json (5 hook events)
+settings.json (hook lifecycle events)
     ├─ SessionStart
     ├─ PreToolUse
     ├─ PostToolUse
     ├─ Stop
     └─ SubagentStop
          ↓
-    17 hooks (security gates, quality checks, logging)
+    los hooks del workspace (security gates, quality checks, logging)
          ↓
     Commands (.opencode/commands/*)
-    (454 slash commands / workflows)
+    (slash commands / workflows)
          ↓
     Skills (.opencode/skills/*)
-    (67 reusable capabilities)
+    (reusable capabilities)
          ↓
     Agents (.opencode/agents/*)
-    (33 specialized orchestrators)
+    (specialized orchestrators)
          ↓
     Rules (docs/rules/domain/*)
     (105 domain rules + conventions)
@@ -45,8 +45,8 @@ settings.json (5 hook events)
 4. **agent-dispatch-validate** ensures subagent context is complete (if delegating)
 
 **Decision point:**
-- ✅ All hooks pass → proceed to Phase 3
-- ❌ Security hook blocks → stop, show error, ask user to fix
+- OK All hooks pass → proceed to Phase 3
+- FAIL Security hook blocks → stop, show error, ask user to fix
 
 ### Phase 3: Skill Loading & Delegation
 
@@ -76,23 +76,23 @@ settings.json (5 hook events)
 - **stop-quality-gate** detects any remaining secrets
 
 **Decision point:**
-- ✅ All checks pass → session can end
-- ⚠️ Warnings only → inform user, allow continuation
-- ❌ Blockers found → require fixes before end
+- OK All checks pass → session can end
+- WARN Warnings only → inform user, allow continuation
+- FAIL Blockers found → require fixes before end
 
 ## Directory Structure & Purpose
 
 ```
 pm-workspace/
 ├── .claude/                      ← AI coding assistant configuration
-│   ├── commands/                 (454 commands: slash workflows)
-│   ├── skills/                   (67 skills: reusable capabilities)
+│   ├── commands/                 (slash commands)
+│   ├── skills/                   (skills: reusable capabilities)
 │   │   ├── spec-driven-development/
 │   │   ├── azure-devops-queries/
 │   │   ├── diagram-generation/
 │   │   ├── ... (see /help for full list)
-│   ├── agents/                   (33 agents: specialized orchestrators)
-│   ├── hooks/                    (17 hooks: lifecycle gates)
+│   ├── agents/                   (agents: specialized orchestrators)
+│   ├── hooks/                    (hooks: lifecycle gates)
 │   ├── rules/
 │   │   ├── domain/               (105 domain rules)
 │   │   ├── languages/            (16 language packs)
@@ -203,13 +203,13 @@ pm-workspace/
 
 | Component | Count | Location |
 |---|---|---|
-| **Commands** | 454 | `.opencode/commands/` |
-| **Skills** | 67 | `.opencode/skills/` |
-| **Agents** | 33 | `.opencode/agents/` |
-| **Hooks** | 17 | `.opencode/hooks/` (100% tested) |
+| **Commands** | — | `.opencode/commands/` |
+| **Skills** | — | `.opencode/skills/` |
+| **Agents** | — | `.opencode/agents/` |
+| **Hooks** | — | `.opencode/hooks/` (100% tested) |
 | **Domain Rules** | 105 | `docs/rules/domain/` |
 | **Language Packs** | 16 | `docs/rules/languages/` |
-| **Tests (BATS)** | 17 hook suites | `tests/hooks/` |
+| **Tests (BATS)** | hook test suites | `tests/hooks/` |
 | **Documentation** | 20+ | `docs/` |
 
 ## Key Design Decisions
@@ -255,7 +255,7 @@ All extensions inherit the same safety gates and context budgets.
 
 ## See Also
 
-- Command: `/help` — List all 454 commands with descriptions
+- Command: `/help` — List all commands with descriptions
 - Command: `/architecture show` — Visualize system dependency graph
 - Document: `docs/HOOKS.md` — Hook reference
 - Document: `docs/AGENTS.md` — Agent catalog

@@ -216,7 +216,7 @@ Las reglas `deny` tienen prioridad máxima — no pueden ser anuladas.
 
 ### Incluir / Excluir
 
-| ✅ Incluir | ❌ Excluir |
+| OK Incluir | FAIL Excluir |
 |---|---|
 | Comandos bash que Claude no puede adivinar | Lo que Claude puede inferir del código |
 | Reglas de estilo que difieren del default | Convenciones estándar del lenguaje |

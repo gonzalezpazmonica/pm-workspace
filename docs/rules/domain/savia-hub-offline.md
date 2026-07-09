@@ -24,14 +24,14 @@ token_budget: 708
 1. Todas las escrituras van a local
 2. Cada escritura se registra en `.sync-queue.jsonl`
 3. No se intenta push/pull
-4. Status muestra `✈️ Modo vuelo activo — N cambios pendientes`
+4. Status muestra ` Modo vuelo activo — N cambios pendientes`
 
 ### Comportamiento cuando OFF
 1. Se verifica conectividad con remote (si configurado)
 2. Si hay cola pendiente → drenar (commit + push)
 3. Si hay cambios remotos → pull con rebase
 4. Si hay conflictos → notificar al PM, no auto-resolver
-5. Status muestra `✅ Online, sincronizado`
+5. Status muestra `OK Online, sincronizado`
 
 ## Cola de escritura (.sync-queue.jsonl)
 
@@ -75,11 +75,11 @@ Al desactivar modo vuelo o ejecutar `/savia-hub push`:
 ## Mensajes de estado
 
 ```
-✅ Online, sincronizado (último sync: hace 5 min)
+OK Online, sincronizado (último sync: hace 5 min)
 ✈️ Modo vuelo activo — 3 cambios pendientes
-⚠️ Divergencia detectada — 2 ficheros en conflicto
-❌ Remote no configurado — solo modo local
-🔄 Sincronizando... (3/5 cambios)
+WARN Divergencia detectada — 2 ficheros en conflicto
+FAIL Remote no configurado — solo modo local
+ Sincronizando... (3/5 cambios)
 ```
 
 ## Regla de oro

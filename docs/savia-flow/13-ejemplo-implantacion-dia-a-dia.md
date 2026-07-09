@@ -17,7 +17,7 @@ la usuaria abre la reunión con métricas:
 la usuaria → /flow-metrics
 ```
 
-Savia muestra: Cycle Time 4 días (target 3-7 ✅), Throughput 2 items/semana (arrancando), Spec-Ready buffer 1 item (⚠️ target ≥3). la usuaria detecta el problema: Elena necesita acelerar exploración.
+Savia muestra: Cycle Time 4 días (target 3-7 OK), Throughput 2 items/semana (arrancando), Spec-Ready buffer 1 item (WARN target ≥3). la usuaria detecta el problema: Elena necesita acelerar exploración.
 
 ```
 la usuaria → /flow-intake
@@ -42,7 +42,7 @@ Elena consulta con Isabel antes de marcar Spec-Ready:
 ```
 Elena → "Isabel, ¿es viable MongoDB aggregation + Redis para el timeline?"
 Isabel → "Sí, pero necesitamos índice compuesto en follows + created_at. Y el cache TTL debería ser 30s, no 60."
-Elena → Actualiza spec, marca Spec-Ready ✅
+Elena → Actualiza spec, marca Spec-Ready OK
 ```
 
 **Ana (producción)** construye el Profile Setup Wizard (#1002):
@@ -67,10 +67,10 @@ Cuando un item llega a **Gates**, Savia ejecuta la validación automática:
 
 ```
 Savia (automático al mover a Gates) →
-  Gate 1: Lint + format ✅ (2s)
-  Gate 2: Unit tests 87% coverage ✅ (12s)
-  Gate 3: Integration tests — auth-service + MongoDB ✅ (45s)
-  Gate 4: Security — bcrypt rounds OK, rate limiting OK, CORS ✅ (30s)
+  Gate 1: Lint + format OK (2s)
+  Gate 2: Unit tests 87% coverage OK (12s)
+  Gate 3: Integration tests — auth-service + MongoDB OK (45s)
+  Gate 4: Security — bcrypt rounds OK, rate limiting OK, CORS OK (30s)
   Gate 5: Pendiente review humano → asignar a Elena (QA)
 ```
 
@@ -78,9 +78,9 @@ Savia (automático al mover a Gates) →
 
 ```
 Elena → revisa #1001 User Registration
-  ✅ Flujo email registration: OK
-  ✅ Flujo OAuth Google: OK
-  ⚠️ Falta: mensaje de error cuando email ya registrado no es claro
+  OK Flujo email registration: OK
+  OK Flujo OAuth Google: OK
+  WARN Falta: mensaje de error cuando email ya registrado no es claro
   → Crea Bug #1010 vinculado a #1001, asigna a Isabel (2h)
 ```
 
@@ -124,10 +124,10 @@ Discovery   Spec-Writing   Spec-Ready    │ Ready    Building    Gates     Depl
 ────────────────────────────────────────────────────────────────────────────────────
 DMs (#1005)  Reactions(#1004)  ──         │  ──     Timeline   Profile    Registration
                                          │          (#1003)   (#1002)    (#1001)
-                                         │         Ana+Isabel  Ana 🔴     ──
+                                         │         Ana+Isabel  Ana FAIL     ──
 
-⚠️ Spec-Ready buffer: 0 items — Elena debe priorizar exploración
-⚠️ Ana: Profile (#1002) en Gates >2 días — verificar Gate 5
+WARN Spec-Ready buffer: 0 items — Elena debe priorizar exploración
+WARN Ana: Profile (#1002) en Gates >2 días — verificar Gate 5
 ```
 
 la usuaria actúa: "Elena, ¿puedes marcar Spec-Ready la de Reactions hoy? Ana se va a quedar sin trabajo pronto." Elena acelera.

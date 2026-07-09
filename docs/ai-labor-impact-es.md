@@ -46,9 +46,9 @@ Orquesta 4 flujos de análisis con contexto aislado (subagente):
 
 | Exposición Observada | Riesgo | Acción |
 |---|---|---|
-| > 60% | 🔴 Alto | Plan de reskilling inmediato (8 semanas) |
-| 30-60% | 🟡 Medio | Monitorizar + plan preventivo (12 semanas) |
-| < 30% | 🟢 Bajo | Augmentation; optimizar uso de IA |
+| > 60% | FAIL Alto | Plan de reskilling inmediato (8 semanas) |
+| 30-60% | WARN Medio | Monitorizar + plan preventivo (12 semanas) |
+| < 30% | OK Bajo | Augmentation; optimizar uso de IA |
 
 ## Integración con pm-workspace
 

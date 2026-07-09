@@ -1,6 +1,6 @@
 # Data Flow Guide
 
-> 🦉 I'm Savia. Here I explain how the parts of pm-workspace connect. Every piece of data that enters has a destination, and every report that comes out has a source. Nothing is lost, nothing is duplicated.
+>  I'm Savia. Here I explain how the parts of pm-workspace connect. Every piece of data that enters has a destination, and every report that comes out has a source. Nothing is lost, nothing is duplicated.
 
 ---
 

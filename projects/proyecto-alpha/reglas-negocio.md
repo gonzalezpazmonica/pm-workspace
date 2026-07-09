@@ -65,14 +65,14 @@ CONCURRENT_USERS     = 100           # usuarios concurrentes soportados
 ### 3.1 Actividades facturables en este proyecto
 | Actividad | ¿Facturable? | Código de proyecto |
 |-----------|-------------|-------------------|
-| Development | ✅ Sí | ALPHA-DEV |
-| Testing | ✅ Sí | ALPHA-QA |
-| Documentation | ✅ Sí | ALPHA-DOC |
-| Design | ✅ Sí | ALPHA-DES |
-| DevOps / CI-CD | ✅ Sí | ALPHA-OPS |
-| Reuniones con cliente | ✅ Sí | ALPHA-MTG |
-| Reuniones internas | ⚠️ Según contrato | ALPHA-MGT |
-| Formación | ❌ No | — |
+| Development | OK Sí | ALPHA-DEV |
+| Testing | OK Sí | ALPHA-QA |
+| Documentation | OK Sí | ALPHA-DOC |
+| Design | OK Sí | ALPHA-DES |
+| DevOps / CI-CD | OK Sí | ALPHA-OPS |
+| Reuniones con cliente | OK Sí | ALPHA-MTG |
+| Reuniones internas | WARN Según contrato | ALPHA-MGT |
+| Formación | FAIL No | — |
 
 ### 3.2 Límites de horas por módulo (si aplica)
 ```
@@ -103,7 +103,7 @@ Contingencia:           estimado 150h   / no usar salvo aprobación
 ### 4.3 Hitos de entrega comprometidos
 | Hito | Fecha | Descripción | Estado |
 |------|-------|-------------|--------|
-| MVP v1.0 | 2026-03-31 | Módulo de autenticación completo | 🟡 En progreso |
+| MVP v1.0 | 2026-03-31 | Módulo de autenticación completo | WARN En progreso |
 | v1.1 | 2026-04-30 | Dashboard de usuario + reporting básico | ⏳ Pendiente |
 | v1.2 | 2026-05-31 | Módulo de [completar] | ⏳ Pendiente |
 | Cierre | 2026-06-30 | Entrega final + formación usuarios | ⏳ Pendiente |

@@ -113,7 +113,7 @@ L'agent reçoit dans son contexte :
   ╚══════════════════════════════════════════════════╝
   Fichier : src/Services/AuthService.cs
   Lignes :  248  |  Classes : 1  |  Fonctions : 12
-  Complexité : 42 points de décision  ⚠️  Procéder avec prudence
+  Complexité : 42 points de décision  WARN  Procéder avec prudence
 
   Carte structurelle :
   { "classes": [{ "name": "AuthService", "line": 12 }],

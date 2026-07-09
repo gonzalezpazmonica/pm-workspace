@@ -68,9 +68,9 @@ AR = tareas_augmentadas / (tareas_augmentadas + tareas_automatizadas)
 
 | OE | Riesgo | Acción |
 |---|---|---|
-| > 60% | 🔴 Alto | Plan de reskilling inmediato (8 semanas) |
-| 30-60% | 🟡 Medio | Monitorizar + plan preventivo (12 semanas) |
-| < 30% | 🟢 Bajo | Augmentation; optimizar uso de IA |
+| > 60% | FAIL Alto | Plan de reskilling inmediato (8 semanas) |
+| 30-60% | WARN Medio | Monitorizar + plan preventivo (12 semanas) |
+| < 30% | OK Bajo | Augmentation; optimizar uso de IA |
 
 ---
 
@@ -84,9 +84,9 @@ JHG = juniors_contratados_último_año / juniors_contratados_año_anterior
 
 | JHG | Estado | Riesgo |
 |---|---|---|
-| > 0.85 | 🟢 Estable | Pipeline de talento sano |
-| 0.60-0.85 | 🟡 Declive | Pipeline en riesgo |
-| < 0.60 | 🔴 Crítico | Pipeline roto — sin relevo generacional |
+| > 0.85 | OK Estable | Pipeline de talento sano |
+| 0.60-0.85 | WARN Declive | Pipeline en riesgo |
+| < 0.60 | FAIL Crítico | Pipeline roto — sin relevo generacional |
 
 Dato de referencia: caída del ~14% en contratación junior post-ChatGPT
 (Anthropic, 2026).

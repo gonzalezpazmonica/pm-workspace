@@ -17,7 +17,7 @@ expires: "2026-05-21"
 
 ## Purpose
 
-Nuestros agentes de investigación (`tech-research-agent`, skill `web-research`, `scripts/web-research.sh`) fallan silenciosamente en sites con Cloudflare Turnstile / DataDome, y tienen adaptación cero a cambios de DOM. `Scrapling` (BSD-3, 38K★, Python) aporta:
+Nuestros agentes de investigación (`tech-research-agent`, skill `web-research`, `scripts/web-research.sh`) fallan silenciosamente en sites con Cloudflare Turnstile / DataDome, y tienen adaptación cero a cambios de DOM. `Scrapling` (BSD-3, 38K, Python) aporta:
 
 1. **Adaptive selectors** — similarity-based re-location cuando cambia el DOM
 2. **Anti-bot bypass nativo** — Cloudflare Turnstile, DataDome, Akamai, Kasada, Incapsula

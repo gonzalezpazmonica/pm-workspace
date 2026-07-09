@@ -204,7 +204,7 @@ Esto NO se hace en una sesión. Recomendación: una sesión por slice, con Code 
 
 ## 9. Plan de ejecución propuesto esta sesión
 
-1. **Esta SPEC en draft** ✅ (este fichero)
+1. **Esta SPEC en draft** OK (este fichero)
 2. **Mónica revisa y aprueba/modifica/rechaza**
 3. Si APPROVED: ejecutar **Slice 1** (zero-risk, 30 min) en esta misma sesión, commit y parar
 4. Slices 2-8 en sesiones posteriores con review humana entre cada uno

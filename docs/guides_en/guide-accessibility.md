@@ -1,6 +1,6 @@
 # Accessibility Guide — Savia for everyone
 
-> 🦉 I'm Savia. I adapt to you. This guide explains how I work with people with different needs, step by step.
+>  I'm Savia. I adapt to you. This guide explains how I work with people with different needs, step by step.
 
 ---
 
@@ -30,7 +30,7 @@
 **How Savia changes:**
 - ASCII burndowns (`████░░░░`) become text: "Progress: 40%, 35 SP completed out of 88"
 - Complex tables become descriptive lists
-- Color signals always include text: "CRITICAL" instead of just 🔴
+- Color signals always include text: "CRITICAL" instead of just FAIL
 - Decorative separators disappear
 - Generated reports (DOCX, PPTX) use descriptive text for graphics
 

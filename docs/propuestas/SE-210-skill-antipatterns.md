@@ -45,7 +45,7 @@ Añadir sección `## Anti-patterns` en las 6 skills. Cada entrada nombra el erro
 ```markdown
 ## Anti-patterns
 
-**❌ [Nombre del anti-pattern]**: [qué hace el agente mal] → [consecuencia].
+**FAIL [Nombre del anti-pattern]**: [qué hace el agente mal] → [consecuencia].
 **✓ Correcto**: [qué hacer en su lugar].
 ```
 

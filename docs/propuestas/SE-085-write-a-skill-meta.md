@@ -92,7 +92,7 @@ Atribución MIT a `mattpocock/skills/write-a-skill/SKILL.md` en header.
 
 ## Dependencias
 
-- ✅ `.opencode/skills/` directory existe
+- OK `.opencode/skills/` directory existe
 - **Recomendado**: SE-084 IMPLEMENTED antes (para que skill-catalog-discipline.md exista para el cross-ref); si SE-084 viene después, este spec deja stub y se actualiza
 - Sin bloqueantes externos. Independiente de SE-081/082/083/086/087.
 

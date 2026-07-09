@@ -72,13 +72,13 @@ La usuaria resuelve manualmente. Sin shortcuts.
 
 ## Garantías de seguridad (autonomous-safety)
 
-- ❌ NO ejecuta `git push`
-- ❌ NO ejecuta `gh pr merge` ni equivalente
-- ❌ NO ejecuta `git push --force`
-- ❌ NO auto-resuelve un conflicto fuera de `CHANGELOG.*`
-- ✅ Se niega a operar con working tree dirty (`git status --porcelain`)
-- ✅ `MAX_REBASE_STEPS` corta cualquier loop patológico
-- ✅ Vuelve a la rama original tras escalación
+- FAIL NO ejecuta `git push`
+- FAIL NO ejecuta `gh pr merge` ni equivalente
+- FAIL NO ejecuta `git push --force`
+- FAIL NO auto-resuelve un conflicto fuera de `CHANGELOG.*`
+- OK Se niega a operar con working tree dirty (`git status --porcelain`)
+- OK `MAX_REBASE_STEPS` corta cualquier loop patológico
+- OK Vuelve a la rama original tras escalación
 
 ## Referencias
 

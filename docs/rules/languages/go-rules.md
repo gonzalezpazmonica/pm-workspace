@@ -42,7 +42,7 @@ Para cada hallazgo reporta:
 
 ## 1. VULNERABILITIES — Seguridad
 
-> 🔴 Prioridad máxima. Cada hallazgo aquí es un riesgo de seguridad real.
+> FAIL Prioridad máxima. Cada hallazgo aquí es un riesgo de seguridad real.
 
 ### 1.1 Blocker
 
@@ -52,12 +52,12 @@ Para cada hallazgo reporta:
 **Problema**: Concatenación de SQL con datos de usuario sin parameterización permite inyección SQL.
 
 ```go
-// ❌ Noncompliant
+// FAIL Noncompliant
 userID := r.URL.Query().Get("id")
 query := fmt.Sprintf("SELECT * FROM users WHERE id = %s", userID)
 rows, err := db.Query(query)
 
-// ✅ Compliant
+// OK Compliant
 userID := r.URL.Query().Get("id")
 rows, err := db.Query("SELECT * FROM users WHERE id = ?", userID)
 ```
@@ -70,12 +70,12 @@ rows, err := db.Query("SELECT * FROM users WHERE id = ?", userID)
 **Problema**: Construcción de comandos shell con entrada de usuario permite inyección de comandos.
 
 ```go
-// ❌ Noncompliant
+// FAIL Noncompliant
 userPath := r.URL.Query().Get("path")
 cmd := exec.Command("sh", "-c", fmt.Sprintf("ls -la %s", userPath))
 output, err := cmd.Output()
 
-// ✅ Compliant
+// OK Compliant
 userPath := r.URL.Query().Get("path")
 cmd := exec.Command("ls", "-la", userPath)
 output, err := cmd.Output()
@@ -89,13 +89,13 @@ output, err := cmd.Output()
 **Problema**: Contraseñas y credenciales embebidas en código fuente exponen accesos.
 
 ```go
-// ❌ Noncompliant
+// FAIL Noncompliant
 const (
     DBPassword = "SuperSecret123"
     APIKey     = "sk-1234567890abcdef"
 )
 
-// ✅ Compliant
+// OK Compliant
 import "os"
 
 var (
@@ -112,7 +112,7 @@ var (
 **Problema**: Ignorar errores de validación de certificados SSL/TLS en HTTPS.
 
 ```go
-// ❌ Noncompliant
+// FAIL Noncompliant
 client := &http.Client{
     Transport: &http.Transport{
         TLSClientConfig: &tls.Config{
@@ -122,7 +122,7 @@ client := &http.Client{
 }
 resp, err := client.Get("https://api.example.com")
 
-// ✅ Compliant
+// OK Compliant
 client := &http.Client{}  // usa validación estándar
 resp, err := client.Get("https://api.example.com")
 ```
@@ -135,11 +135,11 @@ resp, err := client.Get("https://api.example.com")
 **Problema**: Usar entrada de usuario directamente en rutas de archivo sin validación.
 
 ```go
-// ❌ Noncompliant
+// FAIL Noncompliant
 filename := r.URL.Query().Get("file")
 content, err := ioutil.ReadFile(filepath.Join("/uploads", filename))
 
-// ✅ Compliant
+// OK Compliant
 import "path/filepath"
 
 filename := r.URL.Query().Get("file")
@@ -165,13 +165,13 @@ content, err := ioutil.ReadFile(fullPath)
 **Problema**: Usar hashing débil (MD5, SHA-1) para contraseñas.
 
 ```go
-// ❌ Noncompliant
+// FAIL Noncompliant
 import "crypto/md5"
 
 hash := md5.Sum([]byte(password))
 hashStr := fmt.Sprintf("%x", hash)
 
-// ✅ Compliant
+// OK Compliant
 import "golang.org/x/crypto/bcrypt"
 
 hashedPassword, err := bcrypt.GenerateFromPassword([]byte(password), 12)
@@ -185,12 +185,12 @@ hashedPassword, err := bcrypt.GenerateFromPassword([]byte(password), 12)
 **Problema**: Usar protocolos SSL/TLS antiguos o débiles.
 
 ```go
-// ❌ Noncompliant
+// FAIL Noncompliant
 config := &tls.Config{
     MinVersion: tls.VersionSSL30,
 }
 
-// ✅ Compliant
+// OK Compliant
 config := &tls.Config{
     MinVersion: tls.VersionTLS13,
 }
@@ -204,12 +204,12 @@ config := &tls.Config{
 **Problema**: Usar algoritmos criptográficos débiles (DES, MD5, RC4).
 
 ```go
-// ❌ Noncompliant
+// FAIL Noncompliant
 import "crypto/des"
 
 block, _ := des.NewCipher(key)
 
-// ✅ Compliant
+// OK Compliant
 import "crypto/aes"
 
 block, _ := aes.NewCipher(key)
@@ -223,7 +223,7 @@ block, _ := aes.NewCipher(key)
 **Problema**: Operaciones matemáticas sin validación de overflow/underflow.
 
 ```go
-// ❌ Noncompliant
+// FAIL Noncompliant
 func calculateTotal(prices []uint32) uint32 {
     var total uint32
     for _, price := range prices {
@@ -232,7 +232,7 @@ func calculateTotal(prices []uint32) uint32 {
     return total
 }
 
-// ✅ Compliant
+// OK Compliant
 import "math"
 
 func calculateTotal(prices []uint32) (uint64, error) {
@@ -257,11 +257,11 @@ func calculateTotal(prices []uint32) (uint64, error) {
 
 **Severidad**: Critical
 ```go
-// ❌ Sensitive
+// FAIL Sensitive
 file, _ := os.Open("data.txt")  // error ignorado
 _ = file.Close()
 
-// ✅ Compliant
+// OK Compliant
 file, err := os.Open("data.txt")
 if err != nil {
     return fmt.Errorf("failed to open file: %w", err)
@@ -273,10 +273,10 @@ defer file.Close()
 
 **Severidad**: Critical
 ```go
-// ❌ Sensitive
+// FAIL Sensitive
 os.WriteFile("secret.txt", []byte(data), 0666)  // world-readable
 
-// ✅ Compliant
+// OK Compliant
 os.WriteFile("secret.txt", []byte(data), 0600)  // owner-only
 ```
 
@@ -284,13 +284,13 @@ os.WriteFile("secret.txt", []byte(data), 0600)  // owner-only
 
 **Severidad**: Critical
 ```go
-// ❌ Sensitive
+// FAIL Sensitive
 for _, file := range files {
     f, _ := os.Open(file)
     defer f.Close()  // defer se ejecuta al final de la función, no del loop
 }
 
-// ✅ Compliant
+// OK Compliant
 for _, file := range files {
     f, _ := os.Open(file)
     f.Close()  // cierre explícito en el loop
@@ -314,11 +314,11 @@ for _, file := range files {
 
 **Severidad**: Blocker
 ```go
-// ❌ Noncompliant
+// FAIL Noncompliant
 var user *User
 name := user.Name  // panic si user es nil
 
-// ✅ Compliant
+// OK Compliant
 var user *User
 if user != nil {
     name := user.Name
@@ -337,7 +337,7 @@ name := user.Name
 
 **Severidad**: Blocker
 ```go
-// ❌ Noncompliant
+// FAIL Noncompliant
 func fetchData(url string) string {
     ch := make(chan string)
     go func() {
@@ -346,7 +346,7 @@ func fetchData(url string) string {
     return <-ch  // si timeout ocurre, goroutine queda colgada
 }
 
-// ✅ Compliant
+// OK Compliant
 import "context"
 import "time"
 
@@ -371,13 +371,13 @@ func fetchData(ctx context.Context, url string) (string, error) {
 
 **Severidad**: Blocker
 ```go
-// ❌ Noncompliant
+// FAIL Noncompliant
 var counter int
 go func() { counter++ }()
 go func() { counter++ }()
 // data race: acceso no sincronizado
 
-// ✅ Compliant
+// OK Compliant
 var counter int
 var mu sync.Mutex
 
@@ -406,11 +406,11 @@ go func() { counter.Add(1) }()
 
 **Severidad**: Major
 ```go
-// ❌ Noncompliant
+// FAIL Noncompliant
 defer file.Close()  // error ignorado
 defer db.Rollback()  // error no chequeado
 
-// ✅ Compliant
+// OK Compliant
 defer func() {
     if err := file.Close(); err != nil {
         logger.Error("failed to close file", err)
@@ -430,14 +430,14 @@ defer func() {
 
 **Severidad**: Major
 ```go
-// ❌ Noncompliant
+// FAIL Noncompliant
 var data []byte
 if file, err := os.Open("data.txt"); err == nil {
     data, err := ioutil.ReadAll(file)  // 'err' shadowed
     // error de ReadAll se pierde
 }
 
-// ✅ Compliant
+// OK Compliant
 file, err := os.Open("data.txt")
 if err != nil {
     return fmt.Errorf("failed to open file: %w", err)
@@ -462,7 +462,7 @@ if err != nil {
 
 **Severidad**: Critical
 ```go
-// ❌ Noncompliant
+// FAIL Noncompliant
 func processOrder(order *Order) error {
     // 100+ líneas de lógica mezclada
     if err := validateOrder(order); err != nil {
@@ -477,7 +477,7 @@ func processOrder(order *Order) error {
     return nil
 }
 
-// ✅ Compliant
+// OK Compliant
 func processOrder(order *Order) error {
     if err := validateOrder(order); err != nil {
         return err
@@ -501,7 +501,7 @@ func calculateFinancials(order *Order) {
 
 **Severidad**: Critical
 ```go
-// ❌ Noncompliant
+// FAIL Noncompliant
 func getStatus(user *User) string {
     if user.IsActive {
         if user.HasPermission {
@@ -522,7 +522,7 @@ func getStatus(user *User) string {
     }
 }
 
-// ✅ Compliant
+// OK Compliant
 func getStatus(user *User) string {
     if !user.IsActive {
         return "INACTIVE"
@@ -548,14 +548,14 @@ func getStatus(user *User) string {
 
 **Severidad**: Major
 ```go
-// ❌ Noncompliant
+// FAIL Noncompliant
 func process() error {
     count := 0  // nunca se usa
     data := readData()
     return nil
 }
 
-// ✅ Compliant
+// OK Compliant
 func process() error {
     data := readData()
     count := len(data)
@@ -568,7 +568,7 @@ func process() error {
 
 **Severidad**: Major
 ```go
-// ❌ Noncompliant
+// FAIL Noncompliant
 import (
     "encoding/json"
     "os"
@@ -579,7 +579,7 @@ func getData() string {
     return "data"  // no usa ninguno de los imports
 }
 
-// ✅ Compliant
+// OK Compliant
 func getData() string {
     return "data"
 }
@@ -593,7 +593,7 @@ func getData() string {
 
 **Severidad**: Blocker
 ```go
-// ❌ Noncompliant
+// FAIL Noncompliant
 type OrderService struct {
     repo *PostgresRepository  // acoplamiento fuerte
 }
@@ -604,7 +604,7 @@ func NewOrderService() *OrderService {
     }
 }
 
-// ✅ Compliant
+// OK Compliant
 type OrderRepository interface {
     Save(ctx context.Context, order *Order) error
     FindByID(ctx context.Context, id string) (*Order, error)
@@ -625,7 +625,7 @@ func NewOrderService(repo OrderRepository) *OrderService {
 
 **Severidad**: Critical
 ```go
-// ✅ Compliant — Clean Architecture
+// OK Compliant — Clean Architecture
 // cmd/app/main.go — punto de entrada
 func main() {
     repo := infrastructure.NewPostgresOrderRepository(db)
@@ -678,12 +678,12 @@ func (h *OrderHTTPHandler) CreateOrder(w http.ResponseWriter, r *http.Request) {
 
 **Severidad**: Critical
 ```go
-// ❌ Noncompliant
+// FAIL Noncompliant
 if err := saveUser(user); err != nil {
     return err  // pérdida de contexto
 }
 
-// ✅ Compliant
+// OK Compliant
 if err := saveUser(user); err != nil {
     return fmt.Errorf("failed to save user %s: %w", user.ID, err)
 }
@@ -720,10 +720,10 @@ if err := saveUser(user); err != nil {
 
 | Severidad | Acción | Bloquea merge |
 |---|---|---|
-| **Blocker** | Corregir inmediatamente | ✅ Sí |
-| **Critical** | Corregir antes de merge | ✅ Sí |
-| **Major** | Corregir en el sprint actual | 🟡 Depende |
-| **Minor** | Backlog técnico | ❌ No |
+| **Blocker** | Corregir inmediatamente | OK Sí |
+| **Critical** | Corregir antes de merge | OK Sí |
+| **Major** | Corregir en el sprint actual | WARN Depende |
+| **Minor** | Backlog técnico | FAIL No |
 
 ## HTTP QUERY (RFC 10008)
 

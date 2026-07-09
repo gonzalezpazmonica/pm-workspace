@@ -368,11 +368,11 @@ El intervalo entre ticks pesados es configurable (`AGENT_HEAVY_TICK_INTERVAL`, d
 
 | Slice | Esfuerzo | Prioridad | Dep |
 |---|---|---|---|
-| S1 session-status --json | ~1h | P2 | session-action-log ✓ |
-| S3 session-cleanup | ~1h | P2 | autonomous-safety ✓ |
-| S4 profile-discover | ~1h | P2 | savia-env ✓ |
+| S1 session-status --json | ~1h | P2 | session-action-log  |
+| S3 session-cleanup | ~1h | P2 | autonomous-safety  |
+| S4 profile-discover | ~1h | P2 | savia-env  |
 | S2 context-meter | ~2h | P2 | — |
-| S5 agent-tick | ~2h | P2 | overnight-sprint ✓ |
+| S5 agent-tick | ~2h | P2 | overnight-sprint  |
 
 **Total estimado**: ~7h. Todos independientes entre sí.
 

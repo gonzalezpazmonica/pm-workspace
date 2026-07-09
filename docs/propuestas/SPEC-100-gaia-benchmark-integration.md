@@ -121,7 +121,7 @@ Phase 2: agentes especializados (developers por lenguaje, no aplican GAIA direct
 ## Justificacion
 
 **Defensiva:** clientes enterprise exigen métricas externas. Sin GAIA, perdemos
-deals contra competidores que sí publican. AutoAgent (9.1k★) tiene baseline
+deals contra competidores que sí publican. AutoAgent (9.1k) tiene baseline
 público; nosotros no.
 
 **Ofensiva:** si nuestros agentes especializados superan a generalistas (AutoAgent,

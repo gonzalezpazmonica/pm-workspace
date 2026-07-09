@@ -286,11 +286,11 @@ adb logcat                                     # ver logs
 #### KOTLIN-SEC-01 — Credenciales hardcodeadas
 **Severidad**: Blocker
 ```kotlin
-// ❌ Noncompliant
+// FAIL Noncompliant
 val apiKey = "sk-1234567890abcdef"
 val password = "SuperSecret123"
 
-// ✅ Compliant
+// OK Compliant
 val apiKey = BuildConfig.API_KEY
 val password = System.getenv("DB_PASSWORD")
 ```
@@ -298,11 +298,11 @@ val password = System.getenv("DB_PASSWORD")
 #### KOTLIN-SEC-02 — Intent extras sin validación
 **Severidad**: Blocker
 ```kotlin
-// ❌ Noncompliant
+// FAIL Noncompliant
 val userId = intent.getStringExtra("user_id")
 val user = repository.getUser(userId)  // null si no existe
 
-// ✅ Compliant
+// OK Compliant
 val userId = intent.getStringExtra("user_id") ?: return
 val user = repository.getUser(userId)
 ```
@@ -312,10 +312,10 @@ val user = repository.getUser(userId)
 #### KOTLIN-BUG-01 — Force unwrap (!!) sin null checking
 **Severidad**: Major
 ```kotlin
-// ❌ Noncompliant
+// FAIL Noncompliant
 val user = getUserOrNull()!!  // crash si null
 
-// ✅ Compliant
+// OK Compliant
 val user = getUserOrNull() ?: return
 // o
 val user = getUserOrNull()?.let { processUser(it) }
@@ -324,10 +324,10 @@ val user = getUserOrNull()?.let { processUser(it) }
 #### KOTLIN-BUG-02 — Corrutine scope sin lifecycle
 **Severidad**: Major
 ```kotlin
-// ❌ Noncompliant
+// FAIL Noncompliant
 GlobalScope.launch { loadData() }  // pierde scope si Activity se destruye
 
-// ✅ Compliant
+// OK Compliant
 viewModelScope.launch { loadData() }  // se cancela con ViewModel
 ```
 
@@ -347,12 +347,12 @@ Usar early returns, extraer métodos y simplificar condicionales.
 **Severidad**: Critical
 Código Kotlin no debe retener referencias a Activity/Fragment fuera de su lifecycle.
 ```kotlin
-// ❌ Noncompliant - Memory leak
+// FAIL Noncompliant - Memory leak
 class UserManager {
     var activity: Activity? = null  // retiene Activity indefinidamente
 }
 
-// ✅ Compliant - WeakReference o scope correcto
+// OK Compliant - WeakReference o scope correcto
 class UserViewModel : ViewModel() {
     // viewModelScope garantiza limpieza
     init { viewModelScope.launch { /* ... */ } }

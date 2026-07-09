@@ -131,47 +131,47 @@ Savia Flow no es inventado de cero. Es una síntesis de cinco generaciones de pe
 - Iteraciones de tiempo fijo como contenedor de certidumbre
 - Dailies para sincronización
 - Retrospectivas para mejora continua
-- ✓ Lo que funciona: contenedor de tiempo, enfoque en resultado de sprint
-- ✗ Lo que falla: asume predictibilidad humana, no escala con IA
+-  Lo que funciona: contenedor de tiempo, enfoque en resultado de sprint
+-  Lo que falla: asume predictibilidad humana, no escala con IA
 
 **Generación 2: Scrum Avanzado** (2010+, Scrum.org)
 - Evidence-based management
 - Menos prescripción, más adaptación
 - Enfoque en producto, no en proceso
-- ✓ Lo que funciona: flexibilidad conceptual
-- ✗ Lo que falla: sigue usando sprints y story points como métricas
+-  Lo que funciona: flexibilidad conceptual
+-  Lo que falla: sigue usando sprints y story points como métricas
 
 **Generación 3: Ingeniería de Flujo** (Martin Fowler, 2015+)
 - Flujo continuo en lugar de iteraciones
 - Ciclo de lead time como métrica central
 - WIP limits para optimizar fluidez
-- ✓ Lo que funciona: elimina fricción de ceremonias, real flow metrics
-- ✗ Lo que falla: requiere disciplina extrema, no todos los contextos son flujo continuo
+-  Lo que funciona: elimina fricción de ceremonias, real flow metrics
+-  Lo que falla: requiere disciplina extrema, no todos los contextos son flujo continuo
 
 **Generación 4: Shape Up y Beyond** (Basecamp, 2019+)
 - Especificaciones como herramienta de colaboración
 - Ciclos de 6 semanas como contenedor realista
 - Trade-offs explícitos entre scope, time, quality
-- ✓ Lo que funciona: especificaciones eliminan ambigüedad, ciclos realistas
-- ✗ Lo que falla: 6 semanas es aún demasiado con IA, no direcciona gobernanza de agentes
+-  Lo que funciona: especificaciones eliminan ambigüedad, ciclos realistas
+-  Lo que falla: 6 semanas es aún demasiado con IA, no direcciona gobernanza de agentes
 
 **Generación 5: DORA Metrics & Team Topologies** (2018+)
 - Ciclo de entrega, frecuencia, cambio fallido, tiempo medio de recuperación
 - Estas 4 métricas predicen rendimiento organizacional
 - Estructura de equipos según competencias (stream-aligned, enabling, etc.)
-- ✓ Lo que funciona: métricas que correlacionan con valor real
-- ✗ Lo que falla: no direcciona directamente la gobernanza de IA
+-  Lo que funciona: métricas que correlacionan con valor real
+-  Lo que falla: no direcciona directamente la gobernanza de IA
 
 ### 2.2 Análisis de Brechas
 
 | Aspecto | Scrum | Flujo | Shape Up | DORA | SDD | Savia Flow |
 |--------|-------|-------|---------|------|-----|-----------|
-| Ciclos de tiempo fijo | ✓ | ✗ | ✓ | ✗ | ✗ | Híbrido |
-| Métricas de flujo | ✗ | ✓ | ✗ | ✓ | ✗ | ✓ |
-| Especificaciones claras | Débil | Débil | ✓ | ✗ | ✓ | ✓ |
-| Gobernanza de IA | ✗ | ✗ | ✗ | ✗ | ✗ | ✓ |
-| Roles definidos | ✓ | ✗ | Débil | ✗ | ✗ | ✓ |
-| Autonomía del equipo | ✓ | ✓ | ✓ | ✗ | ✓ | ✓ |
+| Ciclos de tiempo fijo |  |  |  |  |  | Híbrido |
+| Métricas de flujo |  |  |  |  |  |  |
+| Especificaciones claras | Débil | Débil |  |  |  |  |
+| Gobernanza de IA |  |  |  |  |  |  |
+| Roles definidos |  |  | Débil |  |  |  |
+| Autonomía del equipo |  |  |  |  |  |  |
 
 ### 2.3 La Síntesis: Savia Flow
 
@@ -247,7 +247,7 @@ Un equipo de fintech enfrenta tasa de abandono alta en onboarding de cuentas de 
   - Resultado: tiempo modal es ahora 3 minutos
 
 **Métrica que Importa:**
-- Tasa de completion: +42% (vs objetivo 40%) ✓
+- Tasa de completion: +42% (vs objetivo 40%) 
 - Revenue impact: +$2.3M anuales (10% más clientes completados)
 
 #### Métrica Clave: Outcome Achievement Rate

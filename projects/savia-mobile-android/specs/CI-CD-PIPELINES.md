@@ -336,9 +336,9 @@ Si hay problemas en producción:
 ## Estado Actual (v0.1.0-debug)
 
 ```
-✅ CI/CD setup completo
-✅ Secrets configurados en GitHub
-✅ Pipelines testeados
+OK CI/CD setup completo
+OK Secrets configurados en GitHub
+OK Pipelines testeados
 ⏳ APK disponible en ~/.savia/bridge/apk/ (descargable via bridge web)
 ⏳ Primer release interno pendiente (cuando features MVP completo)
 ```

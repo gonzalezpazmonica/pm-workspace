@@ -21,12 +21,12 @@ Savia Mobile **SÍ es:**
 
 | Producto | Tipo | AI Native | PM Specialization | Data Ownership | Mobile First |
 |----------|------|-----------|-------------------|-----------------|--------------|
-| **Savia Mobile** | PM + AI | ✅ Claude | ✅ Workspace-specific | ✅ 100% your server | Partial (bridge) |
-| ChatGPT | Chat | ✅ GPT-4 | ❌ Generic | ❌ OpenAI servers | ✅ Yes |
-| Jira Mobile | PM | ❌ Limited | ✅ Full Jira | ❌ Atlassian servers | ✅ Yes |
-| Asana Mobile | PM | ❌ Recently added | ✅ Asana-specific | ❌ Asana servers | ✅ Yes |
-| Taiga Mobile | PM | ❌ No | ✅ Agile tools | ✅ Self-hosted | Partial |
-| Notion Mobile | Wiki + Tasks | ❌ Recently added | ⚠️ Templated | ❌ Notion servers | ✅ Yes |
+| **Savia Mobile** | PM + AI | OK Claude | OK Workspace-specific | OK 100% your server | Partial (bridge) |
+| ChatGPT | Chat | OK GPT-4 | FAIL Generic | FAIL OpenAI servers | OK Yes |
+| Jira Mobile | PM | FAIL Limited | OK Full Jira | FAIL Atlassian servers | OK Yes |
+| Asana Mobile | PM | FAIL Recently added | OK Asana-specific | FAIL Asana servers | OK Yes |
+| Taiga Mobile | PM | FAIL No | OK Agile tools | OK Self-hosted | Partial |
+| Notion Mobile | Wiki + Tasks | FAIL Recently added | WARN Templated | FAIL Notion servers | OK Yes |
 
 **Conclusión:** Savia es único en combinar: IA nativa (Claude) + especialización PM profunda + respeto por propiedad de datos + arquitectura descentralizada.
 
@@ -198,11 +198,11 @@ Mes 12:  300 Pro + 150 Team + 1 Enterprise = $5,300 + $1,000 = $6,300 MRR
 
 | Canal | Primary | Effort | Reach |
 |-------|---------|--------|-------|
-| Google Play Store | ✅ | Low | 2B+ Android devices |
-| GitHub Releases | ✅ | Low | Technical users |
-| Sideload APK (via bridge) | ✅ | Low | Existing pm-workspace users |
-| Web store (upcoming) | 📋 | Medium | iOS eventually |
-| F-Droid (open-source) | 📋 | Medium | Privacy-focused users |
+| Google Play Store | OK | Low | 2B+ Android devices |
+| GitHub Releases | OK | Low | Technical users |
+| Sideload APK (via bridge) | OK | Low | Existing pm-workspace users |
+| Web store (upcoming) |  | Medium | iOS eventually |
+| F-Droid (open-source) |  | Medium | Privacy-focused users |
 
 ## 7. Marketing Unique Angles
 

@@ -65,10 +65,10 @@ review_note: "Quarterly review 2026-Q2"
 
 ## Validación Pre-Ejecución
 
-✅ Comando existe en .opencode/commands/
-✅ Rol tiene permiso (verificar identity.md)
-✅ No es destructivo O tiene confirmación explícita
-✅ Parámetros son válidos
+OK Comando existe en .opencode/commands/
+OK Rol tiene permiso (verificar identity.md)
+OK No es destructivo O tiene confirmación explícita
+OK Parámetros son válidos
 
 ---
 

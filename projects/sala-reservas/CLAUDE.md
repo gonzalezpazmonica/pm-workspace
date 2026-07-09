@@ -1,11 +1,11 @@
 # Sala Reservas — Proyecto de Test del PM-Workspace
 
-> ⚠️ PROYECTO DE TEST — Creado para validar todas las funcionalidades del PM-Workspace.
+> WARN PROYECTO DE TEST — Creado para validar todas las funcionalidades del PM-Workspace.
 > Los datos de Azure DevOps son ficticios. Consulta `test-data/` para los mocks.
 
 ---
 
-## ⚙️ CONSTANTES DEL PROYECTO
+##  CONSTANTES DEL PROYECTO
 
 ```
 # ── Identidad en Azure DevOps ─────────────────────────────────────────────────
@@ -62,7 +62,7 @@ HORAS_CONSUMIDAS          = 0                               # inicio del proyect
 
 ---
 
-## 📋 Descripción del Proyecto
+##  Descripción del Proyecto
 
 **Qué es:** Aplicación web sencilla para reservar salas de reuniones. Sin sistema de login: el nombre del empleado se introduce manualmente al hacer una reserva.
 
@@ -83,7 +83,7 @@ HORAS_CONSUMIDAS          = 0                               # inicio del proyect
 
 ---
 
-## 👥 Equipo
+##  Equipo
 
 Ver composición completa en `equipo.md`.
 
@@ -98,7 +98,7 @@ Ver composición completa en `equipo.md`.
 
 ---
 
-## 🏃 Sprint Actual
+##  Sprint Actual
 
 **Sprint:** Sprint 2026-04 (02/03/2026 → 13/03/2026)
 **Sprint Goal:** CRUD completo de Salas y Reservas con API REST funcional
@@ -114,7 +114,7 @@ Para ver el estado: `/sprint-status sala-reservas`
 
 ---
 
-## 📁 Estructura del Proyecto
+##  Estructura del Proyecto
 
 ```
 projects/sala-reservas/
@@ -139,7 +139,7 @@ projects/sala-reservas/
 
 ---
 
-## 🔗 Links Rápidos (ficticios — solo para test)
+##  Links Rápidos (ficticios — solo para test)
 
 - Azure DevOps: `https://dev.azure.com/MI-ORGANIZACION/SalaReservas`
 - Board: `https://dev.azure.com/MI-ORGANIZACION/SalaReservas/_boards`
@@ -147,7 +147,7 @@ projects/sala-reservas/
 
 ---
 
-## 🎯 Configuración de Descomposición y Asignación de PBIs
+##  Configuración de Descomposición y Asignación de PBIs
 
 ```yaml
 # Pesos del algoritmo de scoring
@@ -174,7 +174,7 @@ tech_lead_alias: "carlos.mendoza@empresa.com"
 
 ---
 
-## 🤖 Configuración Spec-Driven Development (SDD)
+##  Configuración Spec-Driven Development (SDD)
 
 ```yaml
 sdd_config:
@@ -219,7 +219,7 @@ sdd_config:
 
 ---
 
-## ⚠️ Notas del Proyecto de Test
+## WARN Notas del Proyecto de Test
 
 - Este proyecto existe para validar el PM-Workspace sin necesidad de Azure DevOps real
 - Los datos de `test-data/` simulan respuestas reales de la API de Azure DevOps

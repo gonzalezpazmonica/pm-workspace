@@ -39,16 +39,16 @@ next lint                                      # Lint específico de Next.js
 
 ### Composición sobre props drilling
 ```typescript
-// ❌ Noncompliant — prop drilling
+// FAIL Noncompliant — prop drilling
 <Parent user={user}><Child user={user}><GrandChild user={user} /></Child></Parent>
 
-// ✅ Compliant — composición o context
+// OK Compliant — composición o context
 <UserProvider user={user}><Parent><Child><GrandChild /></Child></Parent></UserProvider>
 ```
 
 ### Custom hooks para lógica reutilizable
 ```typescript
-// ✅ Extraer lógica a custom hook
+// OK Extraer lógica a custom hook
 function useDebounce<T>(value: T, delay: number): T { /* ... */ }
 function useLocalStorage<T>(key: string, initialValue: T): [T, (v: T) => void] { /* ... */ }
 ```

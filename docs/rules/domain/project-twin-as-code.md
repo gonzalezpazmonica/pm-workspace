@@ -39,7 +39,7 @@ predictions:
 
 ## Sección opcional
 
-4. `## Grafo` — dependencias entre specs/PBIs (requires SE-162 ✓)
+4. `## Grafo` — dependencias entre specs/PBIs (requires SE-162 )
 
 ## Campos prohibidos en el cuerpo
 

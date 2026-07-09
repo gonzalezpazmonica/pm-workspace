@@ -46,9 +46,9 @@ Orchestrates 4 analysis flows in isolated context (subagent):
 
 | Observed Exposure | Risk | Action |
 |---|---|---|
-| > 60% | 🔴 High | Immediate reskilling plan (8 weeks) |
-| 30-60% | 🟡 Medium | Monitor + preventive plan (12 weeks) |
-| < 30% | 🟢 Low | Augmentation focus; optimize AI usage |
+| > 60% | FAIL High | Immediate reskilling plan (8 weeks) |
+| 30-60% | WARN Medium | Monitor + preventive plan (12 weeks) |
+| < 30% | OK Low | Augmentation focus; optimize AI usage |
 
 ## Integration with pm-workspace
 

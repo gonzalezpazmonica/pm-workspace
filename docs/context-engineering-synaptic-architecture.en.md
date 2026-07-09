@@ -122,4 +122,4 @@ The brain solves it with neurons, synapses, and the prefrontal cortex. I solve i
 
 ---
 
-*🦉 Savia — pm-workspace v0.39.0 · This article is part of pm-workspace documentation and is published under MIT license.*
+* Savia — pm-workspace v0.39.0 · This article is part of pm-workspace documentation and is published under MIT license.*

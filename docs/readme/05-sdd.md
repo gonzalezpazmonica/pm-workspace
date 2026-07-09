@@ -99,15 +99,15 @@ Vista previa de la sección más crítica (Contrato Técnico):
 ```
 Revisando calidad de la spec...
 
-✅ Cabecera completa (Task ID, developer_type, estimación, asignado)
-✅ Contrato técnico definido (interfaces, DTOs, dependencias)
-✅ Reglas de negocio documentadas: 4 reglas con excepciones y HTTP codes
-✅ Test scenarios: 6 escenarios (happy path + fechas inválidas + paciente no encontrado)
-✅ Ficheros a crear listados: 3 ficheros en rutas exactas
-✅ Código de referencia incluido (GetCitasDelDíaQueryHandler como patrón)
+OK Cabecera completa (Task ID, developer_type, estimación, asignado)
+OK Contrato técnico definido (interfaces, DTOs, dependencias)
+OK Reglas de negocio documentadas: 4 reglas con excepciones y HTTP codes
+OK Test scenarios: 6 escenarios (happy path + fechas inválidas + paciente no encontrado)
+OK Ficheros a crear listados: 3 ficheros en rutas exactas
+OK Código de referencia incluido (GetCitasDelDíaQueryHandler como patrón)
 
 ══════════════════════
-  ✅ SPEC LISTA
+  OK SPEC LISTA
   Puedes ejecutar /agent-run
 ══════════════════════
 ```
@@ -128,12 +128,12 @@ Log en tiempo real: output/agent-runs/20260519-094512-AB302-B3-single.log
 [09:45:31] Creando GetHistorialCitasQuery.cs
 [09:45:44] Creando GetHistorialCitasQueryHandler.cs
 [09:46:02] Creando HistorialCitaDto.cs + AutoMapper profile
-[09:46:18] Ejecutando dotnet build... ✅ 0 errores
-[09:46:35] Ejecutando dotnet test --filter "GetHistorial"... 6/6 ✅
+[09:46:18] Ejecutando dotnet build... OK 0 errores
+[09:46:35] Ejecutando dotnet test --filter "GetHistorial"... 6/6 OK
 [09:46:41] Agente finalizado.
 
 ══════════════════════════════════════════════
-  ✅ IMPLEMENTACIÓN COMPLETADA
+  OK IMPLEMENTACIÓN COMPLETADA
   Build: OK | Tests: 6/6 | Duración: 87s
   Coste estimado: ~$0.62 USD
 ══════════════════════════════════════════════
@@ -143,7 +143,7 @@ Ficheros creados:
   + Application/Citas/Queries/GetHistorialCitas/GetHistorialCitasQueryHandler.cs
   + Application/Citas/Queries/GetHistorialCitas/HistorialCitaDto.cs
 
-⚠️  IMPORTANTE: Code Review (E1) es obligatorio antes del merge.
+WARN  IMPORTANTE: Code Review (E1) es obligatorio antes del merge.
     Asigna AB#302-E1 a Carlos TL para revisión.
 
 ¿Actualizo la Task AB#302-B3 en Azure DevOps a estado "In Review"?
@@ -156,7 +156,7 @@ Sí, actualiza el estado
 
 **Claude responde:**
 ```
-✅ AB#302-B3 actualizada en Azure DevOps:
+OK AB#302-B3 actualizada en Azure DevOps:
    Estado: In Review
    Tags añadidos: spec-driven; agent-implemented
    Comentario: "Implementado por claude-opus-4-7. Build OK, 6/6 tests. Pendiente Code Review."
@@ -181,11 +181,11 @@ _Escenario: Quieres ver el estado de todas las tasks SDD del sprint de un vistaz
 
   Task                             Spec         Dev Type     Estado   h    Asignado
   ─────────────────────────────────────────────────────────────────────────────────
-  AB#302-B3 GetHistorialCitas      ✅ lista      agent-single  ✅ done  4h   agente
-  AB#302-C1 HistorialController    ✅ lista      agent-single  🔄 impl  3h   agente
-  AB#302-C2 Paginación cursor      ✅ lista      agent-single  ⏳ cola  3h   agente
-  AB#302-D1 Unit tests handler     ✅ lista      agent-single  ⏳ cola  2h   agente
-  AB#301-B3 SendConfirmationCmd    ⚠️ incompleta agent-single  🚫 bloq  4h   agente
+  AB#302-B3 GetHistorialCitas      OK lista      agent-single  OK done  4h   agente
+  AB#302-C1 HistorialController    OK lista      agent-single   impl  3h   agente
+  AB#302-C2 Paginación cursor      OK lista      agent-single  ⏳ cola  3h   agente
+  AB#302-D1 Unit tests handler     OK lista      agent-single  ⏳ cola  2h   agente
+  AB#301-B3 SendConfirmationCmd    WARN incompleta agent-single  🚫 bloq  4h   agente
   AB#301-D1 EmailTemplateService   ⏳ pendiente  agent-single  ⏳ cola  3h   agente
 
   Resumen:
@@ -193,7 +193,7 @@ _Escenario: Quieres ver el estado de todas las tasks SDD del sprint de un vistaz
     Horas de agente ahorradas (completadas): 4h (~$2.48 USD)
     Horas de agente estimadas (total sprint): 19h (~$11.78 USD est.)
 
-  ⚠️  AB#301-B3 bloqueada:
+  WARN  AB#301-B3 bloqueada:
      La spec tiene una sección de Contrato Técnico incompleta —
      falta la firma de IEmailService. Ejecuta /spec-review AB301-B3-...
      para ver qué falta exactamente.
@@ -256,10 +256,10 @@ Lanzando 2 agentes en paralelo...
 [Agente 1] 09:52:41 → Handler + EmailTemplateService completos. Build OK.
 [Agente 2] 09:52:58 → 9 unit tests generados. Esperando implementación para ejecutar.
 
-[Sincronizando] → Ejecutando dotnet test... 9/9 ✅
+[Sincronizando] → Ejecutando dotnet test... 9/9 OK
 
 ══════════════════════════════════════════════
-  ✅ EQUIPO COMPLETADO
+  OK EQUIPO COMPLETADO
   Duración total: 118s (vs ~210s secuencial)
   Build: OK | Tests: 9/9
   Coste real: $1.22 USD

@@ -47,7 +47,7 @@ autónomos requieren EIPD antes del despliegue.
 
 ```markdown
 ---
-📚 Fuentes:
+ Fuentes:
 - rule:aepd-framework.md (Fase 2 — Análisis de Cumplimiento)
 - skill:regulatory-compliance/SKILL.md (Framework de Compliance)
 - cmd:governance-audit.md (Verificaciones AEPD)
@@ -56,7 +56,7 @@ autónomos requieren EIPD antes del despliegue.
 ### Compacto (para outputs largos)
 
 ```markdown
-📚 3 rules · 1 skill · 2 docs → output/sources-20260303.md
+ 3 rules · 1 skill · 2 docs → output/sources-20260303.md
 ```
 
 ---

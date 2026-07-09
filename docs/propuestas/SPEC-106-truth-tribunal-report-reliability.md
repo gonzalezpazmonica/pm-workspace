@@ -331,10 +331,10 @@ Fase 1 (MVP manual) mientras Fase 2 (hook async) se itera.
 
 ## Referencias
 
-- [Code Review Court — SPEC interno](`docs/rules/domain/code-review-court.md`)
-- [Consensus Protocol — SPEC interno](`docs/rules/domain/consensus-protocol.md`)
-- [Verification Lattice — skill interno](`.opencode/skills/verification-lattice/`)
-- [Fork Agent Protocol — SPEC interno](`docs/rules/domain/fork-agent-protocol.md`)
+- [Code Review Court — SPEC interno](../rules/domain/code-review-court.md)
+- [Consensus Protocol — SPEC interno](../rules/domain/consensus-protocol.md)
+- [Verification Lattice — skill interno](../../.opencode/skills/verification-lattice/)
+- [Fork Agent Protocol — SPEC interno](../rules/domain/fork-agent-protocol.md)
 - [G-Eval chain-of-thought judge](https://arxiv.org/abs/2303.16634)
 - [RAGAS faithfulness metric](https://github.com/explodinggradients/ragas)
 - [DeepEval framework](https://github.com/confident-ai/deepeval)

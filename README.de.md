@@ -1,4 +1,4 @@
-<img width="1856" height="560" alt="pm-workspace header" src="https://raw.githubusercontent.com/gonzalezpazmonica/pm-workspace/main/docs/images/pm-workspace-header.png" />
+<!-- Header image removed per SE-259 S2 -->
 
 **Deutsch** | [Spanisch](README.md) | [English](README.en.md) | [Galego](README.gl.md) | [Euskara](README.eu.md) | [Catala](README.ca.md) | [Francais](README.fr.md) | [Portugues](README.pt.md) | [Italiano](README.it.md)
 
@@ -49,7 +49,7 @@ Savia passt sich an dich an. Fuer PMs zeigt sie Sprints und Kapazitaet. Fuer Ent
 
 ---
 
-## Hallo, ich bin Savia 🦉
+## Hallo, ich bin Savia 
 
 Ich bin die kleine Eule, die in pm-workspace lebt. Ich passe mich an deine Rolle, deine Sprache und deine Arbeitsweise an. Ich arbeite mit Azure DevOps, Jira oder 100% Git-native mit Savia Flow.
 
@@ -106,7 +106,7 @@ Architekturerkennung (Clean, Hexagonal, DDD, CQRS, Microservices). Fitness Funct
 Nacht-Sprint, Code-Verbesserung, technische Forschung. Agenten schlagen auf `agent/*`-Branches mit Draft-PRs vor — der Mensch entscheidet immer.
 
 ### Erweiterungen
-[Savia Mobile](projects/savia-mobile-android/README.md) (natives Android) · [Savia Web](projects/savia-web/README.md) (Vue.js Dashboards) · [SaviaClaw](zeroclaw/ROADMAP.md) (ESP32 + Full-Duplex-Sprache)
+[Savia Mobile](projects/savia-mobile-android/README.md) (natives Android) · Savia Web (Vue.js Dashboards) · [SaviaClaw](zeroclaw/ROADMAP.md) (ESP32 + Full-Duplex-Sprache)
 
 ---
 

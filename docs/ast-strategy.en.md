@@ -113,7 +113,7 @@ Agent receives in its context:
   ╚══════════════════════════════════════════════════╝
   File: src/Services/AuthService.cs
   Lines: 248  |  Classes: 1  |  Functions: 12
-  Complexity: 42 decision points  ⚠️  Proceed carefully
+  Complexity: 42 decision points  WARN  Proceed carefully
 
   Structural map:
   { "classes": [{ "name": "AuthService", "line": 12 }],
@@ -384,10 +384,10 @@ stack: "C#/.NET 8 + Azure"
 
 | Layer | .acm file | Elements | Priority |
 |-------|-----------|----------|----------|
-| Domain | domain/entities.acm | 18 entities | 🔴 Critical |
-| Application | domain/services.acm | 12 services | 🔴 Critical |
-| Infrastructure | infrastructure/repositories.acm | 8 repos | 🟡 High |
-| API | api/controllers.acm | 24 endpoints | 🟢 Normal |
+| Domain | domain/entities.acm | 18 entities | FAIL Critical |
+| Application | domain/services.acm | 12 services | FAIL Critical |
+| Infrastructure | infrastructure/repositories.acm | 8 repos | WARN High |
+| API | api/controllers.acm | 24 endpoints | OK Normal |
 
 @include domain/entities.acm
 @include domain/services.acm

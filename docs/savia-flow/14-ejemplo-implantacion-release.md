@@ -13,11 +13,11 @@
 la usuaria → /release-readiness --project SocialApp
 ```
 
-Savia audita: 3 specs deployed, gates pasados (lint, tests, security, QA review), bug #1010 resuelto, health checks OK. Resultado: ✅ Release readiness PASS. 3 features en DEV, 0 bugs abiertos. ⚠️ Recomendado: tests de carga antes de PRO.
+Savia audita: 3 specs deployed, gates pasados (lint, tests, security, QA review), bug #1010 resuelto, health checks OK. Resultado: OK Release readiness PASS. 3 features en DEV, 0 bugs abiertos. WARN Recomendado: tests de carga antes de PRO.
 
 ### Deploy pipeline: DEV → PRE → PRO
 
-Isabel verifica con `/pipeline-status`: Build ✅ → Tests ✅ → DEV ✅ (auto) → PRE ⏳. la usuaria aprueba PRE. Elena ejecuta tests de aceptación, aprueba. la usuaria aprueba PRO (doble gate: PM + PO).
+Isabel verifica con `/pipeline-status`: Build OK → Tests OK → DEV OK (auto) → PRE ⏳. la usuaria aprueba PRE. Elena ejecuta tests de aceptación, aprueba. la usuaria aprueba PRO (doble gate: PM + PO).
 
 ### Post-deploy: validación de outcomes
 
@@ -30,10 +30,10 @@ Elena → /outcome-track --epic "User Onboarding"
 Savia muestra métricas reales vs target:
 
 ```
-📊 Outcome: User Onboarding
-  Signup completion: 68% (target 70%) — ⚠️ casi, monitorizar 1 semana
-  Time to first post: 2.5 min (target <3 min) — ✅
-  Bounce rate registro: 32% (target <30%) — ⚠️ close, revisar UX
+ Outcome: User Onboarding
+  Signup completion: 68% (target 70%) — WARN casi, monitorizar 1 semana
+  Time to first post: 2.5 min (target <3 min) — OK
+  Bounce rate registro: 32% (target <30%) — WARN close, revisar UX
 ```
 
 Elena decide: el outcome necesita una iteración más. Crea nueva spec en exploración: "Onboarding UX Optimization" → simplificar formulario, A/B test.
@@ -52,23 +52,23 @@ la usuaria → /retro-patterns --sprints 4
 Savia genera el dashboard del primer mes:
 
 ```
-📊 Métricas mes 1:
-  Cycle Time: 4.5d → 3.8d (mejorando ✅)
-  Lead Time: 12d → 9d (mejorando ✅)
-  Throughput: 2 → 3 items/semana (creciendo ✅)
-  CFR: 0% (2 deploys sin incidentes ✅)
-  Spec-Ready buffer: 1 → 3 (estabilizado ✅)
-  Rework rate: 20% → 12% (specs reducen retrabajo ✅)
+ Métricas mes 1:
+  Cycle Time: 4.5d → 3.8d (mejorando OK)
+  Lead Time: 12d → 9d (mejorando OK)
+  Throughput: 2 → 3 items/semana (creciendo OK)
+  CFR: 0% (2 deploys sin incidentes OK)
+  Spec-Ready buffer: 1 → 3 (estabilizado OK)
+  Rework rate: 20% → 12% (specs reducen retrabajo OK)
 ```
 
 Savia también identifica patrones:
 
 ```
-🔍 Patrones detectados:
-  ✅ API contract first funciona — 0 bloqueos front↔back en semana 3-4
-  ⚠️ Elena saturada en gates — considerar automatizar Gate 5 parcialmente
-  ⚠️ Ana necesita más specs front-only — exploración muy back-heavy
-  💡 Isabel podría hacer pair con Ana en componentes complejos Ionic
+ Patrones detectados:
+  OK API contract first funciona — 0 bloqueos front↔back en semana 3-4
+  WARN Elena saturada en gates — considerar automatizar Gate 5 parcialmente
+  WARN Ana necesita más specs front-only — exploración muy back-heavy
+   Isabel podría hacer pair con Ana en componentes complejos Ionic
 ```
 
 ### El equipo decide
@@ -121,7 +121,7 @@ la usuaria → /flow-metrics --trend 12
 Métricas finales del proyecto:
 
 ```
-📊 SocialApp MVP — 12 semanas
+ SocialApp MVP — 12 semanas
   Features deployed: 12 (4 outcomes completos)
   Cycle Time: 3.2 días (media)
   Lead Time: 8 días (media)

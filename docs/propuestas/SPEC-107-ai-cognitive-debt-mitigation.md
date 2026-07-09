@@ -77,7 +77,7 @@ intervención más replicada en ciencia del aprendizaje. Aplicable directo:
 
 Ranking por fuerza de evidencia. Las primeras 3 forman el MVP de Phase 1.
 
-### I1 — Hypothesis-first commit trailer (evidencia: ★★★)
+### I1 — Hypothesis-first commit trailer (evidencia: )
 
 **Fundamento**: Roediger-Karpicke (retrieval practice) + Lee-MS/CMU
 (verification shift). Forzar al desarrollador a articular su hipótesis
@@ -93,7 +93,7 @@ ANTES de pedir código a Claude.
 **No-block en**: fixes triviales de 1 línea, format-only commits, merge
 commits, revert commits.
 
-### I2 — Teach-back gate al cerrar spec (evidencia: ★★★)
+### I2 — Teach-back gate al cerrar spec (evidencia: )
 
 **Fundamento**: MIT — el 83% no recordaba lo que acababa de escribir. La
 explicación verbal sin mirar fuerza la consolidación.
@@ -110,7 +110,7 @@ explicación verbal sin mirar fuerza la consolidación.
 requiere LLM call y crearía dependencia circular). Solo verifica que
 existe explicación de longitud razonable y no es paste del código.
 
-### I3 — Critical evaluation checklist en /pr-plan (evidencia: ★★)
+### I3 — Critical evaluation checklist en /pr-plan (evidencia: )
 
 **Fundamento**: Lee-MS/CMU barrera #1 — el desconocimiento de la
 necesidad de verificar. Hacer la verificación explícita y obligatoria.
@@ -128,7 +128,7 @@ necesidad de verificar. Hacer la verificación explícita y obligatoria.
 - Skip permitido con `--skip-critical-review` + razón obligatoria,
   registrada en log
 
-### I4 — AI dependency telemetry (evidencia: ★★)
+### I4 — AI dependency telemetry (evidencia: )
 
 **Fundamento**: MIT crossover — la deuda persiste. Para combatirla hay
 que verla. Empezar midiendo.
@@ -144,7 +144,7 @@ que verla. Empezar midiendo.
   - Streak de días sin "no-AI interval" ≥2h
 - Solo telemetría — sin bloqueos. Espejo, no policía.
 
-### I5 — Weekly retrieval drill (evidencia: ★★)
+### I5 — Weekly retrieval drill (evidencia: )
 
 **Fundamento**: Karpicke-Roediger directo. Forzar recall semanal sobre
 trabajo propio reciente.

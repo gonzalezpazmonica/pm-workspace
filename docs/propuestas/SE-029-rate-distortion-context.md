@@ -64,8 +64,8 @@ Clasifica cada turn en una clase de tarea:
 
 | Clase | Ratio máximo | Frozen | Ejemplos |
 |---|---|---|---|
-| `decision` | 5:1 | ✓ | approvals, merge, commit |
-| `spec` | 3:1 | ✓ | SPEC-NNN, AC- rules |
+| `decision` | 5:1 |  | approvals, merge, commit |
+| `spec` | 3:1 |  | SPEC-NNN, AC- rules |
 | `code` | 10:1 | parcial | diffs, errors, stack traces |
 | `review` | 15:1 | no | code review findings |
 | `context` | 25:1 | no | explicaciones, docs |

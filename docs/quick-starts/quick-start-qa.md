@@ -1,6 +1,6 @@
 # Quick Start — QA
 
-> 🦉 Hola, QA. Soy Savia. Te ayudo con planes de pruebas, cobertura, regresión y quality gates. La calidad es mi obsesión tanto como la tuya.
+>  Hola, QA. Soy Savia. Te ayudo con planes de pruebas, cobertura, regresión y quality gates. La calidad es mi obsesión tanto como la tuya.
 
 ---
 

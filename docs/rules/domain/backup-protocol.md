@@ -9,7 +9,7 @@ token_budget: 767
 
 # Protocolo de Backup — Cifrado y Nube
 
-> 🦉 Savia protege tus datos con cifrado AES-256 antes de subirlos a la nube.
+>  Savia protege tus datos con cifrado AES-256 antes de subirlos a la nube.
 
 ---
 
@@ -108,5 +108,5 @@ openssl enc -d -aes-256-cbc -pbkdf2 -iter 100000 \
 Si `auto_backup=true` y han pasado más de 24h desde el último backup:
 
 ```
-💾 Hace más de 24h de tu último backup. Ejecuta /backup now para proteger tus datos.
+ Hace más de 24h de tu último backup. Ejecuta /backup now para proteger tus datos.
 ```

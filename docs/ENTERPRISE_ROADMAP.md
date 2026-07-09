@@ -37,9 +37,9 @@ Esta hoja de ruta recoge el trabajo completado y define las fases futuras (Eras 
 
 ---
 
-## ✅ Fase 1: Fundación (Eras 36-39) — Completada
+## OK Fase 1: Fundación (Eras 36-39) — Completada
 
-### ✅ Era 36: Coordinación Multi-Equipo (v2.11.0, Mar 2026)
+### OK Era 36: Coordinación Multi-Equipo (v2.11.0, Mar 2026)
 
 Departamentos virtuales, bordes de equipo (Team Topologies de Skelton & Pais) y sincronización automática de dependencias cross-equipo.
 
@@ -52,7 +52,7 @@ Departamentos virtuales, bordes de equipo (Team Topologies de Skelton & Pais) y 
 
 ---
 
-### ✅ Era 37: RBAC Basado en Archivos (v2.12.0, Mar 2026)
+### OK Era 37: RBAC Basado en Archivos (v2.12.0, Mar 2026)
 
 Control de acceso con 4 niveles (Admin/PM/Contributor/Viewer), matriz de permisos y enforcement via pre-command hook. Cumplimiento SOX.
 
@@ -65,7 +65,7 @@ Control de acceso con 4 niveles (Admin/PM/Contributor/Viewer), matriz de permiso
 
 ---
 
-### ✅ Era 38: Gestión de Costos y Facturación (v2.12.1, Mar 2026)
+### OK Era 38: Gestión de Costos y Facturación (v2.12.1, Mar 2026)
 
 Hojas de tiempo, presupuestos, facturación, forecasting con EVM (Earned Value Management). Alertas de presupuesto en 50/75/90%.
 
@@ -78,7 +78,7 @@ Hojas de tiempo, presupuestos, facturación, forecasting con EVM (Earned Value M
 
 ---
 
-### ✅ Era 39: Incorporación a Escala (v2.12.2, Mar 2026)
+### OK Era 39: Incorporación a Escala (v2.12.2, Mar 2026)
 
 Importación masiva desde CSV, checklists por rol (Admin/PM/Dev/QA), seguimiento de progreso y transferencia de conocimiento.
 
@@ -91,9 +91,9 @@ Importación masiva desde CSV, checklists por rol (Admin/PM/Dev/QA), seguimiento
 
 ---
 
-## ✅ Fase 2: Gobernanza y Reporting (Eras 40-42) — Completada
+## OK Fase 2: Gobernanza y Reporting (Eras 40-42) — Completada
 
-### ✅ Era 40: Gobernanza y Audit Trail (v2.13.0, Mar 2026)
+### OK Era 40: Gobernanza y Audit Trail (v2.13.0, Mar 2026)
 
 Registro inmutable JSONL, rotación mensual, retención 12+36 meses. Controles de cumplimiento GDPR, AEPD, ISO 27001, EU AI Act.
 
@@ -106,7 +106,7 @@ Registro inmutable JSONL, rotación mensual, retención 12+36 meses. Controles d
 
 ---
 
-### ✅ Era 41: Reporting Empresarial (v2.13.1, Mar 2026)
+### OK Era 41: Reporting Empresarial (v2.13.1, Mar 2026)
 
 Dashboards de portfolio, salud de equipos, matriz de riesgo y forecasting. SPACE framework (Satisfaction, Performance, Activity, Communication, Efficiency).
 
@@ -119,7 +119,7 @@ Dashboards de portfolio, salud de equipos, matriz de riesgo y forecasting. SPACE
 
 ---
 
-### ✅ Era 42: Optimización de Escala (v2.14.0, Mar 2026)
+### OK Era 42: Optimización de Escala (v2.14.0, Mar 2026)
 
 Modelo de escalado 3 niveles, análisis de rendimiento, benchmarks, búsqueda de conocimiento, sincronización con vendors y gobernanza CI/CD.
 
@@ -251,16 +251,16 @@ pm-workspace permanece **abierto**, **impulsado por Git**, **impulsado por IA** 
 
 | Capacidad | Savia | Jira | Azure DevOps | Linear | Monday.com |
 |-----------|-------|------|--------------|--------|-----------|
-| **Nativo Git** | ✓ | ✗ | ✓ | ✓ | ✗ |
-| **Impulsado por IA** | ✓ | Limitado | Limitado | Limitado | ✗ |
-| **Código Abierto** | ✓ | ✗ | Parcial | ✗ | ✗ |
-| **Sin Vendor Lock-in** | ✓ | ✗ | ✗ | ✗ | ✗ |
-| **RBAC** | ✓ (4 niveles) | ✓ | ✓ | ✓ | ✓ |
-| **Facturación Integrada** | ✓ (EVM) | ✗ | ✗ | ✗ | ✓ |
-| **Multi-Equipo** | ✓ (Team Topologies) | Limitado | Limitado | ✗ | Limitado |
-| **Audit Trail** | ✓ (JSONL inmutable) | ✓ | ✓ | ✗ | ✗ |
-| **Multi-Nube IaC** | ✓ | Limitado | ✓ | ✗ | ✗ |
-| **Cumplimiento GDPR** | ✓ | ✓ | ✓ | ✓ | ✓ |
+| **Nativo Git** |  |  |  |  |  |
+| **Impulsado por IA** |  | Limitado | Limitado | Limitado |  |
+| **Código Abierto** |  |  | Parcial |  |  |
+| **Sin Vendor Lock-in** |  |  |  |  |  |
+| **RBAC** |  (4 niveles) |  |  |  |  |
+| **Facturación Integrada** |  (EVM) |  |  |  |  |
+| **Multi-Equipo** |  (Team Topologies) | Limitado | Limitado |  | Limitado |
+| **Audit Trail** |  (JSONL inmutable) |  |  |  |  |
+| **Multi-Nube IaC** |  | Limitado |  |  |  |
+| **Cumplimiento GDPR** |  |  |  |  |  |
 | **Curva de Aprendizaje** | Baja | Alta | Alta | Media | Baja |
 | **Coste para 500 usuarios** | ~$50k/año* | ~$150k/año | ~$180k/año | ~$100k/año | ~$120k/año |
 
@@ -271,8 +271,8 @@ pm-workspace permanece **abierto**, **impulsado por Git**, **impulsado por IA** 
 ## Cronograma
 
 **Completado (Mar 2026)**:
-- ✅ Eras 36-39: Fundación (Multi-equipo, RBAC, Costos, Onboarding)
-- ✅ Eras 40-42: Gobernanza y Reporting (Audit trail, SPACE, Scale)
+- OK Eras 36-39: Fundación (Multi-equipo, RBAC, Costos, Onboarding)
+- OK Eras 40-42: Gobernanza y Reporting (Audit trail, SPACE, Scale)
 
 **Propuesto**:
 - **Q2-Q3 2026**: Eras 43-46 (API REST, PostgreSQL, SSO, Conectores ERP)

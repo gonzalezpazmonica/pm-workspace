@@ -99,15 +99,15 @@ Do you want to review the spec before implementing? → /spec-review AB302-B3-..
 ```
 Reviewing spec quality...
 
-✅ Header complete (Task ID, developer_type, estimate, assigned to)
-✅ Technical contract defined (interfaces, DTOs, dependencies)
-✅ Business rules documented: 4 rules with exceptions and HTTP codes
-✅ Test scenarios: 6 scenarios (happy path + invalid dates + patient not found)
-✅ Files to create listed: 3 files at exact paths
-✅ Reference code included (GetCitasDelDíaQueryHandler as pattern)
+OK Header complete (Task ID, developer_type, estimate, assigned to)
+OK Technical contract defined (interfaces, DTOs, dependencies)
+OK Business rules documented: 4 rules with exceptions and HTTP codes
+OK Test scenarios: 6 scenarios (happy path + invalid dates + patient not found)
+OK Files to create listed: 3 files at exact paths
+OK Reference code included (GetCitasDelDíaQueryHandler as pattern)
 
 ══════════════════════
-  ✅ SPEC READY
+  OK SPEC READY
   You can run /agent-run
 ══════════════════════
 ```
@@ -128,12 +128,12 @@ Live log: output/agent-runs/20260519-094512-AB302-B3-single.log
 [09:45:31] Creating GetHistorialCitasQuery.cs
 [09:45:44] Creating GetHistorialCitasQueryHandler.cs
 [09:46:02] Creating HistorialCitaDto.cs + AutoMapper profile
-[09:46:18] Running dotnet build... ✅ 0 errors
-[09:46:35] Running dotnet test --filter "GetHistorial"... 6/6 ✅
+[09:46:18] Running dotnet build... OK 0 errors
+[09:46:35] Running dotnet test --filter "GetHistorial"... 6/6 OK
 [09:46:41] Agent finished.
 
 ══════════════════════════════════════════════
-  ✅ IMPLEMENTATION COMPLETE
+  OK IMPLEMENTATION COMPLETE
   Build: OK | Tests: 6/6 | Duration: 87s
   Estimated cost: ~$0.62 USD
 ══════════════════════════════════════════════
@@ -143,7 +143,7 @@ Files created:
   + Application/Appointments/Queries/GetHistorialCitas/GetHistorialCitasQueryHandler.cs
   + Application/Appointments/Queries/GetHistorialCitas/HistorialCitaDto.cs
 
-⚠️  IMPORTANT: Code Review (E1) is mandatory before merging.
+WARN  IMPORTANT: Code Review (E1) is mandatory before merging.
    Assign AB#302-E1 to Carlos TL for review.
 
 Shall I update Task AB#302-B3 in Azure DevOps to "In Review" status?
@@ -168,11 +168,11 @@ _Scenario: You want to see the status of all SDD tasks in the sprint at a glance
 
   Task                             Spec         Dev Type     Status   h    Assigned
   ─────────────────────────────────────────────────────────────────────────────────
-  AB#302-B3 GetHistorialCitas      ✅ ready      agent-single  ✅ done  4h   agent
-  AB#302-C1 HistorialController    ✅ ready      agent-single  🔄 impl  3h   agent
-  AB#302-C2 Cursor pagination      ✅ ready      agent-single  ⏳ queue 3h   agent
-  AB#302-D1 Unit tests handler     ✅ ready      agent-single  ⏳ queue 2h   agent
-  AB#301-B3 SendConfirmationCmd    ⚠️ incomplete agent-single  🚫 blk   4h   agent
+  AB#302-B3 GetHistorialCitas      OK ready      agent-single  OK done  4h   agent
+  AB#302-C1 HistorialController    OK ready      agent-single   impl  3h   agent
+  AB#302-C2 Cursor pagination      OK ready      agent-single  ⏳ queue 3h   agent
+  AB#302-D1 Unit tests handler     OK ready      agent-single  ⏳ queue 2h   agent
+  AB#301-B3 SendConfirmationCmd    WARN incomplete agent-single  🚫 blk   4h   agent
   AB#301-D1 EmailTemplateService   ⏳ pending    agent-single  ⏳ queue 3h   agent
 
   Summary:
@@ -180,7 +180,7 @@ _Scenario: You want to see the status of all SDD tasks in the sprint at a glance
     Agent hours saved (completed): 4h (~$2.48 USD)
     Agent hours estimated (full sprint): 19h (~$11.78 USD est.)
 
-  ⚠️  AB#301-B3 blocked:
+  WARN  AB#301-B3 blocked:
      The spec has an incomplete Technical Contract section —
      the IEmailService signature is missing. Run /spec-review AB301-B3-...
      to see exactly what's missing.
@@ -243,10 +243,10 @@ Launching 2 agents in parallel...
 [Agent 1] 09:52:41 → Handler + EmailTemplateService complete. Build OK.
 [Agent 2] 09:52:58 → 9 unit tests generated. Waiting for implementation to run.
 
-[Syncing] → Running dotnet test... 9/9 ✅
+[Syncing] → Running dotnet test... 9/9 OK
 
 ══════════════════════════════════════════════
-  ✅ TEAM COMPLETE
+  OK TEAM COMPLETE
   Total duration: 118s (vs ~210s sequential)
   Build: OK | Tests: 9/9
   Actual cost: $1.22 USD
