@@ -22,5 +22,8 @@ teardown() {
 @test "se258-s2: runs without errors" {
   run bash "$SCRIPT"
   [[ "$status" -eq 0 ]]
-  [[ "$output" == *"Chain integrity: OK"* ]]
+  # SE-258 S1 untracked the ledger from git. In CI the file is absent
+  # (clean checkout), so accept either "Chain integrity: OK" or the
+  # graceful "ledger.jsonl not found" warning.
+  [[ "$output" == *"Chain integrity: OK"* || "$output" == *"ledger.jsonl not found"* ]]
 }
