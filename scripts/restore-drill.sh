@@ -20,6 +20,7 @@ else
 fi
 
 echo ""
+# Memory liveness may fail in clean environments — does NOT affect drill result
 echo "[2/3] Verifying memory liveness..."
 if bash "$REPO_ROOT/scripts/memory-liveness-check.sh" 2>/dev/null; then
   MEM_OK=1

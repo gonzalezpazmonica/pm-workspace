@@ -44,24 +44,31 @@ while IFS= read -r line; do
   case "$FILE_PATH" in
     $pattern) ALLOWLIST_MATCH=1; break ;;
   esac
-done < <(sed -n '/^allowlist:/,/^[a-z]/p' "$CONFIG" | grep '^\s*- ' || true)
+done < <(sed -n '/^allowlist:/,/^$/p' "$CONFIG" | grep '^\s*- ' || true)
 
 if [ "$ALLOWLIST_MATCH" -eq 1 ]; then
   exit 0
 fi
 
+# Extract patterns from all N-level sections individually to avoid false matches
+# when new keys are added between levels and allowlist sections
 BLOCKED=0
-BLOCKED_LEVEL=""
-while IFS= read -r line; do
-  pattern=$(echo "$line" | sed 's/^[[:space:]]*-[[:space:]]*//' | sed 's/[[:space:]]*$//')
-  [[ -z "$pattern" ]] && continue
-  case "$FILE_PATH" in
-    $pattern)
-      BLOCKED=1
-      break
-      ;;
-  esac
-done < <(sed -n '/^  N[234]:/,/^  [AN]/p' "$CONFIG" | grep '^\s*- ' || true)
+collect_level_paths() {
+  local level="$1"
+  sed -n "/^  ${level}:/,/^  [A-Za-z]/p" "$CONFIG" | grep '^\s*- ' | sed 's/^[[:space:]]*-[[:space:]]*//' | sed 's/[[:space:]]*$//'
+}
+
+for level in N4 N3 N2; do
+  while IFS= read -r pattern; do
+    [[ -z "$pattern" ]] && continue
+    case "$FILE_PATH" in
+      $pattern)
+        BLOCKED=1
+        break 2
+        ;;
+    esac
+  done < <(collect_level_paths "$level")
+done
 
 if [ "$BLOCKED" -eq 1 ]; then
   echo "BLOCKED [sensitive-tracking]: '$FILE_PATH' matches a protected path. This file must NOT be tracked in the public repo. If this is a test fixture, add the path to the allowlist in config/sensitive-paths.yaml." >&2
