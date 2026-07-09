@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=312bfcb49eb20f060373d3b01617d728374c449bb680b647584a457db951128b
-timestamp=2026-07-08T21:27:13Z
+diff_hash=0b9a4a3da6c96971e2c3da4ded8d5f42778e023647d43ec0bf77d3e2d59166eb
+timestamp=2026-07-09T05:14:19Z
 branch=agent/se258-brechas-identitarias
-head_commit=36853cdb6
-signature=6613f4ebef9f425f6c225f2d93eacbee2d7cd6868ff1f371db8fe8227f49eca3
+head_commit=c4b09387f
+signature=268e0ad05060789c099c6fd781f595850bd2c0674e720308cbf29c4a9100bbe1
