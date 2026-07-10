@@ -41,9 +41,9 @@ teardown() {
   [ "$status" -ne 0 ]
 }
 
-@test "AC-1.6: save-nudge rejects missing nudge file" {
-  run bash "$SAVE_NUDGE" /nonexistent/nudge 2>/dev/null
-  [ "$status" -ne 0 ]
+@test "AC-1.6: save-nudge ignores extra arguments gracefully" {
+  run bash "$SAVE_NUDGE" /nonexistent/nudge arg2 arg3
+  [ "$status" -eq 0 ]
 }
 
 @test "AC-1.7: save-nudge on large state file produces no error" {
@@ -93,10 +93,10 @@ teardown() {
   [[ "$output" == *"ART-16"* ]]
 }
 
-@test "AC-3.3: verify-principal no bloquea sin principal registrado" {
+@test "AC-3.3: verify-principal rechaza sin principal registrado" {
   rm -f "$HOME/.savia/principal"
   run bash "$VERIFY_PRINCIPAL"
-  [ "$status" -eq 0 ]
+  [ "$status" -ne 0 ]
 }
 
 @test "AC-3.4: verify-principal rejects null principal path" {

@@ -4,11 +4,11 @@ set -uo pipefail
 # Verifica la cadena de hashes SHA256 del libro de la relacion
 
 REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-LEDGER="$REPO_ROOT/data/relacion/ledger.jsonl"
+LEDGER="${LEDGER:-$REPO_ROOT/data/relacion/ledger.jsonl}"
 
 if [[ ! -f "$LEDGER" ]]; then
-  echo "WARNING: ledger.jsonl not found at $LEDGER" >&2
-  exit 0
+  echo "ERROR: ledger.jsonl not found at $LEDGER" >&2
+  exit 1
 fi
 
 echo "=== Ledger Chain Verification ==="
@@ -21,6 +21,12 @@ CHAIN_BROKEN=0
 while IFS= read -r line; do
   LINE_NUM=$((LINE_NUM + 1))
   [[ -z "$line" ]] && continue
+
+  if ! echo "$line" | jq empty 2>/dev/null; then
+    echo "  [$LINE_NUM] INVALID: not valid JSON"
+    CHAIN_BROKEN=$((CHAIN_BROKEN + 1))
+    continue
+  fi
 
   hash_prev=$(echo "$line" | jq -r '.hash_prev // empty' 2>/dev/null)
   entry_id=$(echo "$line" | jq -r '.entry_id // "?"' 2>/dev/null)

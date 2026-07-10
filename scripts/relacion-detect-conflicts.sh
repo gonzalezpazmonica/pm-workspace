@@ -8,7 +8,12 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 ROOT="$(dirname "$SCRIPT_DIR")"
 LEDGER="${LEDGER:-$ROOT/data/relacion/ledger.jsonl}"
 JSON_OUT=false
-[[ "${1:-}" == "--json" ]] && JSON_OUT=true
+while [[ $# -gt 0 ]]; do
+  case "$1" in
+    --json) JSON_OUT=true; shift ;;
+    *) echo "ERROR: unknown flag: $1" >&2; exit 1 ;;
+  esac
+done
 
 if [[ ! -f "$LEDGER" ]]; then
   echo "[]"

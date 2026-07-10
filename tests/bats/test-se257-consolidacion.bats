@@ -27,7 +27,7 @@ teardown() {
 }
 
 @test "AC-1.1c: entry tiene dureza valida" {
-  INVALID=$(grep "dureza:" "$REPO_ROOT/CRITERIO.md" | grep -v "linea_roja" | grep -v "preferencia" | grep -v "estilo" | wc -l)
+  INVALID=$(grep "dureza:" "$REPO_ROOT/CRITERIO.md" | grep -v "linea_roja" | grep -v "preferencia" | grep -v "estilo" | wc -l) || true
   [ "$INVALID" -eq 0 ]
 }
 
@@ -37,7 +37,8 @@ teardown() {
 }
 
 @test "AC-1.2: CRITERIO.md rejects invalid dureza values" {
-  BAD=$(grep "dureza:" "$REPO_ROOT/CRITERIO.md" | grep -c "dureza:\s*$" || echo 0)
+  BAD=0
+  grep "dureza:" "$REPO_ROOT/CRITERIO.md" | grep -qE "dureza:\s*$" && BAD=1
   [ "$BAD" -eq 0 ]
 }
 

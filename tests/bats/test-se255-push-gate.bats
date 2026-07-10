@@ -120,7 +120,7 @@ teardown() {
 }
 
 @test "AC-1.8: gate-init.sh rejects invalid path with graceful error" {
-  run env GATE_DIR="/invalid/path" bash "$TMPDIR/scripts/gate-init.sh"
+  run env SAVIA_GATE_DIR="/invalid/path" bash "$TMPDIR/scripts/gate-init.sh"
   [ "$status" -ne 0 ]
 }
 

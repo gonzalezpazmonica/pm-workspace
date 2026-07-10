@@ -8,18 +8,23 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 ROOT="$(dirname "$SCRIPT_DIR")"
 
 # El principal se identifica via CLAUDE.md o config local
-IDENTITY_FILE="${HOME}/.savia/principal"
+if [[ -n "${PRINCIPAL_FILE+x}" && -z "${PRINCIPAL_FILE}" ]]; then
+  echo "ERROR: PRINCIPAL_FILE is set but empty" >&2
+  exit 1
+fi
+IDENTITY_FILE="${PRINCIPAL_FILE:-${HOME}/.savia/principal}"
+if [[ -n "${1:-}" ]]; then
+  IDENTITY_FILE="$1"
+fi
 SESSION_DIR="${HOME}/.savia/sessions"
 
 mkdir -p "$(dirname "$IDENTITY_FILE")" "$SESSION_DIR"
 
 # ── Verificar que existe identidad registrada ──────────────────────────
 if [[ ! -f "$IDENTITY_FILE" ]]; then
-  echo "WARN: Principal no registrado. Ejecuta:"
-  echo "  echo 'operadora' > ~/.savia/principal"
-  echo ""
-  echo "  ART-16 (CONSTITUCION.md): La operadora es el principal unico de Savia."
-  exit 0
+  echo "ERROR: Principal identity file not found: $IDENTITY_FILE" >&2
+  echo "ART-16 (CONSTITUCION.md): La operadora es el principal unico de Savia." >&2
+  exit 1
 fi
 
 PRINCIPAL=$(cat "$IDENTITY_FILE" | head -1)

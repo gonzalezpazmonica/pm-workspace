@@ -44,7 +44,7 @@ while IFS= read -r line; do
   case "$FILE_PATH" in
     $pattern) ALLOWLIST_MATCH=1; break ;;
   esac
-done < <(sed -n '/^allowlist:/,/^$/p' "$CONFIG" | grep '^\s*- ' || true)
+done < <(sed -n '/^allowlist:/,/^$/p' "$CONFIG" | grep '^[[:space:]]*-[[:space:]]' | sed 's/^[[:space:]]*-[[:space:]]*//' | sed 's/[[:space:]]*$//' | sed 's/^"//; s/"$//' || true)
 
 if [ "$ALLOWLIST_MATCH" -eq 1 ]; then
   exit 0
@@ -55,7 +55,7 @@ fi
 BLOCKED=0
 collect_level_paths() {
   local level="$1"
-  sed -n "/^  ${level}:/,/^  [A-Za-z]/p" "$CONFIG" | grep '^\s*- ' | sed 's/^[[:space:]]*-[[:space:]]*//' | sed 's/[[:space:]]*$//'
+  sed -n "/^  ${level}:/,/^  [A-Za-z]/p" "$CONFIG" | grep '^[[:space:]]*-[[:space:]]' | sed 's/^[[:space:]]*-[[:space:]]*//' | sed 's/[[:space:]]*$//' | sed 's/^"//; s/"$//'
 }
 
 for level in N4 N3 N2; do
