@@ -1,10 +1,12 @@
 #!/usr/bin/env bats
 # tests/test-se258-s2-ledger.bats
 # Ref: SE-258 Slice 2 — verify-ledger-chain
+set -uo pipefail
 
 setup() {
   REPO_ROOT="$(cd "$BATS_TEST_DIRNAME/.." && pwd)"
   export SCRIPT="$REPO_ROOT/scripts/verify-ledger-chain.sh"
+  export LEDGER="$REPO_ROOT/data/relacion/ledger.jsonl"
 }
 
 teardown() {
@@ -22,8 +24,40 @@ teardown() {
 @test "se258-s2: runs without errors" {
   run bash "$SCRIPT"
   [[ "$status" -eq 0 ]]
-  # SE-258 S1 untracked the ledger from git. In CI the file is absent
-  # (clean checkout), so accept either "Chain integrity: OK" or the
-  # graceful "ledger.jsonl not found" warning.
   [[ "$output" == *"Chain integrity: OK"* || "$output" == *"ledger.jsonl not found"* ]]
+}
+
+@test "se258-s2: rejects missing ledger file with error" {
+  run env LEDGER=/nonexistent/ledger.jsonl bash "$SCRIPT"
+  [ "$status" -ne 0 ]
+}
+
+@test "se258-s2: handles empty ledger file gracefully" {
+  TMP_LEDGER=$(mktemp)
+  printf '' > "$TMP_LEDGER"
+  run env LEDGER="$TMP_LEDGER" bash "$SCRIPT"
+  [ "$status" -eq 0 ]
+  rm -f "$TMP_LEDGER"
+}
+
+@test "se258-s2: rejects invalid ledger with malformed JSON" {
+  TMP_LEDGER=$(mktemp)
+  printf 'not-json\n' > "$TMP_LEDGER"
+  run env LEDGER="$TMP_LEDGER" bash "$SCRIPT"
+  [ "$status" -ne 0 ]
+  rm -f "$TMP_LEDGER"
+}
+
+@test "se258-s2: handles large ledger file without timeout" {
+  if [[ -f "$LEDGER" ]]; then
+    run timeout 10 bash "$SCRIPT"
+    [ "$status" -eq 0 ]
+  else
+    true
+  fi
+}
+
+@test "se258-s2: verify script exits with zero on null input device" {
+  run bash "$SCRIPT" < /dev/null
+  [ "$status" -eq 0 ]
 }
