@@ -151,9 +151,9 @@ jobs:
           fi
           echo "All required files present."
 
-   bats-tests:
-     timeout-minutes: 90
-     name: BATS Hook Tests
+  bats-tests:
+    timeout-minutes: 90
+    name: BATS Hook Tests
     runs-on: ubuntu-latest
 
     steps:
