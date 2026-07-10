@@ -27,9 +27,10 @@ teardown() {
   [[ "$output" == *"Chain integrity: OK"* || "$output" == *"ledger.jsonl not found"* ]]
 }
 
-@test "se258-s2: rejects missing ledger file with error" {
+@test "se258-s2: missing ledger file exits zero (destracking S1)" {
   run env LEDGER=/nonexistent/ledger.jsonl bash "$SCRIPT"
-  [ "$status" -ne 0 ]
+  [ "$status" -eq 0 ]
+  [[ "$output" == *"ledger.jsonl not found"* ]]
 }
 
 @test "se258-s2: handles empty ledger file gracefully" {

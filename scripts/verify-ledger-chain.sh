@@ -7,8 +7,8 @@ REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 LEDGER="${LEDGER:-$REPO_ROOT/data/relacion/ledger.jsonl}"
 
 if [[ ! -f "$LEDGER" ]]; then
-  echo "ERROR: ledger.jsonl not found at $LEDGER" >&2
-  exit 1
+  echo "ledger.jsonl not found — expected after destracking (SE-258 S1)"
+  exit 0
 fi
 
 echo "=== Ledger Chain Verification ==="
