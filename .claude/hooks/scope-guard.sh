@@ -1,15 +1,52 @@
 #!/bin/bash
 set -uo pipefail
 # scope-guard.sh — Detecta ficheros modificados fuera del scope de la spec SDD activa
+# SE-260 S1: Tambien detecta ficheros fuera del path-set congelado del Court.
 # Usado por: settings.json (Stop hook)
-# Lógica: Si hay una spec activa con sección "Ficheros a Crear/Modificar",
-#         compara los ficheros modificados (git diff) contra los declarados.
-#         Si hay ficheros fuera del scope → warning al PM (exit 0, NO bloquea).
-# Exit codes: 0 = pass (con warning si aplica), 2 = bloqueo (no usado aquí)
-# Profile tier: standard
-# PERF: optimized 2026-05-07 — single git diff, maxdepth=4, early exit, declared specs cache
+# Exit codes: 0 = pass (con warning si aplica), 1 = bloqueo (solo en modo court activo)
 
 LIB_DIR="$(dirname "${BASH_SOURCE[0]}")/lib"
+ROOT=$(git rev-parse --show-toplevel 2>/dev/null || echo "$(cd "$(dirname "$0")/../.." && pwd)")
+
+# ── SE-260 S1: Court mode — enforce frozen path-set during fix phase ──
+CRC_FILE="$ROOT/.review.crc"
+if [[ -f "$CRC_FILE" ]]; then
+  # Check if review is in frozen/fix state
+  if grep -q "status: frozen" "$CRC_FILE" 2>/dev/null; then
+    # Extract path-set from .review.crc
+    PATH_SET=$(python3 -c "
+import yaml, sys
+try:
+    with open('$CRC_FILE') as f:
+        crc = yaml.safe_load(f)
+    paths = crc.get('paths', [])
+    for p in paths:
+        print(p)
+except: pass
+" 2>/dev/null || grep -oE '^\s+- .*' "$CRC_FILE" 2>/dev/null | sed 's/^\s*- //' || echo "")
+
+    if [[ -n "$PATH_SET" ]]; then
+      # Get current modified files (staged + unstaged)
+      MODIFIED=$(git diff --name-only HEAD 2>/dev/null || echo "")
+      OUT_OF_COURT=""
+      while IFS= read -r f; do
+        [[ -z "$f" ]] && continue
+        # Skip excluded patterns
+        [[ "$f" =~ ^(CHANGELOG\.md|\.scm/|\.pr-summary\.md|output/receipts/) ]] && continue
+        if ! echo "$PATH_SET" | grep -qF "$f"; then
+          OUT_OF_COURT+="  $f\n"
+        fi
+      done <<< "$MODIFIED"
+
+      if [[ -n "$OUT_OF_COURT" ]]; then
+        echo "COURT SCOPE GUARD: Fix modifies paths outside frozen review path-set:" >&2
+        echo -e "$OUT_OF_COURT" >&2
+        echo "Fix rejected — path-set is frozen. Escalate to operator if expansion needed." >&2
+        exit 1
+      fi
+    fi
+  fi
+fi
 if [[ -f "$LIB_DIR/profile-gate.sh" ]]; then
   # shellcheck source=/dev/null
   source "$LIB_DIR/profile-gate.sh" && profile_gate "standard"

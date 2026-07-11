@@ -1,0 +1,38 @@
+version: 1
+
+budget:
+  max_fix_turns: 3
+  max_fix_tokens: 12000
+  timeout_per_judge_seconds: 60
+
+freeze:
+  auto_freeze_after_first_pass: true
+  allow_operator_override: true
+
+escalation:
+  contradiction_handler: escalate_to_operator
+  late_findings: follow_up_queue
+  max_follow_ups_per_review: 10
+
+verification:
+  mode: directed
+  recheck_original_acs: true
+  recheck_fixed_findings_only: true
+  forbid_discovery_after_freeze: true
+
+paths:
+  derive_from: "git diff --name-only $(git merge-base HEAD main)..HEAD"
+  exclude_patterns:
+    - "CHANGELOG.md"
+    - ".scm/*"
+    - ".pr-summary.md"
+    - "output/receipts/*"
+
+scoring:
+  pass_threshold: 85
+  conditional_threshold: 70
+  weights:
+    critical: 25
+    high: 10
+    medium: 3
+    low: 1

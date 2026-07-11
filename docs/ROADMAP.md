@@ -704,6 +704,8 @@ Google Sheets · ServiceNow/SAP · Tableau · Kafka · VS Code ext · Cloud voic
 | **SPEC-192** | Anti-Adulation & Illusory Truth Defense — 3 jueces nuevos + hook regex + skill | 4-6h | — |
 | **SPEC-193** | Context Provenance & Injection Hardening — origin tagging, drop-after-use | 5-8h | — |
 | **SPEC-194** | Criterion Simulation Layer — meta-reflexión pre-acción (novel) | 6-9h | — |
+| **SE-260 S4** | Recibos de revision ligados a contenido — patch-id estable, gate G0b | 4h | — |
+| **SE-260 S1** | Ciclo de revision acotado del Court — freeze, path-set, verificacion dirigida | 10h | SE-260 S4 |
 
 #### Tier P1
 
@@ -736,6 +738,8 @@ Google Sheets · ServiceNow/SAP · Tableau · Kafka · VS Code ext · Cloud voic
 | **SE-260** | Blast Radius Command — "si cambio este fichero, ¿qué se rompe?" (CodeFlow-inspired) | 2h | P2 |
 | **SE-261** | Workspace Health Score v2 — 9 dimensiones con blast radius, ownership, dead code (CodeFlow-inspired) | 3h | P2 · dep SE-260 |
 | **SE-262** | PR Thermal Receipts — delta de métricas en comentario sticky al merge (CodeFlow-inspired) | 2h | P2 |
+| **SE-263 S2** | Delegacion nativa a OpenCode — explore allowlist, deny-by-default | 4h | P2 |
+| **SE-264 S3** | Contrato ownership-safe para artefactos — Python lib + 6 ops | 6h | P2 |
 | **SPEC-182** | Bitemporal timeline frontmatter | 6-8h | P2 |
 | **SPEC-183** | Reconciliation 3-bucket drift-auditor | 5-7h | P3 · dep SPEC-182 |
 | **SE-216 S4** | Experiment Graph — tree search | ~6h | P3 |

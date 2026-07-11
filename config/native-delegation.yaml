@@ -1,0 +1,13 @@
+version: 1
+
+native_agents:
+  explore:
+    allow: true
+    scope: read_only
+    description: "Codebase exploration, file search, architecture discovery"
+    max_turns: 10
+  general:
+    allow: false
+    reason: "general has write access; use only under explicit operator authorization"
+
+default: deny
