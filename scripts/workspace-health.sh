@@ -2,12 +2,23 @@
 # workspace-health.sh — Comprehensive health dashboard for pm-workspace
 # Aggregates all quality signals into a single health score.
 #
-# Usage: bash scripts/workspace-health.sh [--summary | --json | --ci]
+# Usage: bash scripts/workspace-health.sh [--summary | --json | --ci] [--v2]
+#   --v2    Enable CodeFlow-inspired extended dimensions (blast radius,
+#           code ownership, dead code detection)
 set -uo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
-MODE="${1:---summary}"
+
+MODE="--summary"
+V2=false
+while [[ $# -gt 0 ]]; do
+  case "$1" in
+    --summary|--json|--ci) MODE="$1"; shift ;;
+    --v2) V2=true; shift ;;
+    *) shift ;;
+  esac
+done
 
 # ── Helper functions ──
 count_glob() {
@@ -91,13 +102,117 @@ DOC_SCORE=$(pct "$DOCS_PRESENT" "${#DOCS_REQUIRED[@]}")
 CI_FILES=$(count_glob "$ROOT/.github/workflows/*.yml")
 CI_SCORE=$( [ "$CI_FILES" -ge 1 ] && echo 100 || echo 0 )
 
+# ── V2: Extended dimensions (CodeFlow-inspired) ──
+BLAST_SCORE=50
+BLAST_WARN=false
+TOP_FRAGILE=""
+OWNERSHIP_SCORE=0
+OWNERSHIP_WARN=false
+DEAD_CODE_SCORE=100
+DEAD_CODE_WARN=false
+dead_funcs=0
+total_funcs=0
+
+if $V2; then
+
+  # 7. Blast Radius — aggregate fragility of top-N most-referenced scripts
+  BLAST_SCRIPT="$ROOT/scripts/blast-radius.sh"
+  if [[ -x "$BLAST_SCRIPT" ]]; then
+    max_blast=0
+    fragile_files=""
+    count=0
+    for f in "$ROOT"/scripts/*.sh; do
+      [[ $count -ge 3 ]] && break
+      [[ ! -f "$f" ]] && continue
+      local_f="${f#$ROOT/}"
+      blast_out=$(bash "$BLAST_SCRIPT" --json --depth 1 "$local_f" 2>/dev/null || echo '{"risk_score":0}')
+      risk=$(echo "$blast_out" | grep -oE '"risk_score": [0-9]+' | grep -oE '[0-9]+' || echo 0)
+      impacted=$(echo "$blast_out" | grep -oE '"total_impacted": [0-9]+' | grep -oE '[0-9]+' || echo 0)
+      if [[ "$impacted" -gt 0 ]]; then
+        fragile_files="$fragile_files $local_f"
+        count=$((count + 1))
+      fi
+      [[ "$risk" -gt "$max_blast" ]] && max_blast=$risk
+    done
+    BLAST_SCORE=$((100 - max_blast))
+    [[ "$BLAST_SCORE" -lt 0 ]] && BLAST_SCORE=0
+    TOP_FRAGILE="${fragile_files# }"
+  else
+    BLAST_WARN=true
+  fi
+
+  # 8. Code Ownership — diversity of git authors
+  if git -C "$ROOT" rev-parse --git-dir >/dev/null 2>&1; then
+    total_tracked=0
+    multi_author=0
+    while IFS= read -r f; do
+      [[ -z "$f" ]] && continue
+      [[ "$f" =~ ^(vendor|node_modules|\.git|output)/ ]] && continue
+      total_tracked=$((total_tracked + 1))
+      authors=$(git -C "$ROOT" log --since="90 days ago" --format="%an" -- "$f" 2>/dev/null | sort -u | wc -l)
+      [[ "$authors" -ge 2 ]] && multi_author=$((multi_author + 1))
+      [[ $total_tracked -gt 200 ]] && break
+    done < <(git -C "$ROOT" ls-files 2>/dev/null)
+    if [[ "$total_tracked" -gt 0 ]]; then
+      OWNERSHIP_SCORE=$(pct "$multi_author" "$total_tracked")
+    fi
+  else
+    OWNERSHIP_WARN=true
+  fi
+
+  # 9. Dead Code — functions defined but never referenced (bash scripts only)
+  for script in "$ROOT"/scripts/*.sh; do
+    [[ ! -f "$script" ]] && continue
+    while IFS= read -r line; do
+      func_name=$(echo "$line" | sed -nE 's/^[[:space:]]*(function[[:space:]]+)?([_a-zA-Z][_a-zA-Z0-9]*)[[:space:]]*\(.*/\2/p')
+      [[ -z "$func_name" ]] && continue
+      total_funcs=$((total_funcs + 1))
+      script_name=$(basename "$script")
+      refs=$(grep -rl "$func_name" "$ROOT/scripts" --include="*.sh" 2>/dev/null | grep -v "$script_name" | wc -l)
+      [[ "$refs" -eq 0 ]] && dead_funcs=$((dead_funcs + 1))
+    done < <(grep -nE '^[[:space:]]*(function[[:space:]]+[_a-zA-Z][_a-zA-Z0-9]*|[_a-zA-Z][_a-zA-Z0-9]*[[:space:]]*\(\))' "$script" 2>/dev/null)
+  done
+  if [[ "$total_funcs" -gt 0 ]]; then
+    dead_pct=$(pct "$dead_funcs" "$total_funcs")
+    DEAD_CODE_SCORE=$((100 - dead_pct))
+    [[ "$DEAD_CODE_SCORE" -lt 0 ]] && DEAD_CODE_SCORE=0
+  fi
+
+fi
+
 # ── Calculate overall health ──
-# Weighted average: skills 20%, commands 15%, maturity 15%, tests 20%, security 20%, docs 10%
-OVERALL=$(( (SKILL_COMPLETENESS * 20 + CMD_COMPLETENESS * 15 + MATURITY_SCORE * 15 + TEST_COVERAGE * 20 + SECURITY_SCORE * 20 + DOC_SCORE * 10) / 100 ))
+if $V2; then
+  OVERALL=$(( (SKILL_COMPLETENESS * 15 + CMD_COMPLETENESS * 10 + MATURITY_SCORE * 10 + \
+               TEST_COVERAGE * 15 + SECURITY_SCORE * 15 + DOC_SCORE * 10 + \
+               BLAST_SCORE * 10 + OWNERSHIP_SCORE * 10 + DEAD_CODE_SCORE * 5) / 100 ))
+else
+  OVERALL=$(( (SKILL_COMPLETENESS * 20 + CMD_COMPLETENESS * 15 + MATURITY_SCORE * 15 + \
+               TEST_COVERAGE * 20 + SECURITY_SCORE * 20 + DOC_SCORE * 10) / 100 ))
+fi
 
 # ── Output ──
 if [ "$MODE" = "--json" ]; then
-  cat <<JSON
+  if $V2; then
+    cat <<JSON
+{
+  "generated": "$(date -Iseconds)",
+  "version": 2,
+  "overall": { "score": $OVERALL, "grade": "$(grade $OVERALL)" },
+  "dimensions": {
+    "skill_completeness": { "score": $SKILL_COMPLETENESS, "grade": "$(grade $SKILL_COMPLETENESS)", "detail": "$SKILLS_WITH_MD/$TOTAL_SKILLS skills have SKILL.md" },
+    "command_completeness": { "score": $CMD_COMPLETENESS, "grade": "$(grade $CMD_COMPLETENESS)", "detail": "$CMD_WITH_FM/$TOTAL_COMMANDS commands have frontmatter" },
+    "maturity": { "score": $MATURITY_SCORE, "grade": "$(grade $MATURITY_SCORE)", "stable": $STABLE, "beta": $BETA, "alpha": $ALPHA },
+    "test_coverage": { "score": $TEST_COVERAGE, "grade": "$(grade $TEST_COVERAGE)", "tested": $TESTED_HOOKS, "total": $TOTAL_HOOKS },
+    "security": { "score": $SECURITY_SCORE, "grade": "$(grade $SECURITY_SCORE)", "findings": $SEC_FINDINGS, "vulns": $VULN_FINDINGS },
+    "documentation": { "score": $DOC_SCORE, "grade": "$(grade $DOC_SCORE)", "present": $DOCS_PRESENT, "required": ${#DOCS_REQUIRED[@]} },
+    "blast_radius": { "score": $BLAST_SCORE, "grade": "$(grade $BLAST_SCORE)"$([ -n "$TOP_FRAGILE" ] && echo ", \"top_fragile_files\": \"$TOP_FRAGILE\"")$($BLAST_WARN && echo ", \"warning\": \"blast-radius.sh not found, using default\"") },
+    "code_ownership": { "score": $OWNERSHIP_SCORE, "grade": "$(grade $OWNERSHIP_SCORE)"$($OWNERSHIP_WARN && echo ", \"warning\": \"no git repo, cannot measure\"") },
+    "dead_code": { "score": $DEAD_CODE_SCORE, "grade": "$(grade $DEAD_CODE_SCORE)", "dead_functions": $dead_funcs, "total_functions": $total_funcs }
+  }
+}
+JSON
+  else
+    cat <<JSON
 {
   "generated": "$(date -Iseconds)",
   "overall": { "score": $OVERALL, "grade": "$(grade $OVERALL)" },
@@ -111,9 +226,13 @@ if [ "$MODE" = "--json" ]; then
   }
 }
 JSON
+  fi
 
 elif [ "$MODE" = "--ci" ]; then
   echo "Workspace Health: $OVERALL% ($(grade $OVERALL))"
+  if $V2; then
+    echo "  Blast: $(grade $BLAST_SCORE) | Ownership: $(grade $OWNERSHIP_SCORE) | DeadCode: $(grade $DEAD_CODE_SCORE)"
+  fi
   if [ "$OVERALL" -lt 60 ]; then
     echo "FAIL: Health score below 60%"
     exit 1
@@ -121,9 +240,13 @@ elif [ "$MODE" = "--ci" ]; then
   echo "PASS: Health score $OVERALL% >= 60%"
 
 else
-  echo "═══════════════════════════════════════════════════"
-  echo "  🏥 Workspace Health Dashboard — pm-workspace"
-  echo "═══════════════════════════════════════════════════"
+  echo "═══════════════════════════════════════════════════════════════"
+  if $V2; then
+    echo "  Health Dashboard v2 — pm-workspace (CodeFlow-enhanced)"
+  else
+    echo "  Health Dashboard — pm-workspace"
+  fi
+  echo "═══════════════════════════════════════════════════════════════"
   echo ""
   echo "  Overall Health: $OVERALL% ($(grade $OVERALL))"
   echo ""
@@ -136,11 +259,21 @@ else
   printf "  │ %-24s │ %4d%% │   %s   │\n" "Test coverage" "$TEST_COVERAGE" "$(grade $TEST_COVERAGE)"
   printf "  │ %-24s │ %4d%% │   %s   │\n" "Security posture" "$SECURITY_SCORE" "$(grade $SECURITY_SCORE)"
   printf "  │ %-24s │ %4d%% │   %s   │\n" "Documentation" "$DOC_SCORE" "$(grade $DOC_SCORE)"
+  if $V2; then
+    echo "  ├──────────────────────────┼───────┼───────┤"
+    printf "  │ %-24s │ %4d%% │   %s   │\n" "Blast radius" "$BLAST_SCORE" "$(grade $BLAST_SCORE)"
+    printf "  │ %-24s │ %4d%% │   %s   │\n" "Code ownership" "$OWNERSHIP_SCORE" "$(grade $OWNERSHIP_SCORE)"
+    printf "  │ %-24s │ %4d%% │   %s   │\n" "Dead code" "$DEAD_CODE_SCORE" "$(grade $DEAD_CODE_SCORE)"
+  fi
   echo "  └──────────────────────────┴───────┴───────┘"
   echo ""
   echo "  Components: $TOTAL_COMMANDS commands, $TOTAL_SKILLS skills,"
   echo "              $(count_glob "$ROOT/.opencode/agents/*.md") agents, $TOTAL_HOOKS hooks"
   echo "  GLM governance manifest: $GLM_STATUS"
+  if $V2; then
+    echo "  Top fragile: ${TOP_FRAGILE:-none}"
+    echo "  Dead functions: $dead_funcs / $total_funcs"
+  fi
   echo ""
-  echo "═══════════════════════════════════════════════════"
+  echo "═══════════════════════════════════════════════════════════════"
 fi
