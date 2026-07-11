@@ -1,0 +1,22 @@
+version: 1
+
+level_crossing:
+  default: deny
+  n3_and_above_require_local_principal_signature: true
+  per_cupola_rules: {}
+
+prompt_injection:
+  treat_peer_content_as_untrusted: true
+  guard: prompt-injection-guard
+  quarantine_on_detection: true
+
+verification:
+  require_valid_card_signature: true
+  require_registry_membership: true
+  check_revocation_status: true
+
+anti_surveillance:
+  prohibit_individual_ranking: true
+  aggregate_only: true
+  require_equality_shield: true
+  require_reciprocity: true

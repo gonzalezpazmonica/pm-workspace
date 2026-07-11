@@ -5,6 +5,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased] — 2026-07-11 · Federacion de Savias — PR #904
+
+Added: SE-263 — Federacion de Savias soberanas mediante cupulas de contexto,
+plano de estado git, A2A sobre red privada, y Agent Index.
+7 slices (S1-S7): coordination model, instance identity, exportable domes,
+git plane + agent index, A2A server (5 skills), exchange ledger,
+federation drill + atestacion. 39/39 BATS pass.
+
 ## [Unreleased] — 2026-07-11 · gentle-ai v1.49 patterns — PR #903
 
 Added: 4 patrones de gentle-ai v1.49 adaptados a Savia.
