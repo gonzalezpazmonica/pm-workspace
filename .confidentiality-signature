@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=dfbda52cb70f33924b79e3bfde37c55efbdfc154ddbd85b6c3fe08ede3f664c9
-timestamp=2026-07-11T11:02:08Z
-branch=agent/se260-gentle-patterns
-head_commit=ab0bb991b
-signature=fbf2d9411e21ed27f7dde4559663376e4aec62d06d131429f991509f7942c450
+diff_hash=3410717784ec97f824a07a315743e0bb65fdad0a41e69c571e94c2486b5fd1a1
+timestamp=2026-07-11T21:45:31Z
+branch=agent/se263-federacion
+head_commit=d3ad26264
+signature=cce15acc2e37ca6e4e0e75e9d45f30df300916894dabab095f52e4c608108edb
