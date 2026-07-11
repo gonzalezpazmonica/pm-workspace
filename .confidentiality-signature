@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=285f42415e8040cf2e2b6745da7ac601493d93efbae51db403c0c1ccc159b6a4
-timestamp=2026-07-11T01:45:03Z
-branch=agent/se259-docs-corporativa
-head_commit=3a198cced
-signature=43912cdbb93cd53426ac0bae605ff0849ca60228be179dad8e26fcf5a5973cdf
+diff_hash=4c7bba9245af3301a80a383cb6e36afa6a51caaf792d61d8e1281dba67af4f1b
+timestamp=2026-07-11T07:33:50Z
+branch=agent/codeflow-se260-262-20260711
+head_commit=806ee29f9
+signature=2eaf08cb31226ce60c2642852780fb5517dc7ef6de4a018a67a4942d2d272231
