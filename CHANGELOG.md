@@ -5,6 +5,15 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased] — 2026-07-11 · gentle-ai v1.49 patterns — PR #903
+
+Added: 4 patrones de gentle-ai v1.49 adaptados a Savia.
+- S4: `scripts/receipt-v2.sh` — recibos de revisión ligados a contenido (patch-id estable).
+- S1: `rules/court.rules.yaml` — ciclo de revisión acotado del Court (freeze, path-set, verificación dirigida).
+- S2: `config/native-delegation.yaml` — delegación nativa OpenCode con allowlist deny-by-default.
+- S3: `docs/managed-artifacts-contract.md` + `scripts/lib/managed_artifacts.py` — contrato ownership-safe para artefactos gestionados.
+- 24/25 BATS tests pass.
+
 ## [Unreleased] — 2026-07-11 · CodeFlow-inspired health tools — PR #902
 
 Added: 3 nuevas herramientas de salud del workspace inspiradas en CodeFlow.
