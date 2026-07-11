@@ -1,5 +1,5 @@
 # development — Savia Capability Map (L1)
-> 214 resources
+> 215 resources
 
 - **/speckit.checklist** (cmd): Alias spec-kit compatible. Gate de calidad final con verification-lattice multi-capa. Invoca skill verification-lattice. Compatible con github/spec-kit.
 - **/speckit.clarify** (cmd): Alias spec-kit compatible. Preguntas dirigidas para cerrar ambigüedad en una spec. Invoca skill context-interview-conductor. Compatible con github/spec-kit.
@@ -15,6 +15,7 @@
 - **ast-quality-gate** (script): ast-quality-gate.sh — Language-agnostic code quality meta-analyzer
 - **authority-claim-judge** (agent): Recommendation Tribunal judge — detects credential claims ("soy investigador"). NUNCA veto. (SPEC-193)
 - **best-practices-check** (cmd): Evaluate workspace against Claude Code best practices
+- **blast-radius** (script): blast-radius.sh — Calcula el blast radius de un fichero (CodeFlow-inspired)
 - **block-pat-file-write** (script): block-pat-file-write.sh — SPEC-SE-036 Slice 2: block writes to PAT file paths
 - **budget-guard** (script): budget-guard.sh — Context budget monitor (SPEC-022 F1)
 - **build-azdo-schema-graph** (script): build-azdo-schema-graph.sh — SE-076 Slice 2

@@ -1,5 +1,5 @@
 # quality — Savia Capability Map (L1)
-> 236 resources
+> 238 resources
 
 - **/speckit.analyze** (cmd): Alias spec-kit compatible. Review cruzado de una spec antes de implementar. Invoca skill consensus-validation. Compatible con github/spec-kit.
 - **Court Review** (cmd): Convene the Code Review Court to evaluate implementation quality across 6 judges
@@ -29,6 +29,7 @@
 - **decide-architecture-corpus-test** (script): decide-architecture-corpus-test.sh — SPEC-158
 - **doc-health-audit** (script): doc-health-audit.sh — Documentation Health Auditor
 - **docs-audit** (script): docs-audit.sh — Audita la estructura actual de docs/ y propone mejoras
+- **docs-lint** (script): docs-lint.sh — SE-259 Slice 1. Bash wrapper for docs-lint.py
 - **docs-quality-audit** (cmd): Auditar calidad de documentacion basada en feedback de agentes
 - **drift-auditor** (agent): Auditoría de convergencia repo: detecta drift entre docs, config y código. Usar PROACTIVELY tras cambios grandes o al inicio de sprint.
 - **dynamic-web-security-test** (script): dynamic-web-security-test.sh — SE-245 Dynamic Web Security Testing
@@ -90,6 +91,7 @@
 - **pr-plan-queue-check** (script): pr-plan-queue-check.sh — SPEC-SE-012 Module 4.
 - **pr-rebase** (script): pr-rebase.sh — Rebase current PR branch onto origin/main and re-sign.
 - **pr-review** (cmd): >
+- **pr-thermal-receipt** (script): pr-thermal-receipt.sh — Thermal receipt for PRs (CodeFlow-inspired)
 - **pre-push-security-gate** (script): SE-247 — Pre-push security gate
 - **prompt-security-scan** (script): prompt-security-scan.sh — Static analyzer for prompt injection/leakage
 - **python-sbom** (script): python-sbom.sh — SE-056 Slice 1 Python SBOM + requirements audit.

@@ -1,6 +1,6 @@
 {
-  "hash": "1f61d2104209",
-  "total": 1202,
+  "hash": "b1ebb296922e",
+  "total": 1205,
   "resources": [
     {
       "category": "analysis",
@@ -2001,6 +2001,20 @@
       "kind": "cmd",
       "path": ".claude/commands/best-practices-check.md",
       "description": "Evaluate workspace against Claude Code best practices"
+    },
+    {
+      "category": "development",
+      "name": "blast-radius",
+      "intents": [
+        "blast",
+        "calcula",
+        "codeflow",
+        "fichero",
+        "inspired"
+      ],
+      "kind": "script",
+      "path": "scripts/blast-radius.sh",
+      "description": "blast-radius.sh — Calcula el blast radius de un fichero (CodeFlow-inspired)"
     },
     {
       "category": "development",
@@ -13054,6 +13068,20 @@
     },
     {
       "category": "quality",
+      "name": "docs-lint",
+      "intents": [
+        "bash",
+        "docs",
+        "lint",
+        "slice",
+        "wrapper"
+      ],
+      "kind": "script",
+      "path": "scripts/docs-lint.sh",
+      "description": "docs-lint.sh — SE-259 Slice 1. Bash wrapper for docs-lint.py"
+    },
+    {
+      "category": "quality",
       "name": "docs-quality-audit",
       "intents": [
         "agentes",
@@ -13870,6 +13898,19 @@
       "kind": "cmd",
       "path": ".claude/commands/pr-review.md",
       "description": ">"
+    },
+    {
+      "category": "quality",
+      "name": "pr-thermal-receipt",
+      "intents": [
+        "codeflow",
+        "inspired",
+        "receipt",
+        "thermal"
+      ],
+      "kind": "script",
+      "path": "scripts/pr-thermal-receipt.sh",
+      "description": "pr-thermal-receipt.sh — Thermal receipt for PRs (CodeFlow-inspired)"
     },
     {
       "category": "quality",
