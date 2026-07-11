@@ -15,6 +15,26 @@ g0() {
   echo "resolved — $ff modified"; rm -f "$FAILURE_FILE"
 }
 
+# SE-260 S4: Content-bound receipt verification gate
+# If a receipt v2 exists for this branch and its content hasn't changed,
+# skip content gates. If receipt is stale (content changed), full plan required.
+g0b() {
+  local receipt_script="$PRJ/scripts/receipt-v2.sh"
+  [[ ! -x "$receipt_script" ]] && return  # no receipt script, pass through
+  local result
+  result=$(bash "$receipt_script" verify --branch "$BRANCH" 2>&1) || true
+  if echo "$result" | grep -q "RECEIPT VALID"; then
+    echo "PASS: receipt v2 valid — skipping content re-review"
+    RECEIPT_VALID=true
+    return
+  elif echo "$result" | grep -q "RECEIPT STALE"; then
+    echo "FAIL: receipt v2 stale — content changed, full plan required"
+    FAILED_FILE="receipt-v2"
+  elif echo "$result" | grep -q "no receipt found"; then
+    return  # no receipt = normal flow
+  fi
+}
+
 gate() {
   local id="$1" name="$2"; shift 2
   [[ -n "$STOPPED" ]] && return

@@ -37,6 +37,7 @@ echo "  PR Pre-Flight — $BRANCH"
 echo "------------------------------------------------------------"
 echo ""
 gate "G0"  "Previous failure check" g0
+gate "G0b" "Receipt v2 (content)"  g0b
 gate "G1"  "Branch safety"         g1
 gate "G2"  "Clean working tree"    g2
 gate "G3"  "No merge conflicts"    g3
