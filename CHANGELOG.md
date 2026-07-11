@@ -5,6 +5,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased] — 2026-07-11 · CodeFlow-inspired health tools — PR #902
+
+Added: 3 nuevas herramientas de salud del workspace inspiradas en CodeFlow.
+- SE-260 `scripts/blast-radius.sh` — analiza dependientes de un fichero con control de profundidad y riesgo.
+- SE-261 `scripts/workspace-health.sh --v2` — extiende health dashboard a 9 dimensiones (blast radius, code ownership, dead code).
+- SE-262 `scripts/pr-thermal-receipt.sh` — genera recibos térmicos con delta de métricas para PRs.
+- 3 specs SDD en `docs/specs/SE-26*`, 30 BATS tests (27 pass).
+
 ## [Unreleased] — 2026-06-26 · Enterprise 23 specs — PR #875
 
 Added: 23 specs enterprise implementadas en 5 batches (237 BATS + 1416 pytest).
