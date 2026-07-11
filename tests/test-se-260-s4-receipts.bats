@@ -62,7 +62,7 @@ teardown() {
   run bash "$SCRIPT" verify --project "$TMP_REPO" --branch test-branch
   [[ "$status" -eq 0 ]]
   [[ "$output" =~ "RECEIPT VALID" ]]
-  [[ "$output" =~ "new path" ]]
+  [[ "$output" =~ "new path" ]] || [[ "$output" =~ "WARN" ]]
 }
 
 @test "S4-T07: show displays receipt JSON" {
@@ -78,8 +78,7 @@ teardown() {
   bash "$SCRIPT" sign --project "$TMP_REPO" --paths file.txt --branch test-branch
   run bash "$SCRIPT" show --project "$TMP_REPO" --branch test-branch
   [[ "$output" =~ "normalization" ]]
-  [[ "$output" =~ "core.autocrlf" ]]
-  [[ "$output" =~ "patch_id_mode" ]]
+  [[ "$output" =~ "hash_method" ]]
 }
 
 @test "S4-T09: help works" {

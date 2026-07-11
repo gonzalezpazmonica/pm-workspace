@@ -84,35 +84,48 @@ fi
 RECEIPT_DIR="$ROOT/output/receipts"
 RECEIPT_FILE="$RECEIPT_DIR/${BRANCH_SAFE}.receipt.json"
 
-# ── Git normalization config ──
-GIT_PATCH_ID_OPTS=(-c core.autocrlf=input -c core.whitespace=trailing-space,space-before-tab)
+# ── Git normalization config (for cross-env line-ending stability) ──
+# Content hashing normalizes \r\n → \n before computing hash-object
 
-# ── Compute patch-id for a file ──
-patch_id_for_file() {
+# ── Compute content-id for a file ──
+# Uses git hash-object of the file content (stable, cross-env after normalization).
+# This survives rebase/amend as long as the file content is byte-identical.
+content_id_for_file() {
   local f="$1"
-  local base
-  base=$(git -C "$ROOT" merge-base HEAD origin/main 2>/dev/null || git -C "$ROOT" merge-base HEAD main 2>/dev/null || echo "HEAD~1")
-
-  # Get diff of this file against merge-base and compute stable patch-id
-  local diff_out pid
-  diff_out=$(git -C "$ROOT" "${GIT_PATCH_ID_OPTS[@]}" diff "$base" -- "$f" 2>/dev/null)
-  if [[ -z "$diff_out" ]]; then
-    # File hasn't changed from base — use empty diff hash
-    pid="0000000000000000000000000000000000000000"
-  else
-    pid=$(echo "$diff_out" | git "${GIT_PATCH_ID_OPTS[@]}" patch-id --stable 2>/dev/null | awk '{print $1}')
-    if [[ -z "$pid" ]]; then
-      pid="0000000000000000000000000000000000000000"
-    fi
+  if [[ ! -f "$ROOT/$f" ]]; then
+    echo "0000000000000000000000000000000000000000"
+    return
   fi
-  echo "$pid"
+  # Normalize line endings for cross-env stability, then hash
+  local cid
+  cid=$(sed 's/\r$//' "$ROOT/$f" | git hash-object --stdin 2>/dev/null)
+  if [[ -z "$cid" ]]; then
+    cid="0000000000000000000000000000000000000000"
+  fi
+  echo "$cid"
 }
 
 # ── Derive reviewed paths from git ──
 derive_paths() {
-  local base
-  base=$(git -C "$ROOT" merge-base HEAD origin/main 2>/dev/null || git -C "$ROOT" merge-base HEAD main 2>/dev/null || echo "HEAD~1")
-  git -C "$ROOT" diff --name-only "$base" 2>/dev/null | grep -v -E '(CHANGELOG|\.scm/|\.receipt\.json)' || true
+  local base head_sha
+  head_sha=$(git -C "$ROOT" rev-parse HEAD 2>/dev/null || echo "")
+  base=$(git -C "$ROOT" merge-base HEAD origin/main 2>/dev/null || \
+         git -C "$ROOT" merge-base HEAD main 2>/dev/null || \
+         git -C "$ROOT" rev-list --max-parents=0 HEAD 2>/dev/null || \
+         echo "")
+  # If base == HEAD (same branch, no divergence), use root commit
+  if [[ "$base" == "$head_sha" ]]; then
+    base=$(git -C "$ROOT" rev-list --max-parents=0 HEAD 2>/dev/null || echo "")
+  fi
+  local result
+  if [[ -n "$base" && "$base" != "$head_sha" ]]; then
+    result=$(git -C "$ROOT" diff --name-only "$base" 2>/dev/null | grep -v -E '(CHANGELOG|\.scm/|\.receipt\.json)' || true)
+  fi
+  if [[ -z "$result" ]]; then
+    # Fallback: list all tracked files
+    result=$(git -C "$ROOT" ls-files 2>/dev/null | grep -v -E '(CHANGELOG|\.scm/|\.receipt\.json)' || true)
+  fi
+  echo "$result"
 }
 
 # ══════════════════════════════════════════════════════════════════
@@ -140,7 +153,7 @@ cmd_sign() {
     [[ -z "$f" ]] && continue
     [[ ! -f "$ROOT/$f" ]] && continue
     local pid
-    pid=$(patch_id_for_file "$f")
+    pid=$(content_id_for_file "$f")
     $first || pid_entry+=","
     first=false
     pid_entry+="\"$f\": \"$pid\""
@@ -161,9 +174,9 @@ cmd_sign() {
   "signed_at": "$ts",
   "commit_sha": "$commit_sha",
   "normalization": {
-    "core.autocrlf": "input",
-    "core.whitespace": "trailing-space,space-before-tab",
-    "patch_id_mode": "stable"
+    "line_endings": "\\r\\n normalized to \\n before hashing",
+    "hash_method": "git hash-object --stdin",
+    "stability": "content-addressable, survives rebase/amend"
   },
   "tree_hash": "$tree_hash",
   "paths": {
@@ -188,17 +201,15 @@ cmd_verify() {
     exit 0
   fi
 
-  local tree_hash_signed paths_json
+  local tree_hash_signed paths_data
   tree_hash_signed=$(grep -oE '"tree_hash": "[a-f0-9]+"' "$RECEIPT_FILE" | grep -oE '[a-f0-9]{64}' || echo "")
-  paths_json=$(python3 -c "
-import json, sys
-with open('$RECEIPT_FILE') as f:
-    d = json.load(f)
-for p, pid in d.get('paths', {}).items():
-    print(f'{p}|{pid}')
-" 2>/dev/null || echo "")
 
-  if [[ -z "$paths_json" && -z "$tree_hash_signed" ]]; then
+  # Extract paths from JSON without python dependency
+  paths_data=$(grep -oE '"[^"]+": "[a-f0-9]+"' "$RECEIPT_FILE" \
+    | grep -v '"version"\|"branch"\|"signed_at"\|"commit_sha"\|"tree_hash"\|"normalization"\|"paths"' \
+    | sed 's/"//g; s/: /|/g' || echo "")
+
+  if [[ -z "$paths_data" && -z "$tree_hash_signed" ]]; then
     echo "VERIFY: invalid receipt format — full plan required"
     exit 0
   fi
@@ -220,21 +231,21 @@ for p, pid in d.get('paths', {}).items():
     fi
 
     local pid_current
-    pid_current=$(patch_id_for_file "$path")
+    pid_current=$(content_id_for_file "$path")
     all_pids+="$pid_current "
 
     if [[ "$pid_current" != "$pid_signed" ]]; then
       mismatches=$((mismatches + 1))
       echo "MISMATCH: $path (receipt=${pid_signed:0:12}.. current=${pid_current:0:12}..)" >&2
     fi
-  done <<< "$paths_json"
+  done <<< "$paths_data"
 
   # Check for new paths not in receipt
   local current_paths
   mapfile -t current_paths < <(derive_paths)
   for cp in "${current_paths[@]}"; do
     [[ -z "$cp" ]] && continue
-    if ! echo "$paths_json" | grep -qF "$cp"; then
+    if ! echo "$paths_data" | grep -qF "$cp"; then
       new_paths+=("$cp")
     fi
   done
