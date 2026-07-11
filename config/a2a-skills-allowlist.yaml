@@ -1,0 +1,25 @@
+version: 1
+
+skills:
+  situacion.query:
+    allow: true
+    maxLevel: 2
+    readOnly: true
+  commitment.propose:
+    allow: true
+    maxLevel: 2
+    readOnly: false
+  commitment.ack:
+    allow: true
+    maxLevel: 2
+    readOnly: false
+  dependency.notify:
+    allow: true
+    maxLevel: 2
+    readOnly: true
+  handoff.request:
+    allow: true
+    maxLevel: 2
+    readOnly: false
+
+default: deny
