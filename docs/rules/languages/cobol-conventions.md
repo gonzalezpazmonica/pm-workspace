@@ -299,13 +299,13 @@ El agente NO DEBE sin aprobación humana:
 #### COBOL-SEC-01 — Credenciales en literales
 **Severidad**: Blocker
 ```cobol
-*> ❌ Noncompliant
+*> FAIL Noncompliant
        DATA DIVISION.
        WORKING-STORAGE SECTION.
        01  WS-PASSWORD         PIC X(20) VALUE 'SuperSecret123'.
        01  WS-API-KEY          PIC X(40) VALUE 'sk-1234567890abcdef'.
 
-*> ✅ Compliant
+*> OK Compliant
        ENVIRONMENT DIVISION.
        INPUT-OUTPUT SECTION.
        FILE-CONTROL.
@@ -324,11 +324,11 @@ El agente NO DEBE sin aprobación humana:
 #### COBOL-SEC-02 — Falta de validación en entrada
 **Severidad**: Blocker
 ```cobol
-*> ❌ Noncompliant
+*> FAIL Noncompliant
        ACCEPT WS-USER-ID.
        MOVE WS-USER-ID TO WS-QUERY.  *> SQL dinámico sin validar
 
-*> ✅ Compliant
+*> OK Compliant
        ACCEPT WS-USER-ID.
        IF WS-USER-ID IS NOT NUMERIC OR WS-USER-ID <= 0
            DISPLAY "Error: User ID debe ser numerico y > 0"
@@ -342,7 +342,7 @@ El agente NO DEBE sin aprobación humana:
 #### COBOL-BUG-01 — GOTO excesivo (spaghetti code)
 **Severidad**: Major
 ```cobol
-*> ❌ Noncompliant - Spaghetti code
+*> FAIL Noncompliant - Spaghetti code
        PROCEDURE DIVISION.
            MOVE 0 TO WS-CONTADOR.
        INICIO.
@@ -358,7 +358,7 @@ El agente NO DEBE sin aprobación humana:
            DISPLAY "Hecho".
            STOP RUN.
 
-*> ✅ Compliant - Usar PERFORM
+*> OK Compliant - Usar PERFORM
        PROCEDURE DIVISION.
            PERFORM PROCESAR-DATOS
                VARYING WS-CONTADOR FROM 1 BY 1
@@ -371,13 +371,13 @@ El agente NO DEBE sin aprobación humana:
 #### COBOL-BUG-02 — Documentación de copybooks faltante
 **Severidad**: Major
 ```cobol
-*> ❌ Noncompliant - Sin documentación
+*> FAIL Noncompliant - Sin documentación
        01  USUARIO-RECORD.
            05  USR-ID         PIC 9(8).
            05  USR-NOMBRE     PIC X(50).
            05  USR-EMAIL      PIC X(60).
 
-*> ✅ Compliant - Con documentación
+*> OK Compliant - Con documentación
        *> ================================================================
        *> USUARIO-RECORD: Estructura de datos de usuario
        *>
@@ -410,12 +410,12 @@ WORKING-STORAGE debe estar organizada lógicamente, no caóticamente.
 **Severidad**: Critical
 Código COBOL no debe usar copybooks sin documentación. Cada copybook debe tener cabecera con versión, propósito y campos.
 ```cobol
-*> ❌ Noncompliant - Sin cabecera
+*> FAIL Noncompliant - Sin cabecera
        01  DATOS-VENDEDOR.
            05  VENDEDOR-ID     PIC 9(5).
            05  VENDEDOR-COMISION PIC 9(5)V99.
 
-*> ✅ Compliant - Con cabecera obligatoria
+*> OK Compliant - Con cabecera obligatoria
        *> ================================================================
        *> Copybook: DATOS-VENDEDOR.cpy
        *> Proposito: Estructura para datos de vendedor en reportes

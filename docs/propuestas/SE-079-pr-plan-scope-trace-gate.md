@@ -94,10 +94,10 @@ Si ningún archivo falla las 4 reglas → gate PASS. Si ≥1 archivo falla → g
 
 ## Dependencias y pre-requisitos
 
-- ✅ G11 `.pr-summary.md` natural-language summary obligatorio (batch 58)
-- ✅ Spec frontmatter convention (`id: SE-XXX`) estable
-- ✅ AC format `- [ ] AC-XX` consistente en specs nuevos (post Era 187)
-- ⚠️ Specs antiguos pueden tener AC con formato heterogéneo → soft-fail en transición
+- OK G11 `.pr-summary.md` natural-language summary obligatorio (batch 58)
+- OK Spec frontmatter convention (`id: SE-XXX`) estable
+- OK AC format `- [ ] AC-XX` consistente en specs nuevos (post Era 187)
+- WARN Specs antiguos pueden tener AC con formato heterogéneo → soft-fail en transición
 
 ## Slicing approval gate
 

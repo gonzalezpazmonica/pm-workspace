@@ -113,7 +113,7 @@ Agente recibe en su contexto:
   ╚══════════════════════════════════════════════════╝
   Fichero: src/Services/AuthService.cs
   Líneas:  248  |  Clases: 1  |  Funciones: 12
-  Complejidad: 42 puntos de decisión  ⚠️  Proceder con cautela
+  Complejidad: 42 puntos de decisión  WARN  Proceder con cautela
 
   Mapa estructural:
   { "classes": [{ "name": "AuthService", "line": 12 }],
@@ -406,10 +406,10 @@ stack: "C#/.NET 8 + Azure"
 
 | Capa | Fichero .acm | Elementos | Prioridad |
 |------|-------------|-----------|-----------|
-| Domain | domain/entities.acm | 18 entidades | 🔴 Crítico |
-| Application | domain/services.acm | 12 servicios | 🔴 Crítico |
-| Infrastructure | infrastructure/repositories.acm | 8 repos | 🟡 Alto |
-| API | api/controllers.acm | 24 endpoints | 🟢 Normal |
+| Domain | domain/entities.acm | 18 entidades | FAIL Crítico |
+| Application | domain/services.acm | 12 servicios | FAIL Crítico |
+| Infrastructure | infrastructure/repositories.acm | 8 repos | WARN Alto |
+| API | api/controllers.acm | 24 endpoints | OK Normal |
 
 @include domain/entities.acm
 @include domain/services.acm

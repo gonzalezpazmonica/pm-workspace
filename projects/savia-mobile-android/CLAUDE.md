@@ -5,7 +5,7 @@
 
 ---
 
-## ⚙️ CONSTANTES DEL PROYECTO
+##  CONSTANTES DEL PROYECTO
 
 ```
 # ── Identidad ──────────────────────────────────────────────────────────────────
@@ -29,29 +29,29 @@ CYCLE_TIME_MEDIA_DIAS     = 2.0
 CYCLE_TIME_P75_DIAS       = 3.5
 ```
 
-## 🏗️ Arquitectura
+##  Arquitectura
 
 - **Módulos**: `:app` (UI + DI), `:domain` (modelos + interfaces), `:data` (repositorios + red)
 - **Stack**: Kotlin 2.1.0, Jetpack Compose Material 3, Hilt, OkHttp, KSP
 - **Conexión**: HTTPS al Savia Bridge (puerto 8922, TLS self-signed, auth token)
 - **Endpoints clave**: GET `/dashboard`, POST `/chat`, GET `/update/check`, GET `/update/download`
 
-## 📱 Pantallas
+##  Pantallas
 
 Home (dashboard), Chat (IA conversacional), Commands (paleta de comandos), Profile (perfil + actualizaciones), Kanban, Approvals, Capture, TimeLog, Dashboard, Settings, TeamManagement, GitConfig, CompanyProfile
 
-## 🔄 Auto-actualización
+##  Auto-actualización
 
 El Bridge sirve APKs via `/update/check` y `/update/download`. La app compara versiones y ofrece descarga + instalación desde las pantallas Profile y Settings, con barra de progreso de descarga (LinearProgressIndicator + %).
 
-## 🧪 Tests & Build
+##  Tests & Build
 
 - **48 unit tests** pasando (Chat, Home, Settings, Profile, Navigation)
 - `assembleDebug` ejecuta `testDebugUnitTest` automáticamente — si fallan, no se genera APK
 - Tras compilar, APK se publica a `~/.savia/bridge/apk/` y `scripts/dist/`
 - Versión se auto-incrementa en fase de configuración de Gradle (no ejecución)
 
-## 🐛 Fixes importantes (v0.3.44)
+##  Fixes importantes (v0.3.44)
 
 - **Chat timestamps**: Burbujas de mensaje muestran hora (HH:mm) para trazabilidad
 - **Bridge dedup**: Streaming no duplica texto (result se emite solo si no hubo streaming previo)

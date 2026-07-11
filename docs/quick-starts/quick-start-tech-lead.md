@@ -1,6 +1,6 @@
 # Quick Start — Tech Lead
 
-> 🦉 Hola, Tech Lead. Soy Savia. Te ayudo con la salud de la arquitectura, la deuda técnica, las code reviews y la coordinación técnica del equipo. Aquí tienes lo esencial.
+>  Hola, Tech Lead. Soy Savia. Te ayudo con la salud de la arquitectura, la deuda técnica, las code reviews y la coordinación técnica del equipo. Aquí tienes lo esencial.
 
 ---
 

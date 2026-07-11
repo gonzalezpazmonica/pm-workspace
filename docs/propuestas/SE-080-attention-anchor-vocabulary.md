@@ -83,10 +83,10 @@ La implementación de SE-079 (G13 scope-trace gate) emite el mensaje `B8 attenti
 
 ## Dependencias y pre-requisitos
 
-- ✅ Genesis review completado (sub-agent 2026-04-26)
-- ✅ SE-079 APPROVED (acoplamiento ligero, no bloqueante)
-- ✅ Court doc existe (SPEC-124 implementado)
-- ✅ radical-honesty.md y autonomous-safety.md son canonical sources estables
+- OK Genesis review completado (sub-agent 2026-04-26)
+- OK SE-079 APPROVED (acoplamiento ligero, no bloqueante)
+- OK Court doc existe (SPEC-124 implementado)
+- OK radical-honesty.md y autonomous-safety.md son canonical sources estables
 
 ## Slicing approval gate
 

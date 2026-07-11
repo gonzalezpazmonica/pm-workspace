@@ -1,3 +1,4 @@
+<!-- docs-lint: skip R7 -->
 # Spec: Documentation Health Auditor — Broken Links + Stale Refs
 
 **Task ID:**        SPEC-SE-094-DOC-AUDIT

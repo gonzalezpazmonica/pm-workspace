@@ -27,7 +27,7 @@ az devops project list --output table
 
 ## Step 2 — Edit constants
 
-Open `CLAUDE.md` and update the `⚙️ CONFIGURATION CONSTANTS` section. Repeat for `projects/project-alpha/CLAUDE.md` and `projects/project-beta/CLAUDE.md` with project-specific values.
+Open `CLAUDE.md` and update the ` CONFIGURATION CONSTANTS` section. Repeat for `projects/project-alpha/CLAUDE.md` and `projects/project-beta/CLAUDE.md` with project-specific values.
 
 ## Step 3 — Install script dependencies
 

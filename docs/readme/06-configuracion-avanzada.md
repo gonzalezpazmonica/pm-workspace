@@ -37,7 +37,7 @@ sdd_config:
 
 1. Copia `projects/proyecto-alpha/` a `projects/tu-proyecto/`
 2. Edita `projects/tu-proyecto/CLAUDE.md` con las constantes del nuevo proyecto
-3. Añade el proyecto al `CLAUDE.md` raíz (sección `📋 Proyectos Activos`)
+3. Añade el proyecto al `CLAUDE.md` raíz (sección ` Proyectos Activos`)
 4. Clona el repo en `projects/tu-proyecto/source/`
 
 ---

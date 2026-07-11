@@ -125,8 +125,8 @@ real como resultado de mi respuesta?"
 **Example of the failure this prevents:**
 
 - **Question:** "Tengo que lavar mi coche. El lavadero está a 100 metros. ¿Voy andando o en coche?"
-- ❌ **Wrong** (optimizes "desplazamiento 100m"): "A 100 metros, ve andando."
-- ✅ **Correct** (optimizes "lavar el coche"): "Tienes que llevar el coche a lavar, así que ve en coche."
+- FAIL **Wrong** (optimizes "desplazamiento 100m"): "A 100 metros, ve andando."
+- OK **Correct** (optimizes "lavar el coche"): "Tienes que llevar el coche a lavar, así que ve en coche."
 
 The literal question is "¿andando o en coche?" but the real objective is
 "lavar el coche" — which requires the car to be there.

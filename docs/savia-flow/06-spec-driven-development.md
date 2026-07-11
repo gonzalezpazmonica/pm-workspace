@@ -165,19 +165,19 @@ Reduce search friction, increase conversion +8%.
 ### Spec Writing Tools
 
 **Markdown (GitHub, Notion):**
-- ✓ Simplicidad, versionable con git
-- ✓ Integrado con código
-- ✗ No WYSIWYG, puede parecer técnico
+-  Simplicidad, versionable con git
+-  Integrado con código
+-  No WYSIWYG, puede parecer técnico
 
 **Notion:**
-- ✓ UI visual, fácil para no-técnicos
-- ✓ Embeds, multimedia
-- ✗ Menos versionable, silo
+-  UI visual, fácil para no-técnicos
+-  Embeds, multimedia
+-  Menos versionable, silo
 
 **Confluence:**
-- ✓ Enterprise, integración Jira
-- ✓ Permisos granulares
-- ✗ Caro, pesado
+-  Enterprise, integración Jira
+-  Permisos granulares
+-  Caro, pesado
 
 **Custom Tools:**
 - GitHub Spec Kit: https://github.com/github/spec-kit

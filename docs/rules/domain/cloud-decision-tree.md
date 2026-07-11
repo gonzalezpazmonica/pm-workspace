@@ -46,9 +46,9 @@ token_budget: 896
 
 | Entorno | Crear | Apply automático | Tier máximo |
 |---|---|---|---|
-| DEV | ✅ Con confirmación | ✅ | Basic/Micro |
-| PRE | ✅ Con confirmación | ❌ Requiere aprobación | Basic/Small |
-| PRO | ✅ Con confirmación | ❌ SIEMPRE aprobación | NINGUNO |
+| DEV | OK Con confirmación | OK | Basic/Micro |
+| PRE | OK Con confirmación | FAIL Requiere aprobación | Basic/Small |
+| PRO | OK Con confirmación | FAIL SIEMPRE aprobación | NINGUNO |
 
 ## Convenciones de Naming por Proveedor
 

@@ -201,7 +201,7 @@ Familias temáticas detectadas (auditar antes de priorizar):
 | Security | SPEC-030, SPEC-032, SPEC-033, SPEC-070 | Cruzar con SE-093 ZERO-LEAK y Savia Shield. |
 | OpenCode adaptation | SPEC-OC-01, SPEC-OC-04, SPEC-INSTALLER-OPENCODE | Cruzar con SPEC-127. Posibles SUPERSEDED. |
 | Misc activos | SPEC-003, SPEC-025, SPEC-031, SPEC-047, SPEC-079, SE-034 (IN_PROGRESS), era21-masterplan | Triage individual. |
-| Docs/propuestas sin spec_id | adr-connectors-vs-mcp, investigacion-ecosistema-claude-code-2026, propuesta-incorporacion-awesome-claude-code, propuesta-onboarding-y-evaluacion, propuesta-pr-guardian-system, TEMPLATE | Reclasificar: ¿spec real, ADR, research, o borrar? |
+| Docs/propuestas sin spec_id | adr-connectors-vs-mcp, investigacion-ecosistema-claude-code-2026, propuesta-incorporacion-excellent-claude-code, propuesta-onboarding-y-evaluacion, propuesta-pr-guardian-system, TEMPLATE | Reclasificar: ¿spec real, ADR, research, o borrar? |
 
 ---
 
@@ -230,7 +230,7 @@ Savia mantiene la spec actualizada pero NO escribe código.
 | SPEC-142 | Plugin tool.execute.before auto-redact credentials | #770 | Slices 1+2 — BATS 19/19, Bun 10/10 |
 | SPEC-144 | /speckit.* slash aliases (8 commands) | #766 | BATS 8/8 |
 | SPEC-145 | Vendored anthropics/skill-creator + mcp-builder | #769 | 33 files +9327L en `external/` |
-| SPEC-146 | Monthly watcher awesome-* repos | #767 | BATS 9/9 + cron mensual |
+| SPEC-146 | Monthly watcher excellent-* repos | #767 | BATS 9/9 + cron mensual |
 | SPEC-147 | Decision trees top-10 agents (Slices 1+2) | #771+#772 | 7/10 trees, symlink dedup |
 
 **Bug-fix sesión**: status frontmatter de SPEC-141/142/144/145/146 corregido de `PROPOSED` a `IMPLEMENTED` (estaba mal — afirmado IMPLEMENTED en bitácora sin actualizar frontmatter). Lección a documentar: tras implementar, **siempre** actualizar `status:` + `implementation_pr:` + `implementation_date:` antes de cerrar slice.

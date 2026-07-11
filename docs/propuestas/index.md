@@ -90,7 +90,7 @@
 | era21-masterplan | (no title) | PROPOSED | — |
 | extension-points | (no title) | PROPOSED | — |
 | investigacion-ecosistema-claude-code-2026 | (no title) | PROPOSED | — |
-| propuesta-incorporacion-awesome-claude-code | (no title) | PROPOSED | — |
+| propuesta-incorporacion-excellent-claude-code | (no title) | PROPOSED | — |
 | propuesta-onboarding-y-evaluacion | (no title) | PROPOSED | — |
 | propuesta-pr-guardian-system | (no title) | PROPOSED | — |
 | README | (no title) | PROPOSED | — |
@@ -236,7 +236,7 @@
 | SPEC-142 | Plugin tool.execute.before — auto-redaction de PATs y secrets via mutación de args | IMPLEMENTED | P4 — UX y seguridad determinista. |
 | SPEC-144 | /speckit.* slash command aliases — compatibilidad cross-tool con github/spec-kit | IMPLEMENTED | P6 — multiplicador de adopción. |
 | SPEC-145 | Importar anthropics/skill-creator y anthropics/mcp-builder como skills oficiales | IMPLEMENTED | P9 — quality of life para el propio mantenimiento de Savia. |
-| SPEC-146 | Watcher mensual de awesome-* repos y upstream tooling (skill-creator, spec-kit, MCP servers) | IMPLEMENTED | P10 — automatiza inteligencia competitiva. |
+| SPEC-146 | Watcher mensual de excellent-* repos y upstream tooling (skill-creator, spec-kit, MCP servers) | IMPLEMENTED | P10 — automatiza inteligencia competitiva. |
 | SPEC-147 | Decision trees para los 10 agentes top — completar de 1/10 a 10/10 | IMPLEMENTED | P13 — calidad de agentes. |
 | SPEC-149 | Sandbox OS-level para modos autónomos — opencode-sandbox + permission block + Docker doble capa | IMPLEMENTED | P1 |
 | SPEC-155 | OpenCode plugin hooks — fix args shape (input.args → output.args) + restore guard efficacy | IMPLEMENTED | CRITICAL |

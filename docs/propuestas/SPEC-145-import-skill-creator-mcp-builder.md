@@ -49,7 +49,7 @@ Importar las dos primeras (skill-creator + mcp-builder) acelera la autoría de l
    - "Para crear un MCP server: invoca `mcp-builder`"
    - Mantener la skill propia `prompt-optimizer` para casos avanzados.
 
-5. **Watcher de actualización**: añadir `anthropics/skills` a la lista de SPEC-146 (awesome watcher mensual) para detectar updates.
+5. **Watcher de actualización**: añadir `anthropics/skills` a la lista de SPEC-146 (excellent watcher mensual) para detectar updates.
 
 ### No funcional
 

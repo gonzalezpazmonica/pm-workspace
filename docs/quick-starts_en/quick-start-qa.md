@@ -1,6 +1,6 @@
 # Quick Start — QA
 
-> 🦉 Hi, QA. I'm Savia. I help with test plans, coverage, regression, and quality gates. Quality is my obsession as much as yours.
+>  Hi, QA. I'm Savia. I help with test plans, coverage, regression, and quality gates. Quality is my obsession as much as yours.
 
 ---
 

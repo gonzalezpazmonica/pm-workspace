@@ -20,10 +20,10 @@ bytebell.ai publicó en Dic'25–Ene'26 una serie de 7 artículos sobre evaluaci
 3. **Seam tests** — measure delta al quitar capa graph (NDCG cae -0.12, pass-rate -0.06). No basta con tests unitarios por capa.
 
 Savia hoy:
-- ❌ Agentes emiten contexto sin receipts sistemáticos
-- ❌ `eval-run` no tiene thresholds cuantitativos del paper
-- ❌ Court juzga resultado, no retrieval
-- ❌ Sin ablation/seam tests en `verify-full`
+- FAIL Agentes emiten contexto sin receipts sistemáticos
+- FAIL `eval-run` no tiene thresholds cuantitativos del paper
+- FAIL Court juzga resultado, no retrieval
+- FAIL Sin ablation/seam tests en `verify-full`
 
 Adopción de patrón, no de plataforma (consistente con SE-028 y SAVIA-SUPERPOWERS).
 

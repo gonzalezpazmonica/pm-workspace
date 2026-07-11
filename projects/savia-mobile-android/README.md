@@ -378,8 +378,8 @@ adb devices
 
 ## Roadmap
 
-- **v0.1.0:** ✅ MVP — Chat + dashboard básico
-- **v0.3.x:** ✅ Full dashboard, REST bridge, auto-update, 48 tests
+- **v0.1.0:** OK MVP — Chat + dashboard básico
+- **v0.3.x:** OK Full dashboard, REST bridge, auto-update, 48 tests
 - **v0.4.0:** Widgets, notificaciones inteligentes
 - **v1.0.0:** Beta pública, Google Play oficial
 - **v1.1.0+:** iOS via Flutter (considerar)

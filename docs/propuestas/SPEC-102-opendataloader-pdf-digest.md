@@ -29,7 +29,7 @@ solo llegan a nivel fichero, no a nivel región. `spec-verify` y
 ## Solucion
 
 Migrar `pdf-digest` a [opendataloader-pdf](https://github.com/opendataloader-project/opendataloader-pdf)
-(Apache 2.0, 17k★, PDF Association + veraPDF):
+(Apache 2.0, 17k, PDF Association + veraPDF):
 
 1. **Modo local determinista** (0.015s/página) como default
 2. **Modo híbrido** solo en páginas que el determinista marca de baja confianza

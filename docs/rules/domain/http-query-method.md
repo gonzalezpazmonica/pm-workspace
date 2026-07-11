@@ -62,21 +62,21 @@ curl: `curl -X QUERY -H "Content-Type: application/json" -d '{"q":"foo"}' URL`
 
 | Plataforma | Soporte | Workaround |
 |---|---|---|
-| curl | ✅ Nativo (`-X QUERY`) | — |
-| Node.js ≥ 21.7.2 | ✅ Nativo | — |
-| fetch() (browsers) | ✅ Con preflight | — |
-| axios ≥ 2026-04-28 | ✅ `axios.query()` | — |
-| Express.js | ✅ `app.query()` | — |
-| ASP.NET Core | ✅ Parcial (PR #63276) | `[AcceptVerbs("QUERY")]` |
-| http crate (Rust) | ✅ `Method::QUERY` desde 2026-06-16 | — |
-| FastAPI / Starlette | ⚠️ Sin shorthand | `methods=["QUERY"]` en route |
-| Flask / Werkzeug | ⚠️ PR #6066 abierto | `@app.route(..., methods=["QUERY"])` |
-| Go net/http | ⚠️ Issue #80058 abierto | `r.Method == "QUERY"` |
-| Gin (Go) | ⚠️ Issue #4097 abierto | `r.Handle("QUERY", ...)` |
-| Axum (Rust) | ⚠️ PR #3801 abierto | `any()` + filtro manual |
-| reqwest (Rust) | ⚠️ Sin constante aún | `Method::from_bytes(b"QUERY")` |
-| Spring Framework | ⚠️ PR #34993 abierto | `HttpMethod.valueOf("QUERY")` |
-| Fastify | ⚠️ Issue #6807 abierto | Plugin `@thecodepace/fastify-http-query` |
+| curl | OK Nativo (`-X QUERY`) | — |
+| Node.js ≥ 21.7.2 | OK Nativo | — |
+| fetch() (browsers) | OK Con preflight | — |
+| axios ≥ 2026-04-28 | OK `axios.query()` | — |
+| Express.js | OK `app.query()` | — |
+| ASP.NET Core | OK Parcial (PR #63276) | `[AcceptVerbs("QUERY")]` |
+| http crate (Rust) | OK `Method::QUERY` desde 2026-06-16 | — |
+| FastAPI / Starlette | WARN Sin shorthand | `methods=["QUERY"]` en route |
+| Flask / Werkzeug | WARN PR #6066 abierto | `@app.route(..., methods=["QUERY"])` |
+| Go net/http | WARN Issue #80058 abierto | `r.Method == "QUERY"` |
+| Gin (Go) | WARN Issue #4097 abierto | `r.Handle("QUERY", ...)` |
+| Axum (Rust) | WARN PR #3801 abierto | `any()` + filtro manual |
+| reqwest (Rust) | WARN Sin constante aún | `Method::from_bytes(b"QUERY")` |
+| Spring Framework | WARN PR #34993 abierto | `HttpMethod.valueOf("QUERY")` |
+| Fastify | WARN Issue #6807 abierto | Plugin `@thecodepace/fastify-http-query` |
 
 ## Workaround universal cuando no hay soporte nativo
 

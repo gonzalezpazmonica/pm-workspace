@@ -43,7 +43,7 @@ Para cada hallazgo reporta:
 
 ## 1. VULNERABILITIES — Seguridad
 
-> 🔴 Prioridad máxima. Cada hallazgo aquí es un riesgo de seguridad real.
+> FAIL Prioridad máxima. Cada hallazgo aquí es un riesgo de seguridad real.
 
 ### 1.1 Blocker
 
@@ -53,11 +53,11 @@ Para cada hallazgo reporta:
 **Problema**: Contraseñas y credenciales embebidas en código fuente exponen accesos no autorizados.
 
 ```java
-// ❌ Noncompliant
+// FAIL Noncompliant
 String password = "Admin123";
 String dbUrl = "jdbc:postgresql://user:password@localhost/db";
 
-// ✅ Compliant
+// OK Compliant
 String password = System.getenv("DB_PASSWORD");
 String dbUrl = System.getenv("DATABASE_URL");
 ```
@@ -70,11 +70,11 @@ String dbUrl = System.getenv("DATABASE_URL");
 **Problema**: Connection strings con password vacío permiten acceso sin autenticación.
 
 ```java
-// ❌ Noncompliant
+// FAIL Noncompliant
 String url = "jdbc:mysql://localhost/db?user=admin&password=";
 Connection conn = DriverManager.getConnection(url);
 
-// ✅ Compliant
+// OK Compliant
 String url = "jdbc:mysql://localhost/db";
 String username = System.getenv("DB_USER");
 String password = System.getenv("DB_PASSWORD");
@@ -89,13 +89,13 @@ Connection conn = DriverManager.getConnection(url, username, password);
 **Problema**: Concatenación de SQL con datos de usuario sin parameterización permite inyección SQL.
 
 ```java
-// ❌ Noncompliant
+// FAIL Noncompliant
 String userId = request.getParameter("id");
 String sql = "SELECT * FROM users WHERE id = " + userId;
 Statement stmt = connection.createStatement();
 ResultSet rs = stmt.executeQuery(sql);
 
-// ✅ Compliant
+// OK Compliant
 String userId = request.getParameter("id");
 String sql = "SELECT * FROM users WHERE id = ?";
 PreparedStatement pstmt = connection.prepareStatement(sql);
@@ -111,12 +111,12 @@ ResultSet rs = pstmt.executeQuery();
 **Problema**: Parseo de XML con resolución de entidades externas permite XXE attacks.
 
 ```java
-// ❌ Noncompliant
+// FAIL Noncompliant
 DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 DocumentBuilder builder = factory.newDocumentBuilder();
 Document doc = builder.parse(new InputSource(userInput));
 
-// ✅ Compliant
+// OK Compliant
 DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 factory.setFeature("http://apache.org/xml/features/disallow-doctype-decl", true);
 factory.setFeature("http://xml.org/sax/features/external-general-entities", false);
@@ -133,11 +133,11 @@ Document doc = builder.parse(new InputSource(userInput));
 **Problema**: Registrar contraseñas o tokens en logs expone credenciales.
 
 ```java
-// ❌ Noncompliant
+// FAIL Noncompliant
 logger.info("User login with password: " + password);
 logger.debug("API Key: " + apiKey);
 
-// ✅ Compliant
+// OK Compliant
 logger.info("User login successful");
 logger.debug("API authentication completed");
 // O usar redacción:
@@ -154,11 +154,11 @@ logger.info("User login with password: " + maskPassword(password));
 **Problema**: Usar hashing débil (MD5, SHA-1) o sin salt para contraseñas.
 
 ```java
-// ❌ Noncompliant
+// FAIL Noncompliant
 String hash = MessageDigest.getInstance("MD5").digest(password.getBytes());
 String hash = BCrypt.hashpw(password, BCrypt.gensalt(4)); // salt rounds bajo
 
-// ✅ Compliant
+// OK Compliant
 String hash = BCrypt.hashpw(password, BCrypt.gensalt(12)); // 12+ rounds
 // O con Spring Security:
 PasswordEncoder encoder = new BCryptPasswordEncoder(12);
@@ -173,11 +173,11 @@ String hash = encoder.encode(password);
 **Problema**: Usar protocolos SSL/TLS antiguos o desactivar validación de certificados.
 
 ```java
-// ❌ Noncompliant
+// FAIL Noncompliant
 HttpsURLConnection conn = (HttpsURLConnection) url.openConnection();
 conn.setHostnameVerifier((hostname, session) -> true); // desactiva verificación
 
-// ✅ Compliant
+// OK Compliant
 HttpsURLConnection conn = (HttpsURLConnection) url.openConnection();
 conn.setHostnameVerifier(HttpsURLConnection.getDefaultHostnameVerifier());
 // O con Spring RestTemplate:
@@ -193,7 +193,7 @@ RestTemplate restTemplate = new RestTemplate();
 **Problema**: Ignorar errores de validación de certificados SSL/TLS.
 
 ```java
-// ❌ Noncompliant
+// FAIL Noncompliant
 TrustManager[] trustAllCerts = new TrustManager[]{
     new X509TrustManager() {
         public java.security.cert.X509Certificate[] getAcceptedIssuers() { return null; }
@@ -202,7 +202,7 @@ TrustManager[] trustAllCerts = new TrustManager[]{
     }
 };
 
-// ✅ Compliant
+// OK Compliant
 // Usar sistema de certificados estándar de Java
 SSLContext context = SSLContext.getInstance("TLSv1.3");
 context.init(null, null, null);
@@ -218,11 +218,11 @@ conn.setSSLSocketFactory(context.getSocketFactory());
 **Problema**: Usar algoritmos criptográficos débiles o deprecados (DES, SHA-1).
 
 ```java
-// ❌ Noncompliant
+// FAIL Noncompliant
 Cipher cipher = Cipher.getInstance("DES/ECB/PKCS5Padding");
 MessageDigest digest = MessageDigest.getInstance("SHA-1");
 
-// ✅ Compliant
+// OK Compliant
 Cipher cipher = Cipher.getInstance("AES/GCM/NoPadding");
 MessageDigest digest = MessageDigest.getInstance("SHA-256");
 // O mejor aún:
@@ -241,7 +241,7 @@ random.nextBytes(nonce);
 
 **Severidad**: Critical
 ```java
-// ❌ Sensitive — potencial para circumvention de seguridad
+// FAIL Sensitive — potencial para circumvention de seguridad
 Method method = clazz.getDeclaredMethod("privateMethod");
 method.setAccessible(true);
 method.invoke(obj);
@@ -251,7 +251,7 @@ method.invoke(obj);
 
 **Severidad**: Critical
 ```java
-// ❌ Sensitive — ObjectInputStream puede ejecutar código arbitrario
+// FAIL Sensitive — ObjectInputStream puede ejecutar código arbitrario
 ObjectInputStream ois = new ObjectInputStream(userInput);
 Object obj = ois.readObject();
 ```
@@ -260,11 +260,11 @@ Object obj = ois.readObject();
 
 **Severidad**: Critical
 ```java
-// ❌ Sensitive — inyección de comandos
+// FAIL Sensitive — inyección de comandos
 String cmd = "rm -rf " + userPath;
 Runtime.getRuntime().exec(cmd);
 
-// ✅ Compliant
+// OK Compliant
 ProcessBuilder pb = new ProcessBuilder("rm", "-rf", sanitizedPath);
 pb.start();
 ```
@@ -279,11 +279,11 @@ pb.start();
 
 **Severidad**: Blocker
 ```java
-// ❌ Noncompliant
+// FAIL Noncompliant
 String name = user.getName(); // user puede ser null
 System.out.println(name.length());
 
-// ✅ Compliant
+// OK Compliant
 if (user != null && user.getName() != null) {
     System.out.println(user.getName().length());
 } else {
@@ -300,13 +300,13 @@ userOpt.ifPresent(u -> System.out.println(u.getName().length()));
 
 **Severidad**: Blocker
 ```java
-// ❌ Noncompliant — resource no se cierra si hay excepción
+// FAIL Noncompliant — resource no se cierra si hay excepción
 FileInputStream fis = new FileInputStream("file.txt");
 byte[] data = new byte[1024];
 fis.read(data);
 fis.close();
 
-// ✅ Compliant — try-with-resources garantiza cierre
+// OK Compliant — try-with-resources garantiza cierre
 try (FileInputStream fis = new FileInputStream("file.txt")) {
     byte[] data = new byte[1024];
     fis.read(data);
@@ -319,13 +319,13 @@ try (FileInputStream fis = new FileInputStream("file.txt")) {
 
 **Severidad**: Blocker
 ```java
-// ❌ Noncompliant
+// FAIL Noncompliant
 List<String> items = new ArrayList<>(Arrays.asList("a", "b", "c"));
 for (String item : items) {
     if (item.equals("b")) items.remove(item); // modifica durante iteración
 }
 
-// ✅ Compliant
+// OK Compliant
 Iterator<String> it = items.iterator();
 while (it.hasNext()) {
     if (it.next().equals("b")) it.remove();
@@ -342,13 +342,13 @@ items.removeIf(item -> item.equals("b"));
 
 **Severidad**: Major
 ```java
-// ❌ Noncompliant
+// FAIL Noncompliant
 List items = new ArrayList(); // raw type
 items.add("string");
 items.add(123);
 String str = (String) items.get(1); // ClassCastException
 
-// ✅ Compliant
+// OK Compliant
 List<String> items = new ArrayList<>();
 items.add("string");
 // items.add(123); // compilation error — previene errores
@@ -361,13 +361,13 @@ String str = items.get(0); // sin cast
 
 **Severidad**: Major
 ```java
-// ❌ Noncompliant
+// FAIL Noncompliant
 public void readFile() {
     FileReader reader = new FileReader("file.txt"); // IOException no manejada
     // ...
 }
 
-// ✅ Compliant
+// OK Compliant
 public void readFile() throws FileNotFoundException {
     try (FileReader reader = new FileReader("file.txt")) {
         // ...
@@ -390,7 +390,7 @@ public void readFile() throws FileNotFoundException {
 
 **Severidad**: Critical
 ```java
-// ❌ Noncompliant
+// FAIL Noncompliant
 public void processOrder(Order order) {
     // 100 líneas de lógica mezclada
     validateOrder(order);
@@ -401,7 +401,7 @@ public void processOrder(Order order) {
     // ... más código
 }
 
-// ✅ Compliant
+// OK Compliant
 public void processOrder(Order order) {
     validate(order);
     calculate(order);
@@ -421,7 +421,7 @@ private void calculate(Order order) {
 
 **Severidad**: Critical
 ```java
-// ❌ Noncompliant
+// FAIL Noncompliant
 public String getStatus(User user) {
     if (user.isActive()) {
         if (user.hasPermission()) {
@@ -442,7 +442,7 @@ public String getStatus(User user) {
     }
 }
 
-// ✅ Compliant
+// OK Compliant
 public String getStatus(User user) {
     if (!user.isActive()) return "INACTIVE";
     if (!user.hasPermission()) return "NO_PERMISSION";
@@ -460,14 +460,14 @@ public String getStatus(User user) {
 
 **Severidad**: Major
 ```java
-// ❌ Noncompliant
+// FAIL Noncompliant
 public void process() {
     String unusedVariable = "test";
     int count = 0;
     // count no se usa
 }
 
-// ✅ Compliant
+// OK Compliant
 public void process() {
     int count = calculateItems();
     logger.info("Processed {} items", count);
@@ -478,13 +478,13 @@ public void process() {
 
 **Severidad**: Major
 ```java
-// ❌ Noncompliant
+// FAIL Noncompliant
 public class User {
     public String name;
     public int age;
 }
 
-// ✅ Compliant
+// OK Compliant
 public class User {
     private final String name;
     private final int age;
@@ -507,7 +507,7 @@ public class User {
 
 **Severidad**: Blocker
 ```java
-// ❌ Noncompliant — acoplamiento fuerte
+// FAIL Noncompliant — acoplamiento fuerte
 @Service
 public class OrderService {
     private UserRepository userRepo = new UserRepository(); // new en clase
@@ -517,7 +517,7 @@ public class OrderService {
     }
 }
 
-// ✅ Compliant — inyección en constructor
+// OK Compliant — inyección en constructor
 @Service
 public class OrderService {
     private final UserRepository userRepo;
@@ -534,7 +534,7 @@ public class OrderService {
 
 **Severidad**: Critical
 ```java
-// ✅ Compliant — hexagonal architecture
+// OK Compliant — hexagonal architecture
 // 1. Interface en domain/
 public interface UserRepository {
     Optional<User> findById(Long id);
@@ -573,13 +573,13 @@ public class UserService {
 
 **Severidad**: Critical
 ```java
-// ❌ Noncompliant — expone JPA entity
+// FAIL Noncompliant — expone JPA entity
 @GetMapping("/{id}")
 public UserEntity getUser(@PathVariable Long id) {
     return userRepo.findById(id).orElseThrow();
 }
 
-// ✅ Compliant — retorna DTO
+// OK Compliant — retorna DTO
 @GetMapping("/{id}")
 public UserResponse getUser(@PathVariable Long id) {
     User user = userService.findById(id).orElseThrow();
@@ -629,10 +629,10 @@ public UserResponse getUser(@PathVariable Long id) {
 
 | Severidad | Acción | Bloquea merge |
 |---|---|---|
-| **Blocker** | Corregir inmediatamente | ✅ Sí |
-| **Critical** | Corregir antes de merge | ✅ Sí |
-| **Major** | Corregir en el sprint actual | 🟡 Depende |
-| **Minor** | Backlog técnico | ❌ No |
+| **Blocker** | Corregir inmediatamente | OK Sí |
+| **Critical** | Corregir antes de merge | OK Sí |
+| **Major** | Corregir en el sprint actual | WARN Depende |
+| **Minor** | Backlog técnico | FAIL No |
 
 ## HTTP QUERY (RFC 10008)
 

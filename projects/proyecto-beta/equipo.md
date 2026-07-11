@@ -92,7 +92,7 @@ Coste estimado:         ~$0.02-0.05 por spec de tests
 
 ## Capacity Total con Agentes (Proyecto Beta)
 
-| Sprint | Laura | Carlos | 🤖 Agentes | Total efectivo |
+| Sprint | Laura | Carlos |  Agentes | Total efectivo |
 |--------|-------|--------|-----------|----------------|
 | 2026-04 | 60h | 60h | ~35h estimadas | ~155h efectivas |
 | 2026-05 | 60h | 60h | ~35h estimadas | ~155h efectivas |

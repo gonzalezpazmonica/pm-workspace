@@ -31,8 +31,8 @@ el cuerpo: un puente entre el mundo digital y el físico.
 │  Piensa     │                   │  Oye  🎤    │
 │  Decide     │                   │  Ve   📷    │
 │  Habla      │                   │  Habla 🔊   │
-│  Recuerda   │                   │  Siente 🌡️  │
-│  Planifica  │                   │  Actúa ⚙️   │
+│  Recuerda   │                   │  Siente   │
+│  Planifica  │                   │  Actúa    │
 └─────────────┘                   └─────────────┘
 ```
 

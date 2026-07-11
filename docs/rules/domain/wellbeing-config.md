@@ -75,7 +75,7 @@ estirar y aplicar la regla 20-20-20 (mira a 6m durante 20s).
 
 ### Post-descanso
 ```
-✅ ¡Bienvenido/a de vuelta! Pausa de {break_duration}min registrada.
+OK ¡Bienvenido/a de vuelta! Pausa de {break_duration}min registrada.
 Llevas {breaks_today} descansos hoy. ¡Buen ritmo!
 ```
 

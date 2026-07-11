@@ -5,7 +5,7 @@
 
 ---
 
-## ⚙️ CONSTANTES DEL PROYECTO
+##  CONSTANTES DEL PROYECTO
 
 ```
 # ── Identidad en Azure DevOps ─────────────────────────────────────────────────
@@ -60,7 +60,7 @@ HORAS_CONSUMIDAS          = 320
 
 ---
 
-## 📋 Descripción del Proyecto
+##  Descripción del Proyecto
 
 **Qué es:** [Descripción del sistema — actualizar].
 
@@ -74,7 +74,7 @@ HORAS_CONSUMIDAS          = 320
 
 ---
 
-## 👥 Equipo
+##  Equipo
 
 Ver composición completa en `equipo.md`.
 
@@ -87,18 +87,18 @@ Ver composición completa en `equipo.md`.
 
 ---
 
-## 🏃 Sprint Actual
+##  Sprint Actual
 
 **Sprint:** Sprint 2026-04 (02/03/2026 → 13/03/2026)
 **Sprint Goal:** Implementar el módulo de autenticación con Azure AD B2C y el alta de usuarios
 
-**Estado:** 🟡 Inicio de sprint
+**Estado:** WARN Inicio de sprint
 
 Para ver el estado detallado ejecutar: `/sprint-status proyecto-beta`
 
 ---
 
-## 📁 Estructura del Proyecto
+##  Estructura del Proyecto
 
 ```
 projects/proyecto-beta/
@@ -116,7 +116,7 @@ projects/proyecto-beta/
 
 ---
 
-## 🎯 Configuración de Descomposición y Asignación de PBIs
+##  Configuración de Descomposición y Asignación de PBIs
 
 > Leída por la skill `pbi-decomposition`. Ajustada para equipo pequeño (2 personas) y contrato precio fijo.
 
@@ -159,7 +159,7 @@ budget_alert: true
 
 ---
 
-## 🤖 Configuración Spec-Driven Development (SDD)
+##  Configuración Spec-Driven Development (SDD)
 
 > Leída por la skill `spec-driven-development`.
 > En Beta (precio fijo, equipo de 2), la agentización es prioritaria para proteger márgenes.
@@ -223,7 +223,7 @@ sdd_config:
 
 ---
 
-## ⚠️ Notas Importantes
+## WARN Notas Importantes
 
 - Proyecto en precio fijo — cualquier cambio de alcance requiere Change Request formal
 - El presupuesto es ajustado: monitorizar semanalmente las horas consumidas

@@ -1,6 +1,6 @@
 # Gap Analysis: Large Technology Consulting Firms and How pm-workspace Solves Them
 
-🌐 [Versión en español](../guides/guide-enterprise-gap-analysis.md)
+ [Versión en español](../guides/guide-enterprise-gap-analysis.md)
 
 > This document identifies the most common operational problems in large technology consulting firms (500-5,000 employees) and details how pm-workspace/Savia solves each one with specific commands, rules, and skills.
 

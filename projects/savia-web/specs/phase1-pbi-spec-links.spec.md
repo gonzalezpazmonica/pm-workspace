@@ -66,8 +66,8 @@ Lists all specs linked to a PBI with their status.
 
 PBI-004: Backlog funcional
   Specs:
-  ✅ specs/phase2-backlog-ui.spec.md      — approved
-  📝 specs/phase2-backlog-kanban.spec.md  — draft
+  OK specs/phase2-backlog-ui.spec.md      — approved
+   specs/phase2-backlog-kanban.spec.md  — draft
 
   Coverage: 2 specs, 1 approved, 1 draft
 ```

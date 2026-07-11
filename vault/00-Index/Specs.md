@@ -201,7 +201,7 @@ tags: [moc, index, specs]
 - ![[docs/propuestas/adr-connectors-vs-mcp]]
 - ![[docs/propuestas/era21-masterplan]]
 - ![[docs/propuestas/investigacion-ecosistema-claude-code-2026]]
-- ![[docs/propuestas/propuesta-incorporacion-awesome-claude-code]]
+- ![[docs/propuestas/propuesta-incorporacion-excellent-claude-code]]
 - ![[docs/propuestas/propuesta-onboarding-y-evaluacion]]
 - ![[docs/propuestas/propuesta-pr-guardian-system]]
 

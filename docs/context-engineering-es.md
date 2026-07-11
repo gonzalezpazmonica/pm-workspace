@@ -12,7 +12,7 @@ Este módulo introduce 5 mejoras al sistema de Context Engineering de pm-workspa
 
 ## Mejora 1: Example Patterns (Few-shot en Commands)
 
-Los ejemplos concretos de input/output son el tipo de contexto más potente para guiar el comportamiento de un LLM. Se añade una sección `## Ejemplos` con pares positivo (✅) y negativo (❌) a los commands más críticos.
+Los ejemplos concretos de input/output son el tipo de contexto más potente para guiar el comportamiento de un LLM. Se añade una sección `## Ejemplos` con pares positivo (OK) y negativo (FAIL) a los commands más críticos.
 
 **Regla:** `docs/rules/domain/example-patterns.md`
 **Commands piloto:** `project-audit`, `sprint-plan`, `spec-generate`, `debt-track`, `risk-log`

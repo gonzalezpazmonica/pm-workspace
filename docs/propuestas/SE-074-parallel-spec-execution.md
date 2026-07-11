@@ -140,11 +140,11 @@ Inspirado en Kohli et al. 2026 ("Loop, Think, & Generalize", arXiv:2604.07822). 
 
 ## Dependencias y pre-requisitos
 
-- ✅ Hook coverage 100% (Era 186)
-- ✅ pr-plan G11 estable (PR natural-language summary, batch 58)
-- ✅ Cascade rebase pattern documentado (feedback_changelog_cascade_rebase)
-- ✅ Bounded concurrency rule (feedback_bounded_concurrency)
-- ⚠️ Resource monitoring básico (a verificar antes de Slice 1)
+- OK Hook coverage 100% (Era 186)
+- OK pr-plan G11 estable (PR natural-language summary, batch 58)
+- OK Cascade rebase pattern documentado (feedback_changelog_cascade_rebase)
+- OK Bounded concurrency rule (feedback_bounded_concurrency)
+- WARN Resource monitoring básico (a verificar antes de Slice 1)
 
 ## Slicing approval gate
 

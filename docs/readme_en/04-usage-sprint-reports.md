@@ -31,27 +31,27 @@ _Scenario: Sprint in progress, day 4 of 10. You want to know if the team is on t
 
   Burndown (SP)
   Ideal:  ▓▓▓▓▓▓▓░░░░░░░░░░░░░  38 → 0
-  Actual: ▓▓▓▓▓▓▓▓▓░░░░░░░░░░░  38 → 23 completed  ⚠️
-  → You have 15 SP completed, should be 15.2 → ✅ on track
+  Actual: ▓▓▓▓▓▓▓▓▓░░░░░░░░░░░  38 → 23 completed  WARN
+  → You have 15 SP completed, should be 15.2 → OK on track
 
   In progress (5 items):
-    AB#2041  POST /appointments endpoint       Laura S.    [4/6h] ✅ on time
-    AB#2042  AppointmentValidator FluentVal.   🤖 agent    [done, in review]
-    AB#2043  Unit tests AppointmentService     🤖 agent    [running, 2h]
-    AB#2044  Appointments table migration      Carlos TL   [0/4h] 🔴 no progress
-    AB#2045  GET /appointments?date query      Diego T.    [2/4h] ✅
+    AB#2041  POST /appointments endpoint       Laura S.    [4/6h] OK on time
+    AB#2042  AppointmentValidator FluentVal.    agent    [done, in review]
+    AB#2043  Unit tests AppointmentService      agent    [running, 2h]
+    AB#2044  Appointments table migration      Carlos TL   [0/4h] FAIL no progress
+    AB#2045  GET /appointments?date query      Diego T.    [2/4h] OK
 
-  🔴 Needs attention:
+  FAIL Needs attention:
     • AB#2044 — Carlos has not logged any progress in 2 days.
       Risk: if no progress today, the migration may block Laura and Diego.
       Suggested action: ask in Daily if it's blocked.
 
-  🟡 Warnings:
+  WARN Warnings:
     • 3 PBIs still in "New" status, not yet broken down → do you plan to tackle them this sprint?
     • Ana (QA) has 0h logged this week — confirm she is active
 
   Remaining capacity: ~72 human hours | ~18 agent hours
-  Completion estimate: 🟡 MODERATE RISK — depends on the migration
+  Completion estimate: WARN MODERATE RISK — depends on the migration
 ```
 
 **You type:**
@@ -100,7 +100,7 @@ _Scenario: It's the Friday before a new sprint. You want to prepare the planning
   │ Laura Sanchez    │ 10    │  7.5h    │  0.75  │  56.3h       │
   │ Diego Torres     │  9    │  7.5h    │  0.75  │  50.6h       │
   │ Ana Morales (QA) │ 10    │  7.5h    │  0.75  │  56.3h       │
-  │ 🤖 Claude Agent  │  —    │   —      │   —    │  ~35h est.   │
+  │  Claude Agent  │  —    │   —      │   —    │  ~35h est.   │
   └──────────────────┴───────┴──────────┴────────┴──────────────┘
   Total human: 203.7h | Historical velocity: 38 SP
 
@@ -114,7 +114,7 @@ _Scenario: It's the Friday before a new sprint. You want to prepare the planning
   │ #304 │ Export schedule to PDF             │  3  │  14h   │
   │ #305 │ API pagination for list endpoints  │  2  │   8h   │ ← capacity limit
   └──────┴────────────────────────────────────┴─────┴────────┘
-  Proposal: #301 + #302 + #304 + #305 = 18 SP / 84h ✅ within capacity
+  Proposal: #301 + #302 + #304 + #305 = 18 SP / 84h OK within capacity
   (#303 excluded — 36h exceeds remaining capacity)
 
   Shall I break down these 4 PBIs into tasks with assignments?
@@ -149,7 +149,7 @@ Generating hours report for Sprint 2026-04...
 [Querying Azure DevOps Work Items and time tracking]
 [Querying sprint capacities and time entries]
 
-✅ Report generated: output/reports/ClinicManagement-hours-2026-04.xlsx
+OK Report generated: output/reports/ClinicManagement-hours-2026-04.xlsx
 
 Executive summary:
   Planned hours:   203.7h
@@ -157,12 +157,12 @@ Executive summary:
   Agent hours:      31.5h (real equivalent: ~$19.80 USD)
 
   By person:
-    Carlos TL   → 39.0h / 40.5h (96%) ✅
-    Laura S.    → 54.5h / 56.3h (97%) ✅
-    Diego T.    → 52.0h / 50.6h (103%) ⚠️ +2.4h over capacity
-    Ana QA      → 52.8h / 56.3h (94%) ✅
+    Carlos TL   → 39.0h / 40.5h (96%) OK
+    Laura S.    → 54.5h / 56.3h (97%) OK
+    Diego T.    → 52.0h / 50.6h (103%) WARN +2.4h over capacity
+    Ana QA      → 52.8h / 56.3h (94%) OK
 
-  Completed items: 9/11 (18/20 SP — velocity 18 vs historical 38 🔴)
+  Completed items: 9/11 (18/20 SP — velocity 18 vs historical 38 FAIL)
   Items carried to next sprint: AB#2044, AB#2051
 
 The Excel has 4 tabs: Summary, By person, By PBI, Agents.
@@ -185,14 +185,14 @@ _Scenario: Wednesday. You suspect someone is overloaded._
 ```
 Team workload — current week (Mon 17/03 – Fri 21/03)
 
-  Carlos TL    ██████████░░░░░  68%  [ 20.4h / 30h available ]  🟢
-  Laura S.     █████████████░░  87%  [ 32.8h / 37.5h ]          🟡 high
-  Diego T.     ████████████████ 100% [ 37.5h / 37.5h ]          🔴 no margin
-  Ana QA       ████████░░░░░░░  55%  [ 20.6h / 37.5h ]          🟢 has margin
-  🤖 Agent     ███████░░░░░░░░  48%  [ 3 specs in queue ]       🟢
+  Carlos TL    ██████████░░░░░  68%  [ 20.4h / 30h available ]  OK
+  Laura S.     █████████████░░  87%  [ 32.8h / 37.5h ]          WARN high
+  Diego T.     ████████████████ 100% [ 37.5h / 37.5h ]          FAIL no margin
+  Ana QA       ████████░░░░░░░  55%  [ 20.6h / 37.5h ]          OK has margin
+   Agent     ███████░░░░░░░░  48%  [ 3 specs in queue ]       OK
 
-  ⚠️  Diego Torres is at 100% — cannot absorb unexpected bugs or incidents.
-  💡 Ana has 16.9h available this week. If there are pending QA
+  WARN  Diego Torres is at 100% — cannot absorb unexpected bugs or incidents.
+   Ana has 16.9h available this week. If there are pending QA
      or documentation tasks, now is the time to assign them.
 ```
 
@@ -242,10 +242,10 @@ TASK PROPOSAL:
 ├────┼──────────────────────────────────────────┼──────┼──────┼────────────────┼───────────────┤
 │ B1 │ HistorialCitasQuery design + DTO         │  3h  │ Dev  │ Carlos TL      │ human         │
 │ B2 │ EF Core: IHistorialCitasRepository       │  2h  │ Dev  │ Diego T.       │ human         │
-│ B3 │ GetHistorialCitasQueryHandler            │  4h  │ Dev  │ 🤖 agent       │ agent-single  │
-│ C1 │ HistorialCitasController (GET endpoint)  │  3h  │ Dev  │ 🤖 agent       │ agent-single  │
+│ B3 │ GetHistorialCitasQueryHandler            │  4h  │ Dev  │  agent       │ agent-single  │
+│ C1 │ HistorialCitasController (GET endpoint)  │  3h  │ Dev  │  agent       │ agent-single  │
 │ C2 │ Cursor-based pagination (middleware)     │  3h  │ Dev  │ Laura S.       │ human         │
-│ D1 │ Unit tests for QueryHandler              │  2h  │ Dev  │ 🤖 agent       │ agent-single  │
+│ D1 │ Unit tests for QueryHandler              │  2h  │ Dev  │  agent       │ agent-single  │
 │ D2 │ End-to-end integration test              │  3h  │ QA   │ Ana Morales    │ human         │
 │ E1 │ Code Review                              │  2h  │ Rev  │ Carlos TL      │ human         │
 └────┴──────────────────────────────────────────┴──────┴──────┴────────────────┴───────────────┘
@@ -267,14 +267,14 @@ Change C2 to the agent too, Laura already has a heavy load. Create the tasks.
 Adjusted: C2 → agent-single (I'll add the reference pagination pattern to the spec).
 
 Creating 8 tasks in Azure DevOps for AB#302...
-  ✅ AB#302-B1 created → assigned to Carlos Mendoza
-  ✅ AB#302-B2 created → assigned to Diego Torres
-  ✅ AB#302-B3 created → assigned to claude-agent (tag: spec-driven)
-  ✅ AB#302-C1 created → assigned to claude-agent (tag: spec-driven)
-  ✅ AB#302-C2 created → assigned to claude-agent (tag: spec-driven)
-  ✅ AB#302-D1 created → assigned to claude-agent-fast (tag: spec-driven)
-  ✅ AB#302-D2 created → assigned to Ana Morales
-  ✅ AB#302-E1 created → assigned to Carlos Mendoza
+  OK AB#302-B1 created → assigned to Carlos Mendoza
+  OK AB#302-B2 created → assigned to Diego Torres
+  OK AB#302-B3 created → assigned to claude-agent (tag: spec-driven)
+  OK AB#302-C1 created → assigned to claude-agent (tag: spec-driven)
+  OK AB#302-C2 created → assigned to claude-agent (tag: spec-driven)
+  OK AB#302-D1 created → assigned to claude-agent-fast (tag: spec-driven)
+  OK AB#302-D2 created → assigned to Ana Morales
+  OK AB#302-E1 created → assigned to Carlos Mendoza
 
 8 tasks created. Agent tasks (B3, C1, C2, D1) now have the
 "spec-driven" tag and are ready for /spec-generate whenever you want.

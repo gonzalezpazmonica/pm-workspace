@@ -22,7 +22,7 @@ Mide si el veredicto emite un juicio claro y sin contradicciones.
 | 12 | Juicio implícito o parcial |
 | 0 | Contiene CRITICAL, REJECT o bloqueantes sin resolver |
 
-Señales positivas: `PASS`, `verdict: pass`, `✓`, `all pass`, `no blocker`.
+Señales positivas: `PASS`, `verdict: pass`, ``, `all pass`, `no blocker`.
 Señales negativas: `CRITICAL`, `FAIL`, `REJECT`, `blocker`.
 
 ### 2. Completeness (25 pts)

@@ -237,10 +237,10 @@ El artículo de Iñaki Aguirre describe el cambio de "prompt engineering" a "arq
 | 13 | memory-store.sh:45 | Newlines corrompen JSONL | Escapar newlines antes de insertar |
 
 **Scripts que ya son robustos (no requieren cambios):**
-- `post-edit-lint.sh` ✅
-- `block-infra-destructive.sh` ✅
-- `stop-quality-gate.sh` ✅
-- `plan-gate.sh` ✅
+- `post-edit-lint.sh` OK
+- `block-infra-destructive.sh` OK
+- `stop-quality-gate.sh` OK
+- `plan-gate.sh` OK
 
 ### Plan de hardening
 
@@ -292,7 +292,7 @@ SAVIA-USB/
 4. Importar claves (si existen en config/)
 5. Configurar git (remote, branch, fetch)
 6. Verificar: claude --versión, git status, savia saluda
-7. Listo ✅
+7. Listo OK
 ```
 
 ### Comandos propuestos
@@ -320,9 +320,9 @@ SAVIA-USB/
 
 | Suite | Resultado | Detalle |
 |---|---|---|
-| test-company-repo.sh | ✅ 12/12 | Repo init, folders, git ops |
-| test-savia-messaging.sh | ✅ 17/17 | Send, reply, announce, broadcast, privacy |
-| test-savia-crypto.sh | ✅ 13/13 | Keygen, encrypt, decrypt, wrong key rejection, idempotency |
+| test-company-repo.sh | OK 12/12 | Repo init, folders, git ops |
+| test-savia-messaging.sh | OK 17/17 | Send, reply, announce, broadcast, privacy |
+| test-savia-crypto.sh | OK 13/13 | Keygen, encrypt, decrypt, wrong key rejection, idempotency |
 | test-company-profile.sh | 30/35 | 5 fallos en CLAUDE.md (contadores desalineados por otra instancia) |
 | Smoke Tests (company repo) | 1/9 | El repo no tiene estructura Company Savia inicializada |
 

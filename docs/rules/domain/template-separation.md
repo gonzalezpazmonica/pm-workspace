@@ -25,21 +25,21 @@ El código de aplicación **NUNCA** debe contener marcado (HTML/XML), hojas de e
 Código de servidor (Python, Java, C#, Go, Ruby, PHP, Rust) no debe construir HTML mediante concatenación de strings ni f-strings.
 
 ```python
-# ❌ Noncompliant
+# FAIL Noncompliant
 def install_page():
     return f"<html><body><h1>{title}</h1></body></html>"
 
-# ✅ Compliant — template externo
+# OK Compliant — template externo
 def install_page():
     template = load_template("install.html")
     return template.replace("{{title}}", title)
 ```
 
 ```csharp
-// ❌ Noncompliant
+// FAIL Noncompliant
 return $"<div class='card'>{user.Name}</div>";
 
-// ✅ Compliant — Razor view
+// OK Compliant — Razor view
 return View("UserCard", user);
 ```
 
@@ -54,11 +54,11 @@ return View("UserCard", user);
 Estilos CSS no deben definirse como strings en código de servidor.
 
 ```python
-# ❌ Noncompliant
+# FAIL Noncompliant
 style = "color: red; font-size: 14px;"
 html = f"<div style='{style}'>{content}</div>"
 
-# ✅ Compliant — fichero .css separado + clase
+# OK Compliant — fichero .css separado + clase
 # styles.css → .error { color: red; font-size: 14px; }
 # template.html → <div class="error">{{content}}</div>
 ```
@@ -74,19 +74,19 @@ html = f"<div style='{style}'>{content}</div>"
 Consultas SQL deben usar parámetros vinculados, nunca interpolación de strings.
 
 ```python
-# ❌ Noncompliant
+# FAIL Noncompliant
 query = f"SELECT * FROM users WHERE id = {user_id}"
 
-# ✅ Compliant — parámetros vinculados
+# OK Compliant — parámetros vinculados
 query = "SELECT * FROM users WHERE id = ?"
 cursor.execute(query, (user_id,))
 ```
 
 ```java
-// ❌ Noncompliant
+// FAIL Noncompliant
 String sql = "SELECT * FROM users WHERE name = '" + name + "'";
 
-// ✅ Compliant — PreparedStatement
+// OK Compliant — PreparedStatement
 String sql = "SELECT * FROM users WHERE name = ?";
 stmt.setString(1, name);
 ```
@@ -105,14 +105,14 @@ Un fichero de código no debe mezclar:
 Cada responsabilidad va en su propio módulo/fichero.
 
 ```python
-# ❌ Noncompliant — un solo fichero con todo
+# FAIL Noncompliant — un solo fichero con todo
 class MyServer:
     def handle_request(self):
         data = db.query("SELECT ...")       # Acceso a datos
         result = complex_calculation(data)   # Lógica de negocio
         return f"<html>{result}</html>"      # Presentación
 
-# ✅ Compliant — separado por capas
+# OK Compliant — separado por capas
 # repository.py  → def get_data(): ...
 # service.py     → def calculate(data): ...
 # handler.py     → def handle(): return render("template.html", service.calculate(...))

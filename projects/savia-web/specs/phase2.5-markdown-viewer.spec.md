@@ -22,7 +22,7 @@ Improve the file browser markdown rendering to match LinkedIn article quality: p
 
 ### RF-02: Image Support
 
-- Render `![alt](url)` as `<img>` with max-width: 100%
+- Render image alt+url as `<img>` with max-width: 100%
 - Lazy loading (`loading="lazy"`)
 - Click to open full size in new tab
 

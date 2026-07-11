@@ -28,23 +28,23 @@ adicionales por proyecto. Los permisos se heredan: Admin > PM > Contributor > Vi
 
 | Categoría | Comando | Admin | PM | Contributor | Viewer |
 |---|---|---|---|---|---|
-| **Sprint** | sprint-plan | ✅ | ✅ | ❌ | ❌ |
-| | sprint-status | ✅ | ✅ | ✅ | ✅ |
-| | sprint-review | ✅ | ✅ | ❌ | ❌ |
-| **Backlog** | backlog-groom | ✅ | ✅ | ❌ | ❌ |
-| | backlog-prioritize | ✅ | ✅ | ❌ | ❌ |
-| | pbi-create | ✅ | ✅ | ❌ | ❌ |
-| **Report** | report-executive | ✅ | ✅ | ❌ | ✅ |
-| | report-capacity | ✅ | ✅ | ❌ | ✅ |
-| | ceo-report | ✅ | ❌ | ❌ | ✅ |
-| **Code** | pr-review | ✅ | ❌ | ✅ | ✅ |
-| | spec-generate | ✅ | ❌ | ✅ | ❌ |
-| | code-audit | ✅ | ❌ | ✅ | ✅ |
-| **Deploy** | azure-pipelines apply | ✅ | ❌ | ❌ | ❌ |
-| | infra-create | ✅ | ❌ | ❌ | ❌ |
-| **Org** | team-orchestrator | ✅ | ❌ | ❌ | ❌ |
-| | profile-setup | ✅ | ✅ | ✅ | ❌ |
-| | rbac-manager | ✅ | ❌ | ❌ | ❌ |
+| **Sprint** | sprint-plan | OK | OK | FAIL | FAIL |
+| | sprint-status | OK | OK | OK | OK |
+| | sprint-review | OK | OK | FAIL | FAIL |
+| **Backlog** | backlog-groom | OK | OK | FAIL | FAIL |
+| | backlog-prioritize | OK | OK | FAIL | FAIL |
+| | pbi-create | OK | OK | FAIL | FAIL |
+| **Report** | report-executive | OK | OK | FAIL | OK |
+| | report-capacity | OK | OK | FAIL | OK |
+| | ceo-report | OK | FAIL | FAIL | OK |
+| **Code** | pr-review | OK | FAIL | OK | OK |
+| | spec-generate | OK | FAIL | OK | FAIL |
+| | code-audit | OK | FAIL | OK | OK |
+| **Deploy** | azure-pipelines apply | OK | FAIL | FAIL | FAIL |
+| | infra-create | OK | FAIL | FAIL | FAIL |
+| **Org** | team-orchestrator | OK | FAIL | FAIL | FAIL |
+| | profile-setup | OK | OK | OK | FAIL |
+| | rbac-manager | OK | FAIL | FAIL | FAIL |
 
 ## Role assignment schema
 

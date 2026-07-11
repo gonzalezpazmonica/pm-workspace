@@ -4,7 +4,7 @@ title: SE-172 — markitdown como capa 0 universal de digestión
 status: IMPLEMENTED
 closed_by_pr: "#unknown-backfill"
 closed_date: "2026-06-24"
-origin: microsoft/markitdown (MIT, 143k★, v0.1.6 2026-05-26) — análisis 2026-06-03
+origin: microsoft/markitdown (MIT, 143k, v0.1.6 2026-05-26) — análisis 2026-06-03
 author: Savia
 priority: media
 effort: M 6h
@@ -23,7 +23,7 @@ resource: https://github.com/microsoft/markitdown
 
 pm-workspace tiene 6 digest-agents (`pdf-digest`, `word-digest`, `excel-digest`, `pptx-digest`, `visual-digest`, `meeting-digest`). Cada uno reimplementa parsing+normalización (extracción de texto, tablas, imágenes, OCR, transcripción) **antes** de su pipeline de 4 fases de análisis de dominio. Resultado: ~6 superficies de seguridad I/O, código duplicado de extracción, formatos de entrada limitados a lo que cada agente sabe parsear.
 
-Microsoft markitdown (MIT, 143k★) es una utility Python que convierte ficheros heterogéneos a Markdown optimizado para LLMs. Cobertura: PDF, DOCX, PPTX, XLSX, imágenes (EXIF+OCR), audio (transcripción), HTML, CSV/JSON/XML, ZIP, YouTube, EPub, Outlook .msg. Token-efficient. API estable.
+Microsoft markitdown (MIT, 143k) es una utility Python que convierte ficheros heterogéneos a Markdown optimizado para LLMs. Cobertura: PDF, DOCX, PPTX, XLSX, imágenes (EXIF+OCR), audio (transcripción), HTML, CSV/JSON/XML, ZIP, YouTube, EPub, Outlook .msg. Token-efficient. API estable.
 
 Lección que pm-workspace puede importar: **separar extracción (commodity) de análisis de dominio (valor)**. Los digest-agents deberían recibir Markdown ya canónico y centrarse en cross-ref con perfiles, contexto de proyecto, riesgos y reglas — no en luchar con `python-pptx` o `openpyxl`.
 

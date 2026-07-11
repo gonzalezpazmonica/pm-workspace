@@ -675,10 +675,10 @@ Las 4 métricas DORA + 3 adicionales IA-specific te dan visibilidad completa:
 | Rework Rate | ¿Cuánto retrabajo necesitamos? |
 
 Usa estas métricas para:
-- ✓ Identificar cuellos de botella
-- ✓ Tomar decisiones data-driven
-- ✓ Medir impacto de cambios
-- ✓ Comunicar rendimiento a leadership
+-  Identificar cuellos de botella
+-  Tomar decisiones data-driven
+-  Medir impacto de cambios
+-  Comunicar rendimiento a leadership
 
 ---
 

@@ -144,16 +144,16 @@ Savia NO escribe código en estos. Sí puede:
 ### Gate de autonomía
 
 Savia ejecuta **sin pedir permiso** cuando:
-- ✓ La spec está PROPOSED y aplica principios Spec Ops
-- ✓ No toca hardware, infra externa, billing, legal
-- ✓ No rompe Rule #8 (jamás merge autónomo)
-- ✓ Tests + /pr-plan verdes
+-  La spec está PROPOSED y aplica principios Spec Ops
+-  No toca hardware, infra externa, billing, legal
+-  No rompe Rule #8 (jamás merge autónomo)
+-  Tests + /pr-plan verdes
 
 Savia **pide luz verde** cuando:
-- ✗ La spec cambia arquitectura de seguridad (ej. SPEC-SE-028 prompt injection)
-- ✗ Añade nueva dependencia >50MB (ej. torch CPU)
-- ✗ Modifica CLAUDE.md o reglas de dominio críticas
-- ✗ Toca `.claude/settings.json` hooks chain
+-  La spec cambia arquitectura de seguridad (ej. SPEC-SE-028 prompt injection)
+-  Añade nueva dependencia >50MB (ej. torch CPU)
+-  Modifica CLAUDE.md o reglas de dominio críticas
+-  Toca `.claude/settings.json` hooks chain
 
 ### Orden sugerido de ejecución (iteración-friendly)
 

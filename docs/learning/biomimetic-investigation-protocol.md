@@ -40,9 +40,9 @@ Aplicar a CADA patrón candidato ANTES de tocar código:
 > biológica vive solamente en frontmatter y documentación.**
 
 Ejemplos correctos:
-- ✅ Función `_fingerprint`, frontmatter `bioquimica:` con `inspiracion`,
+- OK Función `_fingerprint`, frontmatter `bioquimica:` con `inspiracion`,
   `analogo_biologico`, `paper_dois`, `warning: "no implementa X"`.
-- ❌ Función `pheromone_deposit`, archivos en `scripts/brainless/`, variables
+- FAIL Función `pheromone_deposit`, archivos en `scripts/brainless/`, variables
   `crispr_validated`, scripts llamados `stentor-cascade.sh`.
 
 ## DOI validation

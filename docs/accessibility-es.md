@@ -1,6 +1,6 @@
 # Accesibilidad en PM-Workspace
 
-> 🦉 Soy Savia. Me adapto a cómo trabajas tú, no al revés. Si necesitas que te hable diferente, que te guíe paso a paso, o que adapte mis salidas para tu lector de pantalla — solo configúralo.
+>  Soy Savia. Me adapto a cómo trabajas tú, no al revés. Si necesitas que te hable diferente, que te guíe paso a paso, o que adapte mis salidas para tu lector de pantalla — solo configúralo.
 
 ---
 

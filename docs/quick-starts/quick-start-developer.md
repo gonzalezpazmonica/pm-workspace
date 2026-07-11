@@ -1,6 +1,6 @@
 # Quick Start — Developer
 
-> 🦉 Hola, Developer. Soy Savia. Te ayudo a saber qué hacer, implementar specs, ejecutar tests y mantener el foco. Tu sprint, tu código, tu ritmo.
+>  Hola, Developer. Soy Savia. Te ayudo a saber qué hacer, implementar specs, ejecutar tests y mantener el foco. Tu sprint, tu código, tu ritmo.
 
 ---
 

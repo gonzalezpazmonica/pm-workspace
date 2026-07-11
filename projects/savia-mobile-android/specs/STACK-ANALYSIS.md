@@ -244,9 +244,9 @@ Infrastructure
 
 ## Deprecaciones Evitadas
 
-- ❌ EncryptedSharedPreferences → ✅ DataStore
-- ❌ JSch directo → ✅ Bridge Python
-- ❌ LiveData → ✅ StateFlow
-- ❌ Dagger directo → ✅ Hilt
-- ❌ ViewBinding manual → ✅ Compose
+- FAIL EncryptedSharedPreferences → OK DataStore
+- FAIL JSch directo → OK Bridge Python
+- FAIL LiveData → OK StateFlow
+- FAIL Dagger directo → OK Hilt
+- FAIL ViewBinding manual → OK Compose
 

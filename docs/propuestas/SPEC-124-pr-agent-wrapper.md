@@ -15,7 +15,7 @@ era: 187
 
 ## Why
 
-`qodo-ai/pr-agent` (10.9k ⭐) es el OSS core de Qodo (60.1% F1 — mejor de 8 reviewers en benchmarks 2026). Su arquitectura agente-por-dimensión **mirrors el Court de Savia** exactamente. Añadirlo como **5º juez** da:
+`qodo-ai/pr-agent` (10.9k ) es el OSS core de Qodo (60.1% F1 — mejor de 8 reviewers en benchmarks 2026). Su arquitectura agente-por-dimensión **mirrors el Court de Savia** exactamente. Añadirlo como **5º juez** da:
 
 - Diversity (4 jueces propios + 1 externo = menos sesgo compartido)
 - Validación contra un reviewer con benchmark público

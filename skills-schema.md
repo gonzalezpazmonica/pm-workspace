@@ -45,7 +45,7 @@
 | diagram-import | Usar cuando se importa un diagrama existente para extraer entidades y crear PBIs | diagram-import, parsing, work-items, entities |
 | doc-quality-feedback | Usar cuando se recopila feedback de calidad de documentación tras usar skills y  | feedback, documentation, self-improvement |
 | dynamic-web-tester | Testing dinámico de endpoints web: XSS (DalFox), SQLi (sqlmap), Nuclei. | xss, sqli, dalfox, sqlmap, nuclei, pentest-web, dynamic-testing |
-| ecosystem-watcher | Usar una vez al mes para detectar cambios relevantes en el ecosistema de herrami | watch, monthly, intelligence, awesome, cron |
+| ecosystem-watcher | Usar una vez al mes para detectar cambios relevantes en el ecosistema de herrami | watch, monthly, intelligence, excellent, cron |
 | emergency-mode | Usar cuando la API de Anthropic está caída y se necesita continuar operando con  | emergency, localai, sovereignty, spec-122 |
 | enterprise-analytics | Usar cuando se necesitan métricas SPACE, aggregación de portfolio o forecasting  | analytics, space-metrics, portfolio, forecasting |
 | enterprise-onboarding | Usar cuando se incorporan múltiples personas a la organización de forma masiva. | onboarding, enterprise, batch-import, knowledge-transfer |

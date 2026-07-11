@@ -12,7 +12,7 @@ This module introduces 5 improvements to pm-workspace's Context Engineering syst
 
 ## Improvement 1: Example Patterns (Few-shot in Commands)
 
-Concrete input/output examples are the most powerful context type for guiding LLM behavior. An `## Ejemplos` section with positive (✅) and negative (❌) pairs is added to the most critical commands.
+Concrete input/output examples are the most powerful context type for guiding LLM behavior. An `## Ejemplos` section with positive (OK) and negative (FAIL) pairs is added to the most critical commands.
 
 **Rule:** `docs/rules/domain/example-patterns.md`
 **Pilot commands:** `project-audit`, `sprint-plan`, `spec-generate`, `debt-track`, `risk-log`

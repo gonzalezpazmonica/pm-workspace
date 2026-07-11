@@ -62,6 +62,6 @@ Ver `connectors-config.md` para las constantes disponibles.
 
 ## Referencias
 
-- 📚 [Guía completa de Connectors](../recommended-mcps.md)
-- 🏗️ [Arquitectura: Connectors vs MCP](../propuestas/adr-connectors-vs-mcp.md)
-- 🔗 [Directorio oficial](https://claude.com/connectors)
+-  [Guía completa de Connectors](../recommended-mcps.md)
+-  [Arquitectura: Connectors vs MCP](../propuestas/adr-connectors-vs-mcp.md)
+-  [Directorio oficial](https://claude.com/connectors)

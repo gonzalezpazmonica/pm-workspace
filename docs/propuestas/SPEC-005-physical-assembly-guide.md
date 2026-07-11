@@ -132,7 +132,7 @@ with schemdraw.Drawing(file='output/wiring-esp32-servo.svg') as d:
 - [ ] ¿Los cables están firmes (tira suavemente)?
 - [ ] ¿No hay cables cruzados entre VCC y GND?
 
-### ⚠️ Seguridad
+### WARN Seguridad
 - NUNCA conectar VCC a 5V — el BME280 funciona a 3.3V
 - Si el sensor se calienta, DESCONECTAR inmediatamente
 

@@ -79,23 +79,23 @@ Post-auditoría arquitectónica (`output/audit-arquitectura-20260420.md`): 15 sp
 
 ### Tier 0 — Crítico inmediato
 
-- ✅ **SE-051** SPEC-123 approval gate — `scripts/spec-approval-gate.sh` (batch 6)
-- 🔒 **SE-045** Session-init split fast-path — Enterprise-only scope (#648), fuera de máquina dev
+- OK **SE-051** SPEC-123 approval gate — `scripts/spec-approval-gate.sh` (batch 6)
+-  **SE-045** Session-init split fast-path — Enterprise-only scope (#648), fuera de máquina dev
 
 ### Tier 1 — Cerrar deuda detectada (audit)
 
-- ✅ **SE-043** CLAUDE.md drift auto-check — `scripts/claude-md-drift-check.sh` (batch 6)
-- ✅ **SE-044** SPEC-110 ID collision + ADR — `docs/decisions/adr-001-spec-110-id-collision-resolution.md` (batch 7)
-- ✅ **SE-046** Baseline re-levelling — `scripts/baseline-tighten.sh` (batch 7)
-- ✅ **SE-047** Agents catalog auto-sync — `scripts/agents-catalog-sync.sh` (batch 7)
-- ✅ **SE-048** Rule-orphan detector — `scripts/rule-orphan-detector.sh` (batch 7)
-- 🟡 **SE-054** SE-036 frontmatter Slices 2-3 — 125 specs normalizados (batch 8). 4 specs legacy con `**Status**:` inline quedan en excepción documentada
+- OK **SE-043** CLAUDE.md drift auto-check — `scripts/claude-md-drift-check.sh` (batch 6)
+- OK **SE-044** SPEC-110 ID collision + ADR — `docs/decisions/adr-001-spec-110-id-collision-resolution.md` (batch 7)
+- OK **SE-046** Baseline re-levelling — `scripts/baseline-tighten.sh` (batch 7)
+- OK **SE-047** Agents catalog auto-sync — `scripts/agents-catalog-sync.sh` (batch 7)
+- OK **SE-048** Rule-orphan detector — `scripts/rule-orphan-detector.sh` (batch 7)
+- WARN **SE-054** SE-036 frontmatter Slices 2-3 — 125 specs normalizados (batch 8). 4 specs legacy con `**Status**:` inline quedan en excepción documentada
 
 ### Tier 2 — Cierres pendientes
 
-- ✅ **SE-050** SPEC-122 Slice 2 — `.opencode/skills/emergency-mode/` (batch 9). Slice 3 rollout diferido
-- ✅ **SE-052** Agent-size remediation plan — `scripts/agent-size-remediation-plan.sh` (batch 8)
-- ✅ **SE-053** CHANGELOG.d consolidation hook — `scripts/changelog-consolidate.sh` + `changelog-consolidate-if-needed.sh` (batch 7)
+- OK **SE-050** SPEC-122 Slice 2 — `.opencode/skills/emergency-mode/` (batch 9). Slice 3 rollout diferido
+- OK **SE-052** Agent-size remediation plan — `scripts/agent-size-remediation-plan.sh` (batch 8)
+- OK **SE-053** CHANGELOG.d consolidation hook — `scripts/changelog-consolidate.sh` + `changelog-consolidate-if-needed.sh` (batch 7)
 
 ### Tier 3 — Champions research (preservados del roadmap previo)
 
@@ -117,12 +117,12 @@ Research `output/research/scrapling-20260421.md` identifica **SE-061 Scrapling**
 
 ### Tier 3 — Champions research (estado final)
 
-1. ✅ **SE-061** Scrapling — 4 slices completos (batches 14-17). probe + fetch wrapper + skills integration + MCP opt-in. 103 tests
-2. ✅ **SE-035** Mutation testing Slice 2 — skill + wrapper (batch 18). 33 tests
-3. ✅ **SE-032** Reranker Slice 2 — `scripts/rerank.py` + skill (batch 19). 36 tests, validación empírica cross-encoder funcional
-4. ✅ **SE-033** BERTopic Slice 2 — `scripts/topic-cluster.py` + skill (batch 20). 37 tests
-5. ✅ **SE-041** Memvid Slice 2 — `scripts/memvid-backup.py` + skill (batch 21). 40 tests, round-trip SHA256 integrity validado
-6. 🔒 **SE-028** Oumi — diferido, requiere GPU para training pipeline (sin hardware en máquina dev)
+1. OK **SE-061** Scrapling — 4 slices completos (batches 14-17). probe + fetch wrapper + skills integration + MCP opt-in. 103 tests
+2. OK **SE-035** Mutation testing Slice 2 — skill + wrapper (batch 18). 33 tests
+3. OK **SE-032** Reranker Slice 2 — `scripts/rerank.py` + skill (batch 19). 36 tests, validación empírica cross-encoder funcional
+4. OK **SE-033** BERTopic Slice 2 — `scripts/topic-cluster.py` + skill (batch 20). 37 tests
+5. OK **SE-041** Memvid Slice 2 — `scripts/memvid-backup.py` + skill (batch 21). 40 tests, round-trip SHA256 integrity validado
+6.  **SE-028** Oumi — diferido, requiere GPU para training pipeline (sin hardware en máquina dev)
 
 **Resumen Era 183**: 5/6 champions ejecutados. 249 tests nuevos certified. 8 batches (#655-662). Todos los skills con fallback graceful (zero-install default) + integracion opt-in opcional.
 
@@ -138,11 +138,11 @@ Post-Era 183 drift audit (batch 23) identifica deuda compuesta tras 22 batches c
 
 ### SE-062 slices (5/5 completados)
 
-1. ✅ **SE-062.1** Counter sync — CLAUDE.md/ROADMAP/filesystem skills triple check (batch 24)
-2. ✅ **SE-062.2** Duplicate SE-056 resolution — SE-044 spec-id guard enforced (batch 24)
-3. ✅ **SE-062.3** Skills aggregator — `tier3-probes` + `workspace-integrity` cubren 13 scripts huérfanos (batch 25)
-4. ✅ **SE-062.4** SE-053 changelog hook activation — GHA workflow `changelog-consolidate.yml` (batch 26)
-5. ✅ **SE-062.5** SE-036 frontmatter finale — 4 specs legacy (SPEC-066/067/068/069) normalizados (batch 27)
+1. OK **SE-062.1** Counter sync — CLAUDE.md/ROADMAP/filesystem skills triple check (batch 24)
+2. OK **SE-062.2** Duplicate SE-056 resolution — SE-044 spec-id guard enforced (batch 24)
+3. OK **SE-062.3** Skills aggregator — `tier3-probes` + `workspace-integrity` cubren 13 scripts huérfanos (batch 25)
+4. OK **SE-062.4** SE-053 changelog hook activation — GHA workflow `changelog-consolidate.yml` (batch 26)
+5. OK **SE-062.5** SE-036 frontmatter finale — 4 specs legacy (SPEC-066/067/068/069) normalizados (batch 27)
 
 Resultado: `specs-frontmatter-normalize.sh --scan` PASS sin drift en 198 specs. `claude-md-drift-check.sh` PASS.
 
@@ -291,17 +291,17 @@ Era exprés (1 día). Trigger: tras Era 186 hook ratchet closure, audit profunda
 ### Backlog APPROVED restante (post Era 187, snapshot 2026-04-26)
 
 **Era 188 — Foundations (in progress; cierra cuando PR #717 merge)**:
-- ✅ **SE-072** Verified Memory Axiom — IMPLEMENTED batch 57
+- OK **SE-072** Verified Memory Axiom — IMPLEMENTED batch 57
 - **SE-073** Memory Index Cap Tiered — **IMPLEMENTED** (M 4h)
 - **SE-074** Parallel spec execution — **IMPLEMENTED** (M 8h Slice 1 + S 3h Slice 1.5 + S 4h Slice 2 + M 6h Slice 3 = L 21h)
 - **SE-075** Voicebox adoption — Slices 1+2 IMPLEMENTED 2026-04-27 (task-queue.py + savia-voice-chunk.sh + sentence-splitter.py, BATS 53/53 certified); Slice 3 (Kokoro 82M CPU) DEFERRED — requires explicit user authorization for ~500MB model download
 - **SE-076** QueryWeaver patterns — IMPLEMENTED 2026-04-27 (3 slices: episodic memory + AzDo schema graph + LLM healer; AC-08/09/12 follow-up evolutivo)
 
 **Era 189 — OpenCode Sovereignty (CLOSED 2026-04-26)**:
-- ✅ **SE-077** OpenCode v1.14 replatform — IMPLEMENTED Slices 1+2 (E2E AC-03/AC-05 pendiente boot por la usuaria, AC-11 wrappers tras 1 sprint canary)
-- ✅ **SE-078** AGENTS.md cross-frontend — IMPLEMENTED (E2E AC-05 pendiente boot)
-- ✅ **SE-079** pr-plan G13 scope-trace gate — IMPLEMENTED (Karpathy "Surgical Changes" enforced pre-push)
-- ✅ **SE-080** Attention-anchor vocabulary — IMPLEMENTED (Genesis B8/B9/A7/A9 named)
+- OK **SE-077** OpenCode v1.14 replatform — IMPLEMENTED Slices 1+2 (E2E AC-03/AC-05 pendiente boot por la usuaria, AC-11 wrappers tras 1 sprint canary)
+- OK **SE-078** AGENTS.md cross-frontend — IMPLEMENTED (E2E AC-05 pendiente boot)
+- OK **SE-079** pr-plan G13 scope-trace gate — IMPLEMENTED (Karpathy "Surgical Changes" enforced pre-push)
+- OK **SE-080** Attention-anchor vocabulary — IMPLEMENTED (Genesis B8/B9/A7/A9 named)
 
 **Era 190 — Skill discipline + Pocock pattern adoption (APPROVED 2026-04-27)**:
 - **SE-081** Pocock skills quick-wins — **IMPLEMENTED** priority alta (S 2h) — caveman + zoom-out + grill-me, zero código, MIT clean-room
@@ -530,7 +530,7 @@ SE-072 batch 57, SE-073 batch 62, SE-074 batches 63-69 (todas las slices), SE-07
 
 ## Era 190 — Skill discipline + Pocock pattern adoption (APPROVED 2026-04-27)
 
-Origen: análisis del repo `mattpocock/skills` (MIT, 26.4k ⭐, push 2026-04). Identifica 7 patterns extractables vía clean-room re-implementación.
+Origen: análisis del repo `mattpocock/skills` (MIT, 26.4k , push 2026-04). Identifica 7 patterns extractables vía clean-room re-implementación.
 
 ### Inversión vs payoff
 
@@ -562,9 +562,9 @@ Decisión estratégica de la usuaria 2026-04-26 tras análisis de adopción gap 
 
 ### Componentes ya entregados (batch 61)
 
-- ✅ Regla canónica `docs/rules/domain/spec-opencode-implementation-plan.md` — portability classification + bindings + verification protocol
-- ✅ G12 gate en pr-plan + audit script + baseline
-- ✅ SE-074, SE-075, SE-076 ya con OpenCode Implementation Plan (PURE_BASH) — first-pass validation regla
+- OK Regla canónica `docs/rules/domain/spec-opencode-implementation-plan.md` — portability classification + bindings + verification protocol
+- OK G12 gate en pr-plan + audit script + baseline
+- OK SE-074, SE-075, SE-076 ya con OpenCode Implementation Plan (PURE_BASH) — first-pass validation regla
 
 ### Pendiente
 
@@ -709,7 +709,7 @@ Google Sheets · ServiceNow/SAP · Tableau · Kafka · VS Code ext · Cloud voic
 
 | ID | Título | Esfuerzo | Deps |
 |---|---|---|---|
-| **SPEC-189** | Greedy Context Budget Selection — selección dinámica de contexto | 3h | SPEC-156 ✓ |
+| **SPEC-189** | Greedy Context Budget Selection — selección dinámica de contexto | 3h | SPEC-156  |
 | **SPEC-187** | Alineación principios éticos IAH | 3-4h | — |
 | **SPEC-149** | Sandbox OS-level para modos autónomos — Docker doble capa | ~20h | — |
 
@@ -717,17 +717,17 @@ Google Sheets · ServiceNow/SAP · Tableau · Kafka · VS Code ext · Cloud voic
 
 | ID | Título | Esfuerzo | Deps |
 |---|---|---|---|
-| **SPEC-199** | Self-Conditioning Between Tribunal Rounds (embeddings) | 5-7h | SPEC-195 ✓ |
-| **SPEC-188 F2** | Sealed Contract Tests | ~8h | F1 ✓ |
+| **SPEC-199** | Self-Conditioning Between Tribunal Rounds (embeddings) | 5-7h | SPEC-195  |
+| **SPEC-188 F2** | Sealed Contract Tests | ~8h | F1  |
 | **SE-220-spec** | Speculative Tool Execution — draft+verify (S0 BLOQUEANTE ≥60%) | ~18h | feasibility probe |
 | **SE-222** | OKF Adoptable Patterns — resource URI + log.md + index.md | ~8h | — |
 | **SPEC-163** | Router Modo 1/Modo 2 — System 1/2 dispatch (haiku/opus) | TBD | — |
 | **SPEC-164** | Memory feedback loop — auto-memoria desde resultados reales | TBD | — |
-| **SE-106** | Tiered Tribunal Execution — Tier 0 seq + Tier 1 paralelo + early-stop | M | SPEC-159 ✓ |
+| **SE-106** | Tiered Tribunal Execution — Tier 0 seq + Tier 1 paralelo + early-stop | M | SPEC-159  |
 | **SE-172** | markitdown como capa 0 universal de digestión | 6h | — |
 | **SE-220-sec** | Prompt defense patterns + context distribution optimization | M | SE-221 |
 | **SE-221** | Inverted security patterns as context engineering | M | — |
-| **SPEC-SE-036 S3** | JWT sunset opt-in (PAT migration) | 4h | Slices 1+2 ✓ |
+| **SPEC-SE-036 S3** | JWT sunset opt-in (PAT migration) | 4h | Slices 1+2  |
 
 #### Tier P2-P3 — Backlog aprobado
 
@@ -738,9 +738,9 @@ Google Sheets · ServiceNow/SAP · Tableau · Kafka · VS Code ext · Cloud voic
 | **SE-216 S4** | Experiment Graph — tree search | ~6h | P3 |
 | **SPEC-188 F3+4** | Causal confidence + diagnostic metrics | ~56h | P3 · dep F2 |
 | **SE-105** | GLM Governance Manifest v1.0 | 4h | P-media |
-| **SE-031** | Query Library NL-to-WIQL/JQL | M | dep SE-076 ✓ |
+| **SE-031** | Query Library NL-to-WIQL/JQL | M | dep SE-076  |
 | **SPEC-108** | Agent Self-Improvement Loop + Sentry RCA | ~16h | P-media |
-| **SPEC-123** | Graphiti Temporal Pattern en knowledge-graph | M | dep SE-162 ✓ |
+| **SPEC-123** | Graphiti Temporal Pattern en knowledge-graph | M | dep SE-162  |
 | **SPEC-042** | Live Progress Feedback | M | P-media |
 | **SPEC-049** | Depth-Adjustable Review | S | P-media |
 | **SPEC-050** | Reaction Engine SDD Pipeline | M | P-media |
@@ -755,7 +755,7 @@ Google Sheets · ServiceNow/SAP · Tableau · Kafka · VS Code ext · Cloud voic
 | **SPEC-044** | Trace Prompt Optimization | M | P-media |
 | **SPEC-165** | World Model Simulation | M | dep SPEC-194 |
 | **SPEC-166** | Explicit Configurator Agent | M | dep SPEC-163 |
-| **SPEC-167** | Critic with RAG over external memory | M | dep SE-162 ✓ |
+| **SPEC-167** | Critic with RAG over external memory | M | dep SE-162  |
 | **SPEC-168** | Actor Iterative Pre-action | M | dep SPEC-165+166 |
 | **SPEC-154** | Fórmula canónica V×U/E — scoring specs/PBIs | ~24h | P3 |
 | **SPEC-150** | Hooks multi-handler migration (TS plugin) | ~35h | P3 |
@@ -765,7 +765,7 @@ Google Sheets · ServiceNow/SAP · Tableau · Kafka · VS Code ext · Cloud voic
 | **SPEC-032** | Security Benchmarks | M | enterprise |
 | **SPEC-162** | Self-Evolving Tools (research time-boxed) | ~12h | Tier 3 |
 | **SPEC-107** | AI Cognitive Debt Mitigation | ~32h | research |
-| **SE-030** | GraphRAG Quality Gates | M | dep SE-162 ✓ |
+| **SE-030** | GraphRAG Quality Gates | M | dep SE-162  |
 | **SE-040** | Agent Degradation Canary | S | P-baja |
 | **SPEC-191** | Savia Telemetry (OpenTelemetry) | TBD | infra externa |
 
@@ -798,21 +798,21 @@ Google Sheets · ServiceNow/SAP · Tableau · Kafka · VS Code ext · Cloud voic
 
 | # | ID | Qué | Esfuerzo | Prioridad | Deps |
 |---|---|---|---|---|---|
-| 1 | ~~**SPEC-195**~~ | ~~Iterative Tribunal early-stop~~ ✓ implementado + wired (#844) | 23 pytest + 13 bats | — | mergeado |
-| 2 | ~~**SPEC-196**~~ | ~~Freeze-done elements~~ ✓ implementado + wired (#844) | 16 bats | — | mergeado |
-| 3 | ~~**SPEC-197**~~ | ~~Annealing schedule~~ ✓ implementado + wired (#844) | 17 pytest | — | mergeado |
-| 4 | ~~**SPEC-198**~~ | ~~JudgeVerdict frozen dataclass~~ ✓ implementado + wired + telemetry pilot warn (#844, #845) | 32 pytest | — | mergeado |
-| 5 | ~~**SPEC-200**~~ | ~~Adaptive quality gate threshold~~ ✓ implementado + wired + telemetry pilot warn (#844, #845) | 21 pytest | — | mergeado |
-| 6 | ~~**SPEC-199**~~ | ~~Historical context conditioning~~ ✓ mergeado (#855) | — | — | mergeado |
-| 7 | ~~**SPEC-SE-036 Slice 3**~~ | ~~JWT sunset opt-in~~ ✓ mergeado (#853) | — | — | mergeado |
-| 8 | ~~**SPEC-188 Fase 2**~~ | ~~Sealed Contract Tests~~ ✓ mergeado (#854) | — | — | mergeado |
-| 9 | ~~**SE-220 S0**~~ | ~~Speculative Tool Execution feasibility probe~~ ✓ mergeado (#856) | — | — | mergeado |
-| 10 | ~~**SE-222 S0-S2**~~ | ~~OKF Adoptable Patterns~~ ✓ mergeado (#850-852) | — | — | mergeado |
+| 1 | ~~**SPEC-195**~~ | ~~Iterative Tribunal early-stop~~  implementado + wired (#844) | 23 pytest + 13 bats | — | mergeado |
+| 2 | ~~**SPEC-196**~~ | ~~Freeze-done elements~~  implementado + wired (#844) | 16 bats | — | mergeado |
+| 3 | ~~**SPEC-197**~~ | ~~Annealing schedule~~  implementado + wired (#844) | 17 pytest | — | mergeado |
+| 4 | ~~**SPEC-198**~~ | ~~JudgeVerdict frozen dataclass~~  implementado + wired + telemetry pilot warn (#844, #845) | 32 pytest | — | mergeado |
+| 5 | ~~**SPEC-200**~~ | ~~Adaptive quality gate threshold~~  implementado + wired + telemetry pilot warn (#844, #845) | 21 pytest | — | mergeado |
+| 6 | ~~**SPEC-199**~~ | ~~Historical context conditioning~~  mergeado (#855) | — | — | mergeado |
+| 7 | ~~**SPEC-SE-036 Slice 3**~~ | ~~JWT sunset opt-in~~  mergeado (#853) | — | — | mergeado |
+| 8 | ~~**SPEC-188 Fase 2**~~ | ~~Sealed Contract Tests~~  mergeado (#854) | — | — | mergeado |
+| 9 | ~~**SE-220 S0**~~ | ~~Speculative Tool Execution feasibility probe~~  mergeado (#856) | — | — | mergeado |
+| 10 | ~~**SE-222 S0-S2**~~ | ~~OKF Adoptable Patterns~~  mergeado (#850-852) | — | — | mergeado |
 | 11 | **SE-228 S1-S3** | Loop Engineering P1 batch — STATE.md + maker/checker + run-log | ~12h | P1 | — |
-| 12 | **SE-228 S4-S5** | Loop Engineering P2 batch — loop-budget + L1-L3 phasing | ~6h | P2 | SE-228 S1-S3 ✓ |
-| 13 | **SE-216 Slice 4** | Experiment Graph — tree search | ~6h | P3 | SE-216 S1+S2+S3 ✓ |
-| 14 | **SE-222 S3** | OKF back-fill resource: en 20 specs | ~2h | P3 | SE-222 S0 ✓ |
-| 15 | **SPEC-188 Fases 3+4** | Causal confidence + diagnostic metrics | ~56h | P3 | Fase 2 ✓ |
+| 12 | **SE-228 S4-S5** | Loop Engineering P2 batch — loop-budget + L1-L3 phasing | ~6h | P2 | SE-228 S1-S3  |
+| 13 | **SE-216 Slice 4** | Experiment Graph — tree search | ~6h | P3 | SE-216 S1+S2+S3  |
+| 14 | **SE-222 S3** | OKF back-fill resource: en 20 specs | ~2h | P3 | SE-222 S0  |
+| 15 | **SPEC-188 Fases 3+4** | Causal confidence + diagnostic metrics | ~56h | P3 | Fase 2  |
 
 ### Telemetry pilot (30d desde 2026-06-13)
 
@@ -865,7 +865,7 @@ ortogonal. Specs SPEC-189, 192, 193, 194 ya mergeadas (PRs #838 #839 #840).
 | 3 | SE-216 Slice 3 | Frontier Strategies — 5 políticas de selección (argmax, top-k, ε-greedy, softmax, pareto_per_task) | M (~4h) | P2 |
 | 4 | SE-216 Slice 4 | Experiment Graph — grafo persistente de experimentos (tree search sobre hill climb) | L (~6h) | P3 |
 
-Origen: https://github.com/evo-hq/evo (v0.5.0, Apache-2.0). Patrones de orquestación multi-agente: scratchpad compartido, gates anti-trampa, búsqueda en árbol. Spec: `docs/propuestas/SE-216-evo-patterns.md`. Dep: SE-211 ✓ · SE-215 ✓ · code-improvement-loop ✓ · overnight-sprint ✓ · dag-scheduling ✓.
+Origen: https://github.com/evo-hq/evo (v0.5.0, Apache-2.0). Patrones de orquestación multi-agente: scratchpad compartido, gates anti-trampa, búsqueda en árbol. Spec: `docs/propuestas/SE-216-evo-patterns.md`. Dep: SE-211  · SE-215  · code-improvement-loop  · overnight-sprint  · dag-scheduling .
 
 ---
 
@@ -879,7 +879,7 @@ Origen: https://github.com/evo-hq/evo (v0.5.0, Apache-2.0). Patrones de orquesta
 | 4 | SE-218 S3 | Qualified names en KG (`<project>.<module>.<name>`) | S (~2h) | P2 |
 | 5 | SE-218 S2 | KG snapshot versionado en repo (`.savia-kg/graph.db.zst`) | M (~3h) | P2 |
 
-Origen: https://github.com/DeusData/codebase-memory-mcp (3.2k stars, MIT, arXiv:2603.27277). Patrones: hook augmentation no-bloqueante, team-shared graph artifact, qualified names, tiered export, `.cbmignore`. Spec: `docs/propuestas/SE-218-codebase-memory-patterns.md`. Dep: SE-162 ✓ · ast-comprehend-hook ✓.
+Origen: https://github.com/DeusData/codebase-memory-mcp (3.2k stars, MIT, arXiv:2603.27277). Patrones: hook augmentation no-bloqueante, team-shared graph artifact, qualified names, tiered export, `.cbmignore`. Spec: `docs/propuestas/SE-218-codebase-memory-patterns.md`. Dep: SE-162  · ast-comprehend-hook .
 
 ---
 
@@ -893,7 +893,7 @@ Origen: https://github.com/DeusData/codebase-memory-mcp (3.2k stars, MIT, arXiv:
 | 4 | SE-219 S4 | Multi-profile discovery automático por convención de nombres | S (~1h) | P2 |
 | 5 | SE-219 S5 | Separación tick barato / operación costosa en loops autónomos | S (~2h) | P2 |
 
-Origen: https://github.com/graykode/abtop (2.7k stars, MIT). Patrones: JSON snapshot para scripting, context% como métrica de primer nivel, orphan port/process detection, multi-profile discovery, tick_no_summaries separation. Spec: `docs/propuestas/SE-219-abtop-patterns.md`. Dep: session-action-log ✓ · autonomous-safety ✓ · overnight-sprint ✓.
+Origen: https://github.com/graykode/abtop (2.7k stars, MIT). Patrones: JSON snapshot para scripting, context% como métrica de primer nivel, orphan port/process detection, multi-profile discovery, tick_no_summaries separation. Spec: `docs/propuestas/SE-219-abtop-patterns.md`. Dep: session-action-log  · autonomous-safety  · overnight-sprint .
 
 ---
 
@@ -907,7 +907,7 @@ Origen: https://github.com/graykode/abtop (2.7k stars, MIT). Patrones: JSON snap
 | 3 | SE-220 S3 | Speculative skill pre-loading via pre-resolve hook | S (~3h) | P2 |
 | 4 | SE-220 S4 | Telemetry dashboard + GO/CONTINUE/KILL semanal | S (~3h) | P2 |
 
-Origen: investigación speculative decoding 2026-06-20 (papers Leviathan 2022, EAGLE-3 NeurIPS'25, Medusa, Lookahead). El decoder de Claude API es opaco — speculative decoding clásico NO aplica. El **principio** draft+verify SÍ aplica a la capa de orquestación: predictor barato (haiku) pre-ejecuta tool calls idempotentes en background mientras el orquestador (sonnet/opus) piensa. Spec: `docs/propuestas/SE-220-speculative-tool-execution.md`. priority_score = 78.4 (V=75, U=65, E=22) según SPEC-154. Dep: SE-202 (agent-hook-runner) ✓ + SE-217 (time-budget) ✓.
+Origen: investigación speculative decoding 2026-06-20 (papers Leviathan 2022, EAGLE-3 NeurIPS'25, Medusa, Lookahead). El decoder de Claude API es opaco — speculative decoding clásico NO aplica. El **principio** draft+verify SÍ aplica a la capa de orquestación: predictor barato (haiku) pre-ejecuta tool calls idempotentes en background mientras el orquestador (sonnet/opus) piensa. Spec: `docs/propuestas/SE-220-speculative-tool-execution.md`. priority_score = 78.4 (V=75, U=65, E=22) según SPEC-154. Dep: SE-202 (agent-hook-runner)  + SE-217 (time-budget) .
 
 ---
 
@@ -930,7 +930,7 @@ Origen: análisis comparativo OKF (Google Cloud, 2026-06-12) vs modelo de cúpul
 |---|---|---|---|---|
 | 1 | SE-215 | Eval-driven skill improvement loop | M | P1 |
 
-Origen: `output/research/deepagents-savia-20260607.md`. Patrón `better-harness` de langchain-ai/deepagents (24k stars). Dep: SE-204 ✓ + code-improvement-loop ✓.
+Origen: `output/research/deepagents-savia-20260607.md`. Patrón `better-harness` de langchain-ai/deepagents (24k stars). Dep: SE-204  + code-improvement-loop .
 
 ---
 
@@ -942,7 +942,7 @@ Origen: `output/research/deepagents-savia-20260607.md`. Patrón `better-harness`
 | 2 | SE-217 Slice 3 | Surface Guard — superficie editable declarada por run | S (~2h) | P1 |
 | 3 | SE-217 Slice 2 | Time Budget Enforcer — presupuesto fijo como unidad de comparación | S (~2h) | P1 |
 
-Origen: https://github.com/karpathy/autoresearch (85.8k stars, MIT). Patrones: `results.tsv` (log estructurado), time budget fijo, `program.md` / `prepare.py` (surface declaration). Spec: `docs/propuestas/SE-217-autoresearch-patterns.md`. Dep: session-action-log ✓ · autonomous-safety ✓.
+Origen: https://github.com/karpathy/autoresearch (85.8k stars, MIT). Patrones: `results.tsv` (log estructurado), time budget fijo, `program.md` / `prepare.py` (surface declaration). Spec: `docs/propuestas/SE-217-autoresearch-patterns.md`. Dep: session-action-log  · autonomous-safety .
 
 ---
 
@@ -1124,7 +1124,7 @@ Archivos: `docs/propuestas/SPEC-180..186-*.md`. Origen: `output/research/obsidia
 | ID | Qué | Estado |
 |---|---|---|
 | SE-075 S3 | Kokoro 82M voice TTS — descarga autorizada | EN PROGRESO |
-| rules-index fix | `--check` ignora fecha header — permanente | ✅ DONE |
+| rules-index fix | `--check` ignora fecha header — permanente | OK DONE |
 
 ### Próximos sprints
 

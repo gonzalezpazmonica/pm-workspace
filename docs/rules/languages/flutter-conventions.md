@@ -388,11 +388,11 @@ dev_dependencies:
 #### FLUTTER-SEC-01 — Credenciales hardcodeadas
 **Severidad**: Blocker
 ```dart
-// ❌ Noncompliant
+// FAIL Noncompliant
 const apiKey = 'sk-1234567890abcdef';
 const password = 'SuperSecret123';
 
-// ✅ Compliant
+// OK Compliant
 final apiKey = String.fromEnvironment('API_KEY');
 final password = const String.fromEnvironment('DB_PASSWORD');
 ```
@@ -400,11 +400,11 @@ final password = const String.fromEnvironment('DB_PASSWORD');
 #### FLUTTER-SEC-02 — SQL Injection en queries locales
 **Severidad**: Blocker
 ```dart
-// ❌ Noncompliant
+// FAIL Noncompliant
 final query = 'SELECT * FROM users WHERE id = $userId';
 db.execute(query);
 
-// ✅ Compliant
+// OK Compliant
 final query = 'SELECT * FROM users WHERE id = ?';
 db.execute(query, [userId]);
 ```
@@ -414,13 +414,13 @@ db.execute(query, [userId]);
 #### FLUTTER-BUG-01 — BuildContext across async gaps
 **Severidad**: Major
 ```dart
-// ❌ Noncompliant
+// FAIL Noncompliant
 onPressed: () async {
   final result = await fetchData();
   Navigator.of(context).push(...);  // context puede no ser válido tras async
 }
 
-// ✅ Compliant
+// OK Compliant
 onPressed: () async {
   if (!mounted) return;
   final result = await fetchData();
@@ -432,12 +432,12 @@ onPressed: () async {
 #### FLUTTER-BUG-02 — setState() after dispose
 **Severidad**: Major
 ```dart
-// ❌ Noncompliant
+// FAIL Noncompliant
 void _onDataReceived(data) {
   setState(() => _data = data);  // puede ser llamado tras dispose()
 }
 
-// ✅ Compliant
+// OK Compliant
 void _onDataReceived(data) {
   if (mounted) {
     setState(() => _data = data);
@@ -461,7 +461,7 @@ Usar early returns, extraer métodos y simplificar condicionales.
 **Severidad**: Critical
 Código Flutter no debe mezclar Riverpod, Provider, setState en la misma app.
 ```dart
-// ❌ Noncompliant - Mezcla de patrones
+// FAIL Noncompliant - Mezcla de patrones
 class MyWidget extends StatefulWidget {
   @override
   State<MyWidget> createState() => _MyWidgetState();
@@ -477,7 +477,7 @@ class _MyWidgetState extends State<MyWidget> {
   }
 }
 
-// ✅ Compliant - Usar Riverpod en todo
+// OK Compliant - Usar Riverpod en todo
 final stateProvider = StateProvider((ref) => 0);
 
 class MyWidget extends ConsumerWidget {

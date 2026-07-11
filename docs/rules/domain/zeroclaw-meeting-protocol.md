@@ -82,8 +82,8 @@ y actualiza perfiles de equipo con insights de la reunión.
 
 | pyannote | speechbrain | whisper | Resultado |
 |----------|-------------|---------|-----------|
-| ✅ | ✅ | ✅ | Full: diarize + identify + transcribe |
-| ❌ | ✅ | ✅ | Sin diarización, un solo "speaker" |
-| ✅ | ❌ | ✅ | Diarización sin nombres (SPEAKER_0) |
-| ❌ | ❌ | ✅ | Solo transcripción sin speakers |
-| ❌ | ❌ | ❌ | Solo graba audio, digest manual |
+| OK | OK | OK | Full: diarize + identify + transcribe |
+| FAIL | OK | OK | Sin diarización, un solo "speaker" |
+| OK | FAIL | OK | Diarización sin nombres (SPEAKER_0) |
+| FAIL | FAIL | OK | Solo transcripción sin speakers |
+| FAIL | FAIL | FAIL | Solo graba audio, digest manual |

@@ -5,7 +5,7 @@
 
 ---
 
-## ⚙️ CONSTANTES DEL PROYECTO
+##  CONSTANTES DEL PROYECTO
 
 ```
 # ── Identidad en Azure DevOps ─────────────────────────────────────────────────
@@ -61,7 +61,7 @@ HORAS_CONSUMIDAS          = 850                              # actualizar mensua
 
 ---
 
-## 📋 Descripción del Proyecto
+##  Descripción del Proyecto
 
 **Qué es:** Sistema de gestión de [descripción del sistema — actualizar].
 
@@ -75,7 +75,7 @@ HORAS_CONSUMIDAS          = 850                              # actualizar mensua
 
 ---
 
-## 👥 Equipo
+##  Equipo
 
 Ver composición completa en `equipo.md`.
 
@@ -91,18 +91,18 @@ Ver composición completa en `equipo.md`.
 
 ---
 
-## 🏃 Sprint Actual
+##  Sprint Actual
 
 **Sprint:** Sprint 2026-04 (02/03/2026 → 13/03/2026)
 **Sprint Goal:** Completar el módulo de autenticación SSO y el dashboard de usuario
 
-**Estado:** 🟢 En buen camino
+**Estado:** OK En buen camino
 
 Para ver el estado detallado ejecutar: `/sprint-status proyecto-alpha`
 
 ---
 
-## 📁 Estructura del Proyecto
+##  Estructura del Proyecto
 
 ```
 projects/proyecto-alpha/
@@ -128,7 +128,7 @@ projects/proyecto-alpha/
 
 ---
 
-## 🔗 Links Rápidos
+##  Links Rápidos
 
 - Azure DevOps: `https://dev.azure.com/MI-ORGANIZACION/ProyectoAlpha`
 - Board: `https://dev.azure.com/MI-ORGANIZACION/ProyectoAlpha/_boards/board/t/ProyectoAlpha%20Team/Stories`
@@ -138,7 +138,7 @@ projects/proyecto-alpha/
 
 ---
 
-## 🎯 Configuración de Descomposición y Asignación de PBIs
+##  Configuración de Descomposición y Asignación de PBIs
 
 > Leída por la skill `pbi-decomposition` para personalizar el comportamiento de asignación en este proyecto.
 
@@ -172,7 +172,7 @@ tech_lead_alias: "juan.garcia@empresa.com"
 
 ---
 
-## 🤖 Configuración Spec-Driven Development (SDD)
+##  Configuración Spec-Driven Development (SDD)
 
 > Leída por la skill `spec-driven-development` para determinar el `developer_type` de cada task.
 > Sobreescribe la matrix global en `.opencode/skills/spec-driven-development/references/layer-assignment-matrix.md`.
@@ -239,7 +239,7 @@ sdd_config:
 
 ---
 
-## ⚠️ Notas y Decisiones Importantes
+## WARN Notas y Decisiones Importantes
 
 > Añadir aquí decisiones técnicas o de negocio importantes que el agente debe conocer.
 

@@ -1,3 +1,6 @@
+---
+lang: en
+---
 # Agents — Specialized Orchestration & Implementation
 
 pm-workspace has 33 specialized agents organized into 9 categories. Select by task type using the decision tree below.

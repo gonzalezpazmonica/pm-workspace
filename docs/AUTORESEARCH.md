@@ -12,9 +12,9 @@ Sistema que permite a agentes IA realizar investigación de ML de forma autónom
 
 | Archivo | Responsabilidad | Editable por agente |
 |---------|----------------|---------------------|
-| `prepare.py` | Datos, tokenizador, evaluación (FIJO) | ❌ No |
-| `train.py` | Modelo GPT-like + optimizador (~630 LOC) | ✅ Sí |
-| `program.md` | Instrucciones declarativas para el agente | ❌ Solo lectura |
+| `prepare.py` | Datos, tokenizador, evaluación (FIJO) | FAIL No |
+| `train.py` | Modelo GPT-like + optimizador (~630 LOC) | OK Sí |
+| `program.md` | Instrucciones declarativas para el agente | FAIL Solo lectura |
 
 **Constantes fijas**: MAX_SEQ_LEN=2048, TIME_BUDGET=300s, VOCAB_SIZE=8192.
 

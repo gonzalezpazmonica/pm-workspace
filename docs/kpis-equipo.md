@@ -33,9 +33,9 @@ WHERE [System.IterationPath] = '[PROJECT]\Sprints\[SPRINT_NAME]'
 ```
 
 **Semáforo:**
-- 🟢 Verde: velocity ≥ 90% de la media de últimos 5 sprints
-- 🟡 Amarillo: velocity entre 70% y 89% de la media
-- 🔴 Rojo: velocity < 70% de la media
+- OK Verde: velocity ≥ 90% de la media de últimos 5 sprints
+- WARN Amarillo: velocity entre 70% y 89% de la media
+- FAIL Rojo: velocity < 70% de la media
 
 **Tendencia:** Gráfico de línea con los últimos 5 sprints. Alertar si hay 2 sprints consecutivos en rojo.
 
@@ -62,9 +62,9 @@ remaining_ideal_día_N = remaining_total_inicial × (1 - N / total_días_sprint)
 ```
 
 **Semáforo (en cualquier punto del sprint):**
-- 🟢 Verde: remaining real ≤ remaining ideal
-- 🟡 Amarillo: remaining real supera ideal entre 10% y 25%
-- 🔴 Rojo: remaining real supera ideal en > 25%
+- OK Verde: remaining real ≤ remaining ideal
+- WARN Amarillo: remaining real supera ideal entre 10% y 25%
+- FAIL Rojo: remaining real supera ideal en > 25%
 
 ---
 
@@ -81,9 +81,9 @@ cycle_time = fecha_resolved - fecha_active   # en días hábiles
 ```
 
 **Semáforo (por P75):**
-- 🟢 Verde: P75 ≤ 5 días
-- 🟡 Amarillo: P75 entre 5 y 8 días
-- 🔴 Rojo: P75 > 8 días
+- OK Verde: P75 ≤ 5 días
+- WARN Amarillo: P75 entre 5 y 8 días
+- FAIL Rojo: P75 > 8 días
 
 **Desglose útil:** Cycle Time por tipo de work item (User Story, Bug, Task) y por persona.
 
@@ -101,9 +101,9 @@ lead_time = fecha_done - fecha_created   # en días naturales
 ```
 
 **Semáforo (por P75):**
-- 🟢 Verde: P75 ≤ 14 días (dentro del sprint más refinement)
-- 🟡 Amarillo: P75 entre 14 y 28 días
-- 🔴 Rojo: P75 > 28 días (indica backlog sin depurar)
+- OK Verde: P75 ≤ 14 días (dentro del sprint más refinement)
+- WARN Amarillo: P75 entre 14 y 28 días
+- FAIL Rojo: P75 > 28 días (indica backlog sin depurar)
 
 ---
 
@@ -121,9 +121,9 @@ utilización = sum(CompletedWork) / capacity_disponible_real × 100
 ```
 
 **Semáforo:**
-- 🟢 Verde: 70% ≤ utilización ≤ 90%
-- 🟡 Amarillo: 60-69% (sub-utilizado) o 91-100% (al límite)
-- 🔴 Rojo: < 60% (equipo no registrando horas) o > 100% (sobre-cargado)
+- OK Verde: 70% ≤ utilización ≤ 90%
+- WARN Amarillo: 60-69% (sub-utilizado) o 91-100% (al límite)
+- FAIL Rojo: < 60% (equipo no registrando horas) o > 100% (sobre-cargado)
 
 ---
 
@@ -135,19 +135,19 @@ utilización = sum(CompletedWork) / capacity_disponible_real × 100
 
 ```bash
 # Se guarda en projects/<proyecto>/sprints/<sprint>/retro-actions.md
-# Campo: "Sprint Goal: ✅ Cumplido / ⚠️ Parcial / ❌ No cumplido"
+# Campo: "Sprint Goal: OK Cumplido / WARN Parcial / FAIL No cumplido"
 
 # Calcular:
-cumplidos=$(grep -r "Sprint Goal: ✅" projects/*/sprints/*/retro-actions.md | wc -l)
-parciales=$(grep -r "Sprint Goal: ⚠️" projects/*/sprints/*/retro-actions.md | wc -l)
+cumplidos=$(grep -r "Sprint Goal: OK" projects/*/sprints/*/retro-actions.md | wc -l)
+parciales=$(grep -r "Sprint Goal: WARN" projects/*/sprints/*/retro-actions.md | wc -l)
 total=$(ls projects/*/sprints/*/retro-actions.md | wc -l)
 hit_rate=$(echo "scale=2; ($cumplidos + $parciales * 0.5) / $total * 100" | bc)
 ```
 
 **Semáforo:**
-- 🟢 Verde: hit rate ≥ 80%
-- 🟡 Amarillo: hit rate entre 60% y 79%
-- 🔴 Rojo: hit rate < 60%
+- OK Verde: hit rate ≥ 80%
+- WARN Amarillo: hit rate entre 60% y 79%
+- FAIL Rojo: hit rate < 60%
 
 ---
 
@@ -175,9 +175,9 @@ WHERE [System.State] IN ('Done','Closed')
 ```
 
 **Semáforo:**
-- 🟢 Verde: bug escape rate ≤ 5%
-- 🟡 Amarillo: 6% - 10%
-- 🔴 Rojo: > 10%
+- OK Verde: bug escape rate ≤ 5%
+- WARN Amarillo: 6% - 10%
+- FAIL Rojo: > 10%
 
 ---
 
@@ -201,9 +201,9 @@ throughput_semanal = items_done / semanas_del_período
 ```
 
 **Semáforo (para equipo de 4 personas):**
-- 🟢 Verde: throughput ≥ 3 items/semana
-- 🟡 Amarillo: 2 items/semana
-- 🔴 Rojo: ≤ 1 item/semana
+- OK Verde: throughput ≥ 3 items/semana
+- WARN Amarillo: 2 items/semana
+- FAIL Rojo: ≤ 1 item/semana
 
 ---
 
@@ -213,11 +213,11 @@ Formato para el comando `/kpi-dashboard`:
 
 | KPI | Valor actual | Referencia | Semáforo | Tendencia |
 |-----|-------------|------------|----------|-----------|
-| Velocity | X SP | Media 5s: Y SP | 🟢/🟡/🔴 | 📈/📉/→ |
-| Burndown | X% completado | Ideal: Y% | 🟢/🟡/🔴 | — |
-| Cycle Time P75 | X días | Umbral: 5d | 🟢/🟡/🔴 | 📈/📉/→ |
-| Lead Time P75 | X días | Umbral: 14d | 🟢/🟡/🔴 | 📈/📉/→ |
-| Capacity | X% | 70-90% | 🟢/🟡/🔴 | — |
-| Goal Hit Rate | X% | ≥ 80% | 🟢/🟡/🔴 | 📈/📉/→ |
-| Bug Escape | X% | ≤ 5% | 🟢/🟡/🔴 | 📈/📉/→ |
-| Throughput | X/semana | ≥ 3/semana | 🟢/🟡/🔴 | 📈/📉/→ |
+| Velocity | X SP | Media 5s: Y SP | OK/WARN/FAIL | //→ |
+| Burndown | X% completado | Ideal: Y% | OK/WARN/FAIL | — |
+| Cycle Time P75 | X días | Umbral: 5d | OK/WARN/FAIL | //→ |
+| Lead Time P75 | X días | Umbral: 14d | OK/WARN/FAIL | //→ |
+| Capacity | X% | 70-90% | OK/WARN/FAIL | — |
+| Goal Hit Rate | X% | ≥ 80% | OK/WARN/FAIL | //→ |
+| Bug Escape | X% | ≤ 5% | OK/WARN/FAIL | //→ |
+| Throughput | X/semana | ≥ 3/semana | OK/WARN/FAIL | //→ |

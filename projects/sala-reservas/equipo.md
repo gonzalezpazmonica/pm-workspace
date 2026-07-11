@@ -98,7 +98,7 @@ Ana:     Sin ausencias
 
 ## Capacity por Sprint
 
-| Sprint | Sofía | Carlos | Laura | Diego | Ana | 🤖 Agentes | Total |
+| Sprint | Sofía | Carlos | Laura | Diego | Ana |  Agentes | Total |
 |--------|-------|--------|-------|-------|-----|-----------|-------|
 | 2026-04 (02/03-13/03) | 30h | 48h | 60h | 60h | 60h | ~35h est. | ~293h |
 | 2026-05 (16/03-27/03) | 30h | 48h | 60h | 60h | 60h | ~35h est. | ~293h |
@@ -109,16 +109,16 @@ Ana:     Sin ausencias
 
 | Habilidad | Carlos | Laura | Diego | Ana |
 |-----------|--------|-------|-------|-----|
-| .NET Core / C# | ⭐⭐⭐ | ⭐⭐⭐ | ⭐⭐⭐ | ⭐ |
-| Clean Architecture / DDD | ⭐⭐⭐ | ⭐⭐ | ⭐⭐ | — |
-| EF Core / SQL Server | ⭐⭐⭐ | ⭐⭐ | ⭐⭐⭐ | — |
-| REST API / ASP.NET Core | ⭐⭐⭐ | ⭐⭐⭐ | ⭐⭐⭐ | ⭐ |
-| xUnit / Testing | ⭐⭐ | ⭐⭐⭐ | ⭐⭐ | ⭐⭐⭐ |
-| Azure DevOps / CI-CD | ⭐⭐⭐ | ⭐⭐ | ⭐ | ⭐ |
-| CQRS / MediatR | ⭐⭐⭐ | ⭐⭐ | ⭐⭐ | — |
-| Angular | ⭐ | ⭐⭐⭐ | ⭐ | — |
+| .NET Core / C# |  |  |  |  |
+| Clean Architecture / DDD |  |  |  | — |
+| EF Core / SQL Server |  |  |  | — |
+| REST API / ASP.NET Core |  |  |  |  |
+| xUnit / Testing |  |  |  |  |
+| Azure DevOps / CI-CD |  |  |  |  |
+| CQRS / MediatR |  |  |  | — |
+| Angular |  |  |  | — |
 
-⭐ Básico | ⭐⭐ Competente | ⭐⭐⭐ Experto
+ Básico |  Competente |  Experto
 
 ---
 

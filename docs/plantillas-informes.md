@@ -35,7 +35,7 @@ EMAIL_DESTINATARIOS   = ["pm@empresa.com"]                 # ← configurar dest
    - Responsable: [PM]
 
 2. RESUMEN EJECUTIVO (½ página)
-   - Sprint Goal: ✅ Cumplido / ⚠️ Parcial / ❌ No cumplido
+   - Sprint Goal: OK Cumplido / WARN Parcial / FAIL No cumplido
    - Story Points completados: X/Y (Z%)
    - Velocity: X SP (media últimos 5: Y SP)
    - Items completados: X | Items no completados: Y
@@ -86,7 +86,7 @@ Diapositiva 1 — PORTADA
   Subtítulo: Fecha | Responsable | Logo
 
 Diapositiva 2 — SEMÁFORO GLOBAL
-  Grid de proyectos con semáforo: 🟢🟡🔴
+  Grid de proyectos con semáforo: OKWARNFAIL
   Tabla: Proyecto | Sprint | Semáforo | Sprint Goal | Días restantes
 
 Diapositiva 3 — PROYECTO ALPHA (repetir por cada proyecto)

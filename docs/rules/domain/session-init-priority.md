@@ -9,7 +9,7 @@ token_budget: 437
 
 # Session-Init Priority System
 
-> 🦉 Menos tokens al arrancar = más espacio para trabajar.
+>  Menos tokens al arrancar = más espacio para trabajar.
 
 ---
 

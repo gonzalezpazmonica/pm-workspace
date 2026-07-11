@@ -121,7 +121,7 @@ Auto-generated. 159 files / 35 cats. Regen: `bash scripts/rules-domain-index.sh`
 | Other | [`scoring-curves.md`](./scoring-curves.md) | Scoring Curves — Piecewise Linear Normalization |
 | Other | [`sdlc-gates.md`](./sdlc-gates.md) | Regla: Configuración de Puertas SDLC |
 | Other | [`self-improvement.md`](./self-improvement.md) | Self-Improvement Loop (Rule #21) |
-| Other | [`semantic-hub-index.md`](./semantic-hub-index.md) | 🦉 Savia conoce su propia topología. Este índice mapea las conexiones. |
+| Other | [`semantic-hub-index.md`](./semantic-hub-index.md) |  Savia conoce su propia topología. Este índice mapea las conexiones. |
 | Other | [`session-init-priority.md`](./session-init-priority.md) | Session-Init Priority System |
 | Other | [`severity-classification.md`](./severity-classification.md) | Severity Classification — Rule of Three |
 | Other | [`slm-pipeline-protocol.md`](./slm-pipeline-protocol.md) | SLM Pipeline Protocol — SE-028 |

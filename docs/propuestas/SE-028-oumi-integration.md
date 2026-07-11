@@ -16,7 +16,7 @@ triage_note: "BLOCKED: GPU required for training pipeline"
 
 ## Why
 
-[oumi-ai/oumi](https://github.com/oumi-ai/oumi) es una plataforma OSS (Apache-2.0) con $10M seed, 9.2k ⭐, lanzada por ex-Google/Microsoft/Apple con 13 universidades colaboradoras. Provee pipeline unificado: data → train → eval → infer → deploy con YAML configs portables laptop↔multi-nodo.
+[oumi-ai/oumi](https://github.com/oumi-ai/oumi) es una plataforma OSS (Apache-2.0) con $10M seed, 9.2k , lanzada por ex-Google/Microsoft/Apple con 13 universidades colaboradoras. Provee pipeline unificado: data → train → eval → infer → deploy con YAML configs portables laptop↔multi-nodo.
 
 Nuestro SE-027 actual (Unsloth + Ollama) **gana en velocidad** consumer GPU (2-3x más rápido que oumi QLoRA — oumi no integra Triton kernels Unsloth). Pero tiene huecos reales:
 

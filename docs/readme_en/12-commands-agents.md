@@ -388,7 +388,7 @@ User: /pbi-plan-sprint --project Alpha
   │  If code-reviewer REJECTS:                │
   │    → {lang}-developer fixes               │
   │    → re-build → re-review (max 2x)       │
-  │  If all ✅ → git commit                   │
+  │  If all OK → git commit                   │
   └───────────────────────────────────────────┘
            ↓
   ┌─ test-runner (Sonnet) ──────────────────┐
@@ -398,7 +398,7 @@ User: /pbi-plan-sprint --project Alpha
   │  If tests fail:                          │
   │    → {lang}-developer fixes (max 2x)     │
   │  If tests pass → verify coverage         │
-  │    ≥ TEST_COVERAGE_MIN_PERCENT → ✅     │
+  │    ≥ TEST_COVERAGE_MIN_PERCENT → OK     │
   │    < TEST_COVERAGE_MIN_PERCENT →         │
   │      architect (gap analysis) →          │
   │      business-analyst (test cases) →     │

@@ -186,8 +186,8 @@ https://<YOUR_PC_IP>:8922
 
 En la app, ir a **Chat** e intentar enviar un mensaje:
 
-- ✅ Mensaje se envía y recibe respuesta → conexión OK
-- ❌ Error de conexión → verificar URL, token, VPN, firewall
+- OK Mensaje se envía y recibe respuesta → conexión OK
+- FAIL Error de conexión → verificar URL, token, VPN, firewall
 
 ---
 
@@ -428,13 +428,13 @@ $ANDROID_HOME/emulator/emulator -avd pixel7 -wipe-data &
 
 ## Siguientes Pasos
 
-1. ✅ Instalar requisitos previos (JDK 17, Android SDK)
-2. ✅ Clonar repositorio y descargar dependencias
-3. ✅ Conectar Savia Bridge (URL + token)
-4. ✅ Ejecutar en emulador o dispositivo
-5. 🔄 Explorar el código en `app/src/main/kotlin/`
-6. 🔄 Leer [ARCHITECTURE.md](ARCHITECTURE.md) para entender la estructura
-7. 🔄 Consultar [BRIDGE-GUIDE.md](BRIDGE-GUIDE.md) para profundizar en el Bridge
+1. OK Instalar requisitos previos (JDK 17, Android SDK)
+2. OK Clonar repositorio y descargar dependencias
+3. OK Conectar Savia Bridge (URL + token)
+4. OK Ejecutar en emulador o dispositivo
+5.  Explorar el código en `app/src/main/kotlin/`
+6.  Leer [ARCHITECTURE.md](ARCHITECTURE.md) para entender la estructura
+7.  Consultar [BRIDGE-GUIDE.md](BRIDGE-GUIDE.md) para profundizar en el Bridge
 
 ---
 

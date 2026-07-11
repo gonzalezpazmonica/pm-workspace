@@ -99,10 +99,10 @@ Ejemplos inválidos: `feature/rama1`, `fix/cosas`, `feature/12345-algo` (falta e
 
 Configurar en GitHub → Settings → Branches → Branch protection rules:
 
-- ✅ Require pull request reviews before merging (1 aprobación mínima)
-- ✅ Require status checks to pass (build, tests si aplica)
-- ✅ Include administrators (aplica las reglas también al owner)
-- ✅ Delete head branches automatically on merge
+- OK Require pull request reviews before merging (1 aprobación mínima)
+- OK Require status checks to pass (build, tests si aplica)
+- OK Include administrators (aplica las reglas también al owner)
+- OK Delete head branches automatically on merge
 
 ---
 

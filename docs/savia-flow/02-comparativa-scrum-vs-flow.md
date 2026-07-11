@@ -478,15 +478,15 @@ R: En lugar de sprint planning, Pro Builders pullan trabajo del top del backlog 
 
 | Criterio | Ganador |
 |----------|---------|
-| Equipos sin IA | Scrum ✓ |
-| Equipos con IA | Savia Flow ✓✓✓ |
-| Velocity como métrica | Scrum ✓ |
-| Cycle time como métrica | Savia Flow ✓✓ |
-| Predictibilidad | Savia Flow ✓ (datos reales) |
-| Eficiencia de tiempo | Savia Flow ✓✓✓ |
-| Gobernanza de calidad | Savia Flow ✓ |
-| Adaptabilidad | Savia Flow ✓ |
-| Escalabilidad con IA | Savia Flow ✓✓✓ |
+| Equipos sin IA | Scrum  |
+| Equipos con IA | Savia Flow  |
+| Velocity como métrica | Scrum  |
+| Cycle time como métrica | Savia Flow  |
+| Predictibilidad | Savia Flow  (datos reales) |
+| Eficiencia de tiempo | Savia Flow  |
+| Gobernanza de calidad | Savia Flow  |
+| Adaptabilidad | Savia Flow  |
+| Escalabilidad con IA | Savia Flow  |
 
 **Recomendación:** Si tu equipo colabora con IA y está considerando cambio de metodología, Savia Flow es el siguiente paso natural. La adopción puede ser gradual; el impacto es inmediato.
 

@@ -2,7 +2,7 @@
 
 Esta sección responde a una pregunta clave para cualquier PM que evalúe adoptar esta herramienta: ¿qué cubre, qué no cubre y qué no puede cubrirse por definición?
 
-## ✅ Contemplado y simplificado
+## OK Contemplado y simplificado
 
 Las siguientes responsabilidades clásicas del PM/Scrum Master quedan automatizadas o notablemente reducidas en carga:
 
@@ -26,7 +26,7 @@ Las siguientes responsabilidades clásicas del PM/Scrum Master quedan automatiza
 | Control de calidad de specs | `/spec-review` | Alta — valida automáticamente que una spec tenga el nivel de detalle suficiente antes de implementar |
 | Onboarding de nuevos miembros | `/team-onboarding`, `/team-evaluate` | Alta — guía personalizada de incorporación + cuestionario de 26 competencias con conformidad RGPD |
 
-## 🔮 No contemplado actualmente — candidatos para el futuro
+##  No contemplado actualmente — candidatos para el futuro
 
 Áreas que serían naturalmente automatizables con Claude y que representan una evolución lógica del workspace:
 
@@ -42,7 +42,7 @@ Las siguientes responsabilidades clásicas del PM/Scrum Master quedan automatiza
 
 **Estimación asistida de PBIs nuevos:** Claude podría estimar en Story Points un PBI nuevo basándose en el histórico de PBIs similares completados (análisis semántico de títulos y criterios de aceptación), reduciendo la dependencia del Planning Poker para items sencillos.
 
-## 🚫 Fuera del alcance de la automatización — siempre humano
+##  Fuera del alcance de la automatización — siempre humano
 
 Estas responsabilidades no pueden ni deben delegarse a un agente por razones estructurales: requieren juicio contextual, responsabilidad formal, relación humana o decisión estratégica que no puede codificarse en una spec ni en un prompt.
 

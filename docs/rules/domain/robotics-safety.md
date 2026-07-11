@@ -23,7 +23,7 @@ watchdog detiene el actuador.
 
 ```python
 # MicroPython — REJECT sin watchdog
-servo.duty(position)  # ❌ Sin watchdog
+servo.duty(position)  # FAIL Sin watchdog
 
 # CORRECTO
 from machine import WDT

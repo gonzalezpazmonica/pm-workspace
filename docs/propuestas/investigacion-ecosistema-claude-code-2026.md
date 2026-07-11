@@ -17,12 +17,12 @@ triage_note: "non-spec document, archived 2026-06-24"
 | # | Repositorio | Estrellas | Foco principal |
 |---|---|---|---|
 | 1 | [affaan-m/everything-claude-code](https://github.com/affaan-m/everything-claude-code) | — | Agent harness: instincts, security, performance |
-| 2 | [hesreallyhim/awesome-claude-code](https://github.com/hesreallyhim/awesome-claude-code) | — | Índice curado: 75+ repos, skills, hooks, plugins |
+| 2 | [hesreallyhim/excellent-claude-code](https://github.com/hesreallyhim/excellent-claude-code) | — | Índice curado: 75+ repos, skills, hooks, plugins |
 | 3 | [trailofbits/claude-code-config](https://github.com/trailofbits/claude-code-config) | — | Seguridad: defaults opinados, sandbox, deny rules |
 | 4 | [ChrisWiles/claude-code-showcase](https://github.com/ChrisWiles/claude-code-showcase) | — | Showcase: skill-eval engine, GitHub Actions, hooks |
 | 5 | [nwiizo/ccswarm](https://github.com/nwiizo/ccswarm) | — | Multi-agente con git worktree isolation |
 | 6 | [Yeachan-Heo/oh-my-claudecode](https://github.com/Yeachan-Heo/oh-my-claudecode) | — | Teams-first orchestration, staged pipeline |
-| 7 | [VoltAgent/awesome-claude-code-subagents](https://github.com/VoltAgent/awesome-claude-code-subagents) | — | 127+ subagentes categorizados por dominio |
+| 7 | [VoltAgent/excellent-claude-code-subagents](https://github.com/VoltAgent/excellent-claude-code-subagents) | — | 127+ subagentes categorizados por dominio |
 | 8 | [ruvnet/ruflo](https://github.com/ruvnet/ruflo) | — | Swarm orchestration, RAG, 175+ MCP tools |
 | 9 | [bobmatnyc/claude-mpm](https://github.com/bobmatnyc/claude-mpm) | — | Multi-Agent PM: 47+ agentes especializados |
 | 10 | [wshobson/agents](https://github.com/wshobson/agents) | — | 112 agentes, 16 orchestrators, 146 skills |
@@ -176,7 +176,7 @@ triage_note: "non-spec document, archived 2026-06-24"
 
 ---
 
-### 9. Herramientas de ecosistema destacadas (awesome-claude-code)
+### 9. Herramientas de ecosistema destacadas (excellent-claude-code)
 
 **Innovaciones relevantes para pm-workspace:**
 - **RIPER Workflow** — Research, Innovate, Plan, Execute, Review (variante de nuestro RPI)
@@ -214,7 +214,7 @@ triage_note: "non-spec document, archived 2026-06-24"
 | 8 | **Verify/fix loops post-ceremonia** | oh-my-claudecode | P2 | Medio | Medio |
 | 9 | **Audit trail de mutaciones** | trail-of-bits | P2 | Bajo | Bajo-Medio |
 | 10 | **AGENTS.md universal** | everything-claude-code | P3 | Bajo | Bajo (futuro alto) |
-| 11 | **VoiceMode MCP** | awesome-claude-code | P3 | Medio | Medio |
+| 11 | **VoiceMode MCP** | excellent-claude-code | P3 | Medio | Medio |
 | 12 | **Event broker inter-agentes** | ccswarm | P3 | Alto | Medio |
 
 ---
@@ -263,7 +263,7 @@ Esta investigación se benefició del trabajo de:
 - [Affaan M](https://github.com/affaan-m) — everything-claude-code (instincts, AgentShield)
 - [Trail of Bits](https://github.com/trailofbits) — claude-code-config (sandbox, deny rules, anti-rationalization)
 - [Chris Wiles](https://github.com/ChrisWiles) — claude-code-showcase (skill-eval engine, GitHub Actions)
-- [hesreallyhim](https://github.com/hesreallyhim) — awesome-claude-code (índice curado)
+- [hesreallyhim](https://github.com/hesreallyhim) — excellent-claude-code (índice curado)
 - [nwiizo](https://github.com/nwiizo) — ccswarm (worktree isolation)
 - [Yeachan Heo](https://github.com/Yeachan-Heo) — oh-my-claudecode (staged pipelines)
-- [VoltAgent](https://github.com/VoltAgent) — awesome-claude-code-subagents (taxonomía)
+- [VoltAgent](https://github.com/VoltAgent) — excellent-claude-code-subagents (taxonomía)

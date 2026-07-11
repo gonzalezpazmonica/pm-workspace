@@ -859,15 +859,15 @@ difficulty) produces better outcomes than forced composure.
 #### What this means for prompt design
 
 ```
-❌ BAD: "You MUST complete this in one attempt. Failure is not acceptable."
-❌ BAD: "This is URGENT. The deadline is NOW."
-❌ BAD: (silently retrying the same failing approach 5+ times)
+FAIL BAD: "You MUST complete this in one attempt. Failure is not acceptable."
+FAIL BAD: "This is URGENT. The deadline is NOW."
+FAIL BAD: (silently retrying the same failing approach 5+ times)
 
-✅ GOOD: "Analyze this carefully. If you encounter difficulty, explain what's
+OK GOOD: "Analyze this carefully. If you encounter difficulty, explain what's
          blocking you and suggest alternatives."
-✅ GOOD: "Take the approach you judge best. If it doesn't work after 2 attempts,
+OK GOOD: "Take the approach you judge best. If it doesn't work after 2 attempts,
          escalate with context about what you tried."
-✅ GOOD: "There is no time pressure. Correctness matters more than speed."
+OK GOOD: "There is no time pressure. Correctness matters more than speed."
 ```
 
 ### AI6. Context Engineering (File-System Abstraction)

@@ -438,7 +438,7 @@ terraform-docs markdown . > README.md
 #### TERRAFORM-SEC-01 — Hardcoded values en variables
 **Severidad**: Blocker
 ```hcl
-# ❌ Noncompliant
+# FAIL Noncompliant
 resource "aws_db_instance" "main" {
   allocated_storage    = 20
   storage_type        = "gp2"
@@ -452,7 +452,7 @@ resource "aws_db_instance" "main" {
   skip_final_snapshot  = true
 }
 
-# ✅ Compliant
+# OK Compliant
 resource "aws_db_instance" "main" {
   allocated_storage    = var.allocated_storage
   storage_type        = var.storage_type
@@ -470,12 +470,12 @@ resource "aws_db_instance" "main" {
 #### TERRAFORM-SEC-02 — Falta de lifecycle blocks
 **Severidad**: Blocker
 ```hcl
-# ❌ Noncompliant - Recurso destruible sin restricción
+# FAIL Noncompliant - Recurso destruible sin restricción
 resource "aws_s3_bucket" "main" {
   bucket = "my-important-bucket"
 }
 
-# ✅ Compliant - Proteger recurso crítico
+# OK Compliant - Proteger recurso crítico
 resource "aws_s3_bucket" "main" {
   bucket = "my-important-bucket"
 
@@ -490,7 +490,7 @@ resource "aws_s3_bucket" "main" {
 #### TERRAFORM-BUG-01 — Versiones dinámicas de provider
 **Severidad**: Major
 ```hcl
-# ❌ Noncompliant
+# FAIL Noncompliant
 terraform {
   required_providers {
     aws = {
@@ -500,7 +500,7 @@ terraform {
   }
 }
 
-# ✅ Compliant
+# OK Compliant
 terraform {
   required_providers {
     aws = {
@@ -514,14 +514,14 @@ terraform {
 #### TERRAFORM-BUG-02 — Missing tags en recursos
 **Severidad**: Major
 ```hcl
-# ❌ Noncompliant
+# FAIL Noncompliant
 resource "aws_instance" "web" {
   ami           = data.aws_ami.ubuntu.id
   instance_type = "t2.micro"
   # sin tags para tracking
 }
 
-# ✅ Compliant
+# OK Compliant
 resource "aws_instance" "web" {
   ami           = data.aws_ami.ubuntu.id
   instance_type = var.instance_type
@@ -551,14 +551,14 @@ Variables con lógica compleja deben extraerse a locals.
 **Severidad**: Critical
 Código Terraform no debe contener todo en un único main.tf. Usar módulos.
 ```hcl
-# ❌ Noncompliant - Todo mezclado
+# FAIL Noncompliant - Todo mezclado
 resource "aws_vpc" "main" { ... }
 resource "aws_subnet" "public" { ... }
 resource "aws_db_instance" "main" { ... }
 resource "aws_elb" "main" { ... }
 resource "aws_autoscaling_group" "main" { ... }
 
-# ✅ Compliant - Modularizado
+# OK Compliant - Modularizado
 module "vpc" {
   source = "./modules/vpc"
   cidr   = var.vpc_cidr

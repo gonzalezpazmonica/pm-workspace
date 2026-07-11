@@ -72,7 +72,7 @@ Ver `docs/recommended-mcps.md` para el catálogo completo.
 
 Si un conector no está activado y un comando intenta usarlo, mostrar:
 ```
-⚠️ El conector {nombre} no está activado.
+WARN El conector {nombre} no está activado.
 Actívalo en: claude.ai/settings/connectors
 Para Azure DevOps u otros sin Connector: claude mcp add --transport stdio {nombre} -- {comando}
 ```

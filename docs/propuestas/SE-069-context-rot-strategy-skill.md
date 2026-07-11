@@ -45,7 +45,7 @@ Current Savia skills cover context optimization (`context-optimized-dev`, `conte
 **Proactive compaction heuristics:**
 - Token counter > 60% → flag as yellow (consider compact)
 - Token counter > 75% → compact proactively (don't wait for auto-compact at context-rot peak)
-- Settings: `CLAUDE_AUTOCOMPACT_PCT_OVERRIDE=75` already in place ✓
+- Settings: `CLAUDE_AUTOCOMPACT_PCT_OVERRIDE=75` already in place 
 
 ### Slice 2 — DOMAIN.md (Clara Philosophy) (S, 1h)
 

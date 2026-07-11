@@ -1,6 +1,6 @@
 # Hooks — Event-Driven Pipeline Gates
 
-pm-workspace uses 17 hooks across 5 lifecycle events: SessionStart, PreToolUse, PostToolUse, Stop, and SubagentStop. All hooks have 100% test coverage via BATS.
+pm-workspace uses hooks that cover the five lifecycle events: SessionStart, PreToolUse, PostToolUse, Stop, and SubagentStop. All hooks have 100% test coverage via BATS.
 
 ## Hook Lifecycle Events
 
@@ -12,50 +12,50 @@ pm-workspace uses 17 hooks across 5 lifecycle events: SessionStart, PreToolUse, 
 | **Stop** | Before session ends | Final validation, scope checks | 3 |
 | **SubagentStop** | Before agent returns | Pre-merge quality gates | 1 |
 
-## Hook Inventory (17 Hooks)
+## Hook Inventory
 
 ### Security Hooks (Block-Type: exit 2 on violation)
 
 | Hook | Event | Type | Blocks? | Tested? | Purpose |
 |---|---|---|---|---|---|
-| `block-credential-leak` | PreToolUse | Security | ✅ Yes | ✅ 100% | Detect AWS keys, JWT, PATs, connection strings, private keys before execution |
-| `block-force-push` | PreToolUse | Security | ✅ Yes | ✅ 100% | Block `git push --force`, direct main/master push, `--amend`, `reset --hard` |
-| `block-infra-destructive` | PreToolUse | Security | ✅ Yes | ✅ 100% | Block `terraform destroy`, production `terraform apply`, resource group deletion |
+| `block-credential-leak` | PreToolUse | Security | OK Yes | OK 100% | Detect AWS keys, JWT, PATs, connection strings, private keys before execution |
+| `block-force-push` | PreToolUse | Security | OK Yes | OK 100% | Block `git push --force`, direct main/master push, `--amend`, `reset --hard` |
+| `block-infra-destructive` | PreToolUse | Security | OK Yes | OK 100% | Block `terraform destroy`, production `terraform apply`, resource group deletion |
 
 ### Quality Gates (Block-Type: exit 2 on requirement failure)
 
 | Hook | Event | Type | Blocks? | Tested? | Purpose |
 |---|---|---|---|---|---|
-| `tdd-gate` | PreToolUse | Quality | ✅ Yes | ✅ 100% | Require test files before editing production code (.cs, .py, .ts, etc.) |
-| `compliance-gate` | PreToolUse | Quality | ✅ Yes | ✅ 100% | Verify CHANGELOG links, file size limits (≤150 lines), frontmatter, README sync |
-| `stop-quality-gate` | Stop | Quality | ✅ Yes | ✅ 100% | Final check for secrets in staged files before session ends |
-| `pre-commit-review` | Stop | Quality | ✅ Yes | ✅ 100% | Comprehensive pre-commit: branch name, secrets, build, tests, format, code review |
+| `tdd-gate` | PreToolUse | Quality | OK Yes | OK 100% | Require test files before editing production code (.cs, .py, .ts, etc.) |
+| `compliance-gate` | PreToolUse | Quality | OK Yes | OK 100% | Verify CHANGELOG links, file size limits (≤150 lines), frontmatter, README sync |
+| `stop-quality-gate` | Stop | Quality | OK Yes | OK 100% | Final check for secrets in staged files before session ends |
+| `pre-commit-review` | Stop | Quality | OK Yes | OK 100% | Comprehensive pre-commit: branch name, secrets, build, tests, format, code review |
 
 ### Observability/Logging Hooks (Warning-Only: exit 0 with messages)
 
 | Hook | Event | Type | Blocks? | Tested? | Purpose |
 |---|---|---|---|---|---|
-| `session-init` | SessionStart | Observability | ❌ No | ✅ 100% | Load PAT status, active profile, git branch, Company Savia inbox notifications |
-| `agent-trace-log` | PostToolUse | Observability | ❌ No | ✅ 100% | Log agent execution: command, model, tokens, duration, success/failure (async) |
-| `post-edit-lint` | PostToolUse | Observability | ❌ No | ✅ 100% | Auto-lint after file edits: dotnet format, ruff, eslint, gofmt, rustfmt, etc. (async) |
+| `session-init` | SessionStart | Observability | FAIL No | OK 100% | Load PAT status, active profile, git branch, Company Savia inbox notifications |
+| `agent-trace-log` | PostToolUse | Observability | FAIL No | OK 100% | Log agent execution: command, model, tokens, duration, success/failure (async) |
+| `post-edit-lint` | PostToolUse | Observability | FAIL No | OK 100% | Auto-lint after file edits: dotnet format, ruff, eslint, gofmt, rustfmt, etc. (async) |
 
 ### Workflow Hooks (Warning-Only: exit 0 with suggestions)
 
 | Hook | Event | Type | Blocks? | Tested? | Purpose |
 |---|---|---|---|---|---|
-| `plan-gate` | PreToolUse | Workflow | ❌ No | ✅ 100% | Suggest `/spec-generate` if no recent .spec.md found (warning only) |
-| `scope-guard` | Stop | Workflow | ❌ No | ✅ 100% | Warn if modified files exceed spec-declared scope (yellow warning) |
+| `plan-gate` | PreToolUse | Workflow | FAIL No | OK 100% | Suggest `/spec-generate` if no recent .spec.md found (warning only) |
+| `scope-guard` | Stop | Workflow | FAIL No | OK 100% | Warn if modified files exceed spec-declared scope (yellow warning) |
 
 ### Agent/Orchestration Hooks
 
 | Hook | Event | Type | Blocks? | Tested? | Purpose |
 |---|---|---|---|---|---|
-| `agent-dispatch-validate` | PreToolUse (Task) | Orchestration | ✅ Yes | ✅ 100% | Verify subagent context: frontmatter, CHANGELOG format, dispatch checklist |
-| `agent-hook-premerge` | PreToolUse (Bash) | Orchestration | ✅ Yes | ✅ 100% | Pre-merge quality gate for agent-submitted code (runs before merge) |
-| `agent-trace-log` | PostToolUse (Task) | Observability | ❌ No | ✅ 100% | Register agent execution in trace log (async, doesn't block) |
-| `validate-bash-global` | PreToolUse (Bash) | Quality | ✅ Yes | ✅ 100% | Syntax check: `set -uo pipefail` presence, no unquoted vars, loop safety |
-| `prompt-hook-commit` | PreToolUse (Bash) | Quality | ⚠️ Warn | ✅ 100% | Semantic warning: Is commit message describing actual changes? (exit 0, warns) |
-| `memory-auto-capture` | PostToolUse (Edit) | Observability | ❌ No | ✅ 100% | Auto-capture patterns from code edits to agent memory (async) |
+| `agent-dispatch-validate` | PreToolUse (Task) | Orchestration | OK Yes | OK 100% | Verify subagent context: frontmatter, CHANGELOG format, dispatch checklist |
+| `agent-hook-premerge` | PreToolUse (Bash) | Orchestration | OK Yes | OK 100% | Pre-merge quality gate for agent-submitted code (runs before merge) |
+| `agent-trace-log` | PostToolUse (Task) | Observability | FAIL No | OK 100% | Register agent execution in trace log (async, doesn't block) |
+| `validate-bash-global` | PreToolUse (Bash) | Quality | OK Yes | OK 100% | Syntax check: `set -uo pipefail` presence, no unquoted vars, loop safety |
+| `prompt-hook-commit` | PreToolUse (Bash) | Quality | WARN Warn | OK 100% | Semantic warning: Is commit message describing actual changes? (exit 0, warns) |
+| `memory-auto-capture` | PostToolUse (Edit) | Observability | FAIL No | OK 100% | Auto-capture patterns from code edits to agent memory (async) |
 
 ## Hook Types Explained
 
@@ -127,7 +127,7 @@ Hooks are defined in `.claude/settings.json` under `hooks` key, organized by eve
 
 ## Testing Coverage
 
-All 17 hooks have BATS tests in `tests/hooks/`:
+All hooks have BATS tests in `tests/hooks/`:
 - Unit tests for each hook's logic
 - Integration tests for typical flows
 - Edge cases (empty input, missing files, timeouts)

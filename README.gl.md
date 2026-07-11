@@ -1,8 +1,15 @@
+---
+lang: gl
+---
+
 <img width="1856" height="560" alt="pm-workspace header" src="https://raw.githubusercontent.com/gonzalezpazmonica/pm-workspace/main/docs/images/pm-workspace-header.png" />
 
-**Galego** | [Castelán](README.md) | [English](README.en.md) | [Euskara](README.eu.md) | [Català](README.ca.md) | [Français](README.fr.md) | [Deutsch](README.de.md) | [Português](README.pt.md) | [Italiano](README.it.md)
+**Galego** | [Castelan](README.md) | [English](README.en.md) | [Euskara](README.eu.md) | [Catala](README.ca.md) | [Francais](README.fr.md) | [Deutsch](README.de.md) | [Portugues](README.pt.md) | [Italiano](README.it.md)
 
 # PM-Workspace
+
+> Traducion de cortesia. Version de referencia: [espanol](README.md).
+> Ultima sincronizacion: 2026-07-09.
 
 [![CI](https://img.shields.io/github/actions/workflow/status/gonzalezpazmonica/pm-workspace/ci.yml?branch=main&label=CI&logo=github)](https://github.com/gonzalezpazmonica/pm-workspace/actions/workflows/ci.yml)
 [![Release](https://img.shields.io/github/v/release/gonzalezpazmonica/pm-workspace?logo=github)](https://github.com/gonzalezpazmonica/pm-workspace/releases)
@@ -11,7 +18,7 @@
 
 ## O teu equipo de desenvolvemento merece unha PM que nunca dorme
 
-Os sprints descontrolanse. O backlog medra sen priorizar. Os informes para direccion fanse a man. A debeda tecnica acumulase sen que ninguén a mida. Os axentes de IA xeran codigo sen specs nin tests.
+Os sprints descontrolanse. O backlog medra sen priorizar. Os informes para direccion fanse a man. A debeda tecnica acumulase sen que ninguen a mida. Os axentes de IA xeran codigo sen specs nin tests.
 
 **pm-workspace** resolve isto. E unha PM completa que vive dentro de Claude Code: xestiona sprints, descompon backlog, coordina axentes de codigo con specs executabeis, xera informes para direccion e vixia a debeda tecnica — na lingua que uses, cos datos protexidos na tua maquina.
 
@@ -21,12 +28,15 @@ Os sprints descontrolanse. O backlog medra sen priorizar. Os informes para direc
 
 ```bash
 # 1. Instala
+
 curl -fsSL https://raw.githubusercontent.com/gonzalezpazmonica/pm-workspace/main/install.sh | bash
 
 # 2. Abre Claude Code no directorio
-cd pm-workspace && claude
+
+cd pm-workspace && opencode
 
 # 3. Savia saudate e preguntache o nome. Despois:
+
 /sprint-status          # ← o teu primeiro comando
 ```
 
@@ -49,7 +59,7 @@ Savia adaptase a ti. Se es PM, mostrate sprints e capacidade. Se es developer, o
 
 ---
 
-## Ola, son Savia 🦉
+## Ola, son Savia 
 
 Son a mouchiña que vive dentro de pm-workspace. Adaptome ao teu rol, a tua lingua e a tua forma de traballar. Funciono con Azure DevOps, Jira, ou 100% Git-native con Savia Flow.
 
@@ -68,18 +78,24 @@ Son a mouchiña que vive dentro de pm-workspace. Adaptome ao teu rol, a tua ling
 
 ## O que hai dentro
 
-**532 comandos · 64 axentes · 76 skills · 55 hooks · 16 linguaxes · 160 suites de test**
+**532 comandos · 65 axentes · 86 skills · 58 hooks · 16 linguaxes · 283+ suites de test**
 
 ### Xestion de proxectos
+
 Sprints, burndown, capacidade, dailies, retros, KPIs. Informes en Excel e PowerPoint. Prediccion con Monte Carlo. Facturacion e custos.
 
 ### Desenvolvemento con specs executabeis (SDD)
+
 As tarefas convertense en specs. Os axentes implementan en 16 linguaxes (C#, TypeScript, Python, Java, Go, Rust, PHP, Ruby, Swift, Kotlin, Flutter, COBOL...) en worktrees illados. Code review automatico + revision humana obrigatoria.
 
+**Compatible con `github/spec-kit`**: os slash commands `/speckit.constitution`, `/speckit.specify`, `/speckit.clarify`, `/speckit.plan`, `/speckit.tasks`, `/speckit.analyze`, `/speckit.implement` e `/speckit.checklist` son alias delgados que delegan no fluxo SDD nativo de Savia. Vexa `docs/agent-teams-sdd.md`.
+
 ### Seguridade e Code Review Court
+
 SAST contra OWASP Top 10, pipeline Red/Blue/Auditor, pentesting dinamico, SBOM, compliance en 12 sectores. Savia Shield: clasificacion local de datos con LLM on-premise, enmascaramento reversibel, sinatura criptografica de PRs. **Code Review Court**: 5 xuices especializados (correctness, architecture, security, cognitive, spec) revisan en paralelo con scoring 0-100 e gate de 400 LOC.
 
 ### Soberania de inferencia
+
 Savia corre por defecto contra a API de Anthropic (calidade maxima). Cando a nube falla — cable caido, outage, cota esgotada, latencia inaceptable — hai duas opcions de continuidade, ambas sobre Ollama local con variantes de Gemma 4 seleccionadas segundo o teu hardware:
 
 | Modo | Activacion | Cando usalo |
@@ -94,19 +110,24 @@ Ambas opcions deixan os teus datos dentro da tua maquina en modo local. A sobera
 Docs: [Savia Dual](docs/savia-dual.md) · [Emergency Mode](docs/EMERGENCY.md) · Instaladores: `scripts/setup-savia-dual.{sh,ps1}`
 
 ### Memoria persistente
+
 Texto plano (JSONL). Entity recall, busca semantica, continuidade entre sesions. Extraccion automatica de decisions antes de compactar. Personal Vault cifrado AES-256.
 
 ### Accesibilidade
+
 Traballo guiado para persoas con discapacidade (visual, motora, TDAH, autismo, dislexia). Micro-tarefas, deteccion de bloqueos, reformulacion adaptativa.
 
 ### Intelixencia de codigo
-Deteccion de arquitectura (Clean, Hexagonal, DDD, CQRS, Microservices). Fitness functions. Human Code Maps (.hcm) que reducen a debeda cognitiva.
+
+Deteccion de arquitectura (Clean, Hexagonal, DDD, CQRS, Microservices). Fitness functions. Human Code Maps (.hcm) que reducen a debeda cognitiva. Agent Code Maps (.acm) e `ast-comprehension` con motor opcional [CodeGraph](https://github.com/colbymchenry/codegraph) (MCP, opt-in por proxecto).
 
 ### Modos autonomos
+
 Sprint nocturno, mellora de codigo, investigacion tecnica. Os axentes propoñen en ramas `agent/*` con PRs Draft — o humano sempre decide.
 
 ### Extensions
-[Savia Mobile](projects/savia-mobile-android/README.md) (Android nativo) · [Savia Web](projects/savia-web/README.md) (Vue.js dashboards) · [SaviaClaw](zeroclaw/ROADMAP.md) (ESP32 + voz full-duplex)
+
+[Savia Mobile](projects/savia-mobile-android/README.md) (Android nativo) · Savia Web (Vue.js dashboards) · [SaviaClaw](zeroclaw/ROADMAP.md) (ESP32 + voz full-duplex)
 
 ---
 
@@ -116,9 +137,9 @@ Sprint nocturno, mellora de codigo, investigacion tecnica. Os axentes propoñen 
 pm-workspace/
 ├── .claude/
 │   ├── commands/       ← 532 comandos
-│   ├── agents/         ← 64 axentes especializados
-│   ├── skills/         ← 76 skills de dominio
-│   ├── hooks/          ← 55 hooks deterministas
+│   ├── agents/         ← 65 axentes especializados (7 con decision trees: SPEC-147)
+│   ├── skills/         ← 86 skills de dominio
+│   ├── hooks/          ← 58 hooks deterministas
 │   └── rules/          ← regras de contexto e linguaxe
 ├── docs/               ← guias por rol, escenario, sector
 ├── projects/           ← proxectos (git-ignorados por privacidade)

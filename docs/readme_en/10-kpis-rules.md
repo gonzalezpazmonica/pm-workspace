@@ -6,7 +6,7 @@
 | Burndown | Progress vs sprint plan | Within ±15% range |
 | Cycle Time | Days from "Active" to "Done" | < 5 days (P75) |
 | Lead Time | Days from "New" to "Done" | < 12 days (P75) |
-| Capacity Utilization | % of capacity used | 70-90% (🟢), >95% (🔴) |
+| Capacity Utilization | % of capacity used | 70-90% (OK), >95% (FAIL) |
 | Sprint Goal Hit Rate | % of sprints that meet the goal | > 75% |
 | Bug Escape Rate | Production bugs / total completed | < 5% |
 | SDD Agentization | % of technical tasks implemented by agent | Target: > 60% |

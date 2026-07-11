@@ -113,7 +113,7 @@ L'agente riceve nel suo contesto:
   ╚══════════════════════════════════════════════════╝
   File: src/Services/AuthService.cs
   Righe: 248  |  Classi: 1  |  Funzioni: 12
-  Complessità: 42 punti di decisione  ⚠️  Procedere con cautela
+  Complessità: 42 punti di decisione  WARN  Procedere con cautela
 
   Mappa strutturale:
   { "classes": [{ "name": "AuthService", "line": 12 }],

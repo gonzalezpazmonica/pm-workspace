@@ -11,22 +11,22 @@
 
 | Sprint | Task ID | Título (corto) | Dev Type | Spec Quality | Impl OK? | Review Issues | h Estimadas | h Reales | Notas |
 |--------|---------|----------------|----------|-------------|----------|---------------|------------|---------|-------|
-| 2026-04 | AB101-B3 | CreateSalaCommandHandler | agent-single | ✅ Completa | ⏳ Pendiente | — | 4h | — | Spec de referencia para testing SDD |
-| 2026-04 | AB102-D1 | Unit Tests Salas | agent-single | ✅ Completa | ⏳ Pendiente | — | 2h | — | Spec haiku — 15 tests |
+| 2026-04 | AB101-B3 | CreateSalaCommandHandler | agent-single | OK Completa | ⏳ Pendiente | — | 4h | — | Spec de referencia para testing SDD |
+| 2026-04 | AB102-D1 | Unit Tests Salas | agent-single | OK Completa | ⏳ Pendiente | — | 2h | — | Spec haiku — 15 tests |
 
 ## Instrucciones de actualización
 
 Añadir una fila por cada Task completada vía SDD.
 
 **Spec Quality:**
-- ✅ Completa: todos los criterios de calidad cumplidos antes de implementar
-- ⚠️ Incompleta: faltaban campos, el agente tuvo que detenerse
-- ❌ Fallida: la Spec tenía errores que causaron fallo en implementación
+- OK Completa: todos los criterios de calidad cumplidos antes de implementar
+- WARN Incompleta: faltaban campos, el agente tuvo que detenerse
+- FAIL Fallida: la Spec tenía errores que causaron fallo en implementación
 
 **Impl OK?:**
-- ✅ : Implementación correcta al primer intento (build + tests OK)
-- ⚠️ : Necesitó correcciones menores (< 2 iteraciones del agente)
-- ❌ : Fallida o requerió intervención humana
+- OK : Implementación correcta al primer intento (build + tests OK)
+- WARN : Necesitó correcciones menores (< 2 iteraciones del agente)
+- FAIL : Fallida o requerió intervención humana
 - ⏳ : Pendiente de ejecución
 
 **Review Issues:** Número de issues encontrados en el Code Review humano post-agente.
@@ -43,13 +43,13 @@ Objetivo: > 65% para el Q2 2026  (target sala-reservas: 0.65)
 
 ### Calidad de Specs
 ```
-Specs con quality "✅ Completa" / Total specs = {N}%
+Specs con quality "OK Completa" / Total specs = {N}%
 Objetivo: > 80%
 ```
 
 ### Tasa de Éxito de Agentes (primer intento)
 ```
-Impl OK "✅" / Total specs de agente = {N}%
+Impl OK "OK" / Total specs de agente = {N}%
 Objetivo: > 75%
 ```
 

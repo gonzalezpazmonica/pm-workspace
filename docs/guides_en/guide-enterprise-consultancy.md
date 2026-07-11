@@ -136,10 +136,10 @@ On each merge to `main`:
 savia sovereignty-audit --client client-alpha --output report.json
 
 # Result:
-# ✅ All specs in Git/Markdown (portable)
-# ✅ Reusable, open-source agents
-# ✅ Client data: never sent to Anthropic without explicit consent
-# ✅ Compliance: AEPD, GDPR, EU AI Act
+# OK All specs in Git/Markdown (portable)
+# OK Reusable, open-source agents
+# OK Client data: never sent to Anthropic without explicit consent
+# OK Compliance: AEPD, GDPR, EU AI Act
 ```
 
 ### Portability Guarantees
@@ -247,7 +247,7 @@ savia rbac-manager audit --user alice --output audit.md
 
 ## 8. Current Enterprise Capabilities and Roadmap
 
-### Works Today ✅
+### Works Today OK
 
 - SDD: code generation from specs, fully functional
 - Azure DevOps / Jira sync with Savia Flow
@@ -262,7 +262,7 @@ savia rbac-manager audit --user alice --output audit.md
 - **Enterprise reporting**: Portfolio, team-health, risk-matrix, SPACE via `/enterprise-dashboard`
 - **Scale optimization**: Analysis, benchmarks, recommendations via `/scale-optimizer`
 
-### Enterprise Roadmap (pending) 🔄
+### Enterprise Roadmap (pending) 
 
 - **REST API**: HTTP layer with OpenAPI + RBAC authentication
 - **SSO/LDAP/Okta**: Enterprise identity integration
@@ -320,7 +320,7 @@ savia init --client "pilot-client" --team "squad-1" \
 savia sprint-summary --team squad-1 --week 1 --output summary.md
 savia ceo-report --client pilot-client --focus velocity,burndown
 
-# Result: ✅ Spec completed, 0 surprises, ROI visible
+# Result: OK Spec completed, 0 surprises, ROI visible
 ```
 
 ### Step 4: Success Metrics (Week 2)
@@ -328,7 +328,7 @@ savia ceo-report --client pilot-client --focus velocity,burndown
 ```bash
 savia metrics --team squad-1 --compare baseline
 
-# ✅ Criteria:
+# OK Criteria:
 # - Spec review time < 4 hours
 # - 0 PRs blocked by spec ambiguity
 # - Satisfaction score >= 7/10

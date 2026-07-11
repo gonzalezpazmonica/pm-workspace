@@ -45,11 +45,11 @@ data/
 ```
 
 **Consecuencias:**
-- ✅ Domain portátil a KMP/iOS sin cambios
-- ✅ Testing aislado sin Android
-- ✅ Mantenibilidad clara de responsabilidades
-- ❌ Más ficheros iniciales que monolito
-- ❌ Coordinación inter-módulos (minor overhead)
+- OK Domain portátil a KMP/iOS sin cambios
+- OK Testing aislado sin Android
+- OK Mantenibilidad clara de responsabilidades
+- FAIL Más ficheros iniciales que monolito
+- FAIL Coordinación inter-módulos (minor overhead)
 
 **Justificación:**
 Es el estándar de la industria Android. Google lo recomienda. Soporta crecimiento futuro.
@@ -105,11 +105,11 @@ writeTimeout = 30 segundos
 ```
 
 **Consecuencias:**
-- ✅ Maduro, confiable, documentado
-- ✅ SSE nativo
-- ✅ Comunidad grande
-- ❌ No multiplataforma (Ktor sí, pero menos maduro)
-- ❌ Si migramos a KMP, habría que wrappear con expect/actual o usar Ktor
+- OK Maduro, confiable, documentado
+- OK SSE nativo
+- OK Comunidad grande
+- FAIL No multiplataforma (Ktor sí, pero menos maduro)
+- FAIL Si migramos a KMP, habría que wrappear con expect/actual o usar Ktor
 
 **Trade-off:**
 Maturity + Community (Retrofit) vs Multiplataforma (Ktor). Priorizamos maturity.
@@ -170,12 +170,12 @@ fun decryptString(ciphertext: ByteArray, context: String = "savia-mobile"): Stri
 - **Forward Secrecy:** IV aleatorio per message
 
 **Consecuencias:**
-- ✅ Enterprise-grade (Google mantiene activamente)
-- ✅ Hardware-backed en modernos (Secure Element)
-- ✅ Master key automático in Android Keystore
-- ✅ Lazy initialization (<1s gen en primer uso)
-- ❌ Tink API más verbose que EncryptedSharedPreferences
-- ❌ Múltiples capas (Tink → Keystore) vs. abstracto
+- OK Enterprise-grade (Google mantiene activamente)
+- OK Hardware-backed en modernos (Secure Element)
+- OK Master key automático in Android Keystore
+- OK Lazy initialization (<1s gen en primer uso)
+- FAIL Tink API más verbose que EncryptedSharedPreferences
+- FAIL Múltiples capas (Tink → Keystore) vs. abstracto
 
 **Almacenamiento:**
 - **Keyset:** `data/data/com.savia.mobile/shared_prefs/savia_crypto_prefs.xml` (encrypted)
@@ -273,17 +273,17 @@ val response = if (securityRepository.hasBridgeConfig()) {
 ```
 
 **Consecuencias:**
-- ✅ Control total sobre TLS + timeouts
-- ✅ Más simple que Retrofit para single service
-- ✅ SSE parsing idéntico a ClaudeApiService
-- ❌ Más code que usar Retrofit
-- ❌ Manual request building (vs. Retrofit interfaces)
+- OK Control total sobre TLS + timeouts
+- OK Más simple que Retrofit para single service
+- OK SSE parsing idéntico a ClaudeApiService
+- FAIL Más code que usar Retrofit
+- FAIL Manual request building (vs. Retrofit interfaces)
 
 **Seguridad (TLS Permisivo Justificado):**
-- ✅ Bridge en LAN privada o VPN
-- ✅ Bearer token authentication en header
-- ✅ Future: certificate pinning por fingerprint
-- ⚠️ NUNCA usar en internet público sin certificado válido
+- OK Bridge en LAN privada o VPN
+- OK Bearer token authentication en header
+- OK Future: certificate pinning por fingerprint
+- WARN NUNCA usar en internet público sin certificado válido
 
 ---
 
@@ -337,12 +337,12 @@ val AssistantBubbleColor = Color(0xFFEDE7F3)   // Lavender (assistant)
 - Semantic colors: error (#BA1A1A), warning (#E6A817)
 
 **Consecuencias:**
-- ✅ Identidad visual coherente
-- ✅ WCAG AA accessible
-- ✅ Light + Dark modes
-- ✅ Distinto de Material default
-- ✅ Profesional + memorable
-- ❌ No es blue (Android default, pero estamos bien)
+- OK Identidad visual coherente
+- OK WCAG AA accessible
+- OK Light + Dark modes
+- OK Distinto de Material default
+- OK Profesional + memorable
+- FAIL No es blue (Android default, pero estamos bien)
 
 **Justificación:**
 Violet ↔ sabiduría, claridad, inteligencia. Perfecto para asistente PM.
@@ -384,11 +384,11 @@ val json = json.encodeToString(event)
 ```
 
 **Beneficios:**
-- ✅ Type-safe en compile-time
-- ✅ Sin reflection (ProGuard-friendly)
-- ✅ Soporte nativo sealed classes
-- ✅ Performance superior a Gson
-- ✅ Kotlin-first design
+- OK Type-safe en compile-time
+- OK Sin reflection (ProGuard-friendly)
+- OK Soporte nativo sealed classes
+- OK Performance superior a Gson
+- OK Kotlin-first design
 
 **Configuración:**
 ```kotlin
@@ -400,11 +400,11 @@ val json = Json {
 ```
 
 **Consecuencias:**
-- ✅ Type-safe, compile-time safety
-- ✅ Mejor performance (sin reflection)
-- ✅ Smaller APK size
-- ❌ Necesita @Serializable annotations
-- ❌ Menos comunidad que Gson (pero creciendo)
+- OK Type-safe, compile-time safety
+- OK Mejor performance (sin reflection)
+- OK Smaller APK size
+- FAIL Necesita @Serializable annotations
+- FAIL Menos comunidad que Gson (pero creciendo)
 
 ---
 
@@ -430,11 +430,11 @@ Necesitamos DI framework para:
 Hilt 2.50 (built on Dagger, Android-first)
 
 **Justificación:**
-- ✅ Recomendado por Google (official)
-- ✅ Android-specific (activities, fragments, services)
-- ✅ Compile-time safety (Dagger underneath)
-- ✅ Scopes simples (@Singleton, @ActivityScoped, etc.)
-- ✅ Integration con Jetpack (ViewModel, LiveData)
+- OK Recomendado por Google (official)
+- OK Android-specific (activities, fragments, services)
+- OK Compile-time safety (Dagger underneath)
+- OK Scopes simples (@Singleton, @ActivityScoped, etc.)
+- OK Integration con Jetpack (ViewModel, LiveData)
 
 **Implementation (NetworkModule.kt):**
 ```kotlin
@@ -464,12 +464,12 @@ class MainActivity : ComponentActivity() {
 ```
 
 **Consecuencias:**
-- ✅ Compile-time safety
-- ✅ Google-supported
-- ✅ Android-optimized
-- ✅ Clear scopes
-- ❌ Curva aprendizaje (Dagger underneath)
-- ❌ Build time (annotation processing)
+- OK Compile-time safety
+- OK Google-supported
+- OK Android-optimized
+- OK Clear scopes
+- FAIL Curva aprendizaje (Dagger underneath)
+- FAIL Build time (annotation processing)
 
 ---
 
@@ -509,10 +509,10 @@ if (hasBridgeConfig()) {
 API-first (bridge es optional)
 
 **Justificación:**
-- ✅ API siempre funciona (solo internet)
-- ✅ Bridge es bonus para power users
-- ✅ No bloquea v0.1 (bridge en v0.3)
-- ✅ Fallback transparente
+- OK API siempre funciona (solo internet)
+- OK Bridge es bonus para power users
+- OK No bloquea v0.1 (bridge en v0.3)
+- OK Fallback transparente
 
 **Enrutamiento Transparente:**
 ```kotlin
@@ -524,10 +524,10 @@ val response = if (securityRepository.hasBridgeConfig()) {
 ```
 
 **Consecuencias:**
-- ✅ Simple MVP (API solo)
-- ✅ Upgrade path claro (Bridge futuro)
-- ✅ No breaking changes
-- ❌ Bridge no en v0.1
+- OK Simple MVP (API solo)
+- OK Upgrade path claro (Bridge futuro)
+- OK No breaking changes
+- FAIL Bridge no en v0.1
 
 ---
 

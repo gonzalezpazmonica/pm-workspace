@@ -1,6 +1,6 @@
 # Análisis de Gaps: Grandes Consultoras Tecnológicas y Cómo los Resuelve pm-workspace
 
-🌐 [English version](../guides_en/guide-enterprise-gap-analysis.md)
+ [English version](../guides_en/guide-enterprise-gap-analysis.md)
 
 > Este documento identifica los problemas operativos más comunes en grandes consultoras tecnológicas (500-5.000 empleados) y detalla cómo pm-workspace/Savia los resuelve con comandos, reglas y skills concretos.
 

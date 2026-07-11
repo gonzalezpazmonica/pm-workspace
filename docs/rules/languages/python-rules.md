@@ -43,7 +43,7 @@ Para cada hallazgo reporta:
 
 ## 1. VULNERABILITIES — Seguridad
 
-> 🔴 Prioridad máxima. Cada hallazgo aquí es un riesgo de seguridad real.
+> FAIL Prioridad máxima. Cada hallazgo aquí es un riesgo de seguridad real.
 
 ### 1.1 Blocker
 
@@ -53,12 +53,12 @@ Para cada hallazgo reporta:
 **Problema**: Contraseñas y credenciales embebidas en código fuente exponen accesos no autorizados.
 
 ```python
-# ❌ Noncompliant
+# FAIL Noncompliant
 DATABASE_PASSWORD = "SuperSecret123"
 API_KEY = "sk-1234567890abcdef"
 db_url = "postgresql://user:password@localhost/db"
 
-# ✅ Compliant
+# OK Compliant
 import os
 from dotenv import load_dotenv
 
@@ -76,12 +76,12 @@ db_url = os.getenv("DATABASE_URL")
 **Problema**: Construcción de queries SQL sin parameterización permite inyección SQL.
 
 ```python
-# ❌ Noncompliant
+# FAIL Noncompliant
 user_id = request.args.get("id")
 query = f"SELECT * FROM users WHERE id = {user_id}"
 result = db.execute(query)
 
-# ✅ Compliant
+# OK Compliant
 user_id = request.args.get("id")
 query = "SELECT * FROM users WHERE id = %s"
 result = db.execute(query, (user_id,))
@@ -98,12 +98,12 @@ user = User.query.filter_by(id=user_id).first()
 **Problema**: Parseo de XML sin desactivar entidades externas permite XXE attacks.
 
 ```python
-# ❌ Noncompliant
+# FAIL Noncompliant
 import xml.etree.ElementTree as ET
 tree = ET.parse(user_input)
 root = tree.getroot()
 
-# ✅ Compliant
+# OK Compliant
 from defusedxml import ElementTree as DefusedET
 tree = DefusedET.parse(user_input)
 root = tree.getroot()
@@ -117,12 +117,12 @@ root = tree.getroot()
 **Problema**: pickle.loads() con datos de usuario permite ejecución arbitraria de código.
 
 ```python
-# ❌ Noncompliant
+# FAIL Noncompliant
 import pickle
 data = request.data
 obj = pickle.loads(data)  # arbitrary code execution
 
-# ✅ Compliant
+# OK Compliant
 import json
 data = request.data
 obj = json.loads(data)  # seguro, usa JSON
@@ -148,14 +148,14 @@ obj = RestrictedPickle(io.BytesIO(data)).load()
 **Problema**: Usar entrada de usuario directamente en rutas de archivo sin validación.
 
 ```python
-# ❌ Noncompliant
+# FAIL Noncompliant
 import os
 filename = request.args.get("file")
 filepath = os.path.join("/uploads", filename)
 with open(filepath, "r") as f:
     content = f.read()
 
-# ✅ Compliant
+# OK Compliant
 import os
 from pathlib import Path
 
@@ -178,11 +178,11 @@ with open(filepath, "r") as f:
 **Problema**: Usar hashing débil (MD5, SHA-1) o sin salt para contraseñas.
 
 ```python
-# ❌ Noncompliant
+# FAIL Noncompliant
 import hashlib
 password_hash = hashlib.md5(password.encode()).hexdigest()
 
-# ✅ Compliant
+# OK Compliant
 from argon2 import PasswordHasher
 ph = PasswordHasher()
 password_hash = ph.hash(password)
@@ -200,11 +200,11 @@ password_hash = bcrypt.hashpw(password.encode(), bcrypt.gensalt(12))
 **Problema**: Usar algoritmos criptográficos débiles (DES, MD5, SHA-1).
 
 ```python
-# ❌ Noncompliant
+# FAIL Noncompliant
 from Crypto.Cipher import DES
 cipher = DES.new(key, DES.MODE_ECB)
 
-# ✅ Compliant
+# OK Compliant
 from Crypto.Cipher import AES
 cipher = AES.new(key, AES.MODE_GCM)
 ```
@@ -217,11 +217,11 @@ cipher = AES.new(key, AES.MODE_GCM)
 **Problema**: Ignorar validación de certificados SSL/TLS en requests HTTP.
 
 ```python
-# ❌ Noncompliant
+# FAIL Noncompliant
 import requests
 response = requests.get("https://api.example.com", verify=False)
 
-# ✅ Compliant
+# OK Compliant
 import requests
 response = requests.get("https://api.example.com")  # verify=True por defecto
 ```
@@ -234,12 +234,12 @@ response = requests.get("https://api.example.com")  # verify=True por defecto
 **Problema**: Hacer HTTP requests a URLs proporcionadas por usuario sin validación.
 
 ```python
-# ❌ Noncompliant
+# FAIL Noncompliant
 import requests
 url = request.args.get("url")
 response = requests.get(url)  # puede apuntar a localhost, servicios internos
 
-# ✅ Compliant
+# OK Compliant
 import requests
 from urllib.parse import urlparse
 
@@ -263,11 +263,11 @@ response = requests.get(url, timeout=5)
 
 **Severidad**: Critical
 ```python
-# ❌ Sensitive — ejecución arbitraria de código
+# FAIL Sensitive — ejecución arbitraria de código
 user_code = request.args.get("code")
 result = eval(user_code)
 
-# ✅ Compliant — usar ejecutores seguros
+# OK Compliant — usar ejecutores seguros
 import ast
 import operator
 
@@ -283,12 +283,12 @@ except SyntaxError:
 
 **Severidad**: Critical
 ```python
-# ❌ Sensitive
+# FAIL Sensitive
 import logging
 logger.info(f"User login with password: {password}")
 logger.debug(f"API Key: {api_key}")
 
-# ✅ Compliant
+# OK Compliant
 import logging
 logger.info("User login successful")
 logger.debug("API authentication completed")
@@ -298,11 +298,11 @@ logger.debug("API authentication completed")
 
 **Severidad**: Critical
 ```python
-# ❌ Sensitive
+# FAIL Sensitive
 import random
 token = ''.join([random.choice("abcdef0123456789") for _ in range(32)])
 
-# ✅ Compliant
+# OK Compliant
 import secrets
 token = secrets.token_hex(16)
 ```
@@ -317,7 +317,7 @@ token = secrets.token_hex(16)
 
 **Severidad**: Blocker
 ```python
-# ❌ Noncompliant
+# FAIL Noncompliant
 def add_user(name, roles=[]):
     roles.append("user")
     return {"name": name, "roles": roles}
@@ -326,7 +326,7 @@ def add_user(name, roles=[]):
 result1 = add_user("Alice")  # ["user"]
 result2 = add_user("Bob")    # ["user", "user"] — bug!
 
-# ✅ Compliant
+# OK Compliant
 def add_user(name, roles=None):
     if roles is None:
         roles = []
@@ -340,13 +340,13 @@ def add_user(name, roles=None):
 
 **Severidad**: Blocker
 ```python
-# ❌ Noncompliant
+# FAIL Noncompliant
 try:
     result = risky_operation()
 except:  # captura TODO, incluso KeyboardInterrupt
     print("Error occurred")
 
-# ✅ Compliant
+# OK Compliant
 try:
     result = risky_operation()
 except (ValueError, IOError) as e:
@@ -362,13 +362,13 @@ except Exception as e:
 
 **Severidad**: Blocker
 ```python
-# ❌ Noncompliant
+# FAIL Noncompliant
 def calculate_total(items):
     return sum(items)  # asume que items es iterable de números
 
 calculate_total("abc")  # TypeError en runtime
 
-# ✅ Compliant
+# OK Compliant
 from typing import List, Union
 
 def calculate_total(items: List[Union[int, float]]) -> Union[int, float]:
@@ -386,12 +386,12 @@ calculate_total("abc")  # mypy error: Argument 1 has incompatible type
 
 **Severidad**: Major
 ```python
-# ❌ Noncompliant
+# FAIL Noncompliant
 async def process_items(items):
     for item in items:
         await process(item)  # ejecuta secuencialmente, desperdicia concurrencia
 
-# ✅ Compliant
+# OK Compliant
 import asyncio
 
 async def process_items(items):
@@ -404,14 +404,14 @@ async def process_items(items):
 
 **Severidad**: Major
 ```python
-# ❌ Noncompliant
+# FAIL Noncompliant
 def find_user(name):
     for user in users:
         if user.name == name:
             return user
     # None implícito si no encuentra
 
-# ✅ Compliant
+# OK Compliant
 from typing import Optional
 
 def find_user(name: str) -> Optional[User]:
@@ -433,7 +433,7 @@ def find_user(name: str) -> Optional[User]:
 
 **Severidad**: Critical
 ```python
-# ❌ Noncompliant
+# FAIL Noncompliant
 def process_order(order):
     # 100+ líneas de lógica mezclada
     validate_order(order)
@@ -443,7 +443,7 @@ def process_order(order):
     send_notification(order)
     # ...
 
-# ✅ Compliant
+# OK Compliant
 def process_order(order):
     validate(order)
     calculate(order)
@@ -461,7 +461,7 @@ def calculate(order):
 
 **Severidad**: Critical
 ```python
-# ❌ Noncompliant
+# FAIL Noncompliant
 def get_status(user):
     if user.is_active:
         if user.has_permission:
@@ -477,7 +477,7 @@ def get_status(user):
     else:
         return "INACTIVE"
 
-# ✅ Compliant
+# OK Compliant
 def get_status(user):
     if not user.is_active:
         return "INACTIVE"
@@ -498,13 +498,13 @@ def get_status(user):
 
 **Severidad**: Major
 ```python
-# ❌ Noncompliant
+# FAIL Noncompliant
 def process():
     unused_variable = "test"
     count = 0
     # count no se usa
 
-# ✅ Compliant
+# OK Compliant
 def process():
     count = calculate_items()
     logger.info(f"Processed {count} items")
@@ -514,7 +514,7 @@ def process():
 
 **Severidad**: Major
 ```python
-# ❌ Noncompliant
+# FAIL Noncompliant
 import os
 import sys
 import json
@@ -522,7 +522,7 @@ import json
 def get_data():
     return {"status": "ok"}
 
-# ✅ Compliant
+# OK Compliant
 import json
 
 def get_data():
@@ -537,7 +537,7 @@ def get_data():
 
 **Severidad**: Blocker
 ```python
-# ❌ Noncompliant — acoplamiento fuerte
+# FAIL Noncompliant — acoplamiento fuerte
 from database import Database
 
 class UserService:
@@ -547,7 +547,7 @@ class UserService:
     def create_user(self, name):
         self.db.insert("users", {"name": name})
 
-# ✅ Compliant — inyección en constructor
+# OK Compliant — inyección en constructor
 from typing import Protocol
 
 class UserRepository(Protocol):
@@ -567,7 +567,7 @@ class UserService:
 
 **Severidad**: Critical
 ```python
-# ❌ Noncompliant — FastAPI en la lógica de negocio
+# FAIL Noncompliant — FastAPI en la lógica de negocio
 from fastapi import FastAPI, Request
 
 def create_order(request: Request) -> dict:
@@ -576,7 +576,7 @@ def create_order(request: Request) -> dict:
     # lógica de negocio aquí
     return {"order_id": 123}
 
-# ✅ Compliant — separación de concerns
+# OK Compliant — separación de concerns
 # api/orders.py
 from fastapi import APIRouter, Request
 from application import CreateOrderUseCase
@@ -608,7 +608,7 @@ class CreateOrderUseCase:
 
 **Severidad**: Critical
 ```python
-# ✅ Compliant — hexagonal architecture
+# OK Compliant — hexagonal architecture
 # domain/user.py
 from dataclasses import dataclass
 from typing import Protocol, Optional
@@ -664,13 +664,13 @@ async def get_user(user_id: str, service: UserService = Depends()):
 Código Python no debe contener HTML, CSS ni SQL como strings literales multilínea. Las plantillas viven en ficheros `.html` (o `.jinja2`, `.sql`) separados y se cargan desde disco.
 
 ```python
-# ❌ Noncompliant — HTML inline
+# FAIL Noncompliant — HTML inline
 def build_page():
     return f"""<!DOCTYPE html>
     <html><head><style>body {{ color: red; }}</style></head>
     <body><h1>{title}</h1></body></html>"""
 
-# ✅ Compliant — template en fichero separado
+# OK Compliant — template en fichero separado
 def build_page():
     template = (TEMPLATES_DIR / "page.html").read_text()
     return template.replace("{{title}}", title)
@@ -723,10 +723,10 @@ def build_page():
 
 | Severidad | Acción | Bloquea merge |
 |---|---|---|
-| **Blocker** | Corregir inmediatamente | ✅ Sí |
-| **Critical** | Corregir antes de merge | ✅ Sí |
-| **Major** | Corregir en el sprint actual | 🟡 Depende |
-| **Minor** | Backlog técnico | ❌ No |
+| **Blocker** | Corregir inmediatamente | OK Sí |
+| **Critical** | Corregir antes de merge | OK Sí |
+| **Major** | Corregir en el sprint actual | WARN Depende |
+| **Minor** | Backlog técnico | FAIL No |
 
 ## HTTP QUERY (RFC 10008)
 

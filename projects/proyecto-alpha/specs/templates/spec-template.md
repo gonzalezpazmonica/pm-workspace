@@ -313,8 +313,8 @@ dotnet test $TEST_PROJECT --filter "Category=Unit" --no-build
 - {timestamp} — [AGENT] Handler creado: CreatePatientCommandHandler.cs
 - {timestamp} — [AGENT] Validator creado: CreatePatientCommandValidator.cs
 - {timestamp} — [AGENT] Tests creados: 7 scenarios
-- {timestamp} — [AGENT] Build: ✅ OK
-- {timestamp} — [AGENT] Tests: ✅ 7/7 passing
+- {timestamp} — [AGENT] Build: OK OK
+- {timestamp} — [AGENT] Tests: OK 7/7 passing
 - {timestamp} — [AGENT] Implementación completada
 
 ### Blockers (si los hay)

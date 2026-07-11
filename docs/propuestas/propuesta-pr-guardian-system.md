@@ -18,26 +18,26 @@ triage_note: "non-spec document, archived 2026-06-24"
 
 | Capa | Componente | Estado |
 |---|---|---|
-| **CI workflow** | `ci.yml` — JSON validation, secrets scan, test suite (≥93/96), file sizes ≤150 lines, frontmatter, required files | ✅ Sólido |
-| **Auto-labeling** | `auto-label-pr.yml` — Branch prefix (feature/fix/docs...) + size labels (XS→XL) | ✅ Funcional |
-| **PR template** | `pull_request_template.md` — Tipo, ficheros, test, checklist | ✅ Básico pero funcional |
-| **CODEOWNERS** | Todo @gonzalezpazmonica (proyecto unipersonal de momento) | ✅ Correcto |
-| **Hooks locales** | `agent-hook-premerge.sh` (secrets, TODOs, conflicts, 150-line limit), `pre-commit-review.sh` (debug, secrets, any, TODOs con cache) | ✅ Fuerte |
-| **Releases** | `release.yml` — Automated release notes from tags | ✅ Funcional |
-| **E2E** | `savia-e2e.yml` — End-to-end testing | ✅ Funcional |
+| **CI workflow** | `ci.yml` — JSON validation, secrets scan, test suite (≥93/96), file sizes ≤150 lines, frontmatter, required files | OK Sólido |
+| **Auto-labeling** | `auto-label-pr.yml` — Branch prefix (feature/fix/docs...) + size labels (XS→XL) | OK Funcional |
+| **PR template** | `pull_request_template.md` — Tipo, ficheros, test, checklist | OK Básico pero funcional |
+| **CODEOWNERS** | Todo @gonzalezpazmonica (proyecto unipersonal de momento) | OK Correcto |
+| **Hooks locales** | `agent-hook-premerge.sh` (secrets, TODOs, conflicts, 150-line limit), `pre-commit-review.sh` (debug, secrets, any, TODOs con cache) | OK Fuerte |
+| **Releases** | `release.yml` — Automated release notes from tags | OK Funcional |
+| **E2E** | `savia-e2e.yml` — End-to-end testing | OK Funcional |
 
 ### Lo que NOS FALTA (gaps críticos para contribuciones externas)
 
 | Gap | Riesgo | Severidad |
 |---|---|---|
-| **Sin ShellCheck en CI** | PRs con bugs en shell scripts (.opencode/hooks/, .opencode/commands/) pasan CI | 🔴 ALTO |
-| **Sin validación de CLAUDE.md** | Un PR podría inflar CLAUDE.md >150 líneas destruyendo gestión de contexto | 🔴 ALTO |
-| **Sin Gitleaks/TruffleHog** | El scan de secrets actual es regex básico (52-char pattern). Gitleaks detecta 700+ patterns | 🟡 MEDIO |
-| **Sin Conventional Commits** | Títulos de PR caóticos, CHANGELOG difícil de generar | 🟡 MEDIO |
-| **Sin validación de PR description** | PRs con descripción vacía pueden pasar | 🟡 MEDIO |
-| **Sin hook timeout validation** | Un hook con timeout excesivo podría bloquear Claude Code | 🟡 MEDIO |
-| **Sin Dependabot** | Dependencias de GitHub Actions desactualizadas | 🟢 BAJO |
-| **Sin branch protection rules** | No hay branch protection en main configurada vía repo settings | 🟡 MEDIO |
+| **Sin ShellCheck en CI** | PRs con bugs en shell scripts (.opencode/hooks/, .opencode/commands/) pasan CI | FAIL ALTO |
+| **Sin validación de CLAUDE.md** | Un PR podría inflar CLAUDE.md >150 líneas destruyendo gestión de contexto | FAIL ALTO |
+| **Sin Gitleaks/TruffleHog** | El scan de secrets actual es regex básico (52-char pattern). Gitleaks detecta 700+ patterns | WARN MEDIO |
+| **Sin Conventional Commits** | Títulos de PR caóticos, CHANGELOG difícil de generar | WARN MEDIO |
+| **Sin validación de PR description** | PRs con descripción vacía pueden pasar | WARN MEDIO |
+| **Sin hook timeout validation** | Un hook con timeout excesivo podría bloquear Claude Code | WARN MEDIO |
+| **Sin Dependabot** | Dependencias de GitHub Actions desactualizadas | OK BAJO |
+| **Sin branch protection rules** | No hay branch protection en main configurada vía repo settings | WARN MEDIO |
 
 ---
 
@@ -74,7 +74,7 @@ Valida que la PR no tenga descripción vacía y siga el template.
 - Al menos un checkbox marcado en "Type of contribution"
 - Sección "How to test" no vacía
 
-**Acción en fallo:** ❌ Bloquea PR
+**Acción en fallo:** FAIL Bloquea PR
 
 ### Gate 2: Conventional Commits
 
@@ -84,7 +84,7 @@ Valida el título del PR (para squash merge) contra conventional commits.
 - Types: feat, fix, docs, style, refactor, perf, test, chore, ci
 - Scope: opcional (commands, hooks, agents, rules, skills, docs, ci)
 
-**Acción en fallo:** ❌ Bloquea PR
+**Acción en fallo:** FAIL Bloquea PR
 
 ### Gate 3: CLAUDE.md Context Guard
 
@@ -97,7 +97,7 @@ Valida el título del PR (para squash merge) contra conventional commits.
 - Ficheros en `docs/rules/domain/` ≤150 líneas
 - No se añaden imports innecesarios a CLAUDE.md (cada línea cuesta tokens)
 
-**Acción en fallo:** ❌ Bloquea PR con explicación detallada del impacto en contexto
+**Acción en fallo:** FAIL Bloquea PR con explicación detallada del impacto en contexto
 
 ### Gate 4: ShellCheck Diferencial
 
@@ -110,7 +110,7 @@ Solo analiza scripts NUEVOS o MODIFICADOS en la PR. No arrastra deuda técnica p
 
 **Severidad:** Solo bloquea en errores (SC error level). Warnings como anotaciones.
 
-**Acción en fallo:** ❌ Bloquea en errores, ⚠️ warnings como anotaciones
+**Acción en fallo:** FAIL Bloquea en errores, WARN warnings como anotaciones
 
 ### Gate 5: Gitleaks Secret Scanning
 
@@ -120,7 +120,7 @@ Reemplaza el regex básico actual con detección profesional.
 
 **Config personalizada:** Excluir mock data y ejemplos.
 
-**Acción en fallo:** ❌ Bloquea PR (hard block, sin excepciones)
+**Acción en fallo:** FAIL Bloquea PR (hard block, sin excepciones)
 
 ### Gate 6: Hook Safety Validator
 
@@ -134,7 +134,7 @@ Previene hooks que rompan la experiencia de Claude Code.
 - Cada hook nuevo DEBE tener un timeout explícito en settings.json
 - No se permiten hooks que hagan llamadas de red síncronas (latencia)
 
-**Acción en fallo:** ❌ Bloquea si hook puede romper flujo, ⚠️ Warning si es solo rendimiento
+**Acción en fallo:** FAIL Bloquea si hook puede romper flujo, WARN Warning si es solo rendimiento
 
 ### Gate 7: Context Impact Analysis
 
@@ -146,7 +146,7 @@ Calcula el impacto total de la PR en la ventana de contexto de Claude Code.
 - Si el PR añade >100 líneas netas → bloqueo
 - Report automático: "Esta PR añade X tokens estimados al context window de arranque"
 
-**Acción en fallo:** ❌ Bloquea >100 líneas netas, ⚠️ Warning >50 líneas
+**Acción en fallo:** FAIL Bloquea >100 líneas netas, WARN Warning >50 líneas
 
 ### Gate 8: Dependency Review
 
@@ -157,7 +157,7 @@ Para GitHub Actions y scripts con dependencias externas.
 - No se añaden dependencias npm/pip sin justificación
 - `actions/dependency-review-action` para vulnerabilidades conocidas
 
-**Acción en fallo:** ⚠️ Warning (no bloquea, pero flag)
+**Acción en fallo:** WARN Warning (no bloquea, pero flag)
 
 ---
 
@@ -233,17 +233,17 @@ Closes #
 
 Configurar en Settings → Branches → Add rule para `main`:
 
-- ✅ Require pull request before merging (1 approval)
-- ✅ Dismiss stale reviews when new commits pushed
-- ✅ Require review from Code Owners
-- ✅ Require status checks to pass:
+- OK Require pull request before merging (1 approval)
+- OK Dismiss stale reviews when new commits pushed
+- OK Require review from Code Owners
+- OK Require status checks to pass:
   - `validate` (de ci.yml)
   - `pr-guardian` (de pr-guardian.yml)
   - `lint-markdown` (de ci.yml)
-- ✅ Require branches to be up to date before merging
-- ❌ Allow force pushes → DISABLED
-- ❌ Allow deletions → DISABLED
-- ✅ Include administrators (nadie salta las reglas)
+- OK Require branches to be up to date before merging
+- FAIL Allow force pushes → DISABLED
+- FAIL Allow deletions → DISABLED
+- OK Include administrators (nadie salta las reglas)
 
 ---
 

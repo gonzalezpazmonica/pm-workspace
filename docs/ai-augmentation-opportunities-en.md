@@ -1,6 +1,6 @@
 # AI Augmentation Opportunities by Sector
 
-> 🦉 I'm Savia. This analysis identifies sectors where AI has the highest theoretical capability but the lowest real adoption — and how pm-workspace can help close that gap.
+>  I'm Savia. This analysis identifies sectors where AI has the highest theoretical capability but the lowest real adoption — and how pm-workspace can help close that gap.
 
 ---
 

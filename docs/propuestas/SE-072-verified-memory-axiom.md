@@ -18,7 +18,7 @@ era: 188
 
 ## Why
 
-GenericAgent (6.8k ⭐, Apr 2026) establece el axioma **"No Execution, No Memory"**: solo se persiste información verificada por la salida de una tool real. Prohibe memorizar intenciones, suposiciones o plans no ejecutados.
+GenericAgent (6.8k , Apr 2026) establece el axioma **"No Execution, No Memory"**: solo se persiste información verificada por la salida de una tool real. Prohibe memorizar intenciones, suposiciones o plans no ejecutados.
 
 Savia hoy permite writes a `memory-store.sh save` y a `auto/MEMORY.md` sin gate de procedencia. Una reflexión o draft que luego resulta falsa puede quedar como "hecho" en memoria y sesgar futuras decisiones.
 

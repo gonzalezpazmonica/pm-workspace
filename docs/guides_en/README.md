@@ -2,7 +2,7 @@
 
 > Each guide explains how to configure and use Savia (pm-workspace) for a specific type of organization or scenario. Includes roles, key commands, workflows, and practical tips.
 
-🌐 [Versión en español](../guides/README.md)
+ [Versión en español](../guides/README.md)
 
 ---
 

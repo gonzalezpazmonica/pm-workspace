@@ -19,7 +19,7 @@ Priorizar: 1) Vulnerabilities/Security Hotspots → 2) Bugs → 3) Code Smells. 
 
 ### Blocker
 
-| ID | Regla | Patrón ❌ | Fix ✅ |
+| ID | Regla | Patrón FAIL | Fix OK |
 |----|-------|-----------|--------|
 | S2068 | Credenciales hardcodeadas | `string password = "Admin123"` | `GetEncryptedPassword()` |
 | S2115 | BD sin contraseña segura | `Password=` en connection string | `Integrated Security=True` |
@@ -29,7 +29,7 @@ Priorizar: 1) Vulnerabilities/Security Hotspots → 2) Bugs → 3) Code Smells. 
 
 ### Critical
 
-| ID | Regla | Patrón ❌ | Fix ✅ |
+| ID | Regla | Patrón FAIL | Fix OK |
 |----|-------|-----------|--------|
 | S2053 | Salt predecible | `Encoding.UTF8.GetBytes("salty")` | `Rfc2898DeriveBytes(pw, 16, 100_000, SHA512)` |
 | S3329 | IV predecible en CBC | `byte[] iv = new byte[] {1,2,...}` | `aes.CreateEncryptor(key, aes.IV)` |
@@ -88,7 +88,7 @@ Priorizar: 1) Vulnerabilities/Security Hotspots → 2) Bugs → 3) Code Smells. 
 
 ### Blocker
 
-| ID | Regla | Patrón ❌ | Fix ✅ |
+| ID | Regla | Patrón FAIL | Fix OK |
 |----|-------|-----------|--------|
 | S1048 | Excepción en Finalizer | `throw` en `~Destructor()` | Cleanup sin excepciones |
 | S2190 | Recursión/bucle infinito | `while(true)` sin break, getter recursivo | Condición de salida |

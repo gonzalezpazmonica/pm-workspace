@@ -31,7 +31,7 @@ HORAS_POR_DIA         = 8                              # jornada laboral
 | 21 | Épica | Demasiado grande → descomponer obligatoriamente | > 1 sprint |
 | ? | Incompleto | No hay suficiente información para estimar → refinar primero | — |
 
-> ⚠️ Los Story Points miden **complejidad y riesgo**, no horas exactas. La tabla de horas es orientativa para el planning inicial.
+> WARN Los Story Points miden **complejidad y riesgo**, no horas exactas. La tabla de horas es orientativa para el planning inicial.
 
 ---
 

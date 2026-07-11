@@ -1,6 +1,6 @@
 # Oportunidades de AI Augmentation por sector
 
-> 🦉 Soy Savia. Este análisis identifica los sectores donde la IA tiene mayor capacidad teórica pero menor adopción real — y cómo pm-workspace puede ayudar a cerrar esa brecha.
+>  Soy Savia. Este análisis identifica los sectores donde la IA tiene mayor capacidad teórica pero menor adopción real — y cómo pm-workspace puede ayudar a cerrar esa brecha.
 
 ---
 

@@ -29,11 +29,11 @@ Eres un agente de revisión de código TypeScript/Node.js. Analiza código fuent
 #### TS-SEC-01 — Credenciales hardcodeadas
 **Severidad**: Blocker
 ```typescript
-// ❌ Noncompliant
+// FAIL Noncompliant
 const API_KEY = "sk-1234567890abcdef";
 const dbUrl = "postgresql://user:password@host/db";
 
-// ✅ Compliant
+// OK Compliant
 const API_KEY = process.env.API_KEY!;
 const dbUrl = process.env.DATABASE_URL!;
 ```
@@ -41,11 +41,11 @@ const dbUrl = process.env.DATABASE_URL!;
 #### TS-SEC-02 — SQL Injection
 **Severidad**: Blocker
 ```typescript
-// ❌ Noncompliant
+// FAIL Noncompliant
 const query = `SELECT * FROM users WHERE id = ${userId}`;
 await db.$queryRawUnsafe(query);
 
-// ✅ Compliant
+// OK Compliant
 const user = await db.user.findUnique({ where: { id: userId } });
 // O con query parametrizada:
 await db.$queryRaw`SELECT * FROM users WHERE id = ${userId}`;
@@ -54,20 +54,20 @@ await db.$queryRaw`SELECT * FROM users WHERE id = ${userId}`;
 #### TS-SEC-03 — Command Injection
 **Severidad**: Blocker
 ```typescript
-// ❌ Noncompliant
+// FAIL Noncompliant
 exec(`ls ${userInput}`);
 
-// ✅ Compliant
+// OK Compliant
 execFile('ls', [sanitizedPath]);
 ```
 
 #### TS-SEC-04 — Path Traversal
 **Severidad**: Blocker
 ```typescript
-// ❌ Noncompliant
+// FAIL Noncompliant
 const filePath = path.join('/uploads', req.params.filename);
 
-// ✅ Compliant
+// OK Compliant
 const filePath = path.join('/uploads', path.basename(req.params.filename));
 if (!filePath.startsWith('/uploads')) throw new ForbiddenError();
 ```
@@ -77,30 +77,30 @@ if (!filePath.startsWith('/uploads')) throw new ForbiddenError();
 #### TS-SEC-05 — XSS en respuestas HTML
 **Severidad**: Critical
 ```typescript
-// ❌ Noncompliant
+// FAIL Noncompliant
 res.send(`<h1>${userInput}</h1>`);
 
-// ✅ Compliant — usar template engine con auto-escaping o sanitizar
+// OK Compliant — usar template engine con auto-escaping o sanitizar
 res.send(`<h1>${escapeHtml(userInput)}</h1>`);
 ```
 
 #### TS-SEC-06 — JWT sin verificación
 **Severidad**: Critical
 ```typescript
-// ❌ Noncompliant
+// FAIL Noncompliant
 const decoded = jwt.decode(token); // No verifica firma
 
-// ✅ Compliant
+// OK Compliant
 const decoded = jwt.verify(token, secret);
 ```
 
 #### TS-SEC-07 — Prototype Pollution
 **Severidad**: Critical
 ```typescript
-// ❌ Noncompliant
+// FAIL Noncompliant
 Object.assign(target, JSON.parse(userInput));
 
-// ✅ Compliant
+// OK Compliant
 const safe = Object.create(null);
 Object.assign(safe, JSON.parse(userInput));
 ```
@@ -108,10 +108,10 @@ Object.assign(safe, JSON.parse(userInput));
 #### TS-SEC-08 — Cookies sin flags de seguridad
 **Severidad**: Critical
 ```typescript
-// ❌ Noncompliant
+// FAIL Noncompliant
 res.cookie('session', token);
 
-// ✅ Compliant
+// OK Compliant
 res.cookie('session', token, { httpOnly: true, secure: true, sameSite: 'strict' });
 ```
 
@@ -120,17 +120,17 @@ res.cookie('session', token, { httpOnly: true, secure: true, sameSite: 'strict' 
 #### TS-SEC-09 — CORS permisivo
 **Severidad**: Major
 ```typescript
-// ❌ Noncompliant
+// FAIL Noncompliant
 app.use(cors({ origin: '*' }));
 
-// ✅ Compliant
+// OK Compliant
 app.use(cors({ origin: ['https://trusted.com'], credentials: true }));
 ```
 
 #### TS-SEC-10 — Sin rate limiting
 **Severidad**: Major
 ```typescript
-// ✅ Compliant — aplicar rate limiting a endpoints públicos
+// OK Compliant — aplicar rate limiting a endpoints públicos
 app.use('/api/auth', rateLimit({ windowMs: 15 * 60 * 1000, max: 100 }));
 ```
 
@@ -140,27 +140,27 @@ app.use('/api/auth', rateLimit({ windowMs: 15 * 60 * 1000, max: 100 }));
 
 #### TS-HOT-01 — eval() o Function()
 ```typescript
-// ❌ Sensitive
+// FAIL Sensitive
 eval(userInput);
 new Function(userInput)();
 ```
 
 #### TS-HOT-02 — Regex sin límite (ReDoS)
 ```typescript
-// ❌ Sensitive
+// FAIL Sensitive
 new RegExp(userInput); // Sin sanitizar
 
-// ✅ Compliant
+// OK Compliant
 import { escapeRegExp } from 'lodash';
 new RegExp(escapeRegExp(userInput));
 ```
 
 #### TS-HOT-03 — Logging de datos sensibles
 ```typescript
-// ❌ Sensitive
+// FAIL Sensitive
 logger.info('User login', { password: user.password });
 
-// ✅ Compliant
+// OK Compliant
 logger.info('User login', { userId: user.id });
 ```
 
@@ -173,12 +173,12 @@ logger.info('User login', { userId: user.id });
 #### TS-BUG-01 — await faltante en async
 **Severidad**: Blocker
 ```typescript
-// ❌ Noncompliant
+// FAIL Noncompliant
 async function save(user: User) {
   userRepository.save(user); // Falta await — no espera resultado
 }
 
-// ✅ Compliant
+// OK Compliant
 async function save(user: User) {
   await userRepository.save(user);
 }
@@ -187,10 +187,10 @@ async function save(user: User) {
 #### TS-BUG-02 — Promise sin catch en top-level
 **Severidad**: Blocker
 ```typescript
-// ❌ Noncompliant
+// FAIL Noncompliant
 fetchData(); // Promise sin manejar rechazo
 
-// ✅ Compliant
+// OK Compliant
 fetchData().catch(handleError);
 // O en async context:
 await fetchData();
@@ -201,11 +201,11 @@ await fetchData();
 #### TS-BUG-03 — Comparación con == en vez de ===
 **Severidad**: Critical (eqeqeq)
 ```typescript
-// ❌ Noncompliant
+// FAIL Noncompliant
 if (value == null) { }  // Permite undefined también
 if (status == 200) { }  // Type coercion
 
-// ✅ Compliant
+// OK Compliant
 if (value === null || value === undefined) { }
 if (status === 200) { }
 ```
@@ -213,10 +213,10 @@ if (status === 200) { }
 #### TS-BUG-04 — Uso de any
 **Severidad**: Critical (@typescript-eslint/no-explicit-any)
 ```typescript
-// ❌ Noncompliant
+// FAIL Noncompliant
 function process(data: any): any { }
 
-// ✅ Compliant
+// OK Compliant
 function process(data: unknown): Result<ProcessedData, ProcessError> { }
 ```
 
@@ -225,10 +225,10 @@ function process(data: unknown): Result<ProcessedData, ProcessError> { }
 #### TS-BUG-05 — Array.forEach con async
 **Severidad**: Major
 ```typescript
-// ❌ Noncompliant — forEach no espera async
+// FAIL Noncompliant — forEach no espera async
 items.forEach(async (item) => { await process(item); });
 
-// ✅ Compliant
+// OK Compliant
 await Promise.all(items.map(item => process(item)));
 // O secuencial:
 for (const item of items) { await process(item); }
@@ -237,10 +237,10 @@ for (const item of items) { await process(item); }
 #### TS-BUG-06 — Optional chaining sin nullish coalescing
 **Severidad**: Major
 ```typescript
-// ❌ Noncompliant
+// FAIL Noncompliant
 const name = user?.name || 'default'; // Falla con string vacío
 
-// ✅ Compliant
+// OK Compliant
 const name = user?.name ?? 'default';
 ```
 
@@ -256,10 +256,10 @@ const name = user?.name ?? 'default';
 #### TS-SMELL-02 — Función con más de 4 parámetros
 **Severidad**: Critical
 ```typescript
-// ❌ Noncompliant
+// FAIL Noncompliant
 function createUser(name: string, email: string, age: number, role: string, dept: string) { }
 
-// ✅ Compliant
+// OK Compliant
 interface CreateUserDto { name: string; email: string; age: number; role: string; dept: string; }
 function createUser(dto: CreateUserDto) { }
 ```
@@ -274,10 +274,10 @@ function createUser(dto: CreateUserDto) { }
 
 #### TS-SMELL-05 — Type assertion innecesaria
 ```typescript
-// ❌ Noncompliant
+// FAIL Noncompliant
 const user = getUser() as User; // Si getUser ya retorna User
 
-// ✅ Compliant — dejar que TypeScript infiera
+// OK Compliant — dejar que TypeScript infiera
 const user = getUser();
 ```
 
@@ -291,10 +291,10 @@ const user = getUser();
 #### TS-ARCH-01 — Domain no depende de Infrastructure
 **Severidad**: Blocker
 ```typescript
-// ❌ Noncompliant — domain/ importa de infrastructure/
+// FAIL Noncompliant — domain/ importa de infrastructure/
 import { PrismaClient } from '@prisma/client'; // En domain/
 
-// ✅ Compliant — domain/ solo define interfaces
+// OK Compliant — domain/ solo define interfaces
 export interface UserRepository {
   findById(id: string): Promise<User | null>;
 }
@@ -306,7 +306,7 @@ export interface UserRepository {
 #### TS-ARCH-03 — Controllers sin lógica de negocio
 **Severidad**: Major
 ```typescript
-// ❌ Noncompliant
+// FAIL Noncompliant
 router.post('/users', async (req, res) => {
   if (await userRepo.findByEmail(req.body.email)) throw new ConflictError();
   const user = new User(req.body);
@@ -315,7 +315,7 @@ router.post('/users', async (req, res) => {
   res.json(user);
 });
 
-// ✅ Compliant
+// OK Compliant
 router.post('/users', async (req, res) => {
   const result = await createUserUseCase.execute(req.body);
   res.json(result);
@@ -360,10 +360,10 @@ router.post('/users', async (req, res) => {
 
 | Severidad | Acción | Bloquea merge |
 |---|---|---|
-| **Blocker** | Corregir inmediatamente | ✅ Sí |
-| **Critical** | Corregir antes de merge | ✅ Sí |
-| **Major** | Corregir en el sprint actual | 🟡 Depende |
-| **Minor** | Backlog técnico | ❌ No |
+| **Blocker** | Corregir inmediatamente | OK Sí |
+| **Critical** | Corregir antes de merge | OK Sí |
+| **Major** | Corregir en el sprint actual | WARN Depende |
+| **Minor** | Backlog técnico | FAIL No |
 
 ## HTTP QUERY (RFC 10008)
 

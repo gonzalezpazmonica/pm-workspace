@@ -4,7 +4,7 @@
 
 ---
 
-## 💰 La Realidad Incómoda
+##  La Realidad Incómoda
 
 Tu consultora gasta entre €50.000 y €200.000 anuales en licencias de gestión de proyectos. Jira por €61.000. Linear por €35.000. Azure DevOps. Monday.com. Cada herramienta prometía ser **la solución definitiva**. Ninguna lo fue.
 
@@ -16,7 +16,7 @@ Eso no es coincidencia. Es el diseño.
 
 ---
 
-## 🔗 Las Cuatro Dimensiones del Cautiverio
+##  Las Cuatro Dimensiones del Cautiverio
 
 Desde los años 90, los proveedores de software aprendieron una lección valiosa: el verdadero valor no está en la herramienta. Está en la **imposibilidad de marcharte**.
 
@@ -44,7 +44,7 @@ Los proveedores saben esto. Por eso sus interfaces son tan complejas. No acciden
 
 ---
 
-## 🤔 ¿Y Si Fuera Diferente?
+##  ¿Y Si Fuera Diferente?
 
 ¿Y si tu sistema de gestión de proyectos fuera **completamente tuyo**?
 
@@ -60,7 +60,7 @@ Eso no es ciencia ficción. Eso es **pm-workspace** (Savia).
 
 ---
 
-## 📊 Para el CFO: Los Números Que Importan
+##  Para el CFO: Los Números Que Importan
 
 Seamos directos. El argumento final siempre es dinero.
 
@@ -107,7 +107,7 @@ Eso no es un ahorro de costos de licencias. Eso es **multiplicar la velocidad de
 
 ---
 
-## 🔧 Para el CTO: La Sustancia Técnica
+##  Para el CTO: La Sustancia Técnica
 
 pm-workspace no es un "frontend bonito". Es una arquitectura completa.
 
@@ -150,7 +150,7 @@ El sistema mantiene un grafo de dependencias entre features y sprints. Identific
 
 ---
 
-## 👤 Para el PM: Valor Diario
+##  Para el PM: Valor Diario
 
 Olvida la jerga técnica por un momento. ¿Qué necesitas realmente?
 
@@ -181,7 +181,7 @@ Slack, email, calendarios, repositorios. El sistema vive donde ya trabajas, no e
 
 ---
 
-## 🧠 Soberanía Cognitiva: Por Qué Importa
+##  Soberanía Cognitiva: Por Qué Importa
 
 Este es el concepto que distingue a pm-workspace del resto.
 
@@ -205,31 +205,31 @@ Para una consultora que maneja datos sensibles de clientes (y prácticamente tod
 
 ---
 
-## 🎯 La Evaluación Honesta: Qué Funciona Hoy, Qué Viene Después
+##  La Evaluación Honesta: Qué Funciona Hoy, Qué Viene Después
 
 No voy a venderle sueños. La verdad es más matizada.
 
 **Funciona hoy (en producción):**
 
-✅ SDD: generación de código desde especificaciones, completamente funcional
-✅ Gestión de sprints: backlog, planning, tracking, burndown
-✅ Reportes: ejecutivos, stakeholder, DORA metrics, SPACE framework
-✅ 360+ comandos, 27 agentes y 38 skills listos para usar
-✅ Compliance: AEPD, GDPR, EU AI Act, ISO 27001 incorporados desde el diseño
-✅ RBAC: 4 niveles de acceso (Admin/PM/Contributor/Viewer) con audit trail
-✅ Multi-equipo: coordinación cross-equipo con Team Topologies
-✅ Gestión de costos: timesheets, presupuestos, facturación, EVM
-✅ Gobernanza: audit trail inmutable JSONL, controles de cumplimiento automáticos
-✅ Onboarding masivo: importación CSV, checklists por rol
-✅ Git-nativo: todo es código, todo puede versionarse
+OK SDD: generación de código desde especificaciones, completamente funcional
+OK Gestión de sprints: backlog, planning, tracking, burndown
+OK Reportes: ejecutivos, stakeholder, DORA metrics, SPACE framework
+OK 360+ comandos, 27 agentes y 38 skills listos para usar
+OK Compliance: AEPD, GDPR, EU AI Act, ISO 27001 incorporados desde el diseño
+OK RBAC: 4 niveles de acceso (Admin/PM/Contributor/Viewer) con audit trail
+OK Multi-equipo: coordinación cross-equipo con Team Topologies
+OK Gestión de costos: timesheets, presupuestos, facturación, EVM
+OK Gobernanza: audit trail inmutable JSONL, controles de cumplimiento automáticos
+OK Onboarding masivo: importación CSV, checklists por rol
+OK Git-nativo: todo es código, todo puede versionarse
 
 **En progreso (roadmap enterprise 2026-2027):**
 
-🚧 API REST: capa HTTP con OpenAPI para integraciones externas
-🚧 SSO/LDAP/Okta: identidad empresarial centralizada
-🚧 Conectores ERP: SAP, Salesforce, ServiceNow bidireccional
-🚧 BI avanzado: Tableau, Power BI, Looker
-🚧 Mobile: aplicación nativa iOS/Android
+ API REST: capa HTTP con OpenAPI para integraciones externas
+ SSO/LDAP/Okta: identidad empresarial centralizada
+ Conectores ERP: SAP, Salesforce, ServiceNow bidireccional
+ BI avanzado: Tableau, Power BI, Looker
+ Mobile: aplicación nativa iOS/Android
 
 Si necesitas SDD, sprint management, RBAC, multi-equipo, costos y gobernanza hoy, pm-workspace está lista.
 
@@ -239,7 +239,7 @@ Esta honestidad **construye confianza**. No promete lo que no puede cumplir.
 
 ---
 
-## 🚀 Cómo Empezar: 10 Minutos, Sin Riesgo
+##  Cómo Empezar: 10 Minutos, Sin Riesgo
 
 No necesitas comprometerte a nada. El piloto toma 10 minutos.
 
@@ -278,7 +278,7 @@ En cada etapa, podéis volver atrás. No hay lock-in. El código es vuestro.
 
 ---
 
-## 🎤 La Invitación
+##  La Invitación
 
 Si esto resuena con vosotros: si os cansáis de pagar €150K por herramientas que no os pertenecen, si buscáis **soberanía** sobre vuestra inteligencia organizacional, si queréis probar SDD y ver cómo multiplica vuestra velocidad...
 

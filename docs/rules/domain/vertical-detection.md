@@ -9,7 +9,7 @@ token_budget: 1036
 
 # Detección de Verticales — Algoritmo 5 Fases
 
-> 🦉 Savia detecta cuándo un proyecto pertenece a una vertical específica y propone extensiones.
+>  Savia detecta cuándo un proyecto pertenece a una vertical específica y propone extensiones.
 
 ---
 

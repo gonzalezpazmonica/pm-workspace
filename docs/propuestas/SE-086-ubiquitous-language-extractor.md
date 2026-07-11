@@ -89,9 +89,9 @@ Cross-reference desde SE-076 episodic memory: episodes con `entities` field que 
 
 ## Dependencias
 
-- ✅ SPEC-027 memory-graph.py existe
-- ✅ SE-076 Slice 1 episodic memory (entities field) IMPLEMENTED batch 72
-- ✅ `.opencode/skills/` directory
+- OK SPEC-027 memory-graph.py existe
+- OK SE-076 Slice 1 episodic memory (entities field) IMPLEMENTED batch 72
+- OK `.opencode/skills/` directory
 - Sin bloqueantes externos. Independiente de SE-081-085, SE-087.
 
 ## OpenCode Implementation Plan

@@ -2,7 +2,7 @@
 
 This section answers a key question for any PM evaluating this tool: what does it cover, what doesn't it cover, and what can never be covered by definition?
 
-## ✅ Covered and simplified
+## OK Covered and simplified
 
 The following classic PM/Scrum Master responsibilities are automated or significantly reduced in effort:
 
@@ -26,7 +26,7 @@ The following classic PM/Scrum Master responsibilities are automated or signific
 | Infrastructure planning and cost estimation | `/infra-plan`, `/infra-estimate` | High — multi-cloud infrastructure as code with automatic detection and cost analysis |
 | Multi-environment management | `/env-setup`, `/env-promote` | High — DEV/PRE/PRO environments with confidential configuration protection |
 
-## 🔮 Not yet covered — candidates for the future
+##  Not yet covered — candidates for the future
 
 Areas that would be naturally automatable with Claude and represent a logical evolution of the workspace:
 
@@ -44,7 +44,7 @@ Areas that would be naturally automatable with Claude and represent a logical ev
 
 **Assisted estimation of new PBIs:** Claude could estimate Story Points for a new PBI based on historical similar completed PBIs (semantic analysis of titles and acceptance criteria), reducing dependence on Planning Poker for simple items.
 
-## 🚫 Out of scope for automation — always human
+##  Out of scope for automation — always human
 
 These responsibilities cannot and should not be delegated to an agent for structural reasons: they require contextual judgment, formal accountability, human relationships, or strategic decisions that cannot be codified in a spec or prompt.
 

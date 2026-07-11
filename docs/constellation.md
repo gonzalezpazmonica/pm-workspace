@@ -7,7 +7,7 @@
 
 ```
                           ┌─────────────────────────┐
-                          │   🌳 SAVIA CORE         │
+                          │    SAVIA CORE         │
                           │   settings.json          │
                           │   CLAUDE.md              │
                           └────────┬────────────────┘
@@ -15,7 +15,7 @@
               ┌────────────┬───────┼───────┬────────────┐
               ▼            ▼       ▼       ▼            ▼
      ┌────────────┐ ┌──────────┐ ┌────┐ ┌──────┐ ┌─────────┐
-     │📝 Commands │ │🧠 Skills │ │🤖  │ │🛡️    │ │📏 Rules │
+     │ Commands │ │ Skills │ │  │ │    │ │ Rules │
      │    454     │ │    67    │ │ 33 │ │  17  │ │   105   │
      │            │ │          │ │Agt │ │Hooks │ │ domain  │
      └─────┬──────┘ └────┬─────┘ └──┬─┘ └──┬───┘ └─────────┘
@@ -24,7 +24,7 @@
                   │                          │
                   ▼                          ▼
      ┌─────────────────────────────────────────────────────┐
-     │              🧪 QUALITY INFRASTRUCTURE              │
+     │               QUALITY INFRASTRUCTURE              │
      │                                                     │
      │  Tests ─── Audit ─── Coverage ─── Security ─── Vuln │
      │   119      L0-L3      65%         0 findings   0    │
@@ -34,7 +34,7 @@
                            │
                            ▼
      ┌─────────────────────────────────────────────────────┐
-     │                  🔄 CI/CD Pipeline                  │
+     │                   CI/CD Pipeline                  │
      │                                                     │
      │  Validate ──── BATS Tests ──── Markdown Lint        │
      │  (JSON,secrets) (audit,coverage,security,vuln)      │
@@ -44,9 +44,9 @@
 ## Skills Maturity Distribution
 
 ```
-  🟢 Stable (51)  ████████████████████████████████████████████░░░░░░  76%
-  🟡 Beta    (2)  ██░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░   3%
-  🔴 Alpha  (14)  ██████████░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░  21%
+  OK Stable (51)  ████████████████████████████████████████████░░░░░░  76%
+  WARN Beta    (2)  ██░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░   3%
+  FAIL Alpha  (14)  ██████████░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░  21%
 ```
 
 ## Health Score Breakdown
@@ -65,15 +65,15 @@
 ## Stability Roadmap (Eras 79–87)
 
 ```
-  Era 79  ✅ BATS Testing ─────────┐
-  Era 80  ✅ Test Quality ──────────┤
-  Era 81  ✅ Coverage Metrics ──────┤
-  Era 82  ✅ Security Hardening ────┤──→ Quality Infrastructure
-  Era 83  ✅ Maturity Levels ───────┤
-  Era 84  ✅ Discoverability ───────┤
-  Era 85  ✅ Mock Mode ─────────────┤
-  Era 86  ✅ Vulnerability Scanner ─┤
-  Era 87  ✅ Strategic Vision ──────┘
+  Era 79  OK BATS Testing ─────────┐
+  Era 80  OK Test Quality ──────────┤
+  Era 81  OK Coverage Metrics ──────┤
+  Era 82  OK Security Hardening ────┤──→ Quality Infrastructure
+  Era 83  OK Maturity Levels ───────┤
+  Era 84  OK Discoverability ───────┤
+  Era 85  OK Mock Mode ─────────────┤
+  Era 86  OK Vulnerability Scanner ─┤
+  Era 87  OK Strategic Vision ──────┘
 ```
 
 ## Key Relationships

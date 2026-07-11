@@ -330,11 +330,11 @@ RAILS_ENV=production bin/rails s
 #### RUBY-SEC-01 — Credenciales hardcodeadas
 **Severidad**: Blocker
 ```ruby
-# ❌ Noncompliant
+# FAIL Noncompliant
 API_KEY = "sk-1234567890abcdef"
 DB_PASSWORD = "SuperSecret123"
 
-# ✅ Compliant
+# OK Compliant
 API_KEY = ENV.fetch('API_KEY')
 DB_PASSWORD = Rails.application.credentials.database_password
 ```
@@ -342,11 +342,11 @@ DB_PASSWORD = Rails.application.credentials.database_password
 #### RUBY-SEC-02 — eval() con entrada de usuario
 **Severidad**: Blocker
 ```ruby
-# ❌ Noncompliant
+# FAIL Noncompliant
 code = params[:expression]
 result = eval(code)  # ejecución arbitraria de código
 
-# ✅ Compliant
+# OK Compliant
 result = safe_eval(params[:expression])  # usar gema como Dentaku
 ```
 
@@ -355,11 +355,11 @@ result = safe_eval(params[:expression])  # usar gema como Dentaku
 #### RUBY-BUG-01 — N+1 queries en loops
 **Severidad**: Major
 ```ruby
-# ❌ Noncompliant
+# FAIL Noncompliant
 @orders = Order.all
 @orders.each { |order| order.user.name }  # N queries
 
-# ✅ Compliant
+# OK Compliant
 @orders = Order.includes(:user)  # 1 query
 @orders.each { |order| order.user.name }
 ```
@@ -367,10 +367,10 @@ result = safe_eval(params[:expression])  # usar gema como Dentaku
 #### RUBY-BUG-02 — mass_assignment sin permitting
 **Severidad**: Major
 ```ruby
-# ❌ Noncompliant
+# FAIL Noncompliant
 @user = User.new(params[:user])  # acepta cualquier parámetro
 
-# ✅ Compliant
+# OK Compliant
 @user = User.new(user_params)
 private def user_params
   params.require(:user).permit(:name, :email)
@@ -393,7 +393,7 @@ Usar early returns, extraer métodos y simplificar condicionales.
 **Severidad**: Critical
 Código Ruby no debe contener lógica de negocio en controllers. Usar service objects.
 ```ruby
-# ❌ Noncompliant - Lógica en controller
+# FAIL Noncompliant - Lógica en controller
 def create
   user = User.create(user_params)
   send_welcome_email(user) if user.valid?
@@ -401,7 +401,7 @@ def create
   render json: user
 end
 
-# ✅ Compliant - Usar service
+# OK Compliant - Usar service
 def create
   service = UserCreationService.new(user_params)
   if service.call

@@ -1,6 +1,6 @@
 # Accessibility in PM-Workspace
 
-> 🦉 I'm Savia. I adapt to how you work, not the other way around. If you need me to communicate differently, guide you step by step, or adapt my output for your screen reader — just configure it.
+>  I'm Savia. I adapt to how you work, not the other way around. If you need me to communicate differently, guide you step by step, or adapt my output for your screen reader — just configure it.
 
 ---
 

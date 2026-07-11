@@ -14,7 +14,7 @@ token_budget: 734
 13. **Git**: NUNCA commit/add en `main` — hook lo bloquea. Verificar rama antes de operar
 14. **CI Local**: antes de push → `bash scripts/validate-ci-local.sh`
 15. **UX**: CADA comando DEBE mostrar banner, prerequisitos, progreso, resultado. **El silencio es bug.**
-16. **Auto-compact**: Resultado >30 lineas → fichero + resumen. `Task` para pesados. Tras comando → `⚡ /compact`
+16. **Auto-compact**: Resultado >30 lineas → fichero + resumen. `Task` para pesados. Tras comando → ` /compact`
 17. **Anti-improvisacion**: Comando SOLO ejecuta lo de su `.md`. No cubierto → error + sugerencia
 18. **Serializacion**: scopes antes de Agent Teams. Solapan → serializar. Hook `scope-guard.sh`
 19. **Arranque seguro**: MCP/integraciones se cargan bajo demanda, NUNCA al inicio. Savia SIEMPRE arranca.

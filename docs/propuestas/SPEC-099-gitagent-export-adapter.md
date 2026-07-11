@@ -18,7 +18,7 @@ Los 56 agentes especializados de pm-workspace viven en formato propio
 (`.opencode/agents/{name}.md` con frontmatter Claude Code-específico). No son
 exportables a otros frameworks (OpenAI Assistants, CrewAI, Cursor, Lyzr).
 
-`open-gitagent/gitagent` (2.7k★, MIT, v0.2.0 abril 2026) propone un estándar
+`open-gitagent/gitagent` (2.7k, MIT, v0.2.0 abril 2026) propone un estándar
 git-native con adapters bidireccionales. Si gitagent gana adopción como THE
 standard de definición de agentes portable, los agentes de pm-workspace
 quedan en silo Claude Code.
@@ -144,7 +144,7 @@ Import gitagent → pm-workspace queda fuera del scope inicial. Razones:
 
 ## Justificación estratégica
 
-**Defensiva:** si gitagent se convierte en estándar de facto (trayectoria 2.7k★
+**Defensiva:** si gitagent se convierte en estándar de facto (trayectoria 2.7k
 en 6 meses sugiere posibilidad), los agentes pm-workspace quedan aislados.
 Adapter export es seguro de adoptar gitagent desde el día uno sin reescribir.
 

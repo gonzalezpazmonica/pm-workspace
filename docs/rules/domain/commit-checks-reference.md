@@ -30,14 +30,14 @@ Veredicto: APROBADO | APROBADO_CON_CAMBIOS_MENORES | RECHAZADO
 Leer `readme-update.md`. Verificar si staged tocan:
 `git diff --cached --name-only | grep -E "^\.claude/(commands|skills|agents|rules)/|^docs/"`
 
-- ✅ README staged o no requería actualización → continuar
-- 🔴 Falta README → delegar a `tech-writer` con cambios detectados
+- OK README staged o no requería actualización → continuar
+- FAIL Falta README → delegar a `tech-writer` con cambios detectados
 
 ## CHECK 8 — CLAUDE.md ≤ 150 líneas
 
 Si `CLAUDE.md` en staged: `wc -l CLAUDE.md`
-- ✅ ≤ 150 líneas → continuar
-- 🔴 > 150 líneas → delegar a `tech-writer` para comprimir
+- OK ≤ 150 líneas → continuar
+- FAIL > 150 líneas → delegar a `tech-writer` para comprimir
 
 ## CHECK 9 — Atomicidad del commit
 
@@ -55,7 +55,7 @@ Formato: `tipo(scope): descripción`
 - Tipo: feat | fix | docs | refactor | chore | test | ci
 - Descripción: inglés o español | ≤ 72 caracteres | sin punto final
 
-✅ Correcto → hacer commit | 🟡 Incorrecto → proponer corrección
+OK Correcto → hacer commit | WARN Incorrecto → proponer corrección
 
 ## TABLA DE DELEGACIÓN
 
@@ -65,12 +65,12 @@ Formato: `tipo(scope): descripción`
 | Tests unitarios fallan | `dotnet-developer` | Nombres tests + error message |
 | Formato .NET incorrecto | `dotnet-developer` | Ejecutar `dotnet format` |
 | Code review rechazado | `dotnet-developer` | Informe code-reviewer |
-| Code review rechazado 2 veces | ❌ Humano | Informe ambos intentos |
+| Code review rechazado 2 veces | FAIL Humano | Informe ambos intentos |
 | README no actualizado | `tech-writer` | Lista ficheros que requieren update |
 | CLAUDE.md > 150 líneas | `tech-writer` | Pedir compresión (preferir @imports) |
-| Commit no atómico | ❌ Humano | Sugerencia división — humano decide |
-| Secrets/datos privados | ❌ Humano | NUNCA delegar — escalar siempre |
-| Commit en main | ❌ Humano | NUNCA delegar — escalar siempre |
+| Commit no atómico | FAIL Humano | Sugerencia división — humano decide |
+| Secrets/datos privados | FAIL Humano | NUNCA delegar — escalar siempre |
+| Commit en main | FAIL Humano | NUNCA delegar — escalar siempre |
 
 ## FLUJO DE DELEGACIÓN
 

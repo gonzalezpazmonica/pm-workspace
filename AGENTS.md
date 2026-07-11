@@ -1,3 +1,6 @@
+---
+lang: es
+---
 # AGENTS.md
 
 > Auto-generated from `.opencode/agents/*.md`. **Do not edit by hand.**

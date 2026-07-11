@@ -19,13 +19,13 @@ triage_note: "roadmap doc without active owner; SPEC-004/006 archived"
 ## Estado actual (v3.21.0)
 
 ```
-✅ ESP32 con MicroPython — comunicación serial
-✅ LCD 16x2 — Savia escribe mensajes
-✅ LED RGB NeoPixel — indicadores de estado
-✅ Brain Bridge — claude -p como cerebro
-✅ 7 comandos: ping, led, lcd, ask, info, sensors, gpio, help
-✅ 73 Python tests + 33 BATS suites pasan
-✅ Firma de confidencialidad funciona en CI
+OK ESP32 con MicroPython — comunicación serial
+OK LCD 16x2 — Savia escribe mensajes
+OK LED RGB NeoPixel — indicadores de estado
+OK Brain Bridge — claude -p como cerebro
+OK 7 comandos: ping, led, lcd, ask, info, sensors, gpio, help
+OK 73 Python tests + 33 BATS suites pasan
+OK Firma de confidencialidad funciona en CI
 ```
 
 ---

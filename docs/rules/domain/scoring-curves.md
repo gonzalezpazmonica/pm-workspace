@@ -38,7 +38,7 @@ Lines    Score   Label
 ### Context Usage (% of 200K window)
 
 Optimal band model (llmfit + TurboQuant): peak is a BAND, not minimum.
-0% = not working. 100% = degraded. Sweet spot: 40-65%.
+0% = not working. 100% = degraded. convenient spot: 40-65%.
 
 ```
 Usage%   Score   Zone       Action

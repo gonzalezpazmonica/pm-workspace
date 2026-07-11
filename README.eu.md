@@ -1,8 +1,15 @@
+---
+lang: eu
+---
+
 <img width="1856" height="560" alt="pm-workspace header" src="https://raw.githubusercontent.com/gonzalezpazmonica/pm-workspace/main/docs/images/pm-workspace-header.png" />
 
 **Euskara** | [Gaztelania](README.md) | [English](README.en.md) | [Galego](README.gl.md) | [Catala](README.ca.md) | [Francais](README.fr.md) | [Deutsch](README.de.md) | [Portugues](README.pt.md) | [Italiano](README.it.md)
 
 # PM-Workspace
+
+> Kortesiazko itzulpena. Erreferentziazko bertsioa: [gaztelania](README.md).
+> Azken sinkronizazioa: 2026-07-09.
 
 [![CI](https://img.shields.io/github/actions/workflow/status/gonzalezpazmonica/pm-workspace/ci.yml?branch=main&label=CI&logo=github)](https://github.com/gonzalezpazmonica/pm-workspace/actions/workflows/ci.yml)
 [![Release](https://img.shields.io/github/v/release/gonzalezpazmonica/pm-workspace?logo=github)](https://github.com/gonzalezpazmonica/pm-workspace/releases)
@@ -21,12 +28,15 @@ Sprint-ak kontroletik irteten dira. Backlog-a lehentasunik gabe hazten da. Zuzen
 
 ```bash
 # 1. Instalatu
+
 curl -fsSL https://raw.githubusercontent.com/gonzalezpazmonica/pm-workspace/main/install.sh | bash
 
 # 2. Ireki Claude Code direktorioan
-cd pm-workspace && claude
+
+cd pm-workspace && opencode
 
 # 3. Saviak agurtzen zaitu eta izena galdetzen dizu. Gero:
+
 /sprint-status          # ← zure lehen komandoa
 ```
 
@@ -49,7 +59,7 @@ Savia zuri moldatzen zaizu. PM bazara, sprint-ak eta ahalmena erakusten dizkizu.
 
 ---
 
-## Kaixo, Savia naiz 🦉
+## Kaixo, Savia naiz 
 
 pm-workspace barruan bizi den hontzatxoa naiz. Zure rolera, zure hizkuntzara eta zure lan-erara moldatzen naiz. Azure DevOps-ekin, Jira-rekin edo %100 Git-native Savia Flow-ekin funtzionatzen dut.
 
@@ -68,18 +78,24 @@ pm-workspace barruan bizi den hontzatxoa naiz. Zure rolera, zure hizkuntzara eta
 
 ## Zer dago barruan
 
-**532 komando · 64 agente · 76 skill · 55 hook · 16 hizkuntza · 160 test suite**
+**532 komando · 65 agente · 86 skill · 58 hook · 16 hizkuntza · 283+ test suite**
 
 ### Proiektuen kudeaketa
+
 Sprint-ak, burndown-a, ahalmena, dailyak, retroak, KPIak. Txostenak Excel eta PowerPoint formatuan. Monte Carlo bidezko iragarpena. Fakturazioa eta kostuak.
 
 ### Spec-Driven Development (SDD)
+
 Zereginak spec bihurtzen dira. Agenteek 16 hizkuntzatan inplementatzen dute (C#, TypeScript, Python, Java, Go, Rust, PHP, Ruby, Swift, Kotlin, Flutter, COBOL...) worktree isolatuetan. Code review automatikoa + giza berrikusketa derrigorrezkoa.
 
+**Bateragarria `github/spec-kit`-ekin**: `/speckit.constitution`, `/speckit.specify`, `/speckit.clarify`, `/speckit.plan`, `/speckit.tasks`, `/speckit.analyze`, `/speckit.implement` eta `/speckit.checklist` slash komandoak Savia-ren SDD fluxu natiboan delegatzen duten alias meheak dira. Ikusi `docs/agent-teams-sdd.md`.
+
 ### Segurtasuna eta Code Review Court
+
 SAST OWASP Top 10-aren aurka, Red/Blue/Auditor pipeline-a, pentesting dinamikoa, SBOM, compliance 12 sektoretan. Savia Shield: datuen sailkapen lokala on-premise LLM-arekin, maskaratze itzulgarria, PR-en sinadura kriptografikoa. **Code Review Court**: 5 epaile espezializatu (correctness, architecture, security, cognitive, spec) paraleloan berrikusten dute, 0-100 puntuazioarekin eta 400 LOC gatera.
 
 ### Inferentzia subiranotasuna
+
 Savia lehenespenez Anthropic-en API-aren aurka exekutatzen da (kalitate maximoa). Hodeia huts egiten duenean — kablea eroria, outage-a, kuota agortua, latentzia onartezina — bi jarraitutasun aukera daude, biak tokiko Ollama-ren gainean Gemma 4-ren aldaerekin, hardwarearen arabera hautatuak:
 
 | Modua | Aktibazioa | Noiz erabili |
@@ -94,19 +110,24 @@ Bi aukerek zure datuak zure makinaren barruan mantentzen dituzte toki-moduan. In
 Docs: [Savia Dual](docs/savia-dual.md) · [Emergency Mode](docs/EMERGENCY.md) · Instalatzaileak: `scripts/setup-savia-dual.{sh,ps1}`
 
 ### Memoria iraunkorra
+
 Testu arrunta (JSONL). Entity recall, bilaketa semantikoa, saioen arteko jarraitutasuna. Erabakien erauzketa automatikoa trinkotu aurretik. Personal Vault AES-256-rekin zifratua.
 
 ### Irisgarritasuna
+
 Lan gidatua desgaitasunak dituzten pertsonentzat (ikusmena, motorra, AGAH, autismoa, dislexia). Mikro-zereginak, blokeoen detekzioa, birformulatze moldagarria.
 
 ### Kode-adimena
-Arkitektura-detekzioa (Clean, Hexagonal, DDD, CQRS, Microservices). Fitness functions. Human Code Maps (.hcm) zor kognitiboa murrizten dutenak.
+
+Arkitektura-detekzioa (Clean, Hexagonal, DDD, CQRS, Microservices). Fitness functions. Human Code Maps (.hcm) zor kognitiboa murrizten dutenak. Agent Code Maps (.acm) eta `ast-comprehension` [CodeGraph](https://github.com/colbymchenry/codegraph) motor aukerakoarekin (MCP, proiektuko opt-in).
 
 ### Modu autonomoak
+
 Gaueko sprint-a, kodearen hobekuntza, ikerketa teknikoa. Agenteek `agent/*` adarretan proposatzen dute Draft PR-ekin — gizakiak beti erabakitzen du.
 
 ### Luzapenak
-[Savia Mobile](projects/savia-mobile-android/README.md) (Android natiboa) · [Savia Web](projects/savia-web/README.md) (Vue.js dashboardak) · [SaviaClaw](zeroclaw/ROADMAP.md) (ESP32 + ahots full-duplex)
+
+[Savia Mobile](projects/savia-mobile-android/README.md) (Android natiboa) · Savia Web (Vue.js dashboardak) · [SaviaClaw](zeroclaw/ROADMAP.md) (ESP32 + ahots full-duplex)
 
 ---
 
@@ -116,9 +137,9 @@ Gaueko sprint-a, kodearen hobekuntza, ikerketa teknikoa. Agenteek `agent/*` adar
 pm-workspace/
 ├── .claude/
 │   ├── commands/       ← 532 komando
-│   ├── agents/         ← 64 agente espezializatu
-│   ├── skills/         ← 91 domeinu skill
-│   ├── hooks/          ← 55 hook deterministiko
+│   ├── agents/         ← 65 agente espezializatu (7 decision tree-rekin: SPEC-147)
+│   ├── skills/         ← 86 domeinu skill
+│   ├── hooks/          ← 58 hook deterministiko
 │   └── rules/          ← testuinguru eta hizkuntza arauak
 ├── docs/               ← gidak rolaren, eszenarioaren, sektorearen arabera
 ├── projects/           ← proiektuak (git-ignoratuak pribatutasunagatik)

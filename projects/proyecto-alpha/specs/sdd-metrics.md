@@ -14,14 +14,14 @@
 Añadir una fila por cada Task completada vía SDD.
 
 **Spec Quality:**
-- ✅ Completa: todos los criterios de calidad cumplidos antes de implementar
-- ⚠️ Incompleta: faltaban campos, el agente tuvo que detenerse
-- ❌ Fallida: la Spec tenía errores que causaron fallo en implementación
+- OK Completa: todos los criterios de calidad cumplidos antes de implementar
+- WARN Incompleta: faltaban campos, el agente tuvo que detenerse
+- FAIL Fallida: la Spec tenía errores que causaron fallo en implementación
 
 **Impl OK?:**
-- ✅ : Implementación correcta al primer intento (build + tests OK)
-- ⚠️ : Necesitó correcciones menores (< 2 iteraciones del agente)
-- ❌ : Fallida o requerió intervención humana
+- OK : Implementación correcta al primer intento (build + tests OK)
+- WARN : Necesitó correcciones menores (< 2 iteraciones del agente)
+- FAIL : Fallida o requerió intervención humana
 
 **Review Issues:** Número de issues encontrados en el Code Review humano post-agente.
 
@@ -37,13 +37,13 @@ Objetivo: > 60% para el Q2 2026
 
 ### Calidad de Specs
 ```
-Specs con quality "✅ Completa" / Total specs = {N}%
+Specs con quality "OK Completa" / Total specs = {N}%
 Objetivo: > 80%
 ```
 
 ### Tasa de Éxito de Agentes (primer intento)
 ```
-Impl OK "✅" / Total specs de agente = {N}%
+Impl OK "OK" / Total specs de agente = {N}%
 Objetivo: > 75%
 ```
 

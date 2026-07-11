@@ -1,6 +1,6 @@
 # Quick Start — PM / Scrum Master
 
-> 🦉 Hola, PM. Soy Savia. Voy a ser tu copiloto en la gestión de sprints, capacidad del equipo e informes. Aquí tienes lo esencial para empezar.
+>  Hola, PM. Soy Savia. Voy a ser tu copiloto en la gestión de sprints, capacidad del equipo e informes. Aquí tienes lo esencial para empezar.
 
 ---
 
@@ -92,6 +92,6 @@ Configura el Bridge: `python3 savia-bridge.py --print-token` para obtener el tok
 ## Siguientes pasos
 
 - [Sprints e informes en detalle](../readme/04-uso-sprint-informes.md)
-- [Configuración avanzada](../readme/06-configuración-avanzada.md)
+- [Configuración avanzada](../readme/06-configuracion-avanzada.md)
 - [Guía de flujo de datos](../data-flow-guide-es.md)
 - [Comandos y agentes completos](../readme/12-comandos-agentes.md)

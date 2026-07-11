@@ -418,7 +418,7 @@ Target Savia Flow: <1%
 Calculation:
 ├─ Bugs found in production last month: 3
 ├─ Total features deployed: 40
-├─ Escape rate: 3/40 = 7.5% ❌ (too high)
+├─ Escape rate: 3/40 = 7.5% FAIL (too high)
 
 Investigation:
 ├─ Bugs found: Off-by-one (not caught by tests)

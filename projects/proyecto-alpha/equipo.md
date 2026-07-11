@@ -120,15 +120,15 @@ Tabla de capacity estimada por persona para los próximos sprints:
 
 | Habilidad | Juan | Ana | Pedro | María |
 |-----------|------|-----|-------|-------|
-| .NET Core / C# | ⭐⭐⭐ | ⭐⭐⭐ | ⭐⭐⭐ | ⭐ |
-| Angular / TypeScript | ⭐ | ⭐⭐⭐ | ⭐ | ⭐ |
-| SQL Server / EF Core | ⭐⭐⭐ | ⭐⭐ | ⭐⭐⭐ | — |
-| Azure DevOps / CI-CD | ⭐⭐⭐ | ⭐ | ⭐⭐ | ⭐ |
-| Testing / QA | ⭐⭐ | ⭐⭐ | ⭐ | ⭐⭐⭐ |
-| Arquitectura | ⭐⭐⭐ | ⭐ | ⭐⭐ | — |
-| Azure Services | ⭐⭐ | ⭐ | ⭐⭐⭐ | — |
+| .NET Core / C# |  |  |  |  |
+| Angular / TypeScript |  |  |  |  |
+| SQL Server / EF Core |  |  |  | — |
+| Azure DevOps / CI-CD |  |  |  |  |
+| Testing / QA |  |  |  |  |
+| Arquitectura |  |  |  | — |
+| Azure Services |  |  |  | — |
 
-⭐ Básico | ⭐⭐ Competente | ⭐⭐⭐ Experto
+ Básico |  Competente |  Experto
 
 ---
 
@@ -224,7 +224,7 @@ Fuerza humano:
 
 ## Capacity Total con Agentes
 
-| Sprint | Juan | Ana | Pedro | María | 🤖 Agentes | Total efectivo |
+| Sprint | Juan | Ana | Pedro | María |  Agentes | Total efectivo |
 |--------|------|-----|-------|-------|-----------|----------------|
 | 2026-04 | 60h | 60h | 50h | 60h | ~40h estimadas | ~270h efectivas |
 | 2026-05 | 60h | 60h | 60h | 60h | ~40h estimadas | ~280h efectivas |

@@ -44,7 +44,7 @@ con prefijo que el usuario reconozca como progreso de la misma tarea).
 - **REQ-04** Mensaje final sin prefijo — cuando la tarea termina, se envía el resultado
   completo como mensaje normal.
 
-- **REQ-05** Si la tarea falla (timeout, error), se envía "✗ No pude completarlo: {error}".
+- **REQ-05** Si la tarea falla (timeout, error), se envía " No pude completarlo: {error}".
 
 ## AC
 

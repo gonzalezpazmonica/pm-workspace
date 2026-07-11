@@ -30,7 +30,7 @@
 
 ### 3. Coherencia emoji/reglas — 10/10 (antes: 4/10)
 
-- **Antes**: autonomous-safety.md usaba ❌ cuando la propia regla prohíbe emojis en output de Savia.
+- **Antes**: autonomous-safety.md usaba FAIL cuando la propia regla prohíbe emojis en output de Savia.
 - **Ahora**: line 82 reemplazado con "ERROR:". Grep confirmó 0 emojis en fichero.
 
 ### 4. Duplicación Radical Honesty — 9/10 (antes: 4/10)

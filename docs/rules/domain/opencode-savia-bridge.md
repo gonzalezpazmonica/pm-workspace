@@ -60,11 +60,11 @@ Eventos sin binding nativo (`Notification`, etc.) quedan documentados como `# op
 
 ## Garantías de seguridad (autonomous-safety)
 
-- ❌ El plugin NUNCA hace `git push`, `gh pr merge`, `--force`
-- ❌ El plugin NUNCA aprueba un PR autónomamente
-- ✅ `permission.ask` retorna `deny` para acciones destructivas en branches `agent/*` o `spec-*`
-- ✅ AUTONOMOUS_REVIEWER respetado vía variable de entorno (mismo contrato que Claude Code)
-- ✅ Audit log append-only en `~/.savia/audit/savia-gates.jsonl`
+- FAIL El plugin NUNCA hace `git push`, `gh pr merge`, `--force`
+- FAIL El plugin NUNCA aprueba un PR autónomamente
+- OK `permission.ask` retorna `deny` para acciones destructivas en branches `agent/*` o `spec-*`
+- OK AUTONOMOUS_REVIEWER respetado vía variable de entorno (mismo contrato que Claude Code)
+- OK Audit log append-only en `~/.savia/audit/savia-gates.jsonl`
 
 ## Parity audit + canary
 

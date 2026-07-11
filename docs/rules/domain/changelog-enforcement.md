@@ -50,7 +50,7 @@ Antes de crear un commit que incluya tag de versión:
 3. Verificar que los contadores reflejan el estado real
 4. **CRITICAL — Verificar que el link de comparación existe al final del fichero**
 
-### ⚠️ STOP — Error recurrente: link de comparación olvidado
+### WARN STOP — Error recurrente: link de comparación olvidado
 
 **BLOQUEANTE**: NO hacer commit de CHANGELOG.md sin completar estos 2 pasos:
 1. Añadir heading `## [X.Y.Z] — YYYY-MM-DD` al principio del fichero

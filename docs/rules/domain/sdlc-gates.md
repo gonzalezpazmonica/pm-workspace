@@ -13,46 +13,46 @@ Puede sobrescribirse por proyecto en `projects/{proyecto}/policies/sdlc-gates.js
 ### BACKLOG → DISCOVERY
 - Gate: acceptance_criteria_present
 - Evaluación: Campo `acceptance_criteria` no vacío y >50 caracteres
-- Por defecto: ✅ Requerida
+- Por defecto: OK Requerida
 
 ### DISCOVERY → DECOMPOSED
 - Gate: technical_stories_identified
 - Evaluación: ≥3 tareas técnicas vinculadas
-- Por defecto: ✅ Requerida
+- Por defecto: OK Requerida
 
 ### DECOMPOSED → SPEC_READY
 - Gate: spec_documented
 - Evaluación: Fichero `spec.md` existe y >200 caracteres
-- Por defecto: ✅ Requerida
+- Por defecto: OK Requerida
 
 ### SPEC_READY → IN_PROGRESS
 - Gate: spec_approved
 - Evaluación: approval_status = "approved"
-- Por defecto: ✅ Requerida
+- Por defecto: OK Requerida
 
 - Gate: security_review_passed
 - Evaluación: security_review = "passed"
-- Por defecto: ✅ Requerida
+- Por defecto: OK Requerida
 
 ### IN_PROGRESS → VERIFICATION
 - Gate: development_completed
 - Evaluación: Todos commits merged a main
-- Por defecto: ✅ Requerida
+- Por defecto: OK Requerida
 
 - Gate: ci_passing
 - Evaluación: ci_status = "passing"
-- Por defecto: ✅ Requerida
+- Por defecto: OK Requerida
 
 ### VERIFICATION → REVIEW
 - Gate: all_tests_pass
 - Evaluación: Todos 5 niveles (unit, integration, e2e, perf, security)
-- Por defecto: ✅ Requerida
+- Por defecto: OK Requerida
 
 ### REVIEW → DONE
 - Gate: code_review_approved (true)
 - Gate: prod_tests_passing ("passed")
 - Gate: deployment_successful (true)
-- Por defecto: ✅ Requeridas
+- Por defecto: OK Requeridas
 
 ## Override por Proyecto
 

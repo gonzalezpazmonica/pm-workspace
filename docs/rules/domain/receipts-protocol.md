@@ -97,10 +97,10 @@ Al crear un edge temporal, el campo `evidence` ES el receipt:
 
 ## Anti-patterns
 
-- ❌ "El código probablemente funciona porque vi tests similares" (sin receipt)
-- ❌ "Según mi memoria, esto está en SPEC-XXX" (sin spec#AC)
-- ❌ "Creo que Laura lo decidió la semana pasada" (sin decision-log anchor)
-- ❌ Link a web sin `accessed: ISO-date` (el contenido cambia)
+- FAIL "El código probablemente funciona porque vi tests similares" (sin receipt)
+- FAIL "Según mi memoria, esto está en SPEC-XXX" (sin spec#AC)
+- FAIL "Creo que Laura lo decidió la semana pasada" (sin decision-log anchor)
+- FAIL Link a web sin `accessed: ISO-date` (el contenido cambia)
 
 ## Ejemplos buenos
 

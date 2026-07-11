@@ -32,14 +32,14 @@ El presupuesto se calcula sobre un contexto base de **100K tokens** que incluye:
 
 Si contexto actual > umbral de alerta:
 ```
-⚠️ Contexto alto (XX%). Compresión recomendada antes de {operación}.
+WARN Contexto alto (XX%). Compresión recomendada antes de {operación}.
 ```
 
 ## Compresión Obligatoria
 
 Si contexto actual > presupuesto máximo:
 ```
-❌ Contexto excede presupuesto para {operación} (XX% > YY%).
+FAIL Contexto excede presupuesto para {operación} (XX% > YY%).
    Ejecuta /compact ahora, o reduce scope.
 ```
 

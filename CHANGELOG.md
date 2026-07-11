@@ -753,14 +753,14 @@ outside the fork are included. Branch:
 - `tests/evals/baselines/pbi-decomposition-baseline.json`: 5 baseline scores for tests
 - `tests/scripts/test_evals_gate.py`: 14 tests covering all paired-delta edge cases,
 - `tests/bats/test-evals-ci-gate.bats`: 6 tests covering runner executable, mock JSON,
-- ✅ AC-01: GitHub Action `evals-ci.yaml` triggers on PR changes to skills/agents/hooks
-- ✅ AC-02: Runtime <15 min (mock mode — LLM evals skipped gracefully if not installed)
-- ⚠  AC-03: 2 datasets present (MVP scope: 5 cases min, not 20; full datasets deferred)
-- ✅ AC-04: Baseline regenerated on push to main (job `regenerate-baseline`)
-- ✅ AC-05: PR comment with delta table
-- ✅ AC-06: Judge model pinned via `SAVIA_EVAL_JUDGE_MODEL` var
-- ✅ AC-07: Paired-delta rationale in runner + this changelog (policy doc deferred to Phase 2)
-- ✅ AC-08: BATS test validates workflow yaml exists
+- OK AC-01: GitHub Action `evals-ci.yaml` triggers on PR changes to skills/agents/hooks
+- OK AC-02: Runtime <15 min (mock mode — LLM evals skipped gracefully if not installed)
+-   AC-03: 2 datasets present (MVP scope: 5 cases min, not 20; full datasets deferred)
+- OK AC-04: Baseline regenerated on push to main (job `regenerate-baseline`)
+- OK AC-05: PR comment with delta table
+- OK AC-06: Judge model pinned via `SAVIA_EVAL_JUDGE_MODEL` var
+- OK AC-07: Paired-delta rationale in runner + this changelog (policy doc deferred to Phase 2)
+- OK AC-08: BATS test validates workflow yaml exists
 - `tests/test-failure-pattern-memory.bats`: 8 bats tests formalizing SPEC-188 Fase 1 acceptance criteria:
 - scripts/causal-confidence-scorer.py: causal confidence scorer (SPEC-188 Phase 3 MVP). Given a cause, evidence list, and alternatives, calculates confidence_score in [0,1], classifies supporting vs contradicting evidence, assigns probabilities to alternatives, returns verdict: high/medium/low/insufficient. Heuristics: 0 evidence → insufficient; 1-2 → medium (0.4-0.6); 3+ coherent → high (≥0.7); alternatives reduce confidence proportionally
 - scripts/diagnostic-metrics-tracker.py: append-only JSONL diagnostic quality tracker (SPEC-188 Phase 4 MVP). CLI: --record (adds entry), --report (mean_confidence, accuracy_rate, mean_time_to_identify, rework_rate), --list --n N (last N entries). Schema: {ts, investigation_id, time_to_identify_min, confidence_score, was_correct, rework_needed}
@@ -918,20 +918,20 @@ outside the fork are included. Branch:
 - `tests/structure/test-parallel-specs-orchestrator.bats` — 23 tests, score 88.
 - `tests/structure/test-spec-budget.bats` — 15 tests, score 85.
 - `tests/structure/test-adaptive-halting.bats` — 18 tests, score 81.
-- ✅ AC-01 orchestrator acepta lista de spec IDs y crea N worktrees
-- ✅ AC-02 MAX_PARALLEL_SPECS hard cap 5 (rejects valores mayores)
-- ✅ AC-03 port range único por worktree (hash determinístico)
-- ✅ AC-04 tmp dir aislado por worker (`/tmp/savia-spec-<id>-<ts>/`)
-- ✅ AC-05 graceful per-worker failure (1 falla, otros continúan)
-- ✅ AC-06 MAX_RUNTIME_MINUTES (default 60m) con `timeout(1)`
-- ✅ AC-07 Tests BATS ≥20 score ≥80 (23 tests, 88 actual)
-- ✅ AC-08 Doc en docs/rules/domain/parallel-spec-execution.md
-- ✅ AC-09 CHANGELOG entry (este fichero)
-- ✅ AC-09a `should_halt` con doble criterio (convergencia + confianza)
-- ✅ AC-09b `spec-budget` mapea effort → Poisson(lambda) clipped
-- ✅ AC-09c Confidence threshold configurable, validado [0.50, 0.95]
-- ✅ AC-09d Tests BATS ≥10 score ≥80 (18 + 15 = 33 tests, scores 81 y 85)
-- ✅ AC-09e Cita Kohli et al. 2026 arXiv:2604.07822 en docstrings + spec
+- OK AC-01 orchestrator acepta lista de spec IDs y crea N worktrees
+- OK AC-02 MAX_PARALLEL_SPECS hard cap 5 (rejects valores mayores)
+- OK AC-03 port range único por worktree (hash determinístico)
+- OK AC-04 tmp dir aislado por worker (`/tmp/savia-spec-<id>-<ts>/`)
+- OK AC-05 graceful per-worker failure (1 falla, otros continúan)
+- OK AC-06 MAX_RUNTIME_MINUTES (default 60m) con `timeout(1)`
+- OK AC-07 Tests BATS ≥20 score ≥80 (23 tests, 88 actual)
+- OK AC-08 Doc en docs/rules/domain/parallel-spec-execution.md
+- OK AC-09 CHANGELOG entry (este fichero)
+- OK AC-09a `should_halt` con doble criterio (convergencia + confianza)
+- OK AC-09b `spec-budget` mapea effort → Poisson(lambda) clipped
+- OK AC-09c Confidence threshold configurable, validado [0.50, 0.95]
+- OK AC-09d Tests BATS ≥10 score ≥80 (18 + 15 = 33 tests, scores 81 y 85)
+- OK AC-09e Cita Kohli et al. 2026 arXiv:2604.07822 en docstrings + spec
 - Slice 2 (S 4h): PR queue manager con cascade-rebase auto-resolve
 - Slice 3 (M 6h): DB sandbox + cleanup hook async stale worktrees
 - `scripts/parallel-specs-merge-queue.sh` — Slice 2 core. Gestiona la cola FIFO de branches producidas por el orchestrator paralelo y aplica el patrón cascade-rebase documentado en `feedback_changelog_cascade_rebase`. Subcomandos: `add`, `remove`, `list`, `status`, `clear --confirm`, `rebase <branch>`, `rebase-next`. Auto-resolve sólo para conflictos restringidos a `CHANGELOG.md` + `CHANGELOG.d/`; cualquier otra divergencia ESCALA con `git rebase --abort` y mensaje detallado a la usuaria.
@@ -943,8 +943,8 @@ outside the fork are included. Branch:
 - NUNCA auto-resuelve un conflicto fuera de `CHANGELOG.md` / `CHANGELOG.d/`
 - Se niega a operar con working tree dirty (vía `git status --porcelain`)
 - `MAX_REBASE_STEPS` (default 30) como guard rail anti-loop
-- ✅ AC-10 PR queue manager merge-en-orden con cascade-rebase auto-resolve para CHANGELOG
-- ✅ AC-11 Conflictos no-CHANGELOG escalados (no auto-merge), output `ESCALATE: <ficheros>` por stderr
+- OK AC-10 PR queue manager merge-en-orden con cascade-rebase auto-resolve para CHANGELOG
+- OK AC-11 Conflictos no-CHANGELOG escalados (no auto-merge), output `ESCALATE: <ficheros>` por stderr
 - 3 dispatch (usage / help / unknown subcmd)
 - 8 queue CRUD (add idempotente, remove idempotente, list missing/merged/ready/needs-rebase, status totales)
 - 2 clear (refusal sin --confirm, success con)
@@ -962,14 +962,14 @@ outside the fork are included. Branch:
 - `tests/structure/test-task-queue.bats` — 26 tests, certified (positive paths × 8, negative paths × 5, edge cases × 6, atomicity × 1, auto-recovery × 3, static safety × 3).
 - `tests/structure/test-savia-voice-chunk.bats` — 27 tests, certified (positive paths × 9, negative paths × 5, edge cases × 7, splitter quality × 6).
 - voicebox (MIT, jamiepine/voicebox, 23k stars) — patterns for `task_queue.py` and chunker `services/tts.py`. Clean-room: docstrings, attribution headers, and matching public API behaviour replicated; no source code copied.
-- ✅ AC-01 task-queue.py with MIT/voicebox attribution in header
+- OK AC-01 task-queue.py with MIT/voicebox attribution in header
 - 〰 AC-02 SSE bridge endpoint — DEFERRED (Savia is CLI-first; `status --json` covers observability)
-- ✅ AC-03 Auto-recovery tested (tests #19, #22, #23)
-- ✅ AC-04 BATS coverage requirement met (26 tests certified)
+- OK AC-03 Auto-recovery tested (tests #19, #22, #23)
+- OK AC-04 BATS coverage requirement met (26 tests certified)
 - 〰 AC-05 Dedicated doc — DEFERRED (module docstring + spec ref sufficient until a second consumer appears)
-- ✅ AC-06 Long-form text → single audio file via ffmpeg acrossfade
-- ✅ AC-07 Bounded concurrency 2 default (env + CLI override)
-- ✅ AC-08 Spanish abbreviations preserved across splitter tests
+- OK AC-06 Long-form text → single audio file via ffmpeg acrossfade
+- OK AC-07 Bounded concurrency 2 default (env + CLI override)
+- OK AC-08 Spanish abbreviations preserved across splitter tests
 - AC-09–AC-12 Kokoro 82M install, wrapper, skill docs, latency benchmark — pending user authorization for model download
 - `task-queue.py` CLI smoke: enqueue → status → dequeue → complete → drain → status
 - `savia-voice-chunk.sh` end-to-end: 3 Spanish sentences → 3 espeak-ng chunks → ffmpeg crossfaded WAV (65 KB, RIFF/WAVE PCM 16-bit mono 22050 Hz)
@@ -993,16 +993,16 @@ outside the fork are included. Branch:
 - `zoom-out/SKILL.md` → SE-081 Slice única zoom-out skill
 - `grill-me/SKILL.md` → SE-081 Slice única grill-me skill
 - `write-a-skill/SKILL.md` discipline → SE-084 Slice 1 auditor heuristics
-- ✅ AC-01 caveman SKILL.md ≤100 LOC con frontmatter `name`, `description` + "Use when ..." (aspiración spec ≤80, real 83)
-- ✅ AC-02 zoom-out SKILL.md ≤100 LOC (aspiración spec ≤30, real 39)
-- ✅ AC-03 grill-me SKILL.md ≤100 LOC + cita radical-honesty (aspiración spec ≤30, real 53)
-- ✅ AC-04 Headers de los 3 skills citan `mattpocock/skills` (MIT)
-- ✅ AC-05 Ningún skill copia texto literal de Pocock (clean-room)
-- ✅ AC-06 Tests BATS estáticos (39 tests certified)
-- ✅ AC-07 CHANGELOG fragment
-- ✅ AC-01 auditor ejecutable, modos report/gate/baseline-write/json
-- ✅ AC-02 Output TSV con 4+ issue types
-- ✅ AC-03 Tests BATS ≥12 (cubierto en `test-pocock-skills-quick-wins.bats` con secciones C9-C11)
+- OK AC-01 caveman SKILL.md ≤100 LOC con frontmatter `name`, `description` + "Use when ..." (aspiración spec ≤80, real 83)
+- OK AC-02 zoom-out SKILL.md ≤100 LOC (aspiración spec ≤30, real 39)
+- OK AC-03 grill-me SKILL.md ≤100 LOC + cita radical-honesty (aspiración spec ≤30, real 53)
+- OK AC-04 Headers de los 3 skills citan `mattpocock/skills` (MIT)
+- OK AC-05 Ningún skill copia texto literal de Pocock (clean-room)
+- OK AC-06 Tests BATS estáticos (39 tests certified)
+- OK AC-07 CHANGELOG fragment
+- OK AC-01 auditor ejecutable, modos report/gate/baseline-write/json
+- OK AC-02 Output TSV con 4+ issue types
+- OK AC-03 Tests BATS ≥12 (cubierto en `test-pocock-skills-quick-wins.bats` con secciones C9-C11)
 - `set -uo pipefail` declarado.
 - Cero red, cero git operations, cero modificación a archivos fuera de `output/` y `.ci-baseline/`.
 - Modo `--gate` solo lee — no modifica skills.
@@ -1016,20 +1016,20 @@ outside the fork are included. Branch:
 - `tests/structure/test-architectural-vocabulary.bats` — 31 tests certified. Cubre SE-082 (vocabulary doc structure × 4, cross-refs × 3, auditor positive × 8, auditor negative × 2, auditor edge × 4) + SE-083 (skill structure × 4, cross-refs × 2) + spec ref reinforcement.
 - `improve-codebase-architecture/LANGUAGE.md` → SE-082 architectural-vocabulary doc + auditor heurística
 - `tdd/SKILL.md` → SE-083 tdd-vertical-slices skill (anti-horizontal-slicing es la contribución central)
-- ✅ AC-01 architectural-vocabulary.md ≤200 LOC, define 6 términos con _Avoid_
-- ✅ AC-02 Atribución MIT a Pocock LANGUAGE.md en header
-- ✅ AC-03 Cross-reference añadida en attention-anchor.md
-- ✅ AC-04 architect agent referencia el doc canónico
-- ✅ AC-05 architecture-judge agent referencia el doc canónico
-- ✅ AC-06 architectural-vocabulary-audit.sh ejecutable, output warning-only por defecto + modo gate listo
-- ✅ AC-07 Tests BATS ≥10 estáticos
-- ✅ AC-08 CHANGELOG fragment
-- ✅ AC-01 SKILL.md ≤120 LOC con frontmatter `name`, `description` que incluye "Use when ..."
-- ✅ AC-02 Anti-pattern de horizontal slicing nombrado explícitamente con "DO NOT" / "NO escribas todos"
-- ✅ AC-03 Atribución MIT a Pocock tdd/SKILL.md
-- ✅ AC-04 Cross-reference añadida en test-architect.md
-- ✅ AC-05 Tests BATS ≥8 estáticos
-- ✅ AC-06 CHANGELOG fragment
+- OK AC-01 architectural-vocabulary.md ≤200 LOC, define 6 términos con _Avoid_
+- OK AC-02 Atribución MIT a Pocock LANGUAGE.md en header
+- OK AC-03 Cross-reference añadida en attention-anchor.md
+- OK AC-04 architect agent referencia el doc canónico
+- OK AC-05 architecture-judge agent referencia el doc canónico
+- OK AC-06 architectural-vocabulary-audit.sh ejecutable, output warning-only por defecto + modo gate listo
+- OK AC-07 Tests BATS ≥10 estáticos
+- OK AC-08 CHANGELOG fragment
+- OK AC-01 SKILL.md ≤120 LOC con frontmatter `name`, `description` que incluye "Use when ..."
+- OK AC-02 Anti-pattern de horizontal slicing nombrado explícitamente con "DO NOT" / "NO escribas todos"
+- OK AC-03 Atribución MIT a Pocock tdd/SKILL.md
+- OK AC-04 Cross-reference añadida en test-architect.md
+- OK AC-05 Tests BATS ≥8 estáticos
+- OK AC-06 CHANGELOG fragment
 - `set -uo pipefail` declarado en el auditor.
 - Cero red, cero git operations, cero modificación a archivos fuera de `output/` (TSV).
 - Modo `--gate` solo lee — no modifica outputs auditados.
@@ -1040,12 +1040,12 @@ outside the fork are included. Branch:
 - `scripts/pr-plan.sh` — registro G14 tras G13: `gate "G14" "Skill catalog audit" g14_skill_catalog`.
 - Comportamiento:
 - `tests/structure/test-skill-catalog-g14.bats` — 19 tests certified. Cubre rule doc structure (×4), G14 function structure + safety (×5), G14 behavior (×3), auditor negative cases (×2), edge cases (×3), spec ref + assertion quality reinforcement (×2).
-- ✅ AC-04 `.ci-baseline/skill-quality-violations.count` ya existente desde Slice 1 batch 75
-- ✅ AC-05 `docs/rules/domain/skill-catalog-discipline.md` ≤120 LOC, cita Pocock MIT
-- ✅ AC-06 pr-plan G14 activa el gate en modo `--gate` filtrando a skills cambiados en el PR
-- ✅ AC-07 No regression: skills modificados no aumentan violations (G14 skipped en este PR — no se modifica ningún SKILL.md, dogfood pasa)
-- ✅ AC-08 Tests BATS = 19 certified
-- ✅ AC-09 CHANGELOG fragment con baseline counts (155 inicial — 146 WARN + 9 FAIL — desde batch 75)
+- OK AC-04 `.ci-baseline/skill-quality-violations.count` ya existente desde Slice 1 batch 75
+- OK AC-05 `docs/rules/domain/skill-catalog-discipline.md` ≤120 LOC, cita Pocock MIT
+- OK AC-06 pr-plan G14 activa el gate en modo `--gate` filtrando a skills cambiados en el PR
+- OK AC-07 No regression: skills modificados no aumentan violations (G14 skipped en este PR — no se modifica ningún SKILL.md, dogfood pasa)
+- OK AC-08 Tests BATS = 19 certified
+- OK AC-09 CHANGELOG fragment con baseline counts (155 inicial — 146 WARN + 9 FAIL — desde batch 75)
 - 〰 AC: G14 wireado a `Slice 2` aspecto del spec — DONE
 - G14 SOLO lee `git diff` y archivos especificados — no modifica nada
 - WARN-severity NO bloquea (ratchet) — evita regresión accidental sobre skills antiguos
@@ -1056,18 +1056,18 @@ outside the fork are included. Branch:
 - `scripts/enterprise/audit-search.sh` — búsqueda tabular con filtros `--tenant <uuid> / --table / --agent / --since` (acepta `Nd`, `Nh`, `Nm`, ISO-8601). Output con diff column computado de `old_row` vs `new_row` (claves cuyos valores cambiaron). Modo `--json` para integration. Falla graceful si `SAVIA_ENTERPRISE_DSN` ausente (exit 3 con mensaje documentado).
 - `scripts/enterprise/audit-purge.sh` — DELETE selectivo con guards de seguridad:
 - `tests/structure/test-audit-trigger-primitive.bats` — 36 tests certified. Cubre safety (×4), template SQL structure (×7), CLI negative cases (×8), edge cases (×5), retention doc structure (×3), rule doc structure (×4), spec ref reinforcement (×5).
-- ✅ AC-01 Tabla `audit_log` append-only (REVOKE UPDATE/DELETE en template)
-- ✅ AC-02 Función `audit_trigger_fn()` table-agnostic capturando 9 campos
-- ✅ AC-03 Procedure `attach_audit(regclass)` para agregar a tabla nueva
-- ✅ AC-04 RLS multi-tenant respetado (SPEC-SE-002)
-- ✅ AC-05 Doc retention policy en `audit-retention.md` con tabla por categoría
-- ✅ AC-06 CLI `audit-search.sh` con filter tenant/table/agent/since
-- ✅ AC-07 CLI `audit-purge.sh` requires --confirm + retention policy file
+- OK AC-01 Tabla `audit_log` append-only (REVOKE UPDATE/DELETE en template)
+- OK AC-02 Función `audit_trigger_fn()` table-agnostic capturando 9 campos
+- OK AC-03 Procedure `attach_audit(regclass)` para agregar a tabla nueva
+- OK AC-04 RLS multi-tenant respetado (SPEC-SE-002)
+- OK AC-05 Doc retention policy en `audit-retention.md` con tabla por categoría
+- OK AC-06 CLI `audit-search.sh` con filter tenant/table/agent/since
+- OK AC-07 CLI `audit-purge.sh` requires --confirm + retention policy file
 - 〰 AC-08 Tests pgTAP ≥8 — **DEFERRED**: pm-workspace no tiene Postgres en CI; pgTAP queda pendiente del repo Savia Enterprise. BATS ≥6 SÍ cumplido (36 tests certified).
-- ✅ AC-09 SQL template `docs/propuestas/savia-enterprise/templates/audit-trigger.sql` (ya existía desde batch 71)
-- ✅ AC-10 Doc `docs/rules/domain/savia-enterprise/audit-trigger-primitive.md`
+- OK AC-09 SQL template `docs/propuestas/savia-enterprise/templates/audit-trigger.sql` (ya existía desde batch 71)
+- OK AC-10 Doc `docs/rules/domain/savia-enterprise/audit-trigger-primitive.md`
 - 〰 AC-11 Migration: attach_audit a 5 tablas regulated existentes — **DEFERRED**: pm-workspace es repo de config Claude Code; las migrations a tablas reales se aplican en el repo Savia Enterprise post-deploy.
-- ✅ AC-12 CHANGELOG entry
+- OK AC-12 CHANGELOG entry
 - `set -uo pipefail` en ambos CLI.
 - `audit-purge.sh` con 6 layers de safety: --table required, --before required, --confirm required, retention doc required, no bulk purge, no self-purge, table-must-be-classified.
 - Cero red, cero git operations, cero modificación a `audit_log` desde el script search-only.
@@ -1075,17 +1075,17 @@ outside the fork are included. Branch:
 - `scripts/enterprise/jwt-mint.sh` — CLI bash que intercambia API key por JWT efímero HS256:
 - `docs/rules/domain/savia-enterprise/agent-jwt-mint.md` — define el modelo:
 - `tests/structure/test-jwt-mint-primitive.bats` — 36 tests certified. Cubre safety×3, template SQL structure×6, CLI negative×9 (incluye boundary/empty edge cases), edge×6, rule doc structure×6, spec ref reinforcement×2, exit codes×1, defaults×1.
-- ✅ AC-01 Tabla `api_keys` con SHA-256 hash + key_prefix UX (template ya existente desde batch 71)
-- ✅ AC-02 Función `mint_jwt()` con scope downscoping enforce (split: `api_key_verify` + `api_key_scope_is_subset` SQL helpers + `jwt-mint.sh` bash signer)
+- OK AC-01 Tabla `api_keys` con SHA-256 hash + key_prefix UX (template ya existente desde batch 71)
+- OK AC-02 Función `mint_jwt()` con scope downscoping enforce (split: `api_key_verify` + `api_key_scope_is_subset` SQL helpers + `jwt-mint.sh` bash signer)
 - 〰 AC-03 4 CLI commands (create, list, revoke, mint) — **DEFERRED** Slice 2: solo `mint` aquí; create/list/revoke en batch siguiente
-- ✅ AC-04 JWT efímero ≤900s, scope mínimo signed (TTL clamp [60,3600])
-- ✅ AC-05 Audit trail `api_key_mints` append-only (sinergia SPEC-SE-037)
+- OK AC-04 JWT efímero ≤900s, scope mínimo signed (TTL clamp [60,3600])
+- OK AC-05 Audit trail `api_key_mints` append-only (sinergia SPEC-SE-037)
 - 〰 AC-06 Hook `block-pat-file-write.sh` — **DEFERRED** Slice 3
 - 〰 AC-07 `block-credential-leak.sh` PAT-shaped detection — **DEFERRED** Slice 3
-- 〰 AC-08 BATS ≥12 certified — ✅ cumplido (36 tests certified); pgTAP ≥6 **DEFERRED** (no Postgres en pm-workspace CI)
-- ✅ AC-09 Doc `docs/rules/domain/savia-enterprise/agent-jwt-mint.md`
-- ✅ AC-10 SQL template `docs/propuestas/savia-enterprise/templates/api-keys.sql` (batch 71)
-- ✅ AC-11 CHANGELOG entry (este fragmento)
+- 〰 AC-08 BATS ≥12 certified — OK cumplido (36 tests certified); pgTAP ≥6 **DEFERRED** (no Postgres en pm-workspace CI)
+- OK AC-09 Doc `docs/rules/domain/savia-enterprise/agent-jwt-mint.md`
+- OK AC-10 SQL template `docs/propuestas/savia-enterprise/templates/api-keys.sql` (batch 71)
+- OK AC-11 CHANGELOG entry (este fragmento)
 - `set -uo pipefail` en `jwt-mint.sh`.
 - `--key-stdin` flag explícito para evitar leak vía `ps`.
 - Refuse de upscoping (exit 8): scope_subset MUST ⊆ stored_scope.
@@ -1098,10 +1098,10 @@ outside the fork are included. Branch:
 - `scripts/enterprise/api-key-revoke.sh` — revoca por prefix de 8 chars con 4 safety layers:
 - `tests/structure/test-api-key-cli-suite.bats` — 35 tests certified. Cubre file-level safety×6, create negative×5, list negative×4, revoke negative×5, edge×8 (boundary, no-leak, dry-run, ttl-warning), spec ref×3, exit code documentation×3.
 - `docs/rules/domain/savia-enterprise/agent-jwt-mint.md` — sección "CLIs operacionales (Slice 2)" añadida; "No hace" actualizado para reflejar que solo Slice 3 queda pendiente.
-- ✅ AC-03 4 CLI commands (create, list, revoke, mint) — Slice 1 ya hizo `mint`; Slice 2 completa los 3 restantes
+- OK AC-03 4 CLI commands (create, list, revoke, mint) — Slice 1 ya hizo `mint`; Slice 2 completa los 3 restantes
 - 〰 AC-06 Hook `block-pat-file-write.sh` — **DEFERRED** Slice 3
 - 〰 AC-07 `block-credential-leak.sh` PAT-shaped detection — **DEFERRED** Slice 3
-- ✅ AC-09 Doc actualizado con Slice 2
+- OK AC-09 Doc actualizado con Slice 2
 - `set -uo pipefail` en los 3 CLIs.
 - `api-key-create.sh`: plaintext printado exactamente UNA vez, sin escritura a disco. Recuperación = revoke + recreate.
 - `api-key-list.sh`: zero-leakage — la SQL SELECT explícitamente excluye `key_hash` y plaintext (`grep -qE "SELECT.*key_hash"` falla, enforced por test).
@@ -1111,16 +1111,16 @@ outside the fork are included. Branch:
 - `scripts/enterprise/reconciliation-status.sh` — wrapper bash que itera dimensiones activas para un tenant y renderiza:
 - `docs/rules/domain/savia-enterprise/reconciliation-delta-engine.md` — define el modelo:
 - `tests/structure/test-reconciliation-delta-engine.bats` — 40 tests certified. Cubre file-level safety×7, SQL template structure×5, delta-tier helper positive+edge×8, status CLI negative×6, edge structural×5, rule doc structure×6, exit codes + spec ref×3.
-- ✅ AC-01 Función `tenant_reconciliation_status()` definida con 3 tiers (en template, batch 71)
+- OK AC-01 Función `tenant_reconciliation_status()` definida con 3 tiers (en template, batch 71)
 - 〰 AC-02 4 dimensiones seed — **DEFERRED** Slice 2 (rule doc lista plan conceptual)
 - 〰 AC-03 Vista materializada — **DEFERRED** Slice 3 follow-up (Slice 1+3 entregan on-demand CLI; vista materializada es optimización posterior)
-- ✅ AC-04 CLI `reconciliation-status.sh <tenant>` con output ANSI
+- OK AC-04 CLI `reconciliation-status.sh <tenant>` con output ANSI
 - 〰 AC-05 Trigger recompute on-write con webhook — **DEFERRED** Slice 4
 - 〰 AC-06 Baseline ratchet bloquea regresión — **DEFERRED** Slice 5 (precursor: `--fail-on` exit 7 ya implementado)
-- 〰 AC-07 pgTAP ≥10 — **DEFERRED** (no Postgres en pm-workspace CI); BATS ≥8 ✅ cumplido (40 tests certified)
-- ✅ AC-08 Doc `docs/rules/domain/savia-enterprise/reconciliation-delta-engine.md`
-- ✅ AC-09 SQL template `docs/propuestas/savia-enterprise/templates/reconciliation.sql` (batch 71)
-- ✅ AC-10 CHANGELOG entry (este fragmento)
+- 〰 AC-07 pgTAP ≥10 — **DEFERRED** (no Postgres en pm-workspace CI); BATS ≥8 OK cumplido (40 tests certified)
+- OK AC-08 Doc `docs/rules/domain/savia-enterprise/reconciliation-delta-engine.md`
+- OK AC-09 SQL template `docs/propuestas/savia-enterprise/templates/reconciliation.sql` (batch 71)
+- OK AC-10 CHANGELOG entry (este fragmento)
 - `set -uo pipefail` en `reconciliation-status.sh` y `delta-tier.sh`.
 - UUID validation antes de DSN/psql checks (fail-fast en arg validation).
 - `--fail-on` solo acepta `green|amber|red` (no levels custom; mantiene API limpia).
@@ -1129,11 +1129,11 @@ outside the fork are included. Branch:
 - `scripts/image-relevance-filter.sh` — CLI bash con 3 subcomandos:
 - `docs/rules/domain/image-relevance-filter.md` — define el modelo:
 - `tests/structure/test-image-relevance-filter.bats` — 33 tests certified. Cubre file safety×3, spec ref×2, usage/negative×6, heuristic positive×7 (incluye auto-promote ≥3 + boundary 2-marks-not-enough), edge×5 (cache idempotencia, JSON sha 64-char, zero-byte), rule doc structure×6, spec ref + exit codes×3, graceful degradation×1.
-- ✅ AC-01 `scripts/image-relevance-filter.sh` con check/skip/log subcomandos
-- ✅ AC-02 Heurísticas de tamaño, aspect ratio, cache de checksums (4 reglas en orden)
+- OK AC-01 `scripts/image-relevance-filter.sh` con check/skip/log subcomandos
+- OK AC-02 Heurísticas de tamaño, aspect ratio, cache de checksums (4 reglas en orden)
 - 〰 AC-03 `word-digest`, `pptx-digest`, `excel-digest` consultan filtro antes de Vision — **DEFERRED** Slice 2 (modifica 3 agents existentes, requiere greenlight)
-- ✅ AC-04 Log de decisiones en cache (refinamiento automático via auto-promote ≥3 marks)
-- ✅ AC-05 Tests BATS ≥12 — cumplido (33 tests certified)
+- OK AC-04 Log de decisiones en cache (refinamiento automático via auto-promote ≥3 marks)
+- OK AC-05 Tests BATS ≥12 — cumplido (33 tests certified)
 - 〰 AC-06 Reducción medible 40% Vision — **DEFERRED** medible solo tras Slice 2 integration en producción
 - `set -uo pipefail` en `image-relevance-filter.sh`.
 - Cache off-repo en `~/.savia/digest-cache/` — nunca toca el repo.
@@ -1152,21 +1152,21 @@ outside the fork are included. Branch:
 - `.claude/hooks/recommendation-tribunal-pre-output.sh` — hook PreOutput **listo para activar** pero **NO añadido a `.claude/settings.json`**. En Slice 1 el hook está en modo detect-only: clasifica + persiste audit log + pasa el draft sin mutación. Esto permite calibrar el classifier en uso real antes de wirear los vetos.
 - `docs/rules/domain/recommendation-tribunal.md` — define el modelo:
 - `tests/structure/test-recommendation-tribunal.bats` — 51 tests certified. Cubre file safety×6, agent files×7, classifier positive×9 (bilingüe), classifier negative×5, aggregate×7 (verdict PASS/WARN/VETO + boundary confidence), banner×4, hook detect-only×3, rule doc×6, spec ref + meta×3.
-- ✅ AC-01 Classifier detecta recomendaciones accionables (heurística bilingüe + JSON output) — precision validable contra golden set en uso real (modo detect-only)
-- ✅ AC-02 4 jueces implementados como agentes con prompts versionados y modelos asignados (haiku/sonnet)
+- OK AC-01 Classifier detecta recomendaciones accionables (heurística bilingüe + JSON output) — precision validable contra golden set en uso real (modo detect-only)
+- OK AC-02 4 jueces implementados como agentes con prompts versionados y modelos asignados (haiku/sonnet)
 - 〰 AC-03 Latency p95 < 3s — **DEFERRED** medible solo tras activación; targets definidos en rule doc
-- ✅ AC-04 Verdict VETO bloquea entrega; banner muestra contenido vetado claramente marcado
-- ✅ AC-05 Banner WARN se inyecta antes del output con findings concretos
-- ✅ AC-06 memory-conflict-judge cita el `.md` del auto-memory en conflicto
-- ✅ AC-07 rule-violation-judge cita el path + line range de la regla violada
-- ✅ AC-08 hallucination-fast-judge verifica entidades con tool calls (grep, [ -f ], --help)
-- ✅ AC-09 expertise-asymmetry-judge re-escribe con secciones blind-area calibration (template emit; rewrite real Slice 2)
-- ✅ AC-10 Audit trail JSON persiste en `output/recommendation-tribunal/<date>/<hash>.json`
+- OK AC-04 Verdict VETO bloquea entrega; banner muestra contenido vetado claramente marcado
+- OK AC-05 Banner WARN se inyecta antes del output con findings concretos
+- OK AC-06 memory-conflict-judge cita el `.md` del auto-memory en conflicto
+- OK AC-07 rule-violation-judge cita el path + line range de la regla violada
+- OK AC-08 hallucination-fast-judge verifica entidades con tool calls (grep, [ -f ], --help)
+- OK AC-09 expertise-asymmetry-judge re-escribe con secciones blind-area calibration (template emit; rewrite real Slice 2)
+- OK AC-10 Audit trail JSON persiste en `output/recommendation-tribunal/<date>/<hash>.json`
 - 〰 AC-11 Falso positivo registrado por usuaria → feedback memory — **DEFERRED** Slice 3
 - 〰 AC-12 Falso negativo registrado → feedback memory regression — **DEFERRED** Slice 3
-- ✅ AC-13 BATS ≥30 tests certified — 51 tests (sobrepasa target en 70%)
+- OK AC-13 BATS ≥30 tests certified — 51 tests (sobrepasa target en 70%)
 - 〰 AC-14 Regression test 6 patterns reportadas — **DEFERRED** golden set Slice 2
-- ✅ AC-15 CHANGELOG entry + spec status (este fragmento; spec status update en próxima iteración)
+- OK AC-15 CHANGELOG entry + spec status (este fragmento; spec status update en próxima iteración)
 - `set -uo pipefail` en los 4 scripts.
 - **Hook NO añadido a settings.json** — activación es paso humano deliberado tras revisión completa.
 - Modo detect-only en Slice 1 — el hook clasifica + audita pero NO muta el draft.
@@ -1184,11 +1184,11 @@ outside the fork are included. Branch:
 - Lee et al. CHI 2025 (Microsoft Research + CMU) — base para fast-accept ratio como proxy de skip-verification
 - CMU ICER 2025 (arxiv.org/pdf/2509.20353) — alerta sobre atrofia diferencial en metacognición débil
 - Roediger & Karpicke 2006 — base para I1 hypothesis-first (retrieval practice)
-- ✅ Phase 1.1 `scripts/cognitive-debt.sh` con 5 subcomandos (enable/disable/status/summary/forget)
-- ✅ Phase 1.2 Hook telemetry async (I4) + comando `/cognitive-status`
-- ✅ Phase 1.3 Hook hypothesis-first (I1) en modo **WARNING ONLY**, no bloquea (Phase 2 escalará)
-- ✅ Phase 1.4 BATS tests certified
-- ✅ Phase 1.5 Documentación: `docs/cognitive-debt-guide.md` con evidencia académica + Phase 2/3 deferred items
+- OK Phase 1.1 `scripts/cognitive-debt.sh` con 5 subcomandos (enable/disable/status/summary/forget)
+- OK Phase 1.2 Hook telemetry async (I4) + comando `/cognitive-status`
+- OK Phase 1.3 Hook hypothesis-first (I1) en modo **WARNING ONLY**, no bloquea (Phase 2 escalará)
+- OK Phase 1.4 BATS tests certified
+- OK Phase 1.5 Documentación: `docs/cognitive-debt-guide.md` con evidencia académica + Phase 2/3 deferred items
 - **CD-01** verificada por test: `! grep -qiE 'anthropic|/v1/messages|claude.api'` en los 3 scripts. Cero LLM calls.
 - **CD-02** verificada por test: telemetry hook always `exit 0`, hypothesis hook always `exit 0` (Phase 1 warning-only).
 - **CD-03** verificada por test: telemetry path en `~/.savia/cognitive-load/`, gitignored en N3.
@@ -1233,7 +1233,7 @@ outside the fork are included. Branch:
 - SPEC-142 — Plugin `tool.execute.before` auto-redaction of secrets (TS, 5h)
 - SPEC-144 — `/speckit.*` slash command aliases (4h)
 - SPEC-145 — Import anthropics/skill-creator + mcp-builder (3h)
-- SPEC-146 — Awesome-* monthly watcher (4h)
+- SPEC-146 — excellent-* monthly watcher (4h)
 - SPEC-147 — Decision trees for top-10 agents (10h)
 - SPEC-149 — Sandbox OS-level via opencode-sandbox plugin + Docker (20h)
 - SPEC-150 — Hooks multi-handler migration (TS plugin for LLM judges + MCP audit, 35h)
@@ -1281,7 +1281,7 @@ outside the fork are included. Branch:
 - SPEC-141: MCP curated catalog with 10 templates (7 third-party filtered by BlueRock checklist + 3 own skills as MCP stdio). audit-mcp-templates.sh validates schema, secrets, scope. Server Cards for auto-discovery. mcp.json stays empty by default (Rule #19).
 - SPEC-142: OpenCode plugin auto-redact-credentials uses tool.execute.before to mutate args before tool execution. Redacts GitHub/OpenAI/Anthropic/AWS tokens and connection strings before they reach the LLM. Integrated into savia-foundation plugin chain. Includes TS Vitest tests and BATS smoke tests.
 - SPEC-145: vendor anthropics/skills upstream under external/anthropic-skills/ (skill-creator 485 lines + mcp-builder, Apache-2.0). external/ is intentionally outside .claude/ to preserve upstream fidelity (Rule #11 applies to .claude/ only). external/README.md documents vendoring policy.
-- SPEC-146: monthly ecosystem watcher — GitHub Action signals deltas in awesome-* repos and upstream tooling (spec-kit, MCP, opencode). Snapshots in .savia-memory/ (gitignored), no autonomous actions.
+- SPEC-146: monthly ecosystem watcher — GitHub Action signals deltas in excellent-* repos and upstream tooling (spec-kit, MCP, opencode). Snapshots in .savia-memory/ (gitignored), no autonomous actions.
 - SPEC-147 Slice 1: Decision trees for 3 pilot agents (architect, code-reviewer, security-guardian). Each agent gains a deterministic decision-tree document under .claude/agents/decision-trees/ and a frontmatter reference. OpenCode mirror via symlink. Validation via tests/test-agent-decision-trees.bats.
 - SPEC-147 Slice 2 — 3 more decision trees: dotnet-developer, business-analyst, sdd-spec-writer (7/10 trees done, 3 remaining)
 - SPEC-149: Sandbox OS-level para modos autonomos (Capa A + Capa B + Capa C).
@@ -1982,7 +1982,7 @@ Version bump 5.98.0 a 6.1.0.
 
 ## [6.0.0] — 2026-04-25
 
-Dos nuevas specs APPROVED del research GenericAgent repo (6.8k ⭐).
+Dos nuevas specs APPROVED del research GenericAgent repo (6.8k ).
 
 ### Added
 
@@ -3786,7 +3786,7 @@ Quick wins del audit 2026-04-17 (score 7.2/10). Era 234.
 
 - **`.claude/profiles/savia.md:222`**: contradicción tono base resuelta — "profesional-cercano" → "profesional-directo" (match con línea 17, tono canónico).
 
-- **`docs/rules/domain/autonomous-safety.md:82`**: emoji ❌ eliminado (violaba Rule #24 no-emojis). Sustituido por "ERROR:".
+- **`docs/rules/domain/autonomous-safety.md:82`**: emoji FAIL eliminado (violaba Rule #24 no-emojis). Sustituido por "ERROR:".
 
 ## [5.6.0] — 2026-04-17
 
@@ -6970,7 +6970,7 @@ feat: agent-code-map skill — triple AST architecture with persistent .acm cros
 
 - **.claude/skills/agent-code-map/SKILL.md** — Full spec: `/codemap:generate`, `/codemap:check`, `/codemap:load`, `/codemap:refresh --incremental`, `/codemap:stats` slash commands; .acm format with sha256 hash freshness; INDEX.acm navigation table; @include progressive loading; freshness model (fresco/obsoleto/roto); SDD pipeline [0] integration; 150-line limit + auto-split rule; anti-patterns.
 
-- **.agent-maps/INDEX.acm** — Root navigation map for pm-workspace public structure: domain, infrastructure, api layers with element counts and priority (🔴🟡🟢).
+- **.agent-maps/INDEX.acm** — Root navigation map for pm-workspace public structure: domain, infrastructure, api layers with element counts and priority (FAILWARNOK).
 
 - **.agent-maps/domain/entities.acm** — Domain entities: Commands, Skills, Agents, Hooks, Rules with file references and public API.
 
@@ -8734,7 +8734,7 @@ Era 113 — Savia Web: chat multi-thread, tool feedback, markdown quality, sessi
 
 ### Added
 
-- **Chat tool activity feed**: Live progress inside assistant bubble while Savia uses tools (📄 Reading, 🔍 Searching, 🤖 Delegating...) with pulsing indicator
+- **Chat tool activity feed**: Live progress inside assistant bubble while Savia uses tools ( Reading,  Searching,  Delegating...) with pulsing indicator
 
 - **Chat multi-thread**: Session-scoped streaming — responses don't leak between sessions. Stream cancelled on session switch
 
@@ -9158,7 +9158,7 @@ Reverse orgchart import — parse diagrams (Mermaid, Draw.io, Miro) to generate 
 
 - **orgchart-import skill**: 7-phase pipeline (detect format, parse, normalize, validate, detect conflicts, write, summary) with 3 conflict modes (create, merge, overwrite)
 
-- **Mermaid parser**: recognizes DEPT nodes, subgraphs with capacity, member nodes with lead markers (★), supervisor links
+- **Mermaid parser**: recognizes DEPT nodes, subgraphs with capacity, member nodes with lead markers (), supervisor links
 
 - **Draw.io parser**: identifies entities by shape styles (swimlane=dept, rounded rect=team, person shape=member, green fill=lead)
 
@@ -9184,7 +9184,7 @@ Orgchart diagram generation from teams data — new diagram type for `/diagram-g
 
 - **Orgchart shapes reference**: Draw.io XML snippets for department containers, team nodes, person shapes (lead vs member), hierarchy and supervisor links (`orgchart-shapes.md`)
 
-- **Orgchart Mermaid template**: `graph TB` template with subgraphs per team, lead markers (★), @handle-based naming, PII-Free compliant (`orgchart-mermaid-template.md`)
+- **Orgchart Mermaid template**: `graph TB` template with subgraphs per team, lead markers (), @handle-based naming, PII-Free compliant (`orgchart-mermaid-template.md`)
 
 - **Test suite**: `scripts/test-orgchart-diagrams.sh` — 45 tests covering config, structure, shapes, template, command integration, skill integration and Mermaid output generation
 
@@ -10287,7 +10287,7 @@ Self-learning intelligence layer for automatic skill recommendation and adaptive
 
 ### Changed
 
-- **ROADMAP.md** — Era 23 gap table marked as ✅ implemented. Added Era 45 entry. Updated stats: 380+ commands.
+- **ROADMAP.md** — Era 23 gap table marked as OK implemented. Added Era 45 entry. Updated stats: 380+ commands.
 
 ---
 

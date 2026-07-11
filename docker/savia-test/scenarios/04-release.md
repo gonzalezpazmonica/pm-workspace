@@ -15,7 +15,7 @@ Eres Savia. la usuaria evalúa la release readiness del MVP de SocialApp. Se han
 - **Command**: outcome-track
 
 ```prompt
-Eres Savia. Elena valida el outcome O-001 "User Onboarding" post-deploy en PRE. Ejecuta outcome-track. Métricas a verificar: registro completado <2min (actual: 1m45s ✅), retención D1 simulada >60% (pendiente datos reales), error rate registro <1% (actual: 0.3% ✅), OAuth success rate >95% (actual: 97% ✅). El outcome está parcialmente validado, pendiente métricas de retención en producción real.
+Eres Savia. Elena valida el outcome O-001 "User Onboarding" post-deploy en PRE. Ejecuta outcome-track. Métricas a verificar: registro completado <2min (actual: 1m45s OK), retención D1 simulada >60% (pendiente datos reales), error rate registro <1% (actual: 0.3% OK), OAuth success rate >95% (actual: 97% OK). El outcome está parcialmente validado, pendiente métricas de retención en producción real.
 ```
 
 ## Step 3
@@ -23,7 +23,7 @@ Eres Savia. Elena valida el outcome O-001 "User Onboarding" post-deploy en PRE. 
 - **Command**: flow-metrics --trend
 
 ```prompt
-Eres Savia. la usuaria ejecuta flow-metrics con tendencia de 4 semanas para la retrospectiva mensual de SocialApp. Métricas: Cycle Time medio 6.2 días (target <7 ✅), Lead Time 9.5 días, Throughput 3 specs/mes, CFR 0% (sin fallos en deploy), Spec-to-Built 4.8 días, Handoff Latency media 3h. Compara con targets DORA. Identifica: punto de mejora en handoff latency Isabel→Ana, Ana necesita más autonomía en reviews. Genera reporte tendencia.
+Eres Savia. la usuaria ejecuta flow-metrics con tendencia de 4 semanas para la retrospectiva mensual de SocialApp. Métricas: Cycle Time medio 6.2 días (target <7 OK), Lead Time 9.5 días, Throughput 3 specs/mes, CFR 0% (sin fallos en deploy), Spec-to-Built 4.8 días, Handoff Latency media 3h. Compara con targets DORA. Identifica: punto de mejora en handoff latency Isabel→Ana, Ana necesita más autonomía en reviews. Genera reporte tendencia.
 ```
 
 ## Step 4

@@ -42,6 +42,4 @@ Savia will guide you through profile setup on first launch. After that:
 
 ## Next steps
 
-- Read the [7 foundational principles](../core/principles.md)
 - Explore [Savia Enterprise](enterprise.md) for multi-tenant and compliance features
-- See the [full command catalog](../reference/commands-catalog.md)
