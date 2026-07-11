@@ -1,6 +1,6 @@
 # Savia Capability Map — INDEX
-> hash: ee586bf431e5 | resources: 1202
-> 287 commands · 120 skills · 81 agents · 714 scripts
+> hash: 67292e07dbb3 | resources: 1205
+> 287 commands · 120 skills · 81 agents · 717 scripts
 
 [analysis] Trace Optimize — across,distributed,optimize,rates,sampling — cmd:.claude/commands/trace-optimize.md
 [analysis] agent-activity — activity,agent,executions,recent,show — cmd:.claude/commands/agent-activity.md
@@ -159,6 +159,7 @@
 [development] ast-quality-gate — agnostic,analyzer,code,gate,language — script:scripts/ast-quality-gate.sh
 [development] authority-claim-judge — claims,credential,detects,investigador,judge — agent:.opencode/agents/authority-claim-judge.md
 [development] best-practices-check — against,best,claude,code,evaluate — cmd:.claude/commands/best-practices-check.md
+[development] blast-radius — blast,calcula,codeflow,fichero,inspired — script:scripts/blast-radius.sh
 [development] block-pat-file-write — block,file,paths,slice,spec — script:scripts/block-pat-file-write.sh
 [development] budget-guard — budget,context,guard,monitor,spec — script:scripts/budget-guard.sh
 [development] build-azdo-schema-graph — azdo,build,graph,schema,slice — script:scripts/build-azdo-schema-graph.sh
@@ -996,6 +997,7 @@
 [quality] decide-architecture-corpus-test — architecture,corpus,decide,spec,test — script:scripts/decide-architecture-corpus-test.sh
 [quality] doc-health-audit — audit,auditor,documentation,health — script:scripts/doc-health-audit.sh
 [quality] docs-audit — actual,audit,audita,docs,estructura — script:scripts/docs-audit.sh
+[quality] docs-lint — bash,docs,lint,slice,wrapper — script:scripts/docs-lint.sh
 [quality] docs-quality-audit — agentes,auditar,basada,calidad,documentacion — cmd:.claude/commands/docs-quality-audit.md
 [quality] drift-auditor — auditoría,cambios,config,convergencia,código — agent:.opencode/agents/drift-auditor.md
 [quality] dynamic-web-security-test — dynamic,security,test,testing — script:scripts/dynamic-web-security-test.sh
@@ -1057,6 +1059,7 @@
 [quality] pr-plan-queue-check — check,module,plan,queue,spec — script:scripts/pr-plan-queue-check.sh
 [quality] pr-rebase — branch,current,main,onto,origin — script:scripts/pr-rebase.sh
 [quality] pr-review —  — cmd:.claude/commands/pr-review.md
+[quality] pr-thermal-receipt — codeflow,inspired,receipt,thermal — script:scripts/pr-thermal-receipt.sh
 [quality] pre-push-security-gate — gate,push,security — script:scripts/pre-push-security-gate.sh
 [quality] prompt-security-scan — analyzer,injection,leakage,prompt,scan — script:scripts/prompt-security-scan.sh
 [quality] python-sbom — audit,python,requirements,sbom,slice — script:scripts/python-sbom.sh

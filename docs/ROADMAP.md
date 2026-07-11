@@ -733,6 +733,9 @@ Google Sheets · ServiceNow/SAP · Tableau · Kafka · VS Code ext · Cloud voic
 
 | ID | Título | Esfuerzo | Prioridad |
 |---|---|---|---|
+| **SE-260** | Blast Radius Command — "si cambio este fichero, ¿qué se rompe?" (CodeFlow-inspired) | 2h | P2 |
+| **SE-261** | Workspace Health Score v2 — 9 dimensiones con blast radius, ownership, dead code (CodeFlow-inspired) | 3h | P2 · dep SE-260 |
+| **SE-262** | PR Thermal Receipts — delta de métricas en comentario sticky al merge (CodeFlow-inspired) | 2h | P2 |
 | **SPEC-182** | Bitemporal timeline frontmatter | 6-8h | P2 |
 | **SPEC-183** | Reconciliation 3-bucket drift-auditor | 5-7h | P3 · dep SPEC-182 |
 | **SE-216 S4** | Experiment Graph — tree search | ~6h | P3 |
