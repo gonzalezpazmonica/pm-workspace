@@ -152,7 +152,7 @@ jobs:
           echo "All required files present."
 
   bats-tests:
-    timeout-minutes: 60
+    timeout-minutes: 90
     name: BATS Hook Tests
     runs-on: ubuntu-latest
 

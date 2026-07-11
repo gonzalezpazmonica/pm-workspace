@@ -5,13 +5,14 @@
 set -euo pipefail
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 ROOT="$(dirname "$SCRIPT_DIR")"
-CRITERIO="$ROOT/CRITERIO.md"
+CRITERIO="${1:-$ROOT/CRITERIO.md}"
 CONSTITUCION="$ROOT/.claude/CONSTITUCION.md"
 SCHEMA="$ROOT/schemas/criterio.schema.json"
 ERRORS=0
 WARNS=0
 
-[ -f "$CRITERIO" ] || { echo "FAIL: CRITERIO.md not found"; exit 1; }
+[ -f "$CRITERIO" ] || { echo "FAIL: CRITERIO.md not found at $CRITERIO"; exit 1; }
+[ -s "$CRITERIO" ] || { echo "FAIL: $CRITERIO is empty"; exit 1; }
 [ -f "$CONSTITUCION" ] || { echo "FAIL: CONSTITUCION.md not found"; exit 1; }
 
 echo "=== CRITERIO Validation ==="

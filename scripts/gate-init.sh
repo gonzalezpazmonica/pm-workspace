@@ -17,9 +17,18 @@ set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 REPO_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
+if [[ -n "${SAVIA_GATE_DIR+x}" && -z "${SAVIA_GATE_DIR}" ]]; then
+  echo "ERROR: SAVIA_GATE_DIR is set but empty"
+  exit 1
+fi
 GATE_DIR="${SAVIA_GATE_DIR:-$HOME/.savia/gate.git}"
 UPSTREAM_NAME="origin-upstream"
 DRY_RUN=false
+
+if [[ ! -d "$(dirname "$GATE_DIR")" ]] && ! mkdir -p "$(dirname "$GATE_DIR")" 2>/dev/null; then
+  echo -e "${RED}ERROR${NC}: cannot create parent directory for $GATE_DIR"
+  exit 1
+fi
 
 while [[ $# -gt 0 ]]; do
   case "$1" in

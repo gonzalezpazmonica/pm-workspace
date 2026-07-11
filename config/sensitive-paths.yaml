@@ -1,0 +1,27 @@
+# Sensitive Paths Registry — SE-258 Slice 1
+# Declarative list of paths by classification level.
+# Used by: block-sensitive-tracking hook, tracked-vs-nivel.sh
+# Format: level + glob pattern
+# Adding a path here BLOCKS git tracking at that level.
+version: "1.0"
+
+levels:
+  N4:
+    description: "Identity assets — relationship, attestation, vault"
+    paths:
+      - "data/relacion/**"
+      - "output/atestacion/**"
+  N3:
+    description: "Private configuration and operator data"
+    paths:
+      - ".claude/rules/pm-config.local.md"
+      - ".claude/external-memory/auto/**"
+      - "projects/*/private/**"
+  N2:
+    description: "Internal but not secret — tracked by default but audited"
+    paths: []
+
+allowlist:
+  paths:
+    - "tests/fixtures/**"
+    - "tests/test-data/**"

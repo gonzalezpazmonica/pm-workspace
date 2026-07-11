@@ -20,6 +20,8 @@ EVENTS_SINCE=0
 if [[ -f "$STATE_FILE" ]]; then
   LAST_NUDGE=$(head -1 "$STATE_FILE" 2>/dev/null || echo 0)
   EVENTS_SINCE=$(sed -n '2p' "$STATE_FILE" 2>/dev/null || echo 0)
+  [[ "$LAST_NUDGE" =~ ^[0-9]+$ ]] || LAST_NUDGE=0
+  [[ "$EVENTS_SINCE" =~ ^[0-9]+$ ]] || EVENTS_SINCE=0
 fi
 
 # ── Detectar si hubo overrides/edit/revert no registrados ────────────────

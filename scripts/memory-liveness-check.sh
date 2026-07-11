@@ -6,6 +6,29 @@ set -euo pipefail
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 ROOT="$(dirname "$SCRIPT_DIR")"
 
+CHECK_MISSING=false
+while [[ $# -gt 0 ]]; do
+  case "$1" in
+    --check-missing)
+      CHECK_MISSING=true
+      shift
+      if [[ -z "${1:-}" ]]; then
+        echo "ERROR: --check-missing requires a path argument" >&2
+        exit 1
+      fi
+      if [[ ! -e "$1" ]]; then
+        echo "ERROR: artifact not found: $1" >&2
+        exit 1
+      fi
+      echo "  OK: artifact exists: $1"
+      exit 0
+      ;;
+    *)
+      shift
+      ;;
+  esac
+done
+
 echo "=== Memory Liveness Check ==="
 
 MEMORY_SCRIPTS=$(find "$ROOT/scripts" \( -name "*memory*" -o -name "*memor*" -o -name "*bitemporal*" \) ! -name "*.pyc" ! -name "test-*" | grep -v "_legacy" | sort)

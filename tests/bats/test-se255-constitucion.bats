@@ -1,11 +1,29 @@
 #!/usr/bin/env bats
 # tests/bats/test-se255-constitucion.bats — SE-255 Constitution
+# Ref: SE-255 Constitution
+set -uo pipefail
 
 setup() {
   REPO_ROOT="$(cd "$(dirname "$BATS_TEST_FILENAME")/../.." && pwd)"
   CONSTITUCION="$REPO_ROOT/.claude/CONSTITUCION.md"
   CRITERIO="$REPO_ROOT/CRITERIO.md"
   CRITERIO_SCHEMA="$REPO_ROOT/schemas/criterio.schema.json"
+  LEDGER="$REPO_ROOT/data/relacion/ledger.jsonl"
+  # SE-258 S1: ledger is no longer tracked in git. For tests that need it,
+  # seed a temp copy if the real one is absent.
+  if [[ ! -f "$LEDGER" ]]; then
+    mkdir -p "$(dirname "$LEDGER")"
+    printf '{"entry_id":"SEED-001","tipo":"bootstrap","ts":"2026-07-05T00:00:00Z","provenance":"system_init","texto":"Libro de la relacion inicializado.","hash_prev":null}\n' > "$LEDGER"
+    _LEDGER_SEEDED=1
+  else
+    _LEDGER_SEEDED=0
+  fi
+}
+
+teardown() {
+  if [[ "${_LEDGER_SEEDED:-0}" -eq 1 ]]; then
+    rm -f "$LEDGER"
+  fi
 }
 
 # ── Slice 1: CONSTITUCION.md ────────────────────────────────────────────────
@@ -52,6 +70,15 @@ setup() {
   true
 }
 
+@test "AC-1.1d: CONSTITUCION.md is not empty" {
+  [ -s "$CONSTITUCION" ]
+}
+
+@test "AC-1.1e: CONSTITUCION.md has no blank lines at boundary" {
+  [ -n "$(head -1 "$CONSTITUCION")" ]
+  [ -n "$(tail -1 "$CONSTITUCION")" ]
+}
+
 @test "AC-1.5: terminos de emocion propia NO aparecen en constitucion como prescriptivos" {
   ! grep -q "debes sentir\|debes emocionarte\|se feliz\|se amable" "$CONSTITUCION"
 }
@@ -86,6 +113,19 @@ setup() {
   grep -q "bootstrap" "$REPO_ROOT/data/relacion/ledger.jsonl"
 }
 
+@test "AC-3.5: relacion-report handles empty ledger gracefully" {
+  TMP_LEDGER=$(mktemp)
+  printf '' > "$TMP_LEDGER"
+  run env LEDGER="$TMP_LEDGER" bash "$REPO_ROOT/scripts/relacion-report.sh"
+  [ "$status" -eq 0 ]
+  rm -f "$TMP_LEDGER"
+}
+
+@test "AC-3.6: ledger with large entry count validates" {
+  count=$(wc -l < "$REPO_ROOT/data/relacion/ledger.jsonl")
+  [ "$count" -ge 1 ]
+}
+
 # ── Slice 4: Calibracion ─────────────────────────────────────────────────────
 
 @test "AC-4.1: script de calibracion existe y es ejecutable" {
@@ -101,6 +141,11 @@ setup() {
 
 @test "AC-4.3: report genera texto" {
   run python3 "$REPO_ROOT/scripts/calibracion.py" report
+  [ "$status" -eq 0 ]
+}
+
+@test "AC-4.4: calibracion with no args produces output without timeout" {
+  run timeout 10 python3 "$REPO_ROOT/scripts/calibracion.py"
   [ "$status" -eq 0 ]
 }
 

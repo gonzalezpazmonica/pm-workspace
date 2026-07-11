@@ -1,5 +1,7 @@
 #!/usr/bin/env bats
 # tests/bats/test-se255-push-gate.bats — SE-255 Push Gate
+# Ref: SE-255 Push Gate
+set -uo pipefail
 #
 # Tests para gate-init, gate-teardown, gate-post-receive, y pr-plan --gate-mode
 
@@ -117,6 +119,16 @@ teardown() {
   [[ "$origin_before" == "$origin_after" ]]
 }
 
+@test "AC-1.8: gate-init.sh rejects invalid path with graceful error" {
+  run env SAVIA_GATE_DIR="/invalid/path" bash "$TMPDIR/scripts/gate-init.sh"
+  [ "$status" -ne 0 ]
+}
+
+@test "AC-1.9: gate-init.sh handles empty SAVIA_GATE_DIR" {
+  run env SAVIA_GATE_DIR="" bash "$TMPDIR/scripts/gate-init.sh"
+  [ "$status" -ne 0 ]
+}
+
 # ─────────────────────────────────────────────────────────────────────────────
 # AC-2: El gate bloquea pushes que no pasan pr-plan
 # ─────────────────────────────────────────────────────────────────────────────
@@ -188,6 +200,11 @@ for i in range(152):
   [ "$status" -eq 0 ]
   origin_after=$(git remote get-url origin)
   [[ "$origin_before" == "$origin_after" ]]
+}
+
+@test "AC-5.3: teardown on boundary state (no gate configured) succeeds" {
+  run bash "$TMPDIR/scripts/gate-teardown.sh"
+  [ "$status" -eq 0 ]
 }
 
 # ─────────────────────────────────────────────────────────────────────────────

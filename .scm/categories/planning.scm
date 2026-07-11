@@ -1,5 +1,5 @@
 # planning — Savia Capability Map (L1)
-> 488 resources
+> 491 resources
 
 - **/decide-architecture** (cmd): Clasifica una tarea como WORKFLOW (deterministica) o AGENT (loop). Bias hacia workflow per Anthropic. Sugiere plantilla inicial. Mide accuracy contra corpus curado de 20 tareas.
 - **_template** (skill): TEMPLATE — copia este directorio para crear una skill nueva. NO se carga en runtime.
@@ -346,6 +346,7 @@
 - **resolve-pr-conflicts** (script): resolve-pr-conflicts.sh — auto-resolver for the recurring conflicts that
 - **resolver-md-generate** (script): resolver-md-generate.sh — SE-160
 - **resource-references** (skill): Usar cuando se necesitan referencias a recursos y plantillas del workspace.
+- **restore-drill** (script): restore-drill.sh — SE-258 Slice 2
 - **rpi-start** (cmd): >
 - **ruby-developer** (agent): >
 - **rule-manifest-integrity** (script): rule-manifest-integrity.sh — SE-057 Slice 1 rule-manifest + INDEX integrity.
@@ -451,6 +452,7 @@
 - **tool-catalog** (cmd): Catálogo categorizado de herramientas (400+ comandos)
 - **tool-result-trim** (script): tool-result-trim.sh — Deterministic hard cap for tool result output
 - **topic-cluster** (skill): Usar cuando se agrupan retros, PBIs o incidentes en topics para detectar patrones transversales.
+- **tracked-vs-nivel** (script): tracked-vs-nivel.sh — SE-258 Slice 1
 - **tribunal-critic** (script): tribunal-critic.sh — SE-201: quantitative scoring for tribunal verdicts
 - **tribunal-status** (cmd): Show Truth Tribunal queue depth, recent verdicts, and pending evaluations
 - **tribunal-tiered-runner** (script): tribunal-tiered-runner.sh — SE-106: Tiered tribunal execution
@@ -480,6 +482,7 @@
 - **vault** (script): vault.sh — Personal Vault dispatcher (N3)
 - **vault-ops** (script): vault-ops.sh — Personal Vault operations library (N3). Sourced by vault.sh.
 - **velocity-trend** (cmd): Tendencia de velocity con media móvil, detección de anomalías y factores explicativos
+- **verify-ledger-chain** (script): verify-ledger-chain.sh — SE-258 Slice 2
 - **verify-principal** (script): scripts/verify-principal.sh — SE-256 Slice 3
 - **vuln-scan** (script): vuln-scan.sh — Vulnerability scanner for pm-workspace scripts
 - **wave-executor** (script): wave-executor.sh — Generic wave execution engine for DAG task graphs

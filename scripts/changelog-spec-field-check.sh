@@ -1,61 +1,74 @@
-#!/usr/bin/env bash
-set -euo pipefail
-# Verifica que entradas CHANGELOG.d con feat(seNNN) tienen campo spec: SE-NNN
-# Modo: --check (exit 1 si falta), --warn (solo aviso)
-# Uso en CI: bash scripts/changelog-spec-field-check.sh --check
+#!/bin/bash
+set -uo pipefail
+# changelog-spec-field-check.sh — SE-258 Slice 4
+# Verifica que entradas CHANGELOG.d tienen campo spec: y que el spec existe
+# Modos: --check (exit 1 si falta), --warn (exit 0, solo aviso), default --check
 
-MODE="${1:---warn}"
-
+MODE="${1:---check}"
 if [[ "$MODE" != "--check" && "$MODE" != "--warn" ]]; then
   echo "Usage: $0 [--check|--warn]" >&2
-  echo "  --check  exit 1 if any CHANGELOG.d entry is missing spec: field" >&2
-  echo "  --warn   exit 0 but print list of missing entries" >&2
+  echo "  --check  exit 1 if issues found" >&2
+  echo "  --warn   exit 0 but print issues" >&2
   exit 2
 fi
 
-CHANGELOG_DIR="${CHANGELOG_DIR:-CHANGELOG.d}"
+REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+CHANGELOG_DIR="$REPO_ROOT/CHANGELOG.d"
+SPECS_DIR="$REPO_ROOT/docs/specs"
+ARCHIVE_DIR="$REPO_ROOT/specs-archive"
 
 if [[ ! -d "$CHANGELOG_DIR" ]]; then
-  echo "ERROR: $CHANGELOG_DIR not found (run from repo root)" >&2
-  exit 2
-fi
-
-MISSING=()
-
-while IFS= read -r -d '' f; do
-  filename=$(basename "$f")
-
-  # Check if title line matches feat(seNNN) or fix(seNNN) pattern
-  # Look in first 5 lines for a markdown h1 with that pattern
-  title_line=$(head -10 "$f" | grep -iE "^#\s+feat\(se|^#\s+fix\(se" | head -1 || true)
-
-  if [[ -z "$title_line" ]]; then
-    # No matching title - skip
-    continue
-  fi
-
-  # Has a feat(se/fix(se title - now check for spec: field
-  # Either in YAML frontmatter or anywhere in body
-  if grep -qiE "^spec:\s+SE-[0-9]+" "$f" 2>/dev/null; then
-    # Has spec: field - OK
-    continue
-  fi
-
-  MISSING+=("$filename")
-done < <(find "$CHANGELOG_DIR" -maxdepth 1 -name "*.md" -print0 | sort -z)
-
-if [[ ${#MISSING[@]} -eq 0 ]]; then
-  echo "OK: all feat(seNNN)/fix(seNNN) CHANGELOG.d entries have spec: field"
   exit 0
 fi
 
-echo "WARN: ${#MISSING[@]} CHANGELOG.d entry/entries missing spec: field:"
-for f in "${MISSING[@]}"; do
-  echo "  - $f"
+ISSUES=0
+for entry in "$CHANGELOG_DIR"/*.md; do
+  [[ ! -f "$entry" ]] && continue
+  basename=$(basename "$entry" .md)
+
+  spec_id=""
+  if grep -q '^spec:' "$entry"; then
+    spec_id=$(grep '^spec:' "$entry" | head -1 | sed 's/spec:[[:space:]]*//')
+  fi
+
+  if [[ -z "$spec_id" ]]; then
+    spec_match=$(echo "$basename" | grep -oE 'se[0-9]+' || true)
+    if [[ -n "$spec_match" ]]; then
+      echo "ISSUE: $basename missing 'spec:' field in frontmatter"
+      ISSUES=$((ISSUES + 1))
+    fi
+    continue
+  fi
+
+  found=0
+  for pattern in "$SPECS_DIR/${spec_id}" "$SPECS_DIR/${spec_id^^}"; do
+    if compgen -G "${pattern}*.md" > /dev/null 2>&1; then
+      found=1
+      break
+    fi
+  done
+  if [[ "$found" -eq 0 ]] && [[ -d "$ARCHIVE_DIR" ]]; then
+    if find "$ARCHIVE_DIR" -name "*${spec_id}*" -o -name "*${spec_id^^}*" 2>/dev/null | grep -q .; then
+      found=1
+    fi
+  fi
+
+  if [[ "$found" -eq 0 ]]; then
+    echo "ISSUE: ${spec_id} referenced in CHANGELOG.d/$basename but spec file not found in docs/specs/ or specs-archive/"
+    ISSUES=$((ISSUES + 1))
+  fi
 done
 
-if [[ "$MODE" == "--check" ]]; then
-  exit 1
+if [[ "$ISSUES" -eq 0 ]]; then
+  echo "OK: all CHANGELOG.d entries have spec: field with existing spec files"
+  exit 0
 fi
 
-exit 0
+echo ""
+echo "Total issues: $ISSUES"
+if [[ "$MODE" == "--warn" ]]; then
+  echo "WARN: $ISSUES issue(s) found (non-blocking mode)"
+  exit 0
+fi
+
+exit 1

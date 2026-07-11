@@ -1,0 +1,67 @@
+name: Dependency Audit
+
+on:
+  schedule:
+    - cron: '0 8 * * 0'
+  workflow_dispatch:
+
+concurrency:
+  group: dependency-audit
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  npm-audit:
+    name: npm audit
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Checkout
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+
+      - name: Setup Node.js
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: '20'
+
+      - name: Run npm audit
+        run: |
+          if [ -f .opencode/package.json ]; then
+            cd .opencode && npm audit --production || true
+          else
+            echo "No .opencode/package.json found, skipping"
+          fi
+        continue-on-error: true
+
+  pip-audit:
+    name: pip audit
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Checkout
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install pip-audit
+        run: pip install pip-audit
+
+      - name: Find and audit requirements
+        run: |
+          found=0
+          for req in requirements.txt scripts/requirements.txt; do
+            if [ -f "$req" ]; then
+              echo "Auditing $req"
+              pip-audit -r "$req" || true
+              found=1
+            fi
+          done
+          if [ "$found" -eq 0 ]; then
+            echo "No requirements files found, skipping pip audit"
+          fi
+        continue-on-error: true
