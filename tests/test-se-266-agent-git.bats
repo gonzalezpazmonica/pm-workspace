@@ -69,3 +69,13 @@ json_cmd() {
   grep -q "NEVER.*git add -A" docs/AGENTS.md || \
   grep -q "git add.*explicit" docs/AGENTS.md
 }
+
+@test "SE266-T11: allows git clean dry-run (-fdn)" {
+  run bash -c "json_cmd 'git clean -fdn' | bash '$HOOK'"
+  [[ "$status" -eq 0 ]]
+}
+
+@test "SE266-T12: allows git clean with -n flag" {
+  run bash -c "json_cmd 'git clean -n' | bash '$HOOK'"
+  [[ "$status" -eq 0 ]]
+}

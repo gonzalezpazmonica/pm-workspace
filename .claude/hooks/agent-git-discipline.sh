@@ -25,9 +25,14 @@ if echo "$COMMAND" | grep -qE 'git[[:space:]]+reset[[:space:]]+--hard'; then
   exit 2
 fi
 
-if echo "$COMMAND" | grep -qE 'git[[:space:]]+clean[[:space:]]+-fd'; then
-  echo "BLOCKED [agent-git-discipline]: destructive operation — deletes untracked files from all agents." >&2
-  exit 2
+if echo "$COMMAND" | grep -qE 'git[[:space:]]+clean'; then
+  if echo "$COMMAND" | grep -qE 'clean[[:space:]].*(-[a-z]*n[a-z]*\b|-[a-z]*n\b|--dry-run)'; then
+    :
+  else
+    echo "BLOCKED [agent-git-discipline]: destructive operation — deletes untracked files from all agents." >&2
+    echo "  Use -n or --dry-run to preview first." >&2
+    exit 2
+  fi
 fi
 
 if echo "$COMMAND" | grep -qE 'git[[:space:]]+stash'; then

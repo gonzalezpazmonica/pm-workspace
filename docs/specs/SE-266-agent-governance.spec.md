@@ -68,7 +68,7 @@ AC-1. AGENTS.md tiene seccion Git Discipline for Agents
 AC-2. Hook bloquea operaciones destructivas de worktree
 AC-3. Operaciones masivas de stage emiten WARN
 AC-4. Stash bloqueado con mensaje que sugiere alternativa
-AC-5. 10 tests BATS (4 block + 2 warn + 2 allow + 2 doc presence)
+AC-5. 12 tests BATS (4 block + 2 warn + 4 allow + 2 doc presence)
 AC-6. Las reglas viajan en system prompt del agente via AGENTS.md
 
 ## Ficheros
