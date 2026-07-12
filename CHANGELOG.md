@@ -5,6 +5,16 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased] — 2026-07-12 · Agent Git Governance — PR #906
+
+Added: SE-266 — agent git discipline rules for concurrent agent safety,
+inspired by Pi (earendil-works/pi AGENTS.md).
+- `agent-git-discipline.sh` hook blocks destructive git ops (reset --hard,
+  clean -fd, stash, checkout .) and warns on global stage (git add -A/.),
+  registered in settings.json PreToolUse Bash matcher.
+- `docs/AGENTS.md` Git Discipline for Concurrent Agents section.
+- 12/12 BATS pass.
+
 ## [Unreleased] — 2026-07-12 · Court model tier assignment — PR #905
 
 Added: SE-265 — per-judge model tier assignment in rules/court.rules.yaml.

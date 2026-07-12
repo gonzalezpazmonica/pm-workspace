@@ -136,7 +136,7 @@ teardown() {
 @test "hook count is reasonable and not zero" {
   local count; count=$(ls .opencode/hooks/*.sh 2>/dev/null | wc -l)
   [ "$count" -ge 5 ]
-  [ "$count" -le 100 ]
+  [ "$count" -le 110 ]
 }
 
 @test "scripts handle nonexistent hook dir gracefully" {
