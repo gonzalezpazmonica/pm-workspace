@@ -701,9 +701,10 @@ Google Sheets · ServiceNow/SAP · Tableau · Kafka · VS Code ext · Cloud voic
 
 | ID | Título | Esfuerzo | Deps |
 |---|---|---|---|
-| **SE-220-spec** | Speculative Tool Execution — draft+verify (S0 BLOQUEANTE >=60%) | ~18h | feasibility probe |
+| **SE-266** | Agent Git Governance — reglas disciplina git para agentes concurrentes (Pi-inspired) | 3h | — |
 | **SE-264** | Memory auto-consolidation — dedup, strip test entries, flag stale (exxperts-inspired) | 3h | — |
-| **SE-258** | Brechas identitarias — 5 slices (destracking, self-audit, archive) | 8h | —— |
+| **SE-220-spec** | Speculative Tool Execution — draft+verify (S0 BLOQUEANTE >=60%) | ~18h | feasibility probe |
+| **SE-258** | Brechas identitarias — 5 slices (destracking, self-audit, archive) | 8h | — |
 
 #### Tier P1
 
