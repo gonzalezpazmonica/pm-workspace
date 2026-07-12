@@ -1,5 +1,5 @@
 # quality — Savia Capability Map (L1)
-> 238 resources
+> 239 resources
 
 - **/speckit.analyze** (cmd): Alias spec-kit compatible. Review cruzado de una spec antes de implementar. Invoca skill consensus-validation. Compatible con github/spec-kit.
 - **Court Review** (cmd): Convene the Code Review Court to evaluate implementation quality across 6 judges
@@ -97,6 +97,7 @@
 - **python-sbom** (script): python-sbom.sh — SE-056 Slice 1 Python SBOM + requirements audit.
 - **rbac-management** (skill): Usar cuando se gestionan roles, permisos o se audita el acceso de usuarios.
 - **rbac-manager** (cmd): Role-based access control — grant, revoke, audit roles and permissions
+- **receipt-v2** (script): receipt-v2.sh — Content-bound review receipts (SE-260 S4)
 - **recommendation-tribunal-search** (script): recommendation-tribunal-search.sh — SPEC-125 Slice 2: CLI for audit-trail inspection.
 - **reconciler** (agent): Classifies contradictions into 3 buckets: evolution, auto-resolve, conflict-doc. Invoked by drift-auditor.
 - **review-cache** (script): review-cache.sh - Gestión de caché de code review

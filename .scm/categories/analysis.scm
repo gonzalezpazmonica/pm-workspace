@@ -1,5 +1,5 @@
 # analysis — Savia Capability Map (L1)
-> 51 resources
+> 52 resources
 
 - **Trace Optimize** (cmd): Optimize trace spans and sampling rates across distributed services
 - **agent-activity** (cmd): Show structured activity log of recent agent executions
@@ -11,6 +11,7 @@
 - **agent-file-map** (skill): Usar cuando se trabaja con ficheros externos al workspace que los agentes deben localizar.
 - **agent-gate** (script): agent-gate.sh — SE-216 Slice 2: inherited quality gates for agent runs
 - **agent-hook-runner** (script): agent-hook-runner.sh — SE-202: semantic LLM gate for hooks
+- **agent-index-generate** (script): agent-index-generate.sh — Generate federated agent index from cards (SE-263 S4)
 - **agent-journal** (script): agent-journal.sh — Append-only JSONL journal para agent-runs autónomos.
 - **agent-memory** (cmd): Inspect and manage persistent memory fragments for subagents.
 - **agent-run** (cmd): Launch a Claude agent on a Spec or batch of pending specs
