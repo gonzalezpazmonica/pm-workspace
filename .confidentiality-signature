@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=1f3b67ef4df850bc9380fe107e7bbac3f870d8f6ae01cf3c407438ab222c13f1
-timestamp=2026-07-12T08:00:17Z
-branch=agent/se265-court-model-tiers
-head_commit=14e0bb5dc
-signature=85125e1670ed29fde01f39659a5ebb57283727edd6b91de48d94e78b96c88ecf
+diff_hash=0715de51d91d26202c321e572b8ae97e7e760879b7b78ee5da08216ed93180d7
+timestamp=2026-07-12T09:58:44Z
+branch=agent/se266-agent-governance
+head_commit=de9df380
+signature=132353d7eab25ab3ba4f81ebbd0617f84002ff23c9a122f5b09b2e98937ccc21
