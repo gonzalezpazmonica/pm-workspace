@@ -5,6 +5,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased] — 2026-07-12 · Court model tier assignment — PR #905
+
+Added: SE-265 — per-judge model tier assignment in rules/court.rules.yaml.
+security/correctness → heavy, architecture → mid, cognitive/spec → fast.
+Safety: critical judges require heavy, operator override allowed.
+10/10 BATS pass. Inspired by gentle-ai v2.0.0 configurable review models.
+
 ## [Unreleased] — 2026-07-11 · Federacion de Savias — PR #904
 
 Added: SE-263 — Federacion de Savias soberanas mediante cupulas de contexto,

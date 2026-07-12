@@ -36,3 +36,19 @@ scoring:
     high: 10
     medium: 3
     low: 1
+
+# SE-265: Per-judge model tier assignment (gentle-ai v2.0 inspired)
+models:
+  default: mid
+  per_judge:
+    security-judge: heavy
+    correctness-judge: heavy
+    architecture-judge: mid
+    cognitive-judge: fast
+    spec-judge: fast
+  budget:
+    max_total_tokens: 24000
+    per_judge_min_tokens: 2000
+  safety:
+    security_and_correctness_require_heavy: true
+    allow_operator_override: true
