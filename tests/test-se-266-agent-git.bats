@@ -5,61 +5,60 @@ HOOK="${BATS_TEST_DIRNAME}/../.opencode/hooks/agent-git-discipline.sh"
 
 setup() {
   [[ -x "$HOOK" ]] || skip "agent-git-discipline.sh not executable at $HOOK"
+  export -f json_cmd 2>/dev/null || true
 }
 
-@test "SE266-T01: blocks destructive operation" {
-  local cmd
-  cmd=$(echo "Z2l0IHJlc2V0IC0taGFyZA==" | base64 -d) 2>/dev/null || cmd=""
-  [[ -z "$cmd" ]] && skip "base64 not available"
-  run bash -c "echo '$cmd' | bash $HOOK"
-  [[ "$status" -eq 1 ]]
+json_cmd() {
+  local cmd="$1"
+  printf '{"tool_input":{"command":"%s"}}' "$cmd"
+}
+
+@test "SE266-T01: blocks destructive reset --hard" {
+  run bash -c "json_cmd 'git reset --hard' | bash '$HOOK'"
+  [[ "$status" -eq 2 ]]
   [[ "$output" =~ "BLOCKED" ]]
 }
 
-@test "SE266-T02: blocks clean operation" {
-  local cmd
-  cmd=$(echo "Z2l0IGNsZWFuIC1mZA==" | base64 -d) 2>/dev/null || cmd=""
-  [[ -z "$cmd" ]] && skip "base64 not available"
-  run bash -c "echo '$cmd' | bash $HOOK"
-  [[ "$status" -eq 1 ]]
+@test "SE266-T02: blocks destructive clean -fd" {
+  run bash -c "json_cmd 'git clean -fd' | bash '$HOOK'"
+  [[ "$status" -eq 2 ]]
   [[ "$output" =~ "BLOCKED" ]]
 }
 
 @test "SE266-T03: blocks stash operation" {
-  run bash -c "echo 'git stash' | bash $HOOK"
-  [[ "$status" -eq 1 ]]
+  run bash -c "json_cmd 'git stash' | bash '$HOOK'"
+  [[ "$status" -eq 2 ]]
   [[ "$output" =~ "BLOCKED" ]]
 }
 
 @test "SE266-T04: blocks checkout dot" {
-  run bash -c "echo 'git checkout .' | bash $HOOK"
-  [[ "$status" -eq 1 ]]
+  run bash -c "json_cmd 'git checkout .' | bash '$HOOK'"
+  [[ "$status" -eq 2 ]]
   [[ "$output" =~ "BLOCKED" ]]
 }
 
 @test "SE266-T05: warns on git add -A" {
-  run bash -c "echo 'git add -A' | bash $HOOK"
+  run bash -c "json_cmd 'git add -A' | bash '$HOOK'"
   [[ "$status" -eq 0 ]]
   [[ "$output" =~ "WARN" ]]
 }
 
 @test "SE266-T06: warns on git add ." {
-  run bash -c "echo 'git add .' | bash $HOOK"
+  run bash -c "json_cmd 'git add .' | bash '$HOOK'"
   [[ "$status" -eq 0 ]]
   [[ "$output" =~ "WARN" ]]
 }
 
 @test "SE266-T07: allows explicit git add path" {
-  run bash -c "echo 'git add src/main.sh' | bash $HOOK"
+  run bash -c "json_cmd 'git add src/main.sh' | bash '$HOOK'"
   [[ "$status" -eq 0 ]]
   [[ ! "$output" =~ "BLOCKED" ]]
   [[ ! "$output" =~ "WARN" ]]
 }
 
 @test "SE266-T08: passes through non-git commands" {
-  run bash -c "echo 'ls -la' | bash $HOOK"
+  run bash -c "json_cmd 'ls -la' | bash '$HOOK'"
   [[ "$status" -eq 0 ]]
-  [[ "$output" == "ls -la" ]]
 }
 
 @test "SE266-T09: AGENTS.md has Git Discipline section" {

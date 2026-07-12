@@ -1,6 +1,6 @@
 # Spec: SE-266 — Agent Git Governance (Pi-inspired)
 
-**Status:** PROPOSED
+**Status:** APPROVED
 **Fecha:** 2026-07-12
 **Area:** Agent governance / Git discipline / Concurrent safety
 **Branch:** agent/se266-agent-governance
@@ -9,7 +9,7 @@
 
 **Developer Type:** agent-single
 **Asignado a:** claude-agent
-**Estado:** Pendiente
+**Estado:** Implementado (PR #906, 2026-07-12)
 
 **Effort Estimation (Dual Model):**
 | Dimension | Value |
@@ -55,7 +55,7 @@ Reglas para agentes operando en el repo:
 
 Deteccion pre-ejecucion de patrones peligrosos:
 - Operaciones masivas de stage → WARN (no bloquea, registra)
-- Operaciones destructivas de worktree → BLOCK (exit 1)
+- Operaciones destructivas de worktree → BLOCK (exit 2)
 - Operaciones que ocultan cambios → BLOCK (con sugerencia de alternativa)
 
 ### Guard TypeScript equivalente en savia-foundation
@@ -68,7 +68,7 @@ AC-1. AGENTS.md tiene seccion Git Discipline for Agents
 AC-2. Hook bloquea operaciones destructivas de worktree
 AC-3. Operaciones masivas de stage emiten WARN
 AC-4. Stash bloqueado con mensaje que sugiere alternativa
-AC-5. 3 tests BATS (warn, block, block)
+AC-5. 10 tests BATS (4 block + 2 warn + 2 allow + 2 doc presence)
 AC-6. Las reglas viajan en system prompt del agente via AGENTS.md
 
 ## Ficheros
@@ -77,6 +77,7 @@ AC-6. Las reglas viajan en system prompt del agente via AGENTS.md
 |--------|------|
 | MODIFY | AGENTS.md (añadir seccion Git Discipline) |
 | CREATE | .opencode/hooks/agent-git-discipline.sh |
+| MODIFY | .claude/settings.json (registrar hook PreToolUse Bash) |
 | CREATE | tests/test-se-266-agent-git.bats |
 
 ## No modifica
