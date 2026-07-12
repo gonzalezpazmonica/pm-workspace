@@ -701,45 +701,46 @@ Google Sheets · ServiceNow/SAP · Tableau · Kafka · VS Code ext · Cloud voic
 
 | ID | Título | Esfuerzo | Deps |
 |---|---|---|---|
-| **SPEC-192** | Anti-Adulation & Illusory Truth Defense — 3 jueces nuevos + hook regex + skill | 4-6h | — |
-| **SPEC-193** | Context Provenance & Injection Hardening — origin tagging, drop-after-use | 5-8h | — |
-| **SPEC-194** | Criterion Simulation Layer — meta-reflexión pre-acción (novel) | 6-9h | — |
-| **SE-260 S4** | Recibos de revision ligados a contenido — patch-id estable, gate G0b | 4h | — |
-| **SE-260 S1** | Ciclo de revision acotado del Court — freeze, path-set, verificacion dirigida | 10h | SE-260 S4 |
+| **SE-220-spec** | Speculative Tool Execution — draft+verify (S0 BLOQUEANTE >=60%) | ~18h | feasibility probe |
+| **SE-264** | Memory auto-consolidation — dedup, strip test entries, flag stale (exxperts-inspired) | 3h | — |
+| **SE-258** | Brechas identitarias — 5 slices (destracking, self-audit, archive) | 8h | —— |
 
 #### Tier P1
 
 | ID | Título | Esfuerzo | Deps |
 |---|---|---|---|
-| **SPEC-189** | Greedy Context Budget Selection — selección dinámica de contexto | 3h | SPEC-156  |
-| **SPEC-187** | Alineación principios éticos IAH | 3-4h | — |
-| **SPEC-149** | Sandbox OS-level para modos autónomos — Docker doble capa | ~20h | — |
+| **SPEC-189** | Greedy Context Budget Selection — seleccion dinamica de contexto | 3h | SPEC-156 |
+| **SPEC-149** | Sandbox OS-level para modos autonomos — Docker doble capa | ~20h | — |
+| **SPEC-164** | Memory feedback loop — auto-memoria desde resultados reales | TBD | — |
+| **SE-172** | markitdown como capa 0 universal de digestion | 6h | — |
 
 #### Tier P2 — Sprint siguiente
 
 | ID | Título | Esfuerzo | Deps |
 |---|---|---|---|
-| **SPEC-199** | Self-Conditioning Between Tribunal Rounds (embeddings) | 5-7h | SPEC-195  |
-| **SPEC-188 F2** | Sealed Contract Tests | ~8h | F1  |
-| **SE-220-spec** | Speculative Tool Execution — draft+verify (S0 BLOQUEANTE ≥60%) | ~18h | feasibility probe |
-| **SE-222** | OKF Adoptable Patterns — resource URI + log.md + index.md | ~8h | — |
-| **SPEC-163** | Router Modo 1/Modo 2 — System 1/2 dispatch (haiku/opus) | TBD | — |
-| **SPEC-164** | Memory feedback loop — auto-memoria desde resultados reales | TBD | — |
-| **SE-106** | Tiered Tribunal Execution — Tier 0 seq + Tier 1 paralelo + early-stop | M | SPEC-159  |
-| **SE-172** | markitdown como capa 0 universal de digestión | 6h | — |
-| **SE-220-sec** | Prompt defense patterns + context distribution optimization | M | SE-221 |
-| **SE-221** | Inverted security patterns as context engineering | M | — |
-| **SPEC-SE-036 S3** | JWT sunset opt-in (PAT migration) | 4h | Slices 1+2  |
+| **SPEC-182** | Bitemporal timeline frontmatter | 6-8h | — |
+| **SPEC-183** | Reconciliation 3-bucket drift-auditor | 5-7h | SPEC-182 |
+| **SE-106** | Tiered Tribunal Execution — Tier 0 seq + Tier 1 paralelo + early-stop | M | SPEC-159 |
+| **SE-222 S1-S2** | OKF Adoptable Patterns — log.md + index.md | ~4h | — |
+| **SE-265** | Court model tier assignment — per-judge model config (gentle-ai v2.0) | 3h | — |
 
 #### Tier P2-P3 — Backlog aprobado
 
 | ID | Título | Esfuerzo | Prioridad |
 |---|---|---|---|
-| **SE-260** | Blast Radius Command — "si cambio este fichero, ¿qué se rompe?" (CodeFlow-inspired) | 2h | P2 |
-| **SE-261** | Workspace Health Score v2 — 9 dimensiones con blast radius, ownership, dead code (CodeFlow-inspired) | 3h | P2 · dep SE-260 |
-| **SE-262** | PR Thermal Receipts — delta de métricas en comentario sticky al merge (CodeFlow-inspired) | 2h | P2 |
-| **SE-263 S2** | Delegacion nativa a OpenCode — explore allowlist, deny-by-default | 4h | P2 |
-| **SE-264 S3** | Contrato ownership-safe para artefactos — Python lib + 6 ops | 6h | P2 |
+| **SE-260** | Blast Radius Command (CodeFlow) | 2h | IMPLEMENTED #902 |
+| **SE-261** | Workspace Health Score v2 (CodeFlow) | 3h | IMPLEMENTED #902 |
+| **SE-262** | PR Thermal Receipts (CodeFlow) | 2h | IMPLEMENTED #902 |
+| **SE-263 S1-S7** | Federacion de Savias — 7 slices | 49h | IMPLEMENTED #904 |
+| **SE-260 S1-S4** | gentle-ai v1.49 patterns — bounded review + receipts + delegation + artifacts | 24h | IMPLEMENTED #903 |
+| **SPEC-192** | Anti-Adulation & Illusory Truth Defense | 4-6h | IMPLEMENTED #838-840 |
+| **SPEC-193** | Context Provenance & Injection Hardening | 5-8h | IMPLEMENTED #839 |
+| **SPEC-194** | Criterion Simulation Layer | 6-9h | IMPLEMENTED #840 |
+| **SPEC-187** | Alineacion principios eticos IAH | 3-4h | IMPLEMENTED |
+| **SPEC-199** | Self-Conditioning Between Tribunal Rounds | 5-7h | IMPLEMENTED #855 |
+| **SPEC-188 F2** | Sealed Contract Tests | ~8h | IMPLEMENTED #854 |
+| **SE-265** | Court model tier assignment — per-judge model config (gentle-ai v2.0) | 3h | P2 |
+| **SE-264** | Memory auto-consolidation — dedup, strip test entries (exxperts-inspired) | 3h | P1 |
 | **SPEC-182** | Bitemporal timeline frontmatter | 6-8h | P2 |
 | **SPEC-183** | Reconciliation 3-bucket drift-auditor | 5-7h | P3 · dep SPEC-182 |
 | **SE-216 S4** | Experiment Graph — tree search | ~6h | P3 |
@@ -747,34 +748,22 @@ Google Sheets · ServiceNow/SAP · Tableau · Kafka · VS Code ext · Cloud voic
 | **SE-105** | GLM Governance Manifest v1.0 | 4h | P-media |
 | **SE-031** | Query Library NL-to-WIQL/JQL | M | dep SE-076  |
 | **SPEC-108** | Agent Self-Improvement Loop + Sentry RCA | ~16h | P-media |
-| **SPEC-123** | Graphiti Temporal Pattern en knowledge-graph | M | dep SE-162  |
-| **SPEC-042** | Live Progress Feedback | M | P-media |
-| **SPEC-049** | Depth-Adjustable Review | S | P-media |
-| **SPEC-050** | Reaction Engine SDD Pipeline | M | P-media |
-| **SPEC-051** | Session State Machine for Dev Sessions | M | P-media |
-| **SPEC-052** | Recursive Task Decomposition with Approval Gates | M | P-media |
-| **SPEC-056** | Typed Agent Message Protocol | M | P-media |
-| **SPEC-059** | Semantic Fault Handlers for Agent Recovery | M | P-media |
-| **SPEC-073** | Query Keyword Expansion | S | P-media |
-| **SPEC-074** | Parallel Doc QA | M | P-media |
-| **SPEC-076** | PENDING_USER_INPUT en agentes autónomos | S | P-media |
-| **SPEC-046** | Visual Diff QA Merge | S | P-media |
-| **SPEC-044** | Trace Prompt Optimization | M | P-media |
-| **SPEC-165** | World Model Simulation | M | dep SPEC-194 |
-| **SPEC-166** | Explicit Configurator Agent | M | dep SPEC-163 |
-| **SPEC-167** | Critic with RAG over external memory | M | dep SE-162  |
-| **SPEC-168** | Actor Iterative Pre-action | M | dep SPEC-165+166 |
-| **SPEC-154** | Fórmula canónica V×U/E — scoring specs/PBIs | ~24h | P3 |
-| **SPEC-150** | Hooks multi-handler migration (TS plugin) | ~35h | P3 |
-| **SPEC-151** | Evals CI Gate (DeepEval + Promptfoo) | ~24h | P7 |
-| **SPEC-152** | Delegación jerárquica en orquestadores | ~18h | P8 |
-| **SPEC-153** | Memory bitemporal + consolidación episodic→semantic | ~22h | P12 |
-| **SPEC-032** | Security Benchmarks | M | enterprise |
+| **SPEC-123** | Graphiti Temporal Pattern en knowledge-graph | M | dep SE-162 |
 | **SPEC-162** | Self-Evolving Tools (research time-boxed) | ~12h | Tier 3 |
 | **SPEC-107** | AI Cognitive Debt Mitigation | ~32h | research |
-| **SE-030** | GraphRAG Quality Gates | M | dep SE-162  |
+| **SPEC-154** | Formula canonica VxU/E — scoring specs/PBIs | ~24h | P3 |
+| **SE-030** | GraphRAG Quality Gates | M | dep SE-162 |
 | **SE-040** | Agent Degradation Canary | S | P-baja |
 | **SPEC-191** | Savia Telemetry (OpenTelemetry) | TBD | infra externa |
+
+### ARCHIVED — Stale DRAFTs (2026-03), superseded or no active plan
+
+| ID | Motivo |
+|---|---|
+| SPEC-042/044/046/049/050/051/052/056/059/073/074/076 | DRAFT 2026-03, sin implementacion ni plan activo |
+| SPEC-165/166/167/168 | Dependencias no resueltas (SPEC-194, SPEC-163, SE-162) |
+| SPEC-150/151/152/153 | Tier 7+, migracion masiva sin ROI inmediato |
+| SPEC-032 | Enterprise-only |
 
 ### Total aprobado (2026-06-24): ~85h P0-P2 core · ~200h P3+ backlog
 
