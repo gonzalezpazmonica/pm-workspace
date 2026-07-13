@@ -5,6 +5,18 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased] — 2026-07-13 · Agent Shell Safety (v2) — PR #906 extension
+
+Added: SE-266 v2 — extended agent-git-discipline.sh to block destructive
+shell operations after session catastrophique 2026-07-13.
+- BLOCK: rm -rf, rm -r, rm --recursive (recursive delete)
+- BLOCK: rm without -i/--interactive (except safe paths)
+- BLOCK: dd of=/dev/*, mkfs.*, chown -R on user home
+- BLOCK: truncate of home files
+- Safe paths: /tmp/opencode/, /tmp/recovery/
+- 27/27 manual tests pass (30 BATS in test-se-266-agent-git.bats)
+- Spec updated with v2 scope + lesson learned section
+
 ## [Unreleased] — 2026-07-12 · Agent Git Governance — PR #906
 
 Added: SE-266 — agent git discipline rules for concurrent agent safety,
