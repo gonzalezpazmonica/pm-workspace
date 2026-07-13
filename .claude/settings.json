@@ -82,6 +82,12 @@
           },
           {
             "type": "command",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/.opencode/hooks/agent-git-discipline.sh",
+            "timeout": 5,
+            "statusMessage": "SE-266: verificando disciplina de agentes (git + rm)..."
+          },
+          {
+            "type": "command",
             "command": "\"$CLAUDE_PROJECT_DIR\"/.opencode/hooks/validate-bash-global.sh",
             "statusMessage": "Validando comando...",
             "timeout": 10
