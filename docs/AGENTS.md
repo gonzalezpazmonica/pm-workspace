@@ -205,3 +205,39 @@ bash scripts/invoke-agent.sh "dotnet-developer" "Implement UserService.CreateAsy
 - Command: `/agent-trace` — View recent agent executions
 - Skill: `spec-driven-development/SKILL.md` — SDD orchestration
 - Rules: `agents-catalog.md` — Complete agent reference
+
+## Git Discipline for Concurrent Agents
+
+> SE-266 — Inspired by Pi (earendil-works/pi AGENTS.md)
+
+Multiple agents may run in this workspace at the same time. Git operations
+that touch unstaged, staged, or untracked files outside your own changes
+will destroy other agents' work. Follow these rules on EVERY git operation.
+
+### Committing
+
+- Only commit files YOU changed in THIS session.
+- Stage explicit paths: `git add <path1> <path2>` — NEVER `git add -A`
+  or `git add .`
+- Before committing, verify with `git status` that you are only staging
+  your files.
+
+### Never run (destroys other agents' work)
+
+- `git reset --hard` — blocked by hook. Destroys all uncommitted work.
+- `git checkout .` — destroys working tree changes of all agents.
+- `git clean -fd` — deletes untracked files from all agents.
+- `git stash` — hides other agents' staged changes. Alternative: commit
+  to an `agent/*` branch.
+
+### Rebase conflicts
+
+- Resolve conflicts ONLY in files you modified.
+- If a conflict is in a file you did not modify, abort and ask the
+  operator. Do NOT resolve conflicts in files owned by other agents.
+
+### Branch safety
+
+- Never commit to `main` or human-owned branches.
+- Always use `agent/<spec>-<date>-<desc>` branches.
+- Never force-push. Never delete branches you did not create.

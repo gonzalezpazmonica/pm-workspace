@@ -1,5 +1,5 @@
 # planning — Savia Capability Map (L1)
-> 491 resources
+> 494 resources
 
 - **/decide-architecture** (cmd): Clasifica una tarea como WORKFLOW (deterministica) o AGENT (loop). Bias hacia workflow per Anthropic. Sugiere plantilla inicial. Mide accuracy contra corpus curado de 20 tareas.
 - **_template** (skill): TEMPLATE — copia este directorio para crear una skill nueva. NO se carga en runtime.
@@ -166,8 +166,10 @@
 - **eval-workspace** (script): eval-workspace.sh — Evaluación integral de pm-workspace contra sala-reservas
 - **evaluate-repo** (cmd): >
 - **evaluations-framework** (skill): Usar cuando se diseñan o ejecutan evaluaciones de calidad de agentes y prompts.
+- **exchange-ledger** (script): exchange-ledger.sh — Federation exchange ledger (SE-263 S6)
 - **exit** (cmd): >
 - **factuality-judge** (agent): Truth Tribunal judge — factual accuracy of claims against verifiable sources
+- **federation-drill** (script): federation-drill.sh — SE-263 S7: Compromised instance drill
 - **flow-backlog-groom** (cmd): Review and prioritize backlog items
 - **flow-burndown** (cmd): Show sprint burndown chart data
 - **flow-metrics** (cmd): Dashboard de métricas de flujo Savia Flow (cycle time, lead time, throughput, CFR)
@@ -223,6 +225,7 @@
 - **install-prepush-hook** (script): SE-247 — Instala el hook pre-push de seguridad en el repo actual o en uno dado.
 - **install-savia-bridge-system** (script): install-savia-bridge-system.sh — Promote savia-bridge to a SYSTEM systemd unit.
 - **install-watchdog** (script): install-watchdog.sh — Installs savia-watchdog as systemd service
+- **instance-card** (script): instance-card.sh — Savia instance identity cards (SE-263 S2)
 - **integration-status** (cmd): Dashboard de estado de todas las integraciones — APIs, webhooks, MCP, conectividad
 - **java-developer** (agent): >
 - **kg-link-prediction** (script): kg-link-prediction.sh — SE-249: wrapper for kg-link-prediction.py

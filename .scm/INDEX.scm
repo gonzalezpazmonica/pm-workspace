@@ -1,6 +1,6 @@
 # Savia Capability Map — INDEX
-> hash: 67292e07dbb3 | resources: 1205
-> 287 commands · 120 skills · 81 agents · 717 scripts
+> hash: 7a2cc6eccb51 | resources: 1211
+> 287 commands · 120 skills · 81 agents · 723 scripts
 
 [analysis] Trace Optimize — across,distributed,optimize,rates,sampling — cmd:.claude/commands/trace-optimize.md
 [analysis] agent-activity — activity,agent,executions,recent,show — cmd:.claude/commands/agent-activity.md
@@ -12,6 +12,7 @@
 [analysis] agent-file-map — agentes,deben,externos,ficheros,localizar — skill:.claude/skills/agent-file-map/SKILL.md
 [analysis] agent-gate — agent,gate,gates,inherited,quality — script:scripts/agent-gate.sh
 [analysis] agent-hook-runner — agent,gate,hook,hooks,runner — script:scripts/agent-hook-runner.sh
+[analysis] agent-index-generate — agent,cards,federated,generate,index — script:scripts/agent-index-generate.sh
 [analysis] agent-journal — agent,append,autónomos,journal,jsonl — script:scripts/agent-journal.sh
 [analysis] agent-memory — fragments,inspect,manage,memory,persistent — cmd:.claude/commands/agent-memory.md
 [analysis] agent-run — agent,batch,claude,launch,pending — cmd:.claude/commands/agent-run.md
@@ -440,6 +441,7 @@
 [memory] memory-conflict-check — check,conflict,conflicting,detect,entries — script:scripts/memory-conflict-check.sh
 [memory] memory-conflict-judge — active,auto,contradicts,detects,draft — agent:.opencode/agents/memory-conflict-judge.md
 [memory] memory-consolidate — compress,consolidate,context,entries,memory — cmd:.claude/commands/memory-consolidate.md
+[memory] memory-consolidate — consolidate,memory,wrapper — script:scripts/memory-consolidate.sh
 [memory] memory-context —  — cmd:.claude/commands/memory-context.md
 [memory] memory-feedback-post-merge — entry,feedback,memory,merge,merged — script:scripts/memory-feedback-post-merge.sh
 [memory] memory-hygiene — auto,automática,hygiene,limpieza,memory — script:scripts/memory-hygiene.sh
@@ -643,8 +645,10 @@
 [planning] eval-workspace — contra,eval,evaluación,integral,reservas — script:scripts/eval-workspace.sh
 [planning] evaluate-repo —  — cmd:.claude/commands/evaluate-repo.md
 [planning] evaluations-framework — agentes,calidad,diseñan,ejecutan,evaluaciones — skill:.claude/skills/evaluations-framework/SKILL.md
+[planning] exchange-ledger — exchange,federation,ledger — script:scripts/exchange-ledger.sh
 [planning] exit —  — cmd:.claude/commands/exit.md
 [planning] factuality-judge — accuracy,against,claims,factual,judge — agent:.opencode/agents/factuality-judge.md
+[planning] federation-drill — compromised,drill,federation,instance — script:scripts/federation-drill.sh
 [planning] flow-backlog-groom — backlog,items,prioritize,review — cmd:.claude/commands/flow-backlog-groom.md
 [planning] flow-burndown — burndown,chart,data,show,sprint — cmd:.claude/commands/flow-burndown.md
 [planning] flow-metrics — cycle,dashboard,flow,flujo,lead — cmd:.claude/commands/flow-metrics.md
@@ -700,6 +704,7 @@
 [planning] install-prepush-hook — actual,dado,hook,instala,push — script:scripts/install-prepush-hook.sh
 [planning] install-savia-bridge-system — bridge,install,promote,savia,system — script:scripts/install-savia-bridge-system.sh
 [planning] install-watchdog — install,installs,savia,service,systemd — script:scripts/install-watchdog.sh
+[planning] instance-card — card,cards,identity,instance,savia — script:scripts/instance-card.sh
 [planning] integration-status — apis,conectividad,dashboard,estado,integraciones — cmd:.claude/commands/integration-status.md
 [planning] java-developer —  — agent:.opencode/agents/java-developer.md
 [planning] kg-link-prediction — link,prediction,wrapper — script:scripts/kg-link-prediction.sh
@@ -1065,6 +1070,7 @@
 [quality] python-sbom — audit,python,requirements,sbom,slice — script:scripts/python-sbom.sh
 [quality] rbac-management — acceso,audita,gestionan,permisos,roles — skill:.claude/skills/rbac-management/SKILL.md
 [quality] rbac-manager — access,audit,based,control,grant — cmd:.claude/commands/rbac-manager.md
+[quality] receipt-v2 — bound,content,receipt,receipts,review — script:scripts/receipt-v2.sh
 [quality] recommendation-tribunal-search — audit,inspection,recommendation,search,slice — script:scripts/recommendation-tribunal-search.sh
 [quality] reconciler — auditor,auto,buckets,classifies,conflict — agent:.opencode/agents/reconciler.md
 [quality] review-cache — cache,caché,code,gestión,review — script:scripts/review-cache.sh
