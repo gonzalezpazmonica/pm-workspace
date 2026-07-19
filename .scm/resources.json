@@ -1,6 +1,6 @@
 {
-  "hash": "b1ebb296922e",
-  "total": 1205,
+  "hash": "99c52f811681",
+  "total": 1211,
   "resources": [
     {
       "category": "analysis",
@@ -137,6 +137,20 @@
       "kind": "script",
       "path": "scripts/agent-hook-runner.sh",
       "description": "agent-hook-runner.sh — SE-202: semantic LLM gate for hooks"
+    },
+    {
+      "category": "analysis",
+      "name": "agent-index-generate",
+      "intents": [
+        "agent",
+        "cards",
+        "federated",
+        "generate",
+        "index"
+      ],
+      "kind": "script",
+      "path": "scripts/agent-index-generate.sh",
+      "description": "agent-index-generate.sh — Generate federated agent index from cards (SE-263 S4)"
     },
     {
       "category": "analysis",
@@ -5790,6 +5804,18 @@
     },
     {
       "category": "memory",
+      "name": "memory-consolidate",
+      "intents": [
+        "consolidate",
+        "memory",
+        "wrapper"
+      ],
+      "kind": "script",
+      "path": "scripts/memory-consolidate.sh",
+      "description": "memory-consolidate.sh — wrapper for memory-consolidate.py"
+    },
+    {
+      "category": "memory",
       "name": "memory-context",
       "intents": [],
       "kind": "cmd",
@@ -8460,6 +8486,18 @@
     },
     {
       "category": "planning",
+      "name": "exchange-ledger",
+      "intents": [
+        "exchange",
+        "federation",
+        "ledger"
+      ],
+      "kind": "script",
+      "path": "scripts/exchange-ledger.sh",
+      "description": "exchange-ledger.sh — Federation exchange ledger (SE-263 S6)"
+    },
+    {
+      "category": "planning",
       "name": "exit",
       "intents": [],
       "kind": "cmd",
@@ -8479,6 +8517,19 @@
       "kind": "agent",
       "path": ".opencode/agents/factuality-judge.md",
       "description": "Truth Tribunal judge — factual accuracy of claims against verifiable sources"
+    },
+    {
+      "category": "planning",
+      "name": "federation-drill",
+      "intents": [
+        "compromised",
+        "drill",
+        "federation",
+        "instance"
+      ],
+      "kind": "script",
+      "path": "scripts/federation-drill.sh",
+      "description": "federation-drill.sh — SE-263 S7: Compromised instance drill"
     },
     {
       "category": "planning",
@@ -9190,6 +9241,20 @@
       "kind": "script",
       "path": "scripts/install-watchdog.sh",
       "description": "install-watchdog.sh — Installs savia-watchdog as systemd service"
+    },
+    {
+      "category": "planning",
+      "name": "instance-card",
+      "intents": [
+        "card",
+        "cards",
+        "identity",
+        "instance",
+        "savia"
+      ],
+      "kind": "script",
+      "path": "scripts/instance-card.sh",
+      "description": "instance-card.sh — Savia instance identity cards (SE-263 S2)"
     },
     {
       "category": "planning",
@@ -13979,6 +14044,20 @@
       "kind": "cmd",
       "path": ".claude/commands/rbac-manager.md",
       "description": "Role-based access control — grant, revoke, audit roles and permissions"
+    },
+    {
+      "category": "quality",
+      "name": "receipt-v2",
+      "intents": [
+        "bound",
+        "content",
+        "receipt",
+        "receipts",
+        "review"
+      ],
+      "kind": "script",
+      "path": "scripts/receipt-v2.sh",
+      "description": "receipt-v2.sh — Content-bound review receipts (SE-260 S4)"
     },
     {
       "category": "quality",

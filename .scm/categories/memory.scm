@@ -1,5 +1,5 @@
 # memory — Savia Capability Map (L1)
-> 94 resources
+> 95 resources
 
 - **auto-compact** (script): auto-compact.sh — Disparado automáticamente cuando contexto > 85%
 - **cache-analytics** (cmd): Métricas de hit rate, tokens ahorrados, latencia, ahorro de costes
@@ -57,6 +57,7 @@
 - **memory-conflict-check** (script): memory-conflict-check.sh — SE-214: detect conflicting memory entries
 - **memory-conflict-judge** (agent): Recommendation Tribunal judge — detects when a draft recommendation contradicts the active user's auto-memory (feedback_*, user_*)
 - **memory-consolidate** (cmd): Consolidate and compress memory entries to save context
+- **memory-consolidate** (script): memory-consolidate.sh — wrapper for memory-consolidate.py
 - **memory-context** (cmd): >
 - **memory-feedback-post-merge** (script): memory-feedback-post-merge.sh — Writes a memory entry when a PR is merged.
 - **memory-hygiene** (script): memory-hygiene.sh — SPEC-142: Limpieza automática de auto-memory

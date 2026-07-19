@@ -6,7 +6,7 @@
 
 | Total hooks | TS Guards | Git Hook mitigated | CI Job mitigated | NONE |
 |---|---|---|---|---|
-| 105 | 17 (16.2%) | 4 | 5 | 79 |
+| 106 | 17 (16.0%) | 4 | 5 | 80 |
 
 ## Bloqueantes sin cobertura ni mitigacion
 
@@ -14,8 +14,8 @@ Ninguno — AC-2.2 satisfecho.
 
 ## Cobertura real OpenCode
 
-- **TS Guards activos**: 17/105 (16.2%)
-- **Hooks sin cobertura TS**: 79 (75.2%)
+- **TS Guards activos**: 17/106 (16.0%)
+- **Hooks sin cobertura TS**: 80 (75.5%)
   - De los cuales son bloqueantes sin ninguna mitigacion: 0
   - Eventos no disponibles en OpenCode (degradacion aceptada): 29
 
@@ -64,6 +64,7 @@ Ninguno — AC-2.2 satisfecho.
 | PreCompact | pre-compact-backup.sh | no | NONE | warning | evento PreCompact no disponible en OpenCode — degradacion_documentada |
 | PreToolUse | acm-enforcement.sh | no | NONE | bloqueante | degradacion_documentada: solo Claude Code; ACM enforcement no portado — candidato SE-254 |
 | PreToolUse | agent-dispatch-validate.sh | no | NONE | bloqueante | degradacion_documentada: solo Claude Code; agent dispatch sin gate en OpenCode — candidato SE-254 |
+| PreToolUse | agent-git-discipline.sh | no | NONE | bloqueante | degradacion_documentada: solo Claude Code |
 | PreToolUse | agent-hook-premerge.sh | no | NONE | bloqueante | degradacion_documentada: solo Claude Code; pre-merge gate no portado en OpenCode |
 | PreToolUse | agent-tool-call-validate.sh | no | NONE | bloqueante | degradacion_documentada: solo Claude Code; tool call validation en OpenCode via toolCallHealing TS (parcial) |
 | PreToolUse | android-adb-validate.sh | no | NONE | bloqueante | degradacion_documentada: solo Claude Code; adb commands no usados en sesiones OpenCode normales |
