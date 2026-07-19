@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=5aa61b60e7bea03a5c0441849844f31f806ec962d45a4f3b630949dad793bd4d
-timestamp=2026-07-13T22:47:22Z
-branch=agent/se266-agent-governance
-head_commit=ea32b296
-signature=2ecae50240b780a5bb11bae21ea9daaca64ac36c654ae98316b6d98d73d01ea2
+diff_hash=3f33689ccf7a5a6f59d29dfe0759e2b5ec3222c5c2ef079a77871af1d88e141b
+timestamp=2026-07-19T18:57:16Z
+branch=agent/se268-neuro-orquestacion
+head_commit=3958f745
+signature=ba8b01cc3e5eefac0d9b414e4207476aaefe0f8e8ceb7250605179b2fa30c101
