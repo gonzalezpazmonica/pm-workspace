@@ -5,6 +5,22 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased] — 2026-07-19 · Neuro-inspired Orchestration (SE-268)
+
+### Added (SE-268 — PR #907)
+- **S1: Constitutional veto bus** (`bridge/control-plane/`). Independent control
+  plane with priority over A2A, compile CRITERIO.md linea_roja → permanent vetos,
+  fail-closed semantics, scope global|domain|instance|session with TTL.
+- **S2: Salience-based federation** (`bridge/salience/`). Deterministic 0-1
+  scoring (novelty, impact, criticality, recurrence), anti-stagnation detector
+  with elevation, configurable per-context thresholds.
+- **S3: Hook thresholds by domain** (`config/hook-thresholds.yaml`). Three
+  exigency levels (conservador/estandar/experimental), anti-relaxation gate for
+  linea_roja, audit log of all threshold decisions.
+- **S4: Two-speed memory** (`scripts/memory-two-speed.py`). Episodic (fast) +
+  semantic (slow) stores on bitemporal axis, selective replay consolidation,
+  dome-context-indexed retrieval, promoted-to-used quality metric.
+
 ## [Unreleased] — 2026-07-13 · Agent Shell Safety (v2) — PR #906 extension
 
 Added: SE-266 v2 — extended agent-git-discipline.sh to block destructive
