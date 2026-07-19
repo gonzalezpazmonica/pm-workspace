@@ -1,0 +1,65 @@
+# hook-thresholds.yaml — SE-268 Slice 3
+# Umbral de exigencia de hooks por dominio.
+# Niveles: conservador | estandar | experimental
+# Linea_roja hooks NO modulables (hiperdirecta, Slice 1).
+version: "1.0"
+spec: "SE-268"
+
+domains:
+  salud:     {default: conservador, reason: "maxima proteccion"}
+  legal:     {default: conservador, reason: "conservacion de evidencia"}
+  finanzas:  {default: conservador, reason: "trazabilidad obligatoria"}
+  seguridad: {default: conservador, reason: "infraestructura critica"}
+  infraestructura: {default: estandar}
+  desarrollo: {default: estandar}
+  documentacion: {default: estandar}
+  datos:     {default: estandar}
+  experimental: {default: experimental, reason: "dominio de prueba"}
+  sandbox:   {default: experimental}
+
+parametric_hooks:
+  code-complexity:
+    conservador:   {max_complexity: 10, max_lines_func: 50,  block_severity: medium}
+    estandar:      {max_complexity: 15, max_lines_func: 100, block_severity: high}
+    experimental:  {max_complexity: 30, max_lines_func: 200, block_severity: critical}
+
+  test-coverage:
+    conservador:   {min_coverage_pct: 80, block_severity: high}
+    estandar:      {min_coverage_pct: 70, block_severity: high}
+    experimental:  {min_coverage_pct: 50, block_severity: critical}
+
+  dependency-audit:
+    conservador:   {block_severity: medium, check_licenses: true}
+    estandar:      {block_severity: high,   check_licenses: true}
+    experimental:  {block_severity: critical, check_licenses: false}
+
+  secret-scan:
+    conservador:   {block_severity: medium, entropy_min: 3.0}
+    estandar:      {block_severity: high,   entropy_min: 4.0}
+    experimental:  {block_severity: critical, entropy_min: 5.0}
+
+  file-size:
+    conservador:   {max_lines: 500,  block_severity: medium}
+    estandar:      {max_lines: 1000, block_severity: high}
+    experimental:  {max_lines: 3000, block_severity: critical}
+
+non_modulable:
+  - block-credential-leak
+  - block-force-push
+  - block-branch-switch-dirty
+  - block-infra-destructive
+  - block-gitignored-references
+  - prompt-injection-guard
+  - data-sovereignty-gate
+  - verify-principal
+  - tdd-gate
+
+severity_map:
+  critical: {exit_code: 2, desc: "bloquea siempre"}
+  high:     {exit_code: 2, desc: "bloquea en conservador y estandar"}
+  medium:   {exit_code: 2, desc: "bloquea solo en conservador, warn en resto"}
+  low:      {exit_code: 0, desc: "nunca bloquea, solo informa"}
+
+audit:
+  enabled: true
+  log_path: "bridge/control-plane/hook-decisions.jsonl"
