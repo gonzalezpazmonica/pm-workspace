@@ -2,7 +2,7 @@
 module_id: AuthService
 layer: application
 version: 1.0.0
-last_sync: 2026-06-06
+last_sync: 2026-07-25
 token_budget: 620
 depends_on:
   - UserRepository
