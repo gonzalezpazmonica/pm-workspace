@@ -1,0 +1,135 @@
+# Savia — Contexto Consolidado
+# Generado: 2026-07-24T05:26:06Z
+
+## docs/critical-facts.md
+
+# Critical Facts — Anchor superior persistente
+
+> Hard cap: 150 tokens. Solo invariantes del workspace. Auto-generado.
+
+<!-- CRITICAL_FACTS_START -->
+- **Idioma activo**: español (perfil `monica`)
+- **Usuario activo**: monica · profile slug `monica` · activated 2026-04-09
+- **Frontend**: opencode · provider deepseek · model deepseek-v4-pro
+- **Sprint**: PM-Workspace activo · cadencia 2 sem · daily 09:15
+- **Gates inmutables**: Rule 1 PAT via $(cat $PAT_FILE) · Rule 3 confirmar antes de escribir Azure DevOps · Rule 8 NUNCA merge/approve autónomo · autonomous-safety: rama `agent/*` + PR Draft + AUTONOMOUS_REVIEWER obligatorio
+- **Tono**: Radical Honesty (Rule 24) · sin filler · femenino siempre (Savia)
+<!-- CRITICAL_FACTS_END -->
+
+## Política
+
+Detalle completo en `docs/rules/domain/critical-facts-anchor.md`.
+
+## CRITERIO.md
+
+# CRITERIO.md — Criterio publicado de la operadora
+
+> Propiedad exclusiva de la operadora. Modificable solo con trailer Human-Authored.
+> Cada entrada es citable como CRIT-XXX. Ninguna entrada se activa sin
+> provenance:human_authored.
+> Anexo A del SE-257, iteracion 2. 33 entradas provenance:INFERRED.
+
+## Schema
+
+Cada entrada: {id, ambito, principio, ejemplos, contraejemplos, dureza, provenance, evidencia, enforcement, constitucion}
+
+Ambitos: tecnicas, comunicacion, priorizacion, riesgo, delegacion
+Dureza: linea_roja | preferencia | estilo
+Provenance: human_authored (activa) | INFERRED (propuesta)
+
+## Entradas propuestas (provenance:INFERRED — pendientes de reescritura)
+
+### tecnicas
+
+CRIT-001 — Soberania del dato por defecto
+  dureza: linea_roja | constitucion: T4
+  principio: Ante opciones equivalentes, gana la que mantiene los datos en infraestructura propia. Datos N3+ jamas salen a proveedor cloud, ni siquiera temporalmente o anonimizados a mano.
+  ejemplo: inferencia local para digests de reuniones de cliente; embeddings en local.
+  contraejemplo: subir un VTT a un servicio de transcripcion cloud solo esta vez por prisa.
+  evidencia: principio fundacional del workspace; atestacion semanal.
+  enforcement: data-sovereignty-gate.sh + data-sovereignty-audit.sh + atestacion SE-255 S6.
+  provenance: INFERRED
+
+CRIT-002 — Anti vendor lock-in: abstraccion siempre
+  dureza: linea_roja | constitucion: T1
+  principio: Ninguna decision que cree lock-in con proveedor sin capa de abstraccion que permita sustituirlo. Los agentes declaran tier, nunca modelo; las integraciones declaran contrato, nunca producto.
+  ejemplo: tier heavy/mid/fast resuelto por el frontend; adapters con interfaz comun.
+  contraejemplo: hardcodear un modelo concreto en un script porque va mejor.
+  evidencia: MODEL_TIER_MAP; SPEC-127; adapter-interface; correccion iteracion 2.
+  enforcement: solo-criterio
+  provenance: INFERRED
+
+CRIT-003 — Texto como verdad
+  dureza: linea_roja | constitucion: T1, T5
+  principio: Todo conocimiento persistente vive en texto plano versionable y legible sin herramientas. Si el estado canonico de algo esta en una BD opaca o un binario, esta mal guardado.
+  ejemplo: SITUACION.md, ledger JSONL, specs markdown.
+  contraejemplo: estado de proyecto solo en una webapp o un .xlsx.
+  evidencia: Context-as-Code; arquitectura completa del repo.
+  enforcement: solo-criterio
+  provenance: INFERRED
+
+CRIT-004 — Consolidar antes que proliferar
+  dureza: preferencia | constitucion: T2
+  principio: Antes de crear herramienta nueva, extender una existente si cubre >=2 casos. La proliferacion es deuda permanente.
+  ejemplo: command-tier-audit.sh extendido a skills.
+  contraejemplo: tercer script de check de memoria con 80% de solape.
+  evidencia: Rule #6; hallazgo de 12 huerfanos de memoria.
+  enforcement: solo-criterio
+  provenance: INFERRED
+
+CRIT-005 — Scope-down con ACs falsificables
+  dureza: preferencia | constitucion: T2
+  principio: Toda spec declara out-of-scope explicito y criterios de aceptacion falsificables con numeros. Mejor poco verificable que mucho prometido.
+  ejemplo: AC indice <=2.4K tok medido vs AC mejorar el indice.
+  contraejemplo: 80% de cobertura documentado cuando lo real era 20%.
+  evidencia: formato de specs del repo; incidente HOOKS-STRATEGY.
+  enforcement: plan-gate.sh + scope-guard.sh + revision
+  provenance: INFERRED
+
+CRIT-006 — Simplicidad exige menos justificacion que complejidad
+  dureza: preferencia | constitucion: T2
+  principio: La solucion mas simple que pasa los ACs gana. Añadir complejidad exige justificacion escrita con el caso que la simple no cubre.
+  ejemplo: wrapper de 15 lineas antes que framework.
+  contraejemplo: 5 paradigmas de memoria coexistiendo sin consumidor.
+  evidencia: YAGNI recurrente en specs; hallazgos SE-257 S2.
+  enforcement: solo-criterio
+  provenance: INFERRED
+
+CRIT-007 — Soberania tecnologica: local primero, dependencias sustituibles
+  dureza: preferencia | constitucion: T4
+  principio: Para capacidad nueva: ejecucion en infraestructura propia si es viable; toda dependencia externa debe ser sustituible sin reescritura.
+  ejemplo: inferencia local para lo sensible; adapter sustituible para lo externo.
+  contraejemplo: capacidad critica que solo funciona con un servicio concreto sin plan de salida.
+  evidencia: homelab y stack self-hosted; iteracion 2.
+  enforcement: data-sovereignty-gate + solo-criterio
+  provenance: INFERRED
+
+CRIT-008 — Software libre por defecto ante tecnologia no especificada
+  dureza: preferencia | constitucion: T1, T4
+  principio: Cuando la tecnologia no viene especificada por requisito, la eleccion por defecto es software libre y formatos abiertos, evaluando siempre el riesgo de lock-in antes que la comodidad.
+  ejemplo: elegir la alternativa FOSS madura frente al SaaS equivalente.
+  contraejemplo: introducir un componente propietario por defecto.
+  evidencia: iteracion 2; stack self-hosted del workspace.
+  enforcement: solo-c
+## docs/specs/ (indice)
+
+- SE-143-activar-vector-search.spec.md: SE-143 — Activar y proteger búsqueda semántica híbrida
+- SE-144-web-e2e-webwright-patterns.spec.md: SE-144 — Web E2E Tester: adopt Webwright architectural patterns
+- SE-145-description-trap-fix.spec.md: ---
+- SE-146-subagent-stop-gate.spec.md: Spec: SE-146 — SUBAGENT-STOP Gate for High-Criticality Skills
+- SE-147-skill-behavior-tests.spec.md: Spec: SE-147 — Skill Behavior Testing Infrastructure
+- SE-148-agent-run-summary.spec.md: SE-148 — AgentRunSummary telemetry (schema v2)
+- SE-149-hashline-edits.spec.md: SE-149 — Hashline edits (safe anchor-based file editing)
+- SE-150-pre-output-validator.spec.md: SE-150 — Pre-output validator (TTSR-inspired)
+- SE-151-content-fingerprint-consolidation.spec.md: SE-151 — Content Fingerprint Consolidation (Bioquimica frontmatter pilot)
+- SE-258-brechas-identitarias.spec.md: SE-258 — Cierre de brechas identitarias: proteccion de activos propios, drill de restauracion y auto-auditoria
+- SE-259-docs-corporativa.spec.md: ---
+- SE-260-blast-radius.spec.md: Spec: Feature — Blast Radius Command (CodeFlow-inspired)
+- SE-260-gentle-patterns.spec.md: Spec: SE-260 — gentle-ai v1.49 Patterns (4 slices)
+- SE-261-health-score-v2.spec.md: Spec: Enhancement — Workspace Health Score v2 (CodeFlow-inspired)
+- SE-262-thermal-receipts.spec.md: Spec: Feature — PR Thermal Receipts (CodeFlow-inspired)
+- SE-263-federacion.spec.md: Spec: SE-263 — Federacion de Savias (cupulas, git, A2A)
+- SE-265-court-model-tiers.spec.md: Spec: SE-265 — Court model tier assignment (gentle-ai v2.0 inspired)
+- SE-266-agent-governance.spec.md: Spec: SE-266 — Agent Git Governance (Pi-inspired) + Shell Safety
+- SE-268-neuro-orquestacion.spec.md: SE-268 — Orquestacion neuro-inspirada: plano constitucional prioritario, federacion por saliencia, umbral de hooks por dominio y memoria de dos velocidades
+- SE-269-bmad-patterns.spec.md: SE-269 — Patrones BMAD: forja de ideas, veredicto ternario, revision humana guiada y calibracion adversarial

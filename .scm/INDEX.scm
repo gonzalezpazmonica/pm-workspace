@@ -1,6 +1,6 @@
 # Savia Capability Map — INDEX
-> hash: 7a2cc6eccb51 | resources: 1211
-> 287 commands · 120 skills · 81 agents · 723 scripts
+> hash: daffa024cb0d | resources: 1220
+> 290 commands · 120 skills · 81 agents · 729 scripts
 
 [analysis] Trace Optimize — across,distributed,optimize,rates,sampling — cmd:.claude/commands/trace-optimize.md
 [analysis] agent-activity — activity,agent,executions,recent,show — cmd:.claude/commands/agent-activity.md
@@ -251,6 +251,8 @@
 [development] human-code-map — alguien,código,incorpora,mapa,módulo — skill:.claude/skills/human-code-map/SKILL.md
 [development] image-relevance-filter — deterministic,filter,first,image,primitive — script:scripts/image-relevance-filter.sh
 [development] impact-analysis — analysis,analyze,codebase,files,impact — script:scripts/impact-analysis.sh
+[development] implementation-readiness — codificar,falla,gate,implementacion,lista — cmd:.claude/commands/implementation-readiness.md
+[development] implementation-readiness — gate,implementacion,implementation,readiness — script:scripts/implementation-readiness.sh
 [development] index-rebuild —  — cmd:.claude/commands/index-rebuild.md
 [development] install-git-hooks — hooks,instala,install,opencode,workspace — script:scripts/install-git-hooks.sh
 [development] instinct-collapse-detector — collapse,detect,detector,exploration,instinct — script:scripts/instinct-collapse-detector.sh
@@ -666,6 +668,8 @@
 [planning] focal-dispatch — crítica,decisión,dispatch,focal,humana — script:scripts/focal-dispatch.sh
 [planning] focal-status — activos,agregada,focal,nidos,slice — script:scripts/focal-status.sh
 [planning] focus-mode — carga,distracciones,modo,oculta,single — cmd:.claude/commands/focus-mode.md
+[planning] forge-idea — clara,endurecida,forja,idea,interrogatorio — cmd:.claude/commands/forge-idea.md
+[planning] forge-idea — forge,idea,presion,socratica,ternario — script:scripts/forge-idea.sh
 [planning] fork-agents — agents,cacheable,claude,fork,invocaciones — script:scripts/fork-agents.sh
 [planning] frontend-developer —  — agent:.opencode/agents/frontend-developer.md
 [planning] frontier-strategy — frontier,selection,slice,strategies,strategy — script:scripts/frontier-strategy.sh
@@ -707,6 +711,7 @@
 [planning] instance-card — card,cards,identity,instance,savia — script:scripts/instance-card.sh
 [planning] integration-status — apis,conectividad,dashboard,estado,integraciones — cmd:.claude/commands/integration-status.md
 [planning] java-developer —  — agent:.opencode/agents/java-developer.md
+[planning] judge-calibration — adversariales,calibration,judge,jueces,tracking — script:scripts/judge-calibration.sh
 [planning] kg-link-prediction — link,prediction,wrapper — script:scripts/kg-link-prediction.sh
 [planning] kg-query — names,qualified,query — script:scripts/kg-query.sh
 [planning] kg-topology-analysis — analysis,topology,wrapper — script:scripts/kg-topology-analysis.sh
@@ -724,6 +729,7 @@
 [planning] lib/mock-env — environment,library,mock,reusable,scripts — script:scripts/lib/mock-env.sh
 [planning] lib/os-detect — defaults,detect,detection,path,portable — script:scripts/lib/os-detect.sh
 [planning] lib/slm-common — common,helpers,shared,slice,subcommands — script:scripts/lib/slm-common.sh
+[planning] llms-txt-generate — docs,full,generate,llms — script:scripts/llms-txt-generate.sh
 [planning] loop-budget-check — budget,check,loop,scripts — script:scripts/loop-budget-check.sh
 [planning] loop-run-log — append,autónomas,gestión,loop,only — script:scripts/loop-run-log.sh
 [planning] loop-state-init — autónomo,canónico,inicializa,init,loop — script:scripts/loop-state-init.sh
@@ -927,6 +933,7 @@
 [planning] tech-writer —  — agent:.opencode/agents/tech-writer.md
 [planning] terminal-state-emit — agent,emit,emits,loop,reason — script:scripts/terminal-state-emit.sh
 [planning] terminal-state-read — agent,last,loop,read,reads — script:scripts/terminal-state-read.sh
+[planning] ternary-verdict — contract,data,ternary,unified,verdict — script:scripts/ternary-verdict.sh
 [planning] terraform-developer —  — agent:.opencode/agents/terraform-developer.md
 [planning] tier3-probes — adoptarlas,herramientas,tier,valida,viabilidad — skill:.claude/skills/tier3-probes/SKILL.md
 [planning] timeline-query — field,historical,query,temporal,timeline — script:scripts/timeline-query.sh
@@ -1075,6 +1082,8 @@
 [quality] reconciler — auditor,auto,buckets,classifies,conflict — agent:.opencode/agents/reconciler.md
 [quality] review-cache — cache,caché,code,gestión,review — script:scripts/review-cache.sh
 [quality] review-cache-stats — caché,code,estadísticas,review — cmd:.claude/commands/review-cache-stats.md
+[quality] review-checkpoint — cambio,cierre,hallazgos,humana,lectura — cmd:.claude/commands/review-checkpoint.md
+[quality] review-checkpoint — checkpoint,humana,paquete,review,revision — script:scripts/review-checkpoint.sh
 [quality] review-community — community,comunidad,issues,local,only — script:scripts/review-community.sh
 [quality] review-depth-selector — based,depth,review,risk,score — script:scripts/review-depth-selector.sh
 [quality] rule-orphan-detector — audit,detector,orphan,rule,slice — script:scripts/rule-orphan-detector.sh

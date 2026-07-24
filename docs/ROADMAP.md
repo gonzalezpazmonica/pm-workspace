@@ -921,6 +921,26 @@ Origen: análisis comparativo OKF (Google Cloud, 2026-06-12) vs modelo de cúpul
 
 ---
 
+
+### Era 209 — BMAD Adoptable Patterns: forja de ideas, veredicto ternario, checkpoint humano, calibracion de jueces (~28h, IMPLEMENTING 2026-07-24)
+
+| # | ID | Titulo | Esfuerzo | Prioridad | Estado |
+|---|---|---|---|---|---|
+| 1 | SE-269 S2 | Veredicto ternario y gate pre-implementacion | S (5h) | P1 | IMPLEMENTADO |
+| 2 | SE-269 S1 | Forja de ideas: presion socratica con veredicto ternario | M (8h) | P1 | IMPLEMENTADO |
+| 3 | SE-269 S3 | Paquete de revision humana (checkpoint) | M (6h) | P2 | IMPLEMENTADO |
+| 4 | SE-269 S4 | Calibracion adversarial de los jueces | M (6h) | P2 | IMPLEMENTADO |
+| 5 | SE-269 S5 | Distribucion de documentacion consumible por IA | S (3h) | P2 | IMPLEMENTADO |
+
+Orden: 2 -> 1 -> 3 -> 4 -> 5. El veredicto ternario es infraestructura que los demas consumen.
+
+S1-S5 implementados (2026-07-24). Scripts: forge-idea.sh (91+ lines, KG contrast + adversarial + residue), ternary-verdict.sh (127 lines, contrato unificado 9 bandas, hard gate), implementation-readiness.sh (176 lines, 6 dimensiones + safe_grep_count), review-checkpoint.sh (240 lines, 5 secciones de paquete), judge-calibration.sh (200+ lines, FP/FN tracking + anti-Goodhart + degrade/restore), llms-txt-generate.sh (125 lines, determinista + sensitive-path filter). Tests: 6 BATS files (113 tests, 100% pass). Comandos: forge-idea, implementation-readiness, review-checkpoint.
+
+Cinco patrones de BMAD Method v6 (bmad-code-org) que cierran huecos medidos en Savia: sin fase de analisis pre-spec, gates binarios, sin artefacto de revision humana, jueces sin calibrar, docs no distribuibles. Conceptos adoptados con atribucion; implementacion propia. NO se adoptan: agentes con persona (anti-biomimetic-theater, T3), party mode, marketplace, multi-frontend.
+
+Origen: analisis comparativo BMAD Method vs Savia v6.15.0+. Spec: docs/specs/SE-269-bmad-patterns.spec.md. Deps leves: SE-256 (engrams), SE-257 S1 (CRITERIO), SE-258 S3 (self-audit), SE-260 S1 (bounded review). SE-267 (ausente, referencias condicionales).
+
+---
 ### Era 203 — Eval-driven improvement loop (DeepAgents pattern, ~1 día)
 
 | # | ID | Título | Esfuerzo | Prioridad |

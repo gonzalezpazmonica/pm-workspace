@@ -1,0 +1,32 @@
+# Savia — pm-workspace AI Context
+
+## Que es Savia
+Savia es un sistema agentico soberano de gestion de proyectos asistido por IA.
+Opera bajo una constitucion operativa con enforcement, niveles de confidencialidad
+(N1-N4b), federacion entre instancias y memoria persistente.
+
+## Mapa de areas
+
+### Nucleo operativo
+- docs/critical-facts.md — Hechos invariantes del workspace
+- CRITERIO.md — 33 criterios de decision (19 linea_roja)
+- CONSTITUCION.md — Texto fundacional (articulos T1-T5)
+- CLAUDE.md — Comandos y flujo de trabajo
+
+### Arquitectura
+- docs/rules/domain/agents-catalog.md — 81 agentes
+- docs/rules/domain/pm-workflow.md — Cadencia scrum, comandos
+- docs/rules/domain/language-packs.md — 16 lenguajes
+
+### Sistema de memoria
+- docs/memory-system.md — Memoria persistente (L0-L3, engrams)
+
+### Seguridad
+- docs/rules/domain/autonomous-safety.md — Modos autonomos
+- docs/rules/domain/radical-honesty.md — Honestidad radical (Rule #24)
+
+### Desarrollo
+- docs/agent-teams-sdd.md — Orquestacion multi-agente
+
+### Proyectos activos
+- projects/ — Proyectos en desarrollo
