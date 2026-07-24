@@ -5,7 +5,6 @@ set -uo pipefail
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 LLMS_TXT="${LLMS_TXT:-$ROOT/docs/llms.txt}"
 LLMS_FULL="${LLMS_FULL:-$ROOT/docs/llms-full.txt}"
-SENSITIVE_PATHS="${SENSITIVE_PATHS:-$ROOT/config/sensitive-paths.yaml}"
 
 generate_index() {
   cat > "$LLMS_TXT" <<'INDEXEOF'
@@ -45,60 +44,79 @@ INDEXEOF
   echo "docs/llms.txt generado ($(wc -c < "$LLMS_TXT") bytes)"
 }
 
-load_sensitive() {
-  local blocked=(".savia/" "output/.memory" "config/pm-config.local" ".claude/profiles/active-user.md")
-  if [[ -f "$SENSITIVE_PATHS" ]]; then
-    while IFS= read -r line; do
-      if [[ "$line" == *"path:"* ]]; then
-        local p
-        p=$(echo "$line" | sed 's/.*path: *//' | tr -d '"'"'" | xargs)
-        [[ -n "$p" ]] && blocked+=("$p")
-      fi
-    done < "$SENSITIVE_PATHS"
-  fi
-  printf '%s\n' "${blocked[@]}"
-}
-
 generate_full() {
-  local blocked_paths
-  blocked_paths=$(load_sensitive)
-  
-  {
-    echo "# Savia — Contexto Consolidado"
-    echo "# Generado: $(date -u +%Y-%m-%dT%H:%M:%SZ)"
-    echo ""
+  python3 -c '
+import os, sys
+from datetime import datetime, timezone
 
-    local core_docs=("docs/critical-facts.md" "CRITERIO.md" "CONSTITUCION.md")
-    
-    for doc in "${core_docs[@]}"; do
-      [[ ! -f "$ROOT/$doc" ]] && continue
-      
-      local is_blocked=false
-      while IFS= read -r bp; do
-        [[ "$doc" == "$bp"* ]] && is_blocked=true && break
-      done <<< "$blocked_paths"
-      $is_blocked && continue
+root = os.environ.get("ROOT", ".")
+llms_full = os.environ.get("LLMS_FULL", os.path.join(root, "docs/llms-full.txt"))
+sensitive_cfg = os.environ.get("SENSITIVE_CFG", os.path.join(root, "config/sensitive-paths.yaml"))
 
-      echo "## $doc"
-      echo ""
-      head -c 5000 "$ROOT/$doc" 2>/dev/null
-      echo ""
-    done
+blocked = []
+if os.path.exists(sensitive_cfg):
+    with open(sensitive_cfg) as f:
+        for line in f:
+            line = line.strip()
+            if line:
+                blocked.append(line)
 
-    # Specs index
-    echo "## docs/specs/ (indice)"
-    echo ""
-    for spec in "$ROOT"/docs/specs/SE-*.spec.md; do
-      [[ ! -f "$spec" ]] && continue
-      local title
-      title=$(head -1 "$spec" 2>/dev/null | sed 's/^# *//')
-      echo "- $(basename "$spec"): $title"
-    done
-  } > "$LLMS_FULL"
+core_docs = [
+    "docs/critical-facts.md",
+    "CRITERIO.md",
+    ".claude/CONSTITUCION.md",
+    "CLAUDE.md",
+    ".claude/profiles/savia.md",
+    "docs/rules/domain/agents-catalog.md",
+    "docs/rules/domain/autonomous-safety.md",
+    "docs/memory-system.md",
+    "docs/agent-teams-sdd.md",
+]
 
-  local final_size
-  final_size=$(wc -c < "$LLMS_FULL")
-  echo "docs/llms-full.txt generado ($final_size bytes)"
+lines = []
+lines.append("# Savia — Contexto Consolidado")
+ts = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+lines.append("# Generado: " + ts)
+lines.append("")
+
+for doc_path in core_docs:
+    full_path = os.path.join(root, doc_path)
+    if not os.path.isfile(full_path):
+        continue
+
+    is_blocked = any(doc_path.startswith(bp) for bp in blocked)
+    if is_blocked:
+        continue
+
+    lines.append("## " + doc_path)
+    lines.append("")
+    with open(full_path) as f:
+        content = f.read(15000)
+    lines.append(content.rstrip())
+    lines.append("")
+
+specs_dir = os.path.join(root, "docs/specs")
+lines.append("## docs/specs/ (indice)")
+lines.append("")
+if os.path.isdir(specs_dir):
+    for fname in sorted(os.listdir(specs_dir)):
+        if fname.startswith("SE-") and fname.endswith(".spec.md"):
+            fpath = os.path.join(specs_dir, fname)
+            title = ""
+            with open(fpath) as f:
+                title = f.readline().strip().lstrip("# ")
+            lines.append("- " + fname + ": " + title)
+
+full_text = "\n".join(lines)
+
+for bp in blocked:
+    if bp:
+        full_text = full_text.replace(bp, "[REDACTED]")
+
+with open(llms_full, "w") as f:
+    f.write(full_text)
+print("docs/llms-full.txt generado (" + str(len(full_text)) + " bytes)")
+'
 }
 
 check_determinism() {

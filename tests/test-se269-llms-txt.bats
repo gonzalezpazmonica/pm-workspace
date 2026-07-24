@@ -129,7 +129,7 @@ setup() {
   [ "$status" -eq 0 ]
   local size; size=$(wc -c < docs/llms-full.txt)
   [[ "$size" -gt 500 ]]
-  [[ "$size" -lt 50000 ]]
+  [[ "$size" -lt 100000 ]]
 }
 
 # ── Invalid subcommand ────────────────────────────────────────────────────
