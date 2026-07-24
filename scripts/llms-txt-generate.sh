@@ -55,11 +55,26 @@ sensitive_cfg = os.environ.get("SENSITIVE_CFG", os.path.join(root, "config/sensi
 
 blocked = []
 if os.path.exists(sensitive_cfg):
+    import re
+    in_levels = False
     with open(sensitive_cfg) as f:
         for line in f:
-            line = line.strip()
-            if line:
-                blocked.append(line)
+            ls = line.strip()
+            if ls.startswith("levels:"):
+                in_levels = True
+                continue
+            if in_levels and ls.startswith("allowlist:"):
+                in_levels = False
+                continue
+            if not in_levels:
+                continue
+            m = re.match("^\\s*-\\s*\"(.+)\"\\s*$", line)
+            if m:
+                p = m.group(1)
+                if p.endswith("/**"):
+                    blocked.append(p[:-3])
+                else:
+                    blocked.append(p)
 
 core_docs = [
     "docs/critical-facts.md",
