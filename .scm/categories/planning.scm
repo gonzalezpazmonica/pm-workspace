@@ -1,5 +1,5 @@
 # planning — Savia Capability Map (L1)
-> 494 resources
+> 499 resources
 
 - **/decide-architecture** (cmd): Clasifica una tarea como WORKFLOW (deterministica) o AGENT (loop). Bias hacia workflow per Anthropic. Sugiere plantilla inicial. Mide accuracy contra corpus curado de 20 tareas.
 - **_template** (skill): TEMPLATE — copia este directorio para crear una skill nueva. NO se carga en runtime.
@@ -187,6 +187,8 @@
 - **focal-dispatch** (script): focal-dispatch.sh — Prioriza y presenta la decisión humana más crítica (SE-230 Slice 2)
 - **focal-status** (script): focal-status.sh — Vista agregada de nidos activos (SE-230 Slice 1)
 - **focus-mode** (cmd): Modo single-task — carga una sola tarea y oculta distracciones
+- **forge-idea** (cmd): Forja una idea mediante interrogatorio socratico con veredicto ternario ENDURECIDA/MAS_CLARA/MUERTA (SE-269 S1)
+- **forge-idea** (script): forge-idea.sh — Presion socratica con veredicto ternario (SE-269 S1)
 - **fork-agents** (script): fork-agents.sh — Lanza N invocaciones paralelas de Claude con prefijo cacheable
 - **frontend-developer** (agent): >
 - **frontier-strategy** (script): frontier-strategy.sh — SE-216 Slice 3: frontier selection strategies
@@ -228,6 +230,7 @@
 - **instance-card** (script): instance-card.sh — Savia instance identity cards (SE-263 S2)
 - **integration-status** (cmd): Dashboard de estado de todas las integraciones — APIs, webhooks, MCP, conectividad
 - **java-developer** (agent): >
+- **judge-calibration** (script): judge-calibration.sh — FP/FN tracking para jueces adversariales (SE-269 S4)
 - **kg-link-prediction** (script): kg-link-prediction.sh — SE-249: wrapper for kg-link-prediction.py
 - **kg-query** (script): kg-query.sh — SE-218 S3: query KG con qualified names
 - **kg-topology-analysis** (script): kg-topology-analysis.sh — SE-248: wrapper for kg-topology-analysis.py
@@ -245,6 +248,7 @@
 - **lib/mock-env** (script): mock-env.sh — Reusable mock environment library for pm-workspace scripts
 - **lib/os-detect** (script): scripts/lib/os-detect.sh — Portable OS detection and path defaults
 - **lib/slm-common** (script): slm-common.sh — Shared helpers for SLM subcommands (SE-049 Slice 1).
+- **llms-txt-generate** (script): llms-txt-generate.sh — Genera docs/llms.txt y docs/llms-full.txt (SE-269 S5)
 - **loop-budget-check** (script): scripts/loop-budget-check.sh
 - **loop-run-log** (script): loop-run-log.sh — CLI para gestión del run-log append-only de skills autónomas
 - **loop-state-init** (script): loop-state-init.sh — Inicializa STATE.md canónico para un skill autónomo
@@ -448,6 +452,7 @@
 - **tech-writer** (agent): >
 - **terminal-state-emit** (script): terminal-state-emit.sh — Emits structured termination reason for a loop/agent
 - **terminal-state-read** (script): terminal-state-read.sh — Reads the last terminal state for a loop/agent
+- **ternary-verdict** (script): ternary-verdict.sh — Unified data contract for ternary verdicts (SE-269 S2)
 - **terraform-developer** (agent): >
 - **tier3-probes** (skill): Usar cuando se valida la viabilidad de herramientas Tier 3 antes de adoptarlas en el workspace.
 - **timeline-query** (script): timeline-query.sh — Query historical value of a field from bi-temporal timeline

@@ -2,7 +2,7 @@
 module_id: domain-entities
 layer: domain
 version: "1.0.0"
-last_sync: "2026-07-07T00:00:00Z"
+last_sync: "2026-07-25T00:00:00Z"
 token_budget: 350
 stale_after_days: 30
 depends_on: []

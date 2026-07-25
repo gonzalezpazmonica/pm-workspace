@@ -44,10 +44,10 @@ distinto: model alias `heavy|mid|fast`, permission L0-L4, plugin hooks).
 
 | Recurso | Total | Fuente |
 |---|---|---|
-| Agents | 70 | `.opencode/agents/*.md` |
-| Commands | 559 | `scripts/count-commands.sh` |
-| Hooks | 69 | `.claude/hooks/*.sh` |
-| Skills | 98 | `.claude/skills/*/SKILL.md` |
+| Agents | 81 | `.opencode/agents/*.md` |
+| Commands | 566 | `scripts/count-commands.sh` |
+| Hooks | 101 | `.claude/hooks/*.sh` |
+| Skills | 119 | `.claude/skills/*/SKILL.md` |
 
 Drift check: `bash scripts/claude-md-drift-check.sh`.
 
