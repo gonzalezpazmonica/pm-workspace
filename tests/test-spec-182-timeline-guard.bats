@@ -20,6 +20,7 @@ setup() {
 }
 
 teardown() {
+  chmod -R u+w "$TMPDIR_TEST" 2>/dev/null || true
   rm -rf "$TMPDIR_TEST"
 }
 
