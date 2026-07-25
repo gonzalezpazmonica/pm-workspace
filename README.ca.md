@@ -16,11 +16,11 @@ lang: ca
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](CONTRIBUTING.md)
 
-## Sistema operatiu de desenvolupament multi-agent
+## Workspace de desenvolupament multi-agent
 
 **532 comandos · 65 agents · 86 skills · 58 hooks · 16 llenguatges · 283+ suites de test**
 
-pm-workspace es una plataforma de desenvolupament que converteix Claude Code i OpenCode en un entorn d'enginyeria multi-agent. Orquestra agents especialitzats per a gestio de projectes, desenvolupament amb specs executables, auditoria de seguretat i revisio de codi. Funciona en local amb sobirania de dades i inferencia, en 9 idiomes.
+pm-workspace converteix Claude Code i OpenCode en un entorn d'enginyeria multi-agent. Orquestra agents especialitzats per a gestio de projectes, desenvolupament amb specs executables, auditoria de seguretat i revisio de codi. Funciona en local amb sobirania de dades i inferencia, en 9 idiomes.
 
 ---
 

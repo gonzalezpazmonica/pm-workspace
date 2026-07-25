@@ -16,11 +16,11 @@ lang: gl
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](CONTRIBUTING.md)
 
-## Sistema operativo de desenvolvemento multi-axente
+## Workspace de desenvolvemento multi-axente
 
 **532 comandos · 65 axentes · 86 skills · 58 hooks · 16 linguaxes · 283+ suites de test**
 
-pm-workspace e unha plataforma de desenvolvemento que converte Claude Code e OpenCode nun entorno de enxeneria multi-axente. Orquestra axentes especializados para xestion de proxectos, desenvolvemento con specs executabeis, auditoria de seguridade e revision de codigo. Funciona en local con soberania de datos e inferencia, en 9 idiomas.
+pm-workspace converte Claude Code e OpenCode nun entorno de enxeneria multi-axente. Orquestra axentes especializados para xestion de proxectos, desenvolvemento con specs executabeis, auditoria de seguridade e revision de codigo. Funciona en local con soberania de datos e inferencia, en 9 idiomas.
 
 ---
 

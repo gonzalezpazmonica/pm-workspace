@@ -16,11 +16,11 @@ lang: it
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](CONTRIBUTING.md)
 
-## Sistema operativo di sviluppo multi-agente
+## Workspace di sviluppo multi-agente
 
 **532 comandi · 65 agenti · 86 skill · 58 hook · 16 linguaggi · 283+ suite di test**
 
-pm-workspace e una piattaforma di sviluppo che trasforma Claude Code e OpenCode in un ambiente di ingegneria multi-agente. Orchestra agenti specializzati per gestione progetti, sviluppo con spec eseguibili, auditing di sicurezza e revisione del codice. Funziona in locale con sovranita di dati e inferenza, in 9 lingue.
+pm-workspace trasforma Claude Code e OpenCode in un ambiente di ingegneria multi-agente. Orchestra agenti specializzati per gestione progetti, sviluppo con spec eseguibili, auditing di sicurezza e revisione del codice. Funziona in locale con sovranita di dati e inferenza, in 9 lingue.
 
 ---
 
