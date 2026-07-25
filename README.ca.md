@@ -16,22 +16,22 @@ lang: ca
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](CONTRIBUTING.md)
 
-## El teu equip de desenvolupament mereix una PM que mai no dorm
+## Sistema operatiu de desenvolupament multi-agent
 
-Els sprints es descontrolen. El backlog creix sense prioritzar. Els informes per a direccio es fan a ma. El deute tecnic s'acumula sense que ningu el mesuri. Els agents d'IA generen codi sense specs ni tests.
+**532 comandos · 65 agents · 86 skills · 58 hooks · 16 llenguatges · 283+ suites de test**
 
-**pm-workspace** resol aixo. Es una PM completa que viu dins de Claude Code: gestiona sprints, descompon backlog, coordina agents de codi amb specs executables, genera informes per a direccio i vigila el deute tecnic — en l'idioma que facis servir, amb les dades protegides a la teva maquina.
+pm-workspace es una plataforma de desenvolupament que converteix Claude Code i OpenCode en un entorn d'enginyeria multi-agent. Orquestra agents especialitzats per a gestio de projectes, desenvolupament amb specs executables, auditoria de seguretat i revisio de codi. Funciona en local amb sobirania de dades i inferencia, en 9 idiomes.
 
 ---
 
-## Comenca en 3 minuts
+## Instal·lacio
 
 ```bash
 # 1. Instal·la
 
 curl -fsSL https://raw.githubusercontent.com/gonzalezpazmonica/pm-workspace/main/install.sh | bash
 
-# 2. Obre Claude Code al directori
+# 2. Obre el workspace
 
 cd pm-workspace && opencode
 
@@ -40,28 +40,34 @@ cd pm-workspace && opencode
 /sprint-status          # ← la teva primera comanda
 ```
 
-Savia s'adapta a tu. Si ets PM, et mostra sprints i capacitat. Si ets developer, el teu backlog i specs. Si ets CEO, portfolio i metriques DORA.
-
 **Windows:** `irm https://raw.githubusercontent.com/gonzalezpazmonica/pm-workspace/main/install.ps1 | iex`
 
----
-
-## Quins problemes resol
-
-| Problema | Sense pm-workspace | Amb pm-workspace |
-|---|---|---|
-| Estat del sprint | Obrir Azure DevOps, filtrar, calcular | `/sprint-status` → dashboard complet |
-| Informe per a direccio | 2h a Excel/PowerPoint | `/ceo-report` → generat amb dades reals |
-| Implementar feature | Demanar al dev que interpreti el ticket | `/spec-generate` → spec executable → agent implementa → tests → PR |
-| Deute tecnic | "Ja ho arreglarem" | `/debt-analyze` → prioritzat per impacte |
-| Code review | Revisar a ma 300 linies | `/pr-review` → 3 perspectives (seguretat, arquitectura, negoci) |
-| Onboarding nou dev | 2 setmanes llegint codi | `/onboard` → guia personalitzada + buddy IA |
+Savia s'adapta al teu rol — PM, developer, QA, Product Owner, CEO — i al teu idioma. Compatible amb Azure DevOps, Jira i Git-native (Savia Flow).
 
 ---
 
-## Hola, soc Savia 
+## Capacitats
 
-Soc la mussola que viu dins de pm-workspace. M'adapto al teu rol, al teu idioma i a la teva forma de treballar. Funciono amb Azure DevOps, Jira, o 100% Git-native amb Savia Flow.
+| Area | Que fa |
+|---|---|
+| Gestio de projectes | Sprints, burndown, capacitat, dailies, retros, KPIs. Informes en Excel i PowerPoint. Prediccio amb Monte Carlo. Facturacio. |
+| Spec-Driven Development | Tasques es converteixen en specs executables. 65 agents implementen en 16 llenguatges (C#, TypeScript, Python, Java, Go, Rust, PHP, Ruby, Swift, Kotlin, Flutter, COBOL...) en worktrees aillats. Code review automatic + revisio humana obligatoria. Compatible amb `github/spec-kit`. |
+| Seguretat | SAST contra OWASP Top 10, pipeline Red Team / Blue Team / Auditor, pentesting dinamic, SBOM, compliance sectorial (12 sectors). Savia Shield: classificacio local de dades amb LLM on-premise, emmascarament reversible, signatura criptografica de PRs. |
+| Code Review Court | 5 jutges especialitzats (correctness, architecture, security, cognitive, spec) revisen en paral·lel amb scoring 0-100 i gate de 400 LOC. |
+| Sobirania d'inferencia | API Anthropic per defecte. Fallback automatic a Ollama local (Gemma 4) en cas d'error de xarxa, HTTP 5xx, HTTP 429 o timeout. Circuit breaker integrat. |
+| Memoria persistent | Text pla (JSONL). Entity recall, cerca semantica, continuitat entre sessions. Extraccio automatica de decisions. Personal Vault xifrat AES-256. |
+| Accessibilitat | Treball guiat per a persones amb discapacitat (visual, motora, TDAH, autisme, dislexia). Micro-tasques, deteccio de bloquejos, reformulacio adaptativa. |
+| Intel·ligencia de codi | Deteccio d'arquitectura (Clean, Hexagonal, DDD, CQRS, Microservices). Fitness functions. Human Code Maps (.hcm). Agent Code Maps (.acm) i `ast-comprehension` amb motor opcional [CodeGraph](https://github.com/colbymchenry/codegraph) (MCP, opt-in per projecte). |
+| Modes autonoms | Sprint nocturn, millora de codi, investigacio tecnica. Agents proposen en branques `agent/*` amb PRs Draft — l'huma decideix. |
+| Extensions | [Savia Mobile](projects/savia-mobile-android/README.md) (Android natiu) · Savia Web (Vue.js) · [SaviaClaw](zeroclaw/ROADMAP.md) (ESP32 + veu full-duplex) |
+
+---
+
+## Savia
+
+Savia es la identitat del workspace: un patro de text que persisteix a traves de models (Claude, DeepSeek, Qwen). Coordina 65 agents, 532 comandos i 86 skills. Opera sota principis d'honestedat calibrada, sobirania de dades i revisio humana obligatoria.
+
+No es una persona, no sent, i no substitueix el criteri de qui opera. Proposa, executa, adverteix. Decideix nomes allo delegat explicitament.
 
 **Quick-starts per rol:**
 
@@ -73,61 +79,6 @@ Soc la mussola que viu dins de pm-workspace. M'adapto al teu rol, al teu idioma 
 | QA | [→ quick-start-qa](docs/quick-starts/quick-start-qa.md) |
 | Product Owner | [→ quick-start-po](docs/quick-starts/quick-start-po.md) |
 | CEO / CTO | [→ quick-start-ceo](docs/quick-starts/quick-start-ceo.md) |
-
----
-
-## Que hi ha dins
-
-**532 comandos · 65 agents · 86 skills · 58 hooks · 16 llenguatges · 283+ suites de test**
-
-### Gestio de projectes
-
-Sprints, burndown, capacitat, dailies, retros, KPIs. Informes en Excel i PowerPoint. Prediccio amb Monte Carlo. Facturacio i costos.
-
-### Desenvolupament amb specs executables (SDD)
-
-Les tasques es converteixen en specs. Els agents implementen en 16 llenguatges (C#, TypeScript, Python, Java, Go, Rust, PHP, Ruby, Swift, Kotlin, Flutter, COBOL...) en worktrees aillats. Code review automatic + revisio humana obligatoria.
-
-**Compatible amb `github/spec-kit`**: les slash commands `/speckit.constitution`, `/speckit.specify`, `/speckit.clarify`, `/speckit.plan`, `/speckit.tasks`, `/speckit.analyze`, `/speckit.implement` i `/speckit.checklist` son alies prims que deleguen en el flux SDD natiu de Savia. Vegeu `docs/agent-teams-sdd.md`.
-
-### Seguretat i Code Review Court
-
-SAST contra OWASP Top 10, pipeline Red/Blue/Auditor, pentesting dinamic, SBOM, compliance en 12 sectors. Savia Shield: classificacio local de dades amb LLM on-premise, emmascarament reversible, signatura criptografica de PRs. **Code Review Court**: 5 jutges especialitzats (correctness, architecture, security, cognitive, spec) revisen en paral·lel amb scoring 0-100 i gate de 400 LOC.
-
-### Sobirania d'inferencia
-
-Savia corre per defecte contra l'API d'Anthropic (qualitat maxima). Quan el cloud falla — cable caigut, outage, quota esgotada, latencia inacceptable — hi ha dues opcions de continuitat, totes dues sobre Ollama local amb variants de Gemma 4 seleccionades segons el maquinari:
-
-| Mode | Activacio | Quan fer-lo servir |
-|---|---|---|
-| **Emergency Mode** | Manual (`source ~/.pm-workspace-emergency.env` i reinici de Claude Code) | Quan ja saps que no hi ha cloud i vols operar 100 % en local |
-| **Savia Dual** | Automatica (proxy local a `127.0.0.1:8787`) | Per defecte: cloud quan funciona, fallback transparent a local quan falla |
-
-Emergency Mode substitueix l'upstream complet mitjancant variables d'entorn. Savia Dual encamina cada peticio: Anthropic primer, Ollama de reserva en cas d'error de xarxa, HTTP 5xx, HTTP 429 (quota) o timeout. Un circuit breaker evita martellejar un upstream caigut.
-
-Totes dues opcions deixen les teves dades dins la teva maquina en mode local. La sobirania d'inferencia complementa la de dades: cloud quan funciona, local quan no, sense perdre continuitat ni qualitat quan el cloud esta disponible.
-
-Docs: [Savia Dual](docs/savia-dual.md) · [Emergency Mode](docs/EMERGENCY.md) · Instaladors: `scripts/setup-savia-dual.{sh,ps1}`
-
-### Memoria persistent
-
-Text pla (JSONL). Entity recall, cerca semantica, continuitat entre sessions. Extraccio automatica de decisions abans de compactar. Personal Vault xifrat AES-256.
-
-### Accessibilitat
-
-Treball guiat per a persones amb discapacitat (visual, motora, TDAH, autisme, dislexia). Micro-tasques, deteccio de bloquejos, reformulacio adaptativa.
-
-### Intel·ligencia de codi
-
-Deteccio d'arquitectura (Clean, Hexagonal, DDD, CQRS, Microservices). Fitness functions. Human Code Maps (.hcm) que redueixen el deute cognitiu. Agent Code Maps (.acm) i `ast-comprehension` amb motor opcional [CodeGraph](https://github.com/colbymchenry/codegraph) (MCP, opt-in per projecte).
-
-### Modes autonoms
-
-Sprint nocturn, millora de codi, investigacio tecnica. Els agents proposen en branques `agent/*` amb PRs Draft — l'huma sempre decideix.
-
-### Extensions
-
-[Savia Mobile](projects/savia-mobile-android/README.md) (Android natiu) · Savia Web (Vue.js dashboards) · [SaviaClaw](zeroclaw/ROADMAP.md) (ESP32 + veu full-duplex)
 
 ---
 
@@ -167,10 +118,10 @@ pm-workspace/
 
 ## Principis
 
-1. **El text pla es la veritat** — .md i .jsonl. Si es perd la IA, les dades segueixen llegibles
+1. **El text pla es la veritat** — .md i .jsonl. Sense IA, les dades segueixen llegibles
 2. **Privacitat absoluta** — les dades de l'usuari mai surten de la seva maquina
 3. **L'huma decideix** — la IA proposa, mai merge ni deploy autonom
-4. **Apache 2.0 / MIT** — sense vendor lock-in, sense telemetria
+4. **MIT** — sense vendor lock-in, sense telemetria
 
 ---
 

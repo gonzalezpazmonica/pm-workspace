@@ -12,22 +12,22 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](CONTRIBUTING.md)
 
-## Votre equipe de developpement merite une PM qui ne dort jamais
+## Systeme d'exploitation de developpement multi-agent
 
-Les sprints derapent. Le backlog grossit sans priorisation. Les rapports pour la direction se font a la main. La dette technique s'accumule sans mesure. Les agents IA generent du code sans specs ni tests.
+**532 commandes · 65 agents · 86 skills · 58 hooks · 16 langages · 283+ suites de tests**
 
-**pm-workspace** resout cela. C'est une PM complete qui vit dans Claude Code : elle gere les sprints, decompose le backlog, coordonne les agents de code avec des specs executables, genere les rapports pour la direction et surveille la dette technique — dans votre langue, avec vos donnees protegees sur votre machine.
+pm-workspace est une plateforme de developpement qui transforme Claude Code et OpenCode en un environnement d'ingenierie multi-agent. Elle orchestre des agents specialises pour la gestion de projets, le developpement avec specs executables, l'audit de securite et la revue de code. Fonctionne en local avec souverainete des donnees et de l'inference, en 9 langues.
 
 ---
 
-## Commencez en 3 minutes
+## Installation
 
 ```bash
 # 1. Installez
 
 curl -fsSL https://raw.githubusercontent.com/gonzalezpazmonica/pm-workspace/main/install.sh | bash
 
-# 2. Ouvrez Claude Code dans le repertoire
+# 2. Ouvrez le workspace
 
 cd pm-workspace && opencode
 
@@ -36,28 +36,34 @@ cd pm-workspace && opencode
 /sprint-status          # ← votre premiere commande
 ```
 
-Savia s'adapte a vous. Si vous etes PM, elle montre sprints et capacite. Si vous etes developpeur, votre backlog et specs. Si vous etes CEO, portfolio et metriques DORA.
-
 **Windows :** `irm https://raw.githubusercontent.com/gonzalezpazmonica/pm-workspace/main/install.ps1 | iex`
 
----
-
-## Quels problemes ca resout
-
-| Probleme | Sans pm-workspace | Avec pm-workspace |
-|---|---|---|
-| Etat du sprint | Ouvrir Azure DevOps, filtrer, calculer | `/sprint-status` → tableau de bord complet |
-| Rapport pour la direction | 2h sous Excel/PowerPoint | `/ceo-report` → genere avec des donnees reelles |
-| Implementer une feature | Demander au dev d'interpreter le ticket | `/spec-generate` → spec executable → agent implemente → tests → PR |
-| Dette technique | "On corrigera plus tard" | `/debt-analyze` → priorisee par impact |
-| Code review | Revoir 300 lignes a la main | `/pr-review` → 3 perspectives (securite, architecture, metier) |
-| Onboarding nouveau dev | 2 semaines a lire du code | `/onboard` → guide personnalise + buddy IA |
+Savia s'adapte a votre role — PM, developpeur, QA, Product Owner, CEO — et a votre langue. Compatible avec Azure DevOps, Jira et Git-native (Savia Flow).
 
 ---
 
-## Bonjour, je suis Savia 
+## Capacites
 
-Je suis la petite chouette qui vit dans pm-workspace. Je m'adapte a votre role, votre langue et votre facon de travailler. Je fonctionne avec Azure DevOps, Jira, ou 100% Git-native avec Savia Flow.
+| Domaine | Ce que ca fait |
+|---|---|
+| Gestion de projets | Sprints, burndown, capacite, dailies, retros, KPIs. Rapports Excel et PowerPoint. Prevision Monte Carlo. Facturation. |
+| Spec-Driven Development | Les taches deviennent des specs executables. 65 agents implementent en 16 langages (C#, TypeScript, Python, Java, Go, Rust, PHP, Ruby, Swift, Kotlin, Flutter, COBOL...) dans des worktrees isoles. Code review automatique + revue humaine obligatoire. Compatible avec `github/spec-kit`. |
+| Securite | SAST contre OWASP Top 10, pipeline Red Team / Blue Team / Auditor, pentesting dynamique, SBOM, conformite sectorielle (12 secteurs). Savia Shield : classification locale des donnees avec LLM on-premise, masquage reversible, signature cryptographique des PRs. |
+| Code Review Court | 5 juges specialises (correctness, architecture, security, cognitive, spec) examinent en parallele avec scoring 0-100 et un seuil de 400 LOC. |
+| Souverainete d'inference | API Anthropic par defaut. Fallback automatique vers Ollama local (Gemma 4) en cas d'erreur reseau, HTTP 5xx, HTTP 429 ou timeout. Circuit breaker integre. |
+| Memoire persistante | Texte brut (JSONL). Entity recall, recherche semantique, continuite entre sessions. Extraction automatique des decisions. Personal Vault chiffre AES-256. |
+| Accessibilite | Travail guide pour les personnes en situation de handicap (visuel, moteur, TDAH, autisme, dyslexie). Micro-taches, detection de blocages, reformulation adaptative. |
+| Intelligence du code | Detection d'architecture (Clean, Hexagonal, DDD, CQRS, Microservices). Fitness functions. Human Code Maps (.hcm). Agent Code Maps (.acm) et `ast-comprehension` avec moteur optionnel [CodeGraph](https://github.com/colbymchenry/codegraph) (MCP, opt-in par projet). |
+| Modes autonomes | Sprint nocturne, amelioration du code, recherche technique. Les agents proposent sur des branches `agent/*` avec des PRs Draft — l'humain decide. |
+| Extensions | [Savia Mobile](projects/savia-mobile-android/README.md) (Android natif) · Savia Web (Vue.js) · [SaviaClaw](zeroclaw/ROADMAP.md) (ESP32 + voix full-duplex) |
+
+---
+
+## Savia
+
+Savia est l'identite du workspace : un motif textuel qui persiste a travers les modeles (Claude, DeepSeek, Qwen). Elle coordonne 65 agents, 532 commandes et 86 skills. Elle opere selon les principes d'honnetete calibree, de souverainete des donnees et de revue humaine obligatoire.
+
+Elle n'est pas une personne, ne ressent pas, et ne remplace pas le jugement de la personne qui opere. Elle propose, execute, avertit. Elle ne decide que ce qui est explicitement delegue.
 
 **Quick-starts par role :**
 
@@ -69,61 +75,6 @@ Je suis la petite chouette qui vit dans pm-workspace. Je m'adapte a votre role, 
 | QA | [→ quick-start-qa](docs/quick-starts/quick-start-qa.md) |
 | Product Owner | [→ quick-start-po](docs/quick-starts/quick-start-po.md) |
 | CEO / CTO | [→ quick-start-ceo](docs/quick-starts/quick-start-ceo.md) |
-
----
-
-## Ce qu'il y a dedans
-
-**532 commandes · 65 agents · 86 skills · 58 hooks · 16 langages · 283+ suites de tests**
-
-### Gestion de projets
-
-Sprints, burndown, capacite, dailies, retros, KPIs. Rapports en Excel et PowerPoint. Prediction par Monte Carlo. Facturation et couts.
-
-### Developpement avec specs executables (SDD)
-
-Les taches deviennent des specs. Les agents implementent en 16 langages (C#, TypeScript, Python, Java, Go, Rust, PHP, Ruby, Swift, Kotlin, Flutter, COBOL...) dans des worktrees isoles. Code review automatique + revue humaine obligatoire.
-
-**Compatible avec `github/spec-kit`** : les slash commands `/speckit.constitution`, `/speckit.specify`, `/speckit.clarify`, `/speckit.plan`, `/speckit.tasks`, `/speckit.analyze`, `/speckit.implement` et `/speckit.checklist` sont des alias fins qui deleguent au flux SDD natif de Savia. Voir `docs/agent-teams-sdd.md`.
-
-### Securite et Code Review Court
-
-SAST contre OWASP Top 10, pipeline Red/Blue/Auditor, pentesting dynamique, SBOM, conformite dans 12 secteurs. Savia Shield : classification locale des donnees avec LLM on-premise, masquage reversible, signature cryptographique des PRs. **Code Review Court** : 5 juges specialises (correctness, architecture, security, cognitive, spec) examinent en parallele avec un scoring 0-100 et un seuil de 400 LOC.
-
-### Souverainete d'inference
-
-Savia fonctionne par defaut contre l'API Anthropic (qualite maximale). Si le cloud echoue — cable coupe, outage, quota epuise, latence inacceptable — il existe deux options de continuite, toutes deux basees sur Ollama local avec des variantes de Gemma 4 selectionnees selon ton materiel :
-
-| Mode | Activation | Quand l'utiliser |
-|---|---|---|
-| **Emergency Mode** | Manuel (`source ~/.pm-workspace-emergency.env` et redemarrage de Claude Code) | Quand tu sais deja qu'il n'y a pas de cloud et veux operer 100 % en local |
-| **Savia Dual** | Automatique (proxy local sur `127.0.0.1:8787`) | Par defaut : cloud quand ca marche, bascule transparente en local quand non |
-
-Emergency Mode remplace entierement l'upstream via des variables d'environnement. Savia Dual route chaque requete : Anthropic d'abord, Ollama en secours en cas d'erreur reseau, HTTP 5xx, HTTP 429 (quota) ou timeout. Un circuit breaker evite de marteler un upstream en panne.
-
-Les deux options gardent tes donnees dans ta machine en mode local. La souverainete d'inference complete la souverainete des donnees : cloud quand ca va bien, local quand non, sans perdre continuite ni qualite lorsque le cloud est disponible.
-
-Docs : [Savia Dual](docs/savia-dual.md) · [Emergency Mode](docs/EMERGENCY.md) · Installeurs : `scripts/setup-savia-dual.{sh,ps1}`
-
-### Memoire persistante
-
-Texte brut (JSONL). Entity recall, recherche semantique, continuite entre sessions. Extraction automatique des decisions avant compression. Personal Vault chiffre AES-256.
-
-### Accessibilite
-
-Travail guide pour les personnes en situation de handicap (visuel, moteur, TDAH, autisme, dyslexie). Micro-taches, detection de blocages, reformulation adaptative.
-
-### Intelligence du code
-
-Detection d'architecture (Clean, Hexagonal, DDD, CQRS, Microservices). Fitness functions. Human Code Maps (.hcm) qui reduisent la dette cognitive. Agent Code Maps (.acm) et `ast-comprehension` avec moteur optionnel [CodeGraph](https://github.com/colbymchenry/codegraph) (MCP, opt-in par projet).
-
-### Modes autonomes
-
-Sprint nocturne, amelioration du code, recherche technique. Les agents proposent sur des branches `agent/*` avec des PRs Draft — l'humain decide toujours.
-
-### Extensions
-
-[Savia Mobile](projects/savia-mobile-android/README.md) (Android natif) · Savia Web (Vue.js dashboards) · [SaviaClaw](zeroclaw/ROADMAP.md) (ESP32 + voix full-duplex)
 
 ---
 
@@ -163,10 +114,10 @@ pm-workspace/
 
 ## Principes
 
-1. **Le texte brut est la verite** — .md et .jsonl. Si l'IA disparait, les donnees restent lisibles
+1. **Le texte brut est la verite** — .md et .jsonl. Sans IA, les donnees restent lisibles
 2. **Confidentialite absolue** — les donnees de l'utilisateur ne quittent jamais sa machine
 3. **L'humain decide** — l'IA propose, jamais de merge ni de deploy autonome
-4. **Apache 2.0 / MIT** — pas de vendor lock-in, pas de telemetrie
+4. **MIT** — pas de vendor lock-in, pas de telemetrie
 
 ---
 
