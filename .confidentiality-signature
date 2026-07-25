@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=c5a2d0eb75e1c7a942a777b7f4128a55763945549992bc77ba13b44bc6e799d8
-timestamp=2026-07-24T23:45:21Z
-branch=agent/se269-bmad-patterns
-head_commit=63c535b3
-signature=826e91dbbc47d9fc6815570f0ccbf8b53450e8c643532e98b2fcf2c92f402ca3
+diff_hash=ef8fde3143e20019f900fa3ba68d91b642fbebc91fd748d628b2f0df5b528a19
+timestamp=2026-07-25T10:56:59Z
+branch=fix/readme-i18n-sync-20260725
+head_commit=564c266e
+signature=da6e179a8bdee3c0eb01dc6f2d9b0742a737a67d89fbba9424191bdcc41cc775
