@@ -1,5 +1,5 @@
 # development — Savia Capability Map (L1)
-> 215 resources
+> 217 resources
 
 - **/speckit.checklist** (cmd): Alias spec-kit compatible. Gate de calidad final con verification-lattice multi-capa. Invoca skill verification-lattice. Compatible con github/spec-kit.
 - **/speckit.clarify** (cmd): Alias spec-kit compatible. Preguntas dirigidas para cerrar ambigüedad en una spec. Invoca skill context-interview-conductor. Compatible con github/spec-kit.
@@ -106,6 +106,8 @@
 - **human-code-map** (skill): Usar cuando se incorpora un dev nuevo, se toca un módulo sin mapa, o alguien re-lee el mismo código repetidamente.
 - **image-relevance-filter** (script): image-relevance-filter.sh — SPEC-103 Slice 1: deterministic-first image triage primitive.
 - **impact-analysis** (script): impact-analysis.sh — Analyze codebase impact of modifying files
+- **implementation-readiness** (cmd): Gate previo a codificar — verifica que una spec esta lista para implementacion con veredicto ternario PASA/RESERVAS/FALLA (SE-269 S2)
+- **implementation-readiness** (script): implementation-readiness.sh — Gate pre-implementacion (SE-269 S2)
 - **index-rebuild** (cmd): >
 - **install-git-hooks** (script): install-git-hooks.sh — Instala hooks de Git para PM‑Workspace en OpenCode
 - **instinct-collapse-detector** (script): instinct-collapse-detector.sh — SPEC-045 Phase 1: detect exploration collapse

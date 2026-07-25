@@ -1,0 +1,12 @@
+[
+  {"id": 1, "question": "Que es Savia y cual es su proposito principal?"},
+  {"id": 2, "question": "Como se estructura el workspace de Savia? Menciona directorios clave."},
+  {"id": 3, "question": "Que es el Court y que tipos de jueces lo componen?"},
+  {"id": 4, "question": "Que niveles de confidencialidad existen en Savia (N1-N4b)?"},
+  {"id": 5, "question": "Que es una spec SDD y cuales son sus secciones obligatorias?"},
+  {"id": 6, "question": "Como se invoca un agente en Savia?"},
+  {"id": 7, "question": "Que es CRITERIO.md y cuantos criterios contiene?"},
+  {"id": 8, "question": "Que es el self-audit y que verifica?"},
+  {"id": 9, "question": "Como funciona la federacion entre instancias de Savia?"},
+  {"id": 10, "question": "Que patrones de seguridad aplica Savia? Menciona al menos 3."}
+]

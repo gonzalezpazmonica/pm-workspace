@@ -1,6 +1,6 @@
 {
-  "hash": "99c52f811681",
-  "total": 1211,
+  "hash": "107dd1aa1210",
+  "total": 1220,
   "resources": [
     {
       "category": "analysis",
@@ -3254,6 +3254,33 @@
       "kind": "script",
       "path": "scripts/impact-analysis.sh",
       "description": "impact-analysis.sh — Analyze codebase impact of modifying files"
+    },
+    {
+      "category": "development",
+      "name": "implementation-readiness",
+      "intents": [
+        "codificar",
+        "falla",
+        "gate",
+        "implementacion",
+        "lista"
+      ],
+      "kind": "cmd",
+      "path": ".claude/commands/implementation-readiness.md",
+      "description": "Gate previo a codificar — verifica que una spec esta lista para implementacion con veredicto ternario PASA/RESERVAS/FALLA (SE-269 S2)"
+    },
+    {
+      "category": "development",
+      "name": "implementation-readiness",
+      "intents": [
+        "gate",
+        "implementacion",
+        "implementation",
+        "readiness"
+      ],
+      "kind": "script",
+      "path": "scripts/implementation-readiness.sh",
+      "description": "implementation-readiness.sh — Gate pre-implementacion (SE-269 S2)"
     },
     {
       "category": "development",
@@ -8763,6 +8790,34 @@
     },
     {
       "category": "planning",
+      "name": "forge-idea",
+      "intents": [
+        "clara",
+        "endurecida",
+        "forja",
+        "idea",
+        "interrogatorio"
+      ],
+      "kind": "cmd",
+      "path": ".claude/commands/forge-idea.md",
+      "description": "Forja una idea mediante interrogatorio socratico con veredicto ternario ENDURECIDA/MAS_CLARA/MUERTA (SE-269 S1)"
+    },
+    {
+      "category": "planning",
+      "name": "forge-idea",
+      "intents": [
+        "forge",
+        "idea",
+        "presion",
+        "socratica",
+        "ternario"
+      ],
+      "kind": "script",
+      "path": "scripts/forge-idea.sh",
+      "description": "forge-idea.sh — Presion socratica con veredicto ternario (SE-269 S1)"
+    },
+    {
+      "category": "planning",
       "name": "fork-agents",
       "intents": [
         "agents",
@@ -9280,6 +9335,20 @@
     },
     {
       "category": "planning",
+      "name": "judge-calibration",
+      "intents": [
+        "adversariales",
+        "calibration",
+        "judge",
+        "jueces",
+        "tracking"
+      ],
+      "kind": "script",
+      "path": "scripts/judge-calibration.sh",
+      "description": "judge-calibration.sh — FP/FN tracking para jueces adversariales (SE-269 S4)"
+    },
+    {
+      "category": "planning",
       "name": "kg-link-prediction",
       "intents": [
         "link",
@@ -9493,6 +9562,19 @@
       "kind": "script",
       "path": "scripts/lib/slm-common.sh",
       "description": "slm-common.sh — Shared helpers for SLM subcommands (SE-049 Slice 1)."
+    },
+    {
+      "category": "planning",
+      "name": "llms-txt-generate",
+      "intents": [
+        "docs",
+        "full",
+        "generate",
+        "llms"
+      ],
+      "kind": "script",
+      "path": "scripts/llms-txt-generate.sh",
+      "description": "llms-txt-generate.sh — Genera docs/llms.txt y docs/llms-full.txt (SE-269 S5)"
     },
     {
       "category": "planning",
@@ -12133,6 +12215,20 @@
     },
     {
       "category": "planning",
+      "name": "ternary-verdict",
+      "intents": [
+        "contract",
+        "data",
+        "ternary",
+        "unified",
+        "verdict"
+      ],
+      "kind": "script",
+      "path": "scripts/ternary-verdict.sh",
+      "description": "ternary-verdict.sh — Unified data contract for ternary verdicts (SE-269 S2)"
+    },
+    {
+      "category": "planning",
       "name": "terraform-developer",
       "intents": [],
       "kind": "agent",
@@ -14113,6 +14209,34 @@
       "kind": "cmd",
       "path": ".claude/commands/review-cache-stats.md",
       "description": "Estadísticas de la caché de code review"
+    },
+    {
+      "category": "quality",
+      "name": "review-checkpoint",
+      "intents": [
+        "cambio",
+        "cierre",
+        "hallazgos",
+        "humana",
+        "lectura"
+      ],
+      "kind": "cmd",
+      "path": ".claude/commands/review-checkpoint.md",
+      "description": "Genera paquete de revision humana en 5 secciones: cambio, orden de lectura, hallazgos, verificacion manual, cierre (SE-269 S3)"
+    },
+    {
+      "category": "quality",
+      "name": "review-checkpoint",
+      "intents": [
+        "checkpoint",
+        "humana",
+        "paquete",
+        "review",
+        "revision"
+      ],
+      "kind": "script",
+      "path": "scripts/review-checkpoint.sh",
+      "description": "review-checkpoint.sh — Paquete de revision humana (SE-269 S3)"
     },
     {
       "category": "quality",

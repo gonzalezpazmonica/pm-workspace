@@ -1,5 +1,5 @@
 # quality — Savia Capability Map (L1)
-> 239 resources
+> 241 resources
 
 - **/speckit.analyze** (cmd): Alias spec-kit compatible. Review cruzado de una spec antes de implementar. Invoca skill consensus-validation. Compatible con github/spec-kit.
 - **Court Review** (cmd): Convene the Code Review Court to evaluate implementation quality across 6 judges
@@ -102,6 +102,8 @@
 - **reconciler** (agent): Classifies contradictions into 3 buckets: evolution, auto-resolve, conflict-doc. Invoked by drift-auditor.
 - **review-cache** (script): review-cache.sh - Gestión de caché de code review
 - **review-cache-stats** (cmd): Estadísticas de la caché de code review
+- **review-checkpoint** (cmd): Genera paquete de revision humana en 5 secciones: cambio, orden de lectura, hallazgos, verificacion manual, cierre (SE-269 S3)
+- **review-checkpoint** (script): review-checkpoint.sh — Paquete de revision humana (SE-269 S3)
 - **review-community** (script): review-community.sh — Revisión de PRs/issues de la comunidad (LOCAL ONLY)
 - **review-depth-selector** (script): review-depth-selector.sh — Select review depth based on risk score
 - **rule-orphan-detector** (script): rule-orphan-detector.sh — SE-048 Slice 1 rule usage audit.
