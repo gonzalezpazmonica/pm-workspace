@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=63baa19a94148fe2f0f4c9e942db610be1439401579c3a8f966bd9051c8662ec
-timestamp=2026-07-25T20:58:42Z
+diff_hash=e172ced2983d9d0a3ae0a73fc159a65f8fe3652a25448cba553c94f2939fd62a
+timestamp=2026-07-25T21:02:56Z
 branch=agent/se272-servicio-gestionado
-head_commit=da996f2f
-signature=6988a41d910661f496eaa1aea498f3a73558559cefd22f4c3492ed59d2c5a656
+head_commit=4b45874d
+signature=7fc4ddd9ba3184092ff90faba626e35a061f306c7864e7837bc2994cf81c4107
