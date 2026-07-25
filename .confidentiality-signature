@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=eea7287499cc167c40c91b4e0f3da0275e94b5c073d7eed34a6fb7a424ba6b53
-timestamp=2026-07-25T17:14:02Z
-branch=agent/se270-harness-hygiene
-head_commit=c865b5c5
-signature=83f3ef240ccff5a5e0b417a278d3f9fa8fdf117a163acc177b917f406f82c581
+diff_hash=e777accb24cdc3231a2d372d87d194906a68931af22b95840d552bfa646c90b2
+timestamp=2026-07-25T17:36:44Z
+branch=agent/se271-savia-corporate
+head_commit=081ddb1c
+signature=2bd3b74156d015525b429d0ed046ff4cb75c70f7aea3d7f5a194ab7a1ddcfd6c
