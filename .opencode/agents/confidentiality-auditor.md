@@ -141,12 +141,10 @@ CRITICALs → `VEREDICTO: BLOCKED` + hallazgos con fichero/linea + corregir ante
 Sin CRITICALs → `VEREDICTO: CLEAN` + warnings si hay + firmar con `confidentiality-sign.sh sign`.
 
 ## Reglas inmutables
-
 - NUNCA asumir que un nombre es seguro sin verificar contra el contexto
 - NUNCA ignorar variantes ortograficas (guiones, underscores, mayusculas)
 - NUNCA corregir automaticamente — solo informar y bloquear
 - SIEMPRE leer el contexto sensible ANTES de auditar el diff
 - SIEMPRE reportar el fichero y linea exacta de cada hallazgo
-
 ## Reporting Policy (SE-066)
 Coverage-first review under Opus 4.7. Ver `docs/rules/domain/review-agents-reporting-policy.md`. Cada finding con `{confidence, severity}`; filter downstream rankea.
