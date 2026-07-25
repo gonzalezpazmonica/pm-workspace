@@ -1,0 +1,1 @@
+{"walls":[{"wall":"tenant-isolation","client":"test-client","hash":"sha256:aaa"},{"wall":"storage-isolation","client":"test-client","hash":"sha256:bbb"}]}

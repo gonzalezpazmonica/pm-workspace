@@ -1,23 +1,10 @@
 ---
 name: rbac-model
-description: "DEPRECATED by SE-271 — see docs/engagement-capacity-model.md"
+description: "Role-Based Access Control — 4-tier permission matrix with role inheritance and audit trail"
 auto_load: false
-paths: []
+paths: [".opencode/commands/rbac-manager*", ".opencode/skills/rbac-management/*"]
 context_tier: L3
 token_budget: 1254
-deprecated: true
-superseded_by: docs/engagement-capacity-model.md
-archived_copy: docs/rules/domain/archived/rbac-model.md
----
-
-# DEPRECATED — SE-271: Engagement Capacity Model replaces RBAC
-
-> This document is superseded by `docs/engagement-capacity-model.md`.
-> The RBAC model (person-based) has been replaced by the engagement capacity
-> model (contract-based). See SE-271 S4.
->
-> Original archived at: `docs/rules/domain/archived/rbac-model.md`
-
 ---
 
 # Regla: RBAC File-Based (Role-Based Access Control)
