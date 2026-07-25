@@ -124,30 +124,22 @@ Cada acción ejecutada se registra en:
 ```
 output/rbac-audit.jsonl
 ```
-
 Formato JSONL (una línea por acción):
 ```json
 {"timestamp":"2026-03-05T10:15:00Z","user":"pm-user","command":"sprint-plan","allowed":true,"role":"PM","scope":"global","reason":""}
 {"timestamp":"2026-03-05T10:30:00Z","user":"carlos-mendoza","command":"infra-create","allowed":false,"role":"Contributor","scope":"global","reason":"Admin only"}
 ```
-
 Campos: `timestamp` (ISO 8601 UTC), `user` (handle activo), `command` (nombre comando),
 `allowed` (boolean), `role` (del usuario), `scope` (global o proyecto), `reason` (si denegado).
-
 ## Integración con team-orchestrator
-
 Los roles RBAC mapean con la estructura de equipos:
 - Tech Lead → `Contributor` (a su equipo) + `Admin` (de sus specs)
 - PM → `PM` (global) + `Contributor` (si hace code)
 - Developer → `Contributor` (asignado a proyecto/equipo)
-
 Comando `/team-orchestrator assign` asigna el rol RBAC automáticamente según
 la función (`role: contributor | pm | tech-lead`).
-
 ## Configuración por proyecto
-
 Un proyecto puede sobrescribir la matriz de permisos en `projects/{proyecto}/rbac-overrides.md`:
-
 ```yaml
 # Solo PM del proyecto puede hacer sprint-plan (no solo global PMs)
 overrides:
@@ -155,5 +147,4 @@ overrides:
     allowed_roles: ["Admin", "PM"]
     scope_enforcement: true
 ```
-
 Sin sobrescrituras, usa la matriz global de `rbac-model.md`.
