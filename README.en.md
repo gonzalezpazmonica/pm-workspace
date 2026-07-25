@@ -2,14 +2,14 @@
 lang: en
 ---
 
-<img width="1856" height="560" alt="pm-workspace header" src="https://raw.githubusercontent.com/gonzalezpazmonica/pm-workspace/main/docs/images/pm-workspace-header.png" />
+<!-- Header image removed per SE-259 S2 -->
 
 **English** | [Español](README.md) | [Galego](README.gl.md) | [Euskara](README.eu.md) | [Català](README.ca.md) | [Français](README.fr.md) | [Deutsch](README.de.md) | [Português](README.pt.md) | [Italiano](README.it.md)
 
 # PM-Workspace
 
 > Courtesy translation. Reference version: [Spanish](README.md).
-> Last sync: 2026-07-09.
+> Last sync: 2026-07-25.
 
 [![CI](https://img.shields.io/github/actions/workflow/status/gonzalezpazmonica/pm-workspace/ci.yml?branch=main&label=CI&logo=github)](https://github.com/gonzalezpazmonica/pm-workspace/actions/workflows/ci.yml)
 [![Release](https://img.shields.io/github/v/release/gonzalezpazmonica/pm-workspace?logo=github)](https://github.com/gonzalezpazmonica/pm-workspace/releases)
