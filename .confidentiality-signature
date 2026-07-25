@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=0e4c92e73db8fcde5fb66e09037aed867647e3377d684e1512722414c4ca0842
-timestamp=2026-07-25T08:35:39Z
+diff_hash=f9b839798418d9a68bff5e760950e87271a112da54f83d614d5ae7c0c3f95ecf
+timestamp=2026-07-25T10:02:37Z
 branch=fix/readme-i18n-sync-20260725
-head_commit=cb136e6a
-signature=aad9ebea93d55ff86917647927c59a2dc365be080a5698532bf538a2aa39a071
+head_commit=71d2518f
+signature=753251a3c16a6d0a0ac61b77a185cf7aa1ea2be199a114174938d689f9167ca8
