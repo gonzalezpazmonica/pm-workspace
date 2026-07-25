@@ -1,0 +1,44 @@
+# agent-budget.yaml — SE-272 Slice 3: Per-requestor budget configuration
+# Ref: docs/propuestas/SE-272-servicio-gestionado.md
+version: "1.0"
+spec: "SE-272"
+
+# Budget windows
+#   window: sliding window duration (s = seconds, m = minutes, h = hours)
+#   max_requests: max requests per window per identity
+#   max_cost_cents: max cost in cents (USD) per window per identity
+#   enqueue_on_exhaust: enqueue instead of deny when budget exhausted
+#   notify_contract_owner: notify owner on exhaustion
+defaults:
+  window: 1h
+  max_requests: 100
+  max_cost_cents: 5000
+  enqueue_on_exhaust: true
+  notify_contract_owner: true
+
+# Per-identity overrides (identity = platform card id from S4)
+identities:
+  # Example identity — wildcard identity handles any agent not specifically listed
+  "wildcard":
+    window: 15m
+    max_requests: 20
+    max_cost_cents: 2000
+    enqueue_on_exhaust: true
+    notify_contract_owner: true
+
+# Contract owner notification settings
+notification:
+  method: jsonl
+  log_path: "bridge/control-plane/agent-budget-events.jsonl"
+  include_fields:
+    - identity
+    - window
+    - requests_used
+    - cost_cents_used
+    - exhausted_at
+    - enqueued_count
+
+# Budget logging
+logging:
+  enabled: true
+  log_path: "bridge/control-plane/agent-budget-usage.jsonl"
