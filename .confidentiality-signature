@@ -1,6 +1,14 @@
 # Confidentiality audit signature — DO NOT EDIT
+<<<<<<< HEAD
 diff_hash=e777accb24cdc3231a2d372d87d194906a68931af22b95840d552bfa646c90b2
 timestamp=2026-07-25T17:36:44Z
 branch=agent/se271-savia-corporate
 head_commit=081ddb1c
 signature=2bd3b74156d015525b429d0ed046ff4cb75c70f7aea3d7f5a194ab7a1ddcfd6c
+=======
+diff_hash=ef8fde3143e20019f900fa3ba68d91b642fbebc91fd748d628b2f0df5b528a19
+timestamp=2026-07-25T10:56:59Z
+branch=fix/readme-i18n-sync-20260725
+head_commit=564c266e
+signature=da6e179a8bdee3c0eb01dc6f2d9b0742a737a67d89fbba9424191bdcc41cc775
+>>>>>>> origin/main
