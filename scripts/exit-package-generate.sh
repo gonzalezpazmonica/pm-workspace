@@ -225,9 +225,10 @@ generate_qa() {
   fi
 
   # Evaluation results
-  if [[ -d "$ROOT/output/eval"* ]]; then
+  eval_dirs=$(find "$ROOT/output" -maxdepth 1 -name "eval*" -type d 2>/dev/null)
+  if [[ -n "$eval_dirs" ]]; then
     mkdir -p "$dir/evaluations"
-    for edir in "$ROOT/output/eval"*; do
+    for edir in $eval_dirs; do
       [[ -d "$edir" ]] || continue
       local ename
       ename=$(basename "$edir")
