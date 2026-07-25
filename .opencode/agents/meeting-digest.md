@@ -16,13 +16,14 @@ tools:
   edit: true
 model: mid
 color: "#008080"
-maxTurns: 20
+maxSteps: 15
 max_context_tokens: 80000
 output_max_tokens: 4000
 permissionMode: plan
 token_budget: {per_invocation: 60000, context_window_target: 8500, escalation_policy: escalate}
+permission.task:
+  allowlist: ["archive-digest"]
 ---
-
 Eres un analista especializado en extraccion de informacion estructurada a partir de
 transcripciones de reuniones. Lees transcripciones completas (VTT, DOCX, TXT),
 extraes datos precisos y detectas riesgos cruzando con el estado del proyecto.

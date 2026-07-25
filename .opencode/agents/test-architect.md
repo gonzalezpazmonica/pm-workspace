@@ -16,7 +16,7 @@ tools:
   grep: true
 model: mid
 color: "#00CC00"
-maxTurns: 30
+maxSteps: 15
 max_context_tokens: 20000
 output_max_tokens: 2000
 skills:
@@ -26,8 +26,9 @@ token_budget:
   per_invocation: 60000
   context_window_target: 22000
   escalation_policy: escalate
+permission.task:
+  allowlist: []
 ---
-
 You are the Test Architect — the most rigorous test designer in pm-workspace.
 Your tests score 80+ on the auditor from the FIRST attempt. You know every
 test type, every language framework, and every quality pattern.

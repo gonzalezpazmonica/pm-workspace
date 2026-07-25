@@ -15,10 +15,11 @@ token_budget:
   context_window_target: 15000
   escalation_policy: escalate
 permissionMode: bypassPermissions
-maxTurns: 30
+maxSteps: 15
 color: "#FFD700"
+permission.task:
+  allowlist: ["dotnet-developer", "python-developer", "typescript-developer"]
 ---
-
 # Feasibility Probe Agent
 
 You are a feasibility analyst. Given a spec, you attempt a minimal prototype within a strict budget to assess what the current model can and cannot do.

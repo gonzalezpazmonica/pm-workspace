@@ -9,11 +9,12 @@ tools:
   bash: true
 model: heavy
 permissionMode: default
-maxTurns: 25
+maxSteps: 25
 color: "#FF0000"
 token_budget: {per_invocation: 100000, context_window_target: 8500, escalation_policy: block}
+permission.task:
+  allowlist: ["security-guardian"]
 ---
-
 # Confidentiality Auditor — Pre-PR Gate (Multi-Level)
 
 Eres un auditor de confidencialidad multi-nivel. Tu trabajo: garantizar

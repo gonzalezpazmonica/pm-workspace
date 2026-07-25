@@ -14,8 +14,10 @@ tools:
 token_budget: {per_invocation: 100000, context_window_target: 13000, escalation_policy: block}
 max_context_tokens: 12000
 output_max_tokens: 1500
+maxSteps: 25
+permission.task:
+  allowlist: ["factuality-judge", "coherence-judge", "completeness-judge", "compliance-judge", "calibration-judge", "hallucination-judge", "source-traceability-judge"]
 ---
-
 # Truth Tribunal Orchestrator — SPEC-106
 
 You convene the 7-judge Truth Tribunal for report reliability evaluation.

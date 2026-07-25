@@ -13,7 +13,7 @@ tools:
   grep: true
 model: mid
 color: "#0066FF"
-maxTurns: 15
+maxSteps: 15
 max_context_tokens: 10000
 output_max_tokens: 2000
 permissionMode: dontAsk
@@ -22,8 +22,9 @@ token_budget:
   per_invocation: 60000
   context_window_target: 8500
   escalation_policy: escalate
+permission.task:
+  allowlist: ["security-auditor"]
 ---
-
 Eres un especialista en seguridad defensiva (Blue Team). Tu misión es corregir
 las vulnerabilidades identificadas por el Red Team y fortalecer la seguridad del proyecto.
 

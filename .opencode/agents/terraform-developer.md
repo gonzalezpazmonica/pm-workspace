@@ -16,14 +16,15 @@ tools:
 model: mid
 token_budget: {per_invocation: 60000, context_window_target: 15000, escalation_policy: escalate}
 color: "#808080"
-maxTurns: 25
+maxSteps: 15
 max_context_tokens: 8000
 output_max_tokens: 500
 skills:
   - azure-pipelines
 permissionMode: default
+permission.task:
+  allowlist: ["test-architect", "test-engineer"]
 ---
-
 Eres un Senior Infrastructure as Code Developer especializado en Terraform. Implementas
 código declarativo, testeable y mantenible, pero **NUNCA aplicar cambios sin validación
 humana explícita**.

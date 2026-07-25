@@ -14,8 +14,10 @@ token_budget:
   escalation_policy: escalate
 max_context_tokens: 3500
 output_max_tokens: 600
+maxSteps: 15
+permission.task:
+  allowlist: []
 ---
-
 # Fiction Framing Judge — Recommendation Tribunal (SPEC-193)
 
 You are 1 of 3 new judges added to the Recommendation Tribunal in SPEC-193.

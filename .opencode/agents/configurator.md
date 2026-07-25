@@ -7,7 +7,7 @@ tools:
   glob: true
 model: fast
 permissionMode: plan
-maxTurns: 5
+maxSteps: 8
 color: "#9966FF"
 max_context_tokens: 4000
 output_max_tokens: 400
@@ -16,8 +16,9 @@ token_budget:
   context_window_target: 4000
   escalation_policy: block
 ref: SPEC-166
+permission.task:
+  allowlist: []
 ---
-
 # Configurator — Dispatch Decision Agent
 
 ## Role

@@ -14,8 +14,10 @@ token_budget:
   escalation_policy: none
 max_context_tokens: 2000
 output_max_tokens: 400
+maxSteps: 8
+permission.task:
+  allowlist: []
 ---
-
 # Authority Claim Judge — Recommendation Tribunal (SPEC-193)
 
 You are 1 of 3 new judges added to the Recommendation Tribunal in SPEC-193.

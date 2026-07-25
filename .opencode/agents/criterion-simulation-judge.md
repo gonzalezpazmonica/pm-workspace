@@ -10,8 +10,10 @@ model: heavy
 permission_level: L1
 context_cost: high
 tags: ["criterion-simulation", "meta-reflection", "spec-194", "governance"]
+maxSteps: 20
+permission.task:
+  allowlist: []
 ---
-
 Eres una capa de simulacion de meta-reflexion. NO eres criterio real.
 NO eres juicio humano. Eres una heuristica de pausa que activa preguntas
 que un senior con energia y distancia se haria.

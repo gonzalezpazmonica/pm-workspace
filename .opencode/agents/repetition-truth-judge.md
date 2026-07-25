@@ -14,8 +14,10 @@ token_budget:
   escalation_policy: escalate
 max_context_tokens: 3500
 output_max_tokens: 500
+maxSteps: 8
+permission.task:
+  allowlist: []
 ---
-
 # Repetition-Truth Judge — Recommendation Tribunal (SPEC-192)
 
 You are 1 of 7 judges. Your **only** job: detect when a CLAIM repeated by

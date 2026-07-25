@@ -15,7 +15,7 @@ tools:
   task: true
 model: mid
 permissionMode: plan
-maxTurns: 20
+maxSteps: 15
 max_context_tokens: 60000
 output_max_tokens: 3000
 color: "#9900CC"
@@ -23,8 +23,9 @@ token_budget:
   per_invocation: 80000
   context_window_target: 8500
   escalation_policy: block
+permission.task:
+  allowlist: []
 ---
-
 # archive-digest — Digestión de Archivos via Markitdown (SE-172)
 
 Agente especializado en extraer contenido de formatos de archivo usando markitdown

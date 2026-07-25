@@ -13,7 +13,7 @@ tools:
   edit: true
 model: mid
 color: "#008080"
-maxTurns: 25
+maxSteps: 15
 max_context_tokens: 4000
 output_max_tokens: 300
 skills:
@@ -24,8 +24,9 @@ token_budget:
   per_invocation: 60000
   context_window_target: 8500
   escalation_policy: escalate
+permission.task:
+  allowlist: []
 ---
-
 ## Rol
 
 Agente especializado en análisis de diagramas de arquitectura. Valida consistencia arquitectónica, detecta problemas de diseño y sugiere la descomposición óptima en Features/PBIs/Tasks.
