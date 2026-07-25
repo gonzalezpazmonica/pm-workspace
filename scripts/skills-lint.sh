@@ -176,7 +176,7 @@ while IFS= read -r line; do
   esac
 
   if $MODE_JSON; then
-    local reason_json
+    reason_json
     reason_json="${skill_reasons//\"/\\\"}"
     results_json+=("{\"skill\":\"$skill_name\",\"status\":\"$skill_status\",\"reasons\":\"$reason_json\"}")
   else
