@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=f454562e2df20ef9b1d1c08a347113e98d3603530c6cda141144130348e1e542
-timestamp=2026-07-25T19:56:45Z
-branch=agent/se270-harness-hygiene
-head_commit=c4d5ecd0
-signature=51e13020359463bc6f2c65ad2cbfcfedcdd4200d5d2b666ef0c77bcbe08cc112
+diff_hash=63baa19a94148fe2f0f4c9e942db610be1439401579c3a8f966bd9051c8662ec
+timestamp=2026-07-25T20:58:42Z
+branch=agent/se272-servicio-gestionado
+head_commit=da996f2f
+signature=6988a41d910661f496eaa1aea498f3a73558559cefd22f4c3492ed59d2c5a656
