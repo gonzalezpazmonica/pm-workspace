@@ -32,7 +32,7 @@ teardown() {
     --justification "Testing validation" \
     --engagement "$ENGAGEMENT"
   [[ "$status" -ne 0 ]]
-  [[ "$output" == *"capitalizable|corriente|mixta"* ]]
+  [[ "$output" == *capitalizable|corriente|mixta* ]]
 }
 
 # ──────────────────────────────────────────────────────────────────────
