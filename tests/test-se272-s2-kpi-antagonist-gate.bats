@@ -3,7 +3,7 @@
 # Slice 2: Contractual KPIs with verification and anti-Goodhart
 
 setup() {
-  REAL_ROOT="$(cd "$BATS_TEST_DIRNAME/../.." && pwd)"
+  REAL_ROOT="$(cd "$BATS_TEST_DIRNAME/.." && pwd)"
   export ANTAGONIST_SH="$REAL_ROOT/scripts/kpi-antagonist-gate.sh"
   export CATALOG_SH="$REAL_ROOT/scripts/kpi-catalog-validate.sh"
   export COMPUTE_SH="$REAL_ROOT/scripts/kpi-compute.sh"
@@ -207,7 +207,7 @@ YAMLEOF
   [[ "$output" == *"OK"* ]]
 
   # Second period
-  REPO_ROOT="$TMPDIR_KPI" bash "  bash "$CHAIN_SH" append \
+  REPO_ROOT="$TMPDIR_KPI" bash "$CHAIN_SH" append \
     --engagement "$ENGAGEMENT" \
     --period "2026-08"
 
@@ -221,8 +221,8 @@ YAMLEOF
 # ──────────────────────────────────────────────────────────────────────
 
 @test "kpi-custody-chain detects tampered chain" {
-  REPO_ROOT="$TMPDIR_KPI" bash "  bash "$CHAIN_SH" append --engagement "$ENGAGEMENT" --period "2026-07"
-  REPO_ROOT="$TMPDIR_KPI" bash "  bash "$CHAIN_SH" append --engagement "$ENGAGEMENT" --period "2026-08"
+  REPO_ROOT="$TMPDIR_KPI" bash "$CHAIN_SH" append --engagement "$ENGAGEMENT" --period "2026-07"
+  REPO_ROOT="$TMPDIR_KPI" bash "$CHAIN_SH" append --engagement "$ENGAGEMENT" --period "2026-08"
 
   # Tamper
   echo '{"tampered":true}' >> "$ENG_DIR/kpi-chain.jsonl"
@@ -237,7 +237,7 @@ YAMLEOF
 # ──────────────────────────────────────────────────────────────────────
 
 @test "kpi-review-report generates period report" {
-  REPO_ROOT="$TMPDIR_KPI" bash "  bash "$CHAIN_SH" append --engagement "$ENGAGEMENT" --period "2026-07"
+  REPO_ROOT="$TMPDIR_KPI" bash "$CHAIN_SH" append --engagement "$ENGAGEMENT" --period "2026-07"
 
   REPO_ROOT="$TMPDIR_KPI" run bash "$REVIEW_SH" generate \
     --engagement "$ENGAGEMENT" \
@@ -273,7 +273,7 @@ YAMLEOF
 # ──────────────────────────────────────────────────────────────────────
 
 @test "kpi-review-report version-catalog shows version history" {
-  REPO_ROOT="$TMPDIR_KPI" bash "  bash "$REVIEW_SH" amend \
+  REPO_ROOT="$TMPDIR_KPI" bash "$REVIEW_SH" amend \
     --engagement "$ENGAGEMENT" \
     --kpi-id "kpi-001" \
     --field "target_threshold" \
@@ -282,7 +282,7 @@ YAMLEOF
     --signature-1 "Alice,Stakeholder" \
     --signature-2 "Bob,Delivery Manager"
 
-  REPO_ROOT="$TMPDIR_KPI" bash "  bash "$REVIEW_SH" amend \
+  REPO_ROOT="$TMPDIR_KPI" bash "$REVIEW_SH" amend \
     --engagement "$ENGAGEMENT" \
     --kpi-id "kpi-001" \
     --field "warning_threshold" \
@@ -302,8 +302,8 @@ YAMLEOF
 # ──────────────────────────────────────────────────────────────────────
 
 @test "kpi-antagonist-gate anomaly runs without crash" {
-  REPO_ROOT="$TMPDIR_KPI" bash "  bash "$CHAIN_SH" append --engagement "$ENGAGEMENT" --period "2026-07"
-  REPO_ROOT="$TMPDIR_KPI" bash "  bash "$CHAIN_SH" append --engagement "$ENGAGEMENT" --period "2026-08"
+  REPO_ROOT="$TMPDIR_KPI" bash "$CHAIN_SH" append --engagement "$ENGAGEMENT" --period "2026-07"
+  REPO_ROOT="$TMPDIR_KPI" bash "$CHAIN_SH" append --engagement "$ENGAGEMENT" --period "2026-08"
 
   REPO_ROOT="$TMPDIR_KPI" run bash "$ANTAGONIST_SH" anomaly --engagement "$ENGAGEMENT"
   [[ "$status" -eq 0 ]]

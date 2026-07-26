@@ -3,7 +3,7 @@
 # Slice 1: CAPEX/OPEX classification and capitalization evidence
 
 setup() {
-  REAL_ROOT="$(cd "$BATS_TEST_DIRNAME/../.." && pwd)"
+  REAL_ROOT="$(cd "$BATS_TEST_DIRNAME/.." && pwd)"
   export CLASSIFY_SH="$REAL_ROOT/scripts/capex-classify.sh"
   export PHASE_GATE_SH="$REAL_ROOT/scripts/capex-phase-gate.sh"
   export EVIDENCE_SH="$REAL_ROOT/scripts/capex-evidence-package.sh"
@@ -32,7 +32,7 @@ teardown() {
     --justification "Testing validation" \
     --engagement "$ENGAGEMENT"
   [[ "$status" -ne 0 ]]
-  [[ "$output" == *capitalizable\|corriente\|mixta* ]]
+  [[ "$output" =~ capitalizable|corriente|mixta ]]
 }
 
 # ──────────────────────────────────────────────────────────────────────
