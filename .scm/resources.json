@@ -1,6 +1,6 @@
 {
-  "hash": "107dd1aa1210",
-  "total": 1220,
+  "hash": "4a848e6e2af6",
+  "total": 1266,
   "resources": [
     {
       "category": "analysis",
@@ -98,6 +98,34 @@
     },
     {
       "category": "analysis",
+      "name": "agent-depth-limit",
+      "intents": [
+        "agent",
+        "build",
+        "check",
+        "depth",
+        "graph"
+      ],
+      "kind": "script",
+      "path": "scripts/agent-depth-limit.sh",
+      "description": "agent-depth-limit.sh — SE-270 Slice 4: Build agent invocation graph and check depth."
+    },
+    {
+      "category": "analysis",
+      "name": "agent-discipline-audit",
+      "intents": [
+        "agent",
+        "audit",
+        "discipline",
+        "maxsteps",
+        "model"
+      ],
+      "kind": "script",
+      "path": "scripts/agent-discipline-audit.sh",
+      "description": "agent-discipline-audit.sh — SE-270 Slice 4: Audit agent model tier → maxSteps recommendations."
+    },
+    {
+      "category": "analysis",
       "name": "agent-file-map",
       "intents": [
         "agentes",
@@ -179,6 +207,20 @@
       "kind": "cmd",
       "path": ".claude/commands/agent-memory.md",
       "description": "Inspect and manage persistent memory fragments for subagents."
+    },
+    {
+      "category": "analysis",
+      "name": "agent-permission-audit",
+      "intents": [
+        "agent",
+        "audit",
+        "declarations",
+        "permission",
+        "slice"
+      ],
+      "kind": "script",
+      "path": "scripts/agent-permission-audit.sh",
+      "description": "agent-permission-audit.sh — SE-270 Slice 4: Audit permission.task declarations."
     },
     {
       "category": "analysis",
@@ -4905,6 +4947,34 @@
     },
     {
       "category": "governance",
+      "name": "corporate/engagement-evidence-package",
+      "intents": [
+        "client",
+        "compliance",
+        "engagement",
+        "evidence",
+        "package"
+      ],
+      "kind": "script",
+      "path": "scripts/corporate/engagement-evidence-package.sh",
+      "description": "engagement-evidence-package.sh — SE-271 S6 Per-Client Compliance Evidence Package"
+    },
+    {
+      "category": "governance",
+      "name": "corporate/enterprise-compliance-wire",
+      "intents": [
+        "compliance",
+        "enterprise",
+        "existing",
+        "scripts",
+        "wire"
+      ],
+      "kind": "script",
+      "path": "scripts/corporate/enterprise-compliance-wire.sh",
+      "description": "enterprise-compliance-wire.sh — SE-271 S6 Wire Existing Enterprise Compliance Scripts"
+    },
+    {
+      "category": "governance",
       "name": "glm-validate",
       "intents": [
         "completeness",
@@ -5269,6 +5339,20 @@
     },
     {
       "category": "memory",
+      "name": "context-compaction-policy",
+      "intents": [
+        "compaction",
+        "context",
+        "declared",
+        "policy",
+        "survival"
+      ],
+      "kind": "script",
+      "path": "scripts/context-compaction-policy.sh",
+      "description": "context-compaction-policy.sh — SE-270 S7: declared compaction survival policy"
+    },
+    {
+      "category": "memory",
       "name": "context-condenser",
       "intents": [
         "compression",
@@ -5358,6 +5442,20 @@
     },
     {
       "category": "memory",
+      "name": "context-erosion-detect",
+      "intents": [
+        "collapse",
+        "context",
+        "detect",
+        "erosion",
+        "volume"
+      ],
+      "kind": "script",
+      "path": "scripts/context-erosion-detect.sh",
+      "description": "context-erosion-detect.sh — SE-270 S7: detect context collapse via volume erosion"
+    },
+    {
+      "category": "memory",
       "name": "context-frozen-check",
       "intents": [
         "check",
@@ -5409,6 +5507,20 @@
       "kind": "skill",
       "path": ".claude/skills/context-interview-conductor/SKILL.md",
       "description": "Usar cuando se necesita recopilar contexto estructurado de un usuario mediante entrevista guiada."
+    },
+    {
+      "category": "memory",
+      "name": "context-jit-lint",
+      "intents": [
+        "agent",
+        "context",
+        "lint",
+        "preloading",
+        "skill"
+      ],
+      "kind": "script",
+      "path": "scripts/context-jit-lint.sh",
+      "description": "context-jit-lint.sh — SE-270 S7: lint agent/skill templates for preloading"
     },
     {
       "category": "memory",
@@ -5602,6 +5714,20 @@
       "kind": "script",
       "path": "scripts/digest-to-memory.sh",
       "description": "digest-to-memory.sh — Bridge: digest agents -> memory-store + graph"
+    },
+    {
+      "category": "memory",
+      "name": "engagement-rotate",
+      "intents": [
+        "client",
+        "context",
+        "engagement",
+        "rotate",
+        "seal"
+      ],
+      "kind": "script",
+      "path": "scripts/engagement-rotate.sh",
+      "description": "engagement-rotate.sh — SE-271 S3: Seal/rotate client engagement context"
     },
     {
       "category": "memory",
@@ -5907,6 +6033,19 @@
     },
     {
       "category": "memory",
+      "name": "memory-prune",
+      "intents": [
+        "confidence",
+        "entries",
+        "memory",
+        "prune"
+      ],
+      "kind": "script",
+      "path": "scripts/memory-prune.sh",
+      "description": "memory-prune.sh — SE-270 S6: prune low-confidence memory entries"
+    },
+    {
+      "category": "memory",
       "name": "memory-recall",
       "intents": [
         "context",
@@ -6058,6 +6197,20 @@
       "kind": "script",
       "path": "scripts/memory-verify.sh",
       "description": "memory-verify.sh — Quality gate for memory compression (SPEC-041 P3)"
+    },
+    {
+      "category": "memory",
+      "name": "memory-write-gate",
+      "intents": [
+        "before",
+        "entries",
+        "gate",
+        "memory",
+        "validates"
+      ],
+      "kind": "script",
+      "path": "scripts/memory-write-gate.sh",
+      "description": "memory-write-gate.sh — SE-270 S6: validates memory entries before writing"
     },
     {
       "category": "memory",
@@ -6420,6 +6573,20 @@
       "kind": "cmd",
       "path": ".claude/commands/accessibility-setup.md",
       "description": "Configura las preferencias de accesibilidad de Savia para adaptarse a tus necesidades"
+    },
+    {
+      "category": "planning",
+      "name": "action-shape-classifier",
+      "intents": [
+        "acción",
+        "action",
+        "classifier",
+        "forma",
+        "guards"
+      ],
+      "kind": "script",
+      "path": "scripts/action-shape-classifier.sh",
+      "description": "action-shape-classifier.sh — SE-273 S2: Guards de forma de acción"
     },
     {
       "category": "planning",
@@ -7602,6 +7769,94 @@
     },
     {
       "category": "planning",
+      "name": "corporate-adopt",
+      "intents": [
+        "adopt",
+        "corporate"
+      ],
+      "kind": "script",
+      "path": "scripts/corporate-adopt.sh",
+      "description": "corporate-adopt.sh — SE-271 S2"
+    },
+    {
+      "category": "planning",
+      "name": "corporate-body-validate",
+      "intents": [
+        "body",
+        "corporate",
+        "validate"
+      ],
+      "kind": "script",
+      "path": "scripts/corporate-body-validate.sh",
+      "description": "corporate-body-validate.sh — SE-271 S2"
+    },
+    {
+      "category": "planning",
+      "name": "corporate-ledger-verify",
+      "intents": [
+        "corporate",
+        "ledger",
+        "verify"
+      ],
+      "kind": "script",
+      "path": "scripts/corporate-ledger-verify.sh",
+      "description": "corporate-ledger-verify.sh — SE-271 S2"
+    },
+    {
+      "category": "planning",
+      "name": "corporate-monotonicity-gate",
+      "intents": [
+        "corporate",
+        "gate",
+        "monotonicity"
+      ],
+      "kind": "script",
+      "path": "scripts/corporate-monotonicity-gate.sh",
+      "description": "corporate-monotonicity-gate.sh — SE-271 S1"
+    },
+    {
+      "category": "planning",
+      "name": "corporate-no-write-assert",
+      "intents": [
+        "assert",
+        "corp",
+        "corporate",
+        "input",
+        "instance"
+      ],
+      "kind": "script",
+      "path": "scripts/corporate-no-write-assert.sh",
+      "description": "corporate-no-write-assert.sh — SE-271 S5: Assert no corp input → instance write"
+    },
+    {
+      "category": "planning",
+      "name": "corporate/corporate-disconnect-drill",
+      "intents": [
+        "corporate",
+        "disconnect",
+        "drill",
+        "simulation"
+      ],
+      "kind": "script",
+      "path": "scripts/corporate/corporate-disconnect-drill.sh",
+      "description": "corporate-disconnect-drill.sh — SE-271 S7 Disconnect Simulation Drill"
+    },
+    {
+      "category": "planning",
+      "name": "corporate/corporate-resilience-check",
+      "intents": [
+        "assessment",
+        "check",
+        "corporate",
+        "local",
+        "resilience"
+      ],
+      "kind": "script",
+      "path": "scripts/corporate/corporate-resilience-check.sh",
+      "description": "corporate-resilience-check.sh — SE-271 S7 Local Resilience Assessment"
+    },
+    {
+      "category": "planning",
       "name": "cost-center",
       "intents": [
         "billing",
@@ -8041,6 +8296,18 @@
     },
     {
       "category": "planning",
+      "name": "egress-gate",
+      "intents": [
+        "control",
+        "egress",
+        "gate"
+      ],
+      "kind": "script",
+      "path": "scripts/egress-gate.sh",
+      "description": "egress-gate.sh — SE-273 S3: Egress control gate"
+    },
+    {
+      "category": "planning",
       "name": "emergency-fallback",
       "intents": [
         "emergency",
@@ -8137,6 +8404,61 @@
     },
     {
       "category": "planning",
+      "name": "engagement-capacity-check",
+      "intents": [
+        "capacity",
+        "check",
+        "enforcement",
+        "engagement"
+      ],
+      "kind": "script",
+      "path": "scripts/engagement-capacity-check.sh",
+      "description": "engagement-capacity-check.sh — SE-271 S4: Capacity enforcement per engagement"
+    },
+    {
+      "category": "planning",
+      "name": "engagement-init",
+      "intents": [
+        "client",
+        "engagement",
+        "ethical",
+        "init",
+        "initialize"
+      ],
+      "kind": "script",
+      "path": "scripts/engagement-init.sh",
+      "description": "engagement-init.sh — SE-271 S3: Initialize client engagement with ethical walls"
+    },
+    {
+      "category": "planning",
+      "name": "engagement-separation-proof",
+      "intents": [
+        "engagement",
+        "generates",
+        "proof",
+        "separation",
+        "verifiable"
+      ],
+      "kind": "script",
+      "path": "scripts/engagement-separation-proof.sh",
+      "description": "engagement-separation-proof.sh — SE-271 S3: Generates verifiable separation proof"
+    },
+    {
+      "category": "planning",
+      "name": "engagement-wall-check",
+      "intents": [
+        "check",
+        "client",
+        "cross",
+        "engagement",
+        "isolation"
+      ],
+      "kind": "script",
+      "path": "scripts/engagement-wall-check.sh",
+      "description": "engagement-wall-check.sh — SE-271 S3: Cross-client isolation verification"
+    },
+    {
+      "category": "planning",
       "name": "ensure-daemons-auth",
       "intents": [
         "auth",
@@ -8174,6 +8496,20 @@
       "kind": "skill",
       "path": ".claude/skills/enterprise-onboarding/SKILL.md",
       "description": "Usar cuando se incorporan múltiples personas a la organización de forma masiva."
+    },
+    {
+      "category": "planning",
+      "name": "enterprise-reconcile",
+      "intents": [
+        "adapted",
+        "archived",
+        "classify",
+        "enterprise",
+        "reconcile"
+      ],
+      "kind": "script",
+      "path": "scripts/enterprise-reconcile.sh",
+      "description": "enterprise-reconcile.sh — SE-271 S4: Classify enterprise scripts into wired/adapted/archived"
     },
     {
       "category": "planning",
@@ -9143,6 +9479,20 @@
     },
     {
       "category": "planning",
+      "name": "hook-assignment-rule",
+      "intents": [
+        "assignment",
+        "documentation",
+        "hook",
+        "rule",
+        "slice"
+      ],
+      "kind": "script",
+      "path": "scripts/hook-assignment-rule.sh",
+      "description": "hook-assignment-rule.sh — SE-270 Slice 5: hook vs documentation assignment rule."
+    },
+    {
+      "category": "planning",
       "name": "hook-bench-all",
       "intents": [
         "bench",
@@ -9168,6 +9518,20 @@
       "kind": "script",
       "path": "scripts/hook-latency-bench.sh",
       "description": "hook-latency-bench.sh — Mide la latencia media de cada hook registrado"
+    },
+    {
+      "category": "planning",
+      "name": "hook-latency-budget",
+      "intents": [
+        "budget",
+        "enforcement",
+        "hook",
+        "latency",
+        "slice"
+      ],
+      "kind": "script",
+      "path": "scripts/hook-latency-budget.sh",
+      "description": "hook-latency-budget.sh — SE-270 Slice 5: hook latency budget enforcement."
     },
     {
       "category": "planning",
@@ -9335,6 +9699,20 @@
     },
     {
       "category": "planning",
+      "name": "judge-anti-fatigue",
+      "intents": [
+        "anti",
+        "fatigue",
+        "judge",
+        "tracking",
+        "verdict"
+      ],
+      "kind": "script",
+      "path": "scripts/judge-anti-fatigue.sh",
+      "description": "judge-anti-fatigue.sh — SE-273 S1: Anti-fatigue verdict tracking"
+    },
+    {
+      "category": "planning",
       "name": "judge-calibration",
       "intents": [
         "adversariales",
@@ -9346,6 +9724,34 @@
       "kind": "script",
       "path": "scripts/judge-calibration.sh",
       "description": "judge-calibration.sh — FP/FN tracking para jueces adversariales (SE-269 S4)"
+    },
+    {
+      "category": "planning",
+      "name": "judge-routing-verify",
+      "intents": [
+        "check",
+        "judge",
+        "parity",
+        "routing",
+        "verify"
+      ],
+      "kind": "script",
+      "path": "scripts/judge-routing-verify.sh",
+      "description": "judge-routing-verify.sh — SE-273 S1: CI parity check"
+    },
+    {
+      "category": "planning",
+      "name": "judge-trigger-detector",
+      "intents": [
+        "detection",
+        "detector",
+        "deterministic",
+        "judge",
+        "trigger"
+      ],
+      "kind": "script",
+      "path": "scripts/judge-trigger-detector.sh",
+      "description": "judge-trigger-detector.sh — SE-273 S1: Deterministic trigger detection"
     },
     {
       "category": "planning",
@@ -9852,6 +10258,20 @@
       "kind": "skill",
       "path": ".claude/skills/nuclei-scanning/SKILL.md",
       "description": "Usar cuando se escanean vulnerabilidades conocidas (CVEs, misconfigs) con Nuclei."
+    },
+    {
+      "category": "planning",
+      "name": "objective-contract",
+      "intents": [
+        "antagonista",
+        "contract",
+        "delegado",
+        "objective",
+        "objetivo"
+      ],
+      "kind": "script",
+      "path": "scripts/objective-contract.sh",
+      "description": "objective-contract.sh — SE-273 S7: Objetivo delegado con antagonista obligatorio"
     },
     {
       "category": "planning",
@@ -11325,6 +11745,20 @@
     },
     {
       "category": "planning",
+      "name": "skill-creator",
+      "intents": [
+        "creator",
+        "interactive",
+        "scaffolding",
+        "skill",
+        "slice"
+      ],
+      "kind": "script",
+      "path": "scripts/skill-creator.sh",
+      "description": "skill-creator.sh — SE-270 Slice 3 — Interactive skill scaffolding"
+    },
+    {
+      "category": "planning",
       "name": "skill-detect",
       "intents": [
         "automatically",
@@ -11468,6 +11902,20 @@
       "kind": "script",
       "path": "scripts/skill-routing-index.sh",
       "description": "skill-routing-index.sh — SE-152"
+    },
+    {
+      "category": "planning",
+      "name": "skills-collision-detect",
+      "intents": [
+        "collision",
+        "description",
+        "detect",
+        "detection",
+        "skill"
+      ],
+      "kind": "script",
+      "path": "scripts/skills-collision-detect.sh",
+      "description": "skills-collision-detect.sh — SE-270 Slice 1 — Skill description collision detection"
     },
     {
       "category": "planning",
@@ -11740,6 +12188,20 @@
       "kind": "skill",
       "path": ".claude/skills/smart-calendar/SKILL.md",
       "description": "Usar cuando se gestiona la agenda inteligente con sincronización Outlook/Teams."
+    },
+    {
+      "category": "planning",
+      "name": "source-corroborator",
+      "intents": [
+        "corroboración",
+        "corroborator",
+        "externas",
+        "fuentes",
+        "source"
+      ],
+      "kind": "script",
+      "path": "scripts/source-corroborator.sh",
+      "description": "source-corroborator.sh — SE-273 S5: Corroboración de fuentes externas"
     },
     {
       "category": "planning",
@@ -12332,6 +12794,20 @@
     },
     {
       "category": "planning",
+      "name": "trajectory-detector",
+      "intents": [
+        "desviación",
+        "detección",
+        "detector",
+        "minutos",
+        "trajectory"
+      ],
+      "kind": "script",
+      "path": "scripts/trajectory-detector.sh",
+      "description": "trajectory-detector.sh — SE-273 S6: Detección de desviación en minutos"
+    },
+    {
+      "category": "planning",
       "name": "tribunal-critic",
       "intents": [
         "critic",
@@ -12476,6 +12952,20 @@
       "kind": "script",
       "path": "scripts/ua-install.sh",
       "description": "ua-install.sh — Install Understand-Anything plugin for Savia"
+    },
+    {
+      "category": "planning",
+      "name": "unlimited-auth-detector",
+      "intents": [
+        "auth",
+        "delegación",
+        "detecta",
+        "detector",
+        "límite"
+      ],
+      "kind": "script",
+      "path": "scripts/unlimited-auth-detector.sh",
+      "description": "unlimited-auth-detector.sh — SE-273 S4: Detecta delegación sin límite"
     },
     {
       "category": "planning",
@@ -13118,6 +13608,62 @@
     },
     {
       "category": "quality",
+      "name": "corporate-attest",
+      "intents": [
+        "attest",
+        "attestation",
+        "corporate",
+        "generate",
+        "signed"
+      ],
+      "kind": "script",
+      "path": "scripts/corporate-attest.sh",
+      "description": "corporate-attest.sh — SE-271 S5: Generate signed corporate attestation"
+    },
+    {
+      "category": "quality",
+      "name": "corporate-fleet-dashboard",
+      "intents": [
+        "attestations",
+        "corporate",
+        "dashboard",
+        "derive",
+        "fleet"
+      ],
+      "kind": "script",
+      "path": "scripts/corporate-fleet-dashboard.sh",
+      "description": "corporate-fleet-dashboard.sh — SE-271 S5: Derive fleet dashboard from attestations"
+    },
+    {
+      "category": "quality",
+      "name": "corporate/corporate-attestation-queue",
+      "intents": [
+        "attestation",
+        "corporate",
+        "offline",
+        "online",
+        "queue"
+      ],
+      "kind": "script",
+      "path": "scripts/corporate/corporate-attestation-queue.sh",
+      "description": "corporate-attestation-queue.sh — SE-271 S7 Attestation Queue (Offline → Online)"
+    },
+    {
+      "category": "quality",
+      "name": "corporate/engagement-audit-answer",
+      "intents": [
+        "answer",
+        "audit",
+        "auditor",
+        "canonical",
+        "engagement"
+      ],
+      "kind": "script",
+      "path": "scripts/corporate/engagement-audit-answer.sh",
+      "description": "engagement-audit-answer.sh — SE-271 S6 Canonical Auditor Questions"
+    },
+    {
+      "category": "quality",
       "name": "correctness-judge",
       "intents": [
         "cases",
@@ -13489,6 +14035,20 @@
     },
     {
       "category": "quality",
+      "name": "hook-matcher-audit",
+      "intents": [
+        "audit",
+        "hook",
+        "matcher",
+        "slice",
+        "specificity"
+      ],
+      "kind": "script",
+      "path": "scripts/hook-matcher-audit.sh",
+      "description": "hook-matcher-audit.sh — SE-270 Slice 5: hook matcher specificity audit."
+    },
+    {
+      "category": "quality",
       "name": "hook-test-coverage-audit",
       "intents": [
         "audit",
@@ -13500,6 +14060,20 @@
       "kind": "script",
       "path": "scripts/hook-test-coverage-audit.sh",
       "description": "hook-test-coverage-audit.sh — Detect hooks in .opencode/hooks/ without BATS tests."
+    },
+    {
+      "category": "quality",
+      "name": "hook-type-audit",
+      "intents": [
+        "audit",
+        "handler",
+        "hook",
+        "slice",
+        "type"
+      ],
+      "kind": "script",
+      "path": "scripts/hook-type-audit.sh",
+      "description": "hook-type-audit.sh — SE-270 Slice 5: hook handler type audit."
     },
     {
       "category": "quality",
@@ -14452,6 +15026,62 @@
       "kind": "script",
       "path": "scripts/skill-maturity-audit.sh",
       "description": "skill-maturity-audit.sh — SE-167 Skill Maturity Kanban"
+    },
+    {
+      "category": "quality",
+      "name": "skills-depth-lint",
+      "intents": [
+        "depth",
+        "enforcement",
+        "level",
+        "lint",
+        "single"
+      ],
+      "kind": "script",
+      "path": "scripts/skills-depth-lint.sh",
+      "description": "skills-depth-lint.sh — SE-270 Slice 2 — Single-level depth enforcement"
+    },
+    {
+      "category": "quality",
+      "name": "skills-lint",
+      "intents": [
+        "description",
+        "lint",
+        "routing",
+        "rule",
+        "skill"
+      ],
+      "kind": "script",
+      "path": "scripts/skills-lint.sh",
+      "description": "skills-lint.sh — SE-270 Slice 1 — Skill description routing rule validator"
+    },
+    {
+      "category": "quality",
+      "name": "skills-overlap-audit",
+      "intents": [
+        "audit",
+        "description",
+        "matrix",
+        "overlap",
+        "similarity"
+      ],
+      "kind": "script",
+      "path": "scripts/skills-overlap-audit.sh",
+      "description": "skills-overlap-audit.sh — SE-270 Slice 3 — Skill description similarity matrix"
+    },
+    {
+      "category": "quality",
+      "name": "skills-tier-audit",
+      "intents": [
+        "assignment",
+        "audit",
+        "skill",
+        "skills",
+        "slice"
+      ],
+      "kind": "script",
+      "path": "scripts/skills-tier-audit.sh",
+      "description": "skills-tier-audit.sh — SE-270 Slice 2 — Skill tier assignment audit"
     },
     {
       "category": "quality",

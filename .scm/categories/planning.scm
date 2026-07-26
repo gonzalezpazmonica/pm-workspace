@@ -1,10 +1,11 @@
 # planning — Savia Capability Map (L1)
-> 499 resources
+> 524 resources
 
 - **/decide-architecture** (cmd): Clasifica una tarea como WORKFLOW (deterministica) o AGENT (loop). Bias hacia workflow per Anthropic. Sugiere plantilla inicial. Mide accuracy contra corpus curado de 20 tareas.
 - **_template** (skill): TEMPLATE — copia este directorio para crear una skill nueva. NO se carga en runtime.
 - **accessibility-mode** (cmd): Toggle rápido de accesibilidad — activa, desactiva o muestra el estado
 - **accessibility-setup** (cmd): Configura las preferencias de accesibilidad de Savia para adaptarse a tus necesidades
+- **action-shape-classifier** (script): action-shape-classifier.sh — SE-273 S2: Guards de forma de acción
 - **adaptive-halting** (script): adaptive-halting.sh — SE-074 Slice 1.5 — double-criterion halting check
 - **adaptive-strategy-selector** (script): adaptive-strategy-selector.sh — Select loading strategy based on model tier
 - **adb-run** (script): adb-run.sh — Execute adb-wrapper functions without compound && chains
@@ -95,6 +96,13 @@
 - **consensus-validation** (skill): Usar cuando una decisión técnica o recomendación necesita validación por panel de jueces.
 - **content-fingerprint** (skill): Usar cuando se necesita un identificador corto, deterministico y reproducible derivado del contenido de una cadena o fichero — cache keys, ids de patrones, fingerprints de docs.
 - **contribute** (script): contribute.sh — Capa de interacción con GitHub para comunidad
+- **corporate-adopt** (script): corporate-adopt.sh — SE-271 S2
+- **corporate-body-validate** (script): corporate-body-validate.sh — SE-271 S2
+- **corporate-ledger-verify** (script): corporate-ledger-verify.sh — SE-271 S2
+- **corporate-monotonicity-gate** (script): corporate-monotonicity-gate.sh — SE-271 S1
+- **corporate-no-write-assert** (script): corporate-no-write-assert.sh — SE-271 S5: Assert no corp input → instance write
+- **corporate/corporate-disconnect-drill** (script): corporate-disconnect-drill.sh — SE-271 S7 Disconnect Simulation Drill
+- **corporate/corporate-resilience-check** (script): corporate-resilience-check.sh — SE-271 S7 Local Resilience Assessment
 - **cost-center** (cmd): Cost management and billing — timesheets, budgets, forecasting, invoicing
 - **cost-management** (skill): Usar cuando se gestionan timesheets, presupuestos, facturas o forecasting de costes.
 - **count-commands** (script): count-commands.sh — SE-095: canonical counter for slash commands.
@@ -130,6 +138,7 @@
 - **dotnet-developer** (agent): >
 - **dual-estimate** (script): dual-estimate.sh — Dual estimation engine: agent-time vs human-time
 - **ecosystem-watcher** (skill): Usar una vez al mes para detectar cambios relevantes en el ecosistema de herramientas externas.
+- **egress-gate** (script): egress-gate.sh — SE-273 S3: Egress control gate
 - **emergency-fallback** (script): emergency-fallback.sh — Operaciones PM sin LLM
 - **emergency-mode** (cmd): Gestionar el modo emergencia con LLM local cuando el proveedor cloud no está disponible
 - **emergency-mode** (skill): Usar cuando la API de Anthropic está caída y se necesita continuar operando con LocalAI.
@@ -137,9 +146,14 @@
 - **emergency-setup** (script): emergency-setup.sh — Setup rápido de LLM local para modo emergencia
 - **emergency-status** (script): emergency-status.sh — Estado del sistema de emergencia PM-Workspace
 - **emotional-state-tracker** (script): emotional-state-tracker.sh — Track session stress state for Savia
+- **engagement-capacity-check** (script): engagement-capacity-check.sh — SE-271 S4: Capacity enforcement per engagement
+- **engagement-init** (script): engagement-init.sh — SE-271 S3: Initialize client engagement with ethical walls
+- **engagement-separation-proof** (script): engagement-separation-proof.sh — SE-271 S3: Generates verifiable separation proof
+- **engagement-wall-check** (script): engagement-wall-check.sh — SE-271 S3: Cross-client isolation verification
 - **ensure-daemons-auth** (script): ensure-daemons-auth.sh
 - **enterprise-analytics** (skill): Usar cuando se necesitan métricas SPACE, aggregación de portfolio o forecasting empresarial.
 - **enterprise-onboarding** (skill): Usar cuando se incorporan múltiples personas a la organización de forma masiva.
+- **enterprise-reconcile** (script): enterprise-reconcile.sh — SE-271 S4: Classify enterprise scripts into wired/adapted/archived
 - **enterprise/bench-match** (script): bench-match.sh — SE-022 Resource Bench Management
 - **enterprise/bench-register** (script): bench-register.sh — SE-022 Resource Bench Management
 - **enterprise/billing-milestone** (script): billing-milestone.sh — SE-018 Project Billing (IFRS 15)
@@ -214,8 +228,10 @@
 - **health-dashboard** (cmd): Dashboard de salud del proyecto unificado — Savia muestra una vista rápida adaptada al rol
 - **heat-scheduler** (script): heat-scheduler.sh — Lightweight heat-based parallelism for dev sessions
 - **help** (cmd): Catálogo de comandos y primeros pasos pendientes.
+- **hook-assignment-rule** (script): hook-assignment-rule.sh — SE-270 Slice 5: hook vs documentation assignment rule.
 - **hook-bench-all** (script): hook-bench-all.sh — SE-037 Slice 1 probe: measure latency of all hooks.
 - **hook-latency-bench** (script): hook-latency-bench.sh — Mide la latencia media de cada hook registrado
+- **hook-latency-budget** (script): hook-latency-budget.sh — SE-270 Slice 5: hook latency budget enforcement.
 - **hook-pii-gate** (script): hook-pii-gate.sh — PII Quality Gate Pre-Commit Hook
 - **hook-profile** (cmd): View or change the active SAVIA_HOOK_PROFILE (minimal/standard/strict/ci)
 - **hook-profile** (script): hook-profile.sh — Get/set the active SAVIA_HOOK_PROFILE
@@ -230,7 +246,10 @@
 - **instance-card** (script): instance-card.sh — Savia instance identity cards (SE-263 S2)
 - **integration-status** (cmd): Dashboard de estado de todas las integraciones — APIs, webhooks, MCP, conectividad
 - **java-developer** (agent): >
+- **judge-anti-fatigue** (script): judge-anti-fatigue.sh — SE-273 S1: Anti-fatigue verdict tracking
 - **judge-calibration** (script): judge-calibration.sh — FP/FN tracking para jueces adversariales (SE-269 S4)
+- **judge-routing-verify** (script): judge-routing-verify.sh — SE-273 S1: CI parity check
+- **judge-trigger-detector** (script): judge-trigger-detector.sh — SE-273 S1: Deterministic trigger detection
 - **kg-link-prediction** (script): kg-link-prediction.sh — SE-249: wrapper for kg-link-prediction.py
 - **kg-query** (script): kg-query.sh — SE-218 S3: query KG con qualified names
 - **kg-topology-analysis** (script): kg-topology-analysis.sh — SE-248: wrapper for kg-topology-analysis.py
@@ -270,6 +289,7 @@
 - **nidos** (script): nidos.sh — Savia Nidos: parallel terminal isolation via named git worktrees
 - **nidos-lib** (script): nidos-lib.sh — Shared utilities for Savia Nidos
 - **nuclei-scanning** (skill): Usar cuando se escanean vulnerabilidades conocidas (CVEs, misconfigs) con Nuclei.
+- **objective-contract** (script): objective-contract.sh — SE-273 S7: Objetivo delegado con antagonista obligatorio
 - **obs-status** (cmd): Health check de todas las fuentes de observabilidad conectadas
 - **ollama-classify** (script): ollama-classify.sh — Clasificacion local de texto con Ollama
 - **ollama-hardware-check** (script): ── ollama-hardware-check.sh ─────────────────────────────────────────────────
@@ -385,6 +405,7 @@
 - **setup-savia-dual** (script): setup-savia-dual.sh — Installer for Savia Dual (Linux/macOS)
 - **setup-savia-remote** (script): setup-savia-remote.sh — Run ONCE on the remote server as root/sudo.
 - **shield-ner-hook** (script): shield-ner-hook.sh — Savia Shield Capa 1.5: NER via daemon (fast)
+- **skill-creator** (script): skill-creator.sh — SE-270 Slice 3 — Interactive skill scaffolding
 - **skill-detect** (cmd): Detect repeated patterns and propose new skills automatically
 - **skill-detect** (script): skill-detect.sh — SE-030: Skill Self-Improvement Pipeline
 - **skill-eval** (cmd): >
@@ -396,6 +417,7 @@
 - **skill-rank** (cmd): Show skill effectiveness ranking based on invocation data
 - **skill-read** (cmd): Carga el contenido completo de un skill bajo demanda (progressive disclosure)
 - **skill-routing-index** (script): skill-routing-index.sh — SE-152
+- **skills-collision-detect** (script): skills-collision-detect.sh — SE-270 Slice 1 — Skill description collision detection
 - **skills-lock** (script): skills-lock.sh — SHA-256 integrity verification for skills
 - **skills-md-generate** (script): Force C locale for deterministic sort + awk text handling across machines
 - **skills-schema-generate** (script): skills-schema-generate.sh
@@ -416,6 +438,7 @@
 - **slm-train** (script): slm-train.sh — Fine-tune SLMs locally with Unsloth + export to Ollama
 - **slm-train-config** (script): slm-train-config.sh — Phase 3 scaffolding: emit Unsloth/TRL YAML config.
 - **smart-calendar** (skill): Usar cuando se gestiona la agenda inteligente con sincronización Outlook/Teams.
+- **source-corroborator** (script): source-corroborator.sh — SE-273 S5: Corroboración de fuentes externas
 - **sovereignty-benchmark** (script): sovereignty-benchmark.sh — Benchmark pm-workspace prompts with local LLM
 - **sovereignty-mask** (script): sovereignty-mask.sh — Wrapper for reversible data masking
 - **sovereignty-ops** (script): sovereignty-ops.sh — Download operations for sovereignty-pack.sh
@@ -461,6 +484,7 @@
 - **tool-result-trim** (script): tool-result-trim.sh — Deterministic hard cap for tool result output
 - **topic-cluster** (skill): Usar cuando se agrupan retros, PBIs o incidentes en topics para detectar patrones transversales.
 - **tracked-vs-nivel** (script): tracked-vs-nivel.sh — SE-258 Slice 1
+- **trajectory-detector** (script): trajectory-detector.sh — SE-273 S6: Detección de desviación en minutos
 - **tribunal-critic** (script): tribunal-critic.sh — SE-201: quantitative scoring for tribunal verdicts
 - **tribunal-status** (cmd): Show Truth Tribunal queue depth, recent verdicts, and pending evaluations
 - **tribunal-tiered-runner** (script): tribunal-tiered-runner.sh — SE-106: Tiered tribunal execution
@@ -472,6 +496,7 @@
 - **ua-dashboard** (cmd): Start the interactive knowledge graph dashboard in browser
 - **ua-install** (cmd): Install or update the Understand-Anything knowledge graph plugin
 - **ua-install** (script): ua-install.sh — Install Understand-Anything plugin for Savia
+- **unlimited-auth-detector** (script): unlimited-auth-detector.sh — SE-273 S4: Detecta delegación sin límite
 - **update** (cmd): Comprobar y aplicar actualizaciones de pm-workspace desde GitHub, preservando datos locales
 - **update** (script): update.sh — Sistema de actualización de pm-workspace
 - **user-profile** (cmd): Gestiona perfiles de miembros del equipo — ver, crear o editar.

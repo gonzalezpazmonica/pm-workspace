@@ -1,5 +1,5 @@
 # quality — Savia Capability Map (L1)
-> 241 resources
+> 251 resources
 
 - **/speckit.analyze** (cmd): Alias spec-kit compatible. Review cruzado de una spec antes de implementar. Invoca skill consensus-validation. Compatible con github/spec-kit.
 - **Court Review** (cmd): Convene the Code Review Court to evaluate implementation quality across 6 judges
@@ -21,6 +21,10 @@
 - **comprehension-audit** (cmd): Scan recent implementations and identify which lack comprehension reports. Report coverage and recommendations.
 - **confidentiality-auditor** (agent): Audita cumplimiento de confidencialidad en PRs de pm-workspace (repo publico). Descubre dinamicamente datos sensibles del workspace y verifica que no se filtran en el diff. Genera veredicto CLEAN/BLOCKED con firma si pasa.
 - **confidentiality-sign** (script): confidentiality-sign.sh — Cryptographic signature for confidentiality audit
+- **corporate-attest** (script): corporate-attest.sh — SE-271 S5: Generate signed corporate attestation
+- **corporate-fleet-dashboard** (script): corporate-fleet-dashboard.sh — SE-271 S5: Derive fleet dashboard from attestations
+- **corporate/corporate-attestation-queue** (script): corporate-attestation-queue.sh — SE-271 S7 Attestation Queue (Offline → Online)
+- **corporate/engagement-audit-answer** (script): engagement-audit-answer.sh — SE-271 S6 Canonical Auditor Questions
 - **correctness-judge** (agent): Code Review Court judge — logic, tests, edge cases, error paths
 - **court-orchestrator** (agent): Convenes the Code Review Court, manages fix cycles, produces .review.crc
 - **court-review** (script): court-review.sh — Code Review Court orchestration helper
@@ -48,7 +52,9 @@
 - **hook-event-gap-audit** (script): hook-event-gap-audit.sh — Audita los 11 eventos de hook no cubiertos en pm-workspace
 - **hook-injection-audit** (script): hook-injection-audit.sh — SE-060 Slice 1 hook injection patterns audit.
 - **hook-latency-audit** (script): hook-latency-audit.sh — SE-037 Slice 1 hook latency enforcement audit.
+- **hook-matcher-audit** (script): hook-matcher-audit.sh — SE-270 Slice 5: hook matcher specificity audit.
 - **hook-test-coverage-audit** (script): hook-test-coverage-audit.sh — Detect hooks in .opencode/hooks/ without BATS tests.
+- **hook-type-audit** (script): hook-type-audit.sh — SE-270 Slice 5: hook handler type audit.
 - **hooks-coverage-matrix** (script): scripts/hooks-coverage-matrix.sh — SE-253 Slice 2
 - **hub-audit** (cmd): Auditar dependencias entre reglas de dominio, comandos y agentes — recalcular el índice de hubs
 - **iac-security-baseline** (script): iac-security-baseline.sh — Genera .trivyignore inicial para un proyecto legacy
@@ -122,6 +128,10 @@
 - **skill-catalog-audit** (script): skill-catalog-audit.sh — SE-084 Slice 1.
 - **skill-catalog-auditor** (script): skill-catalog-auditor.sh — SE-084 Slice 1 — Skill catalog quality auditor
 - **skill-maturity-audit** (script): skill-maturity-audit.sh — SE-167 Skill Maturity Kanban
+- **skills-depth-lint** (script): skills-depth-lint.sh — SE-270 Slice 2 — Single-level depth enforcement
+- **skills-lint** (script): skills-lint.sh — SE-270 Slice 1 — Skill description routing rule validator
+- **skills-overlap-audit** (script): skills-overlap-audit.sh — SE-270 Slice 3 — Skill description similarity matrix
+- **skills-tier-audit** (script): skills-tier-audit.sh — SE-270 Slice 2 — Skill tier assignment audit
 - **skills-usage-audit** (script): skills-usage-audit.sh — Audita uso de los 91 skills de pm-workspace.
 - **sovereignty-audit** (cmd): Cognitive sovereignty audit — diagnose AI vendor lock-in risk and data portability
 - **sovereignty-auditor** (skill): Usar cuando se audita el grado de dependencia cognitiva del equipo respecto a herramientas de IA.
