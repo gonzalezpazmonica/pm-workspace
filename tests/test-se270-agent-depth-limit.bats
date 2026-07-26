@@ -51,14 +51,14 @@ teardown() {
 # ── Empty agents dir ────────────────────────────────────
 @test "handles empty agents directory gracefully" {
   local output_file="$TEST_REPO/docs/agent-invocation-graph.md"
-  run timeout 10 bash "$SCRIPT" --agents-dir "$AGENTS_DIR" --output "$output_file" --quiet
+  run timeout 10 bash "$SCRIPT" --output "$output_file" --quiet
   [ "$status" -eq 0 ]
 }
 
 @test "creates output directory if missing" {
   local output_dir="$TEST_REPO/custom"
   local output_file="$output_dir/graph.md"
-  timeout 10 bash "$SCRIPT" --agents-dir "$AGENTS_DIR" --output "$output_file" --quiet || true
+  timeout 10 bash "$SCRIPT" --output "$output_file" --quiet || true
   [[ -d "$output_dir" ]]
 }
 
@@ -75,7 +75,7 @@ tools:
 Leaf body.
 EOF
   local output_file="$TEST_REPO/docs/agent-invocation-graph.md"
-  run timeout 10 bash "$SCRIPT" --agents-dir "$AGENTS_DIR" --output "$output_file"
+  run timeout 10 bash "$SCRIPT" --output "$output_file"
   [ "$status" -eq 0 ]
   [[ "$output" == *"max_depth=0"* || "$output" == *"PASS"* ]]
 }
@@ -105,7 +105,7 @@ tools:
 Leaf body.
 EOF
   local output_file="$TEST_REPO/docs/agent-invocation-graph.md"
-  run timeout 10 bash "$SCRIPT" --agents-dir "$AGENTS_DIR" --output "$output_file"
+  run timeout 10 bash "$SCRIPT" --output "$output_file"
   [ "$status" -eq 0 ]
   [[ "$output" == *"max_depth=1"* ]]
   [[ "$output" == *"PASS"* ]]
@@ -160,7 +160,7 @@ tools:
 D body.
 EOF
   local output_file="$TEST_REPO/docs/agent-invocation-graph.md"
-  run timeout 10 bash "$SCRIPT" --agents-dir "$AGENTS_DIR" --output "$output_file"
+  run timeout 10 bash "$SCRIPT" --output "$output_file"
   [ "$status" -eq 1 ]
   [[ "$output" == *"FAIL"* ]]
 }
@@ -199,7 +199,7 @@ tools:
 Worker B body.
 EOF
   local output_file="$TEST_REPO/docs/agent-invocation-graph.md"
-  run timeout 10 bash "$SCRIPT" --agents-dir "$AGENTS_DIR" --output "$output_file" --quiet
+  run timeout 10 bash "$SCRIPT" --output "$output_file" --quiet
   [ "$status" -eq 0 ]
   # Boss should have edges to both workers
   [[ -f "$output_file" ]]
@@ -224,7 +224,7 @@ permission.task:
 Narcissus body.
 EOF
   local output_file="$TEST_REPO/docs/agent-invocation-graph.md"
-  run timeout 10 bash "$SCRIPT" --agents-dir "$AGENTS_DIR" --output "$output_file" --quiet
+  run timeout 10 bash "$SCRIPT" --output "$output_file" --quiet
   # Should not crash on self-loop
   [[ "$status" -eq 0 || "$status" -eq 1 ]]
 }
@@ -276,7 +276,7 @@ tools:
 Deep C body.
 EOF
   local output_file="$TEST_REPO/docs/agent-invocation-graph.md"
-  run timeout 10 bash "$SCRIPT" --agents-dir "$AGENTS_DIR" --output "$output_file"
+  run timeout 10 bash "$SCRIPT" --output "$output_file"
   [ "$status" -eq 0 ]
   [[ "$output" == *"max_depth=2"* ]]
 }
@@ -306,7 +306,7 @@ tools:
 B body.
 EOF
   local output_file="$TEST_REPO/docs/agent-invocation-graph.md"
-  run timeout 10 bash "$SCRIPT" --agents-dir "$AGENTS_DIR" --output "$output_file" --format mermaid --quiet
+  run timeout 10 bash "$SCRIPT" --output "$output_file" --format mermaid --quiet
   [ "$status" -eq 0 ]
   local content
   content=$(cat "$output_file")
@@ -338,7 +338,7 @@ tools:
 B body.
 EOF
   local output_file="$TEST_REPO/docs/agent-invocation-graph.json"
-  run timeout 10 bash "$SCRIPT" --agents-dir "$AGENTS_DIR" --output "$output_file" --format json --quiet
+  run timeout 10 bash "$SCRIPT" --output "$output_file" --format json --quiet
   [ "$status" -eq 0 ]
   local content
   content=$(cat "$output_file")
@@ -360,7 +360,7 @@ Safe body.
 EOF
   local before_hash after_hash
   before_hash=$(find "$AGENTS_DIR" -type f -exec sha256sum {} \; 2>/dev/null | sha256sum)
-  timeout 10 bash "$SCRIPT" --agents-dir "$AGENTS_DIR" --output "$TEST_REPO/docs/graph.md" --quiet || true
+  timeout 10 bash "$SCRIPT" --output "$TEST_REPO/docs/graph.md" --quiet || true
   after_hash=$(find "$AGENTS_DIR" -type f -exec sha256sum {} \; 2>/dev/null | sha256sum)
   [[ "$before_hash" == "$after_hash" ]]
 }

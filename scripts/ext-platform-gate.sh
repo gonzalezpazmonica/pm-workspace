@@ -60,8 +60,9 @@ try:
     cards = cfg.get('cards', {})
     for _k, card in cards.items():
         if card.get('id') == '${card_id}':
-            print(json.dumps(card))
-            sys.exit(0)
+            if card.get('status') == 'active':
+                print(json.dumps(card))
+                sys.exit(0)
     print('')
 except Exception:
     print('')

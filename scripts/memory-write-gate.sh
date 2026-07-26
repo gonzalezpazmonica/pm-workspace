@@ -132,9 +132,10 @@ if [[ "$type" == "feedback" || "$type" == "episode" ]]; then
   reject "tipo '$type' es transitorio por defecto — usar memoria de sesion, no permanente"
 fi
 
+MIN_CONTENT_LENGTH="${MEMORY_GATE_MIN_CONTENT_LENGTH:-40}"
 content_len=${#content}
-if (( content_len < 60 )) && [[ "$type" != "config" && "$type" != "entity" ]]; then
-  reject "contenido demasiado corto (${content_len} chars) para memoria permanente"
+if (( content_len < MIN_CONTENT_LENGTH )) && [[ "$type" != "config" && "$type" != "entity" ]]; then
+  reject "contenido demasiado corto (${content_len} chars) para memoria permanente (min: ${MIN_CONTENT_LENGTH})"
 fi
 
 pass "estable, relevante, confianza=${confidence}, tipo=${type}"

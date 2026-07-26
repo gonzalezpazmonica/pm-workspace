@@ -38,7 +38,7 @@ EOF
 
 _die() {
   echo "ERROR: $*" >&2
-  exit 1
+  exit 2
 }
 
 _py() { python3 -c "$@"; }
