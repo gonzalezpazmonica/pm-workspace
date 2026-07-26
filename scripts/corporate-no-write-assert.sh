@@ -35,7 +35,7 @@ check_pattern() {
 # Pattern: fetch remote content and write to instance config
 check_pattern "fetch+write-config" 'curl.*>.*settings\|wget.*-O.*config\|fetch.*>.*\.claude'
 # Pattern: read remote then pipe to instance path
-check_pattern "remote-pipe-instance" 'cat.*register.*>.*config\|cat.*register.*>.*settings'
+check_pattern "remote-pipe-instance" 'cat.*regist.*>.*config\|cat.*regist.*>.*settings'
 # Pattern: remote execution (curl|bash pattern)
 check_pattern "remote-exec" 'curl.*\|.*bash\|curl.*\|.*sh\|wget.*\|.*bash'
 # Pattern: copy remote to local hooks/plugins

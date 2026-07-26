@@ -73,19 +73,19 @@ EOF
 
 @test "detects scp from registry pattern" {
   echo "scp registry.company.com:/config/hooks.sh .opencode/hooks/" > "$FAKE_TMP/test-pattern.txt"
-  run grep -q 'scp.*register' "$FAKE_TMP/test-pattern.txt"
+  run grep -q 'scp.*regist' "$FAKE_TMP/test-pattern.txt"
   [[ "$status" -eq 0 ]]
 }
 
 @test "detects git pull from registry pattern" {
   echo "git pull https://registry.company.com/rules.git" > "$FAKE_TMP/test-pattern.txt"
-  run grep -q 'git.*pull.*register' "$FAKE_TMP/test-pattern.txt"
+  run grep -q 'git.*pull.*regist' "$FAKE_TMP/test-pattern.txt"
   [[ "$status" -eq 0 ]]
 }
 
 @test "detects source remote into shell pattern" {
   echo "source /mnt/registry/company-policies.sh" > "$FAKE_TMP/test-pattern.txt"
-  run grep -qE 'source.*register' "$FAKE_TMP/test-pattern.txt"
+  run grep -qE 'source.*regist' "$FAKE_TMP/test-pattern.txt"
   [[ "$status" -eq 0 ]]
 }
 
