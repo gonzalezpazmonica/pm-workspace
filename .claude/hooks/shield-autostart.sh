@@ -22,9 +22,15 @@ fi
 export CLAUDE_PROJECT_DIR="${CLAUDE_PROJECT_DIR:-${SAVIA_WORKSPACE_DIR:-$PWD}}"
 read -r -t 0.1 _HOOK_INPUT 2>/dev/null || true
 
-# CI-mode: skip
-if [[ "${CI:-}" == "true" ]]; then
-  echo "CI=true, skipping" >> "$LOG"
+# CI-mode / non-interactive: skip (avoid latency on CI benchmarks)
+if [[ "${CI:-}" == "true" || "${GITHUB_ACTIONS:-}" == "true" ]]; then
+  echo "CI/GHA=true, skipping" >> "$LOG"
+  exit 0
+fi
+
+# Non-interactive (benchmark/pipe): skip fast
+if [[ ! -t 0 ]]; then
+  echo "non-interactive stdin, skipping" >> "$LOG"
   exit 0
 fi
 

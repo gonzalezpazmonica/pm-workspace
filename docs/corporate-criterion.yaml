@@ -1,0 +1,32 @@
+# Corporate Criterion Body — Savia Enterprise
+# All engagements inherit from this body by default.
+# Override per-engagement via --criterion flag.
+
+corporate_criterion:
+  version: "1.0.0"
+  name: "Savia Corporate Criterion Body"
+  description: "Default criterion adopted by all engagements"
+  principles:
+    - id: CORP-001
+      statement: "Truth as common good — no concealment of conflicts"
+      binding: strict
+    - id: CORP-002
+      statement: "Client data sovereignty — data belongs to client"
+      binding: strict
+    - id: CORP-003
+      statement: "Ethical wall integrity — no cross-contamination between clients"
+      binding: strict
+    - id: CORP-004
+      statement: "Auditability — all actions traceable to criterion"
+      binding: strict
+    - id: CORP-005
+      statement: "Operator sovereignty — human decides, Savia executes"
+      binding: strict
+  confidentiality_levels:
+    1: "Public — shareable outside engagement context"
+    2: "Internal — within organization, not external"
+    3: "Confidential — within engagement team only"
+    4: "Restricted — operator-only, never in shared memory"
+  wall_modes:
+    strict: "No artifact crosses client boundary — block on detection"
+    permeable-declared: "Permeable only via operator-signed declaration of shared scope"
