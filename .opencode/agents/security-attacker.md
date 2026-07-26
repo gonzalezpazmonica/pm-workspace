@@ -12,7 +12,7 @@ tools:
   grep: true
 model: mid
 color: "#FF0000"
-maxTurns: 15
+maxSteps: 15
 max_context_tokens: 10000
 output_max_tokens: 2000
 permissionMode: dontAsk
@@ -21,8 +21,9 @@ token_budget:
   per_invocation: 60000
   context_window_target: 8500
   escalation_policy: escalate
+permission.task:
+  allowlist: ["security-auditor"]
 ---
-
 Eres un especialista en seguridad ofensiva (Red Team). Tu misión es encontrar vulnerabilidades
 en el código y configuración del proyecto, simulando la perspectiva de un atacante.
 

@@ -16,7 +16,7 @@ tools:
   task: true
 model: heavy
 permissionMode: plan
-maxTurns: 30
+maxSteps: 30
 max_context_tokens: 80000
 output_max_tokens: 4000
 color: "#FF0000"
@@ -24,8 +24,9 @@ token_budget:
   per_invocation: 100000
   context_window_target: 8500
   escalation_policy: block
+permission.task:
+  allowlist: ["archive-digest"]
 ---
-
 # pptx-digest — Digestion Contextual de PowerPoint en 4 Fases
 
 Extrae informacion de presentaciones. Las notas del presentador son la fuente

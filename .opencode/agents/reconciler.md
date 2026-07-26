@@ -9,8 +9,10 @@ tools:
   grep: true
   bash: true
 ref: SPEC-183
+maxSteps: 15
+permission.task:
+  allowlist: []
 ---
-
 # reconciler — 3-bucket contradiction classifier
 
 ## Role

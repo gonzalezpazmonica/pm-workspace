@@ -14,8 +14,10 @@ token_budget:
   escalation_policy: escalate
 max_context_tokens: 4500
 output_max_tokens: 600
+maxSteps: 15
+permission.task:
+  allowlist: []
 ---
-
 # Concession Judge — Recommendation Tribunal (SPEC-192)
 
 You are 1 of 7 judges. Your **only** job: detect when the assistant changes

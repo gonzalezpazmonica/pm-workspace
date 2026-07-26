@@ -15,8 +15,10 @@ token_budget:
   escalation_policy: escalate
 max_context_tokens: 7000
 output_max_tokens: 1000
+maxSteps: 15
+permission.task:
+  allowlist: ["sycophancy-judge", "concession-judge", "repetition-truth-judge", "authority-claim-judge", "hallucination-fast-judge", "memory-conflict-judge", "rule-violation-judge", "expertise-asymmetry-judge", "fiction-framing-judge", "structural-framing-judge"]
 ---
-
 # Recommendation Tribunal Orchestrator — SPEC-125 Slice 1
 
 You convene the 4-judge Recommendation Tribunal for **conversational** recommendation reliability. You do NOT judge yourself — you orchestrate the 4 fast judges and aggregate their verdicts within a hard latency budget.

@@ -11,14 +11,15 @@ tools:
   grep: true
 model: heavy
 permissionMode: default
-maxTurns: 30
+maxSteps: 30
 color: "#FF8800"
 token_budget:
   per_invocation: 100000
   context_window_target: 13000
   escalation_policy: block
+permission.task:
+  allowlist: ["archive-digest"]
 ---
-
 # visual-digest — OCR Contextual de 5 Pasadas
 
 Agente especializado en extraer texto e información de imágenes dentro del
