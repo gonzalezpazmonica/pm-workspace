@@ -1,0 +1,2 @@
+{"id":"10d660df7887b0bb","ts":"2026-07-25T17:31:55Z","client":"test-client","action":"verify-s7","status":"published","published_at":"2026-07-25T17:31:56Z","original_ts":"2026-07-25T17:31:55Z"}
+{"id":"a322de2855fea93b","ts":"2026-07-25T17:31:56Z","client":"test-client","action":"drill-attest-se271-s7-20260725-193156","status":"published","published_at":"2026-07-25T17:31:56Z","original_ts":"2026-07-25T17:31:56Z"}
