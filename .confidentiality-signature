@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=ef8fde3143e20019f900fa3ba68d91b642fbebc91fd748d628b2f0df5b528a19
-timestamp=2026-07-25T10:56:59Z
-branch=fix/readme-i18n-sync-20260725
-head_commit=564c266e
-signature=da6e179a8bdee3c0eb01dc6f2d9b0742a737a67d89fbba9424191bdcc41cc775
+diff_hash=b567bd0648bc2750eecc2c50d8c42e6d1ddac02cb847efe04da27d734b51c992
+timestamp=2026-07-26T11:00:18Z
+branch=agent/se273-contencion-trayectoria
+head_commit=dc91ea97
+signature=67434f2ab4ed0486c103193c5962f104f9b501bc7ed743775a675f6258965b24
