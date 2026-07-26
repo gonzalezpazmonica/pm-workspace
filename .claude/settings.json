@@ -742,6 +742,16 @@
             "command": "bash .claude/hooks/twin-posttooluse.sh"
           }
         ]
+      },
+      {
+        "matcher": "",
+        "_comment": "judge-auto-router: SE-273 S1 — auto-triggers judges based on output content patterns. Master switch: SAVIA_JUDGE_AUTO_ROUTER=off",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash \"${CLAUDE_PLUGIN_ROOT}/.claude/hooks/judge-auto-router.sh\" \"$CLAUDE_JSON_INPUT\""
+          }
+        ]
       }
     ],
     "Stop": [
