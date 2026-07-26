@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=298c14304b452269d55e6d6e60aa4aaad109f3ceae129c2ad7175a14346e9867
-timestamp=2026-07-26T14:00:22Z
+diff_hash=9349c824feef42ba9312a8f78a1360e9fad1628dc263a78c4f39f4759461b846
+timestamp=2026-07-26T16:26:46Z
 branch=agent/se273-contencion-trayectoria
-head_commit=8672100b
-signature=13b516467bcb117a4f45c0f4ded57220eb2e7668d509d2c3de807a85d6becd69
+head_commit=45f2f024
+signature=ce83e41b3b7a8be34792438f422d376c4e58db49da58a0cb8bafa844b45621aa
