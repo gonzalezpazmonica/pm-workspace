@@ -17,7 +17,7 @@ set -uo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 ROOT_DIR="$(cd "${SCRIPT_DIR}/../.." && pwd)"
-CORPORATE_DIR="${ROOT_DIR}/.claude/corporate"
+CORPORATE_DIR="${CORPORATE_DIR:-${ROOT_DIR}/.claude/corporate}"
 SYNC_FILE="${CORPORATE_DIR}/.sync-state"
 MODEL_FILE="${CORPORATE_DIR}/model.md"
 

@@ -39,17 +39,17 @@ check_pattern "remote-pipe-instance" 'cat.*register.*>.*config\|cat.*register.*>
 # Pattern: remote execution (curl|bash pattern)
 check_pattern "remote-exec" 'curl.*\|.*bash\|curl.*\|.*sh\|wget.*\|.*bash'
 # Pattern: copy remote to local hooks/plugins
-check_pattern "copy-remote-hooks" 'cp.*register.*hooks\|cp.*register.*plugins'
+check_pattern "copy-remote-hooks" 'cp.*regist.*hooks\|cp.*regist.*plugins'
 # Pattern: sync remote to local
-check_pattern "sync-remote" 'rsync.*register\|scp.*register'
+check_pattern "sync-remote" 'rsync.*regist\|scp.*regist'
 # Pattern: source remote into shell
-check_pattern "source-remote" 'source.*register\|\. .*register'
+check_pattern "source-remote" 'source.*regist\|\. .*regist'
 # Pattern: git pull from remote registry
-check_pattern "git-pull-registry" 'git.*pull.*register\|git.*fetch.*register'
+check_pattern "git-pull-registry" 'git.*pull.*regist\|git.*fetch.*regist'
 # Pattern: Python remote read then write
-check_pattern "py-remote-write" 'register.*json\.dump\|register.*\.write\|register.*open.*w'
+check_pattern "py-remote-write" 'regist.*json\.dump\|regist.*\.write\|regist.*open.*w'
 # Pattern: TS remote import then apply
-check_pattern "ts-remote-import" 'register.*import.*apply\|register.*require.*apply'
+check_pattern "ts-remote-import" 'regist.*import.*apply\|regist.*require.*apply'
 
 if [[ $EXIT_CODE -eq 0 ]]; then
   echo '{"assertion":"no-write-path","status":"clean","paths":[]}'
