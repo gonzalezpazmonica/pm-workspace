@@ -9,7 +9,7 @@ tools:
   bash: true
 model: heavy
 permissionMode: plan
-maxTurns: 20
+maxSteps: 20
 color: "#FFD700"
 max_context_tokens: 10000
 output_max_tokens: 1000
@@ -17,8 +17,9 @@ token_budget:
   per_invocation: 100000
   context_window_target: 13000
   escalation_policy: block
+permission.task:
+  allowlist: ["reconciler"]
 ---
-
 # Drift Auditor — Agente de Convergencia Repo
 
 Verifica que CLAUDE.md reglas se cumplen en la realidad y detecta divergencias.

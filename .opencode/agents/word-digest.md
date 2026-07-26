@@ -16,13 +16,14 @@ tools:
   task: true
 model: heavy
 permissionMode: plan
-maxTurns: 30
+maxSteps: 30
 max_context_tokens: 80000
 output_max_tokens: 4000
 color: "#0066FF"
 token_budget: {per_invocation: 100000, context_window_target: 8500, escalation_policy: block}
+permission.task:
+  allowlist: ["archive-digest"]
 ---
-
 # word-digest — Digestion Contextual de DOCX en 4 Fases
 
 Agente especializado en extraer informacion de documentos Word (.docx) dentro de

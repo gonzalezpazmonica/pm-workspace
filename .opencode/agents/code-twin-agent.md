@@ -9,7 +9,7 @@ description: >
   via proxy de baja latencia sin leer el fuente completo.
 permission_level: L1
 model: mid
-maxTurns: 20
+maxSteps: 15
 max_context_tokens: 6000
 output_max_tokens: 800
 tools:
@@ -22,8 +22,9 @@ tools:
 skills:
   - agent-code-map
 hooks: {}
+permission.task:
+  allowlist: []
 ---
-
 # Code Twin Agent
 
 ## Rol

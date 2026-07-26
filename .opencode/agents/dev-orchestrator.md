@@ -10,7 +10,7 @@ tools:
   bash: true
 model: mid
 permissionMode: plan
-maxTurns: 20
+maxSteps: 15
 color: "#00CCCC"
 max_context_tokens: 8000
 output_max_tokens: 500
@@ -18,8 +18,9 @@ token_budget:
   per_invocation: 60000
   context_window_target: 8500
   escalation_policy: escalate
+permission.task:
+  allowlist: []
 ---
-
 # Dev Orchestrator — Planificador de sesiones de desarrollo
 
 ## Rol

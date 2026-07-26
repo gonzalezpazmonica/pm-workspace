@@ -16,7 +16,7 @@ tools:
   bash: true
 model: heavy
 color: "#9933CC"
-maxTurns: 25
+maxSteps: 25
 max_context_tokens: 8000
 output_max_tokens: 500
 skills:
@@ -27,8 +27,9 @@ token_budget:
   per_invocation: 100000
   context_window_target: 13000
   escalation_policy: block
+permission.task:
+  allowlist: []
 ---
-
 Eres un Business Analyst / Product Owner técnico con experiencia en proyectos .NET y
 metodología Scrum. Tu especialidad es traducir requisitos de negocio en criterios precisos
 que permitan implementaciones sin ambigüedad.

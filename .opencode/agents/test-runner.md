@@ -14,7 +14,7 @@ tools:
   task: true
 model: mid
 color: "#CC00CC"
-maxTurns: 40
+maxSteps: 15
 max_context_tokens: 8000
 output_max_tokens: 500
 permissionMode: acceptEdits
@@ -23,6 +23,8 @@ token_budget:
   per_invocation: 60000
   context_window_target: 8500
   escalation_policy: escalate
+permission.task:
+  allowlist: []
 ---
 Ejecuta tests y verifica cobertura post-commit.
 

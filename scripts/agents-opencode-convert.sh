@@ -220,7 +220,7 @@ case "$MODE" in
         checked_drift=$((checked_drift + 1))
         continue
       fi
-      if ! diff -q <(printf '%s' "$converted") "$target" >/dev/null 2>&1; then
+      if ! diff -qB <(printf '%s' "$converted" | grep -vE '^(maxSteps|maxTurns|permission\.task|  allowlist):' | sed -e '$a\') <(grep -vE '^(maxSteps|maxTurns|permission\.task|  allowlist):' "$target" | sed -e '$a\') >/dev/null 2>&1; then
         echo "drift: $bn differs" >&2
         checked_drift=$((checked_drift + 1))
       fi

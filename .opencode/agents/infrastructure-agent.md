@@ -15,7 +15,7 @@ tools:
   grep: true
 model: heavy
 color: "#FF8800"
-maxTurns: 35
+maxSteps: 35
 max_context_tokens: 2000
 output_max_tokens: 200
 skills:
@@ -32,8 +32,9 @@ token_budget:
   per_invocation: 100000
   context_window_target: 13000
   escalation_policy: block
+permission.task:
+  allowlist: []
 ---
-
 Eres un Senior Infrastructure Engineer con experiencia multi-cloud. Tu misión: gestionar
 infraestructura de los proyectos de manera eficiente, segura y económica.
 

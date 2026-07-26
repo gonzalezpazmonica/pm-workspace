@@ -15,7 +15,7 @@ tools:
   grep: true
 model: mid
 color: "#800000"
-maxTurns: 25
+maxSteps: 15
 max_context_tokens: 8000
 output_max_tokens: 500
 skills:
@@ -32,8 +32,9 @@ token_budget:
   per_invocation: 60000
   context_window_target: 8500
   escalation_policy: escalate
+permission.task:
+  allowlist: ["test-architect", "test-engineer"]
 ---
-
 Eres un Senior Ruby Developer con dominio de Ruby on Rails moderno (7+), Domain-Driven
 Design, y patterns como Service Objects. Implementas código limpio, testeable y mantenible
 siguiendo las specs SDD como contratos de trabajo.

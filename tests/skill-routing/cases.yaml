@@ -1,0 +1,124 @@
+# tests/skill-routing/cases.yaml — SE-270 Slice 1
+# Skill activation cases: 10+ real skills, 3+ positive, 2+ negative each.
+# Format: skill name → positive triggers (should activate), negative triggers (should NOT activate)
+
+cases:
+  caveman:
+    positive:
+      - "strip the sugar-coating from this code review" 
+      - "be brutally honest about my architecture decision"
+      - "is this over-engineered? tell me like a caveman"
+      - "review before I commit, no filters"
+    negative:
+      - "explica en detalle cómo funciona el garbage collector"  
+      - "genera un informe ejecutivo para el board"
+
+  spec-driven-development:
+    positive:
+      - "escribe una spec ejecutable para login OAuth"
+      - "implementa esta spec SDD del módulo de pagos"
+      - "valida la spec del servicio de notificaciones"
+      - "escribe una especificación ejecutable para el API"
+    negative:
+      - "audita la seguridad del frontend"
+      - "genera un diagrama de arquitectura"
+
+  security-attacker:
+    positive:
+      - "ejecuta un ataque Red Team contra la API"
+      - "busca vulnerabilidades de inyección en los controllers"
+      - "simula un ataque de fuerza bruta en el endpoint de login"
+      - "pentest al módulo de autenticación"
+    negative:
+      - "corrige los errores de linting en el código"
+      - "optimiza el rendimiento de las queries SQL"
+
+  code-reviewer:
+    positive:
+      - "revisa este PR antes del merge"
+      - "haz code review del nuevo middleware de auth"
+      - "quality gate: revisa el código de la feature de pagos"
+      - "revisión de código .NET siguiendo la spec"
+    negative:
+      - "escribe tests unitarios para este módulo"
+      - "despliega la aplicación en producción"
+
+  azure-devops-queries:
+    positive:
+      - "consulta los work items del sprint actual"
+      - "actualiza el estado del PBI #1023"
+      - "ejecuta esta query WIQL contra Azure DevOps"
+      - "¿cuál es la capacidad del equipo para este sprint?"
+    negative:
+      - "crea un repositorio nuevo en GitHub"
+      - "optimiza el bundle size del frontend"
+
+  python-developer:
+    positive:
+      - "implementa un endpoint FastAPI para crear usuarios"
+      - "escribe una API REST con Django para el catálogo"
+      - "desarrolla un middleware de logging en Python"
+      - "crea modelos SQLAlchemy para la base de datos"
+    negative:
+      - "implementa un componente React con hooks"
+      - "escribe un script en COBOL para el mainframe"
+
+  sdd-spec-writer:
+    positive:
+      - "genera la spec SDD para el módulo de facturación"
+      - "valida esta spec contra el contrato de API"
+      - "escribe la especificación con criterios de aceptación"
+      - "crea el documento de spec para la feature de export"
+    negative:
+      - "haz un deploy a producción"
+      - "genera un informe de timesheet del equipo"
+
+  bus-factor-analysis:
+    positive:
+      - "calcula el bus factor por módulo en este repo"
+      - "analiza el bus factor del equipo frontend"
+      - "detecta módulos sin conocimiento distribuido"
+      - "quién es el owner único del módulo de pagos"
+    negative:
+      - "instala dependencias nuevas en el proyecto"
+      - "envía un mensaje al canal de Slack"
+
+  performance-audit:
+    positive:
+      - "audita el rendimiento del endpoint de búsqueda"
+      - "busca hotspots de rendimiento en el servicio"
+      - "analiza la complejidad ciclomática del controller"
+      - "revisa el tiempo de respuesta de las queries"
+    negative:
+      - "traduce la documentación al inglés"
+      - "diseña un logo para la aplicación"
+
+  git-secret-scanner:
+    positive:
+      - "escanea el historial git en busca de secrets"
+      - "busca PATs y keys expuestas en commits antiguos"
+      - "ejecuta gitleaks en los commits pendientes de push"
+      - "verifica que no haya secrets antes del push"
+    negative:
+      - "optimiza la configuración de webpack"
+      - "genera una propuesta comercial para el cliente"
+
+  ai-labor-impact:
+    positive:
+      - "analiza el impacto de la IA en el equipo de backend"
+      - "evalúa cómo afecta Copilot a la productividad"
+      - "mide el cambio en roles con la automatización"
+      - "informe de impacto laboral de herramientas IA"
+    negative:
+      - "implementa una feature en React"
+      - "haz un port scan a la red interna"
+
+  enterprise-onboarding:
+    positive:
+      - "incorpora a 10 desarrolladores nuevos al equipo"
+      - "onboarding masivo para el departamento de QA"
+      - "configura accesos para los nuevos del sprint"
+      - "genera checklist de onboarding para la nueva incorporación"
+    negative:
+      - "revisa el contrato de un proveedor"
+      - "optimiza el tamaño de las imágenes del CDN"

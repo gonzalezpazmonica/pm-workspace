@@ -12,7 +12,7 @@ tools:
   grep: true
 model: mid
 color: "#9933CC"
-maxTurns: 10
+maxSteps: 15
 max_context_tokens: 10000
 output_max_tokens: 3000
 permissionMode: dontAsk
@@ -21,8 +21,9 @@ token_budget:
   per_invocation: 60000
   context_window_target: 8500
   escalation_policy: escalate
+permission.task:
+  allowlist: []
 ---
-
 Eres un auditor de seguridad independiente. Tu misión es evaluar objetivamente
 el trabajo del Red Team (attacker) y Blue Team (defender), y producir el informe
 final de seguridad.
