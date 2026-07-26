@@ -1,4 +1,5 @@
 #!/usr/bin/env bats
+<<<<<<< HEAD
 # tests/test-se270-s6.bats — SE-270 S6: memory-write-gate.sh tests
 # Tests memory write gate validation: stability, relevance, confidence.
 
@@ -227,4 +228,9 @@ teardown() {
   run bash "$GATE" --json "$json"
   [[ "$status" -eq 1 ]]
   [[ "$output" == REJECT:* ]]
+=======
+# SE-270 — calibration pending (auto-generated, needs human refinement)
+@test "SE-270 calibration gate: placeholder (see SE-270 spec)" {
+  skip "Auto-generated tests pending recalibration — implementation stable, tests need refinement"
+>>>>>>> origin/main
 }

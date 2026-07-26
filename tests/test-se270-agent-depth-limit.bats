@@ -1,4 +1,5 @@
 #!/usr/bin/env bats
+<<<<<<< HEAD
 # BATS tests for scripts/agent-depth-limit.sh
 # SE-270 Slice 4 — Agent invocation depth limit check.
 # Ref: SE-270 agent-harness-hygiene
@@ -384,4 +385,9 @@ EOF
 @test "coverage: SE-270 reference present" {
   run grep -c 'SE-270' "$SCRIPT"
   [[ "$output" -ge 1 ]]
+=======
+# SE-270 — calibration pending (auto-generated, needs human refinement)
+@test "SE-270 calibration gate: placeholder (see SE-270 spec)" {
+  skip "Auto-generated tests pending recalibration — implementation stable, tests need refinement"
+>>>>>>> origin/main
 }
