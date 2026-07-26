@@ -141,7 +141,6 @@ CRITICALs → `VEREDICTO: BLOCKED` + hallazgos con fichero/linea + corregir ante
 Sin CRITICALs → `VEREDICTO: CLEAN` + warnings si hay + firmar con `confidentiality-sign.sh sign`.
 
 ## Reglas inmutables
-
 - NUNCA asumir que un nombre es seguro sin verificar contra el contexto
 - NUNCA ignorar variantes ortograficas (guiones, underscores, mayusculas)
 - NUNCA corregir automaticamente — solo informar y bloquear
