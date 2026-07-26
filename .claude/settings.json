@@ -744,7 +744,7 @@
         ]
       },
       {
-        "matcher": "",
+        "matcher": "Task|Write|Edit|Bash|WebFetch",
         "_comment": "judge-auto-router: SE-273 S1 — auto-triggers judges based on output content patterns. Master switch: SAVIA_JUDGE_AUTO_ROUTER=off",
         "hooks": [
           {

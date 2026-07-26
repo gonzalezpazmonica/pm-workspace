@@ -65,14 +65,26 @@ do_check() {
   ensure_allowlist
   if python3 -c "
 import yaml, sys
-with open('$ALLOWLIST') as f:
-    config = yaml.safe_load(f)
-for entry in config.get('domains', []):
-    if entry.get('domain', '') in ('$domain', '*.$domain'):
-        if '$protocol' in entry.get('protocols', []) or '*' in entry.get('protocols', []):
-            sys.exit(0)
-sys.exit(1)
-" 2>/dev/null; then return 0; fi
+try:
+    with open('$ALLOWLIST') as f:
+        config = yaml.safe_load(f)
+    for entry in config.get('domains', []):
+        if entry.get('domain', '') in ('$domain', '*.$domain'):
+            if '$protocol' in entry.get('protocols', []) or '*' in entry.get('protocols', []):
+                sys.exit(0)
+    sys.exit(1)
+except Exception:
+    sys.exit(2)
+" 2>/dev/null; then
+    return 0
+  elif [[ $? -eq 2 ]]; then
+    # yaml not available, fallback: allow known-safe domains
+    case "$domain" in
+      github.com|api.github.com|raw.githubusercontent.com|localhost|127.0.0.1|dev.azure.com|registry.npmjs.org|pypi.org)
+        return 0 ;;
+      *) return 1 ;;
+    esac
+  fi
   return 1
 }
 
@@ -95,7 +107,9 @@ do_status() {
   ensure_allowlist
   echo "=== Egress Gate (SE-273 S3) ==="
   echo "Allowlist: $ALLOWLIST"
-  python3 -c "import yaml; d=yaml.safe_load(open('$ALLOWLIST')); print(f'Domains: {len(d.get(\"domains\",[]))}')" 2>/dev/null
+  local count
+  count=$(python3 -c "import yaml; d=yaml.safe_load(open('$ALLOWLIST')); print(len(d.get('domains',[])))" 2>/dev/null || grep -c "domain:" "$ALLOWLIST" 2>/dev/null || echo "?")
+  echo "Domains: $count"
   [[ -f "$EGRESS_LOG" ]] && echo "Denials: $(wc -l < "$EGRESS_LOG")" || echo "Denials: 0"
   [[ -f "$PROPOSALS" ]] && echo "Proposals: $PROPOSALS"
 }
