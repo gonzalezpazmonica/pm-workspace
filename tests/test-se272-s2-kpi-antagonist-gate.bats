@@ -71,7 +71,7 @@ teardown() {
 # ──────────────────────────────────────────────────────────────────────
 
 @test "kpi-antagonist-gate check passes with valid pairs" {
-  run bash "$ANTAGONIST_SH" check --engagement "$ENGAGEMENT"
+  REPO_ROOT="$TMPDIR_KPI" run bash "$ANTAGONIST_SH" check --engagement "$ENGAGEMENT"
   [[ "$status" -eq 0 ]]
   [[ "$output" == *"PASSED"* ]]
 }
@@ -105,7 +105,7 @@ kpis:
       role: "delivery_manager"
 YAMLEOF
 
-  run bash "$ANTAGONIST_SH" check --engagement "$ENGAGEMENT"
+  REPO_ROOT="$TMPDIR_KPI" run bash "$ANTAGONIST_SH" check --engagement "$ENGAGEMENT"
   [[ "$status" -ne 0 ]]
   [[ "$output" == *"no antagonist"* || "$output" == *"BLOCKED"* ]]
 }
@@ -115,7 +115,7 @@ YAMLEOF
 # ──────────────────────────────────────────────────────────────────────
 
 @test "kpi-antagonist-gate validate-pair confirms valid pair" {
-  run bash "$ANTAGONIST_SH" validate-pair \
+  REPO_ROOT="$TMPDIR_KPI" run bash "$ANTAGONIST_SH" validate-pair \
     --kpi-id "kpi-001" \
     --antagonist-id "kpi-002" \
     --engagement "$ENGAGEMENT"
@@ -128,7 +128,7 @@ YAMLEOF
 # ──────────────────────────────────────────────────────────────────────
 
 @test "kpi-antagonist-gate validate-pair rejects mismatched pair" {
-  run bash "$ANTAGONIST_SH" validate-pair \
+  REPO_ROOT="$TMPDIR_KPI" run bash "$ANTAGONIST_SH" validate-pair \
     --kpi-id "kpi-001" \
     --antagonist-id "kpi-999" \
     --engagement "$ENGAGEMENT"
@@ -140,7 +140,7 @@ YAMLEOF
 # ──────────────────────────────────────────────────────────────────────
 
 @test "kpi-catalog-validate passes for valid catalog" {
-  run bash "$CATALOG_SH" validate --file "$ENG_DIR/kpis.yaml"
+  REPO_ROOT="$TMPDIR_KPI" run bash "$CATALOG_SH" validate --file "$ENG_DIR/kpis.yaml"
   [[ "$status" -eq 0 ]]
   [[ "$output" == *"PASS"* ]]
 }
@@ -158,7 +158,7 @@ kpis:
     antagonist_kpi_id: "kpi-002"
 YAMLEOF
 
-  run bash "$CATALOG_SH" validate --file "$ENG_DIR/kpis.yaml"
+  REPO_ROOT="$TMPDIR_KPI" run bash "$CATALOG_SH" validate --file "$ENG_DIR/kpis.yaml"
   [[ "$status" -ne 0 ]]
 }
 
@@ -190,7 +190,7 @@ kpis:
       role: "d"
 YAMLEOF
 
-  run bash "$CATALOG_SH" validate --file "$ENG_DIR/kpis.yaml"
+  REPO_ROOT="$TMPDIR_KPI" run bash "$CATALOG_SH" validate --file "$ENG_DIR/kpis.yaml"
   [[ "$status" -ne 0 ]]
   [[ "$output" == *"FAIL"* ]]
 }
@@ -200,18 +200,18 @@ YAMLEOF
 # ──────────────────────────────────────────────────────────────────────
 
 @test "kpi-custody-chain append and verify works" {
-  run bash "$CHAIN_SH" append \
+  REPO_ROOT="$TMPDIR_KPI" run bash "$CHAIN_SH" append \
     --engagement "$ENGAGEMENT" \
     --period "2026-07"
   [[ "$status" -eq 0 ]]
   [[ "$output" == *"OK"* ]]
 
   # Second period
-  bash "$CHAIN_SH" append \
+  REPO_ROOT="$TMPDIR_KPI" bash "  bash "$CHAIN_SH" append \
     --engagement "$ENGAGEMENT" \
     --period "2026-08"
 
-  run bash "$CHAIN_SH" verify --engagement "$ENGAGEMENT"
+  REPO_ROOT="$TMPDIR_KPI" run bash "$CHAIN_SH" verify --engagement "$ENGAGEMENT"
   [[ "$status" -eq 0 ]]
   [[ "$output" == *"CHAIN OK"* ]]
 }
@@ -221,13 +221,13 @@ YAMLEOF
 # ──────────────────────────────────────────────────────────────────────
 
 @test "kpi-custody-chain detects tampered chain" {
-  bash "$CHAIN_SH" append --engagement "$ENGAGEMENT" --period "2026-07"
-  bash "$CHAIN_SH" append --engagement "$ENGAGEMENT" --period "2026-08"
+  REPO_ROOT="$TMPDIR_KPI" bash "  bash "$CHAIN_SH" append --engagement "$ENGAGEMENT" --period "2026-07"
+  REPO_ROOT="$TMPDIR_KPI" bash "  bash "$CHAIN_SH" append --engagement "$ENGAGEMENT" --period "2026-08"
 
   # Tamper
   echo '{"tampered":true}' >> "$ENG_DIR/kpi-chain.jsonl"
 
-  run bash "$CHAIN_SH" verify --engagement "$ENGAGEMENT"
+  REPO_ROOT="$TMPDIR_KPI" run bash "$CHAIN_SH" verify --engagement "$ENGAGEMENT"
   [[ "$status" -ne 0 ]]
   [[ "$output" == *"TAMPERED"* || "$output" == *"CHAIN FAIL"* ]]
 }
@@ -237,9 +237,9 @@ YAMLEOF
 # ──────────────────────────────────────────────────────────────────────
 
 @test "kpi-review-report generates period report" {
-  bash "$CHAIN_SH" append --engagement "$ENGAGEMENT" --period "2026-07"
+  REPO_ROOT="$TMPDIR_KPI" bash "  bash "$CHAIN_SH" append --engagement "$ENGAGEMENT" --period "2026-07"
 
-  run bash "$REVIEW_SH" generate \
+  REPO_ROOT="$TMPDIR_KPI" run bash "$REVIEW_SH" generate \
     --engagement "$ENGAGEMENT" \
     --period "2026-07"
   [[ "$status" -eq 0 ]]
@@ -251,7 +251,7 @@ YAMLEOF
 # ──────────────────────────────────────────────────────────────────────
 
 @test "kpi-review-report amend records with dual signatures" {
-  run bash "$REVIEW_SH" amend \
+  REPO_ROOT="$TMPDIR_KPI" run bash "$REVIEW_SH" amend \
     --engagement "$ENGAGEMENT" \
     --kpi-id "kpi-001" \
     --field "target_threshold" \
@@ -273,7 +273,7 @@ YAMLEOF
 # ──────────────────────────────────────────────────────────────────────
 
 @test "kpi-review-report version-catalog shows version history" {
-  bash "$REVIEW_SH" amend \
+  REPO_ROOT="$TMPDIR_KPI" bash "  bash "$REVIEW_SH" amend \
     --engagement "$ENGAGEMENT" \
     --kpi-id "kpi-001" \
     --field "target_threshold" \
@@ -282,7 +282,7 @@ YAMLEOF
     --signature-1 "Alice,Stakeholder" \
     --signature-2 "Bob,Delivery Manager"
 
-  bash "$REVIEW_SH" amend \
+  REPO_ROOT="$TMPDIR_KPI" bash "  bash "$REVIEW_SH" amend \
     --engagement "$ENGAGEMENT" \
     --kpi-id "kpi-001" \
     --field "warning_threshold" \
@@ -291,7 +291,7 @@ YAMLEOF
     --signature-1 "Alice,Stakeholder" \
     --signature-2 "Bob,Delivery Manager"
 
-  run bash "$REVIEW_SH" version-catalog --engagement "$ENGAGEMENT"
+  REPO_ROOT="$TMPDIR_KPI" run bash "$REVIEW_SH" version-catalog --engagement "$ENGAGEMENT"
   [[ "$status" -eq 0 ]]
   [[ "$output" == *"KPI Version Catalog"* ]]
   [[ "$output" == *"kpi-001"* ]]
@@ -302,10 +302,10 @@ YAMLEOF
 # ──────────────────────────────────────────────────────────────────────
 
 @test "kpi-antagonist-gate anomaly runs without crash" {
-  bash "$CHAIN_SH" append --engagement "$ENGAGEMENT" --period "2026-07"
-  bash "$CHAIN_SH" append --engagement "$ENGAGEMENT" --period "2026-08"
+  REPO_ROOT="$TMPDIR_KPI" bash "  bash "$CHAIN_SH" append --engagement "$ENGAGEMENT" --period "2026-07"
+  REPO_ROOT="$TMPDIR_KPI" bash "  bash "$CHAIN_SH" append --engagement "$ENGAGEMENT" --period "2026-08"
 
-  run bash "$ANTAGONIST_SH" anomaly --engagement "$ENGAGEMENT"
+  REPO_ROOT="$TMPDIR_KPI" run bash "$ANTAGONIST_SH" anomaly --engagement "$ENGAGEMENT"
   [[ "$status" -eq 0 ]]
 }
 
@@ -355,7 +355,7 @@ kpis:
       role: "d"
 YAMLEOF
 
-  run bash "$CATALOG_SH" validate --file "$ENG_DIR/kpis.yaml"
+  REPO_ROOT="$TMPDIR_KPI" run bash "$CATALOG_SH" validate --file "$ENG_DIR/kpis.yaml"
   # May pass or fail - self_declared_survey warns but catalog may still pass
   [[ "$status" -eq 0 || "$status" -eq 1 ]]
   # Must at least mention the warning

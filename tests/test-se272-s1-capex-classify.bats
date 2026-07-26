@@ -26,7 +26,7 @@ teardown() {
 # ──────────────────────────────────────────────────────────────────────
 
 @test "capex-classify rejects invalid nature" {
-  run bash "$CLASSIFY_SH" classify \
+  REPO_ROOT="$TMPDIR_CX" run bash "$CLASSIFY_SH" classify \
     --nature "invalid_nature" \
     --asset "A001,Test Asset,development" \
     --justification "Testing validation" \
@@ -40,7 +40,7 @@ teardown() {
 # ──────────────────────────────────────────────────────────────────────
 
 @test "capex-classify rejects missing --nature" {
-  run bash "$CLASSIFY_SH" classify \
+  REPO_ROOT="$TMPDIR_CX" run bash "$CLASSIFY_SH" classify \
     --asset "A001,Test Asset,development" \
     --justification "Testing" \
     --engagement "$ENGAGEMENT"
@@ -48,7 +48,7 @@ teardown() {
 }
 
 @test "capex-classify rejects missing --asset" {
-  run bash "$CLASSIFY_SH" classify \
+  REPO_ROOT="$TMPDIR_CX" run bash "$CLASSIFY_SH" classify \
     --nature "capitalizable" \
     --justification "Testing" \
     --engagement "$ENGAGEMENT"
@@ -56,7 +56,7 @@ teardown() {
 }
 
 @test "capex-classify rejects missing --engagement" {
-  run bash "$CLASSIFY_SH" classify \
+  REPO_ROOT="$TMPDIR_CX" run bash "$CLASSIFY_SH" classify \
     --nature "capitalizable" \
     --asset "A001,Test Asset,development" \
     --justification "Testing"
@@ -68,7 +68,7 @@ teardown() {
 # ──────────────────────────────────────────────────────────────────────
 
 @test "capex-classify records valid capitalizable classification" {
-  run bash "$CLASSIFY_SH" classify \
+  REPO_ROOT="$TMPDIR_CX" run bash "$CLASSIFY_SH" classify \
     --nature "capitalizable" \
     --asset "A001,Auth Module,development" \
     --justification "New authentication module development per IAS 38" \
@@ -87,7 +87,7 @@ teardown() {
 # ──────────────────────────────────────────────────────────────────────
 
 @test "capex-classify records corriente classification" {
-  run bash "$CLASSIFY_SH" classify \
+  REPO_ROOT="$TMPDIR_CX" run bash "$CLASSIFY_SH" classify \
     --nature "corriente" \
     --asset "B001,Bug Fix,operation" \
     --justification "Routine bug fix under maintenance" \
@@ -101,7 +101,7 @@ teardown() {
 # ──────────────────────────────────────────────────────────────────────
 
 @test "capex-classify records mixta with valid split" {
-  run bash "$CLASSIFY_SH" classify \
+  REPO_ROOT="$TMPDIR_CX" run bash "$CLASSIFY_SH" classify \
     --nature "mixta" \
     --asset "C001,Hybrid Module,development" \
     --justification "Partially capitalizable work" \
@@ -116,7 +116,7 @@ teardown() {
 # ──────────────────────────────────────────────────────────────────────
 
 @test "capex-classify rejects mixta with invalid split (sum != 100)" {
-  run bash "$CLASSIFY_SH" classify \
+  REPO_ROOT="$TMPDIR_CX" run bash "$CLASSIFY_SH" classify \
     --nature "mixta" \
     --asset "C001,Hybrid,development" \
     --justification "Testing" \
@@ -126,7 +126,7 @@ teardown() {
 }
 
 @test "capex-classify rejects mixta without split" {
-  run bash "$CLASSIFY_SH" classify \
+  REPO_ROOT="$TMPDIR_CX" run bash "$CLASSIFY_SH" classify \
     --nature "mixta" \
     --asset "C001,Hybrid,development" \
     --justification "Testing" \
@@ -140,13 +140,13 @@ teardown() {
 
 @test "capex-classify ledger-show displays entries" {
   # First add an entry
-  bash "$CLASSIFY_SH" classify \
+  REPO_ROOT="$TMPDIR_CX" bash "$CLASSIFY_SH" classify \
     --nature "capitalizable" \
     --asset "D001,Show Test,development" \
     --justification "For ledger display test" \
     --engagement "$ENGAGEMENT"
 
-  run bash "$CLASSIFY_SH" ledger-show --engagement "$ENGAGEMENT"
+  REPO_ROOT="$TMPDIR_CX" run bash "$CLASSIFY_SH" ledger-show --engagement "$ENGAGEMENT"
   [[ "$status" -eq 0 ]]
   [[ "$output" == *"CAPEX Ledger"* ]]
   [[ "$output" == *"D001"* ]]
@@ -157,19 +157,19 @@ teardown() {
 # ──────────────────────────────────────────────────────────────────────
 
 @test "capex-classify ledger-verify confirms integrity" {
-  bash "$CLASSIFY_SH" classify \
+  REPO_ROOT="$TMPDIR_CX" bash "$CLASSIFY_SH" classify \
     --nature "capitalizable" \
     --asset "E001,Chain Test,development" \
     --justification "Testing chain" \
     --engagement "$ENGAGEMENT"
 
-  bash "$CLASSIFY_SH" classify \
+  REPO_ROOT="$TMPDIR_CX" bash "$CLASSIFY_SH" classify \
     --nature "corriente" \
     --asset "E002,Chain Test 2,operation" \
     --justification "Testing chain second entry" \
     --engagement "$ENGAGEMENT"
 
-  run bash "$CLASSIFY_SH" ledger-verify --engagement "$ENGAGEMENT"
+  REPO_ROOT="$TMPDIR_CX" run bash "$CLASSIFY_SH" ledger-verify --engagement "$ENGAGEMENT"
   [[ "$status" -eq 0 ]]
   [[ "$output" == *"CHAIN OK"* ]]
 }
@@ -179,7 +179,7 @@ teardown() {
 # ──────────────────────────────────────────────────────────────────────
 
 @test "capex-classify ledger-verify detects tampering" {
-  bash "$CLASSIFY_SH" classify \
+  REPO_ROOT="$TMPDIR_CX" bash "$CLASSIFY_SH" classify \
     --nature "capitalizable" \
     --asset "F001,Tamper Test,development" \
     --justification "Original entry" \
@@ -189,7 +189,7 @@ teardown() {
   local ledger="$ENG_DIR/capex-ledger.jsonl"
   echo '{"tampered":true}' >> "$ledger"
 
-  run bash "$CLASSIFY_SH" ledger-verify --engagement "$ENGAGEMENT"
+  REPO_ROOT="$TMPDIR_CX" run bash "$CLASSIFY_SH" ledger-verify --engagement "$ENGAGEMENT"
   [[ "$status" -ne 0 ]]
   [[ "$output" == *"TAMPERED"* || "$output" == *"CHAIN FAIL"* ]]
 }
@@ -199,7 +199,7 @@ teardown() {
 # ──────────────────────────────────────────────────────────────────────
 
 @test "capex-phase-gate records phase transition" {
-  run bash "$PHASE_GATE_SH" record \
+  REPO_ROOT="$TMPDIR_CX" run bash "$PHASE_GATE_SH" record \
     --asset-id "G001" \
     --asset-name "Phase Gate Test" \
     --from-phase "design_planning" \
@@ -216,7 +216,7 @@ teardown() {
 # ──────────────────────────────────────────────────────────────────────
 
 @test "capex-phase-gate rejects invalid phase" {
-  run bash "$PHASE_GATE_SH" record \
+  REPO_ROOT="$TMPDIR_CX" run bash "$PHASE_GATE_SH" record \
     --asset-id "H001" \
     --asset-name "Bad Phase" \
     --from-phase "invalid_phase" \
@@ -230,21 +230,21 @@ teardown() {
 # ──────────────────────────────────────────────────────────────────────
 
 @test "capex-phase-gate history shows transitions" {
-  bash "$PHASE_GATE_SH" record \
+  REPO_ROOT="$TMPDIR_CX" bash "$PHASE_GATE_SH" record \
     --asset-id "I001" \
     --asset-name "History Test" \
     --from-phase "investigation" \
     --to-phase "design_planning" \
     --engagement "$ENGAGEMENT"
 
-  bash "$PHASE_GATE_SH" record \
+  REPO_ROOT="$TMPDIR_CX" bash "$PHASE_GATE_SH" record \
     --asset-id "I001" \
     --asset-name "History Test" \
     --from-phase "design_planning" \
     --to-phase "development" \
     --engagement "$ENGAGEMENT"
 
-  run bash "$PHASE_GATE_SH" history \
+  REPO_ROOT="$TMPDIR_CX" run bash "$PHASE_GATE_SH" history \
     --asset-id "I001" \
     --engagement "$ENGAGEMENT"
   [[ "$status" -eq 0 ]]
@@ -257,7 +257,7 @@ teardown() {
 # ──────────────────────────────────────────────────────────────────────
 
 @test "capex-evidence-package generates package" {
-  run bash "$EVIDENCE_SH" generate \
+  REPO_ROOT="$TMPDIR_CX" run bash "$EVIDENCE_SH" generate \
     --asset-id "J001" \
     --engagement "$ENGAGEMENT" \
     --description "Test evidence package" \
@@ -280,7 +280,7 @@ teardown() {
 # ──────────────────────────────────────────────────────────────────────
 
 @test "capex-evidence-package verify passes for valid package" {
-  bash "$EVIDENCE_SH" generate \
+  REPO_ROOT="$TMPDIR_CX" bash "$EVIDENCE_SH" generate \
     --asset-id "K001" \
     --engagement "$ENGAGEMENT" \
     --description "Verification test" \
@@ -289,7 +289,7 @@ teardown() {
     --effort-hours "80" \
     --status "completed"
 
-  run bash "$EVIDENCE_SH" verify \
+  REPO_ROOT="$TMPDIR_CX" run bash "$EVIDENCE_SH" verify \
     --package-dir "$ENG_DIR/evidence/K001"
   [[ "$status" -eq 0 ]]
   [[ "$output" == *"VERIFIED"* ]]
