@@ -1,0 +1,132 @@
+version: 1
+last_modified: "2026-07-25"
+description: >
+  Rules for classifying work as CAPEX (capitalizable) vs OPEX (current expense).
+  Based on IAS 38 Intangible Assets. Human-editable. Versioned.
+
+# ── Nature definitions ─────────────────────────────────────────────────
+natures:
+  capitalizable:
+    description: >
+      Work that creates or materially enhances a long-lived intangible asset.
+      Capitalized into balance sheet, amortized over useful life.
+    criteria:
+      - phase_is_development_or_later
+      - creates_new_asset_or_material_enhancement
+      - identifiable_separable_asset
+      - future_economic_benefit_probable
+      - cost_measurable_reliably
+
+  corriente:
+    description: >
+      Ongoing maintenance, support, bug fixes, operations. Recognized as
+      expense in the period incurred.
+    criteria:
+      - is_maintenance_or_support
+      - is_incident_response
+      - is_routine_operation
+      - does_not_create_new_asset
+
+  mixta:
+    description: >
+      Work spans both capitalizable and non-capitalizable activities.
+      Requires proportional split with justification.
+    requires:
+      - split_percentage_justification
+      - capitalizable_subset_must_meet_criteria
+
+# ── Phase gates ────────────────────────────────────────────────────────
+phases:
+  investigation:
+    description: Research, feasibility analysis, technology evaluation
+    capitalizable: false
+    rationale: IAS 38.54 — research phase costs expensed as incurred
+
+  design_planning:
+    description: Architecture design, specification writing, planning
+    capitalizable: false
+    rationale: Pre-development activities; no measurable asset yet
+
+  development:
+    description: Active creation of the intangible asset
+    capitalizable: true
+    rationale: IAS 38.57 — costs from development phase capitalized
+    gates:
+      - technical_feasibility_demonstrated
+      - intention_to_complete_and_use_or_sell
+      - ability_to_use_or_sell
+      - adequate_resources_available
+      - expenditure_reliably_measurable
+
+  deployment:
+    description: Release, go-live, production setup
+    capitalizable: true
+    rationale: Directly attributable to preparing asset for intended use
+
+  operation:
+    description: Running, maintaining, monitoring in production
+    capitalizable: false
+    rationale: Post-capitalization operating expense
+
+# ── Asset classification ───────────────────────────────────────────────
+asset_types:
+  software_internal_use:
+    description: Custom software for internal use
+    capitalize_from: development
+    amortization_years: 5
+    reference: IAS 38 + local GAAP
+
+  software_external:
+    description: Software built for external sale or licensing
+    capitalize_from: development
+    amortization_years: 3
+    reference: IAS 38
+
+  infrastructure:
+    description: Cloud infrastructure provisioning, IaC modules
+    capitalize_from: development
+    amortization_years: 3
+    reference: IAS 16 / IAS 38
+
+  data_asset:
+    description: Structured data collection, curation, enrichment
+    capitalize_from: development
+    amortization_years: 5
+    reference: IAS 38
+
+# ── Evidence requirements per claim ────────────────────────────────────
+evidence_requirements:
+  by_phase:
+    development:
+      - spec_documents_with_acceptance_criteria
+      - commit_history_linked
+      - qa_certificates
+      - effort_attribution
+    deployment:
+      - deployment_records
+      - go_live_validation
+      - post_deploy_acceptance
+
+  by_nature:
+    capitalizable:
+      required:
+        - phase_gate_confirmation
+        - asset_description
+        - phase_dates
+        - effort_hours
+        - verifiable_artifacts
+      optional:
+        - third_party_audit
+        - external_valuation
+    corriente:
+      required:
+        - activity_description
+        - dates
+      optional:
+        - linked_incident_id
+
+# ── Versioning ─────────────────────────────────────────────────────────
+versioning:
+  schema: semantic
+  human_editable: true
+  deployed_to: scripts/capex-classify.sh reads this file

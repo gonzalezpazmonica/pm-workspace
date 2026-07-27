@@ -1,15 +1,18 @@
 # analysis — Savia Capability Map (L1)
-> 55 resources
+> 66 resources
 
 - **Trace Optimize** (cmd): Optimize trace spans and sampling rates across distributed services
 - **agent-activity** (cmd): Show structured activity log of recent agent executions
 - **agent-activity** (script): agent-activity.sh — Agent activity dashboard
+- **agent-budget-check** (script): agent-budget-check.sh — SE-272 Slice 3: Per-requestor budget limits
 - **agent-budget-lookup** (script): agent-budget-lookup.sh — Extract token budget from agent frontmatter
 - **agent-code-map** (skill): Usar cuando un agente necesita conocer la arquitectura del proyecto sin leer ficheros completos.
 - **agent-cost** (cmd): Coste estimado de uso de agentes por sprint/proyecto
 - **agent-degradation-canary** (script): agent-degradation-canary.sh — SE-040
 - **agent-depth-limit** (script): agent-depth-limit.sh — SE-270 Slice 4: Build agent invocation graph and check depth.
 - **agent-discipline-audit** (script): agent-discipline-audit.sh — SE-270 Slice 4: Audit agent model tier → maxSteps recommendations.
+- **agent-effort-meter** (script): agent-effort-meter.sh — SE-272 Slice 3: Measure actual work not ticket count
+- **agent-escalation-gate** (script): agent-escalation-gate.sh — SE-272 S3: Declared thresholds per request type
 - **agent-file-map** (skill): Usar cuando se trabaja con ficheros externos al workspace que los agentes deben localizar.
 - **agent-gate** (script): agent-gate.sh — SE-216 Slice 2: inherited quality gates for agent runs
 - **agent-hook-runner** (script): agent-hook-runner.sh — SE-202: semantic LLM gate for hooks
@@ -17,6 +20,8 @@
 - **agent-journal** (script): agent-journal.sh — Append-only JSONL journal para agent-runs autónomos.
 - **agent-memory** (cmd): Inspect and manage persistent memory fragments for subagents.
 - **agent-permission-audit** (script): agent-permission-audit.sh — SE-270 Slice 4: Audit permission.task declarations.
+- **agent-recurrence-report** (script): agent-recurrence-report.sh — SE-272 Slice 3: Identifies recurring agent requests
+- **agent-request-validate** (script): agent-request-validate.sh — SE-272 Slice 3: Validate incoming request origin
 - **agent-run** (cmd): Launch a Claude agent on a Spec or batch of pending specs
 - **agent-run-log** (script): agent-run-log.sh — SE-217 Slice 1: append-only agent experiment log
 - **agent-run-logger** (script): agent-run-logger.sh — SE-148: AgentRunSummary telemetry logger
@@ -24,6 +29,7 @@
 - **agent-scratchpad** (script): agent-scratchpad.sh — SE-216 Slice 1: shared state document for parallel agents
 - **agent-size-audit** (script): agent-size-audit.sh — SE-038 Slice 1 probe: measure size of every agent.
 - **agent-size-remediation-plan** (script): agent-size-remediation-plan.sh — SE-052 Slice 1 agent-size analyzer.
+- **agent-sla-router** (script): agent-sla-router.sh — SE-272 S3: Differentiated SLA by origin type
 - **agent-surface-guard** (script): agent-surface-guard.sh — SE-217 Slice 3: declared editable surface for agent runs
 - **agent-tick** (script): agent-tick.sh — SE-219 S5: light/heavy tick separation (abtop tick_no_summaries pattern)
 - **agent-time-budget** (script): agent-time-budget.sh — SE-217 Slice 2: time-budgeted command runner
@@ -39,8 +45,13 @@
 - **enterprise/client-health-report** (script): client-health-report.sh — SE-024 Client Health Intelligence
 - **eval-improvement-suggest** (script): eval-improvement-suggest.sh — SE-215: generate skill improvement proposals from eval reports
 - **executive-reporting** (skill): Usar cuando se genera un informe ejecutivo multi-proyecto para dirección.
+- **kpi-antagonist-gate** (script): kpi-antagonist-gate.sh — SE-272 S2 Anti-Goodhart gate
+- **kpi-catalog-validate** (script): kpi-catalog-validate.sh — SE-272 S2 KPI catalog validator
+- **kpi-compute** (script): kpi-compute.sh — SE-272 S2 KPI computation from verifiable artifacts
+- **kpi-custody-chain** (script): kpi-custody-chain.sh — SE-272 S2 KPI custody chain
 - **kpi-dashboard** (cmd): Muestra el dashboard completo con todos los KPIs definidos en docs/kpis-equipo.md.
 - **kpi-dora** (cmd): >
+- **kpi-review-report** (script): kpi-review-report.sh — SE-272 S2 Periodic KPI review report
 - **reconciliation-stats** (script): reconciliation-stats.sh — Append/report reconciliation classification metrics
 - **relacion-report** (script): scripts/relacion-report.sh — SE-255 Slice 3
 - **report-capacity** (cmd): Muestra el estado de capacidades del equipo — disponibilidad, asignación y alertas de sobre-carga.

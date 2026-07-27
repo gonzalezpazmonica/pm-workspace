@@ -1,11 +1,10 @@
 # planning — Savia Capability Map (L1)
-> 524 resources
+> 527 resources
 
 - **/decide-architecture** (cmd): Clasifica una tarea como WORKFLOW (deterministica) o AGENT (loop). Bias hacia workflow per Anthropic. Sugiere plantilla inicial. Mide accuracy contra corpus curado de 20 tareas.
 - **_template** (skill): TEMPLATE — copia este directorio para crear una skill nueva. NO se carga en runtime.
 - **accessibility-mode** (cmd): Toggle rápido de accesibilidad — activa, desactiva o muestra el estado
 - **accessibility-setup** (cmd): Configura las preferencias de accesibilidad de Savia para adaptarse a tus necesidades
-- **action-shape-classifier** (script): action-shape-classifier.sh — SE-273 S2: Guards de forma de acción
 - **adaptive-halting** (script): adaptive-halting.sh — SE-074 Slice 1.5 — double-criterion halting check
 - **adaptive-strategy-selector** (script): adaptive-strategy-selector.sh — Select loading strategy based on model tier
 - **adb-run** (script): adb-run.sh — Execute adb-wrapper functions without compound && chains
@@ -63,6 +62,9 @@
 - **calibration-judge** (agent): Truth Tribunal judge — confidence statements match evidence strength
 - **capacity-forecast** (cmd): Previsión de capacidad a medio plazo — planifica recursos para los próximos 3-6 sprints
 - **capacity-planning** (skill): Usar cuando se calcula la capacidad del equipo para un sprint o periodo.
+- **capex-classify** (script): capex-classify.sh — SE-272 S1 CAPEX/OPEX classification
+- **capex-evidence-package** (script): capex-evidence-package.sh — SE-272 S1 Evidence package generator
+- **capex-phase-gate** (script): capex-phase-gate.sh — SE-272 S1 Phase gate recorder
 - **case-init** (cmd): Scaffold a business case from pursuit and SOW data
 - **case-kill-check** (cmd): Run valuation sentinel across all active cases for kill recommendations
 - **case-validate** (script): case-validate.sh — SE-016: Validate business case directories
@@ -138,7 +140,6 @@
 - **dotnet-developer** (agent): >
 - **dual-estimate** (script): dual-estimate.sh — Dual estimation engine: agent-time vs human-time
 - **ecosystem-watcher** (skill): Usar una vez al mes para detectar cambios relevantes en el ecosistema de herramientas externas.
-- **egress-gate** (script): egress-gate.sh — SE-273 S3: Egress control gate
 - **emergency-fallback** (script): emergency-fallback.sh — Operaciones PM sin LLM
 - **emergency-mode** (cmd): Gestionar el modo emergencia con LLM local cuando el proveedor cloud no está disponible
 - **emergency-mode** (skill): Usar cuando la API de Anthropic está caída y se necesita continuar operando con LocalAI.
@@ -182,6 +183,15 @@
 - **evaluations-framework** (skill): Usar cuando se diseñan o ejecutan evaluaciones de calidad de agentes y prompts.
 - **exchange-ledger** (script): exchange-ledger.sh — Federation exchange ledger (SE-263 S6)
 - **exit** (cmd): >
+- **exit-dependencies-declare** (script): exit-dependencies-declare.sh — SE-272 S5: Declare exit package tool dependencies
+- **exit-drill-execute** (script): exit-drill-execute.sh — SE-272 S5: Full exit drill simulation
+- **exit-independence-verify** (script): exit-independence-verify.sh — SE-272 S5: Verify exit package independence
+- **exit-package-generate** (script): exit-package-generate.sh — SE-272 S5: Per-engagement exit package generation
+- **exit-purge-verify** (script): exit-purge-verify.sh — SE-272 S5: Verify purge after engagement forget
+- **ext-platform-card-validate** (script): ext-platform-card-validate.sh — SE-272 Slice 4: Validate external platform card
+- **ext-platform-export-gate** (script): ext-platform-export-gate.sh — SE-272 Slice 4: Export gate for external platforms
+- **ext-platform-gate** (script): ext-platform-gate.sh — SE-272 Slice 4: Enforce asymmetry for external platforms
+- **ext-platform-resilience** (script): ext-platform-resilience.sh — SE-272 Slice 4: Resilience for external platforms
 - **factuality-judge** (agent): Truth Tribunal judge — factual accuracy of claims against verifiable sources
 - **federation-drill** (script): federation-drill.sh — SE-263 S7: Compromised instance drill
 - **flow-backlog-groom** (cmd): Review and prioritize backlog items
@@ -246,10 +256,7 @@
 - **instance-card** (script): instance-card.sh — Savia instance identity cards (SE-263 S2)
 - **integration-status** (cmd): Dashboard de estado de todas las integraciones — APIs, webhooks, MCP, conectividad
 - **java-developer** (agent): >
-- **judge-anti-fatigue** (script): judge-anti-fatigue.sh — SE-273 S1: Anti-fatigue verdict tracking
 - **judge-calibration** (script): judge-calibration.sh — FP/FN tracking para jueces adversariales (SE-269 S4)
-- **judge-routing-verify** (script): judge-routing-verify.sh — SE-273 S1: CI parity check
-- **judge-trigger-detector** (script): judge-trigger-detector.sh — SE-273 S1: Deterministic trigger detection
 - **kg-link-prediction** (script): kg-link-prediction.sh — SE-249: wrapper for kg-link-prediction.py
 - **kg-query** (script): kg-query.sh — SE-218 S3: query KG con qualified names
 - **kg-topology-analysis** (script): kg-topology-analysis.sh — SE-248: wrapper for kg-topology-analysis.py
@@ -289,7 +296,6 @@
 - **nidos** (script): nidos.sh — Savia Nidos: parallel terminal isolation via named git worktrees
 - **nidos-lib** (script): nidos-lib.sh — Shared utilities for Savia Nidos
 - **nuclei-scanning** (skill): Usar cuando se escanean vulnerabilidades conocidas (CVEs, misconfigs) con Nuclei.
-- **objective-contract** (script): objective-contract.sh — SE-273 S7: Objetivo delegado con antagonista obligatorio
 - **obs-status** (cmd): Health check de todas las fuentes de observabilidad conectadas
 - **ollama-classify** (script): ollama-classify.sh — Clasificacion local de texto con Ollama
 - **ollama-hardware-check** (script): ── ollama-hardware-check.sh ─────────────────────────────────────────────────
@@ -438,7 +444,6 @@
 - **slm-train** (script): slm-train.sh — Fine-tune SLMs locally with Unsloth + export to Ollama
 - **slm-train-config** (script): slm-train-config.sh — Phase 3 scaffolding: emit Unsloth/TRL YAML config.
 - **smart-calendar** (skill): Usar cuando se gestiona la agenda inteligente con sincronización Outlook/Teams.
-- **source-corroborator** (script): source-corroborator.sh — SE-273 S5: Corroboración de fuentes externas
 - **sovereignty-benchmark** (script): sovereignty-benchmark.sh — Benchmark pm-workspace prompts with local LLM
 - **sovereignty-mask** (script): sovereignty-mask.sh — Wrapper for reversible data masking
 - **sovereignty-ops** (script): sovereignty-ops.sh — Download operations for sovereignty-pack.sh
@@ -484,7 +489,6 @@
 - **tool-result-trim** (script): tool-result-trim.sh — Deterministic hard cap for tool result output
 - **topic-cluster** (skill): Usar cuando se agrupan retros, PBIs o incidentes en topics para detectar patrones transversales.
 - **tracked-vs-nivel** (script): tracked-vs-nivel.sh — SE-258 Slice 1
-- **trajectory-detector** (script): trajectory-detector.sh — SE-273 S6: Detección de desviación en minutos
 - **tribunal-critic** (script): tribunal-critic.sh — SE-201: quantitative scoring for tribunal verdicts
 - **tribunal-status** (cmd): Show Truth Tribunal queue depth, recent verdicts, and pending evaluations
 - **tribunal-tiered-runner** (script): tribunal-tiered-runner.sh — SE-106: Tiered tribunal execution
@@ -496,7 +500,6 @@
 - **ua-dashboard** (cmd): Start the interactive knowledge graph dashboard in browser
 - **ua-install** (cmd): Install or update the Understand-Anything knowledge graph plugin
 - **ua-install** (script): ua-install.sh — Install Understand-Anything plugin for Savia
-- **unlimited-auth-detector** (script): unlimited-auth-detector.sh — SE-273 S4: Detecta delegación sin límite
 - **update** (cmd): Comprobar y aplicar actualizaciones de pm-workspace desde GitHub, preservando datos locales
 - **update** (script): update.sh — Sistema de actualización de pm-workspace
 - **user-profile** (cmd): Gestiona perfiles de miembros del equipo — ver, crear o editar.
