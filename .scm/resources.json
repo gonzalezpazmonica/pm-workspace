@@ -1,6 +1,6 @@
 {
-  "hash": "1ec6e3bc3bd3",
-  "total": 1280,
+  "hash": "4e329137bc53",
+  "total": 1289,
   "resources": [
     {
       "category": "analysis",
@@ -6721,6 +6721,20 @@
     },
     {
       "category": "planning",
+      "name": "action-shape-classifier",
+      "intents": [
+        "acción",
+        "action",
+        "classifier",
+        "forma",
+        "guards"
+      ],
+      "kind": "script",
+      "path": "scripts/action-shape-classifier.sh",
+      "description": "action-shape-classifier.sh — SE-273 S2: Guards de forma de acción"
+    },
+    {
+      "category": "planning",
       "name": "adaptive-halting",
       "intents": [
         "adaptive",
@@ -8466,6 +8480,18 @@
     },
     {
       "category": "planning",
+      "name": "egress-gate",
+      "intents": [
+        "control",
+        "egress",
+        "gate"
+      ],
+      "kind": "script",
+      "path": "scripts/egress-gate.sh",
+      "description": "egress-gate.sh — SE-273 S3: Egress control gate"
+    },
+    {
+      "category": "planning",
       "name": "emergency-fallback",
       "intents": [
         "emergency",
@@ -9982,6 +10008,20 @@
     },
     {
       "category": "planning",
+      "name": "judge-anti-fatigue",
+      "intents": [
+        "anti",
+        "fatigue",
+        "judge",
+        "tracking",
+        "verdict"
+      ],
+      "kind": "script",
+      "path": "scripts/judge-anti-fatigue.sh",
+      "description": "judge-anti-fatigue.sh — SE-273 S1: Anti-fatigue verdict tracking"
+    },
+    {
+      "category": "planning",
       "name": "judge-calibration",
       "intents": [
         "adversariales",
@@ -9993,6 +10033,34 @@
       "kind": "script",
       "path": "scripts/judge-calibration.sh",
       "description": "judge-calibration.sh — FP/FN tracking para jueces adversariales (SE-269 S4)"
+    },
+    {
+      "category": "planning",
+      "name": "judge-routing-verify",
+      "intents": [
+        "check",
+        "judge",
+        "parity",
+        "routing",
+        "verify"
+      ],
+      "kind": "script",
+      "path": "scripts/judge-routing-verify.sh",
+      "description": "judge-routing-verify.sh — SE-273 S1: CI parity check"
+    },
+    {
+      "category": "planning",
+      "name": "judge-trigger-detector",
+      "intents": [
+        "detection",
+        "detector",
+        "deterministic",
+        "judge",
+        "trigger"
+      ],
+      "kind": "script",
+      "path": "scripts/judge-trigger-detector.sh",
+      "description": "judge-trigger-detector.sh — SE-273 S1: Deterministic trigger detection"
     },
     {
       "category": "planning",
@@ -10499,6 +10567,20 @@
       "kind": "skill",
       "path": ".claude/skills/nuclei-scanning/SKILL.md",
       "description": "Usar cuando se escanean vulnerabilidades conocidas (CVEs, misconfigs) con Nuclei."
+    },
+    {
+      "category": "planning",
+      "name": "objective-contract",
+      "intents": [
+        "antagonista",
+        "contract",
+        "delegado",
+        "objective",
+        "objetivo"
+      ],
+      "kind": "script",
+      "path": "scripts/objective-contract.sh",
+      "description": "objective-contract.sh — SE-273 S7: Objetivo delegado con antagonista obligatorio"
     },
     {
       "category": "planning",
@@ -12418,6 +12500,20 @@
     },
     {
       "category": "planning",
+      "name": "source-corroborator",
+      "intents": [
+        "corroboración",
+        "corroborator",
+        "externas",
+        "fuentes",
+        "source"
+      ],
+      "kind": "script",
+      "path": "scripts/source-corroborator.sh",
+      "description": "source-corroborator.sh — SE-273 S5: Corroboración de fuentes externas"
+    },
+    {
+      "category": "planning",
       "name": "sovereignty-benchmark",
       "intents": [
         "benchmark",
@@ -13007,6 +13103,20 @@
     },
     {
       "category": "planning",
+      "name": "trajectory-detector",
+      "intents": [
+        "desviación",
+        "detección",
+        "detector",
+        "minutos",
+        "trajectory"
+      ],
+      "kind": "script",
+      "path": "scripts/trajectory-detector.sh",
+      "description": "trajectory-detector.sh — SE-273 S6: Detección de desviación en minutos"
+    },
+    {
+      "category": "planning",
       "name": "tribunal-critic",
       "intents": [
         "critic",
@@ -13151,6 +13261,20 @@
       "kind": "script",
       "path": "scripts/ua-install.sh",
       "description": "ua-install.sh — Install Understand-Anything plugin for Savia"
+    },
+    {
+      "category": "planning",
+      "name": "unlimited-auth-detector",
+      "intents": [
+        "auth",
+        "delegación",
+        "detecta",
+        "detector",
+        "límite"
+      ],
+      "kind": "script",
+      "path": "scripts/unlimited-auth-detector.sh",
+      "description": "unlimited-auth-detector.sh — SE-273 S4: Detecta delegación sin límite"
     },
     {
       "category": "planning",

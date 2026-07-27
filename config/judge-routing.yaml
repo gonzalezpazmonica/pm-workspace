@@ -1,0 +1,341 @@
+# judge-routing.yaml — SE-273 S1: Canonical judge wiring matrix
+# Generated: 2026-07-26 | Status: ACTIVE (CI-enforced)
+#
+# Every judge/tribunal/orchestrator in .opencode/agents/ MUST have a row
+# here. "on-demand" is a documented decision, not an oversight. CI fails
+# if a new agent ending in -judge/-orchestrator/-tribunal lacks a row.
+#
+# Modes:
+#   auto       — triggers automatically on event/condition (no human action)
+#   on-demand  — requires explicit human invocation via command or slash-cmd
+#   disabled   — tombstoned; kept for auditing, never fires
+#
+# Fields:
+#   trigger_event:    PostToolUse | PreToolUse | UserPromptSubmit | Stop | on-ingest
+#   condition:        what must be present for the judge to fire
+#   mode:             auto | on-demand | disabled
+#   model_tier:       fast | mid | heavy
+#   latency_budget_ms: max expected ms (for auto judges)
+#   blocking:          true | false (can this judge veto/block?)
+#   escalation:       which judge to escalate to if suspicion raised
+#   rationale:        why this mode was chosen
+
+judges:
+  # ── Code Review Court ─────────────────────────────────────────────────
+  - agent: architecture-judge
+    trigger_event: PreToolUse
+    condition: "Edit|Write touching *.cs *.ts *.go *.rs *.java *.rb *.py domain/ or application/ layer files"
+    mode: on-demand
+    model_tier: mid
+    latency_budget_ms: 0
+    blocking: false
+    escalation: null
+    rationale: "Code reviews are expensive; triggered manually via /code-review or court-orchestrator"
+
+  - agent: cognitive-judge
+    trigger_event: PreToolUse
+    condition: "Edit|Write touching any source file"
+    mode: on-demand
+    model_tier: mid
+    latency_budget_ms: 0
+    blocking: false
+    escalation: null
+    rationale: "Cognitive review per PR; manual invocation via court-orchestrator"
+
+  - agent: correctness-judge
+    trigger_event: PreToolUse
+    condition: "Edit|Write touching logic/test code"
+    mode: on-demand
+    model_tier: mid
+    latency_budget_ms: 0
+    blocking: false
+    escalation: null
+    rationale: "Correctness review per PR; manual via court-orchestrator"
+
+  - agent: security-judge
+    trigger_event: PreToolUse
+    condition: "Edit|Write touching auth, crypto, input validation, config with secrets"
+    mode: on-demand
+    model_tier: mid
+    latency_budget_ms: 0
+    blocking: false
+    escalation: null
+    rationale: "Security review per PR; manual via court-orchestrator"
+
+  - agent: spec-judge
+    trigger_event: PreToolUse
+    condition: "Edit|Write in projects/ or src/ with associated spec in docs/propuestas/"
+    mode: on-demand
+    model_tier: mid
+    latency_budget_ms: 0
+    blocking: false
+    escalation: null
+    rationale: "Spec compliance per PR; manual via court-orchestrator"
+
+  - agent: pr-agent-judge
+    trigger_event: PreToolUse
+    condition: "COURT_INCLUDE_PR_AGENT=true"
+    mode: on-demand
+    model_tier: mid
+    latency_budget_ms: 0
+    blocking: false
+    escalation: null
+    rationale: "External OSS judge; opt-in per PR"
+
+  - agent: court-orchestrator
+    trigger_event: UserPromptSubmit
+    condition: "Human invokes via /code-review or explicit task"
+    mode: on-demand
+    model_tier: heavy
+    latency_budget_ms: 0
+    blocking: false
+    escalation: null
+    rationale: "Full court convening; expensive, manual only"
+
+  # ── Truth Tribunal ────────────────────────────────────────────────────
+  - agent: factuality-judge
+    trigger_event: on-ingest
+    condition: "WebFetch or Bash output containing factual claims (numbers, dates, versions, statistics)"
+    mode: on-demand
+    model_tier: heavy
+    latency_budget_ms: 0
+    blocking: false
+    escalation: null
+    rationale: "Truth tribunal convenes per report; on-demand to control cost"
+
+  - agent: source-traceability-judge
+    trigger_event: on-ingest
+    condition: "WebFetch, Bash with curl/wget, or external source ingestion"
+    mode: auto
+    model_tier: mid
+    latency_budget_ms: 2000
+    blocking: false
+    escalation: factuality-judge
+    rationale: "SE-273 mandatory auto wiring: verifies every claim has @ref citation. Cheap enough for auto."
+
+  - agent: hallucination-judge
+    trigger_event: PostToolUse
+    condition: "Output from any Task agent containing >3 factual assertions"
+    mode: on-demand
+    model_tier: heavy
+    latency_budget_ms: 0
+    blocking: false
+    escalation: null
+    rationale: "Escalation target for hallucination-fast-judge; too expensive for default auto"
+
+  - agent: hallucination-fast-judge
+    trigger_event: PostToolUse
+    condition: "Output from any agent containing >=1 factual assertion with verifiable entities"
+    mode: auto
+    model_tier: fast
+    latency_budget_ms: 1500
+    blocking: false
+    escalation: hallucination-judge
+    rationale: "SE-273 mandatory auto wiring: cheap gate, escalates to full judge on suspicion"
+
+  - agent: coherence-judge
+    trigger_event: on-ingest
+    condition: "Multi-source ingestion or report generation"
+    mode: on-demand
+    model_tier: mid
+    latency_budget_ms: 0
+    blocking: false
+    escalation: null
+    rationale: "Manual via truth-tribunal-orchestrator"
+
+  - agent: calibration-judge
+    trigger_event: PostToolUse
+    condition: "Output containing confidence statements (percentages, 'likely', 'probably')"
+    mode: on-demand
+    model_tier: mid
+    latency_budget_ms: 0
+    blocking: false
+    escalation: null
+    rationale: "Manual via truth-tribunal-orchestrator"
+
+  - agent: completeness-judge
+    trigger_event: PostToolUse
+    condition: "Report or document generation (output/ files)"
+    mode: on-demand
+    model_tier: mid
+    latency_budget_ms: 0
+    blocking: false
+    escalation: null
+    rationale: "Manual via truth-tribunal-orchestrator"
+
+  - agent: compliance-judge
+    trigger_event: PostToolUse
+    condition: "Output touching PII, N1-N4b data, regulatory content"
+    mode: on-demand
+    model_tier: heavy
+    latency_budget_ms: 0
+    blocking: false
+    escalation: null
+    rationale: "Manual via truth-tribunal-orchestrator; heavy cost"
+
+  - agent: truth-tribunal-orchestrator
+    trigger_event: UserPromptSubmit
+    condition: "Human invokes via /truth-review or explicit task"
+    mode: on-demand
+    model_tier: heavy
+    latency_budget_ms: 0
+    blocking: false
+    escalation: null
+    rationale: "Full tribunal; expensive, manual only"
+
+  # ── Recommendation Tribunal ───────────────────────────────────────────
+  - agent: authority-claim-judge
+    trigger_event: PostToolUse
+    condition: "Output containing authority invocations ('según la documentación', 'el estándar exige', 'the docs say', 'per spec')"
+    mode: auto
+    model_tier: fast
+    latency_budget_ms: 1000
+    blocking: false
+    escalation: factuality-judge
+    rationale: "SE-273 mandatory auto wiring: detects credential claims. Fast tier, cheap."
+
+  - agent: concession-judge
+    trigger_event: PostToolUse
+    condition: "Assistant output changes position from prior turn"
+    mode: on-demand
+    model_tier: mid
+    latency_budget_ms: 0
+    blocking: false
+    escalation: null
+    rationale: "SPEC-192 judge; invoked by recommendation tribunal on human request"
+
+  - agent: expertise-asymmetry-judge
+    trigger_event: PostToolUse
+    condition: "Output falls in domain where active user has audit_level: blind"
+    mode: on-demand
+    model_tier: mid
+    latency_budget_ms: 0
+    blocking: false
+    escalation: null
+    rationale: "Triggered by recommendation-tribunal-orchestrator"
+
+  - agent: fiction-framing-judge
+    trigger_event: PostToolUse
+    condition: "Output contains persona-shift framing over sensitive domain"
+    mode: disabled
+    model_tier: mid
+    latency_budget_ms: 0
+    blocking: false
+    escalation: null
+    rationale: "SE-273 decision (2026-07-26): tombstoned. No concrete trigger condition identified. SPEC-193 pattern is valuable but detection surface is too broad for reliable auto-wiring. Revisit when persona-tracking model is available."
+
+  - agent: memory-conflict-judge
+    trigger_event: PostToolUse
+    condition: "Output contradicts active user's auto-memory (feedback_*, user_*)"
+    mode: on-demand
+    model_tier: mid
+    latency_budget_ms: 0
+    blocking: false
+    escalation: null
+    rationale: "Triggered by recommendation-tribunal-orchestrator"
+
+  - agent: repetition-truth-judge
+    trigger_event: PostToolUse
+    condition: "User repeats same claim >=2 times; assistant echoes without verification"
+    mode: auto
+    model_tier: fast
+    latency_budget_ms: 800
+    blocking: false
+    escalation: factuality-judge
+    rationale: "SE-273 cableado: detects illusory truth effect. Fast tier, wired alongside hallucination-fast."
+
+  - agent: rule-violation-judge
+    trigger_event: PreToolUse
+    condition: "Action touches governed paths (CLAUDE.md rules, CONSTITUCION.md, CRITERIO.md, autonomous-safety rules)"
+    mode: auto
+    model_tier: mid
+    latency_budget_ms: 2000
+    blocking: true
+    escalation: null
+    rationale: "SE-273 mandatory auto wiring: catches rule violations before they execute. Blocking because rule violations are executable."
+
+  - agent: structural-framing-judge
+    trigger_event: PostToolUse
+    condition: "Output with manual/protocol form over CBRN or sensitive domain"
+    mode: disabled
+    model_tier: mid
+    latency_budget_ms: 0
+    blocking: false
+    escalation: null
+    rationale: "SE-273 decision (2026-07-26): tombstoned. No concrete trigger condition identified. SPEC-193 framing pattern requires domain-specific classifiers not yet built. Revisit with domain classifier infrastructure."
+
+  - agent: sycophancy-judge
+    trigger_event: PostToolUse
+    condition: "Any assistant output (already auto via SPEC-192 Layer 1 regex + Layer 2 LLM judge)"
+    mode: auto
+    model_tier: mid
+    latency_budget_ms: 3000
+    blocking: false
+    escalation: null
+    rationale: "SE-273 confirmed: already auto-triggered via sycophancy-strip.sh hook + sycophancy-guard.ts plugin. No additional wiring needed."
+
+  - agent: recommendation-tribunal-orchestrator
+    trigger_event: UserPromptSubmit
+    condition: "Human invokes via /rec-tribunal or explicit task"
+    mode: on-demand
+    model_tier: mid
+    latency_budget_ms: 3000
+    blocking: false
+    escalation: null
+    rationale: "Full tribunal; SYNC <3s p95. Manual invocation."
+
+  # ── Criterion Simulation Layer ────────────────────────────────────────
+  - agent: criterion-simulation-judge
+    trigger_event: PostToolUse
+    condition: "Any delegated Task (opt-in via SAVIA_CRITERION_SIMULATION=on)"
+    mode: auto
+    model_tier: heavy
+    latency_budget_ms: 5000
+    blocking: false
+    escalation: null
+    rationale: "SE-273 confirmed: already auto via criterion-simulation-challenge.sh hook. Opt-in by default."
+
+  # ── Special Purpose ───────────────────────────────────────────────────
+  - agent: meeting-confidentiality-judge
+    trigger_event: on-ingest
+    condition: "Meeting transcript digestion (invoked by meeting-digest agent)"
+    mode: on-demand
+    model_tier: heavy
+    latency_budget_ms: 0
+    blocking: true
+    escalation: null
+    rationale: "Post-extraction confidentiality validation. Invoked by meeting-digest, not standalone."
+
+# ── Anti-Fatiga Configuration ───────────────────────────────────────────
+anti_fatigue:
+  enabled: true
+  max_ignored_verdicts: 3         # After N ignored non-blocking verdicts
+  ignored_window_hours: 24        # Within this time window
+  action: escalate_to_blocking    # escalate_to_blocking | retire_judge | warn_only
+  ledger_path: "output/anti-fatigue-ledger.jsonl"
+  description: >
+    When a non-blocking judge emits the same-class verdict N times
+    within the window without human acknowledgment, the verdict is
+    escalated to blocking or the judge is retired. A judge whose
+    verdicts are always ignored is worse than no judge.
+
+# ── Latency Budget ──────────────────────────────────────────────────────
+latency:
+  total_budget_ms: 5000           # Max total ms for all auto judges per turn
+  per_judge_max_ms: 3000          # Hard cap per individual auto judge
+  measure: true                   # Record actual latencies to output/judge-latency.jsonl
+  description: >
+    Sum of all auto-judge latencies per turn must not exceed
+    total_budget_ms. Judges that exceed per_judge_max_ms are
+    downgraded to on-demand in the next calibration cycle.
+
+# ── CI Enforcement ──────────────────────────────────────────────────────
+ci:
+  parity_check: "scripts/judge-routing-verify.sh"
+  fail_on_missing_row: true
+  fail_on_orphan: true
+  description: >
+    CI runs judge-routing-verify.sh on every PR. Any agent file
+    matching *-judge.md, *-orchestrator.md, or *-tribunal.md in
+    .opencode/agents/ that lacks a row in this matrix → CI red.
+    Orphans with mode: disabled are valid (documented decision).

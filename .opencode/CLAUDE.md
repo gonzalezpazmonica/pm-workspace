@@ -15,7 +15,7 @@ comparte la mayoría de recursos vía symlinks:
 .opencode/
 ├── .claude     → symlink a ../.claude
 ├── commands    → symlink a ../.claude/commands  (559 commands)
-├── hooks       → symlink a ../.claude/hooks     (69 hooks)
+├── hooks       → symlink a ../.claude/hooks     (102 hooks)
 ├── skills      → symlink a ../.claude/skills    (98 skills)
 ├── docs        → symlink a ../docs
 ├── agents/     ← DIRECTORIO REAL (70 agents, frontmatter adaptado a OpenCode)
@@ -46,7 +46,7 @@ distinto: model alias `heavy|mid|fast`, permission L0-L4, plugin hooks).
 |---|---|---|
 | Agents | 81 | `.opencode/agents/*.md` |
 | Commands | 566 | `scripts/count-commands.sh` |
-| Hooks | 101 | `.claude/hooks/*.sh` |
+| Hooks | 102 | `.claude/hooks/*.sh` |
 | Skills | 119 | `.claude/skills/*/SKILL.md` |
 
 Drift check: `bash scripts/claude-md-drift-check.sh`.

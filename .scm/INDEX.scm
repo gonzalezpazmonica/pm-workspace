@@ -1,6 +1,6 @@
 # Savia Capability Map — INDEX
-> hash: 8b6b6a59d0f1 | resources: 1280
-> 290 commands · 120 skills · 81 agents · 789 scripts
+> hash: 5524a557f091 | resources: 1289
+> 290 commands · 120 skills · 81 agents · 798 scripts
 
 [analysis] Trace Optimize — across,distributed,optimize,rates,sampling — cmd:.claude/commands/trace-optimize.md
 [analysis] agent-activity — activity,agent,executions,recent,show — cmd:.claude/commands/agent-activity.md
@@ -508,6 +508,7 @@
 [planning] _template — carga,copia,crear,directorio,nueva — skill:.claude/skills/_template/SKILL.md
 [planning] accessibility-mode — accesibilidad,activa,desactiva,estado,muestra — cmd:.claude/commands/accessibility-mode.md
 [planning] accessibility-setup — accesibilidad,adaptarse,configura,necesidades,preferencias — cmd:.claude/commands/accessibility-setup.md
+[planning] action-shape-classifier — acción,action,classifier,forma,guards — script:scripts/action-shape-classifier.sh
 [planning] adaptive-halting — adaptive,check,criterion,double,halting — script:scripts/adaptive-halting.sh
 [planning] adaptive-strategy-selector — adaptive,based,loading,model,select — script:scripts/adaptive-strategy-selector.sh
 [planning] adb-run — chains,compound,execute,functions,without — script:scripts/adb-run.sh
@@ -643,6 +644,7 @@
 [planning] dotnet-developer —  — agent:.opencode/agents/dotnet-developer.md
 [planning] dual-estimate — agent,dual,engine,estimate,estimation — script:scripts/dual-estimate.sh
 [planning] ecosystem-watcher — cambios,detectar,ecosistema,externas,herramientas — skill:.claude/skills/ecosystem-watcher/SKILL.md
+[planning] egress-gate — control,egress,gate — script:scripts/egress-gate.sh
 [planning] emergency-fallback — emergency,fallback,operaciones — script:scripts/emergency-fallback.sh
 [planning] emergency-mode — cloud,disponible,emergencia,está,gestionar — cmd:.claude/commands/emergency-mode.md
 [planning] emergency-mode — anthropic,caída,continuar,está,localai — skill:.claude/skills/emergency-mode/SKILL.md
@@ -759,7 +761,10 @@
 [planning] instance-card — card,cards,identity,instance,savia — script:scripts/instance-card.sh
 [planning] integration-status — apis,conectividad,dashboard,estado,integraciones — cmd:.claude/commands/integration-status.md
 [planning] java-developer —  — agent:.opencode/agents/java-developer.md
+[planning] judge-anti-fatigue — anti,fatigue,judge,tracking,verdict — script:scripts/judge-anti-fatigue.sh
 [planning] judge-calibration — adversariales,calibration,judge,jueces,tracking — script:scripts/judge-calibration.sh
+[planning] judge-routing-verify — check,judge,parity,routing,verify — script:scripts/judge-routing-verify.sh
+[planning] judge-trigger-detector — detection,detector,deterministic,judge,trigger — script:scripts/judge-trigger-detector.sh
 [planning] kg-link-prediction — link,prediction,wrapper — script:scripts/kg-link-prediction.sh
 [planning] kg-query — names,qualified,query — script:scripts/kg-query.sh
 [planning] kg-topology-analysis — analysis,topology,wrapper — script:scripts/kg-topology-analysis.sh
@@ -799,6 +804,7 @@
 [planning] nidos — isolation,named,nidos,parallel,savia — script:scripts/nidos.sh
 [planning] nidos-lib — nidos,savia,shared,utilities — script:scripts/nidos-lib.sh
 [planning] nuclei-scanning — conocidas,cves,escanean,misconfigs,nuclei — skill:.claude/skills/nuclei-scanning/SKILL.md
+[planning] objective-contract — antagonista,contract,delegado,objective,objetivo — script:scripts/objective-contract.sh
 [planning] obs-status — check,conectadas,fuentes,health,observabilidad — cmd:.claude/commands/obs-status.md
 [planning] ollama-classify — clasificacion,classify,local,ollama,texto — script:scripts/ollama-classify.sh
 [planning] ollama-hardware-check — check,hardware,ollama — script:scripts/ollama-hardware-check.sh
@@ -947,6 +953,7 @@
 [planning] slm-train — export,fine,locally,ollama,slms — script:scripts/slm-train.sh
 [planning] slm-train-config — config,emit,phase,scaffolding,train — script:scripts/slm-train-config.sh
 [planning] smart-calendar — agenda,gestiona,inteligente,outlook,sincronización — skill:.claude/skills/smart-calendar/SKILL.md
+[planning] source-corroborator — corroboración,corroborator,externas,fuentes,source — script:scripts/source-corroborator.sh
 [planning] sovereignty-benchmark — benchmark,local,prompts,sovereignty,workspace — script:scripts/sovereignty-benchmark.sh
 [planning] sovereignty-mask — data,mask,masking,reversible,sovereignty — script:scripts/sovereignty-mask.sh
 [planning] sovereignty-ops — download,operations,pack,sovereignty — script:scripts/sovereignty-ops.sh
@@ -992,6 +999,7 @@
 [planning] tool-result-trim — deterministic,hard,output,result,tool — script:scripts/tool-result-trim.sh
 [planning] topic-cluster — agrupan,detectar,incidentes,patrones,pbis — skill:.claude/skills/topic-cluster/SKILL.md
 [planning] tracked-vs-nivel — nivel,slice,tracked — script:scripts/tracked-vs-nivel.sh
+[planning] trajectory-detector — desviación,detección,detector,minutos,trajectory — script:scripts/trajectory-detector.sh
 [planning] tribunal-critic — critic,quantitative,scoring,tribunal,verdicts — script:scripts/tribunal-critic.sh
 [planning] tribunal-status — depth,evaluations,pending,queue,recent — cmd:.claude/commands/tribunal-status.md
 [planning] tribunal-tiered-runner — execution,runner,tiered,tribunal — script:scripts/tribunal-tiered-runner.sh
@@ -1003,6 +1011,7 @@
 [planning] ua-dashboard — browser,dashboard,graph,interactive,knowledge — cmd:.claude/commands/ua-dashboard.md
 [planning] ua-install — anything,graph,install,knowledge,plugin — cmd:.claude/commands/ua-install.md
 [planning] ua-install — anything,install,plugin,savia,understand — script:scripts/ua-install.sh
+[planning] unlimited-auth-detector — auth,delegación,detecta,detector,límite — script:scripts/unlimited-auth-detector.sh
 [planning] update — actualizaciones,aplicar,comprobar,datos,github — cmd:.claude/commands/update.md
 [planning] update — actualización,sistema,update,workspace — script:scripts/update.sh
 [planning] user-profile — crear,editar,equipo,gestiona,miembros — cmd:.claude/commands/user-profile.md

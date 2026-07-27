@@ -1189,6 +1189,7 @@ Enterprise: 23 specs esperando decisión estratégica.
 | SPEC-064 Computer Use | Anthropic Computer Use API GA |
 | SPEC-102/104 PDF compliance | opendataloader-pdf GA release |
 | SPEC-OC-04 OpenCode Native | Aprobación humana slice por slice (Slice 1 trivial ~30min) |
+| **SE-273 Contención trayectoria** | **7 slices (64h)** — cableado jueces, egreso, auth ilimitada, objetivos, forma acción, trayectoria, corroboración. Seguridad estructural. |
 
 ### Enterprise PROPOSED (23) — condición única
 
