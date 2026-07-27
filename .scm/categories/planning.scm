@@ -1,5 +1,5 @@
 # planning — Savia Capability Map (L1)
-> 499 resources
+> 527 resources
 
 - **/decide-architecture** (cmd): Clasifica una tarea como WORKFLOW (deterministica) o AGENT (loop). Bias hacia workflow per Anthropic. Sugiere plantilla inicial. Mide accuracy contra corpus curado de 20 tareas.
 - **_template** (skill): TEMPLATE — copia este directorio para crear una skill nueva. NO se carga en runtime.
@@ -62,6 +62,9 @@
 - **calibration-judge** (agent): Truth Tribunal judge — confidence statements match evidence strength
 - **capacity-forecast** (cmd): Previsión de capacidad a medio plazo — planifica recursos para los próximos 3-6 sprints
 - **capacity-planning** (skill): Usar cuando se calcula la capacidad del equipo para un sprint o periodo.
+- **capex-classify** (script): capex-classify.sh — SE-272 S1 CAPEX/OPEX classification
+- **capex-evidence-package** (script): capex-evidence-package.sh — SE-272 S1 Evidence package generator
+- **capex-phase-gate** (script): capex-phase-gate.sh — SE-272 S1 Phase gate recorder
 - **case-init** (cmd): Scaffold a business case from pursuit and SOW data
 - **case-kill-check** (cmd): Run valuation sentinel across all active cases for kill recommendations
 - **case-validate** (script): case-validate.sh — SE-016: Validate business case directories
@@ -95,6 +98,13 @@
 - **consensus-validation** (skill): Usar cuando una decisión técnica o recomendación necesita validación por panel de jueces.
 - **content-fingerprint** (skill): Usar cuando se necesita un identificador corto, deterministico y reproducible derivado del contenido de una cadena o fichero — cache keys, ids de patrones, fingerprints de docs.
 - **contribute** (script): contribute.sh — Capa de interacción con GitHub para comunidad
+- **corporate-adopt** (script): corporate-adopt.sh — SE-271 S2
+- **corporate-body-validate** (script): corporate-body-validate.sh — SE-271 S2
+- **corporate-ledger-verify** (script): corporate-ledger-verify.sh — SE-271 S2
+- **corporate-monotonicity-gate** (script): corporate-monotonicity-gate.sh — SE-271 S1
+- **corporate-no-write-assert** (script): corporate-no-write-assert.sh — SE-271 S5: Assert no corp input → instance write
+- **corporate/corporate-disconnect-drill** (script): corporate-disconnect-drill.sh — SE-271 S7 Disconnect Simulation Drill
+- **corporate/corporate-resilience-check** (script): corporate-resilience-check.sh — SE-271 S7 Local Resilience Assessment
 - **cost-center** (cmd): Cost management and billing — timesheets, budgets, forecasting, invoicing
 - **cost-management** (skill): Usar cuando se gestionan timesheets, presupuestos, facturas o forecasting de costes.
 - **count-commands** (script): count-commands.sh — SE-095: canonical counter for slash commands.
@@ -137,9 +147,14 @@
 - **emergency-setup** (script): emergency-setup.sh — Setup rápido de LLM local para modo emergencia
 - **emergency-status** (script): emergency-status.sh — Estado del sistema de emergencia PM-Workspace
 - **emotional-state-tracker** (script): emotional-state-tracker.sh — Track session stress state for Savia
+- **engagement-capacity-check** (script): engagement-capacity-check.sh — SE-271 S4: Capacity enforcement per engagement
+- **engagement-init** (script): engagement-init.sh — SE-271 S3: Initialize client engagement with ethical walls
+- **engagement-separation-proof** (script): engagement-separation-proof.sh — SE-271 S3: Generates verifiable separation proof
+- **engagement-wall-check** (script): engagement-wall-check.sh — SE-271 S3: Cross-client isolation verification
 - **ensure-daemons-auth** (script): ensure-daemons-auth.sh
 - **enterprise-analytics** (skill): Usar cuando se necesitan métricas SPACE, aggregación de portfolio o forecasting empresarial.
 - **enterprise-onboarding** (skill): Usar cuando se incorporan múltiples personas a la organización de forma masiva.
+- **enterprise-reconcile** (script): enterprise-reconcile.sh — SE-271 S4: Classify enterprise scripts into wired/adapted/archived
 - **enterprise/bench-match** (script): bench-match.sh — SE-022 Resource Bench Management
 - **enterprise/bench-register** (script): bench-register.sh — SE-022 Resource Bench Management
 - **enterprise/billing-milestone** (script): billing-milestone.sh — SE-018 Project Billing (IFRS 15)
@@ -168,6 +183,15 @@
 - **evaluations-framework** (skill): Usar cuando se diseñan o ejecutan evaluaciones de calidad de agentes y prompts.
 - **exchange-ledger** (script): exchange-ledger.sh — Federation exchange ledger (SE-263 S6)
 - **exit** (cmd): >
+- **exit-dependencies-declare** (script): exit-dependencies-declare.sh — SE-272 S5: Declare exit package tool dependencies
+- **exit-drill-execute** (script): exit-drill-execute.sh — SE-272 S5: Full exit drill simulation
+- **exit-independence-verify** (script): exit-independence-verify.sh — SE-272 S5: Verify exit package independence
+- **exit-package-generate** (script): exit-package-generate.sh — SE-272 S5: Per-engagement exit package generation
+- **exit-purge-verify** (script): exit-purge-verify.sh — SE-272 S5: Verify purge after engagement forget
+- **ext-platform-card-validate** (script): ext-platform-card-validate.sh — SE-272 Slice 4: Validate external platform card
+- **ext-platform-export-gate** (script): ext-platform-export-gate.sh — SE-272 Slice 4: Export gate for external platforms
+- **ext-platform-gate** (script): ext-platform-gate.sh — SE-272 Slice 4: Enforce asymmetry for external platforms
+- **ext-platform-resilience** (script): ext-platform-resilience.sh — SE-272 Slice 4: Resilience for external platforms
 - **factuality-judge** (agent): Truth Tribunal judge — factual accuracy of claims against verifiable sources
 - **federation-drill** (script): federation-drill.sh — SE-263 S7: Compromised instance drill
 - **flow-backlog-groom** (cmd): Review and prioritize backlog items
@@ -214,8 +238,10 @@
 - **health-dashboard** (cmd): Dashboard de salud del proyecto unificado — Savia muestra una vista rápida adaptada al rol
 - **heat-scheduler** (script): heat-scheduler.sh — Lightweight heat-based parallelism for dev sessions
 - **help** (cmd): Catálogo de comandos y primeros pasos pendientes.
+- **hook-assignment-rule** (script): hook-assignment-rule.sh — SE-270 Slice 5: hook vs documentation assignment rule.
 - **hook-bench-all** (script): hook-bench-all.sh — SE-037 Slice 1 probe: measure latency of all hooks.
 - **hook-latency-bench** (script): hook-latency-bench.sh — Mide la latencia media de cada hook registrado
+- **hook-latency-budget** (script): hook-latency-budget.sh — SE-270 Slice 5: hook latency budget enforcement.
 - **hook-pii-gate** (script): hook-pii-gate.sh — PII Quality Gate Pre-Commit Hook
 - **hook-profile** (cmd): View or change the active SAVIA_HOOK_PROFILE (minimal/standard/strict/ci)
 - **hook-profile** (script): hook-profile.sh — Get/set the active SAVIA_HOOK_PROFILE
@@ -385,6 +411,7 @@
 - **setup-savia-dual** (script): setup-savia-dual.sh — Installer for Savia Dual (Linux/macOS)
 - **setup-savia-remote** (script): setup-savia-remote.sh — Run ONCE on the remote server as root/sudo.
 - **shield-ner-hook** (script): shield-ner-hook.sh — Savia Shield Capa 1.5: NER via daemon (fast)
+- **skill-creator** (script): skill-creator.sh — SE-270 Slice 3 — Interactive skill scaffolding
 - **skill-detect** (cmd): Detect repeated patterns and propose new skills automatically
 - **skill-detect** (script): skill-detect.sh — SE-030: Skill Self-Improvement Pipeline
 - **skill-eval** (cmd): >
@@ -396,6 +423,7 @@
 - **skill-rank** (cmd): Show skill effectiveness ranking based on invocation data
 - **skill-read** (cmd): Carga el contenido completo de un skill bajo demanda (progressive disclosure)
 - **skill-routing-index** (script): skill-routing-index.sh — SE-152
+- **skills-collision-detect** (script): skills-collision-detect.sh — SE-270 Slice 1 — Skill description collision detection
 - **skills-lock** (script): skills-lock.sh — SHA-256 integrity verification for skills
 - **skills-md-generate** (script): Force C locale for deterministic sort + awk text handling across machines
 - **skills-schema-generate** (script): skills-schema-generate.sh

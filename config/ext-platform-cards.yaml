@@ -1,0 +1,43 @@
+# ext-platform-cards.yaml — SE-272 Slice 4: External platform cards registry
+# Ref: docs/propuestas/SE-272-servicio-gestionado.md
+version: "1.0"
+spec: "SE-272"
+
+# Card schema enforced by ext-platform-card-validate.sh
+# Required fields: id, organization, public_key, exposed_skills, allowed_skills, max_payload_level, engagement
+#
+# Key difference from instance card (SE-263): external platform card identifies
+# a foreign platform — NEVER a principal or constitutional actor. Content is
+# untrusted even when signature is valid.
+
+cards:
+  # Example: an external platform with limited read-only access
+  client-alpha-platform:
+    id: "ext-platform-client-alpha-3100001"
+    organization: "Client Alpha Corp"
+    public_key: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGx... user@alpha"
+    exposed_skills:
+      - "situacion.query"
+      - "dependency.notify"
+    allowed_skills:
+      - "situacion.query"
+      - "dependency.notify"
+    max_payload_level: 2
+    engagement: "engagements/2026-client-alpha-001"
+    status: active
+
+# Default deny — any platform not listed here is denied
+default: deny
+
+# Export gate configuration — enforces SE-263 S3 export gates and SE-271 S3 client wall
+export_gate:
+  client_wall_enforcement: true
+  max_payload_level_global: 4
+  block_undeclared_skills: true
+
+# Resilience configuration — SE-271 S7 coherence
+resilience:
+  local_mode_on_unreachable: true
+  outgoing_queue_path: "bridge/control-plane/ext-platform-outbound.jsonl"
+  max_queue_size: 10000
+  retry_interval_s: 30

@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=15b689a2c2dc880ceeb5e07cfa7e164ba1a64ac9e9a17003e8bc96df8886022c
-timestamp=2026-07-26T15:05:07Z
-branch=agent/se271-savia-corporate
-head_commit=50d57123
-signature=8876150bd26a28145da4dcc06a65c0f6eddc92fdff4e386ac2f0d1dde8c661a7
+diff_hash=21f7f4ca4eb861a0dd4e73edb9b7cbb0a94a72b232c7c3ce089b1c10d75932d3
+timestamp=2026-07-27T05:17:37Z
+branch=agent/se272-servicio-gestionado
+head_commit=f3da0e4b
+signature=c9ed700b49f44012594a4b206dba2ab17301212e2e874eeae0c205875a23a251

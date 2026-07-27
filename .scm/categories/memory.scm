@@ -1,5 +1,5 @@
 # memory — Savia Capability Map (L1)
-> 95 resources
+> 101 resources
 
 - **auto-compact** (script): auto-compact.sh — Disparado automáticamente cuando contexto > 85%
 - **cache-analytics** (cmd): Métricas de hit rate, tokens ahorrados, latencia, ahorro de costes
@@ -14,6 +14,7 @@
 - **context-caching** (skill): Usar cuando se optimiza el orden de carga de contexto para maximizar cache hits.
 - **context-calibration-measure** (script): context-calibration-measure.sh — Measure context usage patterns
 - **context-capability-check** (script): context-capability-check.sh — SE-221 Slice 3 — Capability metadata validator
+- **context-compaction-policy** (script): context-compaction-policy.sh — SE-270 S7: declared compaction survival policy
 - **context-condenser** (script): context-condenser.sh — SE-200: rolling window context compression
 - **context-distortion-measure** (script): context-distortion-measure.sh — SE-029-M
 - **context-dome** (skill): >
@@ -21,10 +22,12 @@
 - **context-drop-after-use** (script): context-drop-after-use.sh — SE-221 Slice 2 — Drop-After-Use decision engine
 - **context-drop-metrics** (script): context-drop-metrics.sh — SE-221 Slice 2 — Drop-After-Use metrics
 - **context-engineering-report** (script): context-engineering-report.sh — SE-221 Slice 4 — Weekly report generator
+- **context-erosion-detect** (script): context-erosion-detect.sh — SE-270 S7: detect context collapse via volume erosion
 - **context-frozen-check** (script): context-frozen-check.sh — SE-029-F
 - **context-greedy-budget** (script): context-greedy-budget.sh — SPEC-189: Greedy context budget selection.
 - **context-interview** (cmd): Entrevista estructurada de contexto para proyectos y clientes
 - **context-interview-conductor** (skill): Usar cuando se necesita recopilar contexto estructurado de un usuario mediante entrevista guiada.
+- **context-jit-lint** (script): context-jit-lint.sh — SE-270 S7: lint agent/skill templates for preloading
 - **context-meter** (script): context-meter.sh — SE-219 S2: context window % as first-class metric (abtop pattern)
 - **context-optimized-dev** (skill): Usar cuando se desarrolla con presupuesto de contexto limitado.
 - **context-origin-tag** (script): context-origin-tag.sh — SE-221 Slice 1 — Context Origin Tagging
@@ -40,6 +43,7 @@
 - **context-task-classify** (script): context-task-classify.sh — SE-029 Slice 2 task-class classifier.
 - **context-tracker** (script): ── context-tracker.sh ─────────────────────────────────────────────────────
 - **digest-to-memory** (script): digest-to-memory.sh — Bridge: digest agents -> memory-store + graph
+- **engagement-rotate** (script): engagement-rotate.sh — SE-271 S3: Seal/rotate client engagement context
 - **entity-recall** (cmd): >
 - **focal-switch** (script): focal-switch.sh — Off-load de contexto antes de cambiar de nido (SE-230 Slice 1)
 - **generate-blocklist** (script): generate-blocklist.sh — Dynamic blocklist from workspace context
@@ -63,6 +67,7 @@
 - **memory-hygiene** (script): memory-hygiene.sh — SPEC-142: Limpieza automática de auto-memory
 - **memory-index-rebuild** (script): memory-index-rebuild.sh — rebuild auto/MEMORY.md index from JSONL store
 - **memory-liveness-check** (script): scripts/memory-liveness-check.sh — SE-257 Slice 2
+- **memory-prune** (script): memory-prune.sh — SE-270 S6: prune low-confidence memory entries
 - **memory-recall** (cmd): Retrieve relevant memories for current context
 - **memory-recall-audit** (script): memory-recall-audit.sh — SE-212: measure MEMORY.md recall budget utilization
 - **memory-rotate** (cmd): Execute context rotation manually — daily, weekly, monthly cycles
@@ -74,6 +79,7 @@
 - **memory-sync-index** (script): memory-sync-index.sh — Sync auto-memory markdown → JSONL vector index
 - **memory-tier-rotate** (script): memory-tier-rotate.sh — SE-073 Slice 1 — 2-tier rotation for auto-memory
 - **memory-verify** (script): memory-verify.sh — Quality gate for memory compression (SPEC-041 P3)
+- **memory-write-gate** (script): memory-write-gate.sh — SE-270 S6: validates memory entries before writing
 - **memvid-probe** (script): memvid-probe.sh — SE-041 Slice 1 memvid portable memory viability probe.
 - **my-focus** (cmd): Modo focus — identifica el item más prioritario y carga todo su contexto
 - **nl-query** (cmd): Consultas en lenguaje natural — habla con Savia sin memorizar comandos
