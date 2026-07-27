@@ -111,7 +111,7 @@ do_status() {
   count=$(python3 -c "import yaml; d=yaml.safe_load(open('$ALLOWLIST')); print(len(d.get('domains',[])))" 2>/dev/null || grep -c "domain:" "$ALLOWLIST" 2>/dev/null || echo "?")
   echo "Domains: $count"
   [[ -f "$EGRESS_LOG" ]] && echo "Denials: $(wc -l < "$EGRESS_LOG")" || echo "Denials: 0"
-  [[ -f "$PROPOSALS" ]] && echo "Proposals: $PROPOSALS"
+  [[ -f "$PROPOSALS" ]] && echo "Proposals: $PROPOSALS" || true
 }
 
 do_isolated_check() {
