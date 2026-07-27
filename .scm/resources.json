@@ -1,6 +1,6 @@
 {
-  "hash": "4a848e6e2af6",
-  "total": 1266,
+  "hash": "4e329137bc53",
+  "total": 1289,
   "resources": [
     {
       "category": "analysis",
@@ -41,6 +41,20 @@
       "kind": "script",
       "path": "scripts/agent-activity.sh",
       "description": "agent-activity.sh — Agent activity dashboard"
+    },
+    {
+      "category": "analysis",
+      "name": "agent-budget-check",
+      "intents": [
+        "agent",
+        "budget",
+        "check",
+        "limits",
+        "requestor"
+      ],
+      "kind": "script",
+      "path": "scripts/agent-budget-check.sh",
+      "description": "agent-budget-check.sh — SE-272 Slice 3: Per-requestor budget limits"
     },
     {
       "category": "analysis",
@@ -123,6 +137,34 @@
       "kind": "script",
       "path": "scripts/agent-discipline-audit.sh",
       "description": "agent-discipline-audit.sh — SE-270 Slice 4: Audit agent model tier → maxSteps recommendations."
+    },
+    {
+      "category": "analysis",
+      "name": "agent-effort-meter",
+      "intents": [
+        "actual",
+        "agent",
+        "count",
+        "effort",
+        "measure"
+      ],
+      "kind": "script",
+      "path": "scripts/agent-effort-meter.sh",
+      "description": "agent-effort-meter.sh — SE-272 Slice 3: Measure actual work not ticket count"
+    },
+    {
+      "category": "analysis",
+      "name": "agent-escalation-gate",
+      "intents": [
+        "agent",
+        "declared",
+        "escalation",
+        "gate",
+        "request"
+      ],
+      "kind": "script",
+      "path": "scripts/agent-escalation-gate.sh",
+      "description": "agent-escalation-gate.sh — SE-272 S3: Declared thresholds per request type"
     },
     {
       "category": "analysis",
@@ -224,6 +266,34 @@
     },
     {
       "category": "analysis",
+      "name": "agent-recurrence-report",
+      "intents": [
+        "agent",
+        "identifies",
+        "recurrence",
+        "recurring",
+        "report"
+      ],
+      "kind": "script",
+      "path": "scripts/agent-recurrence-report.sh",
+      "description": "agent-recurrence-report.sh — SE-272 Slice 3: Identifies recurring agent requests"
+    },
+    {
+      "category": "analysis",
+      "name": "agent-request-validate",
+      "intents": [
+        "agent",
+        "incoming",
+        "origin",
+        "request",
+        "slice"
+      ],
+      "kind": "script",
+      "path": "scripts/agent-request-validate.sh",
+      "description": "agent-request-validate.sh — SE-272 Slice 3: Validate incoming request origin"
+    },
+    {
+      "category": "analysis",
       "name": "agent-run",
       "intents": [
         "agent",
@@ -317,6 +387,20 @@
       "kind": "script",
       "path": "scripts/agent-size-remediation-plan.sh",
       "description": "agent-size-remediation-plan.sh — SE-052 Slice 1 agent-size analyzer."
+    },
+    {
+      "category": "analysis",
+      "name": "agent-sla-router",
+      "intents": [
+        "agent",
+        "differentiated",
+        "origin",
+        "router",
+        "type"
+      ],
+      "kind": "script",
+      "path": "scripts/agent-sla-router.sh",
+      "description": "agent-sla-router.sh — SE-272 S3: Differentiated SLA by origin type"
     },
     {
       "category": "analysis",
@@ -516,6 +600,55 @@
     },
     {
       "category": "analysis",
+      "name": "kpi-antagonist-gate",
+      "intents": [
+        "antagonist",
+        "anti",
+        "gate",
+        "goodhart"
+      ],
+      "kind": "script",
+      "path": "scripts/kpi-antagonist-gate.sh",
+      "description": "kpi-antagonist-gate.sh — SE-272 S2 Anti-Goodhart gate"
+    },
+    {
+      "category": "analysis",
+      "name": "kpi-catalog-validate",
+      "intents": [
+        "catalog",
+        "validate",
+        "validator"
+      ],
+      "kind": "script",
+      "path": "scripts/kpi-catalog-validate.sh",
+      "description": "kpi-catalog-validate.sh — SE-272 S2 KPI catalog validator"
+    },
+    {
+      "category": "analysis",
+      "name": "kpi-compute",
+      "intents": [
+        "artifacts",
+        "computation",
+        "compute",
+        "verifiable"
+      ],
+      "kind": "script",
+      "path": "scripts/kpi-compute.sh",
+      "description": "kpi-compute.sh — SE-272 S2 KPI computation from verifiable artifacts"
+    },
+    {
+      "category": "analysis",
+      "name": "kpi-custody-chain",
+      "intents": [
+        "chain",
+        "custody"
+      ],
+      "kind": "script",
+      "path": "scripts/kpi-custody-chain.sh",
+      "description": "kpi-custody-chain.sh — SE-272 S2 KPI custody chain"
+    },
+    {
+      "category": "analysis",
       "name": "kpi-dashboard",
       "intents": [
         "completo",
@@ -535,6 +668,18 @@
       "kind": "cmd",
       "path": ".claude/commands/kpi-dora.md",
       "description": ">"
+    },
+    {
+      "category": "analysis",
+      "name": "kpi-review-report",
+      "intents": [
+        "periodic",
+        "report",
+        "review"
+      ],
+      "kind": "script",
+      "path": "scripts/kpi-review-report.sh",
+      "description": "kpi-review-report.sh — SE-272 S2 Periodic KPI review report"
     },
     {
       "category": "analysis",
@@ -7340,6 +7485,45 @@
     },
     {
       "category": "planning",
+      "name": "capex-classify",
+      "intents": [
+        "capex",
+        "classification",
+        "classify",
+        "opex"
+      ],
+      "kind": "script",
+      "path": "scripts/capex-classify.sh",
+      "description": "capex-classify.sh — SE-272 S1 CAPEX/OPEX classification"
+    },
+    {
+      "category": "planning",
+      "name": "capex-evidence-package",
+      "intents": [
+        "capex",
+        "evidence",
+        "generator",
+        "package"
+      ],
+      "kind": "script",
+      "path": "scripts/capex-evidence-package.sh",
+      "description": "capex-evidence-package.sh — SE-272 S1 Evidence package generator"
+    },
+    {
+      "category": "planning",
+      "name": "capex-phase-gate",
+      "intents": [
+        "capex",
+        "gate",
+        "phase",
+        "recorder"
+      ],
+      "kind": "script",
+      "path": "scripts/capex-phase-gate.sh",
+      "description": "capex-phase-gate.sh — SE-272 S1 Phase gate recorder"
+    },
+    {
+      "category": "planning",
       "name": "case-init",
       "intents": [
         "business",
@@ -8866,6 +9050,131 @@
       "kind": "cmd",
       "path": ".claude/commands/exit.md",
       "description": ">"
+    },
+    {
+      "category": "planning",
+      "name": "exit-dependencies-declare",
+      "intents": [
+        "declare",
+        "dependencies",
+        "exit",
+        "package",
+        "tool"
+      ],
+      "kind": "script",
+      "path": "scripts/exit-dependencies-declare.sh",
+      "description": "exit-dependencies-declare.sh — SE-272 S5: Declare exit package tool dependencies"
+    },
+    {
+      "category": "planning",
+      "name": "exit-drill-execute",
+      "intents": [
+        "drill",
+        "execute",
+        "exit",
+        "full",
+        "simulation"
+      ],
+      "kind": "script",
+      "path": "scripts/exit-drill-execute.sh",
+      "description": "exit-drill-execute.sh — SE-272 S5: Full exit drill simulation"
+    },
+    {
+      "category": "planning",
+      "name": "exit-independence-verify",
+      "intents": [
+        "exit",
+        "independence",
+        "package",
+        "verify"
+      ],
+      "kind": "script",
+      "path": "scripts/exit-independence-verify.sh",
+      "description": "exit-independence-verify.sh — SE-272 S5: Verify exit package independence"
+    },
+    {
+      "category": "planning",
+      "name": "exit-package-generate",
+      "intents": [
+        "engagement",
+        "exit",
+        "generate",
+        "generation",
+        "package"
+      ],
+      "kind": "script",
+      "path": "scripts/exit-package-generate.sh",
+      "description": "exit-package-generate.sh — SE-272 S5: Per-engagement exit package generation"
+    },
+    {
+      "category": "planning",
+      "name": "exit-purge-verify",
+      "intents": [
+        "engagement",
+        "exit",
+        "forget",
+        "purge",
+        "verify"
+      ],
+      "kind": "script",
+      "path": "scripts/exit-purge-verify.sh",
+      "description": "exit-purge-verify.sh — SE-272 S5: Verify purge after engagement forget"
+    },
+    {
+      "category": "planning",
+      "name": "ext-platform-card-validate",
+      "intents": [
+        "card",
+        "external",
+        "platform",
+        "slice",
+        "validate"
+      ],
+      "kind": "script",
+      "path": "scripts/ext-platform-card-validate.sh",
+      "description": "ext-platform-card-validate.sh — SE-272 Slice 4: Validate external platform card"
+    },
+    {
+      "category": "planning",
+      "name": "ext-platform-export-gate",
+      "intents": [
+        "export",
+        "external",
+        "gate",
+        "platform",
+        "platforms"
+      ],
+      "kind": "script",
+      "path": "scripts/ext-platform-export-gate.sh",
+      "description": "ext-platform-export-gate.sh — SE-272 Slice 4: Export gate for external platforms"
+    },
+    {
+      "category": "planning",
+      "name": "ext-platform-gate",
+      "intents": [
+        "asymmetry",
+        "enforce",
+        "external",
+        "gate",
+        "platform"
+      ],
+      "kind": "script",
+      "path": "scripts/ext-platform-gate.sh",
+      "description": "ext-platform-gate.sh — SE-272 Slice 4: Enforce asymmetry for external platforms"
+    },
+    {
+      "category": "planning",
+      "name": "ext-platform-resilience",
+      "intents": [
+        "external",
+        "platform",
+        "platforms",
+        "resilience",
+        "slice"
+      ],
+      "kind": "script",
+      "path": "scripts/ext-platform-resilience.sh",
+      "description": "ext-platform-resilience.sh — SE-272 Slice 4: Resilience for external platforms"
     },
     {
       "category": "planning",

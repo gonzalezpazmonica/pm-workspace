@@ -1,16 +1,19 @@
 # Savia Capability Map — INDEX
-> hash: 948a09d59ac2 | resources: 1266
-> 290 commands · 120 skills · 81 agents · 775 scripts
+> hash: 5524a557f091 | resources: 1289
+> 290 commands · 120 skills · 81 agents · 798 scripts
 
 [analysis] Trace Optimize — across,distributed,optimize,rates,sampling — cmd:.claude/commands/trace-optimize.md
 [analysis] agent-activity — activity,agent,executions,recent,show — cmd:.claude/commands/agent-activity.md
 [analysis] agent-activity — activity,agent,dashboard — script:scripts/agent-activity.sh
+[analysis] agent-budget-check — agent,budget,check,limits,requestor — script:scripts/agent-budget-check.sh
 [analysis] agent-budget-lookup — agent,budget,extract,frontmatter,lookup — script:scripts/agent-budget-lookup.sh
 [analysis] agent-code-map — agente,arquitectura,completos,conocer,ficheros — skill:.claude/skills/agent-code-map/SKILL.md
 [analysis] agent-cost — agentes,coste,estimado,proyecto,sprint — cmd:.claude/commands/agent-cost.md
 [analysis] agent-degradation-canary — agent,canary,degradation — script:scripts/agent-degradation-canary.sh
 [analysis] agent-depth-limit — agent,build,check,depth,graph — script:scripts/agent-depth-limit.sh
 [analysis] agent-discipline-audit — agent,audit,discipline,maxsteps,model — script:scripts/agent-discipline-audit.sh
+[analysis] agent-effort-meter — actual,agent,count,effort,measure — script:scripts/agent-effort-meter.sh
+[analysis] agent-escalation-gate — agent,declared,escalation,gate,request — script:scripts/agent-escalation-gate.sh
 [analysis] agent-file-map — agentes,deben,externos,ficheros,localizar — skill:.claude/skills/agent-file-map/SKILL.md
 [analysis] agent-gate — agent,gate,gates,inherited,quality — script:scripts/agent-gate.sh
 [analysis] agent-hook-runner — agent,gate,hook,hooks,runner — script:scripts/agent-hook-runner.sh
@@ -18,6 +21,8 @@
 [analysis] agent-journal — agent,append,autónomos,journal,jsonl — script:scripts/agent-journal.sh
 [analysis] agent-memory — fragments,inspect,manage,memory,persistent — cmd:.claude/commands/agent-memory.md
 [analysis] agent-permission-audit — agent,audit,declarations,permission,slice — script:scripts/agent-permission-audit.sh
+[analysis] agent-recurrence-report — agent,identifies,recurrence,recurring,report — script:scripts/agent-recurrence-report.sh
+[analysis] agent-request-validate — agent,incoming,origin,request,slice — script:scripts/agent-request-validate.sh
 [analysis] agent-run — agent,batch,claude,launch,pending — cmd:.claude/commands/agent-run.md
 [analysis] agent-run-log — agent,append,experiment,only,slice — script:scripts/agent-run-log.sh
 [analysis] agent-run-logger — agent,agentrunsummary,logger,telemetry — script:scripts/agent-run-logger.sh
@@ -25,6 +30,7 @@
 [analysis] agent-scratchpad — agent,agents,document,parallel,scratchpad — script:scripts/agent-scratchpad.sh
 [analysis] agent-size-audit — agent,audit,every,measure,probe — script:scripts/agent-size-audit.sh
 [analysis] agent-size-remediation-plan — agent,analyzer,plan,remediation,size — script:scripts/agent-size-remediation-plan.sh
+[analysis] agent-sla-router — agent,differentiated,origin,router,type — script:scripts/agent-sla-router.sh
 [analysis] agent-surface-guard — agent,declared,editable,guard,runs — script:scripts/agent-surface-guard.sh
 [analysis] agent-tick — abtop,agent,heavy,light,pattern — script:scripts/agent-tick.sh
 [analysis] agent-time-budget — agent,budget,budgeted,command,runner — script:scripts/agent-time-budget.sh
@@ -40,8 +46,13 @@
 [analysis] enterprise/client-health-report — client,health,intelligence,report — script:scripts/enterprise/client-health-report.sh
 [analysis] eval-improvement-suggest — eval,generate,improvement,proposals,reports — script:scripts/eval-improvement-suggest.sh
 [analysis] executive-reporting — dirección,ejecutivo,informe,multi,proyecto — skill:.claude/skills/executive-reporting/SKILL.md
+[analysis] kpi-antagonist-gate — antagonist,anti,gate,goodhart — script:scripts/kpi-antagonist-gate.sh
+[analysis] kpi-catalog-validate — catalog,validate,validator — script:scripts/kpi-catalog-validate.sh
+[analysis] kpi-compute — artifacts,computation,compute,verifiable — script:scripts/kpi-compute.sh
+[analysis] kpi-custody-chain — chain,custody — script:scripts/kpi-custody-chain.sh
 [analysis] kpi-dashboard — completo,dashboard,definidos,docs,equipo — cmd:.claude/commands/kpi-dashboard.md
 [analysis] kpi-dora —  — cmd:.claude/commands/kpi-dora.md
+[analysis] kpi-review-report — periodic,report,review — script:scripts/kpi-review-report.sh
 [analysis] reconciliation-stats — append,classification,metrics,reconciliation,report — script:scripts/reconciliation-stats.sh
 [analysis] relacion-report — relacion,report,scripts,slice — script:scripts/relacion-report.sh
 [analysis] report-capacity — alertas,asignación,capacidades,carga,disponibilidad — cmd:.claude/commands/report-capacity.md
@@ -555,6 +566,9 @@
 [planning] calibration-judge — confidence,evidence,judge,match,statements — agent:.opencode/agents/calibration-judge.md
 [planning] capacity-forecast — capacidad,medio,planifica,plazo,previsión — cmd:.claude/commands/capacity-forecast.md
 [planning] capacity-planning — calcula,capacidad,equipo,periodo,sprint — skill:.claude/skills/capacity-planning/SKILL.md
+[planning] capex-classify — capex,classification,classify,opex — script:scripts/capex-classify.sh
+[planning] capex-evidence-package — capex,evidence,generator,package — script:scripts/capex-evidence-package.sh
+[planning] capex-phase-gate — capex,gate,phase,recorder — script:scripts/capex-phase-gate.sh
 [planning] case-init — business,case,data,pursuit,scaffold — cmd:.claude/commands/case-init.md
 [planning] case-kill-check — across,active,cases,kill,recommendations — cmd:.claude/commands/case-kill-check.md
 [planning] case-validate — business,case,directories,validate — script:scripts/case-validate.sh
@@ -674,6 +688,15 @@
 [planning] evaluations-framework — agentes,calidad,diseñan,ejecutan,evaluaciones — skill:.claude/skills/evaluations-framework/SKILL.md
 [planning] exchange-ledger — exchange,federation,ledger — script:scripts/exchange-ledger.sh
 [planning] exit —  — cmd:.claude/commands/exit.md
+[planning] exit-dependencies-declare — declare,dependencies,exit,package,tool — script:scripts/exit-dependencies-declare.sh
+[planning] exit-drill-execute — drill,execute,exit,full,simulation — script:scripts/exit-drill-execute.sh
+[planning] exit-independence-verify — exit,independence,package,verify — script:scripts/exit-independence-verify.sh
+[planning] exit-package-generate — engagement,exit,generate,generation,package — script:scripts/exit-package-generate.sh
+[planning] exit-purge-verify — engagement,exit,forget,purge,verify — script:scripts/exit-purge-verify.sh
+[planning] ext-platform-card-validate — card,external,platform,slice,validate — script:scripts/ext-platform-card-validate.sh
+[planning] ext-platform-export-gate — export,external,gate,platform,platforms — script:scripts/ext-platform-export-gate.sh
+[planning] ext-platform-gate — asymmetry,enforce,external,gate,platform — script:scripts/ext-platform-gate.sh
+[planning] ext-platform-resilience — external,platform,platforms,resilience,slice — script:scripts/ext-platform-resilience.sh
 [planning] factuality-judge — accuracy,against,claims,factual,judge — agent:.opencode/agents/factuality-judge.md
 [planning] federation-drill — compromised,drill,federation,instance — script:scripts/federation-drill.sh
 [planning] flow-backlog-groom — backlog,items,prioritize,review — cmd:.claude/commands/flow-backlog-groom.md
