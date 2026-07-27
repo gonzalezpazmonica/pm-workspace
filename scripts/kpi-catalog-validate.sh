@@ -164,7 +164,7 @@ cmd_validate() {
 
   # Validate antagonist pairings
   local ids
-  ids="$(echo "$content" | grep -oP 'id:\s*"\K[^"]+' || true)"
+  ids="$(echo "$content" | grep -oP '^  - id:\s*"\K[^"]+' || true)"
   local antagonists
   antagonists="$(echo "$content" | grep -oP 'antagonist_kpi_id:\s*"\K[^"]+' || true)"
 

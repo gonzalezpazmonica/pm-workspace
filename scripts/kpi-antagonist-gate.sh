@@ -108,8 +108,8 @@ cmd_check() {
 
     if [[ "$in_kpi" -eq 1 ]]; then
       case "$line" in
-        *"name:"*)          current_name="$(echo "$line" | sed 's/.*name: *"//;s/"$//')" ;;
-        *"antagonist_kpi_id:"*) current_antagonist="$(echo "$line" | sed 's/.*antagonist_kpi_id: *"//;s/"$//')" ;;
+        "    name:"*)          current_name="$(echo "$line" | sed 's/.*name: *"//;s/"$//')" ;;
+        "    antagonist_kpi_id:"*) current_antagonist="$(echo "$line" | sed 's/.*antagonist_kpi_id: *"//;s/"$//')" ;;
       esac
     fi
   done < "$kpis_file"
