@@ -19,7 +19,7 @@ echo ""
 # ── Init vault ──
 mkdir -p "$VAULT_PATH"
 if [[ ! -d "$VAULT_PATH/.git" ]]; then
-  cd "$VAULT_PATH" && git init && git config user.name "SaviaVaults" && git config user.email "vault@savia.local"
+  cd "$VAULT_PATH" && git init && git config user.name "SaviaVaults" && git config user.email "vault@example.com"
 fi
 cd "$VAULT_PATH"
 
