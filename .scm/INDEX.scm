@@ -1,6 +1,6 @@
 # Savia Capability Map — INDEX
-> hash: 5524a557f091 | resources: 1289
-> 290 commands · 120 skills · 81 agents · 798 scripts
+> hash: 06770a259931 | resources: 1295
+> 290 commands · 120 skills · 81 agents · 804 scripts
 
 [analysis] Trace Optimize — across,distributed,optimize,rates,sampling — cmd:.claude/commands/trace-optimize.md
 [analysis] agent-activity — activity,agent,executions,recent,show — cmd:.claude/commands/agent-activity.md
@@ -144,6 +144,7 @@
 [communication] savia-shield-check — check,savia,shield,spec — script:scripts/savia-shield-check.sh
 [communication] savia-shield-setup — instalador,savia,setup,shield — script:scripts/savia-shield-setup.sh
 [communication] savia-shield-status — capas,determinístico,savia,shield,status — script:scripts/savia-shield-status.sh
+[communication] savia-skills — management,savia,skill,skills,unified — script:scripts/savia-skills.sh
 [communication] savia-sprint —  — cmd:.claude/commands/savia-sprint.md
 [communication] savia-status — doing,right,savia,status,what — script:scripts/savia-status.sh
 [communication] savia-team —  — cmd:.claude/commands/savia-team.md
@@ -521,6 +522,8 @@
 [planning] agents-size-checker — agents,checker,emit,fail,list — script:scripts/agents-size-checker.sh
 [planning] ai-labor-impact — analiza,equipo,impacto,organización,trabajo — skill:.claude/skills/ai-labor-impact/SKILL.md
 [planning] ai-model-card — agentes,card,decisiones,documentando,model — cmd:.claude/commands/ai-model-card.md
+[planning] always-on-install-cron — always,cron,detectors,install,monitoring — script:scripts/always-on-install-cron.sh
+[planning] always-on-runner — always,detector,framework,monitoring,runner — script:scripts/always-on-runner.sh
 [planning] architect —  — agent:.opencode/agents/architect.md
 [planning] architecture-intelligence — arquitectura,diseña,existente,nuevo,proyecto — skill:.claude/skills/architecture-intelligence/SKILL.md
 [planning] ast-comprehend — comprehend,comprehension,estructural,extractor,lenguaje — script:scripts/ast-comprehend.sh
@@ -929,9 +932,12 @@
 [planning] skill-feedback-rank — compute,effectiveness,feedback,generate,rank — script:scripts/skill-feedback-rank.sh
 [planning] skill-keyword-detector — auto,based,detect,detector,keyword — script:scripts/skill-keyword-detector.sh
 [planning] skill-propose — auto,nuevo,observaciones,proponer,repetitivo — cmd:.claude/commands/skill-propose.md
+[planning] skill-quality-eval — eval,evaluation,judge,quality,semantic — script:scripts/skill-quality-eval.sh
+[planning] skill-quality-eval-all — batch,eval,evaluation,quality,skill — script:scripts/skill-quality-eval-all.sh
 [planning] skill-rank — based,data,effectiveness,invocation,ranking — cmd:.claude/commands/skill-rank.md
 [planning] skill-read — bajo,carga,completo,contenido,demanda — cmd:.claude/commands/skill-read.md
 [planning] skill-routing-index — index,routing,skill — script:scripts/skill-routing-index.sh
+[planning] skill-suggest — hook,proactive,skill,suggest,suggestion — script:scripts/skill-suggest.sh
 [planning] skills-collision-detect — collision,description,detect,detection,skill — script:scripts/skills-collision-detect.sh
 [planning] skills-lock — integrity,lock,skills,verification — script:scripts/skills-lock.sh
 [planning] skills-md-generate — across,deterministic,force,handling,locale — script:scripts/skills-md-generate.sh

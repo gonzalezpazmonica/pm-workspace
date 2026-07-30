@@ -1,6 +1,6 @@
 {
-  "hash": "4e329137bc53",
-  "total": 1289,
+  "hash": "410bd22ad300",
+  "total": 1295,
   "resources": [
     {
       "category": "analysis",
@@ -1820,6 +1820,20 @@
       "kind": "script",
       "path": "scripts/savia-shield-status.sh",
       "description": "savia-shield-status.sh — Status determinístico de las 8 capas de Savia Shield"
+    },
+    {
+      "category": "communication",
+      "name": "savia-skills",
+      "intents": [
+        "management",
+        "savia",
+        "skill",
+        "skills",
+        "unified"
+      ],
+      "kind": "script",
+      "path": "scripts/savia-skills.sh",
+      "description": "savia-skills.sh — Unified skill management CLI (SE-277)"
     },
     {
       "category": "communication",
@@ -6895,6 +6909,34 @@
       "kind": "cmd",
       "path": ".claude/commands/ai-model-card.md",
       "description": "Genera model card documentando agentes IA, modelos, tareas y decisiones"
+    },
+    {
+      "category": "planning",
+      "name": "always-on-install-cron",
+      "intents": [
+        "always",
+        "cron",
+        "detectors",
+        "install",
+        "monitoring"
+      ],
+      "kind": "script",
+      "path": "scripts/always-on-install-cron.sh",
+      "description": "always-on-install-cron.sh — Install scheduled monitoring detectors (SE-279 S3)"
+    },
+    {
+      "category": "planning",
+      "name": "always-on-runner",
+      "intents": [
+        "always",
+        "detector",
+        "framework",
+        "monitoring",
+        "runner"
+      ],
+      "kind": "script",
+      "path": "scripts/always-on-runner.sh",
+      "description": "always-on-runner.sh — Scheduled Monitoring Detector Framework (SE-279)"
     },
     {
       "category": "planning",
@@ -12174,6 +12216,34 @@
     },
     {
       "category": "planning",
+      "name": "skill-quality-eval",
+      "intents": [
+        "eval",
+        "evaluation",
+        "judge",
+        "quality",
+        "semantic"
+      ],
+      "kind": "script",
+      "path": "scripts/skill-quality-eval.sh",
+      "description": "skill-quality-eval.sh — Semantic skill quality evaluation via LLM judge (SE-278)"
+    },
+    {
+      "category": "planning",
+      "name": "skill-quality-eval-all",
+      "intents": [
+        "batch",
+        "eval",
+        "evaluation",
+        "quality",
+        "skill"
+      ],
+      "kind": "script",
+      "path": "scripts/skill-quality-eval-all.sh",
+      "description": "skill-quality-eval-all.sh — Batch evaluation of all skills (SE-278 S4)"
+    },
+    {
+      "category": "planning",
       "name": "skill-rank",
       "intents": [
         "based",
@@ -12211,6 +12281,20 @@
       "kind": "script",
       "path": "scripts/skill-routing-index.sh",
       "description": "skill-routing-index.sh — SE-152"
+    },
+    {
+      "category": "planning",
+      "name": "skill-suggest",
+      "intents": [
+        "hook",
+        "proactive",
+        "skill",
+        "suggest",
+        "suggestion"
+      ],
+      "kind": "script",
+      "path": "scripts/skill-suggest.sh",
+      "description": "skill-suggest.sh — Proactive skill suggestion hook (SE-276)"
     },
     {
       "category": "planning",

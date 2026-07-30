@@ -1,5 +1,5 @@
 # communication — Savia Capability Map (L1)
-> 92 resources
+> 93 resources
 
 - **archive-digest** (agent): >
 - **digest-extract** (script): digest-extract.sh — Capa 0 universal de extracción via markitdown (SE-172)
@@ -77,6 +77,7 @@
 - **savia-shield-check** (script): savia-shield-check.sh — SPEC-OC-01
 - **savia-shield-setup** (script): savia-shield-setup.sh — Instalador de Savia Shield
 - **savia-shield-status** (script): savia-shield-status.sh — Status determinístico de las 8 capas de Savia Shield
+- **savia-skills** (script): savia-skills.sh — Unified skill management CLI (SE-277)
 - **savia-sprint** (cmd): >
 - **savia-status** (script): savia-status.sh — What is Savia doing right now?
 - **savia-team** (cmd): >

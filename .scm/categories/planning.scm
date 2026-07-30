@@ -1,5 +1,5 @@
 # planning — Savia Capability Map (L1)
-> 536 resources
+> 541 resources
 
 - **/decide-architecture** (cmd): Clasifica una tarea como WORKFLOW (deterministica) o AGENT (loop). Bias hacia workflow per Anthropic. Sugiere plantilla inicial. Mide accuracy contra corpus curado de 20 tareas.
 - **_template** (skill): TEMPLATE — copia este directorio para crear una skill nueva. NO se carga en runtime.
@@ -18,6 +18,8 @@
 - **agents-size-checker** (script): agents-size-checker.sh — SE-098: List agents by size, emit WARN/FAIL per Rule #22
 - **ai-labor-impact** (skill): Usar cuando se analiza el impacto de la IA en el trabajo del equipo o la organización.
 - **ai-model-card** (cmd): Genera model card documentando agentes IA, modelos, tareas y decisiones
+- **always-on-install-cron** (script): always-on-install-cron.sh — Install scheduled monitoring detectors (SE-279 S3)
+- **always-on-runner** (script): always-on-runner.sh — Scheduled Monitoring Detector Framework (SE-279)
 - **architect** (agent): >
 - **architecture-intelligence** (skill): Usar cuando se diseña o revisa la arquitectura de un proyecto nuevo o existente.
 - **ast-comprehend** (script): ast-comprehend.sh — Extractor estructural multi-lenguaje (ast-comprehension skill)
@@ -426,9 +428,12 @@
 - **skill-feedback-rank** (script): skill-feedback-rank.sh — Compute skill effectiveness and generate ranking
 - **skill-keyword-detector** (script): skill-keyword-detector.sh — SE-203: detect which skills to auto-load based on keyword triggers
 - **skill-propose** (cmd): Proponer nuevo skill desde un workflow repetitivo — auto-genera scaffold si 3+ observaciones
+- **skill-quality-eval** (script): skill-quality-eval.sh — Semantic skill quality evaluation via LLM judge (SE-278)
+- **skill-quality-eval-all** (script): skill-quality-eval-all.sh — Batch evaluation of all skills (SE-278 S4)
 - **skill-rank** (cmd): Show skill effectiveness ranking based on invocation data
 - **skill-read** (cmd): Carga el contenido completo de un skill bajo demanda (progressive disclosure)
 - **skill-routing-index** (script): skill-routing-index.sh — SE-152
+- **skill-suggest** (script): skill-suggest.sh — Proactive skill suggestion hook (SE-276)
 - **skills-collision-detect** (script): skills-collision-detect.sh — SE-270 Slice 1 — Skill description collision detection
 - **skills-lock** (script): skills-lock.sh — SHA-256 integrity verification for skills
 - **skills-md-generate** (script): Force C locale for deterministic sort + awk text handling across machines
