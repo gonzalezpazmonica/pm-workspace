@@ -36,7 +36,7 @@ while [[ $# -gt 0 ]]; do
       echo "Detectors:"
       for f in "$DETECTORS_DIR"/*.sh; do
         [[ -f "$f" ]] || continue
-        local name; name=$(basename "$f" .sh)
+        name=$(basename "$f" .sh)
         echo "  $name"
       done
       exit 0
