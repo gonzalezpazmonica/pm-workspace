@@ -192,3 +192,13 @@ run_hook() {
   run run_hook "git log --oneline -5"
   [[ "$status" -eq 0 ]]
 }
+
+@test "SE266-T11: allows git clean dry-run (-fdn)" {
+  run bash -c "json_cmd 'git clean -fdn' | bash '$HOOK'"
+  [[ "$status" -eq 0 ]]
+}
+
+@test "SE266-T12: allows git clean with -n flag" {
+  run bash -c "json_cmd 'git clean -n' | bash '$HOOK'"
+  [[ "$status" -eq 0 ]]
+}
