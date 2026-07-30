@@ -1,6 +1,6 @@
 # Savia Capability Map — INDEX
-> hash: 06770a259931 | resources: 1295
-> 290 commands · 120 skills · 81 agents · 804 scripts
+> hash: 0a1855c11999 | resources: 1297
+> 290 commands · 121 skills · 82 agents · 804 scripts
 
 [analysis] Trace Optimize — across,distributed,optimize,rates,sampling — cmd:.claude/commands/trace-optimize.md
 [analysis] agent-activity — activity,agent,executions,recent,show — cmd:.claude/commands/agent-activity.md
@@ -154,6 +154,7 @@
 [communication] savia-travel-init — init,mode,savia,script,template — script:scripts/savia-travel-init.sh
 [communication] savia-travel-ops — init,operations,pack,savia,travel — script:scripts/savia-travel-ops.sh
 [communication] savia-travel-pack —  — cmd:.claude/commands/savia-travel-pack.md
+[communication] savia-vaults — backup,backups,busca,busqueda,confidencialidad — skill:.claude/skills/savia-vaults/SKILL.md
 [communication] savia-voice-chunk — chunk,savia,slice,voice — script:scripts/savia-voice-chunk.sh
 [communication] savia-voice-speak — savia,slice,speak,voice — script:scripts/savia-voice-speak.sh
 [communication] savia-watch — activity,feed,live,savia,watch — script:scripts/savia-watch.sh
@@ -422,6 +423,7 @@
 [memory] context-distortion-measure — context,distortion,measure — script:scripts/context-distortion-measure.sh
 [memory] context-dome —  — skill:.claude/skills/context-dome/SKILL.md
 [memory] context-dome-generate — bajo,context,dome,generate,modulo — script:scripts/context-dome-generate.sh
+[memory] context-dome-manager — arquitecto,audita,clasificacion,confidencialidad,conocimiento — agent:.opencode/agents/context-dome-manager.md
 [memory] context-drop-after-use — context,decision,drop,engine,slice — script:scripts/context-drop-after-use.sh
 [memory] context-drop-metrics — context,drop,metrics,slice — script:scripts/context-drop-metrics.sh
 [memory] context-engineering-report — context,engineering,generator,report,slice — script:scripts/context-engineering-report.sh

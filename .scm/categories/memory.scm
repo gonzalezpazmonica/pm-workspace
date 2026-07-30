@@ -1,5 +1,5 @@
 # memory — Savia Capability Map (L1)
-> 101 resources
+> 102 resources
 
 - **auto-compact** (script): auto-compact.sh — Disparado automáticamente cuando contexto > 85%
 - **cache-analytics** (cmd): Métricas de hit rate, tokens ahorrados, latencia, ahorro de costes
@@ -19,6 +19,7 @@
 - **context-distortion-measure** (script): context-distortion-measure.sh — SE-029-M
 - **context-dome** (skill): >
 - **context-dome-generate** (script): context-dome-generate.sh -- Genera CONTEXT_DOME.md por modulo con BF bajo.
+- **context-dome-manager** (agent): Arquitecto de conocimiento — disena, audita y evoluciona cupulas de contexto (SaviaVaults). Decide estructura, federacion, confidencialidad, publicacion. Orquesta digestion y clasificacion de conocimiento. Usar PROACTIVELY cuando: se crea u
 - **context-drop-after-use** (script): context-drop-after-use.sh — SE-221 Slice 2 — Drop-After-Use decision engine
 - **context-drop-metrics** (script): context-drop-metrics.sh — SE-221 Slice 2 — Drop-After-Use metrics
 - **context-engineering-report** (script): context-engineering-report.sh — SE-221 Slice 4 — Weekly report generator

@@ -1,6 +1,6 @@
 {
-  "hash": "410bd22ad300",
-  "total": 1295,
+  "hash": "89526236f66d",
+  "total": 1297,
   "resources": [
     {
       "category": "analysis",
@@ -1930,6 +1930,20 @@
       "kind": "cmd",
       "path": ".claude/commands/savia-travel-pack.md",
       "description": ">"
+    },
+    {
+      "category": "communication",
+      "name": "savia-vaults",
+      "intents": [
+        "backup",
+        "backups",
+        "busca",
+        "busqueda",
+        "confidencialidad"
+      ],
+      "kind": "skill",
+      "path": ".claude/skills/savia-vaults/SKILL.md",
+      "description": "Usar cuando se interactua con SaviaVaults — cupulas de contexto, busqueda federada, servidores MCP/A2A, backups, confidencialidad. Triggers: 'crea una cupula', 'indexa documentacion', 'busca en los vaults', 'federate este dome', 'backup del"
     },
     {
       "category": "communication",
@@ -5557,6 +5571,20 @@
       "kind": "script",
       "path": "scripts/context-dome-generate.sh",
       "description": "context-dome-generate.sh -- Genera CONTEXT_DOME.md por modulo con BF bajo."
+    },
+    {
+      "category": "memory",
+      "name": "context-dome-manager",
+      "intents": [
+        "arquitecto",
+        "audita",
+        "clasificacion",
+        "confidencialidad",
+        "conocimiento"
+      ],
+      "kind": "agent",
+      "path": ".opencode/agents/context-dome-manager.md",
+      "description": "Arquitecto de conocimiento — disena, audita y evoluciona cupulas de contexto (SaviaVaults). Decide estructura, federacion, confidencialidad, publicacion. Orquesta digestion y clasificacion de conocimiento. Usar PROACTIVELY cuando: se crea u"
     },
     {
       "category": "memory",
