@@ -123,3 +123,10 @@ Opcional: cron semanal `scripts/agent-health-weekly-cron.sh` que emite alerta si
 ## Dependencia
 
 Independiente. Priorizable alto si se observan síntomas similares en pm-workspace.
+
+## OpenCode Implementation Plan
+
+- **Classification**: retrospective (implemented pre-SE-280 pattern)
+- **OpenCode slices**: N/A (bash-only detector, no OpenCode-specific code)
+- **Frontend parity**: identical behavior across all frontends (bash script)
+- **Verification**: `bash scripts/agent-degradation-canary.sh`
