@@ -1,0 +1,37 @@
+# egress.yaml — Egress allowlist (SE-273 S3)
+# deny-by-default. Operator edits this file to add domains.
+# Savia proposes additions via: bash scripts/egress-gate.sh propose <domain> <reason>
+domains:
+  - domain: github.com
+    protocols: [https]
+    purpose: "Code hosting, PRs"
+    added_by: operator
+  - domain: api.github.com
+    protocols: [https]
+    purpose: "GitHub API"
+    added_by: operator
+  - domain: raw.githubusercontent.com
+    protocols: [https]
+    purpose: "Raw content"
+    added_by: operator
+  - domain: registry.npmjs.org
+    protocols: [https]
+    purpose: "npm registry"
+    added_by: operator
+  - domain: pypi.org
+    protocols: [https]
+    purpose: "PyPI"
+    added_by: operator
+  - domain: dev.azure.com
+    protocols: [https]
+    purpose: "Azure DevOps"
+    added_by: operator
+  - domain: localhost
+    protocols: [http, https]
+    purpose: "Local dev"
+    added_by: operator
+  - domain: 127.0.0.1
+    protocols: [http, https]
+    purpose: "Loopback"
+    added_by: operator
+isolated_by_default: false
