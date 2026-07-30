@@ -164,7 +164,7 @@ case "$MODE" in
     fi
     ;;
   check)
-    local exit_code=0
+    exit_code=0
     if [[ ! -f "$TARGET" ]]; then
       echo "drift: $TARGET missing — run --apply" >&2
       exit_code=1
