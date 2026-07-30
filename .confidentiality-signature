@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=631cdb1edbc8c5270be3647aa88f5a69348d62525e4d1531f9fcc84a64cbaa79
-timestamp=2026-07-30T14:49:32Z
-branch=agent/se273-egress-allowlist
-head_commit=130277db
-signature=df9a806e39928891ff82b0a32b98d7c7e584434a27a0293e57ff58ab0fdcd527
+diff_hash=7bfc1acc1c84fe9dd887d3328f7402d8116c0809884754963eb6432ee1d5e0b2
+timestamp=2026-07-30T16:37:35Z
+branch=agent/era200-savia-intelligence-20260730
+head_commit=98c17386
+signature=60053adac5c6a86833c16df979edfc693cb832506f3ac2c6d71e30573f73afd9
