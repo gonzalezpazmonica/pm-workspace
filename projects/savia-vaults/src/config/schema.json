@@ -40,6 +40,33 @@
         "persistIndex": { "type": "boolean", "default": true },
         "indexFile": { "type": "string", "default": ".savia-vault/search-index.json" }
       }
+    },
+    "federation": {
+      "type": "object",
+      "properties": {
+        "enabled": { "type": "boolean", "default": false },
+        "localTimeout": { "type": "integer", "default": 2000 },
+        "maxTotalResults": { "type": "integer", "default": 50 },
+        "dedupByContent": { "type": "boolean", "default": true },
+        "cacheTtlMs": { "type": "integer", "default": 300000 },
+        "domes": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": { "type": "string" },
+              "name": { "type": "string" },
+              "url": { "type": "string", "format": "uri" },
+              "authToken": { "type": "string" },
+              "timeout": { "type": "integer", "default": 5000 },
+              "enabled": { "type": "boolean", "default": true },
+              "weight": { "type": "number", "default": 1.0, "minimum": 0.1, "maximum": 2.0 },
+              "tags": { "type": "array", "items": { "type": "string" } }
+            },
+            "required": ["id", "name", "url"]
+          }
+        }
+      }
     }
   },
   "required": ["version"]
