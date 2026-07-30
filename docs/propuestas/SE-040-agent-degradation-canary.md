@@ -129,4 +129,6 @@ Independiente. Priorizable alto si se observan síntomas similares en pm-workspa
 - **Classification**: retrospective (implemented pre-SE-280 pattern)
 - **OpenCode slices**: N/A (bash-only detector, no OpenCode-specific code)
 - **Frontend parity**: identical behavior across all frontends (bash script)
-- **Verification**: `bash scripts/agent-degradation-canary.sh`
+- **Bindings touched**: agent-trace skill, session-actions.jsonl, SPEC-108 agent self-improvement
+- **Verification protocol**: `bash scripts/agent-degradation-canary.sh` — baseline → metric comparison → threshold alert
+- **Portability classification**: FULL (pure bash, zero dependencies, any OS with bash 4+)
