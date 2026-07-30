@@ -3,6 +3,7 @@
 # Full lifecycle management for context domes.
 # Copyright (c) 2026 Savia. MIT License.
 set -uo pipefail
+shopt -s lastpipe 2>/dev/null || true
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 PROJECT_DIR="$(dirname "$SCRIPT_DIR")"
