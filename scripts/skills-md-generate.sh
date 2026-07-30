@@ -16,23 +16,27 @@ ROOT="${PROJECT_ROOT:-$(git rev-parse --show-toplevel 2>/dev/null || pwd)}"
 SKILLS_DIR="${SKILLS_DIR:-${ROOT}/.opencode/skills}"
 TARGET="${SKILLS_MD:-${ROOT}/SKILLS.md}"
 MODE="generate"
+MANIFEST=false
+MANIFEST_FILE="${SKILLS_MANIFEST:-${ROOT}/skills-manifest.json}"
 
 usage() {
   cat <<USG
-Usage: skills-md-generate.sh [--apply | --check]
+Usage: skills-md-generate.sh [--apply | --check] [--manifest]
 
 Modes:
   (default)  Print SKILLS.md content to stdout (dry run)
   --apply    Write SKILLS.md atomically
   --check    Exit 1 if generated content differs from on-disk SKILLS.md
+  --manifest Also generate skills-manifest.json (JSON format, machine-readable)
 USG
 }
 
 while [[ $# -gt 0 ]]; do
   case "$1" in
-    --apply)  MODE="apply"; shift ;;
-    --check)  MODE="check"; shift ;;
-    --help|-h) usage; exit 0 ;;
+    --apply)    MODE="apply"; shift ;;
+    --check)    MODE="check"; shift ;;
+    --manifest) MANIFEST=true; shift ;;
+    --help|-h)  usage; exit 0 ;;
     *) echo "Unknown arg: $1" >&2; usage >&2; exit 2 ;;
   esac
 done
@@ -109,6 +113,39 @@ HEADER
   done < <(find -L "${SKILLS_DIR}" -mindepth 2 -maxdepth 4 -name "SKILL.md" -type f ! -path '*/_template/*' | LC_ALL=C sort)
 }
 
+# --- Manifest JSON generation (SE-277) ---
+build_manifest() {
+  local first=true
+  printf '{\n'
+  printf '  "version": "1.0",\n'
+  printf '  "generated_at": "%s",\n' "$(date -u +%Y-%m-%dT%H:%M:%SZ)"
+  printf '  "source": ".opencode/skills/*/SKILL.md",\n'
+  printf '  "skills": {\n'
+
+  find -L "${SKILLS_DIR}" -mindepth 2 -maxdepth 4 -name "SKILL.md" -type f ! -path '*/_template/*' | LC_ALL=C sort | while IFS= read -r f; do
+    local name desc maturity
+    name=$(extract_field "$f" "name")
+    [[ -z "$name" ]] && name=$(basename "$(dirname "$f")")
+    desc=$(extract_field "$f" "description")
+    [[ -z "$desc" ]] && desc="—"
+    desc=$(sanitise "$desc")
+    maturity=$(extract_field "$f" "maturity")
+    [[ -z "$maturity" ]] && maturity="unknown"
+    local rel="${f#${ROOT}/}"
+
+    $first && first=false || printf ',\n'
+    # Escape JSON strings
+    desc=$(printf '%s' "$desc" | python3 -c "import sys,json; print(json.dumps(sys.stdin.read().strip()))" 2>/dev/null || echo "\"$desc\"")
+    printf '    "%s": {\n' "$name"
+    printf '      "path": "%s",\n' "$rel"
+    printf '      "description": %s,\n' "$desc"
+    printf '      "maturity": "%s"\n' "$maturity"
+    printf '    }'
+  done
+
+  printf '\n  }\n}\n'
+}
+
 GENERATED=$(build)
 
 case "$MODE" in
@@ -118,17 +155,38 @@ case "$MODE" in
     printf '%s\n' "$GENERATED" > "$tmp"
     mv "$tmp" "$TARGET"
     echo "wrote ${TARGET} ($(wc -l < "$TARGET") lines)"
+
+    if $MANIFEST; then
+      mtmp=$(mktemp)
+      build_manifest > "$mtmp"
+      mv "$mtmp" "$MANIFEST_FILE"
+      echo "wrote ${MANIFEST_FILE} ($(wc -l < "$MANIFEST_FILE") lines)"
+    fi
     ;;
   check)
+    local exit_code=0
     if [[ ! -f "$TARGET" ]]; then
       echo "drift: $TARGET missing — run --apply" >&2
-      exit 1
-    fi
-    if diff -u "$TARGET" <(printf '%s\n' "$GENERATED") >/dev/null; then
-      echo "in sync"
+      exit_code=1
+    elif ! diff -u "$TARGET" <(printf '%s\n' "$GENERATED") >/dev/null; then
+      echo "drift detected in SKILLS.md — run --apply" >&2
+      exit_code=1
     else
-      echo "drift detected — run --apply" >&2
-      exit 1
+      echo "SKILLS.md: in sync"
     fi
+
+    if $MANIFEST; then
+      if [[ ! -f "$MANIFEST_FILE" ]]; then
+        echo "drift: $MANIFEST_FILE missing — run --apply --manifest" >&2
+        exit_code=1
+      elif ! diff -u "$MANIFEST_FILE" <(build_manifest) >/dev/null; then
+        echo "drift detected in skills-manifest.json — run --apply --manifest" >&2
+        exit_code=1
+      else
+        echo "skills-manifest.json: in sync"
+      fi
+    fi
+
+    exit $exit_code
     ;;
 esac

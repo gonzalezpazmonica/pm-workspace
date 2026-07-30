@@ -105,6 +105,23 @@ $CLARIFY
   fi
 fi
 
+# Job 4: SE-276 Proactive Skill Suggest (timeout 500ms, non-blocking)
+if [[ -z "${SKILL_SUGGEST_DISABLED:-}" ]]; then
+  SUGGEST_SCRIPT="$REPO_ROOT/scripts/skill-suggest.sh"
+  if [[ -f "$SUGGEST_SCRIPT" ]]; then
+    # Get currently loaded skills from env or context
+    LOADED_SKILLS="${SAVIA_LOADED_SKILLS:-}"
+    SUGGESTION=$(timeout 0.5 bash "$SUGGEST_SCRIPT" \
+      --prompt "$INPUT_TEXT" \
+      --loaded-skills "${LOADED_SKILLS:-}" \
+      2>/dev/null || true)
+    if [[ -n "$SUGGESTION" ]]; then
+      OUTPUT="${OUTPUT:+$OUTPUT
+}[SE-276 Skill Suggest: $SUGGESTION — say 'yes' to load]"
+    fi
+  fi
+fi
+
 # Output context injection (if any)
 if [[ -n "$OUTPUT" ]]; then
   echo "$OUTPUT"

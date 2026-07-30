@@ -1,0 +1,192 @@
+# Skill Quality Rubric — SE-278
+#
+# 8-dimension rubric for LLM-based semantic evaluation of SKILL.md content.
+# Used by scripts/skill-quality-eval.sh to score skills 0-10 per dimension.
+# Score is weighted: Σ(dimension_score × weight) / Σ(weights) → 0-10.
+#
+# Gates:
+#   ≥ 8.5  PASS   — skill is high quality
+#   7.0-8.4 WARN  — usable but needs improvement
+#   < 7.0  BLOCK  — do not install/promote without fixes
+#
+# Reference: SE-084 (structural audit), SE-167 (maturity kanban)
+# Complementary: SE-166 (uplift measurement, future)
+
+version: "1.0"
+description: "Semantic quality evaluation rubric for Savia skills"
+total_weight: 11.0
+
+dimensions:
+
+  clarity:
+    weight: 1.5
+    description: "Describe claramente cuando y como usar la skill. Triggers inequivocos."
+    score_guide:
+      - range: [0, 3]
+        label: "INSUFICIENTE"
+        description: "No queda claro cuando usar esta skill. Sin triggers explicitos."
+      - range: [4, 6]
+        label: "BASICO"
+        description: "Triggers presentes pero ambiguos o demasiado genericos."
+      - range: [7, 8]
+        label: "BUENO"
+        description: "Triggers claros y especificos. Falta seccion de exclusiones."
+      - range: [9, 10]
+        label: "EXCELENTE"
+        description: "Triggers + exclusiones explicitas + ejemplos de cuando NO usar."
+
+  completeness:
+    weight: 1.5
+    description: "Cubre escenarios principales, edge cases y anti-patrones."
+    score_guide:
+      - range: [0, 3]
+        label: "INSUFICIENTE"
+        description: "Solo cubre el happy path. Sin edge cases ni anti-patrones."
+      - range: [4, 6]
+        label: "BASICO"
+        description: "Happy path + 1 edge case mencionado. Sin anti-patrones."
+      - range: [7, 8]
+        label: "BUENO"
+        description: "Multiples escenarios cubiertos. Anti-patrones listados pero sin solucion."
+      - range: [9, 10]
+        label: "EXCELENTE"
+        description: "Happy path + edge cases + anti-patrones con soluciones + referencias cruzadas."
+
+  actionability:
+    weight: 2.0
+    description: "Instrucciones ejecutables paso a paso. Un agente puede seguirlas sin preguntar."
+    score_guide:
+      - range: [0, 3]
+        label: "INSUFICIENTE"
+        description: "Prosa generica, no ejecutable. Sin comandos ni pasos concretos."
+      - range: [4, 6]
+        label: "BASICO"
+        description: "Instrucciones vagas que requieren interpretacion significativa."
+      - range: [7, 8]
+        label: "BUENO"
+        description: "Instrucciones claras con comandos. Faltan algunos pasos o outputs esperados."
+      - range: [9, 10]
+        label: "EXCELENTE"
+        description: "Paso a paso completo con comandos exactos, flags, paths canonicos y outputs esperados."
+
+  correctness:
+    weight: 2.0
+    description: "Comandos, paths, flags y referencias son correctos y existen en el workspace."
+    score_guide:
+      - range: [0, 3]
+        label: "INSUFICIENTE"
+        description: "Multiples comandos o paths incorrectos que causarian errores en ejecucion."
+      - range: [4, 6]
+        label: "BASICO"
+        description: "1-2 referencias rotas o comandos con flags incorrectos."
+      - range: [7, 8]
+        label: "BUENO"
+        description: "Comandos y paths correctos, pero sin verificacion explicita de existencia."
+      - range: [9, 10]
+        label: "EXCELENTE"
+        description: "Todo verificado. Paths canonicos. Comandos testeados. Sin referencias rotas."
+
+  conciseness:
+    weight: 1.0
+    description: "Sin relleno. Cada token se gana su lugar (caveman-default, Rule #24)."
+    score_guide:
+      - range: [0, 3]
+        label: "INSUFICIENTE"
+        description: ">50% del texto es relleno, prosa decorativa, o meta-comentario."
+      - range: [4, 6]
+        label: "BASICO"
+        description: "20-50% del texto es relleno evitable."
+      - range: [7, 8]
+        label: "BUENO"
+        description: "<20% relleno. Mayormente directo pero con alguna redundancia."
+      - range: [9, 10]
+        label: "EXCELENTE"
+        description: "Zero filler. Densidad informativa maxima. Cada linea aporta valor."
+
+  safety:
+    weight: 1.5
+    description: "Respeta autonomous-safety.md y reglas inmutables (Rules 1-8)."
+    score_guide:
+      - range: [0, 3]
+        label: "INSUFICIENTE"
+        description: "Viola una regla inmutable (ej: hardcodea PAT, sugiere merge autonomo)."
+      - range: [4, 6]
+        label: "BASICO"
+        description: "Zona gris — requiere aclaracion o interpretacion para cumplir reglas."
+      - range: [7, 8]
+        label: "BUENO"
+        description: "Cumple reglas pero no las referencia explicitamente."
+      - range: [9, 10]
+        label: "EXCELENTE"
+        description: "Cumple todas las reglas + referencia las aplicables + incluye condiciones de seguridad."
+
+  freshness:
+    weight: 0.5
+    description: "Referencias a herramientas, versiones y APIs no obsoletas."
+    score_guide:
+      - range: [0, 3]
+        label: "INSUFICIENTE"
+        description: "Referencias a APIs deprecadas o versiones EOL."
+      - range: [4, 6]
+        label: "BASICO"
+        description: "Versiones desactualizadas pero aun funcionales."
+      - range: [7, 8]
+        label: "BUENO"
+        description: "Versiones actuales pero sin fecha de revision ni aviso de caducidad."
+      - range: [9, 10]
+        label: "EXCELENTE"
+        description: "Versiones actuales + fecha de revision + politica de actualizacion."
+
+  testability:
+    weight: 1.0
+    description: "La skill tiene criterios de verificacion claros y automatizables."
+    score_guide:
+      - range: [0, 3]
+        label: "INSUFICIENTE"
+        description: "Sin criterios de verificacion. No se puede determinar si la skill funciona."
+      - range: [4, 6]
+        label: "BASICO"
+        description: "Criterios vagos, no automatizables. Verificacion solo manual."
+      - range: [7, 8]
+        label: "BUENO"
+        description: "Criterios automatizables. Tests parciales (cubren happy path)."
+      - range: [9, 10]
+        label: "EXCELENTE"
+        description: "Tests BATS completos + casos de borde + CI gate. Cobertura >80% de la skill."
+
+# Judge prompt template — used by skill-quality-eval.sh
+judge_prompt_template: |
+  Eres un juez de calidad de skills para Savia (pm-workspace).
+  Evalua la siguiente SKILL.md contra la rubrica de 8 dimensiones.
+
+  RUBRICA:
+  {rubric_yaml}
+
+  SKILL A EVALUAR:
+  {skill_content}
+
+  Emite UNICAMENTE un objeto JSON con este formato exacto:
+  {
+    "skill_id": "{skill_id}",
+    "evaluation": {
+      "clarity": {"score": N, "evidence": "...", "suggestion": "..."},
+      "completeness": {"score": N, "evidence": "...", "suggestion": "..."},
+      "actionability": {"score": N, "evidence": "...", "suggestion": "..."},
+      "correctness": {"score": N, "evidence": "...", "suggestion": "..."},
+      "conciseness": {"score": N, "evidence": "...", "suggestion": "..."},
+      "safety": {"score": N, "evidence": "...", "suggestion": "..."},
+      "freshness": {"score": N, "evidence": "...", "suggestion": "..."},
+      "testability": {"score": N, "evidence": "...", "suggestion": "..."}
+    },
+    "total_score": N.N,
+    "gate": "PASS|WARN|BLOCK",
+    "summary": "Resumen en 1-2 frases"
+  }
+
+  Reglas:
+  - Cada score es 0-10 (entero o .5)
+  - total_score = Σ(score × weight) / 11.0, redondeado a 1 decimal
+  - gate: >=8.5 → PASS, 7.0-8.4 → WARN, <7.0 → BLOCK
+  - evidence: 1 frase citando partes concretas de la skill
+  - suggestion: 1 frase con mejora accionable (o "N/A" si score >= 9)
+  - NO emitas markdown, solo JSON

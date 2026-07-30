@@ -1,0 +1,687 @@
+{
+  "version": "1.0",
+  "generated_at": "2026-07-30T16:28:34Z",
+  "source": ".opencode/skills/*/SKILL.md",
+  "skills": {
+    "adversarial-security": {
+      "path": ".opencode/skills/adversarial-security/SKILL.md",
+      "description": "Usar cuando se necesita auditar la seguridad de un proyecto con pipeline Red Team / Blue Team.",
+      "maturity": "stable"
+    },
+    "agent-code-map": {
+      "path": ".opencode/skills/agent-code-map/SKILL.md",
+      "description": "Usar cuando un agente necesita conocer la arquitectura del proyecto sin leer ficheros completos.",
+      "maturity": "experimental"
+    },
+    "agent-file-map": {
+      "path": ".opencode/skills/agent-file-map/SKILL.md",
+      "description": "Usar cuando se trabaja con ficheros externos al workspace que los agentes deben localizar.",
+      "maturity": "experimental"
+    },
+    "ai-labor-impact": {
+      "path": ".opencode/skills/ai-labor-impact/SKILL.md",
+      "description": "Usar cuando se analiza el impacto de la IA en el trabajo del equipo o la organizaci\u00f3n.",
+      "maturity": "stable"
+    },
+    "android-autonomous-debugger": {
+      "path": ".opencode/skills/android-autonomous-debugger/SKILL.md",
+      "description": "Usar cuando se depuran o testean apps Android contra dispositivos f\u00edsicos via USB/ADB.",
+      "maturity": "stable"
+    },
+    "architecture-intelligence": {
+      "path": ".opencode/skills/architecture-intelligence/SKILL.md",
+      "description": "Usar cuando se dise\u00f1a o revisa la arquitectura de un proyecto nuevo o existente.",
+      "maturity": "stable"
+    },
+    "ast-comprehension": {
+      "path": ".opencode/skills/ast-comprehension/SKILL.md",
+      "description": "Usar cuando se explora c\u00f3digo desconocido y se necesita comprensi\u00f3n estructural sin leer ficher...",
+      "maturity": "stable"
+    },
+    "ast-quality-gate": {
+      "path": ".opencode/skills/ast-quality-gate/SKILL.md",
+      "description": "Usar cuando se verifica la calidad de c\u00f3digo generado por IA antes de merge.",
+      "maturity": "experimental"
+    },
+    "attack-surface-mapper": {
+      "path": ".opencode/skills/attack-surface-mapper/SKILL.md",
+      "description": "Mapear la superficie de ataque de un dominio: subdominios, OSINT, typosquatting.",
+      "maturity": "stable"
+    },
+    "azure-devops-queries": {
+      "path": ".opencode/skills/azure-devops-queries/SKILL.md",
+      "description": "Usar cuando se necesitan consultas WIQL, actualizaci\u00f3n de work items o datos de sprint en Azure ...",
+      "maturity": "stable"
+    },
+    "azure-pipelines": {
+      "path": ".opencode/skills/azure-pipelines/SKILL.md",
+      "description": "Usar cuando se gestiona o depura CI/CD con Azure Pipelines.",
+      "maturity": "stable"
+    },
+    "backlog-git-tracker": {
+      "path": ".opencode/skills/backlog-git-tracker/SKILL.md",
+      "description": "Usar cuando se capturan o comparan snapshots del backlog para detectar drift.",
+      "maturity": "stable"
+    },
+    "banking-architecture": {
+      "path": ".opencode/skills/banking-architecture/SKILL.md",
+      "description": "Usar cuando se dise\u00f1a o revisa arquitectura para proyectos del sector bancario.",
+      "maturity": "beta"
+    },
+    "bus-factor-analysis": {
+      "path": ".opencode/skills/bus-factor-analysis/SKILL.md",
+      "description": "Detecta el Bus Factor por modulo en un repositorio git usando el algoritmo CST(change-size-ratio)...",
+      "maturity": "calibrated"
+    },
+    "capacity-planning": {
+      "path": ".opencode/skills/capacity-planning/SKILL.md",
+      "description": "Usar cuando se calcula la capacidad del equipo para un sprint o periodo.",
+      "maturity": "stable"
+    },
+    "caveman": {
+      "path": ".opencode/skills/caveman/SKILL.md",
+      "description": "Strips all sugar-coating and marketing. Gives the brutally honest truth in the fewest possible wo...",
+      "maturity": "unknown"
+    },
+    "client-profile-manager": {
+      "path": ".opencode/skills/client-profile-manager/SKILL.md",
+      "description": "Usar cuando se crean, actualizan o consultan perfiles de cliente en SaviaHub.",
+      "maturity": "stable"
+    },
+    "code-comprehension-report": {
+      "path": ".opencode/skills/code-comprehension-report/SKILL.md",
+      "description": "Usar cuando se ha completado una implementaci\u00f3n SDD y se necesita documentar el modelo mental.",
+      "maturity": "stable"
+    },
+    "code-improvement-loop": {
+      "path": ".opencode/skills/code-improvement-loop/SKILL.md",
+      "description": "Usar cuando se quiere ejecutar mejora aut\u00f3noma de c\u00f3digo en segundo plano con PRs para revisi\u00f3n.",
+      "maturity": "experimental"
+    },
+    "codebase-map": {
+      "path": ".opencode/skills/codebase-map/SKILL.md",
+      "description": "Usar cuando se necesita un mapa de dependencias del workspace (comandos\u2192agentes\u2192reglas\u2192skil...",
+      "maturity": "beta"
+    },
+    "codegraph": {
+      "path": ".opencode/skills/codegraph/SKILL.md",
+      "description": "Usar cuando se necesita indexaci\u00f3n AST persistente para navegaci\u00f3n de callers/callees en el c\u00f3...",
+      "maturity": "experimental"
+    },
+    "company-messaging": {
+      "path": ".opencode/skills/company-messaging/SKILL.md",
+      "description": "Usar cuando se env\u00edan mensajes internos cifrados entre miembros de la organizaci\u00f3n v\u00eda Company...",
+      "maturity": "stable"
+    },
+    "consensus-validation": {
+      "path": ".opencode/skills/consensus-validation/SKILL.md",
+      "description": "Usar cuando una decisi\u00f3n t\u00e9cnica o recomendaci\u00f3n necesita validaci\u00f3n por panel de jueces.",
+      "maturity": "stable"
+    },
+    "content-fingerprint": {
+      "path": ".opencode/skills/content-fingerprint/SKILL.md",
+      "description": "Usar cuando se necesita un identificador corto, deterministico y reproducible derivado del conten...",
+      "maturity": "unknown"
+    },
+    "context-caching": {
+      "path": ".opencode/skills/context-caching/SKILL.md",
+      "description": "Usar cuando se optimiza el orden de carga de contexto para maximizar cache hits.",
+      "maturity": "stable"
+    },
+    "context-dome": {
+      "path": ".opencode/skills/context-dome/SKILL.md",
+      "description": "Genera CONTEXT_DOME.md para modulos con Bus Factor bajo. Captura conocimiento tacito: proposito, ...",
+      "maturity": "calibrated"
+    },
+    "context-interview-conductor": {
+      "path": ".opencode/skills/context-interview-conductor/SKILL.md",
+      "description": "Usar cuando se necesita recopilar contexto estructurado de un usuario mediante entrevista guiada.",
+      "maturity": "stable"
+    },
+    "context-optimized-dev": {
+      "path": ".opencode/skills/context-optimized-dev/SKILL.md",
+      "description": "Usar cuando se desarrolla con presupuesto de contexto limitado.",
+      "maturity": "beta"
+    },
+    "context-rot-strategy": {
+      "path": ".opencode/skills/context-rot-strategy/SKILL.md",
+      "description": "Usar cuando una sesi\u00f3n larga se aproxima al l\u00edmite de contexto y hay que decidir qu\u00e9 compactar.",
+      "maturity": "beta"
+    },
+    "context-task-classifier": {
+      "path": ".opencode/skills/context-task-classifier/SKILL.md",
+      "description": "Usar antes de compactar contexto para clasificar la tarea del turno actual.",
+      "maturity": "unknown"
+    },
+    "cost-management": {
+      "path": ".opencode/skills/cost-management/SKILL.md",
+      "description": "Usar cuando se gestionan timesheets, presupuestos, facturas o forecasting de costes.",
+      "maturity": "stable"
+    },
+    "dag-scheduling": {
+      "path": ".opencode/skills/dag-scheduling/SKILL.md",
+      "description": "Usar cuando se orquestan m\u00faltiples agentes SDD con dependencias entre ellos.",
+      "maturity": "stable"
+    },
+    "dependency-scanner": {
+      "path": ".opencode/skills/dependency-scanner/SKILL.md",
+      "description": "Usar cuando se escanean vulnerabilidades en dependencias de proyectos (Node, Python, C#, Java, Go...",
+      "maturity": "stable"
+    },
+    "design-an-interface": {
+      "path": ".opencode/skills/design-an-interface/SKILL.md",
+      "description": "Design-an-interface skill with N=3 parallel alternatives and architectural vocabulary. Use when d...",
+      "maturity": "stable"
+    },
+    "developer-experience": {
+      "path": ".opencode/skills/developer-experience/SKILL.md",
+      "description": "Usar cuando se mide o mejora la experiencia de desarrollo del equipo.",
+      "maturity": "stable"
+    },
+    "devops-validation": {
+      "path": ".opencode/skills/devops-validation/SKILL.md",
+      "description": "Usar cuando se conecta un proyecto nuevo a Azure DevOps para validar su configuraci\u00f3n Agile.",
+      "maturity": "stable"
+    },
+    "diagram-generation": {
+      "path": ".opencode/skills/diagram-generation/SKILL.md",
+      "description": "Usar cuando se necesita generar diagramas de arquitectura o flujo desde c\u00f3digo o infraestructura.",
+      "maturity": "stable"
+    },
+    "diagram-import": {
+      "path": ".opencode/skills/diagram-import/SKILL.md",
+      "description": "Usar cuando se importa un diagrama existente para extraer entidades y crear PBIs.",
+      "maturity": "stable"
+    },
+    "doc-quality-feedback": {
+      "path": ".opencode/skills/doc-quality-feedback/SKILL.md",
+      "description": "Usar cuando se recopila feedback de calidad de documentaci\u00f3n tras usar skills y reglas.",
+      "maturity": "experimental"
+    },
+    "dynamic-web-tester": {
+      "path": ".opencode/skills/dynamic-web-tester/SKILL.md",
+      "description": "Testing din\u00e1mico de endpoints web: XSS (DalFox), SQLi (sqlmap), Nuclei.",
+      "maturity": "stable"
+    },
+    "ecosystem-watcher": {
+      "path": ".opencode/skills/ecosystem-watcher/SKILL.md",
+      "description": "Usar una vez al mes para detectar cambios relevantes en el ecosistema de herramientas externas.",
+      "maturity": "beta"
+    },
+    "emergency-mode": {
+      "path": ".opencode/skills/emergency-mode/SKILL.md",
+      "description": "Usar cuando la API de Anthropic est\u00e1 ca\u00edda y se necesita continuar operando con LocalAI.",
+      "maturity": "experimental"
+    },
+    "enterprise-analytics": {
+      "path": ".opencode/skills/enterprise-analytics/SKILL.md",
+      "description": "Usar cuando se necesitan m\u00e9tricas SPACE, aggregaci\u00f3n de portfolio o forecasting empresarial.",
+      "maturity": "beta"
+    },
+    "enterprise-onboarding": {
+      "path": ".opencode/skills/enterprise-onboarding/SKILL.md",
+      "description": "Usar cuando se incorporan m\u00faltiples personas a la organizaci\u00f3n de forma masiva.",
+      "maturity": "stable"
+    },
+    "epistemic-humility": {
+      "path": ".opencode/skills/epistemic-humility/SKILL.md",
+      "description": "Usar cuando se detecta riesgo de adulaci\u00f3n, cesi\u00f3n sin evidencia, o claim repetido por el usuar...",
+      "maturity": "experimental"
+    },
+    "evaluations-framework": {
+      "path": ".opencode/skills/evaluations-framework/SKILL.md",
+      "description": "Usar cuando se dise\u00f1an o ejecutan evaluaciones de calidad de agentes y prompts.",
+      "maturity": "beta"
+    },
+    "executive-reporting": {
+      "path": ".opencode/skills/executive-reporting/SKILL.md",
+      "description": "Usar cuando se genera un informe ejecutivo multi-proyecto para direcci\u00f3n.",
+      "maturity": "stable"
+    },
+    "feasibility-probe": {
+      "path": ".opencode/skills/feasibility-probe/SKILL.md",
+      "description": "Usar cuando se necesita validar si una spec es t\u00e9cnicamente viable antes de implementarla.",
+      "maturity": "unknown"
+    },
+    "git-secret-scanner": {
+      "path": ".opencode/skills/git-secret-scanner/SKILL.md",
+      "description": "Escanea el historial git o los commits pendientes de push buscando secrets con gitleaks. SE-239/S...",
+      "maturity": "stable"
+    },
+    "governance-enterprise": {
+      "path": ".opencode/skills/governance-enterprise/SKILL.md",
+      "description": "Usar cuando se audita compliance, se registran decisiones o se certifican procesos enterprise.",
+      "maturity": "stable"
+    },
+    "grill-me": {
+      "path": ".opencode/skills/grill-me/SKILL.md",
+      "description": "Adversarial review that hunts every weakness, assumption, edge case, and missing test. Opponent m...",
+      "maturity": "unknown"
+    },
+    "human-code-map": {
+      "path": ".opencode/skills/human-code-map/SKILL.md",
+      "description": "Usar cuando se incorpora un dev nuevo, se toca un m\u00f3dulo sin mapa, o alguien re-lee el mismo c\u00f3...",
+      "maturity": "experimental"
+    },
+    "iac-security-scanner": {
+      "path": ".opencode/skills/iac-security-scanner/SKILL.md",
+      "description": "Usar cuando se escanea IaC (Terraform, Bicep, Dockerfile, docker-compose) con Trivy config para d...",
+      "maturity": "stable"
+    },
+    "knowledge-graph": {
+      "path": ".opencode/skills/knowledge-graph/SKILL.md",
+      "description": "Usar cuando se construye o consulta el grafo de conocimiento de entidades del proyecto.",
+      "maturity": "stable"
+    },
+    "legal-compliance": {
+      "path": ".opencode/skills/legal-compliance/SKILL.md",
+      "description": "Usar cuando se audita compliance legal contra legislaci\u00f3n espa\u00f1ola consolidada.",
+      "maturity": "experimental"
+    },
+    "managed-content": {
+      "path": ".opencode/skills/managed-content/SKILL.md",
+      "description": "Usar cuando se regeneran secciones auto-generadas en documentos con marcadores de seguridad.",
+      "maturity": "stable"
+    },
+    "meeting-transcript-extract": {
+      "path": ".opencode/skills/meeting-transcript-extract/SKILL.md",
+      "description": "Usar cuando se necesita extraer la transcripci\u00f3n de una reuni\u00f3n Teams desde el browser.",
+      "maturity": "unknown"
+    },
+    "memvid-backup": {
+      "path": ".opencode/skills/memvid-backup/SKILL.md",
+      "description": "Usar cuando se crea un backup portable de la memoria externa de Savia.",
+      "maturity": "experimental"
+    },
+    "meta-reflection": {
+      "path": ".opencode/skills/meta-reflection/SKILL.md",
+      "description": "Protocolo de las 4 meta-preguntas para cuestionar el encuadre de una tarea antes de ejecutarla. S...",
+      "maturity": "experimental"
+    },
+    "mobile-security-scanner": {
+      "path": ".opencode/skills/mobile-security-scanner/SKILL.md",
+      "description": "Usar cuando se escanea un APK/AAB Android en busca de vulnerabilidades de seguridad. Integra con ...",
+      "maturity": "stable"
+    },
+    "model-upgrade-audit": {
+      "path": ".opencode/skills/model-upgrade-audit/SKILL.md",
+      "description": "Usar cuando hay un modelo nuevo disponible y se quiere detectar prompt debt en el workspace.",
+      "maturity": "unknown"
+    },
+    "mutation-audit": {
+      "path": ".opencode/skills/mutation-audit/SKILL.md",
+      "description": "Usar cuando se quiere medir la calidad real de los tests mediante mutation testing.",
+      "maturity": "beta"
+    },
+    "network-recon": {
+      "path": ".opencode/skills/network-recon/SKILL.md",
+      "description": "Reconocimiento de red: port scan con nmap/RustScan + HTTP detection con httpx.",
+      "maturity": "stable"
+    },
+    "nuclei-scanning": {
+      "path": ".opencode/skills/nuclei-scanning/SKILL.md",
+      "description": "Usar cuando se escanean vulnerabilidades conocidas (CVEs, misconfigs) con Nuclei.",
+      "maturity": "unknown"
+    },
+    "onboarding-dev": {
+      "path": ".opencode/skills/onboarding-dev/SKILL.md",
+      "description": "Usar cuando se incorpora un desarrollador nuevo al proyecto y necesita buddy IA.",
+      "maturity": "experimental"
+    },
+    "org-meeting-capture": {
+      "path": ".opencode/skills/org-meeting-capture/SKILL.md",
+      "description": "Captura de Conocimiento T\u00e1cito de Reuni\u00f3n: extrae decisores, acuerdos informales y se\u00f1ales pol...",
+      "maturity": "stable"
+    },
+    "org-political-landscape": {
+      "path": ".opencode/skills/org-political-landscape/SKILL.md",
+      "description": "An\u00e1lisis de Paisaje Pol\u00edtico Interno: detecta tensiones, alianzas y centros de poder a partir d...",
+      "maturity": "stable"
+    },
+    "org-stakeholder-mapper": {
+      "path": ".opencode/skills/org-stakeholder-mapper/SKILL.md",
+      "description": "Mapeador de Stakeholders y Decisores: extrae roles formales y reales, motivaciones, alianzas y te...",
+      "maturity": "stable"
+    },
+    "orgchart-import": {
+      "path": ".opencode/skills/orgchart-import/SKILL.md",
+      "description": "Usar cuando se importa un organigrama para extraer la estructura del equipo.",
+      "maturity": "unknown"
+    },
+    "overnight-sprint": {
+      "path": ".opencode/skills/overnight-sprint/SKILL.md",
+      "description": "Usar cuando se quiere ejecutar tareas de bajo riesgo de forma aut\u00f3noma durante la noche.",
+      "maturity": "experimental"
+    },
+    "pbi-decomposition": {
+      "path": ".opencode/skills/pbi-decomposition/SKILL.md",
+      "description": "Usar cuando se descompone un PBI en tasks y se estiman las horas.",
+      "maturity": "stable"
+    },
+    "pentesting": {
+      "path": ".opencode/skills/pentesting/SKILL.md",
+      "description": "Usar cuando se ejecuta un pentest contra una aplicaci\u00f3n o infraestructura.",
+      "maturity": "stable"
+    },
+    "performance-audit": {
+      "path": ".opencode/skills/performance-audit/SKILL.md",
+      "description": "Usar cuando se audita el rendimiento est\u00e1tico de c\u00f3digo para detectar hotspots.",
+      "maturity": "stable"
+    },
+    "personal-vault": {
+      "path": ".opencode/skills/personal-vault/SKILL.md",
+      "description": "Usar cuando se lee o escribe el repositorio personal del usuario (perfil, preferencias, memoria).",
+      "maturity": "unknown"
+    },
+    "pr-agent-judge": {
+      "path": ".opencode/skills/pr-agent-judge/SKILL.md",
+      "description": "Usar cuando se a\u00f1ade pr-agent como juez externo en el Code Review Court.",
+      "maturity": "unknown"
+    },
+    "product-discovery": {
+      "path": ".opencode/skills/product-discovery/SKILL.md",
+      "description": "Usar antes de descomponer PBIs, cuando se necesita an\u00e1lisis JTBD y PRD del producto.",
+      "maturity": "stable"
+    },
+    "professional-domain": {
+      "path": ".opencode/skills/professional-domain/SKILL.md",
+      "description": "Family index for professional-domain skills (controlling, finance, labour, legal, sales). Load in...",
+      "maturity": "unknown"
+    },
+    "controlling-kpi-analyst": {
+      "path": ".opencode/skills/professional-domain/controlling/controlling-kpi-analyst/SKILL.md",
+      "description": "Eval\u00faa KPIs de gesti\u00f3n, identifica tendencias y genera narrativa comentada con sem\u00e1foro y aler...",
+      "maturity": "stable"
+    },
+    "controlling-management-report": {
+      "path": ".opencode/skills/professional-domain/controlling/controlling-management-report/SKILL.md",
+      "description": "Genera informes de gesti\u00f3n mensual adaptados a la audiencia (CFO/CEO/board/operaciones) con narr...",
+      "maturity": "stable"
+    },
+    "controlling-variance-analyzer": {
+      "path": ".opencode/skills/professional-domain/controlling/controlling-variance-analyzer/SKILL.md",
+      "description": "An\u00e1lisis de desviaciones real vs budget con causa ra\u00edz, narrativa para direcci\u00f3n y sem\u00e1foro RAG.",
+      "maturity": "stable"
+    },
+    "finance-cash-flow-analyst": {
+      "path": ".opencode/skills/professional-domain/finance/finance-cash-flow-analyst/SKILL.md",
+      "description": "An\u00e1lisis de liquidez y forecast de tesorer\u00eda con ratios, per\u00edodos de riesgo y recomendaciones ...",
+      "maturity": "stable"
+    },
+    "finance-financial-report-writer": {
+      "path": ".opencode/skills/professional-domain/finance/finance-financial-report-writer/SKILL.md",
+      "description": "Redacta informes financieros adaptados a la audiencia (inversores/banco/regulador/direcci\u00f3n) con...",
+      "maturity": "stable"
+    },
+    "finance-investment-analyst": {
+      "path": ".opencode/skills/professional-domain/finance/finance-investment-analyst/SKILL.md",
+      "description": "An\u00e1lisis de inversiones con Investment Memo estructurado, DCF, IRR/VAN/Payback y tablas de sensi...",
+      "maturity": "stable"
+    },
+    "labour-conflict-resolver": {
+      "path": ".opencode/skills/professional-domain/labour/labour-conflict-resolver/SKILL.md",
+      "description": "Analiza conflictos laborales (individuales y colectivos) y propone m\u00ednimo 3 opciones de resoluci...",
+      "maturity": "stable"
+    },
+    "labour-convention-analyzer": {
+      "path": ".opencode/skills/professional-domain/labour/labour-convention-analyzer/SKILL.md",
+      "description": "Extrae y analiza cl\u00e1usulas de convenios colectivos espa\u00f1oles. Interpreta en lenguaje claro, se\udcc3...",
+      "maturity": "stable"
+    },
+    "labour-document-drafter": {
+      "path": ".opencode/skills/professional-domain/labour/labour-document-drafter/SKILL.md",
+      "description": "Redacta documentos laborales (cartas disciplinarias, despido, extinci\u00f3n) con base en ET espa\u00f1ol...",
+      "maturity": "stable"
+    },
+    "labour-onboarding-offboarding": {
+      "path": ".opencode/skills/professional-domain/labour/labour-onboarding-offboarding/SKILL.md",
+      "description": "Genera checklists y documentaci\u00f3n de onboarding/offboarding laboral con plazos duros (alta SS an...",
+      "maturity": "stable"
+    },
+    "legal-compliance-checker": {
+      "path": ".opencode/skills/professional-domain/legal/legal-compliance-checker/SKILL.md",
+      "description": "Verifica procesos o documentos contra regulaciones ES (RGPD, LO 3/2018, ET, CCom). Produce gaps y...",
+      "maturity": "stable"
+    },
+    "legal-contract-reviewer": {
+      "path": ".opencode/skills/professional-domain/legal/legal-contract-reviewer/SKILL.md",
+      "description": "Revisi\u00f3n de contratos con matriz de riesgos RAG, red flags y resumen ejecutivo. Jurisdicci\u00f3n es...",
+      "maturity": "stable"
+    },
+    "legal-document-drafter": {
+      "path": ".opencode/skills/professional-domain/legal/legal-document-drafter/SKILL.md",
+      "description": "Genera borradores de documentos legales ES (NDAs, cartas disciplinarias, acuerdos extinci\u00f3n). Ma...",
+      "maturity": "stable"
+    },
+    "sales-account-research": {
+      "path": ".opencode/skills/professional-domain/sales/sales-account-research/SKILL.md",
+      "description": "Research de Cuenta Comercial: genera un Account Brief estructurado con snapshot, situaci\u00f3n actua...",
+      "maturity": "stable"
+    },
+    "sales-objection-analyzer": {
+      "path": ".opencode/skills/professional-domain/sales/sales-objection-analyzer/SKILL.md",
+      "description": "Analizador de Objeciones Comerciales: clasifica y responde objeciones seg\u00fan taxonom\u00eda y etapa d...",
+      "maturity": "stable"
+    },
+    "sales-pipeline-analyst": {
+      "path": ".opencode/skills/professional-domain/sales/sales-pipeline-analyst/SKILL.md",
+      "description": "Analista de Pipeline de Ventas: analiza salud del pipeline con metodolog\u00eda MEDDIC y produce fore...",
+      "maturity": "stable"
+    },
+    "sales-proposal-writer": {
+      "path": ".opencode/skills/professional-domain/sales/sales-proposal-writer/SKILL.md",
+      "description": "Redactor de Propuesta Comercial B2B: genera propuestas consultivas personalizadas con \u00edndice com...",
+      "maturity": "stable"
+    },
+    "project-update": {
+      "path": ".opencode/skills/project-update/SKILL.md",
+      "description": "Usar cuando se necesita una actualizaci\u00f3n integral del proyecto activo desde todas las fuentes.",
+      "maturity": "unknown"
+    },
+    "prompt-optimizer": {
+      "path": ".opencode/skills/prompt-optimizer/SKILL.md",
+      "description": "Usar cuando se optimiza el prompt de un skill o agente para mejorar su efectividad.",
+      "maturity": "beta"
+    },
+    "rbac-management": {
+      "path": ".opencode/skills/rbac-management/SKILL.md",
+      "description": "Usar cuando se gestionan roles, permisos o se audita el acceso de usuarios.",
+      "maturity": "stable"
+    },
+    "reflection-validation": {
+      "path": ".opencode/skills/reflection-validation/SKILL.md",
+      "description": "Usar cuando una respuesta o decisi\u00f3n importante necesita validaci\u00f3n metacognitiva (System 2).",
+      "maturity": "stable"
+    },
+    "regulatory-compliance": {
+      "path": ".opencode/skills/regulatory-compliance/SKILL.md",
+      "description": "Usar cuando se valida el cumplimiento de marcos regulatorios sectoriales.",
+      "maturity": "stable"
+    },
+    "reranker": {
+      "path": ".opencode/skills/reranker/SKILL.md",
+      "description": "Usar cuando se recibe un top-K ruidoso de b\u00fasqueda en memoria y se necesita reordenar por releva...",
+      "maturity": "beta"
+    },
+    "resource-references": {
+      "path": ".opencode/skills/resource-references/SKILL.md",
+      "description": "Usar cuando se necesitan referencias a recursos y plantillas del workspace.",
+      "maturity": "beta"
+    },
+    "risk-scoring": {
+      "path": ".opencode/skills/risk-scoring/SKILL.md",
+      "description": "Usar cuando se calcula el riesgo de una tarea para decidir el nivel de revisi\u00f3n requerido.",
+      "maturity": "beta"
+    },
+    "rules-traceability": {
+      "path": ".opencode/skills/rules-traceability/SKILL.md",
+      "description": "Usar cuando se mapean reglas de negocio a PBIs para trazabilidad completa.",
+      "maturity": "stable"
+    },
+    "savia-dual": {
+      "path": ".opencode/skills/savia-dual/SKILL.md",
+      "description": "Usar cuando la inferencia cloud falla, es lenta o est\u00e1 rate-limited y se necesita failover local.",
+      "maturity": "unknown"
+    },
+    "savia-flow-practice": {
+      "path": ".opencode/skills/savia-flow-practice/SKILL.md",
+      "description": "Usar cuando se implementa Savia Flow con dual-track y m\u00e9tricas de flujo en un proyecto.",
+      "maturity": "stable"
+    },
+    "savia-hub-sync": {
+      "path": ".opencode/skills/savia-hub-sync/SKILL.md",
+      "description": "Usar cuando se sincroniza el repositorio SaviaHub con el workspace local.",
+      "maturity": "stable"
+    },
+    "savia-identity": {
+      "path": ".opencode/skills/savia-identity/SKILL.md",
+      "description": "Usar al inicio de sesi\u00f3n para cargar la identidad completa y las reglas de comportamiento de Savia.",
+      "maturity": "unknown"
+    },
+    "savia-memory": {
+      "path": ".opencode/skills/savia-memory/SKILL.md",
+      "description": "Usar cuando se lee, escribe, busca o consolida la memoria persistente entre sesiones de Savia.",
+      "maturity": "unknown"
+    },
+    "savia-school": {
+      "path": ".opencode/skills/savia-school/SKILL.md",
+      "description": "Usar cuando el workspace se adapta para un entorno educativo con estudiantes menores de edad.",
+      "maturity": "experimental"
+    },
+    "scaling-operations": {
+      "path": ".opencode/skills/scaling-operations/SKILL.md",
+      "description": "Usar cuando se analiza el tier de escala de un servicio o se necesitan optimizaciones de capacidad.",
+      "maturity": "stable"
+    },
+    "scheduled-messaging": {
+      "path": ".opencode/skills/scheduled-messaging/SKILL.md",
+      "description": "Usar cuando se configuran mensajes autom\u00e1ticos programados a plataformas de comunicaci\u00f3n.",
+      "maturity": "stable"
+    },
+    "skill-evaluation": {
+      "path": ".opencode/skills/skill-evaluation/SKILL.md",
+      "description": "Usar cuando se necesita seleccionar el skill m\u00e1s apropiado para una tarea dada.",
+      "maturity": "stable"
+    },
+    "smart-calendar": {
+      "path": ".opencode/skills/smart-calendar/SKILL.md",
+      "description": "Usar cuando se gestiona la agenda inteligente con sincronizaci\u00f3n Outlook/Teams.",
+      "maturity": "experimental"
+    },
+    "smart-routing": {
+      "path": ".opencode/skills/smart-routing/SKILL.md",
+      "description": "Usar cuando se necesita descubrir o enrutar a un comando espec\u00edfico entre los 400+ disponibles.",
+      "maturity": "stable"
+    },
+    "sovereignty-auditor": {
+      "path": ".opencode/skills/sovereignty-auditor/SKILL.md",
+      "description": "Usar cuando se audita el grado de dependencia cognitiva del equipo respecto a herramientas de IA.",
+      "maturity": "stable"
+    },
+    "spec-driven-development": {
+      "path": ".opencode/skills/spec-driven-development/SKILL.md",
+      "description": "Usar cuando se escribe, valida o implementa una spec ejecutable SDD.",
+      "maturity": "stable"
+    },
+    "sprint-management": {
+      "path": ".opencode/skills/sprint-management/SKILL.md",
+      "description": "Usar cuando se consulta el estado del sprint, se actualizan items o se genera el resumen.",
+      "maturity": "stable"
+    },
+    "tdd-vertical-slices": {
+      "path": ".opencode/skills/tdd-vertical-slices/SKILL.md",
+      "description": "Test-driven development with vertical-slice red-green-refactor cycles. Use when applying TDD to a...",
+      "maturity": "stable"
+    },
+    "team-coordination": {
+      "path": ".opencode/skills/team-coordination/SKILL.md",
+      "description": "Usar cuando se coordinan m\u00faltiples equipos, se asignan miembros o se detectan bloqueantes cross-...",
+      "maturity": "stable"
+    },
+    "team-onboarding": {
+      "path": ".opencode/skills/team-onboarding/SKILL.md",
+      "description": "Usar cuando se incorpora un nuevo miembro al equipo y se eval\u00faan sus competencias.",
+      "maturity": "stable"
+    },
+    "tech-research-agent": {
+      "path": ".opencode/skills/tech-research-agent/SKILL.md",
+      "description": "Usar cuando se necesita investigaci\u00f3n t\u00e9cnica aut\u00f3noma sobre un tema espec\u00edfico.",
+      "maturity": "experimental"
+    },
+    "test-architect": {
+      "path": ".opencode/skills/test-architect/SKILL.md",
+      "description": "Usar cuando se dise\u00f1an o generan tests de alta calidad en cualquier lenguaje.",
+      "maturity": "experimental"
+    },
+    "tier3-probes": {
+      "path": ".opencode/skills/tier3-probes/SKILL.md",
+      "description": "Usar cuando se valida la viabilidad de herramientas Tier 3 antes de adoptarlas en el workspace.",
+      "maturity": "stable"
+    },
+    "time-tracking-report": {
+      "path": ".opencode/skills/time-tracking-report/SKILL.md",
+      "description": "Usar cuando se generan informes de imputaci\u00f3n de horas en Excel o Word.",
+      "maturity": "stable"
+    },
+    "tls-security-checker": {
+      "path": ".opencode/skills/tls-security-checker/SKILL.md",
+      "description": "Usar cuando se verifica TLS/SSL o security headers HTTP de un servidor web. Invocable pre-deploy ...",
+      "maturity": "stable"
+    },
+    "topic-cluster": {
+      "path": ".opencode/skills/topic-cluster/SKILL.md",
+      "description": "Usar cuando se agrupan retros, PBIs o incidentes en topics para detectar patrones transversales.",
+      "maturity": "beta"
+    },
+    "ubiquitous-language": {
+      "path": ".opencode/skills/ubiquitous-language/SKILL.md",
+      "description": "Usar cuando se necesita extraer o consolidar el glosario de t\u00e9rminos de dominio de un proyecto. ...",
+      "maturity": "stable"
+    },
+    "understand-anything": {
+      "path": ".opencode/skills/understand-anything/SKILL.md",
+      "description": "Usar cuando se necesita analizar un codebase con Understand-Anything para generar knowledge graph...",
+      "maturity": "experimental"
+    },
+    "verification-lattice": {
+      "path": ".opencode/skills/verification-lattice/SKILL.md",
+      "description": "Usar cuando se necesita verificaci\u00f3n multi-capa m\u00e1s all\u00e1 del code review est\u00e1ndar.",
+      "maturity": "stable"
+    },
+    "voice-inbox": {
+      "path": ".opencode/skills/voice-inbox/SKILL.md",
+      "description": "Usar cuando se procesan mensajes de voz para transcribirlos y convertirlos en acciones.",
+      "maturity": "stable"
+    },
+    "web-research": {
+      "path": ".opencode/skills/web-research/SKILL.md",
+      "description": "Usar cuando se necesita buscar en la web para resolver gaps de contexto (docs, versiones, CVEs).",
+      "maturity": "beta"
+    },
+    "weekly-report": {
+      "path": ".opencode/skills/weekly-report/SKILL.md",
+      "description": "Usar cuando se genera el informe semanal de estado del proyecto.",
+      "maturity": "unknown"
+    },
+    "wellbeing-guardian": {
+      "path": ".opencode/skills/wellbeing-guardian/SKILL.md",
+      "description": "Usar cuando se monitorizan se\u00f1ales de bienestar individual en el equipo.",
+      "maturity": "stable"
+    },
+    "workspace-integrity": {
+      "path": ".opencode/skills/workspace-integrity/SKILL.md",
+      "description": "Usar cuando se audita la integridad del workspace (drift, reglas, agentes, baseline).",
+      "maturity": "stable"
+    },
+    "write-a-skill": {
+      "path": ".opencode/skills/write-a-skill/SKILL.md",
+      "description": "Guia para crear una nueva skill correctamente en pm-workspace. Usar cuando una tarea se repite 2+...",
+      "maturity": "stable"
+    },
+    "zoom-out": {
+      "path": ".opencode/skills/zoom-out/SKILL.md",
+      "description": "Elevates perspective from trees to forest. Maps architecture, dependencies, and second-order effe...",
+      "maturity": "unknown"
+    }
+  }
+}

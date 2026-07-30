@@ -162,3 +162,5 @@ vault/.obsidian/
 
 # KG snapshot dir (opt-in versioning via .gitattributes)
 .savia-kg/*.db
+.cursor/
+.windsurf/
