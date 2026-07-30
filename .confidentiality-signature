@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=d482ea819882249e18663667d8df3e2bf8cbad05cc7a17c5e55be5ccc8d06ee7
-timestamp=2026-07-30T21:17:28Z
+diff_hash=5a7d1364f2734ba4c2952453824f5af932dda2533e37ab2d3154feb4785a45a5
+timestamp=2026-07-30T21:17:46Z
 branch=agent/era200-savia-intelligence-20260730
-head_commit=64ec5e02
-signature=01ace6231f6fb88a4184d7cfdaf8b72132ac3a94d6643b16a6dee40f946ae264
+head_commit=2ffe97aa
+signature=0d44939803f1b5960df3b1b0dee320a6fe4372aadbbbc62f7c8241a776fded73
