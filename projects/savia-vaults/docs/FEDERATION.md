@@ -119,3 +119,51 @@ Federation settings live in `savia-vaults.config.json`:
 | Duplicate results | Same content in multiple domes | Normal — dedup by content hash |
 | 401 errors | Wrong or missing auth token | Check `authToken` in config |
 | Timeout errors | Dome unreachable | Check network, increase timeout |
+
+## Production Hardening
+
+### TLS Encryption
+
+Always use HTTPS in production. Start the server with TLS:
+
+```bash
+savia-vaults serve --transport a2a --tls --cert /etc/ssl/cert.pem --key /etc/ssl/key.pem
+```
+
+Register federated domes with `https://` URLs:
+
+```bash
+savia-vaults federate add prod https://vault.example.com:8923 --token "$TOKEN"
+```
+
+### Token Rotation
+
+Rotate auth tokens periodically:
+
+```bash
+savia-vaults federate rotate-token specs
+```
+
+### Audit Logging
+
+All federated queries are logged to `output/federation-audit.jsonl`:
+
+```jsonl
+{"ts":"2026-07-30T22:00:00Z","event":"federated_query","dome":"specs","query":"architecture","status":"ok","results":3,"latency_ms":45}
+{"ts":"2026-07-30T22:00:05Z","event":"federated_query","dome":"team-docs","query":"architecture","status":"timeout","results":0,"latency_ms":5001}
+```
+
+### Circuit Breaker
+
+Domes that fail repeatedly are automatically disabled:
+
+- **5 consecutive failures** → dome enters OPEN state (no requests)
+- **5 minute cooldown** → dome enters HALF_OPEN (single probe allowed)
+- **Probe succeeds** → dome returns to CLOSED (normal operation)
+- **Probe fails** → dome returns to OPEN
+
+No manual intervention needed for recovery.
+
+### Content Integrity
+
+Federated results are verified for content integrity. Results with tampered content hashes are silently discarded and logged as warnings. This prevents MITM attacks on federated search results.
