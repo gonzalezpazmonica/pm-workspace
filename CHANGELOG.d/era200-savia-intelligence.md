@@ -24,3 +24,5 @@ section: Added
 - SaviaVaults: 46 files, 90+ tests, 43 e2e passing, docs EN/ES
 
 - Skills doctor: health check for drift, broken symlinks, orphans, maturity breakdown
+- SE-285: SaviaVaults operational skill (savia-vaults) + knowledge architect agent (context-dome-manager, heavy/L2)
+
