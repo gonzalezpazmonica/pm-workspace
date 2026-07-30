@@ -2,82 +2,50 @@
 
 ```yaml
 project: savia-vaults
-se_id: SE-280
+se_ids: [SE-280, SE-281, SE-282, SE-283]
 license: MIT
 stack:
   language: TypeScript
   runtime: Node.js 22+
-  frameworks:
-    - "@modelcontextprotocol/sdk ^1.12.0"
-    - "minisearch ^7.1.0"
-    - "yaml ^2.6.0"
-    - "commander ^13.1.0"
-    - "simple-git ^3.27.0"
-  dev:
-    - vitest ^3.0.0
-    - typescript ^5.7.0
-    - tsx ^4.19.0
+  frameworks: ["@modelcontextprotocol/sdk", "minisearch", "yaml", "commander", "simple-git"]
+  dev: [vitest, typescript, tsx]
+
+status:
+  slices_implemented: 23
+  slices_total: 23
+  tests: 90+
+  e2e_passing: 43 (22 dome + 21 federate)
+  specs: 4
+  docs: 6 (README EN/ES, FEDERATION EN/ES, security-audit, research)
 
 modules:
-  - name: types
-    path: src/types.ts
-    description: Core type definitions for the entire project
-    exports: [VaultConfig, VaultStats, NoteEntry, SearchResult, SearchQuery, Receipt, ContentPatch, A2AContextRequest, A2ASearchRequest, A2AShareRequest]
-
-  - name: security
-    path: src/security/index.ts
-    description: Path sandbox, deny/allow lists, symlink protection, extension checks
-    exports: [VaultSecurity, SecurityError]
-    tests: tests/unit/security.test.ts
-
-  - name: storage
-    path: src/storage/index.ts
-    description: Git-backed vault operations (CRUD, git log, diff, stats)
-    exports: [VaultStorage]
-    deps: [security, types]
-    tests: tests/unit/storage.test.ts
-
-  - name: search
-    path: src/search/index.ts
-    description: BM25 full-text search engine with tag indexing
-    exports: [SearchEngine]
-    deps: [types, security]
-    tests: tests/unit/search.test.ts
-
-  - name: mcp-server
-    path: src/server/mcp.ts
-    description: MCP stdio server with 9 tools for AI agent access
-    exports: [MCPVaultServer]
-    deps: [storage, search, types]
-
-  - name: a2a-server
-    path: src/server/a2a.ts
-    description: HTTP REST server for agent-to-agent context sharing
-    exports: [A2AVaultServer]
-    deps: [storage, search, types]
-
-  - name: cli
-    path: src/cli/index.ts
-    description: CLI entry point (init, serve, search, stats)
-    deps: [mcp-server, a2a-server, storage, search, types]
+  - core: [types, security, storage, search]
+  - server: [mcp, a2a, ratelimit]
+  - federation: [types, registry, cache, a2a-client, search]
+  - hardening: [circuit-breaker, audit-logger, hash-verify]
+  - cli: [index]
+  - config: [schema]
 
 tests:
-  unit:
-    - tests/unit/security.test.ts (22 tests)
-    - tests/unit/storage.test.ts (15 tests)
-    - tests/unit/search.test.ts (10 tests)
-  integration:
-    - tests/integration/vault-workflow.test.ts (2 scenarios)
-  e2e:
-    - tests/e2e/mcp-server.test.ts (4 checks)
-  total: 53 assertions
+  unit: 90
+  integration: 5
+  e2e: 4 + 22 + 21 = 47
   coverage_target: 80%
 
-entry_points:
-  cli: dist/cli/index.js
-  mcp_server: dist/server/mcp.js
-  a2a_server: dist/server/a2a.js
-
 protocols:
-  - MCP stdio (Model Context Protocol)
-  - A2A HTTP/SSE (Agent-to-Agent)
+  - MCP stdio (9 tools)
+  - A2A HTTP/SSE (5 endpoints + federation)
+
+security:
+  - 6-layer sandbox (path, deny, allow, symlink, size, depth)
+  - Ed25519 content signing
+  - Token-based A2A auth
+  - Rate limiting (token bucket, 60 req/min)
+  - Circuit breaker (CLOSED→OPEN→HALF_OPEN)
+  - Content hash verification
+  - JSONL audit trail
+  - TLS support (--tls flag)
+
+e2e_results:
+  dome_vs_direct: 22 PASS, 0 FAIL (1022 dome ≈ 1015 source)
+  federation: 21 PASS, 0 FAIL (2 vaults, 9 test categories)
