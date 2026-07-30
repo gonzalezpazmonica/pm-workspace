@@ -1225,6 +1225,10 @@ Evaluacion semantica de SKILL.md via juez LLM contra rubrica de 8 dimensiones (c
 
 Detectores de solo-lectura en cron. Fase 1 bash (gratis) + Fase 2 LLM solo si hay hallazgos. 5 detectores: sprint-blocker, PR-stale, drift-daily, dependency-cve, memory-consolidation. **NUNCA** modifican codigo, ramas, o backlog — solo escriben `output/always-on/`. **Corregido**: Era 199 rechazo background-agent PostCompact → renombrado a "scheduled monitoring detectors", zero autonomous actions. **Artefactos**: `scripts/always-on-runner.sh`, detectores, `scripts/always-on-install-cron.sh`.
 
+### SE-280 — SaviaVaults: Context Dome Server (20h, 6 slices) ← MCPVault + Cognithor + vault-sync
+
+Servidor MCP + A2A para cupulas de contexto. TypeScript, Node.js 22+. Git-backed, BM25 search, Ed25519 content signing. 9 MCP tools + 5 A2A endpoints. Path sandbox con 6 checks de seguridad. **Unico** en el ecosistema combinando MCP + A2A + Git + firma. **Artefactos**: `projects/savia-vaults/` (proyecto publico, excepcion en .gitignore).
+
 ### Orden recomendado
 
 SE-278 (fundacion: metricas de calidad) → SE-276 (skill suggest informado por calidad) → SE-277 (distribucion eficiente) → SE-279 (monitoreo proactivo)

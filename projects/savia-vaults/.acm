@@ -1,0 +1,83 @@
+# SaviaVaults — Application Code Map (.acm)
+
+```yaml
+project: savia-vaults
+se_id: SE-280
+license: MIT
+stack:
+  language: TypeScript
+  runtime: Node.js 22+
+  frameworks:
+    - "@modelcontextprotocol/sdk ^1.12.0"
+    - "minisearch ^7.1.0"
+    - "yaml ^2.6.0"
+    - "commander ^13.1.0"
+    - "simple-git ^3.27.0"
+  dev:
+    - vitest ^3.0.0
+    - typescript ^5.7.0
+    - tsx ^4.19.0
+
+modules:
+  - name: types
+    path: src/types.ts
+    description: Core type definitions for the entire project
+    exports: [VaultConfig, VaultStats, NoteEntry, SearchResult, SearchQuery, Receipt, ContentPatch, A2AContextRequest, A2ASearchRequest, A2AShareRequest]
+
+  - name: security
+    path: src/security/index.ts
+    description: Path sandbox, deny/allow lists, symlink protection, extension checks
+    exports: [VaultSecurity, SecurityError]
+    tests: tests/unit/security.test.ts
+
+  - name: storage
+    path: src/storage/index.ts
+    description: Git-backed vault operations (CRUD, git log, diff, stats)
+    exports: [VaultStorage]
+    deps: [security, types]
+    tests: tests/unit/storage.test.ts
+
+  - name: search
+    path: src/search/index.ts
+    description: BM25 full-text search engine with tag indexing
+    exports: [SearchEngine]
+    deps: [types, security]
+    tests: tests/unit/search.test.ts
+
+  - name: mcp-server
+    path: src/server/mcp.ts
+    description: MCP stdio server with 9 tools for AI agent access
+    exports: [MCPVaultServer]
+    deps: [storage, search, types]
+
+  - name: a2a-server
+    path: src/server/a2a.ts
+    description: HTTP REST server for agent-to-agent context sharing
+    exports: [A2AVaultServer]
+    deps: [storage, search, types]
+
+  - name: cli
+    path: src/cli/index.ts
+    description: CLI entry point (init, serve, search, stats)
+    deps: [mcp-server, a2a-server, storage, search, types]
+
+tests:
+  unit:
+    - tests/unit/security.test.ts (22 tests)
+    - tests/unit/storage.test.ts (15 tests)
+    - tests/unit/search.test.ts (10 tests)
+  integration:
+    - tests/integration/vault-workflow.test.ts (2 scenarios)
+  e2e:
+    - tests/e2e/mcp-server.test.ts (4 checks)
+  total: 53 assertions
+  coverage_target: 80%
+
+entry_points:
+  cli: dist/cli/index.js
+  mcp_server: dist/server/mcp.js
+  a2a_server: dist/server/a2a.js
+
+protocols:
+  - MCP stdio (Model Context Protocol)
+  - A2A HTTP/SSE (Agent-to-Agent)
