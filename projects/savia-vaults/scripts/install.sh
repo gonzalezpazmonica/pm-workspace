@@ -45,6 +45,17 @@ npm install -g savia-vaults 2>&1 || {
 
 info "SaviaVaults installed successfully!"
 echo ""
+
+# ── Register vaults CLI symlink ──
+VAULTS_SCRIPT="${SCRIPT_DIR}/vaults"
+if [[ -f "$VAULTS_SCRIPT" ]]; then
+  if [[ -w /usr/local/bin ]]; then
+    ln -sf "$VAULTS_SCRIPT" /usr/local/bin/vaults 2>/dev/null && info "vaults command registered: /usr/local/bin/vaults" || warn "Could not symlink to /usr/local/bin. Add to PATH manually: export PATH=\"$SCRIPT_DIR:\$PATH\""
+  else
+    warn "No write permission to /usr/local/bin. Add to PATH: export PATH=\"$SCRIPT_DIR:\$PATH\""
+  fi
+fi
+
 info "Quick start:"
 echo "  savia-vaults init my-knowledge"
 echo "  cd vaults/my-knowledge"
