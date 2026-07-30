@@ -126,6 +126,7 @@ To use a skill: read `<path>` and follow its instructions.
 | savia-identity | `.opencode/skills/savia-identity/SKILL.md` | Usar al inicio de sesión para cargar la identidad completa y las reglas de comportamiento de Savia. |
 | savia-memory | `.opencode/skills/savia-memory/SKILL.md` | Usar cuando se lee, escribe, busca o consolida la memoria persistente entre sesiones de Savia. |
 | savia-school | `.opencode/skills/savia-school/SKILL.md` | Usar cuando el workspace se adapta para un entorno educativo con estudiantes menores de edad. |
+| savia-vaults | `.opencode/skills/savia-vaults/SKILL.md` | Usar cuando se interactua con SaviaVaults — cupulas de contexto, busqueda federada, servidores ... |
 | scaling-operations | `.opencode/skills/scaling-operations/SKILL.md` | Usar cuando se analiza el tier de escala de un servicio o se necesitan optimizaciones de capacidad. |
 | scheduled-messaging | `.opencode/skills/scheduled-messaging/SKILL.md` | Usar cuando se configuran mensajes automáticos programados a plataformas de comunicación. |
 | skill-evaluation | `.opencode/skills/skill-evaluation/SKILL.md` | Usar cuando se necesita seleccionar el skill más apropiado para una tarea dada. |

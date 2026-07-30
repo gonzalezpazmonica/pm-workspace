@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "generated_at": "2026-07-30T16:28:34Z",
+  "generated_at": "2026-07-30T22:32:29Z",
   "source": ".opencode/skills/*/SKILL.md",
   "skills": {
     "adversarial-security": {
@@ -547,6 +547,11 @@
       "path": ".opencode/skills/savia-school/SKILL.md",
       "description": "Usar cuando el workspace se adapta para un entorno educativo con estudiantes menores de edad.",
       "maturity": "experimental"
+    },
+    "savia-vaults": {
+      "path": ".opencode/skills/savia-vaults/SKILL.md",
+      "description": "Usar cuando se interactua con SaviaVaults \u2014 cupulas de contexto, busqueda federada, servidores ...",
+      "maturity": "stable"
     },
     "scaling-operations": {
       "path": ".opencode/skills/scaling-operations/SKILL.md",
