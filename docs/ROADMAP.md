@@ -1111,10 +1111,57 @@ Archivos: `docs/propuestas/SPEC-180..186-*.md`. Origen: `output/research/obsidia
 
 ---
 
-## Active Stack — 2026-07-02 (supersedes 2026-06-24)
+## Active Stack — 2026-07-30 (supersedes 2026-07-02)
 
-> Sesión 2026-07-02: flip masivo post-merge. 21 specs actualizadas a IMPLEMENTED.
-> Kokoro SE-075 S3 autorizado. rules-index-generate.sh --check fix permanente.
+> Sesion 2026-07-30: Era 200 abierta — 4 specs de valor transferible desde awesome-llm-apps + rsc-harness.
+> Auditoria de solapamiento completada. **Los 12 slices de Era 200 IMPLEMENTADOS.**
+> Ver `output/specs/2026-07-30-transferable-value/`.
+
+### Era 200 — IMPLEMENTADO (12/12 slices)
+
+| Spec | Slice | Artefacto | Estado |
+|---|---|---|---|
+| SE-276 | S1 | `scripts/skill-suggest.sh` (suggest engine, silence mode, 500ms timeout) | DONE |
+| SE-276 | S2 | `.claude/hooks/user-prompt-intercept.sh` (Job 4: skill-suggest) | DONE |
+| SE-277 | S1 | `skills-manifest.json` + flag `--manifest` en `skills-md-generate.sh` | DONE |
+| SE-277 | S2 | `scripts/savia-skills.sh` (CLI: doctor, list, sync) | DONE |
+| SE-277 | S3 | Targets Cursor (.mdc), Windsurf, Copilot en savia-skills.sh | DONE |
+| SE-278 | S1 | `scripts/skill-quality-rubric.yaml` (8 dimensiones + judge prompt) | DONE |
+| SE-278 | S2 | `scripts/skill-quality-eval.sh` (judge LLM, hash cache, gates) | DONE |
+| SE-278 | S3 | Gates PASS/WARN/BLOCK integrados en eval script | DONE |
+| SE-278 | S4 | `scripts/skill-quality-eval-all.sh` (batch evaluation + ranking) | DONE |
+| SE-279 | S1 | `scripts/always-on-runner.sh` (2-phase framework) | DONE |
+| SE-279 | S2 | 5 detectores: sprint-blocker, PR-stale, drift-daily, cve-watch, memory | DONE |
+| SE-279 | S3 | `scripts/always-on-install-cron.sh` (cron installer, dry-run, remove) | DONE |
+
+### Artifacts created (Era 200)
+
+```
+scripts/
+├── skill-suggest.sh              (SE-276 — proactive skill suggestion)
+├── savia-skills.sh               (SE-277 — unified CLI: doctor/list/sync)
+├── skill-quality-rubric.yaml     (SE-278 — 8-dimension rubric)
+├── skill-quality-eval.sh         (SE-278 — LLM judge runner)
+├── skill-quality-eval-all.sh     (SE-278 — batch evaluation)
+├── always-on-runner.sh           (SE-279 — detector framework)
+├── always-on-install-cron.sh     (SE-279 — cron installer)
+└── always-on/
+    ├── detectors/
+    │   ├── sprint-blocker-watch.sh
+    │   ├── pr-stale-watch.sh
+    │   ├── drift-daily.sh
+    │   ├── dependency-cve-watch.sh
+    │   └── memory-consolidation.sh
+    └── reporters/
+        └── generic-alert.sh
+
+skills-manifest.json              (SE-277 — 136 skills, auto-generated)
+output/skill-suggest-state.json   (SE-276 — silence mode state)
+output/always-on/                 (SE-279 — alert reports)
+output/skill-quality/             (SE-278 — eval reports + cache)
+.claude/hooks/user-prompt-intercept.sh  (SE-276 S2 — Job 4 added)
+.cursor/rules/savia-*.mdc         (SE-277 — 136 Cursor rule files)
+```
 
 ### Mergeado desde 2026-06-24 (ahora IMPLEMENTED)
 
@@ -1149,10 +1196,42 @@ Archivos: `docs/propuestas/SPEC-180..186-*.md`. Origen: `output/research/obsidia
 - SPEC-182 Bitemporal timeline frontmatter (~7h) — anti-drift permanente
 - SPEC-183 Reconciliation 3-bucket drift-auditor (~6h) — dep SPEC-182
 
-**Sprint 3 (~24h agente):**
+**Sprint 3 (~30h agente):**
 - SPEC-108 Agent Self-Improvement Loop + Sentry RCA (~16h)
 - SPEC-164 Memory feedback loop (auto-memoria desde resultados)
 - SPEC-167 Critic con RAG external memory
+
+---
+
+## Era 200 — Savia Intelligence Layer (2026-07-30)
+
+> Analisis de valor transferible desde awesome-llm-apps (Shubhamsaboo) y rsc-harness (ericrisco).
+> 4 specs generadas tras auditoria de solapamiento con mecanismos existentes.
+> Ver `output/specs/2026-07-30-transferable-value/` para detalle completo.
+
+### SE-276 — Proactive Skill Suggest (4h, 2 slices) ← rsc-suggest
+
+Frontend proactivo al `configurator` (SPEC-166). Hook ligero en `UserPromptSubmit` que sugiere skills via tabla heuristica compartida. Features nuevas: silence mode, 500ms timeout, inline suggestion. **No duplica**: usa la misma tabla que configurator. **Artefactos**: `scripts/skill-suggest.sh`, `output/skill-suggest-state.json`.
+
+### SE-277 — Multi-Target Manifest + Skill Distribution CLI (6h, 3 slices) ← rsc-harness multi-target
+
+Manifiesto JSON (`skills-manifest.json`) generado junto con SKILLS.md. CLI unificada `savia skills {list,sync,doctor}`. Health check de drift, symlinks, orphans. **Corregido**: `.opencode/skills/` YA es symlink a `.claude/skills/`. **Artefactos**: `scripts/savia-skills.sh`, `skills-manifest.json`, extension `--manifest` en `skills-md-generate.sh`.
+
+### SE-278 — Skill Quality Pipeline (10h, 4 slices) ← rsc-harness rubric
+
+Evaluacion semantica de SKILL.md via juez LLM contra rubrica de 8 dimensiones (clarity, completeness, actionability, correctness, conciseness, safety, freshness, testability). Gates: PASS ≥8.5, WARN 7.0-8.4, BLOCK <7.0. **Complementa** SE-084 (estructural) y SE-167 (kanban). **Limite con SE-166**: SE-278 evalua contenido, SE-166 medira uplift. **Artefactos**: `scripts/skill-quality-rubric.yaml`, `scripts/skill-quality-eval.sh`.
+
+### SE-279 — Scheduled Monitoring Detectors (6h, 3 slices) ← awesome-llm-apps always-on
+
+Detectores de solo-lectura en cron. Fase 1 bash (gratis) + Fase 2 LLM solo si hay hallazgos. 5 detectores: sprint-blocker, PR-stale, drift-daily, dependency-cve, memory-consolidation. **NUNCA** modifican codigo, ramas, o backlog — solo escriben `output/always-on/`. **Corregido**: Era 199 rechazo background-agent PostCompact → renombrado a "scheduled monitoring detectors", zero autonomous actions. **Artefactos**: `scripts/always-on-runner.sh`, detectores, `scripts/always-on-install-cron.sh`.
+
+### SE-280 — SaviaVaults: Context Dome Server (20h, 6 slices) ← MCPVault + Cognithor + vault-sync
+
+Servidor MCP + A2A para cupulas de contexto. TypeScript, Node.js 22+. Git-backed, BM25 search, Ed25519 content signing. 9 MCP tools + 5 A2A endpoints. Path sandbox con 6 checks de seguridad. **Unico** en el ecosistema combinando MCP + A2A + Git + firma. **Artefactos**: `projects/savia-vaults/` (proyecto publico, excepcion en .gitignore).
+
+### Orden recomendado
+
+SE-278 (fundacion: metricas de calidad) → SE-276 (skill suggest informado por calidad) → SE-277 (distribucion eficiente) → SE-279 (monitoreo proactivo)
 
 ### Bloqueados (sin cambio)
 

@@ -46,7 +46,7 @@
 
 <!-- AUTO_BEGIN — do not edit; regenerate via scripts/resolver-md-generate.sh -->
 
-### Skills (119)
+### Skills (120)
 
 | Intent (skill) | Target | Cuándo usar |
 |---|---|---|
@@ -142,6 +142,7 @@
 | `savia-identity` | skill:savia-identity | Usar al inicio de sesión para cargar la identidad completa y las reglas de comportamie... |
 | `savia-memory` | skill:savia-memory | Usar cuando se lee, escribe, busca o consolida la memoria persistente entre sesiones de... |
 | `savia-school` | skill:savia-school | Usar cuando el workspace se adapta para un entorno educativo con estudiantes menores de... |
+| `savia-vaults` | skill:savia-vaults | Usar cuando se interactua con SaviaVaults — cupulas de contexto, busqueda federada, s... |
 | `scaling-operations` | skill:scaling-operations | Usar cuando se analiza el tier de escala de un servicio o se necesitan optimizaciones d... |
 | `scheduled-messaging` | skill:scheduled-messaging | Usar cuando se configuran mensajes automáticos programados a plataformas de comunicaci... |
 | `skill-evaluation` | skill:skill-evaluation | Usar cuando se necesita seleccionar el skill más apropiado para una tarea dada. |
@@ -170,7 +171,7 @@
 | `write-a-skill` | skill:write-a-skill | Guia para crear una nueva skill correctamente en pm-workspace. Usar cuando una tarea se... |
 | `zoom-out` | skill:zoom-out | Elevates perspective from trees to forest. Maps architecture, dependencies, and second-... |
 
-### Agents (81)
+### Agents (82)
 
 | Intent (agent) | Target | Cuándo usar |
 |---|---|---|
@@ -193,6 +194,7 @@
 | `concession-judge` | agent:concession-judge | Recommendation Tribunal judge — detects position changes without new evidence (SPEC-192) |
 | `confidentiality-auditor` | agent:confidentiality-auditor | Audita cumplimiento de confidencialidad en PRs de pm-workspace (repo publico). Descubre... |
 | `configurator` | agent:configurator | Centralizes workspace dispatch decisions: selects skills, agents, rules, and memory que... |
+| `context-dome-manager` | agent:context-dome-manager | Arquitecto de conocimiento — disena, audita y evoluciona cupulas de contexto (SaviaVa... |
 | `correctness-judge` | agent:correctness-judge | Code Review Court judge — logic, tests, edge cases, error paths |
 | `court-orchestrator` | agent:court-orchestrator | Convenes the Code Review Court, manages fix cycles, produces .review.crc |
 | `criterion-simulation-judge` | agent:criterion-simulation-judge | Criterion Simulation Layer judge — SPEC-194. Executes 4 meta-questions (frame challen... |

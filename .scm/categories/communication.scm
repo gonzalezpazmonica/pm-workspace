@@ -1,5 +1,5 @@
 # communication — Savia Capability Map (L1)
-> 92 resources
+> 94 resources
 
 - **archive-digest** (agent): >
 - **digest-extract** (script): digest-extract.sh — Capa 0 universal de extracción via markitdown (SE-172)
@@ -77,6 +77,7 @@
 - **savia-shield-check** (script): savia-shield-check.sh — SPEC-OC-01
 - **savia-shield-setup** (script): savia-shield-setup.sh — Instalador de Savia Shield
 - **savia-shield-status** (script): savia-shield-status.sh — Status determinístico de las 8 capas de Savia Shield
+- **savia-skills** (script): savia-skills.sh — Unified skill management CLI (SE-277)
 - **savia-sprint** (cmd): >
 - **savia-status** (script): savia-status.sh — What is Savia doing right now?
 - **savia-team** (cmd): >
@@ -86,6 +87,7 @@
 - **savia-travel-init** (script): savia-init.sh — Travel Mode Init Script (template)
 - **savia-travel-ops** (script): savia-travel-ops.sh — Pack and init operations for savia-travel.sh
 - **savia-travel-pack** (cmd): >
+- **savia-vaults** (skill): Usar cuando se interactua con SaviaVaults — cupulas de contexto, busqueda federada, servidores MCP/A2A, backups, confidencialidad. Triggers: 'crea una cupula', 'indexa documentacion', 'busca en los vaults', 'federate este dome', 'backup del
 - **savia-voice-chunk** (script): savia-voice-chunk.sh — SE-075 Slice 2.
 - **savia-voice-speak** (script): savia-voice-speak.sh — SE-075 Slice 3.
 - **savia-watch** (script): savia-watch.sh — Live activity feed from Savia

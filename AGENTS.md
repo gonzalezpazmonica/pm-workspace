@@ -37,6 +37,7 @@ the Stop hook `agents-md-auto-regenerate.sh` whenever an agent file changes.
 | concession-judge | mid | L1 | — | Recommendation Tribunal judge — detects position changes without new evidence (SPEC-192) |
 | confidentiality-auditor | heavy | L1 | — | Audita cumplimiento de confidencialidad en PRs de pm-workspace (repo publico). Descubre dinamicamente datos sensibles... |
 | configurator | fast | L1 | — | Centralizes workspace dispatch decisions: selects skills, agents, rules, and memory queries for each user intent. Emi... |
+| context-dome-manager | heavy | L2 | — | Arquitecto de conocimiento — disena, audita y evoluciona cupulas de contexto (SaviaVaults). Decide estructura, federa... |
 | correctness-judge | mid | L1 | — | Code Review Court judge — logic, tests, edge cases, error paths |
 | court-orchestrator | heavy | L4 | — | Convenes the Code Review Court, manages fix cycles, produces .review.crc |
 | criterion-simulation-judge | heavy | L1 | — | Criterion Simulation Layer judge — SPEC-194. Executes 4 meta-questions (frame challenge, historical priors, operator ... |

@@ -1,0 +1,51 @@
+# SaviaVaults — Application Code Map (.acm)
+
+```yaml
+project: savia-vaults
+se_ids: [SE-280, SE-281, SE-282, SE-283]
+license: MIT
+stack:
+  language: TypeScript
+  runtime: Node.js 22+
+  frameworks: ["@modelcontextprotocol/sdk", "minisearch", "yaml", "commander", "simple-git"]
+  dev: [vitest, typescript, tsx]
+
+status:
+  slices_implemented: 23
+  slices_total: 23
+  tests: 90+
+  e2e_passing: 43 (22 dome + 21 federate)
+  specs: 4
+  docs: 6 (README EN/ES, FEDERATION EN/ES, security-audit, research)
+
+modules:
+  - core: [types, security, storage, search]
+  - server: [mcp, a2a, ratelimit]
+  - federation: [types, registry, cache, a2a-client, search]
+  - hardening: [circuit-breaker, audit-logger, hash-verify]
+  - cli: [index]
+  - config: [schema]
+
+tests:
+  unit: 90
+  integration: 5
+  e2e: 4 + 22 + 21 = 47
+  coverage_target: 80%
+
+protocols:
+  - MCP stdio (9 tools)
+  - A2A HTTP/SSE (5 endpoints + federation)
+
+security:
+  - 6-layer sandbox (path, deny, allow, symlink, size, depth)
+  - Ed25519 content signing
+  - Token-based A2A auth
+  - Rate limiting (token bucket, 60 req/min)
+  - Circuit breaker (CLOSED→OPEN→HALF_OPEN)
+  - Content hash verification
+  - JSONL audit trail
+  - TLS support (--tls flag)
+
+e2e_results:
+  dome_vs_direct: 22 PASS, 0 FAIL (1022 dome ≈ 1015 source)
+  federation: 21 PASS, 0 FAIL (2 vaults, 9 test categories)

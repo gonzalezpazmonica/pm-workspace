@@ -1,0 +1,26 @@
+{
+  "version": "1.0",
+  "vaults": {
+    "savia-docs": {
+      "path": "./vaults/savia-docs",
+      "allowedExtensions": [],
+      "deniedPaths": [],
+      "maxDepth": 10,
+      "maxFileSize": 10485760
+    }
+  },
+  "server": {
+    "transport": "both",
+    "a2aPort": 8923,
+    "authToken": "",
+    "rateLimit": {
+      "enabled": true,
+      "maxRequestsPerMinute": 100,
+      "maxRequestsPerMinuteSearch": 30
+    }
+  },
+  "search": {
+    "persistIndex": true,
+    "indexFile": ".savia-vault/search-index.json"
+  }
+}

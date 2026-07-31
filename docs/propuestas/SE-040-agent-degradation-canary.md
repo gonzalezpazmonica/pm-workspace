@@ -123,3 +123,19 @@ Opcional: cron semanal `scripts/agent-health-weekly-cron.sh` que emite alerta si
 ## Dependencia
 
 Independiente. Priorizable alto si se observan síntomas similares en pm-workspace.
+
+## OpenCode Implementation Plan
+
+### Bindings touched
+- agent-trace skill
+- session-actions.jsonl
+- SPEC-108 agent self-improvement
+
+### Verification protocol
+```bash
+bash scripts/agent-degradation-canary.sh
+```
+Baseline → metric comparison → threshold alert. Zero external dependencies.
+
+### Portability classification
+FULL — pure bash, any OS with bash 4+

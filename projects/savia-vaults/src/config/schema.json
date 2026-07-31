@@ -1,0 +1,73 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "SaviaVaults Configuration",
+  "type": "object",
+  "properties": {
+    "version": { "type": "string", "const": "1.0" },
+    "vaults": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "properties": {
+          "path": { "type": "string" },
+          "allowedExtensions": { "type": "array", "items": { "type": "string" }, "default": [] },
+          "deniedPaths": { "type": "array", "items": { "type": "string" }, "default": [] },
+          "maxDepth": { "type": "integer", "default": 10 },
+          "maxFileSize": { "type": "integer", "default": 10485760 }
+        },
+        "required": ["path"]
+      }
+    },
+    "server": {
+      "type": "object",
+      "properties": {
+        "transport": { "type": "string", "enum": ["mcp", "a2a", "both"] },
+        "a2aPort": { "type": "integer", "default": 8923 },
+        "authToken": { "type": "string" },
+        "rateLimit": {
+          "type": "object",
+          "properties": {
+            "enabled": { "type": "boolean", "default": true },
+            "maxRequestsPerMinute": { "type": "integer", "default": 100 },
+            "maxRequestsPerMinuteSearch": { "type": "integer", "default": 30 }
+          }
+        }
+      }
+    },
+    "search": {
+      "type": "object",
+      "properties": {
+        "persistIndex": { "type": "boolean", "default": true },
+        "indexFile": { "type": "string", "default": ".savia-vault/search-index.json" }
+      }
+    },
+    "federation": {
+      "type": "object",
+      "properties": {
+        "enabled": { "type": "boolean", "default": false },
+        "localTimeout": { "type": "integer", "default": 2000 },
+        "maxTotalResults": { "type": "integer", "default": 50 },
+        "dedupByContent": { "type": "boolean", "default": true },
+        "cacheTtlMs": { "type": "integer", "default": 300000 },
+        "domes": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": { "type": "string" },
+              "name": { "type": "string" },
+              "url": { "type": "string", "format": "uri" },
+              "authToken": { "type": "string" },
+              "timeout": { "type": "integer", "default": 5000 },
+              "enabled": { "type": "boolean", "default": true },
+              "weight": { "type": "number", "default": 1.0, "minimum": 0.1, "maximum": 2.0 },
+              "tags": { "type": "array", "items": { "type": "string" } }
+            },
+            "required": ["id", "name", "url"]
+          }
+        }
+      }
+    }
+  },
+  "required": ["version"]
+}

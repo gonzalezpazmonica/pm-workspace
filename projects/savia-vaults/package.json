@@ -1,0 +1,67 @@
+{
+  "name": "savia-vaults",
+  "version": "0.1.0",
+  "description": "Context Dome Server — MCP + A2A server for AI agent knowledge vaults with git-backed storage, hybrid search, and content signing",
+  "license": "MIT",
+  "type": "module",
+  "main": "dist/server/index.js",
+  "bin": {
+    "savia-vaults": "dist/cli/index.js"
+  },
+  "files": [
+    "dist/",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsx src/cli/index.ts serve",
+    "test": "vitest run",
+    "test:unit": "vitest run tests/unit/",
+    "test:integration": "vitest run tests/integration/",
+    "test:e2e": "vitest run tests/e2e/",
+    "test:coverage": "vitest run --coverage",
+    "lint": "eslint src/ tests/",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.12.0",
+    "minisearch": "^7.1.0",
+    "yaml": "^2.6.0",
+    "commander": "^13.1.0",
+    "simple-git": "^3.27.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "typescript": "^5.7.0",
+    "vitest": "^3.0.0",
+    "tsx": "^4.19.0",
+    "eslint": "^9.0.0",
+    "@typescript-eslint/eslint-plugin": "^8.0.0",
+    "@typescript-eslint/parser": "^8.0.0"
+  },
+  "engines": {
+    "node": ">=22.0.0"
+  },
+  "keywords": [
+    "mcp",
+    "a2a",
+    "context-dome",
+    "knowledge-vault",
+    "ai-agents",
+    "git-backed",
+    "local-first",
+    "savia"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/gonzalezpazmonica/savia-vaults"
+  },
+  "author": "Savia <savia@pm-workspace>",
+  "mcp": {
+    "server": {
+      "command": "savia-vaults",
+      "args": ["serve", "--transport", "mcp"]
+    }
+  }
+}
