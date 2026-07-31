@@ -8,7 +8,7 @@
 - **Task ID:** SE-282
 - **PBI padre:** Era 200 — Savia Intelligence Layer
 - **developer_type:** agent-team
-- **status:** draft
+- **status:** PARTIAL — Implemented: registry, a2a-client, search engine (merge/dedup/interleave), cache, federation types. Not implemented: MCP tools integration, CLI federation commands, A2A server endpoint integration (see SE-286 S4).
 - **stack:** TypeScript + Node.js 22+ + A2A client
 - **estimacion:** 12h (6 slices)
 
