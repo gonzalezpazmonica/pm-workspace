@@ -1,6 +1,6 @@
 # SaviaVaults — Context Dome Server (MCP + A2A)
 
-> **Status (2026-08-01): en construccion activa.** La capa de federacion funciona y tiene 7 tests pasando sobre codigo real. El nucleo (storage, search, security) y los servidores MCP/A2A estan en implementacion — ver SE-286. El comando `npm install -g savia-vaults` aun NO funciona; el `bin` apunta a un CLI que no existe.
+> **Status (2026-08-01): v0.1.0 — producto minimo verificable.** 89 tests en verde, CLI funcional, smoke de instalacion real pasa. La capa de federacion + nucleo (storage, search, security) operan sobre codigo real. Los servidores MCP/A2A completos estan en construccion (ver SE-286 S4).
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-purple.svg)](LICENSE)
 [![Node.js](https://img.shields.io/badge/Node.js-22%2B-green.svg)](https://nodejs.org)
@@ -31,21 +31,34 @@ SaviaVaults da a agentes de IA acceso a cupulas de contexto locales: repositorio
 
 | Modulo | Estado |
 |---|---|
-| `src/types.ts` | Tipos nucleo — en implementacion |
-| `src/storage/` | Almacenamiento git-backed — en implementacion |
-| `src/search/` | Busqueda BM25 con minisearch — en implementacion |
-| `src/security/` | Path sandbox + firma Ed25519 — en implementacion |
-| `src/server/mcp.ts` | Servidor MCP — pendiente |
-| `src/server/ratelimit.ts` | Rate limiter — pendiente |
-| `src/cli/` | CLI (init, serve, search, stats) — pendiente |
+| `src/server/mcp.ts` | Servidor MCP completo — pendiente |
+| Servidor A2A | HTTP REST endpoints — pendiente |
 
-## Quick Start (cuando este terminado)
+## Alcance de Gobernanza
+
+SaviaVaults es un **servidor de contexto**, no un agente soberano. No implementa la constitucion ni el criterio de Savia. Expone cupulas de contexto via protocolos estandar para que cualquier agente (Savia o externo) pueda consumirlas sin adoptar la plataforma.
+
+El servidor respeta niveles de confidencialidad (N1-N4) en el frontmatter de los documentos y filtra por nivel maximo declarado al arrancar. Para verificacion de gobierno completo, la herramienta produce recibos verificables por terceros sin dependencia del ecosistema Savia.
+
+Lee el [modelo de amenaza](docs/threat-model.md) para entender que se protege y que NO. Las garantias de seguridad se detallan en `docs/threat-model.md`.
+
+## Quick Start
 
 ```bash
-npm install -g savia-vaults         # NO disponible aun
-savia-vaults init my-knowledge      # NO disponible aun
-savia-vaults serve --transport mcp  # NO disponible aun
+# Install globally
+npm install -g savia-vaults
+
+# Create your first vault
+savia-vaults init my-knowledge
+
+# Search from CLI
+savia-vaults search "architecture" --path vaults/my-knowledge
+
+# Get stats
+savia-vaults stats --path vaults/my-knowledge
 ```
+
+> Los comandos `serve` (servidor MCP/A2A completo) estan en construccion. Ver SE-286 S4.
 
 ## Development
 

@@ -3,9 +3,9 @@ import { describe, it, expect, beforeEach, afterEach } from 'vitest';
 import * as fs from 'node:fs';
 import * as path from 'node:path';
 import * as os from 'node:os';
-import { FederationRegistry } from '../../../src/federation/registry.js';
-import { A2AClient } from '../../../src/federation/a2a-client.js';
-import type { FederatedDome } from '../../../src/federation/types.js';
+import { FederationRegistry } from '../../src/federation/registry.js';
+import { A2AClient } from '../../src/federation/a2a-client.js';
+import type { FederatedDome } from '../../src/federation/types.js';
 
 describe('Federation Integration — A2A Client', () => {
   let tmpDir: string;
