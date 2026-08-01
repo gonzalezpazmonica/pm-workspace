@@ -1,6 +1,6 @@
 {
-  "hash": "7e3faad9514c",
-  "total": 1304,
+  "hash": "898a106c608b",
+  "total": 1307,
   "resources": [
     {
       "category": "analysis",
@@ -13663,6 +13663,34 @@
     },
     {
       "category": "planning",
+      "name": "vaults-backup-cron",
+      "intents": [
+        "backup",
+        "cron",
+        "nextcloud",
+        "savialabs",
+        "sync"
+      ],
+      "kind": "script",
+      "path": "scripts/vaults-backup-cron.sh",
+      "description": "vaults-backup-cron.sh — Cron job: backup SaviaLabs + sync to Nextcloud"
+    },
+    {
+      "category": "planning",
+      "name": "vaults-backup-cron-install",
+      "intents": [
+        "backup",
+        "backups",
+        "cron",
+        "install",
+        "saviavaults"
+      ],
+      "kind": "script",
+      "path": "scripts/vaults-backup-cron-install.sh",
+      "description": "vaults-backup-cron-install.sh — Install cron job for SaviaVaults backups"
+    },
+    {
+      "category": "planning",
       "name": "vaults-export",
       "intents": [
         "confidentiality",
@@ -13688,6 +13716,20 @@
       "kind": "script",
       "path": "scripts/vaults-graph-query.sh",
       "description": "vaults-graph-query.sh — Knowledge graph queries via SaviaVaults"
+    },
+    {
+      "category": "planning",
+      "name": "vaults-nextcloud-setup",
+      "intents": [
+        "backups",
+        "configurar",
+        "credenciales",
+        "nextcloud",
+        "setup"
+      ],
+      "kind": "script",
+      "path": "scripts/vaults-nextcloud-setup.sh",
+      "description": "vaults-nextcloud-setup.sh — Configurar credenciales Nextcloud para backups"
     },
     {
       "category": "planning",

@@ -1,5 +1,5 @@
 # planning — Savia Capability Map (L1)
-> 544 resources
+> 547 resources
 
 - **/decide-architecture** (cmd): Clasifica una tarea como WORKFLOW (deterministica) o AGENT (loop). Bias hacia workflow per Anthropic. Sugiere plantilla inicial. Mide accuracy contra corpus curado de 20 tareas.
 - **_template** (skill): TEMPLATE — copia este directorio para crear una skill nueva. NO se carga en runtime.
@@ -531,8 +531,11 @@
 - **validate-settings-local** (script): validate-settings-local.sh — Detect private/session data in settings.local.json
 - **vault** (script): vault.sh — Personal Vault dispatcher (N3)
 - **vault-ops** (script): vault-ops.sh — Personal Vault operations library (N3). Sourced by vault.sh.
+- **vaults-backup-cron** (script): vaults-backup-cron.sh — Cron job: backup SaviaLabs + sync to Nextcloud
+- **vaults-backup-cron-install** (script): vaults-backup-cron-install.sh — Install cron job for SaviaVaults backups
 - **vaults-export** (script): vaults-export.sh — Export vault with confidentiality filtering and signing
 - **vaults-graph-query** (script): vaults-graph-query.sh — Knowledge graph queries via SaviaVaults
+- **vaults-nextcloud-setup** (script): vaults-nextcloud-setup.sh — Configurar credenciales Nextcloud para backups
 - **vaults-validate** (script): vaults-validate.sh — Validate documents against entity schemas
 - **velocity-trend** (cmd): Tendencia de velocity con media móvil, detección de anomalías y factores explicativos
 - **verify-ledger-chain** (script): verify-ledger-chain.sh — SE-258 Slice 2

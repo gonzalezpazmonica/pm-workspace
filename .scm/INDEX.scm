@@ -1,6 +1,6 @@
 # Savia Capability Map — INDEX
-> hash: 0578b5152739 | resources: 1304
-> 290 commands · 121 skills · 82 agents · 811 scripts
+> hash: b08bea6a9268 | resources: 1307
+> 290 commands · 121 skills · 82 agents · 814 scripts
 
 [analysis] Trace Optimize — across,distributed,optimize,rates,sampling — cmd:.claude/commands/trace-optimize.md
 [analysis] agent-activity — activity,agent,executions,recent,show — cmd:.claude/commands/agent-activity.md
@@ -1041,8 +1041,11 @@
 [planning] validate-settings-local — data,detect,json,local,private — script:scripts/validate-settings-local.sh
 [planning] vault — dispatcher,personal,vault — script:scripts/vault.sh
 [planning] vault-ops — library,operations,personal,sourced,vault — script:scripts/vault-ops.sh
+[planning] vaults-backup-cron — backup,cron,nextcloud,savialabs,sync — script:scripts/vaults-backup-cron.sh
+[planning] vaults-backup-cron-install — backup,backups,cron,install,saviavaults — script:scripts/vaults-backup-cron-install.sh
 [planning] vaults-export — confidentiality,export,filtering,signing,vault — script:scripts/vaults-export.sh
 [planning] vaults-graph-query — graph,knowledge,queries,query,saviavaults — script:scripts/vaults-graph-query.sh
+[planning] vaults-nextcloud-setup — backups,configurar,credenciales,nextcloud,setup — script:scripts/vaults-nextcloud-setup.sh
 [planning] vaults-validate — against,documents,entity,schemas,validate — script:scripts/vaults-validate.sh
 [planning] velocity-trend — anomalías,detección,explicativos,factores,media — cmd:.claude/commands/velocity-trend.md
 [planning] verify-ledger-chain — chain,ledger,slice,verify — script:scripts/verify-ledger-chain.sh
