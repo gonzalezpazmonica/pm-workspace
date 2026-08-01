@@ -25,7 +25,7 @@ export class MCPVaultServer {
       if (!isRepo) {
         git.init().then(() => {
           git.addConfig('user.name', 'savia-vaults');
-          git.addConfig('user.email', 'vaults@savia.local');
+          git.addConfig('user.email', 'vaults@localhost');
           git.add('.').then(() => {
             git.commit('Initial commit: vault created');
           });

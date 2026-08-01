@@ -29,7 +29,7 @@ export class VaultStorage {
     if (!isRepo) {
       await git.init();
       await git.addConfig('user.name', 'savia-vaults');
-      await git.addConfig('user.email', 'vaults@savia.local');
+      await git.addConfig('user.email', 'vaults@localhost');
       await git.add('.');
       await git.commit('Initial commit: vault created');
     }
