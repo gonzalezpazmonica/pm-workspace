@@ -1,6 +1,6 @@
 {
-  "hash": "9af2f3c7de05",
-  "total": 1298,
+  "hash": "3a2d322719cd",
+  "total": 1300,
   "resources": [
     {
       "category": "analysis",
@@ -1497,6 +1497,20 @@
       "kind": "script",
       "path": "scripts/savia-index-rebuild.sh",
       "description": "── savia-index-rebuild.sh ──────────────────────────────────────────────────"
+    },
+    {
+      "category": "communication",
+      "name": "savia-labs",
+      "intents": [
+        "audita",
+        "auditoria",
+        "certificado",
+        "corpus",
+        "desconocidos"
+      ],
+      "kind": "skill",
+      "path": ".claude/skills/savia-labs/SKILL.md",
+      "description": "Usar cuando se investiga, experimenta o audita epistemicamente. Triggers: 'investiga', 'experimento', 'hipotesis', 'preregistro', 'labs', 'divergencia', 'certificado de ignorancia', 'corpus de desconocidos', 'auditoria de reclutamiento', 'f"
     },
     {
       "category": "communication",
@@ -14606,6 +14620,20 @@
       "kind": "script",
       "path": "scripts/knowledge-lint.sh",
       "description": "knowledge-lint.sh — LLM Wiki pattern: periodic knowledge base health check"
+    },
+    {
+      "category": "quality",
+      "name": "labs-self-audit",
+      "intents": [
+        "audit",
+        "comprobaciones",
+        "disciplina",
+        "labs",
+        "savia"
+      ],
+      "kind": "script",
+      "path": "scripts/labs-self-audit.sh",
+      "description": "labs-self-audit.sh — Comprobaciones de disciplina en Savia Labs"
     },
     {
       "category": "quality",

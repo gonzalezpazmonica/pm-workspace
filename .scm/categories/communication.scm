@@ -1,5 +1,5 @@
 # communication — Savia Capability Map (L1)
-> 94 resources
+> 95 resources
 
 - **archive-digest** (agent): >
 - **digest-extract** (script): digest-extract.sh — Capa 0 universal de extracción via markitdown (SE-172)
@@ -52,6 +52,7 @@
 - **savia-inbox** (cmd): >
 - **savia-index** (script): ── savia-index.sh ──────────────────────────────────────────────────────────
 - **savia-index-rebuild** (script): ── savia-index-rebuild.sh ──────────────────────────────────────────────────
+- **savia-labs** (skill): Usar cuando se investiga, experimenta o audita epistemicamente. Triggers: 'investiga', 'experimento', 'hipotesis', 'preregistro', 'labs', 'divergencia', 'certificado de ignorancia', 'corpus de desconocidos', 'auditoria de reclutamiento', 'f
 - **savia-live** (cmd): Show what Savia is working on right now — live task queue and recent activity
 - **savia-memory** (skill): Usar cuando se lee, escribe, busca o consolida la memoria persistente entre sesiones de Savia.
 - **savia-memory-bootstrap** (script): savia-memory-bootstrap.sh — crea store externo canónico ../.savia-memory/

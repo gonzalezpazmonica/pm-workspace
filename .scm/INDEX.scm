@@ -1,6 +1,6 @@
 # Savia Capability Map — INDEX
-> hash: e482450d8a49 | resources: 1298
-> 290 commands · 121 skills · 82 agents · 805 scripts
+> hash: 72a408bd1dc0 | resources: 1300
+> 290 commands · 122 skills · 82 agents · 806 scripts
 
 [analysis] Trace Optimize — across,distributed,optimize,rates,sampling — cmd:.claude/commands/trace-optimize.md
 [analysis] agent-activity — activity,agent,executions,recent,show — cmd:.claude/commands/agent-activity.md
@@ -119,6 +119,7 @@
 [communication] savia-inbox —  — cmd:.claude/commands/savia-inbox.md
 [communication] savia-index — index,savia — script:scripts/savia-index.sh
 [communication] savia-index-rebuild — index,rebuild,savia — script:scripts/savia-index-rebuild.sh
+[communication] savia-labs — audita,auditoria,certificado,corpus,desconocidos — skill:.claude/skills/savia-labs/SKILL.md
 [communication] savia-live — activity,live,queue,recent,right — cmd:.claude/commands/savia-live.md
 [communication] savia-memory — busca,consolida,escribe,memoria,persistente — skill:.claude/skills/savia-memory/SKILL.md
 [communication] savia-memory-bootstrap — bootstrap,canónico,crea,externo,memory — script:scripts/savia-memory-bootstrap.sh
@@ -1110,6 +1111,7 @@
 [quality] iac-security-scanner — bicep,compose,config,detectar,docker — skill:.claude/skills/iac-security-scanner/SKILL.md
 [quality] knowledge-lint — base,check,detect,evidence,health — cmd:.claude/commands/knowledge-lint.md
 [quality] knowledge-lint — base,check,health,knowledge,lint — script:scripts/knowledge-lint.sh
+[quality] labs-self-audit — audit,comprobaciones,disciplina,labs,savia — script:scripts/labs-self-audit.sh
 [quality] legal-audit — auditoría,compliance,contra,española,legal — cmd:.claude/commands/legal-audit.md
 [quality] legal-compliance — audita,compliance,consolidada,contra,española — skill:.claude/skills/legal-compliance/SKILL.md
 [quality] loop-phasing-audit — audit,audita,declarado,inferido,level — script:scripts/loop-phasing-audit.sh

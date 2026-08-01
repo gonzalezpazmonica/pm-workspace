@@ -1,5 +1,5 @@
 # quality — Savia Capability Map (L1)
-> 251 resources
+> 252 resources
 
 - **/speckit.analyze** (cmd): Alias spec-kit compatible. Review cruzado de una spec antes de implementar. Invoca skill consensus-validation. Compatible con github/spec-kit.
 - **Court Review** (cmd): Convene the Code Review Court to evaluate implementation quality across 6 judges
@@ -62,6 +62,7 @@
 - **iac-security-scanner** (skill): Usar cuando se escanea IaC (Terraform, Bicep, Dockerfile, docker-compose) con Trivy config para detectar misconfiguraciones de seguridad antes del merge.
 - **knowledge-lint** (cmd): Health check for the persistent knowledge base — detect orphans, stale refs, missing evidence
 - **knowledge-lint** (script): knowledge-lint.sh — LLM Wiki pattern: periodic knowledge base health check
+- **labs-self-audit** (script): labs-self-audit.sh — Comprobaciones de disciplina en Savia Labs
 - **legal-audit** (cmd): Auditoría de compliance legal contra legislación española (legalize-es)
 - **legal-compliance** (skill): Usar cuando se audita compliance legal contra legislación española consolidada.
 - **loop-phasing-audit** (script): loop-phasing-audit.sh — Audita el nivel loop_level declarado vs inferido
