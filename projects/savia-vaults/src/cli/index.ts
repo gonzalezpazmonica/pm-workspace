@@ -39,12 +39,49 @@ program.command('serve').description('Start MCP or A2A server')
   .option('--transport <type>', 'mcp or a2a', 'mcp')
   .option('--port <port>', 'Port for A2A', '8923')
   .option('--host <host>', 'Bind host', '127.0.0.1')
-  .option('-p, --path <path>', 'Vault path', process.cwd())
+  .option('-p, --path <path>', 'Vault path (legacy single-dome)', process.cwd())
+  .option('--domes <file>', 'Domes registry file', 'savia-vaults.domes.json')
   .action(async (opts) => {
-    const config = makeConfig('vault', opts.path);
     const authToken = process.env.SAVIA_VAULTS_TOKEN;
+
+    let domeReg: DomeRegistry | undefined;
+    let userStore: UserStore | undefined;
+
+    const domesFile = path.resolve(opts.domes);
+    if (fs.existsSync(domesFile)) {
+      domeReg = new DomeRegistry(domesFile);
+      try {
+        domeReg.load();
+        console.error(`[serve] Multi-dome mode: ${domeReg.listActive().length} domes loaded from ${domesFile}`);
+      } catch (e) {
+        console.error(`[serve] WARNING: failed to load domes from ${domesFile}: ${e instanceof Error ? e.message : e}`);
+        console.error('[serve] Falling back to single-dome legacy mode.');
+        domeReg = undefined;
+      }
+    }
+
+    if (!domeReg) {
+      console.error(`[serve] Legacy single-dome mode: ${opts.path}`);
+    }
+
+    const config = makeConfig('vault', opts.path);
+
+    if (domeReg) {
+      const defaultDome = domeReg.listActive()[0];
+      if (defaultDome?.schemaDir) {
+        config.schemaDir = defaultDome.schemaDir;
+        console.error(`[serve] Knowledge layer enabled: schemaDir=${config.schemaDir}`);
+      }
+
+      const usersFile = 'savia-vaults.users.json';
+      if (fs.existsSync(usersFile)) {
+        userStore = new UserStore(usersFile);
+        try { userStore.load(); console.error('[serve] Auth enabled: users loaded'); } catch {}
+      }
+    }
+
     if (opts.transport === 'mcp') {
-      const server = new MCPVaultServer(config);
+      const server = new MCPVaultServer(config, domeReg, userStore);
       await server.start();
     } else if (opts.transport === 'a2a') {
       const server = new A2AServer(config);
