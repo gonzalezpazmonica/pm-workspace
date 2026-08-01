@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=3ee8ba9287a3c8f4ee5ed8e5a27d5af99968cde078735bf5fdd049b0f7df6cac
-timestamp=2026-08-01T11:34:17Z
+diff_hash=422786f4658c9dfb6b59d43df382c1e1e2b44764043b96b1d0f64eeba9d275f5
+timestamp=2026-08-01T11:38:18Z
 branch=agent/se288-capa-conocimiento
-head_commit=27a2f5f3
-signature=e0b37ba51c3746c875bd642e888f4126cf7288141b2d6073ae7e938b4a055658
+head_commit=ef0e8a6c
+signature=0785f654aaf9ebbe5011513332789419e638294bc4596af7cdeef9f882fcba42
