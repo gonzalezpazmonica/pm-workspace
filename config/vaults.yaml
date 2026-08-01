@@ -1,0 +1,92 @@
+# Savia — Vaults declaration
+# Cada vault declarado aqui es administrado por SaviaVaults.
+version: "1.0"
+last_updated: "2026-08-01"
+
+vaults:
+  savialabs:
+    path: vaults/SaviaLabs
+    description: Cupula de contexto principal de Savia — documentacion, analisis, informes
+    max_confidentiality: N2
+    write_mode: explicit
+    schema_dir: projects/savia-vaults/schema/entities
+    purpose: knowledge_base
+    entity_types: [document, decision, project, person]
+
+  workspace-context:
+    path: .claude/context
+    description: Cupula de contexto del workspace — escaneo de modulos, bus factor, dependencias
+    max_confidentiality: N2
+    write_mode: read_only
+    schema_dir: projects/savia-vaults/schema/entities
+    purpose: context_dome
+    entity_types: [system, project, document]
+
+  savia-memory:
+    path: .claude/external-memory
+    description: Memoria externa de Savia — preferencias, feedback, auto-memory
+    max_confidentiality: N3
+    write_mode: explicit
+    schema_dir: projects/savia-vaults/schema/entities
+    purpose: memory
+    entity_types: [person, document, decision]
+
+  savia-docs:
+    path: docs
+    description: Documentacion del workspace — reglas, specs, guias
+    max_confidentiality: N2
+    write_mode: explicit
+    schema_dir: projects/savia-vaults/schema/entities
+    purpose: documentation
+    entity_types: [document, decision]
+
+  savia-specs:
+    path: projects/savia-vaults/specs
+    description: Especificaciones de SaviaVaults y proyectos relacionados
+    max_confidentiality: N2
+    write_mode: explicit
+    schema_dir: projects/savia-vaults/schema/entities
+    purpose: specs
+    entity_types: [document, decision, project]
+
+entity_mapping:
+  person:
+    frontmatter_keys: [name, role, email]
+    savia_fields:
+      active_user: person
+      author: person
+      reviewer: person
+  organization:
+    frontmatter_keys: [name, sector]
+    savia_fields:
+      client: organization
+      team: organization
+  project:
+    frontmatter_keys: [name, status, start_date, repository]
+    savia_fields:
+      project: project
+      epic: project
+  system:
+    frontmatter_keys: [name, system_type, language, version]
+    savia_fields:
+      module: system
+      service: system
+      tool: system
+  document:
+    frontmatter_keys: [title, doc_type, status, version]
+    savia_fields:
+      spec: document
+      report: document
+      rule: document
+      skill: document
+  decision:
+    frontmatter_keys: [title, status, date, context]
+    savia_fields:
+      adr: decision
+      decision: decision
+  event:
+    frontmatter_keys: [name, event_type, date]
+    savia_fields:
+      meeting: event
+      release: event
+      milestone: event
