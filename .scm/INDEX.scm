@@ -1,6 +1,6 @@
 # Savia Capability Map — INDEX
-> hash: 0a1855c11999 | resources: 1297
-> 290 commands · 121 skills · 82 agents · 804 scripts
+> hash: abc863ade68b | resources: 1300
+> 290 commands · 121 skills · 82 agents · 807 scripts
 
 [analysis] Trace Optimize — across,distributed,optimize,rates,sampling — cmd:.claude/commands/trace-optimize.md
 [analysis] agent-activity — activity,agent,executions,recent,show — cmd:.claude/commands/agent-activity.md
@@ -375,6 +375,7 @@
 [development] understand-anything — analizar,anything,codebase,dominio,estructurales — skill:.claude/skills/understand-anything/SKILL.md
 [development] validate-pbi-spec-links — bidirectional,check,links,spec,validate — script:scripts/validate-pbi-spec-links.sh
 [development] validate-spec — declarative,spec,validate,validation,without — script:scripts/validate-spec.sh
+[development] vaults-introspect — introspect,saviavaults,vault,vaults — script:scripts/vaults-introspect.sh
 [development] verification-middleware — checks,implementation,middleware,orchestrate,post — script:scripts/verification-middleware.sh
 [development] workforce-analytics — agentic,analytics,scripts,spec,workforce — script:scripts/workforce-analytics.sh
 [development] workspace-doctor — check,doctor,health,spec,workspace — script:scripts/workspace-doctor.sh
@@ -505,6 +506,7 @@
 [memory] tool-search — agentes,buscar,clave,comandos,palabra — cmd:.claude/commands/tool-search.md
 [memory] ua-chat — graph,knowledge,language,natural,search — cmd:.claude/commands/ua-chat.md
 [memory] ubiquitous-language — consolidar,context,dice,dominio,extrae — skill:.claude/skills/ubiquitous-language/SKILL.md
+[memory] vaults-freshness — check,context,dome,fresh,freshness — script:scripts/vaults-freshness.sh
 [memory] web-research — auto,available,back,best,context — cmd:.claude/commands/web-research.md
 [memory] web-research — buscar,contexto,cves,docs,gaps — skill:.claude/skills/web-research/SKILL.md
 [planning] /decide-architecture — accuracy,agent,anthropic,bias,clasifica — cmd:.claude/commands/decide-architecture.md
@@ -1037,6 +1039,7 @@
 [planning] validate-settings-local — data,detect,json,local,private — script:scripts/validate-settings-local.sh
 [planning] vault — dispatcher,personal,vault — script:scripts/vault.sh
 [planning] vault-ops — library,operations,personal,sourced,vault — script:scripts/vault-ops.sh
+[planning] vaults-validate — against,documents,entity,schemas,validate — script:scripts/vaults-validate.sh
 [planning] velocity-trend — anomalías,detección,explicativos,factores,media — cmd:.claude/commands/velocity-trend.md
 [planning] verify-ledger-chain — chain,ledger,slice,verify — script:scripts/verify-ledger-chain.sh
 [planning] verify-principal — principal,scripts,slice,verify — script:scripts/verify-principal.sh
