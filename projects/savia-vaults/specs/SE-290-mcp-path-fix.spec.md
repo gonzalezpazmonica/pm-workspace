@@ -6,26 +6,27 @@
 
 ## Problem
 
-MCP server configured with `--path vaults/SaviaLabs` in `.claude/mcp.json` is
-serving the workspace root (`/home/monica/savia`, 18,676 notes) instead of
-SaviaLabs (23 notes). This causes:
-- 3x search latency (~1.4s vs ~0.25s)
-- Timeout on `vault_health` and `vault_stats` (workspace root is too large)
-- 18,676 notes indexed instead of 23 — 812x overhead
+MCP server configured with a specific vault path via `--path <vault>` in
+`.claude/mcp.json` (or other MCP config) serves the workspace root instead
+of the intended vault. The workspace root can be much larger than the target
+vault, causing:
+- Significantly higher search latency
+- Timeout on `vault_health` and `vault_stats`
+- Unnecessary index overhead scanning unrelated files
 
 ## Root Cause (3-layer failure)
 
 ### RC1: `--schema` option not registered → Commander crash
 `src/cli/index.ts:36-41` — `serve` command defines only 4 options (transport,
-port, host, path). `.claude/mcp.json` passes `--schema projects/savia-vaults/schema/entities`.
-Commander 13.1.0 throws `error: unknown option '--schema'` → process exits
-with code 1. MCP server never starts from this config.
+port, host, path). If any MCP config passes `--schema <dir>`, Commander 13.1.0
+throws `error: unknown option '--schema'` → process exits with code 1.
+MCP server never starts from this config.
 
-### RC2: Fallback to `package.json` `mcp` config with no `--path`
+### RC2: Fallback to `package.json` `mcp` config with default path
 `package.json:61-65` — the standard `mcp.server` section has `args: ["serve", "--transport", "mcp"]`
-with **no `--path`**. When RC1 kills the `.claude/mcp.json` process, the
-OpenCode/Claude Code host discovers the `package.json` fallback and uses it.
-Commander's default for `--path` is `process.cwd()` = `/home/monica/savia`.
+with **no `--path`**. When RC1 kills the external MCP config process, the
+host discovers `package.json` fallback. Commander's default for `--path` is
+`process.cwd()` which equals the workspace root.
 
 ### RC3: `schemaDir` never wired through in CLI
 `src/types.ts:10` — `schemaDir` exists in `VaultConfig` interface.
@@ -51,20 +52,14 @@ program.command('serve').description('Start MCP or A2A server')
     // ... rest unchanged
 ```
 
-### Fix 2: Add `--path` to `package.json` mcp.server.args
+### Fix 2: Fix `package.json` mcp.server fallback
 **File:** `package.json`
 
-```json
-"mcp": {
-    "server": {
-      "command": "savia-vaults",
-      "args": ["serve", "--transport", "mcp", "--path", "vaults/SaviaLabs"]
-    }
-  }
-```
+The `package.json` `mcp.server` section keeps `["serve", "--transport", "mcp"]`
+without a hardcoded `--path` (vault paths are deployment-specific and belong
+in the host's MCP config, not in the public package). The fix makes `--schema`
+available so external MCP configs that pass it no longer crash.
 
-This ensures even if the `.claude/mcp.json` config is not used, the fallback
-serves the correct vault.
 
 ### Fix 3: Fix `package.json` `main` field
 **File:** `package.json`
@@ -89,19 +84,17 @@ cd projects/savia-vaults && npm run build
 
 ## Verification
 
-1. MCP server starts with correct path: `node dist/cli/index.js serve --transport mcp --path vaults/SaviaLabs --schema projects/savia-vaults/schema/entities` → exit 0 (no "unknown option" error)
-2. `stats --path vaults/SaviaLabs` → 23 notes (not 18676)
-3. `search "roadmap" --path vaults/SaviaLabs` → <0.3s (not >1s)
-4. `health-report --path vaults/SaviaLabs` → <0.3s (not timeout)
-5. Re-run benchmark comparing CLI vs MCP with SaviaLabs vault
-6. All existing tests still pass: `npm test`
+1. MCP server starts: `serve --transport mcp --path <any-vault> --schema <dir>` → exit 0 (no "unknown option" error)
+2. `stats --path <any-vault>` works correctly with the specified vault
+3. `search "query" --path <any-vault>` completes in <0.3s on small vaults
+4. `health-report --path <any-vault>` completes without timeout
+5. All existing tests still pass: `npm test`
 
 ## Acceptance Criteria
 
 - [ ] `serve --schema` accepted without Commander error
-- [ ] MCP starts with `--path vaults/SaviaLabs` and indexes 23 notes
-- [ ] `package.json` `mcp.server.args` includes `--path vaults/SaviaLabs`
-- [ ] `vault_health`, `vault_stats`, `vault_search` all complete in <1s via MCP
-- [ ] `npm test` — 89 tests PASS
+- [ ] MCP starts with `--path <any-vault>` and indexes only that vault
+- [ ] `vault_health`, `vault_stats`, `vault_search` all complete for any vault path
+- [ ] `npm test` — 125 tests PASS
 - [ ] `npm run typecheck` — no errors
 - [ ] `npm run build` — no errors

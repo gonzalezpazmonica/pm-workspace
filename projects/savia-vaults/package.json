@@ -61,7 +61,7 @@
   "mcp": {
     "server": {
       "command": "savia-vaults",
-      "args": ["serve", "--transport", "mcp", "--path", "vaults/SaviaLabs"]
+      "args": ["serve", "--transport", "mcp"]
     }
   }
 }

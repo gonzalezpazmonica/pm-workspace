@@ -228,9 +228,7 @@
         "/home/monica/savia/projects/savia-vaults/dist/cli/index.js",
         "serve",
         "--transport",
-        "mcp",
-        "--path",
-        "vaults/SaviaLabs"
+        "mcp"
       ],
       "enabled": true,
       "timeout": 60000

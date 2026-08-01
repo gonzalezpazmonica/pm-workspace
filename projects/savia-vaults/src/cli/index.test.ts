@@ -10,7 +10,7 @@ function makeConfig(name: string, vaultPath: string, schemaDir?: string): VaultC
 
 describe('CLI (SE-290)', () => {
   it('path is configurable', () => {
-    expect(makeConfig('vault', 'vaults/SaviaLabs').path).toBe('vaults/SaviaLabs');
+    expect(makeConfig('vault', 'vaults/my-project').path).toBe('vaults/my-project');
   });
   it('schemaDir is optional', () => {
     expect(makeConfig('vault', '/tmp').schemaDir).toBeUndefined();
