@@ -1,6 +1,6 @@
 {
-  "hash": "89526236f66d",
-  "total": 1297,
+  "hash": "9af2f3c7de05",
+  "total": 1298,
   "resources": [
     {
       "category": "analysis",
@@ -10194,6 +10194,20 @@
       "kind": "script",
       "path": "scripts/knowledge-graph.sh",
       "description": "knowledge-graph.sh — SE-162: Shell wrapper for knowledge-graph.py"
+    },
+    {
+      "category": "planning",
+      "name": "labs-preregister",
+      "intents": [
+        "hipotesis",
+        "labs",
+        "preregister",
+        "preregistro",
+        "savia"
+      ],
+      "kind": "script",
+      "path": "scripts/labs-preregister.sh",
+      "description": "labs-preregister.sh — Preregistro de hipotesis en Savia Labs"
     },
     {
       "category": "planning",
