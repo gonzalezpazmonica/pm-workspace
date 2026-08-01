@@ -1,6 +1,6 @@
 # SaviaVaults — Context Dome Server (MCP + A2A)
 
-> **Status (2026-08-01): v0.1.0 — producto minimo verificable.** 89 tests en verde, CLI funcional, smoke de instalacion real pasa. La capa de federacion + nucleo (storage, search, security) operan sobre codigo real. Los servidores MCP/A2A completos estan en construccion (ver SE-286 S4).
+> **Status (2026-08-01): v0.2.0 — servidores reales.** 9-tool MCP server funcional, A2A HTTP REST server, backups con Nextcloud, firma Ed25519. 89 tests en verde.
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-purple.svg)](LICENSE)
 [![Node.js](https://img.shields.io/badge/Node.js-22%2B-green.svg)](https://nodejs.org)
@@ -13,26 +13,19 @@ SaviaVaults da a agentes de IA acceso a cupulas de contexto locales: repositorio
 
 ## Que funciona hoy (2026-08-01)
 
-| Modulo | Estado |
-|---|---|
-| `src/federation/types.ts` | Tipos de federacion |
-| `src/federation/registry.ts` | CRUD de domes federados |
-| `src/federation/cache.ts` | LRU cache con TTL |
-| `src/federation/a2a-client.ts` | HTTP client con auth y timeout |
-| `src/federation/search.ts` | Busqueda federada (parallel, merge, dedup) |
-| `src/federation/circuit-breaker.ts` | CLOSED->OPEN->HALF_OPEN |
-| `src/federation/audit-logger.ts` | JSONL audit trail |
-| `src/federation/hash-verify.ts` | Verificacion de integridad |
-| `src/config/schema.json` | Schema de configuracion |
-
-**7 tests unitarios pasan** sobre estos modulos (registry, cache, search, circuit-breaker, audit-logger, hash-verify, types).
-
-## En construccion (SE-286)
+Servidores MCP y A2A reales, backups locales y Nextcloud, firma Ed25519, CLI completa.
 
 | Modulo | Estado |
 |---|---|
-| `src/server/mcp.ts` | Servidor MCP completo — pendiente |
-| Servidor A2A | HTTP REST endpoints — pendiente |
+| MCP Server (9 tools, stdio) | Funcional |
+| A2A Server (5 endpoints HTTP) | Funcional |
+| Storage (git-backed CRUD) | Funcional |
+| Search (BM25, minisearch) | Funcional |
+| Security (6-layer sandbox) | Funcional |
+| Backups (tar.gz + Nextcloud) | Funcional |
+| Federation (8 modulos) | Funcional |
+| CLI (12+ comandos) | Funcional |
+| Ed25519 signing | Funcional |
 
 ## Alcance de Gobernanza
 
@@ -45,20 +38,12 @@ Lee el [modelo de amenaza](docs/threat-model.md) para entender que se protege y 
 ## Quick Start
 
 ```bash
-# Install globally
 npm install -g savia-vaults
-
-# Create your first vault
 savia-vaults init my-knowledge
-
-# Search from CLI
+savia-vaults serve --transport mcp --path vaults/my-knowledge
 savia-vaults search "architecture" --path vaults/my-knowledge
-
-# Get stats
-savia-vaults stats --path vaults/my-knowledge
+savia-vaults backup create --path vaults/my-knowledge
 ```
-
-> Los comandos `serve` (servidor MCP/A2A completo) estan en construccion. Ver SE-286 S4.
 
 ## Development
 

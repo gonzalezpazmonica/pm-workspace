@@ -4,6 +4,7 @@ import * as crypto from 'node:crypto';
 import { simpleGit } from 'simple-git';
 import YAML from 'yaml';
 import type { VaultConfig, Note, Receipt, VaultStats, CommitEntry, Frontmatter } from '../types.js';
+import { signContent } from '../security/index.js';
 
 export class VaultStorage {
   private config: VaultConfig;
@@ -62,7 +63,7 @@ export class VaultStorage {
     fs.writeFileSync(fullPath, content);
 
     const hash = crypto.createHash('sha256').update(content).digest('hex');
-    const signature = crypto.createHash('sha256').update(`${hash}:${this.config.name}`).digest('hex').slice(0, 16);
+    const signature = signContent(content);
 
     const git = simpleGit(this.config.path);
     try {

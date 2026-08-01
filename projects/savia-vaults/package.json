@@ -1,6 +1,6 @@
 {
   "name": "savia-vaults",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Context Dome Server — MCP + A2A server for AI agent knowledge vaults with git-backed storage, hybrid search, and content signing",
   "license": "MIT",
   "type": "module",
