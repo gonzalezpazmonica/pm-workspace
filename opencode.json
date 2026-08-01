@@ -6,8 +6,6 @@
     "CLAUDE.md",
     ".claude/profiles/savia.md",
     ".claude/profiles/active-user.md",
-    ".claude/external-memory/auto/MEMORY.md",
-    ".claude/rules/pm-config.local.md",
     "docs/rules/domain/radical-honesty.md",
     "docs/rules/domain/autonomous-safety.md",
     "docs/rules/domain/caveman-default.md",
@@ -218,10 +216,10 @@
         "/home/monica/.local/bin/codebase-memory-mcp",
         "serve"
       ],
-      "enabled": true,
+      "enabled": false,
       "timeout": 60000
     },
-        "savia-vaults": {
+    "savia-vaults": {
       "type": "local",
       "command": [
         "/home/monica/.nvm/versions/node/v22.23.2/bin/node",
@@ -230,13 +228,10 @@
         "--transport",
         "mcp",
         "--path",
-        "vaults/SaviaLabs",
-        "--schema",
-        "projects/savia-vaults/schema/entities"
+        "vaults/SaviaLabs"
       ],
       "enabled": true,
       "timeout": 60000
-Stashed changes
     }
   }
 }

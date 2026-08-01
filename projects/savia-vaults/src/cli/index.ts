@@ -12,6 +12,8 @@ import { KnowledgeGraph } from '../knowledge/graph.js';
 import { QueryEngine } from '../knowledge/query.js';
 import { QualityEngine } from '../knowledge/quality.js';
 import type { VaultConfig } from '../types.js';
+import { DomeRegistry } from '../registry/domes.js';
+import { UserStore, ConfidentialityGuard } from '../auth/index.js';
 import * as fs from 'node:fs';
 import * as path from 'node:path';
 
@@ -210,5 +212,287 @@ backupCmd.command('status').description('Backup system status').action(() => {
   console.log(`Backups: ${s.count} in ${s.backupsDir}`);
   console.log(`Nextcloud: ${s.nextcloudConfigured ? 'configured' : 'not configured'}`);
 });
+
+// ── User management commands (SE-291 S6) ──
+const userCmd = program.command('user').description('Manage users and permissions');
+
+userCmd.command('create <username>').description('Create a new user and generate token')
+  .action((username) => {
+    const store = new UserStore();
+    try { store.load(); } catch {}
+    try {
+      const token = store.createUser(username);
+      store.save();
+      console.log('═'.repeat(70));
+      console.log(`User "${username}" created.`);
+      console.log(`Token:  ${token}`);
+      console.log('═'.repeat(70));
+      console.log('SAVE THIS TOKEN. It will not be shown again.');
+      console.log('Configure it in your MCP client as SAVIA_AUTH_TOKEN.');
+    } catch (e) {
+      console.error(`Error: ${e instanceof Error ? e.message : e}`);
+      process.exit(1);
+    }
+  });
+
+userCmd.command('delete <username>').description('Delete a user')
+  .action((username) => {
+    const store = new UserStore();
+    store.load();
+    try {
+      store.deleteUser(username);
+      store.save();
+      console.log(`User "${username}" deleted.`);
+    } catch (e) {
+      console.error(`Error: ${e instanceof Error ? e.message : e}`);
+      process.exit(1);
+    }
+  });
+
+userCmd.command('list').description('List all users')
+  .option('--json', 'JSON output')
+  .action((opts) => {
+    const store = new UserStore();
+    store.load();
+    const users = store.listUsers();
+    if (users.length === 0) { console.log('No users configured.'); return; }
+    if (opts.json) {
+      const safe = users.map(u => ({ username: u.username, createdAt: u.createdAt, domeCount: Object.keys(u.permissions).length }));
+      console.log(JSON.stringify(safe, null, 2));
+    } else {
+      for (const u of users) {
+        const domes = Object.keys(u.permissions).join(', ') || '(none)';
+        console.log(`  ${u.username}  [${Object.keys(u.permissions).length} domes]  ${domes}`);
+      }
+    }
+  });
+
+userCmd.command('token <username>').description('Show or regenerate user token')
+  .option('--regenerate', 'Generate new token (invalidates old)')
+  .action((username, opts) => {
+    const store = new UserStore();
+    store.load();
+    try {
+      if (opts.regenerate) {
+        const token = store.regenerateToken(username);
+        store.save();
+        console.log('═'.repeat(70));
+        console.log(`New token for "${username}":`);
+        console.log(`Token:  ${token}`);
+        console.log('═'.repeat(70));
+        console.log('Old token is now INVALID. Update your MCP client config.');
+      } else {
+        console.log(`Use --regenerate to generate a new token for "${username}".`);
+        console.log('The current token cannot be displayed (only its hash is stored).');
+      }
+    } catch (e) {
+      console.error(`Error: ${e instanceof Error ? e.message : e}`);
+      process.exit(1);
+    }
+  });
+
+userCmd.command('grant <username> <dome> <role>').description('Grant role to user on a dome')
+  .action((username, dome, role) => {
+    if (!['admin', 'writer', 'reader'].includes(role)) {
+      console.error('Role must be admin, writer, or reader.');
+      process.exit(1);
+    }
+    const store = new UserStore();
+    store.load();
+    try {
+      store.setPermission(username, dome, role as 'admin' | 'writer' | 'reader');
+      store.save();
+      console.log(`Granted ${role} on "${dome}" to ${username}.`);
+    } catch (e) {
+      console.error(`Error: ${e instanceof Error ? e.message : e}`);
+      process.exit(1);
+    }
+  });
+
+userCmd.command('revoke <username> <dome>').description('Revoke user access to a dome')
+  .action((username, dome) => {
+    const store = new UserStore();
+    store.load();
+    try {
+      store.removePermission(username, dome);
+      store.save();
+      console.log(`Revoked access to "${dome}" from ${username}.`);
+    } catch (e) {
+      console.error(`Error: ${e instanceof Error ? e.message : e}`);
+      process.exit(1);
+    }
+  });
+
+userCmd.command('permissions <username>').description('List permissions for a user')
+  .option('--json', 'JSON output')
+  .action((username, opts) => {
+    const store = new UserStore();
+    store.load();
+    try {
+      const perms = store.getPermissions(username);
+      const entries = Object.entries(perms);
+      if (entries.length === 0) { console.log(`No permissions for "${username}".`); return; }
+      if (opts.json) {
+        console.log(JSON.stringify(entries.map(([dome, p]) => ({ dome, role: p.role })), null, 2));
+      } else {
+        console.log(`Permissions for ${username}:`);
+        for (const [dome, p] of entries) {
+          console.log(`  ${dome}: ${p.role}`);
+        }
+      }
+    } catch (e) {
+      console.error(`Error: ${e instanceof Error ? e.message : e}`);
+      process.exit(1);
+    }
+  });
+
+
+// ── Dome management commands (SE-291 S3) ──
+const domeCmd = program.command('dome').description('Manage context domes');
+
+domeCmd.command('create <name>').description('Create a new dome')
+  .option('--path <dir>', 'Dome directory path')
+  .option('--description <text>', 'Dome description', '')
+  .option('--confidentiality <level>', 'N1|N2|N3|N4', 'N2')
+  .action((name, opts) => {
+    const registry = new DomeRegistry();
+    const domePath = opts.path || path.join(process.cwd(), 'vaults', name);
+    fs.mkdirSync(domePath, { recursive: true });
+
+    try {
+      registry.load();
+    } catch {
+    }
+
+    try {
+      registry.add({
+        name,
+        path: domePath,
+        description: opts.description,
+        confidentiality: opts.confidentiality,
+        active: true,
+      });
+      registry.save();
+      console.log(`Dome "${name}" created at ${domePath}`);
+      if (!registry.defaultDome) {
+        registry.setDefault(name);
+        console.log(`  Set as default dome`);
+      }
+    } catch (e: unknown) {
+      console.error(`Error: ${e instanceof Error ? e.message : e}`);
+      process.exit(1);
+    }
+  });
+
+domeCmd.command('list').description('List registered domes')
+  .option('--json', 'JSON output')
+  .action((opts) => {
+    const registry = new DomeRegistry();
+    try { registry.load(); } catch { console.log('No domes registered.'); return; }
+    const domes = registry.list();
+    if (domes.length === 0) { console.log('No domes registered.'); return; }
+    if (opts.json) {
+      console.log(JSON.stringify(domes.map(d => ({ name: d.name, path: d.path, description: d.description, confidentiality: d.confidentiality, active: d.active })), null, 2));
+    } else {
+      console.log(`Domes (default: ${registry.defaultDome}):`);
+      for (const d of domes) {
+        console.log(`  ${d.active ? '●' : '○'} ${d.name}  [${d.confidentiality}]  ${d.path}${d.name === registry.defaultDome ? '  ← default' : ''}`);
+      }
+    }
+  });
+
+domeCmd.command('info <name>').description('Show dome details')
+  .option('--json', 'JSON output')
+  .action((name, opts) => {
+    const registry = new DomeRegistry();
+    registry.load();
+    const dome = registry.get(name);
+    if (!dome) { console.error(`Dome "${name}" not found.`); process.exit(1); }
+    if (opts.json) {
+      console.log(JSON.stringify({ name: dome.name, path: dome.path, description: dome.description, confidentiality: dome.confidentiality, active: dome.active, schemaDir: dome.schemaDir, isDefault: name === registry.defaultDome }, null, 2));
+    } else {
+      console.log(`Name: ${dome.name}`);
+      console.log(`Path: ${dome.path}`);
+      console.log(`Description: ${dome.description || '(none)'}`);
+      console.log(`Confidentiality: ${dome.confidentiality}`);
+      console.log(`Active: ${dome.active ? 'yes' : 'no'}`);
+      console.log(`Default: ${name === registry.defaultDome ? 'yes' : 'no'}`);
+    }
+  });
+
+domeCmd.command('delete <name>').description('Remove dome from registry')
+  .option('--force', 'Also delete dome files from disk')
+  .action((name, opts) => {
+    const registry = new DomeRegistry();
+    registry.load();
+    const dome = registry.get(name);
+    if (!dome) { console.error(`Dome "${name}" not found.`); process.exit(1); }
+    try {
+      registry.remove(name);
+      registry.save();
+      console.log(`Dome "${name}" removed from registry.`);
+      if (opts.force && dome.active) {
+        fs.rmSync(dome.path, { recursive: true, force: true });
+        console.log(`  Files deleted: ${dome.path}`);
+      }
+    } catch (e: unknown) {
+      console.error(`Error: ${e instanceof Error ? e.message : e}`);
+      process.exit(1);
+    }
+  });
+
+domeCmd.command('set-default <name>').description('Set default dome')
+  .action((name) => {
+    const registry = new DomeRegistry();
+    registry.load();
+    try {
+      registry.setDefault(name);
+      console.log(`Default dome set to "${name}".`);
+    } catch (e: unknown) {
+      console.error(`Error: ${e instanceof Error ? e.message : e}`);
+      process.exit(1);
+    }
+  });
+
+
+// ── Confidentiality commands (SE-291 S7) ──
+const confCmd = program.command('confidentiality').description('Manage dome confidentiality levels');
+
+confCmd.command('set <level>').description('Set confidentiality level for a dome')
+  .option('--dome <name>', 'Dome name')
+  .action((level, opts) => {
+    if (!['N1', 'N2', 'N3', 'N4'].includes(level)) {
+      console.error('Level must be N1, N2, N3, or N4.');
+      process.exit(1);
+    }
+    const registry = new DomeRegistry();
+    registry.load();
+    const domeName = opts.dome || registry.getDefaultName();
+    const dome = registry.get(domeName);
+    if (!dome) { console.error(`Dome "${domeName}" not found.`); process.exit(1); }
+    dome.confidentiality = level as 'N1'|'N2'|'N3'|'N4';
+    registry.save();
+    console.log(`Confidentiality for "${domeName}" set to ${level}.`);
+  });
+
+confCmd.command('get').description('Get confidentiality level for a dome')
+  .option('--dome <name>', 'Dome name')
+  .action((opts) => {
+    const registry = new DomeRegistry();
+    registry.load();
+    const domeName = opts.dome || registry.getDefaultName();
+    const dome = registry.get(domeName);
+    if (!dome) { console.error(`Dome "${domeName}" not found.`); process.exit(1); }
+    console.log(`${dome.name}: ${dome.confidentiality}`);
+  });
+
+confCmd.command('audit').description('Audit confidentiality across all domes')
+  .action(() => {
+    const registry = new DomeRegistry();
+    registry.load();
+    const audit = ConfidentialityGuard.audit(registry.list());
+    console.log(ConfidentialityGuard.formatAudit(audit));
+  });
+
 
 program.parse();

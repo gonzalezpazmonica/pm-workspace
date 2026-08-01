@@ -1,6 +1,6 @@
 # Savia Capability Map — INDEX
-> hash: d45f5b2caf5f | resources: 1303
-> 290 commands · 122 skills · 82 agents · 809 scripts
+> hash: e9d76b705e17 | resources: 1310
+> 290 commands · 122 skills · 82 agents · 816 scripts
 
 [analysis] Trace Optimize — across,distributed,optimize,rates,sampling — cmd:.claude/commands/trace-optimize.md
 [analysis] agent-activity — activity,agent,executions,recent,show — cmd:.claude/commands/agent-activity.md
@@ -67,6 +67,7 @@
 [analysis] time-tracking-report — excel,generan,horas,imputación,informes — skill:.claude/skills/time-tracking-report/SKILL.md
 [analysis] trace-pattern-extractor — agent,analyze,extractor,pattern,phase — script:scripts/trace-pattern-extractor.sh
 [analysis] truth-tribunal — evaluation,judge,orchestrate,reliability,reports — script:scripts/truth-tribunal.sh
+[analysis] vaults-health-report — health,quality,report,vault,vaults — script:scripts/vaults-health-report.sh
 [analysis] weekly-report — estado,informe,proyecto,semanal — skill:.claude/skills/weekly-report/SKILL.md
 [communication] archive-digest —  — agent:.opencode/agents/archive-digest.md
 [communication] digest-extract — capa,digest,extracción,extract,markitdown — script:scripts/digest-extract.sh
@@ -376,6 +377,7 @@
 [development] understand-anything — analizar,anything,codebase,dominio,estructurales — skill:.claude/skills/understand-anything/SKILL.md
 [development] validate-pbi-spec-links — bidirectional,check,links,spec,validate — script:scripts/validate-pbi-spec-links.sh
 [development] validate-spec — declarative,spec,validate,validation,without — script:scripts/validate-spec.sh
+[development] vaults-introspect — introspect,saviavaults,vault,vaults — script:scripts/vaults-introspect.sh
 [development] verification-middleware — checks,implementation,middleware,orchestrate,post — script:scripts/verification-middleware.sh
 [development] workforce-analytics — agentic,analytics,scripts,spec,workforce — script:scripts/workforce-analytics.sh
 [development] workspace-doctor — check,doctor,health,spec,workspace — script:scripts/workspace-doctor.sh
@@ -506,6 +508,8 @@
 [memory] tool-search — agentes,buscar,clave,comandos,palabra — cmd:.claude/commands/tool-search.md
 [memory] ua-chat — graph,knowledge,language,natural,search — cmd:.claude/commands/ua-chat.md
 [memory] ubiquitous-language — consolidar,context,dice,dominio,extrae — skill:.claude/skills/ubiquitous-language/SKILL.md
+[memory] vaults-context-load — context,fallback,load,loading,saviavaults — script:scripts/vaults-context-load.sh
+[memory] vaults-freshness — check,context,dome,fresh,freshness — script:scripts/vaults-freshness.sh
 [memory] web-research — auto,available,back,best,context — cmd:.claude/commands/web-research.md
 [memory] web-research — buscar,contexto,cves,docs,gaps — skill:.claude/skills/web-research/SKILL.md
 [planning] /decide-architecture — accuracy,agent,anthropic,bias,clasifica — cmd:.claude/commands/decide-architecture.md
@@ -1041,7 +1045,10 @@
 [planning] vault-ops — library,operations,personal,sourced,vault — script:scripts/vault-ops.sh
 [planning] vaults-backup-cron — backup,cron,nextcloud,savialabs,sync — script:scripts/vaults-backup-cron.sh
 [planning] vaults-backup-cron-install — backup,backups,cron,install,saviavaults — script:scripts/vaults-backup-cron-install.sh
+[planning] vaults-export — confidentiality,export,filtering,signing,vault — script:scripts/vaults-export.sh
+[planning] vaults-graph-query — graph,knowledge,queries,query,saviavaults — script:scripts/vaults-graph-query.sh
 [planning] vaults-nextcloud-setup — backups,configurar,credenciales,nextcloud,setup — script:scripts/vaults-nextcloud-setup.sh
+[planning] vaults-validate — against,documents,entity,schemas,validate — script:scripts/vaults-validate.sh
 [planning] velocity-trend — anomalías,detección,explicativos,factores,media — cmd:.claude/commands/velocity-trend.md
 [planning] verify-ledger-chain — chain,ledger,slice,verify — script:scripts/verify-ledger-chain.sh
 [planning] verify-principal — principal,scripts,slice,verify — script:scripts/verify-principal.sh
