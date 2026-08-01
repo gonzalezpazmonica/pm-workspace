@@ -124,6 +124,7 @@ To use a skill: read `<path>` and follow its instructions.
 | savia-flow-practice | `.opencode/skills/savia-flow-practice/SKILL.md` | Usar cuando se implementa Savia Flow con dual-track y métricas de flujo en un proyecto. |
 | savia-hub-sync | `.opencode/skills/savia-hub-sync/SKILL.md` | Usar cuando se sincroniza el repositorio SaviaHub con el workspace local. |
 | savia-identity | `.opencode/skills/savia-identity/SKILL.md` | Usar al inicio de sesión para cargar la identidad completa y las reglas de comportamiento de Savia. |
+| savia-labs | `.opencode/skills/savia-labs/SKILL.md` | Usar cuando se investiga, experimenta o audita epistemicamente. Triggers: 'investiga', 'experimen... |
 | savia-memory | `.opencode/skills/savia-memory/SKILL.md` | Usar cuando se lee, escribe, busca o consolida la memoria persistente entre sesiones de Savia. |
 | savia-school | `.opencode/skills/savia-school/SKILL.md` | Usar cuando el workspace se adapta para un entorno educativo con estudiantes menores de edad. |
 | savia-vaults | `.opencode/skills/savia-vaults/SKILL.md` | Usar cuando se interactua con SaviaVaults — cupulas de contexto, busqueda federada, servidores ... |

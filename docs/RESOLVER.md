@@ -46,7 +46,7 @@
 
 <!-- AUTO_BEGIN — do not edit; regenerate via scripts/resolver-md-generate.sh -->
 
-### Skills (120)
+### Skills (121)
 
 | Intent (skill) | Target | Cuándo usar |
 |---|---|---|
@@ -140,6 +140,7 @@
 | `savia-flow-practice` | skill:savia-flow-practice | Usar cuando se implementa Savia Flow con dual-track y métricas de flujo en un proyecto. |
 | `savia-hub-sync` | skill:savia-hub-sync | Usar cuando se sincroniza el repositorio SaviaHub con el workspace local. |
 | `savia-identity` | skill:savia-identity | Usar al inicio de sesión para cargar la identidad completa y las reglas de comportamie... |
+| `savia-labs` | skill:savia-labs | Usar cuando se investiga, experimenta o audita epistemicamente. Triggers: 'investiga', ... |
 | `savia-memory` | skill:savia-memory | Usar cuando se lee, escribe, busca o consolida la memoria persistente entre sesiones de... |
 | `savia-school` | skill:savia-school | Usar cuando el workspace se adapta para un entorno educativo con estudiantes menores de... |
 | `savia-vaults` | skill:savia-vaults | Usar cuando se interactua con SaviaVaults — cupulas de contexto, busqueda federada, s... |
