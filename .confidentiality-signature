@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=3186b19f691a4d153d1fbb09517c3befd195121958f94a295dda0783bcd11a4c
-timestamp=2026-08-01T11:48:52Z
+diff_hash=451937c3246a7dd54dad9233e49994e3faab0cf7e9c0b973082d04270084eb4a
+timestamp=2026-08-01T12:14:22Z
 branch=agent/se290-vaults-native
-head_commit=66b143ae
-signature=1947acb8f8ceae29b98d73c195e53bade95593833e4d09d56ded0d78fea87826
+head_commit=f0ab6d80
+signature=28dafae4370b77ed84285156c3da8c9676738596449526879f44911819bfa92d
