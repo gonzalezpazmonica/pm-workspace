@@ -1,9 +1,16 @@
+---
+name: savia-labs
+description: Usar cuando se investiga, experimenta o audita epistemicamente. Triggers: 'investiga', 'experimento', 'hipotesis', 'preregistro', 'labs', 'divergencia', 'certificado de ignorancia', 'corpus de desconocidos', 'auditoria de reclutamiento', 'federacion epistemica', 'diversidad de calidad', 'desconocidos desconocidos', 'punto ciego', 'preregistrar'.
+maturity: experimental
+context: project
+category: research
+priority: medium
+tags: [labs, investigacion, epistemologia, experimentos, preregistro, divergencia]
+---
+
 # Savia Labs — Investigacion Epistemica
 
 Cupula de investigacion sobre desconocidos desconocidos.
-Usar cuando: "investiga", "experimento", "hipotesis", "preregistro", "labs",
-"divergencia", "certificado de ignorancia", "corpus de desconocidos",
-"auditoria de reclutamiento", "federacion epistemica", "diversidad de calidad".
 
 ## Disciplina
 
@@ -20,7 +27,7 @@ Usar cuando: "investiga", "experimento", "hipotesis", "preregistro", "labs",
 - `/labs results` — consultar resultados
 - `/labs notebook` — leer cuaderno de laboratorio
 - `/labs protocol <line>` — ver protocolo de una linea
-- `/labs health` — estado del laboratorio (presupuesto, hipotesis abiertas)
+- `/labs health` — estado del laboratorio
 
 ## Lineas de investigacion
 
