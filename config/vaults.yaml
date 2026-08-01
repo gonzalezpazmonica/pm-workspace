@@ -1,0 +1,9 @@
+
+  savia-labs:
+    path: /home/monica/savia/labs
+    description: Savia Labs — cupula de investigacion epistemica
+    max_confidentiality: N2
+    write_mode: explicit
+    schema_dir: projects/savia-vaults/schema/entities
+    purpose: research
+    entity_types: [hypothesis, experiment, result, protocol]
