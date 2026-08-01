@@ -8,7 +8,7 @@
 - **Task ID:** SE-280
 - **PBI padre:** Era 200 — Savia Intelligence Layer
 - **developer_type:** agent-team
-- **status:** draft
+- **status:** PARTIAL — Implemented: federation layer + config schema + 7 tests on real code. Not implemented: types, storage, search, security, MCP server, A2A server, CLI (see SE-286 for completion plan).
 - **stack:** TypeScript + Node.js 22+ + MCP SDK + simple-git + minisearch
 - **estimacion:** 20h (6 slices)
 

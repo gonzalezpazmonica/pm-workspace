@@ -8,7 +8,7 @@
 - **Task ID:** SE-281
 - **PBI padre:** Era 200 — Savia Intelligence Layer
 - **developer_type:** agent-single
-- **status:** draft
+- **status:** PARTIAL — Implemented: config schema (schema.json), search index persistence test scaffold (search.test.ts). Not implemented: multi-vault, A2A auth, rate limiter, raw file access, config CLI (see SE-286).
 - **stack:** bash + TypeScript
 - **estimacion:** 8h (4 slices)
 

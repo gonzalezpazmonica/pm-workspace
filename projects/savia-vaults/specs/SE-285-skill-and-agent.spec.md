@@ -8,7 +8,7 @@
 - **Task ID:** SE-285
 - **PBI padre:** Era 200 — Savia Intelligence Layer
 - **developer_type:** agent-team
-- **status:** draft
+- **status:** PROPOSED — No implementation. Skill SKILL.md and context-dome-manager agent definition do not exist. See SE-286 (out of scope for initial completion; follow-up after core product).
 - **stack:** Markdown (SKILL.md) + YAML frontmatter (agent)
 - **estimacion:** 6h (3 slices)
 

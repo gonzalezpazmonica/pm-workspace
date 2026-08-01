@@ -6,11 +6,13 @@ export class FederationAuditLogger {
   constructor(dir: string, maxSize = 10 * 1024 * 1024) { this.dir = dir; this.maxSize = maxSize; fs.mkdirSync(dir, { recursive: true }); }
 
   private currentFile(): string {
+    const base = `federation-audit-${new Date().toISOString().slice(0,10)}`;
     const files = fs.readdirSync(this.dir).filter(f => f.startsWith('federation-audit-') && f.endsWith('.jsonl')).sort();
-    if (files.length === 0) return path.join(this.dir, `federation-audit-${new Date().toISOString().slice(0,10)}.jsonl`);
+    if (files.length === 0) return path.join(this.dir, `${base}.jsonl`);
     const last = path.join(this.dir, files[files.length - 1]);
     try { if (fs.statSync(last).size < this.maxSize) return last; } catch {}
-    return path.join(this.dir, `federation-audit-${new Date().toISOString().slice(0,10)}.jsonl`);
+    const sameDay = files.filter(f => f.startsWith(base));
+    return path.join(this.dir, `${base}-${sameDay.length + 1}.jsonl`);
   }
 
   private write(entry: Record<string, unknown>): void {

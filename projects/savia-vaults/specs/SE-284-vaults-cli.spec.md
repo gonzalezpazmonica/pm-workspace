@@ -9,7 +9,7 @@
 - **Task ID:** SE-284
 - **PBI padre:** Era 200 — Savia Intelligence Layer
 - **developer_type:** agent-team
-- **status:** draft
+- **status:** PROPOSED — No implementation. CLI source does not exist; bin points to dist/cli/index.js which tsc cannot produce. See SE-286 S5 for full implementation plan.
 - **stack:** TypeScript, commander, Node.js 22+
 - **estimacion:** 14h (7 slices)
 

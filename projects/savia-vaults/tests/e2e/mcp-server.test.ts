@@ -44,6 +44,10 @@ describe('SaviaVaults E2E — MCP Protocol', () => {
       '# API Reference',
       'MCP tools: vault_read, vault_write, vault_search, vault_list.',
     ].join('\n'));
+
+    fs.writeFileSync(path.join(vaultPath, 'INDEX.md'), '# e2e-vault\n\n');
+    fs.writeFileSync(path.join(vaultPath, 'MAP.md'), '# e2e-vault — Routing Map\n\n');
+    fs.mkdirSync(path.join(vaultPath, '.git'), { recursive: true });
   });
 
   afterEach(() => {
