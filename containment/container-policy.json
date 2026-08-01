@@ -1,0 +1,1 @@
+{"version":1,"description":"Execution containment policy","defaults":{"scripts/":"N-anfitrion"},"rules":[{"pattern":"scripts/containment-run.sh","level":"N-anfitrion","reason":"Orchestrator runs on host"}],"exceptions":[]}
