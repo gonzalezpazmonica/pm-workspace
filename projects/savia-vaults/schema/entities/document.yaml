@@ -1,0 +1,18 @@
+type: document
+label: Documento
+description: Documento tecnico, spec, informe o articulo
+properties:
+  title:
+    type: string
+    required: true
+  doc_type:
+    type: string
+    required: false
+    vocabulary: [spec, report, analysis, research, manual, proposal, audit]
+  status:
+    type: string
+    required: false
+    vocabulary: [draft, review, approved, published, archived]
+  version:
+    type: string
+    required: false

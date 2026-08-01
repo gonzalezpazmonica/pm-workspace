@@ -1,0 +1,17 @@
+type: organization
+label: Organizacion
+description: Empresa, institucion o entidad colectiva
+properties:
+  name:
+    type: string
+    required: true
+  sector:
+    type: string
+    required: false
+    vocabulary: [tecnologia, finanzas, legal, salud, educacion, publico, defensa, energia]
+  country:
+    type: string
+    required: false
+  website:
+    type: string
+    required: false

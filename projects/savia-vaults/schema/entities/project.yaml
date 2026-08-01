@@ -1,0 +1,23 @@
+type: project
+label: Proyecto
+description: Proyecto de software, investigacion o iniciativa
+properties:
+  name:
+    type: string
+    required: true
+  status:
+    type: string
+    required: false
+    vocabulary: [proposed, active, completed, archived, abandoned]
+  start_date:
+    type: date
+    required: false
+  end_date:
+    type: date
+    required: false
+  repository:
+    type: string
+    required: false
+  language:
+    type: string
+    required: false

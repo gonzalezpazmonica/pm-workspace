@@ -1,0 +1,24 @@
+type: person
+label: Persona
+description: Persona fisica
+properties:
+  name:
+    type: string
+    required: true
+    description: Nombre completo
+  role:
+    type: string
+    required: false
+    vocabulary: [investigador, analista, arquitecto, desarrollador, operador, director, revisor]
+  email:
+    type: string
+    required: false
+    pattern: "^[^@]+@[^@]+$"
+  organization:
+    type: string
+    required: false
+    description: Organizacion a la que pertenece
+  since:
+    type: date
+    required: false
+    description: Fecha de incorporacion al contexto
