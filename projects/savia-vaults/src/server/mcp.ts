@@ -7,6 +7,10 @@ import {
 import { VaultStorage } from '../storage/index.js';
 import { SearchEngine } from '../search/index.js';
 import { VaultSecurity } from '../security/index.js';
+import { Introspector } from '../knowledge/introspector.js';
+import { KnowledgeGraph } from '../knowledge/graph.js';
+import { QueryEngine } from '../knowledge/query.js';
+import { QualityEngine } from '../knowledge/quality.js';
 import type { VaultConfig } from '../types.js';
 import * as fs from 'node:fs';
 import * as path from 'node:path';
@@ -16,13 +20,26 @@ export class MCPVaultServer {
   private storage: VaultStorage;
   private search: SearchEngine;
   private security: VaultSecurity;
+  private introspector: Introspector;
+  private graph: KnowledgeGraph;
+  private queryEngine: QueryEngine;
+  private quality: QualityEngine;
+  private graphBuilt = false;
 
   constructor(config: VaultConfig) {
     this.config = config;
     this.storage = new VaultStorage(config);
     this.search = new SearchEngine(config);
     this.security = new VaultSecurity(config);
+    this.introspector = new Introspector(config);
+    this.graph = new KnowledgeGraph(config);
+    this.queryEngine = new QueryEngine(config);
+    this.quality = new QualityEngine(config);
     this.initVault();
+  }
+
+  private async ensureGraph(): Promise<void> {
+    if (!this.graphBuilt) { await this.graph.build(); this.graphBuilt = true; }
   }
 
   private initVault(): void {
@@ -125,6 +142,10 @@ export class MCPVaultServer {
           description: 'List all tags with occurrence counts.',
           inputSchema: { type: 'object', properties: {} },
         },
+        { name: 'vault_introspect', description: 'Discover entity types, coverage, and available properties.', inputSchema: { type: 'object', properties: { entity: { type: 'string' } } } },
+        { name: 'vault_graph', description: 'Query knowledge graph: traverse, search, or get stats.', inputSchema: { type: 'object', properties: { action: { type: 'string' }, id: { type: 'string' }, depth: { type: 'number' }, query: { type: 'string' } }, required: ['action'] } },
+        { name: 'vault_query', description: 'Deterministic dotted-notation query for entities.', inputSchema: { type: 'object', properties: { expression: { type: 'string' } }, required: ['expression'] } },
+        { name: 'vault_health', description: 'Quality report: coverage, provenance, conflicts, freshness.', inputSchema: { type: 'object', properties: {} } },
       ],
     }));
 
@@ -198,6 +219,38 @@ export class MCPVaultServer {
             return {
               content: [{ type: 'text', text: JSON.stringify([...tags.entries()], null, 2) }],
             };
+          }
+          case 'vault_introspect': {
+            if (args.entity) {
+              const entity = await this.introspector.introspectEntity(args.entity as string);
+              return { content: [{ type: 'text', text: JSON.stringify(entity, null, 2) }] };
+            }
+            const vault = await this.introspector.introspectVault();
+            return { content: [{ type: 'text', text: JSON.stringify(vault, null, 2) }] };
+          }
+          case 'vault_graph': {
+            await this.ensureGraph();
+            const action = args.action as string;
+            if (action === 'traverse') {
+              const result = this.graph.traverse(args.id as string, (args.depth as number) || 3);
+              return { content: [{ type: 'text', text: JSON.stringify(result, null, 2) }] };
+            } else if (action === 'search') {
+              const nodes = this.graph.searchNodes(args.query as string);
+              return { content: [{ type: 'text', text: JSON.stringify(nodes.map(n => ({ id: n.id, type: n.type, path: n.path, outgoing: n.outgoing.length, incoming: n.incoming.length })), null, 2) }] };
+            } else {
+              const stats = this.graph.getStats();
+              return { content: [{ type: 'text', text: JSON.stringify(stats, null, 2) }] };
+            }
+          }
+          case 'vault_query': {
+            await this.ensureGraph();
+            await this.queryEngine.ensureLoaded();
+            const result = await this.queryEngine.query(args.expression as string);
+            return { content: [{ type: 'text', text: result.outputMarkdown }] };
+          }
+          case 'vault_health': {
+            const indicators = await this.quality.assess();
+            return { content: [{ type: 'text', text: this.quality.formatReport(indicators) }] };
           }
           default:
             return { content: [{ type: 'text', text: `Unknown tool: ${name}` }], isError: true };

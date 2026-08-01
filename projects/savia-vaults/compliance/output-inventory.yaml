@@ -1,0 +1,141 @@
+# Output Inventory — Articulo 50 EU AI Act
+# Cada tipo de salida que Savia produce se clasifica aqui.
+# Artefacto nuevo sin entrada → hallazgo en self-audit.
+version: "1.0"
+last_updated: "2026-08-01"
+entries:
+  - type: spec
+    description: Especificacion tecnica (SDD spec)
+    audience: humano
+    exposure: publico
+    art50_1: false
+    art50_2: true
+    art50_4: false
+    exclusion: ""
+    notes: "Texto generado por IA con posible revision humana"
+  - type: code
+    description: Codigo fuente generado
+    audience: maquina
+    exposure: publico
+    art50_1: false
+    art50_2: false
+    art50_4: false
+    exclusion: "art50(2) — codigo fuente excluido del marcado"
+    notes: "Exclusion explicita en Guidelines"
+  - type: conversation
+    description: Respuesta conversacional (chat, CLI)
+    audience: humano
+    exposure: interna
+    art50_1: true
+    art50_2: false
+    art50_4: false
+    exclusion: ""
+    notes: "Notificacion en primera interaccion (50.1)"
+  - type: digest
+    description: Digestion de documento (PDF, Word, Excel)
+    audience: humano
+    exposure: interna
+    art50_1: false
+    art50_2: false
+    art50_4: false
+    exclusion: "Funcion asistiva de edicion — el contenido original no es generado"
+    notes: "Extraccion estructurada de contenido existente"
+  - type: report
+    description: Informe generado (ejecutivo, semanal, auditoria)
+    audience: humano
+    exposure: interna
+    art50_1: false
+    art50_2: true
+    art50_4: false
+    exclusion: ""
+    notes: "Marcado requerido si se comparte externamente"
+  - type: brief
+    description: Resumen o brief generado
+    audience: humano
+    exposure: interna
+    art50_1: false
+    art50_2: true
+    art50_4: false
+    exclusion: ""
+    notes: ""
+  - type: article
+    description: Articulo o contenido para publicacion
+    audience: humano
+    exposure: publico
+    art50_1: false
+    art50_2: true
+    art50_4: true
+    exclusion: ""
+    notes: "Art. 50(4) aplica si es materia de interes publico. Revision humana requerida."
+  - type: pr_description
+    description: Descripcion de Pull Request
+    audience: humano
+    exposure: publico
+    art50_1: false
+    art50_2: true
+    art50_4: false
+    exclusion: ""
+    notes: "PR publico → marcado. Exencion si hay revision humana sustantiva."
+  - type: meeting_summary
+    description: Resumen de reunion generado
+    audience: humano
+    exposure: interna
+    art50_1: false
+    art50_2: true
+    art50_4: false
+    exclusion: ""
+    notes: ""
+  - type: decision_record
+    description: Registro de decision (ADR)
+    audience: humano
+    exposure: interna
+    art50_1: false
+    art50_2: false
+    art50_4: false
+    exclusion: "Funcion asistiva — la decision es humana, el registro es documental"
+    notes: "El texto puede ser generado pero la decision no"
+  - type: backup_artifact
+    description: Copia de seguridad
+    audience: maquina
+    exposure: interna
+    art50_1: false
+    art50_2: false
+    art50_4: false
+    exclusion: "Maquina-a-maquina sin exposicion humana"
+    notes: ""
+  - type: log_entry
+    description: Entrada de log o auditoria
+    audience: maquina
+    exposure: interna
+    art50_1: false
+    art50_2: false
+    art50_4: false
+    exclusion: "Maquina-a-maquina"
+    notes: ""
+  - type: config_file
+    description: Archivo de configuracion
+    audience: maquina
+    exposure: interna
+    art50_1: false
+    art50_2: false
+    art50_4: false
+    exclusion: "Maquina-a-maquina"
+    notes: ""
+  - type: commit_message
+    description: Mensaje de commit generado
+    audience: humano
+    exposure: publico
+    art50_1: false
+    art50_2: false
+    art50_4: false
+    exclusion: "Secuencia corta de texto"
+    notes: "Mensajes de commit breves"
+  - type: documentation
+    description: Documentacion tecnica generada
+    audience: humano
+    exposure: publico
+    art50_1: false
+    art50_2: true
+    art50_4: false
+    exclusion: ""
+    notes: "README, guias, manuales"
