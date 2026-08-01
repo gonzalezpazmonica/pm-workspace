@@ -1,6 +1,6 @@
 {
-  "hash": "019fa7d06f6b",
-  "total": 1300,
+  "hash": "898a106c608b",
+  "total": 1307,
   "resources": [
     {
       "category": "analysis",
@@ -875,6 +875,20 @@
       "kind": "script",
       "path": "scripts/truth-tribunal.sh",
       "description": "truth-tribunal.sh — Orchestrate 7-judge reliability evaluation of reports."
+    },
+    {
+      "category": "analysis",
+      "name": "vaults-health-report",
+      "intents": [
+        "health",
+        "quality",
+        "report",
+        "vault",
+        "vaults"
+      ],
+      "kind": "script",
+      "path": "scripts/vaults-health-report.sh",
+      "description": "vaults-health-report.sh — Quality and health report for a vault"
     },
     {
       "category": "analysis",
@@ -4927,6 +4941,19 @@
     },
     {
       "category": "development",
+      "name": "vaults-introspect",
+      "intents": [
+        "introspect",
+        "saviavaults",
+        "vault",
+        "vaults"
+      ],
+      "kind": "script",
+      "path": "scripts/vaults-introspect.sh",
+      "description": "vaults-introspect.sh — Introspect a SaviaVaults vault"
+    },
+    {
+      "category": "development",
       "name": "verification-middleware",
       "intents": [
         "checks",
@@ -6676,6 +6703,34 @@
       "kind": "skill",
       "path": ".claude/skills/ubiquitous-language/SKILL.md",
       "description": "Usar cuando se necesita extraer o consolidar el glosario de términos de dominio de un proyecto. Trigger: usuario dice 'extrae glosario', 'ubiquitous language', '/glossary', o hay >5 términos repetidos sin CONTEXT.md."
+    },
+    {
+      "category": "memory",
+      "name": "vaults-context-load",
+      "intents": [
+        "context",
+        "fallback",
+        "load",
+        "loading",
+        "saviavaults"
+      ],
+      "kind": "script",
+      "path": "scripts/vaults-context-load.sh",
+      "description": "vaults-context-load.sh — Context loading via SaviaVaults with fallback"
+    },
+    {
+      "category": "memory",
+      "name": "vaults-freshness",
+      "intents": [
+        "check",
+        "context",
+        "dome",
+        "fresh",
+        "freshness"
+      ],
+      "kind": "script",
+      "path": "scripts/vaults-freshness.sh",
+      "description": "vaults-freshness.sh — Check if a vault's context dome is fresh"
     },
     {
       "category": "memory",
@@ -13636,6 +13691,34 @@
     },
     {
       "category": "planning",
+      "name": "vaults-export",
+      "intents": [
+        "confidentiality",
+        "export",
+        "filtering",
+        "signing",
+        "vault"
+      ],
+      "kind": "script",
+      "path": "scripts/vaults-export.sh",
+      "description": "vaults-export.sh — Export vault with confidentiality filtering and signing"
+    },
+    {
+      "category": "planning",
+      "name": "vaults-graph-query",
+      "intents": [
+        "graph",
+        "knowledge",
+        "queries",
+        "query",
+        "saviavaults"
+      ],
+      "kind": "script",
+      "path": "scripts/vaults-graph-query.sh",
+      "description": "vaults-graph-query.sh — Knowledge graph queries via SaviaVaults"
+    },
+    {
+      "category": "planning",
       "name": "vaults-nextcloud-setup",
       "intents": [
         "backups",
@@ -13647,6 +13730,20 @@
       "kind": "script",
       "path": "scripts/vaults-nextcloud-setup.sh",
       "description": "vaults-nextcloud-setup.sh — Configurar credenciales Nextcloud para backups"
+    },
+    {
+      "category": "planning",
+      "name": "vaults-validate",
+      "intents": [
+        "against",
+        "documents",
+        "entity",
+        "schemas",
+        "validate"
+      ],
+      "kind": "script",
+      "path": "scripts/vaults-validate.sh",
+      "description": "vaults-validate.sh — Validate documents against entity schemas"
     },
     {
       "category": "planning",
