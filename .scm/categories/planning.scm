@@ -1,5 +1,5 @@
 # planning — Savia Capability Map (L1)
-> 541 resources
+> 542 resources
 
 - **/decide-architecture** (cmd): Clasifica una tarea como WORKFLOW (deterministica) o AGENT (loop). Bias hacia workflow per Anthropic. Sugiere plantilla inicial. Mide accuracy contra corpus curado de 20 tareas.
 - **_template** (skill): TEMPLATE — copia este directorio para crear una skill nueva. NO se carga en runtime.
@@ -531,6 +531,7 @@
 - **validate-settings-local** (script): validate-settings-local.sh — Detect private/session data in settings.local.json
 - **vault** (script): vault.sh — Personal Vault dispatcher (N3)
 - **vault-ops** (script): vault-ops.sh — Personal Vault operations library (N3). Sourced by vault.sh.
+- **vaults-validate** (script): vaults-validate.sh — Validate documents against entity schemas
 - **velocity-trend** (cmd): Tendencia de velocity con media móvil, detección de anomalías y factores explicativos
 - **verify-ledger-chain** (script): verify-ledger-chain.sh — SE-258 Slice 2
 - **verify-principal** (script): scripts/verify-principal.sh — SE-256 Slice 3

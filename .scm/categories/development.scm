@@ -1,5 +1,5 @@
 # development — Savia Capability Map (L1)
-> 217 resources
+> 218 resources
 
 - **/speckit.checklist** (cmd): Alias spec-kit compatible. Gate de calidad final con verification-lattice multi-capa. Invoca skill verification-lattice. Compatible con github/spec-kit.
 - **/speckit.clarify** (cmd): Alias spec-kit compatible. Preguntas dirigidas para cerrar ambigüedad en una spec. Invoca skill context-interview-conductor. Compatible con github/spec-kit.
@@ -214,6 +214,7 @@
 - **understand-anything** (skill): Usar cuando se necesita analizar un codebase con Understand-Anything para generar knowledge graphs estructurales y de dominio.
 - **validate-pbi-spec-links** (script): validate-pbi-spec-links.sh — Check bidirectional PBI ↔ Spec links
 - **validate-spec** (script): validate-spec.sh — SPEC-071: Declarative spec validation without LLM
+- **vaults-introspect** (script): vaults-introspect.sh — Introspect a SaviaVaults vault
 - **verification-middleware** (script): verification-middleware.sh — Orchestrate 3 verification checks post-implementation
 - **workforce-analytics** (script): scripts/workforce-analytics.sh — SPEC-SE-025 Agentic Workforce Analytics
 - **workspace-doctor** (script): workspace-doctor.sh — Health check pm-workspace (SPEC-031)

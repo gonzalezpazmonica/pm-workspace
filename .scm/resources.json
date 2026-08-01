@@ -1,6 +1,6 @@
 {
-  "hash": "89526236f66d",
-  "total": 1297,
+  "hash": "b24008cc7b31",
+  "total": 1300,
   "resources": [
     {
       "category": "analysis",
@@ -4927,6 +4927,19 @@
     },
     {
       "category": "development",
+      "name": "vaults-introspect",
+      "intents": [
+        "introspect",
+        "saviavaults",
+        "vault",
+        "vaults"
+      ],
+      "kind": "script",
+      "path": "scripts/vaults-introspect.sh",
+      "description": "vaults-introspect.sh — Introspect a SaviaVaults vault"
+    },
+    {
+      "category": "development",
       "name": "verification-middleware",
       "intents": [
         "checks",
@@ -6676,6 +6689,20 @@
       "kind": "skill",
       "path": ".claude/skills/ubiquitous-language/SKILL.md",
       "description": "Usar cuando se necesita extraer o consolidar el glosario de términos de dominio de un proyecto. Trigger: usuario dice 'extrae glosario', 'ubiquitous language', '/glossary', o hay >5 términos repetidos sin CONTEXT.md."
+    },
+    {
+      "category": "memory",
+      "name": "vaults-freshness",
+      "intents": [
+        "check",
+        "context",
+        "dome",
+        "fresh",
+        "freshness"
+      ],
+      "kind": "script",
+      "path": "scripts/vaults-freshness.sh",
+      "description": "vaults-freshness.sh — Check if a vault's context dome is fresh"
     },
     {
       "category": "memory",
@@ -13605,6 +13632,20 @@
       "kind": "script",
       "path": "scripts/vault-ops.sh",
       "description": "vault-ops.sh — Personal Vault operations library (N3). Sourced by vault.sh."
+    },
+    {
+      "category": "planning",
+      "name": "vaults-validate",
+      "intents": [
+        "against",
+        "documents",
+        "entity",
+        "schemas",
+        "validate"
+      ],
+      "kind": "script",
+      "path": "scripts/vaults-validate.sh",
+      "description": "vaults-validate.sh — Validate documents against entity schemas"
     },
     {
       "category": "planning",
