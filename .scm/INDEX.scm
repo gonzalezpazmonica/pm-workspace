@@ -1,6 +1,6 @@
 # Savia Capability Map — INDEX
-> hash: abc863ade68b | resources: 1300
-> 290 commands · 121 skills · 82 agents · 807 scripts
+> hash: 0578b5152739 | resources: 1304
+> 290 commands · 121 skills · 82 agents · 811 scripts
 
 [analysis] Trace Optimize — across,distributed,optimize,rates,sampling — cmd:.claude/commands/trace-optimize.md
 [analysis] agent-activity — activity,agent,executions,recent,show — cmd:.claude/commands/agent-activity.md
@@ -67,6 +67,7 @@
 [analysis] time-tracking-report — excel,generan,horas,imputación,informes — skill:.claude/skills/time-tracking-report/SKILL.md
 [analysis] trace-pattern-extractor — agent,analyze,extractor,pattern,phase — script:scripts/trace-pattern-extractor.sh
 [analysis] truth-tribunal — evaluation,judge,orchestrate,reliability,reports — script:scripts/truth-tribunal.sh
+[analysis] vaults-health-report — health,quality,report,vault,vaults — script:scripts/vaults-health-report.sh
 [analysis] weekly-report — estado,informe,proyecto,semanal — skill:.claude/skills/weekly-report/SKILL.md
 [communication] archive-digest —  — agent:.opencode/agents/archive-digest.md
 [communication] digest-extract — capa,digest,extracción,extract,markitdown — script:scripts/digest-extract.sh
@@ -506,6 +507,7 @@
 [memory] tool-search — agentes,buscar,clave,comandos,palabra — cmd:.claude/commands/tool-search.md
 [memory] ua-chat — graph,knowledge,language,natural,search — cmd:.claude/commands/ua-chat.md
 [memory] ubiquitous-language — consolidar,context,dice,dominio,extrae — skill:.claude/skills/ubiquitous-language/SKILL.md
+[memory] vaults-context-load — context,fallback,load,loading,saviavaults — script:scripts/vaults-context-load.sh
 [memory] vaults-freshness — check,context,dome,fresh,freshness — script:scripts/vaults-freshness.sh
 [memory] web-research — auto,available,back,best,context — cmd:.claude/commands/web-research.md
 [memory] web-research — buscar,contexto,cves,docs,gaps — skill:.claude/skills/web-research/SKILL.md
@@ -1039,6 +1041,8 @@
 [planning] validate-settings-local — data,detect,json,local,private — script:scripts/validate-settings-local.sh
 [planning] vault — dispatcher,personal,vault — script:scripts/vault.sh
 [planning] vault-ops — library,operations,personal,sourced,vault — script:scripts/vault-ops.sh
+[planning] vaults-export — confidentiality,export,filtering,signing,vault — script:scripts/vaults-export.sh
+[planning] vaults-graph-query — graph,knowledge,queries,query,saviavaults — script:scripts/vaults-graph-query.sh
 [planning] vaults-validate — against,documents,entity,schemas,validate — script:scripts/vaults-validate.sh
 [planning] velocity-trend — anomalías,detección,explicativos,factores,media — cmd:.claude/commands/velocity-trend.md
 [planning] verify-ledger-chain — chain,ledger,slice,verify — script:scripts/verify-ledger-chain.sh
