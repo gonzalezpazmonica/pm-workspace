@@ -220,6 +220,20 @@
       ],
       "enabled": true,
       "timeout": 60000
+    },
+        "savia-vaults": {
+      "type": "local",
+      "command": [
+        "/home/monica/.nvm/versions/node/v22.23.2/bin/node",
+        "/home/monica/savia/projects/savia-vaults/dist/cli/index.js",
+        "serve",
+        "--transport",
+        "mcp",
+        "--path",
+        "vaults/SaviaLabs"
+      ],
+      "enabled": true,
+      "timeout": 60000
     }
   }
 }

@@ -30,7 +30,7 @@ program.command('init <name>').description('Create a new vault')
     const storage = new VaultStorage(config);
     await storage.init();
     console.log(`Vault "${name}" created at ${vaultPath}`);
-    console.log(`Next: savia-vaults serve --transport mcp --path ${vaultPath}`);
+    console.log(`Next: savia-vaults serve --transport mcp --path ${vaultPath} --schema projects/savia-vaults/schema/entities`);
   });
 
 program.command('serve').description('Start MCP or A2A server')
@@ -38,8 +38,10 @@ program.command('serve').description('Start MCP or A2A server')
   .option('--port <port>', 'Port for A2A', '8923')
   .option('--host <host>', 'Bind host', '127.0.0.1')
   .option('-p, --path <path>', 'Vault path', process.cwd())
+  .option('--schema <dir>', 'Entity schema directory')
   .action(async (opts) => {
     const config = makeConfig('vault', opts.path);
+    if (opts.schema) config.schemaDir = opts.schema;
     const authToken = process.env.SAVIA_VAULTS_TOKEN;
     if (opts.transport === 'mcp') {
       const server = new MCPVaultServer(config);
@@ -72,7 +74,7 @@ program.command('stats').description('Show vault statistics')
   });
 
 program.command('introspect').description('Discover entity types and coverage')
-  .option('-p, --path <path>', process.cwd()).option('-e, --entity <path>').option('--json')
+  .option('-p, --path <path>', 'Vault path', process.cwd()).option('-e, --entity <path>').option('--json')
   .action(async (opts) => {
     const config = makeConfig('vault', opts.path);
     const introspector = new Introspector(config);

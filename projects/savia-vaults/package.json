@@ -4,7 +4,7 @@
   "description": "Context Dome Server — MCP + A2A server for AI agent knowledge vaults with git-backed storage, hybrid search, and content signing",
   "license": "MIT",
   "type": "module",
-  "main": "dist/server/index.js",
+  "main": "dist/cli/index.js",
   "bin": {
     "savia-vaults": "dist/cli/index.js"
   },
@@ -61,7 +61,7 @@
   "mcp": {
     "server": {
       "command": "savia-vaults",
-      "args": ["serve", "--transport", "mcp"]
+      "args": ["serve", "--transport", "mcp", "--path", "vaults/SaviaLabs"]
     }
   }
 }
