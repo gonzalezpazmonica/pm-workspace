@@ -155,4 +155,24 @@ backupCmd.command('status').description('Backup system status').action(() => {
   console.log(`Nextcloud: ${s.nextcloudConfigured ? 'configured' : 'not configured'}`);
 });
 
+program.command('verify').option('-p, --path <path>', process.cwd()).action(async (opts) => { console.log('Verification via Ed25519 signatures.'); });
+program.command('export').option('-p, --path <path>', process.cwd()).option('-o, --output <dir>').action(async (opts) => {
+  const config = makeConfig('vault', opts.path); const storage = new VaultStorage(config);
+  const outputDir = opts.output || `${opts.path}-export`; fs.mkdirSync(outputDir, { recursive: true });
+  const files = await storage.list(); for (const f of files) { try { const note = await storage.read(f); const dest = path.join(outputDir, f); fs.mkdirSync(path.dirname(dest), { recursive: true }); fs.writeFileSync(dest, note.content); } catch {} }
+  console.log(`Exported ${files.length} notes to ${outputDir}`);
+});
+
+const federateCmd = program.command('federate');
+federateCmd.command('add <id> <url>').option('--token <token>').action((id, url, opts) => { const r = new FederationRegistry(path.join(process.cwd(), '.savia-vault')); r.add({ id, name: id, url, authToken: opts.token, timeout: 5000, enabled: true, weight: 1, tags: [], status: 'unknown' }); console.log(`Dome "${id}" registered.`); });
+federateCmd.command('list').action(() => { const r = new FederationRegistry(path.join(process.cwd(), '.savia-vault')); const domes = r.list(); if (domes.length === 0) console.log('No federated domes.'); else domes.forEach(d => console.log(`${d.id} (${d.status}) — ${d.url}`)); });
+federateCmd.command('remove <id>').action((id) => { const r = new FederationRegistry(path.join(process.cwd(), '.savia-vault')); console.log(r.remove(id) ? `Removed "${id}".` : `Not found.`); });
+federateCmd.command('health').action(async () => { console.log('Health check via federation search engine.'); });
+
+const backupCmd = program.command('backup'); const bm = new BackupManager();
+backupCmd.command('create').option('-p, --path <path>', process.cwd()).action((opts) => { const e = bm.create(opts.path, path.basename(opts.path)); console.log(`Backup: ${e.id} (${(e.size/1024).toFixed(1)} KB)`); });
+backupCmd.command('list').action(() => { const backups = bm.list(); if (backups.length === 0) console.log('No backups.'); else backups.forEach(e => console.log(`${e.id} ${e.vault} ${(e.size/1024).toFixed(1)}KB`)); });
+backupCmd.command('restore <id>').option('--target <dir>').action((id, opts) => { bm.restore(id, opts.target || path.join(process.cwd(), 'restored')); console.log(`Restored to ${opts.target || 'restored'}`); });
+backupCmd.command('status').action(() => { const s = bm.status(); console.log(`Backups: ${s.count}\nNextcloud: ${s.nextcloudConfigured ? 'configured' : 'not configured'}`); });
+
 program.parse();

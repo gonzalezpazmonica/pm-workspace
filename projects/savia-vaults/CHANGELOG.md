@@ -5,6 +5,21 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.3.0] — 2026-08-01 · Capa de conocimiento (SE-288)
+
+### Added
+- **Entity schema** (schema/entities/): 7 tipos base (person, organization, project, decision, document, event, system) con validacion de frontmatter
+- **SchemaRegistry** (src/schema/): carga YAML, valida required/vocabulary/pattern, alias resolubles
+- **KnowledgeGraph** (src/knowledge/graph.ts): relaciones tipadas direccionales, derivacion de wikilinks, recorrido acotado
+- **Introspector** (src/knowledge/introspector.ts): tipos, cobertura, propiedades por vault y entidad
+- **QueryEngine** (src/knowledge/query.ts): notacion punteada determinista, doble salida markdown+filas, busqueda difusa
+- **ProvenanceEngine** (src/knowledge/provenance.ts): assertions con fuente, autoridad, bitemporalidad, conflictos
+- **QualityEngine** (src/knowledge/quality.ts): 8 indicadores de salud, informe formateado
+- **Compliance** (src/compliance/): transparencia Art. 50 EU AI Act, inventario de salidas, marcado Ed25519
+- 13 MCP tools, 8 A2A endpoints, 10 comandos CLI
+- 125 tests (89 original + 36 knowledge layer)
+
+
 ## [0.2.0] — 2026-08-01 · Servidores reales, backups, firma (SE-287)
 
 ### Added

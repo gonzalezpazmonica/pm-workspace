@@ -1,0 +1,17 @@
+type: event
+label: Evento
+description: Hito, reunion, release o acontecimiento
+properties:
+  name:
+    type: string
+    required: true
+  event_type:
+    type: string
+    required: false
+    vocabulary: [meeting, release, milestone, incident, review, demo]
+  date:
+    type: date
+    required: true
+  participants:
+    type: list
+    required: false

@@ -7,6 +7,7 @@ export interface VaultConfig {
   deniedPaths: string[];
   maxDepth: number;
   maxFileSize: number;
+  schemaDir?: string;
 }
 
 export interface Frontmatter {

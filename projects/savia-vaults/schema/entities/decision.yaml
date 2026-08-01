@@ -1,0 +1,20 @@
+type: decision
+label: Decision
+description: Decision de arquitectura, diseno o estrategia
+properties:
+  title:
+    type: string
+    required: true
+  status:
+    type: string
+    required: true
+    vocabulary: [proposed, accepted, deprecated, superseded]
+  date:
+    type: date
+    required: true
+  context:
+    type: string
+    required: false
+  consequences:
+    type: string
+    required: false

@@ -1,0 +1,23 @@
+type: system
+label: Sistema
+description: Sistema software, servicio o infraestructura
+properties:
+  name:
+    type: string
+    required: true
+  system_type:
+    type: string
+    required: false
+    vocabulary: [api, database, frontend, backend, cli, service, infrastructure, tool]
+  language:
+    type: string
+    required: false
+  version:
+    type: string
+    required: false
+  repository:
+    type: string
+    required: false
+  host:
+    type: string
+    required: false
