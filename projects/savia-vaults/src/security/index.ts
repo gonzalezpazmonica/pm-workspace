@@ -1,5 +1,7 @@
 import * as fs from 'node:fs';
 import * as path from 'node:path';
+import * as crypto from 'node:crypto';
+import * as os from 'node:os';
 import type { VaultConfig } from '../types.js';
 
 export class SecurityError extends Error {
@@ -110,5 +112,41 @@ export class VaultSecurity {
     }
 
     return absPath;
+  }
+}
+
+
+// Ed25519 signing
+const KEY_DIR = `${os.homedir()}/.savia-vaults/keys`;
+
+function ensureKeys(): { publicKey: crypto.KeyObject; privateKey: crypto.KeyObject } {
+  fs.mkdirSync(KEY_DIR, { recursive: true });
+  const pubPath = path.join(KEY_DIR, 'ed25519-public.pem');
+  const privPath = path.join(KEY_DIR, 'ed25519-private.pem');
+
+  if (!fs.existsSync(pubPath) || !fs.existsSync(privPath)) {
+    const { publicKey, privateKey } = crypto.generateKeyPairSync('ed25519');
+    fs.writeFileSync(pubPath, publicKey.export({ type: 'spki', format: 'pem' }));
+    fs.writeFileSync(privPath, privateKey.export({ type: 'pkcs8', format: 'pem' }));
+  }
+
+  return {
+    publicKey: crypto.createPublicKey(fs.readFileSync(pubPath)),
+    privateKey: crypto.createPrivateKey(fs.readFileSync(privPath)),
+  };
+}
+
+export function signContent(content: string): string {
+  const { privateKey } = ensureKeys();
+  const buf = crypto.sign(null, Buffer.from(content), privateKey);
+  return buf.toString('hex');
+}
+
+export function verifySignature(content: string, signature: string): boolean {
+  try {
+    const { publicKey } = ensureKeys();
+    return crypto.verify(null, Buffer.from(content), publicKey, Buffer.from(signature, 'hex'));
+  } catch {
+    return false;
   }
 }
