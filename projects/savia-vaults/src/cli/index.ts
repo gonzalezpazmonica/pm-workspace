@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+import { getAINotice } from '../compliance/transparency.js';
 import { Command } from 'commander';
 import { VaultStorage } from '../storage/index.js';
 import { SearchEngine } from '../search/index.js';
@@ -20,6 +21,7 @@ function makeConfig(name: string, vaultPath: string, schemaDir?: string): VaultC
 
 const program = new Command();
 program.name('savia-vaults').description('Context Dome Server — Knowledge layer').version('0.3.0');
+if (process.argv.length <= 3) { process.stderr.write(getAINotice() + '\n'); }
 
 program.command('init <name>').description('Create a new vault')
   .option('-p, --path <path>', 'Parent directory', process.cwd())

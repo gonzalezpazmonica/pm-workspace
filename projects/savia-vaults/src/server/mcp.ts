@@ -1,4 +1,5 @@
 import { Server } from '@modelcontextprotocol/sdk/server/index.js';
+import { getAINotice } from '../compliance/transparency.js';
 import { StdioServerTransport } from '@modelcontextprotocol/sdk/server/stdio.js';
 import {
   CallToolRequestSchema,
@@ -131,6 +132,7 @@ export class MCPVaultServer {
     });
 
     const transport = new StdioServerTransport();
+process.stderr.write(getAINotice() + '\n');
     await server.connect(transport);
   }
 }

@@ -1,4 +1,5 @@
 import * as http from 'node:http';
+import { getAINotice } from '../compliance/transparency.js';
 import * as fs from 'node:fs';
 import * as path from 'node:path';
 import { VaultStorage } from '../storage/index.js';
@@ -120,6 +121,7 @@ export class A2AServer {
     });
     await new Promise<void>((resolve) => server.listen(port, host, resolve));
     if (host === '0.0.0.0') console.warn('WARNING: Server bound to 0.0.0.0.');
+console.error(getAINotice());
     console.error(`A2A server listening on http://${host}:${port}`);
   }
 }
