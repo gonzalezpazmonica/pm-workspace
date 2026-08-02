@@ -84,15 +84,15 @@ case "$mode" in
     ;;
   --unclassified)
     cd "$ROOT"
-    local policy_file="$ROOT/containment/container-policy.json"
-    local unclassified=0
+    policy_file="$ROOT/containment/container-policy.json"
+    unclassified=0
     while IFS= read -r -d '' f; do
       if [[ -f "$policy_file" ]]; then
         if grep -q "\"$(basename "$f")\"" "$policy_file" 2>/dev/null; then
           continue
         fi
       fi
-      local level
+      level=""
       level=$(classify_one "$f" | cut -d: -f1)
       if [[ "$level" == "N-contenido" || "$level" == "N-hostil" ]]; then
         echo "UNCLASSIFIED: $f ($level by heuristic — no explicit declaration)"
