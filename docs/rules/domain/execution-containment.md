@@ -1,8 +1,11 @@
+---
+context_tier: L2
+token_budget: 380
+---
+
 # Execution Containment Policy
 
-> SE-292 S1+S7 — Policy governing execution levels and autonomy
-> **context_tier: L2**
-> **token_budget: 380**
+SE-292 S1+S7 — Policy governing execution levels and autonomy.
 
 ## Execution Levels
 
@@ -14,15 +17,15 @@
 
 ## Classification Rules
 
-- **By origin, not content**: classified by provenance, not by inspection
-- **Script without level**: detected by self-audit, must be classified
-- **Exceptions**: must justify + expire (SE-274 pattern)
+- By origin, not content: classified by provenance, not by inspection
+- Script without level: detected by self-audit, must be classified
+- Exceptions: must justify + expire (SE-274 pattern)
 
 ## Containment State
 
-- `AVAILABLE`: Docker + image present → full containment
-- `UNAVAILABLE`: No Docker → N-contenido/N-hostil disabled
-- **Fail-closed**: without containment, contained tasks do NOT execute on host
+- AVAILABLE: Docker + image present → full containment
+- UNAVAILABLE: No Docker → N-contenido/N-hostil disabled
+- Fail-closed: without containment, contained tasks do NOT execute on host
 
 ## Autonomy Gates
 
