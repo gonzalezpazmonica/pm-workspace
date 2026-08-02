@@ -1,7 +1,6 @@
 #!/usr/bin/env bats
 
 setup() {
-  load bats-assert/load
   TEST_DIR=$(mktemp -d)
   cd "$TEST_DIR"
   git init --quiet
