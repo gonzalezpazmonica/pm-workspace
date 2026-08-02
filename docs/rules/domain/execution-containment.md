@@ -1,6 +1,7 @@
 # Execution Containment Policy
 
 > SE-292 S1+S7 — Policy governing execution levels and autonomy
+> **token_budget: 380**
 
 ## Execution Levels
 
