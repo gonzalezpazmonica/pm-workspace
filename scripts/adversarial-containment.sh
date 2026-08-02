@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 # adversarial-containment.sh — Adversarial test suite for containment
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+SCRIPT_DIR="$(cd "$(dirname "${{BASH_SOURCE[0]}}")" && pwd)"
 
 mode="${1:-}"
 ci_mode=false
