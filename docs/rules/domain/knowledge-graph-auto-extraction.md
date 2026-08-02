@@ -1,14 +1,17 @@
+---
+context_tier: L2
+token_budget: 280
+---
+
 # Knowledge Graph Auto-Extraction Policy
 
-> SE-297 — Sovereign entity extraction from documents
-> context_tier: L2
-> token_budget: 280
+SE-297 — Sovereign entity extraction from documents.
 
 ## Extraction Modes
 
-1. **Deterministic** (regex): instant, confidence=1.0, covers known patterns
-2. **LLM-enhanced** (via ProviderRouter SE-294): contextual, for uncovered sections
-3. **Hybrid**: regex first, LLM fallback if coverage < 50%
+1. Deterministic (regex): instant, confidence=1.0, covers known patterns
+2. LLM-enhanced (via ProviderRouter SE-294): contextual, for uncovered sections
+3. Hybrid: regex first, LLM fallback if coverage < 50%
 
 ## Quality Gates
 
