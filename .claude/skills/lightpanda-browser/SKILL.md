@@ -42,7 +42,6 @@ docker run -d --name lightpanda -p 127.0.0.1:9222:9222 lightpanda/browser:nightl
 ```bash
 lightpanda fetch --dump markdown --obey-robots \
   --wait-until networkidle0 \
-  --timeout 30 \
   "https://example.com"
 ```
 
@@ -71,11 +70,10 @@ lightpanda agent --no-llm  # REPL basico sin LLM
 ## Patron de integracion con Savia
 
 ```bash
-# Patron: usar si existe, fallback si no
 if command -v lightpanda &>/dev/null; then
-  lightpanda fetch --dump markdown --obey-robots --timeout 30 "$URL"
+  lightpanda fetch --dump markdown --obey-robots "$URL"
 else
-  python3 scripts/scrapling-fetch.py "$URL"  # fallback existente
+  python3 scripts/scrapling-fetch.py "$URL"
 fi
 ```
 
