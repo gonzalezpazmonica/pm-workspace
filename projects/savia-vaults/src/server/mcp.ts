@@ -12,34 +12,93 @@ import { KnowledgeGraph } from '../knowledge/graph.js';
 import { QueryEngine } from '../knowledge/query.js';
 import { QualityEngine } from '../knowledge/quality.js';
 import type { VaultConfig } from '../types.js';
+import { DomeRegistry, VaultInstance } from '../registry/domes.js';
+import { UserStore, AccessController, AuthError } from '../auth/index.js';
+import type { AuthAction } from '../auth/index.js';
 import * as fs from 'node:fs';
 import * as path from 'node:path';
+
+const AUTH_TOKEN_ENV = 'SAVIA_AUTH_TOKEN';
+
+function readAuthToken(): string | undefined {
+  return process.env[AUTH_TOKEN_ENV] || undefined;
+}
 
 export class MCPVaultServer {
   private config: VaultConfig;
   private storage: VaultStorage;
   private search: SearchEngine;
   private security: VaultSecurity;
-  private introspector: Introspector;
-  private graph: KnowledgeGraph;
-  private queryEngine: QueryEngine;
-  private quality: QualityEngine;
+  private introspector: Introspector | undefined;
+  private graph: KnowledgeGraph | undefined;
+  private queryEngine: QueryEngine | undefined;
+  private quality: QualityEngine | undefined;
   private graphBuilt = false;
 
-  constructor(config: VaultConfig) {
+  private domeRegistry: DomeRegistry | undefined;
+  private userStore: UserStore | undefined;
+  private accessController: AccessController | undefined;
+  private instances: Map<string, VaultInstance> = new Map();
+
+  constructor(config: VaultConfig, domeRegistry?: DomeRegistry, userStore?: UserStore) {
     this.config = config;
     this.storage = new VaultStorage(config);
     this.search = new SearchEngine(config);
     this.security = new VaultSecurity(config);
-    this.introspector = new Introspector(config);
-    this.graph = new KnowledgeGraph(config);
-    this.queryEngine = new QueryEngine(config);
-    this.quality = new QualityEngine(config);
-    this.initVault();
+
+    if (domeRegistry) {
+      this.domeRegistry = domeRegistry;
+      const us = userStore || new UserStore();
+      this.userStore = us;
+      try { us.load(); } catch {}
+
+      if (us.exists()) {
+        this.accessController = new AccessController(us, domeRegistry);
+      } else {
+        this.accessController = new AccessController(us, domeRegistry);
+      }
+
+      for (const dome of domeRegistry.listActive()) {
+        this.instances.set(dome.name, new VaultInstance(dome));
+      }
+    }
+
+    if (config.schemaDir) {
+      this.introspector = new Introspector(config);
+      this.graph = new KnowledgeGraph(config);
+      this.queryEngine = new QueryEngine(config);
+      this.quality = new QualityEngine(config);
+    }
+
+    if (!domeRegistry) {
+      this.initVault();
+    }
+  }
+
+  private getInstance(vaultName?: string): VaultInstance {
+    if (!this.domeRegistry) {
+      return { dome: { name: this.config.name, path: this.config.path, description: '', confidentiality: 'N2', active: true }, storage: this.storage, search: this.search, security: this.security };
+    }
+    const name = vaultName || this.domeRegistry.getDefaultName();
+    const inst = this.instances.get(name);
+    if (!inst) throw new Error(`Dome "${name}" not found. Available: ${[...this.instances.keys()].join(', ')}`);
+    return inst;
+  }
+
+  private getDomeName(vaultName?: string): string {
+    if (!this.domeRegistry) return this.config.name;
+    return vaultName || this.domeRegistry.getDefaultName();
   }
 
   private async ensureGraph(): Promise<void> {
-    if (!this.graphBuilt) { await this.graph.build(); this.graphBuilt = true; }
+    if (!this.graphBuilt && this.graph) { await this.graph.build(); this.graphBuilt = true; }
+  }
+
+  private async authorize(dome: string, action: AuthAction): Promise<void> {
+    if (!this.accessController) return;
+    if (!this.accessController.isActive) return;
+    const token = readAuthToken();
+    await this.accessController.authorize({ authToken: token, dome, action });
   }
 
   private initVault(): void {
@@ -55,7 +114,7 @@ export class MCPVaultServer {
 
   async start(): Promise<void> {
     const server = new Server(
-      { name: 'savia-vaults', version: '0.2.0' },
+      { name: 'savia-vaults', version: '0.3.0' },
       { capabilities: { tools: {} } }
     );
 
@@ -66,7 +125,10 @@ export class MCPVaultServer {
           description: 'Read a note by path. Returns content with frontmatter and tags.',
           inputSchema: {
             type: 'object',
-            properties: { path: { type: 'string', description: 'Relative path to the note' } },
+            properties: {
+              vault: { type: 'string', description: 'Dome name (default: configured default)' },
+              path: { type: 'string', description: 'Relative path to the note' },
+            },
             required: ['path'],
           },
         },
@@ -76,6 +138,7 @@ export class MCPVaultServer {
           inputSchema: {
             type: 'object',
             properties: {
+              vault: { type: 'string', description: 'Dome name (default: configured default)' },
               path: { type: 'string', description: 'Relative path for the note' },
               content: { type: 'string', description: 'Markdown content to write' },
               message: { type: 'string', description: 'Optional commit message' },
@@ -89,6 +152,7 @@ export class MCPVaultServer {
           inputSchema: {
             type: 'object',
             properties: {
+              vault: { type: 'string', description: 'Dome name (default: configured default)' },
               query: { type: 'string', description: 'Search query' },
               maxResults: { type: 'number', description: 'Max results (default 10)' },
               pathPrefix: { type: 'string', description: 'Filter by path prefix' },
@@ -98,10 +162,11 @@ export class MCPVaultServer {
         },
         {
           name: 'vault_list',
-          description: 'List all notes in the vault as a directory tree.',
+          description: 'List all notes in a vault as a directory tree.',
           inputSchema: {
             type: 'object',
             properties: {
+              vault: { type: 'string', description: 'Dome name (default: configured default)' },
               path: { type: 'string', description: 'Optional subdirectory to list' },
             },
           },
@@ -109,19 +174,32 @@ export class MCPVaultServer {
         {
           name: 'vault_stats',
           description: 'Vault statistics: note count, total size, commits.',
-          inputSchema: { type: 'object', properties: {} },
+          inputSchema: {
+            type: 'object',
+            properties: {
+              vault: { type: 'string', description: 'Dome name (default: configured default)' },
+            },
+          },
         },
         {
           name: 'vault_index',
           description: 'Rebuild the search index.',
-          inputSchema: { type: 'object', properties: {} },
+          inputSchema: {
+            type: 'object',
+            properties: {
+              vault: { type: 'string', description: 'Dome name (default: configured default)' },
+            },
+          },
         },
         {
           name: 'vault_diff',
           description: 'Show git diff for a note.',
           inputSchema: {
             type: 'object',
-            properties: { path: { type: 'string' } },
+            properties: {
+              vault: { type: 'string', description: 'Dome name (default: configured default)' },
+              path: { type: 'string' },
+            },
             required: ['path'],
           },
         },
@@ -131,6 +209,7 @@ export class MCPVaultServer {
           inputSchema: {
             type: 'object',
             properties: {
+              vault: { type: 'string', description: 'Dome name (default: configured default)' },
               path: { type: 'string' },
               maxCount: { type: 'number', description: 'Max entries (default 20)' },
             },
@@ -140,12 +219,22 @@ export class MCPVaultServer {
         {
           name: 'vault_tags',
           description: 'List all tags with occurrence counts.',
+          inputSchema: {
+            type: 'object',
+            properties: {
+              vault: { type: 'string', description: 'Dome name (default: configured default)' },
+            },
+          },
+        },
+        {
+          name: 'vault_domes',
+          description: 'List registered domes with name, description, confidentiality, and note count.',
           inputSchema: { type: 'object', properties: {} },
         },
-        { name: 'vault_introspect', description: 'Discover entity types, coverage, and available properties.', inputSchema: { type: 'object', properties: { entity: { type: 'string' } } } },
-        { name: 'vault_graph', description: 'Query knowledge graph: traverse, search, or get stats.', inputSchema: { type: 'object', properties: { action: { type: 'string' }, id: { type: 'string' }, depth: { type: 'number' }, query: { type: 'string' } }, required: ['action'] } },
-        { name: 'vault_query', description: 'Deterministic dotted-notation query for entities.', inputSchema: { type: 'object', properties: { expression: { type: 'string' } }, required: ['expression'] } },
-        { name: 'vault_health', description: 'Quality report: coverage, provenance, conflicts, freshness.', inputSchema: { type: 'object', properties: {} } },
+        { name: 'vault_introspect', description: 'Discover entity types, coverage, and available properties.', inputSchema: { type: 'object', properties: { vault: { type: 'string' }, entity: { type: 'string' } } } },
+        { name: 'vault_graph', description: 'Query knowledge graph: traverse, search, or get stats.', inputSchema: { type: 'object', properties: { vault: { type: 'string' }, action: { type: 'string' }, id: { type: 'string' }, depth: { type: 'number' }, query: { type: 'string' } }, required: ['action'] } },
+        { name: 'vault_query', description: 'Deterministic dotted-notation query for entities.', inputSchema: { type: 'object', properties: { vault: { type: 'string' }, expression: { type: 'string' } }, required: ['expression'] } },
+        { name: 'vault_health', description: 'Quality report: coverage, provenance, conflicts, freshness.', inputSchema: { type: 'object', properties: { vault: { type: 'string' } } } },
       ],
     }));
 
@@ -154,73 +243,108 @@ export class MCPVaultServer {
       const args = (request.params.arguments || {}) as Record<string, unknown>;
       try {
         switch (name) {
+          case 'vault_domes': {
+            if (!this.domeRegistry) {
+              return { content: [{ type: 'text', text: JSON.stringify([{ name: this.config.name, description: '', confidentiality: 'N2', noteCount: 0 }], null, 2) }] };
+            }
+            const domes = this.domeRegistry.listActive();
+            const result = await Promise.all(domes.map(async (d) => {
+              const inst = this.instances.get(d.name);
+              let noteCount = 0;
+              if (inst) {
+                try { const files = await inst.storage.list(); noteCount = files.length; } catch {}
+              }
+              return { name: d.name, path: '', description: d.description, confidentiality: d.confidentiality, noteCount };
+            }));
+            return { content: [{ type: 'text', text: JSON.stringify(result, null, 2) }] };
+          }
+
           case 'vault_read': {
-            const note = await this.storage.read(args.path as string);
-            return {
-              content: [{
-                type: 'text',
-                text: JSON.stringify({ path: note.path, name: note.name, frontmatter: note.frontmatter, tags: note.tags, content: note.content }, null, 2),
-              }],
-            };
+            const inst = this.getInstance(args.vault as string | undefined);
+            const dome = this.getDomeName(args.vault as string | undefined);
+            try { await this.authorize(dome, 'read'); } catch (e) { if (e instanceof AuthError) return { content: [{ type: 'text', text: `Error: ${e.message}` }], isError: true }; throw e; }
+            const note = await inst.storage.read(args.path as string);
+            return { content: [{ type: 'text', text: JSON.stringify({ path: note.path, name: note.name, frontmatter: note.frontmatter, tags: note.tags, content: note.content }, null, 2) }] };
           }
+
           case 'vault_write': {
-            const receipt = await this.storage.write(args.path as string, args.content as string, args.message as string);
-            return {
-              content: [{ type: 'text', text: JSON.stringify(receipt, null, 2) }],
-            };
+            const inst = this.getInstance(args.vault as string | undefined);
+            const dome = this.getDomeName(args.vault as string | undefined);
+            try { await this.authorize(dome, 'write'); } catch (e) { if (e instanceof AuthError) return { content: [{ type: 'text', text: `Error: ${e.message}` }], isError: true }; throw e; }
+            const receipt = await inst.storage.write(args.path as string, args.content as string, args.message as string);
+            return { content: [{ type: 'text', text: JSON.stringify(receipt, null, 2) }] };
           }
+
           case 'vault_search': {
-            this.search.buildIndex();
-            const results = this.search.search({
+            const inst = this.getInstance(args.vault as string | undefined);
+            const dome = this.getDomeName(args.vault as string | undefined);
+            try { await this.authorize(dome, 'read'); } catch (e) { if (e instanceof AuthError) return { content: [{ type: 'text', text: `Error: ${e.message}` }], isError: true }; throw e; }
+            inst.search.buildIndex();
+            const results = inst.search.search({
               query: args.query as string,
               maxResults: (args.maxResults as number) || 10,
               pathPrefix: args.pathPrefix as string | undefined,
             });
-            return {
-              content: [{ type: 'text', text: JSON.stringify(results, null, 2) }],
-            };
+            return { content: [{ type: 'text', text: JSON.stringify(results, null, 2) }] };
           }
+
           case 'vault_list': {
-            const files = await this.storage.list();
+            const inst = this.getInstance(args.vault as string | undefined);
+            const dome = this.getDomeName(args.vault as string | undefined);
+            try { await this.authorize(dome, 'read'); } catch (e) { if (e instanceof AuthError) return { content: [{ type: 'text', text: `Error: ${e.message}` }], isError: true }; throw e; }
+            const files = await inst.storage.list();
             const prefix = args.path as string | undefined;
             const filtered = prefix ? files.filter(f => f.startsWith(prefix)) : files;
-            return {
-              content: [{ type: 'text', text: JSON.stringify(filtered, null, 2) }],
-            };
+            return { content: [{ type: 'text', text: JSON.stringify(filtered, null, 2) }] };
           }
+
           case 'vault_stats': {
-            const stats = await this.storage.stats();
-            return {
-              content: [{ type: 'text', text: JSON.stringify(stats, null, 2) }],
-            };
+            const inst = this.getInstance(args.vault as string | undefined);
+            const dome = this.getDomeName(args.vault as string | undefined);
+            try { await this.authorize(dome, 'read'); } catch (e) { if (e instanceof AuthError) return { content: [{ type: 'text', text: `Error: ${e.message}` }], isError: true }; throw e; }
+            const stats = await inst.storage.stats();
+            return { content: [{ type: 'text', text: JSON.stringify(stats, null, 2) }] };
           }
+
           case 'vault_index': {
-            this.search.buildIndex();
-            const tags = this.search.getTags();
-            return {
-              content: [{ type: 'text', text: `Index rebuilt. ${tags.size} unique tags indexed.` }],
-            };
+            const inst = this.getInstance(args.vault as string | undefined);
+            const dome = this.getDomeName(args.vault as string | undefined);
+            try { await this.authorize(dome, 'write'); } catch (e) { if (e instanceof AuthError) return { content: [{ type: 'text', text: `Error: ${e.message}` }], isError: true }; throw e; }
+            inst.search.buildIndex();
+            const tags = inst.search.getTags();
+            return { content: [{ type: 'text', text: `Index rebuilt. ${tags.size} unique tags indexed.` }] };
           }
+
           case 'vault_diff': {
-            const diff = await this.storage.diff(args.path as string);
-            return {
-              content: [{ type: 'text', text: diff || '(no changes)' }],
-            };
+            const inst = this.getInstance(args.vault as string | undefined);
+            const dome = this.getDomeName(args.vault as string | undefined);
+            try { await this.authorize(dome, 'read'); } catch (e) { if (e instanceof AuthError) return { content: [{ type: 'text', text: `Error: ${e.message}` }], isError: true }; throw e; }
+            const diff = await inst.storage.diff(args.path as string);
+            return { content: [{ type: 'text', text: diff || '(no changes)' }] };
           }
+
           case 'vault_log': {
-            const log = await this.storage.log(args.path as string, (args.maxCount as number) || 20);
-            return {
-              content: [{ type: 'text', text: JSON.stringify(log, null, 2) }],
-            };
+            const inst = this.getInstance(args.vault as string | undefined);
+            const dome = this.getDomeName(args.vault as string | undefined);
+            try { await this.authorize(dome, 'read'); } catch (e) { if (e instanceof AuthError) return { content: [{ type: 'text', text: `Error: ${e.message}` }], isError: true }; throw e; }
+            const log = await inst.storage.log(args.path as string, (args.maxCount as number) || 20);
+            return { content: [{ type: 'text', text: JSON.stringify(log, null, 2) }] };
           }
+
           case 'vault_tags': {
-            this.search.buildIndex();
-            const tags = this.search.getTags();
-            return {
-              content: [{ type: 'text', text: JSON.stringify([...tags.entries()], null, 2) }],
-            };
+            const inst = this.getInstance(args.vault as string | undefined);
+            const dome = this.getDomeName(args.vault as string | undefined);
+            try { await this.authorize(dome, 'read'); } catch (e) { if (e instanceof AuthError) return { content: [{ type: 'text', text: `Error: ${e.message}` }], isError: true }; throw e; }
+            inst.search.buildIndex();
+            const tags = inst.search.getTags();
+            return { content: [{ type: 'text', text: JSON.stringify([...tags.entries()], null, 2) }] };
           }
+
           case 'vault_introspect': {
+            const inst = this.getInstance(args.vault as string | undefined);
+            const dome = this.getDomeName(args.vault as string | undefined);
+            try { await this.authorize(dome, 'read'); } catch (e) { if (e instanceof AuthError) return { content: [{ type: 'text', text: `Error: ${e.message}` }], isError: true }; throw e; }
+            if (!this.introspector) return { content: [{ type: 'text', text: 'No schema configured.' }], isError: true };
             if (args.entity) {
               const entity = await this.introspector.introspectEntity(args.entity as string);
               return { content: [{ type: 'text', text: JSON.stringify(entity, null, 2) }] };
@@ -228,7 +352,12 @@ export class MCPVaultServer {
             const vault = await this.introspector.introspectVault();
             return { content: [{ type: 'text', text: JSON.stringify(vault, null, 2) }] };
           }
+
           case 'vault_graph': {
+            const inst = this.getInstance(args.vault as string | undefined);
+            const dome = this.getDomeName(args.vault as string | undefined);
+            try { await this.authorize(dome, 'read'); } catch (e) { if (e instanceof AuthError) return { content: [{ type: 'text', text: `Error: ${e.message}` }], isError: true }; throw e; }
+            if (!this.graph) return { content: [{ type: 'text', text: 'No schema configured.' }], isError: true };
             await this.ensureGraph();
             const action = args.action as string;
             if (action === 'traverse') {
@@ -242,20 +371,34 @@ export class MCPVaultServer {
               return { content: [{ type: 'text', text: JSON.stringify(stats, null, 2) }] };
             }
           }
+
           case 'vault_query': {
+            const inst = this.getInstance(args.vault as string | undefined);
+            const dome = this.getDomeName(args.vault as string | undefined);
+            try { await this.authorize(dome, 'read'); } catch (e) { if (e instanceof AuthError) return { content: [{ type: 'text', text: `Error: ${e.message}` }], isError: true }; throw e; }
+            if (!this.queryEngine) return { content: [{ type: 'text', text: 'No schema configured.' }], isError: true };
             await this.ensureGraph();
             await this.queryEngine.ensureLoaded();
             const result = await this.queryEngine.query(args.expression as string);
             return { content: [{ type: 'text', text: result.outputMarkdown }] };
           }
+
           case 'vault_health': {
+            const inst = this.getInstance(args.vault as string | undefined);
+            const dome = this.getDomeName(args.vault as string | undefined);
+            try { await this.authorize(dome, 'read'); } catch (e) { if (e instanceof AuthError) return { content: [{ type: 'text', text: `Error: ${e.message}` }], isError: true }; throw e; }
+            if (!this.quality) return { content: [{ type: 'text', text: 'No schema configured.' }], isError: true };
             const indicators = await this.quality.assess();
             return { content: [{ type: 'text', text: this.quality.formatReport(indicators) }] };
           }
+
           default:
             return { content: [{ type: 'text', text: `Unknown tool: ${name}` }], isError: true };
         }
       } catch (e: unknown) {
+        if (e instanceof AuthError) {
+          return { content: [{ type: 'text', text: `Error: ${e.message}` }], isError: true };
+        }
         const msg = e instanceof Error ? e.message : String(e);
         return { content: [{ type: 'text', text: `Error: ${msg}` }], isError: true };
       }

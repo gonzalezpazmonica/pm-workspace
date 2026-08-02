@@ -1,0 +1,45 @@
+type: result
+label: Resultado
+description: Resultado de un experimento en Savia Labs
+properties:
+  experiment_id:
+    type: string
+    required: true
+    description: ID del experimento asociado
+  hypothesis_id:
+    type: string
+    required: true
+    description: ID de la hipotesis
+  verdict:
+    type: string
+    required: true
+    vocabulary: [confirmed, refuted, inconclusive]
+    description: Veredicto del experimento
+  metric_value:
+    type: number
+    required: true
+    description: Valor de la metrica principal
+  false_positive_rate:
+    type: number
+    required: false
+    description: Tasa de falsos positivos a prevalencia real
+  sample_actual:
+    type: number
+    required: true
+    description: Tamano de muestra real
+  confidence_interval:
+    type: string
+    required: false
+    description: Intervalo de confianza
+  limitations:
+    type: string
+    required: true
+    description: Limitaciones metodologicas conocidas
+  published:
+    type: boolean
+    required: true
+    description: Si el resultado esta publicado en la cupula
+  human_reviewed:
+    type: boolean
+    required: false
+    description: Si fue revisado por humano

@@ -1,5 +1,5 @@
 # planning — Savia Capability Map (L1)
-> 547 resources
+> 548 resources
 
 - **/decide-architecture** (cmd): Clasifica una tarea como WORKFLOW (deterministica) o AGENT (loop). Bias hacia workflow per Anthropic. Sugiere plantilla inicial. Mide accuracy contra corpus curado de 20 tareas.
 - **_template** (skill): TEMPLATE — copia este directorio para crear una skill nueva. NO se carga en runtime.
@@ -269,6 +269,7 @@
 - **kg-topology-analysis** (script): kg-topology-analysis.sh — SE-248: wrapper for kg-topology-analysis.py
 - **knowledge-graph** (skill): Usar cuando se construye o consulta el grafo de conocimiento de entidades del proyecto.
 - **knowledge-graph** (script): knowledge-graph.sh — SE-162: Shell wrapper for knowledge-graph.py
+- **labs-preregister** (script): labs-preregister.sh — Preregistro de hipotesis en Savia Labs
 - **language-boundary-check** (script): scripts/language-boundary-check.sh — SE-253 Slice 7
 - **legacy-assess** (cmd): >
 - **legalize-es** (script): legalize-es.sh — Gestión del corpus legislativo español (legalize-es)

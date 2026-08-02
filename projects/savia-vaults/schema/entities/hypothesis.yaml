@@ -1,0 +1,57 @@
+type: hypothesis
+label: Hipotesis
+description: Hipotesis de investigacion preregistrada en Savia Labs
+properties:
+  title:
+    type: string
+    required: true
+    description: Enunciado de la hipotesis
+  line:
+    type: string
+    required: true
+    vocabulary: [L1, L2, L3, L4, L5, L6]
+    description: Linea de investigacion
+  method:
+    type: string
+    required: true
+    description: Metodo experimental
+  metric:
+    type: string
+    required: true
+    description: Metrica de evaluacion
+  success_criterion:
+    type: string
+    required: true
+    description: Que resultado confirmaria la hipotesis
+  failure_criterion:
+    type: string
+    required: true
+    description: Que resultado la refutaria
+  sample_size:
+    type: number
+    required: true
+    description: Tamano de muestra planificado
+  status:
+    type: string
+    required: true
+    vocabulary: [preregistered, running, completed, closed]
+  preregistered_at:
+    type: date
+    required: true
+    description: Fecha de preregistro (anterior a la primera ejecucion)
+  model_version:
+    type: string
+    required: false
+    description: Version del modelo usado
+  vault_revision:
+    type: string
+    required: false
+    description: Revision del vault al iniciar
+  budget_tokens:
+    type: number
+    required: false
+    description: Presupuesto de tokens declarado
+  budget_hours:
+    type: number
+    required: false
+    description: Presupuesto de horas declarado

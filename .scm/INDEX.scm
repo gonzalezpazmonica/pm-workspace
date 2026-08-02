@@ -1,6 +1,6 @@
 # Savia Capability Map — INDEX
-> hash: b08bea6a9268 | resources: 1307
-> 290 commands · 121 skills · 82 agents · 814 scripts
+> hash: e9d76b705e17 | resources: 1310
+> 290 commands · 122 skills · 82 agents · 816 scripts
 
 [analysis] Trace Optimize — across,distributed,optimize,rates,sampling — cmd:.claude/commands/trace-optimize.md
 [analysis] agent-activity — activity,agent,executions,recent,show — cmd:.claude/commands/agent-activity.md
@@ -120,6 +120,7 @@
 [communication] savia-inbox —  — cmd:.claude/commands/savia-inbox.md
 [communication] savia-index — index,savia — script:scripts/savia-index.sh
 [communication] savia-index-rebuild — index,rebuild,savia — script:scripts/savia-index-rebuild.sh
+[communication] savia-labs — audita,auditoria,certificado,corpus,desconocidos — skill:.claude/skills/savia-labs/SKILL.md
 [communication] savia-live — activity,live,queue,recent,right — cmd:.claude/commands/savia-live.md
 [communication] savia-memory — busca,consolida,escribe,memoria,persistente — skill:.claude/skills/savia-memory/SKILL.md
 [communication] savia-memory-bootstrap — bootstrap,canónico,crea,externo,memory — script:scripts/savia-memory-bootstrap.sh
@@ -779,6 +780,7 @@
 [planning] kg-topology-analysis — analysis,topology,wrapper — script:scripts/kg-topology-analysis.sh
 [planning] knowledge-graph — conocimiento,construye,consulta,entidades,grafo — skill:.claude/skills/knowledge-graph/SKILL.md
 [planning] knowledge-graph — graph,knowledge,shell,wrapper — script:scripts/knowledge-graph.sh
+[planning] labs-preregister — hipotesis,labs,preregister,preregistro,savia — script:scripts/labs-preregister.sh
 [planning] language-boundary-check — boundary,check,language,scripts,slice — script:scripts/language-boundary-check.sh
 [planning] legacy-assess —  — cmd:.claude/commands/legacy-assess.md
 [planning] legalize-es — corpus,español,gestión,legalize,legislativo — script:scripts/legalize-es.sh
@@ -1119,6 +1121,7 @@
 [quality] iac-security-scanner — bicep,compose,config,detectar,docker — skill:.claude/skills/iac-security-scanner/SKILL.md
 [quality] knowledge-lint — base,check,detect,evidence,health — cmd:.claude/commands/knowledge-lint.md
 [quality] knowledge-lint — base,check,health,knowledge,lint — script:scripts/knowledge-lint.sh
+[quality] labs-self-audit — audit,comprobaciones,disciplina,labs,savia — script:scripts/labs-self-audit.sh
 [quality] legal-audit — auditoría,compliance,contra,española,legal — cmd:.claude/commands/legal-audit.md
 [quality] legal-compliance — audita,compliance,consolidada,contra,española — skill:.claude/skills/legal-compliance/SKILL.md
 [quality] loop-phasing-audit — audit,audita,declarado,inferido,level — script:scripts/loop-phasing-audit.sh

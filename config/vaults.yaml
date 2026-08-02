@@ -13,6 +13,15 @@ vaults:
     purpose: knowledge_base
     entity_types: [document, decision, project, person]
 
+  savia-labs:
+    path: labs
+    description: Savia Labs — cupula de investigacion epistemica con disciplina experimental
+    max_confidentiality: N2
+    write_mode: explicit
+    schema_dir: projects/savia-vaults/schema/entities
+    purpose: research
+    entity_types: [hypothesis, experiment, result, protocol]
+
   workspace-context:
     path: .claude/context
     description: Cupula de contexto del workspace — escaneo de modulos, bus factor, dependencias
@@ -89,4 +98,8 @@ entity_mapping:
     savia_fields:
       meeting: event
       release: event
+<<<<<<< HEAD
       milestone: event
+=======
+      milestone: event
+>>>>>>> origin/main

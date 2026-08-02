@@ -1,0 +1,28 @@
+type: protocol
+label: Protocolo
+description: Protocolo experimental reusable en Savia Labs
+properties:
+  title:
+    type: string
+    required: true
+  line:
+    type: string
+    required: true
+    vocabulary: [L1, L2, L3, L4, L5, L6]
+  version:
+    type: string
+    required: true
+  method:
+    type: string
+    required: true
+    description: Descripcion detallada del metodo
+  requirements:
+    type: string
+    required: false
+    description: Requisitos tecnicos
+  valid_from:
+    type: date
+    required: true
+  valid_until:
+    type: date
+    required: false

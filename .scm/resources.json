@@ -1,6 +1,6 @@
 {
-  "hash": "898a106c608b",
-  "total": 1307,
+  "hash": "464240070856",
+  "total": 1310,
   "resources": [
     {
       "category": "analysis",
@@ -1511,6 +1511,20 @@
       "kind": "script",
       "path": "scripts/savia-index-rebuild.sh",
       "description": "── savia-index-rebuild.sh ──────────────────────────────────────────────────"
+    },
+    {
+      "category": "communication",
+      "name": "savia-labs",
+      "intents": [
+        "audita",
+        "auditoria",
+        "certificado",
+        "corpus",
+        "desconocidos"
+      ],
+      "kind": "skill",
+      "path": ".claude/skills/savia-labs/SKILL.md",
+      "description": "Usar cuando se investiga, experimenta o audita epistemicamente. Triggers: 'investiga', 'experimento', 'hipotesis', 'preregistro', 'labs', 'divergencia', 'certificado de ignorancia', 'corpus de desconocidos', 'auditoria de reclutamiento', 'f"
     },
     {
       "category": "communication",
@@ -10252,6 +10266,20 @@
     },
     {
       "category": "planning",
+      "name": "labs-preregister",
+      "intents": [
+        "hipotesis",
+        "labs",
+        "preregister",
+        "preregistro",
+        "savia"
+      ],
+      "kind": "script",
+      "path": "scripts/labs-preregister.sh",
+      "description": "labs-preregister.sh — Preregistro de hipotesis en Savia Labs"
+    },
+    {
+      "category": "planning",
       "name": "language-boundary-check",
       "intents": [
         "boundary",
@@ -14731,6 +14759,20 @@
       "kind": "script",
       "path": "scripts/knowledge-lint.sh",
       "description": "knowledge-lint.sh — LLM Wiki pattern: periodic knowledge base health check"
+    },
+    {
+      "category": "quality",
+      "name": "labs-self-audit",
+      "intents": [
+        "audit",
+        "comprobaciones",
+        "disciplina",
+        "labs",
+        "savia"
+      ],
+      "kind": "script",
+      "path": "scripts/labs-self-audit.sh",
+      "description": "labs-self-audit.sh — Comprobaciones de disciplina en Savia Labs"
     },
     {
       "category": "quality",

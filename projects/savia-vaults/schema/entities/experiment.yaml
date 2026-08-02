@@ -1,0 +1,41 @@
+type: experiment
+label: Experimento
+description: Ejecucion de un experimento en Savia Labs
+properties:
+  hypothesis_id:
+    type: string
+    required: true
+    description: ID de la hipotesis preregistrada
+  seed:
+    type: number
+    required: true
+    description: Semilla aleatoria para reproducibilidad
+  prompt_version:
+    type: string
+    required: true
+    description: Version del prompt usado
+  corpus_hash:
+    type: string
+    required: true
+    description: Hash SHA256 del corpus de entrada
+  model_version:
+    type: string
+    required: true
+    description: Version exacta del modelo
+  status:
+    type: string
+    required: true
+    vocabulary: [running, completed, failed, invalidated]
+  started_at:
+    type: date
+    required: true
+  completed_at:
+    type: date
+    required: false
+  tokens_used:
+    type: number
+    required: false
+  invalidated_reason:
+    type: string
+    required: false
+    description: Razon de invalidacion si status=invalidated
