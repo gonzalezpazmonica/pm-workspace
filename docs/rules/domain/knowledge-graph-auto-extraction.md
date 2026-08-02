@@ -1,7 +1,7 @@
 # Knowledge Graph Auto-Extraction Policy
 
 > SE-297 — Sovereign entity extraction from documents
-> context_tier: N4a
+> context_tier: L2
 > token_budget: 280
 
 ## Extraction Modes
