@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-set -euo pipefail
+set -uo pipefail
 # pre-llm-tabular-detect.sh — Capa 1: detect tabular data before LLM call
 # If prompt contains >5 lines of tabular data, replace with statistical profile
 

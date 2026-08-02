@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-set -euo pipefail
+set -uo pipefail
 # post-turn-tabular-audit.sh — Capa 4: self-audit after each turn
 # Checks if tabular tools were used when tabular data was present
 
