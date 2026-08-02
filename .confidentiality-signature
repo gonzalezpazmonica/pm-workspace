@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=ddb360b7c2a0033ee516411fd280b94eecd2fd24604b8127692fc2ae188afc35
-timestamp=2026-08-02T09:24:47Z
+diff_hash=8fc4d4e3ba0f56422374d08281242b2da87eeef8dffd40d63f2775b5ce0bc653
+timestamp=2026-08-02T09:52:19Z
 branch=savia/se292-se293-rebase
-head_commit=4a704b8b
-signature=e8d1293f0dfbd3840b4171b64b38486cd701edd264400f68e0a832f09894c226
+head_commit=405db5be
+signature=b49f5416e354b9c44d9f446cf1ef10e3df62cadbff8c6872c01f0886e834ebb2
