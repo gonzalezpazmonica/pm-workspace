@@ -136,6 +136,7 @@ To use a skill: read `<path>` and follow its instructions.
 | sovereignty-auditor | `.opencode/skills/sovereignty-auditor/SKILL.md` | Usar cuando se audita el grado de dependencia cognitiva del equipo respecto a herramientas de IA. |
 | spec-driven-development | `.opencode/skills/spec-driven-development/SKILL.md` | Usar cuando se escribe, valida o implementa una spec ejecutable SDD. |
 | sprint-management | `.opencode/skills/sprint-management/SKILL.md` | Usar cuando se consulta el estado del sprint, se actualizan items o se genera el resumen. |
+| tabular-intelligence | `.opencode/skills/tabular-intelligence/SKILL.md` | Usar cuando se analizan datos tabulares (CSV, Excel, tablas, metricas). Triggers: 'analiza esta t... |
 | tdd-vertical-slices | `.opencode/skills/tdd-vertical-slices/SKILL.md` | Test-driven development with vertical-slice red-green-refactor cycles. Use when applying TDD to a... |
 | team-coordination | `.opencode/skills/team-coordination/SKILL.md` | Usar cuando se coordinan múltiples equipos, se asignan miembros o se detectan bloqueantes cross-... |
 | team-onboarding | `.opencode/skills/team-onboarding/SKILL.md` | Usar cuando se incorpora un nuevo miembro al equipo y se evalúan sus competencias. |
