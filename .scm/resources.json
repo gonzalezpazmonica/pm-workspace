@@ -1,6 +1,6 @@
 {
-  "hash": "bdfb73a6c7b8",
-  "total": 1325,
+  "hash": "172d097ef773",
+  "total": 1326,
   "resources": [
     {
       "category": "analysis",
@@ -10528,6 +10528,20 @@
       "kind": "script",
       "path": "scripts/lib/slm-common.sh",
       "description": "slm-common.sh — Shared helpers for SLM subcommands (SE-049 Slice 1)."
+    },
+    {
+      "category": "planning",
+      "name": "lightpanda-browser",
+      "intents": [
+        "avanzada",
+        "contenido",
+        "dump",
+        "extraccion",
+        "extrae"
+      ],
+      "kind": "skill",
+      "path": ".claude/skills/lightpanda-browser/SKILL.md",
+      "description": "Usar cuando se necesita navegacion web headless avanzada (JS-heavy sites, SPAs, extraccion markdown de URLs, web scraping que requiere renderizado JS). Triggers: 'navega a', 'extrae contenido de', 'scrapea', 'renderiza esta pagina', 'dump m"
     },
     {
       "category": "planning",

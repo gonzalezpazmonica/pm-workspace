@@ -1,6 +1,6 @@
 # Savia Capability Map — INDEX
-> hash: 75abc261165b | resources: 1325
-> 290 commands · 123 skills · 83 agents · 829 scripts
+> hash: 314ae9d186bd | resources: 1326
+> 290 commands · 124 skills · 83 agents · 829 scripts
 
 [analysis] Trace Optimize — across,distributed,optimize,rates,sampling — cmd:.claude/commands/trace-optimize.md
 [analysis] agent-activity — activity,agent,executions,recent,show — cmd:.claude/commands/agent-activity.md
@@ -800,6 +800,7 @@
 [planning] lib/mock-env — environment,library,mock,reusable,scripts — script:scripts/lib/mock-env.sh
 [planning] lib/os-detect — defaults,detect,detection,path,portable — script:scripts/lib/os-detect.sh
 [planning] lib/slm-common — common,helpers,shared,slice,subcommands — script:scripts/lib/slm-common.sh
+[planning] lightpanda-browser — avanzada,contenido,dump,extraccion,extrae — skill:.claude/skills/lightpanda-browser/SKILL.md
 [planning] llms-txt-generate — docs,full,generate,llms — script:scripts/llms-txt-generate.sh
 [planning] loop-budget-check — budget,check,loop,scripts — script:scripts/loop-budget-check.sh
 [planning] loop-run-log — append,autónomas,gestión,loop,only — script:scripts/loop-run-log.sh
