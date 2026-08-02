@@ -3,14 +3,12 @@ set -euo pipefail
 # adversarial-containment.sh — Adversarial test suite for containment
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 readonly SCRIPT_DIR
-# shellcheck disable=SC2034  # used in run_test function
 
 mode="${1:-}"
 ci_mode=false
 [[ "$mode" == "--ci" ]] && ci_mode=true
 
 pass=0; fail=0
-results=""
 
 run_test() {
   local name="$1"
