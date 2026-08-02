@@ -78,6 +78,7 @@
 | L2 | [eval-policy.md](domain/eval-policy.md) | Política de Evaluaciones — Automatización y Alertas | — |
 | L2 | [example-patterns.md](domain/example-patterns.md) | Regla: Example Patterns — Few-shot en Commands y Skills | — |
 | L2 | [excel-templates.md](domain/excel-templates.md) | Excel Templates — Estructura de Plantillas CSV | — |
+| L2 | [execution-containment.md](domain/execution-containment.md) | Execution Containment Policy | — |
 | L2 | [external-contract-testing.md](domain/external-contract-testing.md) | External Contract Testing | — |
 | L2 | [failure-pattern-memory.md](domain/failure-pattern-memory.md) | Failure Pattern Memory — SPEC-188 Fase 1 | SPEC-188 |
 | L2 | [file-output-summary.md](domain/file-output-summary.md) | Regla: Resumen por pantalla tras generar fichero de datos | — |
@@ -278,7 +279,6 @@
 | L0 | [critical-facts-anchor.md](domain/critical-facts-anchor.md) | Critical Facts Anchor | — |
 | — | [dual-estimation.md](domain/dual-estimation.md) | Dual Estimation Rule (SE-013) | — |
 | — | [emotional-regulation.md](domain/emotional-regulation.md) | Savia Emotional Regulation Protocol | — |
-| — | [execution-containment.md](domain/execution-containment.md) | Execution Containment Policy | — |
 | — | [github-flow.md](domain/github-flow.md) | GitHub Flow — Reglas de Branching | — |
 | — | [meeting-participant-etiquette.md](domain/meeting-participant-etiquette.md) | Savia Meeting Participant — Etiquette Protocol | — |
 | — | [onboarding-enterprise.md](domain/onboarding-enterprise.md) | Regla: Onboarding Empresarial a Escala | — |
