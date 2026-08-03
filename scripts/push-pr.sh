@@ -98,23 +98,51 @@ ${FILES} files changed across $(echo "$COMMITS" | wc -l) commits.
 fi
 BODY_FILE=$(mktemp); echo "$BODY" > "$BODY_FILE"
 if $USE_GH_CLI; then
-  GH_CMD=(gh pr create --title "$TITLE" --body-file "$BODY_FILE")
-  $DRAFT && GH_CMD+=(--draft)
-  PR_URL=$("${GH_CMD[@]}" 2>&1) || PR_URL="PR creation failed: $PR_URL"
+  # SE-300: detect existing PR; update instead of create
+  EXISTING_PR=$(gh pr list --head "$BRANCH" --state open --json number --jq '.[0].number' 2>/dev/null || echo "")
+  if [[ -n "$EXISTING_PR" ]]; then
+    PR_URL="https://github.com/$REPO/pull/$EXISTING_PR"
+    echo "  PR #$EXISTING_PR exists - updating body..."
+    GH_EDIT=(gh pr edit "$EXISTING_PR" --title "$TITLE" --body-file "$BODY_FILE")
+    $DRAFT && GH_EDIT+=(--draft)
+    "${GH_EDIT[@]}" >/dev/null 2>&1 && echo "  Body updated." || echo "  WARN: body update failed (existing body kept)."
+  else
+    GH_CMD=(gh pr create --title "$TITLE" --body-file "$BODY_FILE")
+    $DRAFT && GH_CMD+=(--draft)
+    PR_URL=$("${GH_CMD[@]}" 2>&1) || PR_URL="PR creation failed: $PR_URL"
+  fi
 else
   $DRAFT && DRAFT_PY="True" || DRAFT_PY="False"
   PR_URL=$(python3 -c "
 import json,urllib.request,sys
 t,r,b,ti='$TOKEN','$REPO','$BRANCH','$(echo "$TITLE" | sed "s/'/\\\\'/g")'
 body=open('$BODY_FILE').read(); dr=$([[ "$DRAFT_PY" == "True" ]] && echo True || echo False)
-d=json.dumps({'title':ti,'body':body,'head':b,'base':'main','draft':dr}).encode()
-rq=urllib.request.Request(f'https://api.github.com/repos/{r}/pulls',data=d,
-  headers={'Authorization':f'token {t}','Accept':'application/vnd.github+json','Content-Type':'application/json'})
+# SE-300: first try to find existing open PR for this branch
 try:
-  print(json.loads(urllib.request.urlopen(rq).read()).get('html_url','PR creation failed'))
-except urllib.error.HTTPError as e:
-  err=json.loads(e.read())
-  print(f'PR already exists for {b}' if 'already exists' in str(err) else 'PR creation failed')
+  list_req=urllib.request.Request(f'https://api.github.com/repos/{r}/pulls?head={b}&state=open',
+    headers={'Authorization':f'token {t}','Accept':'application/vnd.github+json'})
+  existing=json.loads(urllib.request.urlopen(list_req).read())
+  if existing:
+    num=existing[0]['number']
+    edit_data=json.dumps({'title':ti,'body':body}).encode()
+    edit_req=urllib.request.Request(f'https://api.github.com/repos/{r}/pulls/{num}',
+      data=edit_data, method='PATCH',
+      headers={'Authorization':f'token {t}','Accept':'application/vnd.github+json','Content-Type':'application/json'})
+    json.loads(urllib.request.urlopen(edit_req).read())
+    print(f'https://github.com/{r}/pull/{num} (updated)')
+  else:
+    raise Exception('no_existing')
+except Exception as first_err:
+  if 'no_existing' not in str(first_err):
+    pass
+  d=json.dumps({'title':ti,'body':body,'head':b,'base':'main','draft':dr}).encode()
+  rq=urllib.request.Request(f'https://api.github.com/repos/{r}/pulls',data=d,
+    headers={'Authorization':f'token {t}','Accept':'application/vnd.github+json','Content-Type':'application/json'})
+  try:
+    print(json.loads(urllib.request.urlopen(rq).read()).get('html_url','PR creation failed'))
+  except urllib.error.HTTPError as e:
+    err=json.loads(e.read())
+    print(f'PR already exists for {b}' if 'already exists' in str(err) else 'PR creation failed')
 " 2>&1)
 fi
 rm -f "$BODY_FILE" "$PROJECT_ROOT/.pr-summary.md"; echo "  $PR_URL"
