@@ -1,9 +1,10 @@
 # quality — Savia Capability Map (L1)
-> 252 resources
+> 253 resources
 
 - **/speckit.analyze** (cmd): Alias spec-kit compatible. Review cruzado de una spec antes de implementar. Invoca skill consensus-validation. Compatible con github/spec-kit.
 - **Court Review** (cmd): Convene the Code Review Court to evaluate implementation quality across 6 judges
 - **Failure Patterns** (cmd): List, show and resolve failure patterns from the Failure Pattern Memory store. Use when reviewing recurring agent errors, post-mortem analysis, or checking if an error has been seen before.
+- **adversarial-containment** (script): adversarial-containment.sh — Adversarial test suite for containment
 - **adversarial-security** (skill): Usar cuando se necesita auditar la seguridad de un proyecto con pipeline Red Team / Blue Team.
 - **ai-exposure-audit** (cmd): Auditoría de exposición IA por rol — observed exposure, riesgo de desplazamiento, reskilling
 - **android-autonomous-debugger** (skill): Usar cuando se depuran o testean apps Android contra dispositivos físicos via USB/ADB.
