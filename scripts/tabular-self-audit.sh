@@ -10,14 +10,17 @@ BYPASS_COUNT=0
 
 # Read prior bypass count
 if [[ -f "$AUDIT_LOG" ]]; then
-  BYPASS_COUNT=$(grep -c '"verdict":"BYPASS"' "$AUDIT_LOG" 2>/dev/null || echo 0)
+  BYPASS_COUNT=$(grep -c '"verdict":"BYPASS"' "$AUDIT_LOG" 2>/dev/null | tr -d '\n' || true)
 fi
+  [[ -z "$BYPASS_COUNT" ]] && BYPASS_COUNT=0
 
 # Detect tabular data in turn
-TABULAR_LINES=$(grep -cE '^\s*\|.+\||[^,]+,{2,}[^,]|^\w+,[\d.]+' "$TURN_LOG" 2>/dev/null || echo 0)
+TABULAR_LINES=$(grep -cE '^\s*\|.+\||^[^,|]+(,[^,|]+)+$|^\w+,[\d.,]+' "$TURN_LOG" 2>/dev/null | tr -d '\n' || true)
+[[ -z "$TABULAR_LINES" ]] && TABULAR_LINES=0
 
 # Check if profiler was used
-PROFILER_USED=$(grep -c "tabular-profile.py\|tabular_query\|tabular-summarize" "$TURN_LOG" 2>/dev/null || echo 0)
+PROFILER_USED=$(grep -c "tabular-profile.py\|tabular_query\|tabular-summarize" "$TURN_LOG" 2>/dev/null | tr -d '\n' || true)
+[[ -z "$PROFILER_USED" ]] && PROFILER_USED=0
 
 TIMESTAMP=$(date -u +%Y-%m-%dT%H:%M:%SZ)
 
