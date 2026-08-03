@@ -82,9 +82,17 @@ if [[ -z "$BODY" ]]; then
   COMMITS=$(git log --oneline origin/main..HEAD | grep -v "^[a-f0-9]* chore: sign" | sed 's/^/- /')
   FILES=$(git diff origin/main..HEAD --stat | tail -1 | grep -oP '[0-9]+' | head -1)
   # Read .pr-summary.md if present (rule pr-natural-language-summary.md)
+  # SE-300: only trust it if it belongs to THIS branch (cleanup on branch switch).
+  # If missing or stale, derive a summary paragraph from the branch + title.
+  # SE-300: branch-switch hook clears .pr-summary.md, so any existing file
+  # belongs to this branch. If missing, derive a summary paragraph from title.
   PR_SUMMARY=""
   if [[ -f .pr-summary.md ]]; then
     PR_SUMMARY="$(cat .pr-summary.md)
+"
+  else
+    PR_SUMMARY="## Qué hace este PR (en lenguaje no técnico)
+${TITLE}. Ver resumen tecnico en la seccion Summary de este PR.
 "
   fi
   BODY="${PR_SUMMARY}## Summary

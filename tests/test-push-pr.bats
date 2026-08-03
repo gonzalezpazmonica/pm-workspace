@@ -54,3 +54,26 @@ teardown() {
 @test "push-pr.sh respects --no-draft" {
   grep -q -- '--no-draft) DRAFT=false' "$PUSH_PR"
 }
+
+@test "SE-300: branch-switch hook clears stale .pr-summary.md" {
+  HOOK="$BATS_TEST_DIRNAME/../.claude/hooks/block-branch-switch-dirty.sh"
+  [ -f "$HOOK" ]
+  grep -q "SE-300" "$HOOK"
+  grep -q ".pr-summary.md" "$HOOK"
+  grep -q "rm -f" "$HOOK"
+}
+
+@test "SE-300: push-pr derives summary fallback when .pr-summary.md missing" {
+  grep -q "Deriving summary\|Ver resumen tecnico" "$PUSH_PR"
+  grep -q 'if \[\[ -f .pr-summary.md \]\]' "$PUSH_PR"
+}
+
+@test "SE-300: push-pr updates existing PR via gh pr edit" {
+  grep -q "gh pr list --head" "$PUSH_PR"
+  grep -q "gh pr edit" "$PUSH_PR"
+}
+
+@test "SE-300: python fallback uses PATCH for existing PR" {
+  grep -q "method='PATCH'" "$PUSH_PR"
+  grep -q "no_existing" "$PUSH_PR"
+}

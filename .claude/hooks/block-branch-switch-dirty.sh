@@ -53,4 +53,10 @@ if [[ -n "$DIRTY" ]]; then
   exit 2
 fi
 
+# SE-300: clear stale per-branch PR summary on legitimate branch switch so a
+# previous PR's natural-language paragraph does not leak into the next PR body.
+if [[ -f "$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)/.pr-summary.md" ]]; then
+  rm -f "$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)/.pr-summary.md"
+fi
+
 exit 0
