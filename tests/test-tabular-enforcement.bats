@@ -59,8 +59,8 @@ setup() {
 }
 
 @test "hooks have set -uo pipefail" {
-  head -3 "$HOOK" | grep -q "set -euo pipefail"
-  head -3 "$AUDITOR" | grep -q "set -euo pipefail"
+  head -3 "$HOOK" | grep -q "set -uo pipefail"
+  head -3 "$AUDITOR" | grep -q "set -uo pipefail"
 }
 
 @test "mcp-tool exists and executable" {
