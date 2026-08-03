@@ -46,7 +46,7 @@
 
 <!-- AUTO_BEGIN — do not edit; regenerate via scripts/resolver-md-generate.sh -->
 
-### Skills (121)
+### Skills (122)
 
 | Intent (skill) | Target | Cuándo usar |
 |---|---|---|
@@ -152,6 +152,7 @@
 | `sovereignty-auditor` | skill:sovereignty-auditor | Usar cuando se audita el grado de dependencia cognitiva del equipo respecto a herramien... |
 | `spec-driven-development` | skill:spec-driven-development | Usar cuando se escribe, valida o implementa una spec ejecutable SDD. |
 | `sprint-management` | skill:sprint-management | Usar cuando se consulta el estado del sprint, se actualizan items o se genera el resumen. |
+| `tabular-intelligence` | skill:tabular-intelligence | Usar cuando se analizan datos tabulares (CSV, Excel, tablas, metricas). Triggers: 'anal... |
 | `tdd-vertical-slices` | skill:tdd-vertical-slices | Test-driven development with vertical-slice red-green-refactor cycles. Use when applyin... |
 | `team-coordination` | skill:team-coordination | Usar cuando se coordinan múltiples equipos, se asignan miembros o se detectan bloquean... |
 | `team-onboarding` | skill:team-onboarding | Usar cuando se incorpora un nuevo miembro al equipo y se evalúan sus competencias. |
@@ -172,7 +173,7 @@
 | `write-a-skill` | skill:write-a-skill | Guia para crear una nueva skill correctamente en pm-workspace. Usar cuando una tarea se... |
 | `zoom-out` | skill:zoom-out | Elevates perspective from trees to forest. Maps architecture, dependencies, and second-... |
 
-### Agents (82)
+### Agents (83)
 
 | Intent (agent) | Target | Cuándo usar |
 |---|---|---|
@@ -247,6 +248,7 @@
 | `spec-judge` | agent:spec-judge | Code Review Court judge — implementation vs approved spec, acceptance criteria |
 | `structural-framing-judge` | agent:structural-framing-judge | Recommendation Tribunal judge — detects output with manual/protocol form over CBRN or... |
 | `sycophancy-judge` | agent:sycophancy-judge | Recommendation Tribunal judge — detects empty social validation in conversational dra... |
+| `tabular-analyst` | agent:tabular-analyst | Analisis estadistico de datos tabulares. Usar PROACTIVELY cuando: se reciben datos en C... |
 | `tech-writer` | agent:tech-writer | Documentación técnica: README, CHANGELOG, comentarios XML en C#, docs de proyecto. Us... |
 | `terraform-developer` | agent:terraform-developer | Implementación de código Terraform (IaC) siguiendo specs SDD aprobadas. CRÍTICO: NUN... |
 | `test-architect` | agent:test-architect | Designs and generates the highest quality tests across all 16 language packs and 14 tes... |

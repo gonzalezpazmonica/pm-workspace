@@ -1,5 +1,5 @@
 # planning — Savia Capability Map (L1)
-> 554 resources
+> 558 resources
 
 - **/decide-architecture** (cmd): Clasifica una tarea como WORKFLOW (deterministica) o AGENT (loop). Bias hacia workflow per Anthropic. Sugiere plantilla inicial. Mide accuracy contra corpus curado de 20 tareas.
 - **_template** (skill): TEMPLATE — copia este directorio para crear una skill nueva. NO se carga en runtime.
@@ -486,6 +486,10 @@
 - **sync-github-metadata** (script): sync-github-metadata.sh — Update GitHub repo metadata
 - **sync-model-tiers** (script): sync-model-tiers.sh — Resolve abstract model tiers (heavy|mid|fast) to provider-
 - **sync-tags-from-changelog** (script): sync-tags-from-changelog.sh — Create missing git tags from CHANGELOG.md
+- **tabular-analyst** (agent): Analisis estadistico de datos tabulares. Usar PROACTIVELY cuando: se reciben datos en CSV, Excel, tablas markdown, o JSON arrays con >5 filas. Produce perfil estadistico y resumen para LLM.
+- **tabular-intelligence** (skill): Usar cuando se analizan datos tabulares (CSV, Excel, tablas, metricas). Triggers: 'analiza esta tabla', 'metricas del sprint', 'tendencia de', 'distribucion de', 'correlacion entre', 'KPIs', 'datos financieros', 'perfil estadistico', 'resum
+- **tabular-mcp-tool** (script): tabular-mcp-tool.sh — MCP tool: natural language query on tabular data
+- **tabular-summarize** (script): tabular-summarize.sh — Detect + extract + summarize tabular data
 - **task-create** (cmd): Add a task to Savia's todo list. Usage: /task-create Investigate this site...
 - **task-decomposer** (script): task-decomposer.sh — Classify tasks as atomic/composite and decompose recursively
 - **team-coordination** (skill): Usar cuando se coordinan múltiples equipos, se asignan miembros o se detectan bloqueantes cross-team.
