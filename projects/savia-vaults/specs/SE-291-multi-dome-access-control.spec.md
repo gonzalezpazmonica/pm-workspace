@@ -42,8 +42,8 @@ Un servidor SaviaVaults que gestione **multiples cupulas** desde una sola instan
 
 - NO OAuth/OIDC ni SSO externo — solo tokens Bearer locales
 - NO multi-tenancy con organizaciones — usuarios globales con permisos por dome
-- NO auditoria de accesos en tiempo real (queda para SE-292)
-- NO quotas por usuario (queda para SE-292)
+- NO auditoria de accesos en tiempo real (queda para SE-293)
+- NO quotas por usuario (queda para SE-293)
 - NO UI de administracion — solo CLI y API
 
 ---

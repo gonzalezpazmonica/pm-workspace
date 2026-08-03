@@ -13,7 +13,7 @@ import { QueryEngine } from '../knowledge/query.js';
 import { QualityEngine } from '../knowledge/quality.js';
 import type { VaultConfig } from '../types.js';
 import { DomeRegistry } from '../registry/domes.js';
-import { UserStore, ConfidentialityGuard } from '../auth/index.js';
+import { UserStore, ConfidentialityGuard, AuditLogger, UserQuotaStore } from '../auth/index.js';
 import * as fs from 'node:fs';
 import * as path from 'node:path';
 
@@ -529,6 +529,120 @@ confCmd.command('audit').description('Audit confidentiality across all domes')
     registry.load();
     const audit = ConfidentialityGuard.audit(registry.list());
     console.log(ConfidentialityGuard.formatAudit(audit));
+  });
+
+
+// ── Audit commands (SE-293 S2) ──
+const auditCmd = program.command('audit').description('Query access audit logs');
+
+auditCmd.command('show').description('Show audit entries')
+  .option('--username <name>', 'Filter by username')
+  .option('--dome <name>', 'Filter by dome')
+  .option('--action <action>', 'Filter by action (read|write|admin)')
+  .option('--result <result>', 'Filter by result (allowed|denied)')
+  .option('--since <date>', 'From date (YYYY-MM-DD)')
+  .option('--until <date>', 'To date (YYYY-MM-DD)')
+  .option('--last <N>', 'Last N entries (default 50)')
+  .option('--json', 'JSON output')
+  .action((opts: any) => {
+    const logger = new AuditLogger();
+    const entries = logger.query({
+      username: opts.username,
+      dome: opts.dome,
+      action: opts.action,
+      result: opts.result,
+      since: opts.since,
+      until: opts.until,
+      last: opts.last ? parseInt(opts.last, 10) : 50,
+    });
+    if (opts.json) {
+      console.log(JSON.stringify(entries, null, 2));
+    } else {
+      if (entries.length === 0) { console.log('No audit entries found.'); return; }
+      for (const e of entries) {
+        const icon = e.result === 'allowed' ? 'OK' : 'NO';
+        console.log(`[${e.ts.slice(0,19)}] ${icon} ${e.username.padEnd(12)} ${e.dome.padEnd(16)} ${e.action.padEnd(6)} ${e.reason || ''}`);
+      }
+    }
+  });
+
+auditCmd.command('stats').description('Show audit statistics')
+  .option('--since <date>', 'From date (YYYY-MM-DD)')
+  .option('--until <date>', 'To date (YYYY-MM-DD)')
+  .option('--json', 'JSON output')
+  .action((opts: any) => {
+    const logger = new AuditLogger();
+    const stats = logger.stats({ since: opts.since, until: opts.until });
+    if (opts.json) {
+      console.log(JSON.stringify(stats, null, 2));
+    } else {
+      console.log('Audit Summary');
+      console.log('='.repeat(60));
+      console.log(`Total: ${stats.total} accesses (${stats.allowed} allowed, ${stats.denied} denied)`);
+      console.log('');
+      if (Object.keys(stats.byUser).length > 0) {
+        console.log('By user:');
+        for (const [u, c] of Object.entries(stats.byUser)) {
+          console.log(`  ${u}: ${c}`);
+        }
+        console.log('');
+      }
+      if (Object.keys(stats.byDome).length > 0) {
+        console.log('By dome:');
+        for (const [d, c] of Object.entries(stats.byDome)) {
+          console.log(`  ${d}: ${c}`);
+        }
+        console.log('');
+      }
+      if (Object.keys(stats.byAction).length > 0) {
+        console.log('By action:');
+        for (const [a, c] of Object.entries(stats.byAction)) {
+          console.log(`  ${a}: ${c}`);
+        }
+      }
+    }
+  });
+
+
+// ── Quota commands (SE-293 S4) ──
+userCmd.command('quota <username>').description('Show or configure user quotas')
+  .option('--set-rpm <N>', 'Set requests per minute')
+  .option('--set-rph <N>', 'Set requests per hour')
+  .option('--set-rpd <N>', 'Set requests per day')
+  .option('--reset', 'Reset counters to zero')
+  .option('--json', 'JSON output')
+  .action((username: string, opts: any) => {
+    const store = new UserQuotaStore();
+    store.load();
+
+    if (opts.reset) {
+      store.resetCounters(username);
+      console.log(`Quota counters reset for "${username}".`);
+      return;
+    }
+
+    if (opts.setRpm || opts.setRph || opts.setRpd) {
+      const config: Record<string, number> = {};
+      if (opts.setRpm) config.requestsPerMinute = parseInt(opts.setRpm, 10);
+      if (opts.setRph) config.requestsPerHour = parseInt(opts.setRph, 10);
+      if (opts.setRpd) config.requestsPerDay = parseInt(opts.setRpd, 10);
+      store.setConfig(username, config);
+      store.persist();
+      console.log(`Quotas updated for "${username}".`);
+    }
+
+    const config = store.getConfig(username);
+    const status = store.check(username);
+
+    if (opts.json) {
+      console.log(JSON.stringify({ username, config, remaining: status.remaining }, null, 2));
+    } else {
+      console.log(`Quotas for ${username}:`);
+      console.log(`  Requests per minute:  ${config.requestsPerMinute === 0 ? 'unlimited' : String(config.requestsPerMinute)}`);
+      console.log(`  Requests per hour:    ${config.requestsPerHour === 0 ? 'unlimited' : String(config.requestsPerHour)}`);
+      console.log(`  Requests per day:     ${config.requestsPerDay === 0 ? 'unlimited' : String(config.requestsPerDay)}`);
+      if (status.warning) console.log(`  WARNING: ${status.warning}`);
+    }
   });
 
 

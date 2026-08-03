@@ -13,7 +13,7 @@ import { QueryEngine } from '../knowledge/query.js';
 import { QualityEngine } from '../knowledge/quality.js';
 import type { VaultConfig } from '../types.js';
 import { DomeRegistry, VaultInstance } from '../registry/domes.js';
-import { UserStore, AccessController, AuthError } from '../auth/index.js';
+import { UserStore, AccessController, AuthError, AuditLogger, UserQuotaStore } from '../auth/index.js';
 import type { AuthAction } from '../auth/index.js';
 import * as fs from 'node:fs';
 import * as path from 'node:path';
@@ -38,6 +38,8 @@ export class MCPVaultServer {
   private domeRegistry: DomeRegistry | undefined;
   private userStore: UserStore | undefined;
   private accessController: AccessController | undefined;
+  private auditLogger: AuditLogger | undefined;
+  private quotaStore: UserQuotaStore | undefined;
   private instances: Map<string, VaultInstance> = new Map();
 
   constructor(config: VaultConfig, domeRegistry?: DomeRegistry, userStore?: UserStore) {
@@ -52,11 +54,15 @@ export class MCPVaultServer {
       this.userStore = us;
       try { us.load(); } catch {}
 
-      if (us.exists()) {
-        this.accessController = new AccessController(us, domeRegistry);
-      } else {
-        this.accessController = new AccessController(us, domeRegistry);
-      }
+      const al = new AuditLogger();
+      const qs = new UserQuotaStore();
+      try { qs.load(); } catch {}
+      qs.startAutoPersist();
+
+      this.auditLogger = al;
+      this.quotaStore = qs;
+
+      this.accessController = new AccessController(us, domeRegistry, al, qs);
 
       for (const dome of domeRegistry.listActive()) {
         this.instances.set(dome.name, new VaultInstance(dome));
@@ -94,11 +100,11 @@ export class MCPVaultServer {
     if (!this.graphBuilt && this.graph) { await this.graph.build(); this.graphBuilt = true; }
   }
 
-  private async authorize(dome: string, action: AuthAction): Promise<void> {
+  private async authorize(dome: string, action: AuthAction, tool?: string): Promise<void> {
     if (!this.accessController) return;
     if (!this.accessController.isActive) return;
     const token = readAuthToken();
-    await this.accessController.authorize({ authToken: token, dome, action });
+    await this.accessController.authorize({ authToken: token, dome, action, tool });
   }
 
   private initVault(): void {
@@ -262,7 +268,7 @@ export class MCPVaultServer {
           case 'vault_read': {
             const inst = this.getInstance(args.vault as string | undefined);
             const dome = this.getDomeName(args.vault as string | undefined);
-            try { await this.authorize(dome, 'read'); } catch (e) { if (e instanceof AuthError) return { content: [{ type: 'text', text: `Error: ${e.message}` }], isError: true }; throw e; }
+            try { await this.authorize(dome, 'read', 'vault_read'); } catch (e) { if (e instanceof AuthError) return { content: [{ type: 'text', text: `Error: ${e.message}` }], isError: true }; throw e; }
             const note = await inst.storage.read(args.path as string);
             return { content: [{ type: 'text', text: JSON.stringify({ path: note.path, name: note.name, frontmatter: note.frontmatter, tags: note.tags, content: note.content }, null, 2) }] };
           }
@@ -270,7 +276,7 @@ export class MCPVaultServer {
           case 'vault_write': {
             const inst = this.getInstance(args.vault as string | undefined);
             const dome = this.getDomeName(args.vault as string | undefined);
-            try { await this.authorize(dome, 'write'); } catch (e) { if (e instanceof AuthError) return { content: [{ type: 'text', text: `Error: ${e.message}` }], isError: true }; throw e; }
+            try { await this.authorize(dome, 'write', 'vault_write'); } catch (e) { if (e instanceof AuthError) return { content: [{ type: 'text', text: `Error: ${e.message}` }], isError: true }; throw e; }
             const receipt = await inst.storage.write(args.path as string, args.content as string, args.message as string);
             return { content: [{ type: 'text', text: JSON.stringify(receipt, null, 2) }] };
           }
@@ -278,7 +284,7 @@ export class MCPVaultServer {
           case 'vault_search': {
             const inst = this.getInstance(args.vault as string | undefined);
             const dome = this.getDomeName(args.vault as string | undefined);
-            try { await this.authorize(dome, 'read'); } catch (e) { if (e instanceof AuthError) return { content: [{ type: 'text', text: `Error: ${e.message}` }], isError: true }; throw e; }
+            try { await this.authorize(dome, 'read', 'vault_search'); } catch (e) { if (e instanceof AuthError) return { content: [{ type: 'text', text: `Error: ${e.message}` }], isError: true }; throw e; }
             inst.search.buildIndex();
             const results = inst.search.search({
               query: args.query as string,
@@ -291,7 +297,7 @@ export class MCPVaultServer {
           case 'vault_list': {
             const inst = this.getInstance(args.vault as string | undefined);
             const dome = this.getDomeName(args.vault as string | undefined);
-            try { await this.authorize(dome, 'read'); } catch (e) { if (e instanceof AuthError) return { content: [{ type: 'text', text: `Error: ${e.message}` }], isError: true }; throw e; }
+            try { await this.authorize(dome, 'read', 'vault_list'); } catch (e) { if (e instanceof AuthError) return { content: [{ type: 'text', text: `Error: ${e.message}` }], isError: true }; throw e; }
             const files = await inst.storage.list();
             const prefix = args.path as string | undefined;
             const filtered = prefix ? files.filter(f => f.startsWith(prefix)) : files;
@@ -301,7 +307,7 @@ export class MCPVaultServer {
           case 'vault_stats': {
             const inst = this.getInstance(args.vault as string | undefined);
             const dome = this.getDomeName(args.vault as string | undefined);
-            try { await this.authorize(dome, 'read'); } catch (e) { if (e instanceof AuthError) return { content: [{ type: 'text', text: `Error: ${e.message}` }], isError: true }; throw e; }
+            try { await this.authorize(dome, 'read', 'vault_stats'); } catch (e) { if (e instanceof AuthError) return { content: [{ type: 'text', text: `Error: ${e.message}` }], isError: true }; throw e; }
             const stats = await inst.storage.stats();
             return { content: [{ type: 'text', text: JSON.stringify(stats, null, 2) }] };
           }
@@ -309,7 +315,7 @@ export class MCPVaultServer {
           case 'vault_index': {
             const inst = this.getInstance(args.vault as string | undefined);
             const dome = this.getDomeName(args.vault as string | undefined);
-            try { await this.authorize(dome, 'write'); } catch (e) { if (e instanceof AuthError) return { content: [{ type: 'text', text: `Error: ${e.message}` }], isError: true }; throw e; }
+            try { await this.authorize(dome, 'write', 'vault_index'); } catch (e) { if (e instanceof AuthError) return { content: [{ type: 'text', text: `Error: ${e.message}` }], isError: true }; throw e; }
             inst.search.buildIndex();
             const tags = inst.search.getTags();
             return { content: [{ type: 'text', text: `Index rebuilt. ${tags.size} unique tags indexed.` }] };
@@ -318,7 +324,7 @@ export class MCPVaultServer {
           case 'vault_diff': {
             const inst = this.getInstance(args.vault as string | undefined);
             const dome = this.getDomeName(args.vault as string | undefined);
-            try { await this.authorize(dome, 'read'); } catch (e) { if (e instanceof AuthError) return { content: [{ type: 'text', text: `Error: ${e.message}` }], isError: true }; throw e; }
+            try { await this.authorize(dome, 'read', 'vault_diff'); } catch (e) { if (e instanceof AuthError) return { content: [{ type: 'text', text: `Error: ${e.message}` }], isError: true }; throw e; }
             const diff = await inst.storage.diff(args.path as string);
             return { content: [{ type: 'text', text: diff || '(no changes)' }] };
           }
@@ -326,7 +332,7 @@ export class MCPVaultServer {
           case 'vault_log': {
             const inst = this.getInstance(args.vault as string | undefined);
             const dome = this.getDomeName(args.vault as string | undefined);
-            try { await this.authorize(dome, 'read'); } catch (e) { if (e instanceof AuthError) return { content: [{ type: 'text', text: `Error: ${e.message}` }], isError: true }; throw e; }
+            try { await this.authorize(dome, 'read', 'vault_log'); } catch (e) { if (e instanceof AuthError) return { content: [{ type: 'text', text: `Error: ${e.message}` }], isError: true }; throw e; }
             const log = await inst.storage.log(args.path as string, (args.maxCount as number) || 20);
             return { content: [{ type: 'text', text: JSON.stringify(log, null, 2) }] };
           }
@@ -334,7 +340,7 @@ export class MCPVaultServer {
           case 'vault_tags': {
             const inst = this.getInstance(args.vault as string | undefined);
             const dome = this.getDomeName(args.vault as string | undefined);
-            try { await this.authorize(dome, 'read'); } catch (e) { if (e instanceof AuthError) return { content: [{ type: 'text', text: `Error: ${e.message}` }], isError: true }; throw e; }
+            try { await this.authorize(dome, 'read', 'vault_tags'); } catch (e) { if (e instanceof AuthError) return { content: [{ type: 'text', text: `Error: ${e.message}` }], isError: true }; throw e; }
             inst.search.buildIndex();
             const tags = inst.search.getTags();
             return { content: [{ type: 'text', text: JSON.stringify([...tags.entries()], null, 2) }] };
@@ -343,7 +349,7 @@ export class MCPVaultServer {
           case 'vault_introspect': {
             const inst = this.getInstance(args.vault as string | undefined);
             const dome = this.getDomeName(args.vault as string | undefined);
-            try { await this.authorize(dome, 'read'); } catch (e) { if (e instanceof AuthError) return { content: [{ type: 'text', text: `Error: ${e.message}` }], isError: true }; throw e; }
+            try { await this.authorize(dome, 'read', 'vault_introspect'); } catch (e) { if (e instanceof AuthError) return { content: [{ type: 'text', text: `Error: ${e.message}` }], isError: true }; throw e; }
             if (!this.introspector) return { content: [{ type: 'text', text: 'No schema configured.' }], isError: true };
             if (args.entity) {
               const entity = await this.introspector.introspectEntity(args.entity as string);
@@ -356,7 +362,7 @@ export class MCPVaultServer {
           case 'vault_graph': {
             const inst = this.getInstance(args.vault as string | undefined);
             const dome = this.getDomeName(args.vault as string | undefined);
-            try { await this.authorize(dome, 'read'); } catch (e) { if (e instanceof AuthError) return { content: [{ type: 'text', text: `Error: ${e.message}` }], isError: true }; throw e; }
+            try { await this.authorize(dome, 'read', 'vault_graph'); } catch (e) { if (e instanceof AuthError) return { content: [{ type: 'text', text: `Error: ${e.message}` }], isError: true }; throw e; }
             if (!this.graph) return { content: [{ type: 'text', text: 'No schema configured.' }], isError: true };
             await this.ensureGraph();
             const action = args.action as string;
@@ -375,7 +381,7 @@ export class MCPVaultServer {
           case 'vault_query': {
             const inst = this.getInstance(args.vault as string | undefined);
             const dome = this.getDomeName(args.vault as string | undefined);
-            try { await this.authorize(dome, 'read'); } catch (e) { if (e instanceof AuthError) return { content: [{ type: 'text', text: `Error: ${e.message}` }], isError: true }; throw e; }
+            try { await this.authorize(dome, 'read', 'vault_query'); } catch (e) { if (e instanceof AuthError) return { content: [{ type: 'text', text: `Error: ${e.message}` }], isError: true }; throw e; }
             if (!this.queryEngine) return { content: [{ type: 'text', text: 'No schema configured.' }], isError: true };
             await this.ensureGraph();
             await this.queryEngine.ensureLoaded();
@@ -386,7 +392,7 @@ export class MCPVaultServer {
           case 'vault_health': {
             const inst = this.getInstance(args.vault as string | undefined);
             const dome = this.getDomeName(args.vault as string | undefined);
-            try { await this.authorize(dome, 'read'); } catch (e) { if (e instanceof AuthError) return { content: [{ type: 'text', text: `Error: ${e.message}` }], isError: true }; throw e; }
+            try { await this.authorize(dome, 'read', 'vault_health'); } catch (e) { if (e instanceof AuthError) return { content: [{ type: 'text', text: `Error: ${e.message}` }], isError: true }; throw e; }
             if (!this.quality) return { content: [{ type: 'text', text: 'No schema configured.' }], isError: true };
             const indicators = await this.quality.assess();
             return { content: [{ type: 'text', text: this.quality.formatReport(indicators) }] };

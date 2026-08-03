@@ -2,6 +2,8 @@ import type { UserStore } from './store.js';
 import type { DomeRegistry } from '../registry/domes.js';
 import type { UserRole } from './types.js';
 import type { DomeInfo, ConfidentialityLevel } from '../registry/domes.js';
+import type { AuditLogger } from './audit-logger.js';
+import type { UserQuotaStore } from './quota-store.js';
 
 export type AuthAction = 'read' | 'write' | 'admin';
 
@@ -41,10 +43,19 @@ const CONFIDENTIALITY_WRITE_MIN: Record<ConfidentialityLevel, UserRole> = {
 export class AccessController {
   private userStore: UserStore;
   private domeRegistry: DomeRegistry;
+  private auditLogger: AuditLogger | undefined;
+  private quotaStore: UserQuotaStore | undefined;
 
-  constructor(userStore: UserStore, domeRegistry: DomeRegistry) {
+  constructor(
+    userStore: UserStore,
+    domeRegistry: DomeRegistry,
+    auditLogger?: AuditLogger,
+    quotaStore?: UserQuotaStore,
+  ) {
     this.userStore = userStore;
     this.domeRegistry = domeRegistry;
+    this.auditLogger = auditLogger;
+    this.quotaStore = quotaStore;
   }
 
   get isActive(): boolean {
@@ -55,55 +66,100 @@ export class AccessController {
     authToken?: string;
     dome: string;
     action: AuthAction;
+    tool?: string;
   }): Promise<Authorization> {
-    // Resolve dome
-    const domeInfo = this.domeRegistry.get(params.dome);
-    if (!domeInfo || !domeInfo.active) {
-      throw new AuthError('dome_not_found', `Dome "${params.dome}" not found or inactive`);
+    let username: string | undefined;
+    let result: 'allowed' | 'denied' = 'denied';
+    let reason: string | undefined;
+
+    try {
+      const domeInfo = this.domeRegistry.get(params.dome);
+      if (!domeInfo || !domeInfo.active) {
+        reason = `Dome "${params.dome}" not found or inactive`;
+        throw new AuthError('dome_not_found', reason);
+      }
+
+      if (!this.isActive) {
+        reason = 'No users configured. Create an admin user with: savia-vaults user create <name>';
+        throw new AuthError('unauthorized', reason);
+      }
+
+      if (domeInfo.confidentiality === 'N1' && params.action === 'read') {
+        username = 'anonymous';
+        result = 'allowed';
+        this.recordAudit(username, params.dome, params.action, result, undefined, params.tool);
+        return { username, role: 'reader', dome: params.dome };
+      }
+
+      if (!params.authToken) {
+        reason = `Authentication required for "${params.dome}". Set SAVIA_AUTH_TOKEN in your MCP client config.`;
+        throw new AuthError('unauthorized', reason);
+      }
+
+      const user = this.userStore.validateToken(params.authToken);
+      if (!user) {
+        reason = 'Invalid or expired token';
+        throw new AuthError('unauthorized', reason);
+      }
+
+      username = user.username;
+
+      const perm = user.permissions[params.dome];
+      if (!perm) {
+        reason = `User "${username}" has no access to dome "${params.dome}"`;
+        throw new AuthError('forbidden', reason);
+      }
+
+      const userRole = perm.role;
+
+      if (ROLE_LEVEL[userRole] < ACTION_LEVEL[params.action]) {
+        reason = `User "${username}" is ${userRole} on "${params.dome}" — ${params.action} requires writer or admin`;
+        throw new AuthError('forbidden', reason);
+      }
+
+      const minRole = params.action === 'read'
+        ? CONFIDENTIALITY_READ_MIN[domeInfo.confidentiality]
+        : CONFIDENTIALITY_WRITE_MIN[domeInfo.confidentiality];
+
+      if (ROLE_LEVEL[userRole] < ROLE_LEVEL[minRole]) {
+        reason = `Dome "${params.dome}" has confidentiality ${domeInfo.confidentiality} — ${params.action} requires ${minRole} (user is ${userRole})`;
+        throw new AuthError('forbidden', reason);
+      }
+
+      if (this.quotaStore && this.quotaStore.isActive()) {
+        const quota = this.quotaStore.check(username);
+        if (!quota.allowed) {
+          reason = `Quota exceeded for "${username}"`;
+          this.recordAudit(username, params.dome, params.action, 'denied', reason, params.tool);
+          throw new AuthError('forbidden', reason);
+        }
+      }
+
+      result = 'allowed';
+      this.recordAudit(username, params.dome, params.action, result, undefined, params.tool);
+
+      if (this.quotaStore && this.quotaStore.isActive()) {
+        this.quotaStore.record(username);
+      }
+
+      return { username, role: userRole, dome: params.dome };
+    } catch (e) {
+      if (e instanceof AuthError) {
+        this.recordAudit(username || 'anonymous', params.dome, params.action, 'denied', e.message, params.tool);
+      }
+      throw e;
     }
+  }
 
-    // Auth not configured → deny (no legacy mode)
-    if (!this.isActive) {
-      throw new AuthError('unauthorized', 'No users configured. Create an admin user with: savia-vaults user create <name>');
-    }
-
-    // N1 domes allow read without token
-    if (domeInfo.confidentiality === 'N1' && params.action === 'read') {
-      return { username: 'anonymous', role: 'reader', dome: params.dome };
-    }
-
-    // Require token for everything else
-    if (!params.authToken) {
-      throw new AuthError('unauthorized', `Authentication required for "${params.dome}". Set SAVIA_AUTH_TOKEN in your MCP client config.`);
-    }
-
-    const user = this.userStore.validateToken(params.authToken);
-    if (!user) {
-      throw new AuthError('unauthorized', 'Invalid or expired token');
-    }
-
-    // Check dome permission
-    const perm = user.permissions[params.dome];
-    if (!perm) {
-      throw new AuthError('forbidden', `User "${user.username}" has no access to dome "${params.dome}"`);
-    }
-
-    const userRole = perm.role;
-
-    // Check action permission
-    if (ROLE_LEVEL[userRole] < ACTION_LEVEL[params.action]) {
-      throw new AuthError('forbidden', `User "${user.username}" is ${userRole} on "${params.dome}" — ${params.action} requires writer or admin`);
-    }
-
-    // Check confidentiality gate
-    const minRole = params.action === 'read'
-      ? CONFIDENTIALITY_READ_MIN[domeInfo.confidentiality]
-      : CONFIDENTIALITY_WRITE_MIN[domeInfo.confidentiality];
-
-    if (ROLE_LEVEL[userRole] < ROLE_LEVEL[minRole]) {
-      throw new AuthError('forbidden', `Dome "${params.dome}" has confidentiality ${domeInfo.confidentiality} — ${params.action} requires ${minRole} (user is ${userRole})`);
-    }
-
-    return { username: user.username, role: userRole, dome: params.dome };
+  private recordAudit(
+    username: string,
+    dome: string,
+    action: AuthAction,
+    result: 'allowed' | 'denied',
+    reason?: string,
+    tool?: string,
+  ): void {
+    if (!this.auditLogger) return;
+    this.auditLogger.record({ username, dome, action, result, reason, tool });
   }
 }

@@ -69,7 +69,7 @@
     "code-reviewer": {
       "description": "Revisión de código .NET como quality gate antes de merge. Focus: SOLID, OWASP, performance.",
       "mode": "subagent",
-      "model": "github-copilot/claude-opus-4.7",
+      "model": "deepseek-v4-pro",
       "permission": {
         "edit": "deny",
         "bash": {
@@ -86,7 +86,7 @@
     "architect": {
       "description": "Diseño de arquitectura .NET y decisiones técnicas de alto nivel. SOLID, DDD, Clean Architecture.",
       "mode": "subagent",
-      "model": "github-copilot/claude-opus-4.7",
+      "model": "deepseek-v4-pro",
       "permission": {
         "edit": "deny",
         "bash": {
@@ -101,7 +101,7 @@
     "security-guardian": {
       "description": "Auditor de seguridad pre-commit. Detecta credenciales, OWASP, CWE Top 25, datos sensibles.",
       "mode": "subagent",
-      "model": "github-copilot/claude-opus-4.7",
+      "model": "deepseek-v4-pro",
       "permission": {
         "edit": "deny",
         "bash": {
@@ -114,7 +114,7 @@
     "business-analyst": {
       "description": "Análisis de reglas de negocio, descomposición de PBIs, criterios de aceptación.",
       "mode": "subagent",
-      "model": "github-copilot/claude-sonnet-4.5",
+      "model": "deepseek-v4-pro",
       "permission": {
         "edit": "deny",
         "bash": "deny"
@@ -123,7 +123,7 @@
     "test-runner": {
       "description": "Ejecuta suite completa de tests y verifica cobertura >= 80%.",
       "mode": "subagent",
-      "model": "github-copilot/claude-sonnet-4.5",
+      "model": "deepseek-v4-pro",
       "permission": {
         "edit": "deny",
         "bash": {
@@ -139,13 +139,141 @@
     "commit-guardian": {
       "description": "Verifica cambios staged antes de commit: branch, tests, formato, credenciales.",
       "mode": "subagent",
-      "model": "github-copilot/claude-sonnet-4.5",
+      "model": "deepseek-v4-pro",
       "permission": {
         "edit": "deny",
         "bash": {
           "*": "deny",
           "git *": "allow",
           "grep *": "allow"
+        }
+      }
+    },
+    "typescript-developer": {
+      "description": "Implementacion TypeScript/Node.js siguiendo specs SDD.",
+      "mode": "subagent",
+      "model": "deepseek-v4-pro",
+      "permission": {
+        "edit": "allow",
+        "write": "allow",
+        "bash": {
+          "npm *": "allow",
+          "npx *": "allow",
+          "node *": "allow",
+          "tsc *": "allow",
+          "vitest *": "allow",
+          "git *": "allow",
+          "grep *": "allow",
+          "*": "deny"
+        }
+      }
+    },
+    "infrastructure-agent": {
+      "description": "Infraestructura cloud, contenedores, scripts bash.",
+      "mode": "subagent",
+      "model": "deepseek-v4-pro",
+      "permission": {
+        "edit": "allow",
+        "write": "allow",
+        "bash": {
+          "*": "allow"
+        }
+      }
+    },
+    "dotnet-developer": {
+      "description": "Implementacion C#/.NET siguiendo specs SDD.",
+      "mode": "subagent",
+      "model": "deepseek-v4-pro",
+      "permission": {
+        "edit": "allow",
+        "write": "allow",
+        "bash": {
+          "dotnet *": "allow",
+          "npm *": "allow",
+          "git *": "allow",
+          "grep *": "allow",
+          "*": "deny"
+        }
+      }
+    },
+    "frontend-developer": {
+      "description": "Implementacion frontend Angular/React siguiendo specs SDD.",
+      "mode": "subagent",
+      "model": "deepseek-v4-pro",
+      "permission": {
+        "edit": "allow",
+        "write": "allow",
+        "bash": {
+          "npm *": "allow",
+          "npx *": "allow",
+          "ng *": "allow",
+          "git *": "allow",
+          "grep *": "allow",
+          "*": "deny"
+        }
+      }
+    },
+    "python-developer": {
+      "description": "Implementacion Python/FastAPI/Django siguiendo specs SDD.",
+      "mode": "subagent",
+      "model": "deepseek-v4-pro",
+      "permission": {
+        "edit": "allow",
+        "write": "allow",
+        "bash": {
+          "python *": "allow",
+          "pip *": "allow",
+          "pytest *": "allow",
+          "npm *": "allow",
+          "git *": "allow",
+          "grep *": "allow",
+          "*": "deny"
+        }
+      }
+    },
+    "sdd-spec-writer": {
+      "description": "Generacion y validacion de specs SDD como contratos ejecutables.",
+      "mode": "subagent",
+      "model": "deepseek-v4-pro",
+      "permission": {
+        "edit": "allow",
+        "write": "allow",
+        "bash": {
+          "git *": "allow",
+          "grep *": "allow",
+          "*": "deny"
+        }
+      }
+    },
+    "dev-orchestrator": {
+      "description": "Analiza specs y crea planes de implementacion con slices.",
+      "mode": "subagent",
+      "model": "deepseek-v4-pro",
+      "permission": {
+        "edit": "allow",
+        "write": "allow",
+        "bash": "deny"
+      }
+    },
+    "explore": {
+      "description": "Fast agent for exploring codebases.",
+      "mode": "subagent",
+      "model": "deepseek-v4-pro",
+      "permission": {
+        "edit": "deny",
+        "write": "deny",
+        "bash": "deny"
+      }
+    },
+    "general": {
+      "description": "General-purpose agent for complex multi-step tasks.",
+      "mode": "subagent",
+      "model": "deepseek-v4-pro",
+      "permission": {
+        "edit": "allow",
+        "write": "allow",
+        "bash": {
+          "*": "allow"
         }
       }
     }
