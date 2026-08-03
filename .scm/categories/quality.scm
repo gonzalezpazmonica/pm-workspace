@@ -1,5 +1,5 @@
 # quality — Savia Capability Map (L1)
-> 253 resources
+> 254 resources
 
 - **/speckit.analyze** (cmd): Alias spec-kit compatible. Review cruzado de una spec antes de implementar. Invoca skill consensus-validation. Compatible con github/spec-kit.
 - **Court Review** (cmd): Convene the Code Review Court to evaluate implementation quality across 6 judges
@@ -138,6 +138,7 @@
 - **sovereignty-audit** (cmd): Cognitive sovereignty audit — diagnose AI vendor lock-in risk and data portability
 - **sovereignty-auditor** (skill): Usar cuando se audita el grado de dependencia cognitiva del equipo respecto a herramientas de IA.
 - **spellcheck-docs** (script): spellcheck-docs.sh — Orthographic review using accent dictionaries
+- **tabular-self-audit** (script): tabular-self-audit.sh — Post-turn: verify tabular tools were used when needed
 - **tdd-vertical-slices** (skill): Test-driven development with vertical-slice red-green-refactor cycles. Use when applying TDD to a new feature or bug fix, when user mentions 'red-green-refactor', 'tdd', 'test-first', 'vertical slice' — explicitly avoids the 'horizontal sli
 - **test-accessibility** (script): test-accessibility.sh — Validates accessibility universal feature files
 - **test-ai-adoption** (script): ── test-ai-adoption.sh ────────────────────────────────────────────────────────
