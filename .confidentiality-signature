@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=6275fb5fbebe3da3f724d95b5d55b7548c19b108a673ac2d78fc28d499cb5a3d
-timestamp=2026-08-03T13:41:21Z
+diff_hash=771e7c2d9671ef39147ec87b3a25b4a2cf22d59f991cb737e16e101f44ff6c86
+timestamp=2026-08-03T15:33:56Z
 branch=savia/se296-tabular-intelligence
-head_commit=c1f4875f
-signature=b87a6d74f9e9de04f40e1b73bd10fe4df76f54a8127ee2be6105d49d30d757a8
+head_commit=3ed49264
+signature=8ffc2afe5203e2e8acfa62c568f19e5341f0557597e96867e80656b2f266cb4f
