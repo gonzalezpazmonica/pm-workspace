@@ -14,14 +14,22 @@ setup() {
 }
 
 @test "pipeline processes text input" {
-  echo "SE-291 and SE-288" | run bash "$PIPELINE"
+  local tf
+  tf=$(mktemp)
+  echo "SE-291 and SE-288" > "$tf"
+  run bash "$PIPELINE" "$tf"
   [ "$status" -eq 0 ]
   [[ "$output" == *"entity_count"* ]]
+  rm -f "$tf"
 }
 
 @test "pipeline handles empty input" {
-  echo "" | run bash "$PIPELINE"
+  local tf
+  tf=$(mktemp)
+  echo "" > "$tf"
+  run bash "$PIPELINE" "$tf"
   [ "$status" -eq 0 ]
+  rm -f "$tf"
 }
 
 @test "quality report script exists" {
@@ -48,6 +56,10 @@ setup() {
 }
 
 @test "pipeline quality-gate rejects non-verified entities" {
-  echo "The system uses patterns" | run bash "$PIPELINE"
+  local tf
+  tf=$(mktemp)
+  echo "The system uses patterns" > "$tf"
+  run bash "$PIPELINE" "$tf"
   [ "$status" -eq 0 ]
+  rm -f "$tf"
 }

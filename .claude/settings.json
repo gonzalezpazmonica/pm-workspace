@@ -758,7 +758,8 @@
         "command": "\"$CLAUDE_PROJECT_DIR\"/.opencode/hooks/post-digestion-kg-extract.sh",
         "async": true,
         "timeout": 30,
-        "statusMessage": "Extracting knowledge graph..."
+        "statusMessage": "Extracting knowledge graph...",
+        "matcher": "Task|Bash"
       }
     ],
     "Stop": [
