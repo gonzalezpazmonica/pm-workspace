@@ -89,6 +89,7 @@ the Stop hook `agents-md-auto-regenerate.sh` whenever an agent file changes.
 | spec-judge | mid | L1 | — | Code Review Court judge — implementation vs approved spec, acceptance criteria |
 | structural-framing-judge | mid | L1 | — | Recommendation Tribunal judge — detects output with manual/protocol form over CBRN or sensitive domain |
 | sycophancy-judge | mid | L1 | — | Recommendation Tribunal judge — detects empty social validation in conversational drafts (SPEC-192) |
+| tabular-analyst | mid | — | — | Analisis estadistico de datos tabulares. Usar PROACTIVELY cuando: se reciben datos en CSV, Excel, tablas markdown, o ... |
 | tech-writer | fast | L2 | — | Documentación técnica: README, CHANGELOG, comentarios XML en C#, docs de proyecto. Usar PROACTIVELY cuando: se actual... |
 | terraform-developer | mid | L3 | — | Implementación de código Terraform (IaC) siguiendo specs SDD aprobadas. CRÍTICO: NUNCA ejecutar terraform apply autom... |
 | test-architect | mid | L3 | — | Designs and generates the highest quality tests across all 16 language packs and 14 test types. Use PROACTIVELY when:... |
