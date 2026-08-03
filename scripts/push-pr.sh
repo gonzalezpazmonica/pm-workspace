@@ -111,9 +111,12 @@ if $USE_GH_CLI; then
   if [[ -n "$EXISTING_PR" ]]; then
     PR_URL="https://github.com/$REPO/pull/$EXISTING_PR"
     echo "  PR #$EXISTING_PR exists - updating body..."
-    GH_EDIT=(gh pr edit "$EXISTING_PR" --title "$TITLE" --body-file "$BODY_FILE")
-    $DRAFT && GH_EDIT+=(--draft)
-    "${GH_EDIT[@]}" >/dev/null 2>&1 && echo "  Body updated." || echo "  WARN: body update failed (existing body kept)."
+    # gh pr edit uses GraphQL which warns on deprecated Projects (exit 1). Use REST PATCH.
+    if gh api "repos/$REPO/pulls/$EXISTING_PR" -X PATCH         -f "title=$TITLE" -F "body=@$BODY_FILE" >/dev/null 2>&1; then
+      echo "  Body updated."
+    else
+      echo "  WARN: body update failed (existing body kept)."
+    fi
   else
     GH_CMD=(gh pr create --title "$TITLE" --body-file "$BODY_FILE")
     $DRAFT && GH_CMD+=(--draft)
@@ -153,7 +156,7 @@ except Exception as first_err:
     print(f'PR already exists for {b}' if 'already exists' in str(err) else 'PR creation failed')
 " 2>&1)
 fi
-rm -f "$BODY_FILE" "$PROJECT_ROOT/.pr-summary.md"; echo "  $PR_URL"
+rm -f "$BODY_FILE" "$PWD/.pr-summary.md"; echo "  $PR_URL"
 
 # ── Auto-merge (--merge flag) ────────────────────────────────────────────
 MERGED=false
