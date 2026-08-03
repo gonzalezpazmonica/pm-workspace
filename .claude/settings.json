@@ -1058,6 +1058,15 @@
         "timeout": 10,
         "statusMessage": "Detecting tabular data..."
       }
+    ],
+    "PreCommit": [
+      {
+        "type": "command",
+        "command": "\"$CLAUDE_PROJECT_DIR\"/.opencode/hooks/pre-commit-no-new-features.sh",
+        "async": false,
+        "timeout": 10,
+        "statusMessage": "Checking for new features in open PR..."
+      }
     ]
   },
   "_doc_se202_example": "SE-202 agent hook pattern \u2014 to enable: add to PreToolUse hooks: { \"type\": \"command\", \"command\": \"bash \\\"$CLAUDE_PROJECT_DIR\\\"/scripts/agent-hook-runner.sh --agent security-guardian --event \\\"{\\\"tool\\\":\\\"$TOOL_NAME\\\",\\\"tool_input\\\":\\\"$TOOL_INPUT\\\"}\\\"\", \"timeout\": 30 } \u2014 exit 0=allow, exit 2=deny. Ref: docs/rules/domain/agent-hook-protocol.md",

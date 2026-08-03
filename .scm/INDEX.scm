@@ -1,6 +1,6 @@
 # Savia Capability Map — INDEX
-> hash: e9d76b705e17 | resources: 1310
-> 290 commands · 122 skills · 82 agents · 816 scripts
+> hash: 454db3dc86b6 | resources: 1322
+> 290 commands · 123 skills · 83 agents · 826 scripts
 
 [analysis] Trace Optimize — across,distributed,optimize,rates,sampling — cmd:.claude/commands/trace-optimize.md
 [analysis] agent-activity — activity,agent,executions,recent,show — cmd:.claude/commands/agent-activity.md
@@ -590,6 +590,7 @@
 [planning] check-daemon-auth — auth,check,daemon — script:scripts/check-daemon-auth.sh
 [planning] ci-failure-tracker — analysis,failure,failures,noise,pipeline — script:scripts/ci-failure-tracker.sh
 [planning] ci-health — ejecuciones,fallo,local,muestra,partir — cmd:.claude/commands/ci-health.md
+[planning] classify-execution-level — classify,execution,level,origin,script — script:scripts/classify-execution-level.sh
 [planning] claude-md-drift-check — check,claude,coincidan,conteos,drift — script:scripts/claude-md-drift-check.sh
 [planning] client-profile — cliente,gestión,perfiles,saviahub — cmd:.claude/commands/client-profile.md
 [planning] client-profile-manager — actualizan,cliente,consultan,crean,perfiles — skill:.claude/skills/client-profile-manager/SKILL.md
@@ -610,6 +611,8 @@
 [planning] confidentiality-check — check,comply,confidentiality,files,levels — script:scripts/confidentiality-check.sh
 [planning] confidentiality-scan — confidentiality,credentials,names,project,real — script:scripts/confidentiality-scan.sh
 [planning] consensus-validation — decisión,jueces,panel,recomendación,técnica — skill:.claude/skills/consensus-validation/SKILL.md
+[planning] containment-check — available,check,containment,infrastructure,verify — script:scripts/containment-check.sh
+[planning] containment-run — command,containment,execute,level,proper — script:scripts/containment-run.sh
 [planning] content-fingerprint — cache,cadena,contenido,corto,derivado — skill:.claude/skills/content-fingerprint/SKILL.md
 [planning] contribute — capa,comunidad,contribute,github,interacción — script:scripts/contribute.sh
 [planning] corporate-adopt — adopt,corporate — script:scripts/corporate-adopt.sh
@@ -697,6 +700,7 @@
 [planning] evaluate-repo —  — cmd:.claude/commands/evaluate-repo.md
 [planning] evaluations-framework — agentes,calidad,diseñan,ejecutan,evaluaciones — skill:.claude/skills/evaluations-framework/SKILL.md
 [planning] exchange-ledger — exchange,federation,ledger — script:scripts/exchange-ledger.sh
+[planning] execution-level-inventory — execution,full,hooks,inventory,level — script:scripts/execution-level-inventory.sh
 [planning] exit —  — cmd:.claude/commands/exit.md
 [planning] exit-dependencies-declare — declare,dependencies,exit,package,tool — script:scripts/exit-dependencies-declare.sh
 [planning] exit-drill-execute — drill,execute,exit,full,simulation — script:scripts/exit-drill-execute.sh
@@ -805,6 +809,7 @@
 [planning] marketplace-publish — components,marketplace,publish,registry — cmd:.claude/commands/marketplace-publish.md
 [planning] masked-unmask — back,claude,entities,masked,real — script:scripts/masked-unmask.sh
 [planning] mcp-recommend —  — cmd:.claude/commands/mcp-recommend.md
+[planning] measure-reliability — across,capability,consistency,measure,reliability — script:scripts/measure-reliability.sh
 [planning] memvid-backup — backup,crea,externa,memoria,portable — skill:.claude/skills/memvid-backup/SKILL.md
 [planning] mobile-developer —  — agent:.opencode/agents/mobile-developer.md
 [planning] model-capability-resolver — capabilities,capability,model,registry,resolve — script:scripts/model-capability-resolver.sh
@@ -899,6 +904,7 @@
 [planning] resolve-pr-conflicts — auto,conflicts,recurring,resolve,resolver — script:scripts/resolve-pr-conflicts.sh
 [planning] resolver-md-generate — generate,resolver — script:scripts/resolver-md-generate.sh
 [planning] resource-references — necesitan,plantillas,recursos,referencias,workspace — skill:.claude/skills/resource-references/SKILL.md
+[planning] restore-checkpoint — checkpoint,high,operations,radius,restore — script:scripts/restore-checkpoint.sh
 [planning] restore-drill — drill,restore,slice — script:scripts/restore-drill.sh
 [planning] rpi-start —  — cmd:.claude/commands/rpi-start.md
 [planning] ruby-developer —  — agent:.opencode/agents/ruby-developer.md
@@ -991,6 +997,10 @@
 [planning] sync-github-metadata — github,metadata,repo,sync,update — script:scripts/sync-github-metadata.sh
 [planning] sync-model-tiers — abstract,fast,heavy,model,provider — script:scripts/sync-model-tiers.sh
 [planning] sync-tags-from-changelog — changelog,create,missing,sync,tags — script:scripts/sync-tags-from-changelog.sh
+[planning] tabular-analyst — analisis,arrays,datos,estadistico,excel — agent:.opencode/agents/tabular-analyst.md
+[planning] tabular-intelligence — analiza,analizan,correlacion,datos,distribucion — skill:.claude/skills/tabular-intelligence/SKILL.md
+[planning] tabular-mcp-tool — data,language,natural,query,tabular — script:scripts/tabular-mcp-tool.sh
+[planning] tabular-summarize — data,detect,extract,summarize,tabular — script:scripts/tabular-summarize.sh
 [planning] task-create — create,investigate,list,savia,site — cmd:.claude/commands/task-create.md
 [planning] task-decomposer — atomic,classify,composite,decompose,decomposer — script:scripts/task-decomposer.sh
 [planning] team-coordination — asignan,bloqueantes,coordinan,cross,detectan — skill:.claude/skills/team-coordination/SKILL.md
@@ -1063,6 +1073,7 @@
 [quality] /speckit.analyze — alias,compatible,consensus,cruzado,github — cmd:.claude/commands/speckit.analyze.md
 [quality] Court Review — across,code,convene,court,evaluate — cmd:.claude/commands/court-review.md
 [quality] Failure Patterns — agent,analysis,before,checking,error — cmd:.claude/commands/failure-patterns.md
+[quality] adversarial-containment — adversarial,containment,suite,test — script:scripts/adversarial-containment.sh
 [quality] adversarial-security — auditar,blue,pipeline,proyecto,seguridad — skill:.claude/skills/adversarial-security/SKILL.md
 [quality] ai-exposure-audit — auditoría,desplazamiento,exposición,exposure,observed — cmd:.claude/commands/ai-exposure-audit.md
 [quality] android-autonomous-debugger — android,apps,contra,depuran,dispositivos — skill:.claude/skills/android-autonomous-debugger/SKILL.md
@@ -1196,6 +1207,7 @@
 [quality] sovereignty-audit — audit,cognitive,data,diagnose,lock — cmd:.claude/commands/sovereignty-audit.md
 [quality] sovereignty-auditor — audita,cognitiva,dependencia,equipo,grado — skill:.claude/skills/sovereignty-auditor/SKILL.md
 [quality] spellcheck-docs — accent,dictionaries,docs,orthographic,review — script:scripts/spellcheck-docs.sh
+[quality] tabular-self-audit — audit,needed,post,self,tabular — script:scripts/tabular-self-audit.sh
 [quality] tdd-vertical-slices — applying,avoids,cycles,development,driven — skill:.claude/skills/tdd-vertical-slices/SKILL.md
 [quality] test-accessibility — accessibility,feature,files,test,universal — script:scripts/test-accessibility.sh
 [quality] test-ai-adoption — adoption,test — script:scripts/test-ai-adoption.sh

@@ -1,5 +1,5 @@
 # planning — Savia Capability Map (L1)
-> 548 resources
+> 558 resources
 
 - **/decide-architecture** (cmd): Clasifica una tarea como WORKFLOW (deterministica) o AGENT (loop). Bias hacia workflow per Anthropic. Sugiere plantilla inicial. Mide accuracy contra corpus curado de 20 tareas.
 - **_template** (skill): TEMPLATE — copia este directorio para crear una skill nueva. NO se carga en runtime.
@@ -79,6 +79,7 @@
 - **check-daemon-auth** (script): check-daemon-auth.sh
 - **ci-failure-tracker** (script): ci-failure-tracker.sh — Track CI pipeline failures for signal/noise analysis
 - **ci-health** (cmd): Muestra tasa de fallo de pipelines CI a partir del log local de ejecuciones.
+- **classify-execution-level** (script): classify-execution-level.sh — Classify script by origin into execution tier
 - **claude-md-drift-check** (script): claude-md-drift-check.sh — Valida que los conteos en CLAUDE.md coincidan con
 - **client-profile** (cmd): Gestión de perfiles de cliente en SaviaHub
 - **client-profile-manager** (skill): Usar cuando se crean, actualizan o consultan perfiles de cliente en SaviaHub.
@@ -99,6 +100,8 @@
 - **confidentiality-check** (script): confidentiality-check.sh — Verify project files comply with confidentiality levels
 - **confidentiality-scan** (script): confidentiality-scan.sh — Scan for PII, credentials, real project names.
 - **consensus-validation** (skill): Usar cuando una decisión técnica o recomendación necesita validación por panel de jueces.
+- **containment-check** (script): containment-check.sh — Verify containment infrastructure is available
+- **containment-run** (script): containment-run.sh — Execute command in proper containment level
 - **content-fingerprint** (skill): Usar cuando se necesita un identificador corto, deterministico y reproducible derivado del contenido de una cadena o fichero — cache keys, ids de patrones, fingerprints de docs.
 - **contribute** (script): contribute.sh — Capa de interacción con GitHub para comunidad
 - **corporate-adopt** (script): corporate-adopt.sh — SE-271 S2
@@ -186,6 +189,7 @@
 - **evaluate-repo** (cmd): >
 - **evaluations-framework** (skill): Usar cuando se diseñan o ejecutan evaluaciones de calidad de agentes y prompts.
 - **exchange-ledger** (script): exchange-ledger.sh — Federation exchange ledger (SE-263 S6)
+- **execution-level-inventory** (script): execution-level-inventory.sh — Full inventory of scripts/hooks with execution levels
 - **exit** (cmd): >
 - **exit-dependencies-declare** (script): exit-dependencies-declare.sh — SE-272 S5: Declare exit package tool dependencies
 - **exit-drill-execute** (script): exit-drill-execute.sh — SE-272 S5: Full exit drill simulation
@@ -294,6 +298,7 @@
 - **marketplace-publish** (cmd): Publish components to marketplace registry
 - **masked-unmask** (script): masked-unmask.sh — Unmask a Claude response back to real entities
 - **mcp-recommend** (cmd): >
+- **measure-reliability** (script): measure-reliability.sh — Task consistency vs capability across repeated runs
 - **memvid-backup** (skill): Usar cuando se crea un backup portable de la memoria externa de Savia.
 - **mobile-developer** (agent): >
 - **model-capability-resolver** (script): model-capability-resolver.sh — Resolve model capabilities from YAML registry
@@ -388,6 +393,7 @@
 - **resolve-pr-conflicts** (script): resolve-pr-conflicts.sh — auto-resolver for the recurring conflicts that
 - **resolver-md-generate** (script): resolver-md-generate.sh — SE-160
 - **resource-references** (skill): Usar cuando se necesitan referencias a recursos y plantillas del workspace.
+- **restore-checkpoint** (script): restore-checkpoint.sh — Git stash checkpoint for high-radius operations
 - **restore-drill** (script): restore-drill.sh — SE-258 Slice 2
 - **rpi-start** (cmd): >
 - **ruby-developer** (agent): >
@@ -480,6 +486,10 @@
 - **sync-github-metadata** (script): sync-github-metadata.sh — Update GitHub repo metadata
 - **sync-model-tiers** (script): sync-model-tiers.sh — Resolve abstract model tiers (heavy|mid|fast) to provider-
 - **sync-tags-from-changelog** (script): sync-tags-from-changelog.sh — Create missing git tags from CHANGELOG.md
+- **tabular-analyst** (agent): Analisis estadistico de datos tabulares. Usar PROACTIVELY cuando: se reciben datos en CSV, Excel, tablas markdown, o JSON arrays con >5 filas. Produce perfil estadistico y resumen para LLM.
+- **tabular-intelligence** (skill): Usar cuando se analizan datos tabulares (CSV, Excel, tablas, metricas). Triggers: 'analiza esta tabla', 'metricas del sprint', 'tendencia de', 'distribucion de', 'correlacion entre', 'KPIs', 'datos financieros', 'perfil estadistico', 'resum
+- **tabular-mcp-tool** (script): tabular-mcp-tool.sh — MCP tool: natural language query on tabular data
+- **tabular-summarize** (script): tabular-summarize.sh — Detect + extract + summarize tabular data
 - **task-create** (cmd): Add a task to Savia's todo list. Usage: /task-create Investigate this site...
 - **task-decomposer** (script): task-decomposer.sh — Classify tasks as atomic/composite and decompose recursively
 - **team-coordination** (skill): Usar cuando se coordinan múltiples equipos, se asignan miembros o se detectan bloqueantes cross-team.
