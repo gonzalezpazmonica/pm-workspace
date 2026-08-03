@@ -32,8 +32,12 @@ setup() {
 }
 
 @test "summarize returns detected:false for non-tabular" {
-  run bash -c 'echo "hello world" | bash "$SUMMARIZER" -'
+  local tf
+  tf=$(mktemp)
+  echo "hello world" > "$tf"
+  run bash "$SUMMARIZER" "$tf"
   [[ "$output" == *"no tabular data"* ]]
+  rm -f "$tf"
 }
 
 @test "self-audit detects bypass" {
