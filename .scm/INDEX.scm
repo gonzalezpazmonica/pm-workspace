@@ -1,6 +1,6 @@
 # Savia Capability Map — INDEX
-> hash: 8a28968a1703 | resources: 1317
-> 290 commands · 122 skills · 82 agents · 823 scripts
+> hash: 454db3dc86b6 | resources: 1322
+> 290 commands · 123 skills · 83 agents · 826 scripts
 
 [analysis] Trace Optimize — across,distributed,optimize,rates,sampling — cmd:.claude/commands/trace-optimize.md
 [analysis] agent-activity — activity,agent,executions,recent,show — cmd:.claude/commands/agent-activity.md
@@ -997,6 +997,10 @@
 [planning] sync-github-metadata — github,metadata,repo,sync,update — script:scripts/sync-github-metadata.sh
 [planning] sync-model-tiers — abstract,fast,heavy,model,provider — script:scripts/sync-model-tiers.sh
 [planning] sync-tags-from-changelog — changelog,create,missing,sync,tags — script:scripts/sync-tags-from-changelog.sh
+[planning] tabular-analyst — analisis,arrays,datos,estadistico,excel — agent:.opencode/agents/tabular-analyst.md
+[planning] tabular-intelligence — analiza,analizan,correlacion,datos,distribucion — skill:.claude/skills/tabular-intelligence/SKILL.md
+[planning] tabular-mcp-tool — data,language,natural,query,tabular — script:scripts/tabular-mcp-tool.sh
+[planning] tabular-summarize — data,detect,extract,summarize,tabular — script:scripts/tabular-summarize.sh
 [planning] task-create — create,investigate,list,savia,site — cmd:.claude/commands/task-create.md
 [planning] task-decomposer — atomic,classify,composite,decompose,decomposer — script:scripts/task-decomposer.sh
 [planning] team-coordination — asignan,bloqueantes,coordinan,cross,detectan — skill:.claude/skills/team-coordination/SKILL.md
@@ -1203,6 +1207,7 @@
 [quality] sovereignty-audit — audit,cognitive,data,diagnose,lock — cmd:.claude/commands/sovereignty-audit.md
 [quality] sovereignty-auditor — audita,cognitiva,dependencia,equipo,grado — skill:.claude/skills/sovereignty-auditor/SKILL.md
 [quality] spellcheck-docs — accent,dictionaries,docs,orthographic,review — script:scripts/spellcheck-docs.sh
+[quality] tabular-self-audit — audit,needed,post,self,tabular — script:scripts/tabular-self-audit.sh
 [quality] tdd-vertical-slices — applying,avoids,cycles,development,driven — skill:.claude/skills/tdd-vertical-slices/SKILL.md
 [quality] test-accessibility — accessibility,feature,files,test,universal — script:scripts/test-accessibility.sh
 [quality] test-ai-adoption — adoption,test — script:scripts/test-ai-adoption.sh

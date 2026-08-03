@@ -1,6 +1,6 @@
 {
-  "hash": "12da2b88ac48",
-  "total": 1317,
+  "hash": "89ebbc357db1",
+  "total": 1322,
   "resources": [
     {
       "category": "analysis",
@@ -13107,6 +13107,62 @@
     },
     {
       "category": "planning",
+      "name": "tabular-analyst",
+      "intents": [
+        "analisis",
+        "arrays",
+        "datos",
+        "estadistico",
+        "excel"
+      ],
+      "kind": "agent",
+      "path": ".opencode/agents/tabular-analyst.md",
+      "description": "Analisis estadistico de datos tabulares. Usar PROACTIVELY cuando: se reciben datos en CSV, Excel, tablas markdown, o JSON arrays con >5 filas. Produce perfil estadistico y resumen para LLM."
+    },
+    {
+      "category": "planning",
+      "name": "tabular-intelligence",
+      "intents": [
+        "analiza",
+        "analizan",
+        "correlacion",
+        "datos",
+        "distribucion"
+      ],
+      "kind": "skill",
+      "path": ".claude/skills/tabular-intelligence/SKILL.md",
+      "description": "Usar cuando se analizan datos tabulares (CSV, Excel, tablas, metricas). Triggers: 'analiza esta tabla', 'metricas del sprint', 'tendencia de', 'distribucion de', 'correlacion entre', 'KPIs', 'datos financieros', 'perfil estadistico', 'resum"
+    },
+    {
+      "category": "planning",
+      "name": "tabular-mcp-tool",
+      "intents": [
+        "data",
+        "language",
+        "natural",
+        "query",
+        "tabular"
+      ],
+      "kind": "script",
+      "path": "scripts/tabular-mcp-tool.sh",
+      "description": "tabular-mcp-tool.sh — MCP tool: natural language query on tabular data"
+    },
+    {
+      "category": "planning",
+      "name": "tabular-summarize",
+      "intents": [
+        "data",
+        "detect",
+        "extract",
+        "summarize",
+        "tabular"
+      ],
+      "kind": "script",
+      "path": "scripts/tabular-summarize.sh",
+      "description": "tabular-summarize.sh — Detect + extract + summarize tabular data"
+    },
+    {
+      "category": "planning",
       "name": "task-create",
       "intents": [
         "create",
@@ -15837,6 +15893,20 @@
       "kind": "script",
       "path": "scripts/spellcheck-docs.sh",
       "description": "spellcheck-docs.sh — Orthographic review using accent dictionaries"
+    },
+    {
+      "category": "quality",
+      "name": "tabular-self-audit",
+      "intents": [
+        "audit",
+        "needed",
+        "post",
+        "self",
+        "tabular"
+      ],
+      "kind": "script",
+      "path": "scripts/tabular-self-audit.sh",
+      "description": "tabular-self-audit.sh — Post-turn: verify tabular tools were used when needed"
     },
     {
       "category": "quality",
