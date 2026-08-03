@@ -117,3 +117,27 @@ AND la PR no se crea
 - [ ] AC5: .pr-summary.md sigue siendo requisito G11
 - [ ] AC6: No rompe el flujo de draft (--draft flag)
 - [ ] AC7: Idempotente (2 ejecuciones = mismo body)
+
+## 7. Estado de Implementacion
+
+| Slice | Estado |
+|---|---|
+| S1: Detectar PR existente (gh pr list) | COMPLETADO |
+| S2: Actualizar body via gh api PATCH | COMPLETADO |
+| S3: Fallback summary por titulo | COMPLETADO |
+| S4: Limpiar .pr-summary.md al cambiar de rama | COMPLETADO |
+| S5: Corregir PROJECT_ROOT undefined | COMPLETADO |
+
+## 8. Hallazgo adicional
+
+`gh pr edit` usa GraphQL que emite un warning de deprecacion
+("Projects (classic) is being deprecated") que hace que gh devuelva exit 1
+AUNQUE el edit se aplique. Se resolvio usando `gh api` REST PATCH, que
+no tiene ese problema.
+
+## 9. Verificacion
+
+- Push-pr detecta "PR #932 exists - updating body..." y actualiza via PATCH
+- Body de PR #932 verificado: parrafo real de SE-300, no plantilla #925
+- Simulacion confirma body construido desde .pr-summary.md correcto
+- Tests BATS: 13 casos (8 existentes + 5 nuevos de SE-300)
