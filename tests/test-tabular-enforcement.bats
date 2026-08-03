@@ -32,8 +32,8 @@ setup() {
 }
 
 @test "summarize returns detected:false for non-tabular" {
-  echo "hello world" | run bash "$SUMMARIZER" -
-  [[ "$output" == *"no tabular data"* ]] || [ "$status" -eq 0 ]
+  run bash -c 'echo "hello world" | bash "$SUMMARIZER" -'
+  [[ "$output" == *"no tabular data"* ]]
 }
 
 @test "self-audit detects bypass" {

@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-set -euo pipefail
+set -uo pipefail
 # tabular-self-audit.sh — Post-turn: verify tabular tools were used when needed
 # SE-296 Capa 4: escanea el turno y emite WARN/BLOCK si se ignoraron
 
