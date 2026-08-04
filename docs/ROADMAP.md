@@ -1243,43 +1243,6 @@ Enterprise: 23 specs esperando decisión estratégica.
 ---
 
 ## Era 201 — Security + Infrastructure Intelligence (2026-08-04)
-<<<<<<< HEAD
-
-> 4 specs: seguridad multi-agente, optimizacion cloud, dispatch deterministico, scheduler.
-> Patrones adoptados de arquitecturas de referencia en ecosistema open-source.
-
-### Tier 0 — Critico inmediato
-
-**SE-301 Agent Security Graph** (6h humana, 120min agente) — PROPOSED. Analisis de rutas de ataque en 83 agentes. 35 reglas (17 estandar + 18 Savia-specificas). NetworkX, informe con scores 0-10. PR #934.
-
-### Tier 1 — Alto valor
-
-**SE-302 Azure Cost Monitor** (4h humana, 90min agente) — PROPOSED. Azure Cost Management API + idle detection. Skill azure-cost-monitor. PR #934.
-
-**SE-303 Intent Dispatch Refactor** (8h humana, 150min agente) — PROPOSED. Micro-kernel deterministico para dispatch. Catalogo YAML, <50ms sin LLM. PR #934.
-
-### Tier 2 — Infraestructura fundacional
-
-**SE-304 Automation Scheduler** — **IMPLEMENTED 2026-08-04**. 5 modulos Python, CLI 10 comandos, 46 tests. Task store JSON, scheduler asyncrono, catch-up, skip-on-overlap, scoped approvals. 6 default tasks. Supersede SE-279. PR #935 MERGE PENDING.
-
-### Orden — que toca ahora
-
-SE-304 merge → SE-301 (critico: zero visibilidad de rutas de ataque) → SE-302 (ahorro rapido) → SE-303 (refactor profundo)
-
-### Dependencias
-
-| Spec | Estado | Depende de | Bloquea a |
-|---|---|---|---|
-| SE-304 | IMPLEMENTED | — | SE-279 (lo reemplaza) |
-| SE-301 | PROPOSED | Primer merge de SE-304 | — |
-| SE-302 | PROPOSED | az CLI autenticado | — |
-| SE-303 | PROPOSED | Catalogo skills/agentes actualizado | — |
-
----
-
-## Estado final — 2026-08-04
-=======
->>>>>>> 2bde1198 (docs(roadmap): Era 201 complete — 6 specs, SE-306 added, reprioritized)
 
 > 6 specs: seguridad runtime y estatica de agentes, optimizacion cloud, dispatch deterministico,
 > scheduler de automatizaciones, BATS dinamicos. Defensa en profundidad para el ecosistema Savia.

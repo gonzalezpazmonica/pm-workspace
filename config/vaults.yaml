@@ -98,8 +98,4 @@ entity_mapping:
     savia_fields:
       meeting: event
       release: event
-<<<<<<< HEAD
       milestone: event
-=======
-      milestone: event
->>>>>>> origin/main
