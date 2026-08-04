@@ -1,0 +1,22 @@
+{
+  "name": "VoiceFlow",
+  "short_name": "VoiceFlow",
+  "description": "Offline voice-to-text dictation for Windows and Linux, using Whisper.",
+  "icons": [
+    {
+      "src": "/web-app-manifest-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/web-app-manifest-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ],
+  "theme_color": "#09090b",
+  "background_color": "#09090b",
+  "display": "standalone"
+}
