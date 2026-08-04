@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=295d3f2d3acced1370d38fb4f42da0bf33302940248d734eeccf1540cae9eb6c
-timestamp=2026-08-04T14:04:51Z
-branch=savia/se298-wikilinks
-head_commit=b27865cc
-signature=abfb9748a7b4ca4137e0aa2fbdbe7bcd4f0cc9bc5ced00f26cc95954235865e2
+diff_hash=00a1a328d81fccd6d0ea38f180b5042b77b09609dccb4c332f736fa063e1642d
+timestamp=2026-08-04T16:05:18Z
+branch=fix/tabular-analyst-yaml
+head_commit=94837a10
+signature=e65ff935f24e7d8d51ff803005162e46cf7cf1c6767bf234d8e962c8ccaea2a4
