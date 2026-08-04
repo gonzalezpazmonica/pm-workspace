@@ -1,6 +1,6 @@
 {
-  "hash": "172d097ef773",
-  "total": 1326,
+  "hash": "fb9c12b858bf",
+  "total": 1327,
   "resources": [
     {
       "category": "analysis",
@@ -14277,6 +14277,20 @@
       "kind": "cmd",
       "path": ".claude/commands/audit.md",
       "description": "Generate professional executive audit report for workspace reliability assessment"
+    },
+    {
+      "category": "quality",
+      "name": "automation-scheduler",
+      "intents": [
+        "audits",
+        "automati",
+        "automatiza",
+        "automatizaciones",
+        "briefs"
+      ],
+      "kind": "skill",
+      "path": ".claude/skills/automation-scheduler/SKILL.md",
+      "description": "Usar cuando se crean, gestionan o ejecutan automatizaciones programadas: morning briefs, weekly reports, PR stale checks, dependency scans, memory consolidation, drift audits. Triggers: programa una tarea, automatiza esto, crea una automati"
     },
     {
       "category": "quality",
