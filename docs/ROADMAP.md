@@ -1242,6 +1242,36 @@ Enterprise: 23 specs esperando decisión estratégica.
 
 ---
 
+## Era 201 — Security + Infrastructure Intelligence (2026-08-04)
+
+> Analisis de patrones de seguridad multi-agente, optimizacion cloud y dispatch deterministico.
+> 3 specs generadas tras investigacion de arquitecturas de referencia en el ecosistema open-source.
+> Inspirado en patrones de grafo de capacidades, optimizacion de costes, y micro-kernel intent dispatch.
+
+### Tier 0 — Critico inmediato (seguridad)
+
+**SE-301 Agent Security Graph** (6h humana, 120min agente) — Analisis de rutas de ataque en el grafo de 83 agentes Savia. Extrae capacidades de `.opencode/agents/*.md`, construye grafo NetworkX, ejecuta 35 reglas (17 estandar + 18 Savia-specificas), produce informe de seguridad con scores 0-10. Detecta: PAT leaks, delegacion circular, memoria N3+ compartida, auto-modificacion de agentes. Output: `.savia/security/agent-graph.md`. **Critico**: actualmente zero visibilidad de rutas de ataque entre agentes.
+
+### Tier 1 — Alto valor (ahorro + eficiencia)
+
+**SE-302 Azure Cost Monitor** (4h humana, 90min agente) — Monitorizacion de costes Azure via Cost Management API + deteccion de recursos idle (VMs stopped, IPs huerfanas, discos no attached). Dashboard markdown mensual en `output/cost/`. Skill `azure-cost-monitor`. Filosofia: proponer ahorros, nunca ejecutar acciones automaticas.
+
+**SE-303 Intent Dispatch Refactor** (8h humana, 150min agente) — Micro-kernel deterministico para dispatch de intents. El 80% de los intents se resuelven via catalogo YAML en <50ms sin LLM. LLM solo para extraer Intent (verb+object) y desambiguar. Reduce inference cost, añade trazabilidad. Integracion incremental con `configurator` existente.
+
+### Orden recomendado
+
+SE-301 (seguridad: zero visibilidad hoy) → SE-302 (ahorro rapido: 4h) → SE-303 (refactor profundo: 8h, tocar configurator es delicado)
+
+### Dependencias
+
+| Spec | Depende de | Bloquea a |
+|---|---|---|
+| SE-301 | Ninguna (solo lectura del workspace) | — |
+| SE-302 | `az CLI` autenticado + subscription ID | — |
+| SE-303 | Catalogo de skills/agentes actualizado | — |
+
+---
+
 ## Estado final — 2026-07-02
 
 > Post flip masivo sesión 2026-07-02. +21 specs flipeadas a IMPLEMENTED.
