@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
 diff_hash=00a1a328d81fccd6d0ea38f180b5042b77b09609dccb4c332f736fa063e1642d
-timestamp=2026-08-04T16:05:18Z
+timestamp=2026-08-04T16:29:33Z
 branch=fix/tabular-analyst-yaml
-head_commit=94837a10
+head_commit=0188349c
 signature=e65ff935f24e7d8d51ff803005162e46cf7cf1c6767bf234d8e962c8ccaea2a4
