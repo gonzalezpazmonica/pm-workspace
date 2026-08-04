@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=882bf2a437a82a1ad42d85b2c3779a643880641f5f0908bdfb0889c8202ae9d9
-timestamp=2026-08-04T08:25:55Z
-branch=savia/lightpanda-skill
-head_commit=d3fb4b78
-signature=af2e20870830de33a87724a1f7bcd30ec30275f51e332891c7713ef24f561699
+diff_hash=295d3f2d3acced1370d38fb4f42da0bf33302940248d734eeccf1540cae9eb6c
+timestamp=2026-08-04T14:04:51Z
+branch=savia/se298-wikilinks
+head_commit=b27865cc
+signature=abfb9748a7b4ca4137e0aa2fbdbe7bcd4f0cc9bc5ced00f26cc95954235865e2
