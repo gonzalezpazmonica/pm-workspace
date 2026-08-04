@@ -1,5 +1,5 @@
 # planning — Savia Capability Map (L1)
-> 559 resources
+> 560 resources
 
 - **/decide-architecture** (cmd): Clasifica una tarea como WORKFLOW (deterministica) o AGENT (loop). Bias hacia workflow per Anthropic. Sugiere plantilla inicial. Mide accuracy contra corpus curado de 20 tareas.
 - **_template** (skill): TEMPLATE — copia este directorio para crear una skill nueva. NO se carga en runtime.
@@ -287,6 +287,7 @@
 - **lib/mock-env** (script): mock-env.sh — Reusable mock environment library for pm-workspace scripts
 - **lib/os-detect** (script): scripts/lib/os-detect.sh — Portable OS detection and path defaults
 - **lib/slm-common** (script): slm-common.sh — Shared helpers for SLM subcommands (SE-049 Slice 1).
+- **lightpanda-browser** (skill): Usar cuando se necesita navegacion web headless avanzada (JS-heavy sites, SPAs, extraccion markdown de URLs, web scraping que requiere renderizado JS). Triggers: 'navega a', 'extrae contenido de', 'scrapea', 'renderiza esta pagina', 'dump m
 - **llms-txt-generate** (script): llms-txt-generate.sh — Genera docs/llms.txt y docs/llms-full.txt (SE-269 S5)
 - **loop-budget-check** (script): scripts/loop-budget-check.sh
 - **loop-run-log** (script): loop-run-log.sh — CLI para gestión del run-log append-only de skills autónomas

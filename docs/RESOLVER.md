@@ -46,7 +46,7 @@
 
 <!-- AUTO_BEGIN — do not edit; regenerate via scripts/resolver-md-generate.sh -->
 
-### Skills (122)
+### Skills (123)
 
 | Intent (skill) | Target | Cuándo usar |
 |---|---|---|
@@ -105,6 +105,7 @@
 | `iac-security-scanner` | skill:iac-security-scanner | Usar cuando se escanea IaC (Terraform, Bicep, Dockerfile, docker-compose) con Trivy con... |
 | `knowledge-graph` | skill:knowledge-graph | Usar cuando se construye o consulta el grafo de conocimiento de entidades del proyecto. |
 | `legal-compliance` | skill:legal-compliance | Usar cuando se audita compliance legal contra legislación española consolidada. |
+| `lightpanda-browser` | skill:lightpanda-browser | Usar cuando se necesita navegacion web headless avanzada (JS-heavy sites, SPAs, extracc... |
 | `managed-content` | skill:managed-content | Usar cuando se regeneran secciones auto-generadas en documentos con marcadores de segur... |
 | `meeting-transcript-extract` | skill:meeting-transcript-extract | Usar cuando se necesita extraer la transcripción de una reunión Teams desde el browser. |
 | `memvid-backup` | skill:memvid-backup | Usar cuando se crea un backup portable de la memoria externa de Savia. |
