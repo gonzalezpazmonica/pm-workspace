@@ -5,6 +5,7 @@ import {
   convertMarkdownLinksToWikiLinks,
   inferOkfType,
   serializeOkfNote,
+  parseOkfFrontmatter,
   OKF_REQUIRED_FIELDS,
   OKF_OPTIONAL_FIELDS,
   OKF_RESERVED_FILENAMES,
@@ -141,5 +142,42 @@ describe('Note Serialization', () => {
     expect(out).not.toContain('created:');
     expect(out).not.toContain('modified:');
     expect(out).toContain('timestamp: 2026-01-03');
+  });
+});
+
+describe('Robust Frontmatter Parsing', () => {
+  it('parses flow mapping entity', () => {
+    const { frontmatter } = parseOkfFrontmatter(
+      '---\nentity: {type: document, id: l1-context}\ntitle: L1\n---\n# Body\n',
+    );
+    expect(frontmatter.entity).toEqual({ type: 'document', id: 'l1-context' });
+    expect(frontmatter.title).toBe('L1');
+  });
+
+  it('handles colon in title value', () => {
+    const { frontmatter } = parseOkfFrontmatter(
+      '---\nentity: {type: document}\ntitle: L1 — Contexto: Divergencia\n---\n# Body\n',
+    );
+    expect(frontmatter.title).toBe('L1 — Contexto: Divergencia');
+  });
+
+  it('parses tags list', () => {
+    const { frontmatter } = parseOkfFrontmatter(
+      '---\ntype: Concept\ntags: [L1, context]\n---\n# Body\n',
+    );
+    expect(frontmatter.tags).toEqual(['L1', 'context']);
+  });
+
+  it('extracts body content separately', () => {
+    const { content } = parseOkfFrontmatter(
+      '---\ntype: Concept\n---\n# Body\n\ntext here\n',
+    );
+    expect(content).toBe('# Body\n\ntext here');
+  });
+
+  it('returns empty for no frontmatter', () => {
+    const { frontmatter, content } = parseOkfFrontmatter('# Just body\n');
+    expect(frontmatter).toEqual({});
+    expect(content).toBe('# Just body');
   });
 });

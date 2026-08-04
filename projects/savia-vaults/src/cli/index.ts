@@ -201,7 +201,7 @@ program.command('okf-conformance').description('Check vault conformance with Ope
     const config = makeConfig('vault', opts.path);
     const storage = new VaultStorage(config);
     const { checkOkfConformance } = await import('../knowledge/okf-conformance.js');
-    const report = await checkOkfConformance(storage);
+    const report = await checkOkfConformance(storage, opts.path);
     console.log(`OKF Conformance: ${report.conformant ? 'CONFORMANT' : 'NON-CONFORMANT'} (${report.noteCount} notes)`);
     for (const v of report.violations) console.log(`  VIOLATION: ${v}`);
     for (const w of report.warnings) console.log(`  warning: ${w}`);

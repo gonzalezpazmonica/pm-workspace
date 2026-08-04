@@ -32,7 +32,7 @@ describe('OKF Conformance', () => {
   it('reports conformant for a vault with type fields', async () => {
     writeNote(vaultPath, 'tables/orders.md', '---\ntype: BigQuery Table\ntitle: Orders\n---\n# Orders\n');
     const storage = new VaultStorage(makeConfig(vaultPath));
-    const report = await checkOkfConformance(storage);
+    const report = await checkOkfConformance(storage, vaultPath);
     expect(report.conformant).toBe(true);
     expect(report.noteCount).toBe(1);
   });
@@ -40,7 +40,7 @@ describe('OKF Conformance', () => {
   it('reports violations for notes missing type', async () => {
     writeNote(vaultPath, 'notes/foo.md', '---\ntitle: Foo\n---\n# Foo\n');
     const storage = new VaultStorage(makeConfig(vaultPath));
-    const report = await checkOkfConformance(storage);
+    const report = await checkOkfConformance(storage, vaultPath);
     expect(report.conformant).toBe(false);
     expect(report.violations.length).toBeGreaterThan(0);
   });
@@ -49,7 +49,7 @@ describe('OKF Conformance', () => {
     writeNote(vaultPath, 'sales/index.md', '---\ntitle: Sales Index\n---\n# Sales\n');
     writeNote(vaultPath, 'sales/log.md', '---\ntitle: Changelog\n---\n# Log\n');
     const storage = new VaultStorage(makeConfig(vaultPath));
-    const report = await checkOkfConformance(storage);
+    const report = await checkOkfConformance(storage, vaultPath);
     expect(report.conformant).toBe(true);
   });
 });

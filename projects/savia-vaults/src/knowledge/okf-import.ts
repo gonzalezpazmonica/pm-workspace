@@ -7,6 +7,7 @@ import {
   validateOkfFrontmatter,
   convertMarkdownLinksToWikiLinks,
   serializeOkfNote,
+  parseOkfFrontmatter,
 } from './okf.js';
 
 export interface OkfImportOptions {
@@ -35,7 +36,7 @@ export async function importOkfBundle(
     if (baseName === 'index.md' || baseName === 'log.md') continue;
 
     const raw = await fs.readFile(path.join(opts.sourceDir, relPath), 'utf-8');
-    const { frontmatter, content } = parseOkfNote(raw);
+    const { frontmatter, content } = parseOkfFrontmatter(raw);
 
     const report = validateOkfFrontmatter(frontmatter, relPath);
     if (opts.validateFirst !== false && !report.conformant) {
@@ -61,25 +62,6 @@ export async function importOkfBundle(
   }
 
   return { imported, rejected };
-}
-
-function parseOkfNote(raw: string): { frontmatter: Record<string, unknown>; content: string } {
-  const match = raw.match(/^---\r?\n([\s\S]*?)\r?\n---\r?\n?([\s\S]*)$/);
-  if (!match) return { frontmatter: {}, content: raw.trim() };
-
-  let frontmatter: Record<string, unknown> = {};
-  const yamlLines = match[1].split('\n');
-  for (const line of yamlLines) {
-    const idx = line.indexOf(':');
-    if (idx === -1) continue;
-    const key = line.slice(0, idx).trim();
-    let value: unknown = line.slice(idx + 1).trim();
-    if (value.startsWith('[') && value.endsWith(']')) {
-      value = value.slice(1, -1).split(',').map(v => v.trim()).filter(Boolean);
-    }
-    frontmatter[key] = value;
-  }
-  return { frontmatter, content: match[2].trim() };
 }
 
 async function walkDir(dir: string): Promise<string[]> {

@@ -8,6 +8,7 @@ import {
   convertWikiLinksToMarkdown,
   inferOkfType,
   serializeOkfNote,
+  parseOkfFrontmatter,
 } from './okf.js';
 
 export interface OkfExportOptions {
@@ -36,9 +37,20 @@ export async function exportOkfBundle(
     const note = await storage.read(notePath).catch(() => null);
     if (!note) continue;
 
-    const convertedContent = convertWikiLinksToMarkdown(note.content);
+    // Robust frontmatter handling: VaultStorage.parseFrontmatter falls back to
+    // {frontmatter: {}, content: raw} when YAML.js can't parse the block (e.g.
+    // a title containing ':' breaks flow mapping detection). In that case the
+    // frontmatter is still inside note.content — re-extract it.
+    let fm = { ...note.frontmatter } as Record<string, unknown>;
+    let body = note.content;
+    if (Object.keys(fm).length === 0 && body.startsWith('---')) {
+      const parsed = parseOkfFrontmatter(body);
+      fm = parsed.frontmatter;
+      body = parsed.content;
+    }
 
-    const fm = { ...note.frontmatter } as Record<string, unknown>;
+    const convertedContent = convertWikiLinksToMarkdown(body);
+
     if (fm.timestamp === undefined || fm.timestamp === null) {
       fm.timestamp = note.modified;
     }

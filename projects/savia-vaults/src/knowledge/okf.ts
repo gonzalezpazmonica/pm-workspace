@@ -45,7 +45,7 @@ export function validateOkfFrontmatter(
     }
   }
 
-  const known = new Set([...OKF_REQUIRED_FIELDS, ...OKF_OPTIONAL_FIELDS]);
+  const known = new Set<string>([...OKF_REQUIRED_FIELDS, ...OKF_OPTIONAL_FIELDS]);
   const unknownFields = Object.keys(fm).filter(k => !known.has(k));
   for (const u of unknownFields) {
     warnings.push(`[${notePath}] non-OKF field present: ${u}`);
@@ -102,6 +102,12 @@ export function serializeOkfNote(fm: Record<string, unknown>, content: string): 
     .filter(([k]) => k !== 'created' && k !== 'modified')
     .map(([k, v]) => {
       if (Array.isArray(v)) return `${k}: [${v.map(String).join(', ')}]`;
+      if (typeof v === 'object' && v !== null) {
+        const inner = Object.entries(v as Record<string, unknown>)
+          .map(([ik, iv]) => `${ik}: ${typeof iv === 'string' ? iv : String(iv)}`)
+          .join(', ');
+        return `${k}: {${inner}}`;
+      }
       if (typeof v === 'string') return `${k}: ${v}`;
       if (typeof v === 'boolean') return `${k}: ${v}`;
       if (typeof v === 'number') return `${k}: ${v}`;
@@ -112,6 +118,82 @@ export function serializeOkfNote(fm: Record<string, unknown>, content: string): 
 
 export function parseOkfFrontmatter(raw: string): { frontmatter: Record<string, unknown>; content: string } {
   const match = raw.match(/^---\r?\n([\s\S]*?)\r?\n---\r?\n?([\s\S]*)$/);
-  if (!match) return { frontmatter: {}, content: raw };
-  return { frontmatter: {}, content: raw };
+  if (!match) return { frontmatter: {}, content: raw.trim() };
+
+  const frontmatter = parseFrontmatterLines(match[1]);
+  return { frontmatter, content: (match[2] ?? '').trim() };
+}
+
+export function parseFrontmatterLines(fmBlock: string): Record<string, unknown> {
+  const result: Record<string, unknown> = {};
+  const lines = fmBlock.split('\n');
+  let currentKey: string | null = null;
+
+  for (const line of lines) {
+    const trimmed = line.trimEnd();
+    if (!trimmed || trimmed.startsWith('#')) continue;
+
+    const idx = trimmed.indexOf(':');
+    if (idx === -1) {
+      if (currentKey && Array.isArray(result[currentKey])) {
+        (result[currentKey] as unknown[]).push(trimmed.trim());
+      }
+      continue;
+    }
+
+    const key = trimmed.slice(0, idx).trim();
+    const rawValue = trimmed.slice(idx + 1).trim();
+
+    if (rawValue === '' || rawValue === 'null') {
+      result[key] = [];
+      currentKey = key;
+      continue;
+    }
+
+    currentKey = null;
+
+    if (rawValue.startsWith('{') && rawValue.endsWith('}')) {
+      result[key] = parseFlowMapping(rawValue);
+    } else if (rawValue.startsWith('[') && rawValue.endsWith(']')) {
+      result[key] = rawValue.slice(1, -1)
+        .split(',')
+        .map((v: string) => v.trim())
+        .filter(Boolean);
+    } else {
+      result[key] = rawValue;
+    }
+  }
+
+  return result;
+}
+
+export function parseFlowMapping(raw: string): Record<string, unknown> {
+  const result: Record<string, unknown> = {};
+  const inner = raw.slice(1, -1);
+  for (const pair of splitTopLevel(inner, ',')) {
+    const idx = pair.indexOf(':');
+    if (idx === -1) continue;
+    const k = pair.slice(0, idx).trim();
+    const v = pair.slice(idx + 1).trim();
+    result[k] = v;
+  }
+  return result;
+}
+
+function splitTopLevel(input: string, sep: string): string[] {
+  const parts: string[] = [];
+  let depth = 0;
+  let current = '';
+  for (const ch of input) {
+    if (ch === '{' || ch === '[') depth++;
+    else if (ch === '}' || ch === ']') depth--;
+    if (ch === sep && depth === 0) {
+      parts.push(current);
+      current = '';
+    } else {
+      current += ch;
+    }
+  }
+  if (current.trim()) parts.push(current);
+  return parts;
 }
