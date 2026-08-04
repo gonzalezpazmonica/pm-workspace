@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=295d3f2d3acced1370d38fb4f42da0bf33302940248d734eeccf1540cae9eb6c
-timestamp=2026-08-04T14:04:51Z
-branch=savia/se298-wikilinks
-head_commit=b27865cc
-signature=abfb9748a7b4ca4137e0aa2fbdbe7bcd4f0cc9bc5ced00f26cc95954235865e2
+diff_hash=4fe6d32576c91408ca003a99f173acb191b79b4d65a7492d90a0bbb740bec1ff
+timestamp=2026-08-04T16:05:24Z
+branch=se305-dynamic-bats
+head_commit=8a355752
+signature=ddcec5a53e4551243a42cb74b3a9f341d2e7bbbca5158fb7a62c17f0d2e67baa
