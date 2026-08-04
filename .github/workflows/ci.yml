@@ -159,30 +159,40 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          fetch-depth: 0
 
       - name: Install BATS and dependencies
         run: |
-          # Install BATS (pinned to specific commit for reproducibility)
           git clone --depth 1 https://github.com/bats-core/bats-core.git /tmp/bats
           cd /tmp/bats && git fetch --depth 1 origin a8176fd6f4e3cd95f6d9c5dcd47fbc19f09c3b06 && git checkout a8176fd6f4e3cd95f6d9c5dcd47fbc19f09c3b06
           cd - && sudo /tmp/bats/install.sh /usr/local
-
-          # Update package lists and install dependencies
           sudo apt-get update -qq
           sudo apt-get install -y jq git bash python3-pip
           pip3 install pytest
-
-          # Install Node.js deps for test_workspace.py mock mode
           npm install --prefix scripts
-
-          # Install Node.js deps for test_workspace.py mock mode
-          npm install --prefix scripts
-
-          # Ensure git is properly configured for test environment
           git config --global user.email "ci@example.com"
           git config --global user.name "CI Runner"
 
-      - name: Run BATS test suite
+      - name: Generate BATS dependency map
+        id: deps
+        run: bash scripts/ci-bats-deps.sh --generate
+
+      - name: Select BATS tests based on changes
+        id: select
+        run: |
+          SELECTED=$(bash scripts/ci-select-bats.sh --base "origin/${{ github.base_ref }}" 2>&1 || echo "FULL")
+          echo "tests=$SELECTED" >> "$GITHUB_OUTPUT"
+
+      - name: "Run selected BATS tests (dynamic)"
+        if: steps.select.outputs.tests != 'FULL'
+        run: |
+          for test in ${{ steps.select.outputs.tests }}; do
+            bats "tests/bats/$test" || { echo "FAIL: $test"; exit 1; }
+          done
+
+      - name: "Run full BATS test suite (fallback)"
+        if: steps.select.outputs.tests == 'FULL'
         run: bash tests/run-all.sh
 
       - name: Run test quality audit
