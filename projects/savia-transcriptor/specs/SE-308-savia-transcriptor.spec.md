@@ -386,6 +386,21 @@ El transcriptor es una **app independiente** que Savia consume pasivamente:
     - une VAD → audio recorder + screen capture
     - start/stop simultaneos, sin doble arranque
   - [x] Tests: test_screen (5), test_session_coordinator (3)
-- [ ] S4: Transcripcion post-sesion
-- [ ] S5: Integracion con Savia
-- [ ] S6: Tests + packaging
+- [x] **S4: Transcripcion post-sesion** — COMPLETADO 2026-08-04
+  - [x] `services/recording/postprocessor.py` — MeetingPostProcessor
+    - transcribe audio.wav (via transcriber inyectado) → transcript.vtt + transcript.md
+    - timestamps VTT (00:00:00.000 --> 00:00:01.000)
+    - actualiza meta.json (transcribed, language, transcript_files)
+  - [x] `services/recording/meeting_store.py` — MeetingStore
+    - carpetas reuniones/YYYY-MM-DD-HH-MM/ (colisiones con sufijo)
+    - list_sessions, list_undigested, mark_digested, mark_transcribed
+    - meta.json con estado digested (el hook que Savia usa)
+  - [x] Tests: test_postprocessor (6), test_meeting_store (6)
+- [x] **S5: Integracion con Savia** — COMPLETADO 2026-08-04
+  - [x] Skill `transcriptor-digest` (.claude/skills/)
+  - [x] Comando `/transcriptor` (scan, digest, mark, status)
+  - [x] Scripts: `transcriptor-scan.sh`, `transcriptor-mark-digested.sh`
+- [x] **S6: Tests + packaging** — COMPLETADO 2026-08-04
+  - [x] Test BATS de integracion: `tests/test-transcriptor.bats` (6 tests)
+  - [x] README actualizado con arquitectura completa
+  - [ ] Builders de instaladores (requieren entorno con deps: faster-whisper, PySide6)
