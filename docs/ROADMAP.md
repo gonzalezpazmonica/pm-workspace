@@ -1244,52 +1244,72 @@ Enterprise: 23 specs esperando decisión estratégica.
 
 ## Era 201 — Security + Infrastructure Intelligence (2026-08-04)
 
-> 4 specs: seguridad multi-agente, optimizacion cloud, dispatch deterministico, scheduler.
-> Patrones adoptados de arquitecturas de referencia en ecosistema open-source.
+> 6 specs: seguridad runtime y estatica de agentes, optimizacion cloud, dispatch deterministico,
+> scheduler de automatizaciones, BATS dinamicos. Defensa en profundidad para el ecosistema Savia.
 
-### Tier 0 — Critico inmediato
+### Tier 0 — Critico inmediato (seguridad)
 
-**SE-301 Agent Security Graph** (6h humana, 120min agente) — PROPOSED. Analisis de rutas de ataque en 83 agentes. 35 reglas (17 estandar + 18 Savia-specificas). NetworkX, informe con scores 0-10. PR #934.
+**SE-301 Agent Security Graph** (6h) — PROPOSED. Analisis estatico de rutas de ataque en 83 agentes.
+35 reglas, NetworkX, informe con scores 0-10. PR #934.
+
+**SE-306 Agent Runtime Security** (12h) — PROPOSED. Seguridad runtime: interceptor L1-L4 que bloquea
+la Trifecta Letal (datos privilegiados + inyeccion + exfiltracion) antes de que ocurra.
+Grafo de delegacion multi-agente con firma criptografica. PR #938.
+
+> SE-301 + SE-306 = defensa en profundidad: analisis estatico del grafo + interceptacion runtime.
 
 ### Tier 1 — Alto valor
 
-**SE-302 Azure Cost Monitor** (4h humana, 90min agente) — PROPOSED. Azure Cost Management API + idle detection. Skill azure-cost-monitor. PR #934.
+**SE-302 Azure Cost Monitor** (4h) — PROPOSED. Deteccion de recursos idle, dashboard mensual. PR #934.
 
-**SE-303 Intent Dispatch Refactor** (8h humana, 150min agente) — PROPOSED. Micro-kernel deterministico para dispatch. Catalogo YAML, <50ms sin LLM. PR #934.
+**SE-303 Intent Dispatch Refactor** (8h) — PROPOSED. Micro-kernel deterministico, <50ms sin LLM. PR #934.
 
-### Tier 2 — Infraestructura fundacional
+**SE-305 Dynamic BATS Selection** (5h) — IMPLEMENTED (PR #936). Selector de tests basado en git diff.
+161 mappings, 15 core tests, 30% threshold. CI integrado. Reduce BATS de ~5min a <60s en PRs tipicos.
 
-**SE-304 Automation Scheduler** — **IMPLEMENTED 2026-08-04**. 5 modulos Python, CLI 10 comandos, 46 tests. Task store JSON, scheduler asyncrono, catch-up, skip-on-overlap, scoped approvals. 6 default tasks. Supersede SE-279. PR #935 MERGE PENDING.
+### Tier 2 — Infraestructura
 
-### Orden — que toca ahora
+**SE-304 Automation Scheduler** (10h) — IMPLEMENTED (PR #935). Scheduler asyncrono, 6 default tasks,
+46 tests. Supersede SE-279 y overnight-sprint.
 
-SE-304 merge → SE-301 (critico: zero visibilidad de rutas de ataque) → SE-302 (ahorro rapido) → SE-303 (refactor profundo)
+### Orden de ejecucion
 
-### Dependencias
+```
+SE-305 (BATS dinamicos — merge PR #936)
+  → SE-304 (scheduler — merge PR #935)  
+    → SE-306 (runtime security — critico, complementa SE-301)
+      → SE-301 (agent security graph — analisis estatico)
+        → SE-302 (cost monitor — ahorro rapido)
+          → SE-303 (intent dispatch — refactor profundo)
+```
 
-| Spec | Estado | Depende de | Bloquea a |
+### Estado por PR
+
+| Spec | PR | Estado | Bloqueo |
 |---|---|---|---|
-| SE-304 | IMPLEMENTED | — | SE-279 (lo reemplaza) |
-| SE-301 | PROPOSED | Primer merge de SE-304 | — |
-| SE-302 | PROPOSED | az CLI autenticado | — |
-| SE-303 | PROPOSED | Catalogo skills/agentes actualizado | — |
+| SE-305 | #936 | IMPLEMENTED, CI failing | BATS 2>&1 fix pendiente verificar |
+| SE-304 | #935 | IMPLEMENTED, CI failing | PR Guardian + Signature |
+| SE-306 | #938 | PROPOSED | Recien creado |
+| SE-301 | #934 | PROPOSED | PR Guardian |
+| SE-302 | #934 | PROPOSED | PR Guardian |
+| SE-303 | #934 | PROPOSED | PR Guardian |
 
 ---
 
 ## Estado final — 2026-08-04
 
-> Post flip masivo sesión 2026-07-02. +21 specs flipeadas a IMPLEMENTED.
+> Era 201 activa: 6 specs (2 IMPLEMENTED, 4 PROPOSED). 8 PRs abiertos.
+> SE-305 + SE-304 pendientes de merge. SE-306 + SE-301 forman defensa en profundidad.
 
-### Distribución por status
+### Distribucion por status
 
-| Status | Cantidad | % | Qué significa |
+| Status | Cantidad | % | Que significa |
 |---|---|---|---|
-| **IMPLEMENTED** | **~243** | ~77% | En producción, funcionando |
+| **IMPLEMENTED** | **~245** | ~78% | En produccion, funcionando |
 | **ARCHIVED** | **50** | ~16% | Superseded, sin caso, hardware sin plan |
-| **PROPOSED** | ~11 | ~3% | Core bloqueados + condición externa |
+| **PROPOSED** | ~15 | ~5% | Era 201 + Core bloqueados |
 | **APPROVED** | ~5 | ~2% | GPU-blocked |
 | REJECTED | 3 | 0% | Descartados con evidencia |
-| ENTERPRISE_ONLY | 1 | 0% | SE-045 |
 
 ### Core PROPOSED (9) — condiciones de desbloqueo
 
