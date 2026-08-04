@@ -1242,6 +1242,31 @@ Enterprise: 23 specs esperando decisión estratégica.
 
 ---
 
+## Era 201 — Security + Infrastructure Intelligence (2026-08-04)
+
+> Patrones adoptados de arquitecturas de referencia open-source.
+> 4 specs: seguridad multi-agente, optimizacion cloud, dispatch deterministico, scheduler de automatizaciones.
+
+### Tier 0 — Critico inmediato
+
+**SE-301 Agent Security Graph** (6h humana, 120min agente) — Analisis de rutas de ataque en el grafo de 83 agentes. 35 reglas (17 estandar + 18 Savia-specificas). Grafo NetworkX, informe de seguridad con scores 0-10. Detecta: PAT leaks, delegacion circular, memoria N3+ compartida, auto-modificacion de agentes.
+
+### Tier 1 — Alto valor
+
+**SE-302 Azure Cost Monitor** (4h humana, 90min agente) — Monitorizacion de costes Azure via Cost Management API. Deteccion de recursos idle. Dashboard markdown mensual. Skill `azure-cost-monitor`. Zero acciones automaticas.
+
+**SE-303 Intent Dispatch Refactor** (8h humana, 150min agente) — Micro-kernel deterministico para dispatch de intents. 80% de intents resueltos via catalogo YAML en <50ms sin LLM. Reduce inference cost, añade trazabilidad.
+
+### Tier 2 — Fundacional
+
+**SE-304 Automation Scheduler** (10h humana, 150min agente) — Infraestructura unificada de automatizaciones programadas. Task store persistente, scheduler loop asyncrono, catch-up en restart, skip-on-overlap, scoped approvals. Reemplaza `overnight-sprint` standalone + `SE-279` bash scripts. Habilita: morning briefs, weekly reports, PR stale detection, dependency CVE scan, memory consolidation, drift daily. **Supersede SE-279**.
+
+### Orden recomendado
+
+SE-304 (infraestructura: desbloquea SE-279 + overnight-sprint) → SE-301 (seguridad: zero visibilidad hoy) → SE-302 (ahorro rapido) → SE-303 (refactor profundo)
+
+---
+
 ## Estado final — 2026-07-02
 
 > Post flip masivo sesión 2026-07-02. +21 specs flipeadas a IMPLEMENTED.
