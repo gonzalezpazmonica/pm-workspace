@@ -1221,7 +1221,7 @@ Manifiesto JSON (`skills-manifest.json`) generado junto con SKILLS.md. CLI unifi
 
 Evaluacion semantica de SKILL.md via juez LLM contra rubrica de 8 dimensiones (clarity, completeness, actionability, correctness, conciseness, safety, freshness, testability). Gates: PASS ≥8.5, WARN 7.0-8.4, BLOCK <7.0. **Complementa** SE-084 (estructural) y SE-167 (kanban). **Limite con SE-166**: SE-278 evalua contenido, SE-166 medira uplift. **Artefactos**: `scripts/skill-quality-rubric.yaml`, `scripts/skill-quality-eval.sh`.
 
-### SE-279 — Scheduled Monitoring Detectors (6h, 3 slices) ← awesome-llm-apps always-on
+### SE-279 — Scheduled Monitoring Detectors (SUPERSEDED by SE-304)
 
 Detectores de solo-lectura en cron. Fase 1 bash (gratis) + Fase 2 LLM solo si hay hallazgos. 5 detectores: sprint-blocker, PR-stale, drift-daily, dependency-cve, memory-consolidation. **NUNCA** modifican codigo, ramas, o backlog — solo escriben `output/always-on/`. **Corregido**: Era 199 rechazo background-agent PostCompact → renombrado a "scheduled monitoring detectors", zero autonomous actions. **Artefactos**: `scripts/always-on-runner.sh`, detectores, `scripts/always-on-install-cron.sh`.
 
@@ -1244,30 +1244,39 @@ Enterprise: 23 specs esperando decisión estratégica.
 
 ## Era 201 — Security + Infrastructure Intelligence (2026-08-04)
 
-> Patrones adoptados de arquitecturas de referencia open-source.
-> 4 specs: seguridad multi-agente, optimizacion cloud, dispatch deterministico, scheduler de automatizaciones.
+> 4 specs: seguridad multi-agente, optimizacion cloud, dispatch deterministico, scheduler.
+> Patrones adoptados de arquitecturas de referencia en ecosistema open-source.
 
 ### Tier 0 — Critico inmediato
 
-**SE-301 Agent Security Graph** (6h humana, 120min agente) — Analisis de rutas de ataque en el grafo de 83 agentes. 35 reglas (17 estandar + 18 Savia-specificas). Grafo NetworkX, informe de seguridad con scores 0-10. Detecta: PAT leaks, delegacion circular, memoria N3+ compartida, auto-modificacion de agentes.
+**SE-301 Agent Security Graph** (6h humana, 120min agente) — PROPOSED. Analisis de rutas de ataque en 83 agentes. 35 reglas (17 estandar + 18 Savia-specificas). NetworkX, informe con scores 0-10. PR #934.
 
 ### Tier 1 — Alto valor
 
-**SE-302 Azure Cost Monitor** (4h humana, 90min agente) — Monitorizacion de costes Azure via Cost Management API. Deteccion de recursos idle. Dashboard markdown mensual. Skill `azure-cost-monitor`. Zero acciones automaticas.
+**SE-302 Azure Cost Monitor** (4h humana, 90min agente) — PROPOSED. Azure Cost Management API + idle detection. Skill azure-cost-monitor. PR #934.
 
-**SE-303 Intent Dispatch Refactor** (8h humana, 150min agente) — Micro-kernel deterministico para dispatch de intents. 80% de intents resueltos via catalogo YAML en <50ms sin LLM. Reduce inference cost, añade trazabilidad.
+**SE-303 Intent Dispatch Refactor** (8h humana, 150min agente) — PROPOSED. Micro-kernel deterministico para dispatch. Catalogo YAML, <50ms sin LLM. PR #934.
 
-### Tier 2 — Fundacional
+### Tier 2 — Infraestructura fundacional
 
-**SE-304 Automation Scheduler** (10h humana, 150min agente) — Infraestructura unificada de automatizaciones programadas. Task store persistente, scheduler loop asyncrono, catch-up en restart, skip-on-overlap, scoped approvals. Reemplaza `overnight-sprint` standalone + `SE-279` bash scripts. Habilita: morning briefs, weekly reports, PR stale detection, dependency CVE scan, memory consolidation, drift daily. **Supersede SE-279**.
+**SE-304 Automation Scheduler** — **IMPLEMENTED 2026-08-04**. 5 modulos Python, CLI 10 comandos, 46 tests. Task store JSON, scheduler asyncrono, catch-up, skip-on-overlap, scoped approvals. 6 default tasks. Supersede SE-279. PR #935 MERGE PENDING.
 
-### Orden recomendado
+### Orden — que toca ahora
 
-SE-304 (infraestructura: desbloquea SE-279 + overnight-sprint) → SE-301 (seguridad: zero visibilidad hoy) → SE-302 (ahorro rapido) → SE-303 (refactor profundo)
+SE-304 merge → SE-301 (critico: zero visibilidad de rutas de ataque) → SE-302 (ahorro rapido) → SE-303 (refactor profundo)
+
+### Dependencias
+
+| Spec | Estado | Depende de | Bloquea a |
+|---|---|---|---|
+| SE-304 | IMPLEMENTED | — | SE-279 (lo reemplaza) |
+| SE-301 | PROPOSED | Primer merge de SE-304 | — |
+| SE-302 | PROPOSED | az CLI autenticado | — |
+| SE-303 | PROPOSED | Catalogo skills/agentes actualizado | — |
 
 ---
 
-## Estado final — 2026-07-02
+## Estado final — 2026-08-04
 
 > Post flip masivo sesión 2026-07-02. +21 specs flipeadas a IMPLEMENTED.
 
