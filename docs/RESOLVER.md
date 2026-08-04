@@ -46,7 +46,7 @@
 
 <!-- AUTO_BEGIN — do not edit; regenerate via scripts/resolver-md-generate.sh -->
 
-### Skills (122)
+### Skills (123)
 
 | Intent (skill) | Target | Cuándo usar |
 |---|---|---|
