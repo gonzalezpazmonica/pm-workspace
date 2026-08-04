@@ -1243,6 +1243,7 @@ Enterprise: 23 specs esperando decisión estratégica.
 ---
 
 ## Era 201 — Security + Infrastructure Intelligence (2026-08-04)
+<<<<<<< HEAD
 
 > 4 specs: seguridad multi-agente, optimizacion cloud, dispatch deterministico, scheduler.
 > Patrones adoptados de arquitecturas de referencia en ecosistema open-source.
@@ -1277,19 +1278,75 @@ SE-304 merge → SE-301 (critico: zero visibilidad de rutas de ataque) → SE-30
 ---
 
 ## Estado final — 2026-08-04
+=======
+>>>>>>> 2bde1198 (docs(roadmap): Era 201 complete — 6 specs, SE-306 added, reprioritized)
 
-> Post flip masivo sesión 2026-07-02. +21 specs flipeadas a IMPLEMENTED.
+> 6 specs: seguridad runtime y estatica de agentes, optimizacion cloud, dispatch deterministico,
+> scheduler de automatizaciones, BATS dinamicos. Defensa en profundidad para el ecosistema Savia.
 
-### Distribución por status
+### Tier 0 — Critico inmediato (seguridad)
 
-| Status | Cantidad | % | Qué significa |
+**SE-301 Agent Security Graph** (6h) — PROPOSED. Analisis estatico de rutas de ataque en 83 agentes.
+35 reglas, NetworkX, informe con scores 0-10. PR #934.
+
+**SE-306 Agent Runtime Security** (12h) — PROPOSED. Seguridad runtime: interceptor L1-L4 que bloquea
+la Trifecta Letal (datos privilegiados + inyeccion + exfiltracion) antes de que ocurra.
+Grafo de delegacion multi-agente con firma criptografica. PR #938.
+
+> SE-301 + SE-306 = defensa en profundidad: analisis estatico del grafo + interceptacion runtime.
+
+### Tier 1 — Alto valor
+
+**SE-302 Azure Cost Monitor** (4h) — PROPOSED. Deteccion de recursos idle, dashboard mensual. PR #934.
+
+**SE-303 Intent Dispatch Refactor** (8h) — PROPOSED. Micro-kernel deterministico, <50ms sin LLM. PR #934.
+
+**SE-305 Dynamic BATS Selection** (5h) — IMPLEMENTED (PR #936). Selector de tests basado en git diff.
+161 mappings, 15 core tests, 30% threshold. CI integrado. Reduce BATS de ~5min a <60s en PRs tipicos.
+
+### Tier 2 — Infraestructura
+
+**SE-304 Automation Scheduler** (10h) — IMPLEMENTED (PR #935). Scheduler asyncrono, 6 default tasks,
+46 tests. Supersede SE-279 y overnight-sprint.
+
+### Orden de ejecucion
+
+```
+SE-305 (BATS dinamicos — merge PR #936)
+  → SE-304 (scheduler — merge PR #935)  
+    → SE-306 (runtime security — critico, complementa SE-301)
+      → SE-301 (agent security graph — analisis estatico)
+        → SE-302 (cost monitor — ahorro rapido)
+          → SE-303 (intent dispatch — refactor profundo)
+```
+
+### Estado por PR
+
+| Spec | PR | Estado | Bloqueo |
 |---|---|---|---|
-| **IMPLEMENTED** | **~243** | ~77% | En producción, funcionando |
+| SE-305 | #936 | IMPLEMENTED, CI failing | BATS 2>&1 fix pendiente verificar |
+| SE-304 | #935 | IMPLEMENTED, CI failing | PR Guardian + Signature |
+| SE-306 | #938 | PROPOSED | Recien creado |
+| SE-301 | #934 | PROPOSED | PR Guardian |
+| SE-302 | #934 | PROPOSED | PR Guardian |
+| SE-303 | #934 | PROPOSED | PR Guardian |
+
+---
+
+## Estado final — 2026-08-04
+
+> Era 201 activa: 6 specs (2 IMPLEMENTED, 4 PROPOSED). 8 PRs abiertos.
+> SE-305 + SE-304 pendientes de merge. SE-306 + SE-301 forman defensa en profundidad.
+
+### Distribucion por status
+
+| Status | Cantidad | % | Que significa |
+|---|---|---|---|
+| **IMPLEMENTED** | **~245** | ~78% | En produccion, funcionando |
 | **ARCHIVED** | **50** | ~16% | Superseded, sin caso, hardware sin plan |
-| **PROPOSED** | ~11 | ~3% | Core bloqueados + condición externa |
+| **PROPOSED** | ~15 | ~5% | Era 201 + Core bloqueados |
 | **APPROVED** | ~5 | ~2% | GPU-blocked |
 | REJECTED | 3 | 0% | Descartados con evidencia |
-| ENTERPRISE_ONLY | 1 | 0% | SE-045 |
 
 ### Core PROPOSED (9) — condiciones de desbloqueo
 
