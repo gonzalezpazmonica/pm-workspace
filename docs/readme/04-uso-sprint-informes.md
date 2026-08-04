@@ -308,7 +308,50 @@ Creando 8 tasks en Azure DevOps para AB#302...
   OK AB#302-E1 creada → asignada a Carlos Mendoza
 
 8 tasks creadas. Las tasks de agente (B3, C1, C2, D1) ya tienen el tag
-"spec-driven" y están listas para /spec-generate cuando quieras.
+"spec-driven" y estan listas para /spec-generate cuando quieras.
 ```
+
+---
+
+## Automatizaciones Programadas (SE-304)
+
+Savia puede ejecutar tareas en horarios fijos: morning briefs, weekly reports, PR stale checks, escaneos de dependencias. CLI: `bash scripts/savia-automations.sh`.
+
+### Inicializar tareas por defecto
+
+```bash
+bash scripts/savia-automations.sh init-defaults
+```
+
+Crea 6 tareas: morning-brief (9AM lab), pr-stale-check (10AM diario), drift-daily (7AM diario), memory-consolidation (2AM diario), weekly-report (8AM viernes), dependency-cve-scan (8AM lunes).
+
+### Gestion
+
+| Comando | Que hace |
+|---------|----------|
+| `list [--enabled] [--due]` | Listar tareas programadas |
+| `show <task-id>` | Ver detalle JSON de una tarea |
+| `create --name <n> --schedule "<cron>" --instructions "<text>" [--skill <s>] [--agent <a>]` | Crear nueva |
+| `run <task-id>` | Ejecutar manualmente ahora |
+| `disable <task-id>` | Deshabilitar sin borrar |
+| `enable <task-id>` | Re-activar |
+| `delete <task-id>` | Eliminar permanentemente |
+| `history <task-id> [--last N]` | Historial de runs |
+| `output <task-id> <run-id>` | Ver output de un run |
+
+### Ejemplo — Crear informe semanal personalizado
+
+```bash
+bash scripts/savia-automations.sh create \
+  --name "informe-lunes" \
+  --schedule "0 8 * * 1" \
+  --instructions "Genera un informe ejecutivo con velocity del sprint, PRs abiertos, bloqueos activos y riesgos." \
+  --skill "weekly-report" \
+  --agent "azure-devops-operator"
+```
+
+### Scoped approvals
+
+Cada tarea declara `always_allowed_tools`. Por defecto `["read", "write"]`. Para solo-lectura usar `["read"]`. Tools no autorizadas son rechazadas en runtime.
 
 ---
