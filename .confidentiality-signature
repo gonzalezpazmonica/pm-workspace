@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=92902e4e73ee9e7df1bdc63ef723690986db663269966a4f10b84f568a29d590
-timestamp=2026-08-04T16:37:01Z
-branch=savia/se300-pr-plan-fix
-head_commit=b75b45d3
-signature=0e16b5a04fe1142c2abfe155f583075739e4c6487edf3805930c1128c2b7f1ec
+diff_hash=b84b6ad478cb02c733eea2c3db459a390c357ba08c30829ca7fd2e2d70777897
+timestamp=2026-08-04T17:41:19Z
+branch=roadmaps-era201
+head_commit=bcc8f325
+signature=af1d6026cd920c9d46e4aff725b3c4cdba2a065af930ad8102d9004c2677e930
