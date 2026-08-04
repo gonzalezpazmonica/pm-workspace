@@ -367,7 +367,15 @@ El transcriptor es una **app independiente** que Savia consume pasivamente:
   - [x] Rebrand: `savia-transcriptor`, mutex y service name actualizados
   - [x] Captura de sistema verificada: monitor source detectado via `pactl` (PipeWire 35)
   - [ ] Tests del entorno completo (requieren venv con faster-whisper)
-- [ ] S2: VAD auto-trigger
+- [x] **S2: VAD auto-trigger** — COMPLETADO 2026-08-04
+  - [x] `services/recording/vad.py` — VadSupervisor: maquina de estados IDLE→RECORDING→IDLE
+    - voz continua >= speech_ms → `started` (arranca)
+    - silencio continuo >= silence_ms → `stopped` (para)
+    - voz interrumpida resetea el contador de inicio
+  - [x] `services/recording/vad_silero.py` — backend silero-vad (lazy import, threshold)
+  - [x] `services/recording/auto_trigger.py` — AutoTrigger: listener + supervisor + callbacks on_start/on_stop
+  - [x] Settings: `vad_auto_trigger_enabled`, `vad_speech_ms` (3000), `vad_silence_ms` (60000), `vad_speech_threshold` (0.5), `vad_capture_interval_s` (15)
+  - [x] Tests: test_vad (8 checks), test_vad_silero (2), test_auto_trigger (3), test_settings_vad (6)
 - [ ] S3: Captura de pantalla
 - [ ] S4: Transcripcion post-sesion
 - [ ] S5: Integracion con Savia

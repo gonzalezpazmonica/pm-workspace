@@ -67,6 +67,12 @@ class Settings:
     recordings_auto_transcribe: bool = True
     recordings_auto_summarize: bool = False
     recordings_auto_rename_title: bool = True
+    # VAD auto-trigger (SE-308 S2) — graba cuando detecta voz, para en silencio
+    vad_auto_trigger_enabled: bool = False
+    vad_speech_ms: int = 3000        # voz continua para arrancar
+    vad_silence_ms: int = 60000      # silencio continuo para parar
+    vad_speech_threshold: float = 0.5
+    vad_capture_interval_s: int = 15  # screenshots periodicos (SE-308 S3)
     # LLM config for summarization (API key stored separately via services.recording.secrets)
     llm_preset: str = "ollama"
     llm_endpoint: str = "http://localhost:11434/v1"
