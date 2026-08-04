@@ -181,7 +181,7 @@ jobs:
       - name: Select BATS tests based on changes
         id: select
         run: |
-          SELECTED=$(bash scripts/ci-select-bats.sh --base "origin/${{ github.base_ref }}" 2>&1 || echo "FULL")
+          SELECTED=$(bash scripts/ci-select-bats.sh --base "origin/${{ github.base_ref }}" 2>/dev/null || echo "FULL")
           echo "tests=$SELECTED" >> "$GITHUB_OUTPUT"
 
       - name: "Run selected BATS tests (dynamic)"
