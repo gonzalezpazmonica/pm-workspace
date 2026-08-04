@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=71ea1525b5a680528043885fbb47a33ee7fe5aa3e1dfa926b3fc8f93e1360c6d
-timestamp=2026-08-03T23:05:02Z
-branch=savia/se297-kg-extraction
-head_commit=dfb4eef8
-signature=3c218c39bf0f367a83beb5941bf8d7e2816c45f50368fba1bcc5fd5f35c76dc9
+diff_hash=882bf2a437a82a1ad42d85b2c3779a643880641f5f0908bdfb0889c8202ae9d9
+timestamp=2026-08-04T08:25:55Z
+branch=savia/lightpanda-skill
+head_commit=d3fb4b78
+signature=af2e20870830de33a87724a1f7bcd30ec30275f51e332891c7713ef24f561699

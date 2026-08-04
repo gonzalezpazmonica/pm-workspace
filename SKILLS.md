@@ -72,6 +72,7 @@ To use a skill: read `<path>` and follow its instructions.
 | iac-security-scanner | `.opencode/skills/iac-security-scanner/SKILL.md` | Usar cuando se escanea IaC (Terraform, Bicep, Dockerfile, docker-compose) con Trivy config para d... |
 | knowledge-graph | `.opencode/skills/knowledge-graph/SKILL.md` | Usar cuando se construye o consulta el grafo de conocimiento de entidades del proyecto. |
 | legal-compliance | `.opencode/skills/legal-compliance/SKILL.md` | Usar cuando se audita compliance legal contra legislación española consolidada. |
+| lightpanda-browser | `.opencode/skills/lightpanda-browser/SKILL.md` | Usar cuando se necesita navegacion web headless avanzada (JS-heavy sites, SPAs, extraccion markdo... |
 | managed-content | `.opencode/skills/managed-content/SKILL.md` | Usar cuando se regeneran secciones auto-generadas en documentos con marcadores de seguridad. |
 | meeting-transcript-extract | `.opencode/skills/meeting-transcript-extract/SKILL.md` | Usar cuando se necesita extraer la transcripción de una reunión Teams desde el browser. |
 | memvid-backup | `.opencode/skills/memvid-backup/SKILL.md` | Usar cuando se crea un backup portable de la memoria externa de Savia. |
