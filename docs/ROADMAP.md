@@ -1244,9 +1244,9 @@ Enterprise: 23 specs esperando decisión estratégica.
 
 ## Era 201 — Security + Infrastructure Intelligence (2026-08-04)
 
-> Analisis de patrones de seguridad multi-agente, optimizacion cloud y dispatch deterministico.
-> 3 specs generadas tras investigacion de arquitecturas de referencia en el ecosistema open-source.
-> Inspirado en patrones de grafo de capacidades, optimizacion de costes, y micro-kernel intent dispatch.
+> Analisis de patrones de seguridad multi-agente, optimizacion cloud, dispatch deterministico y automatizaciones.
+> 4 specs generadas tras investigacion de arquitecturas de referencia en el ecosistema open-source.
+> Inspirado en patrones de grafo de capacidades, optimizacion de costes, micro-kernel intent dispatch, y async scheduler.
 
 ### Tier 0 — Critico inmediato (seguridad)
 
@@ -1258,14 +1258,19 @@ Enterprise: 23 specs esperando decisión estratégica.
 
 **SE-303 Intent Dispatch Refactor** (8h humana, 150min agente) — Micro-kernel deterministico para dispatch de intents. El 80% de los intents se resuelven via catalogo YAML en <50ms sin LLM. LLM solo para extraer Intent (verb+object) y desambiguar. Reduce inference cost, añade trazabilidad. Integracion incremental con `configurator` existente.
 
+### Tier 2 — Infraestructura fundacional
+
+**SE-304 Automation Scheduler** (10h humana, 150min agente) — Infraestructura unificada de automatizaciones programadas. Task store persistente (JSON), scheduler loop asyncrono, catch-up en restart, skip-on-overlap, scoped approvals por tarea. Reemplaza `overnight-sprint` standalone + `SE-279` bash scripts. Habilita: morning briefs, weekly reports, PR stale detection, dependency CVE scan, memory consolidation, drift daily. **Supersede SE-279** (los detectores pasan a ser tareas del scheduler, no bash+cron independientes).
+
 ### Orden recomendado
 
-SE-301 (seguridad: zero visibilidad hoy) → SE-302 (ahorro rapido: 4h) → SE-303 (refactor profundo: 8h, tocar configurator es delicado)
+SE-304 (infraestructura fundacional: desbloquea SE-279 + overnight-sprint) → SE-301 (seguridad: zero visibilidad hoy) → SE-302 (ahorro rapido: 4h) → SE-303 (refactor profundo: 8h, tocar configurator es delicado)
 
 ### Dependencias
 
 | Spec | Depende de | Bloquea a |
 |---|---|---|
+| SE-304 | Ninguna (stdlib Python + asyncio) | SE-279 (lo reemplaza), overnight-sprint (lo migra) |
 | SE-301 | Ninguna (solo lectura del workspace) | — |
 | SE-302 | `az CLI` autenticado + subscription ID | — |
 | SE-303 | Catalogo de skills/agentes actualizado | — |
