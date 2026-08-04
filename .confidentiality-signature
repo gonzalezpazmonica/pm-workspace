@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=30df8d47d249256d062ba8060d0fdcd47a020c97740847497a3a9481f5e08fd0
-timestamp=2026-08-04T16:40:26Z
+diff_hash=c2c685fc05c1aaa7850809dc9c60ebd5357f3f5ec1f5fd4ee96d78e7795cb41d
+timestamp=2026-08-04T17:41:43Z
 branch=savia/se301-agent-security
-head_commit=500645b2
-signature=6d1d700f37bbb1317233ac687ac6779d2685d5a5054e52abccd38338a7cdfc3e
+head_commit=6a5e6389
+signature=8f6f7512834fe78d0f628feedaef094ee246df01da372538be805332f0bb917a
