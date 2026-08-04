@@ -376,7 +376,16 @@ El transcriptor es una **app independiente** que Savia consume pasivamente:
   - [x] `services/recording/auto_trigger.py` — AutoTrigger: listener + supervisor + callbacks on_start/on_stop
   - [x] Settings: `vad_auto_trigger_enabled`, `vad_speech_ms` (3000), `vad_silence_ms` (60000), `vad_speech_threshold` (0.5), `vad_capture_interval_s` (15)
   - [x] Tests: test_vad (8 checks), test_vad_silero (2), test_auto_trigger (3), test_settings_vad (6)
-- [ ] S3: Captura de pantalla
+- [x] **S3: Captura de pantalla** — COMPLETADO 2026-08-04
+  - [x] `services/recording/screen.py` — ScreenCapture (python-mss)
+    - monitor configurable (1 = principal, 0 = todos, N = especifico)
+    - intervalo configurable (default 15s)
+    - resize opcional (PIL, default 1920px ancho, 0 = nativo)
+    - backend inyectable para tests (sin dependencia C)
+  - [x] `services/recording/session_coordinator.py` — SessionCoordinator
+    - une VAD → audio recorder + screen capture
+    - start/stop simultaneos, sin doble arranque
+  - [x] Tests: test_screen (5), test_session_coordinator (3)
 - [ ] S4: Transcripcion post-sesion
 - [ ] S5: Integracion con Savia
 - [ ] S6: Tests + packaging
