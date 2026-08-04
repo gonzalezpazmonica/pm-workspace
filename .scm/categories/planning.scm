@@ -1,5 +1,5 @@
 # planning — Savia Capability Map (L1)
-> 558 resources
+> 559 resources
 
 - **/decide-architecture** (cmd): Clasifica una tarea como WORKFLOW (deterministica) o AGENT (loop). Bias hacia workflow per Anthropic. Sugiere plantilla inicial. Mide accuracy contra corpus curado de 20 tareas.
 - **_template** (skill): TEMPLATE — copia este directorio para crear una skill nueva. NO se carga en runtime.
@@ -268,6 +268,7 @@
 - **judge-calibration** (script): judge-calibration.sh — FP/FN tracking para jueces adversariales (SE-269 S4)
 - **judge-routing-verify** (script): judge-routing-verify.sh — SE-273 S1: CI parity check
 - **judge-trigger-detector** (script): judge-trigger-detector.sh — SE-273 S1: Deterministic trigger detection
+- **kg-cleanup** (script): kg-cleanup.sh — Archive orphaned/expired entities
 - **kg-link-prediction** (script): kg-link-prediction.sh — SE-249: wrapper for kg-link-prediction.py
 - **kg-query** (script): kg-query.sh — SE-218 S3: query KG con qualified names
 - **kg-topology-analysis** (script): kg-topology-analysis.sh — SE-248: wrapper for kg-topology-analysis.py

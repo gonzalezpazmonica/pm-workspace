@@ -1,5 +1,5 @@
 # communication — Savia Capability Map (L1)
-> 95 resources
+> 96 resources
 
 - **archive-digest** (agent): >
 - **digest-extract** (script): digest-extract.sh — Capa 0 universal de extracción via markitdown (SE-172)
@@ -8,6 +8,7 @@
 - **glm-verify** (script): glm-verify.sh — Verifies that manifest_digest.value matches computed SHA-256
 - **inbox-check** (cmd): >
 - **inbox-start** (cmd): >
+- **kg-pipeline** (script): kg-pipeline.sh — Extract KG from digest output and persist to SaviaVaults
 - **masked-digest** (script): masked-digest.sh — Masked digestion pipeline
 - **meeting-confidentiality-judge** (agent): >
 - **meeting-digest** (cmd): >

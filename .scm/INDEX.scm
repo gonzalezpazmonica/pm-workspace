@@ -1,6 +1,6 @@
 # Savia Capability Map — INDEX
-> hash: 454db3dc86b6 | resources: 1322
-> 290 commands · 123 skills · 83 agents · 826 scripts
+> hash: 75abc261165b | resources: 1325
+> 290 commands · 123 skills · 83 agents · 829 scripts
 
 [analysis] Trace Optimize — across,distributed,optimize,rates,sampling — cmd:.claude/commands/trace-optimize.md
 [analysis] agent-activity — activity,agent,executions,recent,show — cmd:.claude/commands/agent-activity.md
@@ -46,6 +46,7 @@
 [analysis] enterprise/client-health-report — client,health,intelligence,report — script:scripts/enterprise/client-health-report.sh
 [analysis] eval-improvement-suggest — eval,generate,improvement,proposals,reports — script:scripts/eval-improvement-suggest.sh
 [analysis] executive-reporting — dirección,ejecutivo,informe,multi,proyecto — skill:.claude/skills/executive-reporting/SKILL.md
+[analysis] kg-quality-report — health,metrics,quality,report,weekly — script:scripts/kg-quality-report.sh
 [analysis] kpi-antagonist-gate — antagonist,anti,gate,goodhart — script:scripts/kpi-antagonist-gate.sh
 [analysis] kpi-catalog-validate — catalog,validate,validator — script:scripts/kpi-catalog-validate.sh
 [analysis] kpi-compute — artifacts,computation,compute,verifiable — script:scripts/kpi-compute.sh
@@ -76,6 +77,7 @@
 [communication] glm-verify — computed,digest,manifest,matches,value — script:scripts/glm-verify.sh
 [communication] inbox-check —  — cmd:.claude/commands/inbox-check.md
 [communication] inbox-start —  — cmd:.claude/commands/inbox-start.md
+[communication] kg-pipeline — digest,extract,output,persist,pipeline — script:scripts/kg-pipeline.sh
 [communication] masked-digest — digest,digestion,masked,pipeline — script:scripts/masked-digest.sh
 [communication] meeting-confidentiality-judge —  — agent:.opencode/agents/meeting-confidentiality-judge.md
 [communication] meeting-digest —  — cmd:.claude/commands/meeting-digest.md
@@ -779,6 +781,7 @@
 [planning] judge-calibration — adversariales,calibration,judge,jueces,tracking — script:scripts/judge-calibration.sh
 [planning] judge-routing-verify — check,judge,parity,routing,verify — script:scripts/judge-routing-verify.sh
 [planning] judge-trigger-detector — detection,detector,deterministic,judge,trigger — script:scripts/judge-trigger-detector.sh
+[planning] kg-cleanup — archive,cleanup,entities,expired,orphaned — script:scripts/kg-cleanup.sh
 [planning] kg-link-prediction — link,prediction,wrapper — script:scripts/kg-link-prediction.sh
 [planning] kg-query — names,qualified,query — script:scripts/kg-query.sh
 [planning] kg-topology-analysis — analysis,topology,wrapper — script:scripts/kg-topology-analysis.sh
