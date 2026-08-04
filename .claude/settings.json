@@ -752,6 +752,14 @@
             "command": "bash \"${CLAUDE_PLUGIN_ROOT}/.claude/hooks/judge-auto-router.sh\" \"$CLAUDE_JSON_INPUT\""
           }
         ]
+      },
+      {
+        "type": "command",
+        "command": "\"$CLAUDE_PROJECT_DIR\"/.opencode/hooks/post-digestion-kg-extract.sh",
+        "async": true,
+        "timeout": 30,
+        "statusMessage": "Extracting knowledge graph...",
+        "matcher": "Task|Bash"
       }
     ],
     "Stop": [

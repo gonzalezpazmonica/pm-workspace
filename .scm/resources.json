@@ -1,6 +1,6 @@
 {
-  "hash": "89ebbc357db1",
-  "total": 1322,
+  "hash": "bdfb73a6c7b8",
+  "total": 1325,
   "resources": [
     {
       "category": "analysis",
@@ -600,6 +600,20 @@
     },
     {
       "category": "analysis",
+      "name": "kg-quality-report",
+      "intents": [
+        "health",
+        "metrics",
+        "quality",
+        "report",
+        "weekly"
+      ],
+      "kind": "script",
+      "path": "scripts/kg-quality-report.sh",
+      "description": "kg-quality-report.sh — Weekly KG health metrics"
+    },
+    {
+      "category": "analysis",
       "name": "kpi-antagonist-gate",
       "intents": [
         "antagonist",
@@ -976,6 +990,20 @@
       "kind": "cmd",
       "path": ".claude/commands/inbox-start.md",
       "description": ">"
+    },
+    {
+      "category": "communication",
+      "name": "kg-pipeline",
+      "intents": [
+        "digest",
+        "extract",
+        "output",
+        "persist",
+        "pipeline"
+      ],
+      "kind": "script",
+      "path": "scripts/kg-pipeline.sh",
+      "description": "kg-pipeline.sh — Extract KG from digest output and persist to SaviaVaults"
     },
     {
       "category": "communication",
@@ -10256,6 +10284,20 @@
       "kind": "script",
       "path": "scripts/judge-trigger-detector.sh",
       "description": "judge-trigger-detector.sh — SE-273 S1: Deterministic trigger detection"
+    },
+    {
+      "category": "planning",
+      "name": "kg-cleanup",
+      "intents": [
+        "archive",
+        "cleanup",
+        "entities",
+        "expired",
+        "orphaned"
+      ],
+      "kind": "script",
+      "path": "scripts/kg-cleanup.sh",
+      "description": "kg-cleanup.sh — Archive orphaned/expired entities"
     },
     {
       "category": "planning",

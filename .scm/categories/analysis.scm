@@ -1,5 +1,5 @@
 # analysis — Savia Capability Map (L1)
-> 67 resources
+> 68 resources
 
 - **Trace Optimize** (cmd): Optimize trace spans and sampling rates across distributed services
 - **agent-activity** (cmd): Show structured activity log of recent agent executions
@@ -45,6 +45,7 @@
 - **enterprise/client-health-report** (script): client-health-report.sh — SE-024 Client Health Intelligence
 - **eval-improvement-suggest** (script): eval-improvement-suggest.sh — SE-215: generate skill improvement proposals from eval reports
 - **executive-reporting** (skill): Usar cuando se genera un informe ejecutivo multi-proyecto para dirección.
+- **kg-quality-report** (script): kg-quality-report.sh — Weekly KG health metrics
 - **kpi-antagonist-gate** (script): kpi-antagonist-gate.sh — SE-272 S2 Anti-Goodhart gate
 - **kpi-catalog-validate** (script): kpi-catalog-validate.sh — SE-272 S2 KPI catalog validator
 - **kpi-compute** (script): kpi-compute.sh — SE-272 S2 KPI computation from verifiable artifacts
