@@ -1221,7 +1221,7 @@ Manifiesto JSON (`skills-manifest.json`) generado junto con SKILLS.md. CLI unifi
 
 Evaluacion semantica de SKILL.md via juez LLM contra rubrica de 8 dimensiones (clarity, completeness, actionability, correctness, conciseness, safety, freshness, testability). Gates: PASS ≥8.5, WARN 7.0-8.4, BLOCK <7.0. **Complementa** SE-084 (estructural) y SE-167 (kanban). **Limite con SE-166**: SE-278 evalua contenido, SE-166 medira uplift. **Artefactos**: `scripts/skill-quality-rubric.yaml`, `scripts/skill-quality-eval.sh`.
 
-### SE-279 — Scheduled Monitoring Detectors (6h, 3 slices) ← awesome-llm-apps always-on
+### SE-279 — Scheduled Monitoring Detectors (SUPERSEDED by SE-304)
 
 Detectores de solo-lectura en cron. Fase 1 bash (gratis) + Fase 2 LLM solo si hay hallazgos. 5 detectores: sprint-blocker, PR-stale, drift-daily, dependency-cve, memory-consolidation. **NUNCA** modifican codigo, ramas, o backlog — solo escriben `output/always-on/`. **Corregido**: Era 199 rechazo background-agent PostCompact → renombrado a "scheduled monitoring detectors", zero autonomous actions. **Artefactos**: `scripts/always-on-runner.sh`, detectores, `scripts/always-on-install-cron.sh`.
 
