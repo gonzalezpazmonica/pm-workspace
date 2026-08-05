@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=92902e4e73ee9e7df1bdc63ef723690986db663269966a4f10b84f568a29d590
-timestamp=2026-08-04T16:37:01Z
-branch=savia/se300-pr-plan-fix
-head_commit=b75b45d3
-signature=0e16b5a04fe1142c2abfe155f583075739e4c6487edf3805930c1128c2b7f1ec
+diff_hash=52043fda6a6cd26dd2b0e07b690da78a1acddd327923d33aa20c769150de54dc
+timestamp=2026-08-04T21:16:38Z
+branch=fix/tabular-analyst-yaml
+head_commit=531cd7dd
+signature=063612c52e556d4cc326380aeea5b97367458ddbdc95d19d7d2835005b612128
