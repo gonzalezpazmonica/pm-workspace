@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=a101afca846bb77fce51fb73d239ac2a6c36afa9f078d9dc4da97f46c64faa88
-timestamp=2026-08-05T05:32:58Z
+diff_hash=8cab459b30822eb1b563f67ace0c1c4eecfeaa6c919147cdffa182c917ea6b09
+timestamp=2026-08-05T08:11:56Z
 branch=se305-dynamic-bats
-head_commit=a2cb93d6
-signature=00be7d8e4bb29fac8d5964668cc40cc8fc2313c0c5ffafc91e3096ef94da626a
+head_commit=13bf75c4
+signature=22d3f0c65037b2074036f45543c2c8f18da0762c2b3edf2b62b4299ecaf62244
