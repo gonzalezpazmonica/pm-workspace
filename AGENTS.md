@@ -20,7 +20,7 @@ the Stop hook `agents-md-auto-regenerate.sh` whenever an agent file changes.
 |---|---|---|---|---|
 | architect | heavy | L1 | — | Diseño de arquitectura .NET y decisiones técnicas de alto nivel. Usar PROACTIVELY cuando: se diseña una nueva feature... |
 | architecture-judge | mid | L1 | — | Code Review Court judge — boundaries, coupling, layer violations, patterns |
-| archive-digest | mid | L2 | — | Digestión de formatos de archivo y contenido comprimido via markitdown (SE-172). Soporta ZIP (itera contenidos), EPub... |
+| archive-digest | fast | L2 | — | Digestión de formatos de archivo y contenido comprimido via markitdown (SE-172). Soporta ZIP (itera contenidos), EPub... |
 | authority-claim-judge | fast | L1 | — | Recommendation Tribunal judge — detects credential claims ("soy investigador"). NUNCA veto. (SPEC-193) |
 | azure-devops-operator | fast | L1 | — | Operaciones rápidas en Azure DevOps: consultas WIQL, actualización de work items, gestión de sprint, capacidades del ... |
 | business-analyst | heavy | L1 | — | Análisis de reglas de negocio, descomposición de PBIs, criterios de aceptación y evaluación de competencias del equip... |
@@ -69,7 +69,7 @@ the Stop hook `agents-md-auto-regenerate.sh` whenever an agent file changes.
 | pdf-digest | heavy | L2 | — | Digestion de documentos PDF con extraccion de texto e imagenes — pipeline de 4 fases. Documentos tecnicos, propuestas... |
 | pentester | heavy | L3 | — | Hacker ético de máximo nivel con pipeline autónomo de 5 fases inspirado en Shannon. Ejecuta pentests dinámicos contra... |
 | php-developer | mid | L3 | — | Implementación de código PHP/Laravel siguiendo specs SDD aprobadas. Usar PROACTIVELY cuando: se implementa una featur... |
-| pptx-digest | heavy | L2 | — | Digestion de presentaciones PowerPoint (PPTX) — pipeline de 4 fases. Extrae texto, notas del presentador, imagenes, d... |
+| pptx-digest | mid | L2 | — | Digestion de presentaciones PowerPoint (PPTX) — pipeline de 4 fases. Extrae texto, notas del presentador, imagenes, d... |
 | pr-agent-judge | mid | L1 | — | External 5th judge of the Code Review Court — wraps qodo-ai/pr-agent OSS (SPEC-124). Opt-in via COURT_INCLUDE_PR_AGEN... |
 | python-developer | mid | L3 | — | Implementación de código Python (FastAPI/Django) siguiendo specs SDD aprobadas. Usar PROACTIVELY cuando: se implement... |
 | recommendation-tribunal-orchestrator | mid | L2 | — | Recommendation Tribunal orchestrator — convenes 4 fast judges in parallel, aggregates scores, applies vetos, mutates ... |
@@ -97,7 +97,7 @@ the Stop hook `agents-md-auto-regenerate.sh` whenever an agent file changes.
 | test-runner | mid | L4 | — | Ejecución de tests y verificación de cobertura post-commit. Ejecuta suite completa de tests, valida que todos pasan, ... |
 | truth-tribunal-orchestrator | heavy | L2 | — | Truth Tribunal orchestrator — convenes 7 judges, aggregates scores, applies vetos, drives iteration |
 | typescript-developer | mid | L3 | — | Implementación de código TypeScript/Node.js siguiendo specs SDD aprobadas. Usar PROACTIVELY cuando: se implementa una... |
-| visual-digest | heavy | L2 | — | Digestión de imágenes con OCR contextual — 5 pasadas. Fotos de pizarras, notas manuscritas, diagramas en papel, captu... |
+| visual-digest | mid | L2 | — | Digestión de imágenes con OCR contextual — 5 pasadas. Fotos de pizarras, notas manuscritas, diagramas en papel, captu... |
 | visual-qa-agent | mid | L1 | — | Visual QA: screenshot analysis, wireframe comparison, regression detection. Usar PROACTIVELY cuando se detectan cambi... |
 | web-e2e-tester | mid | L3 | — | Autonomous E2E testing of web apps against live instances. Use PROACTIVELY when: deploying savia-web, after UI change... |
-| word-digest | heavy | L2 | — | Digestion de documentos Word (DOCX) con extraccion de texto, tablas e imagenes — pipeline de 4 fases. Actas, propuest... |
+| word-digest | mid | L2 | — | Digestion de documentos Word (DOCX) con extraccion de texto, tablas e imagenes — pipeline de 4 fases. Actas, propuest... |
