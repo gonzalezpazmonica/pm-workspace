@@ -1,5 +1,5 @@
 # quality — Savia Capability Map (L1)
-> 254 resources
+> 255 resources
 
 - **/speckit.analyze** (cmd): Alias spec-kit compatible. Review cruzado de una spec antes de implementar. Invoca skill consensus-validation. Compatible con github/spec-kit.
 - **Court Review** (cmd): Convene the Code Review Court to evaluate implementation quality across 6 judges
@@ -13,6 +13,7 @@
 - **architecture-judge** (agent): Code Review Court judge — boundaries, coupling, layer violations, patterns
 - **attention-anchor-check** (script): attention-anchor-check.sh — SE-080 pattern coverage verifier
 - **audit** (cmd): Generate professional executive audit report for workspace reliability assessment
+- **automation-scheduler** (skill): Usar cuando se crean, gestionan o ejecutan automatizaciones programadas: morning briefs, weekly reports, PR stale checks, dependency scans, memory consolidation, drift audits. Triggers: programa una tarea, automatiza esto, crea una automati
 - **banking-data-governance** (cmd): Auditar gobierno de datos — lineage, clasificación, GDPR/LOPD, feature stores
 - **banking-mlops-audit** (cmd): Auditar pipeline MLOps — versionado, drift, XAI, model risk, scoring architectures
 - **case-review** (cmd): Generate benefit realization review at 90/180/365 days

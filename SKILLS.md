@@ -26,6 +26,7 @@ To use a skill: read `<path>` and follow its instructions.
 | ast-comprehension | `.opencode/skills/ast-comprehension/SKILL.md` | Usar cuando se explora código desconocido y se necesita comprensión estructural sin leer ficher... |
 | ast-quality-gate | `.opencode/skills/ast-quality-gate/SKILL.md` | Usar cuando se verifica la calidad de código generado por IA antes de merge. |
 | attack-surface-mapper | `.opencode/skills/attack-surface-mapper/SKILL.md` | Mapear la superficie de ataque de un dominio: subdominios, OSINT, typosquatting. |
+| automation-scheduler | `.opencode/skills/automation-scheduler/SKILL.md` | Usar cuando se crean, gestionan o ejecutan automatizaciones programadas: morning briefs, weekly r... |
 | azure-devops-queries | `.opencode/skills/azure-devops-queries/SKILL.md` | Usar cuando se necesitan consultas WIQL, actualización de work items o datos de sprint en Azure ... |
 | azure-pipelines | `.opencode/skills/azure-pipelines/SKILL.md` | Usar cuando se gestiona o depura CI/CD con Azure Pipelines. |
 | backlog-git-tracker | `.opencode/skills/backlog-git-tracker/SKILL.md` | Usar cuando se capturan o comparan snapshots del backlog para detectar drift. |
