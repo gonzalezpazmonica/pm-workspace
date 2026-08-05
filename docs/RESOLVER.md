@@ -46,7 +46,7 @@
 
 <!-- AUTO_BEGIN — do not edit; regenerate via scripts/resolver-md-generate.sh -->
 
-### Skills (123)
+### Skills (124)
 
 | Intent (skill) | Target | Cuándo usar |
 |---|---|---|
@@ -59,6 +59,7 @@
 | `ast-comprehension` | skill:ast-comprehension | Usar cuando se explora código desconocido y se necesita comprensión estructural sin l... |
 | `ast-quality-gate` | skill:ast-quality-gate | Usar cuando se verifica la calidad de código generado por IA antes de merge. |
 | `attack-surface-mapper` | skill:attack-surface-mapper | Mapear la superficie de ataque de un dominio: subdominios, OSINT, typosquatting. |
+| `automation-scheduler` | skill:automation-scheduler | Usar cuando se crean, gestionan o ejecutan automatizaciones programadas: morning briefs... |
 | `azure-devops-queries` | skill:azure-devops-queries | Usar cuando se necesitan consultas WIQL, actualización de work items o datos de sprint... |
 | `azure-pipelines` | skill:azure-pipelines | Usar cuando se gestiona o depura CI/CD con Azure Pipelines. |
 | `backlog-git-tracker` | skill:backlog-git-tracker | Usar cuando se capturan o comparan snapshots del backlog para detectar drift. |
