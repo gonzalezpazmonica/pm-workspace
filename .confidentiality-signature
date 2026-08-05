@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=117e2c524da2ab87a66ccd51dde8fd8877108689988c8ced6a935196c938ac68
-timestamp=2026-08-05T08:11:48Z
+diff_hash=51f7157cba2469e56344d6108d7c44a873fbbd425bc6509dec9148249d80c8da
+timestamp=2026-08-05T17:19:03Z
 branch=fix/vaults-conflict-markers
-head_commit=ae7f911c
-signature=00321b556c74e7e0c3f4bb69c0bf53532a2b68db7e9132eeed8364646522a5ac
+head_commit=98a331df
+signature=acfa0c45d0dbf23602b16bca80c6f2ff67ada946f77cb634b775cd048646265c
