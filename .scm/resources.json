@@ -1,6 +1,6 @@
 {
-  "hash": "fb9c12b858bf",
-  "total": 1327,
+  "hash": "ea91c676f8b5",
+  "total": 1329,
   "resources": [
     {
       "category": "analysis",
@@ -14333,6 +14333,34 @@
       "kind": "cmd",
       "path": ".claude/commands/case-review.md",
       "description": "Generate benefit realization review at 90/180/365 days"
+    },
+    {
+      "category": "quality",
+      "name": "ci-bats-deps",
+      "intents": [
+        "bats",
+        "dependency",
+        "deps",
+        "dynamic",
+        "generate"
+      ],
+      "kind": "script",
+      "path": "scripts/ci-bats-deps.sh",
+      "description": "ci-bats-deps.sh — Generate dependency map for dynamic BATS test selection"
+    },
+    {
+      "category": "quality",
+      "name": "ci-select-bats",
+      "intents": [
+        "based",
+        "bats",
+        "changed",
+        "dynamic",
+        "files"
+      ],
+      "kind": "script",
+      "path": "scripts/ci-select-bats.sh",
+      "description": "ci-select-bats.sh — Dynamic BATS test selector based on changed files"
     },
     {
       "category": "quality",

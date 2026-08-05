@@ -171,3 +171,4 @@ vault/.obsidian/
 .windsurf/
 vaults/
 labs/
+tests/bats/.deps.json

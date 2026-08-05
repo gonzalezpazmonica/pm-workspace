@@ -1,6 +1,6 @@
 # Savia Capability Map — INDEX
-> hash: 9f10a25a1fb6 | resources: 1327
-> 290 commands · 125 skills · 83 agents · 829 scripts
+> hash: d4311d020fb1 | resources: 1329
+> 290 commands · 125 skills · 83 agents · 831 scripts
 
 [analysis] Trace Optimize — across,distributed,optimize,rates,sampling — cmd:.claude/commands/trace-optimize.md
 [analysis] agent-activity — activity,agent,executions,recent,show — cmd:.claude/commands/agent-activity.md
@@ -1090,6 +1090,8 @@
 [quality] banking-data-governance — auditar,clasificación,datos,feature,gdpr — cmd:.claude/commands/banking-data-governance.md
 [quality] banking-mlops-audit — architectures,auditar,drift,mlops,model — cmd:.claude/commands/banking-mlops-audit.md
 [quality] case-review — benefit,days,generate,realization,review — cmd:.claude/commands/case-review.md
+[quality] ci-bats-deps — bats,dependency,deps,dynamic,generate — script:scripts/ci-bats-deps.sh
+[quality] ci-select-bats — based,bats,changed,dynamic,files — script:scripts/ci-select-bats.sh
 [quality] ci-test-quality-gate — coverage,gate,quality,test — script:scripts/ci-test-quality-gate.sh
 [quality] cognitive-judge — code,complexity,court,debuggability,judge — agent:.opencode/agents/cognitive-judge.md
 [quality] command-tier-audit — audit,command,scripts,slice,tier — script:scripts/command-tier-audit.sh
