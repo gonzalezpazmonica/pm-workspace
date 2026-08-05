@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
 diff_hash=24857ba89b6202816bfa6a7c248cee768c65d756d41f81ad68e5200795ef19fa
-timestamp=2026-08-05T19:14:13Z
+timestamp=2026-08-05T20:28:34Z
 branch=se299-model-tiers-fix
-head_commit=42e2e4f8
+head_commit=e06cfcba
 signature=4dbd92dfd3468bff91291ea90f77e775ee3c232af0237ea7c98acfee6f4fcfd1
