@@ -1,0 +1,48 @@
+# .deps-rules.yaml — Manual directory-level test selection rules
+# Domain knowledge that can't be auto-extracted from .bats files.
+#
+# When any file in `dir` changes, the listed `tests` are selected.
+# Format: dir (relative to repo root) → list of .bats test file names.
+
+rules:
+  - dir: ".opencode/agents/"
+    tests:
+      - test-se-098-agents-size.bats
+      - test-se-099-agents-split.bats
+      - test-se-253-agent-sync.bats
+      - test-se-253-dispatcher.bats
+
+  - dir: ".opencode/skills/"
+    tests:
+      - test-se-210-skill-antipatterns.bats
+      - test-se-253-command-tiers.bats
+
+  - dir: "docs/rules/domain/"
+    tests:
+      - test-se-097-rules-index-regen.bats
+      - test-se-103-dormant-rules.bats
+      - test-se-102-eras-timeline.bats
+
+  - dir: ".github/workflows/"
+    tests:
+      - test-evals-ci-gate.bats
+
+  - dir: "scripts/"
+    tests:
+      - test-se-096-orphan-rules-archive.bats
+      - test-priority-formula.bats
+      - test-cognitive-debt.bats
+
+  - dir: ".opencode/hooks/"
+    tests:
+      - test-se-253-hooks-coverage.bats
+
+  - dir: "docs/"
+    tests:
+      - test-se-102-eras-timeline.bats
+      - test-se-080-attention-anchor.bats
+
+  - file: ".claude/settings.json"
+    tests:
+      - test-opencode-config-validate.bats
+      - test-se-253-hooks-coverage.bats
