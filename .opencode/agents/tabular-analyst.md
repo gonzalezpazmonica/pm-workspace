@@ -1,8 +1,11 @@
 ---
 name: tabular-analyst
 model: mid
-permission: L2
-tools: Read, Bash, Write
+permission_level: L2
+tools:
+  read: true
+  bash: true
+  write: true
 description: Analisis estadistico de datos tabulares. Usar PROACTIVELY cuando: se reciben datos en CSV, Excel, tablas markdown, o JSON arrays con >5 filas. Produce perfil estadistico y resumen para LLM.
 ---
 
