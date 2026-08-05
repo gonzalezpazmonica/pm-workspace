@@ -14,7 +14,7 @@ tools:
   - Glob
   - Grep
   - Task
-model: heavy
+model: mid
 permissionMode: plan
 maxTurns: 30
 max_context_tokens: 80000
