@@ -9,7 +9,7 @@ tools:
   bash: true
   glob: true
   grep: true
-model: heavy
+model: mid
 permissionMode: default
 maxSteps: 30
 color: "#FF8800"
