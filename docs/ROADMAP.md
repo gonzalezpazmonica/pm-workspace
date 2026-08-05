@@ -1221,7 +1221,7 @@ Manifiesto JSON (`skills-manifest.json`) generado junto con SKILLS.md. CLI unifi
 
 Evaluacion semantica de SKILL.md via juez LLM contra rubrica de 8 dimensiones (clarity, completeness, actionability, correctness, conciseness, safety, freshness, testability). Gates: PASS ≥8.5, WARN 7.0-8.4, BLOCK <7.0. **Complementa** SE-084 (estructural) y SE-167 (kanban). **Limite con SE-166**: SE-278 evalua contenido, SE-166 medira uplift. **Artefactos**: `scripts/skill-quality-rubric.yaml`, `scripts/skill-quality-eval.sh`.
 
-### SE-279 — Scheduled Monitoring Detectors (6h, 3 slices) ← awesome-llm-apps always-on
+### SE-279 — Scheduled Monitoring Detectors (SUPERSEDED by SE-304)
 
 Detectores de solo-lectura en cron. Fase 1 bash (gratis) + Fase 2 LLM solo si hay hallazgos. 5 detectores: sprint-blocker, PR-stale, drift-daily, dependency-cve, memory-consolidation. **NUNCA** modifican codigo, ramas, o backlog — solo escriben `output/always-on/`. **Corregido**: Era 199 rechazo background-agent PostCompact → renombrado a "scheduled monitoring detectors", zero autonomous actions. **Artefactos**: `scripts/always-on-runner.sh`, detectores, `scripts/always-on-install-cron.sh`.
 
@@ -1244,43 +1244,79 @@ Enterprise: 23 specs esperando decisión estratégica.
 
 ## Era 201 — Security + Infrastructure Intelligence (2026-08-04)
 
-> Especs de seguridad de agentes, optimizacion y conocimiento interoperable.
-> SE-307: adapter OKF para SaviaVaults — interoperabilidad con Open Knowledge Format.
+> 6 specs: seguridad runtime y estatica de agentes, optimizacion cloud, dispatch deterministico,
+> scheduler de automatizaciones, BATS dinamicos. Defensa en profundidad para el ecosistema Savia.
 
-### Tier 0 — Critico
+### Tier 0 — Critico inmediato (seguridad)
 
-**SE-301 Agent Security Graph** (6h) — PROPOSED. Analisis estatico de rutas de ataque en 83 agentes. PR #934.
+**SE-301 Agent Security Graph** (6h) — PROPOSED. Analisis estatico de rutas de ataque en 83 agentes.
+35 reglas, NetworkX, informe con scores 0-10. PR #934.
+
+**SE-306 Agent Runtime Security** (12h) — PROPOSED. Seguridad runtime: interceptor L1-L4 que bloquea
+la Trifecta Letal (datos privilegiados + inyeccion + exfiltracion) antes de que ocurra.
+Grafo de delegacion multi-agente con firma criptografica. PR #938.
+
+> SE-301 + SE-306 = defensa en profundidad: analisis estatico del grafo + interceptacion runtime.
 
 ### Tier 1 — Alto valor
 
-**SE-302 Azure Cost Monitor** (4h) — PROPOSED. Deteccion de recursos idle. PR #934.
+**SE-302 Azure Cost Monitor** (4h) — PROPOSED. Deteccion de recursos idle, dashboard mensual. PR #934.
 
-**SE-303 Intent Dispatch Refactor** (8h) — PROPOSED. Micro-kernel deterministico. PR #934.
+**SE-303 Intent Dispatch Refactor** (8h) — PROPOSED. Micro-kernel deterministico, <50ms sin LLM. PR #934.
 
-**SE-307 OKF Adapter** (6h) — PROPOSED. Interoperabilidad de SaviaVaults con Open Knowledge Format v0.1 (Google Cloud): export/import de bundles OKF, conformance validator, conversion wikilinks↔markdown links. PR #940.
+**SE-305 Dynamic BATS Selection** (5h) — IMPLEMENTED (PR #936). Selector de tests basado en git diff.
+161 mappings, 15 core tests, 30% threshold. CI integrado. Reduce BATS de ~5min a <60s en PRs tipicos.
+
+**SE-307 OKF Adapter** (6h) — IMPLEMENTED (PR #940). Interoperabilidad de SaviaVaults con Open Knowledge
+Format v0.1: export/import de bundles OKF, conformance validator, conversion wikilinks↔markdown links.
+4 modulos (okf, okf-conformance, okf-export, okf-import) + 3 comandos CLI.
 
 ### Tier 2 — Infraestructura
 
-**SE-304 Automation Scheduler** — IMPLEMENTED. Scheduler asyncrono, 46 tests. PR #935.
-**SE-305 Dynamic BATS** — IMPLEMENTED. Seleccion de tests por cambio. PR #936.
-**SE-306 Agent Runtime Security** (12h) — PROPOSED. Interceptor L1-L4, Trifecta Letal. PR #938.
+**SE-304 Automation Scheduler** (10h) — IMPLEMENTED (PR #935). Scheduler asyncrono, 6 default tasks,
+46 tests. Supersede SE-279 y overnight-sprint.
+
+### Orden de ejecucion
+
+```
+SE-305 (BATS dinamicos — merge PR #936)
+  → SE-304 (scheduler — merge PR #935)  
+    → SE-306 (runtime security — critico, complementa SE-301)
+      → SE-301 (agent security graph — analisis estatico)
+        → SE-302 (cost monitor — ahorro rapido)
+          → SE-303 (intent dispatch — refactor profundo)
+```
+
+### Estado por PR
+
+| Spec | PR | Estado | Bloqueo |
+|---|---|---|---|
+| SE-305 | #936 | IMPLEMENTED, mergeado | — |
+| SE-304 | #935 | IMPLEMENTED, mergeado | — |
+| SE-299 | #937 | IMPLEMENTED, mergeado | — |
+| SE-307 | #940 | IMPLEMENTED, pendiente merge | Este PR |
+| SE-306 | #938 | PROPOSED | Pendiente CI |
+| SE-301 | #934 | PROPOSED, mergeado (spec) | Implementacion pendiente |
+| SE-302 | #934 | PROPOSED, mergeado (spec) | Implementacion pendiente |
+| SE-303 | #934 | PROPOSED, mergeado (spec) | Implementacion pendiente |
+| SE-303 | #934 | PROPOSED | PR Guardian |
 
 ---
 
 ## Estado final — 2026-08-04
 
-> Post flip masivo sesión 2026-07-02. +21 specs flipeadas a IMPLEMENTED.
+> Era 201 activa: 6 specs (2 IMPLEMENTED, 4 PROPOSED). 8 PRs abiertos.
+> SE-305 + SE-304 pendientes de merge. SE-306 + SE-301 forman defensa en profundidad.
 
-### Distribución por status
+### Distribucion por status
 
-| Status | Cantidad | % | Qué significa |
+| Status | Cantidad | % | Que significa |
 |---|---|---|---|
-| **IMPLEMENTED** | **~243** | ~77% | En producción, funcionando |
+| **IMPLEMENTED** | **~245** | ~78% | En produccion, funcionando |
 | **ARCHIVED** | **50** | ~16% | Superseded, sin caso, hardware sin plan |
-| **PROPOSED** | ~11 | ~3% | Core bloqueados + condición externa |
+| **PROPOSED** | ~15 | ~5% | Era 201 + Core bloqueados |
 | **APPROVED** | ~5 | ~2% | GPU-blocked |
 | REJECTED | 3 | 0% | Descartados con evidencia |
-| ENTERPRISE_ONLY | 1 | 0% | SE-045 |
 
 ### Core PROPOSED (9) — condiciones de desbloqueo
 
