@@ -1,5 +1,5 @@
 # planning — Savia Capability Map (L1)
-> 560 resources
+> 562 resources
 
 - **/decide-architecture** (cmd): Clasifica una tarea como WORKFLOW (deterministica) o AGENT (loop). Bias hacia workflow per Anthropic. Sugiere plantilla inicial. Mide accuracy contra corpus curado de 20 tareas.
 - **_template** (skill): TEMPLATE — copia este directorio para crear una skill nueva. NO se carga en runtime.
@@ -515,6 +515,8 @@
 - **topic-cluster** (skill): Usar cuando se agrupan retros, PBIs o incidentes en topics para detectar patrones transversales.
 - **tracked-vs-nivel** (script): tracked-vs-nivel.sh — SE-258 Slice 1
 - **trajectory-detector** (script): trajectory-detector.sh — SE-273 S6: Detección de desviación en minutos
+- **transcriptor** (cmd): Gestionar Savia Transcriptor — escanear reuniones capturadas, digerir transcripciones y capturas, marcar como digeridas.
+- **transcriptor-scan** (script): transcriptor-scan.sh — listar reuniones sin digerir de Savia Transcriptor
 - **tribunal-critic** (script): tribunal-critic.sh — SE-201: quantitative scoring for tribunal verdicts
 - **tribunal-status** (cmd): Show Truth Tribunal queue depth, recent verdicts, and pending evaluations
 - **tribunal-tiered-runner** (script): tribunal-tiered-runner.sh — SE-106: Tiered tribunal execution

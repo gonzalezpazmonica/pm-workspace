@@ -1,5 +1,5 @@
 # communication — Savia Capability Map (L1)
-> 96 resources
+> 98 resources
 
 - **archive-digest** (agent): >
 - **digest-extract** (script): digest-extract.sh — Capa 0 universal de extracción via markitdown (SE-172)
@@ -94,6 +94,8 @@
 - **savia-voice-speak** (script): savia-voice-speak.sh — SE-075 Slice 3.
 - **savia-watch** (script): savia-watch.sh — Live activity feed from Savia
 - **savia-watchdog** (script): savia-watchdog.sh — Emergency fallback: detect internet loss, activate local LLM
+- **transcriptor-digest** (skill): Usar cuando se detectan carpetas nuevas en el directorio de reuniones del transcriptor o se quiere digerir transcripciones y capturas de reuniones capturadas por Savia Transcriptor. Triggers: digerir reuniones, transcriptor, reuniones nueva
+- **transcriptor-mark-digested** (script): transcriptor-mark-digested.sh — marcar una reunion como digerida
 - **voice-inbox** (skill): Usar cuando se procesan mensajes de voz para transcribirlos y convertirlos en acciones.
 - **word-digest** (agent): >
 - **zeroclaw-meeting** (cmd): Live meeting transcription via ZeroClaw — speaker diarization, voice identification, and digest.
