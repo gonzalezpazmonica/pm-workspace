@@ -1267,6 +1267,10 @@ Grafo de delegacion multi-agente con firma criptografica. PR #938.
 **SE-305 Dynamic BATS Selection** (5h) — IMPLEMENTED (PR #936). Selector de tests basado en git diff.
 161 mappings, 15 core tests, 30% threshold. CI integrado. Reduce BATS de ~5min a <60s en PRs tipicos.
 
+**SE-307 OKF Adapter** (6h) — IMPLEMENTED (PR #940). Interoperabilidad de SaviaVaults con Open Knowledge
+Format v0.1: export/import de bundles OKF, conformance validator, conversion wikilinks↔markdown links.
+4 modulos (okf, okf-conformance, okf-export, okf-import) + 3 comandos CLI.
+
 ### Tier 2 — Infraestructura
 
 **SE-304 Automation Scheduler** (10h) — IMPLEMENTED (PR #935). Scheduler asyncrono, 6 default tasks,
@@ -1287,11 +1291,14 @@ SE-305 (BATS dinamicos — merge PR #936)
 
 | Spec | PR | Estado | Bloqueo |
 |---|---|---|---|
-| SE-305 | #936 | IMPLEMENTED, CI failing | BATS 2>&1 fix pendiente verificar |
-| SE-304 | #935 | IMPLEMENTED, CI failing | PR Guardian + Signature |
-| SE-306 | #938 | PROPOSED | Recien creado |
-| SE-301 | #934 | PROPOSED | PR Guardian |
-| SE-302 | #934 | PROPOSED | PR Guardian |
+| SE-305 | #936 | IMPLEMENTED, mergeado | — |
+| SE-304 | #935 | IMPLEMENTED, mergeado | — |
+| SE-299 | #937 | IMPLEMENTED, mergeado | — |
+| SE-307 | #940 | IMPLEMENTED, pendiente merge | Este PR |
+| SE-306 | #938 | PROPOSED | Pendiente CI |
+| SE-301 | #934 | PROPOSED, mergeado (spec) | Implementacion pendiente |
+| SE-302 | #934 | PROPOSED, mergeado (spec) | Implementacion pendiente |
+| SE-303 | #934 | PROPOSED, mergeado (spec) | Implementacion pendiente |
 | SE-303 | #934 | PROPOSED | PR Guardian |
 
 ---

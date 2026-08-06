@@ -240,7 +240,7 @@ export class MCPVaultServer {
         { name: 'vault_introspect', description: 'Discover entity types, coverage, and available properties.', inputSchema: { type: 'object', properties: { vault: { type: 'string' }, entity: { type: 'string' } } } },
         { name: 'vault_graph', description: 'Query knowledge graph: traverse, search, or get stats.', inputSchema: { type: 'object', properties: { vault: { type: 'string' }, action: { type: 'string' }, id: { type: 'string' }, depth: { type: 'number' }, query: { type: 'string' } }, required: ['action'] } },
         { name: 'vault_query', description: 'Deterministic dotted-notation query for entities.', inputSchema: { type: 'object', properties: { vault: { type: 'string' }, expression: { type: 'string' } }, required: ['expression'] } },
-        { name: 'vault_health', description: 'Quality report: coverage, provenance, conflicts, freshness.', inputSchema: { type: 'object', properties: { vault: { type: 'string' } } } 
+        { name: 'vault_health', description: 'Quality report: coverage, provenance, conflicts, freshness.', inputSchema: { type: 'object', properties: { vault: { type: 'string' } } } },
         {
           name: 'vault_wikilink_health',
           description: 'Report wikiLink health: total links, valid links, broken links, and most-linked entities.',
@@ -251,7 +251,6 @@ export class MCPVaultServer {
             },
           },
         },
-},
       ],
     }));
 
@@ -286,7 +285,7 @@ export class MCPVaultServer {
             let backlinks: Array<{ source: string; context: string }> | undefined;
             let outgoingLinks: string[] | undefined;
             try {
-              const { resolveBacklinks, extractWikiLinks } = await import('../../knowledge/wikilink-validator.js');
+              const { resolveBacklinks, extractWikiLinks } = await import('../knowledge/wikilink-validator.js');
               const allNotes = await inst.storage.list();
               const allContents: Array<{ path: string; content: string }> = [];
               for (const notePath of allNotes.slice(0, 200)) {
@@ -423,7 +422,7 @@ export class MCPVaultServer {
             const dome = this.getDomeName(args.vault as string | undefined);
             try { await this.authorize(dome, 'read', 'vault_wikilink_health'); } catch (e) { if (e instanceof AuthError) return { content: [{ type: 'text', text: `Error: ${e.message}` }], isError: true }; throw e; }
             try {
-              const { computeWikiLinkHealth, buildEntityIndex } = await import('../../knowledge/wikilink-validator.js');
+              const { computeWikiLinkHealth, buildEntityIndex } = await import('../knowledge/wikilink-validator.js');
               const allNotes = await inst.storage.list();
               const notes: Array<{ path: string; content: string; frontmatter: Record<string, unknown> }> = [];
               for (const notePath of allNotes.slice(0, 500)) {
