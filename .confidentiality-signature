@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=fe91531ff912d56e4bf3c604e876c612863c63bb2ec8dc64ae3a22f486734d81
-timestamp=2026-08-06T07:50:08Z
-branch=hotfix/auto-label-fork-prs
-head_commit=c836946b
-signature=71ccf94b25c3a3276d9ca314a37f7fbacf745b800ba5e01bd91e447eec44b5ba
+diff_hash=b99a03cd0ebc2a13d337063e646f88ac5854d84df37eff8355bcc07e2f422bf5
+timestamp=2026-08-06T20:42:59Z
+branch=hotfix-tmp
+head_commit=0fd9123b
+signature=2bab41a9c06a5123fdfb1034748b40969b447b9c6ec67c63a3141b949fb9f9dd
