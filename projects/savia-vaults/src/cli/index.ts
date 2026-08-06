@@ -194,6 +194,57 @@ program.command('export').description('Export vault to portable format')
     console.log(`Exported ${files.length} notes to ${outputDir}`);
   });
 
+// OKF interop commands (SE-307)
+program.command('okf-conformance').description('Check vault conformance with Open Knowledge Format v0.1')
+  .option('-p, --path <path>', 'Vault path', process.cwd())
+  .action(async (opts) => {
+    const config = makeConfig('vault', opts.path);
+    const storage = new VaultStorage(config);
+    const { checkOkfConformance } = await import('../knowledge/okf-conformance.js');
+    const report = await checkOkfConformance(storage, opts.path);
+    console.log(`OKF Conformance: ${report.conformant ? 'CONFORMANT' : 'NON-CONFORMANT'} (${report.noteCount} notes)`);
+    for (const v of report.violations) console.log(`  VIOLATION: ${v}`);
+    for (const w of report.warnings) console.log(`  warning: ${w}`);
+    if (!report.conformant) process.exit(1);
+  });
+
+program.command('okf-export').description('Export vault as OKF v0.1 bundle')
+  .option('-p, --path <path>', 'Vault path', process.cwd())
+  .option('-o, --output <dir>', 'Output directory')
+  .option('--no-index', 'Skip index.md files')
+  .option('--no-log', 'Skip log.md files')
+  .action(async (opts) => {
+    const config = makeConfig('vault', opts.path);
+    const storage = new VaultStorage(config);
+    const outputDir = opts.output || `${opts.path}-okf-export`;
+    const { exportOkfBundle } = await import('../knowledge/okf-export.js');
+    const result = await exportOkfBundle(storage, outputDir, {
+      includeIndexFiles: opts.index !== false,
+      includeLogFiles: opts.log !== false,
+    });
+    console.log(`Exported ${result.exported} notes to ${outputDir}`);
+    for (const s of result.skipped) console.log(`  skipped: ${s}`);
+  });
+
+program.command('okf-import').description('Import an OKF v0.1 bundle into the vault')
+  .option('-p, --path <path>', 'Vault path', process.cwd())
+  .option('-s, --source <dir>', 'Source bundle directory', '')
+  .option('--strip-prefix <prefix>', 'Strip path prefix from imported notes', '')
+  .option('--force', 'Overwrite existing notes', false)
+  .action(async (opts) => {
+    if (!opts.source) { console.error('ERROR: --source is required'); process.exit(1); }
+    const config = makeConfig('vault', opts.path);
+    const storage = new VaultStorage(config);
+    const { importOkfBundle } = await import('../knowledge/okf-import.js');
+    const result = await importOkfBundle(storage, {
+      sourceDir: opts.source,
+      stripPrefix: opts.stripPrefix || undefined,
+      force: opts.force,
+    });
+    console.log(`Imported ${result.imported} notes`);
+    for (const r of result.rejected) console.log(`  rejected: ${r}`);
+  });
+
 // Federate commands
 const federateCmd = program.command('federate').description('Manage federated domes');
 federateCmd.command('add <id> <url>').description('Register a remote dome')
