@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
 """
-tabular-profile.py — Statistical profiling for tabular data.
+tabular-profile.py — Statistical profiling for tabular data (SE-296 + SE-297).
 
-Reads CSV/TSV/JSON from stdin or file, produces a JSON summary with:
+Reads CSV/TSV/JSON from stdin or file, and .xlsx via optional openpyxl, and
+produces a JSON summary with:
 - Column types (numeric, categorical, datetime, text)
 - Descriptive statistics (mean, median, std, quartiles for numeric)
 - Top values for categorical
@@ -10,11 +11,19 @@ Reads CSV/TSV/JSON from stdin or file, produces a JSON summary with:
 - Outlier detection (IQR method)
 - Correlation matrix for numeric columns
 - Token savings estimate
+- [SE-297] Relations: candidate shared-key columns across tables (deterministic)
 
 Usage:
   cat data.csv | python3 tabular-profile.py
   python3 tabular-profile.py data.csv
   python3 tabular-profile.py --sample 5000 data.csv
+  python3 tabular-profile.py ventas.xlsx              # one profile per sheet
+  python3 tabular-profile.py a.csv b.csv              # relations across files
+
+Output format:
+- Single table -> flat: {rows, columns, profiles, correlations, token_estimate}
+  (backward compatible with SE-296 consumers).
+- Multiple tables (multi-sheet xlsx or several files) -> {tables, relations}.
 """
 import sys, json, csv, io, math, os
 from collections import Counter
@@ -22,6 +31,12 @@ from datetime import datetime
 
 MAX_SAMPLE = 10_000
 TOKEN_BUDGET = 200
+RELATION_SAMPLE = 2_000  # SE-297: cap de valores unicos por columna (AC-2.4)
+
+
+class ExcelUnsupported(RuntimeError):
+    """Raised when an .xlsx file is requested but openpyxl is not installed."""
+
 
 def detect_type(values, count):
     """Classify column as numeric, categorical, datetime, or text."""
@@ -183,28 +198,86 @@ def correlation(xs, ys):
     return round(num / (dx * dy), 3)
 
 
-def read_data(source, sample_size):
-    """Read tabular data from stdin, file, or string."""
-    if source in ("-", "", None) or source.startswith("{"):
-        text = source if source and source not in ("-", "") else sys.stdin.read()
-        if text.strip().startswith("["):
-            records = json.loads(text)
-            return records if sample_size is None else records[:sample_size]
-        reader = csv.DictReader(io.StringIO(text))
-        rows = list(reader)
-        return rows if sample_size is None else rows[:sample_size]
+def read_xlsx(path, sample_size):
+    """Read an .xlsx workbook: one table per sheet. SE-297.
 
-    path = source
-    ext = os.path.splitext(path)[1].lower()
-    with open(path, newline="") as f:
-        if ext == ".json":
-            data = json.load(f)
-            if isinstance(data, list):
-                return data[:sample_size] if sample_size else data
-            return data
-        reader = csv.DictReader(f)
-        rows = list(reader)
-        return rows[:sample_size] if sample_size else rows
+    Requires openpyxl (optional dependency). Uses data_only=True so formula
+    cells yield their cached computed values, not the formula text (AC-1.2).
+    Raises ExcelUnsupported if openpyxl is missing (AC-1.4).
+    """
+    try:
+        import openpyxl
+    except ImportError:
+        raise ExcelUnsupported(
+            "Excel no soportado en este entorno: falta openpyxl"
+        )
+
+    wb = openpyxl.load_workbook(path, read_only=True, data_only=True)
+    tables = []
+    try:
+        for ws in wb.worksheets:
+            rows_iter = ws.iter_rows(values_only=True)
+            header = next(rows_iter, None)
+            if header is None:
+                continue
+            cols = [str(h).strip() if h is not None else f"col{i+1}"
+                    for i, h in enumerate(header)]
+            data = []
+            for row in rows_iter:
+                if all(c is None for c in row):
+                    continue
+                data.append({cols[i]: (row[i] if i < len(row) else None)
+                             for i in range(len(cols))})
+                if sample_size and len(data) >= sample_size:
+                    break
+            if data:
+                tables.append({"name": ws.title or "Sheet", "rows": data})
+    finally:
+        wb.close()
+    return tables
+
+
+def read_tables(sources, sample_size):
+    """Read one or more sources into a list of {name, rows, source, sheet?}."""
+    tables = []
+    for source in sources:
+        if source in ("-", "", None):
+            text = source if source and source not in ("-", "") else sys.stdin.read()
+            if text.strip().startswith("["):
+                records = json.loads(text)
+                rows = records if sample_size is None else records[:sample_size]
+                tables.append({"name": "stdin", "rows": rows, "source": "-"})
+            else:
+                reader = csv.DictReader(io.StringIO(text))
+                rows = list(reader)
+                if sample_size is not None:
+                    rows = rows[:sample_size]
+                tables.append({"name": "stdin", "rows": rows, "source": "-"})
+            continue
+
+        ext = os.path.splitext(source)[1].lower()
+        if ext in (".xlsx", ".xlsm"):
+            for t in read_xlsx(source, sample_size):
+                t["source"] = source
+                t["sheet"] = t["name"]
+                tables.append(t)
+        elif ext == ".json":
+            with open(source, encoding="utf-8") as f:
+                data = json.load(f)
+            if isinstance(data, dict):
+                data = [data]
+            rows = data[:sample_size] if sample_size else data
+            tables.append({"name": os.path.basename(source),
+                           "rows": rows, "source": source})
+        else:
+            with open(source, newline="", encoding="utf-8") as f:
+                reader = csv.DictReader(f)
+                rows = list(reader)
+            if sample_size:
+                rows = rows[:sample_size]
+            tables.append({"name": os.path.basename(source),
+                           "rows": rows, "source": source})
+    return tables
 
 
 def estimate_tokens(rows):
@@ -218,28 +291,8 @@ def estimate_tokens(rows):
     }
 
 
-def main():
-    sample = MAX_SAMPLE
-    source = "-"
-
-    args = sys.argv[1:]
-    i = 0
-    while i < len(args):
-        if args[i] == "--sample" and i + 1 < len(args):
-            sample = int(args[i + 1])
-            i += 2
-        elif args[i] == "--help" or args[i] == "-h":
-            print("Usage: tabular-profile.py [--sample N] [file.csv]")
-            return 0
-        else:
-            source = args[i]
-            i += 1
-
-    rows = read_data(source, min(sample, MAX_SAMPLE))
-    if not rows:
-        print(json.dumps({"error": "no data found"}))
-        return 1
-
+def profile_table(name, rows, source=None, sheet=None):
+    """Compute the flat statistical profile for a single table."""
     columns = list(rows[0].keys()) if rows else []
     column_data = {c: [row.get(c) for row in rows] for c in columns}
     n = len(rows)
@@ -277,15 +330,78 @@ def main():
                 corrs.append({"col1": a, "col2": b, "coefficient": c})
 
     result = {
+        "name": name,
         "rows": n,
         "columns": len(columns),
         "profiles": profiles,
         "correlations": sorted(corrs, key=lambda x: -abs(x["coefficient"]))[:10],
         "token_estimate": estimate_tokens(rows),
     }
+    if source:
+        result["source"] = source
+    if sheet:
+        result["sheet"] = sheet
+    return result
 
-    print(json.dumps(result, ensure_ascii=False, indent=2))
-    return 0
+
+def _norm(col):
+    return str(col).strip().lower()
+
+
+def _unique_values(rows, col, cap):
+    """Capped set of unique non-empty string values for a column (AC-2.4)."""
+    vals = set()
+    for row in rows:
+        v = row.get(col)
+        if v is None or not str(v).strip():
+            continue
+        vals.add(str(v).strip())
+        if len(vals) >= cap:
+            break
+    return vals
+
+
+def detect_relations(tables):
+    """Detect candidate shared-key columns between tables. SE-297 (Slice 2).
+
+    Deterministic: candidate = same normalized column name AND value overlap
+    > 0. Cost is O(n*m) over capped unique values per column (AC-2.4).
+    Returns a list sorted for reproducibility (AC-2.3).
+    """
+    col_values = []
+    for t in tables:
+        if not t["rows"]:
+            col_values.append({})
+            continue
+        cols = {}
+        for col in list(t["rows"][0].keys()):
+            cols[col] = _unique_values(t["rows"], col, RELATION_SAMPLE)
+        col_values.append(cols)
+
+    relations = []
+    for i in range(len(tables)):
+        for j in range(i + 1, len(tables)):
+            ta, tb = tables[i], tables[j]
+            for ca in col_values[i]:
+                if _norm(ca) not in {_norm(cb) for cb in col_values[j]}:
+                    continue
+                for cb in col_values[j]:
+                    if _norm(ca) != _norm(cb):
+                        continue
+                    inter = len(col_values[i][ca] & col_values[j][cb])
+                    if inter == 0:
+                        continue
+                    denom = min(len(col_values[i][ca]), len(col_values[j][cb]))
+                    overlap = round(100.0 * inter / denom, 1) if denom else 0.0
+                    relations.append({
+                        "table_a": ta["name"], "column_a": ca,
+                        "table_b": tb["name"], "column_b": cb,
+                        "overlap_pct": overlap,
+                    })
+
+    relations.sort(key=lambda r: (r["table_a"], r["column_a"],
+                                  r["table_b"], r["column_b"]))
+    return relations
 
 
 def _is_numeric(v):
@@ -294,6 +410,54 @@ def _is_numeric(v):
         return True
     except (ValueError, TypeError):
         return False
+
+
+def main():
+    sample = MAX_SAMPLE
+    sources = []
+
+    args = sys.argv[1:]
+    i = 0
+    while i < len(args):
+        if args[i] == "--sample" and i + 1 < len(args):
+            sample = int(args[i + 1])
+            i += 2
+        elif args[i] == "--help" or args[i] == "-h":
+            print("Usage: tabular-profile.py [--sample N] [file1.csv|file1.xlsx ...]")
+            return 0
+        else:
+            sources.append(args[i])
+            i += 1
+
+    if not sources:
+        sources = ["-"]
+
+    cap = min(sample, MAX_SAMPLE)
+    try:
+        tables = read_tables(sources, cap)
+    except ExcelUnsupported as exc:
+        print(json.dumps({"error": str(exc), "fallback": "raw"}))
+        return 1
+
+    tables = [t for t in tables if t["rows"]]
+    if not tables:
+        print(json.dumps({"error": "no data found"}))
+        return 1
+
+    profiled = [profile_table(t["name"], t["rows"], t.get("source"),
+                              t.get("sheet")) for t in tables]
+
+    if len(profiled) == 1:
+        flat = {k: v for k, v in profiled[0].items() if k != "name"}
+        print(json.dumps(flat, ensure_ascii=False, indent=2))
+        return 0
+
+    result = {
+        "tables": profiled,
+        "relations": detect_relations(tables),
+    }
+    print(json.dumps(result, ensure_ascii=False, indent=2))
+    return 0
 
 
 if __name__ == "__main__":
