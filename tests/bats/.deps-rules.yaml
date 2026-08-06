@@ -9,13 +9,13 @@ rules:
     tests:
       - test-se-098-agents-size.bats
       - test-se-099-agents-split.bats
-      - test-se-253-agent-sync.bats
-      - test-se-253-dispatcher.bats
+      - test-se253-agent-sync.bats
+      - test-se253-dispatcher.bats
 
   - dir: ".opencode/skills/"
     tests:
       - test-se-210-skill-antipatterns.bats
-      - test-se-253-command-tiers.bats
+      - test-se253-command-tiers.bats
 
   - dir: "docs/rules/domain/"
     tests:
@@ -35,7 +35,7 @@ rules:
 
   - dir: ".opencode/hooks/"
     tests:
-      - test-se-253-hooks-coverage.bats
+      - test-se253-hooks-coverage.bats
 
   - dir: "docs/"
     tests:
@@ -45,4 +45,4 @@ rules:
   - file: ".claude/settings.json"
     tests:
       - test-opencode-config-validate.bats
-      - test-se-253-hooks-coverage.bats
+      - test-se253-hooks-coverage.bats
