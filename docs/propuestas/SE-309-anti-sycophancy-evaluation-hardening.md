@@ -193,7 +193,7 @@ caller supplies result JSONL, but cannot block native frontend final output.
 Any future pre-delivery integration requires a new spec after an upstream event
 is documented and integration-tested.
 
-## 8. OpenCode Implementation Plan
+## OpenCode Implementation Plan
 
 ### Bindings touched
 
