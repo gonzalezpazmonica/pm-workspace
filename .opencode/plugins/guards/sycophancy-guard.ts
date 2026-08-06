@@ -8,7 +8,6 @@
 // Mode:          SAVIA_ANTIADULATION_LAYER1 (shadow|warn|block, default shadow)
 //
 // Pattern source: scripts/anti-adulation/regex-patterns.json (canonical)
-// Inline subset here for zero-dependency runtime in test/CI environments.
 //
 // Reference: SPEC-150 Slice 2 (sycophancy plugin migration)
 // Reference: SPEC-192 (anti-adulation system)
@@ -20,27 +19,33 @@
 // migrated as Slice 2. The bash hook remains as Layer 1 fallback.
 
 import { extractToolName, type ToolInput, type ToolOutput } from "../lib/hook-input.ts";
+import { readFileSync } from "node:fs";
+import { fileURLToPath } from "node:url";
 
-// ── Inline pattern subset (obvious category, start-of-response position) ─────
-// Kept in sync with scripts/anti-adulation/regex-patterns.json "obvious" array.
-// These are the patterns that trigger in mode=block when position < 50.
-const OBVIOUS_PATTERNS: RegExp[] = [
-  /^\s*(buena|excelente|gran|magn[ií]fica)\s+(pregunta|punto|idea|observaci[oó]n)/i,
-  /^\s*tienes\s+(toda\s+la\s+)?raz[oó]n/i,
-  /^\s*absolutamente,?\s/i,
-  /^\s*por\s+supuesto,?\s/i,
-  /^\s*claro\s+que\s+s[ií],?\s/i,
-  /^\s*me\s+parece\s+(genial|fant[aá]stico|excelente|brillante)/i,
-  /^\s*great\s+(question|point|idea|observation)/i,
-  /^\s*you'?re\s+(absolutely\s+)?right/i,
-  /^\s*excellent\s+(question|point|idea)/i,
-  /^\s*absolutely,?\s/i,
-  /^\s*of\s+course,?\s/i,
-  /^\s*good\s+(question|point|idea)/i,
-  /^\s*entiendo\s+tu\s+(preocupaci[oó]n|punto)/i,
-  /^\s*comprendo\s+(perfectamente|tu)/i,
-  /^\s*estoy\s+totalmente\s+de\s+acuerdo/i,
-];
+const DEFAULT_PATTERN_PATH = fileURLToPath(
+  new URL("../../../scripts/anti-adulation/regex-patterns.json", import.meta.url),
+);
+
+/** Loads the canonical obvious-pattern set and fails closed on invalid data. */
+export function loadObviousPatterns(path = DEFAULT_PATTERN_PATH): RegExp[] {
+  let parsed: unknown;
+  try {
+    parsed = JSON.parse(readFileSync(path, "utf8"));
+  } catch (error) {
+    throw new Error(`Cannot load canonical anti-adulation patterns from ${path}: ${String(error)}`);
+  }
+  const obvious = (parsed as { obvious?: unknown })?.obvious;
+  if (!Array.isArray(obvious) || obvious.length === 0 || obvious.some((value) => typeof value !== "string")) {
+    throw new Error(`Canonical anti-adulation patterns at ${path} require a non-empty string array "obvious"`);
+  }
+  try {
+    return obvious.map((pattern) => new RegExp(pattern, "i"));
+  } catch (error) {
+    throw new Error(`Invalid canonical anti-adulation regex in ${path}: ${String(error)}`);
+  }
+}
+
+const OBVIOUS_PATTERNS = loadObviousPatterns();
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 export interface SycophancyMatch {

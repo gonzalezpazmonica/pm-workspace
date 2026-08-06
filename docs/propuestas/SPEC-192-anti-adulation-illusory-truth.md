@@ -10,6 +10,13 @@ timeline:
 ---
 # SPEC-192 — Anti-Adulation & Illusory Truth Defense
 
+> **Correccion de alcance (SE-309, 2026-08-06):** la afirmacion de que estas
+> capas actuan secuencialmente sobre cada draft antes de entregarlo queda
+> supersedida. Los hooks actuales inspeccionan outputs de herramientas o
+> subagentes, y el tribunal no esta activado universalmente. No existe un evento
+> pre-entrega fiable para la respuesta final nativa. SE-309 aporta medicion
+> contrafactual y endurece contratos, pero no promete bloqueo end-to-end.
+
 > **Priority:** P0 · **Estimate (human):** 3-4d · **Estimate (agent):** 4-6h · **Category:** standard · **Type:** infrastructure
 
 > **Dual estimate**: 3-4 días humano end-to-end (3 jueces nuevos + hook regex + skill nueva + modificación de 2 reglas + tests). 4-6 horas agente con pipeline supervisado. Fórmula `agent_hours ≈ human_days` aplica al ser standard. Detalle en `@docs/rules/domain/dual-estimation.md`.
