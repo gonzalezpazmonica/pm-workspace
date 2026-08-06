@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=620262a6f721e1057103c6da160a39c9dd01349302568c64d32074e41cfa5c91
-timestamp=2026-08-06T01:28:00Z
-branch=se307-okf-adapter
-head_commit=74925f7b
-signature=2199e08b08407909a5fcf3c6329505a4a1c5086d049238aae39273c9141bc94f
+diff_hash=c1df237d3f50a6f2ed1211b4cb45c3becae0d8747982c0e90ecd3fdb49de99da
+timestamp=2026-08-06T01:29:48Z
+branch=se308-transcriptor
+head_commit=eac59152
+signature=6cfe58dd34160f9e92e7974ffa7aa26b5a78ca86064f429ae0442a09de19778d
