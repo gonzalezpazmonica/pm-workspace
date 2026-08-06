@@ -1,6 +1,6 @@
 {
-  "hash": "ea91c676f8b5",
-  "total": 1329,
+  "hash": "8e17e1a24d22",
+  "total": 1333,
   "resources": [
     {
       "category": "analysis",
@@ -2054,6 +2054,34 @@
       "kind": "script",
       "path": "scripts/savia-watchdog.sh",
       "description": "savia-watchdog.sh — Emergency fallback: detect internet loss, activate local LLM"
+    },
+    {
+      "category": "communication",
+      "name": "transcriptor-digest",
+      "intents": [
+        "capturadas",
+        "capturas",
+        "carpetas",
+        "detectan",
+        "digerir"
+      ],
+      "kind": "skill",
+      "path": ".claude/skills/transcriptor-digest/SKILL.md",
+      "description": "Usar cuando se detectan carpetas nuevas en el directorio de reuniones del transcriptor o se quiere digerir transcripciones y capturas de reuniones capturadas por Savia Transcriptor. Triggers: digerir reuniones, transcriptor, reuniones nueva"
+    },
+    {
+      "category": "communication",
+      "name": "transcriptor-mark-digested",
+      "intents": [
+        "digerida",
+        "digested",
+        "marcar",
+        "mark",
+        "reunion"
+      ],
+      "kind": "script",
+      "path": "scripts/transcriptor-mark-digested.sh",
+      "description": "transcriptor-mark-digested.sh — marcar una reunion como digerida"
     },
     {
       "category": "communication",
@@ -13505,6 +13533,34 @@
       "kind": "script",
       "path": "scripts/trajectory-detector.sh",
       "description": "trajectory-detector.sh — SE-273 S6: Detección de desviación en minutos"
+    },
+    {
+      "category": "planning",
+      "name": "transcriptor",
+      "intents": [
+        "capturadas",
+        "capturas",
+        "digeridas",
+        "digerir",
+        "escanear"
+      ],
+      "kind": "cmd",
+      "path": ".claude/commands/transcriptor.md",
+      "description": "Gestionar Savia Transcriptor — escanear reuniones capturadas, digerir transcripciones y capturas, marcar como digeridas."
+    },
+    {
+      "category": "planning",
+      "name": "transcriptor-scan",
+      "intents": [
+        "digerir",
+        "listar",
+        "reuniones",
+        "savia",
+        "scan"
+      ],
+      "kind": "script",
+      "path": "scripts/transcriptor-scan.sh",
+      "description": "transcriptor-scan.sh — listar reuniones sin digerir de Savia Transcriptor"
     },
     {
       "category": "planning",

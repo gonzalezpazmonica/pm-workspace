@@ -1,0 +1,132 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 20
+    env:
+      # Qt without a display server (UiEventBridge tests create a QCoreApplication)
+      QT_QPA_PLATFORM: offscreen
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install system dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            libportaudio2 libasound2 \
+            libgl1-mesa-dev libegl1-mesa-dev libxkbcommon0 libfontconfig1 \
+            libdbus-1-3 libxcb-xinerama0 libxcb-cursor0 libxcb-shape0 \
+            libxcb-icccm4 libxcb-keysyms1 libxcb-render-util0 libxcb-image0 \
+            libnss3
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'pnpm'
+
+      - name: Install Node dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Setup uv
+        uses: astral-sh/setup-uv@v4
+        with:
+          enable-cache: true
+          cache-dependency-glob: 'uv.lock'
+
+      - name: Setup Python environment
+        run: |
+          uv python install 3.12
+          uv venv --python 3.12 .venv
+          uv sync
+
+      - name: Version consistency
+        run: node scripts/version.mjs check
+
+      - name: Lint
+        run: pnpm run lint
+
+      - name: Typecheck
+        run: pnpm run typecheck
+
+      - name: Backend tests
+        # test_transcription is excluded — it downloads a whisper model.
+        # Clipboard tests self-skip headless (no DISPLAY/WAYLAND_DISPLAY).
+        run: uv run -p .venv pytest src-pyloid/tests/ -q --ignore=src-pyloid/tests/test_transcription.py
+
+  # Build verification without installers — catches PyInstaller spec drift
+  # (new modules/data files not bundled) before it surfaces on a release tag.
+  # Runs in parallel with `test` so test feedback isn't delayed. Free on
+  # public repos; no artifacts uploaded (dist/ is hundreds of MB and the
+  # release workflow's workflow_dispatch covers "build me this branch").
+  build:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 25
+    env:
+      QT_QPA_PLATFORM: offscreen
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install system dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            libgl1-mesa-dev libegl1-mesa-dev libxkbcommon0 libfontconfig1 \
+            libdbus-1-3 libxcb-xinerama0 libxcb-cursor0 libxcb-shape0 \
+            libxcb-icccm4 libxcb-keysyms1 libxcb-render-util0 libxcb-image0 \
+            libnss3 libasound2
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'pnpm'
+
+      - name: Install Node dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Setup uv
+        uses: astral-sh/setup-uv@v4
+        with:
+          enable-cache: true
+          cache-dependency-glob: 'uv.lock'
+
+      - name: Setup Python environment
+        run: |
+          uv python install 3.12
+          uv venv --python 3.12 .venv
+          uv sync
+
+      - name: Build application
+        run: pnpm run build
+
+      - name: Smoke test - binary exists and shared libraries resolve
+        run: |
+          test -x ./dist/VoiceFlow/VoiceFlow || { echo "::error::dist/VoiceFlow/VoiceFlow missing or not executable"; exit 1; }
+          MISSING=$(ldd ./dist/VoiceFlow/VoiceFlow 2>&1 | grep "not found" || true)
+          if [ -n "$MISSING" ]; then
+            echo "::error::Missing shared libraries:"
+            echo "$MISSING"
+            exit 1
+          fi
+          echo "Build OK: $(du -sh dist/VoiceFlow | cut -f1) bundle, all shared libraries resolved."

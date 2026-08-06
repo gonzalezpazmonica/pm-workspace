@@ -1,0 +1,13 @@
+#!/bin/bash
+# AppImage entry point for VoiceFlow
+HERE="$(dirname "$(readlink -f "$0")")"
+
+# On Wayland sessions, prefer native Wayland with XCB fallback.
+# Honor any value the user has already set. Native Wayland is needed for the
+# Hyprland windowrulev2 dock-positioning of the floating recording popup; the
+# XCB fallback covers compositors where the Wayland plugin fails to init.
+if [ -z "$QT_QPA_PLATFORM" ] && [ "$XDG_SESSION_TYPE" = "wayland" ]; then
+    export QT_QPA_PLATFORM="wayland;xcb"
+fi
+
+exec "$HERE/VoiceFlow" "$@"

@@ -1,6 +1,6 @@
 # Savia Capability Map — INDEX
-> hash: d4311d020fb1 | resources: 1329
-> 290 commands · 125 skills · 83 agents · 831 scripts
+> hash: 0caa92da42c9 | resources: 1333
+> 291 commands · 126 skills · 83 agents · 833 scripts
 
 [analysis] Trace Optimize — across,distributed,optimize,rates,sampling — cmd:.claude/commands/trace-optimize.md
 [analysis] agent-activity — activity,agent,executions,recent,show — cmd:.claude/commands/agent-activity.md
@@ -163,6 +163,8 @@
 [communication] savia-voice-speak — savia,slice,speak,voice — script:scripts/savia-voice-speak.sh
 [communication] savia-watch — activity,feed,live,savia,watch — script:scripts/savia-watch.sh
 [communication] savia-watchdog — activate,detect,emergency,fallback,internet — script:scripts/savia-watchdog.sh
+[communication] transcriptor-digest — capturadas,capturas,carpetas,detectan,digerir — skill:.claude/skills/transcriptor-digest/SKILL.md
+[communication] transcriptor-mark-digested — digerida,digested,marcar,mark,reunion — script:scripts/transcriptor-mark-digested.sh
 [communication] voice-inbox — acciones,convertirlos,mensajes,procesan,transcribirlos — skill:.claude/skills/voice-inbox/SKILL.md
 [communication] word-digest —  — agent:.opencode/agents/word-digest.md
 [communication] zeroclaw-meeting — diarization,digest,identification,live,meeting — cmd:.claude/commands/zeroclaw-meeting.md
@@ -1028,6 +1030,8 @@
 [planning] topic-cluster — agrupan,detectar,incidentes,patrones,pbis — skill:.claude/skills/topic-cluster/SKILL.md
 [planning] tracked-vs-nivel — nivel,slice,tracked — script:scripts/tracked-vs-nivel.sh
 [planning] trajectory-detector — desviación,detección,detector,minutos,trajectory — script:scripts/trajectory-detector.sh
+[planning] transcriptor — capturadas,capturas,digeridas,digerir,escanear — cmd:.claude/commands/transcriptor.md
+[planning] transcriptor-scan — digerir,listar,reuniones,savia,scan — script:scripts/transcriptor-scan.sh
 [planning] tribunal-critic — critic,quantitative,scoring,tribunal,verdicts — script:scripts/tribunal-critic.sh
 [planning] tribunal-status — depth,evaluations,pending,queue,recent — cmd:.claude/commands/tribunal-status.md
 [planning] tribunal-tiered-runner — execution,runner,tiered,tribunal — script:scripts/tribunal-tiered-runner.sh

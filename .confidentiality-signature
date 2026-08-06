@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=bf98fc4c10d0d4d12eddbf0944af62d43aa1d67992c46d269107281d0d8e4d12
-timestamp=2026-08-06T02:26:53Z
-branch=roadmaps-era201
-head_commit=755c90b2
-signature=199fd2dd191b2cf21242653bcab7af7435e4db1b88f22b4a378a81479ac8d119
+diff_hash=aedaaa38b401d6ac826fd86f20c00aad4ae60cbbf30a345176975672cb93a937
+timestamp=2026-08-06T02:39:59Z
+branch=se308-transcriptor
+head_commit=f17284b7
+signature=fe54bbc55c8f38e5f9152f43067467ee92c3e112e33fd9b32609f69571870894

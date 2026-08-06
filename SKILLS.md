@@ -148,6 +148,7 @@ To use a skill: read `<path>` and follow its instructions.
 | time-tracking-report | `.opencode/skills/time-tracking-report/SKILL.md` | Usar cuando se generan informes de imputación de horas en Excel o Word. |
 | tls-security-checker | `.opencode/skills/tls-security-checker/SKILL.md` | Usar cuando se verifica TLS/SSL o security headers HTTP de un servidor web. Invocable pre-deploy ... |
 | topic-cluster | `.opencode/skills/topic-cluster/SKILL.md` | Usar cuando se agrupan retros, PBIs o incidentes en topics para detectar patrones transversales. |
+| transcriptor-digest | `.opencode/skills/transcriptor-digest/SKILL.md` | Usar cuando se detectan carpetas nuevas en el directorio de reuniones del transcriptor o se quier... |
 | ubiquitous-language | `.opencode/skills/ubiquitous-language/SKILL.md` | Usar cuando se necesita extraer o consolidar el glosario de términos de dominio de un proyecto. ... |
 | understand-anything | `.opencode/skills/understand-anything/SKILL.md` | Usar cuando se necesita analizar un codebase con Understand-Anything para generar knowledge graph... |
 | verification-lattice | `.opencode/skills/verification-lattice/SKILL.md` | Usar cuando se necesita verificación multi-capa más allá del code review estándar. |
