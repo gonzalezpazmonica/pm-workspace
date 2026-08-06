@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=12a6a9f75f317e5dec23742a0ba46b7c81fdb0ad4cd4239eee304efb6c979d61
-timestamp=2026-08-06T00:19:22Z
+diff_hash=0a27898005645e567db78e78a90683afb2a75c5f3f5edf933e083a2b5a1d6778
+timestamp=2026-08-06T00:19:37Z
 branch=hotfix/se305-deps-rules
-head_commit=1badfe0f
-signature=6fa6de84400a11efbe10aac72c82bb310c9754d5ae73bd9b7868a98afa17de79
+head_commit=fa708e49
+signature=f2ef86f8f7f431762d10609abd5ce4f8e4114600e5a571b60449223a09284714
