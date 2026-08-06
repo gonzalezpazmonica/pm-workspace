@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=a910fb9d657ca1b9ff2070991a9f8025807f55dbc763b826942b4564abcbcc0e
-timestamp=2026-08-06T07:47:28Z
+diff_hash=92dbf2601977edb8c98ee38aa7ae5d51c7e494f112f409c4f7281ff83e916f93
+timestamp=2026-08-06T07:47:42Z
 branch=se309-knowledge-governance
-head_commit=91522c30
-signature=51665257c9c6ee0ee1726629c2366cc8a1e30d114028c987a1b241be27a8eb47
+head_commit=f5dcf54f
+signature=3f1067f73247363ca48961d87717687525fe0e739ffe5c35c2b1ecb959b9319e
