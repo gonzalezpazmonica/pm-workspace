@@ -307,9 +307,14 @@ savia-vaults conflict resolve <conflict-id> --resolution "..."
 
 ## 9. Estado de Implementacion
 
-- [ ] S1: Tipos DecisionRecord + ProvenanceRef (decision.ts)
-- [ ] S2: ConflictDetector (conflicts.ts)
-- [ ] S3: DecisionStateManager promote (decision-state.ts)
-- [ ] S4: CLI (decision record/list/promote + conflict scan/resolve)
-- [ ] S5: Tests (decision, conflicts, states)
-- [ ] S6: Documentacion + roadmap
+- [x] **S1: Tipos DecisionRecord + ProvenanceRef** — decision.ts (createDecisionRecord, validateDecision)
+- [x] **S2: ConflictDetector** — conflicts.ts (detectConflicts, resolveConflict)
+- [x] **S3: DecisionStateManager promote** — decision-state.ts (promote, getActiveState)
+- [x] **S4: CLI** — decision record/promote + conflict scan
+- [x] **S5: Tests** — 21 tests nuevos (decision, conflicts, decision-state) + index barrel. Total 270 pass
+- [x] **S6: E2E produccion cupula SaviaLabs** — COMPLETADO 2026-08-06
+  - `decision record` crea nodo con frontmatter completo
+  - `conflict scan` detecto conflicto real: l9-biomimetic.method (2 fuentes)
+  - `decision promote` persiste state + state_reason preservando frontmatter
+  - Fix: promote pierde frontmatter (storage.read separa fm/content) → resuelto con serializeOkfNote + parseOkfFrontmatter
+  - Fix: comandos decision/conflict con subcomandos anidados (Commander no permite 'decision record' como string)
