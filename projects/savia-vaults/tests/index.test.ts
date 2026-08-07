@@ -13,4 +13,14 @@ describe('knowledge/index barrel', () => {
     expect(typeof mod.importOkfBundle).toBe('function');
     expect(typeof mod.extractWikiLinks).toBe('function');
   });
+
+  it('exposes SE-309 governance functions', async () => {
+    const mod = await import('../src/knowledge/index.js');
+    expect(typeof mod.createDecisionRecord).toBe('function');
+    expect(typeof mod.validateDecision).toBe('function');
+    expect(typeof mod.detectConflicts).toBe('function');
+    expect(typeof mod.resolveConflict).toBe('function');
+    expect(typeof mod.promote).toBe('function');
+    expect(typeof mod.getActiveState).toBe('function');
+  });
 });

@@ -5,6 +5,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased] — 2026-08-06 · Knowledge Governance (SE-309)
+
+### Added
+- **Decision records** (`src/knowledge/decision.ts`): nodo de conocimiento de primera clase — categoria, escenario, razonamiento, resultado, confianza, decisor y estado de ciclo de vida (proposed/accepted/rejected) con ProvenanceRef. `createDecisionRecord()` + `validateDecision()`.
+- **Decision state log** (`src/knowledge/decision-state.ts`): `promote()`/`getActiveState()`, historial DecisionStateLog con StateChange y razon de cambio.
+- **Conflict detection** (`src/knowledge/conflicts.ts`): `detectConflicts()` para hechos contradictorios (misma entidad+propiedad con valores distintos), severidad info/warning/critical, estado open/resolved y `resolveConflict()` sin overwrite silencioso.
+- 4 suites de tests nuevas (decision, decision-state, conflicts, index)
+
 ## [0.3.0] — 2026-08-01 · Capa de conocimiento (SE-288)
 
 ### Added
