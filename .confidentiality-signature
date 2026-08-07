@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
 diff_hash=5e9314de72fada15b53cc4a1012ced3560f7ed54b67105560fd312049ee45a83
-timestamp=2026-08-07T21:18:29Z
+timestamp=2026-08-07T21:22:48Z
 branch=agent/fix-workspace-drift
-head_commit=72e74cf0
+head_commit=7760fd08
 signature=72edae71c5f29d4a22f45666a0f5269640b496305ce40e258ea9d7626e83cc98
