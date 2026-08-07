@@ -37,17 +37,20 @@
 | Contexto multimodal (SE-310, de Gemini Live) | **Savia ve la pantalla** (opt-in) | En cada turno de usuario, captura screenshot (mss, ya dep) y lo adjunta al LLM si el modelo es vision-capable. Default OFF (privacidad); degrada a texto si el modelo no ve o falla la captura |
 | Cupulas de contexto (SE-310, de SaviaVaults) | **Savia consume y alimenta las cupulas de Savia Vaults configuradas** | `VaultBridge` (A2A HTTP, localhost:8923): CONSUME (search+context de domes en cada turno, RAG sobre el conocimiento) y ALIMENTA (share de notas de conversacion al dome configurado). Gate de confidencialidad: solo domes <= nivel permitido segun endpoint LLM (local → hasta N4b; cloud → solo N1/N2) |
 | Flujo de inferencia (SE-310) | **Analizar → Construir → Contestar, con grounding en cupulas** | El LLM (1) ANALIZA el turno contra el contexto recuperado de las cupulas, (2) CONSTRUYE la respuesta fundamentada (+ tools via ToolsBridge si hace falta), (3) CONTESTA por voz y escribe el conocimiento de vuelta a la cupula (VaultFeed) |
+| Audio Briefs (SE-310, de NotebookLM) | **Contenido hablado de formato largo fundamentado en las cupulas** | Patron Audio Overviews de NotebookLM (discusion tipo podcast entre hosts AI, grounded en fuentes): Savia genera briefs hablados (resumen del proyecto, del sprint, de una cupula) — no turn-by-turn: LLM escribe el guion desde las cupulas → TTS → fichero de audio + transcripto digerible |
+| Perfil de voz (SE-310, de NotebookLM) | **Voz seleccionable sin clonar a nadie** | `conversation.voice_profile`: voz de Kokoro (ef_dora, af_heart, ...) configurable. Difiere de SE-042 (clonar VOZ HUMANA sin consentimiento: prohibido — Nota legal: caso de voz clonada sin permiso en NotebookLM 2025) |
+| Cita hablada (SE-310, de NotebookLM) | **Savia cita la fuente de la cupula mientras habla** | Toggle `brief.cite_spoken`: "segun mi nota en <path>..." al referirse a conocimiento recuperado (los hosts de Audio Overviews referencian las fuentes verbalmente) |
 
 **Effort Estimation (Dual Model):**
 
 | Dimension | Value |
 |---|---|
-| Agent effort | 900 min (estimacion inicial; +proactividad/memoria/vision/cupulas) |
-| Human effort | 36 h |
-| Review effort | 120 min |
+| Agent effort | 1080 min (estimacion inicial; +proactividad/memoria/vision/cupulas/briefs) |
+| Human effort | 42 h |
+| Review effort | 150 min |
 | Context risk | low |
 | Agent-capable | partial (audio real requiere humano) |
-| Fallback | Si agente falla: humano necesita 18h |
+| Fallback | Si agente falla: humano necesita 21h |
 
 ---
 
@@ -303,6 +306,12 @@ mensajes de conversacion (solo eventos: `conversation:started`, `message:ok`,
 | `vaults.top_k` | `3` | Notas relevantes a inyectar por turno (cruzando domes) |
 | `vaults.write_dome` | (defaultDome) | Dome donde VaultFeed escribe las notas de conversacion |
 | `vaults.write_path_prefix` | `conversaciones/` | Prefijo de path para las notas escritas |
+| `conversation.voice_profile` | `ef_dora` | Voz de Kokoro para Savia (seleccionable, sin clonacion). Aplica a conversacion y briefs |
+| `brief.enabled` | `false` | Habilita Audio Briefs de formato largo (S0-I). Default OFF |
+| `brief.format` | `solo` | `solo` (monologo) \| `dialogo` (Savia + co-host sintetico, patron NotebookLM) |
+| `brief.cite_spoken` | `false` | Savia cita la fuente verbalmente al referirse a contenido de cupulas |
+| `brief.max_minutes` | `10` | Duracion objetivo del brief (el guion lo respeta) |
+| `brief.focus` | `` | Tema/angulo del brief (guidance, patron NotebookLM); vacio = global |
 | `conversation.tts_backend` | `none` | `none` \| `subprocess` |
 | `conversation.tts_command` | `` | Plantilla `{out}`/`{text}` (ej. `savia-kokoro --text {text} --output {out} --json`); WAV temporal en `~/.savia/transcriptor/tmp-tts/` con limpieza al arrancar |
 | `conversation.tts_queue_cap` | `3` | Frases pendientes max en la cola TTS; exceso = descartar la mas antigua (barge-in) |
@@ -509,6 +518,45 @@ cupula, DEBE citarla (path de la nota) en el texto (para la UI) o en metadata
 (para el digest). Evita que Savia presente conocimiento recuperado como
 inventado. El sistema prompt lo exige explicitamente.
 
+## 2.10 Audio Briefs fundamentados (S0-I) — contenido hablado de formato largo
+
+Patron de NotebookLM (Audio Overviews): generar audio conversacional de formato
+largo a partir de una base de conocimiento, en vez de respuestas turn-by-turn.
+Savia produce briefs hablados grounded en las cupulas: "resumen hablado del
+proyecto", "digest hablado del sprint", "explicame esta cupula".
+
+```python
+# services/conversation/audio_brief.py
+class AudioBriefGenerator:
+    """Genera contenido hablado de formato largo desde las cupulas.
+
+    Fases (reutiliza el pipeline, sin etapas nuevas de audio):
+      1. RECOPILAR: VaultContext recupera notas relevantes de los domes
+         configurados (mismo consume de S0-H), mas VaultFeed-style digest.
+      2. GUIONIZAR: el LLM escribe el guion (no turn-by-turn) con formato
+         `solo` (monologo Savia) o `dialogo` (Savia + co-host, patron
+         NotebookLM de 2 hosts). Aplica focus/tono (guidance) y la cita
+         hablada si `brief.cite_spoken`.
+      3. SINTETIZAR: TTS por frases (pipeline existente) → fichero
+         `~/.savia/transcriptor/audio-briefs/YYYY-MM-DD-HH-MM/`
+         (audio.wav + guion.md + meta.json con las fuentes citadas).
+      4. PUBLICAR: queda en ConversationStore/MarkingStore; `transcriptor-digest`
+         puede digerir el guion (es conocimiento nuevo para las cupulas).
+    """
+
+    def generate(self, prompt: str, format: Literal['solo','dialogo']='solo',
+                 focus: Optional[str]=None, max_minutes: int = 10) -> Brief: ...
+```
+
+**Grounded y trazable**: el guion referencia los paths de las notas usadas
+(metadata `sources` en meta.json). Es el mismo principio de citacion de 2.9,
+aplicado a contenido de formato largo.
+
+**Ethics guard (no negociable)**: el `dialogo` usa la voz de Savia y un co-host
+sintetico generico. NUNCA clona la voz de una persona sin su consentimiento
+(leccion del caso de voz clonada sin permiso en NotebookLM, 2025; alineado con
+los principios eticos de Savia y con SE-042 que queda GPU-blocked y aparte).
+
 ---
 
 ## 3. Inputs/Outputs
@@ -647,6 +695,15 @@ operadora es N3 (datos personales) — el code review E1 cubre estas 4 comprobac
 34. **Vault inferencia fundamentada**: el LLM fake recibe el bloque CUPULAS y
     su respuesta incluye el path de la nota citada (assert sobre el contexto
     y la metadata de citacion).
+35. **Audio brief solo**: con `brief.enabled=true`, generar un brief con
+    formato `solo` produce el guion (LLM fake), lo pasa por el TTS fake y
+    escribe audio.wav + guion.md + meta.json (con sources).
+36. **Audio brief dialogo**: formato `dialogo` produce guion de 2 voces
+    (Savia + co-host generico); el TTS fake recibe 2 voces distintas y la
+    voz del co-host es sintetica generica (assert: no usa voz de persona).
+37. **Cita hablada**: con `brief.cite_spoken=true`, el guion incluye "segun mi
+    nota en <path>"; con `false`, no. `voice_profile` cambia el arg de voz
+    del TTS fake.
 
 ---
 
@@ -670,12 +727,14 @@ operadora es N3 (datos personales) — el code review E1 cubre estas 4 comprobac
 | `src-pyloid/services/conversation/vault_bridge.py` | Cliente A2A de SaviaVaults (search/read/write + gate) (S0-H) |
 | `src-pyloid/services/conversation/vault_context.py` | Etapa CONSUME: RAG sobre cupulas (S0-H) |
 | `src-pyloid/services/conversation/vault_feed.py` | Etapa ALIMENTA: escribe nota de conversacion en el dome (S0-H) |
+| `src-pyloid/services/conversation/audio_brief.py` | Generador de Audio Briefs fundamentados (S0-I) |
 | `src-pyloid/tests/test_proactive_trigger.py` | pytest gates de proactividad |
 | `src-pyloid/tests/test_memory_bridge.py` | pytest lectura/escritura de memoria |
 | `src-pyloid/tests/test_vision_context.py` | pytest vision + degradacion |
 | `src-pyloid/tests/test_vault_bridge.py` | pytest A2A client + gate de confidencialidad |
 | `src-pyloid/tests/test_vault_context.py` | pytest consume + degradacion |
 | `src-pyloid/tests/test_vault_feed.py` | pytest alimenta + fallback local |
+| `src-pyloid/tests/test_audio_brief.py` | pytest brief solo/dialogo + citacion |
 | `src-pyloid/tests/test_conversation_service.py` | pytest bucle con fakes |
 | `src-pyloid/tests/test_tts_provider.py` | pytest backends TTS |
 | `src-pyloid/tests/test_sentence_splitter.py` | pytest splitter |
@@ -761,6 +820,14 @@ operadora es N3 (datos personales) — el code review E1 cubre estas 4 comprobac
 - [ ] **AC-19** — Inferencia fundamentada (2.9): si la respuesta del LLM usa
       contenido de una cupula, la cita (path de la nota) en el texto/metadata;
       test verifica que el bloque CUPULAS llega al LLM y que la cita aparece.
+- [ ] **AC-20** — Audio Brief (S0-I): con `brief.enabled=true`, generar un brief
+      produce `audio-briefs/YYYY-MM-DD-HH-MM/` con audio.wav + guion.md +
+      meta.json; el guion referencia las fuentes usadas (metadata `sources`);
+      formato `dialogo` usa Savia + co-host sintetico generico (nunca voz de
+      una persona).
+- [ ] **AC-21** — Voz y citacion (S0-I): `conversation.voice_profile` cambia la
+      voz de Kokoro sin clonacion; con `brief.cite_spoken=true`, el guion
+      incluye frases de citacion verbal ("segun mi nota en <path>").
 
 ---
 
@@ -808,6 +875,13 @@ operadora es N3 (datos personales) — el code review E1 cubre estas 4 comprobac
 - [ ] Flujo de inferencia 2.9 (analizar/construir/contestar) con citacion
 - [ ] End-to-end contra el A2A server real de savia-vaults (solo-lectura + 1 write de prueba)
 
+### S0-I — Audio Briefs fundamentados (patron NotebookLM)
+- [ ] `AudioBriefGenerator`: recopilar (VaultContext) → guionizar (solo/dialogo) → sintetizar (TTS) → publicar
+- [ ] `audio-briefs/` (audio.wav + guion.md + meta.json con sources)
+- [ ] `voice_profile` + cita hablada (`brief.cite_spoken`)
+- [ ] Trigger: comando de conversacion + integracion con S0-E (proactivo)
+- [ ] Ethics guard: dialogos solo con co-host sintetico generico
+
 ---
 
 ## 9. Fuera de alcance (S1/S2 + no-alcance)
@@ -846,6 +920,7 @@ siguiente fase se construye sobre patrones de la industria ya estudiados:
 | [LiveKit Agents](https://github.com/livekit/agents) (Apache-2.0) | AgentSession (vad/stt/llm/tts), semantic turn detection (transformer), push-to-talk multi-usuario, background/thinking audio, function tools, test con LLM-judges | Turn-taking (S1), tools, testing |
 | [JARVIS / HuggingGPT](https://github.com/microsoft/JARVIS) (Microsoft) | LLM como controlador + modelos expertos como ejecutores (4 etapas: plan→select→execute→respond) | Concepto "Jarvis" = Savia ya lo cumple (LLM + 83 agentes/skills); SE-310 lo hace accesible por voz via ToolsBridge |
 | [WhisperX](https://github.com/m-bain/whisperX) (m-bain, BSD-2) | Timestamps por palabra (forced alignment wav2vec2), VAD-based batching, diarizacion (pyannote) | Dependencia de S1/S2 (interrupcion precisa, quien habla) |
+| [NotebookLM / Gemini Notebook](https://notebooklm.google.com/) (Google) | **Audio Overviews**: discusion podcast entre 2 hosts AI grounded en tus fuentes; customizacion 2025 (add-your-voice, focus, guidance, episodios largos); cita las fuentes verbalmente. Tambien: caso legal de voz clonada sin permiso (2025) | S0-I: Audio Briefs fundamentados; perfil de voz sin clonacion; cita hablada; ethics guard (prohibido clonar voz humana sin consentimiento) |
 
 Decision: NO se adopta ningun framework como dependencia en S0 (la app ya tiene
 su stack VoiceFlow/faster-whisper/sounddevice). Solo se copian los PATRONES:
@@ -921,6 +996,7 @@ honestos (latencia y speech-to-speech end-to-end) con palancas documentadas.**
 | **Turn-taking (fin de turno)** | LiveKit semantic turn detection; Vocode endpointing; OpenAI turn lifecycle | S0: push-to-talk explicito; S1: turn detection | ✅ Ruta correcta en el roadmap |
 | **Multimodal (vision)** | Gemini Live vision; GPT realtime vision; Pipecat multimodal | S0-G: VisionContext opt-in (captura de pantalla → modelo vision-capable, degrada a texto; default OFF) | ✅ En alcance (S0-G, opt-in) |
 | **Knowledge grounding (RAG sobre conocimiento personal)** | Alexa+ "deep knowledge" (documentos/emails/fotos); Gemini context grounding; SaviaVaults es el equivalente local | S0-H: VaultContext consume cupulas (BM25 over domes) + VaultFeed alimenta — Savia razona SOBRE su propio conocimiento | ✅ En alcance (S0-H) — diferenciador: grounding sobre las cupulas locales N3 |
+| **Audio de formato largo fundamentado** | NotebookLM Audio Overviews (discusion podcast entre 2 hosts AI, grounded en fuentes; custom 2025: add-your-voice, focus, guidance, episodios largos) | S0-I: Audio Briefs — guion del LLM desde las cupulas → TTS → fichero digerible. `solo` o `dialogo` (Savia + co-host sintetico). Citacion hablada opcional | ✅ En alcance (S0-I) — Savia no solo conversa, PRODUCE audio fundamentado bajo demanda |
 | **Continuidad cross-device** | Alexa+ Echo↔telefono↔web | NO en SE-310: solo desktop; Savia Mobile se evalua en fase aparte | ➡️ Fuera de alcance (por decision de la operadora, 2026-08-07) |
 
 **Decision**: S0 mantiene el enfoque local-first de etapas discretas (patron de
