@@ -78,12 +78,18 @@ jobs:
                 }
               }
 
-              await github.rest.issues.addLabels({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                issue_number: context.payload.pull_request.number,
-                labels: labels
-              });
-
-              console.log(`Added labels: ${labels.join(', ')}`);
+              // Cross-repo (fork) PRs: the workflow token cannot always write
+              // labels to a PR whose head is in another repo (403). Labels are
+              // cosmetic — never fail the check because of them.
+              try {
+                await github.rest.issues.addLabels({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  issue_number: context.payload.pull_request.number,
+                  labels: labels
+                });
+                console.log(`Added labels: ${labels.join(', ')}`);
+              } catch (e) {
+                console.log(`Skipping labels for cross-repo PR (403 expected): ${e.message}`);
+              }
             }
