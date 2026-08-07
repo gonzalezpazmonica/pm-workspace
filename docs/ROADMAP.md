@@ -1387,7 +1387,7 @@ bidireccional en Savia Transcriptor: push-to-talk (hotkey separado del dictado)
 pluggable (subprocess Kokoro / none, degradacion) → reproduccion por altavoz
 (sounddevice). Persiste `conversaciones/YYYY-MM-DD-HH-MM.md` + tabla `conversations`
 digestible por `transcriptor-digest`. Coexiste con la grabacion de reuniones.
-Spec: `projects/savia-transcriptor/specs/SE-310-savia-conversacional.spec.md`
+Spec: `projects/savia-sonora/specs/SE-310-savia-conversacional.spec.md`
 
 ### Fase siguiente (S1/S2 — no cubierta)
 

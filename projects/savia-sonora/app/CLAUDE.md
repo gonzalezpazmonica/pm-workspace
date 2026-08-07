@@ -27,7 +27,7 @@ Fork de VoiceFlow (MIT, `infiniV/VoiceFlow`). Cambios respecto al upstream:
 ## Quick Start (desarrollo)
 
 ```bash
-cd projects/savia-transcriptor
+cd projects/savia-sonora/app
 pnpm run setup        # instala deps Node y Python
 pnpm run dev          # Vite frontend + Pyloid backend
 ```

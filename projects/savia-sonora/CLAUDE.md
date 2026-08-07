@@ -39,8 +39,8 @@ conocimiento — accesible oralmente, igual que por texto.
 
 | Módulo | Origen | Rol en Savia Sonora |
 |---|---|---|
-| Núcleo de audio (STT) | `projects/savia-transcriptor` (SE-308) | Captura, VAD, whisper, screenshots, SQLite, dictado |
-| Motor de síntesis (TTS) | `scripts/savia-kokoro.py`, `savia-voice-speak.sh`, `savia-voice-chunk.sh`, `sentence-splitter.py` (SE-075) | Kokoro CPU + chunking + protocolo `SAVIA_VOICE`/`SAVIA_TTS_CMD` |
+| Núcleo de audio (STT) | `projects/savia-sonora/app` (ex-`savia-transcriptor`, SE-308) | Captura, VAD, whisper, screenshots, SQLite, dictado |
+| Motor de síntesis (TTS) | `scripts/savia-kokoro.py`, `savia-voice-speak.sh`, `savia-voice-chunk.sh`, `scripts/lib/sentence-splitter.py` (SE-075) — **capa compartida del workspace, owned por Savia Sonora** | Kokoro CPU + chunking + protocolo `SAVIA_VOICE`/`SAVIA_TTS_CMD` |
 | Conversación | Spec SE-310 (S0-A..I) | Push-to-talk, barge-in, proactividad, memoria, visión, cúpulas, briefs |
 | Digest post-proceso | skill `transcriptor-digest` + `meeting-digest`/`meeting-risk-analyst` | Convierte reuniones/conversaciones en conocimiento |
 | Voice inbox | skill `voice-inbox` | Entrada de voz asíncrona (WhatsApp/Nextcloud) |
@@ -77,29 +77,34 @@ consume y alimenta vía A2A HTTP — mismo patrón decoplado que SE-308.
 
 ## Plan de consolidación (no destructivo)
 
-### Fase 0 — Identidad unificada (2026-08-07, este fichero)
+### Fase 0 — Identidad unificada (2026-08-07)
 - [x] Nombre + descripción + mapa de módulos + roadmap (Era 202)
-- [ ] PR de la identidad
 
-### Fase 1 — Reubicación física (requiere aprobación)
-- [ ] `git mv projects/savia-transcriptor → projects/savia-sonora/app` (núcleo)
-- [ ] Mover scripts de voz a `projects/savia-sonora/engine/` (kokoro, speak, chunk, splitter)
-- [ ] Actualizar referencias: `kokoro-voice-protocol.md`, SE-042, skills, tests BATS, ROADMAP, specs SE-308/SE-310
-- [ ] Espec SE-310 pasa a `projects/savia-sonora/specs/`
+### Fase 1 — Reubicación física (COMPLETADA 2026-08-07)
+- [x] `git mv projects/savia-transcriptor → projects/savia-sonora/app` (núcleo)
+- [x] Spec SE-310 → `projects/savia-sonora/specs/`
+- [x] Referencias de path actualizadas (specs, README, RESUME, ROADMAP)
+- [~] **Engine TTS queda en `scripts/`** (capa compartida, owned por Savia Sonora) — DECISIÓN: moverlo rompería la API TTS del workspace (protocolo SE-075, 15+ referencias: tests, propuestas, vaults, zeroclaw) y el patrón monorepo de `scripts/` como capa compartida. Los scripts Python (`savia-kokoro.py`, `sentence-splitter.py`) son el entry point cross-platform; los wrappers bash (`savia-voice-*.sh`) son conveniencia POSIX.
 
 ### Fase 2 — Migración de skills
-- [ ] `transcriptor-digest`, `meeting-transcript-extract`, `voice-inbox` → referencian el proyecto (paths actualizados)
+- [ ] `transcriptor-digest`, `meeting-transcript-extract`, `voice-inbox` → referencian el proyecto (paths/documentación)
 
 ### Fase 3 — Módulos futuros
 - [ ] SE-042 (voz entrenada) cuando GPU esté disponible
 - [ ] Savia Mobile como cliente (fase aparte, tras S0 probado)
 
+## Cross-platform (Linux / Windows / macOS)
+
+- **App**: Python 3.10+ + Pyloid (PySide6+Qt WebEngine) + React — multiplataforma nativa. Audio: WASAPI (Win) / PipeWire (Linux) / BlackHole (macOS).
+- **Engine TTS**: `savia-kokoro.py` (Python, multiplataforma) es el entry point canónico. Los wrappers bash son POSIX; la app invoca el engine vía **subprocess Python** (nunca bash) para compatibilidad Windows.
+- **Runtime**: `~/.savia/transcriptor/` se mantiene (compatibilidad con datos existentes); un rename a `~/.savia/sonora/` es fase futura con migración de datos.
+
 ## Referencias
 
 | Recurso | Path |
 |---|---|
-| Spec conversación | `projects/savia-transcriptor/specs/SE-310-savia-conversacional.spec.md` (hasta Fase 1) |
-| Spec app original | `projects/savia-transcriptor/specs/SE-308-savia-transcriptor.spec.md` |
+| Spec conversación | `projects/savia-sonora/specs/SE-310-savia-conversacional.spec.md` |
+| Spec app original | `projects/savia-sonora/app/specs/SE-308-savia-transcriptor.spec.md` |
 | Protocolo TTS | `docs/rules/domain/kokoro-voice-protocol.md` |
 | SE-075 (TTS adoptado) | `docs/propuestas/SE-075-voicebox-adoption.md` |
 | SE-042 (voz entrenada) | `docs/propuestas/SE-042-savia-voice-training-pipeline.md` |

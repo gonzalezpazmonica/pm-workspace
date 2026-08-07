@@ -709,7 +709,7 @@ operadora es N3 (datos personales) — el code review E1 cubre estas 4 comprobac
 
 ## 6. Ficheros a Crear/Modificar
 
-### Crear (proyecto `projects/savia-transcriptor/`)
+### Crear (proyecto `projects/savia-sonora/app/`)
 
 | Fichero | Proposito |
 |---|---|
@@ -850,7 +850,7 @@ operadora es N3 (datos personales) — el code review E1 cubre estas 4 comprobac
 
 ### S0-D — Verificacion real
 - [ ] Round-trip real con Ollama + Kokoro en hardware de la operadora
-- [ ] Actualizar README y `savia-transcriptor/CLAUDE.md`
+- [ ] Actualizar README y `savia-sonora/app/CLAUDE.md`
 - [ ] CI: pytest suite verde + BATS `test-transcriptor.bats` intacto
 
 ### S0-E — Proactividad (opt-in)
