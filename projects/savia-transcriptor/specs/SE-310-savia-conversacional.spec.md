@@ -261,6 +261,7 @@ mensajes de conversacion (solo eventos: `conversation:started`, `message:ok`,
 | `conversation.llm_api_key` | keyring | Via keyring (ya en VoiceFlow); vacio = endpoint local sin auth |
 | `conversation.llm_timeout_s` | `30` | Timeout por turno; al expirar → `conversation:error` recuperable (el provider global usa read 120s; la conversacion exige respuesta en 30s) |
 | `conversation.system_prompt` | Identidad Savia | Texto inyectable; default identidad de Savia |
+| `conversation.personality_style` | `savia` | Estilos de tono (patron Alexa+ Brief/Chill/Sweet/Sassy): `savia` (default, radical-honesty) \| `brief` \| `chill` \| `sweet` \| `sassy`. Se inyecta como instruccion de tono ADICIONAL al system_prompt (no cambia capacidades) |
 | `conversation.context_token_budget` | `8000` | Presupuesto de tokens del historial enviado al LLM (ContextAggregator); los mensajes fuera de presupuesto se descartan o se resumen |
 | `conversation.tools_enabled` | `false` | Habilita tool-calling → ToolsBridge (acciones de Savia con confirmacion). Off en S0 default: primero la conversacion limpia |
 | `conversation.thinking_cue` | `false` | Reproduce el cue sonoro de "pensando" durante la latencia del LLM |
@@ -324,6 +325,13 @@ El `transcripto` en `conversaciones/*.md` usa el mismo formato que
 - **Latencia objetivo**: primera frase por voz < 5s desde el release del hotkey
   (whisper small + Ollama + Kokoro ~4s por 0.625s de audio). La respuesta
   completa por voz puede exceder (cola acotada); el texto es inmediato.
+  **Honestidad vs industria 2026**: los voice agents cloud (OpenAI Realtime,
+  Gemini Live) apuntan a <1s con speech-to-speech end-to-end. 5s es el
+  presupuesto LOCAL-FIRST (N3) de SE-310 — aceptable para asistente personal,
+  no compite con cloud. Palancas de optimizacion documentadas: streaming TTS
+  por frase (ya), modelo whisper pequeno (config), Ollama con prompt-caching,
+  y futuro colapso a speech-to-speech local cuando exista un modelo CPU/ONNX
+  de calidad (ver seccion 12).
 - **Concurrencia**: si hay una reunion en RECORDING, el push-to-talk de
   conversacion se serializa con un lock (max 2s de espera) y no interfiere con
   la grabacion.
@@ -404,6 +412,9 @@ operadora es N3 (datos personales) — el code review E1 cubre estas 4 comprobac
     UI (no se ejecuta sin `confirmar`).
 24. **Cue de pensando**: con `thinking_cue=true`, durante `state=thinking` se
     reproduce el cue (AudioOutput fake registra 1 cue); nunca contenido hablado.
+25. **Personalidad**: con `personality_style=chill`, el LLM fake verifica que el
+    system prompt incluye la instruccion de tono adicional (sin cambiar el
+    system_prompt de identidad ni las capacidades).
 
 ---
 
@@ -591,3 +602,29 @@ a `scripts/savia-kokoro.py`, ese script es shared y corre igual en cualquier mot
 | Drift con SE-308 (archivos ya existentes) | Baja | Rompe tests | AC-6 exige tests SE-308 intactos; cambios solo aditivos |
 | Sobre-ingenieria (pipeline modular muy abstracto) | Media | Complejidad innecesaria en S0 | El pipeline se limita a 6 etapas concretas; los procesadores son clases pequenas con fakes en tests; se documenta que S1/S2 solo anaden etapas |
 | Tool-calling sin confirmacion (Savia ejecuta algo por voz) | Baja | Accion no deseada | `tools_enabled=false` por default; con `true`, TODA accion queda pendiente de confirmacion explicita en la UI (test 23, AC-12) |
+
+---
+
+## 12. Alineacion con tendencias 2026 (Alexa+, Gemini Live, Siri, OpenAI Realtime)
+
+Comparativa del estado del arte en interfaces de voz (investigacion 2026-08-07)
+contra SE-310. Verdicto: **bien alineado en las tendencias centrales; dos gaps
+honestos (latencia y speech-to-speech end-to-end) con palancas documentadas.**
+
+| Tendencia 2026 | Referencia | SE-310 | Estado |
+|---|---|---|---|
+| **Generativo + agente** (asistentes que ORQUESTAN servicios) | Alexa+ "experts" (10k+ servicios, Bedrock LLMs); JARVIS controlador+ejecutores; OpenAI Realtime con tools/MCP; Gemini Live function calling | `ToolsBridge`: tool-calling del LLM → acciones de Savia (83 agentes/skills) con confirmacion | ✅ Alineado. `tools_enabled=false` por default es una decision de seguridad deliberada (Savia propone, humano dispone — regla autonomia), no un gap |
+| **Barge-in / interrupcion** (table stakes) | Gemini Live barge-in; OpenAI Realtime turn handling; Pipecat/Vocode | Barge-in de primera clase (hotkey corta TTS+LLM al instante) | ✅ Alineado |
+| **Speech-to-speech end-to-end** (modelos que colapsan STT+LLM+TTS) | OpenAI `gpt-realtime-2.1` (s2s + razonamiento); Gemini Live; Ultravox | Pipeline por etapas (whisper+LLM+Kokoro) — eleccion correcta para local-first N3 | ⚠️ Gap honesto. Se documenta la opcion de colapsar las etapas a un unico "stage S2S local" cuando exista un modelo CPU/ONNX de calidad. El pipeline modular (sec. 2.1) lo permite sin reescritura |
+| **Latencia conversacional** | Cloud: <1s TTFB; "conversational latency" objetivo de la industria 2026 | <5s primera frase (local-first) | ⚠️ Gap honesto. Palancas: whisper pequeno, prompt-caching Ollama, streaming por frase, futuro S2S. Ver Constraints |
+| **Personalidad configurable** | Alexa+ estilos Brief/Chill/Sweet/Sassy | `conversation.personality_style` (savia/brief/chill/sweet/sassy) | ✅ Alineado (nuevo) |
+| **Proactividad + memoria** | Alexa+ proactive (trafico, ofertas) + memoria personal; Siri personal context (2026) | S0 reactivo (push-to-talk); contexto por conversacion | ➡️ Futuro: S1/S2 pueden enganchar a la memoria de Savia (auto-memory) y triggers proactivos. No bloquea |
+| **On-device / privacidad** | Apple Foundation Models on-device; Alexa+ privacy dashboard | Local-first N3: audio nunca sale, solo TEXT al LLM configurado | ✅ Diferenciador real vs cloud |
+| **Turn-taking (fin de turno)** | LiveKit semantic turn detection; Vocode endpointing; OpenAI turn lifecycle | S0: push-to-talk explicito; S1: turn detection | ✅ Ruta correcta en el roadmap |
+| **Multimodal (vision)** | Gemini Live vision; GPT realtime vision; Pipecat multimodal | Solo audio en S0; el Transcriptor YA captura screenshots de reuniones | ➡️ Futuro: contexto de pantalla en la conversacion (Savia ve lo que haces). No bloquea |
+| **Continuidad cross-device** | Alexa+ Echo↔telefono↔web | Solo desktop (S0); Savia Mobile existe | ➡️ Futuro: continuidad de conversacion desktop↔mobile |
+
+**Decision**: S0 mantiene el enfoque local-first de etapas discretas (patron de
+los frameworks OSS Pipecat/Vocode/LiveKit) y NO adopta speech-to-speech cloud
+(romperia N3). Las dos tendencias con gap (latencia, s2s) quedan documentadas
+con palancas y un futuro "stage S2S local" sin reescritura.
