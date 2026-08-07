@@ -1359,3 +1359,41 @@ Todos los 23 specs enterprise esperan una sola condición: **decisión estratég
 2. **GPU desbloqueado** → SE-028/042/023/080/SE-027 entran automáticamente
 3. **Decisión enterprise** → 23 specs pasan de PROPOSED a pipeline
 4. **Desbloqueo API/libs** → SPEC-064 (Computer Use), SPEC-102 (PDF)
+
+---
+
+## Era 202 — Savia Conversacional (2026-08-07)
+
+> 1 spec: convertir Savia Transcriptor (SE-308) en interfaz conversacional de voz.
+> Aprovecha el STT (faster-whisper), el cerebro (OpenAICompatibleProvider → Ollama)
+> y la voz de salida ya existentes (SE-075 Slice 3, Kokoro 82M CPU). Cierra el
+> objetivo "hablar conmigo"; la participacion en vivo en reuniones es S1/S2 (spec aparte).
+
+### Spec
+
+**SE-310 Savia Conversacional (S0)** (16h) — PROPOSED. Interfaz de voz
+bidireccional en Savia Transcriptor: push-to-talk (hotkey separado del dictado)
+→ transcripcion local → LLM streaming (system prompt Savia) → TTS por frases
+pluggable (subprocess Kokoro / none, degradacion) → reproduccion por altavoz
+(sounddevice). Persiste `conversaciones/YYYY-MM-DD-HH-MM.md` + tabla `conversations`
+digestible por `transcriptor-digest`. Coexiste con la grabacion de reuniones.
+Spec: `projects/savia-transcriptor/specs/SE-310-savia-conversacional.spec.md`
+
+### Fase siguiente (S1/S2 — no cubierta)
+
+- S1: participacion "modo escucha" (STT en streaming de la reunion, sin hablar).
+- S2: intervencion por voz con politica de intervencion + cancelacion de eco.
+- Wake word, diarizacion, voice cloning (SE-042, GPU) — fuera de alcance.
+
+### Orden de ejecucion
+
+```
+SE-308 (merge PR #942) ✅
+  → SE-310 (Savia conversacional, S0) — implementacion pendiente de aprobacion
+```
+
+### Estado por PR
+
+| Spec | PR | Estado | Bloqueo |
+|---|---|---|---|
+| SE-310 | — | PROPOSED | Spec nueva (2026-08-07); implementacion en otro momento |
