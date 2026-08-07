@@ -245,6 +245,106 @@ program.command('okf-import').description('Import an OKF v0.1 bundle into the va
     for (const r of result.rejected) console.log(`  rejected: ${r}`);
   });
 
+// SE-309 — Knowledge Governance commands
+const decisionCmd = program.command('decision').description('Manage decision records (SE-309)');
+decisionCmd.command('record').description('Record a decision as a first-class knowledge node')
+  .option('-p, --path <path>', 'Vault path', process.cwd())
+  .option('--category <cat>', 'Decision category', '')
+  .option('--scenario <scenario>', 'Decision scenario', '')
+  .option('--reasoning <reasoning>', 'Decision reasoning', '')
+  .option('--outcome <outcome>', 'Decision outcome', '')
+  .option('--confidence <n>', 'Confidence 0-1', '0.5')
+  .option('--maker <maker>', 'Decision maker', 'savia')
+  .action(async (opts) => {
+    if (!opts.category || !opts.outcome) {
+      console.error('ERROR: --category and --outcome are required'); process.exit(1);
+    }
+    const config = makeConfig('vault', opts.path);
+    const storage = new VaultStorage(config);
+    const { createDecisionRecord } = await import('../knowledge/decision.js');
+    const rec = createDecisionRecord({
+      category: opts.category,
+      scenario: opts.scenario,
+      reasoning: opts.reasoning,
+      outcome: opts.outcome,
+      confidence: parseFloat(opts.confidence),
+      decisionMaker: opts.maker,
+    });
+    const fileName = `decisions/${rec.id.slice(0, 8)}.md`;
+    const content = [
+      '---',
+      `entity: {type: decision, id: ${rec.id}}`,
+      `category: ${rec.category}`,
+      `scenario: ${rec.scenario}`,
+      `reasoning: ${rec.reasoning}`,
+      `outcome: ${rec.outcome}`,
+      `confidence: ${rec.confidence}`,
+      `state: ${rec.state}`,
+      `decision_maker: ${rec.decision_maker}`,
+      '---',
+      `# Decision: ${rec.category}`,
+      '',
+      `**Scenario**: ${rec.scenario}`,
+      `**Reasoning**: ${rec.reasoning}`,
+      `**Outcome**: ${rec.outcome}`,
+    ].join('\n');
+    await storage.write(fileName, content, `Decision ${rec.id}`);
+    console.log(`Recorded decision ${rec.id} → ${fileName}`);
+  });
+
+decisionCmd.command('promote').description('Change decision state (accepted/rejected) with reason')
+  .option('-p, --path <path>', 'Vault path', process.cwd())
+  .option('--id <id>', 'Decision id', '')
+  .option('--state <state>', 'New state: accepted|rejected', '')
+  .option('--reason <reason>', 'Reason for the change', '')
+  .option('--by <by>', 'Who is promoting', 'savia')
+  .action(async (opts) => {
+    if (!opts.id || !opts.state || !opts.reason) {
+      console.error('ERROR: --id, --state and --reason are required'); process.exit(1);
+    }
+    const config = makeConfig('vault', opts.path);
+    const storage = new VaultStorage(config);
+    const note = await storage.read(`decisions/${opts.id}.md`).catch(() => null);
+    if (!note) { console.error(`Decision ${opts.id} not found`); process.exit(1); }
+    const { serializeOkfNote, parseOkfFrontmatter } = await import('../knowledge/okf.js');
+    // Robust: si frontmatter parseado vacio pero content empieza con ---, re-extraer
+    let fm = { ...note.frontmatter } as Record<string, unknown>;
+    let body = note.content;
+    if (Object.keys(fm).length === 0 && body.startsWith('---')) {
+      const parsed = parseOkfFrontmatter(body);
+      fm = parsed.frontmatter;
+      body = parsed.content;
+    }
+    fm.state = opts.state;
+    fm.state_reason = opts.reason;
+    const noteContent = serializeOkfNote(fm, body);
+    await storage.write(`decisions/${opts.id}.md`, noteContent, `Promote ${opts.id} → ${opts.state}`);
+    console.log(`Promoted ${opts.id} → ${opts.state} (${opts.reason})`);
+  });
+
+const conflictCmd = program.command('conflict').description('Detect and resolve contradictory facts (SE-309)');
+conflictCmd.command('scan').description('Detect contradictory facts in the vault')
+  .option('-p, --path <path>', 'Vault path', process.cwd())
+  .action(async (opts) => {
+    const config = makeConfig('vault', opts.path);
+    const storage = new VaultStorage(config);
+    const { detectConflicts } = await import('../knowledge/conflicts.js');
+    const paths = await storage.list();
+    const notes = [];
+    for (const p of paths) {
+      try { notes.push(await storage.read(p)); } catch { /* skip */ }
+    }
+    const conflicts = detectConflicts(notes as never[]);
+    if (conflicts.length === 0) {
+      console.log('No conflicts detected');
+      return;
+    }
+    console.log(`Detected ${conflicts.length} conflict(s):`);
+    for (const c of conflicts) {
+      console.log(`  [${c.entityId}.${c.property}] ${c.valueA} (${c.sourceA}) vs ${c.valueB} (${c.sourceB})`);
+    }
+  });
+
 // Federate commands
 const federateCmd = program.command('federate').description('Manage federated domes');
 federateCmd.command('add <id> <url>').description('Register a remote dome')
