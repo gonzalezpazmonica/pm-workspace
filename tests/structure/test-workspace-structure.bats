@@ -113,6 +113,7 @@ teardown() {
       portfolio-as-graph.en.md) continue ;;
       meeting-digest.md) continue ;;
       loop-state-schema.md) continue ;;  # SE-228-S1: canonical STATE.md schema doc, same exception class as savia-ethical-principles.md
+      cross-frontend-coverage.md) continue ;;  # SE-180: canonical cross-frontend model doc (Claude↔OpenCode↔Copilot CLI)
     esac
     local lines; lines=$(wc -l < "$f")
     [ "$lines" -le 150 ] || oversized=$((oversized + 1))
