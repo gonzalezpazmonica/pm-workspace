@@ -35,17 +35,19 @@
 | Proactividad (SE-310, de Alexa+) | **Savia habla sin que la llames** (opt-in) | Triggers programados o por evento (digest de reunion, briefs) inyectan un mensaje hablado+UI. Default OFF; NUNCA interrumpe una reunion en RECORDING; horas de silencio configurables |
 | Memoria (SE-310, de Alexa+/Siri) | **Enganche a la memoria de Savia** (decoplado por ficheros) | Lee un contexto en el arranque de sesion (preferencias/proyecto activo) e inyecta en el system prompt; al cerrar, escribe "memory candidates" que el workspace digiere en la auto-memory (patron SE-308: la app escribe, Savia digiere) |
 | Contexto multimodal (SE-310, de Gemini Live) | **Savia ve la pantalla** (opt-in) | En cada turno de usuario, captura screenshot (mss, ya dep) y lo adjunta al LLM si el modelo es vision-capable. Default OFF (privacidad); degrada a texto si el modelo no ve o falla la captura |
+| Cupulas de contexto (SE-310, de SaviaVaults) | **Savia consume y alimenta las cupulas de Savia Vaults configuradas** | `VaultBridge` (A2A HTTP, localhost:8923): CONSUME (search+context de domes en cada turno, RAG sobre el conocimiento) y ALIMENTA (share de notas de conversacion al dome configurado). Gate de confidencialidad: solo domes <= nivel permitido segun endpoint LLM (local → hasta N4b; cloud → solo N1/N2) |
+| Flujo de inferencia (SE-310) | **Analizar → Construir → Contestar, con grounding en cupulas** | El LLM (1) ANALIZA el turno contra el contexto recuperado de las cupulas, (2) CONSTRUYE la respuesta fundamentada (+ tools via ToolsBridge si hace falta), (3) CONTESTA por voz y escribe el conocimiento de vuelta a la cupula (VaultFeed) |
 
 **Effort Estimation (Dual Model):**
 
 | Dimension | Value |
 |---|---|
-| Agent effort | 720 min (estimacion inicial; +proactividad/memoria/vision) |
-| Human effort | 28 h |
-| Review effort | 90 min |
+| Agent effort | 900 min (estimacion inicial; +proactividad/memoria/vision/cupulas) |
+| Human effort | 36 h |
+| Review effort | 120 min |
 | Context risk | low |
 | Agent-capable | partial (audio real requiere humano) |
-| Fallback | Si agente falla: humano necesita 14h |
+| Fallback | Si agente falla: humano necesita 18h |
 
 ---
 
@@ -95,15 +97,26 @@ nuevos procesadores sin tocar los existentes.
 │                                                                        │
 │  AUDIO_IN ──► VAD ──► STT ──► CONTEXT ──► LLM ──► SPLIT ──► TTS ──► AUDIO_OUT
 │   (hotkey)   (silero) (whisper) (agg)     (stream)  (frases) (kokoro)
-│      │                                                                  │
-│      └──► barge-in: si el hotkey se pulsa durante SPEAKING, corta       │
-│           TTS + LLM al instante (interrupcion de primera clase)         │
-│                                                                        │
+│      │              ▲           ▲
+│      │              │           │ VaultContext (CONSUME, S0-H): search+read
+│      │              │           │   de domes configurados -> bloque 'CUPULAS'
+│      │              │           │   en el contexto (RAG sobre conocimiento)
+│      │              │           │   + VisionContext (S0-G, opt-in)
+│      │              └───────────┴── MemoryContext (S0-F): preferencias/proyecto
+│      │
+│      └──► barge-in: si el hotkey se pulsa durante SPEAKING, corta
+│           TTS + LLM al instante (interrupcion de primera clase)
+│           │
+│           ▼
 │  ┌────────────────┐    ┌──────────────────────────────────────────┐   │
 │  │ ToolsBridge    │◄───│ LLM tool-calling → acciones de Savia     │   │
 │  │ (S0-A: solo    │    │ (skills/comandos del workspace, con      │   │
 │  │  confirmacion) │    │  confirmacion). Patron JARVIS controller │   │
 │  └────────────────┘    └──────────────────────────────────────────┘   │
+│                                                                        │
+│  VaultFeed (ALIMENTA, S0-H, post-sesion): escribe la nota de la        │
+│  conversacion en el dome configurado (POST /share) — el conocimiento   │
+│  vuelve a la cupula. MemoryBridge (S0-F) escribe memory.md aparte.     │
 │                                                                        │
 │  ┌──────────────────┐   ┌───────────────────────────────┐             │
 │  │ TTSProvider      │   │ ConversationStore             │             │
@@ -115,6 +128,11 @@ nuevos procesadores sin tocar los existentes.
 │  │ (sounddevice)    │        Savia digiere via transcriptor-digest     │
 │  └──────────────────┘                                                 │
 └──────────────────────────────────────────────────────────────────────┘
+
+  Fuera del app (decoplado): SaviaVaults A2A server (127.0.0.1:8923)
+  expone /search, /context/{path}, /stats, /share (Bearer auth, rate-limit).
+  VaultBridge habla con el; las cupulas configuradas viven en
+  savia-vaults.domes.json (con nivel de confidencialidad N1-N4b).
 
   Etapas S1/S2 (futuras, NO en S0): STT-streaming + wake-word (S1),
   transporte de reunion tipo "sidecar" sobre el bus de audio (S2),
@@ -276,6 +294,15 @@ mensajes de conversacion (solo eventos: `conversation:started`, `message:ok`,
 | `conversation.memory_persist` | `true` | Escribe `memory.md` con memory candidates al cerrar sesion (S0-F) |
 | `conversation.vision_enabled` | `false` | Captura de pantalla en cada turno si el modelo es vision-capable (S0-G). Default OFF por privacidad |
 | `conversation.vision_model_capable` | `false` | Declara si el modelo LLM configurado acepta imagenes (evita prueba y error) |
+| `vaults.enabled` | `false` | Habilita la integracion con las cupulas de SaviaVaults (S0-H). Default OFF |
+| `vaults.base_url` | `http://127.0.0.1:8923` | Endpoint A2A de SaviaVaults |
+| `vaults.config_path` | `projects/savia-vaults/savia-vaults.domes.json` | Cupulas configuradas (domes) + nivel de confidencialidad |
+| `vaults.auth_token` | (de config/keyring) | Bearer token del A2A server |
+| `vaults.domes` | `[]` | Domes a consultar; vacio = todos los configurados (respetando el gate) |
+| `vaults.max_confidentiality` | `N2` | Nivel maximo a CONSUMIR. Default conservador N2; la operadora lo sube a N4b SOLO con endpoint LLM local |
+| `vaults.top_k` | `3` | Notas relevantes a inyectar por turno (cruzando domes) |
+| `vaults.write_dome` | (defaultDome) | Dome donde VaultFeed escribe las notas de conversacion |
+| `vaults.write_path_prefix` | `conversaciones/` | Prefijo de path para las notas escritas |
 | `conversation.tts_backend` | `none` | `none` \| `subprocess` |
 | `conversation.tts_command` | `` | Plantilla `{out}`/`{text}` (ej. `savia-kokoro --text {text} --output {out} --json`); WAV temporal en `~/.savia/transcriptor/tmp-tts/` con limpieza al arrancar |
 | `conversation.tts_queue_cap` | `3` | Frases pendientes max en la cola TTS; exceso = descartar la mas antigua (barge-in) |
@@ -391,6 +418,96 @@ class VisionContext:
 **Nota de privacidad**: activar vision envia capturas de pantalla al endpoint
 LLM. Si el endpoint es cloud, las capturas salen de la maquina — el usuario
 debe saberlo. Se recomienda vision SOLO con endpoint local (Ollama vision).
+
+## 2.8 Integracion con SaviaVaults (S0-H) — Savia consume y alimenta las cupulas
+
+SaviaVaults (`projects/savia-vaults/`) es el almacen de conocimiento de Savia:
+**cupulas de contexto** (domes) con nivel de confidencialidad (N1-N4b),
+busqueda BM25, notas con frontmatter y grafo de conocimiento. El A2A server
+(`127.0.0.1:8923`) expone `/search`, `/context/{path}`, `/stats`, `/share`
+(Bearer auth, rate-limit). El sistema de voz se conecta a el de forma
+DECOPLADA (mismo patron SE-308: la app habla HTTP, nunca acopla a `savia-vaults`).
+
+```python
+# services/conversation/vault_bridge.py
+class VaultBridge:
+    """Cliente A2A de SaviaVaults (HTTP localhost). Lee las cupulas
+    configuradas de savia-vaults.domes.json + savia-vaults.config.json
+    (port, auth). Sin dependencia del codigo de savia-vaults: solo HTTP."""
+
+    def __init__(self, base_url: str, auth_token: str, domes: list[DomeSpec],
+                 max_confidentiality: str): ...
+
+    def search(self, query: str, top_k: int = 3) -> list[VaultHit]:
+        """GET /search?q=&maxResults= sobre cada dome configurado. Aplica el
+        GATE DE CONFIDENCIALIDAD: solo consulta domes con
+        confidentiality <= max_confidentiality. Devuelve top-k cruzando domes."""
+
+    def read(self, vault: str, path: str) -> Optional[Note]:
+        """GET /context/<vault>/<path> — nota completa (frontmatter+content)."""
+
+    def write(self, vault: str, path: str, content: str) -> Optional[Receipt]:
+        """POST /share — escribe una nota en el dome (ALIMENTAR)."""
+
+class VaultContext:
+    """Etapa CONSUME del pipeline: antes de construir el contexto LLM, busca
+    en las cupulas y adjunta las notas relevantes como bloque 'CUPULAS'.
+    Sin resultados relevantes -> degrada a contexto de conversacion (no rompe)."""
+
+class VaultFeed:
+    """Etapa ALIMENTA (post-sesion): escribe la nota de la conversacion en el
+    dome configurado (`vaults.write_dome`, default el defaultDome de domes.json):
+    `conversaciones/YYYY-MM-DD-HH-MM.md` (transcripto) + nota breve de
+    hechos/decisiones. Falla del servidor -> degrada a local (no pierde nada:
+    ConversationStore ya persistio localmente)."""
+```
+
+**Gate de confidencialidad (no negociable)**: el nivel de confidencialidad que
+la conversacion puede CONSUMIR depende del endpoint LLM:
+
+| Endpoint LLM | `vaults.max_confidentiality` permitido | Razon |
+|---|---|---|
+| Ollama local (endpoint localhost) | `N4b` (todo) | El contenido no sale de la maquina |
+| Cloud (OpenRouter/OpenAI/...) | `N2` maximo | El contenido de cupulas viaja al proveedor; N3/N4b jamas |
+
+El gate se aplica ANTES de la consulta (un dome sobre el limite NO se consulta,
+ni se inyecta su contenido en el prompt). Es configuracion explicita
+(`vaults.max_confidentiality`), no inferencia del app.
+
+## 2.9 Flujo de inferencia: como Savia analiza, construye y contesta
+
+El sistema de voz consume inferencia en TRES fases por turno. La inferencia
+(local via Ollama por defecto) es el UNICO lugar donde se razona; las etapas
+de audio (STT/TTS) son deterministicas y no usan el LLM.
+
+```
+TURNO DEL USUARIO (push-to-talk)
+  │
+  ├─ 1. ANALIZAR  (comprender el turno en su contexto)
+  │     • STT transcribe (whisper, deterministico)
+  │     • ContextAggregator reune: system_prompt + historial + memoria
+  │       (S0-F) + CUPULAS recuperadas (S0-H) + pantalla (S0-G, opt-in)
+  │     • EL LLM interpreta la intencion DEL TURNO CONTRA ESE CONTEXTO:
+  │       "que pide, que sabemos, que falta"  → no contesta todavia
+  │
+  ├─ 2. CONSTRUIR (razonar la respuesta fundamentada)
+  │     • El LLM genera la respuesta GROUNDED en el bloque CUPULAS y memoria
+  │       (cita fuentes de la cupula si las usa: path de la nota)
+  │     • Si hace falta accion → tool-call via ToolsBridge (vault_query,
+  │       skills/comandos) CON confirmacion (AC-12)
+  │     • Streaming: los tokens salen a la UI y al sentence-buffer
+  │
+  └─ 3. CONTESTAR (hablar y devolver conocimiento)
+        • TTS por frases → altavoz (barge-inable)
+        • Al completar: VaultFeed escribe la nota en la cupula (S0-H)
+          + MemoryBridge escribe memory.md (S0-F) + ConversationStore
+        • La conversacion queda digerible por transcriptor-digest
+```
+
+**Regla de fundamentacion**: si la respuesta del LLM usa contenido de una
+cupula, DEBE citarla (path de la nota) en el texto (para la UI) o en metadata
+(para el digest). Evita que Savia presente conocimiento recuperado como
+inventado. El sistema prompt lo exige explicitamente.
 
 ---
 
@@ -520,6 +637,16 @@ operadora es N3 (datos personales) — el code review E1 cubre estas 4 comprobac
 30. **Vision — opt-in**: con `vision_enabled=false`, mss NO se invoca (fake
     registra 0 capturas); con `true` y `vision_model_capable=false`, degrada a
     texto (el mensaje al LLM no incluye imagen).
+31. **Vault CONSUME**: con `vaults.enabled=true`, el A2A fake devuelve 2 notas
+    relevantes → el contexto LLM incluye el bloque CUPULAS con ambas; con 0
+    resultados, el contexto es de conversacion pura (sin bloque).
+32. **Vault GATE**: con `vaults.max_confidentiality=N2` y un dome `N4b`, el
+    A2A fake registra que ese dome NO se consulto; un dome `N1` si.
+33. **Vault ALIMENTA**: al cerrar, `VaultBridge.write` recibe el path y
+    contenido correctos; con el servidor caido, no lanza (degradacion local).
+34. **Vault inferencia fundamentada**: el LLM fake recibe el bloque CUPULAS y
+    su respuesta incluye el path de la nota citada (assert sobre el contexto
+    y la metadata de citacion).
 
 ---
 
@@ -540,9 +667,15 @@ operadora es N3 (datos personales) — el code review E1 cubre estas 4 comprobac
 | `src-pyloid/services/conversation/proactive_trigger.py` | Triggers proactivos con gates (S0-E) |
 | `src-pyloid/services/conversation/memory_bridge.py` | Lectura de contexto + escritura de memory.md (S0-F) |
 | `src-pyloid/services/conversation/vision_context.py` | Captura de pantalla opt-in (S0-G) |
+| `src-pyloid/services/conversation/vault_bridge.py` | Cliente A2A de SaviaVaults (search/read/write + gate) (S0-H) |
+| `src-pyloid/services/conversation/vault_context.py` | Etapa CONSUME: RAG sobre cupulas (S0-H) |
+| `src-pyloid/services/conversation/vault_feed.py` | Etapa ALIMENTA: escribe nota de conversacion en el dome (S0-H) |
 | `src-pyloid/tests/test_proactive_trigger.py` | pytest gates de proactividad |
 | `src-pyloid/tests/test_memory_bridge.py` | pytest lectura/escritura de memoria |
 | `src-pyloid/tests/test_vision_context.py` | pytest vision + degradacion |
+| `src-pyloid/tests/test_vault_bridge.py` | pytest A2A client + gate de confidencialidad |
+| `src-pyloid/tests/test_vault_context.py` | pytest consume + degradacion |
+| `src-pyloid/tests/test_vault_feed.py` | pytest alimenta + fallback local |
 | `src-pyloid/tests/test_conversation_service.py` | pytest bucle con fakes |
 | `src-pyloid/tests/test_tts_provider.py` | pytest backends TTS |
 | `src-pyloid/tests/test_sentence_splitter.py` | pytest splitter |
@@ -613,6 +746,21 @@ operadora es N3 (datos personales) — el code review E1 cubre estas 4 comprobac
       `vision_model_capable=true`, el turno de usuario adjunta la captura;
       si el modelo no es vision-capable o la captura falla, degrada a texto
       sin romper; con `vision_enabled=false` nunca se captura pantalla.
+- [ ] **AC-16** — Cupulas CONSUME (S0-H): con `vaults.enabled=true` y domes
+      configurados, el contexto LLM incluye el bloque CUPULAS con las notas
+      recuperadas (top-k, cruzando domes); sin resultados relevantes degrada
+      a contexto de conversacion sin romper.
+- [ ] **AC-17** — Cupulas GATE (S0-H): un dome con `confidentiality >`
+      `vaults.max_confidentiality` NUNCA se consulta ni su contenido entra en
+      el prompt; cambiar `max_confidentiality` a `N4b` con endpoint cloud queda
+      bloqueado (validacion cruzada endpoint↔nivel).
+- [ ] **AC-18** — Cupulas ALIMENTA (S0-H): al cerrar la sesion con
+      `vaults.enabled=true`, VaultFeed escribe la nota de conversacion en el
+      `vaults.write_dome` via POST /share; si el servidor falla, degrada a
+      local (ConversationStore ya persistio) sin perder nada.
+- [ ] **AC-19** — Inferencia fundamentada (2.9): si la respuesta del LLM usa
+      contenido de una cupula, la cita (path de la nota) en el texto/metadata;
+      test verifica que el bloque CUPULAS llega al LLM y que la cita aparece.
 
 ---
 
@@ -652,6 +800,13 @@ operadora es N3 (datos personales) — el code review E1 cubre estas 4 comprobac
 - [ ] `VisionContext`: captura screenshot en el turno de usuario (mss, downscale)
 - [ ] Adjunto al LLM SOLO si modelo vision-capable; degradacion a texto
 - [ ] Privacidad: default OFF; N3 local si Ollama con modelo vision
+
+### S0-H — Cupulas de contexto (SaviaVaults, consume + alimenta)
+- [ ] `VaultBridge`: cliente A2A (search/read/write) + gate de confidencialidad
+- [ ] `VaultContext`: RAG sobre domes configurados en cada turno (bloque CUPULAS)
+- [ ] `VaultFeed`: escribe nota de conversacion en el write_dome (POST /share)
+- [ ] Flujo de inferencia 2.9 (analizar/construir/contestar) con citacion
+- [ ] End-to-end contra el A2A server real de savia-vaults (solo-lectura + 1 write de prueba)
 
 ---
 
@@ -765,6 +920,7 @@ honestos (latencia y speech-to-speech end-to-end) con palancas documentadas.**
 | **On-device / privacidad** | Apple Foundation Models on-device; Alexa+ privacy dashboard | Local-first N3: audio nunca sale, solo TEXT al LLM configurado | ✅ Diferenciador real vs cloud |
 | **Turn-taking (fin de turno)** | LiveKit semantic turn detection; Vocode endpointing; OpenAI turn lifecycle | S0: push-to-talk explicito; S1: turn detection | ✅ Ruta correcta en el roadmap |
 | **Multimodal (vision)** | Gemini Live vision; GPT realtime vision; Pipecat multimodal | S0-G: VisionContext opt-in (captura de pantalla → modelo vision-capable, degrada a texto; default OFF) | ✅ En alcance (S0-G, opt-in) |
+| **Knowledge grounding (RAG sobre conocimiento personal)** | Alexa+ "deep knowledge" (documentos/emails/fotos); Gemini context grounding; SaviaVaults es el equivalente local | S0-H: VaultContext consume cupulas (BM25 over domes) + VaultFeed alimenta — Savia razona SOBRE su propio conocimiento | ✅ En alcance (S0-H) — diferenciador: grounding sobre las cupulas locales N3 |
 | **Continuidad cross-device** | Alexa+ Echo↔telefono↔web | NO en SE-310: solo desktop; Savia Mobile se evalua en fase aparte | ➡️ Fuera de alcance (por decision de la operadora, 2026-08-07) |
 
 **Decision**: S0 mantiene el enfoque local-first de etapas discretas (patron de
