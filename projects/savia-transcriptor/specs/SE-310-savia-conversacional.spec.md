@@ -27,6 +27,11 @@
 | Concurrencia | **Conversacion y grabacion de reunion coexisten** | Dictado ya coexiste con grabacion; la conversacion usa el mismo path de captura push-to-talk (mismo arbitraje de device que el dictado) |
 | Confidencialidad | **N3 local**: audio nunca sale de la maquina | STT local (whisper), TTS local (Kokoro); solo TEXT al endpoint LLM configurado; API keys via keyring |
 | Sistema de prompt | **Inyectable** (default identidad Savia) | Config `conversation.system_prompt`; evita hardcodear la personalidad |
+| Arquitectura (SE-310, de Pipecat) | **Pipeline de etapas modulares** en vez de servicio monolitico | Patron de Pipecat (pipecat-ai): audio → VAD → STT → contexto → LLM → split → TTS → audio. Cada etapa es un procesador reemplazable; S1/S2 (streaming STT, wake word, sidecar en reuniones) son nuevas etapas, no reescrituras |
+| Contexto (SE-310, de Pipecat) | **ContextAggregator por presupuesto de tokens** | Sustituye `max_history`+truncado por char: agrega mensajes hasta un presupuesto de tokens, con resumen rodante si se excede (patron `LLMContextAggregator`). Conversaciones largas degradan con gracia |
+| Puente a herramientas (SE-310, de JARVIS/LiveKit) | **Tool-calling del LLM → acciones de Savia** | Patron "LLM controlador + ejecutores" de JARVIS (HuggingGPT) y `function_tool` de LiveKit: Savia no solo conversa, puede INVOCAR skills/comandos del workspace desde la conversacion (con confirmacion) |
+| Barge-in (SE-310, de Pipecat/Vocode) | **Interrupcion de primera clase** | Si el usuario pulsa el hotkey mientras Savia habla → corta TTS+LLM al instante (no espera al boton). Patron estandar de voice agents |
+| Feedback de "pensando" (SE-310, de LiveKit) | **Cue sonoro sutil mientras el LLM procesa** | Enmascara la latencia (2-5s): tono corto o "shimmer" mientras `state=thinking`, igual que LiveKit background audio |
 
 **Effort Estimation (Dual Model):**
 
@@ -75,35 +80,42 @@ que una reunion.
 
 ## 2. Arquitectura
 
-### 2.1 Bucle conversacional
+### 2.1 Bucle conversacional (pipeline modular, patron Pipecat)
+
+Cada etapa es un procesador reemplazable. S0 cablea las etapas A-F; las etapas
+para S1/S2 (STT en streaming, wake word, transporte de reunion) se anaden como
+nuevos procesadores sin tocar los existentes.
 
 ```
-┌──────────────────────────────────────────────────────────────────┐
-│                    Savia Transcriptor (app)                        │
-│                                                                    │
-│  [hotkey push-to-talk]  ┌──────────────────────────────────────┐  │
-│       release-to-send   │ ConversationService                   │  │
-│  ┌─────────▼────────┐   │                                       │  │
-│  │ DictationPath    │──►│ 1. transcribe (faster-whisper, local)│  │
-│  │ (existente)      │   │ 2. build_context (history + prompt)  │  │
-│  └──────────────────┘   │ 3. stream LLM (OpenAICompatible)     │──┐ │
-│                         │ 4. sentence-buffer -> TTSProvider    │  │ │
-│  ┌──────────────────┐   │ 5. persist -> ConversationStore      │  │ │
-│  │ TTSProvider      │◄──┘                                       │  │ │
-│  │  subprocess      │                                           │  │ │
-│  │  (savia-kokoro)  │                                           │  │ │
-│  └─────────┬────────┘                                           │  │ │
-│            │ WAV                                                │  │ ▼
-│  ┌─────────▼────────┐   ┌───────────────────────────────┐        │  │
-│  │ AudioOutput      │   │ ConversationStore             │        │  │
-│  │ (sounddevice)    │   │ ~/.savia/transcriptor/        │        │  │
-│  └──────────────────┘   │   conversaciones/YYYY-MM-DD/  │        │  │
-│                         └───────────────┬───────────────┘        │  │
-└─────────────────────────────────────────┼────────────────────────┘──┘
-                                          │
-                              [savia-kokoro.py via subprocess]  (workspace, si configurado)
-                                          │
-                              Savia digiere la conversacion via transcriptor-digest
+┌──────────────────────────────────────────────────────────────────────┐
+│                    Savia Transcriptor (app)                            │
+│                                                                        │
+│  AUDIO_IN ──► VAD ──► STT ──► CONTEXT ──► LLM ──► SPLIT ──► TTS ──► AUDIO_OUT
+│   (hotkey)   (silero) (whisper) (agg)     (stream)  (frases) (kokoro)
+│      │                                                                  │
+│      └──► barge-in: si el hotkey se pulsa durante SPEAKING, corta       │
+│           TTS + LLM al instante (interrupcion de primera clase)         │
+│                                                                        │
+│  ┌────────────────┐    ┌──────────────────────────────────────────┐   │
+│  │ ToolsBridge    │◄───│ LLM tool-calling → acciones de Savia     │   │
+│  │ (S0-A: solo    │    │ (skills/comandos del workspace, con      │   │
+│  │  confirmacion) │    │  confirmacion). Patron JARVIS controller │   │
+│  └────────────────┘    └──────────────────────────────────────────┘   │
+│                                                                        │
+│  ┌──────────────────┐   ┌───────────────────────────────┐             │
+│  │ TTSProvider      │   │ ConversationStore             │             │
+│  │  subprocess/none │   │ ~/.savia/transcriptor/        │             │
+│  └─────────┬────────┘   │   conversaciones/YYYY-MM-DD/  │             │
+│            │ WAV        └───────────────┬───────────────┘             │
+│  ┌─────────▼────────┐                    │                             │
+│  │ AudioOutput      │                    ▼                             │
+│  │ (sounddevice)    │        Savia digiere via transcriptor-digest     │
+│  └──────────────────┘                                                 │
+└──────────────────────────────────────────────────────────────────────┘
+
+  Etapas S1/S2 (futuras, NO en S0): STT-streaming + wake-word (S1),
+  transporte de reunion tipo "sidecar" sobre el bus de audio (S2),
+  timestamps por palabra (WhisperX) para interrupcion precisa (S2).
 ```
 
 ### 2.2 Contratos
@@ -141,12 +153,27 @@ class ConversationMessage(TypedDict):
     content: str
     timestamp: str
 
+# services/conversation/context_aggregator.py
+class ContextAggregator:
+    """Agrega el historial al LLM bajo un PRESUPUESTO DE TOKENS (no conteo de
+    mensajes). Mantiene system_prompt + ultimos N mensajes dentro del budget;
+    si se excede, descarta los mas antiguos y (opcional) anade un resumen
+    rodante de una linea. Pattern: LLMContextAggregator de Pipecat."""
+
+# services/conversation/tools_bridge.py
+class ToolsBridge:
+    """Traduce tool-calls del LLM a acciones de Savia (skills/comandos del
+    workspace). En S0: SOLO acciones de solo-lectura o que requieren
+    confirmacion explicita del usuario en la UI antes de ejecutar. El LLM
+    recibe la lista de tools disponibles como function calling."""
+
 class ConversationService:
     """Orquesta push-to-talk -> transcribe -> LLM stream -> TTS -> persist.
     Ejecuta en background thread; la UI recibe eventos IPC (nunca bloqueo)."""
     def __init__(self, transcriber, llm: OpenAICompatibleProvider,
                  tts: TTSProvider, store: ConversationStore,
-                 system_prompt: str, max_history: int = 20): ...
+                 context: ContextAggregator, tools: ToolsBridge,
+                 system_prompt: str): ...
 
     def on_push_to_talk_released(self, audio: np.ndarray) -> None: ...
         # 1. transcribe audio (REUSA el modelo whisper global ya cargado, sin recargar)
@@ -197,9 +224,17 @@ quiere menor latencia, la operadora configura un modelo pequeno (settings).
 | `conversation:history` | `messages[]` | Al abrir la vista: carga la sesion persistida en curso (o vacio si es nueva) |
 | `conversation:notice` | `{kind, text}` | Avisos no-bloqueantes: "voz no disponible, respondo por texto" (una vez por sesion), "hotkey en uso", etc. |
 
-**Interrupcion**: el usuario puede parar la respuesta de Savia (segundo pulso del
-hotkey o boton UI) → `ConversationService.cancel()` → corta el stream LLM y el
-TTS. Es la interaccion de "Savia, para". La parte ya completada queda persistida.
+**Interrupcion (barge-in)**: el usuario puede parar la respuesta de Savia de
+DOS formas, ambas con el mismo `ConversationService.cancel()`:
+1. Segundo pulso del hotkey (o boton UI) durante `speaking`/`thinking`.
+2. **Barge-in automatico**: pulso del hotkey durante `speaking` corta TTS+LLM
+   al instante — Savia "para de hablar cuando le interrumpes" (patron estandar
+   de voice agents, Pipecat/Vocode). La parte ya completada queda persistida.
+
+**Feedback de "pensando"**: mientras `state=thinking` (latencia LLM 2-5s), la
+UI muestra el estado Y se reproduce un cue sonoro sutil (configurable, default
+off) para que el usuario sepa que Savia esta procesando. Cue != voz: un tono
+corto o shimmer, nunca contenido hablado (no confunde al mic).
 
 **Sentence buffer**: flushes en `.?!\n` o tras N chars (N=180 default). Si una
 frase excede N sin puntuacion, se corta por el ultimo espacio (no bloquea el stream).
@@ -226,8 +261,9 @@ mensajes de conversacion (solo eventos: `conversation:started`, `message:ok`,
 | `conversation.llm_api_key` | keyring | Via keyring (ya en VoiceFlow); vacio = endpoint local sin auth |
 | `conversation.llm_timeout_s` | `30` | Timeout por turno; al expirar → `conversation:error` recuperable (el provider global usa read 120s; la conversacion exige respuesta en 30s) |
 | `conversation.system_prompt` | Identidad Savia | Texto inyectable; default identidad de Savia |
-| `conversation.max_history` | `20` | Mensajes de contexto; cada mensaje se TRUNCA a `max_message_chars` (token budget efectivo) |
-| `conversation.max_message_chars` | `4000` | Trunca contenido largo por mensaje antes de enviar al LLM |
+| `conversation.context_token_budget` | `8000` | Presupuesto de tokens del historial enviado al LLM (ContextAggregator); los mensajes fuera de presupuesto se descartan o se resumen |
+| `conversation.tools_enabled` | `false` | Habilita tool-calling → ToolsBridge (acciones de Savia con confirmacion). Off en S0 default: primero la conversacion limpia |
+| `conversation.thinking_cue` | `false` | Reproduce el cue sonoro de "pensando" durante la latencia del LLM |
 | `conversation.tts_backend` | `none` | `none` \| `subprocess` |
 | `conversation.tts_command` | `` | Plantilla `{out}`/`{text}` (ej. `savia-kokoro --text {text} --output {out} --json`); WAV temporal en `~/.savia/transcriptor/tmp-tts/` con limpieza al arrancar |
 | `conversation.tts_queue_cap` | `3` | Frases pendientes max en la cola TTS; exceso = descartar la mas antigua (barge-in) |
@@ -357,6 +393,17 @@ operadora es N3 (datos personales) — el code review E1 cubre estas 4 comprobac
     los 60s y emite `conversation:notice`.
 20. **Logs sin contenido**: tras una conversacion real, `transcriptor.log` no
     contiene ninguna cadena de los mensajes (solo eventos).
+21. **Barge-in**: con la UI en `speaking`, el pulso del hotkey llama a
+    `cancel()` (LLM fake registra cancel, TTS fake registra `stop()`), estado
+    vuelve a `idle`, lo ya hablado queda persistido.
+22. **Contexto por tokens**: 60 mensajes con `context_token_budget=8000` →
+    el LLM fake recibe un payload <= presupuesto y los mensajes mas antiguos
+    se descartan/resumen, no se envian enteros.
+23. **Tool-call**: con `tools_enabled=true`, el LLM fake emite un tool-call →
+    `ToolsBridge` lo traduce y la accion queda PENDIENTE de confirmacion en la
+    UI (no se ejecuta sin `confirmar`).
+24. **Cue de pensando**: con `thinking_cue=true`, durante `state=thinking` se
+    reproduce el cue (AudioOutput fake registra 1 cue); nunca contenido hablado.
 
 ---
 
@@ -369,6 +416,8 @@ operadora es N3 (datos personales) — el code review E1 cubre estas 4 comprobac
 | `specs/SE-310-savia-conversacional.spec.md` | Esta spec |
 | `src-pyloid/services/conversation/conversation_service.py` | Orquestador del bucle |
 | `src-pyloid/services/conversation/tts_provider.py` | `TTSProvider` + `SubprocessTTS` + `NoopTTS` |
+| `src-pyloid/services/conversation/context_aggregator.py` | Contexto por presupuesto de tokens (patron Pipecat) |
+| `src-pyloid/services/conversation/tools_bridge.py` | Tool-calling → acciones de Savia (con confirmacion) |
 | `src-pyloid/services/conversation/sentence_splitter.py` | Split por frase (espanol, abreviaturas) |
 | `src-pyloid/services/conversation/conversation_store.py` | Persistencia + `index.db` |
 | `src-pyloid/services/conversation/audio_output.py` | Reproduccion WAV (sounddevice) |
@@ -421,6 +470,15 @@ operadora es N3 (datos personales) — el code review E1 cubre estas 4 comprobac
 - [ ] **AC-8** — Cola TTS acotada: con un LLM fake rapido y un TTS fake lento,
       nunca hay mas de `tts_queue_cap` frases pendientes y la voz no se acumula
       (barge-in descarta la mas antigua).
+- [ ] **AC-9** — Pipeline modular: cada etapa (VAD/STT/contexto/LLM/split/TTS)
+      es un procesador reemplazable; los tests prueban el cableado con fakes
+      y S1/S2 solo anaden etapas sin tocar las existentes.
+- [ ] **AC-10** — Barge-in: el pulso del hotkey durante `speaking` corta TTS+LLM
+      al instante y deja la conversacion persistida y recuperable.
+- [ ] **AC-11** — Contexto por presupuesto de tokens: el payload al LLM nunca
+      supera `context_token_budget` en conversaciones largas.
+- [ ] **AC-12** — `tools_enabled=false` por default; con `true`, los tool-calls
+      se muestran en la UI y NO se ejecutan sin confirmacion explicita.
 
 ---
 
@@ -428,8 +486,9 @@ operadora es N3 (datos personales) — el code review E1 cubre estas 4 comprobac
 
 ### S0-A — Núcleo backend conversacional
 - [ ] `ConversationStore` + `sentence_splitter` + `AudioOutput` (con tests)
+- [ ] `ContextAggregator` (presupuesto de tokens) + `ToolsBridge` (confirmacion)
 - [ ] `TTSProvider` (`none` + `subprocess`) con degradacion
-- [ ] `ConversationService` con el bucle completo (fakes)
+- [ ] `ConversationService` con el bucle completo por etapas (fakes) + barge-in
 
 ### S0-B — Integracion app + UI
 - [ ] Settings + cableado en `app_controller.py`/`server.py` (hotkey separado)
@@ -449,13 +508,39 @@ operadora es N3 (datos personales) — el code review E1 cubre estas 4 comprobac
 
 ## 9. Fuera de alcance (S1/S2 — siguiente fase)
 
-- **Wake word** y activacion por voz sin hotkey.
-- **Participacion en vivo en reuniones** (S2): STT en streaming de baja latencia,
-  politica de intervencion, TTS hacia la reunion con cancelacion de eco / ruteo
-  de audio (virtual cable). Es el objetivo "participar conmigo en las reuniones"
-  y NO se cubre aqui — requiere spec propia con su arquitectura de audio.
-- **Voice cloning** (SE-042, GPU) y multi-voz.
-- **Diarizacion** (quien habla en la reunion).
+La arquitectura de pipeline modular (seccion 2.1) deja el camino allanado. La
+siguiente fase se construye sobre patrones de la industria ya estudiados:
+
+- **S1 — "Modo escucha" + wake word**: STT en streaming de baja latencia
+  (faster-whisper por segmentos VAD, no batch al final), wake word
+  (OpenWakeWord/Porcupine) y deteccion de fin de turno (endpointing por
+  puntuacion — Vocode — o semantic turn detection — LiveKit, transformer).
+  Timestamps por palabra (WhisperX, forced alignment) para interrupcion
+  precisa. Savia escucha la reunion y resumen en vivo, sin hablar.
+- **S2 — "Participacion por voz"**: Savia como **sidecar agent** sobre el bus
+  de audio de la reunion (patron multi-agente de Pipecat: un pipeline por
+  agente, coordinados por un bus). Politica de intervencion, TTS hacia la
+  reunion con cancelacion de eco / ruteo (virtual cable), diarizacion
+  (pyannote/WhisperX) para saber quien habla.
+- **Voice cloning** (SE-042, GPU) y multi-voz (XTTS/Coqui).
+- **Telefonia/Zoom**: patron `zoom_dial_in` de Vocode — llamadas entrantes con
+  agente LLM — se evalua cuando S2 madure.
+
+---
+
+## 10. Referencias de arquitectura (investigacion 2026-08-07)
+
+| Repo | Que aporta a SE-310 | Estado |
+|---|---|---|
+| [Pipecat](https://github.com/pipecat-ai/pipecat) (pipecat-ai, ~2.5k★, Apache-2.0) | Pipeline de etapas modulares (VAD→STT→LLM→TTS), interrupcion/barge-in, context aggregator por tokens, transportes (incl. Local = app de escritorio), Kokoro+Silero+Ollama ya integrados, multi-agente sidecar (S2), Pipecat Flows | Framework de referencia para S0 y S2 |
+| [Vocode](https://github.com/vocodedev/vocode-core) (MIT) | `StreamingConversation` = transcriber+agent+synthesizer pluggable; endpointing por puntuacion; `zoom_dial_in` (participacion en reuniones) | Patron de conversacion y S2 |
+| [LiveKit Agents](https://github.com/livekit/agents) (Apache-2.0) | AgentSession (vad/stt/llm/tts), semantic turn detection (transformer), push-to-talk multi-usuario, background/thinking audio, function tools, test con LLM-judges | Turn-taking (S1), tools, testing |
+| [JARVIS / HuggingGPT](https://github.com/microsoft/JARVIS) (Microsoft) | LLM como controlador + modelos expertos como ejecutores (4 etapas: plan→select→execute→respond) | Concepto "Jarvis" = Savia ya lo cumple (LLM + 83 agentes/skills); SE-310 lo hace accesible por voz via ToolsBridge |
+| [WhisperX](https://github.com/m-bain/whisperX) (m-bain, BSD-2) | Timestamps por palabra (forced alignment wav2vec2), VAD-based batching, diarizacion (pyannote) | Dependencia de S1/S2 (interrupcion precisa, quien habla) |
+
+Decision: NO se adopta ningun framework como dependencia en S0 (la app ya tiene
+su stack VoiceFlow/faster-whisper/sounddevice). Solo se copian los PATRONES:
+pipeline modular, barge-in, context aggregator, tools bridge, thinking cue.
 
 ---
 
@@ -500,7 +585,9 @@ a `scripts/savia-kokoro.py`, ese script es shared y corre igual en cualquier mot
 | Riesgo | Prob. | Impacto | Mitigacion |
 |---|---|---|---|
 | Kokoro no disponible en la maquina de la operadora | Media | Sin voz | Backend subprocess con degradacion a `none`; documentar instalacion SE-075 Slice 3 |
-| Latencia LLM local alta (modelo grande en Ollama) | Media | Round-trip > 5s | Config de modelo; streaming visible en UI; TTS por frase enmascara la espera |
+| Latencia LLM local alta (modelo grande en Ollama) | Media | Round-trip > 5s | Config de modelo; streaming visible en UI; TTS por frase enmascara la espera; cue de "pensando" (patron LiveKit) avisa de forma no verbal |
 | Eco si Savia habla mientras hay reunion grabando | Baja en S0 | Calidad de grabacion | S0 usa altavoz solo en conversacion (no dentro de la reunion); eco es problema de S2 (fuera de alcance) |
 | Bucle de audio (mic recoge el altavoz) | Baja en S0 | Respuesta transcrita a si misma | El push-to-talk es explicito y no se autoactiva; sin wake word no hay autoescucha |
 | Drift con SE-308 (archivos ya existentes) | Baja | Rompe tests | AC-6 exige tests SE-308 intactos; cambios solo aditivos |
+| Sobre-ingenieria (pipeline modular muy abstracto) | Media | Complejidad innecesaria en S0 | El pipeline se limita a 6 etapas concretas; los procesadores son clases pequenas con fakes en tests; se documenta que S1/S2 solo anaden etapas |
+| Tool-calling sin confirmacion (Savia ejecuta algo por voz) | Baja | Accion no deseada | `tools_enabled=false` por default; con `true`, TODA accion queda pendiente de confirmacion explicita en la UI (test 23, AC-12) |
