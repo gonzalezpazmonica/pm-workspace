@@ -1,5 +1,5 @@
 # development — Savia Capability Map (L1)
-> 218 resources
+> 220 resources
 
 - **/speckit.checklist** (cmd): Alias spec-kit compatible. Gate de calidad final con verification-lattice multi-capa. Invoca skill verification-lattice. Compatible con github/spec-kit.
 - **/speckit.clarify** (cmd): Alias spec-kit compatible. Preguntas dirigidas para cerrar ambigüedad en una spec. Invoca skill context-interview-conductor. Compatible con github/spec-kit.
@@ -172,6 +172,8 @@
 - **setup-savia-web** (script): Setup, build, and serve savia-web on http://localhost:8081
 - **skill-loader** (script): skill-loader.sh — SPEC-144: Context-Aware Skill Loading
 - **skill-pattern-detector** (script): scripts/skill-pattern-detector.sh — SPEC-SE-030 Phase 1: Pattern Detection
+- **sldc-context-loop** (cmd): Cerrar el ciclo de conocimiento tras un merge — alimenta las cupulas de SaviaVaults (specs/ADRs/releases) y ejecuta la compuerta de estandares (SE-311)
+- **sldc-context-loop** (script): sldc-context-loop.sh — SE-311 S1: post-merge → feed SaviaVaults (spec/ADR/release)
 - **slm-deploy** (script): slm-deploy.sh — Orchestrate post-training deployment scaffolding.
 - **slm-registry** (script): slm-registry.sh — Model registry for trained SLMs (SPEC-SE-027 registry).
 - **smart-routing** (skill): Usar cuando se necesita descubrir o enrutar a un comando específico entre los 400+ disponibles.

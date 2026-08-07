@@ -1,5 +1,5 @@
 # governance — Savia Capability Map (L1)
-> 26 resources
+> 27 resources
 
 - **aepd-compliance** (cmd): Auditoría de cumplimiento AEPD para IA agéntica — framework 4 fases
 - **audit-all-bats** (script): audit-all-bats.sh — SE-039 Slice 1 probe: run test-auditor over all .bats.
@@ -23,6 +23,7 @@
 - **output-cleanup** (script): output-cleanup.sh — SE-101: Output directory retention policy
 - **policy-check** (cmd): Verificar politicas de agente para un proyecto — mostrar permisos y restricciones
 - **regulatory-compliance** (skill): Usar cuando se valida el cumplimiento de marcos regulatorios sectoriales.
+- **standards-compliance-gate** (script): standards-compliance-gate.sh — SE-311 S2: compuerta determinista de estandares
 - **vertical-education** (cmd): Extensión compliance para educación — FERPA, accesibilidad educativa, COPPA
 - **vertical-finance** (cmd): Extensión compliance para finanzas — SOX, Basel III, MiFID II, PCI DSS
 - **vertical-healthcare** (cmd): Extensión compliance para healthcare — HIPAA, HL7 FHIR, FDA 21 CFR Part 11
