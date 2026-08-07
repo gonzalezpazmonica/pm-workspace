@@ -83,4 +83,17 @@ describe('SaviaVaults A2A — multi-dome consume (SE-310 S0-H)', () => {
     const res = s.searchAll({ query: 'kokoro', maxResults: 10 }, 'B');
     expect(res).toEqual([]);
   });
+
+  it('writeDome escribe en la cupula destino y luego es buscable en ELLA (S0-H alimenta→consume)', () => {
+    const s = makeServer();
+    s.writeDome('A', 'conversaciones/test.md', '# digest\ncontenido digerido');
+    // debe ser buscable en la cupula A (el store correcto), no solo en la config vault
+    const res = s.searchAll({ query: 'digerido', maxResults: 5 }, 'A');
+    expect(res.some((r) => r.path.includes('conversaciones/test.md'))).toBe(true);
+  });
+
+  it('writeDome con dome inexistente no lanza (no escribe en ningun lado)', () => {
+    const s = makeServer();
+    expect(() => s.writeDome('ZZZ', 'x.md', 'y')).not.toThrow();
+  });
 });

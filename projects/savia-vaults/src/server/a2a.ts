@@ -16,6 +16,7 @@ export class A2AServer {
   private startTime: number;
   private domeReg?: DomeRegistry;
   private domeSearches = new Map<string, SearchEngine>();
+  private domeStorages = new Map<string, VaultStorage>();
 
   constructor(config: VaultConfig, domeReg?: DomeRegistry) {
     this.config = config;
@@ -52,6 +53,41 @@ export class A2AServer {
       this.domeSearches.set(name, se);
     }
     return se;
+  }
+
+  private domeStorage(name: string): VaultStorage | undefined {
+    const dome = this.domeReg?.get(name);
+    if (!dome) return undefined;
+    let st = this.domeStorages.get(name);
+    if (!st) {
+      const cfg: VaultConfig = {
+        name: dome.name,
+        path: dome.path,
+        allowedExtensions: [],
+        deniedPaths: [],
+        maxDepth: 10,
+        maxFileSize: this.config.maxFileSize,
+      };
+      st = new VaultStorage(cfg);
+      this.domeStorages.set(name, st);
+    }
+    return st;
+  }
+
+  /** Escribe una nota en UNA cupula concreta (S0-H alimenta). Fallback a la vault de config. */
+  async writeDome(dome: string, notePath: string, content: string): Promise<{ vault: string; path: string } | undefined> {
+    const st = this.domeStorage(dome);
+    if (!st) return undefined;
+    const note = await st.write(notePath, content);
+    return { vault: dome, path: note.path };
+  }
+
+  /** Lee una nota de UNA cupula concreta (S0-H consume). Fallback a la vault de config. */
+  async readDome(dome: string, notePath: string): Promise<{ path: string; name: string; frontmatter: unknown; tags: string[]; content: string } | undefined> {
+    const st = this.domeStorage(dome);
+    if (!st) return undefined;
+    const note = await st.read(notePath);
+    return { path: note.path, name: note.name, frontmatter: note.frontmatter, tags: note.tags, content: note.content };
   }
 
   /** Busca en UNA cupula (`dome`) o en todas las activas; devuelve resultados fusionados. */
@@ -137,10 +173,14 @@ export class A2AServer {
           res.end(JSON.stringify({ results }));
         } else if (p.startsWith('/context/')) {
           const parts = p.replace('/context/', '').split('/');
+          const dome = url.searchParams.get('dome') || undefined;
           const notePath = parts.slice(1).join('/');
-          const note = await this.storage.read(notePath);
-          res.writeHead(200);
-          res.end(JSON.stringify({ path: note.path, name: note.name, frontmatter: note.frontmatter, tags: note.tags, content: note.content }));
+          const note = dome
+            ? await this.readDome(dome, notePath)
+            : await this.storage.read(notePath);
+          if (!note) { res.writeHead(404); res.end(JSON.stringify({ error: `Not found in dome ${dome || this.config.name}` })); }
+          else res.writeHead(200);
+          res.end(JSON.stringify(note ?? {}));
         } else if (p === '/stats') {
           const stats = await this.storage.stats();
           res.writeHead(200);
@@ -150,10 +190,12 @@ export class A2AServer {
           req.on('data', chunk => body += chunk);
           req.on('end', async () => {
             try {
-              const { path: notePath, content } = JSON.parse(body);
-              const receipt = await this.storage.write(notePath, content);
-              res.writeHead(200);
-              res.end(JSON.stringify(receipt));
+              const { path: notePath, content, dome } = JSON.parse(body);
+              const receipt = dome
+                ? await this.writeDome(dome, notePath, content)
+                : await this.storage.write(notePath, content);
+              res.writeHead(receipt ? 200 : 404);
+              res.end(JSON.stringify(receipt ?? { error: `Dome not found: ${dome}` }));
             } catch {
               res.writeHead(400);
               res.end(JSON.stringify({ error: 'Invalid request' }));
