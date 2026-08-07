@@ -32,17 +32,20 @@
 | Puente a herramientas (SE-310, de JARVIS/LiveKit) | **Tool-calling del LLM → acciones de Savia** | Patron "LLM controlador + ejecutores" de JARVIS (HuggingGPT) y `function_tool` de LiveKit: Savia no solo conversa, puede INVOCAR skills/comandos del workspace desde la conversacion (con confirmacion) |
 | Barge-in (SE-310, de Pipecat/Vocode) | **Interrupcion de primera clase** | Si el usuario pulsa el hotkey mientras Savia habla → corta TTS+LLM al instante (no espera al boton). Patron estandar de voice agents |
 | Feedback de "pensando" (SE-310, de LiveKit) | **Cue sonoro sutil mientras el LLM procesa** | Enmascara la latencia (2-5s): tono corto o "shimmer" mientras `state=thinking`, igual que LiveKit background audio |
+| Proactividad (SE-310, de Alexa+) | **Savia habla sin que la llames** (opt-in) | Triggers programados o por evento (digest de reunion, briefs) inyectan un mensaje hablado+UI. Default OFF; NUNCA interrumpe una reunion en RECORDING; horas de silencio configurables |
+| Memoria (SE-310, de Alexa+/Siri) | **Enganche a la memoria de Savia** (decoplado por ficheros) | Lee un contexto en el arranque de sesion (preferencias/proyecto activo) e inyecta en el system prompt; al cerrar, escribe "memory candidates" que el workspace digiere en la auto-memory (patron SE-308: la app escribe, Savia digiere) |
+| Contexto multimodal (SE-310, de Gemini Live) | **Savia ve la pantalla** (opt-in) | En cada turno de usuario, captura screenshot (mss, ya dep) y lo adjunta al LLM si el modelo es vision-capable. Default OFF (privacidad); degrada a texto si el modelo no ve o falla la captura |
 
 **Effort Estimation (Dual Model):**
 
 | Dimension | Value |
 |---|---|
-| Agent effort | 360 min (estimacion inicial) |
-| Human effort | 16 h |
-| Review effort | 60 min |
+| Agent effort | 720 min (estimacion inicial; +proactividad/memoria/vision) |
+| Human effort | 28 h |
+| Review effort | 90 min |
 | Context risk | low |
 | Agent-capable | partial (audio real requiere humano) |
-| Fallback | Si agente falla: humano necesita 8h |
+| Fallback | Si agente falla: humano necesita 14h |
 
 ---
 
@@ -265,6 +268,14 @@ mensajes de conversacion (solo eventos: `conversation:started`, `message:ok`,
 | `conversation.context_token_budget` | `8000` | Presupuesto de tokens del historial enviado al LLM (ContextAggregator); los mensajes fuera de presupuesto se descartan o se resumen |
 | `conversation.tools_enabled` | `false` | Habilita tool-calling → ToolsBridge (acciones de Savia con confirmacion). Off en S0 default: primero la conversacion limpia |
 | `conversation.thinking_cue` | `false` | Reproduce el cue sonoro de "pensando" durante la latencia del LLM |
+| `proactive.enabled` | `false` | Habilita triggers proactivos (S0-E). SIEMPRE respeta quiet_hours y RECORDING |
+| `proactive.schedule` | `` | Cron-like de mensajes programados (brief, recordatorio) |
+| `proactive.quiet_hours` | `22:00-07:00` | Ventana en la que NUNCA se habla proactivamente |
+| `proactive.event_dir` | `~/.savia/transcriptor/events/` | Fuente de eventos del workspace (ficheros .json) |
+| `conversation.memory_context_enabled` | `true` | Inyecta contexto (preferencias/proyecto activo) al system prompt (S0-F) |
+| `conversation.memory_persist` | `true` | Escribe `memory.md` con memory candidates al cerrar sesion (S0-F) |
+| `conversation.vision_enabled` | `false` | Captura de pantalla en cada turno si el modelo es vision-capable (S0-G). Default OFF por privacidad |
+| `conversation.vision_model_capable` | `false` | Declara si el modelo LLM configurado acepta imagenes (evita prueba y error) |
 | `conversation.tts_backend` | `none` | `none` \| `subprocess` |
 | `conversation.tts_command` | `` | Plantilla `{out}`/`{text}` (ej. `savia-kokoro --text {text} --output {out} --json`); WAV temporal en `~/.savia/transcriptor/tmp-tts/` con limpieza al arrancar |
 | `conversation.tts_queue_cap` | `3` | Frases pendientes max en la cola TTS; exceso = descartar la mas antigua (barge-in) |
@@ -299,11 +310,91 @@ El `transcripto` en `conversaciones/*.md` usa el mismo formato que
 
 ---
 
-## 3. Inputs/Outputs
+## 2.5 Proactividad (S0-E) — Savia habla sin que la llames
 
-### Inputs
-- Audio push-to-talk del mic (hotkey, reusado del dictado)
-- Texto del LLM (streaming) + configuracion del usuario
+```python
+# services/conversation/proactive_trigger.py
+class ProactiveSource(Protocol):
+    def poll(self) -> Optional[str]: ...   # texto candidato, o None
+
+class ScheduledSource:
+    """Cron-like (reutiliza patron automation-scheduler del workspace):
+    briefs, recordatorios. Config `proactive.schedule` (cron) + `proactive.text`."""
+class EventSource:
+    """Eventos del workspace: digest de reunion completado, PBI bloqueado, etc.
+    Fuente por fichero: el workspace escribe `~/.savia/transcriptor/events/*.json`
+    y el app lo consume (patron decoplado SE-308)."""
+
+class ProactiveTrigger:
+    """Orquesta fuentes → mensaje 'proactive' hablado + UI + persistido.
+    GATES OBLIGATORIOS (no negociables):
+      - NO disparar si estado == RECORDING (reunion grabando) o conversacion activa
+      - NO disparar fuera de horas de silencio (`proactive.quiet_hours`)
+      - Inyecta como mensaje `role=proactive` en la UI; el LLM NO responde salvo
+        que el usuario conteste (entonces continua como conversacion normal)
+    """
+```
+
+**Por que este diseno**: la proactividad mas segura es una NOTIFICACION hablada,
+no una conversacion no solicitada. Savia dice una linea (brief, alerta, digest) y
+se calla; si el usuario responde, la conversacion continua normal. Eso evita el
+problema de asistentes que "hablan solos" sin control.
+
+## 2.6 Memoria (S0-F) — enganche a la memoria de Savia
+
+```python
+# services/conversation/memory_bridge.py
+class MemoryBridge:
+    """Conexion DECOPLADA con la memoria de Savia (patron SE-308: la app
+    escribe ficheros, el workspace los digiere). NUNCA llama a memory-store.sh
+    directamente (acoplamiento)."""
+
+    def load_context(self) -> str:
+        """LECTURA al arrancar la sesion:
+        - `~/.savia/preferences.yaml` (preferencias, alert_style, tone)
+        - `~/.savia/context-active.md` (proyecto activo, generado por el workspace)
+        Si faltan → "" (no rompe). Se inyecta como bloque 'CONTEXTO' del system prompt."""
+        ...
+
+    def persist_memory(self, session_dir: Path, messages: list) -> Path:
+        """ESCRITURA al cerrar la sesion:
+        `conversaciones/<sesion>/memory.md` con hechos/decisiones/preferencias
+        (extraidos por el LLM en el ultimo turno, o el usuario los dicta).
+        El workspace lo digiere en la auto-memory (memory-agent / savia-memory)."""
+        ...
+```
+
+**Efecto**: Savia recuerda entre conversaciones (recuerda la pizza vegetariana,
+el proyecto activo, el tono preferido) sin que el app se acople al motor de
+memoria. Es el mismo patron que las reuniones: la app produce el artefacto, el
+workspace lo digiere.
+
+## 2.7 Contexto multimodal (S0-G) — Savia ve la pantalla (opt-in)
+
+```python
+# services/conversation/vision_context.py
+class VisionContext:
+    """En cada turno de usuario, si `vision.enabled`, captura la pantalla
+    actual (mss, ya dependencia) → downscale a max 1280px → lo adjunta al
+    mensaje del LLM como imagen (OpenAI-compatible content con image_url/data URL).
+
+    REGLAS:
+      - Degrada a texto si: el modelo configurado no es vision-capable,
+        la captura falla, o el endpoint no acepta imagenes (comprobado por
+        `vision.model_capable` en settings, no por prueba y error).
+      - SOLO se envia al endpoint LLM configurado; si es Ollama local con
+        modelo vision (llava/gemma3), la imagen no sale de la maquina (N3).
+      - Default OFF: ver la pantalla es sensible. La UI muestra un indicador
+        visible cuando esta activo (privacidad por diseño)."""
+```
+
+**Nota de privacidad**: activar vision envia capturas de pantalla al endpoint
+LLM. Si el endpoint es cloud, las capturas salen de la maquina — el usuario
+debe saberlo. Se recomienda vision SOLO con endpoint local (Ollama vision).
+
+---
+
+## 3. Inputs/Outputs
 
 ### Outputs
 - Texto de respuesta en streaming (UI)
@@ -415,6 +506,20 @@ operadora es N3 (datos personales) — el code review E1 cubre estas 4 comprobac
 25. **Personalidad**: con `personality_style=chill`, el LLM fake verifica que el
     system prompt incluye la instruccion de tono adicional (sin cambiar el
     system_prompt de identidad ni las capacidades).
+26. **Proactivo — gates**: con `proactive.enabled=true` y un evento en
+    `event_dir`, el trigger inyecta el mensaje; durante `state=RECORDING` o en
+    `quiet_hours` NO dispara (registra 0 inyecciones).
+27. **Proactivo — respuesta**: tras un mensaje `proactive`, el LLM fake NO
+    genera respuesta; si el usuario responde por push-to-talk, continua como
+    conversacion normal.
+28. **Memoria — contexto**: con `memory_context_enabled=true` y un
+    `~/.savia/context-active.md` presente, el system prompt incluye el bloque
+    CONTEXTO; sin fichero, no rompe (system prompt limpio).
+29. **Memoria — persistencia**: al cerrar la sesion, `conversaciones/<sesion>/memory.md`
+    existe y `transcriptor-scan.sh` lo lista como digerible.
+30. **Vision — opt-in**: con `vision_enabled=false`, mss NO se invoca (fake
+    registra 0 capturas); con `true` y `vision_model_capable=false`, degrada a
+    texto (el mensaje al LLM no incluye imagen).
 
 ---
 
@@ -432,6 +537,12 @@ operadora es N3 (datos personales) — el code review E1 cubre estas 4 comprobac
 | `src-pyloid/services/conversation/sentence_splitter.py` | Split por frase (espanol, abreviaturas) |
 | `src-pyloid/services/conversation/conversation_store.py` | Persistencia + `index.db` |
 | `src-pyloid/services/conversation/audio_output.py` | Reproduccion WAV (sounddevice) |
+| `src-pyloid/services/conversation/proactive_trigger.py` | Triggers proactivos con gates (S0-E) |
+| `src-pyloid/services/conversation/memory_bridge.py` | Lectura de contexto + escritura de memory.md (S0-F) |
+| `src-pyloid/services/conversation/vision_context.py` | Captura de pantalla opt-in (S0-G) |
+| `src-pyloid/tests/test_proactive_trigger.py` | pytest gates de proactividad |
+| `src-pyloid/tests/test_memory_bridge.py` | pytest lectura/escritura de memoria |
+| `src-pyloid/tests/test_vision_context.py` | pytest vision + degradacion |
 | `src-pyloid/tests/test_conversation_service.py` | pytest bucle con fakes |
 | `src-pyloid/tests/test_tts_provider.py` | pytest backends TTS |
 | `src-pyloid/tests/test_sentence_splitter.py` | pytest splitter |
@@ -490,6 +601,18 @@ operadora es N3 (datos personales) — el code review E1 cubre estas 4 comprobac
       supera `context_token_budget` en conversaciones largas.
 - [ ] **AC-12** — `tools_enabled=false` por default; con `true`, los tool-calls
       se muestran en la UI y NO se ejecutan sin confirmacion explicita.
+- [ ] **AC-13** — Proactividad (S0-E): con `proactive.enabled=true`, un trigger
+      programado/evento inyecta un mensaje `proactive` hablado+UI; NUNCA
+      dispara durante RECORDING ni en quiet_hours; el LLM no responde salvo
+      que el usuario conteste.
+- [ ] **AC-14** — Memoria (S0-F): al arrancar la sesion, el contexto cargado
+      (si existe) aparece en el system prompt; al cerrar, se escribe
+      `conversaciones/<sesion>/memory.md` con los memory candidates, y el
+      workspace puede digerirlo sin cambios de `transcriptor-scan`.
+- [ ] **AC-15** — Vision (S0-G): con `vision_enabled=true` y
+      `vision_model_capable=true`, el turno de usuario adjunta la captura;
+      si el modelo no es vision-capable o la captura falla, degrada a texto
+      sin romper; con `vision_enabled=false` nunca se captura pantalla.
 
 ---
 
@@ -515,9 +638,28 @@ operadora es N3 (datos personales) — el code review E1 cubre estas 4 comprobac
 - [ ] Actualizar README y `savia-transcriptor/CLAUDE.md`
 - [ ] CI: pytest suite verde + BATS `test-transcriptor.bats` intacto
 
+### S0-E — Proactividad (opt-in)
+- [ ] `ProactiveTrigger`: fuentes programadas (schedule) y por evento (digest)
+- [ ] Regla: nunca hablar durante una reunion RECORDING; horas de silencio
+- [ ] Inyeccion hablada + UI + persistencia como mensaje `proactive`
+
+### S0-F — Memoria (enganche a Savia)
+- [ ] `MemoryBridge` LECTURA: contexto (preferencias/proyecto activo) → system prompt
+- [ ] `MemoryBridge` ESCRITURA: memory candidates por sesion → `~/.savia/transcriptor/conversaciones/<sesion>/memory.md`
+- [ ] Digest de memory.md en la auto-memory del workspace (skill/agente)
+
+### S0-G — Contexto multimodal (opt-in, vision)
+- [ ] `VisionContext`: captura screenshot en el turno de usuario (mss, downscale)
+- [ ] Adjunto al LLM SOLO si modelo vision-capable; degradacion a texto
+- [ ] Privacidad: default OFF; N3 local si Ollama con modelo vision
+
 ---
 
-## 9. Fuera de alcance (S1/S2 — siguiente fase)
+## 9. Fuera de alcance (S1/S2 + no-alcance)
+
+**En alcance de SE-310** (slices S0-E/F/G, opt-in): proactividad, memoria,
+contexto multimodal. **NO se incluye** continuidad con Savia Mobile por ahora
+(se evalua en una spec/fase aparte cuando el modo conversacional este probado).
 
 La arquitectura de pipeline modular (seccion 2.1) deja el camino allanado. La
 siguiente fase se construye sobre patrones de la industria ya estudiados:
@@ -536,6 +678,7 @@ siguiente fase se construye sobre patrones de la industria ya estudiados:
 - **Voice cloning** (SE-042, GPU) y multi-voz (XTTS/Coqui).
 - **Telefonia/Zoom**: patron `zoom_dial_in` de Vocode — llamadas entrantes con
   agente LLM — se evalua cuando S2 madure.
+- **Savia Mobile (continuidad cross-device)**: NO en SE-310 — fase aparte.
 
 ---
 
@@ -618,11 +761,11 @@ honestos (latencia y speech-to-speech end-to-end) con palancas documentadas.**
 | **Speech-to-speech end-to-end** (modelos que colapsan STT+LLM+TTS) | OpenAI `gpt-realtime-2.1` (s2s + razonamiento); Gemini Live; Ultravox | Pipeline por etapas (whisper+LLM+Kokoro) — eleccion correcta para local-first N3 | ⚠️ Gap honesto. Se documenta la opcion de colapsar las etapas a un unico "stage S2S local" cuando exista un modelo CPU/ONNX de calidad. El pipeline modular (sec. 2.1) lo permite sin reescritura |
 | **Latencia conversacional** | Cloud: <1s TTFB; "conversational latency" objetivo de la industria 2026 | <5s primera frase (local-first) | ⚠️ Gap honesto. Palancas: whisper pequeno, prompt-caching Ollama, streaming por frase, futuro S2S. Ver Constraints |
 | **Personalidad configurable** | Alexa+ estilos Brief/Chill/Sweet/Sassy | `conversation.personality_style` (savia/brief/chill/sweet/sassy) | ✅ Alineado (nuevo) |
-| **Proactividad + memoria** | Alexa+ proactive (trafico, ofertas) + memoria personal; Siri personal context (2026) | S0 reactivo (push-to-talk); contexto por conversacion | ➡️ Futuro: S1/S2 pueden enganchar a la memoria de Savia (auto-memory) y triggers proactivos. No bloquea |
+| **Proactividad + memoria** | Alexa+ proactive (trafico, ofertas) + memoria personal; Siri personal context (2026) | S0-E: triggers proactivos opt-in con gates (quiet_hours, no-RECORDING). S0-F: MemoryBridge lectura de contexto + escritura de memory.md digerible | ✅ En alcance (S0-E/S0-F, opt-in) |
 | **On-device / privacidad** | Apple Foundation Models on-device; Alexa+ privacy dashboard | Local-first N3: audio nunca sale, solo TEXT al LLM configurado | ✅ Diferenciador real vs cloud |
 | **Turn-taking (fin de turno)** | LiveKit semantic turn detection; Vocode endpointing; OpenAI turn lifecycle | S0: push-to-talk explicito; S1: turn detection | ✅ Ruta correcta en el roadmap |
-| **Multimodal (vision)** | Gemini Live vision; GPT realtime vision; Pipecat multimodal | Solo audio en S0; el Transcriptor YA captura screenshots de reuniones | ➡️ Futuro: contexto de pantalla en la conversacion (Savia ve lo que haces). No bloquea |
-| **Continuidad cross-device** | Alexa+ Echo↔telefono↔web | Solo desktop (S0); Savia Mobile existe | ➡️ Futuro: continuidad de conversacion desktop↔mobile |
+| **Multimodal (vision)** | Gemini Live vision; GPT realtime vision; Pipecat multimodal | S0-G: VisionContext opt-in (captura de pantalla → modelo vision-capable, degrada a texto; default OFF) | ✅ En alcance (S0-G, opt-in) |
+| **Continuidad cross-device** | Alexa+ Echo↔telefono↔web | NO en SE-310: solo desktop; Savia Mobile se evalua en fase aparte | ➡️ Fuera de alcance (por decision de la operadora, 2026-08-07) |
 
 **Decision**: S0 mantiene el enfoque local-first de etapas discretas (patron de
 los frameworks OSS Pipecat/Vocode/LiveKit) y NO adopta speech-to-speech cloud
