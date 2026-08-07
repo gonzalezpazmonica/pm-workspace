@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=47c4ebf12984b4f18c0270553ea0996989cc1bbfe8c01ab05eefbf374da3e636
-timestamp=2026-08-06T23:10:56Z
+diff_hash=0a394da31b5ed144ca4da02577ae62caa5aa71fe743bbddd464ed572b7ee64fb
+timestamp=2026-08-07T05:01:34Z
 branch=agent/se297-tabular-intelligence
-head_commit=a685823e
-signature=c61322270de760197abdd3a34b5723b188e231c5e850a80e76d5bc8610c5482c
+head_commit=e15a6514
+signature=fb4a27e560b5016947626c5adb6aaee57264b60dc1c455a14568ae97bec44ea6
