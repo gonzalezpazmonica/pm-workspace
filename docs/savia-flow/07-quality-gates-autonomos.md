@@ -599,3 +599,17 @@ Autonomous Quality Gates son el futuro del control de calidad con IA:
 ---
 
 **Comienza con Levels 1-2 esta semana. Agrega Levels 3-5 progresivamente.**
+
+## Compuerta determinista consolidada (SE-311 S2)
+
+Ademas del modelo conceptual de 5 niveles, existe una compuerta determinista
+ejecutable que valida el RESULTADO final (no el bucle del agente) contra todos
+los estandares de la organizacion:
+
+```bash
+bash scripts/standards-compliance-gate.sh --json
+```
+
+Checks: file-size, skill-catalog, agent-schema (converter idempotente), drift,
+reglas y confidencialidad. Bloquea si cualquier check falla. Re-ejecutable a
+mano con `--report <path>`. Detalle: `projects/savia-vaults/specs/SE-311-sldc-context-loop.spec.md`.

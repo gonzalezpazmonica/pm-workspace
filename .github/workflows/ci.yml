@@ -372,3 +372,14 @@ jobs:
 
       - name: SE-253 Agent sync guard — verify .claude/agents ↔ .opencode/agents
         run: bash scripts/agents-catalog-sync.sh --check
+
+  standards-compliance:
+    runs-on: ubuntu-latest
+    name: Standards Compliance Gate
+    continue-on-error: true  # SE-311: se vuelve blocking cuando main este limpio (#949)
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - name: Install dependencies
+        run: sudo apt-get update -qq && sudo apt-get install -y python3
+      - name: SE-311 Standards Compliance Gate (determinista, diff final)
+        run: bash scripts/standards-compliance-gate.sh --json

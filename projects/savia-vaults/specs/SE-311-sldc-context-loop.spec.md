@@ -212,16 +212,16 @@ validacion de estandares de la organizacion.
 
 ## 6. Roadmap de Implementacion
 
-### S1 — Context Loop
-- [ ] Detectar artefactos del diff (specs/ADRs/changelog)
-- [ ] LLM resume grounded + citacion (reutiliza VaultContext/OpenAICompatible de Sonora)
-- [ ] Alimentar cupulas via A2A /share + pendiente local en fallo
-- [ ] `/sldc-context-loop` + hook CI post-merge
+### S1 — Context Loop (IMPLEMENTADO 2026-08-08)
+- [x] Detectar artefactos del diff (specs/ADRs/changelog) — `classify_changed`
+- [x] Resumen determinista grounded + citacion (extraccion; hook `SLDC_LLM_CMD` opcional)
+- [x] Alimentar cupulas via A2A /share + pendiente local en fallo (`--flush-pending`)
+- [x] `/sldc-context-loop` + pendiente re-ejecutable
 
-### S2 — Standards Gate
-- [ ] Consolidar checks (file-size, skill-audit, agent-schema, drift, rules, confid)
-- [ ] `--json` verdict + `--report`
-- [ ] Integrar en CI (diff final)
+### S2 — Standards Gate (IMPLEMENTADO 2026-08-08)
+- [x] Consolidar checks (file-size, skill-audit, agent-schema, drift, rules, confid)
+- [x] `--json` verdict + `--report`
+- [x] Integrar en CI (report-only hasta main limpio / #949)
 
 ### S3 — Verificacion end-to-end
 - [ ] Un PR real de spec → merge → nota en la cupula → consumida por un agente
