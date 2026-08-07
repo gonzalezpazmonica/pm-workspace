@@ -12,3 +12,16 @@ export {
 export { checkOkfConformance } from './okf-conformance.js';
 export { exportOkfBundle } from './okf-export.js';
 export { importOkfBundle } from './okf-import.js';
+export {
+  createDecisionRecord,
+  validateDecision,
+} from './decision.js';
+export type {
+  DecisionRecord,
+  DecisionState,
+  ProvenanceRef,
+} from './decision.js';
+export { detectConflicts, resolveConflict } from './conflicts.js';
+export type { Conflict, ConflictSeverity, ConflictStatus } from './conflicts.js';
+export { promote, getActiveState } from './decision-state.js';
+export type { DecisionStateLog, StateChange } from './decision-state.js';

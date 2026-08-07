@@ -1276,15 +1276,20 @@ Format v0.1: export/import de bundles OKF, conformance validator, conversion wik
 **SE-304 Automation Scheduler** (10h) — IMPLEMENTED (PR #935). Scheduler asyncrono, 6 default tasks,
 46 tests. Supersede SE-279 y overnight-sprint.
 
+**SE-309 Knowledge Governance** (6h) — PROPOSED. Decision records + provenance + conflict detection en SaviaVaults (2026-08-06).
+
 ### Orden de ejecucion
 
 ```
-SE-305 (BATS dinamicos — merge PR #936)
-  → SE-304 (scheduler — merge PR #935)  
-    → SE-306 (runtime security — critico, complementa SE-301)
-      → SE-301 (agent security graph — analisis estatico)
-        → SE-302 (cost monitor — ahorro rapido)
-          → SE-303 (intent dispatch — refactor profundo)
+SE-305 (merge PR #936) ✅
+  → SE-304 (merge PR #935) ✅
+    → SE-307 (merge PR #940) ✅
+      → SE-308 (merge PR #942) ✅
+        → SE-309 (knowledge governance)
+          → SE-306 (runtime security)
+            → SE-301 (agent security graph)
+              → SE-302 (cost monitor)
+                → SE-303 (intent dispatch)
 ```
 
 ### Estado por PR
@@ -1294,12 +1299,13 @@ SE-305 (BATS dinamicos — merge PR #936)
 | SE-305 | #936 | IMPLEMENTED, mergeado | — |
 | SE-304 | #935 | IMPLEMENTED, mergeado | — |
 | SE-299 | #937 | IMPLEMENTED, mergeado | — |
-| SE-307 | #940 | IMPLEMENTED, pendiente merge | Este PR |
-| SE-306 | #938 | PROPOSED | Pendiente CI |
+| SE-307 | #940 | IMPLEMENTED, mergeado | — |
+| SE-308 | #942 | IMPLEMENTED, mergeado | — |
+| SE-309 | — | PROPOSED | Spec nueva (2026-08-06) |
+| SE-306 | #938 | IMPLEMENTED (spec), mergeado | Implementacion pendiente |
 | SE-301 | #934 | PROPOSED, mergeado (spec) | Implementacion pendiente |
 | SE-302 | #934 | PROPOSED, mergeado (spec) | Implementacion pendiente |
 | SE-303 | #934 | PROPOSED, mergeado (spec) | Implementacion pendiente |
-| SE-303 | #934 | PROPOSED | PR Guardian |
 
 ---
 
