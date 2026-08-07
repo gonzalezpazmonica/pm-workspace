@@ -4,7 +4,7 @@
   "domes": {
     "SaviaLabs": {
       "name": "SaviaLabs",
-      "path": "vaults/SaviaLabs",
+      "path": "../../vaults/SaviaLabs",
       "description": "Cupula de contexto principal de Savia",
       "confidentiality": "N2",
       "schemaDir": "projects/savia-vaults/schema/entities"
