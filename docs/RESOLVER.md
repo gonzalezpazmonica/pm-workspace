@@ -46,7 +46,7 @@
 
 <!-- AUTO_BEGIN — do not edit; regenerate via scripts/resolver-md-generate.sh -->
 
-### Skills (124)
+### Skills (125)
 
 | Intent (skill) | Target | Cuándo usar |
 |---|---|---|
@@ -164,6 +164,7 @@
 | `time-tracking-report` | skill:time-tracking-report | Usar cuando se generan informes de imputación de horas en Excel o Word. |
 | `tls-security-checker` | skill:tls-security-checker | Usar cuando se verifica TLS/SSL o security headers HTTP de un servidor web. Invocable p... |
 | `topic-cluster` | skill:topic-cluster | Usar cuando se agrupan retros, PBIs o incidentes en topics para detectar patrones trans... |
+| `transcriptor-digest` | skill:transcriptor-digest | Usar cuando se detectan carpetas nuevas en el directorio de reuniones del transcriptor ... |
 | `ubiquitous-language` | skill:ubiquitous-language | Usar cuando se necesita extraer o consolidar el glosario de términos de dominio de un ... |
 | `understand-anything` | skill:understand-anything | Usar cuando se necesita analizar un codebase con Understand-Anything para generar knowl... |
 | `verification-lattice` | skill:verification-lattice | Usar cuando se necesita verificación multi-capa más allá del code review estándar. |

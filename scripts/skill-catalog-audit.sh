@@ -61,23 +61,38 @@ done
 # ── Helpers ─────────────────────────────────────────────────────────────────
 
 # Extract a frontmatter field value (first occurrence). Empty if missing.
+# SE-310/workspace: soporta YAML plegado `description: >` (bloques multilinea)
+# que `bus-factor-analysis` y `context-dome` usan — antes el parser devolvia ">".
 # Args: $1=file, $2=field
 fm_field() {
   local file="$1" field="$2"
-  awk -v field="$field" '
-    BEGIN { in_fm=0; line=0 }
-    /^---[[:space:]]*$/ {
-      line++
-      if (line==1) { in_fm=1; next }
-      if (line==2) { exit }
-    }
-    in_fm && $0 ~ "^"field":" {
-      sub("^"field":[[:space:]]*", "")
-      gsub(/^"/, ""); gsub(/"$/, "")
-      print
-      exit
-    }
-  ' "$file"
+  python3 - "$file" "$field" <<'PY'
+import re, sys
+file, field = sys.argv[1], sys.argv[2]
+text = open(file, encoding="utf-8").read()
+m = re.match(r"^---\r?\n(.*?)\r?\n---", text, re.S)
+if not m:
+    sys.exit(0)
+lines = m.group(1).splitlines()
+i, val = 0, None
+while i < len(lines):
+    mm = re.match(r"^" + re.escape(field) + r":\s*(.*)$", lines[i])
+    if mm:
+        val = mm.group(1).strip()
+        if val in (">", ">-", "|", "|-"):  # bloque plegado/literal
+            parts = []
+            i += 1
+            while i < len(lines) and (lines[i].strip() == "" or lines[i].startswith(" ")):
+                s = lines[i].strip()
+                if s:
+                    parts.append(s)
+                i += 1
+            val = " ".join(parts)
+        break
+    i += 1
+if val:
+    print(val.strip('"'))
+PY
 }
 
 # True (0) if file has frontmatter (opens with `---`).
