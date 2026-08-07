@@ -1369,6 +1369,16 @@ Todos los 23 specs enterprise esperan una sola condición: **decisión estratég
 > y la voz de salida ya existentes (SE-075 Slice 3, Kokoro 82M CPU). Cierra el
 > objetivo "hablar conmigo"; la participacion en vivo en reuniones es S1/S2 (spec aparte).
 
+### Proyecto unificado: savia-sonora (`projects/savia-sonora/`)
+
+Consolida en un solo proyecto la interfaz hablada de Savia: savia-transcriptor
+(SE-308), motor TTS local (SE-075), spec de conversacion por voz (SE-310) y
+post-proceso de reuniones, con razonamiento sobre las cupulas de SaviaVaults.
+Migracion por fases (no destructiva): Fase 0 identidad (2026-08-07), Fase 1
+reubicacion fisica, Fase 2 migracion de skills, Fase 3 voz entrenada (SE-042)
+y cliente movil. Detalle: `projects/savia-sonora/CLAUDE.md`
+
+
 ### Spec
 
 **SE-310 Savia Conversacional (S0)** (16h) — PROPOSED. Interfaz de voz
