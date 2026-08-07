@@ -1,8 +1,11 @@
-# Savia Transcriptor
+# Savia Sonora · app — Núcleo de audio (ex-Savia Transcriptor)
 
-> Aplicacion de escritorio (Windows/Linux/macOS) que captura reuniones automaticamente.
-> Escucha el audio, detecta cuando hay una reunion por senal de voz (VAD), graba el audio
-> y captura la pantalla (screenshots periodicos, no video). Transcripcion local con Whisper.
+> **Módulo `app` de Savia Sonora** — la interfaz hablada de Savia. Este núcleo
+> captura reuniones automaticamente: escucha el audio, detecta cuando hay una
+> reunion por senal de voz (VAD), graba el audio y captura la pantalla
+> (screenshots periodicos, no video). Transcripcion local con Whisper.
+> Compatible con Windows (WASAPI), Linux (PipeWire) y macOS (BlackHole).
+> Proyecto unificado: `projects/savia-sonora/CLAUDE.md`.
 
 ## Stack
 

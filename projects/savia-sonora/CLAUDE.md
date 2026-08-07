@@ -86,12 +86,15 @@ consume y alimenta vía A2A HTTP — mismo patrón decoplado que SE-308.
 - [x] Referencias de path actualizadas (specs, README, RESUME, ROADMAP)
 - [~] **Engine TTS queda en `scripts/`** (capa compartida, owned por Savia Sonora) — DECISIÓN: moverlo rompería la API TTS del workspace (protocolo SE-075, 15+ referencias: tests, propuestas, vaults, zeroclaw) y el patrón monorepo de `scripts/` como capa compartida. Los scripts Python (`savia-kokoro.py`, `sentence-splitter.py`) son el entry point cross-platform; los wrappers bash (`savia-voice-*.sh`) son conveniencia POSIX.
 
-### Fase 2 — Migración de skills
-- [ ] `transcriptor-digest`, `meeting-transcript-extract`, `voice-inbox` → referencian el proyecto (paths/documentación)
+### Fase 2 — Migración de skills (COMPLETADA 2026-08-07)
+- [x] `transcriptor-digest` rebautizada → Savia Sonora (description + SKILLS.md regenerado)
+- [x] `meeting-transcript-extract`, `voice-inbox`: sin cambios funcionales — no referencian paths del app (usan `scripts/` compartidos y runtime `~/.savia/transcriptor/`)
 
-### Fase 3 — Módulos futuros
-- [ ] SE-042 (voz entrenada) cuando GPU esté disponible
-- [ ] Savia Mobile como cliente (fase aparte, tras S0 probado)
+### Fase 3 — Módulos futuros (bloqueados externamente)
+- [ ] SE-042 (voz entrenada) — **GPU-blocked**; se implementa cuando haya GPU
+- [ ] Savia Mobile como cliente — fase aparte tras S0 probado (decisión de la operadora)
+
+## Estado de consolidación: COMPLETA (ejecutable 2026-08-07)
 
 ## Cross-platform (Linux / Windows / macOS)
 
