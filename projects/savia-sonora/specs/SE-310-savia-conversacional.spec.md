@@ -433,9 +433,14 @@ debe saberlo. Se recomienda vision SOLO con endpoint local (Ollama vision).
 SaviaVaults (`projects/savia-vaults/`) es el almacen de conocimiento de Savia:
 **cupulas de contexto** (domes) con nivel de confidencialidad (N1-N4b),
 busqueda BM25, notas con frontmatter y grafo de conocimiento. El A2A server
-(`127.0.0.1:8923`) expone `/search`, `/context/{path}`, `/stats`, `/share`
-(Bearer auth, rate-limit). El sistema de voz se conecta a el de forma
-DECOPLADA (mismo patron SE-308: la app habla HTTP, nunca acopla a `savia-vaults`).
+(`127.0.0.1:8923`) expone `/search`, `/context/{path}`, `/stats`, `/share`,
+`/domes` (lista de cupulas con su confidencialidad) y `/search?dome=` (busca
+en una cupula concreta o en todas, fusionando resultados con el campo `dome`).
+**Mejora implementada (2026-08-07)**: multi-dome A2A + indice cacheado por
+fingerprint (mtime) — el `/search` ya no reconstruye el indice en cada request
+(antes colgaba con vaults grandes o node_modules). El sistema de voz se conecta
+a el de forma DECOPLADA (mismo patron SE-308: la app habla HTTP, nunca acopla a
+`savia-vaults`).
 
 ```python
 # services/conversation/vault_bridge.py
@@ -447,10 +452,16 @@ class VaultBridge:
     def __init__(self, base_url: str, auth_token: str, domes: list[DomeSpec],
                  max_confidentiality: str): ...
 
-    def search(self, query: str, top_k: int = 3) -> list[VaultHit]:
-        """GET /search?q=&maxResults= sobre cada dome configurado. Aplica el
-        GATE DE CONFIDENCIALIDAD: solo consulta domes con
-        confidentiality <= max_confidentiality. Devuelve top-k cruzando domes."""
+    def list_domes(self) -> list[DomeInfo]:
+        """GET /domes — descubre las cupulas activas y su nivel de
+        confidencialidad (sustituye a leer domes.json a mano; la fuente es el
+        server)."""
+
+    def search(self, query: str, top_k: int = 3, dome: Optional[str] = None) -> list[VaultHit]:
+        """GET /search?q=&maxResults=&dome= — BM25 sobre una cupula o todas.
+        Cada hit lleva el campo `dome` (de donde viene). Aplica el GATE DE
+        CONFIDENCIALIDAD: solo consulta domes con confidentiality <=
+        max_confidentiality (usa list_domes para filtrar ANTES de buscar)."""
 
     def read(self, vault: str, path: str) -> Optional[Note]:
         """GET /context/<vault>/<path> — nota completa (frontmatter+content)."""

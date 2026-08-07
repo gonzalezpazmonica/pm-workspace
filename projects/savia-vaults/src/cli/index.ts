@@ -84,7 +84,7 @@ program.command('serve').description('Start MCP or A2A server')
       const server = new MCPVaultServer(config, domeReg, userStore);
       await server.start();
     } else if (opts.transport === 'a2a') {
-      const server = new A2AServer(config);
+      const server = new A2AServer(config, domeReg);
       await server.start(parseInt(opts.port, 10), opts.host, authToken);
     }
   });
