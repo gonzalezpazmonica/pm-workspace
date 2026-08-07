@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=caace66a9f5c32b577a7a9e25a72d9b9e86226e0c735ba8968b024e15e647f79
-timestamp=2026-08-06T05:21:39Z
-branch=se180-copilot-clean
-head_commit=ffb11112
-signature=bb52d937a3e71a312325b1664654387030c9729b5d8a943f32c526a79e30ed9c
+diff_hash=c51d3beb7c48e7863bd20e95827e186f855d6c52864782380c9b67a7c24ec2ac
+timestamp=2026-08-07T17:34:52Z
+branch=upstream-contrib/se180-copilot-cli-hooks
+head_commit=2ad55103
+signature=1118e19b05a74396a400a0cca89b8f1313a26f86fcfe12c6562d6d1c19e01fd1
