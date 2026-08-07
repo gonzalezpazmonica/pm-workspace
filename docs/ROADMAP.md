@@ -974,6 +974,15 @@ Origen: https://github.com/karpathy/autoresearch (85.8k stars, MIT). Patrones: `
 
 Origen: `output/research/memanto-savia-20260607.md`. Patrones de Memanto (typed memory, recall budget, conflict detection). Specs: `docs/propuestas/SE-211..SE-214-*.md`.
 
+### SE-311 — SDLC Context Loop (PROPOSED 2026-08-07)
+
+Cierra los dos gaps del articulo de Ernesto Laura Mamani (SDD, 2026-08-04):
+(1) **memoria de contexto** — S1 post-merge alimenta las cupulas (spec→IMPLEMENTED,
+ADR, release) para que la doc viva y no se degrade; (2) **enforcement determinista**
+— S2 compuerta consolidada sobre el diff FINAL (incluye ediciones manuales).
+Reutiliza SaviaVaults (A2A /share) + gates existentes.
+Spec: `projects/savia-vaults/specs/SE-311-sldc-context-loop.spec.md`
+
 ---
 
 ## Era 198 — Anthropic Effective Agents Alignment (PROPOSED 2026-05-31)
