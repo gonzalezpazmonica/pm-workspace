@@ -1,6 +1,6 @@
 {
-  "hash": "8e17e1a24d22",
-  "total": 1333,
+  "hash": "dc056254e554",
+  "total": 1334,
   "resources": [
     {
       "category": "analysis",
@@ -9811,6 +9811,18 @@
       "kind": "script",
       "path": "scripts/generate-critical-facts.sh",
       "description": "scripts/generate-critical-facts.sh"
+    },
+    {
+      "category": "planning",
+      "name": "generate-github-hooks",
+      "intents": [
+        "generate",
+        "github",
+        "hooks"
+      ],
+      "kind": "script",
+      "path": "scripts/generate-github-hooks.sh",
+      "description": "generate-github-hooks.sh — SE-180"
     },
     {
       "category": "planning",

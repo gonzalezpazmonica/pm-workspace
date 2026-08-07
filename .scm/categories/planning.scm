@@ -1,5 +1,5 @@
 # planning — Savia Capability Map (L1)
-> 562 resources
+> 563 resources
 
 - **/decide-architecture** (cmd): Clasifica una tarea como WORKFLOW (deterministica) o AGENT (loop). Bias hacia workflow per Anthropic. Sugiere plantilla inicial. Mide accuracy contra corpus curado de 20 tareas.
 - **_template** (skill): TEMPLATE — copia este directorio para crear una skill nueva. NO se carga en runtime.
@@ -229,6 +229,7 @@
 - **gate-teardown** (script): scripts/gate-teardown.sh — SE-255
 - **generate-capability-map** (script): ── generate-capability-map.sh — Thin wrapper around the Python generator.
 - **generate-critical-facts** (script): scripts/generate-critical-facts.sh
+- **generate-github-hooks** (script): generate-github-hooks.sh — SE-180
 - **generate-index** (script): generate-index.sh — Generate discoverable index of all workspace components
 - **generate-propuestas-index** (script): generate-propuestas-index.sh — SE-222 S2: auto-generate docs/propuestas/index.md
 - **git-history-secret-remediate** (script): SE-239 — Git history secret remediation helper
