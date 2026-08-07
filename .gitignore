@@ -33,7 +33,6 @@ projects/*
 !projects/savia-web/
 !projects/savia-mobile-android/
 !projects/savia-vaults/
-!projects/savia-transcriptor/
 !projects/savia-sonora/
 !projects/proyecto-beta/
 !projects/sala-reservas/
