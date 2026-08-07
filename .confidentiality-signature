@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=b595138a5a26e519100da982f56ce87504d9a10d6213b8cee7328cdd027db2de
-timestamp=2026-08-07T20:56:55Z
+diff_hash=e737fae7528f31e36ceca329d23ecf7384162d74c97cccbde7ea387fe8cd5c0d
+timestamp=2026-08-07T21:31:39Z
 branch=agent/se310-savia-conversacional
-head_commit=9e19e4e5
-signature=cc09eff27c5114caec4e05e19f6942e50de6b4485c0cbc070f592c5ff3e6cf92
+head_commit=4e79ef71
+signature=ef32ebff6c93ebe592b0059661dd8936d5a86c04a2701aa1311839a03a6058ab
