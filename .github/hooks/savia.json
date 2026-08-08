@@ -1,0 +1,507 @@
+{
+  "version": 1,
+  "hooks": {
+    "sessionStart": [
+      {
+        "type": "command",
+        "bash": "bash .github/hooks/run-savia-hook.sh .opencode/hooks/session-init.sh",
+        "timeoutSec": 15
+      },
+      {
+        "type": "command",
+        "bash": "bash .github/hooks/run-savia-hook.sh .opencode/hooks/shield-autostart.sh",
+        "timeoutSec": 25
+      },
+      {
+        "type": "command",
+        "bash": "bash .github/hooks/run-savia-hook.sh scripts/check-daemon-auth.sh",
+        "timeoutSec": 5
+      },
+      {
+        "type": "command",
+        "bash": "bash .github/hooks/run-savia-hook.sh .opencode/hooks/emergency-mode-readiness.sh",
+        "timeoutSec": 12
+      }
+    ],
+    "preToolUse": [
+      {
+        "type": "command",
+        "bash": "bash .github/hooks/run-savia-hook.sh .opencode/hooks/recursion-guard.sh",
+        "timeoutSec": 5,
+        "matcher": "task|launch_subagent"
+      },
+      {
+        "type": "command",
+        "bash": "bash .github/hooks/run-savia-hook.sh .opencode/hooks/pr-summary-gate.sh",
+        "timeoutSec": 100,
+        "matcher": "bash(gh pr create*)"
+      },
+      {
+        "type": "command",
+        "bash": "bash .github/hooks/run-savia-hook.sh .opencode/hooks/block-credential-leak.sh",
+        "timeoutSec": 5,
+        "matcher": "bash"
+      },
+      {
+        "type": "command",
+        "bash": "bash .github/hooks/run-savia-hook.sh .opencode/hooks/block-force-push.sh",
+        "timeoutSec": 5,
+        "matcher": "bash"
+      },
+      {
+        "type": "command",
+        "bash": "bash .github/hooks/run-savia-hook.sh .opencode/hooks/block-branch-switch-dirty.sh",
+        "timeoutSec": 5,
+        "matcher": "bash"
+      },
+      {
+        "type": "command",
+        "bash": "bash .github/hooks/run-savia-hook.sh .opencode/hooks/agent-git-discipline.sh",
+        "timeoutSec": 5,
+        "matcher": "bash"
+      },
+      {
+        "type": "command",
+        "bash": "bash .github/hooks/run-savia-hook.sh .opencode/hooks/block-infra-destructive.sh",
+        "timeoutSec": 5,
+        "matcher": "bash"
+      },
+      {
+        "type": "command",
+        "bash": "bash .github/hooks/run-savia-hook.sh .opencode/hooks/agent-git-discipline.sh",
+        "timeoutSec": 5,
+        "matcher": "bash"
+      },
+      {
+        "type": "command",
+        "bash": "bash .github/hooks/run-savia-hook.sh .opencode/hooks/validate-bash-global.sh",
+        "timeoutSec": 10,
+        "matcher": "bash"
+      },
+      {
+        "type": "command",
+        "bash": "bash .github/hooks/run-savia-hook.sh .opencode/hooks/android-adb-validate.sh",
+        "timeoutSec": 5,
+        "matcher": "bash"
+      },
+      {
+        "type": "command",
+        "bash": "bash .github/hooks/run-savia-hook.sh .opencode/hooks/prompt-hook-commit.sh",
+        "timeoutSec": 5,
+        "matcher": "bash(git commit*)"
+      },
+      {
+        "type": "command",
+        "bash": "bash .github/hooks/run-savia-hook.sh .opencode/hooks/compliance-gate.sh",
+        "timeoutSec": 30,
+        "matcher": "bash(git commit*)"
+      },
+      {
+        "type": "command",
+        "bash": "bash .github/hooks/run-savia-hook.sh .opencode/hooks/agent-dispatch-validate.sh",
+        "timeoutSec": 5,
+        "matcher": "task|launch_subagent"
+      },
+      {
+        "type": "command",
+        "bash": "bash .github/hooks/run-savia-hook.sh .opencode/hooks/spec156-token-budget-projection.sh",
+        "timeoutSec": 5,
+        "matcher": "task|launch_subagent"
+      },
+      {
+        "type": "command",
+        "bash": "bash .github/hooks/run-savia-hook.sh .opencode/hooks/context-preflight-check.sh",
+        "timeoutSec": 8,
+        "matcher": "task|launch_subagent"
+      },
+      {
+        "type": "command",
+        "bash": "bash .github/hooks/run-savia-hook.sh .opencode/hooks/subagent-audience-filter.sh",
+        "timeoutSec": 3,
+        "matcher": "task|launch_subagent"
+      },
+      {
+        "type": "command",
+        "bash": "bash .github/hooks/run-savia-hook.sh .opencode/hooks/agent-tool-call-validate.sh",
+        "timeoutSec": 5,
+        "matcher": "edit|str_replace_editor|create|write|view|bash"
+      },
+      {
+        "type": "command",
+        "bash": "bash .github/hooks/run-savia-hook.sh .opencode/hooks/acm-enforcement.sh",
+        "timeoutSec": 3,
+        "matcher": "glob|grep"
+      },
+      {
+        "type": "command",
+        "bash": "bash .github/hooks/run-savia-hook.sh .opencode/hooks/ast-comprehend-hook.sh",
+        "timeoutSec": 15,
+        "matcher": "edit|str_replace_editor"
+      },
+      {
+        "type": "command",
+        "bash": "bash .github/hooks/run-savia-hook.sh .opencode/hooks/memory-verified-gate.sh",
+        "timeoutSec": 5,
+        "matcher": "edit|str_replace_editor|create|write"
+      },
+      {
+        "type": "command",
+        "bash": "bash .github/hooks/run-savia-hook.sh .opencode/hooks/tdd-gate.sh",
+        "timeoutSec": 10,
+        "matcher": "edit|str_replace_editor|create|write"
+      },
+      {
+        "type": "command",
+        "bash": "bash .github/hooks/run-savia-hook.sh .opencode/hooks/plan-gate.sh",
+        "timeoutSec": 10,
+        "matcher": "edit|str_replace_editor|create|write"
+      },
+      {
+        "type": "command",
+        "bash": "bash .github/hooks/run-savia-hook.sh .opencode/hooks/block-project-whitelist.sh",
+        "timeoutSec": 5,
+        "matcher": "edit|str_replace_editor|create|write"
+      },
+      {
+        "type": "command",
+        "bash": "bash .github/hooks/run-savia-hook.sh .opencode/hooks/data-sovereignty-gate.sh",
+        "timeoutSec": 15,
+        "matcher": "edit|str_replace_editor|create|write"
+      },
+      {
+        "type": "command",
+        "bash": "bash .github/hooks/run-savia-hook.sh .opencode/hooks/vault-frontmatter-gate.sh",
+        "timeoutSec": 5,
+        "matcher": "edit|str_replace_editor|create|write"
+      },
+      {
+        "type": "command",
+        "bash": "bash .github/hooks/run-savia-hook.sh .opencode/hooks/block-gitignored-references.sh",
+        "timeoutSec": 5,
+        "matcher": "edit|str_replace_editor|create|write"
+      },
+      {
+        "type": "command",
+        "bash": "bash .github/hooks/run-savia-hook.sh .opencode/hooks/responsibility-judge.sh",
+        "timeoutSec": 5,
+        "matcher": "edit|str_replace_editor|create|write"
+      },
+      {
+        "type": "command",
+        "bash": "bash .github/hooks/run-savia-hook.sh .opencode/hooks/validate-layer-contract.sh",
+        "timeoutSec": 5,
+        "matcher": "edit|str_replace_editor|create|write"
+      },
+      {
+        "type": "command",
+        "bash": "bash .github/hooks/run-savia-hook.sh .opencode/hooks/cognitive-debt-hypothesis-first.sh",
+        "timeoutSec": 3,
+        "matcher": "edit|str_replace_editor|create|write"
+      },
+      {
+        "type": "command",
+        "bash": "bash .github/hooks/run-savia-hook.sh .opencode/hooks/agent-hook-premerge.sh",
+        "timeoutSec": 30,
+        "matcher": "bash"
+      },
+      {
+        "type": "command",
+        "bash": "bash .github/hooks/run-savia-hook.sh .opencode/hooks/tool-call-healing.sh",
+        "timeoutSec": 3,
+        "matcher": "view|edit|str_replace_editor|create|write|glob|grep"
+      },
+      {
+        "type": "command",
+        "bash": "bash .github/hooks/run-savia-hook.sh .opencode/hooks/live-progress-hook.sh",
+        "timeoutSec": 3
+      },
+      {
+        "type": "command",
+        "bash": "bash .github/hooks/run-savia-hook.sh .opencode/hooks/prompt-injection-guard.sh",
+        "timeoutSec": 10,
+        "matcher": "view"
+      },
+      {
+        "type": "command",
+        "bash": "bash .github/hooks/run-savia-hook.sh .opencode/hooks/context-greedy-inject.sh",
+        "timeoutSec": 8,
+        "matcher": "view"
+      },
+      {
+        "type": "command",
+        "bash": "bash .github/hooks/run-savia-hook.sh .opencode/hooks/delegation-guard.sh",
+        "timeoutSec": 10,
+        "matcher": "agent"
+      },
+      {
+        "type": "command",
+        "bash": "bash .github/hooks/run-savia-hook.sh .opencode/hooks/protected-job-guard.sh",
+        "timeoutSec": 5,
+        "matcher": "task|launch_subagent"
+      },
+      {
+        "type": "command",
+        "bash": "bash .github/hooks/run-savia-hook.sh .opencode/hooks/savia-budget-guard.sh",
+        "timeoutSec": 5
+      },
+      {
+        "type": "command",
+        "bash": "bash .github/hooks/run-savia-hook.sh .opencode/hooks/auto-grill-me.sh",
+        "timeoutSec": 5,
+        "matcher": "edit|str_replace_editor|create|write"
+      },
+      {
+        "type": "command",
+        "bash": "bash .github/hooks/run-savia-hook.sh .opencode/hooks/auto-zoom-out.sh",
+        "timeoutSec": 5,
+        "matcher": "edit|str_replace_editor|create|write"
+      },
+      {
+        "type": "command",
+        "bash": "bash .github/hooks/run-savia-hook.sh .opencode/hooks/project-isolation-gate.sh",
+        "timeoutSec": 3,
+        "matcher": "edit|str_replace_editor|create|write|view"
+      },
+      {
+        "type": "command",
+        "bash": "bash .github/hooks/run-savia-hook.sh .opencode/hooks/contract-test-guard.sh",
+        "timeoutSec": 3,
+        "matcher": "edit|str_replace_editor|create|write"
+      },
+      {
+        "type": "command",
+        "bash": "bash .github/hooks/run-savia-hook.sh .opencode/hooks/block-pat-file-write.sh",
+        "timeoutSec": 5,
+        "matcher": "create|write|edit|str_replace_editor"
+      },
+      {
+        "type": "command",
+        "bash": "bash .github/hooks/run-savia-hook.sh .opencode/hooks/output-effort-router.sh",
+        "timeoutSec": 3
+      }
+    ],
+    "postToolUse": [
+      {
+        "type": "command",
+        "bash": "bash .github/hooks/run-savia-hook.sh .opencode/hooks/acm-turn-marker.sh",
+        "timeoutSec": 3,
+        "matcher": "view"
+      },
+      {
+        "type": "command",
+        "bash": "bash .github/hooks/run-savia-hook.sh .opencode/hooks/context-origin-stamp.sh",
+        "timeoutSec": 5,
+        "matcher": "view"
+      },
+      {
+        "type": "command",
+        "bash": "bash .github/hooks/run-savia-hook.sh .opencode/hooks/post-edit-lint.sh",
+        "timeoutSec": 30,
+        "matcher": "edit|str_replace_editor|create|write"
+      },
+      {
+        "type": "command",
+        "bash": "bash .github/hooks/run-savia-hook.sh .opencode/hooks/memory-auto-capture.sh",
+        "timeoutSec": 10,
+        "matcher": "edit|str_replace_editor|create|write"
+      },
+      {
+        "type": "command",
+        "bash": "bash .github/hooks/run-savia-hook.sh .opencode/hooks/pbi-history-capture.sh",
+        "timeoutSec": 10,
+        "matcher": "edit|str_replace_editor|create|write"
+      },
+      {
+        "type": "command",
+        "bash": "bash .github/hooks/run-savia-hook.sh .opencode/hooks/token-tracker-middleware.sh",
+        "timeoutSec": 5,
+        "matcher": "edit|str_replace_editor|create|write"
+      },
+      {
+        "type": "command",
+        "bash": "bash .github/hooks/run-savia-hook.sh .opencode/hooks/data-sovereignty-audit.sh",
+        "timeoutSec": 10,
+        "matcher": "edit|str_replace_editor|create|write"
+      },
+      {
+        "type": "command",
+        "bash": "bash .github/hooks/run-savia-hook.sh .opencode/hooks/post-report-write.sh",
+        "timeoutSec": 5,
+        "matcher": "edit|str_replace_editor|create|write"
+      },
+      {
+        "type": "command",
+        "bash": "bash .github/hooks/run-savia-hook.sh .opencode/hooks/ast-quality-gate-hook.sh",
+        "timeoutSec": 60,
+        "matcher": "edit|str_replace_editor|create|write"
+      },
+      {
+        "type": "command",
+        "bash": "bash .github/hooks/run-savia-hook.sh .opencode/hooks/dual-estimation-gate.sh",
+        "timeoutSec": 5,
+        "matcher": "edit|str_replace_editor|create|write"
+      },
+      {
+        "type": "command",
+        "bash": "bash .github/hooks/run-savia-hook.sh .opencode/hooks/post-write-validate.sh",
+        "timeoutSec": 5000,
+        "matcher": "edit|str_replace_editor|create|write"
+      },
+      {
+        "type": "command",
+        "bash": "bash .github/hooks/run-savia-hook.sh .opencode/hooks/post-spec-edit-reindex.sh",
+        "timeoutSec": 5,
+        "matcher": "edit|str_replace_editor|create|write"
+      },
+      {
+        "type": "command",
+        "bash": "bash .github/hooks/run-savia-hook.sh .opencode/hooks/propuestas-index-refresh.sh",
+        "timeoutSec": 15,
+        "matcher": "edit|str_replace_editor|create|write"
+      },
+      {
+        "type": "command",
+        "bash": "bash .github/hooks/run-savia-hook.sh .opencode/hooks/sycophancy-strip.sh",
+        "timeoutSec": 5,
+        "matcher": "task|launch_subagent"
+      },
+      {
+        "type": "command",
+        "bash": "bash .github/hooks/run-savia-hook.sh .opencode/hooks/agent-trace-log.sh",
+        "timeoutSec": 5,
+        "matcher": "task|launch_subagent"
+      },
+      {
+        "type": "command",
+        "bash": "bash .github/hooks/run-savia-hook.sh .opencode/hooks/compress-agent-output.sh",
+        "timeoutSec": 10,
+        "matcher": "task|launch_subagent"
+      },
+      {
+        "type": "command",
+        "bash": "bash .github/hooks/run-savia-hook.sh .opencode/hooks/bash-output-compress.sh",
+        "timeoutSec": 10,
+        "matcher": "bash"
+      },
+      {
+        "type": "command",
+        "bash": "bash .github/hooks/run-savia-hook.sh .opencode/hooks/competence-tracker.sh",
+        "timeoutSec": 5,
+        "matcher": "bash"
+      },
+      {
+        "type": "command",
+        "bash": "bash .github/hooks/run-savia-hook.sh .opencode/hooks/cognitive-debt-telemetry.sh",
+        "timeoutSec": 2,
+        "matcher": "edit|str_replace_editor|create|write|task|launch_subagent"
+      },
+      {
+        "type": "command",
+        "bash": "bash .github/hooks/run-savia-hook.sh .opencode/hooks/context-drop-after-use.sh",
+        "timeoutSec": 8,
+        "matcher": "view|webfetch|bash"
+      },
+      {
+        "type": "command",
+        "bash": "bash .github/hooks/run-savia-hook.sh .opencode/hooks/output-verbosity-sentinel.sh",
+        "timeoutSec": 3
+      }
+    ],
+    "agentStop": [
+      {
+        "type": "command",
+        "bash": "bash .github/hooks/run-savia-hook.sh .opencode/hooks/session-end-snapshot.sh",
+        "timeoutSec": 5
+      },
+      {
+        "type": "command",
+        "bash": "bash .github/hooks/run-savia-hook.sh .opencode/hooks/pre-commit-review.sh",
+        "timeoutSec": 30
+      },
+      {
+        "type": "command",
+        "bash": "bash .github/hooks/run-savia-hook.sh .opencode/hooks/stop-quality-gate.sh",
+        "timeoutSec": 15
+      },
+      {
+        "type": "command",
+        "bash": "bash .github/hooks/run-savia-hook.sh .opencode/hooks/scope-guard.sh",
+        "timeoutSec": 10
+      },
+      {
+        "type": "command",
+        "bash": "bash .github/hooks/run-savia-hook.sh .opencode/hooks/stop-memory-extract.sh",
+        "timeoutSec": 30
+      },
+      {
+        "type": "command",
+        "bash": "bash .github/hooks/run-savia-hook.sh .opencode/hooks/emotional-regulation-monitor.sh",
+        "timeoutSec": 10
+      },
+      {
+        "type": "command",
+        "bash": "bash .github/hooks/run-savia-hook.sh .opencode/hooks/postponement-judge.sh",
+        "timeoutSec": 5
+      },
+      {
+        "type": "command",
+        "bash": "bash .github/hooks/run-savia-hook.sh .opencode/hooks/agents-md-auto-regenerate.sh",
+        "timeoutSec": 10
+      }
+    ],
+    "sessionEnd": [
+      {
+        "type": "command",
+        "bash": "bash .github/hooks/run-savia-hook.sh .opencode/hooks/session-end-memory.sh",
+        "timeoutSec": 1500
+      }
+    ],
+    "userPromptSubmitted": [
+      {
+        "type": "command",
+        "bash": "bash .github/hooks/run-savia-hook.sh .opencode/hooks/user-prompt-intercept.sh",
+        "timeoutSec": 3000
+      },
+      {
+        "type": "command",
+        "bash": "bash .github/hooks/run-savia-hook.sh .opencode/hooks/stress-awareness-nudge.sh",
+        "timeoutSec": 2000
+      },
+      {
+        "type": "command",
+        "bash": "bash .github/hooks/run-savia-hook.sh .opencode/hooks/memory-prime-hook.sh",
+        "timeoutSec": 5000
+      }
+    ],
+    "preCompact": [
+      {
+        "type": "command",
+        "bash": "bash .github/hooks/run-savia-hook.sh .opencode/hooks/pre-compact-backup.sh",
+        "timeoutSec": 10
+      }
+    ],
+    "subagentStart": [
+      {
+        "type": "command",
+        "bash": "bash .github/hooks/run-savia-hook.sh .opencode/hooks/subagent-lifecycle.sh",
+        "timeoutSec": 5
+      }
+    ],
+    "subagentStop": [
+      {
+        "type": "command",
+        "bash": "bash .github/hooks/run-savia-hook.sh .opencode/hooks/subagent-lifecycle.sh",
+        "timeoutSec": 5
+      }
+    ]
+  },
+  "_meta": {
+    "generated_from": ".claude/settings.json",
+    "generator": "scripts/generate-github-hooks.sh",
+    "spec": "SE-180",
+    "purpose": "Cross-frontend hooks for Copilot CLI (>=1.0.60). Single source of truth: .claude/settings.json. Do not edit this file directly.",
+    "skipped_unknown_events": 12,
+    "skipped_prompt_outside_sessionStart": 1,
+    "skipped_non_https_http_hooks": 1
+  }
+}
