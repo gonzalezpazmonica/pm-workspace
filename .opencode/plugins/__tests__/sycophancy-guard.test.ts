@@ -4,7 +4,10 @@
 // Tests run via `bun test` (same runner as all other plugin tests).
 
 import { test, expect, beforeEach, afterEach } from "bun:test";
-import { detectSycophancy, sycophancyGuard } from "../guards/sycophancy-guard.ts";
+import { mkdtempSync, rmSync, writeFileSync } from "node:fs";
+import { join } from "node:path";
+import { tmpdir } from "node:os";
+import { detectSycophancy, loadObviousPatterns, sycophancyGuard } from "../guards/sycophancy-guard.ts";
 
 // ── Helper ────────────────────────────────────────────────────────────────────
 function makeOutput(text: string) {
@@ -59,6 +62,33 @@ test("detectSycophancy: only scans first 200 chars (positional bound)", () => {
   const padding = "x".repeat(250);
   const result = detectSycophancy(padding + "Buena pregunta. La respuesta es X.");
   expect(result).toBeNull();
+});
+
+test("loadObviousPatterns: loads patterns from an explicit canonical file", () => {
+  const dir = mkdtempSync(join(tmpdir(), "sycophancy-patterns-"));
+  try {
+    const path = join(dir, "patterns.json");
+    writeFileSync(path, JSON.stringify({ obvious: ["^canonical-only$"] }));
+    expect(loadObviousPatterns(path)[0]!.test("CANONICAL-ONLY")).toBe(true);
+  } finally {
+    rmSync(dir, { recursive: true, force: true });
+  }
+});
+
+test.each([
+  ["missing", undefined],
+  ["malformed", "{"],
+  ["empty", JSON.stringify({ obvious: [] })],
+  ["invalid regex", JSON.stringify({ obvious: ["["] })],
+])("loadObviousPatterns: rejects %s canonical data", (_name, content) => {
+  const dir = mkdtempSync(join(tmpdir(), "sycophancy-patterns-"));
+  try {
+    const path = join(dir, "patterns.json");
+    if (content !== undefined) writeFileSync(path, content);
+    expect(() => loadObviousPatterns(path)).toThrow(/canonical anti-adulation/i);
+  } finally {
+    rmSync(dir, { recursive: true, force: true });
+  }
 });
 
 // ── sycophancyGuard integration tests ────────────────────────────────────────
