@@ -2,7 +2,7 @@
 module_id: ItemListComponent
 layer: frontend
 version: "1.0.0"
-last_sync: "2026-07-25T00:00:00Z"
+last_sync: "2026-08-08T00:00:00Z"
 token_budget: 320
 stale_after_days: 14
 depends_on:
