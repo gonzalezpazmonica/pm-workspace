@@ -312,10 +312,10 @@ El transcriptor es una **app independiente** que Savia consume pasivamente:
 
 | Fichero | Proposito |
 |---|---|
-| `projects/savia-transcriptor/CLAUDE.md` | Entrypoint del proyecto |
-| `projects/savia-transcriptor/README.md` | Documentacion |
-| `projects/savia-transcriptor/ARCHITECTURE.md` | Arquitectura detallada |
-| `projects/savia-transcriptor/specs/SE-308-savia-transcriptor.spec.md` | Esta spec |
+| `projects/savia-sonora/app/CLAUDE.md` | Entrypoint del proyecto |
+| `projects/savia-sonora/app/README.md` | Documentacion |
+| `projects/savia-sonora/app/ARCHITECTURE.md` | Arquitectura detallada |
+| `projects/savia-sonora/app/specs/SE-308-savia-transcriptor.spec.md` | Esta spec |
 | `core/vad.py` | Deteccion de voz (silero) |
 | `core/screen.py` | Captura periodica (mss) |
 | `core/recorder.py` | Grabacion de audio (loopback) |
@@ -361,7 +361,7 @@ El transcriptor es una **app independiente** que Savia consume pasivamente:
 ## 9. Estado de Implementacion
 
 - [x] **S1: Núcleo de audio (fork VoiceFlow)** — COMPLETADO 2026-08-04
-  - [x] Fork de VoiceFlow a `projects/savia-transcriptor/`
+  - [x] Fork de VoiceFlow a `projects/savia-sonora/app/`
   - [x] Storage reubicado: `~/.VoiceFlow/` → `~/.savia/transcriptor/` (módulo central `services/paths.py`)
   - [x] DB: `index.db`, log: `transcriptor.log`, secrets: `secrets.json`, cuda: `cuda/`
   - [x] Rebrand: `savia-transcriptor`, mutex y service name actualizados
