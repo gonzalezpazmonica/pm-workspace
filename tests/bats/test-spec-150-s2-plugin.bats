@@ -19,14 +19,21 @@ MIGRATION_DOC="$REPO_ROOT/docs/rules/domain/hook-multihandler-migration.md"
   [[ -f "$GUARD_FILE" ]]
 }
 
-# ── Test 2: plugin contains adulation patterns ────────────────────────────────
-@test "SPEC-150-S2 AC-02: sycophancy-guard.ts contains obvious adulation patterns" {
-  # Verify key patterns are present in the TypeScript guard
+# ── Test 2: plugin loads obvious adulation patterns from canonical source ─────
+@test "SPEC-150-S2 AC-02: sycophancy-guard.ts loads obvious adulation patterns from canonical source" {
+  # Verify the TS guard wires the canonical pattern set (SE-309 refactor:
+  # inline subset replaced by loadObviousPatterns() over regex-patterns.json)
   grep -q "OBVIOUS_PATTERNS" "$GUARD_FILE"
-  grep -q "buena" "$GUARD_FILE"
-  grep -q "absolutamente" "$GUARD_FILE"
-  grep -q "great" "$GUARD_FILE"
+  grep -q "loadObviousPatterns" "$GUARD_FILE"
+  grep -q "regex-patterns.json" "$GUARD_FILE"
   grep -q "detectSycophancy" "$GUARD_FILE"
+  # Verify the canonical source still covers the core obvious patterns
+  python3 - "$REPO_ROOT/scripts/anti-adulation/regex-patterns.json" <<'EOF'
+import json, sys
+patterns = " ".join(json.load(open(sys.argv[1]))["obvious"])
+for needle in ("buena", "absolutamente", "great"):
+    assert needle in patterns, f"missing pattern {needle!r} in canonical obvious set"
+EOF
 }
 
 # ── Test 3: bash hook sycophancy-strip.sh still exists (not broken) ───────────
