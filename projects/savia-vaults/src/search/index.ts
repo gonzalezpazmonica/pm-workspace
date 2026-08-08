@@ -14,6 +14,8 @@ interface IndexedDoc {
 export class SearchEngine {
   private config: VaultConfig;
   private engine: MiniSearch<IndexedDoc>;
+  private _built = false;
+  private _fingerprint = '';
 
   constructor(config: VaultConfig) {
     this.config = config;
@@ -28,7 +30,16 @@ export class SearchEngine {
     });
   }
 
-  buildIndex(): void {
+  /**
+   * Build (or refresh) the in-memory index.
+   * SE-310: el indice se reconstruye SOLO si cambia (fingerprint por mtime+count),
+   * no en cada request — evita el cuelgue con vaults grandes o node_modules.
+   */
+  buildIndex(force = false): void {
+    const fingerprint = this.fingerprint();
+    if (!force && this._built && fingerprint === this._fingerprint) return;
+    this._fingerprint = fingerprint;
+    this._built = true;
     this.engine.removeAll();
     const files = this.listFiles();
     for (const f of files) {
@@ -47,6 +58,21 @@ export class SearchEngine {
         // skip files that can't be read
       }
     }
+  }
+
+  /** Fingerprint determinista del vault: max(mtime) + count de ficheros. */
+  private fingerprint(): string {
+    let newest = 0;
+    let count = 0;
+    const files = this.listFiles();
+    for (const f of files) {
+      count += 1;
+      try {
+        const st = fs.statSync(path.join(this.config.path, f));
+        if (st.mtimeMs > newest) newest = st.mtimeMs;
+      } catch { /* ignore */ }
+    }
+    return `${count}:${Math.round(newest)}`;
   }
 
   search(query: SearchQuery): SearchResult[] {

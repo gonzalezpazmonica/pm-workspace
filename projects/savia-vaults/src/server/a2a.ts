@@ -4,6 +4,8 @@ import * as path from 'node:path';
 import { VaultStorage } from '../storage/index.js';
 import { SearchEngine } from '../search/index.js';
 import { RateLimiter } from './ratelimit.js';
+import { DomeRegistry } from '../registry/domes.js';
+import type { DomeInfo } from '../registry/domes.js';
 import type { VaultConfig } from '../types.js';
 
 export class A2AServer {
@@ -12,14 +14,107 @@ export class A2AServer {
   private search: SearchEngine;
   private limiter: RateLimiter;
   private startTime: number;
+  private domeReg?: DomeRegistry;
+  private domeSearches = new Map<string, SearchEngine>();
+  private domeStorages = new Map<string, VaultStorage>();
 
-  constructor(config: VaultConfig) {
+  constructor(config: VaultConfig, domeReg?: DomeRegistry) {
     this.config = config;
     this.storage = new VaultStorage(config);
     this.search = new SearchEngine(config);
     this.limiter = new RateLimiter(100);
     this.startTime = Date.now();
+    this.domeReg = domeReg;
     this.initVault();
+  }
+
+  /** Cupulas activas configurables (SE-310 S0-H): el registry si existe, si no la vault unica. */
+  listDomes(): DomeInfo[] {
+    if (this.domeReg) {
+      return this.domeReg.listActive();
+    }
+    return [{ name: this.config.name, path: this.config.path, description: '', confidentiality: 'N2', active: true }];
+  }
+
+  private domeSearch(name: string): SearchEngine | undefined {
+    const dome = this.domeReg?.get(name);
+    if (!dome) return undefined;
+    let se = this.domeSearches.get(name);
+    if (!se) {
+      const cfg: VaultConfig = {
+        name: dome.name,
+        path: dome.path,
+        allowedExtensions: [],
+        deniedPaths: [],
+        maxDepth: 10,
+        maxFileSize: this.config.maxFileSize,
+      };
+      se = new SearchEngine(cfg);
+      this.domeSearches.set(name, se);
+    }
+    return se;
+  }
+
+  private domeStorage(name: string): VaultStorage | undefined {
+    const dome = this.domeReg?.get(name);
+    if (!dome) return undefined;
+    let st = this.domeStorages.get(name);
+    if (!st) {
+      const cfg: VaultConfig = {
+        name: dome.name,
+        path: dome.path,
+        allowedExtensions: [],
+        deniedPaths: [],
+        maxDepth: 10,
+        maxFileSize: this.config.maxFileSize,
+      };
+      st = new VaultStorage(cfg);
+      this.domeStorages.set(name, st);
+    }
+    return st;
+  }
+
+  /** Escribe una nota en UNA cupula concreta (S0-H alimenta). Fallback a la vault de config. */
+  async writeDome(dome: string, notePath: string, content: string): Promise<{ vault: string; path: string } | undefined> {
+    const st = this.domeStorage(dome);
+    if (!st) return undefined;
+    const note = await st.write(notePath, content);
+    return { vault: dome, path: note.path };
+  }
+
+  /** Lee una nota de UNA cupula concreta (S0-H consume). Fallback a la vault de config. */
+  async readDome(dome: string, notePath: string): Promise<{ path: string; name: string; frontmatter: unknown; tags: string[]; content: string } | undefined> {
+    const st = this.domeStorage(dome);
+    if (!st) return undefined;
+    const note = await st.read(notePath);
+    return { path: note.path, name: note.name, frontmatter: note.frontmatter, tags: note.tags, content: note.content };
+  }
+
+  /** Busca en UNA cupula (`dome`) o en todas las activas; devuelve resultados fusionados. */
+  searchAll(query: { query: string; maxResults?: number }, dome?: string): { path: string; score: number; snippet: string; dome: string }[] {
+    const max = query.maxResults || 20;
+    const engines: { name: string; se: SearchEngine }[] = [];
+    if (dome) {
+      const se = this.domeSearch(dome);
+      if (se) engines.push({ name: dome, se });
+    } else if (this.domeReg) {
+      for (const d of this.domeReg.listActive()) {
+        const se = this.domeSearch(d.name);
+        if (se) engines.push({ name: d.name, se });
+      }
+    } else {
+      engines.push({ name: this.config.name, se: this.search });
+    }
+
+    const merged: { path: string; score: number; snippet: string; dome: string }[] = [];
+    for (const { name, se } of engines) {
+      se.buildIndex();
+      for (const r of se.search({ query: query.query, maxResults: max })) {
+        merged.push({ path: r.path, score: r.score, snippet: r.snippet, dome: name });
+      }
+    }
+    merged.sort((a, b) => b.score - a.score);
+    return merged.slice(0, max);
   }
 
   private initVault(): void {
@@ -64,20 +159,28 @@ export class A2AServer {
             status: 'ok',
             uptime: Math.floor((Date.now() - this.startTime) / 1000),
             vault: this.config.name,
+            domes: this.domeReg ? this.domeReg.listActive().length : 1,
           }));
+        } else if (p === '/domes') {
+          res.writeHead(200);
+          res.end(JSON.stringify({ domes: this.listDomes() }));
         } else if (p === '/search') {
           const q = url.searchParams.get('q') || '';
           const max = parseInt(url.searchParams.get('maxResults') || '10', 10);
-          this.search.buildIndex();
-          const results = this.search.search({ query: q, maxResults: max });
+          const dome = url.searchParams.get('dome') || undefined;
+          const results = this.searchAll({ query: q, maxResults: max }, dome);
           res.writeHead(200);
           res.end(JSON.stringify({ results }));
         } else if (p.startsWith('/context/')) {
           const parts = p.replace('/context/', '').split('/');
+          const dome = url.searchParams.get('dome') || undefined;
           const notePath = parts.slice(1).join('/');
-          const note = await this.storage.read(notePath);
-          res.writeHead(200);
-          res.end(JSON.stringify({ path: note.path, name: note.name, frontmatter: note.frontmatter, tags: note.tags, content: note.content }));
+          const note = dome
+            ? await this.readDome(dome, notePath)
+            : await this.storage.read(notePath);
+          if (!note) { res.writeHead(404); res.end(JSON.stringify({ error: `Not found in dome ${dome || this.config.name}` })); }
+          else res.writeHead(200);
+          res.end(JSON.stringify(note ?? {}));
         } else if (p === '/stats') {
           const stats = await this.storage.stats();
           res.writeHead(200);
@@ -87,10 +190,12 @@ export class A2AServer {
           req.on('data', chunk => body += chunk);
           req.on('end', async () => {
             try {
-              const { path: notePath, content } = JSON.parse(body);
-              const receipt = await this.storage.write(notePath, content);
-              res.writeHead(200);
-              res.end(JSON.stringify(receipt));
+              const { path: notePath, content, dome } = JSON.parse(body);
+              const receipt = dome
+                ? await this.writeDome(dome, notePath, content)
+                : await this.storage.write(notePath, content);
+              res.writeHead(receipt ? 200 : 404);
+              res.end(JSON.stringify(receipt ?? { error: `Dome not found: ${dome}` }));
             } catch {
               res.writeHead(400);
               res.end(JSON.stringify({ error: 'Invalid request' }));

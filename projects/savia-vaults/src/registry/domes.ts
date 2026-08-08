@@ -76,7 +76,9 @@ export class DomeRegistry {
     this.domes.clear();
 
     for (const [name, dome] of Object.entries(data.domes)) {
-      const resolvedPath = path.resolve(dome.path);
+      // SE-310: resolver relativo al directorio del fichero de domes, NO al cwd
+      // (el CLI puede correr desde cualquier cwd; la cupula vive junto al registry).
+      const resolvedPath = path.resolve(path.dirname(this.filePath), dome.path);
       const active = fs.existsSync(resolvedPath) && fs.statSync(resolvedPath).isDirectory();
 
       if (!active) {
