@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=eff8322b605ce7e022be37e664da3d156081b72ad57f4bbecc74ee2ab6458186
-timestamp=2026-08-07T21:31:42Z
+diff_hash=c1f8024a22f2945f2b42efc9e2a76331f14a6bf1809ef69d0d515a64c0530543
+timestamp=2026-08-08T02:52:41Z
 branch=agent/spec-anti-sycophancy-e2e-20260806
-head_commit=35acc97d
-signature=135aa7e4e9911f8cdd6f1a4e26d3d0ef3e6feb122127c5dc754d442de43cc708
+head_commit=329525b8
+signature=88134597fbb7a213612d5f11dc4bd557df7003aa297af8b177734ce932dd25e0
