@@ -14,9 +14,9 @@ type PopupState =
 // classes can't reliably reach the surface, and the surface is always dark
 // regardless of theme — so colors are pinned to fixed hexes that match the
 // design tokens' visual character on a dark surface.
-const ACCENT = "#22c55e"; // --accent-500
-const ACCENT_DIM = "rgba(34, 197, 94, 0.7)";
-const ACCENT_FAINT = "rgba(34, 197, 94, 0.18)";
+const ACCENT = "#8e6fbf"; // --primary-400 (Savia Web purple)
+const ACCENT_DIM = "rgba(142, 111, 191, 0.7)";
+const ACCENT_FAINT = "rgba(142, 111, 191, 0.18)";
 // Destructive on dark surface. Same warm red the recorder page's REC dot
 // resolves to in light mode (`--destructive` = #ef4444); a hair richer than
 // the dark-mode variant so it pops against the popup's translucent black.

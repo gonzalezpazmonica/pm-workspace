@@ -58,15 +58,15 @@ export function MeetingImportDialog({
       <DialogContent className="max-w-md">
         <DialogHeader className="space-y-2">
           <p className="font-mono text-[10px] uppercase tracking-[0.25em] text-cream-muted/60">
-            new recording
+            nueva grabación
           </p>
-          <DialogTitle className="font-display text-xl font-medium tracking-tight text-cream">
-            Import audio
+          <DialogTitle className="text-xl font-semibold tracking-tight text-cream">
+            Importar audio
           </DialogTitle>
           <DialogDescription className="text-sm text-cream-muted leading-relaxed">
-            Paste an absolute path to a WAV, MP3, or FLAC file on your machine.
-            VoiceFlow will copy it into your recordings library and transcribe
-            it in the background.
+            Pega una ruta absoluta a un archivo WAV, MP3 o FLAC de tu máquina.
+            Savia Sonora lo copiará a tu biblioteca de grabaciones y lo
+            transcribirá en segundo plano.
           </DialogDescription>
         </DialogHeader>
 

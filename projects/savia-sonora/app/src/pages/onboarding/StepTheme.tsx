@@ -84,10 +84,10 @@ export const StepTheme = ({
           htmlFor="onboarding-autostart"
           className="text-sm font-medium text-cream cursor-pointer"
         >
-          Launch at login
+          Iniciar al encender
         </label>
         <p className="text-xs text-cream-muted mt-1 leading-relaxed">
-          Start VoiceFlow when you sign in to your computer.
+          Iniciar Savia Sonora al encender el ordenador.
         </p>
       </div>
       <Switch

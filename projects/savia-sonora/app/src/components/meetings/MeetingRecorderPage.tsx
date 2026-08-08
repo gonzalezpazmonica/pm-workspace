@@ -183,15 +183,15 @@ function PreRecordForm(props: {
     <>
       <header className="space-y-3">
         <p className="font-mono text-[10px] uppercase tracking-[0.25em] text-cream-muted/60">
-          01 / New recording
+          01 / Nueva grabación
         </p>
-        <h1 className="font-display text-4xl md:text-5xl font-medium tracking-tight text-cream leading-[1.05]">
-          New meeting
+        <h1 className="text-4xl md:text-5xl font-semibold tracking-tight text-cream leading-[1.05]">
+          Nueva reunión
         </h1>
         <p className="text-sm text-cream-muted max-w-xl leading-relaxed">
-          Pick your audio sources, hit start, and VoiceFlow streams to disk.
-          You can pause whenever — silence is written so the timeline stays
-          aligned.
+          Elige tus fuentes de audio, pulsa iniciar y Savia Sonora graba en
+          disco. Puedes pausar cuando quieras — el silencio se escribe para
+          que la línea temporal se mantenga alineada.
         </p>
       </header>
 

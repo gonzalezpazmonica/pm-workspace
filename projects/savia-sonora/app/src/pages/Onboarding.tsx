@@ -16,6 +16,7 @@ import { Button } from "@/components/ui/button";
 import { ModelDownloadProgress } from "@/components/ModelDownloadProgress";
 import { api } from "@/lib/api";
 import { cn } from "@/lib/utils";
+import { t } from "@/lib/i18n";
 import type { Settings, Options, GpuInfo } from "@/lib/types";
 import { StepWelcome } from "@/pages/onboarding/StepWelcome";
 import { StepAudio } from "@/pages/onboarding/StepAudio";
@@ -31,44 +32,44 @@ import { StepFinal } from "@/pages/onboarding/StepFinal";
 const STEPS_CONFIG = [
   {
     id: "welcome",
-    title: "Welcome to VoiceFlow",
-    subtitle: "Transform your voice into text with local AI processing.",
+    title: t("onboarding.welcome"),
+    subtitle: t("onboarding.welcomeSub"),
     icon: Sparkles,
   },
   {
     id: "audio",
-    title: "Configure audio",
-    subtitle: "Select your microphone and test the input levels.",
+    title: t("onboarding.audio"),
+    subtitle: t("onboarding.audioSub"),
     icon: Mic,
   },
   {
     id: "hardware",
-    title: "Hardware setup",
-    subtitle: "Configure GPU acceleration for faster transcription.",
+    title: t("onboarding.hardware"),
+    subtitle: t("onboarding.hardwareSub"),
     icon: HardDrive,
   },
   {
     id: "model",
-    title: "Choose model",
-    subtitle: "Select the AI model and language for transcription.",
+    title: t("onboarding.model"),
+    subtitle: t("onboarding.modelSub"),
     icon: Cpu,
   },
   {
     id: "download",
-    title: "Download model",
-    subtitle: "Pulling weights — first run only, cached locally.",
+    title: t("onboarding.download"),
+    subtitle: t("onboarding.downloadSub"),
     icon: Download,
   },
   {
     id: "theme",
-    title: "Personalize",
-    subtitle: "Choose your theme and startup preferences.",
+    title: t("onboarding.theme"),
+    subtitle: t("onboarding.themeSub"),
     icon: Zap,
   },
   {
     id: "final",
-    title: "You're all set",
-    subtitle: "Start dictating with a simple keyboard shortcut.",
+    title: t("onboarding.final"),
+    subtitle: t("onboarding.finalSub"),
     icon: Check,
   },
 ];
@@ -180,7 +181,7 @@ export function Onboarding() {
         <div className="flex flex-col items-center gap-4">
           <div className="w-8 h-8 rounded-full border-2 border-accent-500/30 border-t-accent-500 animate-spin" />
           <p className="font-mono text-[11px] uppercase tracking-[0.25em] text-cream-muted/60">
-            initializing voiceflow…
+            inicializando savia sonora…
           </p>
         </div>
       </main>

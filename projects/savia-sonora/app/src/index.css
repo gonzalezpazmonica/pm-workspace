@@ -4,27 +4,27 @@
 @custom-variant dark (&:is(.dark *));
 
 /*
-  VoiceFlow theme - aligned with the GetVoiceFlow marketing site brand.
+  Savia Sonora theme — aligned with Savia Web (projects/savia-web).
   Tokens here are the single source of truth. Components reference them
   via Tailwind classes (`bg-card`, `text-foreground`, `border-border`,
   etc.) and the legacy class shims at the bottom map historical names
   (`glass-card`, `orb`, `bg-grid`, `text-gradient-*`, `headline-serif`,
-  `divider-gradient`, `badge-glow`) onto the new flat aesthetic so we
-  don't have to rewrite every component to remove decoration.
+  `divider-gradient`, `badge-glow`) onto the new purple/glass aesthetic so
+  we don't have to rewrite every component to remove decoration.
 */
 
 @theme inline {
-    /* Typography */
-    --font-display: "Clash Display", system-ui, sans-serif;
-    --font-sans: "Inter", "Segoe UI", system-ui, sans-serif;
-    --font-serif: "Clash Display", system-ui, sans-serif;
+    /* Typography — Inter only (Savia Web uses Inter throughout) */
+    --font-sans: "Inter", system-ui, sans-serif;
+    --font-display: "Inter", system-ui, sans-serif;
+    --font-serif: "Inter", system-ui, sans-serif;
     --font-mono: "JetBrains Mono", "Fira Code", monospace;
 
-    /* Radius - three sizes only */
-    --radius-sm: 0.375rem;  /* 6px */
-    --radius: 0.5rem;       /* 8px */
-    --radius-lg: 0.75rem;   /* 12px */
-    --radius-xl: 1rem;      /* 16px - used by a few legacy components */
+    /* Radius — Savia Web scale (10/16/24) */
+    --radius-sm: 0.625rem;  /* 10px */
+    --radius: 1rem;         /* 16px */
+    --radius-lg: 1.5rem;    /* 24px */
+    --radius-xl: 1.5rem;    /* 24px — used by a few legacy components */
 
     /* Tracking */
     --tracking-tighter: -0.05em;
@@ -44,10 +44,10 @@
     --color-cream: var(--cream);
     --color-cream-muted: var(--cream-muted);
 
-    /* Accent ramp - identical to the marketing site */
-    --color-accent-400: var(--accent-400);
-    --color-accent-500: var(--accent-500);
-    --color-accent-600: var(--accent-600);
+    /* Accent ramp — identical to Savia Web */
+    --color-accent-400: var(--primary-400);
+    --color-accent-500: var(--primary);
+    --color-accent-600: var(--primary-700);
 
     /* shadcn token mirroring */
     --color-card: var(--card);
@@ -70,71 +70,81 @@
 }
 
 :root {
-    /* Light mode */
-    --background: #fafafa;
-    --foreground: #09090b;
-    --surface: #ffffff;
-    --surface-elevated: #ffffff;
-    --cream: #09090b;
-    --cream-muted: #71717a;
+    /* Light mode — Savia Web palette */
+    --background: #f5f3f8;
+    --foreground: #1c1a1e;
+    --surface: rgba(255, 255, 255, 0.85);
+    --surface-solid: #ffffff;
+    --surface-elevated: rgba(255, 255, 255, 0.95);
+    --cream: #1c1a1e;
+    --cream-muted: #625b71;
 
-    --accent-400: #4ade80;
-    --accent-500: #22c55e;
-    --accent-600: #16a34a;
+    /* Brand purple — Savia Web */
+    --primary: #6b4c9a;
+    --primary-400: #8e6fbf;
+    --primary-700: #4a2d7a;
+    --secondary-color: #a78bca;
+    --accent-color: #cdb4db;
 
     --card: var(--surface);
     --card-foreground: var(--foreground);
-    --popover: var(--surface);
+    --popover: var(--surface-solid);
     --popover-foreground: var(--foreground);
 
-    --primary: var(--accent-500);
     --primary-foreground: #ffffff;
 
-    --secondary: #f4f4f5;
+    --secondary: #ece7f3;
     --secondary-foreground: var(--foreground);
 
-    --muted: #f4f4f5;
+    --muted: #ece7f3;
     --muted-foreground: var(--cream-muted);
 
-    --accent: #f4f4f5;
+    --accent: #ece7f3;
     --accent-foreground: var(--foreground);
 
-    --destructive: #ef4444;
+    --destructive: #dc2626;
     --destructive-foreground: #ffffff;
 
-    --border: rgba(9, 9, 11, 0.10);
-    --input: rgba(9, 9, 11, 0.10);
-    --ring: var(--accent-500);
+    --border: rgba(28, 26, 30, 0.10);
+    --input: rgba(28, 26, 30, 0.10);
+    --ring: var(--primary);
 
-    /* Slightly more visible dot pattern in light mode where the white
-       background washes out subtle textures. */
-    --dots-opacity: 0.06;
+    /* Glass — Savia Web */
+    --glass-blur: 12px;
+    --glass-border: rgba(255, 255, 255, 0.30);
+
+    /* Shadows — layered, Savia Web */
+    --shadow: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+    --shadow-md: 0 4px 6px rgba(0,0,0,0.05), 0 2px 4px rgba(0,0,0,0.04);
+    --shadow-lg: 0 10px 25px rgba(0,0,0,0.08), 0 4px 10px rgba(0,0,0,0.04);
 
     --sidebar: var(--surface);
     --sidebar-foreground: var(--cream-muted);
     --sidebar-border: var(--border);
-    --sidebar-accent: #f4f4f5;
+    --sidebar-accent: #ece7f3;
 }
 
 .dark {
-    --background: #09090b;
-    --foreground: #fafafa;
-    --surface: #111113;
-    --surface-elevated: #1a1a1d;
-    --cream: #fafafa;
-    --cream-muted: #a1a1aa;
+    --background: #13111a;
+    --foreground: #e6e1e5;
+    --surface: rgba(33, 31, 38, 0.85);
+    --surface-solid: #211f26;
+    --surface-elevated: rgba(50, 47, 55, 0.95);
+    --cream: #e6e1e5;
+    --cream-muted: #cac4d0;
 
-    --accent-400: #4ade80;
-    --accent-500: #22c55e;
-    --accent-600: #16a34a;
+    --primary: #8e6fbf;
+    --primary-400: #a78bca;
+    --primary-700: #6b4c9a;
+    --secondary-color: #a78bca;
+    --accent-color: #cdb4db;
 
     --card: var(--surface);
     --card-foreground: var(--foreground);
-    --popover: var(--surface);
+    --popover: var(--surface-solid);
     --popover-foreground: var(--foreground);
 
-    --primary: var(--accent-500);
-    --primary-foreground: #09090b;
+    --primary-foreground: #13111a;
 
     --secondary: var(--surface-elevated);
     --secondary-foreground: var(--foreground);
@@ -146,12 +156,18 @@
     --accent-foreground: var(--foreground);
 
     --destructive: #f87171;
-    --destructive-foreground: #09090b;
+    --destructive-foreground: #13111a;
 
-    --border: rgba(255, 255, 255, 0.06);
-    --input: rgba(255, 255, 255, 0.06);
-    --ring: var(--accent-500);
-    --dots-opacity: 0.04;
+    --border: rgba(255, 255, 255, 0.08);
+    --input: rgba(255, 255, 255, 0.08);
+    --ring: var(--primary);
+
+    --glass-blur: 12px;
+    --glass-border: rgba(255, 255, 255, 0.08);
+
+    --shadow: 0 1px 3px rgba(0,0,0,0.2), 0 1px 2px rgba(0,0,0,0.15);
+    --shadow-md: 0 4px 6px rgba(0,0,0,0.2), 0 2px 4px rgba(0,0,0,0.15);
+    --shadow-lg: 0 10px 25px rgba(0,0,0,0.3), 0 4px 10px rgba(0,0,0,0.2);
 
     --sidebar: var(--surface);
     --sidebar-foreground: var(--cream-muted);
@@ -182,13 +198,20 @@
 
     h1, h2, h3, h4, h5, h6 {
         font-family: var(--font-display);
-        font-weight: 500;
+        font-weight: 600;
         color: var(--cream);
     }
 
     ::selection {
-        background-color: color-mix(in srgb, var(--accent-500), transparent 70%);
+        background-color: color-mix(in srgb, var(--primary), transparent 70%);
         color: var(--cream);
+    }
+
+    /* Accessible focus ring — Savia Web */
+    :focus-visible {
+        outline: 2px solid var(--ring);
+        outline-offset: 2px;
+        border-radius: var(--radius-sm);
     }
 }
 
@@ -232,21 +255,33 @@
     /* ───────── Brand primitives ───────── */
 
     .panel {
-        background-color: var(--surface);
+        background-color: var(--surface-solid);
         border: 1px solid var(--border);
-        border-radius: var(--radius-lg);
+        border-radius: var(--radius);
+        box-shadow: var(--shadow);
     }
 
     .panel-elevated {
         background-color: var(--surface-elevated);
         border: 1px solid var(--border);
+        border-radius: var(--radius);
+        box-shadow: var(--shadow-md);
+    }
+
+    /* Glass panel — Savia Web signature (blur + translucent surface + layered shadow) */
+    .glass-panel {
+        background-color: var(--surface);
+        -webkit-backdrop-filter: blur(var(--glass-blur));
+        backdrop-filter: blur(var(--glass-blur));
+        border: 1px solid var(--glass-border);
         border-radius: var(--radius-lg);
+        box-shadow: var(--shadow);
     }
 
     .bg-dots {
         background-image: radial-gradient(
             circle,
-            color-mix(in srgb, var(--foreground) calc(var(--dots-opacity) * 100%), transparent) 1px,
+            color-mix(in srgb, var(--foreground) 5%, transparent) 1px,
             transparent 1px
         );
         background-size: 24px 24px;
@@ -272,10 +307,19 @@
     .glass-strong,
     .glass-card {
         background-color: var(--surface);
-        border: 1px solid var(--border);
-        border-radius: var(--radius-lg);
-        backdrop-filter: none;
-        -webkit-backdrop-filter: none;
+        border: 1px solid var(--glass-border);
+        border-radius: var(--radius);
+        backdrop-filter: blur(var(--glass-blur));
+        -webkit-backdrop-filter: blur(var(--glass-blur));
+        box-shadow: var(--shadow);
+    }
+
+    /* Sidebar glass — translucent surface with blur, no radius (full-height) */
+    .sidebar-glass {
+        background-color: var(--surface);
+        -webkit-backdrop-filter: blur(var(--glass-blur));
+        backdrop-filter: blur(var(--glass-blur));
+        border-right: 1px solid var(--glass-border);
     }
 
     .glass-card {
@@ -291,12 +335,12 @@
         color: inherit;
     }
 
-    /* "Serif headline" treatment becomes a solid accent-green pop */
+    /* "Serif headline" treatment becomes a solid primary pop */
     .headline-serif {
         font-family: var(--font-display);
         font-style: normal;
-        font-weight: 500;
-        color: var(--accent-500);
+        font-weight: 600;
+        color: var(--primary);
     }
 
     .divider-gradient {
@@ -325,12 +369,12 @@
         align-items: center;
         gap: 0.5rem;
         padding: 0.25rem 0.625rem;
-        background: color-mix(in srgb, var(--accent-500), transparent 90%);
-        border: 1px solid color-mix(in srgb, var(--accent-500), transparent 70%);
-        border-radius: var(--radius);
+        background: color-mix(in srgb, var(--primary), transparent 90%);
+        border: 1px solid color-mix(in srgb, var(--primary), transparent 70%);
+        border-radius: var(--radius-sm);
         font-size: 0.75rem;
         font-weight: 500;
-        color: var(--accent-500);
+        color: var(--primary);
         font-family: var(--font-mono);
     }
 
@@ -369,7 +413,7 @@
         background: linear-gradient(
             90deg,
             transparent 0%,
-            color-mix(in srgb, var(--accent-500), transparent 80%) 50%,
+            color-mix(in srgb, var(--primary), transparent 80%) 50%,
             transparent 100%
         );
         background-size: 200% 100%;
@@ -426,7 +470,7 @@
     letter-spacing: 0.05em;
 }
 .comparison-table tbody tr:hover {
-    background: color-mix(in srgb, var(--accent-500), transparent 96%);
+    background: color-mix(in srgb, var(--primary), transparent 96%);
 }
 
 .cta-gradient { position: relative; overflow: hidden; }
@@ -434,9 +478,18 @@
 
 /* ───────── Reduced-effects mode ─────────
    The prior theme had heavy backdrop-filter/orbs/noise that crushed Linux
-   software rendering. The new theme has none of those, so this mode is
-   now effectively a no-op. App.tsx still toggles `.reduced-effects` on
-   Linux; we keep the class hook in case future effects need gating. */
+   software rendering. Linux keeps `.reduced-effects` (added in App.tsx):
+   glass degrades to a solid surface (no blur) without losing the palette. */
+
+.reduced-effects .glass-panel,
+.reduced-effects .glass,
+.reduced-effects .glass-strong,
+.reduced-effects .glass-card,
+.reduced-effects .sidebar-glass {
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+    background-color: var(--surface-solid);
+}
 
 @media (prefers-reduced-motion: reduce) {
     *, *::before, *::after {

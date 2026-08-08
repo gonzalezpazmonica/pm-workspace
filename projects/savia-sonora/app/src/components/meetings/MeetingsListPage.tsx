@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { api } from "@/lib/api";
 import type { Recording } from "@/lib/types";
 import { cn } from "@/lib/utils";
+import { t } from "@/lib/i18n";
 import { useMeetingRecorder } from "./MeetingRecorderContext";
 import { StatusLine } from "./StatusLine";
 import { MeetingImportDialog } from "./MeetingImportDialog";
@@ -71,12 +72,11 @@ export function MeetingsListPage() {
           </p>
           <div className="flex items-end justify-between gap-6 flex-wrap">
             <div className="space-y-3 min-w-0">
-              <h1 className="font-display text-4xl md:text-5xl font-medium tracking-tight text-cream leading-[1.05]">
-                Meetings
+              <h1 className="text-4xl md:text-5xl font-semibold tracking-tight text-cream leading-[1.05]">
+                {t("meetings.title")}
               </h1>
               <p className="text-sm text-cream-muted max-w-xl leading-relaxed">
-                Long-form recordings, transcribed and summarized — yours to
-                archive, search, and revisit.
+                {t("meetings.subtitle")}
               </p>
             </div>
             <div className="flex items-center gap-2 flex-shrink-0">
@@ -87,7 +87,7 @@ export function MeetingsListPage() {
                 className="gap-1.5 text-cream-muted hover:text-cream"
               >
                 <Upload className="w-3.5 h-3.5" strokeWidth={2} />
-                Import audio
+                {t("meetings.import")}
               </Button>
               {recorder.isLive ? (
                 <Link
@@ -95,7 +95,7 @@ export function MeetingsListPage() {
                   className="inline-flex items-center gap-2 h-9 px-4 rounded-md border border-destructive/40 bg-destructive/[0.06] text-destructive hover:bg-destructive/10 transition-colors font-mono text-xs uppercase tracking-widest"
                 >
                   <span className="rec-pulse" aria-hidden />
-                  <span>live</span>
+                  <span>{t("meetings.live")}</span>
                   <span className="text-cream-muted/40">·</span>
                   <span className="tabular-figs normal-case tracking-normal text-cream">
                     {formatDuration(recorder.state.durationMs)}
@@ -105,7 +105,7 @@ export function MeetingsListPage() {
                 <Link to="/dashboard/meetings/record">
                   <Button size="sm" className="gap-1.5">
                     <Plus className="w-4 h-4" strokeWidth={2.5} />
-                    New meeting
+                    {t("meetings.new")}
                   </Button>
                 </Link>
               )}
@@ -306,25 +306,25 @@ function LogEmpty({
 }) {
   if (searchQuery) {
     return (
-      <div className="border border-dashed border-border rounded-md py-20 px-6 text-center space-y-3">
+      <div className="border border-dashed border-border rounded-lg py-20 px-6 text-center space-y-3">
         <p className="font-mono text-[11px] uppercase tracking-[0.25em] text-cream-muted/60">
-          no matches
+          {t("home.noMatches")}
         </p>
         <p className="text-sm text-cream-muted">
-          Nothing in the library matches{" "}
+          Nada en la biblioteca coincide con{" "}
           <span className="font-mono text-cream">"{searchQuery}"</span>.
         </p>
         <p className="font-mono text-xs text-cream-muted/60 pt-2">
           <span className="text-cream-muted/40">→ </span>
-          try simpler keywords or clear the search
+          prueba palabras clave más simples o limpia la búsqueda
         </p>
       </div>
     );
   }
   return (
-    <div className="border border-dashed border-border rounded-md py-20 px-6 text-center space-y-4">
+    <div className="border border-dashed border-border rounded-lg py-20 px-6 text-center space-y-4">
       <p className="font-mono text-[11px] uppercase tracking-[0.25em] text-cream-muted/60">
-        library empty
+        {t("meetings.empty")}
       </p>
       <p className="text-sm text-cream-muted max-w-md mx-auto leading-relaxed">
         Nothing recorded yet. Start a new meeting to capture your microphone

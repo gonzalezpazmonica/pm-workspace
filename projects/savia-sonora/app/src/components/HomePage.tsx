@@ -2,67 +2,24 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { Copy, Trash2, Search, Mic, FileAudio, X } from "lucide-react";
 import { toast } from "sonner";
 import { StatsHeader } from "@/components/StatsHeader";
+import { AudioPlayerDialog } from "@/components/AudioPlayerDialog";
+import { useHistoryEntries } from "@/hooks/useHistoryEntries";
 import { api } from "@/lib/api";
 import type { HistoryEntry } from "@/lib/types";
+import { t } from "@/lib/i18n";
 import { cn } from "@/lib/utils";
-import {
-  base64ToBlobUrl,
-  revokeUrl,
-  isInvalidAudioPayload,
-} from "@/lib/audio";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
 
-export function HomePage() {
-  const [history, setHistory] = useState<HistoryEntry[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-  const [searchQuery, setSearchQuery] = useState("");
-  const [showPlayer, setShowPlayer] = useState(false);
-  const [audioUrl, setAudioUrl] = useState<string | null>(null);
-  const [audioMeta, setAudioMeta] = useState<{
-    fileName?: string;
-    mime?: string;
-    durationMs?: number;
-  } | null>(null);
-  const [loadingAudioFor, setLoadingAudioFor] = useState<number | null>(null);
+// Poll the recording state so hotkey-driven starts stay in sync. The
+// interval pauses when the window is hidden to avoid useless requests.
+function useRecordingState() {
   const [isRecording, setIsRecording] = useState(false);
   const [recordToggling, setRecordToggling] = useState(false);
-  const lastHistoryIdRef = useRef<number | null>(null);
 
-  useEffect(() => {
-    const load = async () => {
-      try {
-        setError(null);
-        const data = await api.getHistory(50, 0, undefined, false);
-        setHistory(data);
-        lastHistoryIdRef.current = data[0]?.id ?? null;
-      } catch (err) {
-        console.error("Failed to load history:", err);
-        setError("Failed to load history. Please try again.");
-        toast.error("Failed to load history");
-      } finally {
-        setLoading(false);
-      }
-    };
-    load();
-  }, []);
-
-  // Sync recording state with backend (covers hotkey-driven starts).
-  // In-flight guard prevents request stacking when the RPC server slows
-  // (observed: during long meeting recordings the asyncio RPC thread became
-  // sluggish; without this guard, getRecordingState calls accumulated and
-  // saturated aiohttp's accept queue, wedging the whole HTTP server).
   useEffect(() => {
     let cancelled = false;
     let inFlight = false;
     const tick = async () => {
-      if (inFlight) return;
+      if (inFlight || document.visibilityState !== "visible") return;
       inFlight = true;
       try {
         const state = await api.getRecordingState();
@@ -81,118 +38,76 @@ export function HomePage() {
     };
   }, []);
 
-  // Refresh history after a recording stops so new entries appear without reload.
-  useEffect(() => {
-    if (isRecording) return;
-    let cancelled = false;
-    const refresh = async () => {
-      await new Promise((r) => setTimeout(r, 600));
-      if (cancelled) return;
-      try {
-        const data = await api.getHistory(50, 0, undefined, false);
-        if (cancelled) return;
-        const newest = data[0]?.id ?? null;
-        if (newest !== null && newest !== lastHistoryIdRef.current) {
-          setHistory(data);
-          lastHistoryIdRef.current = newest;
-        }
-      } catch {
-        // ignore
-      }
-    };
-    refresh();
-    return () => {
-      cancelled = true;
-    };
-  }, [isRecording]);
-
-  const handleToggleRecording = async () => {
+  const toggleRecording = async () => {
     if (recordToggling) return;
     setRecordToggling(true);
     try {
       const result = await api.manualToggleRecording();
       setIsRecording(result.recording);
       if (result.error === "onboarding_active") {
-        toast.error("Finish onboarding before recording");
+        toast.error(t("home.recordingOnboarding"));
       }
     } catch (e) {
       console.error("Failed to toggle recording:", e);
-      toast.error("Failed to toggle recording");
+      toast.error(t("home.recordFailed"));
     } finally {
       setRecordToggling(false);
     }
   };
 
-  useEffect(() => () => revokeUrl(audioUrl), [audioUrl]);
+  return { isRecording, recordToggling, toggleRecording };
+}
 
-  const handleCopy = async (text: string) => {
-    try {
-      await api.copyToClipboard(text);
-      toast.success("Copied to clipboard");
-    } catch {
-      try {
-        await navigator.clipboard.writeText(text);
-        toast.success("Copied to clipboard");
-      } catch {
-        toast.error("Failed to copy to clipboard");
-      }
-    }
-  };
+export function HomePage() {
+  const {
+    history,
+    loading,
+    error,
+    loadHistory,
+    refreshIfNew,
+    handleCopy,
+    handleDelete,
+    handlePlayAudio,
+    showPlayer,
+    audioUrl,
+    audioMeta,
+    loadingAudioFor,
+    closePlayer,
+  } = useHistoryEntries(50);
 
-  const handleDelete = async (id: number) => {
-    try {
-      await api.deleteHistory(id);
-      setHistory((prev) => prev.filter((h) => h.id !== id));
-      toast.success("Transcription deleted");
-    } catch (err) {
-      console.error("Failed to delete:", err);
-      toast.error("Failed to delete transcription");
-    }
-  };
+  const { isRecording, recordToggling, toggleRecording } = useRecordingState();
 
-  const handlePlayAudio = async (historyId: number) => {
-    setLoadingAudioFor(historyId);
-    try {
-      const response = await api.getHistoryAudio(historyId);
-      revokeUrl(audioUrl);
-      const url = base64ToBlobUrl(response.base64, response.mime);
-      setAudioUrl(url);
-      setAudioMeta({
-        fileName: response.fileName,
-        mime: response.mime,
-        durationMs: response.durationMs,
-      });
-      setShowPlayer(true);
-    } catch (err) {
-      console.error("Failed to load audio recording:", err);
-      toast.error(
-        isInvalidAudioPayload(err)
-          ? "Audio file is corrupted"
-          : "Audio file not found"
-      );
-      revokeUrl(audioUrl);
-      setAudioUrl(null);
-      setShowPlayer(false);
-      setAudioMeta(null);
-    } finally {
-      setLoadingAudioFor(null);
-    }
-  };
+  // Refresh history after a recording stops so new entries appear without reload.
+  const lastRecording = useRef(isRecording);
+  useEffect(() => {
+    if (lastRecording.current === isRecording) return;
+    lastRecording.current = isRecording;
+    if (isRecording) return;
+    const refresh = setTimeout(() => {
+      void refreshIfNew();
+    }, 600);
+    return () => clearTimeout(refresh);
+  }, [isRecording, refreshIfNew]);
+
+  const [searchQuery, setSearchQuery] = useState("");
 
   const filteredHistory = useMemo(
     () =>
       history.filter((entry) =>
-        entry.text.toLowerCase().includes(searchQuery.toLowerCase())
+        entry.text.toLowerCase().includes(searchQuery.toLowerCase()),
       ),
-    [history, searchQuery]
+    [history, searchQuery],
   );
 
-  const groupedHistory = useMemo(() => groupByDate(filteredHistory), [filteredHistory]);
+  const groupedHistory = useMemo(
+    () => groupByDate(filteredHistory),
+    [filteredHistory],
+  );
 
   const todayStats = useMemo(() => {
     const today = new Date();
     const todayEntries = history.filter((h) =>
-      isSameDay(new Date(h.created_at), today)
+      isSameDay(new Date(h.created_at), today),
     );
     return {
       words: todayEntries.reduce((sum, h) => sum + h.word_count, 0),
@@ -213,17 +128,17 @@ export function HomePage() {
               <p className="font-mono text-[10px] uppercase tracking-[0.25em] text-cream-muted/60">
                 {formatDateLine(new Date())}
               </p>
-              <h1 className="font-display text-4xl md:text-5xl font-medium tracking-tight text-cream leading-[1.05]">
-                Dashboard
+              <h1 className="text-4xl md:text-5xl font-semibold tracking-tight text-cream leading-[1.05]">
+                {t("home.dashboard")}
               </h1>
               <p className="text-sm text-cream-muted max-w-xl leading-relaxed">
-                Your local dictation log. Press your hotkey anywhere to capture, or use the button.
+                {t("home.subtitle")}
               </p>
             </div>
             <RecordButton
               isRecording={isRecording}
               disabled={recordToggling}
-              onClick={handleToggleRecording}
+              onClick={toggleRecording}
             />
           </header>
 
@@ -238,9 +153,14 @@ export function HomePage() {
           />
 
           {loading ? (
-            <LogSkeleton />
+            <div aria-live="polite">
+              <LogSkeleton />
+            </div>
           ) : error ? (
-            <LogError error={error} onRetry={() => window.location.reload()} />
+            <LogError
+              error={error}
+              onRetry={() => void loadHistory(undefined, true)}
+            />
           ) : !hasResults ? (
             <LogEmpty searchQuery={searchQuery} />
           ) : (
@@ -267,12 +187,7 @@ export function HomePage() {
         audioMeta={audioMeta}
         durationMs={durationMs}
         onOpenChange={(open) => {
-          setShowPlayer(open);
-          if (!open) {
-            revokeUrl(audioUrl);
-            setAudioUrl(null);
-            setAudioMeta(null);
-          }
+          if (!open) closePlayer();
         }}
       />
     </>
@@ -294,12 +209,12 @@ function RecordButton({
       onClick={onClick}
       disabled={disabled}
       aria-pressed={isRecording}
-      aria-label={isRecording ? "Stop recording" : "Start recording"}
+      aria-label={isRecording ? t("home.stop") : t("home.record")}
       className={cn(
-        "h-11 px-6 rounded-md font-medium text-sm transition-colors flex items-center gap-2.5 flex-shrink-0 self-start md:self-auto disabled:opacity-60 disabled:cursor-not-allowed",
+        "h-11 px-6 rounded-lg font-medium text-sm transition-colors flex items-center gap-2.5 flex-shrink-0 self-start md:self-auto disabled:opacity-60 disabled:cursor-not-allowed shadow-sm",
         isRecording
           ? "bg-destructive text-destructive-foreground hover:bg-destructive/90"
-          : "bg-accent-500 text-zinc-950 hover:bg-accent-600"
+          : "bg-primary text-primary-foreground hover:bg-primary-700",
       )}
     >
       {isRecording ? (
@@ -308,12 +223,12 @@ function RecordButton({
             <span className="absolute inset-0 rounded-full bg-current animate-ping opacity-50" />
             <span className="relative w-2.5 h-2.5 rounded-full bg-current" />
           </span>
-          Stop
+          {t("home.stop")}
         </>
       ) : (
         <>
           <Mic className="w-4 h-4" strokeWidth={2.5} />
-          Record
+          {t("home.record")}
         </>
       )}
     </button>
@@ -339,17 +254,18 @@ function SearchBar({
         />
         <input
           type="text"
-          placeholder="Search transcriptions"
+          placeholder={t("home.search")}
           value={value}
           onChange={(e) => onChange(e.target.value)}
-          className="w-full h-9 pl-9 pr-9 bg-secondary/30 border border-border rounded-md text-sm text-cream placeholder:text-cream-muted/50 focus:bg-secondary/50 focus:border-accent-500/40 focus:outline-none transition-colors"
+          aria-label={t("home.search")}
+          className="w-full h-9 pl-9 pr-9 bg-secondary/30 border border-border rounded-lg text-sm text-cream placeholder:text-cream-muted/50 focus:bg-secondary/50 focus:border-primary/40 focus:outline-none transition-colors"
         />
         {hasQuery && (
           <button
             type="button"
             onClick={() => onChange("")}
             className="absolute right-2 top-1/2 -translate-y-1/2 text-cream-muted/60 hover:text-cream p-1 rounded transition-colors"
-            aria-label="Clear search"
+            aria-label="Limpiar búsqueda"
           >
             <X className="w-3.5 h-3.5" />
           </button>
@@ -357,7 +273,7 @@ function SearchBar({
       </div>
       {hasQuery && (
         <span className="font-mono text-[11px] uppercase tracking-widest text-cream-muted/60">
-          {count} {count === 1 ? "match" : "matches"}
+          {count} {count === 1 ? t("home.match") : t("home.matches")}
         </span>
       )}
     </div>
@@ -386,7 +302,7 @@ function LogSection({
           {label}
           <span className="text-cream-muted/30 mx-2">·</span>
           <span className="text-cream-muted/40">
-            {entries.length} {entries.length === 1 ? "entry" : "entries"}
+            {entries.length} {entries.length === 1 ? t("home.entry") : t("home.entries")}
           </span>
         </p>
         <div className="flex-1 h-px bg-border" />
@@ -422,18 +338,18 @@ function LogRow({
 }) {
   const hasAudio = !!entry.has_audio;
   return (
-    <article className="group relative flex items-start gap-5 py-4 border-t border-border first:border-t-0 transition-colors hover:bg-secondary/[0.25] -mx-2 px-2 rounded-sm">
+    <article className="group relative flex items-start gap-5 py-4 border-t border-border first:border-t-0 transition-colors hover:bg-secondary/[0.25] -mx-2 px-2 rounded-lg">
       <div className="flex flex-col items-end gap-1.5 w-14 flex-shrink-0 pt-0.5">
         <span className="font-mono text-[11px] text-cream-muted/70 leading-none">
           {formatTime(entry.created_at)}
         </span>
         {hasAudio && (
           <span
-            className="font-mono text-[9px] uppercase tracking-[0.15em] text-accent-500/80 flex items-center gap-1 leading-none"
-            title="Audio recording attached"
+            className="font-mono text-[9px] uppercase tracking-[0.15em] text-primary/80 flex items-center gap-1 leading-none"
+            title={t("home.audio")}
           >
             <FileAudio className="w-2.5 h-2.5" strokeWidth={2.5} />
-            audio
+            {t("home.audio")}
           </span>
         )}
       </div>
@@ -442,26 +358,29 @@ function LogRow({
           {entry.text}
         </p>
         <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-cream-muted/50 mt-2">
-          {entry.word_count} {entry.word_count === 1 ? "word" : "words"}
+          {entry.word_count} {entry.word_count === 1 ? t("home.word") : t("home.words")}
         </p>
       </div>
       <div className="flex items-center gap-1 flex-shrink-0 opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition-opacity">
         <RowAction
           icon={Copy}
-          label="Copy"
+          label={t("home.copied").slice(0, 0) || "Copiar"}
+          title="Copiar"
           onClick={() => onCopy(entry.text)}
         />
         {hasAudio && (
           <RowAction
             icon={FileAudio}
-            label={isLoadingAudio ? "Loading…" : "Play audio"}
+            label={isLoadingAudio ? t("home.loading") : t("home.playAudio")}
+            title={t("home.playAudio")}
             onClick={() => onPlayAudio(entry.id)}
             disabled={isLoadingAudio}
           />
         )}
         <RowAction
           icon={Trash2}
-          label="Delete"
+          label="Eliminar"
+          title="Eliminar"
           tone="danger"
           onClick={() => onDelete(entry.id)}
         />
@@ -473,12 +392,14 @@ function LogRow({
 function RowAction({
   icon: Icon,
   label,
+  title,
   onClick,
   disabled,
   tone = "default",
 }: {
   icon: React.ElementType;
   label: string;
+  title: string;
   onClick: () => void;
   disabled?: boolean;
   tone?: "default" | "danger";
@@ -489,14 +410,14 @@ function RowAction({
       onClick={onClick}
       disabled={disabled}
       aria-label={label}
-      title={label}
+      title={title}
       className={cn(
-        "h-8 w-8 rounded-md flex items-center justify-center transition-colors",
+        "h-8 w-8 rounded-lg flex items-center justify-center transition-colors",
         "text-cream-muted/70 hover:bg-secondary/60",
         tone === "danger"
           ? "hover:text-destructive hover:bg-destructive/10"
           : "hover:text-cream",
-        "disabled:opacity-40 disabled:cursor-not-allowed"
+        "disabled:opacity-40 disabled:cursor-not-allowed",
       )}
     >
       <Icon className="w-3.5 h-3.5" strokeWidth={2} />
@@ -506,20 +427,19 @@ function RowAction({
 
 function LogEmpty({ searchQuery }: { searchQuery: string }) {
   return (
-    <div className="border border-dashed border-border rounded-md py-16 px-6 text-center space-y-3">
+    <div className="border border-dashed border-border rounded-lg py-16 px-6 text-center space-y-3">
       <p className="font-mono text-[11px] uppercase tracking-[0.25em] text-cream-muted/60">
-        {searchQuery ? "no matches" : "log empty"}
+        {searchQuery ? t("home.noMatches") : t("home.logEmptyLabel")}
       </p>
       <p className="text-sm text-cream-muted">
         {searchQuery
-          ? `Nothing matches "${searchQuery}".`
-          : "Your transcriptions will appear here as you dictate."}
+          ? `Nada coincide con "${searchQuery}".`
+          : t("home.logEmpty")}
       </p>
       {!searchQuery && (
         <p className="font-mono text-xs text-cream-muted/60 pt-2">
           <span className="text-cream-muted/40">→ </span>
-          press your hotkey or use the{" "}
-          <span className="text-accent-500">Record</span> button
+          {t("home.logEmptyHint")}
         </p>
       )}
     </div>
@@ -534,19 +454,22 @@ function LogError({
   onRetry: () => void;
 }) {
   return (
-    <div className="border border-destructive/30 bg-destructive/[0.03] rounded-md p-6 space-y-4">
+    <div
+      role="alert"
+      className="border border-destructive/30 bg-destructive/[0.03] rounded-lg p-6 space-y-4"
+    >
       <div className="space-y-1">
         <p className="font-mono text-[11px] uppercase tracking-[0.25em] text-destructive">
-          read failed
+          error
         </p>
         <p className="text-sm text-cream">{error}</p>
       </div>
       <button
         type="button"
         onClick={onRetry}
-        className="h-9 px-4 rounded-md border border-border bg-secondary/40 hover:bg-secondary/60 hover:text-cream transition-colors font-mono text-[11px] uppercase tracking-widest text-cream-muted"
+        className="h-9 px-4 rounded-lg border border-border bg-secondary/40 hover:bg-secondary/60 hover:text-cream transition-colors font-mono text-[11px] uppercase tracking-widest text-cream-muted"
       >
-        retry
+        {t("home.retry")}
       </button>
     </div>
   );
@@ -583,49 +506,6 @@ function LogSkeleton() {
   );
 }
 
-function AudioPlayerDialog({
-  open,
-  audioUrl,
-  audioMeta,
-  durationMs,
-  onOpenChange,
-}: {
-  open: boolean;
-  audioUrl: string | null;
-  audioMeta: { fileName?: string; mime?: string; durationMs?: number } | null;
-  durationMs?: number;
-  onOpenChange: (open: boolean) => void;
-}) {
-  return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-md">
-        <DialogHeader className="space-y-2">
-          <p className="font-mono text-[10px] uppercase tracking-[0.25em] text-cream-muted/60">
-            audio playback
-          </p>
-          <DialogTitle className="font-display text-xl font-medium tracking-tight text-cream truncate">
-            {audioMeta?.fileName || "Recording"}
-          </DialogTitle>
-          <DialogDescription className="font-mono text-xs text-cream-muted">
-            {durationMs
-              ? `${Math.round(durationMs / 1000)}s · ${audioMeta?.mime || "audio/wav"}`
-              : "Playback of the recorded audio"}
-          </DialogDescription>
-        </DialogHeader>
-        {audioUrl ? (
-          // biome-ignore lint/a11y/useMediaCaption: transcript text is shown in the log
-          <audio controls autoPlay className="w-full">
-            <source src={audioUrl} type={audioMeta?.mime || "audio/wav"} />
-            Your browser does not support audio playback.
-          </audio>
-        ) : (
-          <p className="text-sm text-cream-muted">No audio loaded.</p>
-        )}
-      </DialogContent>
-    </Dialog>
-  );
-}
-
 function formatDateLine(date: Date): string {
   const weekday = date.toLocaleDateString([], { weekday: "long" });
   const month = date.toLocaleDateString([], { month: "long" });
@@ -654,9 +534,9 @@ function groupByDate(entries: HistoryEntry[]): Record<string, HistoryEntry[]> {
     let label: string;
 
     if (isSameDay(entryDate, today)) {
-      label = "today";
+      label = t("home.today");
     } else if (isSameDay(entryDate, yesterday)) {
-      label = "yesterday";
+      label = t("home.yesterday");
     } else {
       label = entryDate.toLocaleDateString([], {
         weekday: "long",

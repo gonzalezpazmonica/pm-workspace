@@ -124,7 +124,7 @@ export function ModelDownloadProgress({
                   %USERPROFILE%\.cache\huggingface\hub\
                 </code>
               </li>
-              <li>Restart VoiceFlow</li>
+              <li>Reiniciar Savia Sonora</li>
             </ol>
           </div>
         )}
