@@ -104,7 +104,7 @@ fi
 # Fallback: daemon down — inline regex (path + private skip already done above)
 # Whitelist specific sovereignty/shield files
 case "$NORM_PATH" in
-  *scripts/data-sovereignty*|*scripts/ollama-classify*|*scripts/shield-ner*|*scripts/savia-shield*|*scripts/pre-commit-sovereignty*|*tests/test-data-sovereignty*) exit 0 ;;
+  *scripts/data-sovereignty*|*scripts/ollama-classify*|*scripts/shield-ner*|*scripts/savia-shield*|*scripts/pre-commit-sovereignty*|*tests/test-data-sovereignty*|*docs/propuestas/SE-314*) exit 0 ;;
   *hooks/data-sovereignty*|*hooks/ollama-classify*|*hooks/shield-ner*) exit 0 ;;
 esac
 

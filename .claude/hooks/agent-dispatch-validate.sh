@@ -9,14 +9,31 @@ export CLAUDE_PROJECT_DIR="${CLAUDE_PROJECT_DIR:-$SAVIA_WORKSPACE_DIR}"
 # Profile tier: strict
 # ────────────────────────────────────────────────────────────────────────────
 
+INPUT=$(cat)
+TOOL_NAME=$(echo "$INPUT" | jq -r '.tool_name // empty')
+
+# ── SE-313 S7c: dispatch tracing (non-blocking) ──────────────────────────
+# Resuelve el modelo del subagente, verifica contra config/model-registry.json
+# y emite dispatch.resolved | dispatch.failed a telemetry-events.jsonl.
+# Nunca bloquea: los errores de resolución se advierten y se registran.
+# Se ejecuta ANTES del profile gate: la telemetría no depende del perfil.
+if [ "$TOOL_NAME" = "Task" ]; then
+  AGENT_TYPE=$(echo "$INPUT" | jq -r '.tool_input.agent // .tool_input.subagent_type // empty')
+  if [ -n "$AGENT_TYPE" ]; then
+    GATE="$CLAUDE_PROJECT_DIR/scripts/subagent-dispatch-gate.sh"
+    if [ -x "$GATE" ]; then
+      # El gate deriva el tier del frontmatter del agente si no se pasa --tier.
+      bash "$GATE" --agent "$AGENT_TYPE" >/dev/null 2>&1 || \
+        echo "⚠ [SE-313] dispatch de '$AGENT_TYPE' con modelo no resoluble — ver output/telemetry-events.jsonl" >&2
+    fi
+  fi
+fi
+
 LIB_DIR="$(dirname "${BASH_SOURCE[0]}")/lib"
 if [[ -f "$LIB_DIR/profile-gate.sh" ]]; then
   # shellcheck source=/dev/null
   source "$LIB_DIR/profile-gate.sh" && profile_gate "strict"
 fi
-
-INPUT=$(cat)
-TOOL_NAME=$(echo "$INPUT" | jq -r '.tool_name // empty')
 
 # Solo aplica al tool Task (subagentes)
 if [ "$TOOL_NAME" != "Task" ]; then

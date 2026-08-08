@@ -39,11 +39,13 @@ version: 1                  # schema version (current: 1)
 frontend: <free-form>       # e.g. claude-code | opencode | codex | cursor | other
 provider: <free-form>       # e.g. vendor name | "localai" | "ollama" | "custom-corp"
 
-# Model aliases — three tiers. Each value is whatever model id your provider
-# expects. Free-form. The framework never validates against a known list.
-model_heavy: <free-form>    # heavy-tier model id (deep reasoning, slow)
-model_mid:   <free-form>    # mid-tier model id (balanced)
-model_fast:  <free-form>    # fast-tier model id (low-latency, low-cost)
+# Model aliases — three tiers. Each value MUST be the provider-prefixed model
+# id your runtime expects (e.g. `deepseek/deepseek-v4-pro`), matching the
+# format of the runtime registry (`opencode models`). See SE-313 for the
+# dispatch-trace rule: a missing prefix causes unresolvable subagent models.
+model_heavy: <provider>/<model-id>   # heavy-tier model id (deep reasoning, slow)
+model_mid:   <provider>/<model-id>   # mid-tier model id (balanced)
+model_fast:  <provider>/<model-id>   # fast-tier model id (low-latency, low-cost)
 
 # Capability declarations — yes / no / autodetect. autodetect uses env-var
 # heuristics in scripts/savia-env.sh.
