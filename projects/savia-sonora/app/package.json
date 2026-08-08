@@ -15,6 +15,7 @@
     "build:installer:macos": "pnpm run build && bash installer/build-macos.sh",
     "lint": "eslint src",
     "typecheck": "tsc -b",
+    "test:frontend": "vitest run",
     "test": "uv run -p .venv pytest src-pyloid/tests/ --ignore=src-pyloid/tests/test_transcription.py",
     "test:all": "uv run -p .venv pytest src-pyloid/tests/",
     "check": "pnpm run lint && pnpm run typecheck && pnpm run test && pnpm run version:check",
@@ -81,6 +82,8 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.39.4",
+    "@testing-library/jest-dom": "^7.0.0",
+    "@testing-library/react": "^16.3.2",
     "@types/node": "^25.7.0",
     "@types/react": "^18.3.28",
     "@types/react-dom": "^18.3.7",
@@ -89,10 +92,12 @@
     "eslint-plugin-react-hooks": "^5.2.0",
     "eslint-plugin-react-refresh": "^0.4.26",
     "globals": "^15.15.0",
+    "jsdom": "^30.0.1",
     "npm-run-all": "^4.1.5",
     "run-script-os": "^1.1.6",
     "typescript": "~5.6.3",
     "typescript-eslint": "^8.59.3",
-    "vite": "^6.4.2"
+    "vite": "^6.4.2",
+    "vitest": "^4.1.10"
   }
 }

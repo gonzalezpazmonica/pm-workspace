@@ -34,6 +34,12 @@ function applyTheme(theme: Settings["theme"]) {
   } else {
     root.classList.remove("dark");
   }
+
+  // Sync <meta name="theme-color"> so the window chrome matches the palette
+  const meta = document.querySelector('meta[name="theme-color"]');
+  if (meta) {
+    meta.setAttribute("content", isDark ? "#13111a" : "#f5f3f8");
+  }
 }
 
 function AppRouter() {

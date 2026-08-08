@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { api } from "@/lib/api";
 import type { Stats } from "@/lib/types";
 import { cn } from "@/lib/utils";
+import { t } from "@/lib/i18n";
 
 type ConfigData = {
   model: string;
@@ -81,31 +82,31 @@ export function StatsHeader({ todayStats }: StatsHeaderProps) {
     <section className="space-y-8">
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-x-8 gap-y-8">
         <StatCell
-          label="words"
+          label={t("stats.words")}
           value={stats.totalWords.toLocaleString()}
           delta={
             todayStats && todayStats.words > 0
-              ? `+${todayStats.words.toLocaleString()} today`
+              ? `+${todayStats.words.toLocaleString()} ${t("stats.today")}`
               : undefined
           }
         />
         <StatCell
-          label="entries"
+          label={t("stats.entries")}
           value={stats.totalTranscriptions.toLocaleString()}
           delta={
             todayStats && todayStats.entries > 0
-              ? `+${todayStats.entries} today`
+              ? `+${todayStats.entries} ${t("stats.today")}`
               : undefined
           }
         />
         <StatCell
-          label="chars"
+          label={t("stats.chars")}
           value={stats.totalCharacters.toLocaleString()}
         />
         <StatCell
-          label="streak"
-          value={`${streak} ${streak === 1 ? "day" : "days"}`}
-          delta={streak > 0 ? "active" : "no streak yet"}
+          label={t("stats.streak")}
+          value={`${streak} ${streak === 1 ? t("home.day") : t("home.days")}`}
+          delta={streak > 0 ? t("stats.active") : t("stats.noStreak")}
           active={streak > 0}
         />
       </div>
@@ -114,24 +115,24 @@ export function StatsHeader({ todayStats }: StatsHeaderProps) {
 
       <div>
         <p className="font-mono text-[10px] uppercase tracking-[0.25em] text-cream-muted/60 mb-4">
-          active
+          {t("stats.active")}
         </p>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-10 gap-y-2">
           <ConfigRow
-            label="model"
+            label={t("stats.model")}
             value={config ? capitalize(config.model) : "—"}
           />
           <ConfigRow
-            label="microphone"
+            label={t("stats.mic")}
             value={config?.micName ?? "—"}
             truncate
           />
           <ConfigRow
-            label="language"
+            label={t("stats.language")}
             value={config ? formatLang(config.language) : "—"}
           />
           <ConfigRow
-            label="compute"
+            label={t("stats.compute")}
             value={config?.computeDevice ?? "—"}
             active={config?.isUsingGpu}
             truncate
@@ -161,7 +162,7 @@ function StatCell({
       <p
         className={cn(
           "font-display text-[2rem] md:text-4xl font-medium tracking-tight leading-none",
-          active ? "text-accent-500" : "text-cream"
+          active ? "text-primary" : "text-cream"
         )}
       >
         {value}
@@ -170,11 +171,11 @@ function StatCell({
         <p
           className={cn(
             "font-mono text-[11px] flex items-center gap-1.5",
-            active ? "text-accent-500/80" : "text-cream-muted/70"
+            active ? "text-primary/80" : "text-cream-muted/70"
           )}
         >
           {active && (
-            <span className="w-1.5 h-1.5 rounded-full bg-accent-500" />
+            <span className="w-1.5 h-1.5 rounded-full bg-primary" />
           )}
           {delta}
         </p>
@@ -202,13 +203,13 @@ function ConfigRow({
       <span
         className={cn(
           "font-mono text-xs flex items-center gap-1.5 min-w-0",
-          active ? "text-accent-500" : "text-cream",
+          active ? "text-primary" : "text-cream",
           truncate && "truncate"
         )}
         title={truncate ? value : undefined}
       >
         {active && (
-          <span className="w-1.5 h-1.5 rounded-full bg-accent-500 flex-shrink-0" />
+          <span className="w-1.5 h-1.5 rounded-full bg-primary flex-shrink-0" />
         )}
         <span className={cn(truncate && "truncate")}>{value}</span>
       </span>

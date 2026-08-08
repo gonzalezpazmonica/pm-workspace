@@ -41,15 +41,11 @@ export function Dashboard() {
           <Menu className="h-5 w-5" />
         </Button>
         <img
-          src="/light-logo.png"
-          alt="VoiceFlow"
-          className="h-7 w-auto block dark:hidden"
+          src="/savia-logo.png"
+          alt="Savia Sonora"
+          className="h-8 w-8 rounded-lg"
         />
-        <img
-          src="/dark-logo.png"
-          alt="VoiceFlow"
-          className="h-7 w-auto hidden dark:block"
-        />
+        <span className="font-semibold text-cream">Savia Sonora</span>
       </header>
 
       <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
@@ -60,7 +56,7 @@ export function Dashboard() {
         >
           <SheetTitle className="sr-only">Navigation Menu</SheetTitle>
           <SheetDescription className="sr-only">
-            Move between sections of VoiceFlow — Home, History, Meetings, and Settings.
+            Muévete entre las secciones de Savia Sonora — Inicio, Historial, Reuniones y Ajustes.
           </SheetDescription>
           <Sidebar onNavigate={() => setMobileMenuOpen(false)} />
         </SheetContent>

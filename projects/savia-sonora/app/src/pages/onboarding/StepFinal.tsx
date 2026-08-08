@@ -20,8 +20,8 @@ export const StepFinal = () => (
     <div className="border border-border rounded-md bg-surface p-8 space-y-5">
       <div className="text-center space-y-3">
         <p className="font-mono text-[10px] uppercase tracking-[0.25em] text-cream-muted/60 flex items-center justify-center gap-2">
-          <Keyboard className="w-3 h-3 text-accent-500" strokeWidth={2.5} />
-          global shortcut
+          <Keyboard className="w-3 h-3 text-primary" strokeWidth={2.5} />
+          atajo global
         </p>
         <div className="flex items-center justify-center gap-3 pt-1">
           <kbd className="min-w-[72px] py-2.5 rounded-md bg-secondary border border-border text-base font-mono font-medium text-cream">
@@ -33,19 +33,19 @@ export const StepFinal = () => (
           </kbd>
         </div>
         <p className="text-sm text-cream-muted">
-          Hold to record, release to transcribe.
+          Mantén para grabar, suelta para transcribir.
         </p>
       </div>
     </div>
 
     <div className="flex items-center gap-3 px-4 py-3 border-l-2 border-accent-500/40">
       <Sparkles
-        className="w-4 h-4 text-accent-500 flex-shrink-0"
+        className="w-4 h-4 text-primary flex-shrink-0"
         strokeWidth={2}
       />
       <p className="text-sm text-cream-muted leading-relaxed">
-        VoiceFlow runs quietly in your system tray. Press the shortcut anytime,
-        anywhere to start dictating.
+        Savia Sonora corre en silencio en la bandeja del sistema. Pulsa el
+        atajo en cualquier momento y sitio para empezar a dictar.
       </p>
     </div>
   </div>

@@ -278,15 +278,15 @@ export function SettingsTab() {
       <div className="w-full max-w-4xl mx-auto px-6 md:px-10 py-10 md:py-16 space-y-16">
         <header className="space-y-4">
           <p className="font-mono text-[10px] uppercase tracking-[0.25em] text-cream-muted/60">
-            ~/voiceflow/preferences
+            ~/savia/transcriptor
           </p>
-          <h1 className="font-display text-4xl md:text-5xl font-medium tracking-tight text-cream leading-[1.05]">
-            Settings
+          <h1 className="text-4xl md:text-5xl font-semibold tracking-tight text-cream leading-[1.05]">
+            Ajustes
           </h1>
           <p className="text-sm text-cream-muted max-w-xl leading-relaxed">
-            Local-first by design. Every preference here lives on your machine in{" "}
-            <span className="font-mono text-cream">~/.VoiceFlow/</span>. Changes
-            save as you go.
+            Local por diseño. Cada preferencia vive en tu máquina en{" "}
+            <span className="font-mono text-cream">~/.savia/transcriptor/</span>. Los
+            cambios se guardan al instante.
           </p>
           <SectionIndex />
         </header>
@@ -357,7 +357,7 @@ export function SettingsTab() {
           id="behavior"
           index="02"
           title="Behavior"
-          description="How VoiceFlow reacts when you speak — hotkeys, indicators, and small touches."
+          description="Cómo reacciona Savia Sonora cuando hablas — hotkeys, indicadores y pequeños detalles."
         >
           <SectionBlock
             label="Hotkeys"
@@ -389,8 +389,8 @@ export function SettingsTab() {
             onChange={(v) => updateSetting("prependSpace", v)}
           />
           <ToggleRow
-            label="Launch at login"
-            helper="Start VoiceFlow when you sign in to your computer."
+            label="Iniciar al encender"
+            helper="Iniciar Savia Sonora al encender el ordenador."
             checked={settings.autoStart}
             onChange={(v) => updateSetting("autoStart", v)}
           />
@@ -446,7 +446,7 @@ export function SettingsTab() {
             />
           </SectionBlock>
 
-          <SectionBlock label="Storage paths" helper="Files VoiceFlow keeps on disk.">
+          <SectionBlock label="Rutas de almacenamiento" helper="Archivos que Savia Sonora guarda en disco.">
             <StoragePaths modelCacheDir={modelCacheDir} />
           </SectionBlock>
         </Section>
@@ -462,7 +462,7 @@ export function SettingsTab() {
         </Section>
 
         <footer className="pt-8 border-t border-border flex items-center justify-between font-mono text-[11px] text-cream-muted/60">
-          <span>VoiceFlow · local · open-source</span>
+          <span>Savia Sonora · local · código abierto</span>
           <span className="flex items-center gap-1.5">
             <span className="w-1.5 h-1.5 rounded-full bg-accent-500" />
             preferences saved
@@ -1185,7 +1185,7 @@ function StoragePaths({ modelCacheDir }: { modelCacheDir: string | null }) {
       <PathRow
         label="App data"
         description="History, settings, audio recordings"
-        path="~/.VoiceFlow/"
+        path="~/.savia/transcriptor/"
         onOpen={() => api.openDataFolder()}
       />
       <PathRow
@@ -1294,7 +1294,7 @@ function DangerZone({ onModelsCleared }: { onModelsCleared: () => void }) {
         <div className="flex-1">
           <p className="text-sm font-medium text-cream">Reset all data</p>
           <p className="text-xs text-cream-muted mt-1 leading-relaxed max-w-xl">
-            Choose what to delete. After confirming, VoiceFlow returns to
+            Elige qué eliminar. Tras confirmar, Savia Sonora vuelve a
             onboarding so you can set things up fresh.
           </p>
         </div>

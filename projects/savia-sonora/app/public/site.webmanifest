@@ -1,7 +1,7 @@
 {
-  "name": "VoiceFlow",
-  "short_name": "VoiceFlow",
-  "description": "Offline voice-to-text dictation for Windows and Linux, using Whisper.",
+  "name": "Savia Sonora",
+  "short_name": "Savia Sonora",
+  "description": "Interfaz hablada de Savia: dictado de voz offline y transcripción local de reuniones con Whisper.",
   "icons": [
     {
       "src": "/web-app-manifest-192x192.png",
@@ -16,7 +16,7 @@
       "purpose": "any"
     }
   ],
-  "theme_color": "#09090b",
-  "background_color": "#09090b",
+  "theme_color": "#13111A",
+  "background_color": "#13111A",
   "display": "standalone"
 }
