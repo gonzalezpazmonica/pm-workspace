@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=05011120553a425969605a216361149a1ce34299880be0e4e6c69c6a517e13d4
-timestamp=2026-08-08T11:39:49Z
+diff_hash=d41cd165105a63a9296b4a90f21be2a770cd8dc863dcc7d0ed8c12ce68a4b7af
+timestamp=2026-08-08T11:39:58Z
 branch=agent/se312-sonora-frontend-overhaul
-head_commit=b398df14
-signature=35d910d67897c266cd0557c82a4afe8130dcc0793774dda918eebb763dbd64af
+head_commit=5c5ec1a3
+signature=3f29f162414e03e75c4c8640a6cc62eef258a960f638f6d5282a105403de6085
