@@ -1,5 +1,5 @@
 {
-  "hash": "dc056254e554",
+  "hash": "52fdafeb9e11",
   "total": 1334,
   "resources": [
     {
@@ -2067,7 +2067,7 @@
       ],
       "kind": "skill",
       "path": ".claude/skills/transcriptor-digest/SKILL.md",
-      "description": "Usar cuando se detectan carpetas nuevas en el directorio de reuniones del transcriptor o se quiere digerir transcripciones y capturas de reuniones capturadas por Savia Transcriptor. Triggers: digerir reuniones, transcriptor, reuniones nueva"
+      "description": "Usar cuando se detectan carpetas nuevas en el directorio de reuniones del transcriptor o se quiere digerir transcripciones y capturas de reuniones capturadas por Savia Sonora (ex-Savia Transcriptor). Triggers: digerir reuniones, transcripto"
     },
     {
       "category": "communication",
