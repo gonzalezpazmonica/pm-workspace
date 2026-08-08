@@ -1,6 +1,6 @@
 # Savia Capability Map — INDEX
-> hash: 58d6487a814b | resources: 1336
-> 292 commands · 126 skills · 83 agents · 835 scripts
+> hash: 2fd6b9b902d6 | resources: 1337
+> 292 commands · 126 skills · 83 agents · 836 scripts
 
 [analysis] Trace Optimize — across,distributed,optimize,rates,sampling — cmd:.claude/commands/trace-optimize.md
 [analysis] agent-activity — activity,agent,executions,recent,show — cmd:.claude/commands/agent-activity.md
@@ -747,6 +747,7 @@
 [planning] gate-teardown — gate,scripts,teardown — script:scripts/gate-teardown.sh
 [planning] generate-capability-map — around,capability,generate,generator,python — script:scripts/generate-capability-map.sh
 [planning] generate-critical-facts — critical,facts,generate,scripts — script:scripts/generate-critical-facts.sh
+[planning] generate-github-hooks — generate,github,hooks — script:scripts/generate-github-hooks.sh
 [planning] generate-index — components,discoverable,generate,index,workspace — script:scripts/generate-index.sh
 [planning] generate-propuestas-index — auto,docs,generate,index,propuestas — script:scripts/generate-propuestas-index.sh
 [planning] git-history-secret-remediate — helper,history,remediation,secret — script:scripts/git-history-secret-remediate.sh
