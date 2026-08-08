@@ -1,6 +1,7 @@
 ---
 name: sldc-context-loop
 description: Cerrar el ciclo de conocimiento tras un merge — alimenta las cupulas de SaviaVaults (specs/ADRs/releases) y ejecuta la compuerta de estandares (SE-311)
+tier: core
 ---
 # /sldc-context-loop
 
