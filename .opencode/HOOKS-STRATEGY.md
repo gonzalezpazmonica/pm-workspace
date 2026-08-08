@@ -21,7 +21,7 @@ La diferencia está en **quién los dispara**:
 |---|---|---|
 | Claude Code nativo | `.claude/settings.json` directo | 100% (PreToolUse, PostToolUse, Stop, ...) |
 | OpenCode v1.14+ | Plugin TS en `.opencode/plugins/` mapea eventos a hooks | ver `docs/hooks-coverage-matrix.md` |
-| OpenCode-Copilot Enterprise | **Sin hooks** (no hay surface de eventos) | Degradación a git pre-commit + CI |
+| GitHub Copilot CLI (>=1.0.60) | **`.github/hooks/savia.json` generado desde `.claude/settings.json`** vía `scripts/generate-github-hooks.sh` (SE-180). Copilot CLI NO lee `.claude/settings.json` directamente — solo `.github/hooks/*.json` desde gitRoot. Necesita opt-in del usuario al cargar. Cobertura parcial: solo los eventos del [schema documentado de Copilot](https://docs.github.com/en/copilot/reference/hooks-configuration) (9 de los ~20 eventos de Claude Code tienen equivalente). | Estructura y schema validados (bats). **Validación empírica en vivo pendiente** — ver spec `SE-180-github-hooks-generation.md` |
 | LocalAI emergency (SPEC-122) | `.claude/settings.json` directo (shell Claude con base URL local) | 100% |
 
 ---
