@@ -53,7 +53,7 @@ hay una reunion por senal de voz, graba, transcribe y captura la pantalla.
 ## Quick Start (desarrollo)
 
 ```bash
-cd projects/savia-transcriptor
+cd projects/savia-sonora/app
 pnpm run setup        # instala deps Node y Python
 pnpm run dev          # Vite frontend + Pyloid backend
 ```

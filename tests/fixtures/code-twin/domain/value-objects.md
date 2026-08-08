@@ -2,7 +2,7 @@
 module_id: value-objects
 layer: domain
 version: "1.0.0"
-last_sync: "2026-07-25T00:00:00Z"
+last_sync: "2026-08-08T00:00:00Z"
 token_budget: 220
 stale_after_days: 60
 depends_on: []
