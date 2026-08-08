@@ -1,6 +1,6 @@
 {
-  "hash": "52fdafeb9e11",
-  "total": 1334,
+  "hash": "91c0dc55ff98",
+  "total": 1337,
   "resources": [
     {
       "category": "analysis",
@@ -4426,6 +4426,34 @@
     },
     {
       "category": "development",
+      "name": "sldc-context-loop",
+      "intents": [
+        "adrs",
+        "alimenta",
+        "cerrar",
+        "ciclo",
+        "compuerta"
+      ],
+      "kind": "cmd",
+      "path": ".claude/commands/sldc-context-loop.md",
+      "description": "Cerrar el ciclo de conocimiento tras un merge — alimenta las cupulas de SaviaVaults (specs/ADRs/releases) y ejecuta la compuerta de estandares (SE-311)"
+    },
+    {
+      "category": "development",
+      "name": "sldc-context-loop",
+      "intents": [
+        "context",
+        "feed",
+        "loop",
+        "merge",
+        "post"
+      ],
+      "kind": "script",
+      "path": "scripts/sldc-context-loop.sh",
+      "description": "sldc-context-loop.sh — SE-311 S1: post-merge → feed SaviaVaults (spec/ADR/release)"
+    },
+    {
+      "category": "development",
       "name": "slm-deploy",
       "intents": [
         "deploy",
@@ -5376,6 +5404,20 @@
       "kind": "skill",
       "path": ".claude/skills/regulatory-compliance/SKILL.md",
       "description": "Usar cuando se valida el cumplimiento de marcos regulatorios sectoriales."
+    },
+    {
+      "category": "governance",
+      "name": "standards-compliance-gate",
+      "intents": [
+        "compliance",
+        "compuerta",
+        "determinista",
+        "estandares",
+        "gate"
+      ],
+      "kind": "script",
+      "path": "scripts/standards-compliance-gate.sh",
+      "description": "standards-compliance-gate.sh — SE-311 S2: compuerta determinista de estandares"
     },
     {
       "category": "governance",

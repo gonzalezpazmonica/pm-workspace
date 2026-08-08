@@ -1,6 +1,6 @@
 # Savia Capability Map — INDEX
-> hash: 205ec8f0c539 | resources: 1334
-> 291 commands · 126 skills · 83 agents · 834 scripts
+> hash: 2fd6b9b902d6 | resources: 1337
+> 292 commands · 126 skills · 83 agents · 836 scripts
 
 [analysis] Trace Optimize — across,distributed,optimize,rates,sampling — cmd:.claude/commands/trace-optimize.md
 [analysis] agent-activity — activity,agent,executions,recent,show — cmd:.claude/commands/agent-activity.md
@@ -339,6 +339,8 @@
 [development] setup-savia-web — build,http,localhost,savia,serve — script:scripts/setup-savia-web.sh
 [development] skill-loader — aware,context,loader,loading,skill — script:scripts/skill-loader.sh
 [development] skill-pattern-detector — detection,detector,pattern,phase,scripts — script:scripts/skill-pattern-detector.sh
+[development] sldc-context-loop — adrs,alimenta,cerrar,ciclo,compuerta — cmd:.claude/commands/sldc-context-loop.md
+[development] sldc-context-loop — context,feed,loop,merge,post — script:scripts/sldc-context-loop.sh
 [development] slm-deploy — deploy,deployment,orchestrate,post,scaffolding — script:scripts/slm-deploy.sh
 [development] slm-registry — model,registry,slms,spec,trained — script:scripts/slm-registry.sh
 [development] smart-routing — comando,descubrir,disponibles,enrutar,específico — skill:.claude/skills/smart-routing/SKILL.md
@@ -408,6 +410,7 @@
 [governance] output-cleanup — cleanup,directory,output,policy,retention — script:scripts/output-cleanup.sh
 [governance] policy-check — agente,mostrar,permisos,politicas,proyecto — cmd:.claude/commands/policy-check.md
 [governance] regulatory-compliance — cumplimiento,marcos,regulatorios,sectoriales,valida — skill:.claude/skills/regulatory-compliance/SKILL.md
+[governance] standards-compliance-gate — compliance,compuerta,determinista,estandares,gate — script:scripts/standards-compliance-gate.sh
 [governance] vertical-education — accesibilidad,compliance,coppa,educación,educativa — cmd:.claude/commands/vertical-education.md
 [governance] vertical-finance — basel,compliance,extensión,finanzas,mifid — cmd:.claude/commands/vertical-finance.md
 [governance] vertical-healthcare — compliance,extensión,fhir,healthcare,hipaa — cmd:.claude/commands/vertical-healthcare.md
