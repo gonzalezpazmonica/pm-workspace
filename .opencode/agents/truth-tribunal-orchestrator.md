@@ -57,10 +57,8 @@ aggregate their verdicts.
 
 ## Weights per report type
 
-See `docs/rules/domain/truth-tribunal-weights.md` for the canonical
-weight table. Profiles: default, executive, compliance, audit, digest, subjective.
-
-If `report_type` not declared, default profile.
+See `docs/rules/domain/truth-tribunal-weights.md` (default, executive, compliance,
+audit, digest, subjective). If `report_type` not declared → default.
 
 ## Veto rules (absolute — override score)
 
@@ -89,28 +87,12 @@ iteration: {N}
 destination_tier: "N1|N2|N3|N4|N4b"
 weighted_score: {0-100}
 verdict: "PUBLISHABLE|CONDITIONAL|ITERATE|ESCALATE|NOT_EVALUABLE"
-vetos:
-  - judge: "{name}"
-    reason: "{summary}"
-judges:
-  factuality:
-    score: {N}
-    confidence: {0-1}
-    verdict: "{per-judge}"
-    findings: [{...}]
-  source_traceability: {...}
-  hallucination: {...}
-  coherence: {...}
-  calibration: {...}
-  completeness: {...}
-  compliance: {...}
-aggregation:
-  abstentions: {N}
-  total_findings: {N}
-  critical_findings: {N}
-feedback_for_generator: |
-  {structured findings formatted for the generating agent
-   to re-generate the report — only populated if verdict is ITERATE}
+vetos: [{judge: "{name}", reason: "{summary}"}]
+judges: {factuality: {score, confidence, verdict, findings}, source_traceability: {...},
+  hallucination: {...}, coherence: {...}, calibration: {...}, completeness: {...},
+  compliance: {...}}
+aggregation: {abstentions: {N}, total_findings: {N}, critical_findings: {N}}
+feedback_for_generator: "{structured findings formatted for the generating agent — only if ITERATE}"
 ---
 ```
 
@@ -149,31 +131,9 @@ See `docs/rules/domain/agent-prompt-xml-structure.md` for canonical 6-tag patter
 - Reporting (SE-066): Coverage-first review. Cada finding con `{confidence, severity}`; downstream rankea. Ver `docs/rules/domain/review-agents-reporting-policy.md`.
 <!-- Tiered Execution: SE-106 enabled -->
 
-## Audit Trail (SE-275 S1 / SE-313 S6)
+## Audit Trail + Result Envelope (SE-275 S1/S3)
 
-Each judge verdict and each final verdict MUST be appended to the
-hash-chained audit trail before you return:
-
-```bash
-bash scripts/audit-chain-append.sh <chain_id> <agent> <action> \
-  --input <spec|diff> --output <.review.crc|verdict-file> \
-  verdict=<...> severity=<...>
-```
-
-Chain IDs: `court-{YYYYMMDD}-{pr}` (Code Review Court),
-`truth-{YYYYMMDD}-{report}` (Truth Tribunal),
-`rec-{YYYYMMDD}-{draft}` (Recommendation Tribunal),
-`sdd-{spec-id}` (SDD chain).
-
-- Append ONE entry per judge when their verdict is collected.
-- Append a final entry for the consolidated verdict (action=`verdict`).
-- Do not skip: a missing entry is itself an audit failure.
-- The file is in output/audit (N4b) — do not commit it.
-
-## Result Envelope (SE-275 S3)
-
-When you finish, emit the standardized result envelope to
-`output/audit/envelope-{chain_id}.json` with fields:
-envelope_version, chain_id, status, agent, agent_tier, timestamp,
-executive_summary, artifact, artifact_hash, next_recommended, risk,
-confidence, skill_resolution, budget.
+Append one `scripts/audit-chain-append.sh` entry per judge verdict + a final
+`verdict` entry (chains `court|truth|rec|sdd`), then write the Result Envelope to
+`output/audit/envelope-{chain_id}.json`. Schema: `docs/agent-notes-protocol.md`.
+Never commit output/audit (N4b).

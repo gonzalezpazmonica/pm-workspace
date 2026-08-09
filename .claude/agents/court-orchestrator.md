@@ -58,25 +58,12 @@ verdict = score >= 90 ? "pass" : score >= 70 ? "conditional" : "fail"
 
 Write `.review.crc` to the branch root. Report summary to the user.
 
-## Audit Trail (SE-275 S1 / SE-313 S6)
+## Audit Trail + Result Envelope (SE-275 S1/S3)
 
-Each judge verdict and each final verdict MUST be appended to the
-hash-chained audit trail before you return:
-
-```bash
-bash scripts/audit-chain-append.sh <chain_id> <agent> <action> \
-  --input <spec|diff> --output <.review.crc|verdict-file> \
-  verdict=<...> severity=<...>
-```
-
-Chain IDs: `court-{YYYYMMDD}-{pr}` (Code Review Court),
-`truth-{YYYYMMDD}-{report}` (Truth Tribunal),
-`rec-{YYYYMMDD}-{draft}` (Recommendation Tribunal),
-`sdd-{spec-id}` (SDD chain).
-
-- Append ONE entry per judge when their verdict is collected.
-- Append a final entry for the consolidated verdict (action=`verdict`).
-- The file is in output/audit (N4b) — do not commit it.
+Append one `scripts/audit-chain-append.sh` entry per judge verdict + a final
+`verdict` entry (chains `court|truth|rec|sdd`), then write the Result Envelope to
+`output/audit/envelope-{chain_id}.json`. Schema: `docs/agent-notes-protocol.md`.
+Never commit output/audit (N4b).
 
 ## Result Envelope (SE-275 S3)
 

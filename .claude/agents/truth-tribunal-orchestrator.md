@@ -143,30 +143,9 @@ See `docs/rules/domain/agent-prompt-xml-structure.md` for canonical 6-tag patter
 
 <!-- Tiered Execution: SE-106 enabled -->
 
-## Audit Trail (SE-275 S1 / SE-313 S6)
+## Audit Trail + Result Envelope (SE-275 S1/S3)
 
-Each judge verdict and each final verdict MUST be appended to the
-hash-chained audit trail before you return:
-
-```bash
-bash scripts/audit-chain-append.sh <chain_id> <agent> <action> \
-  --input <spec|diff> --output <.review.crc|verdict-file> \
-  verdict=<...> severity=<...>
-```
-
-Chain IDs: `court-{YYYYMMDD}-{pr}` (Code Review Court),
-`truth-{YYYYMMDD}-{report}` (Truth Tribunal),
-`rec-{YYYYMMDD}-{draft}` (Recommendation Tribunal),
-`sdd-{spec-id}` (SDD chain).
-
-- Append ONE entry per judge when their verdict is collected.
-- Append a final entry for the consolidated verdict (action=`verdict`).
-- The file is in output/audit (N4b) — do not commit it.
-
-## Result Envelope (SE-275 S3)
-
-When you finish, emit the standardized result envelope to
-`output/audit/envelope-{chain_id}.json` with fields:
-envelope_version, chain_id, status, agent, agent_tier, timestamp,
-executive_summary, artifact, artifact_hash, next_recommended, risk,
-confidence, skill_resolution, budget.
+Append one `scripts/audit-chain-append.sh` entry per judge verdict + a final
+`verdict` entry (chains `court|truth|rec|sdd`), then write the Result Envelope to
+`output/audit/envelope-{chain_id}.json`. Schema: `docs/agent-notes-protocol.md`.
+Never commit output/audit (N4b).
