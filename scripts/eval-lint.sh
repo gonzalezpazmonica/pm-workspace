@@ -109,19 +109,19 @@ validate_case() {
   fi
   id=$(echo "$line" | jq -r '.id // empty' 2>/dev/null)
   [[ -z "$id" ]] && fail_case "$file:$idx: falta campo 'id'"
-  [[ -z "$(echo "$line" | jq -r '.input // empty' 2>/dev/null)" ]] && fail_case "$file:$idx[$id]: falta 'input'"
-  [[ -z "$(echo "$line" | jq -r '.expected // empty' 2>/dev/null)" ]] && fail_case "$file:$idx[$id]: falta 'expected'"
+  [[ -z "$(echo "$line" | jq -r '.input // empty' 2>/dev/null)" ]] && fail_case "$file:${idx}[${id}]: falta 'input'"
+  [[ -z "$(echo "$line" | jq -r '.expected // empty' 2>/dev/null)" ]] && fail_case "$file:${idx}[${id}]: falta 'expected'"
   ntrig=$(echo "$line" | jq '.should_trigger | length' 2>/dev/null || echo "0")
-  [[ "$ntrig" == "null" || "$ntrig" -lt 1 ]] && fail_case "$file:$idx[$id]: should_trigger vacío"
+  [[ "$ntrig" == "null" || "$ntrig" -lt 1 ]] && fail_case "$file:${idx}[${id}]: should_trigger vacío"
   nnot=$(echo "$line" | jq '.should_not_trigger | length' 2>/dev/null || echo "0")
-  [[ "$nnot" == "null" || "$nnot" -lt 1 ]] && fail_case "$file:$idx[$id]: should_not_trigger vacío"
+  [[ "$nnot" == "null" || "$nnot" -lt 1 ]] && fail_case "$file:${idx}[${id}]: should_not_trigger vacío"
   # route_to resoluble
   local i=0 rt
   while [[ $i -lt ${nnot:-0} ]]; do
     rt=$(echo "$line" | jq -r --argjson i "$i" '.should_not_trigger[$i].route_to // empty' 2>/dev/null)
-    [[ -z "$rt" ]] && fail_case "$file:$idx[$id]: should_not_trigger[$i] sin route_to"
+    [[ -z "$rt" ]] && fail_case "$file:${idx}[${id}]: should_not_trigger[${i}] sin route_to"
     if ! target_resolvable "$rt"; then
-      fail_case "$file:$idx[$id]: route_to '$rt' no resuelve (ni agente ni skill ni none/external)"
+      fail_case "$file:${idx}[${id}]: route_to '$rt' no resuelve (ni agente ni skill ni none/external)"
     fi
     i=$((i+1))
   done
