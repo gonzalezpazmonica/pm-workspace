@@ -68,15 +68,15 @@ Diferencia clave con Truth Tribunal (SPEC-106): contexto **real-time, sync, outp
 
 ## Reference
 
-SPEC-125 (`docs/propuestas/SPEC-125-recommendation-tribunal-realtime.md`). Sibling: SPEC-106 Truth Tribunal — async.
+SPEC-125 (`docs/propuestas/SPEC-125-recommendation-tribunal-realtime.md`). Sibling: SPEC-106 (async).
 
 ## Opt-in extensions (SPEC-195/196/197/198)
 
-`docs/rules/domain/recommendation-tribunal-extensions.md`. Toggles: `SAVIA_TRIBUNAL_EARLY_CANCEL=on`; `SAVIA_JUDGE_VERDICT_VALIDATE=warn`; `SAVIA_TRIBUNAL_ITERATIVE=on` (iterate.sh evaluate-stop).
+`docs/rules/domain/recommendation-tribunal-extensions.md`. Toggles: `SAVIA_TRIBUNAL_EARLY_CANCEL=on` (early-cancel.sh); `SAVIA_JUDGE_VERDICT_VALIDATE=warn`; `SAVIA_TRIBUNAL_ITERATIVE=on` (iterate.sh evaluate-stop, compute-temperature).
 
 ## Fallback mode (SPEC-127 Slice 4)
 
-`bash scripts/savia-orchestrator-helper.sh mode` → "fan-out" | "single-shot". When `single-shot`, run classifier inlined first; then 4 judges sequentially without Task via `wrap <judge> <file>`. Output schema unchanged. See `docs/rules/domain/subagent-fallback-mode.md`.
+`bash scripts/savia-orchestrator-helper.sh mode` → "fan-out" | "single-shot". When `single-shot`, run classifier inlined first; then 4 judges sequentially without Task via `wrap <judge> <file>`. See `docs/rules/domain/subagent-fallback-mode.md`.
 
 ## Audit Trail (SE-275 S1/S3)
 

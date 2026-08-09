@@ -72,7 +72,7 @@ the Stop hook `agents-md-auto-regenerate.sh` whenever an agent file changes.
 | pptx-digest | mid | L2 | — | Digestion de presentaciones PowerPoint (PPTX) — pipeline de 4 fases. Extrae texto, notas del presentador, imagenes, d... |
 | pr-agent-judge | mid | L1 | — | External 5th judge of the Code Review Court — wraps qodo-ai/pr-agent OSS (SPEC-124). Opt-in via COURT_INCLUDE_PR_AGEN... |
 | python-developer | mid | L3 | — | Implementación de código Python (FastAPI/Django) siguiendo specs SDD aprobadas. Usar PROACTIVELY cuando: se implement... |
-| recommendation-tribunal-orchestrator | mid | L2 | — | Recommendation Tribunal orchestrator — convenes 4 fast judges in parallel, aggregates scores, applies vetos, mutates ... |
+| recommendation-tribunal-orchestrator | mid | L2 | — | Recommendation Tribunal orchestrator — 4 fast judges in parallel, aggregates scores, applies vetos, mutates output wi... |
 | reconciler | mid | L1 | — | Classifies contradictions into 3 buckets: evolution, auto-resolve, conflict-doc. Invoked by drift-auditor. |
 | reflection-validator | heavy | L0 | — | Meta-cognitive validation of responses and decisions (System 2). Use PROACTIVELY when: evaluating a response to a com... |
 | repetition-truth-judge | fast | L1 | — | Recommendation Tribunal judge — detects user claims repeated and assumed true without verification (SPEC-192) |

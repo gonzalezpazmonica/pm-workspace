@@ -1,7 +1,7 @@
 ---
 twin_id: "proyecto-alpha"
 spec_version: "1.0"
-last_refresh: "2026-07-25T00:00:00Z"
+last_refresh: "2026-08-09T17:50:23Z"
 stale_after_days: 14
 token_budget: 2000
 health: green
