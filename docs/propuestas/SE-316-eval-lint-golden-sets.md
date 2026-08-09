@@ -3,6 +3,11 @@ id: SE-316
 title: "SE-316 — Eval-lint de golden sets: cierre de SE-274 (S2/S4)"
 status: IMPLEMENTED
 priority: alta
+timeline:
+  - from: "2026-08-09"
+    learned: "2026-08-09"
+    value: "IMPLEMENTED"
+    source: "SE-316 implementado: eval-lint + golden sets (PR #953)"
 ---
 
 # SE-316 — Eval-lint de golden sets: cierre de SE-274 (S2/S4)
