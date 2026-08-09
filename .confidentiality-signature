@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=fd066b1ad5306062e54217231c21591cf8475218741f8c35b797fa06ef572184
-timestamp=2026-08-09T09:18:24Z
+diff_hash=be42a093c91a8e0998ec53ea12d677206485e320fd08d7d4db1432006cf7deaa
+timestamp=2026-08-09T16:31:11Z
 branch=agent/se313-se314-observabilidad-tiers
-head_commit=3a75a6ba
-signature=2faf5e1af402d82b7ada7c2d5927b3c9cce24d3f906e761303d30a24597decd7
+head_commit=8e6747b4
+signature=d8b926e54686f0986529a3eb8777a703d930b676bdeaee90e71e1d9d23f282f9
