@@ -1,6 +1,6 @@
 {
-  "hash": "20f22472cf34",
-  "total": 1350,
+  "hash": "86f3af6188f5",
+  "total": 1351,
   "resources": [
     {
       "category": "analysis",
@@ -11937,12 +11937,12 @@
         "aggregates",
         "applies",
         "banner",
-        "convenes",
-        "fast"
+        "fast",
+        "judges"
       ],
       "kind": "agent",
       "path": ".opencode/agents/recommendation-tribunal-orchestrator.md",
-      "description": "Recommendation Tribunal orchestrator — convenes 4 fast judges in parallel, aggregates scores, applies vetos, mutates output with banner. SYNC, <3s p95."
+      "description": "Recommendation Tribunal orchestrator — 4 fast judges in parallel, aggregates scores, applies vetos, mutates output with banner. SYNC, <3s p95."
     },
     {
       "category": "planning",
@@ -15023,6 +15023,20 @@
       "kind": "script",
       "path": "scripts/enterprise/governance-audit-trail.sh",
       "description": "governance-audit-trail.sh — SPEC-SE-006 Signed Audit Trail for Governance & Compliance"
+    },
+    {
+      "category": "quality",
+      "name": "eval-lint",
+      "intents": [
+        "eval",
+        "golden",
+        "lint",
+        "sets",
+        "tribunales"
+      ],
+      "kind": "script",
+      "path": "scripts/eval-lint.sh",
+      "description": "eval-lint.sh — SE-316 S1: valida golden sets de tribunales (SE-274 S2)."
     },
     {
       "category": "quality",

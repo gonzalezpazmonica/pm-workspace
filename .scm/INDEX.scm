@@ -1,6 +1,6 @@
 # Savia Capability Map — INDEX
-> hash: c4f0d2b46396 | resources: 1350
-> 292 commands · 126 skills · 83 agents · 849 scripts
+> hash: a9c3dbeddb1f | resources: 1351
+> 292 commands · 126 skills · 83 agents · 850 scripts
 
 [analysis] Trace Optimize — across,distributed,optimize,rates,sampling — cmd:.claude/commands/trace-optimize.md
 [analysis] agent-activity — activity,agent,executions,recent,show — cmd:.claude/commands/agent-activity.md
@@ -908,7 +908,7 @@
 [planning] query-lib-resolve — query,resolve — script:scripts/query-lib-resolve.sh
 [planning] rbac-manager — backend,enterprise,manager,multi,rbac — script:scripts/rbac-manager.sh
 [planning] readiness-check — capability,check,checklist,deterministic,readiness — script:scripts/readiness-check.sh
-[planning] recommendation-tribunal-orchestrator — aggregates,applies,banner,convenes,fast — agent:.opencode/agents/recommendation-tribunal-orchestrator.md
+[planning] recommendation-tribunal-orchestrator — aggregates,applies,banner,fast,judges — agent:.opencode/agents/recommendation-tribunal-orchestrator.md
 [planning] recover-savia — claude,clean,launch,outside,recover — script:scripts/recover-savia.sh
 [planning] reflection-validation — decisión,importante,metacognitiva,respuesta,system — skill:.claude/skills/reflection-validation/SKILL.md
 [planning] reflection-validator —  — agent:.opencode/agents/reflection-validator.md
@@ -1140,6 +1140,7 @@
 [quality] enterprise/audit-purge — audit,purge,retention,spec — script:scripts/enterprise/audit-purge.sh
 [quality] enterprise/audit-search — audit,inspector,search,spec — script:scripts/enterprise/audit-search.sh
 [quality] enterprise/governance-audit-trail — audit,compliance,governance,signed,spec — script:scripts/enterprise/governance-audit-trail.sh
+[quality] eval-lint — eval,golden,lint,sets,tribunales — script:scripts/eval-lint.sh
 [quality] executive-audit — audit,executive,workspace — script:scripts/executive-audit.sh
 [quality] expertise-asymmetry-judge — active,alternatives,audit,blind,domain — agent:.opencode/agents/expertise-asymmetry-judge.md
 [quality] fix-assigner — agents,assigns,court,creates,findings — agent:.opencode/agents/fix-assigner.md

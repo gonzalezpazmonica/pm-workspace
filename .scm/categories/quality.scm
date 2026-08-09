@@ -1,5 +1,5 @@
 # quality — Savia Capability Map (L1)
-> 257 resources
+> 258 resources
 
 - **/speckit.analyze** (cmd): Alias spec-kit compatible. Review cruzado de una spec antes de implementar. Invoca skill consensus-validation. Compatible con github/spec-kit.
 - **Court Review** (cmd): Convene the Code Review Court to evaluate implementation quality across 6 judges
@@ -46,6 +46,7 @@
 - **enterprise/audit-purge** (script): audit-purge.sh — SPEC-SE-037 Audit Log Retention Purge CLI
 - **enterprise/audit-search** (script): audit-search.sh — SPEC-SE-037 Audit Log CLI Inspector
 - **enterprise/governance-audit-trail** (script): governance-audit-trail.sh — SPEC-SE-006 Signed Audit Trail for Governance & Compliance
+- **eval-lint** (script): eval-lint.sh — SE-316 S1: valida golden sets de tribunales (SE-274 S2).
 - **executive-audit** (script): executive-audit.sh — Executive Audit for PM Workspace
 - **expertise-asymmetry-judge** (agent): Recommendation Tribunal judge — when draft falls in a domain the active user marks as `audit_level: blind`, force a rewrite with explanation/alternatives/verification
 - **fix-assigner** (agent): Creates fix tasks from Court findings, assigns to dev agents, triggers re-review

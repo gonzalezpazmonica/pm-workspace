@@ -1,0 +1,43 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "savia.eval-case/1.0",
+  "description": "Schema de un caso de eval para golden sets de tribunales (SE-274 S2 / SE-316 S2).",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["id", "input", "expected", "should_trigger", "should_not_trigger"],
+  "properties": {
+    "id": { "type": "string", "minLength": 1 },
+    "input": { "type": "string", "minLength": 1 },
+    "expected": { "type": "string", "minLength": 1 },
+    "should_trigger": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "type": "string", "minLength": 1 }
+    },
+    "should_not_trigger": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["case", "route_to"],
+        "properties": {
+          "case": { "type": "string", "minLength": 1 },
+          "route_to": { "type": "string", "minLength": 1 }
+        }
+      }
+    },
+    "capabilities": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["name", "must_include"],
+        "properties": {
+          "name": { "type": "string", "minLength": 1 },
+          "must_include": { "type": "string", "minLength": 1 }
+        }
+      }
+    }
+  }
+}

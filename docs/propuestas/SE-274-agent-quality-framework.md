@@ -277,9 +277,9 @@ Diagnostics Clinic al sistema de memoria de Savia:
 - [ ] AC-S1.4: Todo agente nuevo creado post-S1 debe pasar el rubric antes de merge
 
 ### AC-S2: Golden sets operativos
-- [ ] AC-S2.1: `tests/evals/code-review-court/cases.jsonl` existe con >=50 casos
-- [ ] AC-S2.2: `tests/evals/truth-tribunal/cases.jsonl` existe con >=50 casos
-- [ ] AC-S2.3: `tests/evals/recommendation-tribunal/cases.jsonl` existe con >=50 casos
+- [x] AC-S2.1: `tests/evals/code-review-court/cases.jsonl` existe con >=50 casos
+- [x] AC-S2.2: `tests/evals/truth-tribunal/cases.jsonl` existe con >=50 casos
+- [x] AC-S2.3: `tests/evals/recommendation-tribunal/cases.jsonl` existe con >=50 casos
 - [ ] AC-S2.4: `scripts/agent-eval-runner.sh` ejecuta los 3 golden sets y produce `eval-report.json`
 
 ### AC-S3: verify.sh por agente
