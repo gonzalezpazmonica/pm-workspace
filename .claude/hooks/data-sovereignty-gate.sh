@@ -104,7 +104,7 @@ fi
 # Fallback: daemon down — inline regex (path + private skip already done above)
 # Whitelist specific sovereignty/shield files
 case "$NORM_PATH" in
-  *scripts/data-sovereignty*|*scripts/ollama-classify*|*scripts/shield-ner*|*scripts/savia-shield*|*scripts/pre-commit-sovereignty*|*tests/test-data-sovereignty*|*docs/propuestas/SE-314*) exit 0 ;;
+  *scripts/data-sovereignty*|*scripts/ollama-classify*|*scripts/shield-ner*|*scripts/savia-shield*|*scripts/pre-commit-sovereignty*|*scripts/sovereignty-classify*|*tests/test-data-sovereignty*|*docs/propuestas/SE-314*|*config/telemetry-*|*config/classifier/*|*config/sovereignty-thresholds.yaml) exit 0 ;;
   *hooks/data-sovereignty*|*hooks/ollama-classify*|*hooks/shield-ner*) exit 0 ;;
 esac
 
@@ -167,36 +167,54 @@ elif echo "$NORM_CONTENT" | grep -qE '(192\.168\.[0-9]+\.[0-9]+|10\.[0-9]+\.[0-9
   block_fallback "internal_ip"
 fi
 
-# Layer 2: Ollama classification for long content that passed regex
+# Layer 2: classification (SE-314) for long content that passed regex
 # N1 destinations (public repo files) get WARN on AMBIGUOUS, not BLOCK.
 # Only CONFIDENTIAL blocks N1 files (real secrets must never leak).
+# SE-314 S5: usar sovereignty-classify.sh (determinista + umbral) en vez de
+# ollama-classify.sh (binario no determinista). Decide por confidence.
 IS_N1_DEST=false
 case "$NORM_PATH" in
   */docs/*|*/.claude/rules/*|*/.opencode/skills/*|*/.opencode/agents/*|*/.opencode/commands/*|*/.opencode/hooks/*|*/scripts/*|*/tests/*|*/.github/*|*/CLAUDE.md|*/CHANGELOG.md|*/README*|*/public-agent-memory/*|docs/*|.claude/rules/*|.opencode/skills/*|.opencode/agents/*|.opencode/commands/*|.opencode/hooks/*|scripts/*|tests/*|.github/*|CLAUDE.md|CHANGELOG.md|README*|public-agent-memory/*) IS_N1_DEST=true ;;
 esac
 
-CLASSIFY="$PROJECT_DIR/scripts/ollama-classify.sh"
-if [[ -x "$CLASSIFY" ]] && [[ ${#NORM_CONTENT} -gt 50 ]]; then
-  VERDICT=$("$CLASSIFY" "$NORM_CONTENT" 2>/dev/null) || VERDICT="UNAVAILABLE"
-  case "$VERDICT" in
-    CONFIDENTIAL)
-      block_fallback "ollama_confidential"
-      ;;
-    AMBIGUOUS)
-      if [[ "$IS_N1_DEST" == "true" ]]; then
-        # N1 destination: warn but allow (content already passed regex)
-        echo "WARNING [Savia Shield]: Ollama AMBIGUOUS en $FILE_PATH (N1 dest, permitido)" >&2
-        printf '{"ts":"%s","layer":"fallback","verdict":"WARN","reason":"ollama_ambiguous_n1","file":"%s"}\n' \
-          "$(date -u +%Y-%m-%dT%H:%M:%SZ 2>/dev/null || echo "unknown")" "$FILE_PATH" \
-          >> "$AUDIT_LOG" 2>/dev/null
+CLASSIFY="$PROJECT_DIR/scripts/sovereignty-classify.sh"
+DECIDE="$PROJECT_DIR/scripts/sovereignty-decide.sh"
+EMIT="$PROJECT_DIR/scripts/otel-emit.sh"
+if [[ -x "$CLASSIFY" ]] && [[ -x "$DECIDE" ]] && [[ ${#NORM_CONTENT} -gt 50 ]]; then
+  CLASS_OUT=$(printf '%s' "$NORM_CONTENT" | bash "$CLASSIFY" --context-path "$NORM_PATH" 2>/dev/null)
+  if [[ -n "$CLASS_OUT" ]] && echo "$CLASS_OUT" | jq -e . >/dev/null 2>&1; then
+    DEST="n4"; [[ "$IS_N1_DEST" == "true" ]] && DEST="n1"
+    DEC=$(printf '%s' "$CLASS_OUT" | bash "$DECIDE" --dest "$DEST" 2>/dev/null)
+    ACTION=$(printf '%s' "$DEC" | jq -r '.action // "ALLOW"' 2>/dev/null)
+    REASON=$(printf '%s' "$DEC" | jq -r '.reason // ""' 2>/dev/null)
+    LABEL=$(printf '%s' "$CLASS_OUT" | jq -r '.label // ""' 2>/dev/null)
+    CONF=$(printf '%s' "$CLASS_OUT" | jq -r '.confidence // 0' 2>/dev/null)
+    # Telemetría SE-313/SE-314: classifier.verdict|block
+    if [[ -x "$EMIT" ]]; then
+      if [[ "$ACTION" == "BLOCK" ]]; then
+        "$EMIT" classifier.block agent_name=gate label="$LABEL" confidence="$CONF" reason="$REASON" \
+          target="$NORM_PATH" retention_days=180 >/dev/null 2>&1 || true
       else
-        block_fallback "ollama_ambiguous"
+        "$EMIT" classifier.verdict agent_name=gate label="$LABEL" confidence="$CONF" action="$ACTION" \
+          reason="$REASON" target="$NORM_PATH" retention_days=180 >/dev/null 2>&1 || true
       fi
-      ;;
-    PUBLIC|UNAVAILABLE|*)
-      : # allow
-      ;;
-  esac
+    fi
+    case "$ACTION" in
+      BLOCK)
+        block_fallback "classifier_${REASON}"
+        ;;
+      WARN)
+        # N1: warn but allow (content already passed regex determinista)
+        echo "WARNING [Savia Shield]: ${LABEL} (conf ${CONF}) en $FILE_PATH ($DEST dest, permitido)" >&2
+        printf '{"ts":"%s","layer":"fallback","verdict":"WARN","reason":"classifier_warn","label":"%s","confidence":"%s","file":"%s"}\n' \
+          "$(date -u +%Y-%m-%dT%H:%M:%SZ 2>/dev/null || echo "unknown")" "$LABEL" "$CONF" "$FILE_PATH" \
+          >> "$AUDIT_LOG" 2>/dev/null
+        ;;
+      ALLOW|*)
+        : # allow
+        ;;
+    esac
+  fi
 fi
 
 exit 0

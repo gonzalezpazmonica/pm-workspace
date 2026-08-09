@@ -16,6 +16,7 @@ if [[ "$OLLAMA_MODEL" == "gemma3:4b" ]]; then
 fi
 OLLAMA_TIMEOUT="${OLLAMA_TIMEOUT:-15}"
 
+
 # Leer texto de stdin o argumento
 TEXT=""
 if [[ -n "${1:-}" ]]; then
@@ -30,6 +31,24 @@ if [[ -z "$TEXT" ]]; then
 fi
 
 TEXT="${TEXT:0:2000}"
+
+# ── SE-314: shim deprecado ──────────────────────────────────────────────────
+# API pública es sovereignty-classify.sh (determinista + umbral + caché).
+# Este script mantiene el contrato de salida (CONFIDENTIAL|PUBLIC|AMBIGUOUS)
+# para compatibilidad con gates antiguos, pero delega la decisión.
+if [[ -x "$(dirname "${BASH_SOURCE[0]}")/sovereignty-classify.sh" ]]; then
+  _SOV="$(printf '%s' "$TEXT" | bash "$(dirname "${BASH_SOURCE[0]}")/sovereignty-classify.sh" --no-cache 2>/dev/null)"
+  if [[ -n "$_SOV" ]] && echo "$_SOV" | jq -e . >/dev/null 2>&1; then
+    _LABEL="$(printf '%s' "$_SOV" | jq -r '.label // "ambiguous"' 2>/dev/null)"
+    case "$_LABEL" in
+      confidential) RESULT="CONFIDENTIAL" ;;
+      public)       RESULT="PUBLIC" ;;
+      *)            RESULT="AMBIGUOUS" ;;
+    esac
+    echo "$RESULT"
+    exit 0
+  fi
+fi
 
 # Verificar que Ollama responde
 if ! curl -s --max-time 5 "$OLLAMA_URL/api/tags" >/dev/null 2>&1; then

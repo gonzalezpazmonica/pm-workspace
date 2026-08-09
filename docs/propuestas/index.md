@@ -15,8 +15,8 @@
 | SE-225 | TimesFM forecasting zero-shot para velocity y burndown con quantiles | PROPOSED | P2 |
 | SE-226 | SantanderAI stateless-session loop para overnight-sprint | PROPOSED | P1 |
 | SE-227 | Mech-gov hard gates pre-LLM + E3 entropy para tribunales Savia | PROPOSED | P2 |
-| SE-313 | SE-313 — Observabilidad y trazabilidad de flujos agénticos (OTel GenAI + EU AI Act) | PROPOSED | media |
-| SE-314 | SE-314 — Clasificador de soberanía de datos: rediseño determinista | PROPOSED | alta |
+| SE-313 | SE-313 — Observabilidad y trazabilidad de flujos agénticos (OTel GenAI + EU AI Act) | IMPLEMENTED | media |
+| SE-314 | SE-314 — Clasificador de soberanía de datos: rediseño determinista | IMPLEMENTED | alta |
 | SPEC-009 | SPEC-009: Savia como participante en Teams | PROPOSED | baja |
 | SPEC-017 | SPEC-017: Dependency Sovereignty — USB Offline Installer | PROPOSED | baja |
 | SPEC-060 | SPEC-060 — SaviaDivergent: Neurodivergent-Aware AI Work Companion | PROPOSED | baja |

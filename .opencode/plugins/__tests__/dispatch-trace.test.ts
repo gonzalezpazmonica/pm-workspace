@@ -110,6 +110,9 @@ test("AC-7.3: dispatch.resolved para tier mid (dotnet-developer)", async () => {
   expect(events[events.length - 1].resolved_model).toBe("deepseek/deepseek-v4-pro");
   expect(events[events.length - 1].schema).toBe("savia.event/1.0");
   expect(events[events.length - 1].trace_id).toBeTruthy();
+  // SE-313 S3: atributos GenAI semconv presentes con provider + modelo real.
+  expect(events[events.length - 1].gen_ai_system).toBe("deepseek");
+  expect(events[events.length - 1].gen_ai_response_model).toBe("deepseek/deepseek-v4-pro");
 });
 
 test("AC-7.3: dispatch.resolved hereda ID con prefijo (explore→mid default)", async () => {

@@ -14,13 +14,21 @@ fi
 
 # Extraer variables de entorno y TOOL_INPUT
 PROJECT_DIR="${CLAUDE_PROJECT_DIR:-.}"
-TRACES_DIR="$PROJECT_DIR/projects/$CLAUDE_PROJECT_NAME/traces"
+# SE-313 S1: destino real = output/agent-traces.jsonl (no projects/{proj}/traces,
+# directorio que nunca se creaba — inventario SE-313 G9).
+TRACES_DIR="$PROJECT_DIR/output"
 
 # Crear directorio si no existe
 mkdir -p "$TRACES_DIR" 2>/dev/null || true
 
 # Extraer datos de TOOL_INPUT (JSON)
 AGENT_NAME=$(echo "$TOOL_INPUT" | grep -o '"agent":\s*"[^"]*"' | cut -d'"' -f4 || echo "unknown")
+# SE-313 S3: fallback a subagent_type/agent del hook input cuando el runtime no
+# puebla el campo agent (corrige lifecycle "agent: unknown").
+if [[ "$AGENT_NAME" == "unknown" ]]; then
+    AGENT_NAME=$(printf '%s' "${TOOL_INPUT:-}" | grep -o '"subagent_type":\s*"[^"]*"' | cut -d'"' -f4 || echo "unknown")
+fi
+[[ "$AGENT_NAME" == "unknown" ]] && AGENT_NAME=$(printf '%s' "${TOOL_INPUT:-}" | grep -o '"agent_type":\s*"[^"]*"' | cut -d'"' -f4 || echo "unknown")
 TIMESTAMP=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
 
 # Estimar tokens (aproximado basado en longitud)
@@ -64,6 +72,18 @@ TRACE_LINE="{\"timestamp\":\"$TIMESTAMP\",\"agent\":\"$AGENT_NAME\",\"command\":
 
 # Appendear a fichero de trazas (async, silent)
 echo "$TRACE_LINE" >> "$TRACES_DIR/agent-traces.jsonl" 2>/dev/null || true
+
+# SE-313 S1/S3: emitir evento estándar savia.event/1.0 al telemetry-events.jsonl
+# (mismo schema que la capa OpenCode). Nunca bloquea (|| true).
+EMIT="$PROJECT_DIR/scripts/otel-emit.sh"
+if [[ -x "$EMIT" ]]; then
+    MODEL="$(savia_resolve_model mid 2>/dev/null || echo "mid")"
+    EVENT_NAME="agent.completed"
+    OUTCOME="$OUTCOME"
+    "$EMIT" "$EVENT_NAME" agent_name="$AGENT_NAME" kind=invoke_agent status="$OUTCOME" \
+      gen_ai_request_model="$MODEL" duration_ms="$DURATION_MS" outcome="$OUTCOME" \
+      retention_days=180 >/dev/null 2>&1 || true
+fi
 
 # Budget alert (only when exceeded and budget > 0)
 if [[ "$BUDGET_EXCEEDED" == "true" ]]; then

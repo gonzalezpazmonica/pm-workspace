@@ -142,11 +142,19 @@ export async function dispatchTrace(input: ToolInput, output: ToolOutput): Promi
     const resolved = resolveModel(String(configured), tierMap);
 
     const ok = await registryHas(resolved);
+    // SE-313 S3: atributos GenAI semconv — system provider + modelo real.
+    const provider = tierMap.provider ?? "deepseek";
+    const genAi: Record<string, string | number> = {
+      gen_ai_system: provider,
+      gen_ai_request_model: String(configured),
+      gen_ai_response_model: resolved,
+    };
     if (ok) {
       await appendEvent("dispatch.resolved", {
         agent_name: subagent,
         requested_model: String(configured),
         resolved_model: resolved,
+        ...genAi,
       });
       return;
     }
@@ -156,6 +164,7 @@ export async function dispatchTrace(input: ToolInput, output: ToolOutput): Promi
       requested_model: String(configured),
       resolved_model: resolved,
       error: `Model not found: ${resolved}`,
+      ...genAi,
     });
     process.stderr.write(
       `[savia-shield:dispatch] WARN ${subagent}: '${resolved}' not resolvable. ` +

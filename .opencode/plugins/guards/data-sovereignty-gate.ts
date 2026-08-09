@@ -133,19 +133,22 @@ export async function dataSovereigntyGate(
     );
   }
 
-  // ── Ollama classification (Capa 3) ──
-  // For longer content that passed regex, classify with local LLM.
-  // N1 destinations: AMBIGUOUS → warn but allow. CONFIDENTIAL → block.
+  // ── Classification (SE-314 S5) ──
+  // Para contenido que pasó regex, clasificar con sovereignty-classify.sh
+  // (determinista + umbral). Paridad con el gate bash (AC-S5.1).
+  // N1 destinations: WARN en ambiguous/confianza media, BLOCK solo con
+  // confianza alta o hard-block determinista.
   if (content.length > 50) {
     try {
       const { execFile } = await import("node:child_process");
-      const classifyScript = "./scripts/ollama-classify.sh";
+      const classifyScript = "./scripts/sovereignty-classify.sh";
+      const decideScript = "./scripts/sovereignty-decide.sh";
 
-      const result = await new Promise<string>((resolve, reject) => {
+      const classOut = await new Promise<string>((resolve, reject) => {
         execFile(
           "bash",
-          [classifyScript, content],
-          { timeout: 15000, maxBuffer: 1024 * 10 },
+          [classifyScript, "--context-path", normPath],
+          { timeout: 15000, maxBuffer: 1024 * 20 },
           (err, stdout) => {
             if (err) {
               reject(err);
@@ -156,35 +159,59 @@ export async function dataSovereigntyGate(
         );
       });
 
-      switch (result) {
-        case "CONFIDENTIAL":
-          throw new Error(
-            `BLOCKED [Savia Shield Ollama]: confidential content detected in ${normPath}.`,
+      if (classOut) {
+        let label = "public";
+        let conf = 0;
+        try {
+          label = JSON.parse(classOut).label ?? "public";
+          conf = Number(JSON.parse(classOut).confidence ?? 0);
+        } catch {
+          // malformed output → treat as allow (regex already ran)
+        }
+        const dest = isN1Destination(normPath) ? "n1" : "n4";
+        const dec = await new Promise<string>((resolve, reject) => {
+          execFile(
+            "bash",
+            [decideScript, "--dest", dest],
+            { timeout: 5000, maxBuffer: 1024 * 5, input: classOut },
+            (err, stdout) => {
+              if (err) {
+                resolve(stdout.trim()); // BLOCK → exit 1; still resolve output
+              } else {
+                resolve(stdout.trim());
+              }
+            },
           );
-        case "AMBIGUOUS":
-          if (isN1Destination(normPath)) {
-            console.warn(
-              `WARNING [Savia Shield]: Ollama AMBIGUOUS in ${normPath} (N1 dest, allowed)`,
-            );
-            auditLog({
-              layer: "ollama",
-              verdict: "WARN",
-              reason: "ambiguous_n1",
-              file: normPath,
-            });
-          } else {
-            throw new Error(
-              `BLOCKED [Savia Shield Ollama]: ambiguous content in ${normPath}`,
-            );
-          }
-          break;
-        // PUBLIC, UNAVAILABLE, or anything else → allow
+        });
+        let action = "ALLOW";
+        let reason = "";
+        try {
+          action = JSON.parse(dec).action ?? "ALLOW";
+          reason = JSON.parse(dec).reason ?? "";
+        } catch {
+          // fall through
+        }
+
+        // Telemetría SE-313/SE-314: classifier.verdict | classifier.block
+        if (action === "BLOCK") {
+          process.stderr.write(
+            `BLOCKED [Savia Shield]: ${label} (conf ${conf}) in ${normPath} (${reason})\n`,
+          );
+          throw new Error(
+            `BLOCKED [Savia Shield]: ${label} content detected in ${normPath}.`,
+          );
+        }
+        if (action === "WARN") {
+          console.warn(
+            `WARNING [Savia Shield]: ${label} (conf ${conf}) in ${normPath} (N1 dest, allowed)`,
+          );
+        }
       }
     } catch (e) {
       if (e instanceof Error && e.message.includes("BLOCKED")) {
         throw e;
       }
-      // Ollama unavailable → gracefully degrade (already protected by regex above)
+      // classifier unavailable → gracefully degrade (regex already ran)
     }
   }
 }

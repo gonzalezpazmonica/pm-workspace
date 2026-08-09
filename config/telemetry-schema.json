@@ -1,0 +1,61 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "savia.event/1.0",
+  "description": "Schema validable de eventos de telemetría Savia (SE-313). Local-first JSONL; nada sale del workspace sin SAVIA_OTLP_ENDPOINT.",
+  "type": "object",
+  "required": ["schema", "ts", "event"],
+  "properties": {
+    "schema": { "const": "savia.event/1.0" },
+    "ts": { "type": "string", "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z$" },
+    "event": { "type": "string", "enum": ["session.started", "agent.started", "agent.completed", "dispatch.resolved", "dispatch.failed", "tool.executed", "tribunal.verdict", "sdd.phase", "memory.stored", "digest.completed", "classifier.verdict", "classifier.block", "classifier.false_positive"] },
+    "trace_id": { "type": "string", "pattern": "^[0-9a-f]{32}$" },
+    "span_id": { "type": "string", "pattern": "^[0-9a-f]{16}$" },
+    "parent_span_id": { "type": "string", "pattern": "^[0-9a-f]{16}$" },
+    "session_id": { "type": "string", "maxLength": 8 },
+    "kind": { "type": "string", "enum": ["invoke_agent", "chat", "execute_tool", "tribunal", "hook", "memory", "digest", "sdd", "dispatch"] },
+    "status": { "type": "string", "enum": ["ok", "error", "partial"] },
+    "agent": {
+      "type": "object",
+      "properties": {
+        "name": { "type": "string" },
+        "tier": { "type": "string", "enum": ["heavy", "mid", "fast", ""] },
+        "id": { "type": "string" }
+      }
+    },
+    "gen_ai": {
+      "type": "object",
+      "properties": {
+        "system": { "type": "string" },
+        "request_model": { "type": "string" },
+        "response_model": { "type": "string" },
+        "usage": {
+          "type": "object",
+          "properties": {
+            "input_tokens": { "type": "number" },
+            "output_tokens": { "type": "number" }
+          }
+        }
+      }
+    },
+    "tool": {
+      "type": "object",
+      "properties": {
+        "name": { "type": "string" },
+        "target": { "type": "string" },
+        "call_id": { "type": "string" }
+      }
+    },
+    "task": {
+      "type": "object",
+      "properties": {
+        "spec_ref": { "type": "string" },
+        "slice": { "type": "number" }
+      }
+    },
+    "duration_ms": { "type": "number" },
+    "outcome": { "type": "string", "enum": ["success", "failure", "partial"] },
+    "error_summary": { "type": "string" },
+    "retention_days": { "type": "number" }
+  },
+  "additionalProperties": true
+}

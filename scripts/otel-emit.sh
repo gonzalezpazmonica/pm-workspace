@@ -51,6 +51,15 @@ s = os.environ.get('CLAUDE_SESSION_ID') or os.environ.get('OPENCODE_SESSION_ID')
 print(s[:8])
 " 2>/dev/null)"
 
+# ── SE-313 S5: redacción ─────────────────────────────────────────────────────
+# SAVIA_TELEMETRY_REDACT=1 → solo {schema, ts, event}. Nunca contiene PII.
+# Paths absolutos → {project} (reemplazo aplicado a valores string).
+# session_id ya truncado a 8 chars arriba (config/telemetry-policies.yaml).
+if [[ "${SAVIA_TELEMETRY_REDACT:-0}" == "1" ]]; then
+  printf '{"schema":"savia.event/1.0","ts":"%s","event":"%s"}\n' "$TS" "$EVENT_NAME" >> "$OUTPUT_FILE" 2>/dev/null || true
+  exit 0
+fi
+
 # ── Construir JSON (evento base + atributos) ────────────────────────────────
 JSON="{\"schema\":\"savia.event/1.0\",\"ts\":\"${TS}\",\"event\":\"${EVENT_NAME}\""
 [[ -n "$TRACE_ID" ]]  && JSON="${JSON},\"trace_id\":\"${TRACE_ID}\""
@@ -61,6 +70,8 @@ JSON="{\"schema\":\"savia.event/1.0\",\"ts\":\"${TS}\",\"event\":\"${EVENT_NAME}
 for pair in "$@"; do
   KEY="${pair%%=*}"
   VAL="${pair#*=}"
+  # SE-313 S5: paths absolutos -> {project} (redacción en emisión)
+  VAL="${VAL//\/home\/[a-zA-Z0-9_.-]*\//\{project\}\/}"
   # Escape básico de comillas para valores string
   VAL_ESC="${VAL//\\/\\\\}"
   VAL_ESC="${VAL_ESC//\"/\\\"}"

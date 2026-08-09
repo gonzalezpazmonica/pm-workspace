@@ -1,13 +1,13 @@
 ---
 id: SE-314
 title: "SE-314 — Clasificador de soberanía de datos: rediseño determinista"
-status: PROPOSED
+status: IMPLEMENTED
 priority: alta
 ---
 
 # SE-314 — Clasificador de soberanía de datos: rediseño determinista
 
-**Status:** PROPOSED
+**Status:** IMPLEMENTED
 **Fecha:** 2026-08-08
 **Area:** Security / Data sovereignty / AI governance
 **Branch sugerida:** `agent/se314-sovereignty-classifier-redesign`
@@ -279,12 +279,12 @@ Salida (JSON, determinista):
 
 ## 8. Criterios de aceptación (resumen)
 
-- [ ] AC-S1: determinismo byte-idéntico 10/10; caso savia-env.sh PUBLIC.
-- [ ] AC-S2: umbrales por destino en YAML; decisión por confidence.
-- [ ] AC-S3: 3 ficheros del caso real nunca bloquean; secretos reales siempre.
-- [ ] AC-S4: caché con hash y TTL; 2ª clasificación sin LLM.
-- [ ] AC-S5: paridad TS/bash; degradación WARN en N1; telemetría SE-313.
-- [ ] AC-EV: corpus de regresión en tests/evals/classifier-corpus.json (>=20
+- [x] AC-S1: determinismo byte-idéntico 10/10; caso savia-env.sh PUBLIC.
+- [x] AC-S2: umbrales por destino en YAML; decisión por confidence.
+- [x] AC-S3: 3 ficheros del caso real nunca bloquean; secretos reales siempre.
+- [x] AC-S4: caché con hash y TTL; 2ª clasificación sin LLM.
+- [x] AC-S5: paridad TS/bash; degradación WARN en N1; telemetría SE-313.
+- [x] AC-EV: corpus de regresión en tests/evals/classifier-corpus.json (>=20
       casos: código técnico, secretos reales, PII, prompts) con veredictos
       esperados; CI lo ejecuta.
 

@@ -1,13 +1,13 @@
 ---
 id: SE-313
 title: "SE-313 — Observabilidad y trazabilidad de flujos agénticos (OTel GenAI + EU AI Act)"
-status: PROPOSED
+status: IMPLEMENTED
 priority: media
 ---
 
 # SE-313 — Observabilidad y trazabilidad de flujos agénticos (OTel GenAI + EU AI Act)
 
-**Status:** PROPOSED
+**Status:** IMPLEMENTED
 **Fecha:** 2026-08-08
 **Area:** Observability / Governance / Compliance
 **Branch sugerida:** `agent/se313-observabilidad-trazabilidad`
@@ -401,16 +401,16 @@ names hardcodeados). Para agentes sin tier claro se usa el del catálogo
   `provider:` del preferences (defensa ante futuros valores sin prefijo).
 
 **AC-S7**:
-- [ ] AC-7.1: `savia_resolve_model mid` devuelve `deepseek/deepseek-v4-pro` (con prefijo).
-- [ ] AC-7.2: `subagent-dispatch-gate.sh` detecta un ID no resolubible y emite
+- [x] AC-7.1: `savia_resolve_model mid` devuelve `deepseek/deepseek-v4-pro` (con prefijo).
+- [x] AC-7.2: `subagent-dispatch-gate.sh` detecta un ID no resolubible y emite
   `dispatch.failed` con error claro (no `Model not found` opaco).
-- [ ] AC-7.3: un fallo de dispatch aparece en `output/telemetry-events.jsonl` con
+- [x] AC-7.3: un fallo de dispatch aparece en `output/telemetry-events.jsonl` con
   trace_id de la sesión (cero fallos silenciosos).
-- [ ] AC-7.4: `opencode.json` no contiene IDs hardcodeados sin prefijo (solo tier names).
-- [ ] AC-7.5: `config/model-registry.json` cachea `opencode models` y el gate lo usa.
-- [ ] AC-7.6: reproducción del escenario original (invocar `explore`/subagente con
+- [x] AC-7.4: `opencode.json` no contiene IDs hardcodeados sin prefijo (solo tier names).
+- [x] AC-7.5: `config/model-registry.json` cachea `opencode models` y el gate lo usa.
+- [x] AC-7.6: reproducción del escenario original (invocar `explore`/subagente con
   modelo roto) → `dispatch.failed` registrado, no silencioso.
-- [ ] AC-7.7: built-in agents (`explore`, `general`) también pasan por el gate.
+- [x] AC-7.7: built-in agents (`explore`, `general`) también pasan por el gate.
 
 ### S8 — Endpoint `/telemetry` + dashboard (retoma SPEC-191) (16h)
 - Solo si savia-web está disponible; si no, slice se degrada a informe estático
@@ -450,14 +450,14 @@ names hardcodeados). Para agentes sin tier claro se usa el del catálogo
 
 ## 9. Criterios de aceptación (resumen)
 
-- [ ] **AC-S1**: `otel-emit.sh` existe, validado por BATS, integrado en ≥3 hooks.
-- [ ] **AC-S2**: `trace_id` compartido en cadena sesión→agente→tool; `traceparent` propagado.
-- [ ] **AC-S3**: eventos con `gen_ai.request_model`/`response_model` reales; fin de `agent:"unknown"`.
-- [ ] **AC-S4**: retención ≥180d configurada y rotación operativa.
-- [ ] **AC-S5**: redacción validada; `SAVIA_TELEMETRY_REDACT=1` degrada a mínimo.
-- [ ] **AC-S6**: 3/3 tribunales emiten hash-chained entries (SE-275 S1); `audit-chain-verify.sh` pasa.
-- [ ] **AC-S7**: dispatch gate + telemetría operativos; ningún `Model not found` silencioso (AC-7.1..7.7).
-- [ ] **AC-S8**: `/telemetry` o informe estático generado.
+- [x] **AC-S1**: `otel-emit.sh` existe, validado por BATS, integrado en ≥3 hooks.
+- [x] **AC-S2**: `trace_id` compartido en cadena sesión→agente→tool; `traceparent` propagado.
+- [x] **AC-S3**: eventos con `gen_ai.request_model`/`response_model` reales; fin de `agent:"unknown"`.
+- [x] **AC-S4**: retención ≥180d configurada y rotación operativa.
+- [x] **AC-S5**: redacción validada; `SAVIA_TELEMETRY_REDACT=1` degrada a mínimo.
+- [x] **AC-S6**: 3/3 tribunales emiten hash-chained entries (SE-275 S1); `audit-chain-verify.sh` pasa.
+- [x] **AC-S7**: dispatch gate + telemetría operativos; ningún `Model not found` silencioso (AC-7.1..7.7).
+- [x] **AC-S8**: `/telemetry` o informe estático generado.
 - [ ] **AC-EU**: informe de alineación con Art. 12/26(6)/14/50/86 en
       `docs/rules/domain/eu-ai-act-traceability.md`.
 

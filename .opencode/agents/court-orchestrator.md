@@ -67,6 +67,35 @@ verdict = score >= 90 ? "pass" : score >= 70 ? "conditional" : "fail"
 
 Write `.review.crc` to the branch root. Report summary to the user.
 
+## Audit Trail (SE-275 S1 / SE-313 S6)
+
+Each judge verdict and each final verdict MUST be appended to the
+hash-chained audit trail before you return:
+
+```bash
+bash scripts/audit-chain-append.sh <chain_id> <agent> <action> \
+  --input <spec|diff> --output <.review.crc|verdict-file> \
+  verdict=<...> severity=<...>
+```
+
+Chain IDs: `court-{YYYYMMDD}-{pr}` (Code Review Court),
+`truth-{YYYYMMDD}-{report}` (Truth Tribunal),
+`rec-{YYYYMMDD}-{draft}` (Recommendation Tribunal),
+`sdd-{spec-id}` (SDD chain).
+
+- Append ONE entry per judge when their verdict is collected.
+- Append a final entry for the consolidated verdict (action=`verdict`).
+- Do not skip: a missing entry is itself an audit failure.
+- The file is in output/audit (N4b) — do not commit it.
+
+## Result Envelope (SE-275 S3)
+
+When you finish, emit the standardized result envelope to
+`output/audit/envelope-{chain_id}.json` with fields:
+envelope_version, chain_id, status, agent, agent_tier, timestamp,
+executive_summary, artifact, artifact_hash, next_recommended, risk,
+confidence, skill_resolution, budget.
+
 ## Rules
 
 - NEVER approve code yourself — you produce findings for human E1

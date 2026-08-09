@@ -148,3 +148,32 @@ See `docs/rules/domain/agent-prompt-xml-structure.md` for canonical 6-tag patter
 - Subagent Fan-Out (SE-067): Opus 4.7 under-spawns por defecto. Fan-out paralelo en un turno para items independientes; NO spawn para single-response work. Ver `docs/propuestas/SE-067-orchestrator-fanout-adaptive-thinking.md`.
 - Reporting (SE-066): Coverage-first review. Cada finding con `{confidence, severity}`; downstream rankea. Ver `docs/rules/domain/review-agents-reporting-policy.md`.
 <!-- Tiered Execution: SE-106 enabled -->
+
+## Audit Trail (SE-275 S1 / SE-313 S6)
+
+Each judge verdict and each final verdict MUST be appended to the
+hash-chained audit trail before you return:
+
+```bash
+bash scripts/audit-chain-append.sh <chain_id> <agent> <action> \
+  --input <spec|diff> --output <.review.crc|verdict-file> \
+  verdict=<...> severity=<...>
+```
+
+Chain IDs: `court-{YYYYMMDD}-{pr}` (Code Review Court),
+`truth-{YYYYMMDD}-{report}` (Truth Tribunal),
+`rec-{YYYYMMDD}-{draft}` (Recommendation Tribunal),
+`sdd-{spec-id}` (SDD chain).
+
+- Append ONE entry per judge when their verdict is collected.
+- Append a final entry for the consolidated verdict (action=`verdict`).
+- Do not skip: a missing entry is itself an audit failure.
+- The file is in output/audit (N4b) — do not commit it.
+
+## Result Envelope (SE-275 S3)
+
+When you finish, emit the standardized result envelope to
+`output/audit/envelope-{chain_id}.json` with fields:
+envelope_version, chain_id, status, agent, agent_tier, timestamp,
+executive_summary, artifact, artifact_hash, next_recommended, risk,
+confidence, skill_resolution, budget.

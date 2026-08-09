@@ -65,3 +65,21 @@ teardown() {
   run jq -e '.error == "Model not found: deepseek/deepseek-v4-pro"' "$SAVIA_TELEMETRY_FILE"
   [ "$status" -eq 0 ]
 }
+
+@test "SAVIA_TELEMETRY_REDACT=1 degrada a solo ts+event (SE-313 S5)" {
+  export SAVIA_TELEMETRY_REDACT=1
+  run bash "$SCRIPT" agent.completed agent_name=secret-user gen_ai_request_model=deepseek/deepseek-v4-pro
+  [ "$status" -eq 0 ]
+  [[ -f "$SAVIA_TELEMETRY_FILE" ]]
+  run jq -e '.schema == "savia.event/1.0" and .event == "agent.completed" and (has("agent_name") | not) and (has("gen_ai_request_model") | not)' "$SAVIA_TELEMETRY_FILE"
+  [ "$status" -eq 0 ]
+  unset SAVIA_TELEMETRY_REDACT
+}
+
+@test "paths absolutos se redactan a placeholder {project} (SE-313 S5)" {
+  run bash "$SCRIPT" tool.executed target="/home/monica/savia/scripts/savia-env.sh"
+  [ "$status" -eq 0 ]
+  # /home/<user>/ -> {project}/; el workspace root permanece como subruta relativa
+  run jq -e '.target | startswith("{project}/") and (contains("/home/") | not)' "$SAVIA_TELEMETRY_FILE"
+  [ "$status" -eq 0 ]
+}
