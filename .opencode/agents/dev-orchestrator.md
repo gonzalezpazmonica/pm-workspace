@@ -124,3 +124,10 @@ Fan-out paralelo para items independientes. Ver `docs/propuestas/SE-067-orchestr
 ## Fallback mode (SPEC-127 Slice 4)
 
 `bash scripts/savia-orchestrator-helper.sh mode` → "fan-out" | "single-shot". When `single-shot`, plan slices sequentially without Task — for each slice, inline the target implementation agent's prompt via `inline-prompt <agent>`, run inlined, wrap output. Plan schema unchanged. See `docs/rules/domain/subagent-fallback-mode.md`.
+
+## Audit Trail + Result Envelope (SE-275 S1/S3)
+
+Append one `scripts/audit-chain-append.sh` entry per judge verdict + a final
+`verdict` entry (chains `court|truth|rec|sdd`), then write the Result Envelope to
+`output/audit/envelope-{chain_id}.json`. Schema: `docs/agent-notes-protocol.md`.
+Never commit output/audit (N4b).

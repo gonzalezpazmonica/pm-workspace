@@ -207,3 +207,38 @@ Flujo combinado recomendado:
 
 Referencia completa: `docs/rules/domain/orchestration-protocol.md`
 CLI: `bash scripts/orchestration-protocol.sh --help`
+
+## Result Envelope (SE-275 S3 / SE-313 S6)
+
+Las agent-notes de texto libre **no** son suficientes para decisiones de
+tribunal y fases SDD: requieren el **Result Envelope estandarizado** con
+integridad verificable (hash-chained audit trail).
+
+**Regla**: cuando un agente emite una decision significativa (veredicto de
+tribunal, spec generada, plan de implementacion, review completada), emite el
+envelope a `output/audit/envelope-{chain_id}.json` con estos campos:
+
+```json
+{
+  "envelope_version": "1.0",
+  "chain_id": "court-20260809-001",
+  "status": "complete|blocked|failed",
+  "agent": "correctness-judge",
+  "agent_tier": "mid",
+  "timestamp": "2026-08-09T14:46:00Z",
+  "executive_summary": "2 blockers, 3 should-fix, 1 nit found",
+  "artifact": ".review.crc",
+  "artifact_hash": "sha256:abc123...",
+  "next_recommended": "fix-assigner",
+  "risk": "low|medium|high",
+  "confidence": 0.85,
+  "skill_resolution": {"used": [], "missing": [], "fallback": []},
+  "budget": {"tokens_allocated": 0, "tokens_used": 0, "wall_time_ms": 0}
+}
+```
+
+**Integridad**: cada veredicto se registra ademas como entrada de la cadena
+de auditoria (hash-chained) con `scripts/audit-chain-append.sh`; la cadena se
+verifica con `scripts/audit-chain-verify.sh`. Un handoff con envelope es
+completo; sin envelope, el receptor debe re-verificar el contexto.
+

@@ -163,24 +163,46 @@ savia_resolve_model() {
     ' "$prefs_file" 2>/dev/null
   }
 
+  # SE-313: provider prefix is mandatory (see section 0 of SE-313 spec).
+  # Defensa ante IDs sin prefijo en preferences: si el ID no lleva provider/,
+  # se prefija solo cuando el ID corto pertenece al provider configurado
+  # (ej. `deepseek-v4-pro` → `deepseek/deepseek-v4-pro`). IDs canónicos de
+  # otros vendors (claude-*, gpt-*, ...) se preservan intactos.
+  _prefixed() {
+    local id="$1"
+    [[ -z "$id" ]] && { echo ""; return; }
+    if [[ "$id" == */* ]]; then
+      echo "$id"
+    else
+      local provider
+      provider="$(_read_pref "provider")"
+      [[ -z "$provider" ]] && provider="deepseek"
+      if [[ "$id" == "$provider-"* ]]; then
+        echo "${provider}/${id}"
+      else
+        echo "$id"
+      fi
+    fi
+  }
+
   case "$tier" in
     heavy)
       if [[ -z "${SAVIA_MODEL_HEAVY:-}" && -f "$prefs_file" ]]; then
         export SAVIA_MODEL_HEAVY="$(_read_pref "model_heavy")"
       fi
-      [[ -n "${SAVIA_MODEL_HEAVY:-}" ]] && echo "${SAVIA_MODEL_HEAVY}" || echo "heavy"
+      [[ -n "${SAVIA_MODEL_HEAVY:-}" ]] && _prefixed "${SAVIA_MODEL_HEAVY}" || echo "heavy"
       ;;
     mid)
       if [[ -z "${SAVIA_MODEL_MID:-}" && -f "$prefs_file" ]]; then
         export SAVIA_MODEL_MID="$(_read_pref "model_mid")"
       fi
-      [[ -n "${SAVIA_MODEL_MID:-}" ]] && echo "${SAVIA_MODEL_MID}" || echo "mid"
+      [[ -n "${SAVIA_MODEL_MID:-}" ]] && _prefixed "${SAVIA_MODEL_MID}" || echo "mid"
       ;;
     fast)
       if [[ -z "${SAVIA_MODEL_FAST:-}" && -f "$prefs_file" ]]; then
         export SAVIA_MODEL_FAST="$(_read_pref "model_fast")"
       fi
-      [[ -n "${SAVIA_MODEL_FAST:-}" ]] && echo "${SAVIA_MODEL_FAST}" || echo "fast"
+      [[ -n "${SAVIA_MODEL_FAST:-}" ]] && _prefixed "${SAVIA_MODEL_FAST}" || echo "fast"
       ;;
     opus|claude-opus-4-7|claude-opus-4-5)
       savia_resolve_model heavy
@@ -192,7 +214,7 @@ savia_resolve_model() {
       savia_resolve_model fast
       ;;
     *)
-      echo "$tier"  # pass-through for non-tier, non-legacy names
+      _prefixed "$tier"  # pass-through for non-tier, non-legacy names
       ;;
   esac
 }

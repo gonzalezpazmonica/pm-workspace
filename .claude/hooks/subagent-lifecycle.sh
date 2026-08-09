@@ -27,4 +27,17 @@ else
   printf '{"ts":"%s","event":"start","agent":"%s","id":"%s"}\n' \
     "$TIMESTAMP" "$AGENT_TYPE" "$AGENT_ID" >> "$LOG" 2>/dev/null
 fi
+
+# SE-313 S1/S3: emitir evento estándar (agente real cuando el runtime no lo puebla).
+EMIT="$REPO_ROOT/scripts/otel-emit.sh"
+if [[ -x "$EMIT" ]]; then
+  MODEL="$(savia_resolve_model mid 2>/dev/null || echo "mid")"
+  if [[ "$EVENT" == "SubagentStop" ]]; then
+    "$EMIT" agent.completed agent_name="$AGENT_TYPE" kind=invoke_agent status=ok \
+      gen_ai_request_model="$MODEL" retention_days=180 >/dev/null 2>&1 || true
+  else
+    "$EMIT" agent.started agent_name="$AGENT_TYPE" kind=invoke_agent status=ok \
+      gen_ai_request_model="$MODEL" retention_days=180 >/dev/null 2>&1 || true
+  fi
+fi
 exit 0

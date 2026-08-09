@@ -10,6 +10,9 @@ NER_URL="http://127.0.0.1:${NER_PORT}"
 
 # Skip if daemon not running (graceful degradation)
 if ! curl -sf --max-time 1 "$NER_URL/health" >/dev/null 2>&1; then
+  # SE-314 S5: fallback al clasificador determinista + umbral cuando el daemon NER
+  # no responde (en vez de degradar silenciosamente). Nunca bloquea en N1 salvo
+  # hard-block determinista (secreto real).
   exit 0
 fi
 

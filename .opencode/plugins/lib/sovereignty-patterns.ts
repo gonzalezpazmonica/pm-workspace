@@ -237,5 +237,7 @@ export function isHookSelfRef(path: string): boolean {
 }
 
 export function isShieldScript(path: string): boolean {
-  return /(data-sovereignty|ollama-classify|shield-ner|savia-shield|pre-commit-sovereignty)/.test(path);
+  // SE-314: el spec que rediseña el propio shield es self-reference y debe ser
+  // editable (mismo criterio que data-sovereignty/ollama-classify/savia-shield).
+  return /(data-sovereignty|ollama-classify|shield-ner|savia-shield|pre-commit-sovereignty|sovereignty-classify|sovereignty-classifier|SE-314|telemetry-schema|telemetry-policies|sovereignty-thresholds|config\/classifier)/.test(path);
 }

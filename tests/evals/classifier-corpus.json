@@ -1,0 +1,138 @@
+{
+  "schema": "savia.classifier-corpus/1.0",
+  "generated": "2026-08-09",
+  "cases": [
+    {
+      "id": "tech-savia-env",
+      "label": "public",
+      "confidence_min": 0.0,
+      "note": "código técnico que referencia config (caso real SE-314 FP)"
+    },
+    {
+      "id": "tech-dispatch-gate",
+      "label": "public",
+      "confidence_min": 0.0,
+      "note": "header bash de resolución de tiers (caso real SE-314 FP)"
+    },
+    {
+      "id": "tech-model-schema-doc",
+      "label": "public",
+      "confidence_min": 0.0,
+      "note": "documentación de schema de modelos (caso real SE-314 FP)"
+    },
+    {
+      "id": "tech-doc-generic",
+      "label": "public",
+      "confidence_min": 0.0,
+      "note": "documentación técnica genérica"
+    },
+    {
+      "id": "tech-placeholder-data",
+      "label": "public",
+      "confidence_min": 0.0,
+      "note": "datos placeholder (alice, test-org, example.com)"
+    },
+    {
+      "id": "tech-function-name",
+      "label": "public",
+      "confidence_min": 0.0,
+      "note": "nombre de función + tipo de framework"
+    },
+    {
+      "id": "tech-open-source-ref",
+      "label": "public",
+      "confidence_min": 0.0,
+      "note": "referencia open-source"
+    },
+    {
+      "id": "secret-aws-key",
+      "label": "confidential",
+      "confidence_min": 0.9,
+      "note": "AWS access key real"
+    },
+    {
+      "id": "secret-github-token",
+      "label": "confidential",
+      "confidence_min": 0.9,
+      "note": "GitHub PAT real"
+    },
+    {
+      "id": "secret-openai-key",
+      "label": "confidential",
+      "confidence_min": 0.9,
+      "note": "OpenAI key real"
+    },
+    {
+      "id": "secret-connection-string",
+      "label": "confidential",
+      "confidence_min": 0.9,
+      "note": "connection string JDBC con password"
+    },
+    {
+      "id": "secret-private-key",
+      "label": "confidential",
+      "confidence_min": 0.9,
+      "note": "bloque PRIVATE KEY"
+    },
+    {
+      "id": "secret-internal-ip",
+      "label": "confidential",
+      "confidence_min": 0.9,
+      "note": "IP interna"
+    },
+    {
+      "id": "pii-email-name",
+      "label": "confidential",
+      "confidence_min": 0.7,
+      "note": "email + nombre real de persona"
+    },
+    {
+      "id": "pii-dni",
+      "label": "confidential",
+      "confidence_min": 0.7,
+      "note": "documento nacional identidad"
+    },
+    {
+      "id": "prompt-injection-attempt",
+      "label": "public|ambiguous",
+      "confidence_min": 0.0,
+      "note": "prompt con instrucciones embebidas: no debe seguirse; ambiguous es aceptable (no confidental)"
+    },
+    {
+      "id": "business-rule-private",
+      "label": "confidential",
+      "confidence_min": 0.7,
+      "note": "regla de negocio con datos de cliente real"
+    },
+    {
+      "id": "meeting-content",
+      "label": "confidential",
+      "confidence_min": 0.7,
+      "note": "contenido de reunión con decisiones"
+    },
+    {
+      "id": "financial-data",
+      "label": "confidential",
+      "confidence_min": 0.7,
+      "note": "datos financieros reales"
+    },
+    {
+      "id": "short-generic-line",
+      "label": "public",
+      "confidence_min": 0.0,
+      "note": "línea corta genérica"
+    },
+    {
+      "id": "code-config-reference",
+      "label": "public",
+      "confidence_min": 0.0,
+      "note": "código que lee fichero de config (no filtra contenido)"
+    },
+    {
+      "id": "model-alias-doc",
+      "label": "public",
+      "confidence_min": 0.0,
+      "note": "documentación de model aliases con provider ids"
+    }
+  ]
+}

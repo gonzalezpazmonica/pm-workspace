@@ -234,7 +234,7 @@
 | `pptx-digest` | agent:pptx-digest | Digestion de presentaciones PowerPoint (PPTX) — pipeline de 4 fases. Extrae texto, no... |
 | `pr-agent-judge` | agent:pr-agent-judge | External 5th judge of the Code Review Court — wraps qodo-ai/pr-agent OSS (SPEC-124). ... |
 | `python-developer` | agent:python-developer | Implementación de código Python (FastAPI/Django) siguiendo specs SDD aprobadas. Usar ... |
-| `recommendation-tribunal-orchestrator` | agent:recommendation-tribunal-orchestrator | Recommendation Tribunal orchestrator — convenes 4 fast judges in parallel, aggregates... |
+| `recommendation-tribunal-orchestrator` | agent:recommendation-tribunal-orchestrator | Recommendation Tribunal orchestrator — 4 fast judges in parallel, aggregates scores, ... |
 | `reconciler` | agent:reconciler | Classifies contradictions into 3 buckets: evolution, auto-resolve, conflict-doc. Invoke... |
 | `reflection-validator` | agent:reflection-validator | Meta-cognitive validation of responses and decisions (System 2). Use PROACTIVELY when: ... |
 | `repetition-truth-judge` | agent:repetition-truth-judge | Recommendation Tribunal judge — detects user claims repeated and assumed true without... |

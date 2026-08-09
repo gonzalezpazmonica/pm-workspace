@@ -1,0 +1,31 @@
+# sovereignty-thresholds.yaml — SE-314 S2: umbrales de decisión por destino.
+# Consumido por el gate de soberanía (TS y bash). Decisión por confidence,
+# no por etiqueta binaria.
+schema: savia.sovereignty-thresholds/1.0
+
+# Umbral global de allow: confidence < allow_below → permitido (documentado AC-S2.3)
+allow_below: 0.70
+
+# Por destino (N1 = repo público, N4 = privado)
+destinations:
+  n1:
+    # confidential con confidence alta → BLOCK (fuga real)
+    confidential_block_below: 0.90
+    # confidential con confidence media → WARN (nunca BLOCK en N1 salvo secreto regex)
+    warn_below: 0.90
+    warn_above: 0.70
+    # ambiguous nunca bloquea en N1
+    ambiguous_action: WARN
+  n4:
+    # privado: más permisivo, pero secrets regex siempre BLOCK
+    confidential_block_below: 0.80
+    ambiguous_action: ALLOW
+
+# Reglas duras (Capa 1 determinista): SIEMPRE bloquean en N1, sin depender del LLM
+hard_block_rules:
+  - aws_key
+  - github_token
+  - openai_key
+  - connection_string
+  - private_key
+  - azure_sas

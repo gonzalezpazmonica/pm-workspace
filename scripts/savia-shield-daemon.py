@@ -276,9 +276,12 @@ def gate(hook_input):
     shield_patterns = [
         "scripts/data-sovereignty", "scripts/ollama-classify", "scripts/shield-ner",
         "scripts/savia-shield", "scripts/pre-commit-sovereignty",
+        "scripts/sovereignty-classify", "scripts/sovereignty-decide",
         "hooks/data-sovereignty", "hooks/ollama-classify", "hooks/shield-ner",
         "tests/test-data-sovereignty", "tests/test-savia-shield", "tests/test-shield-daemon",
         "tests/test-sovereignty", "tests/test-prompt-injection-guard",
+        "docs/propuestas/SE-314", "config/telemetry-schema", "config/telemetry-policies",
+        "config/sovereignty-thresholds", "config/classifier",
     ]
     for pat in shield_patterns:
         if pat in fp_norm:

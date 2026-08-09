@@ -26,4 +26,11 @@ ACTION="created"
 
 printf '{"ts":"%s","action":"%s","id":"%s","subject":"%s","team":"%s","teammate":"%s"}\n' \
   "$TIMESTAMP" "$ACTION" "$TASK_ID" "$TASK_SUBJECT" "$TEAM" "$TEAMMATE" >> "$LOG" 2>/dev/null
+
+# SE-313 S1: emitir evento estándar (trazabilidad PBI ↔ agente).
+EMIT="$REPO_ROOT/scripts/otel-emit.sh"
+if [[ -x "$EMIT" ]]; then
+  "$EMIT" "sdd.phase" kind=sdd status=ok phase="$ACTION" task_ref="$TASK_ID" \
+    task_subject="$TASK_SUBJECT" retention_days=180 >/dev/null 2>&1 || true
+fi
 exit 0

@@ -1,6 +1,6 @@
 # SE-275 — Trust-Gated Audit Trail: cadena de hash verificable para gobierno de decisiones de agentes
 
-**Status:** PROPOSED
+**Status:** IMPLEMENTED
 **Fecha:** 2026-07-30
 **Area:** Agent governance / Audit / Tribunal integrity
 **Branch:** agent/se275-trust-audit-trail
@@ -254,11 +254,11 @@ alerta en canal de operador si detecta corrupcion.
 ## Criterios de aceptacion
 
 ### AC-S1: Hash chain operativa
-- [ ] AC-S1.1: `scripts/audit-chain-append.sh` crea entradas con `prev_hash` correcto
-- [ ] AC-S1.2: `scripts/audit-chain-verify.sh` detecta corrupcion (hash roto, entrada faltante, orden alterado)
-- [ ] AC-S1.3: `court-orchestrator` emite entrada por cada juez al emitir veredicto
-- [ ] AC-S1.4: `truth-tribunal-orchestrator` emite entrada por cada juez
-- [ ] AC-S1.5: `recommendation-tribunal-orchestrator` emite entrada por cada juez
+- [x] AC-S1.1: `scripts/audit-chain-append.sh` crea entradas con `prev_hash` correcto
+- [x] AC-S1.2: `scripts/audit-chain-verify.sh` detecta corrupcion (hash roto, entrada faltante, orden alterado)
+- [x] AC-S1.3: `court-orchestrator` emite entrada por cada juez al emitir veredicto
+- [x] AC-S1.4: `truth-tribunal-orchestrator` emite entrada por cada juez
+- [x] AC-S1.5: `recommendation-tribunal-orchestrator` emite entrada por cada juez
 
 ### AC-S2: Trust scoring funcional
 - [ ] AC-S2.1: `config/agent-trust-scores.yaml` existe con scores iniciales para todos los jueces
@@ -267,11 +267,11 @@ alerta en canal de operador si detecta corrupcion.
 - [ ] AC-S2.4: Orchestrator emite `TRUST_THRESHOLD_NOT_MET` si no hay suficientes jueces gold+silver
 
 ### AC-S3: Result envelope en todos los orchestrators
-- [ ] AC-S3.1: JSON schema del envelope v1.0 validado contra todos los orchestrators
-- [ ] AC-S3.2: `court-orchestrator` emite envelope al cerrar review
-- [ ] AC-S3.3: `truth-tribunal-orchestrator` emite envelope al completar evaluacion
-- [ ] AC-S3.4: `recommendation-tribunal-orchestrator` emite envelope al emitir recomendacion
-- [ ] AC-S3.5: `agent-notes-protocol.md` actualizado con envelope requirement
+- [x] AC-S3.1: JSON schema del envelope v1.0 validado contra todos los orchestrators
+- [x] AC-S3.2: `court-orchestrator` emite envelope al cerrar review
+- [x] AC-S3.3: `truth-tribunal-orchestrator` emite envelope al completar evaluacion
+- [x] AC-S3.4: `recommendation-tribunal-orchestrator` emite envelope al emitir recomendacion
+- [x] AC-S3.5: `agent-notes-protocol.md` actualizado con envelope requirement
 
 ### AC-S4: CI verifica integridad
 - [ ] AC-S4.1: `Audit Chain Integrity` job existe en CI

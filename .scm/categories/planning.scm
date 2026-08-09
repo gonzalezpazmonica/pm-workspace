@@ -1,5 +1,5 @@
 # planning — Savia Capability Map (L1)
-> 563 resources
+> 569 resources
 
 - **/decide-architecture** (cmd): Clasifica una tarea como WORKFLOW (deterministica) o AGENT (loop). Bias hacia workflow per Anthropic. Sugiere plantilla inicial. Mide accuracy contra corpus curado de 20 tareas.
 - **_template** (skill): TEMPLATE — copia este directorio para crear una skill nueva. NO se carga en runtime.
@@ -79,6 +79,7 @@
 - **check-daemon-auth** (script): check-daemon-auth.sh
 - **ci-failure-tracker** (script): ci-failure-tracker.sh — Track CI pipeline failures for signal/noise analysis
 - **ci-health** (cmd): Muestra tasa de fallo de pipelines CI a partir del log local de ejecuciones.
+- **classifier-corpus-run** (script): classifier-corpus-run.sh — SE-314 AC-EV: regresión del corpus de clasificación.
 - **classify-execution-level** (script): classify-execution-level.sh — Classify script by origin into execution tier
 - **claude-md-drift-check** (script): claude-md-drift-check.sh — Valida que los conteos en CLAUDE.md coincidan con
 - **client-profile** (cmd): Gestión de perfiles de cliente en SaviaHub
@@ -327,6 +328,7 @@
 - **org-stakeholder-mapper** (skill): Mapeador de Stakeholders y Decisores: extrae roles formales y reales, motivaciones, alianzas y tensiones de una organización.
 - **orgchart-import** (cmd): >
 - **orgchart-import** (skill): Usar cuando se importa un organigrama para extraer la estructura del equipo.
+- **otel-emit** (script): otel-emit.sh — SE-313 S1: emisor de eventos de telemetría estándar.
 - **oumi-probe** (script): oumi-probe.sh — SE-028 Slice 1 oumi integration viability probe.
 - **output-compress** (script): output-compress.sh — Compress verbose tool output (stdin -> stdout)
 - **overnight-sprint** (skill): Usar cuando se quiere ejecutar tareas de bajo riesgo de forma autónoma durante la noche.
@@ -467,6 +469,8 @@
 - **smart-calendar** (skill): Usar cuando se gestiona la agenda inteligente con sincronización Outlook/Teams.
 - **source-corroborator** (script): source-corroborator.sh — SE-273 S5: Corroboración de fuentes externas
 - **sovereignty-benchmark** (script): sovereignty-benchmark.sh — Benchmark pm-workspace prompts with local LLM
+- **sovereignty-classify** (script): sovereignty-classify.sh — SE-314: clasificador determinista de soberanía de datos.
+- **sovereignty-decide** (script): sovereignty-decide.sh — SE-314 S2: decisión por umbral desde política YAML.
 - **sovereignty-mask** (script): sovereignty-mask.sh — Wrapper for reversible data masking
 - **sovereignty-ops** (script): sovereignty-ops.sh — Download operations for sovereignty-pack.sh
 - **sovereignty-switch** (script): sovereignty-switch.sh — Switch between LLM providers for pm-workspace
@@ -480,6 +484,7 @@
 - **sprint-status** (cmd): Estado del sprint actual — progreso, burndown, alertas.
 - **start-bridge** (script): start-bridge.sh — Invoked by Savia Claw remote_host.restart_bridge()
 - **structural-framing-judge** (agent): Recommendation Tribunal judge — detects output with manual/protocol form over CBRN or sensitive domain
+- **subagent-dispatch-gate** (script): subagent-dispatch-gate.sh — SE-313 S7c: gate de resolución de tiers + telemetría.
 - **surface-map-authorize** (script): surface-map-authorize.sh — SE-243 Authorization helper
 - **sync-adapters/adapter-interface** (script): adapter-interface.sh — Common interface for backlog sync adapters
 - **sync-adapters/azure-devops-adapter** (script): azure-devops-adapter.sh — Sync local backlog with Azure DevOps
@@ -504,6 +509,7 @@
 - **team-workload** (cmd): Muestra la carga de trabajo por persona — items asignados, horas remaining y balance de equipo.
 - **tech-radar** (cmd): Radar tecnológico del proyecto — librerías, versiones, adopt/trial/hold/retire
 - **tech-writer** (agent): >
+- **telemetry-tail-sample** (script): telemetry-tail-sample.sh — SE-313 S4: sampling tail + retención + rotación.
 - **terminal-state-emit** (script): terminal-state-emit.sh — Emits structured termination reason for a loop/agent
 - **terminal-state-read** (script): terminal-state-read.sh — Reads the last terminal state for a loop/agent
 - **ternary-verdict** (script): ternary-verdict.sh — Unified data contract for ternary verdicts (SE-269 S2)

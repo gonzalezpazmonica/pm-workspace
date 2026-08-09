@@ -387,4 +387,12 @@ if [[ -n "$REGISTRY_SCRIPT" ]]; then
   fi
 fi
 
+# SE-313 S2: emitir session.started con trace_id raíz (mejor esfuerzo, no bloquea).
+if [[ -x "${_si_dir}/../../scripts/otel-emit.sh" ]]; then
+  _SE313_MODEL="$(savia_resolve_model mid 2>/dev/null || echo "mid")"
+  bash "${_si_dir}/../../scripts/otel-emit.sh" session.started \
+    kind=hook status=ok gen_ai_request_model="$_SE313_MODEL" \
+    branch="${BRANCH:-N/A}" retention_days=180 >/dev/null 2>&1 || true
+fi
+
 printf '{"hookSpecificOutput":{"hookEventName":"SessionStart","additionalContext":"%s"}}\n' "$CTX"

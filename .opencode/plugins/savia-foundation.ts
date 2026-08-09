@@ -52,6 +52,8 @@ import { subagentAudienceFilter } from "./guards/subagent-audience-filter.ts";
 import { sycophancyGuard } from "./guards/sycophancy-guard.ts";
 // SE-229: block blind signing of confidentiality signature without prior audit
 import { blockBlindSigning } from "./guards/block-blind-signing.ts";
+// SE-313 S7c: dispatch tracing — resolves subagent model + emits telemetry
+import { dispatchTrace } from "./guards/dispatch-trace.ts";
 
 const BEFORE_GUARDS = [
   // Cheap guards first — fail fast.
@@ -73,6 +75,8 @@ const BEFORE_GUARDS = [
   autoZoomOut,
   // SE-221 Slice 3: audience filter (PreToolUse `task`, non-blocking audit)
   subagentAudienceFilter,
+  // SE-313 S7c: dispatch tracing (PreToolUse `task`, non-blocking telemetry)
+  dispatchTrace,
 ] as const;
 
 const AFTER_GUARDS = [

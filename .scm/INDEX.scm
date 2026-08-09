@@ -1,6 +1,6 @@
 # Savia Capability Map — INDEX
-> hash: 2fd6b9b902d6 | resources: 1337
-> 292 commands · 126 skills · 83 agents · 836 scripts
+> hash: c4f0d2b46396 | resources: 1350
+> 292 commands · 126 skills · 83 agents · 849 scripts
 
 [analysis] Trace Optimize — across,distributed,optimize,rates,sampling — cmd:.claude/commands/trace-optimize.md
 [analysis] agent-activity — activity,agent,executions,recent,show — cmd:.claude/commands/agent-activity.md
@@ -38,6 +38,7 @@
 [analysis] bus-factor-report — ejecutivo,factor,informe,report,scan — script:scripts/bus-factor-report.sh
 [analysis] case-recompute — adjusted,business,case,recompute,risk — cmd:.claude/commands/case-recompute.md
 [analysis] ceo-report — delivery,dirección,ejecutivo,equipo,informe — cmd:.claude/commands/ceo-report.md
+[analysis] classifier-fp-report — classifier,falsos,positivos,report,reporte — script:scripts/classifier-fp-report.sh
 [analysis] completeness-judge — abstract,covers,judge,promises,report — agent:.opencode/agents/completeness-judge.md
 [analysis] debt-analyze —  — cmd:.claude/commands/debt-analyze.md
 [analysis] debt-track —  — cmd:.claude/commands/debt-track.md
@@ -65,7 +66,9 @@
 [analysis] rules-traceability — completa,mapean,negocio,pbis,reglas — skill:.claude/skills/rules-traceability/SKILL.md
 [analysis] scope-trace-gate — gate,runner,scope,standalone,trace — script:scripts/scope-trace-gate.sh
 [analysis] source-traceability-judge — citation,claim,every,judge,must — agent:.opencode/agents/source-traceability-judge.md
+[analysis] telemetry-report — degradación,estático,informe,report,telemetry — script:scripts/telemetry-report.sh
 [analysis] time-tracking-report — excel,generan,horas,imputación,informes — skill:.claude/skills/time-tracking-report/SKILL.md
+[analysis] trace-export-otlp — export,otlp,telemetría,trace — script:scripts/trace-export-otlp.sh
 [analysis] trace-pattern-extractor — agent,analyze,extractor,pattern,phase — script:scripts/trace-pattern-extractor.sh
 [analysis] truth-tribunal — evaluation,judge,orchestrate,reliability,reports — script:scripts/truth-tribunal.sh
 [analysis] vaults-health-report — health,quality,report,vault,vaults — script:scripts/vaults-health-report.sh
@@ -153,6 +156,7 @@
 [communication] savia-status — doing,right,savia,status,what — script:scripts/savia-status.sh
 [communication] savia-team —  — cmd:.claude/commands/savia-team.md
 [communication] savia-timesheet —  — cmd:.claude/commands/savia-timesheet.md
+[communication] savia-trace — contexto,distribuido,savia,trace,traceparent — script:scripts/savia-trace.sh
 [communication] savia-travel — core,lines,mode,savia,travel — script:scripts/savia-travel.sh
 [communication] savia-travel-init —  — cmd:.claude/commands/savia-travel-init.md
 [communication] savia-travel-init — init,mode,savia,script,template — script:scripts/savia-travel-init.sh
@@ -390,6 +394,9 @@
 [development] zoom-out — architecture,before,decisions,dependencies,design — skill:.claude/skills/zoom-out/SKILL.md
 [governance] aepd-compliance — aepd,agéntica,auditoría,cumplimiento,fases — cmd:.claude/commands/aepd-compliance.md
 [governance] audit-all-bats — audit,auditor,bats,over,probe — script:scripts/audit-all-bats.sh
+[governance] audit-chain-append — append,audit,chain,chained,hash — script:scripts/audit-chain-append.sh
+[governance] audit-chain-prune — antiguas,audit,cadenas,chain,prune — script:scripts/audit-chain-prune.sh
+[governance] audit-chain-verify — audit,chain,integridad,verificación,verify — script:scripts/audit-chain-verify.sh
 [governance] audit-context-budget — audit,budget,context,slice,spec — script:scripts/audit-context-budget.sh
 [governance] audit-mcp-templates — audit,spec,templates — script:scripts/audit-mcp-templates.sh
 [governance] audit-test-quality — audit,classifies,level,quality,scripts — script:scripts/audit-test-quality.sh
@@ -597,6 +604,7 @@
 [planning] check-daemon-auth — auth,check,daemon — script:scripts/check-daemon-auth.sh
 [planning] ci-failure-tracker — analysis,failure,failures,noise,pipeline — script:scripts/ci-failure-tracker.sh
 [planning] ci-health — ejecuciones,fallo,local,muestra,partir — cmd:.claude/commands/ci-health.md
+[planning] classifier-corpus-run — clasificación,classifier,corpus,regresión — script:scripts/classifier-corpus-run.sh
 [planning] classify-execution-level — classify,execution,level,origin,script — script:scripts/classify-execution-level.sh
 [planning] claude-md-drift-check — check,claude,coincidan,conteos,drift — script:scripts/claude-md-drift-check.sh
 [planning] client-profile — cliente,gestión,perfiles,saviahub — cmd:.claude/commands/client-profile.md
@@ -845,6 +853,7 @@
 [planning] org-stakeholder-mapper — alianzas,decisores,extrae,formales,mapeador — skill:.claude/skills/org-stakeholder-mapper/SKILL.md
 [planning] orgchart-import —  — cmd:.claude/commands/orgchart-import.md
 [planning] orgchart-import — equipo,estructura,extraer,importa,organigrama — skill:.claude/skills/orgchart-import/SKILL.md
+[planning] otel-emit — emisor,emit,estándar,eventos,otel — script:scripts/otel-emit.sh
 [planning] oumi-probe — integration,oumi,probe,slice,viability — script:scripts/oumi-probe.sh
 [planning] output-compress — compress,output,stdin,stdout,tool — script:scripts/output-compress.sh
 [planning] overnight-sprint — autónoma,bajo,durante,ejecutar,forma — skill:.claude/skills/overnight-sprint/SKILL.md
@@ -985,6 +994,8 @@
 [planning] smart-calendar — agenda,gestiona,inteligente,outlook,sincronización — skill:.claude/skills/smart-calendar/SKILL.md
 [planning] source-corroborator — corroboración,corroborator,externas,fuentes,source — script:scripts/source-corroborator.sh
 [planning] sovereignty-benchmark — benchmark,local,prompts,sovereignty,workspace — script:scripts/sovereignty-benchmark.sh
+[planning] sovereignty-classify — clasificador,classify,datos,determinista,soberanía — script:scripts/sovereignty-classify.sh
+[planning] sovereignty-decide — decide,decisión,política,sovereignty,umbral — script:scripts/sovereignty-decide.sh
 [planning] sovereignty-mask — data,mask,masking,reversible,sovereignty — script:scripts/sovereignty-mask.sh
 [planning] sovereignty-ops — download,operations,pack,sovereignty — script:scripts/sovereignty-ops.sh
 [planning] sovereignty-switch — between,providers,sovereignty,switch,workspace — script:scripts/sovereignty-switch.sh
@@ -998,6 +1009,7 @@
 [planning] sprint-status — actual,alertas,burndown,estado,progreso — cmd:.claude/commands/sprint-status.md
 [planning] start-bridge — bridge,claw,host,invoked,remote — script:scripts/start-bridge.sh
 [planning] structural-framing-judge — cbrn,detects,domain,form,judge — agent:.opencode/agents/structural-framing-judge.md
+[planning] subagent-dispatch-gate — dispatch,gate,resolución,subagent,telemetría — script:scripts/subagent-dispatch-gate.sh
 [planning] surface-map-authorize — authorization,authorize,helper,surface — script:scripts/surface-map-authorize.sh
 [planning] sync-adapters/adapter-interface — adapter,adapters,backlog,common,interface — script:scripts/sync-adapters/adapter-interface.sh
 [planning] sync-adapters/azure-devops-adapter — adapter,azure,backlog,devops,local — script:scripts/sync-adapters/azure-devops-adapter.sh
@@ -1022,6 +1034,7 @@
 [planning] team-workload — asignados,balance,carga,equipo,horas — cmd:.claude/commands/team-workload.md
 [planning] tech-radar — adopt,hold,librerías,proyecto,radar — cmd:.claude/commands/tech-radar.md
 [planning] tech-writer —  — agent:.opencode/agents/tech-writer.md
+[planning] telemetry-tail-sample — retención,rotación,sample,sampling,tail — script:scripts/telemetry-tail-sample.sh
 [planning] terminal-state-emit — agent,emit,emits,loop,reason — script:scripts/terminal-state-emit.sh
 [planning] terminal-state-read — agent,last,loop,read,reads — script:scripts/terminal-state-read.sh
 [planning] ternary-verdict — contract,data,ternary,unified,verdict — script:scripts/ternary-verdict.sh

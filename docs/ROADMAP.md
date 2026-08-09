@@ -1416,3 +1416,67 @@ SE-308 (merge PR #942) ✅
 | Spec | PR | Estado | Bloqueo |
 |---|---|---|---|
 | SE-310 | — | PROPOSED | Spec nueva (2026-08-07); implementacion en otro momento |
+
+---
+
+## Era 203 — External Repo Intelligence (2026-08-09)
+
+> 9 specs PROPOSED derivadas del analisis de repos externos (awesome-llm-apps,
+> rsc-harness, NVIDIA NOOA, gortex, HF speech-to-speech, LifeOS, OpenSRE).
+> Cierran gaps concretos de Savia: alcance de diffs, eval-lint, memoria
+> reflexiva, blast-radius, excavacion de historia, higiene de deps, voz
+> bidireccional, onboarding conversacional e investigacion de incidentes.
+
+### Priorizacion (ROI)
+
+**Tier 0 — Alta prioridad (impacto inmediato, effort 16-36h)**
+
+| Spec | Origen | Esfuerzo | Por que primero |
+|---|---|---|---|
+| SE-316 Eval-lint golden sets | rsc-harness | 24h | Desbloquea SE-274 (S2/S4); protege golden sets de tribunales en CI. Complementa el PR #952 (SE-313/314). |
+| SE-323 Incident RCA Agent | OpenSRE | 36h | Cierra el gap reactivo de postmortem-policy; masking reversible es la evolucion natural de SE-314. |
+| SE-315 Scope Creep Gate | awesome-llm-apps | 20h | Gate de intencion (no solo reglas); directo de aplicar sobre pr-plan-gates. |
+
+**Tier 1 — Media (valor alto, effort 18-32h)**
+
+| Spec | Origen | Esfuerzo | Por que |
+|---|---|---|---|
+| SE-318 Blast-radius pre-commit | gortex | 26h | Reutiliza codegraph; evita romper callers antes del edit. |
+| SE-317 Memoria reflexiva | NOOA | 28h | Consolidacion automatica del knowledge store (dedup, link, distill, prune). |
+| SE-321 Speech-to-Speech gateway | HF | 32h | Voz bidireccional; desbloquea SE-310 S1/S2. Depende de hardware local. |
+
+**Tier 2 — Baja (niche, effort 12-18h)**
+
+| Spec | Origen | Esfuerzo | Por que |
+|---|---|---|---|
+| SE-319 Commit Archaeologist | awesome-llm-apps | 18h | Alimenta context-dome/bus-factor con historia git. |
+| SE-320 Dependency Doctor | awesome-llm-apps | 16h | Higiene de manifests; complementa Trivy (CVEs). |
+| SE-322 Onboarding conversacional | LifeOS | 12h | UX; install-by-prompt + entrevista guiada. |
+
+### Orden de ejecucion recomendado
+
+```
+PR #952 (SE-313/314/275) — en curso
+  → SE-316 (eval-lint) — desbloquea SE-274, usa la infra de tests del PR #952
+  → SE-315 (scope creep) — extiende pr-plan-gates que ya toca el PR #952
+  → SE-323 (incident RCA) — reutiliza SE-314 (masking) + SE-313 (telemetria)
+  → SE-318 (blast-radius) — codegraph ya existe
+  → SE-317 (memoria reflexiva) — knowledge-graph ya existe
+  → SE-321 (speech-to-speech) — requiere validacion HW (probe S1)
+  → SE-319 / SE-320 / SE-322 (baja)
+```
+
+### Estado por PR
+
+| Spec | PR | Estado | Bloqueo |
+|---|---|---|---|
+| SE-315 | — | PROPOSED | Espec nueva (2026-08-09); tras merge PR #952 |
+| SE-316 | — | PROPOSED | Espec nueva (2026-08-09); tras merge PR #952 |
+| SE-317 | — | PROPOSED | Espec nueva (2026-08-09) |
+| SE-318 | — | PROPOSED | Espec nueva (2026-08-09) |
+| SE-319 | — | PROPOSED | Espec nueva (2026-08-09) |
+| SE-320 | — | PROPOSED | Espec nueva (2026-08-09) |
+| SE-321 | — | PROPOSED | Espec nueva (2026-08-09); requiere probe HW |
+| SE-322 | — | PROPOSED | Espec nueva (2026-08-09) |
+| SE-323 | — | PROPOSED | Espec nueva (2026-08-09) |
+
