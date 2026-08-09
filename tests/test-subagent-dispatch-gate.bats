@@ -11,6 +11,11 @@ setup() {
   rm -f "$SAVIA_TELEMETRY_FILE" 2>/dev/null || true
   # Registrar path de config (no depende del runtime)
   export SAVIA_WORKSPACE_DIR="$(pwd)"
+  # Simular un provider configurado sin depender de ~/.savia/preferences.yaml
+  # (CI no tiene prefs locales). mid resuelve a deepseek/deepseek-v4-pro.
+  export SAVIA_MODEL_HEAVY="deepseek/deepseek-v4-pro"
+  export SAVIA_MODEL_MID="deepseek/deepseek-v4-pro"
+  export SAVIA_MODEL_FAST="deepseek/deepseek-v4-flash"
 }
 
 teardown() {

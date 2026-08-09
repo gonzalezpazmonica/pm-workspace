@@ -305,49 +305,55 @@ sys.stdout.buffer.write(d.encode('utf-8'))
 }
 
 
-# --- SEC-021: Ollama response path tests (mock via override) ---
+# --- SEC-021: SE-314 classifier pipeline tests (mock via override) ---
 
-@test "SEC-021: CONFIDENTIAL Ollama response blocks write" {
-  # Mock: create a fake ollama-classify.sh that always returns CONFIDENTIAL
-  # Force fallback mode (no daemon) so the hook uses ollama-classify.sh
-  mkdir -p "$CLAUDE_PROJECT_DIR/scripts"
-  echo '#!/bin/bash' > "$CLAUDE_PROJECT_DIR/scripts/ollama-classify.sh"
-  echo 'echo "CONFIDENTIAL"' >> "$CLAUDE_PROJECT_DIR/scripts/ollama-classify.sh"
-  chmod +x "$CLAUDE_PROJECT_DIR/scripts/ollama-classify.sh"
+# Helper: instala mocks del pipeline sovereignty-classify/decide en el sandbox.
+# El gate SE-314 usa sovereignty-classify.sh + sovereignty-decide.sh (no el shim
+# ollama-classify.sh, que queda deprecado). El mock devuelve JSON determinista.
+mock_pipeline() {
+  local label="$1" conf="$2" action="$3" reason="$4"
+  cat > "$CLAUDE_PROJECT_DIR/scripts/sovereignty-classify.sh" <<'EOF'
+#!/bin/bash
+echo "{\"schema\":\"savia.classify/2.0\",\"hash\":\"sha256:test\",\"label\":\"LABEL\",\"confidence\":CONF,\"deterministic_matches\":[],\"llm_verdict\":\"LABEL\",\"llm_confidence\":CONF,\"cache_hit\":false,\"model\":\"mock\",\"seed\":42,\"prompt_version\":\"mock\"}"
+EOF
+  sed -i "s/LABEL/$label/g; s/CONF/$conf/g" "$CLAUDE_PROJECT_DIR/scripts/sovereignty-classify.sh"
+  cat > "$CLAUDE_PROJECT_DIR/scripts/sovereignty-decide.sh" <<'EOF'
+#!/bin/bash
+cat >/dev/null 2>&1
+echo "{\"action\":\"ACTION\",\"reason\":\"REASON\",\"label\":\"LABEL\",\"confidence\":CONF,\"hard_block\":false}"
+EOF
+  sed -i "s/ACTION/$action/g; s/REASON/$reason/g; s/LABEL/$label/g; s/CONF/$conf/g" "$CLAUDE_PROJECT_DIR/scripts/sovereignty-decide.sh"
+  chmod +x "$CLAUDE_PROJECT_DIR/scripts/sovereignty-classify.sh" "$CLAUDE_PROJECT_DIR/scripts/sovereignty-decide.sh"
+}
+
+@test "SEC-021: CONFIDENTIAL classifier response blocks write" {
+  # Mock: sovereignty-classify devuelve confidential/0.99 y decide → BLOCK
+  mock_pipeline confidential 0.99 BLOCK confidential_high_confidence
   INPUT='{"tool_input":{"file_path":"/workspace/docs/x.md","content":"This is a long enough text that passes regex but needs LLM classification to determine sensitivity level properly"}}'
   run bash -c "export SAVIA_SHIELD_PORT=19999; echo '$INPUT' | bash $GATE"
   [ "$status" -eq 2 ]
   [[ "$output" == *"BLOQUEADO"* ]]
 }
 
-@test "SEC-021: AMBIGUOUS Ollama response blocks write (non-N1)" {
-  # Force fallback mode (no daemon) so the hook uses ollama-classify.sh
-  mkdir -p "$CLAUDE_PROJECT_DIR/scripts"
-  echo '#!/bin/bash' > "$CLAUDE_PROJECT_DIR/scripts/ollama-classify.sh"
-  echo 'echo "AMBIGUOUS"' >> "$CLAUDE_PROJECT_DIR/scripts/ollama-classify.sh"
-  chmod +x "$CLAUDE_PROJECT_DIR/scripts/ollama-classify.sh"
+@test "SEC-021: AMBIGUOUS classifier response blocks write (non-N1)" {
+  # Force fallback mode (no daemon); non-N1 path → decide BLOCK (política n4)
+  mock_pipeline ambiguous 0.5 BLOCK ambiguous
   # Non-N1 path: src/ is neither public N1 (docs, scripts, tests...) nor private exit-0 path
   INPUT='{"tool_input":{"file_path":"/workspace/src/config.js","content":"This is a long enough text that passes regex but needs LLM classification to determine sensitivity level properly"}}'
   run bash -c "export SAVIA_SHIELD_PORT=19999; echo '$INPUT' | bash $GATE"
   [ "$status" -eq 2 ]
 }
 
-@test "SEC-021: AMBIGUOUS Ollama response warns on N1 destinations" {
-  mkdir -p "$CLAUDE_PROJECT_DIR/scripts"
-  echo '#!/bin/bash' > "$CLAUDE_PROJECT_DIR/scripts/ollama-classify.sh"
-  echo 'echo "AMBIGUOUS"' >> "$CLAUDE_PROJECT_DIR/scripts/ollama-classify.sh"
-  chmod +x "$CLAUDE_PROJECT_DIR/scripts/ollama-classify.sh"
+@test "SEC-021: AMBIGUOUS classifier response warns on N1 destinations" {
+  mock_pipeline ambiguous 0.5 WARN ambiguous
   # N1 destinations (docs/) get WARN on AMBIGUOUS per data-sovereignty-gate fix
   INPUT='{"tool_input":{"file_path":"/workspace/docs/x.md","content":"This is a long enough text that passes regex but needs LLM classification to determine sensitivity level properly"}}'
   run bash -c "echo '$INPUT' | bash $GATE"
   [ "$status" -eq 0 ]
 }
 
-@test "SEC-021: PUBLIC Ollama response allows write" {
-  mkdir -p "$CLAUDE_PROJECT_DIR/scripts"
-  echo '#!/bin/bash' > "$CLAUDE_PROJECT_DIR/scripts/ollama-classify.sh"
-  echo 'echo "PUBLIC"' >> "$CLAUDE_PROJECT_DIR/scripts/ollama-classify.sh"
-  chmod +x "$CLAUDE_PROJECT_DIR/scripts/ollama-classify.sh"
+@test "SEC-021: PUBLIC classifier response allows write" {
+  mock_pipeline public 0.9 ALLOW below_threshold
   INPUT='{"tool_input":{"file_path":"/workspace/docs/x.md","content":"This is a long enough text that passes regex but needs LLM classification to determine sensitivity level properly"}}'
   run bash -c "echo '$INPUT' | bash $GATE"
   [ "$status" -eq 0 ]

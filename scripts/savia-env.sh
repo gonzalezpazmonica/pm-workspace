@@ -164,6 +164,10 @@ savia_resolve_model() {
   }
 
   # SE-313: provider prefix is mandatory (see section 0 of SE-313 spec).
+  # Defensa ante IDs sin prefijo en preferences: si el ID no lleva provider/,
+  # se prefija solo cuando el ID corto pertenece al provider configurado
+  # (ej. `deepseek-v4-pro` → `deepseek/deepseek-v4-pro`). IDs canónicos de
+  # otros vendors (claude-*, gpt-*, ...) se preservan intactos.
   _prefixed() {
     local id="$1"
     [[ -z "$id" ]] && { echo ""; return; }
@@ -173,7 +177,11 @@ savia_resolve_model() {
       local provider
       provider="$(_read_pref "provider")"
       [[ -z "$provider" ]] && provider="deepseek"
-      echo "${provider}/${id}"
+      if [[ "$id" == "$provider-"* ]]; then
+        echo "${provider}/${id}"
+      else
+        echo "$id"
+      fi
     fi
   }
 

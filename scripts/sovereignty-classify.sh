@@ -111,8 +111,16 @@ fi
 
 # Verificar Ollama
 if ! curl -s --max-time 5 "$OLLAMA_URL/api/tags" >/dev/null 2>&1; then
-  echo "{\"schema\":\"savia.classify/2.0\",\"hash\":\"sha256:${CONTENT_HASH}\",\"label\":\"ambiguous\",\"confidence\":0.5,\"deterministic_matches\":${DET_JSON},\"llm_verdict\":\"unavailable\",\"llm_confidence\":0,\"cache_hit\":${CACHE_HIT},\"model\":\"${MODEL}\",\"seed\":${SEED},\"prompt_version\":\"${PROMPT_VERSION}\",\"error\":\"ollama_unavailable\"}"
-  exit 1
+  # SE-314 S4/AC-S4.1: ante LLM indisponible, la decisión es determinista
+  # (sin secretos detectados) y DEBE cachearse para que la 2ª clasificación
+  # del mismo contenido sea cache_hit sin depender de Ollama. El gate decide
+  # ambiguous → WARN en N1 (nunca BLOCK). exit 0 (veredicto disponible).
+  RESULT="{\"schema\":\"savia.classify/2.0\",\"hash\":\"sha256:${CONTENT_HASH}\",\"label\":\"ambiguous\",\"confidence\":0.5,\"deterministic_matches\":${DET_JSON},\"llm_verdict\":\"unavailable\",\"llm_confidence\":0,\"cache_hit\":${CACHE_HIT},\"model\":\"${MODEL}\",\"seed\":${SEED},\"prompt_version\":\"${PROMPT_VERSION}\",\"error\":\"ollama_unavailable\"}"
+  if [[ "$NO_CACHE" -eq 0 && -n "$CACHE_FILE" ]]; then
+    printf '%s\n' "$RESULT" > "$CACHE_FILE" 2>/dev/null || true
+  fi
+  echo "$RESULT"
+  exit 0
 fi
 
 export SAVIA_CLASSIFY_PROMPT_FILE="$PROMPT_FILE"

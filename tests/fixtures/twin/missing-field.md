@@ -1,7 +1,7 @@
 ---
 twin_id: "test-project"
 spec_version: "1.0"
-last_refresh: "2026-06-23T07:35:14Z"
+last_refresh: "2026-08-08T07:35:14Z"
 stale_after_days: 14
 health: green
 predictions:

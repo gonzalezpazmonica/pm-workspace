@@ -44,7 +44,7 @@ teardown() {
   export TOOL_NAME=Edit
   run bash "$HOOK"
   [ "$status" -eq 0 ]
-  [[ ! -f "$CLAUDE_PROJECT_DIR/projects/testproj/traces/agent-traces.jsonl" ]]
+  [[ ! -f "$CLAUDE_PROJECT_DIR/output/agent-traces.jsonl" ]]
 }
 
 @test "skip: Bash tool not traced" {
@@ -62,7 +62,7 @@ teardown() {
   export TOOL_DURATION=5
   run bash "$HOOK"
   [ "$status" -eq 0 ]
-  local log="$CLAUDE_PROJECT_DIR/projects/testproj/traces/agent-traces.jsonl"
+  local log="$CLAUDE_PROJECT_DIR/output/agent-traces.jsonl"
   [[ -f "$log" ]]
   grep -q 'dotnet-developer' "$log"
 }
@@ -71,7 +71,7 @@ teardown() {
   export TOOL_NAME=Task
   export TOOL_INPUT='{"prompt":"task without agent"}'
   run bash "$HOOK"
-  local log="$CLAUDE_PROJECT_DIR/projects/testproj/traces/agent-traces.jsonl"
+  local log="$CLAUDE_PROJECT_DIR/output/agent-traces.jsonl"
   grep -q '"agent":"unknown"' "$log"
 }
 
@@ -81,7 +81,7 @@ teardown() {
   export TOOL_INPUT=$(printf 'x%.0s' {1..400})
   export TOOL_OUTPUT=$(printf 'y%.0s' {1..200})
   run bash "$HOOK"
-  local log="$CLAUDE_PROJECT_DIR/projects/testproj/traces/agent-traces.jsonl"
+  local log="$CLAUDE_PROJECT_DIR/output/agent-traces.jsonl"
   grep -q '"tokens_in":100' "$log"
   grep -q '"tokens_out":50' "$log"
 }
@@ -91,7 +91,7 @@ teardown() {
   export TOOL_INPUT='{"agent":"a"}'
   export TOOL_DURATION=3
   run bash "$HOOK"
-  local log="$CLAUDE_PROJECT_DIR/projects/testproj/traces/agent-traces.jsonl"
+  local log="$CLAUDE_PROJECT_DIR/output/agent-traces.jsonl"
   grep -q '"duration_ms":3000' "$log"
 }
 
@@ -101,7 +101,7 @@ teardown() {
   export TOOL_NAME=Task
   export TOOL_INPUT='{"agent":"a"}'
   run bash "$HOOK"
-  local log="$CLAUDE_PROJECT_DIR/projects/testproj/traces/agent-traces.jsonl"
+  local log="$CLAUDE_PROJECT_DIR/output/agent-traces.jsonl"
   grep -q '"outcome":"success"' "$log"
 }
 
@@ -110,7 +110,7 @@ teardown() {
   export TOOL_INPUT='{"agent":"a"}'
   export TOOL_RESULT_STATUS=error
   run bash "$HOOK"
-  local log="$CLAUDE_PROJECT_DIR/projects/testproj/traces/agent-traces.jsonl"
+  local log="$CLAUDE_PROJECT_DIR/output/agent-traces.jsonl"
   grep -q '"outcome":"failure"' "$log"
 }
 
@@ -119,7 +119,7 @@ teardown() {
   export TOOL_INPUT='{"agent":"a"}'
   export TOOL_DURATION=150
   run bash "$HOOK"
-  local log="$CLAUDE_PROJECT_DIR/projects/testproj/traces/agent-traces.jsonl"
+  local log="$CLAUDE_PROJECT_DIR/output/agent-traces.jsonl"
   grep -q '"outcome":"failure"' "$log"
 }
 
@@ -128,7 +128,7 @@ teardown() {
   export TOOL_INPUT='{"agent":"a"}'
   export TOOL_RESULT_STATUS=partial
   run bash "$HOOK"
-  local log="$CLAUDE_PROJECT_DIR/projects/testproj/traces/agent-traces.jsonl"
+  local log="$CLAUDE_PROJECT_DIR/output/agent-traces.jsonl"
   grep -q '"outcome":"partial"' "$log"
 }
 
@@ -138,7 +138,7 @@ teardown() {
   export TOOL_NAME=Task
   export TOOL_INPUT='{"agent":"expensive-agent"}'
   run bash "$HOOK"
-  local log="$CLAUDE_PROJECT_DIR/projects/testproj/traces/agent-traces.jsonl"
+  local log="$CLAUDE_PROJECT_DIR/output/agent-traces.jsonl"
   grep -q '"token_budget":1000' "$log"
 }
 
@@ -147,7 +147,7 @@ teardown() {
   export TOOL_INPUT='{"agent":"a"}'  # ~6 tokens
   export TOOL_OUTPUT="short output"
   run bash "$HOOK"
-  local log="$CLAUDE_PROJECT_DIR/projects/testproj/traces/agent-traces.jsonl"
+  local log="$CLAUDE_PROJECT_DIR/output/agent-traces.jsonl"
   grep -q '"budget_exceeded":false' "$log"
 }
 
@@ -162,10 +162,10 @@ EOF
   export TOOL_INPUT=$(printf 'x%.0s' {1..400})  # 100 tokens
   export TOOL_OUTPUT="output"
   run bash "$HOOK"
-  local log="$CLAUDE_PROJECT_DIR/projects/testproj/traces/agent-traces.jsonl"
+  local log="$CLAUDE_PROJECT_DIR/output/agent-traces.jsonl"
   grep -q '"budget_exceeded":true' "$log"
   # Alert file should exist
-  [[ -f "$CLAUDE_PROJECT_DIR/projects/testproj/traces/budget-alerts.jsonl" ]]
+  [[ -f "$CLAUDE_PROJECT_DIR/output/budget-alerts.jsonl" ]]
 }
 
 @test "budget: overage_pct calculated in alert" {
@@ -177,7 +177,7 @@ EOF
   export TOOL_NAME=Task
   export TOOL_INPUT=$(printf 'x%.0s' {1..400})  # 100 tokens
   run bash "$HOOK"
-  local alert="$CLAUDE_PROJECT_DIR/projects/testproj/traces/budget-alerts.jsonl"
+  local alert="$CLAUDE_PROJECT_DIR/output/budget-alerts.jsonl"
   [[ -f "$alert" ]]
   grep -q '"overage"' "$alert"
   grep -q '"overage_pct"' "$alert"
@@ -188,7 +188,7 @@ EOF
   export TOOL_NAME=Task
   export TOOL_INPUT='{"agent":"a"}'
   run bash "$HOOK"
-  local log="$CLAUDE_PROJECT_DIR/projects/testproj/traces/agent-traces.jsonl"
+  local log="$CLAUDE_PROJECT_DIR/output/agent-traces.jsonl"
   grep -q '"token_budget":0' "$log"
   # 0 budget means exceeded always false
   grep -q '"budget_exceeded":false' "$log"
@@ -200,7 +200,7 @@ EOF
   export TOOL_NAME=Task
   export TOOL_INPUT='{"agent":"a"}'
   run bash "$HOOK"
-  local log="$CLAUDE_PROJECT_DIR/projects/testproj/traces/agent-traces.jsonl"
+  local log="$CLAUDE_PROJECT_DIR/output/agent-traces.jsonl"
   for field in timestamp agent command tokens_in tokens_out token_budget budget_exceeded duration_ms files_modified outcome scope_violations; do
     grep -q "\"$field\"" "$log" || fail "missing field: $field"
   done
@@ -210,7 +210,7 @@ EOF
   export TOOL_NAME=Task
   export TOOL_INPUT='{"agent":"a"}'
   run bash "$HOOK"
-  local log="$CLAUDE_PROJECT_DIR/projects/testproj/traces/agent-traces.jsonl"
+  local log="$CLAUDE_PROJECT_DIR/output/agent-traces.jsonl"
   grep -qE '"timestamp":"20[0-9]{2}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z"' "$log"
 }
 
@@ -220,7 +220,7 @@ EOF
   bash "$HOOK"
   bash "$HOOK"
   bash "$HOOK"
-  local log="$CLAUDE_PROJECT_DIR/projects/testproj/traces/agent-traces.jsonl"
+  local log="$CLAUDE_PROJECT_DIR/output/agent-traces.jsonl"
   local lines
   lines=$(wc -l < "$log")
   [[ "$lines" -eq 3 ]]
@@ -240,7 +240,7 @@ EOF
   export TOOL_INPUT='{"agent":"a"}'
   export TOOL_OUTPUT=""
   run bash "$HOOK"
-  local log="$CLAUDE_PROJECT_DIR/projects/testproj/traces/agent-traces.jsonl"
+  local log="$CLAUDE_PROJECT_DIR/output/agent-traces.jsonl"
   grep -q '"tokens_out":0' "$log"
 }
 
@@ -249,7 +249,7 @@ EOF
   export TOOL_INPUT='{"agent":"a"}'
   export TOOL_DURATION=0
   run bash "$HOOK"
-  local log="$CLAUDE_PROJECT_DIR/projects/testproj/traces/agent-traces.jsonl"
+  local log="$CLAUDE_PROJECT_DIR/output/agent-traces.jsonl"
   grep -q '"duration_ms":0' "$log"
 }
 
@@ -294,9 +294,10 @@ EOF
 }
 
 @test "isolation: traces dir auto-created if missing" {
-  rm -rf "$CLAUDE_PROJECT_DIR/projects/testproj/traces"
+  rm -rf "$CLAUDE_PROJECT_DIR/output"
   export TOOL_NAME=Task
   export TOOL_INPUT='{"agent":"a"}'
   run bash "$HOOK"
-  [[ -d "$CLAUDE_PROJECT_DIR/projects/testproj/traces" ]]
+  [[ -d "$CLAUDE_PROJECT_DIR/output" ]]
+  [[ -f "$CLAUDE_PROJECT_DIR/output/agent-traces.jsonl" ]]
 }

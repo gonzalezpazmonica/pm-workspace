@@ -1,5 +1,5 @@
 # analysis — Savia Capability Map (L1)
-> 68 resources
+> 71 resources
 
 - **Trace Optimize** (cmd): Optimize trace spans and sampling rates across distributed services
 - **agent-activity** (cmd): Show structured activity log of recent agent executions
@@ -37,6 +37,7 @@
 - **bus-factor-report** (script): bus-factor-report.sh -- Informe ejecutivo del scan de Bus Factor.
 - **case-recompute** (cmd): Recompute NPV, IRR, and risk-adjusted NPV for a business case
 - **ceo-report** (cmd): Informe ejecutivo multi-proyecto para dirección — portfolio, riesgo, equipo, delivery
+- **classifier-fp-report** (script): classifier-fp-report.sh — SE-314 S5 (AC-S5.4): reporte de falsos positivos.
 - **completeness-judge** (agent): Truth Tribunal judge — report covers what its title/abstract promises
 - **debt-analyze** (cmd): >
 - **debt-track** (cmd): >
@@ -64,7 +65,9 @@
 - **rules-traceability** (skill): Usar cuando se mapean reglas de negocio a PBIs para trazabilidad completa.
 - **scope-trace-gate** (script): scope-trace-gate.sh — G13 Scope-trace gate (standalone runner)
 - **source-traceability-judge** (agent): Truth Tribunal judge — every claim must have a verifiable @ref citation
+- **telemetry-report** (script): telemetry-report.sh — SE-313 S8 (degradación): informe estático de telemetría.
 - **time-tracking-report** (skill): Usar cuando se generan informes de imputación de horas en Excel o Word.
+- **trace-export-otlp** (script): trace-export-otlp.sh — SE-313 S4: export opt-in de telemetría a OTLP.
 - **trace-pattern-extractor** (script): trace-pattern-extractor.sh — SPEC-044 Phase 1: analyze agent traces
 - **truth-tribunal** (script): truth-tribunal.sh — Orchestrate 7-judge reliability evaluation of reports.
 - **vaults-health-report** (script): vaults-health-report.sh — Quality and health report for a vault

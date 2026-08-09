@@ -1,5 +1,5 @@
 # communication — Savia Capability Map (L1)
-> 98 resources
+> 99 resources
 
 - **archive-digest** (agent): >
 - **digest-extract** (script): digest-extract.sh — Capa 0 universal de extracción via markitdown (SE-172)
@@ -84,6 +84,7 @@
 - **savia-status** (script): savia-status.sh — What is Savia doing right now?
 - **savia-team** (cmd): >
 - **savia-timesheet** (cmd): >
+- **savia-trace** (script): savia-trace.sh — SE-313 S2: contexto distribuido de traza (W3C traceparent).
 - **savia-travel** (script): savia-travel.sh — Travel Mode Core (≤150 lines)
 - **savia-travel-init** (cmd): >
 - **savia-travel-init** (script): savia-init.sh — Travel Mode Init Script (template)

@@ -1,6 +1,6 @@
 {
-  "hash": "91c0dc55ff98",
-  "total": 1337,
+  "hash": "20f22472cf34",
+  "total": 1350,
   "resources": [
     {
       "category": "analysis",
@@ -502,6 +502,20 @@
     },
     {
       "category": "analysis",
+      "name": "classifier-fp-report",
+      "intents": [
+        "classifier",
+        "falsos",
+        "positivos",
+        "report",
+        "reporte"
+      ],
+      "kind": "script",
+      "path": "scripts/classifier-fp-report.sh",
+      "description": "classifier-fp-report.sh — SE-314 S5 (AC-S5.4): reporte de falsos positivos."
+    },
+    {
+      "category": "analysis",
       "name": "completeness-judge",
       "intents": [
         "abstract",
@@ -850,6 +864,20 @@
     },
     {
       "category": "analysis",
+      "name": "telemetry-report",
+      "intents": [
+        "degradación",
+        "estático",
+        "informe",
+        "report",
+        "telemetry"
+      ],
+      "kind": "script",
+      "path": "scripts/telemetry-report.sh",
+      "description": "telemetry-report.sh — SE-313 S8 (degradación): informe estático de telemetría."
+    },
+    {
+      "category": "analysis",
       "name": "time-tracking-report",
       "intents": [
         "excel",
@@ -861,6 +889,19 @@
       "kind": "skill",
       "path": ".claude/skills/time-tracking-report/SKILL.md",
       "description": "Usar cuando se generan informes de imputación de horas en Excel o Word."
+    },
+    {
+      "category": "analysis",
+      "name": "trace-export-otlp",
+      "intents": [
+        "export",
+        "otlp",
+        "telemetría",
+        "trace"
+      ],
+      "kind": "script",
+      "path": "scripts/trace-export-otlp.sh",
+      "description": "trace-export-otlp.sh — SE-313 S4: export opt-in de telemetría a OTLP."
     },
     {
       "category": "analysis",
@@ -1928,6 +1969,20 @@
       "kind": "cmd",
       "path": ".claude/commands/savia-timesheet.md",
       "description": ">"
+    },
+    {
+      "category": "communication",
+      "name": "savia-trace",
+      "intents": [
+        "contexto",
+        "distribuido",
+        "savia",
+        "trace",
+        "traceparent"
+      ],
+      "kind": "script",
+      "path": "scripts/savia-trace.sh",
+      "description": "savia-trace.sh — SE-313 S2: contexto distribuido de traza (W3C traceparent)."
     },
     {
       "category": "communication",
@@ -5136,6 +5191,48 @@
     },
     {
       "category": "governance",
+      "name": "audit-chain-append",
+      "intents": [
+        "append",
+        "audit",
+        "chain",
+        "chained",
+        "hash"
+      ],
+      "kind": "script",
+      "path": "scripts/audit-chain-append.sh",
+      "description": "audit-chain-append.sh — SE-275 S1 / SE-313 S6: hash-chained audit trail."
+    },
+    {
+      "category": "governance",
+      "name": "audit-chain-prune",
+      "intents": [
+        "antiguas",
+        "audit",
+        "cadenas",
+        "chain",
+        "prune"
+      ],
+      "kind": "script",
+      "path": "scripts/audit-chain-prune.sh",
+      "description": "audit-chain-prune.sh — SE-275 S1: rotación de cadenas antiguas."
+    },
+    {
+      "category": "governance",
+      "name": "audit-chain-verify",
+      "intents": [
+        "audit",
+        "chain",
+        "integridad",
+        "verificación",
+        "verify"
+      ],
+      "kind": "script",
+      "path": "scripts/audit-chain-verify.sh",
+      "description": "audit-chain-verify.sh — SE-275 S1/S4 / SE-313 S6: verificación de integridad."
+    },
+    {
+      "category": "governance",
       "name": "audit-context-budget",
       "intents": [
         "audit",
@@ -7906,6 +8003,19 @@
       "kind": "cmd",
       "path": ".claude/commands/ci-health.md",
       "description": "Muestra tasa de fallo de pipelines CI a partir del log local de ejecuciones."
+    },
+    {
+      "category": "planning",
+      "name": "classifier-corpus-run",
+      "intents": [
+        "clasificación",
+        "classifier",
+        "corpus",
+        "regresión"
+      ],
+      "kind": "script",
+      "path": "scripts/classifier-corpus-run.sh",
+      "description": "classifier-corpus-run.sh — SE-314 AC-EV: regresión del corpus de clasificación."
     },
     {
       "category": "planning",
@@ -11125,6 +11235,20 @@
     },
     {
       "category": "planning",
+      "name": "otel-emit",
+      "intents": [
+        "emisor",
+        "emit",
+        "estándar",
+        "eventos",
+        "otel"
+      ],
+      "kind": "script",
+      "path": "scripts/otel-emit.sh",
+      "description": "otel-emit.sh — SE-313 S1: emisor de eventos de telemetría estándar."
+    },
+    {
+      "category": "planning",
       "name": "oumi-probe",
       "intents": [
         "integration",
@@ -12945,6 +13069,34 @@
     },
     {
       "category": "planning",
+      "name": "sovereignty-classify",
+      "intents": [
+        "clasificador",
+        "classify",
+        "datos",
+        "determinista",
+        "soberanía"
+      ],
+      "kind": "script",
+      "path": "scripts/sovereignty-classify.sh",
+      "description": "sovereignty-classify.sh — SE-314: clasificador determinista de soberanía de datos."
+    },
+    {
+      "category": "planning",
+      "name": "sovereignty-decide",
+      "intents": [
+        "decide",
+        "decisión",
+        "política",
+        "sovereignty",
+        "umbral"
+      ],
+      "kind": "script",
+      "path": "scripts/sovereignty-decide.sh",
+      "description": "sovereignty-decide.sh — SE-314 S2: decisión por umbral desde política YAML."
+    },
+    {
+      "category": "planning",
       "name": "sovereignty-mask",
       "intents": [
         "data",
@@ -13117,6 +13269,20 @@
       "kind": "agent",
       "path": ".opencode/agents/structural-framing-judge.md",
       "description": "Recommendation Tribunal judge — detects output with manual/protocol form over CBRN or sensitive domain"
+    },
+    {
+      "category": "planning",
+      "name": "subagent-dispatch-gate",
+      "intents": [
+        "dispatch",
+        "gate",
+        "resolución",
+        "subagent",
+        "telemetría"
+      ],
+      "kind": "script",
+      "path": "scripts/subagent-dispatch-gate.sh",
+      "description": "subagent-dispatch-gate.sh — SE-313 S7c: gate de resolución de tiers + telemetría."
     },
     {
       "category": "planning",
@@ -13428,6 +13594,20 @@
       "kind": "agent",
       "path": ".opencode/agents/tech-writer.md",
       "description": ">"
+    },
+    {
+      "category": "planning",
+      "name": "telemetry-tail-sample",
+      "intents": [
+        "retención",
+        "rotación",
+        "sample",
+        "sampling",
+        "tail"
+      ],
+      "kind": "script",
+      "path": "scripts/telemetry-tail-sample.sh",
+      "description": "telemetry-tail-sample.sh — SE-313 S4: sampling tail + retención + rotación."
     },
     {
       "category": "planning",
