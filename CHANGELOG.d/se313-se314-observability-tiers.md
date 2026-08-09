@@ -25,3 +25,10 @@ section: Added
 
 - `isShieldScript` (sovereignty-patterns.ts) y whitelist del gate bash ahora
   reconocen `sovereignty-classifier` y `SE-314` como self-reference editable.
+- **Guard de dispatch silencioso**: `dispatch-trace.ts` y `subagent-audience-filter.ts`
+  leían `input.args` (siempre vacío en el contrato real de OpenCode, donde los args
+  llegan en `output.args`) y el parámetro `_output` impedía acceder a `output`. El
+  resultado era que la telemetría de dispatch nunca se escribía en runtime pese a
+  funcionar en tests. Corregido: el guard lee `output.args` con fallback a
+  `input.args` (shape legacy/Claude Code). Tests TS actualizados al contrato real
+  (`input.tool` + args en output). Verificado con node:test shim: 6/6.

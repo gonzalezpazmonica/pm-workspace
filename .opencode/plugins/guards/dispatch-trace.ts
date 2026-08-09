@@ -124,12 +124,15 @@ async function appendEvent(event: string, attrs: Record<string, string | number>
 
 // ── Main guard ──────────────────────────────────────────────────────────────
 
-export async function dispatchTrace(input: ToolInput, _output: ToolOutput): Promise<void> {
+export async function dispatchTrace(input: ToolInput, output: ToolOutput): Promise<void> {
   try {
     const tool = extractToolName(input);
     if (tool !== "task") return;
 
-    const args = (input as any)?.args ?? {};
+    // Real OpenCode v1.14+ contract: args live on output.args; input.args is
+    // a legacy/Claude-Code shape. Reading input.args alone would leave
+    // subagent_type undefined and silently skip telemetry.
+    const args = (output as any)?.args ?? (input as any)?.args ?? {};
     const subagent = args?.subagent_type;
     if (typeof subagent !== "string" || subagent.length === 0) return;
 

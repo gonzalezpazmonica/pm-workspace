@@ -71,9 +71,19 @@ afterAll(() => {
 });
 
 function taskInput(subagent: string, model?: string) {
+  // Real OpenCode v1.14+ contract: input.tool names the tool, args live on
+  // output.args (see tool.execute.before d.ts). Legacy fixtures used
+  // input.args.tool_name, which extractToolName never read.
+  return {
+    tool: "task",
+    sessionID: "s1",
+    callID: "c1",
+  } as any;
+}
+
+function taskOutput(subagent: string, model?: string) {
   return {
     args: {
-      tool_name: "task",
       description: "test",
       subagent_type: subagent,
       prompt: "do something",
@@ -91,29 +101,31 @@ function readEvents(): any[] {
 }
 
 test("AC-7.3: dispatch.resolved para tier mid (dotnet-developer)", async () => {
-  await dispatchTrace(taskInput("dotnet-developer", "mid"), {} as any);
+  const before = readEvents().length;
+  await dispatchTrace(taskInput("dotnet-developer", "mid"), taskOutput("dotnet-developer", "mid"));
   const events = readEvents();
-  expect(events.length).toBe(1);
-  expect(events[0].event).toBe("dispatch.resolved");
-  expect(events[0].agent_name).toBe("dotnet-developer");
-  expect(events[0].resolved_model).toBe("deepseek/deepseek-v4-pro");
-  expect(events[0].schema).toBe("savia.event/1.0");
-  expect(events[0].trace_id).toBeTruthy();
+  expect(events.length).toBe(before + 1);
+  expect(events[events.length - 1].event).toBe("dispatch.resolved");
+  expect(events[events.length - 1].agent_name).toBe("dotnet-developer");
+  expect(events[events.length - 1].resolved_model).toBe("deepseek/deepseek-v4-pro");
+  expect(events[events.length - 1].schema).toBe("savia.event/1.0");
+  expect(events[events.length - 1].trace_id).toBeTruthy();
 });
 
 test("AC-7.3: dispatch.resolved hereda ID con prefijo (explore→mid default)", async () => {
-  await dispatchTrace(taskInput("explore"), {} as any);
+  const before = readEvents().length;
+  await dispatchTrace(taskInput("explore"), taskOutput("explore"));
   const events = readEvents();
-  expect(events.length).toBe(1);
-  expect(events[0].event).toBe("dispatch.resolved");
-  expect(events[0].agent_name).toBe("explore");
-  expect(events[0].resolved_model).toContain("/");
+  expect(events.length).toBe(before + 1);
+  expect(events[events.length - 1].event).toBe("dispatch.resolved");
+  expect(events[events.length - 1].agent_name).toBe("explore");
+  expect(events[events.length - 1].resolved_model).toContain("/");
 });
 
 test("AC-7.6/7.7: modelo no resolubible emite dispatch.failed sin bloquear", async () => {
   // Registry solo contiene deepseek/*; un modelo inexistente debe fallar.
   const before = readEvents().length;
-  await dispatchTrace(taskInput("fake-agent", "claude-3-7-sonnet-20250219"), {} as any);
+  await dispatchTrace(taskInput("fake-agent", "claude-3-7-sonnet-20250219"), taskOutput("fake-agent", "claude-3-7-sonnet-20250219"));
   const after = readEvents();
   expect(after.length).toBe(before + 1);
   const last = after[after.length - 1];
@@ -124,13 +136,15 @@ test("AC-7.6/7.7: modelo no resolubible emite dispatch.failed sin bloquear", asy
 
 test("AC-7.3: guard ignora tools que no son task (no escribe telemetría)", async () => {
   const before = readEvents().length;
-  await dispatchTrace({ args: { tool_name: "edit" } } as any, {} as any);
+  await dispatchTrace({ tool: "edit" } as any, { args: { subagent_type: "x" } } as any);
   expect(readEvents().length).toBe(before);
 });
 
 test("AC-7.3: modelo con prefijo directo se usa tal cual si existe", async () => {
-  await dispatchTrace(taskInput("direct", "deepseek/deepseek-v4-flash"), {} as any);
+  const before = readEvents().length;
+  await dispatchTrace(taskInput("direct", "deepseek/deepseek-v4-flash"), taskOutput("direct", "deepseek/deepseek-v4-flash"));
   const events = readEvents();
+  expect(events.length).toBe(before + 1);
   const last = events[events.length - 1];
   expect(last.event).toBe("dispatch.resolved");
   expect(last.resolved_model).toBe("deepseek/deepseek-v4-flash");
@@ -141,7 +155,7 @@ test("SAVIA_DISPATCH_GATE=block: falla el dispatch con modelo irresoluble", asyn
   process.env.SAVIA_DISPATCH_GATE = "block";
   let threw = false;
   try {
-    await dispatchTrace(taskInput("nope", "gpt-4o"), {} as any);
+    await dispatchTrace(taskInput("nope", "gpt-4o"), taskOutput("nope", "gpt-4o"));
   } catch {
     threw = true;
   } finally {
