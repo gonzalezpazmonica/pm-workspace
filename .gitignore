@@ -172,4 +172,7 @@ vault/.obsidian/
 .windsurf/
 vaults/
 labs/
+
+# Savia Vaults runtime state (MCP quota store, regenerable)
+savia-vaults.quotas.json
 tests/bats/.deps.json
