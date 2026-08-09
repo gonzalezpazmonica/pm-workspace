@@ -65,14 +65,6 @@ Append one `scripts/audit-chain-append.sh` entry per judge verdict + a final
 `output/audit/envelope-{chain_id}.json`. Schema: `docs/agent-notes-protocol.md`.
 Never commit output/audit (N4b).
 
-## Result Envelope (SE-275 S3)
-
-When you finish, emit the standardized result envelope to
-`output/audit/envelope-{chain_id}.json` with fields:
-envelope_version, chain_id, status, agent, agent_tier, timestamp,
-executive_summary, artifact, artifact_hash, next_recommended, risk,
-confidence, skill_resolution, budget.
-
 ## Rules
 
 - NEVER approve code yourself — you produce findings for human E1

@@ -69,10 +69,10 @@ Write `.review.crc` to the branch root. Report summary to the user.
 
 ## Audit Trail + Result Envelope (SE-275 S1/S3)
 
-Before returning, append one `scripts/audit-chain-append.sh` entry per judge
-verdict plus a final `verdict` entry (chains: `court|truth|rec|sdd`), then write
-the Result Envelope to `output/audit/envelope-{chain_id}.json`. Schema + spec:
-`docs/agent-notes-protocol.md`. Never commit output/audit (N4b).
+Append one `scripts/audit-chain-append.sh` entry per judge verdict + a final
+`verdict` entry (chains `court|truth|rec|sdd`), then write the Result Envelope to
+`output/audit/envelope-{chain_id}.json`. Schema: `docs/agent-notes-protocol.md`.
+Never commit output/audit (N4b).
 
 ## Rules
 

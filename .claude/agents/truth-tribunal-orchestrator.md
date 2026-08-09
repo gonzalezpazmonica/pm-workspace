@@ -48,10 +48,8 @@ aggregate their verdicts.
 
 ## Weights per report type
 
-See `docs/rules/domain/truth-tribunal-weights.md` for the canonical
-weight table. Profiles: default, executive, compliance, audit, digest, subjective.
-
-If `report_type` not declared, default profile.
+See `docs/rules/domain/truth-tribunal-weights.md` (default, executive, compliance,
+audit, digest, subjective). If `report_type` not declared → default.
 
 ## Veto rules (absolute — override score)
 
@@ -80,28 +78,12 @@ iteration: {N}
 destination_tier: "N1|N2|N3|N4|N4b"
 weighted_score: {0-100}
 verdict: "PUBLISHABLE|CONDITIONAL|ITERATE|ESCALATE|NOT_EVALUABLE"
-vetos:
-  - judge: "{name}"
-    reason: "{summary}"
-judges:
-  factuality:
-    score: {N}
-    confidence: {0-1}
-    verdict: "{per-judge}"
-    findings: [{...}]
-  source_traceability: {...}
-  hallucination: {...}
-  coherence: {...}
-  calibration: {...}
-  completeness: {...}
-  compliance: {...}
-aggregation:
-  abstentions: {N}
-  total_findings: {N}
-  critical_findings: {N}
-feedback_for_generator: |
-  {structured findings formatted for the generating agent
-   to re-generate the report — only populated if verdict is ITERATE}
+vetos: [{judge: "{name}", reason: "{summary}"}]
+judges: {factuality: {score, confidence, verdict, findings}, source_traceability: {...},
+  hallucination: {...}, coherence: {...}, calibration: {...}, completeness: {...},
+  compliance: {...}}
+aggregation: {abstentions: {N}, total_findings: {N}, critical_findings: {N}}
+feedback_for_generator: "{structured findings formatted for the generating agent — only if ITERATE}"
 ---
 ```
 
