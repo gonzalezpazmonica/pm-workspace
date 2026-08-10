@@ -54,13 +54,17 @@ _has_timeline_entry() {
 # Count timeline entries in HEAD version of file
 _timeline_entry_count_head() {
   local file="$1"
-  git show "HEAD:$file" 2>/dev/null | grep -c "^  - from:" 2>/dev/null || echo 0
+  local c
+  c=$(git show "HEAD:$file" 2>/dev/null | grep -c "^  - from:" 2>/dev/null)
+  printf '%s' "${c:-0}" | head -1
 }
 
 # Count timeline entries in HEAD~1 version of file (0 if file didn't exist)
 _timeline_entry_count_prev() {
   local file="$1"
-  git show "HEAD~1:$file" 2>/dev/null | grep -c "^  - from:" 2>/dev/null || echo 0
+  local c
+  c=$(git show "HEAD~1:$file" 2>/dev/null | grep -c "^  - from:" 2>/dev/null)
+  printf '%s' "${c:-0}" | head -1
 }
 
 # ── Main logic ────────────────────────────────────────────────────────────────
@@ -93,8 +97,10 @@ for file in "${CHANGED_MD[@]}"; do
   # Status changed — check if a new timeline entry was added
   prev_count="$(_timeline_entry_count_prev "$file")"
   head_count="$(_timeline_entry_count_head "$file")"
+  prev_count=$(printf '%s' "$prev_count" | head -1)
+  head_count=$(printf '%s' "$head_count" | head -1)
 
-  if [[ "$head_count" -le "$prev_count" ]]; then
+  if [[ "${head_count:-0}" -le "${prev_count:-0}" ]]; then
     NEEDS_TIMELINE+=("$file|$NEW_STATUS")
   fi
 done
