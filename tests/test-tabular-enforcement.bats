@@ -41,25 +41,32 @@ setup() {
 }
 
 @test "self-audit detects bypass" {
-  SAVIA_AUDIT_LOG=$(mktemp)
+  # Exportar SAVIA_AUDIT_LOG: sin export, el subshell cae al log por defecto
+  # ($HOME/.savia/tabular-audit.jsonl), que acumula bypasses entre ejecuciones
+  # y escala a BLOCK en vez de WARN → test no aislado ni idempotente.
+  export SAVIA_AUDIT_LOG=$(mktemp)
+  local turn_log
+  turn_log=$(mktemp)
   echo "col1,col2,col3
 1,2,3
 4,5,6
 7,8,9
 10,11,12
 13,14,15
-16,17,18" > /tmp/turn-log.txt
-  run bash "$AUDITOR" /tmp/turn-log.txt
+16,17,18" > "$turn_log"
+  run bash "$AUDITOR" "$turn_log"
   [[ "$output" == *"WARN"* || "$output" == *"OK"* ]]
-  rm -f "$SAVIA_AUDIT_LOG" /tmp/turn-log.txt
+  rm -f "$SAVIA_AUDIT_LOG" "$turn_log"
 }
 
 @test "self-audit passes when profiler used" {
-  SAVIA_AUDIT_LOG=$(mktemp)
-  echo "tabular-profile.py executed" > /tmp/clean-turn.txt
-  run bash "$AUDITOR" /tmp/clean-turn.txt
+  export SAVIA_AUDIT_LOG=$(mktemp)
+  local turn_log
+  turn_log=$(mktemp)
+  echo "tabular-profile.py executed" > "$turn_log"
+  run bash "$AUDITOR" "$turn_log"
   [ "$status" -eq 0 ]
-  rm -f "$SAVIA_AUDIT_LOG" /tmp/clean-turn.txt
+  rm -f "$SAVIA_AUDIT_LOG" "$turn_log"
 }
 
 @test "hooks have set -uo pipefail" {

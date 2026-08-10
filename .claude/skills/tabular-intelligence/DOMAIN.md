@@ -2,7 +2,14 @@
 
 ## Origin
 
-Inspirado en TFMs (TabPFN, TabICL, KumoRFM). Los TFMs predicen. Savia describe.
+Inspirado en los TFMs del articulo de Roberto Jara Peche (2026-08-02):
+- **TabFM** (Google, junio 2026): hibrido de TabPFN+TabICL; el modelo que
+  titula el articulo origen.
+- **TabICL** (Inria/SODA, ICML 2025): procesamiento column-first, open source.
+- **KumoRFM** (Kumo.AI, adquirida por Nvidia en junio 2026): modelado
+  relacional multi-tabla como grafo.
+
+Los TFMs predicen. Savia describe.
 
 ## Enforcement (4 capas)
 
