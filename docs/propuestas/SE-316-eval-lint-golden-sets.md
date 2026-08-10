@@ -1,8 +1,13 @@
 ---
 id: SE-316
 title: "SE-316 — Eval-lint de golden sets: cierre de SE-274 (S2/S4)"
-status: PROPOSED
+status: IMPLEMENTED
 priority: alta
+timeline:
+  - from: "2026-08-09"
+    learned: "2026-08-09"
+    value: "IMPLEMENTED"
+    source: "SE-316 implementado: eval-lint + golden sets (PR #953)"
 ---
 
 # SE-316 — Eval-lint de golden sets: cierre de SE-274 (S2/S4)
@@ -43,7 +48,7 @@ enmascara un caso que debería enrutar a otro agente.
 Implementar `scripts/eval-lint.sh` (patrón rsc-harness adaptado) que valide los
 golden sets de los tribunales: campos mínimos por caso, `route_to` resoluble
 contra `RESOLVER.md`/catálogo real, y cobertura mínima por modo. Integrarlo en
-CI como gate G17 (blocking para cambios en `tests/evals/`).
+CI como gate G16 (blocking para cambios en `tests/evals/`).
 
 ---
 
@@ -76,9 +81,9 @@ Exit 0 = PASS, 1 = FAIL (con listado de violaciones), 2 = usage.
 `capabilities[] {name, must_include}`. El linter valida contra este schema
 (librería `jsonschema` si está disponible, si no validación manual).
 
-### S3 — Integración CI + gate G17
+### S3 — Integración CI + gate G16
 
-- `scripts/pr-plan-gates.sh` añade G17: si el PR toca `tests/evals/` o
+- `scripts/pr-plan-gates.sh` añade G16: si el PR toca `tests/evals/` o
   `config/eval-case.schema.json`, corre `eval-lint.sh --check` y exige PASS.
 - Job `Eval Lint` en CI (blocking, a diferencia de Scope Creep — los evals
   rotos degradan la confianza de los tribunales).
@@ -89,22 +94,22 @@ Exit 0 = PASS, 1 = FAIL (con listado de violaciones), 2 = usage.
 
 ### AC-S1: Linter operativo
 
-- [ ] AC-S1.1: `eval-lint.sh --check tests/evals/` pasa con los golden sets
+- [x] AC-S1.1: `eval-lint.sh --check tests/evals/` pasa con los golden sets
   actuales (0 violaciones) o lista las violaciones reales pendientes de fix.
-- [ ] AC-S1.2: un caso con `route_to: skill-inexistente` produce FAIL.
-- [ ] AC-S1.3: un caso sin `should_not_trigger` en tribunal que lo requiere
+- [x] AC-S1.2: un caso con `route_to: skill-inexistente` produce FAIL.
+- [x] AC-S1.3: un caso sin `should_not_trigger` en tribunal que lo requiere
   produce FAIL (según regla por tipo).
 
 ### AC-S2: Schema
 
-- [ ] AC-S2.1: `config/eval-case.schema.json` valida un caso bien formado.
-- [ ] AC-S2.2: el linter reporta el caso y campo concreto de cada violación.
+- [x] AC-S2.1: `config/eval-case.schema.json` valida un caso bien formado.
+- [x] AC-S2.2: el linter reporta el caso y campo concreto de cada violación.
 
 ### AC-S3: Integración
 
-- [ ] AC-S3.1: G17 añadido a `pr-plan-gates.sh` y documentado en el catálogo.
-- [ ] AC-S3.2: CI job `Eval Lint` corre en PRs y bloquea si FAIL.
-- [ ] AC-S3.3: los golden sets actuales quedan limpios (o con violaciones
+- [x] AC-S3.1: G16 añadido a `pr-plan-gates.sh` y documentado en el catálogo.
+- [x] AC-S3.2: CI job `Eval Lint` corre en PRs y bloquea si FAIL.
+- [x] AC-S3.3: los golden sets actuales quedan limpios (o con violaciones
   documentadas y ticket asociado).
 
 ---
@@ -114,3 +119,25 @@ Exit 0 = PASS, 1 = FAIL (con listado de violaciones), 2 = usage.
 - `ericrisco/rsc-harness` → `scripts/eval-lint.sh`, `schema/frontmatter.schema.json`
 - `docs/propuestas/SE-274-agent-quality-framework.md` (S2/S4)
 - `docs/RESOLVER.md`, `SKILLS.md`
+
+---
+
+## OpenCode Implementation Plan
+
+### Bindings touched
+
+| Componente | Claude Code | OpenCode v1.14 |
+|---|---|---|
+| Linter | `scripts/eval-lint.sh` (bash, standalone) | Mismo script — sin plugin TS |
+| Gate G16 | `scripts/pr-plan-gates.sh` + `scripts/pr-plan.sh` | Mismo (bash sourced) |
+| CI job Eval Lint | `.github/workflows/ci.yml` | Mismo workflow |
+
+### Verification protocol
+
+- [x] Funciona en runtime OpenCode (no solo Claude Code): linter puro bash, sin bindings de frontend
+- [x] Tests cubren ambos paths: `tests/test-eval-lint.bats` (20 casos)
+- [x] No añade hooks — solo script + gate bash + job CI
+
+### Portability classification
+
+- [x] **PURE_BASH**: lógica en bash sin bindings de frontend, runs idéntico en cualquier motor

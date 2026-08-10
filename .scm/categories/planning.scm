@@ -383,7 +383,7 @@
 - **query-lib-resolve** (script): query-lib-resolve.sh — SE-031
 - **rbac-manager** (script): rbac-manager.sh — RBAC backend for Savia Enterprise multi-tenant
 - **readiness-check** (script): readiness-check.sh — Deterministic capability checklist
-- **recommendation-tribunal-orchestrator** (agent): Recommendation Tribunal orchestrator — convenes 4 fast judges in parallel, aggregates scores, applies vetos, mutates output with banner. SYNC, <3s p95.
+- **recommendation-tribunal-orchestrator** (agent): Recommendation Tribunal orchestrator — 4 fast judges in parallel, aggregates scores, applies vetos, mutates output with banner. SYNC, <3s p95.
 - **recover-savia** (script): recover-savia.sh — Launch a clean Claude session OUTSIDE pm-workspace
 - **reflection-validation** (skill): Usar cuando una respuesta o decisión importante necesita validación metacognitiva (System 2).
 - **reflection-validator** (agent): >

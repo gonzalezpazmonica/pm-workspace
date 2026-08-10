@@ -151,6 +151,27 @@ jobs:
           fi
           echo "All required files present."
 
+  eval-lint:
+    name: Eval Lint
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y jq python3
+
+      - name: Run eval-lint (SE-316 golden sets)
+        run: |
+          bash scripts/eval-lint.sh --check tests/evals || {
+            echo "::error::Golden sets de tribunales con violaciones (SE-316). Revisar tests/evals/*/cases.jsonl"
+            exit 1
+          }
+
   bats-tests:
     timeout-minutes: 90
     name: BATS Hook Tests

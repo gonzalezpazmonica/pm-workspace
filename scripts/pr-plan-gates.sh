@@ -571,3 +571,32 @@ print(', '.join(names))
 " 2>/dev/null || echo "unknown")
   echo "WARN: CI reliability issues detected: $failing — run 'bash scripts/ci-reliability-gate.sh' for details"
 }
+
+# ── G16 — Eval-lint golden sets (SE-316 S3) ────────────────────────────────
+# Corrida solo si el PR toca tests/evals/ o config/eval-case.schema.json.
+# Blocking: golden sets rotos degradan la confianza de los tribunales.
+g16_eval_lint() {
+  local linter="scripts/eval-lint.sh"
+  if [[ ! -f "$linter" ]]; then
+    echo "WARN: eval-lint.sh missing (SE-316 not installed)"
+    return
+  fi
+
+  local changed
+  changed=$(git diff origin/main..HEAD --name-only --diff-filter=AM 2>/dev/null \
+            | grep -E '^tests/evals/|^config/eval-case\.schema\.json$' || true)
+  if [[ -z "$changed" ]]; then
+    echo "skipped (no eval golden sets changed)"
+    return
+  fi
+
+  local out
+  out=$(bash "$linter" --check tests/evals 2>&1)
+  local code=$?
+  if [[ $code -eq 0 ]]; then
+    echo "$out"
+  else
+    echo "FAIL: $out"
+  fi
+}
+
