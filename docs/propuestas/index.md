@@ -15,7 +15,7 @@
 | SE-225 | TimesFM forecasting zero-shot para velocity y burndown con quantiles | PROPOSED | P2 |
 | SE-226 | SantanderAI stateless-session loop para overnight-sprint | PROPOSED | P1 |
 | SE-227 | Mech-gov hard gates pre-LLM + E3 entropy para tribunales Savia | PROPOSED | P2 |
-| SE-315 | SE-315 — Scope Creep Gate: detección de diffs fuera de alcance de la spec | PROPOSED | media |
+| SE-315 | SE-315 — Scope Creep Gate: detección de diffs fuera de alcance de la spec | IMPLEMENTED | media |
 | SE-316 | SE-316 — Eval-lint de golden sets: cierre de SE-274 (S2/S4) | IMPLEMENTED | alta |
 | SE-274 | SE-274 — Agent & Skill Quality Framework (S2 golden sets completado) | IMPLEMENTED | alta |
 | SE-317 | SE-317 — Memoria reflexiva: consolidación automática del knowledge store | PROPOSED | media |

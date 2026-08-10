@@ -600,3 +600,45 @@ g16_eval_lint() {
   fi
 }
 
+
+# ── G17 — Scope Creep (SE-315 S3) ─────────────────────────────────────────
+# Report-only: detecta diffs fuera del alcance declarado de la spec referenciada.
+# Nunca bloquea (AC-S2.4); emite veredicto y recomendación. Se calibra antes
+# de promover a bloqueante. Ref: docs/propuestas/SE-315-scope-creep-gate.md.
+g17_scope_creep() {
+  local checker="scripts/scope-creep-check.sh"
+  local declarer="scripts/scope-declare.sh"
+  if [[ ! -f "$checker" || ! -f "$declarer" ]]; then
+    echo "WARN: scope-creep scripts missing (SE-315 not installed)"
+    return
+  fi
+
+  # Localiza la spec que motiva el PR: del summary, commits o branch.
+  local spec_file=""
+  local sid=""
+  sid=$(grep -oE '\b(SE|SPEC)-[0-9]+' .pr-summary.md 2>/dev/null | head -1)
+  [[ -z "$sid" ]] && sid=$(git log origin/main..HEAD --format=%B 2>/dev/null | grep -oE '\b(SE|SPEC)-[0-9]+\b' | head -1)
+  [[ -z "$sid" ]] && sid=$(echo "$BRANCH" | grep -oE '\b(se|spec)-?[0-9]+\b' | head -1 | tr '[:lower:]' '[:upper:]' | sed 's/-\?\([0-9]\)/-\1/')
+  if [[ -z "$sid" ]]; then
+    echo "WARN: no spec ref en summary/commits/branch (gate skipped)"
+    return
+  fi
+  spec_file=$(find "$ROOT/docs/propuestas" -maxdepth 1 -type f -name "${sid}*.md" 2>/dev/null | head -1)
+  [[ -z "$spec_file" ]] && spec_file=$(find "$ROOT/projects" -maxdepth 3 -type f -name "${sid}*.spec.md" 2>/dev/null | head -1)
+  if [[ -z "$spec_file" ]]; then
+    echo "WARN: spec ${sid} no encontrada (gate skipped)"
+    return
+  fi
+
+  local verdict
+  verdict=$(bash "$checker" --spec "$spec_file" --base origin/main --head HEAD --verdict 2>&1)
+  case "$verdict" in
+    IN_SCOPE) echo "PASS: scope alineado con ${sid} (IN_SCOPE)" ;;
+    NO_DECLARED)
+      echo "WARN: spec ${sid} no declara paths — revisión manual recomendada" ;;
+    *)
+      local extra; extra=$(bash "$checker" --spec "$spec_file" --base origin/main --head HEAD --files-unrelated 2>/dev/null | head -5 | paste -sd' ' -)
+      echo "WARN: ${verdict} — ficheros fuera de alcance de ${sid}: ${extra:-ver detalles}"
+      ;;
+  esac
+}

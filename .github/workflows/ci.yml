@@ -172,6 +172,39 @@ jobs:
             exit 1
           }
 
+  scope-creep:
+    name: Scope Creep (report-only)
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    continue-on-error: true  # SE-315 S3: report-only hasta calibración (AC-S3.2)
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          fetch-depth: 0
+
+      - name: Run scope-creep-check (SE-315)
+        run: |
+          # Detecta la spec del PR y compara el diff base..head contra su alcance.
+          SID=$(git log origin/${{ github.event.pull_request.base.ref }}..HEAD --format=%B 2>/dev/null \
+            | grep -oE '\b(SE|SPEC)-[0-9]+\b' | head -1 || true)
+          if [[ -z "$SID" ]]; then
+            echo "::notice::Scope Creep: sin ref de spec en commits (se omite)"
+            exit 0
+          fi
+          SPEC=$(find docs/propuestas -maxdepth 1 -type f -name "${SID}*.md" 2>/dev/null | head -1)
+          [[ -z "$SPEC" ]] && SPEC=$(find projects -maxdepth 3 -type f -name "${SID}*.spec.md" 2>/dev/null | head -1)
+          if [[ -z "$SPEC" ]]; then
+            echo "::notice::Scope Creep: spec ${SID} no encontrada (se omite)"
+            exit 0
+          fi
+          bash scripts/scope-creep-check.sh --spec "$SPEC" \
+            --base "origin/${{ github.event.pull_request.base.ref }}" --head HEAD --json
+          VERDICT=$(bash scripts/scope-creep-check.sh --spec "$SPEC" \
+            --base "origin/${{ github.event.pull_request.base.ref }}" --head HEAD --verdict)
+          echo "::notice::Scope Creep veredicto: ${VERDICT}"
+
   bats-tests:
     timeout-minutes: 90
     name: BATS Hook Tests
