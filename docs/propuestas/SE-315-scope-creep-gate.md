@@ -1,8 +1,13 @@
 ---
 id: SE-315
 title: "SE-315 — Scope Creep Gate: detección de diffs fuera de alcance de la spec"
-status: PROPOSED
+status: IMPLEMENTED
 priority: media
+timeline:
+  - from: "2026-08-10"
+    learned: "2026-08-10"
+    value: "IMPLEMENTED"
+    source: "PR #955 — scope-declare.sh + scope-creep-check.sh + gate G17"
 ---
 
 # SE-315 — Scope Creep Gate: detección de diffs fuera de alcance de la spec
@@ -77,7 +82,7 @@ o justify (comentario en PR).
 
 ### S3 — Integración como gate report-only
 
-- Hook en `pr-plan-gates.sh` (nuevo check G16) y en CI como job `Scope Creep`
+- Hook en `pr-plan-gates.sh` (nuevo check G17) y en CI como job `Scope Creep`
   inicialmente `continue-on-error: true`.
 - Reporte a `output/scope-creep-{pr}.json` + resumen en el body del PR.
 - Telemetría SE-313: evento `scope.verdict` con veredicto y nº de files extra.
@@ -88,22 +93,22 @@ o justify (comentario en PR).
 
 ### AC-S1: Extracción de alcance
 
-- [ ] AC-S1.1: `scope-declare.sh` extrae paths de una spec SE-XXX real
+- [x] AC-S1.1: `scope-declare.sh` extrae paths de una spec SE-XXX real
   (fixture) y emite JSON con `declared_paths` y `root_dirs`.
-- [ ] AC-S1.2: spec sin sección de ficheros → `declared_paths: []` y WARN.
+- [x] AC-S1.2: spec sin sección de ficheros → `declared_paths: []` y WARN.
 
 ### AC-S2: Comparador
 
-- [ ] AC-S2.1: diff 100% declared → `IN_SCOPE`.
-- [ ] AC-S2.2: diff con 1 fichero unrelated → `EXTRA_FILES` listándolo.
-- [ ] AC-S2.3: diff declared + unrelated → `MIXED_SCOPE` con ambos grupos.
-- [ ] AC-S2.4: exit codes 0 (in-scope) / 0 (report-only, con veredicto no-cero
+- [x] AC-S2.1: diff 100% declared → `IN_SCOPE`.
+- [x] AC-S2.2: diff con 1 fichero unrelated → `EXTRA_FILES` listándolo.
+- [x] AC-S2.3: diff declared + unrelated → `MIXED_SCOPE` con ambos grupos.
+- [x] AC-S2.4: exit codes 0 (in-scope) / 0 (report-only, con veredicto no-cero
   en JSON) / 2 (usage).
 
 ### AC-S3: Integración
 
-- [ ] AC-S3.1: check G16 en `pr-plan-gates.sh` ejecuta el comparador y reporta.
-- [ ] AC-S3.2: CI job `Scope Creep` corre en PRs y no bloquea (report-only).
+- [x] AC-S3.1: check G17 en `pr-plan-gates.sh` ejecuta el comparador y reporta.
+- [x] AC-S3.2: CI job `Scope Creep` corre en PRs y no bloquea (report-only).
 - [ ] AC-S3.3: `scope.verdict` aparece en `output/telemetry-events.jsonl`.
 - [ ] AC-S3.4: 5 PRs históricos probados producen veredicto coherente con
   inspección manual (documentado en spec o reporte).

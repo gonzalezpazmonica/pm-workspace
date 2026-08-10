@@ -56,6 +56,7 @@ gate "G13" "Scope-trace audit"  g13_scope_trace
 gate "G14" "Skill catalog audit" g14_skill_catalog
 gate "G15" "CI reliability (advisory)" g_pre_push_reliability
 gate "G16" "Eval-lint golden sets" g16_eval_lint
+gate "G17" "Scope creep (report-only)" g17_scope_creep
 echo ""
 echo "------------------------------------------------------------"
 if [[ -n "$STOPPED" ]]; then
