@@ -1,0 +1,7 @@
+id,producto,cantidad,precio,importe
+1,Teclado,10,25.00,250.00
+2,Raton,15,12.50,187.50
+3,Monitor,5,150.00,750.00
+4,Webcam,8,45.00,360.00
+5,Altavoz,12,30.00,360.00
+6,Cable,20,3.50,70.00
