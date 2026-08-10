@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=0cbed111dbcccc00e3b78aa3413d5a152fa1f4ad3deb5ea64e8aa9c98a2f2d77
-timestamp=2026-08-10T05:06:01Z
-branch=agent/se274-se316-eval-golden-sets
-head_commit=f10a8aae
-signature=629785d5c8412bcb7cb7982c2b32d47b436d8ec593adbb640c4d162357e18fab
+diff_hash=fb9aa7ff1c43a64ba3a65bd4abdd8358806d4ea4bde6fa5ae5877f8f32fc48e3
+timestamp=2026-08-10T16:16:00Z
+branch=agent/se324-tabular-excel
+head_commit=085fd431
+signature=c9aaf9ec74104bdee56560a001693acd2803899db8f7a028f8de636a7dd7a358
