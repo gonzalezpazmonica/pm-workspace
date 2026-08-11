@@ -1478,5 +1478,5 @@ PR #952 (SE-313/314/275) — en curso
 | SE-320 | — | PROPOSED | Espec nueva (2026-08-09) |
 | SE-321 | — | PROPOSED | Espec nueva (2026-08-09); requiere probe HW |
 | SE-322 | — | PROPOSED | Espec nueva (2026-08-09) |
-| SE-323 | — | PROPOSED | Espec nueva (2026-08-09) |
+| SE-323 | — | IMPLEMENTED | Implementado 2026-08-11 (PR en curso) |
 

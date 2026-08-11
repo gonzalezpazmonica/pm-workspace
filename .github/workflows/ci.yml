@@ -205,6 +205,22 @@ jobs:
             --base "origin/${{ github.event.pull_request.base.ref }}" --head HEAD --verdict)
           echo "::notice::Scope Creep veredicto: ${VERDICT}"
 
+  incident-rca-eval:
+    name: Incident RCA Eval (report-only)
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    continue-on-error: true  # SE-323 S3: report-only; gate de calidad, no de seguridad
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+
+      - name: Run RCA synthetic suite (SE-323 S3)
+        run: |
+          bash scripts/rca-eval-runner.sh --json
+          SCORE=$(bash scripts/rca-eval-runner.sh --json | python3 -c "import sys,json;print(json.load(sys.stdin)['score'])")
+          echo "::notice::Incident RCA eval score: ${SCORE}/100 (gate >= 80)"
+
   bats-tests:
     timeout-minutes: 90
     name: BATS Hook Tests

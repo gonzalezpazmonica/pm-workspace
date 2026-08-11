@@ -642,3 +642,27 @@ g17_scope_creep() {
       ;;
   esac
 }
+
+# ── G18 — Incident RCA eval (SE-323 S3) ─────────────────────────────────────
+# Report-only: ejecuta la suite sintética de RCA (rca-eval-runner.sh) y reporta
+# el score. Nunca bloquea (gate de calidad, no de seguridad); emite WARN si
+# el score baja del umbral 80 para que se revise antes del merge. Ref:
+# docs/propuestas/SE-323-incident-rca-agent.md.
+g18_incident_rca_eval() {
+  local runner="scripts/rca-eval-runner.sh"
+  local cases="tests/evals/incident-rca/rca-cases.jsonl"
+  if [[ ! -f "$runner" || ! -f "$cases" ]]; then
+    echo "WARN: rca-eval-runner/cases missing (SE-323 not installed)"
+    return
+  fi
+  local out
+  out=$(bash "$runner" --json 2>&1)
+  local score verdict
+  score=$(echo "$out" | python3 -c "import sys,json;d=json.load(sys.stdin);print(d['score'])" 2>/dev/null)
+  verdict=$(echo "$out" | python3 -c "import sys,json;d=json.load(sys.stdin);print(d['verdict'])" 2>/dev/null)
+  if [[ "$score" -ge 80 ]]; then
+    echo "PASS: RCA eval suite score=${score}/100 (gate >= 80)"
+  else
+    echo "WARN: RCA eval suite score=${score}/100 < 80 — revisar antes del merge"
+  fi
+}
