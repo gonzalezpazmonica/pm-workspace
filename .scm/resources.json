@@ -1,6 +1,6 @@
 {
-  "hash": "86f3af6188f5",
-  "total": 1351,
+  "hash": "87718fd179b2",
+  "total": 1357,
   "resources": [
     {
       "category": "analysis",
@@ -2372,20 +2372,6 @@
     },
     {
       "category": "development",
-      "name": "blast-radius",
-      "intents": [
-        "blast",
-        "calcula",
-        "codeflow",
-        "fichero",
-        "inspired"
-      ],
-      "kind": "script",
-      "path": "scripts/blast-radius.sh",
-      "description": "blast-radius.sh — Calcula el blast radius de un fichero (CodeFlow-inspired)"
-    },
-    {
-      "category": "development",
       "name": "block-pat-file-write",
       "intents": [
         "block",
@@ -4358,6 +4344,34 @@
       "kind": "script",
       "path": "scripts/rules-domain-index.sh",
       "description": "rules-domain-index.sh — SPEC-115"
+    },
+    {
+      "category": "development",
+      "name": "scope-creep-check",
+      "intents": [
+        "alcance",
+        "check",
+        "compara",
+        "contra",
+        "creep"
+      ],
+      "kind": "script",
+      "path": "scripts/scope-creep-check.sh",
+      "description": "scope-creep-check.sh — SE-315 S2: compara un diff contra el alcance de su spec."
+    },
+    {
+      "category": "development",
+      "name": "scope-declare",
+      "intents": [
+        "alcance",
+        "declarado",
+        "declare",
+        "extrae",
+        "scope"
+      ],
+      "kind": "script",
+      "path": "scripts/scope-declare.sh",
+      "description": "scope-declare.sh — SE-315 S1: extrae el alcance declarado de una spec."
     },
     {
       "category": "development",
@@ -6383,12 +6397,14 @@
       "name": "memory-consolidate",
       "intents": [
         "consolidate",
+        "knowledge",
         "memory",
-        "wrapper"
+        "pase",
+        "reflexión"
       ],
       "kind": "script",
       "path": "scripts/memory-consolidate.sh",
-      "description": "memory-consolidate.sh — wrapper for memory-consolidate.py"
+      "description": "memory-consolidate.sh — SE-317: pase de reflexión sobre el knowledge store."
     },
     {
       "category": "memory",
@@ -7647,6 +7663,19 @@
       "kind": "script",
       "path": "scripts/bertopic-probe.sh",
       "description": "bertopic-probe.sh — SE-033 Slice 1 BERTopic viability probe."
+    },
+    {
+      "category": "planning",
+      "name": "blast-radius",
+      "intents": [
+        "blast",
+        "consulta",
+        "radius",
+        "write"
+      ],
+      "kind": "script",
+      "path": "scripts/blast-radius.sh",
+      "description": "blast-radius.sh — SE-318 S1/S2: consulta de blast-radius pre-write."
     },
     {
       "category": "planning",
@@ -10321,6 +10350,32 @@
     },
     {
       "category": "planning",
+      "name": "incident-postmortem",
+      "intents": [
+        "incident",
+        "plantilla",
+        "postmortem",
+        "rellena"
+      ],
+      "kind": "script",
+      "path": "scripts/incident-postmortem.sh",
+      "description": "incident-postmortem.sh — SE-323 S4: rellena la plantilla de postmortem"
+    },
+    {
+      "category": "planning",
+      "name": "incident-rca",
+      "intents": [
+        "harness",
+        "incident",
+        "incidentes",
+        "investigación"
+      ],
+      "kind": "script",
+      "path": "scripts/incident-rca.sh",
+      "description": "incident-rca.sh — SE-323 S2: harness de investigación de incidentes (RCA)."
+    },
+    {
+      "category": "planning",
       "name": "index-compact",
       "intents": [],
       "kind": "cmd",
@@ -10871,6 +10926,19 @@
       "kind": "cmd",
       "path": ".claude/commands/marketplace-publish.md",
       "description": "Publish components to marketplace registry"
+    },
+    {
+      "category": "planning",
+      "name": "mask-reversible",
+      "intents": [
+        "identifier",
+        "mask",
+        "masking",
+        "reversible"
+      ],
+      "kind": "script",
+      "path": "scripts/mask-reversible.sh",
+      "description": "mask-reversible.sh — SE-323 S1: reversible identifier masking for RCA."
     },
     {
       "category": "planning",
@@ -11915,6 +11983,20 @@
       "kind": "script",
       "path": "scripts/rbac-manager.sh",
       "description": "rbac-manager.sh — RBAC backend for Savia Enterprise multi-tenant"
+    },
+    {
+      "category": "planning",
+      "name": "rca-eval-runner",
+      "intents": [
+        "eval",
+        "puntúa",
+        "runner",
+        "sintética",
+        "suite"
+      ],
+      "kind": "script",
+      "path": "scripts/rca-eval-runner.sh",
+      "description": "rca-eval-runner.sh — SE-323 S3: puntúa la suite sintética de RCA."
     },
     {
       "category": "planning",

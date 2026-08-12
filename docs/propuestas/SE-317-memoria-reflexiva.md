@@ -1,13 +1,13 @@
 ---
 id: SE-317
 title: "SE-317 — Memoria reflexiva: consolidación automática del knowledge store"
-status: PROPOSED
+status: IMPLEMENTED
 priority: media
 ---
 
 # SE-317 — Memoria reflexiva: consolidación automática del knowledge store
 
-**Status:** PROPOSED
+**Status:** IMPLEMENTED
 **Fecha:** 2026-08-09
 **Area:** Memory / Knowledge graph / SaviaVaults
 **Branch sugerida:** `agent/se317-reflexive-memory`
@@ -124,3 +124,13 @@ Integrado con `savia-memory`, `knowledge-graph` y SaviaVaults.
 - NVIDIA-NeMo/labs-OO-Agents → memory subsystem (SQLite tipado, reflexión)
 - `scripts/memory-store.sh`, `scripts/knowledge-graph.sh`, `.claude/skills/savia-memory/SKILL.md`
 - `scripts/savia-automations.sh` (SE-304)
+
+## Implementación (2026-08-12)
+
+- `scripts/memory-consolidate.sh` con subcomandos `scan` / `link` / `distill`
+  / `prune` (determinista, stdlib python, sin LLM).
+- Salida de candidatos a `output/memory-consolidation/{fecha}-{accion}.jsonl`
+  para revisión humana; nada se auto-aplica salvo `--apply` explícito.
+- `/memory-consolidate` actualizado con el backend determinista; la
+  automatización semanal ya existía en `savia-automations.sh`.
+- 10 tests BATS (`tests/test-memory-consolidate.bats`).

@@ -15,7 +15,6 @@
 | SE-225 | TimesFM forecasting zero-shot para velocity y burndown con quantiles | PROPOSED | P2 |
 | SE-226 | SantanderAI stateless-session loop para overnight-sprint | PROPOSED | P1 |
 | SE-227 | Mech-gov hard gates pre-LLM + E3 entropy para tribunales Savia | PROPOSED | P2 |
-| SE-317 | SE-317 — Memoria reflexiva: consolidación automática del knowledge store | PROPOSED | media |
 | SE-319 | SE-319 — Commit Archaeologist: reconstrucción del porqué del código | PROPOSED | baja |
 | SE-320 | SE-320 — Dependency Doctor: validación de pins y constraints del manifest | PROPOSED | baja |
 | SE-321 | SE-321 — Speech-to-Speech gateway: pipeline VAD→STT→LLM→TTS con API Realtime | PROPOSED | media |
@@ -150,6 +149,7 @@
 | SE-314 | SE-314 — Clasificador de soberanía de datos: rediseño determinista | IMPLEMENTED | alta |
 | SE-315 | SE-315 — Scope Creep Gate: detección de diffs fuera de alcance de la spec | IMPLEMENTED | media |
 | SE-316 | SE-316 — Eval-lint de golden sets: cierre de SE-274 (S2/S4) | IMPLEMENTED | alta |
+| SE-317 | SE-317 — Memoria reflexiva: consolidación automática del knowledge store | IMPLEMENTED | media |
 | SE-318 | SE-318 — Blast-radius pre-commit: simulación de impacto antes de escribir | IMPLEMENTED | media |
 | SE-323 | SE-323 — Incident RCA Agent: investigación autónoma de incidentes con evidencia enlazada | IMPLEMENTED | alta |
 | SPEC-011 | SPEC-011: Roadmap Unificado — pm-workspace + Savia + SaviaClaw | IMPLEMENTED | — |

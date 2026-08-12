@@ -1461,7 +1461,7 @@ PR #952 (SE-313/314/275) — DONE (merge 2026-08-09)
   → SE-315 (scope creep) — DONE (merge #955)
   → SE-323 (incident RCA) — DONE (commit 717e55d7, PR pendiente)
   → SE-318 (blast-radius) — DONE (commit, PR pendiente)
-  → SE-317 (memoria reflexiva) — EN CURSO — knowledge-graph ya existe
+  → SE-317 (memoria reflexiva) — DONE (commit, PR pendiente)
   → SE-321 (speech-to-speech) — requiere validacion HW (probe S1)
   → SE-319 / SE-320 / SE-322 (baja)
 ```
@@ -1472,8 +1472,8 @@ PR #952 (SE-313/314/275) — DONE (merge 2026-08-09)
 |---|---|---|---|
 | SE-315 | #955 | IMPLEMENTED | Merge 2026-08-10 |
 | SE-316 | #953 | IMPLEMENTED | Merge 2026-08-09 |
-| SE-317 | — | PROPOSED | Siguiente en orden (2026-08-11) |
-| SE-318 | — | IMPLEMENTED | Commit 717e55d7 (PR pendiente) |
+| SE-317 | — | IMPLEMENTED | Commit (PR pendiente) |
+| SE-318 | — | IMPLEMENTED | Commit (PR pendiente) |
 | SE-319 | — | PROPOSED | Espec nueva (2026-08-09) |
 | SE-320 | — | PROPOSED | Espec nueva (2026-08-09) |
 | SE-321 | — | PROPOSED | Espec nueva (2026-08-09); requiere probe HW |

@@ -1,5 +1,5 @@
 # development — Savia Capability Map (L1)
-> 220 resources
+> 221 resources
 
 - **/speckit.checklist** (cmd): Alias spec-kit compatible. Gate de calidad final con verification-lattice multi-capa. Invoca skill verification-lattice. Compatible con github/spec-kit.
 - **/speckit.clarify** (cmd): Alias spec-kit compatible. Preguntas dirigidas para cerrar ambigüedad en una spec. Invoca skill context-interview-conductor. Compatible con github/spec-kit.
@@ -15,7 +15,6 @@
 - **ast-quality-gate** (script): ast-quality-gate.sh — Language-agnostic code quality meta-analyzer
 - **authority-claim-judge** (agent): Recommendation Tribunal judge — detects credential claims ("soy investigador"). NUNCA veto. (SPEC-193)
 - **best-practices-check** (cmd): Evaluate workspace against Claude Code best practices
-- **blast-radius** (script): blast-radius.sh — Calcula el blast radius de un fichero (CodeFlow-inspired)
 - **block-pat-file-write** (script): block-pat-file-write.sh — SPEC-SE-036 Slice 2: block writes to PAT file paths
 - **budget-guard** (script): budget-guard.sh — Context budget monitor (SPEC-022 F1)
 - **build-azdo-schema-graph** (script): build-azdo-schema-graph.sh — SE-076 Slice 2
@@ -163,6 +162,8 @@
 - **requirement-pushback** (script): requirement-pushback.sh — Analyze a spec and generate pushback questions
 - **rpi-status** (cmd): Track progress of active RPI (Research → Plan → Implement) workflows.
 - **rules-domain-index** (script): rules-domain-index.sh — SPEC-115
+- **scope-creep-check** (script): scope-creep-check.sh — SE-315 S2: compara un diff contra el alcance de su spec.
+- **scope-declare** (script): scope-declare.sh — SE-315 S1: extrae el alcance declarado de una spec.
 - **sdd-spec-writer** (agent): >
 - **semantic-compact** (script): semantic-compact.sh — SPEC-022 F2: Smart compact summary generator
 - **semantic-map** (script): semantic-map.sh — Generate compressed semantic maps of source code files

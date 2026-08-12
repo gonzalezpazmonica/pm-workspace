@@ -1,6 +1,6 @@
 # Savia Capability Map — INDEX
-> hash: a9c3dbeddb1f | resources: 1351
-> 292 commands · 126 skills · 83 agents · 850 scripts
+> hash: c999b7e28e16 | resources: 1357
+> 292 commands · 126 skills · 83 agents · 856 scripts
 
 [analysis] Trace Optimize — across,distributed,optimize,rates,sampling — cmd:.claude/commands/trace-optimize.md
 [analysis] agent-activity — activity,agent,executions,recent,show — cmd:.claude/commands/agent-activity.md
@@ -186,7 +186,6 @@
 [development] ast-quality-gate — agnostic,analyzer,code,gate,language — script:scripts/ast-quality-gate.sh
 [development] authority-claim-judge — claims,credential,detects,investigador,judge — agent:.opencode/agents/authority-claim-judge.md
 [development] best-practices-check — against,best,claude,code,evaluate — cmd:.claude/commands/best-practices-check.md
-[development] blast-radius — blast,calcula,codeflow,fichero,inspired — script:scripts/blast-radius.sh
 [development] block-pat-file-write — block,file,paths,slice,spec — script:scripts/block-pat-file-write.sh
 [development] budget-guard — budget,context,guard,monitor,spec — script:scripts/budget-guard.sh
 [development] build-azdo-schema-graph — azdo,build,graph,schema,slice — script:scripts/build-azdo-schema-graph.sh
@@ -334,6 +333,8 @@
 [development] requirement-pushback — analyze,generate,pushback,questions,requirement — script:scripts/requirement-pushback.sh
 [development] rpi-status — active,implement,plan,progress,research — cmd:.claude/commands/rpi-status.md
 [development] rules-domain-index — domain,index,rules,spec — script:scripts/rules-domain-index.sh
+[development] scope-creep-check — alcance,check,compara,contra,creep — script:scripts/scope-creep-check.sh
+[development] scope-declare — alcance,declarado,declare,extrae,scope — script:scripts/scope-declare.sh
 [development] sdd-spec-writer —  — agent:.opencode/agents/sdd-spec-writer.md
 [development] semantic-compact — compact,generator,semantic,smart,spec — script:scripts/semantic-compact.sh
 [development] semantic-map — code,compressed,files,generate,maps — script:scripts/semantic-map.sh
@@ -483,7 +484,7 @@
 [memory] memory-conflict-check — check,conflict,conflicting,detect,entries — script:scripts/memory-conflict-check.sh
 [memory] memory-conflict-judge — active,auto,contradicts,detects,draft — agent:.opencode/agents/memory-conflict-judge.md
 [memory] memory-consolidate — compress,consolidate,context,entries,memory — cmd:.claude/commands/memory-consolidate.md
-[memory] memory-consolidate — consolidate,memory,wrapper — script:scripts/memory-consolidate.sh
+[memory] memory-consolidate — consolidate,knowledge,memory,pase,reflexión — script:scripts/memory-consolidate.sh
 [memory] memory-context —  — cmd:.claude/commands/memory-context.md
 [memory] memory-feedback-post-merge — entry,feedback,memory,merge,merged — script:scripts/memory-feedback-post-merge.sh
 [memory] memory-hygiene — auto,automática,hygiene,limpieza,memory — script:scripts/memory-hygiene.sh
@@ -577,6 +578,7 @@
 [planning] baseline-tighten — auto,baseline,slice,tighten — script:scripts/baseline-tighten.sh
 [planning] benchmark-hook-dispatch — benchmark,dispatch,hook,scripts,slice — script:scripts/benchmark-hook-dispatch.sh
 [planning] bertopic-probe — bertopic,probe,slice,viability — script:scripts/bertopic-probe.sh
+[planning] blast-radius — blast,consulta,radius,write — script:scripts/blast-radius.sh
 [planning] board-flow — actual,analiza,board,botella,cuellos — cmd:.claude/commands/board-flow.md
 [planning] bus-factor-analysis —  — skill:.claude/skills/bus-factor-analysis/SKILL.md
 [planning] bus-factor-distribute — developer,distribute,factor,knowledge,objetivo — script:scripts/bus-factor-distribute.sh
@@ -782,6 +784,8 @@
 [planning] hook-profile — active,hook,profile,savia — script:scripts/hook-profile.sh
 [planning] hooks-integrity-check — check,detect,hooks,integrity,orphan — script:scripts/hooks-integrity-check.sh
 [planning] import-sprint-story —  — cmd:.claude/commands/import-sprint-story.md
+[planning] incident-postmortem — incident,plantilla,postmortem,rellena — script:scripts/incident-postmortem.sh
+[planning] incident-rca — harness,incident,incidentes,investigación — script:scripts/incident-rca.sh
 [planning] index-compact —  — cmd:.claude/commands/index-compact.md
 [planning] index-status —  — cmd:.claude/commands/index-status.md
 [planning] infrastructure-agent —  — agent:.opencode/agents/infrastructure-agent.md
@@ -825,6 +829,7 @@
 [planning] managed-scan — content,managed,outdated,scan,sections — cmd:.claude/commands/managed-scan.md
 [planning] managed-sync — content,managed,markers,regenerate,synchronize — cmd:.claude/commands/managed-sync.md
 [planning] marketplace-publish — components,marketplace,publish,registry — cmd:.claude/commands/marketplace-publish.md
+[planning] mask-reversible — identifier,mask,masking,reversible — script:scripts/mask-reversible.sh
 [planning] masked-unmask — back,claude,entities,masked,real — script:scripts/masked-unmask.sh
 [planning] mcp-recommend —  — cmd:.claude/commands/mcp-recommend.md
 [planning] measure-reliability — across,capability,consistency,measure,reliability — script:scripts/measure-reliability.sh
@@ -907,6 +912,7 @@
 [planning] query-lib-nl — query,slice — script:scripts/query-lib-nl.sh
 [planning] query-lib-resolve — query,resolve — script:scripts/query-lib-resolve.sh
 [planning] rbac-manager — backend,enterprise,manager,multi,rbac — script:scripts/rbac-manager.sh
+[planning] rca-eval-runner — eval,puntúa,runner,sintética,suite — script:scripts/rca-eval-runner.sh
 [planning] readiness-check — capability,check,checklist,deterministic,readiness — script:scripts/readiness-check.sh
 [planning] recommendation-tribunal-orchestrator — aggregates,applies,banner,fast,judges — agent:.opencode/agents/recommendation-tribunal-orchestrator.md
 [planning] recover-savia — claude,clean,launch,outside,recover — script:scripts/recover-savia.sh
