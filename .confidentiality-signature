@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
 diff_hash=4d2894ba2ced6a28984bfa895a26fa3396c221defcb41acb7c2c02e45a3d2042
-timestamp=2026-08-12T14:48:49Z
+timestamp=2026-08-12T14:49:12Z
 branch=agent/se325-vault-adjacency
-head_commit=54180ede
+head_commit=8b837996
 signature=cac68b8326e60a5cedb3d9aa0a1b167f38f328360d5f1e43e9c98aac36436e47
