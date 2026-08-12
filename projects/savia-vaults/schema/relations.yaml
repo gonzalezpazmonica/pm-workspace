@@ -1,0 +1,92 @@
+# SE-325 S2 — Vocabulario de relaciones tipadas por par de tipos
+#
+# Reglas from_type → to_type → [rel...]. Inspirado en los labels de arista de
+# Azure Cosmos DB Graph (Gremlin). Toda arista extraída por vault-links.sh
+# debe resolverse contra este vocabulario; si no, warning (o error con --strict).
+#
+# Refs: docs/propuestas/SE-325-vault-adjacency-inline.md
+
+version: "1.0"
+last_updated: "2026-08-12"
+
+relations:
+  # document → document
+  document/document:
+    - derived-from
+    - supports
+    - contradicts
+    - depends-on
+    - supersedes
+    - references
+
+  # document → project / project → document
+  document/project:
+    - implements
+    - scoped-to
+    - references
+  project/document:
+    - owns
+    - documents
+
+  # decision → document / document → decision
+  decision/document:
+    - resolves
+    - derives-from
+    - references
+  document/decision:
+    - motivated-by
+    - references
+
+  # project → project
+  project/project:
+    - depends-on
+    - integrates-with
+    - supersedes
+
+  # system → document / document → system
+  system/document:
+    - documented-by
+    - references
+  document/system:
+    - describes
+    - references
+
+  # person → document / document → person
+  person/document:
+    - authored-by
+    - references
+  document/person:
+    - author
+    - references
+
+  # hypothesis → experiment / experiment → result (savia-labs)
+  hypothesis/experiment:
+    - tested-by
+    - derived-from
+  experiment/result:
+    - produced
+    - refutes
+    - supports
+  hypothesis/result:
+    - supported-by
+    - refuted-by
+    - unresolved
+
+  # experiment → hypothesis / result → hypothesis
+  experiment/hypothesis:
+    - tests
+  result/hypothesis:
+    - supports
+    - refutes
+    - leaves-open
+
+  # protocol → experiment / experiment → protocol
+  protocol/experiment:
+    - governs
+  experiment/protocol:
+    - follows
+
+# Fallback: pares sin regla explícita permiten estas relaciones genéricas.
+generic:
+  - references
+  - related-to

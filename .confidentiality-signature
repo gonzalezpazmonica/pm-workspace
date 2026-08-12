@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=14cfc8efba6ca46b363f03bb7769be52aab6601e8e80a829d330f8cd342e40dc
-timestamp=2026-08-10T18:34:51Z
-branch=agent/se315-scope-creep-gate
-head_commit=3abcaa02
-signature=19a6ccb454a0ce664a7f33ef11a29dc8108b936b5884bdf2463614dca1975789
+diff_hash=64d968e090b5b31dc28d1072019e01c7b743906e9262e622477c9e6cdab24c19
+timestamp=2026-08-12T15:17:56Z
+branch=agent/se325-vault-adjacency
+head_commit=40820bad
+signature=f3ec9ee64df0568fd9d55d09a23138bd992620ce9a7a03cdd59b22f77599536f
