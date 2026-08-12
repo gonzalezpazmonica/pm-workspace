@@ -3,6 +3,11 @@ id: SE-323
 title: "SE-323 — Incident RCA Agent: investigación autónoma de incidentes con evidencia enlazada"
 status: IMPLEMENTED
 priority: alta
+timeline:
+  - from: "2026-08-12"
+    learned: "2026-08-12"
+    value: "IMPLEMENTED"
+    source: "SE-323 implementado: mask-reversible + incident-rca + eval suite (PR #956)"
 ---
 
 # SE-323 — Incident RCA Agent: investigación autónoma de incidentes con evidencia enlazada

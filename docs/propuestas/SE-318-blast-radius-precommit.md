@@ -3,6 +3,11 @@ id: SE-318
 title: "SE-318 — Blast-radius pre-commit: simulación de impacto antes de escribir"
 status: IMPLEMENTED
 priority: media
+timeline:
+  - from: "2026-08-12"
+    learned: "2026-08-12"
+    value: "IMPLEMENTED"
+    source: "SE-318 implementado: blast-radius.sh (SE-260 conciliado) + hook (PR #956)"
 ---
 
 # SE-318 — Blast-radius pre-commit: simulación de impacto antes de escribir

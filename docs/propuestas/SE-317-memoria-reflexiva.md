@@ -3,6 +3,11 @@ id: SE-317
 title: "SE-317 — Memoria reflexiva: consolidación automática del knowledge store"
 status: IMPLEMENTED
 priority: media
+timeline:
+  - from: "2026-08-12"
+    learned: "2026-08-12"
+    value: "IMPLEMENTED"
+    source: "SE-317 implementado: memory-consolidate.sh + tests BATS (PR #956)"
 ---
 
 # SE-317 — Memoria reflexiva: consolidación automática del knowledge store
