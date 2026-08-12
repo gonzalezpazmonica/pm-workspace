@@ -34,3 +34,12 @@ section: Added
   mención. Calibrar con codegraph (backend semántico) en proyectos indexados.
 - El hook y el job son opt-in/report-only por diseño (SE-318 S3): el
   blast-radius es un aviso, no un gate de seguridad.
+
+### Fixed
+
+- `scripts/blast-radius.sh` concilia dos interfaces: la file-based de SE-260
+  (`<file>`, `--depth`, `--format`, `--project`) y la symbol/diff de SE-318
+  (`--symbol`, `--diff`, `--list-backends`). El dispatch se decide por el
+  primer argumento. Ambas suites de tests pasan (10 SE-260 + 9 SE-318).
+- `docs/hooks-coverage-matrix.md` regenerado (SE-253) para incluir
+  `blast-radius-hook.sh`.
