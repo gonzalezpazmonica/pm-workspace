@@ -62,7 +62,7 @@
 - **memory-conflict-check** (script): memory-conflict-check.sh — SE-214: detect conflicting memory entries
 - **memory-conflict-judge** (agent): Recommendation Tribunal judge — detects when a draft recommendation contradicts the active user's auto-memory (feedback_*, user_*)
 - **memory-consolidate** (cmd): Consolidate and compress memory entries to save context
-- **memory-consolidate** (script): memory-consolidate.sh — wrapper for memory-consolidate.py
+- **memory-consolidate** (script): memory-consolidate.sh — SE-317: pase de reflexión sobre el knowledge store.
 - **memory-context** (cmd): >
 - **memory-feedback-post-merge** (script): memory-feedback-post-merge.sh — Writes a memory entry when a PR is merged.
 - **memory-hygiene** (script): memory-hygiene.sh — SPEC-142: Limpieza automática de auto-memory

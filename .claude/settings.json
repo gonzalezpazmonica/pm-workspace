@@ -250,6 +250,12 @@
             "name": "cognitive-debt-hypothesis-first",
             "blocking": false,
             "timeout": 3
+          },
+          {
+            "type": "command",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/blast-radius-hook.sh",
+            "timeout": 8,
+            "statusMessage": "Blast-radius (SE-318): comprobando impacto del cambio..."
           }
         ]
       },

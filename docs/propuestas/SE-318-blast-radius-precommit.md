@@ -1,13 +1,18 @@
 ---
 id: SE-318
 title: "SE-318 — Blast-radius pre-commit: simulación de impacto antes de escribir"
-status: PROPOSED
+status: IMPLEMENTED
 priority: media
+timeline:
+  - from: "2026-08-12"
+    learned: "2026-08-12"
+    value: "IMPLEMENTED"
+    source: "SE-318 implementado: blast-radius.sh (SE-260 conciliado) + hook (PR #956)"
 ---
 
 # SE-318 — Blast-radius pre-commit: simulación de impacto antes de escribir
 
-**Status:** PROPOSED
+**Status:** IMPLEMENTED
 **Fecha:** 2026-08-09
 **Area:** Code intelligence / Agent guards / Commit guardian
 **Branch sugerida:** `agent/se318-blast-radius`
@@ -108,3 +113,11 @@ dependientes afectados antes de aplicar el edit. Reutiliza el índice de
 
 - `zzet/gortex` → `docs/features.md` (preview_edit, simulate_chain), `docs/lsp.md`
 - `scripts/commit-guardian` (guard), `.opencode/skills/codegraph/SKILL.md`
+
+## Implementación (2026-08-11)
+
+- S1: `scripts/blast-radius.sh --symbol` — codegraph con fallback grep.
+- S2: `scripts/blast-radius.sh --diff` — definiciones del diff + reporte.
+- S3: hook `blast-radius-hook.sh` (opt-in `SAVIA_BLAST_RADIUS=on`) + check en
+  commit-guardian + telemetría `blast.radius`.
+- Job CI `Blast-radius (report-only)` + 9 tests BATS.

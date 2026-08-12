@@ -205,6 +205,44 @@ jobs:
             --base "origin/${{ github.event.pull_request.base.ref }}" --head HEAD --verdict)
           echo "::notice::Scope Creep veredicto: ${VERDICT}"
 
+  incident-rca-eval:
+    name: Incident RCA Eval (report-only)
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    continue-on-error: true  # SE-323 S3: report-only; gate de calidad, no de seguridad
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+
+      - name: Run RCA synthetic suite (SE-323 S3)
+        run: |
+          bash scripts/rca-eval-runner.sh --json
+          SCORE=$(bash scripts/rca-eval-runner.sh --json | python3 -c "import sys,json;print(json.load(sys.stdin)['score'])")
+          echo "::notice::Incident RCA eval score: ${SCORE}/100 (gate >= 80)"
+
+  blast-radius:
+    name: Blast-radius (report-only)
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    continue-on-error: true  # SE-318 S3: report-only; aviso, nunca gate
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          fetch-depth: 0
+
+      - name: Run blast-radius on PR diff (SE-318 S2)
+        run: |
+          TOTAL=$(bash scripts/blast-radius.sh --diff \
+            "origin/${{ github.event.pull_request.base.ref }}..HEAD" 2>/dev/null \
+            | python3 -c "import sys,json;print(json.load(sys.stdin)['total'])" 2>/dev/null || echo "0")
+          echo "::notice::Blast-radius: ${TOTAL} fichero(s) dependientes tocados por el diff (umbral 10)"
+          if [[ "${TOTAL}" -gt 10 ]]; then
+            echo "::warning::Blast-radius ${TOTAL} > 10 — revisar impacto antes del merge (SE-318)"
+          fi
+
   vault-graph:
     name: Vault Graph (report-only)
     runs-on: ubuntu-latest

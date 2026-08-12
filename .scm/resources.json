@@ -1,6 +1,6 @@
 {
-  "hash": "51f54e97bf3c",
-  "total": 1355,
+  "hash": "e530cbdb6d78",
+  "total": 1359,
   "resources": [
     {
       "category": "analysis",
@@ -6411,12 +6411,14 @@
       "name": "memory-consolidate",
       "intents": [
         "consolidate",
+        "knowledge",
         "memory",
-        "wrapper"
+        "pase",
+        "reflexión"
       ],
       "kind": "script",
       "path": "scripts/memory-consolidate.sh",
-      "description": "memory-consolidate.sh — wrapper for memory-consolidate.py"
+      "description": "memory-consolidate.sh — SE-317: pase de reflexión sobre el knowledge store."
     },
     {
       "category": "memory",
@@ -10349,6 +10351,32 @@
     },
     {
       "category": "planning",
+      "name": "incident-postmortem",
+      "intents": [
+        "incident",
+        "plantilla",
+        "postmortem",
+        "rellena"
+      ],
+      "kind": "script",
+      "path": "scripts/incident-postmortem.sh",
+      "description": "incident-postmortem.sh — SE-323 S4: rellena la plantilla de postmortem"
+    },
+    {
+      "category": "planning",
+      "name": "incident-rca",
+      "intents": [
+        "harness",
+        "incident",
+        "incidentes",
+        "investigación"
+      ],
+      "kind": "script",
+      "path": "scripts/incident-rca.sh",
+      "description": "incident-rca.sh — SE-323 S2: harness de investigación de incidentes (RCA)."
+    },
+    {
+      "category": "planning",
       "name": "index-compact",
       "intents": [],
       "kind": "cmd",
@@ -10899,6 +10927,19 @@
       "kind": "cmd",
       "path": ".claude/commands/marketplace-publish.md",
       "description": "Publish components to marketplace registry"
+    },
+    {
+      "category": "planning",
+      "name": "mask-reversible",
+      "intents": [
+        "identifier",
+        "mask",
+        "masking",
+        "reversible"
+      ],
+      "kind": "script",
+      "path": "scripts/mask-reversible.sh",
+      "description": "mask-reversible.sh — SE-323 S1: reversible identifier masking for RCA."
     },
     {
       "category": "planning",
@@ -11943,6 +11984,20 @@
       "kind": "script",
       "path": "scripts/rbac-manager.sh",
       "description": "rbac-manager.sh — RBAC backend for Savia Enterprise multi-tenant"
+    },
+    {
+      "category": "planning",
+      "name": "rca-eval-runner",
+      "intents": [
+        "eval",
+        "puntúa",
+        "runner",
+        "sintética",
+        "suite"
+      ],
+      "kind": "script",
+      "path": "scripts/rca-eval-runner.sh",
+      "description": "rca-eval-runner.sh — SE-323 S3: puntúa la suite sintética de RCA."
     },
     {
       "category": "planning",

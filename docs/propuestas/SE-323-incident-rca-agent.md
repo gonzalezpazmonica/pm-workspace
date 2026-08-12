@@ -1,13 +1,18 @@
 ---
 id: SE-323
 title: "SE-323 — Incident RCA Agent: investigación autónoma de incidentes con evidencia enlazada"
-status: PROPOSED
+status: IMPLEMENTED
 priority: alta
+timeline:
+  - from: "2026-08-12"
+    learned: "2026-08-12"
+    value: "IMPLEMENTED"
+    source: "SE-323 implementado: mask-reversible + incident-rca + eval suite (PR #956)"
 ---
 
 # SE-323 — Incident RCA Agent: investigación autónoma de incidentes con evidencia enlazada
 
-**Status:** PROPOSED
+**Status:** IMPLEMENTED
 **Fecha:** 2026-08-09
 **Area:** SRE / Incident response / Observability / Postmortem
 **Branch sugerida:** `agent/se323-incident-rca`
@@ -148,3 +153,16 @@ con red herrings.
   synthetic RCA), `tests/synthetic/`, `tests/e2e/`
 - `docs/rules/domain/postmortem-policy.md`, `docs/propuestas/SE-314-sovereignty-classifier-redesign.md`
 - `docs/rules/domain/autonomous-safety.md`
+
+## Implementación (2026-08-11)
+
+- S1: `scripts/mask-reversible.py` + `scripts/mask-reversible.sh` — masking
+  reversible de IDs con placeholders únicos y `--restore` byte a byte.
+- S2: `scripts/incident-rca.sh` — harness determinista (sin LLM en primera
+  iteración) con telemetría `rca.verdict`.
+- S3: `tests/evals/incident-rca/rca-cases.jsonl` (12 casos) +
+  `scripts/rca-eval-runner.sh` (gate >= 80).
+- S4: `scripts/incident-postmortem.sh` — rellena Timeline / Diagnosis Journey
+  / Resolution de la plantilla de postmortem.
+- G18 en `pr-plan-gates.sh` + job CI `Incident RCA Eval (report-only)`.
+- 15 tests BATS (`tests/test-incident-rca.bats`).

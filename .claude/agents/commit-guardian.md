@@ -33,6 +33,9 @@ Checks secuenciales:
 2. `bash scripts/validate-bash-global.sh` — syntax hooks
 3. `bash scripts/claude-md-drift-check.sh` — counters CLAUDE.md
 4. `bash scripts/confidentiality-sign.sh sign` — firma si todo OK
+5. Opcional (SE-318 S3): `bash scripts/blast-radius.sh --diff origin/main..HEAD`
+   — si `total` > `BLAST_RADIUS_THRESHOLD` (default 10), reportarlo al revisor
+   como advertencia en el resumen del commit. Nunca bloquea el commit.
 
 Si falla cualquier check: NO commitear. Delegar corrección al agente responsable.
 Ref: `docs/rules/domain/autonomous-safety.md`

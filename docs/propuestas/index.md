@@ -15,13 +15,10 @@
 | SE-225 | TimesFM forecasting zero-shot para velocity y burndown con quantiles | PROPOSED | P2 |
 | SE-226 | SantanderAI stateless-session loop para overnight-sprint | PROPOSED | P1 |
 | SE-227 | Mech-gov hard gates pre-LLM + E3 entropy para tribunales Savia | PROPOSED | P2 |
-| SE-317 | SE-317 — Memoria reflexiva: consolidación automática del knowledge store | PROPOSED | media |
-| SE-318 | SE-318 — Blast-radius pre-commit: simulación de impacto antes de escribir | PROPOSED | media |
 | SE-319 | SE-319 — Commit Archaeologist: reconstrucción del porqué del código | PROPOSED | baja |
 | SE-320 | SE-320 — Dependency Doctor: validación de pins y constraints del manifest | PROPOSED | baja |
 | SE-321 | SE-321 — Speech-to-Speech gateway: pipeline VAD→STT→LLM→TTS con API Realtime | PROPOSED | media |
 | SE-322 | SE-322 — Onboarding conversacional guiado: instalación por prompt + entrevista | PROPOSED | baja |
-| SE-323 | SE-323 — Incident RCA Agent: investigación autónoma de incidentes con evidencia enlazada | PROPOSED | alta |
 | SPEC-009 | SPEC-009: Savia como participante en Teams | PROPOSED | baja |
 | SPEC-017 | SPEC-017: Dependency Sovereignty — USB Offline Installer | PROPOSED | baja |
 | SPEC-060 | SPEC-060 — SaviaDivergent: Neurodivergent-Aware AI Work Companion | PROPOSED | baja |
@@ -152,6 +149,9 @@
 | SE-314 | SE-314 — Clasificador de soberanía de datos: rediseño determinista | IMPLEMENTED | alta |
 | SE-315 | SE-315 — Scope Creep Gate: detección de diffs fuera de alcance de la spec | IMPLEMENTED | media |
 | SE-316 | SE-316 — Eval-lint de golden sets: cierre de SE-274 (S2/S4) | IMPLEMENTED | alta |
+| SE-317 | SE-317 — Memoria reflexiva: consolidación automática del knowledge store | IMPLEMENTED | media |
+| SE-318 | SE-318 — Blast-radius pre-commit: simulación de impacto antes de escribir | IMPLEMENTED | media |
+| SE-323 | SE-323 — Incident RCA Agent: investigación autónoma de incidentes con evidencia enlazada | IMPLEMENTED | alta |
 | SE-325 | SE-325 — Vault adjacency inline + relaciones tipadas para SaviaVaults | IMPLEMENTED | alta |
 | SPEC-011 | SPEC-011: Roadmap Unificado — pm-workspace + Savia + SaviaClaw | IMPLEMENTED | — |
 | SPEC-012 | SPEC-012: L0/L1/L2 Progressive Loading for Skills and Rules | IMPLEMENTED | — |

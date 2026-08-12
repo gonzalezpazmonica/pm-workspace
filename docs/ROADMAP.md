@@ -1456,12 +1456,12 @@ SE-308 (merge PR #942) ✅
 ### Orden de ejecucion recomendado
 
 ```
-PR #952 (SE-313/314/275) — en curso
-  → SE-316 (eval-lint) — desbloquea SE-274, usa la infra de tests del PR #952
-  → SE-315 (scope creep) — extiende pr-plan-gates que ya toca el PR #952
-  → SE-323 (incident RCA) — reutiliza SE-314 (masking) + SE-313 (telemetria)
-  → SE-318 (blast-radius) — codegraph ya existe
-  → SE-317 (memoria reflexiva) — knowledge-graph ya existe
+PR #952 (SE-313/314/275) — DONE (merge 2026-08-09)
+  → SE-316 (eval-lint) — DONE (merge #953)
+  → SE-315 (scope creep) — DONE (merge #955)
+  → SE-323 (incident RCA) — DONE (commit 717e55d7, PR pendiente)
+  → SE-318 (blast-radius) — DONE (commit, PR pendiente)
+  → SE-317 (memoria reflexiva) — DONE (commit, PR pendiente)
   → SE-321 (speech-to-speech) — requiere validacion HW (probe S1)
   → SE-319 / SE-320 / SE-322 (baja)
 ```
@@ -1470,13 +1470,13 @@ PR #952 (SE-313/314/275) — en curso
 
 | Spec | PR | Estado | Bloqueo |
 |---|---|---|---|
-| SE-315 | — | PROPOSED | Espec nueva (2026-08-09); tras merge PR #952 |
-| SE-316 | — | PROPOSED | Espec nueva (2026-08-09); tras merge PR #952 |
-| SE-317 | — | PROPOSED | Espec nueva (2026-08-09) |
-| SE-318 | — | PROPOSED | Espec nueva (2026-08-09) |
+| SE-315 | #955 | IMPLEMENTED | Merge 2026-08-10 |
+| SE-316 | #953 | IMPLEMENTED | Merge 2026-08-09 |
+| SE-317 | — | IMPLEMENTED | Commit (PR pendiente) |
+| SE-318 | — | IMPLEMENTED | Commit (PR pendiente) |
 | SE-319 | — | PROPOSED | Espec nueva (2026-08-09) |
 | SE-320 | — | PROPOSED | Espec nueva (2026-08-09) |
 | SE-321 | — | PROPOSED | Espec nueva (2026-08-09); requiere probe HW |
 | SE-322 | — | PROPOSED | Espec nueva (2026-08-09) |
-| SE-323 | — | PROPOSED | Espec nueva (2026-08-09) |
+| SE-323 | — | IMPLEMENTED | Commit 717e55d7 (PR pendiente de push) |
 

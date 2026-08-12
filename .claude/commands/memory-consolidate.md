@@ -51,3 +51,19 @@ Consolidated:
 - **Changes:** count of entries removed
 
 Use case: Run at end of day to keep memory lean, prevent drift.
+
+## Backend determinista (SE-317)
+
+Además del flujo LLM descrito arriba, existe el pase de reflexión determinista:
+
+```
+scripts/memory-consolidate.sh scan|link|distill|prune [--store <file>] [--apply]
+```
+
+- `scan` — duplicados y near-duplicates (fingerprint + difflib),
+- `link` — aristas tipadas `derived-from` propuestas (cita de hash/título),
+- `distill` — episodios agrupados en insights con citas (fuentes `absorbed`),
+- `prune` — candidatos a eliminar (`--dry-run` por defecto; nunca borra solo).
+
+Todo candidato va a `output/memory-consolidation/{fecha}-{accion}.jsonl` para
+revisión humana. Ref: SE-317 (`docs/propuestas/SE-317-memoria-reflexiva.md`).

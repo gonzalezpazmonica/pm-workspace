@@ -1,6 +1,6 @@
 # Savia Capability Map — INDEX
-> hash: 3d8cd15fc74c | resources: 1355
-> 293 commands · 126 skills · 83 agents · 853 scripts
+> hash: 0dadf0f5e798 | resources: 1359
+> 293 commands · 126 skills · 83 agents · 857 scripts
 
 [analysis] Trace Optimize — across,distributed,optimize,rates,sampling — cmd:.claude/commands/trace-optimize.md
 [analysis] agent-activity — activity,agent,executions,recent,show — cmd:.claude/commands/agent-activity.md
@@ -485,7 +485,7 @@
 [memory] memory-conflict-check — check,conflict,conflicting,detect,entries — script:scripts/memory-conflict-check.sh
 [memory] memory-conflict-judge — active,auto,contradicts,detects,draft — agent:.opencode/agents/memory-conflict-judge.md
 [memory] memory-consolidate — compress,consolidate,context,entries,memory — cmd:.claude/commands/memory-consolidate.md
-[memory] memory-consolidate — consolidate,memory,wrapper — script:scripts/memory-consolidate.sh
+[memory] memory-consolidate — consolidate,knowledge,memory,pase,reflexión — script:scripts/memory-consolidate.sh
 [memory] memory-context —  — cmd:.claude/commands/memory-context.md
 [memory] memory-feedback-post-merge — entry,feedback,memory,merge,merged — script:scripts/memory-feedback-post-merge.sh
 [memory] memory-hygiene — auto,automática,hygiene,limpieza,memory — script:scripts/memory-hygiene.sh
@@ -784,6 +784,8 @@
 [planning] hook-profile — active,hook,profile,savia — script:scripts/hook-profile.sh
 [planning] hooks-integrity-check — check,detect,hooks,integrity,orphan — script:scripts/hooks-integrity-check.sh
 [planning] import-sprint-story —  — cmd:.claude/commands/import-sprint-story.md
+[planning] incident-postmortem — incident,plantilla,postmortem,rellena — script:scripts/incident-postmortem.sh
+[planning] incident-rca — harness,incident,incidentes,investigación — script:scripts/incident-rca.sh
 [planning] index-compact —  — cmd:.claude/commands/index-compact.md
 [planning] index-status —  — cmd:.claude/commands/index-status.md
 [planning] infrastructure-agent —  — agent:.opencode/agents/infrastructure-agent.md
@@ -827,6 +829,7 @@
 [planning] managed-scan — content,managed,outdated,scan,sections — cmd:.claude/commands/managed-scan.md
 [planning] managed-sync — content,managed,markers,regenerate,synchronize — cmd:.claude/commands/managed-sync.md
 [planning] marketplace-publish — components,marketplace,publish,registry — cmd:.claude/commands/marketplace-publish.md
+[planning] mask-reversible — identifier,mask,masking,reversible — script:scripts/mask-reversible.sh
 [planning] masked-unmask — back,claude,entities,masked,real — script:scripts/masked-unmask.sh
 [planning] mcp-recommend —  — cmd:.claude/commands/mcp-recommend.md
 [planning] measure-reliability — across,capability,consistency,measure,reliability — script:scripts/measure-reliability.sh
@@ -909,6 +912,7 @@
 [planning] query-lib-nl — query,slice — script:scripts/query-lib-nl.sh
 [planning] query-lib-resolve — query,resolve — script:scripts/query-lib-resolve.sh
 [planning] rbac-manager — backend,enterprise,manager,multi,rbac — script:scripts/rbac-manager.sh
+[planning] rca-eval-runner — eval,puntúa,runner,sintética,suite — script:scripts/rca-eval-runner.sh
 [planning] readiness-check — capability,check,checklist,deterministic,readiness — script:scripts/readiness-check.sh
 [planning] recommendation-tribunal-orchestrator — aggregates,applies,banner,fast,judges — agent:.opencode/agents/recommendation-tribunal-orchestrator.md
 [planning] recover-savia — claude,clean,launch,outside,recover — script:scripts/recover-savia.sh

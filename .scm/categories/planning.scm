@@ -1,5 +1,5 @@
 # planning — Savia Capability Map (L1)
-> 571 resources
+> 575 resources
 
 - **/decide-architecture** (cmd): Clasifica una tarea como WORKFLOW (deterministica) o AGENT (loop). Bias hacia workflow per Anthropic. Sugiere plantilla inicial. Mide accuracy contra corpus curado de 20 tareas.
 - **_template** (skill): TEMPLATE — copia este directorio para crear una skill nueva. NO se carga en runtime.
@@ -257,6 +257,8 @@
 - **hook-profile** (script): hook-profile.sh — Get/set the active SAVIA_HOOK_PROFILE
 - **hooks-integrity-check** (script): hooks-integrity-check.sh — SE-094: detect orphan and phantom hooks.
 - **import-sprint-story** (cmd): >
+- **incident-postmortem** (script): incident-postmortem.sh — SE-323 S4: rellena la plantilla de postmortem
+- **incident-rca** (script): incident-rca.sh — SE-323 S2: harness de investigación de incidentes (RCA).
 - **index-compact** (cmd): >
 - **index-status** (cmd): >
 - **infrastructure-agent** (agent): >
@@ -300,6 +302,7 @@
 - **managed-scan** (cmd): Scan managed content for stale or outdated sections
 - **managed-sync** (cmd): Synchronize and regenerate managed content markers
 - **marketplace-publish** (cmd): Publish components to marketplace registry
+- **mask-reversible** (script): mask-reversible.sh — SE-323 S1: reversible identifier masking for RCA.
 - **masked-unmask** (script): masked-unmask.sh — Unmask a Claude response back to real entities
 - **mcp-recommend** (cmd): >
 - **measure-reliability** (script): measure-reliability.sh — Task consistency vs capability across repeated runs
@@ -382,6 +385,7 @@
 - **query-lib-nl** (script): query-lib-nl.sh — SE-031 slice 2
 - **query-lib-resolve** (script): query-lib-resolve.sh — SE-031
 - **rbac-manager** (script): rbac-manager.sh — RBAC backend for Savia Enterprise multi-tenant
+- **rca-eval-runner** (script): rca-eval-runner.sh — SE-323 S3: puntúa la suite sintética de RCA.
 - **readiness-check** (script): readiness-check.sh — Deterministic capability checklist
 - **recommendation-tribunal-orchestrator** (agent): Recommendation Tribunal orchestrator — 4 fast judges in parallel, aggregates scores, applies vetos, mutates output with banner. SYNC, <3s p95.
 - **recover-savia** (script): recover-savia.sh — Launch a clean Claude session OUTSIDE pm-workspace
