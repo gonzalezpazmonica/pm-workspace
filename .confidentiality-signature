@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=14cfc8efba6ca46b363f03bb7769be52aab6601e8e80a829d330f8cd342e40dc
-timestamp=2026-08-11T14:20:58Z
-branch=agent/se323-incident-rca
-head_commit=69254153
-signature=19a6ccb454a0ce664a7f33ef11a29dc8108b936b5884bdf2463614dca1975789
+diff_hash=b16d3f26c6e0784c8f6ea375a20734309324d200f373b022858e494af07f26dd
+timestamp=2026-08-12T13:39:05Z
+branch=agent/se318-blast-radius
+head_commit=452abeb8
+signature=780af215de6dd34d737312b5fef5170b7e875f5a9384a14447b487112661d183
