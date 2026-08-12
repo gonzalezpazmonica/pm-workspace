@@ -1,6 +1,6 @@
 # Savia Capability Map — INDEX
-> hash: a9c3dbeddb1f | resources: 1351
-> 292 commands · 126 skills · 83 agents · 850 scripts
+> hash: 3d8cd15fc74c | resources: 1355
+> 293 commands · 126 skills · 83 agents · 853 scripts
 
 [analysis] Trace Optimize — across,distributed,optimize,rates,sampling — cmd:.claude/commands/trace-optimize.md
 [analysis] agent-activity — activity,agent,executions,recent,show — cmd:.claude/commands/agent-activity.md
@@ -334,6 +334,8 @@
 [development] requirement-pushback — analyze,generate,pushback,questions,requirement — script:scripts/requirement-pushback.sh
 [development] rpi-status — active,implement,plan,progress,research — cmd:.claude/commands/rpi-status.md
 [development] rules-domain-index — domain,index,rules,spec — script:scripts/rules-domain-index.sh
+[development] scope-creep-check — alcance,check,compara,contra,creep — script:scripts/scope-creep-check.sh
+[development] scope-declare — alcance,declarado,declare,extrae,scope — script:scripts/scope-declare.sh
 [development] sdd-spec-writer —  — agent:.opencode/agents/sdd-spec-writer.md
 [development] semantic-compact — compact,generator,semantic,smart,spec — script:scripts/semantic-compact.sh
 [development] semantic-map — code,compressed,files,generate,maps — script:scripts/semantic-map.sh
@@ -1077,6 +1079,8 @@
 [planning] validate-schema — frontmatter,json,schema,settings,validar — cmd:.claude/commands/validate-schema.md
 [planning] validate-settings-local — data,detect,json,local,private — script:scripts/validate-settings-local.sh
 [planning] vault — dispatcher,personal,vault — script:scripts/vault.sh
+[planning] vault-graph — adyacencia,extract,graph,inline,knowledge — cmd:.claude/commands/vault-graph.md
+[planning] vault-links — adyacencia,inline,links,relaciones,saviavaults — script:scripts/vault-links.sh
 [planning] vault-ops — library,operations,personal,sourced,vault — script:scripts/vault-ops.sh
 [planning] vaults-backup-cron — backup,cron,nextcloud,savialabs,sync — script:scripts/vaults-backup-cron.sh
 [planning] vaults-backup-cron-install — backup,backups,cron,install,saviavaults — script:scripts/vaults-backup-cron-install.sh

@@ -205,6 +205,23 @@ jobs:
             --base "origin/${{ github.event.pull_request.base.ref }}" --head HEAD --verdict)
           echo "::notice::Scope Creep veredicto: ${VERDICT}"
 
+  vault-graph:
+    name: Vault Graph (report-only)
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    continue-on-error: true  # SE-325 S4: gate de calidad, no de seguridad
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+
+      - name: Run vault-links extract+validate (SE-325)
+        run: |
+          bash scripts/vault-links.sh extract vaults/SaviaLabs > /tmp/vault-links.jsonl
+          NEDGES=$(wc -l < /tmp/vault-links.jsonl)
+          echo "::notice::Vault graph: ${NEDGES} aristas extraídas (SE-325)"
+          bash scripts/vault-links.sh validate /tmp/vault-links.jsonl || true
+
   bats-tests:
     timeout-minutes: 90
     name: BATS Hook Tests
