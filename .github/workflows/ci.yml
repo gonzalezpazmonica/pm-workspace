@@ -217,6 +217,27 @@ jobs:
 
       - name: Run vault-links extract+validate (SE-325)
         run: |
+          # vaults/ es local (gitignored); en CI se usa un vault de fixture mínimo
+          if [[ ! -d vaults/SaviaLabs ]]; then
+            mkdir -p vaults/SaviaLabs/docs
+            cat > vaults/SaviaLabs/docs/ci.md <<'EOF'
+---
+entity: {type: document, id: ci-fixture}
+title: CI Fixture
+status: approved
+---
+# Fixture
+Ver [[ci-other]]
+EOF
+            cat > vaults/SaviaLabs/docs/other.md <<'EOF'
+---
+entity: {type: document, id: ci-other}
+title: CI Other
+status: draft
+---
+# Other
+EOF
+          fi
           bash scripts/vault-links.sh extract vaults/SaviaLabs > /tmp/vault-links.jsonl
           NEDGES=$(wc -l < /tmp/vault-links.jsonl)
           echo "::notice::Vault graph: ${NEDGES} aristas extraídas (SE-325)"
