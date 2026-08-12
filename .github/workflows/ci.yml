@@ -220,23 +220,8 @@ jobs:
           # vaults/ es local (gitignored); en CI se usa un vault de fixture mínimo
           if [[ ! -d vaults/SaviaLabs ]]; then
             mkdir -p vaults/SaviaLabs/docs
-            cat > vaults/SaviaLabs/docs/ci.md <<'EOF'
----
-entity: {type: document, id: ci-fixture}
-title: CI Fixture
-status: approved
----
-# Fixture
-Ver [[ci-other]]
-EOF
-            cat > vaults/SaviaLabs/docs/other.md <<'EOF'
----
-entity: {type: document, id: ci-other}
-title: CI Other
-status: draft
----
-# Other
-EOF
+            printf '%s\n' '---' 'entity: {type: document, id: ci-fixture}' 'title: CI Fixture' 'status: approved' '---' '# Fixture' 'Ver [[ci-other]]' > vaults/SaviaLabs/docs/ci.md
+            printf '%s\n' '---' 'entity: {type: document, id: ci-other}' 'title: CI Other' 'status: draft' '---' '# Other' > vaults/SaviaLabs/docs/other.md
           fi
           bash scripts/vault-links.sh extract vaults/SaviaLabs > /tmp/vault-links.jsonl
           NEDGES=$(wc -l < /tmp/vault-links.jsonl)
