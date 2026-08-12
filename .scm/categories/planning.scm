@@ -1,5 +1,5 @@
 # planning — Savia Capability Map (L1)
-> 574 resources
+> 575 resources
 
 - **/decide-architecture** (cmd): Clasifica una tarea como WORKFLOW (deterministica) o AGENT (loop). Bias hacia workflow per Anthropic. Sugiere plantilla inicial. Mide accuracy contra corpus curado de 20 tareas.
 - **_template** (skill): TEMPLATE — copia este directorio para crear una skill nueva. NO se carga en runtime.
@@ -52,7 +52,6 @@
 - **baseline-tighten** (script): baseline-tighten.sh — SE-046 Slice 1 baseline auto-tighten.
 - **benchmark-hook-dispatch** (script): scripts/benchmark-hook-dispatch.sh — SE-253 Slice 4
 - **bertopic-probe** (script): bertopic-probe.sh — SE-033 Slice 1 BERTopic viability probe.
-- **blast-radius** (script): blast-radius.sh — SE-318 S1/S2: consulta de blast-radius pre-write.
 - **board-flow** (cmd): Analiza el flujo de trabajo del board — WIP actual, cuellos de botella y métricas de flujo.
 - **bus-factor-analysis** (skill): >
 - **bus-factor-distribute** (script): bus-factor-distribute.sh -- Plan de knowledge transfer por developer objetivo.
@@ -557,6 +556,8 @@
 - **validate-schema** (cmd): Validar schema de frontmatter y settings.json
 - **validate-settings-local** (script): validate-settings-local.sh — Detect private/session data in settings.local.json
 - **vault** (script): vault.sh — Personal Vault dispatcher (N3)
+- **vault-graph** (cmd): SE-325: adyacencia inline + relaciones tipadas del knowledge graph de SaviaVaults (extract/validate/traverse/query)
+- **vault-links** (script): vault-links.sh — SE-325: adyacencia inline + relaciones tipadas para SaviaVaults.
 - **vault-ops** (script): vault-ops.sh — Personal Vault operations library (N3). Sourced by vault.sh.
 - **vaults-backup-cron** (script): vaults-backup-cron.sh — Cron job: backup SaviaLabs + sync to Nextcloud
 - **vaults-backup-cron-install** (script): vaults-backup-cron-install.sh — Install cron job for SaviaVaults backups

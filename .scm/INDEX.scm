@@ -1,6 +1,6 @@
 # Savia Capability Map — INDEX
-> hash: c999b7e28e16 | resources: 1357
-> 292 commands · 126 skills · 83 agents · 856 scripts
+> hash: 0dadf0f5e798 | resources: 1359
+> 293 commands · 126 skills · 83 agents · 857 scripts
 
 [analysis] Trace Optimize — across,distributed,optimize,rates,sampling — cmd:.claude/commands/trace-optimize.md
 [analysis] agent-activity — activity,agent,executions,recent,show — cmd:.claude/commands/agent-activity.md
@@ -186,6 +186,7 @@
 [development] ast-quality-gate — agnostic,analyzer,code,gate,language — script:scripts/ast-quality-gate.sh
 [development] authority-claim-judge — claims,credential,detects,investigador,judge — agent:.opencode/agents/authority-claim-judge.md
 [development] best-practices-check — against,best,claude,code,evaluate — cmd:.claude/commands/best-practices-check.md
+[development] blast-radius — blast,calcula,codeflow,fichero,inspired — script:scripts/blast-radius.sh
 [development] block-pat-file-write — block,file,paths,slice,spec — script:scripts/block-pat-file-write.sh
 [development] budget-guard — budget,context,guard,monitor,spec — script:scripts/budget-guard.sh
 [development] build-azdo-schema-graph — azdo,build,graph,schema,slice — script:scripts/build-azdo-schema-graph.sh
@@ -578,7 +579,6 @@
 [planning] baseline-tighten — auto,baseline,slice,tighten — script:scripts/baseline-tighten.sh
 [planning] benchmark-hook-dispatch — benchmark,dispatch,hook,scripts,slice — script:scripts/benchmark-hook-dispatch.sh
 [planning] bertopic-probe — bertopic,probe,slice,viability — script:scripts/bertopic-probe.sh
-[planning] blast-radius — blast,consulta,radius,write — script:scripts/blast-radius.sh
 [planning] board-flow — actual,analiza,board,botella,cuellos — cmd:.claude/commands/board-flow.md
 [planning] bus-factor-analysis —  — skill:.claude/skills/bus-factor-analysis/SKILL.md
 [planning] bus-factor-distribute — developer,distribute,factor,knowledge,objetivo — script:scripts/bus-factor-distribute.sh
@@ -1083,6 +1083,8 @@
 [planning] validate-schema — frontmatter,json,schema,settings,validar — cmd:.claude/commands/validate-schema.md
 [planning] validate-settings-local — data,detect,json,local,private — script:scripts/validate-settings-local.sh
 [planning] vault — dispatcher,personal,vault — script:scripts/vault.sh
+[planning] vault-graph — adyacencia,extract,graph,inline,knowledge — cmd:.claude/commands/vault-graph.md
+[planning] vault-links — adyacencia,inline,links,relaciones,saviavaults — script:scripts/vault-links.sh
 [planning] vault-ops — library,operations,personal,sourced,vault — script:scripts/vault-ops.sh
 [planning] vaults-backup-cron — backup,cron,nextcloud,savialabs,sync — script:scripts/vaults-backup-cron.sh
 [planning] vaults-backup-cron-install — backup,backups,cron,install,saviavaults — script:scripts/vaults-backup-cron-install.sh

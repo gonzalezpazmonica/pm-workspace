@@ -1,6 +1,6 @@
 {
-  "hash": "87718fd179b2",
-  "total": 1357,
+  "hash": "e530cbdb6d78",
+  "total": 1359,
   "resources": [
     {
       "category": "analysis",
@@ -2369,6 +2369,20 @@
       "kind": "cmd",
       "path": ".claude/commands/best-practices-check.md",
       "description": "Evaluate workspace against Claude Code best practices"
+    },
+    {
+      "category": "development",
+      "name": "blast-radius",
+      "intents": [
+        "blast",
+        "calcula",
+        "codeflow",
+        "fichero",
+        "inspired"
+      ],
+      "kind": "script",
+      "path": "scripts/blast-radius.sh",
+      "description": "blast-radius.sh — Calcula el blast radius de un fichero (CodeFlow-inspired)"
     },
     {
       "category": "development",
@@ -7663,19 +7677,6 @@
       "kind": "script",
       "path": "scripts/bertopic-probe.sh",
       "description": "bertopic-probe.sh — SE-033 Slice 1 BERTopic viability probe."
-    },
-    {
-      "category": "planning",
-      "name": "blast-radius",
-      "intents": [
-        "blast",
-        "consulta",
-        "radius",
-        "write"
-      ],
-      "kind": "script",
-      "path": "scripts/blast-radius.sh",
-      "description": "blast-radius.sh — SE-318 S1/S2: consulta de blast-radius pre-write."
     },
     {
       "category": "planning",
@@ -14242,6 +14243,34 @@
       "kind": "script",
       "path": "scripts/vault.sh",
       "description": "vault.sh — Personal Vault dispatcher (N3)"
+    },
+    {
+      "category": "planning",
+      "name": "vault-graph",
+      "intents": [
+        "adyacencia",
+        "extract",
+        "graph",
+        "inline",
+        "knowledge"
+      ],
+      "kind": "cmd",
+      "path": ".claude/commands/vault-graph.md",
+      "description": "SE-325: adyacencia inline + relaciones tipadas del knowledge graph de SaviaVaults (extract/validate/traverse/query)"
+    },
+    {
+      "category": "planning",
+      "name": "vault-links",
+      "intents": [
+        "adyacencia",
+        "inline",
+        "links",
+        "relaciones",
+        "saviavaults"
+      ],
+      "kind": "script",
+      "path": "scripts/vault-links.sh",
+      "description": "vault-links.sh — SE-325: adyacencia inline + relaciones tipadas para SaviaVaults."
     },
     {
       "category": "planning",
