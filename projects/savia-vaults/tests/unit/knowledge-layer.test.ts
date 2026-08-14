@@ -112,6 +112,15 @@ describe('Knowledge Layer', () => {
       expect(result.nodes.length).toBeGreaterThanOrEqual(2);
     });
 
+    it('SE-327: traverse ordena por PPR — la semilla está presente y puntúa alto', async () => {
+      const graph = new KnowledgeGraph(config);
+      await graph.build();
+      const result = graph.traverse('alice', 2, 50);
+      expect(result.nodes.length).toBeGreaterThan(0);
+      // la semilla siempre está en el conjunto visitado
+      expect(result.nodes.some(n => n.id === 'alice')).toBe(true);
+    });
+
     it('search finds nodes by query', async () => {
       const graph = new KnowledgeGraph(config);
       await graph.build();

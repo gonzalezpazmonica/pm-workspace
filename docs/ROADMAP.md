@@ -1464,6 +1464,8 @@ PR #952 (SE-313/314/275) — DONE (merge 2026-08-09)
   → SE-317 (memoria reflexiva) — DONE (commit, PR pendiente)
   → SE-321 (speech-to-speech) — requiere validacion HW (probe S1)
   → SE-319 / SE-320 / SE-322 (baja)
+  → SE-327..SE-331 (SaviaVaults mejoras: PPR, dual-mode, entity resolution,
+    context enrichment, eval recuperacion) — DONE (2026-08-14)
 ```
 
 ### Estado por PR
@@ -1479,4 +1481,9 @@ PR #952 (SE-313/314/275) — DONE (merge 2026-08-09)
 | SE-321 | — | PROPOSED | Espec nueva (2026-08-09); requiere probe HW |
 | SE-322 | — | PROPOSED | Espec nueva (2026-08-09) |
 | SE-323 | — | IMPLEMENTED | Commit 717e55d7 (PR pendiente de push) |
+| SE-327 | — | IMPLEMENTED | PPR ranking en grafo (2026-08-14) |
+| SE-328 | — | IMPLEMENTED | Dual-mode query local/global (2026-08-14) |
+| SE-329 | — | IMPLEMENTED | Entity resolution sinónimos (2026-08-14) |
+| SE-330 | — | IMPLEMENTED | Context enrichment BM25+grafo (2026-08-14) |
+| SE-331 | — | IMPLEMENTED | Eval recuperación RAGAS-like (2026-08-14) |
 

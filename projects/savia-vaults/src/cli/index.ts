@@ -9,6 +9,7 @@ import { BackupManager } from '../backup/index.js';
 import { FederationRegistry } from '../federation/registry.js';
 import { Introspector } from '../knowledge/introspector.js';
 import { KnowledgeGraph } from '../knowledge/graph.js';
+import { PPRRanker } from '../knowledge/ppr.js';
 import { QueryEngine } from '../knowledge/query.js';
 import { QualityEngine } from '../knowledge/quality.js';
 import type { VaultConfig } from '../types.js';
@@ -96,13 +97,16 @@ program.command('serve').description('Start MCP or A2A server')
 
 program.command('search <query>').description('Search the vault')
   .option('-p, --path <path>', 'Vault path', process.cwd()).option('--json', 'JSON output', false)
+  .option('--enrich', 'SE-330: enriquecer con score del grafo', false)
   .action(async (query, opts) => {
     const config = makeConfig('vault', opts.path);
     const engine = new SearchEngine(config);
     engine.buildIndex();
-    const results = engine.search({ query, maxResults: 10 });
+    const results = opts.enrich
+      ? await engine.searchEnrichedAsync({ query, maxResults: 10, enrich: true })
+      : engine.search({ query, maxResults: 10 });
     if (opts.json) { console.log(JSON.stringify(results, null, 2)); }
-    else { for (const r of results) { console.log(`${r.path} (score: ${r.score.toFixed(2)})`); console.log(`  ${r.snippet}\n`); } }
+    else { for (const r of results as { path: string; score: number; snippet: string }[]) { console.log(`${r.path} (score: ${r.score.toFixed(2)})`); console.log(`  ${r.snippet}\n`); } }
   });
 
 program.command('stats').description('Show vault statistics')
@@ -143,17 +147,76 @@ program.command('graph').description('Knowledge graph operations')
     } else if (opts.action === 'search') {
       const nodes = graph.searchNodes(opts.query || '');
       for (const n of nodes) console.log(`${n.id} (${n.type}) — ${n.outgoing.length} out, ${n.incoming.length} in`);
+    } else if (opts.action === 'ppr') {
+      // SE-327: Personalized PageRank — ranking de relevancia dado un seed set.
+      const ranker = new PPRRanker();
+      const seeds = (opts.id ? [opts.id] : []);
+      const topN = parseInt(opts.depth ?? '10', 10);
+      const snapshot = graph.getSnapshot() ?? { nodes: new Map() };
+      const top = ranker.top(snapshot, seeds, topN);
+      if (opts.json) console.log(JSON.stringify(top, null, 2));
+      else for (const t of top) console.log(`${t.id}\t${t.score.toFixed(6)}`);
     } else { const s = graph.getStats(); console.log(`Nodes: ${s.nodeCount}\nRelations: ${s.relationCount}`); }
   });
 
-program.command('query <expression>').description('Deterministic entity query')
-  .option('-p, --path <path>', process.cwd()).option('--json')
+program.command('query <expression>').description('Deterministic entity query (--mode local|global|hybrid)')
+  .option('-p, --path <path>', process.cwd()).option('--json').option('--mode <mode>', 'local|global|hybrid', 'local')
   .action(async (expression, opts) => {
     const config = makeConfig('vault', opts.path);
     const engine = new QueryEngine(config); await engine.ensureLoaded();
+    if (opts.mode === 'global') {
+      const result = await engine.queryGlobal();
+      if (opts.json) console.log(JSON.stringify(result.outputRows, null, 2));
+      else console.log(result.outputMarkdown);
+      return;
+    }
+    if (opts.mode === 'hybrid') {
+      const result = await engine.queryHybrid(expression);
+      if (opts.json) console.log(JSON.stringify(result.outputRows, null, 2));
+      else console.log(result.outputMarkdown);
+      return;
+    }
     const result = await engine.query(expression);
     if (opts.json) console.log(JSON.stringify(result.outputRows, null, 2));
     else console.log(result.outputMarkdown);
+  });
+
+program.command('eval-search').description('SE-331: evaluación de recuperación (precision@k / recall@k)')
+  .option('-p, --path <path>', 'Vault path', process.cwd())
+  .option('--eval-file <path>', 'Banco de queries JSON externo').option('--modes <modes>', 'bm25,enriched', 'bm25')
+  .option('--top-k <n>', 'k máximo', '10').option('--json')
+  .action(async (opts) => {
+    const config = makeConfig('vault', opts.path);
+    const engine = new SearchEngine(config);
+    engine.buildIndex();
+    const modes = (opts.modes || 'bm25').split(',').map((m: string) => m.trim()).filter((m: string) => m === 'bm25' || m === 'enriched') as ('bm25' | 'enriched')[];
+    const maxResults = parseInt(opts.topK ?? '10', 10);
+
+    let queries: import('../search/eval.js').EvalQuery[] = [];
+    if (opts.evalFile && fs.existsSync(opts.evalFile)) {
+      queries = JSON.parse(fs.readFileSync(opts.evalFile, 'utf-8'));
+    } else {
+      // seeder: entidades del grafo como banco mínimo auto-generado
+      const graph = new KnowledgeGraph(config);
+      await graph.build();
+      const nodes = graph.searchNodes('');
+      queries = nodes.slice(0, 20).map(n => ({ query: n.id, relevantPaths: [n.path] }));
+    }
+
+    const searcher: import('../search/eval.js').Searcher = async (q, max) => {
+      const res = engine.search({ query: q, maxResults: max });
+      return res;
+    };
+    const { evaluate } = await import('../search/eval.js');
+    const result = await evaluate(queries, searcher, modes, { maxResults });
+    if (opts.json) { console.log(JSON.stringify(result, null, 2)); return; }
+    for (const mode of modes) {
+      const r = result[mode];
+      console.log(`\n== ${mode} (${queries.length} queries, top-${maxResults}) ==`);
+      console.log(`  meanPrecision@${maxResults}: ${r.meanPrecisionAtK.toFixed(3)}`);
+      console.log(`  meanRecall@${maxResults}: ${r.meanRecallAtK.toFixed(3)}`);
+      console.log(`  failedQueries: ${r.failedQueries.length}`);
+    }
   });
 
 program.command('health-report').description('Vault quality health report')

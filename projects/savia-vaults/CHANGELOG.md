@@ -5,6 +5,25 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased] — 2026-08-14 · Mejoras RAG/grafo (SE-327..331)
+
+### Added
+- **PPR ranking** (`src/knowledge/ppr.ts`, SE-327): Personalized PageRank determinista
+  (power method, sin deps/LLM). `traverse` ordena por PPR (semilla = startId),
+  `vaults graph --action ppr` expone ranking.
+- **Dual-mode query** (`src/knowledge/communities.ts`, SE-328): detección de
+  comunidades (componentes conexos) + resumen global (tipos/relaciones dominantes,
+  hubs top-PPR). `vaults query --mode global|hybrid`.
+- **Entity resolution** (`src/knowledge/entity-resolution.ts`, SE-329):
+  canonicalización de IDs (NFKD, acentos, case, separadores) + sinónimos; resuelve
+  aliases en query y reporta colisiones.
+- **Context enrichment** (`src/search/enrichment.ts`, SE-330): fusión BM25+grafo —
+  `score = bm25 * (1 + α·graphScore)`; `vaults search --enrich`, best-effort.
+- **Retrieval eval** (`src/search/eval.ts`, SE-331): precision@k / recall@k
+  (RAGAS-like, determinista); `vaults eval-search --modes bm25,enriched`.
+- `seed-savia-labs.sh`: puebla vaults/SaviaLabs desde las specs del proyecto.
+- 56 tests nuevos (338 total en verde).
+
 ## [Unreleased] — 2026-08-06 · Knowledge Governance (SE-309)
 
 ### Added

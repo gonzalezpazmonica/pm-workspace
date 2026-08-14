@@ -1,6 +1,7 @@
 import * as crypto from 'node:crypto';
 import { VaultStorage } from '../storage/index.js';
 import { Introspector } from './introspector.js';
+import { PPRRanker } from './ppr.js';
 import type { VaultConfig } from '../types.js';
 
 export interface Relation {
@@ -149,6 +150,14 @@ export class KnowledgeGraph {
       frontier = nextFrontier;
     }
 
+    // SE-327: ordenar nodos visitados por PPR (semilla = startId) — el más
+    // relevante primero. No cambia el conjunto, solo el orden.
+    if (resultNodes.length > 1) {
+      const ranker = new PPRRanker();
+      const scores = ranker.rank(this.snapshot, [startId]);
+      resultNodes.sort((a, b) => (scores.get(b.id) ?? 0) - (scores.get(a.id) ?? 0));
+    }
+
     return { nodes: resultNodes, relations: resultRelations };
   }
 
@@ -167,5 +176,10 @@ export class KnowledgeGraph {
       relationCount += node.outgoing.length;
     }
     return { nodeCount: this.snapshot.nodes.size, relationCount, relationTypes: this.snapshot.relationTypes };
+  }
+
+  /** SE-327: expone el snapshot actual (para PPR ranking externo). */
+  getSnapshot(): { nodes: Map<string, GraphNode> } | null {
+    return this.snapshot;
   }
 }

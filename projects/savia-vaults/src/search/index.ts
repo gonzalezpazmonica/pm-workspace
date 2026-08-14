@@ -1,6 +1,9 @@
 import * as fs from 'node:fs';
 import * as path from 'node:path';
 import MiniSearch from 'minisearch';
+import { KnowledgeGraph } from '../knowledge/graph.js';
+import { PPRRanker } from '../knowledge/ppr.js';
+import { ContextEnricher } from './enrichment.js';
 import type { VaultConfig, SearchQuery, SearchResult } from '../types.js';
 
 interface IndexedDoc {
@@ -79,7 +82,7 @@ export class SearchEngine {
     const rawResults = this.engine.search(query.query, {});
     const maxResults = query.maxResults || 20;
 
-    return rawResults
+    const filtered = rawResults
       .filter((r) => {
         const p = (r as unknown as { path: string }).path;
         if (query.pathPrefix) {
@@ -97,6 +100,26 @@ export class SearchEngine {
           tags: doc.tags || [],
         };
       });
+
+    return filtered;
+  }
+
+  /**
+   * SE-330: búsqueda enriquecida con score del grafo (context enrichment).
+   * Determinista; best-effort (si el grafo falla, devuelve los resultados BM25).
+   */
+  async searchEnrichedAsync(query: SearchQuery): Promise<SearchResult[] | import('./enrichment.js').EnrichedResult[]> {
+    const base = this.search(query);
+    if (!query.enrich || base.length === 0) return base;
+    try {
+      const graph = new KnowledgeGraph(this.config);
+      await graph.build();
+      const ppr = new PPRRanker();
+      const enricher = new ContextEnricher();
+      return enricher.enrich(base, graph.getSnapshot() ?? { nodes: new Map() }, ppr);
+    } catch {
+      return base;
+    }
   }
 
   getTags(): Map<string, number> {
