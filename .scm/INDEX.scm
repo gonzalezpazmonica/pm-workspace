@@ -1,6 +1,6 @@
 # Savia Capability Map — INDEX
-> hash: 0dadf0f5e798 | resources: 1359
-> 293 commands · 126 skills · 83 agents · 857 scripts
+> hash: fb3c72f9a118 | resources: 1363
+> 294 commands · 126 skills · 83 agents · 860 scripts
 
 [analysis] Trace Optimize — across,distributed,optimize,rates,sampling — cmd:.claude/commands/trace-optimize.md
 [analysis] agent-activity — activity,agent,executions,recent,show — cmd:.claude/commands/agent-activity.md
@@ -521,6 +521,7 @@
 [memory] setup-memory — auto,estructura,inicializa,memory,proyecto — script:scripts/setup-memory.sh
 [memory] skill-optimize — agente,auto,autoresearch,bucle,optimizar — cmd:.claude/commands/skill-optimize.md
 [memory] slice-context-chain — between,chain,context,knowledge,session — script:scripts/slice-context-chain.sh
+[memory] spill-save — fichero,output,oversized,persiste,privado — script:scripts/spill-save.sh
 [memory] tool-search — agentes,buscar,clave,comandos,palabra — cmd:.claude/commands/tool-search.md
 [memory] ua-chat — graph,knowledge,language,natural,search — cmd:.claude/commands/ua-chat.md
 [memory] ubiquitous-language — consolidar,context,dice,dominio,extrae — skill:.claude/skills/ubiquitous-language/SKILL.md
@@ -708,6 +709,7 @@
 [planning] enterprise/rollback-module — activation,enterprise,module,revert,rollback — script:scripts/enterprise/rollback-module.sh
 [planning] enterprise/tenant-activate — activate,mode,multi,tenant,workspace — script:scripts/enterprise/tenant-activate.sh
 [planning] enterprise/tenant-create — create,enterprise,savia,tenant — script:scripts/enterprise/tenant-create.sh
+[planning] env-scrub — entorno,sanitiza,scrub,spawn — script:scripts/env-scrub.sh
 [planning] eras-timeline-generate — docs,eras,generate,roadmap,timeline — script:scripts/eras-timeline-generate.sh
 [planning] estimate-calibrate — actuals,agent,calibrate,empirical,estimate — script:scripts/estimate-calibrate.sh
 [planning] estimate-convert — agent,convert,days,dual,estimate — script:scripts/estimate-convert.sh
@@ -764,6 +766,7 @@
 [planning] git-history-secret-scan — history,scanning,secret — script:scripts/git-history-secret-scan.sh
 [planning] git-secret-scanner — buscando,commits,escanea,gitleaks,historial — skill:.claude/skills/git-secret-scanner/SKILL.md
 [planning] go-developer —  — agent:.opencode/agents/go-developer.md
+[planning] goal-service — durable,goal,service,sesión,wrapper — script:scripts/goal-service.sh
 [planning] graph-query — conocimiento,consulta,grafo,lenguaje,natural — cmd:.claude/commands/graph-query.md
 [planning] graphrag-quality-gate — gate,graphrag,quality — script:scripts/graphrag-quality-gate.sh
 [planning] graphrag-quality-gates — gates,graphrag,quality — script:scripts/graphrag-quality-gates.sh
@@ -1048,6 +1051,7 @@
 [planning] tier3-probes — adoptarlas,herramientas,tier,valida,viabilidad — skill:.claude/skills/tier3-probes/SKILL.md
 [planning] timeline-query — field,historical,query,temporal,timeline — script:scripts/timeline-query.sh
 [planning] token-estimator — before,cost,estimate,estimator,execution — script:scripts/token-estimator.sh
+[planning] token-meter — baseline,determinista,heurísticos,inmutable,medición — cmd:.claude/commands/token-meter.md
 [planning] tool-catalog — categorizado,catálogo,comandos,herramientas — cmd:.claude/commands/tool-catalog.md
 [planning] tool-result-trim — deterministic,hard,output,result,tool — script:scripts/tool-result-trim.sh
 [planning] topic-cluster — agrupan,detectar,incidentes,patrones,pbis — skill:.claude/skills/topic-cluster/SKILL.md

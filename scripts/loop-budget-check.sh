@@ -22,6 +22,7 @@ PROJECT_ROOT="${PROJECT_ROOT:-$(cd "$(dirname "$0")/.." && pwd)}"
 LOOP_BUDGET_DIR="${LOOP_BUDGET_DIR:-$PROJECT_ROOT/output/loop-budget}"
 
 SKILL=""
+GOAL_SESSION=""
 DO_REPORT=false
 DO_UPDATE_TOKENS=false
 UPDATE_TOKENS_N=0
@@ -97,6 +98,9 @@ while [[ $# -gt 0 ]]; do
       UPDATE_TOKENS_N="$2"; shift 2 ;;
     --dry-run)
       DRY_RUN=true; shift ;;
+    --goal)
+      [[ -z "${2:-}" ]] && { echo "ERROR: --goal requires a session value" >&2; exit 2; }
+      GOAL_SESSION="$2"; shift 2 ;;
     --help|-h)
       usage; exit 0 ;;
     *)
@@ -204,6 +208,36 @@ fi
 OVER_BUDGET=false
 if [[ "$DAILY_TOKEN_CAP" -gt 0 ]] && [[ "$TOKENS_USED_TODAY" -ge "$DAILY_TOKEN_CAP" ]]; then
   OVER_BUDGET=true
+fi
+
+# ---------------------------------------------------------------------------
+# SE-326 S4: goal round-cap integration (--goal <session>)
+# ---------------------------------------------------------------------------
+# Si el goal activo está bloqueado por round-cap, el run no debe avanzar (exit 1,
+# misma señal que un kill condition). Reporta el cap del goal cuando aplica.
+if [[ -n "$GOAL_SESSION" ]]; then
+  GOAL_SERVICE="${PROJECT_ROOT}/scripts/goal-service.sh"
+  if [[ -x "$GOAL_SERVICE" ]]; then
+    GOAL_JSON="$(bash "$GOAL_SERVICE" "$GOAL_SESSION" get 2>/dev/null || echo '{"ok":true,"goal":null}')"
+    read -r GOAL_PHASE GOAL_CAP GOAL_CODE <<< "$(printf '%s' "$GOAL_JSON" | python3 -c "
+import json,sys
+try:
+    d=json.load(sys.stdin); g=d.get('goal')
+    if not g:
+        print('none none none')
+    else:
+        print(g.get('phase',''), g.get('max_goal_rounds',''), (g.get('blocked_reason') or {}).get('code',''))
+except Exception:
+    print('none none none')
+" 2>/dev/null || echo 'none none none')"
+    if [[ "$GOAL_PHASE" == "blocked" && "$GOAL_CODE" == "round-cap-reached" ]]; then
+      info "KILL: goal round-cap reached (max_goal_rounds=$GOAL_CAP) — run blocked por goal (SE-326 S4)"
+      exit 1
+    fi
+    if [[ "$GOAL_PHASE" == "active" && -n "$GOAL_CAP" ]]; then
+      info "GOAL ROUND CAP: max_goal_rounds=$GOAL_CAP (cap del goal)"
+    fi
+  fi
 fi
 
 # ---------------------------------------------------------------------------

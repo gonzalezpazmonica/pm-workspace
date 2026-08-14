@@ -1,6 +1,6 @@
 {
-  "hash": "e530cbdb6d78",
-  "total": 1359,
+  "hash": "f12a594a4ccb",
+  "total": 1363,
   "resources": [
     {
       "category": "analysis",
@@ -6903,6 +6903,20 @@
     },
     {
       "category": "memory",
+      "name": "spill-save",
+      "intents": [
+        "fichero",
+        "output",
+        "oversized",
+        "persiste",
+        "privado"
+      ],
+      "kind": "script",
+      "path": "scripts/spill-save.sh",
+      "description": "spill-save.sh — SE-326 S2: persiste output oversized a fichero privado."
+    },
+    {
+      "category": "memory",
       "name": "tool-search",
       "intents": [
         "agentes",
@@ -9355,6 +9369,19 @@
     },
     {
       "category": "planning",
+      "name": "env-scrub",
+      "intents": [
+        "entorno",
+        "sanitiza",
+        "scrub",
+        "spawn"
+      ],
+      "kind": "script",
+      "path": "scripts/env-scrub.sh",
+      "description": "env-scrub.sh — SE-326 S5: sanitiza el entorno antes de spawn."
+    },
+    {
+      "category": "planning",
       "name": "eras-timeline-generate",
       "intents": [
         "docs",
@@ -10080,6 +10107,20 @@
       "kind": "agent",
       "path": ".opencode/agents/go-developer.md",
       "description": ">"
+    },
+    {
+      "category": "planning",
+      "name": "goal-service",
+      "intents": [
+        "durable",
+        "goal",
+        "service",
+        "sesión",
+        "wrapper"
+      ],
+      "kind": "script",
+      "path": "scripts/goal-service.sh",
+      "description": "goal-service.sh — SE-326 S4: wrapper del goal service durable por sesión."
     },
     {
       "category": "planning",
@@ -13783,6 +13824,20 @@
       "kind": "script",
       "path": "scripts/token-estimator.sh",
       "description": "token-estimator.sh — Estimate token cost before execution"
+    },
+    {
+      "category": "planning",
+      "name": "token-meter",
+      "intents": [
+        "baseline",
+        "determinista",
+        "heurísticos",
+        "inmutable",
+        "medición"
+      ],
+      "kind": "cmd",
+      "path": ".claude/commands/token-meter.md",
+      "description": "SE-326 S3: medición determinista de la superficie de la sesión (tokens heurísticos, baseline provider, snapshot inmutable)"
     },
     {
       "category": "planning",

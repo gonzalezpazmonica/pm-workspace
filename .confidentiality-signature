@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=0953b69a7c5c8b40cc547a70445bedd793e76913ab9a1231e28705bb75146021
-timestamp=2026-08-12T20:19:05Z
-branch=agent/se318-blast-radius
-head_commit=5a5b958a
-signature=4ff00e055b4bd2f0dd2735b15afae4a55f84077a5ea0363aeceb5d3a8bf0fe3a
+diff_hash=2d8c4e4f897cb1b93b29097bc2e9415dc3d6c50ef69e9f0814195d1ec7019b5b
+timestamp=2026-08-14T05:48:41Z
+branch=agent/se326-harness-improvements
+head_commit=819d0880
+signature=4bb186740cd7e831f425199d86e81bc529b1d2ae227611bcc44b02d9be94d76b
