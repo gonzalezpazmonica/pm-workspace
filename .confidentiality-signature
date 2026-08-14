@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=2d8c4e4f897cb1b93b29097bc2e9415dc3d6c50ef69e9f0814195d1ec7019b5b
-timestamp=2026-08-14T05:48:41Z
-branch=agent/se326-harness-improvements
-head_commit=819d0880
-signature=4bb186740cd7e831f425199d86e81bc529b1d2ae227611bcc44b02d9be94d76b
+diff_hash=438361f20ea04a48670fd4868add0c194347919492d4c142fb2d47f3e685c808
+timestamp=2026-08-14T15:09:09Z
+branch=agent/se327-vaults-mejoras
+head_commit=dc536316
+signature=4eb218a9d8d69eca2987d2ff6066e6972e64fcd029b859a38d41997fab13b936

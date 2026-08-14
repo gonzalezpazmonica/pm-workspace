@@ -32,6 +32,8 @@ export interface SearchQuery {
   query: string;
   maxResults?: number;
   pathPrefix?: string;
+  /** SE-330: enriquecer con score del grafo (context enrichment). */
+  enrich?: boolean;
 }
 
 export interface SearchResult {
