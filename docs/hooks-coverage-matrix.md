@@ -6,7 +6,7 @@
 
 | Total hooks | TS Guards | Git Hook mitigated | CI Job mitigated | NONE |
 |---|---|---|---|---|
-| 108 | 17 (15.7%) | 4 | 5 | 82 |
+| 109 | 17 (15.6%) | 4 | 5 | 83 |
 
 ## Bloqueantes sin cobertura ni mitigacion
 
@@ -14,8 +14,8 @@ Ninguno — AC-2.2 satisfecho.
 
 ## Cobertura real OpenCode
 
-- **TS Guards activos**: 17/108 (15.7%)
-- **Hooks sin cobertura TS**: 82 (75.9%)
+- **TS Guards activos**: 17/109 (15.6%)
+- **Hooks sin cobertura TS**: 83 (76.1%)
   - De los cuales son bloqueantes sin ninguna mitigacion: 0
   - Eventos no disponibles en OpenCode (degradacion aceptada): 29
 
@@ -45,10 +45,10 @@ Ninguno — AC-2.2 satisfecho.
 | PostToolUse | memory-auto-capture.sh | no | NONE | telemetria | degradacion_documentada: solo Claude Code |
 | PostToolUse | memory-feedback-task.sh | no | NONE | telemetria | degradacion_documentada: solo Claude Code |
 | PostToolUse | output-verbosity-sentinel.sh | no | NONE | telemetria | degradacion_documentada: solo Claude Code |
-| PostToolUse | repeat-tool-guard.sh | no | NONE | warning | SE-326 S1: opt-in SAVIA_LOOP_GUARD=1, NUNCA bloquea; stderr advisory |
 | PostToolUse | pbi-history-capture.sh | no | NONE | telemetria | degradacion_documentada: solo Claude Code |
 | PostToolUse | post-report-write.sh | no | NONE | telemetria | degradacion_documentada: solo Claude Code |
 | PostToolUse | post-spec-edit-reindex.sh | no | NONE | telemetria | degradacion_documentada: solo Claude Code |
+| PostToolUse | repeat-tool-guard.sh | no | NONE | telemetria | degradacion_documentada: solo Claude Code |
 | PostToolUse | router-mode-dispatch.sh | no | NONE | telemetria | degradacion_documentada: solo Claude Code |
 | PostToolUse | speculative-skill-preload.sh | no | NONE | telemetria | degradacion_documentada: solo Claude Code |
 | PostToolUse | token-tracker-middleware.sh | no | NONE | telemetria | degradacion_documentada: solo Claude Code |
