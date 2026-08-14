@@ -1,5 +1,5 @@
 # memory — Savia Capability Map (L1)
-> 104 resources
+> 105 resources
 
 - **auto-compact** (script): auto-compact.sh — Disparado automáticamente cuando contexto > 85%
 - **cache-analytics** (cmd): Métricas de hit rate, tokens ahorrados, latencia, ahorro de costes
@@ -98,6 +98,7 @@
 - **setup-memory** (script): setup-memory.sh — Inicializa estructura de auto memory para un proyecto
 - **skill-optimize** (cmd): Auto-optimizar el prompt de un skill o agente con bucle AutoResearch
 - **slice-context-chain** (script): slice-context-chain.sh — Knowledge chain between dev-session slices
+- **spill-save** (script): spill-save.sh — SE-326 S2: persiste output oversized a fichero privado.
 - **tool-search** (cmd): Buscar comandos, skills y agentes por palabra clave
 - **ua-chat** (cmd): Semantic search the knowledge graph using natural language
 - **ubiquitous-language** (skill): Usar cuando se necesita extraer o consolidar el glosario de términos de dominio de un proyecto. Trigger: usuario dice 'extrae glosario', 'ubiquitous language', '/glossary', o hay >5 términos repetidos sin CONTEXT.md.

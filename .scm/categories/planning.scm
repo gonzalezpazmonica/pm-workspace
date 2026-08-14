@@ -1,5 +1,5 @@
 # planning — Savia Capability Map (L1)
-> 575 resources
+> 578 resources
 
 - **/decide-architecture** (cmd): Clasifica una tarea como WORKFLOW (deterministica) o AGENT (loop). Bias hacia workflow per Anthropic. Sugiere plantilla inicial. Mide accuracy contra corpus curado de 20 tareas.
 - **_template** (skill): TEMPLATE — copia este directorio para crear una skill nueva. NO se carga en runtime.
@@ -181,6 +181,7 @@
 - **enterprise/rollback-module** (script): rollback-module.sh — Revert activation of an Enterprise module
 - **enterprise/tenant-activate** (script): tenant-activate.sh — Activate multi-tenant mode in the workspace
 - **enterprise/tenant-create** (script): tenant-create.sh — Create a new Savia Enterprise tenant
+- **env-scrub** (script): env-scrub.sh — SE-326 S5: sanitiza el entorno antes de spawn.
 - **eras-timeline-generate** (script): eras-timeline-generate.sh — Genera docs/eras-timeline.md desde ROADMAP.md
 - **estimate-calibrate** (script): estimate-calibrate.sh — Recompute empirical agent speedups from actuals log
 - **estimate-convert** (script): estimate-convert.sh — Convert human-days to agent-hours using dual ratios
@@ -237,6 +238,7 @@
 - **git-history-secret-scan** (script): SE-239 — Git history secret scanning
 - **git-secret-scanner** (skill): Escanea el historial git o los commits pendientes de push buscando secrets con gitleaks. SE-239/SE-247.
 - **go-developer** (agent): >
+- **goal-service** (script): goal-service.sh — SE-326 S4: wrapper del goal service durable por sesión.
 - **graph-query** (cmd): Consulta el grafo de conocimiento en lenguaje natural
 - **graphrag-quality-gate** (script): graphrag-quality-gate.sh — SE-030-T
 - **graphrag-quality-gates** (script): graphrag-quality-gates.sh — SE-030
@@ -521,6 +523,7 @@
 - **tier3-probes** (skill): Usar cuando se valida la viabilidad de herramientas Tier 3 antes de adoptarlas en el workspace.
 - **timeline-query** (script): timeline-query.sh — Query historical value of a field from bi-temporal timeline
 - **token-estimator** (script): token-estimator.sh — Estimate token cost before execution
+- **token-meter** (cmd): SE-326 S3: medición determinista de la superficie de la sesión (tokens heurísticos, baseline provider, snapshot inmutable)
 - **tool-catalog** (cmd): Catálogo categorizado de herramientas (400+ comandos)
 - **tool-result-trim** (script): tool-result-trim.sh — Deterministic hard cap for tool result output
 - **topic-cluster** (skill): Usar cuando se agrupan retros, PBIs o incidentes en topics para detectar patrones transversales.

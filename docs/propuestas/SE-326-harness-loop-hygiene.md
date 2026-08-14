@@ -1,13 +1,13 @@
 ---
 id: SE-326
 title: "SE-326 — Loop-hygiene, spill y token-meter desde deepseek-harness"
-status: PROPOSED
+status: IMPLEMENTED
 priority: media
 ---
 
 # SE-326 — Loop-hygiene, spill y token-meter desde deepseek-harness
 
-**Status:** PROPOSED
+**Status:** IMPLEMENTED
 **Fecha:** 2026-08-14
 **Area:** Hooks / Autonomía / Contexto / Seguridad
 **Branch sugerida:** `agent/se326-harness-improvements`
@@ -215,6 +215,14 @@ manteniendo el principio **"la IA propone, el humano dispone"** (autonomous-safe
 - [ ] AC-S5.2: con `SAVIA_SCRUB_ENV` unset, comportamiento idéntico al actual.
 - [ ] AC-S5.3: `$(cat $PAT_FILE)` sigue funcionando con scrub activo.
 - [ ] AC-S5.4: telemetría `savia.env-scrub` registrada solo cuando scrub activo.
+- [ ] AC-S5.5: `.claude/hooks/agent-git-discipline.sh` integra la validación `env-scrub check` (warning, nunca bloqueo).
+
+### AC-S6: Integración y registro
+
+- [ ] AC-S6.1: hook `repeat-tool-guard.sh` registrado en `.claude/settings.json` (PostToolUse `.*`).
+- [ ] AC-S6.2: `docs/hooks-coverage-matrix.md` documenta el hook repeat-tool-guard.
+- [ ] AC-S6.3: comando `/token-meter` registrado en el catálogo SCM (`.scm/` regenerado).
+- [ ] AC-S6.4: `docs/propuestas/index.md` regenerado con SE-326 IMPLEMENTED.
 
 ---
 
@@ -231,6 +239,23 @@ manteniendo el principio **"la IA propone, el humano dispone"** (autonomous-safe
   `.opencode/hooks/bash-output-compress.sh`, `.opencode/hooks/block-credential-leak.sh`,
   `.opencode/skills/context-rot-strategy/SKILL.md`, `docs/rules/domain/autonomous-safety.md`,
   `docs/rules/domain/loop-budget-schema.md`.
+
+## Implementación (2026-08-14)
+
+- `scripts/repeat-tool-guard.py` + `.opencode/hooks/repeat-tool-guard.sh`
+  (opt-in `SAVIA_LOOP_GUARD=1`, thresholds [3,5,8], exclude todo_write/todowrite,
+  canonicalización key-sort, persistencia por (sesión, turno), NUNCA bloquea,
+  telemetría `savia.loop-guard`).
+- `scripts/token-meter.py` + comando `/token-meter` (snapshot inmutable, heurística
+  por rol, baseline provider, telemetría `savia.token-meter`).
+- `scripts/spill-save.sh` + integración en `bash-output-compress.sh` (dir 0700,
+  open 'wx' 0o600, nombre sanitizado, preview+locator+hint, best-effort).
+- `scripts/env-scrub.sh` + validación en `agent-git-discipline.sh`
+  (opt-in `SAVIA_SCRUB_ENV=1`, env -i + allowlist, warning nunca bloqueo).
+- `scripts/goal-service.{sh,py}` + integración `loop-budget-check.sh --goal`
+  (fases, CAS, round-cap, tombstone; estado en `output/goals/`).
+- 32 tests BATS (5 ficheros). Registro del hook en `.claude/settings.json`
+  (PostToolUse `.*`).
 
 ## Plan de implementación propuesto
 

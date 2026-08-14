@@ -644,6 +644,13 @@
             "async": true,
             "timeout": 3,
             "statusMessage": "Verbosity sentinel (SE-224)..."
+          },
+          {
+            "type": "command",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/.opencode/hooks/repeat-tool-guard.sh",
+            "async": true,
+            "timeout": 5,
+            "statusMessage": "Loop-guard (SE-326)..."
           }
         ]
       },

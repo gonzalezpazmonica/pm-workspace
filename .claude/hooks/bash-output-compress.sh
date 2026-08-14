@@ -20,6 +20,21 @@ OUTPUT="${TOOL_OUTPUT:-}"
 # Count lines
 LINE_COUNT=$(printf '%s\n' "$OUTPUT" | wc -l)
 
+# SE-326 S2: spill oversized output to private file instead of truncating inline.
+# Umbrales: >200 líneas O >16KB. Best-effort — si falla, sigue el flujo normal.
+SPILL_MAX_LINES="${SPILL_MAX_INLINE_LINES:-200}"
+SPILL_MAX_BYTES="${SPILL_MAX_INLINE_BYTES:-16384}"
+OUTPUT_BYTES=${#OUTPUT}
+PROJECT_DIR_HOOK="${CLAUDE_PROJECT_DIR:-.}"
+SPILL_SCRIPT="$PROJECT_DIR_HOOK/scripts/spill-save.sh"
+if [[ -x "$SPILL_SCRIPT" ]] && { [[ $LINE_COUNT -gt $SPILL_MAX_LINES ]] || [[ $OUTPUT_BYTES -gt $SPILL_MAX_BYTES ]]; }; then
+    SPILLED=$(printf '%s\n' "$OUTPUT" | bash "$SPILL_SCRIPT" --session "${CLAUDE_SESSION_ID:-default}" --name "bash-output.txt" 2>/dev/null) || SPILLED=""
+    if [[ -n "$SPILLED" ]]; then
+        echo "$SPILLED"
+        exit 0
+    fi
+fi
+
 # Pass through short output (<=30 lines)
 if [[ $LINE_COUNT -le 30 ]]; then
     exit 0

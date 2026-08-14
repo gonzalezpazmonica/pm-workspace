@@ -45,6 +45,7 @@ Ninguno — AC-2.2 satisfecho.
 | PostToolUse | memory-auto-capture.sh | no | NONE | telemetria | degradacion_documentada: solo Claude Code |
 | PostToolUse | memory-feedback-task.sh | no | NONE | telemetria | degradacion_documentada: solo Claude Code |
 | PostToolUse | output-verbosity-sentinel.sh | no | NONE | telemetria | degradacion_documentada: solo Claude Code |
+| PostToolUse | repeat-tool-guard.sh | no | NONE | warning | SE-326 S1: opt-in SAVIA_LOOP_GUARD=1, NUNCA bloquea; stderr advisory |
 | PostToolUse | pbi-history-capture.sh | no | NONE | telemetria | degradacion_documentada: solo Claude Code |
 | PostToolUse | post-report-write.sh | no | NONE | telemetria | degradacion_documentada: solo Claude Code |
 | PostToolUse | post-spec-edit-reindex.sh | no | NONE | telemetria | degradacion_documentada: solo Claude Code |

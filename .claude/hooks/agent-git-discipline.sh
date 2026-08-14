@@ -16,6 +16,15 @@ fi
 
 [[ -z "$COMMAND" ]] && exit 0
 
+# SE-326 S5: env-scrub validation — solo con SAVIA_SCRUB_ENV=1, NUNCA bloquea.
+# Detecta comandos que inyectan secretos por env (warning en stderr).
+if [[ "${SAVIA_SCRUB_ENV:-}" == "1" ]]; then
+  SCRUB_SCRIPT="${CLAUDE_PROJECT_DIR:-$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)}/scripts/env-scrub.sh"
+  if [[ -x "$SCRUB_SCRIPT" ]]; then
+    bash "$SCRUB_SCRIPT" check "$COMMAND" 2>&1 || true
+  fi
+fi
+
 NORMALIZED=$(echo "$COMMAND" | sed 's/^[[:space:]]*//')
 
 # ─── rm -rf / rm -r (recursive delete) ──────────────────────────────────
