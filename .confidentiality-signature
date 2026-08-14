@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=d5509f54ed3004070c977973105bf9e4d0278add696adbeb02f4be4f846582ef
-timestamp=2026-08-14T05:25:17Z
+diff_hash=2d8c4e4f897cb1b93b29097bc2e9415dc3d6c50ef69e9f0814195d1ec7019b5b
+timestamp=2026-08-14T05:48:41Z
 branch=agent/se326-harness-improvements
-head_commit=1f889fec
-signature=132856af7f095bd10825a88033b7f4c8165887f35caccf406a6b53903a051bb9
+head_commit=819d0880
+signature=4bb186740cd7e831f425199d86e81bc529b1d2ae227611bcc44b02d9be94d76b
