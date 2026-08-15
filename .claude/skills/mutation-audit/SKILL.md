@@ -48,6 +48,9 @@ bash scripts/mutation-audit.sh --target src/Y.ts --tests test/Y.test.ts --runner
 
 # Con threshold custom
 bash scripts/mutation-audit.sh --target scripts/X.sh --tests tests/test-X.bats --threshold 80 --mutants 10 --json
+
+# Modo simulate (Slice 1 fast path — SIN ejecución real, etiquetado "simulated")
+bash scripts/mutation-audit.sh --target scripts/X.sh --tests tests/test-X.bats --simulate
 ```
 
 ## Output
@@ -58,25 +61,32 @@ bash scripts/mutation-audit.sh --target scripts/X.sh --tests tests/test-X.bats -
 === SE-035 Mutation Audit ===
 Target:    scripts/X.sh
 Tests:     tests/test-X.bats
-Mutants:   5 seeded
-Killed:    4
-Survived:  1 (line 42: comparison-boundary)
+Language:  bash
+Mode:      real
+Mutants:   5 (killed=4, survived=1, equivalent=0, executed=5)
 Score:     80% [PASS threshold 70%]
 ```
+
+`executed` = número de mutantes que pasaron REALMENTE por el runner (el guard de
+ejecución). En modo `--simulate`, `executed=0` y `Mode: simulated` con WARNING.
 
 ### JSON (--json)
 
 ```json
 {
+  "verdict":"PASS",
+  "execution":"real",
   "target":"scripts/X.sh",
   "tests":"tests/test-X.bats",
+  "language":"bash",
   "mutants_total":5,
-  "mutants_killed":4,
-  "mutants_survived":1,
+  "executed":5,
+  "killed":4,
+  "survived":1,
+  "equivalent":0,
   "score_pct":80,
   "threshold_pct":70,
-  "verdict":"PASS",
-  "survivors":[{"line":42,"mutator":"comparison-boundary","diff":"..."}]
+  "survivors":["line=42 mutator=comparison-boundary status=survived"]
 }
 ```
 
@@ -96,6 +106,12 @@ Score:     80% [PASS threshold 70%]
 - **< 70%**: tests débiles o zombies — revisar
 
 Cada superviviente (mutante no matado) indica un gap concreto: diff muestra qué cambio NO fue detectado.
+
+## Caveats de interpretación (detalle en DOMAIN.md)
+
+- **Atribución de kills**: un kill se atribuye al test que falla primero — 7/7 valida la suite entera, no cada capa. En Tier 3, re-correr mutantes contra la suite de propiedades sola.
+- **Guard de ejecución**: un runner hand-rolled debe probar que ejecutó cada mutante (bug de cache de bytecode infla el score sin aparecer como rojo). Ver `docs/rules/domain/checker-fail-closed.md`.
+- **Estado**: Slice 2 — ejecución real con baseline gate. `--simulate` = fast path etiquetado `simulated` (nunca fabrica kills).
 
 ## Integración en flujo
 

@@ -46,7 +46,7 @@
 
 <!-- AUTO_BEGIN — do not edit; regenerate via scripts/resolver-md-generate.sh -->
 
-### Skills (125)
+### Skills (126)
 
 | Intent (skill) | Target | Cuándo usar |
 |---|---|---|
@@ -97,6 +97,7 @@
 | `enterprise-onboarding` | skill:enterprise-onboarding | Usar cuando se incorporan múltiples personas a la organización de forma masiva. |
 | `epistemic-humility` | skill:epistemic-humility | Usar cuando se detecta riesgo de adulación, cesión sin evidencia, o claim repetido po... |
 | `evaluations-framework` | skill:evaluations-framework | Usar cuando se diseñan o ejecutan evaluaciones de calidad de agentes y prompts. |
+| `evidence-first-development` | skill:evidence-first-development | Desarrollo evidence-first: rodea la implementación con un SPEC aprobado y un gauntlet ... |
 | `executive-reporting` | skill:executive-reporting | Usar cuando se genera un informe ejecutivo multi-proyecto para dirección. |
 | `feasibility-probe` | skill:feasibility-probe | Usar cuando se necesita validar si una spec es técnicamente viable antes de implementa... |
 | `git-secret-scanner` | skill:git-secret-scanner | Escanea el historial git o los commits pendientes de push buscando secrets con gitleaks... |

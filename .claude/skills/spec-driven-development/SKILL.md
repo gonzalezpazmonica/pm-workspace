@@ -60,18 +60,9 @@ Un **Developer** puede ser:
 
 ## Fase 1 — Determinar Developer Type
 
-### Factores que favorecen agente:
-- Patrón claro y repetible
-- Output determinístico (tests, DTOs, validators)
-- Ejemplos similares en el código
-- Reglas de negocio completamente especificadas
+### Factores que favorecen agente: patrón claro y repetible · output determinístico (tests, DTOs, validators) · ejemplos en el código · reglas de negocio completas.
 
-### Factores que favorecen humano:
-- Lógica de dominio novedosa
-- Trade-offs arquitectónicos
-- Sistemas externos sin documentación
-- Criterios de aceptación incompletos
-- Task E1 (Code Review) → **siempre humano**
+### Factores que favorecen humano: lógica de dominio novedosa · trade-offs arquitectónicos · sistemas externos sin documentación · criterios incompletos · E1 (Code Review) → **siempre humano**.
 
 ---
 
@@ -106,6 +97,10 @@ Una Spec es ejecutable cuando:
 - [ ] Criterios de aceptación verificables
 
 Si NO cumple → `developer_type: human`
+
+### 2.4b Aprobación del Spec (answer ≠ approval)
+
+Una respuesta a una pregunta NO es aprobación — es un INPUT que cambia el spec; re-muestra y pregunta otra vez. Spec append-only (never drift) + path absoluto. Detalle: `REFERENCE.md`.
 
 ### 2.5 Agent-Note del análisis
 

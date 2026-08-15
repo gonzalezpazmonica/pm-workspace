@@ -88,7 +88,7 @@ prompt = (
     "No other text."
 )
 payload = {
-    "model": "claude-haiku-4-5-20251001",
+    "model": "deepseek/deepseek-v4-flash",
     "max_tokens": 2000,
     "messages": [{"role": "user", "content": prompt}]
 }

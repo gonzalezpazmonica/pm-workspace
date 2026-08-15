@@ -25,9 +25,9 @@
   }
  },
  "agent": {
-  "build": {
-   "mode": "primary",
-   "model": "github-copilot/claude-opus-4.7",
+   "build": {
+    "mode": "primary",
+    "model": "deepseek/deepseek-v4-pro",
    "permission": {
     "edit": "allow",
     "task": "allow",
@@ -57,9 +57,9 @@
     }
    }
   },
-  "plan": {
-   "mode": "primary",
-   "model": "github-copilot/claude-sonnet-4.5",
+   "plan": {
+    "mode": "primary",
+    "model": "deepseek/deepseek-v4-pro",
    "permission": {
     "edit": "deny",
     "bash": "deny",

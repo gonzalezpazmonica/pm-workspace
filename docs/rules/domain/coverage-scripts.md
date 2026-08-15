@@ -68,6 +68,7 @@ Interpretar resultado:
 - OK Cobertura ≥ TEST_COVERAGE_MIN_PERCENT (80%) → informe de éxito
 - FAIL Cobertura < 80% → ir a Paso 5 (orquestación de mejora)
 
+## Paso 4b — Changed-line coverage: ver `docs/rules/domain/changed-line-coverage.md` (el % global es baseline, el gate real son las líneas tocadas)
 ## Paso 5 — Cobertura insuficiente: orquestar mejora
 
 ### 5a — Análisis de cobertura (agente `architect`)
