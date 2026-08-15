@@ -29,9 +29,10 @@ Ejecuta tests y verifica cobertura post-commit.
 1. `git diff --name-only HEAD~1 HEAD | grep "^projects/"` — identificar proyecto
 2. `dotnet test *.sln --configuration Release --verbosity normal` — ejecutar tests
 3. Si fallan → delegar a `dotnet-developer` con error completo (máx 2 intentos)
-4. `dotnet test --collect "XPlat Code Coverage"` — verificar cobertura
-5. Si cobertura < `TEST_COVERAGE_MIN_PERCENT` → orquestar architect+BA+dotnet-developer
-6. Generar resumen en `output/YYYYMMDD-test-results-[proyecto].md`
+4. `dotnet test --collect "XPlat Code Coverage"` — verificar cobertura global (baseline)
+5. Changed-line coverage: toda línea cambiada del commit ejercitada por un test, con exit-nonzero (`diff-cover --fail-under` o equivalente). El % global es baseline, NO el gate — ver `docs/rules/domain/coverage-scripts.md`.
+6. Si cobertura < `TEST_COVERAGE_MIN_PERCENT` o changed-line < umbral → orquestar architect+BA+dotnet-developer
+7. Generar resumen en `output/YYYYMMDD-test-results-[proyecto].md`
 
 Reglas: nunca commitear si tests fallan. Leer umbrales de `docs/rules/domain/pm-config.md`.
-Ref: `docs/rules/domain/test-coverage-policy.md`
+Ref: `docs/rules/domain/test-coverage-policy.md`, `docs/rules/domain/coverage-scripts.md`

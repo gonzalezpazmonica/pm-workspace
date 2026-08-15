@@ -1,34 +1,37 @@
 #!/usr/bin/env bash
-# mutation-audit.sh — SE-035 Slice 1 mutation testing audit.
+# mutation-audit.sh — SE-035 mutation testing audit.
 #
-# Mide la calidad real de los tests mediante mutation testing:
-# siembra N mutantes determinísticos en el fichero bajo test, ejecuta
-# el test runner, y reporta mutation-score = (mutantes matados) / (mutantes totales).
+# Slice 2 (real execution): siembra N mutantes determinísticos en el fichero
+# bajo test, ejecuta el test runner REAL contra una copia aislada, y reporta
+# mutation-score = (mutantes matados) / (mutantes ejecutados).
 #
-# Casos de uso:
-#   - Auditoría periódica de tests AI-generated (zombies detection)
-#   - Sprint-end quality check sobre módulos críticos
-#   - Pre-merge de specs que añaden tests nuevos
+# Guard de ejecución (checker-fail-closed): antes de mutar, corre el runner
+# contra el árbol prístino (baseline) — si no devuelve 0, aborta en vez de
+# fabricar un score. Cada mutante se ejecuta realmente; nunca se simula un kill.
 #
-# Mutadores soportados (Slice 1):
+# Mutadores soportados:
 #   bash:     arithmetic-op-swap, comparison-boundary, conditional-negate
 #   python:   same + return-value-null
 #   typescript: same + return-value-null
 #
-# NO aplica mutaciones al repo real — opera sobre una copia en $TMPDIR.
+# NO aplica mutaciones al repo real — opera sobre una copia aislada (git archive
+# o cp) en $TMPDIR.
 #
 # Usage:
 #   mutation-audit.sh --target scripts/X.sh --tests tests/test-X.bats
 #   mutation-audit.sh --target src/Y.ts --tests test/Y.test.ts --runner "npm test"
 #   mutation-audit.sh --target scripts/X.sh --tests tests/test-X.bats --mutants 10 --json
+#   mutation-audit.sh --target scripts/X.sh --tests tests/test-X.bats --simulate   # Slice 1 fast path
 #
 # Exit codes:
 #   0 — mutation score ≥ threshold (default 70%)
 #   1 — mutation score below threshold (tests are weak)
 #   2 — usage error
+#   3 — runner/baseline error (fail-closed: no trustworthy result)
 #
 # Ref: SE-035, docs/propuestas/SE-035-mutation-testing-skill.md
-# Safety: read-only on repo, write only in workdir (TMPDIR). set -uo pipefail.
+#      docs/rules/domain/checker-fail-closed.md
+# Safety: read-only on repo, write only in $TMPDIR workdir. set -uo pipefail.
 
 set -uo pipefail
 
@@ -39,6 +42,7 @@ MUTANTS=5
 THRESHOLD_PCT=70
 JSON=0
 SEED=42
+SIMULATE=0
 
 usage() {
   cat <<EOF
@@ -54,10 +58,10 @@ Optional:
   --mutants N       Number of mutants to seed (default 5, max 20)
   --threshold PCT   Minimum mutation score to pass (default 70)
   --seed N          Deterministic seed for mutant selection (default 42)
+  --simulate        Slice 1 fast path — NO real runner execution (results labeled "simulated")
   --json            JSON output
 
-Mutadores Slice 1:
-  arithmetic-op-swap, comparison-boundary, conditional-negate, return-null
+Mutadores: arithmetic-op-swap, comparison-boundary, conditional-negate, return-null
 
 Ref: SE-035 §Objective — detectar ≥80% de 10 mutantes artificiales.
 EOF
@@ -71,6 +75,7 @@ while [[ $# -gt 0 ]]; do
     --mutants) MUTANTS="$2"; shift 2 ;;
     --threshold) THRESHOLD_PCT="$2"; shift 2 ;;
     --seed) SEED="$2"; shift 2 ;;
+    --simulate) SIMULATE=1; shift ;;
     --json) JSON=1; shift ;;
     -h|--help) usage; exit 0 ;;
     *) echo "ERROR: unknown arg '$1'" >&2; exit 2 ;;
@@ -90,6 +95,11 @@ if ! [[ "$THRESHOLD_PCT" =~ ^[0-9]+$ ]] || [[ "$THRESHOLD_PCT" -gt 100 ]]; then
   echo "ERROR: --threshold must be 0-100" >&2; exit 2
 fi
 
+# Recursion guard: when the runner being executed re-invokes this script (the
+# self-referential case), the inner invocation must NOT re-run the runner or we
+# recurse forever. Force simulation on inner invocations.
+[[ "${MUTATION_AUDIT_INNER:-0}" == "1" ]] && SIMULATE=1
+
 # Detect language + runner
 EXT="${TARGET##*.}"
 case "$EXT" in
@@ -99,104 +109,252 @@ case "$EXT" in
   *) echo "ERROR: unsupported extension '$EXT' (bash/python/typescript only)" >&2; exit 2 ;;
 esac
 
+# Project root + repo-relative paths (for the isolated tree)
+PROJECT_ROOT="$(git rev-parse --show-toplevel 2>/dev/null || pwd)"
+target_rel="$(realpath --relative-to="$PROJECT_ROOT" "$TARGET" 2>/dev/null || echo "$TARGET")"
+tests_rel="$(realpath --relative-to="$PROJECT_ROOT" "$TESTS" 2>/dev/null || echo "$TESTS")"
+
+# Mutators (Slice 1 set). Order defines the deterministic try-order in choose_mutation.
+MUTATORS=(arithmetic-op-swap comparison-boundary conditional-negate return-null)
+
 # Workspace aislado
 WORKDIR=$(mktemp -d -t mutation-audit-XXXXXX)
 trap 'rm -rf "$WORKDIR"' EXIT
 
-# Deterministic mutant line selection
+# Deterministic mutant line selection (no RNG — reproducible across awk impls).
+# Rotates the candidate list by (seed % total) and takes the next `count` lines.
 select_mutant_lines() {
   local file="$1" count="$2" seed="$3"
-  # Lines with arithmetic/comparison/conditionals
   grep -nE '(\+|-|\*|/|==|!=|<|>|<=|>=|if |return)' "$file" 2>/dev/null | \
     awk -F: '{print $1}' | \
-    awk -v s="$seed" 'BEGIN{srand(s)} {print rand() "\t" $0}' | \
-    sort -k1,1 | head -"$count" | awk '{print $2}'
+    awk -v n="$count" -v s="$seed" '
+      { lines[NR]=$1 }
+      END {
+        total = NR
+        if (total == 0) exit 0
+        start = (s % total) + 1
+        for (i = 0; i < n && i < total; i++) {
+          idx = ((start - 1 + i) % total) + 1
+          print lines[idx]
+        }
+      }'
 }
 
-# Apply mutator to a specific line
-apply_mutation() {
-  local file="$1" line="$2" mutator="$3"
-  local content
-  content=$(sed -n "${line}p" "$file")
-  local mutated="$content"
+# Apply a single mutator to a line of content. Emits the mutated line on stdout
+# (equal to the input when the mutator does not apply to this line).
+mutate_line() {
+  local content="$1" mutator="$2" mutated="$1"
   case "$mutator" in
     arithmetic-op-swap)
-      mutated=$(echo "$content" | sed 's/+/-/' )
-      [[ "$mutated" == "$content" ]] && mutated=$(echo "$content" | sed 's/*/\//')
+      mutated=$(printf '%s' "$content" | sed 's/+/-/')
+      [[ "$mutated" == "$content" ]] && mutated=$(printf '%s' "$content" | sed 's/\*/\//')
       ;;
     comparison-boundary)
-      mutated=$(echo "$content" | sed 's/<=/</; s/>=/>/; s/</<=/; s/>/>=/' | head -1)
+      mutated=$(printf '%s' "$content" | sed 's/<=/</g; s/>=/>/g; s/</<=/g; s/>/>=/g')
       ;;
     conditional-negate)
-      mutated=$(echo "$content" | sed 's/==/!=/; s/!=/==/' | head -1)
+      mutated=$(printf '%s' "$content" | sed 's/==/!=/g')
       ;;
     return-null)
-      if [[ "$content" =~ return ]]; then
-        mutated=$(echo "$content" | sed 's/return.*$/return/')
-      fi
+      [[ "$content" =~ return ]] && mutated=$(printf '%s' "$content" | sed 's/return.*$/return/')
       ;;
   esac
-  # Write mutated file
-  awk -v ln="$line" -v new="$mutated" 'NR==ln{print new; next} {print}' "$file"
+  printf '%s' "$mutated"
 }
 
-# Run tests and return exit code
-run_tests() {
+# Emit the full file with line `line` replaced by `newline`.
+mutate_file() {
+  local file="$1" line="$2" newline="$3"
+  awk -v ln="$line" -v new="$newline" 'NR==ln{print new; next} {print}' "$file"
+}
+
+# Try mutators in order until one actually changes the line. Emits
+# "<mutator>\t<mutated_line>" or nothing if no mutator applies.
+choose_mutation() {
+  local content="$1" i m mline
+  for i in 0 1 2 3; do
+    m="${MUTATORS[$i]}"
+    mline=$(mutate_line "$content" "$m")
+    if [[ "$mline" != "$content" ]]; then
+      printf '%s\t%s' "$m" "$mline"
+      return 0
+    fi
+  done
+  return 1
+}
+
+# ── Real execution path ─────────────────────────────────────────────────────
+
+build_isolated_tree() {
   local workdir="$1"
-  (cd "$workdir" && eval "$RUNNER" >/dev/null 2>&1)
+  local used_git=0
+  # Copy tracked files from the WORKING TREE (git ls-files reads current content,
+  # so uncommitted modifications are included; .git/node_modules/.venv are skipped
+  # because they are untracked/ignored).
+  if command -v git >/dev/null 2>&1 && git -C "$PROJECT_ROOT" rev-parse --is-inside-work-tree >/dev/null 2>&1; then
+    if (cd "$PROJECT_ROOT" && git ls-files -z | tar --null -T - -cf - 2>/dev/null | tar -xf - -C "$workdir" 2>/dev/null); then
+      used_git=1
+    fi
+  fi
+  # Belt-and-suspenders: ensure target + test exist in the workdir (covers
+  # untracked fixtures that git ls-files skips).
+  if [[ ! -e "$workdir/$target_rel" ]]; then
+    mkdir -p "$(dirname "$workdir/$target_rel")" && cp -a "$PROJECT_ROOT/$target_rel" "$workdir/$target_rel"
+  fi
+  if [[ ! -e "$workdir/$tests_rel" ]]; then
+    mkdir -p "$(dirname "$workdir/$tests_rel")" && cp -a "$PROJECT_ROOT/$tests_rel" "$workdir/$tests_rel"
+  fi
+  if [[ "$used_git" -eq 0 ]]; then
+    # Non-git fallback: copy the target/test trees.
+    mkdir -p "$(dirname "$workdir/$target_rel")" && cp -a "$PROJECT_ROOT/$target_rel" "$workdir/$target_rel" 2>/dev/null || true
+    mkdir -p "$(dirname "$workdir/$tests_rel")" && cp -a "$PROJECT_ROOT/$tests_rel" "$workdir/$tests_rel" 2>/dev/null || true
+  fi
 }
 
-MUTATORS=("arithmetic-op-swap" "comparison-boundary" "conditional-negate" "return-null")
-KILLED=0
-SURVIVED=0
-SURVIVOR_DETAILS=()
+# Rebase the runner command to point at the workdir copy of the test file.
+rebased_runner() {
+  printf '%s' "$RUNNER" | sed "s|$TESTS|$WORKDIR/$tests_rel|g"
+}
 
-# Seed mutants
-MUTANT_LINES=$(select_mutant_lines "$TARGET" "$MUTANTS" "$SEED")
-actual_mutants=0
+clear_bytecode_cache() {
+  find "$WORKDIR" -type d -name '__pycache__' -exec rm -rf {} + 2>/dev/null
+  find "$WORKDIR" -type f -name '*.pyc' -delete 2>/dev/null
+}
 
-while IFS= read -r line; do
-  [[ -z "$line" ]] && continue
-  actual_mutants=$((actual_mutants + 1))
-  mutator="${MUTATORS[$((actual_mutants % ${#MUTATORS[@]}))]}"
+execute_real() {
+  build_isolated_tree "$WORKDIR"
 
-  # Baseline: copy repo to workdir
-  cp -r "$(dirname "$TARGET")" "$WORKDIR/src" 2>/dev/null || true
-  cp -r tests "$WORKDIR/tests" 2>/dev/null || true
+  local wtarget="$WORKDIR/$target_rel"
+  local pristine="$WORKDIR/.pristine-target"
+  cp -a "$PROJECT_ROOT/$target_rel" "$pristine" 2>/dev/null || cp -a "$TARGET" "$pristine"
 
-  # Write mutated version
-  mutated_content=$(apply_mutation "$TARGET" "$line" "$mutator")
-  # We mutate the TARGET file in a temp copy
-  target_copy="$WORKDIR/$(basename "$TARGET").mutated"
-  echo "$mutated_content" > "$target_copy"
+  local rrunner
+  rrunner=$(rebased_runner)
 
-  # Simple heuristic: if mutation is no-op (identical), count as "equivalent" (not killed)
-  if diff -q "$target_copy" "$TARGET" >/dev/null 2>&1; then
-    SURVIVED=$((SURVIVED + 1))
-    SURVIVOR_DETAILS+=("line=$line mutator=$mutator status=equivalent")
-    continue
+  # ── Baseline gate (fail-closed) ──────────────────────────────────────
+  # Prove the runner works against the pristine isolated tree BEFORE trusting
+  # any mutant result. A non-zero baseline means the runner/tree is broken,
+  # not that a mutant was caught.
+  (cd "$WORKDIR" && export MUTATION_AUDIT_INNER=1 && eval "$rrunner" >/dev/null 2>&1)
+  local baseline=$?
+  if [[ "$baseline" -ne 0 ]]; then
+    echo "ERROR: baseline runner failed (exit $baseline). Runner '$RUNNER' may be missing or broken against the isolated tree. Install the runner or pass --runner / --simulate. Aborting (fail-closed)." >&2
+    return 3
   fi
 
-  # NOTE: Slice 1 emits scaffolding only — does NOT actually swap files + re-run.
-  # Real runner integration is SE-035 Slice 2. For now, we report the mutation plan.
-  SURVIVED=$((SURVIVED + 0))
-  # We simulate "killed" if tests reference the mutated line content
-  if grep -qF "$(sed -n "${line}p" "$TARGET" | head -c 40)" "$TESTS" 2>/dev/null; then
-    KILLED=$((KILLED + 1))
-  else
-    SURVIVED=$((SURVIVED + 1))
-    SURVIVOR_DETAILS+=("line=$line mutator=$mutator status=not-covered")
-  fi
-done <<< "$MUTANT_LINES"
+  local killed=0 survived=0 equivalent=0 executed=0
+  SURVIVOR_DETAILS=()
+  local line mutator mutated_line orig_content chosen idx=0
 
-total=$((KILLED + SURVIVED))
-if [[ "$total" -eq 0 ]]; then
-  score=0
+  while IFS= read -r line; do
+    [[ -z "$line" ]] && continue
+    idx=$((idx + 1))
+
+    orig_content=$(sed -n "${line}p" "$TARGET")
+    chosen=$(choose_mutation "$orig_content") || {
+      equivalent=$((equivalent + 1))
+      SURVIVOR_DETAILS+=("line=$line mutator=none status=equivalent")
+      continue
+    }
+    mutator="${chosen%%$'\t'*}"
+    mutated_line="${chosen#*$'\t'}"
+
+    # Write the mutated target into the isolated tree.
+    mutate_file "$TARGET" "$line" "$mutated_line" > "$wtarget"
+
+    # Guard: mutation actually applied? Identical → equivalent mutant, not a kill.
+    if cmp -s "$wtarget" "$pristine"; then
+      equivalent=$((equivalent + 1))
+      SURVIVOR_DETAILS+=("line=$line mutator=$mutator status=equivalent")
+      cp -a "$pristine" "$wtarget"
+      continue
+    fi
+
+    # Guard: defeat bytecode-cache reuse (python) + pin a distinct mtime.
+    clear_bytecode_cache
+    touch -d "@$(( 1000000000 + idx ))" "$wtarget" 2>/dev/null
+
+    (cd "$WORKDIR" && export MUTATION_AUDIT_INNER=1 && eval "$rrunner" >/dev/null 2>&1)
+    local rc=$?
+
+    executed=$((executed + 1))
+    if [[ "$rc" -ne 0 ]]; then
+      killed=$((killed + 1))
+    else
+      survived=$((survived + 1))
+      SURVIVOR_DETAILS+=("line=$line mutator=$mutator status=survived")
+    fi
+
+    # Restore pristine target (mutant isolation).
+    cp -a "$pristine" "$wtarget"
+  done <<< "$(select_mutant_lines "$TARGET" "$MUTANTS" "$SEED")"
+
+  KILLED=$killed
+  SURVIVED=$survived
+  EQUIVALENT=$equivalent
+  EXECUTED=$executed
+  EXEC_MODE="real"
+  return 0
+}
+
+# ── Simulation path (Slice 1, explicitly labeled) ───────────────────────────
+
+execute_simulate() {
+  local killed=0 survived=0 equivalent=0 idx=0
+  SURVIVOR_DETAILS=()
+  local line mutator mutated_line orig_content chosen target_copy
+
+  while IFS= read -r line; do
+    [[ -z "$line" ]] && continue
+    idx=$((idx + 1))
+
+    orig_content=$(sed -n "${line}p" "$TARGET")
+    chosen=$(choose_mutation "$orig_content") || {
+      equivalent=$((equivalent + 1))
+      SURVIVOR_DETAILS+=("line=$line mutator=none status=equivalent")
+      continue
+    }
+    mutator="${chosen%%$'\t'*}"
+    mutated_line="${chosen#*$'\t'}"
+
+    target_copy="$WORKDIR/$(basename "$TARGET").mutated"
+    mutate_file "$TARGET" "$line" "$mutated_line" > "$target_copy"
+
+    if diff -q "$target_copy" "$TARGET" >/dev/null 2>&1; then
+      equivalent=$((equivalent + 1))
+      SURVIVOR_DETAILS+=("line=$line mutator=$mutator status=equivalent")
+    else
+      survived=$((survived + 1))
+      SURVIVOR_DETAILS+=("line=$line mutator=$mutator status=not-executed")
+    fi
+  done <<< "$(select_mutant_lines "$TARGET" "$MUTANTS" "$SEED")"
+
+  KILLED=$killed
+  SURVIVED=$survived
+  EQUIVALENT=$equivalent
+  EXECUTED=0
+  EXEC_MODE="simulated"
+  return 0
+}
+
+# ── Dispatch ────────────────────────────────────────────────────────────────
+
+if [[ "$SIMULATE" -eq 1 ]]; then
+  execute_simulate
 else
-  score=$(( (KILLED * 100) / total ))
+  execute_real
+  rc=$?
+  [[ "$rc" -ne 0 ]] && exit $rc
 fi
 
-# Verdict
+total=$((KILLED + SURVIVED + EQUIVALENT))
+effective=$((KILLED + SURVIVED))
+if [[ "$effective" -eq 0 ]]; then
+  score=0
+else
+  score=$(( (KILLED * 100) / effective ))
+fi
+
 VERDICT="PASS"
 EXIT_CODE=0
 if [[ "$score" -lt "$THRESHOLD_PCT" ]]; then
@@ -212,7 +370,7 @@ if [[ "$JSON" -eq 1 ]]; then
   done
   survivors_json="${survivors_json%,}"
   cat <<JSON
-{"verdict":"$VERDICT","target":"$TARGET","tests":"$TESTS","language":"$LANG_ID","mutants_total":$total,"killed":$KILLED,"survived":$SURVIVED,"score_pct":$score,"threshold_pct":$THRESHOLD_PCT,"survivors":[$survivors_json]}
+{"verdict":"$VERDICT","execution":"$EXEC_MODE","target":"$TARGET","tests":"$TESTS","language":"$LANG_ID","mutants_total":$total,"executed":$EXECUTED,"killed":$KILLED,"survived":$SURVIVED,"equivalent":$EQUIVALENT,"score_pct":$score,"threshold_pct":$THRESHOLD_PCT,"survivors":[$survivors_json]}
 JSON
 else
   echo "=== SE-035 Mutation Audit ==="
@@ -220,7 +378,9 @@ else
   echo "Target:     $TARGET"
   echo "Tests:      $TESTS"
   echo "Language:   $LANG_ID"
-  echo "Mutants:    $total (killed=$KILLED, survived=$SURVIVED)"
+  echo "Mode:       $EXEC_MODE"
+  [[ "$EXEC_MODE" == "simulated" ]] && echo "WARNING:    SIMULATION MODE — results are NOT from a real test run."
+  echo "Mutants:    $total (killed=$KILLED, survived=$SURVIVED, equivalent=$EQUIVALENT, executed=$EXECUTED)"
   echo "Score:      ${score}% (threshold: ${THRESHOLD_PCT}%)"
   echo ""
   if [[ ${#SURVIVOR_DETAILS[@]} -gt 0 ]]; then

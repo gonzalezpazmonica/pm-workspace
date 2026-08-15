@@ -73,7 +73,9 @@ SDD_MAX_PARALLEL_AGENTS     = 5
 SDD_DEFAULT_MAX_TURNS       = 40
 
 # ── Testing y Calidad ───────────────────────────────────────────────────────
-TEST_COVERAGE_MIN_PERCENT   = 80                                    # % mínimo de cobertura exigido por test-runner
+TEST_COVERAGE_MIN_PERCENT   = 80                                    # % mínimo de cobertura global exigido por test-runner (baseline)
+CHANGED_LINE_COVERAGE_MIN   = 100                                   # % mínimo de cobertura changed-line (el gate real, exit-nonzero)
+MUTATION_SCORE_MIN_PERCENT  = 70                                    # % mínimo de mutation score en mutation-audit (default del script)
 TOOL_RESULT_MAX_CHARS       = 5000                                   # hard cap per tool result
 
 # ── Dual Estimation (SE-013) ───────────────────────────────────────────────

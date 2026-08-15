@@ -48,6 +48,9 @@ bash scripts/mutation-audit.sh --target src/Y.ts --tests test/Y.test.ts --runner
 
 # Con threshold custom
 bash scripts/mutation-audit.sh --target scripts/X.sh --tests tests/test-X.bats --threshold 80 --mutants 10 --json
+
+# Modo simulate (Slice 1 fast path — SIN ejecución real, etiquetado "simulated")
+bash scripts/mutation-audit.sh --target scripts/X.sh --tests tests/test-X.bats --simulate
 ```
 
 ## Output
@@ -58,25 +61,32 @@ bash scripts/mutation-audit.sh --target scripts/X.sh --tests tests/test-X.bats -
 === SE-035 Mutation Audit ===
 Target:    scripts/X.sh
 Tests:     tests/test-X.bats
-Mutants:   5 seeded
-Killed:    4
-Survived:  1 (line 42: comparison-boundary)
+Language:  bash
+Mode:      real
+Mutants:   5 (killed=4, survived=1, equivalent=0, executed=5)
 Score:     80% [PASS threshold 70%]
 ```
+
+`executed` = número de mutantes que pasaron REALMENTE por el runner (el guard de
+ejecución). En modo `--simulate`, `executed=0` y `Mode: simulated` con WARNING.
 
 ### JSON (--json)
 
 ```json
 {
+  "verdict":"PASS",
+  "execution":"real",
   "target":"scripts/X.sh",
   "tests":"tests/test-X.bats",
+  "language":"bash",
   "mutants_total":5,
-  "mutants_killed":4,
-  "mutants_survived":1,
+  "executed":5,
+  "killed":4,
+  "survived":1,
+  "equivalent":0,
   "score_pct":80,
   "threshold_pct":70,
-  "verdict":"PASS",
-  "survivors":[{"line":42,"mutator":"comparison-boundary","diff":"..."}]
+  "survivors":["line=42 mutator=comparison-boundary status=survived"]
 }
 ```
 
@@ -96,6 +106,32 @@ Score:     80% [PASS threshold 70%]
 - **< 70%**: tests débiles o zombies — revisar
 
 Cada superviviente (mutante no matado) indica un gap concreto: diff muestra qué cambio NO fue detectado.
+
+## Caveat de atribución de kills
+
+Un kill se atribuye al test que **falla primero**. Un 7/7 valida la suite como
+un todo, no cada capa individual. En auditoría Tier 3, re-correr los mutantes
+contra la suite de propiedades sola antes de afirmar que las propiedades
+verifican algo — survivors ahí significan blind spots en los invariantes
+(ej. un invariante de una sola cara "nunca supera el límite" no caza bugs
+fail-closed; emparejarlo con el límite opuesto).
+
+## Guard de ejecución de mutantes (obligatorio en runner real)
+
+Un runner hand-rolled debe **probar que ejecutó cada mutante** antes de
+reportar un kill. Defecto conocido (del demo de old-coder): dos mutantes
+idénticos escritos en el mismo segundo comparten cache de bytecode, y el
+runner reporta kills que nunca ejecutó. Ese defecto solo infla el score, así
+que jamás aparece como rojo — la capa se queda verde precisamente porque está
+rota. Guard equivalente: mtime pinning + chequeo de cache que aborta el run.
+Ver `docs/rules/domain/checker-fail-closed.md`.
+
+> **Estado actual**: `scripts/mutation-audit.sh` es Slice 2 — ejecución real. Aisla
+> el árbol (git ls-files al working tree), corre el runner REAL contra cada
+> mutante, y aplica el guard de ejecución (baseline gate + verificación de
+> mutación aplicada + cache clear + mtime pinning). Modo `--simulate` = fast
+> path sin ejecución, etiquetado explícitamente como `execution: simulated`
+> (nunca fabrica kills).
 
 ## Integración en flujo
 

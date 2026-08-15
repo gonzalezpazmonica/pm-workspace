@@ -107,6 +107,26 @@ Una Spec es ejecutable cuando:
 
 Si NO cumple → `developer_type: human`
 
+### 2.4b Aprobación del Spec (answer ≠ approval)
+
+- **Una respuesta no es una aprobación.** Si preguntaste al humano una
+  decisión, te respondió esa pregunta y nada más. Su respuesta es un INPUT al
+  spec, y lo CAMBIA — así que cualquier aprobación previa era de un documento
+  que ya no existe. Pregunta y aprobación son dos intercambios, en ese orden:
+  integra las respuestas, di qué cambió, muestra el spec revisado, pregunta
+  otra vez. Si no puedes citar las palabras que aprobaron ESTE spec, no tienes
+  aprobación — ni una respuesta a tu pregunta, ni un "adelante" sobre otro
+  paso, ni el silencio, ni la petición que inició la tarea son aprobación.
+- El caso fácil de equivocarse: cuando el humano elige las opciones que
+  recomendaste, el spec parece sin cambios y el consentimiento parece
+  implícito. Ninguno de los dos es cierto.
+- **El spec es append-only durante la tarea.** Si la implementación revela que
+  el spec estaba mal, dilo explícitamente y revísalo visiblemente — nunca
+  drift silencioso.
+- **Path absoluto**: escribe el spec a fichero con path absoluto. Un path
+  relativo no es clickeable en terminal, y el humano no puede abrir el
+  artefacto que se le pide aprobar.
+
 ### 2.5 Agent-Note del análisis
 
 Escribir: `projects/{proyecto}/agent-notes/{ticket}-legacy-analysis-{fecha}.md`

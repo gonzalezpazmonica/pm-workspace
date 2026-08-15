@@ -64,6 +64,7 @@ To use a skill: read `<path>` and follow its instructions.
 | enterprise-onboarding | `.opencode/skills/enterprise-onboarding/SKILL.md` | Usar cuando se incorporan múltiples personas a la organización de forma masiva. |
 | epistemic-humility | `.opencode/skills/epistemic-humility/SKILL.md` | Usar cuando se detecta riesgo de adulación, cesión sin evidencia, o claim repetido por el usuar... |
 | evaluations-framework | `.opencode/skills/evaluations-framework/SKILL.md` | Usar cuando se diseñan o ejecutan evaluaciones de calidad de agentes y prompts. |
+| evidence-first-development | `.opencode/skills/evidence-first-development/SKILL.md` | Desarrollo evidence-first: rodea la implementación con un SPEC aprobado y un gauntlet de restric... |
 | executive-reporting | `.opencode/skills/executive-reporting/SKILL.md` | Usar cuando se genera un informe ejecutivo multi-proyecto para dirección. |
 | feasibility-probe | `.opencode/skills/feasibility-probe/SKILL.md` | Usar cuando se necesita validar si una spec es técnicamente viable antes de implementarla. |
 | git-secret-scanner | `.opencode/skills/git-secret-scanner/SKILL.md` | Escanea el historial git o los commits pendientes de push buscando secrets con gitleaks. SE-239/S... |
