@@ -54,4 +54,4 @@ jobs:
           echo "=== Syntax checks OK ==="
 
       - name: Smoke test result
-        run: echo "SMOKE TEST: PASSED"
+        run: 'echo "SMOKE TEST: PASSED"'
