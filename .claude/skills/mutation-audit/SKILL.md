@@ -107,31 +107,11 @@ ejecución). En modo `--simulate`, `executed=0` y `Mode: simulated` con WARNING.
 
 Cada superviviente (mutante no matado) indica un gap concreto: diff muestra qué cambio NO fue detectado.
 
-## Caveat de atribución de kills
+## Caveats de interpretación (detalle en DOMAIN.md)
 
-Un kill se atribuye al test que **falla primero**. Un 7/7 valida la suite como
-un todo, no cada capa individual. En auditoría Tier 3, re-correr los mutantes
-contra la suite de propiedades sola antes de afirmar que las propiedades
-verifican algo — survivors ahí significan blind spots en los invariantes
-(ej. un invariante de una sola cara "nunca supera el límite" no caza bugs
-fail-closed; emparejarlo con el límite opuesto).
-
-## Guard de ejecución de mutantes (obligatorio en runner real)
-
-Un runner hand-rolled debe **probar que ejecutó cada mutante** antes de
-reportar un kill. Defecto conocido (del demo de old-coder): dos mutantes
-idénticos escritos en el mismo segundo comparten cache de bytecode, y el
-runner reporta kills que nunca ejecutó. Ese defecto solo infla el score, así
-que jamás aparece como rojo — la capa se queda verde precisamente porque está
-rota. Guard equivalente: mtime pinning + chequeo de cache que aborta el run.
-Ver `docs/rules/domain/checker-fail-closed.md`.
-
-> **Estado actual**: `scripts/mutation-audit.sh` es Slice 2 — ejecución real. Aisla
-> el árbol (git ls-files al working tree), corre el runner REAL contra cada
-> mutante, y aplica el guard de ejecución (baseline gate + verificación de
-> mutación aplicada + cache clear + mtime pinning). Modo `--simulate` = fast
-> path sin ejecución, etiquetado explícitamente como `execution: simulated`
-> (nunca fabrica kills).
+- **Atribución de kills**: un kill se atribuye al test que falla primero — 7/7 valida la suite entera, no cada capa. En Tier 3, re-correr mutantes contra la suite de propiedades sola.
+- **Guard de ejecución**: un runner hand-rolled debe probar que ejecutó cada mutante (bug de cache de bytecode infla el score sin aparecer como rojo). Ver `docs/rules/domain/checker-fail-closed.md`.
+- **Estado**: Slice 2 — ejecución real con baseline gate. `--simulate` = fast path etiquetado `simulated` (nunca fabrica kills).
 
 ## Integración en flujo
 
