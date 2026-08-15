@@ -1,6 +1,6 @@
 {
-  "hash": "f12a594a4ccb",
-  "total": 1363,
+  "hash": "8928b7292baa",
+  "total": 1364,
   "resources": [
     {
       "category": "analysis",
@@ -15206,6 +15206,20 @@
     },
     {
       "category": "quality",
+      "name": "evidence-first-development",
+      "intents": [
+        "alta",
+        "aprobado",
+        "código",
+        "desarrollo",
+        "dominios"
+      ],
+      "kind": "skill",
+      "path": ".claude/skills/evidence-first-development/SKILL.md",
+      "description": "Desarrollo evidence-first: rodea la implementación con un SPEC aprobado y un gauntlet de restricciones para que el line-by-line review sea opcional. Usar cuando se pide alta garantía (prove it works, no leeré el código), o en dominios de al"
+    },
+    {
+      "category": "quality",
       "name": "executive-audit",
       "intents": [
         "audit",
@@ -15666,12 +15680,11 @@
       "intents": [
         "audit",
         "mutation",
-        "slice",
         "testing"
       ],
       "kind": "script",
       "path": "scripts/mutation-audit.sh",
-      "description": "mutation-audit.sh — SE-035 Slice 1 mutation testing audit."
+      "description": "mutation-audit.sh — SE-035 mutation testing audit."
     },
     {
       "category": "quality",

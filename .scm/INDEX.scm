@@ -1,6 +1,6 @@
 # Savia Capability Map — INDEX
-> hash: fb3c72f9a118 | resources: 1363
-> 294 commands · 126 skills · 83 agents · 860 scripts
+> hash: 3a4550d01de2 | resources: 1364
+> 294 commands · 127 skills · 83 agents · 860 scripts
 
 [analysis] Trace Optimize — across,distributed,optimize,rates,sampling — cmd:.claude/commands/trace-optimize.md
 [analysis] agent-activity — activity,agent,executions,recent,show — cmd:.claude/commands/agent-activity.md
@@ -1153,6 +1153,7 @@
 [quality] enterprise/audit-search — audit,inspector,search,spec — script:scripts/enterprise/audit-search.sh
 [quality] enterprise/governance-audit-trail — audit,compliance,governance,signed,spec — script:scripts/enterprise/governance-audit-trail.sh
 [quality] eval-lint — eval,golden,lint,sets,tribunales — script:scripts/eval-lint.sh
+[quality] evidence-first-development — alta,aprobado,código,desarrollo,dominios — skill:.claude/skills/evidence-first-development/SKILL.md
 [quality] executive-audit — audit,executive,workspace — script:scripts/executive-audit.sh
 [quality] expertise-asymmetry-judge — active,alternatives,audit,blind,domain — agent:.opencode/agents/expertise-asymmetry-judge.md
 [quality] fix-assigner — agents,assigns,court,creates,findings — agent:.opencode/agents/fix-assigner.md
@@ -1186,7 +1187,7 @@
 [quality] model-upgrade-audit — debt,detectar,disponible,modelo,nuevo — skill:.claude/skills/model-upgrade-audit/SKILL.md
 [quality] model-upgrade-auditor — agents,audits,backed,eval,evidence — agent:.opencode/agents/model-upgrade-auditor.md
 [quality] mutation-audit — calidad,mediante,medir,mutation,quiere — skill:.claude/skills/mutation-audit/SKILL.md
-[quality] mutation-audit — audit,mutation,slice,testing — script:scripts/mutation-audit.sh
+[quality] mutation-audit — audit,mutation,testing — script:scripts/mutation-audit.sh
 [quality] opencode-cross-audit — audit,cross,opencode,scripts — script:scripts/opencode-cross-audit.sh
 [quality] opencode-parity-audit — audit,opencode,parity,slice — script:scripts/opencode-parity-audit.sh
 [quality] overnight-sprint — autonomous,creates,executes,human,launch — cmd:.claude/commands/overnight-sprint.md

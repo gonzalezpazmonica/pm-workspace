@@ -1,5 +1,5 @@
 # quality — Savia Capability Map (L1)
-> 258 resources
+> 259 resources
 
 - **/speckit.analyze** (cmd): Alias spec-kit compatible. Review cruzado de una spec antes de implementar. Invoca skill consensus-validation. Compatible con github/spec-kit.
 - **Court Review** (cmd): Convene the Code Review Court to evaluate implementation quality across 6 judges
@@ -47,6 +47,7 @@
 - **enterprise/audit-search** (script): audit-search.sh — SPEC-SE-037 Audit Log CLI Inspector
 - **enterprise/governance-audit-trail** (script): governance-audit-trail.sh — SPEC-SE-006 Signed Audit Trail for Governance & Compliance
 - **eval-lint** (script): eval-lint.sh — SE-316 S1: valida golden sets de tribunales (SE-274 S2).
+- **evidence-first-development** (skill): Desarrollo evidence-first: rodea la implementación con un SPEC aprobado y un gauntlet de restricciones para que el line-by-line review sea opcional. Usar cuando se pide alta garantía (prove it works, no leeré el código), o en dominios de al
 - **executive-audit** (script): executive-audit.sh — Executive Audit for PM Workspace
 - **expertise-asymmetry-judge** (agent): Recommendation Tribunal judge — when draft falls in a domain the active user marks as `audit_level: blind`, force a rewrite with explanation/alternatives/verification
 - **fix-assigner** (agent): Creates fix tasks from Court findings, assigns to dev agents, triggers re-review
@@ -80,7 +81,7 @@
 - **model-upgrade-audit** (skill): Usar cuando hay un modelo nuevo disponible y se quiere detectar prompt debt en el workspace.
 - **model-upgrade-auditor** (agent): Audits agents, skills, and prompts for workarounds that newer models may no longer need. Proposes simplifications with eval-backed evidence.
 - **mutation-audit** (skill): Usar cuando se quiere medir la calidad real de los tests mediante mutation testing.
-- **mutation-audit** (script): mutation-audit.sh — SE-035 Slice 1 mutation testing audit.
+- **mutation-audit** (script): mutation-audit.sh — SE-035 mutation testing audit.
 - **opencode-cross-audit** (script): scripts/opencode-cross-audit.sh
 - **opencode-parity-audit** (script): opencode-parity-audit.sh — SE-077 Slice 2
 - **overnight-sprint** (cmd): Launch autonomous overnight sprint — executes low-risk tasks, creates PRs for human review
