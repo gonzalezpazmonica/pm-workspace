@@ -767,12 +767,16 @@
         ]
       },
       {
-        "type": "command",
-        "command": "\"$CLAUDE_PROJECT_DIR\"/.opencode/hooks/post-digestion-kg-extract.sh",
-        "async": true,
-        "timeout": 30,
-        "statusMessage": "Extracting knowledge graph...",
-        "matcher": "Task|Bash"
+        "matcher": "Task|Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/.opencode/hooks/post-digestion-kg-extract.sh",
+            "async": true,
+            "timeout": 30,
+            "statusMessage": "Extracting knowledge graph..."
+          }
+        ]
       }
     ],
     "Stop": [
@@ -1032,61 +1036,6 @@
             "statusMessage": "Reloading config..."
           }
         ]
-      }
-    ],
-    "PostTurn": [
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "bash \"$CLAUDE_PROJECT_DIR\"/scripts/context-condenser.sh --session-log \"${CLAUDE_PROJECT_DIR:-$(pwd)}/output/session-action-log.jsonl\" 2>/dev/null &",
-            "async": true,
-            "timeout": 10,
-            "statusMessage": "SE-200: comprobando ventana de contexto...",
-            "_spec": "SE-200",
-            "_default": "off \u2014 opt-in via SAVIA_CONDENSER_ENABLED=true"
-          }
-        ]
-      },
-      {
-        "type": "command",
-        "command": "\"$CLAUDE_PROJECT_DIR\"/.opencode/hooks/post-turn-tabular-audit.sh",
-        "async": true,
-        "timeout": 10,
-        "statusMessage": "Tabular self-audit..."
-      }
-    ],
-    "PreTurn": [
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "[ -z \"${SAVIA_SKILL_TRIGGERS:-}\" ] || bash \"$CLAUDE_PROJECT_DIR\"/scripts/skill-keyword-detector.sh --json \"${CLAUDE_HUMAN_TURN_INPUT:-}\" 2>/dev/null | grep -v '^\\[\\]$' >&2 || true",
-            "async": true,
-            "timeout": 5,
-            "statusMessage": "SE-203: detectando skill triggers...",
-            "_spec": "SE-203",
-            "_default": "off \u2014 opt-in via SAVIA_SKILL_TRIGGERS=true"
-          }
-        ]
-      }
-    ],
-    "PreLLM": [
-      {
-        "type": "command",
-        "command": "\"$CLAUDE_PROJECT_DIR\"/.opencode/hooks/pre-llm-tabular-detect.sh",
-        "async": true,
-        "timeout": 10,
-        "statusMessage": "Detecting tabular data..."
-      }
-    ],
-    "PreCommit": [
-      {
-        "type": "command",
-        "command": "\"$CLAUDE_PROJECT_DIR\"/.opencode/hooks/pre-commit-no-new-features.sh",
-        "async": false,
-        "timeout": 10,
-        "statusMessage": "Checking for new features in open PR..."
       }
     ]
   },
