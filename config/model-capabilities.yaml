@@ -31,6 +31,19 @@ models:
     supports_extended_thinking: false
     recommended_compact_threshold_pct: 45
 
+  # ── DeepSeek ──
+  deepseek-v4-pro:
+    context_window: 128000
+    tier: heavy
+    supports_extended_thinking: false
+    recommended_compact_threshold_pct: 60
+
+  deepseek-v4-flash:
+    context_window: 128000
+    tier: fast
+    supports_extended_thinking: false
+    recommended_compact_threshold_pct: 45
+
   # ── OpenAI GPT ──
   gpt-4o:
     context_window: 128000

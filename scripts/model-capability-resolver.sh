@@ -17,6 +17,9 @@ while [[ $# -gt 0 ]]; do
   esac
 done
 MODEL="${MODEL:-default}"
+# Normalize provider-prefixed IDs (deepseek/deepseek-v4-pro → deepseek-v4-pro)
+# so the YAML registry key matches and the sed pattern is not broken by a slash.
+MODEL="${MODEL##*/}"
 
 # ── Locate config file ──────────────────────────────────────────────────────
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
