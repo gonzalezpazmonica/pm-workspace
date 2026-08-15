@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=478b591c7f6b71e4cb7975c92ed7b2ef3ee692fef6807f16e570157e1b49bdf4
-timestamp=2026-08-15T07:12:18Z
+diff_hash=d2bf3ca4ba0e0a5f5e25954b731144906f89640f2f1de78cd4c026c381b6924d
+timestamp=2026-08-15T08:28:09Z
 branch=agent/evidence-first-20260815
-head_commit=104a7832
-signature=78198b481026785c123ced32e4ad34ce2f6df7541075a40c8cf54fc2168f006d
+head_commit=1d0a4dd8
+signature=e458a0c687e19ca14e948b4c1622835f26f52980b1ea88a7779b10f0f79c5f43
