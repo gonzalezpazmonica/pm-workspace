@@ -6,7 +6,7 @@
 
 | Total hooks | TS Guards | Git Hook mitigated | CI Job mitigated | NONE |
 |---|---|---|---|---|
-| 109 | 17 (15.6%) | 4 | 5 | 83 |
+| 108 | 17 (15.7%) | 4 | 5 | 82 |
 
 ## Bloqueantes sin cobertura ni mitigacion
 
@@ -14,10 +14,10 @@ Ninguno — AC-2.2 satisfecho.
 
 ## Cobertura real OpenCode
 
-- **TS Guards activos**: 17/109 (15.6%)
-- **Hooks sin cobertura TS**: 83 (76.1%)
+- **TS Guards activos**: 17/108 (15.7%)
+- **Hooks sin cobertura TS**: 82 (75.9%)
   - De los cuales son bloqueantes sin ninguna mitigacion: 0
-  - Eventos no disponibles en OpenCode (degradacion aceptada): 29
+  - Eventos no disponibles en OpenCode (degradacion aceptada): 27
 
 ## Full matrix
 
@@ -56,13 +56,13 @@ Ninguno — AC-2.2 satisfecho.
 | PostToolUse | ast-quality-gate-hook.sh | no | CI_JOB | warning | CI validate-ci-local.sh |
 | PostToolUse | bus-factor-warn.sh | no | NONE | warning | degradacion_documentada: solo Claude Code |
 | PostToolUse | compress-agent-output.sh | no | NONE | warning | degradacion_documentada: solo Claude Code |
+| PostToolUse | post-digestion-kg-extract.sh | no | NONE | warning | degradacion_documentada: solo Claude Code |
 | PostToolUse | post-edit-lint.sh | no | CI_JOB | warning | CI validate-ci-local.sh |
 | PostToolUse | post-write-validate.sh | no | NONE | warning | degradacion_documentada: solo Claude Code |
 | PostToolUse | propuestas-index-refresh.sh | no | NONE | warning | degradacion_documentada: solo Claude Code |
 | PostToolUse | speculative-pre-execute.sh | no | NONE | warning | degradacion_documentada: solo Claude Code |
 | PostToolUse | twin-posttooluse.sh | no | NONE | warning | degradacion_documentada: solo Claude Code |
 | PostToolUseFailure | post-tool-failure-log.sh | no | NONE | telemetria | evento PostToolUseFailure no disponible en OpenCode — degradacion_documentada |
-| PostTurn | context-condenser.sh | no | NONE | warning | evento PostTurn no disponible en OpenCode — degradacion_documentada |
 | PreCompact | pre-compact-backup.sh | no | NONE | warning | evento PreCompact no disponible en OpenCode — degradacion_documentada |
 | PreToolUse | acm-enforcement.sh | no | NONE | bloqueante | degradacion_documentada: solo Claude Code; ACM enforcement no portado — candidato SE-254 |
 | PreToolUse | agent-dispatch-validate.sh | no | NONE | bloqueante | degradacion_documentada: solo Claude Code; agent dispatch sin gate en OpenCode — candidato SE-254 |
@@ -109,7 +109,6 @@ Ninguno — AC-2.2 satisfecho.
 | PreToolUse | auto-zoom-out.sh | si | TS_GUARD | warning | autoZoomOut |
 | PreToolUse | blast-radius-hook.sh | no | NONE | warning | degradacion_documentada: solo Claude Code |
 | PreToolUse | plan-gate.sh | no | CI_JOB | warning | CI validate-ci-local.sh |
-| PreTurn | skill-keyword-detector.sh | no | NONE | warning | evento PreTurn no disponible en OpenCode — degradacion_documentada |
 | SessionEnd | session-end-memory.sh | no | NONE | telemetria | evento SessionEnd no disponible en OpenCode — degradacion_documentada |
 | SessionStart | emergency-mode-readiness.sh | no | NONE | telemetria | evento SessionStart no disponible en OpenCode — degradacion_documentada |
 | SessionStart | session-init.sh | no | NONE | telemetria | evento SessionStart no disponible en OpenCode — degradacion_documentada |
