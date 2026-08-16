@@ -1,5 +1,5 @@
 # planning — Savia Capability Map (L1)
-> 578 resources
+> 579 resources
 
 - **/decide-architecture** (cmd): Clasifica una tarea como WORKFLOW (deterministica) o AGENT (loop). Bias hacia workflow per Anthropic. Sugiere plantilla inicial. Mide accuracy contra corpus curado de 20 tareas.
 - **_template** (skill): TEMPLATE — copia este directorio para crear una skill nueva. NO se carga en runtime.
@@ -245,6 +245,7 @@
 - **guided-work** (cmd): Trabajo guiado — Savia te acompaña paso a paso con preguntas, adaptando el ritmo a tus necesidades
 - **hallucination-fast-judge** (agent): Recommendation Tribunal judge — verifies that entities cited in a draft (files, functions, flags, libs, paths, commands) actually exist via tool calls
 - **hallucination-judge** (agent): Truth Tribunal judge — detects invented facts via SelfCheck-style consistency
+- **handback-resolve** (script): handback-resolve.sh — SE-332 Handback Obligation
 - **hashline-edit** (script): hashline-edit.sh — Safe edit wrapper with stale-file protection (SE-149)
 - **hashline-guard** (script): hashline-guard.sh — Stale-file protection for L3 agent edits (SE-149)
 - **health-dashboard** (cmd): Dashboard de salud del proyecto unificado — Savia muestra una vista rápida adaptada al rol
