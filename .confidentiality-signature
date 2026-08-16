@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=358c69df7cca741b7b94e58dfd36a558387b99aeb8483c7abc684bc9a07afca4
-timestamp=2026-08-16T13:55:03Z
-branch=agent/review-ivan-963
-head_commit=c1c7f7b0
-signature=59ba5654a7f331b21e7ee2ad6bce67a363ab13397ee55a31696fba285057e087
+diff_hash=3d7f56d7a11679c393379e0f09539981688d5c7ad644da4dc23d74c77980ba65
+timestamp=2026-08-16T16:16:05Z
+branch=agent/scl-001-aprendizaje-continuo
+head_commit=5c2686fb
+signature=11eb058c374d9c1714ffe4606410b1a2e36c96215597ab7e10af16bebea31588
