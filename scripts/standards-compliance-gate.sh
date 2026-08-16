@@ -90,9 +90,11 @@ check_rules() {
 
 # ── check: confid ────────────────────────────────────────────────────────────
 check_confid() {
-  local out
-  out=$("$SCRIPT_DIR/confidentiality-scan.sh" --pr 2>&1 | tail -3)
-  if echo "$out" | grep -qiE "CLEAN|PASSED"; then echo "PASS"; else echo "FAIL: scan de confidencialidad"; fi
+  # Exit code contract del scan: 0 = clean (incluye diff vacio), 1 = violaciones, 2 = error.
+  # Grep de "CLEAN|PASSED" daba falso FAIL en push a main: diff vacio imprime "No content to scan."
+  local rc=0
+  "$SCRIPT_DIR/confidentiality-scan.sh" --pr >/dev/null 2>&1 || rc=$?
+  if [[ $rc -eq 0 ]]; then echo "PASS"; else echo "FAIL: scan de confidencialidad"; fi
 }
 
 run_check() {
