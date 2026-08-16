@@ -1529,3 +1529,74 @@ SE-332 (handback obligation) — APPROVED 2026-08-16, IMPLEMENTED (PR plan en ou
 | SE-332 | PR pendiente (PR plan en `output/pr-plans/`) | APPROVED 2026-08-16 · implementado en rama agent/* | Revisión humana + merge |
 | 4 candidatas | — | CANDIDATA | Sin especificar; listadas como follow-up en SE-332 |
 
+---
+
+## Era 205 — Savia Continuous Learning (SCL) (2026-08-16)
+
+> Nueva era de specs: prefijo `SCL-###`, roadmap propio en `docs/SCL-ROADMAP.md`.
+> Tesis: la AGI no es un modelo preentrenado "terminado", sino un sistema que aprende
+> continuamente — pesos como artefacto de despliegue, cuello de botella = imaginación, no
+> compute. La vuelta para Savia: sus "pesos" ya son texto versionado en git
+> (CONSTITUCION + CRITERIO + memoria + skills); falta **cerrar el bucle** para que el
+> sustrato aprenda de forma continua, medida y agnóstica a LLM.
+
+### Repriorización del roadmap general
+
+SCL-001 pasa a **Tier 0** del roadmap general. El resto de candidatas abiertas (Era 204:
+4 follow-ups de SE-332) bajan a Tier 1. Motivo: SCL-001 ataca el gap estructural — Savia
+hoy "aplasta benchmarks pero no entiende" (reintroduce errores porque lo aprendido no
+fluye al sustrato). Es el mismo cuello de botella que la tesis externa nombra, y sus
+piezas ya existen (captura, ledger, calibración, Labs, p_consistent): falta el bucle.
+
+### Priorización (ROI)
+
+**Tier 0 — Máxima prioridad (SCL-001, 30h en 4 slices)**
+
+| Spec | Contenido | Esfuerzo | Por qué primero |
+|---|---|---|---|
+| SCL-001 S1 Captura canónica | Artefacto `learning-proposal` unificado + idempotente + grafo | 7h | Entrada formal del bucle; sin captura no hay aprendizaje |
+| SCL-001 S2 Ciclo de vida | shadow→canary→active→superseded + rollback instantáneo | 9h | El despliegue que la tesis reclama; cierra `INFERRED` pasivo |
+| SCL-001 S3 Métrica `L` | p_consistent + divergencia (L1) + ignorancia resuelta (L2) | 8h | Gate anti-autoengaño; "aprendió/no aprendió" medido |
+| SCL-001 S4 Agnóstico a LLM | Bucle sobre texto, cero fine-tuning, prueba E2E multi-proveedor | 6h | Cierra la tesis agnóstica (CRIT-002, ADR-012) |
+
+**Tier 1 — Media (follow-ups y candidatas)**
+
+| Spec | Origen | Esfuerzo | Por qué después |
+|---|---|---|---|
+| Reference-first handoff | Era 204 / SN-23 | 4h | Acoplada a SE-332; no bloquea SCL |
+| Model-routing policy desde telemetria | Era 204 / P9 | 8h | Formaliza routing; SCL ya asume tiers |
+| Default-accept epics limpios | Era 204 / PSG §11.6 | 6h | Ceremonia de tribunales, no aprendizaje |
+| Execution matrix "mode is not authority" | Era 204 / P10-M35 | 4h | Ratifica autoridad; ortogonal a SCL |
+
+### Backlog SCL (futuras)
+
+| Spec | Tesis | Estado |
+|---|---|---|
+| SCL-002 | Aprendizaje federado cross-dome (Labs L5 + SE-282) | CANDIDATA |
+| SCL-003 | Ejecutar Labs L1-L6 como instrumentos del bucle (SE-291 S2-S8) | CANDIDATA |
+| SCL-004 | Embeddings híbridos para divergencia (ADR-003, Fase 4) | CANDIDATA |
+| SCL-005 | p_consistent como política de autonomía graduada (SE-292 S6 + ADR-010) | CANDIDATA |
+
+### Orden de ejecución recomendado
+
+```
+SCL-001 S1 (captura) → S2 (ciclo de vida + rollback) → S3 (métrica L) → S4 (agnosticismo)
+  → SCL-002 (federar el aprendizaje) una vez el bucle intra-Savia esté cerrado
+  → follow-ups Era 204 (reference-first handoff, model-routing) según disponibilidad
+```
+
+### Estado
+
+| Spec | PR | Estado | Bloqueo |
+|---|---|---|---|
+| SCL-001 | rama `agent/scl-001-aprendizaje-continuo` | PROPOSED 2026-08-16 | Aprobación de la operadora (activación human_authored) |
+| SCL-002..005 | — | CANDIDATA | Sin especificar |
+
+### Anclaje
+
+- Roadmap propio: `docs/SCL-ROADMAP.md`.
+- Spec fundacional: `docs/specs/SCL-001-aprendizaje-continuo.spec.md`.
+- SCL consume, no rehace: SE-255, SE-268 S4, SE-292 S6, SaviaVaults, Labs L1-L6.
+- Invariante: la CONSTITUCION y CRITERIO permanecen intocables por el bucle (CRIT-031);
+  "la IA propone, el humano dispone".
+
