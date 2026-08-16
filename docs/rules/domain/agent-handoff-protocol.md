@@ -59,6 +59,41 @@ handoff:
 4. **artifacts** son paths relativos al `REPO_ROOT`, sin `./` inicial.
 5. Handoff con `termination_reason` ≠ `completed` **no activa** al agente destino automáticamente — requiere resolución humana.
 
+## Handback (SE-332) — escalación reference-first
+
+Instancia autónoma **bloqueada** que escala a su padre (Handback Obligation,
+`autonomous-safety.md`) NO usa `handoff:` canónico (que activa al destino) — emite
+artifact `handback:` **reference-first** (solo rutas, nunca cuerpo), permitiendo retomar
+sin re-derivar contexto.
+
+```yaml
+---
+handback:
+  escalado_desde: overnight-sprint        # modo | agente que escaló (required)
+  escalado_a: "@monica"                   # padre resuelto por handback-resolve.sh (required)
+  motivo: guardrail_rechazo               # recurso_no_disponible | guardrail_rechazo | modelo_mismatch | otro
+  contexto_ref:                           # reference-first — rutas, no contenido (required, ≥1)
+    - output/agent-runs/overnight-20260816-fix-x/run-record.jsonl
+    - output/loop-state/overnight-20260816-fix-x/terminal-state.jsonl
+  intentos_restantes: 2
+  timestamp: "2026-08-16T07:25:00Z"
+---
+```
+
+| Campo | Tipo | Obligatorio | Descripción |
+|---|---|---|---|
+| `escalado_desde` | string | sí | Modo o agente que emite el handback |
+| `escalado_a` | string | sí | Padre resuelto por `scripts/handback-resolve.sh` |
+| `motivo` | enum | sí | `recurso_no_disponible` \| `guardrail_rechazo` \| `modelo_mismatch` \| `otro` |
+| `contexto_ref` | list[string] | sí | Rutas a artifacts (run-record, terminal-state.jsonl). PROHIBIDO eco de cuerpo |
+| `intentos_restantes` | int | no | Reintentos de modelo restantes |
+| `timestamp` | string | sí | ISO-8601 de la escalación |
+
+**Reglas**: (1) `escalado_a` lo resuelve `handback-resolve.sh` — no a mano; (2) `contexto_ref`
+son paths relativos al `REPO_ROOT` sin `./`; el orquestador reanuda leyendo esos artifacts;
+(3) a diferencia de `handoff:` `completed`, el `handback` **no activa** al destino — requiere
+resolución humana explícita y registra `handback_to` en el audit trail.
+
 ## Validación
 
 Validación con `scripts/validate-handoff.sh --file handoff.yaml`:
@@ -96,16 +131,10 @@ handoff:
 
 ## Relación con agent-notes-protocol.md
 
-Ambos protocolos coexisten:
-
-- **Handoff-as-function** (este doc): transiciones rápidas estructuradas.
-- **agent-notes-protocol**: threads longform, notas de contexto entre agentes, multi-turn.
-
-Un agente PUEDE producir **ambos** en un mismo output:
-1. Agent-notes con análisis extendido.
-2. Handoff-as-function YAML con destino claro.
-
-El orquestador lee primero `handoff:` (routing). Las notes son contexto secundario.
+Ambos coexisten: **handoff-as-function** (este doc) para transiciones rápidas
+estructuradas; **agent-notes-protocol** para threads longform multi-turn. Un agente
+PUEDE producir ambos: agent-notes con análisis + handoff YAML con destino. El
+orquestador lee primero `handoff:` (routing); las notes son contexto secundario.
 
 ## Integración con autonomous-safety.md
 
