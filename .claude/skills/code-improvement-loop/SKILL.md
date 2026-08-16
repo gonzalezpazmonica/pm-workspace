@@ -6,7 +6,7 @@ metadata:
   savia.agent: code-reviewer
   savia.category: sdd-framework
   savia.context: fork
-  savia.loop_level: L2
+    savia.loop_level: L2  # L0=draft | L1=report-only | L2=assisted | L3=unattended — ver docs/rules/domain/loop-phasing.md
   savia.maturity: experimental
   savia.priority: medium
   savia.summary: "Bucle autonomo de mejora de codigo: detecta oportunidades (deuda, cobertura, performance), aplica mejoras y genera PRs Draft. Usa ramas agent/improve-*. Revision humana obligatoria."

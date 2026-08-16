@@ -1,10 +1,11 @@
 ---
 name: context-rot-strategy
 description: Usar cuando una sesión larga se aproxima al límite de contexto y hay que decidir qué compactar.
+allowed-tools: [Read, Bash]
 metadata:
   # --- metadata.savia.* (SE-333) ---
   savia.category: context-engineering
-  savia.disable-model-invocation: False
+  savia.disable-model-invocation: false
   savia.maturity: beta
   savia.priority: high
   savia.summary: "Meta-skill para gestionar context rot en sesiones con ventanas de 1M tokens (Opus 4.7). Rutea entre 5 opciones de gestion de contexto per turno: continue, rewind, /compact con hint, /clear, subagent. Propone proactive compact por encima de 75% antes de auto-compact."

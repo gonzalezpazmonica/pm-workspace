@@ -1,10 +1,11 @@
 ---
 name: company-messaging
 description: Usar cuando se envían mensajes internos cifrados entre miembros de la organización vía Company Savia.
+allowed-tools: [Read, Bash, Glob, Grep]
 metadata:
   # --- metadata.savia.* (SE-333) ---
   savia.category: communication
-  savia.disable-model-invocation: False
+  savia.disable-model-invocation: false
   savia.maturity: 
   savia.priority: medium
   savia.summary: "Mensajeria interna Company Savia con cifrado E2E basado en ramas git. Soporta mensajes directos, broadcasts y threading. Datos en company repo compartido. Nivel N2 (empresa)."

@@ -1,6 +1,7 @@
 ---
 name: ast-comprehension
 description: Usar cuando se explora código desconocido y se necesita comprensión estructural sin leer ficheros enteros.
+allowed-tools: [Bash, Read, Glob, Grep, Write]
 metadata:
   # --- metadata.savia.* (SE-333) ---
   savia.agent: code-reviewer

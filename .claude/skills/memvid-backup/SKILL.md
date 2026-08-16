@@ -1,12 +1,13 @@
 ---
 name: memvid-backup
 description: Usar cuando se crea un backup portable de la memoria externa de Savia.
+allowed-tools: [Read, Bash, Write]
 metadata:
   # --- metadata.savia.* (SE-333) ---
   savia.agent: architect
   savia.category: memory
   savia.context: fork
-  savia.disable-model-invocation: False
+  savia.disable-model-invocation: false
   savia.maturity: experimental
   savia.priority: low
   savia.summary: "Wrapper backup para memoria externa. Intenta memvid (.mv2) si disponible, fallback a tar-gzip con SHA256 integrity. 3 subcomandos: pack, restore, verify. Integrable con travel-pack / vault-export."

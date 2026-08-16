@@ -8,7 +8,7 @@ metadata:
   workflow: design, review
   origin: mattpocock/skills (MIT)
   # --- metadata.savia.* (SE-333) ---
-  savia.disable-model-invocation: True
+  savia.disable-model-invocation: true
   savia.trigger_keywords: "zoom out, big picture, segunda orden, second-order, dependencies"
 ---
 

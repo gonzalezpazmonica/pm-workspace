@@ -3,7 +3,7 @@ name: network-recon
 description: "Reconocimiento de red: port scan con nmap/RustScan + HTTP detection con httpx."
 metadata:
   # --- metadata.savia.* (SE-333) ---
-  savia.authorization_required: True
+  savia.authorization_required: true
   savia.category: security
   savia.context: fork
   savia.context_cost: medium

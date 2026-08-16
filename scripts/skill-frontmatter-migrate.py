@@ -23,7 +23,7 @@ SKILLS_DIR = Path(__import__("os").environ.get("SKILLS_DIR", ROOT / ".claude" / 
 TEMPLATE_DIR = SKILLS_DIR / "_template"
 
 # Fields that STAY top-level (standard)
-KEEP_TOP = {"name", "description", "license", "compatibility"}
+KEEP_TOP = {"name", "description", "license", "compatibility", "allowed-tools"}
 
 # Proprietary fields to migrate -> metadata.savia.<key>
 # Lists are comma-joined into a single string.
@@ -102,7 +102,9 @@ def split_top_level(fm: str):
 
 def yaml_scalar(value) -> str:
     """Serialize a python value into a YAML single-line quoted string."""
-    if isinstance(value, list):
+    if isinstance(value, bool):
+        s = "true" if value else "false"
+    elif isinstance(value, list):
         s = ", ".join(str(v) for v in value)
     elif isinstance(value, dict):
         s = json.dumps(value, ensure_ascii=False)

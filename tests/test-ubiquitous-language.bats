@@ -49,7 +49,7 @@ teardown() {
 @test "AC-04: SKILL.md has valid YAML frontmatter" {
   head -1 "$SKILL_MD" | grep -q "^---"
   grep -q "^name:" "$SKILL_MD"
-  grep -q "^maturity:" "$SKILL_MD"
+  grep -qE "^[[:space:]]*savia\.maturity:" "$SKILL_MD"
 }
 
 @test "DOMAIN.md: has Por que section" {

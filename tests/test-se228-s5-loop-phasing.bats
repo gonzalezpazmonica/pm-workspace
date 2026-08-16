@@ -162,20 +162,20 @@ teardown() {
 # ── E. loop_level field in SKILL.md files ────────────────────────────────────
 
 @test "E1 _template SKILL.md contains loop_level: L0 with comment" {
-  grep -qE '^loop_level:[[:space:]]*L0' "$TEMPLATE_SKILL"
+  grep -qE '^[[:space:]]*#?[[:space:]]*savia\.loop_level:[[:space:]]*"?L0"?' "$TEMPLATE_SKILL"
   grep -q 'loop-phasing.md' "$TEMPLATE_SKILL"
 }
 
 @test "E2 overnight-sprint SKILL.md contains loop_level: L2" {
-  grep -qE '^loop_level:[[:space:]]*L2' "$OVERNIGHT_SKILL"
+  grep -qE '^[[:space:]]*savia\.loop_level:[[:space:]]*"?L2"?' "$OVERNIGHT_SKILL"
 }
 
 @test "E3 code-improvement-loop SKILL.md contains loop_level: L2" {
-  grep -qE '^loop_level:[[:space:]]*L2' "$CODE_LOOP_SKILL"
+  grep -qE '^[[:space:]]*savia\.loop_level:[[:space:]]*"?L2"?' "$CODE_LOOP_SKILL"
 }
 
 @test "E4 tech-research-agent SKILL.md contains loop_level: L1" {
-  grep -qE '^loop_level:[[:space:]]*L1' "$RESEARCH_SKILL"
+  grep -qE '^[[:space:]]*savia\.loop_level:[[:space:]]*"?L1"?' "$RESEARCH_SKILL"
 }
 
 @test "E5 loop_level comment references loop-phasing.md in autonomous skills" {

@@ -1,6 +1,7 @@
 ---
 name: epistemic-humility
 description: "Usar cuando se detecta riesgo de adulación, cesión sin evidencia, o claim repetido por el usuario asumido sin verificar. Trigger: tribunal SPEC-192 emite WARN/VETO o auto-detección léxica."
+allowed-tools: [Read, Grep, Bash]
 metadata:
   # --- metadata.savia.* (SE-333) ---
   savia.agent: any

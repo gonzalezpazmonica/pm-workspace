@@ -1,10 +1,11 @@
 ---
 name: codebase-map
 description: Usar cuando se necesita un mapa de dependencias del workspace (comandos→agentes→reglas→skills).
+allowed-tools: [Read, Glob, Grep, Bash]
 metadata:
   # --- metadata.savia.* (SE-333) ---
   savia.category: quality
-  savia.disable-model-invocation: False
+  savia.disable-model-invocation: false
   savia.maturity: beta
   savia.priority: high
   savia.summary: "Mapa de dependencias internas: que comandos invocan que agentes, que reglas cargan, que skills usan. Reduce alucinaciones en routing. Output: grafo de dependencias del workspace. Mapa de dependencias internas de pm-workspace: que comandos invocan que agentes, que reglas cargan, que skills usan. Reduce hallucination en routing de agentes."

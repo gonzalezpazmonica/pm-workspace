@@ -1,6 +1,7 @@
 ---
 name: agent-code-map
 description: Usar cuando un agente necesita conocer la arquitectura del proyecto sin leer ficheros completos.
+allowed-tools: [Bash, Read, Glob, Grep, Write, Edit]
 metadata:
   # --- metadata.savia.* (SE-333) ---
   savia.agent: architect

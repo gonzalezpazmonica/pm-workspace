@@ -3,7 +3,7 @@ name: dynamic-web-tester
 description: "Testing dinámico de endpoints web: XSS (DalFox), SQLi (sqlmap), Nuclei."
 metadata:
   # --- metadata.savia.* (SE-333) ---
-  savia.authorization_required: True
+  savia.authorization_required: true
   savia.category: security
   savia.context: fork
   savia.context_cost: medium

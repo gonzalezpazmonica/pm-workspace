@@ -1,10 +1,11 @@
 ---
 name: doc-quality-feedback
 description: Usar cuando se recopila feedback de calidad de documentación tras usar skills y reglas.
+allowed-tools: [Read, Write, Glob, Grep, Bash]
 metadata:
   # --- metadata.savia.* (SE-333) ---
   savia.category: quality
-  savia.disable-model-invocation: False
+  savia.disable-model-invocation: false
   savia.maturity: experimental
   savia.priority: medium
   savia.summary: Sistema de feedback de calidad de documentacion. Los agentes puntuan skills y reglas tras usarlas. Agregacion mensual detecta docs de baja calidad para reescritura. Sistema de feedback de calidad de documentacion. Los agentes puntuan skills y reglas tras usarlas. Aggregacion mensual detecta docs de baja calidad para reescritura.

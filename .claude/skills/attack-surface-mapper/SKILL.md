@@ -3,7 +3,7 @@ name: attack-surface-mapper
 description: "Mapear la superficie de ataque de un dominio: subdominios, OSINT, typosquatting."
 metadata:
   # --- metadata.savia.* (SE-333) ---
-  savia.authorization_required: True
+  savia.authorization_required: true
   savia.category: security
   savia.context: fork
   savia.context_cost: medium

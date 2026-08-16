@@ -15,7 +15,7 @@ metadata:
   # SE-152: Semantic routing (optional — omit if not applicable)
   # savia.consumes: "spec, project_slug, sprint_data"
   # savia.produces: "report, CONTEXT.md, test_suite"
-  # savia.loop_level: "L0"   # L0=draft | L1=report-only | L2=assisted | L3=unattended
+  savia.loop_level: "L0"   # L0=draft | L1=report-only | L2=assisted | L3=unattended — ver docs/rules/domain/loop-phasing.md
   # savia.trigger_keywords: "keyword1, keyword2"
 ---
 

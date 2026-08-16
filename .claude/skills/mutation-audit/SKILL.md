@@ -1,12 +1,13 @@
 ---
 name: mutation-audit
 description: Usar cuando se quiere medir la calidad real de los tests mediante mutation testing.
+allowed-tools: [Read, Bash, Glob]
 metadata:
   # --- metadata.savia.* (SE-333) ---
   savia.agent: test-engineer
   savia.category: quality
   savia.context: fork
-  savia.disable-model-invocation: False
+  savia.disable-model-invocation: false
   savia.maturity: beta
   savia.priority: medium
   savia.summary: Mutation testing on-demand. Siembra mutantes determinísticos en un módulo y mide cuántos matan los tests. Detecta tests zombies (cobertura alta pero sin asserciones que capturen cambios lógicos).

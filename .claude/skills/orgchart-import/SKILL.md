@@ -1,10 +1,11 @@
 ---
 name: orgchart-import
 description: Usar cuando se importa un organigrama para extraer la estructura del equipo.
+allowed-tools: [Read, Write, Edit, Glob, Grep, Bash]
 metadata:
   # --- metadata.savia.* (SE-333) ---
   savia.category: devops
-  savia.disable-model-invocation: False
+  savia.disable-model-invocation: false
   savia.priority: low
   savia.summary: "Importa organigramas (Mermaid, Draw.io XML, Miro) y genera estructura teams/ con departamentos, equipos y miembros. Pipeline de 7 fases. Inverso de diagram-generation orgchart. Pipeline de 7 fases para importar organigramas y generar estructura teams/. Soporta Mermaid, Draw.io XML y Miro. Inverso de diagram-generation orgchart."
   savia.tags: "orgchart, import, teams, hierarchy"

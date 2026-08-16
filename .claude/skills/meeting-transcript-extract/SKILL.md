@@ -1,6 +1,7 @@
 ---
 name: meeting-transcript-extract
 description: Usar cuando se necesita extraer la transcripción de una reunión Teams desde el browser.
+allowed-tools: [Read, Bash]
 metadata:
   # --- metadata.savia.* (SE-333) ---
   savia.argument-hint: "[--port 9222|9223] [--out-dir DIR] [--batch | --substring TEXT]"

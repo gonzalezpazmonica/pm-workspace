@@ -1,12 +1,13 @@
 ---
 name: web-research
 description: "Usar cuando se necesita buscar en la web para resolver gaps de contexto (docs, versiones, CVEs)."
+allowed-tools: [Read, Bash, WebSearch, WebFetch, Write]
 metadata:
   # --- metadata.savia.* (SE-333) ---
   savia.agent: architect
   savia.category: quality
   savia.context: fork
-  savia.disable-model-invocation: False
+  savia.disable-model-invocation: false
   savia.maturity: beta
   savia.priority: high
   savia.summary: "Busca en la web para resolver gaps de contexto: documentacion, versiones, CVEs, best practices. Auto-inicia SearxNG Docker si disponible, fallback a WebSearch. Cache local con TTL."

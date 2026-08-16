@@ -1,11 +1,12 @@
 ---
 name: nuclei-scanning
 description: "Usar cuando se escanean vulnerabilidades conocidas (CVEs, misconfigs) con Nuclei."
+allowed-tools: [Bash, Read, Write]
 metadata:
   # --- metadata.savia.* (SE-333) ---
   savia.category: quality
   savia.context: Invocado por /security-pipeline y /pentesting. Complementa security-attacker con deteccion basada en templates.
-  savia.disable-model-invocation: False
+  savia.disable-model-invocation: false
   savia.user-invocable: False
 ---
 

@@ -1,10 +1,11 @@
 ---
 name: personal-vault
 description: "Usar cuando se lee o escribe el repositorio personal del usuario (perfil, preferencias, memoria)."
+allowed-tools: [Read, Write, Edit, Bash, Glob, Grep]
 metadata:
   # --- metadata.savia.* (SE-333) ---
   savia.context: pm-workspace personal data management
-  savia.disable-model-invocation: False
+  savia.disable-model-invocation: false
   savia.summary: "Gestion del repositorio personal del usuario (nivel N3). Perfil, preferencias, memoria, instintos, cache. Cifrado AES-256, sync via git. Comandos vault-*."
   savia.user-invocable: True
 ---
