@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=9e16d4f37fad31c383f1c58af8cde0625c9dff111b8b1f07735df3cd4948a6a6
-timestamp=2026-08-16T18:06:15Z
-branch=agent/se333-agent-plugins
-head_commit=e6aa1613
-signature=4b7596049ab8c4165a610b9950441a573cc85dc07577108413cd41844e1a6401
+diff_hash=d49264616bf70449179d4a679177fe1b9a8eded9e696c73a9f69c9b276c594a1
+timestamp=2026-08-16T20:59:38Z
+branch=pr-962-agent-plugins
+head_commit=4fd08c9e
+signature=e71037999457bda7618082705aad04c0890ea427bd5fae9d6b81405af5eef98e
