@@ -1,17 +1,16 @@
 ---
 name: azure-devops-queries
 description: "Usar cuando se necesitan consultas WIQL, actualización de work items o datos de sprint en Azure DevOps."
-summary: |
-  Operaciones CRUD con Azure DevOps: queries WIQL, work items,
-  sprint status, capacity. Autenticacion via PAT o az CLI.
-  Input: proyecto + query. Output: datos estructurados.
-maturity: stable
-context: fork
-agent: azure-devops-operator
-context_cost: medium
-category: "devops"
-tags: ["azure-devops", "wiql", "work-items", "api"]
-priority: "high"
+metadata:
+  # --- metadata.savia.* (SE-333) ---
+  savia.agent: azure-devops-operator
+  savia.category: devops
+  savia.context: fork
+  savia.context_cost: medium
+  savia.maturity: stable
+  savia.priority: high
+  savia.summary: "Operaciones CRUD con Azure DevOps: queries WIQL, work items, sprint status, capacity. Autenticacion via PAT o az CLI. Input: proyecto + query. Output: datos estructurados."
+  savia.tags: "azure-devops, wiql, work-items, api"
 ---
 
 # Skill: azure-devops-queries

@@ -1,19 +1,16 @@
 ---
 name: git-secret-scanner
-description: "Escanea el historial git o los commits pendientes de push buscando secrets con gitleaks. SE-239/SE-247."
-summary: |
-  Escaneo de secrets en historial git con gitleaks.
-  Clasificación CRITICAL/HIGH/MEDIUM/LOW.
-  Output: JSONL + summary MD en output/security/.
-maturity: stable
-context: fork
-context_cost: low
-category: "security"
-tags: ["security", "gitleaks", "secret", "git-history", "pre-push"]
-trigger:
-  type: keyword
-  keywords: ["escanea el historial", "busca secrets", "git secret scan", "secret scanning", "scan history", "gitleaks"]
-se: SE-239
+description: Escanea el historial git o los commits pendientes de push buscando secrets con gitleaks. SE-239/SE-247.
+metadata:
+  # --- metadata.savia.* (SE-333) ---
+  savia.category: security
+  savia.context: fork
+  savia.context_cost: low
+  savia.maturity: stable
+  savia.se: SE-239
+  savia.summary: "Escaneo de secrets en historial git con gitleaks. Clasificación CRITICAL/HIGH/MEDIUM/LOW. Output: JSONL + summary MD en output/security/."
+  savia.tags: "security, gitleaks, secret, git-history, pre-push"
+  savia.trigger_keywords: "escanea el historial, busca secrets, git secret scan, secret scanning, scan history, gitleaks"
 ---
 
 # Git Secret Scanner Skill

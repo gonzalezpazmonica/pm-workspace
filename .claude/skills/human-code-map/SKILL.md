@@ -1,18 +1,17 @@
 ---
 name: human-code-map
 description: "Usar cuando se incorpora un dev nuevo, se toca un módulo sin mapa, o alguien re-lee el mismo código repetidamente."
-summary: |
-  Pipeline de 4 fases: cargar .acm del componente → analizar código real →
-  generar borrador narrativo → ciclo de validación humana.
-  Output: fichero .hcm con story, modelo mental, gotchas, decisiones y debt-score.
-maturity: experimental
-context: fork
-category: "quality"
-tags: ["comprehension", "cognitive-debt", "documentation", "onboarding", "mental-model"]
-priority: "high"
 allowed-tools: [Read, Write, Edit, Glob, Grep, Bash]
-model: sonnet
-context_cost: medium
+metadata:
+  # --- metadata.savia.* (SE-333) ---
+  savia.category: quality
+  savia.context: fork
+  savia.context_cost: medium
+  savia.maturity: experimental
+  savia.model: sonnet
+  savia.priority: high
+  savia.summary: "Pipeline de 4 fases: cargar .acm del componente → analizar código real → generar borrador narrativo → ciclo de validación humana. Output: fichero .hcm con story, modelo mental, gotchas, decisiones y debt-score."
+  savia.tags: "comprehension, cognitive-debt, documentation, onboarding, mental-model"
 ---
 
 # Human Code Map — Skill

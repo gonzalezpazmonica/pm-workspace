@@ -1,16 +1,15 @@
 ---
 name: finance-investment-analyst
 description: "Análisis de inversiones con Investment Memo estructurado, DCF, IRR/VAN/Payback y tablas de sensibilidad."
-summary: |
-  Produce Investment Memo de 9 secciones con valoración, riesgos y estructura.
-  Trabaja con proyecciones del cliente; marca [SUPUESTO A VALIDAR] donde inventa.
-  Input: descripción inversión + proyecciones + tasa descuento. Output: Investment Memo.
-maturity: stable
-context: isolated
-context_cost: high
-category: "professional-domain/finance"
-tags: ["finanzas", "inversión", "DCF", "IRR", "VAN", "Investment Memo", "valoración"]
-priority: "high"
+metadata:
+  # --- metadata.savia.* (SE-333) ---
+  savia.category: professional-domain/finance
+  savia.context: isolated
+  savia.context_cost: high
+  savia.maturity: stable
+  savia.priority: high
+  savia.summary: "Produce Investment Memo de 9 secciones con valoración, riesgos y estructura. Trabaja con proyecciones del cliente; marca [SUPUESTO A VALIDAR] donde inventa. Input: descripción inversión + proyecciones + tasa descuento. Output: Investment Memo."
+  savia.tags: "finanzas, inversión, DCF, IRR, VAN, Investment Memo, valoración"
 ---
 
 # finance-investment-analyst — Analista de Inversiones

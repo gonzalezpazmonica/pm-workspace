@@ -1,16 +1,15 @@
 ---
 name: model-upgrade-audit
-description: "Usar cuando hay un modelo nuevo disponible y se quiere detectar prompt debt en el workspace."
-summary: |
-  Audita agentes y prompts para detectar workarounds que modelos
-  nuevos ya no necesitan. Propone simplificaciones con evidencia.
-  Ejecutar al cambiar de modelo (ej: Sonnet 4 a 4.5).
-category: governance
-tags: [model, upgrade, prompt-debt, simplification, audit]
-priority: medium
-disable-model-invocation: false
-user-invocable: true
+description: Usar cuando hay un modelo nuevo disponible y se quiere detectar prompt debt en el workspace.
 allowed-tools: [Read, Write, Glob, Grep, Bash, Task]
+metadata:
+  # --- metadata.savia.* (SE-333) ---
+  savia.category: governance
+  savia.disable-model-invocation: false
+  savia.priority: medium
+  savia.summary: "Audita agentes y prompts para detectar workarounds que modelos nuevos ya no necesitan. Propone simplificaciones con evidencia. Ejecutar al cambiar de modelo (ej: Sonnet 4 a 4.5)."
+  savia.tags: "model, upgrade, prompt-debt, simplification, audit"
+  savia.user-invocable: True
 ---
 
 # Model Upgrade Audit

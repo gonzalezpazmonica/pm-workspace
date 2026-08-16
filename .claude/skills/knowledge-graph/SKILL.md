@@ -1,24 +1,19 @@
 ---
 name: knowledge-graph
-description: "Usar cuando se construye o consulta el grafo de conocimiento de entidades del proyecto."
-summary: |
-  Construye grafos de conocimiento de entidades PM y sus relaciones.
-  Stakeholders, componentes, decisiones, dependencias.
-  Consulta en lenguaje natural. Output: grafo Mermaid.
-maturity: stable
-context: fork
-agent: architect
-context_cost: medium
-category: "communication"
-tags: ["knowledge-graph", "entities", "relations", "queries"]
-priority: "medium"
-trigger:
-  type: keyword
-  keywords: [grafo, knowledge graph, entidades, relaciones, kg]
-consumes:
-  - workspace_files
-produces:
-  - graph_db
+description: Usar cuando se construye o consulta el grafo de conocimiento de entidades del proyecto.
+metadata:
+  # --- metadata.savia.* (SE-333) ---
+  savia.agent: architect
+  savia.category: communication
+  savia.consumes: workspace_files
+  savia.context: fork
+  savia.context_cost: medium
+  savia.maturity: stable
+  savia.priority: medium
+  savia.produces: graph_db
+  savia.summary: "Construye grafos de conocimiento de entidades PM y sus relaciones. Stakeholders, componentes, decisiones, dependencias. Consulta en lenguaje natural. Output: grafo Mermaid."
+  savia.tags: "knowledge-graph, entities, relations, queries"
+  savia.trigger_keywords: "grafo, knowledge graph, entidades, relaciones, kg"
 ---
 
 # Skill: knowledge-graph

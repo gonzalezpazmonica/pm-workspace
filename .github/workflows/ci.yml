@@ -454,6 +454,32 @@ jobs:
           fi
           echo "✅ Frontmatter valid ($WARNED legacy commands without frontmatter)."
 
+  skill-agent-plugins-gate:
+    timeout-minutes: 10
+    name: Agent Plugins Compliance (SE-333)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+
+      - name: Install jq
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y jq
+
+      - name: Run skill-audit --agent-plugins --strict
+        run: |
+          bash scripts/skill-audit.sh --agent-plugins --strict --json || {
+            echo "::error::Skills no conformes con agent-plugins.org/agentskills.io (SE-333). Ejecutar: bash scripts/skill-audit.sh --agent-plugins --json"
+            exit 1
+          }
+
+      - name: Verify plugin.json + mcp.json validity
+        run: |
+          jq -e . plugin.json >/dev/null || { echo "::error::plugin.json inválido"; exit 1; }
+          jq -e . mcp.json >/dev/null || { echo "::error::mcp.json inválido"; exit 1; }
+          echo "Agent Plugins manifests válidos"
+
   hook-perf-gate:
     timeout-minutes: 10
     name: Hook Latency Gate

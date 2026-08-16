@@ -1,19 +1,18 @@
 ---
 name: topic-cluster
 description: "Usar cuando se agrupan retros, PBIs o incidentes en topics para detectar patrones transversales."
-summary: |
-  Clustering tematico con BERTopic (UMAP+HDBSCAN+c-TF-IDF). Aplica sobre
-  retros, backlogs, incidentes, lessons. Fallback keyword cuando
-  bertopic no esta instalado. Output JSON con labels y keywords.
-maturity: beta
-context: fork
-agent: architect
-category: "memory"
-tags: ["clustering", "bertopic", "retrospectives", "patterns", "memory"]
-priority: "medium"
-disable-model-invocation: false
-user-invocable: true
 allowed-tools: [Read, Bash, Glob]
+metadata:
+  # --- metadata.savia.* (SE-333) ---
+  savia.agent: architect
+  savia.category: memory
+  savia.context: fork
+  savia.disable-model-invocation: false
+  savia.maturity: beta
+  savia.priority: medium
+  savia.summary: "Clustering tematico con BERTopic (UMAP+HDBSCAN+c-TF-IDF). Aplica sobre retros, backlogs, incidentes, lessons. Fallback keyword cuando bertopic no esta instalado. Output JSON con labels y keywords."
+  savia.tags: "clustering, bertopic, retrospectives, patterns, memory"
+  savia.user-invocable: True
 ---
 
 # Skill: Topic Cluster

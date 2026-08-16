@@ -45,6 +45,24 @@ done
 
 extract_field() {
   local file="$1" field="$2"
+  # SE-333 dual-read: canonical metadata.savia.<field> takes precedence;
+  # falls back to legacy top-level <field>.
+  local savia_key="savia.${field}"
+  local v
+  v=$(awk -v key="$savia_key" '
+    /^---$/ { c++; if (c>=2) exit; next }
+    c==1 && $0 ~ key {
+      sub(/.*'"${savia_key}"'[[:space:]]*:/, "")
+      sub(/^[[:space:]]+/, "")
+      gsub(/^"|"$/, "")
+      gsub(/^'"'"'|'"'"'$/, "")
+      print; exit
+    }
+  ' "$file")
+  if [[ -n "$v" ]]; then
+    echo "$v"
+    return 0
+  fi
   awk -v field="^${field}:" '
     /^---$/ { c++; if (c>=2) exit; next }
     c==1 {

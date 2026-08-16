@@ -4,18 +4,14 @@ description: >
   Genera CONTEXT_DOME.md para modulos con Bus Factor bajo. Captura
   conocimiento tacito: proposito, decisiones no obvias, dependencias,
   runbook minimo, knowledge owners y plan de distribucion.
-summary: >
-  Skill de documentacion automatica de conocimiento tacito por modulo.
-  Complemento natural del bus-factor-analysis skill.
-maturity: calibrated
-context: L2
-category: knowledge-management
-tags: [context-dome, bus-factor, documentation, knowledge-transfer, resilience]
-trigger: >
-  Usar cuando: un modulo tiene BF<=2, un dev abandona el equipo, se
-  incorpora un nuevo dev que necesita entender un modulo, o como parte
-  del overnight-sprint bus-factor-reduction mode.
-se: SE-252
+metadata:
+  # --- metadata.savia.* (SE-333) ---
+  savia.category: knowledge-management
+  savia.context: L2
+  savia.maturity: calibrated
+  savia.se: SE-252
+  savia.summary: Skill de documentacion automatica de conocimiento tacito por modulo. Complemento natural del bus-factor-analysis skill.
+  savia.tags: "context-dome, bus-factor, documentation, knowledge-transfer, resilience"
 ---
 
 # Context Dome

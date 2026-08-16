@@ -1,16 +1,15 @@
 ---
 name: team-onboarding
-description: "Usar cuando se incorpora un nuevo miembro al equipo y se evalúan sus competencias."
-summary: |
-  Onboarding de nuevos miembros: documentacion auto-generada,
-  plan personalizado 30/60/90 y agente buddy de 3 capas.
-  Output: guia de onboarding + plan + checkpoints.
-maturity: stable
-context: fork
-agent: tech-writer
-category: "pm-operations"
-tags: ["onboarding", "competencies", "ramp-up", "team"]
-priority: "medium"
+description: Usar cuando se incorpora un nuevo miembro al equipo y se evalúan sus competencias.
+metadata:
+  # --- metadata.savia.* (SE-333) ---
+  savia.agent: tech-writer
+  savia.category: pm-operations
+  savia.context: fork
+  savia.maturity: stable
+  savia.priority: medium
+  savia.summary: "Onboarding de nuevos miembros: documentacion auto-generada, plan personalizado 30/60/90 y agente buddy de 3 capas. Output: guia de onboarding + plan + checkpoints."
+  savia.tags: "onboarding, competencies, ramp-up, team"
 ---
 
 # Skill: Team Onboarding & Expertise Evaluation

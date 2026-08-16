@@ -1,16 +1,15 @@
 ---
 name: rbac-management
 description: "Usar cuando se gestionan roles, permisos o se audita el acceso de usuarios."
-summary: |
-  Control de acceso basado en roles: grant, revoke, audit.
-  Gestiona permisos por usuario/equipo/proyecto.
-  Output: matriz de permisos + log de cambios.
-maturity: stable
-context: fork
-agent: architect
-category: "governance"
-tags: ["rbac", "permissions", "roles", "access-control"]
-priority: "high"
+metadata:
+  # --- metadata.savia.* (SE-333) ---
+  savia.agent: architect
+  savia.category: governance
+  savia.context: fork
+  savia.maturity: stable
+  savia.priority: high
+  savia.summary: "Control de acceso basado en roles: grant, revoke, audit. Gestiona permisos por usuario/equipo/proyecto. Output: matriz de permisos + log de cambios."
+  savia.tags: "rbac, permissions, roles, access-control"
 ---
 
 # Skill: RBAC Management

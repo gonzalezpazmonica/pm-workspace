@@ -1,14 +1,16 @@
 ---
 name: design-an-interface
 description: "Design-an-interface skill with N=3 parallel alternatives and architectural vocabulary. Use when designing a new module interface, when user mentions 'varias alternativas', 'design this module', or '/design-interface'."
-maturity: stable
-context: fork
-context_cost: medium
-category: "architecture"
-tags: ["architecture", "interface-design", "parallel-agents", "sdd"]
-priority: "high"
-attribution: "Clean-room re-implementation of mattpocock/skills/design-an-interface (MIT, 26.4k*). Prose and process are original."
-se: "SE-087"
+metadata:
+  # --- metadata.savia.* (SE-333) ---
+  savia.attribution: "Clean-room re-implementation of mattpocock/skills/design-an-interface (MIT, 26.4k*). Prose and process are original."
+  savia.category: architecture
+  savia.context: fork
+  savia.context_cost: medium
+  savia.maturity: stable
+  savia.priority: high
+  savia.se: SE-087
+  savia.tags: "architecture, interface-design, parallel-agents, sdd"
 ---
 
 # Skill: Design an Interface

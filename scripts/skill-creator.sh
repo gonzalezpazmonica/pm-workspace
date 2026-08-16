@@ -87,17 +87,17 @@ cat > "$SKILL_DIR/SKILL.md" <<SKILLEOF
 ---
 name: $SKILL_NAME
 description: "$SKILL_DESC"
-maturity: stub
-context: standalone
-context_cost: low
-category: "utility"
-tags: []
-priority: "low"
-tier: $SKILL_TIER
-consumes: []
-produces: []
-trigger:
-  keywords: [$SKILL_NAME]
+metadata:
+  savia.maturity: "stub"
+  savia.context: "standalone"
+  savia.context_cost: "low"
+  savia.category: "utility"
+  savia.tags: ""
+  savia.priority: "low"
+  savia.tier: "$SKILL_TIER"
+  savia.consumes: ""
+  savia.produces: ""
+  savia.trigger_keywords: "$SKILL_NAME"
 ---
 
 # Skill: $HUMAN_NAME

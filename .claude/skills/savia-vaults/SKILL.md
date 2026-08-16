@@ -1,12 +1,14 @@
 ---
 name: savia-vaults
-description: Usar cuando se interactua con SaviaVaults — cupulas de contexto, busqueda federada, servidores MCP/A2A, backups, confidencialidad. Triggers: 'crea una cupula', 'indexa documentacion', 'busca en los vaults', 'federate este dome', 'backup del conocimiento', 'nivel de confidencialidad', 'gestiona cupulas', 'context dome', 'vaults CLI'. NOT para diseno de arquitectura de conocimiento (usar context-dome-manager agent).
-maturity: stable
-context: project
-category: knowledge-management
-priority: high
-tags: [vaults, cupulas, contexto, federacion, mcp, a2a, backup, confidencialidad]
-recommends: [context-dome, knowledge-graph, ubiquitous-language]
+description: "Usar cuando se interactua con SaviaVaults — cupulas de contexto, busqueda federada, servidores MCP/A2A, backups, confidencialidad. Triggers: 'crea una cupula', 'indexa documentacion', 'busca en los vaults', 'federate este dome', 'backup del conocimiento', 'nivel de confidencialidad', 'gestiona cupulas', 'context dome', 'vaults CLI'. NOT para diseno de arquitectura de conocimiento (usar context-dome-manager agent)."
+metadata:
+  # --- metadata.savia.* (SE-333) ---
+  savia.category: knowledge-management
+  savia.context: project
+  savia.maturity: stable
+  savia.priority: high
+  savia.recommends: "context-dome, knowledge-graph, ubiquitous-language"
+  savia.tags: "vaults, cupulas, contexto, federacion, mcp, a2a, backup, confidencialidad"
 ---
 
 # SaviaVaults — Operacion de Cupulas de Contexto

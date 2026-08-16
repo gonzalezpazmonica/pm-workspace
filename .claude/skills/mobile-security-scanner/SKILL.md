@@ -1,16 +1,14 @@
 ---
 name: mobile-security-scanner
-description: "Usar cuando se escanea un APK/AAB Android en busca de vulnerabilidades de seguridad. Integra con MobSF (Docker) y análisis básico como fallback."
-summary: |
-  Pipeline de seguridad para apps Android.
-  Análisis estático con MobSF (Docker) o fallback básico (apktool + grep).
-  Auditoría de AndroidManifest sin necesidad de MobSF.
-  Output: findings clasificados CRITICAL/HIGH/MEDIUM/LOW en output/security/.
-maturity: stable
-context: skill
-category: "security"
-tags: ["android", "mobile", "apk", "MobSF", "manifest", "security", "static-analysis"]
-priority: "high"
+description: Usar cuando se escanea un APK/AAB Android en busca de vulnerabilidades de seguridad. Integra con MobSF (Docker) y análisis básico como fallback.
+metadata:
+  # --- metadata.savia.* (SE-333) ---
+  savia.category: security
+  savia.context: skill
+  savia.maturity: stable
+  savia.priority: high
+  savia.summary: "Pipeline de seguridad para apps Android. Análisis estático con MobSF (Docker) o fallback básico (apktool + grep). Auditoría de AndroidManifest sin necesidad de MobSF. Output: findings clasificados CRITICAL/HIGH/MEDIUM/LOW en output/security/."
+  savia.tags: "android, mobile, apk, MobSF, manifest, security, static-analysis"
 ---
 
 # Mobile Security Scanner

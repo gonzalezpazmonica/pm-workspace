@@ -1,23 +1,19 @@
 ---
 name: meta-reflection
 description: "Protocolo de las 4 meta-preguntas para cuestionar el encuadre de una tarea antes de ejecutarla. SPEC-194. Usar cuando criterion-simulation-judge activa con FRAME_DOUBT o FRAME_REJECT, o cuando el operador quiere reflexion manual antes de una decision de alto impacto."
-summary: |
-  Protocolo de meta-reflexion estructurado en 4 preguntas:
-  Q1 encuadre vs problema real, Q2 precedentes historicos, Q3 estado del operador,
-  Q4 reformulacion alternativa. Produce reafirmacion o reformulacion consciente.
-  No es criterio real: heuristica de pausa declarada como tal.
-maturity: experimental
-context: workspace
-agent: criterion-simulation-judge
-context_cost: high
-category: "governance"
-tags: ["meta-reflection", "criterion-simulation", "spec-194", "frame", "governance"]
-priority: "high"
-trigger:
-  type: keyword
-  keywords: ["frame challenge", "meta-reflexion", "criterion-simulation", "FRAME_DOUBT", "FRAME_REJECT"]
 allowed-tools: [Read, Bash]
-user-invocable: true
+metadata:
+  # --- metadata.savia.* (SE-333) ---
+  savia.agent: criterion-simulation-judge
+  savia.category: governance
+  savia.context: workspace
+  savia.context_cost: high
+  savia.maturity: experimental
+  savia.priority: high
+  savia.summary: "Protocolo de meta-reflexion estructurado en 4 preguntas: Q1 encuadre vs problema real, Q2 precedentes historicos, Q3 estado del operador, Q4 reformulacion alternativa. Produce reafirmacion o reformulacion consciente. No es criterio real: heuristica de pausa declarada como tal."
+  savia.tags: "meta-reflection, criterion-simulation, spec-194, frame, governance"
+  savia.trigger_keywords: "frame challenge, meta-reflexion, criterion-simulation, FRAME_DOUBT, FRAME_REJECT"
+  savia.user-invocable: True
 ---
 
 # Skill: meta-reflection

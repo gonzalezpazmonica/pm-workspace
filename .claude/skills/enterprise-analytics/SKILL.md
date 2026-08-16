@@ -1,19 +1,18 @@
 ---
 name: enterprise-analytics
 description: "Usar cuando se necesitan métricas SPACE, aggregación de portfolio o forecasting empresarial."
-summary: |
-  Metricas empresariales: SPACE, agregacion de portfolio, salud de equipo,
-  matriz de riesgo y forecasting. Para organizaciones con
-  multiples proyectos. Output: dashboard ejecutivo.
-maturity: beta
-context: fork
-agent: architect
-context_cost: medium
-dependencies: []
-memory: project
-category: "reporting"
-tags: ["analytics", "space-metrics", "portfolio", "forecasting"]
-priority: "medium"
+metadata:
+  # --- metadata.savia.* (SE-333) ---
+  savia.agent: architect
+  savia.category: reporting
+  savia.context: fork
+  savia.context_cost: medium
+  savia.dependencies: 
+  savia.maturity: beta
+  savia.memory: project
+  savia.priority: medium
+  savia.summary: "Metricas empresariales: SPACE, agregacion de portfolio, salud de equipo, matriz de riesgo y forecasting. Para organizaciones con multiples proyectos. Output: dashboard ejecutivo."
+  savia.tags: "analytics, space-metrics, portfolio, forecasting"
 ---
 
 # Skill: Enterprise Analytics

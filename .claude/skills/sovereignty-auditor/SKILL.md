@@ -1,16 +1,15 @@
 ---
 name: sovereignty-auditor
-description: "Usar cuando se audita el grado de dependencia cognitiva del equipo respecto a herramientas de IA."
-summary: |
-  Auditoria de soberania cognitiva: diagnostica lock-in de IA,
-  portabilidad de datos y dependencias de proveedor.
-  Output: score de soberania + plan de mitigacion.
-maturity: stable
-context_cost: medium
-dependencies: []
-category: "governance"
-tags: ["sovereignty", "lock-in", "ai-governance", "audit"]
-priority: "medium"
+description: Usar cuando se audita el grado de dependencia cognitiva del equipo respecto a herramientas de IA.
+metadata:
+  # --- metadata.savia.* (SE-333) ---
+  savia.category: governance
+  savia.context_cost: medium
+  savia.dependencies: 
+  savia.maturity: stable
+  savia.priority: medium
+  savia.summary: "Auditoria de soberania cognitiva: diagnostica lock-in de IA, portabilidad de datos y dependencias de proveedor. Output: score de soberania + plan de mitigacion."
+  savia.tags: "sovereignty, lock-in, ai-governance, audit"
 ---
 
 # Skill: Sovereignty Auditor

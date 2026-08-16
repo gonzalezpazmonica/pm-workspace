@@ -1,15 +1,15 @@
 ---
 name: write-a-skill
-description: "Guia para crear una nueva skill correctamente en pm-workspace. Usar cuando una tarea se repite 2+ veces o tarda mas de 15 min."
-maturity: stable
-context: standalone
-context_cost: low
-category: "meta"
-tags: ["meta", "skill-authoring", "quality-gate"]
-priority: "medium"
-trigger:
-  type: keyword
-  keywords: [crea skill, nueva skill, write-a-skill, skill nuevo]
+description: Guia para crear una nueva skill correctamente en pm-workspace. Usar cuando una tarea se repite 2+ veces o tarda mas de 15 min.
+metadata:
+  # --- metadata.savia.* (SE-333) ---
+  savia.category: meta
+  savia.context: standalone
+  savia.context_cost: low
+  savia.maturity: stable
+  savia.priority: medium
+  savia.tags: "meta, skill-authoring, quality-gate"
+  savia.trigger_keywords: "crea skill, nueva skill, write-a-skill, skill nuevo"
 ---
 
 # Skill: Write a Skill

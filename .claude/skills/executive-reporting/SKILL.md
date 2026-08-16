@@ -1,17 +1,16 @@
 ---
 name: executive-reporting
-description: "Usar cuando se genera un informe ejecutivo multi-proyecto para dirección."
-summary: |
-  Informes ejecutivos multi-proyecto para direccion.
-  Formatos: PowerPoint y Word con formato corporativo.
-  Datos: velocity, completion rate, riesgos, roadmap.
-maturity: stable
-context: fork
-agent: tech-writer
-context_cost: medium
-category: "reporting"
-tags: ["executive", "reports", "powerpoint", "word"]
-priority: "medium"
+description: Usar cuando se genera un informe ejecutivo multi-proyecto para dirección.
+metadata:
+  # --- metadata.savia.* (SE-333) ---
+  savia.agent: tech-writer
+  savia.category: reporting
+  savia.context: fork
+  savia.context_cost: medium
+  savia.maturity: stable
+  savia.priority: medium
+  savia.summary: "Informes ejecutivos multi-proyecto para direccion. Formatos: PowerPoint y Word con formato corporativo. Datos: velocity, completion rate, riesgos, roadmap."
+  savia.tags: "executive, reports, powerpoint, word"
 ---
 
 # Skill: executive-reporting

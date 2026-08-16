@@ -1,16 +1,15 @@
 ---
 name: risk-scoring
-description: "Usar cuando se calcula el riesgo de una tarea para decidir el nivel de revisión requerido."
-summary: |
-  Calcula score de riesgo (0-100) para tasks y PRs.
-  8 factores: complejidad, seguridad, deps, cobertura, etc.
-  Enruta a nivel de review apropiado (low/medium/high/critical).
-maturity: beta
-context: fork
-agent: architect
-category: "quality"
-tags: ["risk", "scoring", "escalation", "review-routing"]
-priority: "high"
+description: Usar cuando se calcula el riesgo de una tarea para decidir el nivel de revisión requerido.
+metadata:
+  # --- metadata.savia.* (SE-333) ---
+  savia.agent: architect
+  savia.category: quality
+  savia.context: fork
+  savia.maturity: beta
+  savia.priority: high
+  savia.summary: "Calcula score de riesgo (0-100) para tasks y PRs. 8 factores: complejidad, seguridad, deps, cobertura, etc. Enruta a nivel de review apropiado (low/medium/high/critical)."
+  savia.tags: "risk, scoring, escalation, review-routing"
 ---
 
 # Risk Scoring for Intelligent Escalation

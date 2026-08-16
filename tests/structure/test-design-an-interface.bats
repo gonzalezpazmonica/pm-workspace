@@ -29,7 +29,7 @@ teardown() {
 @test "AC-01: SKILL.md has valid YAML frontmatter (name + maturity)" {
   head -1 "$SKILL_MD" | grep -q "^---"
   grep -q "^name:" "$SKILL_MD"
-  grep -q "^maturity:" "$SKILL_MD"
+  grep -qE "^[[:space:]]*savia\.maturity:" "$SKILL_MD"
 }
 
 @test "AC-01: description field is present and non-empty" {

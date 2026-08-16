@@ -40,10 +40,17 @@ done
 read_declared_level() {
   local skill_md="$1"
   local level
-  level=$(grep -m1 '^loop_level:' "$skill_md" 2>/dev/null | \
-    sed 's/loop_level:[[:space:]]*//' | \
+  # SE-333 dual-read: canonical metadata.savia.loop_level first, legacy fallback
+  level=$(grep -m1 'savia\.loop_level:' "$skill_md" 2>/dev/null | \
+    sed 's/^.*savia\.loop_level:[[:space:]]*//' | \
     sed 's/#.*//' | \
     tr -d '[:space:]"' || true)
+  if [[ -z "$level" ]]; then
+    level=$(grep -m1 '^loop_level:' "$skill_md" 2>/dev/null | \
+      sed 's/loop_level:[[:space:]]*//' | \
+      sed 's/#.*//' | \
+      tr -d '[:space:]"' || true)
+  fi
   if [[ -z "$level" ]]; then
     echo "L0"
   else
@@ -119,7 +126,7 @@ for skill_md in "${candidate_mds[@]}"; do
   [[ -f "$skill_md" ]] || continue
 
   # Only include skills with loop_level declared OR tagged autonomous
-  if ! grep -qE '^loop_level:|"autonomous"' "$skill_md" 2>/dev/null; then
+  if ! grep -qE '^loop_level:|savia\.loop_level:|"autonomous"' "$skill_md" 2>/dev/null; then
     continue
   fi
 

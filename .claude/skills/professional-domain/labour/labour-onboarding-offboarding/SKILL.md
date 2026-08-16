@@ -1,17 +1,15 @@
 ---
 name: labour-onboarding-offboarding
 description: "Genera checklists y documentación de onboarding/offboarding laboral con plazos duros (alta SS antes de empezar, baja SS 3 días, finiquito). Alertas de caducidad incluidas."
-summary: |
-  Produce checklists de entrada/salida de trabajadores con plazos legales exactos,
-  alertas de sanciones TGSS, borradores de documentos (contrato, finiquito, certificado
-  empresa) y timeline en días. SIEMPRE señala que el alta SS debe ser previa al inicio
-  de la actividad laboral. Requiere validación por graduado social.
-maturity: stable
-context: isolated
-context_cost: medium
-category: "professional-domain/labour"
-tags: ["onboarding", "offboarding", "alta-SS", "finiquito", "TGSS", "SEPE", "contrato", "ES"]
-priority: "high"
+metadata:
+  # --- metadata.savia.* (SE-333) ---
+  savia.category: professional-domain/labour
+  savia.context: isolated
+  savia.context_cost: medium
+  savia.maturity: stable
+  savia.priority: high
+  savia.summary: "Produce checklists de entrada/salida de trabajadores con plazos legales exactos, alertas de sanciones TGSS, borradores de documentos (contrato, finiquito, certificado empresa) y timeline en días. SIEMPRE señala que el alta SS debe ser previa al inicio de la actividad laboral. Requiere validación por graduado social."
+  savia.tags: "onboarding, offboarding, alta-SS, finiquito, TGSS, SEPE, contrato, ES"
 ---
 
 # labour-onboarding-offboarding — Gestor de Documentación de Entrada/Salida

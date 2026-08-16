@@ -93,7 +93,7 @@ teardown() {
   [ "$broken" -eq 0 ]
 }
 
-@test "tier1 rules are exactly radical-honesty and autonomous-safety" {
+@test "tier1 rules are the CLAUDE.md eager imports (3 rules)" {
   run bash -c "echo '' | '$ROOT/scripts/rule-usage-analyzer.sh'"
   [ "$status" -eq 0 ]
   local tier1
@@ -102,7 +102,7 @@ import json, sys
 d = json.load(sys.stdin)
 print(' '.join(sorted(n for n, i in d['rules'].items() if i['tier'] == 'tier1')))
 ")
-  [[ "$tier1" == "autonomous-safety.md radical-honesty.md" ]]
+  [[ "$tier1" == "autonomous-safety.md caveman-default.md radical-honesty.md" ]]
 }
 
 # ── Negative cases (no regressions) ──

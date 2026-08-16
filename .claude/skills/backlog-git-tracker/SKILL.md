@@ -1,16 +1,15 @@
 ---
 name: backlog-git-tracker
-description: "Usar cuando se capturan o comparan snapshots del backlog para detectar drift."
-summary: |
-  Captura snapshots periodicos del backlog (Azure DevOps, Jira, Savia Flow)
-  y los almacena como markdown en SaviaHub. Compara versiones,
-  detecta scope creep y genera informes de desviacion.
-maturity: stable
-context_cost: medium
-dependencies: ["savia-hub-sync", "client-profile-manager"]
-category: "pm-operations"
-tags: ["backlog", "snapshot", "audit", "tracking"]
-priority: "medium"
+description: Usar cuando se capturan o comparan snapshots del backlog para detectar drift.
+metadata:
+  # --- metadata.savia.* (SE-333) ---
+  savia.category: pm-operations
+  savia.context_cost: medium
+  savia.dependencies: "savia-hub-sync, client-profile-manager"
+  savia.maturity: stable
+  savia.priority: medium
+  savia.summary: "Captura snapshots periodicos del backlog (Azure DevOps, Jira, Savia Flow) y los almacena como markdown en SaviaHub. Compara versiones, detecta scope creep y genera informes de desviacion."
+  savia.tags: "backlog, snapshot, audit, tracking"
 ---
 
 # Skill: BacklogGit Tracker

@@ -1,13 +1,15 @@
 ---
 name: ubiquitous-language
 description: "Usar cuando se necesita extraer o consolidar el glosario de términos de dominio de un proyecto. Trigger: usuario dice 'extrae glosario', 'ubiquitous language', '/glossary', o hay >5 términos repetidos sin CONTEXT.md."
-maturity: stable
-context: project
-context_cost: low
-category: "ddd"
-tags: ["ddd", "glossary", "domain", "context", "ubiquitous-language"]
-priority: "medium"
-attribution: "Clean-room re-implementation of mattpocock/skills/ubiquitous-language + domain-model (MIT, 26.4k*). Prose and process are original."
+metadata:
+  # --- metadata.savia.* (SE-333) ---
+  savia.attribution: "Clean-room re-implementation of mattpocock/skills/ubiquitous-language + domain-model (MIT, 26.4k*). Prose and process are original."
+  savia.category: ddd
+  savia.context: project
+  savia.context_cost: low
+  savia.maturity: stable
+  savia.priority: medium
+  savia.tags: "ddd, glossary, domain, context, ubiquitous-language"
 ---
 
 # Authoritative Paths

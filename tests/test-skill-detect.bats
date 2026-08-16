@@ -76,8 +76,8 @@ teardown() {
   [[ "$status" -eq 0 ]]
   [[ -f "$PROPOSALS_DIR/test-auto-skill/SKILL.md" ]]
   grep -q "^name: test-auto-skill" "$PROPOSALS_DIR/test-auto-skill/SKILL.md"
-  grep -q "confidence: 50" "$PROPOSALS_DIR/test-auto-skill/SKILL.md"
-  grep -q "maturity: experimental" "$PROPOSALS_DIR/test-auto-skill/SKILL.md"
+  grep -q "confidence: 50" "$PROPOSALS_DIR/test-auto-skill/SKILL.md" || grep -q "savia.confidence: \"50\"" "$PROPOSALS_DIR/test-auto-skill/SKILL.md"
+  grep -q "maturity: experimental" "$PROPOSALS_DIR/test-auto-skill/SKILL.md" || grep -q "savia.maturity: \"experimental\"" "$PROPOSALS_DIR/test-auto-skill/SKILL.md"
 }
 @test "propose creates DOMAIN.md alongside SKILL.md" {
   run bash "$SCRIPT" propose "test-domain-skill" "Domain test"
@@ -93,7 +93,7 @@ teardown() {
 }
 @test "propose includes confidence of 50 percent" {
   bash "$SCRIPT" propose "conf-check" "Confidence check" >/dev/null
-  grep -q "confidence: 50" "$PROPOSALS_DIR/conf-check/SKILL.md"
+  grep -q "confidence: 50" "$PROPOSALS_DIR/conf-check/SKILL.md" || grep -q "savia.confidence: \"50\"" "$PROPOSALS_DIR/conf-check/SKILL.md"
 }
 
 ## Propose — negative cases

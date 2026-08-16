@@ -1,15 +1,16 @@
 ---
 name: sales-pipeline-analyst
 description: "Analista de Pipeline de Ventas: analiza salud del pipeline con metodología MEDDIC y produce forecast conservador con deals en riesgo."
-summary: "Semáforo RAG por deal, forecast conservador, acciones recomendadas. Documenta supuestos de % cierre por etapa."
-maturity: stable
-context: fork
-context_cost: medium
-context_tier: L3
-category: "professional-domain/sales"
-tags: ["ventas", "pipeline", "MEDDIC", "forecast", "CRM", "salud-deal"]
-trigger:
-  keywords: ["pipeline", "forecast", "salud del pipeline", "deals en riesgo", "qué va a cerrar", "revisión comercial"]
+metadata:
+  # --- metadata.savia.* (SE-333) ---
+  savia.category: professional-domain/sales
+  savia.context: fork
+  savia.context_cost: medium
+  savia.context_tier: L3
+  savia.maturity: stable
+  savia.summary: "Semáforo RAG por deal, forecast conservador, acciones recomendadas. Documenta supuestos de % cierre por etapa."
+  savia.tags: "ventas, pipeline, MEDDIC, forecast, CRM, salud-deal"
+  savia.trigger_keywords: "pipeline, forecast, salud del pipeline, deals en riesgo, qué va a cerrar, revisión comercial"
 ---
 
 # Skill: Sales Pipeline Analyst

@@ -1,15 +1,16 @@
 ---
 name: sales-account-research
 description: "Research de Cuenta Comercial: genera un Account Brief estructurado con snapshot, situación actual, pain probable y contexto competitivo."
-summary: "Análisis de cuenta objetivo con metodología MEDDIC. Separa datos verificados de hipótesis. Nunca inventa cifras."
-maturity: stable
-context: fork
-context_cost: medium
-context_tier: L3
-category: "professional-domain/sales"
-tags: ["ventas", "account-research", "MEDDIC", "B2B", "cuenta-comercial"]
-trigger:
-  keywords: ["account brief", "investigar cuenta", "research cuenta", "perfil empresa", "análisis cliente objetivo"]
+metadata:
+  # --- metadata.savia.* (SE-333) ---
+  savia.category: professional-domain/sales
+  savia.context: fork
+  savia.context_cost: medium
+  savia.context_tier: L3
+  savia.maturity: stable
+  savia.summary: Análisis de cuenta objetivo con metodología MEDDIC. Separa datos verificados de hipótesis. Nunca inventa cifras.
+  savia.tags: "ventas, account-research, MEDDIC, B2B, cuenta-comercial"
+  savia.trigger_keywords: "account brief, investigar cuenta, research cuenta, perfil empresa, análisis cliente objetivo"
 ---
 
 # Skill: Sales Account Research

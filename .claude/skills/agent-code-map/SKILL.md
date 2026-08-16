@@ -1,18 +1,17 @@
 ---
 name: agent-code-map
-description: "Usar cuando un agente necesita conocer la arquitectura del proyecto sin leer ficheros completos."
-summary: |
-  Genera INDEX.acm + mapas por capa (domain, infra, api) desde el código fuente.
-  Valida frescura por hash. Carga progresiva con @include. Integrado en SDD step [0].
-  Elimina 30–60% de exploración ciega al inicio de cada sesión de agente.
-maturity: experimental
-context: project
-agent: architect
-category: "sdd-framework"
-tags: ["acm", "agent-maps", "codemap", "context", "sdd", "architecture"]
-priority: "high"
+description: Usar cuando un agente necesita conocer la arquitectura del proyecto sin leer ficheros completos.
 allowed-tools: [Bash, Read, Glob, Grep, Write, Edit]
-user-invocable: true
+metadata:
+  # --- metadata.savia.* (SE-333) ---
+  savia.agent: architect
+  savia.category: sdd-framework
+  savia.context: project
+  savia.maturity: experimental
+  savia.priority: high
+  savia.summary: "Genera INDEX.acm + mapas por capa (domain, infra, api) desde el código fuente. Valida frescura por hash. Carga progresiva con @include. Integrado en SDD step [0]. Elimina 30–60% de exploración ciega al inicio de cada sesión de agente."
+  savia.tags: "acm, agent-maps, codemap, context, sdd, architecture"
+  savia.user-invocable: True
 ---
 
 # Agent Code Map — Mapas Estructurales Persistentes

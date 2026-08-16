@@ -1,16 +1,15 @@
 ---
 name: controlling-variance-analyzer
 description: "Análisis de desviaciones real vs budget con causa raíz, narrativa para dirección y semáforo RAG."
-summary: |
-  Analiza desviaciones presupuestarias (5 tipos: volumen/precio/mix/eficiencia/calendario).
-  Produce tabla RAG + narrativa ejecutiva + acciones correctoras cuantificadas.
-  Input: real + budget + período. Output: informe de desviaciones para dirección.
-maturity: stable
-context: isolated
-context_cost: medium
-category: "professional-domain/controlling"
-tags: ["controlling", "presupuesto", "desviaciones", "variance", "gestión", "CFO"]
-priority: "high"
+metadata:
+  # --- metadata.savia.* (SE-333) ---
+  savia.category: professional-domain/controlling
+  savia.context: isolated
+  savia.context_cost: medium
+  savia.maturity: stable
+  savia.priority: high
+  savia.summary: "Analiza desviaciones presupuestarias (5 tipos: volumen/precio/mix/eficiencia/calendario). Produce tabla RAG + narrativa ejecutiva + acciones correctoras cuantificadas. Input: real + budget + período. Output: informe de desviaciones para dirección."
+  savia.tags: "controlling, presupuesto, desviaciones, variance, gestión, CFO"
 ---
 
 # controlling-variance-analyzer — Analizador de Desviaciones Presupuestarias

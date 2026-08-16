@@ -1,19 +1,16 @@
 ---
 name: codegraph
-description: "Usar cuando se necesita indexación AST persistente para navegación de callers/callees en el código."
-summary: |
-  CodeGraph (colbymchenry/codegraph) indexa código en SQLite con tree-sitter
-  y lo expone vía MCP stdio. Sustituye grep ad-hoc de .acm/ast-comprehension
-  por queries semánticas. 35% menos coste y 70% menos tool calls (bench
-  upstream). Opt-in por proyecto: requiere `codegraph init -i` y MCP
-  habilitado en opencode.json. NO se carga al arranque (Rule #19).
-maturity: experimental
-context: project
-category: "quality"
-tags: ["mcp", "ast", "tree-sitter", "indexing", "callers", "impact", "acm-engine"]
-priority: "medium"
+description: Usar cuando se necesita indexación AST persistente para navegación de callers/callees en el código.
 allowed-tools: [Bash, Read]
-user-invocable: true
+metadata:
+  # --- metadata.savia.* (SE-333) ---
+  savia.category: quality
+  savia.context: project
+  savia.maturity: experimental
+  savia.priority: medium
+  savia.summary: "CodeGraph (colbymchenry/codegraph) indexa código en SQLite con tree-sitter y lo expone vía MCP stdio. Sustituye grep ad-hoc de .acm/ast-comprehension por queries semánticas. 35% menos coste y 70% menos tool calls (bench upstream). Opt-in por proyecto: requiere `codegraph init -i` y MCP habilitado en opencode.json. NO se carga al arranque (Rule #19)."
+  savia.tags: "mcp, ast, tree-sitter, indexing, callers, impact, acm-engine"
+  savia.user-invocable: True
 ---
 
 # CodeGraph — Motor de indexación AST

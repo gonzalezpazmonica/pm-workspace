@@ -1,16 +1,15 @@
 ---
 name: legal-compliance-checker
 description: "Verifica procesos o documentos contra regulaciones ES (RGPD, LO 3/2018, ET, CCom). Produce gaps y plan de remediación."
-summary: |
-  Audita procesos o documentos contra regulaciones específicas.
-  Identifica gaps de compliance, nivel de riesgo y acciones de remediación.
-  Input: proceso/documento + regulaciones aplicables. Output: informe de gaps.
-maturity: stable
-context: isolated
-context_cost: medium
-category: "professional-domain/legal"
-tags: ["compliance", "RGPD", "ET", "AEPD", "legal", "ES"]
-priority: "high"
+metadata:
+  # --- metadata.savia.* (SE-333) ---
+  savia.category: professional-domain/legal
+  savia.context: isolated
+  savia.context_cost: medium
+  savia.maturity: stable
+  savia.priority: high
+  savia.summary: "Audita procesos o documentos contra regulaciones específicas. Identifica gaps de compliance, nivel de riesgo y acciones de remediación. Input: proceso/documento + regulaciones aplicables. Output: informe de gaps."
+  savia.tags: "compliance, RGPD, ET, AEPD, legal, ES"
 ---
 
 # legal-compliance-checker — Verificador de Compliance

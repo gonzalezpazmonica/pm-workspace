@@ -1,14 +1,13 @@
 ---
 name: evaluations-framework
-description: "Usar cuando se diseñan o ejecutan evaluaciones de calidad de agentes y prompts."
-summary: |
-  Framework G-Eval para evaluar calidad de outputs.
-  Tipos: PBI quality, spec quality, estimation accuracy.
-  Output: scores por criterio + tendencias + alertas regresion.
-maturity: beta
-category: "reporting"
-tags: ["evaluations", "quality", "g-eval", "scoring"]
-priority: "medium"
+description: Usar cuando se diseñan o ejecutan evaluaciones de calidad de agentes y prompts.
+metadata:
+  # --- metadata.savia.* (SE-333) ---
+  savia.category: reporting
+  savia.maturity: beta
+  savia.priority: medium
+  savia.summary: "Framework G-Eval para evaluar calidad de outputs. Tipos: PBI quality, spec quality, estimation accuracy. Output: scores por criterio + tendencias + alertas regresion."
+  savia.tags: "evaluations, quality, g-eval, scoring"
 ---
 
 # Evaluations Framework

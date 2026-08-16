@@ -1,16 +1,15 @@
 ---
 name: context-interview-conductor
-description: "Usar cuando se necesita recopilar contexto estructurado de un usuario mediante entrevista guiada."
-summary: |
-  Conduce entrevistas estructuradas de contexto para proyectos nuevos.
-  Genera preguntas adaptativas, captura respuestas y produce
-  documento de contexto completo para el equipo.
-maturity: stable
-context_cost: high
-dependencies: ["savia-hub-sync", "client-profile-manager"]
-category: "communication"
-tags: ["interview", "context", "structured", "discovery"]
-priority: "medium"
+description: Usar cuando se necesita recopilar contexto estructurado de un usuario mediante entrevista guiada.
+metadata:
+  # --- metadata.savia.* (SE-333) ---
+  savia.category: communication
+  savia.context_cost: high
+  savia.dependencies: "savia-hub-sync, client-profile-manager"
+  savia.maturity: stable
+  savia.priority: medium
+  savia.summary: "Conduce entrevistas estructuradas de contexto para proyectos nuevos. Genera preguntas adaptativas, captura respuestas y produce documento de contexto completo para el equipo."
+  savia.tags: "interview, context, structured, discovery"
 ---
 
 # Skill: Context Interview Conductor

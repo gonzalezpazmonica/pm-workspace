@@ -1,17 +1,16 @@
 ---
 name: attack-surface-mapper
 description: "Mapear la superficie de ataque de un dominio: subdominios, OSINT, typosquatting."
-summary: |
-  OSINT y enumeracion de subdominios con subfinder, httpx, theHarvester y dnstwist.
-  REQUIERE autorizacion explicita del propietario del dominio antes de ejecutar.
-  Output: subdomains.txt + typosquatting.json + surface-map-{target}-YYYYMMDD.json
-maturity: stable
-context: fork
-context_cost: medium
-category: "security"
-tags: ["attack-surface", "subdominios", "osint", "dnstwist", "subfinder"]
-priority: "high"
-authorization_required: true
+metadata:
+  # --- metadata.savia.* (SE-333) ---
+  savia.authorization_required: true
+  savia.category: security
+  savia.context: fork
+  savia.context_cost: medium
+  savia.maturity: stable
+  savia.priority: high
+  savia.summary: "OSINT y enumeracion de subdominios con subfinder, httpx, theHarvester y dnstwist. REQUIERE autorizacion explicita del propietario del dominio antes de ejecutar. Output: subdomains.txt + typosquatting.json + surface-map-{target}-YYYYMMDD.json"
+  savia.tags: "attack-surface, subdominios, osint, dnstwist, subfinder"
 ---
 
 # Attack Surface Mapper — SE-243
