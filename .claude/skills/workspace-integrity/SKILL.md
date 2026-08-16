@@ -1,19 +1,18 @@
 ---
 name: workspace-integrity
 description: "Usar cuando se audita la integridad del workspace (drift, reglas, agentes, baseline)."
-summary: |
-  Aggregator skill listando 6 scripts de auditoria de integridad del
-  workspace. Detectan drift entre docs y realidad, orphan rules,
-  agents oversized, baseline stale.
-maturity: stable
-context: fork
-agent: architect
-category: "quality"
-tags: ["integrity", "audit", "drift", "workspace", "hygiene"]
-priority: "medium"
-disable-model-invocation: false
-user-invocable: true
 allowed-tools: [Bash, Read, Glob]
+metadata:
+  # --- metadata.savia.* (SE-333) ---
+  savia.agent: architect
+  savia.category: quality
+  savia.context: fork
+  savia.disable-model-invocation: false
+  savia.maturity: stable
+  savia.priority: medium
+  savia.summary: "Aggregator skill listando 6 scripts de auditoria de integridad del workspace. Detectan drift entre docs y realidad, orphan rules, agents oversized, baseline stale."
+  savia.tags: "integrity, audit, drift, workspace, hygiene"
+  savia.user-invocable: True
 ---
 
 # Skill: Workspace Integrity

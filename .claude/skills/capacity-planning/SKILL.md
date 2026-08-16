@@ -1,17 +1,16 @@
 ---
 name: capacity-planning
-description: "Usar cuando se calcula la capacidad del equipo para un sprint o periodo."
-summary: |
-  Calcula capacidad del equipo: horas disponibles, focus factor,
-  alertas de sobre-asignacion. Consulta Azure DevOps iterations API.
-  Output: tabla de capacidad por persona + alertas.
-maturity: stable
-context: fork
-agent: azure-devops-operator
-context_cost: medium
-category: "pm-operations"
-tags: ["capacity", "team", "workload", "planning"]
-priority: "high"
+description: Usar cuando se calcula la capacidad del equipo para un sprint o periodo.
+metadata:
+  # --- metadata.savia.* (SE-333) ---
+  savia.agent: azure-devops-operator
+  savia.category: pm-operations
+  savia.context: fork
+  savia.context_cost: medium
+  savia.maturity: stable
+  savia.priority: high
+  savia.summary: "Calcula capacidad del equipo: horas disponibles, focus factor, alertas de sobre-asignacion. Consulta Azure DevOps iterations API. Output: tabla de capacidad por persona + alertas."
+  savia.tags: "capacity, team, workload, planning"
 ---
 
 # Skill: capacity-planning

@@ -101,7 +101,7 @@ teardown() {
 }
 
 @test "zoom-out has disable-model-invocation: true (explicit human trigger only)" {
-  grep -q "^disable-model-invocation: true" "$ZOOMOUT"
+  grep -qE "^disable-model-invocation: true|^[[:space:]]*savia\.disable-model-invocation: \"?true\"?" "$ZOOMOUT"
 }
 
 @test "grill-me cross-references radical-honesty Rule #24" {

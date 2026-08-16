@@ -1,16 +1,15 @@
 ---
 name: wellbeing-guardian
-description: "Usar cuando se monitorizan señales de bienestar individual en el equipo."
-summary: |
-  Sistema proactivo de bienestar: recordatorios de descanso,
-  alertas fuera de horario, nudges de work-life balance.
-  Configurable por usuario. No bloquea, solo sugiere.
-maturity: stable
-context_cost: low
-dependencies: []
-category: "communication"
-tags: ["wellbeing", "burnout", "sustainable-pace", "team-health"]
-priority: "medium"
+description: Usar cuando se monitorizan señales de bienestar individual en el equipo.
+metadata:
+  # --- metadata.savia.* (SE-333) ---
+  savia.category: communication
+  savia.context_cost: low
+  savia.dependencies: 
+  savia.maturity: stable
+  savia.priority: medium
+  savia.summary: "Sistema proactivo de bienestar: recordatorios de descanso, alertas fuera de horario, nudges de work-life balance. Configurable por usuario. No bloquea, solo sugiere."
+  savia.tags: "wellbeing, burnout, sustainable-pace, team-health"
 ---
 
 # Skill: Wellbeing Guardian

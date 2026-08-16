@@ -1,17 +1,15 @@
 ---
 name: labour-document-drafter
 description: "Redacta documentos laborales (cartas disciplinarias, despido, extinción) con base en ET español. Produce borradores con artículos exactos y marcadores [DATO PENDIENTE]."
-summary: |
-  Genera borradores de documentación laboral: cartas de despido disciplinario
-  (art. 54-55 ET), despido objetivo (art. 52-53 ET), acuerdos de extinción
-  (art. 49.1.a ET) y comunicaciones colectivas. Señala datos faltantes con
-  [DATO PENDIENTE]. SIEMPRE requiere revisión por graduado social o abogado.
-maturity: stable
-context: isolated
-context_cost: medium
-category: "professional-domain/labour"
-tags: ["laboral", "despido", "ET", "carta-despido", "RRHH", "ES"]
-priority: "high"
+metadata:
+  # --- metadata.savia.* (SE-333) ---
+  savia.category: professional-domain/labour
+  savia.context: isolated
+  savia.context_cost: medium
+  savia.maturity: stable
+  savia.priority: high
+  savia.summary: "Genera borradores de documentación laboral: cartas de despido disciplinario (art. 54-55 ET), despido objetivo (art. 52-53 ET), acuerdos de extinción (art. 49.1.a ET) y comunicaciones colectivas. Señala datos faltantes con [DATO PENDIENTE]. SIEMPRE requiere revisión por graduado social o abogado."
+  savia.tags: "laboral, despido, ET, carta-despido, RRHH, ES"
 ---
 
 # labour-document-drafter — Redactor de Documentación Laboral

@@ -1,30 +1,16 @@
 ---
 name: regulatory-compliance
-description: "Usar cuando se valida el cumplimiento de marcos regulatorios sectoriales."
-summary: |
-  Validacion de marcos regulatorios por sector (HIPAA, GDPR, SOX...).
-  Deteccion automatica en 5 fases con scoring ponderado.
-  Output: informe de compliance con gaps y correcciones.
-maturity: stable
-developer_type: all
-context_cost: medium
-references:
-  - references/sector-healthcare.md
-  - references/sector-finance.md
-  - references/sector-food-agriculture.md
-  - references/sector-justice-legal.md
-  - references/sector-public-admin.md
-  - references/sector-insurance.md
-  - references/sector-pharma.md
-  - references/sector-energy-utilities.md
-  - references/sector-telecom.md
-  - references/sector-education.md
-  - references/sector-defense-military.md
-  - references/sector-transport-automotive.md
-  - references/framework-aepd-agentic.md
-category: "governance"
-tags: ["compliance", "regulatory", "sector-detection", "gdpr"]
-priority: "high"
+description: Usar cuando se valida el cumplimiento de marcos regulatorios sectoriales.
+metadata:
+  # --- metadata.savia.* (SE-333) ---
+  savia.category: governance
+  savia.context_cost: medium
+  savia.developer_type: all
+  savia.maturity: stable
+  savia.priority: high
+  savia.references: "references/sector-healthcare.md, references/sector-finance.md, references/sector-food-agriculture.md, references/sector-justice-legal.md, references/sector-public-admin.md, references/sector-insurance.md, references/sector-pharma.md, references/sector-energy-utilities.md, references/sector-telecom.md, references/sector-education.md, references/sector-defense-military.md, references/sector-transport-automotive.md, references/framework-aepd-agentic.md"
+  savia.summary: "Validacion de marcos regulatorios por sector (HIPAA, GDPR, SOX...). Deteccion automatica en 5 fases con scoring ponderado. Output: informe de compliance con gaps y correcciones."
+  savia.tags: "compliance, regulatory, sector-detection, gdpr"
 ---
 
 # Regulatory Compliance Intelligence

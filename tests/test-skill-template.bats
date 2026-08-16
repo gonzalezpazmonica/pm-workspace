@@ -46,7 +46,7 @@ teardown() {
 }
 
 @test "template maturity is template (not stable/proposed)" {
-  grep -qE '^maturity: template$' "$TEMPLATE"
+  grep -qE '^[[:space:]]*savia\.maturity:[[:space:]]*"?template"?$' "$TEMPLATE"
 }
 
 # ── Authoritative Paths First pattern ─────────────────────────────────

@@ -1,16 +1,13 @@
 ---
 name: tdd-vertical-slices
 description: "Test-driven development with vertical-slice red-green-refactor cycles. Use when applying TDD to a new feature or bug fix, when user mentions 'red-green-refactor', 'tdd', 'test-first', 'vertical slice' — explicitly avoids the 'horizontal slicing' anti-pattern (write all tests first, then all code) which produces brittle implementation-coupled tests."
-summary: |
-  Disciplina TDD por slices verticales: 1 test → 1 implementación → repeat.
-  El anti-pattern de horizontal slicing (todos los tests primero, luego todo el
-  código) produce tests acoplados a implementación; aquí se prohíbe explícitamente.
-maturity: stable
-context: fork
-agent: any
-trigger:
-  type: keyword
-  keywords: [tdd, test-first, red-green, vertical slice, anti-horizontal]
+metadata:
+  # --- metadata.savia.* (SE-333) ---
+  savia.agent: any
+  savia.context: fork
+  savia.maturity: stable
+  savia.summary: "Disciplina TDD por slices verticales: 1 test → 1 implementación → repeat. El anti-pattern de horizontal slicing (todos los tests primero, luego todo el código) produce tests acoplados a implementación; aquí se prohíbe explícitamente."
+  savia.trigger_keywords: "tdd, test-first, red-green, vertical slice, anti-horizontal"
 ---
 
 ## Subagent Scope Guard

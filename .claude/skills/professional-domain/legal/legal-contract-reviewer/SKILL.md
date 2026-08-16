@@ -1,16 +1,15 @@
 ---
 name: legal-contract-reviewer
 description: "Revisión de contratos con matriz de riesgos RAG, red flags y resumen ejecutivo. Jurisdicción española."
-summary: |
-  Analiza contratos (NDA, servicios, laboral, due diligence) bajo marco ES.
-  Produce matriz de riesgos RAG + red flags + enmiendas sugeridas.
-  Input: texto contrato + tipo + perfil de riesgo. Output: memorandum legal.
-maturity: stable
-context: isolated
-context_cost: medium
-category: "professional-domain/legal"
-tags: ["legal", "contratos", "riesgos", "compliance", "NDA", "ES"]
-priority: "high"
+metadata:
+  # --- metadata.savia.* (SE-333) ---
+  savia.category: professional-domain/legal
+  savia.context: isolated
+  savia.context_cost: medium
+  savia.maturity: stable
+  savia.priority: high
+  savia.summary: "Analiza contratos (NDA, servicios, laboral, due diligence) bajo marco ES. Produce matriz de riesgos RAG + red flags + enmiendas sugeridas. Input: texto contrato + tipo + perfil de riesgo. Output: memorandum legal."
+  savia.tags: "legal, contratos, riesgos, compliance, NDA, ES"
 ---
 
 # legal-contract-reviewer — Revisor de Contratos

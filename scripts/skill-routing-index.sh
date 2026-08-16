@@ -45,12 +45,31 @@ done
 # Extract a YAML list field from frontmatter content.
 # Usage: parse_yaml_list "field_name" "frontmatter_block"
 # Returns: space-separated values
+#
+# SE-333 dual-read: field name "consumes"/"produces" first reads the canonical
+# `metadata.savia.<field>` comma-joined string, then falls back to the legacy
+# top-level list field.
 parse_yaml_list() {
   local field="$1"
   local fm="$2"
-  local in_field=false
   local values=()
 
+  # 1. Canonical: metadata.savia.<field> = "a, b, c"
+  local savia_val
+  savia_val=$(printf '%s' "$fm" | grep -E "savia\.${field}:" | head -1 \
+    | sed -E "s/^[^:]*savia\.${field}:[[:space:]]*//; s/[\"']//g" | tr -d ' \t')
+  if [[ -n "$savia_val" ]]; then
+    IFS=',' read -ra parts <<< "$savia_val"
+    for p in "${parts[@]}"; do
+      p="$(printf '%s' "$p" | tr -d '[:space:]')"
+      [[ -n "$p" ]] && values+=("$p")
+    done
+    echo "${values[@]+"${values[@]}"}"
+    return 0
+  fi
+
+  # 2. Legacy: top-level list field
+  local in_field=false
   while IFS= read -r line; do
     if [[ "$line" =~ ^${field}:[[:space:]]* ]]; then
       in_field=true

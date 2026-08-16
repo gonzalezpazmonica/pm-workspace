@@ -1,17 +1,16 @@
 ---
 name: network-recon
 description: "Reconocimiento de red: port scan con nmap/RustScan + HTTP detection con httpx."
-summary: |
-  Escaneo conservador de puertos y deteccion de servicios para infraestructura propia.
-  REQUIERE autorizacion explicita. Modo discovery (enumeracion, sin explotacion).
-  Output: ports-open.txt + services.json + network-recon-{target}-YYYYMMDD.json
-maturity: stable
-context: fork
-context_cost: medium
-category: "security"
-tags: ["nmap", "rustscan", "httpx", "port-scan", "network-recon", "recon"]
-priority: "high"
-authorization_required: true
+metadata:
+  # --- metadata.savia.* (SE-333) ---
+  savia.authorization_required: true
+  savia.category: security
+  savia.context: fork
+  savia.context_cost: medium
+  savia.maturity: stable
+  savia.priority: high
+  savia.summary: "Escaneo conservador de puertos y deteccion de servicios para infraestructura propia. REQUIERE autorizacion explicita. Modo discovery (enumeracion, sin explotacion). Output: ports-open.txt + services.json + network-recon-{target}-YYYYMMDD.json"
+  savia.tags: "nmap, rustscan, httpx, port-scan, network-recon, recon"
 ---
 
 # Network Recon — SE-246

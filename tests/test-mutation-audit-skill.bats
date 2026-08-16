@@ -58,12 +58,12 @@ teardown() {
 }
 
 @test "frontmatter: maturity field present" {
-  run grep -E "^maturity:" "$SKILL_DIR/SKILL.md"
+  run grep -E "^[[:space:]]*savia\.maturity:" "$SKILL_DIR/SKILL.md"
   [ "$status" -eq 0 ]
 }
 
 @test "frontmatter: category is quality" {
-  run grep -E "^category:.*quality" "$SKILL_DIR/SKILL.md"
+  run grep -E "^[[:space:]]*savia\.category:.*quality" "$SKILL_DIR/SKILL.md"
   [ "$status" -eq 0 ]
 }
 

@@ -1,16 +1,15 @@
 ---
 name: finance-financial-report-writer
-description: "Redacta informes financieros adaptados a la audiencia (inversores/banco/regulador/dirección) con ratios comentados."
-summary: |
-  Genera informes financieros con ratios exactos, análisis de tendencias y outlook.
-  Adapta tono y contenido a inversores, banco, regulador o dirección.
-  Input: EEFF + período + audiencia + tone. Output: informe con narrativa.
-maturity: stable
-context: isolated
-context_cost: medium
-category: "professional-domain/finance"
-tags: ["finanzas", "informe-financiero", "inversores", "banco", "regulador", "reporting"]
-priority: "high"
+description: Redacta informes financieros adaptados a la audiencia (inversores/banco/regulador/dirección) con ratios comentados.
+metadata:
+  # --- metadata.savia.* (SE-333) ---
+  savia.category: professional-domain/finance
+  savia.context: isolated
+  savia.context_cost: medium
+  savia.maturity: stable
+  savia.priority: high
+  savia.summary: "Genera informes financieros con ratios exactos, análisis de tendencias y outlook. Adapta tono y contenido a inversores, banco, regulador o dirección. Input: EEFF + período + audiencia + tone. Output: informe con narrativa."
+  savia.tags: "finanzas, informe-financiero, inversores, banco, regulador, reporting"
 ---
 
 # finance-financial-report-writer — Redactor de Informes Financieros

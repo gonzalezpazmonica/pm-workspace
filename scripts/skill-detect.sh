@@ -134,11 +134,12 @@ cmd_propose() {
 ---
 name: $name
 description: "${description:-Auto-detected skill pending review}"
-category: $domain
-maturity: experimental
-confidence: $MIN_CONFIDENCE
-auto_detected: true
-detected_date: $TODAY
+metadata:
+  savia.category: "$domain"
+  savia.maturity: "experimental"
+  savia.confidence: "$MIN_CONFIDENCE"
+  savia.auto_detected: "true"
+  savia.detected_date: "$TODAY"
 ---
 
 # $name

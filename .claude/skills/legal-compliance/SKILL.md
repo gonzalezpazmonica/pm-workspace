@@ -1,18 +1,16 @@
 ---
 name: legal-compliance
-description: "Usar cuando se audita compliance legal contra legislación española consolidada."
-summary: |
-  Cruza reglas de negocio, contratos, políticas y arquitectura
-  contra 12.235 normas españolas consolidadas del BOE.
-  Búsqueda por grep determinista, sin dependencias externas.
-maturity: experimental
-developer_type: all
-context_cost: medium
-references:
-  - references/domain-terms.md
-category: "governance"
-tags: ["legal", "compliance", "legislación", "BOE", "LOPDGDD", "LSSI"]
-priority: "high"
+description: Usar cuando se audita compliance legal contra legislación española consolidada.
+metadata:
+  # --- metadata.savia.* (SE-333) ---
+  savia.category: governance
+  savia.context_cost: medium
+  savia.developer_type: all
+  savia.maturity: experimental
+  savia.priority: high
+  savia.references: references/domain-terms.md
+  savia.summary: "Cruza reglas de negocio, contratos, políticas y arquitectura contra 12.235 normas españolas consolidadas del BOE. Búsqueda por grep determinista, sin dependencias externas."
+  savia.tags: "legal, compliance, legislación, BOE, LOPDGDD, LSSI"
 ---
 
 # Legal Compliance — Auditoría contra Legislación Española

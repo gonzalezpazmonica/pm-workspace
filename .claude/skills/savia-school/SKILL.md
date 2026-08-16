@@ -1,17 +1,16 @@
 ---
 name: savia-school
-description: "Usar cuando el workspace se adapta para un entorno educativo con estudiantes menores de edad."
-summary: |
-  Entorno educativo seguro: alias obligatorios, cifrado AES-256
-  de evaluaciones, rubricas personalizables, portfolio de estudiante,
-  derecho al olvido Art. 17 y exportacion GDPR Art. 15.
-maturity: experimental
-context: fork
-agent: business-analyst
-category: "governance"
-tags: ["education", "gdpr", "minors", "school", "privacy", "rubrics"]
-priority: "high"
+description: Usar cuando el workspace se adapta para un entorno educativo con estudiantes menores de edad.
 allowed-tools: [Read, Write, Edit, Bash, Glob, Grep]
+metadata:
+  # --- metadata.savia.* (SE-333) ---
+  savia.agent: business-analyst
+  savia.category: governance
+  savia.context: fork
+  savia.maturity: experimental
+  savia.priority: high
+  savia.summary: "Entorno educativo seguro: alias obligatorios, cifrado AES-256 de evaluaciones, rubricas personalizables, portfolio de estudiante, derecho al olvido Art. 17 y exportacion GDPR Art. 15."
+  savia.tags: "education, gdpr, minors, school, privacy, rubrics"
 ---
 
 # Savia School — Entorno Educativo Seguro

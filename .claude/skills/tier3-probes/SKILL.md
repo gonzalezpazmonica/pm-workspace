@@ -1,20 +1,18 @@
 ---
 name: tier3-probes
-description: "Usar cuando se valida la viabilidad de herramientas Tier 3 antes de adoptarlas en el workspace."
-summary: |
-  Aggregator skill listando 6 probes Slice 1 de champions Tier 3.
-  Cada probe verifica preconditions (Python version, pip deps, disk,
-  browser opcional) antes de adoptar stack. Zero-egress, exit codes
-  estables (0/1/2).
-maturity: stable
-context: fork
-agent: architect
-category: "quality"
-tags: ["probes", "viability", "tier3", "dependencies", "feasibility"]
-priority: "low"
-disable-model-invocation: false
-user-invocable: true
+description: Usar cuando se valida la viabilidad de herramientas Tier 3 antes de adoptarlas en el workspace.
 allowed-tools: [Bash, Read]
+metadata:
+  # --- metadata.savia.* (SE-333) ---
+  savia.agent: architect
+  savia.category: quality
+  savia.context: fork
+  savia.disable-model-invocation: false
+  savia.maturity: stable
+  savia.priority: low
+  savia.summary: "Aggregator skill listando 6 probes Slice 1 de champions Tier 3. Cada probe verifica preconditions (Python version, pip deps, disk, browser opcional) antes de adoptar stack. Zero-egress, exit codes estables (0/1/2)."
+  savia.tags: "probes, viability, tier3, dependencies, feasibility"
+  savia.user-invocable: True
 ---
 
 # Skill: Tier 3 Probes

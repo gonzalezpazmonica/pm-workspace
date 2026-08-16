@@ -1,15 +1,16 @@
 ---
 name: sales-proposal-writer
 description: "Redactor de Propuesta Comercial B2B: genera propuestas consultivas personalizadas con índice completo y tono adaptable."
-summary: "Propuesta B2B con Value Selling + Challenger. Nunca inventa cifras ROI. Usa [DATO PENDIENTE] donde faltan datos."
-maturity: stable
-context: fork
-context_cost: high
-context_tier: L3
-category: "professional-domain/sales"
-tags: ["ventas", "propuesta-comercial", "B2B", "value-selling", "challenger"]
-trigger:
-  keywords: ["propuesta comercial", "redactar propuesta", "oferta B2B", "documento de propuesta", "presentación comercial"]
+metadata:
+  # --- metadata.savia.* (SE-333) ---
+  savia.category: professional-domain/sales
+  savia.context: fork
+  savia.context_cost: high
+  savia.context_tier: L3
+  savia.maturity: stable
+  savia.summary: "Propuesta B2B con Value Selling + Challenger. Nunca inventa cifras ROI. Usa [DATO PENDIENTE] donde faltan datos."
+  savia.tags: "ventas, propuesta-comercial, B2B, value-selling, challenger"
+  savia.trigger_keywords: "propuesta comercial, redactar propuesta, oferta B2B, documento de propuesta, presentación comercial"
 ---
 
 # Skill: Sales Proposal Writer

@@ -1,19 +1,17 @@
 ---
 name: emergency-mode
-description: "Usar cuando la API de Anthropic está caída y se necesita continuar operando con LocalAI."
-summary: |
-  SPEC-122 Slice 2: skill que documenta y orquesta el modo emergencia.
-  Usa `scripts/localai-readiness-check.sh` para verificar el stack local
-  antes de proponer el switchover. NO modifica variables de entorno
-  automáticamente — solo emite el plan. Decisión del switchover es humana.
-maturity: experimental
-context: global
-agent: architect
-category: "resilience"
-tags: ["emergency", "localai", "sovereignty", "spec-122"]
-priority: "high"
+description: Usar cuando la API de Anthropic está caída y se necesita continuar operando con LocalAI.
 allowed-tools: [Bash, Read]
-user-invocable: true
+metadata:
+  # --- metadata.savia.* (SE-333) ---
+  savia.agent: architect
+  savia.category: resilience
+  savia.context: global
+  savia.maturity: experimental
+  savia.priority: high
+  savia.summary: "SPEC-122 Slice 2: skill que documenta y orquesta el modo emergencia. Usa `scripts/localai-readiness-check.sh` para verificar el stack local antes de proponer el switchover. NO modifica variables de entorno automáticamente — solo emite el plan. Decisión del switchover es humana."
+  savia.tags: "emergency, localai, sovereignty, spec-122"
+  savia.user-invocable: True
 ---
 
 # Emergency Mode — Savia ↔ LocalAI Switchover

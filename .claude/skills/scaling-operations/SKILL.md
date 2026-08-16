@@ -1,19 +1,18 @@
 ---
 name: scaling-operations
-description: "Usar cuando se analiza el tier de escala de un servicio o se necesitan optimizaciones de capacidad."
-summary: |
-  Analiza tier de escalado, benchmarks y recomienda optimizaciones.
-  Para organizaciones en crecimiento. Knowledge search integrado.
-  Output: plan de escalado priorizado.
-maturity: stable
-context: fork
-agent: architect
-context_cost: medium
-dependencies: []
-memory: project
-category: "quality"
-tags: ["scaling", "tier-analysis", "benchmark", "optimization"]
-priority: "medium"
+description: Usar cuando se analiza el tier de escala de un servicio o se necesitan optimizaciones de capacidad.
+metadata:
+  # --- metadata.savia.* (SE-333) ---
+  savia.agent: architect
+  savia.category: quality
+  savia.context: fork
+  savia.context_cost: medium
+  savia.dependencies: 
+  savia.maturity: stable
+  savia.memory: project
+  savia.priority: medium
+  savia.summary: "Analiza tier de escalado, benchmarks y recomienda optimizaciones. Para organizaciones en crecimiento. Knowledge search integrado. Output: plan de escalado priorizado."
+  savia.tags: "scaling, tier-analysis, benchmark, optimization"
 ---
 
 # Skill: Scaling Operations

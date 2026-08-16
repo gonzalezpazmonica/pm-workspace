@@ -1,19 +1,18 @@
 ---
 name: team-coordination
 description: "Usar cuando se coordinan múltiples equipos, se asignan miembros o se detectan bloqueantes cross-team."
-summary: |
-  Orquestacion multi-equipo: crear equipos, asignar miembros,
-  detectar bloqueantes cross-team y dependencias.
-  Output: mapa de dependencias + alertas de bloqueo.
-maturity: stable
-context: fork
-agent: architect
-context_cost: medium
-dependencies: []
-memory: project
-category: "pm-operations"
-tags: ["team", "coordination", "multi-team", "blockers"]
-priority: "medium"
+metadata:
+  # --- metadata.savia.* (SE-333) ---
+  savia.agent: architect
+  savia.category: pm-operations
+  savia.context: fork
+  savia.context_cost: medium
+  savia.dependencies: 
+  savia.maturity: stable
+  savia.memory: project
+  savia.priority: medium
+  savia.summary: "Orquestacion multi-equipo: crear equipos, asignar miembros, detectar bloqueantes cross-team y dependencias. Output: mapa de dependencias + alertas de bloqueo."
+  savia.tags: "team, coordination, multi-team, blockers"
 ---
 
 # Skill: Team Coordination

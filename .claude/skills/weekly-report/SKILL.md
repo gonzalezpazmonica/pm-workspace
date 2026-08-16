@@ -1,15 +1,13 @@
 ---
 name: weekly-report
-description: "Usar cuando se genera el informe semanal de estado del proyecto."
-model: mid
-context_cost: medium
-trigger:
-  type: keyword
-  keywords: [informe semanal, weekly, reporte semanal]
-consumes:
-  - sprint_data
-produces:
-  - report
+description: Usar cuando se genera el informe semanal de estado del proyecto.
+metadata:
+  # --- metadata.savia.* (SE-333) ---
+  savia.consumes: sprint_data
+  savia.context_cost: medium
+  savia.model: mid
+  savia.produces: report
+  savia.trigger_keywords: "informe semanal, weekly, reporte semanal"
 ---
 
 # weekly-report — Weekly project status report generator

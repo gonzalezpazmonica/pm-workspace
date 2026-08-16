@@ -1,14 +1,13 @@
 ---
 name: resource-references
-description: "Usar cuando se necesitan referencias a recursos y plantillas del workspace."
-summary: |
-  Resolucion lazy de referencias @ (azure:workitem, project, spec,
-  team, rules, memory). Cache por sesion. Max 5 simultaneas.
-  Permite referenciar recursos externos en prompts.
-maturity: beta
-category: "devops"
-tags: ["resources", "references", "resolution", "lazy-load"]
-priority: "low"
+description: Usar cuando se necesitan referencias a recursos y plantillas del workspace.
+metadata:
+  # --- metadata.savia.* (SE-333) ---
+  savia.category: devops
+  savia.maturity: beta
+  savia.priority: low
+  savia.summary: "Resolucion lazy de referencias @ (azure:workitem, project, spec, team, rules, memory). Cache por sesion. Max 5 simultaneas. Permite referenciar recursos externos en prompts."
+  savia.tags: "resources, references, resolution, lazy-load"
 ---
 
 # skill: resource-references

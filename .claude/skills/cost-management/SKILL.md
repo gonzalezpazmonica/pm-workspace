@@ -1,19 +1,18 @@
 ---
 name: cost-management
 description: "Usar cuando se gestionan timesheets, presupuestos, facturas o forecasting de costes."
-summary: |
-  Gestion de costes: timesheets, presupuestos, forecasting e invoicing.
-  Registra horas por tarea/proyecto, calcula desviaciones,
-  genera facturas. Output: informes Excel/Word.
-maturity: stable
-context: fork
-agent: architect
-context_cost: medium
-dependencies: []
-memory: project
-category: "reporting"
-tags: ["cost", "budget", "forecasting", "invoicing"]
-priority: "medium"
+metadata:
+  # --- metadata.savia.* (SE-333) ---
+  savia.agent: architect
+  savia.category: reporting
+  savia.context: fork
+  savia.context_cost: medium
+  savia.dependencies: 
+  savia.maturity: stable
+  savia.memory: project
+  savia.priority: medium
+  savia.summary: "Gestion de costes: timesheets, presupuestos, forecasting e invoicing. Registra horas por tarea/proyecto, calcula desviaciones, genera facturas. Output: informes Excel/Word."
+  savia.tags: "cost, budget, forecasting, invoicing"
 ---
 
 # Skill: Cost Management

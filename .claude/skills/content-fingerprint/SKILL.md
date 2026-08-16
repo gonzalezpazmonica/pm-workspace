@@ -1,21 +1,11 @@
 ---
 name: content-fingerprint
-description: Usar cuando se necesita un identificador corto, deterministico y reproducible derivado del contenido de una cadena o fichero — cache keys, ids de patrones, fingerprints de docs.
-context_tier: L3
-token_budget: 350
-bioquimica:
-  inspiracion: "DNA barcoding (Hebert et al. 2003, Proc Roy Soc B), Drosophila olfactory LSH (Dasgupta et al. 2017, Science)"
-  analogo_biologico: "fragmento canonico discriminativo del gen COI (650 bp) que identifica especies por su firma corta invariante intra-especie"
-  propiedad_aplicada: "fingerprint determinista corto (8-64 chars hex) invariante para mismo input, divergente para inputs distintos"
-  no_aplicado_aun:
-    - "Dasgupta sparse expansion (random projection a alta dimension)"
-    - "winner-take-all top-k sparsening"
-    - "olfactory combinatorial encoding (N receptores -> 2^N patrones)"
-  paper_dois:
-    - "10.1098/rspb.2002.2218"  # Hebert 2003 DNA barcoding
-    - "10.1126/science.aam9868"  # Dasgupta 2017 fly LSH
-  doi_validated: "2026-06-19"  # Verificado contra api.crossref.org HTTP 200, titulos confirmados
-  warning: "Esta seccion documenta inspiracion biologica. El codigo es honestamente sha256 truncado (SimHash/MinHash equivalent), no implementa Dasgupta-LSH. Sin biomimetic theater."
+description: "Usar cuando se necesita un identificador corto, deterministico y reproducible derivado del contenido de una cadena o fichero — cache keys, ids de patrones, fingerprints de docs."
+metadata:
+  # --- metadata.savia.* (SE-333) ---
+  savia.bioquimica: "{\"inspiracion\": \"DNA barcoding (Hebert et al. 2003, Proc Roy Soc B), Drosophila olfactory LSH (Dasgupta et al. 2017, Science)\", \"analogo_biologico\": \"fragmento canonico discriminativo del gen COI (650 bp) que identifica especies por su firma corta invariante intra-especie\", \"propiedad_aplicada\": \"fingerprint determinista corto (8-64 chars hex) invariante para mismo input, divergente para inputs distintos\", \"no_aplicado_aun\": [\"Dasgupta sparse expansion (random projection a alta dimension)\", \"winner-take-all top-k sparsening\", \"olfactory combinatorial encoding (N receptores -> 2^N patrones)\"], \"paper_dois\": [\"10.1098/rspb.2002.2218\", \"10.1126/science.aam9868\"], \"doi_validated\": \"2026-06-19\", \"warning\": \"Esta seccion documenta inspiracion biologica. El codigo es honestamente sha256 truncado (SimHash/MinHash equivalent), no implementa Dasgupta-LSH. Sin biomimetic theater.\"}"
+  savia.context_tier: L3
+  savia.token_budget: 350
 ---
 
 # Skill: content-fingerprint

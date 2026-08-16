@@ -1,15 +1,16 @@
 ---
 name: sales-objection-analyzer
 description: "Analizador de Objeciones Comerciales: clasifica y responde objeciones según taxonomía y etapa del deal."
-summary: "Recibe objeción literal + contexto. Produce tipo, causa raíz, respuesta recomendada y señal de alerta si el deal está perdido."
-maturity: stable
-context: fork
-context_cost: low
-context_tier: L3
-category: "professional-domain/sales"
-tags: ["ventas", "objeciones", "deal", "PRECIO", "TIMING", "COMPETENCIA"]
-trigger:
-  keywords: ["objeción", "el cliente dice", "no están convencidos", "pero el precio", "análisis objeción"]
+metadata:
+  # --- metadata.savia.* (SE-333) ---
+  savia.category: professional-domain/sales
+  savia.context: fork
+  savia.context_cost: low
+  savia.context_tier: L3
+  savia.maturity: stable
+  savia.summary: "Recibe objeción literal + contexto. Produce tipo, causa raíz, respuesta recomendada y señal de alerta si el deal está perdido."
+  savia.tags: "ventas, objeciones, deal, PRECIO, TIMING, COMPETENCIA"
+  savia.trigger_keywords: "objeción, el cliente dice, no están convencidos, pero el precio, análisis objeción"
 ---
 
 # Skill: Sales Objection Analyzer

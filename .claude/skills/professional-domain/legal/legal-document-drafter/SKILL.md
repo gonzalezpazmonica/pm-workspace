@@ -1,16 +1,15 @@
 ---
 name: legal-document-drafter
 description: "Genera borradores de documentos legales ES (NDAs, cartas disciplinarias, acuerdos extinción). Marca datos pendientes."
-summary: |
-  Redacta borradores estructurados de documentos legales bajo marco ES.
-  Marca [DATO PENDIENTE] donde faltan datos, nunca inventa normas.
-  Input: tipo de documento + partes + términos clave. Output: borrador.
-maturity: stable
-context: isolated
-context_cost: medium
-category: "professional-domain/legal"
-tags: ["legal", "documentos", "NDA", "despido", "redacción", "ES"]
-priority: "high"
+metadata:
+  # --- metadata.savia.* (SE-333) ---
+  savia.category: professional-domain/legal
+  savia.context: isolated
+  savia.context_cost: medium
+  savia.maturity: stable
+  savia.priority: high
+  savia.summary: "Redacta borradores estructurados de documentos legales bajo marco ES. Marca [DATO PENDIENTE] donde faltan datos, nunca inventa normas. Input: tipo de documento + partes + términos clave. Output: borrador."
+  savia.tags: "legal, documentos, NDA, despido, redacción, ES"
 ---
 
 # legal-document-drafter — Redactor de Documentación Legal

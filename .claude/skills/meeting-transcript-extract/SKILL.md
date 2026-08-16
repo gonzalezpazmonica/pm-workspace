@@ -1,14 +1,16 @@
 ---
 name: meeting-transcript-extract
-description: "Usar cuando se necesita extraer la transcripción de una reunión Teams desde el browser."
-context: Activar cuando el PM pide extraer transcripciones de reuniones Teams, digerir reuniones pendientes, o leer transcripts. Útil post-/project-update cuando hay reuniones sin digest.
-argument-hint: "[--port 9222|9223] [--out-dir DIR] [--batch | --substring TEXT]"
+description: Usar cuando se necesita extraer la transcripción de una reunión Teams desde el browser.
 allowed-tools: [Read, Bash]
-category: pm-operations
-priority: medium
-context_cost: low
-max_context_tokens: 6000
-output_max_tokens: 2000
+metadata:
+  # --- metadata.savia.* (SE-333) ---
+  savia.argument-hint: "[--port 9222|9223] [--out-dir DIR] [--batch | --substring TEXT]"
+  savia.category: pm-operations
+  savia.context: "Activar cuando el PM pide extraer transcripciones de reuniones Teams, digerir reuniones pendientes, o leer transcripts. Útil post-/project-update cuando hay reuniones sin digest."
+  savia.context_cost: low
+  savia.max_context_tokens: 6000
+  savia.output_max_tokens: 2000
+  savia.priority: medium
 ---
 
 **Última actualización**: 2026-04-24

@@ -1,15 +1,14 @@
 ---
 name: context-caching
-description: "Usar cuando se optimiza el orden de carga de contexto para maximizar cache hits."
-summary: |
-  Optimiza orden de carga de contexto para prompt caching.
-  4 niveles: foundation -> project -> task -> dynamic.
-  Objetivo: maximizar cache hits (-80% coste en tokens).
-maturity: stable
-version: 1.0.0
-tags: [caching, performance, tokens, cost-optimization]
-category: "quality"
-priority: "medium"
+description: Usar cuando se optimiza el orden de carga de contexto para maximizar cache hits.
+metadata:
+  # --- metadata.savia.* (SE-333) ---
+  savia.category: quality
+  savia.maturity: stable
+  savia.priority: medium
+  savia.summary: "Optimiza orden de carga de contexto para prompt caching. 4 niveles: foundation -> project -> task -> dynamic. Objetivo: maximizar cache hits (-80% coste en tokens)."
+  savia.tags: "caching, performance, tokens, cost-optimization"
+  savia.version: 1.0.0
 ---
 
 # Context Caching Skill

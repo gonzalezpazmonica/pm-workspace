@@ -1,17 +1,16 @@
 ---
 name: rules-traceability
-description: "Usar cuando se mapean reglas de negocio a PBIs para trazabilidad completa."
-summary: |
-  Mapea reglas de negocio (RN-XXX-NN) a PBIs con matriz de trazabilidad.
-  Detecta reglas sin PBI y PBIs sin regla.
-  Output: matriz + informe de cobertura.
-maturity: stable
-context: fork
-context_cost: high
-agent: business-analyst
-category: "governance"
-tags: ["traceability", "business-rules", "pbi", "matrix"]
-priority: "high"
+description: Usar cuando se mapean reglas de negocio a PBIs para trazabilidad completa.
+metadata:
+  # --- metadata.savia.* (SE-333) ---
+  savia.agent: business-analyst
+  savia.category: governance
+  savia.context: fork
+  savia.context_cost: high
+  savia.maturity: stable
+  savia.priority: high
+  savia.summary: "Mapea reglas de negocio (RN-XXX-NN) a PBIs con matriz de trazabilidad. Detecta reglas sin PBI y PBIs sin regla. Output: matriz + informe de cobertura."
+  savia.tags: "traceability, business-rules, pbi, matrix"
 ---
 
 # Skill: Business Rules to PBI Mapping with Traceability

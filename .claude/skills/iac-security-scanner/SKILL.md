@@ -1,28 +1,16 @@
 ---
 name: iac-security-scanner
 description: "Usar cuando se escanea IaC (Terraform, Bicep, Dockerfile, docker-compose) con Trivy config para detectar misconfiguraciones de seguridad antes del merge."
-summary: |
-  Escanea ficheros IaC con Trivy config mode.
-  Detecta S3 públicos, SGs abiertos, IAM wildcards, cifrado ausente.
-  Bloqueante: CRITICAL/HIGH → exit 1. Informativo: MEDIUM/LOW → exit 0.
-  Genera report JSON + summary MD en output/security/.
-maturity: stable
-context: fork
-context_cost: low
-category: "security"
-tags: ["security", "iac", "terraform", "trivy", "misconfiguration", "devops"]
-priority: "high"
-trigger:
-  type: keyword
-  keywords:
-    - escanea el terraform
-    - seguridad del IaC
-    - iac scan
-    - trivy config
-    - misconfiguración terraform
-    - dockerfile scan
-    - bicep security
-    - kubernetes security scan
+metadata:
+  # --- metadata.savia.* (SE-333) ---
+  savia.category: security
+  savia.context: fork
+  savia.context_cost: low
+  savia.maturity: stable
+  savia.priority: high
+  savia.summary: "Escanea ficheros IaC con Trivy config mode. Detecta S3 públicos, SGs abiertos, IAM wildcards, cifrado ausente. Bloqueante: CRITICAL/HIGH → exit 1. Informativo: MEDIUM/LOW → exit 0. Genera report JSON + summary MD en output/security/."
+  savia.tags: "security, iac, terraform, trivy, misconfiguration, devops"
+  savia.trigger_keywords: "escanea el terraform, seguridad del IaC, iac scan, trivy config, misconfiguración terraform, dockerfile scan, bicep security, kubernetes security scan"
 ---
 
 ## Subagent Scope Guard

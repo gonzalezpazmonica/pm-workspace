@@ -1,0 +1,10 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/mcp.schema.json",
+  "mcpServers": {
+    "savialabs": {
+      "type": "stdio",
+      "command": "./projects/savia-vaults/dist/cli/index.js",
+      "args": ["serve", "--transport", "mcp", "--path", "vaults/SaviaLabs", "--schema", "projects/savia-vaults/schema/entities"]
+    }
+  }
+}

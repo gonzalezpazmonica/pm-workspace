@@ -1,19 +1,18 @@
 ---
 name: ai-labor-impact
-description: "Usar cuando se analiza el impacto de la IA en el trabajo del equipo o la organización."
-summary: |
-  Analisis de impacto de IA en roles laborales: auditoria de exposicion,
-  planes de reskilling y previsiones de fuerza laboral.
-  Input: perfil de equipo. Output: informe de exposicion por rol.
-maturity: stable
-context: fork
-agent: architect
-context_cost: medium
-dependencies: [enterprise-analytics]
-memory: project
-category: "quality"
-tags: ["ai-impact", "labor", "reskilling", "workforce"]
-priority: "low"
+description: Usar cuando se analiza el impacto de la IA en el trabajo del equipo o la organización.
+metadata:
+  # --- metadata.savia.* (SE-333) ---
+  savia.agent: architect
+  savia.category: quality
+  savia.context: fork
+  savia.context_cost: medium
+  savia.dependencies: enterprise-analytics
+  savia.maturity: stable
+  savia.memory: project
+  savia.priority: low
+  savia.summary: "Analisis de impacto de IA en roles laborales: auditoria de exposicion, planes de reskilling y previsiones de fuerza laboral. Input: perfil de equipo. Output: informe de exposicion por rol."
+  savia.tags: "ai-impact, labor, reskilling, workforce"
 ---
 
 # Skill: AI Labor Impact

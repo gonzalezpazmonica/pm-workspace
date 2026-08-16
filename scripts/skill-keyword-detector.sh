@@ -31,11 +31,42 @@ while [[ $# -gt 0 ]]; do
   esac
 done
 
-# Extract trigger.keywords block from a SKILL.md frontmatter
+# Extract trigger keywords from a SKILL.md frontmatter
 # Returns space-separated list of keywords (lowercased)
+#
+# SE-333 dual-read: reads `metadata.savia.trigger_keywords` (comma-joined
+# string) first; falls back to legacy top-level `trigger.keywords` block.
 extract_keywords() {
   local skill_md="$1"
-  # Use awk to parse the YAML frontmatter between --- delimiters
+  # 1. New canonical format: metadata.savia.trigger_keywords = "a, b, c"
+  local savia_kw
+  savia_kw=$(awk '
+    BEGIN { in_front=0; in_meta=0; got=0 }
+    /^---$/ {
+      if (in_front == 0) { in_front=1; next }
+      else { in_front=0; exit }
+    }
+    in_front == 0 { next }
+    /^metadata:/ { in_meta=1; next }
+    in_meta && /^[^ ]/ && !/^metadata:/ { in_meta=0 }
+    in_meta && /savia\.trigger_keywords:/ {
+      line=$0
+      sub(/^[^:]*savia\.trigger_keywords:[[:space:]]*/, "", line)
+      gsub(/"/, "", line); gsub(/'"'"'/, "", line)
+      gsub(/\[/, "", line); gsub(/\]/, "", line)
+      n=split(line, parts, /,[[:space:]]*/);
+      for (i=1; i<=n; i++) {
+        kw=parts[i]
+        gsub(/^[[:space:]]+|[[:space:]]+$/, "", kw)
+        if (kw != "") { print tolower(kw); got=1 }
+      }
+    }
+  ' "$skill_md")
+  if [[ -n "$savia_kw" ]]; then
+    echo "$savia_kw"
+    return 0
+  fi
+  # 2. Legacy top-level trigger.keywords
   awk '
     BEGIN { in_front=0; in_trigger=0; in_keywords=0 }
     /^---$/ {

@@ -1516,7 +1516,7 @@ PR #952 (SE-313/314/275) — DONE (merge 2026-08-09)
 ### Orden de ejecucion recomendado
 
 ```
-SE-332 (handback obligation) — APPROVED 2026-08-16, IMPLEMENTED (PR plan en output/pr-plans/)
+SE-332 (handback obligation) — APPROVED 2026-08-16, MERGED (#961)
   → reference-first handoff (acoplada al contexto_ref del artifact handback)
   → model-routing policy / default-accept / execution matrix (segun prioridad
     de tribunales vs telemetria)
@@ -1526,12 +1526,56 @@ SE-332 (handback obligation) — APPROVED 2026-08-16, IMPLEMENTED (PR plan en ou
 
 | Spec | PR | Estado | Bloqueo |
 |---|---|---|---|
-| SE-332 | PR pendiente (PR plan en `output/pr-plans/`) | APPROVED 2026-08-16 · implementado en rama agent/* | Revisión humana + merge |
+| SE-332 | #961 | MERGED 2026-08-16 | — |
 | 4 candidatas | — | CANDIDATA | Sin especificar; listadas como follow-up en SE-332 |
 
 ---
 
-## Era 205 — Savia Continuous Learning (SCL) (2026-08-16)
+## Era 205 — Interoperability: Agent Plugins / Agent Skills compliance (2026-08-16)
+
+> Analisis de `agent-plugins.org` (spec v1.0.0, Working Draft) + `agentskills.io`.
+> Estandar abierto vendor-neutral para empaquetar Agent Skills + MCP servers en
+> plugins portables. TSC inicial: Amazon, Cursor, Microsoft, OpenAI, Vercel.
+> Savia tenia 127 skills con frontmatter propietario y sin manifest portable.
+> SPEC-143 (2026-05-23) intento auditar conformidad → ABORTADA (premisa falsa:
+> ninguna skill supera el cap de lineas). SE-333 va a nivel de paquete
+> (manifest + frontmatter + layout + MCP), no de conteo de lineas.
+
+### Priorizacion (ROI)
+
+**Tier 0 — Alta prioridad (impacto inmediato)**
+
+| Spec | Concepto origen | Esfuerzo | Por que primero |
+|---|---|---|---|
+| SE-333 Agent Plugins compliance | agent-plugins.org v1.0.0 | 18h (4 slices) | Hace las 143 skills cargables por cualquier cliente conformante (Cursor, Codex, Gemini CLI, Goose) sin adaptacion. Portabilidad incremental (skills + MCP), no total. |
+
+### Alcance vs limite de portabilidad
+
+| Componente | Portable en v1 | Accion |
+|---|---|---|
+| Skills (143) | SI | frontmatter → `metadata.savia.*`, `name`/`description` top-level |
+| MCP (savialabs) | SI | `mcp.json` portable con `type: stdio` |
+| Manifest | SI | `plugin.json` + `skills -> .claude/skills/` symlink |
+| Agents (83) / Commands (570) / Hooks (108) / Rules | NO (fuera de v1 por diseno) | espejo bajo extension namespace `com.savia.client/` |
+
+### Orden de ejecucion (ejecutado 2026-08-16)
+
+```
+SE-333 (agent-plugins compliance) — APPROVED 2026-08-16, IMPLEMENTED
+  → S1: policy doc + skill-audit --agent-plugins + tests        (done)
+  → S2: migracion frontmatter 143 skills → metadata.savia.*     (done)
+  → S3: plugin.json + skills symlink + mcp.json portable        (done)
+  → S4: gate CI --strict                                         (done)
+```
+
+### Estado por PR
+
+| Spec | PR | Estado | Bloqueo |
+|---|---|---|---|
+| SE-333 | #962 | MERGED 2026-08-16 | — |
+
+
+## Era 206 — Savia Continuous Learning (SCL) (2026-08-16)
 
 > Nueva era de specs: prefijo `SCL-###`, roadmap propio en `docs/SCL-ROADMAP.md`.
 > Tesis: la AGI no es un modelo preentrenado "terminado", sino un sistema que aprende
@@ -1599,4 +1643,3 @@ SCL-001 S1 (captura) → S2 (ciclo de vida + rollback) → S3 (métrica L) → S
 - SCL consume, no rehace: SE-255, SE-268 S4, SE-292 S6, SaviaVaults, Labs L1-L6.
 - Invariante: la CONSTITUCION y CRITERIO permanecen intocables por el bucle (CRIT-031);
   "la IA propone, el humano dispone".
-

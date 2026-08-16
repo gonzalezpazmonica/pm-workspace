@@ -1,19 +1,18 @@
 ---
 name: governance-enterprise
 description: "Usar cuando se audita compliance, se registran decisiones o se certifican procesos enterprise."
-summary: |
-  Gobernanza empresarial: audit trail, verificacion de compliance,
-  registro de decisiones y workflow de certificacion.
-  Output: informes ISO 42001, EU AI Act, NIST AI RMF.
-maturity: stable
-context: fork
-agent: architect
-context_cost: medium
-dependencies: []
-memory: project
-category: "governance"
-tags: ["governance", "audit-trail", "certification", "enterprise"]
-priority: "high"
+metadata:
+  # --- metadata.savia.* (SE-333) ---
+  savia.agent: architect
+  savia.category: governance
+  savia.context: fork
+  savia.context_cost: medium
+  savia.dependencies: 
+  savia.maturity: stable
+  savia.memory: project
+  savia.priority: high
+  savia.summary: "Gobernanza empresarial: audit trail, verificacion de compliance, registro de decisiones y workflow de certificacion. Output: informes ISO 42001, EU AI Act, NIST AI RMF."
+  savia.tags: "governance, audit-trail, certification, enterprise"
 ---
 
 # Skill: Enterprise Governance

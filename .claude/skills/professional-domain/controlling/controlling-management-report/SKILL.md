@@ -1,16 +1,15 @@
 ---
 name: controlling-management-report
-description: "Genera informes de gestión mensual adaptados a la audiencia (CFO/CEO/board/operaciones) con narrativa técnica."
-summary: |
-  Redacta informes de gestión con vocabulario técnico preciso (EBITDA/NOF/margen).
-  Adapta tono y contenido a la audiencia sin perder rigor técnico.
-  Input: datos financieros + período + audiencia. Output: informe estructurado.
-maturity: stable
-context: isolated
-context_cost: medium
-category: "professional-domain/controlling"
-tags: ["controlling", "informe-gestión", "CFO", "reporting", "EBITDA", "management"]
-priority: "high"
+description: Genera informes de gestión mensual adaptados a la audiencia (CFO/CEO/board/operaciones) con narrativa técnica.
+metadata:
+  # --- metadata.savia.* (SE-333) ---
+  savia.category: professional-domain/controlling
+  savia.context: isolated
+  savia.context_cost: medium
+  savia.maturity: stable
+  savia.priority: high
+  savia.summary: "Redacta informes de gestión con vocabulario técnico preciso (EBITDA/NOF/margen). Adapta tono y contenido a la audiencia sin perder rigor técnico. Input: datos financieros + período + audiencia. Output: informe estructurado."
+  savia.tags: "controlling, informe-gestión, CFO, reporting, EBITDA, management"
 ---
 
 # controlling-management-report — Redactor de Informe de Gestión

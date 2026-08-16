@@ -1,11 +1,13 @@
 ---
 name: tabular-intelligence
-description: Usar cuando se analizan datos tabulares (CSV, Excel, tablas, metricas). Triggers: 'analiza esta tabla', 'metricas del sprint', 'tendencia de', 'distribucion de', 'correlacion entre', 'KPIs', 'datos financieros', 'perfil estadistico', 'resumen de datos', 'outlier'.
-maturity: experimental
-context: project
-category: analysis
-priority: high
-tags: [tabular, datos, estadistica, analytics, csv, excel, perfil, metricas]
+description: "Usar cuando se analizan datos tabulares (CSV, Excel, tablas, metricas). Triggers: 'analiza esta tabla', 'metricas del sprint', 'tendencia de', 'distribucion de', 'correlacion entre', 'KPIs', 'datos financieros', 'perfil estadistico', 'resumen de datos', 'outlier'."
+metadata:
+  # --- metadata.savia.* (SE-333) ---
+  savia.category: analysis
+  savia.context: project
+  savia.maturity: experimental
+  savia.priority: high
+  savia.tags: "tabular, datos, estadistica, analytics, csv, excel, perfil, metricas"
 ---
 
 # tabular-intelligence

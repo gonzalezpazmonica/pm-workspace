@@ -1,17 +1,16 @@
 ---
 name: devops-validation
-description: "Usar cuando se conecta un proyecto nuevo a Azure DevOps para validar su configuración Agile."
-summary: |
-  Valida configuracion de Azure DevOps contra requisitos Agile ideales.
-  Comprueba areas, iteraciones, campos custom, politicas de branch.
-  Output: informe de gaps + plan de remediacion.
-maturity: stable
-context: fork
-agent: azure-devops-operator
-context_cost: low
-category: "devops"
-tags: ["validation", "azure-devops", "agile", "configuration"]
-priority: "medium"
+description: Usar cuando se conecta un proyecto nuevo a Azure DevOps para validar su configuración Agile.
+metadata:
+  # --- metadata.savia.* (SE-333) ---
+  savia.agent: azure-devops-operator
+  savia.category: devops
+  savia.context: fork
+  savia.context_cost: low
+  savia.maturity: stable
+  savia.priority: medium
+  savia.summary: "Valida configuracion de Azure DevOps contra requisitos Agile ideales. Comprueba areas, iteraciones, campos custom, politicas de branch. Output: informe de gaps + plan de remediacion."
+  savia.tags: "validation, azure-devops, agile, configuration"
 ---
 
 # Skill: devops-validation

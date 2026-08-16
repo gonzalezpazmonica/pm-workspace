@@ -113,8 +113,16 @@ for d in sorted(os.listdir(SKILLS_DIR)):
         if not has_trigger:
             reasons.append('no trigger phrase found (add Usar cuando/Use when/etc)')
 
-        has_consumes = fm.get('consumes') and fm['consumes'] != [] and fm['consumes'] is not None
-        has_produces = fm.get('produces') and fm['produces'] != [] and fm['produces'] is not None
+        # SE-333 dual-read: canonical metadata.savia.consumes/produces first
+        meta = fm.get('metadata') or {}
+        has_consumes = bool(
+            (fm.get('consumes') not in (None, [], ''))
+            or (meta.get('savia.consumes') not in (None, '', []))
+        )
+        has_produces = bool(
+            (fm.get('produces') not in (None, [], ''))
+            or (meta.get('savia.produces') not in (None, '', []))
+        )
 
         if not has_consumes and not has_produces:
             reasons.append('no consumes/produces declared in frontmatter (SE-152)')

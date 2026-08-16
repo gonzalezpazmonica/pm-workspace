@@ -1,19 +1,16 @@
 ---
 name: understand-anything
-description: "Usar cuando se necesita analizar un codebase con Understand-Anything para generar knowledge graphs estructurales y de dominio."
-summary: |
-  Understand-Anything (Lum1104/Understand-Anything) analiza codebases via
-  pipeline multi-agente y genera knowledge-graph.json con nodos estructurales,
-  de dominio y de conocimiento. Compatible con 13 lenguajes y OpenCode nativo.
-  Bridge: scripts/ua-bridge.sh. Si UA no está instalado, degrada a
-  scripts/knowledge-graph.py. Ref: SPEC-SE-088-UA-ADOPT.
-maturity: experimental
-context: project
-category: "analysis"
-tags: ["knowledge-graph", "codebase", "domain", "onboarding", "diff-impact", "ua"]
-priority: "medium"
+description: Usar cuando se necesita analizar un codebase con Understand-Anything para generar knowledge graphs estructurales y de dominio.
 allowed-tools: [Bash, Read, Glob]
-user-invocable: true
+metadata:
+  # --- metadata.savia.* (SE-333) ---
+  savia.category: analysis
+  savia.context: project
+  savia.maturity: experimental
+  savia.priority: medium
+  savia.summary: "Understand-Anything (Lum1104/Understand-Anything) analiza codebases via pipeline multi-agente y genera knowledge-graph.json con nodos estructurales, de dominio y de conocimiento. Compatible con 13 lenguajes y OpenCode nativo. Bridge: scripts/ua-bridge.sh. Si UA no está instalado, degrada a scripts/knowledge-graph.py. Ref: SPEC-SE-088-UA-ADOPT."
+  savia.tags: "knowledge-graph, codebase, domain, onboarding, diff-impact, ua"
+  savia.user-invocable: True
 ---
 
 # Understand-Anything — Knowledge Graphs para Savia

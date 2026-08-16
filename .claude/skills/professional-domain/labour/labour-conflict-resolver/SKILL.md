@@ -1,17 +1,15 @@
 ---
 name: labour-conflict-resolver
 description: "Analiza conflictos laborales (individuales y colectivos) y propone mínimo 3 opciones de resolución con base legal, coste estimado y recomendación. Incluye cálculo de improcedente."
-summary: |
-  Recibe descripción de conflicto laboral + partes + situación actual + resultado
-  deseado. Produce análisis legal, mínimo 3 opciones (negociar/SMAC/litigar) con
-  pros/contras/riesgo/coste, camino recomendado y consideraciones críticas.
-  Requiere siempre validación por abogado laboralista.
-maturity: stable
-context: isolated
-context_cost: medium
-category: "professional-domain/labour"
-tags: ["conflicto-laboral", "SMAC", "despido-improcedente", "negociacion", "ET", "ES"]
-priority: "high"
+metadata:
+  # --- metadata.savia.* (SE-333) ---
+  savia.category: professional-domain/labour
+  savia.context: isolated
+  savia.context_cost: medium
+  savia.maturity: stable
+  savia.priority: high
+  savia.summary: "Recibe descripción de conflicto laboral + partes + situación actual + resultado deseado. Produce análisis legal, mínimo 3 opciones (negociar/SMAC/litigar) con pros/contras/riesgo/coste, camino recomendado y consideraciones críticas. Requiere siempre validación por abogado laboralista."
+  savia.tags: "conflicto-laboral, SMAC, despido-improcedente, negociacion, ET, ES"
 ---
 
 # labour-conflict-resolver — Asistente de Resolución de Conflictos Laborales

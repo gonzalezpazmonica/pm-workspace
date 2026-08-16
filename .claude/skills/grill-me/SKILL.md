@@ -7,9 +7,8 @@ metadata:
   audience: developer, qa
   workflow: review, pre-merge
   origin: mattpocock/skills (MIT)
-trigger:
-  type: keyword
-  keywords: [grill, weaknesses, edge cases, adversarial, hunt weaknesses]
+  # --- metadata.savia.* (SE-333) ---
+  savia.trigger_keywords: "grill, weaknesses, edge cases, adversarial, hunt weaknesses"
 ---
 
 # grill-me — Adversarial weakness hunting

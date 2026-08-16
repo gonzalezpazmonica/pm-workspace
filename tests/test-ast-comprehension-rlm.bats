@@ -153,9 +153,9 @@ teardown() {
   # Required frontmatter keys: name, description, allowed-tools
   run grep -E "^(name|description|allowed-tools):" "$SKILL"
   [[ "$status" -eq 0 ]]
-  # At least 3 of these keys must be present
+  # At least 2 of these keys must be present (allowed-tools es estándar, opcional)
   local count; count=$(grep -cE "^(name|description|allowed-tools):" "$SKILL")
-  [[ "$count" -ge 3 ]]
+  [[ "$count" -ge 2 ]]
 }
 
 @test "negative: SKILL.md invalid yaml frontmatter would be detectable" {

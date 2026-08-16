@@ -1,16 +1,15 @@
 ---
 name: controlling-kpi-analyst
 description: "Evalúa KPIs de gestión, identifica tendencias y genera narrativa comentada con semáforo y alertas."
-summary: |
-  Analiza KPIs con fórmulas exactas, benchmarks sectoriales y semáforo.
-  Identifica outliers y genera narrativa para controllers y dirección.
-  Input: KPI data + benchmark + comparativa. Output: tabla evaluación + narrativa.
-maturity: stable
-context: isolated
-context_cost: medium
-category: "professional-domain/controlling"
-tags: ["controlling", "KPI", "ratios", "ROIC", "NOF", "CCC", "gestión"]
-priority: "high"
+metadata:
+  # --- metadata.savia.* (SE-333) ---
+  savia.category: professional-domain/controlling
+  savia.context: isolated
+  savia.context_cost: medium
+  savia.maturity: stable
+  savia.priority: high
+  savia.summary: "Analiza KPIs con fórmulas exactas, benchmarks sectoriales y semáforo. Identifica outliers y genera narrativa para controllers y dirección. Input: KPI data + benchmark + comparativa. Output: tabla evaluación + narrativa."
+  savia.tags: "controlling, KPI, ratios, ROIC, NOF, CCC, gestión"
 ---
 
 # controlling-kpi-analyst — Analista de KPIs de Gestión

@@ -149,6 +149,10 @@ assert 'tdd-vertical-slices' in data, f'tdd-vertical-slices not in {data}'
     if grep -q "trigger:" "$skill_md" && grep -q "keywords:" "$skill_md"; then
       count=$((count + 1))
     fi
+    # SE-333: canonical form is metadata.savia.trigger_keywords
+    if grep -q "savia.trigger_keywords:" "$skill_md"; then
+      count=$((count + 1))
+    fi
   done
   [ "$count" -ge 10 ]
 }

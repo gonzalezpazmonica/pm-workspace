@@ -1,17 +1,16 @@
 ---
 name: time-tracking-report
-description: "Usar cuando se generan informes de imputación de horas en Excel o Word."
-summary: |
-  Extrae horas imputadas de Azure DevOps y genera informe.
-  Agrupa por persona, proyecto y tipo de tarea.
-  Output: Excel/Word en output/ con formato corporativo.
-maturity: stable
-context: fork
-agent: tech-writer
-context_cost: medium
-category: "reporting"
-tags: ["time-tracking", "hours", "excel", "reporting"]
-priority: "medium"
+description: Usar cuando se generan informes de imputación de horas en Excel o Word.
+metadata:
+  # --- metadata.savia.* (SE-333) ---
+  savia.agent: tech-writer
+  savia.category: reporting
+  savia.context: fork
+  savia.context_cost: medium
+  savia.maturity: stable
+  savia.priority: medium
+  savia.summary: "Extrae horas imputadas de Azure DevOps y genera informe. Agrupa por persona, proyecto y tipo de tarea. Output: Excel/Word en output/ con formato corporativo."
+  savia.tags: "time-tracking, hours, excel, reporting"
 ---
 
 # Skill: time-tracking-report

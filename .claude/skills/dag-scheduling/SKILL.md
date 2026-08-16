@@ -1,17 +1,16 @@
 ---
 name: dag-scheduling
-description: "Usar cuando se orquestan múltiples agentes SDD con dependencias entre ellos."
-summary: |
-  Orquesta agentes SDD en paralelo usando grafos de dependencias.
-  Calcula camino critico, cohortes paralelas y ahorro de tiempo.
-  Input: spec con tasks. Output: plan DAG + ejecucion.
-maturity: stable
-context: fork
-context_cost: high
-agent: developer
-category: "sdd-framework"
-tags: ["dag", "parallel", "orchestration", "pipeline"]
-priority: "high"
+description: Usar cuando se orquestan múltiples agentes SDD con dependencias entre ellos.
+metadata:
+  # --- metadata.savia.* (SE-333) ---
+  savia.agent: developer
+  savia.category: sdd-framework
+  savia.context: fork
+  savia.context_cost: high
+  savia.maturity: stable
+  savia.priority: high
+  savia.summary: "Orquesta agentes SDD en paralelo usando grafos de dependencias. Calcula camino critico, cohortes paralelas y ahorro de tiempo. Input: spec con tasks. Output: plan DAG + ejecucion."
+  savia.tags: "dag, parallel, orchestration, pipeline"
 ---
 
 ## Subagent Scope Guard
