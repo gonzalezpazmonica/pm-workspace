@@ -77,15 +77,13 @@ fallo irrecuperable de herramienta esencial.
 - **Ejemplo**: `"OOM at turn 12, process killed"`
 
 ### `handback`
-La instancia autónoma quedó bloqueada (recurso no disponible, guardrail rechaza,
-modelo no coincide) y escala a su padre inmediato según la cadena normativa
-(SE-332). Emite artifact **reference-first** en
-`output/agent-runs/{modo}-{fecha}-handback.md`.
+Instancia bloqueada (recurso no disponible, guardrail rechaza, modelo no coincide)
+que escala a su padre según la cadena normativa (SE-332). Emite artifact
+**reference-first** en `output/agent-runs/{modo}-{fecha}-handback.md`.
 
 - **Política de reintento**: NO reintentar — la escalación es la salida.
-- **Acción del orquestador**: resolver el padre (scripts/handback-resolve.sh),
-  reanudar desde los artifacts referenciados en `contexto_ref`, registrar
-  `handback_to` en el audit trail.
+- **Acción del orquestador**: resolver el padre (`handback-resolve.sh`), reanudar
+  desde `contexto_ref`, registrar `handback_to` en el audit trail.
 - **Ejemplo**: `"handback: escalado_desde=overnight-sprint escalado_a=@monica"`
 
 ## Almacenamiento
@@ -118,16 +116,14 @@ historial completo de ejecuciones del mismo loop.
 | `handback` | 6 |
 | razón desconocida | 1 |
 
-**Por qué `handback=6`**: es una terminación con causa distinta de `unrecoverable_error` —
-el proceso no crasheó, sino que escaló deliberadamente a un padre. El exit code 6 permite
-al orquestador distinguir "hay que leer el artifact handback" de "crash interno". No
-colisiona con `exit 5` de `handback-resolve.sh` (invariante de cadena no resoluble), que
-es un fallo del *script*, no del *estado* emitido.
+**Por qué `handback=6`**: terminación con causa distinta de `unrecoverable_error` — el
+proceso no crasheó, escaló deliberadamente. Distingue "leer artifact handback" de "crash
+interno". No colisiona con `exit 5` de `handback-resolve.sh` (fallo del *script*, no del
+*estado*).
 
-**Por qué `user_abort=0`**: desde el punto de vista del proceso, `user_abort`
-es una terminación limpia — el usuario decidió parar. El orquestador distingue
-`completed` de `user_abort` leyendo el JSON (campo `reason`), no el exit code.
-El exit code 0 en ambos casos indica "no hay error de sistema".
+**Por qué `user_abort=0`**: `user_abort` es una terminación limpia (el usuario decidió
+parar). El orquestador distingue `completed` de `user_abort` leyendo el JSON (campo
+`reason`), no el exit code. El exit code 0 indica "no hay error de sistema".
 
 ## Integración con autonomous-safety.md
 
@@ -135,17 +131,13 @@ Este protocolo complementa `docs/rules/domain/autonomous-safety.md`:
 - `AGENT_MAX_CONSECUTIVE_FAILURES` sigue siendo el gate de abort en caliente.
 - `terminal-state-emit.sh` debe llamarse en el bloque `trap EXIT` del loop,
   garantizando emisión incluso ante señales.
-- El estado `unrecoverable_error` activa siempre escalamiento humano,
-  independientemente de `AGENT_MAX_CONSECUTIVE_FAILURES`.
+- El estado `unrecoverable_error` activa siempre escalamiento humano.
 
 ### Política de rotación del JSONL
 
-El fichero `terminal-state.jsonl` no tiene límite de tamaño automático.
-Se recomienda rotar con `loop-state-prune.sh` (SE-228 S1) cuando el fichero
-supere 500 líneas o 90 días de antigüedad.
-
-Si la última línea del JSONL no es JSON válido, `terminal-state-read.sh`
-devuelve exit 1 con mensaje `'could not parse reason from last entry'`.
+`terminal-state.jsonl` no tiene límite automático. Rotar con `loop-state-prune.sh`
+(SE-228 S1) al superar 500 líneas o 90 días. Si la última línea no es JSON válido,
+`terminal-state-read.sh` devuelve exit 1 con `'could not parse reason from last entry'`.
 
 ## Criterios de Aceptación
 

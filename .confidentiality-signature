@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
 diff_hash=ea30e49604a11ec13ab8f001f15f18fb9f618de300a4302033aafb033ab0643f
-timestamp=2026-08-16T09:50:34Z
+timestamp=2026-08-16T10:00:17Z
 branch=agent/se332-handback-obligation
-head_commit=7f284db3
+head_commit=d943d87b
 signature=79cc59000dd5bf6b6f2a0d9f517d4332cb372beb2fa763a626e244b2562a7457

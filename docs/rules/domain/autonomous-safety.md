@@ -67,11 +67,9 @@ desde **fuentes locales gitignored** (NUNCA del repo público — Rule #20):
 ```
 
 scripts/savia-env.sh expone `savia_autonomous_reviewer()` que aplica esta cadena.
-
 ### Gate de arranque
 
 **Si tras la cadena no hay valor resoluble, el modo autónomo NO arranca.**
-El comando debe mostrar:
 
 ```
 ERROR: AUTONOMOUS_REVIEWER no resoluble.
@@ -102,13 +100,10 @@ Cada sesión autónoma genera `output/agent-runs/{modo}-{fecha}-audit.log`. Camp
 
 ## Auto Mode — Capa complementaria (Claude Code 2026-03-24)
 
-`claude --enable-auto-mode` activa un classifier pre-tool-call que bloquea
-acciones destructivas sin requerir `--dangerously-skip-permissions`. NO
-reemplaza los gates de esta regla (AUTONOMOUS_REVIEWER, ramas agent/*, PR
-Draft, AGENT_MAX_CONSECUTIVE_FAILURES) — añade defensa en profundidad.
-Recomendado en toda sesión que invoque `overnight-sprint`,
-`code-improvement-loop` o `tech-research-agent`. Desktop/VS Code: Settings
-→ Claude Code → Auto Mode. Ref: anthropic.com/engineering/claude-code-auto-mode
+`claude --enable-auto-mode` bloquea acciones destructivas pre-tool-call sin
+`--dangerously-skip-permissions`. NO reemplaza los gates de esta regla — añade
+defensa en profundidad. Desktop/VS Code: Settings → Claude Code → Auto Mode.
+Ref: anthropic.com/engineering/claude-code-auto-mode
 
 ## Escalamiento de modelo
 
@@ -122,7 +117,7 @@ OOM, timeout o error de infra: NO escalar — descartar y continuar.
 
 ## Emergency-mode (LocalAI fallback) — SPEC-122
 
-`/emergency-mode` cambia SOLO el endpoint (`ANTHROPIC_BASE_URL` → LocalAI), **no bypassa** los gates de esta regla. AUTONOMOUS_REVIEWER, rama `agent/*`, PR Draft siguen siendo obligatorios. Si el revisor humano no está disponible, el agente **espera**. Ver `.opencode/skills/emergency-mode/SKILL.md` y `docs/rules/domain/emergency-mode-protocol.md`.
+`/emergency-mode` cambia SOLO el endpoint (`ANTHROPIC_BASE_URL` → LocalAI), **no bypassa** los gates. AUTONOMOUS_REVIEWER, rama `agent/*`, PR Draft siguen obligatorios. Si el revisor no está disponible, el agente **espera**. Ver `emergency-mode/SKILL.md` y `emergency-mode-protocol.md`.
 
 ## Subagent Scope Guard — SE-146
 
@@ -134,41 +129,15 @@ Cuando un agente o skill se invoca como **subagente delegado** (recibe una tarea
 3. RETORNAR — no continuar en bucle ni lanzar sub-agentes adicionales
 ```
 
-**Por qué**: Las skills de alto impacto (overnight-sprint, code-improvement-loop, adversarial-security, etc.) tienen bucles de orquestación que, si un subagente los activa íntegramente, generan runs en cascada fuera de control.
+**Por qué**: las skills de alto impacto (overnight-sprint, code-improvement-loop, adversarial-security, etc.) tienen bucles de orquestación que, activados íntegramente por un subagente, generan runs en cascada fuera de control.
 
-**Detección de contexto subagente**: si se recibe una tarea vía `Task` tool, env var `SAVIA_SUBAGENT=1`, o flag `--subagent`, aplicar este guard.
+**Detección de contexto subagente**: tarea vía `Task` tool, env `SAVIA_SUBAGENT=1`, o flag `--subagent` → aplicar este guard.
 
 **Skills con este guard**: adversarial-security, code-improvement-loop, consensus-validation, dag-scheduling, overnight-sprint, spec-driven-development, tdd-vertical-slices, verification-lattice.
 
 ## Handback Obligation — SE-332
 
-Una instancia autónoma bloqueada **escala a su padre inmediato, un nivel a la vez**.
-Toda cadena termina en un nivel manual **POR CONSTRUCCIÓN** — no existen cadenas
-infinitas de agentes. La escalación de autoridad es independiente de la escalación
-de modelo (fast→mid→agent→abort) y de `AUTONOMOUS_REVIEWER` (que queda como fallback
-de primer nivel).
-
-### Cadena de escalación por modo
-
-| Modo autónomo | Padre inmediato | Manual terminal |
-|---|---|---|
-| overnight-sprint / code-improvement-loop / tech-research-agent | AUTONOMOUS_REVIEWER | operadora (perfil activo) |
-| court-orchestrator / truth-tribunal-orchestrator / recommendation-tribunal-orchestrator | dev-orchestrator | operadora (perfil activo) |
-| subagente delegado (SE-146, `BLOCKED`) | orquestador que lo invocó | operadora (perfil activo) |
-
-### Obligaciones
-
-1. Una instancia bloqueada NO aborta en silencio: emite handback con
-   `termination_reason: handback` (ver `terminal-state-protocol.md`).
-2. El handback es **reference-first**: `contexto_ref` contiene rutas a artifacts
-   (run-record, terminal-state.jsonl), nunca el cuerpo — ver
-   `agent-handoff-protocol.md`.
-3. La resolución del padre la hace `scripts/handback-resolve.sh`, que consulta
-   `savia_autonomous_reviewer()` en `scripts/savia-env.sh` (no re-deriva la cadena).
-4. Si la cadena NO termina en manual, `handback-resolve.sh` sale con exit 5 —
-   invariante de seguridad que garantiza "el humano se alcanza por construcción".
-5. Cada escalación se registra en el audit trail con el campo `handback_to`
-   (ver sección Auditoría).
+Instancia autónoma bloqueada **escala a su padre inmediato, un nivel a la vez**; toda cadena termina en manual **POR CONSTRUCCIÓN**. Resolución: `scripts/handback-resolve.sh`. Handback **reference-first** (`contexto_ref` solo rutas), `termination_reason: handback` (exit 6), `handback_to` en audit. Cadena por modo y schema: `agent-handoff-protocol.md`, `terminal-state-protocol.md`, spec SE-332.
 
 ## Doble opt-in para skills autónomas — SPEC-186
 
