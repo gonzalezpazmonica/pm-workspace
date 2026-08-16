@@ -1,6 +1,6 @@
 {
-  "hash": "8928b7292baa",
-  "total": 1364,
+  "hash": "46edd5acf55a",
+  "total": 1365,
   "resources": [
     {
       "category": "analysis",
@@ -10201,6 +10201,18 @@
       "kind": "agent",
       "path": ".opencode/agents/hallucination-judge.md",
       "description": "Truth Tribunal judge — detects invented facts via SelfCheck-style consistency"
+    },
+    {
+      "category": "planning",
+      "name": "handback-resolve",
+      "intents": [
+        "handback",
+        "obligation",
+        "resolve"
+      ],
+      "kind": "script",
+      "path": "scripts/handback-resolve.sh",
+      "description": "handback-resolve.sh — SE-332 Handback Obligation"
     },
     {
       "category": "planning",
