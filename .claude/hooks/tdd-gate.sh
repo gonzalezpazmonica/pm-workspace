@@ -74,9 +74,12 @@ esac
 # Buscar test correspondiente
 DIR=$(dirname "$FILE_PATH")
 NAME_NO_EXT="${BASENAME%.*}"
-# Try git first, but fall back to current dir or CLAUDE_PROJECT_DIR
+# Try git first (from the edited file's dir, so files outside the workspace
+# resolve to THEIR repo), but fall back to current dir or CLAUDE_PROJECT_DIR
 # In tests, this will be the TEST_TMPDIR which has .git initialized
-if PROJECT_ROOT=$(git rev-parse --show-toplevel 2>/dev/null); then
+if PROJECT_ROOT=$(git -C "$DIR" rev-parse --show-toplevel 2>/dev/null); then
+  :
+elif PROJECT_ROOT=$(git rev-parse --show-toplevel 2>/dev/null); then
   :
 elif [ -n "${CLAUDE_PROJECT_DIR:-}" ] && [ -d "$CLAUDE_PROJECT_DIR" ]; then
   PROJECT_ROOT="$CLAUDE_PROJECT_DIR"
