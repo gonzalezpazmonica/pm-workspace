@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=43e1d543283d8544cf0f7d16e304bb7b0c81d48c3e0b7f0322b3ba3235340b33
-timestamp=2026-08-16T16:15:18Z
-branch=agent/review-ivan-964
-head_commit=ab23ff07
-signature=b142a567a7ec4cfebd3f8079c83b02e2c40fe23f2ffc7dfe074a638eccc4dba1
+diff_hash=103a81240458bbea78e4ba81ce2d4b70bdfd42db7b37346adb12889ac62c3494
+timestamp=2026-08-16T16:40:13Z
+branch=agent/review-ivan-965
+head_commit=eeb4ee93
+signature=cb21ec678832bea279e5fd66c59cbb11330c2d3bc60635e5336b97f44772ae45
