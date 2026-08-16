@@ -1,26 +1,17 @@
 ---
 name: performance-audit
-description: "Usar cuando se audita el rendimiento estático de código para detectar hotspots."
-summary: |
-  Auditoria estatica de rendimiento: detecta N+1 queries, async
-  anti-patterns, memory allocation en loops, complejidad O(n2).
-  Output: hallazgos priorizados por severidad + fix sugerido.
-maturity: stable
-developer_type: all
-context_cost: medium
-references:
-  - references/perf-dotnet.md
-  - references/perf-typescript.md
-  - references/perf-python.md
-  - references/perf-java.md
-  - references/perf-go.md
-  - references/perf-rust.md
-category: "quality"
-tags: ["performance", "hotspots", "async", "optimization"]
-priority: "medium"
-trigger:
-  type: keyword
-  keywords: [performance, hotspot, lento, optimiza, bottleneck, rendimiento]
+description: Usar cuando se audita el rendimiento estático de código para detectar hotspots.
+metadata:
+  # --- metadata.savia.* (SE-333) ---
+  savia.category: quality
+  savia.context_cost: medium
+  savia.developer_type: all
+  savia.maturity: stable
+  savia.priority: medium
+  savia.references: "references/perf-dotnet.md, references/perf-typescript.md, references/perf-python.md, references/perf-java.md, references/perf-go.md, references/perf-rust.md"
+  savia.summary: "Auditoria estatica de rendimiento: detecta N+1 queries, async anti-patterns, memory allocation en loops, complejidad O(n2). Output: hallazgos priorizados por severidad + fix sugerido."
+  savia.tags: "performance, hotspots, async, optimization"
+  savia.trigger_keywords: "performance, hotspot, lento, optimiza, bottleneck, rendimiento"
 ---
 
 # Performance Audit Intelligence

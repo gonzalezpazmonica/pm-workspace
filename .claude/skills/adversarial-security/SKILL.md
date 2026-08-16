@@ -1,20 +1,17 @@
 ---
 name: adversarial-security
-description: "Usar cuando se necesita auditar la seguridad de un proyecto con pipeline Red Team / Blue Team."
-summary: |
-  Pipeline Red Team + Blue Team + Auditor independiente.
-  Scoring CVSS, mapeo STRIDE, gap analysis.
-  Output: informe con score 0-100 y recomendaciones.
-maturity: stable
-context: fork
-context_cost: medium
-agent: security-attacker
-category: "governance"
-tags: ["security", "adversarial", "red-team", "blue-team"]
-priority: "high"
-trigger:
-  type: keyword
-  keywords: [vulnerabilidad, pentest, sql injection, xss, inyeccion, security audit, red team, blue team]
+description: Usar cuando se necesita auditar la seguridad de un proyecto con pipeline Red Team / Blue Team.
+metadata:
+  # --- metadata.savia.* (SE-333) ---
+  savia.agent: security-attacker
+  savia.category: governance
+  savia.context: fork
+  savia.context_cost: medium
+  savia.maturity: stable
+  savia.priority: high
+  savia.summary: "Pipeline Red Team + Blue Team + Auditor independiente. Scoring CVSS, mapeo STRIDE, gap analysis. Output: informe con score 0-100 y recomendaciones."
+  savia.tags: "security, adversarial, red-team, blue-team"
+  savia.trigger_keywords: "vulnerabilidad, pentest, sql injection, xss, inyeccion, security audit, red team, blue team"
 ---
 
 ## Subagent Scope Guard

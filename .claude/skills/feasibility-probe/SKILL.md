@@ -1,16 +1,14 @@
 ---
 name: feasibility-probe
-description: "Usar cuando se necesita validar si una spec es técnicamente viable antes de implementarla."
-summary: |
-  Valida viabilidad de un spec con prototipo time-boxed.
-  Intenta implementar las secciones criticas, mide bloqueos.
-  Output: score de viabilidad + secciones problematicas.
-category: sdd-framework
-tags: [feasibility, estimation, prototype, spec, planning]
-priority: high
-disable-model-invocation: false
-user-invocable: true
-allowed-tools: [Read, Write, Edit, Bash, Glob, Grep, Task]
+description: Usar cuando se necesita validar si una spec es técnicamente viable antes de implementarla.
+metadata:
+  # --- metadata.savia.* (SE-333) ---
+  savia.category: sdd-framework
+  savia.disable-model-invocation: False
+  savia.priority: high
+  savia.summary: "Valida viabilidad de un spec con prototipo time-boxed. Intenta implementar las secciones criticas, mide bloqueos. Output: score de viabilidad + secciones problematicas."
+  savia.tags: "feasibility, estimation, prototype, spec, planning"
+  savia.user-invocable: True
 ---
 
 # Feasibility Probe

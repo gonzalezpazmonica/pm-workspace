@@ -6,13 +6,10 @@ compatibility: opencode
 metadata:
   audience: pm
   workflow: memory-management
-trigger:
-  type: keyword
-  keywords: [recuerda, memory, guarda, memoriza, olvidas, recall]
-consumes:
-  - session_data
-produces:
-  - memory_entry
+  # --- metadata.savia.* (SE-333) ---
+  savia.consumes: session_data
+  savia.produces: memory_entry
+  savia.trigger_keywords: "recuerda, memory, guarda, memoriza, olvidas, recall"
 ---
 
 # Skill: savia-memory

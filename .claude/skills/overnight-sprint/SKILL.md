@@ -1,17 +1,16 @@
 ---
 name: overnight-sprint
-description: "Usar cuando se quiere ejecutar tareas de bajo riesgo de forma autónoma durante la noche."
-summary: |
-  Sprint autonomo nocturno: ejecuta tareas de bajo riesgo en bucle.
-  Genera PRs Draft en ramas agent/overnight-*.
-  Revision humana obligatoria al dia siguiente.
-maturity: experimental
-context: fork
-agent: dev-orchestrator
-category: "sdd-framework"
-tags: ["autonomous", "overnight", "batch", "low-risk"]
-priority: "medium"
-loop_level: L2  # L0=draft | L1=report-only | L2=assisted | L3=unattended — ver docs/rules/domain/loop-phasing.md
+description: Usar cuando se quiere ejecutar tareas de bajo riesgo de forma autónoma durante la noche.
+metadata:
+  # --- metadata.savia.* (SE-333) ---
+  savia.agent: dev-orchestrator
+  savia.category: sdd-framework
+  savia.context: fork
+  savia.loop_level: L2
+  savia.maturity: experimental
+  savia.priority: medium
+  savia.summary: "Sprint autonomo nocturno: ejecuta tareas de bajo riesgo en bucle. Genera PRs Draft en ramas agent/overnight-*. Revision humana obligatoria al dia siguiente."
+  savia.tags: "autonomous, overnight, batch, low-risk"
 ---
 
 ## Subagent Scope Guard

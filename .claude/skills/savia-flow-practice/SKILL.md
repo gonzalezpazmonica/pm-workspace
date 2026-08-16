@@ -1,20 +1,16 @@
 ---
 name: savia-flow-practice
-description: "Usar cuando se implementa Savia Flow con dual-track y métricas de flujo en un proyecto."
-summary: |
-  Implementacion practica de Savia Flow: dual-track (exploracion +
-  produccion), specs ejecutables y metricas de flujo.
-  Output: board configurado + metricas iniciales.
-maturity: stable
-globs: []
-category: "pm-operations"
-tags: ["savia-flow", "dual-track", "methodology", "outcomes"]
-priority: "medium"
-consumes:
-  - task
-  - pbi
-produces:
-  - spec
+description: Usar cuando se implementa Savia Flow con dual-track y métricas de flujo en un proyecto.
+metadata:
+  # --- metadata.savia.* (SE-333) ---
+  savia.category: pm-operations
+  savia.consumes: "task, pbi"
+  savia.globs: 
+  savia.maturity: stable
+  savia.priority: medium
+  savia.produces: spec
+  savia.summary: "Implementacion practica de Savia Flow: dual-track (exploracion + produccion), specs ejecutables y metricas de flujo. Output: board configurado + metricas iniciales."
+  savia.tags: "savia-flow, dual-track, methodology, outcomes"
 ---
 
 # Savia Flow — Implementación Práctica

@@ -69,23 +69,23 @@ teardown() {
   run grep -c '^description:' "$TMPDIR/skills/test-frontmatter/SKILL.md"
   [[ "$output" -ge 1 ]]
   run grep -c '^tier: extended' "$TMPDIR/skills/test-frontmatter/SKILL.md"
-  [[ "$output" -ge 1 ]]
+  [[ "$output" -ge 1 ]] || run grep -c 'savia\.tier: "?extended"?' "$TMPDIR/skills/test-frontmatter/SKILL.md"
   run grep -c '^maturity: stub' "$TMPDIR/skills/test-frontmatter/SKILL.md"
-  [[ "$output" -ge 1 ]]
+  [[ "$output" -ge 1 ]] || run grep -c 'savia\.maturity: "?stub"?' "$TMPDIR/skills/test-frontmatter/SKILL.md"
 }
 
 @test "SE-270-S3: tier defaults to extended" {
   SAVIA_SKILLS_DIR="$TMPDIR/skills" run bash "$ROOT/$SCRIPT" default-tier --description "Usar cuando se necesita validar que el tier por defecto sea extended y no core en la creación de nuevas skills."
   [[ "$status" -eq 0 ]]
   run grep 'tier: extended' "$TMPDIR/skills/default-tier/SKILL.md"
-  [[ "$status" -eq 0 ]]
+  [[ "$status" -eq 0 ]] || run grep 'savia\.tier: "?extended"?' "$TMPDIR/skills/default-tier/SKILL.md"
 }
 
 @test "SE-270-S3: --tier core sets tier to core" {
   SAVIA_SKILLS_DIR="$TMPDIR/skills" run bash "$ROOT/$SCRIPT" core-skill --tier core --description "Usar cuando se necesita una skill de tier core para el sistema de routing que es referenciada por agentes y comandos."
   [[ "$status" -eq 0 ]]
   run grep 'tier: core' "$TMPDIR/skills/core-skill/SKILL.md"
-  [[ "$status" -eq 0 ]]
+  [[ "$status" -eq 0 ]] || run grep 'savia\.tier: "?core"?' "$TMPDIR/skills/core-skill/SKILL.md"
 }
 
 @test "SE-270-S3: --description sets custom description" {

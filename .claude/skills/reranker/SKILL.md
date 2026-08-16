@@ -1,19 +1,17 @@
 ---
 name: reranker
-description: "Usar cuando se recibe un top-K ruidoso de búsqueda en memoria y se necesita reordenar por relevancia."
-summary: |
-  Capa de reranking cross-encoder sobre top-K de retrieval (cosine).
-  Filtra ruido antes de que el agente gaste tokens leyendo falsos
-  positivos. Fallback automatico si sentence-transformers ausente.
-maturity: beta
-context: fork
-agent: architect
-category: "memory"
-tags: ["reranking", "retrieval", "memory", "cross-encoder", "tokens"]
-priority: "medium"
-disable-model-invocation: false
-user-invocable: true
-allowed-tools: [Read, Bash]
+description: Usar cuando se recibe un top-K ruidoso de búsqueda en memoria y se necesita reordenar por relevancia.
+metadata:
+  # --- metadata.savia.* (SE-333) ---
+  savia.agent: architect
+  savia.category: memory
+  savia.context: fork
+  savia.disable-model-invocation: False
+  savia.maturity: beta
+  savia.priority: medium
+  savia.summary: Capa de reranking cross-encoder sobre top-K de retrieval (cosine). Filtra ruido antes de que el agente gaste tokens leyendo falsos positivos. Fallback automatico si sentence-transformers ausente.
+  savia.tags: "reranking, retrieval, memory, cross-encoder, tokens"
+  savia.user-invocable: True
 ---
 
 # Skill: Reranker

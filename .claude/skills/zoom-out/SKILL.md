@@ -3,14 +3,13 @@ name: zoom-out
 description: "Elevates perspective from trees to forest. Maps architecture, dependencies, and second-order effects before implementation decisions. Use when designing, when evaluating trade-offs, or at the start of design sessions."
 license: MIT
 compatibility: opencode
-disable-model-invocation: true
 metadata:
   audience: architect, developer
   workflow: design, review
   origin: mattpocock/skills (MIT)
-trigger:
-  type: keyword
-  keywords: [zoom out, big picture, segunda orden, second-order, dependencies]
+  # --- metadata.savia.* (SE-333) ---
+  savia.disable-model-invocation: True
+  savia.trigger_keywords: "zoom out, big picture, segunda orden, second-order, dependencies"
 ---
 
 # zoom-out — Architectural perspective shift

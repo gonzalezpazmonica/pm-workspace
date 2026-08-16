@@ -4,18 +4,14 @@ description: >
   Detecta el Bus Factor por modulo en un repositorio git usando el algoritmo
   CST(change-size-ratio). Genera JSON con BF, owners, riesgo, y avisa cuando
   un solo dev conoce un modulo critico.
-summary: >
-  Skill de deteccion de riesgo de conocimiento. Analiza git history para
-  identificar modulos con un unico conocedor y genera planes de mitigacion.
-maturity: calibrated
-context: L2
-category: resilience
-tags: [bus-factor, knowledge-graph, git-analysis, risk, resilience]
-trigger: >
-  Usar cuando: se quiere conocer el riesgo de conocimiento de un proyecto,
-  se sale un dev del equipo, antes de vacaciones largas, tras incorporacion
-  de nuevo miembro, revision mensual de riesgo organizativo.
-se: SE-252
+metadata:
+  # --- metadata.savia.* (SE-333) ---
+  savia.category: resilience
+  savia.context: L2
+  savia.maturity: calibrated
+  savia.se: SE-252
+  savia.summary: Skill de deteccion de riesgo de conocimiento. Analiza git history para identificar modulos con un unico conocedor y genera planes de mitigacion.
+  savia.tags: "bus-factor, knowledge-graph, git-analysis, risk, resilience"
 ---
 
 # Bus Factor Analysis

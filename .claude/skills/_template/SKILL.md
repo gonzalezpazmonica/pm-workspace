@@ -3,20 +3,20 @@ name: _template
 # SE-209 canonical description format: "[qué hace]. Usar cuando [trigger 1], [trigger 2], o [trigger 3]. Max 200 chars."
 # Example: "Audita compliance legal. Usar cuando se crea un contrato, se procesa PII, o hay incertidumbre sobre RGPD."
 description: "TEMPLATE — copia este directorio para crear una skill nueva. NO se carga en runtime."
-maturity: template
-context: standalone
-context_cost: low
-category: "meta"
-tags: ["template", "scaffold"]
-priority: "low"
-# SE-152: Semantic routing fields (optional — omit if not applicable)
-# consumes:        # inputs que esta skill necesita para ejecutarse
-#   - spec         # valores típicos: spec, pbi, project_slug, sprint_data,
-#   - project_slug #   workspace_files, session_data, task, report, graph_db
-# produces:        # artefactos que esta skill genera como output
-#   - report       # valores típicos: spec, report, implementation, memory_entry,
-#   - CONTEXT.md   #   graph_db, CONTEXT.md, pr, test_suite
-loop_level: L0  # L0=draft | L1=report-only | L2=assisted | L3=unattended — ver docs/rules/domain/loop-phasing.md
+# SE-333: campos propios bajo metadata.savia.* (string→string). name/description
+# y license/compatibility quedan top-level. Listas → join por coma.
+metadata:
+  savia.maturity: "template"
+  savia.context: "standalone"
+  savia.context_cost: "low"
+  savia.category: "meta"
+  savia.tags: "template, scaffold"
+  savia.priority: "low"
+  # SE-152: Semantic routing (optional — omit if not applicable)
+  # savia.consumes: "spec, project_slug, sprint_data"
+  # savia.produces: "report, CONTEXT.md, test_suite"
+  # savia.loop_level: "L0"   # L0=draft | L1=report-only | L2=assisted | L3=unattended
+  # savia.trigger_keywords: "keyword1, keyword2"
 ---
 
 <!--

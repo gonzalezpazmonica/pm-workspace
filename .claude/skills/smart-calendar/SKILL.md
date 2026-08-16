@@ -1,20 +1,15 @@
 ---
 name: smart-calendar
-description: "Usar cuando se gestiona la agenda inteligente con sincronización Outlook/Teams."
-summary: |
-  Gestion inteligente de agenda: sincronizacion Outlook/Teams,
-  planificacion automatica de focus blocks, rebalanceo por
-  prioridades, alertas de conflictos y deadlines.
-  Gestion inteligente de agenda PM: sincronizacion bidireccional con Outlook/Teams,
-  planificacion automatica de trabajo, rebalanceo por prioridades, focus blocks,
-  alertas de conflictos y deadlines. Nada se queda atras.
-maturity: experimental
-category: "pm-operations"
-tags: ["calendar", "outlook", "teams", "focus", "scheduling", "deadlines", "ceremonies"]
-priority: "high"
-disable-model-invocation: false
-user-invocable: true
-allowed-tools: [Read, Write, Edit, Bash, Glob, Grep, Task]
+description: Usar cuando se gestiona la agenda inteligente con sincronización Outlook/Teams.
+metadata:
+  # --- metadata.savia.* (SE-333) ---
+  savia.category: pm-operations
+  savia.disable-model-invocation: False
+  savia.maturity: experimental
+  savia.priority: high
+  savia.summary: "Gestion inteligente de agenda: sincronizacion Outlook/Teams, planificacion automatica de focus blocks, rebalanceo por prioridades, alertas de conflictos y deadlines. Gestion inteligente de agenda PM: sincronizacion bidireccional con Outlook/Teams, planificacion automatica de trabajo, rebalanceo por prioridades, focus blocks, alertas de conflictos y deadlines. Nada se queda atras."
+  savia.tags: "calendar, outlook, teams, focus, scheduling, deadlines, ceremonies"
+  savia.user-invocable: True
 ---
 
 # Skill: Smart Calendar — Gestion Inteligente de Agenda PM

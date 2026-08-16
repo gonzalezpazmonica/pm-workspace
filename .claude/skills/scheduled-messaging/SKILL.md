@@ -1,15 +1,14 @@
 ---
 name: scheduled-messaging
-description: "Usar cuando se configuran mensajes automáticos programados a plataformas de comunicación."
-summary: |
-  Configura tareas programadas con mensajeria automatica.
-  Soporta Slack, Google Chat, Nextcloud Talk, WhatsApp.
-  Wizard interactivo para setup de notificaciones.
-maturity: stable
-context: fork
-category: "communication"
-tags: ["scheduled", "messaging", "notifications", "automation"]
-priority: "medium"
+description: Usar cuando se configuran mensajes automáticos programados a plataformas de comunicación.
+metadata:
+  # --- metadata.savia.* (SE-333) ---
+  savia.category: communication
+  savia.context: fork
+  savia.maturity: stable
+  savia.priority: medium
+  savia.summary: "Configura tareas programadas con mensajeria automatica. Soporta Slack, Google Chat, Nextcloud Talk, WhatsApp. Wizard interactivo para setup de notificaciones."
+  savia.tags: "scheduled, messaging, notifications, automation"
 ---
 
 # Scheduled Messaging — 5-Phase Integration Wizard

@@ -1,0 +1,11 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "pm-workspace",
+  "version": "2.24.0",
+  "description": "Complete PM automation with AI agents — Azure DevOps, Jira, Scrum, SDD pipeline",
+  "license": "MIT",
+  "keywords": ["project-management", "agile", "sdd", "azure-devops"],
+  "extensions": {
+    "com.savia.client": { "agents": 83, "commands": 570, "hooks": 108 }
+  }
+}

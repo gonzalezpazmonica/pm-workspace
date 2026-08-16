@@ -1,31 +1,16 @@
 ---
 name: dependency-scanner
 description: "Usar cuando se escanean vulnerabilidades en dependencias de proyectos (Node, Python, C#, Java, Go, Rust, Ruby) con Trivy fs. Genera SBOM CycloneDX."
-summary: |
-  Escanea manifiestos de dependencias con Trivy filesystem mode.
-  Detecta CVEs en npm, pip, nuget, maven, cargo, go.mod, bundler.
-  Genera SBOM CycloneDX JSON como artefacto de release.
-  Bloqueante: CRITICAL/HIGH → exit 1. Informativo: MEDIUM/LOW.
-  Output en output/security/.
-maturity: stable
-context: fork
-context_cost: low
-category: "security"
-tags: ["security", "dependencies", "trivy", "sbom", "cve", "supply-chain"]
-priority: "high"
-trigger:
-  type: keyword
-  keywords:
-    - escanea dependencias
-    - vulnerabilidades en paquetes
-    - dep scan
-    - SBOM
-    - supply chain security
-    - CVE en npm
-    - CVE en pip
-    - vulnerabilidades node
-    - vulnerabilidades python
-    - dependency vulnerability
+metadata:
+  # --- metadata.savia.* (SE-333) ---
+  savia.category: security
+  savia.context: fork
+  savia.context_cost: low
+  savia.maturity: stable
+  savia.priority: high
+  savia.summary: "Escanea manifiestos de dependencias con Trivy filesystem mode. Detecta CVEs en npm, pip, nuget, maven, cargo, go.mod, bundler. Genera SBOM CycloneDX JSON como artefacto de release. Bloqueante: CRITICAL/HIGH → exit 1. Informativo: MEDIUM/LOW. Output en output/security/."
+  savia.tags: "security, dependencies, trivy, sbom, cve, supply-chain"
+  savia.trigger_keywords: "escanea dependencias, vulnerabilidades en paquetes, dep scan, SBOM, supply chain security, CVE en npm, CVE en pip, vulnerabilidades node, vulnerabilidades python, dependency vulnerability"
 ---
 
 ## Subagent Scope Guard

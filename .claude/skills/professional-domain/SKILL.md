@@ -1,7 +1,9 @@
 ---
 name: professional-domain
 description: "Family index for professional-domain skills (controlling, finance, labour, legal, sales). Load individual skills from subdirectories."
-context_tier: L3
+metadata:
+  # --- metadata.savia.* (SE-333) ---
+  savia.context_tier: L3
 ---
 
 # professional-domain — Family Index

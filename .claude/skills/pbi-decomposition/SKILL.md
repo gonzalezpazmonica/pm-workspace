@@ -1,18 +1,16 @@
 ---
 name: pbi-decomposition
-description: "Usar cuando se descompone un PBI en tasks y se estiman las horas."
-summary: |
-  Descompone PBI en tasks tecnicas con estimacion en horas.
-  Usa architect (capas) y business-analyst (criterios).
-  Input: PBI con acceptance criteria. Output: tasks asignables.
-  Minimo 3 tasks por PBI.
-maturity: stable
-context: fork
-context_cost: high
-agent: business-analyst
-category: "pm-operations"
-tags: ["pbi", "decomposition", "estimation", "assignment"]
-priority: "high"
+description: Usar cuando se descompone un PBI en tasks y se estiman las horas.
+metadata:
+  # --- metadata.savia.* (SE-333) ---
+  savia.agent: business-analyst
+  savia.category: pm-operations
+  savia.context: fork
+  savia.context_cost: high
+  savia.maturity: stable
+  savia.priority: high
+  savia.summary: "Descompone PBI en tasks tecnicas con estimacion en horas. Usa architect (capas) y business-analyst (criterios). Input: PBI con acceptance criteria. Output: tasks asignables. Minimo 3 tasks por PBI."
+  savia.tags: "pbi, decomposition, estimation, assignment"
 ---
 
 # Skill: PBI Decomposition, Estimation & Smart Assignment

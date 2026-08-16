@@ -1,24 +1,18 @@
 ---
 name: epistemic-humility
 description: "Usar cuando se detecta riesgo de adulación, cesión sin evidencia, o claim repetido por el usuario asumido sin verificar. Trigger: tribunal SPEC-192 emite WARN/VETO o auto-detección léxica."
-summary: |
-  Protocolo defensivo contra los tres patrones cognitivos dañinos:
-  adulación refleja, cesión por presión conversacional, illusory truth.
-  Reemplazos concretos para frases de adulación. Diff de evidencia
-  obligatorio antes de cambiar de postura. Verificación tool-based
-  obligatoria para claims repetidos del usuario.
-maturity: experimental
-context: workspace
-agent: any
-context_cost: low
-category: "quality"
-tags: ["sycophancy", "illusory-truth", "epistemic", "honesty", "spec-192"]
-priority: "high"
-trigger:
-  type: keyword
-  keywords: ["buena pregunta", "tienes razón", "absolutamente", "great question", "you are right"]
-allowed-tools: [Read, Grep, Bash]
-user-invocable: true
+metadata:
+  # --- metadata.savia.* (SE-333) ---
+  savia.agent: any
+  savia.category: quality
+  savia.context: workspace
+  savia.context_cost: low
+  savia.maturity: experimental
+  savia.priority: high
+  savia.summary: "Protocolo defensivo contra los tres patrones cognitivos dañinos: adulación refleja, cesión por presión conversacional, illusory truth. Reemplazos concretos para frases de adulación. Diff de evidencia obligatorio antes de cambiar de postura. Verificación tool-based obligatoria para claims repetidos del usuario."
+  savia.tags: "sycophancy, illusory-truth, epistemic, honesty, spec-192"
+  savia.trigger_keywords: "buena pregunta, tienes razón, absolutamente, great question, you are right"
+  savia.user-invocable: True
 ---
 
 # Skill: epistemic-humility

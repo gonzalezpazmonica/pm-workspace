@@ -1,28 +1,16 @@
 ---
 name: architecture-intelligence
-description: "Usar cuando se diseña o revisa la arquitectura de un proyecto nuevo o existente."
-summary: |
-  Detecta patrones de arquitectura en 16 lenguajes.
-  Analiza estructura de carpetas, dependencias y naming.
-  Output: patron detectado + sugerencias de mejora.
-maturity: stable
-developer_type: all
-context_cost: medium
-references:
-  - references/patterns-dotnet.md
-  - references/patterns-typescript.md
-  - references/patterns-java.md
-  - references/patterns-python.md
-  - references/patterns-go.md
-  - references/patterns-rust.md
-  - references/patterns-php.md
-  - references/patterns-mobile.md
-  - references/patterns-ruby.md
-  - references/patterns-legacy.md
-  - references/patterns-terraform.md
-category: "quality"
-tags: ["architecture", "patterns", "detection", "recommendations"]
-priority: "medium"
+description: Usar cuando se diseña o revisa la arquitectura de un proyecto nuevo o existente.
+metadata:
+  # --- metadata.savia.* (SE-333) ---
+  savia.category: quality
+  savia.context_cost: medium
+  savia.developer_type: all
+  savia.maturity: stable
+  savia.priority: medium
+  savia.references: "references/patterns-dotnet.md, references/patterns-typescript.md, references/patterns-java.md, references/patterns-python.md, references/patterns-go.md, references/patterns-rust.md, references/patterns-php.md, references/patterns-mobile.md, references/patterns-ruby.md, references/patterns-legacy.md, references/patterns-terraform.md"
+  savia.summary: "Detecta patrones de arquitectura en 16 lenguajes. Analiza estructura de carpetas, dependencias y naming. Output: patron detectado + sugerencias de mejora."
+  savia.tags: "architecture, patterns, detection, recommendations"
 ---
 
 # Architecture Intelligence — Skill

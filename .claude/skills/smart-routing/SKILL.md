@@ -1,17 +1,16 @@
 ---
 name: smart-routing
-description: "Usar cuando se necesita descubrir o enrutar a un comando específico entre los 400+ disponibles."
-summary: |
-  Enrutamiento inteligente de comandos para 400+ herramientas.
-  Capability groups + keyword matching + top-20 algorithm.
-  Reduce tokens cargando solo el grupo relevante.
-maturity: stable
-model: sonnet
-context_cost: medium
-memory: project
-category: "sdd-framework"
-tags: ["routing", "discovery", "commands", "intent"]
-priority: "high"
+description: Usar cuando se necesita descubrir o enrutar a un comando específico entre los 400+ disponibles.
+metadata:
+  # --- metadata.savia.* (SE-333) ---
+  savia.category: sdd-framework
+  savia.context_cost: medium
+  savia.maturity: stable
+  savia.memory: project
+  savia.model: sonnet
+  savia.priority: high
+  savia.summary: Enrutamiento inteligente de comandos para 400+ herramientas. Capability groups + keyword matching + top-20 algorithm. Reduce tokens cargando solo el grupo relevante.
+  savia.tags: "routing, discovery, commands, intent"
 ---
 
 # Smart Routing for 400+ Commands

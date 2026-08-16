@@ -72,7 +72,11 @@ classify_skill() {
 
   # Quality signals
   local maturity
-  maturity=$(grep -E '^maturity:' "$skill_md" 2>/dev/null | head -1 | sed 's/^maturity:[[:space:]]*//;s/["'\''"]//g' | tr -d '[:space:]')
+  # SE-333 dual-read: metadata.savia.maturity canonical, top-level fallback
+  maturity=$(grep -E 'savia\.maturity:' "$skill_md" 2>/dev/null | head -1 | sed 's/^.*savia\.maturity:[[:space:]]*//;s/["'\''"]//g' | tr -d '[:space:]')
+  if [[ -z "$maturity" ]]; then
+    maturity=$(grep -E '^maturity:' "$skill_md" 2>/dev/null | head -1 | sed 's/^maturity:[[:space:]]*//;s/["'\''"]//g' | tr -d '[:space:]')
+  fi
   local has_test=false
   if ls "$TESTS_DIR/test-${name}".bats >/dev/null 2>&1 || ls "$TESTS_DIR/evals/"*"${name}"*.bats >/dev/null 2>&1; then
     has_test=true
@@ -104,7 +108,8 @@ for dir in "$SKILLS_DIR"/*/; do
   skill_md="$dir/SKILL.md"
   maturity="-"
   if [[ -f "$skill_md" ]]; then
-    m=$(grep -E '^maturity:' "$skill_md" 2>/dev/null | head -1 | sed 's/^maturity:[[:space:]]*//;s/["'\''"]//g' | tr -d '[:space:]')
+    m=$(grep -E 'savia\.maturity:' "$skill_md" 2>/dev/null | head -1 | sed 's/^.*savia\.maturity:[[:space:]]*//;s/["'\''"]//g' | tr -d '[:space:]')
+    [[ -z "$m" ]] && m=$(grep -E '^maturity:' "$skill_md" 2>/dev/null | head -1 | sed 's/^maturity:[[:space:]]*//;s/["'\''"]//g' | tr -d '[:space:]')
     [[ -n "$m" ]] && maturity="$m"
   fi
   has_test="false"

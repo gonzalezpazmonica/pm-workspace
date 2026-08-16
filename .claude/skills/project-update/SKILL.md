@@ -1,14 +1,15 @@
 ---
 name: project-update
-description: "Usar cuando se necesita una actualización integral del proyecto activo desde todas las fuentes."
-context: Activar cuando el PM pide "actualizar proyecto", "refrescar contexto", "digerir información", "pon al día", "update completo".
-argument-hint: "--slug {codename} [--only {refresh|digest}] [--skip {source}] [--skip-auth] [--dry-run]"
-allowed-tools: [Bash, Read, Write, Edit, Glob, Grep, Task]
-category: pm-operations
-priority: high
-context_cost: low
-max_context_tokens: 8000
-output_max_tokens: 3000
+description: Usar cuando se necesita una actualización integral del proyecto activo desde todas las fuentes.
+metadata:
+  # --- metadata.savia.* (SE-333) ---
+  savia.argument-hint: "--slug {codename} [--only {refresh|digest}] [--skip {source}] [--skip-auth] [--dry-run]"
+  savia.category: pm-operations
+  savia.context: "Activar cuando el PM pide \"actualizar proyecto\", \"refrescar contexto\", \"digerir información\", \"pon al día\", \"update completo\"."
+  savia.context_cost: low
+  savia.max_context_tokens: 8000
+  savia.output_max_tokens: 3000
+  savia.priority: high
 ---
 
 **Última actualización**: 2026-04-29

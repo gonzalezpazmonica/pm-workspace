@@ -1,17 +1,16 @@
 ---
 name: consensus-validation
-description: "Usar cuando una decisión técnica o recomendación necesita validación por panel de jueces."
-summary: |
-  Panel de 4 jueces: reflection, code-review, business, performance.
-  Cada juez evalua independientemente. Score ponderado 0-1.0.
-  Veto rule: security/GDPR finding anula score. Output: JSON.
-maturity: stable
-context: fork
-agent: consensus-orchestrator
-context_cost: medium
-category: "governance"
-tags: ["consensus", "validation", "multi-judge", "quality"]
-priority: "high"
+description: Usar cuando una decisión técnica o recomendación necesita validación por panel de jueces.
+metadata:
+  # --- metadata.savia.* (SE-333) ---
+  savia.agent: consensus-orchestrator
+  savia.category: governance
+  savia.context: fork
+  savia.context_cost: medium
+  savia.maturity: stable
+  savia.priority: high
+  savia.summary: "Panel de 4 jueces: reflection, code-review, business, performance. Cada juez evalua independientemente. Score ponderado 0-1.0. Veto rule: security/GDPR finding anula score. Output: JSON."
+  savia.tags: "consensus, validation, multi-judge, quality"
 ---
 
 ## Subagent Scope Guard

@@ -1,11 +1,13 @@
 ---
 name: lightpanda-browser
-description: Usar cuando se necesita navegacion web headless avanzada (JS-heavy sites, SPAs, extraccion markdown de URLs, web scraping que requiere renderizado JS). Triggers: 'navega a', 'extrae contenido de', 'scrapea', 'renderiza esta pagina', 'dump markdown', 'web automation', 'headless browser'.
-maturity: experimental
-context: project
-category: tool
-priority: medium
-tags: [browser, headless, web, scraping, markdown, mcp, automation, lightpanda]
+description: "Usar cuando se necesita navegacion web headless avanzada (JS-heavy sites, SPAs, extraccion markdown de URLs, web scraping que requiere renderizado JS). Triggers: 'navega a', 'extrae contenido de', 'scrapea', 'renderiza esta pagina', 'dump markdown', 'web automation', 'headless browser'."
+metadata:
+  # --- metadata.savia.* (SE-333) ---
+  savia.category: tool
+  savia.context: project
+  savia.maturity: experimental
+  savia.priority: medium
+  savia.tags: "browser, headless, web, scraping, markdown, mcp, automation, lightpanda"
 ---
 
 # lightpanda-browser

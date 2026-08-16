@@ -140,6 +140,7 @@ audit_skill() {
     fi
 
     # SE-152: If consumes: or produces: present, values must be non-empty lists
+    # SE-333: canonical form is metadata.savia.consumes/produces (comma string)
     local fm_block=""
     local in_fm=false
     local se152_line_num=0
@@ -151,17 +152,25 @@ audit_skill() {
       [[ $se152_line_num -gt 40 ]] && break
     done < "$skill_md"
 
-    if echo "$fm_block" | grep -q '^consumes:'; then
-      if echo "$fm_block" | grep -qE '^consumes:[[:space:]]*\[\]'; then
+    if echo "$fm_block" | grep -qE '^(consumes:|[[:space:]]*savia\.consumes:)'; then
+      if echo "$fm_block" | grep -qE '^(consumes:[[:space:]]*\[\]|consumes:[[:space:]]*"")'; then
         status="FAIL"
         reasons+=("SKILL.md: consumes is empty array []")
       fi
+      if echo "$fm_block" | grep -qE '^[[:space:]]*savia\.consumes:[[:space:]]*""'; then
+        status="FAIL"
+        reasons+=("SKILL.md: savia.consumes is empty string")
+      fi
     fi
 
-    if echo "$fm_block" | grep -q '^produces:'; then
-      if echo "$fm_block" | grep -qE '^produces:[[:space:]]*\[\]'; then
+    if echo "$fm_block" | grep -qE '^(produces:|[[:space:]]*savia\.produces:)'; then
+      if echo "$fm_block" | grep -qE '^(produces:[[:space:]]*\[\]|produces:[[:space:]]*"")'; then
         status="FAIL"
         reasons+=("SKILL.md: produces is empty array []")
+      fi
+      if echo "$fm_block" | grep -qE '^[[:space:]]*savia\.produces:[[:space:]]*""'; then
+        status="FAIL"
+        reasons+=("SKILL.md: savia.produces is empty string")
       fi
     fi
 

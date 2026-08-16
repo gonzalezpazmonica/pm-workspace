@@ -1,15 +1,16 @@
 ---
 name: org-stakeholder-mapper
 description: "Mapeador de Stakeholders y Decisores: extrae roles formales y reales, motivaciones, alianzas y tensiones de una organización."
-summary: "Produce YAML de nodos + narrativa markdown del mapa de stakeholders. NUNCA escribe al grafo sin aprobación humana."
-maturity: stable
-context: fork
-context_cost: medium
-context_tier: L3
-category: "org-intelligence"
-tags: ["stakeholders", "org-intelligence", "poder", "decisores", "análisis-organizativo"]
-trigger:
-  keywords: ["stakeholders", "mapa de poder", "decisores", "quién decide", "alianzas", "quién apoya"]
+metadata:
+  # --- metadata.savia.* (SE-333) ---
+  savia.category: org-intelligence
+  savia.context: fork
+  savia.context_cost: medium
+  savia.context_tier: L3
+  savia.maturity: stable
+  savia.summary: Produce YAML de nodos + narrativa markdown del mapa de stakeholders. NUNCA escribe al grafo sin aprobación humana.
+  savia.tags: "stakeholders, org-intelligence, poder, decisores, análisis-organizativo"
+  savia.trigger_keywords: "stakeholders, mapa de poder, decisores, quién decide, alianzas, quién apoya"
 ---
 
 # Skill: Org Stakeholder Mapper

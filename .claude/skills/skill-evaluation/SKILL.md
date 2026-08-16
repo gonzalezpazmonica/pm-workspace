@@ -1,16 +1,15 @@
 ---
 name: skill-evaluation
-description: "Usar cuando se necesita seleccionar el skill más apropiado para una tarea dada."
-summary: |
-  Motor de evaluacion inteligente de skills basado en prompt y contexto.
-  Analiza el prompt del usuario y el proyecto activo.
-  Output: skills recomendados con score de relevancia.
-maturity: stable
-context: fork
-context_cost: low
-category: "reporting"
-tags: ["skill-eval", "prompt-analysis", "scoring", "activation"]
-priority: "low"
+description: Usar cuando se necesita seleccionar el skill más apropiado para una tarea dada.
+metadata:
+  # --- metadata.savia.* (SE-333) ---
+  savia.category: reporting
+  savia.context: fork
+  savia.context_cost: low
+  savia.maturity: stable
+  savia.priority: low
+  savia.summary: "Motor de evaluacion inteligente de skills basado en prompt y contexto. Analiza el prompt del usuario y el proyecto activo. Output: skills recomendados con score de relevancia."
+  savia.tags: "skill-eval, prompt-analysis, scoring, activation"
 ---
 
 # Skill Evaluation Engine

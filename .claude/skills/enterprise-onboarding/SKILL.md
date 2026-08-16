@@ -1,19 +1,18 @@
 ---
 name: enterprise-onboarding
-description: "Usar cuando se incorporan múltiples personas a la organización de forma masiva."
-summary: |
-  Onboarding empresarial a escala: importacion batch de miembros,
-  checklists por rol, tracking de progreso y knowledge transfer.
-  Input: lista de personas + roles. Output: planes personalizados.
-maturity: stable
-context: fork
-agent: architect
-context_cost: medium
-dependencies: []
-memory: project
-category: "quality"
-tags: ["onboarding", "enterprise", "batch-import", "knowledge-transfer"]
-priority: "medium"
+description: Usar cuando se incorporan múltiples personas a la organización de forma masiva.
+metadata:
+  # --- metadata.savia.* (SE-333) ---
+  savia.agent: architect
+  savia.category: quality
+  savia.context: fork
+  savia.context_cost: medium
+  savia.dependencies: 
+  savia.maturity: stable
+  savia.memory: project
+  savia.priority: medium
+  savia.summary: "Onboarding empresarial a escala: importacion batch de miembros, checklists por rol, tracking de progreso y knowledge transfer. Input: lista de personas + roles. Output: planes personalizados."
+  savia.tags: "onboarding, enterprise, batch-import, knowledge-transfer"
 ---
 
 # Skill: Enterprise Onboarding

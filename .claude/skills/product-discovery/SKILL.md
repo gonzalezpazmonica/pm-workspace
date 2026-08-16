@@ -1,16 +1,15 @@
 ---
 name: product-discovery
 description: "Usar antes de descomponer PBIs, cuando se necesita análisis JTBD y PRD del producto."
-summary: |
-  Analisis pre-implementacion: Jobs-to-be-Done y PRD.
-  Cuando: antes de descomponer un PBI en tasks.
-  Output: JTBD document + PRD con requisitos formalizados.
-maturity: stable
-context: fork
-agent: business-analyst
-category: "quality"
-tags: ["discovery", "jtbd", "prd", "product"]
-priority: "medium"
+metadata:
+  # --- metadata.savia.* (SE-333) ---
+  savia.agent: business-analyst
+  savia.category: quality
+  savia.context: fork
+  savia.maturity: stable
+  savia.priority: medium
+  savia.summary: "Analisis pre-implementacion: Jobs-to-be-Done y PRD. Cuando: antes de descomponer un PBI en tasks. Output: JTBD document + PRD con requisitos formalizados."
+  savia.tags: "discovery, jtbd, prd, product"
 ---
 
 # Skill: Product Discovery

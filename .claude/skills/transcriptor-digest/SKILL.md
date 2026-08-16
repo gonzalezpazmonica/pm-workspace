@@ -1,6 +1,6 @@
 ---
 name: transcriptor-digest
-description: Usar cuando se detectan carpetas nuevas en el directorio de reuniones del transcriptor o se quiere digerir transcripciones y capturas de reuniones capturadas por Savia Sonora (ex-Savia Transcriptor). Triggers: digerir reuniones, transcriptor, reuniones nuevas, digest de la reunion, capturas de la reunion.
+description: "Usar cuando se detectan carpetas nuevas en el directorio de reuniones del transcriptor o se quiere digerir transcripciones y capturas de reuniones capturadas por Savia Sonora (ex-Savia Transcriptor). Triggers: digerir reuniones, transcriptor, reuniones nuevas, digest de la reunion, capturas de la reunion."
 ---
 
 # transcriptor-digest

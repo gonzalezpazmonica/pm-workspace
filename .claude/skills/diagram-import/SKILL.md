@@ -1,17 +1,16 @@
 ---
 name: diagram-import
-description: "Usar cuando se importa un diagrama existente para extraer entidades y crear PBIs."
-summary: |
-  Importa diagramas (Draw.io, Miro, Mermaid), extrae entidades
-  y genera Features/PBIs en Azure DevOps.
-  Valida reglas de negocio antes de crear work items.
-maturity: stable
-context: fork
-context_cost: high
-agent: business-analyst
-category: "devops"
-tags: ["diagram-import", "parsing", "work-items", "entities"]
-priority: "medium"
+description: Usar cuando se importa un diagrama existente para extraer entidades y crear PBIs.
+metadata:
+  # --- metadata.savia.* (SE-333) ---
+  savia.agent: business-analyst
+  savia.category: devops
+  savia.context: fork
+  savia.context_cost: high
+  savia.maturity: stable
+  savia.priority: medium
+  savia.summary: "Importa diagramas (Draw.io, Miro, Mermaid), extrae entidades y genera Features/PBIs en Azure DevOps. Valida reglas de negocio antes de crear work items."
+  savia.tags: "diagram-import, parsing, work-items, entities"
 ---
 
 # Skill: Diagram Import — Parsing, Validación y Generación de Work Items

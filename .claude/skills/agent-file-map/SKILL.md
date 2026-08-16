@@ -1,18 +1,15 @@
 ---
 name: agent-file-map
-description: "Usar cuando se trabaja con ficheros externos al workspace que los agentes deben localizar."
-summary: |
-  Genera INDEX.afm por proyecto con rutas reales a ficheros externos (drives
-  corporativos, OneDrive/SharePoint, NAS). Evita que los agentes pierdan tiempo
-  y tokens buscando el mismo Excel o PDF en cada sesión. Complementa .acm
-  (código) y .hcm (narrativa). Nivel de confidencialidad por proyecto.
-maturity: experimental
-context: project
-category: "pm-operations"
-tags: ["afm", "agent-maps", "external-files", "context", "file-index"]
-priority: "high"
-allowed-tools: [Bash, Read, Glob, Grep, Write, Edit]
-user-invocable: true
+description: Usar cuando se trabaja con ficheros externos al workspace que los agentes deben localizar.
+metadata:
+  # --- metadata.savia.* (SE-333) ---
+  savia.category: pm-operations
+  savia.context: project
+  savia.maturity: experimental
+  savia.priority: high
+  savia.summary: "Genera INDEX.afm por proyecto con rutas reales a ficheros externos (drives corporativos, OneDrive/SharePoint, NAS). Evita que los agentes pierdan tiempo y tokens buscando el mismo Excel o PDF en cada sesión. Complementa .acm (código) y .hcm (narrativa). Nivel de confidencialidad por proyecto."
+  savia.tags: "afm, agent-maps, external-files, context, file-index"
+  savia.user-invocable: True
 ---
 
 # Agent File Map — Índice de Ficheros Externos

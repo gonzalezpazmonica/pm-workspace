@@ -1,16 +1,15 @@
 ---
 name: verification-lattice
-description: "Usar cuando se necesita verificación multi-capa más allá del code review estándar."
-summary: |
-  Pipeline de verificacion multi-capa (5 niveles) mas alla de code review.
-  L1 determinista + L2 semantico + L3 seguridad + L4 agentico + L5 humano.
-  Adapta capas obligatorias segun risk score.
-maturity: stable
-context: fork
-context_cost: high
-category: "governance"
-tags: ["verification", "multi-layer", "pipeline", "quality-gate"]
-priority: "high"
+description: Usar cuando se necesita verificación multi-capa más allá del code review estándar.
+metadata:
+  # --- metadata.savia.* (SE-333) ---
+  savia.category: governance
+  savia.context: fork
+  savia.context_cost: high
+  savia.maturity: stable
+  savia.priority: high
+  savia.summary: Pipeline de verificacion multi-capa (5 niveles) mas alla de code review. L1 determinista + L2 semantico + L3 seguridad + L4 agentico + L5 humano. Adapta capas obligatorias segun risk score.
+  savia.tags: "verification, multi-layer, pipeline, quality-gate"
 ---
 
 ## Subagent Scope Guard

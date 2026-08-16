@@ -1,11 +1,12 @@
 ---
 name: savia-identity
-description: "Usar al inicio de sesión para cargar la identidad completa y las reglas de comportamiento de Savia."
+description: Usar al inicio de sesión para cargar la identidad completa y las reglas de comportamiento de Savia.
 license: MIT
 compatibility: opencode
 metadata:
   audience: pm
   workflow: session-init
+  # --- metadata.savia.* (SE-333) ---
 ---
 
 # Skill: savia-identity

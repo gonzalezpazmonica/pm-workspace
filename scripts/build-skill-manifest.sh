@@ -32,9 +32,20 @@ for skill_dir in "$SKILLS_DIR"/*/; do
   NAME=$(basename "$skill_dir")
 
   # Extraer campos desde frontmatter YAML (entre los --- delimitadores)
-  DESC=$(grep -m1 '^description:' "$SKILL_FILE" 2>/dev/null | sed 's/^description: *//' | tr -d '"' | head -c120 || true)
-  CATEGORY=$(grep -m1 '^category:' "$SKILL_FILE" 2>/dev/null | sed 's/^category: *//' | tr -d '"' || true)
-  MATURITY=$(grep -m1 '^maturity:' "$SKILL_FILE" 2>/dev/null | sed 's/^maturity: *//' | tr -d '"' || true)
+  # SE-333 dual-read: canonical metadata.savia.<field> first, legacy top-level fallback.
+  read_frontmatter_field() {
+    local field="$1"
+    local out
+    out=$(grep -m1 "savia\.${field}:" "$SKILL_FILE" 2>/dev/null | sed "s/^[^:]*savia\.${field}:[[:space:]]*//" | tr -d '"' || true)
+    if [[ -n "$out" ]]; then
+      echo "$out"
+      return 0
+    fi
+    grep -m1 "^${field}:" "$SKILL_FILE" 2>/dev/null | sed "s/^${field}:[[:space:]]*//" | tr -d '"' || true
+  }
+  DESC=$(read_frontmatter_field "description" | head -c120)
+  CATEGORY=$(read_frontmatter_field "category")
+  MATURITY=$(read_frontmatter_field "maturity")
   TOKENS=$(wc -c < "$SKILL_FILE" | awk '{print int($1/4)}')
 
   # Defaults para campos vacíos

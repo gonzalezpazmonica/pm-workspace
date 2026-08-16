@@ -1,17 +1,16 @@
 ---
 name: savia-hub-sync
-description: "Usar cuando se sincroniza el repositorio SaviaHub con el workspace local."
-summary: |
-  Orquesta sincronizacion del repositorio SaviaHub.
-  Detecta cambios locales vs remotos, resuelve conflictos.
-  Soporta modo offline con cola de sync.
-maturity: stable
-context: fork
-agent: null
-context_cost: low
-category: "pm-operations"
-tags: ["sync", "savia-hub", "repository", "backup"]
-priority: "medium"
+description: Usar cuando se sincroniza el repositorio SaviaHub con el workspace local.
+metadata:
+  # --- metadata.savia.* (SE-333) ---
+  savia.agent: 
+  savia.category: pm-operations
+  savia.context: fork
+  savia.context_cost: low
+  savia.maturity: stable
+  savia.priority: medium
+  savia.summary: "Orquesta sincronizacion del repositorio SaviaHub. Detecta cambios locales vs remotos, resuelve conflictos. Soporta modo offline con cola de sync."
+  savia.tags: "sync, savia-hub, repository, backup"
 ---
 
 # Skill: savia-hub-sync

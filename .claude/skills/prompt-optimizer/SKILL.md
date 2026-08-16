@@ -1,21 +1,15 @@
 ---
 name: prompt-optimizer
-description: "Usar cuando se optimiza el prompt de un skill o agente para mejorar su efectividad."
-summary: |
-  Bucle auto-optimizador de prompts para skills y agentes.
-  Ejecuta con test fixture, puntua contra checklist, modifica,
-  re-ejecuta. Para cuando score >= 8/10 en 3 iteraciones.
-  Bucle auto-optimizador de prompts para skills y agentes — patron AutoResearch.
-  Ejecuta skill con test fixture, puntua output contra checklist, modifica prompt,
-  re-ejecuta y compara scores. Guarda cambio si mejora, revierte si empeora.
-  Criterio de parada: score >= 8/10 en 3 iteraciones consecutivas.
-maturity: beta
-category: "quality"
-tags: ["optimization", "autoresearch", "prompt-engineering", "self-improvement"]
-priority: "high"
-disable-model-invocation: false
-user-invocable: true
-allowed-tools: [Read, Write, Edit, Bash, Glob, Grep, Task]
+description: Usar cuando se optimiza el prompt de un skill o agente para mejorar su efectividad.
+metadata:
+  # --- metadata.savia.* (SE-333) ---
+  savia.category: quality
+  savia.disable-model-invocation: False
+  savia.maturity: beta
+  savia.priority: high
+  savia.summary: "Bucle auto-optimizador de prompts para skills y agentes. Ejecuta con test fixture, puntua contra checklist, modifica, re-ejecuta. Para cuando score >= 8/10 en 3 iteraciones. Bucle auto-optimizador de prompts para skills y agentes — patron AutoResearch. Ejecuta skill con test fixture, puntua output contra checklist, modifica prompt, re-ejecuta y compara scores. Guarda cambio si mejora, revierte si empeora. Criterio de parada: score >= 8/10 en 3 iteraciones consecutivas."
+  savia.tags: "optimization, autoresearch, prompt-engineering, self-improvement"
+  savia.user-invocable: True
 ---
 
 # Skill: Prompt Optimizer (patron AutoResearch)

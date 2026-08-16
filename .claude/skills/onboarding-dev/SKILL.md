@@ -1,16 +1,15 @@
 ---
 name: onboarding-dev
-description: "Usar cuando se incorpora un desarrollador nuevo al proyecto y necesita buddy IA."
-summary: |
-  Onboarding tecnico con Buddy IA: auto-genera documentacion del
-  proyecto, plan personalizado 30/60/90 y agente buddy de 3 capas.
-  Input: nombre + rol. Output: guia + plan + buddy activo.
-maturity: experimental
-context: fork
-agent: tech-writer
-category: "sdd-framework"
-tags: ["onboarding", "buddy-ia", "documentation", "ramp-up"]
-priority: "medium"
+description: Usar cuando se incorpora un desarrollador nuevo al proyecto y necesita buddy IA.
+metadata:
+  # --- metadata.savia.* (SE-333) ---
+  savia.agent: tech-writer
+  savia.category: sdd-framework
+  savia.context: fork
+  savia.maturity: experimental
+  savia.priority: medium
+  savia.summary: "Onboarding tecnico con Buddy IA: auto-genera documentacion del proyecto, plan personalizado 30/60/90 y agente buddy de 3 capas. Input: nombre + rol. Output: guia + plan + buddy activo."
+  savia.tags: "onboarding, buddy-ia, documentation, ramp-up"
 ---
 
 # Skill: Onboarding Dev — Buddy IA

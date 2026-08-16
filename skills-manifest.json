@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "generated_at": "2026-07-30T22:32:29Z",
+  "generated_at": "2026-08-16T09:28:50Z",
   "source": ".opencode/skills/*/SKILL.md",
   "skills": {
     "adversarial-security": {
@@ -47,6 +47,11 @@
       "path": ".opencode/skills/attack-surface-mapper/SKILL.md",
       "description": "Mapear la superficie de ataque de un dominio: subdominios, OSINT, typosquatting.",
       "maturity": "stable"
+    },
+    "automation-scheduler": {
+      "path": ".opencode/skills/automation-scheduler/SKILL.md",
+      "description": "Usar cuando se crean, gestionan o ejecutan automatizaciones programadas: morning briefs, weekly r...",
+      "maturity": "unknown"
     },
     "azure-devops-queries": {
       "path": ".opencode/skills/azure-devops-queries/SKILL.md",
@@ -111,7 +116,7 @@
     "company-messaging": {
       "path": ".opencode/skills/company-messaging/SKILL.md",
       "description": "Usar cuando se env\u00edan mensajes internos cifrados entre miembros de la organizaci\u00f3n v\u00eda Company...",
-      "maturity": "stable"
+      "maturity": "unknown"
     },
     "consensus-validation": {
       "path": ".opencode/skills/consensus-validation/SKILL.md",
@@ -233,6 +238,11 @@
       "description": "Usar cuando se dise\u00f1an o ejecutan evaluaciones de calidad de agentes y prompts.",
       "maturity": "beta"
     },
+    "evidence-first-development": {
+      "path": ".opencode/skills/evidence-first-development/SKILL.md",
+      "description": "Desarrollo evidence-first: rodea la implementaci\u00f3n con un SPEC aprobado y un gauntlet de restric...",
+      "maturity": "beta"
+    },
     "executive-reporting": {
       "path": ".opencode/skills/executive-reporting/SKILL.md",
       "description": "Usar cuando se genera un informe ejecutivo multi-proyecto para direcci\u00f3n.",
@@ -276,6 +286,11 @@
     "legal-compliance": {
       "path": ".opencode/skills/legal-compliance/SKILL.md",
       "description": "Usar cuando se audita compliance legal contra legislaci\u00f3n espa\u00f1ola consolidada.",
+      "maturity": "experimental"
+    },
+    "lightpanda-browser": {
+      "path": ".opencode/skills/lightpanda-browser/SKILL.md",
+      "description": "Usar cuando se necesita navegacion web headless avanzada (JS-heavy sites, SPAs, extraccion markdo...",
       "maturity": "experimental"
     },
     "managed-content": {
@@ -538,6 +553,11 @@
       "description": "Usar al inicio de sesi\u00f3n para cargar la identidad completa y las reglas de comportamiento de Savia.",
       "maturity": "unknown"
     },
+    "savia-labs": {
+      "path": ".opencode/skills/savia-labs/SKILL.md",
+      "description": "Usar cuando se investiga, experimenta o audita epistemicamente. Triggers: 'investiga', 'experimen...",
+      "maturity": "experimental"
+    },
     "savia-memory": {
       "path": ".opencode/skills/savia-memory/SKILL.md",
       "description": "Usar cuando se lee, escribe, busca o consolida la memoria persistente entre sesiones de Savia.",
@@ -593,6 +613,11 @@
       "description": "Usar cuando se consulta el estado del sprint, se actualizan items o se genera el resumen.",
       "maturity": "stable"
     },
+    "tabular-intelligence": {
+      "path": ".opencode/skills/tabular-intelligence/SKILL.md",
+      "description": "Usar cuando se analizan datos tabulares (CSV, Excel, tablas, metricas). Triggers: 'analiza esta t...",
+      "maturity": "experimental"
+    },
     "tdd-vertical-slices": {
       "path": ".opencode/skills/tdd-vertical-slices/SKILL.md",
       "description": "Test-driven development with vertical-slice red-green-refactor cycles. Use when applying TDD to a...",
@@ -637,6 +662,11 @@
       "path": ".opencode/skills/topic-cluster/SKILL.md",
       "description": "Usar cuando se agrupan retros, PBIs o incidentes en topics para detectar patrones transversales.",
       "maturity": "beta"
+    },
+    "transcriptor-digest": {
+      "path": ".opencode/skills/transcriptor-digest/SKILL.md",
+      "description": "Usar cuando se detectan carpetas nuevas en el directorio de reuniones del transcriptor o se quier...",
+      "maturity": "unknown"
     },
     "ubiquitous-language": {
       "path": ".opencode/skills/ubiquitous-language/SKILL.md",

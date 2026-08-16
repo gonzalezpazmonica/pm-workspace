@@ -1,8 +1,10 @@
 ---
 name: context-task-classifier
-description: "Usar antes de compactar contexto para clasificar la tarea del turno actual."
-input: text
-output: json
+description: Usar antes de compactar contexto para clasificar la tarea del turno actual.
+metadata:
+  # --- metadata.savia.* (SE-333) ---
+  savia.input: text
+  savia.output: json
 ---
 
 # context-task-classifier

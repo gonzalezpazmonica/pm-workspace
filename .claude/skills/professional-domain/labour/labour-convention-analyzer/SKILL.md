@@ -1,17 +1,15 @@
 ---
 name: labour-convention-analyzer
 description: "Extrae y analiza cláusulas de convenios colectivos españoles. Interpreta en lenguaje claro, señala ambigüedades y advierte de posible desactualización."
-summary: |
-  Analiza textos de convenios colectivos: extrae artículos relevantes según
-  consulta, interpreta en lenguaje claro, identifica ambigüedades y señala
-  si el convenio podría estar desactualizado. Consulta al BOE para vigencia.
-  SIEMPRE requiere criterio jurídico para interpretaciones vinculantes.
-maturity: stable
-context: isolated
-context_cost: medium
-category: "professional-domain/labour"
-tags: ["convenio-colectivo", "ET", "BOE", "laboral", "clasificacion-profesional", "ES"]
-priority: "high"
+metadata:
+  # --- metadata.savia.* (SE-333) ---
+  savia.category: professional-domain/labour
+  savia.context: isolated
+  savia.context_cost: medium
+  savia.maturity: stable
+  savia.priority: high
+  savia.summary: "Analiza textos de convenios colectivos: extrae artículos relevantes según consulta, interpreta en lenguaje claro, identifica ambigüedades y señala si el convenio podría estar desactualizado. Consulta al BOE para vigencia. SIEMPRE requiere criterio jurídico para interpretaciones vinculantes."
+  savia.tags: "convenio-colectivo, ET, BOE, laboral, clasificacion-profesional, ES"
 ---
 
 # labour-convention-analyzer — Analizador de Convenio Colectivo

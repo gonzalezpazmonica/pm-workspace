@@ -1,16 +1,15 @@
 ---
 name: finance-cash-flow-analyst
 description: "Análisis de liquidez y forecast de tesorería con ratios, períodos de riesgo y recomendaciones concretas."
-summary: |
-  Evalúa liquidez con ratios exactos (corriente/ácida/inmediata/cobertura).
-  Identifica períodos de riesgo y palancas de optimización del circulante.
-  Input: datos tesorería + obligaciones próximas. Output: evaluación + forecast.
-maturity: stable
-context: isolated
-context_cost: medium
-category: "professional-domain/finance"
-tags: ["finanzas", "tesorería", "liquidez", "NOF", "CCC", "cash-flow", "circulante"]
-priority: "high"
+metadata:
+  # --- metadata.savia.* (SE-333) ---
+  savia.category: professional-domain/finance
+  savia.context: isolated
+  savia.context_cost: medium
+  savia.maturity: stable
+  savia.priority: high
+  savia.summary: "Evalúa liquidez con ratios exactos (corriente/ácida/inmediata/cobertura). Identifica períodos de riesgo y palancas de optimización del circulante. Input: datos tesorería + obligaciones próximas. Output: evaluación + forecast."
+  savia.tags: "finanzas, tesorería, liquidez, NOF, CCC, cash-flow, circulante"
 ---
 
 # finance-cash-flow-analyst — Analista de Tesorería

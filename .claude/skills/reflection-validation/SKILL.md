@@ -1,18 +1,16 @@
 ---
 name: reflection-validation
-description: "Usar cuando una respuesta o decisión importante necesita validación metacognitiva (System 2)."
-summary: |
-  Validacion meta-cognitiva (System 2): detecta proxy optimization,
-  supuestos no declarados y cadenas causales rotas.
-  Usa reflection-validator agent. Output: VALIDATED/CORRECTED/RETHINK.
-maturity: stable
-disable-model-invocation: false
-user-invocable: false
-allowed-tools: [Read, Glob, Grep]
-context_cost: medium
-category: "governance"
-tags: ["reflection", "meta-cognitive", "system2", "assumptions"]
-priority: "high"
+description: Usar cuando una respuesta o decisión importante necesita validación metacognitiva (System 2).
+metadata:
+  # --- metadata.savia.* (SE-333) ---
+  savia.category: governance
+  savia.context_cost: medium
+  savia.disable-model-invocation: False
+  savia.maturity: stable
+  savia.priority: high
+  savia.summary: "Validacion meta-cognitiva (System 2): detecta proxy optimization, supuestos no declarados y cadenas causales rotas. Usa reflection-validator agent. Output: VALIDATED/CORRECTED/RETHINK."
+  savia.tags: "reflection, meta-cognitive, system2, assumptions"
+  savia.user-invocable: False
 ---
 
 # Reflection Validation — System 2 Protocol
