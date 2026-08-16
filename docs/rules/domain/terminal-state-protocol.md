@@ -21,6 +21,7 @@ termination_reason:
   stop_hook           — hook de stop bloqueó la ejecución
   max_turns           — se alcanzó el límite de turnos configurado
   unrecoverable_error — error interno irrecuperable (crash, OOM)
+  handback            — instancia bloqueada escalada a su padre (SE-332)
 ```
 
 ## Definición de cada estado
@@ -75,6 +76,18 @@ fallo irrecuperable de herramienta esencial.
 - **Acción del orquestador**: escalar a humano inmediatamente, adjuntar logs.
 - **Ejemplo**: `"OOM at turn 12, process killed"`
 
+### `handback`
+La instancia autónoma quedó bloqueada (recurso no disponible, guardrail rechaza,
+modelo no coincide) y escala a su padre inmediato según la cadena normativa
+(SE-332). Emite artifact **reference-first** en
+`output/agent-runs/{modo}-{fecha}-handback.md`.
+
+- **Política de reintento**: NO reintentar — la escalación es la salida.
+- **Acción del orquestador**: resolver el padre (scripts/handback-resolve.sh),
+  reanudar desde los artifacts referenciados en `contexto_ref`, registrar
+  `handback_to` en el audit trail.
+- **Ejemplo**: `"handback: escalado_desde=overnight-sprint escalado_a=@monica"`
+
 ## Almacenamiento
 
 Cada emisión se apenda a:
@@ -102,7 +115,14 @@ historial completo de ejecuciones del mismo loop.
 | `stop_hook` | 3 |
 | `max_turns` | 4 |
 | `unrecoverable_error` | 5 |
+| `handback` | 6 |
 | razón desconocida | 1 |
+
+**Por qué `handback=6`**: es una terminación con causa distinta de `unrecoverable_error` —
+el proceso no crasheó, sino que escaló deliberadamente a un padre. El exit code 6 permite
+al orquestador distinguir "hay que leer el artifact handback" de "crash interno". No
+colisiona con `exit 5` de `handback-resolve.sh` (invariante de cadena no resoluble), que
+es un fallo del *script*, no del *estado* emitido.
 
 **Por qué `user_abort=0`**: desde el punto de vista del proceso, `user_abort`
 es una terminación limpia — el usuario decidió parar. El orquestador distingue

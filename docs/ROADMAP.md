@@ -1487,3 +1487,45 @@ PR #952 (SE-313/314/275) — DONE (merge 2026-08-09)
 | SE-330 | — | IMPLEMENTED | Context enrichment BM25+grafo (2026-08-14) |
 | SE-331 | — | IMPLEMENTED | Eval recuperación RAGAS-like (2026-08-14) |
 
+---
+
+## Era 204 — External Repo Intelligence: ai-project-system (2026-08-15)
+
+> Analisis de `panchew/ai-project-system` v7.1.0 (111 epics, 10 fases, dogfooding
+> publico). Es un espejo mas simple de Savia: gobernanza documental de ejecucion
+> con IA (Phase→Milestone→Epic, happy path de 8 pasos, hybrid frontier/local
+> models). Se apalancan 5 ideas: 1 especificada (SE-332), 4 candidatas.
+
+### Priorizacion (ROI)
+
+**Tier 0 — Alta prioridad (impacto inmediato, effort 3h)**
+
+| Spec | Concepto origen | Esfuerzo | Por que primero |
+|---|---|---|---|
+| SE-332 Handback Obligation | P10-M35 fleet-operator | 3h | Cierra gap real: escalacion de autoridad de agentes autonomos bloqueados. Savia hoy alcanza al humano "por esperanza" (AUTONOMOUS_REVIEWER estatico), no "por construccion". |
+
+**Tier 1 — Media (candidatas sin especificar, effort 4-8h c/u)**
+
+| Spec candidata | Concepto origen | Esfuerzo | Por que |
+|---|---|---|---|
+| Reference-first handoff | SN-23 | 4h | Handoffs por referencia (rutas), no eco de cuerpo — extiende agent-notes-protocol. Acoplada al artifact `handback` de SE-332. |
+| Default-accept epics limpios | PSG §11.6 | 6h | Reduce ceremonia de artefactos en tribunales cuando el DoD se cumple, preservando el gate humano (Layer 8). |
+| Model-routing policy desde telemetria | P9 measure-token-burn | 8h | Formaliza `model-routing-policy.md` alimentado por SE-313 telemetria. |
+| Execution matrix "mode is not authority" | P10-M35 | 4h | Ratifica matriz explicita: el modo agentico no confiere autoridad de merge. |
+
+### Orden de ejecucion recomendado
+
+```
+SE-332 (handback obligation) — APPROVED 2026-08-16, IMPLEMENTED (PR plan en output/pr-plans/)
+  → reference-first handoff (acoplada al contexto_ref del artifact handback)
+  → model-routing policy / default-accept / execution matrix (segun prioridad
+    de tribunales vs telemetria)
+```
+
+### Estado por PR
+
+| Spec | PR | Estado | Bloqueo |
+|---|---|---|---|
+| SE-332 | PR pendiente (PR plan en `output/pr-plans/`) | APPROVED 2026-08-16 · implementado en rama agent/* | Revisión humana + merge |
+| 4 candidatas | — | CANDIDATA | Sin especificar; listadas como follow-up en SE-332 |
+

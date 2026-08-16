@@ -98,6 +98,7 @@ Cada sesión autónoma genera `output/agent-runs/{modo}-{fecha}-audit.log`. Camp
 - Tareas intentadas (pr-created / discarded / crash / timeout)
 - Ramas creadas · PRs creados (URLs) · métricas agregadas
 - Razón de parada (completado / max-tasks / max-failures / timeout global / abort manual)
+- `handback_to` — a quién se escaló en cada handback (SE-332; vacío si no hubo escalación)
 
 ## Auto Mode — Capa complementaria (Claude Code 2026-03-24)
 
@@ -138,6 +139,36 @@ Cuando un agente o skill se invoca como **subagente delegado** (recibe una tarea
 **Detección de contexto subagente**: si se recibe una tarea vía `Task` tool, env var `SAVIA_SUBAGENT=1`, o flag `--subagent`, aplicar este guard.
 
 **Skills con este guard**: adversarial-security, code-improvement-loop, consensus-validation, dag-scheduling, overnight-sprint, spec-driven-development, tdd-vertical-slices, verification-lattice.
+
+## Handback Obligation — SE-332
+
+Una instancia autónoma bloqueada **escala a su padre inmediato, un nivel a la vez**.
+Toda cadena termina en un nivel manual **POR CONSTRUCCIÓN** — no existen cadenas
+infinitas de agentes. La escalación de autoridad es independiente de la escalación
+de modelo (fast→mid→agent→abort) y de `AUTONOMOUS_REVIEWER` (que queda como fallback
+de primer nivel).
+
+### Cadena de escalación por modo
+
+| Modo autónomo | Padre inmediato | Manual terminal |
+|---|---|---|
+| overnight-sprint / code-improvement-loop / tech-research-agent | AUTONOMOUS_REVIEWER | operadora (perfil activo) |
+| court-orchestrator / truth-tribunal-orchestrator / recommendation-tribunal-orchestrator | dev-orchestrator | operadora (perfil activo) |
+| subagente delegado (SE-146, `BLOCKED`) | orquestador que lo invocó | operadora (perfil activo) |
+
+### Obligaciones
+
+1. Una instancia bloqueada NO aborta en silencio: emite handback con
+   `termination_reason: handback` (ver `terminal-state-protocol.md`).
+2. El handback es **reference-first**: `contexto_ref` contiene rutas a artifacts
+   (run-record, terminal-state.jsonl), nunca el cuerpo — ver
+   `agent-handoff-protocol.md`.
+3. La resolución del padre la hace `scripts/handback-resolve.sh`, que consulta
+   `savia_autonomous_reviewer()` en `scripts/savia-env.sh` (no re-deriva la cadena).
+4. Si la cadena NO termina en manual, `handback-resolve.sh` sale con exit 5 —
+   invariante de seguridad que garantiza "el humano se alcanza por construcción".
+5. Cada escalación se registra en el audit trail con el campo `handback_to`
+   (ver sección Auditoría).
 
 ## Doble opt-in para skills autónomas — SPEC-186
 

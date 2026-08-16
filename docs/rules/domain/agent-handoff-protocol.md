@@ -59,6 +59,44 @@ handoff:
 4. **artifacts** son paths relativos al `REPO_ROOT`, sin `./` inicial.
 5. Handoff con `termination_reason` ≠ `completed` **no activa** al agente destino automáticamente — requiere resolución humana.
 
+## Handback (SE-332) — escalación reference-first
+
+Cuando una instancia autónoma queda **bloqueada** y escala a su padre (Handback
+Obligation, `autonomous-safety.md`), NO usa el `handoff:` canónico (que activa al
+destino) — emite un artifact `handback:` **reference-first**: solo rutas, nunca
+cuerpo. Permite al humano retomar sin re-derivar contexto.
+
+```yaml
+---
+handback:
+  escalado_desde: overnight-sprint        # modo | agente que escaló (required)
+  escalado_a: "@monica"                   # padre resuelto por handback-resolve.sh (required)
+  motivo: guardrail_rechazo               # recurso_no_disponible | guardrail_rechazo | modelo_mismatch | otro (required)
+  contexto_ref:                           # reference-first — rutas, no contenido (required, ≥1)
+    - output/agent-runs/overnight-20260816-fix-x/run-record.jsonl
+    - output/loop-state/overnight-20260816-fix-x/terminal-state.jsonl
+  intentos_restantes: 2                   # tras AGENT_MAX_CONSECUTIVE_FAILURES
+  timestamp: "2026-08-16T07:25:00Z"       # ISO-8601
+---
+```
+
+| Campo | Tipo | Obligatorio | Descripción |
+|---|---|---|---|
+| `escalado_desde` | string | sí | Modo autónomo o agente que emite el handback |
+| `escalado_a` | string | sí | Padre resuelto por `scripts/handback-resolve.sh` |
+| `motivo` | enum | sí | `recurso_no_disponible` \| `guardrail_rechazo` \| `modelo_mismatch` \| `otro` |
+| `contexto_ref` | list[string] | sí | Rutas relativas a artifacts (run-record, terminal-state.jsonl). PROHIBIDO eco de cuerpo |
+| `intentos_restantes` | int | no | Reintentos de modelo restantes tras fallo consecutivo |
+| `timestamp` | string | sí | ISO-8601 de la escalación |
+
+**Reglas**:
+1. `escalado_a` lo resuelve `scripts/handback-resolve.sh` — NO se deriva a mano.
+2. `contexto_ref` son paths relativos al `REPO_ROOT`, sin `./` inicial; el orquestador
+   reanuda leyendo esos artifacts, no el cuerpo del handback.
+3. A diferencia de `handoff:` con `termination_reason: completed`, el `handback` **no
+   activa** al destino — requiere resolución humana explícita y registra `handback_to`
+   en el audit trail.
+
 ## Validación
 
 Validación con `scripts/validate-handoff.sh --file handoff.yaml`:
