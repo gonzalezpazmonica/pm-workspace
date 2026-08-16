@@ -44,11 +44,15 @@ EOF
 
 # Replace section between markers
 TMP=$(mktemp)
-awk -v new="$NEW_CONTENT" '
-  /<!-- CRITICAL_FACTS_START -->/ { print; print new; in_section=1; next }
+# BSD awk (macOS) rejects -v values containing newlines; pass content via file.
+CONTENT_TMP=$(mktemp)
+printf '%s\n' "$NEW_CONTENT" > "$CONTENT_TMP"
+awk -v newfile="$CONTENT_TMP" '
+  /<!-- CRITICAL_FACTS_START -->/ { print; while ((getline line < newfile) > 0) print line; in_section=1; next }
   /<!-- CRITICAL_FACTS_END -->/ { in_section=0 }
   !in_section { print }
 ' "$FILE" > "$TMP"
+rm -f "$CONTENT_TMP"
 
 mv "$TMP" "$FILE"
 echo "Regenerated $FILE from active profile + preferences"
