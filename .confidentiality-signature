@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=8970fc392ecd6042b8db0699ae04bec0258b74d7348b18a6812d3340741176c9
-timestamp=2026-08-16T10:02:40Z
-branch=agent/se332-handback-obligation
-head_commit=f33fa5ce
-signature=844511e806178918994e27b05ded98bb00d639c161278df42a41653259bd34be
+diff_hash=358c69df7cca741b7b94e58dfd36a558387b99aeb8483c7abc684bc9a07afca4
+timestamp=2026-08-16T13:55:03Z
+branch=agent/review-ivan-963
+head_commit=c1c7f7b0
+signature=59ba5654a7f331b21e7ee2ad6bce67a363ab13397ee55a31696fba285057e087
