@@ -85,14 +85,16 @@ for profile_base in "$HOME/claude/.claude/profiles" "$HOME/.claude/profiles" "./
 done
 
 if [ -f "$ACTIVE_USER_FILE" ]; then
-  ACTIVE_SLUG=$(grep -oP 'active_slug:\s*"\K[^"]+' "$ACTIVE_USER_FILE" 2>/dev/null || echo "")
+  # BSD grep (macOS) has no -P; use grep+sed like memory-stack-load.sh
+  ACTIVE_SLUG=$(grep -m1 '^active_slug:' "$ACTIVE_USER_FILE" 2>/dev/null | sed 's/.*: *//' | tr -d '"' || echo "")
   PROFILE_DIR=$(dirname "$ACTIVE_USER_FILE")
   USERS_DIR="$PROFILE_DIR/users"
 
   if [ -n "$ACTIVE_SLUG" ] && [ -d "$USERS_DIR/$ACTIVE_SLUG" ]; then
-    PROFILE_NAME=$(grep -oP 'name:\s*"\K[^"]+' "$USERS_DIR/$ACTIVE_SLUG/identity.md" 2>/dev/null || echo "$ACTIVE_SLUG")
-    PROFILE_ROLE=$(grep -oP 'role:\s*"\K[^"]+' "$USERS_DIR/$ACTIVE_SLUG/identity.md" 2>/dev/null || echo "")
-    PROFILE_LANG=$(grep -oP 'language:\s*"\K[^"]+' "$USERS_DIR/$ACTIVE_SLUG/preferences.md" 2>/dev/null || echo "")
+    PROFILE_NAME=$(grep -m1 '^name:' "$USERS_DIR/$ACTIVE_SLUG/identity.md" 2>/dev/null | sed 's/.*: *//' | tr -d '"' || echo "")
+    [ -n "$PROFILE_NAME" ] || PROFILE_NAME="$ACTIVE_SLUG"
+    PROFILE_ROLE=$(grep -m1 '^role:' "$USERS_DIR/$ACTIVE_SLUG/identity.md" 2>/dev/null | sed 's/.*: *//' | tr -d '"' || echo "")
+    PROFILE_LANG=$(grep -m1 '^language:' "$USERS_DIR/$ACTIVE_SLUG/preferences.md" 2>/dev/null | sed 's/.*: *//' | tr -d '"' || echo "")
     if [ "$PROFILE_ROLE" = "Agent" ]; then
       AGENT_MODE="true"
       ITEMS+=("Perfil: $PROFILE_NAME (Agent)")
@@ -176,8 +178,8 @@ fi
 check_timeout
 COMPANY_CONFIG="$HOME/.pm-workspace/company-repo"
 if [ -f "$COMPANY_CONFIG" ]; then
-  CS_PATH=$(grep -oP 'LOCAL_PATH=\K.*' "$COMPANY_CONFIG" 2>/dev/null || echo "")
-  CS_HANDLE=$(grep -oP 'USER_HANDLE=\K.*' "$COMPANY_CONFIG" 2>/dev/null || echo "")
+  CS_PATH=$(grep -m1 'LOCAL_PATH=' "$COMPANY_CONFIG" 2>/dev/null | sed 's/.*LOCAL_PATH=//' || echo "")
+  CS_HANDLE=$(grep -m1 'USER_HANDLE=' "$COMPANY_CONFIG" 2>/dev/null | sed 's/.*USER_HANDLE=//' || echo "")
   if [ -n "$CS_PATH" ] && [ -n "$CS_HANDLE" ] && [ -d "$CS_PATH" ]; then
     CS_PERSONAL=0; CS_ANNOUNCE=0
     [ -d "$CS_PATH/team/$CS_HANDLE/savia-inbox/unread" ] && \
