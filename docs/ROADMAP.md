@@ -1623,7 +1623,7 @@ piezas ya existen (captura, ledger, calibración, Labs, p_consistent): falta el 
 
 ### Orden de ejecución recomendado
 
-```
+```text
 SCL-001 S1 (captura) → S2 (ciclo de vida + rollback) → S3 (métrica L) → S4 (agnosticismo)
   → SCL-002 (federar el aprendizaje) una vez el bucle intra-Savia esté cerrado
   → follow-ups Era 204 (reference-first handoff, model-routing) según disponibilidad
