@@ -277,6 +277,37 @@ savia_autonomous_reviewer() {
   printf '@local-user\n'
 }
 
+# ── Handback chain resolution (SE-332) ───────────────────────────────────────
+# Resolves the IMMEDIATE parent of a blocked autonomous instance, per the
+# escalation table in autonomous-safety.md (Handback Obligation, SE-332).
+# Authority escalation is independent of model escalation and of
+# AUTONOMOUS_REVIEWER (which stays as first-level fallback).
+#
+# Returns:
+#   0 + parent name  — parent resolved (chain ends in manual by construction)
+#   5               — unknown mode: chain does NOT terminate in manual (invariant)
+savia_handback_chain() {
+  local modo="${1:-}"
+  case "$modo" in
+    overnight-sprint|code-improvement-loop|tech-research-agent)
+      savia_autonomous_reviewer
+      return 0
+      ;;
+    court-orchestrator|truth-tribunal-orchestrator|recommendation-tribunal-orchestrator)
+      printf 'dev-orchestrator\n'
+      return 0
+      ;;
+    subagent|subagente|delegado|delegate)
+      printf '%s\n' "${SAVIA_HANDBACK_PARENT:-orquestador}"
+      return 0
+      ;;
+    *)
+      # Unknown mode: no guaranteed manual terminal — invariant violation.
+      return 5
+      ;;
+  esac
+}
+
 # ── Workspace .env loader ─────────────────────────────────────────────────────
 # Loads $SAVIA_WORKSPACE_DIR/.env if it exists. Variables already present in the
 # parent environment WIN over .env (precedence: explicit env > .env > defaults).
