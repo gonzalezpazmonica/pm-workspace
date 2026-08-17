@@ -1,6 +1,6 @@
 # Savia Capability Map — INDEX
-> hash: d07592e741b1 | resources: 1371
-> 294 commands · 127 skills · 83 agents · 867 scripts
+> hash: 8ce52510dc28 | resources: 1376
+> 294 commands · 127 skills · 83 agents · 872 scripts
 
 [analysis] Trace Optimize — across,distributed,optimize,rates,sampling — cmd:.claude/commands/trace-optimize.md
 [analysis] agent-activity — activity,agent,executions,recent,show — cmd:.claude/commands/agent-activity.md
@@ -476,6 +476,7 @@
 [memory] generate-context-index — context,files,generate,index,projects — script:scripts/generate-context-index.sh
 [memory] generate-global-context — agent,compact,context,generate,global — script:scripts/generate-global-context.sh
 [memory] iterative-compress — compress,compression,context,iterative,preservation — script:scripts/iterative-compress.sh
+[memory] learning-recall — authority,filtered,learning,recall,savialearning — script:scripts/learning-recall.sh
 [memory] lesson-search — cross,domain,keyword,lessons,project — cmd:.claude/commands/lesson-search.md
 [memory] memory-access — access,count,increment,last,memory — script:scripts/memory-access.sh
 [memory] memory-agent — gestiona,lenguaje,memoria,natural,persistente — agent:.opencode/agents/memory-agent.md
@@ -813,8 +814,12 @@
 [planning] knowledge-graph — graph,knowledge,shell,wrapper — script:scripts/knowledge-graph.sh
 [planning] labs-preregister — hipotesis,labs,preregister,preregistro,savia — script:scripts/labs-preregister.sh
 [planning] language-boundary-check — boundary,check,language,scripts,slice — script:scripts/language-boundary-check.sh
+[planning] learning-autonomy — autonomy,autonomía,consistent,graduada,learning — script:scripts/learning-autonomy.sh
+[planning] learning-divergence — divergence,divergencia,grafo,instrumento,learning — script:scripts/learning-divergence.sh
+[planning] learning-federate — aprendidas,comparte,consume,federate,learning — script:scripts/learning-federate.sh
 [planning] learning-guard — agnosticismo,aprendizaje,bucle,guard,learning — script:scripts/learning-guard.sh
 [planning] learning-lifecycle — artefacto,despliegue,learning,lifecycle,sustrato — script:scripts/learning-lifecycle.sh
+[planning] learning-persist — cúpula,learning,persist,persiste,proposal — script:scripts/learning-persist.sh
 [planning] learning-proposal — canonical,capture,learning,proposal — script:scripts/learning-proposal.sh
 [planning] learning-rollback — entrada,instantáneo,learning,rollback,sustrato — script:scripts/learning-rollback.sh
 [planning] legacy-assess —  — cmd:.claude/commands/legacy-assess.md

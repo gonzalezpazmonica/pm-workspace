@@ -6,7 +6,7 @@
 
 | Total hooks | TS Guards | Git Hook mitigated | CI Job mitigated | NONE |
 |---|---|---|---|---|
-| 109 | 17 (15.6%) | 4 | 5 | 83 |
+| 110 | 17 (15.5%) | 4 | 5 | 84 |
 
 ## Bloqueantes sin cobertura ni mitigacion
 
@@ -14,10 +14,10 @@ Ninguno — AC-2.2 satisfecho.
 
 ## Cobertura real OpenCode
 
-- **TS Guards activos**: 17/109 (15.6%)
-- **Hooks sin cobertura TS**: 83 (76.1%)
+- **TS Guards activos**: 17/110 (15.5%)
+- **Hooks sin cobertura TS**: 84 (76.4%)
   - De los cuales son bloqueantes sin ninguna mitigacion: 0
-  - Eventos no disponibles en OpenCode (degradacion aceptada): 27
+  - Eventos no disponibles en OpenCode (degradacion aceptada): 28
 
 ## Full matrix
 
@@ -131,4 +131,5 @@ Ninguno — AC-2.2 satisfecho.
 | UserPromptSubmit | re-anchor-redlines.sh | no | NONE | telemetria | evento UserPromptSubmit no disponible en OpenCode — degradacion_documentada |
 | UserPromptSubmit | recommendation-tribunal-followup.sh | no | NONE | telemetria | evento UserPromptSubmit no disponible en OpenCode — degradacion_documentada |
 | UserPromptSubmit | stress-awareness-nudge.sh | no | NONE | telemetria | evento UserPromptSubmit no disponible en OpenCode — degradacion_documentada |
+| UserPromptSubmit | learning-recall-hook.sh | no | NONE | warning | evento UserPromptSubmit no disponible en OpenCode — degradacion_documentada |
 | UserPromptSubmit | user-prompt-intercept.sh | no | NONE | warning | evento UserPromptSubmit no disponible en OpenCode — degradacion_documentada |

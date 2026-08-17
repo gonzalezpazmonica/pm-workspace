@@ -16,6 +16,7 @@
 #     --diagnosis <texto> \
 #     --change <cambio propuesto> \
 #     --target <criterio|memoria|skill|spec> \
+#     [--criterion-id <CRIT-XXX>] \
 #     [--expected-p-consistent <0-1>] \
 #     [--trigger <ledger|contradiction|divergence|recurrence>] \
 #     [--output-dir <path>] [--graph-index <path>] [--id <id>]
@@ -35,10 +36,12 @@ EVIDENCE=""
 DIAGNOSIS=""
 CHANGE=""
 TARGET=""
+CRITERION_ID=""
 EXPECTED_PC=""
 TRIGGER="ledger"
 OUTPUT_DIR="${SCL_PROPOSALS_DIR:-$ROOT/docs/learning-proposals}"
 GRAPH_INDEX="${SCL_GRAPH_INDEX:-$ROOT/output/learning-loop/graph-index.jsonl}"
+PERSIST=false
 FORCE_ID=""
 
 usage() {
@@ -53,10 +56,12 @@ while [[ $# -gt 0 ]]; do
     --diagnosis) DIAGNOSIS="$2"; shift 2 ;;
     --change) CHANGE="$2"; shift 2 ;;
     --target) TARGET="$2"; shift 2 ;;
+    --criterion-id) CRITERION_ID="$2"; shift 2 ;;
     --expected-p-consistent) EXPECTED_PC="$2"; shift 2 ;;
     --trigger) TRIGGER="$2"; shift 2 ;;
     --output-dir) OUTPUT_DIR="$2"; shift 2 ;;
     --graph-index) GRAPH_INDEX="$2"; shift 2 ;;
+    --persist) PERSIST=true; shift ;;
     --id) FORCE_ID="$2"; shift 2 ;;
     -h|--help) usage ;;
     *) shift ;;
@@ -69,6 +74,11 @@ case "$TARGET" in
   criterio|memoria|skill|spec) ;;
   *) echo "ERROR: --target debe ser criterio|memoria|skill|spec" >&2; exit 2 ;;
 esac
+
+if [[ -n "$CRITERION_ID" ]]; then
+  [[ "$TARGET" == "criterio" ]] || { echo "ERROR: --criterion-id requires --target criterio" >&2; exit 2; }
+  [[ "$CRITERION_ID" =~ ^CRIT-[0-9]{3}$ ]] || { echo "ERROR: --criterion-id must match CRIT-XXX" >&2; exit 2; }
+fi
 
 # ── Evidence hash (deterministic): sort evidence entries, hash each path's content ──
 # Evidence format: path[:hash]. If no explicit hash, compute sha256 of the file.
@@ -132,6 +142,7 @@ lifecycle: proposed
 origin: $ORIGIN
 trigger: $TRIGGER
 target: $TARGET
+criterion_id: $CRITERION_ID
 evidence_hash: $EVIDENCE_HASH
 created_utc: $CREATED_UTC
 expected_p_consistent: ${EXPECTED_PC:-}
@@ -168,7 +179,7 @@ EOF
 mkdir -p "$(dirname "$GRAPH_INDEX")"
 {
   printf '%s' '{"type":"learning_proposal","id":"'"$ID"'","provenance":"INFERRED","lifecycle":"proposed",'
-  printf '%s' '"origin":"'"$ORIGIN"'","trigger":"'"$TRIGGER"'","target":"'"$TARGET"'",'
+  printf '%s' '"origin":"'"$ORIGIN"'","trigger":"'"$TRIGGER"'","target":"'"$TARGET"'","criterion_id":"'"$CRITERION_ID"'",'
   printf '%s' '"evidence_hash":"'"$EVIDENCE_HASH"'","created_utc":"'"$CREATED_UTC"'",'
   printf '%s' '"relations":{"proposes_change":"'"$TARGET"'","evidence_from":'"$(printf '%s' "${EVIDENCE_ENTRIES[@]}" | tr '\n' ' ' | python3 -c 'import json,sys; print(json.dumps(sys.stdin.read().strip().split()))' 2>/dev/null || echo '[]')"'}}'
   echo ""
@@ -177,4 +188,16 @@ mkdir -p "$(dirname "$GRAPH_INDEX")"
 echo "CREATED: $FILE"
 echo "id: $ID"
 echo "evidence_hash: $EVIDENCE_HASH"
+
+# ── Persist to SaviaLearning dome (SCL-002): cross-instance durable lesson ──
+if $PERSIST; then
+  PERSIST_SCRIPT="${SCL_PERSIST_SCRIPT:-$ROOT/scripts/learning-persist.sh}"
+  if [[ -f "$PERSIST_SCRIPT" ]]; then
+    if bash "$PERSIST_SCRIPT" --file "$FILE" "${SCL_PERSIST_COMMIT:+--commit}" 2>/dev/null; then
+      echo "persisted: true"
+    else
+      echo "persisted: false"
+    fi
+  fi
+fi
 exit 0
