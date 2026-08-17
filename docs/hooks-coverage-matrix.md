@@ -6,7 +6,7 @@
 
 | Total hooks | TS Guards | Git Hook mitigated | CI Job mitigated | NONE |
 |---|---|---|---|---|
-| 108 | 17 (15.7%) | 4 | 5 | 82 |
+| 109 | 17 (15.6%) | 4 | 5 | 83 |
 
 ## Bloqueantes sin cobertura ni mitigacion
 
@@ -14,8 +14,8 @@ Ninguno — AC-2.2 satisfecho.
 
 ## Cobertura real OpenCode
 
-- **TS Guards activos**: 17/108 (15.7%)
-- **Hooks sin cobertura TS**: 82 (75.9%)
+- **TS Guards activos**: 17/109 (15.6%)
+- **Hooks sin cobertura TS**: 83 (76.1%)
   - De los cuales son bloqueantes sin ninguna mitigacion: 0
   - Eventos no disponibles en OpenCode (degradacion aceptada): 27
 
@@ -41,6 +41,7 @@ Ninguno — AC-2.2 satisfecho.
 | PostToolUse | decision-trace-capture.sh | no | NONE | telemetria | degradacion_documentada: solo Claude Code |
 | PostToolUse | dual-estimation-gate.sh | no | CI_JOB | telemetria | CI validate-ci-local.sh |
 | PostToolUse | judge-auto-router.sh | no | NONE | telemetria | degradacion_documentada: solo Claude Code |
+| PostToolUse | learning-capture-hook.sh | no | NONE | telemetria | degradacion_documentada: solo Claude Code |
 | PostToolUse | live-progress-emitter.sh | no | NONE | telemetria | degradacion_documentada: solo Claude Code |
 | PostToolUse | memory-auto-capture.sh | no | NONE | telemetria | degradacion_documentada: solo Claude Code |
 | PostToolUse | memory-feedback-task.sh | no | NONE | telemetria | degradacion_documentada: solo Claude Code |

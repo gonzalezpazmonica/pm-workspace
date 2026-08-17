@@ -1633,7 +1633,7 @@ SCL-001 S1 (captura) → S2 (ciclo de vida + rollback) → S3 (métrica L) → S
 
 | Spec | PR | Estado | Bloqueo |
 |---|---|---|---|
-| SCL-001 | rama `agent/scl-001-aprendizaje-continuo` | PROPOSED 2026-08-16 | Aprobación de la operadora (activación human_authored) |
+| SCL-001 | #969 (spec) · implementación en rama `agent/scl-001-aprendizaje-continuo` | APPROVED 2026-08-16 · IMPLEMENTED 2026-08-17 (27 BATS) | Revisión humana + merge |
 | SCL-002..005 | — | CANDIDATA | Sin especificar |
 
 ### Anclaje

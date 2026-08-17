@@ -1,5 +1,5 @@
 # planning — Savia Capability Map (L1)
-> 579 resources
+> 583 resources
 
 - **/decide-architecture** (cmd): Clasifica una tarea como WORKFLOW (deterministica) o AGENT (loop). Bias hacia workflow per Anthropic. Sugiere plantilla inicial. Mide accuracy contra corpus curado de 20 tareas.
 - **_template** (skill): TEMPLATE — copia este directorio para crear una skill nueva. NO se carga en runtime.
@@ -283,6 +283,10 @@
 - **knowledge-graph** (script): knowledge-graph.sh — SE-162: Shell wrapper for knowledge-graph.py
 - **labs-preregister** (script): labs-preregister.sh — Preregistro de hipotesis en Savia Labs
 - **language-boundary-check** (script): scripts/language-boundary-check.sh — SE-253 Slice 7
+- **learning-guard** (script): learning-guard.sh — SCL-001 S4: guard de agnosticismo del bucle de aprendizaje
+- **learning-lifecycle** (script): learning-lifecycle.sh — SCL-001 S2: sustrato como artefacto de despliegue
+- **learning-proposal** (script): learning-proposal.sh — SCL-001 S1: canonical learning proposal capture
+- **learning-rollback** (script): learning-rollback.sh — SCL-001 S2: rollback instantáneo de una entrada del sustrato
 - **legacy-assess** (cmd): >
 - **legalize-es** (script): legalize-es.sh — Gestión del corpus legislativo español (legalize-es)
 - **lesson-extract** (cmd): Extract a cross-project lesson from the current task

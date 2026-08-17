@@ -3,7 +3,7 @@
 > Roadmap propio del programa **Savia Continuous Learning (SCL)**.
 > Nueva era de specs: prefijo `SCL-###` (desacoplada de `SE-###`).
 > **Anclaje al roadmap general:** Era 205 en `docs/ROADMAP.md`.
-> **Spec fundacional:** `docs/specs/SCL-001-aprendizaje-continuo.spec.md` (PROPOSED 2026-08-16).
+> **Spec fundacional:** `docs/specs/SCL-001-aprendizaje-continuo.spec.md` (APPROVED 2026-08-16, IMPLEMENTED 2026-08-17).
 
 ---
 
@@ -41,23 +41,27 @@ un artefacto de despliegue que **aprende de forma continua, medida y agnóstica 
 | Fase | Estado | Contenido | Anclaje |
 |---|---|---|---|
 | **F0 — Sustrato** | EXISTENTE | CONSTITUCION, CRITERIO (33 INFERRED), memoria (tier-rotate, bitemporal, consolidate), ledger SE-255 S3, calibración SE-255 S4, SaviaVaults (BM25, grafo, entity resolution), Labs L1-L6, p_consistent (SE-292 S6), multi-proveedor (ADR-012) | Eras 125-204 |
-| **F1 — Cerrar el bucle** | SCL-001 PROPOSED | Captura canónica → ciclo de vida shadow/canary/active → métrica `L` → agnosticismo | **Era 205** |
+| **F1 — Cerrar el bucle** | SCL-001 **IMPLEMENTED** + SCL-001.1 PROPOSED (hook captura instalado) | Captura canónica → ciclo de vida shadow/canary/active → métrica `L` → agnosticismo | **Era 206** |
 | **F2 — Federar el aprendizaje** | SCL-002 (candidata) | Aprendizaje cross-dome, divergencia entre instancias (Labs L5) | Era 206+ |
 | **F3 — Instrumentar Labs** | SCL-003 (candidata) | Ejecutar Labs L1-L6 como instrumentos del bucle (SE-291 S2-S8) | Era 206+ |
 | **F4 — Búsqueda híbrida** | SCL-004 (candidata) | Embeddings híbridos para la métrica de divergencia (ADR-003, Fase 4) | Era 206+ |
 
 ---
 
-## SCL-001 — Cerrar el bucle (30h, 4 slices)
+## SCL-001 — Cerrar el bucle (30h, 4 slices) — IMPLEMENTED 2026-08-17
 
 > Detalle completo: `docs/specs/SCL-001-aprendizaje-continuo.spec.md`.
+> **Estado: APPROVED 2026-08-16 → IMPLEMENTED 2026-08-17.**
+> Artefactos: `scripts/learning-{proposal,lifecycle,rollback,metric,report,guard}.sh`,
+> regla `docs/rules/domain/scl-001-learning-loop.md`, 27 tests BATS
+> (`tests/test-scl-001-*.bats`). Bucle cerrado verificado por E2E.
 
-| Slice | Objetivo | Esfuerzo | Depende de | Valor |
-|---|---|---|---|---|
-| S1 — Captura canónica | Artefacto `learning-proposal` unificado, idempotente, registrado en el grafo de SaviaVaults | 7h | hooks de captura, SaviaVaults grafo | Entrada formal del bucle |
-| S2 — Sustrato como artefacto de despliegue | Ciclo de vida shadow→canary→active→superseded + rollback instantáneo | 9h | S1, git, CRIT-024 | Despliegue del conocimiento |
-| S3 — Aprendizaje medido | Métrica `L` = p_consistent + divergencia (L1) + ignorancia resuelta (L2) | 8h | SE-292 S6, Labs L1/L2 | Gate anti-autoengaño |
-| S4 — Agnóstico a LLM | Bucle sobre texto, cero fine-tuning, prueba E2E multi-proveedor | 6h | S1-S3, ADR-012 | Cierra la tesis |
+| Slice | Objetivo | Esfuerzo | Depende de | Valor | Estado |
+|---|---|---|---|---|---|
+| S1 — Captura canónica | Artefacto `learning-proposal` unificado, idempotente, registrado en el grafo de SaviaVaults | 7h | hooks de captura, SaviaVaults grafo | Entrada formal del bucle | DONE (5 AC) |
+| S2 — Sustrato como artefacto de despliegue | Ciclo de vida shadow→canary→active→superseded + rollback instantáneo | 9h | S1, git, CRIT-024 | Despliegue del conocimiento | DONE (6 AC) |
+| S3 — Aprendizaje medido | Métrica `L` = p_consistent + divergencia (L1) + ignorancia resuelta (L2) | 8h | SE-292 S6, Labs L1/L2 | Gate anti-autoengaño | DONE (7 AC) |
+| S4 — Agnóstico a LLM | Bucle sobre texto, cero fine-tuning, prueba E2E multi-proveedor | 6h | S1-S3, ADR-012 | Cierra la tesis | DONE (6 AC) |
 
 ### Orden recomendado
 
@@ -72,10 +76,13 @@ tres anteriores para su prueba E2E.
 ### Hitos medibles
 
 - **M1 (S1):** una propuesta de aprendizaje generada por evento, idempotente y consultable
-  por grafo.
+  por grafo. — **CUMPLIDO** (AC-1.1/1.3/1.4).
 - **M2 (S2):** una entrada errónea activada y revertida con rollback que restaura el diff.
+  — **CUMPLIDO** (AC-2.3, test E2E).
 - **M3 (S3):** reporte de ventana que distingue "aprendió" de "no aprendió" con `ΔL` medido.
+  — **CUMPLIDO** (AC-3.3).
 - **M4 (S4):** sustrato convergente entre dos proveedores sobre el mismo escenario.
+  — **CUMPLIDO** (AC-4.1/4.3).
 
 ---
 
