@@ -44,8 +44,9 @@ fi
 # Timeout guard (before heavy work)
 if (( SECONDS - START > MAX_SECONDS )); then exit 0; fi
 
-# ── Recall from the dome (umbral de relevancia: score >= 10) ──
-LEARNINGS=$(timeout 4 bash "$RECALL_SCRIPT" --query "$INPUT_TEXT" --top 3 --min-score 10 --json 2>/dev/null) || true
+# ── Recall from the dome (SCL-005 híbrido: BM25 + embeddings semánticos) ──
+# El modelo all-MiniLM carga ~9s en cold start; timeout 12s.
+LEARNINGS=$(timeout 12 bash "$RECALL_SCRIPT" --query "$INPUT_TEXT" --top 3 --min-score 10 --hybrid --json 2>/dev/null) || true
 [[ -z "$LEARNINGS" ]] && exit 0
 
 # Format as context block (compact)
@@ -60,10 +61,23 @@ except Exception:
     sys.exit(0)
 hits=d.get('hits',[])
 if not hits: sys.exit(0)
-# Umbral de relevancia: solo lecciones con score >= 10 (evitar ruido en preguntas no relacionadas)
-SCORE_MIN = 10.0
+# Umbral adaptativo: scores 0-1 (recall híbrido SCL-005) vs BM25 (>1)
+max_score = max(h.get('score',0) for h in hits)
+if max_score < 1.0:
+    SCORE_MIN = 0.15   # híbrido normalizado
+else:
+    SCORE_MIN = 10.0   # BM25 puro (SCL-003)
 relevant = [h for h in hits if h.get('score',0) >= SCORE_MIN]
 if not relevant: sys.exit(0)
+# En modo híbrido, exigir señal clara de relevancia:
+#  - con >=2 candidatos: el top-1 supera claramente al segundo (gap >= 0.04)
+#  - con 1 solo candidato: score alto (>= 0.25) para no sobre-inyectar
+if max_score < 1.0:
+    if len(hits) >= 2:
+        top = hits[0].get('score',0); second = hits[1].get('score',0)
+        if top - second < 0.04: sys.exit(0)
+    else:
+        if hits[0].get('score',0) < 0.25: sys.exit(0)
 print('## Lecciones aprendidas relevantes (de la cúpula SaviaLearning)')
 print('')
 for h in relevant[:3]:

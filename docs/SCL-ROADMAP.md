@@ -44,7 +44,7 @@ un artefacto de despliegue que **aprende de forma continua, medida y agnóstica 
 | **F1 — Cerrar el bucle** | SCL-001 **IMPLEMENTED** + SCL-001.1 **IMPLEMENTED** (hook captura + correcciones prod) | Captura canónica → ciclo de vida shadow/canary/active → métrica `L` → agnosticismo | **Era 206** |
 | **F2 — Persistir + recall operativo** | SCL-002 **IMPLEMENTED** (cúpula SaviaLearning) + SCL-003 **IMPLEMENTED** (recall por prompt) | Cúpula propia de lecciones (persistencia real cross-instancia) + recuperación automática en el momento de trabajar | Era 206 |
 | **F3 — Instrumentar Labs + autonomía** | SCL-004 **IMPLEMENTED** (L1 divergencia grafo-modelo → propuesta) + SCL-006 **IMPLEMENTED** (autonomía graduada por p_consistent) | Labs L1 como instrumento del bucle; autonomía L0-L3 graduada por consistencia medida | Era 206 |
-| **F4 — Búsqueda híbrida** | SCL-005 **BLOQUEADA** (sin embeddings en la máquina) | Embeddings híbridos para la divergencia (ADR-003, Fase 4) | BLOQUEADA por infra (~2GB) |
+| **F4 — Búsqueda híbrida** | SCL-005 **IMPLEMENTED** (venv ~/.savia/venv, recall híbrido BM25+embeddings) | Embeddings híbridos para la divergencia y el recall (ADR-003 Fase 4) | Era 206 |
 
 ---
 
@@ -91,7 +91,6 @@ tres anteriores para su prueba E2E.
 | Spec | Tesis | Origen | Estado |
 |---|---|---|---|
 | SCL-007 | Aprendizaje federado cross-dome real (lecciones entre instancias remotas vía A2A) | Labs L5 + SE-291 S2-S8 | CANDIDATA |
-| SCL-005 | Embeddings híbridos para medir divergencia grafo-modelo con recall | ADR-003 (Fase 4) | BLOQUEADA por infra (~2GB) |
 
 ---
 

@@ -28,6 +28,7 @@ MIN_SCORE="${SCL_RECALL_MIN_SCORE:-5}"
 VAULT="${SCL_VAULT_DIR:-$ROOT/vaults/SaviaLearning}"
 NODE_BIN=""
 JSON=false
+HYBRID=false
 RECALL_LOG="${SCL_RECALL_LOG:-$ROOT/output/learning-loop/recall.jsonl}"
 
 usage() {
@@ -43,6 +44,7 @@ while [[ $# -gt 0 ]]; do
     --vault) VAULT="$2"; shift 2 ;;
     --node-path) NODE_BIN="$2"; shift 2 ;;
     --json) JSON=true; shift ;;
+    --hybrid) HYBRID=true; shift ;;
     --recall-log) RECALL_LOG="$2"; shift 2 ;;
     -h|--help) usage ;;
     *) shift ;;
@@ -66,7 +68,31 @@ if [[ -z "$NODE_BIN" || ! -f "$CLI" ]]; then
 fi
 
 # ── Search the dome for relevant lessons ──
-SEARCH_OUT=$("$NODE_BIN" "$CLI" search "$QUERY" --path "$VAULT" --json 2>/dev/null) || true
+if $HYBRID; then
+  # SCL-005 híbrido: candidatos = todas las lecciones del dir (sin depender del
+  # índice BM25, que no matchea sinónimos). Luego re-ranking semántico.
+  CANDIDATES="[]"
+  if [[ -d "$VAULT/learning" ]]; then
+    CANDIDATES=$(python3 - "$VAULT/learning" <<'PY'
+import json, os, sys
+d = sys.argv[1]
+rows = []
+for f in sorted(os.listdir(d)):
+    if not f.endswith('.md'): continue
+    path = f"learning/{f}"
+    try:
+        text = open(os.path.join(d, f)).read()
+    except Exception:
+        text = ""
+    rows.append({"path": path, "score": 0, "snippet": text})
+print(json.dumps(rows))
+PY
+)
+  fi
+  SEARCH_OUT="$CANDIDATES"
+else
+  SEARCH_OUT=$("$NODE_BIN" "$CLI" search "$QUERY" --path "$VAULT" --json 2>/dev/null) || true
+fi
 if [[ -z "$SEARCH_OUT" || "$SEARCH_OUT" == "[]" ]]; then
   # No relevant lessons — no-op (sin ruido)
   mkdir -p "$(dirname "$RECALL_LOG")"
@@ -79,7 +105,7 @@ fi
 FORMATTED=""
 HITS=0
 if command -v python3 >/dev/null 2>&1; then
-  FORMATTED=$(SCL_TOP="$TOP" SCL_MIN_SCORE="$MIN_SCORE" python3 - "$SEARCH_OUT" <<'PY'
+  FORMATTED=$(SCL_TOP="$TOP" SCL_MIN_SCORE="$MIN_SCORE" SCL_HYBRID="$HYBRID" python3 - "$SEARCH_OUT" <<'PY'
 import json, os, sys
 try:
     results = json.loads(sys.argv[1]) if sys.argv[1].strip().startswith('[') else json.load(sys.stdin)
@@ -88,17 +114,54 @@ except Exception:
 if not isinstance(results, list): results = []
 top = int(os.environ.get('SCL_TOP', '5'))
 min_score = float(os.environ.get('SCL_MIN_SCORE', '5'))
+hybrid = os.environ.get('SCL_HYBRID', 'false') == 'true'
 rows = []
-for r in results[:top]:
+# En híbrido tomamos TODOS los candidatos (el re-ranking semántico decide);
+# en BM25 puro limitamos a top y filtramos por score.
+candidates = results if hybrid else results[:top]
+for r in candidates:
     score = r.get('score', 0)
-    if score < min_score:
+    if not hybrid and score < min_score:
         continue  # filtro de relevancia: evita ruido de BM25 con score bajo
     path = r.get('path') or r.get('source') or r.get('entity') or ''
-    snippet = (r.get('snippet') or r.get('value') or '')[:160].replace('\n', ' ')
+    snippet = (r.get('snippet') or r.get('value') or '')
+    if not hybrid:
+        snippet = snippet[:160].replace('\n', ' ')
     rows.append({'path': path, 'score': score, 'snippet': snippet})
 print(json.dumps({'hits': rows}))
 PY
 )
+  # ── Hybrid re-rank (SCL-005): BM25 + embeddings semánticos ──
+  if $HYBRID; then
+    HYBRID_PY="$SCRIPT_DIR/learning-hybrid.py"
+    if [[ -f "$HYBRID_PY" ]]; then
+      # Construir payload: query + docs (texto completo de cada nota candidata)
+      DOCS_JSON=$(SCL_QUERY="$QUERY" python3 - "$FORMATTED" <<'PY'
+import json, os, sys
+d = json.loads(sys.argv[1])
+docs = [{"path": h["path"], "text": h.get("snippet", "")} for h in d.get("hits", [])]
+print(json.dumps({"query": os.environ.get("SCL_QUERY", ""), "docs": docs}))
+PY
+)
+      HYBRID_OUT=$(SCL_QUERY="$QUERY" SCL_VENV_PYTHON="${SCL_VENV_PYTHON:-$HOME/.savia/venv/bin/python}" \
+        python3 "$HYBRID_PY" <<< "$DOCS_JSON" 2>/dev/null) || true
+      if [[ -n "$HYBRID_OUT" ]] && echo "$HYBRID_OUT" | grep -q '"hits"'; then
+        # Conservar los docs originales (snippet completo) y reordenar por score híbrido
+        FORMATTED=$(SCL_ORIG="$FORMATTED" python3 - "$HYBRID_OUT" <<'PY'
+import json, os, sys
+hy = json.loads(sys.argv[1])
+orig = json.loads(os.environ.get("SCL_ORIG", "{}"))
+snippets = {h["path"]: h.get("snippet", "") for h in orig.get("hits", [])}
+hits = []
+for h in hy.get("hits", []):
+    if h.get("score", 0) <= 0: continue
+    hits.append({"path": h["path"], "score": h["score"], "snippet": snippets.get(h["path"], "")})
+print(json.dumps({"hits": hits}))
+PY
+)
+      fi
+    fi
+  fi
   # HITS se cuenta SIEMPRE (usado por el log de utilidad, no solo por el formato)
   HITS=$(echo "$FORMATTED" | python3 -c "import json,sys; print(len(json.load(sys.stdin).get('hits',[])))" 2>/dev/null || echo 0)
   if $JSON; then

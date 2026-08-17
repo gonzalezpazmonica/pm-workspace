@@ -27,10 +27,11 @@ spec: SCL-001
 - **Consumir (cross-instancia)**: `learning-federate.sh --list` lista lecciones de la cúpula; `--import <id>` las trae como propuesta local `INFERRED` (shadow, sin efecto), pendiente de `human_authored`. NUNCA auto-activa (CRIT-031).
 - **SaviaVaults es el servidor; SaviaLabs, savia-docs y SaviaLearning son cúpulas.** Las lecciones de SCL van SOLO a SaviaLearning — nunca a SaviaLabs (es de Labs/experimentación).
 
-## Recall operativo (SCL-003)
+## Recall operativo (SCL-003 + SCL-005)
 
 - **Recuperar en el momento de trabajar**: `learning-recall.sh --query "<contexto>"` consulta la cúpula (BM25) y devuelve lecciones relevantes (umbral `--min-score`, default 5). Sin ruido si no hay coincidencias.
-- **Inyección automática**: `learning-recall-hook.sh` (UserPromptSubmit, master switch `SAVIA_LEARNING_RECALL=on|off`, default on) consulta la cúpula con el texto del prompt y devuelve las lecciones relevantes como contexto que el agente ve ANTES de responder, con el aviso "NO reintroduzcas el error que documenta". Umbral de inyección: score ≥ 10. Exit 0 siempre (nunca bloquea).
+- **Recall híbrido (SCL-005)**: `learning-recall.sh --hybrid` fusiona BM25 + embeddings semánticos (`learning-hybrid.py`, modelo local all-MiniLM-L6-v2 en `~/.savia/venv`). Recupera sinónimos que BM25 solo no encuentra (p. ej. "token de acceso" → lección sobre PAT). Degrada a léxico puro si el venv no está.
+- **Inyección automática**: `learning-recall-hook.sh` (UserPromptSubmit, master switch `SAVIA_LEARNING_RECALL=on|off`, default on) consulta la cúpula con el texto del prompt y devuelve las lecciones relevantes como contexto que el agente ve ANTES de responder, con el aviso "NO reintroduzcas el error que documenta". Usa recall híbrido. Umbral adaptativo (score ≥ 10 BM25 / ≥ 0.15 híbrido + gap top-second). Exit 0 siempre (nunca bloquea).
 - **Métrica de utilidad**: cada recall se registra en `output/learning-loop/recall.jsonl` (ts, query, hits). Hits>0 = la lección llegó al contexto del trabajo.
 
 ## Ciclo de vida del sustrato
