@@ -1,6 +1,6 @@
 {
-  "hash": "3308f3dfdc89",
-  "total": 1371,
+  "hash": "9c08804d4cb5",
+  "total": 1373,
   "resources": [
     {
       "category": "analysis",
@@ -10721,6 +10721,20 @@
     },
     {
       "category": "planning",
+      "name": "learning-federate",
+      "intents": [
+        "aprendidas",
+        "consume",
+        "cúpula",
+        "federate",
+        "learning"
+      ],
+      "kind": "script",
+      "path": "scripts/learning-federate.sh",
+      "description": "learning-federate.sh — SCL-002: consume lecciones aprendidas de la cúpula"
+    },
+    {
+      "category": "planning",
       "name": "learning-guard",
       "intents": [
         "agnosticismo",
@@ -10746,6 +10760,20 @@
       "kind": "script",
       "path": "scripts/learning-lifecycle.sh",
       "description": "learning-lifecycle.sh — SCL-001 S2: sustrato como artefacto de despliegue"
+    },
+    {
+      "category": "planning",
+      "name": "learning-persist",
+      "intents": [
+        "cúpula",
+        "learning",
+        "persist",
+        "persiste",
+        "proposal"
+      ],
+      "kind": "script",
+      "path": "scripts/learning-persist.sh",
+      "description": "learning-persist.sh — SCL-002: persiste una learning proposal en la cúpula"
     },
     {
       "category": "planning",
