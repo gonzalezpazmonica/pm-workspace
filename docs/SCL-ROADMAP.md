@@ -41,7 +41,7 @@ un artefacto de despliegue que **aprende de forma continua, medida y agnóstica 
 | Fase | Estado | Contenido | Anclaje |
 |---|---|---|---|
 | **F0 — Sustrato** | EXISTENTE | CONSTITUCION, CRITERIO (33 INFERRED), memoria (tier-rotate, bitemporal, consolidate), ledger SE-255 S3, calibración SE-255 S4, SaviaVaults (BM25, grafo, entity resolution), Labs L1-L6, p_consistent (SE-292 S6), multi-proveedor (ADR-012) | Eras 125-204 |
-| **F1 — Cerrar el bucle** | SCL-001 **IMPLEMENTED** | Captura canónica → ciclo de vida shadow/canary/active → métrica `L` → agnosticismo | **Era 206** |
+| **F1 — Cerrar el bucle** | SCL-001 **IMPLEMENTED** + SCL-001.1 PROPOSED (hook captura instalado) | Captura canónica → ciclo de vida shadow/canary/active → métrica `L` → agnosticismo | **Era 206** |
 | **F2 — Federar el aprendizaje** | SCL-002 (candidata) | Aprendizaje cross-dome, divergencia entre instancias (Labs L5) | Era 206+ |
 | **F3 — Instrumentar Labs** | SCL-003 (candidata) | Ejecutar Labs L1-L6 como instrumentos del bucle (SE-291 S2-S8) | Era 206+ |
 | **F4 — Búsqueda híbrida** | SCL-004 (candidata) | Embeddings híbridos para la métrica de divergencia (ADR-003, Fase 4) | Era 206+ |
