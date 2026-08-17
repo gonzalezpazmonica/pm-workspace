@@ -1,6 +1,6 @@
 # Savia Capability Map — INDEX
-> hash: 2025309f47f0 | resources: 1365
-> 294 commands · 127 skills · 83 agents · 861 scripts
+> hash: d07592e741b1 | resources: 1371
+> 294 commands · 127 skills · 83 agents · 867 scripts
 
 [analysis] Trace Optimize — across,distributed,optimize,rates,sampling — cmd:.claude/commands/trace-optimize.md
 [analysis] agent-activity — activity,agent,executions,recent,show — cmd:.claude/commands/agent-activity.md
@@ -55,6 +55,8 @@
 [analysis] kpi-dashboard — completo,dashboard,definidos,docs,equipo — cmd:.claude/commands/kpi-dashboard.md
 [analysis] kpi-dora —  — cmd:.claude/commands/kpi-dora.md
 [analysis] kpi-review-report — periodic,report,review — script:scripts/kpi-review-report.sh
+[analysis] learning-metric — aprendizaje,determinista,learning,metric,métrica — script:scripts/learning-metric.sh
+[analysis] learning-report — aprendizaje,learning,periódico,report,reporte — script:scripts/learning-report.sh
 [analysis] reconciliation-stats — append,classification,metrics,reconciliation,report — script:scripts/reconciliation-stats.sh
 [analysis] relacion-report — relacion,report,scripts,slice — script:scripts/relacion-report.sh
 [analysis] report-capacity — alertas,asignación,capacidades,carga,disponibilidad — cmd:.claude/commands/report-capacity.md
@@ -811,6 +813,10 @@
 [planning] knowledge-graph — graph,knowledge,shell,wrapper — script:scripts/knowledge-graph.sh
 [planning] labs-preregister — hipotesis,labs,preregister,preregistro,savia — script:scripts/labs-preregister.sh
 [planning] language-boundary-check — boundary,check,language,scripts,slice — script:scripts/language-boundary-check.sh
+[planning] learning-guard — agnosticismo,aprendizaje,bucle,guard,learning — script:scripts/learning-guard.sh
+[planning] learning-lifecycle — artefacto,despliegue,learning,lifecycle,sustrato — script:scripts/learning-lifecycle.sh
+[planning] learning-proposal — canonical,capture,learning,proposal — script:scripts/learning-proposal.sh
+[planning] learning-rollback — entrada,instantáneo,learning,rollback,sustrato — script:scripts/learning-rollback.sh
 [planning] legacy-assess —  — cmd:.claude/commands/legacy-assess.md
 [planning] legalize-es — corpus,español,gestión,legalize,legislativo — script:scripts/legalize-es.sh
 [planning] lesson-extract — cross,current,extract,lesson,project — cmd:.claude/commands/lesson-extract.md

@@ -1,5 +1,5 @@
 # analysis — Savia Capability Map (L1)
-> 71 resources
+> 73 resources
 
 - **Trace Optimize** (cmd): Optimize trace spans and sampling rates across distributed services
 - **agent-activity** (cmd): Show structured activity log of recent agent executions
@@ -54,6 +54,8 @@
 - **kpi-dashboard** (cmd): Muestra el dashboard completo con todos los KPIs definidos en docs/kpis-equipo.md.
 - **kpi-dora** (cmd): >
 - **kpi-review-report** (script): kpi-review-report.sh — SE-272 S2 Periodic KPI review report
+- **learning-metric** (script): learning-metric.sh — SCL-001 S3: métrica de aprendizaje L (determinista)
+- **learning-report** (script): learning-report.sh — SCL-001 S3: reporte periódico de aprendizaje (ventana)
 - **reconciliation-stats** (script): reconciliation-stats.sh — Append/report reconciliation classification metrics
 - **relacion-report** (script): scripts/relacion-report.sh — SE-255 Slice 3
 - **report-capacity** (cmd): Muestra el estado de capacidades del equipo — disponibilidad, asignación y alertas de sobre-carga.

@@ -1,6 +1,6 @@
 {
-  "hash": "46edd5acf55a",
-  "total": 1365,
+  "hash": "3308f3dfdc89",
+  "total": 1371,
   "resources": [
     {
       "category": "analysis",
@@ -708,6 +708,34 @@
       "kind": "script",
       "path": "scripts/kpi-review-report.sh",
       "description": "kpi-review-report.sh — SE-272 S2 Periodic KPI review report"
+    },
+    {
+      "category": "analysis",
+      "name": "learning-metric",
+      "intents": [
+        "aprendizaje",
+        "determinista",
+        "learning",
+        "metric",
+        "métrica"
+      ],
+      "kind": "script",
+      "path": "scripts/learning-metric.sh",
+      "description": "learning-metric.sh — SCL-001 S3: métrica de aprendizaje L (determinista)"
+    },
+    {
+      "category": "analysis",
+      "name": "learning-report",
+      "intents": [
+        "aprendizaje",
+        "learning",
+        "periódico",
+        "report",
+        "reporte"
+      ],
+      "kind": "script",
+      "path": "scripts/learning-report.sh",
+      "description": "learning-report.sh — SCL-001 S3: reporte periódico de aprendizaje (ventana)"
     },
     {
       "category": "analysis",
@@ -10690,6 +10718,61 @@
       "kind": "script",
       "path": "scripts/language-boundary-check.sh",
       "description": "scripts/language-boundary-check.sh — SE-253 Slice 7"
+    },
+    {
+      "category": "planning",
+      "name": "learning-guard",
+      "intents": [
+        "agnosticismo",
+        "aprendizaje",
+        "bucle",
+        "guard",
+        "learning"
+      ],
+      "kind": "script",
+      "path": "scripts/learning-guard.sh",
+      "description": "learning-guard.sh — SCL-001 S4: guard de agnosticismo del bucle de aprendizaje"
+    },
+    {
+      "category": "planning",
+      "name": "learning-lifecycle",
+      "intents": [
+        "artefacto",
+        "despliegue",
+        "learning",
+        "lifecycle",
+        "sustrato"
+      ],
+      "kind": "script",
+      "path": "scripts/learning-lifecycle.sh",
+      "description": "learning-lifecycle.sh — SCL-001 S2: sustrato como artefacto de despliegue"
+    },
+    {
+      "category": "planning",
+      "name": "learning-proposal",
+      "intents": [
+        "canonical",
+        "capture",
+        "learning",
+        "proposal"
+      ],
+      "kind": "script",
+      "path": "scripts/learning-proposal.sh",
+      "description": "learning-proposal.sh — SCL-001 S1: canonical learning proposal capture"
+    },
+    {
+      "category": "planning",
+      "name": "learning-rollback",
+      "intents": [
+        "entrada",
+        "instantáneo",
+        "learning",
+        "rollback",
+        "sustrato"
+      ],
+      "kind": "script",
+      "path": "scripts/learning-rollback.sh",
+      "description": "learning-rollback.sh — SCL-001 S2: rollback instantáneo de una entrada del sustrato"
     },
     {
       "category": "planning",
