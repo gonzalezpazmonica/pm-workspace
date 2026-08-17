@@ -18,6 +18,7 @@ spec: SCL-001
 | Lifecycle ledger | `output/learning-loop/lifecycle.jsonl` | Transiciones de estado auditadas |
 | Rollback ledger | `output/learning-loop/rollback.jsonl` | Reversiones con causa registrada |
 | Graph index | `output/learning-loop/graph-index.jsonl` | Índice de navegación (SaviaVaults, no fuente de verdad) |
+| Hook de captura | `.claude/hooks/learning-capture-hook.sh` | PostToolUse Task. Master switch `SAVIA_LEARNING_CAPTURE=on\|off` (default off). Evidencia por hash de respuesta cuando no hay ficheros (SCL-001.1 D1). Nunca bloquea |
 
 ## Ciclo de vida del sustrato
 

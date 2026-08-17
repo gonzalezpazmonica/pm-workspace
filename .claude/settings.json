@@ -730,9 +730,13 @@
           {
             "type": "command",
             "command": "bash .claude/hooks/decision-trace-capture.sh"
+          },
+          {
+            "type": "command",
+            "command": "bash .claude/hooks/learning-capture-hook.sh"
           }
         ],
-        "_comment": "Detecta decisiones en output de agentes (SPEC-188 F3)"
+        "_comment": "Detecta decisiones (SPEC-188 F3) + errores reconocidos para el bucle SCL-001"
       },
       {
         "matcher": "Write|Edit",
