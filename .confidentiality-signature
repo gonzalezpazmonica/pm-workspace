@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=3cf6cc25c535ea85679c2c8c747a8965f98c91f3e4032adaf4c715032293c5d5
-timestamp=2026-08-16T22:27:54Z
+diff_hash=325622b448dbf4b1d0ef04ae5d0e23954b68e0baca20694c8eeff64c4b21bee8
+timestamp=2026-08-17T10:44:19Z
 branch=agent/scl-001-aprendizaje-continuo
-head_commit=e65e9b4f
-signature=b6b8e514b0f43ed678ddbfe300c51d34f0d4efb0f9031f9ef5e913d911ee9f83
+head_commit=26ab88c8
+signature=23a5d13433af157c76f98c0c6502f661268debda789506afd72933835d5798f9
