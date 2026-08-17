@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=2096a9aede28c26e06ae0502c902e62d6cf2b4e97b49b171e54b8565e6e92487
-timestamp=2026-08-17T19:22:28Z
-branch=agent/scl-001-aprendizaje-continuo
-head_commit=482fe809
-signature=dfabacbbabfa3753a06df5600e1ec8e7e9148787ea06cc76605641ca9cdcde8f
+diff_hash=5960fcdf834cf6dc28626b2fefb8fd3f625980da19a22ae71ed3aa26963e75c2
+timestamp=2026-08-17T21:52:17Z
+branch=agent/gpt56-openai-compat-20260817
+head_commit=8047d251
+signature=801e2f0c4981f1146bb116128d0c687701bcf28498f6d49fb60fb63905c75d96

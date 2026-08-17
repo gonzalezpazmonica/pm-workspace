@@ -123,6 +123,10 @@ d = json.load(open('$CONFIG'))
 # model and provider should be empty/absent so user's preferences.yaml decides
 assert 'model' not in d or not d['model'], 'model should not be pinned'
 assert 'provider' not in d or not d['provider'], 'provider should not be pinned'
+tiers = {'heavy', 'mid', 'fast'}
+invalid = {name: cfg.get('model') for name, cfg in d.get('agent', {}).items()
+           if cfg.get('model') not in tiers}
+assert not invalid, f'agent models must use capability tiers: {invalid}'
 "
 }
 
