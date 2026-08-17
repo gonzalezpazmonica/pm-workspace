@@ -1,6 +1,6 @@
 {
-  "hash": "4e2d28bb5afc",
-  "total": 1374,
+  "hash": "fb6805500471",
+  "total": 1376,
   "resources": [
     {
       "category": "analysis",
@@ -10732,6 +10732,34 @@
       "kind": "script",
       "path": "scripts/language-boundary-check.sh",
       "description": "scripts/language-boundary-check.sh — SE-253 Slice 7"
+    },
+    {
+      "category": "planning",
+      "name": "learning-autonomy",
+      "intents": [
+        "autonomy",
+        "autonomía",
+        "consistent",
+        "graduada",
+        "learning"
+      ],
+      "kind": "script",
+      "path": "scripts/learning-autonomy.sh",
+      "description": "learning-autonomy.sh — SCL-006: política de autonomía graduada por p_consistent"
+    },
+    {
+      "category": "planning",
+      "name": "learning-divergence",
+      "intents": [
+        "divergence",
+        "divergencia",
+        "grafo",
+        "instrumento",
+        "learning"
+      ],
+      "kind": "script",
+      "path": "scripts/learning-divergence.sh",
+      "description": "learning-divergence.sh — SCL-004 L1: divergencia grafo-modelo como instrumento"
     },
     {
       "category": "planning",
