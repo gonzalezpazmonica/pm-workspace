@@ -1,10 +1,11 @@
 # SCL-001 — Savia Continuous Learning: el sustrato de texto como artefacto de despliegue que aprende
 
-**Status:** PROPOSED
+**Status:** APPROVED → IMPLEMENTED (2026-08-17)
 **Fecha:** 2026-08-16
 **Area:** Orquestación / Memoria / Criterio / Epistemología (Savia Labs)
 **Branch:** agent/scl-001-aprendizaje-continuo
 **Estimación total:** ~30h (4 slices)
+**Implementación:** 6 scripts (`learning-{proposal,lifecycle,rollback,metric,report,guard}.sh`), regla `docs/rules/domain/scl-001-learning-loop.md`, 27 tests BATS (`tests/test-scl-001-*.bats`), E2E de bucle cerrado.
 **Base verificada:** HEAD e8c8fe74 (origin/main). SE-332 IMPLEMENTED. Presentes: CRITERIO.md
 (33 entradas, todas provenance:INFERRED), CONSTITUCION.md (ART-01..20), memory-store.sh,
 memory-tier-rotate.sh, memory-bitemporal.py, memory-consolidate.py, hooks de captura
