@@ -1,5 +1,5 @@
 {
-  "hash": "fb6805500471",
+  "hash": "e81010544835",
   "total": 1376,
   "resources": [
     {
@@ -10766,14 +10766,14 @@
       "name": "learning-federate",
       "intents": [
         "aprendidas",
+        "comparte",
         "consume",
-        "cúpula",
         "federate",
         "learning"
       ],
       "kind": "script",
       "path": "scripts/learning-federate.sh",
-      "description": "learning-federate.sh — SCL-002: consume lecciones aprendidas de la cúpula"
+      "description": "learning-federate.sh — SCL-002/007: consume y comparte lecciones aprendidas"
     },
     {
       "category": "planning",

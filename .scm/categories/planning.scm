@@ -285,7 +285,7 @@
 - **language-boundary-check** (script): scripts/language-boundary-check.sh — SE-253 Slice 7
 - **learning-autonomy** (script): learning-autonomy.sh — SCL-006: política de autonomía graduada por p_consistent
 - **learning-divergence** (script): learning-divergence.sh — SCL-004 L1: divergencia grafo-modelo como instrumento
-- **learning-federate** (script): learning-federate.sh — SCL-002: consume lecciones aprendidas de la cúpula
+- **learning-federate** (script): learning-federate.sh — SCL-002/007: consume y comparte lecciones aprendidas
 - **learning-guard** (script): learning-guard.sh — SCL-001 S4: guard de agnosticismo del bucle de aprendizaje
 - **learning-lifecycle** (script): learning-lifecycle.sh — SCL-001 S2: sustrato como artefacto de despliegue
 - **learning-persist** (script): learning-persist.sh — SCL-002: persiste una learning proposal en la cúpula
