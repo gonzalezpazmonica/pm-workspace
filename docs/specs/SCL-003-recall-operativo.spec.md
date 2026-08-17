@@ -8,6 +8,11 @@
 
 ---
 
+> **Supersesión parcial (SCL-008, 2026-08-17):** los AC que inyectaban snippets
+> de propuestas quedan sustituidos por recall en sombra. Solo se inyectan
+> principios de `CRITERIO.md` con autoría humana verificable y enlace
+> `criterion_id`. Los AC históricos se conservan como registro.
+
 ## Origen
 
 SCL-002 añadió la persistencia real (cúpula SaviaLearning) y la federación

@@ -1,6 +1,6 @@
 type: learning_proposal
 label: Propuesta de Aprendizaje
-description: Leccion aprendida del bucle SCL — error reconocido, diagnostico, cambio propuesto y estado del ciclo de vida. Persiste en la cupula SaviaLabs/learning para consumo cross-instancia (SCL-002).
+description: Leccion aprendida del bucle SCL — error reconocido, diagnostico, cambio propuesto y estado del ciclo de vida. Persiste en la cupula SaviaLearning/learning para consumo cross-instancia (SCL-002).
 properties:
   id:
     type: string
@@ -29,6 +29,11 @@ properties:
     required: true
     vocabulary: [criterio, memoria, skill, spec]
     description: Destino de la correccion propuesta
+  criterion_id:
+    type: string
+    required: false
+    pattern: ^CRIT-[0-9]{3}$
+    description: Enlace de trazabilidad a CRITERIO.md; no concede autoridad por si solo
   evidence_hash:
     type: string
     required: true

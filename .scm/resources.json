@@ -1,5 +1,5 @@
 {
-  "hash": "e81010544835",
+  "hash": "f4ae66fc324b",
   "total": 1376,
   "resources": [
     {
@@ -6290,15 +6290,15 @@
       "category": "memory",
       "name": "learning-recall",
       "intents": [
-        "aprendidas",
+        "authority",
+        "filtered",
         "learning",
-        "lecciones",
         "recall",
-        "recupera"
+        "savialearning"
       ],
       "kind": "script",
       "path": "scripts/learning-recall.sh",
-      "description": "learning-recall.sh — SCL-003 S1: recupera lecciones aprendidas relevantes de"
+      "description": "learning-recall.sh — SCL-003/SCL-008: authority-filtered SaviaLearning recall."
     },
     {
       "category": "memory",

@@ -5,7 +5,7 @@
 set -uo pipefail
 
 setup_file() {
-  REPO_ROOT="$(git rev-parse --show-toplevel)"
+  REPO_ROOT="$(cd "$(dirname "$BATS_TEST_FILENAME")/.." && pwd)"
   export REPO_ROOT
 }
 
@@ -32,6 +32,21 @@ teardown() {
   grep -q "^  lifecycle:" "$SCHEMA"
   grep -q "human_authored" "$SCHEMA"
   grep -q "INFERRED" "$SCHEMA"
+  grep -q "^  criterion_id:" "$SCHEMA"
+}
+
+@test "SCL-008 TS-09: criterion_id survives persistence and federation without elevation" {
+  echo "ev" > "$TMPD/ev.txt"
+  bash "$PROP" --origin "o" --evidence "$TMPD/ev.txt" --diagnosis "d" --change "c" \
+    --target criterio --criterion-id CRIT-034 --output-dir "$TMPD/proposals" --graph-index "$TMPD/g.jsonl" >/dev/null
+  f=$(ls "$TMPD/proposals/"*.md)
+  id=$(grep -m1 '^id:' "$f" | sed 's/^id: //')
+  bash "$PERSIST" --file "$f" >/dev/null
+  grep -q '^  criterion_id: CRIT-034' "$TMPD/vault/learning/${id}.md"
+  bash "$FED" --import "$id" --output-dir "$TMPD/imported" >/dev/null
+  grep -q '^criterion_id: CRIT-034' "$TMPD/imported/${id}.md"
+  grep -q '^provenance: INFERRED' "$TMPD/imported/${id}.md"
+  grep -q '^lifecycle: proposed' "$TMPD/imported/${id}.md"
 }
 
 @test "AC-2: learning-persist escribe la nota en la cúpula con entity+relations" {

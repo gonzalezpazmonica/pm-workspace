@@ -51,7 +51,7 @@
 - **generate-context-index** (script): generate-context-index.sh — Generate context index files for workspace and projects
 - **generate-global-context** (script): Generate compact global context for agent injection.
 - **iterative-compress** (script): iterative-compress.sh — Iterative context compression with summary preservation
-- **learning-recall** (script): learning-recall.sh — SCL-003 S1: recupera lecciones aprendidas relevantes de
+- **learning-recall** (script): learning-recall.sh — SCL-003/SCL-008: authority-filtered SaviaLearning recall.
 - **lesson-search** (cmd): Search cross-project lessons by keyword or domain
 - **memory-access** (script): memory-access.sh — SE-073 Slice 1 — increment access_count + last_access
 - **memory-agent** (agent): Gestiona la memoria persistente de pm-workspace via lenguaje natural.

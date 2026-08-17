@@ -124,6 +124,7 @@ ORIGIN=$(grep -m1 '^  origin: ' "$SRC" | sed 's/^  origin: //')
 TRIGGER=$(grep -m1 '^  trigger: ' "$SRC" | sed 's/^  trigger: //')
 TARGET=$(grep -m1 '^  target: ' "$SRC" | sed 's/^  target: //')
 EHASH=$(grep -m1 '^  evidence_hash: ' "$SRC" | sed 's/^  evidence_hash: //')
+CRITERION_ID=$(grep -m1 '^  criterion_id: ' "$SRC" | sed 's/^  criterion_id: //' || true)
 DIAG=$(sed -n '/^## Diagnóstico/,/^## Cambio propuesto/p' "$SRC" | grep -v '^##' | grep -v '^$' | head -2 | tr '\n' ' ' | sed 's/  */ /g')
 CHANGE=$(sed -n '/^## Cambio propuesto/,/^## Origen/p' "$SRC" | grep -v '^##' | grep -v '^$' | head -2 | tr '\n' ' ' | sed 's/  */ /g')
 FED_ORIGIN="[federada de la cúpula] $ORIGIN"
@@ -147,6 +148,7 @@ lifecycle: proposed
 origin: $FED_ORIGIN
 trigger: $TRIGGER
 target: $TARGET
+criterion_id: $CRITERION_ID
 evidence_hash: $EHASH
 created_utc: $CREATED_UTC
 federated: true

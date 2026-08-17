@@ -30,10 +30,11 @@ spec: SCL-001
 
 ## Recall operativo (SCL-003 + SCL-005)
 
-- **Recuperar en el momento de trabajar**: `learning-recall.sh --query "<contexto>"` consulta la cúpula (BM25) y devuelve lecciones relevantes (umbral `--min-score`, default 5). Sin ruido si no hay coincidencias.
-- **Recall híbrido (SCL-005)**: `learning-recall.sh --hybrid` fusiona BM25 + embeddings semánticos (`learning-hybrid.py`, modelo local all-MiniLM-L6-v2 en `~/.savia/venv`). Recupera sinónimos que BM25 solo no encuentra (p. ej. "token de acceso" → lección sobre PAT). Degrada a léxico puro si el venv no está.
-- **Inyección automática**: `learning-recall-hook.sh` (UserPromptSubmit, master switch `SAVIA_LEARNING_RECALL=on|off`, default on) consulta la cúpula con el texto del prompt y devuelve las lecciones relevantes como contexto que el agente ve ANTES de responder, con el aviso "NO reintroduzcas el error que documenta". Usa recall híbrido. Umbral adaptativo (score ≥ 10 BM25 / ≥ 0.15 híbrido + gap top-second). Exit 0 siempre (nunca bloquea).
-- **Métrica de utilidad**: cada recall se registra en `output/learning-loop/recall.jsonl` (ts, query, hits). Hits>0 = la lección llegó al contexto del trabajo.
+- **Recuperar en sombra**: `learning-recall.sh --query "<contexto>"` consulta SaviaLearning (BM25) y registra coincidencias sin influir. `INFERRED`, `proposed` y `canary` nunca emiten contexto.
+- **Recall híbrido (SCL-005)**: `learning-recall.sh --hybrid` fusiona búsqueda léxica y semántica para encontrar sinónimos. El ranking híbrido pasa por el mismo filtro de autoridad; no eleva propuestas ni expone sus snippets.
+- **Inyección autorizada**: `--mode effective` solo devuelve el `principio` de una entrada `CRIT-XXX` con `provenance: human_authored` cuando una propuesta `active/human_authored` la enlaza mediante `criterion_id`. El snippet de la propuesta nunca se inyecta.
+- **Hook dual**: `.claude/hooks/learning-recall-hook.sh` sirve a Claude Code y OpenCode mediante `savia-gates`. Acepta `content` y `prompt_text`, emite JSON canónico y falla abierto en menos de 5s.
+- **Métrica privada**: `output/learning-loop/recall.jsonl` guarda `query_hash` y contadores; nunca el prompt completo.
 
 ## Ciclo de vida del sustrato
 
@@ -42,8 +43,8 @@ proposed (shadow) → canary → active → superseded
 ```
 
 - **shadow** (`provenance: INFERRED`): sin efecto en gates ni comportamiento.
-- **canary**: activo en subconjunto declarado, medición antes/después (CRIT-019).
-- **active** (`provenance: human_authored`): efecto global.
+- **canary**: sin efecto de recall hasta definir autoría humana verificable para el subconjunto.
+- **active** (`provenance: human_authored`): solo influye si enlaza un criterio humano activo verificable.
 - **superseded**: tombstone + cuarentena (CRIT-024). Nunca se borra.
 
 ## Gates inmutables

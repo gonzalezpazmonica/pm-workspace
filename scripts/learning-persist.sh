@@ -52,6 +52,7 @@ LIFE=$(grep -m1 '^lifecycle: ' "$FILE" | sed 's/^lifecycle: //')
 ORIGIN=$(grep -m1 '^origin: ' "$FILE" | sed 's/^origin: //')
 TRIGGER=$(grep -m1 '^trigger: ' "$FILE" | sed 's/^trigger: //')
 TARGET=$(grep -m1 '^target: ' "$FILE" | sed 's/^target: //')
+CRITERION_ID=$(grep -m1 '^criterion_id: ' "$FILE" | sed 's/^criterion_id: //' || true)
 EHASH=$(grep -m1 '^evidence_hash: ' "$FILE" | sed 's/^evidence_hash: //')
 CREATED=$(grep -m1 '^created_utc: ' "$FILE" | sed 's/^created_utc: //')
 EXPECTED=$(grep -m1 '^expected_p_consistent: ' "$FILE" | sed 's/^expected_p_consistent: //')
@@ -96,6 +97,7 @@ entity:
   origin: $ORIGIN
   trigger: $TRIGGER
   target: $TARGET
+  criterion_id: $CRITERION_ID
   evidence_hash: $EHASH
   created_utc: $CREATED
   expected_p_consistent: ${EXPECTED:-}

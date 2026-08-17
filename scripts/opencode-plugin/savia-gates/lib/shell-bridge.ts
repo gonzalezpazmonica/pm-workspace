@@ -88,7 +88,8 @@ export async function runHooksForEvent(
     if (!matcherApplies(h.matcher, tool)) continue
     try {
       // Pipe payload on stdin; capture stdout/stderr; honour timeout.
-      const timeout = (h.timeout ?? 5) * 1000
+      const configuredTimeout = h.timeout ?? 5000
+      const timeout = Math.min(configuredTimeout < 1000 ? configuredTimeout * 1000 : configuredTimeout, 5000)
       const proc = $`bash ${h.command}`
         .env({ ...process.env, CLAUDE_PROJECT_DIR: projectRoot })
         .quiet()
@@ -109,6 +110,9 @@ export async function runHooksForEvent(
         const parsed = JSON.parse(String(stdout))
         if (parsed?.mutatedArgs) result.mutatedArgs = parsed.mutatedArgs
         if (parsed?.injectedContext) result.injectedContext = parsed.injectedContext
+        if (parsed?.hookSpecificOutput?.additionalContext) {
+          result.injectedContext = parsed.hookSpecificOutput.additionalContext
+        }
       } catch {
         /* not JSON — ignore stdout */
       }

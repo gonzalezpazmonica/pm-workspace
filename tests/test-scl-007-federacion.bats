@@ -5,19 +5,42 @@
 set -uo pipefail
 
 setup_file() {
-  REPO_ROOT="$(git rev-parse --show-toplevel)"
+  REPO_ROOT="$(cd "$(dirname "$BATS_TEST_FILENAME")/.." && pwd)"
   export REPO_ROOT
 }
 
 start_remote() {
-  # Arranca un servidor A2A real simulando otra instancia. Imprime "PORT:PID".
+  # Arranca un receptor compatible con el contrato A2A /share. Imprime "PORT:PID".
   local REMOTE="$1"
   mkdir -p "$REMOTE/learning"
   local PORT=$(( (RANDOM % 2000) + 9000 ))
-  export PATH="$HOME/.nvm/versions/node/v22.23.2/bin:$PATH"
-  (cd "$REPO_ROOT/projects/savia-vaults" && exec node dist/cli/index.js serve --transport a2a --port "$PORT" --host 127.0.0.1 --path "$REMOTE" >/dev/null 2>&1) &
+  local MOCK="$REMOTE/share-server.py"
+  cat > "$MOCK" <<'PY'
+import http.server, json, pathlib, sys
+root, port = pathlib.Path(sys.argv[1]), int(sys.argv[2])
+class H(http.server.BaseHTTPRequestHandler):
+    def do_POST(self):
+        if self.path != '/share':
+            self.send_response(404); self.end_headers(); return
+        data = json.loads(self.rfile.read(int(self.headers.get('Content-Length', '0'))))
+        target = (root / data['path']).resolve()
+        if root.resolve() not in target.parents:
+            self.send_response(400); self.end_headers(); return
+        target.parent.mkdir(parents=True, exist_ok=True)
+        target.write_text(data['content'], encoding='utf-8')
+        body = json.dumps({'path': data['path']}).encode()
+        self.send_response(200); self.send_header('Content-Type', 'application/json'); self.end_headers()
+        self.wfile.write(body)
+    def log_message(self, *args): pass
+http.server.HTTPServer(('127.0.0.1', port), H).serve_forever()
+PY
+  python3 "$MOCK" "$REMOTE" "$PORT" >/dev/null 2>&1 &
   local PID=$!
-  sleep 2
+  for _ in $(seq 1 20); do
+    kill -0 "$PID" 2>/dev/null || break
+    curl -s --max-time 1 "http://127.0.0.1:$PORT/" >/dev/null 2>&1 && break
+    sleep 0.1
+  done
   echo "${PORT}:${PID}"
 }
 
@@ -53,7 +76,7 @@ teardown() {
   [ -n "${TMPD:-}" ] && rm -rf "$TMPD"
 }
 
-@test "AC-1: --share envia la leccion a un dome remoto via /share (A2A)" {
+@test "AC-1: --share cumple el contrato HTTP /share de A2A" {
   parse_remote "$(start_remote "$TMPD/remote/vault")"
   SERVER_PID="$PID"
   id=$(basename "$(ls "$TMPD/vault/learning/"*.md | head -1)" .md)
