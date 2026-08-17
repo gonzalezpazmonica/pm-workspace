@@ -8,6 +8,13 @@
       "description": "Cupula de contexto principal de Savia",
       "confidentiality": "N2",
       "schemaDir": "projects/savia-vaults/schema/entities"
+    },
+    "SaviaLearning": {
+      "name": "SaviaLearning",
+      "path": "../../vaults/SaviaLearning",
+      "description": "Cupula del bucle de aprendizaje continuo SCL — lecciones aprendidas persistentes cross-instancia",
+      "confidentiality": "N2",
+      "schemaDir": "projects/savia-vaults/schema/entities"
     }
   }
 }

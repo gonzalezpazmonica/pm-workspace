@@ -14,11 +14,18 @@ spec: SCL-001
 
 | Recurso | Path | Notas |
 |---|---|---|
-| Learning proposals | `docs/learning-proposals/` | Artefacto markdown versionado (fuente de verdad, CRIT-003) |
+| Learning proposals (local) | `docs/learning-proposals/` | Artefacto markdown versionado (fuente local, CRIT-003) |
+| **Cúpula SaviaLearning** | `vaults/SaviaLearning/learning/` | Persistencia cross-instancia (SCL-002). Git-backed, entidad `learning_proposal` en el grafo |
 | Lifecycle ledger | `output/learning-loop/lifecycle.jsonl` | Transiciones de estado auditadas |
 | Rollback ledger | `output/learning-loop/rollback.jsonl` | Reversiones con causa registrada |
-| Graph index | `output/learning-loop/graph-index.jsonl` | Índice de navegación (SaviaVaults, no fuente de verdad) |
+| Graph index | `output/learning-loop/graph-index.jsonl` | Índice local (SCL-001); el grafo real vive en SaviaVaults |
 | Hook de captura | `.claude/hooks/learning-capture-hook.sh` | PostToolUse Task. Master switch `SAVIA_LEARNING_CAPTURE=on\|off` (default off). Evidencia por hash de respuesta cuando no hay ficheros (SCL-001.1 D1). Nunca bloquea |
+
+## Persistencia y federación (SCL-002)
+
+- **Persistir**: `learning-proposal.sh --persist` (o `learning-persist.sh --file <p>`) escribe la lección en la cúpula `SaviaLearning` con frontmatter `entity.type: learning_proposal` + `relations` (PROPOSES_CHANGE, EVIDENCE_FROM, MEASURED_BY) + wikilinks → indexada en el grafo de SaviaVaults.
+- **Consumir (cross-instancia)**: `learning-federate.sh --list` lista lecciones de la cúpula; `--import <id>` las trae como propuesta local `INFERRED` (shadow, sin efecto), pendiente de `human_authored`. NUNCA auto-activa (CRIT-031).
+- **SaviaVaults es el servidor; SaviaLabs, savia-docs y SaviaLearning son cúpulas.** Las lecciones de SCL van SOLO a SaviaLearning — nunca a SaviaLabs (es de Labs/experimentación).
 
 ## Ciclo de vida del sustrato
 

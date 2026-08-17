@@ -39,6 +39,7 @@ EXPECTED_PC=""
 TRIGGER="ledger"
 OUTPUT_DIR="${SCL_PROPOSALS_DIR:-$ROOT/docs/learning-proposals}"
 GRAPH_INDEX="${SCL_GRAPH_INDEX:-$ROOT/output/learning-loop/graph-index.jsonl}"
+PERSIST=false
 FORCE_ID=""
 
 usage() {
@@ -57,6 +58,7 @@ while [[ $# -gt 0 ]]; do
     --trigger) TRIGGER="$2"; shift 2 ;;
     --output-dir) OUTPUT_DIR="$2"; shift 2 ;;
     --graph-index) GRAPH_INDEX="$2"; shift 2 ;;
+    --persist) PERSIST=true; shift ;;
     --id) FORCE_ID="$2"; shift 2 ;;
     -h|--help) usage ;;
     *) shift ;;
@@ -177,4 +179,16 @@ mkdir -p "$(dirname "$GRAPH_INDEX")"
 echo "CREATED: $FILE"
 echo "id: $ID"
 echo "evidence_hash: $EVIDENCE_HASH"
+
+# ── Persist to SaviaLearning dome (SCL-002): cross-instance durable lesson ──
+if $PERSIST; then
+  PERSIST_SCRIPT="${SCL_PERSIST_SCRIPT:-$ROOT/scripts/learning-persist.sh}"
+  if [[ -f "$PERSIST_SCRIPT" ]]; then
+    if bash "$PERSIST_SCRIPT" --file "$FILE" "${SCL_PERSIST_COMMIT:+--commit}" 2>/dev/null; then
+      echo "persisted: true"
+    else
+      echo "persisted: false"
+    fi
+  fi
+fi
 exit 0
