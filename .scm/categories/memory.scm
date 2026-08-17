@@ -1,5 +1,5 @@
 # memory — Savia Capability Map (L1)
-> 105 resources
+> 106 resources
 
 - **auto-compact** (script): auto-compact.sh — Disparado automáticamente cuando contexto > 85%
 - **cache-analytics** (cmd): Métricas de hit rate, tokens ahorrados, latencia, ahorro de costes
@@ -51,6 +51,7 @@
 - **generate-context-index** (script): generate-context-index.sh — Generate context index files for workspace and projects
 - **generate-global-context** (script): Generate compact global context for agent injection.
 - **iterative-compress** (script): iterative-compress.sh — Iterative context compression with summary preservation
+- **learning-recall** (script): learning-recall.sh — SCL-003 S1: recupera lecciones aprendidas relevantes de
 - **lesson-search** (cmd): Search cross-project lessons by keyword or domain
 - **memory-access** (script): memory-access.sh — SE-073 Slice 1 — increment access_count + last_access
 - **memory-agent** (agent): Gestiona la memoria persistente de pm-workspace via lenguaje natural.
