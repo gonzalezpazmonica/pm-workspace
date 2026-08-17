@@ -96,6 +96,14 @@ bash scripts/learning-report.sh --window W34 --captured N --activated M \
 
 # S4 — guard de agnosticismo
 bash scripts/learning-guard.sh --loop-dir scripts/
+
+# SCL-004 — divergencia grafo-modelo (Labs L1)
+bash scripts/learning-divergence.sh --claim "<declaracion modelo>" \
+  --graph-query "<tema>" --threshold 0.6 [--propose]   # exit 1 si diverge
+
+# SCL-006 — autonomía graduada por p_consistent
+bash scripts/learning-autonomy.sh --p-consistent 0.8 --requested L2
+#   p<0.5→L0 · 0.5-0.7→L1 · 0.7-0.85→L2 · ≥0.85→L3 (+historial+humano)
 ```
 
 ## Referencias
