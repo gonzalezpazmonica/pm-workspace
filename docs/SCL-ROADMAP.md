@@ -42,9 +42,9 @@ un artefacto de despliegue que **aprende de forma continua, medida y agnóstica 
 |---|---|---|---|
 | **F0 — Sustrato** | EXISTENTE | CONSTITUCION, CRITERIO (33 INFERRED), memoria (tier-rotate, bitemporal, consolidate), ledger SE-255 S3, calibración SE-255 S4, SaviaVaults (BM25, grafo, entity resolution), Labs L1-L6, p_consistent (SE-292 S6), multi-proveedor (ADR-012) | Eras 125-204 |
 | **F1 — Cerrar el bucle** | SCL-001 **IMPLEMENTED** + SCL-001.1 PROPOSED (hook captura instalado) | Captura canónica → ciclo de vida shadow/canary/active → métrica `L` → agnosticismo | **Era 206** |
-| **F2 — Federar el aprendizaje** | SCL-002 (candidata) | Aprendizaje cross-dome, divergencia entre instancias (Labs L5) | Era 206+ |
-| **F3 — Instrumentar Labs** | SCL-003 (candidata) | Ejecutar Labs L1-L6 como instrumentos del bucle (SE-291 S2-S8) | Era 206+ |
-| **F4 — Búsqueda híbrida** | SCL-004 (candidata) | Embeddings híbridos para la métrica de divergencia (ADR-003, Fase 4) | Era 206+ |
+| **F2 — Persistir + recall operativo** | SCL-002 **IMPLEMENTED** (cúpula SaviaLearning) + SCL-003 **IMPLEMENTED** (recall por prompt) | Cúpula propia de lecciones (persistencia real cross-instancia) + recuperación automática en el momento de trabajar | Era 206 |
+| **F3 — Federar + instrumentar Labs** | SCL-004 (candidata) | Aprendizaje cross-dome (Labs L5) + Labs L1-L6 como instrumentos del bucle (SE-291) | Era 206+ |
+| **F4 — Búsqueda híbrida** | SCL-005 (candidata) | Embeddings híbridos para la métrica de divergencia (ADR-003, Fase 4) | Era 206+ |
 
 ---
 
@@ -90,10 +90,9 @@ tres anteriores para su prueba E2E.
 
 | Spec | Tesis | Origen | Estado |
 |---|---|---|---|
-| SCL-002 | Aprendizaje federado: el sustrato aprende de instancias que divergen | Labs L5 + SE-282 | CANDIDATA |
-| SCL-003 | Ejecutar Labs L1-L6 como instrumentos permanentes del bucle | SE-291 S2-S8 | CANDIDATA |
-| SCL-004 | Embeddings híbridos para medir divergencia grafo-modelo con recall | ADR-003 (Fase 4) | CANDIDATA |
-| SCL-005 | p_consistent como política de autonomía graduada | SE-292 S6 + ADR-010 | CANDIDATA |
+| SCL-004 | Aprendizaje federado cross-dome (lecciones entre instancias remotas) + Labs L1-L6 | Labs L5 + SE-291 S2-S8 | CANDIDATA |
+| SCL-005 | Embeddings híbridos para medir divergencia grafo-modelo con recall | ADR-003 (Fase 4) | CANDIDATA |
+| SCL-006 | p_consistent como política de autonomía graduada | SE-292 S6 + ADR-010 | CANDIDATA |
 
 ---
 
