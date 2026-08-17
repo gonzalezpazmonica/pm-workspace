@@ -25,6 +25,7 @@ spec: SCL-001
 
 - **Persistir**: `learning-proposal.sh --persist` (o `learning-persist.sh --file <p>`) escribe la lección en la cúpula `SaviaLearning` con frontmatter `entity.type: learning_proposal` + `relations` (PROPOSES_CHANGE, EVIDENCE_FROM, MEASURED_BY) + wikilinks → indexada en el grafo de SaviaVaults.
 - **Consumir (cross-instancia)**: `learning-federate.sh --list` lista lecciones de la cúpula; `--import <id>` las trae como propuesta local `INFERRED` (shadow, sin efecto), pendiente de `human_authored`. NUNCA auto-activa (CRIT-031).
+- **Federación cross-dome (SCL-007)**: `learning-federate.sh --share <id> --to <url>` envía la lección a otra instancia vía A2A `/share`; `--search-remote --url <url> --query <q>` consulta `/search` del servidor remoto. La instancia receptora importa como `INFERRED` (shadow), nunca auto-activa.
 - **SaviaVaults es el servidor; SaviaLabs, savia-docs y SaviaLearning son cúpulas.** Las lecciones de SCL van SOLO a SaviaLearning — nunca a SaviaLabs (es de Labs/experimentación).
 
 ## Recall operativo (SCL-003 + SCL-005)

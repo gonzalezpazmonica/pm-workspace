@@ -45,6 +45,7 @@ un artefacto de despliegue que **aprende de forma continua, medida y agnóstica 
 | **F2 — Persistir + recall operativo** | SCL-002 **IMPLEMENTED** (cúpula SaviaLearning) + SCL-003 **IMPLEMENTED** (recall por prompt) | Cúpula propia de lecciones (persistencia real cross-instancia) + recuperación automática en el momento de trabajar | Era 206 |
 | **F3 — Instrumentar Labs + autonomía** | SCL-004 **IMPLEMENTED** (L1 divergencia grafo-modelo → propuesta) + SCL-006 **IMPLEMENTED** (autonomía graduada por p_consistent) | Labs L1 como instrumento del bucle; autonomía L0-L3 graduada por consistencia medida | Era 206 |
 | **F4 — Búsqueda híbrida** | SCL-005 **IMPLEMENTED** (venv ~/.savia/venv, recall híbrido BM25+embeddings) | Embeddings híbridos para la divergencia y el recall (ADR-003 Fase 4) | Era 206 |
+| **F5 — Federación cross-dome** | SCL-007 **IMPLEMENTED** (share A2A + search-remote + import INFERRED) | Lecciones compartidas entre instancias remotas vía A2A de SaviaVaults | Era 206 |
 
 ---
 
@@ -90,7 +91,8 @@ tres anteriores para su prueba E2E.
 
 | Spec | Tesis | Origen | Estado |
 |---|---|---|---|
-| SCL-007 | Aprendizaje federado cross-dome real (lecciones entre instancias remotas vía A2A) | Labs L5 + SE-291 S2-S8 | CANDIDATA |
+| SCL-008 | Reconciliación de lecciones duplicadas/conflictivas entre instancias | SE-309 knowledge governance | CANDIDATA |
+| SCL-009 | Descubrimiento automático de instancias federadas (registro automático) | Labs L5 | CANDIDATA |
 
 ---
 

@@ -1,19 +1,22 @@
 #!/usr/bin/env bash
-# learning-federate.sh — SCL-002: consume lecciones aprendidas de la cúpula
-# SaviaLearning como propuestas INFERRED locales.
+# learning-federate.sh — SCL-002/007: consume y comparte lecciones aprendidas
+# de la cúpula SaviaLearning.
 #
-# La cúpula es cross-instancia: cualquier savia puede leer las lecciones que
-# otros persistieron. Este script importa una lección de la cúpula como
-# propuesta local (INFERRED, shadow — sin efecto) para que esta instancia la
-# evalúe y, si procede, la active con aprobación humana. NUNCA auto-activa.
+# - Import (SCL-002): trae una lección de la cúpula como propuesta local
+#   INFERRED (shadow, sin efecto), pendiente de human_authored. NUNCA auto-activa.
+# - Share (SCL-007): envía una lección a un dome remoto vía A2A (/share) —
+#   federación cross-instancia real entre servidores SaviaVaults.
 #
 # Usage:
-#   learning-federate.sh --from-vault <path> [--output-dir <dir>] [--list]
-#   learning-federate.sh --list          # lista lecciones disponibles en la cúpula
+#   learning-federate.sh --list                       # lista lecciones locales
+#   learning-federate.sh --import <id> [--output-dir] # importa como INFERRED
+#   learning-federate.sh --share <id> --to <url> [--token]  # push a dome remoto
+#   learning-federate.sh --search-remote --url <url> --query <q>  # busca en remoto
 #
-# Exit codes: 0 ok, 2 usage, 3 vault missing
+# Exit codes: 0 ok, 1 ya existe, 2 usage, 3 no encontrado/fail
 #
-# Ref: docs/specs/SCL-002-cupula-aprendizaje.spec.md
+# Ref: docs/specs/SCL-002-cupula-aprendizaje.spec.md,
+#      docs/specs/SCL-007-federacion-crossdome.spec.md
 # PURE_BASH — sin bindings de frontend.
 
 set -uo pipefail
@@ -25,6 +28,11 @@ VAULT="${SCL_VAULT_DIR:-$ROOT/vaults/SaviaLearning}"
 OUTPUT_DIR="${SCL_PROPOSALS_DIR:-$ROOT/docs/learning-proposals}"
 LIST_ONLY=false
 IMPORT_ID=""
+SHARE_ID=""
+REMOTE_URL=""
+REMOTE_TOKEN=""
+SEARCH_REMOTE=false
+REMOTE_QUERY=""
 
 usage() {
   sed -n '2,15p' "${BASH_SOURCE[0]}" | sed 's/^# \{0,1\}//'
@@ -37,14 +45,58 @@ while [[ $# -gt 0 ]]; do
     --output-dir) OUTPUT_DIR="$2"; shift 2 ;;
     --list) LIST_ONLY=true; shift ;;
     --import) IMPORT_ID="$2"; shift 2 ;;
+    --share) SHARE_ID="$2"; shift 2 ;;
+    --to) REMOTE_URL="$2"; shift 2 ;;
+    --token) REMOTE_TOKEN="$2"; shift 2 ;;
+    --search-remote) SEARCH_REMOTE=true; shift ;;
+    --url) REMOTE_URL="$2"; shift 2 ;;
+    --query) REMOTE_QUERY="$2"; shift 2 ;;
     -h|--help) usage ;;
     *) shift ;;
   esac
 done
 
+# ── Modo search-remote (SCL-007): busca en un dome remoto via /search ──
+if $SEARCH_REMOTE; then
+  [[ -z "$REMOTE_URL" || -z "$REMOTE_QUERY" ]] && { echo "ERROR: --url y --query requeridos con --search-remote" >&2; exit 2; }
+  AUTH=(); [[ -n "$REMOTE_TOKEN" ]] && AUTH=(-H "Authorization: Bearer $REMOTE_TOKEN")
+  RESP=$(curl -s --max-time 8 "${AUTH[@]}" "$REMOTE_URL/search?q=$(python3 -c "import urllib.parse,sys;print(urllib.parse.quote(sys.argv[1]))" "$REMOTE_QUERY")&maxResults=5" 2>/dev/null) || true
+  if [[ -z "$RESP" ]]; then echo "ERROR: no response de $REMOTE_URL" >&2; exit 3; fi
+  echo "=== Lecciones del dome remoto: $REMOTE_URL ==="
+  echo "$RESP" | python3 -c "
+import json,sys
+try:
+    d=json.load(sys.stdin)
+    for r in d.get('results',[]):
+        if 'learning/' in r.get('path',''):
+            print(f\"- {r['path']} (score {r.get('score',0):.2f})\")
+except Exception as e:
+    print('ERROR parsing:', e)" 2>&1
+  exit 0
+fi
+
 [[ -d "$VAULT" ]] || { echo "ERROR: vault not found: $VAULT" >&2; exit 3; }
 LEARN_DIR="$VAULT/learning"
 [[ -d "$LEARN_DIR" ]] || { echo "ERROR: no learning dir in vault: $LEARN_DIR" >&2; exit 3; }
+
+# ── Modo share (SCL-007): envía una lección a un dome remoto via /share ──
+if [[ -n "$SHARE_ID" ]]; then
+  [[ -z "$REMOTE_URL" ]] && { echo "ERROR: --to <url> requerido con --share" >&2; exit 2; }
+  SRC="$LEARN_DIR/${SHARE_ID}.md"
+  [[ -f "$SRC" ]] || { echo "ERROR: lesson not found: $SHARE_ID" >&2; exit 3; }
+  CONTENT=$(cat "$SRC")
+  PAYLOAD=$(python3 -c "import json,sys;print(json.dumps({'path':'learning/$SHARE_ID.md','content':sys.argv[1]}))" "$CONTENT")
+  AUTH=(); [[ -n "$REMOTE_TOKEN" ]] && AUTH=(-H "Authorization: Bearer $REMOTE_TOKEN")
+  RESP=$(curl -s --max-time 8 -X POST "${AUTH[@]}" -H 'Content-Type: application/json' \
+    -d "$PAYLOAD" "$REMOTE_URL/share" 2>/dev/null) || true
+  if echo "$RESP" | grep -q '"path"'; then
+    echo "SHARED: learning/${SHARE_ID}.md → $REMOTE_URL"
+    echo "source_dome: SaviaLearning"
+    exit 0
+  fi
+  echo "ERROR: share fallo — respuesta: ${RESP:-sin respuesta}" >&2
+  exit 3
+fi
 
 if $LIST_ONLY; then
   echo "=== Lecciones aprendidas disponibles en la cúpula ==="
