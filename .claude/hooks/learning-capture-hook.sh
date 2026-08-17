@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+set -uo pipefail
 # learning-capture-hook.sh — SCL-001 S1: disparador de captura para el bucle
 #
 # Detecta errores reconocidos / correcciones en output de agentes (PostToolUse
