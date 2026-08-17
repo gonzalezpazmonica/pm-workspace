@@ -30,16 +30,16 @@ let prevPrefs: string | undefined;
 const SAMPLE_PREFS = [
   "version: 1",
   "frontend: opencode",
-  "provider: deepseek",
-  "model_heavy: deepseek/deepseek-v4-pro",
-  "model_mid:   deepseek/deepseek-v4-pro",
-  "model_fast:  deepseek/deepseek-v4-flash",
+  "provider: test-provider",
+  "model_heavy: test-provider/reasoning-model",
+  "model_mid:   test-provider/balanced-model",
+  "model_fast:  test-provider/fast-model",
 ].join("\n") + "\n";
 
 const SAMPLE_REGISTRY = {
   schema: "savia.model-registry/1.0",
   generated_at: "2026-08-08T00:00:00Z",
-  models: ["deepseek/deepseek-v4-pro", "deepseek/deepseek-v4-flash"],
+  models: ["test-provider/reasoning-model", "test-provider/balanced-model", "test-provider/fast-model"],
 };
 
 beforeAll(() => {
@@ -107,12 +107,12 @@ test("AC-7.3: dispatch.resolved para tier mid (dotnet-developer)", async () => {
   expect(events.length).toBe(before + 1);
   expect(events[events.length - 1].event).toBe("dispatch.resolved");
   expect(events[events.length - 1].agent_name).toBe("dotnet-developer");
-  expect(events[events.length - 1].resolved_model).toBe("deepseek/deepseek-v4-pro");
+  expect(events[events.length - 1].resolved_model).toBe("test-provider/balanced-model");
   expect(events[events.length - 1].schema).toBe("savia.event/1.0");
   expect(events[events.length - 1].trace_id).toBeTruthy();
   // SE-313 S3: atributos GenAI semconv presentes con provider + modelo real.
-  expect(events[events.length - 1].gen_ai_system).toBe("deepseek");
-  expect(events[events.length - 1].gen_ai_response_model).toBe("deepseek/deepseek-v4-pro");
+  expect(events[events.length - 1].gen_ai_system).toBe("test-provider");
+  expect(events[events.length - 1].gen_ai_response_model).toBe("test-provider/balanced-model");
 });
 
 test("AC-7.3: dispatch.resolved hereda ID con prefijo (explore→mid default)", async () => {
@@ -126,9 +126,9 @@ test("AC-7.3: dispatch.resolved hereda ID con prefijo (explore→mid default)", 
 });
 
 test("AC-7.6/7.7: modelo no resolubible emite dispatch.failed sin bloquear", async () => {
-  // Registry solo contiene deepseek/*; un modelo inexistente debe fallar.
+  // Registry solo contiene los modelos del fixture; uno inexistente debe fallar.
   const before = readEvents().length;
-  await dispatchTrace(taskInput("fake-agent", "claude-3-7-sonnet-20250219"), taskOutput("fake-agent", "claude-3-7-sonnet-20250219"));
+  await dispatchTrace(taskInput("fake-agent", "missing-model"), taskOutput("fake-agent", "missing-model"));
   const after = readEvents();
   expect(after.length).toBe(before + 1);
   const last = after[after.length - 1];
@@ -145,12 +145,12 @@ test("AC-7.3: guard ignora tools que no son task (no escribe telemetría)", asyn
 
 test("AC-7.3: modelo con prefijo directo se usa tal cual si existe", async () => {
   const before = readEvents().length;
-  await dispatchTrace(taskInput("direct", "deepseek/deepseek-v4-flash"), taskOutput("direct", "deepseek/deepseek-v4-flash"));
+  await dispatchTrace(taskInput("direct", "test-provider/fast-model"), taskOutput("direct", "test-provider/fast-model"));
   const events = readEvents();
   expect(events.length).toBe(before + 1);
   const last = events[events.length - 1];
   expect(last.event).toBe("dispatch.resolved");
-  expect(last.resolved_model).toBe("deepseek/deepseek-v4-flash");
+  expect(last.resolved_model).toBe("test-provider/fast-model");
 });
 
 test("SAVIA_DISPATCH_GATE=block: falla el dispatch con modelo irresoluble", async () => {
@@ -158,7 +158,7 @@ test("SAVIA_DISPATCH_GATE=block: falla el dispatch con modelo irresoluble", asyn
   process.env.SAVIA_DISPATCH_GATE = "block";
   let threw = false;
   try {
-    await dispatchTrace(taskInput("nope", "gpt-4o"), taskOutput("nope", "gpt-4o"));
+    await dispatchTrace(taskInput("nope", "missing-model"), taskOutput("nope", "missing-model"));
   } catch {
     threw = true;
   } finally {

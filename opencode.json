@@ -27,7 +27,7 @@
  "agent": {
    "build": {
     "mode": "primary",
-    "model": "deepseek/deepseek-v4-pro",
+    "model": "mid",
    "permission": {
     "edit": "allow",
     "task": "allow",
@@ -59,7 +59,7 @@
   },
    "plan": {
     "mode": "primary",
-    "model": "deepseek/deepseek-v4-pro",
+    "model": "mid",
    "permission": {
     "edit": "deny",
     "bash": "deny",
