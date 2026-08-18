@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=72ac24fb94a998c4284ac9297bedfeb1539d2d20188b189354fbc11db37ed987
-timestamp=2026-08-18T16:57:58Z
+diff_hash=2e9813ee4aa33f22de554202a7a3b8f447a1cca5d7cb97bb7fb068db4ec22a1d
+timestamp=2026-08-18T17:30:38Z
 branch=agent/se334-vaults-criteria-hardening-20260818
-head_commit=f0b2056a
-signature=311bc56225f0aa9edbf964ebfc6e9c1222c568f21a48e2586a19831b3a87fbe8
+head_commit=f64bcac3
+signature=c2122b4f9c2bb00c2ac3cd2cd7c2cf2a52c1ae655182cc204a52a2d404ceec18
