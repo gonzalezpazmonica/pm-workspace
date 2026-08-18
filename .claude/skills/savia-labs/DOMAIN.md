@@ -28,5 +28,5 @@ Resultados internos para mejora de agentes. No se publican externamente.
 
 ## Integracion
 
-- Vault: labs/ en SaviaLabs
+- Vault: `labs/` en una cúpula de investigación configurada localmente
 - Comandos: /labs preregister, /labs hypotheses, /labs results

@@ -1,11 +1,18 @@
 {
   "version": 1,
-  "defaultDome": "SaviaLabs",
+  "defaultDome": "example-context",
   "domes": {
-    "SaviaLabs": {
-      "name": "SaviaLabs",
-      "path": "../../vaults/SaviaLabs",
-      "description": "Cupula de contexto principal de Savia",
+    "example-context": {
+      "name": "example-context",
+      "path": "../../vaults/example-context",
+      "description": "Cupula de ejemplo para desarrollo y pruebas locales",
+      "confidentiality": "N2",
+      "schemaDir": "projects/savia-vaults/schema/entities"
+    },
+    "SaviaLearning": {
+      "name": "SaviaLearning",
+      "path": "../../vaults/SaviaLearning",
+      "description": "Cupula del bucle Savia Continuous Learning para lecciones persistentes cross-instancia",
       "confidentiality": "N2",
       "schemaDir": "projects/savia-vaults/schema/entities"
     }

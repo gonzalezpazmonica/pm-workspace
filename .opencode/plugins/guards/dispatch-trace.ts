@@ -60,17 +60,8 @@ async function loadTierMap(): Promise<Record<string, string>> {
   }
 }
 
-function withProviderPrefix(id: string, tierMap: Record<string, string>): string {
-  if (!id) return id;
-  if (id.includes("/")) return id;
-  const provider = tierMap.provider ?? "deepseek";
-  return `${provider}/${id}`;
-}
-
 function resolveModel(raw: string, tierMap: Record<string, string>): string {
-  const tier = tierMap[raw];
-  if (tier) return withProviderPrefix(tier, tierMap);
-  return withProviderPrefix(raw, tierMap);
+  return tierMap[raw] ?? raw;
 }
 
 // ── Registry check ──────────────────────────────────────────────────────────
@@ -80,7 +71,7 @@ async function registryHas(id: string): Promise<boolean> {
     const { readFile } = await import("node:fs/promises");
     const raw = await readFile(registryPath(), "utf-8");
     const reg: Registry = JSON.parse(raw);
-    if (reg.models?.includes(id)) return true;
+    if (Array.isArray(reg.models)) return reg.models.includes(id);
   } catch {
     // fall through to runtime query
   }
@@ -143,7 +134,9 @@ export async function dispatchTrace(input: ToolInput, output: ToolOutput): Promi
 
     const ok = await registryHas(resolved);
     // SE-313 S3: atributos GenAI semconv — system provider + modelo real.
-    const provider = tierMap.provider ?? "deepseek";
+    const provider = resolved.includes("/")
+      ? resolved.slice(0, resolved.indexOf("/"))
+      : (tierMap.provider ?? "unknown");
     const genAi: Record<string, string | number> = {
       gen_ai_system: provider,
       gen_ai_request_model: String(configured),

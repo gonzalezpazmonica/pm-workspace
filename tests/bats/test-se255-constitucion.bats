@@ -159,6 +159,14 @@ teardown() {
 @test "AC-5.2: cita con ID invalido devuelve error" {
   run bash "$REPO_ROOT/scripts/criterio-cite.sh" SIN-ID
   [ "$status" -ne 0 ]
+  [[ "$output" == *"ERROR: SIN-ID not found"* ]]
+}
+
+@test "AC-5.3: cita valida devuelve titulo y principio" {
+  run bash "$REPO_ROOT/scripts/criterio-cite.sh" CRIT-031
+  [ "$status" -eq 0 ]
+  [[ "$output" == *"CRIT-031: Intocables incluso con aprobacion aparente"* ]]
+  [[ "$output" == *"principio:"* ]]
 }
 
 # ── Slice 6: Atestacion ──────────────────────────────────────────────────────

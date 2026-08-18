@@ -5,6 +5,15 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased] — 2026-08-17 · Human authority for learning recall (SCL-008)
+
+### Changed
+- Learning recall now injects only active, human-authored principles resolved
+  from `CRITERIO.md`; inferred and proposed lessons remain measurable shadow
+  candidates and cannot become instructions automatically.
+- Claude Code and OpenCode use the same canonical recall hook and authority
+  filter, including hybrid ranking and federated lessons.
+
 ## [Unreleased] — 2026-07-19 · Neuro-inspired Orchestration (SE-268)
 
 ### Added (SE-268 — PR #907)

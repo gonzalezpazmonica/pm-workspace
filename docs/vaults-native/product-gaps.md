@@ -42,10 +42,10 @@ Classification: fix in product (future)
 ## Metrics from self-hosting
 
 - Vaults declared: 5
-- Documents indexed: 11 in SaviaLabs, ~1000 in savia-docs
+- Documents indexed: 11 in an example context dome, ~1000 in savia-docs
 - Build time: <2s for full project
-- Introspect latency: <50ms for SaviaLabs (3 docs)
-- Search latency: <10ms for SaviaLabs
+- Introspect latency: <50ms for the example context dome (3 docs)
+- Search latency: <10ms for the example context dome
 
 ## Learnings
 

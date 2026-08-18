@@ -4,18 +4,18 @@ version: "1.0"
 last_updated: "2026-08-01"
 
 vaults:
-  savialabs:
-    path: vaults/SaviaLabs
-    description: Cupula de contexto principal de Savia — documentacion, analisis, informes
+  example-context:
+    path: vaults/example-context
+    description: Cupula de ejemplo para documentacion, analisis e informes
     max_confidentiality: N2
     write_mode: explicit
     schema_dir: projects/savia-vaults/schema/entities
     purpose: knowledge_base
     entity_types: [document, decision, project, person]
 
-  savia-labs:
+  research:
     path: labs
-    description: Savia Labs — cupula de investigacion epistemica con disciplina experimental
+    description: Cupula de investigacion epistemica con disciplina experimental
     max_confidentiality: N2
     write_mode: explicit
     schema_dir: projects/savia-vaults/schema/entities

@@ -53,7 +53,25 @@ bash ~/claude/scripts/memory-store.sh stats
 
 # Reconstruir índice desde JSONL
 bash ~/claude/scripts/memory-index-rebuild.sh
+
+# Validar una entrada antes de guardarla (no escribe)
+bash scripts/memory-write-gate.sh --content "<contenido>" --type decision \
+  --topic-key "<tema>" --confidence 0.8 --concepts '["<concepto>"]'
+
+# Sincronizar markdown de auto-memory al índice (escritura explícita)
+bash scripts/memory-sync-index.sh "<directorio-auto-memory>"
+
+# Proponer resolución de conflictos (informe, no modifica el store)
+python3 scripts/memory-conflict-resolve.py --store output/.memory-store.jsonl \
+  --output output/memory-conflicts-proposed.json
+
+# Consultar estado del backup cifrado (no crea ni restaura backups)
+bash scripts/memory-backup-pm.sh status
 ```
+
+`backup`, `restore`, `--auto-resolve` y la sincronización del índice son
+operaciones explícitas. No ejecutarlas automáticamente ni añadirlas a hooks o CI.
+`restore` requiere además confirmación humana interactiva.
 
 ## Lectura de contexto al inicio
 

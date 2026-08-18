@@ -1,0 +1,51 @@
+type: learning_proposal
+label: Propuesta de Aprendizaje
+description: Leccion aprendida del bucle SCL — error reconocido, diagnostico, cambio propuesto y estado del ciclo de vida. Persiste en la cupula SaviaLearning/learning para consumo cross-instancia (SCL-002).
+properties:
+  id:
+    type: string
+    required: true
+    description: ID canónico LP-YYYYMMDD-<hash8>
+  provenance:
+    type: string
+    required: true
+    vocabulary: [INFERRED, human_authored]
+    description: INFERRED = shadow (sin efecto); human_authored = activa (solo humana, CRIT-031)
+  lifecycle:
+    type: string
+    required: true
+    vocabulary: [proposed, canary, active, superseded]
+    description: Estado del ciclo de vida shadow→canary→active→superseded
+  origin:
+    type: string
+    required: true
+    description: Origen de la leccion (ledger, hook captura, contradiccion, divergencia)
+  trigger:
+    type: string
+    required: false
+    vocabulary: [ledger, contradiction, divergence, recurrence, calibration]
+  target:
+    type: string
+    required: true
+    vocabulary: [criterio, memoria, skill, spec]
+    description: Destino de la correccion propuesta
+  criterion_id:
+    type: string
+    required: false
+    pattern: ^CRIT-[0-9]{3}$
+    description: Enlace de trazabilidad a CRITERIO.md; no concede autoridad por si solo
+  evidence_hash:
+    type: string
+    required: true
+    description: Hash de la evidencia (idempotencia 24h)
+  created_utc:
+    type: date
+    required: true
+  expected_p_consistent:
+    type: number
+    required: false
+    description: p_consistent esperado tras activar (0-1)
+  p_consistent_measured:
+    type: number
+    required: false
+    description: p_consistent medido tras canary (gate de promocion)

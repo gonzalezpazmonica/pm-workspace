@@ -30,7 +30,7 @@ export function validateOkfFrontmatter(
   const violations: string[] = [];
   const warnings: string[] = [];
 
-  const baseName = notePath.split('/').pop() || '';
+  const baseName = baseNameFor(notePath);
   const isReserved = (OKF_RESERVED_FILENAMES as readonly string[]).includes(baseName);
 
   if (!isReserved) {
@@ -85,9 +85,9 @@ export function convertMarkdownLinksToWikiLinks(content: string): string {
 }
 
 export function inferOkfType(notePath: string, fm: Record<string, unknown>): string {
-  const base = notePath.split('/').pop() || '';
+  const base = baseNameFor(notePath);
   const tags = Array.isArray(fm.tags) ? fm.tags.map(String) : [];
-  const fullPath = notePath.toLowerCase();
+  const fullPath = notePath.replace(/\\/g, '/').toLowerCase();
 
   if (tags.some(t => t.toLowerCase() === 'metric')) return 'Metric';
   if (base.includes('table') || base.includes('_db')) return 'BigQuery Table';
@@ -95,6 +95,10 @@ export function inferOkfType(notePath: string, fm: Record<string, unknown>): str
   if (fullPath.includes('/api/') || base.includes('api')) return 'API';
   if (fullPath.includes('/metric/')) return 'Metric';
   return 'Concept';
+}
+
+function baseNameFor(notePath: string): string {
+  return notePath.replace(/\\/g, '/').split('/').pop() || '';
 }
 
 export function serializeOkfNote(fm: Record<string, unknown>, content: string): string {

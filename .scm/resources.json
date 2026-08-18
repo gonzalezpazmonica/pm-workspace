@@ -1,6 +1,6 @@
 {
-  "hash": "3308f3dfdc89",
-  "total": 1371,
+  "hash": "aba987345cf1",
+  "total": 1374,
   "resources": [
     {
       "category": "analysis",
@@ -6288,6 +6288,20 @@
     },
     {
       "category": "memory",
+      "name": "learning-recall",
+      "intents": [
+        "authority",
+        "filtered",
+        "learning",
+        "recall",
+        "savialearning"
+      ],
+      "kind": "script",
+      "path": "scripts/learning-recall.sh",
+      "description": "learning-recall.sh — SCL-003/SCL-008: authority-filtered SaviaLearning recall."
+    },
+    {
+      "category": "memory",
       "name": "lesson-search",
       "intents": [
         "cross",
@@ -10721,6 +10735,48 @@
     },
     {
       "category": "planning",
+      "name": "learning-autonomy",
+      "intents": [
+        "autonomy",
+        "autonomía",
+        "consistent",
+        "graduada",
+        "learning"
+      ],
+      "kind": "script",
+      "path": "scripts/learning-autonomy.sh",
+      "description": "learning-autonomy.sh — SCL-006: política de autonomía graduada por p_consistent"
+    },
+    {
+      "category": "planning",
+      "name": "learning-divergence",
+      "intents": [
+        "divergence",
+        "divergencia",
+        "grafo",
+        "instrumento",
+        "learning"
+      ],
+      "kind": "script",
+      "path": "scripts/learning-divergence.sh",
+      "description": "learning-divergence.sh — SCL-004 L1: divergencia grafo-modelo como instrumento"
+    },
+    {
+      "category": "planning",
+      "name": "learning-federate",
+      "intents": [
+        "aprendidas",
+        "comparte",
+        "consume",
+        "federate",
+        "learning"
+      ],
+      "kind": "script",
+      "path": "scripts/learning-federate.sh",
+      "description": "learning-federate.sh — SCL-002/007: consume y comparte lecciones aprendidas"
+    },
+    {
+      "category": "planning",
       "name": "learning-guard",
       "intents": [
         "agnosticismo",
@@ -10746,6 +10802,20 @@
       "kind": "script",
       "path": "scripts/learning-lifecycle.sh",
       "description": "learning-lifecycle.sh — SCL-001 S2: sustrato como artefacto de despliegue"
+    },
+    {
+      "category": "planning",
+      "name": "learning-persist",
+      "intents": [
+        "cúpula",
+        "learning",
+        "persist",
+        "persiste",
+        "proposal"
+      ],
+      "kind": "script",
+      "path": "scripts/learning-persist.sh",
+      "description": "learning-persist.sh — SCL-002: persiste una learning proposal en la cúpula"
     },
     {
       "category": "planning",
@@ -14435,34 +14505,6 @@
       "kind": "script",
       "path": "scripts/vault-ops.sh",
       "description": "vault-ops.sh — Personal Vault operations library (N3). Sourced by vault.sh."
-    },
-    {
-      "category": "planning",
-      "name": "vaults-backup-cron",
-      "intents": [
-        "backup",
-        "cron",
-        "nextcloud",
-        "savialabs",
-        "sync"
-      ],
-      "kind": "script",
-      "path": "scripts/vaults-backup-cron.sh",
-      "description": "vaults-backup-cron.sh — Cron job: backup SaviaLabs + sync to Nextcloud"
-    },
-    {
-      "category": "planning",
-      "name": "vaults-backup-cron-install",
-      "intents": [
-        "backup",
-        "backups",
-        "cron",
-        "install",
-        "saviavaults"
-      ],
-      "kind": "script",
-      "path": "scripts/vaults-backup-cron-install.sh",
-      "description": "vaults-backup-cron-install.sh — Install cron job for SaviaVaults backups"
     },
     {
       "category": "planning",

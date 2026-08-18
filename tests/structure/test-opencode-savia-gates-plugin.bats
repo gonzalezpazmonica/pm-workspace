@@ -44,6 +44,14 @@ setup() {
   grep -q 'runHooksForEvent' "$PLUGIN_DIR/lib/shell-bridge.ts"
 }
 
+@test "plugin: learning recall uses the canonical UserPromptSubmit bridge" {
+  grep -q '"chat.message"' "$PLUGIN_DIR/index.ts"
+  grep -q '"UserPromptSubmit"' "$PLUGIN_DIR/index.ts"
+  grep -q 'hookSpecificOutput.*additionalContext' "$PLUGIN_DIR/lib/shell-bridge.ts"
+  grep -q '\.claude/hooks/learning-recall-hook.sh' "$ROOT_DIR/.claude/settings.json"
+  [ ! -e "$ROOT_DIR/.opencode/plugins/learning-recall.ts" ]
+}
+
 @test "plugin: lib/permission.ts blocks destructive ops on agent/* branches" {
   [ -f "$PLUGIN_DIR/lib/permission.ts" ]
   grep -q 'agent/' "$PLUGIN_DIR/lib/permission.ts"

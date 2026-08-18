@@ -14,11 +14,27 @@ spec: SCL-001
 
 | Recurso | Path | Notas |
 |---|---|---|
-| Learning proposals | `docs/learning-proposals/` | Artefacto markdown versionado (fuente de verdad, CRIT-003) |
+| Learning proposals (local) | `docs/learning-proposals/` | Artefacto markdown versionado (fuente local, CRIT-003) |
+| **Cúpula SaviaLearning** | `vaults/SaviaLearning/learning/` | Persistencia cross-instancia (SCL-002). Git-backed, entidad `learning_proposal` en el grafo |
 | Lifecycle ledger | `output/learning-loop/lifecycle.jsonl` | Transiciones de estado auditadas |
 | Rollback ledger | `output/learning-loop/rollback.jsonl` | Reversiones con causa registrada |
-| Graph index | `output/learning-loop/graph-index.jsonl` | Índice de navegación (SaviaVaults, no fuente de verdad) |
+| Graph index | `output/learning-loop/graph-index.jsonl` | Índice local (SCL-001); el grafo real vive en SaviaVaults |
 | Hook de captura | `.claude/hooks/learning-capture-hook.sh` | PostToolUse Task. Master switch `SAVIA_LEARNING_CAPTURE=on\|off` (default off). Evidencia por hash de respuesta cuando no hay ficheros (SCL-001.1 D1). Nunca bloquea |
+
+## Persistencia y federación (SCL-002)
+
+- **Persistir**: `learning-proposal.sh --persist` (o `learning-persist.sh --file <p>`) escribe la lección en la cúpula `SaviaLearning` con frontmatter `entity.type: learning_proposal` + `relations` (PROPOSES_CHANGE, EVIDENCE_FROM, MEASURED_BY) + wikilinks → indexada en el grafo de SaviaVaults.
+- **Consumir (cross-instancia)**: `learning-federate.sh --list` lista lecciones de la cúpula; `--import <id>` las trae como propuesta local `INFERRED` (shadow, sin efecto), pendiente de `human_authored`. NUNCA auto-activa (CRIT-031).
+- **Federación cross-dome (SCL-007)**: `learning-federate.sh --share <id> --to <url>` envía la lección a otra instancia vía A2A `/share`; `--search-remote --url <url> --query <q>` consulta `/search` del servidor remoto. La instancia receptora importa como `INFERRED` (shadow), nunca auto-activa.
+- **SaviaVaults es el servidor; `example-context`, `savia-docs` y `SaviaLearning` son cúpulas.** Las lecciones de SCL van SOLO a `SaviaLearning`.
+
+## Recall operativo (SCL-003 + SCL-005)
+
+- **Recuperar en sombra**: `learning-recall.sh --query "<contexto>"` consulta SaviaLearning (BM25) y registra coincidencias sin influir. `INFERRED`, `proposed` y `canary` nunca emiten contexto.
+- **Recall híbrido (SCL-005)**: `learning-recall.sh --hybrid` fusiona búsqueda léxica y semántica para encontrar sinónimos. El ranking híbrido pasa por el mismo filtro de autoridad; no eleva propuestas ni expone sus snippets.
+- **Inyección autorizada**: `--mode effective` solo devuelve el `principio` de una entrada `CRIT-XXX` con `provenance: human_authored` cuando una propuesta `active/human_authored` la enlaza mediante `criterion_id`. El snippet de la propuesta nunca se inyecta.
+- **Hook dual**: `.claude/hooks/learning-recall-hook.sh` sirve a Claude Code y OpenCode mediante `savia-gates`. Acepta `content` y `prompt_text`, emite JSON canónico y falla abierto en menos de 5s.
+- **Métrica privada**: `output/learning-loop/recall.jsonl` guarda `query_hash` y contadores; nunca el prompt completo.
 
 ## Ciclo de vida del sustrato
 
@@ -27,8 +43,8 @@ proposed (shadow) → canary → active → superseded
 ```
 
 - **shadow** (`provenance: INFERRED`): sin efecto en gates ni comportamiento.
-- **canary**: activo en subconjunto declarado, medición antes/después (CRIT-019).
-- **active** (`provenance: human_authored`): efecto global.
+- **canary**: sin efecto de recall hasta definir autoría humana verificable para el subconjunto.
+- **active** (`provenance: human_authored`): solo influye si enlaza un criterio humano activo verificable.
 - **superseded**: tombstone + cuarentena (CRIT-024). Nunca se borra.
 
 ## Gates inmutables
@@ -83,6 +99,14 @@ bash scripts/learning-report.sh --window W34 --captured N --activated M \
 
 # S4 — guard de agnosticismo
 bash scripts/learning-guard.sh --loop-dir scripts/
+
+# SCL-004 — divergencia grafo-modelo (Labs L1)
+bash scripts/learning-divergence.sh --claim "<declaracion modelo>" \
+  --graph-query "<tema>" --threshold 0.6 [--propose]   # exit 1 si diverge
+
+# SCL-006 — autonomía graduada por p_consistent
+bash scripts/learning-autonomy.sh --p-consistent 0.8 --requested L2
+#   p<0.5→L0 · 0.5-0.7→L1 · 0.7-0.85→L2 · ≥0.85→L3 (+historial+humano)
 ```
 
 ## Referencias

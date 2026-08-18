@@ -28,12 +28,23 @@ for a in "${AMBITS[@]}"; do
   fi
 done
 
-LINEA_ROJA=$(grep -c "linea_roja" "$CRITERIO" || echo 0)
-LINEA_ROJA_ENFORCED=$(grep -B1 "linea_roja" "$CRITERIO" | grep -c "enforcement:.*\.sh\|enforcement:.*guard\|enforcement:.*ART\|enforcement:.*bias\|enforcement:.*shield\|enforcement:.*LICENSE\|enforcement:.*ledger" || echo 0)
+read -r LINEA_ROJA LINEA_ROJA_ENFORCED INFERRED HUMAN < <(python3 - "$CRITERIO" <<'PY'
+import re
+import sys
+
+text = open(sys.argv[1], encoding='utf-8').read()
+starts = list(re.finditer(r'(?m)^CRIT-\d{3}\s+[^\n]*$', text))
+entries = [text[match.start():starts[index + 1].start() if index + 1 < len(starts) else len(text)] for index, match in enumerate(starts)]
+
+linea_roja = [entry for entry in entries if re.search(r'(?m)^\s*dureza:\s*linea_roja(?:\s*\||\s*$)', entry)]
+concrete = re.compile(r'(?mi)^\s*enforcement:.*(?:\.sh|guard|ART-|bias|shield|LICENSE|ledger|hook|allowlist|protected-jobs|Human-Authored)')
+inferred = sum(bool(re.search(r'(?m)^\s*provenance:\s*INFERRED\s*$', entry)) for entry in entries)
+human = sum(bool(re.search(r'(?m)^\s*provenance:\s*human_authored\s*$', entry)) for entry in entries)
+print(len(linea_roja), sum(bool(concrete.search(entry)) for entry in linea_roja), inferred, human)
+PY
+)
 echo "  Linea roja: $LINEA_ROJA total, $LINEA_ROJA_ENFORCED con enforcement concreto"
 
-INFERRED=$(grep -c "INFERRED" "$CRITERIO" || echo 0)
-HUMAN=$(grep -c "human_authored" "$CRITERIO" || echo 0)
 echo "  Provenance: $INFERRED INFERRED, $HUMAN human_authored"
 
 if [ "$HUMAN" -ge 20 ]; then

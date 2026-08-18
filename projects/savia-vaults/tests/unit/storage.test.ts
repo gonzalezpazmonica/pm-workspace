@@ -123,6 +123,7 @@ describe('VaultStorage', () => {
       expect(files).toContain('root.md');
       expect(files).toContain('notes/child.md');
       expect(files).toContain('notes/other.txt');
+      expect(files.every(file => !file.includes('\\'))).toBe(true);
     });
   });
 

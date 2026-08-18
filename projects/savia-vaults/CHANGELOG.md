@@ -21,7 +21,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   `score = bm25 * (1 + α·graphScore)`; `vaults search --enrich`, best-effort.
 - **Retrieval eval** (`src/search/eval.ts`, SE-331): precision@k / recall@k
   (RAGAS-like, determinista); `vaults eval-search --modes bm25,enriched`.
-- `seed-savia-labs.sh`: puebla vaults/SaviaLabs desde las specs del proyecto.
+- `seed-example-context.sh`: puebla un vault local desde las specs del proyecto.
 - 56 tests nuevos (338 total en verde).
 
 ## [Unreleased] — 2026-08-06 · Knowledge Governance (SE-309)

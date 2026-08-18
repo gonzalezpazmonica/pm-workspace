@@ -1,5 +1,5 @@
 # planning — Savia Capability Map (L1)
-> 583 resources
+> 585 resources
 
 - **/decide-architecture** (cmd): Clasifica una tarea como WORKFLOW (deterministica) o AGENT (loop). Bias hacia workflow per Anthropic. Sugiere plantilla inicial. Mide accuracy contra corpus curado de 20 tareas.
 - **_template** (skill): TEMPLATE — copia este directorio para crear una skill nueva. NO se carga en runtime.
@@ -283,8 +283,12 @@
 - **knowledge-graph** (script): knowledge-graph.sh — SE-162: Shell wrapper for knowledge-graph.py
 - **labs-preregister** (script): labs-preregister.sh — Preregistro de hipotesis en Savia Labs
 - **language-boundary-check** (script): scripts/language-boundary-check.sh — SE-253 Slice 7
+- **learning-autonomy** (script): learning-autonomy.sh — SCL-006: política de autonomía graduada por p_consistent
+- **learning-divergence** (script): learning-divergence.sh — SCL-004 L1: divergencia grafo-modelo como instrumento
+- **learning-federate** (script): learning-federate.sh — SCL-002/007: consume y comparte lecciones aprendidas
 - **learning-guard** (script): learning-guard.sh — SCL-001 S4: guard de agnosticismo del bucle de aprendizaje
 - **learning-lifecycle** (script): learning-lifecycle.sh — SCL-001 S2: sustrato como artefacto de despliegue
+- **learning-persist** (script): learning-persist.sh — SCL-002: persiste una learning proposal en la cúpula
 - **learning-proposal** (script): learning-proposal.sh — SCL-001 S1: canonical learning proposal capture
 - **learning-rollback** (script): learning-rollback.sh — SCL-001 S2: rollback instantáneo de una entrada del sustrato
 - **legacy-assess** (cmd): >
@@ -567,8 +571,6 @@
 - **vault-graph** (cmd): SE-325: adyacencia inline + relaciones tipadas del knowledge graph de SaviaVaults (extract/validate/traverse/query)
 - **vault-links** (script): vault-links.sh — SE-325: adyacencia inline + relaciones tipadas para SaviaVaults.
 - **vault-ops** (script): vault-ops.sh — Personal Vault operations library (N3). Sourced by vault.sh.
-- **vaults-backup-cron** (script): vaults-backup-cron.sh — Cron job: backup SaviaLabs + sync to Nextcloud
-- **vaults-backup-cron-install** (script): vaults-backup-cron-install.sh — Install cron job for SaviaVaults backups
 - **vaults-export** (script): vaults-export.sh — Export vault with confidentiality filtering and signing
 - **vaults-graph-query** (script): vaults-graph-query.sh — Knowledge graph queries via SaviaVaults
 - **vaults-nextcloud-setup** (script): vaults-nextcloud-setup.sh — Configurar credenciales Nextcloud para backups

@@ -1554,7 +1554,7 @@ SE-332 (handback obligation) — APPROVED 2026-08-16, MERGED (#961)
 | Componente | Portable en v1 | Accion |
 |---|---|---|
 | Skills (143) | SI | frontmatter → `metadata.savia.*`, `name`/`description` top-level |
-| MCP (savialabs) | SI | `mcp.json` portable con `type: stdio` |
+| MCP | SI | `mcp.json` portable sin servidores habilitados por defecto |
 | Manifest | SI | `plugin.json` + `skills -> .claude/skills/` symlink |
 | Agents (83) / Commands (570) / Hooks (108) / Rules | NO (fuera de v1 por diseno) | espejo bajo extension namespace `com.savia.client/` |
 

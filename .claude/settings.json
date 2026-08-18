@@ -878,6 +878,12 @@
             "async": true,
             "timeout": 5000,
             "statusMessage": "Memory context priming..."
+          },
+          {
+            "type": "command",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/learning-recall-hook.sh",
+            "timeout": 5000,
+            "statusMessage": "SCL-003: recuperando lecciones aprendidas..."
           }
         ]
       },

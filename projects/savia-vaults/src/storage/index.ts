@@ -131,7 +131,9 @@ export class VaultStorage {
         this.walkDir(base, relPath, results);
       } else if (e.isFile()) {
         if (e.name === 'INDEX.md' || e.name === 'MAP.md') continue;
-        results.push(relPath);
+        // Vault APIs use POSIX separators so the same note has one stable ID
+        // on Windows and POSIX hosts.
+        results.push(relPath.split(path.sep).join('/'));
       }
     }
   }
