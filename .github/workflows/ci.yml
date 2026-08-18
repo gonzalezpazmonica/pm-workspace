@@ -296,6 +296,8 @@ jobs:
 
       - name: Select BATS tests based on changes
         id: select
+        env:
+          SAVIA_BATS_FULL_THRESHOLD_PCT: 50
         run: |
           if bash scripts/ci-select-bats.sh --base "origin/${{ github.base_ref }}" 2>/dev/null; then
             SELECTED="$(bash scripts/ci-select-bats.sh --base "origin/${{ github.base_ref }}" 2>/dev/null)"
