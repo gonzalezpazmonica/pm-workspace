@@ -94,6 +94,7 @@ tres anteriores para su prueba E2E.
 | SCL-003 | Ejecutar Labs L1-L6 como instrumentos permanentes del bucle | SE-291 S2-S8 | CANDIDATA |
 | SCL-004 | Embeddings híbridos para medir divergencia grafo-modelo con recall | ADR-003 (Fase 4) | CANDIDATA |
 | SCL-005 | p_consistent como política de autonomía graduada | SE-292 S6 + ADR-010 | CANDIDATA |
+| SE-334 (integración) | Telemetry Intelligence: los incidentes alimentan el bucle — el alert de SE-334 S2 dispara el hook de captura SCL, y los fingerprints se indexan en SaviaLearning para recall | superlog | PROPOSED 2026-08-17 |
 
 ---
 
