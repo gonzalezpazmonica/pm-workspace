@@ -1,16 +1,4 @@
 {
-  "_comment": "MCP Servers. SaviaLabs es el servidor por defecto para gestion de contexto y conocimiento.",
-  "mcpServers": {
-    "savialabs": {
-      "command": "bash",
-      "args": [
-        "-c",
-        "export NVM_DIR=\"$HOME/.nvm\" && [ -s \"$NVM_DIR/nvm.sh\" ] && . \"$NVM_DIR/nvm.sh\" && node projects/savia-vaults/dist/cli/index.js serve --transport mcp --path vaults/SaviaLabs --schema projects/savia-vaults/schema/entities"
-      ],
-      "env": {
-        "NVM_DIR": "/home/monica/.nvm"
-      }
-    }
-  },
-  "defaultContextServer": "savialabs"
+  "_comment": "Configure MCP servers in local, gitignored configuration.",
+  "mcpServers": {}
 }

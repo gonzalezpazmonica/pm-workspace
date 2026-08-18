@@ -8,6 +8,21 @@ import * as os from 'node:os';
 import { VaultSecurity, SecurityError } from '../../src/security/index.js';
 import type { VaultConfig } from '../../src/types.js';
 
+const supportsSymlinks = (() => {
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'savia-symlink-probe-'));
+  const target = path.join(dir, 'target');
+  const link = path.join(dir, 'link');
+  try {
+    fs.writeFileSync(target, 'probe');
+    fs.symlinkSync(target, link);
+    return true;
+  } catch {
+    return false;
+  } finally {
+    fs.rmSync(dir, { recursive: true, force: true });
+  }
+})();
+
 function makeConfig(overrides: Partial<VaultConfig> = {}): VaultConfig {
   const tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), 'savia-vault-test-'));
   return {
@@ -45,6 +60,7 @@ describe('VaultSecurity', () => {
     it('blocks path traversal with ..', () => {
       expect(() => security.resolve('../escape.md')).toThrow(SecurityError);
       expect(() => security.resolve('notes/../../../etc/passwd')).toThrow(SecurityError);
+      expect(() => security.resolve('notes\\..\\..\\escape.md')).toThrow(SecurityError);
     });
 
     it('blocks absolute path outside vault', () => {
@@ -81,7 +97,7 @@ describe('VaultSecurity', () => {
   });
 
   describe('checkSymlink', () => {
-    it('allows symlinks within vault', () => {
+    it.skipIf(!supportsSymlinks)('allows symlinks within vault', () => {
       const src = path.join(config.path, 'notes', 'real.md');
       const link = path.join(config.path, 'notes', 'link.md');
       fs.mkdirSync(path.dirname(src), { recursive: true });
@@ -92,15 +108,19 @@ describe('VaultSecurity', () => {
       fs.unlinkSync(src);
     });
 
-    it('blocks symlinks outside vault boundary', () => {
+    it.skipIf(!supportsSymlinks)('blocks symlinks outside vault boundary', () => {
       const link = path.join(config.path, 'notes', 'escape.md');
+      const outside = fs.mkdtempSync(path.join(os.tmpdir(), 'savia-symlink-outside-'));
+      const target = path.join(outside, 'target.md');
       fs.mkdirSync(path.dirname(link), { recursive: true });
-      fs.symlinkSync('/etc/passwd', link);
+      fs.writeFileSync(target, 'outside');
+      fs.symlinkSync(target, link);
 
       try {
         expect(() => security.checkSymlink(link)).toThrow(SecurityError);
       } finally {
         fs.unlinkSync(link);
+        fs.rmSync(outside, { recursive: true, force: true });
       }
     });
   });

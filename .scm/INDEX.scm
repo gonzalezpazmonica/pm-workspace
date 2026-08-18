@@ -1,6 +1,6 @@
 # Savia Capability Map — INDEX
-> hash: 8ce52510dc28 | resources: 1376
-> 294 commands · 127 skills · 83 agents · 872 scripts
+> hash: b29ec00ae9d7 | resources: 1374
+> 294 commands · 127 skills · 83 agents · 870 scripts
 
 [analysis] Trace Optimize — across,distributed,optimize,rates,sampling — cmd:.claude/commands/trace-optimize.md
 [analysis] agent-activity — activity,agent,executions,recent,show — cmd:.claude/commands/agent-activity.md
@@ -1102,8 +1102,6 @@
 [planning] vault-graph — adyacencia,extract,graph,inline,knowledge — cmd:.claude/commands/vault-graph.md
 [planning] vault-links — adyacencia,inline,links,relaciones,saviavaults — script:scripts/vault-links.sh
 [planning] vault-ops — library,operations,personal,sourced,vault — script:scripts/vault-ops.sh
-[planning] vaults-backup-cron — backup,cron,nextcloud,savialabs,sync — script:scripts/vaults-backup-cron.sh
-[planning] vaults-backup-cron-install — backup,backups,cron,install,saviavaults — script:scripts/vaults-backup-cron-install.sh
 [planning] vaults-export — confidentiality,export,filtering,signing,vault — script:scripts/vaults-export.sh
 [planning] vaults-graph-query — graph,knowledge,queries,query,saviavaults — script:scripts/vaults-graph-query.sh
 [planning] vaults-nextcloud-setup — backups,configurar,credenciales,nextcloud,setup — script:scripts/vaults-nextcloud-setup.sh

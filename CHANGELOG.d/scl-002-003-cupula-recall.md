@@ -5,7 +5,7 @@ section: Added
 
 ### Added
 
-- **SCL-002 — Cúpula SaviaLearning**: cúpula propia en SaviaVaults para las
+- **SCL-002 — Cúpula de aprendizaje**: cúpula propia en SaviaVaults para las
   lecciones aprendidas del bucle SCL (persistencia real cross-instancia).
   Schema `learning_proposal`, `learning-persist.sh` (nota con entity +
   relations + wikilinks, indexada en el grafo), `learning-proposal.sh

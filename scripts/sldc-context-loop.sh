@@ -13,7 +13,7 @@
 #
 # Env:
 #   SLDC_VAULTS_URL        A2A base (default http://127.0.0.1:8923)
-#   SLDC_WRITE_DOME        dome destino (default SaviaLabs)
+#   SLDC_WRITE_DOME        dome destino (default example-context)
 #   SLDC_MAX_CONFIDENTIALITY  nivel maximo (default N2)
 #   SLDC_PENDING_DIR       pendientes locales (default ~/.savia/sldc-pending)
 #   SLDC_LLM_CMD           hook opcional de resumen (default: extraccion determinista)
@@ -26,7 +26,7 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
 
 VAULTS_URL="${SLDC_VAULTS_URL:-http://127.0.0.1:8923}"
-WRITE_DOME="${SLDC_WRITE_DOME:-SaviaLabs}"
+WRITE_DOME="${SLDC_WRITE_DOME:-example-context}"
 MAX_CONF="${SLDC_MAX_CONFIDENTIALITY:-N2}"
 PENDING_DIR="${SLDC_PENDING_DIR:-$HOME/.savia/sldc-pending}"
 LLM_CMD="${SLDC_LLM_CMD:-}"

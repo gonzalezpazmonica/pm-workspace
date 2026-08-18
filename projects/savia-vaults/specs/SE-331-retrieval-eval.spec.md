@@ -102,6 +102,6 @@ determinismo, health integration.
 
 ## 5. Notas
 
-- El banco default para SaviaLabs se genera con `vaults eval seed` usando el
+- El banco default para example-context se genera con `vaults eval seed` usando el
   grafo + contenido real; los paths relevantes se toman de entidades fuertemente
   conectadas (PPR alto) para no fabricar expectativas artificiales.

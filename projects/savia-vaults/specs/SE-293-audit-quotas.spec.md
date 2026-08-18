@@ -153,7 +153,7 @@ AccessController.authorize()  ← SE-291 (existe)
       alice:   145 (11.6%)
 
     By dome:
-      SaviaLabs: 892 (71.5%)
+      example-context: 892 (71.5%)
       Labs:       355 (28.5%)
 
     By action:
@@ -162,7 +162,7 @@ AccessController.authorize()  ← SE-291 (existe)
 
     Denied accesses (96 total):
       monica on Legal: 72 (forbidden: N4 requires admin)
-      alice on SaviaLabs: 24 (forbidden: reader on write)
+      alice on example-context: 24 (forbidden: reader on write)
     ```
 - `audit tail`:
   - Sigue el archivo de auditoria del dia actual (como `tail -f`)

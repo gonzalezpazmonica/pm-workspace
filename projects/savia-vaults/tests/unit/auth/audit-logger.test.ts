@@ -29,7 +29,7 @@ describe('AuditLogger', () => {
 
   it('creates log file on first record', () => {
     const logger = new AuditLogger(tmpDir);
-    logger.record({ username: 'alice', dome: 'SaviaLabs', action: 'read', result: 'allowed' });
+    logger.record({ username: 'alice', dome: 'example-context', action: 'read', result: 'allowed' });
 
     const files = fs.readdirSync(tmpDir);
     expect(files.length).toBeGreaterThanOrEqual(1);
@@ -38,7 +38,7 @@ describe('AuditLogger', () => {
 
   it('appends JSONL entries with timestamp', () => {
     const logger = new AuditLogger(tmpDir);
-    logger.record({ username: 'alice', dome: 'SaviaLabs', action: 'read', result: 'allowed' });
+    logger.record({ username: 'alice', dome: 'example-context', action: 'read', result: 'allowed' });
     logger.record({ username: 'bob', dome: 'Labs', action: 'write', result: 'denied', reason: 'forbidden' });
 
     const lines = readLogFiles(tmpDir);
@@ -46,7 +46,7 @@ describe('AuditLogger', () => {
 
     const e1 = JSON.parse(lines[0]);
     expect(e1.username).toBe('alice');
-    expect(e1.dome).toBe('SaviaLabs');
+    expect(e1.dome).toBe('example-context');
     expect(e1.action).toBe('read');
     expect(e1.result).toBe('allowed');
     expect(e1.ts).toMatch(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}/);
@@ -59,8 +59,8 @@ describe('AuditLogger', () => {
 
   it('queries entries filtered by username', () => {
     const logger = new AuditLogger(tmpDir);
-    logger.record({ username: 'alice', dome: 'SaviaLabs', action: 'read', result: 'allowed' });
-    logger.record({ username: 'bob', dome: 'SaviaLabs', action: 'read', result: 'allowed' });
+    logger.record({ username: 'alice', dome: 'example-context', action: 'read', result: 'allowed' });
+    logger.record({ username: 'bob', dome: 'example-context', action: 'read', result: 'allowed' });
     logger.record({ username: 'alice', dome: 'Labs', action: 'write', result: 'denied', reason: 'forbidden' });
 
     const aliceEntries = logger.query({ username: 'alice' });
@@ -70,10 +70,10 @@ describe('AuditLogger', () => {
 
   it('queries entries filtered by dome', () => {
     const logger = new AuditLogger(tmpDir);
-    logger.record({ username: 'alice', dome: 'SaviaLabs', action: 'read', result: 'allowed' });
+    logger.record({ username: 'alice', dome: 'example-context', action: 'read', result: 'allowed' });
     logger.record({ username: 'alice', dome: 'Labs', action: 'read', result: 'allowed' });
 
-    expect(logger.query({ dome: 'SaviaLabs' })).toHaveLength(1);
+    expect(logger.query({ dome: 'example-context' })).toHaveLength(1);
     expect(logger.query({ dome: 'Labs' })).toHaveLength(1);
   });
 

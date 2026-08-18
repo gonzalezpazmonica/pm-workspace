@@ -11,7 +11,7 @@
 
 ## Origen
 
-Diagnostico post-SE-290 (2026-08-01). Savia Vaults v0.3.0 funciona correctamente para servir una cupula (SaviaLabs) via MCP/A2A. Pero el diseno documentado en SE-280 y SE-284 promete multi-domo y gestion de usuarios/permisos que no existen en codigo. La arquitectura mono-domo actual tiene un hard limit estructural: el servidor MCP arranca con `--path <un-solo-directorio>` y no puede cambiar en runtime.
+Diagnostico post-SE-290 (2026-08-01). Savia Vaults v0.3.0 funciona correctamente para servir una cupula (`example-context`) via MCP/A2A. Pero el diseno documentado en SE-280 y SE-284 promete multi-domo y gestion de usuarios/permisos que no existen en codigo. La arquitectura mono-domo actual tiene un hard limit estructural: el servidor MCP arranca con `--path <un-solo-directorio>` y no puede cambiar en runtime.
 
 ### Lo que funciona
 
@@ -73,7 +73,7 @@ Un servidor SaviaVaults que gestione **multiples cupulas** desde una sola instan
             │     ┌──────┴──────┐         │
             │     ▼             ▼         │
             │  Vault A       Vault B      │  ← 1 Storage + 1 SearchEngine por dome
-            │  (SaviaLabs)   (Labs)       │
+             │ (example-context) (research)│
             └─────────────────────────────┘
 
 Cada VaultInstance contiene:
@@ -110,11 +110,11 @@ Cada VaultInstance contiene:
   ```json
   {
     "version": 1,
-    "defaultDome": "SaviaLabs",
+    "defaultDome": "example-context",
     "domes": {
-      "SaviaLabs": {
-        "name": "SaviaLabs",
-        "path": "vaults/SaviaLabs",
+      "example-context": {
+        "name": "example-context",
+        "path": "vaults/example-context",
         "description": "Cupula de contexto principal de Savia",
         "confidentiality": "N2",
         "schemaDir": "projects/savia-vaults/schema/entities"
@@ -126,13 +126,13 @@ Cada VaultInstance contiene:
 - `serve` command: si existe `savia-vaults.domes.json`, carga todos los domes registrados. Si no, fallback a `--path` legacy (single-dome). **Validacion al cargar**: domes cuyo `path` no exista en disco → warning en startup, se omiten del registry activo (no bloquean el arranque). Un dome `active: false` no aparece en `vault_domes`
 - Refactor `src/cli/index.ts:serve`: opcion `--domes <file>` (default: `savia-vaults.domes.json`)
 - `DomeRegistry.list()` → `DomeInfo[]`, `DomeRegistry.get(name)` → `VaultInstance`
-- Migrar SaviaLabs al archivo de domes
+- Migrar example-context al archivo de domes
 
 **Acceptance criteria:**
 - AC-1.1. `serve --transport mcp` carga todos los domes de `savia-vaults.domes.json`
-- AC-1.2. `serve --transport mcp --path vaults/SaviaLabs` (legacy) sigue funcionando sin archivo de domes
+- AC-1.2. `serve --transport mcp --path vaults/example-context` (legacy) sigue funcionando sin archivo de domes
 - AC-1.3. `DomeRegistry.list()` devuelve todos los domes con nombre, path, confidencialidad
-- AC-1.4. `DomeRegistry.get('SaviaLabs')` devuelve VaultInstance con Storage y SearchEngine propios
+- AC-1.4. `DomeRegistry.get('example-context')` devuelve VaultInstance con Storage y SearchEngine propios
 - AC-1.5. Dome con path inexistente → warning en startup, omitido del registry activo, servidor arranca
 - AC-1.6. Errores de parseo en `savia-vaults.domes.json` bloquean el arranque con mensaje claro
 - AC-1.7. Tests unitarios nuevos: `tests/unit/registry/domes.test.ts` (6+ tests incluyendo path invalido)
@@ -186,14 +186,14 @@ Cada VaultInstance contiene:
 - `vault_graph`, `vault_query` → aceptan `vault`, operan sobre el KnowledgeGraph de ese dome
 
 **Acceptance criteria:**
-- AC-2.1. `vault_read({vault: "SaviaLabs", path: "INDEX.md"})` lee del dome correcto
+- AC-2.1. `vault_read({vault: "example-context", path: "INDEX.md"})` lee del dome correcto
 - AC-2.2. `vault_read({path: "INDEX.md"})` sin vault usa el defaultDome
 - AC-2.3. `vault_read({vault: "NoExiste", path: "x.md"})` devuelve error DomeNotFound
 - AC-2.4. `vault_domes()` lista domes registrados con nombre, descripcion, confidencialidad, noteCount
-- AC-2.5. `vault_list({vault: "SaviaLabs"})` lista archivos del dome (backward compat)
+- AC-2.5. `vault_list({vault: "example-context"})` lista archivos del dome (backward compat)
 - AC-2.6. `vault_list()` sin vault lista archivos del defaultDome (backward compat, NO rompe clientes existentes)
 - AC-2.7. `vault_stats()`/`vault_health()` sin vault → solo defaultDome (no agrega cross-dome)
-- AC-2.8. `vault_search({vault: "SaviaLabs", query: "..."})` busca solo en ese dome
+- AC-2.8. `vault_search({vault: "example-context", query: "..."})` busca solo en ese dome
 - AC-2.9. `vault_search({query: "..."})` sin vault busca en el defaultDome (NO en todos)
 - AC-2.10. Tests MCP actualizados para cubrir multi-dome dispatch. `npm test` pasa
 
@@ -225,7 +225,7 @@ Cada VaultInstance contiene:
 **Acceptance criteria:**
 - AC-3.1. `savia-vaults dome create Labs --path vaults/Labs --confidentiality N1` crea dome y lo registra
 - AC-3.2. `savia-vaults dome list` muestra todos los domes registrados con sus metadatos
-- AC-3.3. `savia-vaults dome info SaviaLabs` muestra path, confidencialidad, stats, default
+- AC-3.3. `savia-vaults dome info example-context` muestra path, confidencialidad, stats, default
 - AC-3.4. `savia-vaults dome delete Labs` elimina del registry, archivos intactos
 - AC-3.5. `savia-vaults dome delete Labs --force` elimina del registry Y borra directorio
 - AC-3.6. `savia-vaults dome create Duplicado` rechaza nombre ya registrado
@@ -253,7 +253,7 @@ Cada VaultInstance contiene:
         "tokenPrefix": "sv_",       // primeros 4 chars del token (para identificar)
         "createdAt": "2026-08-01T...",
         "permissions": {
-          "SaviaLabs": { "role": "admin" },
+          "example-context": { "role": "admin" },
           "Labs": { "role": "writer" }
         }
       }
@@ -274,7 +274,7 @@ Cada VaultInstance contiene:
 - AC-4.1. `UserStore.createUser('monica')` genera token, hashea, persiste. Token visible solo en creacion
 - AC-4.2. `UserStore.validateToken('sv_abc123...')` retorna usuario si token valido
 - AC-4.3. `UserStore.validateToken('token-invalido')` retorna null
-- AC-4.4. `UserStore.setPermission('monica', 'SaviaLabs', 'reader')` persiste correctamente
+- AC-4.4. `UserStore.setPermission('alice', 'example-context', 'reader')` persiste correctamente
 - AC-4.5. `UserStore.getPermissions('monica')` lista todos los domes y roles del usuario
 - AC-4.6. Re-generacion de token invalida token anterior (hash distinto)
 - AC-4.7. `savia-vaults.users.json` jamas contiene tokens en texto claro
@@ -376,9 +376,9 @@ Cada VaultInstance contiene:
 
 **Acceptance criteria:**
 - AC-6.1. `savia-vaults user create alice` crea usuario y muestra token (una vez)
-- AC-6.2. `savia-vaults user grant alice SaviaLabs reader` asigna rol reader
-- AC-6.3. `savia-vaults user permissions alice` muestra SaviaLabs: reader
-- AC-6.4. `savia-vaults user revoke alice SaviaLabs` elimina el permiso
+- AC-6.2. `savia-vaults user grant alice example-context reader` asigna rol reader
+- AC-6.3. `savia-vaults user permissions alice` muestra example-context: reader
+- AC-6.4. `savia-vaults user revoke alice example-context` elimina el permiso
 - AC-6.5. `savia-vaults user token alice --regenerate` genera nuevo token, invalida anterior
 - AC-6.6. `savia-vaults user delete alice` elimina usuario y todos sus permisos
 - AC-6.7. `savia-vaults user grant alice NoExiste reader` rechaza con dome not found
@@ -409,7 +409,7 @@ Cada VaultInstance contiene:
 - Integracion final:
   - `VaultInstance` incluye `ConfidentialityGuard` y `AccessController`
   - `serve` command: todas las piezas conectadas (Registry → UserStore → AccessController → Tools + A2A)
-  - Actualizar `savia-vaults.domes.json` con SaviaLabs (N2, default)
+   - Actualizar `savia-vaults.domes.json` con example-context (N2, default)
   - Actualizar `.gitignore`: agregar `savia-vaults.users.json`
   - Actualizar `scripts/vaults` bash wrapper para delegar en TS CLI
 
@@ -417,7 +417,7 @@ Cada VaultInstance contiene:
 - AC-7.1. Dome N4: usuario reader → `vault_read` denegado aunque el dome exista
 - AC-7.2. Dome N2: usuario reader → `vault_read` permitido
 - AC-7.3. `savia-vaults dome confidentiality set N3 Legal` persiste en registry
-- AC-7.4. `curl "http://127.0.0.1:8923/search?vault=SaviaLabs&q=test" -H "Authorization: Bearer sv_<token>"` autentica
+- AC-7.4. `curl "http://127.0.0.1:8923/search?vault=example-context&q=test" -H "Authorization: Bearer sv_<token>"` autentica
 - AC-7.5. Sin token en dome N2+: A2A devuelve 401
 - AC-7.6. `savia-vaults dome confidentiality audit` muestra tabla de niveles por dome
 - AC-7.7. `npm test` — 125 tests existentes + ~55 nuevos = ~180 tests PASS
@@ -458,7 +458,7 @@ Total: 42h
 
 1. Servidor MCP multi-dome funcional: `serve --transport mcp` levanta N domes
 2. `vault_domes()` lista todos los domes registrados con nombre, confidencialidad, noteCount
-3. `vault_read({vault: "SaviaLabs", path: "INDEX.md"})` devuelve contenido correcto
+3. `vault_read({vault: "example-context", path: "INDEX.md"})` devuelve contenido correcto
 4. `vault_list()` sin vault → archivos del defaultDome (backward compat, NO rompe clientes)
 5. `vault_stats()` sin vault → solo defaultDome (no filtra info cross-dome)
 6. Tool `vault_read({vault: "Legal", path: "secret.md"})` con usuario reader → denegado (N4)
@@ -466,7 +466,7 @@ Total: 42h
 8. Tool `vault_write` en dome N4 con usuario writer → denegado (N4 write = admin only)
 9. Tool `vault_write` en dome N4 con usuario admin → OK
 10. CLI: `dome create`, `dome list`, `user create`, `user grant`, `user permissions` funcionales
-11. A2A: `curl /search?vault=SaviaLabs` con Bearer token autentica correctamente
+11. A2A: `curl /search?vault=example-context` con Bearer token autentica correctamente
 12. Sin `SAVIA_AUTH_TOKEN` → servidor MCP rechaza toda operacion
 13. Dome con path inexistente → warning en startup, servidor arranca con domes validos
 14. `npm test` — 125 tests existentes + ~55 nuevos = ~180 tests PASS

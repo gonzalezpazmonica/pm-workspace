@@ -339,27 +339,27 @@
    "enabled": false,
    "timeout": 30000
   },
-  "codebase-memory-mcp": {
-   "type": "local",
-   "command": [
-    "/home/monica/.local/bin/codebase-memory-mcp",
-    "serve"
+   "codebase-memory-mcp": {
+    "type": "local",
+    "command": [
+     "codebase-memory-mcp",
+     "serve"
    ],
    "enabled": false,
    "timeout": 60000
   },
-  "savia-vaults": {
-   "type": "local",
-   "command": [
-    "/home/monica/.nvm/versions/node/v22.23.2/bin/node",
-    "/home/monica/savia/projects/savia-vaults/dist/cli/index.js",
+   "savia-vaults": {
+    "type": "local",
+    "command": [
+     "node",
+     "projects/savia-vaults/dist/cli/index.js",
     "serve",
     "--transport",
     "mcp",
     "--domes",
     "projects/savia-vaults/savia-vaults.domes.json"
    ],
-   "enabled": true,
+    "enabled": false,
    "timeout": 60000
   }
  }

@@ -23,8 +23,8 @@ section: Added
     (GraphRAG local dataflow).
   - **SE-331 Retrieval eval** (`src/search/eval.ts`): precision@k / recall@k
     deterministas (RAGAS-like); `vaults eval-search --modes bm25,enriched`.
-  - `seed-savia-labs.sh`: puebla vaults/SaviaLabs desde las specs del proyecto.
-  - Test en producción con SaviaLabs (vault real): PPR, global, hybrid, enrich
+   - `seed-example-context.sh`: puebla un vault local desde las specs del proyecto.
+   - Test con un vault local: PPR, global, hybrid, enrich
     y eval-search validados. 56 tests nuevos (338 total).
 
 ### Notes

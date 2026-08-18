@@ -12,7 +12,7 @@
 
 ## 1. Contexto y objetivo
 
-SCL-002 persiste propuestas `INFERRED` en SaviaLearning y SCL-003 las inyecta
+SCL-002 persiste propuestas `INFERRED` en learning y SCL-003 las inyecta
 en cada prompt relevante con una instrucción imperativa. Eso contradice el
 contrato de SCL-001: `INFERRED` y `proposed` son sombra, sin efecto en gates ni
 comportamiento. También deja a `CRITERIO.md` fuera del circuito efectivo.
@@ -253,7 +253,7 @@ Modificar:
 Modificar:
 
 - `projects/savia-vaults/schema/entities/learning_proposal.yaml`: añadir
-  `criterion_id` y corregir descripción de la cúpula a SaviaLearning.
+  `criterion_id` y corregir descripción de la cúpula a learning.
 - `scripts/learning-proposal.sh`: aceptar `--criterion-id CRIT-XXX` solo con
   `--target criterio`; siempre crea `INFERRED/proposed`.
 - `scripts/learning-persist.sh`: conservar `criterion_id`.

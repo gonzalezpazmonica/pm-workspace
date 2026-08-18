@@ -22,7 +22,7 @@ maquillaje. Esta spec lo implementa de verdad.
 
 ```
 SaviaVaults (servidor de cúpulas)
-└── SaviaLabs     (cúpula de Labs/experimentación — NO tocar)
+└── example-context (cúpula de contexto de ejemplo)
 └── savia-docs    (cúpula de docs — NO tocar)
 └── SaviaLearning (cúpula NUEVA del bucle SCL)
     └── learning/

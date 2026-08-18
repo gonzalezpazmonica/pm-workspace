@@ -19,7 +19,7 @@
 | Trigger post-merge | **Hook/gate en CI al mergear** + comando `/sldc-context-loop` manual | Cierra el ciclo automaticamente (articulo: "que se actualice sola al cerrar cada entrega"); el comando permite re-ejecutar |
 | Generacion de conocimiento | **LLM resume el diff en notas con citacion** | Patron SE-310 2.9: fundamentacion con path de fuente; evita conocimiento inventado |
 | S2 sobre el RESULTADO final | El gate corre sobre el **diff mergeado** (post-ediciones manuales), no en-loop | Articulo: "verificar el resultado tal como quedo, sin importar quien lo toco al final" |
-| Confidencialidad | Notas al dome configurado (default `SaviaLabs`, N2); ADRs/decisiones N2; releases N1 | Reutiliza el gate de confidencialidad de SE-310 S0-H (endpoint↔nivel) |
+| Confidencialidad | Notas al dome configurado (default `example-context`, N2); ADRs/decisiones N2; releases N1 | Reutiliza el gate de confidencialidad de SE-310 S0-H (endpoint↔nivel) |
 | Dependencia del articulo | NO se adopta Spec Kit/OpenSpec/BMAD/AI-DLC | Savia ya tiene SDD + SaviaVaults + gates; se cierran los gaps sobre lo existente |
 
 **Effort Estimation (Dual Model):**
@@ -91,9 +91,9 @@ PR MERGEADO (CI gate post-merge / /sldc-context-loop)
   │      • release: que se entrego + impacto (cita el changelog/diff)
   │
   ├─ 3. ALIMENTAR las cupulas via A2A POST /share (o MCP vault_write):
-  │      • SaviaLabs/specs/<id>-status.md      (N2)
-  │      • SaviaLabs/decisions/<fecha>-<id>.md  (N2)
-  │      • SaviaLabs/releases/<version>.md      (N1)
+   │      • example-context/specs/<id>-status.md      (N2)
+   │      • example-context/decisions/<fecha>-<id>.md  (N2)
+   │      • example-context/releases/<version>.md      (N1)
   │
   └─ 4. VERIFICAR: /search encuentra la nota nueva (consume de la siguiente iteracion)
 ```
@@ -141,7 +141,7 @@ validacion de estandares de la organizacion.
 | Clave | Default | Descripcion |
 |---|---|---|
 | `sldc.vaults_enabled` | `true` | Activa el contexto loop hacia las cupulas |
-| `sldc.write_dome` | `SaviaLabs` | Dome destino (defaultDome de savia-vaults.domes.json) |
+| `sldc.write_dome` | `example-context` | Dome destino (defaultDome de savia-vaults.domes.json) |
 | `sldc.specs_dir` | `projects/*/specs/` | Patron de specs a detectar |
 | `sldc.llm_endpoint` | (reusa Ollama) | Para resumir el diff (mismo cerebro que el workspace) |
 | `sldc.max_confidentiality` | `N2` | Nivel maximo de las notas (reutiliza gate SE-310 S0-H) |

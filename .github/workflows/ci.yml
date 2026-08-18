@@ -23,10 +23,10 @@ jobs:
       - name: Checkout
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
 
-      - name: Install dependencies
+      - name: Verify dependencies
         run: |
-          sudo apt-get update -qq
-          sudo apt-get install -y jq python3
+          command -v jq
+          command -v python3
 
       - name: Setup Node.js
         uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
@@ -160,10 +160,10 @@ jobs:
       - name: Checkout
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
 
-      - name: Install dependencies
+      - name: Verify dependencies
         run: |
-          sudo apt-get update -qq
-          sudo apt-get install -y jq python3
+          command -v jq
+          command -v python3
 
       - name: Run eval-lint (SE-316 golden sets)
         run: |
@@ -256,12 +256,12 @@ jobs:
       - name: Run vault-links extract+validate (SE-325)
         run: |
           # vaults/ es local (gitignored); en CI se usa un vault de fixture mínimo
-          if [[ ! -d vaults/SaviaLabs ]]; then
-            mkdir -p vaults/SaviaLabs/docs
-            printf '%s\n' '---' 'entity: {type: document, id: ci-fixture}' 'title: CI Fixture' 'status: approved' '---' '# Fixture' 'Ver [[ci-other]]' > vaults/SaviaLabs/docs/ci.md
-            printf '%s\n' '---' 'entity: {type: document, id: ci-other}' 'title: CI Other' 'status: draft' '---' '# Other' > vaults/SaviaLabs/docs/other.md
+          if [[ ! -d vaults/ci-fixture ]]; then
+            mkdir -p vaults/ci-fixture/docs
+            printf '%s\n' '---' 'entity: {type: document, id: ci-fixture}' 'title: CI Fixture' 'status: approved' '---' '# Fixture' 'Ver [[ci-other]]' > vaults/ci-fixture/docs/ci.md
+            printf '%s\n' '---' 'entity: {type: document, id: ci-other}' 'title: CI Other' 'status: draft' '---' '# Other' > vaults/ci-fixture/docs/other.md
           fi
-          bash scripts/vault-links.sh extract vaults/SaviaLabs > /tmp/vault-links.jsonl
+          bash scripts/vault-links.sh extract vaults/ci-fixture > /tmp/vault-links.jsonl
           NEDGES=$(wc -l < /tmp/vault-links.jsonl)
           echo "::notice::Vault graph: ${NEDGES} aristas extraídas (SE-325)"
           bash scripts/vault-links.sh validate /tmp/vault-links.jsonl || true
@@ -281,8 +281,10 @@ jobs:
         run: |
           git clone --depth 1 --branch v1.9.0 https://github.com/bats-core/bats-core.git /tmp/bats
           sudo /tmp/bats/install.sh /usr/local
-          sudo apt-get update -qq
-          sudo apt-get install -y jq git bash python3-pip
+          command -v jq
+          command -v git
+          command -v bash
+          command -v pip3
           pip3 install pytest
           npm install --prefix scripts
           git config --global user.email "ci@example.com"
@@ -294,6 +296,8 @@ jobs:
 
       - name: Select BATS tests based on changes
         id: select
+        env:
+          SAVIA_BATS_FULL_THRESHOLD_PCT: 50
         run: |
           if bash scripts/ci-select-bats.sh --base "origin/${{ github.base_ref }}" 2>/dev/null; then
             SELECTED="$(bash scripts/ci-select-bats.sh --base "origin/${{ github.base_ref }}" 2>/dev/null)"
@@ -462,10 +466,8 @@ jobs:
       - name: Checkout
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
 
-      - name: Install jq
-        run: |
-          sudo apt-get update -qq
-          sudo apt-get install -y jq
+      - name: Verify jq
+        run: command -v jq
 
       - name: Run skill-audit --agent-plugins --strict
         run: |
@@ -488,10 +490,10 @@ jobs:
       - name: Checkout
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
 
-      - name: Install dependencies
+      - name: Verify dependencies
         run: |
-          sudo apt-get update -qq
-          sudo apt-get install -y jq python3
+          command -v jq
+          command -v python3
 
       - name: Run hook latency benchmark (strict — fail if any hook > 200ms)
         run: bash scripts/hook-latency-bench.sh --iterations 3 --threshold 200 --strict
@@ -508,8 +510,8 @@ jobs:
       - name: Checkout
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
 
-      - name: Install dependencies
-        run: sudo apt-get update -qq && sudo apt-get install -y python3
+      - name: Verify dependencies
+        run: command -v python3
 
       - name: SE-253 Agent sync guard — verify .claude/agents ↔ .opencode/agents
         run: bash scripts/agents-catalog-sync.sh --check
@@ -524,7 +526,7 @@ jobs:
           fetch-depth: 0
       - name: Fetch main (PR diff para confid/scan)
         run: git fetch --depth=1 origin main
-      - name: Install dependencies
-        run: sudo apt-get update -qq && sudo apt-get install -y python3
+      - name: Verify dependencies
+        run: command -v python3
       - name: SE-311 Standards Compliance Gate (determinista, diff final)
         run: bash scripts/standards-compliance-gate.sh --json

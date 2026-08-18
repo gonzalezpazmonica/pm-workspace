@@ -45,6 +45,18 @@ setup() {
   [[ "$output" == *"GRANTED"* ]]
 }
 
+@test "AC-5a: p >= 0.85 sin aprobación humana no permite L3" {
+  run bash "$AUT" --p-consistent 0.9 --requested L3 --history-ok
+  [ "$status" -ne 0 ]
+  [[ "$output" == *"L2"* ]]
+}
+
+@test "AC-5b: p >= 0.85 sin historial no permite L3" {
+  run bash "$AUT" --p-consistent 0.9 --requested L3 --human-ok
+  [ "$status" -ne 0 ]
+  [[ "$output" == *"L2"* ]]
+}
+
 @test "AC-6: pedir menos de lo permitido siempre se concede" {
   run bash "$AUT" --p-consistent 0.9 --requested L1 --history-ok --human-ok
   [ "$status" -eq 0 ]

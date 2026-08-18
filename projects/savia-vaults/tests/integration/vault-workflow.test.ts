@@ -90,7 +90,7 @@ describe('SaviaVaults Integration', () => {
 
   describe('multi-note workflow', () => {
     it('handles multiple notes with cross-references', async () => {
-      await storage.write('index.md', '# Knowledge Vault\n\nSee [[System Architecture]] and [[Sprint Planning]].');
+      await storage.write('overview.md', '# Knowledge Vault\n\nSee [[System Architecture]] and [[Sprint Planning]].');
       await storage.write('architecture.md', '# System Architecture\n\nEvent-driven microservices.');
       await storage.write('meetings/sprint.md', '# Sprint Planning\n\nDiscussed #architecture and #agile.');
 

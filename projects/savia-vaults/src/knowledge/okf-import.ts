@@ -32,7 +32,7 @@ export async function importOkfBundle(
   }
 
   for (const relPath of files) {
-    const baseName = relPath.split('/').pop() || '';
+    const baseName = path.posix.basename(relPath.replace(/\\/g, '/'));
     if (baseName === 'index.md' || baseName === 'log.md') continue;
 
     const raw = await fs.readFile(path.join(opts.sourceDir, relPath), 'utf-8');
@@ -71,7 +71,7 @@ async function walkDir(dir: string): Promise<string[]> {
     const rel = e.name;
     if (e.isDirectory()) {
       const sub = await walkDir(path.join(dir, rel));
-      for (const s of sub) results.push(path.join(rel, s));
+      for (const s of sub) results.push(path.posix.join(rel, s));
     } else if (e.isFile() && rel.endsWith('.md')) {
       results.push(rel);
     }

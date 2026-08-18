@@ -17,6 +17,7 @@ export default defineConfig({
       exclude: ['src/cli/**'],
     },
     testTimeout: 10000,
-    hookTimeout: 5000,
+    // Git-backed fixtures can exceed 5s on Windows under filesystem contention.
+    hookTimeout: 30000,
   },
 });

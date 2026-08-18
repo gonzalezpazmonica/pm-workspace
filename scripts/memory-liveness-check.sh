@@ -6,11 +6,9 @@ set -euo pipefail
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 ROOT="$(dirname "$SCRIPT_DIR")"
 
-CHECK_MISSING=false
 while [[ $# -gt 0 ]]; do
   case "$1" in
     --check-missing)
-      CHECK_MISSING=true
       shift
       if [[ -z "${1:-}" ]]; then
         echo "ERROR: --check-missing requires a path argument" >&2
@@ -31,25 +29,73 @@ done
 
 echo "=== Memory Liveness Check ==="
 
-MEMORY_SCRIPTS=$(find "$ROOT/scripts" \( -name "*memory*" -o -name "*memor*" -o -name "*bitemporal*" \) ! -name "*.pyc" ! -name "test-*" | grep -v "_legacy" | sort)
+mapfile -d '' MEMORY_SCRIPTS < <(
+  find "$ROOT/scripts" -type f \( -name "*memory*" -o -name "*memor*" -o -name "*bitemporal*" \) \
+    ! -name "*.pyc" ! -name "test-*" ! -name "*.test.py" ! -path "*_legacy*" -print0 | sort -z
+)
 ORPHANS=0
 OK=0
 
-check_referenced() {
-  local script="$1"
-  local name=$(basename "$script")
-  # Buscar referencias al script en todo el repo
-  if grep -rq "$name" "$ROOT/scripts/" "$ROOT/docs/" "$ROOT/.claude/" "$ROOT/.opencode/" "$ROOT/tests/" 2>/dev/null; then
+declare -A SCRIPT_BY_NAME=()
+declare -A REFERENCED=()
+PATTERNS=$(mktemp)
+MATCHES=$(mktemp)
+MATCHED_FILES=$(mktemp)
+trap 'rm -f "$PATTERNS" "$MATCHES" "$MATCHED_FILES"' EXIT
+
+for script in "${MEMORY_SCRIPTS[@]}"; do
+  name=$(basename "$script")
+  SCRIPT_BY_NAME["$name"]="${script#"$ROOT/"}"
+  printf '%s\n' "$name" >> "$PATTERNS"
+done
+
+SEARCH_ROOTS=()
+for directory in scripts docs .claude .opencode tests .github; do
+  [[ -d "$ROOT/$directory" ]] && SEARCH_ROOTS+=("$directory")
+done
+
+if [[ -s "$PATTERNS" && ${#SEARCH_ROOTS[@]} -gt 0 ]]; then
+  if git -C "$ROOT" rev-parse --is-inside-work-tree >/dev/null 2>&1; then
+    (cd "$ROOT" && git grep -z -o -F -f "$PATTERNS" \
+      -- "${SEARCH_ROOTS[@]}" 2>/dev/null) > "$MATCHES" || true
+  elif command -v rg >/dev/null 2>&1; then
+    (cd "$ROOT" && rg -o -F -f "$PATTERNS" --field-match-separator $'\t' \
+      --glob '!node_modules/**' --glob '!output/**' --glob '!.git/**' --glob '!*.pyc' \
+      -- "${SEARCH_ROOTS[@]}" 2>/dev/null) > "$MATCHES" || true
+  else
+    (cd "$ROOT" && grep -rlZF -f "$PATTERNS" --exclude='*.pyc' --exclude-dir=node_modules \
+      --exclude-dir=output --exclude-dir=.git -- "${SEARCH_ROOTS[@]}" 2>/dev/null) > "$MATCHED_FILES" || true
+  fi
+fi
+
+if [[ -s "$MATCHES" ]]; then
+  if git -C "$ROOT" rev-parse --is-inside-work-tree >/dev/null 2>&1; then
+    while IFS= read -r -d '' reference && IFS= read -r name; do
+      [[ -n "$name" && "$reference" != "${SCRIPT_BY_NAME[$name]:-}" ]] && REFERENCED["$name"]=1
+    done < "$MATCHES"
+  else
+  while IFS=$'\t' read -r reference name; do
+    [[ -n "$name" && "$reference" != "${SCRIPT_BY_NAME[$name]:-}" ]] && REFERENCED["$name"]=1
+  done < "$MATCHES"
+  fi
+elif [[ -s "$MATCHED_FILES" ]]; then
+  while IFS= read -r -d '' reference; do
+    [[ -f "$ROOT/$reference" && ! -L "$ROOT/$reference" ]] || continue
+    while IFS= read -r name; do
+      [[ "$reference" != "${SCRIPT_BY_NAME[$name]:-}" ]] && REFERENCED["$name"]=1
+    done < <(grep -oF -f "$PATTERNS" -- "$ROOT/$reference" 2>/dev/null || true)
+  done < "$MATCHED_FILES"
+fi
+
+for script in "${MEMORY_SCRIPTS[@]}"; do
+  name=$(basename "$script")
+  if [[ -n "${REFERENCED[$name]:-}" ]]; then
     echo "  OK: $name"
     OK=$((OK + 1))
   else
-    echo "  ORPHAN: $name (no references found)"
+    echo "  ORPHAN: $name (no external references found)"
     ORPHANS=$((ORPHANS + 1))
   fi
-}
-
-for s in $MEMORY_SCRIPTS; do
-  check_referenced "$s"
 done
 
 echo ""

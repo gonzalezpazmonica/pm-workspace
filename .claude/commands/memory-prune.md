@@ -1,6 +1,6 @@
 ---
 name: memory-prune
-description: Poda semántica inteligente de memorias. Archiva engrams de baja importancia, mantiene críticas. Usa scores de /memory-importance. Reversible con restore.
+description: Poda semántica de memorias con preview seguro y aplicación explícita. Conserva entradas podadas en un tombstone.
 developer_type: all
 agent: task
 context_cost: high
@@ -10,8 +10,7 @@ tier: extended
 # /memory-prune
 
 Gestiona el ciclo de vida de engrams: archiva los de baja importancia,
-preserva los críticos, permite restauración. Equilibra accesibilidad vs.
-sobrecarga de contexto histórico.
+preserva los críticos y conserva un tombstone para recuperación manual.
 
 ## Sintaxis
 
@@ -40,6 +39,14 @@ sobrecarga de contexto histórico.
 
 ### 2. Revisar propuesta
 
+Ejecución real de preview:
+
+```bash
+bash scripts/memory-prune.sh --dry-run
+```
+
+Sin `--apply`, este comando SIEMPRE usa `--dry-run` y no modifica el store.
+
 ```
 Propuesta de Poda
 =================
@@ -58,13 +65,15 @@ Críticas — se mantienen (--keep-critical):
 
 ### 3. Aplicar o descartar
 
-```bash
-/memory-prune --apply
-# Archiva candidatos a .archive/, genera índice reversible
+`/memory-prune --apply` explícito habilita la ejecución mutante y delega en:
 
-/memory-prune --restore 2024-12-05
-# Recupera un engram archivado específico
+```bash
+bash scripts/memory-prune.sh --apply
 ```
+
+Mueve candidatos a `output/.memory-tombstone.jsonl` y reescribe
+`output/.memory-store.jsonl`. No existe restauración automática: recuperar una
+entrada exige revisión humana del tombstone y una escritura explícita.
 
 ## Políticas de protección (--keep-critical)
 
@@ -76,28 +85,13 @@ NUNCA se archivan:
 
 ## Archivado
 
-Ubicación: `projects/{proyecto}/engrams/.archive/{YYYYMMDD}/`
-
-```
-.archive/
-  2025-03-01/
-    2024-12-05_old-experiment.md
-    2024-11-30_research-spike.md
-    INDEX.md  ← Catálogo de archivados con fechas y motivos
-```
+Ubicación: `output/.memory-tombstone.jsonl`. Cada entrada conserva contenido,
+`tombstone_ts` y `tombstone_reason`.
 
 ## Restauración
 
-```bash
-/memory-prune --list-archived
-# Enumera qué hay en .archive/
-
-/memory-prune --restore {fecha-o-nombre}
-# Mueve el engram de vuelta a engrams/
-
-/memory-prune --restore-all {fecha}
-# Restaura todos los archivados en una fecha específica
-```
+No hay subcomando de restauración. La recuperación requiere seleccionar una
+entrada del tombstone y guardarla de nuevo mediante el flujo de memoria.
 
 ## Impacto en contexto
 
@@ -107,13 +101,9 @@ Ubicación: `projects/{proyecto}/engrams/.archive/{YYYYMMDD}/`
 
 ## Reversibilidad
 
-El archivado es **100% reversible**:
-1. INDEX.md registra por qué se archivó (score, fecha, causa)
-2. Contenido original preservado íntegro
-3. Restauración es operación atómica
-
-No hay eliminación permanente de engrams en este comando.
-Para eliminar permanentemente, usar `/memory-destroy` (requiere confirmación explícita).
+La poda conserva la entrada completa en el tombstone, pero la restauración no es
+automática ni atómica. No afirmar reversibilidad total hasta implementar y probar
+un comando de restore.
 
 ## Configuración
 
@@ -136,8 +126,8 @@ memory:
 
 1. **Limpieza post-sprint**: Archivar notas de spike que no llegó a feature.
 2. **Transición de contexto**: Archivar historiales de proyecto finalizado.
-3. **Recuperación de contexto**: Si un engram archivado resulta relevante,
-   `/memory-prune --restore` lo trae de vuelta sin fricciones.
+3. **Recuperación de contexto**: Revisar el tombstone y volver a guardar
+   explícitamente una entrada que resulte relevante.
 
 ---
 Persona: Savia — "Una buena memoria no es guardar todo — es saber qué guardar cerca y qué archivar. Y confiar que puedas recuperar cuando lo necesites."

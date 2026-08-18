@@ -189,7 +189,7 @@ echo "CREATED: $FILE"
 echo "id: $ID"
 echo "evidence_hash: $EVIDENCE_HASH"
 
-# ── Persist to SaviaLearning dome (SCL-002): cross-instance durable lesson ──
+# ── Persist to learning dome (SCL-002): cross-instance durable lesson ──
 if $PERSIST; then
   PERSIST_SCRIPT="${SCL_PERSIST_SCRIPT:-$ROOT/scripts/learning-persist.sh}"
   if [[ -f "$PERSIST_SCRIPT" ]]; then

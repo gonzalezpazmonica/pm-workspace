@@ -21,6 +21,7 @@ describe('Knowledge Layer', () => {
   let vaultPath: string;
   let config: VaultConfig;
 
+  // Git initialization on Windows can exceed Vitest's 5s default under parallel load.
   beforeEach(async () => {
     tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), 'savia-knowledge-'));
     schemaDir = path.join(tmpDir, 'schema');
@@ -61,7 +62,7 @@ describe('Knowledge Layer', () => {
       'name: Project X', 'status: active', '---', '# Project X',
       'Mentored by [[alice]].',
     ].join('\n'));
-  });
+  }, 30_000);
 
   afterEach(() => { fs.rmSync(tmpDir, { recursive: true, force: true }); });
 

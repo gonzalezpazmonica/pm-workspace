@@ -28,7 +28,7 @@ export async function exportOkfBundle(
   await fs.mkdir(outputDir, { recursive: true });
 
   for (const notePath of notes) {
-    const baseName = notePath.split('/').pop() || '';
+    const baseName = path.posix.basename(notePath.replace(/\\/g, '/'));
     if (baseName === 'index.md' || baseName === 'log.md') {
       if (!opts.includeIndexFiles && baseName === 'index.md') continue;
       if (!opts.includeLogFiles && baseName === 'log.md') continue;

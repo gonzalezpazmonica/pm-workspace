@@ -18,26 +18,27 @@ if [[ ! -f "$CRITERIO" ]]; then
   exit 1
 fi
 
-python3 -c "
-import re, sys
-with open('$CRITERIO') as f:
-    text = f.read()
+python3 - "$CRITERIO" "$ID" <<'PY'
+import re
+import sys
 
-pattern = rf'^($ID):\s*(.+?)$'
-lines = text.split('\n')
-found = False
-for i, line in enumerate(lines):
-    m = re.match(pattern, line)
-    if m:
-        print(f'{m.group(1)}: {m.group(2)}')
-        found = True
-        for j in range(i+1, min(i+8, len(lines))):
-            if lines[j].startswith('CRIT-') or lines[j].startswith('##') or lines[j].startswith('---'):
-                break
-            if lines[j].strip():
-                print(lines[j])
-        break
-if not found:
-    print(f'ERROR: {ID} not found in CRITERIO.md', file=sys.stderr)
-    sys.exit(1)
-"
+criterio_path, criterion_id = sys.argv[1:]
+with open(criterio_path, encoding='utf-8') as handle:
+    lines = handle.read().splitlines()
+
+pattern = re.compile(rf'^({re.escape(criterion_id)})\s*[—:-]\s*(.+?)$')
+for index, line in enumerate(lines):
+    match = pattern.match(line)
+    if not match:
+        continue
+    print(f'{match.group(1)}: {match.group(2)}')
+    for detail in lines[index + 1:index + 8]:
+        if detail.startswith(('CRIT-', '##', '---')):
+            break
+        if detail.strip():
+            print(detail)
+    raise SystemExit(0)
+
+print(f'ERROR: {criterion_id} not found in CRITERIO.md', file=sys.stderr)
+raise SystemExit(1)
+PY

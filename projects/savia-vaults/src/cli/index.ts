@@ -42,13 +42,13 @@ program.command('serve').description('Start MCP or A2A server')
   .option('--host <host>', 'Bind host', '127.0.0.1')
   .option('-p, --path <path>', 'Vault path (legacy single-dome)', process.cwd())
   .option('--domes <file>', 'Domes registry file', 'savia-vaults.domes.json')
-  .action(async (opts) => {
+  .action(async (opts, command) => {
     const authToken = process.env.SAVIA_VAULTS_TOKEN;
 
     // SE-310: si --path se paso EXPLICITO, el usuario pide single-dome legacy;
     // el registry por defecto no debe secuestrar la ruta (bug: antes se cargaba
     // savia-vaults.domes.json del cwd aunque se pasara --path).
-    const explicitPath = program.getOptionValueSource('path') === 'cli';
+    const explicitPath = command.getOptionValueSource('path') === 'cli';
 
     let domeReg: DomeRegistry | undefined;
     let userStore: UserStore | undefined;

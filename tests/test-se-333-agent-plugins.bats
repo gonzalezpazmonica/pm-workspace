@@ -79,14 +79,14 @@ EOF
 
 # --- AC-5: mcp.json portable ------------------------------------------------------
 
-@test "se-333: mcp.json declares savialabs with transport type" {
+@test "se-333: mcp.json is a valid empty portable configuration" {
   [ -f "$MCP" ]
-  run jq -e '.mcpServers.savialabs.type == "stdio"' "$MCP"
+  run jq -e '.mcpServers == {}' "$MCP"
   [ "$status" -eq 0 ]
 }
 
-@test "se-333: mcp.json paths are contained (./ prefix, no absolute)" {
-  run jq -e '.mcpServers.savialabs.command | startswith("./")' "$MCP"
+@test "se-333: mcp.json schema URL is present" {
+  run jq -e '."$schema" == "https://agent-plugins.org/schemas/1.0.0/mcp.schema.json"' "$MCP"
   [ "$status" -eq 0 ]
 }
 

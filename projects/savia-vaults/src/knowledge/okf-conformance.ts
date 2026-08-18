@@ -14,7 +14,7 @@ export async function checkOkfConformance(
   const warnings: string[] = [];
 
   for (const notePath of notes) {
-    const baseName = notePath.split('/').pop() || '';
+    const baseName = path.posix.basename(notePath.replace(/\\/g, '/'));
     if (baseName === 'index.md' || baseName === 'log.md') continue;
 
     // Read raw file directly and use the robust parser. VaultStorage.read
