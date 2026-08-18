@@ -1,5 +1,5 @@
 {
-  "hash": "3509004b9b38",
+  "hash": "aba987345cf1",
   "total": 1374,
   "resources": [
     {
@@ -6291,14 +6291,14 @@
       "name": "learning-recall",
       "intents": [
         "authority",
-        "dome",
         "filtered",
         "learning",
-        "recall"
+        "recall",
+        "savialearning"
       ],
       "kind": "script",
       "path": "scripts/learning-recall.sh",
-      "description": "learning-recall.sh — SCL-003/SCL-008: authority-filtered learning-dome recall."
+      "description": "learning-recall.sh — SCL-003/SCL-008: authority-filtered SaviaLearning recall."
     },
     {
       "category": "memory",
