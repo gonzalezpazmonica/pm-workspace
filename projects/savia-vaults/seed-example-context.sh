@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
-# seed-savia-labs.sh — SE-327..331: puebla vaults/SaviaLabs con las specs reales
+# seed-example-context.sh — SE-327..331: puebla un vault local con las specs reales
 # del workspace como entidades document + relaciones tipadas.
 #
-# Uso: bash seed-savia-labs.sh
+# Uso: bash seed-example-context.sh [ruta-del-vault]
 set -uo pipefail
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-VAULT="$SCRIPT_DIR/vaults/SaviaLabs"
+VAULT="${1:-$SCRIPT_DIR/vaults/example-context}"
 SPECS_DIR="$SCRIPT_DIR/specs"
 
 mkdir -p "$VAULT/docs"
@@ -28,7 +28,7 @@ spec_relations() {
   grep -A20 '^relations:' "$file" | sed -n '/^relations:/,/^[a-z]/p' | head -25
 }
 
-echo "Seed SaviaLabs desde specs..."
+echo "Seed vault desde specs..."
 for f in "$SPECS_DIR"/SE-*.spec.md; do
   [ -f "$f" ] || continue
   id=$(spec_id "$f")

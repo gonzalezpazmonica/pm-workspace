@@ -65,8 +65,8 @@ elif awk -v p="$P" 'BEGIN{exit !(p>=0.50)}'; then
 fi
 
 # ── L3 requires history + explicit human approval (loop-phasing gates) ──
-if [[ "$ALLOWED" == "L3" ]] && ! $HISTORY_OK && ! $HUMAN_OK; then
-  ALLOWED="L2"  # degrada a assisted sin historial ni aprobación
+if [[ "$ALLOWED" == "L3" ]] && { ! $HISTORY_OK || ! $HUMAN_OK; }; then
+  ALLOWED="L2"  # L3 requiere ambos gates, no solo uno de ellos
 fi
 
 # ── Grant/deny ──

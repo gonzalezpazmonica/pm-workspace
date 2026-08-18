@@ -11,7 +11,7 @@ Three extraction modes:
 Usage:
   python3 kg-extract.py --mode deterministic --input doc.txt
   python3 kg-extract.py --mode hybrid --input doc.txt --source doc.pdf
-  python3 kg-extract.py --mode ece --vault SaviaLabs
+   python3 kg-extract.py --mode ece --vault example-context
 """
 import sys, json, re, hashlib, os, argparse
 from collections import defaultdict

@@ -56,22 +56,22 @@ describe('UserStore', () => {
   it('sets and retrieves permissions', () => {
     const store = new UserStore(usersFile);
     store.createUser('alice');
-    store.setPermission('alice', 'SaviaLabs', 'writer');
+    store.setPermission('alice', 'example-context', 'writer');
     store.setPermission('alice', 'Labs', 'reader');
     store.save();
 
     const store2 = new UserStore(usersFile);
     store2.load();
     const perms = store2.getPermissions('alice');
-    expect(perms['SaviaLabs'].role).toBe('writer');
+    expect(perms['example-context'].role).toBe('writer');
     expect(perms['Labs'].role).toBe('reader');
   });
 
   it('removes permission', () => {
     const store = new UserStore(usersFile);
     store.createUser('alice');
-    store.setPermission('alice', 'SaviaLabs', 'admin');
-    store.removePermission('alice', 'SaviaLabs');
+    store.setPermission('alice', 'example-context', 'admin');
+    store.removePermission('alice', 'example-context');
     store.save();
 
     const store2 = new UserStore(usersFile);

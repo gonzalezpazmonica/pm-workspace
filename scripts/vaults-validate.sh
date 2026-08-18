@@ -15,9 +15,9 @@ while [[ $# -gt 0 ]]; do
   esac
 done
 
-# Use SaviaLabs vault by default
+# Use the local example vault by default.
 if [[ -z "$VAULT_PATH" ]]; then
-  VAULT_PATH="$ROOT/vaults/SaviaLabs"
+  VAULT_PATH="$ROOT/vaults/example-context"
 fi
 
 SCHEMA_DIR="$ROOT/projects/savia-vaults/schema/entities"

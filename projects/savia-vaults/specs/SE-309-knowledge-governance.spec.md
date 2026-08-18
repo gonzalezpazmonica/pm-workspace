@@ -312,7 +312,7 @@ savia-vaults conflict resolve <conflict-id> --resolution "..."
 - [x] **S3: DecisionStateManager promote** — decision-state.ts (promote, getActiveState)
 - [x] **S4: CLI** — decision record/promote + conflict scan
 - [x] **S5: Tests** — 21 tests nuevos (decision, conflicts, decision-state) + index barrel. Total 270 pass
-- [x] **S6: E2E produccion cupula SaviaLabs** — COMPLETADO 2026-08-06
+- [x] **S6: E2E produccion cupula example-context** — COMPLETADO 2026-08-06
   - `decision record` crea nodo con frontmatter completo
   - `conflict scan` detecto conflicto real: l9-biomimetic.method (2 fuentes)
   - `decision promote` persiste state + state_reason preservando frontmatter

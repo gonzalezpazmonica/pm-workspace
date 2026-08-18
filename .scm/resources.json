@@ -1,6 +1,6 @@
 {
-  "hash": "f4ae66fc324b",
-  "total": 1376,
+  "hash": "3509004b9b38",
+  "total": 1374,
   "resources": [
     {
       "category": "analysis",
@@ -6291,14 +6291,14 @@
       "name": "learning-recall",
       "intents": [
         "authority",
+        "dome",
         "filtered",
         "learning",
-        "recall",
-        "savialearning"
+        "recall"
       ],
       "kind": "script",
       "path": "scripts/learning-recall.sh",
-      "description": "learning-recall.sh — SCL-003/SCL-008: authority-filtered SaviaLearning recall."
+      "description": "learning-recall.sh — SCL-003/SCL-008: authority-filtered learning-dome recall."
     },
     {
       "category": "memory",
@@ -14505,34 +14505,6 @@
       "kind": "script",
       "path": "scripts/vault-ops.sh",
       "description": "vault-ops.sh — Personal Vault operations library (N3). Sourced by vault.sh."
-    },
-    {
-      "category": "planning",
-      "name": "vaults-backup-cron",
-      "intents": [
-        "backup",
-        "cron",
-        "nextcloud",
-        "savialabs",
-        "sync"
-      ],
-      "kind": "script",
-      "path": "scripts/vaults-backup-cron.sh",
-      "description": "vaults-backup-cron.sh — Cron job: backup SaviaLabs + sync to Nextcloud"
-    },
-    {
-      "category": "planning",
-      "name": "vaults-backup-cron-install",
-      "intents": [
-        "backup",
-        "backups",
-        "cron",
-        "install",
-        "saviavaults"
-      ],
-      "kind": "script",
-      "path": "scripts/vaults-backup-cron-install.sh",
-      "description": "vaults-backup-cron-install.sh — Install cron job for SaviaVaults backups"
     },
     {
       "category": "planning",

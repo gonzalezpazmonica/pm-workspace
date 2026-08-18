@@ -23,24 +23,24 @@ describe('DomeRegistry — resolution relativa al fichero de domes', () => {
 
   it('resuelve las rutas RELATIVAS al dir del fichero domes.json, no al cwd', () => {
     // contenido real de la cupula en otro lugar, fuera del cwd del proceso
-    const vaultReal = path.join(tmp, 'knowledge', 'SaviaLabs');
+    const vaultReal = path.join(tmp, 'knowledge', 'example-context');
     fs.mkdirSync(vaultReal, { recursive: true });
-    fs.writeFileSync(path.join(vaultReal, 'INDEX.md'), '# SaviaLabs\n');
+    fs.writeFileSync(path.join(vaultReal, 'INDEX.md'), '# Example Context\n');
 
     // domes.json referenciando la cupula con ruta relativa a EL mismo
     const domesFile = path.join(domesDir, 'savia-vaults.domes.json');
     fs.writeFileSync(domesFile, JSON.stringify({
       version: 1,
-      defaultDome: 'SaviaLabs',
+      defaultDome: 'example-context',
       domes: {
-        SaviaLabs: { name: 'SaviaLabs', path: '../knowledge/SaviaLabs', confidentiality: 'N2' },
+        'example-context': { name: 'example-context', path: '../knowledge/example-context', confidentiality: 'N2' },
       },
     }));
 
     // simulamos que el proceso corre desde OTRO cwd (ej. projects/savia-vaults)
     const registry = new DomeRegistry(domesFile);
     registry.load();
-    const dome = registry.get('SaviaLabs');
+    const dome = registry.get('example-context');
     expect(dome?.active).toBe(true);
     expect(dome?.path).toBe(vaultReal);
   });

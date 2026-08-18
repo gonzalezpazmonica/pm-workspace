@@ -4,7 +4,7 @@
 set -euo pipefail
 
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-VAULT_PATH="${1:-$ROOT/vaults/SaviaLabs}"
+VAULT_PATH="${1:-$ROOT/vaults/example-context}"
 
 echo "=== Vault Freshness ==="
 echo "Vault: $VAULT_PATH"

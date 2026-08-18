@@ -1,6 +1,6 @@
 # Savia Capability Map — INDEX
-> hash: 8ce52510dc28 | resources: 1376
-> 294 commands · 127 skills · 83 agents · 872 scripts
+> hash: bb7aaccda152 | resources: 1374
+> 294 commands · 127 skills · 83 agents · 870 scripts
 
 [analysis] Trace Optimize — across,distributed,optimize,rates,sampling — cmd:.claude/commands/trace-optimize.md
 [analysis] agent-activity — activity,agent,executions,recent,show — cmd:.claude/commands/agent-activity.md
@@ -476,7 +476,7 @@
 [memory] generate-context-index — context,files,generate,index,projects — script:scripts/generate-context-index.sh
 [memory] generate-global-context — agent,compact,context,generate,global — script:scripts/generate-global-context.sh
 [memory] iterative-compress — compress,compression,context,iterative,preservation — script:scripts/iterative-compress.sh
-[memory] learning-recall — authority,filtered,learning,recall,savialearning — script:scripts/learning-recall.sh
+[memory] learning-recall — authority,dome,filtered,learning,recall — script:scripts/learning-recall.sh
 [memory] lesson-search — cross,domain,keyword,lessons,project — cmd:.claude/commands/lesson-search.md
 [memory] memory-access — access,count,increment,last,memory — script:scripts/memory-access.sh
 [memory] memory-agent — gestiona,lenguaje,memoria,natural,persistente — agent:.opencode/agents/memory-agent.md
@@ -1102,8 +1102,6 @@
 [planning] vault-graph — adyacencia,extract,graph,inline,knowledge — cmd:.claude/commands/vault-graph.md
 [planning] vault-links — adyacencia,inline,links,relaciones,saviavaults — script:scripts/vault-links.sh
 [planning] vault-ops — library,operations,personal,sourced,vault — script:scripts/vault-ops.sh
-[planning] vaults-backup-cron — backup,cron,nextcloud,savialabs,sync — script:scripts/vaults-backup-cron.sh
-[planning] vaults-backup-cron-install — backup,backups,cron,install,saviavaults — script:scripts/vaults-backup-cron-install.sh
 [planning] vaults-export — confidentiality,export,filtering,signing,vault — script:scripts/vaults-export.sh
 [planning] vaults-graph-query — graph,knowledge,queries,query,saviavaults — script:scripts/vaults-graph-query.sh
 [planning] vaults-nextcloud-setup — backups,configurar,credenciales,nextcloud,setup — script:scripts/vaults-nextcloud-setup.sh

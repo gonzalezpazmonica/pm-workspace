@@ -57,7 +57,7 @@ frontmatter + MCP), no solo conteo de líneas.
   propios top-level rompen el contrato cerrado del frontmatter estándar.
 - No existe manifest de descubrimiento portable (`plugin.json`).
 - No hay verificación sistemática de conformidad contra el estándar (el drift es silencioso).
-- La configuración MCP (`savialabs`) no declara transporte portable; es específica de Claude Code.
+- La configuración MCP no declara servidores por defecto; cada operador la configura localmente.
 
 ## Diseño
 
@@ -138,20 +138,14 @@ tiene en `.claude/skills/`. Propuesta **no destructiva**:
 
 ### 4. `mcp.json` portable
 
-Crear `mcp.json` en formato Agent Plugins mapeando `savialabs` (hoy `.claude/mcp.json`
+Crear `mcp.json` en formato Agent Plugins sin servidores preconfigurados (igual que `.claude/mcp.json`
 con `command`/`args` bash -c). El formato portable exige `type` + `command` como token
 único (no shell), con `args`/`env`/`cwd` separados y placeholders `${PLUGIN_ROOT}`/`${PLUGIN_DATA}`:
 
 ```json
 {
   "$schema": "https://agent-plugins.org/schemas/1.0.0/mcp.schema.json",
-  "mcpServers": {
-    "savialabs": {
-      "type": "stdio",
-      "command": "./projects/savia-vaults/dist/cli/index.js",
-      "args": ["serve", "--transport", "mcp", "--path", "vaults/SaviaLabs", "--schema", "projects/savia-vaults/schema/entities"]
-    }
-  }
+  "mcpServers": {}
 }
 ```
 
@@ -185,7 +179,7 @@ symlink contenido, extension namespace ignorado, desconocido top-level no fatal)
 - [ ] AC-2 Los campos propios de las 127 skills migran a `metadata.savia.*` (string→string); `name`/`description` quedan top-level.
 - [ ] AC-3 `plugin.json` Agent Plugins creado en la raíz con `$schema` + `name` válidos y `extensions.com.savia.client`.
 - [ ] AC-4 `skills -> .claude/skills/` symlink resuelve dentro del root (contención §4.1 verificada por script).
-- [ ] AC-5 `mcp.json` portable creado para `savialabs` con `type: stdio` y paths contenidos.
+- [ ] AC-5 `mcp.json` portable creado sin servidores ni rutas operativas preconfiguradas.
 - [ ] AC-6 `scripts/skill-audit.sh --agent-plugins` valida name/description/metadata/plugin.json/mcp.json con salida `--json`.
 - [ ] AC-7 Los scripts de routing (routing-index, keyword-detector, skills-md-generate, skill-loader) leen `metadata.savia.*` sin romper el catálogo SKILLS.md.
 - [ ] AC-8 Tests BATS 10+ cubren los casos del diseño §6.

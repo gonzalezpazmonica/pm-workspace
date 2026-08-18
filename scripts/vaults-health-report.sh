@@ -6,7 +6,7 @@ set -euo pipefail
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 CONFIG_FILE="$ROOT/config/vaults.yaml"
 SAVIA_VAULTS_DIR="$ROOT/projects/savia-vaults"
-VAULT_NAME="${1:-savialabs}"
+VAULT_NAME="${1:-example-context}"
 JSON=false
 
 while [[ $# -gt 0 ]]; do

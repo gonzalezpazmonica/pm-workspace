@@ -50,6 +50,8 @@ teardown() {
 @test "AC-1.4b: criterio-validate pasa con estado actual" {
   run bash "$REPO_ROOT/scripts/criterio-validate.sh"
   [ "$status" -eq 0 ]
+  [[ "$output" == *"0 human_authored"* ]]
+  [[ "$output" == *"GATE S5: DORMIDO (0 human_authored, need 20)"* ]]
 }
 
 @test "AC-1.5: criterio-validate fails on missing file with error" {
@@ -81,6 +83,126 @@ teardown() {
 @test "AC-2.3: memory-liveness-check with timeout does not hang" {
   run timeout 5 bash "$REPO_ROOT/scripts/memory-liveness-check.sh"
   [ "$status" -eq 0 ]
+}
+
+@test "SE-334 AC-2.3a: self-reference does not count as a consumer" {
+  local fixture="$BATS_TEST_TMPDIR/liveness-self"
+  mkdir -p "$fixture/scripts" "$fixture/docs"
+  cp "$REPO_ROOT/scripts/memory-liveness-check.sh" "$fixture/scripts/"
+  cat > "$fixture/scripts/orphan-memory.sh" <<'EOF'
+#!/usr/bin/env bash
+# orphan-memory.sh has no external consumer
+EOF
+  echo "Run scripts/memory-liveness-check.sh during validation." > "$fixture/docs/checker.md"
+  git -C "$fixture" init -q
+  git -C "$fixture" add scripts docs
+
+  run bash "$fixture/scripts/memory-liveness-check.sh"
+  [ "$status" -eq 1 ]
+  [[ "$output" == *"ORPHAN: orphan-memory.sh"* ]]
+}
+
+@test "SE-334 AC-2.3b: external reference counts as a consumer" {
+  local fixture="$BATS_TEST_TMPDIR/liveness-consumer"
+  mkdir -p "$fixture/scripts" "$fixture/docs"
+  cp "$REPO_ROOT/scripts/memory-liveness-check.sh" "$fixture/scripts/"
+  cat > "$fixture/scripts/used-memory.sh" <<'EOF'
+#!/usr/bin/env bash
+EOF
+  printf '%s\n' "Run scripts/memory-liveness-check.sh during validation." \
+    "Run scripts/used-memory.sh during validation." > "$fixture/docs/runbook.md"
+  git -C "$fixture" init -q
+  git -C "$fixture" add scripts docs
+
+  run bash "$fixture/scripts/memory-liveness-check.sh"
+  [ "$status" -eq 0 ]
+  [[ "$output" == *"OK: used-memory.sh"* ]]
+  [[ "$output" == *"0 orphans"* ]]
+}
+
+@test "SE-334 AC-2.3c: script paths with spaces are not split" {
+  local fixture="$BATS_TEST_TMPDIR/liveness-spaces"
+  mkdir -p "$fixture/scripts" "$fixture/docs"
+  cp "$REPO_ROOT/scripts/memory-liveness-check.sh" "$fixture/scripts/"
+  touch "$fixture/scripts/cache memory.sh"
+  printf '%s\n' "Run scripts/memory-liveness-check.sh during validation." \
+    "Run scripts/cache memory.sh during validation." > "$fixture/docs/runbook.md"
+  git -C "$fixture" init -q
+  git -C "$fixture" add scripts docs
+
+  run bash "$fixture/scripts/memory-liveness-check.sh"
+  [ "$status" -eq 0 ]
+  [[ "$output" == *"OK: cache memory.sh"* ]]
+}
+
+@test "SE-334 AC-2.3d: fallback without rg preserves liveness semantics" {
+  local fixture="$BATS_TEST_TMPDIR/liveness-fallback"
+  local bin="$fixture/bin"
+  mkdir -p "$fixture/scripts" "$fixture/docs" "$bin"
+  cp "$REPO_ROOT/scripts/memory-liveness-check.sh" "$fixture/scripts/"
+  touch "$fixture/scripts/fallback-memory.sh"
+  printf '%s\n' "Run scripts/memory-liveness-check.sh during validation." \
+    "Run scripts/fallback-memory.sh during validation." > "$fixture/docs/runbook.md"
+  for command in bash basename dirname find git grep mktemp rm sort; do
+    ln -s "$(command -v "$command")" "$bin/$command"
+  done
+
+  run env PATH="$bin" bash "$fixture/scripts/memory-liveness-check.sh"
+  [ "$status" -eq 0 ]
+  [[ "$output" == *"OK: fallback-memory.sh"* ]]
+}
+
+@test "SE-334 AC-2.3e: Python test files are not operational candidates" {
+  local fixture="$BATS_TEST_TMPDIR/liveness-python-test"
+  mkdir -p "$fixture/scripts" "$fixture/docs"
+  cp "$REPO_ROOT/scripts/memory-liveness-check.sh" "$fixture/scripts/"
+  touch "$fixture/scripts/orphan-memory.test.py"
+  echo "Run scripts/memory-liveness-check.sh during validation." > "$fixture/docs/checker.md"
+  git -C "$fixture" init -q
+  git -C "$fixture" add scripts docs
+
+  run bash "$fixture/scripts/memory-liveness-check.sh"
+  [ "$status" -eq 0 ]
+  [[ "$output" != *"orphan-memory.test.py"* ]]
+}
+
+@test "SE-334 AC-12: manual memory entrypoints invoke all operational scripts" {
+  run grep -F "bash scripts/memory-backup-pm.sh status" "$REPO_ROOT/.claude/skills/savia-memory/SKILL.md"
+  [ "$status" -eq 0 ]
+  run grep -F "python3 scripts/memory-conflict-resolve.py" "$REPO_ROOT/.claude/skills/savia-memory/SKILL.md"
+  [ "$status" -eq 0 ]
+  run grep -F "bash scripts/memory-sync-index.sh" "$REPO_ROOT/.claude/skills/savia-memory/SKILL.md"
+  [ "$status" -eq 0 ]
+  run grep -F "bash scripts/memory-write-gate.sh" "$REPO_ROOT/.claude/skills/savia-memory/SKILL.md"
+  [ "$status" -eq 0 ]
+  run grep -F "bash scripts/memory-prune.sh --dry-run" "$REPO_ROOT/.claude/commands/memory-prune.md"
+  [ "$status" -eq 0 ]
+}
+
+@test "SE-334 AC-13: memory prune dry-run does not mutate store" {
+  local fixture="$BATS_TEST_TMPDIR/prune-dry-run"
+  mkdir -p "$fixture/output"
+  printf '%s\n' '{"topic_key":"old","content":"old low confidence entry","confidence":0.1,"ts":"2020-01-01T00:00:00Z"}' > "$fixture/output/.memory-store.jsonl"
+  local before
+  before=$(sha256sum "$fixture/output/.memory-store.jsonl")
+
+  run env PROJECT_ROOT="$fixture" \
+    bash "$REPO_ROOT/scripts/memory-prune.sh" --dry-run --quiet
+  [ "$status" -eq 0 ]
+  [ "$before" = "$(sha256sum "$fixture/output/.memory-store.jsonl")" ]
+  [ ! -e "$fixture/output/.memory-tombstone.jsonl" ]
+
+  run env PROJECT_ROOT="$fixture" \
+    bash "$REPO_ROOT/scripts/memory-prune.sh" --quiet
+  [ "$status" -eq 0 ]
+  [ "$before" = "$(sha256sum "$fixture/output/.memory-store.jsonl")" ]
+  [ ! -e "$fixture/output/.memory-tombstone.jsonl" ]
+
+  run env PROJECT_ROOT="$fixture" SAVIA_TEST_MODE=true \
+    bash "$REPO_ROOT/scripts/memory-prune.sh" --apply --quiet
+  [ "$status" -eq 0 ]
+  [ "$before" != "$(sha256sum "$fixture/output/.memory-store.jsonl")" ]
+  [ -s "$fixture/output/.memory-tombstone.jsonl" ]
 }
 
 @test "AC-2.4: memory-liveness-check rejects missing artifact" {

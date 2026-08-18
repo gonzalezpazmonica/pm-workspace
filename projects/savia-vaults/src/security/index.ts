@@ -23,14 +23,16 @@ export class VaultSecurity {
   }
 
   resolve(relativePath: string): string {
-    const normalized = path.normalize(relativePath);
-    const resolved = path.resolve(this.config.path, normalized);
+    const root = path.resolve(this.config.path);
+    const normalized = path.normalize(relativePath.replace(/[\\/]+/g, path.sep));
+    const resolved = path.resolve(root, normalized);
+    const relative = path.relative(root, resolved);
 
-    if (!resolved.startsWith(path.resolve(this.config.path))) {
+    if (relative === '..' || relative.startsWith(`..${path.sep}`) || path.isAbsolute(relative)) {
       throw new SecurityError('Path traversal blocked');
     }
 
-    if (normalized.startsWith('..') || normalized.includes('../')) {
+    if (normalized === '..' || normalized.startsWith(`..${path.sep}`)) {
       throw new SecurityError('Path traversal blocked');
     }
 
@@ -38,11 +40,11 @@ export class VaultSecurity {
   }
 
   checkDenied(absPath: string): void {
-    const parts = absPath.split(path.sep);
+    const parts = absPath.split(/[\\/]+/);
     const custom = new Set(this.config.deniedPaths.map(d => d.toLowerCase()));
 
     for (const part of parts) {
-      if (this.defaultDenied.has(part)) {
+      if (this.defaultDenied.has(part.toLowerCase())) {
         throw new SecurityError(`Access denied: ${part}`);
       }
       if (custom.has(part.toLowerCase())) {
@@ -78,7 +80,7 @@ export class VaultSecurity {
   }
 
   checkDepth(relativePath: string): void {
-    const parts = relativePath.split(path.sep).filter(p => p !== '' && p !== '.');
+    const parts = relativePath.split(/[\\/]+/).filter(p => p !== '' && p !== '.');
     if (parts.length > this.config.maxDepth) {
       throw new SecurityError(`Path exceeds max depth of ${this.config.maxDepth}`);
     }

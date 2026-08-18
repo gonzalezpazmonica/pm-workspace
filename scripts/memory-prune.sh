@@ -3,7 +3,7 @@
 # Identifies entries below confidence threshold AND age threshold.
 # Moves to tombstone (archive, not delete). Respects CRIT-024.
 # Usage:
-#   memory-prune.sh [--dry-run] [--confidence-threshold 0.3] [--age-days 90]
+#   memory-prune.sh [--dry-run|--apply] [--confidence-threshold 0.3] [--age-days 90]
 #   memory-prune.sh --report
 set -uo pipefail
 
@@ -15,7 +15,7 @@ REPORT_DIR="${WORKSPACE}/output/memory-prune-reports"
 
 CONFIDENCE_THRESHOLD="${MEMORY_PRUNE_CONFIDENCE:-0.3}"
 AGE_DAYS="${MEMORY_PRUNE_AGE_DAYS:-90}"
-DRY_RUN=false
+DRY_RUN=true
 REPORT_ONLY=false
 QUIET=false
 
@@ -26,8 +26,9 @@ usage() {
 memory-prune.sh — SE-270 S6: prune low-confidence entries (CRIT-024)
 
 Usage:
-  memory-prune.sh                     # prune entries below threshold
+  memory-prune.sh                     # preview without writing
   memory-prune.sh --dry-run           # preview without writing
+  memory-prune.sh --apply             # prune entries below threshold
   memory-prune.sh --report            # generate prune report only
   memory-prune.sh --confidence-threshold 0.2 --age-days 60
   memory-prune.sh --help
@@ -40,6 +41,7 @@ USAGE
 while [[ $# -gt 0 ]]; do
   case "$1" in
     --dry-run) DRY_RUN=true; shift ;;
+    --apply) DRY_RUN=false; shift ;;
     --report) REPORT_ONLY=true; shift ;;
     --quiet) QUIET=true; shift ;;
     --confidence-threshold)
@@ -60,7 +62,7 @@ fi
 
 # ── Decay first (idempotent, always run before prune) ──────────────────────────
 
-if [[ "${SAVIA_TEST_MODE:-false}" != "true" ]]; then
+if [[ "$DRY_RUN" != "true" && "${SAVIA_TEST_MODE:-false}" != "true" ]]; then
   python3 "$SCRIPT_DIR/memory-decay.py" --store "$STORE_FILE" \
     --threshold "$CONFIDENCE_THRESHOLD" --quiet 2>/dev/null || true
 fi
@@ -76,7 +78,7 @@ store_path = Path(sys.argv[1])
 threshold = float(sys.argv[2])
 age_days = int(sys.argv[3])
 tombstone_path = Path(sys.argv[4])
-dry_run = sys.argv[5] == "True"
+dry_run = sys.argv[5].lower() == "true"
 
 now_epoch = datetime.now(timezone.utc).timestamp()
 cutoff_epoch = now_epoch - (age_days * 86400)

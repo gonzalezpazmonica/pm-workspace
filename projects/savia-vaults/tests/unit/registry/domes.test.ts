@@ -28,14 +28,14 @@ describe('DomeRegistry', () => {
   }
 
   it('loads valid domes.json with existing paths', () => {
-    const domePath = createDomeDir('SaviaLabs');
+    const domePath = createDomeDir('example-context');
 
     writeDomesFile({
       version: 1,
-      defaultDome: 'SaviaLabs',
+      defaultDome: 'example-context',
       domes: {
-        SaviaLabs: {
-          name: 'SaviaLabs',
+        'example-context': {
+          name: 'example-context',
           path: domePath,
           description: 'Main dome',
           confidentiality: 'N2',
@@ -48,10 +48,10 @@ describe('DomeRegistry', () => {
 
     const domes = registry.list();
     expect(domes).toHaveLength(1);
-    expect(domes[0].name).toBe('SaviaLabs');
+    expect(domes[0].name).toBe('example-context');
     expect(domes[0].active).toBe(true);
     expect(domes[0].confidentiality).toBe('N2');
-    expect(registry.getDefaultName()).toBe('SaviaLabs');
+    expect(registry.getDefaultName()).toBe('example-context');
   });
 
   it('marks dome inactive when path does not exist', () => {
