@@ -1643,3 +1643,34 @@ SCL-001 S1 (captura) → S2 (ciclo de vida + rollback) → S3 (métrica L) → S
 - SCL consume, no rehace: SE-255, SE-268 S4, SE-292 S6, SaviaVaults, Labs L1-L6.
 - Invariante: la CONSTITUCION y CRITERIO permanecen intocables por el bucle (CRIT-031);
   "la IA propone, el humano dispone".
+
+---
+
+## Era 207 — Telemetry Intelligence (2026-08-17)
+
+> Análisis de `superloglabs/superlog` (Apache 2.0, YC P26) — sistema de
+> telemetría agéntica open-source. Savia ya tiene base OTel local-first (SE-313,
+> trazas distribuidas, RCA, audit trail); superlog aporta tres capacidades que
+> Savia no tiene: **fingerprinting normalizado de errores** (agrupar señales
+> ruidosas), **incident grouping** y **auto-remediación con PR**.
+
+### Priorización (ROI)
+
+**Tier 0 — Alta prioridad**
+
+| Spec | Concepto origen | Esfuerzo | Por qué primero |
+|---|---|---|---|
+| SE-334 Telemetry Intelligence | superlog `packages/fingerprint` + `apps/worker` | 40h (4 slices) | Hoy cada error en `telemetry-events.jsonl` es un evento aislado: no se puede decir "este error apareció 47 veces". El fingerprint determinista (S1) es la base de agrupación, alertas e incidentes |
+
+### Orden de ejecución
+
+```
+SE-334 S1 (fingerprint determinista, 14h) → S2 (issues + alertas, 10h)
+  → S3 (grouping LLM, 8h, opt-in) → S4 (auto-remediación PR Draft, 8h, opcional)
+```
+
+### Estado por PR
+
+| Spec | PR | Estado | Bloqueo |
+|---|---|---|---|
+| SE-334 | — | PROPOSED 2026-08-17 | Spec lista; implementación asignada a otra savia |

@@ -93,6 +93,7 @@ tres anteriores para su prueba E2E.
 |---|---|---|---|
 | SCL-008 | Reconciliación de lecciones duplicadas/conflictivas entre instancias | SE-309 knowledge governance | CANDIDATA |
 | SCL-009 | Descubrimiento automático de instancias federadas (registro automático) | Labs L5 | CANDIDATA |
+| SE-334 (integración) | Telemetry Intelligence: los incidentes alimentan el bucle — el alert de SE-334 S2 dispara el hook de captura SCL, y los fingerprints se indexan en SaviaLearning para recall | superlog | PROPOSED 2026-08-17 |
 
 ---
 
