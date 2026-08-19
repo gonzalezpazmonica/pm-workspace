@@ -4,7 +4,7 @@
 **Fecha:** 2026-08-17
 **Area:** Memoria / Búsqueda híbrida / ADR-003 Fase 4
 **Branch:** agent/scl-001-aprendizaje-continuo
-**Bloqueo resuelto:** venv `~/.savia/venv` con sentence-transformers 5.7.0 + hnswlib + numpy (instalado 2026-08-17)
+**Bloqueo resuelto:** venv `~/.savia/venv` con sentence-transformers 5.7.0 + faiss-cpu 1.14.2 + numpy 2.5.2
 
 ---
 
@@ -18,8 +18,9 @@ cúpula SaviaLearning. El recall BM25 puro (SCL-003) no matchea sinónimos
 ## Implementación (2026-08-17)
 
 - **Dependencias instaladas**: venv aislado `~/.savia/venv` (no toca el python
-  del sistema) con sentence-transformers 5.7.0, hnswlib, numpy. Aprobado por la
-  operadora (~2GB). Modelo all-MiniLM-L6-v2 (384-dim, local).
+  del sistema) con sentence-transformers 5.7.0, faiss-cpu 1.14.2, numpy 2.5.2 y
+  Torch 2.8.0 CPU-only. Aprobado por la operadora (~2GB). Modelo
+  all-MiniLM-L6-v2 (384-dim, local).
 - **`scripts/learning-hybrid.py`**: fusión determinista
   `hybrid = w_lex·lex + w_sem·sem` (default 0.4/0.6). `lex` = overlap léxico
   query↔doc; `sem` = similitud coseno del embedding. Degradación elegante: sin

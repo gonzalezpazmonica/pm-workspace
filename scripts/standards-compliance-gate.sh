@@ -72,10 +72,10 @@ check_agent_schema() {
 
 # ── check: drift ─────────────────────────────────────────────────────────────
 check_drift() {
-  local fails=""
-  "$SCRIPT_DIR/claude-md-drift-check.sh" >/dev/null 2>&1 || fails="$fails claude-md"
-  [[ -f "$SCRIPT_DIR/readme-drift-check.sh" ]] && { "$SCRIPT_DIR/readme-drift-check.sh" >/dev/null 2>&1 || fails="$fails readme"; }
-  [[ -f "$SCRIPT_DIR/spec-status-drift-audit.sh" ]] && { "$SCRIPT_DIR/spec-status-drift-audit.sh" >/dev/null 2>&1 || fails="$fails spec-status"; }
+  local fails="" out
+  out=$("$SCRIPT_DIR/claude-md-drift-check.sh" 2>&1) || fails="$fails claude-md: ${out//$'\n'/; }"
+  [[ -f "$SCRIPT_DIR/readme-drift-check.sh" ]] && { out=$("$SCRIPT_DIR/readme-drift-check.sh" 2>&1) || fails="$fails readme: ${out//$'\n'/; }"; }
+  [[ -f "$SCRIPT_DIR/spec-status-drift-audit.sh" ]] && { out=$("$SCRIPT_DIR/spec-status-drift-audit.sh" 2>&1) || fails="$fails spec-status: ${out//$'\n'/; }"; }
   if [[ -z "$fails" ]]; then echo "PASS"; else echo "FAIL:$fails"; fi
 }
 
@@ -131,11 +131,14 @@ if [[ "$JSON" == "1" ]]; then
 import json, sys
 result, failed = sys.argv[1], sys.argv[2].strip()
 checks = {}
+details = {}
 for line in result.strip().split("\n"):
     if ": " in line:
         name, status = line.split(": ", 1)
         checks[name] = "PASS" if status.startswith("PASS") else "FAIL"
-print(json.dumps({"verdict": "PASS" if not failed else "FAIL", "failed": failed.split() if failed else [], "checks": checks}, indent=2))
+        if not status.startswith("PASS"):
+            details[name] = status
+print(json.dumps({"verdict": "PASS" if not failed else "FAIL", "failed": failed.split() if failed else [], "checks": checks, "details": details}, indent=2))
 PY
 else
   echo -e "$RESULT"

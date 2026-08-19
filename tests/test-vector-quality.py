@@ -3,7 +3,7 @@
 
 Run: python3 tests/test-vector-quality.py
 
-Requires: pip install sentence-transformers hnswlib
+Requires: bash scripts/install-memory-deps.sh
 If deps not installed, test is skipped (not failed).
 
 Success criteria: vector Recall@5 > grep Recall@5 by at least 20pp.
@@ -16,11 +16,10 @@ import tempfile
 
 # Skip gracefully if deps not installed
 try:
-    import hnswlib
     from sentence_transformers import SentenceTransformer
 except ImportError:
-    print("SKIP: sentence-transformers or hnswlib not installed")
-    print("Install with: pip install sentence-transformers hnswlib")
+    print("SKIP: sentence-transformers not installed")
+    print("Install with: bash scripts/install-memory-deps.sh")
     sys.exit(0)
 
 SCRIPT_DIR = os.path.join(os.path.dirname(__file__), "..", "scripts")
@@ -113,13 +112,22 @@ def main():
     # Load model for vector search
     model = SentenceTransformer(mv.MODEL_NAME)
     idx_path = mv._index_path(tmp_store)
-    idx = hnswlib.Index(space="cosine", dim=mv.DIMENSIONS)
-    idx.load_index(idx_path)
-    idx.set_ef(50)
+    if mv.ANN_BACKEND == "faiss":
+        idx = mv.faiss.read_index(idx_path)
+    elif mv.ANN_BACKEND == "hnswlib":
+        idx = mv.hnswlib.Index(space="cosine", dim=mv.DIMENSIONS)
+        idx.load_index(idx_path)
+        idx.set_ef(50)
+    else:
+        print("SKIP: vector backend not installed")
+        return
 
     def vector_search(query: str, k: int = 5) -> list[str]:
         qemb = model.encode([query], normalize_embeddings=True)
-        labels, _ = idx.knn_query(qemb, k=min(k, idx.get_current_count()))
+        if mv.ANN_BACKEND == "faiss":
+            _, labels = idx.search(qemb, min(k, idx.ntotal))
+        else:
+            labels, _ = idx.knn_query(qemb, k=min(k, idx.get_current_count()))
         return [CORPUS[int(l)]["title"] for l in labels[0]]
 
     # Run benchmark

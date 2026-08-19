@@ -70,6 +70,22 @@ MD
   [ "$status" -eq 0 ]
 }
 
+@test "follows opencode skill and hook symlinks" {
+  local root="$BATS_TEST_TMPDIR/symlinked-frontends"
+  mkdir -p "$root/.claude/skills/s1" "$root/.claude/hooks" "$root/.opencode/agents" "$root/.claude/commands" "$root/scripts"
+  touch "$root/.claude/skills/s1/SKILL.md" "$root/.claude/hooks/h1.sh"
+  ln -s ../.claude/skills "$root/.opencode/skills"
+  ln -s ../.claude/hooks "$root/.opencode/hooks"
+  echo '{"hooks":{}}' > "$root/.claude/settings.json"
+  cat > "$root/CLAUDE.md" <<MD
+.claude/{agents(0), commands(0), hooks(1/0reg), skills(1)}
+| Catálogo 0 agentes | path |
+MD
+  cp "$SCRIPT" scripts/count-commands.sh "$root/scripts/"
+  run bash "$root/scripts/claude-md-drift-check.sh"
+  [ "$status" -eq 0 ]
+}
+
 @test "missing CLAUDE.md exits 2" {
   local root="$BATS_TEST_TMPDIR/no-claude-md"
   mkdir -p "$root/scripts"

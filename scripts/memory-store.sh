@@ -13,6 +13,9 @@ fi
 STORE_FILE="${PROJECT_ROOT:-.}/output/.memory-store.jsonl"
 mkdir -p "$(dirname "$STORE_FILE")"
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+MEMORY_PYTHON="${SAVIA_MEMORY_PYTHON:-$HOME/.savia/venv/bin/python}"
+[[ -x "$MEMORY_PYTHON" ]] || MEMORY_PYTHON="$HOME/.savia/venv/Scripts/python.exe"
+[[ -x "$MEMORY_PYTHON" ]] || MEMORY_PYTHON="$(command -v python3 || true)"
 
 # --- Embedding server lazy-start ---
 # Ensures the in-process embedding server is running before vector/hybrid search.
@@ -22,9 +25,9 @@ SAVIA_EMBED_URL="${SAVIA_EMBED_URL:-http://127.0.0.1:$SAVIA_EMBED_PORT}"
 
 _ensure_embed_server() {
     [[ "${SAVIA_TEST_MODE:-false}" == "true" ]] && return 0
-    command -v python3 &>/dev/null || return 0
+    [[ -n "$MEMORY_PYTHON" ]] || return 0
     # Check if already running
-    if python3 -c "import urllib.request; urllib.request.urlopen('$SAVIA_EMBED_URL/health', timeout=1)" &>/dev/null 2>&1; then
+    if "$MEMORY_PYTHON" -c "import urllib.request; urllib.request.urlopen('$SAVIA_EMBED_URL/health', timeout=1)" &>/dev/null 2>&1; then
         return 0
     fi
     # Not running — launch in background
@@ -34,9 +37,9 @@ _ensure_embed_server() {
     os_type="$(uname -s 2>/dev/null || echo Windows)"
     case "$os_type" in
         MINGW*|MSYS*|CYGWIN*|Windows*)
-            cmd.exe /c "start /b python3 \"$server_script\"" &>/dev/null 2>&1 || true ;;
+            cmd.exe /c "start /b \"$MEMORY_PYTHON\" \"$server_script\"" &>/dev/null 2>&1 || true ;;
         *)
-            nohup python3 "$server_script" >/dev/null 2>&1 & ;;
+            nohup "$MEMORY_PYTHON" "$server_script" >/dev/null 2>&1 & ;;
     esac
     # Brief wait for model load (non-blocking — search proceeds with fallback if not ready)
     sleep 2
@@ -140,16 +143,16 @@ PY
 
 _maybe_rebuild_index() {
     [[ "${SAVIA_TEST_MODE:-false}" == "true" ]] && return 0
-    command -v python3 &>/dev/null || return 0
-    python3 -c "import sentence_transformers; import faiss" 2>/dev/null \
-      || python3 -c "import sentence_transformers; import hnswlib" 2>/dev/null \
+    [[ -n "$MEMORY_PYTHON" ]] || return 0
+    "$MEMORY_PYTHON" -c "import sentence_transformers; import faiss" 2>/dev/null \
+      || "$MEMORY_PYTHON" -c "import sentence_transformers; import hnswlib" 2>/dev/null \
       || return 0
     local idx_faiss="${STORE_FILE%.jsonl}-index.faiss"
     local idx_hnsw="${STORE_FILE%.jsonl}-index.idx"
-    local idx="$idx_faiss"
-    [[ -f "$idx_hnsw" ]] && idx="$idx_hnsw"
+    local idx="$idx_hnsw"
+    [[ -f "$idx_faiss" ]] && idx="$idx_faiss"
     if [[ ! -f "$idx_faiss" && ! -f "$idx_hnsw" ]] || [[ "$STORE_FILE" -nt "$idx" ]]; then
-        python3 "$SCRIPT_DIR/memory-vector.py" rebuild --store "$STORE_FILE" >/dev/null 2>&1 &
+        "$MEMORY_PYTHON" "$SCRIPT_DIR/memory-vector.py" rebuild --store "$STORE_FILE" >/dev/null 2>&1 &
         echo "(vector index rebuilding in background)" >&2
     fi
 }
@@ -157,19 +160,19 @@ _maybe_rebuild_index() {
 cmd_doctor() {
     local level=0 warn=""
     local has_st=false has_idx=false
-    python3 -c "import sentence_transformers" 2>/dev/null && has_st=true
-    python3 -c "import hnswlib" 2>/dev/null || python3 -c "import faiss" 2>/dev/null && has_idx=true
+    if [[ -n "$MEMORY_PYTHON" ]] && "$MEMORY_PYTHON" -c "import sentence_transformers" 2>/dev/null; then has_st=true; fi
+    if [[ -n "$MEMORY_PYTHON" ]] && { "$MEMORY_PYTHON" -c "import faiss" 2>/dev/null || "$MEMORY_PYTHON" -c "import hnswlib" 2>/dev/null; }; then has_idx=true; fi
     $has_st && $has_idx && level=2 || { $has_st && level=1; }
 
     echo "=== memory-store doctor ==="
     echo "Level: $level (0=grep, 1=partial, 2=vector+hybrid)"
     $has_st && echo "  sentence_transformers: OK" || echo "  sentence_transformers: NOT INSTALLED"
-    $has_idx && echo "  vector backend (hnswlib/faiss): OK" || echo "  vector backend (hnswlib/faiss): NOT INSTALLED"
+    $has_idx && echo "  vector backend (faiss/hnswlib): OK" || echo "  vector backend (faiss/hnswlib): NOT INSTALLED"
 
     local idx_faiss="${STORE_FILE%.jsonl}-index.faiss"
     local idx_hnsw="${STORE_FILE%.jsonl}-index.idx"
     if [[ -f "$idx_faiss" || -f "$idx_hnsw" ]]; then
-        local idx="$idx_faiss"; [[ -f "$idx_hnsw" ]] && idx="$idx_hnsw"
+        local idx="$idx_hnsw"; [[ -f "$idx_faiss" ]] && idx="$idx_faiss"
         if [[ "$STORE_FILE" -nt "$idx" ]]; then
             echo "  index: STALE"
             echo "  fix:   bash scripts/memory-store.sh rebuild-index"
@@ -184,7 +187,7 @@ cmd_doctor() {
     if [[ $level -lt 2 ]]; then
         echo ""
         echo "[WARN] Vector search DISABLED — running grep-only"
-        echo "  fix: pip install -r scripts/requirements-memory.txt"
+        echo "  fix: bash scripts/install-memory-deps.sh"
     fi
 }
 
@@ -226,9 +229,9 @@ case "${1:-help}" in
     suggest-topic) shift; cmd_suggest_topic "$@" ;;
     session-summary) shift; cmd_session_summary "$@" ;;
     doctor) cmd_doctor ;;
-    rebuild-index) python3 "$SCRIPT_DIR/memory-vector.py" rebuild --store "$STORE_FILE" ;;
-    index-status) python3 "$SCRIPT_DIR/memory-vector.py" status --store "$STORE_FILE" ;;
-    benchmark) python3 "$SCRIPT_DIR/memory-vector.py" benchmark --store "$STORE_FILE" ;;
+    rebuild-index) "$MEMORY_PYTHON" "$SCRIPT_DIR/memory-vector.py" rebuild --store "$STORE_FILE" ;;
+    index-status) "$MEMORY_PYTHON" "$SCRIPT_DIR/memory-vector.py" status --store "$STORE_FILE" ;;
+    benchmark) "$MEMORY_PYTHON" "$SCRIPT_DIR/memory-vector.py" benchmark --store "$STORE_FILE" ;;
     build-graph) python3 "$SCRIPT_DIR/memory-graph.py" build --store "$STORE_FILE" ;;
     graph-search) shift; python3 "$SCRIPT_DIR/memory-graph.py" search "$@" --store "$STORE_FILE" ;;
     graph-status) python3 "$SCRIPT_DIR/memory-graph.py" status --store "$STORE_FILE" ;;
@@ -247,7 +250,7 @@ Search: "query" [--type TYPE] [--since DATE] [--mode grep|vector|auto]
   [--include-expired]
 
 Vector index auto-rebuilds on JSONL changes (if deps installed).
-Install: pip install sentence-transformers hnswlib
+Install: bash scripts/install-memory-deps.sh
 USAGE
     ;;
     *) echo "Usage: memory-store.sh {save|search|context|stats|entity|suggest-topic|session-summary|rebuild-index|index-status|benchmark|doctor|help}" >&2

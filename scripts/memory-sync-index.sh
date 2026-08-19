@@ -95,9 +95,11 @@ echo "Sync complete: $synced synced, $skipped skipped, $errors errors"
 echo "Store: $STORE_FILE ($(wc -l < "$STORE_FILE") entries)"
 
 # Rebuild vector index if possible
-if command -v python3 &>/dev/null; then
-    python3 -c "import sentence_transformers; import faiss" 2>/dev/null && {
+MEMORY_PYTHON="${SAVIA_MEMORY_PYTHON:-$HOME/.savia/venv/bin/python}"
+[[ -x "$MEMORY_PYTHON" ]] || MEMORY_PYTHON="$HOME/.savia/venv/Scripts/python.exe"
+if [[ -x "$MEMORY_PYTHON" ]]; then
+    "$MEMORY_PYTHON" -c "import sentence_transformers; import faiss" 2>/dev/null && {
         echo "Rebuilding vector index..."
-        python3 "$SCRIPT_DIR/memory-vector.py" rebuild --store "$STORE_FILE" 2>&1
+        "$MEMORY_PYTHON" "$SCRIPT_DIR/memory-vector.py" rebuild --store "$STORE_FILE" 2>&1
     } || echo "Vector deps not available, skipping index rebuild"
 fi

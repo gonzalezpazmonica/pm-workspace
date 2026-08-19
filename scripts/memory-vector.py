@@ -2,7 +2,7 @@
 """Vector memory index — semantic search over plain-text JSONL.
 
 SPEC-018: Derived index over memory-store.jsonl. JSONL is source of truth.
-Zero vendor lock-in: local model (all-MiniLM-L6-v2), hnswlib for ANN.
+Zero vendor lock-in: local model (all-MiniLM-L6-v2), FAISS or hnswlib for ANN.
 
 Usage:
     python3 memory-vector.py rebuild [--store PATH]
@@ -22,15 +22,15 @@ LEVEL = 0  # 0=grep only, 1=python no deps, 2=full vector
 ANN_BACKEND = None  # "hnswlib" or "faiss"
 
 try:
-    import hnswlib
-    ANN_BACKEND = "hnswlib"
+    import faiss
+    ANN_BACKEND = "faiss"
 except ImportError:
     pass
 
 if ANN_BACKEND is None:
     try:
-        import faiss
-        ANN_BACKEND = "faiss"
+        import hnswlib
+        ANN_BACKEND = "hnswlib"
     except ImportError:
         pass
 
@@ -109,7 +109,7 @@ def _compose_text(entry: dict) -> str:
 def cmd_rebuild(store: str) -> None:
     if LEVEL < 2:
         print("Error: deps not installed. Run:")
-        print("  pip install sentence-transformers faiss-cpu  (or hnswlib on Linux)")
+        print("  bash scripts/install-memory-deps.sh")
         sys.exit(1)
 
     entries = _load_jsonl(store)
@@ -278,23 +278,23 @@ def cmd_status(store: str) -> None:
     print(f"Store: {store_lines} entries ({store})")
     print(f"Index: {idx_entries} entries, {idx_size / 1024:.0f} KB ({idx_path})")
     if stale:
-        print(f"STALE: {store_lines - idx_entries} new entries — run: python3 {__file__} rebuild")
+        print(f"STALE: {store_lines - idx_entries} new entries — run: bash scripts/memory-store.sh rebuild-index")
     elif idx_exists:
         print("UP TO DATE")
     else:
-        print("NO INDEX — run: python3 scripts/memory-vector.py rebuild")
+        print("NO INDEX — run: bash scripts/memory-store.sh rebuild-index")
 
     print(f"Reranker: {'available' if HAS_RERANKER else 'not installed'}")
 
     if LEVEL < 2:
         print("\nInstall deps for vector search:")
-        print("  pip install sentence-transformers faiss-cpu  (or hnswlib on Linux)")
+        print("  bash scripts/install-memory-deps.sh")
 
 
 def cmd_benchmark(store: str) -> None:
     """Compare grep vs vector search quality on synthetic corpus."""
     if LEVEL < 2:
-        print("Error: deps required for benchmark. pip install sentence-transformers hnswlib")
+        print("Error: deps required for benchmark. Run: bash scripts/install-memory-deps.sh")
         sys.exit(1)
 
     # Synthetic corpus with known ground truth

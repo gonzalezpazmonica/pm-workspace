@@ -107,7 +107,7 @@ WHITELIST_PREFIXES = (
     ".pr-summary.md",
     "AGENTS.md",
     "SKILLS.md",
-    "docs/propuestas/index.md",
+    "docs/propuestas/INDEX.md",
 )
 
 declared = []

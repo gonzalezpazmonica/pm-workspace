@@ -1,5 +1,5 @@
 # memory — Savia Capability Map (L1)
-> 106 resources
+> 107 resources
 
 - **auto-compact** (script): auto-compact.sh — Disparado automáticamente cuando contexto > 85%
 - **cache-analytics** (cmd): Métricas de hit rate, tokens ahorrados, latencia, ahorro de costes
@@ -50,6 +50,7 @@
 - **generate-blocklist** (script): generate-blocklist.sh — Dynamic blocklist from workspace context
 - **generate-context-index** (script): generate-context-index.sh — Generate context index files for workspace and projects
 - **generate-global-context** (script): Generate compact global context for agent injection.
+- **install-memory-deps** (script): Installs the optional vector-memory stack in Savia's isolated CPU-only venv.
 - **iterative-compress** (script): iterative-compress.sh — Iterative context compression with summary preservation
 - **learning-recall** (script): learning-recall.sh — SCL-003/SCL-008: authority-filtered SaviaLearning recall.
 - **lesson-search** (cmd): Search cross-project lessons by keyword or domain

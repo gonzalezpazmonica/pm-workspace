@@ -17,8 +17,12 @@ CLAUDE_MD="$ROOT/CLAUDE.md"
 # Real counts
 REAL_AGENTS=$(ls "$ROOT"/.opencode/agents/*.md 2>/dev/null | wc -l)
 REAL_COMMANDS=$(REPO_ROOT="$ROOT" bash "$SCRIPT_DIR/count-commands.sh" 2>/dev/null || echo 0)
-REAL_SKILLS=$(ls "$ROOT"/.opencode/skills/*/SKILL.md 2>/dev/null | grep -v '/_template/' | wc -l)
-REAL_HOOKS=$(ls "$ROOT"/.opencode/hooks/*.sh 2>/dev/null | wc -l)
+SKILLS_DIR="$ROOT/.opencode/skills"
+HOOKS_DIR="$ROOT/.opencode/hooks"
+[[ -d "$SKILLS_DIR" ]] || SKILLS_DIR="$ROOT/.claude/skills"
+[[ -d "$HOOKS_DIR" ]] || HOOKS_DIR="$ROOT/.claude/hooks"
+REAL_SKILLS=$(find -H "$SKILLS_DIR" -mindepth 2 -maxdepth 2 -type f -name SKILL.md ! -path '*/_template/*' 2>/dev/null | wc -l)
+REAL_HOOKS=$(find -H "$HOOKS_DIR" -maxdepth 1 -type f -name '*.sh' 2>/dev/null | wc -l)
 REAL_HOOK_REGS=$(python3 -c "
 import json
 try:

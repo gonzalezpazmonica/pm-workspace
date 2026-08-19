@@ -36,9 +36,10 @@ Level: 0 (grep) — sentence_transformers: NOT INSTALLED, hnswlib: NOT INSTALLED
 
 ### AC-1: requirements-memory.txt
 - [x] Existe `scripts/requirements-memory.txt`
-- [x] Contiene: `sentence-transformers>=2.7`, `hnswlib>=0.8`, `numpy>=1.26`
-- [x] `pip install -r scripts/requirements-memory.txt` instala sin conflicto
-  - Nota: `hnswlib` requiere `python3-dev` para compilar; fallback a `faiss-cpu` funciona sin compilación
+- [x] Contiene versiones fijadas de `sentence-transformers`, `faiss-cpu` y `numpy`
+- [x] `bash scripts/install-memory-deps.sh` instala sin conflicto en `~/.savia/venv`
+  - Torch se instala desde el índice CPU oficial; no requiere CUDA ni compilador
+  - `hnswlib` queda soportado como backend opcional, no como requisito estándar
 
 ### AC-2: subcomando `doctor`
 - [x] `bash scripts/memory-store.sh doctor` imprime Level actual (0/1/2)
@@ -100,7 +101,7 @@ benchmark output:
 
 ```bash
 # AC-1
-pip install -r scripts/requirements-memory.txt
+bash scripts/install-memory-deps.sh
 
 # AC-2
 bash scripts/memory-store.sh doctor

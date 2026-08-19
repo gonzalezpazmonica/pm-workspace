@@ -22,7 +22,7 @@ Savia tiene 10 capas de memoria que coexisten. Este comando verifica que todas e
 
 1. Auto-memory (MEMORY.md + topic files) — existe, cap 200 líneas / 25KB, huérfanos
 2. memory-store JSONL — script ejecutable, stats
-3. Vector memory — sentence-transformers + hnswlib, índice
+3. Vector memory — sentence-transformers + faiss-cpu, índice
 4. SQLite memory-cache.db — existe, número de entradas
 5. Knowledge graph — entities + relations
 6. Agent memory — public / private / project (3 niveles)
@@ -43,7 +43,7 @@ Exit codes: `0` = OK o warnings · `1` = FAILs críticos (caps excedidos, ficher
 |---|---|
 | MEMORY.md > 200 líneas | `/memory-compress` para consolidar |
 | Huérfanos topic files | Añadir al índice o archivar |
-| Vector deps ausentes | `pip install sentence-transformers hnswlib` |
+| Vector deps ausentes | `bash scripts/install-memory-deps.sh` |
 | Knowledge graph vacío | `bash scripts/knowledge-graph.sh rebuild` |
 | private-agent-memory missing | Crear directorio (gitignored) |
 | session-hot.md stale | Normal sin pre-compact reciente |
