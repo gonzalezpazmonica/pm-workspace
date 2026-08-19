@@ -21,8 +21,8 @@ SKILLS_DIR="$ROOT/.opencode/skills"
 HOOKS_DIR="$ROOT/.opencode/hooks"
 [[ -d "$SKILLS_DIR" ]] || SKILLS_DIR="$ROOT/.claude/skills"
 [[ -d "$HOOKS_DIR" ]] || HOOKS_DIR="$ROOT/.claude/hooks"
-REAL_SKILLS=$(find "$SKILLS_DIR" -mindepth 2 -maxdepth 2 -type f -name SKILL.md ! -path '*/_template/*' 2>/dev/null | wc -l)
-REAL_HOOKS=$(find "$HOOKS_DIR" -maxdepth 1 -type f -name '*.sh' 2>/dev/null | wc -l)
+REAL_SKILLS=$(find -H "$SKILLS_DIR" -mindepth 2 -maxdepth 2 -type f -name SKILL.md ! -path '*/_template/*' 2>/dev/null | wc -l)
+REAL_HOOKS=$(find -H "$HOOKS_DIR" -maxdepth 1 -type f -name '*.sh' 2>/dev/null | wc -l)
 REAL_HOOK_REGS=$(python3 -c "
 import json
 try:
