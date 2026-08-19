@@ -1,5 +1,5 @@
 {
-  "hash": "aba987345cf1",
+  "hash": "19561bcb8679",
   "total": 1374,
   "resources": [
     {
@@ -6274,6 +6274,20 @@
     },
     {
       "category": "memory",
+      "name": "install-memory-deps",
+      "intents": [
+        "installs",
+        "isolated",
+        "memory",
+        "only",
+        "optional"
+      ],
+      "kind": "script",
+      "path": "scripts/install-memory-deps.sh",
+      "description": "Installs the optional vector-memory stack in Savia's isolated CPU-only venv."
+    },
+    {
+      "category": "memory",
       "name": "iterative-compress",
       "intents": [
         "compress",
@@ -10088,20 +10102,6 @@
       "kind": "script",
       "path": "scripts/generate-index.sh",
       "description": "generate-index.sh — Generate discoverable index of all workspace components"
-    },
-    {
-      "category": "planning",
-      "name": "generate-propuestas-index",
-      "intents": [
-        "auto",
-        "docs",
-        "generate",
-        "index",
-        "propuestas"
-      ],
-      "kind": "script",
-      "path": "scripts/generate-propuestas-index.sh",
-      "description": "generate-propuestas-index.sh — SE-222 S2: auto-generate docs/propuestas/index.md"
     },
     {
       "category": "planning",

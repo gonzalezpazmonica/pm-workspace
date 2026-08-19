@@ -1,5 +1,5 @@
 # Savia Capability Map — INDEX
-> hash: b29ec00ae9d7 | resources: 1374
+> hash: fd88cdcdc5fa | resources: 1374
 > 294 commands · 127 skills · 83 agents · 870 scripts
 
 [analysis] Trace Optimize — across,distributed,optimize,rates,sampling — cmd:.claude/commands/trace-optimize.md
@@ -475,6 +475,7 @@
 [memory] generate-blocklist — blocklist,context,dynamic,generate,workspace — script:scripts/generate-blocklist.sh
 [memory] generate-context-index — context,files,generate,index,projects — script:scripts/generate-context-index.sh
 [memory] generate-global-context — agent,compact,context,generate,global — script:scripts/generate-global-context.sh
+[memory] install-memory-deps — installs,isolated,memory,only,optional — script:scripts/install-memory-deps.sh
 [memory] iterative-compress — compress,compression,context,iterative,preservation — script:scripts/iterative-compress.sh
 [memory] learning-recall — authority,filtered,learning,recall,savialearning — script:scripts/learning-recall.sh
 [memory] lesson-search — cross,domain,keyword,lessons,project — cmd:.claude/commands/lesson-search.md
@@ -764,7 +765,6 @@
 [planning] generate-critical-facts — critical,facts,generate,scripts — script:scripts/generate-critical-facts.sh
 [planning] generate-github-hooks — generate,github,hooks — script:scripts/generate-github-hooks.sh
 [planning] generate-index — components,discoverable,generate,index,workspace — script:scripts/generate-index.sh
-[planning] generate-propuestas-index — auto,docs,generate,index,propuestas — script:scripts/generate-propuestas-index.sh
 [planning] git-history-secret-remediate — helper,history,remediation,secret — script:scripts/git-history-secret-remediate.sh
 [planning] git-history-secret-scan — history,scanning,secret — script:scripts/git-history-secret-scan.sh
 [planning] git-secret-scanner — buscando,commits,escanea,gitleaks,historial — skill:.claude/skills/git-secret-scanner/SKILL.md

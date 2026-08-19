@@ -39,6 +39,13 @@ teardown() { rm -rf "$TMPDIR"; }
   grep -q 'RAM' "$SCRIPT"
   grep -q 'DISK' "$SCRIPT" || grep -q 'Disk' "$SCRIPT"
 }
+@test "hardware section falls back to Windows RAM detection" {
+  grep -q 'Get-CimInstance Win32_ComputerSystem' "$SCRIPT"
+}
+@test "Python validation reads files through stdin for Windows paths" {
+  grep -q "ast.parse(sys.stdin.read())" "$SCRIPT"
+  grep -q "json.load(sys.stdin)" "$SCRIPT"
+}
 @test "summary line shows PASS WARN FAIL SKIP TOTAL" {
   run bash "$SCRIPT"
   [[ "$output" == *"PASS"* ]]
@@ -75,6 +82,9 @@ teardown() { rm -rf "$TMPDIR"; }
   run bash "$SCRIPT"
   # At minimum the script runs; we check it produces structured output
   [[ "$output" == *"PASS:"* ]]
+}
+@test "git repository check supports linked worktrees" {
+  grep -q 'rev-parse --is-inside-work-tree' "$SCRIPT"
 }
 @test "coverage: check function defined" {
   grep -q "check()" "$SCRIPT"

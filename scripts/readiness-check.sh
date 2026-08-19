@@ -66,24 +66,29 @@ check critical "memory-store.sh executable" "test -f '$ROOT_DIR/scripts/memory-s
 check critical "memory-store.sh runs" "bash '$ROOT_DIR/scripts/memory-store.sh' help | grep -q 'save'"
 check critical "validate-ci-local.sh exists" "test -f '$ROOT_DIR/scripts/validate-ci-local.sh'"
 check critical "confidentiality-sign.sh exists" "test -f '$ROOT_DIR/scripts/confidentiality-sign.sh'"
-check recommended "memory-vector.py valid Python" "python3 -c \"import ast; ast.parse(open('$ROOT_DIR/scripts/memory-vector.py').read())\""
+check recommended "memory-vector.py valid Python" "python3 -c 'import ast, sys; ast.parse(sys.stdin.read())' < '$ROOT_DIR/scripts/memory-vector.py'"
 
 # --- 4. Vector memory (optional tier) ---
 echo ""
 echo "[4/9] Vector Memory (SPEC-018)"
-check optional "sentence-transformers installed" "python3 -c 'import sentence_transformers'"
-check optional "hnswlib installed" "python3 -c 'import hnswlib'"
-if python3 -c "import hnswlib, sentence_transformers" 2>/dev/null; then
+MEMORY_PYTHON="${SAVIA_MEMORY_PYTHON:-$HOME/.savia/venv/bin/python}"
+[[ -x "$MEMORY_PYTHON" ]] || MEMORY_PYTHON="$HOME/.savia/venv/Scripts/python.exe"
+check optional "memory venv installed" "test -x '$MEMORY_PYTHON'"
+check optional "faiss backend installed" "'$MEMORY_PYTHON' -c 'import faiss, sentence_transformers'"
+if [[ -x "$MEMORY_PYTHON" ]] && "$MEMORY_PYTHON" -c "import faiss, sentence_transformers" 2>/dev/null; then
     printf "  %-4s %-45s %s\n" "INFO" "Vector search: Level 2 (full)" ""
 else
     printf "  %-4s %-45s %s\n" "INFO" "Vector search: Level 0 (grep fallback)" ""
-    printf "  %-4s %-45s %s\n" "TIP " "Install: pip install -r requirements-vector.txt" ""
+    printf "  %-4s %-45s %s\n" "TIP " "Install: bash scripts/install-memory-deps.sh" ""
 fi
 
 # --- 4b. Hardware (SPEC-021) ---
 echo ""
 echo "[4b/9] Hardware (SPEC-021)"
 RAM_MB=$(free -m 2>/dev/null | awk '/^Mem:/{print $2}' || echo 0)
+if [[ ! "$RAM_MB" =~ ^[0-9]+$ || "$RAM_MB" -eq 0 ]] && command -v powershell.exe &>/dev/null; then
+    RAM_MB=$(powershell.exe -NoProfile -Command '[math]::Floor((Get-CimInstance Win32_ComputerSystem).TotalPhysicalMemory / 1MB)' 2>/dev/null | tr -d '\r' || echo 0)
+fi
 DISK_FREE_MB=$(df -m "$ROOT_DIR" 2>/dev/null | awk 'NR==2{print $4}' || echo 0)
 CPU_CORES=$(nproc 2>/dev/null || sysctl -n hw.ncpu 2>/dev/null || echo 0)
 GPU_DETECTED=$(command -v nvidia-smi &>/dev/null && echo "yes" || echo "no")
@@ -140,7 +145,7 @@ check recommended "tool-result-trim.sh" "test -f '$ROOT_DIR/scripts/tool-result-
 # --- 5. Hooks ---
 echo ""
 echo "[5/9] Hooks"
-check critical "settings.json valid JSON" "python3 -c \"import json; json.load(open('$ROOT_DIR/.claude/settings.json'))\""
+check critical "settings.json valid JSON" "python3 -c 'import json, sys; json.load(sys.stdin)' < '$ROOT_DIR/.claude/settings.json'"
 HOOKS_DIR="$ROOT_DIR/.claude/hooks"
 if [[ -d "$HOOKS_DIR" ]]; then
     HOOK_COUNT=$(ls "$HOOKS_DIR"/*.sh 2>/dev/null | wc -l)
@@ -165,7 +170,7 @@ fi
 # --- 7. Git & CI ---
 echo ""
 echo "[9/9] Git & CI"
-check critical "git repo initialized" "git -C '$ROOT_DIR' rev-parse --is-inside-work-tree"
+check critical "git repo initialized" "git -c safe.directory='$ROOT_DIR' -C '$ROOT_DIR' rev-parse --is-inside-work-tree || test -f '$ROOT_DIR/.git'"
 check recommended "not on main branch" "test \"\$(git -C '$ROOT_DIR' branch --show-current)\" != 'main'" || true
 check recommended ".gitignore exists" "test -f '$ROOT_DIR/.gitignore'"
 check recommended "GitHub remote configured" "git -C '$ROOT_DIR' remote get-url origin 2>/dev/null | grep -q 'github.com'"

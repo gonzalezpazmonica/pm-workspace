@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 set -uo pipefail
-# propuestas-index-refresh.sh — PostToolUse hook: regenerate docs/propuestas/index.md
+# propuestas-index-refresh.sh — PostToolUse hook: regenerate docs/propuestas/INDEX.md
 # when a file in docs/propuestas/ is modified.
 #
 # Spec: SE-222 S2 (index.md auto-generated)
@@ -12,7 +12,7 @@ set -uo pipefail
 
 HOOK_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 ROOT_DIR="${CLAUDE_PROJECT_DIR:-$(cd "$HOOK_DIR/../.." && pwd)}"
-SCRIPT="$ROOT_DIR/scripts/generate-propuestas-index.sh"
+SCRIPT="$ROOT_DIR/scripts/propuestas-index-gen.sh"
 PROPUESTAS_DIR="$ROOT_DIR/docs/propuestas"
 LOCK_FILE="/tmp/propuestas-index-refresh.lock"
 
@@ -35,7 +35,7 @@ case "$FILE_PATH" in
   *docs/propuestas/*)
     # Skip if it's the index itself
     case "$FILE_PATH" in
-      */index.md) exit 0 ;;
+      */index.md|*/INDEX.md) exit 0 ;;
     esac
     ;;
   *)

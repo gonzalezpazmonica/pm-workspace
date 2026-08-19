@@ -222,7 +222,7 @@ manteniendo el principio **"la IA propone, el humano dispone"** (autonomous-safe
 - [ ] AC-S6.1: hook `repeat-tool-guard.sh` registrado en `.claude/settings.json` (PostToolUse `.*`).
 - [ ] AC-S6.2: `docs/hooks-coverage-matrix.md` documenta el hook repeat-tool-guard.
 - [ ] AC-S6.3: comando `/token-meter` registrado en el catálogo SCM (`.scm/` regenerado).
-- [ ] AC-S6.4: `docs/propuestas/index.md` regenerado con SE-326 IMPLEMENTED.
+- [ ] AC-S6.4: `docs/propuestas/INDEX.md` regenerado con SE-326 IMPLEMENTED.
 
 ---
 

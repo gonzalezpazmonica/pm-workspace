@@ -17,11 +17,11 @@ cmd_search() {
     [[ -z "$query" ]] && { echo "Usage: search \"query\" [--type tipo] [--since DATE] [--mode hybrid|vector|graph|grep|auto]" >&2; return 1; }
 
     # SPEC-035: Hybrid search (vector + graph + grep combined)
-    if [[ "$mode" == "hybrid" || "$mode" == "auto" ]] && command -v python3 &>/dev/null; then
+    if [[ "$mode" == "hybrid" || "$mode" == "auto" ]] && [[ -n "$MEMORY_PYTHON" ]]; then
         local hybrid_result
-        hybrid_result=$(python3 "$SCRIPT_DIR/memory-hybrid.py" search "$query" --top 10 --store "$STORE_FILE" --mode hybrid 2>/dev/null) || true
-        if [[ -n "$hybrid_result" ]] && echo "$hybrid_result" | python3 -c "import sys,json; d=json.load(sys.stdin); exit(0 if d.get('results') else 1)" 2>/dev/null; then
-            echo "$hybrid_result" | python3 -c "
+        hybrid_result=$("$MEMORY_PYTHON" "$SCRIPT_DIR/memory-hybrid.py" search "$query" --top 10 --store "$STORE_FILE" --mode hybrid 2>/dev/null) || true
+        if [[ -n "$hybrid_result" ]] && echo "$hybrid_result" | "$MEMORY_PYTHON" -c "import sys,json; d=json.load(sys.stdin); exit(0 if d.get('results') else 1)" 2>/dev/null; then
+            echo "$hybrid_result" | "$MEMORY_PYTHON" -c "
 import sys, json
 d = json.load(sys.stdin)
 src = d.get('sources', {})
@@ -38,12 +38,12 @@ print(f'  (hybrid: {src.get(\"vector\",0)} vec + {src.get(\"graph\",0)} graph + 
     if [[ "$mode" == "vector" || "$mode" == "auto" ]]; then
         local idx="${STORE_FILE%.jsonl}-index.idx"
         local idx_faiss="${STORE_FILE%.jsonl}-index.faiss"
-        [[ -f "$idx_faiss" && ! -f "$idx" ]] && idx="$idx_faiss"
-        if command -v python3 &>/dev/null && [[ -f "$idx" ]]; then
+        [[ -f "$idx_faiss" ]] && idx="$idx_faiss"
+        if [[ -n "$MEMORY_PYTHON" && -f "$idx" ]]; then
             local vec_result
-            vec_result=$(python3 "$SCRIPT_DIR/memory-vector.py" search "$query" --top 10 --store "$STORE_FILE" 2>/dev/null) || true
-            if [[ -n "$vec_result" ]] && echo "$vec_result" | python3 -c "import sys,json; d=json.load(sys.stdin); exit(0 if not d.get('fallback') and d.get('results') else 1)" 2>/dev/null; then
-                echo "$vec_result" | python3 -c "
+            vec_result=$("$MEMORY_PYTHON" "$SCRIPT_DIR/memory-vector.py" search "$query" --top 10 --store "$STORE_FILE" 2>/dev/null) || true
+            if [[ -n "$vec_result" ]] && echo "$vec_result" | "$MEMORY_PYTHON" -c "import sys,json; d=json.load(sys.stdin); exit(0 if not d.get('fallback') and d.get('results') else 1)" 2>/dev/null; then
+                echo "$vec_result" | "$MEMORY_PYTHON" -c "
 import sys, json
 d = json.load(sys.stdin)
 for r in d['results']:
@@ -53,7 +53,7 @@ for r in d['results']:
                 echo "  (vector search)" >&2; return
             fi
         fi
-        [[ "$mode" == "vector" ]] && { echo "Vector index not available. Run: python3 scripts/memory-vector.py rebuild"; return 1; }
+        [[ "$mode" == "vector" ]] && { echo "Vector index not available. Run: bash scripts/memory-store.sh rebuild-index"; return 1; }
     fi
 
     # Grep fallback

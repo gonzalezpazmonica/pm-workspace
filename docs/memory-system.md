@@ -226,12 +226,16 @@ El sistema soporta tres levels de búsqueda:
 |---|---|---|
 | 0 | grep puro | ninguno |
 | 1 | embeddings sin backend | `sentence-transformers` |
-| 2 | vector + híbrido (recomendado) | `sentence-transformers` + `hnswlib` o `faiss-cpu` |
+| 2 | vector + híbrido (recomendado) | `sentence-transformers` + `faiss-cpu` |
 
 **Instalar deps:**
 ```bash
-pip install -r scripts/requirements-memory.txt
+bash scripts/install-memory-deps.sh
 ```
+
+El instalador crea `~/.savia/venv`, instala Torch CPU-only y no modifica el
+Python del sistema. `hnswlib` sigue soportado por el motor, pero no forma parte
+de la instalación estándar porque puede requerir compilador.
 
 **Verificar estado:**
 ```bash

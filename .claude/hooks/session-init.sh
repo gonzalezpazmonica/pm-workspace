@@ -317,9 +317,11 @@ for ms_path in "$HOME/claude/scripts/memory-store.sh" "./scripts/memory-store.sh
   if [ -f "$ms_path" ]; then
     (
       # Only rebuild if Level=2 (deps installed) and index is stale
-      python3 -c "import sentence_transformers; import hnswlib" 2>/dev/null || \
-        python3 -c "import sentence_transformers; import faiss" 2>/dev/null || exit 0
-      bash "$ms_path" rebuild-index >/dev/null 2>&1 || true
+      memory_python="${SAVIA_MEMORY_PYTHON:-$HOME/.savia/venv/bin/python}"
+      [[ -x "$memory_python" ]] || memory_python="$HOME/.savia/venv/Scripts/python.exe"
+      [[ -x "$memory_python" ]] || exit 0
+      "$memory_python" -c "import sentence_transformers; import faiss" 2>/dev/null || exit 0
+      SAVIA_MEMORY_PYTHON="$memory_python" bash "$ms_path" rebuild-index >/dev/null 2>&1 || true
     ) &
     break
   fi

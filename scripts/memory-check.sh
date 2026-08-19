@@ -7,6 +7,8 @@ set -uo pipefail
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 AUTO_MEM="$HOME/.claude/projects/-home-monica-claude/memory"
 SAVIA_DIR="$HOME/.savia"
+MEMORY_PYTHON="${SAVIA_MEMORY_PYTHON:-$SAVIA_DIR/venv/bin/python}"
+[[ -x "$MEMORY_PYTHON" ]] || MEMORY_PYTHON="$SAVIA_DIR/venv/Scripts/python.exe"
 
 # Colors
 G='\033[0;32m'; Y='\033[1;33m'; R='\033[0;31m'; B='\033[0;34m'; N='\033[0m'
@@ -67,14 +69,14 @@ else
 fi
 
 # ── Layer 3: Vector memory (SPEC-018) ──────────────────────────────
-section "3/10" "Vector memory (sentence-transformers + hnswlib)"
-if python3 -c "import sentence_transformers, hnswlib" 2>/dev/null; then
-  ok "sentence-transformers + hnswlib installed"
+section "3/10" "Vector memory (sentence-transformers + faiss-cpu)"
+if [[ -x "$MEMORY_PYTHON" ]] && "$MEMORY_PYTHON" -c "import sentence_transformers, faiss" 2>/dev/null; then
+  ok "sentence-transformers + faiss-cpu installed in ~/.savia/venv"
   idx="$HOME/.savia/vector-index"
   if [[ -d "$idx" ]] || [[ -f "$idx.bin" ]]; then ok "vector index present"
   else info "vector index not built yet"; fi
 else
-  warn "vector deps missing (Level 0 — only keyword search)"
+  warn "vector deps missing (run: bash scripts/install-memory-deps.sh)"
 fi
 
 # ── Layer 4: SQLite memory-cache ───────────────────────────────────

@@ -226,3 +226,8 @@ EOF
   run grep -E '@generated' "$REPO_ROOT/docs/propuestas/INDEX.md"
   [ "$status" -eq 0 ]
 }
+
+@test "lowercase duplicate index is not tracked" {
+  run git -C "$REPO_ROOT" ls-files --error-unmatch docs/propuestas/index.md
+  [ "$status" -ne 0 ]
+}
