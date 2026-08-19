@@ -72,10 +72,10 @@ check_agent_schema() {
 
 # ── check: drift ─────────────────────────────────────────────────────────────
 check_drift() {
-  local fails=""
-  "$SCRIPT_DIR/claude-md-drift-check.sh" >/dev/null 2>&1 || fails="$fails claude-md"
-  [[ -f "$SCRIPT_DIR/readme-drift-check.sh" ]] && { "$SCRIPT_DIR/readme-drift-check.sh" >/dev/null 2>&1 || fails="$fails readme"; }
-  [[ -f "$SCRIPT_DIR/spec-status-drift-audit.sh" ]] && { "$SCRIPT_DIR/spec-status-drift-audit.sh" >/dev/null 2>&1 || fails="$fails spec-status"; }
+  local fails="" out
+  out=$("$SCRIPT_DIR/claude-md-drift-check.sh" 2>&1) || fails="$fails claude-md: ${out//$'\n'/; }"
+  [[ -f "$SCRIPT_DIR/readme-drift-check.sh" ]] && { out=$("$SCRIPT_DIR/readme-drift-check.sh" 2>&1) || fails="$fails readme: ${out//$'\n'/; }"; }
+  [[ -f "$SCRIPT_DIR/spec-status-drift-audit.sh" ]] && { out=$("$SCRIPT_DIR/spec-status-drift-audit.sh" 2>&1) || fails="$fails spec-status: ${out//$'\n'/; }"; }
   if [[ -z "$fails" ]]; then echo "PASS"; else echo "FAIL:$fails"; fi
 }
 
