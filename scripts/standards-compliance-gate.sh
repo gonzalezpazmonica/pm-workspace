@@ -131,11 +131,14 @@ if [[ "$JSON" == "1" ]]; then
 import json, sys
 result, failed = sys.argv[1], sys.argv[2].strip()
 checks = {}
+details = {}
 for line in result.strip().split("\n"):
     if ": " in line:
         name, status = line.split(": ", 1)
         checks[name] = "PASS" if status.startswith("PASS") else "FAIL"
-print(json.dumps({"verdict": "PASS" if not failed else "FAIL", "failed": failed.split() if failed else [], "checks": checks}, indent=2))
+        if not status.startswith("PASS"):
+            details[name] = status
+print(json.dumps({"verdict": "PASS" if not failed else "FAIL", "failed": failed.split() if failed else [], "checks": checks, "details": details}, indent=2))
 PY
 else
   echo -e "$RESULT"

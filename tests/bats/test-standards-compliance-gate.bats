@@ -41,6 +41,7 @@ import json, sys
 d = json.load(sys.stdin)
 assert d['verdict'] in ('PASS', 'FAIL')
 assert isinstance(d['checks'], dict)
+assert isinstance(d['details'], dict)
 assert 'file-size' in d['checks']
 "
 }
