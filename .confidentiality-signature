@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=765592dfcbe1706af9172daa31980011f06750f51a2492aaa841ea82afa0790e
-timestamp=2026-08-19T21:14:02Z
-branch=agent/memory-faiss-reproducible-20260818
-head_commit=2138ce5a
-signature=b9b92b0e6a3d3dfdc664774e3c57f2dd409046c60aa15b4311fa0b0c8c50ce52
+diff_hash=a5fab77c4b6761fb6772f734ee6707d7259a802454f04f7c903c82e245dab68c
+timestamp=2026-08-20T19:59:23Z
+branch=agent/fix-scl-trigger-default-on
+head_commit=75c578df
+signature=1d654069b54e41a631ed026d8658f7673a953666cae89285650ed6833383964f
