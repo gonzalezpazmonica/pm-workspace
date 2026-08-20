@@ -1674,3 +1674,28 @@ SE-334 S1 (fingerprint determinista, 14h) → S2 (issues + alertas, 10h)
 | Spec | PR | Estado | Bloqueo |
 |---|---|---|---|
 | SE-334 | — | PROPOSED 2026-08-17 | Spec lista; implementación asignada a otra savia |
+
+---
+
+## Era 208 — Pseudo-AGI por orquestación (2026-08-20)
+
+> Línea de investigación L11 (Savia Labs). Los 4 pilares del sustrato Savia
+> (texto versionado, cúpulas SaviaVaults, CRITERIO.md, bucle SCL-001..008)
+> ya existen y funcionan aislados en main. La hipótesis: al componerlos con un
+> orquestador mínimo, emerge comportamiento de pseudo-AGI medible (aprendizaje
+> sin re-entrenar, memoria cross-sesión, criterio estable, adaptación a tarea
+> nueva, escalado multi-agente).
+
+### Priorización
+
+| Spec | Concepto origen | Esfuerzo | Por qué |
+|---|---|---|---|
+| SE-335 Pseudo-AGI Orchestrator | Labs L11 | 16h | Integra el programa completo; si emerge pseudo-AGI, reordena el roadmap |
+| SE-336 Pruebas P1-P5 | Labs L11 protocolo | 8h | Operacionaliza la emergencia medible (≥2/5 pruebas) |
+
+### Estado por PR
+
+| Spec | PR | Estado | Bloqueo |
+|---|---|---|---|
+| SE-335 | — | PROPOSED 2026-08-20 | Espec lista; implementación en Labs L11 (semana 7) |
+| SE-336 | — | PROPOSED 2026-08-20 | Depende de SE-335 |
