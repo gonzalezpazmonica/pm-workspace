@@ -79,10 +79,13 @@ done
 if [[ -z "$FOUND_KEYWORD" ]]; then
   # pares "regex a matchear|keyword limpio para diagnostico"
   DEVIATION_PATTERNS=(
-    "deberia haber usado|deberia haber usado" "deb[íi] usar|debi usar"
+    "deberia haber usado|deberia haber usado" "debi usar|debi usar"
     "en vez de usar|en vez de usar" "canal equivocado|canal equivocado"
     "no use el mcp|no use el mcp" "me falto usar|me falto usar"
     "no estaba usando|no estaba usando" "por error use|por error use"
+    "no debio entrar|no debio entrar" "no debio ir|no debio ir"
+    "no deberia haber|no deberia haber" "no es el lugar|no es el lugar"
+    "debi mantener|debi mantener" "debi haber usado|debi haber usado"
   )
   for pat in "${DEVIATION_PATTERNS[@]}"; do
     rx="${pat%%|*}"

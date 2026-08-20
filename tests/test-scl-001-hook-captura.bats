@@ -92,3 +92,10 @@ teardown() {
   f=$(ls "$SCL_PROPOSALS_DIR"/*.md | head -1)
   grep -q "desviacion de norma" "$f" || grep -q "debi usar\|en vez de usar" "$f"
 }
+
+@test "hook fix 2026-08-20: detecta desviacion de privacidad (no debio entrar en repo publico)" {
+  printf '%s' '{"tool_name":"Task","tool_response":"la investigacion no debio entrar en el repo publico, debi mantenerla en la cupula","tool_input":{"agent":"x"}}' \
+    | SAVIA_LEARNING_CAPTURE=on SCL_PROPOSALS_DIR="$SCL_PROPOSALS_DIR" SCL_GRAPH_INDEX="$SCL_GRAPH_INDEX" bash "$HOOK"
+  f=$(ls "$SCL_PROPOSALS_DIR"/*.md | head -1)
+  grep -q "no debio entrar\|debi mantener" "$f"
+}
