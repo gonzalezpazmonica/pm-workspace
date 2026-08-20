@@ -19,7 +19,7 @@ spec: SCL-001
 | Lifecycle ledger | `output/learning-loop/lifecycle.jsonl` | Transiciones de estado auditadas |
 | Rollback ledger | `output/learning-loop/rollback.jsonl` | Reversiones con causa registrada |
 | Graph index | `output/learning-loop/graph-index.jsonl` | Índice local (SCL-001); el grafo real vive en SaviaVaults |
-| Hook de captura | `.claude/hooks/learning-capture-hook.sh` | PostToolUse Task. Master switch `SAVIA_LEARNING_CAPTURE=on\|off` (default off). Evidencia por hash de respuesta cuando no hay ficheros (SCL-001.1 D1). Nunca bloquea |
+| Hook de captura | `.claude/hooks/learning-capture-hook.sh` | PostToolUse Task. Master switch `SAVIA_LEARNING_CAPTURE=on\|off` (**default ON** — fix 2026-08-20: un bucle con switch off no aprende). Detecta errores verbalizados Y **desviaciones de norma** ("debi usar X", "en vez de usar Y", "canal equivocado"). Evidencia por hash de respuesta cuando no hay ficheros (SCL-001.1 D1). Nunca bloquea |
 
 ## Persistencia y federación (SCL-002)
 

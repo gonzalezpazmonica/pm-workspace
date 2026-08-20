@@ -77,3 +77,25 @@ teardown() {
   run bash -c "printf '%s' '{}' | SAVIA_LEARNING_CAPTURE=on SCL_PROPOSALS_DIR='$SCL_PROPOSALS_DIR' SCL_GRAPH_INDEX='$SCL_GRAPH_INDEX' bash '$HOOK'"
   [ "$status" -eq 0 ]
 }
+
+@test "hook fix 2026-08-20: default ON — captura sin variable (el disparador aprende solo)" {
+  # Regresion: el disparador estaba off por defecto -> el bucle no capturaba.
+  printf '%s' '{"tool_name":"Task","tool_response":"se reconoce el error: el disparador no capturaba solo","tool_input":{"agent":"t"}}' \
+    | SCL_PROPOSALS_DIR="$SCL_PROPOSALS_DIR" SCL_GRAPH_INDEX="$SCL_GRAPH_INDEX" bash "$HOOK"
+  count=$(ls "$SCL_PROPOSALS_DIR"/*.md | wc -l | tr -d ' ')
+  [ "$count" = "1" ]
+}
+
+@test "hook fix 2026-08-20: detecta desviacion de norma sin keyword de error (filesystem vs MCP)" {
+  printf '%s' '{"tool_name":"Task","tool_response":"use el filesystem para leer la cupula en vez de usar el mcp del vault, debi usar vault_read","tool_input":{"agent":"x"}}' \
+    | SAVIA_LEARNING_CAPTURE=on SCL_PROPOSALS_DIR="$SCL_PROPOSALS_DIR" SCL_GRAPH_INDEX="$SCL_GRAPH_INDEX" bash "$HOOK"
+  f=$(ls "$SCL_PROPOSALS_DIR"/*.md | head -1)
+  grep -q "desviacion de norma" "$f" || grep -q "debi usar\|en vez de usar" "$f"
+}
+
+@test "hook fix 2026-08-20: detecta desviacion de privacidad (no debio entrar en repo publico)" {
+  printf '%s' '{"tool_name":"Task","tool_response":"la investigacion no debio entrar en el repo publico, debi mantenerla en la cupula","tool_input":{"agent":"x"}}' \
+    | SAVIA_LEARNING_CAPTURE=on SCL_PROPOSALS_DIR="$SCL_PROPOSALS_DIR" SCL_GRAPH_INDEX="$SCL_GRAPH_INDEX" bash "$HOOK"
+  f=$(ls "$SCL_PROPOSALS_DIR"/*.md | head -1)
+  grep -q "no debio entrar\|debi mantener" "$f"
+}

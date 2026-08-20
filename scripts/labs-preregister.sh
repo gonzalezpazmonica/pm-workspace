@@ -30,8 +30,8 @@ if [[ -z "$TITLE" || -z "$LINE" || -z "$METHOD" || -z "$METRIC" || -z "$SUCCESS"
   exit 1
 fi
 
-if [[ ! "$LINE" =~ ^L[1-6]$ ]]; then
-  echo "ERROR: --line must be L1-L6"
+if [[ ! "$LINE" =~ ^L(1[0-9]|[1-9])$ ]]; then
+  echo "ERROR: --line must be L1-L19"
   exit 1
 fi
 

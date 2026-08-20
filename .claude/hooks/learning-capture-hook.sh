@@ -6,15 +6,18 @@ set -uo pipefail
 # Task) y genera una learning proposal canónica (PURE_BASH, sin bindings).
 # Idempotente por hash de evidencia (AC-1.3). Siempre exit 0 — nunca bloquea.
 #
-# Master switch: SAVIA_LEARNING_CAPTURE=on|off (default off)
+# Master switch: SAVIA_LEARNING_CAPTURE=on|off (default ON — el bucle debe
+#   capturar por sí solo; off solo para mantenimiento/CI). Rate-limit e
+#   idempotencia por hash evitan saturación.
 # Trigger: PostToolUse Task (output del agente contiene patrones de error
 #         reconocido / corrección / lección aprendida)
 #
 # Ref: docs/specs/SCL-001-aprendizaje-continuo.spec.md (S1)
 # Ref: docs/rules/domain/scl-001-learning-loop.md
 
-# ── Master switch ─────────────────────────────────────────────────────────
-SAVIA_LEARNING_CAPTURE="${SAVIA_LEARNING_CAPTURE:-off}"
+# ── Master switch (default ON: el bucle captura solo; el bug del disparador
+#    apagado se corrigio 2026-08-20 — un bucle con switch off no aprende) ──
+SAVIA_LEARNING_CAPTURE="${SAVIA_LEARNING_CAPTURE:-on}"
 if [[ "$SAVIA_LEARNING_CAPTURE" != "on" ]]; then
   exit 0
 fi
@@ -68,6 +71,31 @@ for kw in "${ERROR_KEYWORDS[@]}"; do
     break
   fi
 done
+
+# ── Desviacion de norma (no verbalizada como error, detectable en el
+#    razonamiento): cuando el agente reconoce que uso el canal/mecanismo
+#    equivocado o que debio usar otro. Caso real 2026-08-20: filesystem vs MCP.
+# ── (patron: autocorreccion metodologica del sustrato) ──
+if [[ -z "$FOUND_KEYWORD" ]]; then
+  # pares "regex a matchear|keyword limpio para diagnostico"
+  DEVIATION_PATTERNS=(
+    "deberia haber usado|deberia haber usado" "debi usar|debi usar"
+    "en vez de usar|en vez de usar" "canal equivocado|canal equivocado"
+    "no use el mcp|no use el mcp" "me falto usar|me falto usar"
+    "no estaba usando|no estaba usando" "por error use|por error use"
+    "no debio entrar|no debio entrar" "no debio ir|no debio ir"
+    "no deberia haber|no deberia haber" "no es el lugar|no es el lugar"
+    "debi mantener|debi mantener" "debi haber usado|debi haber usado"
+  )
+  for pat in "${DEVIATION_PATTERNS[@]}"; do
+    rx="${pat%%|*}"
+    label="${pat#*|}"
+    if echo "$NORM_RESPONSE" | grep -qE "$rx"; then
+      FOUND_KEYWORD="desviacion de norma: $label"
+      break
+    fi
+  done
+fi
 [[ -z "$FOUND_KEYWORD" ]] && exit 0
 
 # ── Extract evidence: the file(s) touched by this task if any ────────────
@@ -87,17 +115,24 @@ fi
 
 # ── Extract diagnosis + change from the normalized response ──────────────
 # (NORM_RESPONSE has no accents; FOUND_KEYWORD is accent-free — grep matches.)
-DIAGNOSIS=$(echo "$NORM_RESPONSE" \
-  | grep -m1 -B1 "$FOUND_KEYWORD" \
-  | head -c 300 \
-  | tr -d '\n\r' \
-  | sed 's/["`'\'']/\"/g')
+# Para desviaciones de norma, FOUND_KEYWORD es una etiqueta construida (no
+# aparece literal); el diagnostico usa la primera linea de la respuesta.
+if [[ "$FOUND_KEYWORD" == "desviacion de norma:"* ]]; then
+  DIAGNOSIS=$(echo "$NORM_RESPONSE" | head -1 | head -c 300 | tr -d '\n\r' | sed 's/["`'\'']/\"/g')
+  CHANGE=$(echo "$NORM_RESPONSE" | tail -1 | head -c 300 | tr -d '\n\r')
+else
+  DIAGNOSIS=$(echo "$NORM_RESPONSE" \
+    | grep -m1 -B1 "$FOUND_KEYWORD" \
+    | head -c 300 \
+    | tr -d '\n\r' \
+    | sed 's/["`'\'']/\"/g')
 
-CHANGE=$(echo "$NORM_RESPONSE" \
-  | grep -m1 -A2 "$FOUND_KEYWORD" \
-  | tail -1 \
-  | head -c 300 \
-  | tr -d '\n\r')
+  CHANGE=$(echo "$NORM_RESPONSE" \
+    | grep -m1 -A2 "$FOUND_KEYWORD" \
+    | tail -1 \
+    | head -c 300 \
+    | tr -d '\n\r')
+fi
 [[ -z "$CHANGE" ]] && CHANGE="Revisar y proponer correccion"
 
 # ── Generate learning proposal (idempotent) ──────────────────────────────
