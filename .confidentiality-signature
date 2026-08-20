@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=a5fab77c4b6761fb6772f734ee6707d7259a802454f04f7c903c82e245dab68c
-timestamp=2026-08-20T19:59:23Z
+diff_hash=50c4e811f8c8f486760f33cbe55d0e84fac8dfe290f5c52fdd8e0a5bc5eb78bc
+timestamp=2026-08-20T20:04:53Z
 branch=agent/fix-scl-trigger-default-on
-head_commit=75c578df
-signature=1d654069b54e41a631ed026d8658f7673a953666cae89285650ed6833383964f
+head_commit=ead1346d
+signature=fe89274f1be8395791f208fc61089fceebe32f9303b1c1f32f7cf4f48a283862
