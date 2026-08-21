@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=11241a85a1a97d16fc75c9d5b1d1d8daca6e786a9b883e0b1449b769b1f10619
-timestamp=2026-08-20T20:09:46Z
-branch=agent/fix-scl-trigger-default-on
-head_commit=7eb8af37
-signature=8c3ff6b55d898f2a55c038a1ec2263418cff0128bccf89c8fda39173b10ff5b0
+diff_hash=32d088728b27178b1b80ef7dbc567cb04b8ee15bcede88107e29579d2dc1dbad
+timestamp=2026-08-21T03:55:52Z
+branch=agent/scl-001-aprendizaje-continuo
+head_commit=00617d8c
+signature=36b655e7e7f9aed8f2a9cc11b7e9da98178a99dd2bdff30f5a5695298647930a

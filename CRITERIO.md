@@ -3,7 +3,7 @@
 > Propiedad exclusiva de la operadora. Modificable solo con trailer Human-Authored.
 > Cada entrada es citable como CRIT-XXX. Ninguna entrada se activa sin
 > provenance:human_authored.
-> Anexo A del SE-257, iteracion 2. 33 entradas provenance:INFERRED.
+> Anexo A del SE-257, iteracion 2. 32 entradas provenance:INFERRED + CRIT-001 human_authored (2026-08-20).
 
 ## Schema
 
@@ -24,7 +24,8 @@ CRIT-001 — Soberania del dato por defecto
   contraejemplo: subir un VTT a un servicio de transcripcion cloud solo esta vez por prisa.
   evidencia: principio fundacional del workspace; atestacion semanal.
   enforcement: data-sovereignty-gate.sh + data-sovereignty-audit.sh + atestacion SE-255 S6.
-  provenance: INFERRED
+  provenance: human_authored
+  autorizado_utc: 2026-08-20T21:12:00Z
 
 CRIT-002 — Anti vendor lock-in: abstraccion siempre
   dureza: linea_roja | constitucion: T1
@@ -299,4 +300,4 @@ CRIT-033 — Lo personal y familiar fuera del trabajo
 
 33 entradas. 19 linea_roja, 11 preferencia, 3 estilo.
 Cobertura: tecnicas 10, comunicacion 6, priorizacion 5, riesgo 7, delegacion 5.
-Todas provenance:INFERRED pendientes de reescritura de la operadora.
+CRIT-001 human_authored (2026-08-20). Resto provenance:INFERRED pendientes de reescritura de la operadora.
