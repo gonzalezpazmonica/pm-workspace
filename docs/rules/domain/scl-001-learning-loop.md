@@ -28,6 +28,22 @@ spec: SCL-001
 - **Federación cross-dome (SCL-007)**: `learning-federate.sh --share <id> --to <url>` envía la lección a otra instancia vía A2A `/share`; `--search-remote --url <url> --query <q>` consulta `/search` del servidor remoto. La instancia receptora importa como `INFERRED` (shadow), nunca auto-activa.
 - **SaviaVaults es el servidor; `example-context`, `savia-docs` y `SaviaLearning` son cúpulas.** Las lecciones de SCL van SOLO a `SaviaLearning`.
 
+### Política de publicidad (CRIT-001, decisión 2026-08-21)
+
+Este workspace es un repo **público** en `gonzalezpazmonica/pm-workspace`.
+`docs/learning-proposals/` (fuente local versionada) es visible en el repo
+público; `labs/` (experimentos) es gitignored y repo local **sin remote**.
+
+**Regla**: en `docs/learning-proposals/` solo se publican LPs **sanitizadas** —
+la lección genérica, sin datos del experimento (métricas, puntuaciones, modelo
+de inferencia, run-XXX, nombres de línea de investigación). El detalle completo
+vive en el vault `SaviaLearning` (privado) y en `labs/` (privado). El
+`evidence_hash` apunta a evidencia sanitizada o se omite el path del run.
+
+Antes de mergear una LP derivada de Savia Labs: verificar que NO contenga
+paths de `labs/`, puntuaciones, modelo, ni datos del experimento. Decisión de
+la operadora 2026-08-21: "solo LPs sanitizadas".
+
 ## Recall operativo (SCL-003 + SCL-005)
 
 - **Recuperar en sombra**: `learning-recall.sh --query "<contexto>"` consulta SaviaLearning (BM25) y registra coincidencias sin influir. `INFERRED`, `proposed` y `canary` nunca emiten contexto.
