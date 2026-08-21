@@ -328,39 +328,41 @@
  "autoupdate": false,
  "snapshot": true,
  "share": "manual",
- "mcp": {
-  "codegraph": {
-   "type": "local",
-   "command": [
-    "codegraph",
-    "serve",
-    "--mcp"
-   ],
-   "enabled": false,
-   "timeout": 30000
-  },
-   "codebase-memory-mcp": {
+  "mcp": {
+   "codegraph": {
     "type": "local",
     "command": [
-     "codebase-memory-mcp",
-     "serve"
-   ],
-   "enabled": false,
-   "timeout": 60000
-  },
-   "savia-vaults": {
-    "type": "local",
-    "command": [
-     "node",
-     "projects/savia-vaults/dist/cli/index.js",
-    "serve",
-    "--transport",
-    "mcp",
-    "--domes",
-    "projects/savia-vaults/savia-vaults.domes.json"
-   ],
-    "enabled": false,
-   "timeout": 60000
+     "env",
+     "PATH=/home/monica/.nvm/versions/node/v22.23.2/bin:/usr/bin:/bin",
+     "/home/monica/.nvm/versions/node/v22.23.2/bin/codegraph",
+     "serve",
+     "--mcp"
+    ],
+    "enabled": true,
+    "timeout": 30000
+   },
+    "codebase-memory-mcp": {
+     "type": "local",
+     "command": [
+      "/home/monica/.local/bin/codebase-memory-mcp",
+      "serve"
+    ],
+    "enabled": true,
+    "timeout": 60000
+   },
+    "savia-vaults": {
+     "type": "local",
+     "command": [
+      "/home/monica/.nvm/versions/node/v22.23.2/bin/node",
+      "projects/savia-vaults/dist/cli/index.js",
+     "serve",
+     "--transport",
+     "mcp",
+     "--domes",
+     "projects/savia-vaults/savia-vaults.domes.json"
+    ],
+     "enabled": true,
+    "timeout": 60000
+   }
   }
- }
 }

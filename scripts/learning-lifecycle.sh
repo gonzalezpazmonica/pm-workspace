@@ -71,9 +71,9 @@ case "$TO" in
   *) echo "ERROR: --to debe ser proposed|canary|active|superseded" >&2; exit 2 ;;
 esac
 
-CURRENT=$(grep -m1 '^lifecycle: ' "$FILE" | sed 's/^lifecycle: //' || echo "proposed")
-PROV=$(grep -m1 '^provenance: ' "$FILE" | sed 's/^provenance: //' || echo "INFERRED")
-ID=$(grep -m1 '^id: ' "$FILE" | sed 's/^id: //' || basename "$FILE" .md)
+CURRENT=$(grep -m1 '^[[:space:]]*lifecycle: ' "$FILE" | sed 's/^[[:space:]]*lifecycle: //' || echo "proposed")
+PROV=$(grep -m1 '^[[:space:]]*provenance: ' "$FILE" | sed 's/^[[:space:]]*provenance: //' || echo "INFERRED")
+ID=$(grep -m1 '^[[:space:]]*id: ' "$FILE" | sed 's/^[[:space:]]*id: //' || basename "$FILE" .md)
 
 # ── Valid transitions ──
 valid=false
@@ -123,13 +123,13 @@ fi
 [[ "$valid" == "true" ]] || { echo "ERROR: invalid transition $CURRENT → $TO" >&2; exit 1; }
 
 # ── Apply transition ──
-sed -i "s/^lifecycle: .*/lifecycle: $TO/" "$FILE"
+sed -i "s/^\([[:space:]]*\)lifecycle: .*/\1lifecycle: $TO/" "$FILE"
 # active sets provenance human_authored; other states stay INFERRED
 if [[ "$TO" == "active" ]]; then
-  sed -i "s/^provenance: .*/provenance: human_authored/" "$FILE"
-  sed -i "s/^human_trailer:.*/human_trailer: $HUMAN_TRAILER/" "$FILE" \
-    || sed -i "/^created_utc:/a human_trailer: $HUMAN_TRAILER" "$FILE"
-  sed -i "/^human_trailer:/d;/^created_utc:/a human_trailer: $HUMAN_TRAILER" "$FILE"
+  sed -i "s/^\([[:space:]]*\)provenance: .*/\1provenance: human_authored/" "$FILE"
+  sed -i "s/^\([[:space:]]*\)human_trailer:.*/\1human_trailer: $HUMAN_TRAILER/" "$FILE" \
+    || sed -i "/^\([[:space:]]*\)created_utc:/a human_trailer: $HUMAN_TRAILER" "$FILE"
+  sed -i "/^\([[:space:]]*\)human_trailer:/d;/^\([[:space:]]*\)created_utc:/a human_trailer: $HUMAN_TRAILER" "$FILE"
 elif [[ "$TO" == "superseded" ]]; then
   # tombstone: keep the file readable, add tombstone marker (CRIT-024)
   sed -i "/^lifecycle:/a tombstone: superseded $(date -u +%Y-%m-%dT%H:%M:%SZ) — no borrado, cuarentena (CRIT-024)" "$FILE"

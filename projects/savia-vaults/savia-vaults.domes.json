@@ -1,18 +1,25 @@
 {
   "version": 1,
-  "defaultDome": "example-context",
+  "defaultDome": "SaviaLearning",
   "domes": {
-    "example-context": {
-      "name": "example-context",
-      "path": "../../vaults/example-context",
-      "description": "Cupula de ejemplo para desarrollo y pruebas locales",
-      "confidentiality": "N2",
-      "schemaDir": "projects/savia-vaults/schema/entities"
-    },
     "SaviaLearning": {
       "name": "SaviaLearning",
       "path": "../../vaults/SaviaLearning",
       "description": "Cupula del bucle Savia Continuous Learning para lecciones persistentes cross-instancia",
+      "confidentiality": "N2",
+      "schemaDir": "projects/savia-vaults/schema/entities"
+    },
+    "SaviaLabs": {
+      "name": "SaviaLabs",
+      "path": "../../vaults/SaviaLabs",
+      "description": "Cupula del laboratorio epistemico Savia Labs (SE-291): preregistro, experimentos, resultados",
+      "confidentiality": "N2",
+      "schemaDir": "projects/savia-vaults/schema/entities"
+    },
+    "savia-docs": {
+      "name": "savia-docs",
+      "path": "../../vaults/savia-docs",
+      "description": "Cupula de documentacion de pm-workspace: rules, specs, decisions, guias, propuestas",
       "confidentiality": "N2",
       "schemaDir": "projects/savia-vaults/schema/entities"
     }

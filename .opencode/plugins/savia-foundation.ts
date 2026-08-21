@@ -54,6 +54,8 @@ import { sycophancyGuard } from "./guards/sycophancy-guard.ts";
 import { blockBlindSigning } from "./guards/block-blind-signing.ts";
 // SE-313 S7c: dispatch tracing — resolves subagent model + emits telemetry
 import { dispatchTrace } from "./guards/dispatch-trace.ts";
+// SCL-003/SCL-008: inject human-authorized criteria at chat.message
+import { learningRecallGuard } from "./guards/learning-recall-guard.ts";
 
 const BEFORE_GUARDS = [
   // Cheap guards first — fail fast.
@@ -159,6 +161,13 @@ export const SaviaFoundationPlugin: Plugin = async ({ project, $, directory }) =
     "tool.execute.before": async (input: any, output: any) => {
       for (const guard of BEFORE_GUARDS) {
         await guard(input, output);
+      }
+    },
+    "chat.message": async (input: any, output: any) => {
+      try {
+        await learningRecallGuard(input, output);
+      } catch {
+        // Non-blocking: a recall failure must never break message flow
       }
     },
     "tool.execute.after": async (input: any, output: any) => {

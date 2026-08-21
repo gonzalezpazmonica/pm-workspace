@@ -176,3 +176,7 @@ labs/
 # Savia Vaults runtime state (MCP quota store, regenerable)
 savia-vaults.quotas.json
 tests/bats/.deps.json
+
+# ── Índices AST (regenerables, N4: nunca en git) ─────────────────────────────
+.codegraph/
+.codebase-memory/
