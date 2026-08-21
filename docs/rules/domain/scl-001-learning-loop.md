@@ -28,6 +28,22 @@ spec: SCL-001
 - **Federación cross-dome (SCL-007)**: `learning-federate.sh --share <id> --to <url>` envía la lección a otra instancia vía A2A `/share`; `--search-remote --url <url> --query <q>` consulta `/search` del servidor remoto. La instancia receptora importa como `INFERRED` (shadow), nunca auto-activa.
 - **SaviaVaults es el servidor; `example-context`, `savia-docs` y `SaviaLearning` son cúpulas.** Las lecciones de SCL van SOLO a `SaviaLearning`.
 
+### Política de publicidad (CRIT-001, decisión 2026-08-21)
+
+Este workspace es un repo **público** en `gonzalezpazmonica/pm-workspace`.
+`docs/learning-proposals/` (fuente local versionada) es visible en el repo
+público; `labs/` (experimentos) es gitignored y repo local **sin remote**.
+
+**Regla**: en `docs/learning-proposals/` solo se publican LPs **sanitizadas** —
+la lección genérica, sin datos del experimento (métricas, puntuaciones, modelo
+de inferencia, run-XXX, nombres de línea de investigación). El detalle completo
+vive en el vault `SaviaLearning` (privado) y en `labs/` (privado). El
+`evidence_hash` apunta a evidencia sanitizada o se omite el path del run.
+
+Antes de mergear una LP derivada de Savia Labs: verificar que NO contenga
+paths de `labs/`, puntuaciones, modelo, ni datos del experimento. Decisión de
+la operadora 2026-08-21: "solo LPs sanitizadas".
+
 ## Recall operativo (SCL-003 + SCL-005)
 
 - **Recuperar en sombra**: `learning-recall.sh --query "<contexto>"` consulta SaviaLearning (BM25) y registra coincidencias sin influir. `INFERRED`, `proposed` y `canary` nunca emiten contexto.
@@ -46,6 +62,22 @@ proposed (shadow) → canary → active → superseded
 - **canary**: sin efecto de recall hasta definir autoría humana verificable para el subconjunto.
 - **active** (`provenance: human_authored`): solo influye si enlaza un criterio humano activo verificable.
 - **superseded**: tombstone + cuarentena (CRIT-024). Nunca se borra.
+
+## Mapeo de autonomía SCL ↔ Levels of AGI (política 2026-08-21)
+
+Autorizado por la operadora (LP-20260821-71880b47, active). Detalle completo
+en `labs/notebook/20260821-sagi-research-agi.md` (privado).
+
+| SCL (Savia) | DeepMind autonomy | Gate |
+|---|---|---|
+| L0 draft | 1 Tool | sin ejecución autónoma |
+| L1 report-only | 2 Consultant | reporta, no ejecuta |
+| L2 assisted | 3 Collaborator | ejecuta asistido |
+| L3 unattended | 4 Expert | ejecuta con supervisión |
+
+**Límite deliberado**: el bucle SCL NO escala al nivel 5 (Agent, totalmente
+autónomo) porque CRIT-031 prohíbe la auto-activación: solo la operadora activa
+entradas al sustrato. Ese límite es alineación, no capacidad.
 
 ## Gates inmutables
 

@@ -44,6 +44,20 @@ Cupula de investigacion sobre desconocidos desconocidos.
 
 ## Vault
 
-- Path: `labs/`
+- Cúpula: `SaviaLabs` (SaviaVaults)
+- **IMPORTANTE (decisión 2026-08-21)**: la cúpula SaviaLabs ES la persistencia
+  viva e inmediata, NO un destino de copia ni un backup. Todo artefacto de
+  trabajo (preregistro, hipótesis, protocolo, experimento, resultado, notebook)
+  se escribe DIRECTAMENTE en la cúpula en el momento del trabajo.
+- **Acceso SIEMPRE por MCP, nunca por filesystem**: usar las herramientas
+  `savia-vaults_*` (`vault_write`, `vault_read`, `vault_search`, `vault_list`,
+  `vault_graph`) para leer y escribir la cúpula. El directorio
+  `vaults/SaviaLabs/` es la implementación interna del servidor; otros Savias
+  consumen la cúpula vía MCP y este workspace ES el servidor que las sirve.
+  Escribir por `Read`/`Edit`/`Write`/`cp` sobre el directorio rompe el contrato
+  (no indexa, no commitea con content-hash, no propaga). Lección ya persistida:
+  `LP-20260820-ac39b5b5` ("usar tools MCP, no filesystem").
+- `labs/` raíz es symlink a la cúpula SOLO como comodidad de los scripts bash
+  del bucle (PURE_BASH no habla MCP); el consumo de conocimiento es por MCP.
 - Schema: `projects/savia-vaults/schema/entities/`
 - Tipos: hypothesis, experiment, result, protocol
