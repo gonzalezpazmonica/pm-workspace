@@ -65,10 +65,8 @@ proposed (shadow) → canary → active → superseded
 
 ## Mapeo de autonomía SCL ↔ Levels of AGI (política 2026-08-21)
 
-Autorizado por la operadora (LP-20260821-71880b47, active). Mapea la autonomía
-del bucle al framework "Levels of AGI" (arXiv:2311.02462, Google DeepMind,
-2023), que define 6 niveles de autonomía (0-5: No AI / Tool / Consultant /
-Collaborator / Expert / Agent):
+Autorizado por la operadora (LP-20260821-71880b47, active). Detalle completo
+en `labs/notebook/20260821-sagi-research-agi.md` (privado).
 
 | SCL (Savia) | DeepMind autonomy | Gate |
 |---|---|---|
@@ -79,17 +77,7 @@ Collaborator / Expert / Agent):
 
 **Límite deliberado**: el bucle SCL NO escala al nivel 5 (Agent, totalmente
 autónomo) porque CRIT-031 prohíbe la auto-activación: solo la operadora activa
-entradas al sustrato. Ese límite es una decisión de alineación, no de capacidad.
-Los LLMs actuales se clasifican como "Emerging AGI" (nivel 1/5 en performance
-general, arXiv:2311.02462) — insuficientes solos; el bucle SCL aporta la
-autonomía que el LLM solo no tiene.
-
-**Principio rector (The Bitter Lesson, Sutton 2019)**: los métodos generales
-que aprovechan cómputo creciente (búsqueda + aprendizaje) superan al
-conocimiento incrustado. El bucle SCL (recall = búsqueda, persistencia =
-aprendizaje) es el método general; el LLM es conocimiento previo reemplazable.
-No incrustar más conocimiento en el LLM: construir mejores loops de búsqueda y
-aprendizaje.
+entradas al sustrato. Ese límite es alineación, no capacidad.
 
 ## Gates inmutables
 
