@@ -1,5 +1,5 @@
 # planning — Savia Capability Map (L1)
-> 592 resources
+> 593 resources
 
 - **/decide-architecture** (cmd): Clasifica una tarea como WORKFLOW (deterministica) o AGENT (loop). Bias hacia workflow per Anthropic. Sugiere plantilla inicial. Mide accuracy contra corpus curado de 20 tareas.
 - **_template** (skill): TEMPLATE — copia este directorio para crear una skill nueva. NO se carga en runtime.
@@ -319,6 +319,7 @@
 - **mcp-recommend** (cmd): >
 - **measure-reliability** (script): measure-reliability.sh — Task consistency vs capability across repeated runs
 - **memvid-backup** (skill): Usar cuando se crea un backup portable de la memoria externa de Savia.
+- **meta-control** (script): meta-control.sh — L13 F2: control metacognitivo sobre el orquestador SAGI.
 - **meta-monitor** (script): meta-monitor.sh — L13 F1: juicio metacognitivo de monitoreo.
 - **meta-recalibrate** (script): meta-recalibrate.sh — L13 F1: recalibración del juicio metacognitivo.
 - **mobile-developer** (agent): >

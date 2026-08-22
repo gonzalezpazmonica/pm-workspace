@@ -31,6 +31,7 @@ DECIDE="${SAGI_DECIDE:-none}"
 P_CONSISTENT="${SAGI_P_CONSISTENT:-}"
 SAGI_DECISION=""
 META=false
+SAGI_META_ACTION=""
 
 while [[ $# -gt 0 ]]; do
   case "$1" in
@@ -146,8 +147,20 @@ metacog() {
     adjusted=$(echo "$mout" | python3 -c "import sys,json;print(json.load(sys.stdin)['confidence_adjusted'])" 2>/dev/null || echo 0)
     hint=$(echo "$mout" | python3 -c "import sys,json;print(json.load(sys.stdin)['action_hint'])" 2>/dev/null || echo "")
     echo "  [meta] confianza $deconf → ajustada $adjusted · $hint"
+    # F2: meta-control decide la acción de control (propuesta, no ejecución)
+    local ctl
+    ctl=$(bash "$ROOT/scripts/meta-control.sh" --adjusted "$adjusted" \
+          --divergence "${SAGI_DIVERGENCE:-0.3}" --calibration "${SAGI_CALIBRATION:-0.5}" \
+          --requested decide --dry-run 2>/dev/null || echo "")
+    if [[ -n "$ctl" ]]; then
+      local caction
+      caction=$(echo "$ctl" | python3 -c "import sys,json;print(json.load(sys.stdin)['action'])" 2>/dev/null || echo "")
+      echo "  [meta] control → $caction (propuesta, no auto-ejecutada — CRIT-031)"
+      SAGI_META_ACTION="$caction"
+    fi
   else
     echo "  [meta] monitor no disponible (falta meta-monitor.sh) — omitido"
+    SAGI_META_ACTION="UNKNOWN"
   fi
 }
 
