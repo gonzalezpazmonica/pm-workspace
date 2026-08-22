@@ -1,6 +1,6 @@
 {
-  "hash": "19561bcb8679",
-  "total": 1374,
+  "hash": "6542b4574e5f",
+  "total": 1376,
   "resources": [
     {
       "category": "analysis",
@@ -958,6 +958,20 @@
       "kind": "script",
       "path": "scripts/truth-tribunal.sh",
       "description": "truth-tribunal.sh — Orchestrate 7-judge reliability evaluation of reports."
+    },
+    {
+      "category": "analysis",
+      "name": "turn-sdlc-report",
+      "intents": [
+        "report",
+        "reporte",
+        "sdlc",
+        "turn",
+        "ventana"
+      ],
+      "kind": "script",
+      "path": "scripts/turn-sdlc-report.sh",
+      "description": "turn-sdlc-report.sh — SE-336 S4: reporte Turn-SDLC por ventana"
     },
     {
       "category": "analysis",
@@ -17997,6 +18011,19 @@
       "kind": "script",
       "path": "scripts/tool-ergonomics-audit.sh",
       "description": "tool-ergonomics-audit.sh — SPEC-160: Tool Ergonomics Auto-Audit"
+    },
+    {
+      "category": "quality",
+      "name": "turn-sdlc-audit",
+      "intents": [
+        "audit",
+        "auditor",
+        "sdlc",
+        "turn"
+      ],
+      "kind": "script",
+      "path": "scripts/turn-sdlc-audit.sh",
+      "description": "turn-sdlc-audit.sh — SE-336 S1: auditor Turn-SDLC"
     },
     {
       "category": "quality",

@@ -1,5 +1,5 @@
 # quality — Savia Capability Map (L1)
-> 259 resources
+> 260 resources
 
 - **/speckit.analyze** (cmd): Alias spec-kit compatible. Review cruzado de una spec antes de implementar. Invoca skill consensus-validation. Compatible con github/spec-kit.
 - **Court Review** (cmd): Convene the Code Review Court to evaluate implementation quality across 6 judges
@@ -251,6 +251,7 @@
 - **tls-security-check** (script): SE-242 — TLS Security Check
 - **tls-security-checker** (skill): Usar cuando se verifica TLS/SSL o security headers HTTP de un servidor web. Invocable pre-deploy o en auditorías periódicas.
 - **tool-ergonomics-audit** (script): tool-ergonomics-audit.sh — SPEC-160: Tool Ergonomics Auto-Audit
+- **turn-sdlc-audit** (script): turn-sdlc-audit.sh — SE-336 S1: auditor Turn-SDLC
 - **twin-linter** (script): twin-linter.sh — Valida twin.md contra schema SPEC-169
 - **verification-lattice** (skill): Usar cuando se necesita verificación multi-capa más allá del code review estándar.
 - **visual-diff-merge-check** (script): scripts/visual-diff-merge-check.sh — SPEC-046: Visual Diff QA at Merge Time
