@@ -1,5 +1,5 @@
 # planning — Savia Capability Map (L1)
-> 586 resources
+> 587 resources
 
 - **/decide-architecture** (cmd): Clasifica una tarea como WORKFLOW (deterministica) o AGENT (loop). Bias hacia workflow per Anthropic. Sugiere plantilla inicial. Mide accuracy contra corpus curado de 20 tareas.
 - **_template** (skill): TEMPLATE — copia este directorio para crear una skill nueva. NO se carga en runtime.
@@ -289,6 +289,7 @@
 - **learning-lifecycle** (script): learning-lifecycle.sh — SCL-001 S2: sustrato como artefacto de despliegue
 - **learning-persist** (script): learning-persist.sh — SCL-002: persiste una learning proposal en la cúpula
 - **learning-proposal** (script): learning-proposal.sh — SCL-001 S1: canonical learning proposal capture
+- **learning-reconcile** (script): learning-reconcile.sh — SCL-010: reconciliación de lecciones duplicadas/conflictivas.
 - **learning-rollback** (script): learning-rollback.sh — SCL-001 S2: rollback instantáneo de una entrada del sustrato
 - **legacy-assess** (cmd): >
 - **legalize-es** (script): legalize-es.sh — Gestión del corpus legislativo español (legalize-es)

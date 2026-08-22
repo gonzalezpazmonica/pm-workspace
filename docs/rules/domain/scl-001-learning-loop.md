@@ -25,7 +25,8 @@ spec: SCL-001
 
 - **Persistir**: `learning-proposal.sh --persist` (o `learning-persist.sh --file <p>`) escribe la lección en la cúpula `SaviaLearning` con frontmatter `entity.type: learning_proposal` + `relations` (PROPOSES_CHANGE, EVIDENCE_FROM, MEASURED_BY) + wikilinks → indexada en el grafo de SaviaVaults.
 - **Consumir (cross-instancia)**: `learning-federate.sh --list` lista lecciones de la cúpula; `--import <id>` las trae como propuesta local `INFERRED` (shadow, sin efecto), pendiente de `human_authored`. NUNCA auto-activa (CRIT-031).
-- **Federación cross-dome (SCL-007)**: `learning-federate.sh --share <id> --to <url>` envía la lección a otra instancia vía A2A `/share`; `--search-remote --url <url> --query <q>` consulta `/search` del servidor remoto. La instancia receptora importa como `INFERRED` (shadow), nunca auto-activa.
+- **Federación cross-dome (SCL-007)**: `learning-federate.sh --share <id> --to <url>` envía la lección a otra instancia vía A2A `/share`; `--search-remote` consulta `/search`. La receptora importa como `INFERRED` (shadow), nunca auto-activa.
+- **Reconciliación (SCL-010)**: `learning-reconcile.sh` detecta lecciones duplicadas/conflictivas entre instancias y las clasifica en el árbol 3-bucket (evolution|auto-resolve|conflict-doc); solo propone, no muta (CRIT-031).
 - **SaviaVaults es el servidor; `example-context`, `savia-docs` y `SaviaLearning` son cúpulas.** Las lecciones de SCL van SOLO a `SaviaLearning`.
 
 ### Política de publicidad (CRIT-001, decisión 2026-08-21)
@@ -100,11 +101,9 @@ entradas al sustrato. Ese límite es alineación, no capacidad.
 L = w_p·p_consistent + w_d·(1 − divergencia) + w_i·ignorancia_resuelta
 ```
 
-Pesos por defecto 0.5/0.3/0.2. Determinista (misma entrada → misma `L`).
-Agnóstica a modelo: los inputs son escalares medidos, nunca identidades de
-proveedor.
+Pesos 0.5/0.3/0.2. Determinista y agnóstica a modelo (inputs escalares, nunca identidades de proveedor).
 
-**Input SE-336 (S4)**: `turn-sdlc-report.sh` alimenta `divergencia` (orden de descubrimiento SE-335 + DoD gate); si `pct_order_ok` no sube, la regla se rediseña con datos.
+**Input SE-336 (S4)**: `turn-sdlc-report.sh` alimenta `divergencia` (SE-335 + DoD gate); si `pct_order_ok` no sube, se rediseña.
 
 ## Agnosticismo a LLM (construcción, no afirmación)
 
