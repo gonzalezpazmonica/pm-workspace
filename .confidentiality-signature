@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=23a70eeb4574f687c8118750cecf72d9b3e3cb33d799c3f2d666f2e12f58496b
-timestamp=2026-08-22T19:18:48Z
-branch=agent/scl012-pruebas
-head_commit=3ce2c3a8
-signature=20db932fc8faba8958d66f3a5c4fce09a7276e5634d6b6ab030471c59ec027c1
+diff_hash=64f9a96209435005e1be6debe405b2f5cc6ed29e0e045a6e10479fd14203db3e
+timestamp=2026-08-22T20:30:34Z
+branch=agent/scl013-e2e
+head_commit=1c1829b7
+signature=920f0f4cce9818bd2b492e8495853dca92b4a6804da84a2037225f347fe113cd
