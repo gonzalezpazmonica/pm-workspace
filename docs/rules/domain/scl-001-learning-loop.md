@@ -104,10 +104,7 @@ Pesos por defecto 0.5/0.3/0.2. Determinista (misma entrada → misma `L`).
 Agnóstica a modelo: los inputs son escalares medidos, nunca identidades de
 proveedor.
 
-**Input SE-336 (S4)**: `scripts/turn-sdlc-report.sh --window W##` consolida la
-divergencia regla-comportamiento (orden de descubrimiento SE-335) y el DoD gate
-de la respuesta final. Alimenta `divergencia` y el reporte de ventana; si
-`pct_order_ok` no sube tras SE-335, la regla se rediseña con datos.
+**Input SE-336 (S4)**: `turn-sdlc-report.sh` alimenta `divergencia` (orden de descubrimiento SE-335 + DoD gate); si `pct_order_ok` no sube, la regla se rediseña con datos.
 
 ## Agnosticismo a LLM (construcción, no afirmación)
 
