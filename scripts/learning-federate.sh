@@ -56,6 +56,29 @@ while [[ $# -gt 0 ]]; do
   esac
 done
 
+# ── SCL-009: resolver URL desde el registry si no se pasó --url/--to ────────
+if { $SEARCH_REMOTE || [[ -n "$SHARE_ID" ]]; } && [[ -z "$REMOTE_URL" ]]; then
+  REG="${SCL_FEDERATION_REGISTRY:-$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)/.savia-vault/federation.json}"
+  if [[ -f "$REG" ]]; then
+    REMOTE_URL=$(python3 - "$REG" <<'PYEOF'
+import json, sys, os
+try:
+    data = json.load(open(sys.argv[1]))
+    for d in data:
+        if d.get('status') == 'healthy' and d.get('url'):
+            print(d['url']); sys.exit(0)
+except Exception:
+    pass
+print('')
+PYEOF
+    )
+  fi
+fi
+if [[ -z "$REMOTE_URL" ]]; then
+  echo "ERROR: no --url/--to y ninguna instancia healthy en el registry — usa federation-discover.sh --check" >&2
+  exit 2
+fi
+
 # ── Modo search-remote (SCL-007): busca en un dome remoto via /search ──
 if $SEARCH_REMOTE; then
   [[ -z "$REMOTE_URL" || -z "$REMOTE_QUERY" ]] && { echo "ERROR: --url y --query requeridos con --search-remote" >&2; exit 2; }

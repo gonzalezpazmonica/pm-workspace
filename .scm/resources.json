@@ -1,6 +1,6 @@
 {
-  "hash": "f3bda9ef3270",
-  "total": 1379,
+  "hash": "b685ca552309",
+  "total": 1380,
   "resources": [
     {
       "category": "analysis",
@@ -9719,6 +9719,20 @@
       "kind": "agent",
       "path": ".opencode/agents/factuality-judge.md",
       "description": "Truth Tribunal judge — factual accuracy of claims against verifiable sources"
+    },
+    {
+      "category": "planning",
+      "name": "federation-discover",
+      "intents": [
+        "auto",
+        "descubrimiento",
+        "discover",
+        "federadas",
+        "federation"
+      ],
+      "kind": "script",
+      "path": "scripts/federation-discover.sh",
+      "description": "federation-discover.sh — SCL-009: auto-descubrimiento de instancias federadas."
     },
     {
       "category": "planning",

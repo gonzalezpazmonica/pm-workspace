@@ -1,5 +1,5 @@
 # planning — Savia Capability Map (L1)
-> 587 resources
+> 588 resources
 
 - **/decide-architecture** (cmd): Clasifica una tarea como WORKFLOW (deterministica) o AGENT (loop). Bias hacia workflow per Anthropic. Sugiere plantilla inicial. Mide accuracy contra corpus curado de 20 tareas.
 - **_template** (skill): TEMPLATE — copia este directorio para crear una skill nueva. NO se carga en runtime.
@@ -203,6 +203,7 @@
 - **ext-platform-gate** (script): ext-platform-gate.sh — SE-272 Slice 4: Enforce asymmetry for external platforms
 - **ext-platform-resilience** (script): ext-platform-resilience.sh — SE-272 Slice 4: Resilience for external platforms
 - **factuality-judge** (agent): Truth Tribunal judge — factual accuracy of claims against verifiable sources
+- **federation-discover** (script): federation-discover.sh — SCL-009: auto-descubrimiento de instancias federadas.
 - **federation-drill** (script): federation-drill.sh — SE-263 S7: Compromised instance drill
 - **flow-backlog-groom** (cmd): Review and prioritize backlog items
 - **flow-burndown** (cmd): Show sprint burndown chart data

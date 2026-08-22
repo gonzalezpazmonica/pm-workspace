@@ -1,6 +1,6 @@
 # Savia Capability Map — INDEX
-> hash: cac85d26092e | resources: 1379
-> 294 commands · 127 skills · 83 agents · 875 scripts
+> hash: 6df79d54daf3 | resources: 1380
+> 294 commands · 127 skills · 83 agents · 876 scripts
 
 [analysis] Trace Optimize — across,distributed,optimize,rates,sampling — cmd:.claude/commands/trace-optimize.md
 [analysis] agent-activity — activity,agent,executions,recent,show — cmd:.claude/commands/agent-activity.md
@@ -736,6 +736,7 @@
 [planning] ext-platform-gate — asymmetry,enforce,external,gate,platform — script:scripts/ext-platform-gate.sh
 [planning] ext-platform-resilience — external,platform,platforms,resilience,slice — script:scripts/ext-platform-resilience.sh
 [planning] factuality-judge — accuracy,against,claims,factual,judge — agent:.opencode/agents/factuality-judge.md
+[planning] federation-discover — auto,descubrimiento,discover,federadas,federation — script:scripts/federation-discover.sh
 [planning] federation-drill — compromised,drill,federation,instance — script:scripts/federation-drill.sh
 [planning] flow-backlog-groom — backlog,items,prioritize,review — cmd:.claude/commands/flow-backlog-groom.md
 [planning] flow-burndown — burndown,chart,data,show,sprint — cmd:.claude/commands/flow-burndown.md
