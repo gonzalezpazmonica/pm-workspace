@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=9734c3b2bd4fcb89b2502e5090bc482c74de5884548b82a42bc15f2db773d1cf
-timestamp=2026-08-22T17:57:35Z
-branch=agent/scl009-autodiscover
-head_commit=95877175
-signature=e9bf11ec3e7b885ec34d7b2b6b9a2eec56af0e491a44bd789d9dd37252f6ae9c
+diff_hash=3e3c20459e392b266260a94631c63d0f93d14bc347a78b0e1ca0f27705958a16
+timestamp=2026-08-22T18:55:53Z
+branch=agent/scl011-orchestrator
+head_commit=66a3a35e
+signature=668ba9bc143b52cfc942a9e2100953e9c9a9eb5f26c87d6a2aa18aff24a6121a
