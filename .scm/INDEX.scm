@@ -1,6 +1,6 @@
 # Savia Capability Map — INDEX
-> hash: 6df79d54daf3 | resources: 1380
-> 294 commands · 127 skills · 83 agents · 876 scripts
+> hash: 52fd78684e2c | resources: 1381
+> 294 commands · 127 skills · 83 agents · 877 scripts
 
 [analysis] Trace Optimize — across,distributed,optimize,rates,sampling — cmd:.claude/commands/trace-optimize.md
 [analysis] agent-activity — activity,agent,executions,recent,show — cmd:.claude/commands/agent-activity.md
@@ -138,6 +138,7 @@
 [communication] savia-messaging-actions — actions,announce,broadcast,directory,messaging — script:scripts/savia-messaging-actions.sh
 [communication] savia-messaging-inbox — inbox,messaging,operations,read,reply — script:scripts/savia-messaging-inbox.sh
 [communication] savia-messaging-privacy — check,messaging,privacy,savia,sensitivity — script:scripts/savia-messaging-privacy.sh
+[communication] savia-orchestrator — mínimo,orchestrator,orquestador,sagi,savia — script:scripts/savia-orchestrator.sh
 [communication] savia-orchestrator-helper — helper,orchestrator,savia,slice,spec — script:scripts/savia-orchestrator-helper.sh
 [communication] savia-pbi —  — cmd:.claude/commands/savia-pbi.md
 [communication] savia-preferences — manage,preferences,savia,slice,spec — script:scripts/savia-preferences.sh
