@@ -64,6 +64,10 @@ operadora dispone" (CRIT-031).
   determinista → LP → recall → re-generación).
 - **Es el desbloqueo del resto del programa**: sin el orquestador versionado,
   P6 no se puede formalizar como spec de desarrollo.
+- **DECIDIDO 2026-08-22**: el orquestador pasa a producción como **SCL-011**
+  (`docs/specs/SCL-011-orquestador-sagi.spec.md`, `scripts/savia-orchestrator.sh`).
+  Las pruebas P1-P5 son **SCL-012**. Numeración descolisionada (era
+  `labs/specs/SE-335/336`, colisionada con producción) — LP-20260822-5f47cb3d.
 
 ### H6 — Flujo end-to-end (P6, test tipo nivel "agente" adaptado)
 - "Partir del estado del workspace y lograr un objetivo multi-paso en N pasos
@@ -83,8 +87,9 @@ operadora dispone" (CRIT-031).
 ```text
 H1 (telemetría) está en PR y no bloquea a H2-H4
 H2 (agnosticismo) puede correr sobre labs/ sin producción
-H3 (criterio estable) y H4 (memoria/adaptación) → requieren el orquestador mínimo → H5
-H5 (decisión de diseño) desbloquea H6 (end-to-end)
+H3 (criterio estable) y H4 (memoria/adaptación) → requieren el orquestador mínimo
+H5 (decisión de diseño) ✅ RESUELTA → SCL-011 (orquestador) + SCL-012 (pruebas)
+H6 (end-to-end) se formaliza sobre SCL-011/012
 H7 (cierre) depende de ≥2 pruebas con mejora medible
 ```
 

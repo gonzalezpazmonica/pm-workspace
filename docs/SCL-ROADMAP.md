@@ -98,15 +98,13 @@ tres anteriores para su prueba E2E.
 
 | # | Spec | Tesis | Sh | Por qué este orden |
 |---|---|---|---|---|
-| 1 | SE-334 S1+S2 | Fingerprint de errores → incidentes → captura SCL | ~22 | Mayor dolor: telemetría (SE-313) existe pero no agrupa ni aprende. Determinista, alto ROI/h. **IMPLEMENTADO en PR** |
-| 2 | SCL-010 | Reconciliación de lecciones duplicadas entre instancias | ~8 | F5 ya trae lecciones; sin reconciliar degradan el recall; reutiliza el 3-bucket |
-| 3 | SCL-009 | Auto-descubrimiento de instancias federadas | ~6 | Conveniencia sobre federación manual; menor dolor |
-| 4 | SCL-011 | Telemetría de orden de descubrimiento (SE-335 medido) | ~6 | Hace medible la regla SE-335; alimenta L |
+| 1 | SE-334 S1+S2 | Fingerprint de errores → incidentes → captura SCL | ~22 | Mayor dolor: telemetría (SE-313) existe pero no agrupa ni aprende. Determinista, alto ROI/h. **IMPLEMENTADO** |
+| 2 | SCL-010 | Reconciliación de lecciones duplicadas entre instancias | ~8 | F5 ya trae lecciones; sin reconciliar degradan el recall; reutiliza el 3-bucket. **IMPLEMENTADO** |
+| 3 | SCL-009 | Auto-descubrimiento de instancias federadas | ~6 | Conveniencia sobre federación manual. **IMPLEMENTADO** |
+| 4 | SAGI SCL-011/012 | Orquestador + pruebas P1-P5 (emergencia medible) | ~8+8 | Completa el programa: decide dónde vive el orquestador y lo verifica. **SCL-011 IMPLEMENTADO** |
 
-**Ya integrado (2026-08-22)**: SE-335 (regla de descubrimiento) + SE-336
-(Turn-SDLC: auditor, DoD gate, `order_ok`, reporte; S4 alimenta L).
-
-**Orden**: SE-334 S1+S2 → SCL-010 → SCL-009 (SE-334 se consume como integración).
+**Ya integrado (2026-08-22)**: SE-335 + SE-336 (Turn-SDLC, S4 alimenta L — cubre de
+facto la "telemetría de orden de descubrimiento"). **Orden**: SE-334 → SCL-010 → SCL-009 → SCL-011 → SCL-012.
 
 ---
 
@@ -145,6 +143,5 @@ tres anteriores para su prueba E2E.
 
 ## SAGI — orquestador AGI sobre el bucle (L11)
 
-El siguiente nivel es **SAGI** (Savia AGI): algoritmo determinista versionado que usa el
-LLM como heurística reemplazable sobre el sustrato, con el límite CRIT-031 intacto. Ver
-`docs/sagi-roadmap.md` (público sanitizado; detalle en la cúpula SaviaLabs).
+**SCL-011 IMPLEMENTADO** (orquestador `savia-orchestrator.sh`) · **SCL-012**
+pendiente (pruebas P1-P5). Ver `docs/sagi-roadmap.md` (detalle privado en SaviaLabs).

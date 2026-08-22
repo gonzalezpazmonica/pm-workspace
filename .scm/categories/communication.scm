@@ -1,5 +1,5 @@
 # communication — Savia Capability Map (L1)
-> 99 resources
+> 100 resources
 
 - **archive-digest** (agent): >
 - **digest-extract** (script): digest-extract.sh — Capa 0 universal de extracción via markitdown (SE-172)
@@ -63,6 +63,7 @@
 - **savia-messaging-actions** (script): savia-messaging-actions.sh — Announce, broadcast, and directory operations
 - **savia-messaging-inbox** (script): savia-messaging-inbox.sh — Inbox, read, and reply operations
 - **savia-messaging-privacy** (script): savia-messaging-privacy.sh — Subject sensitivity check
+- **savia-orchestrator** (script): savia-orchestrator.sh — SCL-011: orquestador SAGI mínimo.
 - **savia-orchestrator-helper** (script): savia-orchestrator-helper.sh — SPEC-127 Slice 4
 - **savia-pbi** (cmd): >
 - **savia-preferences** (script): savia-preferences.sh — manage ~/.savia/preferences.yaml (SPEC-127 Slice 1)
