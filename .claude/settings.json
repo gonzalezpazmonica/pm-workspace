@@ -121,6 +121,12 @@
             "command": "\"$CLAUDE_PROJECT_DIR\"/.opencode/hooks/compliance-gate.sh",
             "timeout": 30,
             "statusMessage": "Compliance gate: verificando reglas..."
+          },
+          {
+            "type": "command",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/.opencode/hooks/block-commit-to-main.sh",
+            "timeout": 3,
+            "statusMessage": "Commit-guard (SE-337): verificando rama..."
           }
         ]
       },
