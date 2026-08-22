@@ -149,3 +149,11 @@ reimplementa.
   SE-292 S6 (p_consistent), SaviaVaults (grafo/provenance), Labs L1-L6.
 - La CONSTITUCION y CRITERIO permanecen intocables por el bucle (CRIT-031): el bucle
   propone, la operadora dispone — "la IA propone, el humano dispone".
+
+## SAGI — orquestador AGI sobre el bucle (L11)
+
+El siguiente nivel del programa es **SAGI** (Savia AGI): un algoritmo determinista
+versionado que usa el LLM como heurística reemplazable sobre el sustrato SCL. No es
+otra capa de SCL — es el orquestador que asocia el bucle en un flujo AGI medible y
+autónomo-delegado (límite CRIT-031 intacto). Ver `docs/sagi-roadmap.md` (vista pública
+sanitizada; detalle en la cúpula SaviaLabs).
