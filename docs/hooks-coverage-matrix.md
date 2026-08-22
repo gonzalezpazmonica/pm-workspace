@@ -6,7 +6,7 @@
 
 | Total hooks | TS Guards | Git Hook mitigated | CI Job mitigated | NONE |
 |---|---|---|---|---|
-| 110 | 17 (15.5%) | 4 | 5 | 84 |
+| 112 | 17 (15.2%) | 4 | 5 | 86 |
 
 ## Bloqueantes sin cobertura ni mitigacion
 
@@ -14,10 +14,10 @@ Ninguno — AC-2.2 satisfecho.
 
 ## Cobertura real OpenCode
 
-- **TS Guards activos**: 17/110 (15.5%)
-- **Hooks sin cobertura TS**: 84 (76.4%)
+- **TS Guards activos**: 17/112 (15.2%)
+- **Hooks sin cobertura TS**: 86 (76.8%)
   - De los cuales son bloqueantes sin ninguna mitigacion: 0
-  - Eventos no disponibles en OpenCode (degradacion aceptada): 28
+  - Eventos no disponibles en OpenCode (degradacion aceptada): 29
 
 ## Full matrix
 
@@ -39,6 +39,7 @@ Ninguno — AC-2.2 satisfecho.
 | PostToolUse | criterion-simulation-challenge.sh | no | NONE | telemetria | degradacion_documentada: solo Claude Code |
 | PostToolUse | data-sovereignty-audit.sh | si | TS_GUARD | telemetria | dataSovereigntyAudit |
 | PostToolUse | decision-trace-capture.sh | no | NONE | telemetria | degradacion_documentada: solo Claude Code |
+| PostToolUse | discovery-order-telemetry.sh | no | NONE | telemetria | degradacion_documentada: solo Claude Code |
 | PostToolUse | dual-estimation-gate.sh | no | CI_JOB | telemetria | CI validate-ci-local.sh |
 | PostToolUse | judge-auto-router.sh | no | NONE | telemetria | degradacion_documentada: solo Claude Code |
 | PostToolUse | learning-capture-hook.sh | no | NONE | telemetria | degradacion_documentada: solo Claude Code |
@@ -120,6 +121,7 @@ Ninguno — AC-2.2 satisfecho.
 | Stop | pre-commit-review.sh | no | GIT_HOOK | telemetria | git pre-commit/pre-push |
 | Stop | scope-guard.sh | no | CI_JOB | telemetria | CI validate-ci-local.sh |
 | Stop | session-end-snapshot.sh | no | NONE | telemetria | evento Stop no disponible en OpenCode — degradacion_documentada |
+| Stop | stop-dod-gate.sh | no | NONE | telemetria | evento Stop no disponible en OpenCode — degradacion_documentada |
 | Stop | stop-memory-extract.sh | no | NONE | telemetria | evento Stop no disponible en OpenCode — degradacion_documentada |
 | Stop | postponement-judge.sh | no | NONE | warning | evento Stop no disponible en OpenCode — degradacion_documentada |
 | Stop | stop-quality-gate.sh | no | GIT_HOOK | warning | git pre-commit/pre-push |

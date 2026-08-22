@@ -104,6 +104,8 @@ Pesos por defecto 0.5/0.3/0.2. Determinista (misma entrada → misma `L`).
 Agnóstica a modelo: los inputs son escalares medidos, nunca identidades de
 proveedor.
 
+**Input SE-336 (S4)**: `turn-sdlc-report.sh` alimenta `divergencia` (orden de descubrimiento SE-335 + DoD gate); si `pct_order_ok` no sube, la regla se rediseña con datos.
+
 ## Agnosticismo a LLM (construcción, no afirmación)
 
 - El bucle solo lee sustrato (texto) y escribe propuestas (markdown/JSONL).

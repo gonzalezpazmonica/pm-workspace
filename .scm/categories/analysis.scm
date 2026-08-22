@@ -1,5 +1,5 @@
 # analysis — Savia Capability Map (L1)
-> 73 resources
+> 74 resources
 
 - **Trace Optimize** (cmd): Optimize trace spans and sampling rates across distributed services
 - **agent-activity** (cmd): Show structured activity log of recent agent executions
@@ -72,5 +72,6 @@
 - **trace-export-otlp** (script): trace-export-otlp.sh — SE-313 S4: export opt-in de telemetría a OTLP.
 - **trace-pattern-extractor** (script): trace-pattern-extractor.sh — SPEC-044 Phase 1: analyze agent traces
 - **truth-tribunal** (script): truth-tribunal.sh — Orchestrate 7-judge reliability evaluation of reports.
+- **turn-sdlc-report** (script): turn-sdlc-report.sh — SE-336 S4: reporte Turn-SDLC por ventana
 - **vaults-health-report** (script): vaults-health-report.sh — Quality and health report for a vault
 - **weekly-report** (skill): Usar cuando se genera el informe semanal de estado del proyecto.

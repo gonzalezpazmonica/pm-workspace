@@ -1,6 +1,6 @@
 # Savia Capability Map — INDEX
-> hash: fd88cdcdc5fa | resources: 1374
-> 294 commands · 127 skills · 83 agents · 870 scripts
+> hash: b6076b051f8f | resources: 1376
+> 294 commands · 127 skills · 83 agents · 872 scripts
 
 [analysis] Trace Optimize — across,distributed,optimize,rates,sampling — cmd:.claude/commands/trace-optimize.md
 [analysis] agent-activity — activity,agent,executions,recent,show — cmd:.claude/commands/agent-activity.md
@@ -73,6 +73,7 @@
 [analysis] trace-export-otlp — export,otlp,telemetría,trace — script:scripts/trace-export-otlp.sh
 [analysis] trace-pattern-extractor — agent,analyze,extractor,pattern,phase — script:scripts/trace-pattern-extractor.sh
 [analysis] truth-tribunal — evaluation,judge,orchestrate,reliability,reports — script:scripts/truth-tribunal.sh
+[analysis] turn-sdlc-report — report,reporte,sdlc,turn,ventana — script:scripts/turn-sdlc-report.sh
 [analysis] vaults-health-report — health,quality,report,vault,vaults — script:scripts/vaults-health-report.sh
 [analysis] weekly-report — estado,informe,proyecto,semanal — skill:.claude/skills/weekly-report/SKILL.md
 [communication] archive-digest —  — agent:.opencode/agents/archive-digest.md
@@ -1367,6 +1368,7 @@
 [quality] tls-security-check — check,security — script:scripts/tls-security-check.sh
 [quality] tls-security-checker — auditorías,deploy,headers,http,invocable — skill:.claude/skills/tls-security-checker/SKILL.md
 [quality] tool-ergonomics-audit — audit,auto,ergonomics,spec,tool — script:scripts/tool-ergonomics-audit.sh
+[quality] turn-sdlc-audit — audit,auditor,sdlc,turn — script:scripts/turn-sdlc-audit.sh
 [quality] twin-linter — contra,linter,schema,spec,twin — script:scripts/twin-linter.sh
 [quality] verification-lattice — allá,capa,code,estándar,multi — skill:.claude/skills/verification-lattice/SKILL.md
 [quality] visual-diff-merge-check — check,diff,merge,scripts,spec — script:scripts/visual-diff-merge-check.sh
