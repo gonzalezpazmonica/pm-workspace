@@ -1285,7 +1285,9 @@ Format v0.1: export/import de bundles OKF, conformance validator, conversion wik
 **SE-304 Automation Scheduler** (10h) — IMPLEMENTED (PR #935). Scheduler asyncrono, 6 default tasks,
 46 tests. Supersede SE-279 y overnight-sprint.
 
-**SE-309 Knowledge Governance** (6h) — PROPOSED. Decision records + provenance + conflict detection en SaviaVaults (2026-08-06).
+> **Nota 2026-08-22**: "SE-309 Knowledge Governance" es drift de numeración — SE-309
+> real es Anti-sycophancy hardening (APPROVED). La reconciliación de lecciones que encabezaba
+> esta entrada pasa a `SCL-010` del backlog SCL.
 
 ### Orden de ejecucion
 
@@ -1616,10 +1618,11 @@ piezas ya existen (captura, ledger, calibración, Labs, p_consistent): falta el 
 
 | Spec | Tesis | Estado |
 |---|---|---|
-| SCL-002 | Aprendizaje federado cross-dome (Labs L5 + SE-282) | CANDIDATA |
-| SCL-003 | Ejecutar Labs L1-L6 como instrumentos del bucle (SE-291 S2-S8) | CANDIDATA |
-| SCL-004 | Embeddings híbridos para divergencia (ADR-003, Fase 4) | CANDIDATA |
-| SCL-005 | p_consistent como política de autonomía graduada (SE-292 S6 + ADR-010) | CANDIDATA |
+| SCL-007 | Federación cross-dome A2A + search-remote + import INFERRED | IMPLEMENTED 2026-08-17 |
+| SCL-008 | Acoplamiento seguro de Criteria, CL y Vaults (autoridad del recall) | IMPLEMENTED 2026-08-17 |
+| SCL-010 | Reconciliación de lecciones duplicadas/conflictivas entre instancias (was "SCL-008"; núm. liberado) | CANDIDATA (prioridad 2) |
+| SCL-009 | Descubrimiento automático de instancias federadas (registro automático) | CANDIDATA (prioridad 3) |
+| SE-334 S1/S2 (integración) | Fingerprint de errores + alerts → alimentan el hook de captura SCL | PROPOSED 2026-08-17 (prioridad 1) |
 
 ### Orden de ejecución recomendado
 

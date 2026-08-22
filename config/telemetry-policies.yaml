@@ -1,27 +1,2 @@
-# telemetry-policies.yaml — SE-313 S4: políticas de sampling, retención y redacción.
-# Consumido por scripts/telemetry-tail-sample.sh y scripts/trace-export-otlp.sh.
-schema: savia.telemetry-policies/1.0
-
-retention_days: 180            # EU AI Act Art. 26(6): >= 6 meses
-rotation_lines: 10000          # rotar cuando el JSONL supera este nº de líneas
-rotation_max_files: 20         # conservar como máximo N ficheros rotados
-
-sampling:
-  mode: tail                   # tail-based: siempre captura errores/slow, muestrea rutina
-  error_rate: 1.0              # errores SIEMPRE 100%
-  slow_ms: 5000                # operaciones > 5s SIEMPRE 100%
-  large_span_count: 20         # traces con >20 spans SIEMPRE 100%
-  routine_rate: 0.05           # rutina: 5% de muestras
-
-redaction:
-  enabled: true
-  session_id_truncate: 8       # session_id truncado a 8 chars
-  path_to_placeholder: "{project}"   # paths absolutos -> placeholder
-  prompt_events_opt_in: true   # contenido de prompts SOLO como evento aparte opt-in
-  strip_env: false             # no eliminar claves de entorno (redacción en lectura)
-  SAVIA_TELEMETRY_REDACT: "1"  # degrada a solo {ts,event} cuando está activo
-
-destinations:
-  output_file: output/telemetry-events.jsonl
-  audit_dir: output/audit
-  otlp_endpoint: ""            # vacío = nunca exportar fuera (zero telemetry by default)
+# SE-334 S2 policy
+alert_on: count >= 5

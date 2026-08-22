@@ -89,11 +89,24 @@ tres anteriores para su prueba E2E.
 
 ## Backlog SCL (futuras, sin especificar)
 
-| Spec | Tesis | Origen | Estado |
-|---|---|---|---|
-| SCL-008 | Reconciliación de lecciones duplicadas/conflictivas entre instancias | SE-309 knowledge governance | CANDIDATA |
-| SCL-009 | Descubrimiento automático de instancias federadas (registro automático) | Labs L5 | CANDIDATA |
-| SE-334 (integración) | Telemetry Intelligence: los incidentes alimentan el bucle — el alert de SE-334 S2 dispara el hook de captura SCL, y los fingerprints se indexan en SaviaLearning para recall | superlog | PROPOSED 2026-08-17 |
+> **Corrección 2026-08-22**: SCL-008 ya existe ("Acoplamiento seguro de Criteria,
+> CL y Vaults"); la antigua candidata "reconciliación" pasa a **SCL-010**.
+> "SE-309 knowledge governance" era drift (SE-309 = Anti-sycophancy); la
+> reconciliación usa `reconciler` (SPEC-183).
+
+**Priorización 2026-08-22** (dolor demostrado > elegancia · CRIT-019 · SE-268):
+
+| # | Spec | Tesis | Sh | Por qué este orden |
+|---|---|---|---|---|
+| 1 | SE-334 S1+S2 | Fingerprint de errores → incidentes → captura SCL | ~22 | Mayor dolor: telemetría (SE-313) existe pero no agrupa ni aprende. Determinista, alto ROI/h. **IMPLEMENTADO en PR** |
+| 2 | SCL-010 | Reconciliación de lecciones duplicadas entre instancias | ~8 | F5 ya trae lecciones; sin reconciliar degradan el recall; reutiliza el 3-bucket |
+| 3 | SCL-009 | Auto-descubrimiento de instancias federadas | ~6 | Conveniencia sobre federación manual; menor dolor |
+| 4 | SCL-011 | Telemetría de orden de descubrimiento (SE-335 medido) | ~6 | Hace medible la regla SE-335; alimenta L |
+
+**Ya integrado (2026-08-22)**: SE-335 (regla de descubrimiento) + SE-336
+(Turn-SDLC: auditor, DoD gate, `order_ok`, reporte; S4 alimenta L).
+
+**Orden**: SE-334 S1+S2 → SCL-010 → SCL-009 (SE-334 se consume como integración).
 
 ---
 
@@ -129,3 +142,9 @@ tres anteriores para su prueba E2E.
   SE-292 S6 (p_consistent), SaviaVaults (grafo/provenance), Labs L1-L6.
 - La CONSTITUCION y CRITERIO permanecen intocables por el bucle (CRIT-031): el bucle
   propone, la operadora dispone — "la IA propone, el humano dispone".
+
+## SAGI — orquestador AGI sobre el bucle (L11)
+
+El siguiente nivel es **SAGI** (Savia AGI): algoritmo determinista versionado que usa el
+LLM como heurística reemplazable sobre el sustrato, con el límite CRIT-031 intacto. Ver
+`docs/sagi-roadmap.md` (público sanitizado; detalle en la cúpula SaviaLabs).

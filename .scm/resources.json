@@ -1,6 +1,6 @@
 {
-  "hash": "6542b4574e5f",
-  "total": 1376,
+  "hash": "a776015409b0",
+  "total": 1378,
   "resources": [
     {
       "category": "analysis",
@@ -13897,6 +13897,34 @@
       "kind": "agent",
       "path": ".opencode/agents/tech-writer.md",
       "description": ">"
+    },
+    {
+      "category": "planning",
+      "name": "telemetry-alert",
+      "intents": [
+        "alert",
+        "cruza",
+        "emite",
+        "issue",
+        "telemetry"
+      ],
+      "kind": "script",
+      "path": "scripts/telemetry-alert.sh",
+      "description": "telemetry-alert.sh — SE-334 S2: emite alert cuando un issue cruza el umbral,"
+    },
+    {
+      "category": "planning",
+      "name": "telemetry-issues",
+      "intents": [
+        "agrupa",
+        "eventos",
+        "fingerprint",
+        "issues",
+        "telemetry"
+      ],
+      "kind": "script",
+      "path": "scripts/telemetry-issues.sh",
+      "description": "telemetry-issues.sh — SE-334 S2: agrupa eventos por fingerprint en issues."
     },
     {
       "category": "planning",
