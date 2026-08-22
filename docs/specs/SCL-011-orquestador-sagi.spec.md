@@ -50,6 +50,13 @@ tarea ──► LEER: CRITERIO.md (human_authored) + cúpula (recall) + learning
 - Agnóstico a LLM (PURE_BASH), sin vendor names (guard SCL-004/SE-334).
 - Límite CRIT-031: todo output es propuesta `INFERRED`; solo la operadora activa.
 
+**DECIDIR con LLM real (2026-08-22)**: `--decide llm` usa Ollama local
+(127.0.0.1:11434, CRIT-001 — datos nunca a cloud), contrato mínimo input=contexto
+de sustrato → output=propuesta. Default sigue siendo `none` (shadow determinista);
+`SAGI_LLM_MODEL` configura el modelo local. Validado: P4 converge con LLM real en
+tarea no vista (2 iteraciones alineadas con CRITERIO.md). Cableado en
+`scripts/savia-automations.sh` (tarea `sagi-orquestador-diario`, daily 08:30).
+
 ## 3. Acceptance criteria
 
 - [x] AC-1. `savia-orchestrator.sh` existe, `set -uo pipefail`, bash -n OK, guard

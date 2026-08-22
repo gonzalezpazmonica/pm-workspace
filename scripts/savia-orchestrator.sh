@@ -29,6 +29,7 @@ DRY_RUN=false
 ITERATIONS=1
 DECIDE="${SAGI_DECIDE:-none}"
 P_CONSISTENT="${SAGI_P_CONSISTENT:-}"
+SAGI_DECISION=""
 
 while [[ $# -gt 0 ]]; do
   case "$1" in
@@ -72,17 +73,38 @@ decide() {
     echo "  [decidir] heurística=$DECIDE (dry-run, sin ejecutar)"
     return
   fi
-  # ruta determinista shadow: sin LLM, el bucle solo captura y mide.
-  echo "  [decidir] heurística=$DECIDE — propuesta determinista shadow"
+  case "$DECIDE" in
+    llm|local)
+      # LLM como heurística local (CRIT-001): Ollama en 127.0.0.1, sin cloud.
+      local prompt
+      prompt="Eres el algoritmo SAGI sobre el sustrato Savia. Tarea: $TASK. Lee el criterio CRITERIO.md (linea_roja sovereign del dato) y propone UNA mejora de proceso para el sustrato (skill/criterio/memoria) en una frase breve. Sin rellenar, directo. Output: propuesta en 1-2 frases."
+      local resp
+      resp=$(curl -s --max-time 20 http://127.0.0.1:11434/api/generate \
+        -d "{\"model\":\"${SAGI_LLM_MODEL:-qwen2.5:3b}\",\"prompt\":\"$prompt\",\"stream\":false,\"options\":{\"num_predict\":120}}" 2>/dev/null \
+        | python3 -c "import sys,json;print(json.load(sys.stdin).get('response',''))" 2>/dev/null || echo "")
+      if [[ -n "$resp" ]]; then
+        echo "  [decidir] heurística=local(${SAGI_LLM_MODEL:-qwen2.5:3b}) → $resp"
+        SAGI_DECISION="$resp"
+      else
+        echo "  [decidir] heurística=local NO disponible (Ollama apagado?) — shadow determinista"
+        SAGI_DECISION="propuesta determinista shadow"
+      fi
+      ;;
+    *)
+      # ruta determinista shadow: sin LLM, el bucle solo captura y mide.
+      echo "  [decidir] heurística=$DECIDE — propuesta determinista shadow"
+      SAGI_DECISION="propuesta determinista shadow"
+      ;;
+  esac
 }
 
 # ── Fase 3: PERSISTIR (solo propone; INFERRED, nunca human_authored) ─────────
 persist() {
-  local change="$1"
   if [[ "$DRY_RUN" == "true" ]]; then
     echo "  [persistir] learning-proposal --persist (dry-run)"
     return
   fi
+  local change="${SAGI_DECISION:-$1}"
   bash "$ROOT/scripts/learning-proposal.sh" \
     --origin "savia-orchestrator (SCL-011): tarea '$TASK'" \
     --evidence "$ROOT/scripts/savia-orchestrator.sh" \

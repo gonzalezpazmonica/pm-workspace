@@ -95,6 +95,22 @@ H6 (end-to-end) se formaliza sobre SCL-011/012
 H7 (cierre) depende de ≥2 pruebas con mejora medible
 ```
 
+## Estado de producción (2026-08-22)
+
+**SAGI arrancado en producción sobre LLM local:**
+
+1. **DECIDIR con LLM real**: `savia-orchestrator.sh --decide llm` usa Ollama
+   local (127.0.0.1:11434, CRIT-001 — sin cloud). Contrato mínimo
+   input=contexto de sustrato → output=propuesta.
+2. **Bucle real**: tarea `sagi-orquestador-diario` en `scripts/savia-automations.sh`
+   (daily 08:30). El orquestador consolida aprendizaje cada día e inyecta al bucle SCL.
+3. **Validación**: P4 converge con LLM real en tarea no vista (2 iteraciones
+   alineadas con CRITERIO.md); P2 (memoria cross-sesión) y P3 (criterio estable)
+   CONFIRMAN con LLM real (run-3, deepseek-v4-flash / qwen local).
+4. **Reto honesto pendiente**: el orquestador persiste LP `INFERRED` — la
+   activación a `human_authored` sigue siendo humana (CRIT-031). La
+   automatización diaria propone; la operadora activa.
+
 ## Criterios humanos aplicables
 
 - **CRIT-001**: todo run de SAGI en `labs/` (infraestructura propia, sin remote);

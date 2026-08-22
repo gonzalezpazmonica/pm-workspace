@@ -16,12 +16,15 @@ teardown() {
   rm -rf "$FIXDIR"
 }
 
-@test "AC-1: existe, bash -n, set -uo pipefail, sin vendor names" {
+@test "AC-1: existe, bash -n, set -uo pipefail, sin vendor cloud names" {
   [[ -x "$SCRIPT" ]]
   bash -n "$SCRIPT"
   grep -q "set -uo pipefail" "$SCRIPT"
-  run grep -niE "openai|anthropic|gpt-|gemini|qwen|deepseek" "$SCRIPT"
+  # agnosticismo: sin vendor de inferencia CLOUD hardcodeado (CRIT-002/ADR-012)
+  run grep -niE "api\.openai\.com|api\.anthropic\.com|api\.deepseek\.com|api\.google\.com|api\.mistral\.ai" "$SCRIPT"
   [[ "$status" -ne 0 ]]
+  # el modelo LOCAL es configurable (SAGI_LLM_MODEL), no hardcodeado a un proveedor
+  grep -q "SAGI_LLM_MODEL" "$SCRIPT"
 }
 
 @test "AC-2: ciclo completo LEER→DECIDIR→PERSISTIR→MEDIR emite reporte con L (dry-run muestra el plan)" {
