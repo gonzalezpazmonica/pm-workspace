@@ -1,5 +1,5 @@
 # planning — Savia Capability Map (L1)
-> 590 resources
+> 592 resources
 
 - **/decide-architecture** (cmd): Clasifica una tarea como WORKFLOW (deterministica) o AGENT (loop). Bias hacia workflow per Anthropic. Sugiere plantilla inicial. Mide accuracy contra corpus curado de 20 tareas.
 - **_template** (skill): TEMPLATE — copia este directorio para crear una skill nueva. NO se carga en runtime.
@@ -319,6 +319,8 @@
 - **mcp-recommend** (cmd): >
 - **measure-reliability** (script): measure-reliability.sh — Task consistency vs capability across repeated runs
 - **memvid-backup** (skill): Usar cuando se crea un backup portable de la memoria externa de Savia.
+- **meta-monitor** (script): meta-monitor.sh — L13 F1: juicio metacognitivo de monitoreo.
+- **meta-recalibrate** (script): meta-recalibrate.sh — L13 F1: recalibración del juicio metacognitivo.
 - **mobile-developer** (agent): >
 - **model-capability-resolver** (script): model-capability-resolver.sh — Resolve model capabilities from YAML registry
 - **my-sprint** (cmd): Vista personal del sprint — items asignados, progreso, cycle time, PRs pendientes

@@ -1,6 +1,6 @@
 # Savia Capability Map — INDEX
-> hash: 67ae00080782 | resources: 1383
-> 294 commands · 127 skills · 83 agents · 879 scripts
+> hash: 618546985de0 | resources: 1385
+> 294 commands · 127 skills · 83 agents · 881 scripts
 
 [analysis] Trace Optimize — across,distributed,optimize,rates,sampling — cmd:.claude/commands/trace-optimize.md
 [analysis] agent-activity — activity,agent,executions,recent,show — cmd:.claude/commands/agent-activity.md
@@ -853,6 +853,8 @@
 [planning] mcp-recommend —  — cmd:.claude/commands/mcp-recommend.md
 [planning] measure-reliability — across,capability,consistency,measure,reliability — script:scripts/measure-reliability.sh
 [planning] memvid-backup — backup,crea,externa,memoria,portable — skill:.claude/skills/memvid-backup/SKILL.md
+[planning] meta-monitor — juicio,meta,metacognitivo,monitor,monitoreo — script:scripts/meta-monitor.sh
+[planning] meta-recalibrate — juicio,meta,metacognitivo,recalibración,recalibrate — script:scripts/meta-recalibrate.sh
 [planning] mobile-developer —  — agent:.opencode/agents/mobile-developer.md
 [planning] model-capability-resolver — capabilities,capability,model,registry,resolve — script:scripts/model-capability-resolver.sh
 [planning] my-sprint — asignados,cycle,items,pendientes,personal — cmd:.claude/commands/my-sprint.md

@@ -1,6 +1,6 @@
 {
-  "hash": "b2f3601be997",
-  "total": 1383,
+  "hash": "0308777c94ee",
+  "total": 1385,
   "resources": [
     {
       "category": "analysis",
@@ -11252,6 +11252,34 @@
       "kind": "skill",
       "path": ".claude/skills/memvid-backup/SKILL.md",
       "description": "Usar cuando se crea un backup portable de la memoria externa de Savia."
+    },
+    {
+      "category": "planning",
+      "name": "meta-monitor",
+      "intents": [
+        "juicio",
+        "meta",
+        "metacognitivo",
+        "monitor",
+        "monitoreo"
+      ],
+      "kind": "script",
+      "path": "scripts/meta-monitor.sh",
+      "description": "meta-monitor.sh — L13 F1: juicio metacognitivo de monitoreo."
+    },
+    {
+      "category": "planning",
+      "name": "meta-recalibrate",
+      "intents": [
+        "juicio",
+        "meta",
+        "metacognitivo",
+        "recalibración",
+        "recalibrate"
+      ],
+      "kind": "script",
+      "path": "scripts/meta-recalibrate.sh",
+      "description": "meta-recalibrate.sh — L13 F1: recalibración del juicio metacognitivo."
     },
     {
       "category": "planning",
