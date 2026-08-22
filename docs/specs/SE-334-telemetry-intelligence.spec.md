@@ -1,6 +1,6 @@
 # Spec: SE-334 — Telemetry Intelligence: fingerprinting, incident grouping y auto-remediación (inspirado en superlog)
 
-**Status:** PROPOSED
+**Status:** PROPOSED → PARCIALMENTE IMPLEMENTADO (S1+S2, 2026-08-22)
 **Fecha:** 2026-08-17
 **Area:** Observability / Telemetría / Autonomía / Savia Labs
 **Estimación:** ~40h (4 slices)
@@ -118,6 +118,12 @@ first_seen, last_seen, sample_event}`).
 ---
 
 ## 3. Acceptance criteria
+
+> **Estado 2026-08-22 — S1+S2 IMPLEMENTED** (PR pendiente):
+> `scripts/telemetry-fingerprint.py`, `scripts/telemetry-issues.sh`,
+> `scripts/telemetry-alert.sh` (+ flag `--fingerprint` en `otel-emit.sh`),
+> policy `config/telemetry-policies.yaml`, 8 tests BATS
+> (`tests/test-se334-telemetry-fingerprint.bats`). S3/S4 siguen PENDIENTES.
 
 **S1**
 - AC-1.1. Dos eventos con el mismo error pero distintos IDs/URLs/timestamps →

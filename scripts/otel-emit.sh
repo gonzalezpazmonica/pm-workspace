@@ -84,6 +84,26 @@ done
 JSON="${JSON}}"
 
 # ── Append (async, nunca bloquea) ────────────────────────────────────────────
+# SE-334 S1: --fingerprint adjunta huella normalizada para agrupación de issues
+if [[ "${SAVIA_FINGERPRINT:-0}" == "1" || "${TEL_FP:-0}" == "1" ]]; then
+  if [[ -x "$(dirname "${BASH_SOURCE[0]}")/telemetry-fingerprint.py" ]]; then
+    FP_JSON=$(printf '%s' "$JSON" | python3 -c "
+import json, sys
+from importlib.machinery import SourceFileLoader
+fp = SourceFileLoader('f', 'scripts/telemetry-fingerprint.py').load_module()
+try:
+    ev = json.loads(sys.stdin.read())
+    r = fp.fingerprint(ev)
+    print(json.dumps({'hash': r['hash'], 'bucket': r['bucket'], 'exception_type': r['exception_type']}))
+except Exception:
+    print('')
+" 2>/dev/null)
+    if [[ -n "$FP_JSON" ]]; then
+      # el JSON base está cerrado con '}' → lo reabrimos, añadimos y cerramos
+      JSON="${JSON%\}},\"fingerprint\":$FP_JSON}"
+    fi
+  fi
+fi
 printf '%s\n' "$JSON" >> "$OUTPUT_FILE" 2>/dev/null || true
 
 exit 0
