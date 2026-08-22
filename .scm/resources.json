@@ -1,6 +1,6 @@
 {
-  "hash": "b41270f80eea",
-  "total": 1381,
+  "hash": "f46a689b041b",
+  "total": 1382,
   "resources": [
     {
       "category": "analysis",
@@ -12596,6 +12596,19 @@
       "kind": "agent",
       "path": ".opencode/agents/rust-developer.md",
       "description": ">"
+    },
+    {
+      "category": "planning",
+      "name": "sagi-pruebas",
+      "intents": [
+        "harness",
+        "orquestador",
+        "pruebas",
+        "sagi"
+      ],
+      "kind": "script",
+      "path": "scripts/sagi-pruebas.sh",
+      "description": "sagi-pruebas.sh — SCL-012: harness de pruebas P1-P5 del orquestador SAGI."
     },
     {
       "category": "planning",
