@@ -1,6 +1,6 @@
 {
-  "hash": "a776015409b0",
-  "total": 1378,
+  "hash": "f3bda9ef3270",
+  "total": 1379,
   "resources": [
     {
       "category": "analysis",
@@ -10843,6 +10843,20 @@
       "kind": "script",
       "path": "scripts/learning-proposal.sh",
       "description": "learning-proposal.sh — SCL-001 S1: canonical learning proposal capture"
+    },
+    {
+      "category": "planning",
+      "name": "learning-reconcile",
+      "intents": [
+        "conflictivas",
+        "duplicadas",
+        "learning",
+        "lecciones",
+        "reconcile"
+      ],
+      "kind": "script",
+      "path": "scripts/learning-reconcile.sh",
+      "description": "learning-reconcile.sh — SCL-010: reconciliación de lecciones duplicadas/conflictivas."
     },
     {
       "category": "planning",

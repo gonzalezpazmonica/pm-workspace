@@ -1,6 +1,6 @@
 # Savia Capability Map — INDEX
-> hash: 7ebb4efdcd2f | resources: 1378
-> 294 commands · 127 skills · 83 agents · 874 scripts
+> hash: cac85d26092e | resources: 1379
+> 294 commands · 127 skills · 83 agents · 875 scripts
 
 [analysis] Trace Optimize — across,distributed,optimize,rates,sampling — cmd:.claude/commands/trace-optimize.md
 [analysis] agent-activity — activity,agent,executions,recent,show — cmd:.claude/commands/agent-activity.md
@@ -822,6 +822,7 @@
 [planning] learning-lifecycle — artefacto,despliegue,learning,lifecycle,sustrato — script:scripts/learning-lifecycle.sh
 [planning] learning-persist — cúpula,learning,persist,persiste,proposal — script:scripts/learning-persist.sh
 [planning] learning-proposal — canonical,capture,learning,proposal — script:scripts/learning-proposal.sh
+[planning] learning-reconcile — conflictivas,duplicadas,learning,lecciones,reconcile — script:scripts/learning-reconcile.sh
 [planning] learning-rollback — entrada,instantáneo,learning,rollback,sustrato — script:scripts/learning-rollback.sh
 [planning] legacy-assess —  — cmd:.claude/commands/legacy-assess.md
 [planning] legalize-es — corpus,español,gestión,legalize,legislativo — script:scripts/legalize-es.sh
