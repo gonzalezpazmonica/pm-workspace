@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=52f9fdfd8b94b01c0858bae746f5369a02a82363afa1582f3ec0fc851908a9d6
-timestamp=2026-08-22T15:38:32Z
-branch=agent/scl-roadmap-drift-fix
-head_commit=605fc0f6
-signature=cd2611145b2d3dd2ef554889471faf425bdb70b784956f85489d49a5269f88ad
+diff_hash=2ff762c7c00cbc75be65637e412e6e8c6ce78677efbe933a0dc7ddd544baa52c
+timestamp=2026-08-22T15:56:10Z
+branch=agent/scl010-reconcile
+head_commit=253a9023
+signature=1194543af42406124822e4efe6f6ab08e288f5a7553d863dcd3d2b7c73d1c02c
