@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=5c98e2de64128b6b35dbb1e1f8aa2663cbc7009603304fbbca5b7b8c19dc00c5
-timestamp=2026-08-21T05:29:32Z
-branch=agent/l11-sagi-run2-lp
-head_commit=f6690a6e
-signature=864da0448dd3231be10e459c729e32d566d31ee9d593dbde4323071dc758247d
+diff_hash=4b59c28b9ec8f9313bb2f76e63b90107709f4a95fb7fcfb39072225ba6e47150
+timestamp=2026-08-22T09:24:07Z
+branch=agent/se335-prioridad-descubrimiento
+head_commit=9cd7ee88
+signature=ac315ff3dcf690a2ac4dea5cef7082ebeb5882f749251f016862fadb3cfb5eb8
