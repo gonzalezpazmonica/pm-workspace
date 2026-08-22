@@ -152,8 +152,6 @@ reimplementa.
 
 ## SAGI — orquestador AGI sobre el bucle (L11)
 
-El siguiente nivel del programa es **SAGI** (Savia AGI): un algoritmo determinista
-versionado que usa el LLM como heurística reemplazable sobre el sustrato SCL. No es
-otra capa de SCL — es el orquestador que asocia el bucle en un flujo AGI medible y
-autónomo-delegado (límite CRIT-031 intacto). Ver `docs/sagi-roadmap.md` (vista pública
-sanitizada; detalle en la cúpula SaviaLabs).
+El siguiente nivel es **SAGI** (Savia AGI): algoritmo determinista versionado que usa el
+LLM como heurística reemplazable sobre el sustrato, con el límite CRIT-031 intacto. Ver
+`docs/sagi-roadmap.md` (público sanitizado; detalle en la cúpula SaviaLabs).
