@@ -41,6 +41,10 @@ done
 # ── Arrays de contexto ────────────────────────────────────────────────────────
 ITEMS=()
 
+# ── SE-335: prioridad de descubrimiento de conocimiento ───────────────────────
+# Directiva fija, sin I/O. Orden: cupulas -> memoria -> grafo de codigo -> grep.
+ITEMS+=("Prioridad: cupulas (SaviaVaults) -> memoria -> grafo de codigo -> grep")
+
 # ── Detectar modo agente ──────────────────────────────────────────────────────
 AGENT_MODE="false"
 if [ "${PM_CLIENT_TYPE:-}" = "agent" ] || [ "${AGENT_MODE:-}" = "true" ]; then
