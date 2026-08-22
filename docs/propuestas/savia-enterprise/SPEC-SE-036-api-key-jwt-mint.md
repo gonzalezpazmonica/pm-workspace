@@ -1,5 +1,6 @@
 ---
-status: IMPLEMENTED
+status: DRAFT
+status_reconcile_note: "2026-08-22: frontmatter decia IMPLEMENTED pero no existen artefactos de mint (scripts/jwt) — estado real DRAFT. LP-20260822-1f291b2d. La migracion PAT->JWT no esta implementada."
 ---
 
 # SPEC-SE-036: API-Key → Short-Lived JWT Mint for Agent CLIs
