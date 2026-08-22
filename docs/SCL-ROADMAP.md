@@ -106,8 +106,7 @@ tres anteriores para su prueba E2E.
 **Ya integrado (2026-08-22)**: SE-335 (regla de descubrimiento) + SE-336
 (Turn-SDLC: auditor, DoD gate, `order_ok`, reporte; S4 alimenta L).
 
-**Orden**: SE-334 S1+S2 → SCL-010 → SCL-009. SE-334 es spec de otra savia: se
-consume como integración, no se reimplementa.
+**Orden**: SE-334 S1+S2 → SCL-010 → SCL-009 (SE-334 se consume como integración).
 
 ---
 
