@@ -1,6 +1,6 @@
 # Savia Capability Map — INDEX
-> hash: b6076b051f8f | resources: 1376
-> 294 commands · 127 skills · 83 agents · 872 scripts
+> hash: 7ebb4efdcd2f | resources: 1378
+> 294 commands · 127 skills · 83 agents · 874 scripts
 
 [analysis] Trace Optimize — across,distributed,optimize,rates,sampling — cmd:.claude/commands/trace-optimize.md
 [analysis] agent-activity — activity,agent,executions,recent,show — cmd:.claude/commands/agent-activity.md
@@ -1056,6 +1056,8 @@
 [planning] team-workload — asignados,balance,carga,equipo,horas — cmd:.claude/commands/team-workload.md
 [planning] tech-radar — adopt,hold,librerías,proyecto,radar — cmd:.claude/commands/tech-radar.md
 [planning] tech-writer —  — agent:.opencode/agents/tech-writer.md
+[planning] telemetry-alert — alert,cruza,emite,issue,telemetry — script:scripts/telemetry-alert.sh
+[planning] telemetry-issues — agrupa,eventos,fingerprint,issues,telemetry — script:scripts/telemetry-issues.sh
 [planning] telemetry-tail-sample — retención,rotación,sample,sampling,tail — script:scripts/telemetry-tail-sample.sh
 [planning] terminal-state-emit — agent,emit,emits,loop,reason — script:scripts/terminal-state-emit.sh
 [planning] terminal-state-read — agent,last,loop,read,reads — script:scripts/terminal-state-read.sh

@@ -1,5 +1,5 @@
 # planning — Savia Capability Map (L1)
-> 584 resources
+> 586 resources
 
 - **/decide-architecture** (cmd): Clasifica una tarea como WORKFLOW (deterministica) o AGENT (loop). Bias hacia workflow per Anthropic. Sugiere plantilla inicial. Mide accuracy contra corpus curado de 20 tareas.
 - **_template** (skill): TEMPLATE — copia este directorio para crear una skill nueva. NO se carga en runtime.
@@ -523,6 +523,8 @@
 - **team-workload** (cmd): Muestra la carga de trabajo por persona — items asignados, horas remaining y balance de equipo.
 - **tech-radar** (cmd): Radar tecnológico del proyecto — librerías, versiones, adopt/trial/hold/retire
 - **tech-writer** (agent): >
+- **telemetry-alert** (script): telemetry-alert.sh — SE-334 S2: emite alert cuando un issue cruza el umbral,
+- **telemetry-issues** (script): telemetry-issues.sh — SE-334 S2: agrupa eventos por fingerprint en issues.
 - **telemetry-tail-sample** (script): telemetry-tail-sample.sh — SE-313 S4: sampling tail + retención + rotación.
 - **terminal-state-emit** (script): terminal-state-emit.sh — Emits structured termination reason for a loop/agent
 - **terminal-state-read** (script): terminal-state-read.sh — Reads the last terminal state for a loop/agent
