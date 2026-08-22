@@ -1461,9 +1461,9 @@ SE-308 (merge PR #942) ✅
 PR #952 (SE-313/314/275) — DONE (merge 2026-08-09)
   → SE-316 (eval-lint) — DONE (merge #953)
   → SE-315 (scope creep) — DONE (merge #955)
-  → SE-323 (incident RCA) — DONE (commit 717e55d7, PR pendiente)
-  → SE-318 (blast-radius) — DONE (commit, PR pendiente)
-  → SE-317 (memoria reflexiva) — DONE (commit, PR pendiente)
+  → SE-323 (incident RCA) — IMPLEMENTED
+  → SE-318 (blast-radius) — IMPLEMENTED
+  → SE-317 (memoria reflexiva) — IMPLEMENTED
   → SE-321 (speech-to-speech) — requiere validacion HW (probe S1)
   → SE-319 / SE-320 / SE-322 (baja)
   → SE-327..SE-331 (SaviaVaults mejoras: PPR, dual-mode, entity resolution,
