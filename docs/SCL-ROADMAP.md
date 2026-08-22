@@ -89,31 +89,25 @@ tres anteriores para su prueba E2E.
 
 ## Backlog SCL (futuras, sin especificar)
 
-> **Corrección de numeración 2026-08-22**: SCL-008 ya existe como *"Acoplamiento
-> seguro de Criteria, CL y Vaults"* (APPROVED→IMPLEMENTED 2026-08-17). La antigua
-> candidata "reconciliación de lecciones" pasa a **SCL-010**. El origen citado
-> como "SE-309 knowledge governance" es drift: SE-309 es Anti-sycophancy
-> hardening; la reconciliación se apoya en el `reconciler` (SPEC-183) y en
-> `docs/rules/domain/reconciliation-decision-tree.md`, no en SE-309.
+> **Corrección 2026-08-22**: SCL-008 ya existe ("Acoplamiento seguro de Criteria,
+> CL y Vaults"); la antigua candidata "reconciliación" pasa a **SCL-010**.
+> "SE-309 knowledge governance" era drift (SE-309 = Anti-sycophancy); la
+> reconciliación usa `reconciler` (SPEC-183).
 
-**Priorización 2026-08-22** (criterios: dolor demostrado > elegancia · CRIT-019
-sin medición no hay prioridad · SE-268 por slice):
+**Priorización 2026-08-22** (dolor demostrado > elegancia · CRIT-019 · SE-268):
 
-| Orden | Spec | Tesis | Esfuerzo | Origen | Por qué este orden | Estado |
-|---|---|---|---|---|---|---|
-| 1 | **SE-334 (integración) S1** | Fingerprint determinista de errores: "este error apareció 47 veces" (hoy: eventos sueltos en telemetry-events.jsonl). Su alert S2 alimenta el hook de captura SCL → los incidentes entran al bucle | ~14h (S1) | superlog / SE-334 spec | Mayor dolor: la telemetría ya existe (SE-313) pero no se puede agrupar ni alimenta el aprendizaje. Pieza determinista pura, sin LLM, alto ROI por hora | SPEC LISTA (PROPOSED 2026-08-17) |
-| 2 | **SCL-010** | Reconciliación de lecciones duplicadas/conflictivas entre instancias federadas (SaviaLearning) | ~8h | reconciler (SPEC-183) + árbol de decisión + SE-309 corregido | Desbloqueo de F5: la federación (SCL-007) ya trae lecciones; sin reconciliación se acumulan duplicados que degradan el recall. Reutiliza el 3-bucket ya probado | CANDIDATA |
-| 3 | **SCL-009** | Descubrimiento automático de instancias federadas (registro automático) | ~6h | Labs L5 | Conveniencia sobre federación manual (SCL-007 `--share`); menor dolor que 1 y 2 | CANDIDATA |
+| # | Spec | Tesis | Sh | Por qué este orden |
+|---|---|---|---|---|
+| 1 | SE-334 S1+S2 | Fingerprint de errores → incidentes → captura SCL | ~22 | Mayor dolor: telemetría (SE-313) existe pero no agrupa ni aprende. Determinista, alto ROI/h. **IMPLEMENTADO en PR** |
+| 2 | SCL-010 | Reconciliación de lecciones duplicadas entre instancias | ~8 | F5 ya trae lecciones; sin reconciliar degradan el recall; reutiliza el 3-bucket |
+| 3 | SCL-009 | Auto-descubrimiento de instancias federadas | ~6 | Conveniencia sobre federación manual; menor dolor |
+| 4 | SCL-011 | Telemetría de orden de descubrimiento (SE-335 medido) | ~6 | Hace medible la regla SE-335; alimenta L |
 
-**Ya integrado en el bucle (2026-08-22, fuera de este backlog):**
-- **SE-335** prioridad de descubrimiento (regla eager) + **SE-336** Turn-SDLC
-  (auditor F1-F6, DoD gate, telemetría `order_ok`, reporte). SE-336 S4 alimenta
-  la métrica `L` (divergencia regla-comportamiento) — ver `scl-001-learning-loop.md`.
+**Ya integrado (2026-08-22)**: SE-335 (regla de descubrimiento) + SE-336
+(Turn-SDLC: auditor, DoD gate, `order_ok`, reporte; S4 alimenta L).
 
-**Orden recomendado**: SE-334 S1 (fingerprint) → SE-334 S2 (alerts→captura SCL,
-engancha el bucle) → SCL-010 (reconciliación) → SCL-009 (auto-descubrimiento).
-SE-334 es spec de otra savia (agent-multi): se consume como integración, no se
-reimplementa.
+**Orden**: SE-334 S1+S2 → SCL-010 → SCL-009. SE-334 es spec de otra savia: se
+consume como integración, no se reimplementa.
 
 ---
 
