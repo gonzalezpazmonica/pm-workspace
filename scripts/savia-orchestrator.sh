@@ -30,6 +30,7 @@ ITERATIONS=1
 DECIDE="${SAGI_DECIDE:-none}"
 P_CONSISTENT="${SAGI_P_CONSISTENT:-}"
 SAGI_DECISION=""
+META=false
 
 while [[ $# -gt 0 ]]; do
   case "$1" in
@@ -38,7 +39,8 @@ while [[ $# -gt 0 ]]; do
     --iterations) ITERATIONS="$2"; shift 2 ;;
     --decide) DECIDE="$2"; shift 2 ;;
     --p-consistent) P_CONSISTENT="$2"; shift 2 ;;
-    *) echo "usage: $0 --task T [--dry-run] [--iterations N] [--decide none|flash|local]" >&2; exit 2 ;;
+    --meta) META=true; shift ;;
+    *) echo "usage: $0 --task T [--dry-run] [--iterations N] [--decide none|flash|local] [--meta]" >&2; exit 2 ;;
   esac
 done
 [[ -z "$TASK" ]] && { echo "ERROR: --task requerido" >&2; exit 2; }
@@ -132,11 +134,29 @@ adjust() {
   bash "$ROOT/scripts/learning-autonomy.sh" --p-consistent "$base_p" --requested L2 2>/dev/null | tail -1 || echo "  [ajustar] n/a"
 }
 
+# ── Capa metacognitiva (L13) ──────────────────────────────────────────────────
+metacog() {
+  # confianza declarada: el orquestador "cree" en su decisión (heurística o 0.6)
+  local deconf="${SAGI_CONFIDENCE:-60}"
+  local mout
+  mout=$(bash "$ROOT/scripts/meta-monitor.sh" --task "$TASK" --confidence "$deconf" \
+    --divergence "${SAGI_DIVERGENCE:-0.3}" --evidence "${SAGI_EVIDENCE:-0.6}" 2>/dev/null)
+  if [[ -n "$mout" ]]; then
+    local adjusted hint
+    adjusted=$(echo "$mout" | python3 -c "import sys,json;print(json.load(sys.stdin)['confidence_adjusted'])" 2>/dev/null || echo 0)
+    hint=$(echo "$mout" | python3 -c "import sys,json;print(json.load(sys.stdin)['action_hint'])" 2>/dev/null || echo "")
+    echo "  [meta] confianza $deconf → ajustada $adjusted · $hint"
+  else
+    echo "  [meta] monitor no disponible (falta meta-monitor.sh) — omitido"
+  fi
+}
+
 # ── N ciclos ─────────────────────────────────────────────────────────────────
 for (( i=1; i<=ITERATIONS; i++ )); do
   echo "── ciclo $i/$ITERATIONS ──"
   read_sustrate
   decide
+  if $META; then metacog; fi
   persist "el bucle SCL-011 mejora el recuerdo del criterio para la tarea: $TASK"
   measure
   adjust
