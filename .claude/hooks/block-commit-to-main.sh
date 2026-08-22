@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+set -uo pipefail
 # block-commit-to-main.sh — SE-337: bloquea `git commit` en ramas humanas.
 #
 # autonomous-safety: NUNCA commit en ramas de humanos (main, develop,
@@ -7,7 +8,6 @@
 # la operadora: SAVIA_ALLOW_MAIN_COMMIT=1 (con registro en JSONL, RN-04).
 #
 # PreToolUse Bash(git commit*). PURE_BASH, sin red (CRIT-001).
-set -uo pipefail
 
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 LOG_DIR="${SAVIA_TURN_SDLC_LOG_DIR:-$ROOT/output/turn-sdlc}"
