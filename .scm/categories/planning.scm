@@ -1,5 +1,5 @@
 # planning — Savia Capability Map (L1)
-> 588 resources
+> 589 resources
 
 - **/decide-architecture** (cmd): Clasifica una tarea como WORKFLOW (deterministica) o AGENT (loop). Bias hacia workflow per Anthropic. Sugiere plantilla inicial. Mide accuracy contra corpus curado de 20 tareas.
 - **_template** (skill): TEMPLATE — copia este directorio para crear una skill nueva. NO se carga en runtime.
@@ -425,6 +425,7 @@
 - **run-adversarial-evals** (script): scripts/run-adversarial-evals.sh — SE-255 Slice 1
 - **run-agent-evals** (script): run-agent-evals.sh — SE-204: evaluation harness for critical agents
 - **rust-developer** (agent): >
+- **sagi-pruebas** (script): sagi-pruebas.sh — SCL-012: harness de pruebas P1-P5 del orquestador SAGI.
 - **scale-optimizer** (cmd): Scaling optimization — analyze, benchmark, recommend improvements for growing organizations
 - **scaling-operations** (skill): Usar cuando se analiza el tier de escala de un servicio o se necesitan optimizaciones de capacidad.
 - **scheduled-messaging** (skill): Usar cuando se configuran mensajes automáticos programados a plataformas de comunicación.

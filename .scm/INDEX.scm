@@ -1,6 +1,6 @@
 # Savia Capability Map — INDEX
-> hash: 52fd78684e2c | resources: 1381
-> 294 commands · 127 skills · 83 agents · 877 scripts
+> hash: 25564f3e250c | resources: 1382
+> 294 commands · 127 skills · 83 agents · 878 scripts
 
 [analysis] Trace Optimize — across,distributed,optimize,rates,sampling — cmd:.claude/commands/trace-optimize.md
 [analysis] agent-activity — activity,agent,executions,recent,show — cmd:.claude/commands/agent-activity.md
@@ -959,6 +959,7 @@
 [planning] run-adversarial-evals — adversarial,evals,scripts,slice — script:scripts/run-adversarial-evals.sh
 [planning] run-agent-evals — agent,agents,critical,evals,evaluation — script:scripts/run-agent-evals.sh
 [planning] rust-developer —  — agent:.opencode/agents/rust-developer.md
+[planning] sagi-pruebas — harness,orquestador,pruebas,sagi — script:scripts/sagi-pruebas.sh
 [planning] scale-optimizer — analyze,benchmark,growing,improvements,optimization — cmd:.claude/commands/scale-optimizer.md
 [planning] scaling-operations — analiza,capacidad,escala,necesitan,optimizaciones — skill:.claude/skills/scaling-operations/SKILL.md
 [planning] scheduled-messaging — automáticos,comunicación,configuran,mensajes,plataformas — skill:.claude/skills/scheduled-messaging/SKILL.md
