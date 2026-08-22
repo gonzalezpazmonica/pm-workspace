@@ -1,6 +1,6 @@
 {
-  "hash": "f46a689b041b",
-  "total": 1382,
+  "hash": "b2f3601be997",
+  "total": 1383,
   "resources": [
     {
       "category": "analysis",
@@ -12596,6 +12596,20 @@
       "kind": "agent",
       "path": ".opencode/agents/rust-developer.md",
       "description": ">"
+    },
+    {
+      "category": "planning",
+      "name": "sagi-e2e",
+      "intents": [
+        "flujo",
+        "multi",
+        "objetivo",
+        "paso",
+        "sagi"
+      ],
+      "kind": "script",
+      "path": "scripts/sagi-e2e.sh",
+      "description": "sagi-e2e.sh — SCL-013: flujo end-to-end (P6) — objetivo multi-paso sin"
     },
     {
       "category": "planning",

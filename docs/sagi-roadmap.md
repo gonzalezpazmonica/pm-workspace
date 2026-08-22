@@ -75,6 +75,8 @@ operadora dispone" (CRIT-031).
 - **Métrica**: pasos (menos = mejor) + calidad final (auditor) + L.
 - **Alineación**: eje "agente" de la autonomía, sin violar CRIT-031 (objetivo
   delegado explícitamente; el algoritmo propone, la operadora dispone).
+- **IMPLEMENTADO 2026-08-22**: **SCL-013** (`scripts/sagi-e2e.sh`) — run-1
+  determinista valida el mecanismo; run-2 real en la línea L11 (privado).
 
 ### H7 — Cierre de la línea y vía de retorno
 - Validación humana del ledger L11 + decisión de vía de retorno a código
