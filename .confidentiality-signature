@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=4b59c28b9ec8f9313bb2f76e63b90107709f4a95fb7fcfb39072225ba6e47150
-timestamp=2026-08-22T09:24:07Z
+diff_hash=2bbeb43597af8ea9715970a9435ed2f08f1ca41204004ad37d98f01c94648830
+timestamp=2026-08-22T09:31:37Z
 branch=agent/se335-prioridad-descubrimiento
-head_commit=9cd7ee88
-signature=ac315ff3dcf690a2ac4dea5cef7082ebeb5882f749251f016862fadb3cfb5eb8
+head_commit=a1726750
+signature=b7cfac3c9d94921afc465cd6800035dca4a38239c6f5225da0ed4c755684b589
