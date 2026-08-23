@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=818dc3353e5dabbe120ddbf1f5cea14ab9abffe201918937df7249ce9f083f26
-timestamp=2026-08-22T22:57:10Z
-branch=agent/l13-meta-control
-head_commit=ee4aa807
-signature=ff96cbd620f12bd20e00107556e61db9a2da087b125e76773b32e1e9dfd7ff25
+diff_hash=c660ec6dbfd5af804077ac80f3a9c5d0e70d45afb97d04d8cb616fb8fafaebb6
+timestamp=2026-08-23T00:47:35Z
+branch=agent/l13-meta-pruebas
+head_commit=c3530c63
+signature=46146f345d7f631d2a47957b711c76e84f790d8db9afdbc74ba6d69968cac22b
