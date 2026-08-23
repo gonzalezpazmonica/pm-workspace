@@ -1,6 +1,6 @@
 {
-  "hash": "a526941e0989",
-  "total": 1387,
+  "hash": "300a9521811c",
+  "total": 1388,
   "resources": [
     {
       "category": "analysis",
@@ -11293,6 +11293,20 @@
       "kind": "script",
       "path": "scripts/meta-monitor.sh",
       "description": "meta-monitor.sh — L13 F1: juicio metacognitivo de monitoreo."
+    },
+    {
+      "category": "planning",
+      "name": "meta-recalibra-ledger",
+      "intents": [
+        "ledger",
+        "meta",
+        "real",
+        "recalibra",
+        "recalibración"
+      ],
+      "kind": "script",
+      "path": "scripts/meta-recalibra-ledger.sh",
+      "description": "meta-recalibra-ledger.sh — L13 F4: recalibración desde señal real (ledger)."
     },
     {
       "category": "planning",
