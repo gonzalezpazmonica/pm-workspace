@@ -57,6 +57,8 @@ while [[ $# -gt 0 ]]; do
 done
 
 # ── SCL-009: resolver URL desde el registry si no se pasó --url/--to ────────
+# Requisito de URL SOLO para modos remotos (--share/--search-remote). Los modos
+# locales (--list/--import) leen la cúpula local y no necesitan REMOTE_URL.
 if { $SEARCH_REMOTE || [[ -n "$SHARE_ID" ]]; } && [[ -z "$REMOTE_URL" ]]; then
   REG="${SCL_FEDERATION_REGISTRY:-$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)/.savia-vault/federation.json}"
   if [[ -f "$REG" ]]; then
@@ -73,10 +75,10 @@ print('')
 PYEOF
     )
   fi
-fi
-if [[ -z "$REMOTE_URL" ]]; then
-  echo "ERROR: no --url/--to y ninguna instancia healthy en el registry — usa federation-discover.sh --check" >&2
-  exit 2
+  if [[ -z "$REMOTE_URL" ]]; then
+    echo "ERROR: no --url/--to y ninguna instancia healthy en el registry — usa federation-discover.sh --check" >&2
+    exit 2
+  fi
 fi
 
 # ── Modo search-remote (SCL-007): busca en un dome remoto via /search ──

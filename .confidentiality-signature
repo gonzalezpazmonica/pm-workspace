@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=b5eee9ade13df3732811e6d2e3ae0804c62ec8281d05cfba1f0930a2f3e3cfa3
-timestamp=2026-08-23T08:28:54Z
-branch=agent/consolidacion-node-requisito
-head_commit=d2b322b3
-signature=12b5b894615e446712c00405a604e98cd9c7831c6b3bf2772b1f11557dd0b7c4
+diff_hash=14fb202b2e3b13fc1552d5bff41bff10c51d6db3d0307b821f61c78ed37436c2
+timestamp=2026-08-23T09:37:01Z
+branch=agent/fix-scl009-federate-modos-locales
+head_commit=01739dab
+signature=8123d6a8ac3260030555bd07bcd5935b02eedf58ad890a524f21b066fd869c2a
