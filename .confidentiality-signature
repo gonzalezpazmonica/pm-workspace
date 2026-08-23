@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=9b8e3c57a243290d1d876ae4ed70b3e26c367691e1021e145d3ce34c1561ecd6
-timestamp=2026-08-23T06:44:13Z
-branch=agent/se146-status-impl
-head_commit=4ced6ade
-signature=e0281483ee2b64d59ee3c3aa68b5a6fd88613572e7249a4a5e1fde6859a76444
+diff_hash=a366ac6f14861e509f00363b6a7bae4920d8a183d8b3274c8ffebd77285f0844
+timestamp=2026-08-23T07:59:04Z
+branch=agent/se-free-token-probe
+head_commit=c45d086e
+signature=2b6eed85d0616026c371d1d1bb8656b3508d04fff1d7026c86adb80a7b4ceefb
