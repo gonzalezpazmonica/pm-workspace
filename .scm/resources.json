@@ -1,6 +1,6 @@
 {
-  "hash": "8ea362d4064e",
-  "total": 1386,
+  "hash": "a526941e0989",
+  "total": 1387,
   "resources": [
     {
       "category": "analysis",
@@ -10746,6 +10746,19 @@
       "kind": "script",
       "path": "scripts/knowledge-graph.sh",
       "description": "knowledge-graph.sh — SE-162: Shell wrapper for knowledge-graph.py"
+    },
+    {
+      "category": "planning",
+      "name": "l13-meta-pruebas",
+      "intents": [
+        "determinista",
+        "harness",
+        "meta",
+        "pruebas"
+      ],
+      "kind": "script",
+      "path": "scripts/l13-meta-pruebas.sh",
+      "description": "l13-meta-pruebas.sh — L13 F3: harness determinista de pruebas M1-M4."
     },
     {
       "category": "planning",
