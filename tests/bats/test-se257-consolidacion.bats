@@ -47,11 +47,11 @@ teardown() {
   [ -x "$REPO_ROOT/scripts/criterio-validate.sh" ]
 }
 
-@test "AC-1.4b: criterio-validate pasa con estado actual" {
+@test "AC-1.4b: criterio-validate pasa con estado actual (CRIT-001 human_authored)" {
   run bash "$REPO_ROOT/scripts/criterio-validate.sh"
   [ "$status" -eq 0 ]
-  [[ "$output" == *"0 human_authored"* ]]
-  [[ "$output" == *"GATE S5: DORMIDO (0 human_authored, need 20)"* ]]
+  [[ "$output" == *"1 human_authored"* ]]
+  [[ "$output" == *"GATE S5: DORMIDO (1 human_authored, need 20)"* ]]
 }
 
 @test "AC-1.5: criterio-validate fails on missing file with error" {
