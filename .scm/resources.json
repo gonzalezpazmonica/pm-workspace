@@ -1,6 +1,6 @@
 {
-  "hash": "300a9521811c",
-  "total": 1388,
+  "hash": "f64c8ebb52ad",
+  "total": 1389,
   "resources": [
     {
       "category": "analysis",
@@ -3541,6 +3541,20 @@
       "kind": "agent",
       "path": ".opencode/agents/fiction-framing-judge.md",
       "description": "Recommendation Tribunal judge — detects persona-shift plus content-equivalent framing over sensitive domain (SPEC-193)"
+    },
+    {
+      "category": "development",
+      "name": "freetoken-probe",
+      "intents": [
+        "freetoken",
+        "probe",
+        "spec",
+        "valida",
+        "viabilidad"
+      ],
+      "kind": "script",
+      "path": "scripts/freetoken-probe.sh",
+      "description": "freetoken-probe.sh — SPEC-FREETOKEN-PROBE: valida la viabilidad de FreeToken"
     },
     {
       "category": "development",

@@ -1,6 +1,6 @@
 # Savia Capability Map — INDEX
-> hash: 7ab58fccbc2f | resources: 1388
-> 294 commands · 127 skills · 83 agents · 884 scripts
+> hash: 8da54e3a7690 | resources: 1389
+> 294 commands · 127 skills · 83 agents · 885 scripts
 
 [analysis] Trace Optimize — across,distributed,optimize,rates,sampling — cmd:.claude/commands/trace-optimize.md
 [analysis] agent-activity — activity,agent,executions,recent,show — cmd:.claude/commands/agent-activity.md
@@ -272,6 +272,7 @@
 [development] feasibility-probe — implementarla,spec,técnicamente,validar,viable — skill:.claude/skills/feasibility-probe/SKILL.md
 [development] feasibility-probe — attempting,blocking,boxed,decomposition,feasibility — agent:.opencode/agents/feasibility-probe.md
 [development] fiction-framing-judge — content,detects,domain,equivalent,framing — agent:.opencode/agents/fiction-framing-judge.md
+[development] freetoken-probe — freetoken,probe,spec,valida,viabilidad — script:scripts/freetoken-probe.sh
 [development] gaia-benchmark-harness — benchmark,gaia,harness,slice,spec — script:scripts/gaia-benchmark-harness.sh
 [development] gitagent-export — adapter,export,gitagent,slice,spec — script:scripts/gitagent-export.sh
 [development] graph-build — conocimiento,construye,grafo,proyecto — cmd:.claude/commands/graph-build.md
