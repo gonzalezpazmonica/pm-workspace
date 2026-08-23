@@ -1,6 +1,6 @@
 {
-  "hash": "300a9521811c",
-  "total": 1388,
+  "hash": "4390d5ea0bad",
+  "total": 1390,
   "resources": [
     {
       "category": "analysis",
@@ -1235,6 +1235,20 @@
     },
     {
       "category": "communication",
+      "name": "savia-bootstrap-log",
+      "intents": [
+        "arranque",
+        "bootstrap",
+        "consolidacion",
+        "instalación",
+        "savia"
+      ],
+      "kind": "script",
+      "path": "scripts/savia-bootstrap-log.sh",
+      "description": "savia-bootstrap-log.sh — SPEC-CONSOLIDACION R3: log de instalación/arranque."
+    },
+    {
+      "category": "communication",
       "name": "savia-branch",
       "intents": [
         "abstraction",
@@ -1622,6 +1636,20 @@
       "kind": "script",
       "path": "scripts/savia-index-rebuild.sh",
       "description": "── savia-index-rebuild.sh ──────────────────────────────────────────────────"
+    },
+    {
+      "category": "communication",
+      "name": "savia-install",
+      "intents": [
+        "bootstrap",
+        "central",
+        "consolidacion",
+        "idempotente",
+        "install"
+      ],
+      "kind": "script",
+      "path": "scripts/savia-install.sh",
+      "description": "savia-install.sh — SPEC-CONSOLIDACION R4: bootstrap central idempotente."
     },
     {
       "category": "communication",

@@ -24,6 +24,29 @@ On first launch, Savia detects you have no profile and introduces herself. Answe
 
 Want to skip the profile? Just type a command directly. Savia will not insist.
 
+## 2b. Full install (new capabilities)
+
+The central installer leaves Savia fully operational on any machine
+(idempotent, with an install log):
+
+```bash
+bash scripts/savia-install.sh            # memory-deps + automations + plugin + merge-drivers
+```
+
+Each step's log lives in `output/install-logs/` (and `~/.savia/install.log`);
+the next startup reads it to auto-correct anything that failed.
+
+Capabilities active from first boot:
+
+- **SCL (continuous learning)**: capture → lifecycle → L metric → recall.
+- **SAGI (orchestrator)**: decide with a local LLM (Ollama) and consolidate learning daily.
+- **Metacognition (L13)**: the layer that adjusts Savia's confidence with its real track record (calibration, divergence, control).
+- **Criteria (CRITERIO.md)**: cited and validated on every decision.
+- **Autonomous loops**: scheduled tasks (daily orchestrator, morning brief, drift, CVE, memory) fire on their own at session start when overdue.
+
+All capabilities run on owned infrastructure (CRIT-001); the only optional LLM
+is the local one via Ollama at `127.0.0.1:11434`.
+
 ## 3. Set up your project
 
 ```bash
