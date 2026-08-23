@@ -131,15 +131,61 @@ class TaskStore:
                 continue
         return runs[:limit]
 
-    def _compute_next_run(self, schedule: Schedule) -> Optional[str]:
-        import re
+    _HUMAN_DAYS = {
+        "sun": 0, "sunday": 0, "mon": 1, "monday": 1, "tue": 2, "tuesday": 2,
+        "wed": 3, "wednesday": 3, "thu": 4, "thursday": 4, "fri": 5, "friday": 5,
+        "sat": 6, "saturday": 6,
+    }
 
+    def _normalize_cron(self, cron: str) -> Optional[str]:
+        """Normalize human cron notation to 5-field cron.
+
+        Supported human forms (case-insensitive):
+          daily HH:MM            → MM HH * * *
+          daily                 → 0 8 * * *   (default 08:00)
+          weekly DOW HH:MM      → MM HH * * DOW
+          weekly HH:MM          → 0 HH * * *
+        Any already-5-field cron passes through unchanged.
+        Returns None if unparseable.
+        """
+        if not cron:
+            return None
+        raw = cron.strip().lower()
+        parts = raw.split()
+        # Already standard 5-field? Pass through.
+        if len(parts) == 5 and all(
+            _tok in "*0123456789,/-" for _tok in "".join(parts)
+        ):
+            return " ".join(parts)
+        try:
+            if parts and parts[0] == "daily":
+                if len(parts) >= 2 and ":" in parts[1]:
+                    hh, mm = parts[1].split(":")
+                    return f"{int(mm)} {int(hh)} * * *"
+                return "0 8 * * *"  # daily default 08:00
+            if parts and parts[0] == "weekly":
+                if len(parts) >= 2 and parts[1] in self._HUMAN_DAYS:
+                    dow = self._HUMAN_DAYS[parts[1]]
+                    if len(parts) >= 3 and ":" in parts[2]:
+                        hh, mm = parts[2].split(":")
+                        return f"{int(mm)} {int(hh)} * * {dow}"
+                    return f"0 8 * * {dow}"
+                if len(parts) >= 2 and ":" in parts[1]:
+                    hh, mm = parts[1].split(":")
+                    return f"{int(mm)} {int(hh)} * * *"
+                return "0 8 * * *"
+        except (ValueError, IndexError):
+            return None
+        return None
+
+    def _compute_next_run(self, schedule: Schedule) -> Optional[str]:
         if schedule.kind == "once":
             return schedule.fire_at
-        if not schedule.cron:
+        normalized = self._normalize_cron(schedule.cron) if schedule.cron else None
+        if not normalized:
             return None
 
-        parts = schedule.cron.strip().split()
+        parts = normalized.split()
         if len(parts) != 5:
             return None
 

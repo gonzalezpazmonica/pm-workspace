@@ -1,0 +1,128 @@
+#!/usr/bin/env bats
+# SPEC-CONSOLIDACION 2026-08-23 — tests de los R1/R2/R3/R4 (sanitización)
+# Pruebas irrefutables para: cron humano, run-due, log de instalación, instalador central.
+
+setup() {
+  cd "$(dirname "$BATS_TEST_FILENAME")/.." || exit 1
+  FIXDIR=$(mktemp -d)
+  export SAVIA_AUTOMATIONS_DIR="$FIXDIR/automations"
+  export SAVIA_INSTALL_LOG="$FIXDIR/install.log"
+}
+
+teardown() {
+  rm -rf "$FIXDIR"
+}
+
+# ── R1: parser de cron humano ──────────────────────────────────────────────
+
+@test "R1a: normalize 'daily 08:30' → 5-campos y computa next_run" {
+  python3 - "$FIXDIR" <<'PY'
+import sys
+sys.path.insert(0, "scripts")
+from automations.store import TaskStore
+from automations.models import Schedule
+s = TaskStore(sys.argv[1])
+assert s._normalize_cron("daily 08:30") == "30 8 * * *"
+n = s._compute_next_run(Schedule(kind="cron", cron="daily 08:30"))
+assert n is not None and "T08:30:00" in n, n
+print(n)
+PY
+}
+
+@test "R1b: normalize 'weekly fri 09:15' → '15 9 * * 5'" {
+  python3 - "$FIXDIR" <<'PY'
+import sys
+sys.path.insert(0, "scripts")
+from automations.store import TaskStore
+s = TaskStore(sys.argv[1])
+assert s._normalize_cron("weekly fri 09:15") == "15 9 * * 5"
+PY
+}
+
+@test "R1c: cron inválido → next_run None sin crash" {
+  python3 - "$FIXDIR" <<'PY'
+import sys
+sys.path.insert(0, "scripts")
+from automations.store import TaskStore
+from automations.models import Schedule
+s = TaskStore(sys.argv[1])
+assert s._compute_next_run(Schedule(kind="cron", cron="garbage no válido")) is None
+PY
+}
+
+@test "R1d: CLI compute materializa next_run de una tarea diaria" {
+  bash scripts/savia-automations.sh create --name test-diario \
+    --schedule "daily 09:00" --instructions "test" >/dev/null 2>&1
+  out=$(bash scripts/savia-automations.sh compute 2>&1)
+  echo "$out" | grep -q "next_run="
+  echo "$out" | grep -q "T09:00:00"
+}
+
+# ── R2: run-due ejecuta tareas atrasadas ────────────────────────────────────
+
+@test "R2a: run-due sin tareas due → no ejecuta nada" {
+  bash scripts/savia-automations.sh create --name futuro \
+    --schedule "daily 09:00" --instructions "test" >/dev/null 2>&1
+  bash scripts/savia-automations.sh compute >/dev/null 2>&1
+  run bash scripts/savia-automations.sh run-due
+  echo "$output" | grep -E "no due tasks|0/1"
+}
+
+# ── R3: log de instalación ─────────────────────────────────────────────────
+
+@test "R3a: log escribe y nunca falla" {
+  run bash scripts/savia-bootstrap-log.sh write paso-test 0 "ok"
+  [[ "$status" -eq 0 ]]
+  bash scripts/savia-bootstrap-log.sh recent 2>&1 | grep -q "paso-test"
+}
+
+@test "R3b: log con fallo (exit 1) no rompe el arranque" {
+  run bash scripts/savia-bootstrap-log.sh write paso-fallo 1 "crash simulado"
+  [[ "$status" -eq 0 ]]
+}
+
+# ── R4: instalador central ─────────────────────────────────────────────────
+
+@test "R4a: savia-install existe, es ejecutable y sintácticamente válido" {
+  [[ -x scripts/savia-install.sh ]]
+  bash -n scripts/savia-install.sh
+}
+
+@test "R4b: savia-install --dry-run finaliza 0 y loguea start" {
+  run bash scripts/savia-install.sh --dry-run --quiet
+  [[ "$status" -eq 0 ]]
+  bash scripts/savia-bootstrap-log.sh recent 2>&1 | grep -q "savia-install"
+}
+
+@test "R4c: idempotente — dos dry-runs no rompen" {
+  bash scripts/savia-install.sh --dry-run --quiet >/dev/null 2>&1
+  run bash scripts/savia-install.sh --dry-run --quiet
+  [[ "$status" -eq 0 ]]
+}
+
+# ── R2/P8: orquestador diario queda con next_run materializado ─────────────
+
+@test "P8a: tarea sagi-orquestador tiene cron computado tras compute" {
+  if ! bash scripts/savia-automations.sh list 2>/dev/null | grep -q "sagi-orquestador-diario"; then
+    bash scripts/savia-automations.sh create --name sagi-orquestador-diario \
+      --schedule "daily 08:30" --instructions "orquestador" >/dev/null 2>&1
+  fi
+  bash scripts/savia-automations.sh compute >/dev/null 2>&1
+  bash scripts/savia-automations.sh list 2>&1 | grep -q "next: "
+}
+
+# ── R5: calibración self-heal (P2) ─────────────────────────────────────────
+
+@test "R5a: meta-monitor falla abierto sin curva (calibración default 0.5)" {
+  run bash scripts/meta-monitor.sh --task t-consol --confidence 80 \
+    --divergence 0.2 --evidence 0.9 --calibration-file "$FIXDIR/no-cal.json"
+  [[ "$status" -eq 0 ]]
+  echo "$output" | python3 -c "import sys,json;d=json.load(sys.stdin);assert d['calibration']==0.5"
+}
+
+@test "R5b: meta-recalibrate crea la curva al primer uso (no requiere dir previo)" {
+  run bash scripts/meta-recalibrate.sh --task t-consol --predicted 80 \
+    --outcome success --calibration-file "$FIXDIR/nuevo/cal.json"
+  [[ "$status" -eq 0 ]]
+  [[ -f "$FIXDIR/nuevo/cal.json" ]]
+}

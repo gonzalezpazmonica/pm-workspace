@@ -384,8 +384,23 @@ else
   warn "Bridge setup skipped (Python3 required)"
 fi
 
-# --- Step 8: Smoke test --------------------------------------------------------
-step 8 "Running smoke test..."
+# --- Step 8: Consolidation + install log (SPEC-CONSOLIDACION R4/R3) ------------
+step 8 "Consolidating capabilities (SCL, SAGI, Metacognition, automations)..."
+if [[ -x "$SAVIA_HOME/scripts/savia-install.sh" ]]; then
+  if bash "$SAVIA_HOME/scripts/savia-install.sh" --quiet; then
+    ok "Savia consolidated (automations, memory, plugin, loops autónomos)"
+  else
+    warn "Savia consolidation finished with warnings — see install log"
+  fi
+else
+  warn "savia-install.sh not found — run manually: bash scripts/savia-install.sh"
+fi
+if [[ -x "$SAVIA_HOME/scripts/savia-bootstrap-log.sh" ]]; then
+  bash "$SAVIA_HOME/scripts/savia-bootstrap-log.sh" write install 0 "one-line installer completed" >/dev/null 2>&1
+fi
+
+# --- Step 9: Smoke test --------------------------------------------------------
+step 9 "Running smoke test..."
 
 if [[ "${SKIP_TESTS:-0}" == "1" || "${1:-}" == "--skip-tests" ]]; then
   warn "Skipping tests (--skip-tests)"
