@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=a366ac6f14861e509f00363b6a7bae4920d8a183d8b3274c8ffebd77285f0844
-timestamp=2026-08-23T07:59:04Z
+diff_hash=9be51504f6beacf59b233633eae71048b940b3b0b46273d137c3da58e478cdf2
+timestamp=2026-08-23T08:01:02Z
 branch=agent/se-free-token-probe
-head_commit=c45d086e
-signature=2b6eed85d0616026c371d1d1bb8656b3508d04fff1d7026c86adb80a7b4ceefb
+head_commit=af3931c3
+signature=8d7d6a6360bd8cb694d44673e9115e486f5de63eb66c6a674b98ca7c1e5d4325
