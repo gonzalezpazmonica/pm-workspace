@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=da39ae6e8c1d04eb468e6e915f523856400312a8f922e24614998bd3362c9401
-timestamp=2026-08-23T01:28:32Z
+diff_hash=134beee90efc9daf024978ef0ed0f4533943e7d23958a52563ea7c765943ef19
+timestamp=2026-08-23T01:40:50Z
 branch=agent/l13-f4-recalibra-ledger
-head_commit=859016e6
-signature=8d86f93ac15af2ba139a78d65425829e7490b364140c3a6ca6974304efb5434d
+head_commit=c45f6f18
+signature=63f993f856ea3e2dd55ec1076681e6d8000ce9f7aa2c38cde18de7fdc032740a
