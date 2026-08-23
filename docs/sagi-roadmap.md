@@ -27,16 +27,16 @@ operadora dispone" (CRIT-031).
 | Sustrato de aprendizaje (captura→ciclo→métrica L→federación) | F0-F5 implementado | `docs/SCL-ROADMAP.md` |
 | Prioridad de descubrimiento (regla eager) | Se-335 merged | `docs/rules/domain/knowledge-discovery-priority.md` |
 | Turn-SDLC: auditor de fases + DoD de respuesta + telemetría `order_ok` | SE-336 merged | `docs/specs/SE-336-turn-sdlc.spec.md` |
-| **Telemetría de errores → incidentes → aprendizaje** | SE-334 S1+S2 en PR | `docs/specs/SE-334-telemetry-intelligence.spec.md` |
-| Orquestador SAGI (fix-loop reusable) | decisión de diseño pendiente | este roadmap |
+| **Telemetría de errores → incidentes → aprendizaje** | SE-334 S1+S2 IMPLEMENTADO | `docs/specs/SE-334-telemetry-intelligence.spec.md` |
+| Orquestador SAGI (fix-loop reusable) | SCL-011/012/013 IMPLEMENTADO, en producción | `docs/specs/SCL-011-orquestador-sagi.spec.md` |
 
 ## Roadmap de desarrollo (por orden)
 
-### H1 — Blindar la telemetría como sensor del bucle (SE-334 S1+S2)
+### H1 — Blindar la telemetría como sensor del bucle (SE-334 S1+S2) ✅
 - Fingerprint determinista de errores: agrupar "este error apareció N veces".
 - Alerta con umbral que alimenta el hook de captura SCL (el bucle aprende del
   incidente).
-- **Estado**: implementado, en PR. Criterio de cierre: 8 BATS verdes + CI.
+- **Estado**: IMPLEMENTADO — SE-334 S1+S2 mergeado (PR #982). 8 BATS verdes + CI.
 
 ### H2 — Robustez del agnosticismo (run-3, P1 con un segundo modelo)
 - Replicar la prueba de aprendizaje continuo con un modelo distinto (mid/heavy
@@ -87,7 +87,7 @@ operadora dispone" (CRIT-031).
 ## Dependencias entre hitos
 
 ```text
-H1 (telemetría) está en PR y no bloquea a H2-H4
+H1 (telemetría) ✅ IMPLEMENTADO (SE-334 S1+S2, #982)
 H2 (agnosticismo) puede correr sobre labs/ sin producción
 H3 (criterio estable) y H4 (memoria/adaptación) → requieren el orquestador mínimo
 H5 (decisión de diseño) ✅ RESUELTA → SCL-011 (orquestador) + SCL-012 (pruebas)
@@ -95,7 +95,7 @@ H6 (end-to-end) se formaliza sobre SCL-011/012
 H7 (cierre) depende de ≥2 pruebas con mejora medible
 ```
 
-## Estado de producción (2026-08-22)
+## Estado de producción (2026-08-23)
 
 **SAGI arrancado en producción sobre LLM local:**
 
@@ -111,6 +111,18 @@ H7 (cierre) depende de ≥2 pruebas con mejora medible
    activación a `human_authored` sigue siendo humana (CRIT-031). La
    automatización diaria propone; la operadora activa.
 
+## Retorno a producción (2026-08-23)
+
+| Hallazgo L11/L13 | Retorno | PR |
+|---|---|---|
+| Convergencia por auditor-determinista (run-2/run-3) | Orquestador SCL-011 como fix-loop | #985-#987 |
+| SAGI en producción con DECIDIR local | `savia-orchestrator.sh --decide llm` + automatización | #992 |
+| Capa metacognitiva (monitoreo/control) sobre SAGI | `meta-monitor/meta-control/meta-recalibrate` + `--meta` | #993,#994 |
+| Harness determinista M1-M4 | `l13-meta-pruebas.sh` — prueba el mecanismo sin LLM | #995 |
+
+Contribuciones al objetivo Labs (≥3 hallazgos con retorno): **3/3 superado** —
+convergencia, orquestación en producción, capa metacognitiva.
+
 ## Criterios humanos aplicables
 
 - **CRIT-001**: todo run de SAGI en `labs/` (infraestructura propia, sin remote);
@@ -121,9 +133,14 @@ H7 (cierre) depende de ≥2 pruebas con mejora medible
   decisión humana explícita.
 - **Rule #8 (SDD)**: H6 se implementa como spec aprobada antes de orquestación.
 
-## Primer PR de desarrollo a crear desde este roadmap
+## Estado del programa (2026-08-23)
 
-H2 (agnosticismo, run-3 P1 con segundo modelo) — no requiere orquestador nuevo,
-corre íntegro en `labs/` y su lección se sanitiza al repo. Alternativa
-priorizable si el orquestador es inminente: **H5 como spec de decisión** para
-fijar dónde vive el orquestador y su contrato antes de escribir más runs.
+El orquestador SAGI está en producción (SCL-011/012/013, #985-#987), con
+monitoreo metacognitivo sobre él (L13 F1/F2/F3, #993-#995). El próximo PR de
+desarrollo desde este roadmap:
+
+**H2 (agnosticismo, run-3 P1 con segundo modelo)** — no requiere orquestador
+nuevo, corre íntegro en `labs/` (CRIT-001) y su lección se sanitiza al repo como
+LP. Alternativa ya priorizable: **H7** (cierre de la línea) — validación humana
+del ledger L11 y vía de retorno, con H3 (criterio estable sobre señal real)
+como el hito de mayor valor de alineación pendiente.
