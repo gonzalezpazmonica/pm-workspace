@@ -136,9 +136,17 @@ convergencia, orquestación en producción, capa metacognitiva.
 ## Estado del programa (2026-08-23)
 
 El orquestador SAGI está en producción (SCL-011/012/013, #985-#987), con
-monitoreo metacognitivo sobre él (L13 F1/F2/F3, #993-#995). El próximo PR de
-desarrollo desde este roadmap:
+monitoreo metacognitivo sobre él (L13 F1/F2/F3, #993-#995).
 
+**L11 CERRADA 2026-08-23** (CONFIRMA run-2 + run-3, retorno 3/3 superado). La
+línea SAGI como experimento concluye: el mecanismo quedó en producción. La
+cognición siguiente se traslada a **L13 (metacognición)** — en ejecución — y a
+la nueva línea de **L14 (circuit-closing deuda estructural)**, preregistrada en
+SaviaLabs.
+
+Próximos pasos desde este roadmap:
+
+**L13 cierre** — consumar M1-M4 con señal real (ledger) + recalibración.
 **H2 (agnosticismo, run-3 P1 con segundo modelo)** — no requiere orquestador
 nuevo, corre íntegro en `labs/` (CRIT-001) y su lección se sanitiza al repo como
 LP. Alternativa ya priorizable: **H7** (cierre de la línea) — validación humana
