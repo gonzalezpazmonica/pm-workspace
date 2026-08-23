@@ -1,0 +1,16 @@
+# SE-339 — Hooks críticos que DEBEN tener test BATS (ratchet de cobertura)
+# Línea: hooks de seguridad que, si se rompen, ponen en riesgo datos o el repo.
+# Formato: basename del hook (.claude/hooks/NAME.sh) sin extensión.
+# Nota: confidentiality-sign vive en scripts/ (no es hook) → fuera de la lista.
+# Ref: docs/specs/SE-339-test-coverage-ratchet.spec.md
+block-credential-leak
+block-force-push
+block-branch-switch-dirty
+block-commit-to-main
+block-infra-destructive
+block-sensitive-tracking
+sycophancy-strip
+data-sovereignty-gate
+prompt-injection-guard
+learning-recall-hook
+shield-autostart

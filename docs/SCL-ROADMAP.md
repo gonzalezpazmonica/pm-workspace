@@ -101,12 +101,12 @@ tres anteriores para su prueba E2E.
 | 1 | SE-334 S1+S2 | Fingerprint de errores → incidentes → captura SCL | ~22 | Mayor dolor: telemetría (SE-313) existe pero no agrupa ni aprende. Determinista, alto ROI/h. **IMPLEMENTADO** |
 | 2 | SCL-010 | Reconciliación de lecciones duplicadas entre instancias | ~8 | F5 ya trae lecciones; sin reconciliar degradan el recall; reutiliza el 3-bucket. **IMPLEMENTADO** |
 | 3 | SCL-009 | Auto-descubrimiento de instancias federadas | ~6 | Conveniencia sobre federación manual. **IMPLEMENTADO** |
-| 4 | SAGI SCL-011/012 | Orquestador + pruebas P1-P5 (emergencia medible) | ~8+8 | Completa el programa: decide dónde vive el orquestador y lo verifica. **SCL-011/012/013 IMPLEMENTADOS** |
+| 4 | SAGI SCL-011/012/013 | Orquestador + pruebas P1-P6 (emergencia medible) | ~8+8 | Completa el programa: decide dónde vive el orquestador y lo verifica. **SCL-011/012/013 IMPLEMENTADOS** |
 | 5 | SCL-014 / run-2 | Run real de pruebas con LLM (agnosticismo H2) + cierre de línea L11 | labs | Trabajo de labs (privado, CRIT-001); solo LPs sanitizadas al repo |
 
 **Ya integrado (2026-08-22)**: SE-335 + SE-336 (Turn-SDLC; S4 alimenta L). **Orden ejecutado**: SE-334 → SCL-010 → SCL-009 → SCL-011 → SCL-012 → SCL-013.
 
-> **Estado 2026-08-22**: SCL-001..013 IMPLEMENTED (F0-F5 + orquestador SAGI + P1-P5 + P6 e2e). El run-2 real (LLM, agnosticismo, cierre L11) queda en SaviaLabs (privado, CRIT-001).
+> **Estado 2026-08-23**: SCL-001..013 IMPLEMENTED (F0-F5 + orquestador SAGI + P1-P6 e2e). El run-2 real (LLM, agnosticismo, cierre L11) queda en SaviaLabs (privado, CRIT-001). **L11 lab CERRADA** (CONFIRMA run2+run3, retorno 3/3). Próximo programa: L13 metacognición (en ejecución) + L14 circuit-closing deuda estructural (preregistrada).
 
 ---
 
@@ -145,5 +145,7 @@ tres anteriores para su prueba E2E.
 
 ## SAGI — orquestador AGI sobre el bucle (L11)
 
-**SCL-011 IMPLEMENTADO** (orquestador `savia-orchestrator.sh`) · **SCL-012**
-pendiente (pruebas P1-P5). Ver `docs/sagi-roadmap.md` (detalle privado en SaviaLabs).
+**SCL-011/012/013 IMPLEMENTADOS** (orquestador `savia-orchestrator.sh`, pruebas
+P1-P5 `l13-meta-pruebas.sh`/`sagi-pruebas.sh`, flujo e2e `sagi-e2e.sh`).
+**L11 CERRADA 2026-08-23** (CONFIRMA run-2 + run-3, retorno 3/3). Ver
+`docs/sagi-roadmap.md` (detalle privado en SaviaLabs).

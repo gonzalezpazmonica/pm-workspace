@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=14fb202b2e3b13fc1552d5bff41bff10c51d6db3d0307b821f61c78ed37436c2
-timestamp=2026-08-23T09:37:01Z
-branch=agent/fix-scl009-federate-modos-locales
-head_commit=01739dab
-signature=8123d6a8ac3260030555bd07bcd5935b02eedf58ad890a524f21b066fd869c2a
+diff_hash=2fcd30f5b017af93f2722cf491f794b91dd56cead55eaf481c44eb841ec34805
+timestamp=2026-08-23T12:32:57Z
+branch=agent/f1-labs-cierre-roadmap-repriorit
+head_commit=8a40c7f0
+signature=7b70cfeaf5f3bda921e8366f25f670192d5399e2bed4e94fd75cc8b5f1f30281

@@ -1,5 +1,5 @@
 # quality — Savia Capability Map (L1)
-> 260 resources
+> 261 resources
 
 - **/speckit.analyze** (cmd): Alias spec-kit compatible. Review cruzado de una spec antes de implementar. Invoca skill consensus-validation. Compatible con github/spec-kit.
 - **Court Review** (cmd): Convene the Code Review Court to evaluate implementation quality across 6 judges
@@ -177,6 +177,7 @@
 - **test-contribute** (script): test-contribute.sh — Tests del sistema de comunidad y contribución
 - **test-cost-center** (script): ── Test: cost-center (Era 38 — Cost Management & Billing) ──
 - **test-coverage-checker** (script): test-coverage-checker.sh — Verify every script has a corresponding test
+- **test-coverage-ratchet** (script): test-coverage-ratchet.sh — SE-339: ratchet de cobertura de tests para hooks críticos
 - **test-cross-project** (script): ── test-cross-project.sh ────────────────────────────────────────────────
 - **test-dev-productivity** (script): ── test-dev-productivity.sh ──────────────────────────────────────────────
 - **test-docs-overhaul** (script): test-docs-overhaul.sh — Tests para Documentation Overhaul (Savia-led)

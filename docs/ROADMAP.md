@@ -1618,18 +1618,21 @@ piezas ya existen (captura, ledger, calibración, Labs, p_consistent): falta el 
 
 | Spec | Tesis | Estado |
 |---|---|---|
+| SCL-002..005 | Cúpula, recall, divergencia, híbrido | IMPLEMENTED 2026-08-17 |
+| SCL-006 | Autonomía graduada | IMPLEMENTED |
 | SCL-007 | Federación cross-dome A2A + search-remote + import INFERRED | IMPLEMENTED 2026-08-17 |
 | SCL-008 | Acoplamiento seguro de Criteria, CL y Vaults (autoridad del recall) | IMPLEMENTED 2026-08-17 |
-| SCL-010 | Reconciliación de lecciones duplicadas/conflictivas entre instancias (was "SCL-008"; núm. liberado) | CANDIDATA (prioridad 2) |
-| SCL-009 | Descubrimiento automático de instancias federadas (registro automático) | CANDIDATA (prioridad 3) |
-| SE-334 S1/S2 (integración) | Fingerprint de errores + alerts → alimentan el hook de captura SCL | PROPOSED 2026-08-17 (prioridad 1) |
+| SCL-009 | Descubrimiento automático de instancias federadas | IMPLEMENTED 2026-08-22 |
+| SCL-010 | Reconciliación de lecciones duplicadas/conflictivas | IMPLEMENTED 2026-08-22 |
+| SCL-011/012/013 | Orquestador SAGI + pruebas P1-P6 + e2e | IMPLEMENTED 2026-08-22/23 |
+| SE-334 S1-S4 | Telemetry Intelligence (fingerprint + incidentes) | IMPLEMENTED (PR #982 + cierre #998) |
 
 ### Orden de ejecución recomendado
 
 ```text
 SCL-001 S1 (captura) → S2 (ciclo de vida + rollback) → S3 (métrica L) → S4 (agnosticismo)
-  → SCL-002 (federar el aprendizaje) una vez el bucle intra-Savia esté cerrado
-  → follow-ups Era 204 (reference-first handoff, model-routing) según disponibilidad
+  → SCL-002..013 → SE-334  [TODOS IMPLEMENTADOS 2026-08-17..23]
+  → Siguiente: L13 metacognición (cierre) + L14 circuit-closing deuda estructural (SaviaLabs)
 ```
 
 ### Estado
@@ -1637,7 +1640,7 @@ SCL-001 S1 (captura) → S2 (ciclo de vida + rollback) → S3 (métrica L) → S
 | Spec | PR | Estado | Bloqueo |
 |---|---|---|---|
 | SCL-001 | #969 (spec) · implementación en rama `agent/scl-001-aprendizaje-continuo` | APPROVED 2026-08-16 · IMPLEMENTED 2026-08-17 (27 BATS) | Revisión humana + merge |
-| SCL-002..005 | — | CANDIDATA | Sin especificar |
+| SCL-002..013 | — | IMPLEMENTED 2026-08-17..23 | — |
 
 ### Anclaje
 
@@ -1646,6 +1649,8 @@ SCL-001 S1 (captura) → S2 (ciclo de vida + rollback) → S3 (métrica L) → S
 - SCL consume, no rehace: SE-255, SE-268 S4, SE-292 S6, SaviaVaults, Labs L1-L6.
 - Invariante: la CONSTITUCION y CRITERIO permanecen intocables por el bucle (CRIT-031);
   "la IA propone, el humano dispone".
+- **Estado 2026-08-23**: programa SCL completo (SCL-001..013 + SE-334) en main.
+  Labs: L1-L11 cerradas, L13 metacognición en ejecución, L14 deuda estructural preregistrada.
 
 ---
 
@@ -1676,4 +1681,9 @@ SE-334 S1 (fingerprint determinista, 14h) → S2 (issues + alertas, 10h)
 
 | Spec | PR | Estado | Bloqueo |
 |---|---|---|---|
-| SE-334 | — | PROPOSED 2026-08-17 | Spec lista; implementación asignada a otra savia |
+| SE-334 | #982 (S1+S2) + #998 (cierre) | PROPOSED 2026-08-17 → **IMPLEMENTED 2026-08-22** | — |
+
+> **Cierre 2026-08-23**: SE-334 implementado con fingerprint determinista,
+> issues/alertas y captura SCL. La telemetría ya alimenta el bucle de
+> aprendizaje (SE-335/336 Turn-SDLC). Siguiente prioridad: L13 metacognición
+> (cierre) + L14 circuit-closing deuda estructural.

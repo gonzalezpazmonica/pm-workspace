@@ -1,6 +1,6 @@
 # Savia Capability Map — INDEX
-> hash: 435bbd76d6e5 | resources: 1391
-> 294 commands · 127 skills · 83 agents · 887 scripts
+> hash: 77d75a9c9b1c | resources: 1393
+> 294 commands · 127 skills · 83 agents · 889 scripts
 
 [analysis] Trace Optimize — across,distributed,optimize,rates,sampling — cmd:.claude/commands/trace-optimize.md
 [analysis] agent-activity — activity,agent,executions,recent,show — cmd:.claude/commands/agent-activity.md
@@ -960,6 +960,7 @@
 [planning] restore-drill — drill,restore,slice — script:scripts/restore-drill.sh
 [planning] rpi-start —  — cmd:.claude/commands/rpi-start.md
 [planning] ruby-developer —  — agent:.opencode/agents/ruby-developer.md
+[planning] rule-manifest-generate — filesystem,generate,json,manifest,rule — script:scripts/rule-manifest-generate.sh
 [planning] rule-manifest-integrity — index,integrity,manifest,rule,slice — script:scripts/rule-manifest-integrity.sh
 [planning] rule-usage-analyzer — across,analyze,analyzer,domain,rule — script:scripts/rule-usage-analyzer.sh
 [planning] rule-violation-judge — autonomous,canonical,claude,detects,domain — agent:.opencode/agents/rule-violation-judge.md
@@ -1309,6 +1310,7 @@
 [quality] test-contribute — comunidad,contribución,contribute,sistema,test — script:scripts/test-contribute.sh
 [quality] test-cost-center — billing,center,cost,management,test — script:scripts/test-cost-center.sh
 [quality] test-coverage-checker — checker,corresponding,coverage,every,script — script:scripts/test-coverage-checker.sh
+[quality] test-coverage-ratchet — cobertura,coverage,críticos,hooks,ratchet — script:scripts/test-coverage-ratchet.sh
 [quality] test-cross-project — cross,project,test — script:scripts/test-cross-project.sh
 [quality] test-dev-productivity — productivity,test — script:scripts/test-dev-productivity.sh
 [quality] test-docs-overhaul — docs,documentation,overhaul,savia,test — script:scripts/test-docs-overhaul.sh

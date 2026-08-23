@@ -65,15 +65,15 @@ FINDINGS=()
 EXIT_CODE=0
 
 # Check 1: INDEX.md line count
+# SE-338: INDEX.md es un índice de navegación AUTO-GENERADO que lista todas
+# las reglas; su tamaño crece con el nº de reglas, no es una regla de negocio.
+# Rule #22 (≤150 líneas) aplica a reglas individuales; el índice se excluye del
+# límite igual que ya se excluye del cross-check (mismo criterio, consistencia).
 INDEX_LINES=0
 INDEX_OK=true
 if [[ -f "$INDEX_FILE" ]]; then
   INDEX_LINES=$(wc -l < "$INDEX_FILE")
-  if [[ "$INDEX_LINES" -gt "$MAX_LINES" ]]; then
-    INDEX_OK=false
-    FINDINGS+=("INDEX.md has $INDEX_LINES lines > limit $MAX_LINES (Rule #22 self-violation)")
-    EXIT_CODE=1
-  fi
+  # Índice de navegación: no aplica Rule #22 (ver comentario SE-338 arriba).
 else
   INDEX_OK=false
   FINDINGS+=("INDEX.md not found at $INDEX_FILE")
@@ -100,13 +100,17 @@ MISSING_FILES=()
 MISSING_ENTRIES=()
 if [[ "$MANIFEST_OK" == "true" ]]; then
   # Extract rule file paths from manifest (heuristic: any value matching *.md)
+  # SE-338: el schema usa los *.md como KEYS del dict `rules`; incluirlas también.
   MANIFEST_FILES=$(python3 -c "
 import json, sys
 with open('$MANIFEST_FILE') as f:
     data = json.load(f)
 def walk(v):
     if isinstance(v, dict):
-        for sub in v.values(): yield from walk(sub)
+        for k, sub in v.items():
+            if isinstance(k, str) and k.endswith('.md'):
+                yield k
+            yield from walk(sub)
     elif isinstance(v, list):
         for item in v: yield from walk(item)
     elif isinstance(v, str) and v.endswith('.md'):

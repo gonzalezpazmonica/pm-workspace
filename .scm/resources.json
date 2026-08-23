@@ -1,6 +1,6 @@
 {
-  "hash": "472296175fa7",
-  "total": 1391,
+  "hash": "163c8decac0d",
+  "total": 1393,
   "resources": [
     {
       "category": "analysis",
@@ -12621,6 +12621,20 @@
     },
     {
       "category": "planning",
+      "name": "rule-manifest-generate",
+      "intents": [
+        "filesystem",
+        "generate",
+        "json",
+        "manifest",
+        "rule"
+      ],
+      "kind": "script",
+      "path": "scripts/rule-manifest-generate.sh",
+      "description": "rule-manifest-generate.sh — SE-338: genera rule-manifest.json desde el filesystem"
+    },
+    {
+      "category": "planning",
       "name": "rule-manifest-integrity",
       "intents": [
         "index",
@@ -17272,6 +17286,20 @@
       "kind": "script",
       "path": "scripts/test-coverage-checker.sh",
       "description": "test-coverage-checker.sh — Verify every script has a corresponding test"
+    },
+    {
+      "category": "quality",
+      "name": "test-coverage-ratchet",
+      "intents": [
+        "cobertura",
+        "coverage",
+        "críticos",
+        "hooks",
+        "ratchet"
+      ],
+      "kind": "script",
+      "path": "scripts/test-coverage-ratchet.sh",
+      "description": "test-coverage-ratchet.sh — SE-339: ratchet de cobertura de tests para hooks críticos"
     },
     {
       "category": "quality",
