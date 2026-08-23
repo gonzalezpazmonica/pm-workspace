@@ -1,6 +1,6 @@
 {
-  "hash": "0308777c94ee",
-  "total": 1385,
+  "hash": "8ea362d4064e",
+  "total": 1386,
   "resources": [
     {
       "category": "analysis",
@@ -11252,6 +11252,20 @@
       "kind": "skill",
       "path": ".claude/skills/memvid-backup/SKILL.md",
       "description": "Usar cuando se crea un backup portable de la memoria externa de Savia."
+    },
+    {
+      "category": "planning",
+      "name": "meta-control",
+      "intents": [
+        "control",
+        "meta",
+        "metacognitivo",
+        "orquestador",
+        "sagi"
+      ],
+      "kind": "script",
+      "path": "scripts/meta-control.sh",
+      "description": "meta-control.sh — L13 F2: control metacognitivo sobre el orquestador SAGI."
     },
     {
       "category": "planning",
