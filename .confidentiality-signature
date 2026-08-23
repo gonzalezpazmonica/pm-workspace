@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=94890a459cfc0c418244d5975a448ebaee3e2e29cb0b25a0a0fe3e5091a48daf
-timestamp=2026-08-23T01:13:34Z
-branch=agent/se334-cierre-verificacion
-head_commit=c8261c6d
-signature=b494f903506fea30f84ebb651196a2fe2316a8fc5798b878d6dc1dc2e8da3897
+diff_hash=da39ae6e8c1d04eb468e6e915f523856400312a8f922e24614998bd3362c9401
+timestamp=2026-08-23T01:28:32Z
+branch=agent/l13-f4-recalibra-ledger
+head_commit=859016e6
+signature=8d86f93ac15af2ba139a78d65425829e7490b364140c3a6ca6974304efb5434d
