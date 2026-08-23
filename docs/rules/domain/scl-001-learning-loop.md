@@ -113,31 +113,31 @@ Pesos 0.5/0.3/0.2. Determinista y agnóstica a modelo (inputs escalares, nunca i
   escrituras fuera del sustrato, CONSTITUCION invariante tras N ciclos.
 - PURE_BASH: corre idéntico bajo cualquier frontend.
 
+## Sustrato antes que LLM (LP-20260823-l11-run3)
+
+Criterio/memoria inyectan el sustrato (recall CRITERIO + lessons) antes del
+LLM; el modelo aislado no lo mantiene (SCL-011 `LEER → decidir`). Confirma P2/P3.
+
 ## Uso
 
 ```bash
 # S1 — captura
 bash scripts/learning-proposal.sh --origin "<origen>" \
   --evidence "ruta[:hash]" --diagnosis "<d>" --change "<c>" --target criterio
-
 # S2 — ciclo de vida (humano activa)
 bash scripts/learning-lifecycle.sh --file <proposal.md> --to canary --actor agente
-bash scripts/learning-lifecycle.sh --file <proposal.md> --to active \
-  --actor operadora --human-trailer <sig> --metric-before <L> --metric-after <L>
+bash scripts/learning-lifecycle.sh --file <proposal.md> --to active --actor operadora \
+  --human-trailer <sig> --metric-before <L> --metric-after <L>
 bash scripts/learning-rollback.sh --file <proposal.md> --reason "<motivo>"
-
 # S3 — métrica y reporte
 bash scripts/learning-metric.sh --p-consistent 0.8 --divergence 0.2 --ignorance-resolved 0.5
 bash scripts/learning-report.sh --window W34 --captured N --activated M \
   --p-consistent-before X --p-consistent-after Y
-
 # S4 — guard de agnosticismo
 bash scripts/learning-guard.sh --loop-dir scripts/
-
 # SCL-004 — divergencia grafo-modelo (Labs L1)
-bash scripts/learning-divergence.sh --claim "<declaracion modelo>" \
-  --graph-query "<tema>" --threshold 0.6 [--propose]   # exit 1 si diverge
-
+bash scripts/learning-divergence.sh --claim "<declaracion>" --graph-query "<tema>" \
+  --threshold 0.6 [--propose]
 # SCL-006 — autonomía graduada por p_consistent
 bash scripts/learning-autonomy.sh --p-consistent 0.8 --requested L2
 #   p<0.5→L0 · 0.5-0.7→L1 · 0.7-0.85→L2 · ≥0.85→L3 (+historial+humano)
