@@ -109,6 +109,29 @@ else
   log "memory-bootstrap" 2 "script ausente"
 fi
 
+# 6. crontab físico para automations (P8: ejecución en el momento, no solo al
+#    abrir sesión). Opcional: si no hay crontab disponible, falla abierto.
+if command -v crontab >/dev/null 2>&1; then
+  marker="# >>> savia-automations-run-due >>>"
+  end_marker="# <<< savia-automations-run-due <<<"
+  entry="*/30 * * * * cd '$ROOT' && bash scripts/savia-automations.sh run-due --max 2 >> '$ROOT/output/install-logs/automations.log' 2>&1"
+  if [[ "$DRY_RUN" -eq 1 ]]; then
+    log "automations-cron" 0 "dry-run"
+  else
+    # Remove old block then append new (idempotente)
+    ( crontab -l 2>/dev/null | awk -v s="$marker" -v e="$end_marker" '
+        $0==s {skip=1; next} $0==e {skip=0; next} skip==0 {print}
+      '
+      printf '%s\n%s\n%s\n' "$marker" "$entry" "$end_marker"
+    ) | crontab - 2>/dev/null
+    log "automations-cron" 0 "crontab run-due cada 30 min instalado"
+  fi
+  say "── automations-cron: crontab run-due (idempotente) ✓"
+else
+  log "automations-cron" 2 "crontab no disponible (opcional)"
+  say "── automations-cron: crontab no disponible (opcional, usa SessionStart)"
+fi
+
 log "savia-install" 0 "done"
 say ""
 say "Savia install completado. Ver: output/install-logs/ o ~/.savia/install.log"
