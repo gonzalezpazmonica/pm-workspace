@@ -1,6 +1,6 @@
 # Savia Capability Map — INDEX
-> hash: b57a6c92a4c2 | resources: 1386
-> 294 commands · 127 skills · 83 agents · 882 scripts
+> hash: 33a3da3e14e5 | resources: 1387
+> 294 commands · 127 skills · 83 agents · 883 scripts
 
 [analysis] Trace Optimize — across,distributed,optimize,rates,sampling — cmd:.claude/commands/trace-optimize.md
 [analysis] agent-activity — activity,agent,executions,recent,show — cmd:.claude/commands/agent-activity.md
@@ -815,6 +815,7 @@
 [planning] kg-topology-analysis — analysis,topology,wrapper — script:scripts/kg-topology-analysis.sh
 [planning] knowledge-graph — conocimiento,construye,consulta,entidades,grafo — skill:.claude/skills/knowledge-graph/SKILL.md
 [planning] knowledge-graph — graph,knowledge,shell,wrapper — script:scripts/knowledge-graph.sh
+[planning] l13-meta-pruebas — determinista,harness,meta,pruebas — script:scripts/l13-meta-pruebas.sh
 [planning] labs-preregister — hipotesis,labs,preregister,preregistro,savia — script:scripts/labs-preregister.sh
 [planning] language-boundary-check — boundary,check,language,scripts,slice — script:scripts/language-boundary-check.sh
 [planning] learning-autonomy — autonomy,autonomía,consistent,graduada,learning — script:scripts/learning-autonomy.sh
