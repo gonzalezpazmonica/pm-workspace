@@ -64,6 +64,29 @@ run_step() {
 log "savia-install" 0 "start"
 say "Savia install — bootstrap central (idempotente)"
 
+# 0. Node runtime (CRIT-001, infra propia). SaviaVaults CLI (recall, cúpulas,
+#    grafo) requiere node >= 22. Si no hay node en PATH, se instala en
+#    ~/.savia/node (offline-ready tras primera descarga). Falla abierto si no
+#    hay red y node falta (el resto del bootstrap continúa).
+if ! command -v node >/dev/null 2>&1 && [[ ! -x "$HOME/.savia/node/bin/node" ]]; then
+  say "── node-detect: node ausente — instalando en ~/.savia/node (infra propia)..."
+  mkdir -p "$HOME/.savia/node"
+  if curl -fsSL --max-time 90 "https://nodejs.org/dist/v22.14.0/node-v22.14.0-linux-x64.tar.xz" -o /tmp/savia-node.tar.xz 2>/dev/null \
+     && tar -xJf /tmp/savia-node.tar.xz -C "$HOME/.savia/node" --strip-components=1 2>/dev/null; then
+    say "── node-detect: node $( "$HOME/.savia/node/bin/node" --version 2>/dev/null || echo '?') instalado local"
+    log "node-detect" 0 "node instalado en ~/.savia/node"
+  else
+    say "── node-detect: no se pudo descargar node (sin red) — recall/grafo degradados hasta instalar node"
+    log "node-detect" 3 "node ausente y descarga no disponible"
+  fi
+else
+  log "node-detect" 0 "node ya disponible ($(node --version 2>/dev/null || echo 'local'))"
+fi
+if [[ -x "$HOME/.savia/node/bin/node" ]]; then
+  export PATH="$HOME/.savia/node/bin:$PATH"
+  log "node-detect" 0 "node en PATH desde ~/.savia/node"
+fi
+
 # 1. memory deps opcionales
 if [[ -x "$ROOT/scripts/install-memory-deps.sh" ]]; then
   run_step "memory-deps" "deps de memoria (vector)" bash "$ROOT/scripts/install-memory-deps.sh"
