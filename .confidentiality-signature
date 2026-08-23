@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=408419f24975268ff494775ef6fee27900efac2280bf43f498d587b80de51a3d
-timestamp=2026-08-23T01:28:28Z
-branch=agent/scl-run3-cierre
-head_commit=b606521a
-signature=30c236df3b0557297d7847cacce4dd25cd7af4f9622c8d7bed6a4fd155069d56
+diff_hash=134beee90efc9daf024978ef0ed0f4533943e7d23958a52563ea7c765943ef19
+timestamp=2026-08-23T01:56:12Z
+branch=HEAD
+head_commit=391d620f
+signature=36a527dec235f274b582b6e62b3b89bf195687c80f99f051e86e87d5d5f65606
