@@ -1,6 +1,6 @@
 # Savia Capability Map — INDEX
-> hash: 8da54e3a7690 | resources: 1389
-> 294 commands · 127 skills · 83 agents · 885 scripts
+> hash: 435bbd76d6e5 | resources: 1391
+> 294 commands · 127 skills · 83 agents · 887 scripts
 
 [analysis] Trace Optimize — across,distributed,optimize,rates,sampling — cmd:.claude/commands/trace-optimize.md
 [analysis] agent-activity — activity,agent,executions,recent,show — cmd:.claude/commands/agent-activity.md
@@ -98,6 +98,7 @@
 [communication] savia-attest — attest,savia,scripts,slice — script:scripts/savia-attest.sh
 [communication] savia-backup — backup,restore,savia,script — script:scripts/savia-backup.sh
 [communication] savia-board —  — cmd:.claude/commands/savia-board.md
+[communication] savia-bootstrap-log — arranque,bootstrap,consolidacion,instalación,savia — script:scripts/savia-bootstrap-log.sh
 [communication] savia-branch — abstraction,branch,company,layer,savia — script:scripts/savia-branch.sh
 [communication] savia-broadcast —  — cmd:.claude/commands/savia-broadcast.md
 [communication] savia-compat — compat,compatibility,cross,helpers,platform — script:scripts/savia-compat.sh
@@ -128,6 +129,7 @@
 [communication] savia-inbox —  — cmd:.claude/commands/savia-inbox.md
 [communication] savia-index — index,savia — script:scripts/savia-index.sh
 [communication] savia-index-rebuild — index,rebuild,savia — script:scripts/savia-index-rebuild.sh
+[communication] savia-install — bootstrap,central,consolidacion,idempotente,install — script:scripts/savia-install.sh
 [communication] savia-labs — audita,auditoria,certificado,corpus,desconocidos — skill:.claude/skills/savia-labs/SKILL.md
 [communication] savia-live — activity,live,queue,recent,right — cmd:.claude/commands/savia-live.md
 [communication] savia-memory — busca,consolida,escribe,memoria,persistente — skill:.claude/skills/savia-memory/SKILL.md
