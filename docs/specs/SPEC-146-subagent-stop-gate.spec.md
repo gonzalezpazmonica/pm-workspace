@@ -7,7 +7,13 @@
 
 ---
 
-## Status: APPROVED
+## Status: APPROVED → IMPLEMENTED (2026-08-23)
+
+> Verificado: el guard `## Subagent Scope Guard` está presente en las 8 skills
+> críticas (adversarial-security, code-improvement-loop, consensus-validation,
+> dag-scheduling, overnight-sprint, spec-driven-development, tdd-vertical-slices,
+> verification-lattice) y la sección normativa existe en
+> `docs/rules/domain/autonomous-safety.md`.
 
 ---
 
@@ -49,10 +55,10 @@ inmediatamente después del frontmatter. El bloque instruye a la skill a:
 
 ## Criterios de aceptación
 
-- [ ] Las 8 skills contienen el bloque `## Subagent Scope Guard` tras el frontmatter
-- [ ] Cada skill afectada tiene ≤150 líneas (Rule 11)
-- [ ] `docs/rules/domain/autonomous-safety.md` contiene la sección `## Subagent Scope Guard — SE-146`
-- [ ] Commit en `feature/SE-146-subagent-stop` con mensaje canónico
+- [x] Las 8 skills contienen el bloque `## Subagent Scope Guard` tras el frontmatter
+- [x] Cada skill afectada tiene ≤150 líneas (Rule 11)
+- [x] `docs/rules/domain/autonomous-safety.md` contiene la sección `## Subagent Scope Guard — SE-146`
+- [x] Commit en `feature/SE-146-subagent-stop` con mensaje canónico
 
 ## Referencias
 
