@@ -105,6 +105,54 @@ def cmd_run():
     if result.error:
         print(f"  error: {result.error}")
 
+def cmd_run_due():
+    """Run all due enabled tasks (the 'loops saltan solos' driver).
+
+    Optionally limit with --max N. Task instructions may select a local LLM
+    (--decide llm) — CRIT-001: the runner never falls back to cloud. If the
+    local LLM is absent, the task fails open with a recorded error instead of
+    contacting a provider.
+    """
+    max_tasks = sys.maxsize
+    if len(sys.argv) >= 3 and sys.argv[1] == "--max":
+        try:
+            max_tasks = int(sys.argv[2])
+        except ValueError:
+            max_tasks = sys.maxsize
+    due = store.due()
+    if not due:
+        print("run-due: no due tasks")
+        return
+    import asyncio
+    executed = 0
+    for t in due[:max_tasks]:
+        async def _one(_t=t):
+            from automations.runner import run_scheduled_task
+            result = await run_scheduled_task(
+                _t, "schedule", output_dir=os.path.join(_root, "output/automations")
+            )
+            store.add_run(result)
+            return result
+        result = asyncio.run(_one())
+        executed += 1
+        print(f"run-due {t.id} ({t.name}): {result.status}")
+        if result.error:
+            print(f"  error: {result.error}")
+        store.save(t)  # recomputes next_run
+    print(f"run-due: {executed}/{len(due)} tasks executed")
+
+def cmd_compute():
+    """Materialize next_run for every task (normalize + recompute)."""
+    updated = 0
+    for t in store.all():
+        new_next = store._compute_next_run(t.schedule)
+        if new_next != t.next_run:
+            t.next_run = new_next
+            store.save(t)
+            updated += 1
+        print(f"{t.id} {t.name}: next_run={t.next_run or 'none'}")
+    print(f"compute: {updated} tasks updated")
+
 def cmd_disable():
     if len(sys.argv) < 2:
         print("Usage: disable <task-id>"); return
@@ -198,6 +246,8 @@ cmds = {
     "show": cmd_show, "inspect": cmd_show,
     "create": cmd_create, "add": cmd_create,
     "run": cmd_run, "execute": cmd_run,
+    "run-due": cmd_run_due, "due-run": cmd_run_due,
+    "compute": cmd_compute, "recompute": cmd_compute,
     "disable": cmd_disable, "off": cmd_disable,
     "enable": cmd_enable, "on": cmd_enable,
     "delete": cmd_delete, "rm": cmd_delete,
@@ -217,6 +267,8 @@ else:
     print("  show <task-id>                 Show full task details (JSON)")
     print("  create --name <n> --schedule <cron> --instructions <text>")
     print("  run <task-id>                  Execute a task immediately")
+    print("  run-due [--max N]             Run all due enabled tasks")
+    print("  compute                       Recompute next_run for all tasks")
     print("  disable <task-id>              Disable a task")
     print("  enable <task-id>               Enable a disabled task")
     print("  delete <task-id>               Delete a task permanently")

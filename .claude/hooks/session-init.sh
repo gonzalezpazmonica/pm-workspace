@@ -236,6 +236,28 @@ if command -v curl >/dev/null 2>&1; then
   fi
 fi
 
+# ── Learning recall ready (SPEC-CONSOLIDACION R6) ────────────────────────────
+# Ítem informativo: cuántas lecciones activas/human_authored hay disponibles
+# para recall (sin inyectar snippets — presupuesto de contexto del banner).
+check_timeout
+if [ -x "${_si_dir}/../../scripts/learning-recall.sh" ]; then
+  LP_ACTIVE=$(grep -rl "lifecycle: active" "${CLAUDE_PROJECT_DIR:-$SAVIA_WORKSPACE_DIR}/docs/learning-proposals/" 2>/dev/null | wc -l)
+  if [ "${LP_ACTIVE:-0}" -gt 0 ]; then
+    ITEMS+=("SCL: $LP_ACTIVE lección(es) active para recall")
+  fi
+fi
+
+# ── Automations due-run (SPEC-CONSOLIDACION R2: loops saltan solos) ──────────
+# Tras el prewarm de Ollama, ejecuta las tareas programadas atrasadas
+# (orquestador diario, morning brief, etc.) SIN bloquear el arranque.
+# CRIT-001: las tareas usan LLM local (Ollama); si no hay, fallan abierto.
+check_timeout
+if [ -x "${_si_dir}/../../scripts/savia-automations.sh" ]; then
+  timeout 4 bash "${_si_dir}/../../scripts/savia-automations.sh" run-due --max 2 \
+    >/dev/null 2>&1 &
+  ITEMS+=("Automations: due-run programado (loops autónomos)")
+fi
+
 # ── Shield auto-start + health check (SPEC-071) ─────────────────────────────
 check_timeout
 SHIELD_PORT="${SAVIA_SHIELD_PORT:-8444}"

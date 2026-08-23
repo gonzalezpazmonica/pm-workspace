@@ -1,5 +1,5 @@
 # communication — Savia Capability Map (L1)
-> 100 resources
+> 102 resources
 
 - **archive-digest** (agent): >
 - **digest-extract** (script): digest-extract.sh — Capa 0 universal de extracción via markitdown (SE-172)
@@ -23,6 +23,7 @@
 - **savia-attest** (script): scripts/savia-attest.sh — SE-255 Slice 6
 - **savia-backup** (script): Savia Backup & Restore Script
 - **savia-board** (cmd): >
+- **savia-bootstrap-log** (script): savia-bootstrap-log.sh — SPEC-CONSOLIDACION R3: log de instalación/arranque.
 - **savia-branch** (script): savia-branch.sh — Git branch abstraction layer for Company Savia v3
 - **savia-broadcast** (cmd): >
 - **savia-compat** (script): savia-compat.sh — Portable helpers for cross-platform compatibility
@@ -53,6 +54,7 @@
 - **savia-inbox** (cmd): >
 - **savia-index** (script): ── savia-index.sh ──────────────────────────────────────────────────────────
 - **savia-index-rebuild** (script): ── savia-index-rebuild.sh ──────────────────────────────────────────────────
+- **savia-install** (script): savia-install.sh — SPEC-CONSOLIDACION R4: bootstrap central idempotente.
 - **savia-labs** (skill): Usar cuando se investiga, experimenta o audita epistemicamente. Triggers: 'investiga', 'experimento', 'hipotesis', 'preregistro', 'labs', 'divergencia', 'certificado de ignorancia', 'corpus de desconocidos', 'auditoria de reclutamiento', 'f
 - **savia-live** (cmd): Show what Savia is working on right now — live task queue and recent activity
 - **savia-memory** (skill): Usar cuando se lee, escribe, busca o consolida la memoria persistente entre sesiones de Savia.
