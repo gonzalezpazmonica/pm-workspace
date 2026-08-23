@@ -1,5 +1,5 @@
 # development — Savia Capability Map (L1)
-> 222 resources
+> 223 resources
 
 - **/speckit.checklist** (cmd): Alias spec-kit compatible. Gate de calidad final con verification-lattice multi-capa. Invoca skill verification-lattice. Compatible con github/spec-kit.
 - **/speckit.clarify** (cmd): Alias spec-kit compatible. Preguntas dirigidas para cerrar ambigüedad en una spec. Invoca skill context-interview-conductor. Compatible con github/spec-kit.
@@ -97,6 +97,7 @@
 - **feasibility-probe** (skill): Usar cuando se necesita validar si una spec es técnicamente viable antes de implementarla.
 - **feasibility-probe** (agent): Validates spec feasibility by attempting a time-boxed prototype. Produces viability report with score, blocking sections, and decomposition suggestions.
 - **fiction-framing-judge** (agent): Recommendation Tribunal judge — detects persona-shift plus content-equivalent framing over sensitive domain (SPEC-193)
+- **freetoken-probe** (script): freetoken-probe.sh — SPEC-FREETOKEN-PROBE: valida la viabilidad de FreeToken
 - **gaia-benchmark-harness** (script): gaia-benchmark-harness.sh — SPEC-100 Slice 1 GAIA benchmark harness.
 - **gitagent-export** (script): gitagent-export.sh — SPEC-099 Slice 1 gitagent adapter.
 - **graph-build** (cmd): Construye el grafo de conocimiento PM para un proyecto
