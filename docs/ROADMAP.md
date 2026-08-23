@@ -1632,7 +1632,8 @@ piezas ya existen (captura, ledger, calibración, Labs, p_consistent): falta el 
 ```text
 SCL-001 S1 (captura) → S2 (ciclo de vida + rollback) → S3 (métrica L) → S4 (agnosticismo)
   → SCL-002..013 → SE-334  [TODOS IMPLEMENTADOS 2026-08-17..23]
-  → Siguiente: L13 metacognición (cierre) + L14 circuit-closing deuda estructural (SaviaLabs)
+  → Labs: L11 (SAGI) y L13 (metacognición) CERRADAS
+  → Siguiente: L14 circuit-closing deuda estructural (SaviaLabs)
 ```
 
 ### Estado
@@ -1650,7 +1651,7 @@ SCL-001 S1 (captura) → S2 (ciclo de vida + rollback) → S3 (métrica L) → S
 - Invariante: la CONSTITUCION y CRITERIO permanecen intocables por el bucle (CRIT-031);
   "la IA propone, el humano dispone".
 - **Estado 2026-08-23**: programa SCL completo (SCL-001..013 + SE-334) en main.
-  Labs: L1-L11 cerradas, L13 metacognición en ejecución, L14 deuda estructural preregistrada.
+  Labs: L1-L11 y L13 cerradas, L14 deuda estructural en curso, L12 voz abierta.
 
 ---
 

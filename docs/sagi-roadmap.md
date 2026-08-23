@@ -139,10 +139,12 @@ El orquestador SAGI está en producción (SCL-011/012/013, #985-#987), con
 monitoreo metacognitivo sobre él (L13 F1/F2/F3, #993-#995).
 
 **L11 CERRADA 2026-08-23** (CONFIRMA run-2 + run-3, retorno 3/3 superado). La
-línea SAGI como experimento concluye: el mecanismo quedó en producción. La
-cognición siguiente se traslada a **L13 (metacognición)** — en ejecución — y a
-la nueva línea de **L14 (circuit-closing deuda estructural)**, preregistrada en
-SaviaLabs.
+línea SAGI como experimento concluye: el mecanismo quedó en producción.
+**L13 (metacognición) CERRADA 2026-08-23** (CONFIRMA 4/4: calibración,
+divergencia modula confianza, autorregulación POSTPONE, recalibración con señal
+real del ledger) — la capa metacognitiva queda operativa sobre el orquestador.
+La siguiente línea viva es **L14 (circuit-closing deuda estructural)**,
+preregistrada en SaviaLabs.
 
 Próximos pasos desde este roadmap:
 
