@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=34bc49755b70e185d8dd83c3baca5a65567cb15bb534780cb213897d294063b2
-timestamp=2026-08-24T08:07:19Z
-branch=agent/se343-operator-grant-deterministic-20260824
-head_commit=20ab3657
-signature=c1dd127e6fd89d137aa2a9ec6edc36eb76d113b760c8703e997cf39b3254ffc7
+diff_hash=cbbc8c0f53b1d9168d45167c5f7fbde7d65acca50c493fa2912ae142f2f7a854
+timestamp=2026-08-24T09:43:09Z
+branch=agent/overnight-20260824-l20-model-gateway
+head_commit=b116f23b
+signature=550a1e447a9a58d2e12f8dadf9c77bd904f483f8289c53813e31950b4678f310

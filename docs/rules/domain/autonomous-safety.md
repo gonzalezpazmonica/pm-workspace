@@ -43,18 +43,8 @@ SIEMPRE → Incluir en el PR body: métricas antes/después, descripción del ca
 SIEMPRE → Esperar aprobación humana — el agente NO hace seguimiento ni insiste
 ```
 
-#### Merge bajo permiso expreso (SE-343)
-
-De base, `push-pr.sh --merge` NO mergea: exige un **grant `merge` vigente**
-registrado en el ledger local (`~/.savia/grants/`) vía
-`operator-grant.sh grant --scope merge --context "<petición de la operadora>"`.
-Savia solo emite el grant cuando la operadora lo pide **expresamente**; nunca se
-auto-concede (`source != self`). El grant se **consume** tras el primer merge
-exitoso (one-shot, TTL 6h por defecto).
-
-El flujo correcto: la operadora pide merge → Savia emite el grant con contexto →
-`push-pr.sh --merge` verifica el grant y mergea → el grant se revoca. Sin grant
-(nadie autorizó), `push-pr.sh --merge` aborta y el PR permanece en Draft.
+Merge bajo permiso expreso (SE-343): `push-pr.sh --merge` no mergea sin grant
+`merge` vigente emitido a peticion expresa (apendice: `autonomous-safety-merge-grant.md`).
 
 ## Reglas de investigación — Notificación humana
 
@@ -113,9 +103,8 @@ Cada sesión autónoma genera `output/agent-runs/{modo}-{fecha}-audit.log`. Camp
 
 ## Auto Mode — Capa complementaria (Claude Code 2026-03-24)
 
-`claude --enable-auto-mode` bloquea acciones destructivas pre-tool-call sin
-`--dangerously-skip-permissions`. NO reemplaza los gates de esta regla — añade
-defensa en profundidad. Desktop/VS Code: Settings → Claude Code → Auto Mode.
+`claude --enable-auto-mode` bloquea acciones destructivas pre-tool-call. NO
+reemplaza esta regla; añade defensa en profundidad (Settings → Auto Mode).
 Ref: anthropic.com/engineering/claude-code-auto-mode
 
 ## Escalamiento de modelo
@@ -144,9 +133,7 @@ Cuando un agente o skill se invoca como **subagente delegado** (recibe una tarea
 
 **Por qué**: las skills de alto impacto (overnight-sprint, code-improvement-loop, adversarial-security, etc.) tienen bucles de orquestación que, activados íntegramente por un subagente, generan runs en cascada fuera de control.
 
-**Detección de contexto subagente**: tarea vía `Task` tool, env `SAVIA_SUBAGENT=1`, o flag `--subagent` → aplicar este guard.
-
-**Skills con este guard**: adversarial-security, code-improvement-loop, consensus-validation, dag-scheduling, overnight-sprint, spec-driven-development, tdd-vertical-slices, verification-lattice.
+**Detección de contexto subagente**: tarea vía `Task` tool, env `SAVIA_SUBAGENT=1`, o flag `--subagent` → aplicar este guard. **Skills con este guard**: adversarial-security, code-improvement-loop, consensus-validation, dag-scheduling, overnight-sprint, spec-driven-development, tdd-vertical-slices, verification-lattice.
 
 ## Handback Obligation — SE-332
 
