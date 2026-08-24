@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=6e247e1935d911f7acd302e017bbd6ff8f5d68ae5f53c205bf2bb9af3c263169
-timestamp=2026-08-24T10:41:40Z
-branch=agent/overnight-20260824-l18-experiment-tracking
-head_commit=f76e1078
-signature=c365cfcebd7e57e8ae09355ed7caa93aeeff5f1b8df7c402f65eeab1950970c3
+diff_hash=4825129e4d71a39474a6c6c913fc7e1e7b5d5d5f6f4e6ada544b4673a220c6de
+timestamp=2026-08-24T10:57:35Z
+branch=agent/overnight-20260824-l22-vector-hybrid
+head_commit=e23ecddc
+signature=09de08747ee246fda5b5ee280b605ff7ecc4ef0ed998fc8894b284f2cf1c327a
