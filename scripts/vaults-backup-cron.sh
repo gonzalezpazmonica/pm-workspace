@@ -23,7 +23,7 @@
 # Salida: 0 OK · 1 fallo
 set -uo pipefail
 
-VAULTS_DIR="${HOME}/savia/vaults"
+VAULTS_DIR="${SAVIA_VAULTS_DIR:-$HOME/savia/vaults}"
 BACKUP_DIR="${SAVIA_VAULTS_BACKUP_DIR:-${HOME}/.savia-vaults/backups}"
 RETENTION="${SAVIA_BACKUP_RETENTION:-30}"
 LOG_DIR="${HOME}/.savia-vaults"
