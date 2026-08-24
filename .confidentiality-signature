@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=30d802a68af4381ba8b28a92da92dd993f2c52dcef21e50722a980f934111278
-timestamp=2026-08-24T19:43:33Z
-branch=agent/overnight-20260824-tiers-opencode-go
-head_commit=4460a0b2
-signature=03db53826bc3de1961afeacfdbedeab9a3474d3143a1ba9f19298a20f8297891
+diff_hash=2d849e24d5ee7b7bfc4f85edf1ae328230f34c687cde84f4a877c75f836e9d49
+timestamp=2026-08-24T20:03:02Z
+branch=agent/overnight-20260824-se344-fxc
+head_commit=69c4575f
+signature=8f9d500a10d3c8cd06b0f333a78479fda0a219a1f790f8bdbaa64e8e447e812f
