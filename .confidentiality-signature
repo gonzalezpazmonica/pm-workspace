@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
 diff_hash=4ea28e06cf36f831f1fe392618bc4bd332360ba0a376deec8dd32bddb4cd3808
-timestamp=2026-08-24T20:38:28Z
+timestamp=2026-08-24T20:38:54Z
 branch=agent/overnight-20260824-guard-commit-to-main-clean
-head_commit=4dc0a0a7
+head_commit=32e18efe
 signature=1ed8ffdce4b33b770ecc603ec1688a22c2ae35095291e53662841e2947cff6f4
