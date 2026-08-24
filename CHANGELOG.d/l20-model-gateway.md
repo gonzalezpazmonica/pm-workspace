@@ -13,7 +13,8 @@ section: Added
     tipo, llamante, status, latencia y payload **redactado** (campos N3+
     sustituidos por `sha256:...`, nunca en claro).
   - Redacción determinista recursiva (dicts listas), configurable via
-    `SAVIA_GW_REDACT_KEYS`.
+    `SAVIA_GW_REDACT_KEYS` (default incluye text, content, input, prompt,
+    password, secret, authorization).
   - Rate-limit por llamante (token bucket, `SAVIA_GW_RATELIMIT`, por defecto
     30 rpm) y `/health` que reporta alcanzabilidad de runtimes locales.
   - 10 tests BATS (redacción, determinismo, rate-limit, health).
@@ -23,3 +24,8 @@ section: Added
 - `operator-grant.sh list` (SE-343): el listado marcaba `valid=no` en grants
   vigentes (comparacion string vs exit code); ahora usa el exit code real de
   `check_scope`.
+- `autonomous-safety.md` >150 líneas (Rule 11): el detalle del merge bajo
+  permiso expreso (SE-343) se traslada al nuevo apéndice
+  `docs/rules/domain/autonomous-safety-merge-grant.md`; el host queda en 150
+  líneas con puntero al apéndice. Desbloquea el gate "Standards Compliance
+  Gate" de CI en los PRs del turno nocturno.
