@@ -544,6 +544,114 @@ def run_predict(argv):
     return 0
 
 
+# ── L19 / SE-342 S3: monitor de calidad de datos (baseline vs drift) ────
+# Determinista, local (~/.savia/data-quality/), cero egress (CRIT-001).
+def run_monitor(argv):
+    import json as _json
+    import os as _os
+    from datetime import date
+
+    BASEDIR = _os.environ.get("SAVIA_DQ_DIR", _os.path.expanduser("~/.savia/data-quality"))
+
+    cmd = "check"
+    freshness = _os.environ.get("SAVIA_DQ_FRESHNESS_DAYS", "7")
+    completeness = _os.environ.get("SAVIA_DQ_COMPLETENESS", "95")
+    files = []
+    i = 0
+    while i < len(argv):
+        if argv[i] in ("init", "check"):
+            cmd = argv[i]; i += 1
+        elif argv[i] == "--freshness-days" and i + 1 < len(argv):
+            freshness = argv[i + 1]; i += 2
+        elif argv[i] == "--completeness" and i + 1 < len(argv):
+            completeness = argv[i + 1]; i += 2
+        elif argv[i] in ("--help", "-h"):
+            print("Usage: tabular-profile.py monitor <init|check> [--freshness-days N] [--completeness N] FILE")
+            return 0
+        else:
+            files.append(argv[i]); i += 1
+
+    if not files:
+        files = ["-"]
+    try:
+        tables = read_tables(files, MAX_SAMPLE)
+    except ExcelUnsupported as exc:
+        print(_json.dumps({"error": str(exc)}))
+        return 1
+    table = next((t for t in tables if t["rows"]), None)
+    if table is None:
+        print(_json.dumps({"error": "no data found"}))
+        return 1
+    rows = table["rows"]
+    key = _os.path.basename(files[0]) if files and files[0] != "-" else "stdin"
+
+    now = date.today()
+    today_iso = now.isoformat()
+    # deterministic per-column profile snapshot
+    cols = list(rows[0].keys()) if rows and isinstance(rows[0], dict) else []
+    col_stats = {}
+    for c in cols:
+        non_null = sum(1 for r in rows if r.get(c) not in (None, ""))
+        col_stats[c] = {
+            "type": detect_type([r.get(c) for r in rows], len(rows)),
+            "completeness": round(100.0 * non_null / len(rows), 1) if rows else 0,
+        }
+
+    baseline = {
+        "file": key, "rows": len(rows), "cols": cols,
+        "snapshot_date": today_iso, "col_stats": col_stats,
+    }
+    bfile = _os.path.join(BASEDIR, key.replace("/", "_").replace(".", "_") + ".json")
+
+    if cmd == "init":
+        _os.makedirs(BASEDIR, exist_ok=True)
+        with open(bfile, "w", encoding="utf-8") as fh:
+            _json.dump(baseline, fh, ensure_ascii=False)
+        print(_json.dumps({"action": "baseline_saved", "file": key, "rows": len(rows),
+                           "cols": len(cols), "baseline": bfile}, ensure_ascii=False))
+        return 0
+
+    # check: compare against baseline
+    if not _os.path.exists(bfile):
+        print(_json.dumps({"error": "no baseline — run 'monitor init' first", "expected": bfile}))
+        return 1
+    with open(bfile, encoding="utf-8") as fh:
+        ref = _json.load(fh)
+
+    issues = []
+    # freshness: file age in days vs baseline snapshot date
+    import time as _time
+    mtime = _os.path.getmtime(files[0]) if files and files[0] != "-" else _time.time()
+    mtime_date = date(*_time.localtime(mtime)[:3])
+    age_days = (mtime_date - date.fromisoformat(ref["snapshot_date"])).days
+    if age_days > int(freshness):
+        issues.append({"check": "freshness", "status": "WARN", "days": age_days, "max": int(freshness)})
+
+    # schema drift
+    for c in ref["cols"]:
+        if c not in cols:
+            issues.append({"check": "schema", "status": "WARN", "detail": f"column '{c}' missing"})
+    for c in cols:
+        if c not in ref["cols"]:
+            issues.append({"check": "schema", "status": "WARN", "detail": f"new column '{c}'"})
+    # completeness drift
+    for c, st in ref["col_stats"].items():
+        cur = col_stats.get(c, {}) if c in col_stats else None
+        if cur is None:
+            continue
+        if cur["completeness"] < int(completeness):
+            issues.append({"check": "completeness", "status": "FAIL",
+                           "column": c, "value": cur["completeness"], "min": int(completeness)})
+
+    verdict = "FAIL" if any(x["check"] == "completeness" for x in issues) else \
+              ("WARN" if issues else "PASS")
+    out = {"action": "check", "verdict": verdict, "file": key,
+           "rows": {"now": len(rows), "baseline": ref["rows"], "delta": len(rows) - ref["rows"]},
+           "issues": issues}
+    print(_json.dumps(out, ensure_ascii=False, indent=2))
+    return 0 if verdict == "PASS" else 1
+
+
 def main():
     sample = MAX_SAMPLE
     sources = []
@@ -553,6 +661,9 @@ def main():
     # L21 (SE-342 S5): predict subcommand — local classic ML, no TFMs, zero egress.
     if args and args[0] == "predict":
         return run_predict(args[1:])
+    # L19 (SE-342 S3): data-quality monitor (baseline vs drift).
+    if args and args[0] == "monitor":
+        return run_monitor(args[1:])
 
     i = 0
     while i < len(args):
