@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=ab0e83ed44bdddc552fdb14a28a5c0949b3d79f679cc46133970c420d7f4aae9
-timestamp=2026-08-24T22:32:12Z
-branch=agent/overnight-20260824-savia-gates-fix
-head_commit=3fb5a7ad
-signature=d1097d556eedbacbb18449cf5cb64b5fddd7e59ced80f9b4c2354d391f8a2fbc
+diff_hash=a5dd2e35f2d40d9fa415926116e03d1af33e3c659343e2b51fd5c8a0ba5f42f9
+timestamp=2026-08-24T23:43:04Z
+branch=agent/overnight-20260825-se345-mvd
+head_commit=3994fff0
+signature=8b511b41e12a28a2d9d7cd025c992c6a0efb281ac571f2ccfe42f9b1ee55379e
