@@ -82,7 +82,7 @@ Save to: `output/scores/YYYYMMDD-score-diff.md`
 ## Subagent Config
 
 ```yaml
-model: fast
+model: opencode-go/deepseek-v4-flash
 memory: project
 permissionMode: plan
 ```

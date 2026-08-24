@@ -14,7 +14,7 @@ tools:
   - Glob
   - Grep
   - Task
-model: mid
+model: opencode-go/deepseek-v4-flash
 permissionMode: plan
 maxTurns: 30
 max_context_tokens: 80000

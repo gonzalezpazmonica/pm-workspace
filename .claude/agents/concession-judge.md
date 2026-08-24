@@ -1,7 +1,7 @@
 ---
 name: concession-judge
 description: Recommendation Tribunal judge — detects position changes without new evidence (SPEC-192)
-model: mid
+model: opencode-go/deepseek-v4-flash
 permission_level: L1
 tools:
   read: true

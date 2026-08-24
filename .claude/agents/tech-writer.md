@@ -13,7 +13,7 @@ tools:
   - Edit
   - Glob
   - Bash
-model: fast
+model: opencode-go/deepseek-v4-flash
 color: white
 maxTurns: 20
 max_context_tokens: 8000

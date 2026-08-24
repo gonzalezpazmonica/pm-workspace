@@ -1,7 +1,7 @@
 ---
 name: project-switch
 description: Cambia el proyecto activo de Savia para aislamiento de contexto (SE-093).
-model: fast
+model: opencode-go/deepseek-v4-flash
 context_cost: low
 tier: core
 ---

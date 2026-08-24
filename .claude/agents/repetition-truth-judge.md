@@ -1,7 +1,7 @@
 ---
 name: repetition-truth-judge
 description: Recommendation Tribunal judge — detects user claims repeated and assumed true without verification (SPEC-192)
-model: fast
+model: opencode-go/deepseek-v4-flash
 permission_level: L1
 tools:
   read: true

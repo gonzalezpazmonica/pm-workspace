@@ -3,7 +3,7 @@ name: confidentiality-auditor
 permission_level: L1
 description: "Audita cumplimiento de confidencialidad en PRs de pm-workspace (repo publico). Descubre dinamicamente datos sensibles del workspace y verifica que no se filtran en el diff. Genera veredicto CLEAN/BLOCKED con firma si pasa."
 tools: [Read, Glob, Grep, Bash]
-model: heavy
+model: opencode-go/glm-5.3
 permissionMode: default
 maxTurns: 25
 color: red

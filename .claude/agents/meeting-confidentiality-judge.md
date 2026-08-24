@@ -8,7 +8,7 @@ description: >
 tools:
   - Read
   - Grep
-model: heavy
+model: opencode-go/glm-5.3
 color: amber
 maxTurns: 10
 max_context_tokens: 12000

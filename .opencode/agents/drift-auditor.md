@@ -7,7 +7,7 @@ tools:
   glob: true
   grep: true
   bash: true
-model: heavy
+model: opencode-go/glm-5.3
 permissionMode: plan
 maxSteps: 20
 color: "#FFD700"

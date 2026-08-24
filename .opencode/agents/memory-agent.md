@@ -12,7 +12,7 @@ tools:
   glob: true
   grep: true
   write: true
-model: fast
+model: opencode-go/deepseek-v4-flash
 token_budget:
   per_invocation: 30000
   context_window_target: 2200

@@ -14,7 +14,7 @@ tools:
   glob: true
   grep: true
   task: true
-model: heavy
+model: opencode-go/glm-5.3
 permissionMode: plan
 maxSteps: 30
 max_context_tokens: 80000

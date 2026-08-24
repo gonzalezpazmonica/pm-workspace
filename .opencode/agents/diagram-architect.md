@@ -11,7 +11,7 @@ tools:
   bash: true
   write: true
   edit: true
-model: mid
+model: opencode-go/deepseek-v4-flash
 color: "#008080"
 maxSteps: 15
 max_context_tokens: 4000

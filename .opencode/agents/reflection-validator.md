@@ -11,7 +11,7 @@ tools:
   read: true
   glob: true
   grep: true
-model: heavy
+model: opencode-go/glm-5.3
 color: "#9933CC"
 maxSteps: 15
 max_context_tokens: 8000

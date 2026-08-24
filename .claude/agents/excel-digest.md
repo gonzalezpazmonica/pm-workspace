@@ -7,7 +7,7 @@ description: >
   REAL del proyecto. Actualiza documentos de contexto vivos. Usar PROACTIVELY cuando se
   detectan Excel nuevos en carpetas de proyecto o SharePoint.
 tools: [Read, Write, Edit, Bash, Glob, Grep, Task]
-model: heavy
+model: opencode-go/glm-5.3
 permissionMode: plan
 maxTurns: 30
 max_context_tokens: 80000

@@ -12,7 +12,7 @@ tools:
   glob: true
   grep: true
   task: true
-model: mid
+model: opencode-go/deepseek-v4-flash
 color: "#CC00CC"
 maxSteps: 15
 max_context_tokens: 8000

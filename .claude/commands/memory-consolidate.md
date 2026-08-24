@@ -12,7 +12,7 @@ tier: core
 
 ```frontmatter
 agent: task
-model: mid
+model: opencode-go/deepseek-v4-flash
 context_cost: medium
 ```
 
