@@ -49,14 +49,33 @@ OpenCode carga el plugin TypeScript `savia-gates` en cada sesión. El plugin lee
 | `PreToolUse` | `tool.execute.before` |
 | `PostToolUse` | `tool.execute.after` |
 | `UserPromptSubmit` | `chat.message` |
-| `SessionStart` | `event:session.created` |
+| `SessionStart` + `InstructionsLoaded` | `event:session.created` |
 | `SessionEnd` | `event:session.deleted` |
 | `Stop` | `event:session.stopped` |
+| `PostCompact` | `event:session.compacted` + `experimental.compaction.autocontinue` |
 | `SubagentStart`/`SubagentStop` | `event:subagent.*` |
 | `TaskCreated`/`TaskCompleted` | `event:task.*` |
 | `PreCompact` | `experimental.session.compacting` |
+| `FileChanged` | `event:file.edited` + `event:file.watcher.updated` |
+| `CwdChanged` | `shell.env` (dedup por cambio de cwd) |
+| `ConfigChange` | `config` |
+| `PostToolUseFailure` | `NOT_EXPOSED` (sin hook point nativo de tool-failure en v1.18) |
 
-Eventos sin binding nativo (`Notification`, etc.) quedan documentados como `# opencode-binding: NOT_EXPOSED — <razón>` en el header del hook bash. La parity-audit los excluye del gap.
+Eventos sin binding nativo (`Notification`, `PostToolUseFailure`, etc.) quedan
+documentados como `# opencode-binding: NOT_EXPOSED — <razón>` en el header del
+hook bash. La parity-audit los excluye del gap.
+
+## Ejecución de hooks bash
+
+- `shell-bridge` resuelve `$CLAUDE_PROJECT_DIR` **y** `$CLAUDE_PLUGIN_ROOT` del
+  comando del hook.
+- Cada hook corre con `bash -c` (interpolación `{raw}` para no romper comillas)
+  y `cwd(projectRoot)`, con el payload en stdin vía fichero temporal local.
+- Bloqueo por **dos contratos**: exit code 2 (Claude Code clásico) y stdout JSON
+  `{"decision":"block"}` con exit 0 (patrón SE-337 commit guard y los gates de
+  Stop).
+- Los matchers `Bash(git commit*)` / `Bash:gh pr create*` se resuelven
+  reconstruyendo el nombre compuesto `bash(<command>)` / `bash:<command>`.
 
 ## Garantías de seguridad (autonomous-safety)
 

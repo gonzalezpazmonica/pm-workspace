@@ -1,8 +1,11 @@
 #!/bin/bash
+# opencode-binding: NOT_EXPOSED — OpenCode v1.18 no expone un hook point nativo
+# de "tool failure" (tool.execute.after no distingue error de éxito de forma fiable).
+# La telemetría de fallos queda cubierta por el guard TS savia-foundation.ts.
+set -uo pipefail
 # post-tool-failure-log.sh — Structured tool failure logging (SPEC-068)
 # PostToolUseFailure hook: categorizes errors, adds retry hints, detects patterns.
 # Async, never blocks.
-set -uo pipefail
 
 LOG_DIR="${HOME}/.pm-workspace/tool-failures"
 mkdir -p "$LOG_DIR"
