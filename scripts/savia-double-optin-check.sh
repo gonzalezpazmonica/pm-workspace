@@ -107,6 +107,16 @@ if [[ "$ENV_VAL" == "true" ]]; then
   HAS_ENV=1
 fi
 
+# SE-343: factor 1 ("intent") is also satisfied by a valid operator grant
+# issued on the operator's express request (no manual env-var setup needed).
+# Scopes map: skill X -> autonomy:X.
+if [[ $HAS_ENV -eq 0 ]]; then
+  GRANT_SCOPE="autonomy:${SKILL}"
+  if bash scripts/operator-grant.sh check --scope "$GRANT_SCOPE" >/dev/null 2>&1; then
+    HAS_ENV=1
+  fi
+fi
+
 # Audit logging (best-effort, never fail the gate on log errors).
 log_attempt() {
   local verdict="$1"
