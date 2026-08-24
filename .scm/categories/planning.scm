@@ -1,5 +1,5 @@
 # planning — Savia Capability Map (L1)
-> 596 resources
+> 597 resources
 
 - **/decide-architecture** (cmd): Clasifica una tarea como WORKFLOW (deterministica) o AGENT (loop). Bias hacia workflow per Anthropic. Sugiere plantilla inicial. Mide accuracy contra corpus curado de 20 tareas.
 - **_template** (skill): TEMPLATE — copia este directorio para crear una skill nueva. NO se carga en runtime.
@@ -342,6 +342,7 @@
 - **onboarding-dev** (cmd): Technical onboarding with AI Buddy — auto-generates project docs, personalized plan, and 3-layer buddy agent
 - **onboarding-dev** (skill): Usar cuando se incorpora un desarrollador nuevo al proyecto y necesita buddy IA.
 - **operational-point-selector** (script): operational-point-selector.sh — SE-029 Slice 4.
+- **operator-grant** (script): operator-grant.sh — Deterministic operator-grant ledger (SE-343)
 - **opus47-calibration-scorecard** (script): opus47-calibration-scorecard.sh — SE-070 Slice 1
 - **orchestration-protocol** (script): scripts/orchestration-protocol.sh — SE-205: typed inter-agent messaging
 - **org-political-landscape** (skill): Análisis de Paisaje Político Interno: detecta tensiones, alianzas y centros de poder a partir de un mapa de stakeholders.
