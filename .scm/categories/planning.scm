@@ -1,5 +1,5 @@
 # planning — Savia Capability Map (L1)
-> 597 resources
+> 598 resources
 
 - **/decide-architecture** (cmd): Clasifica una tarea como WORKFLOW (deterministica) o AGENT (loop). Bias hacia workflow per Anthropic. Sugiere plantilla inicial. Mide accuracy contra corpus curado de 20 tareas.
 - **_template** (skill): TEMPLATE — copia este directorio para crear una skill nueva. NO se carga en runtime.
@@ -583,6 +583,7 @@
 - **vault-graph** (cmd): SE-325: adyacencia inline + relaciones tipadas del knowledge graph de SaviaVaults (extract/validate/traverse/query)
 - **vault-links** (script): vault-links.sh — SE-325: adyacencia inline + relaciones tipadas para SaviaVaults.
 - **vault-ops** (script): vault-ops.sh — Personal Vault operations library (N3). Sourced by vault.sh.
+- **vaults-backup-cron** (script): vaults-backup-cron.sh — Backup automático de las cúpulas SaviaVaults (CRIT-001).
 - **vaults-export** (script): vaults-export.sh — Export vault with confidentiality filtering and signing
 - **vaults-graph-query** (script): vaults-graph-query.sh — Knowledge graph queries via SaviaVaults
 - **vaults-nextcloud-setup** (script): vaults-nextcloud-setup.sh — Configurar credenciales Nextcloud para backups
