@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=23e0586230d6c13c83fc91f47e5e9831bcd702040eeaa677c9fa9fb2d0a0b505
-timestamp=2026-08-23T13:52:47Z
-branch=agent/l13-cierre-metacognicion
-head_commit=a9005801
-signature=4cc1cebf872859080eed7963fcf019c754d3f22edab494ae5e3141ab151d3448
+diff_hash=955516a0a3a161458d19a725a37c7c505f3d4874b33cf7b8b0faaa68f725ae54
+timestamp=2026-08-24T07:15:20Z
+branch=agent/se342-domains-data-intelligence-20260823
+head_commit=727fd5be
+signature=528447de8ff1af435e98e887a613f062bb555d3ca13061903e2ff690b1f0f94f
