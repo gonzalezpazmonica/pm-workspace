@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=22bb36c4f5832dd6fbd2982a9983a5b6bbcfd16a6d48031aca0fae1291b923e4
-timestamp=2026-08-24T10:04:54Z
-branch=agent/overnight-20260824-l21-prediction
-head_commit=e06e6f0c
-signature=023ccda04cef55dff0ee15a7d4130e0f19232207bf50bc5d951531b3a85d4890
+diff_hash=7f33ed712252dc8dc0ffd25af58a0ed43892b96633296d7927aef01898fad0c4
+timestamp=2026-08-24T10:26:38Z
+branch=agent/overnight-20260824-l19-data-quality
+head_commit=3f04ae95
+signature=4f37c0bee38e302c90f83c1cce736409e53a50951f9245a481f68bffc58140e4
