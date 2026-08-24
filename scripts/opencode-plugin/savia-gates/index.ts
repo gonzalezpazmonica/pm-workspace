@@ -11,6 +11,7 @@
 // the line.
 
 import type { Plugin, PluginInput } from "@opencode-ai/plugin"
+import { randomUUID } from "node:crypto"
 import { loadHookMap, runHooksForEvent } from "./lib/shell-bridge"
 import { decidePermission } from "./lib/permission"
 import { auditLog } from "./lib/audit"
@@ -25,6 +26,7 @@ export const SaviaGates: Plugin = async (ctx: PluginInput) => {
   const { $, directory } = ctx
   const root = resolveProjectRoot(directory)
   const hookMap = await loadHookMap($, root)
+  let lastCwd: string | null = null
 
   await writeManifest(hookMap)
   await auditLog({ event: "plugin-loaded", root, events: Object.keys(hookMap).length })
@@ -74,8 +76,22 @@ export const SaviaGates: Plugin = async (ctx: PluginInput) => {
         throw new Error(`savia-gates: prompt blocked — ${result.stderr}`)
       }
       if (result.injectedContext) {
-        output.parts = output.parts ?? []
-        output.parts.push({ type: "text", text: result.injectedContext })
+        // OpenCode v1.18 Part schema: id must start with "prt_", and the
+        // part's messageID MUST reference an existing message row (FK). Only
+        // inject when the real message id is available; otherwise skip to
+        // avoid a FOREIGN KEY crash on the session.
+        const messageID = (output.message as any)?.id ?? input.messageID
+        if (typeof messageID === "string" && messageID.startsWith("msg_")) {
+          output.parts = output.parts ?? []
+          output.parts.push({
+            id: `prt_${randomUUID()}`,
+            sessionID: input.sessionID,
+            messageID,
+            type: "text",
+            text: result.injectedContext,
+            synthetic: true,
+          })
+        }
       }
     },
 
@@ -106,24 +122,59 @@ export const SaviaGates: Plugin = async (ctx: PluginInput) => {
       // Map OpenCode generic events onto Claude Code categories.
       const ev = (input as any).event
       if (!ev || typeof ev.type !== "string") return
-      const map: Record<string, string> = {
-        "session.created": "SessionStart",
-        "session.deleted": "SessionEnd",
-        "session.stopped": "Stop",
-        "subagent.completed": "SubagentStop",
-        "subagent.started": "SubagentStart",
-        "task.created": "TaskCreated",
-        "task.completed": "TaskCompleted",
+      const map: Record<string, Array<{ cc: string; augment?: (e: any) => Record<string, unknown> }>> = {
+        "session.created": [{ cc: "SessionStart" }, { cc: "InstructionsLoaded", augment: () => ({
+          file_path: "AGENTS.md",
+          memory_type: "instructions",
+          load_reason: "session.created",
+        }) }],
+        "session.deleted": [{ cc: "SessionEnd" }],
+        "session.stopped": [{ cc: "Stop" }],
+        "session.compacted": [{ cc: "PostCompact" }],
+        "subagent.completed": [{ cc: "SubagentStop" }],
+        "subagent.started": [{ cc: "SubagentStart" }],
+        "task.created": [{ cc: "TaskCreated" }],
+        "task.completed": [{ cc: "TaskCompleted" }],
+        "file.edited": [{ cc: "FileChanged", augment: (e: any) => ({ file_path: e?.properties?.file ?? "" }) }],
+        "file.watcher.updated": [{ cc: "FileChanged", augment: (e: any) => ({ file_path: e?.properties?.file ?? "", watcher_event: e?.properties?.event ?? "" }) }],
       }
-      const ccEvent = map[ev.type]
-      if (!ccEvent) return
-      const payload = JSON.stringify({ hook_event_name: ccEvent, event: ev })
-      await runHooksForEvent($, root, hookMap, ccEvent, null, payload).catch(() => {})
+      const targets = map[ev.type]
+      if (!targets) return
+      for (const t of targets) {
+        const payload = JSON.stringify({ hook_event_name: t.cc, event: ev, ...(t.augment?.(ev) ?? {}) })
+        await runHooksForEvent($, root, hookMap, t.cc, null, payload).catch(() => {})
+      }
+    },
+
+    "experimental.compaction.autocontinue": async (input, _output) => {
+      // Called AFTER compaction succeeds — the PostCompact hook point.
+      const payload = JSON.stringify({ hook_event_name: "PostCompact", session_id: input.sessionID })
+      await runHooksForEvent($, root, hookMap, "PostCompact", null, payload).catch(() => {})
     },
 
     "experimental.session.compacting": async (input, _output) => {
       const payload = JSON.stringify({ hook_event_name: "PreCompact", session_id: input.sessionID })
       await runHooksForEvent($, root, hookMap, "PreCompact", null, payload).catch(() => {})
+    },
+
+    "config": async (input) => {
+      // Config reloaded — the ConfigChange hook point.
+      const payload = JSON.stringify({
+        hook_event_name: "ConfigChange",
+        source: "opencode-config",
+        file_path: `${root}/opencode.json`,
+      })
+      await runHooksForEvent($, root, hookMap, "ConfigChange", null, payload).catch(() => {})
+    },
+
+    "shell.env": async (input, _output) => {
+      // CwdChanged hook point: fire when the shell's working directory changes.
+      const cwd = (input as any).cwd
+      if (typeof cwd === "string" && cwd !== lastCwd) {
+        lastCwd = cwd
+        const payload = JSON.stringify({ hook_event_name: "CwdChanged", cwd })
+        await runHooksForEvent($, root, hookMap, "CwdChanged", null, payload).catch(() => {})
+      }
     },
   }
 }

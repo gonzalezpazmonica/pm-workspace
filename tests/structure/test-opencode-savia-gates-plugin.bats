@@ -44,6 +44,58 @@ setup() {
   grep -q 'runHooksForEvent' "$PLUGIN_DIR/lib/shell-bridge.ts"
 }
 
+@test "plugin: bridge delivers payload on stdin via temp-file redirect (no .text stdin)" {
+  grep -q 'stdinPath' "$PLUGIN_DIR/lib/shell-bridge.ts"
+  grep -q 'writeFile' "$PLUGIN_DIR/lib/shell-bridge.ts"
+  grep -q 'tmpdir' "$PLUGIN_DIR/lib/shell-bridge.ts"
+  ! grep -qE '\.text\(\s*\{\s*stdin' "$PLUGIN_DIR/lib/shell-bridge.ts"
+}
+
+@test "plugin: bridge runs hook command via bash -c with raw interpolation" {
+  grep -q 'bash -c' "$PLUGIN_DIR/lib/shell-bridge.ts"
+  grep -q 'raw: h.command' "$PLUGIN_DIR/lib/shell-bridge.ts"
+  ! grep -qE 'bash \$\{h\.command\}' "$PLUGIN_DIR/lib/shell-bridge.ts"
+}
+
+@test "plugin: bridge cwd() is pinned to projectRoot" {
+  grep -q '\.cwd(projectRoot)' "$PLUGIN_DIR/lib/shell-bridge.ts"
+}
+
+@test "plugin: bridge resolves CLAUDE_PLUGIN_ROOT in hook commands" {
+  grep -q 'CLAUDE_PLUGIN_ROOT' "$PLUGIN_DIR/lib/shell-bridge.ts"
+}
+
+@test "plugin: bridge honours stdin JSON {decision:block} (SE-337 gate contract)" {
+  grep -q 'decision === "block"' "$PLUGIN_DIR/lib/shell-bridge.ts"
+  grep -q 'hook-json-block' "$PLUGIN_DIR/lib/shell-bridge.ts"
+}
+
+@test "plugin: matcherApplies rebuilds composite Tool(cmd) candidates" {
+  grep -q "tool(git commit" "$PLUGIN_DIR/lib/shell-bridge.ts" || grep -q 'tool_input?.command' "$PLUGIN_DIR/lib/shell-bridge.ts"
+  grep -q 'tooling.*payload' "$PLUGIN_DIR/lib/shell-bridge.ts" || grep -q 'candidates.push' "$PLUGIN_DIR/lib/shell-bridge.ts"
+}
+
+@test "plugin: bridge captures real exitCode from resolved shell output (not .text string)" {
+  grep -q 'proc\.then' "$PLUGIN_DIR/lib/shell-bridge.ts"
+  grep -q 'Promise\.race' "$PLUGIN_DIR/lib/shell-bridge.ts"
+  grep -q '\.exitCode' "$PLUGIN_DIR/lib/shell-bridge.ts"
+  grep -q 'BLOCK_EXIT' "$PLUGIN_DIR/lib/shell-bridge.ts"
+}
+
+@test "plugin: bridge runs async hooks fire-and-forget (exit code ignored)" {
+  grep -q 'h\.async' "$PLUGIN_DIR/lib/shell-bridge.ts"
+  grep -q 'continue' "$PLUGIN_DIR/lib/shell-bridge.ts"
+}
+
+@test "plugin: bridge feature-detects .timeout (runtime may lack it)" {
+  grep -q '\.timeout\b' "$PLUGIN_DIR/lib/shell-bridge.ts"
+  grep -q "typeof p.timeout" "$PLUGIN_DIR/lib/shell-bridge.ts"
+}
+
+@test "safety: shell-bridge block exit code contract is 2" {
+  grep -q 'BLOCK_EXIT = 2' "$PLUGIN_DIR/lib/shell-bridge.ts"
+}
+
 @test "plugin: learning recall uses the canonical UserPromptSubmit bridge" {
   grep -q '"chat.message"' "$PLUGIN_DIR/index.ts"
   grep -q '"UserPromptSubmit"' "$PLUGIN_DIR/index.ts"
@@ -71,10 +123,52 @@ setup() {
   grep -q 'bindings' "$PLUGIN_DIR/lib/manifest.ts"
 }
 
+# ── Gap closure: SE-077 remaining 6 events (2026-08-25) ────────────────────
+
+@test "plugin: FileChanged mapped to file.edited / file.watcher.updated" {
+  grep -q '"file.edited"' "$PLUGIN_DIR/index.ts"
+  grep -qE 'cc: "FileChanged"|cc:"FileChanged"' "$PLUGIN_DIR/index.ts"
+  grep -q "file_path: e?.properties?.file" "$PLUGIN_DIR/index.ts"
+}
+
+@test "plugin: PostCompact mapped to session.compacted + compaction.autocontinue" {
+  grep -q 'session.compacted.*PostCompact\|"cc": "PostCompact"' "$PLUGIN_DIR/index.ts"
+  grep -q 'experimental.compaction.autocontinue' "$PLUGIN_DIR/index.ts"
+  grep -q '"PostCompact"' "$PLUGIN_DIR/index.ts"
+}
+
+@test "plugin: ConfigChange mapped to config hook" {
+  grep -q '"config": async' "$PLUGIN_DIR/index.ts"
+  grep -q '"ConfigChange"' "$PLUGIN_DIR/index.ts"
+}
+
+@test "plugin: CwdChanged mapped to shell.env (cwd dedup)" {
+  grep -q '"shell.env": async' "$PLUGIN_DIR/index.ts"
+  grep -q '"CwdChanged"' "$PLUGIN_DIR/index.ts"
+  grep -q 'lastCwd' "$PLUGIN_DIR/index.ts"
+}
+
+@test "plugin: InstructionsLoaded mapped on session.created" {
+  grep -qE 'cc: "InstructionsLoaded"|cc:"InstructionsLoaded"' "$PLUGIN_DIR/index.ts"
+}
+
+@test "plugin: manifest HANDLERS table covers the six remaining events" {
+  grep -q 'PostCompact' "$PLUGIN_DIR/lib/manifest.ts"
+  grep -q 'FileChanged' "$PLUGIN_DIR/lib/manifest.ts"
+  grep -q 'CwdChanged' "$PLUGIN_DIR/lib/manifest.ts"
+  grep -q 'ConfigChange' "$PLUGIN_DIR/lib/manifest.ts"
+  grep -q 'InstructionsLoaded' "$PLUGIN_DIR/lib/manifest.ts"
+  grep -q 'PostToolUseFailure' "$PLUGIN_DIR/lib/manifest.ts"
+}
+
+@test "plugin: PostToolUseFailure justified NOT_EXPOSED in hook header" {
+  grep -q 'opencode-binding: NOT_EXPOSED' "$ROOT_DIR/.claude/hooks/post-tool-failure-log.sh"
+}
+
 # ── Safety / boundaries ─────────────────────────────────────────────────────
 
 @test "safety: plugin TS never calls git push or pr merge anywhere" {
-  ! grep -rE '\bgit\s+push\b|gh\s+pr\s+merge\b' "$PLUGIN_DIR"
+  ! grep -rE --include="*.ts" '\bgit\s+push\b|gh\s+pr\s+merge\b' "$PLUGIN_DIR"
 }
 
 @test "safety: plugin TS never reads ANTHROPIC API keys directly" {

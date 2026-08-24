@@ -116,8 +116,16 @@ force-push, credential-leak, data-sovereignty) a guards TS en
 - [x] `~/.config/opencode/opencode.jsonc` declara `plugin: ["opencode-sandbox", "/home/monica/.savia/opencode/plugins/savia-gates"]` (config global que el snap SÍ lee).
 - [x] Dependencias instaladas (npm, 27 paquetes) en `~/.savia/opencode/plugins/savia-gates/node_modules` — el snap no resolve import de `@opencode-ai/plugin` sin ellas.
 - [x] Tras run headless del snap, existe `manifest.json` con **108 bindings / 105 scripts** (generado 2026-08-24T20:59:10Z).
-- [ ] Test manual pendiente (requiere reiniciar la sesión activa): en rama main, `git commit` → bloqueado por hook bash. En esta misma sesión ya no se recarga la config.
-- [ ] Parity audit SE-077 pendiente (script dedicado), contra manifest 20:59Z.
+- [x] **Verificación de carga en el proceso activo (2026-08-24T21:03:17Z):** el audit log `~/.savia/audit/savia-gates.jsonl` registra `plugin-loaded` desde pid **2822565** (= proceso opencode del snap en vivo, padre de esta sesión) con `events: 17`, y `manifest.json` se regeneró en ese mismo instante. La config global corregida SÍ se resuelve.
+- [ ] **Hallazgo posterior — el plugin carga pero su pipeline PreToolUse es FUNCIONALMENTE INERTE.** Sonda en vivo: comando que dispara la regla SPEC-SE-036 de `block-credential-leak.sh` (bloquea `exit 2` probado manualmente con el mismo JSON por stdin) **NO bloquea** en runtime. Instrumentación temporal (`before-debug`): `tool.execute.before` se invoca, `output.args` contiene `["command"]`, `$` existe, `blocked=false`. Mismo resultado en run headless. Causa probable en `lib/shell-bridge.ts`: (1) `proc.text({ stdin: payload })` no entrega el payload por stdin (el hook lee stdin vacío → `COMMAND=""` → `exit 0`), y (2) `.text()` devuelve un string y `(r as any).exitCode` es siempre `undefined` → `exit=0` aunque un hook devuelva 2. Ambas enmascaran cualquier bloqueo. **Consecuencia: la capa bash de savia-gates es auditoría muda en OpenCode; solo los guards TS de `savia-foundation.ts` bloquean de verdad.**
+- [x] **Fix del bridge APLICADO y VERIFICADO (2026-08-24T21:46Z).** Causa raíz completa del hot path encontrada y corregida en `lib/shell-bridge.ts` + `index.ts`:
+  1. **`.timeout()` no existe** en el `$` del runtime embebido → TODA la cadena tiraba `TypeError` → ningún hook llegaba a ejecutarse. Fix: feature-detect de `.timeout()`/`.nothrow()` + timeout manual vía `Promise.race`.
+  2. **stdin muerto**: `.text({ stdin })` ignora el payload → los hooks leían stdin vacío → `exit 0`. Fix: payload entregado por redirección `<` a fichero temporal en `$tmpdir` (CRIT-001: todo local, ephemeral, cleanup garantizado).
+  3. **exit code nunca capturado**: `.text()` devuelve string. Fix: `await` la promesa a `BunShellOutput { stdout, stderr, exitCode }` real.
+  4. **Hooks `async` (35)**: ahora fire-and-forget (semántica Claude Code), sin espera ni interpretación de su stdout.
+  5. **`chat.message` inyectaba `{type:"text"}` sin `id/sessionID/messageID`** → crash `SchemaError` al guardar part. Fix: part schema-válido (`prt_*`, `msg_` real vía `output.message.id`; si no hay id real, no inyecta).
+- [x] **Evidencia de bloqueo real (2026-08-24T21:46:25Z, pid 2843335):** sonda `echo "probe_auth=ZZZ…(44x)"` vía `opencode run` → tool bash **BLOQUEADA** con `Error: savia-gates: BLOQUEADO [SPEC-SE-036]: PAT-shaped string detectada…` y audit `tool-blocked` registrado. Sonda benigna de control pasó sin crash. BATS estructurales 28/28.
+- [ ] **Pendiente:** reiniciar la sesión OpenCode activa (inicia con el plugin corregido) y re-test del gate `git commit` en main en vivo+TUI; parity audit SE-077; gap de 6 eventos sin binding nativo.
 
 ### Gap descubierto: 6 de 17 eventos sin binding nativo
 
@@ -136,3 +144,21 @@ Los eventos **sin bindings** quedan fuera del manifest (gap candidates de SE-077
 Impacto: la capa bash de esos 6 eventos NO corre en OpenCode aunque savia-gates
 cargue. No son críticos de seguridad (mayormente telemetría/estado), pero deben
 traducirse a bindings de OpenCode v1.18 (stale-table) o migrarse a guards TS.
+
+## Gap CERRADO + gate verificado (2026-08-25 00:30Z)
+
+- [x] **Gap 0/113**: los 6 eventos sin binding ahora tienen binding nativo:
+  | Evento | Binding OpenCode v1.18 |
+  |---|---|
+  | `FileChanged` | `event:file.edited` + `event:file.watcher.updated` |
+  | `PostCompact` | `event:session.compacted` + `experimental.compaction.autocontinue` |
+  | `ConfigChange` | `config` |
+  | `CwdChanged` | `shell.env` (dedup por cambio de cwd) |
+  | `InstructionsLoaded` | `event:session.created` (con payload sintético) |
+  | `PostToolUseFailure` | `NOT_EXPOSED` justificado (sin hook point nativo de tool-failure) |
+  `opencode-parity-audit.sh` → `matched 112, justified 1, gap 0`. Baseline `.ci-baseline/opencode-parity-gap.count = 0`, `--check` PASS.
+- [x] **3 fix adicionales del bridge descubiertos al re-testear el gate commit:**
+  1. **Matcher `Bash(git commit*)` / `Bash:gh pr create*` no matcheaba**: OpenCode pasa el tool lowercased (`bash`) y el comando dentro de `tool_input.command`. Fix: `matcherApplies` reconstruye los candidatos compuestos `bash(<command>)`, `bash:<command>`, `bash <command>`.
+  2. **`bash ${h.command}` rompía comando con comillas internas**: Bun escapeaba la interpolación → `EOF inesperado` en los 17 hooks con prefijo `bash "..."` y los 6 con args. Fix: `bash -c ${{raw: h.command}}` (ShellExpression `{raw}`) + `.cwd(projectRoot)` (los hooks ejecutaban `git branch` sobre el repo del proceso, no el del proyecto).
+  3. **Contrato SE-337 (exit 0 + `{decision:"block"}` en stdout) no bloqueaba**: el bridge solo entendía exit 2. Fix en `runHooksForEvent`: parsea stdout JSON y bloquea si `parsed.decision === "block"` (usa `reason` como mensaje; audit `hook-json-block`).
+- [x] **Re-test del gate `git commit` en main en vivo (headless, repo temporal en main):** hook `block-commit-to-main.sh` emite `{decision:"block"}` → `Error: savia-gates: Commit en rama humana (main) bloqueado…` y la tool NO se ejecuta. Evidencia audit `tool-blocked`. BATS estructurales 40/40 + `test-se337-commit-guard.bats` 7/7 verdes.
