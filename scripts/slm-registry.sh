@@ -56,11 +56,19 @@ TRAINING_TOKENS=""
 EPOCHS=""
 FINAL_LOSS=""
 OLLAMA_NAME=""
+# L18 / SE-342 S2: experiment tracking — run metadata
+RUN_ID=""
+RUN_METRICS=""
+RUN_PARAMS=""
+RUN_ARTIFACT=""
+DATASET=""
+CATALOG_DB=""
 
 usage() {
   cat <<EOF
 Usage:
   $0 register --project PATH --id VERSION --base-model MODEL --method METHOD [options]
+  $0 run --project PATH --run-id ID [--metrics JSON] [--params JSON] [--artifact PATH] [--dataset NAME] [--catalog-db DB]
   $0 list --project PATH
   $0 show --project PATH --id VERSION
   $0 promote --project PATH --id VERSION
@@ -104,6 +112,12 @@ while [[ $# -gt 0 ]]; do
     --epochs) EPOCHS="$2"; shift 2 ;;
     --final-loss) FINAL_LOSS="$2"; shift 2 ;;
     --ollama-name) OLLAMA_NAME="$2"; shift 2 ;;
+    --run-id) RUN_ID="$2"; shift 2 ;;
+    --metrics) RUN_METRICS="$2"; shift 2 ;;
+    --params) RUN_PARAMS="$2"; shift 2 ;;
+    --artifact) RUN_ARTIFACT="$2"; shift 2 ;;
+    --dataset) DATASET="$2"; shift 2 ;;
+    --catalog-db) CATALOG_DB="$2"; shift 2 ;;
     -h|--help) usage; exit 0 ;;
     *) echo "ERROR: unknown arg '$1'" >&2; exit 2 ;;
   esac
@@ -178,6 +192,56 @@ d["versions"].append(entry)
 with open("$MANIFEST", "w") as f: json.dump(d, f, indent=2)
 PY
     echo "slm-registry register: $VERSION_ID added to $MANIFEST"
+    ;;
+
+  run)
+    # L18 / SE-342 S2: experiment tracking — append a run (params/metrics/artifact)
+    # with optional lineage to a catalog dataset (L17). Deterministic, local.
+    [[ -z "$RUN_ID" ]] && { echo "ERROR: --run-id required for run" >&2; exit 2; }
+    if ! [[ "$RUN_ID" =~ ^[a-z0-9][a-z0-9._-]*$ ]]; then
+      echo "ERROR: --run-id must be slug" >&2; exit 2
+    fi
+
+    ensure_manifest
+
+    if python3 -c "import json; d=json.load(open('$MANIFEST')); exit(0 if any(r.get('kind')=='run' and r['id']=='$RUN_ID' for r in d.get('runs',[])) else 1)" 2>/dev/null; then
+      echo "ERROR: run '$RUN_ID' already logged (use different id)" >&2
+      exit 1
+    fi
+
+    CREATED=$(date -u +%Y-%m-%dT%H:%M:%SZ)
+    python3 - "$RUN_PARAMS" "$RUN_METRICS" "$RUN_ARTIFACT" "$DATASET" "$RUN_ID" "$BASE_MODEL" "$MANIFEST" "$CREATED" <<'PY'
+import json, sys
+params_raw, metrics_raw, artifact, dataset, run_id, base_model, manifest, created = sys.argv[1:]
+d = json.load(open(manifest))
+runs = d.setdefault("runs", [])
+entry = {"kind": "run", "id": run_id, "created_at": created}
+if base_model:
+    entry["base_model"] = base_model
+for field, raw in (("params", params_raw), ("metrics", metrics_raw)):
+    if not raw:
+        continue
+    try:
+        entry[field] = json.loads(raw)
+    except ValueError:
+        entry[field] = {"values": raw}
+if artifact:
+    entry["artifact"] = artifact
+if dataset:
+    entry["dataset"] = dataset
+runs.append(entry)
+with open(manifest, "w") as f:
+    json.dump(d, f, indent=2)
+PY
+
+    # Best-effort lineage to L17 catalog (only when explicitly provided).
+    if [[ -n "$DATASET" && -n "$CATALOG_DB" ]]; then
+      python3 scripts/savia-catalog.py --db "$CATALOG_DB" register --type model \
+        --name "run:$RUN_ID" --level N2 --source "$RUN_ARTIFACT" \
+        --relation trained_on --from-name "$DATASET" --from-type dataset \
+        >/dev/null 2>&1 || true
+    fi
+    echo "slm-registry run: $RUN_ID logged (${RUN_METRICS:+metrics + }${RUN_PARAMS:+params})"
     ;;
 
   list)
