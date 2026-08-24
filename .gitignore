@@ -181,3 +181,4 @@ tests/bats/.deps.json
 # ── Índices AST (regenerables, N4: nunca en git) ─────────────────────────────
 .codegraph/
 .codebase-memory/
+scripts/opencode-plugin/savia-gates/manifest.json
