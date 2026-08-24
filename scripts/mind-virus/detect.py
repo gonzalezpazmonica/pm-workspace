@@ -82,9 +82,33 @@ def detect(text: str) -> dict:
 
 def main(argv: list[str]) -> int:
     exit_verdict = False
+    batch = False
     args = [a for a in argv if not a.startswith("--")]
     if "--exit-verdict" in argv:
         exit_verdict = True
+    if "--batch" in argv:
+        batch = True
+
+    if batch:
+        # Read lines "<path>|<label>" from stdin, one detect call per file,
+        # emit "label|verdict|score|signals" per line (fast single-process batch).
+        import os
+        for line in sys.stdin:
+            line = line.rstrip("\n")
+            if not line:
+                continue
+            path, sep, label = line.rpartition("|")
+            if not sep:
+                continue
+            path = os.path.expanduser(path)
+            try:
+                with open(path, encoding="utf-8", errors="replace") as fh:
+                    content = fh.read()
+            except OSError:
+                continue
+            r = detect(content)
+            print(f"{label}|{r['verdict']}|{r['score']}|{','.join(r['signals'])}")
+        return 0
 
     if args:
         with open(args[0], encoding="utf-8", errors="replace") as fh:
