@@ -1,5 +1,5 @@
 # memory — Savia Capability Map (L1)
-> 107 resources
+> 108 resources
 
 - **auto-compact** (script): auto-compact.sh — Disparado automáticamente cuando contexto > 85%
 - **cache-analytics** (cmd): Métricas de hit rate, tokens ahorrados, latencia, ahorro de costes
@@ -84,6 +84,7 @@
 - **memory-verify** (script): memory-verify.sh — Quality gate for memory compression (SPEC-041 P3)
 - **memory-write-gate** (script): memory-write-gate.sh — SE-270 S6: validates memory entries before writing
 - **memvid-probe** (script): memvid-probe.sh — SE-041 Slice 1 memvid portable memory viability probe.
+- **mind-virus/scan-memory** (script): SE-345 — Mind Virus Defense: scan memory surfaces before auto-load.
 - **my-focus** (cmd): Modo focus — identifica el item más prioritario y carga todo su contexto
 - **nl-query** (cmd): Consultas en lenguaje natural — habla con Savia sin memorizar comandos
 - **post-compaction** (script): post-compaction.sh - Hook que inyecta contexto de memoria tras compactación
