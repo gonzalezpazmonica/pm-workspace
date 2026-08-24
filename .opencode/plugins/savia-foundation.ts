@@ -35,6 +35,7 @@ import { autoRedactSecrets } from "./guards/auto-redact-credentials.ts";
 import { blockCredentialLeak } from "./guards/block-credential-leak.ts";
 import { blockForcePush } from "./guards/block-force-push.ts";
 import { blockBranchSwitchDirty } from "./guards/block-branch-switch-dirty.ts";
+import { blockCommitToMain } from "./guards/block-commit-to-main.ts";
 import { blockInfraDestructive } from "./guards/block-infra-destructive.ts";
 import { toolCallHealing } from "./guards/tool-call-healing.ts";
 import { dataSovereigntyGate } from "./guards/data-sovereignty-gate.ts";
@@ -65,6 +66,7 @@ const BEFORE_GUARDS = [
   blockCredentialLeak,
   blockForcePush,
   blockBranchSwitchDirty,
+  blockCommitToMain,
   blockInfraDestructive,
   dataSovereigntyGate,
   blockGitignoredReferences,

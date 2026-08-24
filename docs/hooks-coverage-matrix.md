@@ -6,7 +6,7 @@
 
 | Total hooks | TS Guards | Git Hook mitigated | CI Job mitigated | NONE |
 |---|---|---|---|---|
-| 113 | 17 (15.0%) | 4 | 5 | 87 |
+| 113 | 18 (15.9%) | 4 | 5 | 86 |
 
 ## Bloqueantes sin cobertura ni mitigacion
 
@@ -14,8 +14,8 @@ Ninguno — AC-2.2 satisfecho.
 
 ## Cobertura real OpenCode
 
-- **TS Guards activos**: 17/113 (15.0%)
-- **Hooks sin cobertura TS**: 87 (77.0%)
+- **TS Guards activos**: 18/113 (15.9%)
+- **Hooks sin cobertura TS**: 86 (76.1%)
   - De los cuales son bloqueantes sin ninguna mitigacion: 0
   - Eventos no disponibles en OpenCode (degradacion aceptada): 29
 
@@ -100,7 +100,7 @@ Ninguno — AC-2.2 satisfecho.
 | PreToolUse | validate-bash-global.sh | si | TS_GUARD | bloqueante | validateBashGlobal |
 | PreToolUse | validate-layer-contract.sh | no | NONE | bloqueante | degradacion_documentada: solo Claude Code; layer contract no portado en OpenCode |
 | PreToolUse | vault-frontmatter-gate.sh | no | NONE | bloqueante | degradacion_documentada: solo Claude Code; vault gate no portado en OpenCode |
-| PreToolUse | block-commit-to-main.sh | no | NONE | telemetria | degradacion_documentada: solo Claude Code |
+| PreToolUse | block-commit-to-main.sh | si | TS_GUARD | telemetria | blockCommitToMain |
 | PreToolUse | cognitive-debt-hypothesis-first.sh | no | NONE | telemetria | degradacion_documentada: solo Claude Code |
 | PreToolUse | contract-test-guard.sh | no | NONE | telemetria | degradacion_documentada: solo Claude Code |
 | PreToolUse | live-progress-hook.sh | no | NONE | telemetria | degradacion_documentada: solo Claude Code |

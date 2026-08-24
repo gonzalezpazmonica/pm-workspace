@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=696224f71e6c89b220c95ad62e51740b3885863c3c12943dc523df2fcc2e15d0
-timestamp=2026-08-24T20:21:43Z
-branch=agent/overnight-20260824-l14-backup-tests
-head_commit=6f7a95c6
-signature=ec10cdee7d2c1bb31d7ae4b69428e5d73ad90d688e160aa3d06a79434357de76
+diff_hash=1322e9557c2763597c6ee0f38c2ca3ec28209bfdd7ac6924b55363d2e120956a
+timestamp=2026-08-24T20:40:25Z
+branch=agent/overnight-20260824-guard-commit-to-main-clean
+head_commit=1f9a371d
+signature=4c0f2e74c99ca9de72cfa29e623b9e5f1c44f9f99b3a4ec62ec35378e07d0b65
