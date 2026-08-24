@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=2d849e24d5ee7b7bfc4f85edf1ae328230f34c687cde84f4a877c75f836e9d49
-timestamp=2026-08-24T20:03:19Z
-branch=agent/overnight-20260824-se344-fxc
-head_commit=a6ccfb44
-signature=8f9d500a10d3c8cd06b0f333a78479fda0a219a1f790f8bdbaa64e8e447e812f
+diff_hash=696224f71e6c89b220c95ad62e51740b3885863c3c12943dc523df2fcc2e15d0
+timestamp=2026-08-24T20:20:50Z
+branch=main
+head_commit=c39db431
+signature=ec10cdee7d2c1bb31d7ae4b69428e5d73ad90d688e160aa3d06a79434357de76
