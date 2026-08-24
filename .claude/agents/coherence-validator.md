@@ -9,7 +9,7 @@ tools:
   - Read
   - Glob
   - Grep
-model: mid
+model: opencode-go/deepseek-v4-flash
 color: cyan
 maxTurns: 5
 max_context_tokens: 5000

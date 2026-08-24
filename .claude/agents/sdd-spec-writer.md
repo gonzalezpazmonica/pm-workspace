@@ -15,7 +15,7 @@ tools:
   - Glob
   - Grep
   - Bash
-model: heavy
+model: opencode-go/glm-5.3
 color: cyan
 maxTurns: 35
 max_context_tokens: 8000

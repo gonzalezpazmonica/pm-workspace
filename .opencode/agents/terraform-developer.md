@@ -13,7 +13,7 @@ tools:
   bash: true
   glob: true
   grep: true
-model: mid
+model: opencode-go/deepseek-v4-flash
 token_budget: {per_invocation: 60000, context_window_target: 15000, escalation_policy: escalate}
 color: "#808080"
 maxSteps: 15

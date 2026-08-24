@@ -9,7 +9,7 @@ tools:
   glob: true
   grep: true
   task: true
-model: mid
+model: opencode-go/deepseek-v4-flash
 skills: [spec-driven-development]
 permissionMode: acceptEdits
 maxSteps: 15

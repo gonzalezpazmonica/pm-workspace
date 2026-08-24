@@ -1,6 +1,6 @@
 {
-  "hash": "fa56aa1332d7",
-  "total": 1394,
+  "hash": "04705085cb36",
+  "total": 1395,
   "resources": [
     {
       "category": "analysis",
@@ -14754,6 +14754,20 @@
       "kind": "script",
       "path": "scripts/vault-ops.sh",
       "description": "vault-ops.sh — Personal Vault operations library (N3). Sourced by vault.sh."
+    },
+    {
+      "category": "planning",
+      "name": "vaults-backup-cron",
+      "intents": [
+        "automático",
+        "backup",
+        "crit",
+        "cron",
+        "cúpulas"
+      ],
+      "kind": "script",
+      "path": "scripts/vaults-backup-cron.sh",
+      "description": "vaults-backup-cron.sh — Backup automático de las cúpulas SaviaVaults (CRIT-001)."
     },
     {
       "category": "planning",

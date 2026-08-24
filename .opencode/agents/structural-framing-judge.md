@@ -1,7 +1,7 @@
 ---
 name: structural-framing-judge
 description: Recommendation Tribunal judge — detects output with manual/protocol form over CBRN or sensitive domain
-model: mid
+model: opencode-go/deepseek-v4-flash
 permission_level: L1
 tools:
   read: true

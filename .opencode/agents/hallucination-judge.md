@@ -1,7 +1,7 @@
 ---
 name: hallucination-judge
 description: Truth Tribunal judge — detects invented facts via SelfCheck-style consistency
-model: heavy
+model: opencode-go/glm-5.3
 permission_level: L1
 tools:
   read: true

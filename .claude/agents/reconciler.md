@@ -1,6 +1,6 @@
 ---
 name: reconciler
-model: mid
+model: opencode-go/deepseek-v4-flash
 permission_level: L1
 description: "Classifies contradictions into 3 buckets: evolution, auto-resolve, conflict-doc. Invoked by drift-auditor."
 tools: [Read, Glob, Grep, Bash]

@@ -1,7 +1,7 @@
 ---
 name: security-judge
 description: Code Review Court judge — OWASP, PII, injection, auth, credentials
-model: mid
+model: opencode-go/deepseek-v4-flash
 permission_level: L1
 tools: [Read, Glob, Grep]
 token_budget:

@@ -1,7 +1,7 @@
 ---
 name: fix-assigner
 description: Creates fix tasks from Court findings, assigns to dev agents, triggers re-review
-model: mid
+model: opencode-go/deepseek-v4-flash
 permission_level: L2
 tools:
   read: true

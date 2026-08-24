@@ -1,7 +1,7 @@
 ---
 name: calibration-judge
 description: Truth Tribunal judge — confidence statements match evidence strength
-model: mid
+model: opencode-go/deepseek-v4-flash
 permission_level: L1
 tools:
   read: true

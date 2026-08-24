@@ -12,7 +12,7 @@ tools:
   - Grep
   - Bash
   - Write
-model: heavy
+model: opencode-go/glm-5.3
 color: indigo
 maxTurns: 30
 max_context_tokens: 12000

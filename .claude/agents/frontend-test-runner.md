@@ -3,7 +3,7 @@ name: frontend-test-runner
 permission_level: L4
 description: Post-commit frontend test execution — unit, component, e2e, coverage
 tools: [Read, Write, Bash, Glob, Grep, Task]
-model: mid
+model: opencode-go/deepseek-v4-flash
 skills: [spec-driven-development]
 permissionMode: acceptEdits
 maxTurns: 30

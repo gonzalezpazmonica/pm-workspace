@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=4825129e4d71a39474a6c6c913fc7e1e7b5d5d5f6f4e6ada544b4673a220c6de
-timestamp=2026-08-24T10:57:35Z
-branch=agent/overnight-20260824-l22-vector-hybrid
-head_commit=e23ecddc
-signature=09de08747ee246fda5b5ee280b605ff7ecc4ef0ed998fc8894b284f2cf1c327a
+diff_hash=30d802a68af4381ba8b28a92da92dd993f2c52dcef21e50722a980f934111278
+timestamp=2026-08-24T19:43:33Z
+branch=agent/overnight-20260824-tiers-opencode-go
+head_commit=4460a0b2
+signature=03db53826bc3de1961afeacfdbedeab9a3474d3143a1ba9f19298a20f8297891

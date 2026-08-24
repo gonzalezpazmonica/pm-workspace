@@ -13,7 +13,7 @@ tools:
   glob: true
   grep: true
   task: true
-model: fast
+model: opencode-go/deepseek-v4-flash
 permissionMode: plan
 maxSteps: 15
 max_context_tokens: 60000
