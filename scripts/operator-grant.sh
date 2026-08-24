@@ -136,8 +136,8 @@ done
   if [[ -d "$GRANTS_DIR" ]]; then
     ls -1 "$GRANTS_DIR"/*.json 2>/dev/null | while read -r f; do
       b="$(basename "$f" .json)"
-      v=$(check_scope "$b" "")
-      printf '%s\tvalid=%s\t%s\n' "$b" "$([ "$v" == 0 ] && echo yes || echo no)" "$(grep -oP '"request_context":\s*"\K[^"]+' "$f" 2>/dev/null | head -1)"
+      if check_scope "$b" ""; then v=yes; else v=no; fi
+      printf '%s\tvalid=%s\t%s\n' "$b" "$v" "$(grep -oP '"request_context":\s*"\K[^"]+' "$f" 2>/dev/null | head -1)"
     done
   fi
   exit 0
