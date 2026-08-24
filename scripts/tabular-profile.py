@@ -406,10 +406,142 @@ def detect_relations(tables):
 
 def _is_numeric(v):
     try:
-        float(str(v).strip())
+        float(v)
         return True
-    except (ValueError, TypeError):
+    except (TypeError, ValueError):
         return False
+
+
+# ── L21 / SE-342 S5: predicción asistida local ──────────────────────────
+# Decisión de la hypothesis l21: sklearn clásico local (PyCaret/AutoGluon
+# evaluados en el roadmap Labs). Determinista (semilla fija), cero egress.
+def run_predict(argv):
+    """tabular-profile.py predict --target COL [--categorical] FILE
+
+    Trains a local model (scikit-learn optional dependency) on one table,
+    reports cross-validated metrics and registers the artifact in the L17
+    catalog. Deterministic seed. Returns JSON."""
+    import json as _json
+    import os as _os
+
+    target = None
+    categorical = False
+    files = []
+    i = 0
+    while i < len(argv):
+        if argv[i] == "--target" and i + 1 < len(argv):
+            target = argv[i + 1]; i += 2
+        elif argv[i] == "--categorical":
+            categorical = True; i += 1
+        elif argv[i] in ("--help", "-h"):
+            print("Usage: tabular-profile.py predict --target COL [--categorical] FILE")
+            return 0
+        else:
+            files.append(argv[i]); i += 1
+
+    if not target:
+        print(_json.dumps({"error": "--target required"}), file=sys.stderr)
+        return 2
+    if not files:
+        files = ["-"]
+
+    try:
+        tables = read_tables(files, MAX_SAMPLE)
+    except ExcelUnsupported as exc:
+        print(_json.dumps({"error": str(exc)}))
+        return 1
+    table = next((t for t in tables if t["rows"]), None)
+    if table is None:
+        print(_json.dumps({"error": "no data found"}))
+        return 1
+    rows = table["rows"]
+    if len(rows) < 50:
+        print(_json.dumps({"error": "dataset too small for prediction",
+                           "rows": len(rows), "min": 50}))
+        return 1
+    cols = list(rows[0].keys()) if rows and isinstance(rows[0], dict) else []
+    if target not in cols:
+        print(_json.dumps({"error": f"target column '{target}' not in {cols}"}))
+        return 1
+
+    # Optional scikit-learn: degrade explicitly if missing.
+    try:
+        import numpy as np
+        from sklearn.ensemble import GradientBoostingClassifier, GradientBoostingRegressor
+        from sklearn.model_selection import cross_validate, StratifiedKFold, KFold
+    except ImportError as exc:
+        print(_json.dumps({"error": "sklearn not installed — run: pip install scikit-learn",
+                           "detail": str(exc)}))
+        return 1
+
+    # Deterministic numeric matrix; non-numeric features dropped, missing skipped.
+    import statistics as _st
+    feats = [c for c in cols if c != target and _is_numeric(rows[0].get(c))]
+    X, y = [], []
+    for r in rows:
+        try:
+            vals = [float(r.get(c, 0) or 0) for c in feats]
+            tv = float(r[target])
+        except (TypeError, ValueError, KeyError):
+            continue
+        X.append(vals); y.append(tv)
+    if len(X) < 50:
+        print(_json.dumps({"error": "too few usable rows", "rows": len(X)}))
+        return 1
+
+    X = np.array(X, dtype=float)
+    y = np.array(y, dtype=float)
+    rng = 42  # seed fija — determinismo (AC-5.5)
+    if categorical:
+        y = y.astype(int)
+        model = GradientBoostingClassifier(random_state=rng)
+        cv = StratifiedKFold(n_splits=3, shuffle=True, random_state=rng)
+        cvout = cross_validate(model, X, y, cv=cv, scoring="accuracy",
+                               return_train_score=True)
+        metrics = {
+            "task": "classification",
+            "features": feats,
+            "rows": int(len(X)),
+            "accuracy_cv": float(_st.mean(cvout["test_score"])),
+            "accuracy_train": float(_st.mean(cvout["train_score"])),
+        }
+    else:
+        model = GradientBoostingRegressor(random_state=rng)
+        cv = KFold(n_splits=3, shuffle=True, random_state=rng)
+        cvout = cross_validate(model, X, y, cv=cv,
+                               scoring={"rmse": "neg_root_mean_squared_error", "r2": "r2"})
+        metrics = {
+            "task": "regression",
+            "features": feats,
+            "rows": int(len(X)),
+            "rmse_cv": float(-_st.mean(cvout["test_rmse"])),
+            "r2_cv": float(_st.mean(cvout["test_r2"])),
+        }
+
+    feat_imp = sorted(zip(feats, model.fit(X, y).feature_importances_),
+                      key=lambda p: -p[1])[:5]
+    metrics["top_features"] = [{"feature": f, "importance": round(float(s), 4)}
+                               for f, s in feat_imp]
+
+    # Register artifact in L17 catalog (best-effort, never fails the command).
+    # subprocess list-argv — NO shell=True (avoids command injection via
+    # attacker-controlled filename/sheet names).
+    path = _os.environ.get("SAVIA_CATALOG_DB", "")
+    if path:
+        import subprocess as _sp
+        _sp.run(
+            ["python3", "scripts/savia-catalog.py", "register",
+             "--type", "model",
+             "--name", "predict:" + _os.path.basename(files[0]),
+             "--level", "N2",
+             "--source", _os.path.basename(files[0]),
+             "--relation", "trained_on",
+             "--from-name", table["name"],
+             "--from-type", "dataset",
+             "--db", path],
+            stdout=_sp.DEVNULL, stderr=_sp.DEVNULL)
+    print(_json.dumps(metrics, ensure_ascii=False, indent=2))
+    return 0
 
 
 def main():
@@ -417,6 +549,11 @@ def main():
     sources = []
 
     args = sys.argv[1:]
+
+    # L21 (SE-342 S5): predict subcommand — local classic ML, no TFMs, zero egress.
+    if args and args[0] == "predict":
+        return run_predict(args[1:])
+
     i = 0
     while i < len(args):
         if args[i] == "--sample" and i + 1 < len(args):
