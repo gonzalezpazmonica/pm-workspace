@@ -11,8 +11,18 @@ token_budget: 496
 
 Ninguna skill autónoma arranca con UN solo factor. Se requieren **dos confirmaciones independientes** en CADA invocación:
 
-1. **Variable de entorno persistente** (intención previa configurada)
+1. **Intención previa** — `variable_<SKILL>_ENABLED=true` **O** grant `autonomy:<skill>`
+   vigente en el ledger local de la operadora (SE-343)
 2. **Flag explícito `--confirm-autonomous`** (intención inmediata en este run)
+
+> **SE-343 (2026-08-24):** el factor 1 admite dos fuentes. La variable env
+> (configuración manual previa) sigue funcionando. La novedad: Savia puede
+> emitir un **grant de autonomía** con `operator-grant.sh grant --scope
+> autonomy:<skill> --context "<petición>"` cuando la operadora pide trabajar de
+> forma autónoma, sin que ella tenga que tocar variables de entorno a mano. El
+> grant vive en `~/.savia/grants/` (infra local, CRIT-001), con TTL por defecto
+> 24h, `grantor` = slug activo, `source` = `express-request` (nunca
+> `self`). Ambos factores (intención + flag) se mantienen obligatorios.
 
 ## Helper canónico
 

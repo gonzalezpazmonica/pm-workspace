@@ -1,6 +1,6 @@
 # Savia Capability Map — INDEX
-> hash: 77d75a9c9b1c | resources: 1393
-> 294 commands · 127 skills · 83 agents · 889 scripts
+> hash: 57e194fada1a | resources: 1394
+> 294 commands · 127 skills · 83 agents · 890 scripts
 
 [analysis] Trace Optimize — across,distributed,optimize,rates,sampling — cmd:.claude/commands/trace-optimize.md
 [analysis] agent-activity — activity,agent,executions,recent,show — cmd:.claude/commands/agent-activity.md
@@ -879,6 +879,7 @@
 [planning] onboarding-dev — agent,auto,buddy,docs,generates — cmd:.claude/commands/onboarding-dev.md
 [planning] onboarding-dev — buddy,desarrollador,incorpora,nuevo,proyecto — skill:.claude/skills/onboarding-dev/SKILL.md
 [planning] operational-point-selector — operational,point,selector,slice — script:scripts/operational-point-selector.sh
+[planning] operator-grant — deterministic,grant,ledger,operator — script:scripts/operator-grant.sh
 [planning] opus47-calibration-scorecard — calibration,opus,scorecard,slice — script:scripts/opus47-calibration-scorecard.sh
 [planning] orchestration-protocol — agent,inter,messaging,orchestration,protocol — script:scripts/orchestration-protocol.sh
 [planning] org-political-landscape — alianzas,análisis,centros,detecta,interno — skill:.claude/skills/org-political-landscape/SKILL.md

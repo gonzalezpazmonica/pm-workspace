@@ -1,6 +1,6 @@
 {
-  "hash": "163c8decac0d",
-  "total": 1393,
+  "hash": "fa56aa1332d7",
+  "total": 1394,
   "resources": [
     {
       "category": "analysis",
@@ -11597,6 +11597,19 @@
       "kind": "script",
       "path": "scripts/operational-point-selector.sh",
       "description": "operational-point-selector.sh — SE-029 Slice 4."
+    },
+    {
+      "category": "planning",
+      "name": "operator-grant",
+      "intents": [
+        "deterministic",
+        "grant",
+        "ledger",
+        "operator"
+      ],
+      "kind": "script",
+      "path": "scripts/operator-grant.sh",
+      "description": "operator-grant.sh — Deterministic operator-grant ledger (SE-343)"
     },
     {
       "category": "planning",

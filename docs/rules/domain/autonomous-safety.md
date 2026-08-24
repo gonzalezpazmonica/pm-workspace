@@ -33,7 +33,7 @@ SIEMPRE → Prefijo de commit: agent({modo}): descripción
 
 ```
 NUNCA  → Aprobar un PR (ni propio ni ajeno)
-NUNCA  → Hacer merge de un PR
+NUNCA  → Hacer merge de un PR sin permiso expreso REGISTRADO de la operadora
 NUNCA  → Auto-asignar como reviewer
 NUNCA  → Marcar un PR como "ready for merge"
 
@@ -42,6 +42,19 @@ SIEMPRE → Asignar AUTONOMOUS_REVIEWER como reviewer obligatorio
 SIEMPRE → Incluir en el PR body: métricas antes/después, descripción del cambio, riesgo estimado
 SIEMPRE → Esperar aprobación humana — el agente NO hace seguimiento ni insiste
 ```
+
+#### Merge bajo permiso expreso (SE-343)
+
+De base, `push-pr.sh --merge` NO mergea: exige un **grant `merge` vigente**
+registrado en el ledger local (`~/.savia/grants/`) vía
+`operator-grant.sh grant --scope merge --context "<petición de la operadora>"`.
+Savia solo emite el grant cuando la operadora lo pide **expresamente**; nunca se
+auto-concede (`source != self`). El grant se **consume** tras el primer merge
+exitoso (one-shot, TTL 6h por defecto).
+
+El flujo correcto: la operadora pide merge → Savia emite el grant con contexto →
+`push-pr.sh --merge` verifica el grant y mergea → el grant se revoca. Sin grant
+(nadie autorizó), `push-pr.sh --merge` aborta y el PR permanece en Draft.
 
 ## Reglas de investigación — Notificación humana
 
