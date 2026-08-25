@@ -487,6 +487,7 @@ Post-auditoria de alineacion OpenCode (inicio de sesion 2026-05-02). 4 gaps dete
 | 25 | SPEC-SE-035 | Slices 1-4 | ~100 min | 232 | P2 reconciliation delta engine — depende de SE-036/037 |
 | 26 | SE-085 | full | ~20 min | 190 | Write-a-skill meta — depende de SE-084 |
 | 27 | SE-075 | Slice 3 | ~30 min | 188 (residual) | DEFERRED — requiere autorizacion Monica para descargar Kokoro 82M (~500MB) |
+| 28 | SE-346 | Slice 1 | ~3h | 198 | Modelo sustituto (GP) + active learning: decidir cuando confiar en modelo barato vs ejecutar lo caro. Piloto `llm-router --check` (read-only). Fuente: rainvare/modelo-del-mundo |
 
 **Total non-blocked**: ~1140 min ≈ ~19h agente
 
