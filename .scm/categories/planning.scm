@@ -1,5 +1,5 @@
 # planning — Savia Capability Map (L1)
-> 598 resources
+> 599 resources
 
 - **/decide-architecture** (cmd): Clasifica una tarea como WORKFLOW (deterministica) o AGENT (loop). Bias hacia workflow per Anthropic. Sugiere plantilla inicial. Mide accuracy contra corpus curado de 20 tareas.
 - **_template** (skill): TEMPLATE — copia este directorio para crear una skill nueva. NO se carga en runtime.
@@ -324,6 +324,7 @@
 - **meta-monitor** (script): meta-monitor.sh — L13 F1: juicio metacognitivo de monitoreo.
 - **meta-recalibra-ledger** (script): meta-recalibra-ledger.sh — L13 F4: recalibración desde señal real (ledger).
 - **meta-recalibrate** (script): meta-recalibrate.sh — L13 F1: recalibración del juicio metacognitivo.
+- **mind-virus/quarantine** (script): SE-345 — Mind Virus Defense: quarantine a malicious file (explicit flag only).
 - **mobile-developer** (agent): >
 - **model-capability-resolver** (script): model-capability-resolver.sh — Resolve model capabilities from YAML registry
 - **my-sprint** (cmd): Vista personal del sprint — items asignados, progreso, cycle time, PRs pendientes

@@ -10,6 +10,8 @@ set -uo pipefail
 
 # ── Constantes ─────────────────────────────────────────────────────────────────
 SCRIPT_NAME="$(basename "$0")"
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+CONVERT_SCRIPT="$SCRIPT_DIR/agents-opencode-convert.sh"
 CLD_ROOT=".claude"
 OPC_ROOT=".opencode"
 FIX_MODE=false
@@ -70,6 +72,7 @@ hash_file() { sha256sum "$1" 2>/dev/null | awk '{print $1}'; }
 DRIFT_COUNT=0
 MISSING_OPC_COUNT=0
 MISSING_CLD_COUNT=0
+OPENCODE_ONLY_COUNT=0
 TOTAL_OK=0
 
 print_header() {
@@ -90,9 +93,15 @@ report_row() {
 }
 
 # ── Función de comparación ─────────────────────────────────────────────────────
-# compare_resource <cld_path> <opc_path> <display_name>
+# compare_resource <cld_path> <opc_path> <display_name> [--agents]
+# Agents are compared SEMANTICALLY: .opencode/ is the SCHEMA-CONVERTED mirror of
+# .claude/ (agents-opencode-convert.sh), so a byte hash will always differ. A
+# converted agent matches if applying the same conversion to .claude yields .opencode.
+# Agents present ONLY in .opencode/ are legitimate (SE-220: .opencode/agents/ is
+# the source of truth) and reported as INFO, not MISSING_CLD.
 compare_resource() {
-  local cld="$1" opc="$2" name="$3"
+  local cld="$1" opc="$2" name="$3" agents=false
+  [[ "${4:-}" == "--agents" ]] && agents=true
   local cld_exists opc_exists
 
   [[ -f "$cld" ]] && cld_exists=true || cld_exists=false
@@ -100,18 +109,35 @@ compare_resource() {
 
   if $cld_exists && $opc_exists; then
     local h_cld h_opc
-    h_cld=$(hash_file "$cld")
-    h_opc=$(hash_file "$opc")
-    if [[ "$h_cld" == "$h_opc" ]]; then
-      report_row "$name" "OK" ""
-      (( TOTAL_OK++ )) || true
+    if $agents; then
+      # Semantic match: convert .claude/ schema → compare against .opencode/
+      local conv
+      conv=$(MOD=convert-only CLD_PATH="$cld" bash -c "set --; source \"$CONVERT_SCRIPT\"; convert_one \"\$CLD_PATH\"" _ 2>/dev/null || echo "") 
+      # strip the convert script's dry-run noise lines ("would convert…/ would sync…")
+      conv=$(printf '%s' "$conv" | sed -E '/^(would convert|would sync)/d')
+      # mirror agents-opencode-convert.sh --check's semantic filter
+      local filt='^(maxSteps|maxTurns|permission\.task|  allowlist):'
+      if diff -qB <(printf '%s' "$conv" | grep -vE "$filt" ) <(grep -vE "$filt" "$opc") >/dev/null 2>&1; then
+        report_row "$name" "OK" "converted"
+        (( TOTAL_OK++ )) || true
+      else
+        report_row "$name" "DRIFT" "conversion mismatch (opencode no es la conversion del claude)"
+        (( DRIFT_COUNT++ )) || true
+      fi
     else
-      report_row "$name" "DRIFT" "sha256 differs (cld=${h_cld:0:8}… opc=${h_opc:0:8}…)"
-      (( DRIFT_COUNT++ )) || true
-      if $FIX_MODE; then
-        mkdir -p "$(dirname "$opc")"
-        cp "$cld" "$opc"
-        echo "  [fix] $cld → $opc"
+      h_cld=$(hash_file "$cld")
+      h_opc=$(hash_file "$opc")
+      if [[ "$h_cld" == "$h_opc" ]]; then
+        report_row "$name" "OK" ""
+        (( TOTAL_OK++ )) || true
+      else
+        report_row "$name" "DRIFT" "sha256 differs (cld=${h_cld:0:8}… opc=${h_opc:0:8}…)"
+        (( DRIFT_COUNT++ )) || true
+        if $FIX_MODE; then
+          mkdir -p "$(dirname "$opc")"
+          cp "$cld" "$opc"
+          echo "  [fix] $cld → $opc"
+        fi
       fi
     fi
   elif $cld_exists && ! $opc_exists; then
@@ -123,9 +149,16 @@ compare_resource() {
       echo "  [fix] $cld → $opc"
     fi
   elif ! $cld_exists && $opc_exists; then
-    report_row "$name" "MISSING_CLD" "existe en .opencode/, falta en .claude/"
-    (( MISSING_CLD_COUNT++ )) || true
-    # --fix NUNCA copia en sentido .opencode/ → .claude/
+    if $agents; then
+      # .opencode/agents/ is the source of truth (SE-220): opencode-only agents
+      # are legitimate OpenCode-native agents, not a missing .claude mirror.
+      report_row "$name" "INFO" "agente opencode-native (SE-220 source of truth)"
+      (( OPENCODE_ONLY_COUNT++ )) || true
+    else
+      report_row "$name" "MISSING_CLD" "existe en .opencode/, falta en .claude/"
+      (( MISSING_CLD_COUNT++ )) || true
+      # --fix NUNCA copia en sentido .opencode/ → .claude/
+    fi
   else
     # No existe en ninguno: ignorar (no debería llegar aquí por la lógica de iteración)
     :
@@ -156,7 +189,7 @@ for a in "${cld_agents[@]:-}"; do [[ -n "$a" ]] && agent_seen["$a"]=1; done
 for a in "${opc_agents[@]:-}"; do [[ -n "$a" ]] && agent_seen["$a"]=1; done
 
 for name in $(echo "${!agent_seen[@]}" | tr ' ' '\n' | sort); do
-  compare_resource "$CLD_ROOT/agents/$name" "$OPC_ROOT/agents/$name" "agents/$name"
+  compare_resource "$CLD_ROOT/agents/$name" "$OPC_ROOT/agents/$name" "agents/$name" --agents
 done
 
 # ── Iteración: commands ────────────────────────────────────────────────────────
@@ -218,10 +251,11 @@ done
 echo ""
 echo "────────────────────────────────────────────────────────────────────────────"
 echo "SUMMARY"
-echo "  OK:          $TOTAL_OK"
-echo "  DRIFT:       $DRIFT_COUNT"
-echo "  MISSING_OPC: $MISSING_OPC_COUNT"
-echo "  MISSING_CLD: $MISSING_CLD_COUNT"
+echo "  OK:              $TOTAL_OK"
+echo "  DRIFT:           $DRIFT_COUNT"
+echo "  MISSING_OPC:     $MISSING_OPC_COUNT"
+echo "  MISSING_CLD:     $MISSING_CLD_COUNT"
+echo "  OPENCODE_ONLY:   $OPENCODE_ONLY_COUNT   (legítimos — .opencode/agents es source of truth, SE-220)"
 echo "────────────────────────────────────────────────────────────────────────────"
 
 FAIL=$(( DRIFT_COUNT + MISSING_OPC_COUNT + MISSING_CLD_COUNT ))

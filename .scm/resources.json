@@ -1,6 +1,6 @@
 {
-  "hash": "04705085cb36",
-  "total": 1395,
+  "hash": "a2e2e66fac62",
+  "total": 1397,
   "resources": [
     {
       "category": "analysis",
@@ -6807,6 +6807,20 @@
     },
     {
       "category": "memory",
+      "name": "mind-virus/scan-memory",
+      "intents": [
+        "auto",
+        "before",
+        "defense",
+        "load",
+        "memory"
+      ],
+      "kind": "script",
+      "path": "scripts/mind-virus/scan-memory.sh",
+      "description": "SE-345 — Mind Virus Defense: scan memory surfaces before auto-load."
+    },
+    {
+      "category": "memory",
       "name": "my-focus",
       "intents": [
         "carga",
@@ -11363,6 +11377,20 @@
       "kind": "script",
       "path": "scripts/meta-recalibrate.sh",
       "description": "meta-recalibrate.sh — L13 F1: recalibración del juicio metacognitivo."
+    },
+    {
+      "category": "planning",
+      "name": "mind-virus/quarantine",
+      "intents": [
+        "defense",
+        "explicit",
+        "file",
+        "flag",
+        "malicious"
+      ],
+      "kind": "script",
+      "path": "scripts/mind-virus/quarantine.sh",
+      "description": "SE-345 — Mind Virus Defense: quarantine a malicious file (explicit flag only)."
     },
     {
       "category": "planning",

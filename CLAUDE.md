@@ -31,7 +31,7 @@ Identidad del humano al volante + memoria auto persistida fuera del repo.
 
 ## Estructura
 
-`.claude/{agents(83), commands(570), profiles, hooks(113/116reg), rules/{domain,languages}, skills(126), settings.json}` · `docs/` · `projects/` · `scripts/` · `tests/`
+`.claude/{agents(83), commands(570), profiles, hooks(115/116reg), rules/{domain,languages}, skills(126), settings.json}` · `docs/` · `projects/` · `scripts/` · `tests/`
 
 ## Reglas Críticas (Rules 1-8, inline)
 
@@ -81,6 +81,6 @@ NEVER `assembleDebug` — use `./gradlew buildAndPublish`. `JAVA_HOME=/snap/andr
 
 ## Hooks · Memoria
 
-107 hooks (116 registrados) en `.claude/settings.json` — arranque blindado (sin red, sin deps externas).
+115 hooks (116 registrados) en `.claude/settings.json` — arranque blindado (sin red, sin deps externas).
 Memory store: `bash scripts/memory-store.sh [recall|save|stats]`.
 Security review: `/security-review {spec}`.

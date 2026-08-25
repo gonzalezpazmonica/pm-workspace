@@ -28,6 +28,17 @@
             "statusMessage": "Emergency-mode: verificando LocalAI fallback..."
           }
         ]
+      },
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/.opencode/hooks/mind-virus-load-gate.sh",
+            "timeout": 15,
+            "statusMessage": "SE-345: verificando memoria antes de cargar..."
+          }
+        ]
       }
     ],
     "PreToolUse": [
@@ -464,6 +475,17 @@
             "async": true,
             "timeout": 3,
             "statusMessage": "Effort router (SE-224)..."
+          }
+        ]
+      },
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/.opencode/hooks/mind-virus-write-gate.sh",
+            "timeout": 10,
+            "statusMessage": "SE-345: gate de escritura en memoria..."
           }
         ]
       }

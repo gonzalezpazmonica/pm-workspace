@@ -1,6 +1,6 @@
 # Savia Capability Map — INDEX
-> hash: fb0d555d2e1c | resources: 1395
-> 294 commands · 127 skills · 83 agents · 891 scripts
+> hash: c9d9801abffd | resources: 1397
+> 294 commands · 127 skills · 83 agents · 893 scripts
 
 [analysis] Trace Optimize — across,distributed,optimize,rates,sampling — cmd:.claude/commands/trace-optimize.md
 [analysis] agent-activity — activity,agent,executions,recent,show — cmd:.claude/commands/agent-activity.md
@@ -514,6 +514,7 @@
 [memory] memory-verify — compression,gate,memory,quality,spec — script:scripts/memory-verify.sh
 [memory] memory-write-gate — before,entries,gate,memory,validates — script:scripts/memory-write-gate.sh
 [memory] memvid-probe — memory,memvid,portable,probe,slice — script:scripts/memvid-probe.sh
+[memory] mind-virus/scan-memory — auto,before,defense,load,memory — script:scripts/mind-virus/scan-memory.sh
 [memory] my-focus — carga,contexto,focus,identifica,item — cmd:.claude/commands/my-focus.md
 [memory] nl-query — comandos,consultas,habla,lenguaje,memorizar — cmd:.claude/commands/nl-query.md
 [memory] post-compaction — compactación,compaction,contexto,hook,inyecta — script:scripts/post-compaction.sh
@@ -861,6 +862,7 @@
 [planning] meta-monitor — juicio,meta,metacognitivo,monitor,monitoreo — script:scripts/meta-monitor.sh
 [planning] meta-recalibra-ledger — ledger,meta,real,recalibra,recalibración — script:scripts/meta-recalibra-ledger.sh
 [planning] meta-recalibrate — juicio,meta,metacognitivo,recalibración,recalibrate — script:scripts/meta-recalibrate.sh
+[planning] mind-virus/quarantine — defense,explicit,file,flag,malicious — script:scripts/mind-virus/quarantine.sh
 [planning] mobile-developer —  — agent:.opencode/agents/mobile-developer.md
 [planning] model-capability-resolver — capabilities,capability,model,registry,resolve — script:scripts/model-capability-resolver.sh
 [planning] my-sprint — asignados,cycle,items,pendientes,personal — cmd:.claude/commands/my-sprint.md
