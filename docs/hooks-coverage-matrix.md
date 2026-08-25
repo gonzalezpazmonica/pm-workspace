@@ -6,7 +6,7 @@
 
 | Total hooks | TS Guards | Git Hook mitigated | CI Job mitigated | NONE |
 |---|---|---|---|---|
-| 113 | 18 (15.9%) | 4 | 5 | 86 |
+| 115 | 18 (15.7%) | 4 | 5 | 88 |
 
 ## Bloqueantes sin cobertura ni mitigacion
 
@@ -14,10 +14,10 @@ Ninguno — AC-2.2 satisfecho.
 
 ## Cobertura real OpenCode
 
-- **TS Guards activos**: 18/113 (15.9%)
-- **Hooks sin cobertura TS**: 86 (76.1%)
+- **TS Guards activos**: 18/115 (15.7%)
+- **Hooks sin cobertura TS**: 88 (76.5%)
   - De los cuales son bloqueantes sin ninguna mitigacion: 0
-  - Eventos no disponibles en OpenCode (degradacion aceptada): 29
+  - Eventos no disponibles en OpenCode (degradacion aceptada): 30
 
 ## Full matrix
 
@@ -87,6 +87,7 @@ Ninguno — AC-2.2 satisfecho.
 | PreToolUse | delegation-guard.sh | no | NONE | bloqueante | degradacion_documentada: solo Claude Code; delegation guard no portado en OpenCode |
 | PreToolUse | memory-verified-gate.sh | no | NONE | bloqueante | degradacion_documentada: solo Claude Code; memory gate no portado en OpenCode |
 | PreToolUse | memory-write-sanitize.sh | no | NONE | bloqueante | degradacion_documentada: solo Claude Code; memory write sanitize no portado en OpenCode |
+| PreToolUse | mind-virus-write-gate.sh | no | NONE | bloqueante | degradacion_documentada: solo Claude Code |
 | PreToolUse | pr-summary-gate.sh | no | NONE | bloqueante | degradacion_documentada: solo Claude Code; PR summary validado via git pre-push |
 | PreToolUse | project-isolation-gate.sh | no | NONE | bloqueante | degradacion_documentada: solo Claude Code; isolation gate no portado en OpenCode |
 | PreToolUse | prompt-hook-commit.sh | no | GIT_HOOK | bloqueante | git pre-commit/pre-push |
@@ -113,6 +114,7 @@ Ninguno — AC-2.2 satisfecho.
 | PreToolUse | blast-radius-hook.sh | no | NONE | warning | degradacion_documentada: solo Claude Code |
 | PreToolUse | plan-gate.sh | no | CI_JOB | warning | CI validate-ci-local.sh |
 | SessionEnd | session-end-memory.sh | no | NONE | telemetria | evento SessionEnd no disponible en OpenCode — degradacion_documentada |
+| SessionStart | mind-virus-load-gate.sh | no | NONE | bloqueante | evento SessionStart no disponible en OpenCode — degradacion_documentada |
 | SessionStart | emergency-mode-readiness.sh | no | NONE | telemetria | evento SessionStart no disponible en OpenCode — degradacion_documentada |
 | SessionStart | session-init.sh | no | NONE | telemetria | evento SessionStart no disponible en OpenCode — degradacion_documentada |
 | SessionStart | shield-autostart.sh | no | NONE | telemetria | evento SessionStart no disponible en OpenCode — degradacion_documentada |
