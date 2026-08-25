@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+set -uo pipefail
 # SE-345 — Mind Virus Defense: load gate (SessionStart).
 #
 # Scans the memory surfaces that Savia auto-loads into context and blocks the
@@ -7,7 +8,6 @@
 #
 # Modes (SAVIA_MVD_MODE): warn (default — log only) | block (exit 2)
 # Never auto-modifies (CRIT-001): read + report; quarantine is explicit.
-set -uo pipefail
 
 [[ "${SAVIA_MVD:-on}" == "off" ]] && exit 0
 MODE="${SAVIA_MVD_MODE:-warn}"

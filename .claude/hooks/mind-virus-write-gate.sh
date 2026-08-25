@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+set -uo pipefail
 # SE-345 — Mind Virus Defense: write gate.
 # PreToolUse/PostToolUse hook: detects persistence/propagation instructions
 # being written into a memory-surface file (MEMORY.md, profiles, memory dirs).
@@ -8,9 +9,6 @@
 # Red-team: SAVIA_MVD_REDTEAM=on  always reports (for corpus testing).
 #
 # Block contract: exit 2 = hard block (Claude Code / savia-gates bridge).
-set -uo pipefail
-
-# ── Master switches ──────────────────────────────────────────────────────────
 [[ "${SAVIA_MVD:-on}" == "off" ]] && exit 0
 MODE="${SAVIA_MVD_MODE:-warn}"
 DETECT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)/scripts/mind-virus/detect.py"
