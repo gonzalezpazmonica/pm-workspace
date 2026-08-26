@@ -77,6 +77,32 @@ hook bash. La parity-audit los excluye del gap.
 - Los matchers `Bash(git commit*)` / `Bash:gh pr create*` se resuelven
   reconstruyendo el nombre compuesto `bash(<command>)` / `bash:<command>`.
 
+### Anti-leak / timeout (SE-077 process-leak fix)
+
+> Los hooks se lanzan con `Bun.spawn({ detached: true })` — cada hook vive en su
+> propio proceso/process-group, NO como hijo pipe-able de `$` shell. Esto
+> permite matar el ÁRBOL completo del hook (incl. hijos como `ollama classify`
+> que cuelgan cuando el Shield daemon está caído).
+
+- **Timeout kill**: si un hook excede su timeout (`runHookOnce`), se ejecuta
+  `process.kill(-pid, SIGKILL)` contra el grupo del hook. Antes, el proceso se
+  abandonaba vivo: sesiones largas acumulaban cientos de `bash` + `ollama`
+  huérfanos (387 procesos / ~5000 FDs observados en 4 instancias en ~5h) y
+  opencode quedaba prácticamente bloqueado.
+- **Async hooks** (`async: true`) se lanzan con stdout/stderr a `/dev/null` y un
+  hard-cap de 60s — nunca acumulan FDs en opencode.
+- **Self-heal**: al cargar el plugin, `sweepOrphanedHooks()` elimina payloads
+  `/tmp/savia-gates-<deadpid>-*.json` y mata hooks huérfanos de instancias
+  opencode muertas. Para matar los hooks usa el **registro de pids**
+  `/tmp/savia-gates-<owner>-hook-<hookpid>.json` que escribe cada spawn: enviar
+  SIGKILL a un pid del mismo uid siempre está permitido, pero leer el
+  `/proc/<pid>/fd/0` de un proceso ajeno lo bloquea Yama `ptrace_scope=1`
+  (solo ancestros/descendientes). El barrido `/proc` queda como best-effort
+  para el caso descendiente. Nunca toca procesos de pids vivos.
+- **Heal manual**: `bash scripts/opencode-gates-heal.sh` (dead owners) o
+  `--force` (también hooks colgados de pids vivos), `--dry-run` para prever.
+
+
 ## Garantías de seguridad (autonomous-safety)
 
 - FAIL El plugin NUNCA hace `git push`, `gh pr merge`, `--force`

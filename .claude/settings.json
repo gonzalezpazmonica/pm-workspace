@@ -347,7 +347,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "\"\"/.opencode/hooks/context-sanitize-input.sh",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/.opencode/hooks/context-sanitize-input.sh",
             "timeout": 8,
             "statusMessage": "SPEC-193: sanitizando input Unicode..."
           }
@@ -358,7 +358,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "\"\"/.opencode/hooks/memory-write-sanitize.sh",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/.opencode/hooks/memory-write-sanitize.sh",
             "timeout": 8,
             "statusMessage": "SPEC-193: sanitizando escritura de memoria..."
           }
@@ -778,7 +778,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "\"\"/.opencode/hooks/bus-factor-warn.sh",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/.opencode/hooks/bus-factor-warn.sh",
             "async": true,
             "timeout": 5,
             "status": "warn-only"

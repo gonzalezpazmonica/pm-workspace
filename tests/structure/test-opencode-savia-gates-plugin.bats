@@ -51,14 +51,15 @@ setup() {
   ! grep -qE '\.text\(\s*\{\s*stdin' "$PLUGIN_DIR/lib/shell-bridge.ts"
 }
 
-@test "plugin: bridge runs hook command via bash -c with raw interpolation" {
-  grep -q 'bash -c' "$PLUGIN_DIR/lib/shell-bridge.ts"
-  grep -q 'raw: h.command' "$PLUGIN_DIR/lib/shell-bridge.ts"
+@test "plugin: bridge runs hook command via bash -c argv (no shell escaping)" {
+  # Bun.spawn with argv array — inner quotes need no escaping (replaces `$` raw)
+  grep -q 'Bun.spawn' "$PLUGIN_DIR/lib/shell-bridge.ts"
+  grep -q 'bash", "-c", h.command' "$PLUGIN_DIR/lib/shell-bridge.ts"
   ! grep -qE 'bash \$\{h\.command\}' "$PLUGIN_DIR/lib/shell-bridge.ts"
 }
 
-@test "plugin: bridge cwd() is pinned to projectRoot" {
-  grep -q '\.cwd(projectRoot)' "$PLUGIN_DIR/lib/shell-bridge.ts"
+@test "plugin: bridge cwd is pinned to projectRoot" {
+  grep -q 'cwd: projectRoot' "$PLUGIN_DIR/lib/shell-bridge.ts"
 }
 
 @test "plugin: bridge resolves CLAUDE_PLUGIN_ROOT in hook commands" {
@@ -75,10 +76,9 @@ setup() {
   grep -q 'tooling.*payload' "$PLUGIN_DIR/lib/shell-bridge.ts" || grep -q 'candidates.push' "$PLUGIN_DIR/lib/shell-bridge.ts"
 }
 
-@test "plugin: bridge captures real exitCode from resolved shell output (not .text string)" {
-  grep -q 'proc\.then' "$PLUGIN_DIR/lib/shell-bridge.ts"
-  grep -q 'Promise\.race' "$PLUGIN_DIR/lib/shell-bridge.ts"
-  grep -q '\.exitCode' "$PLUGIN_DIR/lib/shell-bridge.ts"
+@test "plugin: bridge captures real exitCode from spawned process (not .text string)" {
+  grep -q 'proc.exited' "$PLUGIN_DIR/lib/shell-bridge.ts"
+  grep -q 'exitCode' "$PLUGIN_DIR/lib/shell-bridge.ts"
   grep -q 'BLOCK_EXIT' "$PLUGIN_DIR/lib/shell-bridge.ts"
 }
 
@@ -87,9 +87,10 @@ setup() {
   grep -q 'continue' "$PLUGIN_DIR/lib/shell-bridge.ts"
 }
 
-@test "plugin: bridge feature-detects .timeout (runtime may lack it)" {
-  grep -q '\.timeout\b' "$PLUGIN_DIR/lib/shell-bridge.ts"
-  grep -q "typeof p.timeout" "$PLUGIN_DIR/lib/shell-bridge.ts"
+@test "plugin: bridge enforces timeout via timer + tree-kill (no \`$ shell) )" {
+  grep -q 'setTimeout' "$PLUGIN_DIR/lib/shell-bridge.ts"
+  grep -q 'killTree' "$PLUGIN_DIR/lib/shell-bridge.ts"
+  grep -q 'process.kill(-pid' "$PLUGIN_DIR/lib/shell-bridge.ts"
 }
 
 @test "safety: shell-bridge block exit code contract is 2" {
@@ -176,7 +177,9 @@ setup() {
 }
 
 @test "safety: shell-bridge timeout is bounded" {
-  grep -qE '\.timeout\(' "$PLUGIN_DIR/lib/shell-bridge.ts"
+  grep -q 'timeoutFor' "$PLUGIN_DIR/lib/shell-bridge.ts"
+  grep -qE 'Math\.min\(configured' "$PLUGIN_DIR/lib/shell-bridge.ts"
+  grep -q '30000' "$PLUGIN_DIR/lib/shell-bridge.ts"
 }
 
 # ── Installer ───────────────────────────────────────────────────────────────
@@ -237,4 +240,59 @@ setup() {
 @test "edge: large hookMap (>50 entries) supported without recursion" {
   # Shell-bridge iterates with a for-loop, no recursive calls
   ! grep -E 'function .*\(\).*\{[^}]*\1[^}]*\}' "$PLUGIN_DIR/lib/shell-bridge.ts"
+}
+
+# ── Anti-leak / self-heal (SE-077 process-leak fix, 2026-08-26) ─────────────
+
+@test "plugin: hooks spawn detached (own process group) for tree-kill" {
+  grep -q 'detached: true' "$PLUGIN_DIR/lib/shell-bridge.ts"
+  grep -q 'Bun.spawn' "$PLUGIN_DIR/lib/shell-bridge.ts"
+}
+
+@test "plugin: timeout kills the hook process group (no leak)" {
+  grep -q 'killTree' "$PLUGIN_DIR/lib/shell-bridge.ts"
+  grep -q 'process.kill(-pid' "$PLUGIN_DIR/lib/shell-bridge.ts"
+  grep -q 'SIGKILL' "$PLUGIN_DIR/lib/shell-bridge.ts"
+}
+
+@test "plugin: async hooks cap at 60s and wire stdout/stderr to /dev/null" {
+  grep -q '60000' "$PLUGIN_DIR/lib/shell-bridge.ts"
+  grep -q 'ignoreOutput' "$PLUGIN_DIR/lib/shell-bridge.ts"
+}
+
+@test "plugin: sweepOrphanedHooks exported and wired at plugin load" {
+  grep -q 'sweepOrphanedHooks' "$PLUGIN_DIR/lib/shell-bridge.ts"
+  grep -q 'sweepOrphanedHooks' "$PLUGIN_DIR/index.ts"
+  grep -q 'heal-sweep' "$PLUGIN_DIR/lib/shell-bridge.ts"
+}
+
+@test "heal script: opencode-gates-heal.sh exists, executable, syntactically valid" {
+  [ -x "$ROOT_DIR/scripts/opencode-gates-heal.sh" ]
+  bash -n "$ROOT_DIR/scripts/opencode-gates-heal.sh"
+  grep -qF -- '--force' "$ROOT_DIR/scripts/opencode-gates-heal.sh"
+  grep -qF -- '--dry-run' "$ROOT_DIR/scripts/opencode-gates-heal.sh"
+}
+
+@test "safety: heal script never kills opencode itself (tty stdin excluded)" {
+  grep -q 'readlink "$p/fd/0"' "$ROOT_DIR/scripts/opencode-gates-heal.sh"
+  ! grep -qE 'pkill\s+-f\s+opencode' "$ROOT_DIR/scripts/opencode-gates-heal.sh"
+}
+
+# ── Ptrace-independent pid registry (2026-08-26, Yama ptrace_scope=1) ──────
+
+@test "plugin: spawnHook writes per-hook pid registry (no /proc fd readlink)" {
+  grep -q 'hookRegistryPath' "$PLUGIN_DIR/lib/shell-bridge.ts"
+  grep -qF 'savia-gates-${owner}-hook-${hookPid}.json' "$PLUGIN_DIR/lib/shell-bridge.ts"
+  grep -qF 'writeFile(hookRegistryPath(process.pid, hookPid)' "$PLUGIN_DIR/lib/shell-bridge.ts"
+}
+
+@test "plugin: sweep kills leaked hooks from the pid registry (dead owners)" {
+  grep -q 'HOOK_REGISTRY_RE' "$PLUGIN_DIR/lib/shell-bridge.ts"
+  grep -qF 'savia-gates-(\d+)-hook-(\d+)' "$PLUGIN_DIR/lib/shell-bridge.ts"
+  grep -qF 'killTree(hookPid)' "$PLUGIN_DIR/lib/shell-bridge.ts"
+}
+
+@test "heal script: kills leaked hooks via pid registry (dead owners)" {
+  grep -qF '/tmp/savia-gates-*-hook-*.json' "$ROOT_DIR/scripts/opencode-gates-heal.sh"
+  grep -qF 'kill_target' "$ROOT_DIR/scripts/opencode-gates-heal.sh"
 }
