@@ -1,5 +1,5 @@
 # planning — Savia Capability Map (L1)
-> 599 resources
+> 600 resources
 
 - **/decide-architecture** (cmd): Clasifica una tarea como WORKFLOW (deterministica) o AGENT (loop). Bias hacia workflow per Anthropic. Sugiere plantilla inicial. Mide accuracy contra corpus curado de 20 tareas.
 - **_template** (skill): TEMPLATE — copia este directorio para crear una skill nueva. NO se carga en runtime.
@@ -369,6 +369,7 @@
 - **pre-commit-sovereignty** (script): NOTE: -e omitted intentionally — grep returns 1 on no-match which would
 - **pre-output-validator** (script): pre-output-validator.sh — TTSR-inspired pre-output rule validator (SE-150)
 - **pre-tribunal-gates** (script): pre-tribunal-gates.sh — SE-251: deterministic pre-tribunal gates
+- **prime-agent-eval-gate** (script): prime-agent-eval-gate.sh — SE-347 gate de arranque CRIT-001-strict
 - **privacy-check-company** (script): privacy-check-company.sh — Privacy filter for company repo content
 - **probe-devops** (script): probe-devops.sh — diagnóstico de acceso a Azure DevOps usando la
 - **product-discovery** (skill): Usar antes de descomponer PBIs, cuando se necesita análisis JTBD y PRD del producto.

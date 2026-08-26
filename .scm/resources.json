@@ -1,6 +1,6 @@
 {
-  "hash": "f53b0824a6f9",
-  "total": 1398,
+  "hash": "7dc6c65a6154",
+  "total": 1399,
   "resources": [
     {
       "category": "analysis",
@@ -11972,6 +11972,20 @@
       "kind": "script",
       "path": "scripts/pre-tribunal-gates.sh",
       "description": "pre-tribunal-gates.sh — SE-251: deterministic pre-tribunal gates"
+    },
+    {
+      "category": "planning",
+      "name": "prime-agent-eval-gate",
+      "intents": [
+        "agent",
+        "arranque",
+        "crit",
+        "eval",
+        "gate"
+      ],
+      "kind": "script",
+      "path": "scripts/prime-agent-eval-gate.sh",
+      "description": "prime-agent-eval-gate.sh — SE-347 gate de arranque CRIT-001-strict"
     },
     {
       "category": "planning",
