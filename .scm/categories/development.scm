@@ -1,5 +1,5 @@
 # development — Savia Capability Map (L1)
-> 223 resources
+> 224 resources
 
 - **/speckit.checklist** (cmd): Alias spec-kit compatible. Gate de calidad final con verification-lattice multi-capa. Invoca skill verification-lattice. Compatible con github/spec-kit.
 - **/speckit.clarify** (cmd): Alias spec-kit compatible. Preguntas dirigidas para cerrar ambigüedad en una spec. Invoca skill context-interview-conductor. Compatible con github/spec-kit.
@@ -123,6 +123,7 @@
 - **nd-autoconfig** (script): nd-autoconfig.sh — SPEC-061: Auto-configure accessibility.md from neurodivergent.md
 - **nidos-dev-lib** (script): nidos-dev-lib.sh — Dev server lifecycle for Savia nidos (SPEC-098).
 - **opencode-config-validate** (script): scripts/opencode-config-validate.sh — SE-253 Slice 1 errata
+- **opencode-gates-heal** (script): opencode-gates-heal.sh — SE-077 process-leak self-heal (standalone)
 - **opencode-hooks/run-hook** (script): run-hook.sh — Ejecuta un hook de PM‑Workspace con el input JSON adecuado
 - **opencode-install** (script): opencode-install.sh — SE-077 Slice 1
 - **opencode-migration-smoke** (script): opencode-migration-smoke.sh — SPEC-127 Slice 2b-ii (final migration prep)

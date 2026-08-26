@@ -12,7 +12,7 @@
 
 import type { Plugin, PluginInput } from "@opencode-ai/plugin"
 import { randomUUID } from "node:crypto"
-import { loadHookMap, runHooksForEvent } from "./lib/shell-bridge"
+import { loadHookMap, runHooksForEvent, sweepOrphanedHooks } from "./lib/shell-bridge"
 import { decidePermission } from "./lib/permission"
 import { auditLog } from "./lib/audit"
 import { writeManifest } from "./lib/manifest"
@@ -25,11 +25,21 @@ function resolveProjectRoot(directory: string | undefined): string {
 export const SaviaGates: Plugin = async (ctx: PluginInput) => {
   const { $, directory } = ctx
   const root = resolveProjectRoot(directory)
-  const hookMap = await loadHookMap($, root)
+  const hookMap = await loadHookMap(root)
   let lastCwd: string | null = null
 
   await writeManifest(hookMap)
   await auditLog({ event: "plugin-loaded", root, events: Object.keys(hookMap).length })
+
+  // Self-heal: kill hook processes left behind by dead opencode instances
+  // and remove their stale payload files (see SE-077 process-leak fix).
+  void sweepOrphanedHooks()
+      .then((r) => {
+        if (r.killed > 0 || r.removed > 0) {
+          return auditLog({ event: "heal-sweep-done", killed: r.killed, removed: r.removed })
+        }
+      })
+      .catch(() => {})
 
   return {
     "tool.execute.before": async (input, output) => {
@@ -40,7 +50,7 @@ export const SaviaGates: Plugin = async (ctx: PluginInput) => {
         session_id: input.sessionID,
         call_id: input.callID,
       })
-      const result = await runHooksForEvent($, root, hookMap, "PreToolUse", input.tool, payload)
+      const result = await runHooksForEvent(root, hookMap, "PreToolUse", input.tool, payload)
       if (result.blocked) {
         await auditLog({ event: "tool-blocked", tool: input.tool, reason: result.stderr })
         throw new Error(`savia-gates: ${result.stderr || "PreToolUse blocked"}`)
@@ -57,7 +67,7 @@ export const SaviaGates: Plugin = async (ctx: PluginInput) => {
         session_id: input.sessionID,
         call_id: input.callID,
       })
-      const result = await runHooksForEvent($, root, hookMap, "PostToolUse", input.tool, payload)
+      const result = await runHooksForEvent(root, hookMap, "PostToolUse", input.tool, payload)
       if (result.blocked) {
         await auditLog({ event: "post-hook-warning", tool: input.tool, reason: result.stderr })
       }
@@ -70,7 +80,7 @@ export const SaviaGates: Plugin = async (ctx: PluginInput) => {
         agent: input.agent,
         prompt_text: typeof output.message === "string" ? output.message : JSON.stringify(output.message),
       })
-      const result = await runHooksForEvent($, root, hookMap, "UserPromptSubmit", null, payload)
+      const result = await runHooksForEvent(root, hookMap, "UserPromptSubmit", null, payload)
       if (result.blocked) {
         await auditLog({ event: "prompt-blocked", reason: result.stderr })
         throw new Error(`savia-gates: prompt blocked — ${result.stderr}`)
@@ -112,7 +122,7 @@ export const SaviaGates: Plugin = async (ctx: PluginInput) => {
         session_id: input.sessionID,
         arguments: input.arguments,
       })
-      const result = await runHooksForEvent($, root, hookMap, "PreToolUse", null, payload)
+      const result = await runHooksForEvent(root, hookMap, "PreToolUse", null, payload)
       if (result.blocked) {
         throw new Error(`savia-gates: command ${input.command} blocked — ${result.stderr}`)
       }
@@ -142,19 +152,19 @@ export const SaviaGates: Plugin = async (ctx: PluginInput) => {
       if (!targets) return
       for (const t of targets) {
         const payload = JSON.stringify({ hook_event_name: t.cc, event: ev, ...(t.augment?.(ev) ?? {}) })
-        await runHooksForEvent($, root, hookMap, t.cc, null, payload).catch(() => {})
+        await runHooksForEvent(root, hookMap, t.cc, null, payload).catch(() => {})
       }
     },
 
     "experimental.compaction.autocontinue": async (input, _output) => {
       // Called AFTER compaction succeeds — the PostCompact hook point.
       const payload = JSON.stringify({ hook_event_name: "PostCompact", session_id: input.sessionID })
-      await runHooksForEvent($, root, hookMap, "PostCompact", null, payload).catch(() => {})
+      await runHooksForEvent(root, hookMap, "PostCompact", null, payload).catch(() => {})
     },
 
     "experimental.session.compacting": async (input, _output) => {
       const payload = JSON.stringify({ hook_event_name: "PreCompact", session_id: input.sessionID })
-      await runHooksForEvent($, root, hookMap, "PreCompact", null, payload).catch(() => {})
+      await runHooksForEvent(root, hookMap, "PreCompact", null, payload).catch(() => {})
     },
 
     "config": async (input) => {
@@ -164,7 +174,7 @@ export const SaviaGates: Plugin = async (ctx: PluginInput) => {
         source: "opencode-config",
         file_path: `${root}/opencode.json`,
       })
-      await runHooksForEvent($, root, hookMap, "ConfigChange", null, payload).catch(() => {})
+      await runHooksForEvent(root, hookMap, "ConfigChange", null, payload).catch(() => {})
     },
 
     "shell.env": async (input, _output) => {
@@ -173,7 +183,7 @@ export const SaviaGates: Plugin = async (ctx: PluginInput) => {
       if (typeof cwd === "string" && cwd !== lastCwd) {
         lastCwd = cwd
         const payload = JSON.stringify({ hook_event_name: "CwdChanged", cwd })
-        await runHooksForEvent($, root, hookMap, "CwdChanged", null, payload).catch(() => {})
+        await runHooksForEvent(root, hookMap, "CwdChanged", null, payload).catch(() => {})
       }
     },
   }

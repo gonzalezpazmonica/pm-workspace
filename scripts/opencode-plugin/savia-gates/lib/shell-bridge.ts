@@ -2,10 +2,11 @@
 //
 // Reads .claude/settings.json once, builds an event → hook[] map keyed by
 // the same matcher Claude Code uses (tool name regex / glob), then on each
-// event invokes the matching hook scripts via Bun's `$` shell. This way
-// the EXISTING .sh hooks run unchanged in OpenCode.
+// event invokes the matching hook scripts via Bun.spawn (own process group,
+// killable on timeout). This way the EXISTING .sh hooks run unchanged in
+// OpenCode.
 
-import { readFile, rm, writeFile } from "node:fs/promises"
+import { readFile, readdir, readlink, rm, writeFile } from "node:fs/promises"
 import { tmpdir } from "node:os"
 import { auditLog } from "./audit"
 
@@ -27,7 +28,7 @@ export interface HookResult {
   injectedContext?: string
 }
 
-export async function loadHookMap(_$: any, projectRoot: string): Promise<HookMap> {
+export async function loadHookMap(projectRoot: string): Promise<HookMap> {
   const settingsPath = `${projectRoot}/.claude/settings.json`
   const raw = await readFile(settingsPath, "utf-8").catch(() => "")
   if (!raw) return {}
@@ -52,7 +53,12 @@ export async function loadHookMap(_$: any, projectRoot: string): Promise<HookMap
           .replace(/\$CLAUDE_PROJECT_DIR/g, projectRoot)
           .replace(/"\$CLAUDE_PLUGIN_ROOT"/g, projectRoot)
           .replace(/\$CLAUDE_PLUGIN_ROOT/g, projectRoot)
-          .replace(/^"|"$/g, "")
+          .replace(/"\$\{CLAUDE_PLUGIN_ROOT\}"/g, projectRoot)
+          .replace(/\$\{CLAUDE_PLUGIN_ROOT\}/g, projectRoot)
+          // Only unwrap a command that is ENTIRELY one quoted path (legacy `""/…`
+          // form). Never strip quotes that are shell syntax (e.g. a trailing
+          // `echo "…"`), or `bash -c` breaks on unbalanced quotes.
+          .replace(/^"([^"]*)"$/, "$1")
         out[eventName].push({
           command: cmd,
           matcher,
@@ -128,39 +134,64 @@ function stdinPayloadPath(): { path: string; cleanup: () => Promise<void> } {
 }
 
 /**
- * Build the Bun `$` chain for a hook, feeding the payload on stdin via a
- * temporary-file redirect and resolving to BunShellOutput { stdout, stderr,
- * exitCode }.
+ * Spawn a hook via Bun.spawn in its OWN process group (`detached: true`) and
+ * feed the payload on stdin from a temporary file.
  *
- * The bundled `$` runtime does NOT expose `.timeout()` (and `proc.text({
- * stdin })` silently drops the payload), so we feature-detect the chain and
- * enforce the timeout in `runHookOnce` with a manual race.
+ * Why not Bun's `$` shell? The bundled `$`/BunShell runtime does not expose a
+ * killable subprocess handle, so a hook that hangs (e.g. a `curl` to a down
+ * Shield daemon, an `ollama` classify) leaked a `bash` process (plus children)
+ * and its pipes/FDs into the opencode process. Over hours that accumulated
+ * hundreds of processes + thousands of FDs and practically blocked the session.
+ *
+ * `detached: true` makes the spawned `bash` a session/process-group leader, so
+ * the whole tree can be killed with `process.kill(-pid, SIGKILL)` on timeout
+ * (children like `ollama` stay in the group and die too).
  */
+/**
+ * Per-hook pid registry file. Written next to the payload so the self-heal
+ * sweep can kill leaked hooks WITHOUT ptrace: sending a SIGKILL to a same-uid
+ * pid is always allowed, but reading another process's `/proc/<pid>/fd/0` is
+ * blocked by Yama `ptrace_scope=1`. The registry carries the hook pid itself,
+ * so the sweep only needs `process.kill(pid, 0)` (allowed) to test the owner.
+ */
+function hookRegistryPath(owner: number, hookPid: number): string {
+  return `${tmpdir()}/savia-gates-${owner}-hook-${hookPid}.json`
+}
+
 async function spawnHook(
-  $: any,
   projectRoot: string,
   h: HookEntry,
   payload: string,
-): Promise<{ proc: Promise<any>; cleanup: () => Promise<void> }> {
+  ignoreOutput: boolean,
+): Promise<{ proc: any; pid: number; cleanup: () => Promise<void> }> {
   const { path: stdinPath, cleanup } = stdinPayloadPath()
   await writeFile(stdinPath, payload, "utf8")
-  let p: any
+  // best-effort registry: a failed write must never fail the hook spawn.
+  const writeRegistry = (hookPid: number) =>
+    writeFile(hookRegistryPath(process.pid, hookPid), JSON.stringify({ hookPid, owner: process.pid }), "utf8")
   try {
     // `bash -c "<command>"` runs the hook command string as shell syntax:
     // handles plain paths (shebang), `bash "..."` prefixes, redirections and
-    // `||` chains that appear in settings.json. Interpolate as `{raw}` so Bun
-    // does NOT escape the command's inner quotes (that broke `bash -c`).
-    p = $`bash -c ${{ raw: h.command }} < "${stdinPath}"`
-      .env({ ...process.env, CLAUDE_PROJECT_DIR: projectRoot, CLAUDE_JSON_INPUT: payload })
-      .cwd(projectRoot)
-      .quiet()
-    if (typeof p.timeout === "function") p = p.timeout(timeoutFor(h))
-    if (typeof p.nothrow === "function") p = p.nothrow()
+    // `||` chains that appear in settings.json.
+    const proc = Bun.spawn({
+      cmd: ["bash", "-c", h.command],
+      cwd: projectRoot,
+      env: { ...process.env, CLAUDE_PROJECT_DIR: projectRoot, CLAUDE_JSON_INPUT: payload },
+      stdin: Bun.file(stdinPath),
+      stdout: ignoreOutput ? "ignore" : "pipe",
+      stderr: ignoreOutput ? "ignore" : "pipe",
+      detached: true,
+    })
+    await writeRegistry(proc.pid).catch(() => {})
+    const cleanupAll = async () => {
+      await cleanup()
+      await rm(hookRegistryPath(process.pid, proc.pid), { force: true }).catch(() => {})
+    }
+    return { proc, pid: proc.pid, cleanup: cleanupAll }
   } catch (err) {
     await cleanup()
     throw err
   }
-  return { proc: p, cleanup }
 }
 
 /** Honours the configured timeout (Claude Code default 5s, cap 30s). */
@@ -169,38 +200,153 @@ function timeoutFor(h: HookEntry): number {
   return Math.min(configured < 1000 ? configured * 1000 : configured, 30000)
 }
 
-/** Await one hook with a hard timeout; never throws on non-2 exits. */
+/**
+ * Kill a hook's whole process group (spawned detached, so pid == pgid). Falls
+ * back to killing the single process if the group is already gone.
+ */
+function killTree(pid: number): void {
+  try {
+    process.kill(-pid, "SIGKILL")
+  } catch {
+    try {
+      process.kill(pid, "SIGKILL")
+    } catch {
+      /* already dead */
+    }
+  }
+}
+
+const readStreamText = (s: any): Promise<string> =>
+  s ? new Response(s).text().catch(() => "") : Promise.resolve("")
+
+/**
+ * Await one hook with a hard timeout. On timeout the process GROUP is killed
+ * (SIGKILL) so no `bash`/child leaks into the opencode process.
+ *
+ * `fireAndForget` (async hooks) spawn with stdout/stderr wired to /dev/null
+ * (their output is ignored by contract) and get a generous hard cap so they
+ * cannot block the caller nor accumulate FDs in opencode.
+ */
 async function runHookOnce(
-  $: any,
   projectRoot: string,
   h: HookEntry,
   payload: string,
+  fireAndForget = false,
 ): Promise<{ exit: number; stdout: string; stderr: string }> {
-  const { proc, cleanup } = await spawnHook($, projectRoot, h, payload)
-  const timeout = timeoutFor(h)
-  const outcome: any = await Promise.race([
-    proc.then((r: any) => ({ r }), (e: any) => ({ err: e })),
-    new Promise((res) => setTimeout(() => res({ timeout: true }), timeout + 1000)),
-  ])
-  void cleanup()
-  if (outcome?.timeout) {
-    return { exit: 0, stdout: "", stderr: `${h.command} timed out after ${timeout}ms` }
-  }
-  if (outcome?.err) {
-    const e: any = outcome.err
-    // Without `.nothrow()` a non-zero exit rejects with BunShellError, which
-    // still carries exitCode/stdout/stderr — recover the block contract.
-    if (e && typeof e.exitCode === "number") {
-      return { exit: e.exitCode, stdout: e.stdout ? String(e.stdout) : "", stderr: e.stderr ? String(e.stderr) : "" }
+  const { proc, pid, cleanup } = await spawnHook(projectRoot, h, payload, fireAndForget)
+  const cap = fireAndForget ? 60000 : timeoutFor(h) + 1000
+  let timedOut = false
+  const killTimer = setTimeout(() => {
+    timedOut = true
+    killTree(pid)
+  }, cap)
+  try {
+    const [stdout, stderr, exitCode] = await Promise.all([
+      readStreamText(proc.stdout),
+      readStreamText(proc.stderr),
+      proc.exited,
+    ])
+    if (timedOut) {
+      return { exit: 0, stdout: "", stderr: `${h.command} timed out after ${cap}ms` }
     }
-    throw e
+    return { exit: typeof exitCode === "number" ? exitCode : 0, stdout, stderr }
+  } finally {
+    clearTimeout(killTimer)
+    void cleanup()
   }
-  const r: any = outcome?.r
-  return {
-    exit: typeof r?.exitCode === "number" ? r.exitCode : 0,
-    stdout: r?.stdout ? String(r.stdout) : "",
-    stderr: r?.stderr ? String(r.stderr) : "",
+}
+
+/**
+ * Self-heal sweep (CRIT-001 safe, local only). Removes stale payload files and
+ * kills hook processes whose savia-gates stdin payload is owned by a DEAD
+ * opencode pid. Run at plugin load so every fresh opencode start cleans the
+ * leftovers of crashed/hung previous instances.
+ *
+ * Processes owned by the CURRENT pid (or any live pid) are never touched.
+ */
+const PAYLOAD_TMP_RE = /savia-gates-(\d+)-\d+-[a-z0-9]+\.json/
+
+function pidAlive(pid: number): boolean {
+  try {
+    process.kill(pid, 0)
+    return true
+  } catch {
+    return false
   }
+}
+
+const HOOK_REGISTRY_RE = /^savia-gates-(\d+)-hook-(\d+)\.json$/
+
+export async function sweepOrphanedHooks(): Promise<{ killed: number; removed: number }> {
+  const dir = tmpdir()
+  let removed = 0
+  let killed = 0
+
+  await auditLog({ event: "heal-sweep-start" }).catch(() => {})
+
+  let files: string[] = []
+  try {
+    files = await readdir(dir)
+  } catch {
+    files = []
+  }
+
+  // 1) stale payload files owned by dead pids
+  for (const f of files) {
+    const m = PAYLOAD_TMP_RE.exec(f)
+    if (!m) continue
+    const owner = Number(m[1])
+    if (owner !== process.pid && !pidAlive(owner)) {
+      await rm(`${dir}/${f}`, { force: true }).catch(() => {})
+      removed++
+    }
+  }
+
+  // 2) pid-registry files (ptrace-independent): the hook pid is recorded by
+  // spawnHook, so killing a dead owner's leaked hook only needs same-uid
+  // signals — no /proc/<pid>/fd readlink (blocked by Yama ptrace_scope=1).
+  for (const f of files) {
+    const m = HOOK_REGISTRY_RE.exec(f)
+    if (!m) continue
+    const owner = Number(m[1])
+    const hookPid = Number(m[2])
+    if (owner === process.pid || pidAlive(owner)) continue
+    await rm(`${dir}/${f}`, { force: true }).catch(() => {})
+    killTree(hookPid)
+    killed++
+  }
+
+  // 3) hook processes whose stdin is a savia-gates payload of a dead owner.
+  //    Best-effort only: readlink of a foreign /proc/<pid>/fd requires ptrace
+  //    (Yama ptrace_scope=1), so this only fires for descendant processes.
+  let procs: string[] = []
+  try {
+    procs = await readdir("/proc")
+  } catch {
+    procs = []
+  }
+  for (const p of procs) {
+    if (!/^\d+$/.test(p)) continue
+    const pid = Number(p)
+    if (pid === process.pid) continue
+    let fd0 = ""
+    try {
+      fd0 = await readlink(`/proc/${p}/fd/0`)
+    } catch {
+      continue
+    }
+    const m = PAYLOAD_TMP_RE.exec(fd0)
+    if (!m) continue
+    const owner = Number(m[1])
+    if (owner === process.pid || pidAlive(owner)) continue
+    killTree(pid)
+    killed++
+  }
+
+  if (killed > 0 || removed > 0) {
+    await auditLog({ event: "heal-sweep", killed, removed }).catch(() => {})
+  }
+  return { killed, removed }
 }
 
 // Exit code 2 == hard block (Claude Code contract). Anything else (including
@@ -208,7 +354,6 @@ async function runHookOnce(
 const BLOCK_EXIT = 2
 
 export async function runHooksForEvent(
-  $: any,
   projectRoot: string,
   hookMap: HookMap,
   event: string,
@@ -223,10 +368,10 @@ export async function runHooksForEvent(
       // `async: true` hooks are fire-and-forget (Claude Code semantics):
       // their exit code and output are ignored, and the caller never waits.
       if (h.async) {
-        void runHookOnce($, projectRoot, h, payload).catch(() => {})
+        void runHookOnce(projectRoot, h, payload, true).catch(() => {})
         continue
       }
-      const { exit, stdout, stderr } = await runHookOnce($, projectRoot, h, payload)
+      const { exit, stdout, stderr } = await runHookOnce(projectRoot, h, payload, false)
       if (exit === BLOCK_EXIT) {
         result.blocked = true
         result.stderr = stderr.trim() || `${h.command} exited ${BLOCK_EXIT}`
