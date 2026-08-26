@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=52bdf44bc27588b61c038d7adf3aa323ff0b931546abab2d330120c2ae15d623
-timestamp=2026-08-25T05:31:33Z
-branch=agent/overnight-20260825-se345-mvd
-head_commit=375db4bc
-signature=e2516f9c82f100eb61c552fc93d5960544b0656663cf019c4a33744bb707532f
+diff_hash=0e5a2439b78daf2b74948003e1c211def188e6d24dff5b86b8494577394a56d0
+timestamp=2026-08-26T20:20:01Z
+branch=agent/se347-prime-agent-evaluacion
+head_commit=cd11e485
+signature=2beb2162b905dd92acafff484aa164f94c5ebc546ecf49942fdb0c8cc87d743c

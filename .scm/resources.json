@@ -1,6 +1,6 @@
 {
-  "hash": "a2e2e66fac62",
-  "total": 1397,
+  "hash": "7dc6c65a6154",
+  "total": 1399,
   "resources": [
     {
       "category": "analysis",
@@ -3920,6 +3920,20 @@
       "kind": "script",
       "path": "scripts/opencode-config-validate.sh",
       "description": "scripts/opencode-config-validate.sh — SE-253 Slice 1 errata"
+    },
+    {
+      "category": "development",
+      "name": "opencode-gates-heal",
+      "intents": [
+        "gates",
+        "heal",
+        "leak",
+        "opencode",
+        "process"
+      ],
+      "kind": "script",
+      "path": "scripts/opencode-gates-heal.sh",
+      "description": "opencode-gates-heal.sh — SE-077 process-leak self-heal (standalone)"
     },
     {
       "category": "development",
@@ -11958,6 +11972,20 @@
       "kind": "script",
       "path": "scripts/pre-tribunal-gates.sh",
       "description": "pre-tribunal-gates.sh — SE-251: deterministic pre-tribunal gates"
+    },
+    {
+      "category": "planning",
+      "name": "prime-agent-eval-gate",
+      "intents": [
+        "agent",
+        "arranque",
+        "crit",
+        "eval",
+        "gate"
+      ],
+      "kind": "script",
+      "path": "scripts/prime-agent-eval-gate.sh",
+      "description": "prime-agent-eval-gate.sh — SE-347 gate de arranque CRIT-001-strict"
     },
     {
       "category": "planning",

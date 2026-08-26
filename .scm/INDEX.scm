@@ -1,6 +1,6 @@
 # Savia Capability Map — INDEX
-> hash: c9d9801abffd | resources: 1397
-> 294 commands · 127 skills · 83 agents · 893 scripts
+> hash: 7d07df425998 | resources: 1399
+> 294 commands · 127 skills · 83 agents · 895 scripts
 
 [analysis] Trace Optimize — across,distributed,optimize,rates,sampling — cmd:.claude/commands/trace-optimize.md
 [analysis] agent-activity — activity,agent,executions,recent,show — cmd:.claude/commands/agent-activity.md
@@ -300,6 +300,7 @@
 [development] nd-autoconfig — accessibility,auto,autoconfig,configure,neurodivergent — script:scripts/nd-autoconfig.sh
 [development] nidos-dev-lib — lifecycle,nidos,savia,server,spec — script:scripts/nidos-dev-lib.sh
 [development] opencode-config-validate — config,errata,opencode,scripts,slice — script:scripts/opencode-config-validate.sh
+[development] opencode-gates-heal — gates,heal,leak,opencode,process — script:scripts/opencode-gates-heal.sh
 [development] opencode-hooks/run-hook — adecuado,ejecuta,hook,input,json — script:scripts/opencode-hooks/run-hook.sh
 [development] opencode-install — install,opencode,slice — script:scripts/opencode-install.sh
 [development] opencode-migration-smoke — final,migration,opencode,prep,slice — script:scripts/opencode-migration-smoke.sh
@@ -907,6 +908,7 @@
 [planning] pre-commit-sovereignty — grep,intentionally,match,note,omitted — script:scripts/pre-commit-sovereignty.sh
 [planning] pre-output-validator — inspired,output,rule,ttsr,validator — script:scripts/pre-output-validator.sh
 [planning] pre-tribunal-gates — deterministic,gates,tribunal — script:scripts/pre-tribunal-gates.sh
+[planning] prime-agent-eval-gate — agent,arranque,crit,eval,gate — script:scripts/prime-agent-eval-gate.sh
 [planning] privacy-check-company — check,company,content,filter,privacy — script:scripts/privacy-check-company.sh
 [planning] probe-devops — acceso,azure,devops,diagnóstico,probe — script:scripts/probe-devops.sh
 [planning] product-discovery — análisis,descomponer,jtbd,pbis,producto — skill:.claude/skills/product-discovery/SKILL.md

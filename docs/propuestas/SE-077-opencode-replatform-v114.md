@@ -83,6 +83,22 @@ Cost of inaction: el día que Anthropic apriete, Savia no puede operar. La venta
 - [x] AC-07 Tests BATS ≥18: 22 tests plugin (score 86) + 22 generador (score 88) + 8 drift (81)
 - [x] AC-08 CHANGELOG entry
 
+### Fix post-slice: process-leak (2026-08-26)
+
+- [x] AC-F1 Hooks lanzados con `Bun.spawn({ detached: true })` en vez de Bun `$`
+      shell → `process.kill(-pid, SIGKILL)` mata el árbol completo del hook en
+      timeout (incl. hijos como `ollama` classify). Antes: hooks colgados
+      quedaban vivos y acumulaban cientos de `bash`/`ollama` + miles de FDs en
+      opencode (síntoma: sesiones "bloqueadas" tras horas de uso).
+- [x] AC-F2 Async hooks con stdout/stderr a `/dev/null` + hard-cap 60s (no
+      acumulan FDs).
+- [x] AC-F3 `sweepOrphanedHooks()` en carga del plugin: limpia payloads y
+      hooks huérfanos de instancias opencode muertas.
+- [x] AC-F4 `scripts/opencode-gates-heal.sh` para limpieza manual
+      (`--force` / `--dry-run`).
+- [x] AC-F5 Doc actualizada en `docs/rules/domain/opencode-savia-bridge.md` +
+      entry `CHANGELOG.d/se077-opencode-process-leak-fix.md`
+
 ### Slice 2
 - [x] AC-09 `scripts/opencode-parity-audit.sh` reporta gap (16 tests, score 85)
 - [x] AC-10 Baseline `.ci-baseline/opencode-parity-gap.count` commiteado (re-baseline post-install)
@@ -104,7 +120,7 @@ Cost of inaction: el día que Anthropic apriete, Savia no puede operar. La venta
 |---|---|---|---|
 | OpenCode v1.14 cambia API plugin antes de Slice 2 | Alta | Medio | Pin commit hash, no usar `latest` |
 | Hook coverage gap mayor que 10% | Media | Medio | Documentar gaps, no bloquear merge si es minoría |
-| Memory leaks en OpenCode (issue #20695 abierto) | Media | Bajo | Canary mensual detecta; restart workaround |
+| Memory leaks en OpenCode (issue #20695 abierto) | Media | Bajo | Canary mensual detecta; restart workaround; plugin process-leak propio mitigado (AC-F1..F4) |
 | Plugin TS introduce nueva dependencia (Bun) | Alta | Bajo | Bun ya runtime de OpenCode; no nueva dep |
 | AUTONOMOUS_REVIEWER no replicable en plugin SDK | Baja | Alto | Investigado en research: `permission.ask` hook permite custom logic, viable |
 | Slice 2 canary demasiado caro | Baja | Bajo | Tarea representativa pequeña (1 spec sin hardware) |
