@@ -1,6 +1,6 @@
 {
-  "hash": "a2e2e66fac62",
-  "total": 1397,
+  "hash": "f53b0824a6f9",
+  "total": 1398,
   "resources": [
     {
       "category": "analysis",
@@ -3920,6 +3920,20 @@
       "kind": "script",
       "path": "scripts/opencode-config-validate.sh",
       "description": "scripts/opencode-config-validate.sh — SE-253 Slice 1 errata"
+    },
+    {
+      "category": "development",
+      "name": "opencode-gates-heal",
+      "intents": [
+        "gates",
+        "heal",
+        "leak",
+        "opencode",
+        "process"
+      ],
+      "kind": "script",
+      "path": "scripts/opencode-gates-heal.sh",
+      "description": "opencode-gates-heal.sh — SE-077 process-leak self-heal (standalone)"
     },
     {
       "category": "development",
