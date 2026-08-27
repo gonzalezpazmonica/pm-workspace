@@ -159,11 +159,13 @@ export const SaviaGates: Plugin = async (ctx: PluginInput) => {
     "experimental.compaction.autocontinue": async (input, _output) => {
       // Called AFTER compaction succeeds — the PostCompact hook point.
       const payload = JSON.stringify({ hook_event_name: "PostCompact", session_id: input.sessionID })
+      await auditLog({ event: "session-compacted", session_id: input.sessionID }).catch(() => {})
       await runHooksForEvent(root, hookMap, "PostCompact", null, payload).catch(() => {})
     },
 
     "experimental.session.compacting": async (input, _output) => {
       const payload = JSON.stringify({ hook_event_name: "PreCompact", session_id: input.sessionID })
+      await auditLog({ event: "session-compacting", session_id: input.sessionID }).catch(() => {})
       await runHooksForEvent(root, hookMap, "PreCompact", null, payload).catch(() => {})
     },
 

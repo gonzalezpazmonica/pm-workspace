@@ -1,5 +1,5 @@
 # memory — Savia Capability Map (L1)
-> 108 resources
+> 109 resources
 
 - **auto-compact** (script): auto-compact.sh — Disparado automáticamente cuando contexto > 85%
 - **cache-analytics** (cmd): Métricas de hit rate, tokens ahorrados, latencia, ahorro de costes
@@ -97,6 +97,7 @@
 - **session-registry** (script): session-registry.sh — Session coordination registry (SE-229 Slice 1)
 - **session-resume-index** (script): session-resume-index.sh — Multica pattern: session resumption metadata
 - **session-state-machine** (script): session-state-machine.sh — SPEC-051 Phase 1: Session State Machine
+- **session-state-snapshot** (script): session-state-snapshot.sh — Snapshot de estado de sesión (SE-347 lección PMA)
 - **session-status** (script): session-status.sh — SE-219 S1: consultable session snapshot (abtop pattern)
 - **setup-memory** (script): setup-memory.sh — Inicializa estructura de auto memory para un proyecto
 - **skill-optimize** (cmd): Auto-optimizar el prompt de un skill o agente con bucle AutoResearch

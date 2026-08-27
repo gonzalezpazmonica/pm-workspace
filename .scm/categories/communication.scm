@@ -1,5 +1,5 @@
 # communication — Savia Capability Map (L1)
-> 102 resources
+> 103 resources
 
 - **archive-digest** (agent): >
 - **digest-extract** (script): digest-extract.sh — Capa 0 universal de extracción via markitdown (SE-172)
@@ -47,6 +47,7 @@
 - **savia-gallery** (cmd): Catálogo visual/interactivo de comandos, skills y agentes por rol y vertical
 - **savia-goal** (cmd): Establece, gestiona y persigue objetivos persistentes cross-turn — equivalente Savia de /goal de Codex
 - **savia-goal** (script): savia-goal.sh — Goal lifecycle management for Savia
+- **savia-goals** (script): savia-goals.sh — Goals durables + heartbeats claimed-due (SE-347 lección PMA)
 - **savia-hub-init** (script): savia-hub-init.sh — Initialize SaviaHub local repository
 - **savia-hub-sync** (skill): Usar cuando se sincroniza el repositorio SaviaHub con el workspace local.
 - **savia-identity** (skill): Usar al inicio de sesión para cargar la identidad completa y las reglas de comportamiento de Savia.
