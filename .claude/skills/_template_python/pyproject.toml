@@ -1,0 +1,11 @@
+[project]
+name = "example-skill"
+version = "0.1.0"
+description = "Skill python-backed de ejemplo (template)"
+requires-python = ">=3.10"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[project.scripts]
+example_skill = "example_skill.cli:main"

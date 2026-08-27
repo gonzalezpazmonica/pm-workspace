@@ -91,6 +91,27 @@ Registrar en SKILLS.md
 - `SKILLS.md` actualizado
 - Auditor: resultado OK sin FAIL
 
+## Dos tipos de skill (lección SE-347 / Prime Agent)
+
+Decide el tipo ANTES de copiar el template:
+
+| Tipo | Cuándo | Template | Contrato |
+|---|---|---|---|
+| Markdown (instrucciones) | La capacidad es sobre todo procedimiento | `.claude/skills/_template/` | SKILL.md guía al agente |
+| **Python-backed** | El agente debe invocar funcionalidad reutilizable con contrato tipado | `.claude/skills/_template_python/` | SKILL.md + `pyproject.toml` + `src/<import>/__init__.py` con `run(...)` |
+
+Reglas del tipo Python-backed:
+
+1. El import name es el nombre del skill con `-` → `_` (ej. `release-audit` → `release_audit`).
+2. `src/<import>/__init__.py` debe exponer `run(...)` (callable, async opcional).
+3. `pyproject.toml` declara el paquete; `[project.scripts]` opcional para CLI.
+4. Se instala en el venv de python del proyecto (local, CRIT-001 — nunca cloud).
+5. El SKILL.md documenta el contrato en `## Usage` (args con nombres y defaults).
+6. TDD: escribe el test del callable antes que la implementación (`__init__.test.py`).
+
+Los skills de digestión/análisis (pdf-digest, excel-digest, tabular-analyst)
+son candidatos a migrar a Python-backed progresivamente.
+
 ## Memory hooks
 
 - Skill nueva creada: guardar en memoria con tipo decision y titulo "skill creada: nombre".

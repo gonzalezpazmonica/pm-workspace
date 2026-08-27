@@ -1,5 +1,5 @@
 # analysis — Savia Capability Map (L1)
-> 74 resources
+> 76 resources
 
 - **Trace Optimize** (cmd): Optimize trace spans and sampling rates across distributed services
 - **agent-activity** (cmd): Show structured activity log of recent agent executions
@@ -19,6 +19,8 @@
 - **agent-index-generate** (script): agent-index-generate.sh — Generate federated agent index from cards (SE-263 S4)
 - **agent-journal** (script): agent-journal.sh — Append-only JSONL journal para agent-runs autónomos.
 - **agent-memory** (cmd): Inspect and manage persistent memory fragments for subagents.
+- **agent-messaging** (skill): Usar cuando un agente debe enviar un mensaje a otro agente con roles y receipts, sin pasar por el usuario. Triggers: mensaje a otro agente, agent-message, notify agent, inbox.
+- **agent-messaging** (script): agent-messaging.sh — Bus de mensajería local agente→agente (SE-347 lección PMA)
 - **agent-permission-audit** (script): agent-permission-audit.sh — SE-270 Slice 4: Audit permission.task declarations.
 - **agent-recurrence-report** (script): agent-recurrence-report.sh — SE-272 Slice 3: Identifies recurring agent requests
 - **agent-request-validate** (script): agent-request-validate.sh — SE-272 Slice 3: Validate incoming request origin

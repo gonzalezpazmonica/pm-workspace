@@ -1,8 +1,9 @@
 # planning — Savia Capability Map (L1)
-> 600 resources
+> 603 resources
 
 - **/decide-architecture** (cmd): Clasifica una tarea como WORKFLOW (deterministica) o AGENT (loop). Bias hacia workflow per Anthropic. Sugiere plantilla inicial. Mide accuracy contra corpus curado de 20 tareas.
 - **_template** (skill): TEMPLATE — copia este directorio para crear una skill nueva. NO se carga en runtime.
+- **_template_python** (skill): TEMPLATE de skill Python-backed (SE-347/PMA). Usar cuando se copia este directorio para crear una skill que expone funcionalidad invocable con run(). NO se carga en runtime.
 - **accessibility-mode** (cmd): Toggle rápido de accesibilidad — activa, desactiva o muestra el estado
 - **accessibility-setup** (cmd): Configura las preferencias de accesibilidad de Savia para adaptarse a tus necesidades
 - **action-shape-classifier** (script): action-shape-classifier.sh — SE-273 S2: Guards de forma de acción
@@ -356,6 +357,8 @@
 - **overnight-sprint** (skill): Usar cuando se quiere ejecutar tareas de bajo riesgo de forma autónoma durante la noche.
 - **overnight-sprint-loop** (script): scripts/overnight-sprint-loop.sh — SE-226: stateless overnight-sprint orchestrator
 - **overnight-sprint-state** (script): scripts/overnight-sprint-state.sh — SE-226: stateless-session loop state management
+- **parallel-dispatch** (skill): Usar cuando se necesitan subagentes en paralelo con admission-handle — lanza N tareas en background y recoge resultados después, sin bloquear el turno padre. Triggers: lanza subagentes en paralelo, paraleliza esto, admission-handle, recoge
+- **parallel-dispatch** (script): parallel-dispatch.sh — Despacho paralelo con admission-handle (SE-347 lección PMA)
 - **path-redact** (script): path-redact.sh — Redact absolute paths containing $HOME from text
 - **pbi-decompose** (cmd): Decompose a PBI into granular technical tasks
 - **pbi-decomposition** (skill): Usar cuando se descompone un PBI en tasks y se estiman las horas.

@@ -113,7 +113,7 @@ if $AGENT_PLUGINS; then
   FAILURES=()
   for skill_dir in "$SKILLS_DIR"/*/; do
     skill=$(basename "$skill_dir")
-    [[ "$skill" == "_template" ]] && continue
+    [[ "$skill" == "_template" || "$skill" == "_template_python" ]] && continue
     if validate_skill "$skill_dir"; then
       PASS=$((PASS+1))
     else

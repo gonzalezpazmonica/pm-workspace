@@ -52,15 +52,9 @@ metadata:
 
 ## Auto Mode — Red de seguridad complementaria
 
-Desde Claude Code 2026-03-24, el flag `--enable-auto-mode` activa un classifier
-pre-tool-call que bloquea acciones potencialmente destructivas (rm masivo,
-exfiltración de datos sensibles, ejecución de código malicioso) sin detener
-el bucle autónomo. Es complementario a los gates de `autonomous-safety.md`
-— no reemplaza `AUTONOMOUS_REVIEWER` ni `AGENT_MAX_CONSECUTIVE_FAILURES`,
-añade una capa extra de defensa en profundidad.
-
-Activar: `claude --enable-auto-mode` al lanzar la sesión que invoca esta skill,
-o desde Desktop/VS Code Settings → Claude Code → Auto Mode.
+`claude --enable-auto-mode` añade un classifier pre-tool-call que bloquea
+acciones destructivas (rm masivo, exfiltración, código malicioso) sin detener
+el bucle autónomo. Complementa `autonomous-safety.md` — no lo reemplaza.
 
 ## Flujo completo
 
@@ -140,4 +134,17 @@ bash scripts/detect-token-exhaustion.sh --log "$ITER_LOG"
 
 Escalación: `token_exhaustion` → subir tier (fast→mid, mid→heavy con `ALLOW_HEAVY_ESCALATION=true`).
 `logic_error` o `unknown` → no escalar. Registrar `tier_escalated` en `results.tsv`.
+
+## Feedback acotado de gates (lección SE-347 / PMA)
+
+Un **gate** es una verificación (comando shell) que debe pasar antes de dar la
+tarea por terminada. Si falla, NO repitas a ciegas:
+1. Alimenta la siguiente iteración con **output acotado** del error (≤ el
+   output del gate, truncado), no la traza completa.
+2. Límites duros por tarea: continuations 3 · turns 12 · tokens 80k ·
+   wall-clock 30min → al superarlos, ABORT y `requires-human`.
+3. Mismo motivo 2 veces seguidas → detener y `GATE_STUCK`.
+Ejemplo: `bash <gate>.sh && echo GATE_PASS`; si no pasa, recoge el error
+acotado y reintenta UNA vez con causa distinta.
+
 
