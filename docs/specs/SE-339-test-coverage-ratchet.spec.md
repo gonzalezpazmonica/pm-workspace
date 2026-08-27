@@ -1,6 +1,6 @@
 # SE-339 — Ratchet de test-coverage para hooks críticos (cierra SE-046)
 
-**Status:** PROPOSED (Savia, 2026-08-23) — pendiente de revisión humana
+**Status:** IMPLEMENTED (2026-08-27, PR Batch 1 L14 — ratchet + allowlist + doc TS tests)
 **Fecha:** 2026-08-23
 **Area:** Calidad / Tests / Integridad
 **Origen:** SaviaLabs L14 · deuda técnica 2.1 (coverage 23%)

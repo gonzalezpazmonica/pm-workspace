@@ -24,6 +24,18 @@ and establishes the typed contract that Slice 2b-ii ports build on.
 - Plugins are TypeScript by convention; OpenCode also accepts `.js`.
 - `bun install` runs at OpenCode startup automatically (no manual step).
 
+### Cómo ejecutar los tests (SE-339)
+
+Los tests TS de los plugins usan `bun:test` (runtime del frontend) y NO corren
+desde CLI con `node --test` (MODULE_NOT_FOUND). Para ejecutarlos:
+
+```bash
+export PATH="$HOME/.savia/node/bin:$PATH"   # node 22 (requerido por bun)
+cd .opencode/plugins && bun install && bun test
+```
+
+Nota: usa `bun test`, no `node --test`.
+
 ## Porting roadmap (Slice 2b-ii)
 
 These 5 hooks are TIER-1 in the classifier. Each gets its own port file
