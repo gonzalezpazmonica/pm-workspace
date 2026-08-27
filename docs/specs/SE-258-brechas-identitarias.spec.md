@@ -1,6 +1,7 @@
 # SE-258 — Cierre de brechas identitarias: proteccion de activos propios, drill de restauracion y auto-auditoria
 
-**Status:** PROPOSED
+**Status:** IMPLEMENTED (verificado 2026-08-27) — slices 1-3 y 5 MODEL_TIER_MAP hot-reload done; residuales en sección Residual
+**Residual:** Slice 4: SE-257 sin fichero en repo (gate CHANGELOG PR-Gate-8 sí activo). Slice 5: audit de dependencias añadido 2026-08-27 (job dependency-audit en CI).
 **Fecha:** 2026-07-08
 **Area:** Security architecture / Resilience / Self-audit / Process integrity
 **Branch:** agent/se258-brechas-identitarias
