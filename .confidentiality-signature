@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=9e608e7ad0167dd227918e67b9fc3917a0fac16aa75e873bfc3f4d27092ccd68
-timestamp=2026-08-27T06:26:03Z
-branch=agent/pma-learnings-20260827
-head_commit=e90d3981
-signature=47346779b911e2bf5e83fd0dfe49232a4e30beb80e612b59566ff3994147110a
+diff_hash=876afb9958439c955ffb3318824934a819b78c472da2bd7fa375380b16d7d9e8
+timestamp=2026-08-27T06:37:04Z
+branch=agent/overnight-20260825-se346-spec
+head_commit=07bac5f9
+signature=1307cfb367d9af92dac20f698e4f9eb21483c694ad807e0b45e68d155d4e2c09
