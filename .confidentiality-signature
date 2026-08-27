@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=37032ed5ebee3258d7eb07b461f1bd6ca2be210798a8d43af1aeee91433e804e
-timestamp=2026-08-27T13:45:47Z
-branch=agent/se344-fronesis-20260827
-head_commit=3f6634e7
-signature=7fe250f9fcdf598b483d31a67ecb728aa20e001f4a48958aa3528ed4992cbc58
+diff_hash=3188e193ff5bd73ce59fca6d5cacb95bd6d0f69450dd2c4d386dcff84548fa14
+timestamp=2026-08-27T14:05:40Z
+branch=agent/l26-soberania-20260827
+head_commit=8002ae29
+signature=4512580568f4da8d1ac4385b566dee2e9ed96d4b914de04af06d760a8cd10f76
