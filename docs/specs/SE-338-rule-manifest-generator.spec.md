@@ -1,6 +1,6 @@
 # SE-338 — Generador determinista de rule-manifest (cierra SE-057)
 
-**Status:** PROPOSED (Savia, 2026-08-23) — pendiente de revisión humana
+**Status:** IMPLEMENTED (2026-08-27, PR Batch 1 L14 — generador + gate readiness-check)
 **Fecha:** 2026-08-23
 **Area:** Integridad / Reglas / Higiene
 **Origen:** SaviaLabs L14 · deuda técnica 1.1 (rule-manifest FAIL)

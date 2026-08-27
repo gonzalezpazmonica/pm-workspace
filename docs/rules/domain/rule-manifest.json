@@ -1,9 +1,9 @@
 {
-  "generated": "2026-08-23T12:31:06Z",
-  "total": 297,
+  "generated": "2026-08-27T08:49:19Z",
+  "total": 302,
   "tier1_count": 6,
   "tier2_count": 282,
-  "dormant_count": 9,
+  "dormant_count": 14,
   "rules": {
     "accessibility-output.md": {
       "tier": "tier2",
@@ -126,6 +126,10 @@
       "consumers": ""
     },
     "auto-loop-gate.md": {
+      "tier": "tier2",
+      "consumers": ""
+    },
+    "autonomous-safety-merge-grant.md": {
       "tier": "tier2",
       "consumers": ""
     },
@@ -330,7 +334,7 @@
       "consumers": ""
     },
     "critical-facts-anchor.md": {
-      "tier": "tier2",
+      "tier": "dormant",
       "consumers": ""
     },
     "critical-rules-extended.md": {
@@ -398,7 +402,7 @@
       "consumers": ""
     },
     "emotional-regulation.md": {
-      "tier": "tier2",
+      "tier": "dormant",
       "consumers": ""
     },
     "engineering-principles-from-kernel.md": {
@@ -641,7 +645,15 @@
       "tier": "tier2",
       "consumers": ""
     },
+    "mcp-security.md": {
+      "tier": "tier2",
+      "consumers": ""
+    },
     "meeting-participant-etiquette.md": {
+      "tier": "dormant",
+      "consumers": ""
+    },
+    "memory-consolidation.md": {
       "tier": "tier2",
       "consumers": ""
     },
@@ -662,6 +674,10 @@
       "consumers": ""
     },
     "messaging-whatsapp.md": {
+      "tier": "tier2",
+      "consumers": ""
+    },
+    "mind-virus-defense.md": {
       "tier": "tier2",
       "consumers": ""
     },
@@ -806,7 +822,7 @@
       "consumers": ""
     },
     "profile-onboarding.md": {
-      "tier": "tier2",
+      "tier": "dormant",
       "consumers": ""
     },
     "project-privacy-protection.md": {
@@ -1073,6 +1089,10 @@
       "tier": "tier2",
       "consumers": ""
     },
+    "surrogate-router.md": {
+      "tier": "tier2",
+      "consumers": ""
+    },
     "team-structure.md": {
       "tier": "tier2",
       "consumers": ""
@@ -1138,7 +1158,7 @@
       "consumers": ""
     },
     "verified-memory-axiom.md": {
-      "tier": "tier2",
+      "tier": "dormant",
       "consumers": ""
     },
     "vertical-detection.md": {
