@@ -382,3 +382,38 @@ else
       ;;
   esac
 fi
+
+# --------------------------------------------------------------------------
+# SE-346 Slice 2 — savia_model_by_uncertainty: recomendación de modelo por
+# incertidumbre del surrogate (advisory; el dispatch real queda en el llamador).
+# Consulta scripts/surrogate/llm-router.py --check y devuelve la recomendación
+# para un tipo de tarea (routing|code|audit|report). Sin sklearn disponible →
+# devuelve vacío (fail-open, nunca bloquea). CRIT-001: local.
+# --------------------------------------------------------------------------
+savia_model_by_uncertainty() {
+  local task_type="${1:-code}"
+  local ws; ws="$(_resolve_workspace)"
+  local router="$ws/scripts/surrogate/llm-router.py"
+  [[ -f "$router" ]] || { echo ""; return 0; }
+  local py="$HOME/.savia/venv/bin/python"
+  [[ -x "$py" ]] || py="$(command -v python3 || true)"
+  [[ -n "$py" ]] || { echo ""; return 0; }
+  "$py" -c "import sklearn, scipy" >/dev/null 2>&1 || { echo ""; return 0; }
+  local out
+  out=$(WORKSPACE_DIR="$ws" "$py" "$router" --check 2>/dev/null || true)
+  [[ -n "$out" ]] || { echo ""; return 0; }
+  printf '%s' "$out" | python3 -c "
+import json, sys
+try:
+    d = json.load(sys.stdin)
+    r = d.get('results', {}).get('$task_type', {})
+    model = r.get('model', '')
+    std = r.get('std', '')
+    verdict = r.get('verdict', '')
+    if model:
+        print(f'{model}\tstd={std}\t{verdict}')
+    else:
+        print('')
+except Exception:
+    print('')"
+}

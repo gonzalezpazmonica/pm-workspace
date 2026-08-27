@@ -816,6 +816,18 @@
             "statusMessage": "Extracting knowledge graph..."
           }
         ]
+      },
+      {
+        "matcher": "Bash(gh pr create*)|Bash(gh pr merge*)",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/.opencode/hooks/fronesis-gate-reminder.sh",
+            "timeout": 5,
+            "async": true,
+            "status": "warn-only"
+          }
+        ]
       }
     ],
     "Stop": [
