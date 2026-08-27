@@ -1,8 +1,8 @@
 {
-  "generated": "2026-08-27T13:43:02Z",
-  "total": 302,
+  "generated": "2026-08-27T14:05:06Z",
+  "total": 303,
   "tier1_count": 6,
-  "tier2_count": 282,
+  "tier2_count": 283,
   "dormant_count": 14,
   "rules": {
     "accessibility-output.md": {
@@ -1070,6 +1070,10 @@
       "consumers": ""
     },
     "smart-frontmatter.md": {
+      "tier": "tier2",
+      "consumers": ""
+    },
+    "soberania-resiliencia.md": {
       "tier": "tier2",
       "consumers": ""
     },
