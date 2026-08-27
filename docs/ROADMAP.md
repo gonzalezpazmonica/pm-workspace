@@ -434,6 +434,11 @@ Post-auditoria de alineacion OpenCode (inicio de sesion 2026-05-02). 4 gaps dete
 
 ## Critical Path Q2-Q3 2026 (priorización unificada 2026-05-02 — post audit OpenCode)
 
+> **Prioridad única (2026-08-27)**: este pipeline y `labs/ROADMAP.md` se
+> unifican en `docs/propuestas/ROADMAP-UNIFIED-20260827.md` (plan unificado
+> Labs × General). Batch activo: **L14 deuda estructural** (SE-338 rule-manifest,
+> SE-339 coverage ratchet, SE-264 memory consolidation).
+>
 > Orden de ejecucion prescriptivo. Cada batch toma el primer item disponible. Sin reprio mid-stream salvo trigger externo (Anthropic shutdown, hardware loss, GPU disponible, Monica autoriza descarga modelo Kokoro).
 
 ### Razonamiento de prioridad (reformulado post-audit)
