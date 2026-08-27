@@ -1,5 +1,5 @@
 {
-  "hash": "63d19d012e02",
+  "hash": "3076a364041b",
   "total": 1407,
   "resources": [
     {
@@ -12790,15 +12790,15 @@
       "category": "planning",
       "name": "rule-manifest-generate",
       "intents": [
-        "filesystem",
+        "determinista",
+        "generador",
         "generate",
-        "json",
         "manifest",
         "rule"
       ],
       "kind": "script",
       "path": "scripts/rule-manifest-generate.sh",
-      "description": "rule-manifest-generate.sh — SE-338: genera rule-manifest.json desde el filesystem"
+      "description": "rule-manifest-generate.sh — Generador determinista de rule-manifest (SE-338)"
     },
     {
       "category": "planning",
@@ -17488,13 +17488,13 @@
       "intents": [
         "cobertura",
         "coverage",
-        "críticos",
-        "hooks",
-        "ratchet"
+        "decreciente",
+        "ratchet",
+        "test"
       ],
       "kind": "script",
       "path": "scripts/test-coverage-ratchet.sh",
-      "description": "test-coverage-ratchet.sh — SE-339: ratchet de cobertura de tests para hooks críticos"
+      "description": "test-coverage-ratchet.sh — Ratchet no-decreciente de cobertura (SE-339)"
     },
     {
       "category": "quality",

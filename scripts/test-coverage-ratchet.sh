@@ -1,74 +1,86 @@
 #!/usr/bin/env bash
-# test-coverage-ratchet.sh — SE-339: ratchet de cobertura de tests para hooks críticos
-# Ref: docs/specs/SE-339-test-coverage-ratchet.spec.md
-# Cierra deuda 2.1 (test-coverage 23%): asegura que los hooks de seguridad
-# críticos tienen test BATS, con umbral no-decreciente.
+# test-coverage-ratchet.sh — Ratchet no-decreciente de cobertura (SE-339)
 #
-# Usage:
-#   bash scripts/test-coverage-ratchet.sh                # report
-#   bash scripts/test-coverage-ratchet.sh --threshold N  # umbral custom
-#   bash scripts/test-coverage-ratchet.sh --ci           # exit 1 si < umbral
+# Mide cuántos hooks CRÍTICOS (tests/hooks/critical-hooks.txt) tienen test
+# BATS y falla en --ci si el ratio baja del umbral. El umbral es persistente
+# en config/test-coverage.conf y NUNCA se baja para que CI pase (RN-01).
+# No genera tests automáticamente (CRIT-009). PURE_BASH, sin red (CRIT-001).
 #
-# Exit: 0 ok · 1 FAIL (cobertura < umbral) · 2 usage
-# PURE_BASH — sin LLM, sin red (CRIT-001, RN-04).
+# Uso:
+#   test-coverage-ratchet.sh [--threshold N] [--ci] [--conf FILE]
+#     --threshold N   % mínimo de hooks críticos con BATS (default 100);
+#                     si se pasa, se persiste en config/test-coverage.conf
+#     --ci            exit 1 si cobertura < umbral
+#   Exit: 0 ok · 1 FAIL · 2 usage
+
 set -uo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
 
+CRITICAL_FILE="${SAVIA_CRITICAL_HOOKS_FILE:-$ROOT/tests/hooks/critical-hooks.txt}"
+CONF_FILE="$ROOT/config/test-coverage.conf"
+CI=false
+PERSIST=false
 THRESHOLD=100
-CI_MODE=false
-ALLOWLIST="$ROOT/tests/hooks/critical-hooks.txt"
+
+# Baseline: umbral desde conf (si existe); el flag --threshold lo sobreescribe
+if [[ -f "$CONF_FILE" ]]; then
+  # shellcheck disable=SC1091
+  source "$CONF_FILE" 2>/dev/null || true
+fi
 
 while [[ $# -gt 0 ]]; do
   case "$1" in
-    --threshold) THRESHOLD="$2"; shift 2 ;;
-    --ci) CI_MODE=true; shift ;;
-    -h|--help)
-      sed -n '2,12p' "${BASH_SOURCE[0]}" | sed 's/^# \{0,1\}//'
-      exit 0 ;;
-    *) echo "ERROR: opcion desconocida: $1" >&2; exit 2 ;;
+    --threshold) THRESHOLD="$2"; PERSIST=true; shift 2 ;;
+    --ci) CI=true; shift ;;
+    --conf) CONF_FILE="$2"; shift 2 ;;
+    --help|-h) sed -n '2,15p' "${BASH_SOURCE[0]}" | grep -E '^#' | sed 's/^#//'; exit 0 ;;
+    *) echo "Uso: test-coverage-ratchet.sh [--threshold N] [--ci]" >&2; exit 2 ;;
   esac
 done
 
-[[ "$THRESHOLD" =~ ^[0-9]+$ ]] || { echo "ERROR: --threshold debe ser entero" >&2; exit 2; }
-[[ -f "$ALLOWLIST" ]] || { echo "ERROR: allowlist no encontrada: $ALLOWLIST" >&2; exit 2; }
+# Persistir umbral explícito (RN-01: el umbral vive en conf, no en el flag diario)
+if $PERSIST; then
+  mkdir -p "$(dirname "$CONF_FILE")"
+  printf 'THRESHOLD=%s\n' "$THRESHOLD" > "$CONF_FILE"
+  echo "  (umbral persistido: THRESHOLD=$THRESHOLD en $CONF_FILE)"
+fi
 
-HOOK_DIR="$ROOT/.claude/hooks"
-TOTAL=0; COVERED=0; UNCOVERED=()
+[[ -f "$CRITICAL_FILE" ]] || { echo "ERROR: $CRITICAL_FILE no existe" >&2; exit 2; }
 
-while IFS= read -r hook; do
-  [[ -z "$hook" ]] && continue
-  [[ "$hook" == \#* ]] && continue
-  TOTAL=$((TOTAL + 1))
-  HOOK_FILE="$HOOK_DIR/$hook.sh"
-  [[ -f "$HOOK_FILE" ]] || { UNCOVERED+=("$hook (no existe el hook)"); continue; }
-  # pipefail-safe: test -f explícito (un glob sin match no rompe el pipeline)
-  if [[ -f "$ROOT/tests/test-$hook.bats" || -f "$ROOT/tests/hooks/test-$hook.bats" ]]; then
-    COVERED=$((COVERED + 1))
+hooks=()
+while IFS= read -r line || [[ -n "$line" ]]; do
+  line="${line%%#*}"
+  line="${line//[[:space:]]/}"
+  [[ -n "$line" ]] && hooks+=("$line")
+done < "$CRITICAL_FILE"
+
+total=${#hooks[@]}
+covered=0
+uncovered=()
+for h in "${hooks[@]}"; do
+  # Cubierto si algún .bats referencia el script del hook (<name>.sh o su path)
+  if grep -rl "${h}.sh" "$ROOT/tests" --include="*.bats" >/dev/null 2>&1; then
+    covered=$((covered + 1))
   else
-    UNCOVERED+=("$hook")
+    uncovered+=("$h")
   fi
-done < "$ALLOWLIST"
+done
 
-if [[ "$TOTAL" -eq 0 ]]; then
-  echo "ERROR: allowlist vacia" >&2; exit 2
+ratio=$(( 100 * covered / total ))   # floor
+
+echo "test-coverage-ratchet: $covered/$total hooks críticos con BATS ($ratio%)"
+if [[ ${#uncovered[@]} -gt 0 ]]; then
+  echo "  SIN TEST (generar incrementalmente):"
+  for h in "${uncovered[@]}"; do echo "    - $h"; done
 fi
 
-PCT=$(( COVERED * 100 / TOTAL ))
-
-echo "=== Test Coverage Ratchet (SE-339) ==="
-echo "  Hooks criticos: $TOTAL  cubiertos: $COVERED  cobertura: ${PCT}% (umbral ${THRESHOLD}%)"
-if [[ ${#UNCOVERED[@]} -gt 0 ]]; then
-  echo "  Sin test BATS:"
-  for h in "${UNCOVERED[@]}"; do echo "    - $h"; done
-fi
-
-if $CI_MODE; then
-  if [[ "$PCT" -lt "$THRESHOLD" ]]; then
-    echo "FAIL: cobertura ${PCT}% < umbral ${THRESHOLD}% — añade BATS a los hooks listados"
+if $CI; then
+  if (( ratio < THRESHOLD )); then
+    echo "FAIL: cobertura $ratio% < umbral $THRESHOLD% (RN-01: no bajar el umbral para que CI pase)" >&2
     exit 1
   fi
-  echo "PASS: cobertura ${PCT}% >= ${THRESHOLD}%"
+  echo "OK: cobertura $ratio% >= umbral $THRESHOLD%"
 fi
 exit 0

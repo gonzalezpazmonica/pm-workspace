@@ -1,135 +1,111 @@
 #!/usr/bin/env bash
-# rule-manifest-generate.sh — SE-338: genera rule-manifest.json desde el filesystem
-# Ref: docs/specs/SE-338-rule-manifest-generator.spec.md
-# Cierra la deuda SE-057: el manifest estaba stale desde 2026-04-16.
+# rule-manifest-generate.sh — Generador determinista de rule-manifest (SE-338)
 #
-# Usage:
-#   bash scripts/rule-manifest-generate.sh             # regenerar manifest
-#   bash scripts/rule-manifest-generate.sh --check     # exit 1 si stale
-#   bash scripts/rule-manifest-generate.sh --output FILE --domain-dir DIR
+# Reconstruye docs/rules/domain/rule-manifest.json desde el filesystem con el
+# schema actual {tier, consumers}. Read-only del resto del repo: NUNCA modifica
+# reglas, CRITERIO ni CONSTITUCION. PURE_BASH + python3 stdlib, sin red
+# (CRIT-001).
 #
-# Exit: 0 ok · 1 stale/FAIL · 2 usage
-# PURE_BASH + python3 stdlib — sin LLM, sin red (CRIT-001, RN-04).
+# Uso:
+#   rule-manifest-generate.sh [--check] [--output FILE] [--domain-dir DIR]
+#     --check       exit 1 si el manifest está stale (diff de inventario)
+#     --output      default: docs/rules/domain/rule-manifest.json
+#     --domain-dir  default: docs/rules/domain
+#   Exit: 0 ok · 1 stale/FAIL · 2 usage
+
 set -uo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
 
-CHECK_MODE=false
+CHECK=false
 OUTPUT="$ROOT/docs/rules/domain/rule-manifest.json"
 DOMAIN_DIR="$ROOT/docs/rules/domain"
 
 while [[ $# -gt 0 ]]; do
   case "$1" in
-    --check) CHECK_MODE=true; shift ;;
+    --check) CHECK=true; shift ;;
     --output) OUTPUT="$2"; shift 2 ;;
     --domain-dir) DOMAIN_DIR="$2"; shift 2 ;;
-    -h|--help)
-      sed -n '2,14p' "${BASH_SOURCE[0]}" | sed 's/^# \{0,1\}//'
-      exit 0 ;;
-    *) echo "ERROR: opcion desconocida: $1" >&2; exit 2 ;;
+    --help|-h) sed -n '2,14p' "${BASH_SOURCE[0]}" | grep -E '^#' | sed 's/^#//'; exit 0 ;;
+    *) echo "Uso: rule-manifest-generate.sh [--check] [--output FILE] [--domain-dir DIR]" >&2; exit 2 ;;
   esac
 done
 
-[[ -d "$DOMAIN_DIR" ]] || { echo "ERROR: domain dir no existe: $DOMAIN_DIR" >&2; exit 2; }
+[[ -d "$DOMAIN_DIR" ]] || { echo "ERROR: $DOMAIN_DIR no existe" >&2; exit 2; }
 
-# ── Generar el manifest JSON determinista ──────────────────────────────────
-GENERATED=$(TZ=UTC date +%Y-%m-%dT%H:%M:%SZ)
-TMP=$(mktemp)
+TMP="$(mktemp)"
 trap 'rm -f "$TMP"' EXIT
 
-python3 - "$DOMAIN_DIR" "$GENERATED" > "$TMP" <<'PY'
-import sys, os, re, json
+# 1) Inventario: basename + tier por frontmatter (excluye INDEX.md, manifest, archive/)
+{
+  for f in "$DOMAIN_DIR"/*.md; do
+    [[ -e "$f" ]] || continue
+    b="$(basename "$f")"
+    [[ "$b" == "INDEX.md" || "$b" == "rule-manifest.json" ]] && continue
+    tier="dormant"
+    ct=$(grep -m1 '^context_tier:' "$f" 2>/dev/null | sed 's/context_tier:\s*//; s/\r//')
+    case "$ct" in
+      L1) tier="tier1" ;;
+      L2|L3) tier="tier2" ;;
+      *) tier="dormant" ;;
+    esac
+    printf '%s\t%s\n' "$b" "$tier"
+  done
+} | sort > "$TMP.rules"
 
-domain_dir = sys.argv[1]
-generated  = sys.argv[2]
+# 2) Generar JSON determinista (python3 stdlib) con sorted keys + counts
+python3 - "$TMP.rules" <<'PY' > "$TMP.json"
+import sys, json, datetime, os
 
-rules = {}
-for f in sorted(os.listdir(domain_dir)):
-    if not f.endswith('.md'):
+rules_path = sys.argv[1]
+entries = []
+for line in open(rules_path):
+    line = line.rstrip("\n")
+    if not line.strip():
         continue
-    if f in ('INDEX.md', 'rule-manifest.json'):
-        continue
-    path = os.path.join(domain_dir, f)
-    try:
-        txt = open(path, encoding='utf-8', errors='replace').read(400)
-    except OSError:
-        continue
-    m = re.search(r'context_tier:\s*(L\d+)', txt)
-    tier = "dormant"
-    if m:
-        tier = "tier1" if m.group(1) == "L1" else "tier2"
-    rules[f] = {"tier": tier, "consumers": ""}
+    base, tier = line.split("\t", 1)
+    entries.append((base, tier))
 
-tier1 = sum(1 for v in rules.values() if v["tier"] == "tier1")
-tier2 = sum(1 for v in rules.values() if v["tier"] == "tier2")
-dormant = sum(1 for v in rules.values() if v["tier"] == "dormant")
-
-out = {
-    "generated": generated,
-    "total": len(rules),
-    "tier1_count": tier1,
-    "tier2_count": tier2,
-    "dormant_count": dormant,
+entries.sort(key=lambda x: x[0])
+rules = {b: {"tier": t, "consumers": ""} for b, t in entries}
+t1 = sum(1 for t in entries if t[1] == "tier1")
+t2 = sum(1 for t in entries if t[1] == "tier2")
+dorm = sum(1 for t in entries if t[1] == "dormant")
+manifest = {
+    "generated": datetime.datetime.now(datetime.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
+    "total": len(entries),
+    "tier1_count": t1,
+    "tier2_count": t2,
+    "dormant_count": dorm,
     "rules": rules,
 }
-json.dump(out, sys.stdout, indent=2, ensure_ascii=False)
-print()
+json.dump(manifest, sys.stdout, indent=2, ensure_ascii=False)
+sys.stdout.write("\n")
 PY
 
-# ── Comparar inventario (para --check) ─────────────────────────────────────
-if [[ -f "$OUTPUT" ]]; then
-  OLD_INVENTORY=$(python3 -c "
+if $CHECK; then
+  # Compara inventario (rules+counts) ignorando el timestamp `generated`.
+  if [[ -f "$OUTPUT" ]]; then
+    if python3 - "$OUTPUT" "$TMP.json" <<'PY'
 import json, sys
-try:
-    d = json.load(open(sys.argv[1]))
-    for k in sorted(d.get('rules', {})):
-        print(k)
-except Exception:
-    sys.exit(0)
-" "$OUTPUT" 2>/dev/null)
-  NEW_INVENTORY=$(python3 -c "
-import json, sys
-d = json.load(open(sys.argv[1]))
-for k in sorted(d.get('rules', {})):
-    print(k)
-" "$TMP" 2>/dev/null)
+a = json.load(open(sys.argv[1])); b = json.load(open(sys.argv[2]))
+a.pop("generated", None); b.pop("generated", None)
+sys.exit(0 if a == b else 1)
+PY
+    then
+      echo "OK: rule-manifest.json está al día"
+      exit 0
+    else
+      echo "STALE: rule-manifest.json desactualizado. Ejecuta: bash scripts/rule-manifest-generate.sh" >&2
+      exit 1
+    fi
+  else
+    echo "MISSING: $OUTPUT no existe. Ejecuta: bash scripts/rule-manifest-generate.sh" >&2
+    exit 1
+  fi
 fi
 
-if $CHECK_MODE; then
-  if [[ ! -f "$OUTPUT" ]]; then
-    echo "STALE: rule-manifest.json no existe — ejecuta sin --check para generarlo" >&2
-    exit 1
-  fi
-  if [[ "$OLD_INVENTORY" != "$NEW_INVENTORY" ]]; then
-    echo "STALE: rule-manifest.json desincronizado (reglas listadas difieren del filesystem)" >&2
-    echo "  ejecuta: bash scripts/rule-manifest-generate.sh" >&2
-    exit 1
-  fi
-  # Verificar que no haya entradas a ficheros inexistentes
-  GHOSTS=$(python3 -c "
-import json, sys, os
-d = json.load(open(sys.argv[1]))
-domain = sys.argv[2]
-ghosts = [k for k in d.get('rules', {}) if not os.path.isfile(os.path.join(domain, k))]
-print('\n'.join(ghosts))
-" "$OUTPUT" "$DOMAIN_DIR" 2>/dev/null)
-  if [[ -n "$GHOSTS" ]]; then
-    echo "STALE: entradas fantasma en el manifest (ficheros inexistentes):" >&2
-    echo "$GHOSTS" >&2
-    exit 1
-  fi
-  echo "OK: rule-manifest.json sincronizado ($(python3 -c "import json;print(json.load(open('$OUTPUT'))['total'])" 2>/dev/null) reglas)"
-  exit 0
-fi
-
-# ── Escribir el manifest regenerado ────────────────────────────────────────
-cp "$TMP" "$OUTPUT"
-TOTAL=$(python3 -c "import json;print(json.load(open('$OUTPUT'))['total'])")
-T1=$(python3 -c "import json;print(json.load(open('$OUTPUT'))['tier1_count'])")
-T2=$(python3 -c "import json;print(json.load(open('$OUTPUT'))['tier2_count'])")
-D=$(python3 -c "import json;print(json.load(open('$OUTPUT'))['dormant_count'])")
-echo "GENERATED: $OUTPUT"
-echo "  total=$TOTAL tier1=$T1 tier2=$T2 dormant=$D"
-echo "  generated_at=$GENERATED"
-exit 0
+# 3) Escribir solo el manifest (RN-01: nunca toca reglas/CRITERIO/CONSTITUCION)
+cp "$TMP.json" "$OUTPUT"
+echo "Generated $OUTPUT ($(python3 -c "import json,sys; print(json.load(open('$OUTPUT'))['total'])" ) reglas)"

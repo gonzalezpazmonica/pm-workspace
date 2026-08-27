@@ -434,6 +434,11 @@ Post-auditoria de alineacion OpenCode (inicio de sesion 2026-05-02). 4 gaps dete
 
 ## Critical Path Q2-Q3 2026 (priorización unificada 2026-05-02 — post audit OpenCode)
 
+> **Prioridad única (2026-08-27)**: este pipeline y `labs/ROADMAP.md` se
+> unifican en `docs/propuestas/ROADMAP-UNIFIED-20260827.md` (plan unificado
+> Labs × General). Batch activo: **L14 deuda estructural** (SE-338 rule-manifest,
+> SE-339 coverage ratchet, SE-264 memory consolidation).
+>
 > Orden de ejecucion prescriptivo. Cada batch toma el primer item disponible. Sin reprio mid-stream salvo trigger externo (Anthropic shutdown, hardware loss, GPU disponible, Monica autoriza descarga modelo Kokoro).
 
 ### Razonamiento de prioridad (reformulado post-audit)
@@ -488,7 +493,7 @@ Post-auditoria de alineacion OpenCode (inicio de sesion 2026-05-02). 4 gaps dete
 | 26 | SE-085 | full | ~20 min | 190 | Write-a-skill meta — depende de SE-084 |
 | 27 | SE-075 | Slice 3 | ~30 min | 188 (residual) | DEFERRED — requiere autorizacion Monica para descargar Kokoro 82M (~500MB) |
 | 28 | SE-346 | Slice 1 | ~3h | 198 | Modelo sustituto (GP) + active learning: decidir cuando confiar en modelo barato vs ejecutar lo caro. Piloto `llm-router --check` (read-only). Fuente: rainvare/modelo-del-mundo |
-| 29 | SE-264 | Slice 1 | ~3h | 198 | Memory auto-consolidation — dedup por topic_key + strip test/bench + stale flag/archive (exxperts-inspired). Comando `memory-store.sh consolidate` |
+| 29 | SE-264 | — | — | 198 | **YA IMPLEMENTADO (#905)** — memory auto-consolidation (MEMORY.md index). Extensión al store JSONL: propuesta futura |
 
 **Total non-blocked**: ~1140 min ≈ ~19h agente
 

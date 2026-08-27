@@ -177,7 +177,7 @@
 - **test-contribute** (script): test-contribute.sh — Tests del sistema de comunidad y contribución
 - **test-cost-center** (script): ── Test: cost-center (Era 38 — Cost Management & Billing) ──
 - **test-coverage-checker** (script): test-coverage-checker.sh — Verify every script has a corresponding test
-- **test-coverage-ratchet** (script): test-coverage-ratchet.sh — SE-339: ratchet de cobertura de tests para hooks críticos
+- **test-coverage-ratchet** (script): test-coverage-ratchet.sh — Ratchet no-decreciente de cobertura (SE-339)
 - **test-cross-project** (script): ── test-cross-project.sh ────────────────────────────────────────────────
 - **test-dev-productivity** (script): ── test-dev-productivity.sh ──────────────────────────────────────────────
 - **test-docs-overhaul** (script): test-docs-overhaul.sh — Tests para Documentation Overhaul (Savia-led)
