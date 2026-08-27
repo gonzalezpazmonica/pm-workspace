@@ -1,6 +1,6 @@
 {
-  "hash": "eae7165f4d73",
-  "total": 1406,
+  "hash": "63d19d012e02",
+  "total": 1407,
   "resources": [
     {
       "category": "analysis",
@@ -13960,6 +13960,20 @@
       "kind": "script",
       "path": "scripts/surface-map-authorize.sh",
       "description": "surface-map-authorize.sh — SE-243 Authorization helper"
+    },
+    {
+      "category": "planning",
+      "name": "surrogate/router-check",
+      "intents": [
+        "check",
+        "only",
+        "python",
+        "read",
+        "router"
+      ],
+      "kind": "script",
+      "path": "scripts/surrogate/router-check.sh",
+      "description": "router-check.sh — wrapper SE-346: llm-router --check (read-only) con el python del venv."
     },
     {
       "category": "planning",

@@ -1,5 +1,5 @@
 # planning — Savia Capability Map (L1)
-> 603 resources
+> 604 resources
 
 - **/decide-architecture** (cmd): Clasifica una tarea como WORKFLOW (deterministica) o AGENT (loop). Bias hacia workflow per Anthropic. Sugiere plantilla inicial. Mide accuracy contra corpus curado de 20 tareas.
 - **_template** (skill): TEMPLATE — copia este directorio para crear una skill nueva. NO se carga en runtime.
@@ -516,6 +516,7 @@
 - **structural-framing-judge** (agent): Recommendation Tribunal judge — detects output with manual/protocol form over CBRN or sensitive domain
 - **subagent-dispatch-gate** (script): subagent-dispatch-gate.sh — SE-313 S7c: gate de resolución de tiers + telemetría.
 - **surface-map-authorize** (script): surface-map-authorize.sh — SE-243 Authorization helper
+- **surrogate/router-check** (script): router-check.sh — wrapper SE-346: llm-router --check (read-only) con el python del venv.
 - **sync-adapters/adapter-interface** (script): adapter-interface.sh — Common interface for backlog sync adapters
 - **sync-adapters/azure-devops-adapter** (script): azure-devops-adapter.sh — Sync local backlog with Azure DevOps
 - **sync-adapters/github-issues-adapter** (script): github-issues-adapter.sh — Sync local backlog with GitHub Issues

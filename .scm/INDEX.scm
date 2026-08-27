@@ -1,6 +1,6 @@
 # Savia Capability Map — INDEX
-> hash: 5c70b66e417d | resources: 1406
-> 294 commands · 130 skills · 83 agents · 899 scripts
+> hash: 14bd21617db0 | resources: 1407
+> 294 commands · 130 skills · 83 agents · 900 scripts
 
 [analysis] Trace Optimize — across,distributed,optimize,rates,sampling — cmd:.claude/commands/trace-optimize.md
 [analysis] agent-activity — activity,agent,executions,recent,show — cmd:.claude/commands/agent-activity.md
@@ -1059,6 +1059,7 @@
 [planning] structural-framing-judge — cbrn,detects,domain,form,judge — agent:.opencode/agents/structural-framing-judge.md
 [planning] subagent-dispatch-gate — dispatch,gate,resolución,subagent,telemetría — script:scripts/subagent-dispatch-gate.sh
 [planning] surface-map-authorize — authorization,authorize,helper,surface — script:scripts/surface-map-authorize.sh
+[planning] surrogate/router-check — check,only,python,read,router — script:scripts/surrogate/router-check.sh
 [planning] sync-adapters/adapter-interface — adapter,adapters,backlog,common,interface — script:scripts/sync-adapters/adapter-interface.sh
 [planning] sync-adapters/azure-devops-adapter — adapter,azure,backlog,devops,local — script:scripts/sync-adapters/azure-devops-adapter.sh
 [planning] sync-adapters/github-issues-adapter — adapter,backlog,github,issues,local — script:scripts/sync-adapters/github-issues-adapter.sh
