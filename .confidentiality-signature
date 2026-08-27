@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=3188e193ff5bd73ce59fca6d5cacb95bd6d0f69450dd2c4d386dcff84548fa14
-timestamp=2026-08-27T14:05:40Z
-branch=agent/l26-soberania-20260827
-head_commit=8002ae29
-signature=4512580568f4da8d1ac4385b566dee2e9ed96d4b914de04af06d760a8cd10f76
+diff_hash=4dae974fd6da1885eabe0fc2b401e3f2aa8ed749673c1b99ce71459dfe9909ca
+timestamp=2026-08-27T14:30:39Z
+branch=agent/se348-integridad-20260827
+head_commit=f8c91879
+signature=da055447a4e6f454731083f9f0834d879d637948ab6bc223755af87e4b8bfefc
