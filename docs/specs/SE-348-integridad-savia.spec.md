@@ -1,6 +1,6 @@
 # Spec: SE-348 — Auditoría de integridad de Savia + plan de activación
 
-**Status:** PROPOSED (Savia, 2026-08-27) — pendiente de revisión humana
+**Status:** APPROVED→PARCIALMENTE IMPLEMENTADO (2026-08-27, aprobación operadora salvo hardware)
 **Fecha:** 2026-08-27
 **Area:** Integridad / Activación / Soberanía
 **Developer Type:** agent-single (activación) + humano (decisiones de descarga)
@@ -43,12 +43,12 @@ que no está activo se dice como no activo).
 
 | Componente | Estado real | Qué falta para activar |
 |---|---|---|
-| **SE-346 llm-router** | `--check`/report SOLO; no decide el modelo en runtime | Cablear a `savia-env.sh`/arranque (slice 2, explícito en la spec) |
+| **SE-346 llm-router** | **Slice 2 cableado 2026-08-27**: `savia_model_by_uncertainty()` en savia-env.sh (advisory) | Dispatch automático completo: futuro |
 | **Sandbox opencode-sandbox** | `enabled: false` en opencode.json; bwrap **no instalado** | Instalar bwrap + `enabled: true` |
-| **Shield NER** (capa 2) | daemon up pero `ner: false`; qwen2.5:7b no en ollama; modelo spaCy ausente | Pull qwen2.5:7b + modelo spaCy NER |
+| **Shield NER** (capa 2) | **ACTIVADO 2026-08-27**: spaCy+Presidio+es_core_news_md en venv, `ner: true`, gate detecta EMAIL/PERSON | Clasificador qwen2.5:7b diferido (hardware) |
 | **savia-dual (failover local)** | skill documentado; no verificado que el failover real esté wired | Verificar/activar el trigger en arranque de sesión |
 | **FxC gate de consulta** | `fronema.py query` manual; NO hay hook de recordatorio en gates | Hook opcional (fuera de alcance SE-344) |
-| **Vector search / embeddings** | deps instaladas (sentence-transformers, hnswlib); **servidor 7331 NO corre**; sin índice | Arrancar embedding server + generar índice |
+| **Vector search / embeddings** | **ACTIVADO 2026-08-27**: servidor 7331 up (all-MiniLM-L6-v2) + búsqueda vectorial con scores | — |
 | **Memoria auto-consolidation** | SE-264 implementado (MEMORY.md); ejecución periódica no verificada | Confirmar tarea programada |
 | **SE-347 PMA** | evaluado (RE-EVALUAR); no runtime | (ver §2.3) |
 
@@ -56,7 +56,7 @@ que no está activo se dice como no activo).
 
 | Necesidad | Bloquea | Candidato (research) |
 |---|---|---|
-| **Modelo local ≥8B usable** | Soberanía de inferencia · SE-347 S3 · benchmark · E3 resiliencia · failover savia-dual real | Qwen2.5-7B-Instruct / Qwen3-8B (HF, descargable vía Ollama) |
+| **Modelo local ≥8B usable** | Soberanía de inferencia · SE-347 S3 · benchmark · E3 resiliencia · failover savia-dual real | **DIFERIDO (limitación de hardware, operadora 2026-08-27)** — Qwen2.5-7B-Instruct cuando haya hardware |
 | **bwrap** | Sandbox | paquete del sistema |
 | **qwen2.5:7b + spaCy NER** | Shield capa NER | Ollama pull + modelo spaCy |
 | **Modelo de embedding (multilingüe)** | Recall vectorial de calidad | BAAI/bge-m3 (HF) |
@@ -91,13 +91,13 @@ que no está activo se dice como no activo).
 
 | Prioridad | Capa | Acción | Esfuerzo | Bloquea |
 |---|---|---|---|---|
-| P0 | Soberanía inferencia | Descargar modelo local ≥8B (Qwen2.5-7B vía Ollama) → activar savia-dual real + SE-347 S3 | 1h + descarga | E3, benchmark |
-| P0 | Sandbox | Instalar bwrap + `enabled:true` en opencode.json | 15 min | aislamiento ejecución |
-| P1 | Vector recall | Arrancar embedding server + generar índice + (opcional) reranker bge-reranker | 1h | recall híbrido |
-| P1 | Shield NER | Pull qwen2.5:7b + modelo spaCy → capa 2 activa | 1h | PII detección |
-| P2 | Router SE-346 | Slice 2: cablear llm-router a `savia-env.sh` (dispatch por incertidumbre) | 3h | ahorro coste |
+| P0 | Soberanía inferencia | ~~Descargar modelo ≥8B~~ **DIFERIDO (hardware)** | — | E3, benchmark |
+| P0 | Sandbox | **BLOQUEADO — requiere sudo (operadora)**: instalar bwrap + `enabled:true` | 15 min | aislamiento ejecución |
+| P1 | Vector recall | ~~Arrancar + índice~~ **ACTIVADO** · reranker bge-reranker opcional | — | recall híbrido |
+| P1 | Shield NER | ~~spaCy+Presidio~~ **ACTIVADO (capas regex+NER)** · clasificador qwen2.5:7b diferido (hardware) | — | PII detección |
+| P2 | Router SE-346 | ~~Slice 2~~ **ACTIVADO** (`savia_model_by_uncertainty`) · dispatch completo futuro | — | ahorro coste |
 | P2 | Evals unificados | Runner de evals por capa integrado en CI | 3h | calidad |
-| P3 | FxC gate hook | Hook de recordatorio en gates (puntos de frónesis) | 2h | uso FxC |
+| P3 | FxC gate hook | ~~Hook~~ **ACTIVADO** (`fronesis-gate-reminder.sh`, warn-only en pr-create/merge) | — | uso FxC |
 | P3 | skills-ref | Validar skills con la lib de referencia | 30 min | conformidad externa |
 
 Todas las acciones locales. Las descargas (modelos) requieren aprobación de la

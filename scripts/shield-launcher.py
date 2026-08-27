@@ -116,6 +116,14 @@ def preflight_check(script_name: str, label: str) -> bool:
     return True
 
 
+def daemon_python() -> str:
+    """Prefiere el venv de Savia (spaCy/presidio para NER); si no, sys.executable."""
+    venv = Path.home() / ".savia" / "venv" / "bin" / "python"
+    if venv.exists():
+        return str(venv)
+    return sys.executable
+
+
 def start_service(script_name: str, pid_file: Path, port: int, label: str, timeout_s: int = START_TIMEOUT_S) -> bool:
     """Start a Python script as a fully detached process."""
     if not preflight_check(script_name, label):
@@ -142,7 +150,7 @@ def start_service(script_name: str, pid_file: Path, port: int, label: str, timeo
     if IS_WINDOWS:
         flags = 0x00000008 | 0x00000200 | 0x08000000
         proc = subprocess.Popen(
-            [sys.executable, script_path],
+            [daemon_python(), script_path],
             creationflags=flags,
             stdout=subprocess.DEVNULL,
             stderr=stderr_log,
@@ -150,7 +158,7 @@ def start_service(script_name: str, pid_file: Path, port: int, label: str, timeo
         )
     else:
         proc = subprocess.Popen(
-            [sys.executable, script_path],
+            [daemon_python(), script_path],
             stdout=subprocess.DEVNULL,
             stderr=stderr_log,
             stdin=subprocess.DEVNULL,
