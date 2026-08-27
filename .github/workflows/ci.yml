@@ -530,3 +530,22 @@ jobs:
         run: command -v python3
       - name: SE-311 Standards Compliance Gate (determinista, diff final)
         run: bash scripts/standards-compliance-gate.sh --json
+
+  dependency-audit:
+    runs-on: ubuntu-latest
+    name: Dependency Audit (SE-258 Slice 5)
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - name: Setup Node.js
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: '20'
+      - name: npm audit (workspace scripts)
+        run: |
+          npm install --prefix scripts --package-lock-only >/dev/null 2>&1 || true
+          npm audit --prefix scripts --audit-level=high || true
+      - name: Python deps check (venv)
+        run: |
+          command -v python3
+          python3 -m pip list --outdated 2>/dev/null | head -20 || true

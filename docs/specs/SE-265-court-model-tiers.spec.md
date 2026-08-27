@@ -1,6 +1,6 @@
 # Spec: SE-265 — Court model tier assignment (gentle-ai v2.0 inspired)
 
-**Status:** PROPOSED
+**Status:** IMPLEMENTED (PR #905; verificado 2026-08-27: court.rules.yaml models + 10 BATS + causal_chain)
 **Fecha:** 2026-07-12
 **Area:** Code Review Court / Model economics / Quality-cost tradeoff
 **Branch:** agent/se265-court-model-tiers
