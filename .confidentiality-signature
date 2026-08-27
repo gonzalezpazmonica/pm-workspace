@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=0e5a2439b78daf2b74948003e1c211def188e6d24dff5b86b8494577394a56d0
-timestamp=2026-08-26T20:20:01Z
-branch=agent/se347-prime-agent-evaluacion
-head_commit=cd11e485
-signature=2beb2162b905dd92acafff484aa164f94c5ebc546ecf49942fdb0c8cc87d743c
+diff_hash=51c094086dabe6771400edc137c281e2938bb8e840602239abf5c74a5f6b637a
+timestamp=2026-08-27T06:03:36Z
+branch=agent/pma-learnings-20260827
+head_commit=2fbb0d2e
+signature=75f8280dc0f922a98971ed3095388334f8747db27de97cbec28d90d056272ba2
