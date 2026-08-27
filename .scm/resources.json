@@ -1,6 +1,6 @@
 {
-  "hash": "7dc6c65a6154",
-  "total": 1399,
+  "hash": "eae7165f4d73",
+  "total": 1406,
   "resources": [
     {
       "category": "analysis",
@@ -249,6 +249,34 @@
       "kind": "cmd",
       "path": ".claude/commands/agent-memory.md",
       "description": "Inspect and manage persistent memory fragments for subagents."
+    },
+    {
+      "category": "analysis",
+      "name": "agent-messaging",
+      "intents": [
+        "agent",
+        "agente",
+        "debe",
+        "enviar",
+        "inbox"
+      ],
+      "kind": "skill",
+      "path": ".claude/skills/agent-messaging/SKILL.md",
+      "description": "Usar cuando un agente debe enviar un mensaje a otro agente con roles y receipts, sin pasar por el usuario. Triggers: mensaje a otro agente, agent-message, notify agent, inbox."
+    },
+    {
+      "category": "analysis",
+      "name": "agent-messaging",
+      "intents": [
+        "agent",
+        "agente",
+        "lección",
+        "local",
+        "mensajería"
+      ],
+      "kind": "script",
+      "path": "scripts/agent-messaging.sh",
+      "description": "agent-messaging.sh — Bus de mensajería local agente→agente (SE-347 lección PMA)"
     },
     {
       "category": "analysis",
@@ -1549,6 +1577,20 @@
       "kind": "script",
       "path": "scripts/savia-goal.sh",
       "description": "savia-goal.sh — Goal lifecycle management for Savia"
+    },
+    {
+      "category": "communication",
+      "name": "savia-goals",
+      "intents": [
+        "claimed",
+        "durables",
+        "goals",
+        "heartbeats",
+        "lección"
+      ],
+      "kind": "script",
+      "path": "scripts/savia-goals.sh",
+      "description": "savia-goals.sh — Goals durables + heartbeats claimed-due (SE-347 lección PMA)"
     },
     {
       "category": "communication",
@@ -7001,6 +7043,20 @@
     },
     {
       "category": "memory",
+      "name": "session-state-snapshot",
+      "intents": [
+        "estado",
+        "lección",
+        "sesión",
+        "session",
+        "snapshot"
+      ],
+      "kind": "script",
+      "path": "scripts/session-state-snapshot.sh",
+      "description": "session-state-snapshot.sh — Snapshot de estado de sesión (SE-347 lección PMA)"
+    },
+    {
+      "category": "memory",
       "name": "session-status",
       "intents": [
         "abtop",
@@ -7194,6 +7250,20 @@
       "kind": "skill",
       "path": ".claude/skills/_template/SKILL.md",
       "description": "TEMPLATE — copia este directorio para crear una skill nueva. NO se carga en runtime."
+    },
+    {
+      "category": "planning",
+      "name": "_template_python",
+      "intents": [
+        "backed",
+        "carga",
+        "copia",
+        "crear",
+        "directorio"
+      ],
+      "kind": "skill",
+      "path": ".claude/skills/_template_python/SKILL.md",
+      "description": "TEMPLATE de skill Python-backed (SE-347/PMA). Usar cuando se copia este directorio para crear una skill que expone funcionalidad invocable con run(). NO se carga en runtime."
     },
     {
       "category": "planning",
@@ -11813,6 +11883,34 @@
       "kind": "script",
       "path": "scripts/overnight-sprint-state.sh",
       "description": "scripts/overnight-sprint-state.sh — SE-226: stateless-session loop state management"
+    },
+    {
+      "category": "planning",
+      "name": "parallel-dispatch",
+      "intents": [
+        "admission",
+        "background",
+        "bloquear",
+        "después",
+        "esto"
+      ],
+      "kind": "skill",
+      "path": ".claude/skills/parallel-dispatch/SKILL.md",
+      "description": "Usar cuando se necesitan subagentes en paralelo con admission-handle — lanza N tareas en background y recoge resultados después, sin bloquear el turno padre. Triggers: lanza subagentes en paralelo, paraleliza esto, admission-handle, recoge"
+    },
+    {
+      "category": "planning",
+      "name": "parallel-dispatch",
+      "intents": [
+        "admission",
+        "despacho",
+        "dispatch",
+        "handle",
+        "lección"
+      ],
+      "kind": "script",
+      "path": "scripts/parallel-dispatch.sh",
+      "description": "parallel-dispatch.sh — Despacho paralelo con admission-handle (SE-347 lección PMA)"
     },
     {
       "category": "planning",

@@ -31,11 +31,25 @@ Cada tarea declara always_allowed_tools. El runner rechaza cualquier tool no inc
 - Max concurrent: 3 runs simultaneos
 - Tick interval: 30s por defecto
 
+## Goals durables y heartbeats claimed-due (lección SE-347 / PMA)
+
+- **Goals** (`bash scripts/savia-goals.sh`): objetivo con presupuesto
+  (tokens + wall-clock) y estado durable en `~/.savia/goals/`. Regla: SOLO
+  `complete` marca éxito (`goal.complete()` es el único final válido);
+  `progress` acumula tokens/segundos/continuations; `abandon` para cerrar sin
+  éxito. Usa goals en tareas largas (overnight, migraciones, releases).
+- **Heartbeats claimed-due** (`savia-goals.sh heartbeat claim-due`): un tick
+  pendiente NO se reentrega tras crash (si un runner murió tras marcar
+  `last_claimed`, otro runner no lo reclama de nuevo); ticks perdidos
+  **coalescen** (solo se entrega el más reciente). Añade heartbeats con
+  `heartbeat add --every <secs> --prompt <text>` para tareas de larga duración.
+
 ## Data
 
 - Tasks: .savia/automations/tasks.json
 - Runs: .savia/automations/runs/{task_id}/
 - Output: output/automations/{task_id}/{run_id}.md
+- Goals/heartbeats: ~/.savia/goals/ (savia-goals.sh)
 
 ## CLI Reference
 

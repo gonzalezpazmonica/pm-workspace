@@ -84,6 +84,25 @@ Cuando la informacion del contexto sigue siendo util y has trabajado menos del 6
 
 Sin hint, el compact resume con sesgo al final de la sesion — frecuentemente es lo que no necesitas.
 
+#### Formato estructurado de resumen (lección SE-347 / Prime Agent)
+
+Usa este formato (PMA docs/compaction.md) para que el resumen sea recuperable:
+
+```
+## Goal · ## Progress (Done/In Progress/Blocked) · ## Key Decisions
+## Next Steps · ## Critical Context
+<read-files>   path/a.ts path/b.sh </read-files>
+<modified-files> path/cambia.ts </modified-files>
+```
+
+Reglas:
+- **Nunca cortar tool results** en el punto de corte (quedan con su llamada).
+- **Tracking acumulativo de ficheros**: `<read-files>`/`<modified-files>` se
+  acumulan entre compactaciones.
+- **Truncar tool results a ~2000 chars** en el material a resumir.
+- Compactación iterativa: **incluye el resumen anterior** como contexto.
+- Hint dirigido: `/compact focus on <tema>, keep <ficheros>, drop <ruido>`.
+
 ### 4. /clear
 **Cuando**: la sesion cambio de tema o llego al 90%+. Rompe limpio.
 

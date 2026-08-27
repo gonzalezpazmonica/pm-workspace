@@ -17,9 +17,11 @@ To use a skill: read `<path>` and follow its instructions.
 
 | Name | Path | Description |
 |---|---|---|
+| _template_python | `.opencode/skills/_template_python/SKILL.md` | TEMPLATE de skill Python-backed (SE-347/PMA). Usar cuando se copia este directorio para crear una... |
 | adversarial-security | `.opencode/skills/adversarial-security/SKILL.md` | Usar cuando se necesita auditar la seguridad de un proyecto con pipeline Red Team / Blue Team. |
 | agent-code-map | `.opencode/skills/agent-code-map/SKILL.md` | Usar cuando un agente necesita conocer la arquitectura del proyecto sin leer ficheros completos. |
 | agent-file-map | `.opencode/skills/agent-file-map/SKILL.md` | Usar cuando se trabaja con ficheros externos al workspace que los agentes deben localizar. |
+| agent-messaging | `.opencode/skills/agent-messaging/SKILL.md` | Usar cuando un agente debe enviar un mensaje a otro agente con roles y receipts, sin pasar por el... |
 | ai-labor-impact | `.opencode/skills/ai-labor-impact/SKILL.md` | Usar cuando se analiza el impacto de la IA en el trabajo del equipo o la organización. |
 | android-autonomous-debugger | `.opencode/skills/android-autonomous-debugger/SKILL.md` | Usar cuando se depuran o testean apps Android contra dispositivos físicos via USB/ADB. |
 | architecture-intelligence | `.opencode/skills/architecture-intelligence/SKILL.md` | Usar cuando se diseña o revisa la arquitectura de un proyecto nuevo o existente. |
@@ -90,6 +92,7 @@ To use a skill: read `<path>` and follow its instructions.
 | org-stakeholder-mapper | `.opencode/skills/org-stakeholder-mapper/SKILL.md` | Mapeador de Stakeholders y Decisores: extrae roles formales y reales, motivaciones, alianzas y te... |
 | orgchart-import | `.opencode/skills/orgchart-import/SKILL.md` | Usar cuando se importa un organigrama para extraer la estructura del equipo. |
 | overnight-sprint | `.opencode/skills/overnight-sprint/SKILL.md` | Usar cuando se quiere ejecutar tareas de bajo riesgo de forma autónoma durante la noche. |
+| parallel-dispatch | `.opencode/skills/parallel-dispatch/SKILL.md` | Usar cuando se necesitan subagentes en paralelo con admission-handle — lanza N tareas en backgr... |
 | pbi-decomposition | `.opencode/skills/pbi-decomposition/SKILL.md` | Usar cuando se descompone un PBI en tasks y se estiman las horas. |
 | pentesting | `.opencode/skills/pentesting/SKILL.md` | Usar cuando se ejecuta un pentest contra una aplicación o infraestructura. |
 | performance-audit | `.opencode/skills/performance-audit/SKILL.md` | Usar cuando se audita el rendimiento estático de código para detectar hotspots. |

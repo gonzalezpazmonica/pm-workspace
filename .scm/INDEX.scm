@@ -1,6 +1,6 @@
 # Savia Capability Map — INDEX
-> hash: 7d07df425998 | resources: 1399
-> 294 commands · 127 skills · 83 agents · 895 scripts
+> hash: 5c70b66e417d | resources: 1406
+> 294 commands · 130 skills · 83 agents · 899 scripts
 
 [analysis] Trace Optimize — across,distributed,optimize,rates,sampling — cmd:.claude/commands/trace-optimize.md
 [analysis] agent-activity — activity,agent,executions,recent,show — cmd:.claude/commands/agent-activity.md
@@ -20,6 +20,8 @@
 [analysis] agent-index-generate — agent,cards,federated,generate,index — script:scripts/agent-index-generate.sh
 [analysis] agent-journal — agent,append,autónomos,journal,jsonl — script:scripts/agent-journal.sh
 [analysis] agent-memory — fragments,inspect,manage,memory,persistent — cmd:.claude/commands/agent-memory.md
+[analysis] agent-messaging — agent,agente,debe,enviar,inbox — skill:.claude/skills/agent-messaging/SKILL.md
+[analysis] agent-messaging — agent,agente,lección,local,mensajería — script:scripts/agent-messaging.sh
 [analysis] agent-permission-audit — agent,audit,declarations,permission,slice — script:scripts/agent-permission-audit.sh
 [analysis] agent-recurrence-report — agent,identifies,recurrence,recurring,report — script:scripts/agent-recurrence-report.sh
 [analysis] agent-request-validate — agent,incoming,origin,request,slice — script:scripts/agent-request-validate.sh
@@ -122,6 +124,7 @@
 [communication] savia-gallery — agentes,catálogo,comandos,interactivo,skills — cmd:.claude/commands/savia-gallery.md
 [communication] savia-goal — codex,cross,equivalente,establece,gestiona — cmd:.claude/commands/savia-goal.md
 [communication] savia-goal — goal,lifecycle,management,savia — script:scripts/savia-goal.sh
+[communication] savia-goals — claimed,durables,goals,heartbeats,lección — script:scripts/savia-goals.sh
 [communication] savia-hub-init — init,initialize,local,repository,savia — script:scripts/savia-hub-init.sh
 [communication] savia-hub-sync — local,repositorio,saviahub,sincroniza,workspace — skill:.claude/skills/savia-hub-sync/SKILL.md
 [communication] savia-identity — cargar,completa,comportamiento,identidad,inicio — skill:.claude/skills/savia-identity/SKILL.md
@@ -528,6 +531,7 @@
 [memory] session-registry — coordination,registry,session,slice — script:scripts/session-registry.sh
 [memory] session-resume-index — index,metadata,multica,pattern,resume — script:scripts/session-resume-index.sh
 [memory] session-state-machine — machine,phase,session,spec,state — script:scripts/session-state-machine.sh
+[memory] session-state-snapshot — estado,lección,sesión,session,snapshot — script:scripts/session-state-snapshot.sh
 [memory] session-status — abtop,consultable,pattern,session,snapshot — script:scripts/session-status.sh
 [memory] setup-memory — auto,estructura,inicializa,memory,proyecto — script:scripts/setup-memory.sh
 [memory] skill-optimize — agente,auto,autoresearch,bucle,optimizar — cmd:.claude/commands/skill-optimize.md
@@ -542,6 +546,7 @@
 [memory] web-research — buscar,contexto,cves,docs,gaps — skill:.claude/skills/web-research/SKILL.md
 [planning] /decide-architecture — accuracy,agent,anthropic,bias,clasifica — cmd:.claude/commands/decide-architecture.md
 [planning] _template — carga,copia,crear,directorio,nueva — skill:.claude/skills/_template/SKILL.md
+[planning] _template_python — backed,carga,copia,crear,directorio — skill:.claude/skills/_template_python/SKILL.md
 [planning] accessibility-mode — accesibilidad,activa,desactiva,estado,muestra — cmd:.claude/commands/accessibility-mode.md
 [planning] accessibility-setup — accesibilidad,adaptarse,configura,necesidades,preferencias — cmd:.claude/commands/accessibility-setup.md
 [planning] action-shape-classifier — acción,action,classifier,forma,guards — script:scripts/action-shape-classifier.sh
@@ -895,6 +900,8 @@
 [planning] overnight-sprint — autónoma,bajo,durante,ejecutar,forma — skill:.claude/skills/overnight-sprint/SKILL.md
 [planning] overnight-sprint-loop — loop,orchestrator,overnight,scripts,sprint — script:scripts/overnight-sprint-loop.sh
 [planning] overnight-sprint-state — loop,management,overnight,scripts,session — script:scripts/overnight-sprint-state.sh
+[planning] parallel-dispatch — admission,background,bloquear,después,esto — skill:.claude/skills/parallel-dispatch/SKILL.md
+[planning] parallel-dispatch — admission,despacho,dispatch,handle,lección — script:scripts/parallel-dispatch.sh
 [planning] path-redact — absolute,containing,home,path,paths — script:scripts/path-redact.sh
 [planning] pbi-decompose — decompose,granular,tasks,technical — cmd:.claude/commands/pbi-decompose.md
 [planning] pbi-decomposition — descompone,estiman,horas,tasks — skill:.claude/skills/pbi-decomposition/SKILL.md
