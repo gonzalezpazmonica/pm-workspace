@@ -488,6 +488,7 @@ Post-auditoria de alineacion OpenCode (inicio de sesion 2026-05-02). 4 gaps dete
 | 26 | SE-085 | full | ~20 min | 190 | Write-a-skill meta — depende de SE-084 |
 | 27 | SE-075 | Slice 3 | ~30 min | 188 (residual) | DEFERRED — requiere autorizacion Monica para descargar Kokoro 82M (~500MB) |
 | 28 | SE-346 | Slice 1 | ~3h | 198 | Modelo sustituto (GP) + active learning: decidir cuando confiar en modelo barato vs ejecutar lo caro. Piloto `llm-router --check` (read-only). Fuente: rainvare/modelo-del-mundo |
+| 29 | SE-264 | Slice 1 | ~3h | 198 | Memory auto-consolidation — dedup por topic_key + strip test/bench + stale flag/archive (exxperts-inspired). Comando `memory-store.sh consolidate` |
 
 **Total non-blocked**: ~1140 min ≈ ~19h agente
 

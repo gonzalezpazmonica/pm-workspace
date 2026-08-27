@@ -1,6 +1,6 @@
 # Spec: SE-266 — Agent Git Governance (Pi-inspired) + Shell Safety
 
-**Status:** APPROVED (v2 — 2026-07-13)
+**Status:** IMPLEMENTED (PR #906 v1+v2 · verificado 2026-08-27: hook + 30 tests + AGENTS.md disciplina)
 **Fecha:** 2026-07-12 (original) / 2026-07-13 (v2 shell safety extension)
 **Area:** Agent governance / Git discipline / Shell safety / Concurrent safety
 **Branch:** agent/se266-agent-governance
