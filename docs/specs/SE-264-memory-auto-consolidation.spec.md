@@ -1,6 +1,6 @@
 # Spec: SE-264 — Memory Auto-Consolidation (dedup + strip + stale flag)
 
-**Status:** PROPOSED
+**Status:** IMPLEMENTED (2026-08-27, PR Batch 1 L14)
 **Fecha:** 2026-08-27
 **Area:** Memory / Autonomía
 **Estimacion:** S 3h (agente)
