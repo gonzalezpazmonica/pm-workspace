@@ -1,5 +1,5 @@
 # Savia Capability Map — INDEX
-> hash: 14bd21617db0 | resources: 1407
+> hash: f8ce498e2db2 | resources: 1407
 > 294 commands · 130 skills · 83 agents · 900 scripts
 
 [analysis] Trace Optimize — across,distributed,optimize,rates,sampling — cmd:.claude/commands/trace-optimize.md
@@ -972,7 +972,7 @@
 [planning] restore-drill — drill,restore,slice — script:scripts/restore-drill.sh
 [planning] rpi-start —  — cmd:.claude/commands/rpi-start.md
 [planning] ruby-developer —  — agent:.opencode/agents/ruby-developer.md
-[planning] rule-manifest-generate — filesystem,generate,json,manifest,rule — script:scripts/rule-manifest-generate.sh
+[planning] rule-manifest-generate — determinista,generador,generate,manifest,rule — script:scripts/rule-manifest-generate.sh
 [planning] rule-manifest-integrity — index,integrity,manifest,rule,slice — script:scripts/rule-manifest-integrity.sh
 [planning] rule-usage-analyzer — across,analyze,analyzer,domain,rule — script:scripts/rule-usage-analyzer.sh
 [planning] rule-violation-judge — autonomous,canonical,claude,detects,domain — agent:.opencode/agents/rule-violation-judge.md
@@ -1324,7 +1324,7 @@
 [quality] test-contribute — comunidad,contribución,contribute,sistema,test — script:scripts/test-contribute.sh
 [quality] test-cost-center — billing,center,cost,management,test — script:scripts/test-cost-center.sh
 [quality] test-coverage-checker — checker,corresponding,coverage,every,script — script:scripts/test-coverage-checker.sh
-[quality] test-coverage-ratchet — cobertura,coverage,críticos,hooks,ratchet — script:scripts/test-coverage-ratchet.sh
+[quality] test-coverage-ratchet — cobertura,coverage,decreciente,ratchet,test — script:scripts/test-coverage-ratchet.sh
 [quality] test-cross-project — cross,project,test — script:scripts/test-cross-project.sh
 [quality] test-dev-productivity — productivity,test — script:scripts/test-dev-productivity.sh
 [quality] test-docs-overhaul — docs,documentation,overhaul,savia,test — script:scripts/test-docs-overhaul.sh

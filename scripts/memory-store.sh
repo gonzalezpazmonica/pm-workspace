@@ -228,7 +228,6 @@ case "${1:-help}" in
     entity) shift; cmd_entity "$@" ;;
     suggest-topic) shift; cmd_suggest_topic "$@" ;;
     session-summary) shift; cmd_session_summary "$@" ;;
-    consolidate) shift; "$MEMORY_PYTHON" "$SCRIPT_DIR/memory-consolidate.py" --store "$STORE_FILE" "$@" ;;
     doctor) cmd_doctor ;;
     rebuild-index) "$MEMORY_PYTHON" "$SCRIPT_DIR/memory-vector.py" rebuild --store "$STORE_FILE" ;;
     index-status) "$MEMORY_PYTHON" "$SCRIPT_DIR/memory-vector.py" status --store "$STORE_FILE" ;;

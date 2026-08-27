@@ -1,8 +1,8 @@
 {
-  "generated": "2026-08-27T08:49:19Z",
-  "total": 302,
+  "generated": "2026-08-27T08:52:14Z",
+  "total": 301,
   "tier1_count": 6,
-  "tier2_count": 282,
+  "tier2_count": 281,
   "dormant_count": 14,
   "rules": {
     "accessibility-output.md": {
@@ -651,10 +651,6 @@
     },
     "meeting-participant-etiquette.md": {
       "tier": "dormant",
-      "consumers": ""
-    },
-    "memory-consolidation.md": {
-      "tier": "tier2",
       "consumers": ""
     },
     "memory-type-schema.md": {

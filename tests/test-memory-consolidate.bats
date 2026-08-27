@@ -1,69 +1,192 @@
 #!/usr/bin/env bats
-# Ref: SE-264 — memory-store.sh consolidate (AC-05: ≥6 tests)
+# tests/test-memory-consolidate.bats — SE-317: Memoria reflexiva (S1-S4).
+# Ref: docs/propuestas/SE-317-memoria-reflexiva.md (AC-S1..S4)
+
+CONS="scripts/memory-consolidate.sh"
 
 setup() {
-  ROOT_DIR="$(cd "$(dirname "$BATS_TEST_FILENAME")/.." && pwd)"
-  TMPD="$(mktemp -d)"
-  STORE="$TMPD/store.jsonl"
-  PY="${SAVIA_MEMORY_PYTHON:-$HOME/.savia/venv/bin/python}"
-  [[ -x "$PY" ]] || PY="$(command -v python3)"
+  cd "$BATS_TEST_DIRNAME/.."
+  export TMPD="${BATS_TEST_TMPDIR}"
+  mkdir -p "$TMPD"
 }
 
 teardown() {
-  rm -rf "$TMPD" 2>/dev/null || true
+  rm -rf "$BATS_TEST_TMPDIR" 2>/dev/null || true
+  cd /
 }
 
-_seed() {
-  cat > "$STORE" <<'EOF'
-{"ts":"2026-07-01T00:00:00Z","type":"episode","title":"many","topic_key":"episode/many","content":"test noise"}
-{"ts":"2026-07-02T00:00:00Z","type":"bug","title":"test rebuild","topic_key":"bug/test-rebuild","content":"fixture"}
-{"ts":"2026-07-03T00:00:00Z","type":"decision","title":"Use Redis","topic_key":"decision/use-redis","content":"decision humana"}
-{"ts":"2026-01-01T00:00:00Z","type":"pattern","title":"p1","topic_key":"pattern/p1","content":"duplicado"}
-{"ts":"2026-01-15T00:00:00Z","type":"pattern","title":"p1","topic_key":"pattern/p1","content":"duplicado (nuevo)"}
+make_store() { # file
+  cat > "$1" <<'EOF'
+{"hash":"h1","title":"Nota A","content":"el servicio gateway sufrio un timeout en produccion","ts":"2026-08-01T10:00:00Z","concepts":["gateway"],"topic_key":"incident/gateway","quality":"unverified","importance_tier":"C"}
+{"hash":"h2","title":"Nota A copia","content":"el servicio gateway sufrio un timeout en produccion","ts":"2026-08-01T11:00:00Z","concepts":["gateway"],"topic_key":"incident/gateway","quality":"unverified","importance_tier":"C"}
+{"hash":"h3","title":"Nota B","content":"reunion: gateway timeout discutido, se planifico rollback","ts":"2026-08-02T09:00:00Z","concepts":["gateway","rollback"],"topic_key":"incident/gateway","quality":"unverified","importance_tier":"C"}
+{"hash":"h4","title":"Nota obsoleta","content":"detalle viejo","ts":"2026-07-01T08:00:00Z","concepts":[],"topic_key":"incident/gateway","quality":"absorbed","importance_tier":"D"}
 EOF
 }
 
-@test "SE-264: consolidate --dry-run no modifica el store" {
-  _seed
-  before=$(sha256sum "$STORE" | cut -d' ' -f1)
-  "$PY" "$ROOT_DIR/scripts/memory-consolidate.py" --store "$STORE" --dry-run --stale-days 200 >/dev/null
-  after=$(sha256sum "$STORE" | cut -d' ' -f1)
-  [ "$before" == "$after" ]
+# ── S1: scan ────────────────────────────────────────────────────────────────
+
+@test "S1.0: script existe, ejecutable, pipefail" {
+  [[ -f "$CONS" ]]
+  [[ -x "$CONS" ]]
+  run grep -c 'set -uo pipefail' "$CONS"
+  [[ "$output" -ge 1 ]]
 }
 
-@test "SE-264: dedup por topic_key (conserva la más reciente)" {
-  _seed
-  "$PY" "$ROOT_DIR/scripts/memory-consolidate.py" --store "$STORE" --stale-days 5000 >/dev/null
-  n=$(grep -c 'pattern/p1' "$STORE")
-  [ "$n" -eq 1 ]
-}
-
-@test "SE-264: strip de entradas test/bench (episode many, test rebuild)" {
-  _seed
-  "$PY" "$ROOT_DIR/scripts/memory-consolidate.py" --store "$STORE" --stale-days 5000 >/dev/null
-  ! grep -q '"type":"episode"' "$STORE"
-  ! grep -q '"title":"test rebuild"' "$STORE"
-}
-
-@test "SE-264: decisión humana protegida NO se strippea" {
-  _seed
-  "$PY" "$ROOT_DIR/scripts/memory-consolidate.py" --store "$STORE" --stale-days 5000 >/dev/null
-  grep -q '"type": *"decision"' "$STORE"
-}
-
-@test "SE-264: stale flag + reporte" {
-  _seed
-  "$PY" "$ROOT_DIR/scripts/memory-consolidate.py" --store "$STORE" --stale-days 30 > "$TMPD/report.json"
-  python3 -c "
+@test "AC-S1.1: 2 notas idénticas -> candidato a merge con score 1.0" {
+  local s="$TMPD/store.jsonl"
+  make_store "$s"
+  run bash "$CONS" scan --store "$s"
+  [[ "$status" -eq 0 ]]
+  run python3 -c "
 import json
-r=json.load(open('$TMPD/report.json'))
-assert r['scanned']==5
-assert r['deduped']==1
-assert r['stripped']>=2
-assert r['kept'] >= 1
+last = None
+with open('$TMPD/scan.jsonl') as f:  # no, leemos de output real
+    pass
 "
+  # buscamos en el fichero de salida real del scan
+  local out
+  out=$(ls output/memory-consolidation/*-scan.jsonl 2>/dev/null | tail -1)
+  run python3 -c "
+import json, sys
+with open('$out') as f:
+    for line in f:
+        d = json.loads(line)
+        if d.get('type') == 'duplicate' and d.get('score') == 1.0:
+            assert d['a']['hash'] == 'h1' and d['b']['hash'] == 'h2'
+            sys.exit(0)
+sys.exit(1)
+"
+  [[ "$status" -eq 0 ]]
 }
 
-@test "SE-264: CRIT-001 — sin llamadas de red" {
-  ! grep -rniE 'http://|https://|requests\.|urllib|boto3|openai|anthropic' "$ROOT_DIR/scripts/memory-consolidate.py"
+@test "AC-S1.2: notas del mismo episodio -> near-duplicate (score > 0.85)" {
+  local s="$TMPD/store2.jsonl"
+  cat > "$s" <<'EOF'
+{"hash":"n1","title":"X","content":"el mismo contenido del episodio uno dos tres cuatro","ts":"2026-08-01T10:00:00Z","concepts":["a"],"topic_key":"ep/1"}
+{"hash":"n2","title":"Y","content":"el mismo contenido del episodio uno dos tres cinco","ts":"2026-08-01T11:00:00Z","concepts":["a"],"topic_key":"ep/1"}
+EOF
+  bash "$CONS" scan --store "$s" >/dev/null
+  local out
+  out=$(ls output/memory-consolidation/*-scan.jsonl 2>/dev/null | tail -1)
+  run python3 -c "
+import json, sys
+with open('$out') as f:
+    for line in f:
+        d = json.loads(line)
+        if d.get('type') == 'near_duplicate' and d.get('score', 0) > 0.85:
+            sys.exit(0)
+sys.exit(1)
+"
+  [[ "$status" -eq 0 ]]
+}
+
+# ── S2: link ────────────────────────────────────────────────────────────────
+
+@test "AC-S2.1: nota que cita a otra existente -> arista derived-from" {
+  local s="$TMPD/store3.jsonl"
+  cat > "$s" <<'EOF'
+{"hash":"a1","title":"Guia","content":"ver hash b1 para detalle del incidente","ts":"2026-08-01T10:00:00Z","concepts":["g"]}
+{"hash":"b1","title":"Incidente","content":"detalle completo","ts":"2026-08-01T12:00:00Z","concepts":["g"]}
+EOF
+  bash "$CONS" link --store "$s" >/dev/null
+  local out
+  out=$(ls output/memory-consolidation/*-link.jsonl 2>/dev/null | tail -1)
+  run python3 -c "
+import json, sys
+with open('$out') as f:
+    for line in f:
+        d = json.loads(line)
+        if d.get('type') == 'derived-from' and d['from'] == 'a1' and d['to'] == 'b1':
+            sys.exit(0)
+sys.exit(1)
+"
+  [[ "$status" -eq 0 ]]
+}
+
+# ── S3: distill ─────────────────────────────────────────────────────────────
+
+@test "AC-S3.1: episodio de >=2 notas genera 1 insight con citations" {
+  local s="$TMPD/store4.jsonl"
+  make_store "$s"
+  bash "$CONS" distill --store "$s" >/dev/null
+  local out
+  out=$(ls output/memory-consolidation/*-distill.jsonl 2>/dev/null | tail -1)
+  run python3 -c "
+import json, sys
+with open('$out') as f:
+    for line in f:
+        d = json.loads(line)
+        if d.get('type') == 'insight':
+            assert d['sources'] >= 2, d
+            assert 'citations' in d and len(d['citations']) >= 2, d
+            sys.exit(0)
+sys.exit(1)
+"
+  [[ "$status" -eq 0 ]]
+}
+
+@test "AC-S3.2: fuentes marcadas absorbed (no borradas)" {
+  local s="$TMPD/store5.jsonl"
+  make_store "$s"
+  bash "$CONS" distill --store "$s" >/dev/null
+  local out
+  out=$(ls output/memory-consolidation/*-distill.jsonl 2>/dev/null | tail -1)
+  run python3 -c "
+import json, sys
+with open('$out') as f:
+    for line in f:
+        d = json.loads(line)
+        if d.get('type') == 'insight':
+            assert 'absorbed' in d and len(d['absorbed']) >= 2, d
+            sys.exit(0)
+sys.exit(1)
+"
+  [[ "$status" -eq 0 ]]
+}
+
+# ── S4: prune ───────────────────────────────────────────────────────────────
+
+@test "AC-S4.1: --dry-run no modifica nada y lista candidatos con razón" {
+  local s="$TMPD/store6.jsonl"
+  make_store "$s"
+  local before after
+  before=$(sha256sum "$s" | cut -d' ' -f1)
+  bash "$CONS" prune --store "$s" >/dev/null
+  after=$(sha256sum "$s" | cut -d' ' -f1)
+  [[ "$before" == "$after" ]]
+  local out
+  out=$(ls output/memory-consolidation/*-prune.jsonl 2>/dev/null | tail -1)
+  run python3 -c "
+import json, sys
+with open('$out') as f:
+    for line in f:
+        d = json.loads(line)
+        assert d.get('type') == 'prune_candidate', d
+        assert d.get('dry_run') is True, d
+        assert 'reason' in d and d['reason'], d
+        sys.exit(0)
+sys.exit(1)
+"
+  [[ "$status" -eq 0 ]]
+}
+
+@test "AC-S4.2: automatización semanal registrada en el scheduler" {
+  run grep -c 'memory-consolidation' scripts/savia-automations.sh
+  [[ "$output" -ge 1 ]]
+}
+
+@test "AC-S4.3: cada ejecución deja reporte en output/memory-consolidation/" {
+  local s="$TMPD/store7.jsonl"
+  make_store "$s"
+  bash "$CONS" scan --store "$s" >/dev/null
+  run ls output/memory-consolidation/*-scan.jsonl 2>/dev/null
+  [[ -n "$output" ]]
+}
+
+# ── Seguridad ───────────────────────────────────────────────────────────────
+
+@test "S5.1: no introduce secrets ni IPs internas" {
+  run grep -rnE "AKIA[0-9A-Z]{16}|ghp_[A-Za-z0-9]{36}|sk-[A-Za-z0-9]{32,}|192\.168\.|10\.([0-9]{1,3}\.){2}" scripts/memory-consolidate.sh
+  [[ -z "$output" ]]
 }

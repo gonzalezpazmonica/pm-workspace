@@ -429,7 +429,7 @@
 - **restore-drill** (script): restore-drill.sh — SE-258 Slice 2
 - **rpi-start** (cmd): >
 - **ruby-developer** (agent): >
-- **rule-manifest-generate** (script): rule-manifest-generate.sh — SE-338: genera rule-manifest.json desde el filesystem
+- **rule-manifest-generate** (script): rule-manifest-generate.sh — Generador determinista de rule-manifest (SE-338)
 - **rule-manifest-integrity** (script): rule-manifest-integrity.sh — SE-057 Slice 1 rule-manifest + INDEX integrity.
 - **rule-usage-analyzer** (script): rule-usage-analyzer.sh — Analyze domain rule usage across the workspace
 - **rule-violation-judge** (agent): Recommendation Tribunal judge — detects when a draft recommendation violates canonical rules (CLAUDE.md, autonomous-safety, radical-honesty, domain rules)
