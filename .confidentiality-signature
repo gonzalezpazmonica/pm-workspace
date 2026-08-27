@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=34aa68c52c230703105d89eae9a1771247b0521652171e6b8b1ae5ae24801d23
-timestamp=2026-08-27T08:54:33Z
-branch=agent/plan-batch1-l14-20260827
-head_commit=a1e8f4b2
-signature=a9c4d09fef3a692a62dfef66ee8c7ec67706acc27ea018494f24dc67045ccd0c
+diff_hash=f406d340a9588ecc38d561252fa17f412b39a3e38782bf5cd3c00288f6393ce9
+timestamp=2026-08-27T12:22:55Z
+branch=agent/l23-saviadomains-20260827
+head_commit=87a0b0d8
+signature=7ba84180005936828c59699784d83810936ec13ef84c85c027af4fe4be5142c1
