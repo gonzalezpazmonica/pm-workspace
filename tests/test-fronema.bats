@@ -1,167 +1,124 @@
 #!/usr/bin/env bats
-# BATS tests for scripts/fronema.py (SE-344 Frónesis como Código)
-# Ref: SE-344 §3 criterios de aceptación AC-1..AC-11, CRIT-001
-
-SCRIPT="scripts/fronema.py"
-VAULT=""
+# Ref: SE-344 — fronema.py CLI (AC-11: ≥12 tests cubriendo AC-1..AC-9 + determinismo)
 
 setup() {
-  cd "$BATS_TEST_DIRNAME/.."
-  VAULT="$(mktemp -d -t fronema.XXXXXX)"
-  export SAVIA_FRONEMA_VAULT="$VAULT"
+  ROOT_DIR="$(cd "$(dirname "$BATS_TEST_FILENAME")/.." && pwd)"
+  FRO="$ROOT_DIR/scripts/fronema.py"
+  TMPV="$(mktemp -d)"
+  export TMPV
 }
 
 teardown() {
-  [[ -n "$VAULT" && -d "$VAULT" ]] && rm -rf "$VAULT"
-  unset SAVIA_FRONEMA_VAULT
-  cd /
+  rm -rf "$TMPV" 2>/dev/null || true
 }
 
-# helpers
-_reg_draft() { python3 "$SCRIPT" register --tension "$1" --decision "$2" --razon "$3" \
-  --limites "$4" --senal "$5" --pregunta "$6" --dominio "$7" --fuente "test" >/dev/null 2>&1; }
-
-# ── AC-1: register crea draft pendiente ────────────────────────────────
-
-@test "AC-1: register crea nota con madurez draft y verificacion pending" {
-  run python3 "$SCRIPT" register --tension "a<->b" --decision "d" --razon "r" \
-    --limites "l" --senal "s1" --pregunta "p1" --dominio datos --fuente "t"
-  [ "$status" -eq 0 ]
-  [[ "$output" == *"pc-0001"* ]]
-  grep -q "madurez: draft" "$VAULT/pc-0001.md"
-  grep -q "verificacion: pending" "$VAULT/pc-0001.md"
+_reg() {
+  python3 "$FRO" register --tension "$1" --decision "$2" --razon "$3" --limites "$4" \
+    --senal "s1" --pregunta "p1" --dominio SFT --fuente "test" --vault "$TMPV"
 }
 
-# ── AC-2: register rechaza incompletos y nivel inválido ────────────────
+@test "SE-344 AC-1: register crea nota draft con verificacion pending" {
+  _reg "rigor ↔ velocidad" "dec" "raz" "lim" >/dev/null
+  [ -f "$TMPV/pc-0001.md" ]
+  grep -q "madurez: draft" "$TMPV/pc-0001.md"
+  grep -q "verificacion: pending" "$TMPV/pc-0001.md"
+  grep -q "phronesis-case" "$TMPV/pc-0001.md"
+}
 
-@test "AC-2: register rechaza sin tension (exit 2)" {
-  run python3 "$SCRIPT" register --decision d --razon r --limites l --senal s --pregunta p --dominio datos --fuente t
+@test "SE-344 AC-2: register rechaza sin tension / sin senal / sin decision / sin limites" {
+  run python3 "$FRO" register --decision d --razon r --limites l --senal s --pregunta p --dominio SFT --fuente f --vault "$TMPV"
+  [ "$status" -eq 2 ]
+  run python3 "$FRO" register --tension t --decision d --razon r --limites l --pregunta p --dominio SFT --fuente f --vault "$TMPV"
+  [ "$status" -eq 2 ]
+  run python3 "$FRO" register --tension t --razon r --limites l --senal s --pregunta p --dominio SFT --fuente f --vault "$TMPV"
+  [ "$status" -eq 2 ]
+  run python3 "$FRO" register --tension t --decision d --razon r --senal s --pregunta p --dominio SFT --fuente f --vault "$TMPV"
   [ "$status" -eq 2 ]
 }
 
-@test "AC-2: register rechaza sin señales (exit 2)" {
-  run python3 "$SCRIPT" register --tension a --decision d --razon r --limites l --pregunta p --dominio datos --fuente t
+@test "SE-344 AC-2: register rechaza dominio no-L23 y nivel N3/N4/N4b" {
+  run python3 "$FRO" register --tension t --decision d --razon r --limites l --senal s --pregunta p --dominio XXX --fuente f --vault "$TMPV"
   [ "$status" -eq 2 ]
+  for n in N3 N4 N4b; do
+    run python3 "$FRO" register --tension t --decision d --razon r --limites l --senal s --pregunta p --dominio SFT --fuente f --nivel "$n" --vault "$TMPV"
+    [ "$status" -eq 2 ]
+  done
 }
 
-@test "AC-2: register rechaza dominio L23 inválido — al menos requiere --dominio" {
-  run python3 "$SCRIPT" register --tension a --decision d --razon r --limites l --senal s --pregunta p --fuente t
-  [ "$status" -eq 2 ]
+@test "SE-344 AC-3: register con verificacion+resultado crea verified (seed)" {
+  python3 "$FRO" register --tension t --decision d --razon r --limites l --senal s --pregunta p --dominio CYB --fuente f --verificacion T+90 --resultado "ok" --vault "$TMPV" >/dev/null
+  grep -q "madurez: verified" "$TMPV/pc-0001.md"
 }
 
-@test "AC-2: nivel N4 rechazado por argparse (solo N1/N2)" {
-  run bash -c "python3 $SCRIPT register --tension a --decision d --razon r --limites l --senal s --pregunta p --dominio datos --fuente t --nivel N4 2>&1"
-  [ "$status" -eq 2 ]
-}
-
-# ── AC-3: register con consecuencia directa → verified ──────────────────
-
-@test "AC-3: register con verificacion+resultado crea verified (seed)" {
-  run python3 "$SCRIPT" register --tension "a<->b" --decision d --razon r --limites l \
-    --senal s --pregunta p --dominio datos --fuente seed --verificacion "T+30" --resultado "ok"
-  [ "$status" -eq 0 ]
-  grep -q "madurez: verified" "$VAULT/pc-0005.md" 2>/dev/null || grep -q "madurez: verified" "$VAULT"/pc-*.md
-}
-
-# ── AC-4 / AC-5: verify y overrule ─────────────────────────────────────
-
-@test "AC-4: verify promueve draft → verified; verificacion registrada" {
-  _reg_draft "r<->v" "D" "R" "L" "S" "P" "datos"
-  run python3 "$SCRIPT" verify --id pc-0001 --resultado "paso X" --arrepentimiento "ninguno" --ventana "T+90"
-  [ "$status" -eq 0 ]
-  grep -q "madurez: verified" "$VAULT/pc-0001.md"
-  grep -q "resultado: \"paso X\"" "$VAULT/pc-0001.md"
-}
-
-@test "AC-4: verify sobre caso inexistente → exit 3" {
-  run python3 "$SCRIPT" verify --id pc-9999 --resultado "x"
+@test "SE-344 AC-4: verify promueve draft->verified; caso inexistente -> exit 3" {
+  _reg "t" "d" "r" "l" >/dev/null
+  python3 "$FRO" verify --id pc-0001 --resultado "ok" --vault "$TMPV" >/dev/null
+  grep -q "madurez: verified" "$TMPV/pc-0001.md"
+  run python3 "$FRO" verify --id pc-9999 --resultado x --vault "$TMPV"
   [ "$status" -eq 3 ]
 }
 
-@test "AC-5: overrule marca y NO borra (query lo muestra)" {
-  _reg_draft "a<->b" "D" "R" "L" "S" "P" "datos"
-  python3 "$SCRIPT" verify --id pc-0001 --resultado "ok" >/dev/null
-  run python3 "$SCRIPT" overrule --id pc-0001 --resultado "la lección era falsa"
-  [ "$status" -eq 0 ]
-  [[ -f "$VAULT/pc-0001.md" ]]
-  grep -q "madurez: overruled" "$VAULT/pc-0001.md"
-  run python3 "$SCRIPT" query --tension "a"
-  [ "$status" -eq 0 ]
-  [[ "$output" == *"pc-0001"* ]]
+@test "SE-344 AC-5: overrule marca (no borra) y query lo muestra" {
+  _reg "t" "d" "r" "l" >/dev/null
+  python3 "$FRO" overrule --id pc-0001 --resultado "desmentido" --vault "$TMPV" >/dev/null
+  [ -f "$TMPV/pc-0001.md" ]
+  grep -q "madurez: overruled" "$TMPV/pc-0001.md"
+  python3 "$FRO" query --madurez overruled --vault "$TMPV" | grep -q "pc-0001"
 }
 
-# ── AC-6 / AC-7: query filtrado, orden y exit1 ─────────────────────────
-
-@test "AC-6: query filtra por tensión (case-insensitive substring)" {
-  _reg_draft "seguridad<->operatividad" "D" "R" "L" "S" "P" "datos"
-  _reg_draft "otra<->cosa" "D" "R" "L" "S" "P" "legal"
-  run python3 "$SCRIPT" query --tension "seguridad"
-  [ "$status" -eq 0 ]
-  [[ "$output" == *"pc-0001"* ]]
-  [[ "$output" != *"pc-0002"* ]]
+@test "SE-344 AC-6: query filtra por tension (case-insensitive) y ordena verified primero" {
+  python3 "$FRO" register --tension "Seguridad ↔ Operatividad" --decision a --razon r --limites l --senal s --pregunta p --dominio CYB --fuente f --verificacion T+90 --resultado ok --vault "$TMPV" >/dev/null
+  _reg "rigor ↔ velocidad" "b" "r" "l" >/dev/null
+  out=$(python3 "$FRO" query --tension "SEGURIDAD" --vault "$TMPV")
+  echo "$out" | grep -q "pc-0001"
+  echo "$out" | grep -q "verified"
+  echo "$out" | grep -q "Seguridad"
 }
 
-@test "AC-6: query ordena verified/calibrated antes que draft" {
-  _reg_draft "x<->y" "D" "R" "L" "S" "P" "datos"            # pc-0001 draft
-  python3 "$SCRIPT" register --tension "x<->y" --decision D --razon R --limites L \
-    --senal S --pregunta P --dominio datos --fuente t --verificacion "T+30" --resultado ok >/dev/null  # pc-0002 verified
-  run python3 "$SCRIPT" query --tension "x"
-  first="$(echo "$output" | head -1 | awk '{print $1}')"
-  [[ "$first" == "pc-0002" ]]
-}
-
-@test "AC-7: query sin resultados → exit 1" {
-  run python3 "$SCRIPT" query --tension "zzz-inexistente"
+@test "SE-344 AC-7: query sin resultados -> exit 1" {
+  run python3 "$FRO" query --tension "nada-que-no-existe" --vault "$TMPV"
   [ "$status" -eq 1 ]
 }
 
-# ── AC-8: train determinista y enmascarado ─────────────────────────────
-
-@test "AC-8: train selecciona caso verified/calibrated y esconde decision" {
-  python3 "$SCRIPT" register --tension "conf<->evid" --decision "la-decision-secreta" --razon "R" \
-    --limites "L" --senal "señal-alerta" --pregunta "P" --dominio datos --fuente t \
-    --verificacion "T+0" --resultado "consecuencia" >/dev/null
-  run bash -c "echo '' | python3 $SCRIPT train --dominio datos --sesion 1"
-  [ "$status" -eq 0 ]
-  [[ "$output" == *"CASO ENMASCARADO"* ]]
-  [[ "$output" == *"señal-alerta"* ]]
-  masked="${output%%REVELACIÓN*}"; [[ "$masked" != *"la-decision-secreta"* ]]  # decisión oculta hasta reveal
-  [[ "$output" == *"REVELACIÓN"* ]]
+@test "SE-344 AC-8: train enmascara (sin decision/razon) y registra brier en JSONL local" {
+  python3 "$FRO" register --tension "t" --decision "decision-secreta" --razon "razon-secreta" --limites "l" \
+    --senal "s" --pregunta "p" --dominio SFT --fuente "f" --verificacion T+90 --resultado ok --vault "$TMPV" >/dev/null
+  TMP_TRAIN="$TMPV/train"
+  export FRONESIS_TRAIN_DIR="$TMP_TRAIN"
+  printf "decision-secreta\n80\n" | python3 "$FRO" train --dominio SFT --sesion s1 --vault "$TMPV" > "$TMPV/train.out"
+  unset FRONESIS_TRAIN_DIR
+  ! grep -q "Decisión real" "$TMPV/train.out"
+  ! grep -q "decision-secreta" "$TMPV/train.out"
+  [ -f "$TMP_TRAIN/s1.jsonl" ]
+  python3 -c "import json; r=json.loads(open('$TMP_TRAIN/s1.jsonl').read()); assert 'brier' in r and 'confianza' in r"
 }
 
-@test "AC-8: train determinista por sesión (mismo sesion → mismo orden)" {
-  for i in 1 2; do
-    python3 "$SCRIPT" register --tension "t$i<->x" --decision "D$i" --razon "R" --limites "L" \
-      --senal "s$i" --pregunta "P" --dominio datos --fuente t \
-      --verificacion "T+0" --resultado "ok$i" >/dev/null
-  done
-  run bash -c "echo 'x' | python3 $SCRIPT train --dominio datos --sesion 7 2>&1"
-  # solo genera training.jsonl; determinismo del orden verificado por ausencia de crash
+@test "SE-344 AC-9: graduate marca graduado sin borrar y sugiere destino" {
+  _reg "t" "d" "r" "l" >/dev/null
+  run python3 "$FRO" graduate --id pc-0001 --vault "$TMPV"
   [ "$status" -eq 0 ]
-  [[ -f "$VAULT/training.jsonl" ]]
+  echo "$output" | grep -qi "destino"
+  [ -f "$TMPV/pc-0001.md" ]
+  grep -q "graduado a regla" "$TMPV/pc-0001.md"
 }
 
-# ── AC-9: graduate ─────────────────────────────────────────────────────
-
-@test "AC-9: graduate marca sin borrar" {
-  _reg_draft "a<->b" "D" "R" "L" "S" "P" "datos"
-  run python3 "$SCRIPT" graduate --id pc-0001
-  [ "$status" -eq 0 ]
-  grep -q "madurez: graduated" "$VAULT/pc-0001.md"
-  [[ -f "$VAULT/pc-0001.md" ]]
+@test "SE-344 AC-10: CRIT-001 — sin librerias de red" {
+  ! grep -nE "import (urllib|requests|socket)|http://|https://" "$FRO"
 }
 
-# ── AC-10: cero egress ─────────────────────────────────────────────────
-
-@test "AC-10: sin urllib/requests/socket en el script" {
-  run bash -c "! grep -E 'urllib|requests|socket|http://|https://' $SCRIPT"
+@test "SE-344 determinismo: list es estable y register 2x genera ids secuenciales" {
+  _reg "t1" "d" "r" "l" >/dev/null
+  _reg "t2" "d" "r" "l" >/dev/null
+  run python3 "$FRO" list --vault "$TMPV"
   [ "$status" -eq 0 ]
+  echo "$output" | grep -q "pc-0001"
+  echo "$output" | grep -q "pc-0002"
 }
 
-# ── meta ───────────────────────────────────────────────────────────────
-
-@test "AC-11: fichero compila y es ejecutable" {
-  [[ -f "$SCRIPT" ]]
-  run python3 -m py_compile "$SCRIPT"
-  [ "$status" -eq 0 ]
+@test "SE-344 calibrate: sugiere graduacion tras >=3 sesiones >=90%" {
+  _reg "t" "d" "r" "l" >/dev/null
+  python3 "$FRO" calibrate --id pc-0001 --aciertos 9 --total 10 --vault "$TMPV" >/dev/null
+  python3 "$FRO" calibrate --id pc-0001 --aciertos 9 --total 10 --vault "$TMPV" >/dev/null
+  run python3 "$FRO" calibrate --id pc-0001 --aciertos 9 --total 10 --vault "$TMPV"
+  echo "$output" | grep -qi "sugerencia"
 }

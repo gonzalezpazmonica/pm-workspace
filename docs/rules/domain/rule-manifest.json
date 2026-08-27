@@ -1,8 +1,8 @@
 {
-  "generated": "2026-08-27T08:52:14Z",
-  "total": 301,
+  "generated": "2026-08-27T13:43:02Z",
+  "total": 302,
   "tier1_count": 6,
-  "tier2_count": 281,
+  "tier2_count": 282,
   "dormant_count": 14,
   "rules": {
     "accessibility-output.md": {
@@ -486,6 +486,10 @@
       "consumers": ""
     },
     "fork-agent-protocol.md": {
+      "tier": "tier2",
+      "consumers": ""
+    },
+    "fronesis-destilacion.md": {
       "tier": "tier2",
       "consumers": ""
     },
