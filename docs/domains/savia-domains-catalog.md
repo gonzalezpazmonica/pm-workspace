@@ -17,6 +17,16 @@ created_at: 2026-08-23
 > **Esta fase es CATALOGACIÓN**: la digestión de cada dominio (ingesta de
 > contenido en su cúpula) vendrá después, cuando el catálogo esté definido.
 
+## Estado del ciclo de vida (2026-08-27)
+
+- **CATALOGADO**: 34 dominios / 11 categorías (validado por la operadora 2026-08-24).
+- **CÚPULA CREADA** (2026-08-27): dome `SaviaDomains` (N1) registrado en
+  `projects/savia-vaults/savia-vaults.domes.json` + cúpula por dominio en
+  `vaults/SaviaDomains/<categoría>/<ID>/INDEX.md` (34).
+  Regenerable: `python3 scripts/savia-domains-cupulas.py` (o `--check`).
+- **Pendiente**: DIGERIDO (ingesta de contenido por dominio) — sigue el plan
+  unificado (Batch 3 → SE-344).
+
 ## 1. Propósito
 
 1. Definir la taxonomía de dominios en los que Savia opera o quiere operar.

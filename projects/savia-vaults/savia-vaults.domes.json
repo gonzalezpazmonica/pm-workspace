@@ -4,24 +4,30 @@
   "domes": {
     "SaviaLearning": {
       "name": "SaviaLearning",
-      "path": "../../vaults/SaviaLearning",
+      "path": "/home/monica/savia/vaults/SaviaLearning",
       "description": "Cupula del bucle Savia Continuous Learning para lecciones persistentes cross-instancia",
       "confidentiality": "N2",
       "schemaDir": "projects/savia-vaults/schema/entities"
     },
     "SaviaLabs": {
       "name": "SaviaLabs",
-      "path": "../../vaults/SaviaLabs",
+      "path": "/home/monica/savia/vaults/SaviaLabs",
       "description": "Cupula del laboratorio epistemico Savia Labs (SE-291): preregistro, experimentos, resultados",
       "confidentiality": "N2",
       "schemaDir": "projects/savia-vaults/schema/entities"
     },
     "savia-docs": {
       "name": "savia-docs",
-      "path": "../../vaults/savia-docs",
+      "path": "/home/monica/savia/vaults/savia-docs",
       "description": "Cupula de documentacion de pm-workspace: rules, specs, decisions, guias, propuestas",
       "confidentiality": "N2",
       "schemaDir": "projects/savia-vaults/schema/entities"
+    },
+    "SaviaDomains": {
+      "name": "SaviaDomains",
+      "path": "/home/monica/savia/vaults/SaviaDomains",
+      "description": "Cupulas N1 por dominio (Labs L23): conocimiento publico de referencia por vertical, base neutra para digestion posterior",
+      "confidentiality": "N1"
     }
   }
 }
