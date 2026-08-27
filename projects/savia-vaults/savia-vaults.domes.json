@@ -28,6 +28,12 @@
       "path": "/home/monica/savia/vaults/SaviaDomains",
       "description": "Cupulas N1 por dominio (Labs L23): conocimiento publico de referencia por vertical, base neutra para digestion posterior",
       "confidentiality": "N1"
+    },
+    "Fronesia": {
+      "name": "Fronesia",
+      "path": "/home/monica/savia/vaults/Fronesia",
+      "description": "Cupula de frónesis (SE-344): casos destilados de juicio vivido (fronemas) N2, destilados desde cupulas de proyecto (N4 jamas sale)",
+      "confidentiality": "N2"
     }
   }
 }

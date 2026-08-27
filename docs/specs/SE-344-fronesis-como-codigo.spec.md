@@ -8,7 +8,7 @@
 
 **Developer Type:** agent-single
 **Asignado a:**     python-developer (schema+CLI) + typescript-developer (integración vault)
-**Estado:**         APPROVED (operadora, 2026-08-27) — aprobado para implementar en el plan unificado (Batch 2)
+**Estado:**         IMPLEMENTED (2026-08-27) — CLI + cúpula Frónesis + seed 6 fronemas + 13 BATS
 
 **Effort Estimation (Dual Model):**
 
