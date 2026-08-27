@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=7aa854b789843ae9ef76756c3389a29a06a6a2adf1dd44183cc83bfb342e4c9e
-timestamp=2026-08-27T15:01:58Z
-branch=agent/se348-activaciones-20260827
-head_commit=9a654f3d
-signature=3b1282103c40116a8d6e4170c3eced58c767158b2d2c05f964842b06aad5b9f5
+diff_hash=c2413a51d83097dcc9bf559fc64f8436ce6f15a60d3634d26c63df96cf4ecd05
+timestamp=2026-08-27T16:10:34Z
+branch=agent/batch4-se265-se258-20260827
+head_commit=a94edef2
+signature=dc509dfb64b00e09a34c47ad2180c5faabcfa564e72232ddf68144dabecba262
