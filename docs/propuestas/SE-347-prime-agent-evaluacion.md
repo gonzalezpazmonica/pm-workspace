@@ -155,27 +155,39 @@ Durante UNA sesión de prueba de S1 (misma máquina, sesión interactiva corta):
 
 ### AC-S2: Auditoría de red
 
-- [ ] AC-S2.1: captura de red limitada a los PID de PMA durante ≥1 sesión de prueba.
-- [ ] AC-S2.2: informe `red-audit-{fecha}.md` con lista de hosts contactados.
-- [ ] AC-S2.3: cero conexiones salientes externas con la configuración del research (PASS).
-- [ ] AC-S2.4: si hay tráfico externo, veredicto RECHAZAR documentado con la configuración que lo provoca.
+- [x] AC-S2.1: captura de red limitada a los PID de PMA durante ≥1 sesión de prueba.
+- [x] AC-S2.2: informe `red-audit-{fecha}.md` con lista de hosts contactados.
+- [x] AC-S2.3: cero conexiones salientes externas con la configuración del research (PASS).
+- [x] AC-S2.4: si hay tráfico externo, veredicto RECHAZAR documentado con la configuración que lo provoca.
 
 ### AC-S3: Patrones y benchmark
 
-- [ ] AC-S3.1: `rlm("tarea")` devuelve handle inmediato y el hijo responde vía `agent_message.send`.
-- [ ] AC-S3.2: skill Python importable ejecutada desde el kernel (export por nombre import).
-- [ ] AC-S3.3: sesión con detach/reattach: el worker sobrevive al cierre de la TUI.
-- [ ] AC-S3.4: auto-compaction verificado y estado de subagentes sobrevive.
-- [ ] AC-S3.5: benchmark PMA-local vs Savia ejecutado sobre el mismo modelo local con métricas comparadas en `benchmark-{fecha}.md`.
-- [ ] AC-S3.6: veredicto ADOPTAR | RECHAZAR | RE-EVALUAR emitido con evidencia.
+- [x] AC-S3.1: `rlm("tarea")` devuelve handle inmediato y el hijo responde vía `agent_message.send`. *(Handle ✅; respuesta del hijo no capturada headless — ver benchmark-20260827.md)*
+- [x] AC-S3.2: skill Python importable ejecutada desde el kernel (export por nombre import).
+- [ ] AC-S3.3: sesión con detach/reattach: el worker sobrevive al cierre de la TUI. *(PARCIAL — es TUI-interactivo; no demostrable headless)*
+- [ ] AC-S3.4: auto-compaction verificado y estado de subagentes sobrevive. *(No verificado: modelos locales no completan sesiones multi-turno)*
+- [ ] AC-S3.5: benchmark PMA-local vs Savia ejecutado sobre el mismo modelo local con métricas comparadas en `benchmark-{fecha}.md`. *(INCONCLUSO — qwen2.5:3b es techo de capacidad, gemma4:26b techo de rendimiento en el host)*
+- [x] AC-S3.6: veredicto ADOPTAR | RECHAZAR | RE-EVALUAR emitido con evidencia. *(RE-EVALUAR — ver sección Resultado 2026-08-27)*
 
 ### AC-S4: Registro
 
-- [ ] AC-S4.1: `docs/propuestas/INDEX.md` regenerado con SE-347.
-- [ ] AC-S4.2: entrada de resultado en `output/research/prime-agent-eval/veredicto-{fecha}.md`.
-- [ ] AC-S4.3: decisión registrada en CRITERIO.md o como decision record si el veredicto es ADOPTAR (ART-06: criterios aplicados declarados).
+- [x] AC-S4.1: `docs/propuestas/INDEX.md` regenerado con SE-347.
+- [x] AC-S4.2: entrada de resultado en `output/research/prime-agent-eval/veredicto-{fecha}.md`.
+- [ ] AC-S4.3: decisión registrada en CRITERIO.md o como decision record si el veredicto es ADOPTAR. *(N/A: veredicto RE-EVALUAR, no ADOPTAR)*
 
 ---
+
+## Resultado 2026-08-27
+
+- **S1 ✅** (instalación/config CRIT-001, gate de arranque) — ver `output/research/prime-agent-eval/s1-instalacion-20260826.md`.
+- **S2 ✅ PASS** (auditoría de red: 0 conexiones externas, 0 DNS) — ver `s2-red-audit-20260827.md`.
+- **S3 ⚠️ parcial** — RLM admission ✅, skill Python ✅, detach/reattach parcial
+  (TUI), benchmark INCONCLUSO (qwen2.5:3b techo de capacidad · gemma4:26b techo
+  de rendimiento en el host · provider opencode→ollama no cableado headless),
+  compaction no verificado — ver `benchmark-20260827.md`.
+- **Veredicto: RE-EVALUAR en ~1-3 meses** con un modelo local ≥7-8B usable.
+  Hallazgo transversal: la operación local-only con estos tamaños no conduce
+  flujos agénticos → refuerza SE-346 (enrutar por incertidumbre).
 
 ## Ref
 
