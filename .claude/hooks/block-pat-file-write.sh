@@ -101,9 +101,11 @@ _is_sensitive_path() {
   local lower
   lower="$(printf '%s' "$path" | tr '[:upper:]' '[:lower:]')"
 
-  # Match "pat" in filename
+  # Match "pat" in filename — ONLY as a credential token, not a substring:
+  # `*pat*` false-positives on `parallel-dispatch.sh`, `compat*.sh`,
+  # `patched.sh`. Match `pat`, `pat.*`, `*-pat`, `*_pat` (and dotted variants).
   case "$basename" in
-    *pat*) return 0 ;;
+    pat|pat.*|*-pat|*-pat.*|*_pat|*_pat.*) return 0 ;;
   esac
   # Match "pat" in path component (e.g. /azure/devops-pat)
   case "$lower" in
