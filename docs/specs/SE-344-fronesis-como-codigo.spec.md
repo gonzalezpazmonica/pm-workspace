@@ -8,7 +8,7 @@
 
 **Developer Type:** agent-single
 **Asignado a:**     python-developer (schema+CLI) + typescript-developer (integración vault)
-**Estado:**         PROPOSED
+**Estado:**         APPROVED (operadora, 2026-08-27) — aprobado para implementar en el plan unificado (Batch 2)
 
 **Effort Estimation (Dual Model):**
 
