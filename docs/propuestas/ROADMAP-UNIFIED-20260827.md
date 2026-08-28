@@ -56,6 +56,20 @@ empezar ya.
 
 ## 2. Plan unificado de ejecución (orden único)
 
+### Progreso ejecutado (2026-08-27)
+
+| Batch | Estado | PRs |
+|---|---|---|
+| Batch 1 — L14 | ✅ SE-338 rule-manifest + SE-339 coverage ratchet · SE-264 ya implementado (#905) | #1025 |
+| Batch 2 — SE-344 FxC | ✅ CLI fronema + cúpula Fronesia + 6 seed + 13 bats | #1028 |
+| Batch 3 — L23 cúpulas N1 | ✅ dome SaviaDomains + 34 cúpulas + generador | #1026 |
+| Batch 4 — backlog | ✅ SPEC-182/SE-106/SE-265/SE-258 cerrados + dep-audit CI · **SE-220-spec pendiente (18h)** | #1032 |
+| Batch 5 — L26 | ✅ evidencia + FxC + política soberanía/resiliencia | #1029 |
+| Batch 6 — L27 | 🔶 E3/E5 gate PASS + E13 auditor + E14 matriz · **E12 Piloto 1 pendiente (VASS obviado)** | #1033 #1034 |
+| Batch 7 — verticales | ⏳ L24/L25/L12/L9 | — |
+| Track B — SE-347 | 🔶 evaluado **RE-EVALUAR** (S3 bloqueado por modelo local ≥8B) | #1027 |
+| SE-348 activaciones | ✅ vector + Shield NER + router SE-346 + hook FxC · ⏳ sandbox (sudo) · ⏳ modelo ≥8B (hardware) | #1031 |
+
 ### Batch 1 — L14 Deuda estructural (transversal: reduce el coste de todo)
 | Ítem | Tipo | Esfuerzo | Nota CRIT-001 |
 |---|---|---|---|
