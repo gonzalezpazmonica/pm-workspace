@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=c3f8cd885612b169d79c7af3820de077ae1aba21d6e8b6298ea1ded26d404369
-timestamp=2026-08-28T18:06:52Z
-branch=agent/hooks-n3n4-20260828
-head_commit=425a6c47
-signature=becef3801810ce421168c9933284caf853faf47adb512147978ca45f3276a98e
+diff_hash=23a0116f9ca5543619c1782caed18142c0a6b19d2ae34eb4fe3a0eed6bc502a0
+timestamp=2026-08-28T18:21:14Z
+branch=agent/shield-ner-calibracion-20260828
+head_commit=efb75c20
+signature=cb1e1ff2c0930a6b8579b9cbcf3343b96f6e881ba65695aac4e7b445df0ae1f7
