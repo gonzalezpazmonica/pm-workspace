@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=df56ddd9dc40c8388383d07b399494773c74d1f288be8671dc3b146c8c1b10db
-timestamp=2026-08-28T10:20:04Z
-branch=agent/roadmap-update-20260827
-head_commit=f5145819
-signature=f650025d30808c1df68ee6235e19ea2ba33ed8f2cfaaaf13ba77e5394a70c719
+diff_hash=57b2448cdc44143488c7e15ce2ce186c7251a6a16c3d682ba986155734f63ebd
+timestamp=2026-08-28T13:11:14Z
+branch=agent/robotica-criterio-20260828
+head_commit=419e37aa
+signature=a033e87993e39895f617dabf6ccf67160f78292fa478651c81a172831caf4ce5
