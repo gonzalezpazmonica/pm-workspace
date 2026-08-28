@@ -201,3 +201,24 @@ teardown() {
   [ "$status" -eq 2 ]
   echo "$output" | grep -qiE "CREDIT_CARD|PII detectado"
 }
+
+# ── NER calibración (SE-348): palabras comunes no son PII en N1/N2 ────────
+
+@test "ner: palabras comunes (Savia, I+D, Valida, ASIs) no bloquean docs (si daemon up)" {
+  if ! curl -sf --max-time 2 http://127.0.0.1:8444/health >/dev/null 2>&1; then
+    skip "Shield daemon no disponible"
+  fi
+  export SAVIA_SHIELD_PORT=8444
+  run bash "$HOOK" <<< '{"tool_name":"Write","tool_input":{"file_path":"docs/test.md","content":"La digestión de AI 2027. Savia valida el criterio y la frónesis. I+D y las ASI. Gartner citado."}}'
+  [ "$status" -eq 0 ]
+}
+
+@test "ner: credencial sigue bloqueada en N1/N2 (si daemon up)" {
+  if ! curl -sf --max-time 2 http://127.0.0.1:8444/health >/dev/null 2>&1; then
+    skip "Shield daemon no disponible"
+  fi
+  export SAVIA_SHIELD_PORT=8444
+  run bash "$HOOK" <<< '{"tool_name":"Write","tool_input":{"file_path":"docs/test.md","content":"la tarjeta 4111 1111 1111 1111 vence en 12/27"}}'
+  [ "$status" -eq 2 ]
+  echo "$output" | grep -qiE "CREDIT_CARD|PII detectado"
+}

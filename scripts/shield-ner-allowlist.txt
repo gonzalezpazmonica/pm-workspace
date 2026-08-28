@@ -196,3 +196,34 @@ eiusmod
 # BATS test framework annotations (not PII / not organization)
 BATS_TEST_DIRNAME
 BATS_TEST_FILENAME
+
+# ── SE-348 calibración 2026-08-28: falsos positivos de es_core_news_md ──
+# Palabras comunes / términos de workspace que el modelo ES marca como
+# PERSON/LOC/ORG sin serlo. (Los nombres reales de personas NO van aquí:
+# siguen bloqueados en destinos N1/N2.)
+Savia
+I+D
+ASIs
+ASI
+Valida
+criterio
+frónesis
+fronesis
+Gartner
+Deloitte
+OpenAI
+DeepMind
+Anthropic
+Hugging Face
+LeRobot
+Unitree
+MuJoCo
+ROS2
+sim2real
+VLA
+dominio
+destilación
+cúpula
+señales
+escenario
+recomendación
