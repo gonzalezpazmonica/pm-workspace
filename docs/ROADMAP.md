@@ -439,6 +439,12 @@ Post-auditoria de alineacion OpenCode (inicio de sesion 2026-05-02). 4 gaps dete
 > Labs × General). Batch activo: **L14 deuda estructural** (SE-338 rule-manifest,
 > SE-339 coverage ratchet, SE-264 memory consolidation).
 >
+> **Progreso 2026-08-27**: Batches 1-6 del plan unificado en marcha/completos —
+> L14 ✅ (SE-338/339), SE-344 FxC ✅, L23 cúpulas ✅, backlog 4 ✅ (SE-265/258/182/106
+> cerrados; SE-220-spec pendiente), L26 ✅, L27 E3/E5/E13/E14 ✅ (Piloto 1
+> pendiente), SE-347 evaluado (RE-EVALUAR), activaciones SE-348 ✅ (salvo sandbox
+> y modelo ≥8B). Detalle por batch y PRs: `ROADMAP-UNIFIED-20260827.md`.
+>
 > Orden de ejecucion prescriptivo. Cada batch toma el primer item disponible. Sin reprio mid-stream salvo trigger externo (Anthropic shutdown, hardware loss, GPU disponible, Monica autoriza descarga modelo Kokoro).
 
 ### Razonamiento de prioridad (reformulado post-audit)
@@ -492,8 +498,8 @@ Post-auditoria de alineacion OpenCode (inicio de sesion 2026-05-02). 4 gaps dete
 | 25 | SPEC-SE-035 | Slices 1-4 | ~100 min | 232 | P2 reconciliation delta engine — depende de SE-036/037 |
 | 26 | SE-085 | full | ~20 min | 190 | Write-a-skill meta — depende de SE-084 |
 | 27 | SE-075 | Slice 3 | ~30 min | 188 (residual) | DEFERRED — requiere autorizacion Monica para descargar Kokoro 82M (~500MB) |
-| 28 | SE-346 | Slice 1 | ~3h | 198 | Modelo sustituto (GP) + active learning: decidir cuando confiar en modelo barato vs ejecutar lo caro. Piloto `llm-router --check` (read-only). Fuente: rainvare/modelo-del-mundo |
-| 29 | SE-264 | — | — | 198 | **YA IMPLEMENTADO (#905)** — memory auto-consolidation (MEMORY.md index). Extensión al store JSONL: propuesta futura |
+| 28 | SE-346 | Slice 1-2 | ~3h+3h | 198 | **YA IMPLEMENTADO (#1024/#1031)** — surrogate GP + `llm-router` + `savia_model_by_uncertainty` |
+| 29 | SE-264 | — | — | 198 | **YA IMPLEMENTADO (#905)** — memory auto-consolidation (MEMORY.md index) |
 
 **Total non-blocked**: ~1140 min ≈ ~19h agente
 
