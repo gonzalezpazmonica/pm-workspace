@@ -69,7 +69,7 @@ existe y sirve de cimiento.
 | TLC | Tecnología | Telecomunicaciones | Redes, 5G, protocolos, infraestructura de red | — |
 | ELC | Electrónica | Electrónica | Analógica/digital, componentes, diseño de PCB, sensores | — |
 | SEM | Electrónica | Microelectrónica y semiconductores | Chips, fabricación, cadenas de suministro | — |
-| RBT | Robótica | Robótica | Industrial, de servicio, autónoma, ROS, percepción | robotics-roadmap, mobile-dev |
+| RBT | Robótica | Robótica | Industrial, de servicio, autónoma, ROS, percepción, VLA, sim-to-real | robotics-roadmap, mobile-dev · **digerida 2026-08-28** (`docs/domains/robotics/ROBOTICS-DOMAIN-20260828.md`) |
 | AUT | Robótica | Automatización industrial | PLC, SCADA, control, gemelo digital de planta | — |
 | EDU | Educación | Educación | Pedagogía, currículos, FP, universidad | savia-school |
 | EVA | Educación | E-learning y formación online | LMS, contenidos formativos, evaluación | savia-school |
