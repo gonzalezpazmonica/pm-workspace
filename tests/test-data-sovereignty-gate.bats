@@ -179,3 +179,25 @@ teardown() {
   run bash "$HOOK" <<< '{"tool_input":{"file_path":"projects/x/y.sql","content":"x"}}'
   [ "$status" -eq 0 ]
 }
+
+# ── N3/N4 override (SE-348 saneo): nombres propios en destinos locales ─────
+
+@test "n3n4: nombres propios permitidos en vault (si daemon up)" {
+  if ! curl -sf --max-time 2 http://127.0.0.1:8444/health >/dev/null 2>&1; then
+    skip "Shield daemon no disponible"
+  fi
+  export SAVIA_SHIELD_PORT=8444
+  run bash "$HOOK" <<< '{"tool_name":"savia-vaults_vault_write","tool_input":{"path":"labs/research/x.md","content":"Mónica, Kokotajlo y Larsen firmaron el escenario de AI 2027."}}'
+  [ "$status" -eq 0 ]
+  echo "$output" | grep -qiE "nombres propios permitidos|n3n4_names"
+}
+
+@test "n3n4: credencial sigue bloqueada en vault (si daemon up)" {
+  if ! curl -sf --max-time 2 http://127.0.0.1:8444/health >/dev/null 2>&1; then
+    skip "Shield daemon no disponible"
+  fi
+  export SAVIA_SHIELD_PORT=8444
+  run bash "$HOOK" <<< '{"tool_name":"savia-vaults_vault_write","tool_input":{"path":"labs/research/x.md","content":"la tarjeta 4111 1111 1111 1111 del usuario"}}'
+  [ "$status" -eq 2 ]
+  echo "$output" | grep -qiE "CREDIT_CARD|PII detectado"
+}
