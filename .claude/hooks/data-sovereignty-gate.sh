@@ -40,6 +40,20 @@ TOKEN_HEADER=""
 # Extract file path FIRST — skip private destinations before any scanning
 FILE_PATH=$(printf '%s' "$INPUT" | jq -r '.tool_input.file_path // .tool_input.path // empty' 2>/dev/null) || exit 0
 [[ -z "$FILE_PATH" ]] && exit 0
+TOOL_NAME=$(printf '%s' "$INPUT" | jq -r '.tool_name // empty' 2>/dev/null)
+
+# Destino N3/N4 (local protegido): en estos destinos los nombres propios son
+# legítimos (CRIT-001: nada N3+ sale del workspace; escribirlos localmente es el
+# uso previsto). Detectamos por path (vaults/labs) o por tool de vault (MCP).
+is_protected_tier_dest() {
+  case "$1" in
+    */vaults/*|vaults/*|*/labs/*|labs/*) return 0 ;;
+  esac
+  case "$TOOL_NAME" in
+    *vault_write*|*vault*) return 0 ;;
+  esac
+  return 1
+}
 
 # Normalize path (resolve ../ traversal + Windows backslashes)
 NORM_PATH="$FILE_PATH"
@@ -91,6 +105,20 @@ if curl -sf --max-time 2 "$SHIELD_URL/health" >/dev/null 2>&1; then
         echo "WARNING [Savia Shield SH01]: code-token allowlist override en $FILE_PATH" >&2
         echo "$RESULT" | jq -c '. + {ts:now|todate,layer:"gate",override:"sh01_allowlist"}' >> "$AUDIT_LOG" 2>/dev/null
         exit 0
+      fi
+      # N3/N4 (destino local protegido): permitir nombres propios, mantener
+      # bloqueo de credenciales/identificadores (CREDIT_CARD, EMAIL, PHONE,
+      # NATIONAL_ID, IBAN, KEY/TOKEN/SECRET, URL...). Solo se relaja si TODAS
+      # las entidades son tipo nombre (PERSON/ORG/LOC/GPE/DATE/TIME/...).
+      if is_protected_tier_dest "$NORM_PATH"; then
+        NAME_TYPES="^(PERSON|PERSON_ES|ORG|ORGANIZATION|LOCATION|GPE|DATE|TIME|NRP|EVENT|PRODUCT|WORK_OF_ART|MISC|LAW|LANGUAGE|ORDINAL|CARDINAL|QUANTITY|PERCENT|MONEY)$"
+        BAD_TYPE=$(echo "$RESULT" | jq -r '[.entities[].type] | unique[]' 2>/dev/null \
+          | grep -viE "$NAME_TYPES" | grep -v '^$' | head -1)
+        if [[ -z "$BAD_TYPE" ]]; then
+          echo "WARNING [Savia Shield]: nombres propios permitidos en destino N3/N4 ($FILE_PATH)" >&2
+          echo "$RESULT" | jq -c '. + {ts:now|todate,layer:"gate",override:"n3n4_names"}' >> "$AUDIT_LOG" 2>/dev/null
+          exit 0
+        fi
       fi
       echo "$RESULT" | jq -r '.entities[]? | "  [\(.type)] \(.text)"' 2>/dev/null | head -5 >&2
       echo "BLOQUEADO [Savia Shield]: PII detectado en fichero publico" >&2
