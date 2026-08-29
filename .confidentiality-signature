@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
 diff_hash=4fa9a2ad1db0725feaf638a61229a2d5bba7fbf05b68630ab9f183f6bbf219ae
-timestamp=2026-08-29T17:58:27Z
+timestamp=2026-08-29T17:58:52Z
 branch=agent/SE-348-resilience-baseline
-head_commit=c013b001
+head_commit=9ef1d5e1
 signature=e2dbb4e0adfa1f732ed9c01ed309a195c62a5ba38b4ec6339dd0bd64e7d423db
