@@ -1,6 +1,6 @@
 # Savia Capability Map — INDEX
-> hash: bf608e3e1a42 | resources: 1409
-> 294 commands · 131 skills · 83 agents · 901 scripts
+> hash: 27b44509e4f7 | resources: 1410
+> 294 commands · 132 skills · 83 agents · 901 scripts
 
 [analysis] Trace Optimize — across,distributed,optimize,rates,sampling — cmd:.claude/commands/trace-optimize.md
 [analysis] agent-activity — activity,agent,executions,recent,show — cmd:.claude/commands/agent-activity.md
@@ -972,6 +972,7 @@
 [planning] resource-references — necesitan,plantillas,recursos,referencias,workspace — skill:.claude/skills/resource-references/SKILL.md
 [planning] restore-checkpoint — checkpoint,high,operations,radius,restore — script:scripts/restore-checkpoint.sh
 [planning] restore-drill — drill,restore,slice — script:scripts/restore-drill.sh
+[planning] robotica-diseno — agente,artificial,automatización,celda,conecta — skill:.claude/skills/robotica-diseno/SKILL.md
 [planning] rpi-start —  — cmd:.claude/commands/rpi-start.md
 [planning] ruby-developer —  — agent:.opencode/agents/ruby-developer.md
 [planning] rule-manifest-generate — determinista,generador,generate,manifest,rule — script:scripts/rule-manifest-generate.sh
