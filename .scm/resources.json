@@ -1,6 +1,6 @@
 {
-  "hash": "3076a364041b",
-  "total": 1407,
+  "hash": "a4296509fb4a",
+  "total": 1409,
   "resources": [
     {
       "category": "analysis",
@@ -373,6 +373,20 @@
       "kind": "script",
       "path": "scripts/agent-run-report.sh",
       "description": "agent-run-report.sh — SE-148: AgentRunSummary report generator"
+    },
+    {
+      "category": "analysis",
+      "name": "agent-runs-board",
+      "intents": [
+        "agent",
+        "autónomo",
+        "board",
+        "code",
+        "consulta"
+      ],
+      "kind": "skill",
+      "path": ".claude/skills/agent-runs-board/SKILL.md",
+      "description": "Usar cuando se lanza, supervisa o consulta un run autónomo (overnight-sprint, code-improvement-loop, tech-research-agent, SDD) y se necesita el ledger operativo con estado derivado. Triggers: 'registra el run', 'board de runs', 'estado del"
     },
     {
       "category": "analysis",
@@ -1918,6 +1932,20 @@
       "kind": "cmd",
       "path": ".claude/commands/savia-reply.md",
       "description": ">"
+    },
+    {
+      "category": "communication",
+      "name": "savia-runs",
+      "intents": [
+        "agent",
+        "ledger",
+        "operations",
+        "runs",
+        "savia"
+      ],
+      "kind": "script",
+      "path": "scripts/savia-runs.sh",
+      "description": "savia-runs.sh — SE-349: Agent Runs Operations Ledger (ARO)"
     },
     {
       "category": "communication",

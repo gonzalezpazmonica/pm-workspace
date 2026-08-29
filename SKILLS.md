@@ -22,6 +22,7 @@ To use a skill: read `<path>` and follow its instructions.
 | agent-code-map | `.opencode/skills/agent-code-map/SKILL.md` | Usar cuando un agente necesita conocer la arquitectura del proyecto sin leer ficheros completos. |
 | agent-file-map | `.opencode/skills/agent-file-map/SKILL.md` | Usar cuando se trabaja con ficheros externos al workspace que los agentes deben localizar. |
 | agent-messaging | `.opencode/skills/agent-messaging/SKILL.md` | Usar cuando un agente debe enviar un mensaje a otro agente con roles y receipts, sin pasar por el... |
+| agent-runs-board | `.opencode/skills/agent-runs-board/SKILL.md` | Usar cuando se lanza, supervisa o consulta un run autónomo (overnight-sprint, code-improvement-l... |
 | ai-labor-impact | `.opencode/skills/ai-labor-impact/SKILL.md` | Usar cuando se analiza el impacto de la IA en el trabajo del equipo o la organización. |
 | android-autonomous-debugger | `.opencode/skills/android-autonomous-debugger/SKILL.md` | Usar cuando se depuran o testean apps Android contra dispositivos físicos via USB/ADB. |
 | architecture-intelligence | `.opencode/skills/architecture-intelligence/SKILL.md` | Usar cuando se diseña o revisa la arquitectura de un proyecto nuevo o existente. |
