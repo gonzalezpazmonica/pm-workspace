@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=10ac8e9a3bfea8f9cdc7e81d2f1462628d79766a86329c6ccd7780dd52c61efa
-timestamp=2026-08-29T20:40:59Z
-branch=agent/SE-348-resilience-baseline
-head_commit=e4ab5b19
-signature=5894c7feb53ae50cb9dbbe89fdc9f5c1fab162bdc0e130e376953903ec75a3a0
+diff_hash=e0db14a5c7e3487136ff19ab2b945a12e9b0e04e98c641eb1ffb2d1af3b4f410
+timestamp=2026-08-29T21:17:08Z
+branch=agent/savia-domains-robotica-20260828
+head_commit=529843c2
+signature=5b65b6787c908b04071f15a0c76a1387bda4c792a4a921d5a3a24fc3864bf3b0
