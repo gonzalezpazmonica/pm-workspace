@@ -246,3 +246,53 @@ teardown() {
   # Both run_ids must be distinct
   [ "$R1" != "$R2" ]
 }
+
+# ── SE-348: error-signal reliability (eta = f(P_error)) ─────────────────────
+@test "SE-348 start: initializes tool_events to empty array" {
+  RUN_ID="$(bash "$LOGGER" start "se348" "t")"
+  RECORD="$(grep -F "\"run_id\":\"$RUN_ID\"" "$AGENT_ACTUALS_LOG")"
+  echo "$RECORD" | jq -e '.tool_events == []'
+}
+
+@test "SE-348 tool-call error: appends event with reliability 0.9 and ISO ts" {
+  RUN_ID="$(bash "$LOGGER" start "se348" "t")"
+  bash "$LOGGER" tool-call "$RUN_ID" bash error
+  RECORD="$(grep -F "\"run_id\":\"$RUN_ID\"" "$AGENT_ACTUALS_LOG" | tail -1)"
+  echo "$RECORD" | jq -e '.tool_events[0].tool == "bash"'
+  echo "$RECORD" | jq -e '.tool_events[0].status == "error"'
+  echo "$RECORD" | jq -e '.tool_events[0].reliability == 0.9'
+  TS="$(echo "$RECORD" | jq -r '.tool_events[0].ts')"
+  echo "$TS" | grep -qE '^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z$'
+}
+
+@test "SE-348 tool-call statuses: timeout 0.2, blocked 0.5, ok/skipped 0.0" {
+  RUN_ID="$(bash "$LOGGER" start "se348" "t")"
+  bash "$LOGGER" tool-call "$RUN_ID" a timeout
+  bash "$LOGGER" tool-call "$RUN_ID" b blocked
+  bash "$LOGGER" tool-call "$RUN_ID" c ok
+  bash "$LOGGER" tool-call "$RUN_ID" d skipped
+  RECORD="$(grep -F "\"run_id\":\"$RUN_ID\"" "$AGENT_ACTUALS_LOG" | tail -1)"
+  echo "$RECORD" | jq -e '.tool_events[] | select(.tool=="a") | .reliability == 0.2'
+  echo "$RECORD" | jq -e '.tool_events[] | select(.tool=="b") | .reliability == 0.5'
+  echo "$RECORD" | jq -e '.tool_events[] | select(.tool=="c") | .reliability == 0.0'
+  echo "$RECORD" | jq -e '.tool_events[] | select(.tool=="d") | .reliability == 0.0'
+}
+
+@test "SE-348 tool_events: preserves invocation order" {
+  RUN_ID="$(bash "$LOGGER" start "se348" "t")"
+  bash "$LOGGER" tool-call "$RUN_ID" first ok
+  bash "$LOGGER" tool-call "$RUN_ID" second error
+  bash "$LOGGER" tool-call "$RUN_ID" third ok
+  RECORD="$(grep -F "\"run_id\":\"$RUN_ID\"" "$AGENT_ACTUALS_LOG" | tail -1)"
+  echo "$RECORD" | jq -e '[.tool_events[].tool] == ["first","second","third"]'
+}
+
+@test "SE-348 backward-compat: tools_invoked and tool_status still tracked" {
+  RUN_ID="$(bash "$LOGGER" start "se348" "t")"
+  bash "$LOGGER" tool-call "$RUN_ID" bash error
+  bash "$LOGGER" tool-call "$RUN_ID" bash ok
+  RECORD="$(grep -F "\"run_id\":\"$RUN_ID\"" "$AGENT_ACTUALS_LOG" | tail -1)"
+  echo "$RECORD" | jq -e '.tools_invoked.bash == 2'
+  echo "$RECORD" | jq -e '.tool_status.bash.error == 1'
+  echo "$RECORD" | jq -e '.tool_status.bash.ok == 1'
+}

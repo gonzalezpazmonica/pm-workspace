@@ -34,6 +34,19 @@ _gen_id() {
   fi
 }
 
+# SE-348: reliability of the error signal per tool-call status (eta = f(P_error)).
+# HIGH means the signal is a trustworthy sign of a real failure; LOW means it
+# may be infrastructure noise or a deliberate cut.
+_reliability_for() {
+  case "$1" in
+    ok|skipped)  echo "0.0" ;;
+    error)       echo "0.9" ;;
+    blocked)     echo "0.5" ;;
+    timeout|aborted) echo "0.2" ;;
+    *)           echo "0.0" ;;
+  esac
+}
+
 _jq_available() { command -v jq &>/dev/null; }
 
 # Read a single JSONL record by run_id; outputs JSON or empty string
@@ -98,6 +111,7 @@ cmd_start() {
         tools_invoked:    {},
         tools_unused:     [],
         tool_status:      {},
+        tool_events:      [],
         models_used:      [],
         tokens_in:        0,
         tokens_out:       0,
@@ -106,7 +120,7 @@ cmd_start() {
     echo "$record" >> "$AGENT_ACTUALS_LOG"
   else
     # Fallback: minimal JSON without jq
-    echo "{\"schema_version\":\"2\",\"run_id\":\"$run_id\",\"agent\":\"$agent\",\"task\":\"$task\",\"started_at\":\"$now\",\"finished_at\":null,\"duration_s\":null,\"run_status\":\"running\",\"tools_available\":[],\"tools_invoked\":{},\"tools_unused\":[],\"tool_status\":{},\"models_used\":[],\"tokens_in\":0,\"tokens_out\":0,\"cost_usd\":null}" \
+    echo "{\"schema_version\":\"2\",\"run_id\":\"$run_id\",\"agent\":\"$agent\",\"task\":\"$task\",\"started_at\":\"$now\",\"finished_at\":null,\"duration_s\":null,\"run_status\":\"running\",\"tools_available\":[],\"tools_invoked\":{},\"tools_unused\":[],\"tool_status\":{},\"tool_events\":[],\"models_used\":[],\"tokens_in\":0,\"tokens_out\":0,\"cost_usd\":null}" \
       >> "$AGENT_ACTUALS_LOG"
   fi
 
@@ -138,10 +152,16 @@ cmd_tool_call() {
     exit 1
   fi
 
+  local now rel
+  now="$(_now)"
+  rel="$(_reliability_for "$status")"
+
   local updated
   updated="$(echo "$existing" | jq -c \
     --arg tool   "$tool" \
     --arg status "$status" \
+    --arg ts     "$now" \
+    --arg rel    "$rel" \
     '
     # Increment tools_invoked counter
     .tools_invoked[$tool] = ((.tools_invoked[$tool] // 0) + 1) |
@@ -151,6 +171,9 @@ cmd_tool_call() {
       (.tool_status[$tool] // {}) |
       .[$status] = ((.[$status] // 0) + 1)
     ) |
+
+    # SE-348: append timestamped event with error-signal reliability (order preserved)
+    .tool_events = ((.tool_events // []) + [{tool: $tool, status: $status, ts: $ts, reliability: ($rel | tonumber)}]) |
 
     # Track models_used (tool name used as proxy when no model env var)
     if env.SAVIA_MODEL_ID then
