@@ -1,5 +1,5 @@
 # analysis — Savia Capability Map (L1)
-> 77 resources
+> 78 resources
 
 - **Trace Optimize** (cmd): Optimize trace spans and sampling rates across distributed services
 - **agent-activity** (cmd): Show structured activity log of recent agent executions
@@ -65,6 +65,7 @@
 - **report-executive** (cmd): Genera el informe ejecutivo multi-proyecto para dirección en formato Word o PowerPoint.
 - **report-hours** (cmd): Genera el informe de imputación de horas del sprint actual o especificado.
 - **report-verify** (cmd): Convene the Truth Tribunal (7 judges) to evaluate a report's reliability
+- **resilience-report** (script): resilience-report.sh — SE-348: agent resilience metrics from AgentRunSummary telemetry
 - **risk-predict** (cmd): Predicción de riesgo del sprint basada en datos históricos y señales tempranas
 - **risk-scoring** (skill): Usar cuando se calcula el riesgo de una tarea para decidir el nivel de revisión requerido.
 - **rules-traceability** (skill): Usar cuando se mapean reglas de negocio a PBIs para trazabilidad completa.
