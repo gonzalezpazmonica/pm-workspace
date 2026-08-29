@@ -22,6 +22,7 @@ To use a skill: read `<path>` and follow its instructions.
 | agent-code-map | `.opencode/skills/agent-code-map/SKILL.md` | Usar cuando un agente necesita conocer la arquitectura del proyecto sin leer ficheros completos. |
 | agent-file-map | `.opencode/skills/agent-file-map/SKILL.md` | Usar cuando se trabaja con ficheros externos al workspace que los agentes deben localizar. |
 | agent-messaging | `.opencode/skills/agent-messaging/SKILL.md` | Usar cuando un agente debe enviar un mensaje a otro agente con roles y receipts, sin pasar por el... |
+| agent-runs-board | `.opencode/skills/agent-runs-board/SKILL.md` | Usar cuando se lanza, supervisa o consulta un run autónomo (overnight-sprint, code-improvement-l... |
 | ai-labor-impact | `.opencode/skills/ai-labor-impact/SKILL.md` | Usar cuando se analiza el impacto de la IA en el trabajo del equipo o la organización. |
 | android-autonomous-debugger | `.opencode/skills/android-autonomous-debugger/SKILL.md` | Usar cuando se depuran o testean apps Android contra dispositivos físicos via USB/ADB. |
 | architecture-intelligence | `.opencode/skills/architecture-intelligence/SKILL.md` | Usar cuando se diseña o revisa la arquitectura de un proyecto nuevo o existente. |
@@ -125,6 +126,7 @@ To use a skill: read `<path>` and follow its instructions.
 | reranker | `.opencode/skills/reranker/SKILL.md` | Usar cuando se recibe un top-K ruidoso de búsqueda en memoria y se necesita reordenar por releva... |
 | resource-references | `.opencode/skills/resource-references/SKILL.md` | Usar cuando se necesitan referencias a recursos y plantillas del workspace. |
 | risk-scoring | `.opencode/skills/risk-scoring/SKILL.md` | Usar cuando se calcula el riesgo de una tarea para decidir el nivel de revisión requerido. |
+| robotica-diseno | `.opencode/skills/robotica-diseno/SKILL.md` | Diseño profundo de robótica, automatización y hardware/software para el mundo físico. Usar cu... |
 | rules-traceability | `.opencode/skills/rules-traceability/SKILL.md` | Usar cuando se mapean reglas de negocio a PBIs para trazabilidad completa. |
 | savia-dual | `.opencode/skills/savia-dual/SKILL.md` | Usar cuando la inferencia cloud falla, es lenta o está rate-limited y se necesita failover local. |
 | savia-flow-practice | `.opencode/skills/savia-flow-practice/SKILL.md` | Usar cuando se implementa Savia Flow con dual-track y métricas de flujo en un proyecto. |

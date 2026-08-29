@@ -1,5 +1,5 @@
 # communication — Savia Capability Map (L1)
-> 103 resources
+> 104 resources
 
 - **archive-digest** (agent): >
 - **digest-extract** (script): digest-extract.sh — Capa 0 universal de extracción via markitdown (SE-172)
@@ -73,6 +73,7 @@
 - **savia-quota-tracker** (script): savia-quota-tracker.sh — SPEC-127 Slice 5
 - **savia-recall** (cmd): Recall and retrieve information from Savia memory
 - **savia-reply** (cmd): >
+- **savia-runs** (script): savia-runs.sh — SE-349: Agent Runs Operations Ledger (ARO)
 - **savia-sandbox-doctor** (script): SPEC-149 -- savia-sandbox-doctor.sh
 - **savia-school** (skill): Usar cuando el workspace se adapta para un entorno educativo con estudiantes menores de edad.
 - **savia-school** (script): Savia School: Core educational vertical management library

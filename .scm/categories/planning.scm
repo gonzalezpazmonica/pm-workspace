@@ -1,5 +1,5 @@
 # planning — Savia Capability Map (L1)
-> 604 resources
+> 605 resources
 
 - **/decide-architecture** (cmd): Clasifica una tarea como WORKFLOW (deterministica) o AGENT (loop). Bias hacia workflow per Anthropic. Sugiere plantilla inicial. Mide accuracy contra corpus curado de 20 tareas.
 - **_template** (skill): TEMPLATE — copia este directorio para crear una skill nueva. NO se carga en runtime.
@@ -427,6 +427,7 @@
 - **resource-references** (skill): Usar cuando se necesitan referencias a recursos y plantillas del workspace.
 - **restore-checkpoint** (script): restore-checkpoint.sh — Git stash checkpoint for high-radius operations
 - **restore-drill** (script): restore-drill.sh — SE-258 Slice 2
+- **robotica-diseno** (skill): Diseño profundo de robótica, automatización y hardware/software para el mundo físico. Usar cuando se diseña un robot, una celda de automatización, integración de sensores, servos, PLCs, visión artificial, o cuando se conecta un agente a har
 - **rpi-start** (cmd): >
 - **ruby-developer** (agent): >
 - **rule-manifest-generate** (script): rule-manifest-generate.sh — Generador determinista de rule-manifest (SE-338)
