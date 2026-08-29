@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=b6c4ef61c257274e2e1c11d9b739251ae55e816cce9951fcee16b1afad742502
-timestamp=2026-08-29T17:23:55Z
-branch=agent/robotica-mhs-20260829
-head_commit=eb41d5b5
-signature=6decc74242e64b146fdcb50b171a90b811a761585503680fda394010f7d06a05
+diff_hash=10ac8e9a3bfea8f9cdc7e81d2f1462628d79766a86329c6ccd7780dd52c61efa
+timestamp=2026-08-29T20:40:59Z
+branch=agent/SE-348-resilience-baseline
+head_commit=e4ab5b19
+signature=5894c7feb53ae50cb9dbbe89fdc9f5c1fab162bdc0e130e376953903ec75a3a0
