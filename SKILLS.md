@@ -126,6 +126,7 @@ To use a skill: read `<path>` and follow its instructions.
 | reranker | `.opencode/skills/reranker/SKILL.md` | Usar cuando se recibe un top-K ruidoso de búsqueda en memoria y se necesita reordenar por releva... |
 | resource-references | `.opencode/skills/resource-references/SKILL.md` | Usar cuando se necesitan referencias a recursos y plantillas del workspace. |
 | risk-scoring | `.opencode/skills/risk-scoring/SKILL.md` | Usar cuando se calcula el riesgo de una tarea para decidir el nivel de revisión requerido. |
+| robotica-diseno | `.opencode/skills/robotica-diseno/SKILL.md` | Diseño profundo de robótica, automatización y hardware/software para el mundo físico. Usar cu... |
 | rules-traceability | `.opencode/skills/rules-traceability/SKILL.md` | Usar cuando se mapean reglas de negocio a PBIs para trazabilidad completa. |
 | savia-dual | `.opencode/skills/savia-dual/SKILL.md` | Usar cuando la inferencia cloud falla, es lenta o está rate-limited y se necesita failover local. |
 | savia-flow-practice | `.opencode/skills/savia-flow-practice/SKILL.md` | Usar cuando se implementa Savia Flow con dual-track y métricas de flujo en un proyecto. |

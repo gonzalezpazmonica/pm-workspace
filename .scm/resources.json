@@ -1,6 +1,6 @@
 {
-  "hash": "a4296509fb4a",
-  "total": 1409,
+  "hash": "309e644f7610",
+  "total": 1410,
   "resources": [
     {
       "category": "analysis",
@@ -12797,6 +12797,20 @@
       "kind": "script",
       "path": "scripts/restore-drill.sh",
       "description": "restore-drill.sh — SE-258 Slice 2"
+    },
+    {
+      "category": "planning",
+      "name": "robotica-diseno",
+      "intents": [
+        "agente",
+        "artificial",
+        "automatización",
+        "celda",
+        "conecta"
+      ],
+      "kind": "skill",
+      "path": ".claude/skills/robotica-diseno/SKILL.md",
+      "description": "Diseño profundo de robótica, automatización y hardware/software para el mundo físico. Usar cuando se diseña un robot, una celda de automatización, integración de sensores, servos, PLCs, visión artificial, o cuando se conecta un agente a har"
     },
     {
       "category": "planning",
