@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=60edfa66ef48481cf8076f4ff497173c8b0b27cf954aead5c75d77238cacba14
-timestamp=2026-08-29T12:07:28Z
-branch=agent/SE-349-agent-runs-ledger
-head_commit=0a7b45bf
-signature=e31f1be33ab4dc9dc6d6e2fb03b415faffa95aacf6dd3cb475e18e6ffc5f6171
+diff_hash=3512492cbe7ee1ed46e95eeb52dde4c267c67b21eae53a4c6be55e885aa450f9
+timestamp=2026-08-29T17:20:08Z
+branch=agent/robotica-mhs-20260829
+head_commit=82bcbc57
+signature=14331c394f13e89e3e74b1ca4873c2bc22e9346f7908b91866f9a85ce728b59c
