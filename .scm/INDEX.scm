@@ -1,6 +1,6 @@
 # Savia Capability Map — INDEX
-> hash: f8ce498e2db2 | resources: 1407
-> 294 commands · 130 skills · 83 agents · 900 scripts
+> hash: bf608e3e1a42 | resources: 1409
+> 294 commands · 131 skills · 83 agents · 901 scripts
 
 [analysis] Trace Optimize — across,distributed,optimize,rates,sampling — cmd:.claude/commands/trace-optimize.md
 [analysis] agent-activity — activity,agent,executions,recent,show — cmd:.claude/commands/agent-activity.md
@@ -29,6 +29,7 @@
 [analysis] agent-run-log — agent,append,experiment,only,slice — script:scripts/agent-run-log.sh
 [analysis] agent-run-logger — agent,agentrunsummary,logger,telemetry — script:scripts/agent-run-logger.sh
 [analysis] agent-run-report — agent,agentrunsummary,generator,report — script:scripts/agent-run-report.sh
+[analysis] agent-runs-board — agent,autónomo,board,code,consulta — skill:.claude/skills/agent-runs-board/SKILL.md
 [analysis] agent-scratchpad — agent,agents,document,parallel,scratchpad — script:scripts/agent-scratchpad.sh
 [analysis] agent-size-audit — agent,audit,every,measure,probe — script:scripts/agent-size-audit.sh
 [analysis] agent-size-remediation-plan — agent,analyzer,plan,remediation,size — script:scripts/agent-size-remediation-plan.sh
@@ -150,6 +151,7 @@
 [communication] savia-quota-tracker — quota,savia,slice,spec,tracker — script:scripts/savia-quota-tracker.sh
 [communication] savia-recall — information,memory,recall,retrieve,savia — cmd:.claude/commands/savia-recall.md
 [communication] savia-reply —  — cmd:.claude/commands/savia-reply.md
+[communication] savia-runs — agent,ledger,operations,runs,savia — script:scripts/savia-runs.sh
 [communication] savia-sandbox-doctor — doctor,sandbox,savia,spec — script:scripts/savia-sandbox-doctor.sh
 [communication] savia-school — adapta,edad,educativo,entorno,estudiantes — skill:.claude/skills/savia-school/SKILL.md
 [communication] savia-school — core,educational,library,management,savia — script:scripts/savia-school.sh
