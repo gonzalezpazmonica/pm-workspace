@@ -1,6 +1,6 @@
 {
-  "hash": "3076a364041b",
-  "total": 1407,
+  "hash": "309e644f7610",
+  "total": 1410,
   "resources": [
     {
       "category": "analysis",
@@ -373,6 +373,20 @@
       "kind": "script",
       "path": "scripts/agent-run-report.sh",
       "description": "agent-run-report.sh — SE-148: AgentRunSummary report generator"
+    },
+    {
+      "category": "analysis",
+      "name": "agent-runs-board",
+      "intents": [
+        "agent",
+        "autónomo",
+        "board",
+        "code",
+        "consulta"
+      ],
+      "kind": "skill",
+      "path": ".claude/skills/agent-runs-board/SKILL.md",
+      "description": "Usar cuando se lanza, supervisa o consulta un run autónomo (overnight-sprint, code-improvement-loop, tech-research-agent, SDD) y se necesita el ledger operativo con estado derivado. Triggers: 'registra el run', 'board de runs', 'estado del"
     },
     {
       "category": "analysis",
@@ -1918,6 +1932,20 @@
       "kind": "cmd",
       "path": ".claude/commands/savia-reply.md",
       "description": ">"
+    },
+    {
+      "category": "communication",
+      "name": "savia-runs",
+      "intents": [
+        "agent",
+        "ledger",
+        "operations",
+        "runs",
+        "savia"
+      ],
+      "kind": "script",
+      "path": "scripts/savia-runs.sh",
+      "description": "savia-runs.sh — SE-349: Agent Runs Operations Ledger (ARO)"
     },
     {
       "category": "communication",
@@ -12769,6 +12797,20 @@
       "kind": "script",
       "path": "scripts/restore-drill.sh",
       "description": "restore-drill.sh — SE-258 Slice 2"
+    },
+    {
+      "category": "planning",
+      "name": "robotica-diseno",
+      "intents": [
+        "agente",
+        "artificial",
+        "automatización",
+        "celda",
+        "conecta"
+      ],
+      "kind": "skill",
+      "path": ".claude/skills/robotica-diseno/SKILL.md",
+      "description": "Diseño profundo de robótica, automatización y hardware/software para el mundo físico. Usar cuando se diseña un robot, una celda de automatización, integración de sensores, servos, PLCs, visión artificial, o cuando se conecta un agente a har"
     },
     {
       "category": "planning",

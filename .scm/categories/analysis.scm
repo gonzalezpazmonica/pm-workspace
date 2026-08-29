@@ -1,5 +1,5 @@
 # analysis — Savia Capability Map (L1)
-> 76 resources
+> 77 resources
 
 - **Trace Optimize** (cmd): Optimize trace spans and sampling rates across distributed services
 - **agent-activity** (cmd): Show structured activity log of recent agent executions
@@ -28,6 +28,7 @@
 - **agent-run-log** (script): agent-run-log.sh — SE-217 Slice 1: append-only agent experiment log
 - **agent-run-logger** (script): agent-run-logger.sh — SE-148: AgentRunSummary telemetry logger
 - **agent-run-report** (script): agent-run-report.sh — SE-148: AgentRunSummary report generator
+- **agent-runs-board** (skill): Usar cuando se lanza, supervisa o consulta un run autónomo (overnight-sprint, code-improvement-loop, tech-research-agent, SDD) y se necesita el ledger operativo con estado derivado. Triggers: 'registra el run', 'board de runs', 'estado del
 - **agent-scratchpad** (script): agent-scratchpad.sh — SE-216 Slice 1: shared state document for parallel agents
 - **agent-size-audit** (script): agent-size-audit.sh — SE-038 Slice 1 probe: measure size of every agent.
 - **agent-size-remediation-plan** (script): agent-size-remediation-plan.sh — SE-052 Slice 1 agent-size analyzer.
