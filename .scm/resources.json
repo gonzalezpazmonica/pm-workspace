@@ -1,6 +1,6 @@
 {
-  "hash": "309e644f7610",
-  "total": 1410,
+  "hash": "25bc36cf5e59",
+  "total": 1412,
   "resources": [
     {
       "category": "analysis",
@@ -861,6 +861,20 @@
       "kind": "cmd",
       "path": ".claude/commands/report-verify.md",
       "description": "Convene the Truth Tribunal (7 judges) to evaluate a report's reliability"
+    },
+    {
+      "category": "analysis",
+      "name": "resilience-report",
+      "intents": [
+        "agent",
+        "agentrunsummary",
+        "metrics",
+        "report",
+        "resilience"
+      ],
+      "kind": "script",
+      "path": "scripts/resilience-report.sh",
+      "description": "resilience-report.sh — SE-348: agent resilience metrics from AgentRunSummary telemetry"
     },
     {
       "category": "analysis",
@@ -16118,6 +16132,20 @@
       "kind": "script",
       "path": "scripts/labs-self-audit.sh",
       "description": "labs-self-audit.sh — Comprobaciones de disciplina en Savia Labs"
+    },
+    {
+      "category": "quality",
+      "name": "layer-baseline-test",
+      "intents": [
+        "baseline",
+        "coordination",
+        "criterion",
+        "falsability",
+        "layer"
+      ],
+      "kind": "script",
+      "path": "scripts/layer-baseline-test.sh",
+      "description": "layer-baseline-test.sh — SE-348: criterion 7 (falsability) for coordination layers"
     },
     {
       "category": "quality",

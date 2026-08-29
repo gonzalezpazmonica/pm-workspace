@@ -1,6 +1,6 @@
 # Savia Capability Map — INDEX
-> hash: 27b44509e4f7 | resources: 1410
-> 294 commands · 132 skills · 83 agents · 901 scripts
+> hash: 11f21b7fc1d6 | resources: 1412
+> 294 commands · 132 skills · 83 agents · 903 scripts
 
 [analysis] Trace Optimize — across,distributed,optimize,rates,sampling — cmd:.claude/commands/trace-optimize.md
 [analysis] agent-activity — activity,agent,executions,recent,show — cmd:.claude/commands/agent-activity.md
@@ -66,6 +66,7 @@
 [analysis] report-executive — dirección,ejecutivo,formato,informe,multi — cmd:.claude/commands/report-executive.md
 [analysis] report-hours — actual,especificado,horas,imputación,informe — cmd:.claude/commands/report-hours.md
 [analysis] report-verify — convene,evaluate,judges,reliability,report — cmd:.claude/commands/report-verify.md
+[analysis] resilience-report — agent,agentrunsummary,metrics,report,resilience — script:scripts/resilience-report.sh
 [analysis] risk-predict — basada,datos,históricos,predicción,riesgo — cmd:.claude/commands/risk-predict.md
 [analysis] risk-scoring — calcula,decidir,nivel,requerido,revisión — skill:.claude/skills/risk-scoring/SKILL.md
 [analysis] rules-traceability — completa,mapean,negocio,pbis,reglas — skill:.claude/skills/rules-traceability/SKILL.md
@@ -1219,6 +1220,7 @@
 [quality] knowledge-lint — base,check,detect,evidence,health — cmd:.claude/commands/knowledge-lint.md
 [quality] knowledge-lint — base,check,health,knowledge,lint — script:scripts/knowledge-lint.sh
 [quality] labs-self-audit — audit,comprobaciones,disciplina,labs,savia — script:scripts/labs-self-audit.sh
+[quality] layer-baseline-test — baseline,coordination,criterion,falsability,layer — script:scripts/layer-baseline-test.sh
 [quality] legal-audit — auditoría,compliance,contra,española,legal — cmd:.claude/commands/legal-audit.md
 [quality] legal-compliance — audita,compliance,consolidada,contra,española — skill:.claude/skills/legal-compliance/SKILL.md
 [quality] loop-phasing-audit — audit,audita,declarado,inferido,level — script:scripts/loop-phasing-audit.sh
