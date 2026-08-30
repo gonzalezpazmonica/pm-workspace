@@ -1,0 +1,54 @@
+version: 1
+
+# SE-350 — Coherence Court: thresholds, weights y override por flujo.
+# Espejo transversal de rules/court.rules.yaml (Code Review Court).
+
+scoring:
+  pass_threshold: 90
+  conditional_threshold: 70
+  weights:
+    critical: 25
+    high: 10
+    medium: 3
+    low: 1
+  min_premises: 1
+
+judges:
+  coherence-factual:
+    model: fast
+    weight: 1.5
+    blocking: true
+    blocking_threshold: 0.5
+  coherence-scope:
+    model: fast
+    weight: 1.0
+    blocking: true
+    blocking_threshold: 0.5
+  coherence-objectives:
+    model: fast
+    weight: 1.0
+    blocking: true
+    blocking_threshold: 0.5
+  coherence-premise-drift:
+    model: fast
+    weight: 0.5
+    blocking: false
+    blocking_threshold: 0.8
+
+per_flow:
+  # Override de thresholds por flujo (espejo de COURT_SCORE_PASS por flujo).
+  # Ejemplo:
+  # sprint-nocturno:
+  #   pass_threshold: 85
+  #   conditional_threshold: 65
+  default:
+    pass_threshold: 90
+    conditional_threshold: 70
+
+budget:
+  max_fix_rounds: 3
+  timeout_per_judge_seconds: 60
+
+gate:
+  # "El humano decide": score < conditional_threshold → NO continuar el flujo.
+  human_gate_message: "score bajo umbral — revisar discrepancias antes de continuar el flujo"
