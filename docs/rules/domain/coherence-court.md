@@ -92,3 +92,19 @@ Ver también `rules/coherence.rules.yaml` (weights, per-flow overrides, gate).
 - `autonomous-safety.md`: Coherence Court aplica en modos autónomos (overnight-sprint,
   research) como capa de verificación transversal; nunca sustituye la supervisión humana.
 - `court-numeric-scoring.md`: reutiliza la fórmula de scoring 0-100 y pesos.
+
+## Flujos cableados (SE-350 Slice 2)
+
+| Flujo | Punto de cableado | Coste |
+|---|---|---|
+| overnight-sprint (`overnight-sprint-loop.sh`) | `premises add decision` post-tarea + gate `check` al cierre | determinista ~0 |
+| tech-research-agent | premisas del plan al arrancar + gate `check` en cada transición de fase | determinista ~0 |
+| code-improvement-loop | `premises add decision` por mejora aceptada | determinista ~0 |
+
+**Política anti-saturación**: el gate **determinista** (premises + `check`, sin
+LLM) corre siempre en el bucle. La **auditoría LLM de 4 jueces** se invoca
+**una sola vez al final del flujo** (o en revisión E1 humana), nunca por tarea —
+`/coherence-court --flow {flujo}`, opt-in vía `COHERENCE_AUDIT_JUDGES=1`.
+Motivo: ejecutar 4 jueces LLM por tarea en un bucle nocturno de N tareas
+dispararía N×4 llamadas LLM (saturación y coste). CRIT-001: todas las premisas
+son JSONL local, cero red.

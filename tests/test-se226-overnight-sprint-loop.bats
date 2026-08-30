@@ -46,3 +46,44 @@ setup() {
     # dry-run should succeed
     [[ "$status" -eq 0 ]]
 }
+
+# ── SE-350 Coherence Court wiring ───────────────────────────────────────────
+
+@test "loop references coherence-court.sh wiring functions" {
+    grep -q "_coherence_register" "$LOOP"
+    grep -q "_coherence_gate" "$LOOP"
+}
+
+@test "loop calls _coherence_register after TASK_DONE" {
+    grep -q '_coherence_register "\$sprint_id" "\$task_id" "\$description"' "$LOOP"
+}
+
+@test "loop calls _coherence_gate at LOOP_END" {
+    grep -q "_coherence_gate \"\$sprint_id\"" "$LOOP"
+}
+
+@test "coherence wiring is off-by-default non-blocking (OVERNIGHT_COHERENCE_GATE=off)" {
+    tmpdir=$(mktemp -d)
+    export OVERNIGHT_COHERENCE_GATE=off
+    export AGENT_RUNS_DIR="$tmpdir/runs"
+    export SAVIA_WORKSPACE_DIR="$tmpdir"
+    echo '[{"id":1,"description":"test","status":"pending"}]' > "$tmpdir/tasks.json"
+    run bash "$LOOP" --sprint-id "coh-smoke" --tasks "$tmpdir/tasks.json" --max-tasks 1 --dry-run
+    unset OVERNIGHT_COHERENCE_GATE
+    rm -rf "$tmpdir"
+    [[ "$status" -eq 0 ]]
+}
+
+@test "coherence premises registry works (integration with coherence-court.sh)" {
+    tmpdir=$(mktemp -d)
+    export COHERENCE_PREMISES_DIR="$tmpdir/data"
+    mkdir -p "$tmpdir/data"
+    bash scripts/coherence-court.sh premises coh-flow init >/dev/null
+    pid=$(bash scripts/coherence-court.sh premises coh-flow add decision "t1" --stage task-1)
+    [[ -n "$pid" ]]
+    out=$(bash scripts/coherence-court.sh premises coh-flow list --json)
+    echo "$out" | python3 -c "import sys,json; rows=json.load(sys.stdin); assert len(rows)==1, rows"
+    bash scripts/coherence-court.sh premises coh-flow list | grep -q "t1"
+    rm -rf "$tmpdir"
+}
+

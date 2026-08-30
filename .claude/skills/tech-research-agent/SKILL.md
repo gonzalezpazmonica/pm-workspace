@@ -57,12 +57,21 @@ Cargar instrucciones:
     ↓
 [Humano confirma el plan]
     ↓
+Registrar premisas del plan (Coherence Court SE-350):
+  bash scripts/coherence-court.sh premises research-{tema} init
+  bash scripts/coherence-court.sh premises research-{tema} add objective "{objetivo}" --stage plan
+  bash scripts/coherence-court.sh premises research-{tema} add constraint "{restricciones}" --stage plan
+    ↓
 Ejecutar investigación (time-box: AGENT_TASK_TIMEOUT_MINUTES × 3):
   - Buscar documentación oficial
   - Analizar código del proyecto actual
   - Comparar alternativas con criterios definidos
   - Recopilar benchmarks públicos si aplica
   - Identificar riesgos y trade-offs
+    ↓
+Coherence gate post-fases (SE-350, determinista sin LLM):
+  bash scripts/coherence-court.sh check --flow research-{tema} --stage-output <hallazgos>
+  # concluye solo si coherente con las premisas del plan
     ↓
 Generar informe estructurado en output/
     ↓
@@ -139,3 +148,18 @@ bash scripts/scrapling-fetch.sh "https://ejemplo-cloudflare.com/docs" --json --t
 - Exit code 0 = OK, 1 = fetch error, 2 = usage error
 
 Ver `docs/rules/domain/research-stack.md` para la cadena completa de backends y las consideraciones de legalidad/ToS.
+
+## Coherence Court (SE-350) — cableado de fases
+
+La investigación es un flujo multi-etapa: **plan → hallazgos → conclusiones**.
+Cada transición de fase registra sus hallazgos como premisas y corre el gate
+determinista (`check`) para asegurar que la siguiente fase no contradice las
+anteriores. Es **sin LLM y sin coste** (JSONL local).
+
+Policy:
+- Premisas del plan (objetivo + restricciones): **siempre** al arrancar.
+- Hallazgos por fase: **siempre** como `fact` premises antes de concluir.
+- Gate determinista: **siempre** en cada transición de fase.
+- Auditoría LLM (4 jueces) al final del informe: **opt-in** (`/coherence-court
+  --flow research-{tema}`), una sola vez, no por fase — evita saturar.
+- CRIT-001: premisas en texto plano local, cero red.

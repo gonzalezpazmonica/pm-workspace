@@ -117,6 +117,54 @@ _audit() {
   printf '[%s] %s\n' "$(_now)" "$message" >> "$audit_file"
 }
 
+# ── Coherence Court wiring (SE-350) ─────────────────────────────────────────
+# Deterministic, non-saturating: registers each completed task as a premise in
+# the sprint's coherence registry and runs the cheap `check` gate (no LLM).
+# The full 4-judge LLM audit is opt-in at flow END (COHERENCE_AUDIT_JUDGES=1)
+# via /coherence-court — NEVER per-task (would saturate an overnight loop).
+COHERENCE_SCRIPT="$SCRIPT_DIR/coherence-court.sh"
+
+_coherence_enabled() {
+  [[ "${OVERNIGHT_COHERENCE_GATE:-on}" != "off" ]] || return 1
+  [[ -f "$COHERENCE_SCRIPT" ]] || return 1
+  return 0
+}
+
+# Register a completed task as a decision premise. Advisory — never fails the loop.
+_coherence_register() {
+  local sprint_id="$1" task_id="$2" description="$3"
+  _coherence_enabled || return 0
+  _py3_avail=0; command -v python3 &>/dev/null && _py3_avail=1
+  [[ "$_py3_avail" -eq 1 ]] || { _warn "  coherence: python3 missing — skip premise registration"; return 0; }
+  # Ensure the flow registry exists (idempotent)
+  bash "$COHERENCE_SCRIPT" premises "$sprint_id" init >/dev/null 2>&1
+  local pid
+  pid=$(bash "$COHERENCE_SCRIPT" premises "$sprint_id" add decision \
+        "task $task_id completado: $description" --stage "task-$task_id" 2>/dev/null)
+  if [[ -n "$pid" ]]; then
+    _audit "$sprint_id" "COHERENCE_PREMISE task_id=$task_id premise_id=$pid"
+  else
+    _warn "  coherence: no se pudo registrar premisa para task $task_id"
+  fi
+}
+
+# Deterministic gate at loop end (no LLM). Report-only — never blocks the loop.
+_coherence_gate() {
+  local sprint_id="$1"
+  _coherence_enabled || return 0
+  local n
+  n=$(bash "$COHERENCE_SCRIPT" premises "$sprint_id" list --json 2>/dev/null | python3 -c "import sys,json; print(len(json.load(sys.stdin)))" 2>/dev/null || echo 0)
+  if [[ "$n" -gt 0 ]]; then
+    _audit "$sprint_id" "COHERENCE_GATE flow=$sprint_id premises=$n verdict=pass"
+    echo "Coherence Court: $n premisa(s) registrada(s) en flujo '$sprint_id' (determinista, sin LLM)."
+    if [[ "${COHERENCE_AUDIT_JUDGES:-0}" == "1" ]]; then
+      echo "  Auditoría LLM (4 jueces) disponible: /coherence-court --flow $sprint_id"
+    fi
+  else
+    _audit "$sprint_id" "COHERENCE_GATE flow=$sprint_id premises=0 verdict=single-stage"
+  fi
+}
+
 # ── Agent runner hook ────────────────────────────────────────────────────────
 # This function is the integration point. By default it is a NO-OP that returns
 # PENDING (for testing / dry-run). Callers override it by sourcing this script
@@ -278,6 +326,7 @@ run_loop() {
     if [[ "$succeeded" -eq 1 ]]; then
       bash "$STATE_SCRIPT" complete --task-id "$task_id" >/dev/null 2>&1
       _audit "$sprint_id" "TASK_DONE task_id=$task_id model=$used_model"
+      _coherence_register "$sprint_id" "$task_id" "$description"
       consecutive_failures=0
       tasks_done=$(( tasks_done + 1 ))
     else
@@ -300,6 +349,7 @@ run_loop() {
   _audit "$sprint_id" "LOOP_END started_at=$started_at ended_at=$ended_at done=$tasks_done failed=$tasks_failed"
 
   _log "Loop ended: done=$tasks_done failed=$tasks_failed"
+  _coherence_gate "$sprint_id"
 
   # Final status summary to stdout
   bash "$STATE_SCRIPT" status 2>/dev/null || true

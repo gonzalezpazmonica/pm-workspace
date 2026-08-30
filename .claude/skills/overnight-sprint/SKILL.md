@@ -70,12 +70,18 @@ Mostrar lista de tareas candidatas → PEDIR CONFIRMACIÓN HUMANA
 LOOP (hasta max_tasks o max_failures o fin de tareas):
   ↓
   Tomar siguiente tarea del backlog
-  ↓
+    ↓
   Crear rama: agent/overnight-{YYYYMMDD}-{tarea_id}
-  ↓
+    ↓
   Crear worktree aislado
-  ↓
+    ↓
   Implementar tarea → tests → ¿pasan? → PR Draft / descartar
+  ↓
+  Coherence Court (SE-350): registrar la tarea completada como premisa
+    bash scripts/coherence-court.sh premises overnight-{YYYYMMDD} add decision \
+      "task {id} completado: {desc}" --stage task-{id}
+    # Gate determinista (sin LLM): verify coherente con el flujo
+    bash scripts/coherence-court.sh check --flow overnight-{YYYYMMDD} --stage-output <artefacto>
   ↓ crash/timeout → contador fallos
   ↓ fallos >= MAX → ABORT
   ↓ Siguiente tarea → … → Informe → Notificar AUTONOMOUS_REVIEWER
@@ -146,5 +152,22 @@ tarea por terminada. Si falla, NO repitas a ciegas:
 3. Mismo motivo 2 veces seguidas → detener y `GATE_STUCK`.
 Ejemplo: `bash <gate>.sh && echo GATE_PASS`; si no pasa, recoge el error
 acotado y reintenta UNA vez con causa distinta.
+
+## Coherence Court (SE-350) — cableado anti-saturación
+
+El bucle registra **automáticamente** cada tarea completada como premisa de
+coherencia del flujo (`premises add decision ... --stage task-{id}`). Esto es
+**determinista y sin LLM** (JSONL local en `data/coherence-premises-{flujo}.jsonl`),
+por lo que no añade coste al bucle nocturno.
+
+**NUNCA** convocar la auditoría LLM de 4 jueces por tarea — saturaría el sprint.
+La auditoría completa (`/coherence-court --flow overnight-{YYYYMMDD}`) se invoca
+**una vez al final del sprint** (o en la revisión E1 humana), y solo si el humano
+lo pide o `COHERENCE_AUDIT_JUDGES=1`. Ver `docs/rules/domain/coherence-court.md`.
+
+Policy:
+- Gate determinista (premises + check): **siempre ON** en el bucle, coste ~0.
+- Auditoría LLM (4 jueces): **opt-in al final**, nunca por tarea.
+- CRIT-001: las premisas viven en texto plano local; cero red.
 
 

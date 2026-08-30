@@ -1,5 +1,5 @@
 # Savia — Contexto Consolidado
-# Generado: 2026-08-30T17:41:56Z
+# Generado: 2026-08-30T18:39:04Z
 
 ## docs/critical-facts.md
 

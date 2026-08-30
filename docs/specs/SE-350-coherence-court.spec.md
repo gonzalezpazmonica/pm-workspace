@@ -242,8 +242,45 @@ bash scripts/coherence-court.sh premises $FLOW clear
   consuma Coherence Court (premisas + gate) en lugar de reimplementar.
 - **Auto-derivación de premisas** desde memoria persistente (JSONL de decisiones,
   extraction automática) → subcomando `premises seed --from-memory`.
-- **Sprint nocturno / research autónomo**: invocar Coherence Court en los flujos
-  existentes (overnight-sprint, tech-research) — integración separada.
+- **Integración con SE-349 (agent-runs ledger)**: correlacionar premisas de
+  coherencia con el ledger de runs autónomos para trazar qué premisa vino de qué run.
+
+## 13. Slice 2 — Cableado en flujos (IMPLEMENTED en esta sesión)
+
+### Cableado
+
+| Flujo | Punto de cableado | Coste |
+|---|---|---|
+| overnight-sprint (`overnight-sprint-loop.sh`) | `premises add decision` post-`TASK_DONE` + `_coherence_gate` al `LOOP_END` | determinista ~0 |
+| tech-research-agent (skill) | premisas del plan al arrancar + gate `check` en cada transición de fase | determinista ~0 |
+| code-improvement-loop (skill) | `premises add decision` por mejora que pasa las métricas | determinista ~0 |
+
+### Política anti-saturación
+
+- **Gate determinista** (premises + `check`, sin LLM): SIEMPRE ON en el bucle,
+  coste ~0 (JSONL local + contador).
+- **Auditoría LLM de 4 jueces**: OPT-IN al final del flujo (nunca por tarea),
+  vía `/coherence-court --flow {flujo}` o `COHERENCE_AUDIT_JUDGES=1`. Ejecutar
+  4 jueces por tarea en un bucle nocturno de N tareas = N×4 llamadas LLM (saturación).
+- **Switch**: `OVERNIGHT_COHERENCE_GATE=off` desactiva el cableado (para tests/CI).
+
+### Ficheros tocados en Slice 2
+
+| Acción | Path |
+|---|---|
+| MODIFY | `scripts/overnight-sprint-loop.sh` (funciones `_coherence_register`/`_coherence_gate`) |
+| MODIFY | `.claude/skills/overnight-sprint/SKILL.md`, `tech-research-agent/SKILL.md`, `code-improvement-loop/SKILL.md` |
+| MODIFY | `docs/rules/domain/coherence-court.md` (sección "Flujos cableados") |
+| MODIFY | `tests/test-se226-overnight-sprint-loop.bats` (+5 tests cableado) |
+| MODIFY | `docs/rules/domain/rule-manifest.json` (regenerado — deuda SE-057/SE-338) |
+
+### Validación Slice 2
+
+```
+bats tests/test-se226-overnight-sprint-loop.bats   # 13 tests OK (5 nuevos de cableado)
+bash -n scripts/overnight-sprint-loop.sh            # sintaxis OK
+bash scripts/rule-manifest-integrity.sh             # PASS tras regenerar manifest
+```
 
 ## Referencias
 
@@ -252,4 +289,5 @@ bash scripts/coherence-court.sh premises $FLOW clear
 - `docs/specs/SE-265-court-model-tiers.spec.md` — per-judge model tiers
 - `docs/specs/SE-349-agent-runs-ledger.spec.md` — patrón JSONL upsert + CRIT-001
 - `scripts/court-review.sh`, `scripts/court-score-aggregator.sh` — código de referencia
+- `docs/technical-debt-2026-08-23.md` — deuda SE-057/SE-338 (rule-manifest)
 - CRIT-001 (criterio operadora) — datos N3+ jamás a proveedor cloud

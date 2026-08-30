@@ -83,7 +83,10 @@ LOOP (por cada oportunidad, hasta max_tasks o max_failures):
     ¿Métrica objetivo mejoró?
     ¿Ninguna otra métrica degradó significativamente?
       ↓
-    TODO SÍ → Crear PR Draft con:
+    TODO SÍ → Registrar mejora como premisa de coherencia (SE-350):
+      bash scripts/coherence-court.sh premises code-improve-{YYYYMMDD} add decision \
+        "mejora {id} aplicada: {desc} (métrica mejorada)" --stage improve-{id}
+      → Crear PR Draft con:
       - Título: "agent(improve): {descripción}"
       - Body: métricas antes/después, ficheros modificados, riesgo estimado
       - Reviewer: AUTONOMOUS_REVIEWER
@@ -147,3 +150,19 @@ SIEMPRE → Un PR por mejora (atómico, fácil de revisar)
 - Refactorings mayores que cambian arquitectura o dependencias major
 - Si los tests del proyecto no pasan
 - Mejoras que requieren decisiones de diseño humanas
+
+## Coherence Court (SE-350) — cableado anti-saturación
+
+El bucle registra **automáticamente** cada mejora que pasa las métricas como
+premisa de coherencia (`premises add decision ... --stage improve-{id}`).
+Determinista y sin LLM (JSONL local en `data/coherence-premises-code-improve-*.jsonl`).
+
+**NUNCA** invocar la auditoría LLM de 4 jueces por mejora — saturaría el bucle.
+La auditoría completa (`/coherence-court --flow code-improve-{YYYYMMDD}`) se
+invoca **una vez al final** del lote, o en la revisión E1 humana, y solo si se
+pide o `COHERENCE_AUDIT_JUDGES=1`. Ver `docs/rules/domain/coherence-court.md`.
+
+Policy:
+- Gate determinista (premises + check): **siempre ON**, coste ~0.
+- Auditoría LLM (4 jueces): **opt-in al final**, nunca por mejora.
+- CRIT-001: premisas en texto plano local; cero red.
