@@ -15,11 +15,8 @@ metadata:
 
 ## Subagent Scope Guard
 
-> If you were dispatched as a subagent to execute a specific delegated task,
-> **skip this skill's full orchestration workflow**. Execute only the assigned
-> task, report result (DONE / DONE_WITH_CONCERNS / BLOCKED), and return.
-> This guard prevents runaway skill activation in nested agent contexts.
-
+> Subagente delegado: ejecuta SOLO la tarea asignada, reporta
+> DONE/DONE_WITH_CONCERNS/BLOCKED, y retorna. Previene activación runaway.
 # Skill: Overnight Sprint
 
 > **Regla de seguridad**: `@docs/rules/domain/autonomous-safety.md` — NUNCA merge, SIEMPRE PR Draft con reviewer humano.
@@ -50,11 +47,10 @@ metadata:
 5. Auto Mode activado (claude --enable-auto-mode)            → si no: ⚠️ warning, continuar
 ```
 
-## Auto Mode — Red de seguridad complementaria
+## Auto Mode — red de seguridad
 
-`claude --enable-auto-mode` añade un classifier pre-tool-call que bloquea
-acciones destructivas (rm masivo, exfiltración, código malicioso) sin detener
-el bucle autónomo. Complementa `autonomous-safety.md` — no lo reemplaza.
+`claude --enable-auto-mode` bloquea acciones destructivas pre-tool-call.
+Complementa `autonomous-safety.md` — no lo reemplaza.
 
 ## Flujo completo
 
@@ -77,11 +73,7 @@ LOOP (hasta max_tasks o max_failures o fin de tareas):
     ↓
   Implementar tarea → tests → ¿pasan? → PR Draft / descartar
   ↓
-  Coherence Court (SE-350): registrar la tarea completada como premisa
-    bash scripts/coherence-court.sh premises overnight-{YYYYMMDD} add decision \
-      "task {id} completado: {desc}" --stage task-{id}
-    # Gate determinista (sin LLM): verify coherente con el flujo
-    bash scripts/coherence-court.sh check --flow overnight-{YYYYMMDD} --stage-output <artefacto>
+  Coherence (SE-350): `bash scripts/coherence-court.sh premises overnight-{fecha} add decision "task {id} done: {desc}" --stage task-{id}`
   ↓ crash/timeout → contador fallos
   ↓ fallos >= MAX → ABORT
   ↓ Siguiente tarea → … → Informe → Notificar AUTONOMOUS_REVIEWER
@@ -98,7 +90,6 @@ LOOP (hasta max_tasks o max_failures o fin de tareas):
 ```
 timestamp  tarea_id  rama  status  tests_pass  pr_url
 2026-03-12T01:15:00  AB-1234  agent/overnight-…  pr-created  true  https://…
-2026-03-12T02:05:00  AB-1237  agent/overnight-…  crash  -  -
 ```
 
 ## Restricciones estrictas
@@ -120,8 +111,7 @@ SIEMPRE → Generar audit log
 
 ## Loop State
 
-Este skill usa STATE.md canónico. Schema: `docs/rules/domain/loop-state-schema.md`.
-Inicializar: `bash scripts/loop-state-init.sh --skill overnight-sprint`
+STATE.md canónico (schema `docs/rules/domain/loop-state-schema.md`). Init: `bash scripts/loop-state-init.sh --skill overnight-sprint`
 ## Modo CI Unblock (--mode ci-unblock)
 
 Desbloquea PRs con CI roto por orden PR# ASC. Ver `CI-UNBLOCK.md`. Prerequisito: `CI_UNBLOCK_NEST_ENABLED=true` + doble opt-in SPEC-186.
@@ -153,21 +143,9 @@ tarea por terminada. Si falla, NO repitas a ciegas:
 Ejemplo: `bash <gate>.sh && echo GATE_PASS`; si no pasa, recoge el error
 acotado y reintenta UNA vez con causa distinta.
 
-## Coherence Court (SE-350) — cableado anti-saturación
+## Coherence Court (SE-350) — anti-saturación
 
-El bucle registra **automáticamente** cada tarea completada como premisa de
-coherencia del flujo (`premises add decision ... --stage task-{id}`). Esto es
-**determinista y sin LLM** (JSONL local en `data/coherence-premises-{flujo}.jsonl`),
-por lo que no añade coste al bucle nocturno.
-
-**NUNCA** convocar la auditoría LLM de 4 jueces por tarea — saturaría el sprint.
-La auditoría completa (`/coherence-court --flow overnight-{YYYYMMDD}`) se invoca
-**una vez al final del sprint** (o en la revisión E1 humana), y solo si el humano
-lo pide o `COHERENCE_AUDIT_JUDGES=1`. Ver `docs/rules/domain/coherence-court.md`.
-
-Policy:
-- Gate determinista (premises + check): **siempre ON** en el bucle, coste ~0.
-- Auditoría LLM (4 jueces): **opt-in al final**, nunca por tarea.
-- CRIT-001: las premisas viven en texto plano local; cero red.
-
-
+El bucle registra cada tarea como premisa (determinista, sin LLM, JSONL local).
+**NUNCA** la auditoría LLM (4 jueces) por tarea — satura. La auditoría completa
+`/coherence-court --flow overnight-{fecha}` va al final (o E1 humana), opt-in
+`COHERENCE_AUDIT_JUDGES=1`. Policy: gate determinista SIEMPRE ON (~0); auditoría LLM opt-in al final; CRIT-001 (premisas locales).

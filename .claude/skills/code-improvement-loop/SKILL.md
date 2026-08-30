@@ -15,10 +15,8 @@ metadata:
 
 ## Subagent Scope Guard
 
-> If dispatched as a subagent: execute only the assigned task, report result
-> (DONE / DONE_WITH_CONCERNS / BLOCKED), and return. Skip full workflow.
-> This guard prevents runaway skill activation in nested agent contexts.
-
+> Subagente delegado: ejecuta SOLO la tarea asignada, reporta
+> DONE/DONE_WITH_CONCERNS/BLOCKED, y retorna. Previene activación runaway.
 # Skill: Code Improvement Loop
 
 > **Regla de seguridad**: `@docs/rules/domain/autonomous-safety.md` — NUNCA merge, SIEMPRE PR Draft con reviewer humano.
@@ -27,8 +25,8 @@ metadata:
 ## Cuándo usar esta skill
 
 - Se quiere mejorar la calidad del código de forma continua y medible
-- Hay deuda técnica acumulada (baja cobertura, alta complejidad, warnings de linter, TODOs pendientes)
-- Se busca generar mejoras incrementales con métricas antes/después para revisión humana
+- Hay deuda técnica acumulada (cobertura, complejidad, linter, TODOs)
+- Se busca mejoras incrementales con métricas antes/después para revisión humana
 
 ## Qué produce
 
@@ -36,7 +34,6 @@ metadata:
 2. **improvement-results.tsv** — `output/improvement-results-{YYYYMMDD}.tsv`
 3. **Informe de oportunidades** — `output/improvement-opportunities-{YYYYMMDD}.md`
 4. **Audit log** — `output/agent-runs/improvement-{YYYYMMDD}-audit.log`
-
 ## Prerequisitos
 
 ```
@@ -48,10 +45,7 @@ metadata:
 5. Auto Mode activado (claude --enable-auto-mode) → si no: ⚠️ warning, continuar
 ```
 
-**Auto Mode**: classifier pre-tool-call complementario a `autonomous-safety.md`.
-
 ## Flujo completo (patrón autoresearch adaptado)
-
 ```
 Humano ejecuta /code-improve [--scope {path}] [--tipo {coverage|complexity|lint|deps|todos}]
     ↓
@@ -83,9 +77,7 @@ LOOP (por cada oportunidad, hasta max_tasks o max_failures):
     ¿Métrica objetivo mejoró?
     ¿Ninguna otra métrica degradó significativamente?
       ↓
-    TODO SÍ → Registrar mejora como premisa de coherencia (SE-350):
-      bash scripts/coherence-court.sh premises code-improve-{YYYYMMDD} add decision \
-        "mejora {id} aplicada: {desc} (métrica mejorada)" --stage improve-{id}
+    TODO SÍ → Registrar premisa (SE-350): `bash scripts/coherence-court.sh premises code-improve-{fecha} add decision "mejora {id}: {desc}" --stage improve-{id}`
       → Crear PR Draft con:
       - Título: "agent(improve): {descripción}"
       - Body: métricas antes/después, ficheros modificados, riesgo estimado
@@ -127,7 +119,6 @@ Generar informe resumen con todas las mejoras propuestas
 timestamp	tipo	fichero	rama	status	metrica_antes	metrica_despues	delta	pr_url	descripcion
 2026-03-12T02:00:00	coverage	src/auth/	agent/improve-coverage-auth	pr-created	62.3%	78.1%	+15.8%	https://...	Add tests for login flow
 2026-03-12T02:18:00	complexity	src/api/handler.ts	agent/improve-complexity-handler	pr-created	14.2	8.7	-5.5	https://...	Extract methods from handler
-2026-03-12T02:35:00	lint	src/	agent/improve-lint-warnings	discarded	23	25	+2	-	Fix introduced new warnings
 ```
 
 ## Restricciones estrictas
@@ -142,7 +133,6 @@ NUNCA → Aplicar mejoras que degraden CUALQUIER métrica
 SIEMPRE → PR en Draft con AUTONOMOUS_REVIEWER
 SIEMPRE → Métricas antes/después en el body del PR
 SIEMPRE → Ramas agent/improve-*
-SIEMPRE → Un PR por mejora (atómico, fácil de revisar)
 ```
 
 ## Cuándo NO usar
@@ -151,18 +141,10 @@ SIEMPRE → Un PR por mejora (atómico, fácil de revisar)
 - Si los tests del proyecto no pasan
 - Mejoras que requieren decisiones de diseño humanas
 
-## Coherence Court (SE-350) — cableado anti-saturación
+## Coherence Court (SE-350) — anti-saturación
 
-El bucle registra **automáticamente** cada mejora que pasa las métricas como
-premisa de coherencia (`premises add decision ... --stage improve-{id}`).
-Determinista y sin LLM (JSONL local en `data/coherence-premises-code-improve-*.jsonl`).
-
-**NUNCA** invocar la auditoría LLM de 4 jueces por mejora — saturaría el bucle.
-La auditoría completa (`/coherence-court --flow code-improve-{YYYYMMDD}`) se
-invoca **una vez al final** del lote, o en la revisión E1 humana, y solo si se
-pide o `COHERENCE_AUDIT_JUDGES=1`. Ver `docs/rules/domain/coherence-court.md`.
-
-Policy:
-- Gate determinista (premises + check): **siempre ON**, coste ~0.
-- Auditoría LLM (4 jueces): **opt-in al final**, nunca por mejora.
-- CRIT-001: premisas en texto plano local; cero red.
+Cada mejora que pasa las métricas se registra como premisa (determinista, sin
+LLM, JSONL local). **NUNCA** la auditoría LLM (4 jueces) por mejora — satura.
+La auditoría completa `/coherence-court --flow code-improve-{fecha}` va al final
+(o E1 humana), opt-in `COHERENCE_AUDIT_JUDGES=1`. Policy: gate determinista
+SIEMPRE ON (~0); auditoría LLM opt-in al final; CRIT-001 (premisas locales).
