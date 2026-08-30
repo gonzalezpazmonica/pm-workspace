@@ -1,6 +1,6 @@
 # Savia Capability Map — INDEX
-> hash: 0c251b97d189 | resources: 1419
-> 295 commands · 132 skills · 88 agents · 904 scripts
+> hash: bc988837b9e6 | resources: 1420
+> 295 commands · 132 skills · 88 agents · 905 scripts
 
 [analysis] Trace Optimize — across,distributed,optimize,rates,sampling — cmd:.claude/commands/trace-optimize.md
 [analysis] agent-activity — activity,agent,executions,recent,show — cmd:.claude/commands/agent-activity.md
@@ -921,6 +921,7 @@
 [planning] plugin-export — distributable,empaquetar,estructura,plugin,validación — cmd:.claude/commands/plugin-export.md
 [planning] plugin-validate — agents,commands,estructura,integridad,plugin — cmd:.claude/commands/plugin-validate.md
 [planning] pm-backend-health — backend,configuration,detect,health — script:scripts/pm-backend-health.sh
+[planning] poc-verify — binario,cybergym,lección,pocs,verificador — script:scripts/poc-verify.sh
 [planning] pre-commit-sovereignty — grep,intentionally,match,note,omitted — script:scripts/pre-commit-sovereignty.sh
 [planning] pre-output-validator — inspired,output,rule,ttsr,validator — script:scripts/pre-output-validator.sh
 [planning] pre-tribunal-gates — deterministic,gates,tribunal — script:scripts/pre-tribunal-gates.sh
