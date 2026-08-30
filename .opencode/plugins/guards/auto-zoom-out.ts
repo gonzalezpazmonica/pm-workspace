@@ -24,7 +24,7 @@ export async function autoZoomOut(
   input: ToolInput,
   output: ToolOutput,
 ): Promise<void> {
-  const tool = extractToolName(input, output);
+  const tool = extractToolName(input);
   const filePath = extractFilePath(input, output);
   if (!tool || !filePath) return;
   if (!shouldZoomOutPath(tool, filePath)) return;

@@ -15,11 +15,8 @@ metadata:
 
 ## Subagent Scope Guard
 
-> If you were dispatched as a subagent to execute a specific delegated task,
-> **skip this skill's full orchestration workflow**. Execute only the assigned
-> task, report result (DONE / DONE_WITH_CONCERNS / BLOCKED), and return.
-> This guard prevents runaway skill activation in nested agent contexts.
-
+> Subagente delegado: ejecuta SOLO la tarea asignada, reporta
+> DONE/DONE_WITH_CONCERNS/BLOCKED, y retorna. Previene activación runaway.
 # Skill: Overnight Sprint
 
 > **Regla de seguridad**: `@docs/rules/domain/autonomous-safety.md` — NUNCA merge, SIEMPRE PR Draft con reviewer humano.
@@ -50,11 +47,10 @@ metadata:
 5. Auto Mode activado (claude --enable-auto-mode)            → si no: ⚠️ warning, continuar
 ```
 
-## Auto Mode — Red de seguridad complementaria
+## Auto Mode — red de seguridad
 
-`claude --enable-auto-mode` añade un classifier pre-tool-call que bloquea
-acciones destructivas (rm masivo, exfiltración, código malicioso) sin detener
-el bucle autónomo. Complementa `autonomous-safety.md` — no lo reemplaza.
+`claude --enable-auto-mode` bloquea acciones destructivas pre-tool-call.
+Complementa `autonomous-safety.md` — no lo reemplaza.
 
 ## Flujo completo
 
@@ -70,12 +66,14 @@ Mostrar lista de tareas candidatas → PEDIR CONFIRMACIÓN HUMANA
 LOOP (hasta max_tasks o max_failures o fin de tareas):
   ↓
   Tomar siguiente tarea del backlog
-  ↓
+    ↓
   Crear rama: agent/overnight-{YYYYMMDD}-{tarea_id}
-  ↓
+    ↓
   Crear worktree aislado
-  ↓
+    ↓
   Implementar tarea → tests → ¿pasan? → PR Draft / descartar
+  ↓
+  Coherence (SE-350): `bash scripts/coherence-court.sh premises overnight-{fecha} add decision "task {id} done: {desc}" --stage task-{id}`
   ↓ crash/timeout → contador fallos
   ↓ fallos >= MAX → ABORT
   ↓ Siguiente tarea → … → Informe → Notificar AUTONOMOUS_REVIEWER
@@ -92,7 +90,6 @@ LOOP (hasta max_tasks o max_failures o fin de tareas):
 ```
 timestamp  tarea_id  rama  status  tests_pass  pr_url
 2026-03-12T01:15:00  AB-1234  agent/overnight-…  pr-created  true  https://…
-2026-03-12T02:05:00  AB-1237  agent/overnight-…  crash  -  -
 ```
 
 ## Restricciones estrictas
@@ -114,8 +111,7 @@ SIEMPRE → Generar audit log
 
 ## Loop State
 
-Este skill usa STATE.md canónico. Schema: `docs/rules/domain/loop-state-schema.md`.
-Inicializar: `bash scripts/loop-state-init.sh --skill overnight-sprint`
+STATE.md canónico (schema `docs/rules/domain/loop-state-schema.md`). Init: `bash scripts/loop-state-init.sh --skill overnight-sprint`
 ## Modo CI Unblock (--mode ci-unblock)
 
 Desbloquea PRs con CI roto por orden PR# ASC. Ver `CI-UNBLOCK.md`. Prerequisito: `CI_UNBLOCK_NEST_ENABLED=true` + doble opt-in SPEC-186.
@@ -147,4 +143,9 @@ tarea por terminada. Si falla, NO repitas a ciegas:
 Ejemplo: `bash <gate>.sh && echo GATE_PASS`; si no pasa, recoge el error
 acotado y reintenta UNA vez con causa distinta.
 
+## Coherence Court (SE-350) — anti-saturación
 
+El bucle registra cada tarea como premisa (determinista, sin LLM, JSONL local).
+**NUNCA** la auditoría LLM (4 jueces) por tarea — satura. La auditoría completa
+`/coherence-court --flow overnight-{fecha}` va al final (o E1 humana), opt-in
+`COHERENCE_AUDIT_JUDGES=1`. Policy: gate determinista SIEMPRE ON (~0); auditoría LLM opt-in al final; CRIT-001 (premisas locales).

@@ -20,15 +20,15 @@ metadata:
 
 ## Cuándo usar esta skill
 
-- Se necesita investigar un tema técnico (alternativas a una tecnología, benchmark de opciones, estado del arte)
-- Se quiere auditar dependencias (CVEs, versiones desactualizadas, licencias incompatibles)
-- Se busca un análisis comparativo para tomar una decisión arquitectónica informada
-- El Tech Lead quiere delegar la fase de recopilación de información a un agente
+- Investigar un tema técnico (alternativas, benchmark, estado del arte)
+- Auditar dependencias (CVEs, versiones, licencias)
+- Análisis comparativo para una decisión arquitectónica informada
+- Delegar la fase de recopilación de información a un agente
 
 ## Qué produce
 
 1. **Informe de investigación** — `output/research/{tema}-{YYYYMMDD}.md`
-2. **Recomendaciones accionables** — incluidas en el informe, NUNCA ejecutadas automáticamente
+2. **Recomendaciones accionables** — NUNCA ejecutadas automáticamente
 3. **Audit log** — `output/agent-runs/research-{tema}-{YYYYMMDD}-audit.log`
 
 **NO produce:** PRs, commits, cambios en código, tareas en el backlog.
@@ -38,8 +38,7 @@ metadata:
 ```
 1. AUTONOMOUS_RESEARCH_NOTIFY configurado  → si no: ❌ ABORT
 2. Doble opt-in (SPEC-186):                → si no: ❌ ABORT
-   bash scripts/savia-double-optin-check.sh \
-     --skill tech-research-agent --confirm-autonomous
+   bash scripts/savia-double-optin-check.sh --skill tech-research-agent --confirm-autonomous
    Requiere AMBOS: TECH_RESEARCH_AGENT_ENABLED=true Y flag explicito.
 3. Tema de investigación definido           → si no: pedir al humano
 ```
@@ -57,12 +56,20 @@ Cargar instrucciones:
     ↓
 [Humano confirma el plan]
     ↓
+Registrar premisas del plan (Coherence Court SE-350):
+  bash scripts/coherence-court.sh premises research-{tema} init
+  bash scripts/coherence-court.sh premises research-{tema} add objective "{objetivo}" --stage plan
+  bash scripts/coherence-court.sh premises research-{tema} add constraint "{restricciones}" --stage plan
+    ↓
 Ejecutar investigación (time-box: AGENT_TASK_TIMEOUT_MINUTES × 3):
   - Buscar documentación oficial
   - Analizar código del proyecto actual
   - Comparar alternativas con criterios definidos
   - Recopilar benchmarks públicos si aplica
   - Identificar riesgos y trade-offs
+    ↓
+Coherence gate post-fases (SE-350, determinista sin LLM):
+  bash scripts/coherence-court.sh check --flow research-{tema} --stage-output <hallazgos>
     ↓
 Generar informe estructurado en output/
     ↓
@@ -80,25 +87,18 @@ Notificar a AUTONOMOUS_RESEARCH_NOTIFY:
 
 ## Contexto
 Por qué se investiga, qué problema se busca resolver.
-
 ## Estado actual
 Qué usa el proyecto actualmente, métricas relevantes.
-
 ## Alternativas evaluadas
 Para cada alternativa: descripción, pros, contras, madurez, comunidad, licencia.
-
 ## Comparativa
 Tabla resumen con criterios ponderados.
-
 ## Riesgos
 Qué puede salir mal con cada opción, esfuerzo de migración.
-
 ## Recomendación
-Opción preferida con justificación. SIEMPRE marcada como "propuesta pendiente de decisión humana".
-
+Opción preferida con justificación. SIEMPRE "propuesta pendiente de decisión humana".
 ## Fuentes
 Enlaces a documentación, benchmarks, artículos consultados.
-
 ## Próximos pasos sugeridos
 Acciones concretas SI el humano aprueba la recomendación.
 ```
@@ -139,3 +139,11 @@ bash scripts/scrapling-fetch.sh "https://ejemplo-cloudflare.com/docs" --json --t
 - Exit code 0 = OK, 1 = fetch error, 2 = usage error
 
 Ver `docs/rules/domain/research-stack.md` para la cadena completa de backends y las consideraciones de legalidad/ToS.
+
+## Coherence Court (SE-350) — cableado de fases
+
+Flujo multi-etapa: **plan → hallazgos → conclusiones**. Cada transición registra
+hallazgos como premisas y corre el gate determinista (`check`, sin LLM, JSONL
+local) para no contradecir fases anteriores. Auditoría LLM (4 jueces) al final
+del informe: **opt-in** (`/coherence-court --flow research-{tema}`), una vez, no
+por fase — evita saturar. CRIT-001: premisas locales, cero red.
