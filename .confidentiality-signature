@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=e0db14a5c7e3487136ff19ab2b945a12e9b0e04e98c641eb1ffb2d1af3b4f410
-timestamp=2026-08-29T21:17:08Z
-branch=agent/savia-domains-robotica-20260828
-head_commit=529843c2
-signature=5b65b6787c908b04071f15a0c76a1387bda4c792a4a921d5a3a24fc3864bf3b0
+diff_hash=b230d4549f3e10bb82b793095bf20fd11dbdc941cd515914c8560daabdea870e
+timestamp=2026-08-30T17:54:17Z
+branch=agent/se350-coherence-court-20260830
+head_commit=2bf5b47a
+signature=709fb36549cc26650c9a15dc24ba9e1f62f12bcdf376c9ea63b43213e9a2db81
