@@ -1,6 +1,6 @@
 {
-  "hash": "7faa390a3782",
-  "total": 1419,
+  "hash": "fab5c25e2266",
+  "total": 1420,
   "resources": [
     {
       "category": "analysis",
@@ -12156,6 +12156,20 @@
       "kind": "script",
       "path": "scripts/pm-backend-health.sh",
       "description": "pm-backend-health.sh — SE-092 MVP: detect PM backend configuration"
+    },
+    {
+      "category": "planning",
+      "name": "poc-verify",
+      "intents": [
+        "binario",
+        "cybergym",
+        "lección",
+        "pocs",
+        "verificador"
+      ],
+      "kind": "script",
+      "path": "scripts/poc-verify.sh",
+      "description": "poc-verify.sh — SE-351: Verificador binario de PoCs (lección CyberGym)"
     },
     {
       "category": "planning",

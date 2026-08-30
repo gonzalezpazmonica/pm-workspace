@@ -1,5 +1,5 @@
 # planning — Savia Capability Map (L1)
-> 610 resources
+> 611 resources
 
 - **/decide-architecture** (cmd): Clasifica una tarea como WORKFLOW (deterministica) o AGENT (loop). Bias hacia workflow per Anthropic. Sugiere plantilla inicial. Mide accuracy contra corpus curado de 20 tareas.
 - **_template** (skill): TEMPLATE — copia este directorio para crear una skill nueva. NO se carga en runtime.
@@ -374,6 +374,7 @@
 - **plugin-export** (cmd): Empaquetar pm-workspace como plugin distributable con validación de estructura
 - **plugin-validate** (cmd): Validar estructura de plugin — skills, agents, commands e integridad
 - **pm-backend-health** (script): pm-backend-health.sh — SE-092 MVP: detect PM backend configuration
+- **poc-verify** (script): poc-verify.sh — SE-351: Verificador binario de PoCs (lección CyberGym)
 - **pre-commit-sovereignty** (script): NOTE: -e omitted intentionally — grep returns 1 on no-match which would
 - **pre-output-validator** (script): pre-output-validator.sh — TTSR-inspired pre-output rule validator (SE-150)
 - **pre-tribunal-gates** (script): pre-tribunal-gates.sh — SE-251: deterministic pre-tribunal gates

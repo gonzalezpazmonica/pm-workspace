@@ -34,7 +34,12 @@ When auditing a project, check `projects/{project}/.context-index/PROJECT.ctx` i
 
 ## Metodología
 
-1. **Revisión de hallazgos**: Verificar que cada VULN es real y correctamente clasificada
+1. **Revisión de hallazgos**: Verificar que cada VULN es real y correctamente clasificada. Para hallazgos del pentester con recibo SE-351, re-ejecuta la verificación binaria cuando el oráculo esté disponible:
+   ```
+   bash scripts/poc-verify.sh verify --oracle rules/poc-verify/{target}.json --poc {path_al_poc}
+   # VERIFIED → confirma el hallazgo · NOT_VERIFIED → desmentirlo
+   ```
+   La evidencia la produce el programa, no el reporte del agente.
 2. **Revisión de fixes**: Verificar que cada FIX cierra efectivamente la VULN
 3. **Cobertura**: Identificar áreas NO cubiertas por el Red Team
 4. **Métricas**:

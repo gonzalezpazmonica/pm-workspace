@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=9233636d42b44dc93700aebf4efe25d86894bd90b47e7e5ad938fa3495df7760
-timestamp=2026-08-30T19:04:26Z
-branch=agent/se350-coherence-wiring-20260830
-head_commit=4840aef1
-signature=6232d84e3b6f431f1150613ffc72ed08d57b753a4db822876b3b1517466b53ca
+diff_hash=fe17631816a96a09357491166541a9f4e9ad73694cbb85b3f25efa8c5764bd19
+timestamp=2026-08-30T21:40:03Z
+branch=agent/se351-poc-verify-20260830
+head_commit=702524c2
+signature=91edc9f75fd02de815e01b6b43c63cdd5054fd5d22c2f1ae93ed03c147c3191d

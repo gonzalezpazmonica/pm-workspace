@@ -1,0 +1,13 @@
+{
+  "name": "example-lfi-demo",
+  "target": {
+    "type": "command",
+    "command": "sh -c 'grep -q \"SECRET_MARKER\" {poc} && exit 1 || exit 0'",
+    "timeout_secs": 10,
+    "network": "none"
+  },
+  "oracle": {
+    "mode": "exit_code_nonzero",
+    "expected_exit": 0
+  }
+}
