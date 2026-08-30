@@ -1,6 +1,6 @@
 # INDEX
 
-Auto-generated. 304 files / 38 cats. Regen: `bash scripts/rules-domain-index.sh`. CI check: `--check`. SPEC-115.
+Auto-generated. 305 files / 38 cats. Regen: `bash scripts/rules-domain-index.sh`. CI check: `--check`. SPEC-115.
 
 | Cat | File | Description |
 |---|---|---|
@@ -48,6 +48,7 @@ Auto-generated. 304 files / 38 cats. Regen: `bash scripts/rules-domain-index.sh`
 | Context Mgmt | [`context-tracking.md`](./context-tracking.md) | Context Tracking Protocol |
 | Context Mgmt | [`global-context.md`](./global-context.md) | Global Context — Company DNA for All Agents |
 | Court/Review | [`code-review-court.md`](./code-review-court.md) | Code Review Court — Multi-Judge Agentic Review |
+| Court/Review | [`coherence-court.md`](./coherence-court.md) | Coherence Court — Multi-Judge Transversal Consistency Audit |
 | Court/Review | [`court-external-judges.md`](./court-external-judges.md) | Court External Judges Policy — SPEC-124 |
 | Court/Review | [`court-numeric-scoring.md`](./court-numeric-scoring.md) | Court Numeric Scoring — Code Review Court (SE-236) |
 | Court/Review | [`court-turn-routing.md`](./court-turn-routing.md) | Court Turn Routing — Adaptive Judge Selection (SE-231) |

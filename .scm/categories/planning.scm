@@ -1,5 +1,5 @@
 # planning — Savia Capability Map (L1)
-> 605 resources
+> 610 resources
 
 - **/decide-architecture** (cmd): Clasifica una tarea como WORKFLOW (deterministica) o AGENT (loop). Bias hacia workflow per Anthropic. Sugiere plantilla inicial. Mide accuracy contra corpus curado de 20 tareas.
 - **_template** (skill): TEMPLATE — copia este directorio para crear una skill nueva. NO se carga en runtime.
@@ -86,7 +86,12 @@
 - **client-profile** (cmd): Gestión de perfiles de cliente en SaviaHub
 - **client-profile-manager** (skill): Usar cuando se crean, actualizan o consultan perfiles de cliente en SaviaHub.
 - **cobol-developer** (agent): >
+- **coherence-court** (script): coherence-court.sh — SE-350: Coherence Court (jueces transversales de consistencia entre etapas)
+- **coherence-factual-judge** (agent): Coherence Court judge — stage output contradicts facts fixed in earlier stages
 - **coherence-judge** (agent): Truth Tribunal judge — internal consistency (sums, dates, entities)
+- **coherence-objectives-judge** (agent): Coherence Court judge — stage output contradicts declared objectives of the flow
+- **coherence-premise-drift-judge** (agent): Coherence Court judge — silent premise drift between stages of a flow
+- **coherence-scope-judge** (agent): Coherence Court judge — stage output violates scope/constraints fixed earlier
 - **coherence-validator** (agent): >
 - **commit-guardian** (agent): >
 - **company-messaging** (skill): Usar cuando se envían mensajes internos cifrados entre miembros de la organización vía Company Savia.

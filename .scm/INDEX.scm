@@ -1,6 +1,6 @@
 # Savia Capability Map — INDEX
-> hash: 11f21b7fc1d6 | resources: 1412
-> 294 commands · 132 skills · 83 agents · 903 scripts
+> hash: 0c251b97d189 | resources: 1419
+> 295 commands · 132 skills · 88 agents · 904 scripts
 
 [analysis] Trace Optimize — across,distributed,optimize,rates,sampling — cmd:.claude/commands/trace-optimize.md
 [analysis] agent-activity — activity,agent,executions,recent,show — cmd:.claude/commands/agent-activity.md
@@ -442,6 +442,7 @@
 [memory] cache-analytics — ahorrados,ahorro,costes,latencia,métricas — cmd:.claude/commands/cache-analytics.md
 [memory] changelog-consolidate — changelog,consolidate,fragments — script:scripts/changelog-consolidate.sh
 [memory] changelog-consolidate-if-needed — automation,changelog,consolidate,merge,needed — script:scripts/changelog-consolidate-if-needed.sh
+[memory] coherence-court-orchestrator — applies,coherence,consolidates,convenes,court — agent:.opencode/agents/coherence-court-orchestrator.md
 [memory] company-show — consolidado,contexto,ejecutivo,empresa,mostrar — cmd:.claude/commands/company-show.md
 [memory] configurator — agents,centralizes,consume,decisions,dispatch — agent:.opencode/agents/configurator.md
 [memory] content-fingerprint — consolidation,content,fingerprint,skill — script:scripts/content-fingerprint.sh
@@ -632,7 +633,12 @@
 [planning] client-profile — cliente,gestión,perfiles,saviahub — cmd:.claude/commands/client-profile.md
 [planning] client-profile-manager — actualizan,cliente,consultan,crean,perfiles — skill:.claude/skills/client-profile-manager/SKILL.md
 [planning] cobol-developer —  — agent:.opencode/agents/cobol-developer.md
+[planning] coherence-court — coherence,consistencia,court,etapas,jueces — script:scripts/coherence-court.sh
+[planning] coherence-factual-judge — coherence,contradicts,court,earlier,facts — agent:.opencode/agents/coherence-factual-judge.md
 [planning] coherence-judge — consistency,dates,entities,internal,judge — agent:.opencode/agents/coherence-judge.md
+[planning] coherence-objectives-judge — coherence,contradicts,court,declared,flow — agent:.opencode/agents/coherence-objectives-judge.md
+[planning] coherence-premise-drift-judge — between,coherence,court,drift,flow — agent:.opencode/agents/coherence-premise-drift-judge.md
+[planning] coherence-scope-judge — coherence,constraints,court,earlier,fixed — agent:.opencode/agents/coherence-scope-judge.md
 [planning] coherence-validator —  — agent:.opencode/agents/coherence-validator.md
 [planning] commit-guardian —  — agent:.opencode/agents/commit-guardian.md
 [planning] company-messaging — cifrados,company,envían,internos,mensajes — skill:.claude/skills/company-messaging/SKILL.md
@@ -1153,6 +1159,7 @@
 [planning] workspace-health — comprehensive,dashboard,health,workspace — script:scripts/workspace-health.sh
 [planning] write-a-skill — correctamente,crear,guia,nueva,repite — skill:.claude/skills/write-a-skill/SKILL.md
 [quality] /speckit.analyze — alias,compatible,consensus,cruzado,github — cmd:.claude/commands/speckit.analyze.md
+[quality] Coherence Court — against,audit,consistency,earlier,fixed — cmd:.claude/commands/coherence-court.md
 [quality] Court Review — across,code,convene,court,evaluate — cmd:.claude/commands/court-review.md
 [quality] Failure Patterns — agent,analysis,before,checking,error — cmd:.claude/commands/failure-patterns.md
 [quality] adversarial-containment — adversarial,containment,suite,test — script:scripts/adversarial-containment.sh

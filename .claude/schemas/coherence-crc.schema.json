@@ -1,0 +1,114 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Coherence Court Verdict (.coherence.crc)",
+  "description": "Consolidated verdict from the Coherence Court's 4 judges — transversal consistency audit between stages of an agentic flow",
+  "type": "object",
+  "required": [
+    "court_id", "flow_ref", "stage_ref", "checked_at", "court_round",
+    "stage_output", "judges", "consolidated", "premises", "signature"
+  ],
+  "properties": {
+    "court_id": {
+      "type": "string",
+      "pattern": "^COH-[0-9]{4}-[0-9]{4}-[0-9]{3}$"
+    },
+    "flow_ref": { "type": "string" },
+    "stage_ref": { "type": "string" },
+    "premises_count": { "type": "integer", "minimum": 0 },
+    "checked_at": { "type": "string", "format": "date-time" },
+    "court_round": { "type": "integer", "minimum": 1, "maximum": 4 },
+    "stage_output": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "path": { "type": "string" },
+          "sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+          "findings": { "type": "array", "items": { "type": "string" } },
+          "status": { "type": "string", "enum": ["pending", "clean", "needs-fix"] }
+        },
+        "required": ["path", "sha256", "findings", "status"]
+      }
+    },
+    "judges": {
+      "type": "object",
+      "properties": {
+        "coherence-factual": { "$ref": "#/$defs/judgeVerdict" },
+        "coherence-scope": { "$ref": "#/$defs/judgeVerdict" },
+        "coherence-objectives": { "$ref": "#/$defs/judgeVerdict" },
+        "coherence-premise-drift": { "$ref": "#/$defs/judgeVerdict" }
+      },
+      "required": ["coherence-factual", "coherence-scope", "coherence-objectives", "coherence-premise-drift"]
+    },
+    "consolidated": {
+      "type": "object",
+      "properties": {
+        "verdict": { "type": "string", "enum": ["pass", "conditional", "fail"] },
+        "total_findings": { "type": "integer" },
+        "blocking": { "type": "integer" },
+        "advisory": { "type": "integer" },
+        "score": { "type": "integer", "minimum": 0, "maximum": 100 }
+      },
+      "required": ["verdict", "total_findings", "blocking", "advisory", "score"]
+    },
+    "premises": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string" },
+          "kind": { "type": "string", "enum": ["fact", "constraint", "objective", "decision"] },
+          "content": { "type": "string" }
+        },
+        "required": ["id", "kind", "content"]
+      }
+    },
+    "rounds": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "round": { "type": "integer" },
+          "verdict": { "type": "string" },
+          "findings": { "type": "integer" },
+          "fixed": { "type": "integer" }
+        },
+        "required": ["round", "verdict", "findings"]
+      }
+    },
+    "signature": {
+      "type": "object",
+      "properties": {
+        "hash": { "type": "string" },
+        "reviewed_by": { "type": "string" }
+      },
+      "required": ["hash", "reviewed_by"]
+    }
+  },
+  "$defs": {
+    "judgeVerdict": {
+      "type": "object",
+      "properties": {
+        "verdict": { "type": "string", "enum": ["pass", "conditional", "fail"] },
+        "findings_count": { "type": "integer" },
+        "findings": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/finding" }
+        }
+      },
+      "required": ["verdict", "findings_count"]
+    },
+    "finding": {
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "pattern": "^CF[A-Z]-[0-9]{3}$" },
+        "premise_id": { "type": ["string", "null"] },
+        "severity": { "type": "string", "enum": ["critical", "high", "medium", "low", "info"] },
+        "kind": { "type": "string", "enum": ["contradiction", "omission", "scope-violation", "premise-drift"] },
+        "detail": { "type": "string" },
+        "suggestion": { "type": "string" }
+      },
+      "required": ["id", "severity", "kind", "detail"]
+    }
+  }
+}

@@ -1,10 +1,11 @@
 # memory — Savia Capability Map (L1)
-> 109 resources
+> 110 resources
 
 - **auto-compact** (script): auto-compact.sh — Disparado automáticamente cuando contexto > 85%
 - **cache-analytics** (cmd): Métricas de hit rate, tokens ahorrados, latencia, ahorro de costes
 - **changelog-consolidate** (script): changelog-consolidate.sh — consolidate CHANGELOG.d/*.md fragments into
 - **changelog-consolidate-if-needed** (script): changelog-consolidate-if-needed.sh — SE-053 Slice 1 post-merge automation.
+- **coherence-court-orchestrator** (agent): Convenes the Coherence Court, consolidates .coherence.crc, applies human gate
 - **company-show** (cmd): Mostrar perfil consolidado de la empresa — resumen ejecutivo del contexto organizacional
 - **configurator** (agent): Centralizes workspace dispatch decisions: selects skills, agents, rules, and memory queries for each user intent. Emits structured JSON decisions for orchestrators to consume.
 - **content-fingerprint** (script): content-fingerprint.sh — SE-151 consolidation skill

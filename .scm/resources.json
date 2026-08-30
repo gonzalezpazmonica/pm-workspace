@@ -1,6 +1,6 @@
 {
-  "hash": "25bc36cf5e59",
-  "total": 1412,
+  "hash": "7faa390a3782",
+  "total": 1419,
   "resources": [
     {
       "category": "analysis",
@@ -5852,6 +5852,20 @@
     },
     {
       "category": "memory",
+      "name": "coherence-court-orchestrator",
+      "intents": [
+        "applies",
+        "coherence",
+        "consolidates",
+        "convenes",
+        "court"
+      ],
+      "kind": "agent",
+      "path": ".opencode/agents/coherence-court-orchestrator.md",
+      "description": "Convenes the Coherence Court, consolidates .coherence.crc, applies human gate"
+    },
+    {
+      "category": "memory",
       "name": "company-show",
       "intents": [
         "consolidado",
@@ -8392,6 +8406,34 @@
     },
     {
       "category": "planning",
+      "name": "coherence-court",
+      "intents": [
+        "coherence",
+        "consistencia",
+        "court",
+        "etapas",
+        "jueces"
+      ],
+      "kind": "script",
+      "path": "scripts/coherence-court.sh",
+      "description": "coherence-court.sh — SE-350: Coherence Court (jueces transversales de consistencia entre etapas)"
+    },
+    {
+      "category": "planning",
+      "name": "coherence-factual-judge",
+      "intents": [
+        "coherence",
+        "contradicts",
+        "court",
+        "earlier",
+        "facts"
+      ],
+      "kind": "agent",
+      "path": ".opencode/agents/coherence-factual-judge.md",
+      "description": "Coherence Court judge — stage output contradicts facts fixed in earlier stages"
+    },
+    {
+      "category": "planning",
       "name": "coherence-judge",
       "intents": [
         "consistency",
@@ -8403,6 +8445,48 @@
       "kind": "agent",
       "path": ".opencode/agents/coherence-judge.md",
       "description": "Truth Tribunal judge — internal consistency (sums, dates, entities)"
+    },
+    {
+      "category": "planning",
+      "name": "coherence-objectives-judge",
+      "intents": [
+        "coherence",
+        "contradicts",
+        "court",
+        "declared",
+        "flow"
+      ],
+      "kind": "agent",
+      "path": ".opencode/agents/coherence-objectives-judge.md",
+      "description": "Coherence Court judge — stage output contradicts declared objectives of the flow"
+    },
+    {
+      "category": "planning",
+      "name": "coherence-premise-drift-judge",
+      "intents": [
+        "between",
+        "coherence",
+        "court",
+        "drift",
+        "flow"
+      ],
+      "kind": "agent",
+      "path": ".opencode/agents/coherence-premise-drift-judge.md",
+      "description": "Coherence Court judge — silent premise drift between stages of a flow"
+    },
+    {
+      "category": "planning",
+      "name": "coherence-scope-judge",
+      "intents": [
+        "coherence",
+        "constraints",
+        "court",
+        "earlier",
+        "fixed"
+      ],
+      "kind": "agent",
+      "path": ".opencode/agents/coherence-scope-judge.md",
+      "description": "Coherence Court judge — stage output violates scope/constraints fixed earlier"
     },
     {
       "category": "planning",
@@ -15206,6 +15290,20 @@
       "kind": "cmd",
       "path": ".claude/commands/speckit.analyze.md",
       "description": "Alias spec-kit compatible. Review cruzado de una spec antes de implementar. Invoca skill consensus-validation. Compatible con github/spec-kit."
+    },
+    {
+      "category": "quality",
+      "name": "Coherence Court",
+      "intents": [
+        "against",
+        "audit",
+        "consistency",
+        "earlier",
+        "fixed"
+      ],
+      "kind": "cmd",
+      "path": ".claude/commands/coherence-court.md",
+      "description": "Audit consistency of a stage output against premises fixed in earlier stages of the same flow (SE-350)"
     },
     {
       "category": "quality",

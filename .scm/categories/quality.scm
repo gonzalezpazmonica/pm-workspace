@@ -1,7 +1,8 @@
 # quality — Savia Capability Map (L1)
-> 262 resources
+> 263 resources
 
 - **/speckit.analyze** (cmd): Alias spec-kit compatible. Review cruzado de una spec antes de implementar. Invoca skill consensus-validation. Compatible con github/spec-kit.
+- **Coherence Court** (cmd): Audit consistency of a stage output against premises fixed in earlier stages of the same flow (SE-350)
 - **Court Review** (cmd): Convene the Code Review Court to evaluate implementation quality across 6 judges
 - **Failure Patterns** (cmd): List, show and resolve failure patterns from the Failure Pattern Memory store. Use when reviewing recurring agent errors, post-mortem analysis, or checking if an error has been seen before.
 - **adversarial-containment** (script): adversarial-containment.sh — Adversarial test suite for containment
