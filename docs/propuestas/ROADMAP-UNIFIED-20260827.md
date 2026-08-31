@@ -63,7 +63,7 @@ empezar ya.
 | Batch 1 — L14 | ✅ SE-338 rule-manifest + SE-339 coverage ratchet · SE-264 ya implementado (#905) | #1025 |
 | Batch 2 — SE-344 FxC | ✅ CLI fronema + cúpula Fronesia + 6 seed + 13 bats | #1028 |
 | Batch 3 — L23 cúpulas N1 | ✅ dome SaviaDomains + 34 cúpulas + generador | #1026 |
-| Batch 4 — backlog | ✅ SPEC-182/SE-106/SE-265/SE-258 cerrados + dep-audit CI · **SE-220-spec pendiente (18h)** | #1032 |
+| Batch 4 — backlog | ✅ SPEC-182/SE-106/SE-265/SE-258 cerrados + dep-audit CI · **SE-220-spec IMPLEMENTED (PR #874, 2026-06-26)** | #1032 |
 | Batch 5 — L26 | ✅ evidencia + FxC + política soberanía/resiliencia | #1029 |
 | Batch 6 — L27 | 🔶 E3/E5 gate PASS + E13 auditor + E14 matriz · **E12 Piloto 1 pendiente (VASS obviado)** | #1033 #1034 |
 | Batch 7 — verticales | ⏳ L24/L25/L12/L9 | — |
@@ -86,7 +86,7 @@ empezar ya.
 - 3h. Apertura de cúpulas sobre el catálogo validado. Precede a dominios de SE-344.
 
 ### Batch 4 — Backlog general P0/P2
-- SE-220-spec (18h, probe listo) · SE-258 (8h) · SPEC-182→SPEC-183 · SE-106 · SE-265.
+- SE-220-spec **IMPLEMENTED** (PR #874, 2026-06-26) · SE-258 (8h) · SPEC-182→SPEC-183 · SE-106 · SE-265.
 
 ### Batch 5 — L26 Savia Evolution (P3 Labs)
 - 14-18h. Evidencia → L27 + discurso inversor.

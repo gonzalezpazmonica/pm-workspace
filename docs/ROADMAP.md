@@ -441,7 +441,7 @@ Post-auditoria de alineacion OpenCode (inicio de sesion 2026-05-02). 4 gaps dete
 >
 > **Progreso 2026-08-27**: Batches 1-6 del plan unificado en marcha/completos —
 > L14 ✅ (SE-338/339), SE-344 FxC ✅, L23 cúpulas ✅, backlog 4 ✅ (SE-265/258/182/106
-> cerrados; SE-220-spec pendiente), L26 ✅, L27 E3/E5/E13/E14 ✅ (Piloto 1
+> cerrados; SE-220-spec ✅ IMPLEMENTED (PR #874, 2026-06-26)), L26 ✅, L27 E3/E5/E13/E14 ✅ (Piloto 1
 > pendiente), SE-347 evaluado (RE-EVALUAR), activaciones SE-348 ✅ (salvo sandbox
 > y modelo ≥8B). Detalle por batch y PRs: `ROADMAP-UNIFIED-20260827.md`.
 >
@@ -716,7 +716,7 @@ Google Sheets · ServiceNow/SAP · Tableau · Kafka · VS Code ext · Cloud voic
 |---|---|---|---|
 | **SE-266** | Agent Git Governance — reglas disciplina git para agentes concurrentes (Pi-inspired) | 3h | — |
 | **SE-264** | Memory auto-consolidation — dedup, strip test entries, flag stale (exxperts-inspired) | 3h | — |
-| **SE-220-spec** | Speculative Tool Execution — draft+verify (S0 BLOQUEANTE >=60%) | ~18h | feasibility probe |
+| **SE-220-spec** | Speculative Tool Execution — draft+verify (S0 BLOQUEANTE >=60%) | ~18h · **IMPLEMENTED PR #874** | — |
 | **SE-258** | Brechas identitarias — 5 slices (destracking, self-audit, archive) | 8h | — |
 
 #### Tier P1
@@ -911,11 +911,11 @@ Origen: https://github.com/graykode/abtop (2.7k stars, MIT). Patrones: JSON snap
 
 | # | ID | Título | Esfuerzo | Prioridad |
 |---|---|---|---|---|
-| 0 | SE-220 S0 | **Feasibility probe BLOQUEANTE** — acceptance rate ≥60% sobre `/sprint-status` o ABORT | S (~3h) | P2 |
-| 1 | SE-220 S1 | Tool call predictor + read-only whitelist (haiku/qwen2.5:3b) | M (~4h) | P2 |
-| 2 | SE-220 S2 | Async pre-execution wrapper con flock + cache TTL 30s | M (~5h) | P2 |
-| 3 | SE-220 S3 | Speculative skill pre-loading via pre-resolve hook | S (~3h) | P2 |
-| 4 | SE-220 S4 | Telemetry dashboard + GO/CONTINUE/KILL semanal | S (~3h) | P2 |
+| 0 | SE-220 S0 | **Feasibility probe BLOQUEANTE** — acceptance rate ≥60% sobre `/sprint-status` o ABORT | S (~3h) | ✅ PROCEED 20/20 (#856) |
+| 1 | SE-220 S1 | Tool call predictor + read-only whitelist (haiku/qwen2.5:3b) | M (~4h) | ✅ IMPLEMENTED (#874) |
+| 2 | SE-220 S2 | Async pre-execution wrapper con flock + cache TTL 30s | M (~5h) | ✅ IMPLEMENTED (#874) |
+| 3 | SE-220 S3 | Speculative skill pre-loading via pre-resolve hook | S (~3h) | ✅ IMPLEMENTED (#874) |
+| 4 | SE-220 S4 | Telemetry dashboard + GO/CONTINUE/KILL semanal | S (~3h) | ✅ IMPLEMENTED (#874) |
 
 Origen: investigación speculative decoding 2026-06-20 (papers Leviathan 2022, EAGLE-3 NeurIPS'25, Medusa, Lookahead). El decoder de Claude API es opaco — speculative decoding clásico NO aplica. El **principio** draft+verify SÍ aplica a la capa de orquestación: predictor barato (haiku) pre-ejecuta tool calls idempotentes en background mientras el orquestador (sonnet/opus) piensa. Spec: `docs/propuestas/SE-220-speculative-tool-execution.md`. priority_score = 78.4 (V=75, U=65, E=22) según SPEC-154. Dep: SE-202 (agent-hook-runner)  + SE-217 (time-budget) .
 
