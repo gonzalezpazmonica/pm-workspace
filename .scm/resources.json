@@ -1,6 +1,6 @@
 {
-  "hash": "46c799eeedd0",
-  "total": 1423,
+  "hash": "ad980ee72d9f",
+  "total": 1425,
   "resources": [
     {
       "category": "analysis",
@@ -8747,6 +8747,34 @@
       "kind": "script",
       "path": "scripts/contribute.sh",
       "description": "contribute.sh — Capa de interacción con GitHub para comunidad"
+    },
+    {
+      "category": "planning",
+      "name": "control-band-agent",
+      "intents": [
+        "agent",
+        "agente",
+        "band",
+        "control",
+        "invocación"
+      ],
+      "kind": "script",
+      "path": "scripts/control-band-agent.sh",
+      "description": "control-band-agent.sh — SE-357: invocación del agente por tier σ."
+    },
+    {
+      "category": "planning",
+      "name": "control-band-detect",
+      "intents": [
+        "band",
+        "bands",
+        "control",
+        "detección",
+        "detect"
+      ],
+      "kind": "script",
+      "path": "scripts/control-band-detect.sh",
+      "description": "control-band-detect.sh — SE-357: detección determinista de control bands (sin LLM)."
     },
     {
       "category": "planning",

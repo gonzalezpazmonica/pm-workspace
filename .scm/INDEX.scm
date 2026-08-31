@@ -1,6 +1,6 @@
 # Savia Capability Map — INDEX
-> hash: 0c0e45c00639 | resources: 1423
-> 295 commands · 132 skills · 88 agents · 908 scripts
+> hash: 020ca185bc0e | resources: 1425
+> 295 commands · 132 skills · 88 agents · 910 scripts
 
 [analysis] Trace Optimize — across,distributed,optimize,rates,sampling — cmd:.claude/commands/trace-optimize.md
 [analysis] agent-activity — activity,agent,executions,recent,show — cmd:.claude/commands/agent-activity.md
@@ -659,6 +659,8 @@
 [planning] containment-run — command,containment,execute,level,proper — script:scripts/containment-run.sh
 [planning] content-fingerprint — cache,cadena,contenido,corto,derivado — skill:.claude/skills/content-fingerprint/SKILL.md
 [planning] contribute — capa,comunidad,contribute,github,interacción — script:scripts/contribute.sh
+[planning] control-band-agent — agent,agente,band,control,invocación — script:scripts/control-band-agent.sh
+[planning] control-band-detect — band,bands,control,detección,detect — script:scripts/control-band-detect.sh
 [planning] corporate-adopt — adopt,corporate — script:scripts/corporate-adopt.sh
 [planning] corporate-body-validate — body,corporate,validate — script:scripts/corporate-body-validate.sh
 [planning] corporate-ledger-verify — corporate,ledger,verify — script:scripts/corporate-ledger-verify.sh
