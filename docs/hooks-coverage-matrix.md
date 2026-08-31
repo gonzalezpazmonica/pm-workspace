@@ -6,7 +6,7 @@
 
 | Total hooks | TS Guards | Git Hook mitigated | CI Job mitigated | NONE |
 |---|---|---|---|---|
-| 116 | 18 (15.5%) | 4 | 5 | 89 |
+| 117 | 18 (15.4%) | 4 | 5 | 90 |
 
 ## Bloqueantes sin cobertura ni mitigacion
 
@@ -14,8 +14,8 @@ Ninguno — AC-2.2 satisfecho.
 
 ## Cobertura real OpenCode
 
-- **TS Guards activos**: 18/116 (15.5%)
-- **Hooks sin cobertura TS**: 89 (76.7%)
+- **TS Guards activos**: 18/117 (15.4%)
+- **Hooks sin cobertura TS**: 90 (76.9%)
   - De los cuales son bloqueantes sin ninguna mitigacion: 0
   - Eventos no disponibles en OpenCode (degradacion aceptada): 30
 
@@ -59,6 +59,7 @@ Ninguno — AC-2.2 satisfecho.
 | PostToolUse | ast-quality-gate-hook.sh | no | CI_JOB | warning | CI validate-ci-local.sh |
 | PostToolUse | bus-factor-warn.sh | no | NONE | warning | degradacion_documentada: solo Claude Code |
 | PostToolUse | compress-agent-output.sh | no | NONE | warning | degradacion_documentada: solo Claude Code |
+| PostToolUse | memory-origin-gate.sh | no | NONE | warning | degradacion_documentada: solo Claude Code |
 | PostToolUse | post-digestion-kg-extract.sh | no | NONE | warning | degradacion_documentada: solo Claude Code |
 | PostToolUse | post-edit-lint.sh | no | CI_JOB | warning | CI validate-ci-local.sh |
 | PostToolUse | post-write-validate.sh | no | NONE | warning | degradacion_documentada: solo Claude Code |
