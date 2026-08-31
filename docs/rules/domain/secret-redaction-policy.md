@@ -98,3 +98,28 @@ third-party plugin also mutates `args.command` it MUST run AFTER
 - Implementation: `.opencode/plugins/guards/auto-redact-credentials.ts`
 - Tests: `.opencode/plugins/__tests__/auto-redact-credentials.test.ts`
 - Composition: `.opencode/plugins/savia-foundation.ts` (BEFORE_GUARDS)
+
+## Sentinel credential substitution (SE-353)
+
+Complementa la redacción con resolución **solo en egress**: el valor real de una
+credencial se sustituye en el subproceso que habla con el destino autorizado, de
+modo que **jamás entra en el contexto del modelo**.
+
+- `scripts/credential-egress.sh store KEY VALUE` — cifra y almacena en
+  `~/.savia/credential-store/keys.json` (0600, AES-256-CBC + HMAC, clave derivada
+  de machine-id + HOME).
+- `resolve KEY [--dest D]` — valor real solo si `D` está en la allowlist
+  (`dev.azure.com`, `github.com`, `api.github.com`). Destino no autorizado o
+  marcador no registrado → **REFUSE**.
+- `run CMD ARG...` — sustituye `savia:cred:<key>` en args y ejecuta en subproceso
+  (el valor real no se imprime ni se persiste).
+- `status` / `audit` — diagnóstico sin exponer valores.
+
+CRIT-001: tienda 100% local, sin proveedor cloud. La clave de cifrado deriva del
+host, así que el store no es portable a otra máquina (intencional).
+
+## References (SE-353)
+
+- Spec: `docs/specs/SE-353-sentinel-secrets.spec.md`
+- Tests: `tests/bats/test-se353-credential-egress.bats`
+- Inspiración: OpenClaw SecretRefs + egress sentinels
