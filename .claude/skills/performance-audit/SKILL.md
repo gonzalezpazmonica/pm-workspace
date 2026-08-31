@@ -1,4 +1,5 @@
 ---
+layer: peripheral
 name: performance-audit
 description: Usar cuando se audita el rendimiento estático de código para detectar hotspots.
 metadata:

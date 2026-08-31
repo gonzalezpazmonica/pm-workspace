@@ -1,4 +1,5 @@
 ---
+layer: peripheral
 name: voice-inbox
 description: Usar cuando se procesan mensajes de voz para transcribirlos y convertirlos en acciones.
 metadata:

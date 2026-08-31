@@ -1,4 +1,5 @@
 ---
+layer: peripheral
 name: network-recon
 description: "Reconocimiento de red: port scan con nmap/RustScan + HTTP detection con httpx."
 metadata:

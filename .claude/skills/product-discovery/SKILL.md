@@ -1,4 +1,5 @@
 ---
+layer: peripheral
 name: product-discovery
 description: "Usar antes de descomponer PBIs, cuando se necesita análisis JTBD y PRD del producto."
 metadata:

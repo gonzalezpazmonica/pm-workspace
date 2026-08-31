@@ -1,4 +1,5 @@
 ---
+layer: peripheral
 name: smart-calendar
 description: Usar cuando se gestiona la agenda inteligente con sincronización Outlook/Teams.
 allowed-tools: [Read, Write, Edit, Bash, Glob, Grep, Task]

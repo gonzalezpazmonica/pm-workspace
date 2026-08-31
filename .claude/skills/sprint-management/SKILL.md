@@ -1,4 +1,5 @@
 ---
+layer: peripheral
 name: sprint-management
 description: "Usar cuando se consulta el estado del sprint, se actualizan items o se genera el resumen."
 metadata:

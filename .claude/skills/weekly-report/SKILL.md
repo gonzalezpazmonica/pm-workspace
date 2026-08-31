@@ -1,4 +1,5 @@
 ---
+layer: peripheral
 name: weekly-report
 description: Usar cuando se genera el informe semanal de estado del proyecto.
 metadata:

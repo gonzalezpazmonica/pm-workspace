@@ -1,4 +1,5 @@
 ---
+layer: peripheral
 name: context-interview-conductor
 description: Usar cuando se necesita recopilar contexto estructurado de un usuario mediante entrevista guiada.
 metadata:

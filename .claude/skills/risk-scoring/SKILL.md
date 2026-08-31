@@ -1,4 +1,5 @@
 ---
+layer: peripheral
 name: risk-scoring
 description: Usar cuando se calcula el riesgo de una tarea para decidir el nivel de revisión requerido.
 metadata:

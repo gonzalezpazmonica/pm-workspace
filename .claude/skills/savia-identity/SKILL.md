@@ -1,4 +1,5 @@
 ---
+layer: peripheral
 name: savia-identity
 description: Usar al inicio de sesión para cargar la identidad completa y las reglas de comportamiento de Savia.
 license: MIT

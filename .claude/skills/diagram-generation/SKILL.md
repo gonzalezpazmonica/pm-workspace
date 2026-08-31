@@ -1,4 +1,5 @@
 ---
+layer: peripheral
 name: diagram-generation
 description: Usar cuando se necesita generar diagramas de arquitectura o flujo desde código o infraestructura.
 metadata:

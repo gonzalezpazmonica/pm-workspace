@@ -1,4 +1,5 @@
 ---
+layer: peripheral
 name: ubiquitous-language
 description: "Usar cuando se necesita extraer o consolidar el glosario de términos de dominio de un proyecto. Trigger: usuario dice 'extrae glosario', 'ubiquitous language', '/glossary', o hay >5 términos repetidos sin CONTEXT.md."
 metadata:

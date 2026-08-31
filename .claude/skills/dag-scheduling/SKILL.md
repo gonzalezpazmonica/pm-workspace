@@ -1,4 +1,5 @@
 ---
+layer: peripheral
 name: dag-scheduling
 description: Usar cuando se orquestan múltiples agentes SDD con dependencias entre ellos.
 metadata:

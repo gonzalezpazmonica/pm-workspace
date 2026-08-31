@@ -1,4 +1,5 @@
 ---
+layer: peripheral
 name: backlog-git-tracker
 description: Usar cuando se capturan o comparan snapshots del backlog para detectar drift.
 metadata:

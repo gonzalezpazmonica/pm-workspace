@@ -1,5 +1,5 @@
 # planning — Savia Capability Map (L1)
-> 612 resources
+> 613 resources
 
 - **/decide-architecture** (cmd): Clasifica una tarea como WORKFLOW (deterministica) o AGENT (loop). Bias hacia workflow per Anthropic. Sugiere plantilla inicial. Mide accuracy contra corpus curado de 20 tareas.
 - **_template** (skill): TEMPLATE — copia este directorio para crear una skill nueva. NO se carga en runtime.
@@ -477,6 +477,7 @@
 - **skill-feedback-log** (script): skill-feedback-log.sh — Append skill invocation to JSONL log
 - **skill-feedback-rank** (script): skill-feedback-rank.sh — Compute skill effectiveness and generate ranking
 - **skill-keyword-detector** (script): skill-keyword-detector.sh — SE-203: detect which skills to auto-load based on keyword triggers
+- **skill-layer-check** (script): skill-layer-check.sh — SE-356: validación de dos capas (core/peripheral) en skills.
 - **skill-propose** (cmd): Proponer nuevo skill desde un workflow repetitivo — auto-genera scaffold si 3+ observaciones
 - **skill-quality-eval** (script): skill-quality-eval.sh — Semantic skill quality evaluation via LLM judge (SE-278)
 - **skill-quality-eval-all** (script): skill-quality-eval-all.sh — Batch evaluation of all skills (SE-278 S4)

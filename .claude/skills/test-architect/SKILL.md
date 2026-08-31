@@ -1,4 +1,5 @@
 ---
+layer: peripheral
 name: test-architect
 description: Usar cuando se diseñan o generan tests de alta calidad en cualquier lenguaje.
 metadata:

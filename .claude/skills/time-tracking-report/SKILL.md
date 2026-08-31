@@ -1,4 +1,5 @@
 ---
+layer: peripheral
 name: time-tracking-report
 description: Usar cuando se generan informes de imputación de horas en Excel o Word.
 metadata:

@@ -1,4 +1,5 @@
 ---
+layer: peripheral
 name: savia-school
 description: Usar cuando el workspace se adapta para un entorno educativo con estudiantes menores de edad.
 allowed-tools: [Read, Write, Edit, Bash, Glob, Grep]

@@ -1,4 +1,5 @@
 ---
+layer: peripheral
 name: capacity-planning
 description: Usar cuando se calcula la capacidad del equipo para un sprint o periodo.
 metadata:

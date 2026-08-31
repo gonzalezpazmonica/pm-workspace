@@ -1,4 +1,5 @@
 ---
+layer: peripheral
 name: team-coordination
 description: "Usar cuando se coordinan múltiples equipos, se asignan miembros o se detectan bloqueantes cross-team."
 metadata:

@@ -1,4 +1,5 @@
 ---
+layer: peripheral
 name: enterprise-analytics
 description: "Usar cuando se necesitan métricas SPACE, aggregación de portfolio o forecasting empresarial."
 metadata:

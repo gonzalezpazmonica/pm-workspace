@@ -1,4 +1,5 @@
 ---
+layer: peripheral
 name: agent-file-map
 description: Usar cuando se trabaja con ficheros externos al workspace que los agentes deben localizar.
 allowed-tools: [Bash, Read, Glob, Grep, Write, Edit]

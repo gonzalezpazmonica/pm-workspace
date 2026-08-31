@@ -1,4 +1,5 @@
 ---
+layer: peripheral
 name: context-caching
 description: Usar cuando se optimiza el orden de carga de contexto para maximizar cache hits.
 metadata:

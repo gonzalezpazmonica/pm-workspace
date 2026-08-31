@@ -1,4 +1,5 @@
 ---
+layer: peripheral
 name: dependency-scanner
 description: "Usar cuando se escanean vulnerabilidades en dependencias de proyectos (Node, Python, C#, Java, Go, Rust, Ruby) con Trivy fs. Genera SBOM CycloneDX."
 metadata:

@@ -1,4 +1,5 @@
 ---
+layer: peripheral
 name: cost-management
 description: "Usar cuando se gestionan timesheets, presupuestos, facturas o forecasting de costes."
 metadata:

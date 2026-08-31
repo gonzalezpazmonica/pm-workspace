@@ -1,4 +1,5 @@
 ---
+layer: peripheral
 name: human-code-map
 description: "Usar cuando se incorpora un dev nuevo, se toca un módulo sin mapa, o alguien re-lee el mismo código repetidamente."
 allowed-tools: [Read, Write, Edit, Glob, Grep, Bash]

@@ -1,4 +1,5 @@
 ---
+layer: peripheral
 name: project-update
 description: Usar cuando se necesita una actualización integral del proyecto activo desde todas las fuentes.
 allowed-tools: [Bash, Read, Write, Edit, Glob, Grep, Task]
