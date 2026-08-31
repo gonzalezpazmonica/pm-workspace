@@ -85,7 +85,16 @@ SAVIA_PERMISSION_MODE=read-only bash scripts/permission-mode-gate.sh  # negativo
 ## Trabajo futuro (fuera de scope)
 - Rol ceilings multi-usuario (OpenClaw roles) — spec independiente
 - Sandboxing real de ejecución — out of scope (necesita decisión de infra)
+## Validación (ejecutada en esta sesión)
+
+- `tests/bats/test-se354-permission-mode.bats`: 16 bats verdes
+  - read-only: Write/Edit/MultiEdit bloqueadas (exit 2)
+  - read-only: git status/diff, ls, cat permitidos (exit 0)
+  - read-only: git push/commit/merge, mv bloqueados (exit 2)
+  - full: Write y git push permitidos (exit 0)
+  - fail-soft: JSON inválido / modo vacío / input vacío → exit 0
 
 ## Referencias
+
 - OpenClaw: `docs/start/why-openclaw.md` (Policy as code, permission modes)
 - Savia: SE-266 (agent-git-discipline), `docs/rules/domain/autonomous-safety.md`, CRIT-001

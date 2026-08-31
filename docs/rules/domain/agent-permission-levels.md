@@ -122,3 +122,22 @@ El nivel define el maximo. agent-policies.yaml puede restringir mas. autonomous-
 2. permission_level del agente (maximo)
 3. agent-policies.yaml del proyecto (restriccion)
 4. Runtime overrides (solo con confirmacion humana)
+
+## Enforcement por sesión (SE-354)
+
+Los niveles declarados se refuerzan en **código** (policy as code), no por
+promesa al modelo, mediante el hook `permission-mode-gate.sh` (PreToolUse):
+
+- `SAVIA_PERMISSION_MODE=read-only` → deniega estructuralmente (exit 2) las
+  tools de mutación: `Write`, `Edit`, `MultiEdit`, y comandos Bash de mutación
+  (`git push/commit/merge/reset --hard`, `rm`, `mv`, `cp`, installers).
+- Whitelist read-safe dentro de Bash: `git status/log/diff/show/fetch`,
+  `ls/cat/grep/rg/find/wc/head/tail`.
+- `SAVIA_PERMISSION_MODE=full` (default) → sin cambios de comportamiento.
+
+Equivale a una sesión L0/L1 forzada por hook. Los agentes L2+ pueden optar a
+ejecutar su trabajo en modo read-only (auditorías, consultas) sin riesgo de
+mutación accidental.
+
+Ref: SE-354 (spec `docs/specs/SE-354-readonly-permission-mode.spec.md`),
+inspirado en OpenClaw permission modes.
