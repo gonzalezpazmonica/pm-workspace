@@ -6,12 +6,13 @@ set -uo pipefail
 cmd_search() {
     [[ ! -f "$STORE_FILE" ]] && { echo "Usage: search requires a store file" >&2; return 1; }
     local query= type_filter= since_date= mode="auto" include_expired=false
-    local sector_filter= include_superseded=false
+    local sector_filter= include_superseded=false min_origin=
     while [[ $# -gt 0 ]]; do case "$1" in
         --type) type_filter="$2"; shift 2;; --since) since_date="$2"; shift 2;;
         --mode) mode="$2"; shift 2;; --include-expired) include_expired=true; shift;;
         --sector) sector_filter="$2"; shift 2;;
         --include-superseded) include_superseded=true; shift;;
+        --min-origin) min_origin="$2"; shift 2;;   # SE-352: owner|agent|untrusted
         *) query="$1"; shift;; esac
     done
     [[ -z "$query" ]] && { echo "Usage: search \"query\" [--type tipo] [--since DATE] [--mode hybrid|vector|graph|grep|auto]" >&2; return 1; }
@@ -80,6 +81,16 @@ for r in d['results']:
         # SPEC-034: skip superseded entries by default
         if [[ "$include_superseded" != "true" ]]; then
             echo "$line" | grep -q '"valid_to"' && continue
+        fi
+        # SE-352: origin class filter (fail-safe: entry sin origin = untrusted)
+        if [[ -n "$min_origin" ]]; then
+            local line_origin
+            line_origin=$(echo "$line" | grep -o '"origin":"[^"]*"' | cut -d'"' -f4 || echo "untrusted")
+            [[ -z "$line_origin" ]] && line_origin="untrusted"
+            local origin_rank line_rank
+            case "$min_origin" in owner) origin_rank=4 ;; agent) origin_rank=3 ;; untrusted) origin_rank=2 ;; *) origin_rank=2 ;; esac
+            case "$line_origin" in owner) line_rank=4 ;; agent) line_rank=3 ;; untrusted) line_rank=2 ;; system) line_rank=1 ;; *) line_rank=2 ;; esac
+            [[ $line_rank -lt $origin_rank ]] && continue
         fi
         title=$(echo "$line" | grep -o '"title":"[^"]*"' | cut -d'"' -f4)
         topic=$(echo "$line" | grep -o '"topic_key":"[^"]*"' | cut -d'"' -f4)

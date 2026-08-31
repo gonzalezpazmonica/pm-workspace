@@ -6,6 +6,11 @@
 > Each entry: date, spec ID, status transition, optional rationale.
 > Ref: SE-222 S1 OKF Adoptable Patterns (log.md convention).
 
+## 2026-08-31 SE-352 APPROVED→IMPLEMENTED
+Trust-Gated Memory (origen OpenClaw 2.0): origin class owner/agent/untrusted/system
+en memory-store, taint de turno vía hook memory-origin-gate.sh, consolidación que
+excluye untrusted/system, filtro search --min-origin, audit-origins. 15 bats verdes.
+
 ## 2026-08-31 SE-220 IMPLEMENTED
 Speculative Tool Execution — S0 feasibility (PROCEED, acceptance_rate=1.00) + Slices 1-4.
 Implementado en PR #874 (2026-06-26): predictor heurístico (`speculative-tool-predictor.py`),

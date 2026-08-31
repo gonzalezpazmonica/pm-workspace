@@ -216,6 +216,25 @@ The `memory-auto-capture.sh` PostToolUse hook automatically captures patterns fr
 
 `/nl-query` uses `intent-catalog.md` (60+ patterns, bilingual) to map natural language to commands. Confidence scoring: base (70-95%) + context bonus (+0-5%) + history bonus (+0-3%). Thresholds: ≥80% auto-execute, 50-79% confirm, <50% suggest top 3.
 
+### Trust-Gated Memory (SE-352)
+
+Cada entrada lleva una clase de origen (`origin`) que gobierna su confianza para
+la consolidación. Cuatro clases:
+
+- `owner` — escrita por la operadora (o vía `--source user:explicit`)
+- `agent` — escrita por un agente sobre hechos verificados localmente (`tool:*`, `file:*`, `verified:*`)
+- `untrusted` — origen de red, subagente no verificado, o entrada sin `src:` (fail-safe)
+- `system` — generada por hooks/scripts de infraestructura (sin semántica de decisión)
+
+Reglas:
+- **Fail-safe**: una entrada sin `--origin` ni source confiable se clasifica `untrusted`. NUNCA `owner` por defecto.
+- **Taint de turno**: tras una tool de red (webfetch, curl, git fetch...), las siguientes entradas del turno se degradan a `untrusted` (hook `memory-origin-gate.sh`).
+- **Consolidación**: `memory-store.sh consolidate` excluye `untrusted`/`system` de la promoción (`--dry-run` para previsualizar). Una entrada recuperada nunca promueve su propio nivel de confianza.
+- **Filtro de búsqueda**: `memory-store.sh search "..." --min-origin owner|agent|untrusted`.
+- **Auditoría**: `memory-store.sh audit-origins` reporta la distribución de orígenes.
+
+Persistencia: el campo `origin` se guarda en el JSONL y en el índice `MEMORY.md` como sufijo `· src:{origin}`.
+
 ---
 
 ## Activar búsqueda semántica (SE-143)

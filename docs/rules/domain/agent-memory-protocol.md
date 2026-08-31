@@ -49,6 +49,18 @@ Before writing, classify each pattern:
 Max 150 lines per file. Content accumulates under `##` headers.
 When approaching limit, compress oldest entries.
 
+## Origin Classification (SE-352)
+
+Cada entrada de memoria lleva una clase de origen que gobierna su confianza:
+
+- `owner` — operadora (`--source user:explicit`)
+- `agent` — agente sobre hechos locales (`tool:*`, `file:*:*`, `verified:*`)
+- `untrusted` — red / no verificado (fail-safe por defecto)
+- `system` — hooks/scripts de infraestructura
+
+Regla: NUNCA `owner` por defecto. Turno tainted por tool de red → `untrusted`.
+Consolidación (`memory-store.sh consolidate`) excluye `untrusted`/`system`.
+
 ## When Agents Write Memory
 
 1. **Architecture decision** that affects future work
