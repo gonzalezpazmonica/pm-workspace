@@ -6,6 +6,12 @@
 > Each entry: date, spec ID, status transition, optional rationale.
 > Ref: SE-222 S1 OKF Adoptable Patterns (log.md convention).
 
+## 2026-08-31 SE-355 APPROVED→IMPLEMENTED
+Audit Ledger metadata-only + decision receipts (origen OpenClaw 2.0):
+audit-receipts.sh con vocabulario cerrado, enforced solo si gate gobernó,
+ledger local data/audit sin prompts/PII, retention 30d batch, non-claims doc.
+12 bats verdes.
+
 ## 2026-08-31 SE-352 APPROVED→IMPLEMENTED
 Trust-Gated Memory (origen OpenClaw 2.0): origin class owner/agent/untrusted/system
 en memory-store, taint de turno vía hook memory-origin-gate.sh, consolidación que
