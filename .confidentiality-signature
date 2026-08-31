@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=4c1c211a1bcac58316c5c4b2c19e15ea1444ac8fe536d7cd359aae1c8fbf8529
-timestamp=2026-08-31T22:41:10Z
-branch=agent/se356-skills-two-layers-20260831
-head_commit=b1ef1787
-signature=ed514b6d28daa9cf5e3bd75a9e588dfbce48b290354c3047ca42479f5b6c7fbb
+diff_hash=5b564c0be8325ade4d5bff4cb2614680cb01733ceb252ab2a4748ece0cedfd80
+timestamp=2026-08-31T23:07:13Z
+branch=agent/se357-control-bands-20260831
+head_commit=a01ce4f4
+signature=9421c8befd35bcab6b359673df9faed7821a912c0db98193cfd34c0535955311
