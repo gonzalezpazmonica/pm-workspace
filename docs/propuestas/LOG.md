@@ -6,6 +6,12 @@
 > Each entry: date, spec ID, status transition, optional rationale.
 > Ref: SE-222 S1 OKF Adoptable Patterns (log.md convention).
 
+## 2026-08-31 SE-357 APPROVED→IMPLEMENTED
+Control Bands autónomas (origen Anthropic AI-Native SDLC Playbook Stage 6):
+detección determinista sin LLM + tiers σ (1σ log, 2σ diagnose, 3σ propose),
+control-bands.yaml, historial local, intent/ como re-entrada al pipeline.
+12 bats verdes.
+
 ## 2026-08-31 SE-356 APPROVED→IMPLEMENTED
 Skills Two-Layers (origen OpenClaw VISION): layer core/peripheral en 132 SKILL.md
 (peripheral por defecto), skills-registry/INDEX.json + REVIEW.md (criterios de
