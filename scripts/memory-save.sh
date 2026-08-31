@@ -292,10 +292,10 @@ cmd_audit_origins() {
         esac
     done < "$STORE_FILE"
     local pct_owner pct_agent pct_untrusted pct_system
-    pct_owner=$(awk -v a="$owner" -v t="$total" 'BEGIN{printf "%.1f", t>0?100*a/t:0}')
-    pct_agent=$(awk -v a="$agent" -v t="$total" 'BEGIN{printf "%.1f", t>0?100*a/t:0}')
-    pct_untrusted=$(awk -v a="$untrusted" -v t="$total" 'BEGIN{printf "%.1f", t>0?100*a/t:0}')
-    pct_system=$(awk -v a="$system" -v t="$total" 'BEGIN{printf "%.1f", t>0?100*a/t:0}')
+    pct_owner=$(LC_ALL=C awk -v a="$owner" -v t="$total" 'BEGIN{printf "%.1f", (t>0?100*a/t:0)}')
+    pct_agent=$(LC_ALL=C awk -v a="$agent" -v t="$total" 'BEGIN{printf "%.1f", (t>0?100*a/t:0)}')
+    pct_untrusted=$(LC_ALL=C awk -v a="$untrusted" -v t="$total" 'BEGIN{printf "%.1f", (t>0?100*a/t:0)}')
+    pct_system=$(LC_ALL=C awk -v a="$system" -v t="$total" 'BEGIN{printf "%.1f", (t>0?100*a/t:0)}')
     echo "Distribución de orígenes — Total: $total entradas"
     echo "  owner:      $owner ($pct_owner%)"
     echo "  agent:      $agent ($pct_agent%)"
