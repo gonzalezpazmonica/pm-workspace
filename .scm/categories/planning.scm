@@ -1,5 +1,5 @@
 # planning — Savia Capability Map (L1)
-> 615 resources
+> 616 resources
 
 - **/decide-architecture** (cmd): Clasifica una tarea como WORKFLOW (deterministica) o AGENT (loop). Bias hacia workflow per Anthropic. Sugiere plantilla inicial. Mide accuracy contra corpus curado de 20 tareas.
 - **_template** (skill): TEMPLATE — copia este directorio para crear una skill nueva. NO se carga en runtime.
@@ -374,6 +374,7 @@
 - **pbi-prd** (cmd): >
 - **personal-vault** (skill): Usar cuando se lee o escribe el repositorio personal del usuario (perfil, preferencias, memoria).
 - **php-developer** (agent): >
+- **plan-diff-check** (script): plan-diff-check.sh — SE-358: verifica que el diff respeta el plan.md.
 - **plugin-export** (cmd): Empaquetar pm-workspace como plugin distributable con validación de estructura
 - **plugin-validate** (cmd): Validar estructura de plugin — skills, agents, commands e integridad
 - **pm-backend-health** (script): pm-backend-health.sh — SE-092 MVP: detect PM backend configuration
