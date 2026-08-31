@@ -1,6 +1,6 @@
 {
-  "hash": "efff4a65b965",
-  "total": 1424,
+  "hash": "122737e1fde9",
+  "total": 1425,
   "resources": [
     {
       "category": "analysis",
@@ -12157,6 +12157,20 @@
       "kind": "agent",
       "path": ".opencode/agents/php-developer.md",
       "description": ">"
+    },
+    {
+      "category": "planning",
+      "name": "plan-diff-check",
+      "intents": [
+        "check",
+        "diff",
+        "plan",
+        "respeta",
+        "verifica"
+      ],
+      "kind": "script",
+      "path": "scripts/plan-diff-check.sh",
+      "description": "plan-diff-check.sh — SE-358: verifica que el diff respeta el plan.md."
     },
     {
       "category": "planning",
