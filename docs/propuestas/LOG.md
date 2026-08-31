@@ -6,6 +6,10 @@
 > Each entry: date, spec ID, status transition, optional rationale.
 > Ref: SE-222 S1 OKF Adoptable Patterns (log.md convention).
 
+## 2026-08-31 SE-359 APPROVED→IMPLEMENTED
+REVIEW.md policy (origen Anthropic playbook Stage 5): passes canónicos, vocab
+cerrado Important|Nit, cap 5 nits, exclusiones; review-policy-parse.py. 7 pytest + 7 bats.
+
 ## 2026-08-31 SE-357 APPROVED→IMPLEMENTED
 Control Bands autónomas (origen Anthropic AI-Native SDLC Playbook Stage 6):
 detección determinista sin LLM + tiers σ (1σ log, 2σ diagnose, 3σ propose),
