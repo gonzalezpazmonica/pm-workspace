@@ -1,4 +1,5 @@
 ---
+layer: peripheral
 name: codegraph
 description: Usar cuando se necesita indexación AST persistente para navegación de callers/callees en el código.
 allowed-tools: [Bash, Read]

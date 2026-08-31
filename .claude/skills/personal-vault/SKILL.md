@@ -1,4 +1,5 @@
 ---
+layer: peripheral
 name: personal-vault
 description: "Usar cuando se lee o escribe el repositorio personal del usuario (perfil, preferencias, memoria)."
 allowed-tools: [Read, Write, Edit, Bash, Glob, Grep]

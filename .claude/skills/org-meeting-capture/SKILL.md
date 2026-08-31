@@ -1,4 +1,5 @@
 ---
+layer: peripheral
 name: org-meeting-capture
 description: "Captura de Conocimiento Tácito de Reunión: extrae decisores, acuerdos informales y señales políticas de transcripciones."
 metadata:

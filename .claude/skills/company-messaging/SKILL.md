@@ -1,4 +1,5 @@
 ---
+layer: peripheral
 name: company-messaging
 description: Usar cuando se envían mensajes internos cifrados entre miembros de la organización vía Company Savia.
 allowed-tools: [Read, Bash, Glob, Grep]

@@ -1,4 +1,5 @@
 ---
+layer: peripheral
 name: tier3-probes
 description: Usar cuando se valida la viabilidad de herramientas Tier 3 antes de adoptarlas en el workspace.
 allowed-tools: [Bash, Read]

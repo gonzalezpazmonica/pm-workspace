@@ -1,4 +1,5 @@
 ---
+layer: peripheral
 name: feasibility-probe
 description: Usar cuando se necesita validar si una spec es técnicamente viable antes de implementarla.
 allowed-tools: [Read, Write, Edit, Bash, Glob, Grep, Task]

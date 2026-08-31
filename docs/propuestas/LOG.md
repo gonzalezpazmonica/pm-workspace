@@ -6,6 +6,11 @@
 > Each entry: date, spec ID, status transition, optional rationale.
 > Ref: SE-222 S1 OKF Adoptable Patterns (log.md convention).
 
+## 2026-08-31 SE-356 APPROVED→IMPLEMENTED
+Skills Two-Layers (origen OpenClaw VISION): layer core/peripheral en 132 SKILL.md
+(peripheral por defecto), skills-registry/INDEX.json + REVIEW.md (criterios de
+promoción), skill-layer-check.sh. 8 bats verdes.
+
 ## 2026-08-31 SE-352 APPROVED→IMPLEMENTED
 Trust-Gated Memory (origen OpenClaw 2.0): origin class owner/agent/untrusted/system
 en memory-store, taint de turno vía hook memory-origin-gate.sh, consolidación que

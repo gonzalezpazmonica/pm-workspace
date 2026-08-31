@@ -1,4 +1,5 @@
 ---
+layer: peripheral
 name: robotica-diseno
 description: "Diseño profundo de robótica, automatización y hardware/software para el mundo físico. Usar cuando se diseña un robot, una celda de automatización, integración de sensores, servos, PLCs, visión artificial, o cuando se conecta un agente a hardware físico."
 metadata:

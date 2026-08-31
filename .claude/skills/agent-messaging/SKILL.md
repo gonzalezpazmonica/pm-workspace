@@ -1,4 +1,5 @@
 ---
+layer: peripheral
 name: agent-messaging
 description: Usar cuando un agente debe enviar un mensaje a otro agente con roles y receipts, sin pasar por el usuario. Triggers: mensaje a otro agente, agent-message, notify agent, inbox.
 metadata:

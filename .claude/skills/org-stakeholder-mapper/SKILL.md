@@ -1,4 +1,5 @@
 ---
+layer: peripheral
 name: org-stakeholder-mapper
 description: "Mapeador de Stakeholders y Decisores: extrae roles formales y reales, motivaciones, alianzas y tensiones de una organización."
 metadata:

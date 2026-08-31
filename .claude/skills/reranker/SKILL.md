@@ -1,4 +1,5 @@
 ---
+layer: peripheral
 name: reranker
 description: Usar cuando se recibe un top-K ruidoso de búsqueda en memoria y se necesita reordenar por relevancia.
 allowed-tools: [Read, Bash]

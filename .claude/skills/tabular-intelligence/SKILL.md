@@ -1,4 +1,5 @@
 ---
+layer: peripheral
 name: tabular-intelligence
 description: "Usar cuando se analizan datos tabulares (CSV, Excel, tablas, metricas). Triggers: 'analiza esta tabla', 'metricas del sprint', 'tendencia de', 'distribucion de', 'correlacion entre', 'KPIs', 'datos financieros', 'perfil estadistico', 'resumen de datos', 'outlier'."
 metadata:

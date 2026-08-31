@@ -1,4 +1,5 @@
 ---
+layer: peripheral
 name: workspace-integrity
 description: "Usar cuando se audita la integridad del workspace (drift, reglas, agentes, baseline)."
 allowed-tools: [Bash, Read, Glob]

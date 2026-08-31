@@ -1,4 +1,5 @@
 ---
+layer: peripheral
 name: meeting-transcript-extract
 description: Usar cuando se necesita extraer la transcripción de una reunión Teams desde el browser.
 allowed-tools: [Read, Bash]

@@ -1,4 +1,5 @@
 ---
+layer: peripheral
 name: org-political-landscape
 description: "Análisis de Paisaje Político Interno: detecta tensiones, alianzas y centros de poder a partir de un mapa de stakeholders."
 metadata:

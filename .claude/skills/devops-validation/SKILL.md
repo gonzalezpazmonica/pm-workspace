@@ -1,4 +1,5 @@
 ---
+layer: peripheral
 name: devops-validation
 description: Usar cuando se conecta un proyecto nuevo a Azure DevOps para validar su configuración Agile.
 metadata:

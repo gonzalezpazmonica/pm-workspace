@@ -1,4 +1,5 @@
 ---
+layer: peripheral
 name: savia-flow-practice
 description: Usar cuando se implementa Savia Flow con dual-track y métricas de flujo en un proyecto.
 metadata:

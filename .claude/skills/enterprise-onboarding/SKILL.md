@@ -1,4 +1,5 @@
 ---
+layer: peripheral
 name: enterprise-onboarding
 description: Usar cuando se incorporan múltiples personas a la organización de forma masiva.
 metadata:

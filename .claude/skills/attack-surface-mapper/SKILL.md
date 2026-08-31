@@ -1,4 +1,5 @@
 ---
+layer: peripheral
 name: attack-surface-mapper
 description: "Mapear la superficie de ataque de un dominio: subdominios, OSINT, typosquatting."
 metadata:

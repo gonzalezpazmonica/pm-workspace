@@ -1,4 +1,5 @@
 ---
+layer: peripheral
 name: spec-driven-development
 description: "Usar cuando se escribe, valida o implementa una spec ejecutable SDD."
 metadata:

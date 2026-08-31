@@ -1,4 +1,5 @@
 ---
+layer: peripheral
 name: banking-architecture
 description: Usar cuando se diseña o revisa arquitectura para proyectos del sector bancario.
 metadata:

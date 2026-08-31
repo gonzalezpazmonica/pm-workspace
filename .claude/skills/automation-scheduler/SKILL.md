@@ -1,4 +1,5 @@
 ---
+layer: peripheral
 name: automation-scheduler
 description: "Usar cuando se crean, gestionan o ejecutan automatizaciones programadas: morning briefs, weekly reports, PR stale checks, dependency scans, memory consolidation, drift audits. Triggers: programa una tarea, automatiza esto, crea una automatizacion, scheduled task, ejecuta cada dia, /automations, init-defaults."
 ---

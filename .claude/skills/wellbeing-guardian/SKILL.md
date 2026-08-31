@@ -1,4 +1,5 @@
 ---
+layer: peripheral
 name: wellbeing-guardian
 description: Usar cuando se monitorizan señales de bienestar individual en el equipo.
 metadata:

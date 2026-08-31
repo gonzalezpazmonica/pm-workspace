@@ -1,4 +1,5 @@
 ---
+layer: peripheral
 name: context-task-classifier
 description: Usar antes de compactar contexto para clasificar la tarea del turno actual.
 metadata:

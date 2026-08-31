@@ -1,4 +1,5 @@
 ---
+layer: peripheral
 name: evaluations-framework
 description: Usar cuando se diseñan o ejecutan evaluaciones de calidad de agentes y prompts.
 metadata:

@@ -1,4 +1,5 @@
 ---
+layer: peripheral
 name: scheduled-messaging
 description: Usar cuando se configuran mensajes automáticos programados a plataformas de comunicación.
 metadata:

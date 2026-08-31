@@ -1,4 +1,5 @@
 ---
+layer: peripheral
 name: pbi-decomposition
 description: Usar cuando se descompone un PBI en tasks y se estiman las horas.
 metadata:

@@ -1,4 +1,5 @@
 ---
+layer: peripheral
 name: evidence-first-development
 description: "Desarrollo evidence-first: rodea la implementación con un SPEC aprobado y un gauntlet de restricciones para que el line-by-line review sea opcional. Usar cuando se pide alta garantía (prove it works, no leeré el código), o en dominios de alto riesgo (dinero, auth, pérdida de datos, concurrencia)."
 metadata:

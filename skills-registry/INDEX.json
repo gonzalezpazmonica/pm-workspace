@@ -1,0 +1,665 @@
+{
+  "schema_version": "1",
+  "skills": {
+    "_template": {
+      "layer": "peripheral",
+      "maturity": "",
+      "owner": "unassigned"
+    },
+    "_template_python": {
+      "layer": "peripheral",
+      "maturity": "",
+      "owner": "unassigned"
+    },
+    "adversarial-security": {
+      "layer": "peripheral",
+      "maturity": "stable",
+      "owner": "unassigned"
+    },
+    "agent-code-map": {
+      "layer": "peripheral",
+      "maturity": "experimental",
+      "owner": "unassigned"
+    },
+    "agent-file-map": {
+      "layer": "peripheral",
+      "maturity": "experimental",
+      "owner": "unassigned"
+    },
+    "agent-messaging": {
+      "layer": "peripheral",
+      "maturity": "beta",
+      "owner": "unassigned"
+    },
+    "agent-runs-board": {
+      "layer": "peripheral",
+      "maturity": "experimental",
+      "owner": "unassigned"
+    },
+    "ai-labor-impact": {
+      "layer": "peripheral",
+      "maturity": "stable",
+      "owner": "unassigned"
+    },
+    "android-autonomous-debugger": {
+      "layer": "peripheral",
+      "maturity": "stable",
+      "owner": "unassigned"
+    },
+    "architecture-intelligence": {
+      "layer": "peripheral",
+      "maturity": "stable",
+      "owner": "unassigned"
+    },
+    "ast-comprehension": {
+      "layer": "peripheral",
+      "maturity": "stable",
+      "owner": "unassigned"
+    },
+    "ast-quality-gate": {
+      "layer": "peripheral",
+      "maturity": "experimental",
+      "owner": "unassigned"
+    },
+    "attack-surface-mapper": {
+      "layer": "peripheral",
+      "maturity": "stable",
+      "owner": "unassigned"
+    },
+    "automation-scheduler": {
+      "layer": "peripheral",
+      "maturity": "",
+      "owner": "unassigned"
+    },
+    "azure-devops-queries": {
+      "layer": "peripheral",
+      "maturity": "stable",
+      "owner": "unassigned"
+    },
+    "azure-pipelines": {
+      "layer": "peripheral",
+      "maturity": "stable",
+      "owner": "unassigned"
+    },
+    "backlog-git-tracker": {
+      "layer": "peripheral",
+      "maturity": "stable",
+      "owner": "unassigned"
+    },
+    "banking-architecture": {
+      "layer": "peripheral",
+      "maturity": "beta",
+      "owner": "unassigned"
+    },
+    "bus-factor-analysis": {
+      "layer": "peripheral",
+      "maturity": "calibrated",
+      "owner": "unassigned"
+    },
+    "capacity-planning": {
+      "layer": "peripheral",
+      "maturity": "stable",
+      "owner": "unassigned"
+    },
+    "caveman": {
+      "layer": "peripheral",
+      "maturity": "",
+      "owner": "unassigned"
+    },
+    "client-profile-manager": {
+      "layer": "peripheral",
+      "maturity": "stable",
+      "owner": "unassigned"
+    },
+    "code-comprehension-report": {
+      "layer": "peripheral",
+      "maturity": "stable",
+      "owner": "unassigned"
+    },
+    "code-improvement-loop": {
+      "layer": "peripheral",
+      "maturity": "experimental",
+      "owner": "unassigned"
+    },
+    "codebase-map": {
+      "layer": "peripheral",
+      "maturity": "beta",
+      "owner": "unassigned"
+    },
+    "codegraph": {
+      "layer": "peripheral",
+      "maturity": "experimental",
+      "owner": "unassigned"
+    },
+    "company-messaging": {
+      "layer": "peripheral",
+      "maturity": "savia",
+      "owner": "unassigned"
+    },
+    "consensus-validation": {
+      "layer": "peripheral",
+      "maturity": "stable",
+      "owner": "unassigned"
+    },
+    "content-fingerprint": {
+      "layer": "peripheral",
+      "maturity": "",
+      "owner": "unassigned"
+    },
+    "context-caching": {
+      "layer": "peripheral",
+      "maturity": "stable",
+      "owner": "unassigned"
+    },
+    "context-dome": {
+      "layer": "peripheral",
+      "maturity": "calibrated",
+      "owner": "unassigned"
+    },
+    "context-interview-conductor": {
+      "layer": "peripheral",
+      "maturity": "stable",
+      "owner": "unassigned"
+    },
+    "context-optimized-dev": {
+      "layer": "peripheral",
+      "maturity": "beta",
+      "owner": "unassigned"
+    },
+    "context-rot-strategy": {
+      "layer": "peripheral",
+      "maturity": "beta",
+      "owner": "unassigned"
+    },
+    "context-task-classifier": {
+      "layer": "peripheral",
+      "maturity": "",
+      "owner": "unassigned"
+    },
+    "cost-management": {
+      "layer": "peripheral",
+      "maturity": "stable",
+      "owner": "unassigned"
+    },
+    "dag-scheduling": {
+      "layer": "peripheral",
+      "maturity": "stable",
+      "owner": "unassigned"
+    },
+    "dependency-scanner": {
+      "layer": "peripheral",
+      "maturity": "stable",
+      "owner": "unassigned"
+    },
+    "design-an-interface": {
+      "layer": "peripheral",
+      "maturity": "stable",
+      "owner": "unassigned"
+    },
+    "developer-experience": {
+      "layer": "peripheral",
+      "maturity": "stable",
+      "owner": "unassigned"
+    },
+    "devops-validation": {
+      "layer": "peripheral",
+      "maturity": "stable",
+      "owner": "unassigned"
+    },
+    "diagram-generation": {
+      "layer": "peripheral",
+      "maturity": "stable",
+      "owner": "unassigned"
+    },
+    "diagram-import": {
+      "layer": "peripheral",
+      "maturity": "stable",
+      "owner": "unassigned"
+    },
+    "doc-quality-feedback": {
+      "layer": "peripheral",
+      "maturity": "experimental",
+      "owner": "unassigned"
+    },
+    "dynamic-web-tester": {
+      "layer": "peripheral",
+      "maturity": "stable",
+      "owner": "unassigned"
+    },
+    "ecosystem-watcher": {
+      "layer": "peripheral",
+      "maturity": "beta",
+      "owner": "unassigned"
+    },
+    "emergency-mode": {
+      "layer": "peripheral",
+      "maturity": "experimental",
+      "owner": "unassigned"
+    },
+    "enterprise-analytics": {
+      "layer": "peripheral",
+      "maturity": "beta",
+      "owner": "unassigned"
+    },
+    "enterprise-onboarding": {
+      "layer": "peripheral",
+      "maturity": "stable",
+      "owner": "unassigned"
+    },
+    "epistemic-humility": {
+      "layer": "peripheral",
+      "maturity": "experimental",
+      "owner": "unassigned"
+    },
+    "evaluations-framework": {
+      "layer": "peripheral",
+      "maturity": "beta",
+      "owner": "unassigned"
+    },
+    "evidence-first-development": {
+      "layer": "peripheral",
+      "maturity": "beta",
+      "owner": "unassigned"
+    },
+    "executive-reporting": {
+      "layer": "peripheral",
+      "maturity": "stable",
+      "owner": "unassigned"
+    },
+    "feasibility-probe": {
+      "layer": "peripheral",
+      "maturity": "",
+      "owner": "unassigned"
+    },
+    "git-secret-scanner": {
+      "layer": "peripheral",
+      "maturity": "stable",
+      "owner": "unassigned"
+    },
+    "governance-enterprise": {
+      "layer": "peripheral",
+      "maturity": "stable",
+      "owner": "unassigned"
+    },
+    "grill-me": {
+      "layer": "peripheral",
+      "maturity": "",
+      "owner": "unassigned"
+    },
+    "human-code-map": {
+      "layer": "peripheral",
+      "maturity": "experimental",
+      "owner": "unassigned"
+    },
+    "iac-security-scanner": {
+      "layer": "peripheral",
+      "maturity": "stable",
+      "owner": "unassigned"
+    },
+    "knowledge-graph": {
+      "layer": "peripheral",
+      "maturity": "stable",
+      "owner": "unassigned"
+    },
+    "legal-compliance": {
+      "layer": "peripheral",
+      "maturity": "experimental",
+      "owner": "unassigned"
+    },
+    "lightpanda-browser": {
+      "layer": "peripheral",
+      "maturity": "experimental",
+      "owner": "unassigned"
+    },
+    "managed-content": {
+      "layer": "peripheral",
+      "maturity": "stable",
+      "owner": "unassigned"
+    },
+    "meeting-transcript-extract": {
+      "layer": "peripheral",
+      "maturity": "",
+      "owner": "unassigned"
+    },
+    "memvid-backup": {
+      "layer": "peripheral",
+      "maturity": "experimental",
+      "owner": "unassigned"
+    },
+    "meta-reflection": {
+      "layer": "peripheral",
+      "maturity": "experimental",
+      "owner": "unassigned"
+    },
+    "mobile-security-scanner": {
+      "layer": "peripheral",
+      "maturity": "stable",
+      "owner": "unassigned"
+    },
+    "model-upgrade-audit": {
+      "layer": "peripheral",
+      "maturity": "",
+      "owner": "unassigned"
+    },
+    "mutation-audit": {
+      "layer": "peripheral",
+      "maturity": "beta",
+      "owner": "unassigned"
+    },
+    "network-recon": {
+      "layer": "peripheral",
+      "maturity": "stable",
+      "owner": "unassigned"
+    },
+    "nuclei-scanning": {
+      "layer": "peripheral",
+      "maturity": "",
+      "owner": "unassigned"
+    },
+    "onboarding-dev": {
+      "layer": "peripheral",
+      "maturity": "experimental",
+      "owner": "unassigned"
+    },
+    "org-meeting-capture": {
+      "layer": "peripheral",
+      "maturity": "stable",
+      "owner": "unassigned"
+    },
+    "org-political-landscape": {
+      "layer": "peripheral",
+      "maturity": "stable",
+      "owner": "unassigned"
+    },
+    "org-stakeholder-mapper": {
+      "layer": "peripheral",
+      "maturity": "stable",
+      "owner": "unassigned"
+    },
+    "orgchart-import": {
+      "layer": "peripheral",
+      "maturity": "",
+      "owner": "unassigned"
+    },
+    "overnight-sprint": {
+      "layer": "peripheral",
+      "maturity": "experimental",
+      "owner": "unassigned"
+    },
+    "parallel-dispatch": {
+      "layer": "peripheral",
+      "maturity": "beta",
+      "owner": "unassigned"
+    },
+    "pbi-decomposition": {
+      "layer": "peripheral",
+      "maturity": "stable",
+      "owner": "unassigned"
+    },
+    "pentesting": {
+      "layer": "peripheral",
+      "maturity": "stable",
+      "owner": "unassigned"
+    },
+    "performance-audit": {
+      "layer": "peripheral",
+      "maturity": "stable",
+      "owner": "unassigned"
+    },
+    "personal-vault": {
+      "layer": "peripheral",
+      "maturity": "",
+      "owner": "unassigned"
+    },
+    "pr-agent-judge": {
+      "layer": "peripheral",
+      "maturity": "",
+      "owner": "unassigned"
+    },
+    "product-discovery": {
+      "layer": "peripheral",
+      "maturity": "stable",
+      "owner": "unassigned"
+    },
+    "professional-domain": {
+      "layer": "peripheral",
+      "maturity": "",
+      "owner": "unassigned"
+    },
+    "project-update": {
+      "layer": "peripheral",
+      "maturity": "",
+      "owner": "unassigned"
+    },
+    "prompt-optimizer": {
+      "layer": "peripheral",
+      "maturity": "beta",
+      "owner": "unassigned"
+    },
+    "rbac-management": {
+      "layer": "peripheral",
+      "maturity": "stable",
+      "owner": "unassigned"
+    },
+    "reflection-validation": {
+      "layer": "peripheral",
+      "maturity": "stable",
+      "owner": "unassigned"
+    },
+    "regulatory-compliance": {
+      "layer": "peripheral",
+      "maturity": "stable",
+      "owner": "unassigned"
+    },
+    "reranker": {
+      "layer": "peripheral",
+      "maturity": "beta",
+      "owner": "unassigned"
+    },
+    "resource-references": {
+      "layer": "peripheral",
+      "maturity": "beta",
+      "owner": "unassigned"
+    },
+    "risk-scoring": {
+      "layer": "peripheral",
+      "maturity": "beta",
+      "owner": "unassigned"
+    },
+    "robotica-diseno": {
+      "layer": "peripheral",
+      "maturity": "",
+      "owner": "unassigned"
+    },
+    "rules-traceability": {
+      "layer": "peripheral",
+      "maturity": "stable",
+      "owner": "unassigned"
+    },
+    "savia-dual": {
+      "layer": "peripheral",
+      "maturity": "",
+      "owner": "unassigned"
+    },
+    "savia-flow-practice": {
+      "layer": "peripheral",
+      "maturity": "stable",
+      "owner": "unassigned"
+    },
+    "savia-hub-sync": {
+      "layer": "peripheral",
+      "maturity": "stable",
+      "owner": "unassigned"
+    },
+    "savia-identity": {
+      "layer": "peripheral",
+      "maturity": "",
+      "owner": "unassigned"
+    },
+    "savia-labs": {
+      "layer": "peripheral",
+      "maturity": "experimental",
+      "owner": "unassigned"
+    },
+    "savia-memory": {
+      "layer": "peripheral",
+      "maturity": "",
+      "owner": "unassigned"
+    },
+    "savia-school": {
+      "layer": "peripheral",
+      "maturity": "experimental",
+      "owner": "unassigned"
+    },
+    "savia-vaults": {
+      "layer": "peripheral",
+      "maturity": "stable",
+      "owner": "unassigned"
+    },
+    "scaling-operations": {
+      "layer": "peripheral",
+      "maturity": "stable",
+      "owner": "unassigned"
+    },
+    "scheduled-messaging": {
+      "layer": "peripheral",
+      "maturity": "stable",
+      "owner": "unassigned"
+    },
+    "skill-evaluation": {
+      "layer": "peripheral",
+      "maturity": "stable",
+      "owner": "unassigned"
+    },
+    "smart-calendar": {
+      "layer": "peripheral",
+      "maturity": "experimental",
+      "owner": "unassigned"
+    },
+    "smart-routing": {
+      "layer": "peripheral",
+      "maturity": "stable",
+      "owner": "unassigned"
+    },
+    "sovereignty-auditor": {
+      "layer": "peripheral",
+      "maturity": "stable",
+      "owner": "unassigned"
+    },
+    "spec-driven-development": {
+      "layer": "peripheral",
+      "maturity": "stable",
+      "owner": "unassigned"
+    },
+    "sprint-management": {
+      "layer": "peripheral",
+      "maturity": "stable",
+      "owner": "unassigned"
+    },
+    "tabular-intelligence": {
+      "layer": "peripheral",
+      "maturity": "experimental",
+      "owner": "unassigned"
+    },
+    "tdd-vertical-slices": {
+      "layer": "peripheral",
+      "maturity": "stable",
+      "owner": "unassigned"
+    },
+    "team-coordination": {
+      "layer": "peripheral",
+      "maturity": "stable",
+      "owner": "unassigned"
+    },
+    "team-onboarding": {
+      "layer": "peripheral",
+      "maturity": "stable",
+      "owner": "unassigned"
+    },
+    "tech-research-agent": {
+      "layer": "peripheral",
+      "maturity": "experimental",
+      "owner": "unassigned"
+    },
+    "test-architect": {
+      "layer": "peripheral",
+      "maturity": "experimental",
+      "owner": "unassigned"
+    },
+    "tier3-probes": {
+      "layer": "peripheral",
+      "maturity": "stable",
+      "owner": "unassigned"
+    },
+    "time-tracking-report": {
+      "layer": "peripheral",
+      "maturity": "stable",
+      "owner": "unassigned"
+    },
+    "tls-security-checker": {
+      "layer": "peripheral",
+      "maturity": "stable",
+      "owner": "unassigned"
+    },
+    "topic-cluster": {
+      "layer": "peripheral",
+      "maturity": "beta",
+      "owner": "unassigned"
+    },
+    "transcriptor-digest": {
+      "layer": "peripheral",
+      "maturity": "",
+      "owner": "unassigned"
+    },
+    "ubiquitous-language": {
+      "layer": "peripheral",
+      "maturity": "stable",
+      "owner": "unassigned"
+    },
+    "understand-anything": {
+      "layer": "peripheral",
+      "maturity": "experimental",
+      "owner": "unassigned"
+    },
+    "verification-lattice": {
+      "layer": "peripheral",
+      "maturity": "stable",
+      "owner": "unassigned"
+    },
+    "voice-inbox": {
+      "layer": "peripheral",
+      "maturity": "stable",
+      "owner": "unassigned"
+    },
+    "web-research": {
+      "layer": "peripheral",
+      "maturity": "beta",
+      "owner": "unassigned"
+    },
+    "weekly-report": {
+      "layer": "peripheral",
+      "maturity": "",
+      "owner": "unassigned"
+    },
+    "wellbeing-guardian": {
+      "layer": "peripheral",
+      "maturity": "stable",
+      "owner": "unassigned"
+    },
+    "workspace-integrity": {
+      "layer": "peripheral",
+      "maturity": "stable",
+      "owner": "unassigned"
+    },
+    "write-a-skill": {
+      "layer": "peripheral",
+      "maturity": "stable",
+      "owner": "unassigned"
+    },
+    "zoom-out": {
+      "layer": "peripheral",
+      "maturity": "",
+      "owner": "unassigned"
+    }
+  }
+}

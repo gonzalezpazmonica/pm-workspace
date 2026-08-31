@@ -1,4 +1,5 @@
 ---
+layer: peripheral
 name: knowledge-graph
 description: Usar cuando se construye o consulta el grafo de conocimiento de entidades del proyecto.
 metadata:

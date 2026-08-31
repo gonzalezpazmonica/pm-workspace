@@ -1,4 +1,5 @@
 ---
+layer: peripheral
 name: design-an-interface
 description: "Design-an-interface skill with N=3 parallel alternatives and architectural vocabulary. Use when designing a new module interface, when user mentions 'varias alternativas', 'design this module', or '/design-interface'."
 metadata:

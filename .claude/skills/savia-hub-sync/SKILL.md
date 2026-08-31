@@ -1,4 +1,5 @@
 ---
+layer: peripheral
 name: savia-hub-sync
 description: Usar cuando se sincroniza el repositorio SaviaHub con el workspace local.
 metadata:
