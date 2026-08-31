@@ -148,5 +148,3 @@ acotado y reintenta UNA vez con causa distinta.
 
 El bucle registra cada tarea como premisa (determinista, sin LLM, JSONL local).
 **NUNCA** la auditoría LLM (4 jueces) por tarea — satura. La auditoría completa
-`/coherence-court --flow overnight-{fecha}` va al final (o E1 humana), opt-in
-`COHERENCE_AUDIT_JUDGES=1`. Policy: gate determinista SIEMPRE ON (~0); auditoría LLM opt-in al final; CRIT-001 (premisas locales).
