@@ -1,5 +1,5 @@
 # planning — Savia Capability Map (L1)
-> 611 resources
+> 612 resources
 
 - **/decide-architecture** (cmd): Clasifica una tarea como WORKFLOW (deterministica) o AGENT (loop). Bias hacia workflow per Anthropic. Sugiere plantilla inicial. Mide accuracy contra corpus curado de 20 tareas.
 - **_template** (skill): TEMPLATE — copia este directorio para crear una skill nueva. NO se carga en runtime.
@@ -122,6 +122,7 @@
 - **cost-management** (skill): Usar cuando se gestionan timesheets, presupuestos, facturas o forecasting de costes.
 - **count-commands** (script): count-commands.sh — SE-095: canonical counter for slash commands.
 - **court-score-aggregator** (script): court-score-aggregator.sh
+- **credential-egress** (script): credential-egress.sh — SE-353: resolución de credenciales SOLO en el punto de egress.
 - **credential-proxy** (script): credential-proxy.sh — Managed Agents pattern: credential isolation
 - **criterio-cite** (script): scripts/criterio-cite.sh — SE-255 Slice 5
 - **criterio-init** (script): scripts/criterio-init.sh — SE-255 Slice 2

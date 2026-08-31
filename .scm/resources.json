@@ -1,6 +1,6 @@
 {
-  "hash": "fab5c25e2266",
-  "total": 1420,
+  "hash": "0c1e66a78c77",
+  "total": 1421,
   "resources": [
     {
       "category": "analysis",
@@ -8875,6 +8875,20 @@
       "kind": "script",
       "path": "scripts/court-score-aggregator.sh",
       "description": "court-score-aggregator.sh"
+    },
+    {
+      "category": "planning",
+      "name": "credential-egress",
+      "intents": [
+        "credenciales",
+        "credential",
+        "egress",
+        "punto",
+        "resolución"
+      ],
+      "kind": "script",
+      "path": "scripts/credential-egress.sh",
+      "description": "credential-egress.sh — SE-353: resolución de credenciales SOLO en el punto de egress."
     },
     {
       "category": "planning",

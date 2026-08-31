@@ -1,6 +1,6 @@
 # Savia Capability Map — INDEX
-> hash: bc988837b9e6 | resources: 1420
-> 295 commands · 132 skills · 88 agents · 905 scripts
+> hash: 9304a6272e84 | resources: 1421
+> 295 commands · 132 skills · 88 agents · 906 scripts
 
 [analysis] Trace Optimize — across,distributed,optimize,rates,sampling — cmd:.claude/commands/trace-optimize.md
 [analysis] agent-activity — activity,agent,executions,recent,show — cmd:.claude/commands/agent-activity.md
@@ -669,6 +669,7 @@
 [planning] cost-management — costes,facturas,forecasting,gestionan,presupuestos — skill:.claude/skills/cost-management/SKILL.md
 [planning] count-commands — canonical,commands,count,counter,slash — script:scripts/count-commands.sh
 [planning] court-score-aggregator — aggregator,court,score — script:scripts/court-score-aggregator.sh
+[planning] credential-egress — credenciales,credential,egress,punto,resolución — script:scripts/credential-egress.sh
 [planning] credential-proxy — agents,credential,isolation,managed,pattern — script:scripts/credential-proxy.sh
 [planning] criterio-cite — cite,criterio,scripts,slice — script:scripts/criterio-cite.sh
 [planning] criterio-init — criterio,init,scripts,slice — script:scripts/criterio-init.sh
