@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=5b564c0be8325ade4d5bff4cb2614680cb01733ceb252ab2a4748ece0cedfd80
-timestamp=2026-08-31T23:07:13Z
-branch=agent/se357-control-bands-20260831
-head_commit=a01ce4f4
-signature=9421c8befd35bcab6b359673df9faed7821a912c0db98193cfd34c0535955311
+diff_hash=e84cce2a09125c1cdb8792899cb2cae1a648baf9227957aeebf883cfd28df340
+timestamp=2026-08-31T23:46:42Z
+branch=agent/se360-acceptance-cost-20260831
+head_commit=e6a90e02
+signature=8944976caf2573d35a7898c66e45d15744e7376f8245e488434f2abb33b2714f
