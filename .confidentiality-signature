@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=d6465051cd5a9904d06c8035f07e93b32396c763fa5c4877844af90bc64f760b
-timestamp=2026-08-31T21:28:11Z
-branch=agent/se352-trust-gated-memory-20260831
-head_commit=6022b7b7
-signature=680e35388e1f07db37df7a6c5d5100876552ee0c0fb1b5aaa13007c80c8d4bf7
+diff_hash=14e1355a911761a2606f9ef348be7e858288a999e98776dc5846d6ee33617dae
+timestamp=2026-08-31T22:01:42Z
+branch=agent/se354-readonly-permission-20260831
+head_commit=b21f8dd7
+signature=c932f73a412d2227e8c6e3117e7439d673d1fd2a1655625aaa1a55a312697d01
