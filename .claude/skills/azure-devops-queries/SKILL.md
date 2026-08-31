@@ -1,4 +1,5 @@
 ---
+layer: peripheral
 name: azure-devops-queries
 description: "Usar cuando se necesitan consultas WIQL, actualización de work items o datos de sprint en Azure DevOps."
 metadata:

@@ -1,4 +1,5 @@
 ---
+layer: peripheral
 name: adversarial-security
 description: Usar cuando se necesita auditar la seguridad de un proyecto con pipeline Red Team / Blue Team.
 metadata:

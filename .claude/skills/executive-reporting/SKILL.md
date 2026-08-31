@@ -1,4 +1,5 @@
 ---
+layer: peripheral
 name: executive-reporting
 description: Usar cuando se genera un informe ejecutivo multi-proyecto para dirección.
 metadata:

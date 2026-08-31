@@ -1,4 +1,5 @@
 ---
+layer: peripheral
 name: onboarding-dev
 description: Usar cuando se incorpora un desarrollador nuevo al proyecto y necesita buddy IA.
 metadata:

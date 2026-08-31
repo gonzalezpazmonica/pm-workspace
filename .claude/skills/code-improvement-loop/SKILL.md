@@ -1,4 +1,5 @@
 ---
+layer: peripheral
 name: code-improvement-loop
 description: Usar cuando se quiere ejecutar mejora autónoma de código en segundo plano con PRs para revisión.
 metadata:

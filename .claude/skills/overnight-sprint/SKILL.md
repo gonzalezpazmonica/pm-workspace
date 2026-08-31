@@ -1,4 +1,5 @@
 ---
+layer: peripheral
 name: overnight-sprint
 description: Usar cuando se quiere ejecutar tareas de bajo riesgo de forma autónoma durante la noche.
 metadata:

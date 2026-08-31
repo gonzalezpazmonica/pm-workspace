@@ -1,4 +1,5 @@
 ---
+layer: peripheral
 name: sovereignty-auditor
 description: Usar cuando se audita el grado de dependencia cognitiva del equipo respecto a herramientas de IA.
 metadata:

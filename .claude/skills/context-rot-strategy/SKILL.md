@@ -1,4 +1,5 @@
 ---
+layer: peripheral
 name: context-rot-strategy
 description: Usar cuando una sesión larga se aproxima al límite de contexto y hay que decidir qué compactar.
 allowed-tools: [Read, Bash]

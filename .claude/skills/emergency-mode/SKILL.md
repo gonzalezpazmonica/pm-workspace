@@ -1,4 +1,5 @@
 ---
+layer: peripheral
 name: emergency-mode
 description: Usar cuando la API de Anthropic está caída y se necesita continuar operando con LocalAI.
 allowed-tools: [Bash, Read]

@@ -1,4 +1,5 @@
 ---
+layer: peripheral
 name: ast-quality-gate
 description: Usar cuando se verifica la calidad de código generado por IA antes de merge.
 allowed-tools: [Bash, Read, Glob, Grep, Write]

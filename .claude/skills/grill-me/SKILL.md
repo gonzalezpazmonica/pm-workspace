@@ -1,4 +1,5 @@
 ---
+layer: peripheral
 name: grill-me
 description: "Adversarial review that hunts every weakness, assumption, edge case, and missing test. Opponent mode — finds what will break before it breaks in production. Use when merging, when reviewing security-critical code, or when the solution feels too simple."
 license: MIT

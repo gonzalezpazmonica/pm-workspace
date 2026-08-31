@@ -1,4 +1,5 @@
 ---
+layer: peripheral
 name: rbac-management
 description: "Usar cuando se gestionan roles, permisos o se audita el acceso de usuarios."
 metadata:

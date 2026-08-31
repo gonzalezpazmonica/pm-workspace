@@ -1,4 +1,5 @@
 ---
+layer: peripheral
 name: regulatory-compliance
 description: Usar cuando se valida el cumplimiento de marcos regulatorios sectoriales.
 metadata:

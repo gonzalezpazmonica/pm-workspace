@@ -1,4 +1,5 @@
 ---
+layer: peripheral
 name: pr-agent-judge
 description: Usar cuando se añade pr-agent como juez externo en el Code Review Court.
 ---

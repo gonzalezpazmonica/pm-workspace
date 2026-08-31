@@ -1,6 +1,6 @@
 {
-  "hash": "0c1e66a78c77",
-  "total": 1421,
+  "hash": "e8a37f22a661",
+  "total": 1422,
   "resources": [
     {
       "category": "analysis",
@@ -13488,6 +13488,20 @@
       "kind": "script",
       "path": "scripts/skill-keyword-detector.sh",
       "description": "skill-keyword-detector.sh — SE-203: detect which skills to auto-load based on keyword triggers"
+    },
+    {
+      "category": "planning",
+      "name": "skill-layer-check",
+      "intents": [
+        "capas",
+        "check",
+        "core",
+        "layer",
+        "peripheral"
+      ],
+      "kind": "script",
+      "path": "scripts/skill-layer-check.sh",
+      "description": "skill-layer-check.sh — SE-356: validación de dos capas (core/peripheral) en skills."
     },
     {
       "category": "planning",

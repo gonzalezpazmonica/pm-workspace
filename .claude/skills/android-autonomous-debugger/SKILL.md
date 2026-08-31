@@ -1,4 +1,5 @@
 ---
+layer: peripheral
 name: android-autonomous-debugger
 description: Usar cuando se depuran o testean apps Android contra dispositivos físicos via USB/ADB.
 metadata:

@@ -1,4 +1,5 @@
 ---
+layer: peripheral
 name: tls-security-checker
 description: Usar cuando se verifica TLS/SSL o security headers HTTP de un servidor web. Invocable pre-deploy o en auditorías periódicas.
 metadata:

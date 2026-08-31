@@ -1,4 +1,5 @@
 ---
+layer: peripheral
 name: dynamic-web-tester
 description: "Testing dinámico de endpoints web: XSS (DalFox), SQLi (sqlmap), Nuclei."
 metadata:

@@ -1,4 +1,5 @@
 ---
+layer: peripheral
 name: smart-routing
 description: Usar cuando se necesita descubrir o enrutar a un comando específico entre los 400+ disponibles.
 metadata:

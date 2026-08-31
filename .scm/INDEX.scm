@@ -1,6 +1,6 @@
 # Savia Capability Map — INDEX
-> hash: 9304a6272e84 | resources: 1421
-> 295 commands · 132 skills · 88 agents · 906 scripts
+> hash: 9db604490b64 | resources: 1422
+> 295 commands · 132 skills · 88 agents · 907 scripts
 
 [analysis] Trace Optimize — across,distributed,optimize,rates,sampling — cmd:.claude/commands/trace-optimize.md
 [analysis] agent-activity — activity,agent,executions,recent,show — cmd:.claude/commands/agent-activity.md
@@ -1024,6 +1024,7 @@
 [planning] skill-feedback-log — append,feedback,invocation,jsonl,skill — script:scripts/skill-feedback-log.sh
 [planning] skill-feedback-rank — compute,effectiveness,feedback,generate,rank — script:scripts/skill-feedback-rank.sh
 [planning] skill-keyword-detector — auto,based,detect,detector,keyword — script:scripts/skill-keyword-detector.sh
+[planning] skill-layer-check — capas,check,core,layer,peripheral — script:scripts/skill-layer-check.sh
 [planning] skill-propose — auto,nuevo,observaciones,proponer,repetitivo — cmd:.claude/commands/skill-propose.md
 [planning] skill-quality-eval — eval,evaluation,judge,quality,semantic — script:scripts/skill-quality-eval.sh
 [planning] skill-quality-eval-all — batch,eval,evaluation,quality,skill — script:scripts/skill-quality-eval-all.sh

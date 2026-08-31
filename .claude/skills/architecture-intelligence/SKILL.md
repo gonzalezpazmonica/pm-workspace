@@ -1,4 +1,5 @@
 ---
+layer: peripheral
 name: architecture-intelligence
 description: Usar cuando se diseña o revisa la arquitectura de un proyecto nuevo o existente.
 metadata:

@@ -1,4 +1,5 @@
 ---
+layer: peripheral
 name: azure-pipelines
 description: Usar cuando se gestiona o depura CI/CD con Azure Pipelines.
 metadata:

@@ -1,4 +1,5 @@
 ---
+layer: peripheral
 name: consensus-validation
 description: Usar cuando una decisión técnica o recomendación necesita validación por panel de jueces.
 metadata:

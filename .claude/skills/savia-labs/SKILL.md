@@ -1,4 +1,5 @@
 ---
+layer: peripheral
 name: savia-labs
 description: "Usar cuando se investiga, experimenta o audita epistemicamente. Triggers: 'investiga', 'experimento', 'hipotesis', 'preregistro', 'labs', 'divergencia', 'certificado de ignorancia', 'corpus de desconocidos', 'auditoria de reclutamiento', 'federacion epistemica', 'diversidad de calidad', 'desconocidos desconocidos', 'punto ciego', 'preregistrar'."
 metadata:

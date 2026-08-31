@@ -1,4 +1,5 @@
 ---
+layer: peripheral
 name: diagram-import
 description: Usar cuando se importa un diagrama existente para extraer entidades y crear PBIs.
 metadata:

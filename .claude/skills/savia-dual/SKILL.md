@@ -1,4 +1,5 @@
 ---
+layer: peripheral
 name: savia-dual
 description: "Usar cuando la inferencia cloud falla, es lenta o está rate-limited y se necesita failover local."
 metadata:

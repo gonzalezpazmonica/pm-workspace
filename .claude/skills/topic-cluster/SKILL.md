@@ -1,4 +1,5 @@
 ---
+layer: peripheral
 name: topic-cluster
 description: "Usar cuando se agrupan retros, PBIs o incidentes en topics para detectar patrones transversales."
 allowed-tools: [Read, Bash, Glob]

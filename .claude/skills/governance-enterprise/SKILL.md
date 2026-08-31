@@ -1,4 +1,5 @@
 ---
+layer: peripheral
 name: governance-enterprise
 description: "Usar cuando se audita compliance, se registran decisiones o se certifican procesos enterprise."
 metadata:

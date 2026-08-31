@@ -1,4 +1,5 @@
 ---
+layer: peripheral
 name: savia-vaults
 description: "Usar cuando se interactua con SaviaVaults — cupulas de contexto, busqueda federada, servidores MCP/A2A, backups, confidencialidad. Triggers: 'crea una cupula', 'indexa documentacion', 'busca en los vaults', 'federate este dome', 'backup del conocimiento', 'nivel de confidencialidad', 'gestiona cupulas', 'context dome', 'vaults CLI'. NOT para diseno de arquitectura de conocimiento (usar context-dome-manager agent)."
 metadata:

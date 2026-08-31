@@ -1,4 +1,5 @@
 ---
+layer: peripheral
 name: tdd-vertical-slices
 description: "Test-driven development with vertical-slice red-green-refactor cycles. Use when applying TDD to a new feature or bug fix, when user mentions 'red-green-refactor', 'tdd', 'test-first', 'vertical slice' — explicitly avoids the 'horizontal slicing' anti-pattern (write all tests first, then all code) which produces brittle implementation-coupled tests."
 metadata:

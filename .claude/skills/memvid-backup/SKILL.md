@@ -1,4 +1,5 @@
 ---
+layer: peripheral
 name: memvid-backup
 description: Usar cuando se crea un backup portable de la memoria externa de Savia.
 allowed-tools: [Read, Bash, Write]
