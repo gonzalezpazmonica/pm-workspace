@@ -1,6 +1,6 @@
 # Savia Capability Map — INDEX
-> hash: 9d39da53af26 | resources: 1424
-> 295 commands · 132 skills · 88 agents · 909 scripts
+> hash: 07816ec58deb | resources: 1425
+> 295 commands · 132 skills · 88 agents · 910 scripts
 
 [analysis] Trace Optimize — across,distributed,optimize,rates,sampling — cmd:.claude/commands/trace-optimize.md
 [analysis] agent-activity — activity,agent,executions,recent,show — cmd:.claude/commands/agent-activity.md
@@ -921,6 +921,7 @@
 [planning] pbi-prd —  — cmd:.claude/commands/pbi-prd.md
 [planning] personal-vault — escribe,memoria,perfil,personal,preferencias — skill:.claude/skills/personal-vault/SKILL.md
 [planning] php-developer —  — agent:.opencode/agents/php-developer.md
+[planning] plan-diff-check — check,diff,plan,respeta,verifica — script:scripts/plan-diff-check.sh
 [planning] plugin-export — distributable,empaquetar,estructura,plugin,validación — cmd:.claude/commands/plugin-export.md
 [planning] plugin-validate — agents,commands,estructura,integridad,plugin — cmd:.claude/commands/plugin-validate.md
 [planning] pm-backend-health — backend,configuration,detect,health — script:scripts/pm-backend-health.sh
