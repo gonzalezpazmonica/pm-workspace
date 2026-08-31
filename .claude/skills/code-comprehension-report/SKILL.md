@@ -1,4 +1,5 @@
 ---
+layer: peripheral
 name: code-comprehension-report
 description: Usar cuando se ha completado una implementación SDD y se necesita documentar el modelo mental.
 metadata:

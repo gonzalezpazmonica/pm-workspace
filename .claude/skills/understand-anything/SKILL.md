@@ -1,4 +1,5 @@
 ---
+layer: peripheral
 name: understand-anything
 description: Usar cuando se necesita analizar un codebase con Understand-Anything para generar knowledge graphs estructurales y de dominio.
 allowed-tools: [Bash, Read, Glob]

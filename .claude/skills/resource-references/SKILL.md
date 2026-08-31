@@ -1,4 +1,5 @@
 ---
+layer: peripheral
 name: resource-references
 description: Usar cuando se necesitan referencias a recursos y plantillas del workspace.
 metadata:

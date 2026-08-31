@@ -1,4 +1,5 @@
 ---
+layer: peripheral
 name: legal-compliance
 description: Usar cuando se audita compliance legal contra legislación española consolidada.
 metadata:

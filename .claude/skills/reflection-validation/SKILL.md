@@ -1,4 +1,5 @@
 ---
+layer: peripheral
 name: reflection-validation
 description: Usar cuando una respuesta o decisión importante necesita validación metacognitiva (System 2).
 allowed-tools: [Read, Glob, Grep]

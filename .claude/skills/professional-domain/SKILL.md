@@ -1,4 +1,5 @@
 ---
+layer: peripheral
 name: professional-domain
 description: "Family index for professional-domain skills (controlling, finance, labour, legal, sales). Load individual skills from subdirectories."
 metadata:

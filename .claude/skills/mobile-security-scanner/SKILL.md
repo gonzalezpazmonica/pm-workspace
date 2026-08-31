@@ -1,4 +1,5 @@
 ---
+layer: peripheral
 name: mobile-security-scanner
 description: Usar cuando se escanea un APK/AAB Android en busca de vulnerabilidades de seguridad. Integra con MobSF (Docker) y análisis básico como fallback.
 metadata:

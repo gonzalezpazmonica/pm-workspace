@@ -1,4 +1,5 @@
 ---
+layer: peripheral
 name: prompt-optimizer
 description: Usar cuando se optimiza el prompt de un skill o agente para mejorar su efectividad.
 allowed-tools: [Read, Write, Edit, Bash, Glob, Grep, Task]

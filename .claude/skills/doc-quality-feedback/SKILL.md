@@ -1,4 +1,5 @@
 ---
+layer: peripheral
 name: doc-quality-feedback
 description: Usar cuando se recopila feedback de calidad de documentación tras usar skills y reglas.
 allowed-tools: [Read, Write, Glob, Grep, Bash]

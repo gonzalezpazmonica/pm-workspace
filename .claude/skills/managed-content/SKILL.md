@@ -1,4 +1,5 @@
 ---
+layer: peripheral
 name: managed-content
 description: Usar cuando se regeneran secciones auto-generadas en documentos con marcadores de seguridad.
 metadata:

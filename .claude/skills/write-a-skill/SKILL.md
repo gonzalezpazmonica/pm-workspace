@@ -1,4 +1,5 @@
 ---
+layer: peripheral
 name: write-a-skill
 description: Guia para crear una nueva skill correctamente en pm-workspace. Usar cuando una tarea se repite 2+ veces o tarda mas de 15 min.
 metadata:

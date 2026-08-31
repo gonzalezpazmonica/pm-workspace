@@ -1,4 +1,5 @@
 ---
+layer: peripheral
 name: verification-lattice
 description: Usar cuando se necesita verificación multi-capa más allá del code review estándar.
 metadata:

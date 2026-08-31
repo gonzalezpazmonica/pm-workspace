@@ -1,4 +1,5 @@
 ---
+layer: peripheral
 name: orgchart-import
 description: Usar cuando se importa un organigrama para extraer la estructura del equipo.
 allowed-tools: [Read, Write, Edit, Glob, Grep, Bash]

@@ -1,4 +1,5 @@
 ---
+layer: peripheral
 name: rules-traceability
 description: Usar cuando se mapean reglas de negocio a PBIs para trazabilidad completa.
 metadata:

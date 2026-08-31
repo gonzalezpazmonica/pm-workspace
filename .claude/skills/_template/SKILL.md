@@ -1,4 +1,5 @@
 ---
+layer: peripheral
 name: _template
 # SE-209 canonical description format: "[qué hace]. Usar cuando [trigger 1], [trigger 2], o [trigger 3]. Max 200 chars."
 # Example: "Audita compliance legal. Usar cuando se crea un contrato, se procesa PII, o hay incertidumbre sobre RGPD."

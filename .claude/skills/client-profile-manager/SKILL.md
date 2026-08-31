@@ -1,4 +1,5 @@
 ---
+layer: peripheral
 name: client-profile-manager
 description: "Usar cuando se crean, actualizan o consultan perfiles de cliente en SaviaHub."
 metadata:

@@ -1,4 +1,5 @@
 ---
+layer: peripheral
 name: ecosystem-watcher
 description: Usar una vez al mes para detectar cambios relevantes en el ecosistema de herramientas externas.
 allowed-tools: [Read, Bash, Write, WebFetch]

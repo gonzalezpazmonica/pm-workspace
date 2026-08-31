@@ -1,4 +1,5 @@
 ---
+layer: peripheral
 name: model-upgrade-audit
 description: Usar cuando hay un modelo nuevo disponible y se quiere detectar prompt debt en el workspace.
 allowed-tools: [Read, Write, Glob, Grep, Bash, Task]

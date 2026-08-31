@@ -1,4 +1,5 @@
 ---
+layer: peripheral
 name: lightpanda-browser
 description: "Usar cuando se necesita navegacion web headless avanzada (JS-heavy sites, SPAs, extraccion markdown de URLs, web scraping que requiere renderizado JS). Triggers: 'navega a', 'extrae contenido de', 'scrapea', 'renderiza esta pagina', 'dump markdown', 'web automation', 'headless browser'."
 metadata:

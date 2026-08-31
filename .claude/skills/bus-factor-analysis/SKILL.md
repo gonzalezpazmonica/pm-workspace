@@ -1,4 +1,5 @@
 ---
+layer: peripheral
 name: bus-factor-analysis
 description: >
   Detecta el Bus Factor por modulo en un repositorio git usando el algoritmo

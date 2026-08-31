@@ -1,4 +1,5 @@
 ---
+layer: peripheral
 name: codebase-map
 description: Usar cuando se necesita un mapa de dependencias del workspace (comandos→agentes→reglas→skills).
 allowed-tools: [Read, Glob, Grep, Bash]

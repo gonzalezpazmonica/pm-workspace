@@ -1,4 +1,5 @@
 ---
+layer: peripheral
 name: skill-evaluation
 description: Usar cuando se necesita seleccionar el skill más apropiado para una tarea dada.
 metadata:

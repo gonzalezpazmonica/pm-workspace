@@ -1,4 +1,5 @@
 ---
+layer: peripheral
 name: ai-labor-impact
 description: Usar cuando se analiza el impacto de la IA en el trabajo del equipo o la organización.
 metadata:

@@ -1,4 +1,5 @@
 ---
+layer: peripheral
 name: nuclei-scanning
 description: "Usar cuando se escanean vulnerabilidades conocidas (CVEs, misconfigs) con Nuclei."
 allowed-tools: [Bash, Read, Write]

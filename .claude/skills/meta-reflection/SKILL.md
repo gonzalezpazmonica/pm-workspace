@@ -1,4 +1,5 @@
 ---
+layer: peripheral
 name: meta-reflection
 description: "Protocolo de las 4 meta-preguntas para cuestionar el encuadre de una tarea antes de ejecutarla. SPEC-194. Usar cuando criterion-simulation-judge activa con FRAME_DOUBT o FRAME_REJECT, o cuando el operador quiere reflexion manual antes de una decision de alto impacto."
 allowed-tools: [Read, Bash]

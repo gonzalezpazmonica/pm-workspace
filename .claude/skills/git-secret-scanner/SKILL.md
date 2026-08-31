@@ -1,4 +1,5 @@
 ---
+layer: peripheral
 name: git-secret-scanner
 description: Escanea el historial git o los commits pendientes de push buscando secrets con gitleaks. SE-239/SE-247.
 metadata:

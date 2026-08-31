@@ -1,4 +1,5 @@
 ---
+layer: peripheral
 name: developer-experience
 description: Usar cuando se mide o mejora la experiencia de desarrollo del equipo.
 metadata:

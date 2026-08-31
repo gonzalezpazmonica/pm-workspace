@@ -1,4 +1,5 @@
 ---
+layer: peripheral
 name: context-optimized-dev
 description: Usar cuando se desarrolla con presupuesto de contexto limitado.
 metadata:

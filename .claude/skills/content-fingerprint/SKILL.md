@@ -1,4 +1,5 @@
 ---
+layer: peripheral
 name: content-fingerprint
 description: "Usar cuando se necesita un identificador corto, deterministico y reproducible derivado del contenido de una cadena o fichero — cache keys, ids de patrones, fingerprints de docs."
 metadata:

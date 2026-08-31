@@ -1,4 +1,5 @@
 ---
+layer: peripheral
 name: context-dome
 description: >
   Genera CONTEXT_DOME.md para modulos con Bus Factor bajo. Captura

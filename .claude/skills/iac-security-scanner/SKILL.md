@@ -1,4 +1,5 @@
 ---
+layer: peripheral
 name: iac-security-scanner
 description: "Usar cuando se escanea IaC (Terraform, Bicep, Dockerfile, docker-compose) con Trivy config para detectar misconfiguraciones de seguridad antes del merge."
 metadata:

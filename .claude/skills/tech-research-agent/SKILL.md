@@ -1,4 +1,5 @@
 ---
+layer: peripheral
 name: tech-research-agent
 description: Usar cuando se necesita investigación técnica autónoma sobre un tema específico.
 metadata:

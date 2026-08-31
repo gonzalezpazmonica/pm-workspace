@@ -1,4 +1,5 @@
 ---
+layer: peripheral
 name: savia-memory
 description: "Usar cuando se lee, escribe, busca o consolida la memoria persistente entre sesiones de Savia."
 license: MIT

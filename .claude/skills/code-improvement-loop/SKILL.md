@@ -1,4 +1,5 @@
 ---
+layer: peripheral
 name: code-improvement-loop
 description: Usar cuando se quiere ejecutar mejora autónoma de código en segundo plano con PRs para revisión.
 metadata:
@@ -147,4 +148,3 @@ Cada mejora que pasa las métricas se registra como premisa (determinista, sin
 LLM, JSONL local). **NUNCA** la auditoría LLM (4 jueces) por mejora — satura.
 La auditoría completa `/coherence-court --flow code-improve-{fecha}` va al final
 (o E1 humana), opt-in `COHERENCE_AUDIT_JUDGES=1`. Policy: gate determinista
-SIEMPRE ON (~0); auditoría LLM opt-in al final; CRIT-001 (premisas locales).

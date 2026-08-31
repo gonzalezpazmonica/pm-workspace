@@ -1,4 +1,5 @@
 ---
+layer: peripheral
 name: scaling-operations
 description: Usar cuando se analiza el tier de escala de un servicio o se necesitan optimizaciones de capacidad.
 metadata:

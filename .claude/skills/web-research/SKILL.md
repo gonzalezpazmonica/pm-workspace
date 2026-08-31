@@ -1,4 +1,5 @@
 ---
+layer: peripheral
 name: web-research
 description: "Usar cuando se necesita buscar en la web para resolver gaps de contexto (docs, versiones, CVEs)."
 allowed-tools: [Read, Bash, WebSearch, WebFetch, Write]

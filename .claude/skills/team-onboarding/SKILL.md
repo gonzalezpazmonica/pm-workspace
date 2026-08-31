@@ -1,4 +1,5 @@
 ---
+layer: peripheral
 name: team-onboarding
 description: Usar cuando se incorpora un nuevo miembro al equipo y se evalúan sus competencias.
 metadata:

@@ -1,4 +1,5 @@
 ---
+layer: peripheral
 name: mutation-audit
 description: Usar cuando se quiere medir la calidad real de los tests mediante mutation testing.
 allowed-tools: [Read, Bash, Glob]

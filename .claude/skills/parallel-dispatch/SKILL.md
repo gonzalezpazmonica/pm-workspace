@@ -1,4 +1,5 @@
 ---
+layer: peripheral
 name: parallel-dispatch
 description: Usar cuando se necesitan subagentes en paralelo con admission-handle — lanza N tareas en background y recoge resultados después, sin bloquear el turno padre. Triggers: lanza subagentes en paralelo, paraleliza esto, admission-handle, recoge resultados.
 metadata:
