@@ -1,5 +1,5 @@
 # planning — Savia Capability Map (L1)
-> 614 resources
+> 616 resources
 
 - **/decide-architecture** (cmd): Clasifica una tarea como WORKFLOW (deterministica) o AGENT (loop). Bias hacia workflow per Anthropic. Sugiere plantilla inicial. Mide accuracy contra corpus curado de 20 tareas.
 - **_template** (skill): TEMPLATE — copia este directorio para crear una skill nueva. NO se carga en runtime.
@@ -111,6 +111,8 @@
 - **containment-run** (script): containment-run.sh — Execute command in proper containment level
 - **content-fingerprint** (skill): Usar cuando se necesita un identificador corto, deterministico y reproducible derivado del contenido de una cadena o fichero — cache keys, ids de patrones, fingerprints de docs.
 - **contribute** (script): contribute.sh — Capa de interacción con GitHub para comunidad
+- **control-band-agent** (script): control-band-agent.sh — SE-357: invocación del agente por tier σ.
+- **control-band-detect** (script): control-band-detect.sh — SE-357: detección determinista de control bands (sin LLM).
 - **corporate-adopt** (script): corporate-adopt.sh — SE-271 S2
 - **corporate-body-validate** (script): corporate-body-validate.sh — SE-271 S2
 - **corporate-ledger-verify** (script): corporate-ledger-verify.sh — SE-271 S2
