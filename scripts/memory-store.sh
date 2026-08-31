@@ -62,12 +62,12 @@ iso8601_now() { date -u +"%Y-%m-%dT%H:%M:%SZ"; }
 # Soft cap enforcement: if the resulting block exceeds MEMORY_INDEX_SOFT_CAP
 # entries (default 200), the oldest entries (bottom of block) are trimmed.
 _update_memory_index() {
-    local topic_key="$1" title="$2" type="$3"
+    local topic_key="$1" title="$2" type="$3" origin="${4:-untrusted}"
     local idx_file="${HOME}/.savia-memory/auto/MEMORY.md"
     [[ ! -f "$idx_file" ]] && return 0
     [[ -z "$topic_key" || "$topic_key" == "null" ]] && return 0
 
-    local entry="- ${type}: ${title} [${topic_key}]"
+    local entry="- ${type}: ${title} [${topic_key}] · src:${origin}"
     entry="${entry:0:150}"
     local marker="[${topic_key}]"
     local soft_cap="${MEMORY_INDEX_SOFT_CAP:-200}"
@@ -226,6 +226,8 @@ case "${1:-help}" in
     stats) cmd_stats ;;
     prune) cmd_prune ;;
     entity) shift; cmd_entity "$@" ;;
+    audit-origins) cmd_audit_origins ;;
+    consolidate) shift; cmd_consolidate "$@" ;;
     suggest-topic) shift; cmd_suggest_topic "$@" ;;
     session-summary) shift; cmd_session_summary "$@" ;;
     doctor) cmd_doctor ;;
@@ -240,11 +242,12 @@ case "${1:-help}" in
 memory-store.sh {command} [options]
 
 Commands: save, search, context, stats, entity, suggest-topic,
-  session-summary, rebuild-index, index-status, benchmark, doctor,
-  build-graph, graph-search, graph-status, graph-entities
+  session-summary, audit-origins, consolidate, rebuild-index, index-status,
+  benchmark, doctor, build-graph, graph-search, graph-status, graph-entities
 
 Save: --type TYPE --title TITLE [--content TEXT] [--what/--why/--where/--learned]
   [--topic KEY] [--concepts CSV] [--project NAME] [--expires DAYS]
+  [--source SOURCE] [--origin owner|agent|untrusted|system]   # SE-352
 
 Search: "query" [--type TYPE] [--since DATE] [--mode grep|vector|auto]
   [--include-expired]
@@ -253,7 +256,7 @@ Vector index auto-rebuilds on JSONL changes (if deps installed).
 Install: bash scripts/install-memory-deps.sh
 USAGE
     ;;
-    *) echo "Usage: memory-store.sh {save|search|context|stats|entity|suggest-topic|session-summary|rebuild-index|index-status|benchmark|doctor|help}" >&2
+    *) echo "Usage: memory-store.sh {save|search|context|stats|entity|suggest-topic|session-summary|audit-origins|consolidate|rebuild-index|index-status|benchmark|doctor|help}" >&2
        exit 1
     ;;
 esac

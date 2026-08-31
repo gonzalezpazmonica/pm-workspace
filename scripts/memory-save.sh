@@ -25,7 +25,7 @@ map_type_to_importance_tier() {
 cmd_save() {
     local type= title= content= concepts= topic_key= project= rev=1 expires_days=
     local what= why= where= learned= supersedes_key= valid_from= quality="unverified"
-    local source= entities= valid_to= pin=false
+    local source= entities= valid_to= pin=false origin=
     while [[ $# -gt 0 ]]; do
         case "$1" in
             --type) type="$2"; shift 2 ;; --title) title="$2"; shift 2 ;;
@@ -41,6 +41,7 @@ cmd_save() {
             --pin) pin=true; shift ;;                  # SE-076 Slice 1: skip auto-TTL for episodes
             --quality) quality="$2"; shift 2 ;;
             --source) source="$2"; shift 2 ;;
+            --origin) origin="$2"; shift 2 ;;          # SE-352: owner|agent|untrusted|system
             *) shift ;;
         esac
     done
@@ -81,6 +82,35 @@ EOF
                 echo "Error: --source '$source' does not match required format. Expected: tool:<name>, file:<path>:<line>, verified:<sha>, or user:explicit." >&2
                 exit 1 ;;
         esac
+    fi
+
+    # SE-352: origin class — fail-safe: sin --origin explícito, se clasifica
+    # según el source. Sin source confiable → untrusted (nunca owner por defecto).
+    if [[ -z "$origin" ]]; then
+        case "$source" in
+            user:explicit) origin="owner" ;;
+            tool:*|file:*:*|verified:*) origin="agent" ;;
+            *) origin="untrusted" ;;
+        esac
+    else
+        case "$origin" in
+            owner|agent|untrusted|system) ;;
+            *)
+                echo "Error: --origin '$origin' inválido. Válidos: owner|agent|untrusted|system." >&2
+                exit 1 ;;
+        esac
+    fi
+
+    # SE-352: turn taint — si el turno está marcado por memoria de origen de red,
+    # la entrada se degrada a untrusted aunque se pidió origin superior.
+    local _taint_file="/tmp/savia-memory-taint/${SESSION_ID:-}"
+    if [[ -f "$_taint_file" && "$origin" != "untrusted" ]]; then
+        local _taint_epoch _now_epoch
+        _taint_epoch=$(cat "$_taint_file" 2>/dev/null | head -1 || echo 0)
+        _now_epoch=$(date -u +%s 2>/dev/null || echo 0)
+        if [[ "$_now_epoch" -lt $((_taint_epoch + 1800)) ]]; then
+            origin="untrusted"
+        fi
     fi
 
     # Build structured content from W/W/W/L fields
@@ -187,7 +217,7 @@ EOF
         entities_json="$entities_json]"
     fi
 
-    local json="{\"ts\":\"$now\",\"type\":\"$type\",\"sector\":\"$sector\",\"domain\":\"$domain\",\"title\":\"$title\",\"content\":\"$content\",\"concepts\":$concepts_json,\"tokens_est\":$tokens_est,\"topic_key\":\"${topic_key}\",\"project\":\"${project:-null}\",\"hash\":\"$hash\",\"rev\":$rev,\"valid_from\":\"$vf\",\"importance_tier\":\"$importance_tier\",\"quality\":\"$quality\",\"memory_type\":\"$memory_type_kg\",\"questions\":[]"
+    local json="{\"ts\":\"$now\",\"type\":\"$type\",\"sector\":\"$sector\",\"domain\":\"$domain\",\"title\":\"$title\",\"content\":\"$content\",\"concepts\":$concepts_json,\"tokens_est\":$tokens_est,\"topic_key\":\"${topic_key}\",\"project\":\"${project:-null}\",\"hash\":\"$hash\",\"rev\":$rev,\"valid_from\":\"$vf\",\"importance_tier\":\"$importance_tier\",\"quality\":\"$quality\",\"memory_type\":\"$memory_type_kg\",\"origin\":\"$origin\",\"questions\":[]"
     [[ "$supersedes" != "null" ]] && json="$json,\"supersedes\":\"$supersedes\""
     [[ "$expires_at" != "null" ]] && json="$json,\"expires_at\":\"$expires_at\""
     [[ -n "$supersedes_key" ]] && json="$json,\"supersedes_key\":\"$supersedes_key\""
@@ -196,7 +226,7 @@ EOF
     [[ -n "$valid_to" ]] && json="$json,\"valid_to\":\"$valid_to\""
     echo "$json}" >> "$STORE_FILE"
     echo "✓ Guardado: $title (topic: $topic_key, rev: $rev)"
-    _update_memory_index "$topic_key" "$title" "$type" 2>/dev/null || true
+    _update_memory_index "$topic_key" "$title" "$type" "$origin" 2>/dev/null || true
     _maybe_rebuild_index
 
     # SE-214: optional conflict check (activated by SAVIA_CONFLICT_CHECK=true)
@@ -244,4 +274,62 @@ cmd_session_summary() {
     cmd_save --type "session-summary" --title "Session $(date +%Y-%m-%d)" \
         --content "$content" --concepts "session" \
         --topic "session/$(date +%Y-%m-%d)" ${project:+--project "$project"}
+}
+
+# SE-352: distribución de orígenes de las entradas de memoria
+cmd_audit_origins() {
+    [[ ! -f "$STORE_FILE" ]] && { echo "No hay memory store"; return; }
+    local total=0 owner=0 agent=0 untrusted=0 system=0 missing=0
+    while IFS= read -r line; do
+        [[ -z "$line" ]] && continue
+        total=$((total + 1))
+        local o
+        o=$(echo "$line" | grep -o '"origin":"[^"]*"' | cut -d'"' -f4 || true)
+        [[ -z "$o" ]] && { missing=$((missing + 1)); o="untrusted"; }
+        case "$o" in
+            owner) owner=$((owner + 1)) ;; agent) agent=$((agent + 1)) ;;
+            untrusted) untrusted=$((untrusted + 1)) ;; system) system=$((system + 1)) ;;
+        esac
+    done < "$STORE_FILE"
+    local pct_owner pct_agent pct_untrusted pct_system
+    pct_owner=$(awk -v a="$owner" -v t="$total" 'BEGIN{printf "%.1f", t>0?100*a/t:0}')
+    pct_agent=$(awk -v a="$agent" -v t="$total" 'BEGIN{printf "%.1f", t>0?100*a/t:0}')
+    pct_untrusted=$(awk -v a="$untrusted" -v t="$total" 'BEGIN{printf "%.1f", t>0?100*a/t:0}')
+    pct_system=$(awk -v a="$system" -v t="$total" 'BEGIN{printf "%.1f", t>0?100*a/t:0}')
+    echo "Distribución de orígenes — Total: $total entradas"
+    echo "  owner:      $owner ($pct_owner%)"
+    echo "  agent:      $agent ($pct_agent%)"
+    echo "  untrusted:  $untrusted ($pct_untrusted%)"
+    echo "  system:     $system ($pct_system%)"
+    echo "  sin src:    $missing (tratadas como untrusted)"
+}
+
+# SE-352: consolidación con exclusión de orígenes no confiables
+# Regla (OpenClaw dreaming): untrusted/system NUNCA entran en la promoción.
+# Modo --dry-run: solo reporta qué se excluiría, sin tocar el store.
+cmd_consolidate() {
+    [[ ! -f "$STORE_FILE" ]] && { echo "No hay memory store"; return; }
+    local dry=false
+    while [[ $# -gt 0 ]]; do case "$1" in
+        --dry-run) dry=true; shift ;; *) shift ;; esac; done
+    local excluded=0 kept=0 tmp_file
+    tmp_file=$(mktemp); trap "rm -f '$tmp_file'" RETURN
+    while IFS= read -r line; do
+        [[ -z "$line" ]] && continue
+        local o
+        o=$(echo "$line" | grep -o '"origin":"[^"]*"' | cut -d'"' -f4 || echo "untrusted")
+        [[ -z "$o" ]] && o="untrusted"
+        if [[ "$o" == "untrusted" || "$o" == "system" ]]; then
+            excluded=$((excluded + 1))
+            continue
+        fi
+        echo "$line" >> "$tmp_file"; kept=$((kept + 1))
+    done < "$STORE_FILE"
+    if $dry; then
+        echo "Consolidación (dry-run): excluidas ${excluded} entradas untrusted/system, mantenidas ${kept}."
+        return
+    fi
+    mv "$tmp_file" "$STORE_FILE"
+    echo "Consolidación: excluidas ${excluded} entradas untrusted/system, mantenidas ${kept}."
+    _maybe_rebuild_index
 }
