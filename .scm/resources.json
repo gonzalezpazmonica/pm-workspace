@@ -1,6 +1,6 @@
 {
-  "hash": "0c1e66a78c77",
-  "total": 1421,
+  "hash": "1bec7439b92b",
+  "total": 1422,
   "resources": [
     {
       "category": "analysis",
@@ -5480,6 +5480,20 @@
       "kind": "script",
       "path": "scripts/audit-mcp-templates.sh",
       "description": "SPEC-141 · audit-mcp-templates.sh"
+    },
+    {
+      "category": "governance",
+      "name": "audit-receipts",
+      "intents": [
+        "audit",
+        "decision",
+        "ledger",
+        "metadata",
+        "only"
+      ],
+      "kind": "script",
+      "path": "scripts/audit-receipts.sh",
+      "description": "audit-receipts.sh — SE-355: Audit Ledger metadata-only + decision receipts."
     },
     {
       "category": "governance",

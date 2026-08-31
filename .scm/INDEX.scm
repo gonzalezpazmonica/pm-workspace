@@ -1,6 +1,6 @@
 # Savia Capability Map — INDEX
-> hash: 9304a6272e84 | resources: 1421
-> 295 commands · 132 skills · 88 agents · 906 scripts
+> hash: c5d27ed88830 | resources: 1422
+> 295 commands · 132 skills · 88 agents · 907 scripts
 
 [analysis] Trace Optimize — across,distributed,optimize,rates,sampling — cmd:.claude/commands/trace-optimize.md
 [analysis] agent-activity — activity,agent,executions,recent,show — cmd:.claude/commands/agent-activity.md
@@ -415,6 +415,7 @@
 [governance] audit-chain-verify — audit,chain,integridad,verificación,verify — script:scripts/audit-chain-verify.sh
 [governance] audit-context-budget — audit,budget,context,slice,spec — script:scripts/audit-context-budget.sh
 [governance] audit-mcp-templates — audit,spec,templates — script:scripts/audit-mcp-templates.sh
+[governance] audit-receipts — audit,decision,ledger,metadata,only — script:scripts/audit-receipts.sh
 [governance] audit-test-quality — audit,classifies,level,quality,scripts — script:scripts/audit-test-quality.sh
 [governance] compliance-check — compliance,ejecuta,reglas,verificaciones — cmd:.claude/commands/compliance-check.md
 [governance] compliance-fix — aplicar,automática,compliance,corrección,hallazgos — cmd:.claude/commands/compliance-fix.md

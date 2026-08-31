@@ -1,5 +1,5 @@
 # governance — Savia Capability Map (L1)
-> 30 resources
+> 31 resources
 
 - **aepd-compliance** (cmd): Auditoría de cumplimiento AEPD para IA agéntica — framework 4 fases
 - **audit-all-bats** (script): audit-all-bats.sh — SE-039 Slice 1 probe: run test-auditor over all .bats.
@@ -8,6 +8,7 @@
 - **audit-chain-verify** (script): audit-chain-verify.sh — SE-275 S1/S4 / SE-313 S6: verificación de integridad.
 - **audit-context-budget** (script): audit-context-budget.sh — SPEC-181 Slice 3
 - **audit-mcp-templates** (script): SPEC-141 · audit-mcp-templates.sh
+- **audit-receipts** (script): audit-receipts.sh — SE-355: Audit Ledger metadata-only + decision receipts.
 - **audit-test-quality** (script): audit-test-quality.sh — Classifies test scripts by quality level
 - **compliance-check** (cmd): Ejecuta todas las verificaciones de compliance de reglas
 - **compliance-fix** (cmd): Aplicar corrección automática a hallazgos de compliance y re-verificar
