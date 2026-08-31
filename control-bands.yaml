@@ -1,0 +1,33 @@
+# Control Bands — configuración (SE-357)
+# Detección determinista (sin LLM). El agente se invoca DESPUÉS del breach.
+# CRIT-001: todo local.
+
+# Métrica CI failure rate — ventana rodante 30 días
+metric: ci_test_failure_rate
+baseline: rolling_30d
+rules: western_electric
+threshold: 0.10
+tiers:
+  1sigma: { action: log }
+  2sigma: { action: diagnose, tools: "Read,Grep,Bash(gh run view *)" }
+  3sigma: { action: propose, routes: [pull_request, runbook:rollback-deploy] }
+
+# Métrica telemetría — ratio de errores/critical sobre eventos
+metric: telemetry_anomaly
+baseline: rolling_30d
+rules: western_electric
+threshold: 0.05
+tiers:
+  1sigma: { action: log }
+  2sigma: { action: diagnose, tools: "Read,Grep" }
+  3sigma: { action: propose, routes: [pull_request] }
+
+# Métrica sesión — ratio de fallos en session-action-log
+metric: session_error_rate
+baseline: rolling_30d
+rules: western_electric
+threshold: 0.15
+tiers:
+  1sigma: { action: log }
+  2sigma: { action: diagnose, tools: "Read,Grep" }
+  3sigma: { action: propose, routes: [pull_request] }
