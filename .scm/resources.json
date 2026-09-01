@@ -1,6 +1,6 @@
 {
-  "hash": "ca75e999e5f1",
-  "total": 1428,
+  "hash": "eeedd4e84d60",
+  "total": 1429,
   "resources": [
     {
       "category": "analysis",
@@ -9910,6 +9910,20 @@
       "kind": "skill",
       "path": ".claude/skills/evaluations-framework/SKILL.md",
       "description": "Usar cuando se diseñan o ejecutan evaluaciones de calidad de agentes y prompts."
+    },
+    {
+      "category": "planning",
+      "name": "evidence-capture",
+      "intents": [
+        "bucle",
+        "capture",
+        "evidence",
+        "evidencia",
+        "wrapper"
+      ],
+      "kind": "script",
+      "path": "scripts/evidence-capture.sh",
+      "description": "evidence-capture.sh — SE-364: bucle de evidencia (wrapper CLI)."
     },
     {
       "category": "planning",
