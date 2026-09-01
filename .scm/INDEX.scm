@@ -1,6 +1,6 @@
 # Savia Capability Map — INDEX
-> hash: 9d39da53af26 | resources: 1424
-> 295 commands · 132 skills · 88 agents · 909 scripts
+> hash: 8e1b512924fb | resources: 1428
+> 295 commands · 132 skills · 88 agents · 913 scripts
 
 [analysis] Trace Optimize — across,distributed,optimize,rates,sampling — cmd:.claude/commands/trace-optimize.md
 [analysis] agent-activity — activity,agent,executions,recent,show — cmd:.claude/commands/agent-activity.md
@@ -428,6 +428,7 @@
 [governance] governance-audit-log — append,audit,chain,governance,hash — script:scripts/governance-audit-log.sh
 [governance] governance-enterprise — audit,certification,checks,compliance,decision — cmd:.claude/commands/governance-enterprise.md
 [governance] governance-enterprise — audita,certifican,compliance,decisiones,enterprise — skill:.claude/skills/governance-enterprise/SKILL.md
+[governance] governance-query — capa,consulta,gobernanza,governance,query — script:scripts/governance-query.sh
 [governance] legal-compliance —  — agent:.opencode/agents/legal-compliance.md
 [governance] opus47-compliance-check — batches,check,compliance,migration,opus — script:scripts/opus47-compliance-check.sh
 [governance] output-cleanup — cleanup,directory,output,policy,retention — script:scripts/output-cleanup.sh
@@ -551,6 +552,7 @@
 [planning] /decide-architecture — accuracy,agent,anthropic,bias,clasifica — cmd:.claude/commands/decide-architecture.md
 [planning] _template — carga,copia,crear,directorio,nueva — skill:.claude/skills/_template/SKILL.md
 [planning] _template_python — backed,carga,copia,crear,directorio — skill:.claude/skills/_template_python/SKILL.md
+[planning] acceptance-cost — acceptance,aceptado,cambio,cost,costo — script:scripts/acceptance-cost.sh
 [planning] accessibility-mode — accesibilidad,activa,desactiva,estado,muestra — cmd:.claude/commands/accessibility-mode.md
 [planning] accessibility-setup — accesibilidad,adaptarse,configura,necesidades,preferencias — cmd:.claude/commands/accessibility-setup.md
 [planning] action-shape-classifier — acción,action,classifier,forma,guards — script:scripts/action-shape-classifier.sh
@@ -625,6 +627,7 @@
 [planning] changelog-assemble — assemble,changelog,fragments — script:scripts/changelog-assemble.sh
 [planning] changelog-fragment — changelog,create,current,fragment — script:scripts/changelog-fragment.sh
 [planning] check-daemon-auth — auth,check,daemon — script:scripts/check-daemon-auth.sh
+[planning] ci-duration — duración,duration,jobs,mide,wrapper — script:scripts/ci-duration.sh
 [planning] ci-failure-tracker — analysis,failure,failures,noise,pipeline — script:scripts/ci-failure-tracker.sh
 [planning] ci-health — ejecuciones,fallo,local,muestra,partir — cmd:.claude/commands/ci-health.md
 [planning] classifier-corpus-run — clasificación,classifier,corpus,regresión — script:scripts/classifier-corpus-run.sh
@@ -921,6 +924,7 @@
 [planning] pbi-prd —  — cmd:.claude/commands/pbi-prd.md
 [planning] personal-vault — escribe,memoria,perfil,personal,preferencias — skill:.claude/skills/personal-vault/SKILL.md
 [planning] php-developer —  — agent:.opencode/agents/php-developer.md
+[planning] plan-diff-check — check,diff,plan,respeta,verifica — script:scripts/plan-diff-check.sh
 [planning] plugin-export — distributable,empaquetar,estructura,plugin,validación — cmd:.claude/commands/plugin-export.md
 [planning] plugin-validate — agents,commands,estructura,integridad,plugin — cmd:.claude/commands/plugin-validate.md
 [planning] pm-backend-health — backend,configuration,detect,health — script:scripts/pm-backend-health.sh

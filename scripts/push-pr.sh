@@ -169,6 +169,19 @@ if $MERGE && [[ "$PR_URL" == http* ]]; then
     exit 1
   fi
   echo "  operator grant 'merge' vigente. Merge autorizado."
+  # SE-362: gradación de riesgo — tier 3/4 requiere review humana explícita.
+  # (Un grant 'merge' no basta para cambios irreversibles/críticos.)
+  CHANGED_FILES=$(git diff --name-only origin/main...HEAD 2>/dev/null || git diff --name-only HEAD~1 2>/dev/null || true)
+  if [[ -n "$CHANGED_FILES" ]] && [[ -f "scripts/risk-tier.py" ]]; then
+    TIER_JSON=$(python3 scripts/risk-tier.py --diff "$CHANGED_FILES" --json 2>/dev/null || echo '{"tier":3}')
+    RISK_TIER=$(echo "$TIER_JSON" | python3 -c "import sys,json;print(json.load(sys.stdin).get('tier',3))" 2>/dev/null || echo 3)
+    if [[ "$RISK_TIER" -ge 3 ]]; then
+      echo "ERROR: cambio tier $RISK_TIER (irreversible/crítico) requiere review humana explícita (SE-362)." >&2
+      echo "  El grant 'merge' no es suficiente. Abrir PR Draft y esperar aprobación humana." >&2
+      exit 1
+    fi
+    echo "  risk-tier: $RISK_TIER (auto-merge permitido)."
+  fi
   PR_NUM=$(echo "$PR_URL" | grep -oP '[0-9]+$')
   if $USE_GH_CLI; then
     echo "  Enabling auto-merge..."; gh pr merge "$PR_NUM" --squash --auto 2>&1 | tail -1

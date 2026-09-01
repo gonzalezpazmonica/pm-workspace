@@ -1,6 +1,6 @@
 {
-  "hash": "efff4a65b965",
-  "total": 1424,
+  "hash": "ca75e999e5f1",
+  "total": 1428,
   "resources": [
     {
       "category": "analysis",
@@ -5664,6 +5664,20 @@
     },
     {
       "category": "governance",
+      "name": "governance-query",
+      "intents": [
+        "capa",
+        "consulta",
+        "gobernanza",
+        "governance",
+        "query"
+      ],
+      "kind": "script",
+      "path": "scripts/governance-query.sh",
+      "description": "governance-query.sh — SE-363: consulta la capa de registro de gobernanza."
+    },
+    {
+      "category": "governance",
       "name": "legal-compliance",
       "intents": [],
       "kind": "agent",
@@ -7323,6 +7337,20 @@
     },
     {
       "category": "planning",
+      "name": "acceptance-cost",
+      "intents": [
+        "acceptance",
+        "aceptado",
+        "cambio",
+        "cost",
+        "costo"
+      ],
+      "kind": "script",
+      "path": "scripts/acceptance-cost.sh",
+      "description": "acceptance-cost.sh — SE-360: costo por cambio aceptado (CLI wrapper)."
+    },
+    {
+      "category": "planning",
       "name": "accessibility-mode",
       "intents": [
         "accesibilidad",
@@ -8299,6 +8327,20 @@
       "kind": "script",
       "path": "scripts/check-daemon-auth.sh",
       "description": "check-daemon-auth.sh"
+    },
+    {
+      "category": "planning",
+      "name": "ci-duration",
+      "intents": [
+        "duración",
+        "duration",
+        "jobs",
+        "mide",
+        "wrapper"
+      ],
+      "kind": "script",
+      "path": "scripts/ci-duration.sh",
+      "description": "ci-duration.sh — SE-361: mide duración de jobs de CI (wrapper)."
     },
     {
       "category": "planning",
@@ -12157,6 +12199,20 @@
       "kind": "agent",
       "path": ".opencode/agents/php-developer.md",
       "description": ">"
+    },
+    {
+      "category": "planning",
+      "name": "plan-diff-check",
+      "intents": [
+        "check",
+        "diff",
+        "plan",
+        "respeta",
+        "verifica"
+      ],
+      "kind": "script",
+      "path": "scripts/plan-diff-check.sh",
+      "description": "plan-diff-check.sh — SE-358: verifica que el diff respeta el plan.md."
     },
     {
       "category": "planning",

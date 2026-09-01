@@ -1,5 +1,5 @@
 # governance — Savia Capability Map (L1)
-> 30 resources
+> 31 resources
 
 - **aepd-compliance** (cmd): Auditoría de cumplimiento AEPD para IA agéntica — framework 4 fases
 - **audit-all-bats** (script): audit-all-bats.sh — SE-039 Slice 1 probe: run test-auditor over all .bats.
@@ -21,6 +21,7 @@
 - **governance-audit-log** (script): governance-audit-log.sh — Append-only audit log with chain hash
 - **governance-enterprise** (cmd): Enterprise governance — audit trail, compliance checks, decision registry, certification
 - **governance-enterprise** (skill): Usar cuando se audita compliance, se registran decisiones o se certifican procesos enterprise.
+- **governance-query** (script): governance-query.sh — SE-363: consulta la capa de registro de gobernanza.
 - **legal-compliance** (agent): >
 - **opus47-compliance-check** (script): opus47-compliance-check.sh — Verifies Savia compliance with Opus 4.7 migration batches.
 - **output-cleanup** (script): output-cleanup.sh — SE-101: Output directory retention policy
