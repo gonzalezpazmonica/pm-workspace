@@ -182,4 +182,6 @@ tests/bats/.deps.json
 .codegraph/
 .codebase-memory/
 scripts/opencode-plugin/savia-gates/manifest.json
+
+# SE-357: artefactos de test de control bands (recreados por bats)
 intent/intent-control-band-*
