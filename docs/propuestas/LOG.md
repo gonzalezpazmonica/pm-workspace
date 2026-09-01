@@ -12,6 +12,11 @@ intervenciones/rechazos de ledgers locales → corpus de evals discriminantes
 (filtro N3/N3b/N4b), evidence-capture.sh integra con runner SPEC-151.
 5 pytest + 4 bats verdes.
 
+## 2026-08-31 SE-363 APPROVED→IMPLEMENTED
+Registros-no-archivos (origen Anthropic playbook): governance-sync.py extrae CRIT
+de CRITERIO.md a registro JSONL consultable (estado/aprobación), governance-query.sh.
+Markdown = vista, registro = dato. 5 pytest + 5 bats verdes.
+
 ## 2026-08-31 SE-362 APPROVED→IMPLEMENTED
 Risk Tiering (origen Anthropic playbook gobernanza ejecutable + modelo Amplitude):
 risk-tier.py clasifica cambios T1-T4, push-pr --merge consulta el tier (T3/T4

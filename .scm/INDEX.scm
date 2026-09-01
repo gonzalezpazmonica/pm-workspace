@@ -1,6 +1,6 @@
 # Savia Capability Map — INDEX
-> hash: 308592775764 | resources: 1428
-> 295 commands · 132 skills · 88 agents · 913 scripts
+> hash: ca40152a437f | resources: 1429
+> 295 commands · 132 skills · 88 agents · 914 scripts
 
 [analysis] Trace Optimize — across,distributed,optimize,rates,sampling — cmd:.claude/commands/trace-optimize.md
 [analysis] agent-activity — activity,agent,executions,recent,show — cmd:.claude/commands/agent-activity.md
@@ -428,6 +428,7 @@
 [governance] governance-audit-log — append,audit,chain,governance,hash — script:scripts/governance-audit-log.sh
 [governance] governance-enterprise — audit,certification,checks,compliance,decision — cmd:.claude/commands/governance-enterprise.md
 [governance] governance-enterprise — audita,certifican,compliance,decisiones,enterprise — skill:.claude/skills/governance-enterprise/SKILL.md
+[governance] governance-query — capa,consulta,gobernanza,governance,query — script:scripts/governance-query.sh
 [governance] legal-compliance —  — agent:.opencode/agents/legal-compliance.md
 [governance] opus47-compliance-check — batches,check,compliance,migration,opus — script:scripts/opus47-compliance-check.sh
 [governance] output-cleanup — cleanup,directory,output,policy,retention — script:scripts/output-cleanup.sh
