@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=99bddc8e3d10164ba496c013c5049a29f1249ac8059f41f7adedf5663bcba4a2
-timestamp=2026-09-01T01:16:18Z
-branch=agent/se364-evidence-loop-20260831
-head_commit=25e744e2
-signature=5301abc75f3d3bc0cbe7e9f547bae8725d7b3b5cc3971bde388fb635df17ebe6
+diff_hash=33cc63d468ff6443d68f8254d43e6a327af9dcc592db8453c885e41595e0b655
+timestamp=2026-09-01T01:32:37Z
+branch=agent/se359-review-policy-20260831
+head_commit=58ff0b38
+signature=d6da6dd3d1e41dc40af297dc001bc1994afef5f08ed07286c10eac73e22e2f2b
