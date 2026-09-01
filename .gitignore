@@ -182,3 +182,4 @@ tests/bats/.deps.json
 .codegraph/
 .codebase-memory/
 scripts/opencode-plugin/savia-gates/manifest.json
+intent/intent-control-band-*
