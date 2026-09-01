@@ -67,6 +67,7 @@ empezar ya.
 | Batch 5 — L26 | ✅ evidencia + FxC + política soberanía/resiliencia | #1029 |
 | Batch 6 — L27 | 🔶 E3/E5 gate PASS + E13 auditor + E14 matriz · **E12 Piloto 1 pendiente (VASS obviado)** | #1033 #1034 |
 | Batch 7 — verticales | ⏳ L24/L25/L12/L9 | — |
+| **Batch 8 — SE-365 Company as Code** | 🔶 estándar de entidades organizacionales (renumerado de SE-265) — en implementación | — |
 | Track B — SE-347 | 🔶 evaluado **RE-EVALUAR** (S3 bloqueado por modelo local ≥8B) | #1027 |
 | SE-348 activaciones | ✅ vector + Shield NER + router SE-346 + hook FxC · ⏳ sandbox (sudo) · ⏳ modelo ≥8B (hardware) | #1031 |
 
@@ -97,6 +98,12 @@ empezar ya.
 
 ### Batch 7 — Verticales y cola (P5-P8 Labs)
 - L24 Farming · L25 Humanity · L12 Sonora (paralela) · L9 Biomimético.
+
+### Batch 8 — SE-365 Company as Code (P0 transversal, 2026-09-01)
+- Estándar de entidades organizacionales como código (renumerado de SE-265, que colisionaba con court-model-tiers).
+- Habilita: federación (SE-263), queryability del grafo organizacional, org-registrar skill.
+- Consume: SE-352 (origin), SE-355 (audit), SE-363 (records-not-files), SE-362 (risk-tiering).
+- Fases: 0 esquema → 1 Company → 2 Projects → 3 Resources → 4 org-registrar.
 
 ### Track B (paralelo, no compite) — SE-347 PMA evaluación
 - S2 (auditoría de red runtime) + S3 (patrones RLM + benchmark). Independiente de los batches de dev.

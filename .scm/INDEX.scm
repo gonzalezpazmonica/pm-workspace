@@ -1,6 +1,6 @@
 # Savia Capability Map — INDEX
-> hash: 98709b67554e | resources: 1430
-> 295 commands · 132 skills · 88 agents · 915 scripts
+> hash: 627b3db8d4c3 | resources: 1432
+> 295 commands · 133 skills · 88 agents · 916 scripts
 
 [analysis] Trace Optimize — across,distributed,optimize,rates,sampling — cmd:.claude/commands/trace-optimize.md
 [analysis] agent-activity — activity,agent,executions,recent,show — cmd:.claude/commands/agent-activity.md
@@ -311,6 +311,7 @@
 [development] opencode-install — install,opencode,slice — script:scripts/opencode-install.sh
 [development] opencode-migration-smoke — final,migration,opencode,prep,slice — script:scripts/opencode-migration-smoke.sh
 [development] opencode-monthly-canary — canary,monthly,opencode,slice — script:scripts/opencode-monthly-canary.sh
+[development] org-registrar — code,company,consulta,consultan,dependencias — skill:.claude/skills/org-registrar/SKILL.md
 [development] parallel-specs-cleanup-stale — cleanup,parallel,slice,specs,stale — script:scripts/parallel-specs-cleanup-stale.sh
 [development] parallel-specs-db-sandbox — parallel,sandbox,slice,specs,worker — script:scripts/parallel-specs-db-sandbox.sh
 [development] parallel-specs-merge-queue — cascade,merge,parallel,queue,rebase — script:scripts/parallel-specs-merge-queue.sh
@@ -908,6 +909,7 @@
 [planning] opus47-calibration-scorecard — calibration,opus,scorecard,slice — script:scripts/opus47-calibration-scorecard.sh
 [planning] orchestration-protocol — agent,inter,messaging,orchestration,protocol — script:scripts/orchestration-protocol.sh
 [planning] org-political-landscape — alianzas,análisis,centros,detecta,interno — skill:.claude/skills/org-political-landscape/SKILL.md
+[planning] org-registrar — grafo,organizacional,registrar,wrapper — script:scripts/org-registrar.sh
 [planning] org-stakeholder-mapper — alianzas,decisores,extrae,formales,mapeador — skill:.claude/skills/org-stakeholder-mapper/SKILL.md
 [planning] orgchart-import —  — cmd:.claude/commands/orgchart-import.md
 [planning] orgchart-import — equipo,estructura,extraer,importa,organigrama — skill:.claude/skills/orgchart-import/SKILL.md
