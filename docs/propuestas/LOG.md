@@ -11,6 +11,11 @@ Risk Tiering (origen Anthropic playbook gobernanza ejecutable + modelo Amplitude
 risk-tier.py clasifica cambios T1-T4, push-pr --merge consulta el tier (T3/T4
 bloqueado sin review humana aun con grant), doc risk-tiering.md. 7 pytest + 5 bats.
 
+## 2026-08-31 SE-361 APPROVED→IMPLEMENTED
+Presupuesto de tiempo de CI (origen Anthropic playbook): ci-duration-agg.py mide
+duración por job (p50/p95), detecta over-budget 5min; ci-duration.sh.
+Alimenta etapa ci de SE-360. 5 pytest + 4 bats verdes.
+
 ## 2026-08-31 SE-360 APPROVED→IMPLEMENTED
 Costo por cambio aceptado (origen Anthropic playbook): acceptance-cost-agg.py
 descompone time-to-acceptance por etapa desde ledgers locales (SE-349/355),

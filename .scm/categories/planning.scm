@@ -1,5 +1,5 @@
 # planning — Savia Capability Map (L1)
-> 617 resources
+> 618 resources
 
 - **/decide-architecture** (cmd): Clasifica una tarea como WORKFLOW (deterministica) o AGENT (loop). Bias hacia workflow per Anthropic. Sugiere plantilla inicial. Mide accuracy contra corpus curado de 20 tareas.
 - **_template** (skill): TEMPLATE — copia este directorio para crear una skill nueva. NO se carga en runtime.
@@ -79,6 +79,7 @@
 - **changelog-assemble** (script): changelog-assemble.sh — Assemble CHANGELOG.md from CHANGELOG.d/ fragments
 - **changelog-fragment** (script): changelog-fragment.sh — create a CHANGELOG fragment for the current PR
 - **check-daemon-auth** (script): check-daemon-auth.sh
+- **ci-duration** (script): ci-duration.sh — SE-361: mide duración de jobs de CI (wrapper).
 - **ci-failure-tracker** (script): ci-failure-tracker.sh — Track CI pipeline failures for signal/noise analysis
 - **ci-health** (cmd): Muestra tasa de fallo de pipelines CI a partir del log local de ejecuciones.
 - **classifier-corpus-run** (script): classifier-corpus-run.sh — SE-314 AC-EV: regresión del corpus de clasificación.
