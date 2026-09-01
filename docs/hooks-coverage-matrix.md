@@ -6,7 +6,7 @@
 
 | Total hooks | TS Guards | Git Hook mitigated | CI Job mitigated | NONE |
 |---|---|---|---|---|
-| 117 | 18 (15.4%) | 4 | 5 | 90 |
+| 118 | 18 (15.3%) | 4 | 5 | 91 |
 
 ## Bloqueantes sin cobertura ni mitigacion
 
@@ -14,8 +14,8 @@ Ninguno — AC-2.2 satisfecho.
 
 ## Cobertura real OpenCode
 
-- **TS Guards activos**: 18/117 (15.4%)
-- **Hooks sin cobertura TS**: 90 (76.9%)
+- **TS Guards activos**: 18/118 (15.3%)
+- **Hooks sin cobertura TS**: 91 (77.1%)
   - De los cuales son bloqueantes sin ninguna mitigacion: 0
   - Eventos no disponibles en OpenCode (degradacion aceptada): 30
 
@@ -90,6 +90,7 @@ Ninguno — AC-2.2 satisfecho.
 | PreToolUse | memory-verified-gate.sh | no | NONE | bloqueante | degradacion_documentada: solo Claude Code; memory gate no portado en OpenCode |
 | PreToolUse | memory-write-sanitize.sh | no | NONE | bloqueante | degradacion_documentada: solo Claude Code; memory write sanitize no portado en OpenCode |
 | PreToolUse | mind-virus-write-gate.sh | no | NONE | bloqueante | degradacion_documentada: solo Claude Code |
+| PreToolUse | permission-mode-gate.sh | no | NONE | bloqueante | degradacion_documentada: solo Claude Code |
 | PreToolUse | pr-summary-gate.sh | no | NONE | bloqueante | degradacion_documentada: solo Claude Code; PR summary validado via git pre-push |
 | PreToolUse | project-isolation-gate.sh | no | NONE | bloqueante | degradacion_documentada: solo Claude Code; isolation gate no portado en OpenCode |
 | PreToolUse | prompt-hook-commit.sh | no | GIT_HOOK | bloqueante | git pre-commit/pre-push |
