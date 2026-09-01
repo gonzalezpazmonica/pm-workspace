@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=8845e4a82d80eb68e189724642347a794834f9efc132580164f32473c51d1222
-timestamp=2026-09-01T19:11:19Z
-branch=agent/se354-readonly-permission-20260831
-head_commit=b8613364
-signature=e7cffdd3ba4cd2ccc72e1731bb755f143f32a34dffbc0b9e31eb6bc45d49f7fe
+diff_hash=baa0767c5a30c7c8fb6330d72a531eecc7d13c796da8a3fe3d16161ff6bcfe11
+timestamp=2026-09-01T19:55:27Z
+branch=agent/se365-company-as-code-20260901
+head_commit=83df1f25
+signature=5b2eec320d088add2839527357316b99ede6269ed3e978d59d4a0b98210f7832

@@ -1,5 +1,5 @@
 # development — Savia Capability Map (L1)
-> 224 resources
+> 225 resources
 
 - **/speckit.checklist** (cmd): Alias spec-kit compatible. Gate de calidad final con verification-lattice multi-capa. Invoca skill verification-lattice. Compatible con github/spec-kit.
 - **/speckit.clarify** (cmd): Alias spec-kit compatible. Preguntas dirigidas para cerrar ambigüedad en una spec. Invoca skill context-interview-conductor. Compatible con github/spec-kit.
@@ -128,6 +128,7 @@
 - **opencode-install** (script): opencode-install.sh — SE-077 Slice 1
 - **opencode-migration-smoke** (script): opencode-migration-smoke.sh — SPEC-127 Slice 2b-ii (final migration prep)
 - **opencode-monthly-canary** (script): opencode-monthly-canary.sh — SE-077 Slice 2
+- **org-registrar** (skill): Gestiona el grafo de entidades organizacionales (Company as Code, SE-365): valida entidades, indexa el grafo, consulta dependencias y prepara propuestas de escritura mediada. Usar cuando se consultan roles/unidades/personas/políticas/proyec
 - **parallel-specs-cleanup-stale** (script): parallel-specs-cleanup-stale.sh — SE-074 Slice 3 — stale worktree cleanup
 - **parallel-specs-db-sandbox** (script): parallel-specs-db-sandbox.sh — SE-074 Slice 3 — DB sandbox per worker
 - **parallel-specs-merge-queue** (script): parallel-specs-merge-queue.sh — SE-074 Slice 2 — PR queue + cascade-rebase
