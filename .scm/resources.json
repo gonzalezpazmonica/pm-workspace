@@ -1,6 +1,6 @@
 {
-  "hash": "abdcdecb466e",
-  "total": 1427,
+  "hash": "6d56035a055a",
+  "total": 1428,
   "resources": [
     {
       "category": "analysis",
@@ -8327,6 +8327,20 @@
       "kind": "script",
       "path": "scripts/check-daemon-auth.sh",
       "description": "check-daemon-auth.sh"
+    },
+    {
+      "category": "planning",
+      "name": "ci-duration",
+      "intents": [
+        "duración",
+        "duration",
+        "jobs",
+        "mide",
+        "wrapper"
+      ],
+      "kind": "script",
+      "path": "scripts/ci-duration.sh",
+      "description": "ci-duration.sh — SE-361: mide duración de jobs de CI (wrapper)."
     },
     {
       "category": "planning",
