@@ -266,6 +266,7 @@
 | L3 | [recommendation-tribunal.md](domain/recommendation-tribunal.md) | Recommendation Tribunal — real-time audit de recomendaciones conversacionales | — |
 | L3 | [reconciliation-decision-tree.md](domain/reconciliation-decision-tree.md) | Reconciliation 3-bucket decision tree | — |
 | L3 | [regulatory-compliance.md](domain/regulatory-compliance.md) | Regulatory Compliance — Regla de Dominio | — |
+| L3 | [risk-tiering.md](domain/risk-tiering.md) | Risk Tiering — Gradación de riesgo para auto-merge (SE-362) | — |
 | L3 | [role-workflows.md](domain/role-workflows.md) | Workflows por Rol — Rutinas Adaptativas de Savia | — |
 | L3 | [savia-dual.md](domain/savia-dual.md) | Savia Dual — Inference Sovereignty Layer | — |
 | L3 | [scoring-curves.md](domain/scoring-curves.md) | Scoring Curves — Piecewise Linear Normalization | — |
