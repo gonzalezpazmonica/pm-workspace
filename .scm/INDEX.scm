@@ -1,6 +1,6 @@
 # Savia Capability Map — INDEX
-> hash: 07816ec58deb | resources: 1425
-> 295 commands · 132 skills · 88 agents · 910 scripts
+> hash: dd498913b65a | resources: 1426
+> 295 commands · 132 skills · 88 agents · 911 scripts
 
 [analysis] Trace Optimize — across,distributed,optimize,rates,sampling — cmd:.claude/commands/trace-optimize.md
 [analysis] agent-activity — activity,agent,executions,recent,show — cmd:.claude/commands/agent-activity.md
@@ -551,6 +551,7 @@
 [planning] /decide-architecture — accuracy,agent,anthropic,bias,clasifica — cmd:.claude/commands/decide-architecture.md
 [planning] _template — carga,copia,crear,directorio,nueva — skill:.claude/skills/_template/SKILL.md
 [planning] _template_python — backed,carga,copia,crear,directorio — skill:.claude/skills/_template_python/SKILL.md
+[planning] acceptance-cost — acceptance,aceptado,cambio,cost,costo — script:scripts/acceptance-cost.sh
 [planning] accessibility-mode — accesibilidad,activa,desactiva,estado,muestra — cmd:.claude/commands/accessibility-mode.md
 [planning] accessibility-setup — accesibilidad,adaptarse,configura,necesidades,preferencias — cmd:.claude/commands/accessibility-setup.md
 [planning] action-shape-classifier — acción,action,classifier,forma,guards — script:scripts/action-shape-classifier.sh
