@@ -6,6 +6,12 @@
 > Each entry: date, spec ID, status transition, optional rationale.
 > Ref: SE-222 S1 OKF Adoptable Patterns (log.md convention).
 
+## 2026-08-31 SE-364 APPROVED→IMPLEMENTED
+Bucle de evidencia (origen Anthropic playbook): evidence-capture.py captura
+intervenciones/rechazos de ledgers locales → corpus de evals discriminantes
+(filtro N3/N3b/N4b), evidence-capture.sh integra con runner SPEC-151.
+5 pytest + 4 bats verdes.
+
 ## 2026-08-31 SE-361 APPROVED→IMPLEMENTED
 Presupuesto de tiempo de CI (origen Anthropic playbook): ci-duration-agg.py mide
 duración por job (p50/p95), detecta over-budget 5min; ci-duration.sh.
