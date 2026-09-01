@@ -1,5 +1,5 @@
 # planning — Savia Capability Map (L1)
-> 618 resources
+> 619 resources
 
 - **/decide-architecture** (cmd): Clasifica una tarea como WORKFLOW (deterministica) o AGENT (loop). Bias hacia workflow per Anthropic. Sugiere plantilla inicial. Mide accuracy contra corpus curado de 20 tareas.
 - **_template** (skill): TEMPLATE — copia este directorio para crear una skill nueva. NO se carga en runtime.
@@ -201,6 +201,7 @@
 - **eval-workspace** (script): eval-workspace.sh — Evaluación integral de pm-workspace contra sala-reservas
 - **evaluate-repo** (cmd): >
 - **evaluations-framework** (skill): Usar cuando se diseñan o ejecutan evaluaciones de calidad de agentes y prompts.
+- **evidence-capture** (script): evidence-capture.sh — SE-364: bucle de evidencia (wrapper CLI).
 - **exchange-ledger** (script): exchange-ledger.sh — Federation exchange ledger (SE-263 S6)
 - **execution-level-inventory** (script): execution-level-inventory.sh — Full inventory of scripts/hooks with execution levels
 - **exit** (cmd): >

@@ -6,6 +6,12 @@
 > Each entry: date, spec ID, status transition, optional rationale.
 > Ref: SE-222 S1 OKF Adoptable Patterns (log.md convention).
 
+## 2026-08-31 SE-364 APPROVED→IMPLEMENTED
+Bucle de evidencia (origen Anthropic playbook): evidence-capture.py captura
+intervenciones/rechazos de ledgers locales → corpus de evals discriminantes
+(filtro N3/N3b/N4b), evidence-capture.sh integra con runner SPEC-151.
+5 pytest + 4 bats verdes.
+
 ## 2026-08-31 SE-363 APPROVED→IMPLEMENTED
 Registros-no-archivos (origen Anthropic playbook): governance-sync.py extrae CRIT
 de CRITERIO.md a registro JSONL consultable (estado/aprobación), governance-query.sh.

@@ -1,6 +1,6 @@
 # Savia Capability Map — INDEX
-> hash: 8e1b512924fb | resources: 1428
-> 295 commands · 132 skills · 88 agents · 913 scripts
+> hash: ca40152a437f | resources: 1429
+> 295 commands · 132 skills · 88 agents · 914 scripts
 
 [analysis] Trace Optimize — across,distributed,optimize,rates,sampling — cmd:.claude/commands/trace-optimize.md
 [analysis] agent-activity — activity,agent,executions,recent,show — cmd:.claude/commands/agent-activity.md
@@ -749,6 +749,7 @@
 [planning] eval-workspace — contra,eval,evaluación,integral,reservas — script:scripts/eval-workspace.sh
 [planning] evaluate-repo —  — cmd:.claude/commands/evaluate-repo.md
 [planning] evaluations-framework — agentes,calidad,diseñan,ejecutan,evaluaciones — skill:.claude/skills/evaluations-framework/SKILL.md
+[planning] evidence-capture — bucle,capture,evidence,evidencia,wrapper — script:scripts/evidence-capture.sh
 [planning] exchange-ledger — exchange,federation,ledger — script:scripts/exchange-ledger.sh
 [planning] execution-level-inventory — execution,full,hooks,inventory,level — script:scripts/execution-level-inventory.sh
 [planning] exit —  — cmd:.claude/commands/exit.md
