@@ -6,6 +6,11 @@
 > Each entry: date, spec ID, status transition, optional rationale.
 > Ref: SE-222 S1 OKF Adoptable Patterns (log.md convention).
 
+## 2026-08-31 SE-360 APPROVED→IMPLEMENTED
+Costo por cambio aceptado (origen Anthropic playbook): acceptance-cost-agg.py
+descompone time-to-acceptance por etapa desde ledgers locales (SE-349/355),
+p50/p95 + bottleneck; acceptance-cost.sh. 6 pytest + 3 bats verdes.
+
 ## 2026-08-31 SE-358 APPROVED→IMPLEMENTED
 plan.md verificado (origen Anthropic playbook Stage 3/5): plan-validate.py +
 plan-diff-check.sh (sync plan↔diff, warn/block). 11 bats verdes.
