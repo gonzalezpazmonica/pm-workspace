@@ -6,6 +6,11 @@
 > Each entry: date, spec ID, status transition, optional rationale.
 > Ref: SE-222 S1 OKF Adoptable Patterns (log.md convention).
 
+## 2026-08-31 SE-362 APPROVED→IMPLEMENTED
+Risk Tiering (origen Anthropic playbook gobernanza ejecutable + modelo Amplitude):
+risk-tier.py clasifica cambios T1-T4, push-pr --merge consulta el tier (T3/T4
+bloqueado sin review humana aun con grant), doc risk-tiering.md. 7 pytest + 5 bats.
+
 ## 2026-08-31 SE-358 APPROVED→IMPLEMENTED
 plan.md verificado (origen Anthropic playbook Stage 3/5): plan-validate.py +
 plan-diff-check.sh (sync plan↔diff, warn/block). 11 bats verdes.
