@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=9e7d0e028ee7db81ba148f91e5069cf50b42230ee0dc223493c969d3736b30e2
-timestamp=2026-09-01T00:34:58Z
-branch=agent/se362-risk-tiering-20260831
-head_commit=bb0e5285
-signature=0893b052fcb1f2d4d5beb799cf3409777772cc05ab6311bd14ee5a618409e2b5
+diff_hash=6f17f464b5d34af53a5152ef6537ae8c160071dab2328aac1bf82ddbc5143ad2
+timestamp=2026-09-01T00:46:04Z
+branch=agent/se363-records-not-files-20260831
+head_commit=e80b435f
+signature=e44b98209961974089a3a74c069d6cacf7390a50df4a2c92181db63ae4fc4871

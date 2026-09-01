@@ -241,6 +241,7 @@
 | L3 | [fork-agent-protocol.md](domain/fork-agent-protocol.md) | Fork Agent Protocol — Prefijo Cacheable | — |
 | L3 | [glm-governance-protocol.md](domain/glm-governance-protocol.md) | Governance Layer Manifest (GLM v1.0) — Protocol | — |
 | L3 | [governance-enterprise.md](domain/governance-enterprise.md) | Regla: Gobernanza Empresarial | — |
+| L3 | [governance-records.md](domain/governance-records.md) | Governance Records — capa consultable sobre Markdown (SE-363) | — |
 | L3 | [guided-work-protocol.md](domain/guided-work-protocol.md) | Protocolo de Trabajo Guiado | — |
 | L3 | [hcm-maps.md](domain/hcm-maps.md) | Human Code Maps (.hcm) — Lucha activa contra la deuda cognitiva | — |
 | L3 | [hook-profiles.md](domain/hook-profiles.md) | Hook Profiles — SAVIA_HOOK_PROFILE | — |
