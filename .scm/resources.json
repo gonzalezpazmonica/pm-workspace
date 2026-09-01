@@ -1,6 +1,6 @@
 {
-  "hash": "6d56035a055a",
-  "total": 1428,
+  "hash": "afbfb3a0a260",
+  "total": 1430,
   "resources": [
     {
       "category": "analysis",
@@ -5678,6 +5678,20 @@
     },
     {
       "category": "governance",
+      "name": "governance-query",
+      "intents": [
+        "capa",
+        "consulta",
+        "gobernanza",
+        "governance",
+        "query"
+      ],
+      "kind": "script",
+      "path": "scripts/governance-query.sh",
+      "description": "governance-query.sh — SE-363: consulta la capa de registro de gobernanza."
+    },
+    {
+      "category": "governance",
       "name": "legal-compliance",
       "intents": [],
       "kind": "agent",
@@ -9910,6 +9924,20 @@
       "kind": "skill",
       "path": ".claude/skills/evaluations-framework/SKILL.md",
       "description": "Usar cuando se diseñan o ejecutan evaluaciones de calidad de agentes y prompts."
+    },
+    {
+      "category": "planning",
+      "name": "evidence-capture",
+      "intents": [
+        "bucle",
+        "capture",
+        "evidence",
+        "evidencia",
+        "wrapper"
+      ],
+      "kind": "script",
+      "path": "scripts/evidence-capture.sh",
+      "description": "evidence-capture.sh — SE-364: bucle de evidencia (wrapper CLI)."
     },
     {
       "category": "planning",
