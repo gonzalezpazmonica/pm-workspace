@@ -1,6 +1,6 @@
 # Savia Capability Map — INDEX
-> hash: dd498913b65a | resources: 1426
-> 295 commands · 132 skills · 88 agents · 911 scripts
+> hash: b65e36cbb600 | resources: 1427
+> 295 commands · 132 skills · 88 agents · 912 scripts
 
 [analysis] Trace Optimize — across,distributed,optimize,rates,sampling — cmd:.claude/commands/trace-optimize.md
 [analysis] agent-activity — activity,agent,executions,recent,show — cmd:.claude/commands/agent-activity.md
@@ -626,6 +626,7 @@
 [planning] changelog-assemble — assemble,changelog,fragments — script:scripts/changelog-assemble.sh
 [planning] changelog-fragment — changelog,create,current,fragment — script:scripts/changelog-fragment.sh
 [planning] check-daemon-auth — auth,check,daemon — script:scripts/check-daemon-auth.sh
+[planning] ci-duration — duración,duration,jobs,mide,wrapper — script:scripts/ci-duration.sh
 [planning] ci-failure-tracker — analysis,failure,failures,noise,pipeline — script:scripts/ci-failure-tracker.sh
 [planning] ci-health — ejecuciones,fallo,local,muestra,partir — cmd:.claude/commands/ci-health.md
 [planning] classifier-corpus-run — clasificación,classifier,corpus,regresión — script:scripts/classifier-corpus-run.sh
