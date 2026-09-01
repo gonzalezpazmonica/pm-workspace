@@ -1,5 +1,5 @@
 # planning — Savia Capability Map (L1)
-> 619 resources
+> 620 resources
 
 - **/decide-architecture** (cmd): Clasifica una tarea como WORKFLOW (deterministica) o AGENT (loop). Bias hacia workflow per Anthropic. Sugiere plantilla inicial. Mide accuracy contra corpus curado de 20 tareas.
 - **_template** (skill): TEMPLATE — copia este directorio para crear una skill nueva. NO se carga en runtime.
@@ -359,6 +359,7 @@
 - **opus47-calibration-scorecard** (script): opus47-calibration-scorecard.sh — SE-070 Slice 1
 - **orchestration-protocol** (script): scripts/orchestration-protocol.sh — SE-205: typed inter-agent messaging
 - **org-political-landscape** (skill): Análisis de Paisaje Político Interno: detecta tensiones, alianzas y centros de poder a partir de un mapa de stakeholders.
+- **org-registrar** (script): org-registrar.sh — SE-365: CLI del grafo organizacional (wrapper).
 - **org-stakeholder-mapper** (skill): Mapeador de Stakeholders y Decisores: extrae roles formales y reales, motivaciones, alianzas y tensiones de una organización.
 - **orgchart-import** (cmd): >
 - **orgchart-import** (skill): Usar cuando se importa un organigrama para extraer la estructura del equipo.

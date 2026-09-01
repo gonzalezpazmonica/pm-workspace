@@ -1,6 +1,6 @@
 {
-  "hash": "afbfb3a0a260",
-  "total": 1430,
+  "hash": "30b74b3bd396",
+  "total": 1432,
   "resources": [
     {
       "category": "analysis",
@@ -4071,6 +4071,20 @@
       "kind": "script",
       "path": "scripts/opencode-monthly-canary.sh",
       "description": "opencode-monthly-canary.sh — SE-077 Slice 2"
+    },
+    {
+      "category": "development",
+      "name": "org-registrar",
+      "intents": [
+        "code",
+        "company",
+        "consulta",
+        "consultan",
+        "dependencias"
+      ],
+      "kind": "skill",
+      "path": ".claude/skills/org-registrar/SKILL.md",
+      "description": "Gestiona el grafo de entidades organizacionales (Company as Code, SE-365): valida entidades, indexa el grafo, consulta dependencias y prepara propuestas de escritura mediada. Usar cuando se consultan roles/unidades/personas/políticas/proyec"
     },
     {
       "category": "development",
@@ -12001,6 +12015,19 @@
       "kind": "skill",
       "path": ".claude/skills/org-political-landscape/SKILL.md",
       "description": "Análisis de Paisaje Político Interno: detecta tensiones, alianzas y centros de poder a partir de un mapa de stakeholders."
+    },
+    {
+      "category": "planning",
+      "name": "org-registrar",
+      "intents": [
+        "grafo",
+        "organizacional",
+        "registrar",
+        "wrapper"
+      ],
+      "kind": "script",
+      "path": "scripts/org-registrar.sh",
+      "description": "org-registrar.sh — SE-365: CLI del grafo organizacional (wrapper)."
     },
     {
       "category": "planning",

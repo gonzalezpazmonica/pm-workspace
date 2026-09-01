@@ -6,6 +6,13 @@
 > Each entry: date, spec ID, status transition, optional rationale.
 > Ref: SE-222 S1 OKF Adoptable Patterns (log.md convention).
 
+## 2026-09-01 SE-365 APPROVED→IMPLEMENTED
+Company as Code (renumerado de SE-265, que colisionaba con court-model-tiers):
+estándar de entidades organizacionales como código. org-registrar.py valida
+(frontmatter común, vocabulario de relaciones cerrado, consistencia referencial,
+origin/source SE-352), indexa el grafo company/projects/resources, propone con
+escritura mediada. Skill org-registrar + grafo piloto (5 entidades). 6 pytest + 5 bats.
+
 ## 2026-08-31 SE-359 APPROVED→IMPLEMENTED
 REVIEW.md policy (origen Anthropic playbook Stage 5): passes canónicos, vocab
 cerrado Important|Nit, cap 5 nits, exclusiones; review-policy-parse.py. 7 pytest + 7 bats.
