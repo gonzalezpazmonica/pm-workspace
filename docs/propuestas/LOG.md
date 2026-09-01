@@ -12,6 +12,11 @@ intervenciones/rechazos de ledgers locales → corpus de evals discriminantes
 (filtro N3/N3b/N4b), evidence-capture.sh integra con runner SPEC-151.
 5 pytest + 4 bats verdes.
 
+## 2026-08-31 SE-362 APPROVED→IMPLEMENTED
+Risk Tiering (origen Anthropic playbook gobernanza ejecutable + modelo Amplitude):
+risk-tier.py clasifica cambios T1-T4, push-pr --merge consulta el tier (T3/T4
+bloqueado sin review humana aun con grant), doc risk-tiering.md. 7 pytest + 5 bats.
+
 ## 2026-08-31 SE-361 APPROVED→IMPLEMENTED
 Presupuesto de tiempo de CI (origen Anthropic playbook): ci-duration-agg.py mide
 duración por job (p50/p95), detecta over-budget 5min; ci-duration.sh.
