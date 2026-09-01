@@ -1,6 +1,6 @@
 {
-  "hash": "6ed73d0019d7",
-  "total": 1427,
+  "hash": "ca75e999e5f1",
+  "total": 1428,
   "resources": [
     {
       "category": "analysis",
@@ -5661,6 +5661,20 @@
       "kind": "skill",
       "path": ".claude/skills/governance-enterprise/SKILL.md",
       "description": "Usar cuando se audita compliance, se registran decisiones o se certifican procesos enterprise."
+    },
+    {
+      "category": "governance",
+      "name": "governance-query",
+      "intents": [
+        "capa",
+        "consulta",
+        "gobernanza",
+        "governance",
+        "query"
+      ],
+      "kind": "script",
+      "path": "scripts/governance-query.sh",
+      "description": "governance-query.sh — SE-363: consulta la capa de registro de gobernanza."
     },
     {
       "category": "governance",
