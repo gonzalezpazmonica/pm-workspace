@@ -1,6 +1,6 @@
 {
-  "hash": "d428bdb05477",
-  "total": 1426,
+  "hash": "abdcdecb466e",
+  "total": 1427,
   "resources": [
     {
       "category": "analysis",
@@ -7334,6 +7334,20 @@
       "kind": "skill",
       "path": ".claude/skills/_template_python/SKILL.md",
       "description": "TEMPLATE de skill Python-backed (SE-347/PMA). Usar cuando se copia este directorio para crear una skill que expone funcionalidad invocable con run(). NO se carga en runtime."
+    },
+    {
+      "category": "planning",
+      "name": "acceptance-cost",
+      "intents": [
+        "acceptance",
+        "aceptado",
+        "cambio",
+        "cost",
+        "costo"
+      ],
+      "kind": "script",
+      "path": "scripts/acceptance-cost.sh",
+      "description": "acceptance-cost.sh — SE-360: costo por cambio aceptado (CLI wrapper)."
     },
     {
       "category": "planning",
