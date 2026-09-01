@@ -6,6 +6,11 @@
 > Each entry: date, spec ID, status transition, optional rationale.
 > Ref: SE-222 S1 OKF Adoptable Patterns (log.md convention).
 
+## 2026-08-31 SE-362 APPROVED→IMPLEMENTED
+Risk Tiering (origen Anthropic playbook gobernanza ejecutable + modelo Amplitude):
+risk-tier.py clasifica cambios T1-T4, push-pr --merge consulta el tier (T3/T4
+bloqueado sin review humana aun con grant), doc risk-tiering.md. 7 pytest + 5 bats.
+
 ## 2026-08-31 SE-361 APPROVED→IMPLEMENTED
 Presupuesto de tiempo de CI (origen Anthropic playbook): ci-duration-agg.py mide
 duración por job (p50/p95), detecta over-budget 5min; ci-duration.sh.
