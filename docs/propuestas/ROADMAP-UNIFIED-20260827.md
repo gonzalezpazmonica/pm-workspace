@@ -68,6 +68,7 @@ empezar ya.
 | Batch 6 — L27 | 🔶 E3/E5 gate PASS + E13 auditor + E14 matriz · **E12 Piloto 1 pendiente (VASS obviado)** | #1033 #1034 |
 | Batch 7 — verticales | ⏳ L24/L25/L12/L9 | — |
 | **Batch 8 — SE-365 Company as Code** | 🔶 estándar de entidades organizacionales (renumerado de SE-265) — en implementación | — |
+| **Batch 9 — SE-366..370 (verificación, temporalidad, contratos)** | 🟡 5 specs PROPOSED (análisis open-source 2026-09-02) — esperan aprobación | — |
 | Track B — SE-347 | 🔶 evaluado **RE-EVALUAR** (S3 bloqueado por modelo local ≥8B) | #1027 |
 | SE-348 activaciones | ✅ vector + Shield NER + router SE-346 + hook FxC · ⏳ sandbox (sudo) · ⏳ modelo ≥8B (hardware) | #1031 |
 
@@ -105,6 +106,27 @@ empezar ya.
 - Consume: SE-352 (origin), SE-355 (audit), SE-363 (records-not-files), SE-362 (risk-tiering).
 - Fases: 0 esquema → 1 Company → 2 Projects → 3 Resources → 4 org-registrar.
 
+### Batch 9 — SE-366..370 (verificación, temporalidad, contratos; análisis open-source 2026-09-02)
+> 5 specs PROPOSED, esperan aprobación de la operadora. Todas locales (CRIT-001).
+> Conectan con L28 (harness/verificación) y L30 (prospectiva) de Savia Labs.
+
+| Spec | Qué aporta | Fuente | Esfuerzo | Depende de |
+|---|---|---|---|---|
+| **SE-366 Decision Ledger bitemporal** | hechos con validez temporal doble (mundo/Savia) + evidence rows + corrección no destructiva + consulta as-of | grafo bitemporal open-source (U1+U3) | M (~6-8h) | SE-355, SE-352, SE-364 |
+| **SE-367 Derivation Path** | veredictos con cadena causal expandible hasta la fuente original; grounding contra trace | derivación con reglas open-source (U5) | M (~5-6h) | L28 M2, courts |
+| **SE-368 Review Lifecycle congelado** | freeze del candidato + un registro de autoridad por lineage + cierre en último evento causal + acknowledge one-shot | review lifecycle open-source (G1) | M (~6h) | SE-343, pr-plan, courts |
+| **SE-369 Contract Digest Pins** | contratos byte-congelados bajo digest; compat sin autoridad; rechazo explícito de schema nuevo | digest pins open-source (G6) | S (~4h) | SE-363, settings.json |
+| **SE-370 SDD Research lane** | investigación como fase SDD con grant exacto y artefacto research.md auditable bajo el change | research lane open-source (G4) | S (~4h) | SDD, web-research |
+
+**Prioridad dentro del batch** (valor/urgencia/dependencia):
+1. **SE-366** (mayor hueco: temporalidad+evidencia como propiedad del dato).
+2. **SE-368** (robustece el lifecycle de revisión que ya se usa en cada PR).
+3. **SE-367** (refuerza grounding de courts, complementa SE-366).
+4. **SE-369 / SE-370** (higiene de contratos y SDD).
+
+**No duplica** (ya cubierto): G3 one-shot grants (SE-343), U2 conflict 3-bucket
+(SCL-010), L28 M2 grounding (labs).
+
 ### Track B (paralelo, no compite) — SE-347 PMA evaluación
 - S2 (auditoría de red runtime) + S3 (patrones RLM + benchmark). Independiente de los batches de dev.
 
@@ -138,5 +160,8 @@ empezar ya.
 
 - `docs/ROADMAP.md` · `labs/ROADMAP.md` · `docs/specs/SE-344-*.spec.md` ·
   `docs/specs/SE-338-*.spec.md` · `docs/specs/SE-339-*.spec.md` ·
-  `docs/specs/SE-264-*.spec.md` · `docs/specs/SE-346-*.spec.md`
+  `docs/specs/SE-264-*.spec.md` · `docs/specs/SE-346-*.spec.md` ·
+  `docs/specs/SE-366-*.spec.md` · `docs/specs/SE-367-*.spec.md` ·
+  `docs/specs/SE-368-*.spec.md` · `docs/specs/SE-369-*.spec.md` ·
+  `docs/specs/SE-370-*.spec.md`
 - CRIT-001 · `autonomous-safety.md` (la IA propone, la operadora dispone)
