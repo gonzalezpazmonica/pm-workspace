@@ -5,18 +5,236 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased] — 2026-08-17 · Human authority for learning recall (SCL-008)
+## [6.16.0] — 2026-09-02
+
+### Added
+
+- SPEC-CONSOLIDACION-20260823: sanitización completa post-1000 PRs — 8 R implementados.
+- R1 (P8): parser de cron humano (`daily 08:30`, `weekly fri 09:15`) en `store.py` + comandos `run-due`/`compute`; el orquestador diario ya computa `next_run` y salta solo.
+- R2 (P3/P8): SessionStart dispara `run-due --max 2` (loops autónomos) + ítem informativo de lecciones SCL activas.
+- R3 (P7): `savia-bootstrap-log.sh` — log de instalación append-only (tsv diario + rotación 200 líneas), nunca rompe el arranque.
+- R4 (P6): `savia-install.sh` — bootstrap central idempotente (memory-deps, automations+orquestador, plugin, merge-drivers, memory-bootstrap) con log; integrado en `install.sh` como paso de consolidación.
+- R5 (P2): calibración self-heal (meta-monitor falla abierto, recalibrate auto-crea curva).
+- R7 (P4): 3 LPs de la sesión 2026-08-23 persistidas en la cúpula SaviaLearning.
+- R8 (P5): getting-started ES+EN con sección 2b (instalador + capacidades nuevas).
+- SPEC-FREETOKEN-PROBE: evalúa FreeToken (UC Berkeley, Apache-2.0) como runtime local MoE para la línea SAGI. Resultado del probe: motor arranca y detecta la RTX 2070, pero sin nvcc/CUDA toolkit no compila kernels JIT → inferencia bloqueada. Viable en RTX 30+ (cc>=8.0) con toolkit. CRIT-001 respetado.
+- `scripts/freetoken-probe.sh`: probe reproducible por máquina (GPU/cc/nvcc/RAM/disco) → veredicto JSON. Reusable para decidir cuándo FreeToken sustituye/complementa a Ollama.
+- L13 Savia Metacognition F2: control metacognitivo — meta-control.sh decide EMIT/POSTPONE/REPLAN/REDUCE por umbrales (confianza ajustada, divergencia L1, calibracion historica); orquestador --meta integra monitor+control como propuesta (nunca auto-ejecuta, CRIT-031). 10 tests BATS.
+- L13 Savia Metacognition F1: juicio metacognitivo sobre SAGI — meta-monitor.sh ajusta la confianza declarada por calibracion historica (SE-255), divergencia (L1 predictor de error) y evidencia; meta-recalibrate.sh actualiza la curva por tarea. El orquestador gana --meta (monitoreo tras decide). 8 tests BATS.
+- Skill `robotica-diseno`: diseño profundo de robótica, automatización y
+- Cúpula SaviaDomains RBT/AUT: digestión del Model Hardware Standard (MHS) —
+- SAGI en produccion: savia-orchestrator.sh --decide llm (Ollama local, CRIT-001) + automatizacion diaria sagi-orquestador-diario (daily 08:30). P2/P3/(P4) convergen con LLM real; persistencia INFERRED con activacion humana (CRIT-031).
+- SCL-009: auto-descubrimiento de instancias federadas (federation-discover.sh) — registra candidatas del pool, health-check via /health y actualiza el FederationRegistry; learning-federate.sh sin --url usa la instancia sana (retrocompatible). 9 tests BATS.
+- SCL-010: reconciliacion de lecciones duplicadas/conflictivas entre instancias (learning-reconcile.sh) — detecta pares en SaviaLearning y los clasifica en el arbol 3-bucket (evolution/auto-resolve/conflict-doc), solo propone, no muta el sustrato (CRIT-031). 12 tests BATS.
+- SCL-011: orquestador SAGI minimo (savia-orchestrator.sh) — integra sustrato, cupulas (recall), criterio y bucle SCL en un ciclo LEER→DECIDIR→PERSISTIR→MEDIR→AJUSTAR; compone scripts existentes sin reimplementar; CRITERIO y CONSTITUCION intocables (CRIT-031). Renumerado desde labs/specs (descolision de SE-335/336). 7 tests BATS.
+- SCL-012: harness de pruebas SAGI P1-P5 (sagi-pruebas.sh) — run-1 determinista sobre el orquestador SCL-011 (P1-P3 CONFIRMA: aprendizaje continuo, memoria cross-sesion, criterio estable); P4/P5 dry-run declarado; resultado negativo primera clase.
+- SCL-013: flujo end-to-end (P6) — sagi-e2e.sh resuelve un objetivo multi-paso (spec desde el backlog) en ≤N pasos sin intervencion intermedia, con auditor determinista de calidad; delegacion explicita (CRIT-031, resultado INFERRED). 8 tests BATS.
+- `docs/learning-proposals/LP-20260823-l11-run3.md`: LP sanitizada del cierre de la línea L11 SAGI (run-3) — la memoria cross-sesión y la coherencia de criterio las produce el algoritmo que inyecta el sustrato antes del LLM, no el modelo aislado. Sin métricas ni paths (CRIT-001).
+- SE-334 S1+S2: fingerprint determinista de errores (scripts/telemetry-fingerprint.py) + agrupacion en issues (telemetry-issues.sh) + alertas con umbral que alimentan el bucle SCL (telemetry-alert.sh --capture, crea learning proposal desde el incidente). Flag --fingerprint en otel-emit.sh. Todo local, sin LLM, sin red (CRIT-001).
+- Session startup now loads a knowledge-discovery priority rule (vaults -> memory -> code graph -> grep) as the sixth eager import in CLAUDE.md; the SessionStart banner reinforces the order on every session (SE-335).
+- New learning proposal LP-20260822-b20596e1 records the meta-lesson that every process-improvement promise must ship with a real action in the same turn (candidate CRIT-034, inferred pending human authorship).
+- Turn-SDLC (SE-336): cada ejecucion de LLM tratada como un SDLC — auditor de fases (turn-sdlc-audit.sh), DoD gate determinista sobre la respuesta final (stop-dod-gate.sh, DOD-001/002/003), telemetria del orden de descubrimiento (discovery-order-telemetry.sh) y reporte por ventana (turn-sdlc-report.sh) que alimenta la metrica L del bucle SCL.
+- SE-337: commit-guard — bloquea git commit en ramas humanas (main/master) via hook runtime; bypass consciente SAVIA_ALLOW_MAIN_COMMIT=1 registrado en commit-guard.jsonl (alimenta Turn-SDLC). Mecaniza la regla autonomous-safety 'NUNCA commit en main'.
+- SE-276: Proactive skill suggestion engine (skill-suggest.sh) with silence mode, 500ms timeout, configurator integration
+- SE-277: Multi-target skill distribution CLI (savia-skills.sh) + skills-manifest.json (136 skills)
+- SE-278: Semantic skill quality pipeline with 8-dimension rubric, LLM judge, hash cache, batch evaluation
+- SE-279: Scheduled monitoring detector framework (always-on-runner.sh) with 5 detectors and cron installer
+- SE-280: SaviaVaults — Context Dome Server, MCP + A2A transports, git-backed storage, BM25 search, Ed25519 signing, 6-layer security sandbox
+- SE-281: SaviaVaults gap corrections — multi-vault config, A2A auth, rate limiting, search index persistence
+- SE-282: Savia Federate — cross-dome federation layer, registry, cache, A2A client, parallel search with merge/dedup/interleave
+- SE-283: Savia Federate security hardening — circuit breaker, audit logger, content hash verification, TLS support
+- SaviaVaults: 46 files, 90+ tests, 43 e2e passing, docs EN/ES
+- Skills doctor: health check for drift, broken symlinks, orphans, maturity breakdown
+- SE-285: SaviaVaults operational skill (savia-vaults) + knowledge architect agent (context-dome-manager, heavy/L2)
+- **L14 (parcial) — cobertura de tests de `vaults-backup-cron.sh`** — 
+- **`SAVIA_VAULTS_DIR` override** en `vaults-backup-cron.sh`: permite apuntar
+- **L17 Catálogo local de activos de datos con lineage (SE-342 S1)** —
+- **L18 Experiment tracking local (SE-342 S2)** — `slm-registry.sh run`:
+- **L19 Monitor de calidad de datos (SE-342 S3)** — `tabular-profile.py monitor`:
+- **L20 Gateway de modelos local (SE-342 S4)** — `scripts/model-gateway.py`:
+- **L21 Predicción asistida local (SE-342 S5)** — `tabular-profile.py predict`:
+- **L22 Vector store híbrido (SE-342 S6)** — `scripts/hybrid-search.py`:
+- lightpanda-browser skill: headless browser for AI agents (33K stars, Zig, 9x faster than Chrome). Markdown dump, MCP server, agent mode, CDP compatible. External optional tool (AGPL-3.0, never bundled).
+- Savia Labs: cierre lineas L1-L11, apertura L12/L13/L14, roadmap y ciclo repriorizados
+- SE-338 generador determinista de rule-manifest (manifest PASS) + SE-339 ratchet test-coverage hooks criticos (100%)
+- Proyecto unificado **savia-sonora** (`projects/savia-sonora/`): la interfaz hablada de Savia (voz y oido). Consolidacion Fase 0 (identidad) + Fase 1 (reubicacion) completadas:
+- Cross-platform (Linux/Windows/macOS): app Python/Pyloid; runtime `~/.savia/transcriptor/` mantenido (compatibilidad de datos).
+- Roadmap Era 202 y SKILLS.md actualizados.
+- **SCL-001 Savia Continuous Learning — bucle cerrado (implementado)**: captura
+- **SCL-002 — Cúpula de aprendizaje**: cúpula propia en SaviaVaults para las
+- **SCL-003 — Recall operativo**: `learning-recall.sh` recupera lecciones
+- **SCL-008 — Límite de autoridad del aprendizaje**: separa búsqueda y
+- SE-180: `.github/hooks/savia.json` generated from `.claude/settings.json` via `scripts/generate-github-hooks.sh` — hook support for GitHub Copilot CLI (>=1.0.60), which does not read `.claude/settings.json` directly (only `.github/hooks/*.json` from gitRoot). Single launcher `run-savia-hook.sh` (no env vars, no inline shell) and `wrap-for-copilot.sh` translates the Claude→Copilot output schema. Partial coverage: only the 9 event types documented in Copilot's hook schema have an equivalent (~83 of 110 hook entries translate; the rest are skipped for unmapped events, non-HTTPS webhook, or non-standard command formatting — see spec for the full breakdown). Structure and schema validated (bats 6/6) — live empirical validation against Copilot CLI itself confirmed for PreToolUse blocking only; SessionStart/agentStop still pending (see runbook).
+- SE-269: Forja de ideas socratica con veredicto ternario ENDURECIDA/MAS_CLARA/MUERTA (forge-idea.sh)
+- SE-269: Veredicto ternario PASA/RESERVAS/FALLA + gate pre-implementacion con 6 dimensiones (ternary-verdict.sh + implementation-readiness.sh)
+- SE-269: Paquete de revision humana en 5 secciones (review-checkpoint.sh)
+- SE-269: Calibracion adversarial de jueces con tracking FP/FN y anti-Goodhart (judge-calibration.sh)
+- SE-269: Distribucion de docs consumible por IA — llms.txt + llms-full.txt (llms-txt-generate.sh)
+- **SE-274 S2 — Golden sets de tribunales**: 3 datasets JSONL hand-labeled
+- **SE-316 — Eval-lint de golden sets**: `scripts/eval-lint.sh` valida que cada
+- **Tests**: `tests/test-eval-lint.bats` (20 casos: AC-S1, AC-S2, cobertura,
+- SE-289 S1-S3: Transparencia Art. 50 EU AI Act — inventario de 15 tipos de salida, notificacion de interaccion con IA en CLI/MCP/A2A, marcado Ed25519 de artefactos generados, deteccion 3 niveles (HIGH/MEDIUM/NONE)
+- SE-290 S1-S2: Savia Vaults-native — declaracion de vaults (config/vaults.yaml) con 5 vaults, mapeo de campos a 7 tipos de entidad, validacion progresiva contra SchemaRegistry, cupulas introspectables via vault_introspect y control de frescura
+- SE-291 S1: Savia Labs — cupula de investigacion epistemica con preregistro obligatorio, 4 tipos de entidad (hypothesis/experiment/result/protocol), cuaderno append-only y L1 preregistrada
+- SE-291 S3: Gestion de domos — CLI dome create/list/info/delete/set-default, DomeRegistry persistente (JSON), soporte multi-dome en MCP server
+- SE-291 S6: Control de acceso — UserStore con tokens bcrypt, AccessController RBAC (reader/writer/admin) por dome, autenticacion via SAVIA_AUTH_TOKEN, comandos CLI user create/delete/list/token/grant/revoke/permissions
+- SE-291 S7: Confidencialidad — N1-N4 gates en AccessController, N1 lectura publica, N3-N4 requieren roles elevados, comando CLI confidentiality set/get/audit
+- SE-291 fix: opencode.json bootstrapping corregido (ficheros locales inexistentes eliminados, MCP codebase-memory desactivado, parametro schema eliminado del arranque vaults), servidor MCP arranca sin dome configurado
+- SE-292: Contencion de ejecucion (7 slices, 6/7 completos — clasificacion, entorno, credenciales, cliente parcial, reversibilidad, fiabilidad, fail-closed)
+- SE-293: Auditoria de accesos + quotas por usuario (5/5 slices, 169 tests)
+- SE-294: Multi-provider proxy + shared contracts. ProviderRouter with health check and failover (DeepSeek, Anthropic). Contracts package with shared TypeScript types.
+- SE-296: Tabular intelligence — statistical profiling for structured data. Auto-detects column types, outliers, correlations. Pre-LLM hook replaces raw data with stats. 4-layer enforcement.
+- SE-297: Sovereign KG extraction — deterministic regex (12 patterns) + LLM-enhanced via ProviderRouter, hybrid pipeline with quality gate and anti-hallucination checks
+- SE-298: WikiLink enhancement — validation, backlinks in vault_read, vault_wikilink_health MCP tool. Obsidian-compatible [[wikilinks]] with broken link detection.
+- SE-301 agent security graph spec: static analysis of attack paths across 83 agents (35 rules, NetworkX, scores 0-10).
+- SE-302 Azure cost monitor spec: idle resource detection, monthly dashboard via Cost Management API.
+- SE-303 intent dispatch refactor spec: deterministic micro-kernel dispatch via YAML catalog (<50ms without LLM).
+- SE-304 automation scheduler: unified scheduled task infrastructure. Task store (JSON), async scheduler loop (catch-up, skip-on-overlap), scoped approvals, CLI `savia-automations.sh` with 10 commands, 6 default tasks (morning-brief, pr-stale-check, drift-daily, memory-consolidation, weekly-report, dependency-cve-scan). 46 tests. Supersedes SE-279 and overnight-sprint.
+- SE-306 agent runtime security spec: L1-L4 tool-call interception to block the Lethal Trifecta (privileged data + injection + exfiltration). Multi-agent delegation graph with cryptographic signing. Complements SE-301 (static agent security graph analysis).
+- SE-307 OKF adapter: SaviaVaults ahora importa/exporta bundles Open Knowledge Format v0.1. 4 modulos (okf, okf-conformance, okf-export, okf-import) + 3 comandos CLI (okf-conformance, okf-export, okf-import). 33 tests.
+- SE-308 Savia Transcriptor: app de escritorio que captura reuniones automaticamente. Fork de VoiceFlow + VAD auto-trigger (silero-vad), screenshots periodicos (mss), transcripcion local (faster-whisper). Integracion con Savia via skill transcriptor-digest + comando /transcriptor.
+- Nueva spec SE-310 en el roadmap (Era 202): bucle de voz push-to-talk en la aplicacion de escritorio Savia Transcriptor. Transcripcion local, respuesta LLM en streaming con el system prompt de Savia, sintesis de voz pluggable con degradacion, persistencia del transcripto por mensaje y digest posterior. Implementacion pendiente de aprobacion.
+- Spec SE-311 — SDLC Context Loop: cierra los dos gaps del SDD asistido por IA (articulo de Ernesto Laura Mamani, 2026-08-04): (1) memoria de contexto — post-merge alimenta las cupulas de SaviaVaults (spec→IMPLEMENTED, ADR, release) para que la documentacion viva; (2) enforcement determinista — compuerta consolidada que valida el diff FINAL contra los estandares de la organizacion (incluye ediciones manuales post-agente). Reutiliza SaviaVaults A2A /share + gates existentes.
+- **SE-313 S7 — Dispatch de subagentes con tiers corregido**: `~/.savia/preferences.yaml`
+- **Telemetría de dispatch**: nuevo `scripts/otel-emit.sh` (schema `savia.event/1.0`,
+- **Specs**: `SE-313` (observabilidad/trazabilidad OTel GenAI + EU AI Act, 8 slices)
+- **Tests**: `tests/test-otel-emit.bats`, `tests/test-subagent-dispatch-gate.bats`,
+- **SE-313 S1/S2/S3/S4/S5 (telemetría estándar)**: `config/telemetry-schema.json`
+- **SE-313 S6 / SE-275 S1+S3 (audit trail)**: `scripts/audit-chain-append.sh`
+- **SE-314 (clasificador determinista)**: `scripts/sovereignty-classify.sh`
+- **Tests nuevos**: `tests/test-savia-trace.bats`, `tests/test-telemetry-tail-sample.bats`,
+- SE-315 Scope Creep Gate — detección de diffs fuera del alcance de la spec:
+- **9 specs nuevas (PROPOSED)** tras análisis de repos externos:
+- **Roadmap**: Era 203 "External Repo Intelligence" añadida con las 9 specs
+- SE-317 Memoria reflexiva — pase de reflexión sobre el knowledge store:
+- Determinista (stdlib python), sin LLM: fingerprint + difflib + marcado. El
+- `link` usa cita de hash/título (heurística conservadora) para evitar falsos
+- SE-318 Blast-radius pre-commit — consulta de impacto antes de escribir:
+- La heurística grep filtra definiciones/imports/comentarios para evitar
+- El hook y el job son opt-in/report-only por diseño (SE-318 S3): el
+- SE-323 Incident RCA Agent — investigación autónoma de incidentes con
+- La suite sintética usa `rca-cases.jsonl` (no `cases.jsonl`) para no chocar
+- El harness reutiliza las capas de detección deterministas de SE-314
+- `--postmortem` respeta la política `output/postmortems/` (gitignored, N4b);
+- SE-324 Tabular Intelligence — Excel + deteccion relacional:
+- SE-325 Vault adjacency inline + relaciones tipadas — aprendizajes de Azure
+- Los aprendizajes de Cosmos aplicados son de **modelo de datos** (adyacencia
+- El índice relacional de `knowledge-graph.py` sigue siendo la fuente de
+- SE-326 Loop-hygiene, spill y token-meter — 5 patrones transferidos de
+- Todos los guards son best-effort/warn o opt-in por env: **nada bloquea el
+- Estado durable siempre fuera del repo (`output/spill/`, `output/goals/`,
+- SE-327..SE-331 — Mejoras de conocimiento en SaviaVaults (RAG/grafo), basadas
+- Todo determinista, sin LLM ni embeddings (alineado con SE-288). Los cambios
+- SE-333 Agent Plugins compliance: 143 skills migradas a metadata.savia.* (string->string), skill-audit --agent-plugins, plugin.json + mcp.json portables + skills symlink + com.savia.client namespace, gate CI strict
+- **SE-342 Capa de Inteligencia de Datos Local** — `docs/specs/SE-342-data-intelligence-local.spec.md`:
+- **Savia Domains — `docs/domains/savia-domains-catalog.md`** (Labs L23):
+- **SE-344 Frónesis como Código (FxC)** — `scripts/fronema.py`:
+- SE-348 resilience baseline: scripts de telemetría robusta y tests de
+- SE-352 Trust-Gated Memory: cada entrada de memoria lleva `origin` (owner/agent/untrusted/system), fail-safe a `untrusted` sin fuente confiable; taint de turno tras tools de red (hook `memory-origin-gate.sh`); `memory-store.sh consolidate` excluye `untrusted`/`system` de la promoción; filtro `search --min-origin` y `audit-origins`.
+- SE-353 Sentinel Credential Substitution: `scripts/credential-egress.sh` cifra credenciales en `~/.savia/credential-store/` (0600, AES-256-CBC+HMAC) y las resuelve SOLO en el egress de destinos autorizados — el valor real nunca entra en el contexto del modelo. Modos store/resolve/run/status/audit; destino no autorizado o marcador no registrado → REFUSE. 13 bats tests.
+- SE-354 Read-Only Permission Mode: `permission-mode-gate.sh` (PreToolUse) deniega estructuralmente las tools de mutación (Write/Edit/MultiEdit y comandos Bash de mutación como git push/commit/merge, rm, mv) cuando la sesión corre con `SAVIA_PERMISSION_MODE=read-only`. Denegación en código (exit 2), no promesa al modelo; modo `full` sin cambios. 16 bats tests.
+- SE-355 Audit Ledger metadata-only + decision receipts: `scripts/audit-receipts.sh` registra acciones con vocabulario cerrado (`enforced_deny/enforced_allow/success/failure`) y marca `enforced: true` solo cuando un gate de código gobernó la decisión. Ledger local `data/audit/actions.jsonl`, sin prompts/PII, retention 30 días con pruning batch, `governed` para decisiones gobernadas. 12 bats tests + doc de non-claims.
+- SE-356 Skills Two-Layers: separación core/peripheral en las 132 skills con `layer:` en frontmatter (peripheral por defecto), `skills-registry/INDEX.json` + `REVIEW.md` con criterios de promoción, y `scripts/skill-layer-check.sh` (check/fix-missing/json). 8 bats tests.
+- SE-357 Control Bands autónomas: `control-band-detect.sh` (detección determinista sin LLM, métricas locales con threshold configurable) + `control-band-agent.sh` (tiers σ: 1σ log, 2σ diagnose read-only, 3σ propose con intent.md). Config `control-bands.yaml` versionada; historial append-only local; `intent/` como re-entrada al pipeline. 12 bats tests.
+- SE-358 plan.md verificado: `plan-validate.py` (valida secciones Files/Order/Risks/Proof y extrae archivos) + `plan-diff-check.sh` (sync hook plan↔diff, mode warn/block, artefactos de proceso excluidos). El diff final se puede auditar contra el plan aprobado. 11 bats tests.
+- SE-359 REVIEW.md policy: política canónica de review en la raíz (passes Bugs/Security/Compliance, vocabulario cerrado Important|Nit, cap 5 nits, exclusiones de generados/CI). `review-policy-parse.py` extrae la política como JSON consumible por el court. 7 pytest + 7 bats tests.
+- SE-360 Costo por cambio aceptado: `acceptance-cost-agg.py` descompone el tiempo de aceptación de un PR por etapa (cola_ci/ci/revision/remediacion/gobernanza) desde los ledgers locales (SE-349/SE-355), con p50/p95 y bottleneck; `acceptance-cost.sh` genera el informe. 6 pytest + 3 bats tests.
+- SE-361 Presupuesto de tiempo de CI: `ci-duration-agg.py` mide duración por job con p50/p95 y detecta jobs sobre presupuesto (5 min default); `ci-duration.sh` genera el informe (offline con cache local). Alimenta la etapa `ci` de SE-360. 5 pytest + 4 bats tests.
+- SE-362 Risk Tiering: `risk-tier.py` clasifica cambios por tier 1-4 (docs-only → T1, código → T2, secrets/migrations/push → T3, infra/prod/PII → T4, fail-closed → T3). `push-pr.sh --merge` consulta el tier antes de mergear: T3/T4 bloqueado sin review humana aun con grant. 7 pytest + 5 bats tests.
+- SE-363 Registros-no-archivos: `governance-sync.py` extrae los CRIT de CRITERIO.md a un registro JSONL consultable (`data/governance/criterios.jsonl`) con estado/aprobación; `governance-query.sh` consulta por status/approved-by. El Markdown es la vista, el registro es el dato. 5 pytest + 5 bats tests.
+- SE-364 Bucle de evidencia: `evidence-capture.py` captura intervenciones humanas/rechazos desde los ledgers locales (audit SE-355) a un corpus de evals discriminantes (filtro N3/N3b/N4b); `evidence-capture.sh` genera evals compatibles con el runner SPEC-151. 5 pytest + 4 bats tests.
+- SE-365 Company as Code: estándar de entidades organizacionales como código (renumerado de SE-265). `org-registrar.py` valida entidades (frontmatter común, vocabulario de relaciones cerrado, consistencia referencial, origin/source SE-352), indexa el grafo (company/projects/resources) y prepara propuestas de escritura mediada. Skill `org-registrar` + grafo piloto (5 entidades). 6 pytest + 5 bats tests.
 
 ### Changed
+
+- Nueva skill evidence-first-development (SPEC→GAUNTLET→EVIDENCE) con calibración por riesgo y reglas anti-trampa
+- Regla checker-fail-closed para checkers caseros (negative controls)
+- mutation-audit.sh Slice 2: ejecución real con guard de ejecución
+- Cobertura changed-line como gate real; % global degradado a baseline
+- SDD: respuesta ≠ aprobación + spec append-only
+- Migración de modelo por defecto a DeepSeek
+- ROADMAP: conciliacion de estado SE-317/318/323 — 'DONE PR pendiente' -> IMPLEMENTED (specs en main); LP de drift registrada.
+- Corregidos drifts de numeracion y estado en el roadmap SCL: SCL-008 renumerada a SCL-010 (reconciliacion de lecciones), backlog del ROADMAP general actualizado (SCL-002..007 IMPLEMENTED) y entrada falsa SE-309 knowledge governance anulada.
+- Roadmap SCL/SAGI consolidado: SCL-001..013 IMPLEMENTED, backlog cerrado (excepto run-2 real en labs), estado del programa y hitos SAGI H5/H6 actualizados.
+- SPEC-SE-036: conciliacion de estado — frontmatter IMPLEMENTED->DRAFT (no habia artefactos de JWT mint); nota de reconciliacion + LP de drift registrada.
+- `docs/specs/SE-334-vaults-scl-criteria-hardening.spec.md`: cierre verificado → IMPLEMENTED. AC-07 ajustado al estado real (CRIT-001 human_authored activado por la operadora 2026-08-20: 32 INFERRED / 1 human_authored, S5 dormido); nota de cierre en historial append-only.
+- L13 Savia Metacognition CERRADA (CONFIRMA 4/4: calibracion, divergencia modula confianza, autorregulacion POSTPONE, recalibracion con senal real del ledger)
+- `pr-signing-protocol.md`: añade 3 lecciones operativas de proceso (sesión SE-352..364) — regenerar SCM+rules INDEX antes de `/pr-plan` (gates G5b/SE-097), mitigación del job Lint Markdown colgado en CI, y confirmación de la firma atómica (push-pr.sh vs push manual). Persistido también en memoria (`src:agent`).
+- Deuda tecnica catalogada (health 69, test-coverage 23%) + analisis de futuro de Savia
+- `docs/propuestas/SE-274-agent-quality-framework.md`: AC-S2.1..S2.3 completados.
+- `docs/propuestas/SE-316-eval-lint-golden-sets.md`: status PROPOSED → IMPLEMENTED.
+- `.gitignore`: `savia-vaults.quotas.json` (runtime state del MCP, regenerable).
+- MCP Server v0.2.0 a v0.3.0 con multi-dome, auth, y vault_domes tool
+- CLI ampliado con 3 nuevos grupos de comandos (user/dome/confidentiality)
+- SE-299 optimized model tiers for extraction agents: archive-digest mid→fast, pptx-digest heavy→mid, visual-digest heavy→mid, word-digest heavy→mid. ~60% inference cost reduction for extraction workloads. No logic changes, only model tier metadata.
+- SE-305 dynamic BATS test selection: CI now runs only tests affected by changed files instead of the full 666-test suite. Dependency map generator (`ci-bats-deps.sh`), test selector (`ci-select-bats.sh`), manual dir rules. 15 core tests always run, 30% threshold falls back to full suite. PR BATS time reduced from ~5min to <60s.
+- **Savia Sonora frontend**: rebrand completo VoiceFlow → Savia Sonora (index.html, Sidebar, Dashboard, Onboarding, Settings, Popup, meetings). Estética alineada con Savia Web: paleta púrpura `#6B4C9A`, glassmorphism, radios 10/16/24px, sombras en capas, tipografía Inter única y `theme-color` dinámico.
+- **i18n**: nuevo diccionario es/en (`src/lib/i18n.ts`) aplicado a las vistas principales; idioma por defecto español.
+- **Dedup**: HomePage y HistoryPage ahora comparten el hook `useHistoryEntries` y el componente `AudioPlayerDialog` (~500 líneas de duplicado eliminadas).
+- **Tests**: se añade vitest + jsdom + testing-library (27 tests frontend) y el script `test:frontend`.
+- **a11y**: focus-visible global, aria-live en carga/error, aria-label en icon-buttons y retry sin recargar la página.
+- SE-332 Handback Obligation: instancia autonoma bloqueada escala a su padre inmediato (cadena por modo), con artifact reference-first y registro de handback_to en audit trail
+- **SE-343 Operator Grant — switch determinista para autonomía y merge**:
+- **Tiers de modelos migrados a opencode-go** (decisión de la operadora
+
+### Fixed
+
+- **changelog-consolidate workflow (SE-053 errata)**: el push directo a `main` fallaba siempre (`GH006` — branch protection exige 4 status checks y `GITHUB_TOKEN` no puede bypassearla), así que ningún fragmento se consolidó desde 2026-07-08. El workflow ahora consolida en una rama `agent/changelog-consolidate`, firma y abre un PR (auto-merge si el repo lo permite). 144 fragmentos pendientes consolidados en `[6.16.0]` (2026-09-02).
+- Auto-label PRs cross-repo (fork): el job `label` fallaba con `SyntaxError` en PRs desde forks y el token del workflow no siempre podia escribir labels en PRs cuyo head vive en otro repo. Ahora el script ignora el error de 403 cross-repo (labels son cosmeticos) y el flujo ya no aborta. Tambien corrige la llave de cierre del bloque `if` que rompia el parseo del script.
+- install-smoke.yml: comillar scalar YAML 'SMOKE TEST: PASSED' (workflow rechazado por GitHub)
+- CLAUDE.md: añadir import faltante de caveman-default (5 imports críticos declarados pero no cargados)
+- settings.json: wrapper hooks en PostToolUse[19], eliminar events OpenCode-only (PostTurn/PreTurn/PreLLM/PreCommit), fix path re-anchor
+- standards-compliance-gate.sh: check_confid usa exit code del scan (no grep de output) — elimina falso FAIL en push a main
+- Portabilidad macOS/BSD: session-init.sh (grep -oP→grep+sed), generate-critical-facts.sh (awk -v newlines), bus-factor-warn.sh (+x)
+- Corrige regresión SCL-009: guard de URL de learning-federate aplicado solo a modos remotos (--share/--search-remote); --list/--import locales vuelven a funcionar
+- Guard SCL recall (OpenCode): id de part sintetico con prefijo `prt_` — arregla "Failed to send prompt" al inyectar criterios humanos (SCL-003)
+- Activa MCP locales (codegraph, codebase-memory-mcp, savia-vaults) con rutas absolutas (SE-234)
+- learning-lifecycle.sh: sed tolerante a frontmatter indentado — las transiciones de ciclo de vida ahora se aplican de verdad
+- savia-vaults.domes.json: defaultDome SaviaLearning + domes SaviaLabs y savia-docs
+- CRITERIO.md: CRIT-001 promovido a human_authored (autorizado por la operadora 2026-08-20)
+- **Disparador de captura SCL (SCL-001 S1)**: el bucle de aprendizaje no
+- Corrected YAML frontmatter in tabular-analyst agent: `permission` → `permission_level`, `tools` from string list to object. Fixes OpenCode v1.14+ configuration validation error.
+- tdd-gate.sh: PROJECT_ROOT resuelto desde el fichero editado (git -C DIR) — permite editar fuera del workspace
+- Resueltos los conflict markers heredados en config/vaults.yaml (ambos lados tenian contenido identico). Desbloquea el PII & Confidentiality Scan que fallaba en todos los PRs.
+- `operator-grant.sh list` (SE-343): el listado marcaba `valid=no` en grants
+- `autonomous-safety.md` >150 líneas (Rule 11): el detalle del merge bajo
+- Vector memory now installs reproducibly in an isolated CPU-only environment on Linux and Windows, prefers FAISS, and retains text-search fallback.
+- `block-pat-file-write.sh`: el patrón `*pat*` producía falsos positivos sobre
+- SE-077 process leak: `savia-gates` plugin now kills hung hook process trees on
+- SE-300: pr-plan now updates existing PR bodies instead of leaving stale template. Detects open PR for branch via gh pr list, updates via gh pr edit.
+- SE-305: corregidos nombres de tests se253 en el selector dinámico de BATS. Las reglas y core_tests referenciaban `test-se-253-*` (con guion) pero los archivos reales son `test-se253-*`. El selector generaba tests inexistentes → CI fallaba con "Test file does not exist" en PRs que tocan agentes/skills.
+- confidentiality-scan.sh: excluye decoradores `@server.` (falso positivo de email en server.py del fork).
+- **Bug de comparación float en el clasificador**: `[[ "$LLM_CONF" -ge 0.70 ]]`
+- **Bug de `--` en la función `detect`**: `detect "private_key" -- 'patrón'`
+- **Corpus-run**: fragmentos de secretos construidos en runtime (nunca
+- `isShieldScript` (sovereignty-patterns.ts) y whitelist del gate bash ahora
+- **Guard de dispatch silencioso**: `dispatch-trace.ts` y `subagent-audience-filter.ts`
+- Corregido el número de gate: la propuesta original usaba "G16", ya ocupado
+- Pendiente de calibración (AC-S3.3 telemetría `scope.verdict`, AC-S3.4 5 PRs
+- `scripts/blast-radius.sh` concilia dos interfaces: la file-based de SE-260
+- `docs/hooks-coverage-matrix.md` regenerado (SE-253) para incluir
+- SE-324 correccion documental: `DOMAIN.md` ahora cita los tres modelos del
+- **Diagnóstico de por qué el hook bash no activó (documentado en el PR)**:
+- `skill-catalog-audit.sh`: parsea YAML plegado (`description: >` multilinea) — antes marcaba `bus-factor-analysis` y `context-dome` como `description-too-short` (FAIL) y rompia la suite BATS FULL en cualquier PR.
+- Contadores en sync: `CLAUDE.md` (commands 566→567, skills 124→125), `docs/rules/domain/pm-workflow.md` y `docs/RESOLVER.md` — el drift rompia `claude-md-drift-check` y `readiness-check` (y el readiness stamp).
+
+### Security
+
+- **Guard de commit-a-main activo en el runtime OpenCode (SE-337)**:
+
+
+### 2026-08-17 · Human authority for learning recall (SCL-008)
+
+#### Changed
 - Learning recall now injects only active, human-authored principles resolved
   from `CRITERIO.md`; inferred and proposed lessons remain measurable shadow
   candidates and cannot become instructions automatically.
 - Claude Code and OpenCode use the same canonical recall hook and authority
   filter, including hybrid ranking and federated lessons.
 
-## [Unreleased] — 2026-07-19 · Neuro-inspired Orchestration (SE-268)
+### 2026-07-19 · Neuro-inspired Orchestration (SE-268)
 
-### Added (SE-268 — PR #907)
+#### Added (SE-268 — PR #907)
 - **S1: Constitutional veto bus** (`bridge/control-plane/`). Independent control
   plane with priority over A2A, compile CRITERIO.md linea_roja → permanent vetos,
   fail-closed semantics, scope global|domain|instance|session with TTL.
@@ -30,7 +248,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   semantic (slow) stores on bitemporal axis, selective replay consolidation,
   dome-context-indexed retrieval, promoted-to-used quality metric.
 
-## [Unreleased] — 2026-07-13 · Agent Shell Safety (v2) — PR #906 extension
+### 2026-07-13 · Agent Shell Safety (v2) — PR #906 extension
 
 Added: SE-266 v2 — extended agent-git-discipline.sh to block destructive
 shell operations after session catastrophique 2026-07-13.
@@ -42,7 +260,7 @@ shell operations after session catastrophique 2026-07-13.
 - 27/27 manual tests pass (30 BATS in test-se-266-agent-git.bats)
 - Spec updated with v2 scope + lesson learned section
 
-## [Unreleased] — 2026-07-12 · Agent Git Governance — PR #906
+### 2026-07-12 · Agent Git Governance — PR #906
 
 Added: SE-266 — agent git discipline rules for concurrent agent safety,
 inspired by Pi (earendil-works/pi AGENTS.md).
@@ -52,14 +270,14 @@ inspired by Pi (earendil-works/pi AGENTS.md).
 - `docs/AGENTS.md` Git Discipline for Concurrent Agents section.
 - 12/12 BATS pass.
 
-## [Unreleased] — 2026-07-12 · Court model tier assignment — PR #905
+### 2026-07-12 · Court model tier assignment — PR #905
 
 Added: SE-265 — per-judge model tier assignment in rules/court.rules.yaml.
 security/correctness → heavy, architecture → mid, cognitive/spec → fast.
 Safety: critical judges require heavy, operator override allowed.
 10/10 BATS pass. Inspired by gentle-ai v2.0.0 configurable review models.
 
-## [Unreleased] — 2026-07-11 · Federacion de Savias — PR #904
+### 2026-07-11 · Federacion de Savias — PR #904
 
 Added: SE-263 — Federacion de Savias soberanas mediante cupulas de contexto,
 plano de estado git, A2A sobre red privada, y Agent Index.
@@ -67,7 +285,7 @@ plano de estado git, A2A sobre red privada, y Agent Index.
 git plane + agent index, A2A server (5 skills), exchange ledger,
 federation drill + atestacion. 39/39 BATS pass.
 
-## [Unreleased] — 2026-07-11 · gentle-ai v1.49 patterns — PR #903
+### 2026-07-11 · gentle-ai v1.49 patterns — PR #903
 
 Added: 4 patrones de gentle-ai v1.49 adaptados a Savia.
 - S4: `scripts/receipt-v2.sh` — recibos de revisión ligados a contenido (patch-id estable).
@@ -76,7 +294,7 @@ Added: 4 patrones de gentle-ai v1.49 adaptados a Savia.
 - S3: `docs/managed-artifacts-contract.md` + `scripts/lib/managed_artifacts.py` — contrato ownership-safe para artefactos gestionados.
 - 24/25 BATS tests pass.
 
-## [Unreleased] — 2026-07-11 · CodeFlow-inspired health tools — PR #902
+### 2026-07-11 · CodeFlow-inspired health tools — PR #902
 
 Added: 3 nuevas herramientas de salud del workspace inspiradas en CodeFlow.
 - SE-260 `scripts/blast-radius.sh` — analiza dependientes de un fichero con control de profundidad y riesgo.
@@ -84,7 +302,7 @@ Added: 3 nuevas herramientas de salud del workspace inspiradas en CodeFlow.
 - SE-262 `scripts/pr-thermal-receipt.sh` — genera recibos térmicos con delta de métricas para PRs.
 - 3 specs SDD en `docs/specs/SE-26*`, 30 BATS tests (27 pass).
 
-## [Unreleased] — 2026-06-26 · Enterprise 23 specs — PR #875
+### 2026-06-26 · Enterprise 23 specs — PR #875
 
 Added: 23 specs enterprise implementadas en 5 batches (237 BATS + 1416 pytest).
 Fixed: bug en plugin `block-force-push.ts` — regex `/git\s+push\s+.*--force/i`
@@ -105,7 +323,8 @@ negativo `(?!-with-lease)` y soporte para flag `-f`. 12 tests nuevos (TDD).
 - Agent criterion-simulation-judge: restored ejemplo banner_text FRAME_DOUBT
 
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
-## [Unreleased] — 2026-06-26 · SE-229 Slice 1 — Session Registry MVP
+
+### 2026-06-26 · SE-229 Slice 1 — Session Registry MVP
 
 Added: sincronización de sesiones Savia paralelas (SE-229, Slice 1).
 
@@ -131,7 +350,7 @@ Added: sincronización de sesiones Savia paralelas (SE-229, Slice 1).
 
   claim conflict, release, gc, list y edge cases de sesión duplicada.
 
-## [Unreleased] — 2026-06-13 · Docs/SCM gaps fix tras PR #844
+### 2026-06-13 · Docs/SCM gaps fix tras PR #844
 
 Fixed: cinco gaps detectados en auditoria post-merge.
 
@@ -161,7 +380,7 @@ Fixed: cinco gaps detectados en auditoria post-merge.
 Determinismo verificado: dos regeneraciones consecutivas del SCM
 producen el mismo hash. test-scm-determinism 19/19 pass.
 
-## [Unreleased] — 2026-06-13 · Activate SPEC-198/200 telemetry pilot defaults
+### 2026-06-13 · Activate SPEC-198/200 telemetry pilot defaults
 
 Changed: tras mergear PR #844, los toggles SPEC-198/200 estaban presentes
 pero defaultaban a off. Esta entrada activa modo warn por default durante
@@ -185,7 +404,7 @@ SAVIA_QUALITY_GATE_ADAPTIVE=off o SAVIA_JUDGE_VERDICT_VALIDATE=off
 mantiene comportamiento anterior. Promocion warn->on tras revision
 de telemetria de 30 dias.
 
-## [Unreleased] — 2026-06-13 · Wire SPEC-195/196/197/198/200
+### 2026-06-13 · Wire SPEC-195/196/197/198/200
 
 Added: wiring opt-in de cinco specs implementadas previamente a sus
 consumidores reales en produccion. Defaults conservadores backward-compat.
@@ -205,7 +424,7 @@ Tests bats verdes, gate PASS, suite pytest sin regresion. Detalle en PR.
 Out of scope: SPEC-194 no existe todavia, tribunal-async-runner no
 modificado, orchestrator prompt LLM no shell glue. Branch dedicada.
 
-## [Unreleased] — 2026-06-04 · SPEC-188 Root-Cause Investigation Architecture (meta-spec)
+### 2026-06-04 · SPEC-188 Root-Cause Investigation Architecture (meta-spec)
 
 Added: docs/propuestas/SPEC-188-root-cause-investigation-architecture.md — meta-spec
 PROPOSED que coordina 4 sub-specs existentes (SPEC-043 responsibility-judge,
@@ -219,7 +438,7 @@ feedback_root_cause_always.md referenciado por memory-conflict-judge pero
 inexistente en path canonico. Era 200 Wave 1 Tier 1 P0. Estimacion 6-8h spec
 doc; ~80-120h implementacion completa via sub-specs ejecutables.
 
-## [Unreleased] — 2026-06-04 · SPEC-158 Workflow vs Agent decision gate
+### 2026-06-04 · SPEC-158 Workflow vs Agent decision gate
 
 Added: /decide-architecture command + scripts/decide-architecture.sh
 heuristic classifier with three-tier signals (weak +1, medium +2,
@@ -230,7 +449,7 @@ tests/test-decide-architecture.bats — 31/31 pass, audit 93/100.
 Doc rule docs/rules/domain/workflow-vs-agent-decision-gate.md.
 Tier 1C from anthropic-effective-agents-thesis.
 
-## [Unreleased] — 2026-06-04 · SPEC-184 Write-time non-blocking validators
+### 2026-06-04 · SPEC-184 Write-time non-blocking validators
 
 Added: PostToolUse Edit|Write hook .opencode/hooks/post-write-validate.sh that
 runs composable markdown validators and warns to stderr without blocking. 4
@@ -242,7 +461,7 @@ on small file. BATS suite tests/test-write-time-validation.bats — 29/29 pass,
 audit 91/100. Doc rule docs/rules/domain/write-time-validation.md. Era 199
 Wave 1 Tier 1.
 
-## [Unreleased] — 2026-06-04 · SPEC-180 Sentinel-safe regeneration
+### 2026-06-04 · SPEC-180 Sentinel-safe regeneration
 
 Added: scripts/sentinel-regen.sh primitive (inject/extract/verify-hash)
 with sha256-8 hash drift detection. Contract doc at
@@ -250,15 +469,15 @@ docs/rules/domain/sentinel-safe-regen.md. Opt-in piloto on AGENTS.md
 auto-regen via SENTINEL_MODE=1. BATS suite 17 tests, audit 90/100.
 Era 199 Wave 1 Tier 1. Unblocks SPEC-181.
 
-## [Unreleased] — 2026-06-04 · SPEC-185 Critical-facts anchor
+### 2026-06-04 · SPEC-185 Critical-facts anchor
 
 Added: docs/critical-facts.md anchor with 150-token cap, validator,
 auto-regenerator, policy doc, CLAUDE.md integration, BATS suite (21
 tests, audit 86/100). Era 199 Wave 1 Tier 1.
 
-## [Unreleased] — 2026-06-03 · SE-091 Caveman always-on
+### 2026-06-03 · SE-091 Caveman always-on
 
-### Added
+#### Added
 
 - **SE-091 closed** (Era 195, rank 11). Caveman como comportamiento por defecto.
 
@@ -275,9 +494,9 @@ tests, audit 86/100). Era 199 Wave 1 Tier 1.
   - `.opencode/plugins/__tests__/auto-grill-me.test.ts` — 14/14 TS.
   - `.opencode/plugins/__tests__/auto-zoom-out.test.ts` — 15/15 TS.
 
-## [Unreleased] — 2026-06-03 · SE-086 Ubiquitous Language extractor
+### 2026-06-03 · SE-086 Ubiquitous Language extractor
 
-### Added
+#### Added
 
 - **SE-086 closed** (Era 190 stack rank 10). DDD ubiquitous language extractor
 
@@ -293,9 +512,9 @@ tests, audit 86/100). Era 199 Wave 1 Tier 1.
 
 - Desbloquea: SE-171 (contradiction detector) gana términos de dominio.
 
-## [Unreleased] — 2026-06-02 · SE-162 Knowledge Graph sobre memoria Savia
+### 2026-06-02 · SE-162 Knowledge Graph sobre memoria Savia
 
-### Added
+#### Added
 
 - **SE-162 closed** (Era 251 stack rank 8). Grafo de conocimiento tipado
 
@@ -313,9 +532,9 @@ tests, audit 86/100). Era 199 Wave 1 Tier 1.
 
 - Desbloquea: SE-086 (ubiquitous-language), SE-171 (contradiction detector).
 
-## [Unreleased] — 2026-06-02 · ROADMAP drift cleanup (SE-081 + SE-082 + SE-083 + SE-084 + SE-093)
+### 2026-06-02 · ROADMAP drift cleanup (SE-081 + SE-082 + SE-083 + SE-084 + SE-093)
 
-### Changed
+#### Changed
 
 - **ROADMAP table sync** (rank 3, 4, 5, 6, 9). Cinco specs marcados IMPLEMENTED
 
@@ -331,9 +550,9 @@ tests, audit 86/100). Era 199 Wave 1 Tier 1.
 
 - Stack priorizado en `docs/ROADMAP.md` ahora refleja estado real.
 
-## [Unreleased] — 2026-06-02 · SE-167 Skill Maturity Kanban
+### 2026-06-02 · SE-167 Skill Maturity Kanban
 
-### Added
+#### Added
 
 - **SE-167 closed** (Era 252 stack rank 7). Auditor que clasifica las 98
 
@@ -355,9 +574,9 @@ tests, audit 86/100). Era 199 Wave 1 Tier 1.
 
 - Línea base 2026-06-02: 1 Calibrated, 94 Incomplete, 3 Stub, 0 Deprecated.
 
-## [Unreleased] — 2026-06-02 · SE-153 Template SKILL.md "Authoritative Paths First"
+### 2026-06-02 · SE-153 Template SKILL.md "Authoritative Paths First"
 
-### Added
+#### Added
 
 - **SE-153 closed** (Era 197 / Tier 1 free-wins). Plantilla canónica para
 
@@ -377,19 +596,19 @@ tests, audit 86/100). Era 199 Wave 1 Tier 1.
     contaminar catálogos auto-generados.
   - `CLAUDE.md`: lazy reference añadido.
 
-### Changed
+#### Changed
 
 - `docs/ROADMAP.md`: SE-153 PROPOSED → IMPLEMENTED en Tier 1.
 
-### Notes
+#### Notes
 
 - Migración opt-in: skills existentes NO se migran masivamente. Cada skill
 
   se actualiza al patrón cuando se toca por otra razón.
 
-## [Unreleased] — 2026-06-02 · SE-160 RESOLVER.md dispatch explícito
+### 2026-06-02 · SE-160 RESOLVER.md dispatch explícito
 
-### Added
+#### Added
 
 - **SE-160 closed** (Era 251 free-wins). Tabla explícita intent → skill/agent
 
@@ -407,15 +626,15 @@ tests, audit 86/100). Era 199 Wave 1 Tier 1.
     targets.
   - `CLAUDE.md`: lazy reference añadido.
 
-### Changed
+#### Changed
 
 - `docs/ROADMAP.md`: SE-160 PROPOSED → IMPLEMENTED en tablas de priorización
 
   Era 251.
 
-## [Unreleased] — 2026-06-02 · SPEC-186 double opt-in for autonomous skills
+### 2026-06-02 · SPEC-186 double opt-in for autonomous skills
 
-### Added
+#### Added
 
 - **SPEC-186 closed** (status: PROPOSED → IMPLEMENTED). Era 199 Wave 1.
 
@@ -436,9 +655,9 @@ tests, audit 86/100). Era 199 Wave 1 Tier 1.
   - `docs/rules/domain/autonomous-safety.md`: new appendix documenting
     the principle, helper, skill→env-var mapping, audit, and bypass.
 
-## [Unreleased] — 2026-06-01 · SPEC-155 close-out + silent-regression sweep
+### 2026-06-01 · SPEC-155 close-out + silent-regression sweep
 
-### Fixed
+#### Fixed
 
 - **SPEC-155 closed** (status: PROPOSED → IMPLEMENTED). Core args-shape fix
 
@@ -461,9 +680,9 @@ tests, audit 86/100). Era 199 Wave 1 Tier 1.
   integration test using the documented shape, copied literally from the
   external doc. Prevents silent regressions on frontend migrations.
 
-## [Unreleased] — 2026-06-01 · Era 199 obsidian-inspired SPECs (SPEC-180..186)
+### 2026-06-01 · Era 199 obsidian-inspired SPECs (SPEC-180..186)
 
-### Added
+#### Added
 
 - **Era 199** (7 SPECs PROPOSED, 22-32h en 3 waves): transferencias del repo
 
@@ -480,9 +699,9 @@ tests, audit 86/100). Era 199 Wave 1 Tier 1.
   Two-Output Rule, bg-agent PostCompact default, integraciones Perplexity/Grok,
   sistema de 4 presets.
 
-## [Unreleased] — 2026-05-31 · SPEC-156 Slice 2 + LeCun roadmap (SPEC-163..168)
+### 2026-05-31 · SPEC-156 Slice 2 + LeCun roadmap (SPEC-163..168)
 
-### Added
+#### Added
 
 - **SPEC-156 Slice 2**: PreToolUse Task hook
 
@@ -512,7 +731,7 @@ tests, audit 86/100). Era 199 Wave 1 Tier 1.
 
   SPEC-165 (Tier 3, 10h).
 
-### Changed
+#### Changed
 
 - 70 agent frontmatter migrated flat `token_budget_*` → nested
 
@@ -525,9 +744,9 @@ tests, audit 86/100). Era 199 Wave 1 Tier 1.
   `security-guardian` 6531B, `test-runner` 6519B) deserve own refactor
   SPEC; ratchet protects at new floor.
 
-## [Unreleased] — 2026-05-30 · SPEC-155 plugin hook args shape fix [CRITICAL]
+### 2026-05-30 · SPEC-155 plugin hook args shape fix [CRITICAL]
 
-### Fixed
+#### Fixed
 
 - **SPEC-155**: align plugin hook signature with OpenCode v1.14+ contract.
 
@@ -539,14 +758,14 @@ tests, audit 86/100). Era 199 Wave 1 Tier 1.
   tool calls. Helpers now prefer `output.args` with retro-compat fallback
   to `input.args`. 4 golden tests added with real v1.14 shape.
 
-## [Unreleased] — 2026-05-23 · savia-evolution incorporation
+### 2026-05-23 · savia-evolution incorporation
 
 Generic improvements ported from a downstream private fork. Confidential
 references and internal IDs scrubbed; only features with public utility
 outside the fork are included. Branch:
 `feat/incorporate-savia-evolution`.
 
-### Added
+#### Added
 
 - **SPEC-144**: `/speckit.*` slash command aliases for cross-tool
 
@@ -581,7 +800,7 @@ outside the fork are included. Branch:
 
   writes a `RESUME-{slug}.md`. Opt-in commit, no autonomous merges.
 
-### Changed
+#### Changed
 
 - `scripts/memory-store.sh`: hard `$HOME` guard (no more `/tmp` fallback)
 
@@ -602,6 +821,7 @@ outside the fork are included. Branch:
   blocks no longer leak unmasked; SSE responses parsed and unmasked
   per `data:` line; response audit entry includes content-type and
   unmask-applied flag.
+
 
 ## [6.15.0] — 2026-07-08
 
@@ -12922,6 +13142,7 @@ Initial public release of PM-Workspace.
 
 - **Documentation** with methodology
 
+[6.16.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v6.15.0...v6.16.0
 [6.15.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v6.3.0...v6.15.0
 [6.3.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v6.2.0...v6.3.0
 [6.14.1]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v6.14.0...v6.14.1
