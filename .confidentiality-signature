@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=8ae5e85c993081611ba5adf971779588f39915226bd019a6aeb26cad749fa9ab
-timestamp=2026-09-03T20:07:02Z
-branch=agent/se371-cache-hygiene
-head_commit=575d8612
-signature=ef49a992a0438f81efb3ced0b4c88189c373b7044ee7777622a999f894b69e01
+diff_hash=3edcb66597ccefc2ee2a8acef90bda1d6fa217036245ec8f7977be3a02d9c735
+timestamp=2026-09-03T20:22:31Z
+branch=fix/branch-switch-hook-target-resolution
+head_commit=c8679e82
+signature=7542438c4e0e4ec3a8e028d039ce2c81b0f95a44507c9d671a5121f42e51f0fb
