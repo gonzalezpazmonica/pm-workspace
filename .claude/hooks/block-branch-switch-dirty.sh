@@ -28,36 +28,56 @@ COMMAND=$(echo "$PARSED" | sed -n '1p')
 SESSION_CWD=$(echo "$PARSED" | sed -n '2p')
 [[ -z "$COMMAND" ]] && exit 0
 
-# Only check git checkout/switch commands that change branch (also `git -C <dir> switch`)
-if ! echo "$COMMAND" | grep -qE 'git (-C\s+\S+\s+)?(checkout|switch)\s'; then
+# Locate the branch-changing invocation itself: `git [-C <dir>] (checkout|switch) <args>`.
+# Only THAT invocation's -C counts — a foreign `git -C X status` elsewhere in the
+# command must not decide the target repo.
+if ! [[ "$COMMAND" =~ (^|[^[:alnum:]_./-])git[[:space:]]+(-C[[:space:]]+([^[:space:]\;\&\|]+)[[:space:]]+)?(checkout|switch)[[:space:]]+(.*) ]]; then
+  exit 0
+fi
+GIT_C_DIR="${BASH_REMATCH[3]}"
+GIT_SUBCMD="${BASH_REMATCH[4]}"
+GIT_ARGS="${BASH_REMATCH[5]}"
+PREFIX="${COMMAND%%"${BASH_REMATCH[0]}"*}"   # text before the git invocation
+
+# Skip file restores (git checkout -- file), also with -C
+if [[ "$GIT_SUBCMD" == "checkout" && "$GIT_ARGS" =~ ^--([[:space:]]|$) ]]; then
   exit 0
 fi
 
-# Skip file restores (git checkout -- file)
-if echo "$COMMAND" | grep -qE 'git checkout\s+--\s'; then
-  exit 0
-fi
+# Last `cd <dir> &&|;` BEFORE the git invocation (cd A && cd B && git switch → B)
+CD_DIR=""
+REST="$PREFIX"
+while [[ "$REST" =~ (^|[[:space:]]|\&\&|\;)cd[[:space:]]+([^[:space:]\;\&\|]+)[[:space:]]*(\&\&|\;)(.*)$ ]]; do
+  CD_DIR="${BASH_REMATCH[2]}"
+  REST="${BASH_REMATCH[4]}"
+done
 
 # Resolve the repo the command actually targets. The hook's own cwd is the
 # workspace, NOT necessarily the repo the command runs in (cd X && git switch).
-# Priority: `git -C <dir>` > leading `cd <dir> &&|;` > session cwd (hook JSON) > hook cwd.
+# Priority: -C of the invocation > last cd before it > session cwd (hook JSON) > hook cwd.
+FALLBACK_DIR="${SESSION_CWD:-$PWD}"
 TARGET_DIR=""
-if [[ "$COMMAND" =~ git[[:space:]]+-C[[:space:]]+([^[:space:]\;\&\|]+) ]]; then
-  TARGET_DIR="${BASH_REMATCH[1]}"
-elif [[ "$COMMAND" =~ (^|[[:space:]]|\&\&|\;)cd[[:space:]]+([^[:space:]\;\&\|]+)[[:space:]]*(\&\&|\;) ]]; then
-  TARGET_DIR="${BASH_REMATCH[2]}"
-elif [[ -n "$SESSION_CWD" ]]; then
-  TARGET_DIR="$SESSION_CWD"
+if [[ -n "$GIT_C_DIR" ]]; then
+  TARGET_DIR="$GIT_C_DIR"
+elif [[ -n "$CD_DIR" ]]; then
+  TARGET_DIR="$CD_DIR"
 fi
 # Strip surrounding quotes, expand ~ / $HOME, resolve relative to session cwd
 TARGET_DIR="${TARGET_DIR%\"}"; TARGET_DIR="${TARGET_DIR#\"}"
 TARGET_DIR="${TARGET_DIR%\'}"; TARGET_DIR="${TARGET_DIR#\'}"
 TARGET_DIR="${TARGET_DIR/#\~/$HOME}"
 TARGET_DIR="${TARGET_DIR/#\$HOME/$HOME}"
-if [[ -n "$TARGET_DIR" && "$TARGET_DIR" != /* && -n "$SESSION_CWD" ]]; then
-  TARGET_DIR="$SESSION_CWD/$TARGET_DIR"
+# Anything we cannot expand statically ($VAR, $(...), backticks) → conservative fallback
+if [[ "$TARGET_DIR" == *'$'* || "$TARGET_DIR" == *'`'* ]]; then
+  TARGET_DIR=""
 fi
-[[ -z "$TARGET_DIR" ]] && TARGET_DIR="$PWD"
+if [[ -n "$TARGET_DIR" && "$TARGET_DIR" != /* ]]; then
+  TARGET_DIR="$FALLBACK_DIR/$TARGET_DIR"
+fi
+# Unresolvable or non-existent target → fall back to the session cwd, never pass through
+if [[ -z "$TARGET_DIR" || ! -d "$TARGET_DIR" ]]; then
+  TARGET_DIR="$FALLBACK_DIR"
+fi
 [[ -d "$TARGET_DIR" ]] || exit 0
 
 # Not a git repo → nothing to protect
@@ -66,8 +86,9 @@ TARGET_ROOT=$(git -C "$TARGET_DIR" rev-parse --show-toplevel 2>/dev/null) || exi
 # Check for uncommitted changes (tracked + untracked) IN THE TARGET REPO
 DIRTY=$(git -C "$TARGET_DIR" status --porcelain 2>/dev/null | head -20)
 if [[ -n "$DIRTY" ]]; then
-  TRACKED=$(echo "$DIRTY" | grep -cE '^ M| ^M|^MM|^A |^D ' || echo "0")
-  UNTRACKED=$(echo "$DIRTY" | grep -c '^??' || echo "0")
+  # grep -c prints the count even when it is 0 (and exits 1) — never append a second "0"
+  TRACKED=$(echo "$DIRTY" | grep -cE '^ M| ^M|^MM|^A |^D ' || true)
+  UNTRACKED=$(echo "$DIRTY" | grep -c '^??' || true)
 
   echo "BLOQUEADO: Cambio de rama con cambios sin commitear." >&2
   echo "" >&2
