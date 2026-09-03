@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=b28da01b652551f954b16f11a0c6f9bddf731032e34df5993411d167c14feb63
-timestamp=2026-09-03T19:56:18Z
-branch=agent/overnight-20260902-l28-harness-map-ablation
-head_commit=f53bcb4f
-signature=e6009af10a80855220d5cfaaa7a379cb0aba21da4b23177d1adf9d90eb2f656b
+diff_hash=8ae5e85c993081611ba5adf971779588f39915226bd019a6aeb26cad749fa9ab
+timestamp=2026-09-03T20:07:02Z
+branch=agent/se371-cache-hygiene
+head_commit=575d8612
+signature=ef49a992a0438f81efb3ced0b4c88189c373b7044ee7777622a999f894b69e01
