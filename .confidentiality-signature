@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=95eb50af9fe88aec020269ae49c3fe34d9ffe27bd471dc6def9f74cf936db259
-timestamp=2026-09-02T20:37:16Z
-branch=agent/changelog-fix-20260902
-head_commit=b5933234
-signature=b2b59983da7ab82f17f0e89ccd2657e7b065a176483217f693b91d87c2c37096
+diff_hash=d09d64b6cacac6a1d439ada5ca8413b09519cf9e00a885d2ac1eaaf84f94561c
+timestamp=2026-09-03T19:29:50Z
+branch=agent/overnight-20260902-se366-decision-ledger
+head_commit=a57e45c3
+signature=416324b9c03042840b6cc29b530c6cddda1b96d40cac7629b1e5af6249e67a44
