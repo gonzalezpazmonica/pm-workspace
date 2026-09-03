@@ -6,7 +6,7 @@
 
 | Total hooks | TS Guards | Git Hook mitigated | CI Job mitigated | NONE |
 |---|---|---|---|---|
-| 118 | 18 (15.3%) | 4 | 5 | 91 |
+| 121 | 18 (14.9%) | 4 | 5 | 94 |
 
 ## Bloqueantes sin cobertura ni mitigacion
 
@@ -14,10 +14,10 @@ Ninguno — AC-2.2 satisfecho.
 
 ## Cobertura real OpenCode
 
-- **TS Guards activos**: 18/118 (15.3%)
-- **Hooks sin cobertura TS**: 91 (77.1%)
+- **TS Guards activos**: 18/121 (14.9%)
+- **Hooks sin cobertura TS**: 94 (77.7%)
   - De los cuales son bloqueantes sin ninguna mitigacion: 0
-  - Eventos no disponibles en OpenCode (degradacion aceptada): 30
+  - Eventos no disponibles en OpenCode (degradacion aceptada): 33
 
 ## Full matrix
 
@@ -116,8 +116,10 @@ Ninguno — AC-2.2 satisfecho.
 | PreToolUse | auto-zoom-out.sh | si | TS_GUARD | warning | autoZoomOut |
 | PreToolUse | blast-radius-hook.sh | no | NONE | warning | degradacion_documentada: solo Claude Code |
 | PreToolUse | plan-gate.sh | no | CI_JOB | warning | CI validate-ci-local.sh |
+| SessionEnd | cache-hygiene-hook.sh | no | NONE | telemetria | evento SessionEnd no disponible en OpenCode — degradacion_documentada |
 | SessionEnd | session-end-memory.sh | no | NONE | telemetria | evento SessionEnd no disponible en OpenCode — degradacion_documentada |
 | SessionStart | mind-virus-load-gate.sh | no | NONE | bloqueante | evento SessionStart no disponible en OpenCode — degradacion_documentada |
+| SessionStart | cache-hygiene-hook.sh | no | NONE | telemetria | evento SessionStart no disponible en OpenCode — degradacion_documentada |
 | SessionStart | emergency-mode-readiness.sh | no | NONE | telemetria | evento SessionStart no disponible en OpenCode — degradacion_documentada |
 | SessionStart | session-init.sh | no | NONE | telemetria | evento SessionStart no disponible en OpenCode — degradacion_documentada |
 | SessionStart | shield-autostart.sh | no | NONE | telemetria | evento SessionStart no disponible en OpenCode — degradacion_documentada |
@@ -135,6 +137,7 @@ Ninguno — AC-2.2 satisfecho.
 | SubagentStop | subagent-lifecycle.sh | no | NONE | telemetria | evento SubagentStop no disponible en OpenCode — degradacion_documentada |
 | TaskCompleted | task-lifecycle.sh | no | NONE | telemetria | evento TaskCompleted no disponible en OpenCode — degradacion_documentada |
 | TaskCreated | task-lifecycle.sh | no | NONE | telemetria | evento TaskCreated no disponible en OpenCode — degradacion_documentada |
+| UserPromptSubmit | cache-hygiene-hook.sh | no | NONE | telemetria | evento UserPromptSubmit no disponible en OpenCode — degradacion_documentada |
 | UserPromptSubmit | memory-prime-hook.sh | no | NONE | telemetria | evento UserPromptSubmit no disponible en OpenCode — degradacion_documentada |
 | UserPromptSubmit | re-anchor-redlines.sh | no | NONE | telemetria | evento UserPromptSubmit no disponible en OpenCode — degradacion_documentada |
 | UserPromptSubmit | recommendation-tribunal-followup.sh | no | NONE | telemetria | evento UserPromptSubmit no disponible en OpenCode — degradacion_documentada |

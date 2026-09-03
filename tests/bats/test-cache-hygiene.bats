@@ -120,3 +120,22 @@ PY
     run bats tests/bats/test-se364-evidence-loop.bats
     [ "$status" -eq 0 ]
 }
+
+@test "SE-371 AC-8: marker de sesion congela auto-regeneradores sin env" {
+    mkdir -p data
+    touch data/.cache-session-active
+    run bash scripts/agents-md-generate.sh --apply
+    [ "$status" -eq 3 ]
+    run bash scripts/skills-md-generate.sh --apply
+    [ "$status" -eq 3 ]
+    rm -f data/.cache-session-active
+}
+
+@test "SE-371 AC-9: cache-hygiene-hook start crea snapshot+marker y end limpia" {
+    bash .opencode/hooks/cache-hygiene-hook.sh start </dev/null
+    [ -f data/cache-prefix.snapshot ]
+    [ -f data/.cache-session-active ]
+    bash .opencode/hooks/cache-hygiene-hook.sh end </dev/null
+    [ ! -f data/.cache-session-active ]
+}
+

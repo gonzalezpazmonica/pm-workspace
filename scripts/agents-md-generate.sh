@@ -58,9 +58,13 @@ done
 # SE-371: congelación en sesión activa — regenerar AGENTS.md a mitad de una
 # conversación invalida el prefijo de instrucciones (prompt cache) en el
 # siguiente turno. Los runs autónomos/cron sin sesión viva regeneran normal.
-if [[ "${MODE:-print}" == "apply" && "${SAVIA_SESSION_ACTIVE:-0}" == "1" ]]; then
-  echo "SKIP: SAVIA_SESSION_ACTIVE=1 — regeneración de AGENTS.md congelada (SE-371)." >&2
-  exit 3
+# Sesión activa = env SAVIA_SESSION_ACTIVE=1 o marker del hook cache-hygiene.
+if [[ "${MODE:-print}" == "apply" ]]; then
+  _cache_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+  if [[ "${SAVIA_SESSION_ACTIVE:-0}" == "1" || -f "$_cache_root/data/.cache-session-active" ]]; then
+    echo "SKIP: sesión activa (SE-371) — regeneración de AGENTS.md congelada." >&2
+    exit 3
+  fi
 fi
 
 # Extract a single field from frontmatter. Handles both `key: value` and the

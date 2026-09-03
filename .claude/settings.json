@@ -7,7 +7,7 @@
             "type": "command",
             "command": "\"$CLAUDE_PROJECT_DIR\"/.opencode/hooks/session-init.sh",
             "timeout": 15,
-            "statusMessage": "Inicializando sesi\u00f3n PM-Workspace..."
+            "statusMessage": "Inicializando sesión PM-Workspace..."
           },
           {
             "type": "command",
@@ -17,7 +17,7 @@
           },
           {
             "type": "command",
-            "command": "bash \"$CLAUDE_PROJECT_DIR\"/scripts/check-daemon-auth.sh >/dev/null 2>&1 || echo \"[SPEC-SH02] browser-daemon auth expired \u2014 run: bash scripts/check-daemon-auth.sh\"",
+            "command": "bash \"$CLAUDE_PROJECT_DIR\"/scripts/check-daemon-auth.sh >/dev/null 2>&1 || echo \"[SPEC-SH02] browser-daemon auth expired — run: bash scripts/check-daemon-auth.sh\"",
             "timeout": 5,
             "statusMessage": "SPEC-SH02: verificando auth de browser-daemon..."
           },
@@ -26,6 +26,11 @@
             "command": "\"$CLAUDE_PROJECT_DIR\"/.opencode/hooks/emergency-mode-readiness.sh",
             "timeout": 12,
             "statusMessage": "Emergency-mode: verificando LocalAI fallback..."
+          },
+          {
+            "type": "command",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/.opencode/hooks/cache-hygiene-hook.sh start",
+            "timeout": 10
           }
         ]
       },
@@ -125,7 +130,7 @@
             "type": "command",
             "command": "\"$CLAUDE_PROJECT_DIR\"/.opencode/hooks/prompt-hook-commit.sh",
             "timeout": 5,
-            "statusMessage": "Prompt hook: validando sem\u00e1ntica..."
+            "statusMessage": "Prompt hook: validando semántica..."
           },
           {
             "type": "command",
@@ -178,7 +183,7 @@
             "type": "command",
             "command": "\"$CLAUDE_PROJECT_DIR\"/.opencode/hooks/agent-tool-call-validate.sh",
             "timeout": 5,
-            "statusMessage": "Validando par\u00e1metros de tool call..."
+            "statusMessage": "Validando parámetros de tool call..."
           }
         ]
       },
@@ -217,7 +222,7 @@
             "type": "command",
             "command": "\"$CLAUDE_PROJECT_DIR\"/.opencode/hooks/tdd-gate.sh",
             "timeout": 10,
-            "statusMessage": "TDD gate: tests antes que c\u00f3digo..."
+            "statusMessage": "TDD gate: tests antes que código..."
           },
           {
             "type": "command",
@@ -253,7 +258,7 @@
             "type": "command",
             "command": "\"$CLAUDE_PROJECT_DIR\"/.opencode/hooks/responsibility-judge.sh",
             "timeout": 5,
-            "statusMessage": "Responsibility Judge: evaluando decisi\u00f3n..."
+            "statusMessage": "Responsibility Judge: evaluando decisión..."
           },
           {
             "type": "command",
@@ -283,7 +288,7 @@
             "type": "command",
             "command": "\"$CLAUDE_PROJECT_DIR\"/.opencode/hooks/permission-mode-gate.sh",
             "timeout": 5,
-            "statusMessage": "SE-354: verificando modo de permisos de sesi\u00f3n..."
+            "statusMessage": "SE-354: verificando modo de permisos de sesión..."
           }
         ],
         "_comment": "SE-354 read-only permission mode (policy as code)"
@@ -427,7 +432,7 @@
             "name": "auto-grill-me",
             "blocking": false,
             "timeout": 5,
-            "statusMessage": "SE-091: grill-me \u2014 hunting weaknesses..."
+            "statusMessage": "SE-091: grill-me — hunting weaknesses..."
           }
         ]
       },
@@ -440,7 +445,7 @@
             "name": "auto-zoom-out",
             "blocking": false,
             "timeout": 5,
-            "statusMessage": "SE-091: zoom-out \u2014 checking second-order effects..."
+            "statusMessage": "SE-091: zoom-out — checking second-order effects..."
           }
         ]
       },
@@ -572,7 +577,7 @@
             "command": "\"$CLAUDE_PROJECT_DIR\"/.opencode/hooks/ast-quality-gate-hook.sh",
             "async": true,
             "timeout": 60,
-            "statusMessage": "AST Quality Gate: analizando c\u00f3digo..."
+            "statusMessage": "AST Quality Gate: analizando código..."
           },
           {
             "type": "command",
@@ -729,7 +734,7 @@
             "command": "bash .claude/hooks/criterion-simulation-challenge.sh"
           }
         ],
-        "_comment": "Eval\u00faa framing de sub-tareas delegadas (SPEC-194)"
+        "_comment": "Evalúa framing de sub-tareas delegadas (SPEC-194)"
       },
       {
         "matcher": "Task",
@@ -769,7 +774,7 @@
             "command": "bash .claude/hooks/cognitive-debt-check.sh"
           }
         ],
-        "_comment": "Mide duraci\u00f3n de sesi\u00f3n (SPEC-107)"
+        "_comment": "Mide duración de sesión (SPEC-107)"
       },
       {
         "matcher": ".*",
@@ -809,7 +814,7 @@
       },
       {
         "matcher": "mcp__.*",
-        "_comment": "twin-posttooluse: NO-OP without TWIN_HOOK_ENABLED=true \u2014 tracks MCP tool calls for code twin (SPEC-190)",
+        "_comment": "twin-posttooluse: NO-OP without TWIN_HOOK_ENABLED=true — tracks MCP tool calls for code twin (SPEC-190)",
         "hooks": [
           {
             "type": "command",
@@ -819,7 +824,7 @@
       },
       {
         "matcher": "Task|Write|Edit|Bash|WebFetch",
-        "_comment": "judge-auto-router: SE-273 S1 \u2014 auto-triggers judges based on output content patterns. Master switch: SAVIA_JUDGE_AUTO_ROUTER=off",
+        "_comment": "judge-auto-router: SE-273 S1 — auto-triggers judges based on output content patterns. Master switch: SAVIA_JUDGE_AUTO_ROUTER=off",
         "hooks": [
           {
             "type": "command",
@@ -860,7 +865,7 @@
             "command": "\"$CLAUDE_PROJECT_DIR\"/.opencode/hooks/session-end-snapshot.sh",
             "async": true,
             "timeout": 5,
-            "statusMessage": "Guardando snapshot de sesi\u00f3n..."
+            "statusMessage": "Guardando snapshot de sesión..."
           },
           {
             "type": "command",
@@ -892,7 +897,7 @@
             "command": "\"$CLAUDE_PROJECT_DIR\"/.opencode/hooks/emotional-regulation-monitor.sh",
             "async": true,
             "timeout": 10,
-            "statusMessage": "Evaluando bienestar de sesi\u00f3n..."
+            "statusMessage": "Evaluando bienestar de sesión..."
           },
           {
             "type": "command",
@@ -927,7 +932,12 @@
             "type": "command",
             "command": "\"$CLAUDE_PROJECT_DIR\"/.opencode/hooks/session-end-memory.sh",
             "timeout": 1500,
-            "statusMessage": "Extrayendo memoria de sesi\u00f3n..."
+            "statusMessage": "Extrayendo memoria de sesión..."
+          },
+          {
+            "type": "command",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/.opencode/hooks/cache-hygiene-hook.sh end",
+            "timeout": 15
           }
         ]
       }
@@ -959,6 +969,11 @@
             "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/learning-recall-hook.sh",
             "timeout": 5000,
             "statusMessage": "SCL-003: recuperando lecciones aprendidas..."
+          },
+          {
+            "type": "command",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/.opencode/hooks/cache-hygiene-hook.sh preturn",
+            "timeout": 5
           }
         ]
       },
@@ -974,7 +989,7 @@
       },
       {
         "matcher": "",
-        "_comment": "recommendation-tribunal-followup: WIRE-READY, NO-OP by default \u2014 captures tribunal follow-up actions",
+        "_comment": "recommendation-tribunal-followup: WIRE-READY, NO-OP by default — captures tribunal follow-up actions",
         "hooks": [
           {
             "type": "command",
@@ -1001,7 +1016,7 @@
             "type": "command",
             "command": "\"$CLAUDE_PROJECT_DIR\"/.opencode/hooks/pre-compact-backup.sh",
             "timeout": 10,
-            "statusMessage": "Backup pre-compactaci\u00f3n..."
+            "statusMessage": "Backup pre-compactación..."
           }
         ]
       }
@@ -1013,7 +1028,7 @@
             "type": "command",
             "command": "\"$CLAUDE_PROJECT_DIR\"/scripts/post-compaction.sh",
             "timeout": 10,
-            "statusMessage": "Recuperando memoria persistente tras compactaci\u00f3n..."
+            "statusMessage": "Recuperando memoria persistente tras compactación..."
           }
         ]
       }
@@ -1124,7 +1139,7 @@
       }
     ]
   },
-  "_doc_se202_example": "SE-202 agent hook pattern \u2014 to enable: add to PreToolUse hooks: { \"type\": \"command\", \"command\": \"bash \\\"$CLAUDE_PROJECT_DIR\\\"/scripts/agent-hook-runner.sh --agent security-guardian --event \\\"{\\\"tool\\\":\\\"$TOOL_NAME\\\",\\\"tool_input\\\":\\\"$TOOL_INPUT\\\"}\\\"\", \"timeout\": 30 } \u2014 exit 0=allow, exit 2=deny. Ref: docs/rules/domain/agent-hook-protocol.md",
+  "_doc_se202_example": "SE-202 agent hook pattern — to enable: add to PreToolUse hooks: { \"type\": \"command\", \"command\": \"bash \\\"$CLAUDE_PROJECT_DIR\\\"/scripts/agent-hook-runner.sh --agent security-guardian --event \\\"{\\\"tool\\\":\\\"$TOOL_NAME\\\",\\\"tool_input\\\":\\\"$TOOL_INPUT\\\"}\\\"\", \"timeout\": 30 } — exit 0=allow, exit 2=deny. Ref: docs/rules/domain/agent-hook-protocol.md",
   "permissions": {
     "defaultMode": "auto"
   },
