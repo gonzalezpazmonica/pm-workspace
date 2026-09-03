@@ -1,6 +1,6 @@
 {
-  "hash": "30b74b3bd396",
-  "total": 1432,
+  "hash": "298bf04d2b02",
+  "total": 1433,
   "resources": [
     {
       "category": "analysis",
@@ -15327,6 +15327,20 @@
       "kind": "cmd",
       "path": ".claude/commands/velocity-trend.md",
       "description": "Tendencia de velocity con media móvil, detección de anomalías y factores explicativos"
+    },
+    {
+      "category": "planning",
+      "name": "verdict-path",
+      "intents": [
+        "attach",
+        "expand",
+        "path",
+        "verdict",
+        "wrapper"
+      ],
+      "kind": "script",
+      "path": "scripts/verdict-path.sh",
+      "description": "verdict-path.sh — SE-367: wrapper de verdict-path.py (attach/expand/"
     },
     {
       "category": "planning",
