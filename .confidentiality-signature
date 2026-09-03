@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=9b4e72efedeb34ec0e7d2f86d445a76ac26adf581a9f91790d8d32be190f109c
-timestamp=2026-09-03T20:57:30Z
-branch=agent/se371-cache-activation
-head_commit=f6c70916
-signature=904e612512d32ecbb66b154a9cd9e46d620a1bd8841044aa3e308e84d1abc1f7
+diff_hash=a666dd93602afdab39258894eabe8aa9d8d093cd038cb50c7539a27fe399030c
+timestamp=2026-09-03T21:24:20Z
+branch=agent/se371-cache-metrics
+head_commit=28451a4f
+signature=7676cfe76524345d101479e7b23ae1962c432a69431e6a8603db98f4dfa581b5
