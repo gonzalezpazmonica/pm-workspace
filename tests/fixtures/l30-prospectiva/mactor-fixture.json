@@ -1,0 +1,28 @@
+{
+  "description": "L30-F1 fixture micro-MACTOR (solucion conocida). A-B divergentes (agente vs operadora sobre autonomia/supervision), A-C aliados. Determinista, CRIT-001.",
+  "axes": ["autonomia", "supervision"],
+  "actors": [
+    {
+      "name": "A-agente",
+      "positions": {"autonomia": 0.9, "supervision": 0.2},
+      "stake": {"autonomia": 0.9, "supervision": 0.5},
+      "power": 0.6
+    },
+    {
+      "name": "B-operadora",
+      "positions": {"autonomia": 0.2, "supervision": 0.9},
+      "stake": {"autonomia": 0.9, "supervision": 0.8},
+      "power": 0.9
+    },
+    {
+      "name": "C-cliente",
+      "positions": {"autonomia": 0.75, "supervision": 0.35},
+      "stake": {"autonomia": 0.7, "supervision": 0.4},
+      "power": 0.5
+    }
+  ],
+  "expected": {
+    "divergence_AB_min": 0.5,
+    "alliance_AC_min_convergence": 0.7
+  }
+}

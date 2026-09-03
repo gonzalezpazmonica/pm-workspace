@@ -1,6 +1,6 @@
 {
-  "hash": "f03f9881ec55",
-  "total": 1433,
+  "hash": "17caaeb585ac",
+  "total": 1434,
   "resources": [
     {
       "category": "analysis",
@@ -4362,6 +4362,20 @@
       "kind": "script",
       "path": "scripts/prompt-suggestion-engine.sh",
       "description": "prompt-suggestion-engine.sh — SPEC-044 Phase 2: trace-driven prompt optimization"
+    },
+    {
+      "category": "development",
+      "name": "prospectiva-basica",
+      "intents": [
+        "actores",
+        "acuerdo",
+        "alianzas",
+        "analiza",
+        "dependientes"
+      ],
+      "kind": "skill",
+      "path": ".claude/skills/prospectiva-basica/SKILL.md",
+      "description": "Prospectiva sistemica local: micro-MICMAC (variables motrices vs dependientes) y micro-MACTOR (actores, alianzas, divergencias, zona de acuerdo). Usar cuando se analiza un sistema con variables interdependientes, se priorizan palancas de ac"
     },
     {
       "category": "development",

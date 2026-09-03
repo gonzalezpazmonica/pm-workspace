@@ -1,0 +1,21 @@
+{
+  "description": "L30-F1 fixture micro-MICMAC (solucion conocida). V1-V2 motrices (solo emiten), V9-V10 dependientes (solo reciben), V3-V8 de relevo. Escala 0..3. Determinista, CRIT-001.",
+  "variables": ["V1", "V2", "V3", "V4", "V5", "V6", "V7", "V8", "V9", "V10"],
+  "scale_max": 3,
+  "matrix": [
+    [0, 0, 2, 2, 2, 2, 1, 0, 0, 0],
+    [0, 0, 2, 2, 1, 1, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 1, 1, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 1, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 2, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 1, 1],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 2],
+    [0, 0, 0, 0, 0, 0, 0, 0, 1, 1],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+  ],
+  "expected": {
+    "motrices": ["V1", "V2"],
+    "dependientes": ["V9", "V10"]
+  }
+}

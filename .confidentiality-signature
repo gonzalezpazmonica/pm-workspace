@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=9c0753f2d8c3f10013316bc769e10317c0fefe31e0497377e3c08b68e03db2f2
-timestamp=2026-09-03T18:44:14Z
-branch=agent/overnight-20260902-se370-sdd-research-lane
-head_commit=53bbda3b
-signature=e598054052e2ee687a61219423aecc5e5007b863f6b9ce2e9d1c004660148e79
+diff_hash=6e5856c01d141ee09a54e0e6c1106f3282232bd1b9d95129a100df3faada070c
+timestamp=2026-09-03T19:21:10Z
+branch=agent/overnight-20260902-l30-micmac-mactor
+head_commit=848545f6
+signature=101d87cd36bc9caef02d4b4c63aca69177a657a55ab95a6f1e88f4412df31d28
