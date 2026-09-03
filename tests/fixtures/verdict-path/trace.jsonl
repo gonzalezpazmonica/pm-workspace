@@ -1,0 +1,3 @@
+{"event":"tool_exec","tool":"build","args_fp":"2dc9baa237cbcd24"}
+{"event":"tool_exec","tool":"test","args_fp":"a194167585167eec"}
+{"event":"tool_blocked","tool":"git push"}

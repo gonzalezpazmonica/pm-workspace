@@ -1,6 +1,6 @@
 # Savia Capability Map — INDEX
-> hash: afbc32ef011d | resources: 1434
-> 295 commands · 134 skills · 88 agents · 917 scripts
+> hash: 1546afb8237e | resources: 1435
+> 295 commands · 134 skills · 88 agents · 918 scripts
 
 [analysis] Trace Optimize — across,distributed,optimize,rates,sampling — cmd:.claude/commands/trace-optimize.md
 [analysis] agent-activity — activity,agent,executions,recent,show — cmd:.claude/commands/agent-activity.md
@@ -1162,6 +1162,7 @@
 [planning] vaults-nextcloud-setup — backups,configurar,credenciales,nextcloud,setup — script:scripts/vaults-nextcloud-setup.sh
 [planning] vaults-validate — against,documents,entity,schemas,validate — script:scripts/vaults-validate.sh
 [planning] velocity-trend — anomalías,detección,explicativos,factores,media — cmd:.claude/commands/velocity-trend.md
+[planning] verdict-path — attach,expand,path,verdict,wrapper — script:scripts/verdict-path.sh
 [planning] verify-ledger-chain — chain,ledger,slice,verify — script:scripts/verify-ledger-chain.sh
 [planning] verify-principal — principal,scripts,slice,verify — script:scripts/verify-principal.sh
 [planning] vuln-scan — scan,scanner,scripts,vuln,vulnerability — script:scripts/vuln-scan.sh

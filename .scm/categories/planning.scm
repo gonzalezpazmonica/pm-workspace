@@ -1,5 +1,5 @@
 # planning — Savia Capability Map (L1)
-> 620 resources
+> 621 resources
 
 - **/decide-architecture** (cmd): Clasifica una tarea como WORKFLOW (deterministica) o AGENT (loop). Bias hacia workflow per Anthropic. Sugiere plantilla inicial. Mide accuracy contra corpus curado de 20 tareas.
 - **_template** (skill): TEMPLATE — copia este directorio para crear una skill nueva. NO se carga en runtime.
@@ -611,6 +611,7 @@
 - **vaults-nextcloud-setup** (script): vaults-nextcloud-setup.sh — Configurar credenciales Nextcloud para backups
 - **vaults-validate** (script): vaults-validate.sh — Validate documents against entity schemas
 - **velocity-trend** (cmd): Tendencia de velocity con media móvil, detección de anomalías y factores explicativos
+- **verdict-path** (script): verdict-path.sh — SE-367: wrapper de verdict-path.py (attach/expand/
 - **verify-ledger-chain** (script): verify-ledger-chain.sh — SE-258 Slice 2
 - **verify-principal** (script): scripts/verify-principal.sh — SE-256 Slice 3
 - **vuln-scan** (script): vuln-scan.sh — Vulnerability scanner for pm-workspace scripts
