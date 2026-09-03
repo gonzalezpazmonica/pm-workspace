@@ -1,4 +1,5 @@
 #!/bin/bash
+set -uo pipefail
 # cache-hygiene-hook.sh — SE-371: activación runtime de la higiene de caché.
 #
 # Se registra en .claude/settings.json en tres momentos:
@@ -9,7 +10,6 @@
 # La congelación de AGENTS.md/SKILLS.md durante la sesión la aplican los
 # generadores al ver el marker data/.cache-session-active (o SAVIA_SESSION_ACTIVE).
 # CRIT-001: todo local. Time-box: <15ms en preturn, <200ms en start/end.
-set -uo pipefail
 _ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 MARKER="$_ROOT/data/.cache-session-active"
 LOG="$_ROOT/output/.cache-hygiene.log"
