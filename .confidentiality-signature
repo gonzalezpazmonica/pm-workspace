@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=507be7ee96adfcb21738e4077711525ae4918651dd3a06435eb8cf87226c028e
-timestamp=2026-09-03T19:11:24Z
+diff_hash=6e5856c01d141ee09a54e0e6c1106f3282232bd1b9d95129a100df3faada070c
+timestamp=2026-09-03T19:21:10Z
 branch=agent/overnight-20260902-l30-micmac-mactor
-head_commit=01c5899b
-signature=0942a12436216b88c05f4ed676223aa3e2a56875329c5546b5a5adfebeb880d4
+head_commit=848545f6
+signature=101d87cd36bc9caef02d4b4c63aca69177a657a55ab95a6f1e88f4412df31d28
