@@ -5,6 +5,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [6.17.10] — 2026-09-03
+
+### Added
+- SE-372 Savia Setup: inicializador interactivo (scripts/savia-setup.sh) que configura Savia con todas sus funciones actuales — identidad/frontend, modelos/proveedor, MCPs on/off, vaults local o remoto (solo infra propia, CRIT-001), federacion, backends y autonomia. Headless con --answers, idempotente, estado en ~/.savia/savia-setup.json. El bootstrap (install.sh) lo ofrece al finalizar.
+
 ## [6.17.9] — 2026-09-03
 
 ### Added
@@ -13196,6 +13201,7 @@ Initial public release of PM-Workspace.
 
 - **Documentation** with methodology
 
+[6.17.10]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v6.17.9...v6.17.10
 [6.17.9]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v6.17.8...v6.17.9
 [6.17.8]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v6.17.7...v6.17.8
 [6.17.7]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v6.17.6...v6.17.7

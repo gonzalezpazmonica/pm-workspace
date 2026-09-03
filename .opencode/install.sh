@@ -245,6 +245,23 @@ else
 fi
 
 # --- Done -----------------------------------------------------------------------
+# --- SE-372: ofrecer el inicializador interactivo savia setup -----------------
+if [[ -f "$SAVIA_HOME/scripts/savia-setup.sh" ]]; then
+  echo ""
+  if [[ -t 0 && "${SKIP_SETUP:-0}" != "1" ]]; then
+    read -r -p "Run interactive 'savia setup' now (configures vaults/MCPs/models)? (y/N) " -n 1 REPLY
+    echo ""
+    if [[ "$REPLY" =~ ^[Yy]$ ]]; then
+      (cd "$SAVIA_HOME" && bash scripts/savia-setup.sh) || warn "savia setup finalizado con errores (puedes reintentarlo: bash scripts/savia-setup.sh)"
+    else
+      info "Puedes ejecutarlo después: bash $SAVIA_HOME/scripts/savia-setup.sh  (configura vaults local/remoto, MCPs, modelos, federación)"
+    fi
+  else
+    info "Setup no interactivo — mostrando estado:"
+    (cd "$SAVIA_HOME" && bash scripts/savia-setup.sh --check) || true
+  fi
+fi
+
 echo ""
 echo -e "${BOLD}═══════════════════════════════════════════════════${NC}"
 echo -e "${GREEN}${BOLD}  🦉 Savia is ready for OpenCode!${NC}"
