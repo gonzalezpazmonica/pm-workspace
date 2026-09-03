@@ -1,5 +1,5 @@
 # planning — Savia Capability Map (L1)
-> 621 resources
+> 623 resources
 
 - **/decide-architecture** (cmd): Clasifica una tarea como WORKFLOW (deterministica) o AGENT (loop). Bias hacia workflow per Anthropic. Sugiere plantilla inicial. Mide accuracy contra corpus curado de 20 tareas.
 - **_template** (skill): TEMPLATE — copia este directorio para crear una skill nueva. NO se carga en runtime.
@@ -294,6 +294,7 @@
 - **knowledge-graph** (skill): Usar cuando se construye o consulta el grafo de conocimiento de entidades del proyecto.
 - **knowledge-graph** (script): knowledge-graph.sh — SE-162: Shell wrapper for knowledge-graph.py
 - **l13-meta-pruebas** (script): l13-meta-pruebas.sh — L13 F3: harness determinista de pruebas M1-M4.
+- **l28-ablation** (script): l28-ablation.sh — L28-F1: prueba de ablacion del harness de Savia (sandbox).
 - **labs-preregister** (script): labs-preregister.sh — Preregistro de hipotesis en Savia Labs
 - **language-boundary-check** (script): scripts/language-boundary-check.sh — SE-253 Slice 7
 - **learning-autonomy** (script): learning-autonomy.sh — SCL-006: política de autonomía graduada por p_consistent
@@ -366,6 +367,7 @@
 - **otel-emit** (script): otel-emit.sh — SE-313 S1: emisor de eventos de telemetría estándar.
 - **oumi-probe** (script): oumi-probe.sh — SE-028 Slice 1 oumi integration viability probe.
 - **output-compress** (script): output-compress.sh — Compress verbose tool output (stdin -> stdout)
+- **overnight-roadmap-runner** (script): overnight-roadmap-runner.sh — wrapper del overnight-sprint-loop (SE-226)
 - **overnight-sprint** (skill): Usar cuando se quiere ejecutar tareas de bajo riesgo de forma autónoma durante la noche.
 - **overnight-sprint-loop** (script): scripts/overnight-sprint-loop.sh — SE-226: stateless overnight-sprint orchestrator
 - **overnight-sprint-state** (script): scripts/overnight-sprint-state.sh — SE-226: stateless-session loop state management

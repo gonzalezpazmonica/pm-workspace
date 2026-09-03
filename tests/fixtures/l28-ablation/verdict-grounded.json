@@ -1,0 +1,9 @@
+{
+  "verdict_id": "V-GROUNDED-001",
+  "claim": "build paso en modo release y test unitario verde",
+  "evidence": [
+    {"tool": "build", "args_fp": "2dc9baa237cbcd24"},
+    {"tool": "test", "args_fp": "a194167585167eec"}
+  ],
+  "decision": "approve"
+}

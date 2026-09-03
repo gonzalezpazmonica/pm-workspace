@@ -1,6 +1,6 @@
 {
-  "hash": "a99e73237393",
-  "total": 1436,
+  "hash": "60cfffde439c",
+  "total": 1438,
   "resources": [
     {
       "category": "analysis",
@@ -11180,6 +11180,20 @@
     },
     {
       "category": "planning",
+      "name": "l28-ablation",
+      "intents": [
+        "ablacion",
+        "ablation",
+        "harness",
+        "prueba",
+        "sandbox"
+      ],
+      "kind": "script",
+      "path": "scripts/l28-ablation.sh",
+      "description": "l28-ablation.sh — L28-F1: prueba de ablacion del harness de Savia (sandbox)."
+    },
+    {
+      "category": "planning",
       "name": "labs-preregister",
       "intents": [
         "hipotesis",
@@ -12132,6 +12146,20 @@
       "kind": "script",
       "path": "scripts/output-compress.sh",
       "description": "output-compress.sh — Compress verbose tool output (stdin -> stdout)"
+    },
+    {
+      "category": "planning",
+      "name": "overnight-roadmap-runner",
+      "intents": [
+        "loop",
+        "overnight",
+        "roadmap",
+        "runner",
+        "sprint"
+      ],
+      "kind": "script",
+      "path": "scripts/overnight-roadmap-runner.sh",
+      "description": "overnight-roadmap-runner.sh — wrapper del overnight-sprint-loop (SE-226)"
     },
     {
       "category": "planning",
