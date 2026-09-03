@@ -1,19 +1,28 @@
 {
- "schema": "savia.model-registry/1.0",
- "generated_at": "2026-08-08T21:59:15Z",
- "source": "opencode models",
- "models": [
-  "deepseek/deepseek-chat",
-  "deepseek/deepseek-reasoner",
-  "deepseek/deepseek-v4-flash",
-  "deepseek/deepseek-v4-pro",
-  "opencode/big-pickle",
-  "opencode/deepseek-v4-flash-free",
-  "opencode/laguna-s-2.1-free",
-  "opencode/ling-3.0-tiny-free",
-  "opencode/longcat-2.0-free",
-  "opencode/mimo-v2.5-free",
-  "opencode/nemotron-3-ultra-free",
-  "opencode/north-mini-code-free"
- ]
+  "schema": "savia.model-registry/1.0",
+  "generated_at": "2026-09-02T19:40:00Z",
+  "source": "opencode models + zai-coding-plan",
+  "models": [
+    "deepseek/deepseek-chat",
+    "deepseek/deepseek-reasoner",
+    "deepseek/deepseek-v4-flash",
+    "deepseek/deepseek-v4-pro",
+    "opencode/big-pickle",
+    "opencode/deepseek-v4-flash-free",
+    "opencode/laguna-s-2.1-free",
+    "opencode/ling-3.0-tiny-free",
+    "opencode/longcat-2.0-free",
+    "opencode/mimo-v2.5-free",
+    "opencode/nemotron-3-ultra-free",
+    "opencode/north-mini-code-free",
+    "zai-coding-plan/glm-5.3",
+    "zai-coding-plan/glm-5.3-flash",
+    "zai-coding-plan/glm-5.2",
+    "zai-coding-plan/glm-5.1",
+    "zai-coding-plan/glm-5",
+    "zai-coding-plan/glm-5-turbo",
+    "zai-coding-plan/glm-4.7",
+    "zai-coding-plan/glm-4.6",
+    "zai-coding-plan/glm-4.5-air"
+  ]
 }

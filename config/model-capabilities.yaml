@@ -78,6 +78,61 @@ models:
     supports_extended_thinking: false
     recommended_compact_threshold_pct: 55
 
+  # ── Z.ai GLM (plan zai-coding-plan, 2026-09-02) ──
+  glm-5.3:
+    context_window: 200000
+    tier: heavy
+    supports_extended_thinking: true
+    recommended_compact_threshold_pct: 65
+
+  glm-5.2:
+    context_window: 200000
+    tier: heavy
+    supports_extended_thinking: true
+    recommended_compact_threshold_pct: 65
+
+  glm-5.1:
+    context_window: 200000
+    tier: high
+    supports_extended_thinking: true
+    recommended_compact_threshold_pct: 65
+
+  glm-5:
+    context_window: 128000
+    tier: mid
+    supports_extended_thinking: true
+    recommended_compact_threshold_pct: 60
+
+  glm-5-turbo:
+    context_window: 128000
+    tier: fast
+    supports_extended_thinking: false
+    recommended_compact_threshold_pct: 50
+
+  glm-4.7:
+    context_window: 128000
+    tier: mid
+    supports_extended_thinking: false
+    recommended_compact_threshold_pct: 55
+
+  glm-4.6:
+    context_window: 128000
+    tier: mid
+    supports_extended_thinking: false
+    recommended_compact_threshold_pct: 55
+
+  glm-4.5-air:
+    context_window: 128000
+    tier: fast
+    supports_extended_thinking: false
+    recommended_compact_threshold_pct: 50
+
+  glm-5.3-flash:
+    context_window: 128000
+    tier: fast
+    supports_extended_thinking: false
+    recommended_compact_threshold_pct: 50
+
 default:
   context_window: 128000
   tier: fast
