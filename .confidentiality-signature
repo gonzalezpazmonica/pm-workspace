@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=95eb50af9fe88aec020269ae49c3fe34d9ffe27bd471dc6def9f74cf936db259
-timestamp=2026-09-02T20:37:16Z
-branch=agent/changelog-fix-20260902
-head_commit=b5933234
-signature=b2b59983da7ab82f17f0e89ccd2657e7b065a176483217f693b91d87c2c37096
+diff_hash=aac79f4c18dae5b5dc71c8a3a348f81f4b3c73843ef2745688cae5f9c08e2965
+timestamp=2026-09-03T18:56:19Z
+branch=agent/overnight-20260902-l30-micmac-mactor
+head_commit=f0ef5a6f
+signature=0eaf0d041832d408d7cb23b669f6bd31423075ae204eb52ede3351257498cccf
