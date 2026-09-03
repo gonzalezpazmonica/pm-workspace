@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=9ab4a059a956f607f9c622b27db991a1bf6d63a30683f4d0e664856fa9b8a6d4
-timestamp=2026-09-03T07:20:24Z
+diff_hash=652040fa9d42d3bdf24a2726720a423b9426acb3dccc22684b9307c9ee9902fa
+timestamp=2026-09-03T07:29:26Z
 branch=fix/branch-switch-hook-target-repo
-head_commit=60cc4810
-signature=7e5ffba0e9c256726e5ec381359080cf68e9d165a91df4eb5e01e7c381430da5
+head_commit=95ec74d5
+signature=39f1e7c3e5ac005fb607e5d3b58d056717952737c059fd0a58b0fb0378e430e9
