@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=95eb50af9fe88aec020269ae49c3fe34d9ffe27bd471dc6def9f74cf936db259
-timestamp=2026-09-02T20:37:16Z
-branch=agent/changelog-fix-20260902
-head_commit=b5933234
-signature=b2b59983da7ab82f17f0e89ccd2657e7b065a176483217f693b91d87c2c37096
+diff_hash=429d4a4531884faef8943c25f12a9531d7f372b228d8a6e9555a6fba08290bf2
+timestamp=2026-09-03T19:48:47Z
+branch=agent/overnight-20260902-se369-contract-digest-pins
+head_commit=3b8f7933
+signature=8ad21e0b3aec885ac565848ded6433ccb9951e4adddb3c50a07b8d95962dee44

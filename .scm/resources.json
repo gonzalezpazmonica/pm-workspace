@@ -1,6 +1,6 @@
 {
-  "hash": "d5827f93e04a",
-  "total": 1434,
+  "hash": "60cfffde439c",
+  "total": 1438,
   "resources": [
     {
       "category": "analysis",
@@ -1063,6 +1063,18 @@
       "kind": "agent",
       "path": ".opencode/agents/archive-digest.md",
       "description": ">"
+    },
+    {
+      "category": "communication",
+      "name": "contract-pin",
+      "intents": [
+        "contract",
+        "digest",
+        "pins"
+      ],
+      "kind": "script",
+      "path": "scripts/contract-pin.sh",
+      "description": "contract-pin.sh — SE-369 Contract Digest Pins"
     },
     {
       "category": "communication",
@@ -4362,6 +4374,20 @@
       "kind": "script",
       "path": "scripts/prompt-suggestion-engine.sh",
       "description": "prompt-suggestion-engine.sh — SPEC-044 Phase 2: trace-driven prompt optimization"
+    },
+    {
+      "category": "development",
+      "name": "prospectiva-basica",
+      "intents": [
+        "actores",
+        "acuerdo",
+        "alianzas",
+        "analiza",
+        "dependientes"
+      ],
+      "kind": "skill",
+      "path": ".claude/skills/prospectiva-basica/SKILL.md",
+      "description": "Prospectiva sistemica local: micro-MICMAC (variables motrices vs dependientes) y micro-MACTOR (actores, alianzas, divergencias, zona de acuerdo). Usar cuando se analiza un sistema con variables interdependientes, se priorizan palancas de ac"
     },
     {
       "category": "development",
@@ -15358,6 +15384,20 @@
     },
     {
       "category": "planning",
+      "name": "verdict-path",
+      "intents": [
+        "attach",
+        "expand",
+        "path",
+        "verdict",
+        "wrapper"
+      ],
+      "kind": "script",
+      "path": "scripts/verdict-path.sh",
+      "description": "verdict-path.sh — SE-367: wrapper de verdict-path.py (attach/expand/"
+    },
+    {
+      "category": "planning",
       "name": "verify-ledger-chain",
       "intents": [
         "chain",
@@ -17134,6 +17174,19 @@
       "kind": "script",
       "path": "scripts/rule-orphan-detector.sh",
       "description": "rule-orphan-detector.sh — SE-048 Slice 1 rule usage audit."
+    },
+    {
+      "category": "quality",
+      "name": "sdd-research-lane",
+      "intents": [
+        "auditable",
+        "investigación",
+        "lane",
+        "research"
+      ],
+      "kind": "script",
+      "path": "scripts/sdd-research-lane.sh",
+      "description": "sdd-research-lane.sh — SE-370: SDD Research lane — investigación auditable"
     },
     {
       "category": "quality",

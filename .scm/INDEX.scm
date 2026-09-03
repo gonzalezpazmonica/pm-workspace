@@ -1,6 +1,6 @@
 # Savia Capability Map — INDEX
-> hash: 26ddb1e99d35 | resources: 1434
-> 295 commands · 133 skills · 88 agents · 918 scripts
+> hash: ae5a60dcd888 | resources: 1438
+> 295 commands · 134 skills · 88 agents · 921 scripts
 
 [analysis] Trace Optimize — across,distributed,optimize,rates,sampling — cmd:.claude/commands/trace-optimize.md
 [analysis] agent-activity — activity,agent,executions,recent,show — cmd:.claude/commands/agent-activity.md
@@ -81,6 +81,7 @@
 [analysis] vaults-health-report — health,quality,report,vault,vaults — script:scripts/vaults-health-report.sh
 [analysis] weekly-report — estado,informe,proyecto,semanal — skill:.claude/skills/weekly-report/SKILL.md
 [communication] archive-digest —  — agent:.opencode/agents/archive-digest.md
+[communication] contract-pin — contract,digest,pins — script:scripts/contract-pin.sh
 [communication] digest-extract — capa,digest,extracción,extract,markitdown — script:scripts/digest-extract.sh
 [communication] excel-digest —  — agent:.opencode/agents/excel-digest.md
 [communication] glm-compute-digest — compute,computes,digest,governance,json — script:scripts/glm-compute-digest.sh
@@ -334,6 +335,7 @@
 [development] priority/roadmap-priority-report — priority,report,roadmap,slice,spec — script:scripts/priority/roadmap-priority-report.sh
 [development] priority/validate-spec-frontmatter — frontmatter,slice,spec,validate — script:scripts/priority/validate-spec-frontmatter.sh
 [development] prompt-suggestion-engine — driven,engine,optimization,phase,prompt — script:scripts/prompt-suggestion-engine.sh
+[development] prospectiva-basica — actores,acuerdo,alianzas,analiza,dependientes — skill:.claude/skills/prospectiva-basica/SKILL.md
 [development] reaction-engine — engine,phase,reaction,spec — script:scripts/reaction-engine.sh
 [development] rebuild-folder-indexes — folder,indexes,rebuild — script:scripts/rebuild-folder-indexes.sh
 [development] recommendation-tribunal/aggregate — aggregate,aggregation,deterministic,judge,slice — script:scripts/recommendation-tribunal/aggregate.sh
@@ -1163,6 +1165,7 @@
 [planning] vaults-nextcloud-setup — backups,configurar,credenciales,nextcloud,setup — script:scripts/vaults-nextcloud-setup.sh
 [planning] vaults-validate — against,documents,entity,schemas,validate — script:scripts/vaults-validate.sh
 [planning] velocity-trend — anomalías,detección,explicativos,factores,media — cmd:.claude/commands/velocity-trend.md
+[planning] verdict-path — attach,expand,path,verdict,wrapper — script:scripts/verdict-path.sh
 [planning] verify-ledger-chain — chain,ledger,slice,verify — script:scripts/verify-ledger-chain.sh
 [planning] verify-principal — principal,scripts,slice,verify — script:scripts/verify-principal.sh
 [planning] vuln-scan — scan,scanner,scripts,vuln,vulnerability — script:scripts/vuln-scan.sh
@@ -1294,6 +1297,7 @@
 [quality] review-community — community,comunidad,issues,local,only — script:scripts/review-community.sh
 [quality] review-depth-selector — based,depth,review,risk,score — script:scripts/review-depth-selector.sh
 [quality] rule-orphan-detector — audit,detector,orphan,rule,slice — script:scripts/rule-orphan-detector.sh
+[quality] sdd-research-lane — auditable,investigación,lane,research — script:scripts/sdd-research-lane.sh
 [quality] security-attacker —  — agent:.opencode/agents/security-attacker.md
 [quality] security-audit-all — audit,runner,scanners,security,unified — script:scripts/security-audit-all.sh
 [quality] security-auditor —  — agent:.opencode/agents/security-auditor.md

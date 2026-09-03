@@ -1,0 +1,10 @@
+{
+  "settings-hooks": {
+    "current": {
+      "version": 1,
+      "digest": "sha256:4d7964cb505f246970ee9f601f509a59457698746c7a7cdb0f958fe973a953a9",
+      "path": ".claude/settings.json"
+    },
+    "previous": []
+  }
+}

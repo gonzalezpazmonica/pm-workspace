@@ -5,6 +5,35 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [6.17.4] — 2026-09-03
+
+### Added
+- SE-369 Contract Digest Pins: pineado y verificacion de contratos (settings-hooks como piloto) con compat y additive-check.
+
+## [6.17.3] — 2026-09-03
+
+### Added
+- SE-367 Derivation Path: veredictos con cadena causal expandible (regla, premisas anidadas, refs y eventos del trace observados) y grounding verificable contra el trace real.
+
+## [6.17.2] — 2026-09-03
+
+### Added
+- SE-366 Decision Ledger bitemporal: hechos con validez temporal doble (mundo/Savia), evidence rows con grounding, corrección no destructiva (supersedes) y consulta as-of por fold.
+
+## [6.17.1] — 2026-09-03
+
+### Added
+- L30-F1 prospectiva local: micro-MICMAC (variables motrices vs dependientes) y micro-MACTOR (actores, alianzas, zona de acuerdo) en Python stdlib puro, con fixtures deterministas (CRIT-001) y skill `prospectiva-basica`.
+## [6.17.0] — 2026-09-03
+
+### Added
+- SE-370 research lane: la investigación pasa a ser una fase SDD con grant exacto, artefacto `research.md` auditable bajo el change y filtro CRIT-001 (N3+ fuera).
+## [6.16.1] — 2026-09-03
+
+### Fixed
+
+- block-branch-switch-dirty.sh: el hook comprobaba `git status` en su propio cwd (el workspace) y no en el repo destino del comando, así que un workspace sucio bloqueaba `cd otro-repo && git switch` en cualquier proyecto, y un repo destino sucio nunca se protegía. Ahora resuelve el repo destino (`git -C <dir>` > `cd <dir> &&` > `cwd` del JSON del hook), intercepta también `git -C <dir> switch|checkout`, nombra el repo en el mensaje de bloqueo y limita el borrado SE-300 de `.pr-summary.md` al propio workspace. 9 tests BATS nuevos (8 en rojo con el hook anterior).
+
 ## [6.16.0] — 2026-09-02
 
 ### Added
@@ -13142,6 +13171,12 @@ Initial public release of PM-Workspace.
 
 - **Documentation** with methodology
 
+[6.17.4]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v6.17.3...v6.17.4
+[6.17.3]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v6.17.2...v6.17.3
+[6.17.2]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v6.17.1...v6.17.2
+[6.17.1]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v6.16.0...v6.17.1
+[6.17.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v6.16.0...v6.17.0
+[6.16.1]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v6.16.0...v6.16.1
 [6.16.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v6.15.0...v6.16.0
 [6.15.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v6.3.0...v6.15.0
 [6.3.0]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v6.2.0...v6.3.0

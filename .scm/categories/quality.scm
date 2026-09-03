@@ -1,5 +1,5 @@
 # quality — Savia Capability Map (L1)
-> 263 resources
+> 264 resources
 
 - **/speckit.analyze** (cmd): Alias spec-kit compatible. Review cruzado de una spec antes de implementar. Invoca skill consensus-validation. Compatible con github/spec-kit.
 - **Coherence Court** (cmd): Audit consistency of a stage output against premises fixed in earlier stages of the same flow (SE-350)
@@ -122,6 +122,7 @@
 - **review-community** (script): review-community.sh — Revisión de PRs/issues de la comunidad (LOCAL ONLY)
 - **review-depth-selector** (script): review-depth-selector.sh — Select review depth based on risk score
 - **rule-orphan-detector** (script): rule-orphan-detector.sh — SE-048 Slice 1 rule usage audit.
+- **sdd-research-lane** (script): sdd-research-lane.sh — SE-370: SDD Research lane — investigación auditable
 - **security-attacker** (agent): >
 - **security-audit-all** (script): security-audit-all.sh — Unified runner for all security scanners.
 - **security-auditor** (agent): >
