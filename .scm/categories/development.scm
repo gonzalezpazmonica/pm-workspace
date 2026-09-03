@@ -1,5 +1,5 @@
 # development — Savia Capability Map (L1)
-> 225 resources
+> 226 resources
 
 - **/speckit.checklist** (cmd): Alias spec-kit compatible. Gate de calidad final con verification-lattice multi-capa. Invoca skill verification-lattice. Compatible con github/spec-kit.
 - **/speckit.clarify** (cmd): Alias spec-kit compatible. Preguntas dirigidas para cerrar ambigüedad en una spec. Invoca skill context-interview-conductor. Compatible con github/spec-kit.
@@ -151,6 +151,7 @@
 - **priority/roadmap-priority-report** (script): SPEC-154 Slice 6 — roadmap-priority-report.sh
 - **priority/validate-spec-frontmatter** (script): SPEC-154 Slice 2 — validate-spec-frontmatter.sh
 - **prompt-suggestion-engine** (script): prompt-suggestion-engine.sh — SPEC-044 Phase 2: trace-driven prompt optimization
+- **prospectiva-basica** (skill): Prospectiva sistemica local: micro-MICMAC (variables motrices vs dependientes) y micro-MACTOR (actores, alianzas, divergencias, zona de acuerdo). Usar cuando se analiza un sistema con variables interdependientes, se priorizan palancas de ac
 - **reaction-engine** (script): reaction-engine.sh — SPEC-050 Phase 1: Reaction Engine
 - **rebuild-folder-indexes** (script): rebuild-folder-indexes.sh
 - **recommendation-tribunal/aggregate** (script): aggregate.sh — SPEC-125 Slice 1: deterministic aggregation of 4 judge verdicts.
