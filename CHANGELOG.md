@@ -5,6 +5,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [6.16.1] — 2026-09-03
+
+### Fixed
+
+- block-branch-switch-dirty.sh: el hook comprobaba `git status` en su propio cwd (el workspace) y no en el repo destino del comando, así que un workspace sucio bloqueaba `cd otro-repo && git switch` en cualquier proyecto, y un repo destino sucio nunca se protegía. Ahora resuelve el repo destino (`git -C <dir>` > `cd <dir> &&` > `cwd` del JSON del hook), intercepta también `git -C <dir> switch|checkout`, nombra el repo en el mensaje de bloqueo y limita el borrado SE-300 de `.pr-summary.md` al propio workspace. 9 tests BATS nuevos (8 en rojo con el hook anterior).
+
 ## [6.16.0] — 2026-09-02
 
 ### Added
