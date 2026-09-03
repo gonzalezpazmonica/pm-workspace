@@ -5,6 +5,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [6.17.9] — 2026-09-03
+
+### Added
+- SE-371 captura automatica de metricas de cache: ingest-opencode lee la DB local de OpenCode (usage por sesion, cache_read/cache_write) con dedupe por session, ejecutado al cierre de sesion (idempotente).
+
 ## [6.17.8] — 2026-09-03
 
 ### Changed
@@ -13191,6 +13196,7 @@ Initial public release of PM-Workspace.
 
 - **Documentation** with methodology
 
+[6.17.9]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v6.17.8...v6.17.9
 [6.17.8]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v6.17.7...v6.17.8
 [6.17.7]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v6.17.6...v6.17.7
 [6.17.6]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v6.17.5...v6.17.6

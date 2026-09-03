@@ -6,6 +6,8 @@
 #
 #   record --model M --input N [--cache-read R] [--cache-creation C] [--session S]
 #   record --usage-json '{...}' [--model M] [--session S]   # formato Anthropic
+#   ingest-opencode [--db PATH] [--days N]  # lee opencode.db local (dedupe por sesion)
+#   capture                                 # alias de ingest-opencode (para hooks)
 #   report [--session S] [--model M]                        # hit rate + coste relativo
 #   --validate                                              # schema de lineas
 #
@@ -121,9 +123,77 @@ PY
   return $bad
 }
 
+# ingest-opencode — lee usage agregado de la DB local de OpenCode (CRIT-001).
+# Dedupe por session_id contra el ledger: idempotente, seguro en cada SessionEnd.
+cmd_ingest() {
+  local db="" days=7
+  while [[ $# -gt 0 ]]; do
+    case "$1" in
+      --db) db="$2"; shift 2 ;;
+      --days) days="$2"; shift 2 ;;
+      *) usage ;;
+    esac
+  done
+  [[ -z "$db" ]] && db="${OPENCODE_DB:-}"
+  if [[ -z "$db" ]]; then
+    local cand="${OPENCODE_DATA:-$HOME/.local/share/opencode}/opencode.db"
+    [[ -f "$cand" ]] && db="$cand"
+  fi
+  if [[ -z "$db" || ! -f "$db" ]]; then
+    echo "WARN: opencode.db no encontrado — captura local solo si usas OpenCode" >&2
+    return 0
+  fi
+  python3 - "$db" "$LEDGER" "$days" <<'PY'
+import json, os, sqlite3, sys, time
+from datetime import datetime, timezone
+db, ledger, days = sys.argv[1:4]
+# sesiones ya registradas (dedupe por id)
+seen = set()
+if os.path.exists(ledger):
+    for line in open(ledger):
+        line = line.strip()
+        if line:
+            try: seen.add(json.loads(line).get("session", ""))
+            except Exception: pass
+con = sqlite3.connect(f"file:{db}?mode=ro", uri=True)
+con.row_factory = sqlite3.Row
+cutoff = int((time.time() - int(days) * 86400) * 1000)
+rows = con.execute(
+    "SELECT id, model, tokens_input, tokens_output, tokens_cache_read, "
+    "tokens_cache_write, cost, time_created FROM session "
+    "WHERE time_created >= ? AND (tokens_input > 0 OR tokens_cache_read > 0) "
+    "ORDER BY time_created", (cutoff,)).fetchall()
+added = 0
+with open(ledger, "a") as f:
+    for r in rows:
+        sid = r["id"]
+        if sid in seen: continue
+        seen.add(sid)
+        model = r["model"] or "?"
+        try:
+            m = json.loads(model)
+            model = f"{m.get('providerID','?')}/{m.get('id','?')}"
+        except Exception:
+            pass
+        ts = datetime.fromtimestamp(r["time_created"] / 1000, timezone.utc)\
+                 .strftime("%Y-%m-%dT%H:%M:%SZ")
+        row = {"ts": ts, "session": sid, "model": model,
+               "input": r["tokens_input"] or 0,
+               "cache_read": r["tokens_cache_read"] or 0,
+               "cache_creation": r["tokens_cache_write"] or 0,
+               "cost": round(r["cost"] or 0.0, 6),
+               "source": "opencode-db"}
+        f.write(json.dumps(row) + "\n")
+        added += 1
+print(f"ingested: {added} sesiones nuevas (ledger: {os.path.basename(ledger)})")
+PY
+}
+
+
 case "${1:-}" in
   record) shift; cmd_record "$@" ;;
   report) shift; cmd_report "$@" ;;
+  ingest-opencode|capture) shift; cmd_ingest "$@" ;;
   --validate|validate) cmd_validate ;;
   -h|--help) usage ;;
   *) usage ;;

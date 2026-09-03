@@ -96,6 +96,7 @@ Nota: `MEMORY.md` ya NO está en el prefijo (AC-4); se carga bajo demanda.
   - `UserPromptSubmit` → `preturn`: `check` contra el snapshot; si hay mutación escribe en `output/.cache-hygiene.log` (nunca contamina el prompt, exit 0 siempre).
   - `SessionEnd` → `end`: limpia el marker y regeneración diferida de AGENTS/SKILLS solo si hay drift real (--check → --apply).
 - Los generadores congelan si `SAVIA_SESSION_ACTIVE=1` **o** existe el marker (sesión viva) — SE-371 §5.3 extendido.
+- **Captura automática de métricas activada (2026-09-03)**: `cache-metrics.sh ingest-opencode` lee el usage agregado por sesión de la DB local de OpenCode (`~/.local/share/opencode/opencode.db`; campos `tokens_input`/`tokens_cache_read`/`tokens_cache_write`), con dedupe por `session_id` (idempotente). Se ejecuta en el `end` del hook al cerrar sesión. Datos verificados: hit ratio ~0.99 en z.ai GLM y deepseek (CRIT-001: la DB y el ledger son locales).
 
 ## 6. Criterios de aceptación
 
