@@ -89,6 +89,14 @@ Nota: `MEMORY.md` ya NO está en el prefijo (AC-4); se carga bajo demanda.
 
 `opencode.json` `instructions` deja de listar `.claude/external-memory/auto/MEMORY.md`. El acceso a memoria sigue disponible: `scripts/memory-store.sh recall`, auto-prime por turno, y skill `savia-memory`.
 
+### 5.6 Activación en runtime (hooks)
+
+- `.opencode/hooks/cache-hygiene-hook.sh` registrado en `.claude/settings.json`:
+  - `SessionStart` → `start`: snapshot del prefijo + marker `data/.cache-session-active`.
+  - `UserPromptSubmit` → `preturn`: `check` contra el snapshot; si hay mutación escribe en `output/.cache-hygiene.log` (nunca contamina el prompt, exit 0 siempre).
+  - `SessionEnd` → `end`: limpia el marker y regeneración diferida de AGENTS/SKILLS solo si hay drift real (--check → --apply).
+- Los generadores congelan si `SAVIA_SESSION_ACTIVE=1` **o** existe el marker (sesión viva) — SE-371 §5.3 extendido.
+
 ## 6. Criterios de aceptación
 
 - **AC-0** `cache-hygiene.sh snapshot` genera el fichero de snapshot con hashes (test con manifest temporal).

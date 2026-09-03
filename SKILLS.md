@@ -90,6 +90,7 @@ To use a skill: read `<path>` and follow its instructions.
 | onboarding-dev | `.opencode/skills/onboarding-dev/SKILL.md` | Usar cuando se incorpora un desarrollador nuevo al proyecto y necesita buddy IA. |
 | org-meeting-capture | `.opencode/skills/org-meeting-capture/SKILL.md` | Captura de Conocimiento Tácito de Reunión: extrae decisores, acuerdos informales y señales pol... |
 | org-political-landscape | `.opencode/skills/org-political-landscape/SKILL.md` | Análisis de Paisaje Político Interno: detecta tensiones, alianzas y centros de poder a partir d... |
+| org-registrar | `.opencode/skills/org-registrar/SKILL.md` | Gestiona el grafo de entidades organizacionales (Company as Code, SE-365): valida entidades, inde... |
 | org-stakeholder-mapper | `.opencode/skills/org-stakeholder-mapper/SKILL.md` | Mapeador de Stakeholders y Decisores: extrae roles formales y reales, motivaciones, alianzas y te... |
 | orgchart-import | `.opencode/skills/orgchart-import/SKILL.md` | Usar cuando se importa un organigrama para extraer la estructura del equipo. |
 | overnight-sprint | `.opencode/skills/overnight-sprint/SKILL.md` | Usar cuando se quiere ejecutar tareas de bajo riesgo de forma autónoma durante la noche. |
@@ -120,6 +121,7 @@ To use a skill: read `<path>` and follow its instructions.
 | sales-proposal-writer | `.opencode/skills/professional-domain/sales/sales-proposal-writer/SKILL.md` | Redactor de Propuesta Comercial B2B: genera propuestas consultivas personalizadas con índice com... |
 | project-update | `.opencode/skills/project-update/SKILL.md` | Usar cuando se necesita una actualización integral del proyecto activo desde todas las fuentes. |
 | prompt-optimizer | `.opencode/skills/prompt-optimizer/SKILL.md` | Usar cuando se optimiza el prompt de un skill o agente para mejorar su efectividad. |
+| prospectiva-basica | `.opencode/skills/prospectiva-basica/SKILL.md` | Prospectiva sistemica local: micro-MICMAC (variables motrices vs dependientes) y micro-MACTOR (ac... |
 | rbac-management | `.opencode/skills/rbac-management/SKILL.md` | Usar cuando se gestionan roles, permisos o se audita el acceso de usuarios. |
 | reflection-validation | `.opencode/skills/reflection-validation/SKILL.md` | Usar cuando una respuesta o decisión importante necesita validación metacognitiva (System 2). |
 | regulatory-compliance | `.opencode/skills/regulatory-compliance/SKILL.md` | Usar cuando se valida el cumplimiento de marcos regulatorios sectoriales. |
