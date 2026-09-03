@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=d09d64b6cacac6a1d439ada5ca8413b09519cf9e00a885d2ac1eaaf84f94561c
-timestamp=2026-09-03T19:29:50Z
-branch=agent/overnight-20260902-se366-decision-ledger
-head_commit=a57e45c3
-signature=416324b9c03042840b6cc29b530c6cddda1b96d40cac7629b1e5af6249e67a44
+diff_hash=e5cc4840903940254feb321857e16e852fdfabe4b9316af0f1015c1499e44201
+timestamp=2026-09-03T19:39:14Z
+branch=agent/overnight-20260902-se367-derivation-path
+head_commit=b38bd4d0
+signature=8b7146e1b6c41e93606572346c51cdd7d467ab64cccacac0d694f10afd976ed4
