@@ -5,6 +5,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [6.17.11] — 2026-09-03
+
+### Added
+- SE-373 savia setup · modulo workspace: composicion de repos multi-repo (scripts/savia-workspace.sh) — inventario de repos hermanos, mapa de relaciones (heuristica + overrides manuales) y AGENTS.md con lazy-load, registrado en el estado de Savia. Invocable via savia-setup workspace.
+
 ## [6.17.10] — 2026-09-03
 
 ### Added
@@ -13201,6 +13206,7 @@ Initial public release of PM-Workspace.
 
 - **Documentation** with methodology
 
+[6.17.11]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v6.17.10...v6.17.11
 [6.17.10]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v6.17.9...v6.17.10
 [6.17.9]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v6.17.8...v6.17.9
 [6.17.8]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v6.17.7...v6.17.8

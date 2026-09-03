@@ -1,6 +1,6 @@
 # SE-373 — Savia Setup · módulo `workspace`: composición de repos multi-repo para agentes
 
-**Status:** PROPOSED (2026-09-03, para aprobación de la operadora)
+**Status:** APPROVED (2026-09-03, aprobada por la operadora — implementar)
 **Fecha:** 2026-09-03
 **Área:** Setup / Bootstrap / Multi-repo
 **Fuente de inspiración:** MarsBased "Why multi-repo workspaces are a must for Claude Code" (2026-08-25) + análisis Savia 2026-09-03 (digestido en `vaults/SaviaDomains/tecnologia/SFT/multirepo-workspaces-agentes-20260903.md`)
