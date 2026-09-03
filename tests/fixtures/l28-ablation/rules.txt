@@ -1,0 +1,6 @@
+# L28-F1 ablation — Governor rules (deterministic fixture)
+# Format: <allow|deny> <tool>
+# Governor: solo las tools con regla allow pasan el gate; deny bloquea.
+allow build
+allow test
+deny deploy_remote

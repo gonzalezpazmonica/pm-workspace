@@ -1,0 +1,2 @@
+{"event":"tool_exec","tool":"build","args_fp":"2dc9baa237cbcd24","trace_id":"l28fix0000000000000000000000001","span_id":"l28fix00000001"}
+{"event":"tool_exec","tool":"test","args_fp":"a194167585167eec","trace_id":"l28fix0000000000000000000000001","span_id":"l28fix00000002"}
