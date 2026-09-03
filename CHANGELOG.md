@@ -9,6 +9,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 - SE-371 cache hygiene activado en runtime: hook SessionStart (snapshot del prefijo + marker de sesion activa), UserPromptSubmit (deteccion de mutacion del prefijo) y SessionEnd (limpieza + regeneracion diferida). Los auto-regenerados AGENTS/SKILLS se congelan durante sesiones vivas.
+### Fixed
+
+- block-branch-switch-dirty.sh (seguimiento de #1066): la resolución del repo destino tenía tres huecos vistos en prueba real. (1) `cd $VAR && git …` con la variable sin expandir, o un directorio inexistente, dejaba pasar el cambio de rama sin comprobar nada; ahora cae al cwd de la sesión. (2) Cualquier `git -C <dir>` en el comando (p. ej. dentro de un `echo $(...)`) decidía el destino aunque no fuera el del cambio de rama; ahora solo cuenta el `-C` de la propia invocación, y si no lo hay, el último `cd` anterior a ella. (3) La restauración de fichero con `--` no estaba exenta cuando iba precedida de `-C`. También se elimina la línea `0` suelta del mensaje de bloqueo (doble conteo de `grep -c`). 9 tests BATS nuevos (7 en rojo con el hook anterior).
 
 ## [6.17.6] — 2026-09-03
 
