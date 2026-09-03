@@ -227,6 +227,116 @@ setup_clean_repo() {
   cd "$BATS_TEST_DIRNAME/.."
 }
 
+# ── Target repo resolution (bug: hook cwd != command cwd) ──────────
+# The hook runs with cwd = workspace (repo A). When the command targets another
+# repo (cd B && git switch / git -C B switch / session cwd = B), the dirty check
+# MUST run against B, not A.
+# NOTE: assertions use [ ] / grep (not [[ ]]) so they also fail under bash 3.2 (macOS).
+
+setup_second_repo() {
+  OTHER_REPO=$(mktemp -d "$TMPDIR/bbsd-other-XXXXXX")
+  ( cd "$OTHER_REPO" && git init -q -b main 2>/dev/null || git init -q
+    git config user.email "t@t" && git config user.name "t"
+    echo "b" > b.txt && git add b.txt && git commit -qm "init" && git branch feature )
+}
+
+@test "target: cd B && git switch — A dirty, B clean → exits 0" {
+  setup_clean_repo
+  echo "dirty A" > a.txt
+  setup_second_repo
+  run bash "$HOOK_ABS" <<< "{\"tool_input\":{\"command\":\"cd $OTHER_REPO && git switch -c nueva\"}}"
+  [ "$status" -eq 0 ]
+  rm -rf "$OTHER_REPO"
+  cd "$BATS_TEST_DIRNAME/.."
+}
+
+@test "target: cd B && git switch — A clean, B dirty → exits 2" {
+  setup_clean_repo
+  setup_second_repo
+  echo "dirty B" > "$OTHER_REPO/b.txt"
+  run bash "$HOOK_ABS" <<< "{\"tool_input\":{\"command\":\"cd $OTHER_REPO && git switch feature\"}}"
+  [ "$status" -eq 2 ]
+  echo "${output}${stderr:-}" | grep -q "BLOQUEADO"
+  rm -rf "$OTHER_REPO"
+  cd "$BATS_TEST_DIRNAME/.."
+}
+
+@test "target: git -C B switch — A dirty, B clean → exits 0" {
+  setup_clean_repo
+  echo "dirty A" > a.txt
+  setup_second_repo
+  run bash "$HOOK_ABS" <<< "{\"tool_input\":{\"command\":\"git -C $OTHER_REPO switch feature\"}}"
+  [ "$status" -eq 0 ]
+  rm -rf "$OTHER_REPO"
+  cd "$BATS_TEST_DIRNAME/.."
+}
+
+@test "target: git -C B switch — B dirty → exits 2 (git -C is intercepted)" {
+  setup_clean_repo
+  setup_second_repo
+  echo "dirty B" > "$OTHER_REPO/b.txt"
+  run bash "$HOOK_ABS" <<< "{\"tool_input\":{\"command\":\"git -C $OTHER_REPO switch feature\"}}"
+  [ "$status" -eq 2 ]
+  rm -rf "$OTHER_REPO"
+  cd "$BATS_TEST_DIRNAME/.."
+}
+
+@test "target: session cwd = B (hook JSON cwd) — A dirty, B clean → exits 0" {
+  setup_clean_repo
+  echo "dirty A" > a.txt
+  setup_second_repo
+  run bash "$HOOK_ABS" <<< "{\"cwd\":\"$OTHER_REPO\",\"tool_input\":{\"command\":\"git switch feature\"}}"
+  [ "$status" -eq 0 ]
+  rm -rf "$OTHER_REPO"
+  cd "$BATS_TEST_DIRNAME/.."
+}
+
+@test "target: session cwd = B dirty → exits 2 even if hook cwd A is clean" {
+  setup_clean_repo
+  setup_second_repo
+  echo "dirty B" > "$OTHER_REPO/b.txt"
+  run bash "$HOOK_ABS" <<< "{\"cwd\":\"$OTHER_REPO\",\"tool_input\":{\"command\":\"git switch feature\"}}"
+  [ "$status" -eq 2 ]
+  rm -rf "$OTHER_REPO"
+  cd "$BATS_TEST_DIRNAME/.."
+}
+
+@test "target: cd to non-git dir && git switch → exits 0 (nothing to protect)" {
+  setup_clean_repo
+  echo "dirty A" > a.txt
+  NOGIT=$(mktemp -d "$TMPDIR/bbsd-nogit-XXXXXX")
+  run bash "$HOOK_ABS" <<< "{\"tool_input\":{\"command\":\"cd $NOGIT && git switch feature\"}}"
+  [ "$status" -eq 0 ]
+  rm -rf "$NOGIT"
+  cd "$BATS_TEST_DIRNAME/.."
+}
+
+@test "target: block message names the repo that is dirty" {
+  setup_clean_repo
+  setup_second_repo
+  echo "dirty B" > "$OTHER_REPO/b.txt"
+  run bash "$HOOK_ABS" <<< "{\"tool_input\":{\"command\":\"cd $OTHER_REPO && git switch feature\"}}"
+  [ "$status" -eq 2 ]
+  echo "${output}${stderr:-}" | grep -q "Repo:"
+  rm -rf "$OTHER_REPO"
+  cd "$BATS_TEST_DIRNAME/.."
+}
+
+@test "target: SE-300 .pr-summary.md NOT deleted when switching in another repo" {
+  setup_clean_repo
+  setup_second_repo
+  # workspace = dir containing the hook's ../.. (the test checkout)
+  WS="$(cd "$(dirname "$HOOK_ABS")/../.." && pwd -P)"
+  local had=0; [[ -f "$WS/.pr-summary.md" ]] && had=1
+  [[ $had -eq 0 ]] && echo "sentinel" > "$WS/.pr-summary.md"
+  run bash "$HOOK_ABS" <<< "{\"tool_input\":{\"command\":\"cd $OTHER_REPO && git switch feature\"}}"
+  [ "$status" -eq 0 ]
+  [ -f "$WS/.pr-summary.md" ]
+  [[ $had -eq 0 ]] && rm -f "$WS/.pr-summary.md"
+  rm -rf "$OTHER_REPO"
+  cd "$BATS_TEST_DIRNAME/.."
+}
+
 # ── Edge cases ─────────────────────────────────────────
 
 @test "edge: very large dirty tree (>20 files) listed truncated" {
