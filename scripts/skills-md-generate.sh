@@ -43,6 +43,13 @@ done
 
 [[ -d "$SKILLS_DIR" ]] || { echo "ERROR: skills dir not found: $SKILLS_DIR" >&2; exit 3; }
 
+# SE-371: congelación en sesión activa — regenerar SKILLS.md a mitad de una
+# conversación invalida el prefijo de instrucciones (prompt cache).
+if [[ "${MODE:-print}" == "apply" && "${SAVIA_SESSION_ACTIVE:-0}" == "1" ]]; then
+  echo "SKIP: SAVIA_SESSION_ACTIVE=1 — regeneración de SKILLS.md congelada (SE-371)." >&2
+  exit 3
+fi
+
 extract_field() {
   local file="$1" field="$2"
   # SE-333 dual-read: canonical metadata.savia.<field> takes precedence;

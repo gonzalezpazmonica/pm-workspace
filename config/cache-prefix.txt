@@ -1,0 +1,17 @@
+# config/cache-prefix.txt — orden canónico del prefijo de instrucciones (SE-371)
+# Un path por línea. Cada fichero se carga estable en cada turno (OpenCode
+# instructions + Claude Code @imports/CLAUDE.md). El orden NO debe cambiar sin
+# revisión: cualquier mutación a mitad de sesión invalida el prompt cache.
+# NOTA: MEMORY.md NO está en el prefijo (estado mutable, se consolida por save).
+# Regenerado/validado por scripts/cache-hygiene.sh --validate.
+AGENTS.md
+SKILLS.md
+CLAUDE.md
+.claude/profiles/savia.md
+.claude/profiles/active-user.md
+docs/rules/domain/radical-honesty.md
+docs/rules/domain/autonomous-safety.md
+docs/rules/domain/caveman-default.md
+docs/rules/domain/agents-catalog.md
+.claude/CONSTITUCION.md
+docs/critical-facts.md
