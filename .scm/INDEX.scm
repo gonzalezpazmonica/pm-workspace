@@ -1,6 +1,6 @@
 # Savia Capability Map — INDEX
-> hash: 1546afb8237e | resources: 1435
-> 295 commands · 134 skills · 88 agents · 918 scripts
+> hash: cd58ff82ba8c | resources: 1436
+> 295 commands · 134 skills · 88 agents · 919 scripts
 
 [analysis] Trace Optimize — across,distributed,optimize,rates,sampling — cmd:.claude/commands/trace-optimize.md
 [analysis] agent-activity — activity,agent,executions,recent,show — cmd:.claude/commands/agent-activity.md
@@ -81,6 +81,7 @@
 [analysis] vaults-health-report — health,quality,report,vault,vaults — script:scripts/vaults-health-report.sh
 [analysis] weekly-report — estado,informe,proyecto,semanal — skill:.claude/skills/weekly-report/SKILL.md
 [communication] archive-digest —  — agent:.opencode/agents/archive-digest.md
+[communication] contract-pin — contract,digest,pins — script:scripts/contract-pin.sh
 [communication] digest-extract — capa,digest,extracción,extract,markitdown — script:scripts/digest-extract.sh
 [communication] excel-digest —  — agent:.opencode/agents/excel-digest.md
 [communication] glm-compute-digest — compute,computes,digest,governance,json — script:scripts/glm-compute-digest.sh

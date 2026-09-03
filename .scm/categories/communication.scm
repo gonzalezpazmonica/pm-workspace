@@ -1,7 +1,8 @@
 # communication — Savia Capability Map (L1)
-> 104 resources
+> 105 resources
 
 - **archive-digest** (agent): >
+- **contract-pin** (script): contract-pin.sh — SE-369 Contract Digest Pins
 - **digest-extract** (script): digest-extract.sh — Capa 0 universal de extracción via markitdown (SE-172)
 - **excel-digest** (agent): >
 - **glm-compute-digest** (script): glm-compute-digest.sh — Computes SHA-256 of governance-layer-manifest.json
