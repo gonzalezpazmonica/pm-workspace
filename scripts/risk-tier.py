@@ -72,7 +72,7 @@ def classify(files: list[str]) -> dict:
         rationale.append("código normal con tests — riesgo reversible")
 
     # Fail-closed: archivo sin categoría clara → tier 3 (humano, no asume bajo riesgo)
-    KNOWN = TIER_3_PATHS + TIER_4_PATHS + DOCS_PATHS + ("src/", "tests/", ".py", ".ts", ".tsx", ".js", ".go", ".rs", ".sh", ".cs", ".java", ".rb", ".php", ".md", ".scm", "docs/", "README", "CHANGELOG", "REVIEW", "CLAUDE.md", "AGENTS.md", "SKILLS.md")
+    KNOWN = TIER_3_PATHS + TIER_4_PATHS + DOCS_PATHS + ("src/", "tests/", ".py", ".ts", ".tsx", ".js", ".go", ".rs", ".sh", ".cs", ".java", ".rb", ".php", ".md", ".scm", "docs/", "README", "CHANGELOG", "REVIEW", "CLAUDE.md", "AGENTS.md", "SKILLS.md", ".confidentiality-signature")
     unknown = [f for f in files if not any(k in f.lower() for k in KNOWN)]
     if unknown and tier < 3:
         tier = 3
