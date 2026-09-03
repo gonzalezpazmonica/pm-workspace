@@ -227,6 +227,97 @@ setup_clean_repo() {
   cd "$BATS_TEST_DIRNAME/.."
 }
 
+# ── Target resolution edge cases (follow-up to PR #1066) ──────────
+# (a) unexpandable cd target ($VAR) must fall back to the session cwd, never pass through;
+# (b) only the -C of the checkout/switch invocation counts, not a foreign `git -C X status`;
+# (c) `git -C dir checkout -- file` is a restore and is exempt;
+# (d) the last cd before the git invocation wins; (e) no stray "0" line in the block message.
+
+@test "resolution: cd \$UNSET && git switch — session cwd dirty → exits 2 (no pass-through)" {
+  setup_clean_repo
+  echo "dirty A" > a.txt
+  run bash "$HOOK_ABS" <<< "{\"cwd\":\"$TEST_REPO\",\"tool_input\":{\"command\":\"cd \$B && git switch feature\"}}"
+  [ "$status" -eq 2 ]
+  cd "$BATS_TEST_DIRNAME/.."
+}
+
+@test "resolution: cd \$UNSET && git switch — session cwd clean → exits 0" {
+  setup_clean_repo
+  run bash "$HOOK_ABS" <<< "{\"cwd\":\"$TEST_REPO\",\"tool_input\":{\"command\":\"cd \$B && git switch feature\"}}"
+  [ "$status" -eq 0 ]
+  cd "$BATS_TEST_DIRNAME/.."
+}
+
+@test "resolution: cd to non-existent dir && git switch — session cwd dirty → exits 2" {
+  setup_clean_repo
+  echo "dirty A" > a.txt
+  run bash "$HOOK_ABS" <<< "{\"cwd\":\"$TEST_REPO\",\"tool_input\":{\"command\":\"cd /nonexistent/dir/xyz && git switch feature\"}}"
+  [ "$status" -eq 2 ]
+  cd "$BATS_TEST_DIRNAME/.."
+}
+
+@test "resolution: foreign git -C A status before cd B && git switch — A dirty, B clean → exits 0" {
+  setup_clean_repo
+  echo "dirty A" > a.txt
+  setup_second_repo
+  run bash "$HOOK_ABS" <<< "{\"tool_input\":{\"command\":\"echo \$(git -C $TEST_REPO status --short); cd $OTHER_REPO && git switch feature\"}}"
+  [ "$status" -eq 0 ]
+  rm -rf "$OTHER_REPO"
+  cd "$BATS_TEST_DIRNAME/.."
+}
+
+@test "resolution: cd B && git switch; git -C A status after — A dirty, B clean → exits 0" {
+  setup_clean_repo
+  echo "dirty A" > a.txt
+  setup_second_repo
+  run bash "$HOOK_ABS" <<< "{\"tool_input\":{\"command\":\"cd $OTHER_REPO && git switch feature && git -C $TEST_REPO status\"}}"
+  [ "$status" -eq 0 ]
+  rm -rf "$OTHER_REPO"
+  cd "$BATS_TEST_DIRNAME/.."
+}
+
+@test "resolution: git -C B checkout -- file is a restore → exits 0 even with B dirty" {
+  setup_clean_repo
+  setup_second_repo
+  echo "dirty B" > "$OTHER_REPO/b.txt"
+  run bash "$HOOK_ABS" <<< "{\"tool_input\":{\"command\":\"git -C $OTHER_REPO checkout -- b.txt\"}}"
+  [ "$status" -eq 0 ]
+  rm -rf "$OTHER_REPO"
+  cd "$BATS_TEST_DIRNAME/.."
+}
+
+@test "resolution: cd A && cd B && git switch — last cd wins (A dirty, B clean) → exits 0" {
+  setup_clean_repo
+  echo "dirty A" > a.txt
+  setup_second_repo
+  run bash "$HOOK_ABS" <<< "{\"tool_input\":{\"command\":\"cd $TEST_REPO && cd $OTHER_REPO && git switch feature\"}}"
+  [ "$status" -eq 0 ]
+  rm -rf "$OTHER_REPO"
+  cd "$BATS_TEST_DIRNAME/.."
+}
+
+@test "resolution: cd A && cd B && git switch — last cd wins (A clean, B dirty) → exits 2" {
+  setup_clean_repo
+  setup_second_repo
+  echo "dirty B" > "$OTHER_REPO/b.txt"
+  run bash "$HOOK_ABS" <<< "{\"tool_input\":{\"command\":\"cd $TEST_REPO && cd $OTHER_REPO && git switch feature\"}}"
+  [ "$status" -eq 2 ]
+  rm -rf "$OTHER_REPO"
+  cd "$BATS_TEST_DIRNAME/.."
+}
+
+@test "resolution: block message has no stray '0' line (grep -c double count)" {
+  setup_clean_repo
+  echo "modified" > a.txt
+  run bash "$HOOK_ABS" <<< '{"tool_input":{"command":"git checkout feature"}}'
+  [ "$status" -eq 2 ]
+  # `! cmd` is exempt from errexit — count explicitly so the assertion really fails
+  [ "$(echo "${output}${stderr:-}" | grep -cx '0')" -eq 0 ]
+  echo "${output}${stderr:-}" | grep -q "Ficheros modificados: 1"
+  echo "${output}${stderr:-}" | grep -q "Ficheros sin rastrear: 0"
+  cd "$BATS_TEST_DIRNAME/.."
+}
+
 # ── Target repo resolution (bug: hook cwd != command cwd) ──────────
 # The hook runs with cwd = workspace (repo A). When the command targets another
 # repo (cd B && git switch / git -C B switch / session cwd = B), the dirty check
