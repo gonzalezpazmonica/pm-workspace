@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=429d4a4531884faef8943c25f12a9531d7f372b228d8a6e9555a6fba08290bf2
-timestamp=2026-09-03T19:48:47Z
-branch=agent/overnight-20260902-se369-contract-digest-pins
-head_commit=3b8f7933
-signature=8ad21e0b3aec885ac565848ded6433ccb9951e4adddb3c50a07b8d95962dee44
+diff_hash=b28da01b652551f954b16f11a0c6f9bddf731032e34df5993411d167c14feb63
+timestamp=2026-09-03T19:56:18Z
+branch=agent/overnight-20260902-l28-harness-map-ablation
+head_commit=f53bcb4f
+signature=e6009af10a80855220d5cfaaa7a379cb0aba21da4b23177d1adf9d90eb2f656b
