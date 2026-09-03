@@ -1,6 +1,6 @@
 # Savia Capability Map — INDEX
-> hash: 627b3db8d4c3 | resources: 1432
-> 295 commands · 133 skills · 88 agents · 916 scripts
+> hash: 8376740251e4 | resources: 1433
+> 295 commands · 133 skills · 88 agents · 917 scripts
 
 [analysis] Trace Optimize — across,distributed,optimize,rates,sampling — cmd:.claude/commands/trace-optimize.md
 [analysis] agent-activity — activity,agent,executions,recent,show — cmd:.claude/commands/agent-activity.md
@@ -1292,6 +1292,7 @@
 [quality] review-community — community,comunidad,issues,local,only — script:scripts/review-community.sh
 [quality] review-depth-selector — based,depth,review,risk,score — script:scripts/review-depth-selector.sh
 [quality] rule-orphan-detector — audit,detector,orphan,rule,slice — script:scripts/rule-orphan-detector.sh
+[quality] sdd-research-lane — auditable,investigación,lane,research — script:scripts/sdd-research-lane.sh
 [quality] security-attacker —  — agent:.opencode/agents/security-attacker.md
 [quality] security-audit-all — audit,runner,scanners,security,unified — script:scripts/security-audit-all.sh
 [quality] security-auditor —  — agent:.opencode/agents/security-auditor.md
