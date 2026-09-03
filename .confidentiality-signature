@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=a666dd93602afdab39258894eabe8aa9d8d093cd038cb50c7539a27fe399030c
-timestamp=2026-09-03T21:24:20Z
-branch=agent/se371-cache-metrics
-head_commit=28451a4f
-signature=7676cfe76524345d101479e7b23ae1962c432a69431e6a8603db98f4dfa581b5
+diff_hash=b08c84ee913b435791e5f6a37c0d6bfe83d46e32a2f16e23366a89945a15dbfc
+timestamp=2026-09-03T22:40:30Z
+branch=agent/se372-savia-setup
+head_commit=1f0baee0
+signature=432faa95545a6dcf68f9af0c80c2338750c040a03e5159b04e176027f9907235

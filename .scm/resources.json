@@ -1,6 +1,6 @@
 {
-  "hash": "c9fa20e5a965",
-  "total": 1440,
+  "hash": "c71ee31a1740",
+  "total": 1441,
   "resources": [
     {
       "category": "analysis",
@@ -2043,6 +2043,20 @@
       "kind": "cmd",
       "path": ".claude/commands/savia-setup.md",
       "description": ">"
+    },
+    {
+      "category": "communication",
+      "name": "savia-setup",
+      "intents": [
+        "completa",
+        "configuracion",
+        "inicializador",
+        "interactivo",
+        "savia"
+      ],
+      "kind": "script",
+      "path": "scripts/savia-setup.sh",
+      "description": "savia-setup.sh — SE-372: inicializador interactivo de configuracion completa."
     },
     {
       "category": "communication",

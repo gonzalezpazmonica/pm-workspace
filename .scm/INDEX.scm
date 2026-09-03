@@ -1,6 +1,6 @@
 # Savia Capability Map — INDEX
-> hash: d94c77dd4b05 | resources: 1440
-> 295 commands · 134 skills · 88 agents · 923 scripts
+> hash: 2aa6c24fb651 | resources: 1441
+> 295 commands · 134 skills · 88 agents · 924 scripts
 
 [analysis] Trace Optimize — across,distributed,optimize,rates,sampling — cmd:.claude/commands/trace-optimize.md
 [analysis] agent-activity — activity,agent,executions,recent,show — cmd:.claude/commands/agent-activity.md
@@ -160,6 +160,7 @@
 [communication] savia-school-security — access,control,encryption,gdpr,layer — script:scripts/savia-school-security.sh
 [communication] savia-send —  — cmd:.claude/commands/savia-send.md
 [communication] savia-setup —  — cmd:.claude/commands/savia-setup.md
+[communication] savia-setup — completa,configuracion,inicializador,interactivo,savia — script:scripts/savia-setup.sh
 [communication] savia-shield — activar,comprobar,datos,defecto,desactivado — cmd:.claude/commands/savia-shield.md
 [communication] savia-shield-check — check,savia,shield,spec — script:scripts/savia-shield-check.sh
 [communication] savia-shield-setup — instalador,savia,setup,shield — script:scripts/savia-shield-setup.sh

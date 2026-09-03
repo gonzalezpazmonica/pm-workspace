@@ -1,5 +1,5 @@
 # communication — Savia Capability Map (L1)
-> 105 resources
+> 106 resources
 
 - **archive-digest** (agent): >
 - **contract-pin** (script): contract-pin.sh — SE-369 Contract Digest Pins
@@ -81,6 +81,7 @@
 - **savia-school-security** (script): Savia School Security Layer: Encryption, Access Control, GDPR
 - **savia-send** (cmd): >
 - **savia-setup** (cmd): >
+- **savia-setup** (script): savia-setup.sh — SE-372: inicializador interactivo de configuracion completa.
 - **savia-shield** (cmd): Gestión de Savia Shield: activar, desactivar y comprobar instalación del sistema de soberanía de datos. Desactivado por defecto.
 - **savia-shield-check** (script): savia-shield-check.sh — SPEC-OC-01
 - **savia-shield-setup** (script): savia-shield-setup.sh — Instalador de Savia Shield
