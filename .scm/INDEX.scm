@@ -1,6 +1,6 @@
 # Savia Capability Map — INDEX
-> hash: 627b3db8d4c3 | resources: 1432
-> 295 commands · 133 skills · 88 agents · 916 scripts
+> hash: 26ddb1e99d35 | resources: 1434
+> 295 commands · 133 skills · 88 agents · 918 scripts
 
 [analysis] Trace Optimize — across,distributed,optimize,rates,sampling — cmd:.claude/commands/trace-optimize.md
 [analysis] agent-activity — activity,agent,executions,recent,show — cmd:.claude/commands/agent-activity.md
@@ -844,6 +844,7 @@
 [planning] knowledge-graph — conocimiento,construye,consulta,entidades,grafo — skill:.claude/skills/knowledge-graph/SKILL.md
 [planning] knowledge-graph — graph,knowledge,shell,wrapper — script:scripts/knowledge-graph.sh
 [planning] l13-meta-pruebas — determinista,harness,meta,pruebas — script:scripts/l13-meta-pruebas.sh
+[planning] l28-ablation — ablacion,ablation,harness,prueba,sandbox — script:scripts/l28-ablation.sh
 [planning] labs-preregister — hipotesis,labs,preregister,preregistro,savia — script:scripts/labs-preregister.sh
 [planning] language-boundary-check — boundary,check,language,scripts,slice — script:scripts/language-boundary-check.sh
 [planning] learning-autonomy — autonomy,autonomía,consistent,graduada,learning — script:scripts/learning-autonomy.sh
@@ -916,6 +917,7 @@
 [planning] otel-emit — emisor,emit,estándar,eventos,otel — script:scripts/otel-emit.sh
 [planning] oumi-probe — integration,oumi,probe,slice,viability — script:scripts/oumi-probe.sh
 [planning] output-compress — compress,output,stdin,stdout,tool — script:scripts/output-compress.sh
+[planning] overnight-roadmap-runner — loop,overnight,roadmap,runner,sprint — script:scripts/overnight-roadmap-runner.sh
 [planning] overnight-sprint — autónoma,bajo,durante,ejecutar,forma — skill:.claude/skills/overnight-sprint/SKILL.md
 [planning] overnight-sprint-loop — loop,orchestrator,overnight,scripts,sprint — script:scripts/overnight-sprint-loop.sh
 [planning] overnight-sprint-state — loop,management,overnight,scripts,session — script:scripts/overnight-sprint-state.sh
