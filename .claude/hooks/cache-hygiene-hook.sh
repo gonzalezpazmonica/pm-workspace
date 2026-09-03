@@ -49,7 +49,15 @@ case "${1:-}" in
   end)
     rm -f "$MARKER" 2>/dev/null || true
     _deferred_regen
-    _log "end: marker limpio + regeneración diferida"
+    # SE-371 activación: captura automática de métricas de cache al cerrar sesión.
+    # Lee opencode.db local (CRIT-001) con dedupe por session — idempotente y
+    # no-bloqueante; fallos solo se registran en el log.
+    if bash "$_ROOT/scripts/cache-metrics.sh" capture >> "$LOG" 2>&1; then
+      :
+    else
+      _log "capture: error no crítico al ingerir métricas"
+    fi
+    _log "end: marker limpio + regeneración diferida + métricas"
     ;;
   *) exit 0 ;;
 esac

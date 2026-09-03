@@ -139,3 +139,51 @@ PY
     [ ! -f data/.cache-session-active ]
 }
 
+@test "SE-371 AC-10: ingest-opencode lee opencode.db local (fixture) con hit rate esperado" {
+    python3 - "$TMPD/oc.db" <<'PY'
+import sqlite3, sys, time
+p = sys.argv[1]
+con = sqlite3.connect(p)
+con.execute("CREATE TABLE session (id TEXT PRIMARY KEY, model TEXT, tokens_input INTEGER, tokens_output INTEGER, tokens_cache_read INTEGER, tokens_cache_write INTEGER, cost REAL, time_created INTEGER)")
+now = int(time.time() * 1000)
+rows = [
+    ("ses_full_0001", '{"id":"glm-5.3-flash","providerID":"zai-coding-plan"}', 1000, 200, 9000, 0, 0.01, now - 100000),
+    ("ses_full_0002", '{"id":"deepseek-v4-flash","providerID":"deepseek"}', 500, 100, 0, 0, 0.02, now - 80000),
+]
+con.executemany("INSERT INTO session VALUES (?,?,?,?,?,?,?,?)", rows)
+con.commit(); con.close()
+PY
+    export SAVIA_CACHE_METRICS_DIR="$TMPD/metrics.jsonl"
+    run env SAVIA_CACHE_METRICS_DIR="$TMPD/metrics.jsonl" bash scripts/cache-metrics.sh ingest-opencode --db "$TMPD/oc.db"
+    [ "$status" -eq 0 ]
+    echo "$output" | grep -q 'ingested: 2'
+    python3 - "$TMPD/metrics.jsonl" <<'PY'
+import json, sys
+rows = [json.loads(l) for l in open(sys.argv[1]) if l.strip()]
+assert len(rows) == 2, rows
+by = {r["session"]: r for r in rows}
+assert by["ses_full_0001"]["cache_read"] == 9000
+assert by["ses_full_0002"]["cache_read"] == 0
+assert by["ses_full_0001"]["model"] == "zai-coding-plan/glm-5.3-flash"
+print("ok")
+PY
+}
+
+@test "SE-371 AC-10b: ingest-opencode es idempotente (dedupe por session)" {
+    python3 - "$TMPD/oc.db" <<'PY'
+import sqlite3, sys, time
+con = sqlite3.connect(sys.argv[1])
+con.execute("CREATE TABLE session (id TEXT PRIMARY KEY, model TEXT, tokens_input INTEGER, tokens_output INTEGER, tokens_cache_read INTEGER, tokens_cache_write INTEGER, cost REAL, time_created INTEGER)")
+con.execute("INSERT INTO session VALUES (?,?,?,?,?,?,?,?)", ("ses_full_0003", '{"id":"x","providerID":"y"}', 10, 0, 90, 0, 0.0, int(time.time()*1000)))
+con.commit(); con.close()
+PY
+    export SAVIA_CACHE_METRICS_DIR="$TMPD/metrics.jsonl"
+    env SAVIA_CACHE_METRICS_DIR="$TMPD/metrics.jsonl" bash scripts/cache-metrics.sh ingest-opencode --db "$TMPD/oc.db" >/dev/null
+    run env SAVIA_CACHE_METRICS_DIR="$TMPD/metrics.jsonl" bash scripts/cache-metrics.sh ingest-opencode --db "$TMPD/oc.db"
+    echo "$output" | grep -q 'ingested: 0'
+    N=$(wc -l < "$TMPD/metrics.jsonl")
+    [ "$N" -eq 1 ]
+}
+
+
+
