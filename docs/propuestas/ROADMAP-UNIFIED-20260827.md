@@ -68,7 +68,8 @@ empezar ya.
 | Batch 6 — L27 | 🔶 E3/E5 gate PASS + E13 auditor + E14 matriz · **E12 Piloto 1 pendiente (VASS obviado)** | #1033 #1034 |
 | Batch 7 — verticales | ⏳ L24/L25/L12/L9 | — |
 | **Batch 8 — SE-365 Company as Code** | 🔶 estándar de entidades organizacionales (renumerado de SE-265) — en implementación | — |
-| **Batch 9 — SE-366..370 (verificación, temporalidad, contratos)** | 🟡 5 specs PROPOSED (análisis open-source 2026-09-02) — esperan aprobación | — |
+| **Batch 9 — SE-366..370 (verificación, temporalidad, contratos)** | ✅ SE-366 ledger bitemporal (#1069) · SE-367 derivation path (#1070) · SE-369 contract pins (#1072) · SE-370 research lane (#1067) · SE-368 pendiente | #1067 #1069 #1070 #1072 |
+| **Batch 10 — SE-371 cache hygiene (nuevo, 2026-09-03)** | 🔶 spec APPROVED — snapshot prefijo + congelación auto-regenerados + métricas cache locales | — |
 | Track B — SE-347 | 🔶 evaluado **RE-EVALUAR** (S3 bloqueado por modelo local ≥8B) | #1027 |
 | SE-348 activaciones | ✅ vector + Shield NER + router SE-346 + hook FxC · ⏳ sandbox (sudo) · ⏳ modelo ≥8B (hardware) | #1031 |
 

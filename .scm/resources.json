@@ -1,6 +1,6 @@
 {
-  "hash": "60cfffde439c",
-  "total": 1438,
+  "hash": "c9fa20e5a965",
+  "total": 1440,
   "resources": [
     {
       "category": "analysis",
@@ -5891,6 +5891,34 @@
       "kind": "cmd",
       "path": ".claude/commands/cache-analytics.md",
       "description": "Métricas de hit rate, tokens ahorrados, latencia, ahorro de costes"
+    },
+    {
+      "category": "memory",
+      "name": "cache-hygiene",
+      "intents": [
+        "cache",
+        "caching",
+        "disciplina",
+        "hygiene",
+        "prefijo"
+      ],
+      "kind": "script",
+      "path": "scripts/cache-hygiene.sh",
+      "description": "cache-hygiene.sh — SE-371: disciplina de prefijo para prompt caching."
+    },
+    {
+      "category": "memory",
+      "name": "cache-metrics",
+      "intents": [
+        "cache",
+        "ledger",
+        "local",
+        "metrics",
+        "métricas"
+      ],
+      "kind": "script",
+      "path": "scripts/cache-metrics.sh",
+      "description": "cache-metrics.sh — SE-371: ledger local de métricas de prompt cache."
     },
     {
       "category": "memory",

@@ -1,6 +1,6 @@
 # Savia Capability Map — INDEX
-> hash: ae5a60dcd888 | resources: 1438
-> 295 commands · 134 skills · 88 agents · 921 scripts
+> hash: d94c77dd4b05 | resources: 1440
+> 295 commands · 134 skills · 88 agents · 923 scripts
 
 [analysis] Trace Optimize — across,distributed,optimize,rates,sampling — cmd:.claude/commands/trace-optimize.md
 [analysis] agent-activity — activity,agent,executions,recent,show — cmd:.claude/commands/agent-activity.md
@@ -445,6 +445,8 @@
 [governance] vertical-legal — compliance,contract,ediscovery,extensión,gdpr — cmd:.claude/commands/vertical-legal.md
 [memory] auto-compact — auto,automáticamente,compact,contexto,disparado — script:scripts/auto-compact.sh
 [memory] cache-analytics — ahorrados,ahorro,costes,latencia,métricas — cmd:.claude/commands/cache-analytics.md
+[memory] cache-hygiene — cache,caching,disciplina,hygiene,prefijo — script:scripts/cache-hygiene.sh
+[memory] cache-metrics — cache,ledger,local,metrics,métricas — script:scripts/cache-metrics.sh
 [memory] changelog-consolidate — changelog,consolidate,fragments — script:scripts/changelog-consolidate.sh
 [memory] changelog-consolidate-if-needed — automation,changelog,consolidate,merge,needed — script:scripts/changelog-consolidate-if-needed.sh
 [memory] coherence-court-orchestrator — applies,coherence,consolidates,convenes,court — agent:.opencode/agents/coherence-court-orchestrator.md

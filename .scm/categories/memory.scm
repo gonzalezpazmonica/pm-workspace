@@ -1,8 +1,10 @@
 # memory — Savia Capability Map (L1)
-> 110 resources
+> 112 resources
 
 - **auto-compact** (script): auto-compact.sh — Disparado automáticamente cuando contexto > 85%
 - **cache-analytics** (cmd): Métricas de hit rate, tokens ahorrados, latencia, ahorro de costes
+- **cache-hygiene** (script): cache-hygiene.sh — SE-371: disciplina de prefijo para prompt caching.
+- **cache-metrics** (script): cache-metrics.sh — SE-371: ledger local de métricas de prompt cache.
 - **changelog-consolidate** (script): changelog-consolidate.sh — consolidate CHANGELOG.d/*.md fragments into
 - **changelog-consolidate-if-needed** (script): changelog-consolidate-if-needed.sh — SE-053 Slice 1 post-merge automation.
 - **coherence-court-orchestrator** (agent): Convenes the Coherence Court, consolidates .coherence.crc, applies human gate

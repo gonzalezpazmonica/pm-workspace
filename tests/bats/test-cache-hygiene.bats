@@ -1,0 +1,122 @@
+#!/usr/bin/env bats
+# SE-371 — Cache Hygiene + Métricas (AC-0..AC-7)
+# Ref: docs/specs/SE-371-cache-hygiene.spec.md
+# CRIT-001: todo local; snapshots y ledger temporales en /tmp.
+
+CH="bash scripts/cache-hygiene.sh"
+CM="bash scripts/cache-metrics.sh"
+
+setup() {
+    TMPD="$(mktemp -d)"
+    # manifest temporal con un fichero controlado
+    echo "data/cache-test-prefix/alpha.md" > "$TMPD/manifest.txt"
+    echo "data/cache-test-prefix/beta.md" >> "$TMPD/manifest.txt"
+    mkdir -p "data/cache-test-prefix"
+    echo "alpha v1" > data/cache-test-prefix/alpha.md
+    echo "beta v1" > data/cache-test-prefix/beta.md
+}
+
+teardown() {
+    rm -rf "$TMPD" data/cache-test-prefix data/cache-metrics.test.jsonl
+}
+
+@test "SE-371 AC-0: snapshot genera fichero con hashes" {
+    env CACHE_PREFIX_MANIFEST="$TMPD/manifest.txt" bash scripts/cache-hygiene.sh snapshot --out "$TMPD/snap.txt"
+    grep -q "alpha.md" "$TMPD/snap.txt"
+    grep -q "beta.md" "$TMPD/snap.txt"
+    grep -qE 'alpha\.md [0-9a-f]{64}$' "$TMPD/snap.txt"
+}
+
+@test "SE-371 AC-1: check limpio → exit 0" {
+    env CACHE_PREFIX_MANIFEST="$TMPD/manifest.txt" bash scripts/cache-hygiene.sh snapshot --out "$TMPD/snap.txt" >/dev/null
+    run env CACHE_PREFIX_MANIFEST="$TMPD/manifest.txt" bash scripts/cache-hygiene.sh check --out "$TMPD/snap.txt"
+    [ "$status" -eq 0 ]
+    echo "$output" | grep -q 'estable'
+}
+
+@test "SE-371 AC-1b: check detecta mutacion del prefijo → exit 1" {
+    env CACHE_PREFIX_MANIFEST="$TMPD/manifest.txt" bash scripts/cache-hygiene.sh snapshot --out "$TMPD/snap.txt" >/dev/null
+    echo "alpha v2 mutada" > data/cache-test-prefix/alpha.md
+    run env CACHE_PREFIX_MANIFEST="$TMPD/manifest.txt" bash scripts/cache-hygiene.sh check --out "$TMPD/snap.txt"
+    [ "$status" -eq 1 ]
+    echo "$output" | grep -q 'MUTATED data/cache-test-prefix/alpha.md'
+}
+
+@test "SE-371 AC-2: --validate falla si un path del manifest no existe" {
+    echo "docs/no-existe-ya.md" >> "$TMPD/manifest.txt"
+    run env CACHE_PREFIX_MANIFEST="$TMPD/manifest.txt" bash scripts/cache-hygiene.sh --validate
+    [ "$status" -eq 1 ]
+    echo "$output" | grep -q 'path inexistente'
+}
+
+@test "SE-371 AC-2b: --validate pasa con manifest real coherente" {
+    run bash scripts/cache-hygiene.sh --validate
+    [ "$status" -eq 0 ]
+    echo "$output" | grep -q 'validate: OK'
+}
+
+@test "SE-371 AC-3: auto-regeneradores congelados con SAVIA_SESSION_ACTIVE=1" {
+    cp AGENTS.md "$TMPD/AGENTS.before"
+    run env SAVIA_SESSION_ACTIVE=1 bash scripts/agents-md-generate.sh --apply
+    [ "$status" -eq 3 ]
+    echo "$output" | grep -q 'congelada'
+    cp "$TMPD/AGENTS.before" AGENTS.md  # restaurar por si acaso
+}
+
+@test "SE-371 AC-3b: skills-md-generate congelado con SAVIA_SESSION_ACTIVE=1" {
+    cp SKILLS.md "$TMPD/SKILLS.before"
+    run env SAVIA_SESSION_ACTIVE=1 bash scripts/skills-md-generate.sh --apply
+    [ "$status" -eq 3 ]
+    cp "$TMPD/SKILLS.before" SKILLS.md
+}
+
+@test "SE-371 AC-3c: sin SAVIA_SESSION_ACTIVE regeneran normal (exit 0)" {
+    run bash scripts/agents-md-generate.sh --check
+    [ "$status" -eq 0 ]
+}
+
+@test "SE-371 AC-4: MEMORY.md fuera del prefijo de opencode.json" {
+    run bash -c "grep -q 'external-memory/auto/MEMORY.md' opencode.json"
+    [ "$status" -eq 1 ]
+    run bash -c "grep -vE '^[[:space:]]*#|^$' config/cache-prefix.txt | grep -q 'MEMORY.md'"
+    [ "$status" -eq 1 ]
+}
+
+@test "SE-371 AC-5: cache-metrics record+report agregan hit rate esperado" {
+    export SAVIA_CACHE_METRICS_DIR="$TMPD/metrics.jsonl"
+    $CM record --model glm --input 100 --cache-read 900 --cache-creation 100 --session s1 >/dev/null
+    $CM record --model glm --input 100 --cache-read 900 --cache-creation 100 --session s1 >/dev/null
+    $CM record --model dsv --input 100 --cache-read 0 --cache-creation 0 --session s2 >/dev/null
+    run $CM report
+    [ "$status" -eq 0 ]
+    HR=$(echo "$output" | python3 -c "import json,sys; print(json.load(sys.stdin)['cache_hit_ratio'])")
+    python3 -c "assert abs(float('$HR') - 0.8571) < 0.001, '$HR'"
+}
+
+@test "SE-371 AC-6: record --usage-json traduce formato Anthropic" {
+    export SAVIA_CACHE_METRICS_DIR="$TMPD/metrics.jsonl"
+    $CM record --usage-json '{"input_tokens":50,"cache_read_input_tokens":450,"cache_creation_input_tokens":10}' --model glm --session s1 >/dev/null
+    python3 - "$TMPD/metrics.jsonl" <<'PY'
+import json, sys
+r = json.loads([l for l in open(sys.argv[1]) if l.strip()][0])
+assert r["input"] == 50 and r["cache_read"] == 450 and r["cache_creation"] == 10, r
+print("ok")
+PY
+}
+
+@test "SE-371: cache-metrics --validate OK y detecta linea mala" {
+    export SAVIA_CACHE_METRICS_DIR="$TMPD/metrics.jsonl"
+    $CM record --model glm --input 1 --cache-read 0 --cache-creation 0 >/dev/null
+    run $CM --validate
+    [ "$status" -eq 0 ]
+    echo '{"model": 5}' >> "$TMPD/metrics.jsonl"
+    run $CM --validate
+    [ "$status" -eq 1 ]
+}
+
+@test "SE-371 AC-7: suites de regresion verdes" {
+    run bats tests/bats/test-se355-audit-receipts.bats
+    [ "$status" -eq 0 ]
+    run bats tests/bats/test-se364-evidence-loop.bats
+    [ "$status" -eq 0 ]
+}

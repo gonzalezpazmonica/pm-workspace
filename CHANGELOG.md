@@ -5,6 +5,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [6.17.6] — 2026-09-03
+
+### Added
+- SE-371 Cache Hygiene: snapshot/check del prefijo de instrucciones, congelacion de auto-regenerados AGENTS/SKILLS en sesion activa, ledger local de metricas de cache (hit rate) y MEMORY.md fuera del prefijo.
+
 ## [6.17.5] — 2026-09-03
 
 ### Added
@@ -13176,6 +13181,7 @@ Initial public release of PM-Workspace.
 
 - **Documentation** with methodology
 
+[6.17.6]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v6.17.5...v6.17.6
 [6.17.5]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v6.17.4...v6.17.5
 [6.17.4]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v6.17.3...v6.17.4
 [6.17.3]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v6.17.2...v6.17.3
