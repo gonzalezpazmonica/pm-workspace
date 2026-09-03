@@ -1,6 +1,6 @@
 {
-  "hash": "a8dc51449f2d",
-  "total": 1435,
+  "hash": "a99e73237393",
+  "total": 1436,
   "resources": [
     {
       "category": "analysis",
@@ -1063,6 +1063,18 @@
       "kind": "agent",
       "path": ".opencode/agents/archive-digest.md",
       "description": ">"
+    },
+    {
+      "category": "communication",
+      "name": "contract-pin",
+      "intents": [
+        "contract",
+        "digest",
+        "pins"
+      ],
+      "kind": "script",
+      "path": "scripts/contract-pin.sh",
+      "description": "contract-pin.sh — SE-369 Contract Digest Pins"
     },
     {
       "category": "communication",
