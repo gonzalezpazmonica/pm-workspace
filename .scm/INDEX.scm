@@ -1,6 +1,6 @@
 # Savia Capability Map — INDEX
-> hash: 627b3db8d4c3 | resources: 1432
-> 295 commands · 133 skills · 88 agents · 916 scripts
+> hash: afbc32ef011d | resources: 1434
+> 295 commands · 134 skills · 88 agents · 917 scripts
 
 [analysis] Trace Optimize — across,distributed,optimize,rates,sampling — cmd:.claude/commands/trace-optimize.md
 [analysis] agent-activity — activity,agent,executions,recent,show — cmd:.claude/commands/agent-activity.md
@@ -334,6 +334,7 @@
 [development] priority/roadmap-priority-report — priority,report,roadmap,slice,spec — script:scripts/priority/roadmap-priority-report.sh
 [development] priority/validate-spec-frontmatter — frontmatter,slice,spec,validate — script:scripts/priority/validate-spec-frontmatter.sh
 [development] prompt-suggestion-engine — driven,engine,optimization,phase,prompt — script:scripts/prompt-suggestion-engine.sh
+[development] prospectiva-basica — actores,acuerdo,alianzas,analiza,dependientes — skill:.claude/skills/prospectiva-basica/SKILL.md
 [development] reaction-engine — engine,phase,reaction,spec — script:scripts/reaction-engine.sh
 [development] rebuild-folder-indexes — folder,indexes,rebuild — script:scripts/rebuild-folder-indexes.sh
 [development] recommendation-tribunal/aggregate — aggregate,aggregation,deterministic,judge,slice — script:scripts/recommendation-tribunal/aggregate.sh
@@ -1292,6 +1293,7 @@
 [quality] review-community — community,comunidad,issues,local,only — script:scripts/review-community.sh
 [quality] review-depth-selector — based,depth,review,risk,score — script:scripts/review-depth-selector.sh
 [quality] rule-orphan-detector — audit,detector,orphan,rule,slice — script:scripts/rule-orphan-detector.sh
+[quality] sdd-research-lane — auditable,investigación,lane,research — script:scripts/sdd-research-lane.sh
 [quality] security-attacker —  — agent:.opencode/agents/security-attacker.md
 [quality] security-audit-all — audit,runner,scanners,security,unified — script:scripts/security-audit-all.sh
 [quality] security-auditor —  — agent:.opencode/agents/security-auditor.md
