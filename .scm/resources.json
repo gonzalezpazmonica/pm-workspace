@@ -1,6 +1,6 @@
 {
-  "hash": "c71ee31a1740",
-  "total": 1441,
+  "hash": "3f7d109856b7",
+  "total": 1442,
   "resources": [
     {
       "category": "analysis",
@@ -2303,6 +2303,20 @@
       "kind": "script",
       "path": "scripts/savia-watchdog.sh",
       "description": "savia-watchdog.sh — Emergency fallback: detect internet loss, activate local LLM"
+    },
+    {
+      "category": "communication",
+      "name": "savia-workspace",
+      "intents": [
+        "agentes",
+        "composicion",
+        "multi",
+        "repo",
+        "repos"
+      ],
+      "kind": "script",
+      "path": "scripts/savia-workspace.sh",
+      "description": "savia-workspace.sh — SE-373: composicion de repos multi-repo para agentes."
     },
     {
       "category": "communication",

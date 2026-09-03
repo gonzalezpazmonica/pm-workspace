@@ -32,6 +32,7 @@ while [[ $# -gt 0 ]]; do
     --help|-h) sed -n '2,22p' "$0" | sed 's/^# \{0,1\}//'; exit 0 ;;
     --check) MODE=check; shift ;;
     identity|models|mcp|vaults|federation|backends|autonomy) MODULE="$1"; shift ;;
+    workspace) shift; exec "$SCRIPT_DIR/savia-workspace.sh" "$@" ;;
     all) MODULE=all; shift ;;
     *) echo "uso invalido: $1" >&2; exit 2 ;;
   esac
@@ -104,6 +105,7 @@ cmd_check(){
   printf '%-14s %s\n' "mcp" "$(python3 -c "import json;d=json.load(open('$OPENCODE_JSON'));print(','.join(k for k,v in (d.get('mcp') or {}).items() if v.get('enabled')!=False) or 'ninguno')" 2>/dev/null)"
   printf '%-14s %s\n' "vaults" "$(ls "$VAULTS_ROOT" 2>/dev/null | grep -vE '^(INDEX|MAP|\.)' | tr '\n' ' ')"
   printf '%-14s %s\n' "federation" "$([ -f "$VAULTS_ROOT/.federation.json" ] && echo on || echo off)"
+  printf '%-14s %s\n' "workspaces" "$(python3 -c "import json,os;d=json.load(open('$STATE_FILE')) if os.path.exists('$STATE_FILE') else {};ws=d.get('workspaces') or {};print(', '.join(os.path.basename(k) for k in ws) or 'ninguno')" 2>/dev/null)"
   exit 0
 }
 

@@ -1,6 +1,6 @@
 # Savia Capability Map — INDEX
-> hash: 2aa6c24fb651 | resources: 1441
-> 295 commands · 134 skills · 88 agents · 924 scripts
+> hash: 97b9ec700875 | resources: 1442
+> 295 commands · 134 skills · 88 agents · 925 scripts
 
 [analysis] Trace Optimize — across,distributed,optimize,rates,sampling — cmd:.claude/commands/trace-optimize.md
 [analysis] agent-activity — activity,agent,executions,recent,show — cmd:.claude/commands/agent-activity.md
@@ -181,6 +181,7 @@
 [communication] savia-voice-speak — savia,slice,speak,voice — script:scripts/savia-voice-speak.sh
 [communication] savia-watch — activity,feed,live,savia,watch — script:scripts/savia-watch.sh
 [communication] savia-watchdog — activate,detect,emergency,fallback,internet — script:scripts/savia-watchdog.sh
+[communication] savia-workspace — agentes,composicion,multi,repo,repos — script:scripts/savia-workspace.sh
 [communication] transcriptor-digest — capturadas,capturas,carpetas,detectan,digerir — skill:.claude/skills/transcriptor-digest/SKILL.md
 [communication] transcriptor-mark-digested — digerida,digested,marcar,mark,reunion — script:scripts/transcriptor-mark-digested.sh
 [communication] voice-inbox — acciones,convertirlos,mensajes,procesan,transcribirlos — skill:.claude/skills/voice-inbox/SKILL.md
