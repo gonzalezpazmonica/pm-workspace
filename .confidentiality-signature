@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=49de87c33994ac75c015bcac53ede6c3d29cecff525c96c6f310b33a170c9beb
-timestamp=2026-09-03T23:24:14Z
-branch=agent/se373-workspace-spec
-head_commit=f7cbc830
-signature=78196fd2f3d7ccb4519480b2dbe95fdd363fbaa3068dfd40d4bea968625b3c3f
+diff_hash=06b80a99178074074a6215b5a2eb3e3b16037864a54277ce0a9a5a6ec2f9a0c8
+timestamp=2026-09-04T11:04:48Z
+branch=agent/obscura-20260904-native-browser
+head_commit=160915e9
+signature=f1c0b3650577949a53806567dc799be6c1d73c83855f4e8804330118ab80e090
