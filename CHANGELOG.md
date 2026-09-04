@@ -13211,6 +13211,7 @@ Initial public release of PM-Workspace.
 
 - **Documentation** with methodology
 
+[6.17.12]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v6.17.11...v6.17.12
 [6.17.11]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v6.17.10...v6.17.11
 [6.17.10]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v6.17.9...v6.17.10
 [6.17.9]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v6.17.8...v6.17.9

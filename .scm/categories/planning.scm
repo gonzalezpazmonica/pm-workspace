@@ -1,5 +1,5 @@
 # planning — Savia Capability Map (L1)
-> 623 resources
+> 624 resources
 
 - **/decide-architecture** (cmd): Clasifica una tarea como WORKFLOW (deterministica) o AGENT (loop). Bias hacia workflow per Anthropic. Sugiere plantilla inicial. Mide accuracy contra corpus curado de 20 tareas.
 - **_template** (skill): TEMPLATE — copia este directorio para crear una skill nueva. NO se carga en runtime.
@@ -317,7 +317,7 @@
 - **lib/mock-env** (script): mock-env.sh — Reusable mock environment library for pm-workspace scripts
 - **lib/os-detect** (script): scripts/lib/os-detect.sh — Portable OS detection and path defaults
 - **lib/slm-common** (script): slm-common.sh — Shared helpers for SLM subcommands (SE-049 Slice 1).
-- **lightpanda-browser** (skill): Usar cuando se necesita navegacion web headless avanzada (JS-heavy sites, SPAs, extraccion markdown de URLs, web scraping que requiere renderizado JS). Triggers: 'navega a', 'extrae contenido de', 'scrapea', 'renderiza esta pagina', 'dump m
+- **lightpanda-browser** (skill): DEPRECATED 2026-09-04 — sustituida por obscura-browser. No usar en casos nuevos. Se conserva como referencia histórica: Obscura gana en licencia (Apache-2.0 vs AGPL), telemetría (cero vs ON por defecto) y recursos (41MB RAM).
 - **llms-txt-generate** (script): llms-txt-generate.sh — Genera docs/llms.txt y docs/llms-full.txt (SE-269 S5)
 - **loop-budget-check** (script): scripts/loop-budget-check.sh
 - **loop-run-log** (script): loop-run-log.sh — CLI para gestión del run-log append-only de skills autónomas
@@ -349,6 +349,7 @@
 - **nuclei-scanning** (skill): Usar cuando se escanean vulnerabilidades conocidas (CVEs, misconfigs) con Nuclei.
 - **objective-contract** (script): objective-contract.sh — SE-273 S7: Objetivo delegado con antagonista obligatorio
 - **obs-status** (cmd): Health check de todas las fuentes de observabilidad conectadas
+- **obscura-browser** (skill): Navegador headless nativo de Savia para fetch/scrape (Rust, sin Chromium, 41MB RAM, sin telemetria). Usar cuando se navega a, se extrae contenido de, se scrapea, se renderiza JS, o se necesita CDP/MCP headless. NO para e2e (usar Playwright)
 - **ollama-classify** (script): ollama-classify.sh — Clasificacion local de texto con Ollama
 - **ollama-hardware-check** (script): ── ollama-hardware-check.sh ─────────────────────────────────────────────────
 - **onboard** (cmd): >

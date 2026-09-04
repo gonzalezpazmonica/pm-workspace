@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
 diff_hash=64eebf60675b9e9a14704fcd0dae2d8ddc98d24921e00178134a8c973ea477b3
-timestamp=2026-09-04T11:07:18Z
+timestamp=2026-09-04T12:02:39Z
 branch=agent/obscura-20260904-native-browser
-head_commit=14499b78
+head_commit=0f0489fd
 signature=4448dd6a50c73508040fd7a3ef4ef131ae42cfcf1723c19f04eda45780be4be0
