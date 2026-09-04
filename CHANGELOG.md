@@ -5,6 +5,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [6.17.12] — 2026-09-04
+
+### Added
+- Obscura como motor de navegador headless nativo de Savia para fetch/scrape (skill obscura-browser): Rust, Apache-2.0, sin Chromium, ~41MB RAM, sin telemetria propia. Adoptado tras benchmark vs Playwright (output/research/obscura-vs-playwright-20260904.md). Depreca lightpanda-browser (AGPL no-bundlable, telemetria ON). Playwright+Chromium se conservan para e2e. Fork referenciado en ~/tools/obscura (upstream h4ckf0r0day/obscura, CRIT-001).
+
 ## [6.17.11] — 2026-09-03
 
 ### Added
@@ -13206,6 +13211,7 @@ Initial public release of PM-Workspace.
 
 - **Documentation** with methodology
 
+[6.17.12]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v6.17.11...v6.17.12
 [6.17.11]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v6.17.10...v6.17.11
 [6.17.10]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v6.17.9...v6.17.10
 [6.17.9]: https://github.com/gonzalezpazmonica/pm-workspace/compare/v6.17.8...v6.17.9

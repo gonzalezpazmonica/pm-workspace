@@ -1,6 +1,6 @@
 # Savia Capability Map — INDEX
-> hash: 97b9ec700875 | resources: 1442
-> 295 commands · 134 skills · 88 agents · 925 scripts
+> hash: dfb6fa3a894a | resources: 1443
+> 295 commands · 135 skills · 88 agents · 925 scripts
 
 [analysis] Trace Optimize — across,distributed,optimize,rates,sampling — cmd:.claude/commands/trace-optimize.md
 [analysis] agent-activity — activity,agent,executions,recent,show — cmd:.claude/commands/agent-activity.md
@@ -873,7 +873,7 @@
 [planning] lib/mock-env — environment,library,mock,reusable,scripts — script:scripts/lib/mock-env.sh
 [planning] lib/os-detect — defaults,detect,detection,path,portable — script:scripts/lib/os-detect.sh
 [planning] lib/slm-common — common,helpers,shared,slice,subcommands — script:scripts/lib/slm-common.sh
-[planning] lightpanda-browser — avanzada,contenido,dump,extraccion,extrae — skill:.claude/skills/lightpanda-browser/SKILL.md
+[planning] lightpanda-browser — agpl,apache,browser,casos,cero — skill:.claude/skills/lightpanda-browser/SKILL.md
 [planning] llms-txt-generate — docs,full,generate,llms — script:scripts/llms-txt-generate.sh
 [planning] loop-budget-check — budget,check,loop,scripts — script:scripts/loop-budget-check.sh
 [planning] loop-run-log — append,autónomas,gestión,loop,only — script:scripts/loop-run-log.sh
@@ -905,6 +905,7 @@
 [planning] nuclei-scanning — conocidas,cves,escanean,misconfigs,nuclei — skill:.claude/skills/nuclei-scanning/SKILL.md
 [planning] objective-contract — antagonista,contract,delegado,objective,objetivo — script:scripts/objective-contract.sh
 [planning] obs-status — check,conectadas,fuentes,health,observabilidad — cmd:.claude/commands/obs-status.md
+[planning] obscura-browser — chromium,contenido,extrae,fetch,headless — skill:.claude/skills/obscura-browser/SKILL.md
 [planning] ollama-classify — clasificacion,classify,local,ollama,texto — script:scripts/ollama-classify.sh
 [planning] ollama-hardware-check — check,hardware,ollama — script:scripts/ollama-hardware-check.sh
 [planning] onboard —  — cmd:.claude/commands/onboard.md
