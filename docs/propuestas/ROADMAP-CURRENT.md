@@ -8,3 +8,4 @@
 - SE-383 [APPROVED] Harness Adversarial / Chaos Suite — evidencia: n/a
 - SE-384 [APPROVED] Savia Self-Evolution Benchmark (pilot) — evidencia: PR #1086 (runner+3 pilotos) + dataset ampliado a 20 tareas en PR en curso
 - SE-385 [IMPLEMENTING] LinkedIn Integration — Social Networks Agent + LinkedIn Skill — evidencia: PR en curso (MVP1: agent+skill+import+digest+status+tests 4/4); feasibility GO-partial en docs/propuestas/SE-385-feasibility.md
+- SE-386 [IMPLEMENTING] Constitutional Runtime Contracts (LAWS + Capability Contracts + Safety Metadata) — evidencia: PR en curso (F1+F2 MVP: laws+registry+descriptors+checks)

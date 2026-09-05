@@ -82,6 +82,14 @@
       "title": "Constitutional Runtime Contracts (LAWS + Capability Contracts + Safety Metadata)",
       "note": "persistida 2026-09-05; renumerada de SE-265 (ocupado). Implementar F1+F2 tras aprobacion",
       "evidence": "PR en curso (F1+F2 MVP: laws+registry+descriptors+checks)"
+    },
+    {
+      "id": "SE-387",
+      "status": "PROPOSED",
+      "approval": "(pendiente)",
+      "priority": "P0",
+      "title": "Coherence Closure Program (umbrella: gates graduation, constitutional L4, harness F2-F5, eval/debt burn-down, generated truth, entropy v1, benchmark)",
+      "note": "persistida 2026-09-05; gap matrix en spec §0; implementar por frentes tras aprobacion"
     }
   ]
 }
