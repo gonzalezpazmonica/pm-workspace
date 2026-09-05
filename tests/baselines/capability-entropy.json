@@ -1,14 +1,14 @@
 {
   "components": {
-    "active_capabilities": 1446,
+    "active_capabilities": 1453,
     "dependency_edges": 0,
     "exception_count": 0,
     "manual_sync_surfaces": 4,
     "mirror_pairs": 0,
-    "overlap_pairs": 165,
+    "overlap_pairs": 166,
     "routing_ambiguity": 0
   },
-  "entropy": 1615,
+  "entropy": 1623,
   "entropy_version": 0,
   "weights": "all-1.0-provisional"
 }
