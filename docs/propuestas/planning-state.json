@@ -73,6 +73,14 @@
       "title": "LinkedIn Integration — Social Networks Agent + LinkedIn Skill",
       "note": "implementación en cola tras SE-383/384; primer paso: feasibility probe §38",
       "evidence": "PR en curso (MVP1: agent+skill+import+digest+status+tests 4/4); feasibility GO-partial en docs/propuestas/SE-385-feasibility.md"
+    },
+    {
+      "id": "SE-386",
+      "status": "PROPOSED",
+      "approval": "(pendiente)",
+      "priority": "P1",
+      "title": "Constitutional Runtime Contracts (LAWS + Capability Contracts + Safety Metadata)",
+      "note": "persistida 2026-09-05; renumerada de SE-265 (ocupado). Implementar F1+F2 tras aprobacion"
     }
   ]
 }
