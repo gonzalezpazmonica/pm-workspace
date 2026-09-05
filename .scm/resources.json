@@ -1,6 +1,6 @@
 {
-  "hash": "87355d4fb9f0",
-  "total": 1443,
+  "hash": "37ed78818a71",
+  "total": 1444,
   "resources": [
     {
       "category": "analysis",
@@ -16354,6 +16354,20 @@
       "kind": "skill",
       "path": ".claude/skills/grill-me/SKILL.md",
       "description": "Adversarial review that hunts every weakness, assumption, edge case, and missing test. Opponent mode — finds what will break before it breaks in production. Use when merging, when reviewing security-critical code, or when the solution feels"
+    },
+    {
+      "category": "quality",
+      "name": "guardrail-audit",
+      "intents": [
+        "audit",
+        "auditoría",
+        "cumplimiento",
+        "guardrail",
+        "principio"
+      ],
+      "kind": "script",
+      "path": "scripts/guardrail-audit.sh",
+      "description": "guardrail-audit.sh — SE-374: Auditoría de cumplimiento del principio Guardrail"
     },
     {
       "category": "quality",
