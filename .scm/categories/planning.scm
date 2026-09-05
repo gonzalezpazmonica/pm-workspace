@@ -1,5 +1,5 @@
 # planning — Savia Capability Map (L1)
-> 624 resources
+> 625 resources
 
 - **/decide-architecture** (cmd): Clasifica una tarea como WORKFLOW (deterministica) o AGENT (loop). Bias hacia workflow per Anthropic. Sugiere plantilla inicial. Mide accuracy contra corpus curado de 20 tareas.
 - **_template** (skill): TEMPLATE — copia este directorio para crear una skill nueva. NO se carga en runtime.
@@ -435,6 +435,7 @@
 - **relacion-capture** (script): scripts/relacion-capture.sh — SE-255 Slice 3
 - **relacion-detect-conflicts** (script): scripts/relacion-detect-conflicts.sh — SE-256 Slice 2
 - **release-backfill** (script): release-backfill.sh — Create missing GitHub releases from git tags
+- **release-invariants** (script): release-invariants.sh — SE-379: hace imposibles en CI las inconsistencias públicas básicas.
 - **repos-list** (cmd): >
 - **reranker** (skill): Usar cuando se recibe un top-K ruidoso de búsqueda en memoria y se necesita reordenar por relevancia.
 - **reranker-probe** (script): reranker-probe.sh — SE-032 Slice 1 reranker viability probe.

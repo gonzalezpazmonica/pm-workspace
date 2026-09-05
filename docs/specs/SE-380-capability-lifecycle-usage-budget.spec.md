@@ -1,6 +1,6 @@
 # SE-380 — Capability Lifecycle, Usage & Complexity Budget
 
-**Estado:** PROPOSED (pendiente de aprobación humana — Fase E, audit GPT-5.6 2026-09-05)
+**Estado:** APPROVED — Mónica (operadora), 2026-09-05: "Apruebo todas, implementa, pr y merge"
 **Prioridad:** P1 · **Developer Type:** agent-team · **Context Risk:** high
 **Origen:** auditoría externa §11 + §16 (Entropy) + §17 (Usage Telemetry) + §18 (Advisor) — consolidadas tras reconciliación
 
@@ -73,7 +73,9 @@ Candidatos MERGE / DELETE / GENERALIZE / RENAME / ALIAS / DEPRECATE consumiendo 
 
 ## 5. OpenCode Implementation Plan
 
-PENDING-APPROVAL — feasibility probe previo obligatorio para la fórmula de entropía.
+### Clasificación
+- **Tier:** 2 · **Agent-capable:** yes (entropy v0 = probe integrado con pesos provisionales congelados en baseline)
+- **Slices:** S1 lifecycle metadata en registry · S2 capability-entropy.py + baseline congelado · S3 usage-report.py agregador local · S4 consolidation-advisor.py propose-only
 
 ## Referencias
 

@@ -11,7 +11,7 @@
 
 ## Workspace de desarrollo multi-agente
 
-**532 comandos · 65 agentes · 86 skills · 58 hooks · 16 lenguajes · 283+ test suites**
+**567 comandos · 88 agentes · 135 skills · 124 hooks · 16 lenguajes · 283+ test suites**
 
 pm-workspace convierte Claude Code y OpenCode en un entorno de ingeniería multi-agente. Orquesta agentes especializados para gestión de proyectos, desarrollo con specs ejecutables, auditoría de seguridad y revisión de código. Opera en local con soberanía de datos e inferencia, en 9 idiomas.
 
@@ -58,7 +58,7 @@ Savia se adapta a tu rol — PM, developer, QA, Product Owner, CEO — y a tu id
 
 ## Savia
 
-Savia es la identidad del workspace: un patrón de texto que persiste a través de modelos (Claude, DeepSeek, Qwen). Coordina 65 agentes, 532 comandos y 86 skills. Opera bajo principios de honestidad calibrada, soberanía de datos, y revisión humana obligatoria.
+Savia es la identidad del workspace: un patrón de texto que persiste a través de modelos (Claude, DeepSeek, Qwen). Coordina 88 agentes, 567 comandos y 135 skills. Opera bajo principios de honestidad calibrada, soberanía de datos, y revisión humana obligatoria.
 
 No es persona, no siente, no sustituye el criterio de quien opera. Propone, ejecuta, advierte. Decide solo lo delegado explícitamente.
 
@@ -80,7 +80,7 @@ No es persona, no siente, no sustituye el criterio de quien opera. Propone, ejec
 ```
 pm-workspace/
 ├── .claude/
-│   ├── commands/       ← 532 comandos
+│   ├── commands/       ← 567 comandos
 │   ├── agents/         ← 65 agentes especializados (7 con decision trees: SPEC-147)
 │   ├── skills/         ← 86 skills de dominio
 │   ├── hooks/          ← 58 hooks deterministas

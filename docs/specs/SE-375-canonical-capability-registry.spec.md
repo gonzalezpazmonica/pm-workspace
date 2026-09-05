@@ -1,6 +1,6 @@
 # SE-375 — Canonical Capability Registry
 
-**Estado:** PROPOSED (pendiente de aprobación humana — Fase E, audit GPT-5.6 2026-09-05)
+**Estado:** APPROVED — Mónica (operadora), 2026-09-05: "Apruebo todas, implementa, pr y merge"
 **Prioridad:** P0 · **Developer Type:** agent-team · **Context Risk:** high
 **Origen:** auditoría externa §6 (CONFIRMED) + §13 Cross-Frontend (fusionada)
 
@@ -74,7 +74,10 @@ Router LLM nuevo · rediseñar agents/skills · base de datos obligatoria · ree
 
 ## 7. OpenCode Implementation Plan
 
-PENDING-APPROVAL — al aprobar, añadir clasificación + slices + presupuesto según `docs/rules/domain/spec-opencode-implementation-plan.md`. Feasibility probe previo recomendado (schema sobre .scm real).
+### Clasificación
+- **Tier:** 2 (reversible módulo) · **Agent-capable:** yes · **Context budget:** high
+- **Slices:** S1 registry.json desde generate-capability-map.py (campos kind/source/risk/frontend/intents) · S2 vistas derivadas (contadores README+traducciones) · S3 tests RN-07/09 + drift
+- **Depends:** — · **Feeds:** SE-379, SE-380, SE-381, SE-383, SE-384
 
 ## Referencias
 

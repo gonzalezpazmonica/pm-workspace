@@ -1,6 +1,6 @@
 # SE-379 — Release & Metadata Invariants
 
-**Estado:** PROPOSED (pendiente de aprobación humana — Fase E, audit GPT-5.6 2026-09-05)
+**Estado:** APPROVED — Mónica (operadora), 2026-09-05: "Apruebo todas, implementa, pr y merge"
 **Prioridad:** P1 · **Developer Type:** agent-single · **Context Risk:** low
 **Origen:** auditoría externa §10 (CONFIRMED)
 
@@ -36,7 +36,9 @@ Contadores canónicos desde SE-375. Hasta que SE-375 exista, esta spec compara l
 
 ## 5. OpenCode Implementation Plan
 
-PENDING-APPROVAL — completar al aprobar.
+### Clasificación
+- **Tier:** 2 · **Agent-capable:** yes
+- **Slices:** S1 release-invariants.sh --check --root (7 invariantes) · S2 fixtures + bats por invariante · S3 counters canónicos desde SE-375
 
 ## Referencias
 

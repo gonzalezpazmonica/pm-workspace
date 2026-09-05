@@ -1,0 +1,10 @@
+# SE-376 — Debt budget (ratchet: nunca subir; avanzar wave = decisión humana)
+# Métrica: skills no Calibrated (Total - Calibrated) según scripts/skill-maturity-audit.sh
+metric: non_calibrated_skills
+current_wave: 0            # 0 = baseline freeze (curation aún no ejecutada)
+waves:
+  0: 132                   # baseline medido 2026-09-05 (2 calibrated / 124 incomplete / 8 stub)
+  1: 95                    # tras curation wave 1 (DELETE de stubs + REFACTOR rápidos)
+  2: 40
+  final: 0                 # o excepciones aprobadas con owner + re-evaluation date
+inventory: docs/propuestas/SE-376-debt-inventory.tsv

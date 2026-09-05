@@ -14,7 +14,7 @@
 
 ## Workspace de desenvolvimento multi-agente
 
-**532 comandos · 65 agentes · 86 skills · 58 hooks · 16 linguagens · 283+ suites de teste**
+**567 comandos · 88 agentes · 135 skills · 124 hooks · 16 linguagens · 283+ suites de teste**
 
 pm-workspace transforma o Claude Code e o OpenCode num ambiente de engenharia multi-agente. Orquestra agentes especializados para gestao de projetos, desenvolvimento com specs executaveis, auditoria de seguranca e revisao de codigo. Funciona localmente com soberania de dados e inferencia, em 9 linguas.
 
@@ -83,7 +83,7 @@ Nao e uma pessoa, nao sente, e nao substitui o criterio de quem opera. Propoe, e
 ```
 pm-workspace/
 ├── .claude/
-│   ├── commands/       ← 532 comandos
+│   ├── commands/       ← 567 comandos
 │   ├── agents/         ← 65 agentes especializados (7 com decision trees: SPEC-147)
 │   ├── skills/         ← 86 skills de dominio
 │   ├── hooks/          ← 58 hooks deterministicos
