@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=27fe2bb1182d9bae44626dd896bea31b4ceb09749142907eb67010c484cc9e6d
-timestamp=2026-09-05T11:32:53Z
+diff_hash=89fdaec05484f0ead44ca3b1358356c3b88f72ba059d693a4981f642d9a34d1f
+timestamp=2026-09-05T12:36:43Z
 branch=agent/impl-20260905-se385-linkedin
-head_commit=c8483bad
-signature=c3acb3a9b578c1631fb7e5b740fbcd78ae05cf5c57d44b7c91512004fc1e7e0e
+head_commit=0f2351f7
+signature=df600f117ebf7ee13e9cc5603c0cf4b4d16ed77eba7935c60d0fac439595a53b
