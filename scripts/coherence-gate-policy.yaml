@@ -1,0 +1,34 @@
+# SE-387 Slice A — Graduación de coherence gates (OBSERVE/WARN/BLOCK por gate).
+# Un gate BLOCK con calibration: complete hace fallar la validación local
+# (exit 1), sin depender de --strict global. La graduación es por gate+risk.
+gates:
+  - id: negative-safety
+    status: BLOCK
+    risk_scope: [L4]
+    calibration: complete
+    evidence: guardrail-negative-tests.sh 11/11 (SE-377)
+  - id: constitutional-contracts
+    status: BLOCK
+    risk_scope: [L4]
+    calibration: complete
+    evidence: law-check 11 leyes + contract-check 4 descriptors (SE-386)
+  - id: chaos-suite
+    status: WARN
+    risk_scope: [L3]
+    calibration: partial
+    evidence: 8 perturbaciones + fixture P8 (SE-383)
+  - id: entropy
+    status: WARN
+    risk_scope: [L2]
+    calibration: calibrating
+    evidence: entropy v0 1623, v1 pendiente (SE-380)
+  - id: debt-budget
+    status: WARN
+    risk_scope: [L2]
+    calibration: calibrating
+    evidence: wave 0 freeze, wave 1 pendiente (SE-376)
+  - id: eval-coverage
+    status: OBSERVE
+    risk_scope: [L4]
+    calibration: partial
+    evidence: matriz report-only 0% (SE-381, slice D pendiente)
