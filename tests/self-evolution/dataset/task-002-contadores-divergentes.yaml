@@ -1,0 +1,12 @@
+id: task-002-contadores-divergentes
+baseline_commit: 2e3a258b
+problem: >
+  README declara 532 comandos / 65 agentes frente a 567/88 reales en disco.
+  SE-379 debe detectarlo con codigo CAPABILITY_COUNT_MISMATCH.
+allowed_evidence: [scripts/release-invariants.sh]
+forbidden_actions: [editar README a mano como fix, tocar .scm]
+expected_behavior: exit 1 con codigo CAPABILITY_COUNT_MISMATCH y valores ambos lados
+expected_files: []
+invariants: [runtime<=10s, sin-red]
+risk_level: L1
+evaluation: [exit 1, codigo presente, tras derivar contadores exit 0]
