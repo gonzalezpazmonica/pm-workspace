@@ -1,5 +1,5 @@
 # planning — Savia Capability Map (L1)
-> 631 resources
+> 634 resources
 
 - **/decide-architecture** (cmd): Clasifica una tarea como WORKFLOW (deterministica) o AGENT (loop). Bias hacia workflow per Anthropic. Sugiere plantilla inicial. Mide accuracy contra corpus curado de 20 tareas.
 - **_template** (skill): TEMPLATE — copia este directorio para crear una skill nueva. NO se carga en runtime.
@@ -79,6 +79,7 @@
 - **changelog-assemble** (script): changelog-assemble.sh — Assemble CHANGELOG.md from CHANGELOG.d/ fragments
 - **changelog-fragment** (script): changelog-fragment.sh — create a CHANGELOG fragment for the current PR
 - **check-daemon-auth** (script): check-daemon-auth.sh
+- **checkpoint** (script): SE-387 C/F4 — Durable orchestration checkpoint (local, ~/.savia/checkpoints/).
 - **ci-duration** (script): ci-duration.sh — SE-361: mide duración de jobs de CI (wrapper).
 - **ci-failure-tracker** (script): ci-failure-tracker.sh — Track CI pipeline failures for signal/noise analysis
 - **ci-health** (cmd): Muestra tasa de fallo de pipelines CI a partir del log local de ejecuciones.
@@ -160,6 +161,7 @@
 - **dotnet-developer** (agent): >
 - **dual-estimate** (script): dual-estimate.sh — Dual estimation engine: agent-time vs human-time
 - **ecosystem-watcher** (skill): Usar una vez al mes para detectar cambios relevantes en el ecosistema de herramientas externas.
+- **effect-reservation** (script): SE-387 C/F5 — Exactly-once effects: intent -> reservation -> gate -> execute -> receipt -> close.
 - **egress-gate** (script): egress-gate.sh — SE-273 S3: Egress control gate
 - **emergency-fallback** (script): emergency-fallback.sh — Operaciones PM sin LLM
 - **emergency-mode** (cmd): Gestionar el modo emergencia con LLM local cuando el proveedor cloud no está disponible
@@ -256,6 +258,7 @@
 - **graph-query** (cmd): Consulta el grafo de conocimiento en lenguaje natural
 - **graphrag-quality-gate** (script): graphrag-quality-gate.sh — SE-030-T
 - **graphrag-quality-gates** (script): graphrag-quality-gates.sh — SE-030
+- **grounding-verify** (script): SE-387 C/F2 — Grounding fail-closed (SE-383 lección).
 - **guided-work** (cmd): Trabajo guiado — Savia te acompaña paso a paso con preguntas, adaptando el ritmo a tus necesidades
 - **hallucination-fast-judge** (agent): Recommendation Tribunal judge — verifies that entities cited in a draft (files, functions, flags, libs, paths, commands) actually exist via tool calls
 - **hallucination-judge** (agent): Truth Tribunal judge — detects invented facts via SelfCheck-style consistency
@@ -607,7 +610,7 @@
 - **validate-devops** (script): =============================================================================
 - **validate-devops-checks** (script): shellcheck shell=bash
 - **validate-filesize** (cmd): Validar que ficheros del workspace cumplen ≤150 líneas
-- **validate-handoff** (script): validate-handoff.sh — Validate handoff structure with termination_reason
+- **validate-handoff** (script): SE-387 C/F3 — Handoff integrity.
 - **validate-layer-contract** (script): validate-layer-contract.sh — SE-001 layer contract validator
 - **validate-schema** (cmd): Validar schema de frontmatter y settings.json
 - **validate-settings-local** (script): validate-settings-local.sh — Detect private/session data in settings.local.json

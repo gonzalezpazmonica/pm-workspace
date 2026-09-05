@@ -1,6 +1,6 @@
 # Savia Capability Map — INDEX
-> hash: 18d375a53846 | resources: 1453
-> 295 commands · 136 skills · 89 agents · 933 scripts
+> hash: 85584f8f3fab | resources: 1458
+> 295 commands · 136 skills · 89 agents · 938 scripts
 
 [analysis] Trace Optimize — across,distributed,optimize,rates,sampling — cmd:.claude/commands/trace-optimize.md
 [analysis] agent-activity — activity,agent,executions,recent,show — cmd:.claude/commands/agent-activity.md
@@ -45,6 +45,7 @@
 [analysis] completeness-judge — abstract,covers,judge,promises,report — agent:.opencode/agents/completeness-judge.md
 [analysis] debt-analyze —  — cmd:.claude/commands/debt-analyze.md
 [analysis] debt-budget-check — activo,actual,budget,check,debt — script:scripts/debt-budget-check.sh
+[analysis] debt-burn-down — budget,capacidades,confirmadas,debt,ejecuta — script:scripts/debt-burn-down.sh
 [analysis] debt-track —  — cmd:.claude/commands/debt-track.md
 [analysis] enterprise-dashboard — analytics,enterprise,forecasting,health,matrix — cmd:.claude/commands/enterprise-dashboard.md
 [analysis] enterprise/billing-report — billing,ifrs,project,report — script:scripts/enterprise/billing-report.sh
@@ -330,6 +331,7 @@
 [development] pipeline-stage-runner — execute,pipeline,runner,single,stage — script:scripts/pipeline-stage-runner.sh
 [development] pipeline-status —  — cmd:.claude/commands/pipeline-status.md
 [development] pipeline-view — active,ascii,probability,pursuits,stage — cmd:.claude/commands/pipeline-view.md
+[development] planning-transition — checkable,evidencia,implemented,implementing,machine — script:scripts/planning-transition.sh
 [development] portfolio-contention — contention,detector,portfolio,slice,spec — script:scripts/portfolio-contention.sh
 [development] portfolio-critical-path — analyzer,critical,path,portfolio,slice — script:scripts/portfolio-critical-path.sh
 [development] portfolio-deps-status — dashboard,deps,portfolio,project,slice — script:scripts/portfolio-deps-status.sh
@@ -636,6 +638,7 @@
 [planning] changelog-assemble — assemble,changelog,fragments — script:scripts/changelog-assemble.sh
 [planning] changelog-fragment — changelog,create,current,fragment — script:scripts/changelog-fragment.sh
 [planning] check-daemon-auth — auth,check,daemon — script:scripts/check-daemon-auth.sh
+[planning] checkpoint — checkpoint,checkpoints,durable,local,orchestration — script:scripts/checkpoint.sh
 [planning] ci-duration — duración,duration,jobs,mide,wrapper — script:scripts/ci-duration.sh
 [planning] ci-failure-tracker — analysis,failure,failures,noise,pipeline — script:scripts/ci-failure-tracker.sh
 [planning] ci-health — ejecuciones,fallo,local,muestra,partir — cmd:.claude/commands/ci-health.md
@@ -717,6 +720,7 @@
 [planning] dotnet-developer —  — agent:.opencode/agents/dotnet-developer.md
 [planning] dual-estimate — agent,dual,engine,estimate,estimation — script:scripts/dual-estimate.sh
 [planning] ecosystem-watcher — cambios,detectar,ecosistema,externas,herramientas — skill:.claude/skills/ecosystem-watcher/SKILL.md
+[planning] effect-reservation — close,effects,exactly,execute,gate — script:scripts/effect-reservation.sh
 [planning] egress-gate — control,egress,gate — script:scripts/egress-gate.sh
 [planning] emergency-fallback — emergency,fallback,operaciones — script:scripts/emergency-fallback.sh
 [planning] emergency-mode — cloud,disponible,emergencia,está,gestionar — cmd:.claude/commands/emergency-mode.md
@@ -813,6 +817,7 @@
 [planning] graph-query — conocimiento,consulta,grafo,lenguaje,natural — cmd:.claude/commands/graph-query.md
 [planning] graphrag-quality-gate — gate,graphrag,quality — script:scripts/graphrag-quality-gate.sh
 [planning] graphrag-quality-gates — gates,graphrag,quality — script:scripts/graphrag-quality-gates.sh
+[planning] grounding-verify — closed,fail,grounding,lección — script:scripts/grounding-verify.sh
 [planning] guided-work — acompaña,adaptando,guiado,necesidades,paso — cmd:.claude/commands/guided-work.md
 [planning] hallucination-fast-judge — actually,calls,cited,commands,draft — agent:.opencode/agents/hallucination-fast-judge.md
 [planning] hallucination-judge — consistency,detects,facts,invented,judge — agent:.opencode/agents/hallucination-judge.md
@@ -1164,7 +1169,7 @@
 [planning] validate-devops —  — script:scripts/validate-devops.sh
 [planning] validate-devops-checks — bash,shell,shellcheck — script:scripts/validate-devops-checks.sh
 [planning] validate-filesize — cumplen,ficheros,líneas,validar,workspace — cmd:.claude/commands/validate-filesize.md
-[planning] validate-handoff — handoff,reason,structure,termination,validate — script:scripts/validate-handoff.sh
+[planning] validate-handoff — handoff,integrity — script:scripts/validate-handoff.sh
 [planning] validate-layer-contract — contract,layer,validate,validator — script:scripts/validate-layer-contract.sh
 [planning] validate-schema — frontmatter,json,schema,settings,validar — cmd:.claude/commands/validate-schema.md
 [planning] validate-settings-local — data,detect,json,local,private — script:scripts/validate-settings-local.sh

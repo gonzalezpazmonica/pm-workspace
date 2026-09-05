@@ -1,5 +1,5 @@
 # analysis — Savia Capability Map (L1)
-> 79 resources
+> 80 resources
 
 - **Trace Optimize** (cmd): Optimize trace spans and sampling rates across distributed services
 - **agent-activity** (cmd): Show structured activity log of recent agent executions
@@ -44,6 +44,7 @@
 - **completeness-judge** (agent): Truth Tribunal judge — report covers what its title/abstract promises
 - **debt-analyze** (cmd): >
 - **debt-budget-check** (script): debt-budget-check.sh — SE-376: verifica deuda actual <= target del wave activo.
+- **debt-burn-down** (script): SE-387 E — Ejecuta wave 1 del debt budget SOLO sobre capacidades confirmadas.
 - **debt-track** (cmd): >
 - **enterprise-dashboard** (cmd): Enterprise analytics — portfolio metrics, team health, risk matrix, forecasting
 - **enterprise/billing-report** (script): billing-report.sh — SE-018 Project Billing (IFRS 15)

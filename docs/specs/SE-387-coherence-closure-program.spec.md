@@ -1,6 +1,6 @@
 # SE-387 — Coherence Closure Program (Enforcement, Constitutional Coverage, Harness Reliability, Generated Truth)
 
-**Estado:** APPROVED + IMPLEMENTING (Mónica 2026-09-05: "Implementa y sube pr definitivo ya implantado") — Slices A/B/D/G en PR de implementación
+**Estado:** APPROVED + IMPLEMENTING completo (Mónica 2026-09-05: "Implementa y sube pr definitivo ya implantado") — Slices A/B/D/G en PR de implementación
 **Fecha:** 2026-09-05 · **Prioridad:** P0 · **Developer Type:** agent-team · **Risk:** L3/L4 según slice
 **Era:** Coherence Before Capability · **Tipo:** program/umbrella spec (espec hijas solo si el paralelismo lo justifica — §20)
 **Principios:** CRIT-001, humano decide, no-fragmentar, reutilizar mecanismos
