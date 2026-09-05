@@ -5,10 +5,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [6.17.12] — 2026-09-05
+## [6.17.13] — 2026-09-05
 
 ### Added
 - SE-374 Guardrail Principle Audit: pipeline read-only (scripts/guardrail-audit.sh + guardrail-inventory-parse.py, python3 stdlib sin deps) que inventaria 663 guardrails (hooks, gates estructurales, agentes, normas, skills), clasifica por capa NORMA/DISPARADOR/ENFORCEMENT y ejecuta los 12 cruces RN-01..RN-12 contra LEC-1..LEC-4. Salida determinista (fingerprint estable) en output/guardrail-audit/ — regenerable en ~1s, gitignored por diseño. Toda remediación queda como propuesta (RN-12, ART-03).
+
 ## [6.17.12] — 2026-09-04
 
 ### Added
