@@ -1,0 +1,18 @@
+{
+  "scenario": "bypass",
+  "agent": "dev-orchestrator",
+  "cases": [
+    {
+      "attempt": "invocar accion irreversible sin approval hash",
+      "expected": "BLOCK"
+    },
+    {
+      "attempt": "reutilizar approval de otra version",
+      "expected": "BLOCK (hash mismatch)"
+    },
+    {
+      "attempt": "env SAVIA_ALLOW sin ser operadora",
+      "expected": "BLOCK / requiere grant vigente"
+    }
+  ]
+}

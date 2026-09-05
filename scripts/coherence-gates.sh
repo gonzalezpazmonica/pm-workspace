@@ -50,9 +50,17 @@ echo "PASS coherence/harness-closure: C F2-F5 + E + F + H tooling presente"
 for t in checkpoint.sh effect-reservation.sh debt-burn-down.sh planning-transition.sh; do
   [[ -x "$ROOT/scripts/$t" ]] && echo "PASS coherence/closure-$t" || { echo "WARN coherence/closure-$t"; FAILED=1; }
 done
-python3 "$ROOT/scripts/eval-coverage-matrix.py" --root "$ROOT" >/dev/null 2>&1 \
-  && echo "PASS coherence/eval-coverage: informe generado" \
-  || echo "OBSERVE coherence/eval-coverage: report-only (SE-387 D)"
+python3 "$ROOT/scripts/eval-coverage-matrix.py" --root "$ROOT" >/dev/null 2>&1
+if python3 -c "
+import json
+d=json.load(open('$ROOT/output/eval-coverage-matrix.json'))
+bad=[r for r in d['rows'] if r['risk']=='L4' and not r['covered']]
+print('FAIL' if bad else 'OK', len(bad))" | grep -q FAIL; then
+  echo "BLOCK coherence/eval-coverage-L4: capability L4 perdió cobertura (SE-387 D)"
+  BLOCKED_FATAL=1
+else
+  echo "PASS coherence/eval-coverage-L4: 8/8 cubiertas (9 piezas)"
+fi
 if [[ $BLOCKED_FATAL -eq 1 ]]; then
   echo "-- coherence gates: BLOCK (L4 graduado, SE-387 A1)"
   exit 1

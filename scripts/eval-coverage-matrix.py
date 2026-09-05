@@ -42,6 +42,9 @@ def evidence_for(name: str, root: str) -> list:
                 break
     if os.path.isdir(evals_dir) and os.path.isdir(os.path.join(evals_dir, name)):
         ev += ["golden", "regression"]
+        for fx, kind in (("edge.json","edge"),("adversarial.json","adversarial"),("bypass.json","bypass")):
+            if os.path.exists(os.path.join(evals_dir, name, fx)):
+                ev.append(kind)
     if os.path.isdir(golden_dir):
         for fn in os.listdir(golden_dir):
             if name in fn:

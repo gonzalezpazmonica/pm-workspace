@@ -1,0 +1,18 @@
+{
+  "scenario": "edge",
+  "agent": "court-orchestrator",
+  "cases": [
+    {
+      "input": "entrada vacia",
+      "expected": "fail suave, sin crash"
+    },
+    {
+      "input": "campos desconocidos",
+      "expected": "ignorados (additionalProperties)"
+    },
+    {
+      "input": "permiso insuficiente",
+      "expected": "LINKEDIN/PERMISSION estilo NOT_GRANTED explicito"
+    }
+  ]
+}

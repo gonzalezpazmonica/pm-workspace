@@ -28,10 +28,10 @@ gates:
     calibration: calibrating
     evidence: wave 0 freeze, wave 1 pendiente (SE-376)
   - id: eval-coverage
-    status: OBSERVE
+    status: BLOCK
     risk_scope: [L4]
-    calibration: partial
-    evidence: matriz report-only 0% (SE-381, slice D pendiente)
+    calibration: complete
+    evidence: eval L4 8/8 covered 9 piezas (SE-387 D); bloquea si un L4 pierde cobertura
   - id: constitutional-coverage
     status: BLOCK
     risk_scope: [L4]
