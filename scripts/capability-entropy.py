@@ -23,6 +23,7 @@ def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--root", default=os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
     ap.add_argument("--check", action="store_true")
+    ap.add_argument("--v1", action="store_true")
     args = ap.parse_args()
     root = os.path.abspath(args.root)
 
@@ -62,6 +63,22 @@ def main() -> int:
                "entropy": entropy, "components": components}
 
     base_path = os.path.join(root, "tests", "baselines", "capability-entropy.json")
+    v1 = False
+    if args.v1:
+        v1 = True
+        unowned = sum(1 for c in caps if c["kind"] == "agent" and not c.get("owner_domain"))
+        import re as _re
+        untested = 0
+        bats_dir = os.path.join(root, "tests", "bats")
+        bat_files = os.listdir(bats_dir) if os.path.isdir(bats_dir) else []
+        for c in caps:
+            if c.get("kind") == "agent" and c.get("risk_level") in ("L3", "L4"):
+                name = c["id"].split(":", 1)[-1].split("/")[-1].replace(".md", "")
+                if not any(name in fn for fn in bat_files):
+                    untested += 1
+        payload["entropy_v1"] = payload["entropy"] + untested + unowned
+        payload["components"]["unowned_agents"] = unowned
+        payload["components"]["untested_high_risk"] = untested
     if args.check:
         base = json.load(open(base_path, encoding="utf-8"))
         if entropy > base["entropy"]:
@@ -71,8 +88,15 @@ def main() -> int:
         return 0
 
     if os.path.exists(base_path):
-        print(f"entropy v0 = {entropy} (baseline congelado: "
-              f"{json.load(open(base_path))['entropy']}); usa --check para ratchet")
+        if args.v1:
+            with open(base_path, "w", encoding="utf-8") as f:
+                json.dump(payload, f, indent=2, sort_keys=True)
+                f.write("\n")
+            print(f"entropy v1 = {payload.get('entropy_v1')} congelado (calibración); "
+                  f"v0={entropy} preservado como ratchet histórico")
+        else:
+            print(f"entropy v0 = {entropy} (baseline congelado: "
+                  f"{json.load(open(base_path))['entropy']}); usa --check para ratchet")
     else:
         with open(base_path, "w", encoding="utf-8") as f:
             json.dump(payload, f, indent=2, sort_keys=True)

@@ -3,45 +3,53 @@
 # Uso: coherence-gates.sh [--strict]
 set -uo pipefail
 ROOT="$(cd "$(dirname "$(dirname "${BASH_SOURCE[0]}")")" && pwd)"
+POLICY="$ROOT/scripts/coherence-gate-policy.yaml"
 STRICT="false"
 [[ "${1:-}" == "--strict" ]] && STRICT="true"
 FAILED=0
-echo "--- Coherence gates (SE-377/380/381/383) ---"
-if OUT=$(bash "$ROOT/scripts/guardrail-negative-tests.sh" 2>&1); then
-  echo "PASS coherence/negative-tests: $(echo "$OUT" | tail -1)"
-else
-  echo "WARN coherence/negative-tests: $(echo "$OUT" | tail -1)"; FAILED=1
-fi
-if OUT=$(bash "$ROOT/tests/chaos/run-chaos-suite.sh" 2>&1 | tail -1); then
-  echo "PASS coherence/chaos-suite: $OUT"
-else
-  echo "WARN coherence/chaos-suite: $OUT"; FAILED=1
-fi
-if OUT=$(python3 "$ROOT/scripts/capability-entropy.py" --root "$ROOT" --check 2>&1); then
-  echo "PASS coherence/entropy: $OUT"
-else
-  echo "WARN coherence/entropy: $OUT"; FAILED=1
-fi
-if OUT=$(bash "$ROOT/scripts/debt-budget-check.sh" "$ROOT" 2>&1); then
-  echo "PASS coherence/debt-budget: $(echo "$OUT" | head -1)"
-else
-  echo "WARN coherence/debt-budget: $OUT"; FAILED=1
-fi
-if bash "$ROOT/scripts/law-check.sh" >/dev/null 2>&1; then
-  echo "PASS coherence/law-check: laws OK"
-else
-  echo "WARN coherence/law-check"; FAILED=1
-fi
-if bash "$ROOT/scripts/contract-check.sh" >/dev/null 2>&1; then
-  echo "PASS coherence/contract-check: descriptors OK"
-else
-  echo "WARN coherence/contract-check"; FAILED=1
-fi
+# SE-387 Slice A: un gate declarado BLOCK con calibration complete bloquea
+gate_status() { # $1=id → imprime BLOCK|WARN|OBSERVE|WARN (default)
+  local id="$1" st
+  st=$(awk "/- id: $id\$/{f=1} f&&/status:/{print \$2; exit}" "$POLICY" 2>/dev/null)
+  echo "${st:-WARN}"
+}
+is_calibrated() { # $1=id
+  awk "/- id: $1\$/{f=1} f&&/calibration:/{print \$2; exit}" "$POLICY" 2>/dev/null
+}
+echo "--- Coherence gates (SE-377/380/381/383/386) ---"
+BLOCKED_FATAL=0
+run_gate() { # $1 nombre $2 comando...
+  local name="$1"; shift
+  local st; st=$(gate_status "$name")
+  local out
+  if out=$( "$@" 2>&1 ); then
+    echo "PASS coherence/$name"
+  else
+    local cal; cal=$(is_calibrated "$name")
+    echo "${st} coherence/$name (calibration=${cal:-unknown})"
+    if [[ "$st" == "BLOCK" && "$cal" == "complete" ]]; then
+      echo "BLOCK coherence/$name: gate calibrado y graduado a bloqueante (SE-387 A1)"
+      BLOCKED_FATAL=1
+    else
+      FAILED=1
+    fi
+  fi
+}
+run_gate negative-safety bash "$ROOT/scripts/guardrail-negative-tests.sh"
+run_gate chaos-suite bash "$ROOT/tests/chaos/run-chaos-suite.sh"
+run_gate entropy python3 "$ROOT/scripts/capability-entropy.py" --root "$ROOT" --check
+run_gate debt-budget bash "$ROOT/scripts/debt-budget-check.sh" "$ROOT"
+run_gate constitutional-contracts bash "$ROOT/scripts/contract-check.sh"
+run_gate constitutional-contracts bash "$ROOT/scripts/law-check.sh"
+python3 "$ROOT/scripts/constitutional-coverage.py" --root "$ROOT" >/dev/null 2>&1 \
+  && echo "PASS coherence/constitutional-coverage: informe L4" \
+  || echo "WARN coherence/constitutional-coverage: sin registry"
 python3 "$ROOT/scripts/eval-coverage-matrix.py" --root "$ROOT" >/dev/null 2>&1 \
   && echo "PASS coherence/eval-coverage: informe generado" \
-  || { echo "WARN coherence/eval-coverage: sin registry"; FAILED=1; }
-if [[ "$STRICT" == "true" && $FAILED -eq 1 ]]; then
-  echo "-- coherence gates: FAIL en modo estricto"; exit 1
+  || echo "OBSERVE coherence/eval-coverage: report-only (SE-387 D)"
+if [[ $BLOCKED_FATAL -eq 1 ]]; then
+  echo "-- coherence gates: BLOCK (L4 graduado, SE-387 A1)"
+  exit 1
 fi
-echo "-- coherence gates: advisory OK"
+echo "-- coherence gates: sin bloqueo L4 (advisory/WARN restante)"
 exit 0

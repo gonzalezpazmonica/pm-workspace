@@ -85,11 +85,12 @@
     },
     {
       "id": "SE-387",
-      "status": "PROPOSED",
-      "approval": "(pendiente)",
+      "status": "IMPLEMENTING",
+      "approval": "Mónica 2026-09-05: implementa y sube PR definitivo",
       "priority": "P0",
       "title": "Coherence Closure Program (umbrella: gates graduation, constitutional L4, harness F2-F5, eval/debt burn-down, generated truth, entropy v1, benchmark)",
-      "note": "persistida 2026-09-05; gap matrix en spec §0; implementar por frentes tras aprobacion"
+      "note": "persistida 2026-09-05; gap matrix en spec §0; implementar por frentes tras aprobacion",
+      "evidence": "Slice A gates BLOCK L4, B constitutional-coverage, D eval report, G entropy v1=1650"
     }
   ]
 }
