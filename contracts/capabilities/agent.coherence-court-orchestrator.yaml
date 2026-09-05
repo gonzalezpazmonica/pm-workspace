@@ -1,0 +1,24 @@
+id: agent.coherence-court-orchestrator
+version: 1
+description: "Convoca Coherence Court, consolida .coherence.crc"
+input:
+  type: object
+  properties: {}
+safety:
+  effect: mutation
+  visibility: visible
+  reversibility: reversible
+  destructive: false
+  external_side_effect: false
+  human_gate: policy
+  scope: [workspace]
+execution:
+  handler: "agent coherence-court-orchestrator"
+laws:
+  - LAW-EXEC-001
+enforcement:
+    - guardrail-audit
+negative_tests:
+    - capability-registry.bats
+receipt:
+  - .coherence.crc

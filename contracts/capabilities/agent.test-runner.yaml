@@ -1,0 +1,24 @@
+id: agent.test-runner
+version: 1
+description: "Ejecuta suite de tests y verifica cobertura post-commit"
+input:
+  type: object
+  properties: {}
+safety:
+  effect: mutation
+  visibility: visible
+  reversibility: reversible
+  destructive: false
+  external_side_effect: false
+  human_gate: policy
+  scope: [workspace]
+execution:
+  handler: "agent test-runner"
+laws:
+  - LAW-EXEC-002
+enforcement:
+    - coherence-gates
+negative_tests:
+    - test coverage ratchet
+receipt:
+  - coverage report

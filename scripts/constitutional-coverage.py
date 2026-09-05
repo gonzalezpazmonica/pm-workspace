@@ -32,15 +32,28 @@ def load_descriptors() -> dict:
     out = {}
     for f in glob.glob(os.path.join(ROOT, "contracts", "capabilities", "*.yaml")):
         txt = open(f, encoding="utf-8").read()
-        cid = ""
-        laws = []
+        cid, laws, enf, tests, rcpt = "", [], [], [], []
+        cur = None
         for line in txt.splitlines():
             if line.startswith("id:"):
                 cid = line.split(":", 1)[1].strip()
-            if "- LAW-" in line:
+            elif "- LAW-" in line:
                 laws.append(line.split("-")[1].strip())
+            elif line.strip() == "enforcement:":
+                cur = "e"
+            elif line.strip() == "negative_tests:":
+                cur = "t"
+            elif line.strip() == "receipt:":
+                cur = "r"
+            elif line.startswith("    - ") and cur == "e":
+                enf.append(line.strip()[4:])
+            elif line.startswith("    - ") and cur == "t":
+                tests.append(line.strip()[4:])
+            elif line.startswith("  - ") and cur == "r":
+                rcpt.append(line.strip()[4:])
         if cid:
-            out[cid] = {"laws": laws, "file": os.path.relpath(f, ROOT)}
+            out[cid] = {"laws": laws, "file": os.path.relpath(f, ROOT),
+                        "enforcement": enf, "tests": tests, "receipt": rcpt}
     return out
 
 
@@ -60,9 +73,9 @@ def main() -> int:
 
     rows = []
     for c in reg["capabilities"]:
-        if c.get("risk_level") != "L4" and c.get("kind") != "agent":
+        if c.get("risk_level") != "L4":
             continue
-        cid = c["id"]  # agent:xxx
+        cid = c["id"]
         sid = cid.split(":", 1)[1]
         # descriptor match por palabra clave del id de capability (heurístico)
         desc = None
@@ -82,9 +95,12 @@ def main() -> int:
         bad_laws = [l for l in desc["laws"] if l not in laws_all]
         if bad_laws:
             missing.append("MISSING_LAW_REF")
-        status = "PARTIAL"
-        if not missing and desc["laws"]:
-            status = "COMPLETE"  # descriptor + laws válidas; enforcement/tests por dominio
+        if not desc["laws"]:
+            status = "MISSING_ENFORCEMENT"
+        elif not desc.get("enforcement") or not desc.get("tests") or not desc.get("receipt"):
+            status = "PARTIAL"  # cadena incompleta
+        else:
+            status = "COMPLETE"
         rows.append({
             "capability_id": cid, "risk": "L4", "laws": desc["laws"],
             "descriptor": desc["file"], "enforcement": list(enf_hooks)[:3],

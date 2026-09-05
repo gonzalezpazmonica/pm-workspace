@@ -32,3 +32,8 @@ gates:
     risk_scope: [L4]
     calibration: partial
     evidence: matriz report-only 0% (SE-381, slice D pendiente)
+  - id: constitutional-coverage
+    status: BLOCK
+    risk_scope: [L4]
+    calibration: complete
+    evidence: constitutional-coverage 10/10 COMPLETE (SE-387 B)

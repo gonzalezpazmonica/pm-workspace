@@ -1,0 +1,25 @@
+id: agent.infrastructure-agent
+version: 1
+description: "Gestión de infraestructura; apply a PRE/PRO requiere aprobación humana"
+input:
+  type: object
+  properties: {}
+safety:
+  effect: mutation
+  visibility: visible
+  reversibility: reversible
+  destructive: false
+  external_side_effect: false
+  human_gate: policy
+  scope: [workspace]
+execution:
+  handler: "agent infrastructure-agent"
+laws:
+  - LAW-HUMAN-001
+  - LAW-PRIV-001
+enforcement:
+    - block-infra-destructive
+negative_tests:
+    - guardrail-negative-tests
+receipt:
+  - terraform plan receipt

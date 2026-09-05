@@ -1,0 +1,24 @@
+id: agent.court-orchestrator
+version: 1
+description: "Convoca Code Review Court y produce .review.crc (read-only sobre fuentes)"
+input:
+  type: object
+  properties: {}
+safety:
+  effect: mutation
+  visibility: visible
+  reversibility: reversible
+  destructive: false
+  external_side_effect: false
+  human_gate: policy
+  scope: [workspace]
+execution:
+  handler: "agent court-orchestrator"
+laws:
+  - LAW-EXEC-001
+enforcement:
+    - guardrail-audit
+negative_tests:
+    - capability-registry.bats
+receipt:
+  - .review.crc
