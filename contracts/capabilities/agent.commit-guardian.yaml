@@ -1,0 +1,26 @@
+id: agent.commit-guardian
+version: 1
+description: "Valida que todo commit staged cumple las reglas del workspace antes de commitear"
+input:
+  type: object
+  properties: {}
+safety:
+  effect: mutation
+  visibility: visible
+  reversibility: reversible
+  destructive: false
+  external_side_effect: false
+  human_gate: policy
+  scope: [workspace]
+execution:
+  handler: "agent commit-guardian"
+laws:
+  - LAW-HUMAN-002
+  - LAW-EXEC-002
+enforcement:
+    - validate-bash-global
+    - block-commit-to-main
+negative_tests:
+    - guardrail-negative-tests
+receipt:
+  - commit-guard.jsonl

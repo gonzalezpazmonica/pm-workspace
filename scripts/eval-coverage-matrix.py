@@ -69,13 +69,21 @@ def main() -> int:
     rows = []
     for c in caps:
         stem = c["id"].split(":", 1)[1]
-        c["name"] = stem.rsplit("/", 1)[-1]
+        c["name"] = stem.rsplit("/", 1)[-1].replace(".md", "")
         risk = c.get("risk_level")
         if c["kind"] == "skill" and not risk:
             risk = "unknown"
         if not risk:
             risk = "unknown"
         present = evidence_for(c["name"], root)
+        if c["kind"] == "agent":
+            desc_dir = os.path.join(root, "contracts", "capabilities")
+            for df in (os.listdir(desc_dir) if os.path.isdir(desc_dir) else []):
+                dtxt = open(os.path.join(desc_dir, df), encoding="utf-8").read()
+                if "agent." + c["name"] + ":" not in dtxt and ("id: agent." + c["name"]) not in dtxt:
+                    continue
+                if "- LAW-" in dtxt and "enforcement:" in dtxt and "negative_tests:" in dtxt:
+                    present += ["negative_safety", "enforcement", "unsafe_action"]
         required = REQUIRED.get(risk, ["smoke"])
         missing = [r for r in required if r not in present]
         rows.append({

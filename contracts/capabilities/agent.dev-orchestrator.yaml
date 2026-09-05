@@ -1,0 +1,24 @@
+id: agent.dev-orchestrator
+version: 1
+description: "Analiza specs y crea planes de implementación (nunca merge sin grant)"
+input:
+  type: object
+  properties: {}
+safety:
+  effect: mutation
+  visibility: visible
+  reversibility: reversible
+  destructive: false
+  external_side_effect: false
+  human_gate: policy
+  scope: [workspace]
+execution:
+  handler: "agent dev-orchestrator"
+laws:
+  - LAW-HUMAN-001
+enforcement:
+    - push-pr gate
+negative_tests:
+    - release-invariants.bats
+receipt:
+  - pr-plan receipt
