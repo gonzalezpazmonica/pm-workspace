@@ -1,6 +1,6 @@
 {
-  "hash": "4ebf9ae04023",
-  "total": 1447,
+  "hash": "2359dd1f497f",
+  "total": 1448,
   "resources": [
     {
       "category": "analysis",
@@ -16409,6 +16409,20 @@
       "kind": "script",
       "path": "scripts/guardrail-audit.sh",
       "description": "guardrail-audit.sh — SE-374: Auditoría de cumplimiento del principio Guardrail"
+    },
+    {
+      "category": "quality",
+      "name": "guardrail-negative-tests",
+      "intents": [
+        "enforcement",
+        "guardrail",
+        "hooks",
+        "negative",
+        "tests"
+      ],
+      "kind": "script",
+      "path": "scripts/guardrail-negative-tests.sh",
+      "description": "guardrail-negative-tests.sh — SE-377 S1: negative tests para enforcement hooks."
     },
     {
       "category": "quality",

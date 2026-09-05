@@ -1,6 +1,6 @@
 # Savia Capability Map — INDEX
-> hash: e3cac796d627 | resources: 1447
-> 295 commands · 135 skills · 88 agents · 929 scripts
+> hash: 8e3fc8e6d128 | resources: 1448
+> 295 commands · 135 skills · 88 agents · 930 scripts
 
 [analysis] Trace Optimize — across,distributed,optimize,rates,sampling — cmd:.claude/commands/trace-optimize.md
 [analysis] agent-activity — activity,agent,executions,recent,show — cmd:.claude/commands/agent-activity.md
@@ -1240,6 +1240,7 @@
 [quality] frontend-test-runner — commit,component,coverage,execution,frontend — agent:.opencode/agents/frontend-test-runner.md
 [quality] grill-me — adversarial,assumption,before,break,breaks — skill:.claude/skills/grill-me/SKILL.md
 [quality] guardrail-audit — audit,auditoría,cumplimiento,guardrail,principio — script:scripts/guardrail-audit.sh
+[quality] guardrail-negative-tests — enforcement,guardrail,hooks,negative,tests — script:scripts/guardrail-negative-tests.sh
 [quality] hook-event-gap-audit — audit,audita,cubiertos,event,eventos — script:scripts/hook-event-gap-audit.sh
 [quality] hook-injection-audit — audit,hook,injection,patterns,slice — script:scripts/hook-injection-audit.sh
 [quality] hook-latency-audit — audit,enforcement,hook,latency,slice — script:scripts/hook-latency-audit.sh

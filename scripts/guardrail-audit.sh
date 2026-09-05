@@ -100,6 +100,26 @@ P2=$(jq '.severities.P2 // 0' "$TMP/rn-facts.json")
   echo "Los GAP-ID heredan severidad por regla (RN-02/03/04/10 P0 máximo según §4; RN-06 escala a P0 si la norma es L1-L5 o T3)."
 } > "$OUT/gap-report.md"
 
+echo "-- SE-377: capa TEST + RECEIPT"
+NEG=$(bash scripts/guardrail-negative-tests.sh --json 2>/dev/null || echo "[]")
+NTOTAL=$(jq -r "length" <<<"$NEG" 2>/dev/null || echo 0)
+NBLOCK=$(jq -r "[.[] | select(.result==\"BLOCKED\")] | length" <<<"$NEG" 2>/dev/null || echo 0)
+RECEIPT_HOOKS=$(grep -lE "\\.jsonl|receipt|audit_log" .claude/hooks/*.sh 2>/dev/null | wc -l)
+ENF_TOTAL=$HOOKS_BLOCK
+{
+  echo
+  echo "## Cobertura TEST + RECEIPT (SE-377)"
+  echo
+  echo "| Métrica | Valor |"
+  echo "|---|---|"
+  echo "| Negative tests ejecutados | $NTOTAL |"
+  echo "| Enforcement hooks que bloquean | $NBLOCK/$NTOTAL |"
+  echo "| Enforcement hooks con emisión auditable (jsonl/receipt/audit) | $RECEIPT_HOOKS/$ENF_TOTAL |"
+  echo
+  echo "Criterio SE-377: 100% de hooks ENFORCEMENT L4 con negative test + receipt. Un negative test NOT_BLOCKED = P0."
+  echo
+} >> "$OUT/compliance-matrix.md"
+
 echo "-- FASE E: resumen ejecutivo"
 {
   echo "# Guardrail Principle Audit — Resumen (SE-374)"

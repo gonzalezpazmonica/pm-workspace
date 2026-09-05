@@ -857,7 +857,7 @@
       "kind": "agent",
       "owner_domain": "analysis",
       "replaced_by": null,
-      "risk_level": null,
+      "risk_level": "L1",
       "source": ".opencode/agents/completeness-judge.md",
       "status": "active",
       "tests": []
@@ -1467,7 +1467,7 @@
       "kind": "agent",
       "owner_domain": "analysis",
       "replaced_by": null,
-      "risk_level": null,
+      "risk_level": "L1",
       "source": ".opencode/agents/source-traceability-judge.md",
       "status": "active",
       "tests": []
@@ -1648,7 +1648,7 @@
       "kind": "agent",
       "owner_domain": "communication",
       "replaced_by": null,
-      "risk_level": null,
+      "risk_level": "L2",
       "source": ".opencode/agents/archive-digest.md",
       "status": "active",
       "tests": []
@@ -1703,7 +1703,7 @@
       "kind": "agent",
       "owner_domain": "communication",
       "replaced_by": null,
-      "risk_level": null,
+      "risk_level": "L2",
       "source": ".opencode/agents/excel-digest.md",
       "status": "active",
       "tests": []
@@ -1833,7 +1833,7 @@
       "kind": "agent",
       "owner_domain": "communication",
       "replaced_by": null,
-      "risk_level": null,
+      "risk_level": "L1",
       "source": ".opencode/agents/meeting-confidentiality-judge.md",
       "status": "active",
       "tests": []
@@ -1864,7 +1864,7 @@
       "kind": "agent",
       "owner_domain": "communication",
       "replaced_by": null,
-      "risk_level": null,
+      "risk_level": "L2",
       "source": ".opencode/agents/meeting-digest.md",
       "status": "active",
       "tests": []
@@ -1879,7 +1879,7 @@
       "kind": "agent",
       "owner_domain": "communication",
       "replaced_by": null,
-      "risk_level": null,
+      "risk_level": "L1",
       "source": ".opencode/agents/meeting-risk-analyst.md",
       "status": "active",
       "tests": []
@@ -1957,7 +1957,7 @@
       "kind": "agent",
       "owner_domain": "communication",
       "replaced_by": null,
-      "risk_level": null,
+      "risk_level": "L2",
       "source": ".opencode/agents/pdf-digest.md",
       "status": "active",
       "tests": []
@@ -1972,7 +1972,7 @@
       "kind": "agent",
       "owner_domain": "communication",
       "replaced_by": null,
-      "risk_level": null,
+      "risk_level": "L2",
       "source": ".opencode/agents/pptx-digest.md",
       "status": "active",
       "tests": []
@@ -3711,7 +3711,7 @@
       "kind": "agent",
       "owner_domain": "communication",
       "replaced_by": null,
-      "risk_level": null,
+      "risk_level": "L2",
       "source": ".opencode/agents/word-digest.md",
       "status": "active",
       "tests": []
@@ -4016,7 +4016,7 @@
       "kind": "agent",
       "owner_domain": "development",
       "replaced_by": null,
-      "risk_level": null,
+      "risk_level": "L1",
       "source": ".opencode/agents/authority-claim-judge.md",
       "status": "active",
       "tests": []
@@ -4327,7 +4327,7 @@
       "kind": "agent",
       "owner_domain": "development",
       "replaced_by": null,
-      "risk_level": null,
+      "risk_level": "L1",
       "source": ".opencode/agents/code-reviewer.md",
       "status": "active",
       "tests": []
@@ -4342,7 +4342,7 @@
       "kind": "agent",
       "owner_domain": "development",
       "replaced_by": null,
-      "risk_level": null,
+      "risk_level": "L1",
       "source": ".opencode/agents/code-twin-agent.md",
       "status": "active",
       "tests": []
@@ -4659,7 +4659,7 @@
       "kind": "agent",
       "owner_domain": "development",
       "replaced_by": null,
-      "risk_level": null,
+      "risk_level": "L1",
       "source": ".opencode/agents/concession-judge.md",
       "status": "active",
       "tests": []
@@ -4867,7 +4867,7 @@
       "kind": "agent",
       "owner_domain": "development",
       "replaced_by": null,
-      "risk_level": null,
+      "risk_level": "L4",
       "source": ".opencode/agents/dev-orchestrator.md",
       "status": "active",
       "tests": []
@@ -5718,7 +5718,7 @@
       "kind": "agent",
       "owner_domain": "development",
       "replaced_by": null,
-      "risk_level": null,
+      "risk_level": "L3",
       "source": ".opencode/agents/feasibility-probe.md",
       "status": "active",
       "tests": []
@@ -5739,7 +5739,7 @@
       "kind": "agent",
       "owner_domain": "development",
       "replaced_by": null,
-      "risk_level": null,
+      "risk_level": "L1",
       "source": ".opencode/agents/fiction-framing-judge.md",
       "status": "active",
       "tests": []
@@ -7107,7 +7107,7 @@
       "kind": "agent",
       "owner_domain": "development",
       "replaced_by": null,
-      "risk_level": null,
+      "risk_level": "L1",
       "source": ".opencode/agents/repetition-truth-judge.md",
       "status": "active",
       "tests": []
@@ -7227,7 +7227,7 @@
       "kind": "agent",
       "owner_domain": "development",
       "replaced_by": null,
-      "risk_level": null,
+      "risk_level": "L2",
       "source": ".opencode/agents/sdd-spec-writer.md",
       "status": "active",
       "tests": []
@@ -7734,7 +7734,7 @@
       "kind": "agent",
       "owner_domain": "development",
       "replaced_by": null,
-      "risk_level": null,
+      "risk_level": "L1",
       "source": ".opencode/agents/spec-judge.md",
       "status": "active",
       "tests": []
@@ -8030,7 +8030,7 @@
       "kind": "agent",
       "owner_domain": "development",
       "replaced_by": null,
-      "risk_level": null,
+      "risk_level": "L1",
       "source": ".opencode/agents/sycophancy-judge.md",
       "status": "active",
       "tests": []
@@ -8681,7 +8681,7 @@
       "kind": "agent",
       "owner_domain": "governance",
       "replaced_by": null,
-      "risk_level": null,
+      "risk_level": "L1",
       "source": ".opencode/agents/compliance-judge.md",
       "status": "active",
       "tests": []
@@ -8910,7 +8910,7 @@
       "kind": "agent",
       "owner_domain": "governance",
       "replaced_by": null,
-      "risk_level": null,
+      "risk_level": "L2",
       "source": ".opencode/agents/legal-compliance.md",
       "status": "active",
       "tests": []
@@ -9250,7 +9250,7 @@
       "kind": "agent",
       "owner_domain": "memory",
       "replaced_by": null,
-      "risk_level": null,
+      "risk_level": "L4",
       "source": ".opencode/agents/coherence-court-orchestrator.md",
       "status": "active",
       "tests": []
@@ -9293,7 +9293,7 @@
       "kind": "agent",
       "owner_domain": "memory",
       "replaced_by": null,
-      "risk_level": null,
+      "risk_level": "L1",
       "source": ".opencode/agents/configurator.md",
       "status": "active",
       "tests": []
@@ -9553,7 +9553,7 @@
       "kind": "agent",
       "owner_domain": "memory",
       "replaced_by": null,
-      "risk_level": null,
+      "risk_level": "L2",
       "source": ".opencode/agents/context-dome-manager.md",
       "status": "active",
       "tests": []
@@ -10287,7 +10287,7 @@
       "kind": "agent",
       "owner_domain": "memory",
       "replaced_by": null,
-      "risk_level": null,
+      "risk_level": "L2",
       "source": ".opencode/agents/memory-agent.md",
       "status": "active",
       "tests": []
@@ -10429,7 +10429,7 @@
       "kind": "agent",
       "owner_domain": "memory",
       "replaced_by": null,
-      "risk_level": null,
+      "risk_level": "L1",
       "source": ".opencode/agents/memory-conflict-judge.md",
       "status": "active",
       "tests": []
@@ -11872,7 +11872,7 @@
       "kind": "agent",
       "owner_domain": "planning",
       "replaced_by": null,
-      "risk_level": null,
+      "risk_level": "L1",
       "source": ".opencode/agents/architect.md",
       "status": "active",
       "tests": []
@@ -12047,7 +12047,7 @@
       "kind": "agent",
       "owner_domain": "planning",
       "replaced_by": null,
-      "risk_level": null,
+      "risk_level": "L1",
       "source": ".opencode/agents/azure-devops-operator.md",
       "status": "active",
       "tests": []
@@ -12602,7 +12602,7 @@
       "kind": "agent",
       "owner_domain": "planning",
       "replaced_by": null,
-      "risk_level": null,
+      "risk_level": "L1",
       "source": ".opencode/agents/business-analyst.md",
       "status": "active",
       "tests": []
@@ -12733,7 +12733,7 @@
       "kind": "agent",
       "owner_domain": "planning",
       "replaced_by": null,
-      "risk_level": null,
+      "risk_level": "L1",
       "source": ".opencode/agents/calibration-judge.md",
       "status": "active",
       "tests": []
@@ -13207,7 +13207,7 @@
       "kind": "agent",
       "owner_domain": "planning",
       "replaced_by": null,
-      "risk_level": null,
+      "risk_level": "L3",
       "source": ".opencode/agents/cobol-developer.md",
       "status": "active",
       "tests": []
@@ -13249,7 +13249,7 @@
       "kind": "agent",
       "owner_domain": "planning",
       "replaced_by": null,
-      "risk_level": null,
+      "risk_level": "L1",
       "source": ".opencode/agents/coherence-factual-judge.md",
       "status": "active",
       "tests": []
@@ -13270,7 +13270,7 @@
       "kind": "agent",
       "owner_domain": "planning",
       "replaced_by": null,
-      "risk_level": null,
+      "risk_level": "L1",
       "source": ".opencode/agents/coherence-judge.md",
       "status": "active",
       "tests": []
@@ -13291,7 +13291,7 @@
       "kind": "agent",
       "owner_domain": "planning",
       "replaced_by": null,
-      "risk_level": null,
+      "risk_level": "L1",
       "source": ".opencode/agents/coherence-objectives-judge.md",
       "status": "active",
       "tests": []
@@ -13312,7 +13312,7 @@
       "kind": "agent",
       "owner_domain": "planning",
       "replaced_by": null,
-      "risk_level": null,
+      "risk_level": "L1",
       "source": ".opencode/agents/coherence-premise-drift-judge.md",
       "status": "active",
       "tests": []
@@ -13333,7 +13333,7 @@
       "kind": "agent",
       "owner_domain": "planning",
       "replaced_by": null,
-      "risk_level": null,
+      "risk_level": "L1",
       "source": ".opencode/agents/coherence-scope-judge.md",
       "status": "active",
       "tests": []
@@ -13348,7 +13348,7 @@
       "kind": "agent",
       "owner_domain": "planning",
       "replaced_by": null,
-      "risk_level": null,
+      "risk_level": "L0",
       "source": ".opencode/agents/coherence-validator.md",
       "status": "active",
       "tests": []
@@ -13363,7 +13363,7 @@
       "kind": "agent",
       "owner_domain": "planning",
       "replaced_by": null,
-      "risk_level": null,
+      "risk_level": "L4",
       "source": ".opencode/agents/commit-guardian.md",
       "status": "active",
       "tests": []
@@ -14092,7 +14092,7 @@
       "kind": "agent",
       "owner_domain": "planning",
       "replaced_by": null,
-      "risk_level": null,
+      "risk_level": "L1",
       "source": ".opencode/agents/criterion-simulation-judge.md",
       "status": "active",
       "tests": []
@@ -14419,7 +14419,7 @@
       "kind": "agent",
       "owner_domain": "planning",
       "replaced_by": null,
-      "risk_level": null,
+      "risk_level": "L1",
       "source": ".opencode/agents/diagram-architect.md",
       "status": "active",
       "tests": []
@@ -14565,7 +14565,7 @@
       "kind": "agent",
       "owner_domain": "planning",
       "replaced_by": null,
-      "risk_level": null,
+      "risk_level": "L3",
       "source": ".opencode/agents/dotnet-developer.md",
       "status": "active",
       "tests": []
@@ -15763,7 +15763,7 @@
       "kind": "agent",
       "owner_domain": "planning",
       "replaced_by": null,
-      "risk_level": null,
+      "risk_level": "L1",
       "source": ".opencode/agents/factuality-judge.md",
       "status": "active",
       "tests": []
@@ -16246,7 +16246,7 @@
       "kind": "agent",
       "owner_domain": "planning",
       "replaced_by": null,
-      "risk_level": null,
+      "risk_level": "L3",
       "source": ".opencode/agents/frontend-developer.md",
       "status": "active",
       "tests": []
@@ -16481,7 +16481,7 @@
       "kind": "agent",
       "owner_domain": "planning",
       "replaced_by": null,
-      "risk_level": null,
+      "risk_level": "L3",
       "source": ".opencode/agents/go-developer.md",
       "status": "active",
       "tests": []
@@ -16605,7 +16605,7 @@
       "kind": "agent",
       "owner_domain": "planning",
       "replaced_by": null,
-      "risk_level": null,
+      "risk_level": "L1",
       "source": ".opencode/agents/hallucination-fast-judge.md",
       "status": "active",
       "tests": []
@@ -16626,7 +16626,7 @@
       "kind": "agent",
       "owner_domain": "planning",
       "replaced_by": null,
-      "risk_level": null,
+      "risk_level": "L1",
       "source": ".opencode/agents/hallucination-judge.md",
       "status": "active",
       "tests": []
@@ -17022,7 +17022,7 @@
       "kind": "agent",
       "owner_domain": "planning",
       "replaced_by": null,
-      "risk_level": null,
+      "risk_level": "L4",
       "source": ".opencode/agents/infrastructure-agent.md",
       "status": "active",
       "tests": []
@@ -17143,7 +17143,7 @@
       "kind": "agent",
       "owner_domain": "planning",
       "replaced_by": null,
-      "risk_level": null,
+      "risk_level": "L3",
       "source": ".opencode/agents/java-developer.md",
       "status": "active",
       "tests": []
@@ -18285,7 +18285,7 @@
       "kind": "agent",
       "owner_domain": "planning",
       "replaced_by": null,
-      "risk_level": null,
+      "risk_level": "L3",
       "source": ".opencode/agents/mobile-developer.md",
       "status": "active",
       "tests": []
@@ -19136,7 +19136,7 @@
       "kind": "agent",
       "owner_domain": "planning",
       "replaced_by": null,
-      "risk_level": null,
+      "risk_level": "L3",
       "source": ".opencode/agents/php-developer.md",
       "status": "active",
       "tests": []
@@ -19950,7 +19950,7 @@
       "kind": "agent",
       "owner_domain": "planning",
       "replaced_by": null,
-      "risk_level": null,
+      "risk_level": "L3",
       "source": ".opencode/agents/python-developer.md",
       "status": "active",
       "tests": []
@@ -20088,7 +20088,7 @@
       "kind": "agent",
       "owner_domain": "planning",
       "replaced_by": null,
-      "risk_level": null,
+      "risk_level": "L2",
       "source": ".opencode/agents/recommendation-tribunal-orchestrator.md",
       "status": "active",
       "tests": []
@@ -20145,7 +20145,7 @@
       "kind": "agent",
       "owner_domain": "planning",
       "replaced_by": null,
-      "risk_level": null,
+      "risk_level": "L0",
       "source": ".opencode/agents/reflection-validator.md",
       "status": "active",
       "tests": []
@@ -20497,7 +20497,7 @@
       "kind": "agent",
       "owner_domain": "planning",
       "replaced_by": null,
-      "risk_level": null,
+      "risk_level": "L3",
       "source": ".opencode/agents/ruby-developer.md",
       "status": "active",
       "tests": []
@@ -20581,7 +20581,7 @@
       "kind": "agent",
       "owner_domain": "planning",
       "replaced_by": null,
-      "risk_level": null,
+      "risk_level": "L1",
       "source": ".opencode/agents/rule-violation-judge.md",
       "status": "active",
       "tests": []
@@ -20656,7 +20656,7 @@
       "kind": "agent",
       "owner_domain": "planning",
       "replaced_by": null,
-      "risk_level": null,
+      "risk_level": "L3",
       "source": ".opencode/agents/rust-developer.md",
       "status": "active",
       "tests": []
@@ -22287,7 +22287,7 @@
       "kind": "agent",
       "owner_domain": "planning",
       "replaced_by": null,
-      "risk_level": null,
+      "risk_level": "L1",
       "source": ".opencode/agents/structural-framing-judge.md",
       "status": "active",
       "tests": []
@@ -22539,7 +22539,7 @@
       "kind": "agent",
       "owner_domain": "planning",
       "replaced_by": null,
-      "risk_level": null,
+      "risk_level": "L2",
       "source": ".opencode/agents/tabular-analyst.md",
       "status": "active",
       "tests": []
@@ -22816,7 +22816,7 @@
       "kind": "agent",
       "owner_domain": "planning",
       "replaced_by": null,
-      "risk_level": null,
+      "risk_level": "L2",
       "source": ".opencode/agents/tech-writer.md",
       "status": "active",
       "tests": []
@@ -22957,7 +22957,7 @@
       "kind": "agent",
       "owner_domain": "planning",
       "replaced_by": null,
-      "risk_level": null,
+      "risk_level": "L3",
       "source": ".opencode/agents/terraform-developer.md",
       "status": "active",
       "tests": []
@@ -23272,7 +23272,7 @@
       "kind": "agent",
       "owner_domain": "planning",
       "replaced_by": null,
-      "risk_level": null,
+      "risk_level": "L2",
       "source": ".opencode/agents/truth-tribunal-orchestrator.md",
       "status": "active",
       "tests": []
@@ -23329,7 +23329,7 @@
       "kind": "agent",
       "owner_domain": "planning",
       "replaced_by": null,
-      "risk_level": null,
+      "risk_level": "L3",
       "source": ".opencode/agents/typescript-developer.md",
       "status": "active",
       "tests": []
@@ -24403,7 +24403,7 @@
       "kind": "agent",
       "owner_domain": "quality",
       "replaced_by": null,
-      "risk_level": null,
+      "risk_level": "L1",
       "source": ".opencode/agents/architecture-judge.md",
       "status": "active",
       "tests": []
@@ -24616,7 +24616,7 @@
       "kind": "agent",
       "owner_domain": "quality",
       "replaced_by": null,
-      "risk_level": null,
+      "risk_level": "L1",
       "source": ".opencode/agents/cognitive-judge.md",
       "status": "active",
       "tests": []
@@ -24680,7 +24680,7 @@
       "kind": "agent",
       "owner_domain": "quality",
       "replaced_by": null,
-      "risk_level": null,
+      "risk_level": "L1",
       "source": ".opencode/agents/confidentiality-auditor.md",
       "status": "active",
       "tests": []
@@ -24806,7 +24806,7 @@
       "kind": "agent",
       "owner_domain": "quality",
       "replaced_by": null,
-      "risk_level": null,
+      "risk_level": "L1",
       "source": ".opencode/agents/correctness-judge.md",
       "status": "active",
       "tests": []
@@ -24827,7 +24827,7 @@
       "kind": "agent",
       "owner_domain": "quality",
       "replaced_by": null,
-      "risk_level": null,
+      "risk_level": "L4",
       "source": ".opencode/agents/court-orchestrator.md",
       "status": "active",
       "tests": []
@@ -25016,7 +25016,7 @@
       "kind": "agent",
       "owner_domain": "quality",
       "replaced_by": null,
-      "risk_level": null,
+      "risk_level": "L1",
       "source": ".opencode/agents/drift-auditor.md",
       "status": "active",
       "tests": []
@@ -25220,7 +25220,7 @@
       "kind": "agent",
       "owner_domain": "quality",
       "replaced_by": null,
-      "risk_level": null,
+      "risk_level": "L1",
       "source": ".opencode/agents/expertise-asymmetry-judge.md",
       "status": "active",
       "tests": []
@@ -25241,7 +25241,7 @@
       "kind": "agent",
       "owner_domain": "quality",
       "replaced_by": null,
-      "risk_level": null,
+      "risk_level": "L2",
       "source": ".opencode/agents/fix-assigner.md",
       "status": "active",
       "tests": []
@@ -25304,7 +25304,7 @@
       "kind": "agent",
       "owner_domain": "quality",
       "replaced_by": null,
-      "risk_level": null,
+      "risk_level": "L4",
       "source": ".opencode/agents/frontend-test-runner.md",
       "status": "active",
       "tests": []
@@ -25348,6 +25348,27 @@
       "replaced_by": null,
       "risk_level": null,
       "source": "scripts/guardrail-audit.sh",
+      "status": "active",
+      "tests": []
+    },
+    {
+      "depends_on": [],
+      "frontend_support": [
+        "opencode"
+      ],
+      "id": "script:scripts/guardrail-negative-tests",
+      "intents": [
+        "enforcement",
+        "guardrail",
+        "hooks",
+        "negative",
+        "tests"
+      ],
+      "kind": "script",
+      "owner_domain": "quality",
+      "replaced_by": null,
+      "risk_level": null,
+      "source": "scripts/guardrail-negative-tests.sh",
       "status": "active",
       "tests": []
     },
@@ -25892,7 +25913,7 @@
       "kind": "agent",
       "owner_domain": "quality",
       "replaced_by": null,
-      "risk_level": null,
+      "risk_level": "L1",
       "source": ".opencode/agents/model-upgrade-auditor.md",
       "status": "active",
       "tests": []
@@ -26009,7 +26030,7 @@
       "kind": "agent",
       "owner_domain": "quality",
       "replaced_by": null,
-      "risk_level": null,
+      "risk_level": "L3",
       "source": ".opencode/agents/pentester.md",
       "status": "active",
       "tests": []
@@ -26179,7 +26200,7 @@
       "kind": "agent",
       "owner_domain": "quality",
       "replaced_by": null,
-      "risk_level": null,
+      "risk_level": "L1",
       "source": ".opencode/agents/pr-agent-judge.md",
       "status": "active",
       "tests": []
@@ -26565,7 +26586,7 @@
       "kind": "agent",
       "owner_domain": "quality",
       "replaced_by": null,
-      "risk_level": null,
+      "risk_level": "L1",
       "source": ".opencode/agents/reconciler.md",
       "status": "active",
       "tests": []
@@ -26748,7 +26769,7 @@
       "kind": "agent",
       "owner_domain": "quality",
       "replaced_by": null,
-      "risk_level": null,
+      "risk_level": "L3",
       "source": ".opencode/agents/security-attacker.md",
       "status": "active",
       "tests": []
@@ -26784,7 +26805,7 @@
       "kind": "agent",
       "owner_domain": "quality",
       "replaced_by": null,
-      "risk_level": null,
+      "risk_level": "L1",
       "source": ".opencode/agents/security-auditor.md",
       "status": "active",
       "tests": []
@@ -26839,7 +26860,7 @@
       "kind": "agent",
       "owner_domain": "quality",
       "replaced_by": null,
-      "risk_level": null,
+      "risk_level": "L3",
       "source": ".opencode/agents/security-defender.md",
       "status": "active",
       "tests": []
@@ -26854,7 +26875,7 @@
       "kind": "agent",
       "owner_domain": "quality",
       "replaced_by": null,
-      "risk_level": null,
+      "risk_level": "L4",
       "source": ".opencode/agents/security-guardian.md",
       "status": "active",
       "tests": []
@@ -26875,7 +26896,7 @@
       "kind": "agent",
       "owner_domain": "quality",
       "replaced_by": null,
-      "risk_level": null,
+      "risk_level": "L1",
       "source": ".opencode/agents/security-judge.md",
       "status": "active",
       "tests": []
@@ -27373,7 +27394,7 @@
       "kind": "agent",
       "owner_domain": "quality",
       "replaced_by": null,
-      "risk_level": null,
+      "risk_level": "L3",
       "source": ".opencode/agents/test-architect.md",
       "status": "active",
       "tests": []
@@ -27952,7 +27973,7 @@
       "kind": "agent",
       "owner_domain": "quality",
       "replaced_by": null,
-      "risk_level": null,
+      "risk_level": "L3",
       "source": ".opencode/agents/test-engineer.md",
       "status": "active",
       "tests": []
@@ -28676,7 +28697,7 @@
       "kind": "agent",
       "owner_domain": "quality",
       "replaced_by": null,
-      "risk_level": null,
+      "risk_level": "L4",
       "source": ".opencode/agents/test-runner.md",
       "status": "active",
       "tests": []
@@ -29448,7 +29469,7 @@
       "kind": "agent",
       "owner_domain": "quality",
       "replaced_by": null,
-      "risk_level": null,
+      "risk_level": "L2",
       "source": ".opencode/agents/visual-digest.md",
       "status": "active",
       "tests": []
@@ -29469,7 +29490,7 @@
       "kind": "agent",
       "owner_domain": "quality",
       "replaced_by": null,
-      "risk_level": null,
+      "risk_level": "L1",
       "source": ".opencode/agents/visual-qa-agent.md",
       "status": "active",
       "tests": []
@@ -29490,7 +29511,7 @@
       "kind": "agent",
       "owner_domain": "quality",
       "replaced_by": null,
-      "risk_level": null,
+      "risk_level": "L3",
       "source": ".opencode/agents/web-e2e-tester.md",
       "status": "active",
       "tests": []
@@ -29558,7 +29579,7 @@
       "tests": []
     }
   ],
-  "content_hash": "4ebf9ae04023",
+  "content_hash": "2359dd1f497f",
   "deferred_kinds": [
     "rule",
     "hook"
