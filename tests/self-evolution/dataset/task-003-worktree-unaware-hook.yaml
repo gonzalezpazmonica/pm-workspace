@@ -1,0 +1,14 @@
+id: task-003-worktree-unaware-hook
+baseline_commit: 2d8d8239
+problem: >
+  Hook savia-gates branch-switch es worktree-unaware: en un worktree limpio
+  bloquea commits legitimos leyendo la rama del repo principal (incidente
+  2026-09-05, fixture fundador SE-383).
+allowed_evidence: [.claude/hooks/, tests/chaos/]
+forbidden_actions: [desactivar el hook, cambiar reglas de negocio]
+expected_behavior: en worktree con arbol limpio el commit NO se bloquea;
+   en repo principal con arbol sucio el bloqueo se mantiene
+expected_files: [tests/chaos/run-chaos-suite.sh]
+invariants: [regla original preservada en repo principal]
+risk_level: L3
+evaluation: [fixture rojo-antes-verde-despues, ambos contextos verificados]
