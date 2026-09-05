@@ -161,6 +161,16 @@ rm -f "$BODY_FILE" "$PWD/.pr-summary.md"; echo "  $PR_URL"
 # ── Auto-merge (--merge flag) ────────────────────────────────────────────
 MERGED=false
 if $MERGE && [[ "$PR_URL" == http* ]]; then
+  # SE-387 C/F5 — exactly-once: reservation por (op, PR); crash-safe.
+  PR_NUM_RES="${PR_URL##*/}"
+  RES_FILE="$HOME/.savia/reservations/pr.merge__${PR_NUM_RES}.json"
+  if [[ -f "$RES_FILE" ]] && [[ "$(jq -r .state "$RES_FILE" 2>/dev/null)" == "closed" ]]; then
+    echo "ALREADY_EXECUTED: PR #$PR_NUM_RES ya mergeado bajo reservation cerrada — no se repite" >&2
+    exit 3
+  fi
+  mkdir -p "$(dirname "$RES_FILE")"
+  printf '{"op":"pr.merge","key":"%s","state":"reserved","ts":"%s"}\n' "$PR_NUM_RES" "$(date -u +%FT%TZ)" > "$RES_FILE"
+  echo "F5 reservation: pr.merge/$PR_NUM_RES (reserved)"
   # SE-343: merge requires a valid operator grant (express request recorded).
   if ! bash scripts/operator-grant.sh check --scope merge >/dev/null 2>&1; then
     echo "ERROR: merge requires a vigente operator grant." >&2
@@ -198,6 +208,13 @@ if $MERGE && [[ "$PR_URL" == http* ]]; then
       | python3 -c "import sys,json;d=json.load(sys.stdin);print('  Merged.' if 'sha' in d else f'  Merge: {d}')" \
       || echo "  CI timeout. Merge manually."
   fi
+  # F5: cerrar reservation solo tras merge real; en fallo queda "reserved"
+  # (crash-safe: retry tras crash permite completar; retry tras close => ALREADY_EXECUTED)
+  if command -v gh >/dev/null 2>&1 && gh pr view "$PR_NUM_RES" --json state -q .state 2>/dev/null | grep -q MERGED; then
+    jq -c '.state="closed" | .closed_at=now' "$RES_FILE" > "$RES_FILE.tmp" && mv "$RES_FILE.tmp" "$RES_FILE"
+    echo "F5 receipt: pr.merge/$PR_NUM_RES closed"
+  fi
+
   # Check if merge completed (for release step)
   if $USE_GH_CLI; then
     PR_STATE=$(gh pr view "$PR_NUM" --json state -q .state 2>/dev/null || echo "")
