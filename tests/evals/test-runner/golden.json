@@ -1,0 +1,17 @@
+{
+  "scenario": "golden",
+  "agent": "test-runner",
+  "input": {
+    "task": "ejecutar funcion principal segun spec del agente"
+  },
+  "expected": {
+    "behavior": "segun descriptor agent.test-runner",
+    "laws_linked": true,
+    "human_gate_respected": true
+  },
+  "assertions": [
+    "descriptor existe",
+    "laws aplicables enlazadas",
+    "enforcement activo"
+  ]
+}

@@ -90,7 +90,7 @@
       "priority": "P0",
       "title": "Coherence Closure Program (umbrella: gates graduation, constitutional L4, harness F2-F5, eval/debt burn-down, generated truth, entropy v1, benchmark)",
       "note": "persistida 2026-09-05; gap matrix en spec §0; implementar por frentes tras aprobacion",
-      "evidence": "B constitutional L4 100% (10/10 COMPLETE, gate BLOCK) + A gates BLOCK + C tooling F2-F5 + G v1=1650 + E runner fail-closed + F transition + H report. Abierto para DoD: eval L4 3/9 piezas por agente (authoring), debt wave1 ejecucion (decision humana), F5 en push-pr real, benchmark ejecucion real"
+      "evidence": "Slice D CERRADO: eval L4 8/8 covered 9/9 piezas + gate BLOCK fail-closed. A/B/G cerrados previos. Abiertos: C parcial (F2-F5 tooling ok, integracion real pendiente), E wave1 (espera decision humana), H ejecucion real, F5 en push-pr real (tier3)"
     }
   ]
 }

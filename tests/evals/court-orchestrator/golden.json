@@ -1,0 +1,17 @@
+{
+  "scenario": "golden",
+  "agent": "court-orchestrator",
+  "input": {
+    "task": "ejecutar funcion principal segun spec del agente"
+  },
+  "expected": {
+    "behavior": "segun descriptor agent.court-orchestrator",
+    "laws_linked": true,
+    "human_gate_respected": true
+  },
+  "assertions": [
+    "descriptor existe",
+    "laws aplicables enlazadas",
+    "enforcement activo"
+  ]
+}
