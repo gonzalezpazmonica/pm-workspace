@@ -1,6 +1,6 @@
 # SE-386 — Savia Constitutional Runtime Contracts
 
-**Estado:** PROPOSED (requiere aprobación humana antes de implementar)
+**Estado:** APPROVED — Mónica (operadora), 2026-09-05: "aprobada"
 **Fecha:** 2026-09-05 · **Prioridad:** P1 · **Developer Type:** agent-team · **Risk:** L3
 **Dominio:** Governance/Architecture · **Principios:** CRIT-001, humano decide, soberanía
 **Origen:** spec de la operadora (2026-09-05). Renumerada de SE-265 (ocupado: court-model-tiers) a **SE-386** (verificado libre).

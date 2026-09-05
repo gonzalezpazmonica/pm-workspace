@@ -27,6 +27,16 @@ if OUT=$(bash "$ROOT/scripts/debt-budget-check.sh" "$ROOT" 2>&1); then
 else
   echo "WARN coherence/debt-budget: $OUT"; FAILED=1
 fi
+if bash "$ROOT/scripts/law-check.sh" >/dev/null 2>&1; then
+  echo "PASS coherence/law-check: laws OK"
+else
+  echo "WARN coherence/law-check"; FAILED=1
+fi
+if bash "$ROOT/scripts/contract-check.sh" >/dev/null 2>&1; then
+  echo "PASS coherence/contract-check: descriptors OK"
+else
+  echo "WARN coherence/contract-check"; FAILED=1
+fi
 python3 "$ROOT/scripts/eval-coverage-matrix.py" --root "$ROOT" >/dev/null 2>&1 \
   && echo "PASS coherence/eval-coverage: informe generado" \
   || { echo "WARN coherence/eval-coverage: sin registry"; FAILED=1; }

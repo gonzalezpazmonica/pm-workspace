@@ -1,6 +1,6 @@
 # Savia Capability Map — INDEX
-> hash: ad3f5a6de03b | resources: 1451
-> 295 commands · 136 skills · 89 agents · 931 scripts
+> hash: 18d375a53846 | resources: 1453
+> 295 commands · 136 skills · 89 agents · 933 scripts
 
 [analysis] Trace Optimize — across,distributed,optimize,rates,sampling — cmd:.claude/commands/trace-optimize.md
 [analysis] agent-activity — activity,agent,executions,recent,show — cmd:.claude/commands/agent-activity.md
@@ -670,6 +670,7 @@
 [planning] containment-check — available,check,containment,infrastructure,verify — script:scripts/containment-check.sh
 [planning] containment-run — command,containment,execute,level,proper — script:scripts/containment-run.sh
 [planning] content-fingerprint — cache,cadena,contenido,corto,derivado — skill:.claude/skills/content-fingerprint/SKILL.md
+[planning] contract-check — capabilitydescriptors,check,contract,valida — script:scripts/contract-check.sh
 [planning] contribute — capa,comunidad,contribute,github,interacción — script:scripts/contribute.sh
 [planning] control-band-agent — agent,agente,band,control,invocación — script:scripts/control-band-agent.sh
 [planning] control-band-detect — band,bands,control,detección,detect — script:scripts/control-band-detect.sh
@@ -855,6 +856,7 @@
 [planning] l28-ablation — ablacion,ablation,harness,prueba,sandbox — script:scripts/l28-ablation.sh
 [planning] labs-preregister — hipotesis,labs,preregister,preregistro,savia — script:scripts/labs-preregister.sh
 [planning] language-boundary-check — boundary,check,language,scripts,slice — script:scripts/language-boundary-check.sh
+[planning] law-check — check,registry,valida — script:scripts/law-check.sh
 [planning] learning-autonomy — autonomy,autonomía,consistent,graduada,learning — script:scripts/learning-autonomy.sh
 [planning] learning-divergence — divergence,divergencia,grafo,instrumento,learning — script:scripts/learning-divergence.sh
 [planning] learning-federate — aprendidas,comparte,consume,federate,learning — script:scripts/learning-federate.sh

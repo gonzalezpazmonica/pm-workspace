@@ -1,0 +1,21 @@
+id: pr.merge
+version: 1
+description: Mergea un PR aprobado con grant de operadora vigente (SE-343).
+input:
+  type: object
+  required: [pr_number]
+  properties:
+    pr_number: { type: integer }
+safety:
+  effect: mutation
+  visibility: visible
+  reversibility: irreversible
+  destructive: false
+  external_side_effect: true
+  human_gate: required
+  scope: [repo]
+execution:
+  handler: scripts/push-pr.sh --merge
+laws:
+  - LAW-HUMAN-001
+  - LAW-HUMAN-002

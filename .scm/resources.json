@@ -1,6 +1,6 @@
 {
-  "hash": "e2a96accc58b",
-  "total": 1451,
+  "hash": "412dbdf506b2",
+  "total": 1453,
   "resources": [
     {
       "category": "analysis",
@@ -8902,6 +8902,19 @@
     },
     {
       "category": "planning",
+      "name": "contract-check",
+      "intents": [
+        "capabilitydescriptors",
+        "check",
+        "contract",
+        "valida"
+      ],
+      "kind": "script",
+      "path": "scripts/contract-check.sh",
+      "description": "contract-check.sh — SE-386 S2: valida CapabilityDescriptors."
+    },
+    {
+      "category": "planning",
       "name": "contribute",
       "intents": [
         "capa",
@@ -11303,6 +11316,18 @@
       "kind": "script",
       "path": "scripts/language-boundary-check.sh",
       "description": "scripts/language-boundary-check.sh — SE-253 Slice 7"
+    },
+    {
+      "category": "planning",
+      "name": "law-check",
+      "intents": [
+        "check",
+        "registry",
+        "valida"
+      ],
+      "kind": "script",
+      "path": "scripts/law-check.sh",
+      "description": "law-check.sh — SE-386 S1: valida Law Registry."
     },
     {
       "category": "planning",
