@@ -21959,6 +21959,36 @@
     {
       "depends_on": [],
       "frontend_support": [
+        "claude"
+      ],
+      "id": "skill:.claude/skills/social-linkedin/SKILL",
+      "intents": [],
+      "kind": "skill",
+      "owner_domain": "planning",
+      "replaced_by": null,
+      "risk_level": null,
+      "source": ".claude/skills/social-linkedin/SKILL.md",
+      "status": "active",
+      "tests": []
+    },
+    {
+      "depends_on": [],
+      "frontend_support": [
+        "opencode"
+      ],
+      "id": "agent:.opencode/agents/social-networks",
+      "intents": [],
+      "kind": "agent",
+      "owner_domain": "planning",
+      "replaced_by": null,
+      "risk_level": "L2",
+      "source": ".opencode/agents/social-networks.md",
+      "status": "active",
+      "tests": []
+    },
+    {
+      "depends_on": [],
+      "frontend_support": [
         "opencode"
       ],
       "id": "script:scripts/source-corroborator",
@@ -29600,7 +29630,7 @@
       "tests": []
     }
   ],
-  "content_hash": "d667e1051c0b",
+  "content_hash": "e2a96accc58b",
   "deferred_kinds": [
     "rule",
     "hook"

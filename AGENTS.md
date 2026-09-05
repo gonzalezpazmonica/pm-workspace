@@ -90,6 +90,7 @@ the Stop hook `agents-md-auto-regenerate.sh` whenever an agent file changes.
 | security-defender | opencode-go/deepseek-v4-flash | L3 | — | Agente Blue Team que propone correcciones para las vulnerabilidades encontradas por el attacker. Genera patches, conf... |
 | security-guardian | opencode-go/glm-5.3 | L4 | — | Especialista en seguridad, confidencialidad y ciberseguridad. Audita los cambios staged ANTES de cualquier commit par... |
 | security-judge | opencode-go/deepseek-v4-flash | L1 | — | Code Review Court judge — OWASP, PII, injection, auth, credentials |
+| social-networks | opencode-go/deepseek-v4-flash | L2 | — | Coordinador agnóstico de redes sociales (SE-385). Selecciona proveedor, comprueba credenciales y permisos (capability... |
 | source-traceability-judge | opencode-go/deepseek-v4-flash | L1 | — | Truth Tribunal judge — every claim must have a verifiable @ref citation |
 | spec-judge | opencode-go/deepseek-v4-flash | L1 | — | Code Review Court judge — implementation vs approved spec, acceptance criteria |
 | structural-framing-judge | opencode-go/deepseek-v4-flash | L1 | — | Recommendation Tribunal judge — detects output with manual/protocol form over CBRN or sensitive domain |

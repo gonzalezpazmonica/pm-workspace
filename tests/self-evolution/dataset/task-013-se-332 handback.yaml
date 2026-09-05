@@ -1,0 +1,11 @@
+id: task-013-se-332 handback
+baseline_commit: 0e851e90
+problem: >
+  Implementar/verificar SE-332 handback: handback reference-first y termination contra el estado actual del arbol.
+allowed_evidence: [scripts/handback-resolve.sh]
+forbidden_actions: [tocar guardrails sin spec, auto-merge, secrets en repo]
+expected_behavior: segun spec SE-332 handback vigente en docs/ y rules
+expected_files: [scripts/handback-resolve.sh]
+invariants: [CRIT-001 local, sin-regresion-paired-delta]
+risk_level: L3
+evaluation: [pr-mergeada, gates-verdes, scope-respetado]

@@ -1,0 +1,11 @@
+id: task-020-se-162 knowledge-graph
+baseline_commit: 0e851e90
+problem: >
+  Implementar/verificar SE-162 knowledge-graph: grafo de entidades tipadas contra el estado actual del arbol.
+allowed_evidence: [scripts/knowledge-graph.sh]
+forbidden_actions: [tocar guardrails sin spec, auto-merge, secrets en repo]
+expected_behavior: segun spec SE-162 knowledge-graph vigente en docs/ y rules
+expected_files: [scripts/knowledge-graph.sh]
+invariants: [CRIT-001 local, sin-regresion-paired-delta]
+risk_level: L2
+evaluation: [pr-mergeada, gates-verdes, scope-respetado]

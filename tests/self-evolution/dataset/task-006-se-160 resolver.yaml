@@ -1,0 +1,11 @@
+id: task-006-se-160 resolver
+baseline_commit: 0e851e90
+problem: >
+  Implementar/verificar SE-160 resolver: RESOLVER AUTO se regenera desde skills/agents contra el estado actual del arbol.
+allowed_evidence: [scripts/resolver-md-generate.sh]
+forbidden_actions: [tocar guardrails sin spec, auto-merge, secrets en repo]
+expected_behavior: segun spec SE-160 resolver vigente en docs/ y rules
+expected_files: [scripts/resolver-md-generate.sh]
+invariants: [CRIT-001 local, sin-regresion-paired-delta]
+risk_level: L1
+evaluation: [pr-mergeada, gates-verdes, scope-respetado]

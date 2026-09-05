@@ -1,5 +1,5 @@
 # planning — Savia Capability Map (L1)
-> 627 resources
+> 629 resources
 
 - **/decide-architecture** (cmd): Clasifica una tarea como WORKFLOW (deterministica) o AGENT (loop). Bias hacia workflow per Anthropic. Sugiere plantilla inicial. Mide accuracy contra corpus curado de 20 tareas.
 - **_template** (skill): TEMPLATE — copia este directorio para crear una skill nueva. NO se carga en runtime.
@@ -519,6 +519,8 @@
 - **slm-train** (script): slm-train.sh — Fine-tune SLMs locally with Unsloth + export to Ollama
 - **slm-train-config** (script): slm-train-config.sh — Phase 3 scaffolding: emit Unsloth/TRL YAML config.
 - **smart-calendar** (skill): Usar cuando se gestiona la agenda inteligente con sincronización Outlook/Teams.
+- **social-linkedin** (skill): >-
+- **social-networks** (agent): >-
 - **source-corroborator** (script): source-corroborator.sh — SE-273 S5: Corroboración de fuentes externas
 - **sovereignty-benchmark** (script): sovereignty-benchmark.sh — Benchmark pm-workspace prompts with local LLM
 - **sovereignty-classify** (script): sovereignty-classify.sh — SE-314: clasificador determinista de soberanía de datos.

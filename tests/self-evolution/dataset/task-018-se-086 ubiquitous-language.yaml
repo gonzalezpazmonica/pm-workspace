@@ -1,0 +1,11 @@
+id: task-018-se-086 ubiquitous-language
+baseline_commit: 0e851e90
+problem: >
+  Implementar/verificar SE-086 ubiquitous-language: glosario de dominio por proyecto contra el estado actual del arbol.
+allowed_evidence: [scripts/extract-domain-entities.py]
+forbidden_actions: [tocar guardrails sin spec, auto-merge, secrets en repo]
+expected_behavior: segun spec SE-086 ubiquitous-language vigente en docs/ y rules
+expected_files: [scripts/extract-domain-entities.py]
+invariants: [CRIT-001 local, sin-regresion-paired-delta]
+risk_level: L1
+evaluation: [pr-mergeada, gates-verdes, scope-respetado]
