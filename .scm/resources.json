@@ -1,6 +1,6 @@
 {
-  "hash": "3f7d109856b7",
-  "total": 1442,
+  "hash": "87355d4fb9f0",
+  "total": 1443,
   "resources": [
     {
       "category": "analysis",
@@ -11544,15 +11544,15 @@
       "category": "planning",
       "name": "lightpanda-browser",
       "intents": [
-        "avanzada",
-        "contenido",
-        "dump",
-        "extraccion",
-        "extrae"
+        "agpl",
+        "apache",
+        "browser",
+        "casos",
+        "cero"
       ],
       "kind": "skill",
       "path": ".claude/skills/lightpanda-browser/SKILL.md",
-      "description": "Usar cuando se necesita navegacion web headless avanzada (JS-heavy sites, SPAs, extraccion markdown de URLs, web scraping que requiere renderizado JS). Triggers: 'navega a', 'extrae contenido de', 'scrapea', 'renderiza esta pagina', 'dump m"
+      "description": "DEPRECATED 2026-09-04 — sustituida por obscura-browser. No usar en casos nuevos. Se conserva como referencia histórica: Obscura gana en licencia (Apache-2.0 vs AGPL), telemetría (cero vs ON por defecto) y recursos (41MB RAM)."
     },
     {
       "category": "planning",
@@ -11968,6 +11968,20 @@
       "kind": "cmd",
       "path": ".claude/commands/obs-status.md",
       "description": "Health check de todas las fuentes de observabilidad conectadas"
+    },
+    {
+      "category": "planning",
+      "name": "obscura-browser",
+      "intents": [
+        "chromium",
+        "contenido",
+        "extrae",
+        "fetch",
+        "headless"
+      ],
+      "kind": "skill",
+      "path": ".claude/skills/obscura-browser/SKILL.md",
+      "description": "Navegador headless nativo de Savia para fetch/scrape (Rust, sin Chromium, 41MB RAM, sin telemetria). Usar cuando se navega a, se extrae contenido de, se scrapea, se renderiza JS, o se necesita CDP/MCP headless. NO para e2e (usar Playwright)"
     },
     {
       "category": "planning",

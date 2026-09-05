@@ -1,17 +1,23 @@
 ---
 layer: peripheral
 name: lightpanda-browser
-description: "Usar cuando se necesita navegacion web headless avanzada (JS-heavy sites, SPAs, extraccion markdown de URLs, web scraping que requiere renderizado JS). Triggers: 'navega a', 'extrae contenido de', 'scrapea', 'renderiza esta pagina', 'dump markdown', 'web automation', 'headless browser'."
+description: "DEPRECATED 2026-09-04 — sustituida por obscura-browser. No usar en casos nuevos. Se conserva como referencia histórica: Obscura gana en licencia (Apache-2.0 vs AGPL), telemetría (cero vs ON por defecto) y recursos (41MB RAM)."
 metadata:
   # --- metadata.savia.* (SE-333) ---
   savia.category: tool
   savia.context: project
-  savia.maturity: experimental
-  savia.priority: medium
-  savia.tags: "browser, headless, web, scraping, markdown, mcp, automation, lightpanda"
+  savia.maturity: deprecated
+  savia.priority: low
+  savia.tags: "browser, headless, web, scraping, markdown, mcp, automation, lightpanda, deprecated"
 ---
 
 # lightpanda-browser
+
+> **DEPRECATED 2026-09-04** — Sustituida por `obscura-browser`.
+> Motivo (benchmark `output/research/obscura-vs-playwright-20260904.md`):
+> Obscura ofrece Apache-2.0 bundlable vs AGPL, cero telemetría (Lightpanda la
+> tiene ON por defecto) y 3x menos RAM. No iniciar casos nuevos con Lightpanda.
+> Contenido conservado como referencia.
 
 Navegador headless optimizado para IA. 9x mas rapido y 16x menos RAM que Chrome.
 Escrito en Zig. AGPL-3.0 — solo como herramienta externa, nunca bundled.

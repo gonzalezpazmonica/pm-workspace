@@ -77,7 +77,7 @@ To use a skill: read `<path>` and follow its instructions.
 | iac-security-scanner | `.opencode/skills/iac-security-scanner/SKILL.md` | Usar cuando se escanea IaC (Terraform, Bicep, Dockerfile, docker-compose) con Trivy config para d... |
 | knowledge-graph | `.opencode/skills/knowledge-graph/SKILL.md` | Usar cuando se construye o consulta el grafo de conocimiento de entidades del proyecto. |
 | legal-compliance | `.opencode/skills/legal-compliance/SKILL.md` | Usar cuando se audita compliance legal contra legislación española consolidada. |
-| lightpanda-browser | `.opencode/skills/lightpanda-browser/SKILL.md` | Usar cuando se necesita navegacion web headless avanzada (JS-heavy sites, SPAs, extraccion markdo... |
+| lightpanda-browser | `.opencode/skills/lightpanda-browser/SKILL.md` | DEPRECATED 2026-09-04 — sustituida por obscura-browser. No usar en casos nuevos. Se conserva co... |
 | managed-content | `.opencode/skills/managed-content/SKILL.md` | Usar cuando se regeneran secciones auto-generadas en documentos con marcadores de seguridad. |
 | meeting-transcript-extract | `.opencode/skills/meeting-transcript-extract/SKILL.md` | Usar cuando se necesita extraer la transcripción de una reunión Teams desde el browser. |
 | memvid-backup | `.opencode/skills/memvid-backup/SKILL.md` | Usar cuando se crea un backup portable de la memoria externa de Savia. |
@@ -87,6 +87,7 @@ To use a skill: read `<path>` and follow its instructions.
 | mutation-audit | `.opencode/skills/mutation-audit/SKILL.md` | Usar cuando se quiere medir la calidad real de los tests mediante mutation testing. |
 | network-recon | `.opencode/skills/network-recon/SKILL.md` | Reconocimiento de red: port scan con nmap/RustScan + HTTP detection con httpx. |
 | nuclei-scanning | `.opencode/skills/nuclei-scanning/SKILL.md` | Usar cuando se escanean vulnerabilidades conocidas (CVEs, misconfigs) con Nuclei. |
+| obscura-browser | `.opencode/skills/obscura-browser/SKILL.md` | Navegador headless nativo de Savia para fetch/scrape (Rust, sin Chromium, 41MB RAM, sin telemetri... |
 | onboarding-dev | `.opencode/skills/onboarding-dev/SKILL.md` | Usar cuando se incorpora un desarrollador nuevo al proyecto y necesita buddy IA. |
 | org-meeting-capture | `.opencode/skills/org-meeting-capture/SKILL.md` | Captura de Conocimiento Tácito de Reunión: extrae decisores, acuerdos informales y señales pol... |
 | org-political-landscape | `.opencode/skills/org-political-landscape/SKILL.md` | Análisis de Paisaje Político Interno: detecta tensiones, alianzas y centros de poder a partir d... |
