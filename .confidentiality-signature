@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=7ac63105b109caf185503585f98d2d87fd8dc9809b4c3ed3cd3fd42c2898a6b9
-timestamp=2026-09-05T00:32:36Z
-branch=agent/audit-20260905-se374-guardrail-audit
-head_commit=a28bf950
-signature=d1eb3be6675345bb1052d0a7fe35e9ecccc2fe54e9ea7024495521047cf5f021
+diff_hash=9625f96de7ba9daf8a3910ec5b70a3015707ac04b59a879d8b30d55514becd3a
+timestamp=2026-09-05T01:13:07Z
+branch=agent/audit-20260905-coherence-before-capability
+head_commit=c8574cc5
+signature=564d52078201d384ce8e50170e4bf871b433dde4b17f58e11a09f369d0fa47d8
