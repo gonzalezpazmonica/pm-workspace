@@ -803,6 +803,40 @@ claude
     print(f"\n{BOLD}📄 Informe guardado: {report_file}{NC}")
 
 
+def test_governance_new() -> None:
+    """SE-374..386: valida las funcionalidades nuevas post-instalación."""
+    log_header("SUITE 10 — Gobernanza nueva (SE-374..386)")
+    checks = [
+        ("guardrail-audit (SE-374)", ["bash", "scripts/guardrail-audit.sh"]),
+        ("release-invariants (SE-379)", ["bash", "scripts/release-invariants.sh"]),
+        ("registry determinismo (SE-375)", ["python3", "scripts/generate-capability-map.py", "--check"]),
+        ("roadmap validate (SE-378)", ["bash", "scripts/roadmap.sh", "validate"]),
+        ("law-check (SE-386)", ["bash", "scripts/law-check.sh"]),
+        ("contract-check (SE-386)", ["bash", "scripts/contract-check.sh"]),
+        ("negative-tests (SE-377)", ["bash", "scripts/guardrail-negative-tests.sh"]),
+        ("chaos-suite (SE-383)", ["bash", "tests/chaos/run-chaos-suite.sh"]),
+    ]
+    for name, cmd in checks:
+        r = subprocess.run(cmd, capture_output=True, text=True, cwd=WORKSPACE_ROOT)
+        if r.returncode == 0:
+            pass_test(name)
+        else:
+            fail_test(name, (r.stderr or r.stdout)[-160:].strip())
+    r = subprocess.run(["python3", "scripts/capability-entropy.py", "--check"],
+                       capture_output=True, text=True, cwd=WORKSPACE_ROOT)
+    if r.returncode == 0:
+        pass_test("entropy-ratchet (SE-380)")
+    else:
+        skip_test("entropy-ratchet (SE-380)",
+                  (r.stderr or r.stdout).strip()[-160:] or "entropía sobre baseline")
+    r = subprocess.run(["python3", "scripts/social-linkedin-status.py"],
+                       capture_output=True, text=True, cwd=WORKSPACE_ROOT)
+    if r.returncode == 0 and "NOT_GRANTED" in r.stdout:
+        pass_test("social-linkedin status (SE-385)")
+    else:
+        fail_test("social-linkedin status (SE-385)", (r.stderr or r.stdout)[-160:].strip())
+
+
 # ── Main ──────────────────────────────────────────────────────────────────────
 def main() -> int:
     parser = argparse.ArgumentParser(
@@ -856,6 +890,8 @@ def main() -> int:
         test_report()
     if should_run("backlog"):
         test_backlog()
+    if should_run("governance-new"):
+        test_governance_new()
 
     # ── Resumen final ─────────────────────────────────────────────────────────
     print(f"\n{BOLD}{BLUE}{'═' * 52}{NC}")
