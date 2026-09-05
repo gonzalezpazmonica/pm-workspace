@@ -1,6 +1,6 @@
 {
-  "hash": "d667e1051c0b",
-  "total": 1449,
+  "hash": "e2a96accc58b",
+  "total": 1451,
   "resources": [
     {
       "category": "analysis",
@@ -14202,6 +14202,22 @@
       "kind": "skill",
       "path": ".claude/skills/smart-calendar/SKILL.md",
       "description": "Usar cuando se gestiona la agenda inteligente con sincronización Outlook/Teams."
+    },
+    {
+      "category": "planning",
+      "name": "social-linkedin",
+      "intents": [],
+      "kind": "skill",
+      "path": ".claude/skills/social-linkedin/SKILL.md",
+      "description": ">-"
+    },
+    {
+      "category": "planning",
+      "name": "social-networks",
+      "intents": [],
+      "kind": "agent",
+      "path": ".opencode/agents/social-networks.md",
+      "description": ">-"
     },
     {
       "category": "planning",

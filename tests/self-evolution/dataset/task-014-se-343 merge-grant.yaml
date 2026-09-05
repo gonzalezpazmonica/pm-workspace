@@ -1,0 +1,11 @@
+id: task-014-se-343 merge-grant
+baseline_commit: 0e851e90
+problem: >
+  Implementar/verificar SE-343 merge-grant: merge exige grant vigente one-shot contra el estado actual del arbol.
+allowed_evidence: [scripts/operator-grant.sh]
+forbidden_actions: [tocar guardrails sin spec, auto-merge, secrets en repo]
+expected_behavior: segun spec SE-343 merge-grant vigente en docs/ y rules
+expected_files: [scripts/operator-grant.sh]
+invariants: [CRIT-001 local, sin-regresion-paired-delta]
+risk_level: L4
+evaluation: [pr-mergeada, gates-verdes, scope-respetado]

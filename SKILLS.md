@@ -144,6 +144,7 @@ To use a skill: read `<path>` and follow its instructions.
 | skill-evaluation | `.opencode/skills/skill-evaluation/SKILL.md` | Usar cuando se necesita seleccionar el skill más apropiado para una tarea dada. |
 | smart-calendar | `.opencode/skills/smart-calendar/SKILL.md` | Usar cuando se gestiona la agenda inteligente con sincronización Outlook/Teams. |
 | smart-routing | `.opencode/skills/smart-routing/SKILL.md` | Usar cuando se necesita descubrir o enrutar a un comando específico entre los 400+ disponibles. |
+| social-linkedin | `.opencode/skills/social-linkedin/SKILL.md` | Provider skill de LinkedIn para el agente social-networks (SE-385 MVP1). Import manual del export... |
 | sovereignty-auditor | `.opencode/skills/sovereignty-auditor/SKILL.md` | Usar cuando se audita el grado de dependencia cognitiva del equipo respecto a herramientas de IA. |
 | spec-driven-development | `.opencode/skills/spec-driven-development/SKILL.md` | Usar cuando se escribe, valida o implementa una spec ejecutable SDD. |
 | sprint-management | `.opencode/skills/sprint-management/SKILL.md` | Usar cuando se consulta el estado del sprint, se actualizan items o se genera el resumen. |

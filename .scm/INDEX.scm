@@ -1,6 +1,6 @@
 # Savia Capability Map — INDEX
-> hash: b8828fe10220 | resources: 1449
-> 295 commands · 135 skills · 88 agents · 931 scripts
+> hash: ad3f5a6de03b | resources: 1451
+> 295 commands · 136 skills · 89 agents · 931 scripts
 
 [analysis] Trace Optimize — across,distributed,optimize,rates,sampling — cmd:.claude/commands/trace-optimize.md
 [analysis] agent-activity — activity,agent,executions,recent,show — cmd:.claude/commands/agent-activity.md
@@ -1076,6 +1076,8 @@
 [planning] slm-train — export,fine,locally,ollama,slms — script:scripts/slm-train.sh
 [planning] slm-train-config — config,emit,phase,scaffolding,train — script:scripts/slm-train-config.sh
 [planning] smart-calendar — agenda,gestiona,inteligente,outlook,sincronización — skill:.claude/skills/smart-calendar/SKILL.md
+[planning] social-linkedin —  — skill:.claude/skills/social-linkedin/SKILL.md
+[planning] social-networks —  — agent:.opencode/agents/social-networks.md
 [planning] source-corroborator — corroboración,corroborator,externas,fuentes,source — script:scripts/source-corroborator.sh
 [planning] sovereignty-benchmark — benchmark,local,prompts,sovereignty,workspace — script:scripts/sovereignty-benchmark.sh
 [planning] sovereignty-classify — clasificador,classify,datos,determinista,soberanía — script:scripts/sovereignty-classify.sh

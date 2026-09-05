@@ -2,16 +2,77 @@
   "version": 1,
   "era": "Coherence Before Capability",
   "initiatives": [
-    {"id": "SE-374", "status": "IMPLEMENTED", "evidence": "PR #1080", "title": "Guardrail Principle Compliance Audit"},
-    {"id": "SE-375", "status": "IMPLEMENTED", "evidence": "PR #1083 (S1); S2 rule/hook kinds y vistas derivadas pendientes", "title": "Canonical Capability Registry"},
-    {"id": "SE-376", "status": "IMPLEMENTING", "evidence": "PR #1082 (budget wave 0 + inventario); curation waves 1-2 pendientes", "title": "Quality Debt Burn-down"},
-    {"id": "SE-377", "status": "IMPLEMENTING", "evidence": "PR #1084 (negative tests + receipts visibility); gate de bloqueo CI pendiente", "title": "Policy Enforcement Completeness"},
-    {"id": "SE-378", "status": "IMPLEMENTING", "evidence": "PR en curso (planning state + CLI)", "title": "Planning State Machine", "approval": "Mónica 2026-09-05: 'Apruebo todas, implementa, pr y merge'"},
-    {"id": "SE-379", "status": "IMPLEMENTED", "evidence": "PR #1082", "title": "Release & Metadata Invariants"},
-    {"id": "SE-380", "status": "IMPLEMENTING", "evidence": "PR en curso (entropy v0 + usage + advisor + lifecycle)", "title": "Capability Lifecycle, Usage & Complexity Budget", "approval": "Mónica 2026-09-05: 'Apruebo todas, implementa, pr y merge'"},
-    {"id": "SE-381", "status": "IMPLEMENTING", "evidence": "PR #1084 (matriz report-only); gate de bloqueo diferido", "title": "Risk-Weighted Behavioral Eval Matrix"},
-    {"id": "SE-383", "status": "APPROVED", "approval": "Mónica 2026-09-05: 'Apruebo todas, implementa, pr y merge'", "title": "Harness Adversarial / Chaos Suite"},
-    {"id": "SE-384", "status": "APPROVED", "approval": "Mónica 2026-09-05: 'Apruebo todas, implementa, pr y merge'", "title": "Savia Self-Evolution Benchmark (pilot)"},
-    {"id": "SE-385", "status": "APPROVED", "approval": "Mónica 2026-09-05: 'Deja la spec de Linkedin como aprobada para implementar cuando termines'", "priority": "P1", "title": "LinkedIn Integration — Social Networks Agent + LinkedIn Skill", "note": "implementación en cola tras SE-383/384; primer paso: feasibility probe §38"}
+    {
+      "id": "SE-374",
+      "status": "IMPLEMENTED",
+      "evidence": "PR #1080",
+      "title": "Guardrail Principle Compliance Audit"
+    },
+    {
+      "id": "SE-375",
+      "status": "IMPLEMENTED",
+      "evidence": "PR #1083 (S1); S2 rule/hook kinds y vistas derivadas pendientes",
+      "title": "Canonical Capability Registry"
+    },
+    {
+      "id": "SE-376",
+      "status": "IMPLEMENTING",
+      "evidence": "PR #1082 (budget wave 0 + inventario); curation waves 1-2 pendientes",
+      "title": "Quality Debt Burn-down"
+    },
+    {
+      "id": "SE-377",
+      "status": "IMPLEMENTING",
+      "evidence": "PR #1084 (negative tests + receipts visibility); gate de bloqueo CI pendiente",
+      "title": "Policy Enforcement Completeness"
+    },
+    {
+      "id": "SE-378",
+      "status": "IMPLEMENTING",
+      "evidence": "PR en curso (planning state + CLI)",
+      "title": "Planning State Machine",
+      "approval": "Mónica 2026-09-05: 'Apruebo todas, implementa, pr y merge'"
+    },
+    {
+      "id": "SE-379",
+      "status": "IMPLEMENTED",
+      "evidence": "PR #1082",
+      "title": "Release & Metadata Invariants"
+    },
+    {
+      "id": "SE-380",
+      "status": "IMPLEMENTING",
+      "evidence": "PR en curso (entropy v0 + usage + advisor + lifecycle)",
+      "title": "Capability Lifecycle, Usage & Complexity Budget",
+      "approval": "Mónica 2026-09-05: 'Apruebo todas, implementa, pr y merge'"
+    },
+    {
+      "id": "SE-381",
+      "status": "IMPLEMENTING",
+      "evidence": "PR #1084 (matriz report-only); gate de bloqueo diferido",
+      "title": "Risk-Weighted Behavioral Eval Matrix"
+    },
+    {
+      "id": "SE-383",
+      "status": "APPROVED",
+      "approval": "Mónica 2026-09-05: 'Apruebo todas, implementa, pr y merge'",
+      "title": "Harness Adversarial / Chaos Suite"
+    },
+    {
+      "id": "SE-384",
+      "status": "APPROVED",
+      "approval": "Mónica 2026-09-05: 'Apruebo todas, implementa, pr y merge'",
+      "title": "Savia Self-Evolution Benchmark (pilot)",
+      "evidence": "PR #1086 (runner+3 pilotos) + dataset ampliado a 20 tareas en PR en curso"
+    },
+    {
+      "id": "SE-385",
+      "status": "IMPLEMENTING",
+      "approval": "Mónica 2026-09-05: 'Deja la spec de Linkedin como aprobada para implementar cuando termines'",
+      "priority": "P1",
+      "title": "LinkedIn Integration — Social Networks Agent + LinkedIn Skill",
+      "note": "implementación en cola tras SE-383/384; primer paso: feasibility probe §38",
+      "evidence": "PR en curso (MVP1: agent+skill+import+digest+status+tests 4/4); feasibility GO-partial en docs/propuestas/SE-385-feasibility.md"
+    }
   ]
 }

@@ -1,0 +1,11 @@
+id: task-007-se-167 maturity-kanban
+baseline_commit: 0e851e90
+problem: >
+  Implementar/verificar SE-167 maturity-kanban: clasifica skills en 4 estados contra el estado actual del arbol.
+allowed_evidence: [scripts/skill-maturity-audit.sh]
+forbidden_actions: [tocar guardrails sin spec, auto-merge, secrets en repo]
+expected_behavior: segun spec SE-167 maturity-kanban vigente en docs/ y rules
+expected_files: [scripts/skill-maturity-audit.sh]
+invariants: [CRIT-001 local, sin-regresion-paired-delta]
+risk_level: L2
+evaluation: [pr-mergeada, gates-verdes, scope-respetado]
