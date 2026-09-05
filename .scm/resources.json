@@ -1,6 +1,6 @@
 {
-  "hash": "412dbdf506b2",
-  "total": 1453,
+  "hash": "f7e62400bbff",
+  "total": 1458,
   "resources": [
     {
       "category": "analysis",
@@ -591,6 +591,20 @@
       "kind": "script",
       "path": "scripts/debt-budget-check.sh",
       "description": "debt-budget-check.sh — SE-376: verifica deuda actual <= target del wave activo."
+    },
+    {
+      "category": "analysis",
+      "name": "debt-burn-down",
+      "intents": [
+        "budget",
+        "capacidades",
+        "confirmadas",
+        "debt",
+        "ejecuta"
+      ],
+      "kind": "script",
+      "path": "scripts/debt-burn-down.sh",
+      "description": "SE-387 E — Ejecuta wave 1 del debt budget SOLO sobre capacidades confirmadas."
     },
     {
       "category": "analysis",
@@ -4305,6 +4319,20 @@
       "kind": "cmd",
       "path": ".claude/commands/pipeline-view.md",
       "description": "ASCII table of all active pursuits with stage, value, and probability"
+    },
+    {
+      "category": "development",
+      "name": "planning-transition",
+      "intents": [
+        "checkable",
+        "evidencia",
+        "implemented",
+        "implementing",
+        "machine"
+      ],
+      "kind": "script",
+      "path": "scripts/planning-transition.sh",
+      "description": "SE-387 F — Transición IMPLEMENTING->IMPLEMENTED solo si evidencia machine-checkable."
     },
     {
       "category": "development",
@@ -8454,6 +8482,20 @@
     },
     {
       "category": "planning",
+      "name": "checkpoint",
+      "intents": [
+        "checkpoint",
+        "checkpoints",
+        "durable",
+        "local",
+        "orchestration"
+      ],
+      "kind": "script",
+      "path": "scripts/checkpoint.sh",
+      "description": "SE-387 C/F4 — Durable orchestration checkpoint (local, ~/.savia/checkpoints/)."
+    },
+    {
+      "category": "planning",
       "name": "ci-duration",
       "intents": [
         "duración",
@@ -9495,6 +9537,20 @@
       "kind": "skill",
       "path": ".claude/skills/ecosystem-watcher/SKILL.md",
       "description": "Usar una vez al mes para detectar cambios relevantes en el ecosistema de herramientas externas."
+    },
+    {
+      "category": "planning",
+      "name": "effect-reservation",
+      "intents": [
+        "close",
+        "effects",
+        "exactly",
+        "execute",
+        "gate"
+      ],
+      "kind": "script",
+      "path": "scripts/effect-reservation.sh",
+      "description": "SE-387 C/F5 — Exactly-once effects: intent -> reservation -> gate -> execute -> receipt -> close."
     },
     {
       "category": "planning",
@@ -10758,6 +10814,19 @@
       "kind": "script",
       "path": "scripts/graphrag-quality-gates.sh",
       "description": "graphrag-quality-gates.sh — SE-030"
+    },
+    {
+      "category": "planning",
+      "name": "grounding-verify",
+      "intents": [
+        "closed",
+        "fail",
+        "grounding",
+        "lección"
+      ],
+      "kind": "script",
+      "path": "scripts/grounding-verify.sh",
+      "description": "SE-387 C/F2 — Grounding fail-closed (SE-383 lección)."
     },
     {
       "category": "planning",
@@ -15360,14 +15429,11 @@
       "name": "validate-handoff",
       "intents": [
         "handoff",
-        "reason",
-        "structure",
-        "termination",
-        "validate"
+        "integrity"
       ],
       "kind": "script",
       "path": "scripts/validate-handoff.sh",
-      "description": "validate-handoff.sh — Validate handoff structure with termination_reason"
+      "description": "SE-387 C/F3 — Handoff integrity."
     },
     {
       "category": "planning",

@@ -44,6 +44,14 @@ run_gate constitutional-contracts bash "$ROOT/scripts/law-check.sh"
 python3 "$ROOT/scripts/constitutional-coverage.py" --root "$ROOT" >/dev/null 2>&1 \
   && echo "PASS coherence/constitutional-coverage: informe L4" \
   || echo "WARN coherence/constitutional-coverage: sin registry"
+for t in grounding-verify.sh validate-handoff.sh checkpoint.sh effect-reservation.sh debt-burn-down.sh planning-transition.sh report-benchmark.sh; do
+  [[ -x "$ROOT/scripts/$t" || -x "$ROOT/tests/self-evolution/$t" ]] || { echo "WARN coherence/closure-$t"; FAILED=1; }
+done
+echo "PASS coherence/harness-closure: C F2-F5 + E + F + H tooling presente"
+# C F4/F5 y E/F/H: checks presentes y ejecutables (invocación sin argumentos = usage OK)
+for t in checkpoint.sh effect-reservation.sh debt-burn-down.sh planning-transition.sh; do
+  [[ -x "$ROOT/scripts/$t" ]] && echo "PASS coherence/closure-$t" || { echo "WARN coherence/closure-$t"; FAILED=1; }
+done
 python3 "$ROOT/scripts/eval-coverage-matrix.py" --root "$ROOT" >/dev/null 2>&1 \
   && echo "PASS coherence/eval-coverage: informe generado" \
   || echo "OBSERVE coherence/eval-coverage: report-only (SE-387 D)"

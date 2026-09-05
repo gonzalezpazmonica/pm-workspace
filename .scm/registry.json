@@ -902,6 +902,27 @@
     {
       "depends_on": [],
       "frontend_support": [
+        "opencode"
+      ],
+      "id": "script:scripts/debt-burn-down",
+      "intents": [
+        "budget",
+        "capacidades",
+        "confirmadas",
+        "debt",
+        "ejecuta"
+      ],
+      "kind": "script",
+      "owner_domain": "analysis",
+      "replaced_by": null,
+      "risk_level": null,
+      "source": "scripts/debt-burn-down.sh",
+      "status": "active",
+      "tests": []
+    },
+    {
+      "depends_on": [],
+      "frontend_support": [
         "claude",
         "opencode"
       ],
@@ -6672,6 +6693,27 @@
       "replaced_by": null,
       "risk_level": null,
       "source": ".claude/commands/pipeline-view.md",
+      "status": "active",
+      "tests": []
+    },
+    {
+      "depends_on": [],
+      "frontend_support": [
+        "opencode"
+      ],
+      "id": "script:scripts/planning-transition",
+      "intents": [
+        "checkable",
+        "evidencia",
+        "implemented",
+        "implementing",
+        "machine"
+      ],
+      "kind": "script",
+      "owner_domain": "development",
+      "replaced_by": null,
+      "risk_level": null,
+      "source": "scripts/planning-transition.sh",
       "status": "active",
       "tests": []
     },
@@ -13034,6 +13076,27 @@
       "frontend_support": [
         "opencode"
       ],
+      "id": "script:scripts/checkpoint",
+      "intents": [
+        "checkpoint",
+        "checkpoints",
+        "durable",
+        "local",
+        "orchestration"
+      ],
+      "kind": "script",
+      "owner_domain": "planning",
+      "replaced_by": null,
+      "risk_level": null,
+      "source": "scripts/checkpoint.sh",
+      "status": "active",
+      "tests": []
+    },
+    {
+      "depends_on": [],
+      "frontend_support": [
+        "opencode"
+      ],
       "id": "script:scripts/ci-duration",
       "intents": [
         "duración",
@@ -14650,6 +14713,27 @@
       "replaced_by": null,
       "risk_level": null,
       "source": ".claude/skills/ecosystem-watcher/SKILL.md",
+      "status": "active",
+      "tests": []
+    },
+    {
+      "depends_on": [],
+      "frontend_support": [
+        "opencode"
+      ],
+      "id": "script:scripts/effect-reservation",
+      "intents": [
+        "close",
+        "effects",
+        "exactly",
+        "execute",
+        "gate"
+      ],
+      "kind": "script",
+      "owner_domain": "planning",
+      "replaced_by": null,
+      "risk_level": null,
+      "source": "scripts/effect-reservation.sh",
       "status": "active",
       "tests": []
     },
@@ -16605,6 +16689,26 @@
       "replaced_by": null,
       "risk_level": null,
       "source": "scripts/graphrag-quality-gates.sh",
+      "status": "active",
+      "tests": []
+    },
+    {
+      "depends_on": [],
+      "frontend_support": [
+        "opencode"
+      ],
+      "id": "script:scripts/grounding-verify",
+      "intents": [
+        "closed",
+        "fail",
+        "grounding",
+        "lección"
+      ],
+      "kind": "script",
+      "owner_domain": "planning",
+      "replaced_by": null,
+      "risk_level": null,
+      "source": "scripts/grounding-verify.sh",
       "status": "active",
       "tests": []
     },
@@ -23756,10 +23860,7 @@
       "id": "script:scripts/validate-handoff",
       "intents": [
         "handoff",
-        "reason",
-        "structure",
-        "termination",
-        "validate"
+        "integrity"
       ],
       "kind": "script",
       "owner_domain": "planning",
@@ -29669,7 +29770,7 @@
       "tests": []
     }
   ],
-  "content_hash": "412dbdf506b2",
+  "content_hash": "f7e62400bbff",
   "deferred_kinds": [
     "rule",
     "hook"

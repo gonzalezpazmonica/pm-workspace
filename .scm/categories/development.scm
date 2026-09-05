@@ -1,5 +1,5 @@
 # development — Savia Capability Map (L1)
-> 226 resources
+> 227 resources
 
 - **/speckit.checklist** (cmd): Alias spec-kit compatible. Gate de calidad final con verification-lattice multi-capa. Invoca skill verification-lattice. Compatible con github/spec-kit.
 - **/speckit.clarify** (cmd): Alias spec-kit compatible. Preguntas dirigidas para cerrar ambigüedad en una spec. Invoca skill context-interview-conductor. Compatible con github/spec-kit.
@@ -143,6 +143,7 @@
 - **pipeline-stage-runner** (script): pipeline-stage-runner.sh — Execute a single pipeline stage
 - **pipeline-status** (cmd): >
 - **pipeline-view** (cmd): ASCII table of all active pursuits with stage, value, and probability
+- **planning-transition** (script): SE-387 F — Transición IMPLEMENTING->IMPLEMENTED solo si evidencia machine-checkable.
 - **portfolio-contention** (script): portfolio-contention.sh — SPEC-SE-020 Slice 4 contention detector.
 - **portfolio-critical-path** (script): portfolio-critical-path.sh — SPEC-SE-020 Slice 3 critical path analyzer.
 - **portfolio-deps-status** (script): portfolio-deps-status.sh — SPEC-SE-020 Slice 5 project status dashboard.
