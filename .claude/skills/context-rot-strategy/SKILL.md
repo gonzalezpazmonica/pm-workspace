@@ -12,6 +12,7 @@ metadata:
   savia.summary: "Meta-skill para gestionar context rot en sesiones con ventanas de 1M tokens (Opus 4.7). Rutea entre 5 opciones de gestion de contexto per turno: continue, rewind, /compact con hint, /clear, subagent. Propone proactive compact por encima de 75% antes de auto-compact."
   savia.tags: "context, 1M, rot, compact, session, opus-4-7"
   savia.user-invocable: True
+maturity: stable
 ---
 
 # Context Rot Strategy — Skill

@@ -10,6 +10,7 @@ metadata:
   origin: mattpocock/skills (MIT)
   # --- metadata.savia.* (SE-333) ---
   savia.trigger_keywords: "grill, weaknesses, edge cases, adversarial, hunt weaknesses"
+maturity: stable
 ---
 
 # grill-me — Adversarial weakness hunting

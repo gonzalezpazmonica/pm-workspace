@@ -13,6 +13,7 @@ metadata:
   savia.summary: "Auditoria estatica de rendimiento: detecta N+1 queries, async anti-patterns, memory allocation en loops, complejidad O(n2). Output: hallazgos priorizados por severidad + fix sugerido."
   savia.tags: "performance, hotspots, async, optimization"
   savia.trigger_keywords: "performance, hotspot, lento, optimiza, bottleneck, rendimiento"
+maturity: stable
 ---
 
 # Performance Audit Intelligence

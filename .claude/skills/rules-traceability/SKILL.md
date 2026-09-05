@@ -12,6 +12,7 @@ metadata:
   savia.priority: high
   savia.summary: "Mapea reglas de negocio (RN-XXX-NN) a PBIs con matriz de trazabilidad. Detecta reglas sin PBI y PBIs sin regla. Output: matriz + informe de cobertura."
   savia.tags: "traceability, business-rules, pbi, matrix"
+maturity: stable
 ---
 
 # Skill: Business Rules to PBI Mapping with Traceability

@@ -11,6 +11,7 @@ metadata:
   savia.priority: medium
   savia.summary: "Captura snapshots periodicos del backlog (Azure DevOps, Jira, Savia Flow) y los almacena como markdown en SaviaHub. Compara versiones, detecta scope creep y genera informes de desviacion."
   savia.tags: "backlog, snapshot, audit, tracking"
+maturity: stable
 ---
 
 # Skill: BacklogGit Tracker

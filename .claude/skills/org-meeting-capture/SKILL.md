@@ -12,6 +12,7 @@ metadata:
   savia.summary: "Produce insights (EXTRACTED/INFERRED/AMBIGUOUS), nodos propuestos en YAML y alertas. NUNCA escribe al grafo sin aprobación."
   savia.tags: "reuniones, conocimiento-tácito, transcripciones, org-intelligence, acuerdos-informales"
   savia.trigger_keywords: "transcripción, reunión, acuerdos informales, quién dijo qué, captura reunión, señales políticas"
+maturity: stable
 ---
 
 # Skill: Org Meeting Capture

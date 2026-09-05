@@ -11,6 +11,7 @@ metadata:
   savia.summary: "Valida viabilidad de un spec con prototipo time-boxed. Intenta implementar las secciones criticas, mide bloqueos. Output: score de viabilidad + secciones problematicas."
   savia.tags: "feasibility, estimation, prototype, spec, planning"
   savia.user-invocable: True
+maturity: stable
 ---
 
 # Feasibility Probe

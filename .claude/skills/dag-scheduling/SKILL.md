@@ -12,6 +12,7 @@ metadata:
   savia.priority: high
   savia.summary: "Orquesta agentes SDD en paralelo usando grafos de dependencias. Calcula camino critico, cohortes paralelas y ahorro de tiempo. Input: spec con tasks. Output: plan DAG + ejecucion."
   savia.tags: "dag, parallel, orchestration, pipeline"
+maturity: stable
 ---
 
 ## Subagent Scope Guard

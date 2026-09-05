@@ -9,6 +9,7 @@ metadata:
   savia.priority: low
   savia.summary: "Resolucion lazy de referencias @ (azure:workitem, project, spec, team, rules, memory). Cache por sesion. Max 5 simultaneas. Permite referenciar recursos externos en prompts."
   savia.tags: "resources, references, resolution, lazy-load"
+maturity: stable
 ---
 
 # skill: resource-references

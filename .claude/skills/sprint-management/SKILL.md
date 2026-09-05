@@ -12,6 +12,7 @@ metadata:
   savia.priority: high
   savia.summary: "Estado completo del sprint: items, progreso, burndown, velocity. Consulta Azure DevOps via WIQL. Genera resumenes para daily, review y retro. Output: dashboard + fichero en output/."
   savia.tags: "sprint, planning, scrum, velocity"
+maturity: stable
 ---
 
 # Skill: sprint-management

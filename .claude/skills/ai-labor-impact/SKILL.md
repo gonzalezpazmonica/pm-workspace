@@ -14,6 +14,7 @@ metadata:
   savia.priority: low
   savia.summary: "Analisis de impacto de IA en roles laborales: auditoria de exposicion, planes de reskilling y previsiones de fuerza laboral. Input: perfil de equipo. Output: informe de exposicion por rol."
   savia.tags: "ai-impact, labor, reskilling, workforce"
+maturity: stable
 ---
 
 # Skill: AI Labor Impact

@@ -11,6 +11,7 @@ metadata:
   savia.priority: medium
   savia.tags: "messaging, agent-to-agent, a2a, receipts, orchestration"
   savia.trigger_keywords: "mensaje a agente, notify, inbox, agent-message"
+maturity: stable
 ---
 
 # Skill: Agent Messaging (bus local A2A)

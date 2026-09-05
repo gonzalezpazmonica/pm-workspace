@@ -12,6 +12,7 @@ metadata:
   savia.priority: high
   savia.summary: Enrutamiento inteligente de comandos para 400+ herramientas. Capability groups + keyword matching + top-20 algorithm. Reduce tokens cargando solo el grupo relevante.
   savia.tags: "routing, discovery, commands, intent"
+maturity: stable
 ---
 
 # Smart Routing for 400+ Commands

@@ -12,6 +12,7 @@ metadata:
   savia.summary: "Genera INDEX.afm por proyecto con rutas reales a ficheros externos (drives corporativos, OneDrive/SharePoint, NAS). Evita que los agentes pierdan tiempo y tokens buscando el mismo Excel o PDF en cada sesión. Complementa .acm (código) y .hcm (narrativa). Nivel de confidencialidad por proyecto."
   savia.tags: "afm, agent-maps, external-files, context, file-index"
   savia.user-invocable: True
+maturity: stable
 ---
 
 # Agent File Map — Índice de Ficheros Externos

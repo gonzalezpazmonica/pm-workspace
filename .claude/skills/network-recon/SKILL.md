@@ -12,6 +12,7 @@ metadata:
   savia.priority: high
   savia.summary: "Escaneo conservador de puertos y deteccion de servicios para infraestructura propia. REQUIERE autorizacion explicita. Modo discovery (enumeracion, sin explotacion). Output: ports-open.txt + services.json + network-recon-{target}-YYYYMMDD.json"
   savia.tags: "nmap, rustscan, httpx, port-scan, network-recon, recon"
+maturity: stable
 ---
 
 # Network Recon — SE-246

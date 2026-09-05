@@ -14,6 +14,7 @@ metadata:
   savia.priority: medium
   savia.summary: "Analiza tier de escalado, benchmarks y recomienda optimizaciones. Para organizaciones en crecimiento. Knowledge search integrado. Output: plan de escalado priorizado."
   savia.tags: "scaling, tier-analysis, benchmark, optimization"
+maturity: stable
 ---
 
 # Skill: Scaling Operations

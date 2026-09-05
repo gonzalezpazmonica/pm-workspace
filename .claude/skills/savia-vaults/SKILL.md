@@ -10,6 +10,7 @@ metadata:
   savia.priority: high
   savia.recommends: "context-dome, knowledge-graph, ubiquitous-language"
   savia.tags: "vaults, cupulas, contexto, federacion, mcp, a2a, backup, confidencialidad"
+maturity: stable
 ---
 
 # SaviaVaults — Operacion de Cupulas de Contexto

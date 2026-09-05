@@ -11,6 +11,7 @@ metadata:
   savia.priority: medium
   savia.tags: "parallel, subagents, admission-handle, orchestration"
   savia.trigger_keywords: "paralelo, parallel, subagentes, lanza en background"
+maturity: stable
 ---
 
 # Skill: Parallel Dispatch (admission-handle)

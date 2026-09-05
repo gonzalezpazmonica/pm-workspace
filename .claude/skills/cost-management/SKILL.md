@@ -14,6 +14,7 @@ metadata:
   savia.priority: medium
   savia.summary: "Gestion de costes: timesheets, presupuestos, forecasting e invoicing. Registra horas por tarea/proyecto, calcula desviaciones, genera facturas. Output: informes Excel/Word."
   savia.tags: "cost, budget, forecasting, invoicing"
+maturity: stable
 ---
 
 # Skill: Cost Management

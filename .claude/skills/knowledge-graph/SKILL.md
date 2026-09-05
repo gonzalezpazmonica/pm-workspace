@@ -15,6 +15,7 @@ metadata:
   savia.summary: "Construye grafos de conocimiento de entidades PM y sus relaciones. Stakeholders, componentes, decisiones, dependencias. Consulta en lenguaje natural. Output: grafo Mermaid."
   savia.tags: "knowledge-graph, entities, relations, queries"
   savia.trigger_keywords: "grafo, knowledge graph, entidades, relaciones, kg"
+maturity: stable
 ---
 
 # Skill: knowledge-graph

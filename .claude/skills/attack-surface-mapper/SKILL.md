@@ -12,6 +12,7 @@ metadata:
   savia.priority: high
   savia.summary: "OSINT y enumeracion de subdominios con subfinder, httpx, theHarvester y dnstwist. REQUIERE autorizacion explicita del propietario del dominio antes de ejecutar. Output: subdomains.txt + typosquatting.json + surface-map-{target}-YYYYMMDD.json"
   savia.tags: "attack-surface, subdominios, osint, dnstwist, subfinder"
+maturity: stable
 ---
 
 # Attack Surface Mapper — SE-243

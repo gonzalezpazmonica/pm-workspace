@@ -12,6 +12,7 @@ metadata:
   savia.produces: spec
   savia.summary: "Implementacion practica de Savia Flow: dual-track (exploracion + produccion), specs ejecutables y metricas de flujo. Output: board configurado + metricas iniciales."
   savia.tags: "savia-flow, dual-track, methodology, outcomes"
+maturity: stable
 ---
 
 # Savia Flow — Implementación Práctica

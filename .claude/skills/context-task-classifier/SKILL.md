@@ -6,6 +6,7 @@ metadata:
   # --- metadata.savia.* (SE-333) ---
   savia.input: text
   savia.output: json
+maturity: stable
 ---
 
 # context-task-classifier

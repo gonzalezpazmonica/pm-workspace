@@ -13,8 +13,8 @@ metadata:
   savia.summary: "Validacion meta-cognitiva (System 2): detecta proxy optimization, supuestos no declarados y cadenas causales rotas. Usa reflection-validator agent. Output: VALIDATED/CORRECTED/RETHINK."
   savia.tags: "reflection, meta-cognitive, system2, assumptions"
   savia.user-invocable: False
+maturity: stable
 ---
-
 # Reflection Validation — System 2 Protocol
 
 > Thinking fast catches the obvious. Thinking slow catches the real.

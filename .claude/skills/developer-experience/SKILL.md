@@ -12,6 +12,7 @@ metadata:
   savia.priority: medium
   savia.summary: "Framework DX Core 4 (Speed, Effectiveness, Quality, Impact) y metricas SPACE para medir experiencia del desarrollador. Output: scorecard DX + recomendaciones priorizadas."
   savia.tags: "dx, developer-experience, space, core4"
+maturity: stable
 ---
 
 # Developer Experience (DX)

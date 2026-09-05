@@ -9,6 +9,7 @@ metadata:
   savia.priority: low
   savia.summary: "Validacion de arquitectura bancaria contra estandar BIAN. Detecta entidades BIAN, Kafka, Snowflake, SWIFT en el codigo. Output: diagramas ArchiMate, gaps de compliance, recomendaciones."
   savia.tags: "banking, architecture, finance, compliance"
+maturity: stable
 ---
 
 # Skill: Banking Architecture

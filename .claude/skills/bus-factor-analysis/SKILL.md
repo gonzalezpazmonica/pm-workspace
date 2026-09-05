@@ -13,6 +13,7 @@ metadata:
   savia.se: SE-252
   savia.summary: Skill de deteccion de riesgo de conocimiento. Analiza git history para identificar modulos con un unico conocedor y genera planes de mitigacion.
   savia.tags: "bus-factor, knowledge-graph, git-analysis, risk, resilience"
+maturity: stable
 ---
 
 # Bus Factor Analysis

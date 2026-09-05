@@ -12,6 +12,7 @@ metadata:
   savia.priority: medium
   savia.summary: "Genera diagramas de arquitectura y flujo desde codigo. Soporta Draw.io, Miro y Mermaid local. Output: diagrama exportado + metadata en projects/{p}/diagrams/."
   savia.tags: "diagrams, architecture, mermaid, draw-io"
+maturity: stable
 ---
 
 # Skill: Diagram Generation — Arquitectura y Flujo

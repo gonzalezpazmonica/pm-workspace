@@ -12,8 +12,8 @@ metadata:
   savia.priority: medium
   savia.summary: "Sprint autonomo nocturno: ejecuta tareas de bajo riesgo en bucle. Genera PRs Draft en ramas agent/overnight-*. Revision humana obligatoria al dia siguiente."
   savia.tags: "autonomous, overnight, batch, low-risk"
+maturity: stable
 ---
-
 ## Subagent Scope Guard
 
 > Subagente delegado: ejecuta SOLO la tarea asignada, reporta

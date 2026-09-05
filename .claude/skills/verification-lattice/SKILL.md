@@ -11,8 +11,8 @@ metadata:
   savia.priority: high
   savia.summary: Pipeline de verificacion multi-capa (5 niveles) mas alla de code review. L1 determinista + L2 semantico + L3 seguridad + L4 agentico + L5 humano. Adapta capas obligatorias segun risk score.
   savia.tags: "verification, multi-layer, pipeline, quality-gate"
+maturity: stable
 ---
-
 ## Subagent Scope Guard
 
 > If you were dispatched as a subagent to execute a specific delegated task,

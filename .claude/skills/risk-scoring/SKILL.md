@@ -11,6 +11,7 @@ metadata:
   savia.priority: high
   savia.summary: "Calcula score de riesgo (0-100) para tasks y PRs. 8 factores: complejidad, seguridad, deps, cobertura, etc. Enruta a nivel de review apropiado (low/medium/high/critical)."
   savia.tags: "risk, scoring, escalation, review-routing"
+maturity: stable
 ---
 
 # Risk Scoring for Intelligent Escalation

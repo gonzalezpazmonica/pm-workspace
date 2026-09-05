@@ -11,6 +11,7 @@ metadata:
   savia.maturity: stable
   savia.priority: medium
   savia.tags: "ddd, glossary, domain, context, ubiquitous-language"
+maturity: stable
 ---
 
 # Authoritative Paths

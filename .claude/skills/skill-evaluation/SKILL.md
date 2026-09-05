@@ -11,6 +11,7 @@ metadata:
   savia.priority: low
   savia.summary: "Motor de evaluacion inteligente de skills basado en prompt y contexto. Analiza el prompt del usuario y el proyecto activo. Output: skills recomendados con score de relevancia."
   savia.tags: "skill-eval, prompt-analysis, scoring, activation"
+maturity: stable
 ---
 
 # Skill Evaluation Engine

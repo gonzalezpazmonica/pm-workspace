@@ -9,6 +9,7 @@ metadata:
   savia.priority: high
   savia.summary: "Company as Code (SE-365): valida/consulta el grafo organizacional (company/projects/resources) con vocabulario de relaciones controlado y escritura mediada por humano."
 layer: peripheral
+maturity: stable
 ---
 
 # org-registrar — Grafo organizacional (SE-365)

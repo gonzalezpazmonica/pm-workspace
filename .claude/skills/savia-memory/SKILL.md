@@ -11,6 +11,7 @@ metadata:
   savia.consumes: session_data
   savia.produces: memory_entry
   savia.trigger_keywords: "recuerda, memory, guarda, memoriza, olvidas, recall"
+maturity: stable
 ---
 
 # Skill: savia-memory

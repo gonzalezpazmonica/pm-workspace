@@ -14,6 +14,7 @@ metadata:
   savia.summary: Capa de reranking cross-encoder sobre top-K de retrieval (cosine). Filtra ruido antes de que el agente gaste tokens leyendo falsos positivos. Fallback automatico si sentence-transformers ausente.
   savia.tags: "reranking, retrieval, memory, cross-encoder, tokens"
   savia.user-invocable: True
+maturity: stable
 ---
 
 # Skill: Reranker

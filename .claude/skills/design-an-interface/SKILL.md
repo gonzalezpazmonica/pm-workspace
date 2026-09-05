@@ -12,6 +12,7 @@ metadata:
   savia.priority: high
   savia.se: SE-087
   savia.tags: "architecture, interface-design, parallel-agents, sdd"
+maturity: stable
 ---
 
 # Skill: Design an Interface

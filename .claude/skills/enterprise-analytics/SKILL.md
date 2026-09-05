@@ -14,6 +14,7 @@ metadata:
   savia.priority: medium
   savia.summary: "Metricas empresariales: SPACE, agregacion de portfolio, salud de equipo, matriz de riesgo y forecasting. Para organizaciones con multiples proyectos. Output: dashboard ejecutivo."
   savia.tags: "analytics, space-metrics, portfolio, forecasting"
+maturity: stable
 ---
 
 # Skill: Enterprise Analytics

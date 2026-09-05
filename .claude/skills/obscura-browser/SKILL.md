@@ -10,6 +10,7 @@ metadata:
   savia.tags: "browser, headless, scraping, markdown, cdp, mcp, obscura, rust"
   savia.loop_level: "L0"
   savia.trigger_keywords: "navega a, extrae contenido de, scrapea, renderiza esta pagina, headless browser, obscura"
+maturity: stable
 ---
 
 # Skill: obscura-browser

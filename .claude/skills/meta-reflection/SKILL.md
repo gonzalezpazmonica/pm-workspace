@@ -15,6 +15,7 @@ metadata:
   savia.tags: "meta-reflection, criterion-simulation, spec-194, frame, governance"
   savia.trigger_keywords: "frame challenge, meta-reflexion, criterion-simulation, FRAME_DOUBT, FRAME_REJECT"
   savia.user-invocable: True
+maturity: stable
 ---
 
 # Skill: meta-reflection

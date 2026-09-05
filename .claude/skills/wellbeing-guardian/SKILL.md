@@ -11,6 +11,7 @@ metadata:
   savia.priority: medium
   savia.summary: "Sistema proactivo de bienestar: recordatorios de descanso, alertas fuera de horario, nudges de work-life balance. Configurable por usuario. No bloquea, solo sugiere."
   savia.tags: "wellbeing, burnout, sustainable-pace, team-health"
+maturity: stable
 ---
 
 # Skill: Wellbeing Guardian

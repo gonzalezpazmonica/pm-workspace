@@ -12,6 +12,7 @@ metadata:
   savia.references: "references/sector-healthcare.md, references/sector-finance.md, references/sector-food-agriculture.md, references/sector-justice-legal.md, references/sector-public-admin.md, references/sector-insurance.md, references/sector-pharma.md, references/sector-energy-utilities.md, references/sector-telecom.md, references/sector-education.md, references/sector-defense-military.md, references/sector-transport-automotive.md, references/framework-aepd-agentic.md"
   savia.summary: "Validacion de marcos regulatorios por sector (HIPAA, GDPR, SOX...). Deteccion automatica en 5 fases con scoring ponderado. Output: informe de compliance con gaps y correcciones."
   savia.tags: "compliance, regulatory, sector-detection, gdpr"
+maturity: stable
 ---
 
 # Regulatory Compliance Intelligence

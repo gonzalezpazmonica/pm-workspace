@@ -12,8 +12,8 @@ metadata:
   savia.priority: low
   savia.summary: "Agente de investigacion tecnica autonoma: investiga temas, genera informes y notifica al humano designado. Output: informe en output/research-*. Rama agent/research-*."
   savia.tags: "research, autonomous, investigation, reports"
+maturity: stable
 ---
-
 # Skill: Tech Research Agent
 
 > **Regla de seguridad**: `@docs/rules/domain/autonomous-safety.md` — NO crea PRs, NO modifica código. Solo genera informes y recomendaciones.

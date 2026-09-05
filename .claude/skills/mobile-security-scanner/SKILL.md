@@ -10,6 +10,7 @@ metadata:
   savia.priority: high
   savia.summary: "Pipeline de seguridad para apps Android. Análisis estático con MobSF (Docker) o fallback básico (apktool + grep). Auditoría de AndroidManifest sin necesidad de MobSF. Output: findings clasificados CRITICAL/HIGH/MEDIUM/LOW en output/security/."
   savia.tags: "android, mobile, apk, MobSF, manifest, security, static-analysis"
+maturity: stable
 ---
 
 # Mobile Security Scanner

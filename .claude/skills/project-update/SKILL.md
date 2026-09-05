@@ -12,6 +12,7 @@ metadata:
   savia.max_context_tokens: 8000
   savia.output_max_tokens: 3000
   savia.priority: high
+maturity: stable
 ---
 
 **Última actualización**: 2026-04-29

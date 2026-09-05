@@ -7,6 +7,7 @@ metadata:
   savia.category: governance
   savia.priority: high
   savia.summary: "Runs a local proxy at 127.0.0.1:8787 that routes Claude Code requests to Anthropic when available and transparently falls back to a local Ollama gemma4 instance on network failure, 5xx, 429, or timeout. Cloud for quality, local for continuity."
+maturity: stable
 ---
 
 # Skill: savia-dual

@@ -11,6 +11,7 @@ metadata:
   savia.priority: medium
   savia.tags: "meta, skill-authoring, quality-gate"
   savia.trigger_keywords: "crea skill, nueva skill, write-a-skill, skill nuevo"
+maturity: stable
 ---
 
 # Skill: Write a Skill

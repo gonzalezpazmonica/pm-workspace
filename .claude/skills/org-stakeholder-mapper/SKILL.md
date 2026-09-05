@@ -12,6 +12,7 @@ metadata:
   savia.summary: Produce YAML de nodos + narrativa markdown del mapa de stakeholders. NUNCA escribe al grafo sin aprobación humana.
   savia.tags: "stakeholders, org-intelligence, poder, decisores, análisis-organizativo"
   savia.trigger_keywords: "stakeholders, mapa de poder, decisores, quién decide, alianzas, quién apoya"
+maturity: stable
 ---
 
 # Skill: Org Stakeholder Mapper

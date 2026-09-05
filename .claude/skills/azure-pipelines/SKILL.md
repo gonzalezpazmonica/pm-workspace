@@ -11,6 +11,7 @@ metadata:
   savia.priority: medium
   savia.summary: "Gestion de CI/CD con Azure Pipelines: estado, ejecucion, creacion de pipelines, logs y artefactos. Autenticacion via PAT. Output: status + acciones."
   savia.tags: "pipelines, ci-cd, azure, deployment"
+maturity: stable
 ---
 
 # Skill: azure-pipelines

@@ -11,6 +11,7 @@ metadata:
   savia.priority: "low"
   savia.loop_level: "L1"
   savia.trigger_keywords: "micmac, mactor, prospectiva, variables motrices, analisis estructural"
+maturity: stable
 ---
 
 # Prospectiva Básica

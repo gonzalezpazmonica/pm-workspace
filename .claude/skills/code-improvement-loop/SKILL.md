@@ -12,8 +12,8 @@ metadata:
   savia.priority: medium
   savia.summary: "Bucle autonomo de mejora de codigo: detecta oportunidades (deuda, cobertura, performance), aplica mejoras y genera PRs Draft. Usa ramas agent/improve-*. Revision humana obligatoria."
   savia.tags: "autonomous, improvement, refactoring, pr-draft"
+maturity: stable
 ---
-
 ## Subagent Scope Guard
 
 > Subagente delegado: ejecuta SOLO la tarea asignada, reporta

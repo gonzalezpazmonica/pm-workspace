@@ -12,6 +12,7 @@ metadata:
   savia.summary: "Escaneo de secrets en historial git con gitleaks. Clasificación CRITICAL/HIGH/MEDIUM/LOW. Output: JSONL + summary MD en output/security/."
   savia.tags: "security, gitleaks, secret, git-history, pre-push"
   savia.trigger_keywords: "escanea el historial, busca secrets, git secret scan, secret scanning, scan history, gitleaks"
+maturity: stable
 ---
 
 # Git Secret Scanner Skill

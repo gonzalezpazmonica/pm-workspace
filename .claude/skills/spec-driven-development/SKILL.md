@@ -13,6 +13,7 @@ metadata:
   savia.summary: "Genera specs ejecutables. Flujo: analyst->architect->spec-writer->developer->test. Input: Task ADO."
   savia.tags: "sdd, specs, development, agents"
   savia.trigger_keywords: "spec, sdd, especificacion ejecutable, specification"
+maturity: stable
 ---
 
 ## Subagent Scope Guard

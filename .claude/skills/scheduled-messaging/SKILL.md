@@ -10,6 +10,7 @@ metadata:
   savia.priority: medium
   savia.summary: "Configura tareas programadas con mensajeria automatica. Soporta Slack, Google Chat, Nextcloud Talk, WhatsApp. Wizard interactivo para setup de notificaciones."
   savia.tags: "scheduled, messaging, notifications, automation"
+maturity: stable
 ---
 
 # Scheduled Messaging — 5-Phase Integration Wizard

@@ -9,6 +9,7 @@ metadata:
   savia.maturity: experimental
   savia.priority: medium
   savia.tags: "labs, investigacion, epistemologia, experimentos, preregistro, divergencia"
+maturity: stable
 ---
 
 # Savia Labs — Investigacion Epistemica

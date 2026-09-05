@@ -11,6 +11,7 @@ metadata:
   savia.priority: medium
   savia.summary: "Auditoria de soberania cognitiva: diagnostica lock-in de IA, portabilidad de datos y dependencias de proveedor. Output: score de soberania + plan de mitigacion."
   savia.tags: "sovereignty, lock-in, ai-governance, audit"
+maturity: stable
 ---
 
 # Skill: Sovereignty Auditor

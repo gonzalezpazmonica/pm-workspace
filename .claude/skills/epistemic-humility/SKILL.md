@@ -15,6 +15,7 @@ metadata:
   savia.tags: "sycophancy, illusory-truth, epistemic, honesty, spec-192"
   savia.trigger_keywords: "buena pregunta, tienes razón, absolutamente, great question, you are right"
   savia.user-invocable: True
+maturity: stable
 ---
 
 # Skill: epistemic-humility

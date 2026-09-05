@@ -14,6 +14,7 @@ metadata:
   savia.priority: high
   savia.summary: "Gobernanza empresarial: audit trail, verificacion de compliance, registro de decisiones y workflow de certificacion. Output: informes ISO 42001, EU AI Act, NIST AI RMF."
   savia.tags: "governance, audit-trail, certification, enterprise"
+maturity: stable
 ---
 
 # Skill: Enterprise Governance

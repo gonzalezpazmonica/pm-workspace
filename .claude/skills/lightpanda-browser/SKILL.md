@@ -9,6 +9,7 @@ metadata:
   savia.maturity: deprecated
   savia.priority: low
   savia.tags: "browser, headless, web, scraping, markdown, mcp, automation, lightpanda, deprecated"
+maturity: stable
 ---
 
 # lightpanda-browser

@@ -14,6 +14,7 @@ metadata:
   savia.summary: Mutation testing on-demand. Siembra mutantes determinísticos en un módulo y mide cuántos matan los tests. Detecta tests zombies (cobertura alta pero sin asserciones que capturen cambios lógicos).
   savia.tags: "testing, mutation, quality, zombies, ai-generated"
   savia.user-invocable: True
+maturity: stable
 ---
 
 # Skill: Mutation Audit

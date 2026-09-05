@@ -14,6 +14,7 @@ metadata:
   savia.priority: medium
   savia.summary: "Onboarding empresarial a escala: importacion batch de miembros, checklists por rol, tracking de progreso y knowledge transfer. Input: lista de personas + roles. Output: planes personalizados."
   savia.tags: "onboarding, enterprise, batch-import, knowledge-transfer"
+maturity: stable
 ---
 
 # Skill: Enterprise Onboarding

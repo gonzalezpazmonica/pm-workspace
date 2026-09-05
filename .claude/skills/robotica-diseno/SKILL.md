@@ -11,6 +11,7 @@ metadata:
   savia.priority: "high"
   savia.loop_level: "L0"
   savia.trigger_keywords: "robótica, robot, automatización, PLC, servos, sensores, visión artificial, hardware, mundo físico, brazo robótico, liquid handler, MHS"
+maturity: stable
 ---
 
 # Skill: Robótica y Diseño de Sistemas Físicos

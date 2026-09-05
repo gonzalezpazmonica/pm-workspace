@@ -9,6 +9,7 @@ metadata:
   savia.disable-model-invocation: false
   savia.summary: "Gestion del repositorio personal del usuario (nivel N3). Perfil, preferencias, memoria, instintos, cache. Cifrado AES-256, sync via git. Comandos vault-*."
   savia.user-invocable: True
+maturity: stable
 ---
 
 # Personal Vault — Repositorio Personal del Usuario

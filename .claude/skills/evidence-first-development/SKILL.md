@@ -12,6 +12,7 @@ metadata:
   savia.summary: "SPEC → RED → GREEN → REFACTOR → GAUNTLET → EVIDENCE. Confianza por restricciones ejecutables, no inspección. Ref: old-coder (MIT), pattern-only."
   savia.tags: "evidence-first, gauntlet, mutation, coverage, sdd, anti-gaming"
   savia.trigger_keywords: "evidence-first, gauntlet, prove it works, no leeré el código, high-assurance, reliable"
+maturity: stable
 ---
 
 ## Subagent Scope Guard

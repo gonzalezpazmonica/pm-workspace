@@ -11,6 +11,7 @@ metadata:
   savia.priority: medium
   savia.summary: "Onboarding de nuevos miembros: documentacion auto-generada, plan personalizado 30/60/90 y agente buddy de 3 capas. Output: guia de onboarding + plan + checkpoints."
   savia.tags: "onboarding, competencies, ramp-up, team"
+maturity: stable
 ---
 
 # Skill: Team Onboarding & Expertise Evaluation

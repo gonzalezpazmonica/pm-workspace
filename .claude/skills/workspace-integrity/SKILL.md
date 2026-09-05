@@ -14,6 +14,7 @@ metadata:
   savia.summary: "Aggregator skill listando 6 scripts de auditoria de integridad del workspace. Detectan drift entre docs y realidad, orphan rules, agents oversized, baseline stale."
   savia.tags: "integrity, audit, drift, workspace, hygiene"
   savia.user-invocable: True
+maturity: stable
 ---
 
 # Skill: Workspace Integrity

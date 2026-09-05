@@ -12,6 +12,7 @@ metadata:
   savia.priority: medium
   savia.summary: "Orquesta sincronizacion del repositorio SaviaHub. Detecta cambios locales vs remotos, resuelve conflictos. Soporta modo offline con cola de sync."
   savia.tags: "sync, savia-hub, repository, backup"
+maturity: stable
 ---
 
 # Skill: savia-hub-sync

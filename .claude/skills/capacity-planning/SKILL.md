@@ -12,6 +12,7 @@ metadata:
   savia.priority: high
   savia.summary: "Calcula capacidad del equipo: horas disponibles, focus factor, alertas de sobre-asignacion. Consulta Azure DevOps iterations API. Output: tabla de capacidad por persona + alertas."
   savia.tags: "capacity, team, workload, planning"
+maturity: stable
 ---
 
 # Skill: capacity-planning

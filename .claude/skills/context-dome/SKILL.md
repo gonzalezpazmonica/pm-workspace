@@ -13,6 +13,7 @@ metadata:
   savia.se: SE-252
   savia.summary: Skill de documentacion automatica de conocimiento tacito por modulo. Complemento natural del bus-factor-analysis skill.
   savia.tags: "context-dome, bus-factor, documentation, knowledge-transfer, resilience"
+maturity: stable
 ---
 
 # Context Dome

@@ -12,6 +12,7 @@ metadata:
   savia.references: references/domain-terms.md
   savia.summary: "Cruza reglas de negocio, contratos, políticas y arquitectura contra 12.235 normas españolas consolidadas del BOE. Búsqueda por grep determinista, sin dependencias externas."
   savia.tags: "legal, compliance, legislación, BOE, LOPDGDD, LSSI"
+maturity: stable
 ---
 
 # Legal Compliance — Auditoría contra Legislación Española

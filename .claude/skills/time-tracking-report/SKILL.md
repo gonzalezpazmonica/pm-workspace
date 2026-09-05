@@ -12,6 +12,7 @@ metadata:
   savia.priority: medium
   savia.summary: "Extrae horas imputadas de Azure DevOps y genera informe. Agrupa por persona, proyecto y tipo de tarea. Output: Excel/Word en output/ con formato corporativo."
   savia.tags: "time-tracking, hours, excel, reporting"
+maturity: stable
 ---
 
 # Skill: time-tracking-report

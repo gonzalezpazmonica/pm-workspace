@@ -12,6 +12,7 @@ metadata:
   savia.summary: "Mapa de dependencias internas: que comandos invocan que agentes, que reglas cargan, que skills usan. Reduce alucinaciones en routing. Output: grafo de dependencias del workspace. Mapa de dependencias internas de pm-workspace: que comandos invocan que agentes, que reglas cargan, que skills usan. Reduce hallucination en routing de agentes."
   savia.tags: "indexing, routing, dependencies, discovery"
   savia.user-invocable: True
+maturity: stable
 ---
 
 # Skill: Codebase Map — Indexacion de Dependencias Internas

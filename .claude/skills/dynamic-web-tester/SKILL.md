@@ -12,6 +12,7 @@ metadata:
   savia.priority: high
   savia.summary: "Testing dinamico controlado contra endpoints web en staging. REQUIERE autorizacion explicita. Modo conservador por defecto (level 1, safe). Complementa pentesting skill con deteccion activa de XSS y SQLi."
   savia.tags: "xss, sqli, dalfox, sqlmap, nuclei, pentest-web, dynamic-testing"
+maturity: stable
 ---
 
 # Dynamic Web Security Tester — SE-245

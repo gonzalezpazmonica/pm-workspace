@@ -10,6 +10,7 @@ metadata:
   savia.priority: medium
   savia.summary: "Depuracion autonoma de apps Android contra dispositivos fisicos via USB/ADB. Detecta crashes, ANRs, memory leaks. Ejecuta tests instrumentados. Output: informe con screenshots, logs y sugerencias de fix."
   savia.tags: "android, debugging, adb, mobile-testing"
+maturity: stable
 ---
 
 # Android Autonomous Debugger

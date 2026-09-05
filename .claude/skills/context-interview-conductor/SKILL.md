@@ -11,6 +11,7 @@ metadata:
   savia.priority: medium
   savia.summary: "Conduce entrevistas estructuradas de contexto para proyectos nuevos. Genera preguntas adaptativas, captura respuestas y produce documento de contexto completo para el equipo."
   savia.tags: "interview, context, structured, discovery"
+maturity: stable
 ---
 
 # Skill: Context Interview Conductor

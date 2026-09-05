@@ -12,6 +12,7 @@ metadata:
   savia.summary: "Bucle auto-optimizador de prompts para skills y agentes. Ejecuta con test fixture, puntua contra checklist, modifica, re-ejecuta. Para cuando score >= 8/10 en 3 iteraciones. Bucle auto-optimizador de prompts para skills y agentes — patron AutoResearch. Ejecuta skill con test fixture, puntua output contra checklist, modifica prompt, re-ejecuta y compara scores. Guarda cambio si mejora, revierte si empeora. Criterio de parada: score >= 8/10 en 3 iteraciones consecutivas."
   savia.tags: "optimization, autoresearch, prompt-engineering, self-improvement"
   savia.user-invocable: True
+maturity: stable
 ---
 
 # Skill: Prompt Optimizer (patron AutoResearch)
