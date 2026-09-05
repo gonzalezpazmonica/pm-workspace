@@ -1,6 +1,6 @@
 {
-  "hash": "d8822a005058",
-  "total": 1447,
+  "hash": "2359dd1f497f",
+  "total": 1448,
   "resources": [
     {
       "category": "analysis",
@@ -13214,6 +13214,19 @@
       "kind": "script",
       "path": "scripts/restore-drill.sh",
       "description": "restore-drill.sh — SE-258 Slice 2"
+    },
+    {
+      "category": "planning",
+      "name": "roadmap",
+      "intents": [
+        "machine",
+        "planning",
+        "roadmap",
+        "state"
+      ],
+      "kind": "script",
+      "path": "scripts/roadmap.sh",
+      "description": "roadmap.sh — SE-378: CLI del planning state machine."
     },
     {
       "category": "planning",
