@@ -5,6 +5,7 @@ description: Usar cuando una decisión técnica o recomendación necesita valida
 metadata:
   # --- metadata.savia.* (SE-333) ---
   savia.agent: consensus-orchestrator
+  savia.maturity: stable
   savia.category: governance
   savia.context: fork
   savia.context_cost: medium
@@ -12,7 +13,6 @@ metadata:
   savia.priority: high
   savia.summary: "Panel de 4 jueces: reflection, code-review, business, performance. Cada juez evalua independientemente. Score ponderado 0-1.0. Veto rule: security/GDPR finding anula score. Output: JSON."
   savia.tags: "consensus, validation, multi-judge, quality"
-maturity: stable
 ---
 
 ## Subagent Scope Guard

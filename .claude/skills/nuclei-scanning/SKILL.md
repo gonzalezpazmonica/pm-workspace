@@ -6,10 +6,10 @@ allowed-tools: [Bash, Read, Write]
 metadata:
   # --- metadata.savia.* (SE-333) ---
   savia.category: quality
+  savia.maturity: stable
   savia.context: Invocado por /security-pipeline y /pentesting. Complementa security-attacker con deteccion basada en templates.
   savia.disable-model-invocation: false
   savia.user-invocable: False
-maturity: stable
 ---
 
 # Nuclei Scanner — Skill de Seguridad Complementario

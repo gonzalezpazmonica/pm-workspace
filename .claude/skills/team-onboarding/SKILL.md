@@ -5,13 +5,13 @@ description: Usar cuando se incorpora un nuevo miembro al equipo y se evalúan s
 metadata:
   # --- metadata.savia.* (SE-333) ---
   savia.agent: tech-writer
+  savia.maturity: stable
   savia.category: pm-operations
   savia.context: fork
   savia.maturity: stable
   savia.priority: medium
   savia.summary: "Onboarding de nuevos miembros: documentacion auto-generada, plan personalizado 30/60/90 y agente buddy de 3 capas. Output: guia de onboarding + plan + checkpoints."
   savia.tags: "onboarding, competencies, ramp-up, team"
-maturity: stable
 ---
 
 # Skill: Team Onboarding & Expertise Evaluation

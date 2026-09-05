@@ -5,6 +5,7 @@ description: "Usar cuando se coordinan múltiples equipos, se asignan miembros o
 metadata:
   # --- metadata.savia.* (SE-333) ---
   savia.agent: architect
+  savia.maturity: stable
   savia.category: pm-operations
   savia.context: fork
   savia.context_cost: medium
@@ -14,7 +15,6 @@ metadata:
   savia.priority: medium
   savia.summary: "Orquestacion multi-equipo: crear equipos, asignar miembros, detectar bloqueantes cross-team y dependencias. Output: mapa de dependencias + alertas de bloqueo."
   savia.tags: "team, coordination, multi-team, blockers"
-maturity: stable
 ---
 
 # Skill: Team Coordination

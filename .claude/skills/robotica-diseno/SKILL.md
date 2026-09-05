@@ -4,6 +4,7 @@ name: robotica-diseno
 description: "Diseño profundo de robótica, automatización y hardware/software para el mundo físico. Usar cuando se diseña un robot, una celda de automatización, integración de sensores, servos, PLCs, visión artificial, o cuando se conecta un agente a hardware físico."
 metadata:
   savia.maturity: "stable"
+  savia.maturity: stable
   savia.context: "standalone"
   savia.context_cost: "medium"
   savia.category: "domain"
@@ -11,7 +12,6 @@ metadata:
   savia.priority: "high"
   savia.loop_level: "L0"
   savia.trigger_keywords: "robótica, robot, automatización, PLC, servos, sensores, visión artificial, hardware, mundo físico, brazo robótico, liquid handler, MHS"
-maturity: stable
 ---
 
 # Skill: Robótica y Diseño de Sistemas Físicos

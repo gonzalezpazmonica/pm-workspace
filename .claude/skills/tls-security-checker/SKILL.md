@@ -5,12 +5,12 @@ description: Usar cuando se verifica TLS/SSL o security headers HTTP de un servi
 metadata:
   # --- metadata.savia.* (SE-333) ---
   savia.category: security
+  savia.maturity: stable
   savia.context: skill
   savia.maturity: stable
   savia.priority: high
   savia.summary: "Verifica configuración TLS y security headers de un endpoint web. Usa testssl.sh (Docker fallback) para análisis TLS completo. Verifica headers con curl: CSP, HSTS, X-Frame-Options, X-Content-Type-Options, etc. Output: grade TLS (A-F), score headers (0-100), JSON report en output/security/."
   savia.tags: "tls, ssl, web-security, headers, testssl, wafw00f, deploy"
-maturity: stable
 ---
 
 # TLS Security Checker

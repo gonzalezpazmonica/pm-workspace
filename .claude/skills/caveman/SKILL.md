@@ -6,11 +6,11 @@ license: MIT
 compatibility: opencode
 metadata:
   audience: developer
+  savia.maturity: stable
   workflow: review, pre-commit
   origin: mattpocock/skills (MIT)
   # --- metadata.savia.* (SE-333) ---
   savia.trigger_keywords: "brutal, caveman, sin filtros, honestidad brutal, strip"
-maturity: stable
 ---
 
 # caveman — Brutally honest minimal review

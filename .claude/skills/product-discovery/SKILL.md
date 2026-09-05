@@ -5,13 +5,13 @@ description: "Usar antes de descomponer PBIs, cuando se necesita análisis JTBD 
 metadata:
   # --- metadata.savia.* (SE-333) ---
   savia.agent: business-analyst
+  savia.maturity: stable
   savia.category: quality
   savia.context: fork
   savia.maturity: stable
   savia.priority: medium
   savia.summary: "Analisis pre-implementacion: Jobs-to-be-Done y PRD. Cuando: antes de descomponer un PBI en tasks. Output: JTBD document + PRD con requisitos formalizados."
   savia.tags: "discovery, jtbd, prd, product"
-maturity: stable
 ---
 
 # Skill: Product Discovery

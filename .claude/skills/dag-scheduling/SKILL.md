@@ -5,6 +5,7 @@ description: Usar cuando se orquestan múltiples agentes SDD con dependencias en
 metadata:
   # --- metadata.savia.* (SE-333) ---
   savia.agent: developer
+  savia.maturity: stable
   savia.category: sdd-framework
   savia.context: fork
   savia.context_cost: high
@@ -12,7 +13,6 @@ metadata:
   savia.priority: high
   savia.summary: "Orquesta agentes SDD en paralelo usando grafos de dependencias. Calcula camino critico, cohortes paralelas y ahorro de tiempo. Input: spec con tasks. Output: plan DAG + ejecucion."
   savia.tags: "dag, parallel, orchestration, pipeline"
-maturity: stable
 ---
 
 ## Subagent Scope Guard

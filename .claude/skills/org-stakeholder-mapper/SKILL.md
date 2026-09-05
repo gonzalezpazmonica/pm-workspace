@@ -5,6 +5,7 @@ description: "Mapeador de Stakeholders y Decisores: extrae roles formales y real
 metadata:
   # --- metadata.savia.* (SE-333) ---
   savia.category: org-intelligence
+  savia.maturity: stable
   savia.context: fork
   savia.context_cost: medium
   savia.context_tier: L3
@@ -12,7 +13,6 @@ metadata:
   savia.summary: Produce YAML de nodos + narrativa markdown del mapa de stakeholders. NUNCA escribe al grafo sin aprobación humana.
   savia.tags: "stakeholders, org-intelligence, poder, decisores, análisis-organizativo"
   savia.trigger_keywords: "stakeholders, mapa de poder, decisores, quién decide, alianzas, quién apoya"
-maturity: stable
 ---
 
 # Skill: Org Stakeholder Mapper

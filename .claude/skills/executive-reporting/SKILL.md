@@ -5,6 +5,7 @@ description: Usar cuando se genera un informe ejecutivo multi-proyecto para dire
 metadata:
   # --- metadata.savia.* (SE-333) ---
   savia.agent: tech-writer
+  savia.maturity: stable
   savia.category: reporting
   savia.context: fork
   savia.context_cost: medium
@@ -12,7 +13,6 @@ metadata:
   savia.priority: medium
   savia.summary: "Informes ejecutivos multi-proyecto para direccion. Formatos: PowerPoint y Word con formato corporativo. Datos: velocity, completion rate, riesgos, roadmap."
   savia.tags: "executive, reports, powerpoint, word"
-maturity: stable
 ---
 
 # Skill: executive-reporting

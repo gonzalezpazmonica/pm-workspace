@@ -5,6 +5,7 @@ description: "Usar cuando se escribe, valida o implementa una spec ejecutable SD
 metadata:
   # --- metadata.savia.* (SE-333) ---
   savia.agent: business-analyst
+  savia.maturity: stable
   savia.category: sdd-framework
   savia.context: fork
   savia.context_cost: high
@@ -13,7 +14,6 @@ metadata:
   savia.summary: "Genera specs ejecutables. Flujo: analyst->architect->spec-writer->developer->test. Input: Task ADO."
   savia.tags: "sdd, specs, development, agents"
   savia.trigger_keywords: "spec, sdd, especificacion ejecutable, specification"
-maturity: stable
 ---
 
 ## Subagent Scope Guard

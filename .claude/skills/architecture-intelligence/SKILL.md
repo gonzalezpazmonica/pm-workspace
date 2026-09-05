@@ -5,6 +5,7 @@ description: Usar cuando se diseña o revisa la arquitectura de un proyecto nuev
 metadata:
   # --- metadata.savia.* (SE-333) ---
   savia.category: quality
+  savia.maturity: stable
   savia.context_cost: medium
   savia.developer_type: all
   savia.maturity: stable
@@ -12,7 +13,6 @@ metadata:
   savia.references: "references/patterns-dotnet.md, references/patterns-typescript.md, references/patterns-java.md, references/patterns-python.md, references/patterns-go.md, references/patterns-rust.md, references/patterns-php.md, references/patterns-mobile.md, references/patterns-ruby.md, references/patterns-legacy.md, references/patterns-terraform.md"
   savia.summary: "Detecta patrones de arquitectura en 16 lenguajes. Analiza estructura de carpetas, dependencias y naming. Output: patron detectado + sugerencias de mejora."
   savia.tags: "architecture, patterns, detection, recommendations"
-maturity: stable
 ---
 
 # Architecture Intelligence — Skill

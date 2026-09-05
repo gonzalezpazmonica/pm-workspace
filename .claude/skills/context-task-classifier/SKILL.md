@@ -5,8 +5,8 @@ description: Usar antes de compactar contexto para clasificar la tarea del turno
 metadata:
   # --- metadata.savia.* (SE-333) ---
   savia.input: text
+  savia.maturity: stable
   savia.output: json
-maturity: stable
 ---
 
 # context-task-classifier

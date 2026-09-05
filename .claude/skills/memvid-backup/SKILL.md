@@ -6,6 +6,7 @@ allowed-tools: [Read, Bash, Write]
 metadata:
   # --- metadata.savia.* (SE-333) ---
   savia.agent: architect
+  savia.maturity: stable
   savia.category: memory
   savia.context: fork
   savia.disable-model-invocation: false
@@ -14,7 +15,6 @@ metadata:
   savia.summary: "Wrapper backup para memoria externa. Intenta memvid (.mv2) si disponible, fallback a tar-gzip con SHA256 integrity. 3 subcomandos: pack, restore, verify. Integrable con travel-pack / vault-export."
   savia.tags: "backup, memvid, portable, travel, integrity"
   savia.user-invocable: True
-maturity: stable
 ---
 
 # Skill: Memvid Backup

@@ -6,12 +6,12 @@ allowed-tools: [Read, Write, Glob, Grep, Bash, Task]
 metadata:
   # --- metadata.savia.* (SE-333) ---
   savia.category: governance
+  savia.maturity: stable
   savia.disable-model-invocation: false
   savia.priority: medium
   savia.summary: "Audita agentes y prompts para detectar workarounds que modelos nuevos ya no necesitan. Propone simplificaciones con evidencia. Ejecutar al cambiar de modelo (ej: Sonnet 4 a 4.5)."
   savia.tags: "model, upgrade, prompt-debt, simplification, audit"
   savia.user-invocable: True
-maturity: stable
 ---
 
 # Model Upgrade Audit

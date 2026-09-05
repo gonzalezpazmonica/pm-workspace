@@ -5,13 +5,13 @@ description: Usar cuando se monitorizan señales de bienestar individual en el e
 metadata:
   # --- metadata.savia.* (SE-333) ---
   savia.category: communication
+  savia.maturity: stable
   savia.context_cost: low
   savia.dependencies: 
   savia.maturity: stable
   savia.priority: medium
   savia.summary: "Sistema proactivo de bienestar: recordatorios de descanso, alertas fuera de horario, nudges de work-life balance. Configurable por usuario. No bloquea, solo sugiere."
   savia.tags: "wellbeing, burnout, sustainable-pace, team-health"
-maturity: stable
 ---
 
 # Skill: Wellbeing Guardian

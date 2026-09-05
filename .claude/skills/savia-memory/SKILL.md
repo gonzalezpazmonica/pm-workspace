@@ -6,12 +6,12 @@ license: MIT
 compatibility: opencode
 metadata:
   audience: pm
+  savia.maturity: stable
   workflow: memory-management
   # --- metadata.savia.* (SE-333) ---
   savia.consumes: session_data
   savia.produces: memory_entry
   savia.trigger_keywords: "recuerda, memory, guarda, memoriza, olvidas, recall"
-maturity: stable
 ---
 
 # Skill: savia-memory

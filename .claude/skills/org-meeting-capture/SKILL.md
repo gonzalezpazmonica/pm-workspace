@@ -5,6 +5,7 @@ description: "Captura de Conocimiento Tácito de Reunión: extrae decisores, acu
 metadata:
   # --- metadata.savia.* (SE-333) ---
   savia.category: org-intelligence
+  savia.maturity: stable
   savia.context: fork
   savia.context_cost: medium
   savia.context_tier: L3
@@ -12,7 +13,6 @@ metadata:
   savia.summary: "Produce insights (EXTRACTED/INFERRED/AMBIGUOUS), nodos propuestos en YAML y alertas. NUNCA escribe al grafo sin aprobación."
   savia.tags: "reuniones, conocimiento-tácito, transcripciones, org-intelligence, acuerdos-informales"
   savia.trigger_keywords: "transcripción, reunión, acuerdos informales, quién dijo qué, captura reunión, señales políticas"
-maturity: stable
 ---
 
 # Skill: Org Meeting Capture

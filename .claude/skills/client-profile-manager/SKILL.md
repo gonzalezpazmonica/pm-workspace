@@ -5,13 +5,13 @@ description: "Usar cuando se crean, actualizan o consultan perfiles de cliente e
 metadata:
   # --- metadata.savia.* (SE-333) ---
   savia.category: pm-operations
+  savia.maturity: stable
   savia.context_cost: medium
   savia.dependencies: savia-hub-sync
   savia.maturity: stable
   savia.priority: medium
   savia.summary: "Gestion CRUD de perfiles de cliente en SaviaHub. Crear, actualizar, listar y buscar clientes con datos de contacto, proyectos vinculados y notas. Datos en nivel N4 (proyecto)."
   savia.tags: "client, profile, crud, savia-hub"
-maturity: stable
 ---
 
 # Skill: Client Profile Manager

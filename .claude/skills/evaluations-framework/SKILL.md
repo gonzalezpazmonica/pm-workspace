@@ -5,11 +5,11 @@ description: Usar cuando se diseñan o ejecutan evaluaciones de calidad de agent
 metadata:
   # --- metadata.savia.* (SE-333) ---
   savia.category: reporting
+  savia.maturity: stable
   savia.maturity: beta
   savia.priority: medium
   savia.summary: "Framework G-Eval para evaluar calidad de outputs. Tipos: PBI quality, spec quality, estimation accuracy. Output: scores por criterio + tendencias + alertas regresion."
   savia.tags: "evaluations, quality, g-eval, scoring"
-maturity: stable
 ---
 
 # Evaluations Framework

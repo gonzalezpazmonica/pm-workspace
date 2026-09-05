@@ -5,6 +5,7 @@ description: Usar cuando se necesita generar diagramas de arquitectura o flujo d
 metadata:
   # --- metadata.savia.* (SE-333) ---
   savia.agent: diagram-architect
+  savia.maturity: stable
   savia.category: devops
   savia.context: fork
   savia.context_cost: medium
@@ -12,7 +13,6 @@ metadata:
   savia.priority: medium
   savia.summary: "Genera diagramas de arquitectura y flujo desde codigo. Soporta Draw.io, Miro y Mermaid local. Output: diagrama exportado + metadata en projects/{p}/diagrams/."
   savia.tags: "diagrams, architecture, mermaid, draw-io"
-maturity: stable
 ---
 
 # Skill: Diagram Generation — Arquitectura y Flujo

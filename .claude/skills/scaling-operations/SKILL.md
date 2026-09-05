@@ -5,6 +5,7 @@ description: Usar cuando se analiza el tier de escala de un servicio o se necesi
 metadata:
   # --- metadata.savia.* (SE-333) ---
   savia.agent: architect
+  savia.maturity: stable
   savia.category: quality
   savia.context: fork
   savia.context_cost: medium
@@ -14,7 +15,6 @@ metadata:
   savia.priority: medium
   savia.summary: "Analiza tier de escalado, benchmarks y recomienda optimizaciones. Para organizaciones en crecimiento. Knowledge search integrado. Output: plan de escalado priorizado."
   savia.tags: "scaling, tier-analysis, benchmark, optimization"
-maturity: stable
 ---
 
 # Skill: Scaling Operations

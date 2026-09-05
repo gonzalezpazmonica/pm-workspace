@@ -5,11 +5,11 @@ description: "Usar cuando se investiga, experimenta o audita epistemicamente. Tr
 metadata:
   # --- metadata.savia.* (SE-333) ---
   savia.category: research
+  savia.maturity: stable
   savia.context: project
   savia.maturity: experimental
   savia.priority: medium
   savia.tags: "labs, investigacion, epistemologia, experimentos, preregistro, divergencia"
-maturity: stable
 ---
 
 # Savia Labs — Investigacion Epistemica

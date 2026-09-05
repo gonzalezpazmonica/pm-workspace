@@ -5,13 +5,13 @@ description: Usar cuando un agente debe enviar un mensaje a otro agente con role
 metadata:
   # --- metadata.savia.* (SE-333) ---
   savia.category: orchestration
+  savia.maturity: stable
   savia.context: standalone
   savia.context_cost: low
   savia.maturity: beta
   savia.priority: medium
   savia.tags: "messaging, agent-to-agent, a2a, receipts, orchestration"
   savia.trigger_keywords: "mensaje a agente, notify, inbox, agent-message"
-maturity: stable
 ---
 
 # Skill: Agent Messaging (bus local A2A)

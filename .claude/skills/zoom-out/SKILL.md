@@ -6,12 +6,12 @@ license: MIT
 compatibility: opencode
 metadata:
   audience: architect, developer
+  savia.maturity: stable
   workflow: design, review
   origin: mattpocock/skills (MIT)
   # --- metadata.savia.* (SE-333) ---
   savia.disable-model-invocation: true
   savia.trigger_keywords: "zoom out, big picture, segunda orden, second-order, dependencies"
-maturity: stable
 ---
 
 # zoom-out — Architectural perspective shift

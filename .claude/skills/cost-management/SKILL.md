@@ -5,6 +5,7 @@ description: "Usar cuando se gestionan timesheets, presupuestos, facturas o fore
 metadata:
   # --- metadata.savia.* (SE-333) ---
   savia.agent: architect
+  savia.maturity: stable
   savia.category: reporting
   savia.context: fork
   savia.context_cost: medium
@@ -14,7 +15,6 @@ metadata:
   savia.priority: medium
   savia.summary: "Gestion de costes: timesheets, presupuestos, forecasting e invoicing. Registra horas por tarea/proyecto, calcula desviaciones, genera facturas. Output: informes Excel/Word."
   savia.tags: "cost, budget, forecasting, invoicing"
-maturity: stable
 ---
 
 # Skill: Cost Management

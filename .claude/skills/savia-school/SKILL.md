@@ -6,13 +6,13 @@ allowed-tools: [Read, Write, Edit, Bash, Glob, Grep]
 metadata:
   # --- metadata.savia.* (SE-333) ---
   savia.agent: business-analyst
+  savia.maturity: stable
   savia.category: governance
   savia.context: fork
   savia.maturity: experimental
   savia.priority: high
   savia.summary: "Entorno educativo seguro: alias obligatorios, cifrado AES-256 de evaluaciones, rubricas personalizables, portfolio de estudiante, derecho al olvido Art. 17 y exportacion GDPR Art. 15."
   savia.tags: "education, gdpr, minors, school, privacy, rubrics"
-maturity: stable
 ---
 
 # Savia School — Entorno Educativo Seguro

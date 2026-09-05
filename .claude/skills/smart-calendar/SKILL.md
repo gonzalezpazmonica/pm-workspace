@@ -6,13 +6,13 @@ allowed-tools: [Read, Write, Edit, Bash, Glob, Grep, Task]
 metadata:
   # --- metadata.savia.* (SE-333) ---
   savia.category: pm-operations
+  savia.maturity: stable
   savia.disable-model-invocation: false
   savia.maturity: experimental
   savia.priority: high
   savia.summary: "Gestion inteligente de agenda: sincronizacion Outlook/Teams, planificacion automatica de focus blocks, rebalanceo por prioridades, alertas de conflictos y deadlines. Gestion inteligente de agenda PM: sincronizacion bidireccional con Outlook/Teams, planificacion automatica de trabajo, rebalanceo por prioridades, focus blocks, alertas de conflictos y deadlines. Nada se queda atras."
   savia.tags: "calendar, outlook, teams, focus, scheduling, deadlines, ceremonies"
   savia.user-invocable: True
-maturity: stable
 ---
 
 # Skill: Smart Calendar — Gestion Inteligente de Agenda PM

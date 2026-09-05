@@ -6,6 +6,7 @@ allowed-tools: [Read, Bash, Glob]
 metadata:
   # --- metadata.savia.* (SE-333) ---
   savia.agent: architect
+  savia.maturity: stable
   savia.category: memory
   savia.context: fork
   savia.disable-model-invocation: false
@@ -14,7 +15,6 @@ metadata:
   savia.summary: "Clustering tematico con BERTopic (UMAP+HDBSCAN+c-TF-IDF). Aplica sobre retros, backlogs, incidentes, lessons. Fallback keyword cuando bertopic no esta instalado. Output JSON con labels y keywords."
   savia.tags: "clustering, bertopic, retrospectives, patterns, memory"
   savia.user-invocable: True
-maturity: stable
 ---
 
 # Skill: Topic Cluster

@@ -5,6 +5,7 @@ description: "Usar cuando se audita compliance, se registran decisiones o se cer
 metadata:
   # --- metadata.savia.* (SE-333) ---
   savia.agent: architect
+  savia.maturity: stable
   savia.category: governance
   savia.context: fork
   savia.context_cost: medium
@@ -14,7 +15,6 @@ metadata:
   savia.priority: high
   savia.summary: "Gobernanza empresarial: audit trail, verificacion de compliance, registro de decisiones y workflow de certificacion. Output: informes ISO 42001, EU AI Act, NIST AI RMF."
   savia.tags: "governance, audit-trail, certification, enterprise"
-maturity: stable
 ---
 
 # Skill: Enterprise Governance

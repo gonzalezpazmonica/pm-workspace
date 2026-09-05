@@ -6,6 +6,7 @@ allowed-tools: [Read, Bash]
 metadata:
   # --- metadata.savia.* (SE-333) ---
   savia.agent: criterion-simulation-judge
+  savia.maturity: stable
   savia.category: governance
   savia.context: workspace
   savia.context_cost: high
@@ -15,7 +16,6 @@ metadata:
   savia.tags: "meta-reflection, criterion-simulation, spec-194, frame, governance"
   savia.trigger_keywords: "frame challenge, meta-reflexion, criterion-simulation, FRAME_DOUBT, FRAME_REJECT"
   savia.user-invocable: True
-maturity: stable
 ---
 
 # Skill: meta-reflection

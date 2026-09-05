@@ -5,13 +5,13 @@ description: Usar cuando se necesita seleccionar el skill más apropiado para un
 metadata:
   # --- metadata.savia.* (SE-333) ---
   savia.category: reporting
+  savia.maturity: stable
   savia.context: fork
   savia.context_cost: low
   savia.maturity: stable
   savia.priority: low
   savia.summary: "Motor de evaluacion inteligente de skills basado en prompt y contexto. Analiza el prompt del usuario y el proyecto activo. Output: skills recomendados con score de relevancia."
   savia.tags: "skill-eval, prompt-analysis, scoring, activation"
-maturity: stable
 ---
 
 # Skill Evaluation Engine

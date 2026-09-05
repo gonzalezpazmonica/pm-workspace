@@ -6,13 +6,13 @@ allowed-tools: [Bash, Read, Glob, Grep, Write]
 metadata:
   # --- metadata.savia.* (SE-333) ---
   savia.agent: code-reviewer
+  savia.maturity: stable
   savia.category: quality
   savia.context: fork
   savia.maturity: stable
   savia.priority: high
   savia.summary: "Query-oriented AST exploration para 16 lenguajes. Empieza en un entrypoint, pide solo lo que necesitas. Reduce tokens 10-100x vs leer ficheros completos. 6 queries tipadas: symbol-search, impl, callers, tests, peek, grep-code. Complementa ast-quality-gate (valida output IA) vs comprensión (entiende código ajeno)."
   savia.tags: "ast, comprehension, legacy, rlm, structural-analysis, pre-edit"
-maturity: stable
 ---
 
 # AST Comprehension — Query, no leas

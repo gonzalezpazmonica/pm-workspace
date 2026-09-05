@@ -5,6 +5,7 @@ description: Usar cuando se generan informes de imputación de horas en Excel o 
 metadata:
   # --- metadata.savia.* (SE-333) ---
   savia.agent: tech-writer
+  savia.maturity: stable
   savia.category: reporting
   savia.context: fork
   savia.context_cost: medium
@@ -12,7 +13,6 @@ metadata:
   savia.priority: medium
   savia.summary: "Extrae horas imputadas de Azure DevOps y genera informe. Agrupa por persona, proyecto y tipo de tarea. Output: Excel/Word en output/ con formato corporativo."
   savia.tags: "time-tracking, hours, excel, reporting"
-maturity: stable
 ---
 
 # Skill: time-tracking-report

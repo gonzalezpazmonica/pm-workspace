@@ -5,13 +5,13 @@ description: Usar cuando se ha completado una implementación SDD y se necesita 
 metadata:
   # --- metadata.savia.* (SE-333) ---
   savia.agent: architect
+  savia.maturity: stable
   savia.category: sdd-framework
   savia.context: fork
   savia.maturity: stable
   savia.priority: medium
   savia.summary: "Genera modelo mental post-implementacion: decisiones, heuristicas de fallo y guia de debugging 3AM. Pipeline 7 fases. Output: comprehension report en output/."
   savia.tags: "comprehension, mental-model, debugging, documentation"
-maturity: stable
 ---
 
 # Code Comprehension Report — Mental Model Generation

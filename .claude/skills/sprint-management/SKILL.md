@@ -5,6 +5,7 @@ description: "Usar cuando se consulta el estado del sprint, se actualizan items 
 metadata:
   # --- metadata.savia.* (SE-333) ---
   savia.agent: azure-devops-operator
+  savia.maturity: stable
   savia.category: pm-operations
   savia.context: fork
   savia.context_cost: medium
@@ -12,7 +13,6 @@ metadata:
   savia.priority: high
   savia.summary: "Estado completo del sprint: items, progreso, burndown, velocity. Consulta Azure DevOps via WIQL. Genera resumenes para daily, review y retro. Output: dashboard + fichero en output/."
   savia.tags: "sprint, planning, scrum, velocity"
-maturity: stable
 ---
 
 # Skill: sprint-management

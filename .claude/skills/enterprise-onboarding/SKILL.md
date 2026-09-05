@@ -5,6 +5,7 @@ description: Usar cuando se incorporan múltiples personas a la organización de
 metadata:
   # --- metadata.savia.* (SE-333) ---
   savia.agent: architect
+  savia.maturity: stable
   savia.category: quality
   savia.context: fork
   savia.context_cost: medium
@@ -14,7 +15,6 @@ metadata:
   savia.priority: medium
   savia.summary: "Onboarding empresarial a escala: importacion batch de miembros, checklists por rol, tracking de progreso y knowledge transfer. Input: lista de personas + roles. Output: planes personalizados."
   savia.tags: "onboarding, enterprise, batch-import, knowledge-transfer"
-maturity: stable
 ---
 
 # Skill: Enterprise Onboarding

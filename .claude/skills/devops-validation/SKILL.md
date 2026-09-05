@@ -5,6 +5,7 @@ description: Usar cuando se conecta un proyecto nuevo a Azure DevOps para valida
 metadata:
   # --- metadata.savia.* (SE-333) ---
   savia.agent: azure-devops-operator
+  savia.maturity: stable
   savia.category: devops
   savia.context: fork
   savia.context_cost: low
@@ -12,7 +13,6 @@ metadata:
   savia.priority: medium
   savia.summary: "Valida configuracion de Azure DevOps contra requisitos Agile ideales. Comprueba areas, iteraciones, campos custom, politicas de branch. Output: informe de gaps + plan de remediacion."
   savia.tags: "validation, azure-devops, agile, configuration"
-maturity: stable
 ---
 
 # Skill: devops-validation

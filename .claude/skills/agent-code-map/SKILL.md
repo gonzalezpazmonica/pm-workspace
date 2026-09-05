@@ -6,6 +6,7 @@ allowed-tools: [Bash, Read, Glob, Grep, Write, Edit]
 metadata:
   # --- metadata.savia.* (SE-333) ---
   savia.agent: architect
+  savia.maturity: stable
   savia.category: sdd-framework
   savia.context: project
   savia.maturity: experimental
@@ -13,7 +14,6 @@ metadata:
   savia.summary: "Genera INDEX.acm + mapas por capa (domain, infra, api) desde el código fuente. Valida frescura por hash. Carga progresiva con @include. Integrado en SDD step [0]. Elimina 30–60% de exploración ciega al inicio de cada sesión de agente."
   savia.tags: "acm, agent-maps, codemap, context, sdd, architecture"
   savia.user-invocable: True
-maturity: stable
 ---
 # Agent Code Map — Mapas Estructurales Persistentes
 

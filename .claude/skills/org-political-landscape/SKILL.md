@@ -5,6 +5,7 @@ description: "Análisis de Paisaje Político Interno: detecta tensiones, alianza
 metadata:
   # --- metadata.savia.* (SE-333) ---
   savia.category: org-intelligence
+  savia.maturity: stable
   savia.context: fork
   savia.context_cost: medium
   savia.context_tier: L3
@@ -12,7 +13,6 @@ metadata:
   savia.summary: "Produce mapa político con posturas, intensidades, motivos reales (confidence INFERRED) y condiciones de movimiento."
   savia.tags: "política-organizativa, alianzas, tensiones, poder, org-intelligence"
   savia.trigger_keywords: "paisaje político, tensiones internas, alianzas, centros de poder, resistencia, quién bloquea"
-maturity: stable
 ---
 
 # Skill: Org Political Landscape

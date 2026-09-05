@@ -5,11 +5,11 @@ description: "DEPRECATED 2026-09-04 — sustituida por obscura-browser. No usar 
 metadata:
   # --- metadata.savia.* (SE-333) ---
   savia.category: tool
+  savia.maturity: stable
   savia.context: project
   savia.maturity: deprecated
   savia.priority: low
   savia.tags: "browser, headless, web, scraping, markdown, mcp, automation, lightpanda, deprecated"
-maturity: stable
 ---
 
 # lightpanda-browser

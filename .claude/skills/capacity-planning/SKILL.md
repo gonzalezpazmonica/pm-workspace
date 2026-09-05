@@ -5,6 +5,7 @@ description: Usar cuando se calcula la capacidad del equipo para un sprint o per
 metadata:
   # --- metadata.savia.* (SE-333) ---
   savia.agent: azure-devops-operator
+  savia.maturity: stable
   savia.category: pm-operations
   savia.context: fork
   savia.context_cost: medium
@@ -12,7 +13,6 @@ metadata:
   savia.priority: high
   savia.summary: "Calcula capacidad del equipo: horas disponibles, focus factor, alertas de sobre-asignacion. Consulta Azure DevOps iterations API. Output: tabla de capacidad por persona + alertas."
   savia.tags: "capacity, team, workload, planning"
-maturity: stable
 ---
 
 # Skill: capacity-planning

@@ -5,13 +5,13 @@ description: Usar cuando se necesitan subagentes en paralelo con admission-handl
 metadata:
   # --- metadata.savia.* (SE-333) ---
   savia.category: orchestration
+  savia.maturity: stable
   savia.context: standalone
   savia.context_cost: low
   savia.maturity: beta
   savia.priority: medium
   savia.tags: "parallel, subagents, admission-handle, orchestration"
   savia.trigger_keywords: "paralelo, parallel, subagentes, lanza en background"
-maturity: stable
 ---
 
 # Skill: Parallel Dispatch (admission-handle)

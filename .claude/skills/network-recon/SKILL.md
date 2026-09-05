@@ -5,6 +5,7 @@ description: "Reconocimiento de red: port scan con nmap/RustScan + HTTP detectio
 metadata:
   # --- metadata.savia.* (SE-333) ---
   savia.authorization_required: true
+  savia.maturity: stable
   savia.category: security
   savia.context: fork
   savia.context_cost: medium
@@ -12,7 +13,6 @@ metadata:
   savia.priority: high
   savia.summary: "Escaneo conservador de puertos y deteccion de servicios para infraestructura propia. REQUIERE autorizacion explicita. Modo discovery (enumeracion, sin explotacion). Output: ports-open.txt + services.json + network-recon-{target}-YYYYMMDD.json"
   savia.tags: "nmap, rustscan, httpx, port-scan, network-recon, recon"
-maturity: stable
 ---
 
 # Network Recon — SE-246

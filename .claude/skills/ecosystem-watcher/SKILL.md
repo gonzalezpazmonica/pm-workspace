@@ -6,6 +6,7 @@ allowed-tools: [Read, Bash, Write, WebFetch]
 metadata:
   # --- metadata.savia.* (SE-333) ---
   savia.agent: tech-research-agent
+  savia.maturity: stable
   savia.category: research
   savia.context: fork
   savia.disable-model-invocation: false
@@ -14,7 +15,6 @@ metadata:
   savia.summary: "Monthly ecosystem intelligence. Tracks awesome-claude-code, awesome-agent-skills, awesome-mcp-servers, anthropics/skills, github/spec-kit, modelcontextprotocol/servers and Claude/OpenCode changelogs. Generates output/research-skills-update-{YYYY-MM}.md with classified signals. Read-only — no autonomous PRs."
   savia.tags: "watch, monthly, intelligence, awesome, cron"
   savia.user-invocable: True
-maturity: stable
 ---
 
 # Skill: Ecosystem Watcher

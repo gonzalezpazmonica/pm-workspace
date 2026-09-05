@@ -6,6 +6,7 @@ allowed-tools: [Read, Grep, Bash]
 metadata:
   # --- metadata.savia.* (SE-333) ---
   savia.agent: any
+  savia.maturity: stable
   savia.category: quality
   savia.context: workspace
   savia.context_cost: low
@@ -15,7 +16,6 @@ metadata:
   savia.tags: "sycophancy, illusory-truth, epistemic, honesty, spec-192"
   savia.trigger_keywords: "buena pregunta, tienes razón, absolutamente, great question, you are right"
   savia.user-invocable: True
-maturity: stable
 ---
 
 # Skill: epistemic-humility

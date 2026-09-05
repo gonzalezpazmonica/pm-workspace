@@ -5,6 +5,7 @@ description: Usar cuando se audita el rendimiento estático de código para dete
 metadata:
   # --- metadata.savia.* (SE-333) ---
   savia.category: quality
+  savia.maturity: stable
   savia.context_cost: medium
   savia.developer_type: all
   savia.maturity: stable
@@ -13,7 +14,6 @@ metadata:
   savia.summary: "Auditoria estatica de rendimiento: detecta N+1 queries, async anti-patterns, memory allocation en loops, complejidad O(n2). Output: hallazgos priorizados por severidad + fix sugerido."
   savia.tags: "performance, hotspots, async, optimization"
   savia.trigger_keywords: "performance, hotspot, lento, optimiza, bottleneck, rendimiento"
-maturity: stable
 ---
 
 # Performance Audit Intelligence

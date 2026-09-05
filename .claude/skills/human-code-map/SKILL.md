@@ -6,6 +6,7 @@ allowed-tools: [Read, Write, Edit, Glob, Grep, Bash]
 metadata:
   # --- metadata.savia.* (SE-333) ---
   savia.category: quality
+  savia.maturity: stable
   savia.context: fork
   savia.context_cost: medium
   savia.maturity: experimental
@@ -13,7 +14,6 @@ metadata:
   savia.priority: high
   savia.summary: "Pipeline de 4 fases: cargar .acm del componente → analizar código real → generar borrador narrativo → ciclo de validación humana. Output: fichero .hcm con story, modelo mental, gotchas, decisiones y debt-score."
   savia.tags: "comprehension, cognitive-debt, documentation, onboarding, mental-model"
-maturity: stable
 ---
 # Human Code Map — Skill
 

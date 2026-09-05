@@ -6,13 +6,13 @@ allowed-tools: [Read, Write, Glob, Grep, Bash]
 metadata:
   # --- metadata.savia.* (SE-333) ---
   savia.category: quality
+  savia.maturity: stable
   savia.disable-model-invocation: false
   savia.maturity: experimental
   savia.priority: medium
   savia.summary: Sistema de feedback de calidad de documentacion. Los agentes puntuan skills y reglas tras usarlas. Agregacion mensual detecta docs de baja calidad para reescritura. Sistema de feedback de calidad de documentacion. Los agentes puntuan skills y reglas tras usarlas. Aggregacion mensual detecta docs de baja calidad para reescritura.
   savia.tags: "feedback, documentation, self-improvement"
   savia.user-invocable: True
-maturity: stable
 ---
 
 # Skill: Doc Quality Feedback

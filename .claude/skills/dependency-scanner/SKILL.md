@@ -5,6 +5,7 @@ description: "Usar cuando se escanean vulnerabilidades en dependencias de proyec
 metadata:
   # --- metadata.savia.* (SE-333) ---
   savia.category: security
+  savia.maturity: stable
   savia.context: fork
   savia.context_cost: low
   savia.maturity: stable
@@ -12,7 +13,6 @@ metadata:
   savia.summary: "Escanea manifiestos de dependencias con Trivy filesystem mode. Detecta CVEs en npm, pip, nuget, maven, cargo, go.mod, bundler. Genera SBOM CycloneDX JSON como artefacto de release. Bloqueante: CRITICAL/HIGH → exit 1. Informativo: MEDIUM/LOW. Output en output/security/."
   savia.tags: "security, dependencies, trivy, sbom, cve, supply-chain"
   savia.trigger_keywords: "escanea dependencias, vulnerabilidades en paquetes, dep scan, SBOM, supply chain security, CVE en npm, CVE en pip, vulnerabilidades node, vulnerabilidades python, dependency vulnerability"
-maturity: stable
 ---
 
 ## Subagent Scope Guard

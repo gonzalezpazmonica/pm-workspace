@@ -5,6 +5,7 @@ description: Usar cuando se necesita investigación técnica autónoma sobre un 
 metadata:
   # --- metadata.savia.* (SE-333) ---
   savia.agent: architect
+  savia.maturity: stable
   savia.category: sdd-framework
   savia.context: fork
     savia.loop_level: L1  # L0=draft | L1=report-only | L2=assisted | L3=unattended — ver docs/rules/domain/loop-phasing.md
@@ -12,7 +13,6 @@ metadata:
   savia.priority: low
   savia.summary: "Agente de investigacion tecnica autonoma: investiga temas, genera informes y notifica al humano designado. Output: informe en output/research-*. Rama agent/research-*."
   savia.tags: "research, autonomous, investigation, reports"
-maturity: stable
 ---
 # Skill: Tech Research Agent
 

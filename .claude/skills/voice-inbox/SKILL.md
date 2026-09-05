@@ -5,6 +5,7 @@ description: Usar cuando se procesan mensajes de voz para transcribirlos y conve
 metadata:
   # --- metadata.savia.* (SE-333) ---
   savia.agent: business-analyst
+  savia.maturity: stable
   savia.category: communication
   savia.context: fork
   savia.context_cost: medium
@@ -12,7 +13,6 @@ metadata:
   savia.priority: medium
   savia.summary: "Transcripcion de audio y flujo audio-texto-accion. Procesa mensajes de voz, extrae intenciones y propone acciones. Input: fichero audio. Output: transcripcion + action items."
   savia.tags: "voice, transcription, audio, whatsapp"
-maturity: stable
 ---
 
 # Voice Inbox — Transcripción y procesamiento de mensajes de voz

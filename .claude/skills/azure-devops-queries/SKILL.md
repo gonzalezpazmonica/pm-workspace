@@ -5,6 +5,7 @@ description: "Usar cuando se necesitan consultas WIQL, actualización de work it
 metadata:
   # --- metadata.savia.* (SE-333) ---
   savia.agent: azure-devops-operator
+  savia.maturity: stable
   savia.category: devops
   savia.context: fork
   savia.context_cost: medium
@@ -12,7 +13,6 @@ metadata:
   savia.priority: high
   savia.summary: "Operaciones CRUD con Azure DevOps: queries WIQL, work items, sprint status, capacity. Autenticacion via PAT o az CLI. Input: proyecto + query. Output: datos estructurados."
   savia.tags: "azure-devops, wiql, work-items, api"
-maturity: stable
 ---
 
 # Skill: azure-devops-queries

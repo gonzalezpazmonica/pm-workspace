@@ -6,13 +6,13 @@ allowed-tools: [Read, Bash, Glob, Grep]
 metadata:
   # --- metadata.savia.* (SE-333) ---
   savia.category: communication
+  savia.maturity: stable
   savia.disable-model-invocation: false
   savia.maturity: 
   savia.priority: medium
   savia.summary: "Mensajeria interna Company Savia con cifrado E2E basado en ramas git. Soporta mensajes directos, broadcasts y threading. Datos en company repo compartido. Nivel N2 (empresa)."
   savia.tags: "messaging, company, encryption, privacy"
   savia.user-invocable: False
-maturity: stable
 ---
 
 # Company Messaging — Skill (Branch-Based v3)

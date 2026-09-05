@@ -4,6 +4,7 @@ name: prospectiva-basica
 description: "Prospectiva sistemica local: micro-MICMAC (variables motrices vs dependientes) y micro-MACTOR (actores, alianzas, divergencias, zona de acuerdo). Usar cuando se analiza un sistema con variables interdependientes, se priorizan palancas de accion, o se mapean actores y conflictos. Triggers: 'micmac', 'mactor', 'analisis estructural', 'variables motrices', 'zona de acuerdo'."
 metadata:
   savia.maturity: "incomplete"
+  savia.maturity: stable
   savia.context: "standalone"
   savia.context_cost: "low"
   savia.category: "analysis"
@@ -11,7 +12,6 @@ metadata:
   savia.priority: "low"
   savia.loop_level: "L1"
   savia.trigger_keywords: "micmac, mactor, prospectiva, variables motrices, analisis estructural"
-maturity: stable
 ---
 
 # Prospectiva Básica

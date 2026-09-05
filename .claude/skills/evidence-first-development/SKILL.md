@@ -5,6 +5,7 @@ description: "Desarrollo evidence-first: rodea la implementación con un SPEC ap
 metadata:
   # --- metadata.savia.* (SE-333) ---
   savia.category: sdd-framework
+  savia.maturity: stable
   savia.context: fork
   savia.context_cost: high
   savia.maturity: beta
@@ -12,7 +13,6 @@ metadata:
   savia.summary: "SPEC → RED → GREEN → REFACTOR → GAUNTLET → EVIDENCE. Confianza por restricciones ejecutables, no inspección. Ref: old-coder (MIT), pattern-only."
   savia.tags: "evidence-first, gauntlet, mutation, coverage, sdd, anti-gaming"
   savia.trigger_keywords: "evidence-first, gauntlet, prove it works, no leeré el código, high-assurance, reliable"
-maturity: stable
 ---
 
 ## Subagent Scope Guard

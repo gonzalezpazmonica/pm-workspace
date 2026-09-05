@@ -5,11 +5,11 @@ description: Usar cuando se desarrolla con presupuesto de contexto limitado.
 metadata:
   # --- metadata.savia.* (SE-333) ---
   savia.category: sdd-framework
+  savia.maturity: stable
   savia.maturity: beta
   savia.priority: high
   savia.summary: "Desarrollo optimizado para contexto limitado: dev-session protocol con slices, subagentes aislados y persistencia en disco. Maximiza calidad de codigo con 40% de ventana libre."
   savia.tags: "context, optimization, dev-session, slicing"
-maturity: stable
 ---
 
 # Context-Optimized Development — Skill

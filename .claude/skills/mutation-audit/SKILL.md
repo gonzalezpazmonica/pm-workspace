@@ -6,6 +6,7 @@ allowed-tools: [Read, Bash, Glob]
 metadata:
   # --- metadata.savia.* (SE-333) ---
   savia.agent: test-engineer
+  savia.maturity: stable
   savia.category: quality
   savia.context: fork
   savia.disable-model-invocation: false
@@ -14,7 +15,6 @@ metadata:
   savia.summary: Mutation testing on-demand. Siembra mutantes determinísticos en un módulo y mide cuántos matan los tests. Detecta tests zombies (cobertura alta pero sin asserciones que capturen cambios lógicos).
   savia.tags: "testing, mutation, quality, zombies, ai-generated"
   savia.user-invocable: True
-maturity: stable
 ---
 
 # Skill: Mutation Audit

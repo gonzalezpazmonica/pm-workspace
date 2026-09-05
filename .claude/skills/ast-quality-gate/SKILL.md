@@ -6,13 +6,13 @@ allowed-tools: [Bash, Read, Glob, Grep, Write]
 metadata:
   # --- metadata.savia.* (SE-333) ---
   savia.agent: code-reviewer
+  savia.maturity: stable
   savia.category: quality
   savia.context: fork
   savia.maturity: experimental
   savia.priority: high
   savia.summary: "Meta-analizador AST para 16 lenguajes. Detecta patrones de error LLM (async sin await, N+1, null deref, magic numbers, catch vacio). Output JSON unificado con score 0-100 y gates QG-01..QG-12. Invocable como CLI, hook o skill bajo demanda."
   savia.tags: "ast, static-analysis, quality-gates, llm-patterns, sdd"
-maturity: stable
 ---
 
 # AST Quality Gate — Verificación de Calidad Multi-Lenguaje

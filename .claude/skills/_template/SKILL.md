@@ -8,6 +8,7 @@ description: "TEMPLATE — copia este directorio para crear una skill nueva. NO 
 # y license/compatibility quedan top-level. Listas → join por coma.
 metadata:
   savia.maturity: "template"
+  savia.maturity: stable
   savia.context: "standalone"
   savia.context_cost: "low"
   savia.category: "meta"
@@ -18,7 +19,6 @@ metadata:
   # savia.produces: "report, CONTEXT.md, test_suite"
   savia.loop_level: "L0"   # L0=draft | L1=report-only | L2=assisted | L3=unattended — ver docs/rules/domain/loop-phasing.md
   # savia.trigger_keywords: "keyword1, keyword2"
-maturity: stable
 ---
 
 <!--
