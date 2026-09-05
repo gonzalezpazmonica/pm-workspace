@@ -1,0 +1,48 @@
+# SE-378 — Planning State Machine
+
+**Estado:** PROPOSED (pendiente de aprobación humana — Fase E, audit GPT-5.6 2026-09-05)
+**Prioridad:** P1 · **Developer Type:** agent-single · **Context Risk:** medium
+**Origen:** auditoría externa §9 (PARTIALLY_ALREADY_SOLVED — extiende SE-222)
+
+## 1. Motivación
+
+`scripts/spec-lifecycle.sh` (SE-222) ya da transiciones de estado + LOG.md append-only a las specs, pero el estado global de iniciativas sigue repartido en documentos narrativos que mezclan historia, eras, backlog y prioridades: `docs/ROADMAP.md`, `docs/propuestas/ROADMAP-UNIFIED-20260827.md`, `docs/propuestas/INDEX.md`, specs sueltas. La prioridad termina dependiendo de interpretación (F4).
+
+## 2. Alcance
+
+Una única representación machine-readable del ciclo de vida de las iniciativas, de la que los roadmaps pasan a ser **vistas generadas**.
+
+### Estados
+
+`IDEA → PROPOSED → APPROVED → IMPLEMENTING → IMPLEMENTED` · terminales: `REJECTED | SUPERSEDED | DEFERRED | RETIRED`
+
+## 3. Reglas
+
+- Una iniciativa = un estado actual. Transiciones append-only (reconstruibles desde LOG.md de SE-222).
+- `APPROVED` requiere aprobación humana registrada. `IMPLEMENTED` requiere evidencia commit/PR mergeado.
+- IDs únicos; no se vuelve de IMPLEMENTED a PROPOSED; reemplazo → SUPERSEDED con `replaced_by`.
+- Las specs de esta era (SE-375..384) nacen aquí como PROPOSED.
+
+## 4. Vistas y CLI conceptual
+
+```
+roadmap current     # iniciativas activas con estado
+roadmap next        # candidatas ordenadas por prioridad/dependencias
+roadmap history SE-xxx
+roadmap validate    # estados conflictivos, ID collision, IMPLEMENTED sin
+                    # evidencia, APPROVED sin approval, prioridades contradictorias
+```
+
+## 5. Criterios de aceptación
+
+- `roadmap validate` detecta los 5 tipos de inconsistencia (fixtures por cada una).
+- Roadmaps narrativos actuales marcados como vista/histórico con provenance al estado.
+- Toda transición queda en LOG.md (append-only, SE-222).
+
+## 6. OpenCode Implementation Plan
+
+PENDING-APPROVAL — completar al aprobar.
+
+## Referencias
+
+- Auditoría externa §9 · SE-222 `spec-lifecycle.sh` · `docs/propuestas/LOG.md`
