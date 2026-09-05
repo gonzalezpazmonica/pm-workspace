@@ -20433,6 +20433,26 @@
     {
       "depends_on": [],
       "frontend_support": [
+        "opencode"
+      ],
+      "id": "script:scripts/roadmap",
+      "intents": [
+        "machine",
+        "planning",
+        "roadmap",
+        "state"
+      ],
+      "kind": "script",
+      "owner_domain": "planning",
+      "replaced_by": null,
+      "risk_level": null,
+      "source": "scripts/roadmap.sh",
+      "status": "active",
+      "tests": []
+    },
+    {
+      "depends_on": [],
+      "frontend_support": [
         "claude"
       ],
       "id": "skill:.claude/skills/robotica-diseno/SKILL",
@@ -29538,7 +29558,7 @@
       "tests": []
     }
   ],
-  "content_hash": "1629d582d2e8",
+  "content_hash": "4ebf9ae04023",
   "deferred_kinds": [
     "rule",
     "hook"
