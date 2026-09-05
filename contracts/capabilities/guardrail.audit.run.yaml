@@ -1,0 +1,19 @@
+id: guardrail.audit.run
+version: 1
+description: Ejecuta la auditoría read-only de guardrails (SE-374) generando inventario y gap report.
+input:
+  type: object
+  properties: {}
+safety:
+  effect: read
+  visibility: visible
+  reversibility: reversible
+  destructive: false
+  external_side_effect: false
+  human_gate: none
+  scope: [workspace]
+execution:
+  handler: scripts/guardrail-audit.sh
+laws:
+  - LAW-EXEC-001
+  - LAW-EXEC-002

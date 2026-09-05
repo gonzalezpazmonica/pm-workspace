@@ -1,5 +1,5 @@
 # planning — Savia Capability Map (L1)
-> 629 resources
+> 631 resources
 
 - **/decide-architecture** (cmd): Clasifica una tarea como WORKFLOW (deterministica) o AGENT (loop). Bias hacia workflow per Anthropic. Sugiere plantilla inicial. Mide accuracy contra corpus curado de 20 tareas.
 - **_template** (skill): TEMPLATE — copia este directorio para crear una skill nueva. NO se carga en runtime.
@@ -113,6 +113,7 @@
 - **containment-check** (script): containment-check.sh — Verify containment infrastructure is available
 - **containment-run** (script): containment-run.sh — Execute command in proper containment level
 - **content-fingerprint** (skill): Usar cuando se necesita un identificador corto, deterministico y reproducible derivado del contenido de una cadena o fichero — cache keys, ids de patrones, fingerprints de docs.
+- **contract-check** (script): contract-check.sh — SE-386 S2: valida CapabilityDescriptors.
 - **contribute** (script): contribute.sh — Capa de interacción con GitHub para comunidad
 - **control-band-agent** (script): control-band-agent.sh — SE-357: invocación del agente por tier σ.
 - **control-band-detect** (script): control-band-detect.sh — SE-357: detección determinista de control bands (sin LLM).
@@ -298,6 +299,7 @@
 - **l28-ablation** (script): l28-ablation.sh — L28-F1: prueba de ablacion del harness de Savia (sandbox).
 - **labs-preregister** (script): labs-preregister.sh — Preregistro de hipotesis en Savia Labs
 - **language-boundary-check** (script): scripts/language-boundary-check.sh — SE-253 Slice 7
+- **law-check** (script): law-check.sh — SE-386 S1: valida Law Registry.
 - **learning-autonomy** (script): learning-autonomy.sh — SCL-006: política de autonomía graduada por p_consistent
 - **learning-divergence** (script): learning-divergence.sh — SCL-004 L1: divergencia grafo-modelo como instrumento
 - **learning-federate** (script): learning-federate.sh — SCL-002/007: consume y comparte lecciones aprendidas

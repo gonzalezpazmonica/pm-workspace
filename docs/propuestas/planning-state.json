@@ -76,11 +76,12 @@
     },
     {
       "id": "SE-386",
-      "status": "PROPOSED",
-      "approval": "(pendiente)",
+      "status": "IMPLEMENTING",
+      "approval": "Mónica 2026-09-05: 'aprobada'",
       "priority": "P1",
       "title": "Constitutional Runtime Contracts (LAWS + Capability Contracts + Safety Metadata)",
-      "note": "persistida 2026-09-05; renumerada de SE-265 (ocupado). Implementar F1+F2 tras aprobacion"
+      "note": "persistida 2026-09-05; renumerada de SE-265 (ocupado). Implementar F1+F2 tras aprobacion",
+      "evidence": "PR en curso (F1+F2 MVP: laws+registry+descriptors+checks)"
     }
   ]
 }

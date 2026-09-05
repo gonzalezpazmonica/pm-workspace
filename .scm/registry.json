@@ -13723,6 +13723,26 @@
       "frontend_support": [
         "opencode"
       ],
+      "id": "script:scripts/contract-check",
+      "intents": [
+        "capabilitydescriptors",
+        "check",
+        "contract",
+        "valida"
+      ],
+      "kind": "script",
+      "owner_domain": "planning",
+      "replaced_by": null,
+      "risk_level": null,
+      "source": "scripts/contract-check.sh",
+      "status": "active",
+      "tests": []
+    },
+    {
+      "depends_on": [],
+      "frontend_support": [
+        "opencode"
+      ],
       "id": "script:scripts/contribute",
       "intents": [
         "capa",
@@ -17452,6 +17472,25 @@
       "replaced_by": null,
       "risk_level": null,
       "source": "scripts/language-boundary-check.sh",
+      "status": "active",
+      "tests": []
+    },
+    {
+      "depends_on": [],
+      "frontend_support": [
+        "opencode"
+      ],
+      "id": "script:scripts/law-check",
+      "intents": [
+        "check",
+        "registry",
+        "valida"
+      ],
+      "kind": "script",
+      "owner_domain": "planning",
+      "replaced_by": null,
+      "risk_level": null,
+      "source": "scripts/law-check.sh",
       "status": "active",
       "tests": []
     },
@@ -29630,7 +29669,7 @@
       "tests": []
     }
   ],
-  "content_hash": "e2a96accc58b",
+  "content_hash": "412dbdf506b2",
   "deferred_kinds": [
     "rule",
     "hook"

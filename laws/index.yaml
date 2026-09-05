@@ -1,0 +1,57 @@
+# SE-386 Law Registry (machine-readable). Fuente normativa: ficheros Markdown de laws/.
+laws:
+  - id: LAW-HUMAN-001
+    domain: human-control
+    severity: constitutional
+    document: human-control.md
+    testable: true
+  - id: LAW-HUMAN-002
+    domain: human-control
+    severity: constitutional
+    document: human-control.md
+    testable: true
+  - id: LAW-MEMORY-001
+    domain: memory
+    severity: constitutional
+    document: memory.md
+    testable: true
+  - id: LAW-MEMORY-002
+    domain: memory
+    severity: high
+    document: memory.md
+    testable: true
+  - id: LAW-EXEC-001
+    domain: execution
+    severity: constitutional
+    document: execution.md
+    testable: true
+  - id: LAW-EXEC-002
+    domain: execution
+    severity: constitutional
+    document: execution.md
+    testable: true
+  - id: LAW-EXEC-003
+    domain: execution
+    severity: high
+    document: execution.md
+    testable: true
+  - id: LAW-EXEC-004
+    domain: execution
+    severity: high
+    document: execution.md
+    testable: true
+  - id: LAW-PRIV-001
+    domain: privacy
+    severity: constitutional
+    document: privacy.md
+    testable: true
+  - id: LAW-PRIV-002
+    domain: privacy
+    severity: constitutional
+    document: privacy.md
+    testable: true
+  - id: LAW-FED-001
+    domain: federation
+    severity: constitutional
+    document: federation.md
+    testable: false

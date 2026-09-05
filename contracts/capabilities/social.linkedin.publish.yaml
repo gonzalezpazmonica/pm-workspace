@@ -1,0 +1,22 @@
+id: social.linkedin.publish
+version: 1
+description: Publica un draft aprobado en LinkedIn (SE-385 §17-19). Requiere approval hash fresco y gate humano.
+input:
+  type: object
+  required: [draft_id, approval_hash]
+  properties:
+    draft_id: { type: string }
+    approval_hash: { type: string }
+safety:
+  effect: external_action
+  visibility: visible
+  reversibility: irreversible
+  destructive: false
+  external_side_effect: true
+  human_gate: required
+  scope: [external-social]
+execution:
+  handler: "social-networks agent + external-publish-gate (SE-385 MVP3)"
+laws:
+  - LAW-HUMAN-001
+  - LAW-PRIV-001

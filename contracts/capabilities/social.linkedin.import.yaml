@@ -1,0 +1,21 @@
+id: social.linkedin.import
+version: 1
+description: Importa el export oficial de LinkedIn a almacén local neutral (SE-385 MVP1).
+input:
+  type: object
+  required: [zip_path]
+  properties:
+    zip_path: { type: string }
+safety:
+  effect: mutation
+  visibility: visible
+  reversibility: reversible
+  destructive: false
+  external_side_effect: false
+  human_gate: none
+  scope: [local-social-store]
+execution:
+  handler: scripts/social-linkedin-import.py
+laws:
+  - LAW-MEMORY-002
+  - LAW-PRIV-001
