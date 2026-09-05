@@ -344,8 +344,8 @@ def write_registry_json(scm_dir: Path, resources: list[ResourceEntry]) -> None:
         if r.kind == "agent":
             try:
                 text = src.read_text(encoding="utf-8", errors="replace")[:2000]
-                m = re.search(r"^permission:\s*(L[0-4])", text, re.MULTILINE)
-                risk = m.group(1) if m else None
+                m = re.search(r"^(permission|permission_level):\s*(L[0-4])", text, re.MULTILINE)
+                risk = m.group(2) if m else None
                 if re.search(r"^deprecated:\s*true", text, re.MULTILINE):
                     status = "deprecated"
             except OSError:
