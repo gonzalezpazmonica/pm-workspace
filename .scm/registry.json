@@ -13259,6 +13259,27 @@
       "frontend_support": [
         "opencode"
       ],
+      "id": "script:scripts/coherence-gates",
+      "intents": [
+        "advisory",
+        "coherence",
+        "coherencia",
+        "defecto",
+        "gates"
+      ],
+      "kind": "script",
+      "owner_domain": "planning",
+      "replaced_by": null,
+      "risk_level": null,
+      "source": "scripts/coherence-gates.sh",
+      "status": "active",
+      "tests": []
+    },
+    {
+      "depends_on": [],
+      "frontend_support": [
+        "opencode"
+      ],
       "id": "agent:.opencode/agents/coherence-judge",
       "intents": [
         "consistency",
@@ -29579,7 +29600,7 @@
       "tests": []
     }
   ],
-  "content_hash": "2359dd1f497f",
+  "content_hash": "d667e1051c0b",
   "deferred_kinds": [
     "rule",
     "hook"

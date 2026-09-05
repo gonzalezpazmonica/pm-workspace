@@ -1,5 +1,5 @@
 # planning — Savia Capability Map (L1)
-> 626 resources
+> 627 resources
 
 - **/decide-architecture** (cmd): Clasifica una tarea como WORKFLOW (deterministica) o AGENT (loop). Bias hacia workflow per Anthropic. Sugiere plantilla inicial. Mide accuracy contra corpus curado de 20 tareas.
 - **_template** (skill): TEMPLATE — copia este directorio para crear una skill nueva. NO se carga en runtime.
@@ -90,6 +90,7 @@
 - **cobol-developer** (agent): >
 - **coherence-court** (script): coherence-court.sh — SE-350: Coherence Court (jueces transversales de consistencia entre etapas)
 - **coherence-factual-judge** (agent): Coherence Court judge — stage output contradicts facts fixed in earlier stages
+- **coherence-gates** (script): coherence-gates.sh — SE-377/380/381/383: gates de coherencia (advisory por defecto).
 - **coherence-judge** (agent): Truth Tribunal judge — internal consistency (sums, dates, entities)
 - **coherence-objectives-judge** (agent): Coherence Court judge — stage output contradicts declared objectives of the flow
 - **coherence-premise-drift-judge** (agent): Coherence Court judge — silent premise drift between stages of a flow

@@ -1,5 +1,6 @@
 #!/bin/bash
 set -uo pipefail
+ENTRY_PWD="$PWD"  # SE-383 P8: cwd de entrada, capturado antes de que las libs puedan cambiarlo
 source "$(dirname "${BASH_SOURCE[0]}")/../../scripts/savia-env.sh"
 export CLAUDE_PROJECT_DIR="${CLAUDE_PROJECT_DIR:-$SAVIA_WORKSPACE_DIR}"
 # validate-bash-global.sh — Validación global de comandos Bash peligrosos
@@ -38,6 +39,11 @@ if echo "$COMMAND" | grep -iE 'git[[:space:]]+(commit|add)' > /dev/null; then
   CD_PATH=$(echo "$COMMAND" | sed -n 's/^[[:space:]]*cd[[:space:]]*"\([^"]*\)".*/\1/p' 2>/dev/null)
   if [[ -n "$CD_PATH" ]] && [[ -d "$CD_PATH/.git" ]]; then
     GIT_DIR_TARGET="$CD_PATH"
+  elif git -C "$ENTRY_PWD" rev-parse --is-inside-work-tree >/dev/null 2>&1; then
+    # SE-383 P8 (worktree-aware): si el cwd del comando pertenece a otro
+    # worktree/repositorio, la rama relevante es la del cwd de entrada.
+    # Comportamiento original preservado cuando cwd == CLAUDE_PROJECT_DIR.
+    GIT_DIR_TARGET="$ENTRY_PWD"
   fi
   REPO_TOP=$(cd "$GIT_DIR_TARGET" 2>/dev/null && git rev-parse --show-toplevel 2>/dev/null)
   REPO_NAME=$(basename "$REPO_TOP" 2>/dev/null)

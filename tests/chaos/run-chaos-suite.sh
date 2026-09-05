@@ -55,13 +55,36 @@ mkdir -p "$S6/nojq"
 ( cd "$S6" && printf '%s' "$PAY1" | PATH="$S6/nojq:/usr/bin:/bin" timeout 10 bash "$HOOKS/block-force-push.sh" >/dev/null 2>&1 )
 assert_clean_exit "P7-dependencia-ausente-sin-jq" $? ""
 
-# P8 — fixture fundador SE-383: hooks worktree-unaware (savia-gates branch-switch)
-# El hook debe resolver la rama del WORKTREE actual, no la del repo principal.
-# Estado: RED documentado — reproducido en sesión 2026-09-05 (bloqueó commits
-# legítimos en worktree leyendo la rama de /home/monica/savia). Se marca como
-# escenario obligatorio; su fix (resolver git -C "$PWD") va en fix aparte.
-record "RED-DOCUMENTED|P8-worktree-unaware-savia-gates|fixture fundador: hook leyó rama del repo principal en worktree (sesión 2026-09-05); fix pendiente en PR separado"
-FAIL=$((FAIL+1))
+# P8 — fixture fundador SE-383 (RESUELTO): hooks worktree-aware.
+# Historia: el hook bloqueó commits legítimos en worktrees (incidente 2026-09-05).
+# Fix: validate-bash-global.sh captura ENTRY_PWD antes de las libs (PR p8-curation).
+make_payload() { printf '{"tool_input":{"command":"%s commit -m x"}}' 'git'; }
+WT=$(mktemp -d)
+git -C "$ROOT" worktree add "$WT" -b "chaos-p8-$(basename "$WT")" origin/main >/dev/null 2>&1
+( cd "$WT" && printf '%s' "$(make_payload)" | CLAUDE_PROJECT_DIR="$ROOT" timeout 10 bash "$ROOT/.claude/hooks/validate-bash-global.sh" >/dev/null 2>&1 )
+P8WT=$?
+( cd "$ROOT" && printf '%s' "$(make_payload)" | CLAUDE_PROJECT_DIR="$ROOT" timeout 10 bash "$ROOT/.claude/hooks/validate-bash-global.sh" >/dev/null 2>&1 )
+P8MAIN=$?
+git -C "$ROOT" worktree remove "$WT" --force >/dev/null 2>&1
+git -C "$ROOT" branch -D "chaos-p8-$(basename "$WT")" >/dev/null 2>&1 || true
+CUR_BRANCH=$(git -C "$ROOT" rev-parse --abbrev-ref HEAD 2>/dev/null || echo "")
+if [[ "$CUR_BRANCH" == "main" || "$CUR_BRANCH" == "master" ]]; then
+  if [[ $P8WT -eq 0 && $P8MAIN -eq 2 ]]; then
+    record "PASS|P8-worktree-aware-guard|worktree permite, main bloquea"
+    PASS=$((PASS+1))
+  else
+    record "FAIL|P8-worktree-aware-guard|wt=$P8WT main=$P8MAIN"
+    FAIL=$((FAIL+1))
+  fi
+else
+  if [[ $P8WT -eq 0 ]]; then
+    record "PASS|P8-worktree-aware-guard|worktree permite (caso main N/A en rama $CUR_BRANCH)"
+    PASS=$((PASS+1))
+  else
+    record "FAIL|P8-worktree-aware-guard|wt=$P8WT"
+    FAIL=$((FAIL+1))
+  fi
+fi
 
 rm -rf "$S" "$S6"
 echo "$RESULTS"

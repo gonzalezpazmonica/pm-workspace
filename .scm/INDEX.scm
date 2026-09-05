@@ -1,6 +1,6 @@
 # Savia Capability Map — INDEX
-> hash: 8e3fc8e6d128 | resources: 1448
-> 295 commands · 135 skills · 88 agents · 930 scripts
+> hash: b8828fe10220 | resources: 1449
+> 295 commands · 135 skills · 88 agents · 931 scripts
 
 [analysis] Trace Optimize — across,distributed,optimize,rates,sampling — cmd:.claude/commands/trace-optimize.md
 [analysis] agent-activity — activity,agent,executions,recent,show — cmd:.claude/commands/agent-activity.md
@@ -647,6 +647,7 @@
 [planning] cobol-developer —  — agent:.opencode/agents/cobol-developer.md
 [planning] coherence-court — coherence,consistencia,court,etapas,jueces — script:scripts/coherence-court.sh
 [planning] coherence-factual-judge — coherence,contradicts,court,earlier,facts — agent:.opencode/agents/coherence-factual-judge.md
+[planning] coherence-gates — advisory,coherence,coherencia,defecto,gates — script:scripts/coherence-gates.sh
 [planning] coherence-judge — consistency,dates,entities,internal,judge — agent:.opencode/agents/coherence-judge.md
 [planning] coherence-objectives-judge — coherence,contradicts,court,declared,flow — agent:.opencode/agents/coherence-objectives-judge.md
 [planning] coherence-premise-drift-judge — between,coherence,court,drift,flow — agent:.opencode/agents/coherence-premise-drift-judge.md
