@@ -323,6 +323,74 @@ def write_resources_json(json_path: Path, resources: list[ResourceEntry]) -> Non
     )
 
 
+def write_registry_json(scm_dir: Path, resources: list[ResourceEntry]) -> None:
+    """SE-375 — Canonical Capability Registry (machine-readable, deterministic).
+
+    Evoluciona .scm (no compite): mismo hash estable que resources.json.
+    Campos por capability: id, kind, source, status, owner_domain, intents,
+    risk_level, frontend_support, depends_on, tests, replaced_by.
+    Kinds diferidos (S2): rule, hook — documentados en deferred_kinds.
+    """
+    sorted_resources = sorted(resources, key=lambda r: (r.category, r.name))
+    content_hash = hashlib.sha256(
+        json.dumps([r.to_dict() for r in sorted_resources], ensure_ascii=False, sort_keys=True).encode("utf-8")
+    ).hexdigest()[:12]
+
+    capabilities = []
+    for r in sorted_resources:
+        risk = None
+        status = "active"
+        src = Path(r.rel_path)
+        if r.kind == "agent":
+            try:
+                text = src.read_text(encoding="utf-8", errors="replace")[:2000]
+                m = re.search(r"^permission:\s*(L[0-4])", text, re.MULTILINE)
+                risk = m.group(1) if m else None
+                if re.search(r"^deprecated:\s*true", text, re.MULTILINE):
+                    status = "deprecated"
+            except OSError:
+                pass
+        elif r.kind == "skill":
+            try:
+                text = src.read_text(encoding="utf-8", errors="replace")[:2000]
+                if re.search(r"^deprecated:\s*true", text, re.MULTILINE):
+                    status = "deprecated"
+            except OSError:
+                pass
+        if r.kind == "cmd":
+            frontend = ["claude", "opencode"]
+        elif str(src).startswith(".claude"):
+            frontend = ["claude"]
+        else:
+            frontend = ["opencode"]
+        stem = str(src)[:-len(src.suffix)] if src.suffix else str(src)
+        capabilities.append({
+            "id": f"{r.kind}:{stem}",
+            "kind": r.kind,
+            "source": str(src),
+            "status": status,
+            "owner_domain": r.category,
+            "intents": sorted(set(r.intents)),
+            "risk_level": risk,
+            "frontend_support": frontend,
+            "depends_on": [],
+            "tests": [],
+            "replaced_by": None,
+        })
+
+    payload = {
+        "registry_version": 1,
+        "content_hash": content_hash,
+        "kinds_included": ["command", "skill", "agent", "script"],
+        "deferred_kinds": ["rule", "hook"],
+        "capabilities": capabilities,
+    }
+    (scm_dir / "registry.json").write_text(
+        json.dumps(payload, ensure_ascii=False, indent=2, sort_keys=True) + "\n",
+        encoding="utf-8",
+    )
+
+
 def main(argv: list[str]) -> int:
     # Parse flags
     check_mode = False
@@ -362,11 +430,18 @@ def main(argv: list[str]) -> int:
             write_index_file(tmp_scm / "INDEX.scm", resources)
             write_category_files(tmp_cat, resources)
             write_resources_json(tmp_scm / "resources.json", resources)
+            write_registry_json(tmp_scm, resources)
 
             real_hash = _read_index_hash(index_file)
             tmp_hash = _read_index_hash(tmp_scm / "INDEX.scm")
 
-            if real_hash == tmp_hash:
+            tmp_registry = tmp_scm / "registry.json"
+            real_registry = scm_dir / "registry.json"
+            registry_same = (
+                not real_registry.exists()
+                or (tmp_registry.exists() and tmp_registry.read_bytes() == real_registry.read_bytes())
+            )
+            if real_hash == tmp_hash and registry_same:
                 print(f"SCM: FRESH ({len(resources)} resources)")
                 return 0
             else:
@@ -382,6 +457,7 @@ def main(argv: list[str]) -> int:
     write_index_file(scm_dir / "INDEX.scm", resources)
     write_category_files(categories_dir, resources)
     write_resources_json(scm_dir / "resources.json", resources)
+    write_registry_json(scm_dir, resources)
 
     elapsed_seconds = time.monotonic() - start_time
     kind_totals = {k: sum(1 for r in resources if r.kind == k)

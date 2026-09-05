@@ -99,10 +99,13 @@ if [[ -f "$idx" && -x "$ROOT/scripts/generate-capability-map.py" ]]; then
     cp -al "$ROOT/$d" "$SB_VIEW/$d" 2>/dev/null
   done
   ( cd "$SB_VIEW" && timeout 120 python3 "$SB_VIEW/scripts/generate-capability-map.py" >/dev/null 2>&1 )
+  REG="$ROOT/.scm/registry.json"
   if [[ ! -f "$SB_VIEW/.scm/INDEX.scm" ]]; then
     fail "GENERATED_VIEW_DRIFT: no se pudo regenerar en sandbox"
   elif ! cmp -s "$SB_VIEW/.scm/INDEX.scm" "$idx"; then
     fail "GENERATED_VIEW_DRIFT: .scm/INDEX.scm difiere de la regeneración (ejecutar generate-capability-map.py)"
+  elif [[ -f "$REG" ]] && ! cmp -s "$SB_VIEW/.scm/registry.json" "$REG"; then
+    fail "GENERATED_VIEW_DRIFT: .scm/registry.json difiere de la regeneración (ejecutar generate-capability-map.py)"
   else
     ok "GENERATED_VIEW_DRIFT"
   fi
