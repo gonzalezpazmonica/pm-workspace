@@ -46,9 +46,14 @@ case "$CMD" in
       [[ -z "$ID" ]] && continue
       SPEC_STATUS=$(grep -m1 -oP '^\*\*Estado:\*\*\s*\K[A-Z]+' "$spec" 2>/dev/null || echo "")
       STATE_STATUS=$(jq -r --arg id "$ID" '.initiatives[] | select(.id==$id) | .status' "$STATE" 2>/dev/null | head -1)
-      if [[ -n "$STATE_STATUS" && -n "$SPEC_STATUS" && "$SPEC_STATUS" != "$STATE_STATUS" && !("$STATE_STATUS" == "IMPLEMENTED" && "$SPEC_STATUS" == "APPROVED") && !("$STATE_STATUS" == "IMPLEMENTING" && "$SPEC_STATUS" == "APPROVED") ]]; then
-        echo "FAIL: $ID spec=$SPEC_STATUS vs state=$STATE_STATUS"
-        ERR=1
+      if [[ -n "$STATE_STATUS" && -n "$SPEC_STATUS" && "$SPEC_STATUS" != "$STATE_STATUS" ]]; then
+        COMPAT=0
+        [[ "$STATE_STATUS" == "IMPLEMENTED" && "$SPEC_STATUS" == "APPROVED" ]] && COMPAT=1
+        [[ "$STATE_STATUS" == "IMPLEMENTING" && "$SPEC_STATUS" == "APPROVED" ]] && COMPAT=1
+        if [[ $COMPAT -eq 0 ]]; then
+          echo "FAIL: $ID spec=$SPEC_STATUS vs state=$STATE_STATUS"
+          ERR=1
+        fi
       fi
     done < <(find "$ROOT/docs/specs" -name 'SE-*.spec.md' | sort)
     [[ $ERR -eq 0 ]] && echo "PASS: planning state consistente"
