@@ -1,6 +1,6 @@
 # SE-383 — Harness Adversarial / Chaos Suite (hooks y gates)
 
-**Estado:** PROPOSED (pendiente de aprobación humana — Fase E, audit GPT-5.6 2026-09-05)
+**Estado:** APPROVED — Mónica (operadora), 2026-09-05: "Apruebo todas, implementa, pr y merge"
 **Prioridad:** P1 · **Developer Type:** agent-team · **Context Risk:** medium
 **Origen:** auditoría externa §14 (PARTIALLY_ALREADY_SOLVED)
 
@@ -29,7 +29,9 @@ Todo bug real de hook/gate: (1) fixture que lo reproduce → (2) test rojo → (
 
 ## 5. OpenCode Implementation Plan
 
-PENDING-APPROVAL — completar al aprobar. Depende de SE-375 (inventario de riesgo por hook).
+### Clasificación
+- **Tier:** 2 · **Agent-capable:** yes
+- **Slices:** S1 harness sandbox + runner · S2 perturbaciones base (5) + matriz extensible · S3 fixture fundador savia-gates worktree-unaware (red→fix→green si el fix es acotado)
 
 ## Referencias
 

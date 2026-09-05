@@ -1,6 +1,6 @@
 # SE-381 — Risk-Weighted Behavioral Eval Matrix
 
-**Estado:** PROPOSED (pendiente de aprobación humana — Fase E, audit GPT-5.6 2026-09-05)
+**Estado:** APPROVED — Mónica (operadora), 2026-09-05: "Apruebo todas, implementa, pr y merge"
 **Prioridad:** P1 · **Developer Type:** agent-team · **Context Risk:** medium
 **Origen:** auditoría externa §12 (PARTIALLY_ALREADY_SOLVED)
 
@@ -34,7 +34,9 @@ La infraestructura de evals es fuerte y debe REUTILIZARSE (no hay framework nuev
 
 ## 5. OpenCode Implementation Plan
 
-PENDING-APPROVAL — completar al aprobar. Depende de SE-375 para el inventario de riesgo por capability.
+### Clasificación
+- **Tier:** 2 · **Agent-capable:** yes
+- **Slices:** S1 eval-coverage-matrix.py (riesgo×cobertura desde registry+tests/) · S2 informe JSON+md · S3 gate de bloqueo diferido hasta 100% datos
 
 ## Referencias
 

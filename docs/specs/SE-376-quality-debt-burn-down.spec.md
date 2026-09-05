@@ -1,6 +1,6 @@
 # SE-376 — Structural Quality Debt Burn-down
 
-**Estado:** PROPOSED (pendiente de aprobación humana — Fase E, audit GPT-5.6 2026-09-05)
+**Estado:** APPROVED — Mónica (operadora), 2026-09-05: "Apruebo todas, implementa, pr y merge"
 **Prioridad:** P0 · **Developer Type:** agent-team · **Context Risk:** medium
 **Origen:** auditoría externa §7 (STILL_RECOMMENDED con baseline corregido)
 
@@ -51,7 +51,10 @@ agent_size:
 
 ## 5. OpenCode Implementation Plan
 
-PENDING-APPROVAL — al aprobar, completar según `docs/rules/domain/spec-opencode-implementation-plan.md`.
+### Clasificación
+- **Tier:** 2 · **Agent-capable:** yes (inventario+budget) / hybrid (curation por waves)
+- **Slices:** S1 debt-budget.yaml + checker · S2 inventario clasificado heurístico (propuestas) · S3 wiring CI diferido (workflows = tier 4)
+- **Nota:** objetivos wave del audit: 132→95→40→0
 
 ## Referencias
 

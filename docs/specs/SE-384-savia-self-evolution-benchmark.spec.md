@@ -1,6 +1,6 @@
 # SE-384 — Savia Self-Evolution Benchmark
 
-**Estado:** PROPOSED (pendiente de aprobación humana — Fase E, audit GPT-5.6 2026-09-05)
+**Estado:** APPROVED — Mónica (operadora), 2026-09-05: "Apruebo todas, implementa, pr y merge"
 **Prioridad:** P1 strategic · **Developer Type:** agent-team · **Context Risk:** high
 **Origen:** auditoría externa §15 (CONFIRMED — gap real)
 
@@ -60,7 +60,9 @@ Primero **Savia versión A vs B con el mismo modelo**; la dimensión modelo A vs
 
 ## 5. OpenCode Implementation Plan
 
-PENDING-APPROVAL — completar al aprobar. Depende de SE-375 (inventario) y se alimenta del histórico de tareas reales del workspace.
+### Clasificación
+- **Tier:** 2 · **Agent-capable:** yes (feasibility probe = 3 tareas piloto incluidas)
+- **Slices:** S1 schema + dataset/ 3 pilotos · S2 run-benchmark.sh (ciclo con gates, local) · S3 métricas JSON+md; dataset ≥20 tareas queda como hito siguiente
 
 ## Referencias
 

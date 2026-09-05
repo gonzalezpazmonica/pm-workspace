@@ -1,6 +1,6 @@
 # Savia Capability Map — INDEX
-> hash: 6a542c596145 | resources: 1444
-> 295 commands · 135 skills · 88 agents · 926 scripts
+> hash: ec746341c2af | resources: 1446
+> 295 commands · 135 skills · 88 agents · 928 scripts
 
 [analysis] Trace Optimize — across,distributed,optimize,rates,sampling — cmd:.claude/commands/trace-optimize.md
 [analysis] agent-activity — activity,agent,executions,recent,show — cmd:.claude/commands/agent-activity.md
@@ -44,6 +44,7 @@
 [analysis] classifier-fp-report — classifier,falsos,positivos,report,reporte — script:scripts/classifier-fp-report.sh
 [analysis] completeness-judge — abstract,covers,judge,promises,report — agent:.opencode/agents/completeness-judge.md
 [analysis] debt-analyze —  — cmd:.claude/commands/debt-analyze.md
+[analysis] debt-budget-check — activo,actual,budget,check,debt — script:scripts/debt-budget-check.sh
 [analysis] debt-track —  — cmd:.claude/commands/debt-track.md
 [analysis] enterprise-dashboard — analytics,enterprise,forecasting,health,matrix — cmd:.claude/commands/enterprise-dashboard.md
 [analysis] enterprise/billing-report — billing,ifrs,project,report — script:scripts/enterprise/billing-report.sh
@@ -991,6 +992,7 @@
 [planning] relacion-capture — capture,relacion,scripts,slice — script:scripts/relacion-capture.sh
 [planning] relacion-detect-conflicts — conflicts,detect,relacion,scripts,slice — script:scripts/relacion-detect-conflicts.sh
 [planning] release-backfill — backfill,create,github,missing,release — script:scripts/release-backfill.sh
+[planning] release-invariants — básicas,hace,imposibles,inconsistencias,invariants — script:scripts/release-invariants.sh
 [planning] repos-list —  — cmd:.claude/commands/repos-list.md
 [planning] reranker — búsqueda,memoria,recibe,relevancia,reordenar — skill:.claude/skills/reranker/SKILL.md
 [planning] reranker-probe — probe,reranker,slice,viability — script:scripts/reranker-probe.sh

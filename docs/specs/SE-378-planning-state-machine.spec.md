@@ -1,6 +1,6 @@
 # SE-378 — Planning State Machine
 
-**Estado:** PROPOSED (pendiente de aprobación humana — Fase E, audit GPT-5.6 2026-09-05)
+**Estado:** APPROVED — Mónica (operadora), 2026-09-05: "Apruebo todas, implementa, pr y merge"
 **Prioridad:** P1 · **Developer Type:** agent-single · **Context Risk:** medium
 **Origen:** auditoría externa §9 (PARTIALLY_ALREADY_SOLVED — extiende SE-222)
 
@@ -41,7 +41,9 @@ roadmap validate    # estados conflictivos, ID collision, IMPLEMENTED sin
 
 ## 6. OpenCode Implementation Plan
 
-PENDING-APPROVAL — completar al aprobar.
+### Clasificación
+- **Tier:** 2 · **Agent-capable:** yes
+- **Slices:** S1 planning-state.json canónico + populate era actual · S2 CLI roadmap current/next/history/validate · S3 vista generada ROADMAP-CURRENT.md
 
 ## Referencias
 

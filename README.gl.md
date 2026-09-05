@@ -87,7 +87,7 @@ Non e unha persoa, non sente, e non substitue o criterio de quen opera. Propon, 
 ```
 pm-workspace/
 ├── .claude/
-│   ├── commands/       ← 532 comandos
+│   ├── commands/       ← 567 comandos
 │   ├── agents/         ← 65 axentes especializados (7 con decision trees: SPEC-147)
 │   ├── skills/         ← 86 skills de dominio
 │   ├── hooks/          ← 58 hooks deterministas

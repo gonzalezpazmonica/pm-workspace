@@ -1,6 +1,6 @@
 {
-  "hash": "37ed78818a71",
-  "total": 1444,
+  "hash": "1629d582d2e8",
+  "total": 1446,
   "resources": [
     {
       "category": "analysis",
@@ -577,6 +577,20 @@
       "kind": "cmd",
       "path": ".claude/commands/debt-analyze.md",
       "description": ">"
+    },
+    {
+      "category": "analysis",
+      "name": "debt-budget-check",
+      "intents": [
+        "activo",
+        "actual",
+        "budget",
+        "check",
+        "debt"
+      ],
+      "kind": "script",
+      "path": "scripts/debt-budget-check.sh",
+      "description": "debt-budget-check.sh — SE-376: verifica deuda actual <= target del wave activo."
     },
     {
       "category": "analysis",
@@ -13072,6 +13086,20 @@
       "kind": "script",
       "path": "scripts/release-backfill.sh",
       "description": "release-backfill.sh — Create missing GitHub releases from git tags"
+    },
+    {
+      "category": "planning",
+      "name": "release-invariants",
+      "intents": [
+        "básicas",
+        "hace",
+        "imposibles",
+        "inconsistencias",
+        "invariants"
+      ],
+      "kind": "script",
+      "path": "scripts/release-invariants.sh",
+      "description": "release-invariants.sh — SE-379: hace imposibles en CI las inconsistencias públicas básicas."
     },
     {
       "category": "planning",

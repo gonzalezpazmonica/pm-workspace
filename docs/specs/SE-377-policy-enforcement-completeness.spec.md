@@ -1,6 +1,6 @@
 # SE-377 — Policy Enforcement Completeness: TEST + RECEIPT
 
-**Estado:** PROPOSED (pendiente de aprobación humana — Fase E, audit GPT-5.6 2026-09-05)
+**Estado:** APPROVED — Mónica (operadora), 2026-09-05: "Apruebo todas, implementa, pr y merge"
 **Prioridad:** P0 · **Developer Type:** agent-team · **Context Risk:** medium
 **Origen:** auditoría externa §8 (PARTIALLY_ALREADY_SOLVED — depende de SE-374, mergeada hoy)
 
@@ -50,7 +50,9 @@ NO crear un hook por regla. Preferir gates compartidos, funciones reutilizables 
 
 ## 6. OpenCode Implementation Plan
 
-PENDING-APPROVAL — completar al aprobar según `docs/rules/domain/spec-opencode-implementation-plan.md`.
+### Clasificación
+- **Tier:** 2 · **Agent-capable:** yes
+- **Slices:** S1 capa TEST (negative tests ejecutables para ≥10 enforcement) · S2 capa RECEIPT (detección de emisión auditable) · S3 integración en guardrail-audit.sh (cruces ampliados)
 
 ## Referencias
 
