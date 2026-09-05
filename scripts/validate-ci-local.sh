@@ -13,6 +13,17 @@ echo "--- Validacion CI Local — pm-workspace (parallel) ---"
 echo ""
 
 # ── Check functions (each writes result to tmpfile) ──────────────────────
+check_coherence() {
+  local out="$TMPDIR_CI/9-coherence"
+  local g
+  g=$(bash "$(dirname "${BASH_SOURCE[0]}")/coherence-gates.sh" 2>&1)
+  if echo "$g" | grep -q "WARN coherence"; then
+    echo "WARN Coherence: $(echo "$g" | grep -c WARN) gate(s) en advisory" > "$out"
+  else
+    echo "PASS Coherence: negative-tests, chaos, entropy, debt-budget" > "$out"
+  fi
+}
+
 check_branch() {
   local out="$TMPDIR_CI/0-branch"
   local b; b=$(git rev-parse --abbrev-ref HEAD 2>/dev/null)
@@ -93,6 +104,7 @@ check_secrets() {
 
 # ── Run checks in parallel ───────────────────────────────────────────────
 check_branch &
+check_coherence &
 check_file_sizes &
 check_frontmatter &
 check_settings_json &

@@ -1,6 +1,6 @@
 {
-  "hash": "2359dd1f497f",
-  "total": 1448,
+  "hash": "d667e1051c0b",
+  "total": 1449,
   "resources": [
     {
       "category": "analysis",
@@ -8597,6 +8597,20 @@
       "kind": "agent",
       "path": ".opencode/agents/coherence-factual-judge.md",
       "description": "Coherence Court judge — stage output contradicts facts fixed in earlier stages"
+    },
+    {
+      "category": "planning",
+      "name": "coherence-gates",
+      "intents": [
+        "advisory",
+        "coherence",
+        "coherencia",
+        "defecto",
+        "gates"
+      ],
+      "kind": "script",
+      "path": "scripts/coherence-gates.sh",
+      "description": "coherence-gates.sh — SE-377/380/381/383: gates de coherencia (advisory por defecto)."
     },
     {
       "category": "planning",
