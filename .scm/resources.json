@@ -1,6 +1,6 @@
 {
-  "hash": "f35db89802af",
-  "total": 1470,
+  "hash": "413b7e6a4946",
+  "total": 1474,
   "resources": [
     {
       "category": "analysis",
@@ -5832,14 +5832,14 @@
       "name": "governance-enterprise",
       "intents": [
         "audita",
-        "certifican",
+        "certificaciones",
         "compliance",
         "decisiones",
-        "enterprise"
+        "emite"
       ],
       "kind": "skill",
       "path": ".claude/skills/governance-enterprise/SKILL.md",
-      "description": "Usar cuando se audita compliance, se registran decisiones o se certifican procesos enterprise."
+      "description": "Revisa governance enterprise. Usar cuando se audita compliance o se registran decisiones; nunca emite certificaciones."
     },
     {
       "category": "governance",
@@ -10911,6 +10911,20 @@
       "kind": "script",
       "path": "scripts/graphrag-quality-gates.sh",
       "description": "graphrag-quality-gates.sh — SE-030"
+    },
+    {
+      "category": "planning",
+      "name": "grc-evidence-analysis",
+      "intents": [
+        "contradicciones",
+        "controles",
+        "detectan",
+        "evalúan",
+        "evidencias"
+      ],
+      "kind": "skill",
+      "path": ".claude/skills/grc-evidence-analysis/SKILL.md",
+      "description": "Valida procedencia y suficiencia de pruebas GRC. Usar cuando se evalúan controles, se revisan evidencias o se detectan contradicciones."
     },
     {
       "category": "planning",
@@ -16653,6 +16667,48 @@
       "kind": "agent",
       "path": ".opencode/agents/frontend-test-runner.md",
       "description": "Post-commit frontend test execution — unit, component, e2e, coverage"
+    },
+    {
+      "category": "quality",
+      "name": "grc-auditor",
+      "intents": [
+        "audita",
+        "auditoría",
+        "controles",
+        "cumplimiento",
+        "evidencias"
+      ],
+      "kind": "agent",
+      "path": ".opencode/agents/grc-auditor.md",
+      "description": "Audita controles, riesgos y evidencias GRC de forma preliminar y trazable. Usar cuando se solicita gap, auditoría interna o matriz de cumplimiento."
+    },
+    {
+      "category": "quality",
+      "name": "grc-framework-router",
+      "intents": [
+        "aplicabilidad",
+        "auditoría",
+        "compara",
+        "delimita",
+        "marcos"
+      ],
+      "kind": "skill",
+      "path": ".claude/skills/grc-framework-router/SKILL.md",
+      "description": "Selecciona marcos GRC y verifica vigencia. Usar cuando se prepara una auditoría, se compara normativa o se delimita aplicabilidad."
+    },
+    {
+      "category": "quality",
+      "name": "grc-gap-assessment",
+      "intents": [
+        "acciones",
+        "assessment",
+        "auditoría",
+        "construye",
+        "ejecutivo"
+      ],
+      "kind": "skill",
+      "path": ".claude/skills/grc-gap-assessment/SKILL.md",
+      "description": "Construye matriz GRC preliminar y acciones trazables. Usar cuando se solicita gap assessment, auditoría interna o resumen ejecutivo."
     },
     {
       "category": "quality",

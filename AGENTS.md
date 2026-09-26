@@ -99,6 +99,7 @@ the Stop hook `agents-md-auto-regenerate.sh` whenever an agent file changes.
 | frontend-developer | mid | L3 | — | Implementación de código frontend (Angular y React) siguiendo specs SDD aprobadas. Usar PROACTIVELY cuando: se implem... |
 | frontend-test-runner | mid | L4 | — | Post-commit frontend test execution — unit, component, e2e, coverage |
 | go-developer | mid | L3 | — | Implementación de código Go siguiendo specs SDD aprobadas. Usar PROACTIVELY cuando: se implementa una feature en Go (... |
+| grc-auditor | heavy | L2 | — | Audita controles, riesgos y evidencias GRC de forma preliminar y trazable. Usar cuando se solicita gap, auditoría int... |
 | hallucination-fast-judge | fast | L1 | — | Recommendation Tribunal judge — verifies that entities cited in a draft (files, functions, flags, libs, paths, comman... |
 | hallucination-judge | heavy | L1 | — | Truth Tribunal judge — detects invented facts via SelfCheck-style consistency |
 | infrastructure-agent | heavy | L4 | — | Agente de gestión de infraestructura cloud. Recibe solicitudes del architect, detecta infraestructura existente, crea... |

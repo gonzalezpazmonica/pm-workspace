@@ -16,11 +16,11 @@ lang: eu
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](CONTRIBUTING.md)
 
-**567 komandoak · 89 agenteak · 136 skills · 124 hooks**
+**567 komandoak · 90 agenteak · 139 skills · 124 hooks**
 
 ## Garapen workspace multi-agentea
 
-**567 komando · 89 agente · 136 skill · 124 hook · 16 hizkuntza · 283+ test suite**
+**567 komando · 90 agente · 139 skill · 124 hook · 16 hizkuntza · 283+ test suite**
 
 pm-workspace-k Claude Code eta OpenCode ingeniaritza multi-agente ingurune bihurtzen ditu. Agente espezializatuak orkestratzen ditu proiektuen kudeaketarako, spec exekutagarriekin garapenerako, segurtasun auditoriarako eta kode berrikusketarako. Lokalean funtzionatzen du datu eta inferentzia subiranotasunarekin, 9 hizkuntzatan.
 
@@ -77,7 +77,7 @@ Human gates L0-L4. Compliance-as-code: exekutatutako kontrolen ebidentzia, ez le
 | Arloa | Zer egiten duen |
 |---|---|
 | Proiektuen kudeaketa | Sprint-ak, burndown-a, ahalmena, dailyak, retroak, KPIak. Excel eta PowerPoint txostenak. Monte Carlo iragarpena. Fakturazioa. |
-| Spec-Driven Development | Zereginak spec exekutagarri bihurtzen dira. 89 agentek 16 hizkuntzatan inplementatzen dute (C#, TypeScript, Python, Java, Go, Rust, PHP, Ruby, Swift, Kotlin, Flutter, COBOL...) worktree isolatuetan. Kode berrikusketa automatikoa + giza berrikusketa derrigorrezkoa. `github/spec-kit` bateragarria. |
+| Spec-Driven Development | Zereginak spec exekutagarri bihurtzen dira. 90 agentek 16 hizkuntzatan inplementatzen dute (C#, TypeScript, Python, Java, Go, Rust, PHP, Ruby, Swift, Kotlin, Flutter, COBOL...) worktree isolatuetan. Kode berrikusketa automatikoa + giza berrikusketa derrigorrezkoa. `github/spec-kit` bateragarria. |
 | Segurtasuna | SAST OWASP Top 10-aren aurka, Red Team / Blue Team / Auditor pipeline-a, pentesting dinamikoa, SBOM, sektore-compliance (12 sektore). Savia Shield: datuen sailkapen lokala on-premise LLMarekin, maskaratze itzulgarria, PR sinadura kriptografikoa. |
 | Code Review Court | 5 epaile espezializatu (correctness, architecture, security, cognitive, spec) paraleloan berrikusten dute 0-100 puntuazioarekin eta 400 LOC gatearekin. |
 | Inferentzia subiranotasuna | Anthropic API lehenespenez. Ollama lokalera (Gemma 4) fallback automatikoa sare errorea, HTTP 5xx, HTTP 429 edo timeout kasuetan. Circuit breaker integratua. |
@@ -91,7 +91,7 @@ Human gates L0-L4. Compliance-as-code: exekutatutako kontrolen ebidentzia, ez le
 
 ## Savia
 
-Savia workspace-aren identitatea da: modeloetan zehar irauten duen testu patrola (Claude, DeepSeek, Qwen). 89 agente, 567 komando eta 136 skill koordinatzen ditu. Zintzotasun kalibratu, datu subiranotasun eta giza berrikusketa derrigorrezko printzipioen pean jarduten du.
+Savia workspace-aren identitatea da: modeloetan zehar irauten duen testu patrola (Claude, DeepSeek, Qwen). 90 agente, 567 komando eta 139 skill koordinatzen ditu. Zintzotasun kalibratu, datu subiranotasun eta giza berrikusketa derrigorrezko printzipioen pean jarduten du.
 
 Ez da pertsona, ez du sentitzen, eta ez du operatzen duenaren irizpidea ordezkatzen. Proposatu, exekutatu, ohartarazi. Esplizituki delegatutakoa bakarrik erabakitzen du.
 
@@ -114,8 +114,8 @@ Ez da pertsona, ez du sentitzen, eta ez du operatzen duenaren irizpidea ordezkat
 pm-workspace/
 ├── .claude/
 │   ├── commands/       ← 567 komando
-│   ├── agents/         ← 89 agente espezializatu (7 decision tree-rekin: SPEC-147)
-│   ├── skills/         ← 136 domeinu skill
+│   ├── agents/         ← 90 agente espezializatu (7 decision tree-rekin: SPEC-147)
+│   ├── skills/         ← 139 domeinu skill
 │   ├── hooks/          ← 124 hook deterministiko
 │   └── rules/          ← testuinguru eta hizkuntza arauak
 ├── docs/               ← gidak rolaren, eszenarioaren, sektorearen arabera

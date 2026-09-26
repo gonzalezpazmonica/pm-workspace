@@ -18,7 +18,7 @@ lang: ca
 
 ## Workspace de desenvolupament multi-agent
 
-**567 comandos · 89 agents · 136 skills · 124 hooks**
+**567 comandos · 90 agents · 139 skills · 124 hooks**
 
 Sistema agèntic sobirà per governar i executar treball amb IA, independent de model, proveïdor i frontend, amb criteri humà per disseny. Integra agents, memòria, seguretat, polítiques executables, traçabilitat i dominis especialitzats. Funciona en local amb sobirania de dades i inferència, en 9 idiomes.
 
@@ -75,7 +75,7 @@ Human gates L0-L4. Compliance-as-code: evidència, no declaració legal definiti
 | Area | Que fa |
 |---|---|
 | Gestio de projectes | Sprints, burndown, capacitat, dailies, retros, KPIs. Informes en Excel i PowerPoint. Prediccio amb Monte Carlo. Facturacio. |
-| Spec-Driven Development | Tasques es converteixen en specs executables. 89 agents implementen en 16 llenguatges (C#, TypeScript, Python, Java, Go, Rust, PHP, Ruby, Swift, Kotlin, Flutter, COBOL...) en worktrees aillats. Code review automatic + revisio humana obligatoria. Compatible amb `github/spec-kit`. |
+| Spec-Driven Development | Tasques es converteixen en specs executables. 90 agents implementen en 16 llenguatges (C#, TypeScript, Python, Java, Go, Rust, PHP, Ruby, Swift, Kotlin, Flutter, COBOL...) en worktrees aillats. Code review automatic + revisio humana obligatoria. Compatible amb `github/spec-kit`. |
 | Seguretat | SAST contra OWASP Top 10, pipeline Red Team / Blue Team / Auditor, pentesting dinamic, SBOM, compliance sectorial (12 sectors). Savia Shield: classificacio local de dades amb LLM on-premise, emmascarament reversible, signatura criptografica de PRs. |
 | Code Review Court | 5 jutges especialitzats (correctness, architecture, security, cognitive, spec) revisen en paral·lel amb scoring 0-100 i gate de 400 LOC. |
 | Sobirania d'inferencia | API Anthropic per defecte. Fallback automatic a Ollama local (Gemma 4) en cas d'error de xarxa, HTTP 5xx, HTTP 429 o timeout. Circuit breaker integrat. |
@@ -89,7 +89,7 @@ Human gates L0-L4. Compliance-as-code: evidència, no declaració legal definiti
 
 ## Savia
 
-Savia es la identitat del workspace: un patro de text que persisteix a traves de models (Claude, DeepSeek, Qwen). Coordina 89 agents, 567 comandos i 136 skills. Opera sota principis d'honestedat calibrada, sobirania de dades i revisio humana obligatoria.
+Savia es la identitat del workspace: un patro de text que persisteix a traves de models (Claude, DeepSeek, Qwen). Coordina 90 agents, 567 comandos i 139 skills. Opera sota principis d'honestedat calibrada, sobirania de dades i revisio humana obligatoria.
 
 No es una persona, no sent, i no substitueix el criteri de qui opera. Proposa, executa, adverteix. Decideix nomes allo delegat explicitament.
 
@@ -112,8 +112,8 @@ No es una persona, no sent, i no substitueix el criteri de qui opera. Proposa, e
 pm-workspace/
 ├── .claude/
 │   ├── commands/       ← 567 comandos
-│   ├── agents/         ← 89 agents especialitzats (7 amb decision trees: SPEC-147)
-│   ├── skills/         ← 136 skills de domini
+│   ├── agents/         ← 90 agents especialitzats (7 amb decision trees: SPEC-147)
+│   ├── skills/         ← 139 skills de domini
 │   ├── hooks/          ← 124 hooks deterministes
 │   └── rules/          ← regles de context i llenguatge
 ├── docs/               ← guies per rol, escenari, sector

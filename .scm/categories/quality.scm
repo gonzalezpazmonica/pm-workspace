@@ -1,5 +1,5 @@
 # quality — Savia Capability Map (L1)
-> 268 resources
+> 271 resources
 
 - **/speckit.analyze** (cmd): Alias spec-kit compatible. Review cruzado de una spec antes de implementar. Invoca skill consensus-validation. Compatible con github/spec-kit.
 - **Coherence Court** (cmd): Audit consistency of a stage output against premises fixed in earlier stages of the same flow (SE-350)
@@ -56,6 +56,9 @@
 - **fix-survival-check** (script): fix-survival-check.sh — SPEC-188 F4 — Weekly fix survival audit
 - **focal-decisions-log** (script): focal-decisions-log.sh — Audit trail append-only de decisiones del director (SE-230 Slice 2)
 - **frontend-test-runner** (agent): Post-commit frontend test execution — unit, component, e2e, coverage
+- **grc-auditor** (agent): Audita controles, riesgos y evidencias GRC de forma preliminar y trazable. Usar cuando se solicita gap, auditoría interna o matriz de cumplimiento.
+- **grc-framework-router** (skill): Selecciona marcos GRC y verifica vigencia. Usar cuando se prepara una auditoría, se compara normativa o se delimita aplicabilidad.
+- **grc-gap-assessment** (skill): Construye matriz GRC preliminar y acciones trazables. Usar cuando se solicita gap assessment, auditoría interna o resumen ejecutivo.
 - **grill-me** (skill): Adversarial review that hunts every weakness, assumption, edge case, and missing test. Opponent mode — finds what will break before it breaks in production. Use when merging, when reviewing security-critical code, or when the solution feels
 - **guardrail-audit** (script): guardrail-audit.sh — SE-374: Auditoría de cumplimiento del principio Guardrail
 - **guardrail-negative-tests** (script): guardrail-negative-tests.sh — SE-377 S1: negative tests para enforcement hooks.

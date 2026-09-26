@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=870b4c565217c6b65667001febb26855a78ddfcc56f5e6cd8da10306a9bdf9f9
-timestamp=2026-09-26T21:09:24Z
-branch=docs/adr-002-aek-namespace
-head_commit=b746c1f9
-signature=0c08c67715064133c0de0ad85073eb87fba9aaba6276f492a74ab6b88e2fc082
+diff_hash=1e5c7fdac331f4a270c0e42f938e756ea3c43d31e7e5caf82d88f8f4176b3213
+timestamp=2026-09-26T21:47:38Z
+branch=agent/grc-auditor-20260926
+head_commit=fa3dd629
+signature=0135a1c480006d97b0915d883fe42e096ef9bf712608e9ef1e77bbc365af1ce1
