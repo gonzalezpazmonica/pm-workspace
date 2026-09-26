@@ -9,12 +9,24 @@
 #   bash scripts/generate-github-hooks.sh
 #
 # Reference: SE-180
+# Ref: SE-180 — isolation: tests never write the real .github/hooks/savia.json
 
 setup() {
   ROOT_DIR="$(cd "$(dirname "$BATS_TEST_FILENAME")/../.." && pwd)"
   GENERATOR="$ROOT_DIR/scripts/generate-github-hooks.sh"
   GENERATED="$ROOT_DIR/.github/hooks/savia.json"
   SOURCE="$ROOT_DIR/.claude/settings.json"
+  set -o pipefail
+  FX="$(mktemp -d)"
+  mkdir -p "$FX/.claude" "$FX/.github/hooks"
+}
+
+teardown() {
+  cd /
+}
+
+fx_settings() { # <hook-script-name>
+  printf '{"hooks":{"PreToolUse":[{"matcher":"Bash","hooks":[{"type":"command","command":"\\"$CLAUDE_PROJECT_DIR\\"/.opencode/hooks/%s"}]}]}}\n' "$1" > "$FX/.claude/settings.json"
 }
 
 # ── SYNC-1: generator exists and is executable ───────────────────────────────
@@ -37,27 +49,12 @@ setup() {
 
 # ── SYNC-3: generated file is up to date with source ─────────────────────────
 
-@test "SYNC-3: generated file is up-to-date with .claude/settings.json" {
-  local tmp
-  tmp=$(mktemp)
-  PROJECT_ROOT="$ROOT_DIR" bash "$GENERATOR" >/dev/null 2>&1
-  # The generator wrote to $GENERATED. Compare with what's committed.
-  # If the committed version differs from a fresh regen, fail.
-  if ! diff -q <(cat "$GENERATED") <(cat "$GENERATED") >/dev/null 2>&1; then
-    # tautology — really we need to compare against git HEAD
-    :
-  fi
-  # Practical check: regen to tmp and compare
-  cp "$GENERATED" "$tmp.committed"
-  PROJECT_ROOT="$ROOT_DIR" bash "$GENERATOR" >/dev/null 2>&1
-  if ! diff -q "$tmp.committed" "$GENERATED" >/dev/null 2>&1; then
-    echo "FAIL: .github/hooks/savia.json is stale vs .claude/settings.json" >&2
-    echo "Run: bash scripts/generate-github-hooks.sh && git add .github/hooks/savia.json" >&2
-    diff "$tmp.committed" "$GENERATED" | head -20 >&2
-    rm -f "$tmp.committed"
-    return 1
-  fi
-  rm -f "$tmp.committed"
+@test "SYNC-3: generated file is up-to-date with .claude/settings.json (read-only check)" {
+  before=$(sha256sum "$GENERATED")
+  run bash "$GENERATOR" --check
+  [ "$status" -eq 0 ]
+  [[ "$output" == *"GITHUB-HOOKS: FRESH"* ]]
+  [ "$(sha256sum "$GENERATED")" = "$before" ]
 }
 
 # ── SYNC-4: schema sanity ────────────────────────────────────────────────────
@@ -122,4 +119,49 @@ print('\n'.join(bad))
     echo "FAIL: cross-frontend-coverage.md does not reference .github/hooks/savia.json" >&2
     return 1
   }
+}
+
+# ── Isolation and --check contract (fixtures, never the real repo) ───────────
+
+@test "SYNC-7: --check reports STALE and fails when settings changed, without writing" {
+  fx_settings a.sh
+  PROJECT_ROOT="$FX" bash "$GENERATOR" >/dev/null
+  fx_settings b.sh
+  before=$(sha256sum "$FX/.github/hooks/savia.json")
+  run env PROJECT_ROOT="$FX" bash "$GENERATOR" --check
+  [ "$status" -eq 1 ]
+  [[ "$output" == *"GITHUB-HOOKS: STALE"* ]]
+  [ "$(sha256sum "$FX/.github/hooks/savia.json")" = "$before" ]
+}
+
+@test "SYNC-8: --check passes right after a regeneration" {
+  fx_settings a.sh
+  PROJECT_ROOT="$FX" bash "$GENERATOR" >/dev/null
+  run env PROJECT_ROOT="$FX" bash "$GENERATOR" --check
+  [ "$status" -eq 0 ]
+  [[ "$output" == *"GITHUB-HOOKS: FRESH"* ]]
+}
+
+@test "SYNC-9: missing settings.json fails with an error" {
+  run env PROJECT_ROOT="$FX" bash "$GENERATOR" --check
+  [ "$status" -ne 0 ]
+  [[ "$output" == *"missing"* ]]
+}
+
+@test "SYNC-10: nonexistent generated file makes --check fail instead of creating it" {
+  fx_settings a.sh
+  run env PROJECT_ROOT="$FX" bash "$GENERATOR" --check
+  [ "$status" -eq 1 ]
+  [ ! -e "$FX/.github/hooks/savia.json" ]
+}
+
+@test "SYNC-11: empty hooks section still produces valid JSON" {
+  printf '{"hooks":{}}\n' > "$FX/.claude/settings.json"
+  run env PROJECT_ROOT="$FX" bash "$GENERATOR"
+  [ "$status" -eq 0 ]
+  python3 -m json.tool "$FX/.github/hooks/savia.json" >/dev/null
+}
+
+@test "SYNC-12: safety — generator runs under set -uo pipefail" {
+  grep -q '^set -uo pipefail' "$GENERATOR"
 }
