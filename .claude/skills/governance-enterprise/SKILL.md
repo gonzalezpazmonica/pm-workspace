@@ -1,7 +1,7 @@
 ---
 layer: peripheral
 name: governance-enterprise
-description: "Usar cuando se audita compliance, se registran decisiones o se certifican procesos enterprise."
+description: "Revisa governance enterprise. Usar cuando se audita compliance o se registran decisiones; nunca emite certificaciones."
 metadata:
   # --- metadata.savia.* (SE-333) ---
   savia.agent: architect
@@ -13,7 +13,7 @@ metadata:
   savia.maturity: stable
   savia.memory: project
   savia.priority: high
-  savia.summary: "Gobernanza empresarial: audit trail, verificacion de compliance, registro de decisiones y workflow de certificacion. Output: informes ISO 42001, EU AI Act, NIST AI RMF."
+  savia.summary: "Gobernanza empresarial: audit trail, revisión preliminar de compliance y registro de decisiones."
   savia.tags: "governance, audit-trail, certification, enterprise"
 ---
 
@@ -21,7 +21,7 @@ metadata:
 
 > Prerequisito: @docs/rules/domain/governance-enterprise.md, @docs/rules/domain/audit-trail-schema.md
 
-Orquesta auditoría trail, verificación de cumplimiento (GDPR/ISO/AI Act/AEPD), registry de decisiones y certificación.
+Orquesta audit trail, revisión preliminar de cumplimiento y registro de decisiones. Para evaluaciones basadas en evidencia, usar `grc-auditor`.
 
 ## Flujo 1 — Audit Trail (`audit-trail`)
 
@@ -59,19 +59,9 @@ Orquesta auditoría trail, verificación de cumplimiento (GDPR/ISO/AI Act/AEPD),
 5. Generar resumen: total decisiones, distribution por status
 6. Output: registry formatted + gaps + next decisions needed
 
-## Flujo 4 — Certify (`certify`)
+## Flujo 4 — Solicitud de certificación (`certify`)
 
-1. Ejecutar compliance-check internamente
-2. Verificar que TODOS los controles ≥ 80%
-3. Si alguno < 80%:
-   - Mostrar controles fallidos
-   - Sugerir remediation plan
-   - NO certificar
-4. Si todos ≥ 80%:
-   - Generar certificación:  `compliance-cert-YYYYMM.pdf`
-   - Crear entrada en decision-registry
-   - Guardar en `output/governance/certs/`
-5. Output: certificación o lista de requierements
+No emitir certificados ni declaraciones de conformidad, con independencia del score. Responder con un paquete de preparación: alcance, marcos y versiones, controles, evidencias trazadas, brechas y decisiones pendientes. Remitir la certificación formal a la entidad competente. Un umbral numérico interno no prueba eficacia operativa ni otorga autoridad certificadora.
 
 ## Errores
 
@@ -80,11 +70,11 @@ Orquesta auditoría trail, verificación de cumplimiento (GDPR/ISO/AI Act/AEPD),
 | Audit trail no encontrado | Crear `.audit-trail/actions.jsonl` vacío |
 | Control sin evidencia | Marcar como gap; no bloquear certificación si ≥ 80% |
 | Decision registry corrupto | Validar YAML; mostrar errores |
-| Score < 80% en un control | Mostrar remediation plan; no certificar |
+| Solicitud de certificado oficial | Preparar dossier de evidencias; no certificar |
 
 ## Seguridad
 
 - NUNCA exponér audit trail en reports públicos
-- Certificación puede ser compartida (solo contiene scores, no detalles)
+- Los informes preliminares no se presentan como certificaciones
 - Decision registry puede ser compartida (referencias a evidencia, no datos)
 - Respect user privacy: después 4 años, anonimizar user field en audit trail

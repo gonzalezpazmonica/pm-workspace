@@ -18,9 +18,11 @@ lang: en
 
 ## Multi-agent development workspace
 
-**567 commands · 89 agents · 136 skills · 124 hooks**
+**567 commands · 90 agents · 139 skills · 124 hooks**
 
 pm-workspace turns Claude Code and OpenCode into a multi-agent engineering environment. It orchestrates specialized agents for project management, spec-driven development, security auditing, and code review. Runs locally with data and inference sovereignty, in 9 languages.
+
+The [GRC auditor](docs/grc/README.md) prepares preliminary, evidence-linked control assessments from local files. Human review remains required for official findings, risk acceptance, and certification.
 
 ---
 
@@ -77,7 +79,7 @@ Human gates per risk level (L0-L4). Compliance-as-code as a direction: Savia pro
 | Area | What it does |
 |---|---|
 | Project management | Sprints, burndown, capacity, dailies, retros, KPIs. Excel and PowerPoint reports. Monte Carlo forecasting. Billing. |
-| Spec-Driven Development | Tasks become executable specs. 89 agents implement in 16 languages (C#, TypeScript, Python, Java, Go, Rust, PHP, Ruby, Swift, Kotlin, Flutter, COBOL...) in isolated worktrees. Automated code review + human review, including review by a sole operator. Compatible with `github/spec-kit`. |
+| Spec-Driven Development | Tasks become executable specs. 90 agents implement in 16 languages (C#, TypeScript, Python, Java, Go, Rust, PHP, Ruby, Swift, Kotlin, Flutter, COBOL...) in isolated worktrees. Automated code review + human review, including review by a sole operator. Compatible with `github/spec-kit`. |
 | Security | SAST against OWASP Top 10, Red Team / Blue Team / Auditor pipeline, dynamic pentesting, SBOM, sector compliance (12 sectors). Savia Shield: local data classification with on-premise LLM, reversible masking, cryptographic PR signing. |
 | Code Review Court | 5 specialized judges (correctness, architecture, security, cognitive, spec) review in parallel with 0-100 scoring and a 400 LOC gate. |
 | Inference sovereignty | Anthropic API by default. Automatic fallback to local Ollama (Gemma 4) on network error, HTTP 5xx, HTTP 429, or timeout. Integrated circuit breaker. |
@@ -91,7 +93,7 @@ Human gates per risk level (L0-L4). Compliance-as-code as a direction: Savia pro
 
 ## Savia
 
-Savia is the identity of the workspace: a text pattern that persists across models (Claude, DeepSeek, Qwen). She coordinates 89 agents, 567 commands, and 136 skills. She operates under principles of calibrated honesty, data sovereignty, and mandatory human review.
+Savia is the identity of the workspace: a text pattern that persists across models (Claude, DeepSeek, Qwen). She coordinates 90 agents, 567 commands, and 139 skills. She operates under principles of calibrated honesty, data sovereignty, and mandatory human review.
 
 She is not a person, does not feel, and does not replace the operator's judgment. She proposes, executes, warns. She only decides what is explicitly delegated.
 
@@ -114,8 +116,8 @@ She is not a person, does not feel, and does not replace the operator's judgment
 pm-workspace/
 ├── .claude/
 │   ├── commands/       ← 567 commands
-│   ├── agents/         ← 89 specialized agents (7 with decision trees: SPEC-147)
-│   ├── skills/         ← 136 domain skills
+│   ├── agents/         ← 90 specialized agents (7 with decision trees: SPEC-147)
+│   ├── skills/         ← 139 domain skills
 │   ├── hooks/          ← 124 deterministic hooks
 │   └── rules/          ← context and language rules
 ├── docs/               ← guides by role, scenario, sector
