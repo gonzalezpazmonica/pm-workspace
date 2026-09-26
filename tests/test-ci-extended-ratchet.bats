@@ -12,6 +12,11 @@
 setup() {
   export TMPDIR="${BATS_TEST_TMPDIR:-/tmp}"
   cd "$BATS_TEST_DIRNAME/.."
+  # Isolation: tests that mutate baselines work on a temp copy (CI_BASELINE_DIR);
+  # an interrupted run can no longer leave the committed ratchet corrupted.
+  export CI_BASELINE_DIR="$BATS_TEST_TMPDIR/ci-baseline"
+  mkdir -p "$CI_BASELINE_DIR"
+  cp .ci-baseline/*.count .ci-baseline/*.pct "$CI_BASELINE_DIR/"
 }
 
 teardown() {
@@ -117,7 +122,7 @@ teardown() {
 # ── Ratchet regression detection (simulated) ───────────────────────────────
 
 @test "regression: check #8 fails if baseline is artificially low" {
-  local f=".ci-baseline/agent-size-violations.count"
+  local f="$CI_BASELINE_DIR/agent-size-violations.count"
   local original
   original=$(cat "$f")
   echo "0" > "$f"
@@ -128,7 +133,7 @@ teardown() {
 }
 
 @test "regression: check #9 fails if baseline is artificially low" {
-  local f=".ci-baseline/hook-critical-violations.count"
+  local f="$CI_BASELINE_DIR/hook-critical-violations.count"
   local original
   original=$(cat "$f")
   echo "0" > "$f"
@@ -142,7 +147,7 @@ teardown() {
 # ── Stale baseline detection (improvement hint) ────────────────────────────
 
 @test "check #8 emits stale hint when current < baseline" {
-  local f=".ci-baseline/agent-size-violations.count"
+  local f="$CI_BASELINE_DIR/agent-size-violations.count"
   local original
   original=$(cat "$f")
   local bumped=$(( original + 10 ))
@@ -180,7 +185,7 @@ teardown() {
 # ── Negative cases ─────────────────────────────────────────────────────────
 
 @test "negative: missing baseline file fails the check cleanly" {
-  local f=".ci-baseline/agent-size-violations.count"
+  local f="$CI_BASELINE_DIR/agent-size-violations.count"
   local original
   original=$(cat "$f")
   mv "$f" "$f.bak"
@@ -191,7 +196,7 @@ teardown() {
 }
 
 @test "negative: non-numeric compliance floor is rejected" {
-  local f=".ci-baseline/bats-compliance-min.pct"
+  local f="$CI_BASELINE_DIR/bats-compliance-min.pct"
   local original
   original=$(cat "$f")
   echo "abc" > "$f"
@@ -212,7 +217,7 @@ teardown() {
 }
 
 @test "negative: empty baseline file is not silently accepted" {
-  local f=".ci-baseline/agent-size-violations.count"
+  local f="$CI_BASELINE_DIR/agent-size-violations.count"
   local original
   original=$(cat "$f")
   : > "$f"
@@ -243,4 +248,11 @@ teardown() {
 @test "edge: all 3 ratchet gates reference their spec" {
   run grep -cE 'SE-03[789]' "scripts/ci-extended-checks.sh"
   [[ "$output" -ge 3 ]]
+}
+
+@test "isolation: mutating the temp baseline copy leaves .ci-baseline untouched" {
+  before=$(cat .ci-baseline/*.count .ci-baseline/*.pct | sha256sum)
+  echo "999" > "$CI_BASELINE_DIR/agent-size-violations.count"
+  [ "$(cat .ci-baseline/*.count .ci-baseline/*.pct | sha256sum)" = "$before" ]
+  grep -q 'CI_BASELINE_DIR="${CI_BASELINE_DIR:-$ROOT/.ci-baseline}"' scripts/ci-extended-checks.sh
 }

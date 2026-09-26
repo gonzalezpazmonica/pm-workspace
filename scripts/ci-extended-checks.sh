@@ -2,6 +2,8 @@
 set -uo pipefail
 
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+# Baselines del ratchet; override para tests que mutan valores sin tocar el repo.
+CI_BASELINE_DIR="${CI_BASELINE_DIR:-$ROOT/.ci-baseline}"
 PASS=0; FAIL=0; TOTAL=0
 pass() { ((PASS++)); ((TOTAL++)); echo "  ✅ $1"; }
 fail() { ((FAIL++)); ((TOTAL++)); echo "  ❌ $1"; }
@@ -129,7 +131,7 @@ fi
 # 8. Agent Size Ratchet (SE-038 Slice 3)
 # Ratchet pattern: violation count must not exceed frozen baseline in .ci-baseline/.
 echo "--- 8. Agent Size Ratchet (Rule #22) ---"
-baseline_file="$ROOT/.ci-baseline/agent-size-violations.count"
+baseline_file="$CI_BASELINE_DIR/agent-size-violations.count"
 audit_script="$ROOT/scripts/agent-size-audit.sh"
 if [[ -f "$baseline_file" && -x "$audit_script" ]]; then
   baseline_count=$(cat "$baseline_file" | tr -d '[:space:]')
@@ -155,7 +157,7 @@ fi
 
 # 9. Hook Latency Ratchet (SE-037 Slice 3)
 echo "--- 9. Hook Latency Ratchet (critical SLA 20ms) ---"
-hook_baseline="$ROOT/.ci-baseline/hook-critical-violations.count"
+hook_baseline="$CI_BASELINE_DIR/hook-critical-violations.count"
 hook_script="$ROOT/scripts/hook-bench-all.sh"
 if [[ -f "$hook_baseline" && -x "$hook_script" ]]; then
   hook_base=$(cat "$hook_baseline" | tr -d '[:space:]')
@@ -188,7 +190,7 @@ fi
 # 10. BATS Auditor Compliance Floor (SE-039 Slice 3)
 # Full sweep is slow; enable with BATS_GATE_FULL=1 (CI weekly). Default: verify floor config.
 echo "--- 10. BATS Auditor Compliance Floor ---"
-bats_floor_file="$ROOT/.ci-baseline/bats-compliance-min.pct"
+bats_floor_file="$CI_BASELINE_DIR/bats-compliance-min.pct"
 if [[ -f "$bats_floor_file" ]]; then
   floor=$(cat "$bats_floor_file" | tr -d '[:space:]')
   if [[ "$floor" =~ ^[0-9]+$ ]] && (( floor >= 0 && floor <= 100 )); then
