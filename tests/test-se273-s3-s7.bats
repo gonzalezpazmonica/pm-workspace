@@ -5,6 +5,12 @@
 setup() {
   REPO_ROOT="$(cd "$BATS_TEST_DIRNAME/.." && pwd)"
   TMPDIR=$(mktemp -d)
+  # Isolation: scripts log to PROJECT_ROOT/output. A temp root (with the real
+  # config/ linked) keeps test egress denials and profiles out of the live logs
+  # that the trajectory detector reads in real sessions.
+  export PROJECT_ROOT="$TMPDIR/root"
+  mkdir -p "$PROJECT_ROOT/output"
+  ln -s "$REPO_ROOT/config" "$PROJECT_ROOT/config"
 }
 
 teardown() {
@@ -112,7 +118,7 @@ teardown() {
 
 @test "S2: classifier logs to profile" {
   bash "$REPO_ROOT/scripts/action-shape-classifier.sh" "Read" "/tmp/test" 2>/dev/null
-  [ -f "$REPO_ROOT/output/action-shape-profile.jsonl" ]
+  [ -f "$PROJECT_ROOT/output/action-shape-profile.jsonl" ]
 }
 
 # ═══════════════════════════════════════════════════════════════════
@@ -158,4 +164,36 @@ teardown() {
 @test "S5/AC-5.2: different domain sources are independent" {
   run bash "$REPO_ROOT/scripts/source-corroborator.sh" independence "https://python.org" "https://rust-lang.org"
   [ "$status" -eq 0 ]
+}
+
+@test "isolation: egress denials land in the temp root, not the repo output logs" {
+  before=$(cat "$REPO_ROOT/output/egress-denials.jsonl" 2>/dev/null | sha256sum)
+  run bash "$REPO_ROOT/scripts/egress-gate.sh" check "evil.example.com"
+  [ -s "$PROJECT_ROOT/output/egress-denials.jsonl" ]
+  [ "$(cat "$REPO_ROOT/output/egress-denials.jsonl" 2>/dev/null | sha256sum)" = "$before" ]
+}
+
+@test "S6: evaluate on a log without tool calls computes rate 0 without arithmetic errors" {
+  printf '{"event":"other"}\n' > "$PROJECT_ROOT/output/trajectory-events.jsonl"
+  run bash "$REPO_ROOT/scripts/trajectory-detector.sh" evaluate
+  [ "$status" -eq 0 ]
+  [[ "$output" != *"error sintáctico"* && "$output" != *"syntax error"* ]]
+}
+
+@test "safety: SE-273 scripts run under set -uo pipefail" {
+  for s in egress-gate trajectory-detector action-shape-classifier source-corroborator; do
+    head -3 "$REPO_ROOT/scripts/$s.sh" | grep -q 'set -uo pipefail'
+  done
+}
+
+@test "empty: egress check with an empty domain exits 2 with usage" {
+  run bash "$REPO_ROOT/scripts/egress-gate.sh" check ""
+  [ "$status" -eq 2 ]
+  [[ "$output" == *"Usage"* ]]
+}
+
+@test "nonexistent: trajectory detector rejects an unknown action with usage" {
+  run bash "$REPO_ROOT/scripts/trajectory-detector.sh" bogus
+  [ "$status" -eq 2 ]
+  [[ "$output" == *"Usage"* ]]
 }
