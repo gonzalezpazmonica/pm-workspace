@@ -9,6 +9,8 @@ setup() {
   export ORIG_HOME="$HOME"
   export HOME="$TMPDIR_TEST/home"
   mkdir -p "$HOME/.savia"
+  # Isolation: signatures go to a temp file, never the committed .confidentiality-signature.
+  export CONFIDENTIALITY_SIG_FILE="$TMPDIR_TEST/signature"
 }
 
 teardown() {
@@ -108,4 +110,13 @@ teardown() {
 
 @test "sign: compute_hmac function exists" {
   grep -q 'compute_hmac' "$SCRIPT"
+}
+
+@test "isolation: sign writes CONFIDENTIALITY_SIG_FILE and leaves the repo signature untouched" {
+  repo_sig="$BATS_TEST_DIRNAME/../../.confidentiality-signature"
+  before=$(sha256sum "$repo_sig")
+  run bash "$SCRIPT" sign
+  [ "$status" -eq 0 ]
+  [ -s "$CONFIDENTIALITY_SIG_FILE" ]
+  [ "$(sha256sum "$repo_sig")" = "$before" ]
 }
