@@ -20,15 +20,15 @@ comprendida. **WIP:** máximo 3 iniciativas Savia en `IMPLEMENTING` + 1 línea L
 
 | Fase | Objetivo | Gate de salida | Iniciativas |
 |---|---|---|---|
-| **A · Verdad y salud** ← actual | Fuente única, estados reconciliados, suite completa en verde o cuarentena explícita con RCA | Suite sin fallos no cuarentenados; ≤3 `IMPLEMENTING`; un único roadmap | SE-378, SE-376 · Labs L14 |
-| **B · Kernel de gobierno verificable** | Cerrar SE-396; SE-401 reescrita a TEE v1.1 y renombrada; frontera AEK↔Savia (L31 F0); contrato común de Effect Enforcement Point en Claude Code, Codex y OpenCode | SE-396 graduado; SE-401 aprobada; los tres frontends pasan el mismo contrato | SE-396, SE-401, SE-386, SE-393, SE-394 · Labs L31 |
-| **C · Conformance Lab** | Un laboratorio: Bypass Test por frontend, escenarios adversariales (TEE §22.2), invariantes (§19.8), replay en cuatro niveles | 0 violaciones de invariantes bajo inyección de fallos | SE-377, SE-381, SE-383, SE-384, SE-387 · Labs L28 |
+| **A · Verdad y salud** ← actual | Fuente única, estados reconciliados, suite completa en verde o cuarentena explícita con RCA | Suite sin fallos no cuarentenados; ≤3 `IMPLEMENTING`; un único roadmap | SE-378, SE-376 · Labs (1 línea) |
+| **B · Kernel de gobierno verificable** | Cerrar SE-396; SE-401 reescrita a TEE v1.1; frontera AEK↔Savia (F0 de solo lectura); contrato común de Effect Enforcement Point en Claude Code, Codex y OpenCode | SE-396 graduado; SE-401 aprobada; los tres frontends pasan el mismo contrato | SE-396, SE-401, SE-386, SE-393, SE-394 · Labs (1 línea) |
+| **C · Conformance Lab** | Un laboratorio: Bypass Test por frontend, escenarios adversariales (TEE §22.2), invariantes (§19.8), replay en cuatro niveles | 0 violaciones de invariantes bajo inyección de fallos | SE-377, SE-381, SE-383, SE-384, SE-387 · Labs (1 línea) |
 | **D · Kernel mínimo y portabilidad** | Ablación y retirada de superficie sin uso, SAM F5/F6, runtime común, portability canaries por frontend y tier | Superficie reducida sin regresión; canaries verdes | SE-400, SE-397, SE-392, SE-388, SE-391, SE-380 |
 | **E · Harness adoptable** | Instalador, desktop, documentación pública, Vaults adaptativo, transparencia Art. 50 S4 | Instalación limpia por una persona ajena con doctor en verde | SE-399, SE-398, SE-390, SE-395, SE-289 S4 |
-| **F · Pilotos con evidencia** | Pilotos AEK, L27 E3/E5, L30 backtest | Sin claims de ROI empresarial sin datos | Labs L27, L30 |
+| **F · Pilotos con evidencia** | Pilotos AEK y experimentos Labs con datos reales | Sin claims de ROI empresarial sin datos | Labs (1 línea) |
 
 **Aparcado hasta superar el Gate D:** federación y multi-vault (SE-281/282), lote enterprise,
-multi-tenant, SE-268, SE-385 (publicación), SE-389, líneas Labs L24, L25, L29, L12 y L9.
+multi-tenant, SE-268, SE-385 (publicación), SE-389 y líneas Labs fuera de la ruta (detalle privado en Savia Labs).
 
 Métricas de la ruta: "¿cuántas veces un hallazgo cambió una decisión?" y "¿cuántos bypass
 encontró el laboratorio antes que producción?".

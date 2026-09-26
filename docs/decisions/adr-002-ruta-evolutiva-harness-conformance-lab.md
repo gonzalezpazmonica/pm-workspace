@@ -10,7 +10,7 @@
 
 Convivían tres rumbos incompatibles:
 
-1. La estrategia de 2026-08-02 (`vaults/SaviaLabs/review/strategy-roadmap-2026-08.md`) planteaba
+1. La estrategia de 2026-08-02 (documento privado de Savia Labs) planteaba
    Savia como producto para cualquier equipo técnico y priorizaba productizar (federación,
    CLI, web, empaquetado).
 2. La ejecución real de agosto-septiembre fue la era *Coherence Before Capability*
@@ -41,8 +41,9 @@ no comportamiento.
    `ROADMAP-CURRENT.md` es su vista generada y `docs/ROADMAP.md` abre con esta ruta y conserva
    el historial. Los demás roadmaps quedan marcados como históricos.
 6. **SE-401.** Se reescribe alineada a TEE v1.1 (Sufficiency, Commitment, Outcome, Disposition,
-   Authority Lease) y se renombra en Savia para resolver la colisión de ID con el programa AEK,
-   sin renumerar el repositorio AEK. Ocurre en la Fase B.
+   Authority Lease). Ocurre en la Fase B. La colisión de IDs con el programa privado AEK se
+   resolvió el 2026-09-26 por decisión de la operadora: AEK usa su propio prefijo (`AEK-`) y los
+   IDs `SE-` pertenecen solo a Savia, así que SE-401 conserva su ID.
 7. **SE-289 S4.** Sin fecha: vuelve a la cola como un ítem más de la Fase E.
 
 ## Ruta (fases con gate de evidencia, sin fechas)
@@ -50,14 +51,14 @@ no comportamiento.
 | Fase | Objetivo | Gate de salida |
 |---|---|---|
 | **A · Verdad y salud** | Fuente única, estados reconciliados, suite en verde o cuarentena explícita con RCA | Suite completa sin fallos no cuarentenados; ≤3 `IMPLEMENTING`; un único roadmap |
-| **B · Kernel de gobierno verificable** | Cerrar SE-396; SE-401 v1.1 + frontera AEK↔Savia (L31 F0); contrato común de Effect Enforcement Point para Claude Code, Codex y OpenCode | SE-396 graduado; SE-401 aprobado; los tres frontends pasan el mismo contrato |
-| **C · Conformance Lab (TEE §22)** | Unificar chaos, eval matrix, coherencia y L28 en un laboratorio: Bypass Test, escenarios adversariales, invariantes §19.8, replay en cuatro niveles | 0 violaciones de invariantes bajo inyección de fallos en los tres frontends |
+| **B · Kernel de gobierno verificable** | Cerrar SE-396; SE-401 v1.1 + frontera AEK↔Savia (F0 de solo lectura); contrato común de Effect Enforcement Point para Claude Code, Codex y OpenCode | SE-396 graduado; SE-401 aprobado; los tres frontends pasan el mismo contrato |
+| **C · Conformance Lab (TEE §22)** | Unificar chaos, eval matrix y coherencia en un laboratorio: Bypass Test, escenarios adversariales, invariantes §19.8, replay en cuatro niveles | 0 violaciones de invariantes bajo inyección de fallos en los tres frontends |
 | **D · Kernel mínimo y portabilidad** | Ablación SE-400, SAM SE-397 F5/F6, runtime común, portability canaries por frontend y tier | Superficie reducida sin regresión; canaries verdes |
 | **E · Harness adoptable** | Instalador, desktop, documentación pública, Vaults adaptativo, SE-289 S4 | Instalación limpia por una persona ajena con doctor en verde |
-| **F · Pilotos con evidencia** | AEK pilotos, L27 E3/E5, L30 backtest | Sin claims de ROI empresarial sin datos |
+| **F · Pilotos con evidencia** | Pilotos AEK y experimentos de Savia Labs con datos reales | Sin claims de ROI empresarial sin datos |
 
 Aparcado hasta superar la Fase D: federación y multi-vault, lote enterprise, multi-tenant,
-neuro-orquestación, publicación en redes sociales, líneas Labs L24, L25, L29, L12 y L9.
+neuro-orquestación, publicación en redes sociales y líneas Labs fuera de la ruta (detalle en Savia Labs, privado).
 
 ## Consecuencias
 

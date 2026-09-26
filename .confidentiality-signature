@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=33d223fe9e749373a6a96d30919ab4d49875f5bb4cbae1ff906e5848d3f30735
-timestamp=2026-09-26T20:12:36Z
-branch=docs/ruta-evolutiva-fase-a
-head_commit=a9e40c9a
-signature=f5dc11ab3fae66945c0a7197cbb2cc19e41cc1cbf27c0715cef2ee7a096521d6
+diff_hash=870b4c565217c6b65667001febb26855a78ddfcc56f5e6cd8da10306a9bdf9f9
+timestamp=2026-09-26T21:09:24Z
+branch=docs/adr-002-aek-namespace
+head_commit=b746c1f9
+signature=0c08c67715064133c0de0ad85073eb87fba9aaba6276f492a74ab6b88e2fc082
