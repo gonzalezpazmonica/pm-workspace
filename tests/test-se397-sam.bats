@@ -16,6 +16,7 @@ _fixture_state() { # <initiative-status> <spec-status>
   printf '{"version":2,"tracked_spec_floor":900,"completion_contract_floor":900,"initiatives":[{"id":"SE-901","status":"%s","approval":"test","title":"fixture"}]}\n' "$1" \
     > "$TMP/docs/propuestas/planning-state.json"
   printf -- '---\nstatus: %s\n---\n# SE-901\n' "$2" > "$TMP/docs/specs/SE-901-fixture.spec.md"
+  printf '## 2026-09-26 SE-901 %s\n' "$1" > "$TMP/docs/propuestas/LOG.md"
 }
 
 @test "SE-397 F2 CLI, schema and runtime declarations exist" {

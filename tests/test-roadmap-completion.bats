@@ -25,6 +25,7 @@ write_implemented_state() {
 ]}
 JSON
   printf '%s\n' 'status: APPROVED' > "$FIXTURE/docs/specs/SE-396-example.spec.md"
+  printf '## 2026-09-26 SE-396 IMPLEMENTED\n' > "$FIXTURE/docs/propuestas/LOG.md"
 }
 
 @test "validate rejects governed implemented state without human review" {

@@ -100,6 +100,34 @@ case "$CMD" in
         fi
       fi
     done < <(find "$ROOT/docs/specs" -name 'SE-*.spec.md' | sort)
+    # 7. Estado vigente de cada iniciativa trazada registrado en LOG.md (SE-378, append-only).
+    LOG="$ROOT/docs/propuestas/LOG.md"
+    if [[ "$FLOOR" =~ ^[0-9]+$ ]]; then
+      NOLOG=""
+      while IFS=$'\t' read -r ID ST; do
+        NUM=${ID#SE-}
+        (( 10#$NUM < FLOOR )) && continue
+        grep -qE "^## [0-9]{4}-[0-9]{2}-[0-9]{2} ${ID}( [^ ]+)* ${ST}$" "$LOG" 2>/dev/null \
+          || NOLOG="${NOLOG}${NOLOG:+ }$ID"
+      done < <(jq -r '.initiatives[] | select(.id | test("^SE-[0-9]+$")) | [.id, .status] | @tsv' "$STATE")
+      [[ -n "$NOLOG" ]] && { echo "FAIL: estado vigente sin registro en LOG.md: $NOLOG"; ERR=1; }
+    fi
+    # 8. Ruta declarada (ADR-002): límite WIP y fase válida en iniciativas no terminales.
+    if jq -e '.route' "$STATE" >/dev/null 2>&1; then
+      WIP=$(jq -r '.route.wip_limit.savia_implementing // empty' "$STATE")
+      NIMP=$(jq '[.initiatives[] | select(.status=="IMPLEMENTING")] | length' "$STATE")
+      if ! [[ "$WIP" =~ ^[0-9]+$ ]]; then
+        echo "FAIL: route.wip_limit.savia_implementing ausente o inválido"; ERR=1
+      elif (( NIMP > WIP )); then
+        echo "FAIL: WIP excedido: $NIMP IMPLEMENTING > límite $WIP"; ERR=1
+      fi
+      BADPH=$(jq -r '(.route.phases + ["aparcado"]) as $p | .tracked_spec_floor as $f
+        | .initiatives[]
+        | select(.id | test("^SE-[0-9]+$")) | select((.id | ltrimstr("SE-") | tonumber) >= $f)
+        | select(.status | IN("PROPOSED","APPROVED","IMPLEMENTING","DEFERRED"))
+        | select((.phase // "") as $x | $p | index($x) | not) | .id' "$STATE")
+      [[ -n "$BADPH" ]] && { echo "FAIL: iniciativas sin fase válida de la ruta: $(echo $BADPH)"; ERR=1; }
+    fi
     [[ $ERR -eq 0 ]] && echo "PASS: planning state consistente"
     exit $ERR
     ;;
