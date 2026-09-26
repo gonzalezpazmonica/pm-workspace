@@ -1,6 +1,6 @@
 # SE-390 — Savia Documentation & Identity Evolution
 
-**Estado:** APPROVED + IMPLEMENTING (Mónica 2026-09-05: "Añade spec, e implementa... pr y merge")
+**Estado:** DEFERRED + IMPLEMENTING (Mónica 2026-09-05: "Añade spec, e implementa... pr y merge")
 **Prioridad:** P1 · **Tipo:** Documentation Architecture / Product Identity / Migration
 **Repo canónico:** `gonzalezpazmonica/savia` · **Identidad legacy:** "PM-Workspace / pm-workspace" (HISTORICAL/COMPATIBILITY)
 **Principio:** ONE SAVIA · ZERO DUPLICATED TRUTH · «Se delega la ejecución, nunca el criterio.»

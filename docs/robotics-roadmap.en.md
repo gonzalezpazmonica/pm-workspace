@@ -1,5 +1,8 @@
 # Savia Robotics — Roadmap
 
+> **HISTORICAL (2026-09-26).** This roadmap is no longer authoritative. Current route: `docs/ROADMAP.md` (ADR-002); state: `docs/propuestas/planning-state.json`.
+
+
 > Preparing Savia for AI's leap into the physical world.
 
 ## Vision

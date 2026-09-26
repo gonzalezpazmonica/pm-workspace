@@ -1,6 +1,6 @@
 ---
 id: SE-397
-status: APPROVED
+status: DEFERRED
 priority: P0
 developer_type: agent-team
 created: 2026-09-08

@@ -13,6 +13,9 @@ reprio_2026_05_30: "Reprio §3.1+§3.2 post-merge PR #783 (Tier 0 batch). SE-094
 
 # Savia Roadmap — Canonical
 
+> **HISTÓRICO (2026-09-26).** Este roadmap ya no rige. Ruta vigente: `docs/ROADMAP.md` (ADR-002); estado: `docs/propuestas/planning-state.json`.
+
+
 > Único documento sobre el que Savia itera autónomamente. Se actualiza tras cada PR merged y tras cada cambio masivo de status.
 
 ## Principios inmutables

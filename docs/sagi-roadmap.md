@@ -1,5 +1,8 @@
 # SAGI Roadmap — Savia AGI por orquestación (L11) · modulo de desarrollo
 
+> **HISTÓRICO (2026-09-26).** Este roadmap ya no rige. Ruta vigente: `docs/ROADMAP.md` (ADR-002); estado: `docs/propuestas/planning-state.json`.
+
+
 > **Fuente de verdad**: `labs/` (privado, sin remote) — hipótesis L11, protocolo v1.2
 > y plan de ejecución aprobado 2026-08-21. Este documento es su **vista pública
 > sanitizada**: roadmap de desarrollo accionable, sin métricas de runs, sin paths
