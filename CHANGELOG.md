@@ -7,14 +7,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-### Added
-
-- SE-GRC-001 MVP: agente GRC y tres skills para selección de marcos, análisis de evidencia y gap assessment; evaluador local con matriz trazable, hallazgos borrador y riesgos propuestos.
-
-### Fixed
-
-- Governance enterprise deja de ofrecer certificados internos basados en puntuaciones: las solicitudes generan un dossier preliminar para revisión por entidad competente.
-
 ## [6.17.13] — 2026-09-14
 
 ### Added
