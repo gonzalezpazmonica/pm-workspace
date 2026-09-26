@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "era": "Coherence Before Capability",
+  "era": "Harness soberano y Conformance Lab (ADR-002)",
   "tracked_spec_floor": 375,
   "completion_contract_floor": 396,
   "initiatives": [
@@ -20,20 +20,24 @@
       "id": "SE-376",
       "status": "IMPLEMENTING",
       "evidence": "PRs #1097 y #1100: waves 1-2 redujeron deuda 133→48; objetivo final 0 o excepciones aprobadas permanece pendiente",
-      "title": "Quality Debt Burn-down"
+      "title": "Quality Debt Burn-down",
+      "phase": "A"
     },
     {
       "id": "SE-377",
-      "status": "IMPLEMENTING",
+      "status": "DEFERRED",
       "evidence": "PR #1084 (negative tests + receipts visibility); gate de bloqueo CI pendiente",
-      "title": "Policy Enforcement Completeness"
+      "title": "Policy Enforcement Completeness",
+      "phase": "C",
+      "deferral": "Ruta 2026-09-26 (ADR-002): fuera del WIP; retoma en la Fase C. Lo mergeado permanece; el resto espera a su fase."
     },
     {
       "id": "SE-378",
       "status": "IMPLEMENTING",
       "evidence": "PR #1085: planning-state canónico, CLI roadmap y vista generada mergeados; reconciliación factual continua pendiente",
       "title": "Planning State Machine",
-      "approval": "Mónica 2026-09-05: 'Apruebo todas, implementa, pr y merge'"
+      "approval": "Mónica 2026-09-05: 'Apruebo todas, implementa, pr y merge'",
+      "phase": "A"
     },
     {
       "id": "SE-379",
@@ -43,90 +47,112 @@
     },
     {
       "id": "SE-380",
-      "status": "IMPLEMENTING",
+      "status": "DEFERRED",
       "evidence": "PR #1085: entropy v0, usage report y consolidation advisor mergeados; lifecycle completo y calibración permanecen pendientes",
       "title": "Capability Lifecycle, Usage & Complexity Budget",
-      "approval": "Mónica 2026-09-05: 'Apruebo todas, implementa, pr y merge'"
+      "approval": "Mónica 2026-09-05: 'Apruebo todas, implementa, pr y merge'",
+      "phase": "D",
+      "deferral": "Ruta 2026-09-26 (ADR-002): fuera del WIP; retoma en la Fase D. Lo mergeado permanece; el resto espera a su fase."
     },
     {
       "id": "SE-381",
-      "status": "IMPLEMENTING",
+      "status": "DEFERRED",
       "evidence": "PR #1084 (matriz report-only); gate de bloqueo diferido",
-      "title": "Risk-Weighted Behavioral Eval Matrix"
+      "title": "Risk-Weighted Behavioral Eval Matrix",
+      "phase": "C",
+      "deferral": "Ruta 2026-09-26 (ADR-002): fuera del WIP; retoma en la Fase C. Lo mergeado permanece; el resto espera a su fase."
     },
     {
       "id": "SE-383",
-      "status": "IMPLEMENTING",
+      "status": "DEFERRED",
       "approval": "Mónica 2026-09-05: 'Apruebo todas, implementa, pr y merge'",
       "title": "Harness Adversarial / Chaos Suite",
-      "evidence": "PR #1087: runner y fixture fundador worktree-aware mergeados; matriz completa y requisito CI L3/L4 permanecen pendientes"
+      "evidence": "PR #1087: runner y fixture fundador worktree-aware mergeados; matriz completa y requisito CI L3/L4 permanecen pendientes",
+      "phase": "C",
+      "deferral": "Ruta 2026-09-26 (ADR-002): fuera del WIP; retoma en la Fase C. Lo mergeado permanece; el resto espera a su fase."
     },
     {
       "id": "SE-384",
-      "status": "IMPLEMENTING",
+      "status": "DEFERRED",
       "approval": "Mónica 2026-09-05: 'Apruebo todas, implementa, pr y merge'",
       "title": "Savia Self-Evolution Benchmark (pilot)",
-      "evidence": "PR #1086: runner y 3 pilotos; PR #1088: dataset ampliado a 20 tareas. Baseline de ciclo completo y graduación permanecen pendientes"
+      "evidence": "PR #1086: runner y 3 pilotos; PR #1088: dataset ampliado a 20 tareas. Baseline de ciclo completo y graduación permanecen pendientes",
+      "phase": "C",
+      "deferral": "Ruta 2026-09-26 (ADR-002): fuera del WIP; retoma en la Fase C. Lo mergeado permanece; el resto espera a su fase."
     },
     {
       "id": "SE-385",
-      "status": "IMPLEMENTING",
+      "status": "DEFERRED",
       "approval": "Mónica 2026-09-05: 'Deja la spec de Linkedin como aprobada para implementar cuando termines'",
       "priority": "P1",
       "title": "LinkedIn Integration — Social Networks Agent + LinkedIn Skill",
       "note": "implementación en cola tras SE-383/384; primer paso: feasibility probe §38",
-      "evidence": "PR #1088: MVP1 agent+skill+import+digest+status y tests; feasibility GO-partial. OAuth/publicación y resto del lifecycle permanecen pendientes"
+      "evidence": "PR #1088: MVP1 agent+skill+import+digest+status y tests; feasibility GO-partial. OAuth/publicación y resto del lifecycle permanecen pendientes",
+      "phase": "aparcado",
+      "deferral": "Ruta 2026-09-26 (ADR-002): aparcado hasta superar el Gate D. Lo mergeado permanece; el resto espera a su fase."
     },
     {
       "id": "SE-386",
-      "status": "IMPLEMENTING",
+      "status": "DEFERRED",
       "approval": "Mónica 2026-09-05: 'aprobada'",
       "priority": "P1",
       "title": "Constitutional Runtime Contracts (LAWS + Capability Contracts + Safety Metadata)",
       "note": "persistida 2026-09-05; renumerada de SE-265 (ocupado). Implementar F1+F2 tras aprobacion",
-      "evidence": "PR #1090: F1+F2 laws, registry, descriptors y checks mergeados; F3-F5 permanecen pendientes"
+      "evidence": "PR #1090: F1+F2 laws, registry, descriptors y checks mergeados; F3-F5 permanecen pendientes",
+      "phase": "B",
+      "deferral": "Ruta 2026-09-26 (ADR-002): fuera del WIP; retoma en la Fase B. Lo mergeado permanece; el resto espera a su fase."
     },
     {
       "id": "SE-387",
-      "status": "IMPLEMENTING",
+      "status": "DEFERRED",
       "approval": "Mónica 2026-09-05: implementa entero",
       "priority": "P0",
       "title": "Coherence Closure Program (umbrella: gates graduation, constitutional L4, harness F2-F5, eval/debt burn-down, generated truth, entropy v1, benchmark)",
       "note": "persistida 2026-09-05; gap matrix en spec §0; implementar por frentes tras aprobacion",
-      "evidence": "PR #1099 cerró el bloque funcional y PR #1104 reparó exactly-once; no está graduado: cierre humano, calibración y gaps residuales siguen pendientes"
+      "evidence": "PR #1099 cerró el bloque funcional y PR #1104 reparó exactly-once; no está graduado: cierre humano, calibración y gaps residuales siguen pendientes",
+      "phase": "C",
+      "deferral": "Ruta 2026-09-26 (ADR-002): fuera del WIP; retoma en la Fase C. Lo mergeado permanece; el resto espera a su fase."
     },
     {
       "id": "SE-388",
-      "status": "IMPLEMENTING",
+      "status": "DEFERRED",
       "approval": "Mónica 2026-09-05: 'Los dos últimos specs son accepted'",
       "priority": "P1",
       "title": "Savia ↔ Codex Frontend Adapter",
       "note": "persistida 2026-09-05; renumerada/asignada tras reconciliacion. EXTEND de SPEC-127/SE-047/SE-375. Prerequisito: Codex CLI para probe real (§4/§6). Implementacion tras aprobacion humana; enforcement L3/L4 -> human gate",
-      "evidence": "Day-1 2026-09-06: AUTHENTICATED (ChatGPT) + PROBED + L0-L2 CANARIES EVIDENCED (5/5; L1 write filesystem-verified; dogfood receipted). DEGRADED_SAFE max_verified_risk=L2, L3/L4 BLOCKED_OR_HUMAN_REROUTE. P2 no-auth mergeado (#1105). P3 pendiente: MCP e2e wire + L4 enforcement equivalente (no existe PreToolUse-equivalente)."
+      "evidence": "Day-1 2026-09-06: AUTHENTICATED (ChatGPT) + PROBED + L0-L2 CANARIES EVIDENCED (5/5; L1 write filesystem-verified; dogfood receipted). DEGRADED_SAFE max_verified_risk=L2, L3/L4 BLOCKED_OR_HUMAN_REROUTE. P2 no-auth mergeado (#1105). P3 pendiente: MCP e2e wire + L4 enforcement equivalente (no existe PreToolUse-equivalente). Actualización 2026-09-26 (#1139): Codex ejecuta los gates Bash de Savia vía .codex/hooks.json (PreToolUse); probe de frontera de secretos corregido para locales no ingleses; canaries day-1 5/5 PASS en codex-cli 0.157.1.",
+      "phase": "D",
+      "deferral": "Ruta 2026-09-26 (ADR-002): fuera del WIP; retoma en la Fase D. Lo mergeado permanece; el resto espera a su fase."
     },
     {
       "id": "SE-389",
-      "status": "IMPLEMENTING",
+      "status": "DEFERRED",
       "approval": "Operadora 2026-09-05: implementación autorizada con revisión humana para L3/L4",
       "priority": "P1",
       "title": "Regulatory Policy-as-Code & Compliance Context",
-      "evidence": "MVP en implementación; validación legal y promoción a EXECUTABLE permanecen como gates humanos."
+      "evidence": "MVP en implementación; validación legal y promoción a EXECUTABLE permanecen como gates humanos.",
+      "phase": "aparcado",
+      "deferral": "Ruta 2026-09-26 (ADR-002): aparcado hasta superar el Gate D. Lo mergeado permanece; el resto espera a su fase."
     },
     {
       "id": "SE-390",
-      "status": "IMPLEMENTING",
+      "status": "DEFERRED",
       "approval": "Operadora 2026-09-05: implementación autorizada",
       "priority": "P1",
       "title": "Savia Documentation & Identity Evolution",
-      "evidence": "Migración documental incremental; claims fuertes continúan ligados a evidencia."
+      "evidence": "Migración documental incremental; claims fuertes continúan ligados a evidencia.",
+      "phase": "E",
+      "deferral": "Ruta 2026-09-26 (ADR-002): fuera del WIP; retoma en la Fase E. Lo mergeado permanece; el resto espera a su fase."
     },
     {
       "id": "SE-391",
-      "status": "IMPLEMENTING",
+      "status": "DEFERRED",
       "approval": "Operadora 2026-09-09: aprobación global de trabajo pendiente",
       "priority": "P1",
       "title": "Savia Codex Autonomy Profile",
-      "evidence": "PR #1108: perfil autonomous-l2 mergeado; cold-start y efectos externos/L3/L4 conservan gates y evidencia separada."
+      "evidence": "PR #1108: perfil autonomous-l2 mergeado; cold-start y efectos externos/L3/L4 conservan gates y evidencia separada.",
+      "phase": "D",
+      "deferral": "Ruta 2026-09-26 (ADR-002): fuera del WIP; retoma en la Fase D. Lo mergeado permanece; el resto espera a su fase."
     },
     {
       "id": "SE-392",
@@ -135,23 +161,28 @@
       "priority": "P0",
       "title": "Runtime común de Savia para Codex y OpenCode",
       "note": "Recuperada de cambios pendientes de sesión 2026-09-07; implementación autorizada con gates de arquitectura y autoridad.",
-      "evidence": "Spec persistida; equivalencia funcional y E2E aún no demostradas."
+      "evidence": "Spec persistida; equivalencia funcional y E2E aún no demostradas.",
+      "phase": "D"
     },
     {
       "id": "SE-393",
-      "status": "IMPLEMENTING",
+      "status": "DEFERRED",
       "approval": "Operadora 2026-09-09: aprobación global de trabajo pendiente",
       "priority": "P0",
       "title": "Contratos de un harness agnóstico",
-      "evidence": "PR #1110: contratos del harness agnóstico mergeados; sustitución operacional aún no graduada."
+      "evidence": "PR #1110: contratos del harness agnóstico mergeados; sustitución operacional aún no graduada.",
+      "phase": "B",
+      "deferral": "Ruta 2026-09-26 (ADR-002): fuera del WIP; retoma en la Fase B. Lo mergeado permanece; el resto espera a su fase."
     },
     {
       "id": "SE-394",
-      "status": "IMPLEMENTING",
+      "status": "DEFERRED",
       "approval": "Operadora 2026-09-09: aprobación global de trabajo pendiente",
       "priority": "P0",
       "title": "Harness agnóstico: integración y evidencia verificable",
-      "evidence": "Remediación incremental; claims de sustitución permanecen limitados por evidencia operacional."
+      "evidence": "Remediación incremental; claims de sustitución permanecen limitados por evidencia operacional.",
+      "phase": "B",
+      "deferral": "Ruta 2026-09-26 (ADR-002): fuera del WIP; retoma en la Fase B. Lo mergeado permanece; el resto espera a su fase."
     },
     {
       "id": "SE-395",
@@ -159,7 +190,8 @@
       "approval": "Operadora 2026-09-09: aprobación global de trabajo pendiente",
       "priority": "P1",
       "title": "Savia Vaults Adaptive Connectivity",
-      "evidence": "PR #1122: aislamiento de grafo por dome. PR #1131: V02 de cache por principal/policy/contenido, provenance y límites mergeada con 349 tests SaviaVaults. Experimento adaptativo permanece pendiente."
+      "evidence": "PR #1122: aislamiento de grafo por dome. PR #1131: V02 de cache por principal/policy/contenido, provenance y límites mergeada con 349 tests SaviaVaults. Experimento adaptativo permanece pendiente.",
+      "phase": "E"
     },
     {
       "id": "SE-396",
@@ -168,16 +200,19 @@
       "priority": "P0",
       "title": "Harness operational integrity & verifiable substitution",
       "evidence": "PRs #1112/#1113/#1122/#1129/#1130/#1131/#1132/#1133/#1135 mergeadas. H02/H10/A01b/A01c: autoridad previa al executor, composición aislada y sustitución operacional Codex/OpenCode. Auditoría AC local: docs/evidence/SE-396-closure-review-20260924.md; 127 tests dual-cli, 18 de planificación y gate canónico previo 6/6. Doctor nativo permanece DEGRADED_SAFE; recibo A01c requiere revisión de procedencia.",
-      "note": "Paquete de revisión preparado 2026-09-24. H04 requiere canaries reales y H09 validación humana de evidencia operacional; falta baseline global verde. El merge no autogradúa."
+      "note": "Paquete de revisión preparado 2026-09-24. H04 requiere canaries reales y H09 validación humana de evidencia operacional; falta baseline global verde. El merge no autogradúa.",
+      "phase": "B"
     },
     {
       "id": "SE-397",
-      "status": "IMPLEMENTING",
+      "status": "DEFERRED",
       "approval": "Operadora 2026-09-09: F0 y fases posteriores autorizadas con gates",
       "priority": "P1",
       "title": "Savia Architectural Self-Knowledge & Operational Excellence",
       "note": "Repriorizado 2026-09-24 tras cierre SE-396 y reconciliación I2E/AEK F0. F0 aprobado; F1-F4 y F5A mergeados (PRs #1123-#1125, #1127 y #1128); resto de F5 y F6-F10 pendientes con gates de fase, sin elevar authority",
-      "evidence": "F4 PR #1127; F5A PR #1128 mergeado 2026-09-20 con CI verde, paridad 13/13, p50 49→6 ms y p95 50→7 ms. No existe review formal registrado en GitHub; no equivale a graduación operacional"
+      "evidence": "F4 PR #1127; F5A PR #1128 mergeado 2026-09-20 con CI verde, paridad 13/13, p50 49→6 ms y p95 50→7 ms. No existe review formal registrado en GitHub; no equivale a graduación operacional",
+      "phase": "D",
+      "deferral": "Ruta 2026-09-26 (ADR-002): fuera del WIP; retoma en la Fase D. Lo mergeado permanece; el resto espera a su fase."
     },
     {
       "id": "SE-398",
@@ -186,7 +221,8 @@
       "priority": "P2",
       "title": "Savia Desktop Runtime & Surface Support",
       "note": "F0 completado y pendiente de revisión; F1 absorbe isolated-home, version gate, RPC humano tipado y freshness post-éxito, pero F1-F9 continúan bloqueadas por revisión",
-      "evidence": "docs/specs/SE-398-f0-desktop-runtime-discovery.md"
+      "evidence": "docs/specs/SE-398-f0-desktop-runtime-discovery.md",
+      "phase": "E"
     },
     {
       "id": "SE-399",
@@ -195,7 +231,8 @@
       "priority": "P3",
       "title": "Savia Visual Installer & Environment Bootstrap",
       "note": "F0 completado y pendiente de revisión; F1 absorbe transacción/compensación, merge ownership-aware y reemplazo atómico, pero F1-F13 continúan bloqueadas por revisión",
-      "evidence": "docs/specs/SE-399-f0-installer-discovery.md"
+      "evidence": "docs/specs/SE-399-f0-installer-discovery.md",
+      "phase": "E"
     },
     {
       "id": "SE-400",
@@ -204,15 +241,34 @@
       "priority": "P1",
       "title": "Model-Agnostic Savia Ablation & Minimal Sufficient Kernel",
       "note": "F0 completado y pendiente de revisión; no delete/move/deprecation/pack migration ni F1",
-      "evidence": "docs/specs/SE-400-f0-model-agnostic-ablation-inventory.md"
+      "evidence": "docs/specs/SE-400-f0-model-agnostic-ablation-inventory.md",
+      "phase": "D"
     },
     {
       "id": "SE-401",
       "status": "PROPOSED",
       "priority": "P0",
       "title": "Intent-to-Effect Execution Architecture (I2E)",
-      "note": "Tras cierre verificable SE-396, F0 de solo lectura con L31: validar frontera contra repositorio canónico AEK y resolver colisión inter-repositorio SE-401; 8-16 h combinadas, tope 120k tokens/16 h. No implementar ni graduar antes de aprobación explícita. AEK SE-401 es otro programa; no renumerar unilateralmente.",
-      "evidence": "docs/specs/SE-401-intent-to-effect-execution-architecture.spec.md"
+      "note": "Tras cierre verificable SE-396, F0 de solo lectura con L31: validar frontera contra repositorio canónico AEK y resolver colisión inter-repositorio SE-401; 8-16 h combinadas, tope 120k tokens/16 h. No implementar ni graduar antes de aprobación explícita. AEK SE-401 es otro programa; no renumerar unilateralmente. ADR-002: reescribir alineada a TEE v1.1 (Sufficiency, Commitment, Outcome, Disposition, Authority Lease) y renombrar en Savia para resolver la colisión de ID con AEK. Fase B.",
+      "evidence": "docs/specs/SE-401-intent-to-effect-execution-architecture.spec.md",
+      "phase": "B"
     }
-  ]
+  ],
+  "route": {
+    "adr": "docs/decisions/adr-002-ruta-evolutiva-harness-conformance-lab.md",
+    "current_phase": "A",
+    "phases": [
+      "A",
+      "B",
+      "C",
+      "D",
+      "E",
+      "F"
+    ],
+    "wip_limit": {
+      "savia_implementing": 3,
+      "labs_active": 1
+    },
+    "deadlines": "none"
+  }
 }

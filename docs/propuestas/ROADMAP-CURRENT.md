@@ -1,25 +1,10 @@
 # Roadmap Current (GENERATED — no editar; fuente: planning-state.json)
 
 - SE-376 [IMPLEMENTING] Quality Debt Burn-down — evidencia: PRs #1097 y #1100: waves 1-2 redujeron deuda 133→48; objetivo final 0 o excepciones aprobadas permanece pendiente
-- SE-377 [IMPLEMENTING] Policy Enforcement Completeness — evidencia: PR #1084 (negative tests + receipts visibility); gate de bloqueo CI pendiente
 - SE-378 [IMPLEMENTING] Planning State Machine — evidencia: PR #1085: planning-state canónico, CLI roadmap y vista generada mergeados; reconciliación factual continua pendiente
-- SE-380 [IMPLEMENTING] Capability Lifecycle, Usage & Complexity Budget — evidencia: PR #1085: entropy v0, usage report y consolidation advisor mergeados; lifecycle completo y calibración permanecen pendientes
-- SE-381 [IMPLEMENTING] Risk-Weighted Behavioral Eval Matrix — evidencia: PR #1084 (matriz report-only); gate de bloqueo diferido
-- SE-383 [IMPLEMENTING] Harness Adversarial / Chaos Suite — evidencia: PR #1087: runner y fixture fundador worktree-aware mergeados; matriz completa y requisito CI L3/L4 permanecen pendientes
-- SE-384 [IMPLEMENTING] Savia Self-Evolution Benchmark (pilot) — evidencia: PR #1086: runner y 3 pilotos; PR #1088: dataset ampliado a 20 tareas. Baseline de ciclo completo y graduación permanecen pendientes
-- SE-385 [IMPLEMENTING] LinkedIn Integration — Social Networks Agent + LinkedIn Skill — evidencia: PR #1088: MVP1 agent+skill+import+digest+status y tests; feasibility GO-partial. OAuth/publicación y resto del lifecycle permanecen pendientes
-- SE-386 [IMPLEMENTING] Constitutional Runtime Contracts (LAWS + Capability Contracts + Safety Metadata) — evidencia: PR #1090: F1+F2 laws, registry, descriptors y checks mergeados; F3-F5 permanecen pendientes
-- SE-387 [IMPLEMENTING] Coherence Closure Program (umbrella: gates graduation, constitutional L4, harness F2-F5, eval/debt burn-down, generated truth, entropy v1, benchmark) — evidencia: PR #1099 cerró el bloque funcional y PR #1104 reparó exactly-once; no está graduado: cierre humano, calibración y gaps residuales siguen pendientes
-- SE-388 [IMPLEMENTING] Savia ↔ Codex Frontend Adapter — evidencia: Day-1 2026-09-06: AUTHENTICATED (ChatGPT) + PROBED + L0-L2 CANARIES EVIDENCED (5/5; L1 write filesystem-verified; dogfood receipted). DEGRADED_SAFE max_verified_risk=L2, L3/L4 BLOCKED_OR_HUMAN_REROUTE. P2 no-auth mergeado (#1105). P3 pendiente: MCP e2e wire + L4 enforcement equivalente (no existe PreToolUse-equivalente).
-- SE-389 [IMPLEMENTING] Regulatory Policy-as-Code & Compliance Context — evidencia: MVP en implementación; validación legal y promoción a EXECUTABLE permanecen como gates humanos.
-- SE-390 [IMPLEMENTING] Savia Documentation & Identity Evolution — evidencia: Migración documental incremental; claims fuertes continúan ligados a evidencia.
-- SE-391 [IMPLEMENTING] Savia Codex Autonomy Profile — evidencia: PR #1108: perfil autonomous-l2 mergeado; cold-start y efectos externos/L3/L4 conservan gates y evidencia separada.
 - SE-392 [APPROVED] Runtime común de Savia para Codex y OpenCode — evidencia: Spec persistida; equivalencia funcional y E2E aún no demostradas.
-- SE-393 [IMPLEMENTING] Contratos de un harness agnóstico — evidencia: PR #1110: contratos del harness agnóstico mergeados; sustitución operacional aún no graduada.
-- SE-394 [IMPLEMENTING] Harness agnóstico: integración y evidencia verificable — evidencia: Remediación incremental; claims de sustitución permanecen limitados por evidencia operacional.
 - SE-395 [APPROVED] Savia Vaults Adaptive Connectivity — evidencia: PR #1122: aislamiento de grafo por dome. PR #1131: V02 de cache por principal/policy/contenido, provenance y límites mergeada con 349 tests SaviaVaults. Experimento adaptativo permanece pendiente.
 - SE-396 [IMPLEMENTING] Harness operational integrity & verifiable substitution — evidencia: PRs #1112/#1113/#1122/#1129/#1130/#1131/#1132/#1133/#1135 mergeadas. H02/H10/A01b/A01c: autoridad previa al executor, composición aislada y sustitución operacional Codex/OpenCode. Auditoría AC local: docs/evidence/SE-396-closure-review-20260924.md; 127 tests dual-cli, 18 de planificación y gate canónico previo 6/6. Doctor nativo permanece DEGRADED_SAFE; recibo A01c requiere revisión de procedencia.
-- SE-397 [IMPLEMENTING] Savia Architectural Self-Knowledge & Operational Excellence — evidencia: F4 PR #1127; F5A PR #1128 mergeado 2026-09-20 con CI verde, paridad 13/13, p50 49→6 ms y p95 50→7 ms. No existe review formal registrado en GitHub; no equivale a graduación operacional
 - SE-398 [APPROVED] Savia Desktop Runtime & Surface Support — evidencia: docs/specs/SE-398-f0-desktop-runtime-discovery.md
 - SE-399 [APPROVED] Savia Visual Installer & Environment Bootstrap — evidencia: docs/specs/SE-399-f0-installer-discovery.md
 - SE-400 [APPROVED] Model-Agnostic Savia Ablation & Minimal Sufficient Kernel — evidencia: docs/specs/SE-400-f0-model-agnostic-ablation-inventory.md

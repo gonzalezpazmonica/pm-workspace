@@ -1,6 +1,6 @@
 # SE-384 — Savia Self-Evolution Benchmark
 
-**Estado:** APPROVED — Mónica (operadora), 2026-09-05: "Apruebo todas, implementa, pr y merge"
+**Estado:** DEFERRED — Mónica (operadora), 2026-09-05: "Apruebo todas, implementa, pr y merge"
 **Prioridad:** P1 strategic · **Developer Type:** agent-team · **Context Risk:** high
 **Origen:** auditoría externa §15 (CONFIRMED — gap real)
 

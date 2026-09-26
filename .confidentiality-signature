@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=a1e15e67e9a5f7a7a82a521b7c6ec6ed0367e1d1e63e0198cc9d527f835e081e
-timestamp=2026-09-26T17:24:31Z
-branch=fix/provider-agnostic-tiers
-head_commit=b5742c97
-signature=ce8aa1c1911321b07ad60e75b071a60cc545ca8990a90f5c3fb8fbeadfc876a5
+diff_hash=33d223fe9e749373a6a96d30919ab4d49875f5bb4cbae1ff906e5848d3f30735
+timestamp=2026-09-26T20:12:36Z
+branch=docs/ruta-evolutiva-fase-a
+head_commit=a9e40c9a
+signature=f5dc11ab3fae66945c0a7197cbb2cc19e41cc1cbf27c0715cef2ee7a096521d6

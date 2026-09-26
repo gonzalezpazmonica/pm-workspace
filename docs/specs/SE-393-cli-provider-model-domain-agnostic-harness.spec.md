@@ -1,6 +1,6 @@
 ---
 id: SE-393
-status: IMPLEMENTING
+status: DEFERRED
 priority: P0
 created: 2026-09-07
 developer_type: agent-single

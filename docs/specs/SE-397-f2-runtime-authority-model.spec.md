@@ -1,7 +1,7 @@
 ---
 id: SE-397-F2
 parent: SE-397
-status: APPROVED
+status: DEFERRED
 priority: P0
 developer_type: agent-single
 created: 2026-09-14

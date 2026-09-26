@@ -1,5 +1,5 @@
 ---
-status: IMPLEMENTING
+status: DEFERRED
 priority: P1
 developer_type: agent-single
 extends: SE-388

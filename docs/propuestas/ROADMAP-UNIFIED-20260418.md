@@ -11,6 +11,9 @@ related: SAVIA-SUPERPOWERS-ROADMAP.md, savia-enterprise/DEVELOPMENT-PLAN.md
 
 # Roadmap Unificado — Savia Autonomous Iteration (SUPERSEDED)
 
+> **HISTÓRICO (2026-09-26).** Este roadmap ya no rige. Ruta vigente: `docs/ROADMAP.md` (ADR-002); estado: `docs/propuestas/planning-state.json`.
+
+
 > **SUPERSEDED 2026-04-18 — Ver `docs/propuestas/ROADMAP.md` (fuente canónica).**
 > Este documento v1 se mantiene por auditoría. Sus waves A/B/C/D están absorbidas en el nuevo ROADMAP §Tier 1-7. Sección C (iteration strategy) es la base de ROADMAP §3.
 

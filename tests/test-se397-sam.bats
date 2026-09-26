@@ -1,7 +1,21 @@
 #!/usr/bin/env bats
 
+# Ref: docs/decisions/adr-002-ruta-evolutiva-harness-conformance-lab.md (planning statuses, WIP)
 setup() {
+  set -o pipefail
   cd "$BATS_TEST_DIRNAME/.."
+  TMP=$(mktemp -d)
+}
+
+teardown() {
+  rm -rf "$TMP"
+}
+
+_fixture_state() { # <initiative-status> <spec-status>
+  mkdir -p "$TMP/docs/propuestas" "$TMP/docs/specs"
+  printf '{"version":2,"tracked_spec_floor":900,"completion_contract_floor":900,"initiatives":[{"id":"SE-901","status":"%s","approval":"test","title":"fixture"}]}\n' "$1" \
+    > "$TMP/docs/propuestas/planning-state.json"
+  printf -- '---\nstatus: %s\n---\n# SE-901\n' "$2" > "$TMP/docs/specs/SE-901-fixture.spec.md"
 }
 
 @test "SE-397 F2 CLI, schema and runtime declarations exist" {
@@ -29,10 +43,11 @@ setup() {
   [[ "$output" == *"SCM: FRESH"* ]]
 }
 
-@test "SE-397 remains implementing and F2 runtime views are present" {
+@test "SE-397 is not graduated (ADR-002: DEFERRED to phase D) and F2 runtime views are present" {
   run grep -A8 '"id": "SE-397"' docs/propuestas/planning-state.json
   [ "$status" -eq 0 ]
-  [[ "$output" == *'"status": "APPROVED"'* || "$output" == *'"status": "IMPLEMENTING"'* ]]
+  [[ "$output" != *'"status": "IMPLEMENTED"'* ]]
+  [[ "$output" == *'"status": "APPROVED"'* || "$output" == *'"status": "IMPLEMENTING"'* || "$output" == *'"status": "DEFERRED"'* ]]
   [ -f .scm/views/runtime.json ]
   [ -f .scm/views/authority.json ]
   [ -f .scm/views/failure.json ]
@@ -95,4 +110,49 @@ setup() {
   second_revision=$(python3 scripts/sam.py baseline --events "$second" | jq -r .corpus_revision)
   [ "$first_revision" = "$second_revision" ]
   rm -f "$first" "$second"
+}
+
+@test "safety: roadmap.sh runs under set -uo pipefail" {
+  grep -q '^set -uo pipefail' scripts/roadmap.sh
+}
+
+@test "boundary: ADR-002 WIP boundary holds (at most 3 IMPLEMENTING)" {
+  n=$(python3 -c "import json;print(sum(1 for i in json.load(open('docs/propuestas/planning-state.json'))['initiatives'] if i['status']=='IMPLEMENTING'))")
+  [ "$n" -le 3 ]
+}
+
+@test "roadmap validate accepts a DEFERRED initiative with matching DEFERRED spec" {
+  _fixture_state DEFERRED DEFERRED
+  run env REPO_ROOT="$TMP" bash scripts/roadmap.sh validate
+  [ "$status" -eq 0 ]
+  [[ "$output" == *"PASS: planning state consistente"* ]]
+}
+
+@test "invalid: roadmap validate rejects a status outside the vocabulary" {
+  _fixture_state CLOSED_PARTIAL CLOSED_PARTIAL
+  run env REPO_ROOT="$TMP" bash scripts/roadmap.sh validate
+  [ "$status" -ne 0 ]
+  [[ "$output" == *"estados inválidos: CLOSED_PARTIAL"* ]]
+}
+
+@test "reject: DEFERRED state with an IMPLEMENTING spec header fails" {
+  _fixture_state DEFERRED IMPLEMENTING
+  run env REPO_ROOT="$TMP" bash scripts/roadmap.sh validate
+  [ "$status" -ne 0 ]
+  [[ "$output" == *"SE-901 spec=IMPLEMENTING vs state=DEFERRED"* ]]
+}
+
+@test "missing: nonexistent planning state file fails with error" {
+  mkdir -p "$TMP/docs/propuestas"
+  run env REPO_ROOT="$TMP" bash scripts/roadmap.sh validate
+  [ "$status" -ne 0 ]
+  [[ "$output" == *"falta"* ]]
+}
+
+@test "empty: state without floors is rejected" {
+  mkdir -p "$TMP/docs/propuestas" "$TMP/docs/specs"
+  printf '{"version":2,"initiatives":[]}\n' > "$TMP/docs/propuestas/planning-state.json"
+  run env REPO_ROOT="$TMP" bash scripts/roadmap.sh validate
+  [ "$status" -ne 0 ]
+  [[ "$output" == *"tracked_spec_floor ausente"* ]]
 }
