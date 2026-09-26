@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=0a796118a6875d29b6fb88407bbb77b4f632c0bc64d3184b4e82816a12718471
-timestamp=2026-09-26T22:09:40Z
-branch=agent/se378-log-wip
-head_commit=40436756
-signature=aab26deb99f4204f6d78a84ec5c563f4bded5e96dc403fecefbb732f94ad9306
+diff_hash=5a5d27d107df232cda31af999cc5ff71bf41ddedbaceb72a349233bcf5484e66
+timestamp=2026-09-26T22:43:57Z
+branch=agent/se376-truth
+head_commit=fa6ded4f
+signature=7951a1a5c806854a2217df6d9d6b993bb54b09d8e93b814059ef5c56d07f975d
