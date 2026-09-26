@@ -6,6 +6,16 @@
 > Each entry: date, spec ID, status transition, optional rationale.
 > Ref: SE-222 S1 OKF Adoptable Patterns (log.md convention).
 
+## 2026-09-27 SE-376 IMPLEMENTING
+
+Reapertura de deuda (decisión de la operadora). El wave 1 de #1097 declaró
+"deuda 133→48, objetivo cumplido" creando 121 tests de presencia (score 23 en el
+auditor, fallidos desde su creación por un patrón anclado) y marcando 130 skills
+`stable` sin evidencia; el wave 2 (#1100) añadió 5 más del mismo tipo que
+afirmaban un estado no alcanzado. Calibrated exige ahora test certificado (>=80).
+Deuda real 125/134; presupuesto vuelve a wave 0 (baseline 133). Se retiran los
+126 tests de presencia.
+
 ## 2026-09-19 SE-397 F5A IMPLEMENTED_PENDING_HUMAN_REVIEW
 
 Fast exit implementado con oracle 13/13, p50 local `49 -> 6` ms y p95

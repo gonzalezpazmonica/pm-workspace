@@ -23,12 +23,12 @@ Este kanban da un veredicto reproducible por skill — sin opinión humana — p
 | **Stub** | Falta DOMAIN.md, o SKILL.md `<50` líneas | Decidir: terminar o eliminar |
 | **Deprecated** | Frontmatter `deprecated: true` | Eliminar tras periodo de gracia |
 
-`_template` queda excluido (scaffolding, no deployable).
+`_template*` queda excluido (scaffolding, no deployable).
 
 ## Reglas de transición
 
 - **Stub → Incomplete**: añadir DOMAIN.md y al menos 50 líneas de protocolo en SKILL.md.
-- **Incomplete → Calibrated**: marcar `maturity: stable` + crear `tests/test-<skill>.bats` o `tests/evals/*<skill>*.bats`.
+- **Incomplete → Calibrated**: `maturity: stable` + `tests/test-<skill>.bats` o `tests/evals/*<skill>*.bats` **certificado por `scripts/test-auditor.sh` (≥80, mismo umbral que G6b)**. La mera existencia del fichero no cuenta: en #1097 121 tests de presencia (score 23) inflaron el kanban de 133 a 48 no calibradas; la cifra real medida el 2026-09-27 era 125.
 - **Calibrated → Deprecated**: añadir `deprecated: true` al frontmatter cuando se reemplaza la skill o se retira del catálogo.
 - **Cualquier → Deprecated**: solo vía marcador explícito en frontmatter, nunca implícito.
 
