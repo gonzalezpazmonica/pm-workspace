@@ -97,12 +97,15 @@ echo "--- 6. CHANGELOG Version Links ---"
 changelog="$ROOT/CHANGELOG.md"
 if [[ -f "$changelog" ]]; then
   missing_links=0
+  # Una pasada por conjunto (versiones vs enlaces) en lugar de un grep por
+  # versión sobre todo el fichero (561 versiones × 13k líneas ≈ 27 s).
   while IFS= read -r ver; do
-    if ! grep -q "^\[${ver}\]: https://" "$changelog"; then
-      fail "CHANGELOG.md: version $ver is missing its reference link at end of file"
-      ((missing_links++))
-    fi
-  done < <(grep -oP '(?<=^## \[)[0-9]+\.[0-9]+\.[0-9]+(?=\])' "$changelog")
+    [[ -z "$ver" ]] && continue
+    fail "CHANGELOG.md: version $ver is missing its reference link at end of file"
+    ((missing_links++))
+  done < <(comm -23 \
+    <(grep -oP '(?<=^## \[)[0-9]+\.[0-9]+\.[0-9]+(?=\])' "$changelog" | sort -u) \
+    <(grep -oP '^\[\K[0-9]+\.[0-9]+\.[0-9]+(?=\]: https://)' "$changelog" | sort -u))
   [[ $missing_links -eq 0 ]] && pass "All CHANGELOG versions have reference links"
 else
   fail "CHANGELOG.md not found"
@@ -162,7 +165,13 @@ hook_script="$ROOT/scripts/hook-bench-all.sh"
 if [[ -f "$hook_baseline" && -x "$hook_script" ]]; then
   hook_base=$(cat "$hook_baseline" | tr -d '[:space:]')
   hook_run_ok=0
-  if "$hook_script" --runs 5 --quiet >/dev/null 2>&1; then
+  # HOOK_BENCH_REPORT: reutiliza un informe ya generado (tests de la lógica del
+  # ratchet); sin él se ejecuta el benchmark completo (~24 s).
+  if [[ -n "${HOOK_BENCH_REPORT:-}" ]]; then
+    hook_run_ok=1
+    hook_report="$HOOK_BENCH_REPORT"
+    [[ -f "$hook_report" ]] || { hook_report=""; fail "HOOK_BENCH_REPORT not found: $HOOK_BENCH_REPORT"; }
+  elif "$hook_script" --runs 5 --quiet >/dev/null 2>&1; then
     hook_run_ok=1
     hook_report=$(ls -t "$ROOT/output/hook-bench-report-"*.md 2>/dev/null | head -1)
   else

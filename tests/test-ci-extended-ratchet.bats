@@ -17,6 +17,10 @@ setup() {
   export CI_BASELINE_DIR="$BATS_TEST_TMPDIR/ci-baseline"
   mkdir -p "$CI_BASELINE_DIR"
   cp .ci-baseline/*.count .ci-baseline/*.pct "$CI_BASELINE_DIR/"
+  # Speed: ratchet-logic tests reuse a fixture hook-bench report (violations ==
+  # committed baseline) instead of re-running the ~24 s benchmark 14 times.
+  export HOOK_BENCH_REPORT="$BATS_TEST_TMPDIR/hook-bench-report.md"
+  printf 'Critical hooks: 20 (violations: %s)\n' "$(tr -d '[:space:]' < .ci-baseline/hook-critical-violations.count)" > "$HOOK_BENCH_REPORT"
 }
 
 teardown() {
@@ -92,7 +96,8 @@ teardown() {
 # ── Execution ──────────────────────────────────────────────────────────────
 
 @test "ci-extended-checks runs end-to-end with exit 0 when all pass" {
-  run bash scripts/ci-extended-checks.sh
+  # End-to-end: the real hook benchmark runs here (no fixture report).
+  run env -u HOOK_BENCH_REPORT bash scripts/ci-extended-checks.sh
   [ "$status" -eq 0 ]
 }
 
@@ -255,4 +260,17 @@ teardown() {
   echo "999" > "$CI_BASELINE_DIR/agent-size-violations.count"
   [ "$(cat .ci-baseline/*.count .ci-baseline/*.pct | sha256sum)" = "$before" ]
   grep -q 'CI_BASELINE_DIR="${CI_BASELINE_DIR:-$ROOT/.ci-baseline}"' scripts/ci-extended-checks.sh
+}
+
+@test "missing: a nonexistent HOOK_BENCH_REPORT fails explicitly" {
+  run env HOOK_BENCH_REPORT="$BATS_TEST_TMPDIR/nope.md" bash scripts/ci-extended-checks.sh
+  [ "$status" -ne 0 ]
+  [[ "$output" == *"HOOK_BENCH_REPORT not found"* ]]
+}
+
+@test "reject: fixture report above the hook baseline is flagged as a regression" {
+  printf 'Critical hooks: 20 (violations: 999)\n' > "$HOOK_BENCH_REPORT"
+  run bash scripts/ci-extended-checks.sh
+  [ "$status" -ne 0 ]
+  [[ "$output" == *"(regression)"* ]]
 }
