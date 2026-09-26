@@ -46,7 +46,7 @@ JSON
   [[ "$output" == *"FAIL: evidencia AC inválida para SE-396"* ]]
 }
 
-@test "validate rejects governed implemented state whose PR is not on main" {
+@test "validate rejects governed implemented state citing a nonexistent merge PR on main" {
   write_implemented_state '{"merge_pr":99,"acceptance_evidence":[{"criterion":"AC-01","file":"tests/ac.bats"}],"human_review":{"status":"APPROVED","evidence":"review-1"}}'
 
   run env REPO_ROOT="$FIXTURE" bash "$SCRIPT" validate
@@ -62,4 +62,50 @@ JSON
 
   [ "$status" -eq 0 ]
   [[ "$output" == *"PASS: planning state consistente"* ]]
+}
+
+@test "safety: roadmap validator runs under set -uo pipefail" {
+  grep -q '^set -uo pipefail' "$SCRIPT"
+}
+
+@test "boundary: initiative below the completion floor is exempt from the completion contract" {
+  write_implemented_state '{}'
+  jq '.completion_contract_floor=397' "$FIXTURE/docs/propuestas/planning-state.json" > "$FIXTURE/state.tmp"
+  mv "$FIXTURE/state.tmp" "$FIXTURE/docs/propuestas/planning-state.json"
+
+  run env REPO_ROOT="$FIXTURE" bash "$SCRIPT" validate
+
+  [ "$status" -eq 0 ]
+  [[ "$output" == *"PASS: planning state consistente"* ]]
+}
+
+@test "empty: governed implemented state with empty completion object is rejected" {
+  write_implemented_state '{}'
+
+  run env REPO_ROOT="$FIXTURE" bash "$SCRIPT" validate
+
+  [ "$status" -ne 0 ]
+  [[ "$output" == *"FAIL: IMPLEMENTED sin PR mergeado verificable: SE-396"* ]]
+  [[ "$output" == *"FAIL: IMPLEMENTED sin revisión humana aprobada: SE-396"* ]]
+}
+
+@test "missing: implemented state without LOG entry fails even with full evidence" {
+  write_implemented_state '{"merge_pr":42,"acceptance_evidence":[{"criterion":"AC-01","file":"tests/ac.bats"}],"human_review":{"status":"APPROVED","evidence":"review-1"}}'
+  printf '## 2026-09-26 SE-396 IMPLEMENTING\n' > "$FIXTURE/docs/propuestas/LOG.md"
+
+  run env REPO_ROOT="$FIXTURE" bash "$SCRIPT" validate
+
+  [ "$status" -ne 0 ]
+  [[ "$output" == *"FAIL: estado vigente sin registro en LOG.md: SE-396"* ]]
+}
+
+@test "current view lists IMPLEMENTING initiatives with their evidence" {
+  write_implemented_state '{}'
+  jq '.initiatives[0].status="IMPLEMENTING"' "$FIXTURE/docs/propuestas/planning-state.json" > "$FIXTURE/state.tmp"
+  mv "$FIXTURE/state.tmp" "$FIXTURE/docs/propuestas/planning-state.json"
+
+  run env REPO_ROOT="$FIXTURE" bash "$SCRIPT" current
+
+  [ "$status" -eq 0 ]
+  [[ "$output" == *"- SE-396 [IMPLEMENTING]"*"evidencia: PR #42"* ]]
 }
