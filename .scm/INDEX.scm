@@ -1,6 +1,6 @@
 # Savia Capability Map — INDEX
-> hash: dc8556ffebdd | resources: 1470
-> 295 commands · 136 skills · 89 agents · 950 scripts
+> hash: 974f2ae9aee3 | resources: 1474
+> 295 commands · 139 skills · 90 agents · 950 scripts
 
 [analysis] Trace Optimize — across,distributed,optimize,rates,sampling — cmd:.claude/commands/trace-optimize.md
 [analysis] agent-activity — activity,agent,executions,recent,show — cmd:.claude/commands/agent-activity.md
@@ -440,7 +440,7 @@
 [governance] governance-audit — acciones,auditoría,cumplimiento,permitidas,política — cmd:.claude/commands/governance-audit.md
 [governance] governance-audit-log — append,audit,chain,governance,hash — script:scripts/governance-audit-log.sh
 [governance] governance-enterprise — audit,certification,checks,compliance,decision — cmd:.claude/commands/governance-enterprise.md
-[governance] governance-enterprise — audita,certifican,compliance,decisiones,enterprise — skill:.claude/skills/governance-enterprise/SKILL.md
+[governance] governance-enterprise — audita,certificaciones,compliance,decisiones,emite — skill:.claude/skills/governance-enterprise/SKILL.md
 [governance] governance-query — capa,consulta,gobernanza,governance,query — script:scripts/governance-query.sh
 [governance] legal-compliance —  — agent:.opencode/agents/legal-compliance.md
 [governance] opus47-compliance-check — batches,check,compliance,migration,opus — script:scripts/opus47-compliance-check.sh
@@ -824,6 +824,7 @@
 [planning] graph-query — conocimiento,consulta,grafo,lenguaje,natural — cmd:.claude/commands/graph-query.md
 [planning] graphrag-quality-gate — gate,graphrag,quality — script:scripts/graphrag-quality-gate.sh
 [planning] graphrag-quality-gates — gates,graphrag,quality — script:scripts/graphrag-quality-gates.sh
+[planning] grc-evidence-analysis — contradicciones,controles,detectan,evalúan,evidencias — skill:.claude/skills/grc-evidence-analysis/SKILL.md
 [planning] grounding-verify — closed,fail,grounding,lección — script:scripts/grounding-verify.sh
 [planning] guided-work — acompaña,adaptando,guiado,necesidades,paso — cmd:.claude/commands/guided-work.md
 [planning] hallucination-fast-judge — actually,calls,cited,commands,draft — agent:.opencode/agents/hallucination-fast-judge.md
@@ -1259,6 +1260,9 @@
 [quality] fix-survival-check — audit,check,spec,survival,weekly — script:scripts/fix-survival-check.sh
 [quality] focal-decisions-log — append,audit,decisiones,decisions,director — script:scripts/focal-decisions-log.sh
 [quality] frontend-test-runner — commit,component,coverage,execution,frontend — agent:.opencode/agents/frontend-test-runner.md
+[quality] grc-auditor — audita,auditoría,controles,cumplimiento,evidencias — agent:.opencode/agents/grc-auditor.md
+[quality] grc-framework-router — aplicabilidad,auditoría,compara,delimita,marcos — skill:.claude/skills/grc-framework-router/SKILL.md
+[quality] grc-gap-assessment — acciones,assessment,auditoría,construye,ejecutivo — skill:.claude/skills/grc-gap-assessment/SKILL.md
 [quality] grill-me — adversarial,assumption,before,break,breaks — skill:.claude/skills/grill-me/SKILL.md
 [quality] guardrail-audit — audit,auditoría,cumplimiento,guardrail,principio — script:scripts/guardrail-audit.sh
 [quality] guardrail-negative-tests — enforcement,guardrail,hooks,negative,tests — script:scripts/guardrail-negative-tests.sh

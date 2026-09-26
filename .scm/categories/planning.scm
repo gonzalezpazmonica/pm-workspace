@@ -1,5 +1,5 @@
 # planning — Savia Capability Map (L1)
-> 640 resources
+> 641 resources
 
 - **/decide-architecture** (cmd): Clasifica una tarea como WORKFLOW (deterministica) o AGENT (loop). Bias hacia workflow per Anthropic. Sugiere plantilla inicial. Mide accuracy contra corpus curado de 20 tareas.
 - **_template** (skill): TEMPLATE — copia este directorio para crear una skill nueva. NO se carga en runtime.
@@ -261,6 +261,7 @@
 - **graph-query** (cmd): Consulta el grafo de conocimiento en lenguaje natural
 - **graphrag-quality-gate** (script): graphrag-quality-gate.sh — SE-030-T
 - **graphrag-quality-gates** (script): graphrag-quality-gates.sh — SE-030
+- **grc-evidence-analysis** (skill): Valida procedencia y suficiencia de pruebas GRC. Usar cuando se evalúan controles, se revisan evidencias o se detectan contradicciones.
 - **grounding-verify** (script): SE-387 C/F2 — Grounding fail-closed (SE-383 lección).
 - **guided-work** (cmd): Trabajo guiado — Savia te acompaña paso a paso con preguntas, adaptando el ritmo a tus necesidades
 - **hallucination-fast-judge** (agent): Recommendation Tribunal judge — verifies that entities cited in a draft (files, functions, flags, libs, paths, commands) actually exist via tool calls
