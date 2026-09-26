@@ -13,8 +13,112 @@ Reapertura de deuda (decisión de la operadora). El wave 1 de #1097 declaró
 auditor, fallidos desde su creación por un patrón anclado) y marcando 130 skills
 `stable` sin evidencia; el wave 2 (#1100) añadió 5 más del mismo tipo que
 afirmaban un estado no alcanzado. Calibrated exige ahora test certificado (>=80).
-Deuda real 125/134; presupuesto vuelve a wave 0 (baseline 133). Se retiran los
+Deuda real 128/137 (125/134 antes de las 3 skills GRC de #1142); presupuesto vuelve a wave 0 (baseline 133). Se retiran los
 126 tests de presencia.
+
+## 2026-09-26 SE-375 IMPLEMENTED
+
+Backfill SE-378: estado vigente en planning-state; la transición original no se registró en LOG.md. Evidencia: PR #1083 (S1); S2 rule/hook kinds y vistas derivadas pendientes
+
+## 2026-09-26 SE-376 IMPLEMENTING
+
+Backfill SE-378: estado vigente en planning-state; la transición original no se registró en LOG.md. Evidencia: PRs #1097 y #1100: waves 1-2 redujeron deuda 133→48; objetivo final 0 o excepciones aprobadas permanece pendiente. Fase ADR-002: A.
+
+## 2026-09-26 SE-377 DEFERRED
+
+ADR-002: aplazada a fase C; lo mergeado permanece. Transición aplicada en PR #1140 sin registro en LOG.md; se registra ahora (SE-378).
+
+## 2026-09-26 SE-378 IMPLEMENTING
+
+Backfill SE-378: estado vigente en planning-state; la transición original no se registró en LOG.md. Evidencia: PR #1085: planning-state canónico, CLI roadmap y vista generada mergeados; reconciliación factual continua pendiente. Fase ADR-002: A.
+
+## 2026-09-26 SE-379 IMPLEMENTED
+
+Backfill SE-378: estado vigente en planning-state; la transición original no se registró en LOG.md. Evidencia: PR #1082
+
+## 2026-09-26 SE-380 DEFERRED
+
+ADR-002: aplazada a fase D; lo mergeado permanece. Transición aplicada en PR #1140 sin registro en LOG.md; se registra ahora (SE-378).
+
+## 2026-09-26 SE-381 DEFERRED
+
+ADR-002: aplazada a fase C; lo mergeado permanece. Transición aplicada en PR #1140 sin registro en LOG.md; se registra ahora (SE-378).
+
+## 2026-09-26 SE-383 DEFERRED
+
+ADR-002: aplazada a fase C; lo mergeado permanece. Transición aplicada en PR #1140 sin registro en LOG.md; se registra ahora (SE-378).
+
+## 2026-09-26 SE-384 DEFERRED
+
+ADR-002: aplazada a fase C; lo mergeado permanece. Transición aplicada en PR #1140 sin registro en LOG.md; se registra ahora (SE-378).
+
+## 2026-09-26 SE-385 DEFERRED
+
+ADR-002: aplazada a aparcado (tras Gate D); lo mergeado permanece. Transición aplicada en PR #1140 sin registro en LOG.md; se registra ahora (SE-378).
+
+## 2026-09-26 SE-386 DEFERRED
+
+ADR-002: aplazada a fase B; lo mergeado permanece. Transición aplicada en PR #1140 sin registro en LOG.md; se registra ahora (SE-378).
+
+## 2026-09-26 SE-387 DEFERRED
+
+ADR-002: aplazada a fase C; lo mergeado permanece. Transición aplicada en PR #1140 sin registro en LOG.md; se registra ahora (SE-378).
+
+## 2026-09-26 SE-388 DEFERRED
+
+ADR-002: aplazada a fase D; lo mergeado permanece. Transición aplicada en PR #1140 sin registro en LOG.md; se registra ahora (SE-378).
+
+## 2026-09-26 SE-389 DEFERRED
+
+ADR-002: aplazada a aparcado (tras Gate D); lo mergeado permanece. Transición aplicada en PR #1140 sin registro en LOG.md; se registra ahora (SE-378).
+
+## 2026-09-26 SE-390 DEFERRED
+
+ADR-002: aplazada a fase E; lo mergeado permanece. Transición aplicada en PR #1140 sin registro en LOG.md; se registra ahora (SE-378).
+
+## 2026-09-26 SE-391 DEFERRED
+
+ADR-002: aplazada a fase D; lo mergeado permanece. Transición aplicada en PR #1140 sin registro en LOG.md; se registra ahora (SE-378).
+
+## 2026-09-26 SE-392 APPROVED
+
+Backfill SE-378: estado vigente en planning-state; la transición original no se registró en LOG.md. Evidencia: Spec persistida; equivalencia funcional y E2E aún no demostradas. Fase ADR-002: D.
+
+## 2026-09-26 SE-393 DEFERRED
+
+ADR-002: aplazada a fase B; lo mergeado permanece. Transición aplicada en PR #1140 sin registro en LOG.md; se registra ahora (SE-378).
+
+## 2026-09-26 SE-394 DEFERRED
+
+ADR-002: aplazada a fase B; lo mergeado permanece. Transición aplicada en PR #1140 sin registro en LOG.md; se registra ahora (SE-378).
+
+## 2026-09-26 SE-395 APPROVED
+
+Backfill SE-378: estado vigente en planning-state; la transición original no se registró en LOG.md. Evidencia: PR #1122: aislamiento de grafo por dome. PR #1131: V02 de cache por principal/policy/contenido, provenance y límites mergeada con 349 tests SaviaVaults. Experimento adaptativo permanece pendiente. Fase ADR-002: E.
+
+## 2026-09-26 SE-396 IMPLEMENTING
+
+Backfill SE-378: estado vigente en planning-state; la transición original no se registró en LOG.md. Evidencia: PRs #1112/#1113/#1122/#1129/#1130/#1131/#1132/#1133/#1135 mergeadas. H02/H10/A01b/A01c: autoridad previa al executor, composición aislada y sustitución operacional Codex/OpenCode. Auditoría AC local: docs/evidence/SE-396-closure-review-20260924.md; 127 tests dual-cli, 18 de planificación y gate canónico previo 6/6. Doctor nativo permanece DEGRADED_SAFE; recibo A01c requiere revisión de procedencia. Fase ADR-002: B.
+
+## 2026-09-26 SE-397 DEFERRED
+
+ADR-002: aplazada a fase D; lo mergeado permanece. Transición aplicada en PR #1140 sin registro en LOG.md; se registra ahora (SE-378).
+
+## 2026-09-26 SE-398 APPROVED
+
+Backfill SE-378: estado vigente en planning-state; la transición original no se registró en LOG.md. Evidencia: docs/specs/SE-398-f0-desktop-runtime-discovery.md. Fase ADR-002: E.
+
+## 2026-09-26 SE-399 APPROVED
+
+Backfill SE-378: estado vigente en planning-state; la transición original no se registró en LOG.md. Evidencia: docs/specs/SE-399-f0-installer-discovery.md. Fase ADR-002: E.
+
+## 2026-09-26 SE-400 APPROVED
+
+Backfill SE-378: estado vigente en planning-state; la transición original no se registró en LOG.md. Evidencia: docs/specs/SE-400-f0-model-agnostic-ablation-inventory.md. Fase ADR-002: D.
+
+## 2026-09-26 SE-401 PROPOSED
+
+Backfill SE-378: estado vigente en planning-state; la transición original no se registró en LOG.md. Evidencia: docs/specs/SE-401-intent-to-effect-execution-architecture.spec.md. Fase ADR-002: B.
 
 ## 2026-09-19 SE-397 F5A IMPLEMENTED_PENDING_HUMAN_REVIEW
 

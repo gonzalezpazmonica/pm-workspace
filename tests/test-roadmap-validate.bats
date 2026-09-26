@@ -12,6 +12,7 @@ setup() {
   {"id":"SE-375","status":"APPROVED","approval":"human approval"}
 ]}
 JSON
+  printf '## 2026-09-05 SE-375 APPROVED\n\nfixture\n' > "$FIXTURE/docs/propuestas/LOG.md"
   git -C "$FIXTURE" init -q
   git -C "$FIXTURE" config user.email test@example.invalid
   git -C "$FIXTURE" config user.name "Planning Test"
@@ -113,4 +114,97 @@ JSON
 
   [ "$status" -ne 0 ]
   [[ "$output" == *"FAIL: completion_contract_floor ausente o inválido"* ]]
+}
+
+set_route() { # <wip> <phase-of-SE-375>
+  jq --argjson w "$1" --arg ph "$2" '.route={"current_phase":"A","phases":["A","B"],"wip_limit":{"savia_implementing":$w}} | .initiatives[0].phase=$ph' \
+    "$FIXTURE/docs/propuestas/planning-state.json" > "$FIXTURE/state.tmp"
+  mv "$FIXTURE/state.tmp" "$FIXTURE/docs/propuestas/planning-state.json"
+  printf '%s\n' 'status: APPROVED' > "$FIXTURE/docs/specs/SE-375-example.spec.md"
+}
+
+@test "validate rejects a tracked state missing from LOG.md" {
+  printf '%s\n' 'status: APPROVED' > "$FIXTURE/docs/specs/SE-375-example.spec.md"
+  printf '# empty log\n' > "$FIXTURE/docs/propuestas/LOG.md"
+
+  run env REPO_ROOT="$FIXTURE" bash "$SCRIPT" validate
+
+  [ "$status" -ne 0 ]
+  [[ "$output" == *"FAIL: estado vigente sin registro en LOG.md: SE-375"* ]]
+}
+
+@test "validate rejects a transition not recorded in LOG.md" {
+  printf '%s\n' 'status: DEFERRED' > "$FIXTURE/docs/specs/SE-375-example.spec.md"
+  jq '.initiatives[0].status="DEFERRED"' "$FIXTURE/docs/propuestas/planning-state.json" > "$FIXTURE/state.tmp"
+  mv "$FIXTURE/state.tmp" "$FIXTURE/docs/propuestas/planning-state.json"
+
+  run env REPO_ROOT="$FIXTURE" bash "$SCRIPT" validate
+
+  [ "$status" -ne 0 ]
+  [[ "$output" == *"sin registro en LOG.md: SE-375"* ]]
+}
+
+@test "validate rejects a missing LOG.md file" {
+  printf '%s\n' 'status: APPROVED' > "$FIXTURE/docs/specs/SE-375-example.spec.md"
+  mv "$FIXTURE/docs/propuestas/LOG.md" "$FIXTURE/LOG.moved"
+
+  run env REPO_ROOT="$FIXTURE" bash "$SCRIPT" validate
+
+  [ "$status" -ne 0 ]
+  [[ "$output" == *"sin registro en LOG.md: SE-375"* ]]
+}
+
+@test "validate accepts IMPLEMENTING exactly at the WIP limit" {
+  set_route 1 A
+  jq '.initiatives[0].status="IMPLEMENTING"' "$FIXTURE/docs/propuestas/planning-state.json" > "$FIXTURE/state.tmp"
+  mv "$FIXTURE/state.tmp" "$FIXTURE/docs/propuestas/planning-state.json"
+  printf '## 2026-09-26 SE-375 IMPLEMENTING\n' >> "$FIXTURE/docs/propuestas/LOG.md"
+
+  run env REPO_ROOT="$FIXTURE" bash "$SCRIPT" validate
+
+  [ "$status" -eq 0 ]
+  [[ "$output" == *"PASS: planning state consistente"* ]]
+}
+
+@test "validate rejects IMPLEMENTING above the WIP limit" {
+  set_route 0 A
+  jq '.initiatives[0].status="IMPLEMENTING"' "$FIXTURE/docs/propuestas/planning-state.json" > "$FIXTURE/state.tmp"
+  mv "$FIXTURE/state.tmp" "$FIXTURE/docs/propuestas/planning-state.json"
+  printf '## 2026-09-26 SE-375 IMPLEMENTING\n' >> "$FIXTURE/docs/propuestas/LOG.md"
+
+  run env REPO_ROOT="$FIXTURE" bash "$SCRIPT" validate
+
+  [ "$status" -ne 0 ]
+  [[ "$output" == *"FAIL: WIP excedido: 1 IMPLEMENTING > límite 0"* ]]
+}
+
+@test "validate rejects a non-terminal initiative outside the route phases" {
+  set_route 3 Z
+
+  run env REPO_ROOT="$FIXTURE" bash "$SCRIPT" validate
+
+  [ "$status" -ne 0 ]
+  [[ "$output" == *"FAIL: iniciativas sin fase válida de la ruta: SE-375"* ]]
+}
+
+@test "validate rejects a route without a numeric WIP limit" {
+  set_route 3 A
+  jq '.route.wip_limit.savia_implementing="three"' "$FIXTURE/docs/propuestas/planning-state.json" > "$FIXTURE/state.tmp"
+  mv "$FIXTURE/state.tmp" "$FIXTURE/docs/propuestas/planning-state.json"
+
+  run env REPO_ROOT="$FIXTURE" bash "$SCRIPT" validate
+
+  [ "$status" -ne 0 ]
+  [[ "$output" == *"FAIL: route.wip_limit.savia_implementing ausente o inválido"* ]]
+}
+
+@test "edge: validate ignores non-numeric spec IDs without arithmetic errors" {
+  printf '%s\n' 'status: APPROVED' > "$FIXTURE/docs/specs/SE-375-example.spec.md"
+  printf '%s\n' 'status: PROPOSED' > "$FIXTURE/docs/specs/SE-GRC-001-example.spec.md"
+
+  run env REPO_ROOT="$FIXTURE" bash "$SCRIPT" validate
+
+  [ "$status" -eq 0 ]
+  [[ "$output" != *"constante entera"* && "$output" != *"invalid arithmetic"* ]]
+  [[ "$output" == *"PASS: planning state consistente"* ]]
 }

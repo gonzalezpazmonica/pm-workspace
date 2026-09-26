@@ -19,7 +19,7 @@
     {
       "id": "SE-376",
       "status": "IMPLEMENTING",
-      "evidence": "2026-09-27: el 133→48 de #1097 era inflado (121 tests de presencia en #1097 y 5 en #1100, score 23; 130 skills marcadas stable sin evidencia). Criterio endurecido: Calibrated exige test certificado >=80. Deuda real 125/134; vuelta a wave 0 (baseline 133). Objetivo final 0 o excepciones aprobadas pendiente.",
+      "evidence": "2026-09-27: el 133→48 de #1097 era inflado (121 tests de presencia en #1097 y 5 en #1100, score 23; 130 skills marcadas stable sin evidencia). Criterio endurecido: Calibrated exige test certificado >=80. Deuda real 128/137 (incluye 3 skills GRC de #1142); vuelta a wave 0 (baseline 133). Objetivo final 0 o excepciones aprobadas pendiente.",
       "title": "Quality Debt Burn-down",
       "phase": "A"
     },
