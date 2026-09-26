@@ -1,6 +1,6 @@
 # SE-383 — Harness Adversarial / Chaos Suite (hooks y gates)
 
-**Estado:** APPROVED — Mónica (operadora), 2026-09-05: "Apruebo todas, implementa, pr y merge"
+**Estado:** DEFERRED — Mónica (operadora), 2026-09-05: "Apruebo todas, implementa, pr y merge"
 **Prioridad:** P1 · **Developer Type:** agent-team · **Context Risk:** medium
 **Origen:** auditoría externa §14 (PARTIALLY_ALREADY_SOLVED)
 

@@ -1,5 +1,8 @@
 # Hoja de Ruta para Madurez Empresarial — pm-workspace/Savia
 
+> **HISTÓRICO (2026-09-26).** Este roadmap ya no rige. Ruta vigente: `docs/ROADMAP.md` (ADR-002); estado: `docs/propuestas/planning-state.json`.
+
+
 ## Resumen Ejecutivo
 
 pm-workspace es un sistema de gestión de proyectos impulsado por IA que destaca en gestión de proyectos individuales y, desde v2.14.0, incorpora capacidades empresariales para grandes consultorías (500-5.000 empleados, 50+ proyectos concurrentes).

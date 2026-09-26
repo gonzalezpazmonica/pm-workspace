@@ -1,6 +1,6 @@
 # SE-389 — Regulatory Policy-as-Code & Compliance Context (EU AI Act slice)
 
-**Estado:** APPROVED + MVP IMPLEMENTING (Mónica 2026-09-05: "analiza, adapta, redacta, persiste, mete en el roadmap, implementa, testea, depura, documenta")
+**Estado:** DEFERRED + MVP IMPLEMENTING (Mónica 2026-09-05: "analiza, adapta, redacta, persiste, mete en el roadmap, implementa, testea, depura, documenta")
 **Prioridad:** P1 · **Risk:** L3/L4 cuando afecte capacidades de alto riesgo
 **Jurisdicción inicial:** EU · **Framework:** EU AI Act — Regulation (EU) 2024/1689, enmienda (EU) 2026/1744
 **Principio:** «Compliance ejecutable, generador de evidencia y gobernado por humanos — no meramente documental.» «Se delega la ejecución, nunca el criterio.»

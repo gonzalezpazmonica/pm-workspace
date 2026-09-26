@@ -1,6 +1,6 @@
 # SE-380 — Capability Lifecycle, Usage & Complexity Budget
 
-**Estado:** APPROVED — Mónica (operadora), 2026-09-05: "Apruebo todas, implementa, pr y merge"
+**Estado:** DEFERRED — Mónica (operadora), 2026-09-05: "Apruebo todas, implementa, pr y merge"
 **Prioridad:** P1 · **Developer Type:** agent-team · **Context Risk:** high
 **Origen:** auditoría externa §11 + §16 (Entropy) + §17 (Usage Telemetry) + §18 (Advisor) — consolidadas tras reconciliación
 

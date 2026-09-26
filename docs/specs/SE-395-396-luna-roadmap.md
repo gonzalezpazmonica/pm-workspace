@@ -1,5 +1,8 @@
 # Handoff Luna — arquitectura, Vaults y roadmap de investigación
 
+> **HISTÓRICO (2026-09-26).** Este roadmap ya no rige. Ruta vigente: `docs/ROADMAP.md` (ADR-002); estado: `docs/propuestas/planning-state.json`.
+
+
 Fecha: 2026-09-07. Propuesta para revisión, no modificación de prioridades oficiales.
 Specs: SE-395 y SE-396, ambas PROPOSED. Ejecutor previsto: `gpt-5.6-luna`;
 esto no acredita capacidades del modelo. La instrucción posterior «Implementa»

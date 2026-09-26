@@ -1,5 +1,8 @@
 # SCL — Savia Continuous Learning Roadmap
 
+> **HISTÓRICO (2026-09-26).** Este roadmap ya no rige. Ruta vigente: `docs/ROADMAP.md` (ADR-002); estado: `docs/propuestas/planning-state.json`.
+
+
 > Roadmap propio del programa **Savia Continuous Learning (SCL)**.
 > Nueva era de specs: prefijo `SCL-###` (desacoplada de `SE-###`).
 > **Anclaje al roadmap general:** Era 205 en `docs/ROADMAP.md`.

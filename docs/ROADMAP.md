@@ -1,39 +1,42 @@
-# Roadmap Unificado — pm-workspace / Savia
+# Roadmap — Savia
 
-**Updated:** 2026-06-24 | **Version:** v6.24.4 | **562 commands · 75 agents · 104 skills · 81 hooks · 1653 tests · 245 specs IMPLEMENTED (78%)** — ver `## Estado final — 2026-06-24`
+> **Fuente única de estado:** `docs/propuestas/planning-state.json` (vista generada:
+> `docs/propuestas/ROADMAP-CURRENT.md`, `bash scripts/roadmap.sh current|next|validate`).
+> **Decisión vigente:** [ADR-002](decisions/adr-002-ruta-evolutiva-harness-conformance-lab.md) (2026-09-26).
+> Este documento abre con la ruta y conserva debajo el historial de eras. Los demás
+> documentos de roadmap del repositorio son históricos.
 
-## Repriorización operativa — 2026-09-24
+## Qué es Savia
 
-Se pausa la expansión funcional. El merge de una PR acredita integración, no
-revisión humana ni cumplimiento integral de una spec. Los rangos siguientes son
-estimaciones de trabajo activo, no fechas ni promesas de graduación; cualquier
-evidencia operacional ausente mantiene el gate cerrado.
+Savia es el **harness soberano y el laboratorio de conformidad** (Conformance Lab) de
+*The Executable Enterprise*: el lugar donde specs, agentes, gates, receipts y portabilidad
+entre modelos y frontends se prueban bajo fallo. "Producto" significa harness adoptable por
+equipos técnicos. Licencia MIT.
 
-| Orden | Objetivo y decisión de salida | Esfuerzo orientativo | Gate |
+**Sin fechas ni deadlines.** Cada fase avanza cuando la anterior es observable, reversible y
+comprendida. **WIP:** máximo 3 iniciativas Savia en `IMPLEMENTING` + 1 línea Labs activa.
+
+## Ruta evolutiva
+
+| Fase | Objetivo | Gate de salida | Iniciativas |
 |---|---|---|---|
-| **P0 · siguiente** | **SE-396: resolver cierre verificable**. El mapa de criterios está en `docs/evidence/SE-396-closure-review-20260924.md`; completar canaries reales y revisar la procedencia del recibo operacional. | Revisión y evidencia restante por estimar | Sigue `IMPLEMENTING` hasta decisión explícita; PR #1135 mergeada no autogradúa. |
-| **P0 · después** | **SE-401 I2E / L31 F0: decisión de frontera AEK↔Savia**. La propuesta READ_ONLY está documentada en el entorno privado y en SaviaLabs; revisar titularidad semántica, autoridad y pruebas negativas. | Revisión humana de arquitectura; el tope L31 F0 sigue en 120k tokens/16 h | SE-401 Savia permanece `PROPOSED`; ninguna ejecución I2E nueva antes de aprobar frontera y spec. |
-| **P1** | **SE-397 F5/F6 + SE-400 F0**: revisar primero la ablación F0 y el extractor SAM de solo lectura; después elegir una slice medida de paridad/provenance. | 1–2 h de revisión F0; 1–3 días por slice aprobada | Sin authority implícita ni retirada de artefactos por inferencia. |
-| **P2** | **SE-398 Desktop**: resolver revisión F0 antes de F1 isolated-home/version gate/RPC humano. | 1–2 h de revisión; F1 requiere estimación tras gate | Sin claim `SUPPORTED` antes de canary y evidencia. |
-| **P3** | **SE-399 Installer**: revisar F0; posponer provisioning y wizard hasta estabilizar runtime/surface. | 1–2 h de revisión; implementación por estimar | Transacción/compensación y ownership explícitos antes de mutaciones. |
+| **A · Verdad y salud** ← actual | Fuente única, estados reconciliados, suite completa en verde o cuarentena explícita con RCA | Suite sin fallos no cuarentenados; ≤3 `IMPLEMENTING`; un único roadmap | SE-378, SE-376 · Labs L14 |
+| **B · Kernel de gobierno verificable** | Cerrar SE-396; SE-401 reescrita a TEE v1.1 y renombrada; frontera AEK↔Savia (L31 F0); contrato común de Effect Enforcement Point en Claude Code, Codex y OpenCode | SE-396 graduado; SE-401 aprobada; los tres frontends pasan el mismo contrato | SE-396, SE-401, SE-386, SE-393, SE-394 · Labs L31 |
+| **C · Conformance Lab** | Un laboratorio: Bypass Test por frontend, escenarios adversariales (TEE §22.2), invariantes (§19.8), replay en cuatro niveles | 0 violaciones de invariantes bajo inyección de fallos | SE-377, SE-381, SE-383, SE-384, SE-387 · Labs L28 |
+| **D · Kernel mínimo y portabilidad** | Ablación y retirada de superficie sin uso, SAM F5/F6, runtime común, portability canaries por frontend y tier | Superficie reducida sin regresión; canaries verdes | SE-400, SE-397, SE-392, SE-388, SE-391, SE-380 |
+| **E · Harness adoptable** | Instalador, desktop, documentación pública, Vaults adaptativo, transparencia Art. 50 S4 | Instalación limpia por una persona ajena con doctor en verde | SE-399, SE-398, SE-390, SE-395, SE-289 S4 |
+| **F · Pilotos con evidencia** | Pilotos AEK, L27 E3/E5, L30 backtest | Sin claims de ROI empresarial sin datos | Labs L27, L30 |
 
-AEK tiene repositorio canónico privado propio y un programa SE-401–SE-416 ya
-aprobado/en implementación para contratos sintéticos. Su SE-401 es el programa
-de investigación AEK, mientras que el SE-401 de Savia es la propuesta I2E:
-**la colisión inter-repositorio no se resuelve renumerando unilateralmente**.
-AEK declara aún ausentes el verificador operacional, pilotos y evidencia
-longitudinal; los tests de contratos no prueban efectos reales. La reconciliación
-F0 debe preservar una única fuente de autoridad y semántica, con Savia como
-runtime/adaptador, sin un segundo issuer ni promesas de producción.
+**Aparcado hasta superar el Gate D:** federación y multi-vault (SE-281/282), lote enterprise,
+multi-tenant, SE-268, SE-385 (publicación), SE-389, líneas Labs L24, L25, L29, L12 y L9.
 
-Estado inmediato: SE-396 H07/I03/H11/H12 y A01a–A01c/H02/H09/H10 están
-integrados, incluida PR #1135 con 127 tests dual-cli y gate canónico 6/6;
-revisión de criterios y graduación siguen abiertas. SE-397 F1–F4/F5A están
-mergeados, resto F5/F6–F10 pendiente. Los F0 de SE-398/399/400 esperan revisión.
-La investigación Labs L31 comparte la frontera F0; L14 (integridad de evidencia)
-y L28 (ablación acotada) siguen después como soporte, no como expansión paralela.
+Métricas de la ruta: "¿cuántas veces un hallazgo cambió una decisión?" y "¿cuántos bypass
+encontró el laboratorio antes que producción?".
 
 ---
+
+# Historial
+
 
 ## Done — Eras 1-124 (v0.1 → v3.24)
 

@@ -8,6 +8,9 @@ area: Planning / Roadmap
 
 # Plan Unificado — Savia Labs × Roadmap General (2026-08-27)
 
+> **HISTÓRICO (2026-09-26).** Este roadmap ya no rige. Ruta vigente: `docs/ROADMAP.md` (ADR-002); estado: `docs/propuestas/planning-state.json`.
+
+
 > Cruz de las dos fuentes de planificación:
 > - **General**: `docs/ROADMAP.md` (Critical Path Q2-Q3 pipeline + backlogs P0-P3).
 > - **Labs**: `labs/ROADMAP.md` (líneas L1-L27, repriorizada 2026-08-24).

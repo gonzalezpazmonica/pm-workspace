@@ -1,6 +1,6 @@
 # SE-385 — LinkedIn Integration: Social Networks Agent + LinkedIn Skill
 
-**Estado:** APPROVED — Mónica (operadora), 2026-09-05: "Deja la spec de Linkedin como aprobada para implementar cuando termines con lo que estás". Implementación en cola: al cerrar SE-378/380/383/384, arrancando por feasibility probe (§38, output/linkedin-feasibility.md).
+**Estado:** DEFERRED — Mónica (operadora), 2026-09-05: "Deja la spec de Linkedin como aprobada para implementar cuando termines con lo que estás". Implementación en cola: al cerrar SE-378/380/383/384, arrancando por feasibility probe (§38, output/linkedin-feasibility.md).
 **Fecha:** 2026-09-05 · **Prioridad:** P1 · **Developer Type:** agent-team
 **Risk:** L3 — credenciales OAuth, datos personales, posible publicación externa
 **Dominio:** Social Networks / Communication / Personal Knowledge

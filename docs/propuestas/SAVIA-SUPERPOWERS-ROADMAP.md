@@ -8,6 +8,9 @@ origin: Research interno de repos innovadores 2026 + auditoría PM
 
 # Savia Superpowers — Roadmap Autónomo (SUPERSEDED)
 
+> **HISTÓRICO (2026-09-26).** Este roadmap ya no rige. Ruta vigente: `docs/ROADMAP.md` (ADR-002); estado: `docs/propuestas/planning-state.json`.
+
+
 > **SUPERSEDED 2026-04-18 — Ver `docs/propuestas/ROADMAP.md` como fuente canónica actual.**
 > Este documento se mantiene por auditoría histórica. SPEC-120..124 merged en PRs #592–#594.
 
