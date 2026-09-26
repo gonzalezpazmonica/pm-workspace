@@ -249,7 +249,7 @@
       "status": "PROPOSED",
       "priority": "P0",
       "title": "Intent-to-Effect Execution Architecture (I2E)",
-      "note": "Tras cierre verificable SE-396, F0 de solo lectura con L31: validar frontera contra repositorio canónico AEK y resolver colisión inter-repositorio SE-401; 8-16 h combinadas, tope 120k tokens/16 h. No implementar ni graduar antes de aprobación explícita. AEK SE-401 es otro programa; no renumerar unilateralmente. ADR-002: reescribir alineada a TEE v1.1 (Sufficiency, Commitment, Outcome, Disposition, Authority Lease) y renombrar en Savia para resolver la colisión de ID con AEK. Fase B.",
+      "note": "Tras cierre verificable SE-396, F0 de solo lectura: validar la frontera con el programa privado AEK. No implementar ni graduar antes de aprobación explícita. ADR-002: reescribir alineada a TEE v1.1 (Sufficiency, Commitment, Outcome, Disposition, Authority Lease). Colisión de IDs resuelta 2026-09-26: AEK usa prefijo AEK-; SE-401 conserva su ID. Fase B.",
       "evidence": "docs/specs/SE-401-intent-to-effect-execution-architecture.spec.md",
       "phase": "B"
     }
