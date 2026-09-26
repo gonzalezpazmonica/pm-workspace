@@ -3,7 +3,7 @@
 #
 # Classifies every skill in .claude/skills/ into one of:
 #   Deprecated  : frontmatter `deprecated: true`
-#   Calibrated  : SKILL+DOMAIN ok + has tests/evals + maturity=stable
+#   Calibrated  : SKILL+DOMAIN ok + test/eval certificado (auditor >= 80) + maturity=stable
 #   Incomplete  : SKILL+DOMAIN ok but missing tests OR maturity!=stable
 #   Stub        : missing DOMAIN.md, SKILL <50 lines, or no body
 #
@@ -19,7 +19,10 @@
 set -uo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
+ROOT="${SKILL_AUDIT_ROOT:-$(cd "$SCRIPT_DIR/.." && pwd)}"
+# SE-376 (2026-09-27): un test cuenta solo si el auditor lo certifica (mismo umbral que G6b).
+# La mera existencia de tests/test-<skill>.bats infló el kanban en #1097.
+MIN_TEST_SCORE="${SKILL_TEST_MIN_SCORE:-80}"
 SKILLS_DIR="$ROOT/.claude/skills"
 TESTS_DIR="$ROOT/tests"
 OUTPUT_DIR="$ROOT/output"
@@ -39,6 +42,17 @@ esac
 
 mkdir -p "$OUTPUT_DIR"
 
+# has_qualified_test <skill> — true si algún test/eval de la skill puntúa >= MIN_TEST_SCORE.
+has_qualified_test() {
+  local name="$1" f score
+  for f in "$TESTS_DIR/test-${name}.bats" "$TESTS_DIR/evals/"*"${name}"*.bats; do
+    [[ -f "$f" ]] || continue
+    score=$(bash "$SCRIPT_DIR/test-auditor.sh" "$f" 2>/dev/null | jq -r '.total // 0' 2>/dev/null)
+    [[ "$score" =~ ^[0-9]+$ ]] && (( score >= MIN_TEST_SCORE )) && { echo true; return; }
+  done
+  echo false
+}
+
 classify_skill() {
   local dir="$1"
   local name
@@ -47,7 +61,7 @@ classify_skill() {
   local domain_md="$dir/DOMAIN.md"
 
   # _template excluded (scaffolding, not deployable)
-  if [[ "$name" == "_template" ]]; then
+  if [[ "$name" == _template* ]]; then
     echo "EXCLUDED"
     return
   fi
@@ -77,10 +91,8 @@ classify_skill() {
   if [[ -z "$maturity" ]]; then
     maturity=$(grep -E '^maturity:' "$skill_md" 2>/dev/null | head -1 | sed 's/^maturity:[[:space:]]*//;s/["'\''"]//g' | tr -d '[:space:]')
   fi
-  local has_test=false
-  if ls "$TESTS_DIR/test-${name}".bats >/dev/null 2>&1 || ls "$TESTS_DIR/evals/"*"${name}"*.bats >/dev/null 2>&1; then
-    has_test=true
-  fi
+  local has_test
+  has_test="$(has_qualified_test "$name")"
 
   # Calibrated: stable + has test
   if [[ "$maturity" == "stable" && "$has_test" == "true" ]]; then
@@ -112,10 +124,7 @@ for dir in "$SKILLS_DIR"/*/; do
     [[ -z "$m" ]] && m=$(grep -E '^maturity:' "$skill_md" 2>/dev/null | head -1 | sed 's/^maturity:[[:space:]]*//;s/["'\''"]//g' | tr -d '[:space:]')
     [[ -n "$m" ]] && maturity="$m"
   fi
-  has_test="false"
-  if ls "$TESTS_DIR/test-${name}".bats >/dev/null 2>&1 || ls "$TESTS_DIR/evals/"*"${name}"*.bats >/dev/null 2>&1; then
-    has_test="true"
-  fi
+  has_test="$(has_qualified_test "$name")"
   skill_lines=0
   [[ -f "$skill_md" ]] && skill_lines=$(wc -l < "$skill_md")
 

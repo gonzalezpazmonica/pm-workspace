@@ -6,6 +6,16 @@
 > Each entry: date, spec ID, status transition, optional rationale.
 > Ref: SE-222 S1 OKF Adoptable Patterns (log.md convention).
 
+## 2026-09-27 SE-376 IMPLEMENTING
+
+Reapertura de deuda (decisión de la operadora). El wave 1 de #1097 declaró
+"deuda 133→48, objetivo cumplido" creando 121 tests de presencia (score 23 en el
+auditor, fallidos desde su creación por un patrón anclado) y marcando 130 skills
+`stable` sin evidencia; el wave 2 (#1100) añadió 5 más del mismo tipo que
+afirmaban un estado no alcanzado. Calibrated exige ahora test certificado (>=80).
+Deuda real 128/137 (125/134 antes de las 3 skills GRC de #1142); presupuesto vuelve a wave 0 (baseline 133). Se retiran los
+126 tests de presencia.
+
 ## 2026-09-26 SE-375 IMPLEMENTED
 
 Backfill SE-378: estado vigente en planning-state; la transición original no se registró en LOG.md. Evidencia: PR #1083 (S1); S2 rule/hook kinds y vistas derivadas pendientes

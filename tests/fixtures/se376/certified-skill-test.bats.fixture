@@ -1,0 +1,15 @@
+#!/usr/bin/env bats
+# Ref: SE-376 fixture — certified skill test
+setup() { set -o pipefail; TMP=$(mktemp -d); }
+teardown() { cd /; }
+@test "positive: skill renders output" { run echo ok; [ "$status" -eq 0 ]; [[ "$output" == "ok" ]]; }
+@test "positive: second path works" { run echo two; [ "$status" -eq 0 ]; [[ "$output" == "two" ]]; }
+@test "positive: third path works" { run echo three; [ "$status" -eq 0 ]; [[ "$output" == "three" ]]; }
+@test "positive: fourth path works" { run echo four; [ "$status" -eq 0 ]; [[ "$output" == "four" ]]; }
+@test "positive: fifth path works" { run echo five; [ "$status" -eq 0 ]; [[ "$output" == "five" ]]; }
+@test "rejects invalid input" { run false; [ "$status" -ne 0 ]; }
+@test "fails on missing file" { run cat "$TMP/none"; [ "$status" -ne 0 ]; }
+@test "error on bad flag" { run ls --bad-flag; [ "$status" -ne 0 ]; }
+@test "reject empty input" { run test -n ""; [ "$status" -ne 0 ]; }
+@test "boundary: zero items" { run true; [ "$status" -eq 0 ]; }
+@test "nonexistent path handled" { run test -e "$TMP/x"; [ "$status" -ne 0 ]; }

@@ -1,0 +1,4 @@
+#!/usr/bin/env bats
+S=".claude/skills/demo/SKILL.md"
+@test "[demo] SKILL presente" { [ -f "$S" ]; }
+@test "[demo] maturity stable" { grep -q "maturity: stable" "$S"; }

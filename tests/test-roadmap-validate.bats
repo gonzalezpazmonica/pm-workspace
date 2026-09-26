@@ -197,3 +197,14 @@ set_route() { # <wip> <phase-of-SE-375>
   [ "$status" -ne 0 ]
   [[ "$output" == *"FAIL: route.wip_limit.savia_implementing ausente o inválido"* ]]
 }
+
+@test "edge: validate ignores non-numeric spec IDs without arithmetic errors" {
+  printf '%s\n' 'status: APPROVED' > "$FIXTURE/docs/specs/SE-375-example.spec.md"
+  printf '%s\n' 'status: PROPOSED' > "$FIXTURE/docs/specs/SE-GRC-001-example.spec.md"
+
+  run env REPO_ROOT="$FIXTURE" bash "$SCRIPT" validate
+
+  [ "$status" -eq 0 ]
+  [[ "$output" != *"constante entera"* && "$output" != *"invalid arithmetic"* ]]
+  [[ "$output" == *"PASS: planning state consistente"* ]]
+}

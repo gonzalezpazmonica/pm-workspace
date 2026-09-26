@@ -75,7 +75,8 @@ case "$CMD" in
     else
       OMITTED=""
       while IFS= read -r spec; do
-        ID=$(basename "$spec" | grep -oP '^SE-\d+')
+        ID=$(basename "$spec" | grep -oP '^SE-\d+(?=-)' || true)
+        [[ -z "$ID" ]] && continue   # IDs no numéricos (p.ej. SE-GRC-001) fuera del floor numérico
         NUM=${ID#SE-}
         (( 10#$NUM < FLOOR )) && continue
         if ! jq -e --arg id "$ID" '.initiatives[] | select(.id==$id)' "$STATE" >/dev/null; then
