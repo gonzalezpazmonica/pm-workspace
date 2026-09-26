@@ -185,8 +185,8 @@ if $MERGE && [[ "$PR_URL" == http* ]]; then
   # una operación correctamente rechazada nunca deja reservation "reserved".
   PR_NUM_RES="${PR_URL##*/}"
   if [[ -z "$PR_NUM_RES" ]]; then echo "ERROR F5: sin número de PR — fail-explicit" >&2; exit 1; fi
-  RES_FILE="$HOME/.savia/reservations/pr.merge__${PR_NUM_RES}.json"
-  mkdir -p "$(dirname "$RES_FILE")"
+  # Mismo directorio que f5-state.sh (SAVIA_RESERVATIONS); f5-state lo crea.
+  RES_DIR="${SAVIA_RESERVATIONS:-$HOME/.savia/reservations}"
   bash "$ROOT/scripts/f5-state.sh" reserve pr.merge "$PR_NUM_RES" || exit 3
   echo "F5 reservation: pr.merge/$PR_NUM_RES"
   fi
@@ -213,7 +213,7 @@ if $MERGE && [[ "$PR_URL" == http* ]]; then
   # (crash-safe: retry tras crash permite completar; retry tras close => ALREADY_EXECUTED)
   if [[ "$MERGED" == "true" ]]; then
     bash "$ROOT/scripts/f5-state.sh" close pr.merge "$PR_NUM_RES" && echo "F5 receipt: pr.merge/$PR_NUM_RES closed"
-  elif [[ -f "$HOME/.savia/reservations/pr.merge__${PR_NUM_RES}.json" ]]; then
+  elif [[ -f "$RES_DIR/pr.merge__${PR_NUM_RES}.json" ]]; then
     echo "F5 PENDING/SUBMITTED: merge solicitado sin efecto consumado — reservation NO se cierra"
   fi
 
