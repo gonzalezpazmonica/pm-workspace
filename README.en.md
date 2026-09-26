@@ -116,8 +116,8 @@ She is not a person, does not feel, and does not replace the operator's judgment
 pm-workspace/
 ├── .claude/
 │   ├── commands/       ← 567 commands
-│   ├── agents/         ← 89 specialized agents (7 with decision trees: SPEC-147)
-│   ├── skills/         ← 136 domain skills
+│   ├── agents/         ← 90 specialized agents (7 with decision trees: SPEC-147)
+│   ├── skills/         ← 139 domain skills
 │   ├── hooks/          ← 124 deterministic hooks
 │   └── rules/          ← context and language rules
 ├── docs/               ← guides by role, scenario, sector

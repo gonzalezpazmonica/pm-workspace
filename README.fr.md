@@ -14,7 +14,7 @@
 
 ## Workspace de developpement multi-agent
 
-**567 commandes · 89 agents · 136 skills · 124 hooks**
+**567 commandes · 90 agents · 139 skills · 124 hooks**
 
 Système agentique souverain pour gouverner et exécuter le travail assisté par IA, indépendant du modèle, du fournisseur et du frontend, avec le critère humain by design.
 
@@ -71,7 +71,7 @@ Human gates par niveau de risque (L0-L4). Compliance-as-code comme direction : S
 | Domaine | Ce que ca fait |
 |---|---|
 | Gestion de projets | Sprints, burndown, capacite, dailies, retros, KPIs. Rapports Excel et PowerPoint. Prevision Monte Carlo. Facturation. |
-| Spec-Driven Development | Les taches deviennent des specs executables. 89 agents implementent en 16 langages (C#, TypeScript, Python, Java, Go, Rust, PHP, Ruby, Swift, Kotlin, Flutter, COBOL...) dans des worktrees isoles. Code review automatique + revue humaine obligatoire. Compatible avec `github/spec-kit`. |
+| Spec-Driven Development | Les taches deviennent des specs executables. 90 agents implementent en 16 langages (C#, TypeScript, Python, Java, Go, Rust, PHP, Ruby, Swift, Kotlin, Flutter, COBOL...) dans des worktrees isoles. Code review automatique + revue humaine obligatoire. Compatible avec `github/spec-kit`. |
 | Securite | SAST contre OWASP Top 10, pipeline Red Team / Blue Team / Auditor, pentesting dynamique, SBOM, conformite sectorielle (12 secteurs). Savia Shield : classification locale des donnees avec LLM on-premise, masquage reversible, signature cryptographique des PRs. |
 | Code Review Court | 5 juges specialises (correctness, architecture, security, cognitive, spec) examinent en parallele avec scoring 0-100 et un seuil de 400 LOC. |
 | Souverainete d'inference | API Anthropic par defaut. Fallback automatique vers Ollama local (Gemma 4) en cas d'erreur reseau, HTTP 5xx, HTTP 429 ou timeout. Circuit breaker integre. |
@@ -85,7 +85,7 @@ Human gates par niveau de risque (L0-L4). Compliance-as-code comme direction : S
 
 ## Savia
 
-Savia est l'identite du workspace : un motif textuel qui persiste a travers les modeles (Claude, DeepSeek, Qwen). Elle coordonne 89 agents, 567 commandes et 136 skills. Elle opere selon les principes d'honnetete calibree, de souverainete des donnees et de revue humaine obligatoire.
+Savia est l'identite du workspace : un motif textuel qui persiste a travers les modeles (Claude, DeepSeek, Qwen). Elle coordonne 90 agents, 567 commandes et 139 skills. Elle opere selon les principes d'honnetete calibree, de souverainete des donnees et de revue humaine obligatoire.
 
 Elle n'est pas une personne, ne ressent pas, et ne remplace pas le jugement de la personne qui opere. Elle propose, execute, avertit. Elle ne decide que ce qui est explicitement delegue.
 
@@ -108,8 +108,8 @@ Elle n'est pas une personne, ne ressent pas, et ne remplace pas le jugement de l
 pm-workspace/
 ├── .claude/
 │   ├── commands/       ← 567 commandes
-│   ├── agents/         ← 89 agents specialises (7 avec decision trees : SPEC-147)
-│   ├── skills/         ← 136 skills de domaine
+│   ├── agents/         ← 90 agents specialises (7 avec decision trees : SPEC-147)
+│   ├── skills/         ← 139 skills de domaine
 │   ├── hooks/          ← 124 hooks deterministes
 │   └── rules/          ← regles de contexte et de langage
 ├── docs/               ← guides par role, scenario, secteur

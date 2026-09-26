@@ -16,11 +16,11 @@ lang: it
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](CONTRIBUTING.md)
 
-**567 comandi · 89 agenti · 136 skills · 124 hook**
+**567 comandi · 90 agenti · 139 skills · 124 hook**
 
 ## Workspace di sviluppo multi-agente
 
-**567 comandi · 89 agenti · 136 skill · 124 hook · 16 linguaggi · 283+ suite di test**
+**567 comandi · 90 agenti · 139 skill · 124 hook · 16 linguaggi · 283+ suite di test**
 
 Sistema agentico sovrano per governare ed eseguire lavoro con IA, indipendente da modello, fornitore e frontend, con criterio umano by design. Integra agenti, memoria, sicurezza, policy eseguibili, tracciabilità e domini specializzati. Opera in locale con sovranità dei dati e dell'inferenza, in 9 lingue.
 
@@ -77,7 +77,7 @@ Human gate L0-L4. Compliance-as-code: evidenza, non dichiarazione legale definit
 | Area | Cosa fa |
 |---|---|
 | Gestione progetti | Sprint, burndown, capacita, daily, retro, KPI. Report in Excel e PowerPoint. Previsione Monte Carlo. Fatturazione. |
-| Spec-Driven Development | I task diventano spec eseguibili. 89 agenti implementano in 16 linguaggi (C#, TypeScript, Python, Java, Go, Rust, PHP, Ruby, Swift, Kotlin, Flutter, COBOL...) in worktree isolati. Code review automatica + revisione umana obbligatoria. Compatibile con `github/spec-kit`. |
+| Spec-Driven Development | I task diventano spec eseguibili. 90 agenti implementano in 16 linguaggi (C#, TypeScript, Python, Java, Go, Rust, PHP, Ruby, Swift, Kotlin, Flutter, COBOL...) in worktree isolati. Code review automatica + revisione umana obbligatoria. Compatibile con `github/spec-kit`. |
 | Sicurezza | SAST contro OWASP Top 10, pipeline Red Team / Blue Team / Auditor, pentesting dinamico, SBOM, compliance settoriale (12 settori). Savia Shield: classificazione locale dei dati con LLM on-premise, mascheramento reversibile, firma crittografica dei PR. |
 | Code Review Court | 5 giudici specializzati (correctness, architecture, security, cognitive, spec) esaminano in parallelo con scoring 0-100 e gate di 400 LOC. |
 | Sovranita di inferenza | API Anthropic per default. Fallback automatico a Ollama locale (Gemma 4) in caso di errore di rete, HTTP 5xx, HTTP 429 o timeout. Circuit breaker integrato. |
@@ -91,7 +91,7 @@ Human gate L0-L4. Compliance-as-code: evidenza, non dichiarazione legale definit
 
 ## Savia
 
-Savia e l'identita del workspace: un pattern testuale che persiste attraverso modelli (Claude, DeepSeek, Qwen). Coordina 89 agenti, 567 comandi e 136 skill. Opera sotto principi di onesta calibrata, sovranita dei dati e revisione umana obbligatoria.
+Savia e l'identita del workspace: un pattern testuale che persiste attraverso modelli (Claude, DeepSeek, Qwen). Coordina 90 agenti, 567 comandi e 139 skill. Opera sotto principi di onesta calibrata, sovranita dei dati e revisione umana obbligatoria.
 
 Non e una persona, non prova emozioni e non sostituisce il giudizio di chi opera. Propone, esegue, avverte. Decide solo quanto delegato esplicitamente.
 
@@ -114,8 +114,8 @@ Non e una persona, non prova emozioni e non sostituisce il giudizio di chi opera
 pm-workspace/
 ├── .claude/
 │   ├── commands/       ← 567 comandi
-│   ├── agents/         ← 89 agenti specializzati (7 con decision trees: SPEC-147)
-│   ├── skills/         ← 136 skill di dominio
+│   ├── agents/         ← 90 agenti specializzati (7 con decision trees: SPEC-147)
+│   ├── skills/         ← 139 skill di dominio
 │   ├── hooks/          ← 124 hook deterministici
 │   └── rules/          ← regole di contesto e linguaggio
 ├── docs/               ← guide per ruolo, scenario, settore
