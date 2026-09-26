@@ -21,7 +21,7 @@
 - **governance-audit** (cmd): Auditoría de cumplimiento de política de IA — acciones vs permitidas
 - **governance-audit-log** (script): governance-audit-log.sh — Append-only audit log with chain hash
 - **governance-enterprise** (cmd): Enterprise governance — audit trail, compliance checks, decision registry, certification
-- **governance-enterprise** (skill): Usar cuando se audita compliance, se registran decisiones o se certifican procesos enterprise.
+- **governance-enterprise** (skill): Revisa governance enterprise. Usar cuando se audita compliance o se registran decisiones; nunca emite certificaciones.
 - **governance-query** (script): governance-query.sh — SE-363: consulta la capa de registro de gobernanza.
 - **legal-compliance** (agent): >
 - **opus47-compliance-check** (script): opus47-compliance-check.sh — Verifies Savia compliance with Opus 4.7 migration batches.

@@ -8991,10 +8991,10 @@
       "id": "skill:.claude/skills/governance-enterprise/SKILL",
       "intents": [
         "audita",
-        "certifican",
+        "certificaciones",
         "compliance",
         "decisiones",
-        "enterprise"
+        "emite"
       ],
       "kind": "skill",
       "owner_domain": "governance",
@@ -16835,6 +16835,27 @@
       "replaced_by": null,
       "risk_level": null,
       "source": "scripts/graphrag-quality-gates.sh",
+      "status": "active",
+      "tests": []
+    },
+    {
+      "depends_on": [],
+      "frontend_support": [
+        "claude"
+      ],
+      "id": "skill:.claude/skills/grc-evidence-analysis/SKILL",
+      "intents": [
+        "contradicciones",
+        "controles",
+        "detectan",
+        "evalúan",
+        "evidencias"
+      ],
+      "kind": "skill",
+      "owner_domain": "planning",
+      "replaced_by": null,
+      "risk_level": null,
+      "source": ".claude/skills/grc-evidence-analysis/SKILL.md",
       "status": "active",
       "tests": []
     },
@@ -25731,6 +25752,69 @@
     {
       "depends_on": [],
       "frontend_support": [
+        "opencode"
+      ],
+      "id": "agent:.opencode/agents/grc-auditor",
+      "intents": [
+        "audita",
+        "auditoría",
+        "controles",
+        "cumplimiento",
+        "evidencias"
+      ],
+      "kind": "agent",
+      "owner_domain": "quality",
+      "replaced_by": null,
+      "risk_level": "L2",
+      "source": ".opencode/agents/grc-auditor.md",
+      "status": "active",
+      "tests": []
+    },
+    {
+      "depends_on": [],
+      "frontend_support": [
+        "claude"
+      ],
+      "id": "skill:.claude/skills/grc-framework-router/SKILL",
+      "intents": [
+        "aplicabilidad",
+        "auditoría",
+        "compara",
+        "delimita",
+        "marcos"
+      ],
+      "kind": "skill",
+      "owner_domain": "quality",
+      "replaced_by": null,
+      "risk_level": null,
+      "source": ".claude/skills/grc-framework-router/SKILL.md",
+      "status": "active",
+      "tests": []
+    },
+    {
+      "depends_on": [],
+      "frontend_support": [
+        "claude"
+      ],
+      "id": "skill:.claude/skills/grc-gap-assessment/SKILL",
+      "intents": [
+        "acciones",
+        "assessment",
+        "auditoría",
+        "construye",
+        "ejecutivo"
+      ],
+      "kind": "skill",
+      "owner_domain": "quality",
+      "replaced_by": null,
+      "risk_level": null,
+      "source": ".claude/skills/grc-gap-assessment/SKILL.md",
+      "status": "active",
+      "tests": []
+    },
+    {
+      "depends_on": [],
+      "frontend_support": [
         "claude"
       ],
       "id": "skill:.claude/skills/grill-me/SKILL",
@@ -30019,7 +30103,7 @@
       "tests": []
     }
   ],
-  "content_hash": "f35db89802af",
+  "content_hash": "413b7e6a4946",
   "deferred_kinds": [
     "rule",
     "hook"
