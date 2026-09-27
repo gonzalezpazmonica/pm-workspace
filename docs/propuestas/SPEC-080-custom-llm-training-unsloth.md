@@ -124,7 +124,7 @@ Ollama (local)
 ```
 1. RECOPILAR — agent traces + outputs aprobados
 2. FILTRAR — solo ejecuciones exitosas (quality gate)
-3. FORMATEAR — convertir a formato Alpaca/ShareGPT
+3. FORMATEAR — convertir a formato Alpaca/ShareGPT (`scripts/llm-training/prepare-training-data.sh --agent X --format alpaca|sharegpt`)
 4. ENTRENAR — Unsloth QLoRA (local)
 5. EVALUAR — benchmark contra modelo base
 6. EXPORTAR — GGUF → Ollama
