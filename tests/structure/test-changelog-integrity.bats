@@ -127,7 +127,8 @@ EOF
 }
 
 @test "CHANGELOG first version entry has date" {
-  run bash -c "grep -m1 '^## \[' '$CHANGELOG'"
+  # [Unreleased] carries no date by Keep a Changelog; the first numbered one must.
+  run bash -c "grep -m1 '^## \[[0-9]' '$CHANGELOG'"
   [ "$status" -eq 0 ]
   [[ "$output" == *"20"* ]]
 }

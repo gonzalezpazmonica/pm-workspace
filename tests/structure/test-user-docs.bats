@@ -108,7 +108,10 @@ teardown() {
   [[ -n "${CI:-}" ]] && skip "link validation needs full repo context"
   local broken=0
   while IFS= read -r link; do
-    [ -f "$ROOT/$link" ] || broken=$((broken + 1))
+    # Markdown resolves relative links from the file's own directory (docs/).
+    link="${link%%#*}"
+    [ -z "$link" ] && continue
+    [ -f "$ROOT/docs/$link" ] || [ -d "$ROOT/docs/$link" ] || broken=$((broken + 1))
   done < <(grep -oP '\]\((?!http)([^)]+)\)' "$ROOT/docs/getting-started.md" | tr -d ']()')
   [ "$broken" -eq 0 ]
 }
