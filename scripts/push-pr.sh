@@ -75,8 +75,11 @@ if [[ -z "$TOKEN" ]] && ! $USE_GH_CLI; then
 fi
 if [[ -z "$TITLE" ]]; then
   # Prefer first feat:/fix: in chronological order; fallback to first non-chore/non-Merge.
-  TITLE=$(git log --reverse origin/main..HEAD --oneline | grep -E '^[a-f0-9]+ (feat|fix)(\(|:)' | head -1 | cut -d' ' -f2-)
-  [[ -z "$TITLE" ]] && TITLE=$(git log --reverse origin/main..HEAD --oneline | grep -vE '^[a-f0-9]+ (chore:|Merge)' | head -1 | cut -d' ' -f2-)
+  # `|| true`: under `set -euo pipefail` a grep with no match aborted the
+  # script silently here, so a branch without feat:/fix: commits got no PR.
+  TITLE=$(git log --reverse origin/main..HEAD --oneline | grep -E '^[a-f0-9]+ (feat|fix)(\(|:)' | head -1 | cut -d' ' -f2- || true)
+  [[ -z "$TITLE" ]] && TITLE=$(git log --reverse origin/main..HEAD --oneline | grep -vE '^[a-f0-9]+ (chore:|Merge)' | head -1 | cut -d' ' -f2- || true)
+  [[ -z "$TITLE" ]] && TITLE="$BRANCH"
 fi
 if [[ -z "$BODY" ]]; then
   COMMITS=$(git log --oneline origin/main..HEAD | grep -v "^[a-f0-9]* chore: sign" | sed 's/^/- /')
