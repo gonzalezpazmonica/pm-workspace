@@ -194,3 +194,62 @@ assert tier not in ('L0','L1','L2','L3'), f'Should be invalid but got: {tier}'
 "
   [ "$status" -eq 0 ]
 }
+
+# ── Eager coherence (the declared tiers must match what the frontends load) ──
+# The budget invariant is only meaningful if the L1 set IS the startup set:
+# autonomous-safety.md was loaded every session with no tier, so it never
+# counted, while three L1 rules were loaded by nobody.
+
+eager_rules_claude() {
+  grep -oE '^@docs/rules/domain/[A-Za-z0-9._-]+\.md' CLAUDE.md | sed 's|^@||' | sort -u
+}
+
+eager_rules_opencode() {
+  python3 -c 'import json; [print(i) for i in json.load(open("opencode.json"))["instructions"] if i.startswith("docs/rules/domain/")]' | sort -u
+}
+
+l1_rules() {
+  grep -l '^context_tier: L1$' "$DOMAIN_DIR"/*.md | sort -u
+}
+
+@test "coherence: Claude Code and OpenCode load the same eager rule set" {
+  diff <(eager_rules_claude) <(eager_rules_opencode)
+}
+
+@test "coherence: every eagerly loaded rule is declared L0/L1" {
+  while read -r f; do
+    grep -qE '^context_tier: L[01]$' "$f" || { echo "eager but not L0/L1: $f"; return 1; }
+  done < <(eager_rules_claude)
+}
+
+@test "coherence: every L1 rule is actually loaded at startup" {
+  diff <(l1_rules) <(eager_rules_claude)
+}
+
+@test "coherence: eager budgets are honest (declared >= size/4)" {
+  while read -r f; do
+    declared=$(grep -m1 '^token_budget:' "$f" | awk '{print $2}')
+    estimate=$(( $(wc -c < "$f") / 4 ))
+    (( declared >= estimate )) || { echo "$f declares $declared < $estimate"; return 1; }
+  done < <(eager_rules_claude)
+}
+
+@test "coherence: eager annexes exist and are not eager (L2/L3)" {
+  for a in autonomous-safety-reference radical-honesty-enforcement; do
+    [[ -f "$DOMAIN_DIR/$a.md" ]]
+    grep -qE '^context_tier: L[23]$' "$DOMAIN_DIR/$a.md"
+  done
+}
+
+@test "coherence: autonomous-safety core keeps every immutable gate" {
+  core="$DOMAIN_DIR/autonomous-safety.md"
+  for gate in 'push --force' 'aprobar un PR' 'REGISTRADO' 'PR Draft' 'agent/\*' \
+              'AGENT_MAX_CONSECUTIVE_FAILURES' 'SE-332' 'SPEC-186' 'SE-146' 'SE-343' 'SE-362'; do
+    grep -qE -- "$gate" "$core" || { echo "missing gate: $gate"; return 1; }
+  done
+}
+
+@test "coherence: empty eager set would be rejected (boundary)" {
+  run bash -c 'diff <(printf "") <(grep -l "^context_tier: L1$" '"$DOMAIN_DIR"'/*.md)'
+  [ "$status" -ne 0 ]
+}

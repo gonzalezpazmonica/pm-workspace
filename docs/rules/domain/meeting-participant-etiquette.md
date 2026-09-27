@@ -1,4 +1,6 @@
 ---
+context_tier: L3
+token_budget: 1326
 usage: reference-only
 dormant_since: "2026-06-24"
 review_note: "Quarterly review 2026-Q2"
