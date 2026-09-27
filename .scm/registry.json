@@ -14535,6 +14535,27 @@
       "frontend_support": [
         "opencode"
       ],
+      "id": "script:scripts/edit-ledger",
+      "intents": [
+        "atribuidas",
+        "ediciones",
+        "edit",
+        "ledger",
+        "registro"
+      ],
+      "kind": "script",
+      "owner_domain": "planning",
+      "replaced_by": null,
+      "risk_level": null,
+      "source": "scripts/edit-ledger.sh",
+      "status": "active",
+      "tests": []
+    },
+    {
+      "depends_on": [],
+      "frontend_support": [
+        "opencode"
+      ],
       "id": "script:scripts/effect-reservation",
       "intents": [
         "close",
@@ -29604,7 +29625,7 @@
       "tests": []
     }
   ],
-  "content_hash": "178bcdee1975",
+  "content_hash": "30f39258ffea",
   "deferred_kinds": [
     "rule",
     "hook"

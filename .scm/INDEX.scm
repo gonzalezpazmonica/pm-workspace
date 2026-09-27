@@ -1,6 +1,6 @@
 # Savia Capability Map — INDEX
-> hash: aed1ad078fc6 | resources: 1450
-> 295 commands · 139 skills · 90 agents · 926 scripts
+> hash: ebb071a55325 | resources: 1451
+> 295 commands · 139 skills · 90 agents · 927 scripts
 
 [analysis] Trace Optimize — across,distributed,optimize,rates,sampling — cmd:.claude/commands/trace-optimize.md
 [analysis] agent-activity — activity,agent,executions,recent,show — cmd:.claude/commands/agent-activity.md
@@ -711,6 +711,7 @@
 [planning] dotnet-developer —  — agent:.opencode/agents/dotnet-developer.md
 [planning] dual-estimate — agent,dual,engine,estimate,estimation — script:scripts/dual-estimate.sh
 [planning] ecosystem-watcher — cambios,detectar,ecosistema,externas,herramientas — skill:.claude/skills/ecosystem-watcher/SKILL.md
+[planning] edit-ledger — atribuidas,ediciones,edit,ledger,registro — script:scripts/edit-ledger.sh
 [planning] effect-reservation — close,effects,exactly,execute,gate — script:scripts/effect-reservation.sh
 [planning] egress-gate — control,egress,gate — script:scripts/egress-gate.sh
 [planning] emergency-fallback — emergency,fallback,operaciones — script:scripts/emergency-fallback.sh

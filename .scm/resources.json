@@ -1,6 +1,6 @@
 {
-  "hash": "178bcdee1975",
-  "total": 1450,
+  "hash": "30f39258ffea",
+  "total": 1451,
   "resources": [
     {
       "category": "analysis",
@@ -9414,6 +9414,20 @@
       "kind": "skill",
       "path": ".claude/skills/ecosystem-watcher/SKILL.md",
       "description": "Usar una vez al mes para detectar cambios relevantes en el ecosistema de herramientas externas."
+    },
+    {
+      "category": "planning",
+      "name": "edit-ledger",
+      "intents": [
+        "atribuidas",
+        "ediciones",
+        "edit",
+        "ledger",
+        "registro"
+      ],
+      "kind": "script",
+      "path": "scripts/edit-ledger.sh",
+      "description": "edit-ledger.sh — SE-402: registro de ediciones atribuidas."
     },
     {
       "category": "planning",

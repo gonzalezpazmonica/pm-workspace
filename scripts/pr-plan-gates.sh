@@ -719,3 +719,22 @@ g18_incident_rca_eval() {
     echo "WARN: RCA eval suite score=${score}/100 < 80 — revisar antes del merge"
   fi
 }
+
+# ── G19 — Edit attribution (SE-402, advisory) ───────────────────────────────
+# Lists files changed on the branch that no Edit/Write ledger record
+# attributes (e.g. mutated by a test or a shell script). Advisory in v1: it
+# only prints WARN; promotion to blocking is an operator decision (spec §3.3).
+g19_edit_attribution() {
+  local script="scripts/edit-ledger.sh"
+  [[ -f "$script" ]] || { echo "WARN: edit-ledger.sh missing (SE-402 not installed)"; return; }
+  git rev-parse origin/main >/dev/null 2>&1 || { echo "WARN: skipped (origin/main unreachable)"; return; }
+  local out count
+  out=$(bash "$script" verify --base origin/main --json 2>/dev/null) || { echo "WARN: edit-ledger verify error"; return; }
+  count=$(echo "$out" | python3 -c "import sys,json;print(json.load(sys.stdin)['count'])" 2>/dev/null || echo "?")
+  if [[ "$count" == "0" ]]; then
+    echo "PASS: every changed file attributed to an Edit/Write"
+  else
+    local list; list=$(echo "$out" | python3 -c "import sys,json;print(', '.join(json.load(sys.stdin)['unattributed'][:5]))" 2>/dev/null)
+    echo "WARN: ${count} unattributed change(s): ${list}"
+  fi
+}
