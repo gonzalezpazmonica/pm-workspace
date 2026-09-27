@@ -5,18 +5,16 @@
 SCRIPT="scripts/operator-grant.sh"
 
 setup() {
+  set -o pipefail
   cd "$BATS_TEST_DIRNAME/.."
   TMP_GRANTS="$(mktemp -d -t grants.XXXXXX)"
   export SAVIA_GRANTS_DIR="$TMP_GRANTS"
   # Deterministic expected grantor, decoupled from the real operator's identity
   # (active-user.md is gitignored; never put a real personal slug in repo files).
-  ACTIVE_SLUG="${TEST_EXPECTED_GRANTOR:-test-operator}"
-  # If a real active-user profile exists, use its slug so the integration test
-  # matches reality; otherwise use the neutral deterministic fallback.
-  if [[ -f ".claude/profiles/active-user.md" ]]; then
-    REAL="$(grep -oP 'active_slug:\s*"\K[^"]+' .claude/profiles/active-user.md 2>/dev/null | head -1)"
-    [[ -n "$REAL" ]] && ACTIVE_SLUG="$REAL"
-  fi
+  ACTIVE_SLUG="test-operator"
+  # Fixture profile: never depends on the real (gitignored) active-user.md.
+  export SAVIA_ACTIVE_USER_FILE="$TMP_GRANTS/active-user.md"
+  printf 'active_slug: "%s"\n' "$ACTIVE_SLUG" > "$SAVIA_ACTIVE_USER_FILE"
 }
 
 teardown() {
@@ -95,4 +93,39 @@ teardown() {
   run bash scripts/savia-double-optin-check.sh --skill overnight-sprint \
     --confirm-autonomous
   [ "$status" -eq 0 ]
+}
+@test "fail-closed: no resolvable operator means no grant is issued" {
+  printf '# no slug\n' > "$SAVIA_ACTIVE_USER_FILE"
+  run bash "$SCRIPT" grant --scope merge --context "no operator"
+  [ "$status" -eq 2 ]
+  [[ "$output" == *"no active operator"* ]]
+  [ ! -e "$TMP_GRANTS/merge.json" ]
+}
+
+@test "missing: nonexistent profile file also refuses to grant" {
+  export SAVIA_ACTIVE_USER_FILE="$TMP_GRANTS/does-not-exist.md"
+  run bash "$SCRIPT" grant --scope merge --context "no profile"
+  [ "$status" -eq 2 ]
+  [ ! -e "$TMP_GRANTS/merge.json" ]
+}
+
+@test "cwd-independent: grant and check work when run from another directory" {
+  cd "$TMP_GRANTS"
+  run bash "$BATS_TEST_DIRNAME/../scripts/operator-grant.sh" grant --scope merge --context "cwd test" --ttl-hours 1
+  [ "$status" -eq 0 ]
+  grep -q "\"grantor\":\"$ACTIVE_SLUG\"" "$TMP_GRANTS/merge.json"
+  run bash "$BATS_TEST_DIRNAME/../scripts/operator-grant.sh" check --scope merge
+  [ "$status" -eq 0 ]
+}
+
+@test "empty: grant without --context is rejected" {
+  run bash "$SCRIPT" grant --scope merge
+  [ "$status" -eq 2 ]
+  [[ "$output" == *"--context required"* ]]
+}
+
+@test "reject: a grant file whose grantor is self never validates" {
+  printf '{"scope":"merge","grantor":"self","source":"express-request","expires_epoch":%s}\n' "$(( $(date +%s) + 3600 ))" > "$TMP_GRANTS/merge.json"
+  run bash "$SCRIPT" check --scope merge
+  [ "$status" -eq 1 ]
 }
