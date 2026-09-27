@@ -1,4 +1,6 @@
 ---
+context_tier: L3
+token_budget: 1233
 name: onboarding-enterprise
 description: "Enterprise onboarding at scale — 4-phase workflow, batch CSV import, per-role checklists, knowledge transfer"
 auto_load: false

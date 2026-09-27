@@ -1,4 +1,6 @@
 ---
+context_tier: L2
+token_budget: 1771
 paths:
   - "**/.github/**"
   - "**/.gitignore"

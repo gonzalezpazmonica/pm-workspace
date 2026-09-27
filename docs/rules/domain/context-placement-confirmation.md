@@ -1,3 +1,8 @@
+---
+context_tier: L2
+token_budget: 1307
+---
+
 # Regla: Niveles de Confidencialidad y Destino de Informacion
 
 > **REGLA OBLIGATORIA** — Aplica siempre que Savia persista informacion.

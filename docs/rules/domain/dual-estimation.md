@@ -1,3 +1,8 @@
+---
+context_tier: L2
+token_budget: 1573
+---
+
 # Dual Estimation Rule (SE-013)
 
 > **pm-workspace = ~10x throughput end-to-end con supervision humana sobre el pipeline completo asistido por agentes.**

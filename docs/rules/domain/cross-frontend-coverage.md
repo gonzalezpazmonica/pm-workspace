@@ -1,3 +1,8 @@
+---
+context_tier: L3
+token_budget: 3256
+---
+
 # Cross-Frontend Coverage — Modelo operacional Claude Code ↔ OpenCode ↔ Copilot CLI
 
 > **Status:** SE-178 verified 2026-06-07. Fuente única operacional.

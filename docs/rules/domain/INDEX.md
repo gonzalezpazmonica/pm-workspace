@@ -1,3 +1,8 @@
+---
+context_tier: L3
+token_budget: 8984
+---
+
 # INDEX
 
 Auto-generated. 305 files / 38 cats. Regen: `bash scripts/rules-domain-index.sh`. CI check: `--check`. SPEC-115.

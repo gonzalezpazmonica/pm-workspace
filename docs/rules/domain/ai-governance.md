@@ -1,4 +1,6 @@
 ---
+context_tier: L3
+token_budget: 1423
 paths: ["**/compliance/**", "**/model-card*", "**/risk-assessment*", "**/audit-log*"]
 ---
 
