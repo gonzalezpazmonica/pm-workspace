@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=32dc1cf2d5f1fa55b69917c4baa12aa950284c2971c981bcb8a851c1caca2462
-timestamp=2026-09-27T01:05:26Z
+diff_hash=92a3fcb6a9dec0f82faed02f73fc66dc62a297e6642032bc8fdd11a99cb10710
+timestamp=2026-09-27T07:15:19Z
 branch=agent/fix-model-tests
-head_commit=18984f25
-signature=9e85019e4bebd51d437f0c9a9896aeb0f51a22d86ec1c0cb96055f61eedb139f
+head_commit=95d6cd53
+signature=14f782a8fceff5ad694b554ff34ef3ed6576715b8e9450abb522d90c69b54059
