@@ -5,7 +5,8 @@
 # Diseño (SE-314 §4):
 #   - Capa 1 determinista: regex de credenciales/IPs/base64 → BLOCK sin LLM
 #   - Capa 2: LLM local (Ollama) SOLO para contexto de negocio/personas, con
-#     seed fijo + top_k=1 + format=json + num_predict=32 (determinismo)
+#     seed fijo + top_k=1 + format=json (determinismo); num_ctx=8192 para que
+#     un texto de 20k caracteres no trunque las instrucciones (el default 4096 lo hacía)
 #   - Salida JSON estricta (schema savia.classify/2.0) con confidence + hash
 #   - Caché por hash de contenido (output/classifier-cache/{sha256}.json)
 #
@@ -32,9 +33,9 @@ while [[ $# -gt 0 ]]; do
 done
 
 REPO_ROOT="${CLAUDE_PROJECT_DIR:-$(git rev-parse --show-toplevel 2>/dev/null || pwd)}"
-PROMPT_FILE="$REPO_ROOT/config/classifier/prompt-v2.txt"
+PROMPT_FILE="$REPO_ROOT/config/classifier/prompt-v3.txt"
 CACHE_DIR="$REPO_ROOT/output/classifier-cache"
-PROMPT_VERSION="classify-prompt-v2"
+PROMPT_VERSION="classify-prompt-v3+$(sha256sum "$PROMPT_FILE" 2>/dev/null | cut -c1-8)"  # hash: editing the prompt invalidates the cache
 SEED=42
 OLLAMA_URL="${OLLAMA_URL:-http://127.0.0.1:11434}"
 OLLAMA_TIMEOUT="${OLLAMA_TIMEOUT:-15}"
@@ -123,20 +124,24 @@ if ! curl -s --max-time 5 "$OLLAMA_URL/api/tags" >/dev/null 2>&1; then
   exit 0
 fi
 
+# Without the versioned prompt the model would run on a one-line fallback that
+# drops every rule (placeholders, policy docs, evidence). Fail to ambiguous.
+if [[ ! -f "$PROMPT_FILE" ]]; then
+  echo "{\"schema\":\"savia.classify/2.0\",\"hash\":\"sha256:${CONTENT_HASH}\",\"label\":\"ambiguous\",\"confidence\":0.5,\"deterministic_matches\":${DET_JSON},\"llm_verdict\":\"unavailable\",\"llm_confidence\":0,\"cache_hit\":false,\"model\":\"${MODEL}\",\"seed\":${SEED},\"prompt_version\":\"${PROMPT_VERSION}\",\"error\":\"prompt_missing\"}"
+  exit 0
+fi
+
 export SAVIA_CLASSIFY_PROMPT_FILE="$PROMPT_FILE"
 export OLLAMA_CLASSIFY_MODEL="$MODEL"
 PAYLOAD=$(printf '%s' "$NORM_TEXT" | python3 -c "
 import sys, json, os
 text = sys.stdin.read()[:20000]
-try:
-    with open(os.environ.get('SAVIA_CLASSIFY_PROMPT_FILE','')) as f:
-        prompt = f.read()
-except Exception:
-    prompt = 'Classify. JSON {label, confidence}.'
+with open(os.environ['SAVIA_CLASSIFY_PROMPT_FILE']) as f:
+    prompt = f.read()
 prompt_full = prompt + '\n' + text + '\n[END DATA]'
 payload = {'model': os.environ.get('OLLAMA_CLASSIFY_MODEL','qwen2.5:3b'),
            'prompt': prompt_full, 'stream': False, 'format': 'json',
-           'options': {'temperature': 0, 'seed': 42, 'top_k': 1, 'num_predict': 32}}
+           'options': {'temperature': 0, 'seed': 42, 'top_k': 1, 'num_predict': 96, 'num_ctx': 8192}}
 print(json.dumps(payload))
 " 2>/dev/null)
 
@@ -147,22 +152,47 @@ if [[ $? -ne 0 ]] || [[ -z "$RESPONSE" ]]; then
 fi
 
 # ── Parsear salida LLM (JSON estricto con fallback) ─────────────────────────
-LLM_OUT=$(printf '%s' "$RESPONSE" | python3 -c "
-import sys, json
+LLM_OUT=$(printf '%s' "$RESPONSE" | NORM_TEXT="$NORM_TEXT" python3 -c "
+import sys, json, os, re
+def norm(t):
+    return re.sub(r'\s+', ' ', t).strip().lower()
 try:
     data = json.load(sys.stdin)
     resp = data.get('response', '')
     try:
         obj = json.loads(resp)
     except Exception:
+        # num_predict can cut the JSON inside a long evidence string: recover
+        # label/confidence from the prefix; truncated evidence never verifies.
         obj = {}
+        m = re.search(r'label\"\s*:\s*\"(\w+)', resp)
+        if m:
+            obj['label'] = m.group(1)
+        m = re.search(r'confidence\"\s*:\s*([0-9.]+)', resp)
+        if m:
+            obj['confidence'] = m.group(1)
     label = str(obj.get('label', 'ambiguous')).lower()
     confidence = float(obj.get('confidence', 0.5))
+    evidence = str(obj.get('evidence', '') or '')
     if label not in ('public','confidential','ambiguous'):
         label = 'ambiguous'
-    print(json.dumps({'label': label, 'confidence': confidence}))
+    # Confidential must quote the private datum verbatim. A claim whose
+    # evidence is empty or absent from the text is not proof: downgrade to
+    # ambiguous (WARN in N1, never BLOCK).
+    ev = norm(evidence).strip('\"\'\x60 ')
+    # Not private data: documented placeholders (critical-rules-extended Rule 20,
+    # confidentiality-auditor) and code identifiers (kebab/snake-case ids such
+    # as agent or script names).
+    placeholder = ev in ('alice', 'bob', 'carol', 'test-org', 'proyecto-alpha', 'acme-corp',
+                         'test company repo', 'example.com', 'example.org')
+    identifier = re.fullmatch(r'[a-z0-9]+([-_][a-z0-9]+)+', ev) is not None
+    verified = (bool(ev) and ev in norm(os.environ.get('NORM_TEXT', ''))
+                and not placeholder and not identifier)
+    if label == 'confidential' and not verified:
+        label, confidence = 'ambiguous', min(confidence, 0.6)
+    print(json.dumps({'label': label, 'confidence': confidence, 'evidence_verified': verified}))
 except Exception:
-    print(json.dumps({'label': 'ambiguous', 'confidence': 0.5}))
+    print(json.dumps({'label': 'ambiguous', 'confidence': 0.5, 'evidence_verified': False}))
 " 2>/dev/null)
 
 LLM_LABEL=$(printf '%s' "$LLM_OUT" | jq -r '.label // "ambiguous"' 2>/dev/null)

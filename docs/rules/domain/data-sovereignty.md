@@ -39,13 +39,13 @@ NER bilingue embebido en `savia-shield-daemon.py`:
 
 ### Capa 3 — Ollama Classifier (LLM local, ~2-5s)
 
-Script `scripts/ollama-classify.sh` y/o invocacion via daemon:
+Script `scripts/sovereignty-classify.sh` (SE-314) + `scripts/sovereignty-decide.sh`:
 - Solo se invoca si Capa 1+2 no son concluyentes Y el destino es N1
-- Envia texto al modelo local (qwen2.5:7b en `localhost:11434`)
+- Envia texto al modelo local (`OLLAMA_CLASSIFY_MODEL`, por defecto qwen2.5:3b, `num_ctx` 8192) con `config/classifier/prompt-v3.txt`
 - El modelo clasifica: CONFIDENTIAL | PUBLIC | AMBIGUOUS
-- CONFIDENTIAL → BLOQUEAR
-- AMBIGUOUS → BLOQUEAR + avisar al humano
-- PUBLIC → permitir
+- CONFIDENTIAL exige citar literal el dato privado (`evidence`); sin cita verificable en el texto, o si es un placeholder documentado o un identificador de código, baja a AMBIGUOUS
+- CONFIDENTIAL con confianza ≥ 0.90 → BLOQUEAR; AMBIGUOUS → WARN (permitir + avisar); PUBLIC → permitir
+- Regresión: `bash scripts/classifier-corpus-run.sh` (`tests/evals/classifier-corpus.json`)
 
 ### Capa 4 — Proxy Interceptor (puerto 8443)
 
