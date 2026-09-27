@@ -73,7 +73,7 @@ contract_value=0
 
 if [[ -f "$SOW_FILE" ]]; then
   sow_status="found"
-  deliverables_count=$(grep -c "^| D-" "$SOW_FILE" 2>/dev/null || echo "0")
+  deliverables_count=$(grep -c "^| D-" "$SOW_FILE" 2>/dev/null || [ $? -eq 1 ] || echo 0)
   cv=$(grep "^contract_value_eur:" "$SOW_FILE" | head -1 | awk '{print $2}' || echo "0")
   contract_value="${cv:-0}"
 fi

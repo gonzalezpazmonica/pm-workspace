@@ -163,7 +163,7 @@ print('no encontrado'); sys.exit(1)"
 cmd_stat() {
   local inboxes msgs
   inboxes=$(known_inboxes | wc -l)
-  msgs=$(grep -c . "$MSG_DIR/ledger.jsonl" 2>/dev/null || echo 0)
+  msgs=$(grep -c . "$MSG_DIR/ledger.jsonl" 2>/dev/null || [ $? -eq 1 ] || echo 0)
   echo "inboxes: $inboxes | mensajes: $msgs | dir: $MSG_DIR"
 }
 

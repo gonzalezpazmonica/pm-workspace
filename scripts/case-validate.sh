@@ -46,9 +46,9 @@ validate_case() {
   # Check 1: Missing assumptions source
   if [[ -f "$val_dir/assumptions.yaml" ]]; then
     local nosource
-    nosource=$(grep -c "source:" "$val_dir/assumptions.yaml" 2>/dev/null || echo 0)
+    nosource=$(grep -c "source:" "$val_dir/assumptions.yaml" 2>/dev/null || [ $? -eq 1 ] || echo 0)
     local total_assumptions
-    total_assumptions=$(grep -c "id:" "$val_dir/assumptions.yaml" 2>/dev/null || echo 0)
+    total_assumptions=$(grep -c "id:" "$val_dir/assumptions.yaml" 2>/dev/null || [ $? -eq 1 ] || echo 0)
     if (( total_assumptions > 0 && nosource < total_assumptions )); then
       log_warn "[${bc_id:-$case_id}] Assumptions without source field ($nosource/$total_assumptions have source)"
     fi

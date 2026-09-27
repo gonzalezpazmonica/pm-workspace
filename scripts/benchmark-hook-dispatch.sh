@@ -29,9 +29,9 @@ print(len(d.get('hooks',{}).get('PostToolUse',[])))
 total_baseline=$(( ${pre_count:-0} + ${post_count:-0} ))
 
 # ── Conteos del dispatcher ─────────────────────────────────────────────────
-routing_pre=$(grep -v '^#' "$ROUTING_PRE" 2>/dev/null | grep -c . || echo 0)
-routing_post=$(grep -v '^#' "$ROUTING_POST" 2>/dev/null | grep -c . || echo 0)
-blocking_pre=$(grep -v '^#' "$ROUTING_PRE" 2>/dev/null | awk -F'\t' '$4=="yes"' | grep -c . || echo 0)
+routing_pre=$(grep -v '^#' "$ROUTING_PRE" 2>/dev/null | grep -c . || [ $? -eq 1 ] || echo 0)
+routing_post=$(grep -v '^#' "$ROUTING_POST" 2>/dev/null | grep -c . || [ $? -eq 1 ] || echo 0)
+blocking_pre=$(grep -v '^#' "$ROUTING_PRE" 2>/dev/null | awk -F'\t' '$4=="yes"' | grep -c . || [ $? -eq 1 ] || echo 0)
 
 echo ""
 echo "▶ Baseline: hooks en settings.json"

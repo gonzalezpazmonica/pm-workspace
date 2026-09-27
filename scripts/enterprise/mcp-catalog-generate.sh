@@ -218,5 +218,5 @@ cat > "$OUTPUT_DIR/catalog.json" <<EOF
 EOF
 
 echo "catalog.json generado en $OUTPUT_DIR/catalog.json"
-SERVER_COUNT=$(grep -c '"id"' "$OUTPUT_DIR/catalog.json" || echo 0)
+SERVER_COUNT=$(grep -c '"id"' "$OUTPUT_DIR/catalog.json" || [ $? -eq 1 ] || echo 0)
 echo "Total servers: $SERVER_COUNT"

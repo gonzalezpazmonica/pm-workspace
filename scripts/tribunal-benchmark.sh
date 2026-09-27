@@ -165,8 +165,8 @@ do_metrics() {
   [[ ! -f "$f" ]] && { echo "ERROR: results file not found: $f" >&2; return 2; }
   local total ok fail
   total=$(wc -l < "$f")
-  ok=$(grep -c '"match":true' "$f" || echo 0)
-  fail=$(grep -c '"match":false' "$f" || echo 0)
+  ok=$(grep -c '"match":true' "$f" || [ $? -eq 1 ] || echo 0)
+  fail=$(grep -c '"match":false' "$f" || [ $? -eq 1 ] || echo 0)
   echo "Cases: $total | OK: $ok | FAIL: $fail"
   [[ $total -gt 0 ]] && \
     echo "Accuracy: $(python3 -c "print(round($ok * 100.0 / $total, 1))")%"

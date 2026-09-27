@@ -31,4 +31,4 @@ while IFS= read -r line; do
   fi
 done < "$IDX_FILE"
 mv "$tmp" "$IDX_FILE"
-echo "Index rebuilt: $(echo "$ENTRIES" | grep -c '^\- ' 2>/dev/null || echo 0) entries"
+echo "Index rebuilt: $(echo "$ENTRIES" | grep -c '^\- ' 2>/dev/null || [ $? -eq 1 ] || echo 0) entries"
