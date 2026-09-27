@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=d9a950a48e207f118fa4de76c7a6b773d269f78e55fa2333f8607ef44b125a6f
-timestamp=2026-09-27T15:51:32Z
-branch=agent/anti-fatigue-fix-20260927
-head_commit=9396f4c9
-signature=8a4c6e689662e40cb9a11ce376a8bb1f2bac31681b6f2e88b1007a8d6f82bc17
+diff_hash=373cc96403b2f10828098e5915bab6c53f25b40439d5f973609f105eb1f7eeed
+timestamp=2026-09-27T17:01:56Z
+branch=agent/entropy-visible-20260927
+head_commit=33ab06d9
+signature=be05b5fb1a3c92f4dd8fb66872b34d4333928ff06b779891690692d5083995cd

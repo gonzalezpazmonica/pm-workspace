@@ -1,6 +1,6 @@
 # Savia Capability Map — INDEX
-> hash: 3d1deddd8caf | resources: 1474
-> 295 commands · 139 skills · 90 agents · 950 scripts
+> hash: 351481ebbd45 | resources: 1472
+> 295 commands · 139 skills · 90 agents · 948 scripts
 
 [analysis] Trace Optimize — across,distributed,optimize,rates,sampling — cmd:.claude/commands/trace-optimize.md
 [analysis] agent-activity — activity,agent,executions,recent,show — cmd:.claude/commands/agent-activity.md
@@ -376,7 +376,6 @@
 [development] slm-registry — model,registry,slms,spec,trained — script:scripts/slm-registry.sh
 [development] smart-routing — comando,descubrir,disponibles,enrutar,específico — skill:.claude/skills/smart-routing/SKILL.md
 [development] sovereignty-pack — build,fully,installer,offline,pack — script:scripts/sovereignty-pack.sh
-[development] spec-156-migrate-token-budget — agents,budget,frontmatter,spec,token — script:scripts/spec-156-migrate-token-budget.sh
 [development] spec-approval-gate — approval,enforcement,gate,rule,slice — script:scripts/spec-approval-gate.sh
 [development] spec-budget — budget,dynamic,effort,retry,slice — script:scripts/spec-budget.sh
 [development] spec-design — datos,decisiones,diseño,estrategia,existente — cmd:.claude/commands/spec-design.md
@@ -395,7 +394,6 @@
 [development] spec-status-normalize — across,audit,field,normalize,spec — script:scripts/spec-status-normalize.sh
 [development] spec-validator — field,frontmatter,resource,spec,validates — script:scripts/spec-validator.sh
 [development] spec-verify-ui — componente,comprueba,cumple,implementado,spec — cmd:.claude/commands/spec-verify-ui.md
-[development] spec156-migrate-token-budget — budget,flat,migrate,nested,object — script:scripts/spec156-migrate-token-budget.sh
 [development] specs-frontmatter-normalize — frontmatter,normalization,normalize,slice,specs — script:scripts/specs-frontmatter-normalize.sh
 [development] speculative-telemetry-report — dashboard,report,slice,speculative,telemetry — script:scripts/speculative-telemetry-report.sh
 [development] speculative/feasibility-probe — execution,feasibility,probe,slice,speculative — script:scripts/speculative/feasibility-probe.sh

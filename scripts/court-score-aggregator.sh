@@ -83,38 +83,42 @@ if not lines:
         print(json.dumps(result))
     sys.exit(0)
 
-# Parsear jueces
+# Parsear jueces. Fail-closed: una salida de juez ilegible, sin score o fuera
+# de rango es un error (exit 3), nunca un juez que "no encontró nada".
 judges = {}
+errors = []
 for i, line in enumerate(lines):
     try:
         entry = json.loads(line)
+        if not isinstance(entry, dict):
+            raise ValueError("no es un objeto JSON")
+        if "score" not in entry:
+            raise ValueError("falta 'score'")
         judge = entry.get("judge", f"judge_{i}")
-        score = float(entry.get("score", 0.0))
+        score = float(entry["score"])
         weight = float(entry.get("weight", 1.0))
+        if not 0.0 <= score <= 1.0:
+            raise ValueError(f"score {score} fuera de [0.0, 1.0]")
+        if weight < 0.0:
+            raise ValueError(f"weight {weight} negativo")
         blocking = bool(entry.get("blocking", False))
         blocking_threshold = float(entry.get("blocking_threshold", 0.5))
         rationale = entry.get("rationale", "")
         judges[judge] = {
-            "score": max(0.0, min(1.0, score)),
-            "weight": max(0.0, weight),
+            "score": score,
+            "weight": weight,
             "blocking": blocking,
             "blocking_threshold": blocking_threshold,
             "rationale": rationale
         }
-    except (json.JSONDecodeError, ValueError) as e:
-        sys.stderr.write(f"línea {i+1} inválida: {e}\n")
+    except (json.JSONDecodeError, ValueError, TypeError) as e:
+        errors.append(f"línea {i+1}: {e}")
 
-if not judges:
-    result = {
-        "total_energy": 0.0,
-        "bottleneck_judge": None,
-        "convergence_score": 1.0,
-        "verdict": "PASS",
-        "judge_scores": {},
-        "note": "no valid judges — PASS by default"
-    }
-    print(json.dumps(result))
-    sys.exit(0)
+if errors:
+    for err in errors:
+        sys.stderr.write(err + "\n")
+    print(json.dumps({"error": "salida de jueces inválida", "invalid_lines": errors}))
+    sys.exit(3)
 
 # Calcular energía total ponderada
 total_weight = sum(j["weight"] for j in judges.values())
@@ -193,7 +197,9 @@ PYTHON_SCRIPT_EOF
 
 # ── Leer input ───────────────────────────────────────────────────────────────
 INPUT_ARG="STDIN"
-if [[ $# -gt 0 && -f "$1" ]]; then
+if [[ $# -gt 0 ]]; then
+  # Un fichero nombrado que no existe es un error, no un stdin vacío (= PASS).
+  [[ -f "$1" ]] || { echo "{\"error\":\"fichero no encontrado: $1\"}"; exit 3; }
   INPUT_ARG="$1"
 fi
 

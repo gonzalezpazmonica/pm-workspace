@@ -1,6 +1,6 @@
 {
-  "hash": "108b7deb9456",
-  "total": 1474,
+  "hash": "cf2eae1de649",
+  "total": 1472,
   "resources": [
     {
       "category": "analysis",
@@ -4940,20 +4940,6 @@
     },
     {
       "category": "development",
-      "name": "spec-156-migrate-token-budget",
-      "intents": [
-        "agents",
-        "budget",
-        "frontmatter",
-        "spec",
-        "token"
-      ],
-      "kind": "script",
-      "path": "scripts/spec-156-migrate-token-budget.sh",
-      "description": "SPEC-156 — Add token_budget frontmatter to all agents."
-    },
-    {
-      "category": "development",
       "name": "spec-approval-gate",
       "intents": [
         "approval",
@@ -5202,20 +5188,6 @@
       "kind": "cmd",
       "path": ".claude/commands/spec-verify-ui.md",
       "description": "Verificación spec↔UI — comprueba que el componente implementado cumple su spec SDD"
-    },
-    {
-      "category": "development",
-      "name": "spec156-migrate-token-budget",
-      "intents": [
-        "budget",
-        "flat",
-        "migrate",
-        "nested",
-        "object"
-      ],
-      "kind": "script",
-      "path": "scripts/spec156-migrate-token-budget.sh",
-      "description": "SPEC-156 Slice 2 prep — migrate flat token_budget to nested object."
     },
     {
       "category": "development",
