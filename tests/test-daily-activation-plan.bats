@@ -135,3 +135,16 @@ teardown() {
   allocated=$(grep "Allocated:" "$plan_file" | grep -oP '\d+(?=K)')
   [[ "$allocated" -le 135 ]]
 }
+
+@test "status counts numbered plan items (GNU ERE, no \\d) and reports 0 without arithmetic noise" {
+  mkdir -p "$OUTPUT_DIR"
+  today="$(date +%Y-%m-%d)"
+  printf '# plan\n1. [P1] a\n2. [P2] b\n' > "$OUTPUT_DIR/${today}.md"
+  run bash "$SCRIPT" status
+  [[ "$status" -eq 0 ]]
+  [[ "$output" == *"Items in queue:   2"* ]]
+  printf '# empty plan\n' > "$OUTPUT_DIR/${today}.md"
+  run bash "$SCRIPT" status
+  [[ "$output" == *"Items in queue:   0"* ]]
+  [[ "$output" != *$'0\n0'* ]]
+}
