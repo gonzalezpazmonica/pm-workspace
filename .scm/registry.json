@@ -13513,6 +13513,27 @@
     {
       "depends_on": [],
       "frontend_support": [
+        "opencode"
+      ],
+      "id": "script:scripts/config-snapshot",
+      "intents": [
+        "config",
+        "configuración",
+        "copias",
+        "ficheros",
+        "previas"
+      ],
+      "kind": "script",
+      "owner_domain": "planning",
+      "replaced_by": null,
+      "risk_level": null,
+      "source": "scripts/config-snapshot.sh",
+      "status": "active",
+      "tests": []
+    },
+    {
+      "depends_on": [],
+      "frontend_support": [
         "claude"
       ],
       "id": "skill:.claude/skills/consensus-validation/SKILL",
@@ -20620,6 +20641,27 @@
       "replaced_by": null,
       "risk_level": null,
       "source": "scripts/run-agent-evals.sh",
+      "status": "active",
+      "tests": []
+    },
+    {
+      "depends_on": [],
+      "frontend_support": [
+        "opencode"
+      ],
+      "id": "script:scripts/runs-cost-capture",
+      "intents": [
+        "capture",
+        "cost",
+        "hook",
+        "runs",
+        "slice"
+      ],
+      "kind": "script",
+      "owner_domain": "planning",
+      "replaced_by": null,
+      "risk_level": null,
+      "source": "scripts/runs-cost-capture.sh",
       "status": "active",
       "tests": []
     },
@@ -29604,7 +29646,7 @@
       "tests": []
     }
   ],
-  "content_hash": "178bcdee1975",
+  "content_hash": "28ed0347aaf2",
   "deferred_kinds": [
     "rule",
     "hook"

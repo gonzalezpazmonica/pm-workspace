@@ -224,6 +224,44 @@ cmd_suggest_topic() {
     suggest_topic_key "$t" "$ti"
 }
 
+# --- Timeline (SE-405 Slice 3): contexto temporal alrededor de una entrada ---
+cmd_timeline() {
+    local anchor="" window=3
+    while [[ $# -gt 0 ]]; do
+        case "$1" in
+            --window) window="${2:-}"; shift 2 ;;
+            *) anchor="$1"; shift ;;
+        esac
+    done
+    [[ -z "$anchor" ]] && { echo "Uso: timeline {topic_key|hash-prefix} [--window N]" >&2; return 2; }
+    [[ "$window" =~ ^[0-9]+$ ]] || { echo "ERROR: --window debe ser un entero >= 0" >&2; return 2; }
+    [[ -s "$STORE_FILE" ]] || { echo "Sin entradas en $STORE_FILE" >&2; return 1; }
+    python3 - "$STORE_FILE" "$anchor" "$window" <<'PY'
+import json, sys
+store, anchor, window = sys.argv[1], sys.argv[2], int(sys.argv[3])
+rows = []
+for line in open(store, encoding="utf-8"):
+    try:
+        rows.append(json.loads(line))
+    except json.JSONDecodeError:
+        continue
+idx = next((i for i, r in enumerate(rows) if r.get("topic_key") == anchor), None)
+if idx is None:
+    idx = next((i for i, r in enumerate(rows) if str(r.get("hash", "")).startswith(anchor)), None)
+if idx is None:
+    print(f"No existe ninguna entrada con topic_key o hash '{anchor}'", file=sys.stderr)
+    sys.exit(1)
+target = rows[idx]
+proj = target.get("project")
+scope = [r for r in rows if not proj or proj == "null" or r.get("project") == proj]
+scope.sort(key=lambda r: r.get("ts", ""))
+pos = scope.index(target)
+for r in scope[max(0, pos - window): pos + window + 1]:
+    mark = "▶" if r is target else " "
+    print(f"{mark} {r.get('ts','')[:16]}  [{r.get('type','')}] {r.get('title','')}  ({r.get('topic_key','')})")
+PY
+}
+
 # Skip dispatcher if sourced (allows tests to load functions without executing)
 if [[ "${BASH_SOURCE[0]}" != "${0}" ]]; then
     return 0 2>/dev/null || true
@@ -247,12 +285,13 @@ case "${1:-help}" in
     build-graph) python3 "$SCRIPT_DIR/memory-graph.py" build --store "$STORE_FILE" ;;
     graph-search) shift; python3 "$SCRIPT_DIR/memory-graph.py" search "$@" --store "$STORE_FILE" ;;
     graph-status) python3 "$SCRIPT_DIR/memory-graph.py" status --store "$STORE_FILE" ;;
+    timeline) shift; cmd_timeline "$@"; exit $? ;;
     graph-entities) shift; python3 "$SCRIPT_DIR/memory-graph.py" entities "$@" --store "$STORE_FILE" ;;
     help) cat <<'USAGE'
 memory-store.sh {command} [options]
 
 Commands: save, search, context, stats, entity, suggest-topic,
-  session-summary, audit-origins, consolidate, rebuild-index, index-status,
+  session-summary, audit-origins, consolidate, timeline, rebuild-index, index-status,
   benchmark, doctor, build-graph, graph-search, graph-status, graph-entities
 
 Save: --type TYPE --title TITLE [--content TEXT] [--what/--why/--where/--learned]

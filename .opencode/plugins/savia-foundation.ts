@@ -44,6 +44,8 @@ import { blockGitignoredReferences } from "./guards/block-gitignored-references.
 import { promptInjectionGuard } from "./guards/prompt-injection-guard.ts";
 import { tddGate } from "./guards/tdd-gate.ts";
 import { dataSovereigntyAudit } from "./guards/data-sovereignty-audit.ts";
+// SE-405 Slice 2: snapshot of watched config files before edit/write
+import { configSnapshot } from "./guards/config-snapshot.ts";
 import { autoGrillMe } from "./guards/auto-grill-me.ts";
 import { autoZoomOut } from "./guards/auto-zoom-out.ts";
 // SE-221: context-engineering guards (port of bash hooks)
@@ -82,6 +84,8 @@ const BEFORE_GUARDS = [
   subagentAudienceFilter,
   // SE-313 S7c: dispatch tracing (PreToolUse `task`, non-blocking telemetry)
   dispatchTrace,
+  // SE-405 Slice 2: last, so a blocked edit never snapshots (never throws)
+  configSnapshot,
 ] as const;
 
 const AFTER_GUARDS = [

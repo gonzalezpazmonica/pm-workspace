@@ -1,6 +1,6 @@
 {
-  "hash": "178bcdee1975",
-  "total": 1450,
+  "hash": "28ed0347aaf2",
+  "total": 1452,
   "resources": [
     {
       "category": "analysis",
@@ -8764,6 +8764,20 @@
     },
     {
       "category": "planning",
+      "name": "config-snapshot",
+      "intents": [
+        "config",
+        "configuración",
+        "copias",
+        "ficheros",
+        "previas"
+      ],
+      "kind": "script",
+      "path": "scripts/config-snapshot.sh",
+      "description": "config-snapshot.sh — SE-405 Slice 2: copias previas de ficheros de configuración."
+    },
+    {
+      "category": "planning",
       "name": "consensus-validation",
       "intents": [
         "decisión",
@@ -13336,6 +13350,20 @@
       "kind": "script",
       "path": "scripts/run-agent-evals.sh",
       "description": "run-agent-evals.sh — SE-204: evaluation harness for critical agents"
+    },
+    {
+      "category": "planning",
+      "name": "runs-cost-capture",
+      "intents": [
+        "capture",
+        "cost",
+        "hook",
+        "runs",
+        "slice"
+      ],
+      "kind": "script",
+      "path": "scripts/runs-cost-capture.sh",
+      "description": "runs-cost-capture.sh — SubagentStop hook (SE-405 Slice 1)."
     },
     {
       "category": "planning",
