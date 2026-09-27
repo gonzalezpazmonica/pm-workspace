@@ -30,7 +30,7 @@ review_note: "Quarterly review 2026-Q2"
 2. Batch-size gate: reject if diff > 400 LOC (SmartBear threshold)
 3. 5 judges review in parallel (fork agents, isolated context)
 4. court-orchestrator consolidates → .review.crc
-5. If verdict != pass → fix cycle (max 3 rounds)
+5. If verdict != pass → one bounded fix round (SE-404); still failing → new review
 6. Human E1 reviews findings summary, approves or rejects
 ```
 
@@ -57,7 +57,7 @@ Committed alongside the PR code.
 1. Orchestrator creates fix tasks from findings
 2. Dev agent patches code
 3. ONLY affected judge(s) re-review (not all 5)
-4. Max 3 rounds → escalate to human after 4th
+4. One fix round per review (SE-404). A second fix opens a new `.review.crc` with `previous_review: <sha256>`; `court-review.sh validate` rejects more rounds
 5. Each round recorded in .review.crc
 
 ## Batch-size gate (Nyquist enforcement)
@@ -90,7 +90,7 @@ court.fix_verified, court.passed, court.e1_approved
 ```
 CODE_REVIEW_COURT_ENABLED = true
 COURT_MAX_LOC = 400
-COURT_MAX_FIX_ROUNDS = 3
+COURT_MAX_FIX_ROUNDS = 1
 COURT_SCORE_PASS = 90
 COURT_SCORE_CONDITIONAL = 70
 ```

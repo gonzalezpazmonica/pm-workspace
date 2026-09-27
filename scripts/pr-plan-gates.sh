@@ -403,6 +403,52 @@ g11() {
 # Spec: SE-079 (docs/propuestas/SE-079-pr-plan-scope-trace-gate.md).
 # Pattern: Genesis B9 GOAL STEWARD + B8 ATTENTION ANCHOR
 # (docs/rules/domain/attention-anchor.md, SE-080).
+# SE-404 §2.2 — Fix-trace verification for G13 (see g13_scope_trace).
+g13_fix_trace() {
+  local summary="$1" files="$2"
+  local tests; tests=$(sed -nE 's/^Fix-trace:[[:space:]]*//p' "$summary" | tr ', ' '\n\n' | grep -v '^$' | sort -u)
+  local t
+  while IFS= read -r t; do
+    [[ -f "$ROOT/$t" ]] || { echo "FAIL: Fix-trace test not found at HEAD: $t"; return; }
+  done <<< "$tests"
+  local mb; mb=$(git -C "$ROOT" merge-base origin/main HEAD 2>/dev/null) || { echo "FAIL: Fix-trace: no merge-base with origin/main"; return; }
+  local tmo="${G13_FIX_TRACE_TIMEOUT:-300}" wt runner rc
+  wt=$(mktemp -d "${TMPDIR:-/tmp}/g13-fixtrace.XXXXXX")
+  if ! git -C "$ROOT" worktree add -q --detach "$wt/base" "$mb" >/dev/null 2>&1; then
+    rm -rf "$wt"; echo "FAIL: Fix-trace: cannot create base worktree"; return
+  fi
+  local verdict=""
+  while IFS= read -r t; do
+    case "$t" in *.bats) runner="bats" ;; *.py) runner="python3 -m pytest -q" ;; *) verdict="FAIL: Fix-trace supports .bats/.py tests, got: $t"; break ;; esac
+    # Run HEAD's version of the test against the base code: it must fail there.
+    mkdir -p "$wt/base/$(dirname "$t")" && cp "$ROOT/$t" "$wt/base/$t"
+    rc=0; (cd "$wt/base" && timeout "$tmo" $runner "$t" >/dev/null 2>&1) || rc=$?
+    [[ "$rc" -eq 0 ]] && { verdict="FAIL: Fix-trace: $t did not fail at base (${mb:0:8}) — nothing to fix"; break; }
+    rc=0; (cd "$ROOT" && timeout "$tmo" $runner "$t" >/dev/null 2>&1) || rc=$?
+    [[ "$rc" -ne 0 ]] && { verdict="FAIL: Fix-trace: $t does not pass at HEAD"; break; }
+  done <<< "$tests"
+  git -C "$ROOT" worktree remove --force "$wt/base" >/dev/null 2>&1 || true
+  rm -rf "$wt"
+  [[ -n "$verdict" ]] && { echo "$verdict"; return; }
+  # Chain: every changed file is a named test, referenced by one, or whitelisted.
+  local refs=""
+  while IFS= read -r t; do
+    refs="${refs}$(grep -oE '[A-Za-z0-9_./-]+\.(sh|py|ts|js|json|md|yaml|yml|bats)' "$ROOT/$t" | sed -E 's#.*\.\./##; s#^/+##; s#^\./##')"$'\n'
+  done <<< "$tests"
+  local outside=() f
+  while IFS= read -r f; do
+    [[ -z "$f" ]] && continue
+    case "$f" in CHANGELOG.md|CHANGELOG.d/*|.scm/*|.confidentiality-signature|.pr-summary.md) continue ;; esac
+    echo "$tests" | grep -Fxq "$f" && continue
+    echo "$refs" | grep -v '^$' | awk -v f="$f" '{ if (f == $0 || (length($0) > length(f) && substr($0, length($0) - length(f)) == "/" f)) found=1 } END { exit !found }' && continue
+    outside+=("$f")
+  done <<< "$files"
+  if [[ "${#outside[@]}" -gt 0 ]]; then
+    echo "FAIL: Fix-trace: file(s) outside the test chain: ${outside[*]:0:10}"; return
+  fi
+  echo "PASS: fix traced to failing test ($(echo "$tests" | tr '\n' ' ' | sed 's/ $//'))"
+}
+
 g13_scope_trace() {
   if ! git rev-parse origin/main >/dev/null 2>&1; then
     echo "WARN: skipped (origin/main unreachable)"; return
@@ -417,10 +463,19 @@ g13_scope_trace() {
     if [[ -n "$skip_line" ]]; then
       local reason; reason=$(echo "$skip_line" | sed -E 's/^Scope-trace: skip[[:space:]]*[—-]?[[:space:]]*//')
       if [[ "${#reason}" -ge 10 ]]; then
+        # SE-404 AC3: every override is logged so its rate is measurable.
+        mkdir -p "$ROOT/output" 2>/dev/null && python3 -c 'import json,sys,datetime;print(json.dumps({"ts":datetime.datetime.now(datetime.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),"branch":sys.argv[1],"reason":sys.argv[2]},ensure_ascii=False))' "$BRANCH" "$reason" >> "$ROOT/output/g13-overrides.jsonl" 2>/dev/null || true
         echo "skipped via override — ${reason:0:60}"; return
       fi
       echo "FAIL: Scope-trace skip reason too short (${#reason} chars, min 10)"; return
     fi
+  fi
+
+  # SE-404 §2.2: "fix traced to a broken test" — no spec needed when the named
+  # test fails at the merge-base, passes at HEAD, and every changed file is in
+  # its chain (the test, a file it references, a whitelisted derivative).
+  if [[ -f "$summary" ]] && grep -qE '^Fix-trace:' "$summary"; then
+    g13_fix_trace "$summary" "$files"; return
   fi
 
   # Detect spec ids — collect ALL refs from summary + commits + branch.
@@ -444,14 +499,16 @@ g13_scope_trace() {
   local spec_files=""
   while IFS= read -r sid; do
     [[ -z "$sid" ]] && continue
-    local f; f=$(find "$ROOT/docs/propuestas" -maxdepth 1 -type f -name "${sid}*.md" 2>/dev/null | head -1)
+    # SE-404 AC1: SE-3xx/4xx specs live in docs/specs/, not docs/propuestas/.
+    local f; f=$(find "$ROOT/docs/propuestas" "$ROOT/docs/specs" -maxdepth 1 -type f \
+      \( -name "${sid}-*.md" -o -name "${sid}.md" \) 2>/dev/null | sort | head -1)
     [[ -n "$f" ]] && spec_files="${spec_files}${f}"$'\n'
   done <<< "$spec_ids"
   spec_files=$(echo "$spec_files" | grep -v '^$' || true)
 
   if [[ -z "$spec_files" ]]; then
     local first_id; first_id=$(echo "$spec_ids" | head -1)
-    echo "WARN: B8 attention-anchor weak — spec ${first_id} referenced but file not found in docs/propuestas/ (gate skipped)"; return
+    echo "WARN: B8 attention-anchor weak — spec ${first_id} referenced but file not found in docs/propuestas/ or docs/specs/ (gate skipped)"; return
   fi
 
   # Pull AC tokens (lowercase, length ≥ 4) from ALL referenced specs.
@@ -459,7 +516,8 @@ g13_scope_trace() {
   local ac_tokens=""
   while IFS= read -r sf; do
     [[ -z "$sf" ]] && continue
-    local toks; toks=$(grep -E '^- \[[ x]\] AC-' "$sf" 2>/dev/null \
+    # SE-404 AC1: "- [ ] AC-1", "- [x] AC-1", "- AC1:", "- AC-1:", "- **AC1**", "AC1:".
+    local toks; toks=$(grep -E '^[[:space:]]*(- (\[[ x]\] )?)?(\*\*)?AC-?[0-9]+' "$sf" 2>/dev/null \
       | tr '[:upper:]' '[:lower:]' \
       | tr -c '[:alnum:]_\n-' ' ' \
       | tr ' ' '\n' \
@@ -472,7 +530,7 @@ g13_scope_trace() {
   local path_hints=""
   while IFS= read -r sf; do
     [[ -z "$sf" ]] && continue
-    local hints; hints=$(grep -oE '[a-zA-Z0-9_./-]+\.(sh|py|md|bats|json|yaml|yml|ts|tsx|js)' "$sf" 2>/dev/null)
+    local hints; hints=$(grep -oE '[a-zA-Z0-9_./*-]+\.(sh|py|md|bats|json|yaml|yml|ts|tsx|js)' "$sf" 2>/dev/null)
     path_hints="${path_hints}${hints}"$'\n'
   done <<< "$spec_files"
   path_hints=$(echo "$path_hints" | grep -v '^$' | sort -u)
@@ -481,7 +539,7 @@ g13_scope_trace() {
   local spec_self_globs=""
   while IFS= read -r sid; do
     [[ -z "$sid" ]] && continue
-    spec_self_globs="${spec_self_globs}docs/propuestas/${sid}-"$'\n'
+    spec_self_globs="${spec_self_globs}docs/propuestas/${sid}-"$'\n'"docs/specs/${sid}-"$'\n'
   done <<< "$spec_ids"
 
   local unmatched=() unmatched_count=0
@@ -499,6 +557,15 @@ g13_scope_trace() {
     [[ "$self_match" -eq 1 ]] && continue
     # Path hint match across all spec bodies
     if [[ -n "$path_hints" ]] && echo "$path_hints" | grep -Fxq "$f"; then continue; fi
+    # SE-404 AC2: glob hints (docs/rules/domain/*.md, scripts/**.sh)
+    local glob_hit=0 pat
+    while IFS= read -r pat; do
+      [[ "$pat" == *"*"* ]] || continue
+      pat="${pat//\*\*/*}"
+      # shellcheck disable=SC2053
+      [[ "$f" == $pat ]] && { glob_hit=1; break; }
+    done <<< "$path_hints"
+    [[ "$glob_hit" -eq 1 ]] && continue
     # Token overlap. Try the whole basename first ("pr-plan" matching the
     # AC mention `pr-plan.sh`); fall back to per-token split for multi-word
     # names; finally try substring match so a token like "queue" hits

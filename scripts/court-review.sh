@@ -11,6 +11,7 @@ set -uo pipefail
 #   bash scripts/court-review.sh skeleton       # generate .review.crc skeleton
 #   bash scripts/court-review.sh score C H M L  # compute score from counts
 #   bash scripts/court-review.sh hash FILE      # SHA-256 of a file
+#   bash scripts/court-review.sh validate FILE  # SE-404: ≤ COURT_MAX_FIX_ROUNDS (1) fix rounds
 
 COURT_MAX_LOC="${COURT_MAX_LOC:-400}"
 COURT_SCORE_PASS="${COURT_SCORE_PASS:-90}"
@@ -102,6 +103,23 @@ cmd_score() {
   echo "score=$score verdict=$verdict (C=$c H=$h M=$m L=$l)"
 }
 
+cmd_validate() {
+  # SE-404 AC8: one bounded fix round per review. A second round means the
+  # candidate changed again: close this review and open a new .review.crc
+  # with previous_review: <sha256 of this one>.
+  local file="${1:-}"
+  [[ -z "$file" ]] && { echo "Usage: court-review.sh validate FILE" >&2; exit 2; }
+  [[ -f "$file" ]] || { echo "ERROR: not found: $file" >&2; exit 2; }
+  local max="${COURT_MAX_FIX_ROUNDS:-1}"
+  local n
+  n=$(awk '/^rounds:/{inr=1; next} inr && /^[^ ]/{inr=0} inr && /^  - /{c++} END{print c+0}' "$file")
+  if [[ "$n" -gt "$max" ]]; then
+    echo "FAIL: $n fix rounds in $(basename "$file") (max $max). Close this review and open a new review with previous_review: $(sha256sum "$file" | cut -c1-16)…"
+    exit 1
+  fi
+  echo "PASS: $n fix round(s) (max $max)"
+}
+
 cmd_hash() {
   local file="${1:-}"
   [[ -z "$file" ]] && die "Usage: court-review.sh hash FILE"
@@ -114,5 +132,6 @@ case "${1:-}" in
   skeleton) cmd_skeleton ;;
   score)    shift; cmd_score "$@" ;;
   hash)     shift; cmd_hash "$@" ;;
+  validate) shift; cmd_validate "$@" ;;
   *)        echo "Usage: court-review.sh {check|skeleton|score|hash}" ;;
 esac
