@@ -42,7 +42,7 @@ run_gate debt-budget bash "$ROOT/scripts/debt-budget-check.sh" "$ROOT"
 run_gate constitutional-contracts bash "$ROOT/scripts/contract-check.sh"
 run_gate constitutional-contracts bash "$ROOT/scripts/law-check.sh"
 run_gate constitutional-coverage python3 "$ROOT/scripts/constitutional-coverage.py" --root "$ROOT"
-for t in grounding-verify.sh validate-handoff.sh checkpoint.sh effect-reservation.sh debt-burn-down.sh planning-transition.sh report-benchmark.sh; do
+for t in grounding-verify.sh validate-handoff.sh validate-handoff-integrity.sh checkpoint.sh effect-reservation.sh debt-burn-down.sh planning-transition.sh report-benchmark.sh; do
   [[ -x "$ROOT/scripts/$t" || -x "$ROOT/tests/self-evolution/$t" ]] || { echo "WARN coherence/closure-$t"; FAILED=1; }
 done
 echo "PASS coherence/harness-closure: C F2-F5 + E + F + H tooling presente"
