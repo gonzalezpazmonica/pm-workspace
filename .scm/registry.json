@@ -21921,26 +21921,6 @@
       "frontend_support": [
         "opencode"
       ],
-      "id": "script:scripts/skills-lock",
-      "intents": [
-        "integrity",
-        "lock",
-        "skills",
-        "verification"
-      ],
-      "kind": "script",
-      "owner_domain": "planning",
-      "replaced_by": null,
-      "risk_level": null,
-      "source": "scripts/skills-lock.sh",
-      "status": "active",
-      "tests": []
-    },
-    {
-      "depends_on": [],
-      "frontend_support": [
-        "opencode"
-      ],
       "id": "script:scripts/skills-md-generate",
       "intents": [
         "across",
@@ -30145,7 +30125,7 @@
       "tests": []
     }
   ],
-  "content_hash": "b9126f018c6d",
+  "content_hash": "1103c45bc02a",
   "deferred_kinds": [
     "rule",
     "hook"
