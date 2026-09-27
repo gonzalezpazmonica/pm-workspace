@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 set -uo pipefail
+# Drain the hook JSON from stdin (unread input can break the harness pipe).
+[[ -t 0 ]] || INPUT=$(timeout 3 cat 2>/dev/null) || true
 # block-commit-to-main.sh — SE-337: bloquea `git commit` en ramas humanas.
 #
 # autonomous-safety: NUNCA commit en ramas de humanos (main, develop,

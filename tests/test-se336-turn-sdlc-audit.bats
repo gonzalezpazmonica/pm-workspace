@@ -1,12 +1,18 @@
 #!/usr/bin/env bats
 # SE-336 S1 — Turn-SDLC audit: matriz fase→hook
 # Spec: docs/specs/SE-336-turn-sdlc.spec.md
+# Ref: docs/specs/SE-336-turn-sdlc.spec.md
 
 SCRIPT="scripts/turn-sdlc-audit.sh"
 MATRIX="output/turn-sdlc-matrix.md"
 
 setup() {
+  set -o pipefail
   cd "$(dirname "$BATS_TEST_FILENAME")/.." || exit 1
+}
+
+teardown() {
+  cd /
 }
 
 @test "AC-01a: el auditor clasifica el 100% de hooks (0 unclassified fuera de F0)" {
@@ -55,4 +61,39 @@ print(sum(d['phases'].values()))")
   # el script usa ROOT relativo al propio script; invalidamos copiando
   rm -rf "$tmp"
   skip "cobertura de error cubierta por guard interno python3; ver test json-mode"
+}
+
+@test "edge: matcher empty no desplaza el comando al campo hook (JSON valido)" {
+  local fx="$BATS_TEST_TMPDIR/settings.json"
+  printf '%s' '{"hooks":{"SessionStart":[{"matcher":"","hooks":[{"type":"command","command":"\"$CLAUDE_PROJECT_DIR\"/.opencode/hooks/x-gate.sh"}]}]}}' > "$fx"
+  run env TURN_SDLC_SETTINGS="$fx" bash "$SCRIPT" --json
+  [[ "$status" -eq 0 ]]
+  echo "$output" | python3 -c "import json,sys; h=json.load(sys.stdin)['hooks'][0]; assert h['hook']=='x-gate.sh' and h['matcher']=='-', h"
+}
+
+@test "edge: comillas en el matcher se escapan (boundary JSON)" {
+  local fx="$BATS_TEST_TMPDIR/settings.json"
+  printf '%s' '{"hooks":{"PreToolUse":[{"matcher":"Bash(echo \"hi\")","hooks":[{"type":"command","command":"bash hooks/y.sh"}]}]}}' > "$fx"
+  run env TURN_SDLC_SETTINGS="$fx" bash "$SCRIPT" --json
+  [[ "$status" -eq 0 ]]
+  echo "$output" | python3 -c "import json,sys; h=json.load(sys.stdin)['hooks'][0]; assert h['matcher']=='Bash(echo \"hi\")', h"
+}
+
+@test "settings nonexistent → error exit 2" {
+  run env TURN_SDLC_SETTINGS="$BATS_TEST_TMPDIR/nope.json" bash "$SCRIPT" --json
+  [[ "$status" -eq 2 ]]
+}
+
+@test "settings JSON invalid → error exit 2" {
+  printf '{bad' > "$BATS_TEST_TMPDIR/bad.json"
+  run env TURN_SDLC_SETTINGS="$BATS_TEST_TMPDIR/bad.json" bash "$SCRIPT" --json
+  [[ "$status" -eq 2 ]]
+}
+
+@test "evento missing del mapa de fases cae en F0 sin romper el JSON" {
+  local fx="$BATS_TEST_TMPDIR/settings.json"
+  printf '%s' '{"hooks":{"FutureEvent":[{"hooks":[{"type":"command","command":"bash hooks/z.sh"}]}]}}' > "$fx"
+  run env TURN_SDLC_SETTINGS="$fx" bash "$SCRIPT" --json
+  [[ "$status" -eq 0 ]]
+  echo "$output" | python3 -c "import json,sys; d=json.load(sys.stdin); assert d['hooks'][0]['phase']=='F0' and d['unclassified_f0']==1"
 }

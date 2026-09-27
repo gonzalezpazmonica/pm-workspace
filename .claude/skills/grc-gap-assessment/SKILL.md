@@ -1,4 +1,6 @@
 ---
+layer: peripheral
+layer: peripheral
 name: grc-gap-assessment
 description: Construye matriz GRC preliminar y acciones trazables. Usar cuando se solicita gap assessment, auditoría interna o resumen ejecutivo.
 metadata:

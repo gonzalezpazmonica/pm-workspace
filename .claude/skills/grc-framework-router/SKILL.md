@@ -1,4 +1,6 @@
 ---
+layer: peripheral
+layer: peripheral
 name: grc-framework-router
 description: Selecciona marcos GRC y verifica vigencia. Usar cuando se prepara una auditoría, se compara normativa o se delimita aplicabilidad.
 metadata:

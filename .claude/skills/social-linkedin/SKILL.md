@@ -1,4 +1,6 @@
 ---
+layer: peripheral
+layer: peripheral
 name: social-linkedin
 description: >-
   Provider skill de LinkedIn para el agente social-networks (SE-385 MVP1).
