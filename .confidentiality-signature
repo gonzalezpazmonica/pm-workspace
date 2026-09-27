@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=78789d7aa036ec07b27d595fee45f6ded9d339c45fcb7b7d82621ff569e39053
-timestamp=2026-09-27T13:20:44Z
-branch=agent/triage-fase-a-g3
-head_commit=1b064514
-signature=af26c02f424273fd529af55ad08001019a76b52118863e78afd7f782fb042d70
+diff_hash=2a4d6e8cf2147ccfa71127cef9cc27a3b6a8a81bf703bdf02ed5e10f544b5ea5
+timestamp=2026-09-27T15:40:10Z
+branch=agent/ci-hygiene-20260927
+head_commit=58e46787
+signature=c533660f55322b842a19ddd48b632d4c312916d4191d9c4c880b32c18633da86
