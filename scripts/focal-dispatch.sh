@@ -2,6 +2,7 @@
 # focal-dispatch.sh — Prioriza y presenta la decisión humana más crítica (SE-230 Slice 2)
 # Usage: focal-dispatch.sh [--all-blocking] [--all]
 set -uo pipefail
+[[ -n "${LC_ALL:-}" ]] && { export LANG="$LC_ALL"; unset LC_ALL; }; export LC_NUMERIC=C  # punto decimal fijo (es_ES usa coma); LC_ALL anularía LC_NUMERIC
 
 SAVIA_DIR="${HOME}/.savia"
 FOCAL_DIR="${SAVIA_DIR}/focal-state"

@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # aggregate.sh — SPEC-125 Slice 1: deterministic aggregation of 4 judge verdicts.
 set -uo pipefail
+[[ -n "${LC_ALL:-}" ]] && { export LANG="$LC_ALL"; unset LC_ALL; }; export LC_NUMERIC=C  # punto decimal fijo (es_ES usa coma); LC_ALL anularía LC_NUMERIC
 #
 # Reads 4 judge JSON outputs from stdin or files, applies veto rules, computes
 # final verdict (PASS|WARN|VETO), emits aggregate JSON to stdout.
