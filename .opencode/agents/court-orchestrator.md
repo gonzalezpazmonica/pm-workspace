@@ -32,7 +32,7 @@ You orchestrate the Code Review Court. Your job:
 4. **Consolidate**: compute score = 100 - (C×25 + H×10 + M×3 + L×1). Determine verdict.
 5. **Produce**: write `.review.crc` file with all findings, per-file SHA-256, signature.
 5b. **Score** (SE-201): run `scripts/tribunal-critic.sh <verdict.crc>` to obtain quantitative score 0-100. If score < `SAVIA_CRITIC_THRESHOLD` (default 80), attach critic feedback to the fix context and re-convene. After `SAVIA_CRITIC_MAX_ITERATIONS` (default 3) cycles below threshold, escalate to human (exit 3).
-6. **Fix cycle** (if verdict != pass): create fix tasks, assign to dev agent, re-convene only affected judges, max 3 rounds.
+6. **Fix cycle** (if verdict != pass): create fix tasks, assign to dev agent, re-convene only affected judges on the fixed candidate; one fix round per review (SE-404).
 7. **Report**: summary for human E1.
 
 ## Input
@@ -58,9 +58,9 @@ verdict = score >= 90 ? "pass" : score >= 70 ? "conditional" : "fail"
 
 ## Fix cycle rules
 
-- Max COURT_MAX_FIX_ROUNDS (3) rounds
+- Max COURT_MAX_FIX_ROUNDS (1) fix round per review (SE-404)
 - Only re-convene the judge(s) that found the issue
-- After round 3 without pass → escalate to human with full context
+- Still failing after the fix round → close with verdict `fail`; any further fix opens a new review (`previous_review: <sha256>`) and escalates to human with full context
 - Each round is recorded in the .review.crc rounds[] array
 
 ## Output
