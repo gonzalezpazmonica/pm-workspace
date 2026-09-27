@@ -11,7 +11,7 @@
 # Exit: 0 siempre (reporte) · 2 settings.json inválido o inexistente
 set -uo pipefail
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-SETTINGS="$ROOT/.claude/settings.json"
+SETTINGS="${TURN_SDLC_SETTINGS:-$ROOT/.claude/settings.json}"
 OUT_MD="$ROOT/output/turn-sdlc-matrix.md"
 
 JSON_MODE=false
@@ -105,7 +105,9 @@ hooks = d.get('hooks', {})
 rows = []
 for event, groups in sorted(hooks.items()):
     for g in groups:
-        matcher = g.get('matcher', '-')
+        # Empty matcher → '-': an empty TSV field collapses under IFS=$'\t' in
+        # bash read (tab is IFS whitespace) and shifts the command into 'hook'.
+        matcher = g.get('matcher') or '-'
         for h in g.get('hooks', []):
             cmd = h.get('command', '')
             if not cmd:
@@ -130,7 +132,9 @@ for line in "${ROWS[@]}"; do
   [[ "$phase" == "F0" ]] && UNCLASSIFIED=$((UNCLASSIFIED+1))
   PHASE_COUNT[$phase]=$(( ${PHASE_COUNT[$phase]:-0} + 1 ))
   MD_ROWS+=("| $phase | $event | $matcher | \`$name\` | $mode |")
-  JSON_ROWS+=("{\"phase\":\"$phase\",\"event\":\"$event\",\"matcher\":\"$matcher\",\"hook\":\"$name\",\"mode\":\"$mode\"}")
+  jm=${matcher//\\/\\\\}; jm=${jm//\"/\\\"}
+  jn=${name//\\/\\\\}; jn=${jn//\"/\\\"}
+  JSON_ROWS+=("{\"phase\":\"$phase\",\"event\":\"$event\",\"matcher\":\"$jm\",\"hook\":\"$jn\",\"mode\":\"$mode\"}")
 done
 
 if $JSON_MODE; then

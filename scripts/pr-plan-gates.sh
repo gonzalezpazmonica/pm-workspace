@@ -545,10 +545,12 @@ g14_skill_catalog() {
     return
   fi
 
-  # Files added or modified in the PR, restricted to SKILL.md under .opencode/skills/
+  # Files added or modified in the PR. .opencode/skills is a symlink to
+  # .claude/skills, so git reports the .claude path: matching only .opencode
+  # made this gate skip every PR.
   local skills
   skills=$(git diff origin/main..HEAD --name-only --diff-filter=AM 2>/dev/null \
-           | grep -E '^\.opencode/skills/[^/]+/SKILL\.md$' || true)
+           | grep -E '^\.(claude|opencode)/skills/[^/]+/SKILL\.md$' || true)
   if [[ -z "$skills" ]]; then
     echo "skipped (no SKILL.md changed)"
     return

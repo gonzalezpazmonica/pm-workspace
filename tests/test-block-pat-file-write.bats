@@ -1,6 +1,7 @@
 #!/usr/bin/env bats
 # BATS tests for block-pat-file-write.sh
 # SPEC: SPEC-SE-036 Slice 3 (AC-06) — block PAT path writes outside gitignore
+# Ref: SPEC-SE-036 — token rule for "pat" in file names
 
 SCRIPT=".opencode/hooks/block-pat-file-write.sh"
 
@@ -93,4 +94,27 @@ teardown() {
 
 @test "coverage: uses git check-ignore" {
   grep -q "git.*check-ignore" "$SCRIPT"
+}
+
+@test "boundary: pat as a mid-name token (a_pat_b) is blocked" {
+  run bash -c 'echo "{\"tool_input\":{\"file_path\":\"scripts/a_pat_b\"}}" | bash '"$SCRIPT"
+  [[ "$status" -eq 2 ]]
+}
+
+@test "positive: pat as a substring (compat, patched, pattern, spatial) is allowed" {
+  for n in compat.sh patched.sh pattern.txt spatial.md parallel-dispatch.sh; do
+    run bash -c 'echo "{\"tool_input\":{\"file_path\":\"scripts/'"$n"'\"}}" | bash '"$SCRIPT"
+    [[ "$status" -eq 0 ]]
+  done
+}
+
+@test "empty: empty stdin is allowed (nothing to check)" {
+  run bash -c 'printf "" | bash '"$SCRIPT"
+  [[ "$status" -eq 0 ]]
+}
+
+@test "nonexistent: a PAT-named path that does not exist yet is still blocked (--path)" {
+  tmp="$(mktemp -d)"
+  run bash "$SCRIPT" --path "$tmp/not-yet/devops-pat"
+  [[ "$status" -eq 2 ]]
 }

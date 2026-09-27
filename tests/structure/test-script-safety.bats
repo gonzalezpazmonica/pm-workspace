@@ -133,10 +133,14 @@ teardown() {
   done
 }
 
-@test "hook count is reasonable and not zero" {
-  local count; count=$(ls .opencode/hooks/*.sh 2>/dev/null | wc -l)
+@test "hook count is not zero and matches the count declared in CLAUDE.md" {
+  local count declared
+  count=$(ls .opencode/hooks/*.sh 2>/dev/null | wc -l)
   [ "$count" -ge 5 ]
-  [ "$count" -le 110 ]
+  # A fixed cap drifted as hooks were added; the declared count is the contract.
+  declared=$(grep -oE '[0-9]+ hooks \(' CLAUDE.md | head -1 | grep -oE '^[0-9]+')
+  [ -n "$declared" ]
+  [ "$count" -eq "$declared" ]
 }
 
 @test "scripts handle nonexistent hook dir gracefully" {

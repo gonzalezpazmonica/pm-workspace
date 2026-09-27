@@ -61,13 +61,16 @@ assert 'SKILLS.md' in ins, 'SKILLS.md not in instructions'
 "
 }
 
-@test "opencode.json: instructions includes memory + personality + radical-honesty" {
+@test "opencode.json: instructions include personality + core rules, MEMORY.md stays out (SE-371)" {
+  # SE-371 AC-4: MEMORY.md is mutable state; loading it in the stable prefix
+  # invalidates the prompt cache every turn. It is recalled on demand instead.
   python3 -c "
 import json
 ins = json.load(open('$CONFIG')).get('instructions',[])
-patterns = ['MEMORY.md', 'savia.md', 'radical-honesty.md', 'autonomous-safety.md']
+patterns = ['savia.md', 'active-user.md', 'radical-honesty.md', 'autonomous-safety.md']
 for p in patterns:
     assert any(p in i for i in ins), f'missing pattern: {p}'
+assert not any('MEMORY.md' in i for i in ins), 'MEMORY.md must not be in instructions (SE-371)'
 "
 }
 
@@ -124,9 +127,21 @@ d = json.load(open('$CONFIG'))
 assert 'model' not in d or not d['model'], 'model should not be pinned'
 assert 'provider' not in d or not d['provider'], 'provider should not be pinned'
 tiers = {'heavy', 'mid', 'fast'}
-invalid = {name: cfg.get('model') for name, cfg in d.get('agent', {}).items()
-           if cfg.get('model') not in tiers}
-assert not invalid, f'agent models must use capability tiers: {invalid}'
+agents = d.get('agent', {})
+# Agents declare model_tier; a concrete 'model' would pin a provider (#1139).
+pinned = {name: cfg['model'] for name, cfg in agents.items() if cfg.get('model')}
+assert not pinned, f'agents must not pin a concrete model: {pinned}'
+# Tier comes from opencode.json or, if absent there, from the agent definition.
+import os, re
+def md_tier(name):
+    f = os.path.join('$REPO_ROOT', '.opencode', 'agents', name + '.md')
+    if not os.path.isfile(f):
+        return None
+    m = re.search(r'^model_tier:[ \t]*(\S+)', open(f).read(), re.M)
+    return m.group(1) if m else None
+invalid = {name: cfg.get('model_tier') or md_tier(name) for name, cfg in agents.items()}
+invalid = {k: v for k, v in invalid.items() if v not in tiers}
+assert not invalid, f'agent model_tier must be a capability tier: {invalid}'
 "
 }
 
@@ -267,7 +282,7 @@ EOF
 import json
 ins = json.load(open('$CONFIG')).get('instructions',[])
 cats = {
-  'memory': any('MEMORY.md' in i for i in ins),
+  'identity': any('active-user.md' in i for i in ins),
   'personality': any('savia.md' in i for i in ins),
   'rules': any('autonomous-safety' in i or 'radical-honesty' in i for i in ins),
   'catalog': any('AGENTS.md' in i or 'agents-catalog' in i for i in ins),

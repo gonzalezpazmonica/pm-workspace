@@ -146,6 +146,4 @@ Cada rol tiene una guia detallada: `docs/quick-starts/quick-start-{rol}.md`
 4. Si usas datos de clientes: activa Savia Shield
 5. Si algo falla: `/workspace-doctor` diagnostica el entorno
 
----
-
 > Documentacion detallada: `docs/readme/` (13 secciones) y `docs/guides/` (15 guias por escenario).

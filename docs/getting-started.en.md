@@ -146,6 +146,4 @@ Each role has a detailed guide: `docs/quick-starts/quick-start-{role}.md`
 4. If you use client data: enable Savia Shield
 5. If something breaks: `/workspace-doctor` diagnoses the environment
 
----
-
 > Detailed docs: `docs/readme/` (13 sections) and `docs/guides/` (15 scenario guides).
