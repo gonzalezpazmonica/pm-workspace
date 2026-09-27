@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=78789d7aa036ec07b27d595fee45f6ded9d339c45fcb7b7d82621ff569e39053
-timestamp=2026-09-27T13:20:44Z
-branch=agent/triage-fase-a-g3
-head_commit=1b064514
-signature=af26c02f424273fd529af55ad08001019a76b52118863e78afd7f782fb042d70
+diff_hash=dd38e5a931dff0c3f606b20baeb197a0c9ca0e75c46f3d34db1f011238eb0119
+timestamp=2026-09-27T15:46:17Z
+branch=agent/anti-fatigue-fix-20260927
+head_commit=b5c39145
+signature=e05b8610635f1f718584fd8cb9f650096b89acf42248255b01166342416a5a42
