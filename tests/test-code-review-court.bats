@@ -101,10 +101,10 @@ setup() {
   done
 }
 
-@test "rule documents scoring, batch gate 400, and fix cycle max 3" {
+@test "rule documents scoring, batch gate 400, and one fix round per review (SE-404)" {
   grep -q "critical.*25" "$RULES_DIR/code-review-court.md"
   grep -q "400" "$RULES_DIR/code-review-court.md"
-  grep -q "3 rounds\|max 3" "$RULES_DIR/code-review-court.md"
+  grep -q "One fix round per review" "$RULES_DIR/code-review-court.md"  # SE-404 (was: max 3)
 }
 
 ## Command tests
