@@ -1,6 +1,7 @@
 #!/bin/bash
 # memory-search.sh — Search, context, stats (sourced by memory-store.sh)
 set -uo pipefail
+[[ -n "${LC_ALL:-}" ]] && { export LANG="$LC_ALL"; unset LC_ALL; }; export LC_NUMERIC=C  # punto decimal fijo (es_ES usa coma); LC_ALL anularía LC_NUMERIC
 # Vector search with grep fallback. SPEC-020: TTL filtering.
 
 cmd_search() {

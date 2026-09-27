@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # scripts/visual-diff-merge-check.sh — SPEC-046: Visual Diff QA at Merge Time
 set -uo pipefail
+[[ -n "${LC_ALL:-}" ]] && { export LANG="$LC_ALL"; unset LC_ALL; }; export LC_NUMERIC=C  # punto decimal fijo (es_ES usa coma); LC_ALL anularía LC_NUMERIC
 #
 # Orchestrates a before/after visual comparison for UI-touching PRs.
 # Delegates semantic analysis to visual-qa-agent; handles orchestration,

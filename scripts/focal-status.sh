@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+[[ -n "${LC_ALL:-}" ]] && { export LANG="$LC_ALL"; unset LC_ALL; }; export LC_NUMERIC=C  # punto decimal fijo (es_ES usa coma); LC_ALL anularía LC_NUMERIC
 # focal-status.sh — Vista agregada de nidos activos (SE-230 Slice 1)
 # Fuentes: ~/.savia/active-sessions.jsonl (SE-229) + ~/.savia/focal-state/*.json
 # Usage: focal-status.sh [--summary]

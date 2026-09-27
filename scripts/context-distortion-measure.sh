@@ -16,6 +16,7 @@
 #   2 = input error
 
 set -uo pipefail
+[[ -n "${LC_ALL:-}" ]] && { export LANG="$LC_ALL"; unset LC_ALL; }; export LC_NUMERIC=C  # punto decimal fijo (es_ES usa coma); LC_ALL anularía LC_NUMERIC
 
 ORIGINAL=""
 COMPACTED=""
