@@ -67,6 +67,7 @@ teardown() {
 
 @test "SE-248-T08: real DB produces valid JSON output" {
   [[ -f "$DEFAULT_DB" ]] || skip "knowledge-graph.db not available"
+  python3 -c "import networkx, numpy" 2>/dev/null || skip "networkx/numpy not installed (optional, undeclared)"
   run python3 "$PY_SCRIPT" --db "$DEFAULT_DB" --all --format json --output-dir "$TMP_OUT"
   [ "$status" -eq 0 ]
   # Find the JSON output file
@@ -78,6 +79,7 @@ teardown() {
 
 @test "SE-248-T09: JSON output has required top-level fields" {
   [[ -f "$DEFAULT_DB" ]] || skip "knowledge-graph.db not available"
+  python3 -c "import networkx, numpy" 2>/dev/null || skip "networkx/numpy not installed (optional, undeclared)"
   run python3 "$PY_SCRIPT" --db "$DEFAULT_DB" --all --format json --output-dir "$TMP_OUT"
   [ "$status" -eq 0 ]
   local jf
@@ -95,6 +97,7 @@ PYEOF
 
 @test "SE-248-T10: forman_ricci has mean_curvature and bottleneck_ratio" {
   [[ -f "$DEFAULT_DB" ]] || skip "knowledge-graph.db not available"
+  python3 -c "import networkx, numpy" 2>/dev/null || skip "networkx/numpy not installed (optional, undeclared)"
   run python3 "$PY_SCRIPT" --db "$DEFAULT_DB" --forman-ricci --format json --output-dir "$TMP_OUT"
   [ "$status" -eq 0 ]
   local jf
@@ -112,6 +115,7 @@ PYEOF
 
 @test "SE-248-T11: leiden has modularity in [0,1] and num_communities > 0" {
   [[ -f "$DEFAULT_DB" ]] || skip "knowledge-graph.db not available"
+  python3 -c "import networkx, numpy" 2>/dev/null || skip "networkx/numpy not installed (optional, undeclared)"
   run python3 "$PY_SCRIPT" --db "$DEFAULT_DB" --leiden --format json --output-dir "$TMP_OUT"
   [ "$status" -eq 0 ]
   local jf
@@ -129,6 +133,7 @@ PYEOF
 
 @test "SE-248-T12: markdown report mentions bottleneck in output" {
   [[ -f "$DEFAULT_DB" ]] || skip "knowledge-graph.db not available"
+  python3 -c "import networkx, numpy" 2>/dev/null || skip "networkx/numpy not installed (optional, undeclared)"
   run python3 "$PY_SCRIPT" --db "$DEFAULT_DB" --forman-ricci --format md --output-dir "$TMP_OUT"
   [ "$status" -eq 0 ]
   local mf

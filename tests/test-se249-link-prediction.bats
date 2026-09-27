@@ -66,6 +66,7 @@ teardown() {
 
 @test "SE-249-T07: real KG produces JSON with model.mrr and missing_links" {
   [[ -f "$DEFAULT_DB" ]] || skip "knowledge-graph.db not available"
+  python3 -c "import networkx, numpy" 2>/dev/null || skip "networkx/numpy not installed (optional, undeclared)"
   run python3 "$PY_SCRIPT" --db "$DEFAULT_DB" \
     --format json --output-dir "$TMP_OUT" --epochs 5 --top-n 5
   [ "$status" -eq 0 ]
@@ -84,6 +85,7 @@ PYEOF
 
 @test "SE-249-T08: model.mrr is a float" {
   [[ -f "$DEFAULT_DB" ]] || skip "knowledge-graph.db not available"
+  python3 -c "import networkx, numpy" 2>/dev/null || skip "networkx/numpy not installed (optional, undeclared)"
   run python3 "$PY_SCRIPT" --db "$DEFAULT_DB" \
     --format json --output-dir "$TMP_OUT" --epochs 5 --top-n 5
   [ "$status" -eq 0 ]
@@ -109,6 +111,7 @@ PYEOF
 
 @test "SE-249-T10: low MRR warning appears in markdown when MRR < 0.15" {
   [[ -f "$DEFAULT_DB" ]] || skip "knowledge-graph.db not available"
+  python3 -c "import networkx, numpy" 2>/dev/null || skip "networkx/numpy not installed (optional, undeclared)"
   run python3 "$PY_SCRIPT" --db "$DEFAULT_DB" \
     --format md --output-dir "$TMP_OUT" --epochs 5 --top-n 5
   [ "$status" -eq 0 ]
