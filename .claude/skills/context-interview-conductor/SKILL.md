@@ -5,10 +5,9 @@ description: Usar cuando se necesita recopilar contexto estructurado de un usuar
 metadata:
   # --- metadata.savia.* (SE-333) ---
   savia.category: communication
-  savia.maturity: stable
+  savia.maturity: beta
   savia.context_cost: high
   savia.dependencies: "savia-hub-sync, client-profile-manager"
-  savia.maturity: stable
   savia.priority: medium
   savia.summary: "Conduce entrevistas estructuradas de contexto para proyectos nuevos. Genera preguntas adaptativas, captura respuestas y produce documento de contexto completo para el equipo."
   savia.tags: "interview, context, structured, discovery"

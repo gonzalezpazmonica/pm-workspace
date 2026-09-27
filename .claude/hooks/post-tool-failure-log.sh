@@ -50,7 +50,7 @@ RETRY_HINT=$(echo "$CATEGORIZED" | cut -d'|' -f2)
 # ── PATTERN DETECTION (3+ same tool failures/day) ──
 PATTERN=""
 if [[ -f "$LOG_FILE" ]]; then
-    SAME_TOOL_COUNT=$(grep -c "\"tool\":\"$TOOL\"" "$LOG_FILE" 2>/dev/null || echo "0")
+    SAME_TOOL_COUNT=$(grep -c "\"tool\":\"$TOOL\"" "$LOG_FILE" 2>/dev/null || [ $? -eq 1 ] || echo 0)
     if [[ "$SAME_TOOL_COUNT" -ge 2 ]]; then
         PATTERN=",\"pattern\":\"repeated\",\"count\":$((SAME_TOOL_COUNT + 1))"
     fi

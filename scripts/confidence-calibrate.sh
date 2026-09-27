@@ -92,7 +92,7 @@ cmd_summary() {
     [[ $(wc -l < "$LOG_FILE") -eq 0 ]] && { echo "Empty"; exit 0; }
 
     local count=$(wc -l < "$LOG_FILE")
-    local success=$(grep -c '"success":true' "$LOG_FILE" || echo "0")
+    local success=$(grep -c '"success":true' "$LOG_FILE" || [ $? -eq 1 ] || echo 0)
     local brier=0
     local sum=0
     while IFS= read -r line; do

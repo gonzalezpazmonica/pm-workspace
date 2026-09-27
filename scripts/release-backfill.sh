@@ -72,7 +72,7 @@ echo "Total tags found: $TOTAL_TAGS"
 
 # Get all existing releases
 EXISTING=$(gh release list --limit 1000 2>/dev/null | awk '{print $1}' | grep -E "^v[0-9]" || true)
-EXISTING_COUNT=$(echo "$EXISTING" | grep -c "^v" || echo 0)
+EXISTING_COUNT=$(echo "$EXISTING" | grep -c "^v" || [ $? -eq 1 ] || echo 0)
 echo "Existing releases: $EXISTING_COUNT"
 echo ""
 

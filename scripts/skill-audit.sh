@@ -187,20 +187,20 @@ for skill_dir in "$SKILLS_DIR"/*/; do
   [[ "$first_line" != "---" ]] && issues+=("no YAML frontmatter")
 
   # Check required frontmatter fields
-  has_name=$(grep -c "^name:" "$skill_md" 2>/dev/null || echo 0)
-  has_desc=$(grep -c "^description:" "$skill_md" 2>/dev/null || echo 0)
+  has_name=$(grep -c "^name:" "$skill_md" 2>/dev/null || [ $? -eq 1 ] || echo 0)
+  has_desc=$(grep -c "^description:" "$skill_md" 2>/dev/null || [ $? -eq 1 ] || echo 0)
   [[ $has_name -eq 0 ]] && issues+=("missing 'name' field")
   [[ $has_desc -eq 0 ]] && issues+=("missing 'description' field")
 
   # Strict mode: check compatibility field
   if $STRICT; then
-    has_compat=$(grep -c "^compatibility:" "$skill_md" 2>/dev/null || echo 0)
+    has_compat=$(grep -c "^compatibility:" "$skill_md" 2>/dev/null || [ $? -eq 1 ] || echo 0)
     [[ $has_compat -eq 0 ]] && issues+=("missing 'compatibility' field (provider-agnostic)")
   fi
 
   # Strict mode: check license
   if $STRICT; then
-    has_license=$(grep -c "^license:" "$skill_md" 2>/dev/null || echo 0)
+    has_license=$(grep -c "^license:" "$skill_md" 2>/dev/null || [ $? -eq 1 ] || echo 0)
     [[ $has_license -eq 0 ]] && issues+=("missing 'license' field")
   fi
 

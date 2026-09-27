@@ -22,13 +22,13 @@ pr_context_summary() {
 
     # 1. Load business rules (if project exists)
     if [[ -f "$project_dir/reglas-negocio.md" ]]; then
-        local rules_count=$(grep -c '^- \|^RN-' "$project_dir/reglas-negocio.md" 2>/dev/null || echo 0)
+        local rules_count=$(grep -c '^- \|^RN-' "$project_dir/reglas-negocio.md" 2>/dev/null || [ $? -eq 1 ] || echo 0)
         context="Business rules: $rules_count rules in reglas-negocio.md"
     fi
 
     # 2. Load team info
     if [[ -f "$project_dir/equipo.md" ]]; then
-        local team_size=$(grep -c '^|.*|.*|' "$project_dir/equipo.md" 2>/dev/null || echo 0)
+        local team_size=$(grep -c '^|.*|.*|' "$project_dir/equipo.md" 2>/dev/null || [ $? -eq 1 ] || echo 0)
         team_size=$((team_size > 1 ? team_size - 1 : 0))  # subtract header
         context="${context:+$context\n}Team: $team_size members in equipo.md"
     fi

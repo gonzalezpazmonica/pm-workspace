@@ -43,7 +43,7 @@ rebuild_teams() {
     local team; team=$(echo "$branch" | sed 's|^team/||')
     local team_content; team_content=$(do_read "$repo_dir" "$branch" "team.md") || continue
     content="${content}
-${team}	$(echo "$team_content" | grep -c "@" || echo 0)	team/${team}"
+${team}	$(echo "$team_content" | grep -c "@" || [ $? -eq 1 ] || echo 0)	team/${team}"
   done
 
   do_write "$repo_dir" "main" "$idx_path" "$content" "[index: rebuild-teams]"
@@ -61,7 +61,7 @@ rebuild_inboxes() {
     [ -z "$branch" ] && continue
     local handle; handle=$(echo "$branch" | sed 's|^user/||')
     local inbox_list; inbox_list=$(do_list "$repo_dir" "$branch" "inbox/unread") || continue
-    local count; count=$(echo "$inbox_list" | grep -c "." || echo 0)
+    local count; count=$(echo "$inbox_list" | grep -c "." || [ $? -eq 1 ] || echo 0)
     content="${content}
 ${handle}	${count}	user/${handle}/inbox"
   done

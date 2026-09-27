@@ -6,10 +6,9 @@ allowed-tools: [Read, Glob, Grep]
 metadata:
   # --- metadata.savia.* (SE-333) ---
   savia.category: governance
-  savia.maturity: stable
+  savia.maturity: beta
   savia.context_cost: medium
   savia.disable-model-invocation: false
-  savia.maturity: stable
   savia.priority: high
   savia.summary: "Validacion meta-cognitiva (System 2): detecta proxy optimization, supuestos no declarados y cadenas causales rotas. Usa reflection-validator agent. Output: VALIDATED/CORRECTED/RETHINK."
   savia.tags: "reflection, meta-cognitive, system2, assumptions"

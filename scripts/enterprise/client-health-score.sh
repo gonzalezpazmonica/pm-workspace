@@ -66,7 +66,7 @@ _score_delivery() {
   if [[ -f "$billing_file" ]]; then
     local total on_time
     total="$(wc -l < "$billing_file" || echo 0)"
-    on_time="$(grep -c '"status"[[:space:]]*:[[:space:]]*"paid"' "$billing_file" 2>/dev/null || echo 0)"
+    on_time="$(grep -c '"status"[[:space:]]*:[[:space:]]*"paid"' "$billing_file" 2>/dev/null || [ $? -eq 1 ] || echo 0)"
     if (( total > 0 )); then
       score=$(( on_time * 100 / total ))
       signals="${on_time}/${total} milestones on-time"
@@ -101,7 +101,7 @@ _score_budget() {
 
   if [[ -f "$billing_file" ]]; then
     local billed committed
-    billed="$(grep -c '"billed"' "$billing_file" 2>/dev/null || echo 0)"
+    billed="$(grep -c '"billed"' "$billing_file" 2>/dev/null || [ $? -eq 1 ] || echo 0)"
     committed="$(wc -l < "$billing_file" || echo 1)"
     if (( committed > 0 )); then
       score=$(( billed * 100 / committed ))
@@ -139,7 +139,7 @@ _score_risk() {
   local issues_file="${CLIENT_DIR}/issues.jsonl"
   if [[ -f "$issues_file" ]]; then
     local open_count
-    open_count="$(grep -c '"status"[[:space:]]*:[[:space:]]*"open"' "$issues_file" 2>/dev/null || echo 0)"
+    open_count="$(grep -c '"status"[[:space:]]*:[[:space:]]*"open"' "$issues_file" 2>/dev/null || [ $? -eq 1 ] || echo 0)"
     if (( open_count == 0 )); then
       score=90; signals="0 open issues"
     elif (( open_count <= 3 )); then
@@ -161,8 +161,8 @@ _score_alignment() {
 
   if [[ -f "$sow_file" ]]; then
     local total done
-    total="$(grep -cE '^\s*[-*]' "$sow_file" 2>/dev/null || echo 0)"
-    done="$(grep -ciE '\[x\]|\bcompleted\b|\bdone\b' "$sow_file" 2>/dev/null || echo 0)"
+    total="$(grep -cE '^\s*[-*]' "$sow_file" 2>/dev/null || [ $? -eq 1 ] || echo 0)"
+    done="$(grep -ciE '\[x\]|\bcompleted\b|\bdone\b' "$sow_file" 2>/dev/null || [ $? -eq 1 ] || echo 0)"
     if (( total > 0 )); then
       score=$(( done * 100 / total ))
       signals="${done}/${total} SOW objectives met"

@@ -65,7 +65,7 @@ done
 # Count checklist items (lines starting with "- [ ]" or "- [x]") in a file
 _count_criteria() {
   local file="$1"
-  grep -c '^\- \[' "$file" 2>/dev/null || echo 0
+  grep -c '^\- \[' "$file" 2>/dev/null || [ $? -eq 1 ] || echo 0
 }
 
 # Count words in a file

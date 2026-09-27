@@ -5,7 +5,7 @@ description: Usar cuando se quiere ejecutar mejora autónoma de código en segun
 metadata:
   # --- metadata.savia.* (SE-333) ---
   savia.agent: code-reviewer
-  savia.maturity: stable
+  savia.maturity: beta
   savia.category: sdd-framework
   savia.context: fork
   savia.loop_level: L2  # L0=draft | L1=report-only | L2=assisted | L3=unattended — ver docs/rules/domain/loop-phasing.md

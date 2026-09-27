@@ -6,11 +6,10 @@ allowed-tools: [Bash, Read]
 metadata:
   # --- metadata.savia.* (SE-333) ---
   savia.agent: architect
-  savia.maturity: stable
+  savia.maturity: beta
   savia.category: quality
   savia.context: fork
   savia.disable-model-invocation: false
-  savia.maturity: stable
   savia.priority: low
   savia.summary: "Aggregator skill listando 6 probes Slice 1 de champions Tier 3. Cada probe verifica preconditions (Python version, pip deps, disk, browser opcional) antes de adoptar stack. Zero-egress, exit codes estables (0/1/2)."
   savia.tags: "probes, viability, tier3, dependencies, feasibility"

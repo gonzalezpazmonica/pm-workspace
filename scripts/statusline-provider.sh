@@ -30,12 +30,12 @@ BRANCH=$(git -C "$ROOT" branch --show-current 2>/dev/null || echo "N/A")
 PBI_COUNT=0
 ACTIVE_COUNT=0
 if [ "$PROJECT" != "none" ] && [ -d "$ROOT/projects/$PROJECT/backlog/pbi" ]; then
-  PBI_COUNT=$(find "$ROOT/projects/$PROJECT/backlog/pbi" -name "PBI-*.md" 2>/dev/null | grep -c . || echo 0)
-  ACTIVE_COUNT=$(grep -rl "^state: Active" "$ROOT/projects/$PROJECT/backlog/pbi/" 2>/dev/null | grep -c . || echo 0)
+  PBI_COUNT=$(find "$ROOT/projects/$PROJECT/backlog/pbi" -name "PBI-*.md" 2>/dev/null | grep -c . || [ $? -eq 1 ] || echo 0)
+  ACTIVE_COUNT=$(grep -rl "^state: Active" "$ROOT/projects/$PROJECT/backlog/pbi/" 2>/dev/null | grep -c . || [ $? -eq 1 ] || echo 0)
 fi
 
 # ── BATS test count ──
-TEST_COUNT=$(find "$ROOT/tests" -name "*.bats" 2>/dev/null | grep -c . || echo 0)
+TEST_COUNT=$(find "$ROOT/tests" -name "*.bats" 2>/dev/null | grep -c . || [ $? -eq 1 ] || echo 0)
 
 # ── Output ──
 printf '{"tier":"%s","window":%s,"compact":%s,"project":"%s","branch":"%s","pbis":%s,"active":%s,"tests":%s}\n' \

@@ -39,9 +39,9 @@ for h in "$ROOT/.claude/hooks"/*.sh; do
 done
 CRED_HOOKS=$(find "$ROOT/.claude/hooks" -name "*pii*" -o -name "*credential*" -o -name "*secret*" 2>/dev/null | wc -l)
 
-STABLE=$(grep -rl "^maturity: stable" "$ROOT/.claude/skills"/*/SKILL.md 2>/dev/null | wc -l)
-BETA=$(grep -rl "^maturity: beta" "$ROOT/.claude/skills"/*/SKILL.md 2>/dev/null | wc -l)
-ALPHA=$(grep -rl "^maturity: alpha" "$ROOT/.claude/skills"/*/SKILL.md 2>/dev/null | wc -l)
+STABLE=$(grep -rlE "^[[:space:]]*(savia\.)?maturity: stable" "$ROOT/.claude/skills"/*/SKILL.md 2>/dev/null | wc -l)
+BETA=$(grep -rlE "^[[:space:]]*(savia\.)?maturity: beta" "$ROOT/.claude/skills"/*/SKILL.md 2>/dev/null | wc -l)
+ALPHA=$(grep -rlE "^[[:space:]]*(savia\.)?maturity: alpha" "$ROOT/.claude/skills"/*/SKILL.md 2>/dev/null | wc -l)
 MATURITY_PCT=$([ "$SKILLS_COUNT" -gt 0 ] && [ "$STABLE" -gt 0 ] && echo $(( (STABLE * 100) / SKILLS_COUNT )) || echo 0)
 
 CI_JOBS=0
@@ -53,7 +53,7 @@ fi
 REQUIRED_DOCS=("LICENSE" "README.md" "CHANGELOG.md" "CONTRIBUTING.md" "SECURITY.md")
 DOCS_PRESENT=0
 for d in "${REQUIRED_DOCS[@]}"; do [ -f "$ROOT/$d" ] && DOCS_PRESENT=$((DOCS_PRESENT + 1)); done
-CHANGELOG_ENTRIES=$(grep -c "^## \[" "$ROOT/CHANGELOG.md" 2>/dev/null || echo 0)
+CHANGELOG_ENTRIES=$(grep -c "^## \[" "$ROOT/CHANGELOG.md" 2>/dev/null || [ $? -eq 1 ] || echo 0)
 
 # Calculate Trust Score
 HEALTH_CONTRIB=$(( (HEALTH_SCORE * 20) / 100 ))

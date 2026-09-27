@@ -5,10 +5,9 @@ description: Usar cuando se audita compliance legal contra legislación español
 metadata:
   # --- metadata.savia.* (SE-333) ---
   savia.category: governance
-  savia.maturity: stable
+  savia.maturity: beta
   savia.context_cost: medium
   savia.developer_type: all
-  savia.maturity: experimental
   savia.priority: high
   savia.references: references/domain-terms.md
   savia.summary: "Cruza reglas de negocio, contratos, políticas y arquitectura contra 12.235 normas españolas consolidadas del BOE. Búsqueda por grep determinista, sin dependencias externas."

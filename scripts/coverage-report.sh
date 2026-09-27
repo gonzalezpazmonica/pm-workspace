@@ -54,7 +54,7 @@ skill_fm_pct=$(( total_skills > 0 ? skills_with_frontmatter * 100 / total_skills
 total_bats_suites=$(find "$ROOT/tests" -name "*.bats" 2>/dev/null | wc -l | tr -d ' ')
 total_bats_tests=0
 for f in $(find "$ROOT/tests" -name "*.bats" 2>/dev/null); do
-  count=$(grep -c "^@test " "$f" 2>/dev/null || echo 0)
+  count=$(grep -c "^@test " "$f" 2>/dev/null || [ $? -eq 1 ] || echo 0)
   total_bats_tests=$((total_bats_tests + count))
 done
 

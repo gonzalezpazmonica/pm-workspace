@@ -70,7 +70,7 @@ QUALITY_FILE="${ROOT_DIR}/output/quality-gate-history.jsonl"
 if [[ -f "$QUALITY_FILE" ]]; then
   TOTAL_GATES=$(wc -l < "$QUALITY_FILE" | tr -d ' ')
   if [[ $TOTAL_GATES -gt 0 ]]; then
-    PASS_COUNT=$(grep -c '"status"[[:space:]]*:[[:space:]]*"pass"' "$QUALITY_FILE" 2>/dev/null || echo 0)
+    PASS_COUNT=$(grep -c '"status"[[:space:]]*:[[:space:]]*"pass"' "$QUALITY_FILE" 2>/dev/null || [ $? -eq 1 ] || echo 0)
     QUALITY_PASS_RATE=$(echo "scale=4; $PASS_COUNT / $TOTAL_GATES" | bc 2>/dev/null || echo 1.0)
   fi
 fi

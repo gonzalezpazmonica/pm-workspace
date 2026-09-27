@@ -50,7 +50,7 @@ dir_status() {
 # ── L0: Índice canónico ────────────────────────────────────────────────────────
 L0_PATH="$ROOT/.claude/external-memory/auto/MEMORY.md"
 L0_LINES=$(wc -l < "$L0_PATH" 2>/dev/null || echo "?")
-L0_ENTRIES=$(grep -c '^- ' "$L0_PATH" 2>/dev/null || echo "0")
+L0_ENTRIES=$(grep -c '^- ' "$L0_PATH" 2>/dev/null || [ $? -eq 1 ] || echo 0)
 if [[ -f "$L0_PATH" ]]; then
   L0_STATUS="$(ok "ok") · ${L0_ENTRIES} entradas · ${L0_LINES} líneas"
 else

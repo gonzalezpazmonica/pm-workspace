@@ -5,10 +5,9 @@ description: Escanea el historial git o los commits pendientes de push buscando 
 metadata:
   # --- metadata.savia.* (SE-333) ---
   savia.category: security
-  savia.maturity: stable
+  savia.maturity: beta
   savia.context: fork
   savia.context_cost: low
-  savia.maturity: stable
   savia.se: SE-239
   savia.summary: "Escaneo de secrets en historial git con gitleaks. Clasificación CRITICAL/HIGH/MEDIUM/LOW. Output: JSONL + summary MD en output/security/."
   savia.tags: "security, gitleaks, secret, git-history, pre-push"
