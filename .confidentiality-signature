@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=35ee800bd49f4c0bc1a2e29f6abcc79dac572ea7188ab0984d4292719725b375
-timestamp=2026-09-27T10:04:28Z
+diff_hash=12c2e1fbbdcbbd4252fdb439eff58fdd6e7f5f6f9d8eb30427a7775c44d7af9f
+timestamp=2026-09-27T10:19:50Z
 branch=agent/fix-security-suites
-head_commit=28180ff2
-signature=3eb4673476f73fb598876d839f93aa10011035b01621a25a5c30d932c19e2d2b
+head_commit=5795f9f6
+signature=6e5e05a5d36a7a5afa1d974f9dce64d33d06459f620d9f32a9ad0e6cf02fecc8
