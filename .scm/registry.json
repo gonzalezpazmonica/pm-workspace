@@ -14535,6 +14535,27 @@
       "frontend_support": [
         "opencode"
       ],
+      "id": "script:scripts/edit-ledger",
+      "intents": [
+        "atribuidas",
+        "ediciones",
+        "edit",
+        "ledger",
+        "registro"
+      ],
+      "kind": "script",
+      "owner_domain": "planning",
+      "replaced_by": null,
+      "risk_level": null,
+      "source": "scripts/edit-ledger.sh",
+      "status": "active",
+      "tests": []
+    },
+    {
+      "depends_on": [],
+      "frontend_support": [
+        "opencode"
+      ],
       "id": "script:scripts/effect-reservation",
       "intents": [
         "close",
@@ -24757,27 +24778,6 @@
       "frontend_support": [
         "opencode"
       ],
-      "id": "script:scripts/corporate/corporate-attestation-queue",
-      "intents": [
-        "attestation",
-        "corporate",
-        "offline",
-        "online",
-        "queue"
-      ],
-      "kind": "script",
-      "owner_domain": "quality",
-      "replaced_by": null,
-      "risk_level": null,
-      "source": "scripts/corporate/corporate-attestation-queue.sh",
-      "status": "active",
-      "tests": []
-    },
-    {
-      "depends_on": [],
-      "frontend_support": [
-        "opencode"
-      ],
       "id": "agent:.opencode/agents/correctness-judge",
       "intents": [
         "cases",
@@ -29604,7 +29604,7 @@
       "tests": []
     }
   ],
-  "content_hash": "c8d0608b61cb",
+  "content_hash": "13ddae349698",
   "deferred_kinds": [
     "rule",
     "hook"

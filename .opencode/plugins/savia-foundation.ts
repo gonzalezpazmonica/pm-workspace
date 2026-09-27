@@ -23,6 +23,7 @@
 // Guard execution order (tool.execute.after):
 //   Non-blocking audit, best-effort.
 //   1. data-sovereignty-audit (re-scans written file, ~0-50ms)
+//   2. edit-ledger-record     (SE-402, path + sha256 to ~/.savia/edits, ~5ms)
 //
 // Reference: SPEC-127 Slice 2b-i + 2b-ii
 // Reference: SPEC-OC-01 (Savia Shield adaptation)
@@ -46,6 +47,8 @@ import { tddGate } from "./guards/tdd-gate.ts";
 import { dataSovereigntyAudit } from "./guards/data-sovereignty-audit.ts";
 // SE-405 Slice 2: snapshot of watched config files before edit/write
 import { configSnapshot } from "./guards/config-snapshot.ts";
+// SE-402: attributed edit ledger (path + hash, never content)
+import { editLedgerRecord } from "./guards/edit-ledger-record.ts";
 import { autoGrillMe } from "./guards/auto-grill-me.ts";
 import { autoZoomOut } from "./guards/auto-zoom-out.ts";
 // SE-221: context-engineering guards (port of bash hooks)
@@ -90,6 +93,8 @@ const BEFORE_GUARDS = [
 
 const AFTER_GUARDS = [
   dataSovereigntyAudit,
+  // SE-402: record successful edit/write in the attributed edit ledger
+  editLedgerRecord,
   // SE-221 Slice 1: stamp origin block on long Read outputs
   contextOriginStamp,
   // SE-221 Slice 2: drop/stub/keep decision on long Read/WebFetch/Bash outputs

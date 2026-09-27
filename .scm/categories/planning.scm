@@ -1,5 +1,5 @@
 # planning — Savia Capability Map (L1)
-> 631 resources
+> 632 resources
 
 - **/decide-architecture** (cmd): Clasifica una tarea como WORKFLOW (deterministica) o AGENT (loop). Bias hacia workflow per Anthropic. Sugiere plantilla inicial. Mide accuracy contra corpus curado de 20 tareas.
 - **_template** (skill): TEMPLATE — copia este directorio para crear una skill nueva. NO se carga en runtime.
@@ -160,6 +160,7 @@
 - **dotnet-developer** (agent): >
 - **dual-estimate** (script): dual-estimate.sh — Dual estimation engine: agent-time vs human-time
 - **ecosystem-watcher** (skill): Usar una vez al mes para detectar cambios relevantes en el ecosistema de herramientas externas.
+- **edit-ledger** (script): edit-ledger.sh — SE-402: registro de ediciones atribuidas.
 - **effect-reservation** (script): SE-387 C/F5 — Exactly-once effects: intent -> reservation -> gate -> execute -> receipt -> close.
 - **egress-gate** (script): egress-gate.sh — SE-273 S3: Egress control gate
 - **emergency-fallback** (script): emergency-fallback.sh — Operaciones PM sin LLM
