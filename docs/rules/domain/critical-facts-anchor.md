@@ -1,6 +1,6 @@
 ---
 context_tier: L0
-token_budget: 74
+token_budget: 85
 ---
 
 # Critical Facts Anchor

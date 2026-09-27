@@ -1,6 +1,6 @@
 ---
 context_tier: L1
-token_budget: 508
+token_budget: 520
 ---
 
 # Caveman Default — Restricciones base de Savia
