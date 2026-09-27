@@ -1,5 +1,5 @@
 #!/usr/bin/env bats
-# BATS tests for ci-extended-checks ratchet gates (checks #8, #9, #10).
+# BATS tests for ci-extended-checks ratchet gates (checks #8, #9, #10, #11).
 # SE-037/038/039 Slice 3 — enforcement gates with ratchet pattern.
 #
 # Ref: ROADMAP.md §Tier 1 Slice 3 (enforcement)
@@ -101,12 +101,13 @@ teardown() {
   [ "$status" -eq 0 ]
 }
 
-@test "ci-extended-checks output contains all 10 checks" {
+@test "ci-extended-checks output contains all ratchet checks" {
   run bash scripts/ci-extended-checks.sh
   [ "$status" -eq 0 ]
   [[ "$output" == *"Agent Size Ratchet"* ]]
   [[ "$output" == *"Hook Latency Ratchet"* ]]
   [[ "$output" == *"BATS Auditor Compliance Floor"* ]]
+  [[ "$output" == *"SAM Freshness"* ]]
 }
 
 @test "check #8 passes with current baseline" {
@@ -117,6 +118,17 @@ teardown() {
 @test "check #9 passes with current baseline" {
   run bash scripts/ci-extended-checks.sh
   [[ "$output" == *"Hook latency:"*"violations ≤ baseline"* ]]
+}
+
+@test "check #11 SAM freshness passes on a committed, fresh .scm/sam.json" {
+  run bash scripts/ci-extended-checks.sh
+  [[ "$output" == *".scm/sam.json fresh"* ]]
+}
+
+@test "check #11 is read-only: calls sam.py check, never regenerates" {
+  # A gate that regenerates would hide the staleness it is meant to catch.
+  grep -q 'python3 scripts/sam.py check' scripts/ci-extended-checks.sh
+  ! grep -qE '^[^#"]*python3 [^ ]*sam.py generate' scripts/ci-extended-checks.sh
 }
 
 @test "check #10 passes with floor configured" {

@@ -147,6 +147,7 @@ EOF
 ---
 name: good
 description: A nicely formed skill that the auditor approves. Use when running the gate in a sandbox.
+layer: peripheral
 ---
 # Good
 EOF
@@ -168,6 +169,7 @@ EOF
     echo '---'
     echo 'name: medium'
     echo 'description: A skill at the warning boundary. Use when testing the medium-size band.'
+    echo 'layer: peripheral'
     echo '---'
     echo '# Medium'
     for i in $(seq 1 120); do echo "line $i"; done
@@ -192,4 +194,18 @@ EOF
   else
     skip "caveman skill not yet on this branch (SE-081 not merged)"
   fi
+}
+
+@test "edge: valid skill without layer field fails --gate (SE-356)" {
+  mkdir -p "$TMPDIR_T/skills/nolayer"
+  cat > "$TMPDIR_T/skills/nolayer/SKILL.md" <<'EOF'
+---
+name: nolayer
+description: A well formed skill that forgot its layer. Use when checking SE-356 enforcement.
+---
+# No layer
+EOF
+  OUTPUT_DIR="$TMPDIR_T/out" run bash "$AUDITOR" --gate --skill "$TMPDIR_T/skills/nolayer"
+  [ "$status" -eq 1 ]
+  [[ "$output" == *"missing-layer-field"* ]]
 }

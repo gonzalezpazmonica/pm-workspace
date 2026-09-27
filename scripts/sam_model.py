@@ -460,14 +460,24 @@ def _input_records(root: Path, source_paths: Iterable[str],
             prior_commit = prior.get("source_commit")
             if prior_commit and prior_commit != "NOT_AVAILABLE":
                 try:
-                    prior_blob = subprocess.run(
-                        ["git", "show", f"{prior_commit}:{relative}"], cwd=root,
-                        check=False, stdout=subprocess.PIPE, stderr=subprocess.DEVNULL,
+                    # A squash merge leaves the recorded branch commit out of a
+                    # fresh clone of main. Missing evidence is not a mismatch:
+                    # only a commit that exists and holds other bytes refutes it.
+                    exists = subprocess.run(
+                        ["git", "cat-file", "-e", f"{prior_commit}^{{commit}}"], cwd=root,
+                        check=False, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL,
                     )
-                    prior_content_matches = (
-                        prior_blob.returncode == 0
-                        and hashlib.sha256(prior_blob.stdout).hexdigest() == digest
-                    )
+                    if exists.returncode != 0:
+                        prior_content_matches = None
+                    else:
+                        prior_blob = subprocess.run(
+                            ["git", "show", f"{prior_commit}:{relative}"], cwd=root,
+                            check=False, stdout=subprocess.PIPE, stderr=subprocess.DEVNULL,
+                        )
+                        prior_content_matches = (
+                            prior_blob.returncode == 0
+                            and hashlib.sha256(prior_blob.stdout).hexdigest() == digest
+                        )
                 except OSError:
                     prior_content_matches = None
             else:
