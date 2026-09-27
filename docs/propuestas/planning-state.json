@@ -252,6 +252,51 @@
       "note": "Tras cierre verificable SE-396, F0 de solo lectura: validar la frontera con el programa privado AEK. No implementar ni graduar antes de aprobación explícita. ADR-002: reescribir alineada a TEE v1.1 (Sufficiency, Commitment, Outcome, Disposition, Authority Lease). Colisión de IDs resuelta 2026-09-26: AEK usa prefijo AEK-; SE-401 conserva su ID. Fase B.",
       "evidence": "docs/specs/SE-401-intent-to-effect-execution-architecture.spec.md",
       "phase": "B"
+    },
+    {
+      "id": "SE-402",
+      "status": "APPROVED",
+      "approval": "Operadora 2026-09-27: 'Redacta todas las specs que necesites y adelante con todas las propuestas en sprint nocturno'",
+      "priority": "P1",
+      "title": "Attributed Edit Ledger",
+      "evidence": "docs/specs/SE-402-attributed-edit-ledger.spec.md",
+      "phase": "A"
+    },
+    {
+      "id": "SE-403",
+      "status": "APPROVED",
+      "approval": "Operadora 2026-09-27: 'Redacta todas las specs que necesites y adelante con todas las propuestas en sprint nocturno'",
+      "priority": "P2",
+      "title": "Benchmark evidence: trazas, frontera, hash de selección",
+      "evidence": "docs/specs/SE-403-benchmark-evidence-frontier.spec.md",
+      "phase": "C"
+    },
+    {
+      "id": "SE-404",
+      "status": "APPROVED",
+      "approval": "Operadora 2026-09-27: 'Redacta todas las specs que necesites y adelante con todas las propuestas en sprint nocturno'",
+      "priority": "P1",
+      "title": "Proceso proporcional: G13 v2 y una corrección por revisión",
+      "evidence": "docs/specs/SE-404-proportional-process-gates.spec.md",
+      "phase": "B"
+    },
+    {
+      "id": "SE-405",
+      "status": "APPROVED",
+      "approval": "Operadora 2026-09-27: 'Redacta todas las specs que necesites y adelante con todas las propuestas en sprint nocturno'",
+      "priority": "P2",
+      "title": "Observabilidad: coste por subagente, snapshots de config, timeline de memoria",
+      "evidence": "docs/specs/SE-405-harness-observability-increments.spec.md",
+      "phase": "A"
+    },
+    {
+      "id": "SE-406",
+      "status": "PROPOSED",
+      "priority": "P1",
+      "title": "Savia Relay: canal activo con la operadora por WhatsApp",
+      "note": "Propuesta para revisión; decisiones D1-D8 abiertas",
+      "evidence": "docs/specs/SE-406-whatsapp-operator-channel.spec.md",
+      "phase": "B"
     }
   ],
   "route": {
