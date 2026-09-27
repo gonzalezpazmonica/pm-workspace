@@ -222,8 +222,10 @@ g6b() {
   local low=""
   while IFS= read -r f; do
     [[ -z "$f" || ! -f "$f" ]] && continue
+    # The auditor exits 1 when a file does not certify; under pipefail that
+    # must not overwrite the real score (it used to report 0 for everything).
     local score; score=$(bash scripts/test-auditor.sh "$f" 2>/dev/null \
-      | python3 -c "import json,sys; print(json.load(sys.stdin).get('total',0))" 2>/dev/null) || score=0
+      | python3 -c "import json,sys; print(json.load(sys.stdin).get('total',0))" 2>/dev/null || true)
     if [[ ! "$score" =~ ^[0-9]+$ ]]; then score=0; fi
     if [[ "$score" -lt 80 ]]; then
       low="${low} ${f}=${score}"

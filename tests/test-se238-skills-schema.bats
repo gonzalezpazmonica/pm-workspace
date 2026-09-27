@@ -33,12 +33,12 @@ WORKSPACE_SKILLS="${REPO_ROOT}/.opencode/skills"
 @test "skills-schema.json se genera correctamente con el script" {
   tmp_json=$(mktemp /tmp/skills-schema-XXXXXX.json)
   tmp_md=$(mktemp /tmp/skills-schema-XXXXXX.md)
-  
+
   run bash "$SCRIPT" --skills-dir "$WORKSPACE_SKILLS" --output "$tmp_json" --output-md "$tmp_md"
-  
+
   # El script debe generar JSON válido
   python3 -c "import json; json.load(open('$tmp_json'))"
-  
+
   rm -f "$tmp_json" "$tmp_md"
   [ "$status" -eq 0 ]
 }
@@ -95,9 +95,9 @@ print('OK: savia-memory encontrado')
 @test "skills-schema-generate.sh genera output JSON válido" {
   tmp_json=$(mktemp /tmp/skills-schema-valid-XXXXXX.json)
   tmp_md=$(mktemp /tmp/skills-schema-valid-XXXXXX.md)
-  
+
   bash "$SCRIPT" --skills-dir "$WORKSPACE_SKILLS" --output "$tmp_json" --output-md "$tmp_md" >/dev/null 2>&1
-  
+
   # Verificar JSON válido con python3
   python3 -c "
 import json
@@ -109,7 +109,7 @@ assert isinstance(d['skills'], list), 'skills no es una lista'
 assert len(d['skills']) > 0, 'lista skills vacía'
 print('OK: JSON válido')
 "
-  
+
   rm -f "$tmp_json" "$tmp_md"
 }
 
@@ -119,15 +119,67 @@ print('OK: JSON válido')
   tmp_json2=$(mktemp /tmp/skills-schema-idem2-XXXXXX.json)
   tmp_md1=$(mktemp /tmp/skills-schema-idem1-XXXXXX.md)
   tmp_md2=$(mktemp /tmp/skills-schema-idem2-XXXXXX.md)
-  
+
   bash "$SCRIPT" --skills-dir "$WORKSPACE_SKILLS" --output "$tmp_json1" --output-md "$tmp_md1" >/dev/null 2>&1
   bash "$SCRIPT" --skills-dir "$WORKSPACE_SKILLS" --output "$tmp_json2" --output-md "$tmp_md2" >/dev/null 2>&1
-  
+
   # Comparar número de entradas (el timestamp puede diferir en _meta)
   count1=$(python3 -c "import json; print(len(json.load(open('$tmp_json1'))['skills']))")
   count2=$(python3 -c "import json; print(len(json.load(open('$tmp_json2'))['skills']))")
-  
+
   rm -f "$tmp_json1" "$tmp_json2" "$tmp_md1" "$tmp_md2"
-  
+
   [ "$count1" -eq "$count2" ]
+}
+
+# ── Robustez: errores, límites y aislamiento ─────────────────────────────────
+setup() {
+  TMPD="$(mktemp -d)"
+}
+
+teardown() {
+  rm -rf "$TMPD" 2>/dev/null || true
+}
+
+@test "el generador declara set -euo pipefail" {
+  head -40 "$SCRIPT" | grep -q 'set -euo pipefail'
+}
+
+@test "error: skills dir nonexistent → exit 1 sin escribir salida" {
+  run bash "$SCRIPT" --skills-dir "$TMPD/no-existe" --output "$TMPD/o.json" --output-md "$TMPD/o.md"
+  [ "$status" -eq 1 ]
+  [[ "$output" == *"no encontrado"* ]]
+  [ ! -e "$TMPD/o.json" ]
+}
+
+@test "invalid flag rejected with usage (exit != 0)" {
+  run bash "$SCRIPT" --bogus
+  [ "$status" -ne 0 ]
+  [[ "$output" == *"Uso:"* ]]
+}
+
+@test "empty skills dir → 0 skills y JSON válido" {
+  mkdir -p "$TMPD/empty"
+  run bash "$SCRIPT" --skills-dir "$TMPD/empty" --output "$TMPD/e.json" --output-md "$TMPD/e.md"
+  [ "$status" -eq 0 ]
+  python3 -c "
+import json
+d = json.load(open('$TMPD/e.json'))
+assert d['_meta']['total_skills'] == 0 and d['skills'] == [], d
+"
+}
+
+@test "skill sin frontmatter se indexa con skill_id y path (boundary)" {
+  mkdir -p "$TMPD/s/solo-texto"
+  echo "hola" > "$TMPD/s/solo-texto/SKILL.md"
+  run bash "$SCRIPT" --skills-dir "$TMPD/s" --output "$TMPD/s.json" --output-md "$TMPD/s.md"
+  [ "$status" -eq 0 ]
+  python3 -c "
+import json
+d = json.load(open('$TMPD/s.json'))
+assert d['_meta']['total_skills'] == 1, d
+e = d['skills'][0]
+assert e['skill_id'] == 'solo-texto', e
+assert e['skill_path'].endswith('solo-texto/SKILL.md'), e
+"
 }
