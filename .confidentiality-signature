@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=b98282813288ec7e73b434ea57d07355155ee772189c32059ef72f21fa79e72a
-timestamp=2026-09-27T17:29:59Z
-branch=agent/small-fixes-20260927
-head_commit=05f87d8c
-signature=42f116c56b55c1f743dbe234c5302592a8235d14c39772772f7166511ac3b110
+diff_hash=a9c234a9f9f01085eda63642fc790674e30362e5a1c34fec51615c864733093b
+timestamp=2026-09-27T18:25:12Z
+branch=agent/triage-g4-20260927
+head_commit=8216ace5
+signature=0d6ee06a70b9843fd8ad17ed4e8c9e6b750568d0f9e7337873dc0c3a5eb91033
