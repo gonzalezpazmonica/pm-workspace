@@ -1,5 +1,5 @@
 # planning — Savia Capability Map (L1)
-> 642 resources
+> 641 resources
 
 - **/decide-architecture** (cmd): Clasifica una tarea como WORKFLOW (deterministica) o AGENT (loop). Bias hacia workflow per Anthropic. Sugiere plantilla inicial. Mide accuracy contra corpus curado de 20 tareas.
 - **_template** (skill): TEMPLATE — copia este directorio para crear una skill nueva. NO se carga en runtime.
@@ -511,7 +511,6 @@
 - **skill-routing-index** (script): skill-routing-index.sh — SE-152
 - **skill-suggest** (script): skill-suggest.sh — Proactive skill suggestion hook (SE-276)
 - **skills-collision-detect** (script): skills-collision-detect.sh — SE-270 Slice 1 — Skill description collision detection
-- **skills-lock** (script): skills-lock.sh — SHA-256 integrity verification for skills
 - **skills-md-generate** (script): Force C locale for deterministic sort + awk text handling across machines
 - **skills-schema-generate** (script): skills-schema-generate.sh
 - **skillssh-adapter** (script): ── skills.sh Adapter — Genera paquetes publicables para skills.sh ──

@@ -1,6 +1,6 @@
 {
-  "hash": "b9126f018c6d",
-  "total": 1476,
+  "hash": "1103c45bc02a",
+  "total": 1475,
   "resources": [
     {
       "category": "analysis",
@@ -14176,19 +14176,6 @@
       "kind": "script",
       "path": "scripts/skills-collision-detect.sh",
       "description": "skills-collision-detect.sh — SE-270 Slice 1 — Skill description collision detection"
-    },
-    {
-      "category": "planning",
-      "name": "skills-lock",
-      "intents": [
-        "integrity",
-        "lock",
-        "skills",
-        "verification"
-      ],
-      "kind": "script",
-      "path": "scripts/skills-lock.sh",
-      "description": "skills-lock.sh — SHA-256 integrity verification for skills"
     },
     {
       "category": "planning",
