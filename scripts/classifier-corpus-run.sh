@@ -18,13 +18,17 @@ VERBOSE=0
 SAVIA_ENV_TEXT="$(head -c 1500 "$REPO_ROOT/scripts/savia-env.sh" 2>/dev/null)"
 DISPATCH_TEXT="$(head -c 1200 "$REPO_ROOT/scripts/subagent-dispatch-gate.sh" 2>/dev/null)"
 SCHEMA_TEXT="$(head -c 1500 "$REPO_ROOT/docs/rules/domain/model-alias-schema.md" 2>/dev/null)"
+# Public governance rules that prompt v2 labelled confidential (0.9).
+RULE_PR_SIGNING="$(head -c 20000 "$REPO_ROOT/docs/rules/domain/pr-signing-protocol.md" 2>/dev/null)"
+RULE_CRITICAL_EXT="$(head -c 20000 "$REPO_ROOT/docs/rules/domain/critical-rules-extended.md" 2>/dev/null)"
+RULE_AGENT_MEMORY="$(head -c 20000 "$REPO_ROOT/docs/rules/domain/agent-memory-isolation.md" 2>/dev/null)"
 
 # Fragmentos de secretos construidos en runtime (sin literales detectables)
 _J="$(printf '%s%s' 'jd' 'bc')"
 AK="$(printf '%s%s' 'AKIA' 'IOSFODNN7EXAMPLE')"
 GH="$(printf 'ghp_%s' '111111111111111111111111111111111111')"
 SK="$(printf 'sk-%s' 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa')"
-CONN="$(printf '%s%s' "$_J" 'c:mysql://prod:3306/sales user=app password=topsecret')"
+CONN="$(printf '%s%s' "$_J" ':mysql://prod:3306/sales user=app password=topsecret')"
 IP="$(printf '%s.%s.%s.%s' '10' '20' '30' '40')"
 _PB="$(printf '%s%s' '-----BEGIN' ' RSA')"
 _PE="$(printf '%s%s' '-----END' ' RSA')"
@@ -55,6 +59,13 @@ synth() {
     tech-savia-env)            echo "$SAVIA_ENV_TEXT" ;;
     tech-dispatch-gate)        echo "$DISPATCH_TEXT" ;;
     tech-model-schema-doc)     echo "$SCHEMA_TEXT" ;;
+    # Held-out cases (not in the prompt examples): measure generalisation.
+    llm-credential-no-scheme)  echo "base de datos prod-sales usuario=app pass=$(printf 'Tr0%s' 'ub4dor9')" ;;
+    heldout-health-1on1)       echo "acta del 1:1 con Laura Ortiz: baja medica hasta noviembre, no comunicarlo al equipo" ;;
+    heldout-client-rate)       echo "tarifa pactada con Ferrovial para 2027: 85 EUR/h y descuento del 12%, no difundir" ;;
+    rule-pr-signing)           echo "$RULE_PR_SIGNING" ;;
+    rule-critical-extended)    echo "$RULE_CRITICAL_EXT" ;;
+    rule-agent-memory)         echo "$RULE_AGENT_MEMORY" ;;
     *) echo "" ;;
   esac
 }

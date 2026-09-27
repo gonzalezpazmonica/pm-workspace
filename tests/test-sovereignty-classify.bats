@@ -7,7 +7,7 @@ setup() {
   cd "$BATS_TEST_DIRNAME/.."
   export CLAUDE_PROJECT_DIR="$BATS_TEST_TMPDIR/ws"
   mkdir -p "$CLAUDE_PROJECT_DIR" "$CLAUDE_PROJECT_DIR/config/classifier"
-  cp config/classifier/prompt-v2.txt "$CLAUDE_PROJECT_DIR/config/classifier/" 2>/dev/null || true
+  cp config/classifier/prompt-v2.txt config/classifier/prompt-v3.txt "$CLAUDE_PROJECT_DIR/config/classifier/" 2>/dev/null || true
   cp config/sovereignty-thresholds.yaml "$CLAUDE_PROJECT_DIR/config/" 2>/dev/null || true
   rm -rf "$CLAUDE_PROJECT_DIR/output/classifier-cache" 2>/dev/null || true
   export TEST_INPUT="$CLAUDE_PROJECT_DIR/input.txt"
@@ -95,4 +95,47 @@ setup() {
 @test "usage inválido falla (exit 2)" {
   run bash scripts/sovereignty-classify.sh --bogus-flag
   [ "$status" -eq 2 ]
+}
+
+@test "classifier declares set -uo pipefail" {
+  head -30 scripts/sovereignty-classify.sh | grep -q 'set -uo pipefail'
+}
+
+@test "missing prompt file → ambiguous with error, never a weaker fallback prompt" {
+  rm -f "$CLAUDE_PROJECT_DIR/config/classifier/prompt-v3.txt"
+  printf '%s' "texto de mas de cincuenta caracteres que obligaria a consultar al modelo local" > "$TEST_INPUT"
+  run bash scripts/sovereignty-classify.sh --no-cache < "$TEST_INPUT"
+  [ "$status" -eq 0 ]
+  [ "$(echo "$output" | jq -r .label)" = "ambiguous" ]
+  [ "$(echo "$output" | jq -r .error)" = "prompt_missing" ]
+}
+
+@test "empty input → error exit 1 (nothing to classify)" {
+  run bash -c "printf '' | bash scripts/sovereignty-classify.sh --no-cache"
+  [ "$status" -eq 1 ]
+  [[ "$output" == *"No text provided"* ]]
+}
+
+@test "boundary: text under 50 chars is public without calling the model" {
+  printf '%s' "hola mundo" > "$TEST_INPUT"
+  run bash scripts/sovereignty-classify.sh --no-cache < "$TEST_INPUT"
+  [ "$status" -eq 0 ]
+  [ "$(echo "$output" | jq -r .label)" = "public" ]
+  [ "$(echo "$output" | jq -r .confidence)" = "0.65" ]
+}
+
+@test "unreachable model (nonexistent endpoint) → ambiguous, cached, never BLOCK" {
+  printf '%s' "texto de mas de cincuenta caracteres sin secretos ni datos personales concretos" > "$TEST_INPUT"
+  OLLAMA_URL="http://127.0.0.1:9" run bash scripts/sovereignty-classify.sh < "$TEST_INPUT"
+  [ "$status" -eq 0 ]
+  [ "$(echo "$output" | jq -r .label)" = "ambiguous" ]
+  run bash -c "bash scripts/sovereignty-classify.sh < '$TEST_INPUT' | bash scripts/sovereignty-decide.sh --dest n1"
+  [[ "$output" != *'"action":"BLOCK"'* ]]
+}
+
+@test "deterministic secret wins even with the model unreachable (zero LLM)" {
+  printf 'server at %s.%s.%s.%s inside the vpc for the sales team' 10 20 30 40 > "$TEST_INPUT"
+  OLLAMA_URL="http://127.0.0.1:9" run bash scripts/sovereignty-classify.sh --no-cache < "$TEST_INPUT"
+  [ "$(echo "$output" | jq -r .label)" = "confidential" ]
+  [[ "$output" == *"internal_ip"* ]]
 }
