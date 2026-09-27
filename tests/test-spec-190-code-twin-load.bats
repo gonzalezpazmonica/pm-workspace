@@ -131,14 +131,31 @@ teardown() {
 # AC-12: code-twin-sync-check.sh — stale detection
 # ---------------------------------------------------------------------------
 
+# The fixture has fixed last_sync dates: pin the reference date so freshness
+# does not depend on when the suite runs.
+FIXTURE_TODAY="2026-08-09"
+
 @test "sync-check exits 0 when all CTFs are fresh" {
-  run bash "${SYNC_SCRIPT}" "${TWIN}"
+  run bash "${SYNC_SCRIPT}" "${TWIN}" --today "${FIXTURE_TODAY}"
   [ "$status" -eq 0 ]
 }
 
 @test "sync-check prints OK message for fresh twin" {
-  run bash "${SYNC_SCRIPT}" "${TWIN}"
+  run bash "${SYNC_SCRIPT}" "${TWIN}" --today "${FIXTURE_TODAY}"
   [[ "$output" == *"OK"* ]]
+}
+
+@test "sync-check --today in the future marks the same fixture stale" {
+  run bash "${SYNC_SCRIPT}" "${TWIN}" --today "2026-12-31"
+  [ "$status" -eq 1 ]
+  [[ "$output" == *"STALE"* ]]
+}
+
+@test "sync-check rejects an invalid --today with exit 2" {
+  run bash "${SYNC_SCRIPT}" "${TWIN}" --today "2026-13-45"
+  [ "$status" -eq 2 ]
+  run bash "${SYNC_SCRIPT}" "${TWIN}" --today
+  [ "$status" -eq 2 ]
 }
 
 @test "sync-check exits 1 for stale CTF" {
