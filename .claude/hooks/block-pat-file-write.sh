@@ -104,9 +104,11 @@ _is_sensitive_path() {
   # Match "pat" in filename — ONLY as a credential token, not a substring:
   # `*pat*` false-positives on `parallel-dispatch.sh`, `compat*.sh`,
   # `patched.sh`. Match `pat`, `pat.*`, `*-pat`, `*_pat` (and dotted variants).
-  case "$basename" in
-    pat|pat.*|*-pat|*-pat.*|*_pat|*_pat.*) return 0 ;;
-  esac
+  # Token rule: `pat` delimited by start/end or - _ . on both sides
+  # (my-pat-file.txt, secrets_pat, pat.txt) — never a substring (compat, patched).
+  if [[ "$basename" =~ (^|[-_.])pat([-_.]|$) ]]; then
+    return 0
+  fi
   # Match "pat" in path component (e.g. /azure/devops-pat)
   case "$lower" in
     *-pat|*-pat.*|*/pat|*/pat.*|*_pat|*_pat.*) return 0 ;;
