@@ -105,13 +105,13 @@ cmd_generate() {
   # Collect data
   local kpi_count=0 chain_count=0 amend_count=0
   if [[ -f "$kpis_file" ]]; then
-    kpi_count="$(grep -cE '^  - id:' "$kpis_file" 2>/dev/null || echo 0)"
+    kpi_count="$(grep -cE '^  - id:' "$kpis_file" 2>/dev/null || [ $? -eq 1 ] || echo 0)"
   fi
   if [[ -f "$chain_file" ]]; then
-    chain_count="$(grep -c . "$chain_file" 2>/dev/null || echo 0)"
+    chain_count="$(grep -c . "$chain_file" 2>/dev/null || [ $? -eq 1 ] || echo 0)"
   fi
   if [[ -f "$amend_file" ]]; then
-    amend_count="$(grep -c . "$amend_file" 2>/dev/null || echo 0)"
+    amend_count="$(grep -c . "$amend_file" 2>/dev/null || [ $? -eq 1 ] || echo 0)"
   fi
 
   cat > "$report_file" <<MDEOF
@@ -279,7 +279,7 @@ cmd_amend() {
   local current_version=1
   if [[ -f "$version_file" ]]; then
     local prev_versions
-    prev_versions="$(grep -c "\"kpi_id\":\"${kpi_id}\"" "$version_file" 2>/dev/null || echo 0)"
+    prev_versions="$(grep -c "\"kpi_id\":\"${kpi_id}\"" "$version_file" 2>/dev/null || [ $? -eq 1 ] || echo 0)"
     current_version=$(( prev_versions + 1 ))
   fi
 

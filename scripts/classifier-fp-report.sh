@@ -28,15 +28,15 @@ BLOCKS=0; VERDICTS=0; WARNINGS=0
 FP_CANDIDATES=""
 if [[ -f "$TELEMETRY" ]]; then
   # Extraer bloqueos y veredictos del clasificador en el mes
-  BLOCKS=$(jq -r 'select(.event == "classifier.block") | .ts' "$TELEMETRY" 2>/dev/null | grep -c "^${MONTH}" || echo 0)
-  VERDICTS=$(jq -r 'select(.event == "classifier.verdict") | .ts' "$TELEMETRY" 2>/dev/null | grep -c "^${MONTH}" || echo 0)
-  WARNINGS=$(jq -r 'select(.event == "classifier.verdict" and .action == "WARN") | .ts' "$TELEMETRY" 2>/dev/null | grep -c "^${MONTH}" || echo 0)
+  BLOCKS=$(jq -r 'select(.event == "classifier.block") | .ts' "$TELEMETRY" 2>/dev/null | grep -c "^${MONTH}" || [ $? -eq 1 ] || echo 0)
+  VERDICTS=$(jq -r 'select(.event == "classifier.verdict") | .ts' "$TELEMETRY" 2>/dev/null | grep -c "^${MONTH}" || [ $? -eq 1 ] || echo 0)
+  WARNINGS=$(jq -r 'select(.event == "classifier.verdict" and .action == "WARN") | .ts' "$TELEMETRY" 2>/dev/null | grep -c "^${MONTH}" || [ $? -eq 1 ] || echo 0)
 fi
 
 # Falsos positivos corregidos: registros en audit con override/permiso del operador
 FP_CORRECTED=0
 if [[ -f "$AUDIT" ]]; then
-  FP_CORRECTED=$(grep -iE "override|manual_allow|false_positive" "$AUDIT" 2>/dev/null | grep -c "$MONTH" || echo 0)
+  FP_CORRECTED=$(grep -iE "override|manual_allow|false_positive" "$AUDIT" 2>/dev/null | grep -c "$MONTH" || [ $? -eq 1 ] || echo 0)
 fi
 
 cat > "$OUT" << MDEOF

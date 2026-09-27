@@ -152,7 +152,7 @@ cmd_validate() {
   fi
 
   # Count KPIs
-  kpi_count=$(echo "$content" | grep -cE '^  - id:' || echo 0)
+  kpi_count=$(echo "$content" | grep -cE '^  - id:' || [ $? -eq 1 ] || echo 0)
 
   # Validate each required section marker is present
   for field in "${REQUIRED_KPI_FIELDS[@]}"; do

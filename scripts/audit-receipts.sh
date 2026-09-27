@@ -150,11 +150,11 @@ cmd_stats() {
   [[ -f "$LEDGER_FILE" ]] || { echo "Ledger vacío: $LEDGER_FILE"; return 0; }
   local total governed enforced_deny enforced_allow success failure
   total=$(wc -l < "$LEDGER_FILE")
-  governed=$(grep -c '"enforced":true' "$LEDGER_FILE" 2>/dev/null || echo 0)
-  enforced_deny=$(grep -c '"outcome":"enforced_deny"' "$LEDGER_FILE" 2>/dev/null || echo 0)
-  enforced_allow=$(grep -c '"outcome":"enforced_allow"' "$LEDGER_FILE" 2>/dev/null || echo 0)
-  success=$(grep -c '"outcome":"success"' "$LEDGER_FILE" 2>/dev/null || echo 0)
-  failure=$(grep -c '"outcome":"failure"' "$LEDGER_FILE" 2>/dev/null || echo 0)
+  governed=$(grep -c '"enforced":true' "$LEDGER_FILE" 2>/dev/null || [ $? -eq 1 ] || echo 0)
+  enforced_deny=$(grep -c '"outcome":"enforced_deny"' "$LEDGER_FILE" 2>/dev/null || [ $? -eq 1 ] || echo 0)
+  enforced_allow=$(grep -c '"outcome":"enforced_allow"' "$LEDGER_FILE" 2>/dev/null || [ $? -eq 1 ] || echo 0)
+  success=$(grep -c '"outcome":"success"' "$LEDGER_FILE" 2>/dev/null || [ $? -eq 1 ] || echo 0)
+  failure=$(grep -c '"outcome":"failure"' "$LEDGER_FILE" 2>/dev/null || [ $? -eq 1 ] || echo 0)
   echo "Audit ledger: $total receipts"
   echo "  gobernadas (enforced=true): $governed"
   echo "  enforced_deny: $enforced_deny | enforced_allow: $enforced_allow"

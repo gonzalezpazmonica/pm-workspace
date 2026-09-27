@@ -135,7 +135,7 @@ done <<< "$CONTACTS"
 # Counts.
 UPSTREAM_COUNT=$(awk '/^\s+upstream:/{f=1;next} /^\s+[a-zA-Z_]+:/&&!/^\s+-/{f=0} f&&/^\s+-\s+project:/{c++} END{print c+0}' "$FILE")
 DOWNSTREAM_COUNT=$(awk '/^\s+downstream:/{f=1;next} /^\s+[a-zA-Z_]+:/&&!/^\s+-/{f=0} f&&/^\s+-\s+project:/{c++} END{print c+0}' "$FILE")
-SHARED_COUNT=$(grep -cE '^\s+-\s+person:' "$FILE" || echo 0)
+SHARED_COUNT=$(grep -cE '^\s+-\s+person:' "$FILE" || [ $? -eq 1 ] || echo 0)
 
 # ── Emit verdict ────────────────────────────────────────────────────────────
 

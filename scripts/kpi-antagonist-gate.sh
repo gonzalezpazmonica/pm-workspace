@@ -179,7 +179,7 @@ cmd_anomaly() {
   fi
 
   local entry_count
-  entry_count="$(grep -c . "$chain_file" 2>/dev/null || echo 0)"
+  entry_count="$(grep -c . "$chain_file" 2>/dev/null || [ $? -eq 1 ] || echo 0)"
 
   if [[ "$entry_count" -lt 2 ]]; then
     echo "Need at least 2 periods for anomaly detection (have ${entry_count})"
