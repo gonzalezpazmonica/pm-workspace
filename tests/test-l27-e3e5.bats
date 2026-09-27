@@ -6,7 +6,10 @@ setup() {
 }
 
 @test "L27-E3: facts-ledger extrae hechos verificados y marca humo" {
-  run python3 "$ROOT_DIR/scripts/l27-facts-ledger.py" --vault "$ROOT_DIR/vaults/Fronesia"
+  # vaults/ está gitignored: el seed verificado solo existe en el checkout local.
+  [[ -d "$ROOT_DIR/vaults/Fronesia" ]] || skip "vault local Fronesia no presente (gitignored)"
+  local out="$BATS_TEST_TMPDIR/l27-facts-ledger.jsonl"
+  run python3 "$ROOT_DIR/scripts/l27-facts-ledger.py" --vault "$ROOT_DIR/vaults/Fronesia" --out "$out"
   [ "$status" -eq 0 ]
   echo "$output" | python3 -c "
 import json,sys
@@ -15,8 +18,8 @@ assert r['hechos'] >= 6, r   # seed verificado
 assert 'ratio_hechos' in r
 assert isinstance(r['humo_ids'], list)
 "
-  [ -f "$ROOT_DIR/output/l27-facts-ledger.jsonl" ]
-  [ "$(wc -l < "$ROOT_DIR/output/l27-facts-ledger.jsonl")" -ge 6 ]
+  [ -f "$out" ]
+  [ "$(wc -l < "$out")" -ge 6 ]
 }
 
 @test "L27-E3: una afirmación sin consecuencia verificada es humo (no evidencia)" {

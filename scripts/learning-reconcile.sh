@@ -34,6 +34,8 @@ while [[ $# -gt 0 ]]; do
 done
 
 [[ -z "$MODE" ]] && { echo "usage: $0 --detect | --classify IDA IDB | --report" >&2; exit 2; }
+# Usage errors (exit 2) win over environment errors (exit 3).
+[[ "$MODE" == classify && ${#ARGS[@]} -ne 2 ]] && { echo "ERROR: --classify necesita IDA IDB" >&2; exit 2; }
 [[ -d "$LEARN_DIR" ]] || { echo "ERROR: no learning dir: $LEARN_DIR" >&2; exit 3; }
 
 extract_field() {
@@ -176,7 +178,6 @@ PYEOF
 mkdir -p "$(dirname "$REPORT")"
 case "$MODE" in
   detect)   detect ;;
-  classify) [[ ${#ARGS[@]} -eq 2 ]] || { echo "ERROR: --classify necesita IDA IDB" >&2; exit 2; }
-            classify "${ARGS[0]}" "${ARGS[1]}" ;;
+  classify) classify "${ARGS[0]}" "${ARGS[1]}" ;;
   report)   report ;;
 esac

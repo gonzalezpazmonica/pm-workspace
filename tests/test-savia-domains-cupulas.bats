@@ -40,6 +40,8 @@ assert dom['confidentiality']=='N1', dom
 }
 
 @test "L23: --check sobre el vault real → OK (34 presentes)" {
+  # vaults/ está gitignored: solo existe en el checkout local de la operadora.
+  [[ -d "$VAULT" ]] || skip "vault local SaviaDomains no presente (gitignored)"
   "$GEN" --check --catalog "$CATALOG" --vault "$VAULT"
 }
 
