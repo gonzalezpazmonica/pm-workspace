@@ -100,7 +100,10 @@ setup() {
 @test "plugin: learning recall uses the canonical UserPromptSubmit bridge" {
   grep -q '"chat.message"' "$PLUGIN_DIR/index.ts"
   grep -q '"UserPromptSubmit"' "$PLUGIN_DIR/index.ts"
-  grep -q 'hookSpecificOutput.*additionalContext' "$PLUGIN_DIR/lib/shell-bridge.ts"
+  # #1129 split the parse: hookSpecificOutput is validated, then its
+  # additionalContext becomes the injected context.
+  grep -q 'const specific = value.hookSpecificOutput' "$PLUGIN_DIR/lib/shell-bridge.ts"
+  grep -q 'const context = specific.additionalContext' "$PLUGIN_DIR/lib/shell-bridge.ts"
   grep -q '\.claude/hooks/learning-recall-hook.sh' "$ROOT_DIR/.claude/settings.json"
   [ ! -e "$ROOT_DIR/.opencode/plugins/learning-recall.ts" ]
 }
