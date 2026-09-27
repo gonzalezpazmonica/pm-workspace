@@ -2,10 +2,31 @@
 # test-spec-se-012-ci-gate.bats — SPEC-SE-012 CI Reliability Gate
 #
 # Tests for scripts/ci-reliability-gate.sh
+# Ref: docs/rules/domain/critical-rules-extended.md (CI) · SPEC-SE-012
+# Tests that mutate files run against a temporary workspace
+# (SAVIA_WORKSPACE_DIR), never against the repo.
 # Run: bats tests/bats/test-spec-se-012-ci-gate.bats
 
 WORKSPACE="$(cd "$(dirname "$BATS_TEST_FILENAME")/../.." && pwd)"
 SCRIPT="$WORKSPACE/scripts/ci-reliability-gate.sh"
+
+setup() {
+  TMPWS="$(mktemp -d)"
+  mkdir -p "$TMPWS/scripts" "$TMPWS/tests" "$TMPWS/.opencode/hooks"
+  git -C "$TMPWS" init -q
+}
+
+teardown() {
+  rm -rf "$TMPWS" 2>/dev/null || true
+}
+
+check_passed() {  # $1 = check name; reads JSON from $output
+  echo "$output" | python3 -c "
+import json, sys
+c = {x['name']: x for x in json.load(sys.stdin)['checks']}
+print('true' if c[sys.argv[1]]['passed'] else 'false')
+" "$1"
+}
 
 # ── Test 1: Script exists and is executable ───────────────────────────────────
 @test "ci-reliability-gate.sh exists and is executable" {
@@ -86,19 +107,38 @@ assert not missing, 'Missing checks: ' + str(missing)
   echo "$output" | grep -q "CI Reliability Gate"
 }
 
-# ── Test 8: --fix-empty-dirs creates .gitkeep in empty dirs ──────────────────
+# ── Test 8: --fix-empty-dirs creates .gitkeep (temp workspace) ────────────
 @test "--fix-empty-dirs creates .gitkeep in an empty directory" {
-  # Create a temp empty dir to trigger the check
-  local tmpdir
-  tmpdir=$(mktemp -d "$WORKSPACE/tests/bats/_tmp_empty_XXXXXX")
-  # Run with --fix-empty-dirs
-  run bash "$SCRIPT" --fix-empty-dirs --json
-  # Check that .gitkeep was created
-  local gitkeep="$tmpdir/.gitkeep"
-  # Cleanup regardless
-  rm -rf "$tmpdir"
-  # The script should have run without crashing
-  [ "$status" -eq 0 ] || [ "$status" -eq 1 ]
+  mkdir -p "$TMPWS/docs/vacio"
+  SAVIA_WORKSPACE_DIR="$TMPWS" run bash "$SCRIPT" --fix-empty-dirs --json
+  [ -f "$TMPWS/docs/vacio/.gitkeep" ]
+  [ "$(check_passed empty-dirs)" = "true" ]
+}
+
+@test "empty directory detected without --fix (edge)" {
+  mkdir -p "$TMPWS/docs/vacio"
+  SAVIA_WORKSPACE_DIR="$TMPWS" run bash "$SCRIPT" --json
+  [ "$status" -eq 1 ]
+  [ "$(check_passed empty-dirs)" = "false" ]
+  [ ! -e "$TMPWS/docs/vacio/.gitkeep" ]
+}
+
+@test "trailing whitespace in a .bats file fails the check (edge)" {
+  printf '@test "x" {  \n  true\n}\n' > "$TMPWS/tests/test-ws.bats"
+  SAVIA_WORKSPACE_DIR="$TMPWS" run bash "$SCRIPT" --json
+  [ "$(check_passed trailing-ws-bats)" = "false" ]
+}
+
+@test "non-executable .sh in scripts/ fails exec-permissions (edge)" {
+  printf '#!/usr/bin/env bash\necho hi\n' > "$TMPWS/scripts/noexec.sh"
+  chmod 644 "$TMPWS/scripts/noexec.sh"
+  SAVIA_WORKSPACE_DIR="$TMPWS" run bash "$SCRIPT" --json
+  [ "$(check_passed exec-permissions)" = "false" ]
+  [[ "$output" == *"noexec.sh"* ]]
+}
+
+@test "gate script declares set -uo pipefail" {
+  head -5 "$SCRIPT" | grep -q 'set -uo pipefail'
 }
 
 # ── Test 9: g_pre_push_reliability wired into pr-plan-gates.sh ───────────────
@@ -110,4 +150,22 @@ assert not missing, 'Missing checks: ' + str(missing)
 @test "G15 CI reliability gate wired into pr-plan.sh" {
   grep -q "G15" "$WORKSPACE/scripts/pr-plan.sh"
   grep -q "g_pre_push_reliability" "$WORKSPACE/scripts/pr-plan.sh"
+}
+
+@test "invalid argument rejected with exit 2 (not silently ignored)" {
+  run bash "$SCRIPT" --bogus
+  [ "$status" -eq 2 ]
+  [[ "$output" == *"argumento desconocido: --bogus"* ]]
+}
+
+@test "invalid argument after a valid one still rejected" {
+  run bash "$SCRIPT" --json --jsn
+  [ "$status" -eq 2 ]
+}
+
+@test "--help prints usage and exits 0 without running checks" {
+  run bash "$SCRIPT" --help
+  [ "$status" -eq 0 ]
+  [[ "$output" == *"Usage:"* ]]
+  [[ "$output" != *"Result:"* ]]
 }
