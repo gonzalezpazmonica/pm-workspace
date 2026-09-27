@@ -34,9 +34,9 @@ Para cada tipo de tarea (`routing|code|audit|report`), con features
 `[onehot tipo, n_files, n_specs, tokens, success_rate]`:
 
 ```
-std < threshold_barato (0.10)  -> CLAUDE_MODEL_FAST   (confiar-bajo)
-std >= threshold_caro  (0.30)  -> CLAUDE_MODEL_AGENT  (necesita-caro)
-resto                           -> CLAUDE_MODEL_MID    (dudoso-mid)
+std < threshold_barato (0.10)  -> fast   (confiar-bajo)
+std >= threshold_caro  (0.30)  -> heavy  (necesita-caro)
+resto                           -> mid    (dudoso-mid)
 ```
 
 - El **fallo sigue escalando** (FAST→MID→AGENT por error). La incertidumbre

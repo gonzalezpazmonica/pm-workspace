@@ -4,7 +4,9 @@
 # están disponibles se SKIP (la spec prohíbe instalar dependencias sin confirmar).
 
 setup() {
+  set -o pipefail
   ROOT_DIR="$(cd "$(dirname "$BATS_TEST_FILENAME")/.." && pwd)"
+  FX="$(mktemp -d)"
   SURROGATE_DIR="$ROOT_DIR/scripts/surrogate"
   # Resolver python con sklearn (venv de Savia primero, luego system python3)
   if [[ -x "$HOME/.savia/venv/bin/python" ]] && "$HOME/.savia/venv/bin/python" -c "import sklearn, scipy" >/dev/null 2>&1; then
@@ -14,6 +16,14 @@ setup() {
   else
     SURROGATE_PY=""
   fi
+}
+
+teardown() {
+  cd /
+}
+
+_router() { # extra args...; telemetry always to the temp dir
+  WORKSPACE_DIR="$ROOT_DIR" "$SURROGATE_PY" "$SURROGATE_DIR/llm-router.py" --telemetry "$FX/t.jsonl" "$@"
 }
 
 _require_sklearn() {
@@ -124,16 +134,16 @@ PY
 
 @test "SE-346: llm-router --check emite JSON válido y es read-only" {
   _require_sklearn
+  local repo_before; repo_before=$(git -C "$ROOT_DIR" status --porcelain | sha256sum)
   WORKSPACE_DIR="$ROOT_DIR" run "$SURROGATE_PY" "$SURROGATE_DIR/llm-router.py" --check
   [ "$status" -eq 0 ]
   echo "$output" | python3 -c "import sys,json; d=json.load(sys.stdin); assert d['mode']=='check'; assert set(d['results']) >= {'routing','code','audit','report'}"
   for t in routing code audit report; do
-    echo "$output" | python3 -c "import sys,json; d=json.load(sys.stdin); r=d['results']['$t']; assert r['model'] in ('CLAUDE_MODEL_FAST','CLAUDE_MODEL_MID','CLAUDE_MODEL_AGENT'); assert 'std' in r and 'verdict' in r"
+    echo "$output" | python3 -c "import sys,json; d=json.load(sys.stdin); r=d['results']['$t']; assert r['model'] in ('fast','mid','heavy'); assert 'std' in r and 'verdict' in r"
   done
-  # read-only: sin cambios rastreados
-  run git -C "$ROOT_DIR" status --porcelain
-  [ "$status" -eq 0 ]
-  [[ -z "$output" ]] || [[ "$output" == *".claude/.maps-stale"* ]]
+  # read-only: el estado del repo no cambia (comparación antes/después, válida
+  # también con un árbol de trabajo con cambios previos)
+  [ "$(git -C "$ROOT_DIR" status --porcelain | sha256sum)" = "$repo_before" ]
 }
 
 # ── CRIT-001 (AC-05): sin red, sin dependencias nuevas ─────────────────────
@@ -148,4 +158,47 @@ PY
   done
   [ -x "$SURROGATE_DIR/router-check.sh" ]
   bash -n "$SURROGATE_DIR/router-check.sh"
+}
+
+# ── llm-router: contrato de tiers y umbrales ──────────────────────────────
+
+@test "boundary: --thresholds 0,0 routes every task to heavy (flag is honored)" {
+  _require_sklearn
+  run _router --check --thresholds 0,0
+  [ "$status" -eq 0 ]
+  echo "$output" | python3 -c "import sys,json; d=json.load(sys.stdin); assert {r['model'] for r in d['results'].values()}=={'heavy'}; assert d['thresholds']==[0.0,0.0]"
+}
+
+@test "boundary: --thresholds 9,9 routes every task to fast" {
+  _require_sklearn
+  run _router --check --thresholds 9,9
+  [ "$status" -eq 0 ]
+  echo "$output" | python3 -c "import sys,json; d=json.load(sys.stdin); assert {r['model'] for r in d['results'].values()}=={'fast'}"
+}
+
+@test "reject: invocation without --check exits 2 with usage" {
+  _require_sklearn
+  run _router
+  [ "$status" -eq 2 ]
+  [[ "$output" == *"Uso: llm-router.py --check"* ]]
+}
+
+@test "error: non-numeric thresholds fail instead of silently defaulting" {
+  _require_sklearn
+  run _router --check --thresholds abc,def
+  [ "$status" -ne 0 ]
+}
+
+@test "nonexistent: missing history path falls back to the seeded history" {
+  _require_sklearn
+  run _router --check --history "$FX/does-not-exist.csv"
+  [ "$status" -eq 0 ]
+  echo "$output" | python3 -c "import sys,json; d=json.load(sys.stdin); assert d['mode']=='check'"
+}
+
+@test "empty: telemetry goes to the requested temp path, not the repo" {
+  _require_sklearn
+  run _router --check
+  [ "$status" -eq 0 ]
+  [ -s "$FX/t.jsonl" ]
 }
