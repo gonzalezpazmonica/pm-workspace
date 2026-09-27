@@ -93,7 +93,7 @@ teardown() {
   [ "$broken" -eq 0 ]
 }
 
-@test "tier1 rules are the CLAUDE.md eager imports (3 rules)" {
+@test "tier1 rules are exactly the CLAUDE.md eager rule imports" {
   run bash -c "echo '' | '$ROOT/scripts/rule-usage-analyzer.sh'"
   [ "$status" -eq 0 ]
   local tier1
@@ -102,7 +102,13 @@ import json, sys
 d = json.load(sys.stdin)
 print(' '.join(sorted(n for n, i in d['rules'].items() if i['tier'] == 'tier1')))
 ")
-  [[ "$tier1" == "autonomous-safety.md caveman-default.md radical-honesty.md" ]]
+  # Expected set derived from CLAUDE.md itself (SE-335 added a 4th eager rule;
+  # a hardcoded list drifts every time the eager set changes).
+  local expected
+  expected=$(grep -oE '^@docs/rules/domain/[a-z0-9_-]+\.md' "$ROOT/CLAUDE.md" \
+    | sed 's|.*/||' | sort | tr '\n' ' ' | sed 's/ $//')
+  [ -n "$expected" ]
+  [[ "$tier1" == "$expected" ]]
 }
 
 # ── Negative cases (no regressions) ──
