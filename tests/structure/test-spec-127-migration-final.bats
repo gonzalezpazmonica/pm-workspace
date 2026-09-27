@@ -266,3 +266,20 @@ sys.exit(0 if found else 1)
     grep -qE 'throw new Error' "$PLUGINS_DIR/guards/${h}.ts"
   done
 }
+
+@test "smoke counts agents/commands when a plugin logs to stdout before the JSON" {
+  # opencode-sandbox prints "[opencode-sandbox] Initialized ..." on stdout
+  # ahead of `opencode debug config`; the smoke used to parse 0 agents.
+  local bin="$BATS_TEST_TMPDIR/oc-bin"
+  mkdir -p "$bin"
+  cat > "$bin/opencode" <<'STUB'
+#!/usr/bin/env bash
+if [[ "$1" == "--version" ]]; then echo "1.18.0"; exit 0; fi
+echo "[opencode-sandbox] Initialized — writes allowed in: /tmp"
+python3 -c 'import json; print(json.dumps({"agent": {f"a{i}": {} for i in range(71)}, "command": {f"c{i}": {} for i in range(501)}}))'
+STUB
+  chmod +x "$bin/opencode"
+  PATH="$bin:$PATH" run bash "$SMOKE"
+  [[ "$output" == *"71 agents discovered"* ]]
+  [[ "$output" == *"501 commands discovered"* ]]
+}

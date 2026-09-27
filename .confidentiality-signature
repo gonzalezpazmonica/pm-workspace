@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=6dea2fc32a65eb35e17db228c8984cc9ce5b989d08c270d5bedbfe914c4e6fbd
-timestamp=2026-09-27T11:56:36Z
-branch=agent/fix-delta-tier
-head_commit=0e315ee9
-signature=dd8a3a8510b56bdbfa482d4aebc9c478689ff09c6778b8fe55dcd82a558f6b36
+diff_hash=78789d7aa036ec07b27d595fee45f6ded9d339c45fcb7b7d82621ff569e39053
+timestamp=2026-09-27T13:20:44Z
+branch=agent/triage-fase-a-g3
+head_commit=1b064514
+signature=af26c02f424273fd529af55ad08001019a76b52118863e78afd7f782fb042d70

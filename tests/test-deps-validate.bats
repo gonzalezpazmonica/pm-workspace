@@ -115,7 +115,32 @@ EOF
   [[ "$output" == *"1 shared_resource"* ]]
 }
 
-# ── Negative: missing keys ──────────────────────────────────────────────────
+@test "multi-field list items: every upstream entry is counted (mawk-safe)" {
+  local tmp="$BATS_TEST_TMPDIR/two-upstream.yaml"
+  cat > "$tmp" <<'EOF'
+project: "p-two"
+tenant: "tenant-a"
+dependencies:
+  upstream:
+    - project: "a"
+      type: "blocks"
+      deliverable: "D-1"
+      needed_by: "2026-12-01"
+      status: "on-track"
+    - project: "b"
+      type: "blocks"
+      deliverable: "D-2"
+      needed_by: "2026-12-01"
+      status: "on-track"
+  downstream: []
+EOF
+  run bash "$SCRIPT" --file "$tmp"
+  [ "$status" -eq 0 ]
+  [[ "$output" == *"2 upstream"* ]]
+  [[ "$output" == *"0 downstream"* ]]
+}
+
+# ── Negative: missing keys──────────────────────────────────────────────────
 
 @test "missing project key fails validation" {
   local tmp="$BATS_TEST_TMPDIR/no-proj.yaml"

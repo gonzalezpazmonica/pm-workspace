@@ -12,6 +12,7 @@ set -uo pipefail
 #   --twin-dir <dir>   Alternative flag for twin directory path
 #   -q, --quiet        Suppress stdout, only set exit code
 #   --json             Output JSON: {total_ctfs, stale_count, fresh_count, stale_files:[...]}
+#   --today YYYY-MM-DD Reference date instead of the system date (reproducible checks)
 #
 # Exit codes:
 #   0 — all CTFs are fresh (or no CTFs found)
@@ -22,11 +23,17 @@ set -uo pipefail
 TWIN_DIR=""
 QUIET=0
 JSON_OUTPUT=0
+TODAY=""
 
 while [[ $# -gt 0 ]]; do
   case "$1" in
     -q|--quiet) QUIET=1; shift ;;
     --json) JSON_OUTPUT=1; shift ;;
+    --today)
+      shift
+      [[ $# -eq 0 ]] && { echo "ERROR: --today requires a value" >&2; exit 2; }
+      TODAY="$1"; shift
+      ;;
     --twin-dir)
       shift
       [[ $# -eq 0 ]] && { echo "ERROR: --twin-dir requires a value" >&2; exit 2; }
@@ -61,7 +68,13 @@ if [[ ! -d "$TWIN_DIR" ]]; then
   exit 2
 fi
 
-TODAY=$(date +%Y-%m-%d)
+if [[ -z "$TODAY" ]]; then
+  TODAY=$(date +%Y-%m-%d)
+elif ! [[ "$TODAY" =~ ^[0-9]{4}-[0-9]{2}-[0-9]{2}$ ]] \
+  || ! python3 -c 'import sys, datetime; datetime.date.fromisoformat(sys.argv[1])' "$TODAY" 2>/dev/null; then
+  echo "ERROR: --today must be YYYY-MM-DD: $TODAY" >&2
+  exit 2
+fi
 
 # Use Python to parse dates robustly (avoids GNU/BSD date -d portability issues)
 python3 - "$TWIN_DIR" "$TODAY" "$QUIET" "$JSON_OUTPUT" << 'PYEOF'

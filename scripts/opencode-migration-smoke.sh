@@ -53,6 +53,18 @@ else
   fi
 fi
 
+# Count entries under a top-level key of `opencode debug config` output.
+# Plugins (e.g. opencode-sandbox) may print log lines to stdout before the
+# JSON, so parse from the first line that opens the object.
+config_count() {
+  python3 - "$1" "$2" <<'PYEOF' 2>/dev/null || echo 0
+import json, sys
+text = open(sys.argv[1], encoding="utf-8").read()
+start = 0 if text.startswith("{") else text.find("\n{") + 1
+print(len(json.loads(text[start:]).get(sys.argv[2], {})))
+PYEOF
+}
+
 # 3. agents discovered by OpenCode
 echo "[3/6] OpenCode discovers ≥ 70 agents"
 if ! command -v opencode >/dev/null 2>&1; then
@@ -60,7 +72,7 @@ if ! command -v opencode >/dev/null 2>&1; then
 else
   TMP=$(mktemp)
   if opencode debug config > "$TMP" 2>/dev/null; then
-    AGENTS=$(python3 -c "import json; print(len(json.load(open('$TMP')).get('agent',{})))" 2>/dev/null || echo 0)
+    AGENTS=$(config_count "$TMP" agent)
     if [[ "$AGENTS" -ge 70 ]]; then
       ok "$AGENTS agents discovered"
     elif [[ "$AGENTS" -eq 0 ]]; then
@@ -81,7 +93,7 @@ if ! command -v opencode >/dev/null 2>&1; then
 else
   TMP=$(mktemp)
   if opencode debug config > "$TMP" 2>/dev/null; then
-    CMDS=$(python3 -c "import json; print(len(json.load(open('$TMP')).get('command',{})))" 2>/dev/null || echo 0)
+    CMDS=$(config_count "$TMP" command)
     if [[ "$CMDS" -ge 500 ]]; then
       ok "$CMDS commands discovered"
     else

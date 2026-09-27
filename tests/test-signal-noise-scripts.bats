@@ -15,6 +15,35 @@ setup() {
   cd "$BATS_TEST_DIRNAME/.."
 }
 
+# Throwaway git repo with one commit on main and nothing changed: the runner
+# must never be pointed at the working branch (it would run, and recurse into,
+# whatever suites the branch touches).
+clean_repo() {
+  local repo="$BATS_TEST_TMPDIR/clean-repo"
+  git init -q -b main "$repo"
+  git -C "$repo" -c user.name=t -c user.email=t@example.invalid \
+    commit -q --allow-empty -m init
+  echo "$repo"
+}
+
+# Stub gh on PATH: never talk to the real GitHub from tests.
+# $1 = JSON for `gh pr list`; $2 = CHANGELOG body served by `gh api`.
+stub_gh() {
+  local bin="$BATS_TEST_TMPDIR/stub-bin"
+  mkdir -p "$bin"
+  printf '%s' "$1" > "$bin/prs.json"
+  printf '%s' "$2" | base64 -w0 > "$bin/changelog.b64"
+  cat > "$bin/gh" <<STUB
+#!/usr/bin/env bash
+case "\$1" in
+  pr)  cat "$bin/prs.json" ;;
+  api) cat "$bin/changelog.b64" ;;
+esac
+STUB
+  chmod +x "$bin/gh"
+  export PATH="$bin:$PATH"
+}
+
 teardown() {
   cd /
 }
@@ -84,10 +113,13 @@ teardown() {
 }
 
 @test "queue-check skips silently when gh missing (narrow PATH)" {
-  # Keep basic binaries but exclude gh by using a narrow PATH.
-  run env PATH="/usr/bin:/bin" bash scripts/pr-plan-queue-check.sh
-  # Should exit 0 (skip) — typical /usr/bin does not have gh
+  # PATH with only what runs before the gh probe; gh may live in /usr/bin.
+  local bin="$BATS_TEST_TMPDIR/no-gh-bin"
+  mkdir -p "$bin"
+  ln -s "$(command -v git)" "$bin/git"
+  run env PATH="$bin" "$BASH" scripts/pr-plan-queue-check.sh
   [ "$status" -eq 0 ]
+  [[ "$output" == *"gh CLI not installed"* ]]
 }
 
 @test "queue-check --quiet suppresses output" {
@@ -98,17 +130,40 @@ teardown() {
 }
 
 @test "pre-push-bats exits 0 when no changes" {
-  # Run on main, where no changes from origin/main exist
-  run bash scripts/pre-push-bats-critical.sh --quiet
+  cd "$(clean_repo)"
+  run bash "$BATS_TEST_DIRNAME/../scripts/pre-push-bats-critical.sh"
   [ "$status" -eq 0 ]
+  [[ "$output" == *"no changed files detected"* ]]
+}
+
+@test "pre-push-bats: nested invocation is a no-op (no recursion)" {
+  run env SAVIA_PRE_PUSH_BATS_ACTIVE=1 bash scripts/pre-push-bats-critical.sh
+  [ "$status" -eq 0 ]
+  [[ "$output" == *"nested invocation skipped"* ]]
 }
 
 # ── Version detection ──────────────────────────────────────────────────────
 
 @test "queue-check detects local version from CHANGELOG" {
-  run env PR_PLAN_SKIP_QUEUE_CHECK=0 bash scripts/pr-plan-queue-check.sh
-  # If gh available, output should mention local version. If not, should skip.
-  [[ "$status" -eq 0 || "$status" -eq 1 ]]
+  stub_gh '[]' ''
+  run bash scripts/pr-plan-queue-check.sh --local-version 9.9.9
+  [ "$status" -eq 0 ]
+  [[ "$output" == *"local top version = 9.9.9"* ]]
+  [[ "$output" == *"no open PRs"* ]]
+}
+
+@test "queue-check blocks when an open PR claims the same version" {
+  stub_gh '[{"number":7,"headRefName":"agent/other"}]' $'# Changelog\n\n## [9.9.9] - 2026-01-01\n'
+  run bash scripts/pr-plan-queue-check.sh --local-version 9.9.9
+  [ "$status" -eq 1 ]
+  [[ "$output" == *"COLLISION"*"#7"* ]]
+}
+
+@test "queue-check passes when open PRs claim other versions" {
+  stub_gh '[{"number":7,"headRefName":"agent/other"}]' $'# Changelog\n\n## [9.9.8] - 2026-01-01\n'
+  run bash scripts/pr-plan-queue-check.sh --local-version 9.9.9
+  [ "$status" -eq 0 ]
+  [[ "$output" != *"COLLISION"* ]]
 }
 
 @test "queue-check --local-version override is accepted" {
@@ -147,7 +202,8 @@ teardown() {
 }
 
 @test "negative: pre-push-bats invalid --base value does not crash" {
-  run bash scripts/pre-push-bats-critical.sh --base nonexistent-branch-xyz --quiet
+  cd "$(clean_repo)"
+  run bash "$BATS_TEST_DIRNAME/../scripts/pre-push-bats-critical.sh" --base nonexistent-branch-xyz --quiet
   [[ "$status" -eq 0 || "$status" -eq 1 ]]
 }
 
@@ -208,8 +264,9 @@ teardown() {
 
 @test "pre-push-bats does NOT mutate git state" {
   local before_hash after_hash
+  cd "$(clean_repo)"
   before_hash=$(git rev-parse HEAD 2>/dev/null)
-  bash scripts/pre-push-bats-critical.sh --quiet >/dev/null 2>&1 || true
+  bash "$BATS_TEST_DIRNAME/../scripts/pre-push-bats-critical.sh" --quiet >/dev/null 2>&1 || true
   after_hash=$(git rev-parse HEAD 2>/dev/null)
   [[ "$before_hash" == "$after_hash" ]]
 }

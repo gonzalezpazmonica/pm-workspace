@@ -133,8 +133,17 @@ done <<< "$CONTACTS"
 # ── Shared resources validation ─────────────────────────────────────────────
 
 # Counts.
-UPSTREAM_COUNT=$(awk '/^\s+upstream:/{f=1;next} /^\s+[a-zA-Z_]+:/&&!/^\s+-/{f=0} f&&/^\s+-\s+project:/{c++} END{print c+0}' "$FILE")
-DOWNSTREAM_COUNT=$(awk '/^\s+downstream:/{f=1;next} /^\s+[a-zA-Z_]+:/&&!/^\s+-/{f=0} f&&/^\s+-\s+project:/{c++} END{print c+0}' "$FILE")
+# POSIX classes only: mawk has no \s. The section ends at the first line
+# indented at or above its key, so multi-field list items stay inside it.
+count_section() {
+  awk -v key="$1" '{ match($0, /^[ ]*/); ind = RLENGTH }
+    $0 ~ ("^[ ]*" key ":") { f = 1; kind = ind; next }
+    f && NF && ind <= kind { f = 0 }
+    f && /^[ ]*-[ ]+project:/ { c++ }
+    END { print c + 0 }' "$FILE"
+}
+UPSTREAM_COUNT=$(count_section upstream)
+DOWNSTREAM_COUNT=$(count_section downstream)
 SHARED_COUNT=$(grep -cE '^\s+-\s+person:' "$FILE" || [ $? -eq 1 ] || echo 0)
 
 # ── Emit verdict ────────────────────────────────────────────────────────────

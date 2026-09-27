@@ -94,6 +94,9 @@ def main():
     ap.add_argument("--vault", default="vaults/SaviaDomains")
     args = ap.parse_args()
 
+    if not os.path.isfile(args.catalog):
+        print(f"ERROR: catálogo no encontrado: {args.catalog}", file=sys.stderr)
+        sys.exit(2)
     rows = parse_catalog(args.catalog)
     if not rows:
         print(f"ERROR: no se extrajeron dominios de {args.catalog}", file=sys.stderr)
