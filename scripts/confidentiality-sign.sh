@@ -4,7 +4,7 @@ set -uo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 ROOT_DIR="$(cd "$SCRIPT_DIR/.." && pwd)"
-SIG_FILE="$ROOT_DIR/.confidentiality-signature"
+SIG_FILE="${CONFIDENTIALITY_SIG_FILE:-$ROOT_DIR/.confidentiality-signature}"  # override: tests/aislamiento
 SECRET_FILE="$HOME/.savia/confidentiality-key"
 ACTION="${1:-status}"
 

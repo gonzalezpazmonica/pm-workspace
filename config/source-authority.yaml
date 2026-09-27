@@ -1,0 +1,54 @@
+# source-authority.yaml — SE-273 S5: Jerarquía de autoridad de fuente
+# Niveles: primary > reviewed > vendor > aggregator > user-content > unknown
+# Reglas de uso por tipo de afirmación (decision_dirigida > factual > referencia)
+levels:
+  primary:
+    rank: 1
+    description: "Fuente primaria oficial (gobierno, RFC, ISO, documentación oficial del fabricante)"
+    examples: ["ietf.org/rfc", "iso.org/standard", "docs.python.org", "learn.microsoft.com"]
+    sufficient_for: [decision, factual, reference]
+    
+  reviewed:
+    rank: 2
+    description: "Publicación revisada por pares o editorial (journal, conferencia, libro técnico)"
+    examples: ["arxiv.org", "dl.acm.org", "oreilly.com"]
+    sufficient_for: [factual, reference]
+    needs_corroboration_for: [decision]
+    
+  vendor:
+    rank: 3
+    description: "Documentación del fabricante/proyecto (GitHub README, npm docs, PyPI)"
+    examples: ["github.com/*/blob", "npmjs.com/package", "pypi.org/project"]
+    sufficient_for: [reference]
+    needs_corroboration_for: [decision, factual]
+    
+  aggregator:
+    rank: 4
+    description: "Agregador o índice (Stack Overflow, Reddit, Medium, dev.to)"
+    examples: ["stackoverflow.com", "reddit.com", "medium.com", "dev.to"]
+    sufficient_for: []
+    needs_corroboration_for: [decision, factual, reference]
+    
+  user-content:
+    rank: 5
+    description: "Contenido generado por usuario sin revisión (blog personal, tweet, gist)"
+    examples: ["*.blogspot.com", "twitter.com", "gist.github.com"]
+    sufficient_for: []
+    needs_corroboration_for: [decision, factual, reference]
+    
+  unknown:
+    rank: 6
+    description: "Origen desconocido o no clasificado"
+    sufficient_for: []
+    needs_corroboration_for: [decision, factual, reference]
+
+# Número mínimo de fuentes independientes requeridas
+corroboration:
+  decision: 2
+  factual: 1
+  reference: 0
+
+# Independencia: dos URLs del mismo dominio base cuentan como UNA fuente
+independence:
+  same_domain: false
+  same_organization: false

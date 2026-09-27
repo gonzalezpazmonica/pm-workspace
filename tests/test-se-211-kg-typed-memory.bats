@@ -51,7 +51,7 @@ import importlib.util, pathlib
 spec = importlib.util.spec_from_file_location('kg', 'scripts/knowledge-graph.py')
 mod = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(mod)
-conn = mod.open_db(pathlib.Path('/tmp/se211_col_test.db'))
+conn = mod.open_db(pathlib.Path(__import__('os').environ['TMPDIR_TEST']) / 'se211_col_test.db')
 cols = {row[1] for row in conn.execute('PRAGMA table_info(entities)')}
 assert 'memory_type' in cols, f'memory_type not in {cols}'
 print('OK memory_type in schema')
@@ -90,7 +90,7 @@ PY
 # ── 5. upsert_entity accepts memory_type kwarg ─────────────────────────────────
 @test "SE-211: upsert_entity() accepts memory_type kwarg" {
     run python3 << 'PY'
-import sqlite3, sys
+import sqlite3, sys, os
 sys.argv = ['kg']
 # Load module without running main
 import importlib.util
@@ -98,7 +98,7 @@ spec = importlib.util.spec_from_file_location('kg', 'scripts/knowledge-graph.py'
 mod = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(mod)
 
-conn = mod.open_db(mod.Path(':memory:').parent / 'test_se211.db')
+conn = mod.open_db(mod.Path(os.environ['TMPDIR_TEST']) / 'test_se211.db')
 eid = mod.upsert_entity(conn, 'Test Decision', 'decision', memory_type='decision')
 conn.commit()
 row = conn.execute('SELECT memory_type FROM entities WHERE name=?', ('Test Decision',)).fetchone()
@@ -118,7 +118,7 @@ import importlib.util, pathlib
 spec = importlib.util.spec_from_file_location('kg', 'scripts/knowledge-graph.py')
 mod = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(mod)
-conn = mod.open_db(pathlib.Path('/tmp/test_warn_se211b.db'))
+conn = mod.open_db(pathlib.Path(__import__('os').environ['TMPDIR_TEST']) / 'test_warn_se211b.db')
 eid = mod.upsert_entity(conn, 'Bad Type Entity', 'concept', memory_type='totally_invalid_type')
 conn.commit()
 row = conn.execute('SELECT memory_type FROM entities WHERE name=?', ('Bad Type Entity',)).fetchone()
@@ -138,7 +138,7 @@ import importlib.util
 spec = importlib.util.spec_from_file_location('kg', 'scripts/knowledge-graph.py')
 mod = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(mod)
-conn = mod.open_db(mod.Path(':memory:').parent / 'test_warn2.db')
+conn = mod.open_db(mod.Path(__import__('os').environ['TMPDIR_TEST']) / 'test_warn2.db')
 mod.upsert_entity(conn, 'Warn Test', 'concept', memory_type='invalid_xyz')
 PY"
     [[ "$output" == *"WARN"* ]]

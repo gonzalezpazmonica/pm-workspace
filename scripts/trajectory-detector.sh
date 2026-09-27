@@ -21,7 +21,10 @@ get_tool_rate() {
   local window="${1:-5}"  # minutes
   local cutoff; cutoff=$(date -u -d "${window} minutes ago" +%Y-%m-%dT%H:%M:%SZ 2>/dev/null || echo "1970-01-01T00:00:00Z")
   local count=0
-  [[ -f "$LOG" ]] && count=$(grep -c '"tool_call"' "$LOG" 2>/dev/null | head -1 || echo 0)
+  # grep -c imprime 0 y sale 1 sin coincidencias; con pipefail el antiguo
+  # "| head -1 || echo 0" producía "0\n0" y rompía la aritmética.
+  [[ -f "$LOG" ]] && { count=$(grep -c '"tool_call"' "$LOG" 2>/dev/null) || true; }
+  [[ "$count" =~ ^[0-9]+$ ]] || count=0
   # Approximate: use file modification time as proxy
   local rate=$(( count / (window > 0 ? window : 1) ))
   echo "$rate"

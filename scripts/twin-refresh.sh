@@ -79,6 +79,13 @@ fi
 
 NOW=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
 
+# evidence_ref relativas al repo: una ruta absoluta filtra el home de la
+# máquina en twins versionados y rompe la portabilidad entre checkouts.
+SPRINT_SLIP_REF="${SPRINT_SLIP_REF#"${ROOT_DIR}/"}"
+NEXT_BLOCKER_REF="${NEXT_BLOCKER_REF#"${ROOT_DIR}/"}"
+SCOPE_DRIFT_REF="${SCOPE_DRIFT_REF#"${ROOT_DIR}/"}"
+HEALTH_REF="${HEALTH_REF#"${ROOT_DIR}/"}"
+
 # ── Build updated twin ────────────────────────────────────────────────────────
 # Read existing body (everything after second ---)
 BODY=$(awk '/^---$/{c++; if(c==2){found=1;next}} found{print}' "$TWIN_FILE")

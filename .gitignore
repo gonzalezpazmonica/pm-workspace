@@ -196,3 +196,5 @@ intent/intent-control-band-*
 /.zprofile
 /.zshrc
 /.mcp.json
+test_se211.db
+test_warn2.db

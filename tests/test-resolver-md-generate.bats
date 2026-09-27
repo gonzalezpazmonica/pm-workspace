@@ -98,13 +98,15 @@ teardown() {
 
 # ── Idempotence ───────────────────────────────────────────────────────
 
+# --apply tests write to a temp copy (RESOLVER_MD), never the repo's RESOLVER.md.
 @test "double --apply produces identical AUTO block" {
-  bash "$SCRIPT" --apply >/dev/null
+  cp "$TARGET" "$TMPDIR_TEST/RESOLVER.md"
+  RESOLVER_MD="$TMPDIR_TEST/RESOLVER.md" bash "$SCRIPT" --apply >/dev/null
   local h1
-  h1=$(awk '/AUTO_BEGIN/,/AUTO_END/' "$TARGET" | sha256sum | awk '{print $1}')
-  bash "$SCRIPT" --apply >/dev/null
+  h1=$(awk '/AUTO_BEGIN/,/AUTO_END/' "$TMPDIR_TEST/RESOLVER.md" | sha256sum | awk '{print $1}')
+  RESOLVER_MD="$TMPDIR_TEST/RESOLVER.md" bash "$SCRIPT" --apply >/dev/null
   local h2
-  h2=$(awk '/AUTO_BEGIN/,/AUTO_END/' "$TARGET" | sha256sum | awk '{print $1}')
+  h2=$(awk '/AUTO_BEGIN/,/AUTO_END/' "$TMPDIR_TEST/RESOLVER.md" | sha256sum | awk '{print $1}')
   [[ "$h1" == "$h2" ]]
 }
 
@@ -112,10 +114,23 @@ teardown() {
 
 @test "--apply preserves OVERRIDE section verbatim" {
   local before after
-  before=$(awk '/^## OVERRIDE/,/^## AUTO/' "$TARGET" | sha256sum | awk '{print $1}')
-  bash "$SCRIPT" --apply >/dev/null
-  after=$(awk '/^## OVERRIDE/,/^## AUTO/' "$TARGET" | sha256sum | awk '{print $1}')
+  cp "$TARGET" "$TMPDIR_TEST/RESOLVER.md"
+  before=$(awk '/^## OVERRIDE/,/^## AUTO/' "$TMPDIR_TEST/RESOLVER.md" | sha256sum | awk '{print $1}')
+  RESOLVER_MD="$TMPDIR_TEST/RESOLVER.md" bash "$SCRIPT" --apply >/dev/null
+  after=$(awk '/^## OVERRIDE/,/^## AUTO/' "$TMPDIR_TEST/RESOLVER.md" | sha256sum | awk '{print $1}')
   [[ "$before" == "$after" ]]
+}
+
+@test "isolation: --apply against a temp RESOLVER_MD leaves the repo file untouched" {
+  local repo_before
+  repo_before=$(sha256sum "$TARGET")
+  cp "$TARGET" "$TMPDIR_TEST/RESOLVER.md"
+  RESOLVER_MD="$TMPDIR_TEST/RESOLVER.md" bash "$SCRIPT" --apply >/dev/null
+  [ "$(sha256sum "$TARGET")" = "$repo_before" ]
+}
+
+@test "edge: _template* scaffolds are excluded from the AUTO skills table" {
+  ! grep -qE 'skill:_template' "$TARGET"
 }
 
 # ── No broken targets in OVERRIDE ─────────────────────────────────────

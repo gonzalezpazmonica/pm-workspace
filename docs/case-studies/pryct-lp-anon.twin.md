@@ -1,7 +1,7 @@
 ---
 twin_id: "pryct-lp-anon"
 spec_version: "1.0"
-last_refresh: "2026-06-XX"
+last_refresh: "2026-09-XX"
 stale_after_days: 14
 token_budget: 2000
 health: green

@@ -153,3 +153,37 @@ teardown() {
   count=$(grep -c "force-with-lease" "$REBASE_SCRIPT")
   [ "$count" -ge 1 ]
 }
+
+# ── Isolation (the script targets the cwd repo, never its own checkout) ─────
+
+fixture_repo() {
+  cd "$TMP_DIR"
+  git init -q -b main .
+  git config user.email test@test.local
+  git config user.name test
+  echo a > a.txt && git add a.txt && git commit -q -m a
+  git switch -q -c feature
+}
+
+@test "error: outside a git repository exits 2 with an explicit message" {
+  cd "$TMP_DIR"
+  run bash "$REBASE_SCRIPT" --no-push
+  [ "$status" -eq 2 ]
+  [[ "$output" == *"not inside a git repository"* ]]
+}
+
+@test "missing: target repo without confidentiality-sign.sh fails before rebasing" {
+  fixture_repo
+  run bash "$REBASE_SCRIPT" --no-push
+  [ "$status" -eq 2 ]
+  [[ "$output" == *"confidentiality-sign.sh missing in target repo"* ]]
+}
+
+@test "isolation: running from a fixture repo never touches the real repo" {
+  real_head=$(git -C "$REPO_ROOT" rev-parse HEAD)
+  real_refs=$(git -C "$REPO_ROOT" for-each-ref --format='%(refname) %(objectname)' refs/heads | sha256sum)
+  fixture_repo
+  run bash "$REBASE_SCRIPT" --no-push
+  [ "$(git -C "$REPO_ROOT" rev-parse HEAD)" = "$real_head" ]
+  [ "$(git -C "$REPO_ROOT" for-each-ref --format='%(refname) %(objectname)' refs/heads | sha256sum)" = "$real_refs" ]
+}

@@ -1,6 +1,7 @@
 #!/usr/bin/env bats
 # SCL-011 — orquestador SAGI mínimo
 # Spec: docs/specs/SCL-011-orquestador-sagi.spec.md (AC-1..AC-5)
+# Ref: SCL-011 — aislamiento: SCL_PROPOSALS_DIR temporal, nunca docs/learning-proposals/
 
 SCRIPT="scripts/savia-orchestrator.sh"
 
@@ -10,6 +11,9 @@ setup() {
   h1=$(sha256sum CRITERIO.md | cut -d' ' -f1)
   h2=$(sha256sum .claude/CONSTITUCION.md | cut -d' ' -f1)
   echo "$h1" > "$FIXDIR/h1"; echo "$h2" > "$FIXDIR/h2"
+  # Isolation: learning proposals go to a temp dir, never docs/learning-proposals/.
+  export SCL_PROPOSALS_DIR="$FIXDIR/lp"
+  mkdir -p "$SCL_PROPOSALS_DIR"
 }
 
 teardown() {
@@ -44,15 +48,13 @@ teardown() {
 }
 
 @test "AC-3: no escribe fuera del sustrato (solo markdown/JSONL + stdout)" {
-  # el orquestador solo toca docs/learning-proposals (markdown)
-  local before after
-  before=$(ls docs/learning-proposals/*.md 2>/dev/null | wc -l)
+  # el orquestador solo toca el directorio de LPs (markdown), aquí temporal
+  local repo_before
+  repo_before=$(ls docs/learning-proposals/ 2>/dev/null | sha256sum)
   bash "$SCRIPT" --task "fixture no-write-test" --iterations 1 >/dev/null 2>&1
-  after=$(ls docs/learning-proposals/*.md 2>/dev/null | wc -l)
-  # puede añadir 1 LP (markdown legítimo); nunca binarios/otros
-  [[ "$after" -ge "$before" ]]
-  # limpiamos la LP de fixture creada (ruido)
-  rm -f docs/learning-proposals/LP-*fixture-no-write-test*.md 2>/dev/null || true
+  # nada nuevo en el repo; en el sustrato temporal solo markdown
+  [[ "$(ls docs/learning-proposals/ 2>/dev/null | sha256sum)" == "$repo_before" ]]
+  [[ -z "$(find "$SCL_PROPOSALS_DIR" -type f ! -name '*.md')" ]]
 }
 
 @test "AC-4: no modifica CRITERIO.md ni CONSTITUCION (hash invariante)" {
@@ -63,11 +65,11 @@ teardown() {
 
 @test "AC-5: --dry-run no ejecuta persistencia ni muta nada" {
   local before
-  before=$(ls docs/learning-proposals/*.md 2>/dev/null | wc -l)
+  before=$(ls "$SCL_PROPOSALS_DIR"/*.md 2>/dev/null | wc -l)
   run bash "$SCRIPT" --task "fixture dry" --dry-run --iterations 1
   [[ "$status" -eq 0 ]]
   echo "$output" | grep -q "dry-run"
-  after=$(ls docs/learning-proposals/*.md 2>/dev/null | wc -l)
+  after=$(ls "$SCL_PROPOSALS_DIR"/*.md 2>/dev/null | wc -l)
   [[ "$after" -eq "$before" ]]
 }
 
@@ -76,4 +78,19 @@ teardown() {
   [[ "$status" -eq 2 ]]
   run bash "$SCRIPT" --task x --iterations abc
   [[ "$status" -eq 2 ]]
+}
+@test "empty: --task vacío → exit 2" {
+  run bash "$SCRIPT" --task "" --dry-run
+  [[ "$status" -eq 2 ]]
+}
+
+@test "reject: flag desconocido → exit 2" {
+  run bash "$SCRIPT" --task x --bogus
+  [[ "$status" -eq 2 ]]
+}
+
+@test "boundary: --iterations 0 en dry-run termina sin crear LPs" {
+  run bash "$SCRIPT" --task x --dry-run --iterations 0
+  [[ "$status" -eq 0 ]]
+  [[ -z "$(ls -A "$SCL_PROPOSALS_DIR")" ]]
 }

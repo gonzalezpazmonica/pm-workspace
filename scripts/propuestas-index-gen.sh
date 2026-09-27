@@ -209,8 +209,16 @@ for line in sys.stdin:
 case "$MODE" in
   generate)
     generate_index > "$INDEX_FILE.tmp"
-    mv "$INDEX_FILE.tmp" "$INDEX_FILE"
-    echo "Wrote: $INDEX_FILE"
+    # Idempotente: si solo cambiaría la marca de tiempo, no se reescribe (evita
+    # diffs espurios en cada edición de spec vía post-spec-edit-reindex).
+    if [[ -f "$INDEX_FILE" ]] && diff -q <(grep -v '^<!-- Last regenerated:' "$INDEX_FILE") \
+         <(grep -v '^<!-- Last regenerated:' "$INDEX_FILE.tmp") >/dev/null; then
+      rm -f "$INDEX_FILE.tmp"
+      echo "Unchanged: $INDEX_FILE"
+    else
+      mv "$INDEX_FILE.tmp" "$INDEX_FILE"
+      echo "Wrote: $INDEX_FILE"
+    fi
     ;;
   dry-run)
     generate_index
