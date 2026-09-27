@@ -23,9 +23,9 @@ RULES_WORKFLOW=$(count_glob "$ROOT/docs/rules/workflow/*.md")
 TESTS=$(count_glob "$ROOT/tests/hooks/*.bats")
 TESTS_STRUCT=$(count_glob "$ROOT/tests/structure/*.bats")
 
-STABLE=$(grep -rl "^maturity: stable" "$ROOT/.opencode/skills/"/*/SKILL.md 2>/dev/null | wc -l)
-BETA=$(grep -rl "^maturity: beta" "$ROOT/.opencode/skills/"/*/SKILL.md 2>/dev/null | wc -l)
-ALPHA=$(grep -rl "^maturity: alpha" "$ROOT/.opencode/skills/"/*/SKILL.md 2>/dev/null | wc -l)
+STABLE=$(grep -rlE "^[[:space:]]*(savia\.)?maturity: stable" "$ROOT/.opencode/skills/"/*/SKILL.md 2>/dev/null | wc -l)
+BETA=$(grep -rlE "^[[:space:]]*(savia\.)?maturity: beta" "$ROOT/.opencode/skills/"/*/SKILL.md 2>/dev/null | wc -l)
+ALPHA=$(grep -rlE "^[[:space:]]*(savia\.)?maturity: alpha" "$ROOT/.opencode/skills/"/*/SKILL.md 2>/dev/null | wc -l)
 
 if [ "$MODE" = "--summary" ]; then
   echo "═══════════════════════════════════════════════════"
