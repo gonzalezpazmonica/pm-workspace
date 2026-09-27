@@ -24,5 +24,13 @@
     "zai-coding-plan/glm-4.7",
     "zai-coding-plan/glm-4.6",
     "zai-coding-plan/glm-4.5-air"
-  ]
+  ],
+  "native_aliases": {
+    "claude": [
+      "opus",
+      "sonnet",
+      "haiku"
+    ]
+  },
+  "native_aliases_note": "Aliases resolved by the frontend itself (Claude Code accepts opus/sonnet/haiku; default tiers since #1139). Valid only when that frontend is active."
 }

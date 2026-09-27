@@ -46,7 +46,8 @@ exists_in_registry() {
   if [[ -f "$REGISTRY" ]] && python3 -c "
 import json, sys
 reg = json.load(open('$REGISTRY'))
-sys.exit(0 if '$id' in reg.get('models', []) else 1)
+native = reg.get('native_aliases', {}).get('${SAVIA_FRONTEND:-unknown}', [])
+sys.exit(0 if '$id' in reg.get('models', []) or '$id' in native else 1)
 " 2>/dev/null; then
     return 0
   fi

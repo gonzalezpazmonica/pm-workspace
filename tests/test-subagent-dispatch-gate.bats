@@ -16,6 +16,11 @@ setup() {
   export SAVIA_MODEL_HEAVY="deepseek/deepseek-v4-pro"
   export SAVIA_MODEL_MID="deepseek/deepseek-v4-pro"
   export SAVIA_MODEL_FAST="deepseek/deepseek-v4-flash"
+  # savia_resolve_model also reads the provider from ~/.savia/preferences.yaml
+  # to prefix bare IDs; isolate HOME so the operator's real provider never leaks in.
+  export HOME="${BATS_TEST_TMPDIR}/home"
+  mkdir -p "$HOME/.savia"
+  printf 'provider: deepseek\n' > "$HOME/.savia/preferences.yaml"
 }
 
 teardown() {
@@ -59,4 +64,40 @@ teardown() {
   run bash "$SCRIPT" --agent x --model deepseek-v4-pro
   [ "$status" -eq 0 ]
   [[ "$output" == *"deepseek/deepseek-v4-pro"* ]]
+}
+
+@test "isolation: bare ID prefixing follows the fixture provider, not the operator's prefs" {
+  printf 'provider: other\n' > "$HOME/.savia/preferences.yaml"
+  run bash "$SCRIPT" --agent x --model deepseek-v4-pro
+  [ "$status" -ne 0 ]
+  [[ "$output" == *"'deepseek-v4-pro' no existe"* ]]
+}
+
+@test "native alias: sonnet resolves as valid under Claude Code (default tiers since #1139)" {
+  run env -u CLAUDE_CODE_ENTRYPOINT -u OPENCODE_PROVIDER -u OPENCODE_PROJECT_DIR -u CODEX_HOME -u SAVIA_FRONTEND \
+    CLAUDECODE=1 SAVIA_MODEL_MID=sonnet bash "$SCRIPT" --agent x --tier mid
+  [ "$status" -eq 0 ]
+}
+
+@test "reject: the claude alias is not valid under OpenCode (needs provider/model)" {
+  run env -u CLAUDECODE -u CLAUDE_CODE_ENTRYPOINT -u CODEX_HOME -u SAVIA_FRONTEND \
+    OPENCODE_PROVIDER=x SAVIA_MODEL_MID=sonnet bash "$SCRIPT" --agent x --tier mid
+  [ "$status" -eq 1 ]
+  [[ "$output" == *"'sonnet' no existe"* ]]
+}
+
+@test "empty: unknown frontend does not accept frontend-native aliases" {
+  run env -u CLAUDECODE -u CLAUDE_CODE_ENTRYPOINT -u OPENCODE_PROVIDER -u OPENCODE_PROJECT_DIR -u CODEX_HOME -u CODEX_SANDBOX -u CODEX_THREAD_ID -u SAVIA_FRONTEND \
+    SAVIA_MODEL_MID=sonnet bash "$SCRIPT" --agent x --tier mid
+  [ "$status" -eq 1 ]
+}
+
+@test "safety: gate runs under set -uo pipefail and registry declares native aliases" {
+  grep -q 'set -uo pipefail' "$SCRIPT"
+  jq -e '.native_aliases.claude | index("sonnet")' config/model-registry.json >/dev/null
+}
+
+@test "nonexistent: unknown flag exits 2" {
+  run bash "$SCRIPT" --bogus
+  [ "$status" -eq 2 ]
 }
