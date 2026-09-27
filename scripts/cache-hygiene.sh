@@ -84,6 +84,12 @@ cmd_validate() {
   while IFS= read -r p; do
     [[ -z "$p" ]] && continue
     if [[ ! -f "$REPO_ROOT/$p" ]]; then
+      # Per-user gitignored paths (active-user.md) exist only on the operator's
+      # machine; a fresh checkout or CI lacks them by design. Public paths must exist.
+      if git -C "$REPO_ROOT" check-ignore -q "$p" 2>/dev/null; then
+        echo "SKIP path local (gitignored) ausente: $p"
+        continue
+      fi
       echo "FAIL path inexistente en manifest: $p"
       fail=1
     fi

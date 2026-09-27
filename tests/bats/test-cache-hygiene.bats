@@ -49,6 +49,14 @@ teardown() {
     echo "$output" | grep -q 'path inexistente'
 }
 
+@test "SE-371 AC-2c: --validate omite paths locales gitignored ausentes (no FAIL)" {
+    echo "output/zz-cache-test-missing.md" >> "$TMPD/manifest.txt"
+    run env CACHE_PREFIX_MANIFEST="$TMPD/manifest.txt" bash scripts/cache-hygiene.sh --validate
+    [ "$status" -eq 0 ]
+    echo "$output" | grep -q 'SKIP path local'
+    ! echo "$output" | grep -q 'path inexistente'
+}
+
 @test "SE-371 AC-2b: --validate pasa con manifest real coherente" {
     run bash scripts/cache-hygiene.sh --validate
     [ "$status" -eq 0 ]
