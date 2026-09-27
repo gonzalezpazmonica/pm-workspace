@@ -46,6 +46,7 @@ convergence_score = 1.0 - total_energy
 | total_energy ≥ COURT_ENERGY_THRESHOLD (0.2) | CONDITIONAL |
 | total_energy < COURT_ENERGY_THRESHOLD (0.2) | PASS |
 | sin jueces | PASS (por defecto) |
+| línea ilegible, sin `score`, `score` fuera de [0,1], `weight` negativo o fichero inexistente | error, exit 3 (fail-closed: nunca PASS) |
 
 ## Configuración
 
