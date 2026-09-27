@@ -1,5 +1,5 @@
 # planning — Savia Capability Map (L1)
-> 641 resources
+> 642 resources
 
 - **/decide-architecture** (cmd): Clasifica una tarea como WORKFLOW (deterministica) o AGENT (loop). Bias hacia workflow per Anthropic. Sugiere plantilla inicial. Mide accuracy contra corpus curado de 20 tareas.
 - **_template** (skill): TEMPLATE — copia este directorio para crear una skill nueva. NO se carga en runtime.
@@ -617,7 +617,8 @@
 - **validate-devops** (script): =============================================================================
 - **validate-devops-checks** (script): shellcheck shell=bash
 - **validate-filesize** (cmd): Validar que ficheros del workspace cumplen ≤150 líneas
-- **validate-handoff** (script): SE-387 C/F3 — Handoff integrity.
+- **validate-handoff** (script): validate-handoff.sh — Validate handoff structure with termination_reason
+- **validate-handoff-integrity** (script): SE-387 C/F3 — Handoff integrity.
 - **validate-layer-contract** (script): validate-layer-contract.sh — SE-001 layer contract validator
 - **validate-schema** (cmd): Validar schema de frontmatter y settings.json
 - **validate-settings-local** (script): validate-settings-local.sh — Detect private/session data in settings.local.json

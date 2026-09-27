@@ -24088,13 +24088,34 @@
       "id": "script:scripts/validate-handoff",
       "intents": [
         "handoff",
-        "integrity"
+        "reason",
+        "structure",
+        "termination",
+        "validate"
       ],
       "kind": "script",
       "owner_domain": "planning",
       "replaced_by": null,
       "risk_level": null,
       "source": "scripts/validate-handoff.sh",
+      "status": "active",
+      "tests": []
+    },
+    {
+      "depends_on": [],
+      "frontend_support": [
+        "opencode"
+      ],
+      "id": "script:scripts/validate-handoff-integrity",
+      "intents": [
+        "handoff",
+        "integrity"
+      ],
+      "kind": "script",
+      "owner_domain": "planning",
+      "replaced_by": null,
+      "risk_level": null,
+      "source": "scripts/validate-handoff-integrity.sh",
       "status": "active",
       "tests": []
     },
@@ -30124,7 +30145,7 @@
       "tests": []
     }
   ],
-  "content_hash": "3a48e5ede68d",
+  "content_hash": "b9126f018c6d",
   "deferred_kinds": [
     "rule",
     "hook"

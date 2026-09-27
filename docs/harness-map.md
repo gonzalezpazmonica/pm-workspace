@@ -63,6 +63,6 @@ bash scripts/l28-ablation.sh verdict out.json   # CONFIRM | NEGATIVE
 
 - **F2**: verifier con grounding obligatorio contra trace — cierra el fallo
   (d) y el degrade a accept-ungrounded del recorder cortado.
-- **F3**: handoffs con refs+checksum (`validate-handoff.sh`).
+- **F3**: handoffs con refs+checksum (`validate-handoff-integrity.sh`).
 - **F4**: checkpoint durable SQLite con resume para orchestrator.
 - **F5**: exactly-once por reserva pre-ejecución de efectos.
