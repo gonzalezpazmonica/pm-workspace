@@ -19,7 +19,8 @@
 set -uo pipefail
 
 GRANTS_DIR="${SAVIA_GRANTS_DIR:-$HOME/.savia/grants}"
-ACTIVE_USER_FILE=".claude/profiles/active-user.md"
+# Resuelto desde la raíz del repo (no desde el cwd); override para tests.
+ACTIVE_USER_FILE="${SAVIA_ACTIVE_USER_FILE:-$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)/.claude/profiles/active-user.md}"
 
 usage() {
   cat <<'USAGE'
@@ -159,6 +160,12 @@ case "$ACTION" in
   grant)
     [[ -z "$CONTEXT" ]] && { echo "ERROR: --context required (why is this grant being issued)" >&2; exit 2; }
     [[ -z "$TTL" ]] && TTL="$(default_ttl "$SCOPE")"
+    # Fail-closed: sin operadora identificable no se emite un grant (antes se
+    # escribía uno con grantor vacío que check rechazaba después).
+    if [[ -z "$GRANTOR" && -z "$SLUG" ]]; then
+      echo "ERROR: no active operator (active_slug in $ACTIVE_USER_FILE) — grant not issued" >&2
+      exit 2
+    fi
     write_grant "$SCOPE" "$CONTEXT" "$TTL" "$SLUG" "$GRANTOR"
     echo "granted: $SCOPE -> $SLUG (ttl ${TTL}h)"
     check_scope "$SCOPE" "$SLUG"; exit $? ;;
