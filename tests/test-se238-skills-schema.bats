@@ -131,3 +131,55 @@ print('OK: JSON válido')
 
   [ "$count1" -eq "$count2" ]
 }
+
+# ── Robustez: errores, límites y aislamiento ─────────────────────────────────
+setup() {
+  TMPD="$(mktemp -d)"
+}
+
+teardown() {
+  rm -rf "$TMPD" 2>/dev/null || true
+}
+
+@test "el generador declara set -euo pipefail" {
+  head -40 "$SCRIPT" | grep -q 'set -euo pipefail'
+}
+
+@test "error: skills dir nonexistent → exit 1 sin escribir salida" {
+  run bash "$SCRIPT" --skills-dir "$TMPD/no-existe" --output "$TMPD/o.json" --output-md "$TMPD/o.md"
+  [ "$status" -eq 1 ]
+  [[ "$output" == *"no encontrado"* ]]
+  [ ! -e "$TMPD/o.json" ]
+}
+
+@test "invalid flag rejected with usage (exit != 0)" {
+  run bash "$SCRIPT" --bogus
+  [ "$status" -ne 0 ]
+  [[ "$output" == *"Uso:"* ]]
+}
+
+@test "empty skills dir → 0 skills y JSON válido" {
+  mkdir -p "$TMPD/empty"
+  run bash "$SCRIPT" --skills-dir "$TMPD/empty" --output "$TMPD/e.json" --output-md "$TMPD/e.md"
+  [ "$status" -eq 0 ]
+  python3 -c "
+import json
+d = json.load(open('$TMPD/e.json'))
+assert d['_meta']['total_skills'] == 0 and d['skills'] == [], d
+"
+}
+
+@test "skill sin frontmatter se indexa con skill_id y path (boundary)" {
+  mkdir -p "$TMPD/s/solo-texto"
+  echo "hola" > "$TMPD/s/solo-texto/SKILL.md"
+  run bash "$SCRIPT" --skills-dir "$TMPD/s" --output "$TMPD/s.json" --output-md "$TMPD/s.md"
+  [ "$status" -eq 0 ]
+  python3 -c "
+import json
+d = json.load(open('$TMPD/s.json'))
+assert d['_meta']['total_skills'] == 1, d
+e = d['skills'][0]
+assert e['skill_id'] == 'solo-texto', e
+assert e['skill_path'].endswith('solo-texto/SKILL.md'), e
+"
+}
