@@ -2,10 +2,17 @@
 # test-se356-skill-layer.bats — BATS tests for SE-356 Skills Two-Layers
 # Ref: SE-356 — core/peripheral, peripheral por defecto, registry local
 
+SCRIPT="scripts/skill-layer-check.sh"
+
 setup() {
+  set -o pipefail
   REPO_ROOT="$(cd "$BATS_TEST_DIRNAME/../.." && pwd)"
-  CHECK="$REPO_ROOT/scripts/skill-layer-check.sh"
+  CHECK="$REPO_ROOT/$SCRIPT"
   export CHECK
+}
+
+teardown() {
+  cd "$REPO_ROOT"
 }
 
 @test "check detecta skill sin layer" {
@@ -81,4 +88,55 @@ for k, v in d['skills'].items():
 print('OK')
 "
   [[ "$status" -eq 0 ]]
+}
+
+@test "catalog-audit: skill sin layer es FAIL (missing-layer-field)" {
+  local d="$BATS_TEST_TMPDIR/nolayer"
+  mkdir -p "$d"
+  printf -- '---\nname: nolayer\ndescription: "Hace algo concreto. Usar cuando se necesita probar el auditor de layers."\n---\n# x\n' > "$d/SKILL.md"
+  run bash "$REPO_ROOT/scripts/skill-catalog-audit.sh" --json --skill "$d"
+  [[ "$status" -eq 0 ]]
+  echo "$output" | python3 -c "import json,sys; assert json.load(sys.stdin)['fail'] >= 1"
+}
+
+@test "catalog-audit: layer invalido tambien es FAIL" {
+  local d="$BATS_TEST_TMPDIR/badlayer"
+  mkdir -p "$d"
+  printf -- '---\nlayer: middle\nname: badlayer\ndescription: "Hace algo concreto. Usar cuando se necesita probar el auditor de layers."\n---\n# x\n' > "$d/SKILL.md"
+  run bash "$REPO_ROOT/scripts/skill-catalog-audit.sh" --json --skill "$d"
+  echo "$output" | python3 -c "import json,sys; assert json.load(sys.stdin)['fail'] >= 1"
+}
+
+@test "catalog-audit: layer peripheral valido no genera FAIL" {
+  local d="$BATS_TEST_TMPDIR/oklayer"
+  mkdir -p "$d"
+  printf -- '---\nlayer: peripheral\nname: oklayer\ndescription: "Hace algo concreto. Usar cuando se necesita probar el auditor de layers."\n---\n# x\n' > "$d/SKILL.md"
+  run bash "$REPO_ROOT/scripts/skill-catalog-audit.sh" --json --skill "$d"
+  echo "$output" | python3 -c "import json,sys; assert json.load(sys.stdin)['fail'] == 0"
+}
+
+@test "G14: el filtro de pr-plan reconoce rutas .claude/skills (symlink de .opencode)" {
+  grep -qE "\^\\\\\.\(claude\|opencode\)/skills/" "$REPO_ROOT/scripts/pr-plan-gates.sh"
+  echo ".claude/skills/foo/SKILL.md" | grep -qE '^\.(claude|opencode)/skills/[^/]+/SKILL\.md$'
+}
+
+@test "edge: layer con valor empty es FAIL" {
+  local d="$BATS_TEST_TMPDIR/emptylayer"
+  mkdir -p "$d"
+  printf -- '---\nlayer:\nname: emptylayer\ndescription: "Hace algo concreto. Usar cuando se necesita probar el auditor de layers."\n---\n# x\n' > "$d/SKILL.md"
+  run bash "$REPO_ROOT/scripts/skill-catalog-audit.sh" --json --skill "$d"
+  echo "$output" | python3 -c "import json,sys; assert json.load(sys.stdin)['fail'] >= 1"
+}
+
+@test "edge: skill dir nonexistent sin SKILL.md es FAIL" {
+  local d="$BATS_TEST_TMPDIR/ghost"
+  mkdir -p "$d"
+  run bash "$REPO_ROOT/scripts/skill-catalog-audit.sh" --json --skill "$d"
+  echo "$output" | python3 -c "import json,sys; assert json.load(sys.stdin)['fail'] >= 1"
+}
+
+@test "edge: repo real reporta zero skills sin layer" {
+  run bash "$CHECK"
+  [[ "$status" -eq 0 ]]
+  [[ "$output" == *"sin layer: 0"* ]]
 }

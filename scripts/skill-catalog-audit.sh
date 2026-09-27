@@ -144,6 +144,13 @@ audit_one() {
     printf "%s\tmissing-name-field\tFAIL\t%s\t-\n" "$skill_name" "$lines"
   fi
 
+  # SE-356: every skill declares its layer (core|peripheral) in frontmatter.
+  local layer; layer=$(fm_field "$file" "layer")
+  case "$layer" in
+    core|peripheral) ;;
+    *) printf "%s\tmissing-layer-field\tFAIL\t%s\t-\n" "$skill_name" "$lines" ;;
+  esac
+
   if [ -z "$desc" ]; then
     printf "%s\tmissing-description-field\tFAIL\t%s\t-\n" "$skill_name" "$lines"
   else

@@ -84,12 +84,23 @@ cmd_validate() {
   while IFS= read -r p; do
     [[ -z "$p" ]] && continue
     if [[ ! -f "$REPO_ROOT/$p" ]]; then
+      # Per-user gitignored paths (active-user.md) exist only on the operator's
+      # machine; a fresh checkout or CI lacks them by design. Public paths must exist.
+      if git -C "$REPO_ROOT" check-ignore -q "$p" 2>/dev/null; then
+        echo "SKIP path local (gitignored) ausente: $p"
+        continue
+      fi
       echo "FAIL path inexistente en manifest: $p"
       fail=1
     fi
   done < <(manifest_paths)
-  # AC-4: MEMORY.md fuera del prefijo
-  if grep -q 'external-memory/auto/MEMORY.md' "$REPO_ROOT/config/cache-prefix.txt"; then
+  # A manifest with no paths makes every check vacuous.
+  if [[ -z "$(manifest_paths)" ]]; then
+    echo "FAIL manifest sin paths: $MANIFEST"
+    fail=1
+  fi
+  # AC-4: MEMORY.md fuera del prefijo (paths del manifest activo, no comentarios)
+  if manifest_paths | grep -q 'MEMORY.md'; then
     echo "FAIL MEMORY.md no debe estar en el prefijo (SE-371 AC-4)"
     fail=1
   fi

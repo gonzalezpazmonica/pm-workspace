@@ -148,13 +148,15 @@ teardown() {
   grep -q "Lazy" "$CLAUDE_MD"
 }
 
-@test "CLAUDE.md has only 3 eager imports for foundational context" {
-  local count
+@test "CLAUDE.md eager imports match its declared critical count plus user context" {
+  local count declared
   count=$(grep -cE "^@(\.claude|docs)" "$CLAUDE_MD")
-  # Allow 3-7 (critical-facts SPEC-185, savia, radical-honesty, autonomous-safety,
-  # active-user, MEMORY auto, optionally pm-config.local).
-  [ "$count" -ge 3 ]
-  [ "$count" -le 7 ]
+  # The header declares "N @imports criticos"; the user section adds exactly
+  # active-user + MEMORY auto. An undeclared eager import is context bloat.
+  declared=$(grep -oE '[0-9]+ @imports criticos' "$CLAUDE_MD" | grep -oE '^[0-9]+')
+  [ -n "$declared" ]
+  [ "$count" -eq $((declared + 2)) ]
+  [ "$declared" -le 6 ]
 }
 
 @test "CLAUDE.md has lazy reference table" {

@@ -74,9 +74,14 @@ teardown() {
     "$ENT/SPEC-SE-035-reconciliation-delta-engine.md"
 }
 
-@test "post-batch-83: SPEC-SE-036 status is IMPLEMENTED (all slices done)" {
-  grep -qE '^status:[[:space:]]+IMPLEMENTED[[:space:]]*$' \
-    "$ENT/SPEC-SE-036-api-key-jwt-mint.md"
+@test "SPEC-SE-036 is not IMPLEMENTED while no JWT mint artifact exists (reconciled 2026-08-22)" {
+  # Batch 83 marked it IMPLEMENTED; the 2026-08-22 reconciliation found no mint
+  # code. The status may only claim IMPLEMENTED once the artifact exists.
+  local spec="$ENT/SPEC-SE-036-api-key-jwt-mint.md"
+  [ -f "$spec" ]
+  if grep -qE '^status:[[:space:]]+IMPLEMENTED' "$spec"; then
+    compgen -G "$REPO_ROOT/scripts/*jwt*" >/dev/null
+  fi
 }
 
 @test "post-batch-83: SPEC-SE-037 status is IMPLEMENTED (audit trigger primitive)" {

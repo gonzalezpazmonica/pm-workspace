@@ -1,4 +1,6 @@
 ---
+layer: peripheral
+layer: peripheral
 name: grc-evidence-analysis
 description: Valida procedencia y suficiencia de pruebas GRC. Usar cuando se evalúan controles, se revisan evidencias o se detectan contradicciones.
 metadata:
