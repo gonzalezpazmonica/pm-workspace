@@ -5,7 +5,6 @@ description: Regla cross-cutting de separación de marcado y lógica
 globs:
 context: on-demand
 ---
-
 # Separación de Marcado, Consultas y Estilos — Regla Transversal
 
 > Aplica a todos los lenguajes. Complementa reglas de arquitectura de cada language pack.

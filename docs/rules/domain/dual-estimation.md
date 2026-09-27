@@ -2,7 +2,6 @@
 context_tier: L2
 token_budget: 1573
 ---
-
 # Dual Estimation Rule (SE-013)
 
 > **pm-workspace = ~10x throughput end-to-end con supervision humana sobre el pipeline completo asistido por agentes.**
@@ -148,8 +147,4 @@ AGENT_ACTUALS_LOG           = "data/agent-actuals.jsonl"
 
 ## Sources
 
-- METR arxiv 2503.14499 (time horizons, rev. 2026-02)
-- METR arxiv 2507.09089 (2025-07 RCT, -19% en legacy repos)
-- METR MirrorCode 2026-04-10 (greenfield, 10-50x)
-- Experimento propio n=2 Apache HUDI (HUDI-8865 21x, HUDI-8551 30x ajustado)
-- Datos internos pm-workspace: SE-001/002/008/012
+METR arxiv 2503.14499 (time horizons, rev. 2026-02) · METR arxiv 2507.09089 (2025-07 RCT, -19% en legacy repos) · METR MirrorCode 2026-04-10 (greenfield, 10-50x) · Experimento propio n=2 Apache HUDI (HUDI-8865 21x, HUDI-8551 30x ajustado) · Datos internos pm-workspace: SE-001/002/008/012

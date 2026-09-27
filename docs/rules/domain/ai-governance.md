@@ -3,7 +3,6 @@ context_tier: L3
 token_budget: 1423
 paths: ["**/compliance/**", "**/model-card*", "**/risk-assessment*", "**/audit-log*"]
 ---
-
 # Gobernanza de IA — Reglas de Dominio
 
 ## § 1 Principios Fundamentales de Gobernanza IA
