@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=797708348f32b68376bdff38e35798a9d1829beeb950be5de46914bd1315dc32
-timestamp=2026-09-27T09:30:34Z
-branch=agent/skills-maturity-truth
-head_commit=ecf17788
-signature=55a398c7138c883ebef69bcb642c3bc0306c35cb518d946632b89bc24b6a78af
+diff_hash=bdd996f0556ae5229d17cafc7789b895121c9768787fedfee461be821a440df2
+timestamp=2026-09-27T10:04:31Z
+branch=agent/fix-grep-count
+head_commit=37b82a95
+signature=fccb7696a3d991f51ad5941c2e78a5b598eaaf4846bc0a9711e3f399adb54c4d

@@ -11,8 +11,8 @@ mkdir -p "$AUDIT_DIR"
 total_docs=$(find "$AUDIT_DIR" -name "doc-*.json" 2>/dev/null | wc -l)
 docs_with_kg=$(grep -l '"entity_count":[1-9]' "$AUDIT_DIR"/doc-*.json 2>/dev/null | wc -l)
 total_entities=$(grep -oh '"entity_count":[0-9]*' "$AUDIT_DIR"/doc-*.json 2>/dev/null | grep -o '[0-9]*' | paste -sd+ | bc 2>/dev/null || echo 0)
-proposed=$(grep -c '"status":"proposed"' "$AUDIT_DIR"/doc-*.json 2>/dev/null || echo 0)
-rejected=$(grep -c '"status":"rejected"' "$AUDIT_DIR"/doc-*.json 2>/dev/null || echo 0)
+proposed=$(grep -c '"status":"proposed"' "$AUDIT_DIR"/doc-*.json 2>/dev/null || [ $? -eq 1 ] || echo 0)
+rejected=$(grep -c '"status":"rejected"' "$AUDIT_DIR"/doc-*.json 2>/dev/null || [ $? -eq 1 ] || echo 0)
 
 coverage_pct=0
 [[ $total_docs -gt 0 ]] && coverage_pct=$((docs_with_kg * 100 / total_docs))

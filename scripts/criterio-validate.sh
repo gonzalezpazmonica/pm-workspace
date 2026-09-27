@@ -17,7 +17,7 @@ WARNS=0
 
 echo "=== CRITERIO Validation ==="
 
-COUNT=$(grep -c "^CRIT-[0-9]" "$CRITERIO" || echo 0)
+COUNT=$(grep -c "^CRIT-[0-9]" "$CRITERIO" || [ $? -eq 1 ] || echo 0)
 echo "  Entries found: $COUNT"
 
 AMBITS=("tecnicas" "comunicacion" "priorizacion" "riesgo" "delegacion")

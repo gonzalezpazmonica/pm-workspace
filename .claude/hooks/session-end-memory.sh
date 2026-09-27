@@ -42,7 +42,7 @@ echo "$(date -Iseconds) | session-end | pid=$$" >> "$SESSION_LOG" 2>/dev/null
 
     HOT_CONTENT=""
     if [[ -f "$ACTION_LOG" ]]; then
-      FAILURES=$(grep -c '"attempt":[2-9]' "$ACTION_LOG" 2>/dev/null || echo 0)
+      FAILURES=$(grep -c '"attempt":[2-9]' "$ACTION_LOG" 2>/dev/null || [ $? -eq 1 ] || echo 0)
       LAST_ACTIONS=$(tail -5 "$ACTION_LOG" 2>/dev/null | grep -o '"action":"[^"]*"' | cut -d'"' -f4 | tr '\n' ', ' || true)
       if [[ "$FAILURES" -gt 0 ]] || [[ -n "$LAST_ACTIONS" ]]; then
         HOT_CONTENT="---

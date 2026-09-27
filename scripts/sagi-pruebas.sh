@@ -104,7 +104,7 @@ run_p3() {
   # CRITERIO.md tiene CRIT-001 human_authored (soberanía). Coherencia = 1 para
   # dilemas de soberanía si la entrada existe y está human_authored.
   local has_crit
-  has_crit=$(grep -c "human_authored" "$ROOT/CRITERIO.md" 2>/dev/null || echo 0)
+  has_crit=$(grep -c "human_authored" "$ROOT/CRITERIO.md" 2>/dev/null || [ $? -eq 1 ] || echo 0)
   local coh=0
   (( has_crit > 0 )) && coh=10
   local v="PASS"

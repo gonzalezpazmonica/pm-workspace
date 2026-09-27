@@ -93,9 +93,9 @@ compute_from_incidents() {
   local incident_file="${REPO_ROOT}/engagements/${engagement%/*}/${engagement#*/}/incidents.jsonl"
   if [[ -f "$incident_file" ]]; then
     if [[ -n "$window_start" ]] && [[ -n "$window_end" ]]; then
-      grep -c . "$incident_file" 2>/dev/null || echo 0
+      grep -c . "$incident_file" 2>/dev/null || [ $? -eq 1 ] || echo 0
     else
-      grep -c . "$incident_file" 2>/dev/null || echo 0
+      grep -c . "$incident_file" 2>/dev/null || [ $? -eq 1 ] || echo 0
     fi
   else
     echo "0"

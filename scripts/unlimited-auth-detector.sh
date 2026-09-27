@@ -133,7 +133,7 @@ $DEFAULT_LIMITS
 RESPONSE
 
   # Check recurrence (3+ in window → suggest CRITERIO amendment)
-  recurrence=$(grep -c "unlimited_auth_detected" "$DETECTOR_LOG" 2>/dev/null || echo 0)
+  recurrence=$(grep -c "unlimited_auth_detected" "$DETECTOR_LOG" 2>/dev/null || [ $? -eq 1 ] || echo 0)
   if [[ "$recurrence" -ge 3 ]]; then
     echo "RECURRENCE: $recurrence unlimited-auth detections. Consider adding a CRITERIO.md entry for this domain." >&2
   fi

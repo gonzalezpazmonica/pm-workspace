@@ -13,7 +13,7 @@ sprint_create() {
 
     local year=$(date +%Y)
     local sprints; sprints=$(do_list "$repo_dir" "team/$team" "projects/backlog/sprints") || echo ""
-    local seq; seq=$(echo "$sprints" | grep -c "SPR-${year}" || echo 0)
+    local seq; seq=$(echo "$sprints" | grep -c "SPR-${year}" || [ $? -eq 1 ] || echo 0)
     seq=$((seq + 1))
     local sprint_id="SPR-${year}-$(printf '%02d' $seq)"
 

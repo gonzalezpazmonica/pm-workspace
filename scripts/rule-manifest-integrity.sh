@@ -118,7 +118,7 @@ def walk(v):
 for path in walk(data):
     print(path)
 " 2>/dev/null | sort -u)
-  MANIFEST_ENTRIES=$(echo "$MANIFEST_FILES" | grep -c '.md' 2>/dev/null || echo 0)
+  MANIFEST_ENTRIES=$(echo "$MANIFEST_FILES" | grep -c '.md' 2>/dev/null || [ $? -eq 1 ] || echo 0)
 
   # Manifest entry → filesystem existence
   while IFS= read -r rel; do

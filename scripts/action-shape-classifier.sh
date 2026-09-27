@@ -73,7 +73,7 @@ score_novelty() {
   [[ ! -f "$PROFILE" ]] && echo 2 && return   # no history = novel
   local class="${TOOL}"
   local count
-  count=$(grep -c "\"class\":\"$class\"" "$PROFILE" 2>/dev/null || echo 0)
+  count=$(grep -c "\"class\":\"$class\"" "$PROFILE" 2>/dev/null || [ $? -eq 1 ] || echo 0)
   if [[ "$count" -eq 0 ]]; then echo 2         # never used this tool class
   elif [[ "$count" -lt 3 ]]; then echo 1       # rare
   else echo 0                                   # routine

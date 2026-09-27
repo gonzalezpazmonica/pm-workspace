@@ -362,7 +362,7 @@ cmd_ledger_status() {
   fi
 
   local count
-  count="$(grep -c . "$ledger_file" 2>/dev/null || echo 0)"
+  count="$(grep -c . "$ledger_file" 2>/dev/null || [ $? -eq 1 ] || echo 0)"
   local last_hash
   last_hash="$(get_prev_hash "$ledger_file")"
 
