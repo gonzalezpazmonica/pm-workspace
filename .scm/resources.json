@@ -1,5 +1,5 @@
 {
-  "hash": "178bcdee1975",
+  "hash": "4b8dd4ee6740",
   "total": 1450,
   "resources": [
     {
@@ -9417,6 +9417,20 @@
     },
     {
       "category": "planning",
+      "name": "edit-ledger",
+      "intents": [
+        "atribuidas",
+        "ediciones",
+        "edit",
+        "ledger",
+        "registro"
+      ],
+      "kind": "script",
+      "path": "scripts/edit-ledger.sh",
+      "description": "edit-ledger.sh — SE-402: registro de ediciones atribuidas."
+    },
+    {
+      "category": "planning",
       "name": "effect-reservation",
       "intents": [
         "close",
@@ -16007,20 +16021,6 @@
       "kind": "script",
       "path": "scripts/corporate-fleet-dashboard.sh",
       "description": "corporate-fleet-dashboard.sh — SE-271 S5: Derive fleet dashboard from attestations"
-    },
-    {
-      "category": "quality",
-      "name": "corporate/corporate-attestation-queue",
-      "intents": [
-        "attestation",
-        "corporate",
-        "offline",
-        "online",
-        "queue"
-      ],
-      "kind": "script",
-      "path": "scripts/corporate/corporate-attestation-queue.sh",
-      "description": "corporate-attestation-queue.sh — SE-271 S7 Attestation Queue (Offline → Online)"
     },
     {
       "category": "quality",

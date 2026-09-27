@@ -848,6 +848,17 @@
             "status": "warn-only"
           }
         ]
+      },
+      {
+        "matcher": "Edit|Write|NotebookEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/.opencode/hooks/edit-ledger-record.sh",
+            "async": true,
+            "timeout": 10
+          }
+        ]
       }
     ],
     "Stop": [

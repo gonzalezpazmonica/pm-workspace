@@ -1,0 +1,8 @@
+# SE-402: derivados que regeneran herramientas conocidas; no requieren atribución.
+.scm/**
+.confidentiality-signature
+docs/rules/INDEX.md
+docs/rules/domain/INDEX.md
+CHANGELOG.md
+AGENTS.md
+.pr-summary.md
