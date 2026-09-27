@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=9c7f48012042e605882f7dfc7f4e47245cb84e7c93a62b7dc11a17c011f4ed2a
-timestamp=2026-09-27T00:07:38Z
-branch=agent/test-git-identity
-head_commit=e165883f
-signature=2f400d339917143e67327ba43d438d1cb90fd80cc79db08267efeeca14493ae9
+diff_hash=0d34125fe9197e0d02d6b276c41c67e9a57f0bded8320c59b94db050458338e5
+timestamp=2026-09-27T07:15:21Z
+branch=agent/fix-handoff-tests
+head_commit=4be43942
+signature=2958a0dd7514e328d9b204127c48f05fb7fc456cb4f0112bf06ef9cc186eedc2
