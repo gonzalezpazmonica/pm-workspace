@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=1b83d9beb3de819a6174aefc89d02a15fa688b63ec6a823f235f31452e91bfd9
-timestamp=2026-09-27T20:15:33Z
+diff_hash=fa4abc8ae0bc7685b52d0834829d9bb5120b21c15dd1e2ce879bfdcea2b65fb3
+timestamp=2026-09-27T20:19:56Z
 branch=agent/overnight-20260927-harness-specs
-head_commit=bc19bb39
-signature=43be19e2481e1b096b0e595e360d571ac8dacb844ed5c77a17778d25547d0789
+head_commit=f78ac062
+signature=48a5e5acc17479b3b0bee86ee51863bfebe277e2b4c028e7244a97c1cf124b63
