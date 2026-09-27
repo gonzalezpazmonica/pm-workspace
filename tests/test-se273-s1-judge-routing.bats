@@ -175,16 +175,16 @@ EOF
   export SAVIA_ANTI_FATIGUE_MAX_IGNORED=2
   export SAVIA_ANTI_FATIGUE_WINDOW_HOURS=1
   TEST_LEDGER="$TMPDIR/anti-fatigue-ledger.jsonl"
-  
+
   # Override ledger path for test
   function do_record() {
     local ts=$(date -u +%Y-%m-%dT%H:%M:%SZ)
     echo "{\"ts\":\"$ts\",\"judge\":\"$1\",\"verdict_id\":\"$2\",\"action\":\"$3\"}" >> "$TEST_LEDGER"
   }
-  
+
   do_record "test-judge" "v001" "ignored"
   do_record "test-judge" "v002" "ignored"
-  
+
   # Should have 2 records
   count=$(wc -l < "$TEST_LEDGER")
   [ "$count" -eq 2 ]

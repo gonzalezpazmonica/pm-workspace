@@ -33,12 +33,12 @@ WORKSPACE_SKILLS="${REPO_ROOT}/.opencode/skills"
 @test "skills-schema.json se genera correctamente con el script" {
   tmp_json=$(mktemp /tmp/skills-schema-XXXXXX.json)
   tmp_md=$(mktemp /tmp/skills-schema-XXXXXX.md)
-  
+
   run bash "$SCRIPT" --skills-dir "$WORKSPACE_SKILLS" --output "$tmp_json" --output-md "$tmp_md"
-  
+
   # El script debe generar JSON válido
   python3 -c "import json; json.load(open('$tmp_json'))"
-  
+
   rm -f "$tmp_json" "$tmp_md"
   [ "$status" -eq 0 ]
 }
@@ -95,9 +95,9 @@ print('OK: savia-memory encontrado')
 @test "skills-schema-generate.sh genera output JSON válido" {
   tmp_json=$(mktemp /tmp/skills-schema-valid-XXXXXX.json)
   tmp_md=$(mktemp /tmp/skills-schema-valid-XXXXXX.md)
-  
+
   bash "$SCRIPT" --skills-dir "$WORKSPACE_SKILLS" --output "$tmp_json" --output-md "$tmp_md" >/dev/null 2>&1
-  
+
   # Verificar JSON válido con python3
   python3 -c "
 import json
@@ -109,7 +109,7 @@ assert isinstance(d['skills'], list), 'skills no es una lista'
 assert len(d['skills']) > 0, 'lista skills vacía'
 print('OK: JSON válido')
 "
-  
+
   rm -f "$tmp_json" "$tmp_md"
 }
 
@@ -119,15 +119,15 @@ print('OK: JSON válido')
   tmp_json2=$(mktemp /tmp/skills-schema-idem2-XXXXXX.json)
   tmp_md1=$(mktemp /tmp/skills-schema-idem1-XXXXXX.md)
   tmp_md2=$(mktemp /tmp/skills-schema-idem2-XXXXXX.md)
-  
+
   bash "$SCRIPT" --skills-dir "$WORKSPACE_SKILLS" --output "$tmp_json1" --output-md "$tmp_md1" >/dev/null 2>&1
   bash "$SCRIPT" --skills-dir "$WORKSPACE_SKILLS" --output "$tmp_json2" --output-md "$tmp_md2" >/dev/null 2>&1
-  
+
   # Comparar número de entradas (el timestamp puede diferir en _meta)
   count1=$(python3 -c "import json; print(len(json.load(open('$tmp_json1'))['skills']))")
   count2=$(python3 -c "import json; print(len(json.load(open('$tmp_json2'))['skills']))")
-  
+
   rm -f "$tmp_json1" "$tmp_json2" "$tmp_md1" "$tmp_md2"
-  
+
   [ "$count1" -eq "$count2" ]
 }

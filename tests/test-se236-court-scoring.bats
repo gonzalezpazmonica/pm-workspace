@@ -23,7 +23,7 @@ SCRIPT="${NIDO}/scripts/court-score-aggregator.sh"
 @test "con todos los scores 0.0 → veredicto PASS" {
   input='{"judge":"security-judge","score":0.0,"weight":2.0,"blocking":false}
 {"judge":"correctness-judge","score":0.0,"weight":1.5,"blocking":false}'
-  
+
   output=$(echo "$input" | bash "$SCRIPT")
   echo "$output" | python3 -c "import sys,json; d=json.loads(sys.stdin.read()); assert d['verdict']=='PASS', f'Expected PASS, got {d[\"verdict\"]}'"
 }
@@ -31,7 +31,7 @@ SCRIPT="${NIDO}/scripts/court-score-aggregator.sh"
 # ── Test 4: Con un score 0.9 en judge blocking → veredicto FAIL ──────────────
 @test "con score 0.9 en judge blocking=true → veredicto FAIL" {
   input='{"judge":"security-judge","score":0.9,"weight":2.0,"blocking":true,"blocking_threshold":0.3}'
-  
+
   # El script devuelve exit 1 en FAIL, capturamos con || true
   output=$(echo "$input" | bash "$SCRIPT" || true)
   echo "$output" | python3 -c "import sys,json; d=json.loads(sys.stdin.read()); assert d['verdict']=='FAIL', f'Expected FAIL, got {d[\"verdict\"]}'"
@@ -41,7 +41,7 @@ SCRIPT="${NIDO}/scripts/court-score-aggregator.sh"
 @test "energy total < 0.2 → veredicto PASS" {
   input='{"judge":"correctness-judge","score":0.1,"weight":1.0,"blocking":false}
 {"judge":"architecture-judge","score":0.05,"weight":1.0,"blocking":false}'
-  
+
   output=$(echo "$input" | COURT_ENERGY_THRESHOLD=0.2 bash "$SCRIPT")
   echo "$output" | python3 -c "import sys,json; d=json.loads(sys.stdin.read()); assert d['verdict']=='PASS', f'Expected PASS, got {d[\"verdict\"]}'"
 }
@@ -50,7 +50,7 @@ SCRIPT="${NIDO}/scripts/court-score-aggregator.sh"
 @test "energy total >= 0.5 → veredicto FAIL" {
   input='{"judge":"security-judge","score":0.8,"weight":1.0,"blocking":false}
 {"judge":"correctness-judge","score":0.6,"weight":1.0,"blocking":false}'
-  
+
   output=$(echo "$input" | COURT_ENERGY_THRESHOLD=0.2 bash "$SCRIPT" || true)
   echo "$output" | python3 -c "import sys,json; d=json.loads(sys.stdin.read()); assert d['verdict'] in ['FAIL','CONDITIONAL'], f'Expected FAIL or CONDITIONAL, got {d[\"verdict\"]}'"
 }
@@ -59,7 +59,7 @@ SCRIPT="${NIDO}/scripts/court-score-aggregator.sh"
 @test "reporta bottleneck_judge como el juez con mayor score ponderado" {
   input='{"judge":"security-judge","score":0.8,"weight":2.0,"blocking":false}
 {"judge":"cognitive-judge","score":0.1,"weight":0.5,"blocking":false}'
-  
+
   output=$(echo "$input" | bash "$SCRIPT" || true)
   echo "$output" | python3 -c "import sys,json; d=json.loads(sys.stdin.read()); assert d['bottleneck_judge']=='security-judge', f'Expected security-judge, got {d[\"bottleneck_judge\"]}'"
 }
@@ -73,7 +73,7 @@ SCRIPT="${NIDO}/scripts/court-score-aggregator.sh"
 # ── Test 9: COURT_ENERGY_THRESHOLD es configurable ───────────────────────────
 @test "COURT_ENERGY_THRESHOLD configurable via env var" {
   input='{"judge":"judge1","score":0.15,"weight":1.0,"blocking":false}'
-  
+
   # Con threshold 0.1, score 0.15 debería ser CONDITIONAL o FAIL
   output=$(echo "$input" | COURT_ENERGY_THRESHOLD=0.1 bash "$SCRIPT" || true)
   echo "$output" | python3 -c "import sys,json; d=json.loads(sys.stdin.read()); assert d['verdict'] != 'PASS', f'Expected non-PASS with threshold 0.1 and score 0.15'"
@@ -93,7 +93,7 @@ SCRIPT="${NIDO}/scripts/court-score-aggregator.sh"
 @test "output incluye total_energy, bottleneck_judge y convergence_score" {
   input='{"judge":"security-judge","score":0.1,"weight":2.0,"blocking":false}'
   output=$(echo "$input" | bash "$SCRIPT")
-  
+
   echo "$output" | python3 -c "
 import sys, json
 d = json.loads(sys.stdin.read())
