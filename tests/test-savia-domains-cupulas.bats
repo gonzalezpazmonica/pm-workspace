@@ -31,11 +31,22 @@ assert dom['confidentiality']=='N1', dom
   [ "$n" -eq 34 ]
 }
 
-@test "L23: cada cúpula tiene frontmatter válido (lifecycle cupula-creada, N1)" {
+@test "L23: el generador crea cada cúpula con lifecycle cupula-creada y N1" {
+  mkdir -p "$TMPD/vault"
+  "$GEN" --catalog "$CATALOG" --vault "$TMPD/vault" >/dev/null
+  for f in "$TMPD/vault"/*/*/INDEX.md; do
+    grep -q '^lifecycle: cupula-creada$' "$f"
+    grep -q '^confidentiality: N1$' "$f"
+  done
+}
+
+@test "L23: cada cúpula del vault real tiene lifecycle válido y N1" {
+  [[ -d "$VAULT" ]] || skip "vault local SaviaDomains no presente (gitignored)"
+  # Una cúpula nace cupula-creada y pasa a digerida al procesar su dominio
+  # (ej. RBT, docs/domains/savia-domains-catalog.md).
   for f in "$VAULT"/*/*/INDEX.md; do
-    [[ -f "$f" ]] || continue
-    grep -q 'lifecycle: cupula-creada' "$f"
-    grep -q 'confidentiality: N1' "$f"
+    grep -qE '^lifecycle: (cupula-creada|digerida)$' "$f"
+    grep -q '^confidentiality: N1$' "$f"
   done
 }
 
