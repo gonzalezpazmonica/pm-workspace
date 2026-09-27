@@ -119,3 +119,14 @@ assert b['entropy_v1'] == 6 + 1 + 1, b
   [ "$status" -ne 0 ]
   [[ "$output" != *"PASS"* ]]
 }
+
+@test "test-workspace reports an exceeded ratchet as FAIL, never SKIP" {
+  run grep -A7 'capability-entropy.py", "--check"' scripts/test_workspace.py
+  [[ "$output" == *'fail_test("entropy-ratchet (SE-380)"'* ]]
+  [[ "$output" != *'skip_test("entropy-ratchet'* ]]
+}
+
+@test "repo entropy is within the frozen baseline" {
+  run python3 "$SCRIPT" --check
+  [ "$status" -eq 0 ]
+}

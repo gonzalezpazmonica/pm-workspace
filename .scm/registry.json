@@ -193,48 +193,6 @@
       "frontend_support": [
         "opencode"
       ],
-      "id": "script:scripts/agent-discipline-audit",
-      "intents": [
-        "agent",
-        "audit",
-        "discipline",
-        "maxsteps",
-        "model"
-      ],
-      "kind": "script",
-      "owner_domain": "analysis",
-      "replaced_by": null,
-      "risk_level": null,
-      "source": "scripts/agent-discipline-audit.sh",
-      "status": "active",
-      "tests": []
-    },
-    {
-      "depends_on": [],
-      "frontend_support": [
-        "opencode"
-      ],
-      "id": "script:scripts/agent-effort-meter",
-      "intents": [
-        "actual",
-        "agent",
-        "count",
-        "effort",
-        "measure"
-      ],
-      "kind": "script",
-      "owner_domain": "analysis",
-      "replaced_by": null,
-      "risk_level": null,
-      "source": "scripts/agent-effort-meter.sh",
-      "status": "active",
-      "tests": []
-    },
-    {
-      "depends_on": [],
-      "frontend_support": [
-        "opencode"
-      ],
       "id": "script:scripts/agent-escalation-gate",
       "intents": [
         "agent",
@@ -425,48 +383,6 @@
       "frontend_support": [
         "opencode"
       ],
-      "id": "script:scripts/agent-permission-audit",
-      "intents": [
-        "agent",
-        "audit",
-        "declarations",
-        "permission",
-        "slice"
-      ],
-      "kind": "script",
-      "owner_domain": "analysis",
-      "replaced_by": null,
-      "risk_level": null,
-      "source": "scripts/agent-permission-audit.sh",
-      "status": "active",
-      "tests": []
-    },
-    {
-      "depends_on": [],
-      "frontend_support": [
-        "opencode"
-      ],
-      "id": "script:scripts/agent-recurrence-report",
-      "intents": [
-        "agent",
-        "identifies",
-        "recurrence",
-        "recurring",
-        "report"
-      ],
-      "kind": "script",
-      "owner_domain": "analysis",
-      "replaced_by": null,
-      "risk_level": null,
-      "source": "scripts/agent-recurrence-report.sh",
-      "status": "active",
-      "tests": []
-    },
-    {
-      "depends_on": [],
-      "frontend_support": [
-        "opencode"
-      ],
       "id": "script:scripts/agent-request-validate",
       "intents": [
         "agent",
@@ -647,27 +563,6 @@
       "replaced_by": null,
       "risk_level": null,
       "source": "scripts/agent-size-remediation-plan.sh",
-      "status": "active",
-      "tests": []
-    },
-    {
-      "depends_on": [],
-      "frontend_support": [
-        "opencode"
-      ],
-      "id": "script:scripts/agent-sla-router",
-      "intents": [
-        "agent",
-        "differentiated",
-        "origin",
-        "router",
-        "type"
-      ],
-      "kind": "script",
-      "owner_domain": "analysis",
-      "replaced_by": null,
-      "risk_level": null,
-      "source": "scripts/agent-sla-router.sh",
       "status": "active",
       "tests": []
     },
@@ -1615,27 +1510,6 @@
       "replaced_by": null,
       "risk_level": null,
       "source": "scripts/turn-sdlc-report.sh",
-      "status": "active",
-      "tests": []
-    },
-    {
-      "depends_on": [],
-      "frontend_support": [
-        "opencode"
-      ],
-      "id": "script:scripts/vaults-health-report",
-      "intents": [
-        "health",
-        "quality",
-        "report",
-        "vault",
-        "vaults"
-      ],
-      "kind": "script",
-      "owner_domain": "analysis",
-      "replaced_by": null,
-      "risk_level": null,
-      "source": "scripts/vaults-health-report.sh",
       "status": "active",
       "tests": []
     },
@@ -8418,26 +8292,6 @@
       "frontend_support": [
         "opencode"
       ],
-      "id": "script:scripts/vaults-introspect",
-      "intents": [
-        "introspect",
-        "saviavaults",
-        "vault",
-        "vaults"
-      ],
-      "kind": "script",
-      "owner_domain": "development",
-      "replaced_by": null,
-      "risk_level": null,
-      "source": "scripts/vaults-introspect.sh",
-      "status": "active",
-      "tests": []
-    },
-    {
-      "depends_on": [],
-      "frontend_support": [
-        "opencode"
-      ],
       "id": "script:scripts/verification-middleware",
       "intents": [
         "checks",
@@ -8831,27 +8685,6 @@
       "replaced_by": null,
       "risk_level": null,
       "source": "scripts/corporate/engagement-evidence-package.sh",
-      "status": "active",
-      "tests": []
-    },
-    {
-      "depends_on": [],
-      "frontend_support": [
-        "opencode"
-      ],
-      "id": "script:scripts/corporate/enterprise-compliance-wire",
-      "intents": [
-        "compliance",
-        "enterprise",
-        "existing",
-        "scripts",
-        "wire"
-      ],
-      "kind": "script",
-      "owner_domain": "governance",
-      "replaced_by": null,
-      "risk_level": null,
-      "source": "scripts/corporate/enterprise-compliance-wire.sh",
       "status": "active",
       "tests": []
     },
@@ -11425,27 +11258,6 @@
       "frontend_support": [
         "opencode"
       ],
-      "id": "script:scripts/vaults-context-load",
-      "intents": [
-        "context",
-        "fallback",
-        "load",
-        "loading",
-        "saviavaults"
-      ],
-      "kind": "script",
-      "owner_domain": "memory",
-      "replaced_by": null,
-      "risk_level": null,
-      "source": "scripts/vaults-context-load.sh",
-      "status": "active",
-      "tests": []
-    },
-    {
-      "depends_on": [],
-      "frontend_support": [
-        "opencode"
-      ],
       "id": "script:scripts/vaults-freshness",
       "intents": [
         "check",
@@ -13038,25 +12850,6 @@
       "frontend_support": [
         "opencode"
       ],
-      "id": "script:scripts/changelog-assemble",
-      "intents": [
-        "assemble",
-        "changelog",
-        "fragments"
-      ],
-      "kind": "script",
-      "owner_domain": "planning",
-      "replaced_by": null,
-      "risk_level": null,
-      "source": "scripts/changelog-assemble.sh",
-      "status": "active",
-      "tests": []
-    },
-    {
-      "depends_on": [],
-      "frontend_support": [
-        "opencode"
-      ],
       "id": "script:scripts/changelog-fragment",
       "intents": [
         "changelog",
@@ -13977,26 +13770,6 @@
       "replaced_by": null,
       "risk_level": null,
       "source": "scripts/corporate-no-write-assert.sh",
-      "status": "active",
-      "tests": []
-    },
-    {
-      "depends_on": [],
-      "frontend_support": [
-        "opencode"
-      ],
-      "id": "script:scripts/corporate/corporate-disconnect-drill",
-      "intents": [
-        "corporate",
-        "disconnect",
-        "drill",
-        "simulation"
-      ],
-      "kind": "script",
-      "owner_domain": "planning",
-      "replaced_by": null,
-      "risk_level": null,
-      "source": "scripts/corporate/corporate-disconnect-drill.sh",
       "status": "active",
       "tests": []
     },
@@ -15092,27 +14865,6 @@
       "frontend_support": [
         "opencode"
       ],
-      "id": "script:scripts/enterprise-reconcile",
-      "intents": [
-        "adapted",
-        "archived",
-        "classify",
-        "enterprise",
-        "reconcile"
-      ],
-      "kind": "script",
-      "owner_domain": "planning",
-      "replaced_by": null,
-      "risk_level": null,
-      "source": "scripts/enterprise-reconcile.sh",
-      "status": "active",
-      "tests": []
-    },
-    {
-      "depends_on": [],
-      "frontend_support": [
-        "opencode"
-      ],
       "id": "script:scripts/enterprise/bench-match",
       "intents": [
         "bench",
@@ -15889,27 +15641,6 @@
       "replaced_by": null,
       "risk_level": null,
       "source": "scripts/ext-platform-gate.sh",
-      "status": "active",
-      "tests": []
-    },
-    {
-      "depends_on": [],
-      "frontend_support": [
-        "opencode"
-      ],
-      "id": "script:scripts/ext-platform-resilience",
-      "intents": [
-        "external",
-        "platform",
-        "platforms",
-        "resilience",
-        "slice"
-      ],
-      "kind": "script",
-      "owner_domain": "planning",
-      "replaced_by": null,
-      "risk_level": null,
-      "source": "scripts/ext-platform-resilience.sh",
       "status": "active",
       "tests": []
     },
@@ -19176,27 +18907,6 @@
     {
       "depends_on": [],
       "frontend_support": [
-        "opencode"
-      ],
-      "id": "script:scripts/overnight-roadmap-runner",
-      "intents": [
-        "loop",
-        "overnight",
-        "roadmap",
-        "runner",
-        "sprint"
-      ],
-      "kind": "script",
-      "owner_domain": "planning",
-      "replaced_by": null,
-      "risk_level": null,
-      "source": "scripts/overnight-roadmap-runner.sh",
-      "status": "active",
-      "tests": []
-    },
-    {
-      "depends_on": [],
-      "frontend_support": [
         "claude"
       ],
       "id": "skill:.claude/skills/overnight-sprint/SKILL",
@@ -19593,27 +19303,6 @@
       "replaced_by": null,
       "risk_level": null,
       "source": "scripts/pre-tribunal-gates.sh",
-      "status": "active",
-      "tests": []
-    },
-    {
-      "depends_on": [],
-      "frontend_support": [
-        "opencode"
-      ],
-      "id": "script:scripts/prime-agent-eval-gate",
-      "intents": [
-        "agent",
-        "arranque",
-        "crit",
-        "eval",
-        "gate"
-      ],
-      "kind": "script",
-      "owner_domain": "planning",
-      "replaced_by": null,
-      "risk_level": null,
-      "source": "scripts/prime-agent-eval-gate.sh",
       "status": "active",
       "tests": []
     },
@@ -21837,27 +21526,6 @@
       "frontend_support": [
         "opencode"
       ],
-      "id": "script:scripts/skills-collision-detect",
-      "intents": [
-        "collision",
-        "description",
-        "detect",
-        "detection",
-        "skill"
-      ],
-      "kind": "script",
-      "owner_domain": "planning",
-      "replaced_by": null,
-      "risk_level": null,
-      "source": "scripts/skills-collision-detect.sh",
-      "status": "active",
-      "tests": []
-    },
-    {
-      "depends_on": [],
-      "frontend_support": [
-        "opencode"
-      ],
       "id": "script:scripts/skills-md-generate",
       "intents": [
         "across",
@@ -22838,27 +22506,6 @@
       "replaced_by": null,
       "risk_level": null,
       "source": "scripts/sync-model-tiers.sh",
-      "status": "active",
-      "tests": []
-    },
-    {
-      "depends_on": [],
-      "frontend_support": [
-        "opencode"
-      ],
-      "id": "script:scripts/sync-tags-from-changelog",
-      "intents": [
-        "changelog",
-        "create",
-        "missing",
-        "sync",
-        "tags"
-      ],
-      "kind": "script",
-      "owner_domain": "planning",
-      "replaced_by": null,
-      "risk_level": null,
-      "source": "scripts/sync-tags-from-changelog.sh",
       "status": "active",
       "tests": []
     },
@@ -24083,27 +23730,6 @@
       "frontend_support": [
         "opencode"
       ],
-      "id": "script:scripts/validate-settings-local",
-      "intents": [
-        "data",
-        "detect",
-        "json",
-        "local",
-        "private"
-      ],
-      "kind": "script",
-      "owner_domain": "planning",
-      "replaced_by": null,
-      "risk_level": null,
-      "source": "scripts/validate-settings-local.sh",
-      "status": "active",
-      "tests": []
-    },
-    {
-      "depends_on": [],
-      "frontend_support": [
-        "opencode"
-      ],
       "id": "script:scripts/vault",
       "intents": [
         "dispatcher",
@@ -24263,27 +23889,6 @@
       "replaced_by": null,
       "risk_level": null,
       "source": "scripts/vaults-nextcloud-setup.sh",
-      "status": "active",
-      "tests": []
-    },
-    {
-      "depends_on": [],
-      "frontend_support": [
-        "opencode"
-      ],
-      "id": "script:scripts/vaults-validate",
-      "intents": [
-        "against",
-        "documents",
-        "entity",
-        "schemas",
-        "validate"
-      ],
-      "kind": "script",
-      "owner_domain": "planning",
-      "replaced_by": null,
-      "risk_level": null,
-      "source": "scripts/vaults-validate.sh",
       "status": "active",
       "tests": []
     },
@@ -25165,27 +24770,6 @@
       "replaced_by": null,
       "risk_level": null,
       "source": "scripts/corporate/corporate-attestation-queue.sh",
-      "status": "active",
-      "tests": []
-    },
-    {
-      "depends_on": [],
-      "frontend_support": [
-        "opencode"
-      ],
-      "id": "script:scripts/corporate/engagement-audit-answer",
-      "intents": [
-        "answer",
-        "audit",
-        "auditor",
-        "canonical",
-        "engagement"
-      ],
-      "kind": "script",
-      "owner_domain": "quality",
-      "replaced_by": null,
-      "risk_level": null,
-      "source": "scripts/corporate/engagement-audit-answer.sh",
       "status": "active",
       "tests": []
     },
@@ -26105,27 +25689,6 @@
       "replaced_by": null,
       "risk_level": null,
       "source": "scripts/knowledge-lint.sh",
-      "status": "active",
-      "tests": []
-    },
-    {
-      "depends_on": [],
-      "frontend_support": [
-        "opencode"
-      ],
-      "id": "script:scripts/labs-self-audit",
-      "intents": [
-        "audit",
-        "comprobaciones",
-        "disciplina",
-        "labs",
-        "savia"
-      ],
-      "kind": "script",
-      "owner_domain": "quality",
-      "replaced_by": null,
-      "risk_level": null,
-      "source": "scripts/labs-self-audit.sh",
       "status": "active",
       "tests": []
     },
@@ -27518,27 +27081,6 @@
       "replaced_by": null,
       "risk_level": null,
       "source": "scripts/skill-maturity-audit.sh",
-      "status": "active",
-      "tests": []
-    },
-    {
-      "depends_on": [],
-      "frontend_support": [
-        "opencode"
-      ],
-      "id": "script:scripts/skills-depth-lint",
-      "intents": [
-        "depth",
-        "enforcement",
-        "level",
-        "lint",
-        "single"
-      ],
-      "kind": "script",
-      "owner_domain": "quality",
-      "replaced_by": null,
-      "risk_level": null,
-      "source": "scripts/skills-depth-lint.sh",
       "status": "active",
       "tests": []
     },
@@ -30062,7 +29604,7 @@
       "tests": []
     }
   ],
-  "content_hash": "cf2eae1de649",
+  "content_hash": "178bcdee1975",
   "deferred_kinds": [
     "rule",
     "hook"

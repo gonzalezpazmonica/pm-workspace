@@ -9,7 +9,8 @@
 # Rotación: mantiene BACKUP_RETENTION copias por cúpula (por defecto 30).
 #
 # Destino Nextcloud (WebDAV propio, infraestructura de la operadora — CRIT-001):
-#   si existe ~/.savia-vaults/nextcloud.env, se sourcea y se intenta subir el
+#   si existe ~/.savia-vaults/nextcloud.env (lo crea scripts/vaults-nextcloud-setup.sh),
+#   se sourcea y se intenta subir el
 #   tar.gz vía WebDAV. Si el host no responde, el backup local NO falla (se
 #   loguea y se continúa). NUNCA se sube a proveedores de terceros; el destino
 #   es infraestructura controlada por la operadora. Cero egress fuera de ello.
@@ -134,7 +135,7 @@ case "${1:-run}" in
   --nextcloud-test)
     load_nc_env
     if [[ -z "${NEXTCLOUD_URL:-}" || -z "${NEXTCLOUD_USER:-}" ]]; then
-      echo "nextcloud: NO configurado (falta $NC_ENV o vars)"; fail=1
+      echo "nextcloud: NO configurado (falta $NC_ENV o vars; configúralo con scripts/vaults-nextcloud-setup.sh)"; fail=1
     else
       echo "nextcloud: URL=$NEXTCLOUD_URL USER=$NEXTCLOUD_USER (pass oculta)"
       code=$(curl -s -m 15 -o /dev/null -w "%{http_code}" -u "$NEXTCLOUD_USER:$NEXTCLOUD_PASS" \

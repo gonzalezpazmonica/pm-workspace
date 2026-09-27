@@ -35,6 +35,7 @@ Extender SPEC-127: workspace_resolution, hierarchical_project_instructions, gene
 
 ## 6. Slice A — Codex Capability Probe
 Extender detección canónica (savia-env/detect-frontend). Detección explícita; unknown → fail-explicit; Claude/OpenCode sin regresión; cero branching de marca en core.
+Implementado como `scripts/frontend-probe.sh` (S1: detección de frontends + capability matrix en `output/frontend-capability-matrix.{json,md}`).
 
 ## 7. Slice B — Canonical Instructions → AGENTS.md Projection
 AGENTS.md = vista generada (proyección por scope, precedencia preservada, determinista, idempotente, provenance, drift detectado). Modificación manual de región gestionada → GENERATED_INSTRUCTION_DRIFT.

@@ -830,7 +830,8 @@ def test_governance_new() -> None:
     if r.returncode == 0:
         pass_test("entropy-ratchet (SE-380)")
     else:
-        skip_test("entropy-ratchet (SE-380)",
+        # Un ratchet superado es un fallo, no un SKIP (SE-380 RN-03).
+        fail_test("entropy-ratchet (SE-380)",
                   (r.stderr or r.stdout).strip()[-160:] or "entropía sobre baseline")
     r = subprocess.run(["python3", "scripts/social-linkedin-status.py"],
                        capture_output=True, text=True, cwd=WORKSPACE_ROOT)
