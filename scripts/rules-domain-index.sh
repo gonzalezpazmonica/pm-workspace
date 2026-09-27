@@ -82,18 +82,19 @@ cats = defaultdict(list)
 for f in files:
     cats[categorize(f)].append((f, describe(f)))
 
-print("# INDEX")
-print()
-print(f"Auto-generated. {len(files)} files / {len(cats)} cats. Regen: `bash scripts/rules-domain-index.sh`. CI check: `--check`. SPEC-115.")
-print()
-print("| Cat | File | Description |")
-print("|---|---|---|")
-
+out = ["# INDEX", "",
+       f"Auto-generated. {len(files)} files / {len(cats)} cats. Regen: `bash scripts/rules-domain-index.sh`. CI check: `--check`. SPEC-115.",
+       "", "| Cat | File | Description |", "|---|---|---|"]
 for cat in sorted(cats.keys()):
     for fname, desc in sorted(cats[cat]):
         # Escape pipes in desc
         safe_desc = (desc or "").replace("|", "\\|")
-        print(f"| {cat} | [`{fname}`](./{fname}) | {safe_desc} |")
+        out.append(f"| {cat} | [`{fname}`](./{fname}) | {safe_desc} |")
+body = "\n".join(out) + "\n"
+# SPEC-181 AC1: every rule file carries tier + budget, the generated index too.
+# Emitted here so regeneration never strips it; budget = size/4 of the body.
+print(f"---\ncontext_tier: L3\ntoken_budget: {len(body) // 4 + 10}\n---\n")
+print(body, end="")
 PY
 
 if $CHECK_MODE; then

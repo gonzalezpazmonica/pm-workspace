@@ -1,10 +1,11 @@
 ---
+context_tier: L3
+token_budget: 1233
 name: onboarding-enterprise
 description: "Enterprise onboarding at scale — 4-phase workflow, batch CSV import, per-role checklists, knowledge transfer"
 auto_load: false
 paths: [".opencode/commands/onboard-enterprise*", ".opencode/skills/enterprise-onboarding/*"]
 ---
-
 # Regla: Onboarding Empresarial a Escala
 
 > Basado en: ADKAR framework (Hiatt, 2006), modelos de integración de talento (Ostroff & Kozlowski, 2007)
