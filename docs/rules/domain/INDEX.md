@@ -1,6 +1,11 @@
+---
+context_tier: L3
+token_budget: 9145
+---
+
 # INDEX
 
-Auto-generated. 305 files / 38 cats. Regen: `bash scripts/rules-domain-index.sh`. CI check: `--check`. SPEC-115.
+Auto-generated. 310 files / 38 cats. Regen: `bash scripts/rules-domain-index.sh`. CI check: `--check`. SPEC-115.
 
 | Cat | File | Description |
 |---|---|---|
@@ -29,8 +34,10 @@ Auto-generated. 305 files / 38 cats. Regen: `bash scripts/rules-domain-index.sh`
 | Agent Operation | [`review-agents-reporting-policy.md`](./review-agents-reporting-policy.md) | Review Agents Reporting Policy (SE-066) |
 | Agent Operation | [`subagent-fallback-mode.md`](./subagent-fallback-mode.md) | Subagent fallback mode (single-shot expanded prompt) — SPEC-127 Slice 4 |
 | Agent Operation | [`workflow-vs-agent-decision-gate.md`](./workflow-vs-agent-decision-gate.md) | Ref SPEC-158. Applied 2026-06-04. |
+| Audit | [`audit-non-claims.md`](./audit-non-claims.md) | Audit Non-Claims — SE-355 |
 | Audit | [`audit-trail-schema.md`](./audit-trail-schema.md) | Regla: Esquema Audit Trail |
 | Autonomous Safety | [`autonomous-safety-merge-grant.md`](./autonomous-safety-merge-grant.md) | Merge bajo permiso expreso — SE-343 (apéndice de autonomous-safety.md) |
+| Autonomous Safety | [`autonomous-safety-reference.md`](./autonomous-safety-reference.md) | Seguridad en modos autónomos — referencia |
 | Autonomous Safety | [`autonomous-safety.md`](./autonomous-safety.md) | Regla: Seguridad en Modos Autónomos — Supervisión humana obligatoria |
 | Backlog | [`backlog-git-config.md`](./backlog-git-config.md) | Regla: Configuración BacklogGit |
 | Compliance | [`enterprise-compliance-evidence.md`](./enterprise-compliance-evidence.md) | Enterprise Compliance Evidence Automation |
@@ -66,6 +73,7 @@ Auto-generated. 305 files / 38 cats. Regen: `bash scripts/rules-domain-index.sh`
 | Governance | [`enterprise-governance-protocol.md`](./enterprise-governance-protocol.md) | Reference: SPEC-SE-006 Governance and Compliance Pack |
 | Governance | [`glm-governance-protocol.md`](./glm-governance-protocol.md) | Governance Layer Manifest (GLM v1.0) — Protocol |
 | Governance | [`governance-enterprise.md`](./governance-enterprise.md) | Regla: Gobernanza Empresarial |
+| Governance | [`governance-records.md`](./governance-records.md) | Governance Records — capa consultable sobre Markdown (SE-363) |
 | GraphRAG | [`graphrag-quality-gates.md`](./graphrag-quality-gates.md) | GraphRAG Quality Gates — SE-030-T |
 | Handoffs | [`handoff-templates.md`](./handoff-templates.md) | Handoff Templates — Transiciones Estandarizadas entre Agentes |
 | Hooks | [`async-hooks-config.md`](./async-hooks-config.md) | Async Hooks Configuration |
@@ -264,11 +272,13 @@ Auto-generated. 305 files / 38 cats. Regen: `bash scripts/rules-domain-index.sh`
 | PR Process | [`pr-signing-protocol.md`](./pr-signing-protocol.md) | PR Signing Protocol — Zero re-sign commits |
 | Profile | [`client-profile-config.md`](./client-profile-config.md) | Regla: Configuración de Perfiles de Cliente |
 | Profile | [`profile-onboarding.md`](./profile-onboarding.md) | <!-- context_tier: L3 token_budget: 1380 --> |
+| Radical Honesty | [`radical-honesty-enforcement.md`](./radical-honesty-enforcement.md) | Radical Honesty — Enforcement (SPEC-192) |
 | Radical Honesty | [`radical-honesty.md`](./radical-honesty.md) | Radical Honesty Principles |
 | Receipts | [`receipts-protocol.en.md`](./receipts-protocol.en.md) | Receipts Protocol — claims without verifiable source are marked UNVERIFIED |
 | Receipts | [`receipts-protocol.md`](./receipts-protocol.md) | Receipts Protocol — SE-030 |
 | Release | [`enterprise-sovereign-deployment.md`](./enterprise-sovereign-deployment.md) | Guide for activating and operating Savia Enterprise in sovereign, air-gap, or hybrid modes. |
 | Risk | [`risk-escalation.md`](./risk-escalation.md) | Rule: Risk-Based Escalation |
+| Risk | [`risk-tiering.md`](./risk-tiering.md) | Risk Tiering — Gradación de riesgo para auto-merge (SE-362) |
 | Savia Core | [`opencode-savia-bridge.md`](./opencode-savia-bridge.md) | Regla: OpenCode ↔ Savia bridge |
 | Savia Core | [`savia-dual.md`](./savia-dual.md) | Savia Dual — Inference Sovereignty Layer |
 | Savia Core | [`savia-ethical-principles.md`](./savia-ethical-principles.md) | Principios Éticos de Savia |
