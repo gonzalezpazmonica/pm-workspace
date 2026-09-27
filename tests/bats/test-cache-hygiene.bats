@@ -7,6 +7,7 @@ CH="bash scripts/cache-hygiene.sh"
 CM="bash scripts/cache-metrics.sh"
 
 setup() {
+    set -o pipefail
     TMPD="$(mktemp -d)"
     # manifest temporal con un fichero controlado
     echo "data/cache-test-prefix/alpha.md" > "$TMPD/manifest.txt"
@@ -55,6 +56,32 @@ teardown() {
     [ "$status" -eq 0 ]
     echo "$output" | grep -q 'SKIP path local'
     ! echo "$output" | grep -q 'path inexistente'
+}
+
+@test "SE-371 AC-4b: --validate rechaza MEMORY.md en el manifest activo (reject)" {
+    echo ".claude/external-memory/auto/MEMORY.md" >> "$TMPD/manifest.txt"
+    run env CACHE_PREFIX_MANIFEST="$TMPD/manifest.txt" bash scripts/cache-hygiene.sh --validate
+    [ "$status" -eq 1 ]
+    echo "$output" | grep -q 'MEMORY.md no debe estar en el prefijo'
+}
+
+@test "SE-371 AC-2d: --validate con manifest empty (solo comentarios) falla" {
+    printf '# solo comentario\n\n' > "$TMPD/manifest.txt"
+    run env CACHE_PREFIX_MANIFEST="$TMPD/manifest.txt" bash scripts/cache-hygiene.sh --validate
+    [ "$status" -eq 1 ]
+    echo "$output" | grep -q 'manifest sin paths'
+}
+
+@test "SE-371 AC-2e: --validate con manifest nonexistent → error exit 2" {
+    run env CACHE_PREFIX_MANIFEST="$TMPD/no-such-manifest.txt" bash scripts/cache-hygiene.sh --validate
+    [ "$status" -eq 2 ]
+    [[ "$output" == *"manifest no encontrado"* ]]
+}
+
+@test "SE-371 AC-4c: comentario que menciona MEMORY.md no es un path (boundary)" {
+    echo "# NOTA: MEMORY.md NO va en el prefijo" >> "$TMPD/manifest.txt"
+    run env CACHE_PREFIX_MANIFEST="$TMPD/manifest.txt" bash scripts/cache-hygiene.sh --validate
+    [ "$status" -eq 0 ]
 }
 
 @test "SE-371 AC-2b: --validate pasa con manifest real coherente" {
