@@ -1,6 +1,6 @@
 # Savia Capability Map — INDEX
-> hash: 974f2ae9aee3 | resources: 1474
-> 295 commands · 139 skills · 90 agents · 950 scripts
+> hash: 95fc78910d27 | resources: 1475
+> 295 commands · 139 skills · 90 agents · 951 scripts
 
 [analysis] Trace Optimize — across,distributed,optimize,rates,sampling — cmd:.claude/commands/trace-optimize.md
 [analysis] agent-activity — activity,agent,executions,recent,show — cmd:.claude/commands/agent-activity.md
@@ -1180,7 +1180,8 @@
 [planning] validate-devops —  — script:scripts/validate-devops.sh
 [planning] validate-devops-checks — bash,shell,shellcheck — script:scripts/validate-devops-checks.sh
 [planning] validate-filesize — cumplen,ficheros,líneas,validar,workspace — cmd:.claude/commands/validate-filesize.md
-[planning] validate-handoff — handoff,integrity — script:scripts/validate-handoff.sh
+[planning] validate-handoff — handoff,reason,structure,termination,validate — script:scripts/validate-handoff.sh
+[planning] validate-handoff-integrity — handoff,integrity — script:scripts/validate-handoff-integrity.sh
 [planning] validate-layer-contract — contract,layer,validate,validator — script:scripts/validate-layer-contract.sh
 [planning] validate-schema — frontmatter,json,schema,settings,validar — cmd:.claude/commands/validate-schema.md
 [planning] validate-settings-local — data,detect,json,local,private — script:scripts/validate-settings-local.sh

@@ -1,6 +1,6 @@
 {
-  "hash": "413b7e6a4946",
-  "total": 1474,
+  "hash": "9bca0ff1ae20",
+  "total": 1475,
   "resources": [
     {
       "category": "analysis",
@@ -15580,10 +15580,24 @@
       "name": "validate-handoff",
       "intents": [
         "handoff",
-        "integrity"
+        "reason",
+        "structure",
+        "termination",
+        "validate"
       ],
       "kind": "script",
       "path": "scripts/validate-handoff.sh",
+      "description": "validate-handoff.sh — Validate handoff structure with termination_reason"
+    },
+    {
+      "category": "planning",
+      "name": "validate-handoff-integrity",
+      "intents": [
+        "handoff",
+        "integrity"
+      ],
+      "kind": "script",
+      "path": "scripts/validate-handoff-integrity.sh",
       "description": "SE-387 C/F3 — Handoff integrity."
     },
     {
