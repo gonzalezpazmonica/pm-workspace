@@ -21,6 +21,7 @@ from __future__ import annotations
 import hashlib
 import json
 import re
+import os
 import sys
 import tempfile
 import time
@@ -415,10 +416,14 @@ def main(argv: list[str]) -> int:
     categories_dir = scm_dir / "categories"
 
     # ── --check mode: regenerate in temp dir, compare, NEVER write to real .scm/ ──
+    # SAVIA_SCM_DIR compares against another .scm copy (tests mutate a copy,
+    # never the repo). Byte comparison: a hand edit in the body of INDEX.scm
+    # or resources.json is stale too, not only a header hash change.
     if check_mode:
-        index_file = scm_dir / "INDEX.scm"
+        compare_dir = Path(os.environ["SAVIA_SCM_DIR"]) if os.environ.get("SAVIA_SCM_DIR") else scm_dir
+        index_file = compare_dir / "INDEX.scm"
         if not index_file.exists():
-            print("SCM: MISSING (no .scm/INDEX.scm)")
+            print(f"SCM: MISSING (no {index_file})")
             return 2
 
         with tempfile.TemporaryDirectory() as tmpdir:
@@ -432,21 +437,16 @@ def main(argv: list[str]) -> int:
             write_resources_json(tmp_scm / "resources.json", resources)
             write_registry_json(tmp_scm, resources)
 
-            real_hash = _read_index_hash(index_file)
-            tmp_hash = _read_index_hash(tmp_scm / "INDEX.scm")
-
-            tmp_registry = tmp_scm / "registry.json"
-            real_registry = scm_dir / "registry.json"
-            registry_same = (
-                not real_registry.exists()
-                or (tmp_registry.exists() and tmp_registry.read_bytes() == real_registry.read_bytes())
-            )
-            if real_hash == tmp_hash and registry_same:
+            stale = [
+                name for name in ("INDEX.scm", "registry.json", "resources.json")
+                if (compare_dir / name).exists()
+                and (compare_dir / name).read_bytes() != (tmp_scm / name).read_bytes()
+            ]
+            if not stale:
                 print(f"SCM: FRESH ({len(resources)} resources)")
                 return 0
-            else:
-                print(f"SCM: STALE (hash mismatch: {real_hash} vs {tmp_hash})")
-                return 1
+            print(f"SCM: STALE (distinto de una generación nueva: {', '.join(stale)})")
+            return 1
         # tempdir auto-cleaned
 
     # ── Normal mode: regenerate into real .scm/ ──
