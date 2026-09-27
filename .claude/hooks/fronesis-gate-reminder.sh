@@ -3,6 +3,8 @@
 # PostToolUse warn-only sobre PR/merge: recuerda consultar precedentes de juicio
 # (fronema.py query) antes de una decisión con consecuencias. NUNCA bloquea.
 set -uo pipefail
+# Drain the hook JSON from stdin (unread input can break the harness pipe).
+[[ -t 0 ]] || INPUT=$(timeout 3 cat 2>/dev/null) || true
 [[ "${SAVIA_FRONESIS_REMINDER:-on}" == "off" ]] && exit 0
 
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
