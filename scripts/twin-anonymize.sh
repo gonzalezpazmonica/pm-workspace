@@ -36,6 +36,8 @@ CONTENT=$(echo "$CONTENT" | sed "s|twin_id: \"${SLUG}\"|twin_id: \"${SLUG_ANON}\
 
 # 1b. Strip absolute ROOT_DIR prefix from all paths
 CONTENT=$(echo "$CONTENT" | sed "s|${ROOT_DIR}/||g")
+# 1c. Cualquier otra ruta absoluta de home (otro checkout, twin antiguo) → relativa
+CONTENT=$(echo "$CONTENT" | sed -E 's#/(home|Users)/[^"[:space:]]*/(projects|docs|scripts|tests|output)/#\2/#g')
 
 # 2. Replace projects/{slug}/ paths with generic evidence ref
 CONTENT=$(echo "$CONTENT" | sed "s|projects/${SLUG}/|case-study/|g")

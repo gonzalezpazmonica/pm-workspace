@@ -18,8 +18,11 @@
 #   3 — signing or push failed
 set -uo pipefail
 
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
+# Opera sobre el repo del directorio actual, nunca sobre el repo donde vive el
+# script: invocado desde otro directorio (p.ej. un fixture de test) hacía rebase,
+# commit y push --force-with-lease de la rama activa del repo real.
+ROOT="$(git rev-parse --show-toplevel 2>/dev/null)" || ROOT=""
+SCRIPT_DIR="${ROOT:+$ROOT/scripts}"
 SIG_FILE="$ROOT/.confidentiality-signature"
 DO_PUSH=true
 
@@ -32,7 +35,9 @@ for arg in "$@"; do
   esac
 done
 
+[[ -n "$ROOT" ]] || { echo "ERROR: not inside a git repository" >&2; exit 2; }
 cd "$ROOT" || exit 2
+[[ -f "$SCRIPT_DIR/confidentiality-sign.sh" ]] || { echo "ERROR: $SCRIPT_DIR/confidentiality-sign.sh missing in target repo" >&2; exit 2; }
 
 # ── Pre-flight checks ──────────────────────────────────────────────────────
 BRANCH=$(git rev-parse --abbrev-ref HEAD)
