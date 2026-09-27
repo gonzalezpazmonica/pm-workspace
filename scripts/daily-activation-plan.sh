@@ -195,7 +195,8 @@ cmd_status() {
 
   local items_in_plan=0
   if [[ -f "$PLAN_FILE" ]]; then
-    items_in_plan=$(grep -cE '^\d+\. \[P' "$PLAN_FILE" 2>/dev/null || echo 0)
+    # [0-9] (GNU ERE no soporta \d); grep -c sin coincidencias imprime 0 y sale 1.
+    items_in_plan=$(grep -cE '^[0-9]+\. \[P' "$PLAN_FILE" 2>/dev/null) || items_in_plan=0
   fi
 
   cat <<EOS

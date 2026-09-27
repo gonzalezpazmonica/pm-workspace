@@ -3,6 +3,10 @@
 # Ref: docs/rules/domain/project-privacy-protection.md
 
 setup() {
+  # Test-local git identity: fixture commits must not depend on a global
+  # user.name/user.email (absent on some machines, present in CI).
+  export GIT_AUTHOR_NAME="bats" GIT_AUTHOR_EMAIL="bats@example.invalid"
+  export GIT_COMMITTER_NAME="bats" GIT_COMMITTER_EMAIL="bats@example.invalid"
   TMPDIR=$(mktemp -d)
   SCRIPT="$(cd "$(dirname "$BATS_TEST_FILENAME")/../.." && pwd)/scripts/protect-project-privacy.sh"
 
