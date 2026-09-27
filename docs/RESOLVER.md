@@ -46,13 +46,15 @@
 
 <!-- AUTO_BEGIN — do not edit; regenerate via scripts/resolver-md-generate.sh -->
 
-### Skills (126)
+### Skills (137)
 
 | Intent (skill) | Target | Cuándo usar |
 |---|---|---|
 | `adversarial-security` | skill:adversarial-security | Usar cuando se necesita auditar la seguridad de un proyecto con pipeline Red Team / Blu... |
 | `agent-code-map` | skill:agent-code-map | Usar cuando un agente necesita conocer la arquitectura del proyecto sin leer ficheros c... |
 | `agent-file-map` | skill:agent-file-map | Usar cuando se trabaja con ficheros externos al workspace que los agentes deben localizar. |
+| `agent-messaging` | skill:agent-messaging | Usar cuando un agente debe enviar un mensaje a otro agente con roles y receipts, sin pa... |
+| `agent-runs-board` | skill:agent-runs-board | Usar cuando se lanza, supervisa o consulta un run autónomo (overnight-sprint, code-imp... |
 | `ai-labor-impact` | skill:ai-labor-impact | Usar cuando se analiza el impacto de la IA en el trabajo del equipo o la organización. |
 | `android-autonomous-debugger` | skill:android-autonomous-debugger | Usar cuando se depuran o testean apps Android contra dispositivos físicos via USB/ADB. |
 | `architecture-intelligence` | skill:architecture-intelligence | Usar cuando se diseña o revisa la arquitectura de un proyecto nuevo o existente. |
@@ -101,13 +103,16 @@
 | `executive-reporting` | skill:executive-reporting | Usar cuando se genera un informe ejecutivo multi-proyecto para dirección. |
 | `feasibility-probe` | skill:feasibility-probe | Usar cuando se necesita validar si una spec es técnicamente viable antes de implementa... |
 | `git-secret-scanner` | skill:git-secret-scanner | Escanea el historial git o los commits pendientes de push buscando secrets con gitleaks... |
-| `governance-enterprise` | skill:governance-enterprise | Usar cuando se audita compliance, se registran decisiones o se certifican procesos ente... |
+| `governance-enterprise` | skill:governance-enterprise | Revisa governance enterprise. Usar cuando se audita compliance o se registran decisione... |
+| `grc-evidence-analysis` | skill:grc-evidence-analysis | Valida procedencia y suficiencia de pruebas GRC. Usar cuando se evalúan controles, se ... |
+| `grc-framework-router` | skill:grc-framework-router | Selecciona marcos GRC y verifica vigencia. Usar cuando se prepara una auditoría, se co... |
+| `grc-gap-assessment` | skill:grc-gap-assessment | Construye matriz GRC preliminar y acciones trazables. Usar cuando se solicita gap asses... |
 | `grill-me` | skill:grill-me | Adversarial review that hunts every weakness, assumption, edge case, and missing test. ... |
 | `human-code-map` | skill:human-code-map | Usar cuando se incorpora un dev nuevo, se toca un módulo sin mapa, o alguien re-lee el... |
 | `iac-security-scanner` | skill:iac-security-scanner | Usar cuando se escanea IaC (Terraform, Bicep, Dockerfile, docker-compose) con Trivy con... |
 | `knowledge-graph` | skill:knowledge-graph | Usar cuando se construye o consulta el grafo de conocimiento de entidades del proyecto. |
 | `legal-compliance` | skill:legal-compliance | Usar cuando se audita compliance legal contra legislación española consolidada. |
-| `lightpanda-browser` | skill:lightpanda-browser | Usar cuando se necesita navegacion web headless avanzada (JS-heavy sites, SPAs, extracc... |
+| `lightpanda-browser` | skill:lightpanda-browser | DEPRECATED 2026-09-04 — sustituida por obscura-browser. No usar en casos nuevos. Se c... |
 | `managed-content` | skill:managed-content | Usar cuando se regeneran secciones auto-generadas en documentos con marcadores de segur... |
 | `meeting-transcript-extract` | skill:meeting-transcript-extract | Usar cuando se necesita extraer la transcripción de una reunión Teams desde el browser. |
 | `memvid-backup` | skill:memvid-backup | Usar cuando se crea un backup portable de la memoria externa de Savia. |
@@ -117,12 +122,15 @@
 | `mutation-audit` | skill:mutation-audit | Usar cuando se quiere medir la calidad real de los tests mediante mutation testing. |
 | `network-recon` | skill:network-recon | Reconocimiento de red: port scan con nmap/RustScan + HTTP detection con httpx. |
 | `nuclei-scanning` | skill:nuclei-scanning | Usar cuando se escanean vulnerabilidades conocidas (CVEs, misconfigs) con Nuclei. |
+| `obscura-browser` | skill:obscura-browser | Navegador headless nativo de Savia para fetch/scrape (Rust, sin Chromium, 41MB RAM, sin... |
 | `onboarding-dev` | skill:onboarding-dev | Usar cuando se incorpora un desarrollador nuevo al proyecto y necesita buddy IA. |
 | `org-meeting-capture` | skill:org-meeting-capture | Captura de Conocimiento Tácito de Reunión: extrae decisores, acuerdos informales y se... |
 | `org-political-landscape` | skill:org-political-landscape | Análisis de Paisaje Político Interno: detecta tensiones, alianzas y centros de poder ... |
+| `org-registrar` | skill:org-registrar | Gestiona el grafo de entidades organizacionales (Company as Code, SE-365): valida entid... |
 | `org-stakeholder-mapper` | skill:org-stakeholder-mapper | Mapeador de Stakeholders y Decisores: extrae roles formales y reales, motivaciones, ali... |
 | `orgchart-import` | skill:orgchart-import | Usar cuando se importa un organigrama para extraer la estructura del equipo. |
 | `overnight-sprint` | skill:overnight-sprint | Usar cuando se quiere ejecutar tareas de bajo riesgo de forma autónoma durante la noche. |
+| `parallel-dispatch` | skill:parallel-dispatch | Usar cuando se necesitan subagentes en paralelo con admission-handle — lanza N tareas... |
 | `pbi-decomposition` | skill:pbi-decomposition | Usar cuando se descompone un PBI en tasks y se estiman las horas. |
 | `pentesting` | skill:pentesting | Usar cuando se ejecuta un pentest contra una aplicación o infraestructura. |
 | `performance-audit` | skill:performance-audit | Usar cuando se audita el rendimiento estático de código para detectar hotspots. |
@@ -132,12 +140,14 @@
 | `professional-domain` | skill:professional-domain | Family index for professional-domain skills (controlling, finance, labour, legal, sales... |
 | `project-update` | skill:project-update | Usar cuando se necesita una actualización integral del proyecto activo desde todas las... |
 | `prompt-optimizer` | skill:prompt-optimizer | Usar cuando se optimiza el prompt de un skill o agente para mejorar su efectividad. |
+| `prospectiva-basica` | skill:prospectiva-basica | Prospectiva sistemica local: micro-MICMAC (variables motrices vs dependientes) y micro-... |
 | `rbac-management` | skill:rbac-management | Usar cuando se gestionan roles, permisos o se audita el acceso de usuarios. |
 | `reflection-validation` | skill:reflection-validation | Usar cuando una respuesta o decisión importante necesita validación metacognitiva (Sy... |
 | `regulatory-compliance` | skill:regulatory-compliance | Usar cuando se valida el cumplimiento de marcos regulatorios sectoriales. |
 | `reranker` | skill:reranker | Usar cuando se recibe un top-K ruidoso de búsqueda en memoria y se necesita reordenar ... |
 | `resource-references` | skill:resource-references | Usar cuando se necesitan referencias a recursos y plantillas del workspace. |
 | `risk-scoring` | skill:risk-scoring | Usar cuando se calcula el riesgo de una tarea para decidir el nivel de revisión requer... |
+| `robotica-diseno` | skill:robotica-diseno | Diseño profundo de robótica, automatización y hardware/software para el mundo físic... |
 | `rules-traceability` | skill:rules-traceability | Usar cuando se mapean reglas de negocio a PBIs para trazabilidad completa. |
 | `savia-dual` | skill:savia-dual | Usar cuando la inferencia cloud falla, es lenta o está rate-limited y se necesita fail... |
 | `savia-flow-practice` | skill:savia-flow-practice | Usar cuando se implementa Savia Flow con dual-track y métricas de flujo en un proyecto. |
@@ -152,6 +162,7 @@
 | `skill-evaluation` | skill:skill-evaluation | Usar cuando se necesita seleccionar el skill más apropiado para una tarea dada. |
 | `smart-calendar` | skill:smart-calendar | Usar cuando se gestiona la agenda inteligente con sincronización Outlook/Teams. |
 | `smart-routing` | skill:smart-routing | Usar cuando se necesita descubrir o enrutar a un comando específico entre los 400+ dis... |
+| `social-linkedin` | skill:social-linkedin | Provider skill de LinkedIn para el agente social-networks (SE-385 MVP1). Import manual ... |
 | `sovereignty-auditor` | skill:sovereignty-auditor | Usar cuando se audita el grado de dependencia cognitiva del equipo respecto a herramien... |
 | `spec-driven-development` | skill:spec-driven-development | Usar cuando se escribe, valida o implementa una spec ejecutable SDD. |
 | `sprint-management` | skill:sprint-management | Usar cuando se consulta el estado del sprint, se actualizan items o se genera el resumen. |
@@ -177,7 +188,7 @@
 | `write-a-skill` | skill:write-a-skill | Guia para crear una nueva skill correctamente en pm-workspace. Usar cuando una tarea se... |
 | `zoom-out` | skill:zoom-out | Elevates perspective from trees to forest. Maps architecture, dependencies, and second-... |
 
-### Agents (83)
+### Agents (90)
 
 | Intent (agent) | Target | Cuándo usar |
 |---|---|---|
@@ -192,7 +203,12 @@
 | `code-reviewer` | agent:code-reviewer | Revisión de código .NET como quality gate antes de merge. Usar PROACTIVELY cuando: se... |
 | `code-twin-agent` | agent:code-twin-agent | Agente especializado en consultar el Application Code Twin de un proyecto. Usa code-twi... |
 | `cognitive-judge` | agent:cognitive-judge | Code Review Court judge — debuggability at 3AM, naming, complexity, logs |
+| `coherence-court-orchestrator` | agent:coherence-court-orchestrator | Convenes the Coherence Court, consolidates .coherence.crc, applies human gate |
+| `coherence-factual-judge` | agent:coherence-factual-judge | Coherence Court judge — stage output contradicts facts fixed in earlier stages |
 | `coherence-judge` | agent:coherence-judge | Truth Tribunal judge — internal consistency (sums, dates, entities) |
+| `coherence-objectives-judge` | agent:coherence-objectives-judge | Coherence Court judge — stage output contradicts declared objectives of the flow |
+| `coherence-premise-drift-judge` | agent:coherence-premise-drift-judge | Coherence Court judge — silent premise drift between stages of a flow |
+| `coherence-scope-judge` | agent:coherence-scope-judge | Coherence Court judge — stage output violates scope/constraints fixed earlier |
 | `coherence-validator` | agent:coherence-validator | Verifies that generated outputs (specs, reports, code) actually match the stated object... |
 | `commit-guardian` | agent:commit-guardian | Guardian de commits: verifica que todos los cambios staged cumplen las reglas del works... |
 | `completeness-judge` | agent:completeness-judge | Truth Tribunal judge — report covers what its title/abstract promises |
@@ -217,6 +233,7 @@
 | `frontend-developer` | agent:frontend-developer | Implementación de código frontend (Angular y React) siguiendo specs SDD aprobadas. Us... |
 | `frontend-test-runner` | agent:frontend-test-runner | Post-commit frontend test execution — unit, component, e2e, coverage |
 | `go-developer` | agent:go-developer | Implementación de código Go siguiendo specs SDD aprobadas. Usar PROACTIVELY cuando: s... |
+| `grc-auditor` | agent:grc-auditor | Audita controles, riesgos y evidencias GRC de forma preliminar y trazable. Usar cuando ... |
 | `hallucination-fast-judge` | agent:hallucination-fast-judge | Recommendation Tribunal judge — verifies that entities cited in a draft (files, funct... |
 | `hallucination-judge` | agent:hallucination-judge | Truth Tribunal judge — detects invented facts via SelfCheck-style consistency |
 | `infrastructure-agent` | agent:infrastructure-agent | Agente de gestión de infraestructura cloud. Recibe solicitudes del architect, detecta ... |
@@ -248,6 +265,7 @@
 | `security-defender` | agent:security-defender | Agente Blue Team que propone correcciones para las vulnerabilidades encontradas por el ... |
 | `security-guardian` | agent:security-guardian | Especialista en seguridad, confidencialidad y ciberseguridad. Audita los cambios staged... |
 | `security-judge` | agent:security-judge | Code Review Court judge — OWASP, PII, injection, auth, credentials |
+| `social-networks` | agent:social-networks | Coordinador agnóstico de redes sociales (SE-385). Selecciona proveedor, comprueba cred... |
 | `source-traceability-judge` | agent:source-traceability-judge | Truth Tribunal judge — every claim must have a verifiable @ref citation |
 | `spec-judge` | agent:spec-judge | Code Review Court judge — implementation vs approved spec, acceptance criteria |
 | `structural-framing-judge` | agent:structural-framing-judge | Recommendation Tribunal judge — detects output with manual/protocol form over CBRN or... |

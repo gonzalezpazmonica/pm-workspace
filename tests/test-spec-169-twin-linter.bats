@@ -10,6 +10,10 @@ FIXTURES="$REPO_ROOT/tests/fixtures/twin"
 
 setup() {
   TMP_DIR="$(mktemp -d)"
+  # Isolation: refresh/anonymize write under TWIN_ROOT_DIR, a copy of the pilot.
+  export TWIN_ROOT_DIR="$TMP_DIR/root"
+  mkdir -p "$TWIN_ROOT_DIR/projects" "$TWIN_ROOT_DIR/docs/case-studies"
+  cp -r "$REPO_ROOT/projects/proyecto-alpha" "$TWIN_ROOT_DIR/projects/"
   [[ -f "$LINTER" ]] || { echo "linter not found: $LINTER" >&2; return 1; }
 }
 
@@ -96,12 +100,12 @@ TWIN
 
 # ── Valid fixture ─────────────────────────────────────────────────────────────
 @test "linter: valid twin exits 0" {
-  run bash "$LINTER" "$FIXTURES/valid.md"
+  run env TWIN_NOW="2026-08-10T00:00:00Z" bash "$LINTER" "$FIXTURES/valid.md"
   [[ "$status" -eq 0 ]]
 }
 
 @test "linter: valid twin prints OK" {
-  run bash "$LINTER" "$FIXTURES/valid.md"
+  run env TWIN_NOW="2026-08-10T00:00:00Z" bash "$LINTER" "$FIXTURES/valid.md"
   [[ "$output" =~ "OK:" ]]
 }
 
@@ -228,7 +232,9 @@ TWIN
 
 @test "pilot: proyecto-alpha twin passes linter" {
   [[ -f "$REPO_ROOT/projects/proyecto-alpha/twin.md" ]] || skip "proyecto-alpha twin not generated yet"
-  run bash "$LINTER" "$REPO_ROOT/projects/proyecto-alpha/twin.md"
+  # Structure check at the twin's own refresh date; freshness is decay-check's job.
+  ts=$(grep -m1 '^last_refresh:' "$REPO_ROOT/projects/proyecto-alpha/twin.md" | grep -oE '"[^"]+"' | tr -d '"')
+  run env TWIN_NOW="$ts" bash "$LINTER" "$REPO_ROOT/projects/proyecto-alpha/twin.md"
   [[ "$status" -eq 0 ]]
 }
 
@@ -336,13 +342,14 @@ TWIN
 
 @test "anonymize: output contains no real project slug" {
   bash "$REPO_ROOT/scripts/twin-anonymize.sh" "proyecto-alpha" >/dev/null 2>&1 || true
-  anon_file=$(find "$REPO_ROOT/docs/case-studies" -name "*anon.twin.md" | head -1)
+  anon_file=$(find "$TWIN_ROOT_DIR/docs/case-studies" -name "*anon.twin.md" | head -1)
   [[ -n "$anon_file" ]]
   ! grep -q "twin_id: \"proyecto-alpha\"" "$anon_file"
 }
 
 @test "anonymize: output strips absolute paths" {
-  anon_file=$(find "$REPO_ROOT/docs/case-studies" -name "*anon.twin.md" | head -1)
+  bash "$REPO_ROOT/scripts/twin-anonymize.sh" "proyecto-alpha" >/dev/null 2>&1 || true
+  anon_file=$(find "$TWIN_ROOT_DIR/docs/case-studies" -name "*anon.twin.md" | head -1)
   [[ -n "$anon_file" ]]
   ! grep -qE "/home/|/Users/" "$anon_file"
 }
@@ -355,4 +362,32 @@ TWIN
 @test "hook: no-op by default without TWIN_HOOK_ENABLED=true" {
   run env TWIN_HOOK_ENABLED=false bash "$REPO_ROOT/.claude/hooks/twin-posttooluse.sh" <<< '{}'
   [[ "$status" -eq 0 ]]
+}
+
+@test "linter: TWIN_NOW past stale_after_days reports STALE" {
+  run env TWIN_NOW="2026-12-31T00:00:00Z" bash "$LINTER" "$FIXTURES/valid.md"
+  [[ "$status" -eq 1 ]]
+  [[ "$output" =~ "STALE" ]]
+}
+
+@test "isolation: refresh and anonymize never write the repo pilot or case studies" {
+  before=$(cat "$REPO_ROOT/projects/proyecto-alpha/twin.md" | sha256sum)
+  cases_before=$(ls "$REPO_ROOT/docs/case-studies" 2>/dev/null | sha256sum)
+  bash "$REPO_ROOT/scripts/twin-refresh.sh" "proyecto-alpha" >/dev/null 2>&1 || true
+  bash "$REPO_ROOT/scripts/twin-anonymize.sh" "proyecto-alpha" >/dev/null 2>&1 || true
+  [ "$(cat "$REPO_ROOT/projects/proyecto-alpha/twin.md" | sha256sum)" = "$before" ]
+  [ "$(ls "$REPO_ROOT/docs/case-studies" 2>/dev/null | sha256sum)" = "$cases_before" ]
+}
+
+@test "refresher: evidence_ref paths are repo-relative, never absolute" {
+  bash "$REPO_ROOT/scripts/twin-refresh.sh" "proyecto-alpha" >/dev/null 2>&1
+  ! grep -qE 'evidence_ref: "/' "$TWIN_ROOT_DIR/projects/proyecto-alpha/twin.md"
+  grep -qE 'evidence_ref: "projects/proyecto-alpha/' "$TWIN_ROOT_DIR/projects/proyecto-alpha/twin.md"
+}
+
+@test "anonymize: strips foreign absolute home paths from another checkout" {
+  sed -i 's#evidence_ref: "projects/#evidence_ref: "/home/someone/other-checkout/projects/#' "$TWIN_ROOT_DIR/projects/proyecto-alpha/twin.md"
+  run bash "$REPO_ROOT/scripts/twin-anonymize.sh" "proyecto-alpha" --out "$TMP_DIR/anon.twin.md"
+  [[ "$status" -eq 0 ]]
+  ! grep -qE "/home/|/Users/" "$TMP_DIR/anon.twin.md"
 }

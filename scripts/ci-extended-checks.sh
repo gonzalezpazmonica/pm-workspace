@@ -2,6 +2,8 @@
 set -uo pipefail
 
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+# Baselines del ratchet; override para tests que mutan valores sin tocar el repo.
+CI_BASELINE_DIR="${CI_BASELINE_DIR:-$ROOT/.ci-baseline}"
 PASS=0; FAIL=0; TOTAL=0
 pass() { ((PASS++)); ((TOTAL++)); echo "  ✅ $1"; }
 fail() { ((FAIL++)); ((TOTAL++)); echo "  ❌ $1"; }
@@ -95,12 +97,15 @@ echo "--- 6. CHANGELOG Version Links ---"
 changelog="$ROOT/CHANGELOG.md"
 if [[ -f "$changelog" ]]; then
   missing_links=0
+  # Una pasada por conjunto (versiones vs enlaces) en lugar de un grep por
+  # versión sobre todo el fichero (561 versiones × 13k líneas ≈ 27 s).
   while IFS= read -r ver; do
-    if ! grep -q "^\[${ver}\]: https://" "$changelog"; then
-      fail "CHANGELOG.md: version $ver is missing its reference link at end of file"
-      ((missing_links++))
-    fi
-  done < <(grep -oP '(?<=^## \[)[0-9]+\.[0-9]+\.[0-9]+(?=\])' "$changelog")
+    [[ -z "$ver" ]] && continue
+    fail "CHANGELOG.md: version $ver is missing its reference link at end of file"
+    ((missing_links++))
+  done < <(comm -23 \
+    <(grep -oP '(?<=^## \[)[0-9]+\.[0-9]+\.[0-9]+(?=\])' "$changelog" | sort -u) \
+    <(grep -oP '^\[\K[0-9]+\.[0-9]+\.[0-9]+(?=\]: https://)' "$changelog" | sort -u))
   [[ $missing_links -eq 0 ]] && pass "All CHANGELOG versions have reference links"
 else
   fail "CHANGELOG.md not found"
@@ -129,7 +134,7 @@ fi
 # 8. Agent Size Ratchet (SE-038 Slice 3)
 # Ratchet pattern: violation count must not exceed frozen baseline in .ci-baseline/.
 echo "--- 8. Agent Size Ratchet (Rule #22) ---"
-baseline_file="$ROOT/.ci-baseline/agent-size-violations.count"
+baseline_file="$CI_BASELINE_DIR/agent-size-violations.count"
 audit_script="$ROOT/scripts/agent-size-audit.sh"
 if [[ -f "$baseline_file" && -x "$audit_script" ]]; then
   baseline_count=$(cat "$baseline_file" | tr -d '[:space:]')
@@ -155,12 +160,18 @@ fi
 
 # 9. Hook Latency Ratchet (SE-037 Slice 3)
 echo "--- 9. Hook Latency Ratchet (critical SLA 20ms) ---"
-hook_baseline="$ROOT/.ci-baseline/hook-critical-violations.count"
+hook_baseline="$CI_BASELINE_DIR/hook-critical-violations.count"
 hook_script="$ROOT/scripts/hook-bench-all.sh"
 if [[ -f "$hook_baseline" && -x "$hook_script" ]]; then
   hook_base=$(cat "$hook_baseline" | tr -d '[:space:]')
   hook_run_ok=0
-  if "$hook_script" --runs 5 --quiet >/dev/null 2>&1; then
+  # HOOK_BENCH_REPORT: reutiliza un informe ya generado (tests de la lógica del
+  # ratchet); sin él se ejecuta el benchmark completo (~24 s).
+  if [[ -n "${HOOK_BENCH_REPORT:-}" ]]; then
+    hook_run_ok=1
+    hook_report="$HOOK_BENCH_REPORT"
+    [[ -f "$hook_report" ]] || { hook_report=""; fail "HOOK_BENCH_REPORT not found: $HOOK_BENCH_REPORT"; }
+  elif "$hook_script" --runs 5 --quiet >/dev/null 2>&1; then
     hook_run_ok=1
     hook_report=$(ls -t "$ROOT/output/hook-bench-report-"*.md 2>/dev/null | head -1)
   else
@@ -188,7 +199,7 @@ fi
 # 10. BATS Auditor Compliance Floor (SE-039 Slice 3)
 # Full sweep is slow; enable with BATS_GATE_FULL=1 (CI weekly). Default: verify floor config.
 echo "--- 10. BATS Auditor Compliance Floor ---"
-bats_floor_file="$ROOT/.ci-baseline/bats-compliance-min.pct"
+bats_floor_file="$CI_BASELINE_DIR/bats-compliance-min.pct"
 if [[ -f "$bats_floor_file" ]]; then
   floor=$(cat "$bats_floor_file" | tr -d '[:space:]')
   if [[ "$floor" =~ ^[0-9]+$ ]] && (( floor >= 0 && floor <= 100 )); then

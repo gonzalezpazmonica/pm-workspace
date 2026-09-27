@@ -63,7 +63,7 @@ last_refresh=$(fm_field "last_refresh")
 stale_days=$(fm_field "stale_after_days")
 if [[ -n "$last_refresh" && -n "$stale_days" ]]; then
   ref_epoch=$(date -d "${last_refresh}" +%s 2>/dev/null || true)
-  now_epoch=$(date +%s)
+  now_epoch=$(date -d "${TWIN_NOW:-now}" +%s)   # TWIN_NOW: reloj fijo para tests deterministas
   if [[ -n "$ref_epoch" ]]; then
     delta_days=$(( (now_epoch - ref_epoch) / 86400 ))
     if [[ "$delta_days" -gt "$stale_days" ]]; then
