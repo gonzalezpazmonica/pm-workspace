@@ -15,6 +15,24 @@ setup() {
   cd "$BATS_TEST_DIRNAME/.."
 }
 
+# Stub gh on PATH: never talk to the real GitHub from tests.
+# $1 = JSON for `gh pr list`; $2 = CHANGELOG body served by `gh api`.
+stub_gh() {
+  local bin="$BATS_TEST_TMPDIR/stub-bin"
+  mkdir -p "$bin"
+  printf '%s' "$1" > "$bin/prs.json"
+  printf '%s' "$2" | base64 -w0 > "$bin/changelog.b64"
+  cat > "$bin/gh" <<STUB
+#!/usr/bin/env bash
+case "\$1" in
+  pr)  cat "$bin/prs.json" ;;
+  api) cat "$bin/changelog.b64" ;;
+esac
+STUB
+  chmod +x "$bin/gh"
+  export PATH="$bin:$PATH"
+}
+
 teardown() {
   cd /
 }
@@ -84,10 +102,13 @@ teardown() {
 }
 
 @test "queue-check skips silently when gh missing (narrow PATH)" {
-  # Keep basic binaries but exclude gh by using a narrow PATH.
-  run env PATH="/usr/bin:/bin" bash scripts/pr-plan-queue-check.sh
-  # Should exit 0 (skip) — typical /usr/bin does not have gh
+  # PATH with only what runs before the gh probe; gh may live in /usr/bin.
+  local bin="$BATS_TEST_TMPDIR/no-gh-bin"
+  mkdir -p "$bin"
+  ln -s "$(command -v git)" "$bin/git"
+  run env PATH="$bin" "$BASH" scripts/pr-plan-queue-check.sh
   [ "$status" -eq 0 ]
+  [[ "$output" == *"gh CLI not installed"* ]]
 }
 
 @test "queue-check --quiet suppresses output" {
@@ -106,9 +127,25 @@ teardown() {
 # ── Version detection ──────────────────────────────────────────────────────
 
 @test "queue-check detects local version from CHANGELOG" {
-  run env PR_PLAN_SKIP_QUEUE_CHECK=0 bash scripts/pr-plan-queue-check.sh
-  # If gh available, output should mention local version. If not, should skip.
-  [[ "$status" -eq 0 || "$status" -eq 1 ]]
+  stub_gh '[]' ''
+  run bash scripts/pr-plan-queue-check.sh --local-version 9.9.9
+  [ "$status" -eq 0 ]
+  [[ "$output" == *"local top version = 9.9.9"* ]]
+  [[ "$output" == *"no open PRs"* ]]
+}
+
+@test "queue-check blocks when an open PR claims the same version" {
+  stub_gh '[{"number":7,"headRefName":"agent/other"}]' $'# Changelog\n\n## [9.9.9] - 2026-01-01\n'
+  run bash scripts/pr-plan-queue-check.sh --local-version 9.9.9
+  [ "$status" -eq 1 ]
+  [[ "$output" == *"COLLISION"*"#7"* ]]
+}
+
+@test "queue-check passes when open PRs claim other versions" {
+  stub_gh '[{"number":7,"headRefName":"agent/other"}]' $'# Changelog\n\n## [9.9.8] - 2026-01-01\n'
+  run bash scripts/pr-plan-queue-check.sh --local-version 9.9.9
+  [ "$status" -eq 0 ]
+  [[ "$output" != *"COLLISION"* ]]
 }
 
 @test "queue-check --local-version override is accepted" {
