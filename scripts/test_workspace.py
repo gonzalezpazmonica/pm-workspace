@@ -183,6 +183,9 @@ def test_prereqs() -> None:
         node_modules = WORKSPACE_ROOT / "scripts" / "node_modules"
         if node_modules.is_dir():
             pass_test("node_modules instalados en scripts/")
+        elif state.mode == "mock":
+            # Solo los informes reales (report-generator.js) usan estos paquetes.
+            skip_test("node_modules no encontrado", "No requerido en modo --mock")
         else:
             fail_test("node_modules no encontrado", "Ejecutar: cd scripts && npm install")
     else:
