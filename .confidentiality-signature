@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=1c350715fe9c6c2f8920340fe44ebc5b3a7246869725b4143668589908f03dfa
-timestamp=2026-09-27T19:13:58Z
-branch=agent/triage-g4-20260927
-head_commit=6cfaf44f
-signature=20ecb3c80425550117ec29784e8b32d096ace28931e7f79c0b57385061ee5c6a
+diff_hash=c91fdad586a721af2f0fbc8594d2ea15bcf6eb150adf403a9b8285e5d8e0d2c9
+timestamp=2026-09-27T19:45:35Z
+branch=agent/overnight-20260927-harness-specs
+head_commit=d400659e
+signature=e05fc0a1f048b759bb6e6b09d1b597bbb0c723c7718cb970bd5fc14f5a44132e
