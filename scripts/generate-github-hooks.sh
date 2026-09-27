@@ -23,11 +23,19 @@ set -uo pipefail
 ROOT="${PROJECT_ROOT:-$(git rev-parse --show-toplevel 2>/dev/null || pwd)}"
 SRC="${ROOT}/.claude/settings.json"
 DST="${ROOT}/.github/hooks/savia.json"
+# --check: genera a un temporal y compara con el fichero versionado, sin escribirlo.
+CHECK=false
+[[ "${1:-}" == "--check" ]] && CHECK=true
+OUT="$DST"
+if $CHECK; then
+  OUT="$(mktemp)"
+  trap 'rm -f "$OUT"' EXIT
+fi
 
 [[ -f "$SRC" ]] || { echo "ERROR: $SRC missing" >&2; exit 1; }
-mkdir -p "$(dirname "$DST")"
+$CHECK || mkdir -p "$(dirname "$DST")"
 
-python3 - "$SRC" "$DST" <<'PY'
+python3 - "$SRC" "$OUT" <<'PY'
 import json, re, sys
 
 src, dst = sys.argv[1], sys.argv[2]
@@ -224,3 +232,13 @@ if skipped_prompt:
 if skipped_http:
     print(f"  Skipped (non-https http hook — would invalidate whole file): {skipped_http}", file=sys.stderr)
 PY
+
+if $CHECK; then
+  if cmp -s "$OUT" "$DST"; then
+    echo "GITHUB-HOOKS: FRESH ($DST)"
+  else
+    echo "GITHUB-HOOKS: STALE ($DST) — run: bash scripts/generate-github-hooks.sh" >&2
+    diff "$DST" "$OUT" | head -20 >&2
+    exit 1
+  fi
+fi

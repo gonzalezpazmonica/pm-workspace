@@ -9,6 +9,8 @@ setup() {
   # Override hook state dir so tests don't share stamp with real hook
   export SAVIA_HOOK_STATE_DIR="$TMPDIR_H"
   export SAVIA_REINDEX_COOLDOWN=1
+  # Isolation: the triggered generator writes to a temp INDEX, never the repo's.
+  export INDEX_FILE_OVERRIDE="$TMPDIR_H/INDEX.md"
   export TMPDIR_H
 }
 
@@ -45,14 +47,14 @@ teardown() {
 # ── Triggers / non-triggers ────────────────────────────────────────────────
 
 @test "non-propuestas path does not trigger" {
-  run bash -c "echo '{\"tool_input\":{\"file_path\":\"/home/monica/savia/scripts/foo.sh\"}}' | $HOOK"
+  run bash -c "echo '{\"tool_input\":{\"file_path\":\"/repo/scripts/foo.sh\"}}' | $HOOK"
   [ "$status" -eq 0 ]
   # No stamp written
   [ ! -f "$TMPDIR_H/post-spec-edit-reindex.stamp" ]
 }
 
 @test "propuestas/INDEX.md edit does NOT trigger (skip self)" {
-  run bash -c "echo '{\"tool_input\":{\"file_path\":\"/home/monica/savia/docs/propuestas/INDEX.md\"}}' | $HOOK"
+  run bash -c "echo '{\"tool_input\":{\"file_path\":\"/repo/docs/propuestas/INDEX.md\"}}' | $HOOK"
   [ "$status" -eq 0 ]
   # Wait for any background job
   sleep 1.5
@@ -60,14 +62,14 @@ teardown() {
 }
 
 @test "propuestas/LOG.md edit does NOT trigger (skip self)" {
-  run bash -c "echo '{\"tool_input\":{\"file_path\":\"/home/monica/savia/docs/propuestas/LOG.md\"}}' | $HOOK"
+  run bash -c "echo '{\"tool_input\":{\"file_path\":\"/repo/docs/propuestas/LOG.md\"}}' | $HOOK"
   [ "$status" -eq 0 ]
   sleep 1.5
   [ ! -f "$TMPDIR_H/post-spec-edit-reindex.stamp" ]
 }
 
 @test "spec edit in propuestas/ triggers (stamp created)" {
-  run bash -c "echo '{\"tool_input\":{\"file_path\":\"/home/monica/savia/docs/propuestas/SE-XYZ.md\"}}' | $HOOK"
+  run bash -c "echo '{\"tool_input\":{\"file_path\":\"/repo/docs/propuestas/SE-XYZ.md\"}}' | $HOOK"
   [ "$status" -eq 0 ]
   # Background job runs the generator. Wait briefly.
   sleep 2.5
@@ -75,7 +77,7 @@ teardown() {
 }
 
 @test "non-md propuestas file does NOT trigger" {
-  run bash -c "echo '{\"tool_input\":{\"file_path\":\"/home/monica/savia/docs/propuestas/notes.txt\"}}' | $HOOK"
+  run bash -c "echo '{\"tool_input\":{\"file_path\":\"/repo/docs/propuestas/notes.txt\"}}' | $HOOK"
   [ "$status" -eq 0 ]
   sleep 1.5
   [ ! -f "$TMPDIR_H/post-spec-edit-reindex.stamp" ]
@@ -84,7 +86,7 @@ teardown() {
 # ── Toggle / disabled ──────────────────────────────────────────────────────
 
 @test "SAVIA_PROPUESTAS_REINDEX_ENABLED=false disables hook" {
-  SAVIA_PROPUESTAS_REINDEX_ENABLED=false run bash -c "echo '{\"tool_input\":{\"file_path\":\"/home/monica/savia/docs/propuestas/SE-AAA.md\"}}' | $HOOK"
+  SAVIA_PROPUESTAS_REINDEX_ENABLED=false run bash -c "echo '{\"tool_input\":{\"file_path\":\"/repo/docs/propuestas/SE-AAA.md\"}}' | $HOOK"
   [ "$status" -eq 0 ]
   sleep 1.5
   [ ! -f "$TMPDIR_H/post-spec-edit-reindex.stamp" ]
@@ -98,7 +100,7 @@ teardown() {
   printf '%s' "$(date +%s)" > "$TMPDIR_H/post-spec-edit-reindex.stamp"
 
   # Set long cooldown to ensure we hit it
-  SAVIA_REINDEX_COOLDOWN=3600 run bash -c "echo '{\"tool_input\":{\"file_path\":\"/home/monica/savia/docs/propuestas/SE-XYZ.md\"}}' | $HOOK"
+  SAVIA_REINDEX_COOLDOWN=3600 run bash -c "echo '{\"tool_input\":{\"file_path\":\"/repo/docs/propuestas/SE-XYZ.md\"}}' | $HOOK"
   [ "$status" -eq 0 ]
 
   # Stamp should not change (cooldown skip)

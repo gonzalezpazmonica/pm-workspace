@@ -6,6 +6,14 @@ setup() {
   REPO_ROOT="$(cd "$BATS_TEST_DIRNAME/.." && pwd)"
   export SCRIPT="$REPO_ROOT/scripts/generate-context-index.sh"
   TMPDIR_CI=$(mktemp -d)
+  # Isolation: generate into a fixture workspace, never the repo's .context-index/.
+  WS="$TMPDIR_CI/ws"
+  mkdir -p "$WS/.claude/rules/domain" "$WS/.claude/agents" "$WS/.claude/skills/demo" "$WS/projects/demo"
+  printf '# ws\n' > "$WS/CLAUDE.md"
+  printf '# rule\n' > "$WS/.claude/rules/domain/r.md"
+  printf -- '---\nname: a\n---\n' > "$WS/.claude/agents/a.md"
+  printf -- '---\nname: demo\n---\n' > "$WS/.claude/skills/demo/SKILL.md"
+  printf '# demo\n' > "$WS/projects/demo/CLAUDE.md"
 }
 
 teardown() { rm -rf "$TMPDIR_CI"; }
@@ -14,14 +22,15 @@ teardown() { rm -rf "$TMPDIR_CI"; }
   head -5 "$SCRIPT" | grep -qE "set -(e|u).*pipefail"
 }
 
-@test "workspace mode runs on real workspace" {
-  run bash "$SCRIPT" --workspace "$REPO_ROOT"
+@test "workspace mode runs on a fixture workspace" {
+  run bash "$SCRIPT" --workspace "$WS"
   [ "$status" -le 1 ]
 }
 
 @test "generates workspace index file" {
-  bash "$SCRIPT" --workspace "$REPO_ROOT" 2>/dev/null || true
-  [[ -f "$REPO_ROOT/.context-index/WORKSPACE.ctx" ]] || [[ "$?" -le 1 ]]
+  run bash "$SCRIPT" --workspace "$WS"
+  [ "$status" -le 1 ]
+  [[ -f "$WS/.context-index/WORKSPACE.ctx" ]]
 }
 
 @test "negative: nonexistent root handled" {
@@ -58,12 +67,12 @@ teardown() { rm -rf "$TMPDIR_CI"; }
 }
 
 @test "negative: invalid mode handled" {
-  run bash "$SCRIPT" --bogus "$REPO_ROOT"
+  run bash "$SCRIPT" --bogus "$WS"
   [ "$status" -le 1 ]
 }
 
 @test "negative: missing project name with --project" {
-  run bash "$SCRIPT" --project "" "$REPO_ROOT"
+  run bash "$SCRIPT" --project "" "$WS"
   [ "$status" -le 1 ]
 }
 
@@ -75,4 +84,10 @@ teardown() { rm -rf "$TMPDIR_CI"; }
 
 @test "positive: script under 150 lines" {
   local lines; lines=$(wc -l < "$SCRIPT"); [ "$lines" -le 150 ]
+}
+
+@test "isolation: the suite never writes the repo's context index" {
+  before=$(git -C "$REPO_ROOT" status --porcelain -- .context-index projects | sha256sum)
+  bash "$SCRIPT" --workspace "$WS" >/dev/null 2>&1 || true
+  [ "$(git -C "$REPO_ROOT" status --porcelain -- .context-index projects | sha256sum)" = "$before" ]
 }

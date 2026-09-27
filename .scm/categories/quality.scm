@@ -1,5 +1,5 @@
 # quality — Savia Capability Map (L1)
-> 271 resources
+> 272 resources
 
 - **/speckit.analyze** (cmd): Alias spec-kit compatible. Review cruzado de una spec antes de implementar. Invoca skill consensus-validation. Compatible con github/spec-kit.
 - **Coherence Court** (cmd): Audit consistency of a stage output against premises fixed in earlier stages of the same flow (SE-350)
@@ -19,6 +19,7 @@
 - **banking-mlops-audit** (cmd): Auditar pipeline MLOps — versionado, drift, XAI, model risk, scoring architectures
 - **case-review** (cmd): Generate benefit realization review at 90/180/365 days
 - **ci-bats-deps** (script): ci-bats-deps.sh — Generate dependency map for dynamic BATS test selection
+- **ci-extended-checks** (script): Baselines del ratchet; override para tests que mutan valores sin tocar el repo.
 - **ci-select-bats** (script): ci-select-bats.sh — Dynamic BATS test selector based on changed files
 - **ci-test-quality-gate** (script): ci-test-quality-gate.sh — CI gate: test quality + coverage
 - **codex-autonomy-canaries** (script): Contract tests plus real frontend probes. A policy-only PASS is not graduation.
