@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=706ea9c11a5a982eccb0e0614e817d9522645a00795270302a7bb7c1869ceede
-timestamp=2026-09-26T22:57:48Z
-branch=agent/fix-push-pr-reservations
-head_commit=eacf5879
-signature=b4441c5082055ec7bdddf5f7ccfc12b40aec8349b5e49d251ed65a2be6fa2163
+diff_hash=1ee6983b780752bdd075ec9f467e49c74337826cdd26650b7dc0c723a3a41def
+timestamp=2026-09-27T00:03:30Z
+branch=agent/test-git-identity
+head_commit=cacc2cfe
+signature=d0b4779c14b3a6746b15ce02d229abca4604c316a262f6785cb71c1adec47a9a
