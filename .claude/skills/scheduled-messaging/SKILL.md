@@ -5,9 +5,8 @@ description: Usar cuando se configuran mensajes automáticos programados a plata
 metadata:
   # --- metadata.savia.* (SE-333) ---
   savia.category: communication
-  savia.maturity: stable
+  savia.maturity: beta
   savia.context: fork
-  savia.maturity: stable
   savia.priority: medium
   savia.summary: "Configura tareas programadas con mensajeria automatica. Soporta Slack, Google Chat, Nextcloud Talk, WhatsApp. Wizard interactivo para setup de notificaciones."
   savia.tags: "scheduled, messaging, notifications, automation"

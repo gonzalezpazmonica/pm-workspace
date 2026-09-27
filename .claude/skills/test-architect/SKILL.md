@@ -9,7 +9,6 @@ metadata:
   savia.category: quality
   savia.context: fork
   savia.context_cost: high
-  savia.maturity: experimental
   savia.priority: high
   savia.summary: "Generates tests that score 80+ on the auditor from the first attempt. Knows 14 test types, 16 language frameworks, and 8 excellence patterns. Input: spec, source code, or bug report. Output: complete test files."
   savia.tags: "testing, quality, bats, multi-language, test-strategy"

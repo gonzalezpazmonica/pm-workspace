@@ -6,11 +6,10 @@ allowed-tools: [Read, Bash]
 metadata:
   # --- metadata.savia.* (SE-333) ---
   savia.agent: architect
-  savia.maturity: stable
+  savia.maturity: beta
   savia.category: memory
   savia.context: fork
   savia.disable-model-invocation: false
-  savia.maturity: beta
   savia.priority: medium
   savia.summary: Capa de reranking cross-encoder sobre top-K de retrieval (cosine). Filtra ruido antes de que el agente gaste tokens leyendo falsos positivos. Fallback automatico si sentence-transformers ausente.
   savia.tags: "reranking, retrieval, memory, cross-encoder, tokens"

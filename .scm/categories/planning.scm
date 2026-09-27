@@ -1,5 +1,5 @@
 # planning — Savia Capability Map (L1)
-> 641 resources
+> 640 resources
 
 - **/decide-architecture** (cmd): Clasifica una tarea como WORKFLOW (deterministica) o AGENT (loop). Bias hacia workflow per Anthropic. Sugiere plantilla inicial. Mide accuracy contra corpus curado de 20 tareas.
 - **_template** (skill): TEMPLATE — copia este directorio para crear una skill nueva. NO se carga en runtime.
@@ -11,7 +11,6 @@
 - **adaptive-halting** (script): adaptive-halting.sh — SE-074 Slice 1.5 — double-criterion halting check
 - **adaptive-strategy-selector** (script): adaptive-strategy-selector.sh — Select loading strategy based on model tier
 - **adb-run** (script): adb-run.sh — Execute adb-wrapper functions without compound && chains
-- **add-maturity-levels** (script): add-maturity-levels.sh — Add maturity field to all skill frontmatter
 - **ado-bridge** (script): ado-bridge.sh — Azure DevOps REST API v7.1 bridge for Savia PM commands
 - **advisor-config** (script): advisor-config.sh — Generate Anthropic Advisor Strategy configuration
 - **agents-catalog-sync** (script): agents-catalog-sync.sh — SE-047 Slice 1 agents catalog auto-sync.
