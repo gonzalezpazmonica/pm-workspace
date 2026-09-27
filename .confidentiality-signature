@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=fbc66b89ef7d9b24e4643e3f33a64e71e94c300f7aadd2b99b8ef969840284f5
-timestamp=2026-09-27T18:46:25Z
-branch=agent/entropy-consolidation-20260927
-head_commit=fc82fa39
-signature=d778f955df769521112901a41c7a13a90b093a8665f75b994a6a57e3ea05954b
+diff_hash=d680c478cc2838171257090d29729eac4680668f94370ee80bc74957bd8e6376
+timestamp=2026-09-27T19:22:13Z
+branch=agent/eager-budget-spec181-20260927
+head_commit=e57fd269
+signature=c54a0d60d5820784dff047ec64ff3aac0020120269e2665768dc2e28575c2e48
