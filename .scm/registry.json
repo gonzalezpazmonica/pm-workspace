@@ -25004,6 +25004,27 @@
       "frontend_support": [
         "opencode"
       ],
+      "id": "script:scripts/ci-extended-checks",
+      "intents": [
+        "baselines",
+        "mutan",
+        "override",
+        "ratchet",
+        "repo"
+      ],
+      "kind": "script",
+      "owner_domain": "quality",
+      "replaced_by": null,
+      "risk_level": null,
+      "source": "scripts/ci-extended-checks.sh",
+      "status": "active",
+      "tests": []
+    },
+    {
+      "depends_on": [],
+      "frontend_support": [
+        "opencode"
+      ],
       "id": "script:scripts/ci-select-bats",
       "intents": [
         "based",
@@ -30124,7 +30145,7 @@
       "tests": []
     }
   ],
-  "content_hash": "9bca0ff1ae20",
+  "content_hash": "b9126f018c6d",
   "deferred_kinds": [
     "rule",
     "hook"

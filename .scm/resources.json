@@ -1,6 +1,6 @@
 {
-  "hash": "9bca0ff1ae20",
-  "total": 1475,
+  "hash": "b9126f018c6d",
+  "total": 1476,
   "resources": [
     {
       "category": "analysis",
@@ -16171,6 +16171,20 @@
       "kind": "script",
       "path": "scripts/ci-bats-deps.sh",
       "description": "ci-bats-deps.sh — Generate dependency map for dynamic BATS test selection"
+    },
+    {
+      "category": "quality",
+      "name": "ci-extended-checks",
+      "intents": [
+        "baselines",
+        "mutan",
+        "override",
+        "ratchet",
+        "repo"
+      ],
+      "kind": "script",
+      "path": "scripts/ci-extended-checks.sh",
+      "description": "Baselines del ratchet; override para tests que mutan valores sin tocar el repo."
     },
     {
       "category": "quality",

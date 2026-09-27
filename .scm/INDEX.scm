@@ -1,6 +1,6 @@
 # Savia Capability Map — INDEX
-> hash: 95fc78910d27 | resources: 1475
-> 295 commands · 139 skills · 90 agents · 951 scripts
+> hash: 993e8acfe8a9 | resources: 1476
+> 295 commands · 139 skills · 90 agents · 952 scripts
 
 [analysis] Trace Optimize — across,distributed,optimize,rates,sampling — cmd:.claude/commands/trace-optimize.md
 [analysis] agent-activity — activity,agent,executions,recent,show — cmd:.claude/commands/agent-activity.md
@@ -1224,6 +1224,7 @@
 [quality] banking-mlops-audit — architectures,auditar,drift,mlops,model — cmd:.claude/commands/banking-mlops-audit.md
 [quality] case-review — benefit,days,generate,realization,review — cmd:.claude/commands/case-review.md
 [quality] ci-bats-deps — bats,dependency,deps,dynamic,generate — script:scripts/ci-bats-deps.sh
+[quality] ci-extended-checks — baselines,mutan,override,ratchet,repo — script:scripts/ci-extended-checks.sh
 [quality] ci-select-bats — based,bats,changed,dynamic,files — script:scripts/ci-select-bats.sh
 [quality] ci-test-quality-gate — coverage,gate,quality,test — script:scripts/ci-test-quality-gate.sh
 [quality] codex-autonomy-canaries — contract,frontend,graduation,only,pass — script:scripts/codex-autonomy-canaries.sh
