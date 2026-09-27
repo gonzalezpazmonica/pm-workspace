@@ -59,13 +59,13 @@ error deja el arranque roto y sin forma rápida de volver.
 **Problema.** `memory-store.sh search` devuelve entradas sueltas. Falta el paso
 engram de "contexto alrededor": qué se guardó justo antes y después.
 
-**Diseño.** `memory-store.sh timeline <id|topic_key> [--window N]` → las N
+**Diseño.** `memory-store.sh timeline <topic_key|prefijo de hash> [--window N]` (los registros no tienen `id`) → las N
 entradas anteriores y posteriores (por `ts`) del mismo `project` (o de todo el
 store si no hay proyecto), marcando la entrada ancla.
 
 **AC.**
-- AC7: `timeline` con un id existente devuelve ancla + hasta N antes y N después, en orden temporal.
-- AC8: id inexistente → exit 1 con mensaje; `--window` no numérico → exit 2.
+- AC7: `timeline` con un `topic_key` o prefijo de hash existente devuelve ancla + hasta N antes y N después, en orden temporal.
+- AC8: ancla inexistente → exit 1 con mensaje; `--window` no numérico → exit 2.
 
 ## Común
 
