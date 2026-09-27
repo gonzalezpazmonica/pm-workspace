@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=8ba02feb23d626d11881ebad2835ef6715606079eaf672dd52a48835c4da00ee
-timestamp=2026-09-27T00:07:37Z
+diff_hash=0d34125fe9197e0d02d6b276c41c67e9a57f0bded8320c59b94db050458338e5
+timestamp=2026-09-27T07:15:21Z
 branch=agent/fix-handoff-tests
-head_commit=33389904
-signature=aeeeb36bf6b3b745934ead439dedc787f5180a5a65f3efec061904d52a47e123
+head_commit=4be43942
+signature=2958a0dd7514e328d9b204127c48f05fb7fc456cb4f0112bf06ef9cc186eedc2
