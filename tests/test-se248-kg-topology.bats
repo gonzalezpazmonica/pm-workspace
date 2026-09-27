@@ -1,5 +1,6 @@
 #!/usr/bin/env bats
 # test-se248-kg-topology.bats — SE-248: KG topology analysis tests
+# Ref: docs/propuestas/SE-248-kg-topology-analysis.md
 # Tests Forman-Ricci curvature + Leiden community detection scripts.
 #
 # Acceptance criteria from SE-248:

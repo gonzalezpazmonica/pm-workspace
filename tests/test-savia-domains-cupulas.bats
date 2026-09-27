@@ -1,5 +1,8 @@
 #!/usr/bin/env bats
 # Ref: Labs L23 — apertura de cúpulas N1 por dominio (SaviaDomains)
+# Catálogo: docs/domains/savia-domains-catalog.md
+
+SCRIPT="scripts/savia-domains-cupulas.py"
 
 setup() {
   ROOT_DIR="$(cd "$(dirname "$BATS_TEST_FILENAME")/.." && pwd)"
@@ -58,4 +61,83 @@ assert dom['confidentiality']=='N1', dom
 
 @test "L23: CRIT-001 — generador sin red" {
   ! grep -rniE 'http://|https://|requests\.|urllib|boto3|openai|anthropic' "$GEN"
+}
+
+@test "L23: missing catalog → exit 2 con error claro, sin traceback" {
+  run python3 "$GEN" --catalog "$TMPD/no-existe.md" --vault "$TMPD/vault"
+  [ "$status" -eq 2 ]
+  [[ "$output" == *"catálogo no encontrado"* ]]
+  [[ "$output" != *"Traceback"* ]]
+}
+
+@test "L23: empty catalog (sin dominios) → exit 2" {
+  : > "$TMPD/vacio.md"
+  run python3 "$GEN" --catalog "$TMPD/vacio.md" --vault "$TMPD/vault"
+  [ "$status" -eq 2 ]
+  [[ "$output" == *"no se extrajeron dominios"* ]]
+}
+
+@test "L23: --check sobre un vault vacío falla (STALE, exit 1)" {
+  mkdir -p "$TMPD/empty"
+  run python3 "$GEN" --check --catalog "$CATALOG" --vault "$TMPD/empty"
+  [ "$status" -eq 1 ]
+  [[ "$output" == *"STALE: 34"* ]]
+}
+
+@test "L23: idempotente — la segunda generación no crea nada (zero)" {
+  python3 "$GEN" --catalog "$CATALOG" --vault "$TMPD/vault" >/dev/null
+  run python3 "$GEN" --catalog "$CATALOG" --vault "$TMPD/vault"
+  [ "$status" -eq 0 ]
+  [[ "$output" == *"0 cúpulas creadas"* ]]
+}
+
+@test "L23: invalid argument rejected (exit 2)" {
+  run python3 "$GEN" --bogus
+  [ "$status" -eq 2 ]
+}
+
+# Unit tests over the generator's functions (module has a dash: load by path).
+load_gen() {
+  python3 -c "
+import importlib.util, sys
+spec = importlib.util.spec_from_file_location('gen', '$GEN')
+gen = importlib.util.module_from_spec(spec); spec.loader.exec_module(gen)
+$1
+"
+}
+
+@test "L23: parse_catalog extrae 34 dominios con id de 2-3 mayúsculas" {
+  run load_gen "
+rows = gen.parse_catalog('$CATALOG')
+assert len(rows) == 34, len(rows)
+assert all(2 <= len(r['id']) <= 3 and r['id'].isupper() for r in rows)
+assert {'id', 'category', 'name', 'topics', 'capacity'} <= set(rows[0])
+print('ok')"
+  [ "$status" -eq 0 ]
+  [[ "$output" == *"ok"* ]]
+}
+
+@test "L23: parse_catalog ignora cabecera, separador y filas con id inválido" {
+  printf '| ID | Cat | Nombre | Temas |\n|---|---|---|---|\n| abc | X | Y | Z |\n| QQ | Cat | Nombre | Temas |\n' > "$TMPD/mini.md"
+  run load_gen "
+rows = gen.parse_catalog('$TMPD/mini.md')
+assert [r['id'] for r in rows] == ['QQ'], rows
+print('ok')"
+  [ "$status" -eq 0 ]
+}
+
+@test "L23: index_content emite frontmatter N1 cupula-creada y '—' con temas vacíos" {
+  run load_gen "
+txt = gen.index_content({'id': 'QQ', 'category': 'Cat', 'name': 'Nombre', 'topics': '', 'capacity': ''})
+assert 'lifecycle: cupula-creada' in txt and 'confidentiality: N1' in txt
+assert 'id: cupula-qq' in txt and '\n—\n' in txt
+assert 'T' in gen.iso_now() and gen.iso_now().endswith('Z')
+print('ok')"
+  [ "$status" -eq 0 ]
+}
+
+@test "L23: nonexistent vault path anidado se crea al generar" {
+  run python3 "$GEN" --catalog "$CATALOG" --vault "$TMPD/a/b/vault"
+  [ "$status" -eq 0 ]
+  [ "$(find "$TMPD/a/b/vault" -mindepth 2 -name INDEX.md | wc -l)" -eq 34 ]
 }

@@ -1,5 +1,6 @@
 #!/usr/bin/env bats
 # test-se249-link-prediction.bats — SE-249: RotatE link prediction tests
+# Ref: docs/propuestas/SE-249-rotate-link-prediction.md
 # Tests the kg-link-prediction.sh wrapper and kg-link-prediction.py script.
 #
 # Acceptance criteria from SE-249:
