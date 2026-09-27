@@ -222,6 +222,10 @@ fi
 
 if [[ -x "scripts/generate-capability-map.py" ]]; then
   python3 scripts/generate-capability-map.py >/dev/null 2>&1 || true
+  # SE-397: the SAM projection is derived from the same tree. Without this, a
+  # merge that deletes an input left .scm/sam.json pointing at a missing file
+  # (sam.py check: MISSING_INPUT) until someone regenerated it by hand.
+  [[ -f "scripts/sam.py" ]] && python3 scripts/sam.py generate >/dev/null 2>&1 || true
   if ! git diff --quiet .scm/; then
     git add .scm/
     git commit -m "chore(scm): regen after conflict resolution

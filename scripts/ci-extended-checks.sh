@@ -229,6 +229,18 @@ else
   fail "BATS compliance floor file missing"
 fi
 
+# 11. SAM Freshness (SE-397 architecture model projection, read-only check)
+echo "--- 11. SAM Freshness ---"
+if [[ -f "$ROOT/scripts/sam.py" ]]; then
+  if sam_out=$(cd "$ROOT" && python3 scripts/sam.py check 2>&1); then
+    pass ".scm/sam.json fresh (${sam_out})"
+  else
+    fail ".scm/sam.json stale — run 'python3 scripts/sam.py generate' and commit (${sam_out})"
+  fi
+else
+  fail "SAM generator missing (scripts/sam.py)"
+fi
+
 echo "" && echo "═════════════════════════════════════════════════════════════"
 echo "  Results: $PASS passed, $FAIL failed ($TOTAL total checks)"
 echo "═════════════════════════════════════════════════════════════"
