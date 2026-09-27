@@ -7636,27 +7636,6 @@
       "frontend_support": [
         "opencode"
       ],
-      "id": "script:scripts/spec-156-migrate-token-budget",
-      "intents": [
-        "agents",
-        "budget",
-        "frontmatter",
-        "spec",
-        "token"
-      ],
-      "kind": "script",
-      "owner_domain": "development",
-      "replaced_by": null,
-      "risk_level": null,
-      "source": "scripts/spec-156-migrate-token-budget.sh",
-      "status": "active",
-      "tests": []
-    },
-    {
-      "depends_on": [],
-      "frontend_support": [
-        "opencode"
-      ],
       "id": "script:scripts/spec-approval-gate",
       "intents": [
         "approval",
@@ -8031,27 +8010,6 @@
       "replaced_by": null,
       "risk_level": null,
       "source": ".claude/commands/spec-verify-ui.md",
-      "status": "active",
-      "tests": []
-    },
-    {
-      "depends_on": [],
-      "frontend_support": [
-        "opencode"
-      ],
-      "id": "script:scripts/spec156-migrate-token-budget",
-      "intents": [
-        "budget",
-        "flat",
-        "migrate",
-        "nested",
-        "object"
-      ],
-      "kind": "script",
-      "owner_domain": "development",
-      "replaced_by": null,
-      "risk_level": null,
-      "source": "scripts/spec156-migrate-token-budget.sh",
       "status": "active",
       "tests": []
     },
@@ -30104,7 +30062,7 @@
       "tests": []
     }
   ],
-  "content_hash": "108b7deb9456",
+  "content_hash": "cf2eae1de649",
   "deferred_kinds": [
     "rule",
     "hook"
