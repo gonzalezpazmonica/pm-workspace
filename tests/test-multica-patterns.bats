@@ -9,26 +9,21 @@
 # Date: 2026-04-12
 # Era: 223
 # Problem: PII leakage via filesystem paths, inaccurate agent cost tracking,
-#   sequential overnight execution, no skill integrity verification
-# Solution: path-redact.sh, agent-result schema, concurrent-executor, skills-lock
-# Acceptance: 4 scripts functional, schema valid, redaction works, lock verifies
-# Dependencies: path-redact.sh, skills-lock.sh, concurrent-executor.sh, agent-result.schema.json
+#   sequential overnight execution
+# Solution: path-redact.sh, agent-result schema, concurrent-executor
+# (skills-lock retired 2026-09-27: never verified by CI or hooks)
+# Acceptance: scripts functional, schema valid, redaction works
+# Dependencies: path-redact.sh, concurrent-executor.sh, agent-result.schema.json
 
 ## Problem: 4 tactical gaps identified from multica-ai/multica research
-## Solution: path redaction, agent result schema, concurrent executor, skills lock
+## Solution: path redaction, agent result schema, concurrent executor
 ## Acceptance: all scripts pass syntax, functional tests cover happy + edge paths
 
 setup() {
   REPO_ROOT="$(cd "$BATS_TEST_DIRNAME/.." && pwd)"
   export PATH_REDACT="$REPO_ROOT/scripts/path-redact.sh"
-  export SKILLS_LOCK="$REPO_ROOT/scripts/skills-lock.sh"
   export EXECUTOR="$REPO_ROOT/scripts/lib/concurrent-executor.sh"
   export SCHEMA="$REPO_ROOT/.claude/schemas/agent-result.schema.json"
-  # Isolation: skills-lock writes .skills-lock.json in cwd; run it in a fixture repo.
-  LOCK_FX="$(mktemp -d)"
-  mkdir -p "$LOCK_FX/.claude/skills/demo" "$LOCK_FX/.claude/agents"
-  printf -- '---\nname: demo\n---\nbody\n' > "$LOCK_FX/.claude/skills/demo/SKILL.md"
-  printf -- '---\nname: agent-a\n---\nbody\n' > "$LOCK_FX/.claude/agents/agent-a.md"
 }
 
 teardown() {
@@ -117,66 +112,4 @@ teardown() {
   declare -f executor_init >/dev/null
   declare -f executor_submit >/dev/null
   declare -f executor_drain >/dev/null
-}
-
-## Skills lock tests
-
-@test "skills-lock.sh exists, executable, valid syntax" {
-  [[ -x "$SKILLS_LOCK" ]]
-  bash -n "$SKILLS_LOCK"
-}
-
-@test "generate creates lock file with entries" {
-  cd "$LOCK_FX"
-  run bash "$SKILLS_LOCK" generate
-  [[ "$status" -eq 0 ]]
-  [[ "$output" == *"Generated"* ]]
-  [[ -f ".skills-lock.json" ]]
-}
-
-@test "verify passes after fresh generate" {
-  cd "$LOCK_FX"
-  bash "$SKILLS_LOCK" generate >/dev/null 2>&1
-  run bash "$SKILLS_LOCK" verify
-  [[ "$status" -eq 0 ]]
-  [[ "$output" == *"0 changed"* ]]
-}
-
-@test "lock file has valid JSON with version and entries" {
-  cd "$LOCK_FX"
-  bash "$SKILLS_LOCK" generate >/dev/null 2>&1
-  python3 -c "
-import json
-d = json.load(open('.skills-lock.json'))
-assert d['version'] == 1
-assert d['total_entries'] > 0
-assert len(d['entries']) > 0
-"
-}
-
-@test "empty subcommand shows usage" {
-  run bash "$SKILLS_LOCK"
-  [[ "$output" == *"Usage"* ]]
-}
-
-@test "verify detects nonexistent lock file" {
-  cd "$(mktemp -d)"
-  run bash "$SKILLS_LOCK" verify
-  [[ "$status" -ne 0 ]]
-  [[ "$output" == *"ERROR"* ]]
-}
-
-@test "verify detects a modified skill after generate" {
-  cd "$LOCK_FX"
-  bash "$SKILLS_LOCK" generate >/dev/null 2>&1
-  printf 'changed\n' >> .claude/skills/demo/SKILL.md
-  run bash "$SKILLS_LOCK" verify
-  [[ "$output" == *"1 changed"* ]]
-}
-
-@test "isolation: skills-lock tests never touch the repo lock file" {
-  before=$(sha256sum "$REPO_ROOT/.skills-lock.json")
-  cd "$LOCK_FX"
-  bash "$SKILLS_LOCK" generate >/dev/null 2>&1
-  [ "$(sha256sum "$REPO_ROOT/.skills-lock.json")" = "$before" ]
 }
