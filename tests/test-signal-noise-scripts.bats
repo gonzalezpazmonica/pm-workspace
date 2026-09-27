@@ -15,6 +15,17 @@ setup() {
   cd "$BATS_TEST_DIRNAME/.."
 }
 
+# Throwaway git repo with one commit on main and nothing changed: the runner
+# must never be pointed at the working branch (it would run, and recurse into,
+# whatever suites the branch touches).
+clean_repo() {
+  local repo="$BATS_TEST_TMPDIR/clean-repo"
+  git init -q -b main "$repo"
+  git -C "$repo" -c user.name=t -c user.email=t@example.invalid \
+    commit -q --allow-empty -m init
+  echo "$repo"
+}
+
 # Stub gh on PATH: never talk to the real GitHub from tests.
 # $1 = JSON for `gh pr list`; $2 = CHANGELOG body served by `gh api`.
 stub_gh() {
@@ -119,9 +130,16 @@ teardown() {
 }
 
 @test "pre-push-bats exits 0 when no changes" {
-  # Run on main, where no changes from origin/main exist
-  run bash scripts/pre-push-bats-critical.sh --quiet
+  cd "$(clean_repo)"
+  run bash "$BATS_TEST_DIRNAME/../scripts/pre-push-bats-critical.sh"
   [ "$status" -eq 0 ]
+  [[ "$output" == *"no changed files detected"* ]]
+}
+
+@test "pre-push-bats: nested invocation is a no-op (no recursion)" {
+  run env SAVIA_PRE_PUSH_BATS_ACTIVE=1 bash scripts/pre-push-bats-critical.sh
+  [ "$status" -eq 0 ]
+  [[ "$output" == *"nested invocation skipped"* ]]
 }
 
 # ── Version detection ──────────────────────────────────────────────────────
@@ -184,7 +202,8 @@ teardown() {
 }
 
 @test "negative: pre-push-bats invalid --base value does not crash" {
-  run bash scripts/pre-push-bats-critical.sh --base nonexistent-branch-xyz --quiet
+  cd "$(clean_repo)"
+  run bash "$BATS_TEST_DIRNAME/../scripts/pre-push-bats-critical.sh" --base nonexistent-branch-xyz --quiet
   [[ "$status" -eq 0 || "$status" -eq 1 ]]
 }
 
@@ -245,8 +264,9 @@ teardown() {
 
 @test "pre-push-bats does NOT mutate git state" {
   local before_hash after_hash
+  cd "$(clean_repo)"
   before_hash=$(git rev-parse HEAD 2>/dev/null)
-  bash scripts/pre-push-bats-critical.sh --quiet >/dev/null 2>&1 || true
+  bash "$BATS_TEST_DIRNAME/../scripts/pre-push-bats-critical.sh" --quiet >/dev/null 2>&1 || true
   after_hash=$(git rev-parse HEAD 2>/dev/null)
   [[ "$before_hash" == "$after_hash" ]]
 }

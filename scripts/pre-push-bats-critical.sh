@@ -57,6 +57,14 @@ done
 
 log() { [[ "$QUIET" -eq 0 ]] && echo "$@" || true; }
 
+# Reentrancy guard: a mapped .bats file may itself invoke this runner (its own
+# test suite does). Without the guard that recursion never ends.
+if [[ -n "${SAVIA_PRE_PUSH_BATS_ACTIVE:-}" ]]; then
+  log "pre-push-bats: nested invocation skipped"
+  exit 0
+fi
+export SAVIA_PRE_PUSH_BATS_ACTIVE=1
+
 # ── Detect changed files ───────────────────────────────────────────────────
 
 # Prefer diff vs base branch; fall back to staged if base unreachable.
