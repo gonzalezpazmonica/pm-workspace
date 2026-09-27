@@ -23,6 +23,7 @@ set -uo pipefail
 # Exit codes:
 #   0 — all checks passed
 #   1 — one or more checks failed
+#   2 — unknown argument
 #
 # Usage:
 #   bash scripts/ci-reliability-gate.sh
@@ -40,10 +41,12 @@ WORKSPACE_DIR="$(cd "${SAVIA_WORKSPACE_DIR:-${CLAUDE_PROJECT_DIR:-${OPENCODE_PRO
 # ── Argument parsing ──────────────────────────────────────────────────────────
 JSON_MODE=0
 FIX_EMPTY_DIRS=0
-for arg in "${@:-}"; do
+for arg in "$@"; do
   case "$arg" in
     --json)            JSON_MODE=1 ;;
     --fix-empty-dirs)  FIX_EMPTY_DIRS=1 ;;
+    -h|--help)         sed -n '2,33p' "${BASH_SOURCE[0]}" | grep '^#' | sed 's/^# \{0,1\}//'; exit 0 ;;
+    *)                 echo "ERROR: argumento desconocido: $arg (usa --json, --fix-empty-dirs)" >&2; exit 2 ;;
   esac
 done
 
