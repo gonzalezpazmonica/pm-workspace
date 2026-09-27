@@ -8672,27 +8672,6 @@
       "frontend_support": [
         "opencode"
       ],
-      "id": "script:scripts/corporate/engagement-evidence-package",
-      "intents": [
-        "client",
-        "compliance",
-        "engagement",
-        "evidence",
-        "package"
-      ],
-      "kind": "script",
-      "owner_domain": "governance",
-      "replaced_by": null,
-      "risk_level": null,
-      "source": "scripts/corporate/engagement-evidence-package.sh",
-      "status": "active",
-      "tests": []
-    },
-    {
-      "depends_on": [],
-      "frontend_support": [
-        "opencode"
-      ],
       "id": "script:scripts/glm-validate",
       "intents": [
         "completeness",
@@ -20649,27 +20628,6 @@
       "frontend_support": [
         "opencode"
       ],
-      "id": "script:scripts/runs-cost-capture",
-      "intents": [
-        "capture",
-        "cost",
-        "hook",
-        "runs",
-        "slice"
-      ],
-      "kind": "script",
-      "owner_domain": "planning",
-      "replaced_by": null,
-      "risk_level": null,
-      "source": "scripts/runs-cost-capture.sh",
-      "status": "active",
-      "tests": []
-    },
-    {
-      "depends_on": [],
-      "frontend_support": [
-        "opencode"
-      ],
       "id": "agent:.opencode/agents/rust-developer",
       "intents": [],
       "kind": "agent",
@@ -29646,7 +29604,7 @@
       "tests": []
     }
   ],
-  "content_hash": "28ed0347aaf2",
+  "content_hash": "c8d0608b61cb",
   "deferred_kinds": [
     "rule",
     "hook"

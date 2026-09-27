@@ -1,6 +1,6 @@
 # Savia Capability Map — INDEX
-> hash: c6c050fc033a | resources: 1452
-> 295 commands · 139 skills · 90 agents · 928 scripts
+> hash: a359e2157438 | resources: 1450
+> 295 commands · 139 skills · 90 agents · 926 scripts
 
 [analysis] Trace Optimize — across,distributed,optimize,rates,sampling — cmd:.claude/commands/trace-optimize.md
 [analysis] agent-activity — activity,agent,executions,recent,show — cmd:.claude/commands/agent-activity.md
@@ -425,7 +425,6 @@
 [governance] compliance-judge — confidentiality,format,judge,levels,rules — agent:.opencode/agents/compliance-judge.md
 [governance] compliance-report — compliance,ejecutivo,generar,informe,regulatorio — cmd:.claude/commands/compliance-report.md
 [governance] compliance-scan — automática,contra,código,detección,escanear — cmd:.claude/commands/compliance-scan.md
-[governance] corporate/engagement-evidence-package — client,compliance,engagement,evidence,package — script:scripts/corporate/engagement-evidence-package.sh
 [governance] glm-validate — completeness,drift,governance,manifest,validate — script:scripts/glm-validate.sh
 [governance] governance-audit — acciones,auditoría,cumplimiento,permitidas,política — cmd:.claude/commands/governance-audit.md
 [governance] governance-audit-log — append,audit,chain,governance,hash — script:scripts/governance-audit-log.sh
@@ -1013,7 +1012,6 @@
 [planning] rules-index-generate — generate,index,rules — script:scripts/rules-index-generate.sh
 [planning] run-adversarial-evals — adversarial,evals,scripts,slice — script:scripts/run-adversarial-evals.sh
 [planning] run-agent-evals — agent,agents,critical,evals,evaluation — script:scripts/run-agent-evals.sh
-[planning] runs-cost-capture — capture,cost,hook,runs,slice — script:scripts/runs-cost-capture.sh
 [planning] rust-developer —  — agent:.opencode/agents/rust-developer.md
 [planning] sagi-e2e — flujo,multi,objetivo,paso,sagi — script:scripts/sagi-e2e.sh
 [planning] sagi-pruebas — harness,orquestador,pruebas,sagi — script:scripts/sagi-pruebas.sh

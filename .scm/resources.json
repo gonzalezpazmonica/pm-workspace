@@ -1,6 +1,6 @@
 {
-  "hash": "28ed0347aaf2",
-  "total": 1452,
+  "hash": "c8d0608b61cb",
+  "total": 1450,
   "resources": [
     {
       "category": "analysis",
@@ -5617,20 +5617,6 @@
       "kind": "cmd",
       "path": ".claude/commands/compliance-scan.md",
       "description": "Escanear código fuente contra regulaciones del sector — detección automática, verificación y reporte"
-    },
-    {
-      "category": "governance",
-      "name": "corporate/engagement-evidence-package",
-      "intents": [
-        "client",
-        "compliance",
-        "engagement",
-        "evidence",
-        "package"
-      ],
-      "kind": "script",
-      "path": "scripts/corporate/engagement-evidence-package.sh",
-      "description": "engagement-evidence-package.sh — SE-271 S6 Per-Client Compliance Evidence Package"
     },
     {
       "category": "governance",
@@ -13350,20 +13336,6 @@
       "kind": "script",
       "path": "scripts/run-agent-evals.sh",
       "description": "run-agent-evals.sh — SE-204: evaluation harness for critical agents"
-    },
-    {
-      "category": "planning",
-      "name": "runs-cost-capture",
-      "intents": [
-        "capture",
-        "cost",
-        "hook",
-        "runs",
-        "slice"
-      ],
-      "kind": "script",
-      "path": "scripts/runs-cost-capture.sh",
-      "description": "runs-cost-capture.sh — SubagentStop hook (SE-405 Slice 1)."
     },
     {
       "category": "planning",

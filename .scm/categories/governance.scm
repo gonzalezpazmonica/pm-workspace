@@ -1,5 +1,5 @@
 # governance — Savia Capability Map (L1)
-> 31 resources
+> 30 resources
 
 - **aepd-compliance** (cmd): Auditoría de cumplimiento AEPD para IA agéntica — framework 4 fases
 - **audit-all-bats** (script): audit-all-bats.sh — SE-039 Slice 1 probe: run test-auditor over all .bats.
@@ -15,7 +15,6 @@
 - **compliance-judge** (agent): Truth Tribunal judge — PII, N1-N4b levels, format rules, confidentiality
 - **compliance-report** (cmd): Generar informe ejecutivo de compliance regulatorio con tendencias y roadmap
 - **compliance-scan** (cmd): Escanear código fuente contra regulaciones del sector — detección automática, verificación y reporte
-- **corporate/engagement-evidence-package** (script): engagement-evidence-package.sh — SE-271 S6 Per-Client Compliance Evidence Package
 - **glm-validate** (script): glm-validate.sh — Validates the GLM governance manifest for drift and completeness.
 - **governance-audit** (cmd): Auditoría de cumplimiento de política de IA — acciones vs permitidas
 - **governance-audit-log** (script): governance-audit-log.sh — Append-only audit log with chain hash

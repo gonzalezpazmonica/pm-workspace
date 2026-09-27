@@ -687,6 +687,49 @@ print(json.dumps(r, ensure_ascii=False))' "$agent" "$model" "$tin" "$tout" "$usd
   echo "run_id=$run_id cost+ agent=$agent in=$tin out=$tout"
 }
 
+# ── Subcommand: capture-cost (SE-405 Slice 1, hook SubagentStop) ─────────
+# Reads the SubagentStop payload on stdin; if SAVIA_RUN_ID is set, sums the
+# subagent transcript usage and records it with cmd_cost. Never fails.
+cmd_capture_cost() {
+  [[ -z "${SAVIA_RUN_ID:-}" ]] && return 0
+  local payload summary agent model tin tout
+  payload=$(cat 2>/dev/null) || return 0
+  summary=$(python3 - "$payload" <<'PY' 2>/dev/null
+import json, sys
+try:
+    p = json.loads(sys.argv[1] or "{}")
+except json.JSONDecodeError:
+    sys.exit(0)
+path = p.get("agent_transcript_path") or p.get("transcript_path")
+if not path:
+    sys.exit(0)
+tin = tout = 0
+model = ""
+try:
+    with open(path, encoding="utf-8") as fh:
+        for line in fh:
+            try:
+                m = json.loads(line).get("message") or {}
+            except json.JSONDecodeError:
+                continue
+            u = m.get("usage") or {}
+            tin += int(u.get("input_tokens", 0) or 0)
+            tout += int(u.get("output_tokens", 0) or 0)
+            model = m.get("model") or model
+except OSError:
+    sys.exit(0)
+agent = p.get("agent_type") or p.get("agent_id") or "subagent"
+print(f"{agent}\t{model or 'unknown'}\t{tin}\t{tout}")
+PY
+) || return 0
+  [[ -z "$summary" ]] && return 0
+  IFS=$'\t' read -r agent model tin tout <<<"$summary"
+  # Subshell: cmd_cost exits on invalid input; the hook must never fail.
+  ( cmd_cost "$SAVIA_RUN_ID" --agent "$agent" --model "$model" \
+    --tokens-in "$tin" --tokens-out "$tout" ) >/dev/null 2>&1 || true
+  return 0
+}
+
 # ── Subcommand: reset ────────────────────────────────────────────────────
 cmd_reset() {
   : > "$LEDGER"
@@ -707,9 +750,10 @@ case "$SUBCOMMAND" in
   list)   cmd_list   "$@" ;;
   show)   cmd_show   "$@" ;;
   cost)   cmd_cost   "$@" ;;
+  capture-cost) cmd_capture_cost; exit 0 ;;
   reset)  cmd_reset  "$@" ;;
   *)
-    echo "Usage: savia-runs.sh <init|start|state|pr|cost|finish|status|list|show|reset> [args...]" >&2
+    echo "Usage: savia-runs.sh <init|start|state|pr|cost|capture-cost|finish|status|list|show|reset> [args...]" >&2
     echo "" >&2
     echo "  init" >&2
     echo "  start   <mode> <agent> <task> [--project P] [--branch B] [--url U]   → imprime run_id" >&2
