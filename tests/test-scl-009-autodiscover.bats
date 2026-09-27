@@ -1,6 +1,7 @@
 #!/usr/bin/env bats
 # SCL-009 — auto-descubrimiento de instancias federadas
 # Spec: docs/specs/SCL-009-autodiscover.spec.md
+# Ref: SCL-009 AC-01..AC-07, RN-02..RN-05
 # Los tests usan registry y pool temporales; nunca tocan .savia-vault real.
 # Nota: los mocks HTTP corren como procesos `timeout` standalone (se
 # auto-terminan) para no colgar bats con background heredocs.
@@ -104,7 +105,26 @@ json.dump(d, open('$SCL_FEDERATION_REGISTRY','w'))"
 @test "input inválido → exit 2" {
   run bash "$SCRIPT"
   [[ "$status" -eq 2 ]]
-  run bash "$SCRIPT" --add solo-un-arg
+  # timeout: a failed `shift 3` used to loop forever (suite hung 900 s)
+  run timeout 10 bash "$SCRIPT" --add solo-un-arg
+  [[ "$status" -eq 2 ]]
+  [[ "$output" == *"--add necesita ID y URL"* ]]
+}
+
+@test "missing: --remove sin ID termina con exit 2 (no bucle)" {
+  run timeout 10 bash "$SCRIPT" --remove
+  [[ "$status" -eq 2 ]]
+  [[ "$output" == *"--remove necesita ID"* ]]
+}
+
+@test "empty: --pool sin fichero termina con exit 2 (no bucle)" {
+  run timeout 10 bash "$SCRIPT" --check --pool
+  [[ "$status" -eq 2 ]]
+  [[ "$output" == *"--pool necesita"* ]]
+}
+
+@test "boundary: --add sin ningún argumento termina con exit 2" {
+  run timeout 10 bash "$SCRIPT" --add
   [[ "$status" -eq 2 ]]
 }
 
@@ -113,4 +133,7 @@ json.dump(d, open('$SCL_FEDERATION_REGISTRY','w'))"
   run bash "$SCRIPT" --check
   [[ "$status" -eq 0 ]]
   ! grep -q "TOKENSECRETO123" "$SCL_FEDERATION_REGISTRY" || true
+}
+@test "safety: federation-discover.sh declara set -uo pipefail" {
+  grep -q '^set -uo pipefail' "$SCRIPT"
 }

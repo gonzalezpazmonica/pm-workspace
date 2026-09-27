@@ -8,6 +8,7 @@ setup() {
     mkdir -p "$PROJECT_ROOT/output"
     export STORE_FILE="$PROJECT_ROOT/output/.memory-store.jsonl"
     export SAVIA_VERIFIED_MEMORY_DISABLED=true  # SE-072: legacy fixtures predate --source contract
+    export SAVIA_EMBED_AUTOSTART=false  # isolation: never spawn the live embedding daemon
     SCRIPT="$BATS_TEST_DIRNAME/../../scripts/memory-store.sh"
     VECTOR="$BATS_TEST_DIRNAME/../../scripts/memory-vector.py"
 }
