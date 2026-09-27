@@ -19,16 +19,32 @@ teardown() {
 }
 
 @test "SE-339: --ci falla si el umbral supera la cobertura (no-decreciente)" {
-  run bash "$RATCHET" --threshold 101 --ci
+  run bash "$RATCHET" --conf "$TMPD/conf" --threshold 101 --ci
   [ "$status" -eq 1 ]
   echo "$output" | grep -qi "FAIL"
 }
 
 @test "SE-339: detecta hook sin test con allowlist custom" {
   echo "hook-inexistente-xyz" > "$TMPD/crit.txt"
-  SAVIA_CRITICAL_HOOKS_FILE="$TMPD/crit.txt" run bash "$RATCHET" --ci --threshold 100
+  SAVIA_CRITICAL_HOOKS_FILE="$TMPD/crit.txt" run bash "$RATCHET" --conf "$TMPD/conf" --ci --threshold 100
   [ "$status" -eq 1 ]
   echo "$output" | grep -qi "hook-inexistente-xyz"
+}
+
+@test "SE-339: RN-01 — el umbral persistido no baja por flag" {
+  echo "THRESHOLD=90" > "$TMPD/conf"
+  run bash "$RATCHET" --conf "$TMPD/conf" --threshold 80 --ci
+  [ "$status" -eq 2 ]
+  echo "$output" | grep -q "RN-01"
+  grep -qx "THRESHOLD=90" "$TMPD/conf"
+}
+
+@test "SE-339: los tests no tocan el conf versionado" {
+  before=$(cat "$ROOT_DIR/config/test-coverage.conf")
+  run bash "$RATCHET" --conf "$TMPD/conf" --threshold 100
+  [ "$status" -eq 0 ]
+  [ "$(cat "$ROOT_DIR/config/test-coverage.conf")" = "$before" ]
+  grep -qx "THRESHOLD=100" "$TMPD/conf"
 }
 
 @test "SE-339: PURE_BASH y sin red (CRIT-001)" {
