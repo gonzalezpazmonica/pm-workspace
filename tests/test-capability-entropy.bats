@@ -121,7 +121,7 @@ assert b['entropy_v1'] == 6 + 1 + 1, b
 }
 
 @test "test-workspace reports an exceeded ratchet as FAIL, never SKIP" {
-  run grep -A3 'capability-entropy.py", "--check"' scripts/test_workspace.py
+  run grep -A7 'capability-entropy.py", "--check"' scripts/test_workspace.py
   [[ "$output" == *'fail_test("entropy-ratchet (SE-380)"'* ]]
   [[ "$output" != *'skip_test("entropy-ratchet'* ]]
 }
