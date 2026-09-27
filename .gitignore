@@ -20,6 +20,13 @@
 **/*-secret*
 **/*-credentials*
 **/*-secrets*
+# Excepciones exactas: código y docs del escáner de secretos, no secretos.
+# Enumeradas una a una para no abrir el patrón (un *-secret* nuevo sigue ignorado).
+!.claude/skills/git-secret-scanner/
+!docs/propuestas/SE-239-git-history-secret-scanning.md
+!docs/specs/SE-353-sentinel-secrets.spec.md
+!scripts/git-history-secret-remediate.sh
+!scripts/git-history-secret-scan.sh
 
 # ── Proyectos: todo ignorado por defecto, solo se publican los de ejemplo ─────
 # Cualquier proyecto nuevo queda automáticamente excluido sin necesidad de

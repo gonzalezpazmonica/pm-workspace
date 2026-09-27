@@ -187,3 +187,40 @@ teardown() {
   # Either skipped or WARN (no changes detectable)
   [[ "$output" == *"skipped"* || "$output" == *"WARN"* || -z "$output" ]]
 }
+
+# ── G6b behaviour: reports the real score, not 0 ───────────────────────────
+# The auditor exits 1 for files under 80; under pipefail the gate used to
+# overwrite the score with 0, hiding how far each file was from the bar.
+g6b_repo() {
+  local repo="$BATS_TEST_TMPDIR/g6b-repo" src="$BATS_TEST_DIRNAME/.."
+  mkdir -p "$repo/scripts" "$repo/tests"
+  cp "$src/scripts/test-auditor.sh" "$src/scripts/test-auditor-engine.py" \
+     "$src/scripts/content-fingerprint.sh" "$repo/scripts/"
+  git -C "$repo" init -q -b main
+  git -C "$repo" -c user.name=t -c user.email=t@example.invalid add -A
+  git -C "$repo" -c user.name=t -c user.email=t@example.invalid commit -q -m base
+  git -C "$repo" update-ref refs/remotes/origin/main HEAD
+  printf '#!/usr/bin/env bats\n@test "one" { true; }\n' > "$repo/tests/test-low.bats"
+  git -C "$repo" -c user.name=t -c user.email=t@example.invalid add -A
+  git -C "$repo" -c user.name=t -c user.email=t@example.invalid commit -q -m low
+  echo "$repo"
+}
+
+@test "g6b reports the real (non-zero) score of a low-quality changed file" {
+  local repo; repo=$(g6b_repo)
+  local expected
+  expected=$(cd "$repo" && bash scripts/test-auditor.sh tests/test-low.bats 2>/dev/null \
+    | python3 -c "import json,sys; print(json.load(sys.stdin)['total'])")
+  [ "$expected" -gt 0 ]
+  [ "$expected" -lt 80 ]
+  run bash -c "cd '$repo' && ROOT='$repo' && source '$BATS_TEST_DIRNAME/../$GATES' && g6b"
+  [[ "$output" == *"FAIL: test quality below 80"* ]]
+  [[ "$output" == *"tests/test-low.bats=$expected"* ]]
+}
+
+@test "g6b skips when no .bats changed (empty diff)" {
+  local repo; repo=$(g6b_repo)
+  git -C "$repo" update-ref refs/remotes/origin/main HEAD
+  run bash -c "cd '$repo' && ROOT='$repo' && source '$BATS_TEST_DIRNAME/../$GATES' && g6b"
+  [[ "$output" == *"skipped"* ]]
+}
