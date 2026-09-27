@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 set -uo pipefail
+[[ -n "${LC_ALL:-}" ]] && { export LANG="$LC_ALL"; unset LC_ALL; }; export LC_NUMERIC=C  # punto decimal fijo (es_ES usa coma); LC_ALL anularía LC_NUMERIC
 # bench-match.sh — SE-022 Resource Bench Management
 #
 # Encuentra recursos disponibles que coincidan con skills requeridas.

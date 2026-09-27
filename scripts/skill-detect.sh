@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 set -uo pipefail
+[[ -n "${LC_ALL:-}" ]] && { export LANG="$LC_ALL"; unset LC_ALL; }; export LC_NUMERIC=C  # punto decimal fijo (es_ES usa coma); LC_ALL anularía LC_NUMERIC
 # skill-detect.sh — SE-030: Skill Self-Improvement Pipeline
 #
 # Detects repeated patterns in skill invocations, proposes new skills,

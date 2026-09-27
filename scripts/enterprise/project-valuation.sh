@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 set -uo pipefail
+[[ -n "${LC_ALL:-}" ]] && { export LANG="$LC_ALL"; unset LC_ALL; }; export LC_NUMERIC=C  # punto decimal fijo (es_ES usa coma); LC_ALL anularía LC_NUMERIC
 # project-valuation.sh — SE-016 Project Valuation (Business-Case-as-Code)
 #
 # Calcula el valor de negocio de un proyecto (NPV, IRR, payback, risk-adjusted).
