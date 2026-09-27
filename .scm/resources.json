@@ -1,6 +1,6 @@
 {
-  "hash": "cf2eae1de649",
-  "total": 1472,
+  "hash": "178bcdee1975",
+  "total": 1450,
   "resources": [
     {
       "category": "analysis",
@@ -123,34 +123,6 @@
       "kind": "script",
       "path": "scripts/agent-depth-limit.sh",
       "description": "agent-depth-limit.sh — SE-270 Slice 4: Build agent invocation graph and check depth."
-    },
-    {
-      "category": "analysis",
-      "name": "agent-discipline-audit",
-      "intents": [
-        "agent",
-        "audit",
-        "discipline",
-        "maxsteps",
-        "model"
-      ],
-      "kind": "script",
-      "path": "scripts/agent-discipline-audit.sh",
-      "description": "agent-discipline-audit.sh — SE-270 Slice 4: Audit agent model tier → maxSteps recommendations."
-    },
-    {
-      "category": "analysis",
-      "name": "agent-effort-meter",
-      "intents": [
-        "actual",
-        "agent",
-        "count",
-        "effort",
-        "measure"
-      ],
-      "kind": "script",
-      "path": "scripts/agent-effort-meter.sh",
-      "description": "agent-effort-meter.sh — SE-272 Slice 3: Measure actual work not ticket count"
     },
     {
       "category": "analysis",
@@ -280,34 +252,6 @@
     },
     {
       "category": "analysis",
-      "name": "agent-permission-audit",
-      "intents": [
-        "agent",
-        "audit",
-        "declarations",
-        "permission",
-        "slice"
-      ],
-      "kind": "script",
-      "path": "scripts/agent-permission-audit.sh",
-      "description": "agent-permission-audit.sh — SE-270 Slice 4: Audit permission.task declarations."
-    },
-    {
-      "category": "analysis",
-      "name": "agent-recurrence-report",
-      "intents": [
-        "agent",
-        "identifies",
-        "recurrence",
-        "recurring",
-        "report"
-      ],
-      "kind": "script",
-      "path": "scripts/agent-recurrence-report.sh",
-      "description": "agent-recurrence-report.sh — SE-272 Slice 3: Identifies recurring agent requests"
-    },
-    {
-      "category": "analysis",
       "name": "agent-request-validate",
       "intents": [
         "agent",
@@ -429,20 +373,6 @@
       "kind": "script",
       "path": "scripts/agent-size-remediation-plan.sh",
       "description": "agent-size-remediation-plan.sh — SE-052 Slice 1 agent-size analyzer."
-    },
-    {
-      "category": "analysis",
-      "name": "agent-sla-router",
-      "intents": [
-        "agent",
-        "differentiated",
-        "origin",
-        "router",
-        "type"
-      ],
-      "kind": "script",
-      "path": "scripts/agent-sla-router.sh",
-      "description": "agent-sla-router.sh — SE-272 S3: Differentiated SLA by origin type"
     },
     {
       "category": "analysis",
@@ -1056,20 +986,6 @@
       "kind": "script",
       "path": "scripts/turn-sdlc-report.sh",
       "description": "turn-sdlc-report.sh — SE-336 S4: reporte Turn-SDLC por ventana"
-    },
-    {
-      "category": "analysis",
-      "name": "vaults-health-report",
-      "intents": [
-        "health",
-        "quality",
-        "report",
-        "vault",
-        "vaults"
-      ],
-      "kind": "script",
-      "path": "scripts/vaults-health-report.sh",
-      "description": "vaults-health-report.sh — Quality and health report for a vault"
     },
     {
       "category": "analysis",
@@ -5455,19 +5371,6 @@
     },
     {
       "category": "development",
-      "name": "vaults-introspect",
-      "intents": [
-        "introspect",
-        "saviavaults",
-        "vault",
-        "vaults"
-      ],
-      "kind": "script",
-      "path": "scripts/vaults-introspect.sh",
-      "description": "vaults-introspect.sh — Introspect a SaviaVaults vault"
-    },
-    {
-      "category": "development",
       "name": "verification-middleware",
       "intents": [
         "checks",
@@ -5728,20 +5631,6 @@
       "kind": "script",
       "path": "scripts/corporate/engagement-evidence-package.sh",
       "description": "engagement-evidence-package.sh — SE-271 S6 Per-Client Compliance Evidence Package"
-    },
-    {
-      "category": "governance",
-      "name": "corporate/enterprise-compliance-wire",
-      "intents": [
-        "compliance",
-        "enterprise",
-        "existing",
-        "scripts",
-        "wire"
-      ],
-      "kind": "script",
-      "path": "scripts/corporate/enterprise-compliance-wire.sh",
-      "description": "enterprise-compliance-wire.sh — SE-271 S6 Wire Existing Enterprise Compliance Scripts"
     },
     {
       "category": "governance",
@@ -7418,20 +7307,6 @@
     },
     {
       "category": "memory",
-      "name": "vaults-context-load",
-      "intents": [
-        "context",
-        "fallback",
-        "load",
-        "loading",
-        "saviavaults"
-      ],
-      "kind": "script",
-      "path": "scripts/vaults-context-load.sh",
-      "description": "vaults-context-load.sh — Context loading via SaviaVaults with fallback"
-    },
-    {
-      "category": "memory",
       "name": "vaults-freshness",
       "intents": [
         "check",
@@ -8458,18 +8333,6 @@
     },
     {
       "category": "planning",
-      "name": "changelog-assemble",
-      "intents": [
-        "assemble",
-        "changelog",
-        "fragments"
-      ],
-      "kind": "script",
-      "path": "scripts/changelog-assemble.sh",
-      "description": "changelog-assemble.sh — Assemble CHANGELOG.md from CHANGELOG.d/ fragments"
-    },
-    {
-      "category": "planning",
       "name": "changelog-fragment",
       "intents": [
         "changelog",
@@ -9070,19 +8933,6 @@
       "kind": "script",
       "path": "scripts/corporate-no-write-assert.sh",
       "description": "corporate-no-write-assert.sh — SE-271 S5: Assert no corp input → instance write"
-    },
-    {
-      "category": "planning",
-      "name": "corporate/corporate-disconnect-drill",
-      "intents": [
-        "corporate",
-        "disconnect",
-        "drill",
-        "simulation"
-      ],
-      "kind": "script",
-      "path": "scripts/corporate/corporate-disconnect-drill.sh",
-      "description": "corporate-disconnect-drill.sh — SE-271 S7 Disconnect Simulation Drill"
     },
     {
       "category": "planning",
@@ -9784,20 +9634,6 @@
     },
     {
       "category": "planning",
-      "name": "enterprise-reconcile",
-      "intents": [
-        "adapted",
-        "archived",
-        "classify",
-        "enterprise",
-        "reconcile"
-      ],
-      "kind": "script",
-      "path": "scripts/enterprise-reconcile.sh",
-      "description": "enterprise-reconcile.sh — SE-271 S4: Classify enterprise scripts into wired/adapted/archived"
-    },
-    {
-      "category": "planning",
       "name": "enterprise/bench-match",
       "intents": [
         "bench",
@@ -10303,20 +10139,6 @@
       "kind": "script",
       "path": "scripts/ext-platform-gate.sh",
       "description": "ext-platform-gate.sh — SE-272 Slice 4: Enforce asymmetry for external platforms"
-    },
-    {
-      "category": "planning",
-      "name": "ext-platform-resilience",
-      "intents": [
-        "external",
-        "platform",
-        "platforms",
-        "resilience",
-        "slice"
-      ],
-      "kind": "script",
-      "path": "scripts/ext-platform-resilience.sh",
-      "description": "ext-platform-resilience.sh — SE-272 Slice 4: Resilience for external platforms"
     },
     {
       "category": "planning",
@@ -12423,20 +12245,6 @@
     },
     {
       "category": "planning",
-      "name": "overnight-roadmap-runner",
-      "intents": [
-        "loop",
-        "overnight",
-        "roadmap",
-        "runner",
-        "sprint"
-      ],
-      "kind": "script",
-      "path": "scripts/overnight-roadmap-runner.sh",
-      "description": "overnight-roadmap-runner.sh — wrapper del overnight-sprint-loop (SE-226)"
-    },
-    {
-      "category": "planning",
       "name": "overnight-sprint",
       "intents": [
         "autónoma",
@@ -12691,20 +12499,6 @@
       "kind": "script",
       "path": "scripts/pre-tribunal-gates.sh",
       "description": "pre-tribunal-gates.sh — SE-251: deterministic pre-tribunal gates"
-    },
-    {
-      "category": "planning",
-      "name": "prime-agent-eval-gate",
-      "intents": [
-        "agent",
-        "arranque",
-        "crit",
-        "eval",
-        "gate"
-      ],
-      "kind": "script",
-      "path": "scripts/prime-agent-eval-gate.sh",
-      "description": "prime-agent-eval-gate.sh — SE-347 gate de arranque CRIT-001-strict"
     },
     {
       "category": "planning",
@@ -14123,20 +13917,6 @@
     },
     {
       "category": "planning",
-      "name": "skills-collision-detect",
-      "intents": [
-        "collision",
-        "description",
-        "detect",
-        "detection",
-        "skill"
-      ],
-      "kind": "script",
-      "path": "scripts/skills-collision-detect.sh",
-      "description": "skills-collision-detect.sh — SE-270 Slice 1 — Skill description collision detection"
-    },
-    {
-      "category": "planning",
       "name": "skills-md-generate",
       "intents": [
         "across",
@@ -14778,20 +14558,6 @@
       "kind": "script",
       "path": "scripts/sync-model-tiers.sh",
       "description": "sync-model-tiers.sh — RETIRED (2026-09-26)."
-    },
-    {
-      "category": "planning",
-      "name": "sync-tags-from-changelog",
-      "intents": [
-        "changelog",
-        "create",
-        "missing",
-        "sync",
-        "tags"
-      ],
-      "kind": "script",
-      "path": "scripts/sync-tags-from-changelog.sh",
-      "description": "sync-tags-from-changelog.sh — Create missing git tags from CHANGELOG.md"
     },
     {
       "category": "planning",
@@ -15574,20 +15340,6 @@
     },
     {
       "category": "planning",
-      "name": "validate-settings-local",
-      "intents": [
-        "data",
-        "detect",
-        "json",
-        "local",
-        "private"
-      ],
-      "kind": "script",
-      "path": "scripts/validate-settings-local.sh",
-      "description": "validate-settings-local.sh — Detect private/session data in settings.local.json"
-    },
-    {
-      "category": "planning",
       "name": "vault",
       "intents": [
         "dispatcher",
@@ -15695,20 +15447,6 @@
       "kind": "script",
       "path": "scripts/vaults-nextcloud-setup.sh",
       "description": "vaults-nextcloud-setup.sh — Configurar credenciales Nextcloud para backups"
-    },
-    {
-      "category": "planning",
-      "name": "vaults-validate",
-      "intents": [
-        "against",
-        "documents",
-        "entity",
-        "schemas",
-        "validate"
-      ],
-      "kind": "script",
-      "path": "scripts/vaults-validate.sh",
-      "description": "vaults-validate.sh — Validate documents against entity schemas"
     },
     {
       "category": "planning",
@@ -16283,20 +16021,6 @@
       "kind": "script",
       "path": "scripts/corporate/corporate-attestation-queue.sh",
       "description": "corporate-attestation-queue.sh — SE-271 S7 Attestation Queue (Offline → Online)"
-    },
-    {
-      "category": "quality",
-      "name": "corporate/engagement-audit-answer",
-      "intents": [
-        "answer",
-        "audit",
-        "auditor",
-        "canonical",
-        "engagement"
-      ],
-      "kind": "script",
-      "path": "scripts/corporate/engagement-audit-answer.sh",
-      "description": "engagement-audit-answer.sh — SE-271 S6 Canonical Auditor Questions"
     },
     {
       "category": "quality",
@@ -16905,20 +16629,6 @@
       "kind": "script",
       "path": "scripts/knowledge-lint.sh",
       "description": "knowledge-lint.sh — LLM Wiki pattern: periodic knowledge base health check"
-    },
-    {
-      "category": "quality",
-      "name": "labs-self-audit",
-      "intents": [
-        "audit",
-        "comprobaciones",
-        "disciplina",
-        "labs",
-        "savia"
-      ],
-      "kind": "script",
-      "path": "scripts/labs-self-audit.sh",
-      "description": "labs-self-audit.sh — Comprobaciones de disciplina en Savia Labs"
     },
     {
       "category": "quality",
@@ -17814,20 +17524,6 @@
       "kind": "script",
       "path": "scripts/skill-maturity-audit.sh",
       "description": "skill-maturity-audit.sh — SE-167 Skill Maturity Kanban"
-    },
-    {
-      "category": "quality",
-      "name": "skills-depth-lint",
-      "intents": [
-        "depth",
-        "enforcement",
-        "level",
-        "lint",
-        "single"
-      ],
-      "kind": "script",
-      "path": "scripts/skills-depth-lint.sh",
-      "description": "skills-depth-lint.sh — SE-270 Slice 2 — Single-level depth enforcement"
     },
     {
       "category": "quality",
