@@ -46,7 +46,7 @@ die() { echo "ERROR: $*" >&2; exit 1; }
 extract_field() {
   local file="$1" field="$2"
   # Try YAML frontmatter (between --- markers)
-  awk '/^---/{f=!f; next} f && /^'"$field"':/{gsub(/^'"$field"':\s*/, ""); print; exit}' "$file" 2>/dev/null || true
+  awk '/^---/{f=!f; next} f && /^'"$field"':/{gsub(/^'"$field"':[ \t]*/, ""); print; exit}' "$file" 2>/dev/null || true
 }
 
 # Extract description (first paragraph after frontmatter)
