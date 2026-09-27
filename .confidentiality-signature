@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=6a9d55f1ce212070381734563e764a7eec5dd13ed478945e2fc125385c0a3c0f
-timestamp=2026-09-27T19:33:10Z
-branch=agent/eager-budget-spec181-20260927
-head_commit=91fb68c5
-signature=4caebdbdc12f47e1c4a50b32803377cf164339cd8a4ef107c2b0ec24873c0ffa
+diff_hash=c730b96e8d5140f276d29bdb6b2092bf0f8bd034ad552d5b7bd0066fc041a9b6
+timestamp=2026-09-27T20:00:39Z
+branch=agent/overnight-20260927-se405-observability
+head_commit=20595894
+signature=df23439aa28e73d7b86e374c8363fc31c7382cfc337d7250a3177cb470670483
