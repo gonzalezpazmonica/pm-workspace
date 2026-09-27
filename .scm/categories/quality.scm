@@ -1,5 +1,5 @@
 # quality — Savia Capability Map (L1)
-> 272 resources
+> 269 resources
 
 - **/speckit.analyze** (cmd): Alias spec-kit compatible. Review cruzado de una spec antes de implementar. Invoca skill consensus-validation. Compatible con github/spec-kit.
 - **Coherence Court** (cmd): Audit consistency of a stage output against premises fixed in earlier stages of the same flow (SE-350)
@@ -31,7 +31,6 @@
 - **corporate-attest** (script): corporate-attest.sh — SE-271 S5: Generate signed corporate attestation
 - **corporate-fleet-dashboard** (script): corporate-fleet-dashboard.sh — SE-271 S5: Derive fleet dashboard from attestations
 - **corporate/corporate-attestation-queue** (script): corporate-attestation-queue.sh — SE-271 S7 Attestation Queue (Offline → Online)
-- **corporate/engagement-audit-answer** (script): engagement-audit-answer.sh — SE-271 S6 Canonical Auditor Questions
 - **correctness-judge** (agent): Code Review Court judge — logic, tests, edge cases, error paths
 - **court-orchestrator** (agent): Convenes the Code Review Court, manages fix cycles, produces .review.crc
 - **court-review** (script): court-review.sh — Code Review Court orchestration helper
@@ -76,7 +75,6 @@
 - **iac-security-scanner** (skill): Usar cuando se escanea IaC (Terraform, Bicep, Dockerfile, docker-compose) con Trivy config para detectar misconfiguraciones de seguridad antes del merge.
 - **knowledge-lint** (cmd): Health check for the persistent knowledge base — detect orphans, stale refs, missing evidence
 - **knowledge-lint** (script): knowledge-lint.sh — LLM Wiki pattern: periodic knowledge base health check
-- **labs-self-audit** (script): labs-self-audit.sh — Comprobaciones de disciplina en Savia Labs
 - **layer-baseline-test** (script): layer-baseline-test.sh — SE-348: criterion 7 (falsability) for coordination layers
 - **legal-audit** (cmd): Auditoría de compliance legal contra legislación española (legalize-es)
 - **legal-compliance** (skill): Usar cuando se audita compliance legal contra legislación española consolidada.
@@ -146,7 +144,6 @@
 - **skill-catalog-audit** (script): skill-catalog-audit.sh — SE-084 Slice 1.
 - **skill-catalog-auditor** (script): skill-catalog-auditor.sh — SE-084 Slice 1 — Skill catalog quality auditor
 - **skill-maturity-audit** (script): skill-maturity-audit.sh — SE-167 Skill Maturity Kanban
-- **skills-depth-lint** (script): skills-depth-lint.sh — SE-270 Slice 2 — Single-level depth enforcement
 - **skills-lint** (script): skills-lint.sh — SE-270 Slice 1 — Skill description routing rule validator
 - **skills-overlap-audit** (script): skills-overlap-audit.sh — SE-270 Slice 3 — Skill description similarity matrix
 - **skills-tier-audit** (script): skills-tier-audit.sh — SE-270 Slice 2 — Skill tier assignment audit

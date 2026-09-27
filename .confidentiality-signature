@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=10e7eb03627d283c3a1d4f1c7e202fa8ea69f45196851f0409859b6cd13d6f0b
-timestamp=2026-09-27T18:03:47Z
-branch=agent/sovereignty-classifier-fp-20260927
-head_commit=3c7e9393
-signature=4f06a6ade7446aad7ec5f13672ee234ce5b45b4afe0ed88b636253de6f4943d5
+diff_hash=fbc66b89ef7d9b24e4643e3f33a64e71e94c300f7aadd2b99b8ef969840284f5
+timestamp=2026-09-27T18:46:25Z
+branch=agent/entropy-consolidation-20260927
+head_commit=fc82fa39
+signature=d778f955df769521112901a41c7a13a90b093a8665f75b994a6a57e3ea05954b

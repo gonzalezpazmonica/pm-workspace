@@ -1,6 +1,9 @@
 # SE-271 — Savia Corporate
 
 **Status:** PROPOSED · **Fecha:** 2026-07-25 · **Branch:** agent/se271-savia-corporate
+
+> **2026-09-27 — implementación prematura retirada.** Los scripts de esta spec se habían mergeado sin aprobación (Rule 8) y sin ningún llamador; se retiraron en la consolidación de entropía SE-380. La spec sigue PROPOSED; recuperables desde git si se aprueba.
+
 **Estimacion:** ~58h (7 slices) · **Base:** HEAD b415ba81
 
 ## Principio rector

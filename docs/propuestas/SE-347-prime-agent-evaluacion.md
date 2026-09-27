@@ -5,6 +5,9 @@ status: PROPOSED
 priority: baja
 ---
 
+> **2026-09-27 — implementación prematura retirada.** Los scripts de esta spec se habían mergeado sin aprobación (Rule 8) y sin ningún llamador; se retiraron en la consolidación de entropía SE-380. La spec sigue PROPOSED; recuperables desde git si se aprueba.
+
+
 # SE-347 — Evaluación controlada de Prime Agent (RLM self-hosted)
 
 **Status:** PROPOSED

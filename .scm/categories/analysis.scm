@@ -1,5 +1,5 @@
 # analysis — Savia Capability Map (L1)
-> 80 resources
+> 74 resources
 
 - **Trace Optimize** (cmd): Optimize trace spans and sampling rates across distributed services
 - **agent-activity** (cmd): Show structured activity log of recent agent executions
@@ -10,8 +10,6 @@
 - **agent-cost** (cmd): Coste estimado de uso de agentes por sprint/proyecto
 - **agent-degradation-canary** (script): agent-degradation-canary.sh — SE-040
 - **agent-depth-limit** (script): agent-depth-limit.sh — SE-270 Slice 4: Build agent invocation graph and check depth.
-- **agent-discipline-audit** (script): agent-discipline-audit.sh — SE-270 Slice 4: Audit agent model tier → maxSteps recommendations.
-- **agent-effort-meter** (script): agent-effort-meter.sh — SE-272 Slice 3: Measure actual work not ticket count
 - **agent-escalation-gate** (script): agent-escalation-gate.sh — SE-272 S3: Declared thresholds per request type
 - **agent-file-map** (skill): Usar cuando se trabaja con ficheros externos al workspace que los agentes deben localizar.
 - **agent-gate** (script): agent-gate.sh — SE-216 Slice 2: inherited quality gates for agent runs
@@ -21,8 +19,6 @@
 - **agent-memory** (cmd): Inspect and manage persistent memory fragments for subagents.
 - **agent-messaging** (skill): Usar cuando un agente debe enviar un mensaje a otro agente con roles y receipts, sin pasar por el usuario. Triggers: mensaje a otro agente, agent-message, notify agent, inbox.
 - **agent-messaging** (script): agent-messaging.sh — Bus de mensajería local agente→agente (SE-347 lección PMA)
-- **agent-permission-audit** (script): agent-permission-audit.sh — SE-270 Slice 4: Audit permission.task declarations.
-- **agent-recurrence-report** (script): agent-recurrence-report.sh — SE-272 Slice 3: Identifies recurring agent requests
 - **agent-request-validate** (script): agent-request-validate.sh — SE-272 Slice 3: Validate incoming request origin
 - **agent-run** (cmd): Launch a Claude agent on a Spec or batch of pending specs
 - **agent-run-log** (script): agent-run-log.sh — SE-217 Slice 1: append-only agent experiment log
@@ -32,7 +28,6 @@
 - **agent-scratchpad** (script): agent-scratchpad.sh — SE-216 Slice 1: shared state document for parallel agents
 - **agent-size-audit** (script): agent-size-audit.sh — SE-038 Slice 1 probe: measure size of every agent.
 - **agent-size-remediation-plan** (script): agent-size-remediation-plan.sh — SE-052 Slice 1 agent-size analyzer.
-- **agent-sla-router** (script): agent-sla-router.sh — SE-272 S3: Differentiated SLA by origin type
 - **agent-surface-guard** (script): agent-surface-guard.sh — SE-217 Slice 3: declared editable surface for agent runs
 - **agent-tick** (script): agent-tick.sh — SE-219 S5: light/heavy tick separation (abtop tick_no_summaries pattern)
 - **agent-time-budget** (script): agent-time-budget.sh — SE-217 Slice 2: time-budgeted command runner
@@ -79,5 +74,4 @@
 - **trace-pattern-extractor** (script): trace-pattern-extractor.sh — SPEC-044 Phase 1: analyze agent traces
 - **truth-tribunal** (script): truth-tribunal.sh — Orchestrate 7-judge reliability evaluation of reports.
 - **turn-sdlc-report** (script): turn-sdlc-report.sh — SE-336 S4: reporte Turn-SDLC por ventana
-- **vaults-health-report** (script): vaults-health-report.sh — Quality and health report for a vault
 - **weekly-report** (skill): Usar cuando se genera el informe semanal de estado del proyecto.

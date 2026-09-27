@@ -1,5 +1,5 @@
 # planning — Savia Capability Map (L1)
-> 640 resources
+> 630 resources
 
 - **/decide-architecture** (cmd): Clasifica una tarea como WORKFLOW (deterministica) o AGENT (loop). Bias hacia workflow per Anthropic. Sugiere plantilla inicial. Mide accuracy contra corpus curado de 20 tareas.
 - **_template** (skill): TEMPLATE — copia este directorio para crear una skill nueva. NO se carga en runtime.
@@ -75,7 +75,6 @@
 - **catalog** (cmd): Busca comandos en catálogo extendido por keyword o área
 - **ceo-alerts** (cmd): Panel de alertas estratégicas para dirección — solo decisiones que requieren nivel C
 - **ceremony-health** (cmd): Métricas de salud de ceremonias — duración, participación, resolution rate
-- **changelog-assemble** (script): changelog-assemble.sh — Assemble CHANGELOG.md from CHANGELOG.d/ fragments
 - **changelog-fragment** (script): changelog-fragment.sh — create a CHANGELOG fragment for the current PR
 - **check-daemon-auth** (script): check-daemon-auth.sh
 - **checkpoint** (script): SE-387 C/F4 — Durable orchestration checkpoint (local, ~/.savia/checkpoints/).
@@ -122,7 +121,6 @@
 - **corporate-ledger-verify** (script): corporate-ledger-verify.sh — SE-271 S2
 - **corporate-monotonicity-gate** (script): corporate-monotonicity-gate.sh — SE-271 S1
 - **corporate-no-write-assert** (script): corporate-no-write-assert.sh — SE-271 S5: Assert no corp input → instance write
-- **corporate/corporate-disconnect-drill** (script): corporate-disconnect-drill.sh — SE-271 S7 Disconnect Simulation Drill
 - **corporate/corporate-resilience-check** (script): corporate-resilience-check.sh — SE-271 S7 Local Resilience Assessment
 - **cost-center** (cmd): Cost management and billing — timesheets, budgets, forecasting, invoicing
 - **cost-management** (skill): Usar cuando se gestionan timesheets, presupuestos, facturas o forecasting de costes.
@@ -177,7 +175,6 @@
 - **ensure-daemons-auth** (script): ensure-daemons-auth.sh
 - **enterprise-analytics** (skill): Usar cuando se necesitan métricas SPACE, aggregación de portfolio o forecasting empresarial.
 - **enterprise-onboarding** (skill): Usar cuando se incorporan múltiples personas a la organización de forma masiva.
-- **enterprise-reconcile** (script): enterprise-reconcile.sh — SE-271 S4: Classify enterprise scripts into wired/adapted/archived
 - **enterprise/bench-match** (script): bench-match.sh — SE-022 Resource Bench Management
 - **enterprise/bench-register** (script): bench-register.sh — SE-022 Resource Bench Management
 - **enterprise/billing-milestone** (script): billing-milestone.sh — SE-018 Project Billing (IFRS 15)
@@ -217,7 +214,6 @@
 - **ext-platform-card-validate** (script): ext-platform-card-validate.sh — SE-272 Slice 4: Validate external platform card
 - **ext-platform-export-gate** (script): ext-platform-export-gate.sh — SE-272 Slice 4: Export gate for external platforms
 - **ext-platform-gate** (script): ext-platform-gate.sh — SE-272 Slice 4: Enforce asymmetry for external platforms
-- **ext-platform-resilience** (script): ext-platform-resilience.sh — SE-272 Slice 4: Resilience for external platforms
 - **f5-state** (script): f5-state.sh — SE-387 C/F5: máquina de estados exactly-once para pr.merge.
 - **factuality-judge** (agent): Truth Tribunal judge — factual accuracy of claims against verifiable sources
 - **federation-discover** (script): federation-discover.sh — SCL-009: auto-descubrimiento de instancias federadas.
@@ -378,7 +374,6 @@
 - **otel-emit** (script): otel-emit.sh — SE-313 S1: emisor de eventos de telemetría estándar.
 - **oumi-probe** (script): oumi-probe.sh — SE-028 Slice 1 oumi integration viability probe.
 - **output-compress** (script): output-compress.sh — Compress verbose tool output (stdin -> stdout)
-- **overnight-roadmap-runner** (script): overnight-roadmap-runner.sh — wrapper del overnight-sprint-loop (SE-226)
 - **overnight-sprint** (skill): Usar cuando se quiere ejecutar tareas de bajo riesgo de forma autónoma durante la noche.
 - **overnight-sprint-loop** (script): scripts/overnight-sprint-loop.sh — SE-226: stateless overnight-sprint orchestrator
 - **overnight-sprint-state** (script): scripts/overnight-sprint-state.sh — SE-226: stateless-session loop state management
@@ -399,7 +394,6 @@
 - **pre-commit-sovereignty** (script): NOTE: -e omitted intentionally — grep returns 1 on no-match which would
 - **pre-output-validator** (script): pre-output-validator.sh — TTSR-inspired pre-output rule validator (SE-150)
 - **pre-tribunal-gates** (script): pre-tribunal-gates.sh — SE-251: deterministic pre-tribunal gates
-- **prime-agent-eval-gate** (script): prime-agent-eval-gate.sh — SE-347 gate de arranque CRIT-001-strict
 - **privacy-check-company** (script): privacy-check-company.sh — Privacy filter for company repo content
 - **probe-devops** (script): probe-devops.sh — diagnóstico de acceso a Azure DevOps usando la
 - **product-discovery** (skill): Usar antes de descomponer PBIs, cuando se necesita análisis JTBD y PRD del producto.
@@ -509,7 +503,6 @@
 - **skill-read** (cmd): Carga el contenido completo de un skill bajo demanda (progressive disclosure)
 - **skill-routing-index** (script): skill-routing-index.sh — SE-152
 - **skill-suggest** (script): skill-suggest.sh — Proactive skill suggestion hook (SE-276)
-- **skills-collision-detect** (script): skills-collision-detect.sh — SE-270 Slice 1 — Skill description collision detection
 - **skills-md-generate** (script): Force C locale for deterministic sort + awk text handling across machines
 - **skills-schema-generate** (script): skills-schema-generate.sh
 - **skillssh-adapter** (script): ── skills.sh Adapter — Genera paquetes publicables para skills.sh ──
@@ -558,7 +551,6 @@
 - **sync-calendars** (cmd): Sincronizar disponibilidad entre calendarios de dos tenants Microsoft 365
 - **sync-github-metadata** (script): sync-github-metadata.sh — Update GitHub repo metadata
 - **sync-model-tiers** (script): sync-model-tiers.sh — RETIRED (2026-09-26).
-- **sync-tags-from-changelog** (script): sync-tags-from-changelog.sh — Create missing git tags from CHANGELOG.md
 - **tabular-analyst** (agent): Analisis estadistico de datos tabulares. Usar PROACTIVELY cuando: se reciben datos en CSV, Excel, tablas markdown, o JSON arrays con >5 filas. Produce perfil estadistico y resumen para LLM.
 - **tabular-intelligence** (skill): Usar cuando se analizan datos tabulares (CSV, Excel, tablas, metricas). Triggers: 'analiza esta tabla', 'metricas del sprint', 'tendencia de', 'distribucion de', 'correlacion entre', 'KPIs', 'datos financieros', 'perfil estadistico', 'resum
 - **tabular-mcp-tool** (script): tabular-mcp-tool.sh — MCP tool: natural language query on tabular data
@@ -619,7 +611,6 @@
 - **validate-handoff-integrity** (script): SE-387 C/F3 — Handoff integrity.
 - **validate-layer-contract** (script): validate-layer-contract.sh — SE-001 layer contract validator
 - **validate-schema** (cmd): Validar schema de frontmatter y settings.json
-- **validate-settings-local** (script): validate-settings-local.sh — Detect private/session data in settings.local.json
 - **vault** (script): vault.sh — Personal Vault dispatcher (N3)
 - **vault-graph** (cmd): SE-325: adyacencia inline + relaciones tipadas del knowledge graph de SaviaVaults (extract/validate/traverse/query)
 - **vault-links** (script): vault-links.sh — SE-325: adyacencia inline + relaciones tipadas para SaviaVaults.
@@ -628,7 +619,6 @@
 - **vaults-export** (script): vaults-export.sh — Export vault with confidentiality filtering and signing
 - **vaults-graph-query** (script): vaults-graph-query.sh — Knowledge graph queries via SaviaVaults
 - **vaults-nextcloud-setup** (script): vaults-nextcloud-setup.sh — Configurar credenciales Nextcloud para backups
-- **vaults-validate** (script): vaults-validate.sh — Validate documents against entity schemas
 - **velocity-trend** (cmd): Tendencia de velocity con media móvil, detección de anomalías y factores explicativos
 - **verdict-path** (script): verdict-path.sh — SE-367: wrapper de verdict-path.py (attach/expand/
 - **verify-ledger-chain** (script): verify-ledger-chain.sh — SE-258 Slice 2
