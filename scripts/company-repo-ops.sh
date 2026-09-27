@@ -65,7 +65,7 @@ do_status() {
   if [ -f "$SCRIPTS_DIR/savia-branch.sh" ]; then
     local inbox_items
     inbox_items=$(bash "$SCRIPTS_DIR/savia-branch.sh" list "$local_path" "user/$handle" "inbox/unread" 2>/dev/null || echo "")
-    unread=$(echo "$inbox_items" | grep -c '\.md$' 2>/dev/null || echo "0")
+    unread=$(echo "$inbox_items" | grep -c '\.md$' 2>/dev/null || [ $? -eq 1 ] || echo 0)
   fi
   echo -e "  Inbox:   $unread unread message(s)"
 

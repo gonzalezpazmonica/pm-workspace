@@ -29,7 +29,7 @@ has "$ACF" "competency" "Ethical Awareness"
 
 # 4 levels each
 for level in "Básico" "Intermedio" "Avanzado" "Experto"; do
-  COUNT=$(grep -c "$level" "$ACF" 2>/dev/null || echo 0)
+  COUNT=$(grep -c "$level" "$ACF" 2>/dev/null || [ $? -eq 1 ] || echo 0)
   [ "$COUNT" -ge 6 ] && ok "Level '$level' appears ≥6 times" || fail "Level '$level' only $COUNT times"
 done
 

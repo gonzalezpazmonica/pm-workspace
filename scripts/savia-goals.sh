@@ -200,7 +200,7 @@ for l in open(sys.argv[1]):
 cmd_stat() {
   local goals hbs
   goals=$(ls "$GOALS_DIR"/*.json 2>/dev/null | wc -l)
-  hbs=$(grep -c . "$HB_FILE" 2>/dev/null || echo 0)
+  hbs=$(grep -c . "$HB_FILE" 2>/dev/null || [ $? -eq 1 ] || echo 0)
   echo "goals: $goals | heartbeats: $hbs | dir: $GOALS_DIR"
 }
 

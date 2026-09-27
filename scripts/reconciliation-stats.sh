@@ -106,9 +106,9 @@ if [[ "$REPORT_MODE" == "true" ]]; then
     echo "No reconciliation stats found at $STATS_FILE"
     exit 0
   fi
-  auto=$(grep -c '"bucket":"auto-resolve"' "$STATS_FILE" 2>/dev/null || echo 0)
-  evol=$(grep -c '"bucket":"evolution"' "$STATS_FILE" 2>/dev/null || echo 0)
-  conf=$(grep -c '"bucket":"conflict-doc"' "$STATS_FILE" 2>/dev/null || echo 0)
+  auto=$(grep -c '"bucket":"auto-resolve"' "$STATS_FILE" 2>/dev/null || [ $? -eq 1 ] || echo 0)
+  evol=$(grep -c '"bucket":"evolution"' "$STATS_FILE" 2>/dev/null || [ $? -eq 1 ] || echo 0)
+  conf=$(grep -c '"bucket":"conflict-doc"' "$STATS_FILE" 2>/dev/null || [ $? -eq 1 ] || echo 0)
   total=$((auto + evol + conf))
   echo "Reconciliation stats:"
   echo "  auto-resolve:  $auto"

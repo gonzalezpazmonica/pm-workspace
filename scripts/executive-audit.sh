@@ -53,7 +53,7 @@ fi
 REQUIRED_DOCS=("LICENSE" "README.md" "CHANGELOG.md" "CONTRIBUTING.md" "SECURITY.md")
 DOCS_PRESENT=0
 for d in "${REQUIRED_DOCS[@]}"; do [ -f "$ROOT/$d" ] && DOCS_PRESENT=$((DOCS_PRESENT + 1)); done
-CHANGELOG_ENTRIES=$(grep -c "^## \[" "$ROOT/CHANGELOG.md" 2>/dev/null || echo 0)
+CHANGELOG_ENTRIES=$(grep -c "^## \[" "$ROOT/CHANGELOG.md" 2>/dev/null || [ $? -eq 1 ] || echo 0)
 
 # Calculate Trust Score
 HEALTH_CONTRIB=$(( (HEALTH_SCORE * 20) / 100 ))
