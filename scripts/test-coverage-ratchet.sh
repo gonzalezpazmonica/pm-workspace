@@ -47,13 +47,16 @@ fi
 THRESHOLD=100
 if [[ -f "$CONF_FILE" ]]; then
   persisted=$(sed -n 's/^THRESHOLD=\([0-9][0-9]*\)[[:space:]]*$/\1/p' "$CONF_FILE" | head -1)
-  [[ -n "$persisted" ]] && THRESHOLD=$((10#$persisted))
+  [[ -n "$persisted" ]] || { echo "ERROR: $CONF_FILE sin THRESHOLD=<entero> válido" >&2; exit 2; }
+  THRESHOLD=$((10#$persisted))
+else
+  persisted=""
 fi
 
 # Persistir umbral explícito (RN-01: el umbral vive en conf y es no-decreciente;
 # bajarlo exige editar el conf en un PR revisado, no un flag).
 if $PERSIST; then
-  if (( THRESHOLD_ARG < THRESHOLD )); then
+  if [[ -n "$persisted" ]] && (( THRESHOLD_ARG < THRESHOLD )); then
     echo "ERROR: RN-01 — el umbral no baja por flag ($THRESHOLD_ARG < $THRESHOLD persistido en $CONF_FILE)" >&2
     exit 2
   fi
@@ -73,6 +76,8 @@ while IFS= read -r line || [[ -n "$line" ]]; do
 done < "$CRITICAL_FILE"
 
 total=${#hooks[@]}
+# Una allowlist vacía no mide nada: fail-closed en vez de un 100% vacío.
+(( total > 0 )) || { echo "ERROR: $CRITICAL_FILE no lista ningún hook crítico" >&2; exit 2; }
 covered=0
 uncovered=()
 for h in "${hooks[@]}"; do
