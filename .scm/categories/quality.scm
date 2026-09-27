@@ -1,5 +1,5 @@
 # quality — Savia Capability Map (L1)
-> 269 resources
+> 268 resources
 
 - **/speckit.analyze** (cmd): Alias spec-kit compatible. Review cruzado de una spec antes de implementar. Invoca skill consensus-validation. Compatible con github/spec-kit.
 - **Coherence Court** (cmd): Audit consistency of a stage output against premises fixed in earlier stages of the same flow (SE-350)
@@ -30,7 +30,6 @@
 - **confidentiality-sign** (script): confidentiality-sign.sh — Cryptographic signature for confidentiality audit
 - **corporate-attest** (script): corporate-attest.sh — SE-271 S5: Generate signed corporate attestation
 - **corporate-fleet-dashboard** (script): corporate-fleet-dashboard.sh — SE-271 S5: Derive fleet dashboard from attestations
-- **corporate/corporate-attestation-queue** (script): corporate-attestation-queue.sh — SE-271 S7 Attestation Queue (Offline → Online)
 - **correctness-judge** (agent): Code Review Court judge — logic, tests, edge cases, error paths
 - **court-orchestrator** (agent): Convenes the Code Review Court, manages fix cycles, produces .review.crc
 - **court-review** (script): court-review.sh — Code Review Court orchestration helper

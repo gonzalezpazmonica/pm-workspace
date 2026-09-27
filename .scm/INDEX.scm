@@ -1,6 +1,6 @@
 # Savia Capability Map — INDEX
-> hash: ebb071a55325 | resources: 1451
-> 295 commands · 139 skills · 90 agents · 927 scripts
+> hash: 5e94e560f209 | resources: 1450
+> 295 commands · 139 skills · 90 agents · 926 scripts
 
 [analysis] Trace Optimize — across,distributed,optimize,rates,sampling — cmd:.claude/commands/trace-optimize.md
 [analysis] agent-activity — activity,agent,executions,recent,show — cmd:.claude/commands/agent-activity.md
@@ -1213,7 +1213,6 @@
 [quality] confidentiality-sign — audit,confidentiality,cryptographic,sign,signature — script:scripts/confidentiality-sign.sh
 [quality] corporate-attest — attest,attestation,corporate,generate,signed — script:scripts/corporate-attest.sh
 [quality] corporate-fleet-dashboard — attestations,corporate,dashboard,derive,fleet — script:scripts/corporate-fleet-dashboard.sh
-[quality] corporate/corporate-attestation-queue — attestation,corporate,offline,online,queue — script:scripts/corporate/corporate-attestation-queue.sh
 [quality] correctness-judge — cases,code,court,edge,error — agent:.opencode/agents/correctness-judge.md
 [quality] court-orchestrator — code,convenes,court,cycles,manages — agent:.opencode/agents/court-orchestrator.md
 [quality] court-review — code,court,helper,orchestration,review — script:scripts/court-review.sh

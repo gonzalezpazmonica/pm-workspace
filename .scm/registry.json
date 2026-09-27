@@ -24778,27 +24778,6 @@
       "frontend_support": [
         "opencode"
       ],
-      "id": "script:scripts/corporate/corporate-attestation-queue",
-      "intents": [
-        "attestation",
-        "corporate",
-        "offline",
-        "online",
-        "queue"
-      ],
-      "kind": "script",
-      "owner_domain": "quality",
-      "replaced_by": null,
-      "risk_level": null,
-      "source": "scripts/corporate/corporate-attestation-queue.sh",
-      "status": "active",
-      "tests": []
-    },
-    {
-      "depends_on": [],
-      "frontend_support": [
-        "opencode"
-      ],
       "id": "agent:.opencode/agents/correctness-judge",
       "intents": [
         "cases",
@@ -29625,7 +29604,7 @@
       "tests": []
     }
   ],
-  "content_hash": "30f39258ffea",
+  "content_hash": "4b8dd4ee6740",
   "deferred_kinds": [
     "rule",
     "hook"
