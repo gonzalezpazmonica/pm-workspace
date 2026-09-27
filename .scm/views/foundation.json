@@ -1,5 +1,1 @@
-<<<<<<< HEAD
-{"edge_ids":[],"limitations":["GENERATED_FROM_SAM","REPORT_ONLY"],"model_revision":"ff0d366e67ec65901d1d887f45e476e3329afb6a66399ce79e6d335c8678015a","node_ids":["evidence:sam-contract-tests","policy:human-control","system:savia"],"schema_version":2,"view":"foundation"}
-=======
-{"edge_ids":[],"limitations":["GENERATED_FROM_SAM","REPORT_ONLY"],"model_revision":"08120df46e13903f71ce221a92c5c6086e2f206747ea53283770b84f51ab94bd","node_ids":["evidence:sam-contract-tests","policy:human-control","system:savia"],"schema_version":2,"view":"foundation"}
->>>>>>> origin/agent/entropy-consolidation-20260927
+{"edge_ids":[],"limitations":["GENERATED_FROM_SAM","REPORT_ONLY"],"model_revision":"48b0eaf69ebcf6428b65a3e8c94280b0d0d41a007a58a0387e14a46a18577127","node_ids":["evidence:sam-contract-tests","policy:human-control","system:savia"],"schema_version":2,"view":"foundation"}
