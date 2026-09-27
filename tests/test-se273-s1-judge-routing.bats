@@ -10,6 +10,10 @@ setup() {
   ANTI_FATIGUE="$REPO_ROOT/scripts/judge-anti-fatigue.sh"
   AGENTS_DIR="$REPO_ROOT/.opencode/agents"
   TMPDIR=$(mktemp -d)
+  # Scripts that append to output/*.jsonl write here, never into the repo.
+  ISO_ROOT="$TMPDIR/root"
+  mkdir -p "$ISO_ROOT/config"
+  cp "$ROUTING" "$ISO_ROOT/config/judge-routing.yaml"
 }
 
 teardown() {
@@ -129,14 +133,15 @@ open('$TMPDIR/routing-missing.yaml', 'w').writelines(out)
 
 @test "trigger-detector: detects authority claims in output" {
   echo "Según la documentación oficial, el límite es 100 requests por minuto." > "$TMPDIR/output.txt"
-  run bash "$DETECTOR" "Task" "$TMPDIR/output.txt"
-  # May or may not trigger depending on exact match; at minimum script must not crash
-  [ "$status" -ge 0 ]
+  PROJECT_ROOT="$ISO_ROOT" run bash "$DETECTOR" "Task" "$TMPDIR/output.txt"
+  [ "$status" -eq 1 ]
+  [[ "$output" == *"authority-claim-judge"* ]]
+  grep -q '"authority-claim-judge"' "$ISO_ROOT/output/judge-triggers.jsonl"
 }
 
 @test "trigger-detector: detects source ingestion via WebFetch" {
   echo "some web content" > "$TMPDIR/output.txt"
-  run bash "$DETECTOR" "WebFetch" "$TMPDIR/output.txt"
+  PROJECT_ROOT="$ISO_ROOT" run bash "$DETECTOR" "WebFetch" "$TMPDIR/output.txt"
   [ "$status" -ge 1 ]  # source-traceability should fire for WebFetch
 }
 
@@ -146,19 +151,20 @@ The API version 2.3.1 was released on 2026-01-15.
 See https://example.com/docs for details.
 The response time is 150ms under load.
 EOF
-  run bash "$DETECTOR" "Task" "$TMPDIR/output.txt"
-  [ "$status" -ge 0 ]
+  PROJECT_ROOT="$ISO_ROOT" run bash "$DETECTOR" "Task" "$TMPDIR/output.txt"
+  [ "$status" -eq 1 ]
+  [[ "$output" == *"hallucination-fast-judge"* ]]
 }
 
 @test "trigger-detector: no false positive on plain text without facts" {
   echo "Hola, esto es un texto sin afirmaciones factuales verificables." > "$TMPDIR/output.txt"
-  run bash "$DETECTOR" "Task" "$TMPDIR/output.txt"
+  PROJECT_ROOT="$ISO_ROOT" run bash "$DETECTOR" "Task" "$TMPDIR/output.txt"
   [ "$status" -eq 0 ]
 }
 
 @test "trigger-detector: detects rule violation on governed paths" {
   echo "edit CLAUDE.md to change the rules" > "$TMPDIR/output.txt"
-  run bash "$DETECTOR" "Edit" "$TMPDIR/output.txt"
+  PROJECT_ROOT="$ISO_ROOT" run bash "$DETECTOR" "Edit" "$TMPDIR/output.txt"
   [ "$status" -ge 1 ]
 }
 
@@ -172,22 +178,86 @@ EOF
 }
 
 @test "AC-1.7: anti-fatigue record and check workflow" {
-  export SAVIA_ANTI_FATIGUE_MAX_IGNORED=2
-  export SAVIA_ANTI_FATIGUE_WINDOW_HOURS=1
-  TEST_LEDGER="$TMPDIR/anti-fatigue-ledger.jsonl"
-  
-  # Override ledger path for test
-  function do_record() {
-    local ts=$(date -u +%Y-%m-%dT%H:%M:%SZ)
-    echo "{\"ts\":\"$ts\",\"judge\":\"$1\",\"verdict_id\":\"$2\",\"action\":\"$3\"}" >> "$TEST_LEDGER"
-  }
-  
-  do_record "test-judge" "v001" "ignored"
-  do_record "test-judge" "v002" "ignored"
-  
-  # Should have 2 records
-  count=$(wc -l < "$TEST_LEDGER")
-  [ "$count" -eq 2 ]
+  export PROJECT_ROOT="$ISO_ROOT" SAVIA_ANTI_FATIGUE_MAX_IGNORED=2 SAVIA_ANTI_FATIGUE_WINDOW_HOURS=1
+  run bash "$ANTI_FATIGUE" record test-judge v001 ignored
+  [ "$status" -eq 0 ]
+  run bash "$ANTI_FATIGUE" check test-judge
+  [ "$status" -eq 0 ]
+  [[ "$output" == *"1/2"* ]]
+  run bash "$ANTI_FATIGUE" record test-judge v002 ignored
+  [ "$status" -eq 1 ]
+  run bash "$ANTI_FATIGUE" check test-judge
+  [ "$status" -eq 1 ]
+  [[ "$output" == *"ESCALATE"* ]]
+}
+
+@test "AC-1.7: reset clears the counter (human acknowledgment)" {
+  export PROJECT_ROOT="$ISO_ROOT" SAVIA_ANTI_FATIGUE_MAX_IGNORED=2 SAVIA_ANTI_FATIGUE_WINDOW_HOURS=1
+  bash "$ANTI_FATIGUE" record rj v1 ignored
+  bash "$ANTI_FATIGUE" record rj v2 ignored || true
+  run bash "$ANTI_FATIGUE" reset rj
+  [ "$status" -eq 0 ]
+  run bash "$ANTI_FATIGUE" check rj
+  [ "$status" -eq 0 ]
+  [[ "$output" == *"0/2"* ]]
+}
+
+@test "AC-1.7: summary counts verdicts only, not escalated/reset events" {
+  export PROJECT_ROOT="$ISO_ROOT" SAVIA_ANTI_FATIGUE_MAX_IGNORED=2 SAVIA_ANTI_FATIGUE_WINDOW_HOURS=1
+  bash "$ANTI_FATIGUE" record sj v1 ignored
+  bash "$ANTI_FATIGUE" record sj v2 ignored || true
+  bash "$ANTI_FATIGUE" record sk v1 acted
+  run bash "$ANTI_FATIGUE" summary
+  [ "$status" -eq 0 ]
+  [[ "$output" == *"sj"*"ignored=2 "* ]]
+  [[ "$output" == *"sk"*"acted=1"* ]]
+}
+
+@test "AC-1.7: a verdict_id named 'ignored' is not an ignored verdict" {
+  export PROJECT_ROOT="$ISO_ROOT" SAVIA_ANTI_FATIGUE_MAX_IGNORED=1
+  run bash "$ANTI_FATIGUE" record vj ignored acted
+  [ "$status" -eq 0 ]
+  run bash "$ANTI_FATIGUE" check vj
+  [ "$status" -eq 0 ]
+}
+
+@test "AC-1.7: record without judge → usage, exit 2 (no unbound variable)" {
+  export PROJECT_ROOT="$ISO_ROOT"
+  run bash "$ANTI_FATIGUE" record
+  [ "$status" -eq 2 ]
+  [[ "$output" != *"unbound"* && "$output" != *"sin asignar"* ]]
+}
+
+@test "AC-1.7: invalid action rejected (exit 2)" {
+  export PROJECT_ROOT="$ISO_ROOT"
+  run bash "$ANTI_FATIGUE" record j v1 acked
+  [ "$status" -eq 2 ]
+}
+
+@test "AC-1.7: non-integer threshold env rejected (exit 2)" {
+  export PROJECT_ROOT="$ISO_ROOT" SAVIA_ANTI_FATIGUE_MAX_IGNORED=abc
+  run bash "$ANTI_FATIGUE" check j
+  [ "$status" -eq 2 ]
+}
+
+@test "AC-1.7: empty ledger → summary reports no ledger (edge)" {
+  export PROJECT_ROOT="$ISO_ROOT"
+  run bash "$ANTI_FATIGUE" summary
+  [ "$status" -eq 0 ]
+  [[ "$output" == *"No anti-fatigue ledger"* ]]
+}
+
+@test "trigger-detector: no args → usage exit 2; empty input → no trigger" {
+  run bash "$DETECTOR"
+  [ "$status" -eq 2 ]
+  : > "$TMPDIR/empty.txt"
+  PROJECT_ROOT="$ISO_ROOT" run bash "$DETECTOR" "Task" "$TMPDIR/empty.txt"
+  [ "$status" -eq 0 ]
+}
+
+@test "detector y anti-fatigue declaran set -uo pipefail" {
+  head -3 "$DETECTOR" | grep -q 'set -uo pipefail'
+  head -3 "$ANTI_FATIGUE" | grep -q 'set -uo pipefail'
 }
 
 # ═════════════════════════════════════════════════════════════════════════
