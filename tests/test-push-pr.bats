@@ -121,3 +121,59 @@ res_dir_expr() { grep -oP '^\s*RES_DIR="\K[^"]+' "$PUSH_PR"; }
   [ "$grant_line" -lt "$res_line" ]
   [ "$tier_line" -lt "$res_line" ]
 }
+
+# ── Regression: silent exit when no feat/fix commit (2026-09-27) ─────────────
+# With `set -euo pipefail`, the title grep that finds no feat:/fix: commit made
+# the assignment fail and the script exited in Step 6 without creating the PR.
+
+make_repo() {
+  local r="$TESTDIR/repo" o="$TESTDIR/origin.git"
+  git init -q --bare "$o"
+  git init -q -b main "$r"
+  git -C "$r" config user.email t@t; git -C "$r" config user.name t
+  mkdir -p "$r/scripts"
+  cp "$BATS_TEST_DIRNAME/../scripts/push-pr.sh" "$r/scripts/"
+  printf '#!/usr/bin/env bash\necho sig > .confidentiality-signature; echo SIGNED\n' > "$r/scripts/confidentiality-sign.sh"
+  echo base > "$r/f.txt"; git -C "$r" add -A; git -C "$r" commit -qm "init"
+  git -C "$r" remote add origin "$o"; git -C "$r" push -q origin main
+  git -C "$r" checkout -q -b agent/x
+  echo change >> "$r/f.txt"; git -C "$r" commit -qam "agent(overnight): cambio sin prefijo feat/fix"
+  mkdir -p "$TESTDIR/bin"
+  cat > "$TESTDIR/bin/gh" <<'GH'
+#!/usr/bin/env bash
+echo "$*" >> "$GH_LOG"
+case "$1 $2" in
+  "auth status") exit 0 ;;
+  "pr list") echo "" ;;
+  "pr create") echo "https://github.com/o/r/pull/42" ;;
+esac
+GH
+  chmod +x "$TESTDIR/bin/gh"
+  echo "$r"
+}
+
+@test "regression: branch without feat/fix commits still creates the PR" {
+  r=$(make_repo)
+  export GH_LOG="$TESTDIR/gh.log"
+  cd "$r"
+  run env PATH="$TESTDIR/bin:$PATH" bash scripts/push-pr.sh --from-pr-plan --skip-ci --skip-changelog
+  [ "$status" -eq 0 ]
+  [[ "$output" == *"pull/42"* ]]
+  grep -q "pr create --title agent(overnight): cambio sin prefijo feat/fix" "$GH_LOG"
+}
+
+@test "regression: empty branch title falls back to the branch name, never empty" {
+  r=$(make_repo)
+  export GH_LOG="$TESTDIR/gh.log"
+  cd "$r"
+  git commit -q --allow-empty -m "Merge branch main"
+  git reset -q --soft HEAD~2 && git commit -qm "chore: only chores" && echo x >> f.txt && git commit -qam "chore: more"
+  run env PATH="$TESTDIR/bin:$PATH" bash scripts/push-pr.sh --from-pr-plan --skip-ci --skip-changelog
+  [ "$status" -eq 0 ]
+  grep -q "pr create --title agent/x" "$GH_LOG"
+}
+
+@test "pr-plan: success is detected by a /pull/N URL, not by any github.com line" {
+  grep -q 'grep -qE "/pull/\[0-9\]+"' "$BATS_TEST_DIRNAME/../scripts/pr-plan.sh"
+  ! grep -q 'grep -qE "https://github.com/"' "$BATS_TEST_DIRNAME/../scripts/pr-plan.sh"
+}

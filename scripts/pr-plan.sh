@@ -93,7 +93,9 @@ PUSH_CMD=(bash scripts/push-pr.sh --skip-changelog --skip-ci --from-pr-plan)
 [[ -n "$TITLE" ]] && PUSH_CMD+=(--title "$TITLE")
 PR_OUT=$("${PUSH_CMD[@]}" 2>&1) || true
 echo "$PR_OUT" | grep -E "(http|PR |Done)" | tail -3
-if ! echo "$PR_OUT" | grep -qE "https://github.com/"; then
+# A PR URL (/pull/N), not any github.com line: `git push` prints "To https://github.com/..."
+# and made a run that created no PR look successful.
+if ! echo "$PR_OUT" | grep -qE "/pull/[0-9]+"; then
   record_failure "push-pr" "PR creation failed" "scripts/push-pr.sh"
   echo "  FAILURE recorded — fix scripts/push-pr.sh and rerun /pr-plan"
 fi
