@@ -1,17 +1,17 @@
+---
+context_tier: L2
+token_budget: 1307
+---
 # Regla: Niveles de Confidencialidad y Destino de Informacion
 
 > **REGLA OBLIGATORIA** — Aplica siempre que Savia persista informacion.
 > Fecha: 2026-03-19
-
----
 
 ## Principio
 
 pm-workspace es software libre publicado en GitHub. Toda informacion persistida
 DEBE clasificarse por nivel de confidencialidad ANTES de escribirse. Cada nivel
 tiene un destino fisico y unas garantias de visibilidad diferentes.
-
----
 
 ## 5 Niveles de Confidencialidad
 
