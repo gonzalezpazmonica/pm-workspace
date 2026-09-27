@@ -10,7 +10,6 @@ metadata:
   savia.category: quality
   savia.context: fork
   savia.disable-model-invocation: false
-  savia.maturity: beta
   savia.priority: high
   savia.summary: "Busca en la web para resolver gaps de contexto: documentacion, versiones, CVEs, best practices. Auto-inicia SearxNG Docker si disponible, fallback a WebSearch. Cache local con TTL."
   savia.tags: "search, web, cache, searxng, citations, gap-detection"

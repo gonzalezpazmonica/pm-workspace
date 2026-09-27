@@ -6,11 +6,10 @@ allowed-tools: [Read, Grep, Bash]
 metadata:
   # --- metadata.savia.* (SE-333) ---
   savia.agent: any
-  savia.maturity: stable
+  savia.maturity: beta
   savia.category: quality
   savia.context: workspace
   savia.context_cost: low
-  savia.maturity: experimental
   savia.priority: high
   savia.summary: "Protocolo defensivo contra los tres patrones cognitivos dañinos: adulación refleja, cesión por presión conversacional, illusory truth. Reemplazos concretos para frases de adulación. Diff de evidencia obligatorio antes de cambiar de postura. Verificación tool-based obligatoria para claims repetidos del usuario."
   savia.tags: "sycophancy, illusory-truth, epistemic, honesty, spec-192"

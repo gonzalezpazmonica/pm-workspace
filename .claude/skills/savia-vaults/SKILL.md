@@ -5,9 +5,8 @@ description: "Usar cuando se interactua con SaviaVaults — cupulas de contexto,
 metadata:
   # --- metadata.savia.* (SE-333) ---
   savia.category: knowledge-management
-  savia.maturity: stable
+  savia.maturity: beta
   savia.context: project
-  savia.maturity: stable
   savia.priority: high
   savia.recommends: "context-dome, knowledge-graph, ubiquitous-language"
   savia.tags: "vaults, cupulas, contexto, federacion, mcp, a2a, backup, confidencialidad"

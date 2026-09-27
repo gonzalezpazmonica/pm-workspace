@@ -147,7 +147,8 @@ DOMAINEOF
 echo "Created: $SKILL_DIR/DOMAIN.md"
 
 # ── Generate placeholder test case ─────────────────────────────────────────────
-TEST_FILE="$ROOT/tests/test-se-270-skill-${SKILL_NAME}.bats"
+# SAVIA_SKILL_TESTS_DIR: override (tests del propio creador escriben en un temporal).
+TEST_FILE="${SAVIA_SKILL_TESTS_DIR:-$ROOT/tests}/test-se-270-skill-${SKILL_NAME}.bats"
 if [[ ! -f "$TEST_FILE" ]]; then
   cat > "$TEST_FILE" <<TESTEOF
 #!/usr/bin/env bats

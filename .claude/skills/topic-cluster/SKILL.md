@@ -10,7 +10,6 @@ metadata:
   savia.category: memory
   savia.context: fork
   savia.disable-model-invocation: false
-  savia.maturity: beta
   savia.priority: medium
   savia.summary: "Clustering tematico con BERTopic (UMAP+HDBSCAN+c-TF-IDF). Aplica sobre retros, backlogs, incidentes, lessons. Fallback keyword cuando bertopic no esta instalado. Output JSON con labels y keywords."
   savia.tags: "clustering, bertopic, retrospectives, patterns, memory"

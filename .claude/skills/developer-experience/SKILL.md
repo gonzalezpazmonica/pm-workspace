@@ -5,11 +5,10 @@ description: Usar cuando se mide o mejora la experiencia de desarrollo del equip
 metadata:
   # --- metadata.savia.* (SE-333) ---
   savia.agent: business-analyst
-  savia.maturity: stable
+  savia.maturity: beta
   savia.category: quality
   savia.context: fork
   savia.context_cost: medium
-  savia.maturity: stable
   savia.priority: medium
   savia.summary: "Framework DX Core 4 (Speed, Effectiveness, Quality, Impact) y metricas SPACE para medir experiencia del desarrollador. Output: scorecard DX + recomendaciones priorizadas."
   savia.tags: "dx, developer-experience, space, core4"

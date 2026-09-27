@@ -5,11 +5,10 @@ description: Usar cuando se sincroniza el repositorio SaviaHub con el workspace 
 metadata:
   # --- metadata.savia.* (SE-333) ---
   savia.agent: 
-  savia.maturity: stable
+  savia.maturity: beta
   savia.category: pm-operations
   savia.context: fork
   savia.context_cost: low
-  savia.maturity: stable
   savia.priority: medium
   savia.summary: "Orquesta sincronizacion del repositorio SaviaHub. Detecta cambios locales vs remotos, resuelve conflictos. Soporta modo offline con cola de sync."
   savia.tags: "sync, savia-hub, repository, backup"

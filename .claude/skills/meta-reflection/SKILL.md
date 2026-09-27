@@ -6,11 +6,10 @@ allowed-tools: [Read, Bash]
 metadata:
   # --- metadata.savia.* (SE-333) ---
   savia.agent: criterion-simulation-judge
-  savia.maturity: stable
+  savia.maturity: beta
   savia.category: governance
   savia.context: workspace
   savia.context_cost: high
-  savia.maturity: experimental
   savia.priority: high
   savia.summary: "Protocolo de meta-reflexion estructurado en 4 preguntas: Q1 encuadre vs problema real, Q2 precedentes historicos, Q3 estado del operador, Q4 reformulacion alternativa. Produce reafirmacion o reformulacion consciente. No es criterio real: heuristica de pausa declarada como tal."
   savia.tags: "meta-reflection, criterion-simulation, spec-194, frame, governance"

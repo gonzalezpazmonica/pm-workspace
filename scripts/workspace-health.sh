@@ -59,9 +59,9 @@ done
 CMD_COMPLETENESS=$(pct "$CMD_WITH_FM" "$TOTAL_COMMANDS")
 
 # 2. Maturity distribution
-STABLE=$(grep -rl "^maturity: stable" "$ROOT/.opencode/skills/"*/SKILL.md 2>/dev/null | wc -l)
-BETA=$(grep -rl "^maturity: beta" "$ROOT/.opencode/skills/"*/SKILL.md 2>/dev/null | wc -l)
-ALPHA=$(grep -rl "^maturity: alpha" "$ROOT/.opencode/skills/"*/SKILL.md 2>/dev/null | wc -l)
+STABLE=$(grep -rlE "^[[:space:]]*(savia\.)?maturity: stable" "$ROOT/.opencode/skills/"*/SKILL.md 2>/dev/null | wc -l)
+BETA=$(grep -rlE "^[[:space:]]*(savia\.)?maturity: beta" "$ROOT/.opencode/skills/"*/SKILL.md 2>/dev/null | wc -l)
+ALPHA=$(grep -rlE "^[[:space:]]*(savia\.)?maturity: alpha" "$ROOT/.opencode/skills/"*/SKILL.md 2>/dev/null | wc -l)
 MATURITY_SCORE=$(pct "$((STABLE * 3 + BETA * 2 + ALPHA * 1))" "$((TOTAL_SKILLS * 3))")
 
 # 3. Test coverage

@@ -13,6 +13,9 @@ setup() {
   ROOT="$(cd "$(dirname "${BATS_TEST_FILENAME}")/.." && pwd)"
   SAVIA_SKILLS_DIR="$TMPDIR/skills"
   mkdir -p "$SAVIA_SKILLS_DIR"
+  # Isolation: generated placeholder tests go to a temp dir, never the repo's tests/.
+  export SAVIA_SKILL_TESTS_DIR="$TMPDIR/tests"
+  mkdir -p "$SAVIA_SKILL_TESTS_DIR"
 }
 
 teardown() {
@@ -165,4 +168,11 @@ teardown() {
 @test "SE-270-S3: real skill-creator.sh runs successfully with --help" {
   run bash "$ROOT/$SCRIPT" --help
   [[ "$status" -eq 1 ]] || [[ "$output" =~ "Usage" ]]
+}
+
+@test "isolation: generated placeholder tests land in SAVIA_SKILL_TESTS_DIR, not tests/" {
+  SAVIA_SKILLS_DIR="$TMPDIR/skills" run bash "$ROOT/$SCRIPT" iso-check --description "Usar cuando se necesita verificar que el creador de skills no escribe tests en el repositorio durante la ejecucion."
+  [ "$status" -eq 0 ]
+  [ -f "$SAVIA_SKILL_TESTS_DIR/test-se-270-skill-iso-check.bats" ]
+  [ ! -e "$ROOT/tests/test-se-270-skill-iso-check.bats" ]
 }

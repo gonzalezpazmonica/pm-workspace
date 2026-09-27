@@ -5,10 +5,9 @@ description: Usar cuando se incorpora un desarrollador nuevo al proyecto y neces
 metadata:
   # --- metadata.savia.* (SE-333) ---
   savia.agent: tech-writer
-  savia.maturity: stable
+  savia.maturity: beta
   savia.category: sdd-framework
   savia.context: fork
-  savia.maturity: experimental
   savia.priority: medium
   savia.summary: "Onboarding tecnico con Buddy IA: auto-genera documentacion del proyecto, plan personalizado 30/60/90 y agente buddy de 3 capas. Input: nombre + rol. Output: guia + plan + buddy activo."
   savia.tags: "onboarding, buddy-ia, documentation, ramp-up"

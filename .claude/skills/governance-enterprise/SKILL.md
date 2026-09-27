@@ -5,12 +5,11 @@ description: "Revisa governance enterprise. Usar cuando se audita compliance o s
 metadata:
   # --- metadata.savia.* (SE-333) ---
   savia.agent: architect
-  savia.maturity: stable
+  savia.maturity: beta
   savia.category: governance
   savia.context: fork
   savia.context_cost: medium
   savia.dependencies: 
-  savia.maturity: stable
   savia.memory: project
   savia.priority: high
   savia.summary: "Gobernanza empresarial: audit trail, revisión preliminar de compliance y registro de decisiones."

@@ -5,8 +5,7 @@ description: Usar cuando se optimiza el orden de carga de contexto para maximiza
 metadata:
   # --- metadata.savia.* (SE-333) ---
   savia.category: quality
-  savia.maturity: stable
-  savia.maturity: stable
+  savia.maturity: beta
   savia.priority: medium
   savia.summary: "Optimiza orden de carga de contexto para prompt caching. 4 niveles: foundation -> project -> task -> dynamic. Objetivo: maximizar cache hits (-80% coste en tokens)."
   savia.tags: "caching, performance, tokens, cost-optimization"

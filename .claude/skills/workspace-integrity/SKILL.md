@@ -6,11 +6,10 @@ allowed-tools: [Bash, Read, Glob]
 metadata:
   # --- metadata.savia.* (SE-333) ---
   savia.agent: architect
-  savia.maturity: stable
+  savia.maturity: beta
   savia.category: quality
   savia.context: fork
   savia.disable-model-invocation: false
-  savia.maturity: stable
   savia.priority: medium
   savia.summary: "Aggregator skill listando 6 scripts de auditoria de integridad del workspace. Detectan drift entre docs y realidad, orphan rules, agents oversized, baseline stale."
   savia.tags: "integrity, audit, drift, workspace, hygiene"

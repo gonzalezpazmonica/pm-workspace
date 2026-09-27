@@ -5,12 +5,11 @@ description: "Usar cuando se necesitan métricas SPACE, aggregación de portfoli
 metadata:
   # --- metadata.savia.* (SE-333) ---
   savia.agent: architect
-  savia.maturity: stable
+  savia.maturity: beta
   savia.category: reporting
   savia.context: fork
   savia.context_cost: medium
   savia.dependencies: 
-  savia.maturity: beta
   savia.memory: project
   savia.priority: medium
   savia.summary: "Metricas empresariales: SPACE, agregacion de portfolio, salud de equipo, matriz de riesgo y forecasting. Para organizaciones con multiples proyectos. Output: dashboard ejecutivo."
