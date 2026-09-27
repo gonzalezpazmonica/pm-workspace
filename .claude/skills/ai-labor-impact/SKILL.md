@@ -5,12 +5,11 @@ description: Usar cuando se analiza el impacto de la IA en el trabajo del equipo
 metadata:
   # --- metadata.savia.* (SE-333) ---
   savia.agent: architect
-  savia.maturity: stable
+  savia.maturity: beta
   savia.category: quality
   savia.context: fork
   savia.context_cost: medium
   savia.dependencies: enterprise-analytics
-  savia.maturity: stable
   savia.memory: project
   savia.priority: low
   savia.summary: "Analisis de impacto de IA en roles laborales: auditoria de exposicion, planes de reskilling y previsiones de fuerza laboral. Input: perfil de equipo. Output: informe de exposicion por rol."

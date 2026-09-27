@@ -5,10 +5,9 @@ description: "Usar cuando se gestionan roles, permisos o se audita el acceso de 
 metadata:
   # --- metadata.savia.* (SE-333) ---
   savia.agent: architect
-  savia.maturity: stable
+  savia.maturity: beta
   savia.category: governance
   savia.context: fork
-  savia.maturity: stable
   savia.priority: high
   savia.summary: "Control de acceso basado en roles: grant, revoke, audit. Gestiona permisos por usuario/equipo/proyecto. Output: matriz de permisos + log de cambios."
   savia.tags: "rbac, permissions, roles, access-control"

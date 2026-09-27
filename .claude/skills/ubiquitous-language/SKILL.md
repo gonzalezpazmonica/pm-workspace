@@ -9,7 +9,6 @@ metadata:
   savia.category: ddd
   savia.context: project
   savia.context_cost: low
-  savia.maturity: stable
   savia.priority: medium
   savia.tags: "ddd, glossary, domain, context, ubiquitous-language"
 ---

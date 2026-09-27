@@ -5,10 +5,9 @@ description: Usar cuando se gestiona o depura CI/CD con Azure Pipelines.
 metadata:
   # --- metadata.savia.* (SE-333) ---
   savia.agent: azure-devops-operator
-  savia.maturity: stable
+  savia.maturity: beta
   savia.category: devops
   savia.context: fork
-  savia.maturity: stable
   savia.priority: medium
   savia.summary: "Gestion de CI/CD con Azure Pipelines: estado, ejecucion, creacion de pipelines, logs y artefactos. Autenticacion via PAT. Output: status + acciones."
   savia.tags: "pipelines, ci-cd, azure, deployment"

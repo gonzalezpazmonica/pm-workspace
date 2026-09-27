@@ -8,7 +8,6 @@ description: "TEMPLATE — copia este directorio para crear una skill nueva. NO 
 # y license/compatibility quedan top-level. Listas → join por coma.
 metadata:
   savia.maturity: "template"
-  savia.maturity: stable
   savia.context: "standalone"
   savia.context_cost: "low"
   savia.category: "meta"

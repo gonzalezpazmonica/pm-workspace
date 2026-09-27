@@ -10,7 +10,6 @@ metadata:
   savia.consumes: workspace_files
   savia.context: fork
   savia.context_cost: medium
-  savia.maturity: stable
   savia.priority: medium
   savia.produces: graph_db
   savia.summary: "Construye grafos de conocimiento de entidades PM y sus relaciones. Stakeholders, componentes, decisiones, dependencias. Consulta en lenguaje natural. Output: grafo Mermaid."

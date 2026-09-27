@@ -6,10 +6,9 @@ allowed-tools: [Bash, Read]
 metadata:
   # --- metadata.savia.* (SE-333) ---
   savia.agent: architect
-  savia.maturity: stable
+  savia.maturity: beta
   savia.category: resilience
   savia.context: global
-  savia.maturity: experimental
   savia.priority: high
   savia.summary: "SPEC-122 Slice 2: skill que documenta y orquesta el modo emergencia. Usa `scripts/localai-readiness-check.sh` para verificar el stack local antes de proponer el switchover. NO modifica variables de entorno automáticamente — solo emite el plan. Decisión del switchover es humana."
   savia.tags: "emergency, localai, sovereignty, spec-122"
