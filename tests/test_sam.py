@@ -126,6 +126,45 @@ class SamTest(unittest.TestCase):
         )
         self.assertEqual(prior_commit, current_commit)
 
+    def test_squash_with_unreachable_prior_commit_stays_fresh(self):
+        # CI clones main after a GitHub squash merge: the branch commit recorded
+        # as provenance no longer exists in the object store. That is missing
+        # evidence, not contradicting evidence, so the projection stays fresh.
+        tool = self.root / "scripts/tool.sh"
+        tool.write_bytes(tool.read_bytes() + b"# implementation\n")
+        self._git("add", "scripts/tool.sh")
+        self._git("commit", "-qm", "implementation")
+        generated = self._generate()
+        prior_commit = next(
+            item["source_commit"] for item in generated["inputs"]
+            if item["path"] == "scripts/tool.sh"
+        )
+        self._git("add", ".scm")
+        self._git("commit", "--amend", "-qm", "squashed implementation")
+        self._git("reflog", "expire", "--expire=now", "--all")
+        self._git("gc", "-q", "--prune=now")
+        missing = subprocess.run(["git", "cat-file", "-e", f"{prior_commit}^{{commit}}"],
+                                 cwd=self.root, stderr=subprocess.DEVNULL)
+        self.assertNotEqual(0, missing.returncode)
+        result = self._cli("check")
+        self.assertEqual(0, result.returncode, result.stdout + result.stderr)
+
+    def test_existing_prior_commit_with_other_content_is_refreshed(self):
+        # Generated before committing the input: the recorded commit exists but
+        # holds different bytes, so the provenance must move to the real commit.
+        tool = self.root / "scripts/tool.sh"
+        tool.write_bytes(tool.read_bytes() + b"# uncommitted\n")
+        self._generate()
+        self._git("add", "scripts/tool.sh")
+        self._git("commit", "-qm", "commit input after generation")
+        self.assertEqual(1, self._cli("check").returncode)
+        head = subprocess.run(["git", "rev-parse", "HEAD"], cwd=self.root, text=True,
+                              stdout=subprocess.PIPE, check=True).stdout.strip()
+        regenerated = self._generate()
+        commit = next(item["source_commit"] for item in regenerated["inputs"]
+                      if item["path"] == "scripts/tool.sh")
+        self.assertEqual(head, commit)
+
     def test_f3_reports_are_deterministic_and_trace_static_evidence(self):
         self._generate()
         reports = {

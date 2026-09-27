@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=fbc66b89ef7d9b24e4643e3f33a64e71e94c300f7aadd2b99b8ef969840284f5
-timestamp=2026-09-27T18:46:25Z
-branch=agent/entropy-consolidation-20260927
-head_commit=fc82fa39
-signature=d778f955df769521112901a41c7a13a90b093a8665f75b994a6a57e3ea05954b
+diff_hash=1c350715fe9c6c2f8920340fe44ebc5b3a7246869725b4143668589908f03dfa
+timestamp=2026-09-27T19:13:58Z
+branch=agent/triage-g4-20260927
+head_commit=6cfaf44f
+signature=20ecb3c80425550117ec29784e8b32d096ace28931e7f79c0b57385061ee5c6a
