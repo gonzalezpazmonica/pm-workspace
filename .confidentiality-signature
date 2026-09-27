@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=706ea9c11a5a982eccb0e0614e817d9522645a00795270302a7bb7c1869ceede
-timestamp=2026-09-26T22:57:48Z
-branch=agent/fix-push-pr-reservations
-head_commit=eacf5879
-signature=b4441c5082055ec7bdddf5f7ccfc12b40aec8349b5e49d251ed65a2be6fa2163
+diff_hash=8ba02feb23d626d11881ebad2835ef6715606079eaf672dd52a48835c4da00ee
+timestamp=2026-09-27T00:07:37Z
+branch=agent/fix-handoff-tests
+head_commit=33389904
+signature=aeeeb36bf6b3b745934ead439dedc787f5180a5a65f3efec061904d52a47e123
