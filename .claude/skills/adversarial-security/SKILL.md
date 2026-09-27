@@ -5,11 +5,10 @@ description: Usar cuando se necesita auditar la seguridad de un proyecto con pip
 metadata:
   # --- metadata.savia.* (SE-333) ---
   savia.agent: security-attacker
-  savia.maturity: stable
+  savia.maturity: beta
   savia.category: governance
   savia.context: fork
   savia.context_cost: medium
-  savia.maturity: stable
   savia.priority: high
   savia.summary: "Pipeline Red Team + Blue Team + Auditor independiente. Scoring CVSS, mapeo STRIDE, gap analysis. Output: informe con score 0-100 y recomendaciones."
   savia.tags: "security, adversarial, red-team, blue-team"

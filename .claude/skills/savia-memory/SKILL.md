@@ -6,7 +6,7 @@ license: MIT
 compatibility: opencode
 metadata:
   audience: pm
-  savia.maturity: stable
+  savia.maturity: beta
   workflow: memory-management
   # --- metadata.savia.* (SE-333) ---
   savia.consumes: session_data

@@ -39,9 +39,9 @@ for h in "$ROOT/.claude/hooks"/*.sh; do
 done
 CRED_HOOKS=$(find "$ROOT/.claude/hooks" -name "*pii*" -o -name "*credential*" -o -name "*secret*" 2>/dev/null | wc -l)
 
-STABLE=$(grep -rl "^maturity: stable" "$ROOT/.claude/skills"/*/SKILL.md 2>/dev/null | wc -l)
-BETA=$(grep -rl "^maturity: beta" "$ROOT/.claude/skills"/*/SKILL.md 2>/dev/null | wc -l)
-ALPHA=$(grep -rl "^maturity: alpha" "$ROOT/.claude/skills"/*/SKILL.md 2>/dev/null | wc -l)
+STABLE=$(grep -rlE "^[[:space:]]*(savia\.)?maturity: stable" "$ROOT/.claude/skills"/*/SKILL.md 2>/dev/null | wc -l)
+BETA=$(grep -rlE "^[[:space:]]*(savia\.)?maturity: beta" "$ROOT/.claude/skills"/*/SKILL.md 2>/dev/null | wc -l)
+ALPHA=$(grep -rlE "^[[:space:]]*(savia\.)?maturity: alpha" "$ROOT/.claude/skills"/*/SKILL.md 2>/dev/null | wc -l)
 MATURITY_PCT=$([ "$SKILLS_COUNT" -gt 0 ] && [ "$STABLE" -gt 0 ] && echo $(( (STABLE * 100) / SKILLS_COUNT )) || echo 0)
 
 CI_JOBS=0

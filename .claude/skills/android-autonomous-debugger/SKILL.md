@@ -5,9 +5,8 @@ description: Usar cuando se depuran o testean apps Android contra dispositivos f
 metadata:
   # --- metadata.savia.* (SE-333) ---
   savia.category: quality
-  savia.maturity: stable
+  savia.maturity: beta
   savia.context: fork
-  savia.maturity: stable
   savia.priority: medium
   savia.summary: "Depuracion autonoma de apps Android contra dispositivos fisicos via USB/ADB. Detecta crashes, ANRs, memory leaks. Ejecuta tests instrumentados. Output: informe con screenshots, logs y sugerencias de fix."
   savia.tags: "android, debugging, adb, mobile-testing"

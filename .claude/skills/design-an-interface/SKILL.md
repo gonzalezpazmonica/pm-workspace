@@ -5,11 +5,10 @@ description: "Design-an-interface skill with N=3 parallel alternatives and archi
 metadata:
   # --- metadata.savia.* (SE-333) ---
   savia.attribution: "Clean-room re-implementation of mattpocock/skills/design-an-interface (MIT, 26.4k*). Prose and process are original."
-  savia.maturity: stable
+  savia.maturity: beta
   savia.category: architecture
   savia.context: fork
   savia.context_cost: medium
-  savia.maturity: stable
   savia.priority: high
   savia.se: SE-087
   savia.tags: "architecture, interface-design, parallel-agents, sdd"

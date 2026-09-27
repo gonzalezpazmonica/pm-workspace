@@ -6,9 +6,8 @@ allowed-tools: [Read, Glob, Grep, Bash]
 metadata:
   # --- metadata.savia.* (SE-333) ---
   savia.category: quality
-  savia.maturity: stable
-  savia.disable-model-invocation: false
   savia.maturity: beta
+  savia.disable-model-invocation: false
   savia.priority: high
   savia.summary: "Mapa de dependencias internas: que comandos invocan que agentes, que reglas cargan, que skills usan. Reduce alucinaciones en routing. Output: grafo de dependencias del workspace. Mapa de dependencias internas de pm-workspace: que comandos invocan que agentes, que reglas cargan, que skills usan. Reduce hallucination en routing de agentes."
   savia.tags: "indexing, routing, dependencies, discovery"

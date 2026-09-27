@@ -1,6 +1,6 @@
 # Savia Capability Map — INDEX
-> hash: f7074ae2dfb3 | resources: 1475
-> 295 commands · 139 skills · 90 agents · 951 scripts
+> hash: 3d1deddd8caf | resources: 1474
+> 295 commands · 139 skills · 90 agents · 950 scripts
 
 [analysis] Trace Optimize — across,distributed,optimize,rates,sampling — cmd:.claude/commands/trace-optimize.md
 [analysis] agent-activity — activity,agent,executions,recent,show — cmd:.claude/commands/agent-activity.md
@@ -574,7 +574,6 @@
 [planning] adaptive-halting — adaptive,check,criterion,double,halting — script:scripts/adaptive-halting.sh
 [planning] adaptive-strategy-selector — adaptive,based,loading,model,select — script:scripts/adaptive-strategy-selector.sh
 [planning] adb-run — chains,compound,execute,functions,without — script:scripts/adb-run.sh
-[planning] add-maturity-levels — field,frontmatter,levels,maturity,skill — script:scripts/add-maturity-levels.sh
 [planning] ado-bridge — azure,bridge,commands,devops,rest — script:scripts/ado-bridge.sh
 [planning] advisor-config — advisor,anthropic,config,configuration,generate — script:scripts/advisor-config.sh
 [planning] agents-catalog-sync — agents,auto,catalog,slice,sync — script:scripts/agents-catalog-sync.sh
