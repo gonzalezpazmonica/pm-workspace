@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=eb6793469075014a2cb325822d18c8a711737b1a9d028caeee4a8d3f836afbf2
-timestamp=2026-09-27T17:43:40Z
+diff_hash=10e7eb03627d283c3a1d4f1c7e202fa8ea69f45196851f0409859b6cd13d6f0b
+timestamp=2026-09-27T18:03:47Z
 branch=agent/sovereignty-classifier-fp-20260927
-head_commit=b9570b97
-signature=fac7781118f947a63561763cba55137dfc470e13e5557c040fe3eaa8ebee25c6
+head_commit=3c7e9393
+signature=4f06a6ade7446aad7ec5f13672ee234ce5b45b4afe0ed88b636253de6f4943d5
