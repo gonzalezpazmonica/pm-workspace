@@ -133,6 +133,42 @@
       "label": "public",
       "confidence_min": 0.0,
       "note": "documentación de model aliases con provider ids"
+    },
+    {
+      "id": "llm-credential-no-scheme",
+      "label": "confidential",
+      "confidence_min": 0.7,
+      "note": "credencial concreta sin patrón determinista (solo LLM); held-out"
+    },
+    {
+      "id": "heldout-health-1on1",
+      "label": "confidential",
+      "confidence_min": 0.7,
+      "note": "dato de salud de una persona en un 1:1; held-out"
+    },
+    {
+      "id": "heldout-client-rate",
+      "label": "confidential",
+      "confidence_min": 0.7,
+      "note": "tarifa pactada con cliente; held-out"
+    },
+    {
+      "id": "rule-pr-signing",
+      "label": "public|ambiguous",
+      "confidence_min": 0.0,
+      "note": "regla pública completa; v2 la marcaba confidential 0.9; contrato: nunca confidential (ambiguous = WARN en N1, no BLOCK)"
+    },
+    {
+      "id": "rule-critical-extended",
+      "label": "public|ambiguous",
+      "confidence_min": 0.0,
+      "note": "regla pública completa; v2 la marcaba confidential 0.9; contrato: nunca confidential (ambiguous = WARN en N1, no BLOCK)"
+    },
+    {
+      "id": "rule-agent-memory",
+      "label": "public|ambiguous",
+      "confidence_min": 0.0,
+      "note": "regla pública completa; v2 la marcaba confidential 0.9; contrato: nunca confidential (ambiguous = WARN en N1, no BLOCK)"
     }
   ]
 }
