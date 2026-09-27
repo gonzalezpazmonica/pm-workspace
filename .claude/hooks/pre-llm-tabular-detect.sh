@@ -25,8 +25,8 @@ OUTPUT
 fi
 
 # Quick heuristic: count lines that look like CSV or markdown tables
-CSV_LINES=$(echo "$INPUT" | grep -cE '^[^|]*,{1,}[^,].*[0-9]' 2>/dev/null || echo 0)
-MD_LINES=$(echo "$INPUT" | grep -cE '^\s*\|.+\|' 2>/dev/null || echo 0)
+CSV_LINES=$(echo "$INPUT" | grep -cE '^[^|]*,{1,}[^,].*[0-9]' 2>/dev/null || [ $? -eq 1 ] || echo 0)
+MD_LINES=$(echo "$INPUT" | grep -cE '^\s*\|.+\|' 2>/dev/null || [ $? -eq 1 ] || echo 0)
 TOTAL_TABULAR=$((CSV_LINES + MD_LINES))
 
 if [[ "$TOTAL_TABULAR" -lt 5 ]]; then

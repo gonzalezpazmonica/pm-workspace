@@ -84,7 +84,7 @@ LOG_FILE="$ACTUALS_LOG"
 EMPIRICAL_SPEEDUP=""
 SAMPLE_COUNT=0
 if [[ -f "$LOG_FILE" ]] && command -v jq >/dev/null 2>&1; then
-  SAMPLE_COUNT=$(grep -c '^{' "$LOG_FILE" 2>/dev/null || echo 0)
+  SAMPLE_COUNT=$(grep -c '^{' "$LOG_FILE" 2>/dev/null || [ $? -eq 1 ] || echo 0)
   if [[ "$SAMPLE_COUNT" -gt 0 ]]; then
     EMPIRICAL_SPEEDUP=$(jq -s '
       [.[] | select(.agent_wallclock_hours_actual != null and .human_estimate_days != null)]

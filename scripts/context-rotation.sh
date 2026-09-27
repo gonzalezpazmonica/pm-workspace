@@ -125,7 +125,7 @@ cmd_weekly() {
     echo "# Weekly Memory Summary — $week_id"
     echo ""
     echo "Generated: $(date -Iseconds)"
-    echo "Memory entries: $(grep -c '^\- ' "$MEMORY_INDEX" 2>/dev/null || echo 0)"
+    echo "Memory entries: $(grep -c '^\- ' "$MEMORY_INDEX" 2>/dev/null || [ $? -eq 1 ] || echo 0)"
     echo "Memory size: $(memory_size_kb)KB / ${MAX_MEMORY_KB}KB"
     echo "Archived this week: $archived"
     echo ""
@@ -223,7 +223,7 @@ cmd_status() {
   local size_kb
   size_kb=$(memory_size_kb)
   local entry_count=0
-  [[ -f "$MEMORY_INDEX" ]] && entry_count=$(grep -c '^\- ' "$MEMORY_INDEX" 2>/dev/null || echo 0)
+  [[ -f "$MEMORY_INDEX" ]] && entry_count=$(grep -c '^\- ' "$MEMORY_INDEX" 2>/dev/null || [ $? -eq 1 ] || echo 0)
 
   local hot_age="N/A"
   [[ -f "$SESSION_HOT" ]] && hot_age="$(file_age_hours "$SESSION_HOT")h"

@@ -45,7 +45,7 @@ fi
   bash "${ROOT}/scripts/agents-md-generate.sh" --apply 2>&1
   diff_out=$(git diff -- AGENTS.md 2>/dev/null | head -40 || true)
   if [[ -n "$diff_out" ]]; then
-    rows=$(echo "$diff_out" | grep -c '^[+-]| ' || echo 0)
+    rows=$(echo "$diff_out" | grep -c '^[+-]| ' || [ $? -eq 1 ] || echo 0)
     echo "agents-md: regenerated, ${rows} row(s) changed" >&2
   fi
 } >> "${LOG_FILE}" 2>&1

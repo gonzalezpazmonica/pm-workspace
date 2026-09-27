@@ -88,7 +88,7 @@ cmd_scan() {
   echo "## Unmatched NL Patterns (no skill coverage)"
   if [[ -f "$REPO_ROOT/data/confidence-log.jsonl" ]]; then
     local low_confidence
-    low_confidence=$(grep -c '"band":"low"' "$REPO_ROOT/data/confidence-log.jsonl" 2>/dev/null || echo 0)
+    low_confidence=$(grep -c '"band":"low"' "$REPO_ROOT/data/confidence-log.jsonl" 2>/dev/null || [ $? -eq 1 ] || echo 0)
     echo "  Low-confidence NL resolutions: $low_confidence"
   else
     echo "  No confidence log found."

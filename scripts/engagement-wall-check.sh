@@ -173,7 +173,7 @@ check_layer_episodic() {
         local file_clients
         file_clients=$(grep -oE 'client:[a-z0-9][a-z0-9-]*' "$mem_dir/MEMORY.md" 2>/dev/null | sort -u || true)
         local client_count
-        client_count=$(echo "$file_clients" | grep -c . 2>/dev/null || echo 0)
+        client_count=$(echo "$file_clients" | grep -c . 2>/dev/null || [ $? -eq 1 ] || echo 0)
         if [[ "$client_count" -gt 1 ]]; then
           record_violation "$l" "$mem_dir/MEMORY.md" \
             "Episodic memory file contains $client_count client tags — should be confined per client" \
@@ -399,7 +399,7 @@ check_layer_federation() {
             local decl_file="$ENGAGEMENTS_DIR/$cslug/wall/permeability-declarations.yaml"
             if [[ -f "$decl_file" ]]; then
               local has_decl
-              has_decl=$(grep -c "client:${tagged}" "$decl_file" 2>/dev/null || echo 0)
+              has_decl=$(grep -c "client:${tagged}" "$decl_file" 2>/dev/null || [ $? -eq 1 ] || echo 0)
               if [[ "$has_decl" -eq 0 ]]; then
                 record_violation "$l" "$ef" \
                   "Federation exchange file tagged client:$tagged entering client:$cslug context — no operator declaration" \

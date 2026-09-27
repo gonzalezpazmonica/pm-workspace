@@ -73,7 +73,7 @@ if [[ "$mode" == "--seeds" ]]; then
 
   for jsonl in "${jsonl_files[@]}"; do
     table="$(basename "$jsonl" .jsonl)"
-    linecount=$(grep -c '' "$jsonl" 2>/dev/null || echo 0)
+    linecount=$(grep -c '' "$jsonl" 2>/dev/null || [ $? -eq 1 ] || echo 0)
 
     [[ "$linecount" -lt "$MIN_SEED_ROWS" ]] && {
       echo "INVALID: ${table}.jsonl has ${linecount} lines (min ${MIN_SEED_ROWS})" >&2

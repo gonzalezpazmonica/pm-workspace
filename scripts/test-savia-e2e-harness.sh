@@ -31,9 +31,9 @@ echo ""
 echo "3️⃣  Scenario Structure (each has Steps with Role, Command, prompt)"
 for s in "$DOCKER_DIR"/scenarios/*.md; do
   name=$(basename "$s" .md)
-  steps=$(grep -c "^## Step" "$s" 2>/dev/null || echo 0)
-  roles=$(grep -c "^\- \*\*Role\*\*" "$s" 2>/dev/null || echo 0)
-  prompts=$(grep -c '```prompt' "$s" 2>/dev/null || echo 0)
+  steps=$(grep -c "^## Step" "$s" 2>/dev/null || [ $? -eq 1 ] || echo 0)
+  roles=$(grep -c "^\- \*\*Role\*\*" "$s" 2>/dev/null || [ $? -eq 1 ] || echo 0)
+  prompts=$(grep -c '```prompt' "$s" 2>/dev/null || [ $? -eq 1 ] || echo 0)
   if [ "$steps" -gt 0 ] && [ "$steps" -eq "$roles" ] && [ "$steps" -eq "$prompts" ]; then
     ok "$name: $steps steps, all have role+prompt"
   else

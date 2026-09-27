@@ -269,7 +269,7 @@ cmd_chain_status() {
       local trail="${dir}audit-trail.jsonl"
       if [[ -f "$trail" ]]; then
         local count
-        count="$(grep -c . "$trail" 2>/dev/null || echo 0)"
+        count="$(grep -c . "$trail" 2>/dev/null || [ $? -eq 1 ] || echo 0)"
         local last_hash
         last_hash="$(get_prev_hash "$trail")"
         echo "Tenant: ${t} | entries: ${count} | last_hash: sha256:${last_hash:0:16}..."
@@ -285,7 +285,7 @@ cmd_chain_status() {
   fi
 
   local count
-  count="$(grep -c . "$trail_file" 2>/dev/null || echo 0)"
+  count="$(grep -c . "$trail_file" 2>/dev/null || [ $? -eq 1 ] || echo 0)"
   local last_hash
   last_hash="$(get_prev_hash "$trail_file")"
 

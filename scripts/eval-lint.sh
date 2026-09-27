@@ -133,9 +133,9 @@ check_min_coverage() {
   local base
   base=$(basename "$(dirname "$file")")
   local ntrig=0 nnot=0 cap=0
-  ntrig=$(grep -c '"should_trigger"' "$file" 2>/dev/null || echo "0")
-  nnot=$(grep -c '"route_to"' "$file" 2>/dev/null || echo "0")
-  cap=$(grep -c '"capabilities"' "$file" 2>/dev/null || echo "0")
+  ntrig=$(grep -c '"should_trigger"' "$file" 2>/dev/null || [ $? -eq 1 ] || echo 0)
+  nnot=$(grep -c '"route_to"' "$file" 2>/dev/null || [ $? -eq 1 ] || echo 0)
+  cap=$(grep -c '"capabilities"' "$file" 2>/dev/null || [ $? -eq 1 ] || echo 0)
   # Mínimos SE-316 S1: >=5 should_trigger, >=4 should_not_trigger, >=1 capability
   ntrig=$(printf '%s' "$ntrig" | head -1)
   nnot=$(printf '%s' "$nnot" | head -1)
