@@ -11,7 +11,13 @@ setup() {
   mkdir -p "$HOME/.savia"
   # Isolation: signatures go to a temp file, never the committed .confidentiality-signature.
   export CONFIDENTIALITY_SIG_FILE="$TMPDIR_TEST/signature"
+  unset CONFIDENTIALITY_HMAC_KEY CONFIDENTIALITY_REQUIRE_HMAC
+  # Throwaway fixture keys, derived per run (never real material).
+  KEY_A=$(printf 'fixture-a-%s' "$BATS_TEST_NUMBER" | sha256sum | cut -c1-64)
+  KEY_B=$(printf 'fixture-b-%s' "$BATS_TEST_NUMBER" | sha256sum | cut -c1-64)
 }
+
+drop_local_key() { find "$HOME/.savia" -delete 2>/dev/null || true; }
 
 teardown() {
   export HOME="$ORIG_HOME"
@@ -85,8 +91,79 @@ teardown() {
   grep -q 'sha256sum' "$SCRIPT"
 }
 
-@test "sign: uses openssl HMAC" {
-  grep -q 'openssl dgst.*sha256.*hmac' "$SCRIPT"
+@test "sign: HMAC is HMAC-SHA256(key, diff_hash)" {
+  CONFIDENTIALITY_HMAC_KEY="$KEY_A" bash "$SCRIPT" sign >/dev/null
+  diff_hash=$(grep '^diff_hash=' "$CONFIDENTIALITY_SIG_FILE" | cut -d= -f2)
+  sig=$(grep '^signature=' "$CONFIDENTIALITY_SIG_FILE" | cut -d= -f2)
+  expected=$(python3 -c 'import hmac,hashlib,sys; print(hmac.new(sys.argv[1].encode(), sys.argv[2].encode(), hashlib.sha256).hexdigest())' "$KEY_A" "$diff_hash")
+  [ "$sig" = "$expected" ]
+}
+
+@test "sign: the key never appears in a command line (ps-visible argv)" {
+  ! grep -qE -- '-hmac "\$' "$SCRIPT"
+}
+
+# ── CI secret (CONFIDENTIALITY_HMAC_KEY) ──
+
+@test "ci-key: sign with env key creates no local key file" {
+  drop_local_key
+  CONFIDENTIALITY_HMAC_KEY="$KEY_A" run bash "$SCRIPT" sign
+  [ "$status" -eq 0 ]
+  [ ! -e "$HOME/.savia/confidentiality-key" ]
+}
+
+@test "ci-key: verify with the same env key reports HMAC VERIFIED" {
+  CONFIDENTIALITY_HMAC_KEY="$KEY_A" bash "$SCRIPT" sign >/dev/null
+  CONFIDENTIALITY_HMAC_KEY="$KEY_A" CONFIDENTIALITY_REQUIRE_HMAC=1 run bash "$SCRIPT" verify
+  [ "$status" -eq 0 ]
+  [[ "$output" == *"HMAC: VERIFIED"* ]]
+}
+
+@test "ci-key: reject a signature made with another key" {
+  CONFIDENTIALITY_HMAC_KEY="$KEY_B" bash "$SCRIPT" sign >/dev/null
+  CONFIDENTIALITY_HMAC_KEY="$KEY_A" CONFIDENTIALITY_REQUIRE_HMAC=1 run bash "$SCRIPT" verify
+  [ "$status" -eq 1 ]
+  [[ "$output" == *"HMAC mismatch"* ]]
+}
+
+@test "ci-key: local key file and identical CI secret are interchangeable" {
+  printf '%s\n' "$KEY_A" > "$HOME/.savia/confidentiality-key"
+  chmod 600 "$HOME/.savia/confidentiality-key"
+  bash "$SCRIPT" sign >/dev/null
+  CONFIDENTIALITY_HMAC_KEY="$KEY_A" CONFIDENTIALITY_REQUIRE_HMAC=1 run bash "$SCRIPT" verify
+  [ "$status" -eq 0 ]
+  [[ "$output" == *"HMAC: VERIFIED"* ]]
+}
+
+@test "require: verify without any key fails closed when HMAC is required" {
+  CONFIDENTIALITY_HMAC_KEY="$KEY_A" bash "$SCRIPT" sign >/dev/null
+  drop_local_key
+  CONFIDENTIALITY_REQUIRE_HMAC=1 run bash "$SCRIPT" verify
+  [ "$status" -eq 1 ]
+  [[ "$output" == *"CONFIDENTIALITY_HMAC_KEY"* ]]
+}
+
+@test "require: empty env key counts as missing, not as a valid key" {
+  CONFIDENTIALITY_HMAC_KEY="$KEY_A" bash "$SCRIPT" sign >/dev/null
+  drop_local_key
+  CONFIDENTIALITY_HMAC_KEY="" CONFIDENTIALITY_REQUIRE_HMAC=1 run bash "$SCRIPT" verify
+  [ "$status" -eq 1 ]
+}
+
+@test "require: sign refuses to mint an ephemeral key when HMAC is required" {
+  drop_local_key
+  CONFIDENTIALITY_REQUIRE_HMAC=1 run bash "$SCRIPT" sign
+  [ "$status" -eq 1 ]
+  [ ! -e "$HOME/.savia/confidentiality-key" ]
+  [ ! -s "$CONFIDENTIALITY_SIG_FILE" ]
+}
+
+@test "require: without the flag, verify with no key still skips (local default)" {
+  CONFIDENTIALITY_HMAC_KEY="$KEY_A" bash "$SCRIPT" sign >/dev/null
+  drop_local_key
+  run bash "$SCRIPT" verify
+  [ "$status" -eq 0 ]
+  [[ "$output" == *"HMAC: SKIPPED"* ]]
 }
 
 @test "sign: signature format has 4 required fields" {
