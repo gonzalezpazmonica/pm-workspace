@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=a0718449eee587e4b9635bb20b92271af25db56ca1d31845b8274cb631a3590a
-timestamp=2026-09-27T08:53:02Z
-branch=agent/retire-skills-lock
-head_commit=c6526240
-signature=d41dc6b715961fee7e1d5a073d60c836515dd15c424d31eb3938b0f24063a9e8
+diff_hash=6579be7016ec5574acc96e79b3d0141fa0309d1fe8e8df7d3029c8c690138c79
+timestamp=2026-09-27T09:59:58Z
+branch=agent/fix-delta-tier
+head_commit=9301b34f
+signature=e8113c13cceb1ef904790e27ccee4495b17f598fa15217867851981dbd7ed511
