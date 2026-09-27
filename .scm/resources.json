@@ -1,6 +1,6 @@
 {
-  "hash": "b9126f018c6d",
-  "total": 1476,
+  "hash": "7070cd55214d",
+  "total": 1475,
   "resources": [
     {
       "category": "analysis",
@@ -7639,20 +7639,6 @@
       "kind": "script",
       "path": "scripts/adb-run.sh",
       "description": "adb-run.sh — Execute adb-wrapper functions without compound && chains"
-    },
-    {
-      "category": "planning",
-      "name": "add-maturity-levels",
-      "intents": [
-        "field",
-        "frontmatter",
-        "levels",
-        "maturity",
-        "skill"
-      ],
-      "kind": "script",
-      "path": "scripts/add-maturity-levels.sh",
-      "description": "add-maturity-levels.sh — Add maturity field to all skill frontmatter"
     },
     {
       "category": "planning",

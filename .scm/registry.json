@@ -11765,27 +11765,6 @@
       "frontend_support": [
         "opencode"
       ],
-      "id": "script:scripts/add-maturity-levels",
-      "intents": [
-        "field",
-        "frontmatter",
-        "levels",
-        "maturity",
-        "skill"
-      ],
-      "kind": "script",
-      "owner_domain": "planning",
-      "replaced_by": null,
-      "risk_level": null,
-      "source": "scripts/add-maturity-levels.sh",
-      "status": "active",
-      "tests": []
-    },
-    {
-      "depends_on": [],
-      "frontend_support": [
-        "opencode"
-      ],
       "id": "script:scripts/ado-bridge",
       "intents": [
         "azure",
@@ -30145,7 +30124,7 @@
       "tests": []
     }
   ],
-  "content_hash": "b9126f018c6d",
+  "content_hash": "7070cd55214d",
   "deferred_kinds": [
     "rule",
     "hook"
