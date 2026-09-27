@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=c9f16774b6a46debfaa20f4ad7665b0bcafd49109c16e123095365be6e49f078
-timestamp=2026-09-27T16:45:39Z
-branch=agent/court-aggregator-failclosed-20260927
-head_commit=c0982442
-signature=e6dcb2f5593d2c491639b8ed584fe2f2d230ec4961540c6098fb9df8b64e7155
+diff_hash=373cc96403b2f10828098e5915bab6c53f25b40439d5f973609f105eb1f7eeed
+timestamp=2026-09-27T17:01:56Z
+branch=agent/entropy-visible-20260927
+head_commit=33ab06d9
+signature=be05b5fb1a3c92f4dd8fb66872b34d4333928ff06b779891690692d5083995cd
