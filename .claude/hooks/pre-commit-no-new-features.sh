@@ -42,7 +42,7 @@ BLOCKED=0
 REASONS=""
 
 # Check for new files in specs/ that don't match the branch's SE number
-SPEC_FILES=$(echo "$STAGED" | grep -E 'projects/.*/specs/SE-\d+.*\.spec\.md$' || true)
+SPEC_FILES=$(echo "$STAGED" | grep -E 'projects/.*/specs/SE-[0-9]+.*\.spec\.md$' || true)
 if [ -n "$SPEC_FILES" ] && [ -n "$BRANCH_SE" ]; then
   for f in $SPEC_FILES; do
     FILE_SE=$(echo "$f" | grep -oP 'SE-\d+' | head -1 | grep -oP '\d+' || echo "")
