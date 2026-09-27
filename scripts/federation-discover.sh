@@ -21,11 +21,16 @@ MODE=""
 A1=""; A2=""
 while [[ $# -gt 0 ]]; do
   case "$1" in
-    --add) MODE="add"; A1="${2:-}"; A2="${3:-}"; shift 3 ;;
-    --remove) MODE="remove"; A1="${2:-}"; shift 2 ;;
+    # Validate arity before shifting: `shift N` with fewer than N args fails
+    # without shifting, and the loop then spun forever on the same flag.
+    --add) [[ $# -ge 3 ]] || { echo "ERROR: --add necesita ID y URL" >&2; exit 2; }
+      MODE="add"; A1="$2"; A2="$3"; shift 3 ;;
+    --remove) [[ $# -ge 2 ]] || { echo "ERROR: --remove necesita ID" >&2; exit 2; }
+      MODE="remove"; A1="$2"; shift 2 ;;
     --list) MODE="list"; shift ;;
     --check) MODE="check"; shift ;;
-    --pool) POOL="${2:-}"; shift 2 ;;
+    --pool) [[ $# -ge 2 ]] || { echo "ERROR: --pool necesita un fichero" >&2; exit 2; }
+      POOL="$2"; shift 2 ;;
     *) echo "usage: $0 --add ID URL | --remove ID | --list | --check [--pool F]" >&2; exit 2 ;;
   esac
 done
