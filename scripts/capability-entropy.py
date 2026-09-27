@@ -89,11 +89,18 @@ def main() -> int:
 
     if os.path.exists(base_path):
         if args.v1:
+            # Calibración v1: solo toca los campos v1. El ratchet v0 (entropy y
+            # sus componentes) jamás se reescribe desde aquí: hacerlo subiría la
+            # baseline en silencio (RN-03: el budget nunca sube).
+            base = json.load(open(base_path, encoding="utf-8"))
+            base["entropy_v1"] = payload["entropy_v1"]
+            for k in ("unowned_agents", "untested_high_risk"):
+                base.setdefault("components", {})[k] = payload["components"][k]
             with open(base_path, "w", encoding="utf-8") as f:
-                json.dump(payload, f, indent=2, sort_keys=True)
+                json.dump(base, f, indent=2, sort_keys=True)
                 f.write("\n")
             print(f"entropy v1 = {payload.get('entropy_v1')} congelado (calibración); "
-                  f"v0={entropy} preservado como ratchet histórico")
+                  f"v0 baseline {base['entropy']} intacto (actual {entropy})")
         else:
             print(f"entropy v0 = {entropy} (baseline congelado: "
                   f"{json.load(open(base_path))['entropy']}); usa --check para ratchet")
