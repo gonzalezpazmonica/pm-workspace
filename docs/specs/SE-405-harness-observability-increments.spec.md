@@ -91,3 +91,10 @@ store si no hay proyecto), marcando la entrada ancla.
 ### Portability classification
 
 - [x] **SINGLE_BINDING_DEFERRED**: la captura automática de coste depende del evento `SubagentStop` de Claude Code; en OpenCode el registro es manual hasta que exista evento equivalente (se revisará en SE-392). Slices 2 y 3 son DUAL/PURE_BASH.
+
+## Ficheros afectados fuera de los slices
+
+- Recuentos de hooks en `README*.md` y `CLAUDE.md` (exigidos por `release-invariants.sh`).
+- `docs/hooks-coverage-matrix.md` regenerada (SE-253).
+- Tests TS del plugin: `.opencode/plugins/__tests__/config-snapshot.test.ts`.
+- Entropía neta 0 (SE-380): se retira `scripts/corporate/engagement-evidence-package.sh` (SE-271 PROPOSED, sin llamadores) y la captura de coste vive en `savia-runs.sh capture-cost`.
