@@ -6,6 +6,31 @@
 > Each entry: date, spec ID, status transition, optional rationale.
 > Ref: SE-222 S1 OKF Adoptable Patterns (log.md convention).
 
+## 2026-09-27 SE-406 PROPOSED
+
+Savia Relay: canal activo con la operadora por WhatsApp. Propuesta para revisión
+(decisiones D1-D8 abiertas); nada se implementa hasta su aprobación.
+
+## 2026-09-27 SE-405 APPROVED
+
+Coste por subagente en el ledger de runs, snapshots de configuración y timeline
+de memoria (P5-P7 de output/research/harness-mejoras-20260927.md).
+
+## 2026-09-27 SE-404 APPROVED
+
+G13 v2 (specs en docs/specs, formatos de AC, globs, Fix-trace) y una corrección
+por revisión en el Court (P3-P4). Riesgo L3: revisión explícita del PR.
+
+## 2026-09-27 SE-403 APPROVED
+
+Trazas crudas, frontera y hash de selección para el runner de SE-384 (P1).
+
+## 2026-09-27 SE-402 APPROVED
+
+Registro de ediciones atribuidas y gate advisory G19 (P2). Aprobación de la
+operadora: "Redacta todas las specs que necesites y adelante con todas las
+propuestas en sprint nocturno".
+
 ## 2026-09-27 SE-376 IMPLEMENTING
 
 Reapertura de deuda (decisión de la operadora). El wave 1 de #1097 declaró
