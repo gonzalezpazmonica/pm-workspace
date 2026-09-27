@@ -66,18 +66,19 @@ def seed_history():
     return History(items)
 
 
-def decide(model_std: float) -> str:
-    if model_std < THRESHOLD_BARATO:
+def decide(model_std: float, barato: float = THRESHOLD_BARATO, caro: float = THRESHOLD_CARO) -> str:
+    """Tier canónico (fast|mid|heavy) por incertidumbre del surrogate."""
+    if model_std < barato:
         return "fast"
-    if model_std >= THRESHOLD_CARO:
-        return "agent"
+    if model_std >= caro:
+        return "heavy"
     return "mid"
 
 
-def verdict_for(std: float) -> str:
-    if std < THRESHOLD_BARATO:
+def verdict_for(std: float, barato: float = THRESHOLD_BARATO, caro: float = THRESHOLD_CARO) -> str:
+    if std < barato:
         return "confiar-bajo"
-    if std >= THRESHOLD_CARO:
+    if std >= caro:
         return "necesita-caro"
     return "dudoso-mid"
 
@@ -106,9 +107,9 @@ def main():
         mu, std = gp.predict([feats])
         std = float(std[0])
         results[t] = {
-            "model": decide(std),
+            "model": decide(std, t_barato, t_caro),
             "std": round(std, 4),
-            "verdict": verdict_for(std),
+            "verdict": verdict_for(std, t_barato, t_caro),
             "predicted_cost": round(float(mu[0]), 4),
         }
 

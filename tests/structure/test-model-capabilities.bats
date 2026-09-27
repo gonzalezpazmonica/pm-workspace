@@ -59,12 +59,15 @@ teardown() {
   echo "$output" | grep -q "SAVIA_COMPACT_THRESHOLD=65"
 }
 
-@test "resolver falls back to default for unknown model" {
+@test "resolver reports unknown (no invented defaults) for an unknown model" {
+  # Contract since 0c7cd9d1: a plausible default window is not evidence of a
+  # model capability; unknown models resolve to unknown/0, never 128000.
   run bash -c "echo '' | $ROOT/scripts/model-capability-resolver.sh --model unknown-model-xyz"
   [ "$status" -eq 0 ]
-  echo "$output" | grep -q "SAVIA_CONTEXT_WINDOW=128000"
-  echo "$output" | grep -q "SAVIA_MODEL_TIER=fast"
-  echo "$output" | grep -q "SAVIA_COMPACT_THRESHOLD=50"
+  echo "$output" | grep -q "SAVIA_CONTEXT_WINDOW=0"
+  echo "$output" | grep -q "SAVIA_MODEL_TIER=unknown"
+  echo "$output" | grep -q "SAVIA_MODEL_METADATA_STATUS=unknown"
+  ! echo "$output" | grep -q "SAVIA_CONTEXT_WINDOW=128000"
 }
 
 @test "adaptive-strategy-selector.sh exists and is executable" {

@@ -67,7 +67,8 @@ teardown() {
 
 @test "positive: agent declares correct name and model" {
   grep -q "^name: pr-agent-judge" "$AGENT"
-  grep -qE "^model: (heavy|mid|fast)" "$AGENT"
+  # Canonical frontmatter field since #1139: model_tier (provider-agnostic tiers).
+  grep -qE "^model_tier: (heavy|mid|fast)" "$AGENT"
 }
 
 @test "positive: agent references SPEC-124" {
@@ -116,9 +117,10 @@ teardown() {
 # ── Isolation ────────────────────────────────────────────────────────────────
 
 @test "isolation: script does not write to repo without explicit output" {
-  before=$(stat -c %Y "$REPO_ROOT/.git/HEAD" 2>/dev/null || stat -f %m "$REPO_ROOT/.git/HEAD" 2>/dev/null)
+  # Compare real repo state (HEAD + working tree); works in worktrees where .git is a file.
+  before="$(git -C "$REPO_ROOT" rev-parse HEAD) $(git -C "$REPO_ROOT" status --porcelain | sha256sum)"
   run bash "$SCRIPT" --pr-number 123 --repo "fake/repo"
-  after=$(stat -c %Y "$REPO_ROOT/.git/HEAD" 2>/dev/null || stat -f %m "$REPO_ROOT/.git/HEAD" 2>/dev/null)
+  after="$(git -C "$REPO_ROOT" rev-parse HEAD) $(git -C "$REPO_ROOT" status --porcelain | sha256sum)"
   [ "$before" = "$after" ]
 }
 
