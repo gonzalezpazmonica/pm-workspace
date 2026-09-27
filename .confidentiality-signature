@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=ee9045fa331ef73cd21a2d6df8f6abbf76c858ea7a0409289d9434b4821f433c
-timestamp=2026-09-27T19:54:27Z
-branch=agent/overnight-20260927-push-pr-title
-head_commit=cde56829
-signature=c01a567d5e8834046e30131da7908bc42acc352753ae68ff4d55699666808edb
+diff_hash=fa4abc8ae0bc7685b52d0834829d9bb5120b21c15dd1e2ce879bfdcea2b65fb3
+timestamp=2026-09-27T20:19:56Z
+branch=agent/overnight-20260927-harness-specs
+head_commit=f78ac062
+signature=48a5e5acc17479b3b0bee86ee51863bfebe277e2b4c028e7244a97c1cf124b63
