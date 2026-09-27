@@ -53,8 +53,8 @@ teardown() {
   [[ "$status" -eq 0 ]]
 }
 
-@test "invokes changelog-consolidate-if-needed.sh script" {
-  run grep -q "changelog-consolidate-if-needed.sh" "$WORKFLOW"
+@test "invokes the consolidation script (threshold checked inline, SE-390)" {
+  run grep -q "scripts/changelog-consolidate.sh" "$WORKFLOW"
   [[ "$status" -eq 0 ]]
 }
 
@@ -99,8 +99,8 @@ teardown() {
   [[ "$status" -eq 0 ]]
 }
 
-@test "diff check before commit avoids empty commits" {
-  run grep -q "git diff --quiet" "$WORKFLOW"
+@test "commit step only runs when the threshold was exceeded (no empty commits)" {
+  run grep -q "if: steps.consolidate.outputs.consolidated == 'true'" "$WORKFLOW"
   [[ "$status" -eq 0 ]]
 }
 
@@ -158,8 +158,15 @@ teardown() {
   ! grep -q "no-verify" "$WORKFLOW"
 }
 
-@test "negative: workflow does not force-push to main" {
-  ! grep -qE "push.*--force|push\s+-f\s" "$WORKFLOW"
+@test "negative: workflow never pushes to main; only lease-guarded pushes to its agent branch" {
+  # SE-390: the bot recreates agent/changelog-consolidate from origin/main each
+  # run, so --force-with-lease is the only force allowed, never a bare --force/-f.
+  # (bats ignores a non-final "! cmd"; assert on $status instead)
+  run grep -qE "push[^|;]*(origin[[:space:]]+main|:main|HEAD:main)" "$WORKFLOW"
+  [ "$status" -eq 1 ]
+  run grep -qE "push[^|;]*(--force([[:space:]]|$)|[[:space:]]-f([[:space:]]|$))" "$WORKFLOW"
+  [ "$status" -eq 1 ]
+  grep -q 'BRANCH="agent/changelog-consolidate"' "$WORKFLOW"
 }
 
 @test "negative: no hardcoded GitHub Personal Access Tokens" {
