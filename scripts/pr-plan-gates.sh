@@ -407,6 +407,7 @@ g11() {
 g13_fix_trace() {
   local summary="$1" files="$2"
   local tests; tests=$(sed -nE 's/^Fix-trace:[[:space:]]*//p' "$summary" | tr ', ' '\n\n' | grep -v '^$' | sort -u)
+  [[ -z "$tests" ]] && { echo "FAIL: Fix-trace: no test named (use 'Fix-trace: <path to .bats/.py test>')"; return; }
   local t
   while IFS= read -r t; do
     [[ -f "$ROOT/$t" ]] || { echo "FAIL: Fix-trace test not found at HEAD: $t"; return; }

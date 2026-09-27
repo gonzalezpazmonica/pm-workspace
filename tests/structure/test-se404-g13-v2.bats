@@ -163,3 +163,35 @@ T
   run_g13 >/dev/null
   [ "$(git -C "$REPO" worktree list | wc -l)" -eq 1 ]
 }
+
+@test "safety: pr-plan-gates.sh keeps set -uo pipefail" {
+  head -5 "$GATES" | grep -q 'set -uo pipefail'
+}
+
+@test "empty: an empty Fix-trace line FAILs instead of passing vacuously" {
+  echo x > scripts/val.sh
+  summary "Fix-trace:"
+  output=$(run_g13)
+  [[ "$output" == FAIL* ]]
+  [[ "$output" == *"no test named"* ]]
+}
+
+@test "boundary: non-bats/py test type in Fix-trace is rejected with its name" {
+  echo "echo hi" > tests/check.sh
+  summary "Fix-trace: tests/check.sh"
+  output=$(run_g13)
+  [[ "$output" == FAIL* ]]
+  [[ "$output" == *"tests/check.sh"* ]]
+}
+
+@test "status: g13 returns 0 (verdict is in the output, never in the exit code)" {
+  printf '# SE-505\n- AC1: lima-widget\n' > docs/specs/SE-505-x.spec.md
+  git add -A; git commit -qm spec; git update-ref refs/remotes/origin/main HEAD
+  summary "Scope-trace: SE-505"
+  echo x > scripts/other-file.sh
+  git checkout -q -B "$BRANCH"; git add -A; git commit -qm c
+  source "$GATES"
+  run g13_scope_trace
+  [ "$status" -eq 0 ]
+  [[ "$output" == FAIL* ]]
+}
