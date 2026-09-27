@@ -25,6 +25,14 @@ SAVIA_EMBED_URL="${SAVIA_EMBED_URL:-http://127.0.0.1:$SAVIA_EMBED_PORT}"
 
 _ensure_embed_server() {
     [[ "${SAVIA_TEST_MODE:-false}" == "true" ]] && return 0
+    [[ "${SAVIA_EMBED_AUTOSTART:-true}" == "false" ]] && return 0
+    # grep mode never queries embeddings: launching the server there only cost
+    # a 2 s sleep and left a daemon behind.
+    local prev=""
+    for arg in "$@"; do
+        [[ "$arg" == "--mode=grep" || ( "$prev" == "--mode" && "$arg" == "grep" ) ]] && return 0
+        prev="$arg"
+    done
     [[ -n "$MEMORY_PYTHON" ]] || return 0
     # Check if already running
     if "$MEMORY_PYTHON" -c "import urllib.request; urllib.request.urlopen('$SAVIA_EMBED_URL/health', timeout=1)" &>/dev/null 2>&1; then
@@ -39,7 +47,9 @@ _ensure_embed_server() {
         MINGW*|MSYS*|CYGWIN*|Windows*)
             cmd.exe /c "start /b \"$MEMORY_PYTHON\" \"$server_script\"" &>/dev/null 2>&1 || true ;;
         *)
-            nohup "$MEMORY_PYTHON" "$server_script" >/dev/null 2>&1 & ;;
+            # Detach every inherited fd (stdin, and fd 3 under bats): a daemon
+            # holding the caller's pipe made test suites wait until timeout.
+            nohup "$MEMORY_PYTHON" "$server_script" </dev/null >/dev/null 2>&1 3>&- & ;;
     esac
     # Brief wait for model load (non-blocking — search proceeds with fallback if not ready)
     sleep 2
@@ -221,7 +231,7 @@ fi
 
 case "${1:-help}" in
     save) shift; cmd_save "$@" ;;
-    search|recall) shift; _ensure_embed_server; cmd_search "$@" ;;
+    search|recall) shift; _ensure_embed_server "$@"; cmd_search "$@" ;;
     context) shift; cmd_context "$@" ;;
     stats) cmd_stats ;;
     prune) cmd_prune ;;
