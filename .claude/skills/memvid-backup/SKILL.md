@@ -10,7 +10,6 @@ metadata:
   savia.category: memory
   savia.context: fork
   savia.disable-model-invocation: false
-  savia.maturity: experimental
   savia.priority: low
   savia.summary: "Wrapper backup para memoria externa. Intenta memvid (.mv2) si disponible, fallback a tar-gzip con SHA256 integrity. 3 subcomandos: pack, restore, verify. Integrable con travel-pack / vault-export."
   savia.tags: "backup, memvid, portable, travel, integrity"

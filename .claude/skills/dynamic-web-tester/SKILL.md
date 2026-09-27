@@ -5,11 +5,10 @@ description: "Testing dinámico de endpoints web: XSS (DalFox), SQLi (sqlmap), N
 metadata:
   # --- metadata.savia.* (SE-333) ---
   savia.authorization_required: true
-  savia.maturity: stable
+  savia.maturity: beta
   savia.category: security
   savia.context: fork
   savia.context_cost: medium
-  savia.maturity: stable
   savia.priority: high
   savia.summary: "Testing dinamico controlado contra endpoints web en staging. REQUIERE autorizacion explicita. Modo conservador por defecto (level 1, safe). Complementa pentesting skill con deteccion activa de XSS y SQLi."
   savia.tags: "xss, sqli, dalfox, sqlmap, nuclei, pentest-web, dynamic-testing"

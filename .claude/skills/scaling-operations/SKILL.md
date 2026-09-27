@@ -5,12 +5,11 @@ description: Usar cuando se analiza el tier de escala de un servicio o se necesi
 metadata:
   # --- metadata.savia.* (SE-333) ---
   savia.agent: architect
-  savia.maturity: stable
+  savia.maturity: beta
   savia.category: quality
   savia.context: fork
   savia.context_cost: medium
   savia.dependencies: 
-  savia.maturity: stable
   savia.memory: project
   savia.priority: medium
   savia.summary: "Analiza tier de escalado, benchmarks y recomienda optimizaciones. Para organizaciones en crecimiento. Knowledge search integrado. Output: plan de escalado priorizado."

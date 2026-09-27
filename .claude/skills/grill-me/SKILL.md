@@ -6,7 +6,7 @@ license: MIT
 compatibility: opencode
 metadata:
   audience: developer, qa
-  savia.maturity: stable
+  savia.maturity: beta
   workflow: review, pre-merge
   origin: mattpocock/skills (MIT)
   # --- metadata.savia.* (SE-333) ---

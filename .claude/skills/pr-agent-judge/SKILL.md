@@ -3,7 +3,7 @@ layer: peripheral
 name: pr-agent-judge
 description: Usar cuando se añade pr-agent como juez externo en el Code Review Court.
 metadata:
-  savia.maturity: stable
+  savia.maturity: beta
 ---
 
 # Skill: pr-agent-judge (SPEC-124)
