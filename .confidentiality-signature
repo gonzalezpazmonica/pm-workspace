@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=78789d7aa036ec07b27d595fee45f6ded9d339c45fcb7b7d82621ff569e39053
-timestamp=2026-09-27T13:20:44Z
-branch=agent/triage-fase-a-g3
-head_commit=1b064514
-signature=af26c02f424273fd529af55ad08001019a76b52118863e78afd7f782fb042d70
+diff_hash=ec1bfe31aebb1d5ff1519aa72cd20752da5f7af819ea2af9d6e4c6b255b163cf
+timestamp=2026-09-27T15:42:25Z
+branch=agent/court-aggregator-failclosed-20260927
+head_commit=8c5e9e4f
+signature=1a1ca448e9460d773934625629036126f41f14195a1e7189e707f129eb3b4f61
