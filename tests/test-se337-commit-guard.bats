@@ -1,6 +1,6 @@
 #!/usr/bin/env bats
 # SE-337 — guard de commit en ramas humanas (main/master)
-# Spec: docs/specs/SE-337-commit-guard-main.spec.md (AC-01..AC-05)
+# Ref: docs/specs/SE-337-commit-guard-main.spec.md (AC-01..AC-05)
 
 HOOK=".claude/hooks/block-commit-to-main.sh"
 LOG="output/turn-sdlc/commit-guard.jsonl"
@@ -70,8 +70,118 @@ teardown() {
 @test "AC-05b: bash -n, sin vendor names, PURE_BASH" {
   local h=$(cd "$(dirname "$BATS_TEST_FILENAME")/.." && pwd)/$HOOK
   bash -n "$h"
+  grep -q 'set -uo pipefail' "$h"
   run grep -niE "openai|anthropic|gpt-|gemini|qwen|deepseek" "$h"
   [[ "$status" -ne 0 ]]
+}
+
+@test "regression: broad Bash registration allows reads and worktree creation on main" {
+  local h="$PWD/$HOOK" command payload
+  cd "$FIXDIR" || return 1
+  for command in 'pwd' 'cat CLAUDE.md' 'git status --short --branch' \
+    'git fetch origin' 'git worktree add -b agent/fix /tmp/worktree main' \
+    'git merge --no-commit --no-ff origin/main' 'git log --format=%h'; do
+    payload=$(jq -nc --arg command "$command" '{tool_input:{command:$command}}')
+    run bash "$h" <<< "$payload"
+    [[ "$status" -eq 0 && -z "$output" ]]
+  done
+  [[ ! -e "$FIXDIR/commit-guard.jsonl" ]]
+}
+
+@test "regression: actual command payloads still block commits on main and master" {
+  local h="$PWD/$HOOK" branch command payload
+  cd "$FIXDIR" || return 1
+  for branch in main master; do
+    git branch -m "$branch"
+    for command in 'git commit -m test' 'git -c user.name=test commit --amend' \
+      'git -C . commit -m test' 'pwd && git commit -m test' \
+      '/usr/bin/git commit -m test' $'git status\ngit commit -m test'; do
+      payload=$(jq -nc --arg command "$command" '{tool_input:{command:$command}}')
+      run bash "$h" <<< "$payload"
+      [[ "$status" -eq 0 ]]
+      [[ "$(jq -r .decision <<< "$output")" == block ]]
+    done
+  done
+}
+
+@test "regression: cmd payload supports reads and still blocks commits" {
+  local h="$PWD/$HOOK"
+  cd "$FIXDIR" || return 1
+  run bash "$h" <<< '{"tool_input":{"cmd":"git status"}}'
+  [[ "$status" -eq 0 && -z "$output" ]]
+  run bash "$h" <<< '{"tool_input":{"cmd":"git commit -m test"}}'
+  [[ "$status" -eq 0 ]]
+  [[ "$(jq -r .decision <<< "$output")" == block ]]
+}
+
+@test "regression: malformed, null and empty command payloads remain conservative" {
+  local h="$PWD/$HOOK" payload
+  cd "$FIXDIR" || return 1
+  for payload in '{' '{}' '{"tool_input":{"command":null}}' \
+    '{"tool_input":{"command":42}}' '{"tool_input":{"command":""}}'; do
+    run bash "$h" <<< "$payload"
+    [[ "$status" -eq 0 ]]
+    [[ "$(jq -r .decision <<< "$output")" == block ]]
+  done
+}
+
+@test "regression: commit payload is allowed on an agent branch" {
+  local h="$PWD/$HOOK"
+  cd "$FIXDIR" || return 1
+  git checkout -q -b agent/regression
+  run bash "$h" <<< '{"tool_input":{"command":"git commit -m test"}}'
+  [[ "$status" -eq 0 && -z "$output" ]]
+}
+
+@test "regression: workdir selects the repository whose command will run" {
+  local h="$PWD/$HOOK" payload
+  git -C "$FIXDIR" worktree add -q -b agent/workdir "$FIXDIR/agent"
+  cd "$FIXDIR" || return 1
+  payload=$(jq -nc --arg dir "$FIXDIR/agent" \
+    '{cwd:env.PWD,tool_input:{command:"git commit -m test",workdir:$dir}}')
+  run bash "$h" <<< "$payload"
+  [[ "$status" -eq 0 && -z "$output" ]]
+  cd "$FIXDIR/agent" || return 1
+  payload=$(jq -nc --arg dir "$FIXDIR" \
+    '{tool_input:{command:"git commit -m test",workdir:$dir}}')
+  run bash "$h" <<< "$payload"
+  [[ "$status" -eq 0 ]]
+  [[ "$(jq -r .decision <<< "$output")" == block ]]
+}
+
+@test "regression: explicit guarded cd selects an isolated worktree" {
+  local h="$PWD/$HOOK" payload command
+  git -C "$FIXDIR" worktree add -q -b agent/explicit "$FIXDIR/agent"
+  cd "$FIXDIR" || return 1
+  command="cd \"$FIXDIR/agent\" && git commit -m test"
+  payload=$(jq -nc --arg command "$command" '{tool_input:{command:$command}}')
+  run bash "$h" <<< "$payload"
+  [[ "$status" -eq 0 && -z "$output" ]]
+  cd "$FIXDIR/agent" || return 1
+  command="cd \"$FIXDIR\" && git commit -m test"
+  payload=$(jq -nc --arg command "$command" '{tool_input:{command:$command}}')
+  run bash "$h" <<< "$payload"
+  [[ "$status" -eq 0 ]]
+  [[ "$(jq -r .decision <<< "$output")" == block ]]
+}
+
+@test "edge: empty workdir falls back to the current directory" {
+  local h="$PWD/$HOOK"
+  cd "$FIXDIR" || return 1
+  run bash "$h" <<< '{"tool_input":{"command":"git commit -m test","workdir":""}}'
+  [[ "$status" -eq 0 ]]
+  [[ "$(jq -r .decision <<< "$output")" == block ]]
+}
+
+@test "edge: guarded cd to a nonexistent directory cannot reach the commit" {
+  local h="$PWD/$HOOK" payload
+  cd "$FIXDIR" || return 1
+  # cd falla antes de git commit, así que no hay commit que bloquear.
+  payload=$(jq -nc '{tool_input:{command:"cd \"/nonexistent-se337\" && git commit -m test"}}')
+  run bash "$h" <<< "$payload"
+  [[ "$status" -eq 0 && -z "$output" ]]
+  run bash -c 'cd "/nonexistent-se337" 2>/dev/null && echo reached'
+  [[ "$output" != *reached* ]]
 }
 
 @test "RN-01: detached HEAD / no repo → pass (sin rama humana)" {
