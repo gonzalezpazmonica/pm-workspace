@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=f7a960e27661faab8258a988a2260d7103415f53b33b0be345098a817ba580bf
-timestamp=2026-09-28T11:37:34Z
-branch=agent/se376-calibration-wave-20260928
-head_commit=de3b730d
-signature=76a4d7cd333725177622d49b9f744f8afedd6233c9330296b55caeb0a0546225
+diff_hash=db1b61c1e229961df1c3cf16df09a865246b60da0223d5d948c5946cc7398f34
+timestamp=2026-09-28T21:13:54Z
+branch=agent/contract-pin-v4-20260928
+head_commit=9a89a91a
+signature=4dac045411cc2829750139b2fab4722b5ae90d0990d5c675d32fb2fb92d3c221
