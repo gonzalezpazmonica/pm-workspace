@@ -9,7 +9,7 @@ setup() {
   cd "$BATS_TEST_DIRNAME/.."
   REPO="$PWD"
   FX="$(mktemp -d)"
-  mkdir -p "$FX/.claude/skills" "$FX/tests/evals" "$FX/output"
+  mkdir -p "$FX/.claude/skills" "$FX/tests/evals" "$FX/tests/scripts" "$FX/output"
 }
 
 teardown() {
@@ -57,6 +57,21 @@ audit() {
   cp tests/fixtures/se376/certified-skill-test.bats.fixture "$FX/tests/evals/eval-evald.bats"
   audit
   [ "$(state_of evald)" = "Calibrated" ]
+}
+
+@test "positive: certified script test counts as qualifying evidence" {
+  mk_skill scripted stable
+  cp tests/fixtures/se376/certified-skill-test.bats.fixture "$FX/tests/scripts/scripted.bats"
+  audit
+  [ "$(state_of scripted)" = "Calibrated" ]
+  [ "$(has_test_of scripted)" = "true" ]
+}
+
+@test "reject: presence-only script test does not qualify" {
+  mk_skill thin stable
+  cp tests/fixtures/se376/thin-skill-test.bats.fixture "$FX/tests/scripts/thin.bats"
+  audit
+  [ "$(state_of thin)" = "Incomplete" ]
 }
 
 @test "reject: stable skill with a presence-only test stays Incomplete (#1097 regression)" {
