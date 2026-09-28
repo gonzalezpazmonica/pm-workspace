@@ -46,3 +46,10 @@ rules:
     tests:
       - test-opencode-config-validate.bats
       - test-se253-hooks-coverage.bats
+      - test-contract-pin.bats
+
+  # SE-369: el catálogo pinea .claude/settings.json; cambiar uno sin el otro
+  # rompe AC-6 de contract-pin (regresión de #1168, no detectada por CI).
+  - file: "config/contract-digests.json"
+    tests:
+      - test-contract-pin.bats
