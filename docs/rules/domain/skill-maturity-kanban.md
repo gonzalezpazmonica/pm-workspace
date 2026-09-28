@@ -18,7 +18,7 @@ Este kanban da un veredicto reproducible por skill — sin opinión humana — p
 
 | Estado | Criterio reproducible | Acción típica |
 |---|---|---|
-| **Calibrated** | `maturity: stable` + tests/evals presentes + DOMAIN.md completo | Mantener, monitorizar regresiones |
+| **Calibrated** | `maturity: stable` + test/eval certificado (≥80) + DOMAIN.md completo | Mantener, monitorizar regresiones |
 | **Incomplete** | SKILL+DOMAIN ok, pero falta uno de: `maturity: stable`, tests, evals | Añadir tests; promover de beta/experimental a stable |
 | **Stub** | Falta DOMAIN.md, o SKILL.md `<50` líneas | Decidir: terminar o eliminar |
 | **Deprecated** | Frontmatter `deprecated: true` | Eliminar tras periodo de gracia |
@@ -28,7 +28,7 @@ Este kanban da un veredicto reproducible por skill — sin opinión humana — p
 ## Reglas de transición
 
 - **Stub → Incomplete**: añadir DOMAIN.md y al menos 50 líneas de protocolo en SKILL.md.
-- **Incomplete → Calibrated**: `maturity: stable` + `tests/test-<skill>.bats` o `tests/evals/*<skill>*.bats` **certificado por `scripts/test-auditor.sh` (≥80, mismo umbral que G6b)**. La mera existencia del fichero no cuenta: en #1097 121 tests de presencia (score 23) inflaron el kanban de 133 a 48 no calibradas; la cifra real medida el 2026-09-27 era 125/134 (128/137 tras #1142).
+- **Incomplete → Calibrated**: `maturity: stable` + `tests/test-<skill>.bats`, `tests/scripts/<skill>.bats` o `tests/evals/*<skill>*.bats` **certificado por `scripts/test-auditor.sh` (≥80, mismo umbral que G6b)**. La mera existencia del fichero no cuenta: en #1097 121 tests de presencia (score 23) inflaron el kanban de 133 a 48 no calibradas; la cifra real medida el 2026-09-27 era 125/134 (128/137 tras #1142).
 - **Calibrated → Deprecated**: añadir `deprecated: true` al frontmatter cuando se reemplaza la skill o se retira del catálogo.
 - **Cualquier → Deprecated**: solo vía marcador explícito en frontmatter, nunca implícito.
 

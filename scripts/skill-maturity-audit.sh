@@ -42,10 +42,10 @@ esac
 
 mkdir -p "$OUTPUT_DIR"
 
-# has_qualified_test <skill> — true si algún test/eval de la skill puntúa >= MIN_TEST_SCORE.
+# has_qualified_test <skill> — true si alguna suite directa o eval puntúa >= MIN_TEST_SCORE.
 has_qualified_test() {
   local name="$1" f score
-  for f in "$TESTS_DIR/test-${name}.bats" "$TESTS_DIR/evals/"*"${name}"*.bats; do
+  for f in "$TESTS_DIR/test-${name}.bats" "$TESTS_DIR/scripts/${name}.bats" "$TESTS_DIR/evals/"*"${name}"*.bats; do
     [[ -f "$f" ]] || continue
     score=$(bash "$SCRIPT_DIR/test-auditor.sh" "$f" 2>/dev/null | jq -r '.total // 0' 2>/dev/null)
     [[ "$score" =~ ^[0-9]+$ ]] && (( score >= MIN_TEST_SCORE )) && { echo true; return; }

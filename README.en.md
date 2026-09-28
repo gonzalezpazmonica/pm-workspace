@@ -65,6 +65,7 @@ Govern (risk L0-L4, gates, receipts) · execute (agents, commands, skills, SDD) 
 Governance (Policy/Risk/Gates) + Execution (Agents/Skills/Tools) + Memory (Context/Knowledge/History) → Evidence/Evals → Frontends + Providers.
 
 CI parses the complete skill catalog as YAML so metadata migrations cannot silently make capabilities disappear at startup.
+Skill maturity requires certified behavior tests; the auditor recognizes suites in `tests/scripts/` as well as `tests/` and `tests/evals/`.
 
 ## Frontends and providers
 

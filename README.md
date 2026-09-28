@@ -65,6 +65,7 @@ Frontends (Claude Code, OpenCode, Codex), modelos y proveedores son interfaces e
 Savia evoluciona mediante mecanismos explícitos: propuesta/spec → implementación → evaluación → evidencia → enforcement. El cumplimiento de políticas es ejecutable: policy document → machine-readable rule → runtime enforcement → evidence.
 
 El catálogo de skills se valida como YAML completo en CI para impedir que una migración de metadatos deje capacidades invisibles al arrancar.
+La madurez de cada skill exige pruebas de comportamiento certificadas; el auditor reconoce las suites de `tests/scripts/` además de las de `tests/` y `tests/evals/`.
 
 ## Frontends y proveedores soportados
 
