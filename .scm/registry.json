@@ -8672,27 +8672,6 @@
       "frontend_support": [
         "opencode"
       ],
-      "id": "script:scripts/corporate/engagement-evidence-package",
-      "intents": [
-        "client",
-        "compliance",
-        "engagement",
-        "evidence",
-        "package"
-      ],
-      "kind": "script",
-      "owner_domain": "governance",
-      "replaced_by": null,
-      "risk_level": null,
-      "source": "scripts/corporate/engagement-evidence-package.sh",
-      "status": "active",
-      "tests": []
-    },
-    {
-      "depends_on": [],
-      "frontend_support": [
-        "opencode"
-      ],
       "id": "script:scripts/glm-validate",
       "intents": [
         "completeness",
@@ -13507,6 +13486,27 @@
       "replaced_by": null,
       "risk_level": null,
       "source": "scripts/confidentiality-scan.sh",
+      "status": "active",
+      "tests": []
+    },
+    {
+      "depends_on": [],
+      "frontend_support": [
+        "opencode"
+      ],
+      "id": "script:scripts/config-snapshot",
+      "intents": [
+        "config",
+        "configuración",
+        "copias",
+        "ficheros",
+        "previas"
+      ],
+      "kind": "script",
+      "owner_domain": "planning",
+      "replaced_by": null,
+      "risk_level": null,
+      "source": "scripts/config-snapshot.sh",
       "status": "active",
       "tests": []
     },
@@ -29604,7 +29604,7 @@
       "tests": []
     }
   ],
-  "content_hash": "4b8dd4ee6740",
+  "content_hash": "13ddae349698",
   "deferred_kinds": [
     "rule",
     "hook"

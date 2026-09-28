@@ -1,5 +1,5 @@
 {
-  "hash": "4b8dd4ee6740",
+  "hash": "13ddae349698",
   "total": 1450,
   "resources": [
     {
@@ -5620,20 +5620,6 @@
     },
     {
       "category": "governance",
-      "name": "corporate/engagement-evidence-package",
-      "intents": [
-        "client",
-        "compliance",
-        "engagement",
-        "evidence",
-        "package"
-      ],
-      "kind": "script",
-      "path": "scripts/corporate/engagement-evidence-package.sh",
-      "description": "engagement-evidence-package.sh — SE-271 S6 Per-Client Compliance Evidence Package"
-    },
-    {
-      "category": "governance",
       "name": "glm-validate",
       "intents": [
         "completeness",
@@ -8761,6 +8747,20 @@
       "kind": "script",
       "path": "scripts/confidentiality-scan.sh",
       "description": "confidentiality-scan.sh — Scan for PII, credentials, real project names."
+    },
+    {
+      "category": "planning",
+      "name": "config-snapshot",
+      "intents": [
+        "config",
+        "configuración",
+        "copias",
+        "ficheros",
+        "previas"
+      ],
+      "kind": "script",
+      "path": "scripts/config-snapshot.sh",
+      "description": "config-snapshot.sh — SE-405 Slice 2: copias previas de ficheros de configuración."
     },
     {
       "category": "planning",

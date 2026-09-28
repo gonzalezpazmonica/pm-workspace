@@ -6,7 +6,7 @@
 
 | Total hooks | TS Guards | Git Hook mitigated | CI Job mitigated | NONE |
 |---|---|---|---|---|
-| 123 | 19 (15.4%) | 4 | 5 | 95 |
+| 125 | 19 (15.2%) | 4 | 5 | 97 |
 
 ## Bloqueantes sin cobertura ni mitigacion
 
@@ -14,10 +14,10 @@ Ninguno — AC-2.2 satisfecho.
 
 ## Cobertura real OpenCode
 
-- **TS Guards activos**: 19/123 (15.4%)
-- **Hooks sin cobertura TS**: 95 (77.2%)
+- **TS Guards activos**: 19/125 (15.2%)
+- **Hooks sin cobertura TS**: 97 (77.6%)
   - De los cuales son bloqueantes sin ninguna mitigacion: 0
-  - Eventos no disponibles en OpenCode (degradacion aceptada): 33
+  - Eventos no disponibles en OpenCode (degradacion aceptada): 34
 
 ## Full matrix
 
@@ -116,6 +116,7 @@ Ninguno — AC-2.2 satisfecho.
 | PreToolUse | auto-grill-me.sh | si | TS_GUARD | warning | autoGrillMe |
 | PreToolUse | auto-zoom-out.sh | si | TS_GUARD | warning | autoZoomOut |
 | PreToolUse | blast-radius-hook.sh | no | NONE | warning | degradacion_documentada: solo Claude Code |
+| PreToolUse | config-snapshot-hook.sh | no | NONE | warning | degradacion_documentada: solo Claude Code |
 | PreToolUse | model-tier-inject.sh | no | NONE | warning | degradacion_documentada: solo Claude Code |
 | PreToolUse | plan-gate.sh | no | CI_JOB | warning | CI validate-ci-local.sh |
 | SessionEnd | cache-hygiene-hook.sh | no | NONE | telemetria | evento SessionEnd no disponible en OpenCode — degradacion_documentada |
@@ -136,6 +137,7 @@ Ninguno — AC-2.2 satisfecho.
 | Stop | postponement-judge.sh | no | NONE | warning | evento Stop no disponible en OpenCode — degradacion_documentada |
 | Stop | stop-quality-gate.sh | no | GIT_HOOK | warning | git pre-commit/pre-push |
 | SubagentStart | subagent-lifecycle.sh | no | NONE | telemetria | evento SubagentStart no disponible en OpenCode — degradacion_documentada |
+| SubagentStop | runs-cost-capture-hook.sh | no | NONE | telemetria | evento SubagentStop no disponible en OpenCode — degradacion_documentada |
 | SubagentStop | subagent-lifecycle.sh | no | NONE | telemetria | evento SubagentStop no disponible en OpenCode — degradacion_documentada |
 | TaskCompleted | task-lifecycle.sh | no | NONE | telemetria | evento TaskCompleted no disponible en OpenCode — degradacion_documentada |
 | TaskCreated | task-lifecycle.sh | no | NONE | telemetria | evento TaskCreated no disponible en OpenCode — degradacion_documentada |

@@ -1,5 +1,5 @@
 # planning — Savia Capability Map (L1)
-> 631 resources
+> 632 resources
 
 - **/decide-architecture** (cmd): Clasifica una tarea como WORKFLOW (deterministica) o AGENT (loop). Bias hacia workflow per Anthropic. Sugiere plantilla inicial. Mide accuracy contra corpus curado de 20 tareas.
 - **_template** (skill): TEMPLATE — copia este directorio para crear una skill nueva. NO se carga en runtime.
@@ -108,6 +108,7 @@
 - **confidence-calibrate** (script): confidence-calibrate.sh - Confidence Calibration Analytics
 - **confidentiality-check** (script): confidentiality-check.sh — Verify project files comply with confidentiality levels
 - **confidentiality-scan** (script): confidentiality-scan.sh — Scan for PII, credentials, real project names.
+- **config-snapshot** (script): config-snapshot.sh — SE-405 Slice 2: copias previas de ficheros de configuración.
 - **consensus-validation** (skill): Usar cuando una decisión técnica o recomendación necesita validación por panel de jueces.
 - **containment-check** (script): containment-check.sh — Verify containment infrastructure is available
 - **containment-run** (script): containment-run.sh — Execute command in proper containment level

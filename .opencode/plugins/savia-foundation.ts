@@ -45,6 +45,8 @@ import { blockGitignoredReferences } from "./guards/block-gitignored-references.
 import { promptInjectionGuard } from "./guards/prompt-injection-guard.ts";
 import { tddGate } from "./guards/tdd-gate.ts";
 import { dataSovereigntyAudit } from "./guards/data-sovereignty-audit.ts";
+// SE-405 Slice 2: snapshot of watched config files before edit/write
+import { configSnapshot } from "./guards/config-snapshot.ts";
 // SE-402: attributed edit ledger (path + hash, never content)
 import { editLedgerRecord } from "./guards/edit-ledger-record.ts";
 import { autoGrillMe } from "./guards/auto-grill-me.ts";
@@ -85,6 +87,8 @@ const BEFORE_GUARDS = [
   subagentAudienceFilter,
   // SE-313 S7c: dispatch tracing (PreToolUse `task`, non-blocking telemetry)
   dispatchTrace,
+  // SE-405 Slice 2: last, so a blocked edit never snapshots (never throws)
+  configSnapshot,
 ] as const;
 
 const AFTER_GUARDS = [

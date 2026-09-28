@@ -498,6 +498,16 @@
             "statusMessage": "SE-345: gate de escritura en memoria..."
           }
         ]
+      },
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/.opencode/hooks/config-snapshot-hook.sh",
+            "timeout": 5
+          }
+        ]
       }
     ],
     "PostToolUse": [
@@ -1072,6 +1082,16 @@
             "async": true,
             "timeout": 5,
             "statusMessage": "Logging agent completion..."
+          }
+        ]
+      },
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/.opencode/hooks/runs-cost-capture-hook.sh",
+            "async": true,
+            "timeout": 15
           }
         ]
       }

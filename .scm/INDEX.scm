@@ -1,5 +1,5 @@
 # Savia Capability Map — INDEX
-> hash: 5e94e560f209 | resources: 1450
+> hash: 9c3f23af51a2 | resources: 1450
 > 295 commands · 139 skills · 90 agents · 926 scripts
 
 [analysis] Trace Optimize — across,distributed,optimize,rates,sampling — cmd:.claude/commands/trace-optimize.md
@@ -425,7 +425,6 @@
 [governance] compliance-judge — confidentiality,format,judge,levels,rules — agent:.opencode/agents/compliance-judge.md
 [governance] compliance-report — compliance,ejecutivo,generar,informe,regulatorio — cmd:.claude/commands/compliance-report.md
 [governance] compliance-scan — automática,contra,código,detección,escanear — cmd:.claude/commands/compliance-scan.md
-[governance] corporate/engagement-evidence-package — client,compliance,engagement,evidence,package — script:scripts/corporate/engagement-evidence-package.sh
 [governance] glm-validate — completeness,drift,governance,manifest,validate — script:scripts/glm-validate.sh
 [governance] governance-audit — acciones,auditoría,cumplimiento,permitidas,política — cmd:.claude/commands/governance-audit.md
 [governance] governance-audit-log — append,audit,chain,governance,hash — script:scripts/governance-audit-log.sh
@@ -660,6 +659,7 @@
 [planning] confidence-calibrate — analytics,calibrate,calibration,confidence — script:scripts/confidence-calibrate.sh
 [planning] confidentiality-check — check,comply,confidentiality,files,levels — script:scripts/confidentiality-check.sh
 [planning] confidentiality-scan — confidentiality,credentials,names,project,real — script:scripts/confidentiality-scan.sh
+[planning] config-snapshot — config,configuración,copias,ficheros,previas — script:scripts/config-snapshot.sh
 [planning] consensus-validation — decisión,jueces,panel,recomendación,técnica — skill:.claude/skills/consensus-validation/SKILL.md
 [planning] containment-check — available,check,containment,infrastructure,verify — script:scripts/containment-check.sh
 [planning] containment-run — command,containment,execute,level,proper — script:scripts/containment-run.sh

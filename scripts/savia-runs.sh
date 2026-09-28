@@ -15,6 +15,7 @@
 #   status  [--json]                       → board derivado
 #   list    [--mode M] [--json]            → tabla de runs con estado derivado
 #   show    <run_id>                       → hechos + estado derivado + traza de precedencia
+#   cost    <run_id> --agent A --model M --tokens-in N --tokens-out N [--usd X]  → SE-405
 #   reset                                  → vacía ledger (dev/test)
 set -uo pipefail
 
@@ -631,9 +632,102 @@ import sys, json
 pr = json.load(sys.stdin).get("pr")
 if not pr: print("(none)")
 else: print("#%(number)s state=%(state)s ci=%(ci)s review=%(review)s mergeable=%(mergeable)s" % pr)')"
+  echo "cost        : $(echo "$existing" | python3 -c '
+import sys, json
+c = json.load(sys.stdin).get("cost")
+if not c: print("(none)")
+else:
+    line = "in=%d out=%d" % (c["tokens_in"], c["tokens_out"])
+    if c.get("usd"): line += " usd=%g" % c["usd"]
+    for name, a in sorted(c.get("agents", {}).items()):
+        line += "\n  %s: in=%d out=%d calls=%d" % (name, a["tokens_in"], a["tokens_out"], a["calls"])
+        if a.get("usd"): line += " usd=%g" % a["usd"]
+    print(line)')"
   echo ""
   echo "derived_status : $derived"
   echo "trace          : $trace"
+}
+
+# ── Subcommand: cost (SE-405 Slice 1) ────────────────────────────────────
+# Adds tokens (and optional USD) consumed by one agent to a run's `cost` fact.
+cmd_cost() {
+  local run_id="${1:-}"; shift || true
+  local agent="" model="" tin="" tout="" usd=""
+  while [[ $# -gt 0 ]]; do
+    case "$1" in
+      --agent) agent="${2:-}"; shift 2 ;;
+      --model) model="${2:-}"; shift 2 ;;
+      --tokens-in) tin="${2:-}"; shift 2 ;;
+      --tokens-out) tout="${2:-}"; shift 2 ;;
+      --usd) usd="${2:-}"; shift 2 ;;
+      *) echo "ERROR: unknown arg '$1'" >&2; exit 2 ;;
+    esac
+  done
+  [[ -z "$run_id" || -z "$agent" ]] && { echo "ERROR: cost <run_id> --agent A --model M --tokens-in N --tokens-out N [--usd X]" >&2; exit 2; }
+  [[ "$tin" =~ ^[0-9]+$ && "$tout" =~ ^[0-9]+$ ]] || { echo "ERROR: --tokens-in/--tokens-out must be integers >= 0" >&2; exit 2; }
+  [[ -z "$usd" || "$usd" =~ ^[0-9]+(\.[0-9]+)?$ ]] || { echo "ERROR: --usd must be a number >= 0" >&2; exit 2; }
+  _py3 || { echo "ERROR: python3 required for cost" >&2; exit 1; }
+  local existing
+  existing="$(_read_record "$run_id")"
+  [[ -z "$existing" ]] && { echo "ERROR: run_id '$run_id' not found in $LEDGER" >&2; exit 2; }
+  local updated
+  updated="$(echo "$existing" | python3 -c '
+import sys, json
+r = json.loads(sys.stdin.read())
+agent, model, tin, tout, usd, now = sys.argv[1:7]
+c = r.get("cost") or {"tokens_in": 0, "tokens_out": 0, "usd": 0.0, "agents": {}}
+a = c["agents"].setdefault(agent, {"tokens_in": 0, "tokens_out": 0, "usd": 0.0, "calls": 0, "models": []})
+a["tokens_in"] += int(tin); a["tokens_out"] += int(tout); a["calls"] += 1
+if usd: a["usd"] = round(a["usd"] + float(usd), 6); c["usd"] = round(c["usd"] + float(usd), 6)
+if model and model not in a["models"]: a["models"].append(model)
+c["tokens_in"] += int(tin); c["tokens_out"] += int(tout)
+r["cost"] = c; r["updated_at"] = now
+print(json.dumps(r, ensure_ascii=False))' "$agent" "$model" "$tin" "$tout" "$usd" "$(_now)")"
+  _upsert_record "$run_id" "$updated" || { echo "ERROR: ledger update failed" >&2; exit 1; }
+  echo "run_id=$run_id cost+ agent=$agent in=$tin out=$tout"
+}
+
+# ── Subcommand: capture-cost (SE-405 Slice 1, hook SubagentStop) ─────────
+# Reads the SubagentStop payload on stdin; if SAVIA_RUN_ID is set, sums the
+# subagent transcript usage and records it with cmd_cost. Never fails.
+cmd_capture_cost() {
+  [[ -z "${SAVIA_RUN_ID:-}" ]] && return 0
+  local payload summary agent model tin tout
+  payload=$(cat 2>/dev/null) || return 0
+  summary=$(python3 - "$payload" <<'PY' 2>/dev/null
+import json, sys
+try:
+    p = json.loads(sys.argv[1] or "{}")
+except json.JSONDecodeError:
+    sys.exit(0)
+path = p.get("agent_transcript_path") or p.get("transcript_path")
+if not path:
+    sys.exit(0)
+tin = tout = 0
+model = ""
+try:
+    with open(path, encoding="utf-8") as fh:
+        for line in fh:
+            try:
+                m = json.loads(line).get("message") or {}
+            except json.JSONDecodeError:
+                continue
+            u = m.get("usage") or {}
+            tin += int(u.get("input_tokens", 0) or 0)
+            tout += int(u.get("output_tokens", 0) or 0)
+            model = m.get("model") or model
+except OSError:
+    sys.exit(0)
+agent = p.get("agent_type") or p.get("agent_id") or "subagent"
+print(f"{agent}\t{model or 'unknown'}\t{tin}\t{tout}")
+PY
+) || return 0
+  [[ -z "$summary" ]] && return 0
+  IFS=$'\t' read -r agent model tin tout <<<"$summary"
+  # Subshell: cmd_cost exits on invalid input; the hook must never fail.
+  ( cmd_cost "$SAVIA_RUN_ID" --agent "$agent" --model "$model" \
+    --tokens-in "$tin" --tokens-out "$tout" ) >/dev/null 2>&1 || true
+  return 0
 }
 
 # ── Subcommand: reset ────────────────────────────────────────────────────
@@ -655,9 +749,11 @@ case "$SUBCOMMAND" in
   status) cmd_status "$@" ;;
   list)   cmd_list   "$@" ;;
   show)   cmd_show   "$@" ;;
+  cost)   cmd_cost   "$@" ;;
+  capture-cost) cmd_capture_cost; exit 0 ;;
   reset)  cmd_reset  "$@" ;;
   *)
-    echo "Usage: savia-runs.sh <init|start|state|pr|finish|status|list|show|reset> [args...]" >&2
+    echo "Usage: savia-runs.sh <init|start|state|pr|cost|capture-cost|finish|status|list|show|reset> [args...]" >&2
     echo "" >&2
     echo "  init" >&2
     echo "  start   <mode> <agent> <task> [--project P] [--branch B] [--url U]   → imprime run_id" >&2

@@ -26,14 +26,14 @@ trazas por proyecto, desconectadas del run.
   añade un hecho `cost` al ledger (append-only, como el resto de hechos).
 - `show` y `status --json` agregan por run: tokens in/out, USD (si se conoce) y
   desglose por agente.
-- Hook `SubagentStop` (Claude Code) → `scripts/runs-cost-capture.sh`: si hay
+- Hook `SubagentStop` (Claude Code) → `savia-runs.sh capture-cost`: si hay
   `SAVIA_RUN_ID` en el entorno y el payload trae `transcript_path`, suma el `usage`
   de los mensajes del subagente y llama a `savia-runs.sh cost`. Sin `SAVIA_RUN_ID`, no hace nada.
 
 **AC.**
 - AC1: `cost` valida run existente, enteros ≥ 0 y agente no vacío; rechaza lo demás con exit 2.
 - AC2: `show <run_id>` muestra total y desglose por agente; `status --json` incluye `cost`.
-- AC3: `runs-cost-capture.sh` suma `usage.input_tokens`/`output_tokens` de un transcript JSONL de fixture.
+- AC3: `savia-runs.sh capture-cost` suma `usage.input_tokens`/`output_tokens` de un transcript JSONL de fixture.
 
 ## Slice 2 — Snapshots de configuración (P6)
 
@@ -78,7 +78,7 @@ store si no hay proyecto), marcando la entrada ancla.
 | Componente | Claude Code | OpenCode v1.14 |
 |---|---|---|
 | `savia-runs.sh cost` | bash | idéntico |
-| Captura de coste | hook `SubagentStop` → `runs-cost-capture.sh` | sin evento equivalente: `cost` manual (deferred) |
+| Captura de coste | hook `SubagentStop` → `savia-runs.sh capture-cost` | sin evento equivalente: `cost` manual (deferred) |
 | Snapshot de config | hook PreToolUse `Edit\|Write` → `config-snapshot-hook.sh` | `tool.execute.before` en `savia-foundation.ts` invoca el mismo script |
 | `memory-store.sh timeline` | bash | idéntico |
 
@@ -91,3 +91,10 @@ store si no hay proyecto), marcando la entrada ancla.
 ### Portability classification
 
 - [x] **SINGLE_BINDING_DEFERRED**: la captura automática de coste depende del evento `SubagentStop` de Claude Code; en OpenCode el registro es manual hasta que exista evento equivalente (se revisará en SE-392). Slices 2 y 3 son DUAL/PURE_BASH.
+
+## Ficheros afectados fuera de los slices
+
+- Recuentos de hooks en `README*.md` y `CLAUDE.md` (exigidos por `release-invariants.sh`).
+- `docs/hooks-coverage-matrix.md` regenerada (SE-253).
+- Tests TS del plugin: `.opencode/plugins/__tests__/config-snapshot.test.ts`.
+- Entropía neta 0 (SE-380): se retira `scripts/corporate/engagement-evidence-package.sh` (SE-271 PROPOSED, sin llamadores) y la captura de coste vive en `savia-runs.sh capture-cost`.
