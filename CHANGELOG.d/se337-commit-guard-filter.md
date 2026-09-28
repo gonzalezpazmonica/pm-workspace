@@ -1,5 +1,5 @@
 ---
-version_bump: minor
+version_bump: patch
 section: Fixed
 ---
 

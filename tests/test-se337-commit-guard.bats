@@ -1,6 +1,6 @@
 #!/usr/bin/env bats
 # SE-337 — guard de commit en ramas humanas (main/master)
-# Spec: docs/specs/SE-337-commit-guard-main.spec.md (AC-01..AC-05)
+# Ref: docs/specs/SE-337-commit-guard-main.spec.md (AC-01..AC-05)
 
 HOOK=".claude/hooks/block-commit-to-main.sh"
 LOG="output/turn-sdlc/commit-guard.jsonl"
@@ -70,6 +70,7 @@ teardown() {
 @test "AC-05b: bash -n, sin vendor names, PURE_BASH" {
   local h=$(cd "$(dirname "$BATS_TEST_FILENAME")/.." && pwd)/$HOOK
   bash -n "$h"
+  grep -q 'set -uo pipefail' "$h"
   run grep -niE "openai|anthropic|gpt-|gemini|qwen|deepseek" "$h"
   [[ "$status" -ne 0 ]]
 }
@@ -113,7 +114,7 @@ teardown() {
   [[ "$(jq -r .decision <<< "$output")" == block ]]
 }
 
-@test "regression: malformed and missing command payloads remain conservative" {
+@test "regression: malformed, null and empty command payloads remain conservative" {
   local h="$PWD/$HOOK" payload
   cd "$FIXDIR" || return 1
   for payload in '{' '{}' '{"tool_input":{"command":null}}' \
@@ -162,6 +163,25 @@ teardown() {
   run bash "$h" <<< "$payload"
   [[ "$status" -eq 0 ]]
   [[ "$(jq -r .decision <<< "$output")" == block ]]
+}
+
+@test "edge: empty workdir falls back to the current directory" {
+  local h="$PWD/$HOOK"
+  cd "$FIXDIR" || return 1
+  run bash "$h" <<< '{"tool_input":{"command":"git commit -m test","workdir":""}}'
+  [[ "$status" -eq 0 ]]
+  [[ "$(jq -r .decision <<< "$output")" == block ]]
+}
+
+@test "edge: guarded cd to a nonexistent directory cannot reach the commit" {
+  local h="$PWD/$HOOK" payload
+  cd "$FIXDIR" || return 1
+  # cd falla antes de git commit, así que no hay commit que bloquear.
+  payload=$(jq -nc '{tool_input:{command:"cd \"/nonexistent-se337\" && git commit -m test"}}')
+  run bash "$h" <<< "$payload"
+  [[ "$status" -eq 0 && -z "$output" ]]
+  run bash -c 'cd "/nonexistent-se337" 2>/dev/null && echo reached'
+  [[ "$output" != *reached* ]]
 }
 
 @test "RN-01: detached HEAD / no repo → pass (sin rama humana)" {
