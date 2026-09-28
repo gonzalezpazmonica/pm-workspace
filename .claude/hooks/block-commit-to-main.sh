@@ -11,13 +11,42 @@ set -uo pipefail
 #
 # PreToolUse Bash(git commit*). PURE_BASH, sin red (CRIT-001).
 
+# Some frontends register this hook for every Bash invocation. Filter the
+# command here too; unknown payloads retain the conservative branch check.
+if COMMAND=$(printf '%s' "${INPUT:-}" | jq -er '
+  (.tool_input.command // .tool_input.cmd)
+  | select(type == "string" and length > 0)
+' 2>/dev/null); then
+  GIT_TOKEN='(^|[^[:alnum:]_])git([^[:alnum:]_]|$)'
+  # A subcommand is a shell word; --no-commit and commit-msg are not commits.
+  COMMIT_TOKEN="(^|[[:space:];|&()\"'])commit([[:space:];|&()\"']|$)"
+  if ! [[ "$COMMAND" =~ $GIT_TOKEN ]] || ! [[ "$COMMAND" =~ $COMMIT_TOKEN ]]; then
+    exit 0
+  fi
+fi
+
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 LOG_DIR="${SAVIA_TURN_SDLC_LOG_DIR:-$ROOT/output/turn-sdlc}"
 
 # Ignorar si no estamos en un repo git
 BRANCH=""
-if git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
-  BRANCH=$(git branch --show-current 2>/dev/null || echo "")
+TARGET_DIR=$(printf '%s' "${INPUT:-}" | jq -r '
+  (.tool_input.workdir // .cwd // empty) | select(type == "string")
+' 2>/dev/null) || TARGET_DIR=""
+TARGET_DIR="${TARGET_DIR:-$PWD}"
+# Codex's Bash adapter may omit workdir. Honor the explicit, guarded cd form
+# used for isolated worktrees (a failed cd cannot execute the following git).
+CD_PREFIX='^[[:space:]]*cd[[:space:]]+"([^"]+)"[[:space:]]*&&[[:space:]]*git[[:space:]]+commit([[:space:]]|$)'
+if [[ "${COMMAND:-}" =~ $CD_PREFIX ]]; then
+  COMMAND_DIR="${BASH_REMATCH[1]}"
+  if [[ "$COMMAND_DIR" == /* ]]; then
+    TARGET_DIR="$COMMAND_DIR"
+  else
+    TARGET_DIR="$TARGET_DIR/$COMMAND_DIR"
+  fi
+fi
+if git -C "$TARGET_DIR" rev-parse --is-inside-work-tree >/dev/null 2>&1; then
+  BRANCH=$(git -C "$TARGET_DIR" branch --show-current 2>/dev/null || echo "")
 fi
 # vacío (detached/recién init) → no proteger (sin rama de humano en juego)
 [[ -z "$BRANCH" ]] && exit 0
