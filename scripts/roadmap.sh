@@ -20,7 +20,34 @@ case "$CMD" in
   next)
     echo "# Siguiente (GENERATED)"
     echo
-    jq -r '.initiatives[] | select(.status=="PROPOSED" or .status=="APPROVED") | "- \(.id) [\(.status)] prioridad=\(.priority // "n/a") — \(.title // "")"' "$STATE"
+    PHASE=$(jq -r '.route.current_phase // empty' "$STATE")
+    if [[ -n "$PHASE" ]]; then
+      WIP=$(jq -r '.route.wip_limit.savia_implementing // empty' "$STATE")
+      if ! [[ "$WIP" =~ ^[0-9]+$ ]]; then
+        echo "ERROR: route.wip_limit.savia_implementing inválido" >&2
+        exit 1
+      fi
+      NIMP=$(jq '[.initiatives[] | select(.status=="IMPLEMENTING")] | length' "$STATE")
+      echo "Fase $PHASE · WIP $NIMP/$WIP"
+      echo
+      if (( NIMP >= WIP )); then
+        echo "WIP completo ($NIMP/$WIP): continuar las iniciativas en curso antes de iniciar otra."
+        jq -r '.initiatives[] | select(.status=="IMPLEMENTING") | "- \(.id) [IMPLEMENTING] fase=\(.phase // "n/a") — \(.title // "")"' "$STATE"
+        exit 0
+      fi
+    fi
+    CANDIDATES=$(jq -r --arg phase "$PHASE" '
+      [.initiatives[]
+        | select(.status=="PROPOSED" or .status=="APPROVED")
+        | select($phase=="" or .phase==$phase)]
+      | sort_by((.priority // "P999" | ltrimstr("P") | tonumber? // 999), .id)
+      | .[]
+      | "- \(.id) [\(.status)] prioridad=\(.priority // "n/a") — \(.title // "")\(if .status=="PROPOSED" then " (requiere aprobación)" else "" end)"' "$STATE")
+    if [[ -n "$CANDIDATES" ]]; then
+      echo "$CANDIDATES"
+    else
+      echo "Sin candidatas en la fase activa."
+    fi
     ;;
   history)
     ID="${2:-}"
