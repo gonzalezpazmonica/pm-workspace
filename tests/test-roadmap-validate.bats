@@ -198,6 +198,50 @@ set_route() { # <wip> <phase-of-SE-375>
   [[ "$output" == *"FAIL: route.wip_limit.savia_implementing ausente o inválido"* ]]
 }
 
+@test "next selects the active phase and sorts by priority" {
+  set_route 3 A
+  jq '.initiatives = [
+    {"id":"SE-375","status":"APPROVED","approval":"human approval","phase":"A","priority":"P2","title":"later"},
+    {"id":"SE-376","status":"PROPOSED","phase":"A","priority":"P0","title":"needs approval"},
+    {"id":"SE-377","status":"APPROVED","approval":"human approval","phase":"B","priority":"P0","title":"future phase"},
+    {"id":"SE-378","status":"APPROVED","approval":"human approval","phase":"A","priority":"P1","title":"earlier"}
+  ]' "$FIXTURE/docs/propuestas/planning-state.json" > "$FIXTURE/state.tmp"
+  mv "$FIXTURE/state.tmp" "$FIXTURE/docs/propuestas/planning-state.json"
+
+  run env REPO_ROOT="$FIXTURE" bash "$SCRIPT" next
+
+  [ "$status" -eq 0 ]
+  [[ "$output" == *"Fase A"* ]]
+  [[ "$output" != *"SE-377"* ]]
+  [[ "$output" == *"SE-376 [PROPOSED]"*"requiere aprobación"* ]]
+  [[ "$output" == *"SE-378 [APPROVED]"* ]]
+  [[ "$output" == *"SE-375 [APPROVED]"* ]]
+  [[ "$output" == *"SE-376"*"SE-378"*"SE-375"* ]]
+}
+
+@test "next does not offer new work when the route WIP limit is full" {
+  set_route 1 A
+  jq '.initiatives = [
+    {"id":"SE-375","status":"IMPLEMENTING","phase":"A","title":"ongoing"},
+    {"id":"SE-376","status":"APPROVED","approval":"human approval","phase":"A","priority":"P0","title":"queued"}
+  ]' "$FIXTURE/docs/propuestas/planning-state.json" > "$FIXTURE/state.tmp"
+  mv "$FIXTURE/state.tmp" "$FIXTURE/docs/propuestas/planning-state.json"
+
+  run env REPO_ROOT="$FIXTURE" bash "$SCRIPT" next
+
+  [ "$status" -eq 0 ]
+  [[ "$output" == *"WIP completo (1/1)"* ]]
+  [[ "$output" == *"SE-375 [IMPLEMENTING]"* ]]
+  [[ "$output" != *"SE-376 [APPROVED]"* ]]
+}
+
+@test "next falls back to the legacy list when the route is absent" {
+  run env REPO_ROOT="$FIXTURE" bash "$SCRIPT" next
+
+  [ "$status" -eq 0 ]
+  [[ "$output" == *"SE-375 [APPROVED]"* ]]
+}
+
 @test "edge: validate ignores non-numeric spec IDs without arithmetic errors" {
   printf '%s\n' 'status: APPROVED' > "$FIXTURE/docs/specs/SE-375-example.spec.md"
   printf '%s\n' 'status: PROPOSED' > "$FIXTURE/docs/specs/SE-GRC-001-example.spec.md"
