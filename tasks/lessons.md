@@ -1,5 +1,8 @@
 # Lessons Learned
 
+- Un hook registrado para todo Bash debe filtrar el comando dentro del script;
+  no puede depender de un matcher específico de otro frontend. Probar lecturas
+  permitidas y operaciones protegidas con payloads reales en un repo temporal.
 - Un reviewer configurado que coincide con la única colaboradora no es una
   ruta de revisión externa: GitHub rechaza self-review. Comprobar la topología
   real del repositorio antes de exigir una aprobación distinta; en modo de
