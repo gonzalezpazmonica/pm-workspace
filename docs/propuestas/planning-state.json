@@ -345,6 +345,16 @@
       "evidence": "docs/specs/SE-411-rag-efficiency.spec.md",
       "phase": "A",
       "approval": "Operadora 2026-09-29 en chat (AskUserQuestion): Aprobar e implementar"
+    },
+    {
+      "id": "SE-412",
+      "status": "APPROVED",
+      "approval": "Operadora 2026-09-29 en chat: 'Implementa los fix en los gaps pendientes'",
+      "priority": "P2",
+      "title": "Higiene y arranque en frío de vault_search + fallo intermitente del fan-out",
+      "note": "Implementada en una PR sin ocupar WIP; AC3 no cumplido (0,5 s vs 0,4 s, límite del motor); graduación pendiente de revisión humana",
+      "evidence": "docs/specs/SE-412-vault-search-hygiene.spec.md",
+      "phase": "A"
     }
   ],
   "route": {

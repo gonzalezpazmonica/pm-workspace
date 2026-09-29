@@ -48,4 +48,11 @@ describe('fanOut', () => {
     await fanOut(Array.from({ length: 4 }, (_, i) => ({ key: String(i), fn: () => sleep(60) })), { concurrency: 4, timeoutMs: 1000 });
     expect(Date.now() - t0).toBeLessThan(200);
   });
+
+  it('SE-412: la tarea recibe una señal que se aborta al vencer el timeout', async () => {
+    let seen: AbortSignal | undefined;
+    const res = await fanOut([{ key: 'slow', fn: async (signal) => { seen = signal; await sleep(120); return signal.aborted; } }], { concurrency: 1, timeoutMs: 30 });
+    expect(res.get('slow')).toMatchObject({ ok: false, timeout: true });
+    expect(seen?.aborted).toBe(true);
+  });
 });

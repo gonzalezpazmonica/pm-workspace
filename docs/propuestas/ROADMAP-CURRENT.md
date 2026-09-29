@@ -14,3 +14,4 @@
 - SE-407 [IMPLEMENTING] Predicado único de estado consistente y cierre de sesión limpio — evidencia: docs/specs/SE-407-consistent-state-predicate.spec.md
 - SE-410 [APPROVED] Savia RAG: recuperación híbrida paralela en SaviaVaults + política dinámica de embeddings — evidencia: docs/specs/SE-410-savia-rag.spec.md
 - SE-411 [APPROVED] Eficiencia de Savia RAG: fusión invariante al orden, caché dimensionada, keep_alive, respuesta compacta y CLI en frío — evidencia: docs/specs/SE-411-rag-efficiency.spec.md
+- SE-412 [APPROVED] Higiene y arranque en frío de vault_search + fallo intermitente del fan-out — evidencia: docs/specs/SE-412-vault-search-hygiene.spec.md

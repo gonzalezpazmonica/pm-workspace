@@ -377,7 +377,7 @@ export class RagService {
     interface Prepared { d: RagDomeRef; cfg: ResolvedRagConfig; store: FlatVectorStore }
     const prepared = await fanOut(allowed.map(d => ({
       key: d.name,
-      fn: async (): Promise<Prepared | undefined> => {
+      fn: async (signal): Promise<Prepared | undefined> => {
         const cfg = this.config(d);
         if (!cfg.enabled) {
           outcomes.set(d.name, { name: d.name, status: 'not_indexed', detail: 'sin bloque rag habilitado' });
@@ -402,6 +402,9 @@ export class RagService {
           }
         }
         syncMs += Date.now() - s0;
+        // Si la cúpula ya se dio por perdida (timeout), el sync puede terminar,
+        // pero no se carga su índice ni se toca el resultado (SE-412).
+        if (signal.aborted) return undefined;
         const active = readActive(this.home, d.name).active;
         if (!active) {
           outcomes.set(d.name, { name: d.name, status: 'not_indexed', detail: detail ?? 'sin generación activa; ejecutar rag sync' });
