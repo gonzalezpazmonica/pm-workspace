@@ -5,6 +5,22 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased] — 2026-09-29 · Eficiencia de Savia RAG (SE-411)
+
+### Fixed
+- Fusión entre cúpulas invariante al orden: coseno global con contrato compartido,
+  desempate determinista si no (`fusion` en la respuesta).
+- Caché de índices dimensionada a las cúpulas habilitadas y a `SAVIA_RAG_MEMORY_MB`.
+- `rag gc` con gracia 0 no borraba ficheros recién escritos (reloj).
+
+### Changed
+- `vault_rag`: JSON compacto, perfil `fields: lean|full`, `maxChars` (def. 6000)
+  acota la respuesta entera.
+- Embeddings con `keep_alive` (`SAVIA_RAG_KEEP_ALIVE`, def. `30m`).
+- Consultas: digest vía `/api/tags` con caché, sin embedding de sondeo; índice BM25
+  persistido por generación; embedding solapado con la carga de BM25.
+- CLI: `savia-vaults rag …` carga solo su módulo (arranque 240 → 100 ms).
+
 ## [Unreleased] — 2026-09-29 · Savia RAG (SE-410)
 
 ### Added

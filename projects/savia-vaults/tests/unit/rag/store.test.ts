@@ -86,7 +86,8 @@ describe('FlatVectorStore', () => {
     const { dir } = await build(1);
     await build(2);
     expect(gcGeneration(dir, 60_000)).toBe(0);
-    expect(gcGeneration(dir, 0)).toBe(2);
+    fs.writeFileSync(path.join(dir, 'bm25-1-v1.json'), '{}');
+    expect(gcGeneration(dir, 0)).toBe(3);
     expect(fs.existsSync(path.join(dir, 'vectors-1.f32'))).toBe(false);
     expect(fs.existsSync(path.join(dir, 'vectors-2.f32'))).toBe(true);
   });

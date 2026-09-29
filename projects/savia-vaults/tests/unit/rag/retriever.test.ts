@@ -14,6 +14,7 @@ const cfg = { ...RAG_DEFAULTS, enabled: true };
 const long = (s: string) => `${s} `.repeat(15);
 
 let store: FlatVectorStore;
+let storeDir: string;
 
 beforeAll(async () => {
   const docs: Record<string, string> = {
@@ -30,6 +31,7 @@ beforeAll(async () => {
     docs: {}, chunkCount: chunks.length, fingerprint: '',
   };
   const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'savia-rag-ret-'));
+  storeDir = dir;
   FlatVectorStore.write(dir, manifest, chunks, await e.embed(chunks.map(c => c.embedText), 'doc'));
   store = FlatVectorStore.load(dir, contract);
 });
@@ -103,6 +105,26 @@ describe('searchStore', () => {
     const decayed = await run('token PAT fichero', { cfg: { ...cfg, halfLifeDays: 1 } });
     expect(decayed[0].score).toBeLessThan(base[0].score);
     expect(decayed[0].freshness.decay).toBeLessThan(1);
+  });
+});
+
+describe('SE-411: coseno en todos los hits y BM25 persistido', () => {
+  it('todos los hits llevan coseno cuando hay vector de consulta', async () => {
+    const [q] = await e.embed(['token PAT fichero'], 'query');
+    const hits = searchStore({ store, query: 'token PAT fichero', queryVec: q, mode: 'hybrid', k: 10, cfg });
+    expect(hits.length).toBeGreaterThan(1);
+    expect(hits.every(h => typeof h.signals.dense === 'number')).toBe(true);
+  });
+
+  it('persiste el índice BM25 por seq y lo reutiliza al recargar', async () => {
+    const files = () => fs.readdirSync(storeDir).filter(f => f.startsWith('bm25-'));
+    const [q] = await e.embed(['merge permiso'], 'query');
+    const first = searchStore({ store, query: 'merge permiso', queryVec: q, mode: 'bm25', k: 5, cfg });
+    expect(files()).toHaveLength(1);
+    expect(fs.statSync(path.join(storeDir, files()[0])).mode & 0o777).toBe(0o600);
+    const reloaded = FlatVectorStore.load(storeDir);
+    const again = searchStore({ store: reloaded, query: 'merge permiso', queryVec: q, mode: 'bm25', k: 5, cfg });
+    expect(again.map(h => h.chunkId)).toEqual(first.map(h => h.chunkId));
   });
 });
 

@@ -58,14 +58,18 @@ defectos que degradan calidad, latencia o coste de contexto:
 4. **G4 — Respuesta compacta.** JSON sin indentar en `vault_rag`; parámetro
    `fields` con perfil `lean` por defecto (`dome`, `confidentiality`, `path`,
    `heading`, `text`, `score`) y `full` bajo demanda; `maxChars` pasa a acotar la
-   respuesta entera. Defaults nuevos: `k=8`, `maxChars=4000`.
+   respuesta entera. Defaults nuevos: `k=8`, `maxChars=6000` (sobre la respuesta
+   entera equivale a ~4 400 caracteres de texto, el presupuesto medido como óptimo;
+   4 000 sobre la respuesta dejaría ~300 caracteres por hit).
 5. **G5 — CLI en frío.** Contrato de consulta desde el manifest + comprobación de
    digest vía `/api/tags` (sin embedding de sondeo) y caché del índice BM25
    serializado por `generation/seq`.
 
 ### Entregables (rutas)
 
-- Código: `projects/savia-vaults/src/rag/*.ts`, `projects/savia-vaults/src/server/mcp.ts`.
+- Código: `projects/savia-vaults/src/rag/*.ts` (incl. `projects/savia-vaults/src/rag/format.ts`),
+  `projects/savia-vaults/src/server/mcp.ts`, `projects/savia-vaults/src/cli/index.ts`,
+  `projects/savia-vaults/src/cli/main.ts`, `projects/savia-vaults/src/cli/rag.ts`.
 - Tests: `projects/savia-vaults/tests/unit/rag/*.test.ts`,
   `projects/savia-vaults/tests/integration/rag/*.test.ts`,
   `projects/savia-vaults/tests/e2e/mcp-rag.test.ts`, `projects/savia-vaults/tests/e2e/cli-rag.test.ts`.
@@ -94,6 +98,22 @@ defectos que degradan calidad, latencia o coste de contexto:
 - **AC6** No regresión: `rag eval` en savia-docs mantiene MRR y recall@10 dentro
   de ±0,01; los 438 tests existentes siguen en verde; tests nuevos para AC1-AC5
   sin red (proveedor de test).
+
+## Resultados (2026-09-29)
+
+| AC | Objetivo | Antes | Después |
+|---|---|---|---|
+| AC1 | ranking invariante; MRR multi ≥ 0,90 × solo | 0,22 × en el peor orden | 36/36 rankings idénticos; 0,557/0,565 = 0,986 × |
+| AC2 | `"*"` p95 < 400 ms | 2 032 ms | 154 ms |
+| AC3 | 1ª consulta tras 6 min < 300 ms | 1 369 ms | 201 ms (modelo retenido; `ollama ps` 23 min restantes) |
+| AC4 | ≤ 6 000 caracteres, texto ≥ 60 % | 13 346 (k=10) | 5 390, texto 61 % |
+| AC5 | CLI mediana < 1,0 s | 2 482 ms | 925 ms (p95 972) |
+| AC6 | eval ±0,01 | 0,806 / 0,566 | 0,806 / 0,566 |
+
+G5 necesitó más que lo previsto: el índice BM25 persistido carga en ~460 ms
+(reconstrucción del árbol de MiniSearch) y la CLI importaba todo el servidor
+(240 ms de arranque). Se separó la CLI `rag` en su propio módulo (arranque
+100 ms) y se solapa el embedding de la consulta con la carga de BM25.
 
 ## Esfuerzo
 

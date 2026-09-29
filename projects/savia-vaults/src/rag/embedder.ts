@@ -6,6 +6,8 @@ import { RagError, type EmbeddingContract } from './types.js';
 export interface Embedder {
   contract(): Promise<EmbeddingContract>;
   embed(texts: string[], kind: 'query' | 'doc'): Promise<Float32Array[]>;
+  /** Digest vivo del modelo, sin embedding de sondeo (SE-411 G5). */
+  digest?(): Promise<string>;
 }
 
 export function normalize(v: ArrayLike<number>): Float32Array {
@@ -56,6 +58,10 @@ export class HashEmbedder implements Embedder {
     };
   }
 
+  async digest(): Promise<string> {
+    return this.tag;
+  }
+
   async embed(texts: string[]): Promise<Float32Array[]> {
     return texts.map((t) => {
       const v = new Float32Array(this.dims);
@@ -77,7 +83,11 @@ export interface OllamaOptions {
   params?: ContractParams;
   queryPrefix?: string;
   docPrefix?: string;
+  /** Tiempo que Ollama mantiene el modelo cargado tras cada llamada (SE-411 G3). */
+  keepAlive?: string;
 }
+
+const DIGEST_TTL_MS = 60_000;
 
 export class OllamaEmbedder implements Embedder {
   private readonly baseUrl: string;
@@ -86,7 +96,9 @@ export class OllamaEmbedder implements Embedder {
   private readonly params: ContractParams;
   private readonly queryPrefix: string;
   private readonly docPrefix: string;
+  private readonly keepAlive: string;
   private cached?: EmbeddingContract;
+  private digestCache?: { value: string; at: number };
 
   constructor(private readonly opts: OllamaOptions) {
     this.baseUrl = (opts.baseUrl || process.env.SAVIA_OLLAMA_URL || 'http://127.0.0.1:11434').replace(/\/$/, '');
@@ -96,6 +108,7 @@ export class OllamaEmbedder implements Embedder {
     const profile = promptProfile(opts.model);
     this.queryPrefix = opts.queryPrefix ?? profile.queryPrefix;
     this.docPrefix = opts.docPrefix ?? profile.docPrefix;
+    this.keepAlive = opts.keepAlive ?? process.env.SAVIA_RAG_KEEP_ALIVE ?? '30m';
   }
 
   get model(): string { return this.opts.model; }
@@ -123,7 +136,7 @@ export class OllamaEmbedder implements Embedder {
     let lastErr: unknown;
     for (let attempt = 0; attempt < 2; attempt++) {
       try {
-        const data = await this.request('/api/embed', { model: this.opts.model, input, truncate: true });
+        const data = await this.request('/api/embed', { model: this.opts.model, input, truncate: true, keep_alive: this.keepAlive });
         if (!Array.isArray(data?.embeddings) || data.embeddings.length !== input.length) {
           throw new RagError('EMBEDDER_UNAVAILABLE', 'respuesta de /api/embed inválida');
         }
@@ -142,6 +155,14 @@ export class OllamaEmbedder implements Embedder {
     const found = (data?.models || []).find((m: { name: string }) => m.name === wanted || m.name === this.opts.model);
     if (!found) throw new RagError('EMBEDDER_UNAVAILABLE', `modelo ${this.opts.model} no está en Ollama`);
     return String(found.digest);
+  }
+
+  /** Digest con caché de 60 s: comprobar deriva (P4) no cuesta un embedding por consulta. */
+  async digest(): Promise<string> {
+    if (this.digestCache && Date.now() - this.digestCache.at < DIGEST_TTL_MS) return this.digestCache.value;
+    const value = await this.currentDigest();
+    this.digestCache = { value, at: Date.now() };
+    return value;
   }
 
   async contract(): Promise<EmbeddingContract> {

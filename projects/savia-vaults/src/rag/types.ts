@@ -139,6 +139,8 @@ export interface RagResponse {
   merged?: RagHit[];
   domes: DomeOutcome[];
   timings: { totalMs: number; embedMs: number; syncMs: number };
+  /** SE-411 G1: `cosine` si todas las cúpulas comparten contrato; `rank` si no. */
+  fusion?: 'cosine' | 'rank';
 }
 
 export type RagErrorCode =
@@ -174,7 +176,7 @@ export const RAG_LIMITS = {
   maxQueryChars: 1000,
   maxK: 50,
   defaultK: 8,
-  defaultMaxChars: 12000,
+  defaultMaxChars: 6000,
   defaultConcurrency: 4,
   defaultTimeoutMs: 8000,
   maxFileBytes: 1024 * 1024,

@@ -69,7 +69,7 @@ export function ensureSafeHome(home: string): void {
   mkdirPrivate(abs);
 }
 
-function writeAtomic(file: string, data: string | Uint8Array): void {
+export function writeAtomic(file: string, data: string | Uint8Array): void {
   const tmp = `${file}.tmp-${process.pid}-${Date.now()}`;
   fs.writeFileSync(tmp, data, { mode: FILE_MODE });
   fs.chmodSync(tmp, FILE_MODE);
@@ -106,6 +106,8 @@ export class FlatVectorStore {
     public readonly manifest: Manifest,
     public readonly chunks: Chunk[],
     private readonly vectors: Float32Array,
+    /** Directorio de la generación (para artefactos derivados como el índice BM25). */
+    public readonly dir: string,
   ) {}
 
   get size(): number { return this.chunks.length; }
@@ -146,7 +148,7 @@ export class FlatVectorStore {
       throw new RagError('CORRUPT_INDEX', `tamaños inconsistentes en ${manifest.generation} (chunks ${chunks.length}/${manifest.chunkCount}, bytes ${buf.byteLength})`);
     }
     const vectors = new Float32Array(buf.buffer.slice(buf.byteOffset, buf.byteOffset + buf.byteLength));
-    return new FlatVectorStore(manifest, chunks, vectors);
+    return new FlatVectorStore(manifest, chunks, vectors, dir);
   }
 
   static write(dir: string, manifest: Manifest, chunks: Chunk[], vectors: Float32Array[]): void {
@@ -203,10 +205,11 @@ export function gcGeneration(dir: string, graceMs = 10 * 60 * 1000): number {
   let removed = 0;
   const now = Date.now();
   for (const f of fs.readdirSync(dir)) {
-    const m = f.match(/^(chunks|vectors)-(\d+)\.(jsonl|f32)$/) || (f.includes('.tmp-') ? [f, '', '-1'] : null);
+    const m = f.match(/^(chunks|vectors)-(\d+)\.(jsonl|f32)$/) || f.match(/^(bm25)-(\d+)-v\d+\.json$/)
+      || (f.includes('.tmp-') ? [f, '', '-1'] : null);
     if (!m || Number(m[2]) === manifest.seq) continue;
     const full = path.join(dir, f);
-    if (now - fs.statSync(full).mtimeMs >= graceMs) {
+    if (graceMs <= 0 || now - fs.statSync(full).mtimeMs >= graceMs) {
       fs.rmSync(full, { force: true });
       removed++;
     }

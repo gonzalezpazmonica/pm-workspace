@@ -14,7 +14,8 @@ import { QualityEngine } from '../knowledge/quality.js';
 import type { VaultConfig } from '../types.js';
 import { DomeRegistry, VaultInstance } from '../registry/domes.js';
 import { RagService } from '../rag/service.js';
-import { RagError } from '../rag/types.js';
+import { RagError, RAG_LIMITS } from '../rag/types.js';
+import { formatRagResponse, type RagFields } from '../rag/format.js';
 import { UserStore, AccessController, AuthError, AuditLogger, UserQuotaStore } from '../auth/index.js';
 import type { AuthAction } from '../auth/index.js';
 import * as fs from 'node:fs';
@@ -246,7 +247,8 @@ export class MCPVaultServer {
               mode: { type: 'string', enum: ['hybrid', 'dense', 'bm25'] },
               pathPrefix: { type: 'string' },
               includeStale: { type: 'boolean', description: 'Incluir documentos deprecated/superseded/vencidos' },
-              maxChars: { type: 'number', description: 'Presupuesto total de texto (def. 12000)' },
+              maxChars: { type: 'number', description: 'Tamaño máximo de la respuesta en caracteres (def. 6000); se recorta el texto de los hits, nunca se omite uno' },
+              fields: { type: 'string', enum: ['lean', 'full'], description: 'lean (def.): dome, confidentiality, path, heading, text, score; full: todas las señales' },
             },
           },
         },
@@ -357,7 +359,9 @@ export class MCPVaultServer {
               includeStale: args.includeStale as boolean | undefined,
               maxChars: args.maxChars as number | undefined,
             });
-            return { content: [{ type: 'text', text: JSON.stringify(res, null, 2) }] };
+            const fields: RagFields = args.fields === 'full' ? 'full' : 'lean';
+            const maxChars = (args.maxChars as number | undefined) ?? RAG_LIMITS.defaultMaxChars;
+            return { content: [{ type: 'text', text: formatRagResponse(res, { fields, maxChars }) }] };
           }
 
           case 'vault_rag_status': {
@@ -365,7 +369,7 @@ export class MCPVaultServer {
             for (const n of names) {
               try { await this.authorize(n, 'read', 'vault_rag_status'); } catch (e) { if (e instanceof AuthError) return { content: [{ type: 'text', text: `Error: ${e.message}` }], isError: true }; throw e; }
             }
-            return { content: [{ type: 'text', text: JSON.stringify(await this.rag.status(names), null, 2) }] };
+            return { content: [{ type: 'text', text: JSON.stringify(await this.rag.status(names)) }] };
           }
 
           case 'vault_rag_sync': {

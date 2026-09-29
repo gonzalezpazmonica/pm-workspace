@@ -56,14 +56,14 @@ vaults config show
 ## Savia RAG (SE-410)
 
 Preferir `vault_rag` a `vault_search`: también gana en consultas por ID exacto.
-Configuración medida como óptima (2026-09-29):
+Configuración medida como óptima (2026-09-29, SE-411):
 
-- Por MCP, no por CLI (la CLI paga 0,4–2,5 s de arranque por llamada).
-- `mode: "hybrid"`, `k: 8`, `maxChars: 4000` (−12 % de texto, misma calidad).
-- Nombrar la cúpula concreta y **agrupar hasta 8 consultas** por llamada
-  (8 consultas ≈ 2× el coste de una).
-- **Evitar `domes: "*"`** hasta SE-411: la fusión entre cúpulas depende del orden
-  y con 5 cúpulas la caché de índices se desaloja (1,9 s por llamada).
+- Por MCP, no por CLI (la CLI arranca en ~0,9 s por llamada).
+- Defaults: `mode: "hybrid"`, `k: 8`, `maxChars: 6000` (tope de la respuesta
+  entera), `fields: "lean"`. `fields: "full"` solo para depurar señales.
+- **Agrupar hasta 8 consultas** por llamada (8 consultas ≈ 2× el coste de una).
+- `domes: "*"` es seguro: fusión por coseno invariante al orden (`fusion` en la
+  respuesta) y caché dimensionada a las cúpulas habilitadas.
 - Sin Ollama: `mode: "bm25"` de `vault_rag` antes que `vault_search`.
 
 ```bash

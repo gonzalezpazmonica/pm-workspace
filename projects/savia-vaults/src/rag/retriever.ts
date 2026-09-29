@@ -1,6 +1,8 @@
 import MiniSearch from 'minisearch';
 import { decayFactor, excludedReason } from './policy.js';
-import type { FlatVectorStore } from './store.js';
+import * as fs from 'node:fs';
+import * as path from 'node:path';
+import { writeAtomic, type FlatVectorStore } from './store.js';
 import { RAG_LIMITS, type RagHit, type RagMode, type ResolvedRagConfig } from './types.js';
 
 /** SE-410 — Recuperación híbrida por cúpula: BM25 sobre chunks + denso, RRF, frescura. */
@@ -31,23 +33,42 @@ export function processTerm(term: string): string | null {
 
 const bm25Cache = new WeakMap<FlatVectorStore, MiniSearch<Bm25Doc>>();
 
+/** Subir si cambian tokenización u opciones: invalida los índices BM25 persistidos. */
+const BM25_VERSION = 'v1';
+
+const BM25_OPTIONS = {
+  fields: ['heading', 'text'],
+  idField: 'id',
+  processTerm,
+  searchOptions: {
+    boost: { heading: 1.5 },
+    prefix: (term: string) => term.length >= 4,
+    fuzzy: (term: string) => (term.length >= 5 ? 0.1 : 0),
+  },
+};
+
+/**
+ * Índice BM25 por store. SE-411 G5: se persiste por `seq` en el directorio de la
+ * generación para que un proceso nuevo (CLI) no retokenice todos los chunks.
+ */
 function bm25Index(store: FlatVectorStore): MiniSearch<Bm25Doc> {
   let ms = bm25Cache.get(store);
-  if (!ms) {
-    ms = new MiniSearch<Bm25Doc>({
-      fields: ['heading', 'text'],
-      idField: 'id',
-      processTerm,
-      searchOptions: {
-        boost: { heading: 1.5 },
-        prefix: (term: string) => term.length >= 4,
-        fuzzy: (term: string) => (term.length >= 5 ? 0.1 : 0),
-      },
-    });
+  if (ms) return ms;
+  const file = path.join(store.dir, `bm25-${store.manifest.seq}-${BM25_VERSION}.json`);
+  try {
+    ms = MiniSearch.loadJSON<Bm25Doc>(fs.readFileSync(file, 'utf-8'), BM25_OPTIONS);
+  } catch {
+    ms = new MiniSearch<Bm25Doc>(BM25_OPTIONS);
     ms.addAll(store.chunks.map((c, i) => ({ id: i, heading: c.heading, text: c.text })));
-    bm25Cache.set(store, ms);
+    try { writeAtomic(file, JSON.stringify(ms)); } catch { /* caché opcional: sin permisos de escritura se reconstruye */ }
   }
+  bm25Cache.set(store, ms);
   return ms;
+}
+
+/** Carga (o construye) el índice BM25 de un store por adelantado (SE-411 G5). */
+export function warmBm25(store: FlatVectorStore): void {
+  bm25Index(store);
 }
 
 export interface StoreSearchInput {
@@ -107,9 +128,16 @@ export function searchStore(input: StoreSearchInput): StoreHit[] {
     perDoc.set(c.path, n + 1);
     const d = dense.get(f.i);
     const l = lexical.get(f.i);
+    // SE-411 G1: coseno de todo hit con vector de consulta, para fusionar entre cúpulas.
+    let cos = d?.score;
+    if (cos === undefined && input.queryVec) {
+      const v = store.vector(f.i);
+      cos = 0;
+      for (let j = 0; j < v.length; j++) cos += v[j] * input.queryVec[j];
+    }
     out.push({
       path: c.path, chunkId: c.id, heading: c.heading, text: c.text, score: f.score,
-      signals: { denseRank: d?.rank, dense: d?.score, bm25Rank: l?.rank, bm25: l?.score },
+      signals: { denseRank: d?.rank, dense: cos, bm25Rank: l?.rank, bm25: l?.score },
       freshness: { modified: c.meta.modified, status: c.meta.status, supersededBy: c.meta.supersededBy, decay: f.decay },
       generation: store.manifest.generation,
     });
@@ -126,10 +154,27 @@ export function fuseAcross(lists: RagHit[][], k: number): RagHit[] {
     if (!byKey.has(key)) byKey.set(key, h);
     return key;
   }));
+  // Desempate determinista (SE-411 G1): nunca por el orden de entrada.
   return [...rrf(keyed).entries()]
-    .sort((a, b) => b[1] - a[1])
+    .sort((a, b) => b[1] - a[1] || (byKey.get(b[0])!.signals.dense ?? -2) - (byKey.get(a[0])!.signals.dense ?? -2) || (a[0] < b[0] ? -1 : a[0] > b[0] ? 1 : 0))
     .slice(0, k)
     .map(([key, score]) => ({ ...byKey.get(key)!, score }));
+}
+
+/**
+ * SE-411 G1: fusión entre cúpulas con el mismo contrato por coseno global
+ * (vectores del mismo espacio, comparables). Invariante al orden de entrada.
+ */
+export function fuseByCosine(lists: RagHit[][], k: number): RagHit[] {
+  const key = (h: RagHit) => `${h.dome}\u0000${h.chunkId}`;
+  const seen = new Map<string, RagHit>();
+  for (const list of lists) for (const h of list) if (!seen.has(key(h))) seen.set(key(h), h);
+  return [...seen.values()]
+    .sort((a, b) => (b.signals.dense ?? -2) - (a.signals.dense ?? -2)
+      || (a.signals.bm25Rank ?? Infinity) - (b.signals.bm25Rank ?? Infinity)
+      || (key(a) < key(b) ? -1 : key(a) > key(b) ? 1 : 0))
+    .slice(0, k)
+    .map(h => ({ ...h, score: h.signals.dense ?? 0 }));
 }
 
 /** Recorta el texto de los hits para respetar maxChars; nunca omite hits. */
