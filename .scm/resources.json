@@ -1,6 +1,6 @@
 {
-  "hash": "13ddae349698",
-  "total": 1450,
+  "hash": "9c8a364d83d6",
+  "total": 1451,
   "resources": [
     {
       "category": "analysis",
@@ -1883,6 +1883,19 @@
     },
     {
       "category": "communication",
+      "name": "savia-rag-sync",
+      "intents": [
+        "disparador",
+        "programado",
+        "savia",
+        "sync"
+      ],
+      "kind": "script",
+      "path": "scripts/savia-rag-sync.sh",
+      "description": "savia-rag-sync.sh — Disparador programado de Savia RAG (SE-410 P3/P7)."
+    },
+    {
+      "category": "communication",
       "name": "savia-recall",
       "intents": [
         "information",
@@ -2184,15 +2197,15 @@
       "category": "communication",
       "name": "savia-vaults",
       "intents": [
-        "backup",
         "backups",
         "busca",
+        "busqued",
         "busqueda",
         "confidencialidad"
       ],
       "kind": "skill",
       "path": ".claude/skills/savia-vaults/SKILL.md",
-      "description": "Usar cuando se interactua con SaviaVaults — cupulas de contexto, busqueda federada, servidores MCP/A2A, backups, confidencialidad. Triggers: 'crea una cupula', 'indexa documentacion', 'busca en los vaults', 'federate este dome', 'backup del"
+      "description": "Usar cuando se interactua con SaviaVaults — cupulas de contexto, busqueda federada, RAG hibrido (Savia RAG), servidores MCP/A2A, backups, confidencialidad. Triggers: 'crea una cupula', 'indexa documentacion', 'busca en los vaults', 'busqued"
     },
     {
       "category": "communication",

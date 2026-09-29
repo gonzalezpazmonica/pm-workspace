@@ -2928,6 +2928,26 @@
     {
       "depends_on": [],
       "frontend_support": [
+        "opencode"
+      ],
+      "id": "script:scripts/savia-rag-sync",
+      "intents": [
+        "disparador",
+        "programado",
+        "savia",
+        "sync"
+      ],
+      "kind": "script",
+      "owner_domain": "communication",
+      "replaced_by": null,
+      "risk_level": null,
+      "source": "scripts/savia-rag-sync.sh",
+      "status": "active",
+      "tests": []
+    },
+    {
+      "depends_on": [],
+      "frontend_support": [
         "claude",
         "opencode"
       ],
@@ -3416,9 +3436,9 @@
       ],
       "id": "skill:.claude/skills/savia-vaults/SKILL",
       "intents": [
-        "backup",
         "backups",
         "busca",
+        "busqued",
         "busqueda",
         "confidencialidad"
       ],
@@ -29604,7 +29624,7 @@
       "tests": []
     }
   ],
-  "content_hash": "13ddae349698",
+  "content_hash": "9c8a364d83d6",
   "deferred_kinds": [
     "rule",
     "hook"

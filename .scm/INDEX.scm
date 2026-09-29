@@ -1,6 +1,6 @@
 # Savia Capability Map — INDEX
-> hash: 9c3f23af51a2 | resources: 1450
-> 295 commands · 139 skills · 90 agents · 926 scripts
+> hash: 236914eb80b1 | resources: 1451
+> 295 commands · 139 skills · 90 agents · 927 scripts
 
 [analysis] Trace Optimize — across,distributed,optimize,rates,sampling — cmd:.claude/commands/trace-optimize.md
 [analysis] agent-activity — activity,agent,executions,recent,show — cmd:.claude/commands/agent-activity.md
@@ -147,6 +147,7 @@
 [communication] savia-pbi —  — cmd:.claude/commands/savia-pbi.md
 [communication] savia-preferences — manage,preferences,savia,slice,spec — script:scripts/savia-preferences.sh
 [communication] savia-quota-tracker — quota,savia,slice,spec,tracker — script:scripts/savia-quota-tracker.sh
+[communication] savia-rag-sync — disparador,programado,savia,sync — script:scripts/savia-rag-sync.sh
 [communication] savia-recall — information,memory,recall,retrieve,savia — cmd:.claude/commands/savia-recall.md
 [communication] savia-reply —  — cmd:.claude/commands/savia-reply.md
 [communication] savia-runs — agent,ledger,operations,runs,savia — script:scripts/savia-runs.sh
@@ -172,7 +173,7 @@
 [communication] savia-travel-init — init,mode,savia,script,template — script:scripts/savia-travel-init.sh
 [communication] savia-travel-ops — init,operations,pack,savia,travel — script:scripts/savia-travel-ops.sh
 [communication] savia-travel-pack —  — cmd:.claude/commands/savia-travel-pack.md
-[communication] savia-vaults — backup,backups,busca,busqueda,confidencialidad — skill:.claude/skills/savia-vaults/SKILL.md
+[communication] savia-vaults — backups,busca,busqued,busqueda,confidencialidad — skill:.claude/skills/savia-vaults/SKILL.md
 [communication] savia-voice-chunk — chunk,savia,slice,voice — script:scripts/savia-voice-chunk.sh
 [communication] savia-voice-speak — savia,slice,speak,voice — script:scripts/savia-voice-speak.sh
 [communication] savia-watch — activity,feed,live,savia,watch — script:scripts/savia-watch.sh

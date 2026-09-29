@@ -1,5 +1,5 @@
 # communication — Savia Capability Map (L1)
-> 107 resources
+> 108 resources
 
 - **archive-digest** (agent): >
 - **contract-pin** (script): contract-pin.sh — SE-369 Contract Digest Pins
@@ -72,6 +72,7 @@
 - **savia-pbi** (cmd): >
 - **savia-preferences** (script): savia-preferences.sh — manage ~/.savia/preferences.yaml (SPEC-127 Slice 1)
 - **savia-quota-tracker** (script): savia-quota-tracker.sh — SPEC-127 Slice 5
+- **savia-rag-sync** (script): savia-rag-sync.sh — Disparador programado de Savia RAG (SE-410 P3/P7).
 - **savia-recall** (cmd): Recall and retrieve information from Savia memory
 - **savia-reply** (cmd): >
 - **savia-runs** (script): savia-runs.sh — SE-349: Agent Runs Operations Ledger (ARO)
@@ -97,7 +98,7 @@
 - **savia-travel-init** (script): savia-init.sh — Travel Mode Init Script (template)
 - **savia-travel-ops** (script): savia-travel-ops.sh — Pack and init operations for savia-travel.sh
 - **savia-travel-pack** (cmd): >
-- **savia-vaults** (skill): Usar cuando se interactua con SaviaVaults — cupulas de contexto, busqueda federada, servidores MCP/A2A, backups, confidencialidad. Triggers: 'crea una cupula', 'indexa documentacion', 'busca en los vaults', 'federate este dome', 'backup del
+- **savia-vaults** (skill): Usar cuando se interactua con SaviaVaults — cupulas de contexto, busqueda federada, RAG hibrido (Savia RAG), servidores MCP/A2A, backups, confidencialidad. Triggers: 'crea una cupula', 'indexa documentacion', 'busca en los vaults', 'busqued
 - **savia-voice-chunk** (script): savia-voice-chunk.sh — SE-075 Slice 2.
 - **savia-voice-speak** (script): savia-voice-speak.sh — SE-075 Slice 3.
 - **savia-watch** (script): savia-watch.sh — Live activity feed from Savia
