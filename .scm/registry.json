@@ -3416,9 +3416,9 @@
       ],
       "id": "skill:.claude/skills/savia-vaults/SKILL",
       "intents": [
-        "backup",
         "backups",
         "busca",
+        "busqued",
         "busqueda",
         "confidencialidad"
       ],
@@ -29604,7 +29604,7 @@
       "tests": []
     }
   ],
-  "content_hash": "13ddae349698",
+  "content_hash": "beef74631dfa",
   "deferred_kinds": [
     "rule",
     "hook"

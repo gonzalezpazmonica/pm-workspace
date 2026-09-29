@@ -4,6 +4,7 @@ import { VaultStorage } from '../storage/index.js';
 import { SearchEngine } from '../search/index.js';
 import { VaultSecurity } from '../security/index.js';
 import type { VaultConfig } from '../types.js';
+import type { RagDomeConfig } from '../rag/types.js';
 
 export type ConfidentialityLevel = 'N1' | 'N2' | 'N3' | 'N4';
 
@@ -13,6 +14,8 @@ export interface DomeInfo {
   description: string;
   confidentiality: ConfidentialityLevel;
   schemaDir?: string;
+  /** SE-410: configuración RAG opcional de la cúpula. */
+  rag?: RagDomeConfig;
   active: boolean;
 }
 
@@ -25,6 +28,7 @@ interface DomesFile {
     description: string;
     confidentiality: string;
     schemaDir?: string;
+    rag?: RagDomeConfig;
   }>;
 }
 
@@ -96,6 +100,7 @@ export class DomeRegistry {
         description: dome.description || '',
         confidentiality: level as ConfidentialityLevel,
         schemaDir: dome.schemaDir,
+        ...(dome.rag && typeof dome.rag === 'object' ? { rag: dome.rag } : {}),
         active,
       });
     }
@@ -151,6 +156,7 @@ export class DomeRegistry {
         description: dome.description,
         confidentiality: dome.confidentiality,
         schemaDir: dome.schemaDir,
+        ...(dome.rag ? { rag: dome.rag } : {}),
       };
     }
 

@@ -1,7 +1,7 @@
 ---
 layer: peripheral
 name: savia-vaults
-description: "Usar cuando se interactua con SaviaVaults — cupulas de contexto, busqueda federada, servidores MCP/A2A, backups, confidencialidad. Triggers: 'crea una cupula', 'indexa documentacion', 'busca en los vaults', 'federate este dome', 'backup del conocimiento', 'nivel de confidencialidad', 'gestiona cupulas', 'context dome', 'vaults CLI'. NOT para diseno de arquitectura de conocimiento (usar context-dome-manager agent)."
+description: "Usar cuando se interactua con SaviaVaults — cupulas de contexto, busqueda federada, RAG hibrido (Savia RAG), servidores MCP/A2A, backups, confidencialidad. Triggers: 'crea una cupula', 'indexa documentacion', 'busca en los vaults', 'busqueda semantica', 'rag en las cupulas', 'reindexa embeddings', 'federate este dome', 'backup del conocimiento', 'nivel de confidencialidad', 'gestiona cupulas', 'context dome', 'vaults CLI'. NOT para diseno de arquitectura de conocimiento (usar context-dome-manager agent)."
 metadata:
   # --- metadata.savia.* (SE-333) ---
   savia.category: knowledge-management
@@ -9,7 +9,7 @@ metadata:
   savia.context: project
   savia.priority: high
   savia.recommends: "context-dome, knowledge-graph, ubiquitous-language"
-  savia.tags: "vaults, cupulas, contexto, federacion, mcp, a2a, backup, confidencialidad"
+  savia.tags: "vaults, cupulas, contexto, federacion, mcp, a2a, backup, confidencialidad, rag, embeddings"
 ---
 
 # SaviaVaults — Operacion de Cupulas de Contexto
@@ -53,6 +53,24 @@ vaults health
 vaults config show
 ```
 
+## Savia RAG (SE-410)
+
+Preferir `vault_rag` a `vault_search` para preguntas en lenguaje natural o en
+varias cúpulas: una llamada con hasta 8 consultas sobre `domes: "*"` (sin N4).
+`vault_search` sigue siendo BM25 por documento, útil para IDs exactos.
+
+```bash
+savia-vaults rag search "<consulta>" ["<otra>"] --domes all|a,b [--mode hybrid|dense|bm25]
+savia-vaults rag sync --all [--rebuild]      # incremental por hash
+savia-vaults rag status --check              # exit 2 = SLO roto (índice atrasado o digest distinto)
+savia-vaults rag eval --dome <nombre>        # recall@5/@10, MRR, latencia
+savia-vaults rag promote|rollback|gc <dome>
+```
+
+Leer `status` de cada cúpula en la respuesta: `stale` (índice atrasado, sync en
+curso), `degraded` (Ollama caído o modelo cambiado → BM25), `denied`, `timeout`.
+Política: `docs/rules/domain/rag-embedding-policy.md`. Cron: `savia-vaults rag sync --all --check` (6 h) y `--rebuild` semanal.
+
 ## Flujos comunes
 
 **Crear cupula desde docs**: `vaults dome create mi-docs` → `vaults dome sync mi-docs --source ./docs` → `vaults dome index mi-docs` → `vaults server start --name mi-docs --transport both`
@@ -61,9 +79,9 @@ vaults config show
 
 **Backup**: `vaults backup create --name docs --compress` → restaurar con `vaults backup restore ID --target /tmp/restored --dry-run`
 
-## MCP Tools (9)
+## MCP Tools
 
-`vault_read` `vault_write` `vault_search` `vault_list` `vault_stats` `vault_index` `vault_diff` `vault_log` `vault_tags`
+`vault_read` `vault_write` `vault_search` `vault_list` `vault_stats` `vault_index` `vault_diff` `vault_log` `vault_tags` `vault_domes` · RAG: `vault_rag` `vault_rag_status` `vault_rag_sync`
 
 ## Anti-patrones
 
@@ -72,5 +90,7 @@ vaults config show
 - NO federar en bucle (A→B→C→A). Max 1 hop
 - NO modificar `.savia-vault/` a mano. Usa `vaults` CLI.
 - NO indexar `.git` o `node_modules` (el sandbox los excluye)
+- NO poner `SAVIA_RAG_HOME` dentro de un repo git (el servicio se niega: el índice copia texto)
+- NO promover una generación con `--force` sin mirar `rag eval` de ambas
 
 Para decisiones estrategicas de arquitectura de conocimiento, delegar al agente `context-dome-manager`.

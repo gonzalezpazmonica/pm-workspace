@@ -1,5 +1,5 @@
 {
-  "hash": "13ddae349698",
+  "hash": "beef74631dfa",
   "total": 1450,
   "resources": [
     {
@@ -2184,15 +2184,15 @@
       "category": "communication",
       "name": "savia-vaults",
       "intents": [
-        "backup",
         "backups",
         "busca",
+        "busqued",
         "busqueda",
         "confidencialidad"
       ],
       "kind": "skill",
       "path": ".claude/skills/savia-vaults/SKILL.md",
-      "description": "Usar cuando se interactua con SaviaVaults — cupulas de contexto, busqueda federada, servidores MCP/A2A, backups, confidencialidad. Triggers: 'crea una cupula', 'indexa documentacion', 'busca en los vaults', 'federate este dome', 'backup del"
+      "description": "Usar cuando se interactua con SaviaVaults — cupulas de contexto, busqueda federada, RAG hibrido (Savia RAG), servidores MCP/A2A, backups, confidencialidad. Triggers: 'crea una cupula', 'indexa documentacion', 'busca en los vaults', 'busqued"
     },
     {
       "category": "communication",

@@ -7,33 +7,55 @@
       "path": "/home/monica/savia/vaults/SaviaLearning",
       "description": "Cupula del bucle Savia Continuous Learning para lecciones persistentes cross-instancia",
       "confidentiality": "N2",
-      "schemaDir": "projects/savia-vaults/schema/entities"
+      "schemaDir": "projects/savia-vaults/schema/entities",
+      "rag": {
+        "enabled": true,
+        "model": "qwen3-embedding:0.6b"
+      }
     },
     "SaviaLabs": {
       "name": "SaviaLabs",
       "path": "/home/monica/savia/vaults/SaviaLabs",
       "description": "Cupula del laboratorio epistemico Savia Labs (SE-291): preregistro, experimentos, resultados",
       "confidentiality": "N2",
-      "schemaDir": "projects/savia-vaults/schema/entities"
+      "schemaDir": "projects/savia-vaults/schema/entities",
+      "rag": {
+        "enabled": true,
+        "model": "qwen3-embedding:0.6b",
+        "evalSet": "rag/eval.json"
+      }
     },
     "savia-docs": {
       "name": "savia-docs",
       "path": "/home/monica/savia/vaults/savia-docs",
       "description": "Cupula de documentacion de pm-workspace: rules, specs, decisions, guias, propuestas",
       "confidentiality": "N2",
-      "schemaDir": "projects/savia-vaults/schema/entities"
+      "schemaDir": "projects/savia-vaults/schema/entities",
+      "rag": {
+        "enabled": true,
+        "model": "qwen3-embedding:0.6b",
+        "evalSet": "../../projects/savia-vaults/eval/rag-savia-docs.json"
+      }
     },
     "SaviaDomains": {
       "name": "SaviaDomains",
       "path": "/home/monica/savia/vaults/SaviaDomains",
       "description": "Cupulas N1 por dominio (Labs L23): conocimiento publico de referencia por vertical, base neutra para digestion posterior",
-      "confidentiality": "N1"
+      "confidentiality": "N1",
+      "rag": {
+        "enabled": true,
+        "model": "qwen3-embedding:0.6b"
+      }
     },
     "Fronesia": {
       "name": "Fronesia",
       "path": "/home/monica/savia/vaults/Fronesia",
       "description": "Cupula de frónesis (SE-344): casos destilados de juicio vivido (fronemas) N2, destilados desde cupulas de proyecto (N4 jamas sale)",
-      "confidentiality": "N2"
+      "confidentiality": "N2",
+      "rag": {
+        "enabled": true,
+        "model": "qwen3-embedding:0.6b"
+      }
     }
   }
 }

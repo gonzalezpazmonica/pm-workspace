@@ -5,6 +5,25 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased] — 2026-09-29 · Savia RAG (SE-410)
+
+### Added
+- **Savia RAG** (`src/rag/`): chunking markdown por encabezados con cabecera
+  contextual, embeddings locales vía Ollama, almacén flat exacto por generación
+  (escritura atómica, 0600, fuera de git), BM25 sobre chunks con stopwords es/en,
+  fusión RRF, filtro de frescura (`status`, `valid_until`, `superseded_by`, decaimiento).
+- Fan-out paralelo cúpulas × consultas con semáforo, timeout por cúpula y
+  resultados parciales; fusión entre cúpulas por rango.
+- Política dinámica de embeddings: contrato inmutable por generación (modelo +
+  digest + chunker), re-embedding incremental por hash, disparadores en lectura,
+  escritura (debounce) y cron, generación sombra ante deriva de digest, gate de
+  promoción por eval con línea base registrada, rollback y gc.
+- Confidencialidad: ACL por cúpula en el fan-out, N4 fuera de `"*"`, notas con
+  nivel superior a su cúpula no se embeben (CRIT-001).
+- MCP: `vault_rag`, `vault_rag_status`, `vault_rag_sync`. CLI: `rag search|sync|status|eval|promote|rollback|gc`.
+- Banco de eval prerregistrado `eval/rag-savia-docs.json` (36 consultas).
+- 84 tests nuevos (433 total en verde).
+
 ## [Unreleased] — 2026-08-14 · Mejoras RAG/grafo (SE-327..331)
 
 ### Added
