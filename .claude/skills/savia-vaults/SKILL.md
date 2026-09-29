@@ -69,7 +69,7 @@ savia-vaults rag promote|rollback|gc <dome>
 
 Leer `status` de cada cúpula en la respuesta: `stale` (índice atrasado, sync en
 curso), `degraded` (Ollama caído o modelo cambiado → BM25), `denied`, `timeout`.
-Política: `docs/rules/domain/rag-embedding-policy.md`. Cron: `scripts/savia-rag-sync.sh`.
+Política: `docs/rules/domain/rag-embedding-policy.md`. Cron: `savia-vaults rag sync --all --check` (6 h) y `--rebuild` semanal.
 
 ## Flujos comunes
 

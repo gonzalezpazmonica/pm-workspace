@@ -912,20 +912,38 @@ ragCmd.command('search <queries...>').description('Busca una o varias consultas 
     } catch (e) { ragFail(e); }
   });
 
-ragCmd.command('sync').description('Sincroniza el índice (incremental por hash)')
+ragCmd.command('sync').description('Sincroniza el índice (incremental por hash). Cron: --all [--rebuild] --check')
   .option(...domesOpt).option('--dome <name>').option('--all', 'todas las cúpulas con rag.enabled', false)
-  .option('--rebuild', 're-embebe todo', false).option('--json', 'salida JSON', false)
+  .option('--rebuild', 're-embebe todo (checkpoint semanal)', false).option('--json', 'salida JSON', false)
+  .option('--check', 'tras sincronizar, sale 2 si algún SLO falla (P7)', false)
   .action(async (opts) => {
     try {
       const svc = ragService(opts.domesFile);
       const names = opts.all ? (await svc.status()).filter(s => s.enabled).map(s => s.name) : opts.dome ? [opts.dome] : [];
       if (!names.length) throw new RagError('INVALID_INPUT', 'indica --dome <name> o --all');
       const reports = [];
-      for (const n of names) reports.push(await svc.sync(n, { rebuild: opts.rebuild }));
-      if (opts.json) { console.log(JSON.stringify(reports, null, 2)); return; }
-      for (const r of reports) {
-        console.log(`[${r.dome}] gen=${r.generation}${r.promoted ? ' (activa)' : r.shadow ? ' (sombra)' : ''} docs +${r.docs.added} ~${r.docs.updated} -${r.docs.deleted} =${r.docs.unchanged} chunks ${r.chunks.total} (embebidos ${r.chunks.embedded}, reutilizados ${r.chunks.reused}) ${r.durationMs} ms`);
+      let failed = false;
+      for (const n of names) {
+        try {
+          reports.push(await svc.sync(n, { rebuild: opts.rebuild }));
+        } catch (e) {
+          // Con --all, un lock ajeno no es fallo: otro proceso ya está sincronizando esa cúpula.
+          if (e instanceof RagError && e.code === 'LOCKED' && opts.all) { console.log(`[${n}] sync en curso en otro proceso; se omite`); continue; }
+          if (!opts.all) throw e;
+          failed = true;
+          console.error(`[${n}] Error: ${e instanceof Error ? e.message : String(e)}`);
+        }
+      }
+      if (opts.json) console.log(JSON.stringify(reports, null, 2));
+      else for (const r of reports) {
+        console.log(`[${r.dome}] gen=${r.generation}${r.promoted ? ' (activa)' : r.shadow ? ' (sombra)' : ''} docs +${r.docs.added} ~${r.docs.updated} -${r.docs.deleted} =${r.docs.unchanged} omitidos ${r.docs.skipped} chunks ${r.chunks.total} (embebidos ${r.chunks.embedded}, reutilizados ${r.chunks.reused}) ${r.durationMs} ms`);
         if (r.gate) console.log(`   gate: ${r.gate.promote ? 'promovida' : 'no promovida'} — ${r.gate.reason}`);
+      }
+      if (failed) process.exit(1);
+      if (opts.check) {
+        const st = await svc.status(names);
+        for (const s of st) for (const a of s.slo.alerts) console.log(`[${s.name}] ALERTA: ${a}`);
+        if (st.some(s => !s.slo.ok)) process.exit(2);
       }
     } catch (e) { ragFail(e); }
   });

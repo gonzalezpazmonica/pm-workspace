@@ -74,10 +74,14 @@ export type SyncResult = SyncReport & { gate?: { promote: boolean; reason: strin
  * Fábrica por defecto: Ollama. `SAVIA_RAG_TEST_PROVIDER=hash` existe solo para
  * tests e2e sin red; el contrato resultante declara `provider: hash` (P9).
  */
+let testProviderWarned = false;
+
 export function defaultEmbedderFactory(env: NodeJS.ProcessEnv = process.env): (cfg: ResolvedRagConfig) => Embedder {
   if (env.SAVIA_RAG_TEST_PROVIDER === 'hash') {
-    console.error('[rag] WARNING: SAVIA_RAG_TEST_PROVIDER=hash — embeddings de test, no semánticos');
-    return (cfg) => new HashEmbedder(256, cfg, `hash:${cfg.model}`);
+    if (!testProviderWarned) console.error('[rag] WARNING: SAVIA_RAG_TEST_PROVIDER=hash — embeddings de test, no semánticos');
+    testProviderWarned = true;
+    // cfg.model puede venir ya como `hash:<modelo>` (reconstruido desde el contrato).
+    return (cfg) => new HashEmbedder(256, cfg, `hash:${cfg.model.replace(/^hash:/, '')}`);
   }
   return (cfg) => new OllamaEmbedder({ model: cfg.model, params: { chunkChars: cfg.chunkChars, overlap: cfg.overlap } });
 }

@@ -78,11 +78,11 @@ por duplicar la capa de grafo existente (SE-327/328). Detalle en el informe de o
   `projects/savia-vaults/src/registry/domes.ts`.
 - Tests: `projects/savia-vaults/tests/unit/rag/*.test.ts`,
   `projects/savia-vaults/tests/integration/rag/*.test.ts`,
-  `projects/savia-vaults/tests/e2e/mcp-rag.test.ts`, `tests/test-savia-rag-sync.bats`.
+  `projects/savia-vaults/tests/e2e/mcp-rag.test.ts`, `projects/savia-vaults/tests/e2e/cli-rag.test.ts`.
 - Configuración y eval: `projects/savia-vaults/savia-vaults.domes.json`,
   `projects/savia-vaults/eval/rag-savia-docs.json`.
 - Política y operación: `docs/rules/domain/rag-embedding-policy.md`,
-  `scripts/savia-rag-sync.sh`, `.claude/skills/savia-vaults/SKILL.md`.
+  `.claude/skills/savia-vaults/SKILL.md`.
 - Documentación y planificación: `projects/savia-vaults/README.md`,
   `projects/savia-vaults/CHANGELOG.md`, `docs/propuestas/planning-state.json`,
   `docs/propuestas/LOG.md`, `docs/propuestas/ROADMAP-CURRENT.md`.
@@ -169,7 +169,7 @@ Los hits son **datos no confiables** (SPEC-193): llevan `dome`, `confidentiality
 ```
 savia-vaults rag search <q...> [--domes a,b|all] [--k 8] [--mode hybrid]
                                [--concurrency 4] [--timeout 8000] [--json]
-savia-vaults rag sync     [--dome X | --all] [--rebuild]
+savia-vaults rag sync     [--dome X | --all] [--rebuild] [--check]
 savia-vaults rag status   [--dome X] [--json] [--check]
 savia-vaults rag eval     --dome X [--queries f.json] [--generation id] [--mode m] [--json]
 savia-vaults rag promote  <dome> <generation> [--force]
@@ -220,7 +220,8 @@ mezcla espacios vectoriales.
     la generación actual con `status: stale`; el servidor MCP lanza sync en
     segundo plano (uno por cúpula); la CLI no lanza nada y lo indica.
   - *Escritura*: `vault_write` programa sync de esa cúpula con debounce de 2 s.
-  - *Programado*: `scripts/savia-rag-sync.sh` (`rag sync --all` + `status --check`)
+  - *Programado*: `savia-vaults rag sync --all --check` (sin script aparte: no suma
+    capacidades al registry, ratchet SE-380)
     cada 6 h; `--rebuild` semanal en generación sombra como checkpoint.
 - **P4 Deriva de modelo.** Cada sync compara el digest actual de Ollama con el
   del contrato. Si difiere, construye una generación **sombra**; la activa sigue
@@ -307,7 +308,7 @@ Banco savia-docs (36 consultas, prerregistrado en commit `b1cfcc76` antes de med
 | S1 | chunker, embedder, store, indexer incremental + lock | 3 h | 1 h |
 | S2 | retriever híbrido + fan-out paralelo | 2 h | 45 min |
 | S3 | MCP (3 tools) + CLI `rag` + ACL/N4 + límites | 2 h | 45 min |
-| S4 | política: frescura, generaciones, promote/rollback/gc, status/SLO, script cron | 2 h | 45 min |
+| S4 | política: frescura, generaciones, promote/rollback/gc, status/SLO, cron vía CLI | 2 h | 45 min |
 | S5 | banco de eval, bake-off, perfil Savia Labs (banco privado en su vault) | 2 h | 1 h |
 | S6 | README, regla de política, skill savia-vaults, CHANGELOG | 1 h | 30 min |
 
@@ -358,6 +359,7 @@ Total: 12 h agente, ~4,75 h humano, 30 min de review.
 | `parallel.test.ts` | semáforo, timeout parcial, un embed por contrato (AC4, AC6) |
 | `rag-service.test.ts` (integración) | fan-out con cúpula denegada y N4 fuera de `"*"`, degradación sin Ollama, rollback, lector durante sync (AC6-AC9) |
 | `mcp-rag.test.ts` (e2e) | `tools/list` y llamadas reales a las tres tools por stdio |
+| `cli-rag.test.ts` (e2e) | `rag sync --all --check`: exit 0/2, lock ajeno no es fallo, entrada inválida |
 | `rag-live.test.ts` | Ollama real; omitido solo si `/api/tags` no responde |
 
 ## Riesgos
@@ -392,7 +394,7 @@ A2A, índice ANN mientras haya < 200k chunks, ruido de tags `#NNN` en BM25 de
 | Componente | Claude Code | OpenCode v1.14 |
 |---|---|---|
 | MCP savia-vaults (`vault_rag*`) | `~/.claude.json` | `opencode.json` `mcp.savia-vaults` (mismo binario) |
-| CLI `savia-vaults rag`, `scripts/savia-rag-sync.sh` | bash | idéntico |
+| CLI `savia-vaults rag` (incl. cron `rag sync --all --check`) | bash | idéntico |
 
 ### Verification protocol
 
