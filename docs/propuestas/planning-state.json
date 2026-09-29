@@ -338,12 +338,13 @@
     },
     {
       "id": "SE-411",
-      "status": "PROPOSED",
+      "status": "APPROVED",
       "priority": "P1",
       "title": "Eficiencia de Savia RAG: fusión invariante al orden, caché dimensionada, keep_alive, respuesta compacta y CLI en frío",
-      "note": "Origen: medición de eficiencia en Savia Labs (privada); cifras públicas sobre savia-docs. Pendiente de aprobación de la operadora",
+      "note": "Origen: medición de eficiencia en Savia Labs (privada); cifras públicas sobre savia-docs. Se implementa en una PR sin ocupar WIP",
       "evidence": "docs/specs/SE-411-rag-efficiency.spec.md",
-      "phase": "A"
+      "phase": "A",
+      "approval": "Operadora 2026-09-29 en chat (AskUserQuestion): Aprobar e implementar"
     }
   ],
   "route": {

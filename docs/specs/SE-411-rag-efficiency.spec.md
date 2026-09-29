@@ -1,5 +1,7 @@
 ---
-status: PROPOSED
+status: APPROVED
+approved_at: 2026-09-29
+approval: "Operadora 2026-09-29 en chat (AskUserQuestion): Aprobar e implementar"
 priority: P1
 developer_type: agent-single
 created: 2026-09-29
