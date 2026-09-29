@@ -290,6 +290,15 @@ Banco savia-docs (36 consultas, prerregistrado en commit `b1cfcc76` antes de med
   plegado de acentos, prefijo ≥ 4, fuzzy ≥ 5) antes de la elección; no se tocaron
   pesos ni parámetros de chunking.
 - AC1 cumplido con qwen3: +0,087 MRR y +0,167 recall@10 sobre bm25; híbrido ≥ denso.
+- AC2: editar 1 documento de savia-docs (copia) embebe 2 chunks; sync 667 ms
+  (1,5 s de pared con arranque de la CLI). Borrado purgado en el siguiente sync.
+- AC10 (proceso en caliente, como el servidor MCP): una cúpula p95 179 ms; 3
+  cúpulas × 3 consultas p95 302 ms. La primera llamada de un proceso nuevo tarda
+  ~2,4 s (carga del índice de 44 MB y BM25 sobre 10 796 chunks): la CLI la paga
+  en cada invocación.
+- Savia Labs (banco privado, 18 consultas): hybrid recall@10 0,963, MRR 0,958
+  frente a bm25 0,824 / 0,773; la única nota N3 de la cúpula no se embebió.
+- Indexación completa: savia-docs 536 s (10 796 chunks), Labs 37 s (704 chunks).
 
 ## Slices y esfuerzo
 
