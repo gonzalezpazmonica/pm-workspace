@@ -71,6 +71,22 @@ por duplicar la capa de grafo existente (SE-327/328). Detalle en el informe de o
 | `policy.ts` | frescura, decaimiento, SLO, `promotionDecision` |
 | `service.ts` | `RagService` (una instancia por proceso; LRU de ≤4 índices cargados) |
 
+### Entregables (rutas)
+
+- Código: `projects/savia-vaults/src/rag/*.ts`; integración en
+  `projects/savia-vaults/src/server/mcp.ts`, `projects/savia-vaults/src/cli/index.ts`,
+  `projects/savia-vaults/src/registry/domes.ts`.
+- Tests: `projects/savia-vaults/tests/unit/rag/*.test.ts`,
+  `projects/savia-vaults/tests/integration/rag/*.test.ts`,
+  `projects/savia-vaults/tests/e2e/mcp-rag.test.ts`, `tests/test-savia-rag-sync.bats`.
+- Configuración y eval: `projects/savia-vaults/savia-vaults.domes.json`,
+  `projects/savia-vaults/eval/rag-savia-docs.json`.
+- Política y operación: `docs/rules/domain/rag-embedding-policy.md`,
+  `scripts/savia-rag-sync.sh`, `.claude/skills/savia-vaults/SKILL.md`.
+- Documentación y planificación: `projects/savia-vaults/README.md`,
+  `projects/savia-vaults/CHANGELOG.md`, `docs/propuestas/planning-state.json`,
+  `docs/propuestas/LOG.md`, `docs/propuestas/ROADMAP-CURRENT.md`.
+
 ### Tipos principales
 
 ```ts
