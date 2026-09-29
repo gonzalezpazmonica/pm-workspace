@@ -1,0 +1,100 @@
+name: Nightly full BATS suite
+
+# The PR job (ci.yml) only runs a change-selected subset of tests/bats/, and
+# never the ~550 suites in tests/*.bats. Regressions from #1165 (rule manifest)
+# and #1168 (settings pin) merged green because of that gap. This job runs the
+# whole suite every night and reports failures in a single tracking issue.
+# It never blocks PRs.
+#
+# Ref: SE-396 (baseline global), ADR-002 Fase A (suite completa sin fallos).
+
+on:
+  schedule:
+    - cron: '30 2 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+concurrency:
+  group: nightly-full-bats
+  cancel-in-progress: false
+
+jobs:
+  full-bats:
+    name: Full BATS suite
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    steps:
+      - name: Checkout
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          fetch-depth: 0
+
+      - name: Install BATS and dependencies
+        run: |
+          git clone --depth 1 --branch v1.9.0 https://github.com/bats-core/bats-core.git /tmp/bats
+          sudo /tmp/bats/install.sh /usr/local
+          pip3 install pytest
+          npm install --prefix scripts
+          git config --global user.email "ci@example.com"
+          git config --global user.name "CI Runner"
+
+      - name: Run every suite (per-file timeout)
+        id: run
+        run: |
+          set -uo pipefail
+          mkdir -p /tmp/nightly
+          # One process per suite so a hang only costs its own timeout.
+          ls tests/*.bats tests/bats/*.bats | xargs -P 4 -I{} bash -c '
+            out="/tmp/nightly/$(echo {} | tr / _).tap"
+            timeout 900 bats "{}" > "$out" 2>&1
+            echo "$? {}" >> /tmp/nightly/rc.txt'
+          total=$(wc -l < /tmp/nightly/rc.txt)
+          awk '$1 != 0' /tmp/nightly/rc.txt | sort -k2 > /tmp/nightly/failed.txt
+          failed=$(wc -l < /tmp/nightly/failed.txt)
+          echo "total=$total" >> "$GITHUB_OUTPUT"
+          echo "failed=$failed" >> "$GITHUB_OUTPUT"
+          {
+            echo "## Nightly full BATS: $((total - failed))/$total suites pass"
+            echo
+            echo '| exit | suite |'
+            echo '|---|---|'
+            awk '{print "| " $1 " | `" $2 "` |"}' /tmp/nightly/failed.txt
+            echo
+            echo 'exit 124 = timeout (900 s).'
+          } > /tmp/nightly/summary.md
+          cat /tmp/nightly/summary.md >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Upload TAP output
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: nightly-bats-tap
+          path: /tmp/nightly/
+          retention-days: 14
+
+      - name: Report in tracking issue
+        if: always() && steps.run.outputs.failed != ''
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          FAILED: ${{ steps.run.outputs.failed }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          set -uo pipefail
+          title="Nightly full BATS suite: failures"
+          issue=$(gh issue list --state open --search "in:title \"$title\"" --json number -q '.[0].number')
+          body="$(cat /tmp/nightly/summary.md)
+
+          Run: $RUN_URL"
+          if [[ "$FAILED" -gt 0 ]]; then
+            if [[ -n "$issue" ]]; then
+              gh issue comment "$issue" --body "$body"
+            else
+              gh issue create --title "$title" --body "$body"
+            fi
+          elif [[ -n "$issue" ]]; then
+            gh issue close "$issue" --comment "All suites pass. $RUN_URL"
+          fi
+          [[ "$FAILED" -eq 0 ]]
