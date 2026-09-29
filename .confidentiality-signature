@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=32e806c3ce613bec69eea7b9763d5a5dcadba5dcacdd55514fb706cc00aab651
-timestamp=2026-09-29T07:32:28Z
-branch=agent/auto-rebase-token-20260929
-head_commit=747d57b7
-signature=0aa36f920888c4e7ac6604c72caac327562b8150cdcc88018e646c24fc7bc944
+diff_hash=f246b8a33ae6aeb73051648f4fc257fbac8bd88af8938a3a62fb0afc4d1dde81
+timestamp=2026-09-29T08:59:03Z
+branch=agent/session-handoff-20260929
+head_commit=5b4cfefb
+signature=07692dd6120bb8a1bce72e69e4556c26e946d9327439c7b9dfeb99922dc60e9e
