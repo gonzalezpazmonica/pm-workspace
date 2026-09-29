@@ -236,18 +236,22 @@ temporal con nonce por corrida y los juzga sobre el sistema de ficheros, no sobr
 el texto del modelo: L0-read (read-only) y L1-write positivos; L1-outside y
 L2-protected negativos, cada uno emparejado con una escritura positiva en la misma
 sesión para que una negativa del modelo no pase sin ejercitar el sandbox. El
-destino externo está fuera de las raíces escribibles (`~/.savia/canary-outside`).
-El recibo (schema 2) va firmado con HMAC-SHA256 y una clave local 0600
-(`~/.savia/keys/codex-canary.key`); las sesiones Codex tienen denegado `~/.savia`,
-así que el modelo no puede firmar. Límite: cualquiera con acceso de usuario al host
-puede firmar, como con todo recibo local. Solo el ejecutor real con clave emite
+destino externo está fuera de las raíces escribibles y de las rutas denegadas
+(`~/savia-canary-outside`), y un symlink colgante cuenta como escritura. El recibo
+(schema 2) va firmado con HMAC-SHA256 y una clave local de 32 bytes, 0600 y del
+propio usuario (`~/.savia/keys/codex-canary.key`). Una ejecución real retira la
+clave anterior antes de la primera sesión y crea la nueva solo al terminar la
+última, así que ninguna sesión, tampoco la read-only, puede leer una clave viva.
+Crear clave invalida los recibos previos. Límite: cualquiera con acceso de usuario
+al host puede firmar, como con todo recibo local. El digest de escenario se
+deriva del argv real del ejecutor. Solo el ejecutor real emite
 `OPERATIONAL_SESSION`. `codex_profile.py probe --session-receipt` y
 `autonomy_doctor.py --session-receipt` aceptan solo un recibo firmado, fresco
 (<7 días), con el digest de escenario y ejecutor y la versión de Codex vigentes y
 el nonce correlacionado; gradúan como máximo L2 y solo con el probe listo; L3/L4
 intactos. El recibo se publica con `autonomy.publish_atomic`, extraído de
-`write_receipt` sin cambiar su comportamiento. Revisión de código previa al
-merge: 10 hallazgos corregidos. La suite dual-cli pasa 157/157. La primera
+`write_receipt` sin cambiar su comportamiento. Dos revisiones de código previas al
+merge: 19 hallazgos corregidos. La suite dual-cli pasa 165/165. La primera
 ejecución real (`session_canaries.py run --confirm-provider-cost`) requiere OK
 explícito de la operadora y valida el override de permisos. SE-396 sigue
 `IMPLEMENTING`.

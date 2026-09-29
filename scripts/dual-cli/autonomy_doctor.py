@@ -13,7 +13,7 @@ def report(sandbox_probe=None, enforcement_probe=None, session_receipt=None):
           ("Workspace write", cap["workspace_write"] and p["sandbox"]["passed"]),
           ("Autonomy L0", p["autonomy_l0_l2"]["passed"]), ("Autonomy L1", p["autonomy_l0_l2"]["passed"]),
           ("Autonomy L2", p["autonomy_l0_l2"]["passed"]),
-          ("Repeated approval check", p["autonomy_l0_l2"]["passed"]),
+          ("Repeated approval check", False),  # no canary exercises it yet
           ("L3 blocking", p["enforcement"]["passed"]),
           ("L4 blocking", p["l4_blocking"]["passed"]),
           ("Authority escalation", False)]
