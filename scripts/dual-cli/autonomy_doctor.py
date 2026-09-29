@@ -1,10 +1,11 @@
 #!/usr/bin/env python3
 """Codex autonomy view for workspace-doctor; every PASS comes from a probe."""
 import argparse
-from codex_profile import probe
+from codex_profile import apply_session_evidence, probe
 
-def report(sandbox_probe=None, enforcement_probe=None):
+def report(sandbox_probe=None, enforcement_probe=None, session_receipt=None):
     p=probe(sandbox_probe,enforcement_probe)
+    if session_receipt: p=apply_session_evidence(p,session_receipt)
     cap=p["capabilities"]
     rows=[("Codex CLI", bool(p["version"])),
           ('Authentication', p['authentication']['passed']),
@@ -19,8 +20,8 @@ def report(sandbox_probe=None, enforcement_probe=None):
     return rows,p
 
 def main():
-    a=argparse.ArgumentParser();a.add_argument("--sandbox-probe");a.add_argument("--enforcement-probe");x=a.parse_args()
-    rows,p=report(x.sandbox_probe,x.enforcement_probe)
+    a=argparse.ArgumentParser();a.add_argument("--sandbox-probe");a.add_argument("--enforcement-probe");a.add_argument("--session-receipt");x=a.parse_args()
+    rows,p=report(x.sandbox_probe,x.enforcement_probe,x.session_receipt)
     for name,ok in rows:
         state = 'BLOCKED' if name=='Authority escalation' else 'PASS' if ok else 'NOT_VERIFIED'
         if name in ('L3 blocking','L4 blocking') and ok: state='BLOCKED_OR_HUMAN_REROUTE' if name=='L3 blocking' else 'DENY'
