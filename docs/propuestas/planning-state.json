@@ -259,7 +259,7 @@
       "approval": "Operadora 2026-09-27: 'Redacta todas las specs que necesites y adelante con todas las propuestas en sprint nocturno'",
       "priority": "P1",
       "title": "Attributed Edit Ledger",
-      "evidence": "docs/specs/SE-402-attributed-edit-ledger.spec.md",
+      "evidence": "PR #1168 mergeada 2026-09-28 sin review registrada; graduación pendiente de revisión humana (completion.human_review). Spec: docs/specs/SE-402-attributed-edit-ledger.spec.md",
       "phase": "A"
     },
     {
@@ -268,7 +268,7 @@
       "approval": "Operadora 2026-09-27: 'Redacta todas las specs que necesites y adelante con todas las propuestas en sprint nocturno'",
       "priority": "P2",
       "title": "Benchmark evidence: trazas, frontera, hash de selección",
-      "evidence": "docs/specs/SE-403-benchmark-evidence-frontier.spec.md",
+      "evidence": "PR #1171 mergeada 2026-09-28 sin review registrada; graduación pendiente de revisión humana (completion.human_review). Spec: docs/specs/SE-403-benchmark-evidence-frontier.spec.md",
       "phase": "C"
     },
     {
@@ -277,7 +277,7 @@
       "approval": "Operadora 2026-09-27: 'Redacta todas las specs que necesites y adelante con todas las propuestas en sprint nocturno'",
       "priority": "P1",
       "title": "Proceso proporcional: G13 v2 y una corrección por revisión",
-      "evidence": "docs/specs/SE-404-proportional-process-gates.spec.md",
+      "evidence": "PR #1170 mergeada 2026-09-28 sin review registrada; graduación pendiente de revisión humana (completion.human_review). Spec: docs/specs/SE-404-proportional-process-gates.spec.md",
       "phase": "B"
     },
     {
@@ -286,7 +286,7 @@
       "approval": "Operadora 2026-09-27: 'Redacta todas las specs que necesites y adelante con todas las propuestas en sprint nocturno'",
       "priority": "P2",
       "title": "Observabilidad: coste por subagente, snapshots de config, timeline de memoria",
-      "evidence": "docs/specs/SE-405-harness-observability-increments.spec.md",
+      "evidence": "PR #1169 mergeada 2026-09-28 sin review registrada; graduación pendiente de revisión humana (completion.human_review). Spec: docs/specs/SE-405-harness-observability-increments.spec.md",
       "phase": "A"
     },
     {
