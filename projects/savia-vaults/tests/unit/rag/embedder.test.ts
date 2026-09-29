@@ -20,6 +20,10 @@ describe('HashEmbedder', () => {
     expect(cosine(q, near)).toBeGreaterThan(cosine(q, far));
   });
 
+  it('digest() del proveedor de test es su etiqueta', async () => {
+    expect(await e.digest()).toBe('hash-bow-v1');
+  });
+
   it('contrato con provider hash', async () => {
     const c = await e.contract();
     expect(c.provider).toBe('hash');
@@ -79,6 +83,24 @@ describe('OllamaEmbedder (servidor falso local)', () => {
     expect(embedCalls).toHaveLength(2);
     expect(embedCalls[0].body.input).toEqual(['Q: a', 'Q: bb']);
     for (const x of v) expect(Math.abs(cosine(x, x) - 1)).toBeLessThan(1e-6);
+  });
+
+  it('envía keep_alive en cada embedding (SE-411 G3)', async () => {
+    calls.length = 0;
+    await new OllamaEmbedder({ baseUrl: url, model: 'fake-embed' }).embed(['a'], 'doc');
+    expect(calls.find(c => c.path === '/api/embed')!.body.keep_alive).toBe('30m');
+    calls.length = 0;
+    await new OllamaEmbedder({ baseUrl: url, model: 'fake-embed', keepAlive: '-1' }).embed(['a'], 'doc');
+    expect(calls.find(c => c.path === '/api/embed')!.body.keep_alive).toBe('-1');
+  });
+
+  it('digest() consulta /api/tags sin embedding de sondeo y lo cachea (SE-411 G5)', async () => {
+    calls.length = 0;
+    const e = new OllamaEmbedder({ baseUrl: url, model: 'fake-embed' });
+    expect(await e.digest()).toBe('abc123def456');
+    expect(await e.digest()).toBe('abc123def456');
+    expect(calls.filter(c => c.path === '/api/tags')).toHaveLength(1);
+    expect(calls.filter(c => c.path === '/api/embed')).toHaveLength(0);
   });
 
   it('modelo ausente o servidor caído → EMBEDDER_UNAVAILABLE', async () => {

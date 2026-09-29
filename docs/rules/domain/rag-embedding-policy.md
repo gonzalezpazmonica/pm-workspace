@@ -34,6 +34,7 @@ un atajo: si cambió pero el hash no, solo se actualiza el manifest.
 |---|---|---|
 | Lectura | antes de cada búsqueda | si hay ≤ `inlineSyncBudget` (25) documentos pendientes, sync inline; si hay más, responde `stale` y el servidor MCP lanza sync en segundo plano |
 | Escritura | `vault_write` | sync de la cúpula con debounce de 2 s |
+| Modelo cargado | cada embedding | `keep_alive` (`SAVIA_RAG_KEEP_ALIVE`, def. `30m`) solo para el modelo de embedding |
 | Programado | cada 6 h | `savia-vaults rag sync --all --check` (un lock ajeno no es fallo; exit 2 si el SLO falla) y `rag gc` |
 | Checkpoint | semanal | `savia-vaults rag sync --all --rebuild --check` |
 
@@ -83,6 +84,12 @@ contrato y genera una generación completa nueva, sujeta a P5.
 El embedder de hash existe solo para tests (`SAVIA_RAG_TEST_PROVIDER=hash`) y su
 contrato declara `provider: hash`. Si el proveedor configurado falla, la búsqueda
 degrada a BM25 y lo dice en `detail`.
+
+## Fusión entre cúpulas (SE-411)
+
+Si todas las cúpulas de una búsqueda comparten contrato, los hits se ordenan por
+coseno global (mismo espacio vectorial); si no, por rango con desempate
+determinista y `fusion: "rank"` en la respuesta. Nunca depende del orden de la lista.
 
 ## Confidencialidad del índice
 

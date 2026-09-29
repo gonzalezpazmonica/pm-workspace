@@ -45,8 +45,10 @@ savia-vaults rag eval --dome savia-docs               # recall@5/@10, MRR, p50/p
 savia-vaults rag promote|rollback|gc ...
 ```
 
-MCP: `vault_rag` (hasta 8 consultas × N cúpulas en una llamada), `vault_rag_status`,
-`vault_rag_sync`. Cada cúpula se autoriza por separado; las denegadas aparecen
+MCP: `vault_rag` (hasta 8 consultas × N cúpulas en una llamada; respuesta `lean`
+compacta de ≤ `maxChars`, def. 6000), `vault_rag_status`, `vault_rag_sync`.
+Variables: `SAVIA_RAG_HOME`, `SAVIA_RAG_MODEL`, `SAVIA_OLLAMA_URL`,
+`SAVIA_RAG_KEEP_ALIVE` (def. `30m`), `SAVIA_RAG_MEMORY_MB` (def. 512). Cada cúpula se autoriza por separado; las denegadas aparecen
 como `denied`; `"*"` nunca incluye N4; las notas con confidencialidad superior a
 su cúpula no se embeben.
 

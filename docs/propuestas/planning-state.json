@@ -341,7 +341,7 @@
       "status": "APPROVED",
       "priority": "P1",
       "title": "Eficiencia de Savia RAG: fusión invariante al orden, caché dimensionada, keep_alive, respuesta compacta y CLI en frío",
-      "note": "Origen: medición de eficiencia en Savia Labs (privada); cifras públicas sobre savia-docs. Se implementa en una PR sin ocupar WIP",
+      "note": "Implementada en una PR sin ocupar WIP; AC1-AC6 medidos (ver spec §Resultados); graduación pendiente de revisión humana",
       "evidence": "docs/specs/SE-411-rag-efficiency.spec.md",
       "phase": "A",
       "approval": "Operadora 2026-09-29 en chat (AskUserQuestion): Aprobar e implementar"

@@ -1,11 +1,13 @@
 // SE-410 — integración del servicio RAG: fan-out, ACL, degradación, generaciones (AC3-AC9)
-import { describe, it, expect, beforeEach, afterEach } from 'vitest';
+import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
+import * as http from 'node:http';
+import type { AddressInfo } from 'node:net';
 import * as fs from 'node:fs';
 import * as os from 'node:os';
 import * as path from 'node:path';
 import { RagService, type RagDomeRef } from '../../../src/rag/service.js';
-import { HashEmbedder, type Embedder } from '../../../src/rag/embedder.js';
-import { readActive } from '../../../src/rag/store.js';
+import { HashEmbedder, OllamaEmbedder, type Embedder } from '../../../src/rag/embedder.js';
+import { readActive, FlatVectorStore } from '../../../src/rag/store.js';
 import { RagError, type ResolvedRagConfig } from '../../../src/rag/types.js';
 
 const long = (s: string) => `${s}. `.repeat(12);
@@ -237,5 +239,81 @@ describe('RagService', () => {
     const [a] = await Promise.all([s.search({ queries: ['token PAT'], domes: ['Docs'] }), s.sync('Docs').catch(() => undefined)]);
     expect(['ok', 'stale']).toContain(a.domes[0].status);
     expect(a.results[0].hits.length).toBeGreaterThan(0);
+  });
+
+  // ── SE-411 ────────────────────────────────────────────────────────────
+  it('G1: la fusión entre cúpulas no depende del orden de la lista (AC1)', async () => {
+    for (const d of domes) d.rag = { enabled: true, model: 'm1' };
+    const s = service();
+    const q = { queries: ['merge sin permiso de la operadora'], k: 6 };
+    const a = await s.search({ ...q, domes: ['Docs', 'Learn', 'Secret'] });
+    const b = await s.search({ ...q, domes: ['Secret', 'Learn', 'Docs'] });
+    const c = await s.search({ ...q, domes: ['Learn', 'Docs', 'Secret'] });
+    const ids = (r: typeof a) => r.results[0].hits.map(h => `${h.dome}:${h.chunkId}`);
+    expect(ids(b)).toEqual(ids(a));
+    expect(ids(c)).toEqual(ids(a));
+    expect(a.fusion).toBe('cosine');
+    // orden por coseno descendente
+    const cos = a.results[0].hits.map(h => h.signals.dense!);
+    expect([...cos].sort((x, y) => y - x)).toEqual(cos);
+  });
+
+  it('G1: con contratos distintos la fusión es por rango pero sigue siendo determinista', async () => {
+    const s = service();
+    const a = await s.search({ queries: ['merge sin permiso'], domes: ['Docs', 'Learn'] });
+    const b = await s.search({ queries: ['merge sin permiso'], domes: ['Learn', 'Docs'] });
+    expect(a.fusion).toBe('rank');
+    expect(b.results[0].hits.map(h => `${h.dome}:${h.chunkId}`)).toEqual(a.results[0].hits.map(h => `${h.dome}:${h.chunkId}`));
+  });
+
+  it('G2: con 5 cúpulas no se recarga ningún índice en caliente (AC2)', async () => {
+    for (const n of ['E1', 'E2']) domes.push({ name: n, confidentiality: 'N2', path: writeDome(root, n, { 'x.md': `# ${n}\n\n${long('contenido extra de prueba')}` }), rag: { enabled: true, model: 'm1' } });
+    for (const d of domes) if (d.name !== 'Plain') d.rag = { enabled: true, model: 'm1' };
+    const s = service();
+    await s.search({ queries: ['merge'], domes: '*' });
+    const spy = vi.spyOn(FlatVectorStore, 'load');
+    await s.search({ queries: ['merge'], domes: '*' });
+    await s.search({ queries: ['token'], domes: '*' });
+    expect(spy).not.toHaveBeenCalled();
+    spy.mockRestore();
+  });
+
+  it('G2: el presupuesto de memoria desaloja el índice menos usado', async () => {
+    for (const d of domes) if (d.name !== 'Plain') d.rag = { enabled: true, model: 'm1' };
+    const s = service({ env: { SAVIA_RAG_MEMORY_MB: '0' } });
+    await s.search({ queries: ['merge'], domes: ['Docs'] });
+    await s.search({ queries: ['merge'], domes: ['Learn'] });
+    const spy = vi.spyOn(FlatVectorStore, 'load');
+    await s.search({ queries: ['merge'], domes: ['Docs'] });
+    expect(spy).toHaveBeenCalledTimes(1);
+    spy.mockRestore();
+  });
+
+  it('G5: una búsqueda hace un solo embedding (sin sondeo de dimensiones)', async () => {
+    const calls: string[] = [];
+    const server = http.createServer((req, res) => {
+      let data = '';
+      req.on('data', (c) => { data += c; });
+      req.on('end', () => {
+        calls.push(req.url || '');
+        res.setHeader('content-type', 'application/json');
+        if (req.url === '/api/tags') return res.end(JSON.stringify({ models: [{ name: 'fake:latest', digest: 'd1' }] }));
+        const input: string[] = JSON.parse(data).input;
+        res.end(JSON.stringify({ embeddings: input.map(t => [t.length % 7, (t.length % 5) + 1, 1]) }));
+      });
+    });
+    await new Promise<void>(r => server.listen(0, '127.0.0.1', () => r()));
+    const url = `http://127.0.0.1:${(server.address() as AddressInfo).port}`;
+    try {
+      domes[0].rag = { enabled: true, model: 'fake' };
+      await new RagService({ domes: () => domes, home, embedderFactory: (cfg) => new OllamaEmbedder({ baseUrl: url, model: cfg.model }) }).sync('Docs');
+      const fresh = new RagService({ domes: () => domes, home, embedderFactory: (cfg) => new OllamaEmbedder({ baseUrl: url, model: cfg.model }) });
+      calls.length = 0;
+      const r = await fresh.search({ queries: ['merge sin permiso', 'token'], domes: ['Docs'] });
+      expect(r.domes[0].status).toBe('ok');
+      expect(calls.filter(c => c === '/api/embed')).toHaveLength(1);
+    } finally {
+      await new Promise<void>(r => server.close(() => r()));
+    }
   });
 });

@@ -4,7 +4,7 @@ import { HashEmbedder, OllamaEmbedder, type Embedder } from './embedder.js';
 import { RagIndexer, listIndexable, logEvent } from './indexer.js';
 import { fanOut, withTimeout, TimeoutError } from './parallel.js';
 import { promotionDecision, resolveRagConfig, sloStatus, type EvalMetrics } from './policy.js';
-import { applyCharBudget, fuseAcross, searchStore, type StoreHit } from './retriever.js';
+import { applyCharBudget, fuseAcross, fuseByCosine, searchStore, warmBm25, type StoreHit } from './retriever.js';
 import {
   FlatVectorStore, defaultRagHome, domeDir, ensureSafeHome, gcGeneration, generationId, readActive, writeActive,
 } from './store.js';
@@ -86,7 +86,8 @@ export function defaultEmbedderFactory(env: NodeJS.ProcessEnv = process.env): (c
   return (cfg) => new OllamaEmbedder({ model: cfg.model, params: { chunkChars: cfg.chunkChars, overlap: cfg.overlap } });
 }
 
-const LRU_MAX = 4;
+const LRU_MIN = 4;
+const DEFAULT_MEMORY_MB = 512;
 const WRITE_DEBOUNCE_MS = 2000;
 
 function percentile(values: number[], p: number): number {
@@ -134,7 +135,10 @@ export class RagService {
     return new RagIndexer({ dome: d.name, vaultPath: d.path, home: this.home, cfg, embedder: this.embedder(cfg), domeLevel: d.confidentiality });
   }
 
-  /** LRU de ≤4 índices cargados; clave incluye seq para invalidar tras cada sync. */
+  /**
+   * Caché de índices (SE-411 G2): capacidad = cúpulas habilitadas (mín. 4) y tope de
+   * memoria `SAVIA_RAG_MEMORY_MB` (def. 512). Clave con seq: se invalida tras cada sync.
+   */
   private loadStore(dome: string, generation: string): FlatVectorStore {
     const dir = path.join(domeDir(this.home, dome), generation);
     const manifest = FlatVectorStore.readManifest(dir);
@@ -149,8 +153,32 @@ export class RagService {
     const store = FlatVectorStore.load(dir);
     for (const k of this.stores.keys()) if (k.startsWith(`${dome}/${generation}/`)) this.stores.delete(k);
     this.stores.set(key, store);
-    while (this.stores.size > LRU_MAX) this.stores.delete(this.stores.keys().next().value!);
+    const capacity = Math.max(LRU_MIN, this.o.domes().filter(d => this.config(d).enabled).length);
+    const budget = Number(this.env.SAVIA_RAG_MEMORY_MB ?? DEFAULT_MEMORY_MB) * 1024 * 1024;
+    const bytes = (st: FlatVectorStore) => st.size * st.dims * 4 + st.chunks.reduce((n, c) => n + c.text.length * 2, 0);
+    let total = [...this.stores.values()].reduce((n, st) => n + bytes(st), 0);
+    for (const [k, st] of this.stores) {
+      if (this.stores.size <= 1 || (this.stores.size <= capacity && total <= budget)) break;
+      if (k === key) continue;
+      this.stores.delete(k);
+      total -= bytes(st);
+    }
     return store;
+  }
+
+  /** Bytes aproximados de los índices cargados (vectores + texto). */
+  loadedMemoryBytes(): number {
+    return [...this.stores.values()].reduce((n, st) => n + st.size * st.dims * 4 + st.chunks.reduce((m, c) => m + c.text.length * 2, 0), 0);
+  }
+
+  /** P1 sin sondeo (SE-411 G5): generación que produciría el modelo vivo. */
+  private async liveGeneration(emb: Embedder, contract: EmbeddingContract): Promise<{ generation: string; digest: string }> {
+    if (emb.digest) {
+      const digest = await emb.digest();
+      return { generation: generationId({ ...contract, modelDigest: digest }), digest };
+    }
+    const live = await emb.contract();
+    return { generation: generationId(live), digest: live.modelDigest };
   }
 
   // ── Sync, promoción y generaciones ────────────────────────────────────
@@ -395,10 +423,11 @@ export class RagService {
     // 4. Embeddings de consultas: un lote por contrato (P1); contrato vivo distinto ⇒ degradado.
     const e0 = Date.now();
     const queryVecs = new Map<string, Float32Array[]>();
+    let embedding: Promise<unknown> = Promise.resolve();
     if (opt.mode !== 'bm25') {
       const byGen = new Map<string, Prepared[]>();
       for (const p of ready) byGen.set(p.store.manifest.generation, [...(byGen.get(p.store.manifest.generation) ?? []), p]);
-      await Promise.all([...byGen.entries()].map(async ([gen, group]) => {
+      embedding = Promise.all([...byGen.entries()].map(async ([gen, group]) => {
         const degrade = (detail: string) => {
           for (const p of group) {
             const prev = outcomes.get(p.d.name)!;
@@ -406,10 +435,11 @@ export class RagService {
           }
         };
         try {
-          const emb = this.embedder({ ...group[0].cfg, model: group[0].store.manifest.contract.model });
-          const live = await withTimeout(emb.contract(), opt.timeoutMs);
-          if (generationId(live) !== gen) {
-            degrade(`CONTRACT_MISMATCH: el modelo vivo (${live.model} ${live.modelDigest.slice(0, 12)}) no es el de la generación ${gen}; generación sombra pendiente`);
+          const contract = group[0].store.manifest.contract;
+          const emb = this.embedder({ ...group[0].cfg, model: contract.model });
+          const live = await withTimeout(this.liveGeneration(emb, contract), opt.timeoutMs);
+          if (live.generation !== gen) {
+            degrade(`CONTRACT_MISMATCH: el modelo vivo (${contract.model} ${live.digest.slice(0, 12)}) no es el de la generación ${gen}; generación sombra pendiente`);
             return;
           }
           queryVecs.set(gen, await withTimeout(emb.embed(req.queries, 'query'), opt.timeoutMs));
@@ -418,7 +448,17 @@ export class RagService {
         }
       }));
     }
-    const embedMs = Date.now() - e0;
+    // SE-411 G5: mientras Ollama calcula (GPU), se carga BM25 en CPU. Se cede el
+    // event loop un instante para que la petición HTTP salga antes del trabajo síncrono.
+    let embedDone = e0;
+    const tracked = embedding.then(() => { embedDone = Date.now(); });
+    if (opt.mode !== 'dense') {
+      await new Promise(r => setTimeout(r, 2));
+      for (const p of ready) warmBm25(p.store);
+    }
+    await tracked;
+    // Solo el tiempo del embedding (la carga de BM25 va solapada y no cuenta aquí).
+    const embedMs = embedDone - e0;
 
     // 5. Puntuación por (cúpula, consulta).
     const perQuery: RagHit[][][] = req.queries.map(() => []);
@@ -434,10 +474,16 @@ export class RagService {
       });
     }
 
-    // 6. Fusión por rango entre cúpulas y, si hay varias consultas, global.
+    // 6. Fusión entre cúpulas (SE-411 G1): por coseno global si todas comparten
+    //    contrato y hay vectores de consulta; si no, por rango con desempate determinista.
+    const gens = new Set(ready.map(p => p.store.manifest.generation));
+    const fusion: 'cosine' | 'rank' = ready.length > 1 && gens.size === 1 && queryVecs.size === 1 ? 'cosine' : 'rank';
     const results = req.queries.map((query, qi) => ({
       query,
-      hits: applyCharBudget(fuseAcross(perQuery[qi], opt.k), opt.maxChars),
+      hits: applyCharBudget(
+        fusion === 'cosine' ? fuseByCosine(perQuery[qi], opt.k) : fuseAcross(perQuery[qi], opt.k),
+        opt.maxChars,
+      ),
     }));
     const merged = req.queries.length > 1
       ? applyCharBudget(fuseAcross(results.map(r => r.hits), opt.k), opt.maxChars)
@@ -448,6 +494,7 @@ export class RagService {
       ...(merged ? { merged } : {}),
       domes: targets.map(d => outcomes.get(d.name)!),
       timings: { totalMs: Date.now() - t0, embedMs, syncMs },
+      ...(ready.length > 1 ? { fusion } : {}),
     };
   }
 
@@ -462,8 +509,8 @@ export class RagService {
     const mode = opts.mode ?? 'hybrid';
     const emb = this.embedder({ ...cfg, model: store.manifest.contract.model });
     if (mode !== 'bm25') {
-      const live = await emb.contract();
-      if (generationId(live) !== generation) {
+      const live = await this.liveGeneration(emb, store.manifest.contract);
+      if (live.generation !== generation) {
         throw new RagError('CONTRACT_MISMATCH', `el embedder vivo no corresponde a la generación ${generation}`);
       }
     }
@@ -506,9 +553,9 @@ export class RagService {
       let digestMatch = true;
       if (cfg.enabled && manifest) {
         try {
-          const live = await this.embedder({ ...cfg, model: manifest.contract.model }).contract();
-          currentDigest = live.modelDigest;
-          digestMatch = live.modelDigest === manifest.contract.modelDigest;
+          const live = await this.liveGeneration(this.embedder({ ...cfg, model: manifest.contract.model }), manifest.contract);
+          currentDigest = live.digest;
+          digestMatch = live.digest === manifest.contract.modelDigest;
         } catch {
           // proveedor caído: no es deriva de modelo; se refleja en búsqueda como degraded
         }
