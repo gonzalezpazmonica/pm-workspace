@@ -227,3 +227,20 @@ respuestas, credenciales, rutas privadas ni identificadores nativos. La suite
 dual-cli pasa 126/126 y el gate canónico local pasa 6/6. H02, H09 y H10 quedan
 implementados, pero SE-396 continúa `IMPLEMENTING` hasta revisión humana y
 graduación explícita.
+
+## Registro de implementación H04 — 2026-09-29
+
+Plan aprobado por la operadora el 2026-09-29, sin ejecución real.
+`scripts/dual-cli/session_canaries.py` ejecuta cuatro canaries en un workspace
+temporal con nonce por corrida (L0-read y L1-write positivos; L1-outside y
+L2-protected negativos) y los juzga sobre el sistema de ficheros, no sobre el
+texto del modelo. Solo el ejecutor real de Codex emite `OPERATIONAL_SESSION`;
+cualquier ejecutor inyectado emite `SYNTHETIC`. El recibo se publica con
+`autonomy.publish_atomic`, extraído de `write_receipt` sin cambiar su
+comportamiento. `codex_profile.py probe --session-receipt` acepta solo un recibo
+operacional, fresco (<7 días), con el digest de escenario y la versión de Codex
+vigentes y un nonce correlacionado. Entonces gradúa como máximo L2, y solo si
+el probe está listo; L3/L4 no cambian. La suite dual-cli pasa 142/142. La
+primera ejecución real (`session_canaries.py run --confirm-provider-cost`)
+requiere OK explícito de la operadora y valida el override de permisos de
+`codex exec`. SE-396 sigue `IMPLEMENTING`.
