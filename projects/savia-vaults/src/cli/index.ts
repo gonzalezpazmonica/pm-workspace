@@ -14,6 +14,8 @@ import { QueryEngine } from '../knowledge/query.js';
 import { QualityEngine } from '../knowledge/quality.js';
 import type { VaultConfig } from '../types.js';
 import { DomeRegistry } from '../registry/domes.js';
+import { RagService, type EvalQueryInput } from '../rag/service.js';
+import { RagError, type RagMode } from '../rag/types.js';
 import { UserStore, ConfidentialityGuard, AuditLogger, UserQuotaStore } from '../auth/index.js';
 import * as fs from 'node:fs';
 import * as path from 'node:path';
@@ -862,6 +864,135 @@ userCmd.command('quota <username>').description('Show or configure user quotas')
       console.log(`  Requests per day:     ${config.requestsPerDay === 0 ? 'unlimited' : String(config.requestsPerDay)}`);
       if (status.warning) console.log(`  WARNING: ${status.warning}`);
     }
+  });
+
+
+// ── SE-410: Savia RAG ───────────────────────────────────────────────────
+function ragService(domesFile: string): RagService {
+  const reg = new DomeRegistry(path.resolve(domesFile));
+  reg.load();
+  return new RagService({
+    domes: () => reg.listActive().map(d => ({ name: d.name, path: d.path, confidentiality: d.confidentiality, rag: d.rag })),
+    background: false,
+  });
+}
+
+function ragFail(e: unknown): never {
+  const msg = e instanceof Error ? e.message : String(e);
+  console.error(`Error: ${msg}`);
+  process.exit(e instanceof RagError && e.code === 'LOCKED' ? 3 : 1);
+}
+
+const ragCmd = program.command('rag').description('SE-410 Savia RAG: búsqueda híbrida paralela y ciclo de vida de embeddings');
+const domesOpt = ['--domes-file <file>', 'Registry de cúpulas', 'savia-vaults.domes.json'] as const;
+
+ragCmd.command('search <queries...>').description('Busca una o varias consultas en paralelo sobre una o varias cúpulas')
+  .option(...domesOpt).option('--domes <list>', 'a,b o all', 'all').option('--k <n>', 'hits por consulta', '8')
+  .option('--mode <mode>', 'hybrid|dense|bm25', 'hybrid').option('--concurrency <n>', 'cúpulas en paralelo', '4')
+  .option('--timeout <ms>', 'timeout por cúpula', '8000').option('--path-prefix <p>').option('--include-stale', 'incluir deprecados', false)
+  .option('--max-chars <n>', 'presupuesto de texto', '12000').option('--json', 'salida JSON', false)
+  .action(async (queries: string[], opts) => {
+    try {
+      const svc = ragService(opts.domesFile);
+      const res = await svc.search({
+        queries, domes: opts.domes === 'all' ? '*' : String(opts.domes).split(',').map((s: string) => s.trim()).filter(Boolean),
+        k: parseInt(opts.k, 10), mode: opts.mode as RagMode, concurrency: parseInt(opts.concurrency, 10),
+        timeoutMs: parseInt(opts.timeout, 10), pathPrefix: opts.pathPrefix, includeStale: opts.includeStale, maxChars: parseInt(opts.maxChars, 10),
+      });
+      if (opts.json) { console.log(JSON.stringify(res, null, 2)); return; }
+      for (const d of res.domes) console.log(`[${d.name}] ${d.status}${d.generation ? ` gen=${d.generation}` : ''}${d.detail ? ` — ${d.detail}` : ''}`);
+      for (const r of res.results) {
+        console.log(`\n== ${r.query}`);
+        r.hits.forEach((h, i) => {
+          console.log(`${i + 1}. ${h.dome}:${h.path} (${h.score.toFixed(4)}) ${h.heading}${h.freshness.supersededBy ? ` [superseded_by ${h.freshness.supersededBy}]` : ''}`);
+          console.log(`   ${h.text.replace(/\s+/g, ' ').slice(0, 200)}`);
+        });
+      }
+      console.log(`\n${res.timings.totalMs} ms (embed ${res.timings.embedMs} ms, sync ${res.timings.syncMs} ms)`);
+    } catch (e) { ragFail(e); }
+  });
+
+ragCmd.command('sync').description('Sincroniza el índice (incremental por hash)')
+  .option(...domesOpt).option('--dome <name>').option('--all', 'todas las cúpulas con rag.enabled', false)
+  .option('--rebuild', 're-embebe todo', false).option('--json', 'salida JSON', false)
+  .action(async (opts) => {
+    try {
+      const svc = ragService(opts.domesFile);
+      const names = opts.all ? (await svc.status()).filter(s => s.enabled).map(s => s.name) : opts.dome ? [opts.dome] : [];
+      if (!names.length) throw new RagError('INVALID_INPUT', 'indica --dome <name> o --all');
+      const reports = [];
+      for (const n of names) reports.push(await svc.sync(n, { rebuild: opts.rebuild }));
+      if (opts.json) { console.log(JSON.stringify(reports, null, 2)); return; }
+      for (const r of reports) {
+        console.log(`[${r.dome}] gen=${r.generation}${r.promoted ? ' (activa)' : r.shadow ? ' (sombra)' : ''} docs +${r.docs.added} ~${r.docs.updated} -${r.docs.deleted} =${r.docs.unchanged} chunks ${r.chunks.total} (embebidos ${r.chunks.embedded}, reutilizados ${r.chunks.reused}) ${r.durationMs} ms`);
+        if (r.gate) console.log(`   gate: ${r.gate.promote ? 'promovida' : 'no promovida'} — ${r.gate.reason}`);
+      }
+    } catch (e) { ragFail(e); }
+  });
+
+ragCmd.command('status').description('Estado del índice y SLO por cúpula')
+  .option(...domesOpt).option('--dome <name>').option('--json', 'salida JSON', false)
+  .option('--check', 'sale 2 si algún SLO falla', false)
+  .action(async (opts) => {
+    try {
+      const svc = ragService(opts.domesFile);
+      const st = await svc.status(opts.dome ? [opts.dome] : undefined);
+      if (opts.json) console.log(JSON.stringify(st, null, 2));
+      else for (const s of st) {
+        console.log(`[${s.name}] ${s.enabled ? 'rag on' : 'rag off'} ${s.confidentiality} activa=${s.active ?? '-'} sombra=${s.shadow ?? '-'} anterior=${s.previous ?? '-'}`);
+        if (s.enabled) {
+          console.log(`   modelo=${s.contract?.model ?? '-'} digest ${s.digestMatch ? 'ok' : 'DISTINTO'} chunks=${s.chunks} docs=${s.totalDocs} pendientes=${s.pendingDocs} staleRatio=${s.staleRatio.toFixed(2)} lag=${s.lagHours}h mem=${(s.memoryBytes / 1048576).toFixed(1)}MB`);
+          for (const a of s.slo.alerts) console.log(`   ALERTA: ${a}`);
+        }
+      }
+      if (opts.check && st.some(s => !s.slo.ok)) process.exit(2);
+    } catch (e) { ragFail(e); }
+  });
+
+ragCmd.command('eval').description('Evalúa recall@5/@10, MRR y latencia sobre un banco de consultas')
+  .option(...domesOpt).requiredOption('--dome <name>').option('--queries <file>', 'banco JSON (def. rag.evalSet de la cúpula)')
+  .option('--generation <id>').option('--mode <mode>', 'hybrid|dense|bm25|all', 'all').option('--json', 'salida JSON', false)
+  .action(async (opts) => {
+    try {
+      const svc = ragService(opts.domesFile);
+      const reg = new DomeRegistry(path.resolve(opts.domesFile)); reg.load();
+      const dome = reg.get(opts.dome);
+      if (!dome) throw new RagError('UNKNOWN_DOME', opts.dome);
+      const file = opts.queries ? path.resolve(opts.queries) : dome.rag?.evalSet ? path.resolve(dome.path, dome.rag.evalSet) : '';
+      if (!file || !fs.existsSync(file)) throw new RagError('INVALID_INPUT', 'banco de eval no encontrado (--queries o rag.evalSet)');
+      const queries = JSON.parse(fs.readFileSync(file, 'utf-8')) as EvalQueryInput[];
+      const modes: RagMode[] = opts.mode === 'all' ? ['bm25', 'dense', 'hybrid'] : [opts.mode];
+      const out = [];
+      for (const m of modes) out.push(await svc.evaluate(opts.dome, queries, { generation: opts.generation, mode: m }));
+      if (opts.json) { console.log(JSON.stringify(out, null, 2)); return; }
+      for (const r of out) {
+        console.log(`[${opts.dome}] ${r.mode.padEnd(6)} n=${r.n} recall@5=${r.recallAt5.toFixed(3)} recall@10=${r.recallAt10.toFixed(3)} MRR=${r.mrr.toFixed(3)} p50=${r.p50Ms}ms p95=${r.p95Ms}ms fallos=${r.failed.length}`);
+      }
+    } catch (e) { ragFail(e); }
+  });
+
+ragCmd.command('promote <dome> <generation>').description('Promueve una generación (gate de eval; --force = decisión humana)')
+  .option(...domesOpt).option('--force', 'saltar el gate', false)
+  .action(async (dome, generation, opts) => {
+    try { const d = await ragService(opts.domesFile).promote(dome, generation, opts.force); console.log(`[${dome}] ${generation} activa — ${d.reason}`); }
+    catch (e) { ragFail(e); }
+  });
+
+ragCmd.command('rollback <dome>').description('Restaura la generación anterior')
+  .option(...domesOpt)
+  .action(async (dome, opts) => {
+    try { console.log(`[${dome}] activa=${await ragService(opts.domesFile).rollback(dome)}`); }
+    catch (e) { ragFail(e); }
+  });
+
+ragCmd.command('gc').description('Borra generaciones y ficheros no referenciados')
+  .option(...domesOpt).option('--dome <name>')
+  .action(async (opts) => {
+    try {
+      const svc = ragService(opts.domesFile);
+      const names = opts.dome ? [opts.dome] : (await svc.status()).map(s => s.name);
+      for (const n of names) console.log(`[${n}] eliminados ${await svc.gc(n)}`);
+    } catch (e) { ragFail(e); }
   });
 
 

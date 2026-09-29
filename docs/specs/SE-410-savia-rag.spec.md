@@ -115,7 +115,9 @@ interface RagResponse {
 
 Ficheros `.md` del vault ≤ 1 MB; se saltan directorios que empiezan por `.`
 (`.git`, `.trash`, `.savia-vault`), `node_modules` y las rutas denegadas por
-`VaultSecurity`. Frontmatter fuera del texto embebido; `title`, `status`,
+`VaultSecurity`. **CRIT-001**: una nota cuyo frontmatter `confidentiality` supera
+el nivel de su cúpula (p. ej. N3 en una cúpula N2) no se embebe; queda en el
+manifest como `skipped` para no figurar como pendiente. Frontmatter fuera del texto embebido; `title`, `status`,
 `valid_until`, `superseded_by` y `modified` pasan a metadatos del chunk.
 
 ### Límites de entrada (validados; error tipado si se exceden)
@@ -248,6 +250,31 @@ mejora real que percibe un agente. Regla de elección: mayor MRR `hybrid`; empat
 bake-off (sin ajuste al banco). Latencia: `rag eval --json` registra el tiempo de
 cada consulta (≥ 30, en caliente) y reporta p50/p95.
 
+## Resultados (2026-09-29)
+
+Banco savia-docs (36 consultas, prerregistrado en commit `b1cfcc76` antes de medir):
+
+| Modo | recall@5 | recall@10 | MRR |
+|---|---|---|---|
+| `vault_search` actual (BM25 por documento) | — | 0,347 | 0,251 |
+| bm25 por chunk | 0,556 | 0,639 | 0,479 |
+| dense qwen3-embedding:0.6b | 0,694 | 0,736 | 0,563 |
+| **hybrid qwen3-embedding:0.6b** | 0,694 | **0,806** | **0,566** |
+| dense granite-embedding:278m | 0,750 | 0,861 | 0,590 |
+| hybrid granite-embedding:278m | 0,667 | 0,833 | 0,554 |
+
+- Regla de elección aplicada: mayor MRR híbrido → qwen3-embedding:0.6b (0,566 vs
+  0,554). Con n=36 la diferencia entre modelos no es significativa; granite es el
+  mejor en modo denso y 3× más rápido indexando (180 s vs 538 s). Se revisa con un
+  banco mayor.
+- BGE-M3 excluido por fiabilidad, no por calidad: en Ollama sobre la GPU local
+  devuelve NaN en el 95,8 % de los chunks (`json: unsupported value: NaN`).
+- La primera medición de BM25 por chunk (MRR 0,385) reveló dos defectos: sin
+  stopwords es/en y prefijo sobre tokens de 2 letras. Corregidos (stopwords,
+  plegado de acentos, prefijo ≥ 4, fuzzy ≥ 5) antes de la elección; no se tocaron
+  pesos ni parámetros de chunking.
+- AC1 cumplido con qwen3: +0,087 MRR y +0,167 recall@10 sobre bm25; híbrido ≥ denso.
+
 ## Slices y esfuerzo
 
 | Slice | Contenido | Agente | Humano |
@@ -288,6 +315,8 @@ Total: 12 h agente, ~4,75 h humano, 30 min de review.
 - **AC12** Tests: los 349 existentes siguen verdes; nuevos tests unitarios, de
   integración y e2e MCP cubren AC2-AC9 y AC11 con `HashEmbedder`, sin red. El test
   live contra Ollama se omite solo si Ollama no responde (dependencia de entorno declarada).
+- **AC14** CRIT-001: una nota N3 en una cúpula N2 no produce ningún chunk ni
+  vector; en una cúpula N4 sí se indexa.
 - **AC13** Savia Labs: perfil `rag` activo, banco de eval privado (≥ 15 consultas)
   dentro de su vault, generación activa con cifras de eval registradas allí;
   ningún contenido de Labs en el repo público.

@@ -21,11 +21,46 @@ Servidores MCP y A2A reales, backups locales y Nextcloud, firma Ed25519, CLI com
 | A2A Server (5 endpoints HTTP) | Funcional |
 | Storage (git-backed CRUD) | Funcional |
 | Search (BM25, minisearch) | Funcional |
+| **Savia RAG** (híbrido BM25 + embeddings, fan-out paralelo, SE-410) | Funcional |
 | Security (6-layer sandbox) | Funcional |
 | Backups (tar.gz + Nextcloud) | Funcional |
 | Federation (8 modulos) | Funcional |
 | CLI (12+ comandos) | Funcional |
 | Ed25519 signing | Funcional |
+
+## Savia RAG (SE-410)
+
+Recuperación híbrida sobre una o varias cúpulas en paralelo, por MCP y CLI.
+Chunks markdown por encabezados, embeddings locales vía Ollama, BM25 sobre chunks,
+fusión RRF y política de frescura explícita. Sin dependencias npm nuevas.
+
+```bash
+# Activar por cúpula en savia-vaults.domes.json:
+#   "rag": { "enabled": true, "model": "qwen3-embedding:0.6b", "evalSet": "rag/eval.json" }
+ollama pull qwen3-embedding:0.6b
+savia-vaults rag sync --all                           # incremental por hash
+savia-vaults rag search "cómo evito merges sin permiso" "política de backups" --domes all
+savia-vaults rag status --check                       # SLO: exit 2 si el índice va por detrás
+savia-vaults rag eval --dome savia-docs               # recall@5/@10, MRR, p50/p95
+savia-vaults rag promote|rollback|gc ...
+```
+
+MCP: `vault_rag` (hasta 8 consultas × N cúpulas en una llamada), `vault_rag_status`,
+`vault_rag_sync`. Cada cúpula se autoriza por separado; las denegadas aparecen
+como `denied`; `"*"` nunca incluye N4; las notas con confidencialidad superior a
+su cúpula no se embeben.
+
+| Banco (savia-docs, 36 consultas es) | recall@10 | MRR |
+|---|---|---|
+| `vault_search` (BM25 por documento) | 0,347 | 0,251 |
+| `rag` bm25 por chunk | 0,639 | 0,479 |
+| `rag` dense (qwen3-embedding:0.6b) | 0,736 | 0,563 |
+| **`rag` hybrid (qwen3-embedding:0.6b)** | **0,806** | **0,566** |
+
+Política de embeddings (contrato por generación, re-embedding por hash,
+disparadores, deriva de modelo, gate de promoción, SLO):
+[`docs/rules/domain/rag-embedding-policy.md`](../../docs/rules/domain/rag-embedding-policy.md).
+El índice vive fuera del vault en `$SAVIA_RAG_HOME` (def. `~/.savia-vaults/rag/`).
 
 ## Alcance de Gobernanza
 

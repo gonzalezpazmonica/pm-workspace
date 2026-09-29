@@ -325,6 +325,16 @@
       "note": "README de hermes-agent verificado el 2026-09-29: aprendizaje de skills confirmado; curación y retirada, aportación de Savia",
       "evidence": "docs/specs/SE-409-experience-to-skill-loop.spec.md",
       "phase": "D"
+    },
+    {
+      "id": "SE-410",
+      "status": "APPROVED",
+      "approval": "Operadora 2026-09-29 en chat (AskUserQuestion): Aprobada, implementa",
+      "priority": "P1",
+      "title": "Savia RAG: recuperación híbrida paralela en SaviaVaults + política dinámica de embeddings",
+      "note": "Implementada en una PR sin ocupar WIP (límite 3 lleno); graduación pendiente de revisión humana",
+      "evidence": "docs/specs/SE-410-savia-rag.spec.md",
+      "phase": "A"
     }
   ],
   "route": {

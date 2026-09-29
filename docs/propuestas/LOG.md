@@ -6,6 +6,11 @@
 > Each entry: date, spec ID, status transition, optional rationale.
 > Ref: SE-222 S1 OKF Adoptable Patterns (log.md convention).
 
+## 2026-09-29 SE-410 APPROVED
+
+Savia RAG: búsqueda híbrida paralela en SaviaVaults (MCP + CLI) y política dinámica
+de embeddings. Aprobada por la operadora; se implementa en una PR sin ocupar WIP.
+
 ## 2026-09-29 SE-407 APPROVED IMPLEMENTING
 
 Entra en el WIP sustituyendo a SE-378 (decisión de la operadora, repriorización por valor).

@@ -12,3 +12,4 @@
 - SE-404 [APPROVED] Proceso proporcional: G13 v2 y una corrección por revisión — evidencia: PR #1170 mergeada 2026-09-28 sin review registrada; graduación pendiente de revisión humana (completion.human_review). Spec: docs/specs/SE-404-proportional-process-gates.spec.md
 - SE-405 [APPROVED] Observabilidad: coste por subagente, snapshots de config, timeline de memoria — evidencia: PR #1169 mergeada 2026-09-28 sin review registrada; graduación pendiente de revisión humana (completion.human_review). Spec: docs/specs/SE-405-harness-observability-increments.spec.md
 - SE-407 [IMPLEMENTING] Predicado único de estado consistente y cierre de sesión limpio — evidencia: docs/specs/SE-407-consistent-state-predicate.spec.md
+- SE-410 [APPROVED] Savia RAG: recuperación híbrida paralela en SaviaVaults + política dinámica de embeddings — evidencia: docs/specs/SE-410-savia-rag.spec.md
