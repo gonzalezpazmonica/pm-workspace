@@ -11,9 +11,13 @@ origin: output/research/harness-referencias-20260929.md (§3, NousResearch/herme
 
 # SE-409 — Bucle experiencia → skill con curación y retirada
 
-> **Aviso de evidencia:** el análisis de hermes-agent se basa en conocimiento
-> previo (≤ 2026-06). La lectura del README se bloqueó el 2026-09-29. S0
-> verifica la fuente antes de cualquier diseño.
+> **Evidencia verificada (2026-09-29, README de hermes-agent):** se confirma que
+> crea skills a partir de la experiencia y las mejora con el uso, que se impulsa a
+> persistir conocimiento, que busca en sus conversaciones pasadas y que construye
+> un modelo del usuario entre sesiones. **No** documenta curación ni retirada de
+> skills: esa parte es aportación de Savia. Solo se adoptan patrones; el producto
+> no (instalador remoto ejecutado directamente desde la red y "Tool Gateway" de
+> pago que enruta búsquedas y navegador por terceros).
 
 ## Problema
 
@@ -26,13 +30,13 @@ por crear y mejorar skills a partir de la experiencia.
 
 ## Slices
 
-### S0 — Verificación de la fuente
+### S0 — Verificación de la fuente (README: hecho 2026-09-29)
 
-Leer el README y el código de aprendizaje de hermes-agent con permiso explícito.
-Confirmar o refutar las tres hipótesis: propuesta automática, curación y retirada.
+Queda por leer la guía de Skills System y el código del bucle de aprendizaje
+(disparador de la propuesta y criterio de mejora) antes de diseñar S1.
 
-- AC1: nota con qué se confirma, qué no y qué es reutilizable conceptualmente
-  (MIT; no se copia código sin aprobación).
+- AC1: nota sobre el disparador y el criterio de mejora de hermes-agent (MIT; no
+  se copia código sin aprobación).
 
 ### S1 — Propuesta automática como PR Draft
 
@@ -50,6 +54,14 @@ Usar `usage report` (SE-380) para marcar como candidatas a DEPRECATED las skills
 sin uso en 90 días. La decisión es humana.
 
 - AC4: la lista de candidatas es reproducible y no borra nada.
+
+### S3 — Recordatorio para persistir conocimiento
+
+Al cerrar una tarea con hallazgos nuevos (corrección, workaround o decisión), el
+harness recuerda persistirlos en memoria (`memory-store.sh save`) si no se ha
+hecho. Es un aviso, no una escritura automática.
+
+- AC5: el recordatorio no se dispara si en la sesión ya hubo un `save` con el mismo tema.
 
 ## Fuera de alcance
 

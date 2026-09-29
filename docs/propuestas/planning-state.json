@@ -322,7 +322,7 @@
       "status": "PROPOSED",
       "priority": "P3",
       "title": "Bucle experiencia → skill con curación y retirada",
-      "note": "Análisis de hermes-agent no verificado; S0 lee la fuente antes de diseñar",
+      "note": "README de hermes-agent verificado el 2026-09-29: aprendizaje de skills confirmado; curación y retirada, aportación de Savia",
       "evidence": "docs/specs/SE-409-experience-to-skill-loop.spec.md",
       "phase": "D"
     }
