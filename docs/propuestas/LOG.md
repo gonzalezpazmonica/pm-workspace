@@ -6,6 +6,22 @@
 > Each entry: date, spec ID, status transition, optional rationale.
 > Ref: SE-222 S1 OKF Adoptable Patterns (log.md convention).
 
+## 2026-09-29 SE-409 PROPOSED
+
+Bucle experiencia → skill con curación y retirada (referencia: hermes-agent;
+análisis no verificado, S0 lee la fuente). Fase D, P3.
+
+## 2026-09-29 SE-408 PROPOSED
+
+Automatización móvil por árbol de accesibilidad (mobile-mcp) con telemetría
+desactivada verificada, versión fijada y herramientas de nube denegadas. Fase E, P2.
+
+## 2026-09-29 SE-407 APPROVED
+
+Predicado único de estado consistente (frescura de artefactos generados en
+validate-ci-local.sh) y cierre de sesión limpio. Fase A, P0. Aprobada por la
+operadora; sustituirá a SE-378 en el WIP.
+
 ## 2026-09-27 SE-406 PROPOSED
 
 Savia Relay: canal activo con la operadora por WhatsApp. Propuesta para revisión

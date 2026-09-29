@@ -297,6 +297,33 @@
       "note": "Propuesta para revisión; decisiones D1-D8 abiertas",
       "evidence": "docs/specs/SE-406-whatsapp-operator-channel.spec.md",
       "phase": "B"
+    },
+    {
+      "id": "SE-407",
+      "status": "APPROVED",
+      "approval": "Operadora 2026-09-29 en chat: aprobada; entra en el WIP sustituyendo a SE-378 (intercambio pendiente de la operadora)",
+      "priority": "P0",
+      "title": "Predicado único de estado consistente y cierre de sesión limpio",
+      "evidence": "docs/specs/SE-407-consistent-state-predicate.spec.md",
+      "phase": "A"
+    },
+    {
+      "id": "SE-408",
+      "status": "PROPOSED",
+      "priority": "P2",
+      "title": "Automatización móvil por árbol de accesibilidad (mobile-mcp) bajo soberanía",
+      "note": "Primer paso: feasibility probe S0 (telemetría desactivada verificada, versión fijada)",
+      "evidence": "docs/specs/SE-408-mobile-accessibility-automation.spec.md",
+      "phase": "E"
+    },
+    {
+      "id": "SE-409",
+      "status": "PROPOSED",
+      "priority": "P3",
+      "title": "Bucle experiencia → skill con curación y retirada",
+      "note": "Análisis de hermes-agent no verificado; S0 lee la fuente antes de diseñar",
+      "evidence": "docs/specs/SE-409-experience-to-skill-loop.spec.md",
+      "phase": "D"
     }
   ],
   "route": {
