@@ -130,6 +130,28 @@ def probe(sandbox_probe, enforcement_probe=None):
             'configuration_ready':configuration_ready,'gaps':gaps,
             "status":"DEGRADED_SAFE","max_verified_risk":None,"passed":False}
 
+def apply_session_evidence(evidence, receipt_path, now=None):
+    """SE-396 H04: only a fresh, correlated OPERATIONAL_SESSION receipt verifies L0-L2.
+    L3/L4 are never graduated here; any rejection keeps DEGRADED_SAFE."""
+    import session_canaries
+    evidence=dict(evidence, gaps=list(evidence.get('gaps', [])), autonomy_l0_l2=dict(evidence.get('autonomy_l0_l2', {})))
+    if evidence.get('evidence_type')!='OPERATIONAL_PROBE':
+        evidence['gaps'].append('SESSION_RECEIPT_REJECTED:SYNTHETIC_PROBE');return evidence
+    # Read once: the hash recorded must be of the very bytes that were validated.
+    try: raw=Path(receipt_path).read_bytes();receipt=json.loads(raw)
+    except (OSError, ValueError): raw=None;receipt=None
+    reason=session_canaries.validate(receipt, codex_version=evidence.get('version'), now=now) if isinstance(receipt, dict) else 'MALFORMED'
+    if reason:
+        evidence['gaps'].append('SESSION_RECEIPT_REJECTED:'+reason);return evidence
+    evidence['gaps']=[g for g in evidence['gaps'] if g!='REAL_SESSION_CANARIES_MISSING']
+    evidence['session_receipt']={'path':str(receipt_path),'sha256':hashlib.sha256(raw).hexdigest(),
+                                 'observed_at':receipt['observed_at']}
+    if evidence.get('configuration_ready') is not True:
+        evidence['gaps'].append('PROBE_NOT_READY');return evidence
+    evidence['autonomy_l0_l2']['passed']=True
+    evidence.update(status='VERIFIED_L2', max_verified_risk='L2', passed=True)
+    return evidence
+
 def configure(target, sandbox_probe=None, enforcement_probe=None):
     evidence=probe(sandbox_probe, enforcement_probe)
     if evidence.get('configuration_ready') is not True or evidence.get('evidence_type') != 'OPERATIONAL_PROBE': return evidence,2
@@ -195,15 +217,17 @@ def evidence_package(output, sandbox_probe=None, enforcement_probe=None):
     return evidence,0 if evidence["passed"] else 2
 
 def main():
-    p=argparse.ArgumentParser();p.add_argument("command",choices=("probe","configure","rollback","evidence"));p.add_argument("--target");p.add_argument("--output");p.add_argument("--sandbox-probe");p.add_argument("--enforcement-probe")
+    p=argparse.ArgumentParser();p.add_argument("command",choices=("probe","configure","rollback","evidence"));p.add_argument("--target");p.add_argument("--output");p.add_argument("--sandbox-probe");p.add_argument("--enforcement-probe");p.add_argument("--session-receipt")
     a=p.parse_args()
     if a.command in ("configure","rollback") and not a.target: p.error("--target required")
     if a.command=="evidence" and not a.output: p.error("--output required")
+    if a.session_receipt and a.command!="probe": p.error("--session-receipt only applies to probe")
     if a.command=="configure": result,code=configure(a.target,a.sandbox_probe,a.enforcement_probe)
     elif a.command=="rollback": result,code=rollback(a.target)
     elif a.command=="evidence": result,code=evidence_package(a.output,a.sandbox_probe,a.enforcement_probe)
     else:
         result=probe(a.sandbox_probe,a.enforcement_probe)
+        if a.session_receipt: result=apply_session_evidence(result,a.session_receipt)
         code=0 if result['passed'] else 2
     print(json.dumps(result,sort_keys=True));return code
 if __name__=="__main__":raise SystemExit(main())

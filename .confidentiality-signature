@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=2f17bdd270e87f039b0f137882ea28db114533dcb0209503594c2da62c625837
-timestamp=2026-09-29T09:07:32Z
-branch=agent/nightly-full-bats-20260929
-head_commit=9a24283b
-signature=5bed5b2faf3804cc54fbe2e2b3e9661958891afb0a7e92432ce180c02584a9f4
+diff_hash=1d532e4d0e13fcc06ad22ad4f9053633bc1f52a7f9e11ea7c2857f665e3473c9
+timestamp=2026-09-29T10:02:12Z
+branch=agent/se396-h04-session-canaries-20260929
+head_commit=dbb1e24d
+signature=dd67f1f7a00951ff4607ba5f25fc2e3db927bad5043288cb423bf98bfb8c431d

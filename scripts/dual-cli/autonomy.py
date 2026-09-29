@@ -74,8 +74,12 @@ def write_receipt(path, decision, scope_digest, revision, actions, *, frontend="
              "actions":list(actions),"external_effects":decision["external_effects"],
              "human_gate":decision["human_gate"],"result":decision["decision"],
              "reason":decision["reason"]}
+    publish_atomic(path, canonical(receipt) + '\n')
+    return receipt
+
+def publish_atomic(path, content):
+    """Publish content once; an identical replay is idempotent, a different one conflicts."""
     path=Path(path);path.parent.mkdir(parents=True,exist_ok=True)
-    content = canonical(receipt) + '\n'
     # Publish a complete inode atomically; no reader sees a partial receipt.
     fd, temporary = tempfile.mkstemp(prefix='.receipt-', dir=path.parent)
     try:
@@ -100,7 +104,6 @@ def write_receipt(path, decision, scope_digest, revision, actions, *, frontend="
             os.close(directory)
     finally:
         os.unlink(temporary)
-    return receipt
 
 def agents_contract():
     return """## Savia autonomy contract
