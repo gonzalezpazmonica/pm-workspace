@@ -32,7 +32,7 @@ iso_now() { date -u +%Y-%m-%dT%H:%M:%SZ 2>/dev/null || echo "unknown"; }
 mid() { echo "m-$(date +%s%N)-$$" 2>/dev/null || echo "m-$$"; }
 
 # Escapa comillas dobles para JSONL (aproximación suficiente para textos cortos)
-_json_esc() { printf '%s' "$1" | sed 's/\\/\\\\/g; s/"/\\"/g' | tr '\n' ' '; }
+_json_esc() { printf '%s' "$1" | sed 's/\\/\\\\/g; s/"/\\"/g' | tr '\n\t\r' '   '; }
 
 # Lista de receptores conocidos = ficheros de inbox + 'all'
 known_inboxes() { ls "$INBOX_DIR"/*.jsonl 2>/dev/null | xargs -r -n1 basename | sed 's/\.jsonl$//'; }
@@ -50,6 +50,8 @@ cmd_send() {
     esac
   done
   [[ -n "$to" && -n "$message" ]] || { echo "ERROR: --to y --message required" >&2; return 2; }
+  # El receptor es un nombre de fichero de inbox: sin separadores de ruta.
+  [[ "$to" =~ ^[A-Za-z0-9_.-]+$ && "$to" != .* ]] || { echo "ERROR: receptor inválido '$to'" >&2; return 2; }
   case "$role" in
     parent|child|steer|follow_up) ;;
     *) echo "ERROR: role inválido '$role' (parent|child|steer|follow_up)" >&2; return 2 ;;
@@ -92,7 +94,7 @@ cmd_list() {
   [[ -f "$INBOX_DIR/$inbox.jsonl" ]] || { echo "(sin mensajes para $inbox)"; return 0; }
   python3 - "$INBOX_DIR/$inbox.jsonl" "$unread" <<'PY'
 import json,sys
-f,unread=sys.argv[1],sys.argv[2]=='True'
+f,unread=sys.argv[1],sys.argv[2]=='true'
 n=0
 for l in open(f):
     d=json.loads(l)
