@@ -1,9 +1,9 @@
 {
-  "generated": "2026-09-26T17:00:31Z",
-  "total": 308,
-  "tier1_count": 6,
-  "tier2_count": 288,
-  "dormant_count": 14,
+  "generated": "2026-09-29T01:25:23Z",
+  "total": 310,
+  "tier1_count": 4,
+  "tier2_count": 302,
+  "dormant_count": 4,
   "rules": {
     "accessibility-output.md": {
       "tier": "tier2",
@@ -90,7 +90,7 @@
       "consumers": ""
     },
     "ai-governance.md": {
-      "tier": "dormant",
+      "tier": "tier2",
       "consumers": ""
     },
     "application-code-twin.md": {
@@ -137,8 +137,12 @@
       "tier": "tier2",
       "consumers": ""
     },
+    "autonomous-safety-reference.md": {
+      "tier": "tier2",
+      "consumers": ""
+    },
     "autonomous-safety.md": {
-      "tier": "dormant",
+      "tier": "tier1",
       "consumers": ""
     },
     "azure-repos-config.md": {
@@ -306,7 +310,7 @@
       "consumers": ""
     },
     "context-placement-confirmation.md": {
-      "tier": "dormant",
+      "tier": "tier2",
       "consumers": ""
     },
     "context-tier-budgets.md": {
@@ -350,7 +354,7 @@
       "consumers": ""
     },
     "cross-frontend-coverage.md": {
-      "tier": "dormant",
+      "tier": "tier2",
       "consumers": ""
     },
     "data-sovereignty.md": {
@@ -390,7 +394,7 @@
       "consumers": ""
     },
     "dual-estimation.md": {
-      "tier": "dormant",
+      "tier": "tier2",
       "consumers": ""
     },
     "e2e-screenshot-validation.md": {
@@ -510,7 +514,7 @@
       "consumers": ""
     },
     "github-flow.md": {
-      "tier": "dormant",
+      "tier": "tier2",
       "consumers": ""
     },
     "glm-governance-protocol.md": {
@@ -670,7 +674,7 @@
       "consumers": ""
     },
     "meeting-participant-etiquette.md": {
-      "tier": "dormant",
+      "tier": "tier2",
       "consumers": ""
     },
     "memory-type-schema.md": {
@@ -718,7 +722,7 @@
       "consumers": ""
     },
     "onboarding-enterprise.md": {
-      "tier": "dormant",
+      "tier": "tier2",
       "consumers": ""
     },
     "opencode-known-startup-issues.md": {
@@ -730,7 +734,7 @@
       "consumers": ""
     },
     "opus47-calibration-playbook.md": {
-      "tier": "dormant",
+      "tier": "tier2",
       "consumers": ""
     },
     "orchestration-protocol.md": {
@@ -814,7 +818,7 @@
       "consumers": ""
     },
     "pre-commit-bats.md": {
-      "tier": "tier1",
+      "tier": "tier2",
       "consumers": ""
     },
     "pre-output-rules.md": {
@@ -866,6 +870,10 @@
       "consumers": ""
     },
     "query-library-protocol.md": {
+      "tier": "tier2",
+      "consumers": ""
+    },
+    "radical-honesty-enforcement.md": {
       "tier": "tier2",
       "consumers": ""
     },
@@ -1018,7 +1026,7 @@
       "consumers": ""
     },
     "sentinel-safe-regen.md": {
-      "tier": "tier1",
+      "tier": "tier2",
       "consumers": ""
     },
     "session-init-priority.md": {
@@ -1122,7 +1130,7 @@
       "consumers": ""
     },
     "template-separation.md": {
-      "tier": "dormant",
+      "tier": "tier2",
       "consumers": ""
     },
     "terminal-state-protocol.md": {
@@ -1222,7 +1230,7 @@
       "consumers": ""
     },
     "write-time-validation.md": {
-      "tier": "tier1",
+      "tier": "tier2",
       "consumers": ""
     },
     "zero-project-leakage.md": {
