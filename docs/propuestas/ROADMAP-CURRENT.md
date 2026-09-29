@@ -13,3 +13,4 @@
 - SE-405 [APPROVED] Observabilidad: coste por subagente, snapshots de config, timeline de memoria — evidencia: PR #1169 mergeada 2026-09-28 sin review registrada; graduación pendiente de revisión humana (completion.human_review). Spec: docs/specs/SE-405-harness-observability-increments.spec.md
 - SE-407 [IMPLEMENTING] Predicado único de estado consistente y cierre de sesión limpio — evidencia: docs/specs/SE-407-consistent-state-predicate.spec.md
 - SE-410 [APPROVED] Savia RAG: recuperación híbrida paralela en SaviaVaults + política dinámica de embeddings — evidencia: docs/specs/SE-410-savia-rag.spec.md
+- SE-411 [APPROVED] Eficiencia de Savia RAG: fusión invariante al orden, caché dimensionada, keep_alive, respuesta compacta y CLI en frío — evidencia: docs/specs/SE-411-rag-efficiency.spec.md

@@ -6,6 +6,16 @@
 > Each entry: date, spec ID, status transition, optional rationale.
 > Ref: SE-222 S1 OKF Adoptable Patterns (log.md convention).
 
+## 2026-09-29 SE-411 APPROVED
+
+Aprobada por la operadora para implementar.
+
+## 2026-09-29 SE-411 PROPOSED
+
+Eficiencia de Savia RAG: cinco defectos medidos (fusión entre cúpulas dependiente
+del orden, caché de índices menor que las cúpulas habilitadas, descarga del modelo,
+respuesta inflada y arranque en frío de la CLI). Pendiente de aprobación.
+
 ## 2026-09-29 SE-410 APPROVED
 
 Savia RAG: búsqueda híbrida paralela en SaviaVaults (MCP + CLI) y política dinámica

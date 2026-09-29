@@ -34,7 +34,7 @@ un atajo: si cambió pero el hash no, solo se actualiza el manifest.
 |---|---|---|
 | Lectura | antes de cada búsqueda | si hay ≤ `inlineSyncBudget` (25) documentos pendientes, sync inline; si hay más, responde `stale` y el servidor MCP lanza sync en segundo plano |
 | Escritura | `vault_write` | sync de la cúpula con debounce de 2 s |
-| Programado | cada 6 h | `savia-vaults rag sync --all --check` (un lock ajeno no es fallo; exit 2 si el SLO falla) |
+| Programado | cada 6 h | `savia-vaults rag sync --all --check` (un lock ajeno no es fallo; exit 2 si el SLO falla) y `rag gc` |
 | Checkpoint | semanal | `savia-vaults rag sync --all --rebuild --check` |
 
 ## P4 Deriva de modelo

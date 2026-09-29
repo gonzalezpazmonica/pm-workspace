@@ -55,9 +55,16 @@ vaults config show
 
 ## Savia RAG (SE-410)
 
-Preferir `vault_rag` a `vault_search` para preguntas en lenguaje natural o en
-varias cúpulas: una llamada con hasta 8 consultas sobre `domes: "*"` (sin N4).
-`vault_search` sigue siendo BM25 por documento, útil para IDs exactos.
+Preferir `vault_rag` a `vault_search`: también gana en consultas por ID exacto.
+Configuración medida como óptima (2026-09-29):
+
+- Por MCP, no por CLI (la CLI paga 0,4–2,5 s de arranque por llamada).
+- `mode: "hybrid"`, `k: 8`, `maxChars: 4000` (−12 % de texto, misma calidad).
+- Nombrar la cúpula concreta y **agrupar hasta 8 consultas** por llamada
+  (8 consultas ≈ 2× el coste de una).
+- **Evitar `domes: "*"`** hasta SE-411: la fusión entre cúpulas depende del orden
+  y con 5 cúpulas la caché de índices se desaloja (1,9 s por llamada).
+- Sin Ollama: `mode: "bm25"` de `vault_rag` antes que `vault_search`.
 
 ```bash
 savia-vaults rag search "<consulta>" ["<otra>"] --domes all|a,b [--mode hybrid|dense|bm25]
@@ -69,7 +76,7 @@ savia-vaults rag promote|rollback|gc <dome>
 
 Leer `status` de cada cúpula en la respuesta: `stale` (índice atrasado, sync en
 curso), `degraded` (Ollama caído o modelo cambiado → BM25), `denied`, `timeout`.
-Política: `docs/rules/domain/rag-embedding-policy.md`. Cron: `savia-vaults rag sync --all --check` (6 h) y `--rebuild` semanal.
+Política: `docs/rules/domain/rag-embedding-policy.md`. Cron: `savia-vaults rag sync --all --check` + `rag gc` (6 h) y `--rebuild` semanal.
 
 ## Flujos comunes
 
