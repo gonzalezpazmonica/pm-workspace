@@ -33,11 +33,12 @@
     },
     {
       "id": "SE-378",
-      "status": "IMPLEMENTING",
+      "status": "DEFERRED",
       "evidence": "PR #1085: planning-state canónico, CLI roadmap y vista generada mergeados; reconciliación factual continua pendiente",
       "title": "Planning State Machine",
       "approval": "Mónica 2026-09-05: 'Apruebo todas, implementa, pr y merge'",
-      "phase": "A"
+      "phase": "A",
+      "deferral": "2026-09-29 (operadora): sustituida en el WIP por SE-407, de mayor valor para el gate A. Lo mergeado permanece; la reconciliación continua retoma en la Fase A."
     },
     {
       "id": "SE-379",
@@ -300,7 +301,7 @@
     },
     {
       "id": "SE-407",
-      "status": "APPROVED",
+      "status": "IMPLEMENTING",
       "approval": "Operadora 2026-09-29 en chat: aprobada; entra en el WIP sustituyendo a SE-378 (intercambio pendiente de la operadora)",
       "priority": "P0",
       "title": "Predicado único de estado consistente y cierre de sesión limpio",
@@ -321,7 +322,7 @@
       "status": "PROPOSED",
       "priority": "P3",
       "title": "Bucle experiencia → skill con curación y retirada",
-      "note": "Análisis de hermes-agent no verificado; S0 lee la fuente antes de diseñar",
+      "note": "README de hermes-agent verificado el 2026-09-29: aprendizaje de skills confirmado; curación y retirada, aportación de Savia",
       "evidence": "docs/specs/SE-409-experience-to-skill-loop.spec.md",
       "phase": "D"
     }

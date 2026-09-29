@@ -256,6 +256,7 @@ Cada fase es un PR Draft independiente y revisable.
 | D5 | Merge desde el móvil | Solo tier 1/2 con CI verde; tier 3/4 exige revisión del PR en escritorio |
 | D6 | Horas de silencio | 22:00-08:00 salvo `para todo` y alertas críticas |
 | D7 | Presupuesto | Límite diario de mensajes y de tokens del autopilot, fijado en F0 tras medir |
+| D9 | Emparejamiento del canal | Emparejamiento por DM con código de un solo uso (patrón verificado en hermes-agent, 2026-09-29) antes de aceptar órdenes |
 | D8 | Posición en ADR-002 | Fase B (depende de la autoridad de SE-401); F1 puede entrar antes por bajo riesgo |
 
 ## OpenCode Implementation Plan
