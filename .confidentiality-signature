@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=8556623045417aa08fd7973a6b73962920f8ecbe6c607842d9135c12812f1151
-timestamp=2026-09-29T15:54:45Z
-branch=agent/wip-swap-se378-se407-20260929
-head_commit=949b821b
-signature=32003c40a7d117a7b7f88a8dc2ee3c3522572f8692cb42ddbdbdd104c1635ec8
+diff_hash=a55f4f9fd57c8bae104f3f517f3d2e698f9ef277fcd41dabf21c312ee0e9f901
+timestamp=2026-09-29T18:11:02Z
+branch=agent/se410-savia-rag
+head_commit=fbb8e442
+signature=96205006f0d6bfa865438708d17a493279647a6f6dfbfb2196f5b0caddfd9e93
