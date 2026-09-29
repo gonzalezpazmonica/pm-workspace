@@ -6,6 +6,12 @@
 > Each entry: date, spec ID, status transition, optional rationale.
 > Ref: SE-222 S1 OKF Adoptable Patterns (log.md convention).
 
+## 2026-09-29 SE-412 APPROVED
+
+Higiene y arranque en frío de `vault_search` (solo markdown, tags reales, caché
+persistente, JSON compacto) y corrección del fallo intermitente del fan-out.
+Aprobada por la operadora en chat.
+
 ## 2026-09-29 SE-411 APPROVED
 
 Aprobada por la operadora para implementar.

@@ -127,6 +127,12 @@ describe('RagService', () => {
     expect(res.domes.filter(d => d.status === 'ok').map(d => d.name).sort()).toEqual(['Docs', 'Learn']);
     expect((embedders.get('m1') as CountingEmbedder).queryCalls).toBe(1);
     expect((embedders.get('m2') as CountingEmbedder).queryCalls).toBe(1);
+    // SE-412: la cúpula que venció el timeout no carga su índice después
+    // (antes la tarea seguía viva y lo cargaba tarde, contaminando otros tests).
+    const before = s.loadedMemoryBytes();
+    await s.sync('Slow'); // drena el sync que sigue en segundo plano
+    await new Promise(r => setTimeout(r, 50));
+    expect(s.loadedMemoryBytes()).toBe(before);
   });
 
   it('borrado desaparece en la siguiente búsqueda (AC3) y deprecado se excluye (AC5)', async () => {
@@ -285,7 +291,10 @@ describe('RagService', () => {
     await s.search({ queries: ['merge'], domes: ['Learn'] });
     const spy = vi.spyOn(FlatVectorStore, 'load');
     await s.search({ queries: ['merge'], domes: ['Docs'] });
-    expect(spy).toHaveBeenCalledTimes(1);
+    // SE-412: diagnóstico del fallo intermitente observado una vez en SE-411:
+    // si reaparece, el mensaje muestra qué generaciones se recargaron.
+    const loaded = spy.mock.calls.map(c => path.relative(home, String(c[0])));
+    expect(loaded, `recargas: ${JSON.stringify(loaded)}`).toHaveLength(1);
     spy.mockRestore();
   });
 

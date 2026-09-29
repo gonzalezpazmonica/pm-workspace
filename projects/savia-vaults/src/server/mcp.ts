@@ -345,7 +345,7 @@ export class MCPVaultServer {
               maxResults: (args.maxResults as number) || 10,
               pathPrefix: args.pathPrefix as string | undefined,
             });
-            return { content: [{ type: 'text', text: JSON.stringify(results, null, 2) }] };
+            return { content: [{ type: 'text', text: JSON.stringify(results) }] };
           }
 
           case 'vault_rag': {
@@ -386,7 +386,7 @@ export class MCPVaultServer {
             const files = await inst.storage.list();
             const prefix = args.path as string | undefined;
             const filtered = prefix ? files.filter(f => f.startsWith(prefix)) : files;
-            return { content: [{ type: 'text', text: JSON.stringify(filtered, null, 2) }] };
+            return { content: [{ type: 'text', text: JSON.stringify(filtered) }] };
           }
 
           case 'vault_stats': {
@@ -428,7 +428,7 @@ export class MCPVaultServer {
             try { await this.authorize(dome, 'read', 'vault_tags'); } catch (e) { if (e instanceof AuthError) return { content: [{ type: 'text', text: `Error: ${e.message}` }], isError: true }; throw e; }
             inst.search.buildIndex();
             const tags = inst.search.getTags();
-            return { content: [{ type: 'text', text: JSON.stringify([...tags.entries()], null, 2) }] };
+            return { content: [{ type: 'text', text: JSON.stringify([...tags.entries()]) }] };
           }
 
           case 'vault_introspect': {

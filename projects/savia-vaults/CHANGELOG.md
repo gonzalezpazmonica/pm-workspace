@@ -5,6 +5,20 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased] — 2026-09-29 · Higiene de vault_search (SE-412)
+
+### Fixed
+- `vault_search` indexa solo markdown (o `allowedExtensions` de la cúpula) y
+  excluye `node_modules` y directorios ocultos; `#648` ya no cuenta como tag.
+- Fan-out RAG: una cúpula que vence el timeout ya no carga su índice después
+  (`AbortSignal` por tarea); era la causa de un test intermitente.
+
+### Changed
+- CLI `search`: caché persistente del índice (`SAVIA_SEARCH_CACHE`, 0600, fuera de
+  git), índice sin texto completo (snippet leído del fichero) y módulo propio:
+  1,37 s → ~0,5 s en savia-docs.
+- MCP: JSON compacto en `vault_search`, `vault_list` y `vault_tags`.
+
 ## [Unreleased] — 2026-09-29 · Eficiencia de Savia RAG (SE-411)
 
 ### Fixed

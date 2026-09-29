@@ -1,6 +1,9 @@
+import { createHash } from 'node:crypto';
 import * as fs from 'node:fs';
+import * as os from 'node:os';
 import * as path from 'node:path';
 import MiniSearch from 'minisearch';
+import { ensureSafeHome, writeAtomic } from '../rag/store.js';
 import { KnowledgeGraph } from '../knowledge/graph.js';
 import { PPRRanker } from '../knowledge/ppr.js';
 import { ContextEnricher } from './enrichment.js';
@@ -14,23 +17,74 @@ interface IndexedDoc {
   tags: string[];
 }
 
+const MINI_OPTIONS = {
+  fields: ['title', 'content', 'tags'],
+  // SE-412: sin `content`: el snippet se lee del fichero solo para los hits devueltos
+  // (el texto completo era el 62 % del índice serializado).
+  storeFields: ['path', 'title', 'tags'],
+  searchOptions: {
+    boost: { title: 2 },
+    prefix: true,
+    fuzzy: 0.2,
+  },
+};
+
+/** SE-412: solo markdown salvo que la cúpula declare `allowedExtensions`. */
+const DEFAULT_EXTENSIONS = ['.md', '.markdown'];
+const CACHE_VERSION = 2;
+
+export function defaultSearchCacheDir(): string {
+  return process.env.SAVIA_SEARCH_CACHE || path.join(os.homedir(), '.savia-vaults', 'search-cache');
+}
+
+export interface SearchEngineOptions {
+  /** SE-412: caché persistente del índice (CLI). El servidor MCP no la necesita. */
+  cacheDir?: string;
+}
+
 export class SearchEngine {
   private config: VaultConfig;
   private engine: MiniSearch<IndexedDoc>;
   private _built = false;
   private _fingerprint = '';
+  private readonly cacheDir?: string;
 
-  constructor(config: VaultConfig) {
+  constructor(config: VaultConfig, opts: SearchEngineOptions = {}) {
     this.config = config;
-    this.engine = new MiniSearch<IndexedDoc>({
-      fields: ['title', 'content', 'tags'],
-      storeFields: ['path', 'title', 'tags', 'content'],
-      searchOptions: {
-        boost: { title: 2 },
-        prefix: true,
-        fuzzy: 0.2,
-      },
-    });
+    this.cacheDir = opts.cacheDir;
+    this.engine = new MiniSearch<IndexedDoc>(MINI_OPTIONS);
+  }
+
+  private cacheFile(): string | undefined {
+    if (!this.cacheDir) return undefined;
+    const key = createHash('sha256').update(path.resolve(this.config.path)).digest('hex').slice(0, 12);
+    return path.join(this.cacheDir, key, 'index.json');
+  }
+
+  /** Carga el índice serializado si su fingerprint coincide. */
+  private loadCache(fingerprint: string): boolean {
+    const file = this.cacheFile();
+    if (!file) return false;
+    try {
+      const data = JSON.parse(fs.readFileSync(file, 'utf-8')) as { v: number; fingerprint: string; index: unknown };
+      if (data.v !== CACHE_VERSION || data.fingerprint !== fingerprint) return false;
+      this.engine = MiniSearch.loadJS<IndexedDoc>(data.index as never, MINI_OPTIONS);
+      return true;
+    } catch {
+      return false;
+    }
+  }
+
+  /** La caché copia texto de las notas: 0600, fuera de git; si no es posible, se omite. */
+  private saveCache(fingerprint: string): void {
+    const file = this.cacheFile();
+    if (!file) return;
+    try {
+      ensureSafeHome(path.dirname(file));
+      writeAtomic(file, JSON.stringify({ v: CACHE_VERSION, fingerprint, index: this.engine }));
+    } catch {
+      // caché opcional
+    }
   }
 
   /**
@@ -43,6 +97,7 @@ export class SearchEngine {
     if (!force && this._built && fingerprint === this._fingerprint) return;
     this._fingerprint = fingerprint;
     this._built = true;
+    if (this.loadCache(fingerprint)) return;
     this.engine.removeAll();
     const files = this.listFiles();
     for (const f of files) {
@@ -61,6 +116,7 @@ export class SearchEngine {
         // skip files that can't be read
       }
     }
+    this.saveCache(fingerprint);
   }
 
   /** Fingerprint determinista del vault: max(mtime) + count de ficheros. */
@@ -92,11 +148,11 @@ export class SearchEngine {
       })
       .slice(0, maxResults)
       .map((r) => {
-        const doc = r as unknown as { path: string; score: number; title: string; content: string; tags: string[] };
+        const doc = r as unknown as { path: string; score: number; title: string; tags: string[] };
         return {
           path: doc.path,
           score: doc.score,
-          snippet: this.makeSnippet(doc.content, query.query, 120),
+          snippet: this.makeSnippet(this.readContent(doc.path), query.query, 120),
           tags: doc.tags || [],
         };
       });
@@ -119,6 +175,15 @@ export class SearchEngine {
       return enricher.enrich(base, graph.getSnapshot() ?? { nodes: new Map() }, ppr);
     } catch {
       return base;
+    }
+  }
+
+  /** Cuerpo de la nota (sin frontmatter) para el snippet; '' si ya no se puede leer. */
+  private readContent(relPath: string): string {
+    try {
+      return this.parseNote(fs.readFileSync(path.join(this.config.path, relPath), 'utf-8')).content;
+    } catch {
+      return '';
     }
   }
 
@@ -150,13 +215,17 @@ export class SearchEngine {
     const full = path.join(base, relative);
     if (!fs.existsSync(full)) return;
 
+    const exts = this.config.allowedExtensions?.length
+      ? this.config.allowedExtensions.map(e => e.toLowerCase())
+      : DEFAULT_EXTENSIONS;
     const entries = fs.readdirSync(full, { withFileTypes: true });
     for (const e of entries) {
       const relPath = relative ? `${relative}/${e.name}` : e.name;
       if (e.isDirectory()) {
-        if (['.git', '.trash', '.savia-vault'].includes(e.name)) continue;
+        // SE-412: fuera directorios ocultos (.git, .trash, .savia-vault…) y node_modules.
+        if (e.name.startsWith('.') || e.name === 'node_modules') continue;
         this.walk(base, relPath, results);
-      } else if (e.isFile()) {
+      } else if (e.isFile() && exts.includes(path.extname(e.name).toLowerCase())) {
         results.push(relPath);
       }
     }
@@ -189,7 +258,8 @@ export class SearchEngine {
       if (h1Match) title = h1Match[1];
     }
 
-    const inlineTags = content.match(/#([\w-]+)/g);
+    // SE-412: un tag empieza por letra; `#648` (referencia a PR/issue) no es tag.
+    const inlineTags = content.match(/#[A-Za-zÀ-ɏ][\w-]*/g);
     if (inlineTags) {
       for (const t of inlineTags) {
         tags.add(t.slice(1).toLowerCase());

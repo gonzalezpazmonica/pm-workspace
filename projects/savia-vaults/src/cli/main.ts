@@ -94,19 +94,8 @@ program.command('serve').description('Start MCP or A2A server')
     }
   });
 
-program.command('search <query>').description('Search the vault')
-  .option('-p, --path <path>', 'Vault path', process.cwd()).option('--json', 'JSON output', false)
-  .option('--enrich', 'SE-330: enriquecer con score del grafo', false)
-  .action(async (query, opts) => {
-    const config = makeConfig('vault', opts.path);
-    const engine = new SearchEngine(config);
-    engine.buildIndex();
-    const results = opts.enrich
-      ? await engine.searchEnrichedAsync({ query, maxResults: 10, enrich: true })
-      : engine.search({ query, maxResults: 10 });
-    if (opts.json) { console.log(JSON.stringify(results, null, 2)); }
-    else { for (const r of results as { path: string; score: number; snippet: string }[]) { console.log(`${r.path} (score: ${r.score.toFixed(2)})`); console.log(`  ${r.snippet}\n`); } }
-  });
+// SE-412: `search` vive en ./search.ts y se carga sin el resto de la CLI.
+program.command('search <query>').description('Search the vault (BM25) — ver `savia-vaults search --help`');
 
 program.command('stats').description('Show vault statistics')
   .option('-p, --path <path>', 'Vault path', process.cwd()).option('--json', 'JSON output', false)
