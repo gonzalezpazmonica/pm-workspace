@@ -140,6 +140,7 @@ in_array() {
 }
 
 VIOLATIONS=()
+declare -A STATUS_CACHE=()
 total=0
 scanned=0
 
@@ -157,7 +158,15 @@ for f in "${FILES[@]}"; do
   fi
 
   spec_reference=$(extract_spec_reference "$f")
-  status=$(spec_status "$spec_id" "$spec_reference")
+  # Cache per (id, reference): the resolver forks per call and the same spec
+  # is cited by many files; the full scan took ~150 s without it.
+  cache_key="$spec_id|$spec_reference"
+  if [[ -n "${STATUS_CACHE[$cache_key]+x}" ]]; then
+    status="${STATUS_CACHE[$cache_key]}"
+  else
+    status=$(spec_status "$spec_id" "$spec_reference")
+    STATUS_CACHE[$cache_key]="$status"
+  fi
 
   # Approved?
   if in_array "$status" "${APPROVED_STATUSES[@]}"; then

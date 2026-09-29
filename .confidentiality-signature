@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=8bd611d0b028efa459330c49d23907d6f865e2327ab70380fda0795510047217
-timestamp=2026-09-29T05:29:33Z
-branch=agent/planning-se402-405-20260928
-head_commit=f25e05fd
-signature=155a4f4d38627a4af2710ac087ad6f597b541dd7a0d99f000ea526c487cdb75b
+diff_hash=01fbbb56558a4761e552a4a29c07ffb4bc12b1137db86a2c2b226c73a7c407dc
+timestamp=2026-09-29T05:43:07Z
+branch=agent/overnight-20260929-spec-gate-cache
+head_commit=0ff31d35
+signature=afc694c5c8eb27980a64ab03e82ebfcf0ec6fd79e426414c5374208cdaa92edd
