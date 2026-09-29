@@ -1,5 +1,5 @@
 # communication — Savia Capability Map (L1)
-> 108 resources
+> 107 resources
 
 - **archive-digest** (agent): >
 - **contract-pin** (script): contract-pin.sh — SE-369 Contract Digest Pins
@@ -72,7 +72,6 @@
 - **savia-pbi** (cmd): >
 - **savia-preferences** (script): savia-preferences.sh — manage ~/.savia/preferences.yaml (SPEC-127 Slice 1)
 - **savia-quota-tracker** (script): savia-quota-tracker.sh — SPEC-127 Slice 5
-- **savia-rag-sync** (script): savia-rag-sync.sh — Disparador programado de Savia RAG (SE-410 P3/P7).
 - **savia-recall** (cmd): Recall and retrieve information from Savia memory
 - **savia-reply** (cmd): >
 - **savia-runs** (script): savia-runs.sh — SE-349: Agent Runs Operations Ledger (ARO)

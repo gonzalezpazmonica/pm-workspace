@@ -1,6 +1,6 @@
 {
-  "hash": "9c8a364d83d6",
-  "total": 1451,
+  "hash": "beef74631dfa",
+  "total": 1450,
   "resources": [
     {
       "category": "analysis",
@@ -1880,19 +1880,6 @@
       "kind": "script",
       "path": "scripts/savia-quota-tracker.sh",
       "description": "savia-quota-tracker.sh — SPEC-127 Slice 5"
-    },
-    {
-      "category": "communication",
-      "name": "savia-rag-sync",
-      "intents": [
-        "disparador",
-        "programado",
-        "savia",
-        "sync"
-      ],
-      "kind": "script",
-      "path": "scripts/savia-rag-sync.sh",
-      "description": "savia-rag-sync.sh — Disparador programado de Savia RAG (SE-410 P3/P7)."
     },
     {
       "category": "communication",

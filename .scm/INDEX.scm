@@ -1,6 +1,6 @@
 # Savia Capability Map — INDEX
-> hash: 236914eb80b1 | resources: 1451
-> 295 commands · 139 skills · 90 agents · 927 scripts
+> hash: f5a3b651c3c0 | resources: 1450
+> 295 commands · 139 skills · 90 agents · 926 scripts
 
 [analysis] Trace Optimize — across,distributed,optimize,rates,sampling — cmd:.claude/commands/trace-optimize.md
 [analysis] agent-activity — activity,agent,executions,recent,show — cmd:.claude/commands/agent-activity.md
@@ -147,7 +147,6 @@
 [communication] savia-pbi —  — cmd:.claude/commands/savia-pbi.md
 [communication] savia-preferences — manage,preferences,savia,slice,spec — script:scripts/savia-preferences.sh
 [communication] savia-quota-tracker — quota,savia,slice,spec,tracker — script:scripts/savia-quota-tracker.sh
-[communication] savia-rag-sync — disparador,programado,savia,sync — script:scripts/savia-rag-sync.sh
 [communication] savia-recall — information,memory,recall,retrieve,savia — cmd:.claude/commands/savia-recall.md
 [communication] savia-reply —  — cmd:.claude/commands/savia-reply.md
 [communication] savia-runs — agent,ledger,operations,runs,savia — script:scripts/savia-runs.sh
