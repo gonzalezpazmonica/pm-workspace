@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=9cedaef6d531c60d40431f331ae146f87ac438ee01d5d3ae0d0b51a38637dc0f
-timestamp=2026-09-29T20:22:09Z
-branch=agent/se411-rag-efficiency-impl
-head_commit=163082ae
-signature=e5c7b65e7840b303f4b762001cfd327357e256504d5fa5403e892d60a7e01952
+diff_hash=2f12517f6e626a2582496fc94440a28631ea20ed43056323317facb8b4df0935
+timestamp=2026-09-29T20:57:10Z
+branch=agent/se412-vault-search-hygiene
+head_commit=2aa422b5
+signature=dd794af5df5232c9d90f865bde0547dc041ce20ee79fa82fd42eef4286cc7e9d
