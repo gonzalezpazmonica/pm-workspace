@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=979c0d963cdec20f329f383f98916b364ed223e5e16102cddb64d2e22da395e6
-timestamp=2026-09-29T01:27:59Z
-branch=agent/overnight-20260929-rule-manifest
-head_commit=50f66957
-signature=7e62061500f1c47eec1f2ccc9ec2f01192e44791ff8fd2cbb100098e7e6a206b
+diff_hash=8bd611d0b028efa459330c49d23907d6f865e2327ab70380fda0795510047217
+timestamp=2026-09-29T05:29:33Z
+branch=agent/planning-se402-405-20260928
+head_commit=f25e05fd
+signature=155a4f4d38627a4af2710ac087ad6f597b541dd7a0d99f000ea526c487cdb75b
