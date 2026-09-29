@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=7cbc8c82732b11665c1924940e84389b75c9cda4d99cef196f25137ee84ae23a
-timestamp=2026-09-29T02:14:05Z
+diff_hash=88825be658abd93a216825d2b77040ea7be45e72a7576d454e833cfd5ef32d16
+timestamp=2026-09-29T05:29:24Z
 branch=agent/overnight-20260929-spec-gate-cache
-head_commit=1a551fdf
-signature=9f4b6a27052f4d428c3bae66f13b3d9739f2b98189e92b6ed0d42d1f35ecdf83
+head_commit=79641091
+signature=4be0dc6657ab6b0935fb9adb685820a2d022c0029f253063b83906a4fa5c0ab6
