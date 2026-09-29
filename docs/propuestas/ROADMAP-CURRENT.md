@@ -1,7 +1,6 @@
 # Roadmap Current (GENERATED — no editar; fuente: planning-state.json)
 
 - SE-376 [IMPLEMENTING] Quality Debt Burn-down — evidencia: 2026-09-27: el 133→48 de #1097 era inflado (121 tests de presencia en #1097 y 5 en #1100, score 23; 130 skills marcadas stable sin evidencia). Criterio endurecido: Calibrated exige test certificado >=80. Deuda real 128/137 (incluye 3 skills GRC de #1142); vuelta a wave 0 (baseline 133). Objetivo final 0 o excepciones aprobadas pendiente.
-- SE-378 [IMPLEMENTING] Planning State Machine — evidencia: PR #1085: planning-state canónico, CLI roadmap y vista generada mergeados; reconciliación factual continua pendiente
 - SE-392 [APPROVED] Runtime común de Savia para Codex y OpenCode — evidencia: Spec persistida; equivalencia funcional y E2E aún no demostradas.
 - SE-395 [APPROVED] Savia Vaults Adaptive Connectivity — evidencia: PR #1122: aislamiento de grafo por dome. PR #1131: V02 de cache por principal/policy/contenido, provenance y límites mergeada con 349 tests SaviaVaults. Experimento adaptativo permanece pendiente.
 - SE-396 [IMPLEMENTING] Harness operational integrity & verifiable substitution — evidencia: PRs #1112/#1113/#1122/#1129/#1130/#1131/#1132/#1133/#1135 mergeadas. H02/H10/A01b/A01c: autoridad previa al executor, composición aislada y sustitución operacional Codex/OpenCode. Auditoría AC local: docs/evidence/SE-396-closure-review-20260924.md; 127 tests dual-cli, 18 de planificación y gate canónico previo 6/6. Doctor nativo permanece DEGRADED_SAFE; recibo A01c requiere revisión de procedencia.
@@ -12,4 +11,4 @@
 - SE-403 [APPROVED] Benchmark evidence: trazas, frontera, hash de selección — evidencia: PR #1171 mergeada 2026-09-28 sin review registrada; graduación pendiente de revisión humana (completion.human_review). Spec: docs/specs/SE-403-benchmark-evidence-frontier.spec.md
 - SE-404 [APPROVED] Proceso proporcional: G13 v2 y una corrección por revisión — evidencia: PR #1170 mergeada 2026-09-28 sin review registrada; graduación pendiente de revisión humana (completion.human_review). Spec: docs/specs/SE-404-proportional-process-gates.spec.md
 - SE-405 [APPROVED] Observabilidad: coste por subagente, snapshots de config, timeline de memoria — evidencia: PR #1169 mergeada 2026-09-28 sin review registrada; graduación pendiente de revisión humana (completion.human_review). Spec: docs/specs/SE-405-harness-observability-increments.spec.md
-- SE-407 [APPROVED] Predicado único de estado consistente y cierre de sesión limpio — evidencia: docs/specs/SE-407-consistent-state-predicate.spec.md
+- SE-407 [IMPLEMENTING] Predicado único de estado consistente y cierre de sesión limpio — evidencia: docs/specs/SE-407-consistent-state-predicate.spec.md

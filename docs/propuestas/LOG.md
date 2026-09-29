@@ -6,6 +6,14 @@
 > Each entry: date, spec ID, status transition, optional rationale.
 > Ref: SE-222 S1 OKF Adoptable Patterns (log.md convention).
 
+## 2026-09-29 SE-407 APPROVED IMPLEMENTING
+
+Entra en el WIP sustituyendo a SE-378 (decisión de la operadora, repriorización por valor).
+
+## 2026-09-29 SE-378 IMPLEMENTING DEFERRED
+
+Sale del WIP a favor de SE-407. Lo mergeado permanece; retoma en la Fase A.
+
 ## 2026-09-29 SE-409 PROPOSED
 
 Bucle experiencia → skill con curación y retirada (referencia: hermes-agent;
