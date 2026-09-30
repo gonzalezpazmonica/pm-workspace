@@ -16,6 +16,8 @@ import { DomeRegistry, VaultInstance } from '../registry/domes.js';
 import { RagService } from '../rag/service.js';
 import { RagError, RAG_LIMITS } from '../rag/types.js';
 import { formatRagResponse, type RagFields } from '../rag/format.js';
+import { FilesService, FILES_TOOL, callFilesTool } from '../files/service.js';
+import { FilesError } from '../files/types.js';
 import { UserStore, AccessController, AuthError, AuditLogger, UserQuotaStore } from '../auth/index.js';
 import type { AuthAction } from '../auth/index.js';
 import * as fs from 'node:fs';
@@ -40,6 +42,7 @@ export class MCPVaultServer {
   private quotaStore: UserQuotaStore | undefined;
   private instances: Map<string, VaultInstance> = new Map();
   private rag: RagService;
+  private files: FilesService;
 
   constructor(config: VaultConfig, domeRegistry?: DomeRegistry, userStore?: UserStore) {
     this.config = config;
@@ -79,6 +82,15 @@ export class MCPVaultServer {
         : [{ name: this.config.name, path: this.config.path, confidentiality: 'N2', rag: { enabled: true } }],
       authorize: (dome, action, tool) => this.authorize(dome, action, tool),
       background: true,
+    });
+
+    // SE-413: Savia Files con la misma ACL; cada cambio programa el sync de RAG de la cúpula.
+    this.files = new FilesService({
+      domes: () => this.domeRegistry
+        ? this.domeRegistry.listActive().map(d => ({ name: d.name, confidentiality: d.confidentiality, files: d.files }))
+        : [],
+      authorize: (dome, action, tool) => this.authorize(dome, action, tool),
+      onChange: (dome) => this.rag.scheduleSync(dome),
     });
   }
 
@@ -252,6 +264,7 @@ export class MCPVaultServer {
             },
           },
         },
+        FILES_TOOL,
         {
           name: 'vault_rag_status',
           description: 'SE-410: estado del índice RAG por cúpula (generaciones, contrato, pendientes, staleRatio, lagHours, SLO).',
@@ -362,6 +375,10 @@ export class MCPVaultServer {
             const fields: RagFields = args.fields === 'full' ? 'full' : 'lean';
             const maxChars = (args.maxChars as number | undefined) ?? RAG_LIMITS.defaultMaxChars;
             return { content: [{ type: 'text', text: formatRagResponse(res, { fields, maxChars }) }] };
+          }
+
+          case 'vault_files': {
+            return { content: [{ type: 'text', text: JSON.stringify(await callFilesTool(this.files, args)) }] };
           }
 
           case 'vault_rag_status': {
@@ -515,7 +532,7 @@ export class MCPVaultServer {
         if (e instanceof AuthError) {
           return { content: [{ type: 'text', text: `Error: ${e.message}` }], isError: true };
         }
-        if (e instanceof RagError) {
+        if (e instanceof RagError || e instanceof FilesError) {
           return { content: [{ type: 'text', text: `Error: ${e.message}` }], isError: true };
         }
         const msg = e instanceof Error ? e.message : String(e);

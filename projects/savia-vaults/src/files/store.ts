@@ -19,17 +19,17 @@ const REVISION_RE = /^r_[0-9a-f]{16}$/;
 const DOME_RE = /^[A-Za-z0-9][A-Za-z0-9._-]{0,63}$/;
 const LEVELS = ['N1', 'N2', 'N3', 'N4'];
 
-const envInt = (name: string, def: number) => {
-  const v = Number(process.env[name]);
+const envInt = (name: string, def: number, env: NodeJS.ProcessEnv = process.env) => {
+  const v = Number(env[name]);
   return Number.isFinite(v) && v > 0 ? v : def;
 };
 
-export function defaultLimits(): FilesLimits {
+export function defaultLimits(env: NodeJS.ProcessEnv = process.env): FilesLimits {
   return {
-    maxBytes: envInt('SAVIA_FILES_MAX_BYTES', 100 * 1024 * 1024),
-    maxDocuments: envInt('SAVIA_FILES_MAX_DOCS', 10_000),
-    extractTimeoutMs: envInt('SAVIA_FILES_EXTRACT_TIMEOUT_MS', 300_000),
-    maxTransferBytes: envInt('SAVIA_FILES_MAX_TRANSFER_BYTES', 20 * 1024 * 1024),
+    maxBytes: envInt('SAVIA_FILES_MAX_BYTES', 100 * 1024 * 1024, env),
+    maxDocuments: envInt('SAVIA_FILES_MAX_DOCS', 10_000, env),
+    extractTimeoutMs: envInt('SAVIA_FILES_EXTRACT_TIMEOUT_MS', 300_000, env),
+    maxTransferBytes: envInt('SAVIA_FILES_MAX_TRANSFER_BYTES', 20 * 1024 * 1024, env),
   };
 }
 
@@ -243,6 +243,29 @@ export class FileStore {
         fs.rmSync(this.extractPath(revisionId), { force: true });
         this.removeUnreferencedBlobs(manifest, [rev.sha256], revisionId);
       }
+    });
+  }
+
+  /**
+   * Deshace una revisión recién añadida que no llegó a aceptarse (p. ej. escaneo
+   * obligatorio fallido): si era la única, borra el documento.
+   */
+  dropRevision(id: string, revisionId: string): void {
+    const doc = this.get(id);
+    if (doc.revisions.length === 1 && doc.revisions[0].id === revisionId) {
+      this.delete(id);
+      return;
+    }
+    this.locked(() => {
+      const manifest = this.load();
+      const d = manifest.documents.find((x) => x.id === id);
+      const rev = d?.revisions.find((r) => r.id === revisionId);
+      if (!d || !rev) throw new FilesError('NOT_FOUND', `revisión ${revisionId} no existe en ${id}`);
+      d.revisions = d.revisions.filter((r) => r.id !== revisionId);
+      if (d.currentRevision === revisionId) d.currentRevision = d.revisions[d.revisions.length - 1].id;
+      this.save(manifest);
+      fs.rmSync(this.extractPath(revisionId), { force: true });
+      this.removeUnreferencedBlobs(manifest, [rev.sha256]);
     });
   }
 

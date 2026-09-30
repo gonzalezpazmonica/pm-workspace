@@ -1,7 +1,7 @@
 ---
 status: APPROVED
 approved_at: 2026-09-30
-approval: "Operadora 2026-09-30 en chat (AskUserQuestion): alcance 'MVP recortado'; dependencias autorizadas: venv Python con docling + openpyxl (ClamAV lo instala la operadora); PRs en Draft para su revisión"
+approval: "Operadora 2026-09-30 en chat (AskUserQuestion): alcance 'MVP recortado'; dependencias autorizadas: venv Python con docling + openpyxl (ClamAV lo instala la operadora); PRs en Draft para su revisión. Después: 'MVP y luego delta por slice'; decisiones de diseño de la investigación aprobadas salvo el backend S3"
 priority: P1
 developer_type: agent-single
 created: 2026-09-30
@@ -127,12 +127,13 @@ servir la revisión anterior tras el siguiente sync (disparadores de SE-410).
 
 ### Entregables (rutas)
 
-- Código: `projects/savia-vaults/src/files/*.ts`, `projects/savia-vaults/workers/files/extract.py`,
+- Código: `projects/savia-vaults/src/files/{types,store,scan,extract,rag-source,service}.ts`, `projects/savia-vaults/workers/files/extract.py`,
   `projects/savia-vaults/src/cli/files.ts`, `projects/savia-vaults/src/cli/index.ts`,
   `projects/savia-vaults/src/server/mcp.ts`, `projects/savia-vaults/src/registry/domes.ts`,
   `projects/savia-vaults/src/rag/*.ts`.
 - Tests: `projects/savia-vaults/tests/unit/files/*.test.ts`,
   `projects/savia-vaults/tests/integration/files/*.test.ts`, `projects/savia-vaults/tests/e2e/mcp-files.test.ts`,
+  `projects/savia-vaults/tests/e2e/files.test.ts` (CLI), `projects/savia-vaults/tests/unit/registry/domes.test.ts`,
   `projects/savia-vaults/tests/fixtures/files/*`.
 - Documentación: `projects/savia-vaults/docs/files.md`, `projects/savia-vaults/README.md`,
   `projects/savia-vaults/CHANGELOG.md`, `.claude/skills/savia-vaults/SKILL.md`,
@@ -159,6 +160,32 @@ servir la revisión anterior tras el siguiente sync (disparadores de SE-410).
   de prueba EICAR queda `QUARANTINED` y sin bytes.
 - **AC9** Los tests existentes siguen en verde; los que requieren el worker Python
   se omiten solo si el intérprete configurado no existe (dependencia declarada).
+
+## Resultados (2026-09-30)
+
+Suite de savia-vaults: 529 tests en verde (477 antes de SE-413), `tsc` y `eslint` limpios.
+
+| AC | Estado | Evidencia |
+|---|---|---|
+| AC1 | Cumple | `store.test.ts`, `service.test.ts`, e2e MCP: descarga con SHA-256 idéntico |
+| AC2 | Cumple | `store.test.ts` (revisión anterior intacta), `rag-files.test.ts` (RAG solo sirve la vigente) |
+| AC3 | Cumple | `extract.test.ts` y `rag-files.test.ts` con los fixtures reales: PDF cita p. 2, XLSX `B3` con valor 1500 y `=SUM(B2:B2)`, PPTX diapositiva 2, DOCX elemento |
+| AC4 | Cumple | `units/extracted/skipped` en cada revisión; `ARCHIVE_ONLY` fuera de RAG |
+| AC5 | Cumple | bytes y extracción borrados al instante; chunks fuera tras el sync; `NOT_FOUND` |
+| AC6 | Cumple | `service.test.ts` y e2e MCP con token de solo lectura; `POLICY_DENIED` |
+| AC7 | Cumple | nombres con ruta, tamaño, base64 inválido: fallan sin crear el manifiesto |
+| AC8 | Cumple con escáner simulado | ClamAV no está instalado en la máquina (requiere sudo): se verificó con un `clamscan` falso que reproduce los códigos de salida 0/1/2. Pendiente repetir con ClamAV real y EICAR |
+| AC9 | Cumple | los tests del worker se omiten solo si falta `$SAVIA_FILES_PYTHON` |
+
+Hallazgos durante la implementación:
+
+- openpyxl valida la extensión de la ruta y los blobs no la tienen: el worker abre
+  el XLSX como stream binario.
+- Un XLSX guardado por openpyxl no trae valores calculados; el fixture se recalculó
+  con LibreOffice. Sin valor guardado, la celda cuenta como
+  `formula-without-cached-value` (`PARTIAL`), sin recalcular.
+- Una caída entre escribir el blob y el manifiesto dejaba huérfanos: se añadió `gc`.
+- Estado `PENDING` añadido entre guardar y extraer; `files gc` añadido a la CLI.
 
 ## Esfuerzo
 

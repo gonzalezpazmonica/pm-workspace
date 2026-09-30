@@ -6,6 +6,13 @@
 > Each entry: date, spec ID, status transition, optional rationale.
 > Ref: SE-222 S1 OKF Adoptable Patterns (log.md convention).
 
+## 2026-09-30 SE-413 APPROVED
+
+Savia Files (MVP): originales inmutables por cúpula, extracción con localizador
+(página, diapositiva, elemento, celda, fila, clave), fuente de Savia RAG con cita
+y borrado real. Aprobada por la operadora como MVP recortado; el resto de la línea
+se abrirá como delta-specs por slice.
+
 ## 2026-09-29 SE-412 APPROVED
 
 Higiene y arranque en frío de `vault_search` (solo markdown, tags reales, caché

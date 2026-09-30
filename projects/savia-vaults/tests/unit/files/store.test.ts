@@ -141,6 +141,16 @@ describe('FileStore', () => {
     expect(store.readBytes(document.id).toString()).toBe('vivo');
   });
 
+  it('dropRevision deshace la última revisión o el documento entero', () => {
+    const v1 = store.add({ name: 'a.txt', bytes: Buffer.from('uno') });
+    const v2 = store.add({ name: 'a.txt', bytes: Buffer.from('dos'), replaces: v1.document.id });
+    store.dropRevision(v1.document.id, v2.revision.id);
+    expect(store.get(v1.document.id).currentRevision).toBe(v1.revision.id);
+    expect(fs.existsSync(store.blobPath(v2.revision.sha256))).toBe(false);
+    store.dropRevision(v1.document.id, v1.revision.id);
+    expect(store.list()).toEqual([]);
+  });
+
   it('replaces de un documento inexistente → NOT_FOUND', () => {
     expect(() => store.add({ name: 'a.txt', bytes: Buffer.from('a'), replaces: 'no-existe' })).toThrow(/NOT_FOUND/);
   });

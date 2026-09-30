@@ -5,6 +5,24 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased] — 2026-09-30 · Savia Files MVP (SE-413)
+
+### Added
+- Savia Files: guarda originales en la cúpula (`$SAVIA_FILES_HOME`, fuera de git),
+  con blobs de solo lectura direccionados por SHA-256, revisiones (`replaces`),
+  borrado real y `gc` de huérfanos.
+- Extracción con localizador: TXT/MD por líneas, CSV por fila y JSON por clave en
+  TS; PDF por página, PPTX por diapositiva, DOCX por elemento (Docling sin OCR) y
+  XLSX por celda con valor y fórmula (openpyxl) en un worker Python aislado.
+  Cobertura declarada; `ARCHIVE_ONLY` si no hay extracción.
+- Escaneo opcional con ClamAV (`files.scan: auto|required|off`); infectado ⇒
+  `QUARANTINED` sin bytes.
+- Savia RAG indexa los ficheros como fuentes `files/<id>`; los hits llevan
+  `source` (documento, revisión, localizador), también en la respuesta `lean`.
+- MCP `vault_files` y CLI `savia-vaults files add|list|show|text|get|rm|reprocess|gc`.
+- Bloque `files` por cúpula en `savia-vaults.domes.json` (desactivado por defecto).
+- Documentación: `docs/files.md`.
+
 ## [Unreleased] — 2026-09-29 · Higiene de vault_search (SE-412)
 
 ### Fixed

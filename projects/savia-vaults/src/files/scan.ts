@@ -17,6 +17,11 @@ export interface ScanOptions {
   timeoutMs?: number;
 }
 
+/** true si hay un clamscan utilizable (explícito, SAVIA_FILES_CLAMSCAN o rutas estándar). */
+export function scannerAvailable(explicit?: string): boolean {
+  return findScanner(explicit) !== undefined;
+}
+
 function findScanner(explicit?: string): string | undefined {
   const candidates = explicit ? [explicit]
     : [process.env.SAVIA_FILES_CLAMSCAN, '/usr/bin/clamscan', '/usr/local/bin/clamscan', '/opt/homebrew/bin/clamscan'];
