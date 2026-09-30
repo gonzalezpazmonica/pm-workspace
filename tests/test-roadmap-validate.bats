@@ -297,3 +297,44 @@ set_route() { # <wip> <phase-of-SE-375>
   [[ "$output" != *"constante entera"* && "$output" != *"invalid arithmetic"* ]]
   [[ "$output" == *"PASS: planning state consistente"* ]]
 }
+
+set_plan_filter() {
+  jq "$1" "$FIXTURE/docs/propuestas/planning-state.json" > "$FIXTURE/state.tmp"
+  mv "$FIXTURE/state.tmp" "$FIXTURE/docs/propuestas/planning-state.json"
+}
+
+@test "edge: validate rejects an empty session plan" {
+  set_session_plan
+  set_plan_filter '.route.session_plan = []'
+  run env REPO_ROOT="$FIXTURE" bash "$SCRIPT" validate
+  [ "$status" -ne 0 ]
+  [[ "$output" == *"cola de sesiones inválida"* ]]
+}
+
+@test "edge: render_sessions omits the queue when the plan has zero sessions" {
+  set_session_plan
+  set_plan_filter '.route.session_plan = []'
+  run env REPO_ROOT="$FIXTURE" bash "$SCRIPT" current
+  [ "$status" -eq 0 ]
+  [[ "$output" != *"Cola de sesiones"* ]]
+  [[ "$output" == *"Iniciativas aprobadas o en curso"* ]]
+}
+
+@test "edge: validate rejects duplicate session IDs at the boundary of two entries" {
+  set_session_plan
+  set_plan_filter '.route.session_plan += [.route.session_plan[0]]'
+  run env REPO_ROOT="$FIXTURE" bash "$SCRIPT" validate
+  [ "$status" -ne 0 ]
+  [[ "$output" == *"cola de sesiones inválida"* ]]
+}
+
+@test "edge: validate rejects an empty criterion string and a null priority" {
+  set_session_plan
+  set_plan_filter '.route.session_plan[0].effort = ""'
+  run env REPO_ROOT="$FIXTURE" bash "$SCRIPT" validate
+  [ "$status" -ne 0 ]
+  set_plan_filter '.route.session_plan[0].effort = "small" | .route.session_plan[0].priority = null'
+  run env REPO_ROOT="$FIXTURE" bash "$SCRIPT" validate
+  [ "$status" -ne 0 ]
+  [[ "$output" == *"cola de sesiones inválida"* ]]
+}
