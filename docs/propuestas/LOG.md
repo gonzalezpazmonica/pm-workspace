@@ -6,6 +6,13 @@
 > Each entry: date, spec ID, status transition, optional rationale.
 > Ref: SE-222 S1 OKF Adoptable Patterns (log.md convention).
 
+## 2026-09-30 SE-414 APPROVED
+
+Savia Files: robustez y seguridad del MVP, a partir de la evaluación local
+(bomba de descompresión, workers sin límite, nombres invisibles, home por symlink,
+extracción no ligada, lock sin espera, manifiesto único). Aprobada por la operadora
+junto a SE-415 («PR por spec»); se estabiliza el MVP antes de crecer.
+
 ## 2026-09-30 SE-413 APPROVED
 
 Savia Files (MVP): originales inmutables por cúpula, extracción con localizador

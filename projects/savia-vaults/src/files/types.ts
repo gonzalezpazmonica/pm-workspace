@@ -9,6 +9,8 @@ export interface ExtractionInfo {
   extracted: number;
   skipped: { reason: string; count: number }[];
   error?: string;
+  /** SE-414: SHA-256 del JSON de extracción; se verifica al leerla. */
+  digest?: string;
 }
 
 export interface FileRevision {
@@ -67,6 +69,9 @@ export interface FilesLimits {
   maxDocuments: number;
   extractTimeoutMs: number;
   maxTransferBytes: number;
+  /** SE-414: suma máxima descomprimida declarada de un OOXML antes de lanzar el worker. */
+  maxUnzippedBytes: number;
+  lockWaitMs: number;
 }
 
 export type FilesErrorCode =

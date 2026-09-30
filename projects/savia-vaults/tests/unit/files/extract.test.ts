@@ -5,6 +5,7 @@ import * as os from 'node:os';
 import * as path from 'node:path';
 import { extractTextual, processRevision, defaultPython } from '../../../src/files/extract.js';
 import { FileStore } from '../../../src/files/store.js';
+import { craftZip } from './craft-zip.js';
 
 const FIX = path.resolve('tests/fixtures/files');
 const PY = defaultPython();
@@ -102,6 +103,55 @@ describe('processRevision', () => {
     const info = await processRevision(store, document.id, { scan: 'off', python: slow, timeoutMs: 300 });
     expect(info.status).toBe('FAILED');
     expect(info.error).toMatch(/timeout/i);
+  });
+});
+
+describe('SE-414 límites del worker', () => {
+  let home: string;
+  let store: FileStore;
+  beforeEach(() => {
+    home = fs.mkdtempSync(path.join(os.tmpdir(), 'savia-files-l-'));
+    store = new FileStore({ home, dome: 'D' });
+  });
+  afterEach(() => fs.rmSync(home, { recursive: true, force: true }));
+
+  it('AC1: una bomba de descompresión queda FAILED sin lanzar el worker', async () => {
+    const bomb = craftZip([{ name: 'word/document.xml', comp: 1_000_000, uncomp: 414_000_000 }]);
+    const { document } = store.add({ name: 'bomba.docx', bytes: bomb });
+    expect(store.get(document.id).revisions[0].type).toBe('docx');
+    const marker = path.join(home, 'worker-ran');
+    const py = path.join(home, 'py');
+    fs.writeFileSync(py, `#!/bin/sh\ntouch '${marker}'\necho '{"method":"x","units":[],"skipped":[]}'\n`, { mode: 0o700 });
+    const t = Date.now();
+    const info = await processRevision(store, document.id, { scan: 'off', python: py });
+    expect(Date.now() - t).toBeLessThan(1000);
+    expect(info.status).toBe('FAILED');
+    expect(info.error).toMatch(/^decompression-limit: /);
+    expect(fs.existsSync(marker)).toBe(false);
+  });
+
+  it('AC2: con SAVIA_FILES_WORKERS=1 nunca hay dos workers a la vez', async () => {
+    const log = path.join(home, 'log');
+    const py = path.join(home, 'py');
+    // Worker falso: marca inicio y fin con marca de tiempo en ms
+    fs.writeFileSync(py, `#!/bin/sh\necho "start $(date +%s%3N)" >> '${log}'\nsleep 0.2\necho "end $(date +%s%3N)" >> '${log}'\necho '{"method":"fake","units":[{"locator":{"type":"page","page":1},"kind":"text","text":"x"}],"skipped":[]}'\n`, { mode: 0o700 });
+    const pdf = fs.readFileSync(path.join(FIX, 'contrato.pdf'));
+    const ids = [1, 2, 3, 4].map((i) => store.add({ name: `c${i}.pdf`, bytes: Buffer.concat([pdf, Buffer.from(String(i))]) }).document.id);
+    const prev = process.env.SAVIA_FILES_WORKERS;
+    process.env.SAVIA_FILES_WORKERS = '1';
+    try {
+      const infos = await Promise.all(ids.map((id) => processRevision(store, id, { scan: 'off', python: py })));
+      expect(infos.map((i) => i.status)).toEqual(['READY', 'READY', 'READY', 'READY']);
+    } finally {
+      if (prev === undefined) delete process.env.SAVIA_FILES_WORKERS; else process.env.SAVIA_FILES_WORKERS = prev;
+    }
+    let live = 0;
+    let peak = 0;
+    for (const line of fs.readFileSync(log, 'utf-8').trim().split('\n')) {
+      live += line.startsWith('start') ? 1 : -1;
+      peak = Math.max(peak, live);
+    }
+    expect(peak).toBe(1);
   });
 });
 

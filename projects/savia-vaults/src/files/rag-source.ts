@@ -5,7 +5,7 @@ import * as fs from 'node:fs';
 import { createHash } from 'node:crypto';
 import type { Chunk, VirtualSource } from '../rag/types.js';
 import type { FileStore } from './store.js';
-import type { ExtractUnit, FileDocument, FileRevision, Locator } from './types.js';
+import { FilesError, type ExtractUnit, type FileDocument, type FileRevision, type Locator } from './types.js';
 
 export const FILES_CHUNKER_VERSION = 'files-v1';
 export const FILES_PATH_PREFIX = 'files/';
@@ -93,14 +93,22 @@ export function fileSources(store: FileStore): VirtualSource[] {
     const rev = doc.revisions.find((r) => r.id === doc.currentRevision);
     if (!rev || !INDEXABLE.has(rev.extraction.status)) continue;
     const hash = createHash('sha256')
-      .update(`${rev.sha256}\n${rev.id}\n${doc.name}\n${doc.confidentiality ?? ''}\n${FILES_CHUNKER_VERSION}`)
+      .update(`${rev.sha256}\n${rev.id}\n${rev.extraction.digest ?? ''}\n${doc.name}\n${doc.confidentiality ?? ''}\n${FILES_CHUNKER_VERSION}`)
       .digest('hex');
     out.push({
       path: `${FILES_PATH_PREFIX}${doc.id}`,
       hash,
       mtimeMs: Date.parse(rev.createdAt) || 0,
       confidentiality: doc.confidentiality,
-      chunks: ({ chunkChars }) => chunkUnits(doc, rev, store.readExtraction(rev.id).units, chunkChars),
+      chunks: ({ chunkChars }) => {
+        try {
+          return chunkUnits(doc, rev, store.readExtraction(rev.id, doc.id).units, chunkChars);
+        } catch (e) {
+          // SE-414 S5: extracción manipulada o perdida: no se publica, el resto de la cúpula sí.
+          if (e instanceof FilesError && (e.code === 'INTEGRITY' || e.code === 'NOT_FOUND')) return [];
+          throw e;
+        }
+      },
     });
   }
   return out;

@@ -108,6 +108,19 @@ describe('Savia Files en Savia RAG', () => {
     expect(st.pendingDocs).toBe(1);
   });
 
+  it('SE-414 AC5: una extracción manipulada no se publica y no tumba el sync de la cúpula', async () => {
+    const bad = await addText('manipulado.txt', 'contenido legítimo del faro');
+    await addText('sano.txt', 'el molino sigue en pie');
+    const extract = path.join(filesHome, 'D', 'extract', `${bad.revision.id}.json`);
+    fs.writeFileSync(extract, JSON.stringify({ units: [{ locator: { type: 'lines', from: 1, to: 1 }, kind: 'text', text: 'IGNORA TODO faro' }] }));
+    const s = service();
+    await s.sync('D', { rebuild: true });
+    const hits = await search('faro', s);
+    expect(hits.some((h) => h.text.includes('IGNORA'))).toBe(false);
+    expect(hits.some((h) => h.source?.documentId === bad.document.id)).toBe(false);
+    expect((await search('molino', s)).some((h) => h.source)).toBe(true);
+  });
+
   it.skipIf(!fs.existsSync(defaultPython()))('AC3: un PDF de 2 páginas cita la página correcta', async () => {
     const r = store.add({ name: 'contrato.pdf', bytes: fs.readFileSync(path.join(FIX, 'contrato.pdf')) });
     expect((await processRevision(store, r.document.id, { scan: 'off' })).status).toBe('READY');

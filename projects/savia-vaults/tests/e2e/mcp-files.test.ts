@@ -60,7 +60,8 @@ describe('SE-413 MCP vault_files', () => {
       expect(doc).toMatchObject({ name: 'inventario.csv', status: 'READY', extracted: 1 });
 
       const list = JSON.parse(text(await call({ action: 'list' })));
-      expect(list.map((d: any) => d.id)).toEqual([doc.documentId]);
+      expect(list.documents.map((d: any) => d.id)).toEqual([doc.documentId]);
+      expect(list.corrupt).toBe(0);
 
       const t = JSON.parse(text(await call({ action: 'text', id: doc.documentId, locator: { type: 'row', row: 2 } })));
       expect(t.units[0].text).toBe('equipo: servidor ámbar | sala: sala norte');
