@@ -2,6 +2,7 @@
 // misma capa FilesService que la tool MCP `vault_files`. Uso local del operador: sin ACL de red.
 import { Command } from 'commander';
 import * as fs from 'node:fs';
+import { pipeline } from 'node:stream/promises';
 import * as path from 'node:path';
 import { DomeRegistry } from '../registry/domes.js';
 import { FilesService } from '../files/service.js';
@@ -51,7 +52,10 @@ cmd.command('add <paths...>').description('Guarda uno o varios ficheros, los esc
       // SE-415: un solo lote; los ofimáticos se extraen en un único worker.
       const out = await svc.putMany({
         dome: opts.dome,
-        files: paths.map((p) => ({ name: path.basename(p), bytes: fs.readFileSync(p), replaces: opts.replaces })),
+        // SE-421: en streaming desde disco (memoria acotada, ficheros de gigas)
+        files: paths.map((p) => ({
+          name: path.basename(p), size: fs.statSync(p).size, stream: () => fs.createReadStream(p), replaces: opts.replaces,
+        })),
         tags: opts.tags ? String(opts.tags).split(',').map((t: string) => t.trim()).filter(Boolean) : undefined,
         confidentiality: opts.confidentiality,
       });
@@ -95,12 +99,27 @@ cmd.command('text <id>').description('Texto extraído con su localizador').optio
 
 cmd.command('get <id>').description('Escribe el original (verificado por SHA-256) en un fichero').option(...domesOpt).requiredOption(...domeOpt)
   .option('--revision <revisionId>').requiredOption('-o, --output <file>', 'fichero de salida').option('--force', 'sobrescribir', false)
+  .option('--range <inicio-fin>', 'solo esos bytes (inclusivo, desde 0), p. ej. 0-1048575')
   .action(async (id: string, opts) => {
     try {
       if (fs.existsSync(opts.output) && !opts.force) throw new FilesError('INVALID_INPUT', `${opts.output} ya existe (usar --force)`);
-      const { bytes } = await filesService(opts.domesFile).readBytes({ dome: opts.dome, id, revisionId: opts.revision });
-      fs.writeFileSync(opts.output, bytes, { mode: 0o600 });
-      console.log(`${bytes.length} bytes → ${opts.output}`);
+      let range: { start: number; end?: number } | undefined;
+      if (opts.range !== undefined) {
+        const m = /^(\d+)-(\d*)$/.exec(String(opts.range));
+        if (!m) throw new FilesError('INVALID_INPUT', '--range: formato inicio-fin (p. ej. 0-1023) o inicio- (hasta el final)');
+        range = { start: Number(m[1]), ...(m[2] ? { end: Number(m[2]) } : {}) };
+      }
+      const r = await filesService(opts.domesFile).openRead({ dome: opts.dome, id, revisionId: opts.revision, range });
+      // SE-421: en streaming a un .part que solo se renombra si todo llegó y se verificó
+      const part = `${opts.output}.part-${process.pid}`;
+      try {
+        await pipeline(r.stream, fs.createWriteStream(part, { mode: 0o600 }));
+      } catch (e) {
+        fs.rmSync(part, { force: true });
+        throw e;
+      }
+      fs.renameSync(part, opts.output);
+      console.log(`${r.end - r.start + 1} bytes → ${opts.output}`);
     } catch (e) { fail(e); }
   });
 

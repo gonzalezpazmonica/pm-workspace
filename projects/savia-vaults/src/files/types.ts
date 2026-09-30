@@ -80,6 +80,8 @@ export interface FilesDomeConfig {
   scan?: 'auto' | 'required' | 'off';
   /** SE-417: cifrar la cúpula (N3/N4 siempre, aunque falte o sea false). */
   encryption?: boolean;
+  /** SE-421: límite de tamaño de fichero en esta cúpula (no puede superar el global). */
+  maxBytes?: number;
 }
 
 export type FileType = 'pdf' | 'docx' | 'pptx' | 'xlsx' | 'txt' | 'md' | 'csv' | 'json' | 'unknown';
@@ -91,6 +93,8 @@ export interface FilesLimits {
   maxTransferBytes: number;
   /** SE-414: suma máxima descomprimida declarada de un OOXML antes de lanzar el worker. */
   maxUnzippedBytes: number;
+  /** SE-421: tamaño máximo que se extrae (texto); por encima, ARCHIVE_ONLY con too-large-to-extract. */
+  maxExtractBytes: number;
   lockWaitMs: number;
 }
 

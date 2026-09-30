@@ -56,6 +56,12 @@ describe('SE-413 CLI files', () => {
     const out = path.join(root, 'copia.md');
     expect(run('get', doc.documentId, '--dome', 'd', '-o', out).status).toBe(0);
     expect(fs.readFileSync(out, 'utf-8')).toBe(fs.readFileSync(src, 'utf-8'));
+    // SE-421: descarga en streaming de un rango
+    const part = path.join(root, 'rango.md');
+    expect(run('get', doc.documentId, '--dome', 'd', '-o', part, '--range', '2-5').status).toBe(0);
+    expect(fs.readFileSync(part, 'utf-8')).toBe(fs.readFileSync(src, 'utf-8').slice(2, 6));
+    expect(run('get', doc.documentId, '--dome', 'd', '-o', path.join(root, 'mal.md'), '--range', '9999-10000').status).toBe(1);
+    expect(fs.existsSync(path.join(root, 'mal.md'))).toBe(false);
     const again = run('get', doc.documentId, '--dome', 'd', '-o', out);
     expect(again.status).toBe(1);
     expect(again.stderr).toContain('ya existe');

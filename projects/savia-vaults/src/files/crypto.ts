@@ -53,60 +53,156 @@ export function open(key: Uint8Array, sealed: Uint8Array, aad: object): Buffer {
   }
 }
 
+/**
+ * SE-421: cifrado SVF1 incremental. `header()` una vez, luego `push(trozo, final)`; cada `push`
+ * parte en frames de hasta FRAME_PLAIN_BYTES. El último frame lleva TAG_FINAL (un fichero vacío es
+ * un único frame final vacío). Memoria acotada: no guarda nada entre llamadas.
+ */
+export class StreamEncryptor {
+  private readonly state: ReturnType<typeof sodium.crypto_secretstream_xchacha20poly1305_init_push>['state'];
+  private readonly head: Buffer;
+  private readonly ad: Buffer;
+  private done = false;
+
+  constructor(key: Uint8Array, aad: object) {
+    const so = s();
+    const { state, header } = so.crypto_secretstream_xchacha20poly1305_init_push(key);
+    this.state = state;
+    this.head = Buffer.concat([MAGIC, Buffer.from(header)]);
+    this.ad = aadBytes(aad);
+  }
+
+  header(): Buffer { return this.head; }
+
+  push(plain: Uint8Array, final: boolean): Buffer {
+    if (this.done) throw new Error('StreamEncryptor: ya se envió el frame final');
+    const so = s();
+    const parts: Buffer[] = [];
+    let off = 0;
+    do {
+      const end = Math.min(off + FRAME_PLAIN_BYTES, plain.length);
+      const last = final && end >= plain.length;
+      if (end === off && !last) break; // trozo vacío no final: nada que cifrar
+      const tag = last ? so.crypto_secretstream_xchacha20poly1305_TAG_FINAL : so.crypto_secretstream_xchacha20poly1305_TAG_MESSAGE;
+      const ct = so.crypto_secretstream_xchacha20poly1305_push(this.state, plain.subarray(off, end), this.ad, tag);
+      const len = Buffer.alloc(4);
+      len.writeUInt32BE(ct.length, 0);
+      parts.push(len, Buffer.from(ct));
+      off = end;
+    } while (off < plain.length);
+    if (final) this.done = true;
+    return Buffer.concat(parts);
+  }
+}
+
+/**
+ * SE-421: descifrado SVF1 incremental. `feed(bytes)` devuelve el texto en claro de los frames
+ * completos recibidos; `end()` exige haber visto TAG_FINAL y nada después. Cualquier fallo ⇒ INTEGRITY.
+ */
+export class StreamDecryptor {
+  private readonly ad: Buffer;
+  private buf = Buffer.alloc(0);
+  private state: ReturnType<typeof sodium.crypto_secretstream_xchacha20poly1305_init_pull> | undefined;
+  private final = false;
+
+  constructor(private readonly key: Uint8Array, aad: object) {
+    this.ad = aadBytes(aad);
+  }
+
+  get finished(): boolean { return this.final; }
+
+  feed(data: Uint8Array): Buffer[] {
+    const so = s();
+    this.buf = this.buf.length ? Buffer.concat([this.buf, data]) : Buffer.from(data);
+    const out: Buffer[] = [];
+    const H = so.crypto_secretstream_xchacha20poly1305_HEADERBYTES;
+    if (!this.state) {
+      if (this.buf.length < 4 + H) return out;
+      if (!this.buf.subarray(0, 4).equals(MAGIC)) throw integrity('fichero cifrado');
+      try {
+        this.state = so.crypto_secretstream_xchacha20poly1305_init_pull(this.buf.subarray(4, 4 + H), this.key);
+      } catch {
+        throw integrity('fichero cifrado');
+      }
+      this.buf = this.buf.subarray(4 + H);
+    }
+    while (this.buf.length >= 4) {
+      if (this.final) throw integrity('fichero cifrado (datos tras el frame final)');
+      const len = this.buf.readUInt32BE(0);
+      if (len < so.crypto_secretstream_xchacha20poly1305_ABYTES || len > FRAME_PLAIN_BYTES + so.crypto_secretstream_xchacha20poly1305_ABYTES) {
+        throw integrity('fichero cifrado');
+      }
+      if (this.buf.length < 4 + len) break;
+      let r;
+      try {
+        r = so.crypto_secretstream_xchacha20poly1305_pull(this.state, this.buf.subarray(4, 4 + len), this.ad);
+      } catch {
+        throw integrity('fichero cifrado');
+      }
+      if (!r) throw integrity('fichero cifrado');
+      out.push(Buffer.from(r.message));
+      this.final = r.tag === so.crypto_secretstream_xchacha20poly1305_TAG_FINAL;
+      this.buf = this.buf.subarray(4 + len);
+    }
+    return out;
+  }
+
+  end(): void {
+    if (!this.state || !this.final || this.buf.length) throw integrity('fichero cifrado (sin frame final)');
+  }
+}
+
 export function encryptStream(key: Uint8Array, plain: Uint8Array, aad: object): Buffer {
-  const so = s();
-  const { state, header } = so.crypto_secretstream_xchacha20poly1305_init_push(key);
-  const ad = aadBytes(aad);
-  const parts: Buffer[] = [MAGIC, Buffer.from(header)];
-  let off = 0;
-  do {
-    const end = Math.min(off + FRAME_PLAIN_BYTES, plain.length);
-    const last = end >= plain.length;
-    const tag = last ? so.crypto_secretstream_xchacha20poly1305_TAG_FINAL : so.crypto_secretstream_xchacha20poly1305_TAG_MESSAGE;
-    const ct = so.crypto_secretstream_xchacha20poly1305_push(state, plain.subarray(off, end), ad, tag);
-    const len = Buffer.alloc(4);
-    len.writeUInt32BE(ct.length, 0);
-    parts.push(len, Buffer.from(ct));
-    off = end;
-  } while (off < plain.length);
-  return Buffer.concat(parts);
+  const enc = new StreamEncryptor(key, aad);
+  return Buffer.concat([enc.header(), enc.push(plain, true)]);
 }
 
 export function decryptStream(key: Uint8Array, data: Uint8Array, aad: object): Buffer {
-  const so = s();
+  const dec = new StreamDecryptor(key, aad);
+  const out = dec.feed(data);
+  dec.end();
+  return Buffer.concat(out);
+}
+
+/**
+ * SE-421: subida parcial cifrada (SVFU1) para las subidas reanudables de SE-422. Cada trozo se
+ * sella por separado (construcción STREAM: AAD con subida, índice y marca de final), así que la
+ * subida se reanuda aunque el proceso se reinicie. Formato: "SVFU1" | [uint32BE longitud | sellado]*.
+ */
+export const UPLOAD_MAGIC = Buffer.from('SVFU1');
+
+export function sealUploadChunk(key: Uint8Array, uploadId: string, index: number, plain: Uint8Array, final: boolean): Buffer {
+  const sealed = seal(key, plain, { schemaVersion: 1, uploadId, index, final, artifactKind: 'upload' });
+  const len = Buffer.alloc(4);
+  len.writeUInt32BE(sealed.length, 0);
+  return Buffer.concat([len, sealed]);
+}
+
+/** Recorre los trozos de una subida SVFU1 en orden, verificando índice y final. */
+export function* openUploadChunks(key: Uint8Array, uploadId: string, data: Uint8Array): Generator<Buffer> {
   const b = Buffer.from(data.buffer, data.byteOffset, data.byteLength);
-  const H = so.crypto_secretstream_xchacha20poly1305_HEADERBYTES;
-  if (b.length < 4 + H || !b.subarray(0, 4).equals(MAGIC)) throw integrity('fichero cifrado');
-  let state;
-  try {
-    state = so.crypto_secretstream_xchacha20poly1305_init_pull(b.subarray(4, 4 + H), key);
-  } catch {
-    throw integrity('fichero cifrado');
-  }
-  const ad = aadBytes(aad);
-  const out: Buffer[] = [];
-  let p = 4 + H;
+  if (!b.subarray(0, UPLOAD_MAGIC.length).equals(UPLOAD_MAGIC)) throw integrity('subida cifrada');
+  let p = UPLOAD_MAGIC.length;
+  let index = 0;
   let final = false;
   while (p < b.length) {
-    if (final || p + 4 > b.length) throw integrity('fichero cifrado');
+    if (final || p + 4 > b.length) throw integrity('subida cifrada');
     const len = b.readUInt32BE(p);
     p += 4;
-    if (len < so.crypto_secretstream_xchacha20poly1305_ABYTES || len > FRAME_PLAIN_BYTES + so.crypto_secretstream_xchacha20poly1305_ABYTES || p + len > b.length) {
-      throw integrity('fichero cifrado');
-    }
-    let r;
+    if (p + len > b.length) throw integrity('subida cifrada');
+    const chunk = b.subarray(p, p + len);
+    let plain: Buffer;
     try {
-      r = so.crypto_secretstream_xchacha20poly1305_pull(state, b.subarray(p, p + len), ad);
+      plain = open(key, chunk, { schemaVersion: 1, uploadId, index, final: false, artifactKind: 'upload' });
     } catch {
-      throw integrity('fichero cifrado');
+      plain = open(key, chunk, { schemaVersion: 1, uploadId, index, final: true, artifactKind: 'upload' });
+      final = true;
     }
-    if (!r) throw integrity('fichero cifrado');
-    out.push(Buffer.from(r.message));
-    final = r.tag === so.crypto_secretstream_xchacha20poly1305_TAG_FINAL;
+    yield plain;
+    index++;
     p += len;
   }
-  if (!final) throw integrity('fichero cifrado (sin frame final)');
-  return Buffer.concat(out);
+  if (!final) throw integrity('subida cifrada (sin trozo final)');
 }
 
 export function deriveSubkey(kek: Uint8Array, kind: SubkeyKind): Buffer {

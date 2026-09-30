@@ -435,6 +435,16 @@
       "note": "Hueco detectado en SE-419; AC1-AC7 con evidencia",
       "evidence": "docs/specs/SE-420-vaults-note-level.spec.md",
       "phase": "A"
+    },
+    {
+      "id": "SE-421",
+      "status": "APPROVED",
+      "approval": "Operadora 2026-09-30 en chat (AskUserQuestion): 'Aprobar ambas, PR por spec' (SE-421 y SE-422)",
+      "priority": "P1",
+      "title": "Savia Files: almacén en streaming (hasta 10 GiB, rangos, antivirus por stdin, tope de extracción)",
+      "note": "Primera mitad de D09; 2 GiB con ~160 MiB de memoria. SE-422 (API HTTP + tus) va apilada",
+      "evidence": "docs/specs/SE-421-savia-files-streaming-store.spec.md",
+      "phase": "A"
     }
   ],
   "route": {

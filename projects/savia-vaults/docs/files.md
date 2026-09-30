@@ -329,6 +329,38 @@ en **una sola llamada**, porque cada llamada carga 3,3 millones de firmas (~10 s
 configuración lleva `"files": {"enabled": true, "encryption": true}`. Una cúpula
 cifrada no vuelve a estar en claro, aunque se quite la opción.
 
+### Ficheros grandes (SE-421)
+
+El almacén trabaja **en streaming**: ni guardar ni descargar cargan el fichero en
+memoria.
+
+- **Alta:** `files add` y la API HTTP (SE-422) escriben un temporal del almacén
+  mientras calculan el SHA-256 y el tipo. En cúpulas cifradas cifran frame a frame
+  (mismo formato SVF1). El lock solo se toma para registrar la revisión: una subida
+  de gigas no bloquea al resto.
+- **Descarga:** `files get` escribe en streaming a un `.part`, que solo se renombra
+  si todo llegó y el SHA-256 cuadra.
+- **Rango (`--range`):**
+  - en cifradas se autentica cada frame, pero se descifra desde el principio (el
+    coste crece con el desplazamiento);
+  - en claras el rango no se verifica: `files verify --deep` comprueba el fichero
+    entero.
+- **Antivirus:**
+  - se pide a clamscan que lea hasta su máximo (4 000 MB); con sus valores por
+    defecto decía «OK» de lo que no había leído;
+  - un fichero cifrado por encima del tope de extracción se analiza por stdin,
+    descifrado al vuelo, sin copia en claro;
+  - por encima de 4 000 MB no se analiza (`too-large-to-scan`), y `scan: required`
+    lo rechaza.
+- **Extracción:** solo hasta `SAVIA_FILES_MAX_EXTRACT_BYTES`.
+- **Memoria medida** (máximo del proceso en `putMany` + descarga completa):
+
+| Tamaño | N2: guardar / descargar | N3: guardar / descargar | Memoria máxima N2 / N3 |
+|---|---|---|---|
+| 10 MB | 150 / 51 ms | 310 / 91 ms | 129 / 155 MiB |
+| 1 GiB | 3,2 / 4,8 s | 9,5 / 8,0 s | 142 / 160 MiB |
+| 2 GiB | 6,4 / 9,5 s | 18,1 / 16,1 s | 141 / 160 MiB |
+
 ### Qué se cifra y cómo
 
 Todo con libsodium (`libsodium-wrappers-sumo`), sin criptografía propia:
@@ -533,7 +565,7 @@ Ejemplo:
 ```
 
 Para ficheros de más de 20 MiB, usar la CLI (`files add` / `files get`), que no
-pasa por base64.
+pasa por base64 y trabaja en streaming (SE-421). Ver [Ficheros grandes](#ficheros-grandes-se-421).
 
 ## CLI: `savia-vaults files`
 
@@ -546,7 +578,7 @@ savia-vaults files add contrato-v2.pdf --dome proyectos --replaces f_3c…   # r
 savia-vaults files list --dome proyectos [--tag contrato] [--json]
 savia-vaults files show f_3c… --dome proyectos          # revisiones y cobertura
 savia-vaults files text f_3c… --dome proyectos          # [p. 2] Cláusula 7…
-savia-vaults files get f_3c… --dome proyectos -o copia.pdf [--revision r_…] [--force]
+savia-vaults files get f_3c… --dome proyectos -o copia.pdf [--revision r_…] [--force] [--range 0-1048575]
 savia-vaults files rm f_3c… --dome proyectos
 savia-vaults files reprocess f_3c… --dome proyectos     # tras instalar el worker o ClamAV
 savia-vaults files gc --dome proyectos                  # huérfanos tras una caída
@@ -618,7 +650,8 @@ savia-vaults rag search "penalización por retraso" --domes proyectos
 | `SAVIA_FILES_HOME` | `~/.savia-vaults/files` | Raíz del almacén (fuera de git) |
 | `SAVIA_FILES_PYTHON` | `~/.savia-vaults/files-venv/bin/python` | Intérprete del worker |
 | `SAVIA_FILES_CLAMSCAN` | rutas estándar | Binario de ClamAV |
-| `SAVIA_FILES_MAX_BYTES` | 104 857 600 (100 MiB) | Tamaño máximo por fichero |
+| `SAVIA_FILES_MAX_BYTES` | 1 073 741 824 (1 GiB) | Tamaño máximo por fichero (SE-421: como mucho 10 GiB). `files.maxBytes` en la cúpula lo baja para esa cúpula |
+| `SAVIA_FILES_MAX_EXTRACT_BYTES` | 268 435 456 (256 MiB) | Por encima, el fichero se guarda y se descarga pero no se extrae (`ARCHIVE_ONLY`, `too-large-to-extract`) |
 | `SAVIA_FILES_MAX_DOCS` | 10 000 | Documentos por cúpula |
 | `SAVIA_FILES_EXTRACT_TIMEOUT_MS` | 300 000 | Timeout del worker |
 | `SAVIA_FILES_MAX_TRANSFER_BYTES` | 20 971 520 (20 MiB) | `put`/`download` por MCP |
