@@ -129,3 +129,15 @@ Solo `projects/savia-vaults` (TypeScript/Node y worker Python). Nada del workspa
 ### Portability classification
 
 - [x] **PURE_NODE** (H4 usa el worker Python ya existente, sin bindings de frontend)
+
+## Resultados
+
+### H3 (2026-09-30)
+
+| AC | Evidencia | Estado |
+|---|---|---|
+| AC3 | `tests/e2e/mcp-revocation.test.ts`: cliente MCP real por stdio, un solo proceso: permitido → quitar la cúpula ⇒ denegado (`vault_list` y `vault_search`) → volver a concederla ⇒ permitido → regenerar el token ⇒ `Invalid or expired token` → fichero de usuarios retirado ⇒ denegado (no pasa a modo local). Antes del arreglo, el test fallaba en el segundo paso (`PERMITIDO`) | OK |
+
+Coste: `reloadIfChanged` sin cambios, 1,99 µs por llamada (20 000 llamadas).
+Añadido: si el servidor arrancó con usuarios y el fichero desaparece, se deniega en vez de
+volver al modo local.

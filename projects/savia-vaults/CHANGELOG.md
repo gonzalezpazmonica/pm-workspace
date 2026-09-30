@@ -5,6 +5,15 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased] — 2026-09-30 · MCP: revocación en caliente (SE-424 H3)
+
+### Security
+- Un proceso MCP ya abierto no veía `user revoke`, `user delete` ni un token regenerado
+  hasta reiniciarse. Ahora recarga el fichero de usuarios si cambió (un `stat` por
+  llamada, ~2 µs) y aplica el cambio en la siguiente llamada.
+- Si el fichero de usuarios desaparece, un servidor que arrancó con usuarios deniega
+  el acceso en vez de pasar al modo local (todo permitido).
+
 ## [Unreleased] — 2026-09-30 · Savia Files: API HTTP con tus 1.0 (SE-422)
 
 ### Added
