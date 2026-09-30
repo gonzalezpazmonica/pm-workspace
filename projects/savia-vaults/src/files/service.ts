@@ -91,7 +91,7 @@ export function encryptionRequired(d: FilesDomeRef): boolean {
 }
 
 const RECOVERY_README = (domes: string[]) => `Recuperación de las claves de Savia Files
-=========================================
+-----------------------------------------
 
 Esta carpeta contiene lo necesario para recuperar los ficheros cifrados de las
 cúpulas: ${domes.join(', ')}.
