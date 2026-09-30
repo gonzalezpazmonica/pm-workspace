@@ -111,3 +111,61 @@ describe('SE-413 MCP vault_files', () => {
     }
   }, 60000);
 });
+
+// SE-419: dos usuarios reales (tokens) contra el mismo almacén por MCP stdio.
+describe('SE-419 MCP permisos por documento', () => {
+  it('readers de un documento: el writer lo restringe y el reader deja de verlo en list, get y vault_rag', async () => {
+    const root = fs.mkdtempSync(path.join(os.tmpdir(), 'savia-mcp-acl-'));
+    folders.push(root);
+    const folder = path.join(root, 'docs');
+    fs.mkdirSync(folder);
+    fs.writeFileSync(path.join(folder, 'n.md'), '# docs\n\nnota\n');
+    const registry = path.join(root, 'domes.json');
+    fs.writeFileSync(registry, JSON.stringify({ version: 1, defaultDome: 'docs', domes: {
+      docs: { name: 'docs', path: folder, description: '', confidentiality: 'N2', rag: { enabled: true }, files: { enabled: true, scan: 'off' } },
+    } }));
+    const users = new UserStore(path.join(root, 'savia-vaults.users.json'));
+    const tokens = { eva: users.createUser('eva'), ana: users.createUser('ana') };
+    users.setPermission('eva', 'docs', 'writer');
+    users.setPermission('ana', 'docs', 'reader');
+    users.save();
+    const connect = async (token: string) => {
+      const transport = new StdioClientTransport({
+        command: process.execPath,
+        args: ['--import', pathToFileURL(path.resolve('node_modules/tsx/dist/loader.mjs')).href, path.resolve('src/cli/index.ts'), 'serve', '--transport', 'mcp', '--domes', registry],
+        cwd: root,
+        env: {
+          PATH: process.env.PATH || '', HOME: root, SAVIA_AUTH_TOKEN: token, SAVIA_RAG_HOME: path.join(root, 'rag-home'), SAVIA_RAG_TEST_PROVIDER: 'hash',
+          SAVIA_FILES_HOME: path.join(root, 'files-home'), SAVIA_FILES_KEYS_HOME: path.join(root, 'keys'),
+        },
+      });
+      const client = new Client({ name: 'acl-e2e', version: '1' });
+      await client.connect(transport);
+      return client;
+    };
+    const eva = await connect(tokens.eva);
+    const ana = await connect(tokens.ana);
+    try {
+      const files = (c: Client, args: Record<string, unknown>) => c.callTool({ name: 'vault_files', arguments: { dome: 'docs', ...args } });
+      const put = JSON.parse(text(await files(eva, { action: 'put', name: 'plan.txt', contentBase64: b64('plan de migración cormorán') })));
+      const ragIds = async (c: Client) => {
+        const r = await c.callTool({ name: 'vault_rag', arguments: { query: 'migración cormorán', domes: ['docs'], mode: 'bm25', fields: 'full' } });
+        return JSON.stringify(JSON.parse(text(r)));
+      };
+      expect(await ragIds(ana)).toContain(put.documentId);
+      const pol = await files(eva, { action: 'policy', id: put.documentId, readers: [], writers: ['eva'] });
+      expect(pol.isError, text(pol)).not.toBe(true);
+      expect(JSON.parse(text(await files(ana, { action: 'list' }))).documents).toEqual([]);
+      const denied = await files(ana, { action: 'get', id: put.documentId });
+      expect(text(denied)).toMatch(/NOT_FOUND/);
+      expect(await ragIds(ana)).not.toContain(put.documentId);
+      expect(await ragIds(eva)).toContain(put.documentId);
+      // Cambiar la política es escribir: un reader choca antes con la autorización de la cúpula
+      expect(text(await files(ana, { action: 'policy', id: put.documentId, readers: null }))).toMatch(/write requires writer/);
+    } finally {
+      await eva.close();
+      await ana.close();
+    }
+  }, 60_000);
+});
+

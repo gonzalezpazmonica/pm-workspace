@@ -19,7 +19,7 @@ import { formatRagResponse, type RagFields } from '../rag/format.js';
 import { FilesService, FILES_TOOL, callFilesTool } from '../files/service.js';
 import { FilesError } from '../files/types.js';
 import { UserStore, AccessController, AuthError, AuditLogger, UserQuotaStore } from '../auth/index.js';
-import type { AuthAction } from '../auth/index.js';
+import type { AuthAction, Authorization } from '../auth/index.js';
 import * as fs from 'node:fs';
 import * as path from 'node:path';
 
@@ -117,11 +117,12 @@ export class MCPVaultServer {
     return vaultName || this.domeRegistry.getDefaultName();
   }
 
-  private async authorize(dome: string, action: AuthAction, tool?: string): Promise<void> {
-    if (!this.accessController) return;
-    if (!this.accessController.isActive) return;
+  /** SE-419: devuelve el principal (usuario y rol) o undefined sin usuarios (modo local). */
+  private async authorize(dome: string, action: AuthAction, tool?: string): Promise<Authorization | undefined> {
+    if (!this.accessController) return undefined;
+    if (!this.accessController.isActive) return undefined;
     const token = readAuthToken();
-    await this.accessController.authorize({ authToken: token, dome, action, tool });
+    return this.accessController.authorize({ authToken: token, dome, action, tool });
   }
 
   private initVault(): void {

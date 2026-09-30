@@ -3,6 +3,7 @@ import * as path from 'node:path';
 import { HashEmbedder, OllamaEmbedder, type Embedder } from './embedder.js';
 import { FileStore } from '../files/store.js';
 import { fileSources } from '../files/rag-source.js';
+import { asPrincipal, canRead, type Principal } from '../files/policy.js';
 import { indexCipher } from '../files/keys.js';
 import { sodiumReady } from '../files/crypto.js';
 import { RagIndexer, listIndexable, logEvent } from './indexer.js';
@@ -35,8 +36,11 @@ export interface RagServiceOptions {
   domes: () => RagDomeRef[];
   home?: string;
   embedderFactory?: (cfg: ResolvedRagConfig) => Embedder;
-  /** Lanza si la acción no está autorizada sobre la cúpula. */
-  authorize?: (dome: string, action: 'read' | 'write', tool: string) => Promise<void>;
+  /**
+   * Lanza si la acción no está autorizada sobre la cúpula. SE-419: puede devolver el principal
+   * `{username, role}`; con él, cada hit de un fichero se filtra con los permisos del documento.
+   */
+  authorize?: (dome: string, action: 'read' | 'write', tool: string) => Promise<unknown>;
   /** true en el servidor MCP (proceso largo): permite sync en segundo plano. */
   background?: boolean;
   env?: NodeJS.ProcessEnv;
@@ -434,9 +438,10 @@ export class RagService {
 
     // 2. Autorización por cúpula: las denegadas se declaran, nunca se omiten.
     const allowed: RagDomeRef[] = [];
+    const principals = new Map<string, Principal | undefined>();
     for (const d of targets) {
       try {
-        await this.o.authorize?.(d.name, 'read', 'vault_rag');
+        principals.set(d.name, asPrincipal(await this.o.authorize?.(d.name, 'read', 'vault_rag')));
         allowed.push(d);
       } catch (e) {
         outcomes.set(d.name, { name: d.name, status: 'denied', detail: e instanceof Error ? e.message : String(e) });
@@ -538,13 +543,34 @@ export class RagService {
     for (const p of ready) {
       const vecs = queryVecs.get(p.store.manifest.generation);
       const mode: RagMode = vecs ? opt.mode : 'bm25';
+      // SE-419: los hits de ficheros se filtran con la política ACTUAL del documento (y los de
+      // documentos ya borrados se descartan): se piden más candidatos para no quedarse corto.
+      const files = this.filesStore(p.d);
+      const principal = principals.get(p.d.name);
+      const readable = new Map<string, boolean>();
+      const canSee = (documentId: string): boolean => {
+        let ok = readable.get(documentId);
+        if (ok === undefined) {
+          try { ok = canRead(principal, files!.get(documentId), p.d.confidentiality); } catch { ok = false; }
+          readable.set(documentId, ok);
+        }
+        return ok;
+      };
+      let filtered = 0;
       req.queries.forEach((query, qi) => {
-        const hits: StoreHit[] = searchStore({
-          store: p.store, query, queryVec: vecs?.[qi], mode, k: opt.k, cfg: p.cfg,
+        let hits: StoreHit[] = searchStore({
+          store: p.store, query, queryVec: vecs?.[qi], mode, k: files ? Math.min(opt.k * 4, 200) : opt.k, cfg: p.cfg,
           pathPrefix: req.pathPrefix, includeStale: req.includeStale,
         });
+        if (files) {
+          const before = hits.length;
+          hits = hits.filter(h => !h.source?.documentId || canSee(h.source.documentId));
+          filtered += before - hits.length;
+          hits = hits.slice(0, opt.k);
+        }
         perQuery[qi].push(hits.map(h => ({ ...h, dome: p.d.name, confidentiality: p.d.confidentiality })));
       });
+      if (filtered) outcomes.set(p.d.name, { ...outcomes.get(p.d.name)!, filtered });
     }
 
     // 6. Fusión entre cúpulas (SE-411 G1): por coseno global si todas comparten

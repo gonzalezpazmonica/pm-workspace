@@ -21,3 +21,4 @@
 - SE-416 [APPROVED] Savia Files: instalador de dependencias sin consola ni administrador (lector de documentos y ClamAV) — evidencia: docs/specs/SE-416-savia-files-setup.spec.md
 - SE-417 [APPROVED] Savia Files: cifrado en reposo, borrado criptográfico, rotación, migración y copia de seguridad con claves por otro canal — evidencia: docs/specs/SE-417-savia-files-encryption.spec.md
 - SE-418 [APPROVED] Savia Files: ledger git privado, journal de operaciones y receipts firmados (D01, D03) — evidencia: docs/specs/SE-418-savia-files-ledger.spec.md
+- SE-419 [APPROVED] Savia Files: permisos por documento (nivel y listas readers/writers) en todas las vistas, vault_rag incluido (D02) — evidencia: docs/specs/SE-419-savia-files-document-acl.spec.md

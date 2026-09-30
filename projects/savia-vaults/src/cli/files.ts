@@ -124,6 +124,25 @@ cmd.command('gc').description('Borra blobs, extracciones y temporales huérfanos
     try { print(await filesService(opts.domesFile).gc({ dome: opts.dome })); } catch (e) { fail(e); }
   });
 
+// SE-419 — permisos por documento (la CLI local es del operador: sin ACL de red).
+const userList = (v: string) => v.split(',').map((x) => x.trim()).filter(Boolean);
+cmd.command('policy <id>').description('Cambia el nivel y las listas readers/writers de un documento')
+  .option(...domesOpt).requiredOption(...domeOpt)
+  .option('--level <nivel>', 'N1, N2, N3 o N4 (no más que la cúpula)')
+  .option('--readers <usuarios>', 'solo estos usuarios leen (separados por comas; vacío = solo admin)')
+  .option('--readers-inherit', 'readers hereda de la cúpula', false)
+  .option('--writers <usuarios>', 'solo estos usuarios escriben (separados por comas; vacío = solo admin)')
+  .option('--writers-inherit', 'writers hereda de la cúpula', false)
+  .action(async (id: string, opts) => {
+    try {
+      print(await filesService(opts.domesFile).policy({
+        dome: opts.dome, id, confidentiality: opts.level,
+        readers: opts.readersInherit ? null : opts.readers !== undefined ? userList(opts.readers) : undefined,
+        writers: opts.writersInherit ? null : opts.writers !== undefined ? userList(opts.writers) : undefined,
+      }));
+    } catch (e) { fail(e); }
+  });
+
 // SE-418 — ledger privado, journal y receipts.
 cmd.command('verify').description('Comprueba ledger, manifiestos, originales, journal y firmas de los receipts')
   .option(...domesOpt).requiredOption(...domeOpt).option('--deep', 'rehace también los hashes de los originales', false).option('--json', 'salida JSON', false)

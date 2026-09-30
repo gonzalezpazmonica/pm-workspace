@@ -415,6 +415,16 @@
       "note": "AC1-AC10 con evidencia; D02 (ACL por documento) queda para SE-419",
       "evidence": "docs/specs/SE-418-savia-files-ledger.spec.md",
       "phase": "A"
+    },
+    {
+      "id": "SE-419",
+      "status": "APPROVED",
+      "approval": "Operadora 2026-09-30 en chat (AskUserQuestion): 'Aprobar e implementar'",
+      "priority": "P1",
+      "title": "Savia Files: permisos por documento (nivel y listas readers/writers) en todas las vistas, vault_rag incluido (D02)",
+      "note": "AC1-AC9 con evidencia; premisa del problema corregida en la spec (desviación 1)",
+      "evidence": "docs/specs/SE-419-savia-files-document-acl.spec.md",
+      "phase": "A"
     }
   ],
   "route": {

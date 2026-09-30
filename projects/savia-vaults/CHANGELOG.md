@@ -5,6 +5,25 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased] — 2026-09-30 · Savia Files: permisos por documento (SE-419)
+
+### Added
+- Listas `readers`/`writers` por documento, que solo restringen (null hereda, `[]`
+  solo admin), y el nivel del documento aplicado con la tabla de roles de las
+  cúpulas.
+  - Se aplican en `list`, `get`, `text`, `download`, `put` (`replaces` y nivel de
+    creación), `delete`, `reprocess` y en cada hit de fichero de `vault_rag`, con
+    la política actual.
+  - Sin permiso de lectura, `NOT_FOUND`; sin permiso de escritura, `POLICY_DENIED`.
+- `vault_files action:"policy"` y `files policy`: operación del ledger con receipt,
+  `policyVersion` y `CONFLICT` si cambia antes; las listas nunca van al ledger.
+- `vault_rag` declara `filtered` por cúpula y descarta hits de documentos ya
+  borrados.
+
+### Changed
+- `authorize` del servidor MCP devuelve el principal `{username, role}`; `FilesService`
+  y `RagService` lo usan (sin él, modo local: todo permitido).
+
 ## [Unreleased] — 2026-09-30 · Savia Files: ledger git privado, journal y receipts (SE-418)
 
 ### Added

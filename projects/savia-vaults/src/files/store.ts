@@ -21,7 +21,7 @@ import { Ledger, type LedgerManifest } from './ledger.js';
 import { Journal, type OpRow, type OutboxEvent } from './journal.js';
 import { ReceiptSigner, type Receipt, type ReceiptRef } from './receipts.js';
 import {
-  FilesError, type Confidentiality, type Extraction, type ExtractionInfo, type FileDocument,
+  FilesError, type Confidentiality, type DocumentAcl, type Extraction, type ExtractionInfo, type FileDocument,
   type FileRevision, type FileType, type FilesLimits, type TextEncoding,
 } from './types.js';
 
@@ -442,6 +442,36 @@ export class FileStore {
       if (!prev) this.bumpCount(1, count);
       return { document, revision };
     }, 'put');
+  }
+
+  /**
+   * SE-419: cambia nivel y listas de un documento (la autorización la hace el servicio).
+   * Con `expectedVersion` distinta de la actual, CONFLICT.
+   */
+  setPolicy(id: string, patch: { confidentiality?: Confidentiality } & DocumentAcl, expectedVersion?: number): FileDocument {
+    return this.locked(() => {
+      const doc = this.readDoc(id);
+      const current = doc.policyVersion ?? 0;
+      if (expectedVersion !== undefined && expectedVersion !== current) {
+        throw new FilesError('CONFLICT', `la política de ${id} cambió (versión ${current}, esperada ${expectedVersion})`);
+      }
+      if (patch.confidentiality !== undefined) {
+        if (exceedsDomeLevel(patch.confidentiality, this.domeLevel)) {
+          throw new FilesError('INVALID_INPUT', `confidencialidad ${patch.confidentiality} superior a la cúpula (${this.domeLevel})`);
+        }
+        doc.confidentiality = patch.confidentiality;
+      }
+      const acl: DocumentAcl = { ...doc.acl };
+      if (patch.readers !== undefined) acl.readers = patch.readers;
+      if (patch.writers !== undefined) acl.writers = patch.writers;
+      if (acl.readers === null) delete acl.readers;
+      if (acl.writers === null) delete acl.writers;
+      if (Object.keys(acl).length) doc.acl = acl; else delete doc.acl;
+      doc.policyVersion = current + 1;
+      doc.updatedAt = new Date().toISOString();
+      this.writeDoc(doc);
+      return deepFreeze(doc);
+    }, 'policy');
   }
 
   /** Bytes del original, verificados contra su SHA-256. */

@@ -164,6 +164,8 @@ export interface DomeOutcome {
   status: DomeRagStatus;
   generation?: string;
   detail?: string;
+  /** SE-419: hits de ficheros ocultos por permisos del documento (o borrados); solo el número. */
+  filtered?: number;
 }
 
 export interface RagResponse {
