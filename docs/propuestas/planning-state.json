@@ -355,6 +355,16 @@
       "note": "Implementada en una PR sin ocupar WIP; AC3 no cumplido (0,5 s vs 0,4 s, límite del motor); graduación pendiente de revisión humana",
       "evidence": "docs/specs/SE-412-vault-search-hygiene.spec.md",
       "phase": "A"
+    },
+    {
+      "id": "SE-413",
+      "status": "APPROVED",
+      "approval": "Operadora 2026-09-30 en chat (AskUserQuestion): 'MVP recortado'; después 'MVP y luego delta por slice' y decisiones D01-D10 de la investigación aprobadas salvo D08",
+      "priority": "P1",
+      "title": "Savia Files (MVP): ficheros originales en las cúpulas con extracción por localizador y RAG con cita",
+      "note": "Implementada en una PR sin ocupar WIP; AC8 verificado con escáner simulado (ClamAV no instalado en la máquina); graduación pendiente de revisión humana",
+      "evidence": "docs/specs/SE-413-savia-files-mvp.spec.md",
+      "phase": "A"
     }
   ],
   "route": {

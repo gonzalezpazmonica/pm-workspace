@@ -1,6 +1,8 @@
 import * as fs from 'node:fs';
 import * as path from 'node:path';
 import { HashEmbedder, OllamaEmbedder, type Embedder } from './embedder.js';
+import { FileStore } from '../files/store.js';
+import { fileSources } from '../files/rag-source.js';
 import { RagIndexer, listIndexable, logEvent } from './indexer.js';
 import { fanOut, withTimeout, TimeoutError } from './parallel.js';
 import { promotionDecision, resolveRagConfig, sloStatus, type EvalMetrics } from './policy.js';
@@ -23,6 +25,8 @@ export interface RagDomeRef {
   path: string;
   confidentiality: Confidentiality;
   rag?: RagDomeConfig;
+  /** SE-413: bloque `files` de la cúpula; si está habilitado, sus ficheros entran en RAG. */
+  files?: { enabled?: boolean };
 }
 
 export interface RagServiceOptions {
@@ -132,7 +136,13 @@ export class RagService {
   }
 
   private indexer(d: RagDomeRef, cfg = this.config(d)): RagIndexer {
-    return new RagIndexer({ dome: d.name, vaultPath: d.path, home: this.home, cfg, embedder: this.embedder(cfg), domeLevel: d.confidentiality });
+    const files = d.files?.enabled
+      ? new FileStore({ home: this.env.SAVIA_FILES_HOME || undefined, dome: d.name, domeLevel: d.confidentiality })
+      : undefined;
+    return new RagIndexer({
+      dome: d.name, vaultPath: d.path, home: this.home, cfg, embedder: this.embedder(cfg), domeLevel: d.confidentiality,
+      ...(files ? { sources: () => fileSources(files) } : {}),
+    });
   }
 
   /**
@@ -239,7 +249,7 @@ export class RagService {
       cand = await this.evaluate(d.name, queries, { generation: candidate });
     }
     const manifest = FlatVectorStore.readManifest(path.join(domeDir(this.home, d.name), candidate));
-    const indexable = listIndexable(d.path).length;
+    const indexable = (await this.indexer(d).pending()).totalDocs;
     const coverage = manifest ? (indexable ? Object.keys(manifest.docs).length / indexable : 1) : 0;
     return { ...promotionDecision({ active, candidate: cand, coverage: Math.min(1, coverage), hasActive, force }), metrics: cand };
   }

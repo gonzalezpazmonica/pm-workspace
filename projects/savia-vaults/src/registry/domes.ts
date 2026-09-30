@@ -5,6 +5,7 @@ import { SearchEngine } from '../search/index.js';
 import { VaultSecurity } from '../security/index.js';
 import type { VaultConfig } from '../types.js';
 import type { RagDomeConfig } from '../rag/types.js';
+import type { FilesDomeConfig } from '../files/types.js';
 
 export type ConfidentialityLevel = 'N1' | 'N2' | 'N3' | 'N4';
 
@@ -16,6 +17,8 @@ export interface DomeInfo {
   schemaDir?: string;
   /** SE-410: configuración RAG opcional de la cúpula. */
   rag?: RagDomeConfig;
+  /** SE-413: Savia Files en la cúpula (desactivado por defecto). */
+  files?: FilesDomeConfig;
   active: boolean;
 }
 
@@ -29,7 +32,15 @@ interface DomesFile {
     confidentiality: string;
     schemaDir?: string;
     rag?: RagDomeConfig;
+    files?: FilesDomeConfig;
   }>;
+}
+
+function validFiles(dome: string, files: FilesDomeConfig): FilesDomeConfig {
+  if (files.scan !== undefined && !['auto', 'required', 'off'].includes(files.scan)) {
+    throw new Error(`Invalid files.scan for dome "${dome}": ${files.scan}. Must be auto, required or off.`);
+  }
+  return { enabled: files.enabled === true, ...(files.scan ? { scan: files.scan } : {}) };
 }
 
 function makeConfig(dome: DomeInfo): VaultConfig {
@@ -101,6 +112,7 @@ export class DomeRegistry {
         confidentiality: level as ConfidentialityLevel,
         schemaDir: dome.schemaDir,
         ...(dome.rag && typeof dome.rag === 'object' ? { rag: dome.rag } : {}),
+        ...(dome.files && typeof dome.files === 'object' ? { files: validFiles(name, dome.files) } : {}),
         active,
       });
     }
@@ -157,6 +169,7 @@ export class DomeRegistry {
         confidentiality: dome.confidentiality,
         schemaDir: dome.schemaDir,
         ...(dome.rag ? { rag: dome.rag } : {}),
+        ...(dome.files ? { files: dome.files } : {}),
       };
     }
 

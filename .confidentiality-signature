@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=2f12517f6e626a2582496fc94440a28631ea20ed43056323317facb8b4df0935
-timestamp=2026-09-29T20:57:10Z
-branch=agent/se412-vault-search-hygiene
-head_commit=2aa422b5
-signature=dd794af5df5232c9d90f865bde0547dc041ce20ee79fa82fd42eef4286cc7e9d
+diff_hash=61557aac9f2844f76fa8be58bd48f6e41ba43f2fef98af086c6f7be1618f9123
+timestamp=2026-09-30T06:02:51Z
+branch=agent/se413-savia-files-mvp
+head_commit=d52fa9ff
+signature=6e15b722af7eb071d521c312fe1a08302ca4ab203ba16f5a7202600d3da229d6

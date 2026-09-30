@@ -66,6 +66,26 @@ disparadores, deriva de modelo, gate de promoción, SLO):
 [`docs/rules/domain/rag-embedding-policy.md`](../../docs/rules/domain/rag-embedding-policy.md).
 El índice vive fuera del vault en `$SAVIA_RAG_HOME` (def. `~/.savia-vaults/rag/`).
 
+## Savia Files (SE-413)
+
+Ficheros originales (PDF, DOCX, PPTX, XLSX, TXT, MD, CSV, JSON) en la cúpula,
+inmutables y verificados por SHA-256, con el texto extraído por página,
+diapositiva, elemento o celda y consultable en `vault_rag` con cita.
+Desactivado por defecto: `"files": { "enabled": true, "scan": "auto" }` en la cúpula.
+
+```bash
+savia-vaults files add contrato.pdf presupuesto.xlsx --dome proyectos
+savia-vaults files text f_3c… --dome proyectos          # [p. 2] Cláusula 7…
+savia-vaults rag search "penalización por retraso" --domes proyectos
+savia-vaults files rm f_3c… --dome proyectos            # borrado real
+```
+
+MCP: `vault_files` (`put|list|get|text|download|delete|reprocess`). PDF/DOCX/PPTX
+usan Docling sin OCR y XLSX usa openpyxl, en un worker Python aislado
+(`workers/files/`). Si falta el worker, esos formatos quedan `ARCHIVE_ONLY`. El
+escaneo con ClamAV es opcional. El almacén vive fuera de git en `$SAVIA_FILES_HOME`
+(def. `~/.savia-vaults/files/`). Guía completa: [`docs/files.md`](docs/files.md).
+
 ## Alcance de Gobernanza
 
 SaviaVaults es un **servidor de contexto**, no un agente soberano. No implementa la constitucion ni el criterio de Savia. Expone cupulas de contexto via protocolos estandar para que cualquier agente (Savia o externo) pueda consumirlas sin adoptar la plataforma.

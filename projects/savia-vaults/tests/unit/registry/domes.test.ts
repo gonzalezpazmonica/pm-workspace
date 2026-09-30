@@ -222,4 +222,26 @@ describe('DomeRegistry', () => {
     const registry = new DomeRegistry(path.join(tmpDir, 'nonexistent.json'));
     expect(() => registry.load()).toThrow('Domes file not found');
   });
+
+  it('SE-413: carga, valida y guarda el bloque files', () => {
+    const domePath = createDomeDir('F');
+    writeDomesFile({
+      version: 1, defaultDome: 'F',
+      domes: { F: { name: 'F', path: domePath, description: '', confidentiality: 'N2', files: { enabled: true, scan: 'required' } } },
+    });
+    const registry = new DomeRegistry(domesFile);
+    registry.load();
+    expect(registry.get('F')?.files).toEqual({ enabled: true, scan: 'required' });
+    registry.save();
+    expect(JSON.parse(fs.readFileSync(domesFile, 'utf-8')).domes.F.files).toEqual({ enabled: true, scan: 'required' });
+  });
+
+  it('SE-413: files.scan desconocido falla al cargar', () => {
+    const domePath = createDomeDir('G');
+    writeDomesFile({
+      version: 1, defaultDome: 'G',
+      domes: { G: { name: 'G', path: domePath, description: '', confidentiality: 'N2', files: { enabled: true, scan: 'maybe' } } },
+    });
+    expect(() => new DomeRegistry(domesFile).load()).toThrow(/files\.scan/);
+  });
 });

@@ -92,6 +92,7 @@ Agentes IA (Claude, GPT, Codex, Cursor, Gemini)
 | `vault_diff` | Mostrar git diff de una nota | `path` (obligatorio) |
 | `vault_log` | Mostrar historial git de una nota | `path` (obligatorio), `maxCount` |
 | `vault_tags` | Listar etiquetas con conteos | — |
+| `vault_files` | Savia Files (SE-413): guardar, listar, extraer, descargar y borrar ficheros con localizador; ver [`docs/files.md`](docs/files.md) | `action`, `dome` (obligatorios), `id`, `name`, `contentBase64`, `replaces`, `locator` |
 
 ## Endpoints A2A
 

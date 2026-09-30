@@ -140,6 +140,7 @@ export function searchStore(input: StoreSearchInput): StoreHit[] {
       signals: { denseRank: d?.rank, dense: cos, bm25Rank: l?.rank, bm25: l?.score },
       freshness: { modified: c.meta.modified, status: c.meta.status, supersededBy: c.meta.supersededBy, decay: f.decay },
       generation: store.manifest.generation,
+      ...(c.source ? { source: c.source } : {}),
     });
     if (out.length >= input.k) break;
   }
