@@ -167,6 +167,23 @@ vaults confidentiality audit --dome <name> [--output <file>]
 | **N3** | Confidential | Sensitive business data, restricted access |
 | **N4** | Restricted | Highly sensitive, legal/compliance required |
 
+**Nivel por nota (SE-420).** Una nota puede declarar `confidentiality: N3` en su
+frontmatter. Si ese nivel supera el de su cúpula, la nota está **fuera de nivel**:
+
+- **No se sirve por MCP ni A2A, a nadie, `admin` incluido:**
+  - `vault_read`, `vault_diff` y `vault_log` responden `Note not found`;
+  - no aparece en `vault_list`, `vault_search`, `vault_tags`, `vault_graph`,
+    `vault_query`, `vault_introspect`, `vault_wikilink_health`, los backlinks ni
+    `vault_rag`.
+- **Escritura:** `vault_write` rechaza con `POLICY_DENIED` tanto una nota de nivel
+  superior como sobrescribir una que ya lo está.
+- **Aviso:** `vault_stats` informa de `outOfLevel` (solo el número).
+- **Cómo corregirla:** mueve la nota a una cúpula de su nivel o baja su
+  `confidentiality`, desde la CLI local o el sistema de ficheros. La CLI local no
+  aplica esta regla: es del operador.
+- **Coste medido con 1.000 notas:** `list` ~4 ms (31 ms la primera vez) y
+  `search` ~7,5 ms.
+
 **Examples:**
 ```bash
 vaults confidentiality set N2 --dome team-docs

@@ -5,6 +5,7 @@ import { simpleGit } from 'simple-git';
 import YAML from 'yaml';
 import type { VaultConfig, Note, Receipt, VaultStats, CommitEntry, Frontmatter } from '../types.js';
 import { signContent } from '../security/index.js';
+import { contentOutOfLevel, fileOutOfLevel } from './note-level.js';
 
 export class VaultStorage {
   private config: VaultConfig;
@@ -36,9 +37,14 @@ export class VaultStorage {
     }
   }
 
+  /** SE-420: nota con nivel mayor que la cúpula (solo si la configuración trae el nivel). */
+  private outOfLevel(notePath: string): boolean {
+    return fileOutOfLevel(path.join(this.config.path, notePath), notePath, this.config.confidentiality);
+  }
+
   async read(notePath: string): Promise<Note> {
     const fullPath = path.join(this.config.path, notePath);
-    if (!fs.existsSync(fullPath)) throw new Error('Note not found');
+    if (!fs.existsSync(fullPath) || this.outOfLevel(notePath)) throw new Error('Note not found');
 
     const raw = fs.readFileSync(fullPath, 'utf-8');
     const { frontmatter, content } = this.parseFrontmatter(raw);
@@ -58,6 +64,11 @@ export class VaultStorage {
 
   async write(notePath: string, content: string, message?: string): Promise<Receipt> {
     const fullPath = path.join(this.config.path, notePath);
+    // SE-420: ni se escribe una nota de nivel superior a la cúpula ni se pisa una que ya lo esté.
+    if (/\.(md|markdown)$/i.test(notePath) && contentOutOfLevel(notePath, content, this.config.confidentiality)) {
+      throw new Error(`POLICY_DENIED: la nota declara un nivel superior al de la cúpula (${this.config.confidentiality})`);
+    }
+    if (this.outOfLevel(notePath)) throw new Error('POLICY_DENIED: en esa ruta hay una nota de nivel superior al de la cúpula');
     const dir = path.dirname(fullPath);
     fs.mkdirSync(dir, { recursive: true });
     fs.writeFileSync(fullPath, content);
@@ -114,6 +125,10 @@ export class VaultStorage {
   }
 
   async list(): Promise<string[]> {
+    return this.listAll().filter((f) => !this.outOfLevel(f));
+  }
+
+  private listAll(): string[] {
     const results: string[] = [];
     this.walkDir(this.config.path, '', results);
     return results;
@@ -139,7 +154,8 @@ export class VaultStorage {
   }
 
   async stats(): Promise<VaultStats> {
-    const files = await this.list();
+    const all = this.listAll();
+    const files = all.filter((f) => !this.outOfLevel(f));
     let totalSize = 0;
     for (const f of files) {
       try {
@@ -159,10 +175,12 @@ export class VaultStorage {
       noteCount: files.length,
       totalSize,
       commitCount,
+      ...(this.config.confidentiality ? { outOfLevel: all.length - files.length } : {}),
     };
   }
 
   async diff(notePath: string): Promise<string> {
+    if (this.outOfLevel(notePath)) throw new Error('Note not found');
     const git = simpleGit(this.config.path);
     try {
       const d = await git.diff([notePath]);
@@ -173,6 +191,7 @@ export class VaultStorage {
   }
 
   async log(notePath: string, maxCount = 20): Promise<CommitEntry[]> {
+    if (this.outOfLevel(notePath)) throw new Error('Note not found');
     const git = simpleGit(this.config.path);
     try {
       const history = await git.log({ file: notePath, maxCount });

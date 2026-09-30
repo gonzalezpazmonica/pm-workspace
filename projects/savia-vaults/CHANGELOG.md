@@ -5,6 +5,24 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased] — 2026-09-30 · Notas fuera de nivel (SE-420)
+
+### Fixed
+- Una nota con `confidentiality` mayor que su cúpula ya no se sirve por MCP ni A2A:
+  - `vault_read`, `vault_diff` y `vault_log` dan `Note not found`;
+  - no aparece en list, search, tags, graph, query, introspect, wikilinks ni
+    backlinks.
+- `vault_write` rechaza crearla o pisarla (`POLICY_DENIED`).
+- `vault_stats.outOfLevel` da el recuento.
+- La regla (`exceedsDomeLevel`) vive en `src/storage/note-level.ts` y la comparte
+  el indexador de RAG.
+
+### Changed
+- `VaultConfig.confidentiality` (opcional): lo rellenan las instancias de cúpula y
+  A2A; sin él (CLI local), nada cambia.
+- La caché de búsqueda sube de versión e incluye el nivel de la cúpula en la
+  huella.
+
 ## [Unreleased] — 2026-09-30 · Savia Files: permisos por documento (SE-419)
 
 ### Added
