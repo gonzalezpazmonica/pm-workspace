@@ -8,6 +8,7 @@ import { KnowledgeGraph } from '../knowledge/graph.js';
 import { PPRRanker } from '../knowledge/ppr.js';
 import { ContextEnricher } from './enrichment.js';
 import type { VaultConfig, SearchQuery, SearchResult } from '../types.js';
+import { fileOutOfLevel } from '../storage/note-level.js';
 
 interface IndexedDoc {
   id: string;
@@ -31,7 +32,7 @@ const MINI_OPTIONS = {
 
 /** SE-412: solo markdown salvo que la cúpula declare `allowedExtensions`. */
 const DEFAULT_EXTENSIONS = ['.md', '.markdown'];
-const CACHE_VERSION = 2;
+const CACHE_VERSION = 3; // SE-420: descarta cachés que indexaban notas fuera de nivel
 
 export function defaultSearchCacheDir(): string {
   return process.env.SAVIA_SEARCH_CACHE || path.join(os.homedir(), '.savia-vaults', 'search-cache');
@@ -131,7 +132,8 @@ export class SearchEngine {
         if (st.mtimeMs > newest) newest = st.mtimeMs;
       } catch { /* ignore */ }
     }
-    return `${count}:${Math.round(newest)}`;
+    // SE-420: el nivel de la cúpula forma parte de la huella: reclasificarla invalida la caché.
+    return `${count}:${Math.round(newest)}:${this.config.confidentiality ?? ''}`;
   }
 
   search(query: SearchQuery): SearchResult[] {
@@ -226,6 +228,8 @@ export class SearchEngine {
         if (e.name.startsWith('.') || e.name === 'node_modules') continue;
         this.walk(base, relPath, results);
       } else if (e.isFile() && exts.includes(path.extname(e.name).toLowerCase())) {
+        // SE-420: las notas fuera de nivel no se indexan ni cuentan para etiquetas.
+        if (fileOutOfLevel(path.join(base, relPath), relPath, this.config.confidentiality)) continue;
         results.push(relPath);
       }
     }

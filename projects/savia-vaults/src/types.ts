@@ -8,6 +8,8 @@ export interface VaultConfig {
   maxDepth: number;
   maxFileSize: number;
   schemaDir?: string;
+  /** SE-420: nivel de la cúpula; con él, las notas de nivel superior no se sirven. Sin él (CLI local), todo. */
+  confidentiality?: string;
 }
 
 export interface Frontmatter {
@@ -48,6 +50,8 @@ export interface VaultStats {
   noteCount: number;
   totalSize: number;
   commitCount?: number;
+  /** SE-420: notas fuera de nivel (ocultas); solo el número. */
+  outOfLevel?: number;
 }
 
 export interface CommitEntry {

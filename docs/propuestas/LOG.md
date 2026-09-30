@@ -6,6 +6,12 @@
 > Each entry: date, spec ID, status transition, optional rationale.
 > Ref: SE-222 S1 OKF Adoptable Patterns (log.md convention).
 
+## 2026-09-30 SE-420 APPROVED
+
+SaviaVaults: una nota con confidentiality mayor que su cúpula deja de servirse por
+MCP y A2A (antes solo RAG la omitía), y vault_write la rechaza. Aprobada por la operadora:
+oculta para todos, admin incluido, como hace RAG.
+
 ## 2026-09-30 SE-419 APPROVED
 
 Savia Files: permisos por documento (listas readers/writers que restringen y nivel del

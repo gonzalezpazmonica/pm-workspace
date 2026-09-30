@@ -425,6 +425,16 @@
       "note": "AC1-AC9 con evidencia; premisa del problema corregida en la spec (desviación 1)",
       "evidence": "docs/specs/SE-419-savia-files-document-acl.spec.md",
       "phase": "A"
+    },
+    {
+      "id": "SE-420",
+      "status": "APPROVED",
+      "approval": "Operadora 2026-09-30 en chat (AskUserQuestion): 'Aprobar e implementar'",
+      "priority": "P1",
+      "title": "SaviaVaults: una nota con nivel mayor que su cúpula no se sirve por ninguna herramienta (MCP, A2A, RAG)",
+      "note": "Hueco detectado en SE-419; AC1-AC7 con evidencia",
+      "evidence": "docs/specs/SE-420-vaults-note-level.spec.md",
+      "phase": "A"
     }
   ],
   "route": {

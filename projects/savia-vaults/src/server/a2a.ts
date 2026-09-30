@@ -48,6 +48,7 @@ export class A2AServer {
         deniedPaths: [],
         maxDepth: 10,
         maxFileSize: this.config.maxFileSize,
+        confidentiality: dome.confidentiality, // SE-420
       };
       se = new SearchEngine(cfg);
       this.domeSearches.set(name, se);
@@ -67,6 +68,7 @@ export class A2AServer {
         deniedPaths: [],
         maxDepth: 10,
         maxFileSize: this.config.maxFileSize,
+        confidentiality: dome.confidentiality, // SE-420
       };
       st = new VaultStorage(cfg);
       this.domeStorages.set(name, st);

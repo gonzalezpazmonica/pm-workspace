@@ -59,6 +59,7 @@ function makeConfig(dome: DomeInfo): VaultConfig {
     maxDepth: 10,
     maxFileSize: 10 * 1024 * 1024,
     schemaDir: dome.schemaDir,
+    confidentiality: dome.confidentiality,
   };
 }
 

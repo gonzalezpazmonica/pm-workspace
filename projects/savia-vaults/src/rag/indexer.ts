@@ -101,16 +101,9 @@ export function logEvent(home: string, event: Record<string, unknown>): void {
 
 const sha256 = (data: string | Buffer) => createHash('sha256').update(data).digest('hex');
 
-const LEVELS = ['N1', 'N2', 'N3', 'N4', 'N4B'];
-
-/** CRIT-001: una nota con nivel superior al de su cúpula no se embebe. */
-export function exceedsDomeLevel(noteLevel: string | undefined, domeLevel: string): boolean {
-  if (!noteLevel) return false;
-  const n = LEVELS.indexOf(noteLevel.toUpperCase());
-  const d = LEVELS.indexOf(domeLevel.toUpperCase());
-  if (n < 0) return false;
-  return n > (d < 0 ? 1 : d);
-}
+/** CRIT-001: una nota con nivel superior al de su cúpula no se embebe (regla común, SE-420). */
+export { exceedsDomeLevel } from '../storage/note-level.js';
+import { exceedsDomeLevel } from '../storage/note-level.js';
 
 export interface IndexerOptions {
   dome: string;
