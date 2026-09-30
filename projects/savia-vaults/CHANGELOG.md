@@ -5,6 +5,31 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased] — 2026-09-30 · Savia Files: API HTTP con tus 1.0 (SE-422)
+
+### Added
+- `serve --transport http` (`src/server/http.ts`):
+  - rutas `/v1/files/{cúpula}/uploads|documents|operations`;
+  - usuarios y tokens personales (con caché de bcrypt), permisos de cúpula y de
+    documento (SE-419);
+  - exige usuarios, y TLS o `--behind-proxy` fuera de loopback;
+  - rate limit por usuario y timeouts de cabeceras e inactividad.
+- tus 1.0 propio (`src/server/tus.ts`): creation, creation-with-upload,
+  termination, expiration y checksum sha256. Conformidad probada con
+  `tus-js-client` (devDependency), con reinicio del servidor a mitad.
+- Subidas reanudables (`src/files/uploads.ts`):
+  - estado en el journal (esquema v2: `uploads`, `used_tokens`);
+  - SVFU1 y metadatos sellados en cúpulas cifradas;
+  - dueño guardado como hash;
+  - límite de subidas activas; caducidad y `files gc`.
+- Descargas con `Range` (206/416), `ETag`/`If-None-Match`/`If-Range`,
+  `Content-Disposition` seguro, `nosniff` y CSP `sandbox`.
+- Autorizaciones acotadas (`src/server/grants.ts`, HMAC con clave propia):
+  subida de un solo uso (1 h) y descarga de un documento (15 min).
+  `vault_files action:"upload"` y `action:"link"`.
+- `AccessController.authorizeUser` y `UserStore.reloadIfChanged`: revocar un
+  usuario invalida sus accesos sin reiniciar.
+
 ## [Unreleased] — 2026-09-30 · Savia Files: almacén en streaming (SE-421)
 
 ### Added

@@ -16,6 +16,7 @@ function hashToken(token: string): string {
 export class UserStore {
   private filePath: string;
   private users: Map<string, User> = new Map();
+  private loadedKey = '';
 
   constructor(filePath: string = 'savia-vaults.users.json') {
     this.filePath = filePath;
@@ -84,6 +85,23 @@ export class UserStore {
       }
     }
     return null;
+  }
+
+  /** SE-422: recarga el fichero si cambió en disco (revocaciones sin reiniciar el servidor). true si recargó. */
+  reloadIfChanged(): boolean {
+    let key: string;
+    try {
+      const st = fs.statSync(this.filePath);
+      key = `${st.mtimeMs}:${st.size}:${st.ino}`;
+    } catch {
+      key = 'missing';
+    }
+    if (key === this.loadedKey) return false;
+    this.loadedKey = key;
+    if (key === 'missing') { this.users.clear(); return true; }
+    this.load();
+    this.loadedKey = key;
+    return true;
   }
 
   getUser(username: string): User | undefined {
