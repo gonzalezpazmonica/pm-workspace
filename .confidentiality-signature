@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=df521457075d8eb140bfa110365f71f59f83df500ce96746377b2f8f5c83dcf9
-timestamp=2026-09-30T21:16:07Z
-branch=agent/roadmap-unified-20260930
-head_commit=15b7c5d0
-signature=28372e3343ce9950235f15fd18a54bf3408243dfc37fa5193351d71f50c7d7bb
+diff_hash=a1c77fe04bb17fb6d682323f7674f2c98d6320eca852acd3077c5722a5159a39
+timestamp=2026-09-30T21:27:21Z
+branch=agent/se424-h1-scan-limit
+head_commit=e9cf7e77
+signature=48bbd0151a6e117f1fff40eb37514a0ef0ef0bd703802bde8018ee64c4dc1fa4
