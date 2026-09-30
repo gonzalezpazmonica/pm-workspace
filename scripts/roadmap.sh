@@ -11,11 +11,27 @@ MAIN_REF="${PLANNING_MAIN_REF:-origin/main}"
 . "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/lib/planning-completion.sh"
 CMD="${1:-current}"
 
+render_sessions() {
+  jq -e '.route.session_plan | type == "array" and length > 0' "$STATE" >/dev/null 2>&1 || return 0
+  echo "## Cola de sesiones (orden por gates, sin fechas)"
+  echo
+  jq -r '.route.session_plan[] |
+    "- **\(.id) · \(.priority) · fase \(.phase)** — \(.title)\n  Acción: \(.action)\n  Entrada: \(.prerequisites)\n  Salida: \(.done)\n  Necesidad: \(.necessity); urgencia: \(.urgency); valor: \(.value); desbloqueo: \(.dependency_value); esfuerzo: \(.effort).\n"' "$STATE"
+}
+
 case "$CMD" in
   current)
     echo "# Roadmap Current (GENERATED — no editar; fuente: planning-state.json)"
     echo
-    jq -r '.initiatives[] | select(.status=="APPROVED" or .status=="IMPLEMENTING") | "- \(.id) [\(.status)] \(.title // "") — evidencia: \(.evidence // "n/a")"' "$STATE"
+    if jq -e '.route' "$STATE" >/dev/null 2>&1; then
+      jq -r '"Fase \(.route.current_phase) · WIP \([.initiatives[] | select(.status=="IMPLEMENTING")] | length)/\(.route.wip_limit.savia_implementing). Estado y cola canónicos; ADR-002.\n"' "$STATE"
+    fi
+    render_sessions
+    echo "## Iniciativas aprobadas o en curso"
+    echo
+    echo "Integrada en main no significa graduada; delivery no sustituye completion y revisión humana."
+    echo
+    jq -r '.initiatives[] | select(.status=="APPROVED" or .status=="IMPLEMENTING") | "- \(.id) [\(.status)] \(.title // "") — evidencia: \(.evidence // "n/a")\(if .delivery then " · integrada #\(.delivery.merge_pr); revisar evidencia/graduación" else "" end)"' "$STATE"
     ;;
   next)
     echo "# Siguiente (GENERATED)"
@@ -32,7 +48,9 @@ case "$CMD" in
       echo
       if (( NIMP >= WIP )); then
         echo "WIP completo ($NIMP/$WIP): continuar las iniciativas en curso antes de iniciar otra."
-        jq -r '.initiatives[] | select(.status=="IMPLEMENTING") | "- \(.id) [IMPLEMENTING] fase=\(.phase // "n/a") — \(.title // "")"' "$STATE"
+        jq -r '[.initiatives[] | select(.status=="IMPLEMENTING")] | sort_by(.session_order // 999, .id) | .[] | "- \(.id) [IMPLEMENTING] fase=\(.phase // "n/a") — \(.title // "")"' "$STATE"
+        echo
+        echo "Revisiones y diseño acotado: consultar la cola de sesiones en roadmap.sh current; ninguna entrada inicia una cuarta iniciativa."
         exit 0
       fi
     fi
@@ -42,7 +60,7 @@ case "$CMD" in
         | select($phase=="" or .phase==$phase)]
       | sort_by((.priority // "P999" | ltrimstr("P") | tonumber? // 999), .id)
       | .[]
-      | "- \(.id) [\(.status)] prioridad=\(.priority // "n/a") — \(.title // "")\(if .status=="PROPOSED" then " (requiere aprobación)" else "" end)"' "$STATE")
+      | "- \(.id) [\(.status)] prioridad=\(.priority // "n/a") — \(.title // "")\(if .delivery then " (integrada; revisar evidencia/graduación)" elif .status=="PROPOSED" then " (requiere aprobación)" else "" end)"' "$STATE")
     if [[ -n "$CANDIDATES" ]]; then
       echo "$CANDIDATES"
     else
@@ -155,6 +173,24 @@ case "$CMD" in
         | select(.status | IN("PROPOSED","APPROVED","IMPLEMENTING","DEFERRED"))
         | select((.phase // "") as $x | $p | index($x) | not) | .id' "$STATE")
       [[ -n "$BADPH" ]] && { echo "FAIL: iniciativas sin fase válida de la ruta: $(echo $BADPH)"; ERR=1; }
+      # 9. La cola editorial no puede apuntar a estados o fases inexistentes.
+      if jq -e '.route | has("session_plan")' "$STATE" >/dev/null 2>&1; then
+        if ! jq -e '
+          [.initiatives[].id] as $ids | .route.phases as $phases |
+          .route.session_plan |
+          type == "array" and length > 0 and
+          ((map(.id) | length) == (map(.id) | unique | length)) and
+          all(.[];
+            (.id | type == "string" and length > 0) and
+            (.phase as $p | $phases | index($p) != null) and
+            (.priority | test("^P[0-3]$")) and
+            (.initiatives | type == "array" and all(.[]; . as $id | $ids | index($id) != null)) and
+            all(.title, .action, .prerequisites, .done, .necessity, .urgency, .value, .dependency_value, .effort;
+              type == "string" and length > 0))
+        ' "$STATE" >/dev/null 2>&1; then
+          echo "FAIL: cola de sesiones inválida (IDs, fases, referencias o criterios)"; ERR=1
+        fi
+      fi
     fi
     [[ $ERR -eq 0 ]] && echo "PASS: planning state consistente"
     exit $ERR
