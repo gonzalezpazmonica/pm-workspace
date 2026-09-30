@@ -7,6 +7,7 @@ import { DomeRegistry } from '../registry/domes.js';
 import { FilesService } from '../files/service.js';
 import { locatorLabel } from '../files/rag-source.js';
 import { FilesError } from '../files/types.js';
+import { Tools, type Component } from '../files/setup.js';
 
 const program = new Command();
 program.name('savia-vaults');
@@ -111,6 +112,40 @@ cmd.command('reprocess <id>').description('Repite escaneo y extracción de la re
 cmd.command('gc').description('Borra blobs, extracciones y temporales huérfanos').option(...domesOpt).requiredOption(...domeOpt)
   .action(async (opts) => {
     try { print(await filesService(opts.domesFile).gc({ dome: opts.dome })); } catch (e) { fail(e); }
+  });
+
+// SE-416 — instalador sin consola para el PM: Savia lo ejecuta; la salida es lenguaje llano.
+cmd.command('status').description('Qué dependencias de Savia Files hay instaladas y qué falta')
+  .option('--json', 'salida JSON', false)
+  .action((opts) => {
+    const st = new Tools().status();
+    if (opts.json) return print(st);
+    console.log(`- ${st.extractor.message}`);
+    console.log(`- ${st.antivirus.message}`);
+    if (st.supported && (st.extractor.state === 'missing' || st.antivirus.state !== 'installed')) {
+      console.log('Para instalar lo que falta: savia-vaults files setup');
+    }
+  });
+
+cmd.command('setup').description('Instala el lector de documentos y el antivirus sin administrador (en ~/.savia-vaults/tools)')
+  .option('--extractor', 'solo el lector de documentos (~1,5 GB)', false)
+  .option('--antivirus', 'solo el antivirus ClamAV (~150 MB)', false)
+  .option('--uninstall', 'desinstalar en vez de instalar', false)
+  .action(async (opts) => {
+    try {
+      const components: Component[] = opts.extractor || opts.antivirus
+        ? [...(opts.extractor ? ['extractor' as const] : []), ...(opts.antivirus ? ['antivirus' as const] : [])]
+        : ['extractor', 'antivirus'];
+      const tools = new Tools();
+      if (opts.uninstall) {
+        for (const c of components) tools.uninstall(c);
+        console.log(`Desinstalado: ${components.join(', ')}.`);
+        return;
+      }
+      const results = await tools.setup(components, (phase) => console.log(`… ${phase}`));
+      for (const r of results) console.log(`${r.ok ? 'OK' : 'ERROR'} ${r.component}: ${r.message}`);
+      if (results.some((r) => !r.ok)) process.exit(1);
+    } catch (e) { fail(e); }
   });
 
 await program.parseAsync(process.argv);

@@ -91,6 +91,11 @@ export class MCPVaultServer {
         : [],
       authorize: (dome, action, tool) => this.authorize(dome, action, tool),
       onChange: (dome) => this.rag.scheduleSync(dome),
+      // SE-416: instalar software en la máquina exige rol admin (sobre la cúpula por defecto) si hay usuarios.
+      authorizeAdmin: async () => {
+        if (!this.accessController?.isActive || !this.domeRegistry) return;
+        await this.authorize(this.domeRegistry.getDefaultName(), 'admin', 'vault_files');
+      },
     });
   }
 

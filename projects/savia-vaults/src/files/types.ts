@@ -80,7 +80,7 @@ export interface FilesLimits {
 
 export type FilesErrorCode =
   | 'NOT_FOUND' | 'INVALID_INPUT' | 'TOO_LARGE' | 'LIMIT' | 'LOCKED'
-  | 'INTEGRITY' | 'POLICY_DENIED' | 'UNSAFE_HOME' | 'SCAN_REQUIRED' | 'DISABLED';
+  | 'INTEGRITY' | 'POLICY_DENIED' | 'UNSAFE_HOME' | 'SCAN_REQUIRED' | 'DISABLED' | 'UNSUPPORTED';
 
 export class FilesError extends Error {
   constructor(public readonly code: FilesErrorCode, message: string) {

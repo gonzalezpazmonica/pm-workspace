@@ -18,3 +18,4 @@
 - SE-413 [APPROVED] Savia Files (MVP): ficheros originales en las cúpulas con extracción por localizador y RAG con cita — evidencia: docs/specs/SE-413-savia-files-mvp.spec.md
 - SE-414 [APPROVED] Savia Files: robustez y seguridad del MVP (bomba zip, límite de workers, nombres, home real, extracción ligada, lock con espera, manifiesto por documento) — evidencia: docs/specs/SE-414-savia-files-hardening.spec.md
 - SE-415 [APPROVED] Savia Files: fidelidad de extracción y cobertura honesta (escaneados, JSON, notas PPTX, contexto XLSX, Windows-1252, worker por lotes) — evidencia: docs/specs/SE-415-savia-files-extraction-fidelity.spec.md
+- SE-416 [APPROVED] Savia Files: instalador de dependencias sin consola ni administrador (lector de documentos y ClamAV) — evidencia: docs/specs/SE-416-savia-files-setup.spec.md

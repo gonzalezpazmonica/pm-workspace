@@ -6,6 +6,12 @@
 > Each entry: date, spec ID, status transition, optional rationale.
 > Ref: SE-222 S1 OKF Adoptable Patterns (log.md convention).
 
+## 2026-09-30 SE-416 APPROVED
+
+Instalador de las dependencias de Savia Files sin consola ni administrador, para que
+Savia pueda instalarlas por un PM o analista: lector de documentos y ClamAV oficial
+desempaquetado. Aprobada por la operadora con antivirus por lote y solo Linux.
+
 ## 2026-09-30 SE-415 APPROVED
 
 Savia Files: fidelidad de extracción y cobertura honesta (PDF escaneados, JSON

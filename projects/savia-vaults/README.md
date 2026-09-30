@@ -80,7 +80,9 @@ savia-vaults rag search "penalización por retraso" --domes proyectos
 savia-vaults files rm f_3c… --dome proyectos            # borrado real
 ```
 
-MCP: `vault_files` (`put|list|get|text|download|delete|reprocess`). PDF/DOCX/PPTX
+MCP: `vault_files` (`put|list|get|text|download|delete|reprocess|status|setup`).
+Dependencias (lector de documentos y antivirus ClamAV) sin consola ni administrador:
+`savia-vaults files setup`, o Savia desde el chat; solo Linux x86_64 por ahora. PDF/DOCX/PPTX
 usan Docling sin OCR y XLSX usa openpyxl, en un worker Python aislado
 (`workers/files/`). Si falta el worker, esos formatos quedan `ARCHIVE_ONLY`. El
 escaneo con ClamAV es opcional. El almacén vive fuera de git en `$SAVIA_FILES_HOME`

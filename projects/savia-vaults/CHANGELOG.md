@@ -5,6 +5,19 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased] — 2026-09-30 · Savia Files: instalador sin consola (SE-416)
+
+### Added
+- `savia-vaults files setup|status` y `vault_files` `setup`/`status`: instalan el
+  lector de documentos (Python gestionado + Docling con lock con hashes) y el
+  antivirus ClamAV oficial en `~/.savia-vaults/tools`, sin administrador. Versiones
+  y SHA-256 fijados, instalación atómica e idempotente, mensajes en lenguaje llano.
+  Por MCP corre en segundo plano y exige rol admin si hay usuarios.
+- Firmas de ClamAV al día sin intervención: actualización en segundo plano a las
+  24 h; `required` rechaza con firmas de más de 7 días.
+- Análisis antivirus por lote: una llamada para todos los ficheros de un `put`.
+- Solo Linux x86_64 (probado); otras plataformas lo dicen en `status`.
+
 ## [Unreleased] — 2026-09-30 · Savia Files: fidelidad de extracción y cobertura honesta (SE-415)
 
 ### Fixed
