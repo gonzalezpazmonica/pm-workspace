@@ -6,6 +6,13 @@
 > Each entry: date, spec ID, status transition, optional rationale.
 > Ref: SE-222 S1 OKF Adoptable Patterns (log.md convention).
 
+## 2026-09-30 SE-417 APPROVED
+
+Savia Files: cifrado en reposo (N3/N4 siempre, N1/N2 opcional), borrado
+criptográfico, rotación y migración sin re-embeber, e índice RAG cifrado. Copia de
+seguridad con las claves por otro canal y recuperación con frase. Aprobada por la
+operadora con la clave en fichero aparte y la subida de claves configurable.
+
 ## 2026-09-30 SE-416 APPROVED
 
 Instalador de las dependencias de Savia Files sin consola ni administrador, para que

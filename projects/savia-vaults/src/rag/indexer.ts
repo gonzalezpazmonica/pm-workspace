@@ -3,8 +3,8 @@ import * as fs from 'node:fs';
 import * as path from 'node:path';
 import { chunkMarkdown, parseNote } from './chunker.js';
 import type { Embedder } from './embedder.js';
-import { FlatVectorStore, domeDir, ensureSafeHome, generationId, readActive, writeActive } from './store.js';
-import { RAG_LIMITS, RagError, type Chunk, type EmbeddingContract, type Manifest, type ResolvedRagConfig, type SyncReport, type VirtualSource } from './types.js';
+import { FlatVectorStore, domeDir, ensureSafeHome, gcGeneration, generationId, readActive, writeActive } from './store.js';
+import { RAG_LIMITS, RagError, type Chunk, type EmbeddingContract, type Manifest, type ResolvedRagConfig, type SyncReport, type VirtualSource, type IndexCipher } from './types.js';
 
 /**
  * SE-410 — Indexer incremental (P2): hash por documento y por chunk; solo se
@@ -122,6 +122,8 @@ export interface IndexerOptions {
   domeLevel?: string;
   /** SE-413: fuentes no markdown (p. ej. Savia Files) que se indexan junto a las notas. */
   sources?: () => VirtualSource[];
+  /** SE-417: la cúpula está cifrada; el índice se escribe sellado. */
+  cipher?: IndexCipher;
 }
 
 export interface PendingInfo {
@@ -283,6 +285,7 @@ export class RagIndexer {
       report.chunks.total = finalChunks.length;
 
       const changed = !previous || report.docs.added + report.docs.updated + report.docs.deleted > 0
+        || (Boolean(this.o.cipher) && !previous.manifest.sealed) // SE-417: un índice en claro se re-escribe sellado
         || Object.keys(docs).some(p => Boolean(docs[p].skipped) !== Boolean(prevDocs[p]?.skipped));
       const now = new Date().toISOString();
       const manifest: Manifest = {
@@ -292,9 +295,11 @@ export class RagIndexer {
         docs, chunkCount: finalChunks.length, fingerprint: fingerprintOf(files, virtual),
       };
       if (changed) {
-        FlatVectorStore.write(genDir, manifest, finalChunks, finalVectors as Float32Array[]);
+        FlatVectorStore.write(genDir, manifest, finalChunks, finalVectors as Float32Array[], this.o.cipher);
+        // SE-417: en una cúpula cifrada no se esperan lectores de seq antiguos en claro: fuera ya.
+        if (this.o.cipher) gcGeneration(genDir, 0);
       } else if (mtimeOnly || manifest.fingerprint !== previous!.manifest.fingerprint) {
-        FlatVectorStore.updateManifest(genDir, manifest);
+        FlatVectorStore.updateManifest(genDir, manifest, this.o.cipher);
       }
 
       const pointer = readActive(this.o.home, this.o.dome);
@@ -315,7 +320,7 @@ export class RagIndexer {
 
   private tryLoad(genDir: string, contract: EmbeddingContract): FlatVectorStore | undefined {
     try {
-      return FlatVectorStore.load(genDir, contract);
+      return FlatVectorStore.load(genDir, contract, this.o.cipher);
     } catch (e) {
       if (e instanceof RagError && e.code === 'CORRUPT_INDEX') logEvent(this.o.home, { event: 'corrupt', dome: this.o.dome, detail: e.message });
       return undefined;

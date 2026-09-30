@@ -1,5 +1,5 @@
 // SE-413 F1 — almacén de ficheros: originales inmutables, revisiones, borrado, límites
-import { describe, it, expect, beforeEach, afterEach } from 'vitest';
+import { describe, it, expect, beforeAll, beforeEach, afterEach } from 'vitest';
 import * as fs from 'node:fs';
 import * as os from 'node:os';
 import * as path from 'node:path';
@@ -7,6 +7,7 @@ import { createHash } from 'node:crypto';
 import { spawn } from 'node:child_process';
 import { FileStore, detectType, sanitizeName } from '../../../src/files/store.js';
 import { FilesError } from '../../../src/files/types.js';
+import { sodiumReady } from '../../../src/files/crypto.js';
 
 const sha = (b: Buffer) => createHash('sha256').update(b).digest('hex');
 const FIX = path.resolve('tests/fixtures/files');
@@ -269,3 +270,142 @@ describe('SE-414 robustez del almacén', () => {
   });
 });
 
+
+describe('SE-417 almacén cifrado', () => {
+  let base: string;
+  let home: string;
+  let keysHome: string;
+  const marker = 'CLÁUSULA-SECRETA-7731';
+  const pdf = Buffer.concat([Buffer.from('%PDF-1.7\n'), Buffer.from(`contenido ${marker} fin`)]);
+  const mk = (encrypt = true) => new FileStore({ home, dome: 'D', encrypt, keysHome });
+  const units = [{ locator: { type: 'page' as const, page: 1 }, kind: 'text', text: `texto ${marker}` }];
+  const ready = { status: 'READY' as const, method: 'fake', units: 1, extracted: 1, skipped: [] };
+
+  /** Todos los ficheros bajo un directorio (sin seguir symlinks). */
+  const walk = (d: string): string[] => fs.readdirSync(d, { withFileTypes: true })
+    .flatMap((e) => (e.isDirectory() ? walk(path.join(d, e.name)) : [path.join(d, e.name)]));
+  const leaks = (needles: string[]) => walk(home).filter((f) => {
+    const b = fs.readFileSync(f);
+    return needles.some((n) => b.includes(Buffer.from(n)));
+  });
+
+  beforeAll(async () => { await sodiumReady(); });
+  beforeEach(() => {
+    base = fs.mkdtempSync(path.join(os.tmpdir(), 'savia-files-enc-'));
+    home = path.join(base, 'files');
+    keysHome = path.join(base, 'keys');
+  });
+  afterEach(() => fs.rmSync(base, { recursive: true, force: true }));
+
+  it('AC1: ni contenido, ni nombre, ni SHA-256 en claro en el almacén; los bytes vuelven idénticos', () => {
+    const s = mk();
+    const { document, revision } = s.add({ name: 'contrato-confidencial.pdf', bytes: pdf, tags: ['etiqueta-secreta'] });
+    s.saveExtraction(revision.id, { units }, ready, document.id);
+    expect(s.isEncrypted()).toBe(true);
+    expect(leaks([marker, 'contrato-confidencial', 'etiqueta-secreta', revision.sha256])).toEqual([]);
+    expect(s.readBytes(document.id).equals(pdf)).toBe(true);
+    expect(s.get(document.id)).toMatchObject({ name: 'contrato-confidencial.pdf', tags: ['etiqueta-secreta'] });
+    expect(s.readExtraction(revision.id, document.id).units[0].text).toContain(marker);
+    expect(fs.statSync(path.join(keysHome, 'D', 'kek')).mode & 0o777).toBe(0o600);
+  });
+
+  it('AC2: original, extracción o manifiesto manipulados fallan cerrados', () => {
+    const s = mk();
+    const { document, revision } = s.add({ name: 'a.pdf', bytes: pdf });
+    s.saveExtraction(revision.id, { units }, ready, document.id);
+    const flip = (f: string) => { fs.chmodSync(f, 0o600); const b = fs.readFileSync(f); b[b.length - 5] ^= 1; fs.writeFileSync(f, b); };
+    const blobs = walk(path.join(home, 'D', 'blobs'));
+    expect(blobs).toHaveLength(1);
+    flip(blobs[0]);
+    expect(() => s.readBytes(document.id)).toThrow(/INTEGRITY/);
+    flip(path.join(home, 'D', 'extract', `${revision.id}.json`));
+    expect(() => s.readExtraction(revision.id, document.id)).toThrow(/INTEGRITY/);
+    const docFile = path.join(home, 'D', 'docs', `${document.id}.json`);
+    const j = JSON.parse(fs.readFileSync(docFile, 'utf-8'));
+    const sealed = Buffer.from(j.sealed, 'base64'); sealed[30] ^= 1;
+    fs.writeFileSync(docFile, JSON.stringify({ ...j, sealed: sealed.toString('base64') }));
+    expect(s.list()).toEqual([]);
+    expect(s.corruptCount()).toBe(1);
+  });
+
+  it('AC3: borrado criptográfico; una copia previa del almacén no sirve aunque se tenga la KEK', () => {
+    const s = mk();
+    const { document, revision } = s.add({ name: 'a.pdf', bytes: pdf });
+    const copy = path.join(base, 'copia');
+    fs.cpSync(home, copy, { recursive: true });
+    s.delete(document.id);
+    expect(fs.existsSync(path.join(keysHome, 'D', 'wraps', `${revision.id}.json`))).toBe(false);
+    const fromCopy = new FileStore({ home: copy, dome: 'D', encrypt: true, keysHome });
+    expect(() => fromCopy.readBytes(document.id)).toThrow(/NOT_FOUND/);
+  });
+
+  it('AC4: rotar la KEK re-sella metadatos y re-envuelve; todo sigue legible', () => {
+    const s = mk();
+    const { document, revision } = s.add({ name: 'a.pdf', bytes: pdf });
+    s.saveExtraction(revision.id, { units }, ready, document.id);
+    const docFile = path.join(home, 'D', 'docs', `${document.id}.json`);
+    const before = fs.readFileSync(docFile, 'utf-8');
+    const oldKek = fs.readFileSync(path.join(keysHome, 'D', 'kek'));
+    s.rotateKeys();
+    expect(fs.readFileSync(docFile, 'utf-8')).not.toBe(before);
+    expect(fs.readFileSync(path.join(keysHome, 'D', 'kek')).equals(oldKek)).toBe(false);
+    const again = mk();
+    expect(again.get(document.id).name).toBe('a.pdf');
+    expect(again.readBytes(document.id).equals(pdf)).toBe(true);
+    expect(again.readExtraction(revision.id, document.id).units).toEqual(units);
+  });
+
+  it('AC5: migra un almacén en claro (formato SE-414) sin pérdida y sin restos en claro', () => {
+    const plain = mk(false);
+    const a = plain.add({ name: 'uno-secreto.pdf', bytes: pdf });
+    plain.saveExtraction(a.revision.id, { units }, ready, a.document.id);
+    const b = plain.add({ name: 'dos.txt', bytes: Buffer.from(`nota ${marker}`) });
+    expect(plain.isEncrypted()).toBe(false);
+    const enc = mk(true);
+    const report = enc.encryptExisting();
+    expect(report).toMatchObject({ documents: 2, revisions: 2 });
+    expect(enc.isEncrypted()).toBe(true);
+    expect(leaks([marker, 'uno-secreto', a.revision.sha256])).toEqual([]);
+    expect(enc.readBytes(a.document.id).equals(pdf)).toBe(true);
+    expect(enc.readBytes(b.document.id).toString()).toBe(`nota ${marker}`);
+    expect(enc.readExtraction(a.revision.id, a.document.id).units).toEqual(units);
+    expect(enc.encryptExisting()).toMatchObject({ documents: 0, revisions: 0 }); // idempotente
+  });
+
+  it('una cúpula cifrada no vuelve a claro aunque se abra sin encrypt', () => {
+    mk(true).add({ name: 'a.txt', bytes: Buffer.from('x') });
+    const s = mk(false);
+    expect(s.isEncrypted()).toBe(true);
+    s.add({ name: `b-${marker}.txt`, bytes: Buffer.from(marker) });
+    expect(leaks([marker])).toEqual([]);
+  });
+
+  it('AC6: sin KEK en una cúpula cifrada, KEY_MISSING y no se crea otra clave', () => {
+    const s = mk();
+    const { document } = s.add({ name: 'a.txt', bytes: Buffer.from('x') });
+    fs.renameSync(path.join(keysHome, 'D'), path.join(base, 'claves-perdidas'));
+    const t = mk();
+    expect(() => t.list()).toThrow(/KEY_MISSING/);
+    expect(() => t.readBytes(document.id)).toThrow(/KEY_MISSING/);
+    expect(() => t.add({ name: 'b.txt', bytes: Buffer.from('y') })).toThrow(/KEY_MISSING/);
+    expect(fs.existsSync(path.join(keysHome, 'D', 'kek'))).toBe(false);
+  });
+
+  it('AC8: la copia en claro para worker/antivirus vive en memoria y se borra', () => {
+    const s = mk();
+    const { document, revision } = s.add({ name: 'a.pdf', bytes: pdf });
+    const p = s.plainPath(document.id, revision.id);
+    if (fs.existsSync('/dev/shm')) expect(p.startsWith('/dev/shm/')).toBe(true);
+    expect(fs.readFileSync(p).equals(pdf)).toBe(true);
+    expect(fs.statSync(path.dirname(p)).mode & 0o777).toBe(0o700);
+    s.releasePlain(p);
+    expect(fs.existsSync(p)).toBe(false);
+    expect(fs.existsSync(path.dirname(p))).toBe(false);
+  });
+
+  it('en claro, plainPath devuelve el blob sin copiar', () => {
+    const s = mk(false);
+    const { document, revision } = s.add({ name: 'a.txt', bytes: Buffer.from('x') });
+    expect(s.plainPath(document.id, revision.id)).toBe(s.blobPath(revision.sha256));
+  });
+});

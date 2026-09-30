@@ -5,6 +5,34 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased] — 2026-09-30 · Savia Files: cifrado en reposo (SE-417)
+
+### Added
+- Cifrado en reposo con libsodium, obligatorio en N3/N4 y opcional en N1/N2
+  (`files.encryption`):
+  - originales en `crypto_secretstream` por frames;
+  - texto extraído y manifiestos sellados con XChaCha20-Poly1305 y AAD canónico;
+  - índice RAG (chunks, vectores, BM25) sellado.
+- Claves: KEK por cúpula en `~/.savia-vaults/keys/files` (0600, fuera de git) y una
+  DEK por revisión envuelta. Borrado criptográfico al borrar.
+- `files encrypt` (migración reanudable, sin re-embeber) y `files keys rotate`
+  (re-envuelve y re-sella, sin re-embeber). `KEY_MISSING` si falta la clave; nunca
+  se crea una en silencio.
+- Recuperación:
+  - `files keys export` genera un fichero de recuperación con frase (Argon2id);
+  - `files keys backup` genera la copia nocturna de claves sellada para la clave
+    pública de recuperación;
+  - `files keys import` restaura.
+- MCP `vault_files`: `encrypt` y `keys` (`rotate|export`, admin). `status` avisa
+  de cúpulas cifradas sin recuperación.
+- `scripts/vaults-backup-cron.sh` incluye el almacén de ficheros y las claves por
+  otro canal. Las claves solo se suben si `SAVIA_BACKUP_UPLOAD_KEYS=true`.
+- Copias temporales en claro para el lector y el antivirus en `/dev/shm`, siempre
+  liberadas.
+
+### Dependencies
+- `libsodium-wrappers-sumo` 0.8.4 (WASM, sin compilación nativa).
+
 ## [Unreleased] — 2026-09-30 · Savia Files: instalador sin consola (SE-416)
 
 ### Added

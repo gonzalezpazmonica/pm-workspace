@@ -55,12 +55,16 @@ function bm25Index(store: FlatVectorStore): MiniSearch<Bm25Doc> {
   let ms = bm25Cache.get(store);
   if (ms) return ms;
   const file = path.join(store.dir, `bm25-${store.manifest.seq}-${BM25_VERSION}.json`);
+  // SE-417: en cúpulas cifradas el BM25 persistido también va sellado (contiene el vocabulario).
+  const part = `bm25-${store.manifest.seq}`;
   try {
-    ms = MiniSearch.loadJSON<Bm25Doc>(fs.readFileSync(file, 'utf-8'), BM25_OPTIONS);
+    const raw = fs.readFileSync(file);
+    ms = MiniSearch.loadJSON<Bm25Doc>((store.cipher ? store.cipher.open(raw, part) : raw).toString('utf-8'), BM25_OPTIONS);
   } catch {
     ms = new MiniSearch<Bm25Doc>(BM25_OPTIONS);
     ms.addAll(store.chunks.map((c, i) => ({ id: i, heading: c.heading, text: c.text })));
-    try { writeAtomic(file, JSON.stringify(ms)); } catch { /* caché opcional: sin permisos de escritura se reconstruye */ }
+    const json = Buffer.from(JSON.stringify(ms));
+    try { writeAtomic(file, store.cipher ? store.cipher.seal(json, part) : json); } catch { /* caché opcional: sin permisos de escritura se reconstruye */ }
   }
   bm25Cache.set(store, ms);
   return ms;

@@ -29,12 +29,14 @@
     "@modelcontextprotocol/sdk": "^1.12.0",
     "bcryptjs": "^3.0.3",
     "commander": "^13.1.0",
+    "libsodium-wrappers-sumo": "0.8.4",
     "minisearch": "^7.1.0",
     "simple-git": "^3.27.0",
     "yaml": "^2.6.0"
   },
   "devDependencies": {
     "@types/bcryptjs": "^2.4.6",
+    "@types/libsodium-wrappers-sumo": "0.8.2",
     "@types/node": "^22.0.0",
     "@typescript-eslint/eslint-plugin": "^8.0.0",
     "@typescript-eslint/parser": "^8.0.0",

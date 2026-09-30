@@ -23,6 +23,8 @@ export interface FileRevision {
   mime: string;
   type: FileType;
   encoding?: TextEncoding;
+  /** SE-417: original y extracción cifrados con la DEK de esta revisión. */
+  enc?: 1;
   createdAt: string;
   extraction: ExtractionInfo;
 }
@@ -64,6 +66,8 @@ export interface Extraction {
 export interface FilesDomeConfig {
   enabled?: boolean;
   scan?: 'auto' | 'required' | 'off';
+  /** SE-417: cifrar la cúpula (N3/N4 siempre, aunque falte o sea false). */
+  encryption?: boolean;
 }
 
 export type FileType = 'pdf' | 'docx' | 'pptx' | 'xlsx' | 'txt' | 'md' | 'csv' | 'json' | 'unknown';
@@ -80,7 +84,7 @@ export interface FilesLimits {
 
 export type FilesErrorCode =
   | 'NOT_FOUND' | 'INVALID_INPUT' | 'TOO_LARGE' | 'LIMIT' | 'LOCKED'
-  | 'INTEGRITY' | 'POLICY_DENIED' | 'UNSAFE_HOME' | 'SCAN_REQUIRED' | 'DISABLED' | 'UNSUPPORTED';
+  | 'INTEGRITY' | 'POLICY_DENIED' | 'UNSAFE_HOME' | 'SCAN_REQUIRED' | 'DISABLED' | 'UNSUPPORTED' | 'KEY_MISSING';
 
 export class FilesError extends Error {
   constructor(public readonly code: FilesErrorCode, message: string) {

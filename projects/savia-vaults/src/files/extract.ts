@@ -10,6 +10,7 @@ import type { FileStore } from './store.js';
 import { scanFiles, type ScanMode } from './scan.js';
 import { Tools } from './setup.js';
 import { inspectZip } from './zip-guard.js';
+import { sodiumReady } from './crypto.js';
 import type { ExtractUnit, ExtractionInfo, FileType, Locator, TextEncoding } from './types.js';
 
 const MAX_UNITS = 50_000;
@@ -242,64 +243,74 @@ interface Pending {
 export async function processRevisions(
   store: FileStore, items: { documentId: string; revisionId?: string }[], opts: ProcessOptions = {},
 ): Promise<ExtractionInfo[]> {
+  await sodiumReady();
   const python = opts.python ?? defaultPython();
   const pending: Pending[] = [];
   // Existencia e integridad de todo el lote antes de nada; después, un solo análisis antivirus (SE-416).
-  const revs = items.map((it) => {
-    const rev = store.revision(it.documentId, it.revisionId);
-    return { it, rev, blob: store.blobPath(rev.sha256), bytes: store.readBytes(it.documentId, rev.id) };
-  });
-  const scans = await scanFiles(revs.map((r) => r.blob), { mode: opts.scan ?? 'auto', clamscan: opts.clamscan });
-  for (const [i, { it, rev, blob, bytes }] of revs.entries()) {
-    const p: Pending = { documentId: it.documentId, revisionId: rev.id, scanSkips: [], units: [] };
-    pending.push(p);
-    const scan = scans[i];
-    if (scan.verdict === 'infected') {
-      p.info = { status: 'QUARANTINED', method: 'clamscan', units: 0, extracted: 0, skipped: [], error: scan.signature };
-      continue;
-    }
-    p.scanSkips = scan.verdict === 'error' ? [{ reason: 'scan-error', count: 1 }] : [];
-    const zip = OOXML_TYPES.has(rev.type)
-      ? inspectZip(bytes, { maxUnzippedBytes: store.limits.maxUnzippedBytes, maxRatio: ZIP_MAX_RATIO, maxEntries: ZIP_MAX_ENTRIES })
-      : undefined;
-    if (rev.type === 'unknown') {
-      p.info = { ...rev.extraction, status: 'ARCHIVE_ONLY' };
-    } else if (zip && !zip.ok) {
-      // SE-414 S1: bomba de descompresión o ZIP inválido; el worker no llega a lanzarse.
-      p.info = { status: 'FAILED', method: 'zip-guard', units: 0, extracted: 0, skipped: p.scanSkips, error: `decompression-limit: ${zip.reason}` };
-    } else if (WORKER_TYPES.has(rev.type) && !fs.existsSync(python)) {
-      p.info = { status: 'ARCHIVE_ONLY', method: 'none', units: 0, extracted: 0, skipped: [{ reason: 'worker-missing', count: 1 }] };
-    } else if (WORKER_TYPES.has(rev.type)) {
-      p.job = { type: rev.type, file: blob };
-    } else {
-      try {
-        const raw = extractTextual(rev.type, bytes, rev.encoding ?? 'utf-8');
-        p.units = raw.units;
-        p.info = finish(raw, p.scanSkips);
-      } catch (e) {
-        p.info = { status: 'FAILED', method: 'text', units: 0, extracted: 0, skipped: p.scanSkips, error: (e as Error).message.slice(0, 500) };
-      }
-    }
-  }
-  const jobs = pending.filter((p) => p.job);
-  if (jobs.length) {
-    const results = await withWorkerSlot(() => runWorkerBatch(
-      jobs.map((p) => p.job!), python, opts.timeoutMs ?? store.limits.extractTimeoutMs));
-    jobs.forEach((p, i) => {
-      const r = results[i];
-      if (r instanceof Error) {
-        p.info = { status: 'FAILED', method: 'worker', units: 0, extracted: 0, skipped: p.scanSkips, error: r.message.slice(0, 500) };
-      } else {
-        p.units = r.units;
-        p.info = finish(r, p.scanSkips);
-      }
+  // En cúpulas cifradas (SE-417), antivirus y worker leen una copia en memoria que se borra siempre.
+  const plains: string[] = [];
+  try {
+    const revs = items.map((it) => {
+      const rev = store.revision(it.documentId, it.revisionId);
+      const bytes = store.readBytes(it.documentId, rev.id);
+      const blob = store.plainPath(it.documentId, rev.id);
+      plains.push(blob);
+      return { it, rev, blob, bytes };
     });
+    const scans = await scanFiles(revs.map((r) => r.blob), { mode: opts.scan ?? 'auto', clamscan: opts.clamscan });
+    for (const [i, { it, rev, blob, bytes }] of revs.entries()) {
+      const p: Pending = { documentId: it.documentId, revisionId: rev.id, scanSkips: [], units: [] };
+      pending.push(p);
+      const scan = scans[i];
+      if (scan.verdict === 'infected') {
+        p.info = { status: 'QUARANTINED', method: 'clamscan', units: 0, extracted: 0, skipped: [], error: scan.signature };
+        continue;
+      }
+      p.scanSkips = scan.verdict === 'error' ? [{ reason: 'scan-error', count: 1 }] : [];
+      const zip = OOXML_TYPES.has(rev.type)
+        ? inspectZip(bytes, { maxUnzippedBytes: store.limits.maxUnzippedBytes, maxRatio: ZIP_MAX_RATIO, maxEntries: ZIP_MAX_ENTRIES })
+        : undefined;
+      if (rev.type === 'unknown') {
+        p.info = { ...rev.extraction, status: 'ARCHIVE_ONLY' };
+      } else if (zip && !zip.ok) {
+        // SE-414 S1: bomba de descompresión o ZIP inválido; el worker no llega a lanzarse.
+        p.info = { status: 'FAILED', method: 'zip-guard', units: 0, extracted: 0, skipped: p.scanSkips, error: `decompression-limit: ${zip.reason}` };
+      } else if (WORKER_TYPES.has(rev.type) && !fs.existsSync(python)) {
+        p.info = { status: 'ARCHIVE_ONLY', method: 'none', units: 0, extracted: 0, skipped: [{ reason: 'worker-missing', count: 1 }] };
+      } else if (WORKER_TYPES.has(rev.type)) {
+        p.job = { type: rev.type, file: blob };
+      } else {
+        try {
+          const raw = extractTextual(rev.type, bytes, rev.encoding ?? 'utf-8');
+          p.units = raw.units;
+          p.info = finish(raw, p.scanSkips);
+        } catch (e) {
+          p.info = { status: 'FAILED', method: 'text', units: 0, extracted: 0, skipped: p.scanSkips, error: (e as Error).message.slice(0, 500) };
+        }
+      }
+    }
+    const jobs = pending.filter((p) => p.job);
+    if (jobs.length) {
+      const results = await withWorkerSlot(() => runWorkerBatch(
+        jobs.map((p) => p.job!), python, opts.timeoutMs ?? store.limits.extractTimeoutMs));
+      jobs.forEach((p, i) => {
+        const r = results[i];
+        if (r instanceof Error) {
+          p.info = { status: 'FAILED', method: 'worker', units: 0, extracted: 0, skipped: p.scanSkips, error: r.message.slice(0, 500) };
+        } else {
+          p.units = r.units;
+          p.info = finish(r, p.scanSkips);
+        }
+      });
+    }
+    for (const p of pending) {
+      if (p.info!.status === 'QUARANTINED') store.setExtraction(p.revisionId, p.info!, p.documentId);
+      else store.saveExtraction(p.revisionId, { units: p.units }, p.info, p.documentId);
+    }
+    return pending.map((p) => p.info!);
+  } finally {
+    for (const f of plains) store.releasePlain(f);
   }
-  for (const p of pending) {
-    if (p.info!.status === 'QUARANTINED') store.setExtraction(p.revisionId, p.info!, p.documentId);
-    else store.saveExtraction(p.revisionId, { units: p.units }, p.info, p.documentId);
-  }
-  return pending.map((p) => p.info!);
 }
 
 /** Escanea (si procede), extrae y registra estado y cobertura de una revisión. */

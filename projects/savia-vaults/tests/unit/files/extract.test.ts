@@ -227,6 +227,49 @@ describe('SE-415 worker por lotes', () => {
   });
 });
 
+describe('SE-417 extracción en una cúpula cifrada', () => {
+  let base: string;
+  let store: FileStore;
+  beforeEach(() => {
+    base = fs.mkdtempSync(path.join(os.tmpdir(), 'savia-files-encx-'));
+    store = new FileStore({ home: path.join(base, 'files'), dome: 'D', encrypt: true, keysHome: path.join(base, 'keys') });
+  });
+  afterEach(() => fs.rmSync(base, { recursive: true, force: true }));
+
+  const fakeWorker = (exitCode: number) => {
+    const log = path.join(base, 'rutas');
+    const py = path.join(base, 'py');
+    fs.writeFileSync(py, `#!/bin/sh\nwhile read line; do echo "$line" >> '${log}'; ${exitCode ? `exit ${exitCode}` : `echo '{"method":"fake","units":[{"locator":{"type":"page","page":1},"kind":"text","text":"ok"}],"skipped":[]}'`}; done\n`, { mode: 0o700 });
+    return { py, log };
+  };
+
+  it('AC8: el worker recibe una copia en memoria que desaparece al terminar', async () => {
+    const { py, log } = fakeWorker(0);
+    const { document } = store.add({ name: 'c.pdf', bytes: fs.readFileSync(path.join(FIX, 'contrato.pdf')) });
+    const info = await processRevision(store, document.id, { scan: 'off', python: py });
+    expect(info.status).toBe('READY');
+    const received = JSON.parse(fs.readFileSync(log, 'utf-8').trim()).path as string;
+    if (fs.existsSync('/dev/shm')) expect(received.startsWith('/dev/shm/savia-files-')).toBe(true);
+    expect(fs.existsSync(received)).toBe(false);
+    expect(fs.existsSync(path.dirname(received))).toBe(false);
+  });
+
+  it('AC8: también desaparece si el worker falla', async () => {
+    const { py, log } = fakeWorker(3);
+    const { document } = store.add({ name: 'c.pdf', bytes: fs.readFileSync(path.join(FIX, 'contrato.pdf')) });
+    expect((await processRevision(store, document.id, { scan: 'off', python: py })).status).toBe('FAILED');
+    const received = JSON.parse(fs.readFileSync(log, 'utf-8').trim()).path as string;
+    expect(fs.existsSync(path.dirname(received))).toBe(false);
+  });
+
+  it('texto en una cúpula cifrada: extracción sellada y legible', async () => {
+    const { document, revision } = store.add({ name: 'n.md', bytes: Buffer.from('# Título secreto\n\nPárrafo') });
+    expect((await processRevision(store, document.id, { scan: 'off' })).status).toBe('READY');
+    expect(fs.readFileSync(path.join(base, 'files', 'D', 'extract', `${revision.id}.json`)).includes(Buffer.from('secreto'))).toBe(false);
+    expect(store.readExtraction(revision.id, document.id).units[0].text).toBe('# Título secreto');
+  });
+});
+
 describe.skipIf(!hasPython)('worker Python (Docling + openpyxl)', () => {
   let home: string;
   let store: FileStore;

@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=1bbf571fb756f4a6b298cae9e92ea852aba5a93d35d9832eb1c97514164719b6
-timestamp=2026-09-30T08:50:06Z
-branch=agent/se416-files-setup
-head_commit=ea318b55
-signature=d7ae3d39c1b0d641e024be973008d78842f5eebbb3550b0ad7fbbd5fe8a07038
+diff_hash=1e5d3dddb15c4b2059212156ce883aad53a8a71c6f8ce4acd75d0dfa89122896
+timestamp=2026-09-30T10:54:42Z
+branch=agent/se417-files-encryption
+head_commit=9d5fd787
+signature=29cc875cb0184abcea1b484417579d6534af63c42e635ba54b6490845c041516

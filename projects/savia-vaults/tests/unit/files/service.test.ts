@@ -191,5 +191,91 @@ describe('FilesService', () => {
       await srv.close();
     }
   });
+
+  describe('SE-417 cifrado', () => {
+    let keys: string;
+    const encSvc = (extra: Partial<ConstructorParameters<typeof FilesService>[0]> = {}) => make({
+      env: { SAVIA_FILES_HOME: home, SAVIA_FILES_KEYS_HOME: keys }, ...extra,
+    });
+    beforeEach(() => {
+      keys = path.join(home, '..', `${path.basename(home)}-keys`);
+      domes = [
+        { name: 'N3', confidentiality: 'N3', files: { enabled: true } },
+        { name: 'N2', confidentiality: 'N2', files: { enabled: true } },
+        { name: 'N2e', confidentiality: 'N2', files: { enabled: true, encryption: true } },
+      ];
+    });
+    afterEach(() => fs.rmSync(keys, { recursive: true, force: true }));
+
+    it('N3 y N2 con encryption: cifradas; N2 sin ella: en claro', async () => {
+      const svc2 = encSvc();
+      for (const dome of ['N3', 'N2', 'N2e']) await svc2.put({ dome, name: 'a.txt', contentBase64: b64('secreto') });
+      const enc = (d: string) => fs.existsSync(path.join(home, d, 'encryption.json'));
+      expect([enc('N3'), enc('N2'), enc('N2e')]).toEqual([true, false, true]);
+      const st = await svc2.encryptionStatus({ dome: 'N3' });
+      expect(st).toMatchObject({ encrypted: true, required: true, recovery: false });
+    });
+
+    it('encrypt migra una cúpula en claro y avisa para re-sellar el índice', async () => {
+      const sealed: string[] = [];
+      const plain = encSvc();
+      const put = await plain.put({ dome: 'N2', name: 'a.txt', contentBase64: b64('texto previo') });
+      domes[1].files = { enabled: true, encryption: true };
+      const svc2 = encSvc({ onEncrypted: async (d) => { sealed.push(d); } });
+      expect(await svc2.encrypt({ dome: 'N2' })).toMatchObject({ documents: 1, revisions: 1 });
+      expect(sealed).toEqual(['N2']);
+      const dl = await svc2.download({ dome: 'N2', id: put.documentId });
+      expect(Buffer.from(dl.contentBase64, 'base64').toString()).toBe('texto previo');
+    });
+
+    it('rotateKeys exige admin y re-sella el índice durante la rotación', async () => {
+      const resealed: string[] = [];
+      const svc2 = encSvc({ authorizeAdmin: async () => undefined, resealIndex: (d) => { resealed.push(d); } });
+      const put = await svc2.put({ dome: 'N3', name: 'a.txt', contentBase64: b64('x') });
+      await svc2.rotateKeys({ dome: 'N3' });
+      expect(resealed).toEqual(['N3']);
+      expect((await svc2.get({ dome: 'N3', id: put.documentId })).name).toBe('a.txt');
+      const denied = encSvc({ authorizeAdmin: async () => { throw new Error('denegado admin'); } });
+      await expect(denied.rotateKeys({ dome: 'N3' })).rejects.toThrow(/denegado admin/);
+    });
+
+    it('exportRecovery escribe fichero, frase y guía en una carpeta; la respuesta no lleva la frase', async () => {
+      const svc2 = encSvc({ authorizeAdmin: async () => undefined });
+      await svc2.put({ dome: 'N3', name: 'a.txt', contentBase64: b64('x') });
+      const out = path.join(home, '..', `${path.basename(home)}-recuperacion`);
+      try {
+        const r = await svc2.exportRecovery({ dir: out });
+        expect(r.domes).toEqual(['N3']);
+        expect(fs.readdirSync(out).sort()).toEqual(['LEEME.txt', 'frase-de-recuperacion.txt', 'savia-claves.recovery']);
+        expect(fs.statSync(path.join(out, 'frase-de-recuperacion.txt')).mode & 0o777).toBe(0o600);
+        const phrase = fs.readFileSync(path.join(out, 'frase-de-recuperacion.txt'), 'utf-8').trim();
+        expect(JSON.stringify(r)).not.toContain(phrase);
+        expect((await svc2.encryptionStatus({ dome: 'N3' })).recovery).toBe(true);
+        await expect(svc2.exportRecovery({ dir: out })).rejects.toThrow(/ya existe/);
+      } finally {
+        fs.rmSync(out, { recursive: true, force: true });
+      }
+    }, 30_000);
+
+    it('acciones MCP encrypt y keys (rotate, export) por callFilesTool', async () => {
+      const svc2 = encSvc({ authorizeAdmin: async () => undefined });
+      await svc2.put({ dome: 'N3', name: 'a.txt', contentBase64: b64('x') });
+      expect(await callFilesTool(svc2, { action: 'keys', op: 'rotate', dome: 'N3' })).toEqual({ dome: 'N3', rotated: true });
+      const out = path.join(home, '..', `${path.basename(home)}-rec-mcp`);
+      try {
+        const r = await callFilesTool(svc2, { action: 'keys', op: 'export', dir: out }) as { summary: string[] };
+        expect(r.summary.join(' ')).toMatch(/gestor de contraseñas/);
+      } finally { fs.rmSync(out, { recursive: true, force: true }); }
+      await expect(callFilesTool(svc2, { action: 'keys', op: 'nada' })).rejects.toThrow(/INVALID_INPUT/);
+      await expect(callFilesTool(svc2, { action: 'encrypt', dome: 'N2' })).rejects.toThrow(/files.encryption/);
+    }, 30_000);
+
+    it('status avisa de cúpulas cifradas sin fichero de recuperación', async () => {
+      const svc2 = encSvc({ tools: new Tools({ home: path.join(home, 'tools'), pins: null, env: { HOME: home } }) });
+      await svc2.put({ dome: 'N3', name: 'a.txt', contentBase64: b64('x') });
+      const st = await callFilesTool(svc2, { action: 'status' }) as { summary: string[] };
+      expect(st.summary.join(' ')).toMatch(/N3.*sin fichero de recuperación/);
+    });
+  });
 });
 

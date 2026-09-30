@@ -16,6 +16,7 @@ Este documento describe el MVP de SE-413. Qué queda fuera y por qué está al f
 6. [Extracción](#extracción)
 7. [Escaneo antivirus](#escaneo-antivirus)
 8. [Savia RAG](#savia-rag)
+8b. [Cifrado en reposo y claves](#cifrado-en-reposo-y-claves)
 9. [MCP: `vault_files`](#mcp-vault_files)
 10. [CLI: `savia-vaults files`](#cli-savia-vaults-files)
 11. [Seguridad y permisos](#seguridad-y-permisos)
@@ -35,6 +36,8 @@ Este documento describe el MVP de SE-413. Qué queda fuera y por qué está al f
 | La cobertura se declara | `units`, `extracted`, `skipped[{reason,count}]` por revisión |
 | Borrar es borrar | Bytes y extracciones se eliminan al instante; los chunks de RAG, en el siguiente sync |
 | Misma ACL que la cúpula | `read` para consultar, `write` para guardar, borrar o reprocesar |
+| N3/N4 nunca en claro en disco (SE-417) | Original, texto extraído, metadatos e índice RAG cifrados; copias temporales en memoria |
+| Borrado criptográfico (SE-417) | Borrar destruye la clave de la revisión: ninguna copia del almacén sirve ya |
 
 ## Activación
 
@@ -310,6 +313,118 @@ en **una sola llamada**, porque cada llamada carga 3,3 millones de firmas (~10 s
 - Confidencialidad: un documento con nivel superior al de su cúpula no se indexa
   (CRIT-001), aunque `put` ya lo impide.
 
+## Cifrado en reposo y claves
+
+(SE-417) Las cúpulas **N3 y N4 se cifran siempre**. Las N1/N2 se cifran si su
+configuración lleva `"files": {"enabled": true, "encryption": true}`. Una cúpula
+cifrada no vuelve a estar en claro, aunque se quite la opción.
+
+### Qué se cifra y cómo
+
+Todo con libsodium (`libsodium-wrappers-sumo`), sin criptografía propia:
+
+| Qué | Cómo | Clave |
+|---|---|---|
+| Original (`blobs/<revisionId>.svf`) | `crypto_secretstream_xchacha20poly1305` en frames de 1 MiB; `TAG_FINAL` obligatorio; se verifica el SHA-256 al descifrar | DEK de la revisión |
+| Texto extraído (`extract/<revisionId>.json`) | XChaCha20-Poly1305 (IETF) | DEK de la revisión |
+| Manifiesto (`docs/<id>.json`) | Sellado entero; en claro solo `{id, v}`: ni nombre, ni etiquetas, ni SHA-256 | subclave `meta` de la cúpula |
+| Índice RAG (chunks, vectores, BM25) | Sellado por fichero; el manifiesto de la generación solo tiene ids opacos, hashes y contrato | subclave `index` de la cúpula |
+
+- **Datos asociados**: todo va autenticado con `{schemaVersion, domeId, documentId,
+  revisionId, artifactKind}` en JSON canónico (RFC 8785). Mover un fichero cifrado a
+  otro documento, reordenar o truncar frames, o cambiar un bit, falla cerrado con
+  `INTEGRITY`.
+- **Claves**: una DEK aleatoria por revisión, envuelta con la clave de la cúpula
+  (KEK). Las subclaves `meta` e `index` se derivan de la KEK (`crypto_kdf`).
+- **Sin deduplicación** en cúpulas cifradas: cada revisión tiene su blob. El nombre
+  es el id de revisión, que es aleatorio.
+- **Copias temporales**: el lector de documentos y el antivirus necesitan el fichero
+  en claro. Se descifra en `/dev/shm` (memoria, `0700`/`0600`) y se borra al
+  terminar, también si el worker falla o se agota el tiempo. Sin `/dev/shm`, se usa
+  `<cúpula>/.work`.
+- **Coste medido** (fichero de 10 MB, máquina de desarrollo):
+  - guardar: 54 → 177 ms;
+  - descargar: 24 → 58 ms;
+  - consulta `vault_rag` con 300 ficheros: 6 ms en ambos casos.
+
+  Un PDF real en N3 con el lector real queda `READY`, cita su página y deja 0
+  ficheros con texto en claro.
+
+### Dónde están las claves
+
+```
+~/.savia-vaults/keys/files/          (0700; SAVIA_FILES_KEYS_HOME; nunca dentro de git)
+  <cúpula>/kek                       clave de la cúpula (32 bytes, 0600)
+  <cúpula>/wraps/<revisionId>.json   clave de cada revisión, envuelta con la KEK
+  recovery.pub                       clave pública de recuperación (tras exportar)
+```
+
+**Modelo de amenazas.**
+
+- **Protege frente a:** copia o filtración del almacén, del índice RAG o de sus
+  backups, y frente a la manipulación de cualquiera de ellos.
+- **No protege frente a:** alguien con acceso a tu cuenta de usuario, que puede leer
+  la KEK; ni frente a un proceso de Savia comprometido, que ve el texto en memoria.
+
+### Borrado criptográfico
+
+Borrar una revisión (o un documento) destruye su envoltura en `wraps/`. A partir de
+ese momento, ninguna copia del almacén, tampoco un backup antiguo, permite recuperar
+el original, aunque se tenga la KEK.
+
+Hay una excepción: las **copias nocturnas de claves** hechas antes del borrado siguen
+conteniendo esa envoltura hasta que rotan (`SAVIA_BACKUP_RETENTION`, def. 30 días).
+Durante ese tiempo, quien tenga el fichero de recuperación y la frase podría
+recuperarlo. Es el precio de poder restaurar tras perder el disco.
+
+### Recuperación (hazlo en cuanto cifres una cúpula)
+
+Sin copia de las claves, perder el disco es perder los ficheros cifrados. `files
+status` avisa mientras no exista:
+
+```bash
+savia-vaults files keys export [--dir <carpeta nueva>]    # o vault_files action:"keys", op:"export"
+```
+
+Crea una carpeta con tres ficheros:
+
+- `savia-claves.recovery`: la clave privada de recuperación y las KEK, cifradas con
+  la frase (Argon2id + secretbox);
+- `frase-de-recuperacion.txt`: 10 palabras + 4 dígitos (≈ 63 bits), generada una vez;
+- `LEEME.txt`: qué hacer.
+
+La frase nunca viaja en la respuesta ni por el chat. Guarda la frase en el gestor de
+contraseñas y el fichero fuera del ordenador, en otro sitio, y borra la carpeta.
+
+**Copia nocturna de claves**: con el fichero de recuperación creado, el backup
+nocturno guarda cada noche las KEK y las envolturas selladas para la clave pública
+de recuperación (`files keys backup`). Esa copia incluye los ficheros subidos después
+de exportar, y solo la abre quien tenga el fichero y la frase.
+
+**Restaurar tras perder el disco**:
+
+```bash
+tar -xzf savia-files-<fecha>.tar.gz -C ~/.savia-vaults/              # almacén
+savia-vaults files keys import savia-claves.recovery \
+  --phrase-file <fichero con la frase> --backup savia-keys-<fecha>.sealed
+```
+
+Probado: restaurar en directorios vacíos devuelve bytes idénticos, también de
+ficheros subidos después de exportar.
+
+### Rotación y migración
+
+- `savia-vaults files keys rotate --dome <c>` (o `vault_files action:"keys", op:"rotate"`,
+  rol admin): genera una KEK nueva, re-envuelve las DEK y re-sella manifiestos e
+  índice RAG **sin descifrar los originales ni volver a embeber**. Si se corta, se
+  repite y termina. Después, la KEK antigua ya no abre nada.
+- `savia-vaults files encrypt --dome <c>` (o `action:"encrypt"`): cifra una cúpula
+  existente. En N3/N4 también ocurre sola en la primera escritura. Reutiliza los
+  vectores del índice (no re-embebe), borra los ficheros en claro y las generaciones
+  del índice que quedaran en claro. Es reanudable.
+- **Sin la KEK** en una cúpula cifrada: todas las operaciones dan `KEY_MISSING` con
+  un mensaje que remite a la restauración. Nunca se crea una clave nueva en silencio.
+
 ## MCP: `vault_files`
 
 Una sola tool con `action`. Respuestas en JSON compacto.
@@ -322,6 +437,8 @@ Una sola tool con `action`. Respuestas en JSON compacto.
 | `text` | read | `dome`, `id`, `revisionId?`, `locator?` (filtro parcial, p. ej. `{"type":"page","page":2}`), `maxChars?` (def. 12 000) | `units[]`, `truncated` |
 | `download` | read | `dome`, `id`, `revisionId?` | `contentBase64`, `sha256`, `mime`, `name` |
 | `status` (SE-416) | — (sin cúpula) | — | por componente: `state`, versión, disco, antigüedad de firmas, `message`; `summary` con frases para la persona; `job` si hay una instalación en curso |
+| `encrypt` (SE-417) | write | `dome` | `{documents, revisions}` migrados; re-sella el índice |
+| `keys` (SE-417) | admin* | `op: "rotate"` + `dome`, u `op: "export"` + `dir?` | rotación, o carpeta del fichero de recuperación (la frase queda en un fichero, nunca en la respuesta) |
 | `setup` (SE-416) | admin de la máquina* | `components?` (`extractor`, `antivirus`; def. ambos) | arranca la instalación **en segundo plano** y vuelve al instante; el progreso se consulta con `status` |
 
 \* Sin usuarios configurados (servidor local de una persona), cualquiera. Con
@@ -395,6 +512,10 @@ savia-vaults rag search "penalización por retraso" --domes proyectos
 | `SAVIA_FILES_WORKERS` | 1 | Workers Python simultáneos por proceso |
 | `SAVIA_FILES_LOCK_WAIT_MS` | 10 000 | Espera máxima por el lock de escritura |
 | `SAVIA_TOOLS_HOME` | `~/.savia-vaults/tools` | Dónde instala `files setup` (nunca dentro de un repo git) |
+| `SAVIA_FILES_KEYS_HOME` | `~/.savia-vaults/keys/files` | Claves de las cúpulas cifradas (SE-417; nunca dentro de git) |
+| `SAVIA_BACKUP_UPLOAD_KEYS` | `false` | Backup nocturno: subir también la copia **sellada** de claves a Nextcloud (solo en configuración local) |
+| `SAVIA_NODE` | node del PATH o de nvm | Node que usa el backup nocturno para `files keys backup` |
+| `SAVIA_VAULTS_CLI` | `projects/savia-vaults/dist/cli/index.js` | CLI que usa el backup nocturno |
 
 ## Errores
 
@@ -411,12 +532,20 @@ savia-vaults rag search "penalización por retraso" --domes proyectos
 | `SCAN_REQUIRED` | `files.scan: required` sin escáner o con el escáner fallando |
 | `DISABLED` | La cúpula no tiene `files.enabled` |
 | `UNSUPPORTED` | `files setup` en una plataforma sin instalación automática |
+| `KEY_MISSING` | Cúpula cifrada sin su clave (restaurar con `files keys import`), o copia de claves sin fichero de recuperación |
 
 ## Operación
 
-- **Copia de seguridad**: `$SAVIA_FILES_HOME` no está en git; inclúyelo en la copia de
-  `~/.savia-vaults/`. El índice RAG se puede regenerar desde los ficheros
-  (`rag sync --rebuild`); los originales no.
+- **Copia de seguridad (SE-417)**: `scripts/vaults-backup-cron.sh` añade cada noche
+  `savia-files-<fecha>.tar.gz` (sin locks ni temporales; las cúpulas cifradas viajan
+  cifradas) y lo sube a Nextcloud como las cúpulas.
+  - **Claves**, por otro canal, en `backups/keys/`:
+    - con fichero de recuperación, copia sellada (`savia-keys-<fecha>.sealed`);
+    - sin él, copia local `0600` y `AVISO` en el log.
+  - **Las claves no se suben** salvo que la configuración local
+    (`~/.savia-vaults/nextcloud.env`) lleve `SAVIA_BACKUP_UPLOAD_KEYS=true`, y
+    entonces solo la copia sellada. Por defecto no se suben.
+  - El índice RAG se puede regenerar (`rag sync --rebuild`); los originales no.
 - **Tras `files setup`**: `files reprocess` sobre los documentos `ARCHIVE_ONLY`
   con `worker-missing`.
 - **Tras una caída**: `files gc`.
@@ -431,7 +560,6 @@ savia-vaults rag search "penalización por retraso" --domes proyectos
 
 Aprobado como MVP recortado. Queda para specs posteriores, una por slice:
 
-- cifrado en reposo y gestión de claves;
 - subida reanudable por HTTP (tus) y streaming autenticado;
 - manifiestos en git privado, journal durable y publicación por snapshot;
 - digestión LLM, grafo de afirmaciones, citas mixtas y visor;

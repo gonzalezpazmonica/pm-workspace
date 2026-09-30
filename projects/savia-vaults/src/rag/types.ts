@@ -104,6 +104,14 @@ export interface Manifest {
   docs: Record<string, DocEntry>;
   chunkCount: number;
   fingerprint: string;
+  /** SE-417: chunks, vectores y BM25 sellados con la clave de índice de la cúpula. */
+  sealed?: boolean;
+}
+
+/** SE-417: cifrado de los ficheros del índice de una cúpula cifrada. `part` va en los datos asociados. */
+export interface IndexCipher {
+  seal(data: Uint8Array, part: string): Buffer;
+  open(data: Uint8Array, part: string): Buffer;
 }
 
 export interface ActivePointer {

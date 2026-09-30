@@ -3,6 +3,8 @@ import * as path from 'node:path';
 import { HashEmbedder, OllamaEmbedder, type Embedder } from './embedder.js';
 import { FileStore } from '../files/store.js';
 import { fileSources } from '../files/rag-source.js';
+import { indexCipher } from '../files/keys.js';
+import { sodiumReady } from '../files/crypto.js';
 import { RagIndexer, listIndexable, logEvent } from './indexer.js';
 import { fanOut, withTimeout, TimeoutError } from './parallel.js';
 import { promotionDecision, resolveRagConfig, sloStatus, type EvalMetrics } from './policy.js';
@@ -12,7 +14,7 @@ import {
 } from './store.js';
 import {
   RAG_LIMITS, RagError, type Confidentiality, type DomeOutcome, type EmbeddingContract, type RagDomeConfig,
-  type RagHit, type RagMode, type RagRequest, type RagResponse, type ResolvedRagConfig, type SyncReport,
+  type RagHit, type RagMode, type RagRequest, type RagResponse, type ResolvedRagConfig, type SyncReport, type IndexCipher,
 } from './types.js';
 
 /**
@@ -26,7 +28,7 @@ export interface RagDomeRef {
   confidentiality: Confidentiality;
   rag?: RagDomeConfig;
   /** SE-413: bloque `files` de la cúpula; si está habilitado, sus ficheros entran en RAG. */
-  files?: { enabled?: boolean };
+  files?: { enabled?: boolean; encryption?: boolean };
 }
 
 export interface RagServiceOptions {
@@ -135,13 +137,68 @@ export class RagService {
     return e;
   }
 
-  private indexer(d: RagDomeRef, cfg = this.config(d)): RagIndexer {
-    const files = d.files?.enabled
-      ? new FileStore({ home: this.env.SAVIA_FILES_HOME || undefined, dome: d.name, domeLevel: d.confidentiality })
+  private filesStore(d: RagDomeRef): FileStore | undefined {
+    return d.files?.enabled
+      ? new FileStore({ home: this.env.SAVIA_FILES_HOME || undefined, dome: d.name, domeLevel: d.confidentiality, keysHome: this.env.SAVIA_FILES_KEYS_HOME || undefined })
       : undefined;
+  }
+
+  /** SE-417: cifrador del índice si el almacén de ficheros de la cúpula está cifrado. */
+  private cipherFor(d: RagDomeRef): IndexCipher | undefined {
+    const files = this.filesStore(d);
+    return files?.isEncrypted() ? indexCipher(files.keys) : undefined;
+  }
+
+  /**
+   * SE-417: tras cifrar una cúpula, el índice se reescribe sellado (sin re-embeber: los
+   * vectores se reutilizan) y se borran las generaciones que sigan en claro.
+   */
+  async sealIndex(name: string): Promise<void> {
+    await sodiumReady();
+    const d = this.dome(name);
+    if (!this.cipherFor(d) || !this.config(d).enabled) return;
+    await this.sync(name);
+    const dir = domeDir(this.home, name);
+    const pointer = readActive(this.home, name);
+    for (const g of fs.existsSync(dir) ? fs.readdirSync(dir) : []) {
+      const m = FlatVectorStore.readManifest(path.join(dir, g));
+      if (m && !m.sealed) {
+        fs.rmSync(path.join(dir, g), { recursive: true, force: true });
+        if (pointer.previous === g || pointer.shadow === g) {
+          writeActive(this.home, name, { active: pointer.active, previous: pointer.previous === g ? undefined : pointer.previous, shadow: pointer.shadow === g ? undefined : pointer.shadow });
+        }
+      }
+    }
+    for (const k of this.stores.keys()) if (k.startsWith(`${name}/`)) this.stores.delete(k);
+  }
+
+  /**
+   * SE-417: durante una rotación de claves (la anterior aún abre), reescribe cada generación
+   * sellada con la clave nueva en el mismo seq; el BM25 persistido se regenera.
+   */
+  resealIndex(name: string): void {
+    const d = this.dome(name);
+    const cipher = this.cipherFor(d);
+    if (!cipher) return;
+    const dir = domeDir(this.home, name);
+    for (const g of fs.existsSync(dir) ? fs.readdirSync(dir) : []) {
+      const genDir = path.join(dir, g);
+      const m = FlatVectorStore.readManifest(genDir);
+      if (!m?.sealed) continue;
+      const st = FlatVectorStore.load(genDir, undefined, cipher);
+      FlatVectorStore.write(genDir, st.manifest, st.chunks, st.chunks.map((_, i) => new Float32Array(st.vector(i))), cipher);
+      for (const f of fs.readdirSync(genDir)) if (/^bm25-/.test(f)) fs.rmSync(path.join(genDir, f), { force: true });
+    }
+    for (const k of this.stores.keys()) if (k.startsWith(`${name}/`)) this.stores.delete(k);
+  }
+
+  private indexer(d: RagDomeRef, cfg = this.config(d)): RagIndexer {
+    const files = this.filesStore(d);
+    const cipher = files?.isEncrypted() ? indexCipher(files.keys) : undefined;
     return new RagIndexer({
       dome: d.name, vaultPath: d.path, home: this.home, cfg, embedder: this.embedder(cfg), domeLevel: d.confidentiality,
       ...(files ? { sources: () => fileSources(files) } : {}),
+      ...(cipher ? { cipher } : {}),
     });
   }
 
@@ -160,7 +217,8 @@ export class RagService {
       this.stores.set(key, hit);
       return hit;
     }
-    const store = FlatVectorStore.load(dir);
+    const ref = this.o.domes().find(x => x.name === dome);
+    const store = FlatVectorStore.load(dir, undefined, ref ? this.cipherFor(ref) : undefined);
     for (const k of this.stores.keys()) if (k.startsWith(`${dome}/${generation}/`)) this.stores.delete(k);
     this.stores.set(key, store);
     const capacity = Math.max(LRU_MIN, this.o.domes().filter(d => this.config(d).enabled).length);
@@ -202,6 +260,7 @@ export class RagService {
   }
 
   private async runSync(name: string, opts: { rebuild?: boolean }): Promise<SyncResult> {
+    await sodiumReady();
     const d = this.dome(name);
     const cfg = this.config(d);
     const report: SyncResult = await this.indexer(d, cfg).sync(opts);
@@ -366,6 +425,7 @@ export class RagService {
   }
 
   async search(req: RagRequest): Promise<RagResponse> {
+    await sodiumReady();
     const t0 = Date.now();
     const opt = this.validate(req);
     const targets = this.targetDomes(req);
@@ -514,6 +574,7 @@ export class RagService {
   // ── Evaluación ───────────────────────────────────────────────────────
 
   async evaluate(name: string, queries: EvalQueryInput[], opts: { generation?: string; mode?: RagMode } = {}): Promise<RagEvalResult> {
+    await sodiumReady();
     const d = this.dome(name);
     const cfg = this.config(d);
     const generation = opts.generation ?? readActive(this.home, name).active;
@@ -555,6 +616,7 @@ export class RagService {
   // ── Estado y SLO (P7) ────────────────────────────────────────────────
 
   async status(names?: string[]): Promise<DomeStatusReport[]> {
+    await sodiumReady();
     const list = names?.length ? names.map(n => this.dome(n)) : this.o.domes();
     const out: DomeStatusReport[] = [];
     for (const d of list) {
