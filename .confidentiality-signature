@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=3cf08000d20daf90acd5a4144946638a392a52b8dd912a60e78f85605963d18f
-timestamp=2026-09-30T07:06:06Z
-branch=agent/se414-files-hardening
-head_commit=1d01987f
-signature=ee3c2860f9c823e05e1658e27581039385b5c934a97473568401e9d34b15524f
+diff_hash=317562eab88617a75f98cf9a84102aa69671fdb0d070c2fd43a949bf505ad07b
+timestamp=2026-09-30T07:19:49Z
+branch=agent/se415-files-fidelity
+head_commit=cc578cca
+signature=bd7d5e979a158d34e4006394b06d84aeaabae7aa0f63756fc220f72d1701d096
