@@ -25,6 +25,8 @@ export interface FileRevision {
   encoding?: TextEncoding;
   /** SE-417: original y extracción cifrados con la DEK de esta revisión. */
   enc?: 1;
+  /** SE-418: SHA-256 del blob cifrado (lo que referencia el ledger en cúpulas cifradas). */
+  blobHash?: string;
   createdAt: string;
   extraction: ExtractionInfo;
 }
@@ -84,7 +86,8 @@ export interface FilesLimits {
 
 export type FilesErrorCode =
   | 'NOT_FOUND' | 'INVALID_INPUT' | 'TOO_LARGE' | 'LIMIT' | 'LOCKED'
-  | 'INTEGRITY' | 'POLICY_DENIED' | 'UNSAFE_HOME' | 'SCAN_REQUIRED' | 'DISABLED' | 'UNSUPPORTED' | 'KEY_MISSING';
+  | 'INTEGRITY' | 'POLICY_DENIED' | 'UNSAFE_HOME' | 'SCAN_REQUIRED' | 'DISABLED' | 'UNSUPPORTED' | 'KEY_MISSING'
+  | 'COMMIT_PENDING' | 'IDEMPOTENCY_CONFLICT';
 
 export class FilesError extends Error {
   constructor(public readonly code: FilesErrorCode, message: string) {

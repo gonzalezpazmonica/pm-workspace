@@ -6,6 +6,12 @@
 > Each entry: date, spec ID, status transition, optional rationale.
 > Ref: SE-222 S1 OKF Adoptable Patterns (log.md convention).
 
+## 2026-09-30 SE-418 APPROVED
+
+Savia Files: ledger git privado por cúpula (sin remoto) como autoridad, journal
+node:sqlite con outbox e idempotencia, y receipts Ed25519 con clave propia.
+Aprobada por la operadora, con D02 (ACL por documento) en una spec aparte.
+
 ## 2026-09-30 SE-417 APPROVED
 
 Savia Files: cifrado en reposo (N3/N4 siempre, N1/N2 opcional), borrado

@@ -4,10 +4,11 @@ import * as fs from 'node:fs';
 import * as os from 'node:os';
 import * as path from 'node:path';
 import { createHash } from 'node:crypto';
-import { spawn } from 'node:child_process';
+import { execFileSync, spawn } from 'node:child_process';
 import { FileStore, detectType, sanitizeName } from '../../../src/files/store.js';
 import { FilesError } from '../../../src/files/types.js';
 import { sodiumReady } from '../../../src/files/crypto.js';
+import { Journal } from '../../../src/files/journal.js';
 
 const sha = (b: Buffer) => createHash('sha256').update(b).digest('hex');
 const FIX = path.resolve('tests/fixtures/files');
@@ -409,3 +410,64 @@ describe('SE-417 almacén cifrado', () => {
     expect(s.plainPath(document.id, revision.id)).toBe(s.blobPath(revision.sha256));
   });
 });
+
+describe('SE-418 ledger del almacén', () => {
+  let home: string;
+  let store: FileStore;
+  const git = (...args: string[]) => execFileSync('git', ['-C', path.join(home, 'D', 'ledger'), ...args], { encoding: 'utf-8' }).trim();
+  beforeEach(() => {
+    home = fs.mkdtempSync(path.join(os.tmpdir(), 'savia-files-ledger-'));
+    store = new FileStore({ home, dome: 'D' });
+  });
+  afterEach(() => { Journal.closeAll(); fs.rmSync(home, { recursive: true, force: true }); });
+
+  it('cada sección de escritura sin operación abierta es una operación implícita con su commit', () => {
+    const { document } = store.add({ name: 'a.txt', bytes: Buffer.from('a') });
+    store.setExtraction(document.currentRevision, { status: 'READY', method: 'text', units: 1, extracted: 1, skipped: [] }, document.id);
+    store.delete(document.id);
+    const subjects = git('log', '--format=%s').split('\n').map((l) => l.split(' ')[0]);
+    expect(subjects).toEqual(['delete', 'extract', 'put', 'import']);
+    expect(store.operations().map((o) => [o.kind, o.status])).toEqual([['delete', 'committed'], ['extract', 'committed'], ['put', 'committed'], ['import', 'committed']]);
+    expect(store.verify().problems).toEqual([]);
+  });
+
+  it('operación explícita: varias secciones, un commit; los lectores ven el documento mientras está pendiente', () => {
+    store.beginOperation('put');
+    const a = store.add({ name: 'a.txt', bytes: Buffer.from('a') });
+    const b = store.add({ name: 'b.txt', bytes: Buffer.from('b') });
+    expect(new FileStore({ home, dome: 'D' }).list().map((d) => d.id).sort()).toEqual([a.document.id, b.document.id].sort());
+    const receipt = store.finishOperation();
+    expect(receipt.refs?.map((r) => r.documentId).sort()).toEqual([a.document.id, b.document.id].sort());
+    expect(git('log', '--format=%s').split('\n')).toHaveLength(2); // import + put
+    expect(() => store.finishOperation()).toThrow(/INVALID_INPUT/);
+  });
+
+  it('idempotencyKey fuera de rango ⇒ INVALID_INPUT; operación abierta ⇒ no se abre otra', () => {
+    expect(() => store.beginOperation('put', { idempotencyKey: '' })).toThrow(/INVALID_INPUT/);
+    expect(() => store.beginOperation('put', { idempotencyKey: 'x'.repeat(201) })).toThrow(/INVALID_INPUT/);
+    store.beginOperation('put');
+    expect(() => store.beginOperation('put')).toThrow(/LOCKED/);
+    store.finishOperation();
+  });
+
+  it('operation(): estado y receipt; desconocida ⇒ NOT_FOUND; verify sin ledger ni documentos ⇒ ok', () => {
+    expect(new FileStore({ home, dome: 'E' }).verify()).toMatchObject({ ok: true, documents: 0 });
+    expect(() => store.operation('o_0000000000000000')).toThrow(/NOT_FOUND/);
+    store.add({ name: 'a.txt', bytes: Buffer.from('a') });
+    const [put] = store.operations(1);
+    expect(store.operation(put.operationId).receipt).toMatchObject({ status: 'committed', kind: 'put' });
+    expect(() => store.operation('o_0000000000000000')).toThrow(/NOT_FOUND/);
+  });
+
+  it('un documento cifrado lleva en el ledger el hash del cifrado, sin tipo ni tamaño', async () => {
+    await sodiumReady();
+    const enc = new FileStore({ home, dome: 'S', encrypt: true, keysHome: path.join(home, 'keys') });
+    const { document, revision } = enc.add({ name: 'secreto.pdf', bytes: fs.readFileSync(path.join(FIX, 'contrato.pdf')) });
+    const m = JSON.parse(fs.readFileSync(path.join(home, 'S', 'ledger', 'manifests', `${document.id}.json`), 'utf-8'));
+    const cipher = fs.readFileSync(path.join(home, 'S', 'blobs', `${revision.id}.svf`));
+    expect(m.revisions[0]).toEqual({ revisionId: revision.id, blob: sha(cipher), extraction: { status: 'PENDING' } });
+    expect(JSON.stringify(m)).not.toContain(revision.sha256);
+    expect(enc.verify({ deep: true }).problems).toEqual([]);
+  });
+});
+

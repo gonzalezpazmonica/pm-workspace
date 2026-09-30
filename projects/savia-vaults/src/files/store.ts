@@ -3,6 +3,11 @@
 // por digest, borrado real y lock entre procesos con espera. Cúpulas cifradas (SE-417): original
 // y extracción con la DEK de la revisión, manifiesto sellado con la subclave `meta`, borrado
 // criptográfico, sin deduplicación; nunca vuelven a claro.
+// SE-418: el ledger git privado de la cúpula (`ledger/`) es la autoridad: cada sección de escritura
+// es una operación del journal (node:sqlite) que termina en un commit con los manifiestos tocados y
+// un receipt firmado. Un payload que no coincide con su manifiesto no se sirve (salvo que una
+// operación pendiente lo esté escribiendo). Las operaciones cortadas se completan o cancelan al
+// tomar el lock (reconciliador).
 import * as fs from 'node:fs';
 import * as os from 'node:os';
 import * as path from 'node:path';
@@ -11,7 +16,10 @@ import { ensureSafeHome, writeAtomic } from '../rag/store.js';
 import { acquireLock, releaseLock, exceedsDomeLevel } from '../rag/indexer.js';
 import { RagError } from '../rag/types.js';
 import { KeyStore } from './keys.js';
-import { decryptStream, encryptStream, open, seal } from './crypto.js';
+import { canonicalJson, decryptStream, encryptStream, open, seal } from './crypto.js';
+import { Ledger, type LedgerManifest } from './ledger.js';
+import { Journal, type OpRow, type OutboxEvent } from './journal.js';
+import { ReceiptSigner, type Receipt, type ReceiptRef } from './receipts.js';
 import {
   FilesError, type Confidentiality, type Extraction, type ExtractionInfo, type FileDocument,
   type FileRevision, type FileType, type FilesLimits, type TextEncoding,
@@ -127,11 +135,19 @@ export interface FileStoreOptions {
   encrypt?: boolean;
   /** SE-417: dónde están las claves (def. `~/.savia-vaults/keys/files`). */
   keysHome?: string;
+  /** SE-418: lease de una operación abierta (def. tiempo máximo de extracción + 60 s). */
+  leaseMs?: number;
 }
 
 /** Sobre de un manifiesto sellado: en claro solo el id y la versión del formato. */
 interface SealedDoc { id: string; v: 1; sealed: string }
 const ENC_SUFFIX = '.svf';
+
+/** SE-418: operación en curso de este almacén (explícita del servicio o implícita de una sección con lock). */
+interface ActiveOp { id: string; kind: string; docs: Set<string>; explicit: boolean; idemKeyHash?: string; leaseUntil?: number }
+
+export interface VerifyProblem { code: string; id?: string }
+export interface VerifyReport { ok: boolean; documents: number; operations: number; receipts: number; problems: VerifyProblem[] }
 
 const newId = (prefix: string) => `${prefix}_${randomBytes(8).toString('hex')}`;
 const sha256 = (b: Buffer | string) => createHash('sha256').update(b).digest('hex');
@@ -171,6 +187,14 @@ export class FileStore {
   readonly keys: KeyStore;
   private corrupt = 0;
   private migrating = false;
+  /** SE-418 */
+  readonly ledger: Ledger;
+  private readonly signer: ReceiptSigner;
+  private readonly leaseMs: number;
+  private op: ActiveOp | undefined;
+  private implicitKind = 'update';
+  private importing = false;
+  private ledgerChecked = false;
 
   constructor(opts: FileStoreOptions) {
     if (!DOME_RE.test(opts.dome)) throw new FilesError('INVALID_INPUT', `cúpula no válida: ${opts.dome}`);
@@ -182,6 +206,9 @@ export class FileStore {
     this.lockWaitMs = opts.lockWaitMs ?? this.limits.lockWaitMs;
     this.wantEncrypt = opts.encrypt === true;
     this.keys = new KeyStore({ home: opts.keysHome, dome: opts.dome });
+    this.ledger = new Ledger(this.dir);
+    this.signer = new ReceiptSigner(this.keys.home);
+    this.leaseMs = opts.leaseMs ?? this.limits.extractTimeoutMs + 60_000;
   }
 
   // ── Cifrado (SE-417) ───────────────────────────────────────────────────
@@ -242,7 +269,7 @@ export class FileStore {
       const auto = this.lastMigration;
       this.lastMigration = undefined;
       return auto ?? this.encryptExistingLocked();
-    });
+    }, 'encrypt');
   }
 
   private lastMigration: { documents: number; revisions: number } | undefined;
@@ -262,7 +289,7 @@ export class FileStore {
             const bytes = fs.readFileSync(this.blobPath(rev.sha256));
             if (sha256(bytes) !== rev.sha256) throw new FilesError('INTEGRITY', `el blob de ${rev.id} no coincide con su SHA-256; no se cifra`);
             const dek = this.keys.newDek({ documentId: d.id, revisionId: rev.id });
-            this.writeEncBlob(rev.id, encryptStream(dek, bytes, this.aad(d.id, rev.id, 'original')));
+            rev.blobHash = this.writeEncBlob(rev.id, encryptStream(dek, bytes, this.aad(d.id, rev.id, 'original')));
             const ex = this.extractPath(rev.id);
             if (fs.existsSync(ex)) {
               const content = fs.readFileSync(ex);
@@ -308,7 +335,7 @@ export class FileStore {
         resealOthers?.(); // p. ej. el índice RAG: aún se puede abrir con la clave anterior
       });
       writeAtomic(this.markerPath, JSON.stringify({ v: 1, since: new Date().toISOString(), kekId: this.keys.kekId() }));
-    });
+    }, 'rotate');
   }
 
   private get docsDir(): string { return path.join(this.dir, 'docs'); }
@@ -377,9 +404,10 @@ export class FileStore {
       const revisionId = newId('r');
       const documentId = prev?.id ?? newId('f');
       const encrypted = this.isEncrypted();
+      let blobHash: string | undefined;
       if (encrypted) {
         const dek = this.keys.newDek({ documentId, revisionId });
-        this.writeEncBlob(revisionId, encryptStream(dek, input.bytes, this.aad(documentId, revisionId, 'original')));
+        blobHash = this.writeEncBlob(revisionId, encryptStream(dek, input.bytes, this.aad(documentId, revisionId, 'original')));
       } else {
         this.writeBlob(hash, input.bytes);
       }
@@ -387,7 +415,7 @@ export class FileStore {
       const now = new Date().toISOString();
       const revision: FileRevision = {
         id: revisionId, sha256: hash, size: input.bytes.length, mime: mimeOf(type), type,
-        ...(encrypted ? { enc: 1 as const } : {}),
+        ...(encrypted ? { enc: 1 as const, blobHash } : {}),
         ...(TEXT_TYPES.has(type) ? { encoding: textEncoding(input.bytes) } : {}),
         createdAt: now,
         extraction: type === 'unknown'
@@ -413,7 +441,7 @@ export class FileStore {
       this.writeDoc(document);
       if (!prev) this.bumpCount(1, count);
       return { document, revision };
-    });
+    }, 'put');
   }
 
   /** Bytes del original, verificados contra su SHA-256. */
@@ -450,7 +478,7 @@ export class FileStore {
       writeAtomic(this.extractPath(revisionId), content);
       rev.extraction = { ...(info ?? rev.extraction), digest: sha256(content) };
       this.writeDoc(doc);
-    });
+    }, 'extract');
   }
 
   /** Unidades extraídas, verificadas contra el digest guardado en el documento. */
@@ -483,7 +511,7 @@ export class FileStore {
         fs.rmSync(this.extractPath(revisionId), { force: true });
         this.removeRevisionBytes(rev);
       }
-    });
+    }, 'extract');
   }
 
   /**
@@ -505,7 +533,7 @@ export class FileStore {
       this.writeDoc(d);
       fs.rmSync(this.extractPath(revisionId), { force: true });
       this.removeRevisionBytes(rev);
-    });
+    }, 'rollback');
   }
 
   /** Borrado real: primero el documento (deja de existir), después bytes y extracciones. */
@@ -513,6 +541,7 @@ export class FileStore {
     return this.locked(() => {
       const doc = this.readDoc(id);
       const count = this.documentCount();
+      this.touch(id);
       fs.rmSync(this.docPath(id), { force: true });
       docCache.delete(this.docPath(id));
       this.bumpCount(-1, count);
@@ -520,7 +549,7 @@ export class FileStore {
       for (const rev of doc.revisions.filter((r) => r.enc)) this.removeRevisionBytes(rev);
       this.removeUnreferencedBlobs(doc.revisions.filter((r) => !r.enc).map((r) => r.sha256));
       return doc;
-    });
+    }, 'delete');
   }
 
   /**
@@ -619,10 +648,24 @@ export class FileStore {
     const key = `${st.ino}:${st.mtimeNs}:${st.size}`;
     const hit = docCache.get(file);
     if (hit && hit.key === key) return mutable ? structuredClone(hit.doc) : hit.doc;
+    let bytes: Buffer;
+    try {
+      bytes = fs.readFileSync(file);
+    } catch {
+      throw new FilesError('NOT_FOUND', `documento ${id} no existe en ${this.dome}`);
+    }
+    this.checkAuthority(id, bytes);
+    const doc = this.parseDoc(id, bytes);
+    docCache.set(file, { key, doc: deepFreeze(doc) });
+    return mutable ? structuredClone(doc) : doc;
+  }
+
+  /** Payload de un documento, sin comprobar el ledger (lo usan el ledger y verify). */
+  private parseDoc(id: string, bytes: Buffer): FileDocument {
     let doc: FileDocument;
     let raw: FileDocument | SealedDoc;
     try {
-      raw = JSON.parse(fs.readFileSync(file, 'utf-8')) as FileDocument | SealedDoc;
+      raw = JSON.parse(bytes.toString('utf-8')) as FileDocument | SealedDoc;
     } catch {
       throw new FilesError('INTEGRITY', `el manifiesto de ${id} está corrupto`);
     }
@@ -635,11 +678,11 @@ export class FileStore {
     if (doc?.id !== id || !Array.isArray(doc.revisions) || !doc.revisions.length) {
       throw new FilesError('INTEGRITY', `el manifiesto de ${id} está corrupto`);
     }
-    docCache.set(file, { key, doc: deepFreeze(doc) });
-    return mutable ? structuredClone(doc) : doc;
+    return doc;
   }
 
   private writeDoc(doc: FileDocument): void {
+    this.touch(doc.id); // antes de escribir: los lectores ven la operación pendiente
     fs.mkdirSync(this.docsDir, { recursive: true, mode: DIR_MODE });
     const body: FileDocument | SealedDoc = this.sealing()
       ? { id: doc.id, v: 1, sealed: seal(this.keys.subkey('meta')!, Buffer.from(JSON.stringify(doc)), this.metaAad(doc.id)).toString('base64') }
@@ -658,13 +701,15 @@ export class FileStore {
     }
   }
 
-  private writeEncBlob(revisionId: string, data: Buffer): void {
+  /** Escribe el blob cifrado y devuelve su SHA-256 (el del cifrado: es lo que va al ledger). */
+  private writeEncBlob(revisionId: string, data: Buffer): string {
     fs.mkdirSync(path.join(this.dir, 'blobs'), { recursive: true, mode: DIR_MODE });
     const file = this.encBlobPath(revisionId);
     const tmp = `${file}.tmp-${process.pid}-${Date.now()}`;
     fs.writeFileSync(tmp, data, { mode: 0o600 });
     fs.chmodSync(tmp, BLOB_MODE);
     fs.renameSync(tmp, file);
+    return sha256(data);
   }
 
   /** SE-414 AC8: reparte el manifest.json del MVP en un fichero por documento, una vez. */
@@ -727,8 +772,12 @@ export class FileStore {
 
   private depth = 0;
 
-  /** Lock de escritura entre procesos; espera hasta `lockWaitMs` con retroceso (SE-414 S6). Reentrante. */
-  private locked<T>(fn: () => T): T {
+  /**
+   * Lock de escritura entre procesos; espera hasta `lockWaitMs` con retroceso (SE-414 S6). Reentrante.
+   * SE-418: la sección más externa sin operación explícita es una operación implícita (`kind`) que,
+   * si tocó documentos, termina en un commit del ledger.
+   */
+  private locked<T>(fn: () => T, kind = 'update'): T {
     if (this.depth > 0) return fn();
     this.prepare();
     const deadline = Date.now() + this.lockWaitMs;
@@ -739,14 +788,357 @@ export class FileStore {
       pause = Math.min(pause * 2, 200);
     }
     this.depth++;
+    const outer = this.op;
     try {
       this.migrate();
       if (this.isEncrypted()) this.keys.kek(); // KEY_MISSING: nunca se crea otra clave en una cúpula cifrada
-      else if (this.wantEncrypt) this.lastMigration = this.encryptExistingLocked(); // SE-417: N3/N4 u opt-in ⇒ se cifra al primer acceso
-      return fn();
+      this.ensureLedger();
+      this.reconcile();
+      if (!this.isEncrypted() && this.wantEncrypt) {
+        // SE-417: N3/N4 u opt-in ⇒ se cifra al primer acceso (operación propia si no hay otra abierta)
+        this.implicitKind = 'encrypt';
+        this.lastMigration = this.encryptExistingLocked();
+        if (this.op && !this.op.explicit && this.op !== outer) this.finishImplicit();
+      }
+      if (this.op?.explicit && Date.now() > (this.op.leaseUntil ?? 0) - this.leaseMs / 2) {
+        // Renueva el lease solo cuando ha consumido la mitad (no un fsync por sección).
+        this.journal().extend(this.op.id, this.leaseMs);
+        this.op.leaseUntil = Date.now() + this.leaseMs;
+      }
+      this.implicitKind = kind;
+      const r = fn();
+      if (this.op && !this.op.explicit) this.finishImplicit();
+      return r;
+    } catch (e) {
+      if (this.op && !this.op.explicit) {
+        // El estado en disco es el que es: el ledger debe reflejarlo aunque la sección fallara.
+        try { this.finishImplicit(); } catch { /* queda pendiente: el reconciliador la completa */ }
+      }
+      throw e;
     } finally {
       this.depth--;
       releaseLock(this.dir, LOCK_NAME);
     }
+  }
+
+  // ── Ledger, journal y receipts (SE-418) ──────────────────────────────────
+
+  private get ledgerMarker(): string { return path.join(this.dir, 'ledger.json'); }
+
+  /** true cuando el ledger existe y ya importó los documentos previos: desde entonces manda. */
+  ledgerReady(): boolean {
+    return fs.existsSync(this.ledgerMarker);
+  }
+
+  private journal(): Journal {
+    const { journal, created } = Journal.open(this.dir);
+    if (created && this.ledgerReady()) {
+      // Journal nuevo, borrado o corrupto: se reconstruye desde los intents del ledger.
+      journal.importCommitted(this.ledger.intents().map((i) => ({
+        operationId: i.operationId, kind: i.kind, commitSha: i.commitSha, at: i.at, documents: i.documents,
+        idemKeyHash: i.idemKeyHash, errorCode: i.errorCode,
+      })));
+    }
+    return journal;
+  }
+
+  /** Crea el ledger e importa los documentos existentes (operación `import`). Reanudable. */
+  private ensureLedger(): void {
+    if (this.ledgerReady()) {
+      if (!this.ledgerChecked) { this.ledger.assertPrivate(); this.ledgerChecked = true; }
+      return;
+    }
+    this.ledger.init();
+    this.importing = true;
+    try {
+      const operationId = newId('o');
+      const ids: string[] = [];
+      for (const f of fs.existsSync(this.docsDir) ? fs.readdirSync(this.docsDir) : []) {
+        const id = f.slice(0, -5);
+        if (!f.endsWith('.json') || !DOCUMENT_RE.test(id)) continue;
+        const bytes = fs.readFileSync(this.docPath(id));
+        try {
+          this.ledger.writeManifest(this.manifestOf(this.parseDoc(id, bytes), bytes));
+          ids.push(id);
+        } catch { /* ilegible: no entra; verify lo reporta */ }
+      }
+      const at = new Date().toISOString();
+      this.ledger.writeIntent({ operationId, kind: 'import', at, documents: ids });
+      const commitSha = this.ledger.commit(`import ${operationId}`);
+      writeAtomic(this.ledgerMarker, JSON.stringify({ v: 1, importedAt: at, operationId, commitSha }));
+      this.ledgerChecked = true;
+      this.journal(); // se crea y se puebla desde los intents (incluido el import)
+    } finally {
+      this.importing = false;
+    }
+  }
+
+  /** Manifiesto compacto del ledger: ids, hashes y estados. En cúpulas cifradas, ni tipo ni tamaño. */
+  private manifestOf(doc: FileDocument, payload: Buffer): LedgerManifest {
+    return {
+      schemaVersion: 1, documentId: doc.id, currentRevision: doc.currentRevision, metaHash: sha256(payload),
+      revisions: doc.revisions.map((r) => ({
+        revisionId: r.id,
+        blob: r.enc ? (r.blobHash ?? this.fileHash(this.encBlobPath(r.id))) : r.sha256,
+        ...(r.enc ? {} : { size: r.size, type: r.type }),
+        extraction: { status: r.extraction.status, ...(r.extraction.digest ? { digest: r.extraction.digest } : {}) },
+      })),
+    };
+  }
+
+  private fileHash(file: string): string {
+    try { return sha256(fs.readFileSync(file)); } catch { return ''; }
+  }
+
+  /** Registra el documento en la operación en curso (o abre una implícita). Antes de escribirlo. */
+  private touch(id: string): void {
+    if (this.importing || !this.ledgerReady()) return;
+    if (!this.op) {
+      const operationId = newId('o');
+      this.journal().begin({ operationId, kind: this.implicitKind, leaseMs: this.leaseMs });
+      this.op = { id: operationId, kind: this.implicitKind, docs: new Set(), explicit: false };
+    }
+    if (!this.op.docs.has(id)) {
+      this.op.docs.add(id);
+      this.journal().touch(this.op.id, id);
+    }
+  }
+
+  /** El payload leído debe coincidir con su manifiesto del ledger. */
+  private checkAuthority(id: string, payload: Buffer): void {
+    if (this.importing || !this.ledgerReady()) return;
+    const m = this.ledger.readManifest(id);
+    if (m && m.metaHash === sha256(payload)) return;
+    if (this.op?.docs.has(id) || this.journal().pendingFor(id)) return; // una operación lo está escribiendo
+    if (!m) throw new FilesError('NOT_FOUND', `documento ${id} no existe en ${this.dome}`);
+    throw new FilesError('INTEGRITY', `el documento ${id} no coincide con el ledger de ${this.dome} (modificado fuera de Savia)`);
+  }
+
+  /**
+   * Lleva al ledger el estado en disco de los documentos: manifiesto, o tombstone si ya no existe.
+   * Devuelve las revisiones aún PENDING (evento `extract` del outbox).
+   */
+  private syncLedger(ids: string[], operationId: string): ReceiptRef[] {
+    const now = new Date().toISOString();
+    const pending: ReceiptRef[] = [];
+    for (const id of ids) {
+      let bytes: Buffer | undefined;
+      try { bytes = fs.readFileSync(this.docPath(id)); } catch { bytes = undefined; }
+      if (bytes) {
+        let doc: FileDocument;
+        try { doc = this.parseDoc(id, bytes); } catch { continue; } // ilegible: el manifiesto anterior se queda; lectura y verify dan INTEGRITY
+        this.ledger.writeManifest(this.manifestOf(doc, bytes));
+        for (const r of doc.revisions) if (r.extraction.status === 'PENDING') pending.push({ documentId: id, revisionId: r.id });
+      } else if (this.ledger.readManifest(id)) {
+        this.ledger.removeManifest(id);
+        this.ledger.writeTombstone({ documentId: id, deletedAt: now, operationId });
+      }
+    }
+    return pending;
+  }
+
+  /** Commit de la operación + receipt firmado + eventos del outbox. */
+  private commitOp(op: ActiveOp, o: { refs?: ReceiptRef[]; errorCode?: string; recovered?: boolean } = {}): Receipt {
+    const ids = [...op.docs].sort();
+    const pending = this.syncLedger(ids, op.id);
+    const at = new Date().toISOString();
+    let commitSha: string | undefined;
+    if (ids.length || !o.errorCode) {
+      this.ledger.writeIntent({
+        operationId: op.id, kind: op.kind, at, documents: ids,
+        ...(op.idemKeyHash ? { idempotencyKeyHash: op.idemKeyHash } : {}),
+        ...(o.errorCode ? { errorCode: o.errorCode } : {}), ...(o.recovered ? { recovered: true as const } : {}),
+      });
+      commitSha = this.ledger.commit(`${op.kind} ${op.id}${o.recovered ? ' (recuperada)' : ''}`);
+    }
+    return this.finalizeOp(op, ids, at, commitSha, o, pending);
+  }
+
+  private finalizeOp(
+    op: ActiveOp, ids: string[], at: string, commitSha: string | undefined, o: { refs?: ReceiptRef[]; errorCode?: string }, pending: ReceiptRef[],
+  ): Receipt {
+    const refs = o.refs ?? ids.map((documentId) => ({ documentId }));
+    const base = { operationId: op.id, dome: this.dome, kind: op.kind, ...(refs.length ? { refs } : {}), at };
+    if (o.errorCode) {
+      const receipt = this.signer.sign({ ...base, status: 'failed', errorCode: o.errorCode, commitSha });
+      this.journal().fail(op.id, o.errorCode, receipt, commitSha);
+      return receipt;
+    }
+    const manifestHash = ids.length ? this.ledger.manifestHash(ids) : undefined;
+    const receipt = this.signer.sign({ ...base, status: 'committed', commitSha, manifestHash });
+    const events: { event: string; payload: unknown }[] = [];
+    if (ids.length) events.push({ event: 'rag-sync', payload: {} });
+    if (pending.length) events.push({ event: 'extract', payload: { refs: pending } });
+    this.journal().commit(op.id, { commitSha, manifestHash, receipt, events });
+    return receipt;
+  }
+
+  /** Revisiones PENDING de documentos ya confirmados (reconciliación de un journal sin cerrar). */
+  private pendingOf(ids: string[]): ReceiptRef[] {
+    const refs: ReceiptRef[] = [];
+    for (const id of ids) {
+      try {
+        for (const r of this.parseDoc(id, fs.readFileSync(this.docPath(id))).revisions) {
+          if (r.extraction.status === 'PENDING') refs.push({ documentId: id, revisionId: r.id });
+        }
+      } catch { /* borrado o ilegible */ }
+    }
+    return refs;
+  }
+
+  private finishImplicit(): void {
+    const op = this.op!;
+    this.op = undefined;
+    try {
+      this.commitOp(op);
+    } catch (e) {
+      this.journal().release(op.id);
+      throw e;
+    }
+  }
+
+  /** Completa o cancela las operaciones pendientes cuyo dueño ya no está (caída, COMMIT_PENDING). */
+  private reconcile(): void {
+    if (!this.ledgerReady()) return;
+    const j = this.journal();
+    if (!j.pendingCount()) return;
+    for (const row of j.stalePending()) {
+      if (row.operationId === this.op?.id) continue;
+      const op: ActiveOp = { id: row.operationId, kind: row.kind, docs: new Set(j.documents(row.operationId)), explicit: false, idemKeyHash: row.idemKeyHash };
+      if (this.ledger.intentCommitted(row.operationId)) {
+        // Commit hecho, journal sin cerrar: solo falta el receipt.
+        const ids = [...op.docs].sort();
+        this.finalizeOp(op, ids, new Date().toISOString(), this.ledger.intentCommit(row.operationId), {}, this.pendingOf(ids));
+      } else if (op.docs.size) {
+        this.commitOp(op, { recovered: true });
+      } else {
+        this.finalizeOp(op, [], new Date().toISOString(), undefined, { errorCode: 'ABORTED' }, []);
+      }
+    }
+  }
+
+  /**
+   * Abre una operación explícita (put, delete, reprocess…) que puede abarcar varias secciones con
+   * lock y trabajo asíncrono (extracción). Con `idempotencyKey` ya usada devuelve su receipt.
+   */
+  beginOperation(kind: string, o: { idempotencyKey?: string; request?: unknown } = {}): { operationId: string; replay?: Receipt } {
+    if (this.op) throw new FilesError('LOCKED', `ya hay una operación abierta en ${this.dome}`);
+    if (o.idempotencyKey !== undefined && (typeof o.idempotencyKey !== 'string' || !o.idempotencyKey || o.idempotencyKey.length > 200)) {
+      throw new FilesError('INVALID_INPUT', 'idempotencyKey debe ser un texto de 1 a 200 caracteres');
+    }
+    return this.locked(() => {
+      const idemKeyHash = o.idempotencyKey ? sha256(`savia-files-idem\n${this.dome}\n${o.idempotencyKey}`) : undefined;
+      const requestHash = o.request === undefined ? undefined : sha256(canonicalJson(o.request));
+      const operationId = newId('o');
+      const { existing } = this.journal().begin({ operationId, kind, idemKeyHash, requestHash, leaseMs: this.leaseMs });
+      if (existing) {
+        if (existing.kind !== kind || (existing.requestHash && requestHash && existing.requestHash !== requestHash)) {
+          throw new FilesError('IDEMPOTENCY_CONFLICT', 'esa idempotencyKey ya se usó con otra petición');
+        }
+        if (existing.status === 'pending') throw new FilesError('LOCKED', `la operación ${existing.operationId} con esa idempotencyKey sigue en curso`);
+        return { operationId: existing.operationId, replay: this.receiptOf(existing) };
+      }
+      this.op = { id: operationId, kind, docs: new Set(), explicit: true, idemKeyHash, leaseUntil: Date.now() + this.leaseMs };
+      return { operationId };
+    }, kind);
+  }
+
+  /** Cierra la operación explícita: commit + receipt. Si git falla, COMMIT_PENDING con el operationId. */
+  finishOperation(o: { refs?: ReceiptRef[]; errorCode?: string } = {}): Receipt {
+    const op = this.op;
+    if (!op?.explicit) throw new FilesError('INVALID_INPUT', 'no hay operación abierta');
+    return this.locked(() => {
+      try {
+        return this.commitOp(op, o);
+      } catch (e) {
+        this.journal().release(op.id);
+        if (e instanceof FilesError && e.code === 'COMMIT_PENDING') {
+          throw new FilesError('COMMIT_PENDING', `${e.message.replace(/^COMMIT_PENDING: /, '')}; operación ${op.id} pendiente: se completará en el siguiente acceso`);
+        }
+        throw e;
+      } finally {
+        this.op = undefined;
+      }
+    });
+  }
+
+  /** Receipt de una operación (el guardado o, si el journal se reconstruyó, uno nuevo con lo que hay). */
+  receiptOf(row: OpRow): Receipt {
+    const stored = this.journal().receipt(row.operationId);
+    if (stored) return stored;
+    const refs = this.journal().documents(row.operationId).map((documentId) => ({ documentId }));
+    return this.signer.sign({
+      operationId: row.operationId, dome: this.dome, kind: row.kind, ...(refs.length ? { refs } : {}), status: row.status,
+      ...(row.status === 'committed' && row.commitSha ? { commitSha: row.commitSha } : {}),
+      ...(row.errorCode ? { errorCode: row.errorCode } : {}), at: row.updatedAt,
+    });
+  }
+
+  /** Estado de una operación y su receipt. */
+  operation(operationId: string): { operation: OpRow; receipt?: Receipt } {
+    if (!this.ledgerReady()) throw new FilesError('NOT_FOUND', `operación ${String(operationId).slice(0, 40)} no existe`);
+    const row = this.journal().get(operationId);
+    if (!row) throw new FilesError('NOT_FOUND', `operación ${String(operationId).slice(0, 40)} no existe`);
+    return { operation: row, ...(row.status === 'pending' ? {} : { receipt: this.receiptOf(row) }) };
+  }
+
+  operations(limit = 50): OpRow[] {
+    return this.ledgerReady() ? this.journal().list(Math.max(1, Math.min(limit, 1000))) : [];
+  }
+
+  // Outbox (al menos una vez): el servicio consume los eventos.
+  dueEvents(event?: string): OutboxEvent[] { return this.ledgerReady() ? this.journal().due(event) : []; }
+  claimEvent(id: number, leaseMs = this.leaseMs): boolean { return this.journal().claim(id, leaseMs); }
+  eventDone(id: number): void { this.journal().done(id); }
+  eventRetry(id: number, attempts: number): void { this.journal().retry(id, Math.min(60_000 * 2 ** attempts, 3_600_000)); }
+
+  /** Termina las operaciones cortadas (se hace solo en cada escritura; útil tras restaurar). */
+  recover(): { pending: number } {
+    this.locked(() => undefined, 'recover');
+    return { pending: this.ledgerReady() ? this.journal().pendingCount() : 0 };
+  }
+
+  /** SE-418: comprueba ledger, payloads, blobs, journal y receipts. `deep` rehace los hashes de los blobs. */
+  verify(o: { deep?: boolean } = {}): VerifyReport {
+    const problems: VerifyProblem[] = [];
+    if (!this.ledgerReady()) {
+      const docs = fs.existsSync(this.docsDir) ? fs.readdirSync(this.docsDir).filter((f) => f.endsWith('.json')).length : 0;
+      return { ok: docs === 0, documents: docs, operations: 0, receipts: 0, problems: docs ? [{ code: 'NO_LEDGER' }] : [] };
+    }
+    const j = this.journal();
+    if (!j.quickCheck()) problems.push({ code: 'JOURNAL_CORRUPT' });
+    if (!this.ledger.fsck()) problems.push({ code: 'LEDGER_FSCK' });
+    try { this.ledger.assertPrivate(); } catch { problems.push({ code: 'LEDGER_REMOTE' }); }
+    for (const r of j.stalePending()) problems.push({ code: 'STALE_OPERATION', id: r.operationId });
+    if (!j.pendingCount()) for (const f of this.ledger.dirty()) problems.push({ code: 'LEDGER_DIRTY', id: f });
+    const manifests = this.ledger.manifestIds();
+    for (const id of manifests) {
+      let bytes: Buffer;
+      try { bytes = fs.readFileSync(this.docPath(id)); } catch { problems.push({ code: 'MISSING_PAYLOAD', id }); continue; }
+      const m = this.ledger.readManifest(id)!;
+      if (m.metaHash !== sha256(bytes) && !j.pendingFor(id)) problems.push({ code: 'PAYLOAD_MISMATCH', id });
+      for (const r of m.revisions) {
+        if (r.extraction.status === 'QUARANTINED') continue;
+        const file = this.isEncryptedRev(r) ? this.encBlobPath(r.revisionId) : this.blobPath(r.blob);
+        if (!fs.existsSync(file)) problems.push({ code: 'MISSING_BLOB', id: r.revisionId });
+        else if (o.deep && this.fileHash(file) !== r.blob) problems.push({ code: 'BLOB_MISMATCH', id: r.revisionId });
+      }
+    }
+    const tracked = new Set(manifests);
+    for (const f of fs.existsSync(this.docsDir) ? fs.readdirSync(this.docsDir) : []) {
+      const id = f.slice(0, -5);
+      if (f.endsWith('.json') && DOCUMENT_RE.test(id) && !tracked.has(id) && !j.pendingFor(id)) problems.push({ code: 'UNTRACKED_PAYLOAD', id });
+    }
+    const receipts = j.receipts();
+    for (const r of receipts) {
+      if (!this.signer.verify(r)) problems.push({ code: 'BAD_RECEIPT', id: r.operationId });
+      else if (r.commitSha && !this.ledger.hasCommit(r.commitSha)) problems.push({ code: 'RECEIPT_COMMIT_MISSING', id: r.operationId });
+    }
+    return { ok: problems.length === 0, documents: manifests.length, operations: j.list(1_000_000).length, receipts: receipts.length, problems };
+  }
+
+  /** En el manifiesto de una cúpula cifrada la revisión no lleva tipo ni tamaño. */
+  private isEncryptedRev(r: LedgerManifest['revisions'][number]): boolean {
+    return r.type === undefined;
   }
 }

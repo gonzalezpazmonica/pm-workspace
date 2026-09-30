@@ -5,6 +5,33 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased] — 2026-09-30 · Savia Files: ledger git privado, journal y receipts (SE-418)
+
+### Added
+- Ledger por cúpula (`<FilesHome>/<cúpula>/ledger`): repo git local sin remoto ni
+  hooks, aislado de la configuración global.
+  - Es la autoridad: un commit por operación con manifiestos compactos (ids, hashes,
+    estados) e intent; tombstones al borrar.
+  - En cúpulas cifradas solo guarda el hash del cifrado.
+  - Un payload tocado a mano da `INTEGRITY`.
+- Journal `node:sqlite` (WAL): operaciones pendientes con lease y proceso dueño,
+  outbox al menos una vez (`extract`, `rag-sync`) y receipts. Se reconstruye
+  desde el ledger si se pierde.
+- Idempotencia (`idempotencyKey`) en `put`, `delete` y `reprocess`;
+  `IDEMPOTENCY_CONFLICT` si la clave se reutiliza con otra petición.
+- Recuperación automática:
+  - `COMMIT_PENDING` si git falla, nunca `READY`;
+  - el reconciliador completa o cancela las operaciones cortadas.
+- Receipts Ed25519 con clave de firma propia y registro de claves públicas
+  (`files keys rotate-signing`), incluidos en la copia sellada de claves.
+- `vault_files`: `operation`, `log`, `verify` y `recover`. CLI: `files verify
+  [--deep]`, `files log`, `files recover`.
+
+### Changed
+- `engines.node` pasa a `>=22.13.0`.
+- `delete` y `reprocess` devuelven también `operationId` y `receipt`.
+- Los tests usan un almacén de claves temporal (`tests/setup-isolation.ts`).
+
 ## [Unreleased] — 2026-09-30 · Savia Files: cifrado en reposo (SE-417)
 
 ### Added

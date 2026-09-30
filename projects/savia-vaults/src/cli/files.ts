@@ -109,7 +109,7 @@ cmd.command('rm <id>').description('Borrado real: bytes, extracciones y, en el s
   .action(async (id: string, opts) => {
     try {
       const r = await filesService(opts.domesFile).delete({ dome: opts.dome, id });
-      console.log(`borrado ${r.deleted} (${r.revisions} revisiones)`);
+      console.log(`borrado ${r.deleted} (${r.revisions} revisiones) · operación ${r.operationId}`);
     } catch (e) { fail(e); }
   });
 
@@ -122,6 +122,36 @@ cmd.command('reprocess <id>').description('Repite escaneo y extracción de la re
 cmd.command('gc').description('Borra blobs, extracciones y temporales huérfanos').option(...domesOpt).requiredOption(...domeOpt)
   .action(async (opts) => {
     try { print(await filesService(opts.domesFile).gc({ dome: opts.dome })); } catch (e) { fail(e); }
+  });
+
+// SE-418 — ledger privado, journal y receipts.
+cmd.command('verify').description('Comprueba ledger, manifiestos, originales, journal y firmas de los receipts')
+  .option(...domesOpt).requiredOption(...domeOpt).option('--deep', 'rehace también los hashes de los originales', false).option('--json', 'salida JSON', false)
+  .action(async (opts) => {
+    try {
+      const r = await filesService(opts.domesFile).verify({ dome: opts.dome, deep: opts.deep });
+      if (opts.json) print(r);
+      else {
+        console.log(`${r.ok ? 'OK' : 'PROBLEMAS'}: ${r.documents} documentos, ${r.operations} operaciones, ${r.receipts} receipts`);
+        for (const p of r.problems) console.log(`- ${p.code}${p.id ? ` ${p.id}` : ''}`);
+      }
+      if (!r.ok) process.exit(1);
+    } catch (e) { fail(e); }
+  });
+
+cmd.command('log').description('Últimas operaciones de la cúpula (ids, tipo, estado y commit)')
+  .option(...domesOpt).requiredOption(...domeOpt).option('--limit <n>', 'cuántas', '20')
+  .action(async (opts) => {
+    try {
+      const { operations } = await filesService(opts.domesFile).log({ dome: opts.dome, limit: Number(opts.limit) });
+      for (const o of operations) console.log(`${o.at}  ${o.operationId}  ${o.kind.padEnd(9)} ${o.status.padEnd(9)} ${o.commitSha?.slice(0, 12) ?? ''}${o.errorCode ? ` ${o.errorCode}` : ''}`);
+    } catch (e) { fail(e); }
+  });
+
+cmd.command('recover').description('Completa operaciones cortadas y extrae lo que quedó pendiente (p. ej. tras restaurar)')
+  .option(...domesOpt).requiredOption(...domeOpt)
+  .action(async (opts) => {
+    try { print(await filesService(opts.domesFile).recover({ dome: opts.dome })); } catch (e) { fail(e); }
   });
 
 // SE-416 — instalador sin consola para el PM: Savia lo ejecuta; la salida es lenguaje llano.
@@ -176,6 +206,14 @@ keysCmd.command('rotate').description('Nueva clave para una cúpula cifrada (re-
     try {
       await filesService(opts.domesFile).rotateKeys({ dome: opts.dome });
       console.log(`Clave de ${opts.dome} rotada.`);
+    } catch (e) { fail(e); }
+  });
+
+keysCmd.command('rotate-signing').description('Nueva clave de firma de receipts (las anteriores siguen verificando)')
+  .action(async () => {
+    try {
+      const r = await new FilesService({ domes: () => [] }).rotateSigningKey();
+      console.log(`Clave de firma nueva: ${r.keyId}`);
     } catch (e) { fail(e); }
   });
 
