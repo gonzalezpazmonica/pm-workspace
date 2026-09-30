@@ -30,7 +30,7 @@ export interface OpRow {
 
 export interface OutboxEvent { id: number; operationId: string; event: string; payload: unknown; attempts: number }
 
-const SCHEMA_VERSION = 1;
+const SCHEMA_VERSION = 2; // v2 (SE-422): subidas reanudables y tokens de un solo uso
 const ERROR_CODE_RE = /^[A-Z][A-Z_]{1,31}$/;
 const HOST = os.hostname();
 
@@ -49,7 +49,31 @@ CREATE TABLE IF NOT EXISTS outbox (
   status TEXT NOT NULL DEFAULT 'pending', attempts INTEGER NOT NULL DEFAULT 0, next_at INTEGER NOT NULL DEFAULT 0,
   UNIQUE (operation_id, event));
 CREATE TABLE IF NOT EXISTS receipts (operation_id TEXT PRIMARY KEY, receipt TEXT NOT NULL);
+CREATE TABLE IF NOT EXISTS uploads (
+  upload_id TEXT PRIMARY KEY, owner_hash TEXT NOT NULL,
+  status TEXT NOT NULL CHECK (status IN ('receiving','processing','done','failed','terminated','expired')),
+  length INTEGER NOT NULL, offset INTEGER NOT NULL DEFAULT 0, file_size INTEGER NOT NULL DEFAULT 0,
+  chunk_index INTEGER NOT NULL DEFAULT 0, expires_at INTEGER NOT NULL,
+  document_id TEXT, operation_id TEXT, error_code TEXT, created_at TEXT NOT NULL, updated_at TEXT NOT NULL);
+CREATE INDEX IF NOT EXISTS uploads_owner ON uploads (owner_hash, status);
+CREATE TABLE IF NOT EXISTS used_tokens (jti TEXT PRIMARY KEY, used_at TEXT NOT NULL);
 `;
+
+export type UploadStatus = 'receiving' | 'processing' | 'done' | 'failed' | 'terminated' | 'expired';
+
+export interface UploadRow {
+  uploadId: string;
+  ownerHash: string;
+  status: UploadStatus;
+  length: number;
+  offset: number;
+  fileSize: number;
+  chunkIndex: number;
+  expiresAt: number;
+  documentId?: string;
+  operationId?: string;
+  errorCode?: string;
+}
 
 type Row = Record<string, string | number | null>;
 const opt = <T>(v: T | null | undefined) => (v === null || v === undefined ? undefined : v);
@@ -289,6 +313,54 @@ export class Journal {
 
   done(id: number): void {
     this.db.prepare("UPDATE outbox SET status = 'done' WHERE id = ?").run(id);
+  }
+
+  // ── Subidas reanudables (SE-422) ─────────────────────────────────────────
+
+  uploadCreate(o: { uploadId: string; ownerHash: string; length: number; expiresAt: number }): void {
+    const now = new Date().toISOString();
+    this.db.prepare(`INSERT INTO uploads (upload_id, owner_hash, status, length, expires_at, created_at, updated_at)
+      VALUES (?, ?, 'receiving', ?, ?, ?, ?)`).run(o.uploadId, o.ownerHash, o.length, o.expiresAt, now, now);
+  }
+
+  upload(uploadId: string): UploadRow | undefined {
+    const r = this.db.prepare('SELECT * FROM uploads WHERE upload_id = ?').get(uploadId) as Row | undefined;
+    if (!r) return undefined;
+    return {
+      uploadId: String(r.upload_id), ownerHash: String(r.owner_hash), status: r.status as UploadStatus, length: Number(r.length),
+      offset: Number(r.offset), fileSize: Number(r.file_size), chunkIndex: Number(r.chunk_index), expiresAt: Number(r.expires_at),
+      documentId: opt(r.document_id as string), operationId: opt(r.operation_id as string), errorCode: opt(r.error_code as string),
+    };
+  }
+
+  /** Avanza el offset tras escribir (y sincronizar) un trozo. Solo si seguía en el offset esperado. */
+  uploadAdvance(uploadId: string, from: number, to: { offset: number; fileSize: number; chunkIndex: number }): boolean {
+    const r = this.db.prepare(`UPDATE uploads SET offset = ?, file_size = ?, chunk_index = ?, updated_at = ?
+      WHERE upload_id = ? AND offset = ? AND status = 'receiving'`).run(to.offset, to.fileSize, to.chunkIndex, new Date().toISOString(), uploadId, from);
+    return Number(r.changes) === 1;
+  }
+
+  uploadSet(uploadId: string, o: { status: UploadStatus; documentId?: string; operationId?: string; errorCode?: string }): void {
+    if (o.errorCode !== undefined && !ERROR_CODE_RE.test(o.errorCode)) throw new FilesError('INVALID_INPUT', 'código de error no válido para el journal');
+    this.db.prepare(`UPDATE uploads SET status = ?, document_id = COALESCE(?, document_id), operation_id = COALESCE(?, operation_id),
+      error_code = COALESCE(?, error_code), updated_at = ? WHERE upload_id = ?`)
+      .run(o.status, o.documentId ?? null, o.operationId ?? null, o.errorCode ?? null, new Date().toISOString(), uploadId);
+  }
+
+  /** Subidas sin terminar de un dueño (límite de subidas activas). */
+  activeUploads(ownerHash: string): number {
+    return Number((this.db.prepare("SELECT count(*) AS n FROM uploads WHERE owner_hash = ? AND status IN ('receiving','processing') AND expires_at > ?")
+      .get(ownerHash, Date.now()) as Row).n);
+  }
+
+  expiredUploads(now = Date.now()): string[] {
+    return (this.db.prepare("SELECT upload_id FROM uploads WHERE status = 'receiving' AND expires_at <= ?").all(now) as Row[]).map((r) => String(r.upload_id));
+  }
+
+  /** Consume un token de un solo uso; false si ya se usó. */
+  useToken(jti: string): boolean {
+    const r = this.db.prepare('INSERT OR IGNORE INTO used_tokens (jti, used_at) VALUES (?, ?)').run(jti, new Date().toISOString());
+    return Number(r.changes) === 1;
   }
 
   quickCheck(): boolean {

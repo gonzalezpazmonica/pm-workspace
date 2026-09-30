@@ -35,9 +35,12 @@ program.command('init <name>').description('Create a new vault')
     console.log(`Next: savia-vaults serve --transport mcp --path ${vaultPath}`);
   });
 
-program.command('serve').description('Start MCP or A2A server')
-  .option('--transport <type>', 'mcp or a2a', 'mcp')
-  .option('--port <port>', 'Port for A2A', '8923')
+program.command('serve').description('Start MCP, A2A or HTTP (Savia Files) server')
+  .option('--transport <type>', 'mcp, a2a or http (SE-422: API HTTP de ficheros con tus 1.0)', 'mcp')
+  .option('--port <port>', 'Port for A2A (8923) or HTTP (8924)')
+  .option('--tls-cert <file>', 'http: certificado TLS (PEM)')
+  .option('--tls-key <file>', 'http: clave TLS (PEM)')
+  .option('--behind-proxy', 'http: TLS terminado en un proxy delante (permite escuchar fuera de loopback sin TLS propio)', false)
   .option('--host <host>', 'Bind host', '127.0.0.1')
   .option('-p, --path <path>', 'Vault path (legacy single-dome)', process.cwd())
   .option('--domes <file>', 'Domes registry file', 'savia-vaults.domes.json')
@@ -90,7 +93,29 @@ program.command('serve').description('Start MCP or A2A server')
       await server.start();
     } else if (opts.transport === 'a2a') {
       const server = new A2AServer(config, domeReg);
-      await server.start(parseInt(opts.port, 10), opts.host, authToken);
+      await server.start(parseInt(opts.port ?? '8923', 10), opts.host, authToken);
+    } else if (opts.transport === 'http') {
+      // SE-422: exige registro de cúpulas y usuarios; fuera de loopback, TLS o --behind-proxy.
+      if (!domeReg) { console.error('La API HTTP necesita un registro de cúpulas (--domes).'); process.exit(1); }
+      const users = userStore ?? new UserStore('savia-vaults.users.json');
+      if ((opts.tlsCert === undefined) !== (opts.tlsKey === undefined)) { console.error('--tls-cert y --tls-key van juntos.'); process.exit(1); }
+      const tls = opts.tlsCert ? { cert: fs.readFileSync(opts.tlsCert), key: fs.readFileSync(opts.tlsKey) } : undefined;
+      const { FilesHttpServer } = await import('../server/http.js');
+      const { AccessController } = await import('../auth/index.js');
+      const server = new FilesHttpServer({
+        domes: domeReg, users, access: new AccessController(users, domeReg, new AuditLogger(), new UserQuotaStore()),
+        host: opts.host, port: parseInt(opts.port ?? '8924', 10), tls, behindProxy: opts.behindProxy === true,
+      });
+      try {
+        const { url } = await server.start();
+        console.error(`[serve] API HTTP de ficheros en ${url}/v1/files/<cúpula>/… (define SAVIA_FILES_HTTP_URL=${url} para vault_files upload/link)`);
+      } catch (e) {
+        console.error(e instanceof Error ? e.message : String(e));
+        process.exit(1);
+      }
+    } else {
+      console.error(`Transporte desconocido: ${opts.transport} (mcp, a2a o http)`);
+      process.exit(1);
     }
   });
 

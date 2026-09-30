@@ -445,6 +445,16 @@
       "note": "Primera mitad de D09; 2 GiB con ~160 MiB de memoria. SE-422 (API HTTP + tus) va apilada",
       "evidence": "docs/specs/SE-421-savia-files-streaming-store.spec.md",
       "phase": "A"
+    },
+    {
+      "id": "SE-422",
+      "status": "APPROVED",
+      "approval": "Operadora 2026-09-30 en chat (AskUserQuestion): 'Aprobar ambas, PR por spec' (SE-421 y SE-422)",
+      "priority": "P1",
+      "title": "Savia Files: API HTTP con subida reanudable (tus 1.0), rangos y autorizaciones acotadas",
+      "note": "Segunda mitad de D09; conformidad con tus-js-client y reanudación tras reinicio; apilada sobre SE-421",
+      "evidence": "docs/specs/SE-422-savia-files-http-api.spec.md",
+      "phase": "A"
     }
   ],
   "route": {

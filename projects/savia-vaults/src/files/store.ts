@@ -16,7 +16,7 @@ import { ensureSafeHome, writeAtomic } from '../rag/store.js';
 import { acquireLock, releaseLock, exceedsDomeLevel } from '../rag/indexer.js';
 import { RagError } from '../rag/types.js';
 import { KeyStore } from './keys.js';
-import { canonicalJson, decryptStream, encryptStream, FRAME_PLAIN_BYTES, open, seal, StreamDecryptor, StreamEncryptor } from './crypto.js';
+import { canonicalJson, decryptStream, encryptStream, FRAME_PLAIN_BYTES, opaqueName, open, seal, StreamDecryptor, StreamEncryptor } from './crypto.js';
 import { Readable, Transform } from 'node:stream';
 import { Ledger, type LedgerManifest } from './ledger.js';
 import { Journal, type OpRow, type OutboxEvent } from './journal.js';
@@ -311,6 +311,11 @@ export class FileStore {
   /** true si la cúpula está cifrada (marca presente). Nunca se desactiva. */
   isEncrypted(): boolean {
     return fs.existsSync(this.markerPath);
+  }
+
+  /** SE-422: la cúpula está cifrada o se cifrará en la próxima escritura (N3/N4 u opt-in). */
+  willEncrypt(): boolean {
+    return this.isEncrypted() || this.wantEncrypt;
   }
 
   private sealing(): boolean {
@@ -1198,6 +1203,17 @@ export class FileStore {
   /** true cuando el ledger existe y ya importó los documentos previos: desde entonces manda. */
   ledgerReady(): boolean {
     return fs.existsSync(this.ledgerMarker);
+  }
+
+  /** SE-422: journal de la cúpula para el estado de las subidas reanudables. */
+  uploadJournal(): Journal {
+    this.prepare();
+    return this.journal();
+  }
+
+  /** SE-422: clave de una subida parcial cifrada (derivada de la subclave `name`; rotar invalida las subidas en curso). */
+  uploadKey(uploadId: string): Buffer {
+    return Buffer.from(opaqueName(this.keys.subkey('name')!, `upload:${uploadId}`), 'hex');
   }
 
   private journal(): Journal {

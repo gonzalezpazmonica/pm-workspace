@@ -178,6 +178,15 @@ export function sealUploadChunk(key: Uint8Array, uploadId: string, index: number
   return Buffer.concat([len, sealed]);
 }
 
+/** Abre un trozo SVFU1 (su índice es parte del AAD); devuelve el texto y si era el final. */
+export function openUploadChunk(key: Uint8Array, uploadId: string, index: number, sealed: Uint8Array): { plain: Buffer; final: boolean } {
+  try {
+    return { plain: open(key, sealed, { schemaVersion: 1, uploadId, index, final: false, artifactKind: 'upload' }), final: false };
+  } catch {
+    return { plain: open(key, sealed, { schemaVersion: 1, uploadId, index, final: true, artifactKind: 'upload' }), final: true };
+  }
+}
+
 /** Recorre los trozos de una subida SVFU1 en orden, verificando índice y final. */
 export function* openUploadChunks(key: Uint8Array, uploadId: string, data: Uint8Array): Generator<Buffer> {
   const b = Buffer.from(data.buffer, data.byteOffset, data.byteLength);
@@ -190,15 +199,9 @@ export function* openUploadChunks(key: Uint8Array, uploadId: string, data: Uint8
     const len = b.readUInt32BE(p);
     p += 4;
     if (p + len > b.length) throw integrity('subida cifrada');
-    const chunk = b.subarray(p, p + len);
-    let plain: Buffer;
-    try {
-      plain = open(key, chunk, { schemaVersion: 1, uploadId, index, final: false, artifactKind: 'upload' });
-    } catch {
-      plain = open(key, chunk, { schemaVersion: 1, uploadId, index, final: true, artifactKind: 'upload' });
-      final = true;
-    }
-    yield plain;
+    const r = openUploadChunk(key, uploadId, index, b.subarray(p, p + len));
+    final = r.final;
+    yield r.plain;
     index++;
     p += len;
   }

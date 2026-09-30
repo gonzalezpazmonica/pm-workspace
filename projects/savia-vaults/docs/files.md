@@ -543,6 +543,8 @@ Una sola tool con `action`. Respuestas en JSON compacto.
 | `log` (SE-418) | read | `dome`, `limit?` | últimas operaciones: id, tipo, estado, commit, fecha |
 | `verify` (SE-418) | read | `dome`, `deep?` | `{ok, documents, operations, receipts, problems[{code, id?}]}` |
 | `recover` (SE-418) | write | `dome` | completa operaciones cortadas y extrae lo pendiente |
+| `upload` (SE-422) | write | `dome`, `name?`, `maxBytes?`, `tags?`, `confidentiality?`, `replaces?` | `uploadUrl`, `token` (un solo uso, 1 h), `instructions`: subida por la API HTTP |
+| `link` (SE-422) | read | `dome`, `id`, `revisionId?` | `url` de descarga (15 min) |
 | `policy` (SE-419) | write + poder escribir el documento | `dome`, `id`, `confidentiality?`, `readers?`, `writers?` (array o `null` = hereda), `expectedPolicyVersion?`, `idempotencyKey?` | `{documentId, confidentiality?, readers?, writers?, policyVersion, operationId, receipt}` |
 | `list` | read | `dome`, `tag?` | `{documents: [...], corrupt}`: resumen por documento (id, nombre, estado, tamaño, revisiones) y número de manifiestos ilegibles |
 | `get` | read | `dome`, `id` | documento con todas sus revisiones y cobertura |
@@ -566,6 +568,9 @@ Ejemplo:
 
 Para ficheros de más de 20 MiB, usar la CLI (`files add` / `files get`), que no
 pasa por base64 y trabaja en streaming (SE-421). Ver [Ficheros grandes](#ficheros-grandes-se-421).
+Por red, la API HTTP con subida reanudable (tus) y descarga por rangos: ver
+[files-http.md](files-http.md). Desde el chat, `upload` y `link` (SE-422) dan una URL
+y una autorización acotada en vez de mover el fichero por el contexto.
 
 ## CLI: `savia-vaults files`
 

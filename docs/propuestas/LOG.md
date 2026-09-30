@@ -6,6 +6,12 @@
 > Each entry: date, spec ID, status transition, optional rationale.
 > Ref: SE-222 S1 OKF Adoptable Patterns (log.md convention).
 
+## 2026-09-30 SE-422 APPROVED
+
+Savia Files: API HTTP (serve --transport http) con subida reanudable tus 1.0 propia,
+descarga por rangos, usuarios por persona y autorizaciones acotadas para delegar subidas
+y descargas desde el chat. Aprobada por la operadora junto a SE-421.
+
 ## 2026-09-30 SE-421 APPROVED
 
 Savia Files: almacén en streaming (hasta 10 GiB, rangos, cifrado frame a frame, antivirus

@@ -101,54 +101,75 @@ export class AccessController {
         reason = 'Invalid or expired token';
         throw new AuthError('unauthorized', reason);
       }
-
       username = user.username;
-
-      const perm = user.permissions[params.dome];
-      if (!perm) {
-        reason = `User "${username}" has no access to dome "${params.dome}"`;
-        throw new AuthError('forbidden', reason);
-      }
-
-      const userRole = perm.role;
-
-      if (ROLE_LEVEL[userRole] < ACTION_LEVEL[params.action]) {
-        reason = `User "${username}" is ${userRole} on "${params.dome}" — ${params.action} requires writer or admin`;
-        throw new AuthError('forbidden', reason);
-      }
-
-      const minRole = params.action === 'read'
-        ? CONFIDENTIALITY_READ_MIN[domeInfo.confidentiality]
-        : CONFIDENTIALITY_WRITE_MIN[domeInfo.confidentiality];
-
-      if (ROLE_LEVEL[userRole] < ROLE_LEVEL[minRole]) {
-        reason = `Dome "${params.dome}" has confidentiality ${domeInfo.confidentiality} — ${params.action} requires ${minRole} (user is ${userRole})`;
-        throw new AuthError('forbidden', reason);
-      }
-
-      if (this.quotaStore && this.quotaStore.isActive()) {
-        const quota = this.quotaStore.check(username);
-        if (!quota.allowed) {
-          reason = `Quota exceeded for "${username}"`;
-          this.recordAudit(username, params.dome, params.action, 'denied', reason, params.tool);
-          throw new AuthError('forbidden', reason);
-        }
-      }
-
-      result = 'allowed';
-      this.recordAudit(username, params.dome, params.action, result, undefined, params.tool);
-
-      if (this.quotaStore && this.quotaStore.isActive()) {
-        this.quotaStore.record(username);
-      }
-
-      return { username, role: userRole, dome: params.dome };
+      return this.checkUser(user, domeInfo, params);
     } catch (e) {
       if (e instanceof AuthError) {
         this.recordAudit(username || 'anonymous', params.dome, params.action, 'denied', e.message, params.tool);
       }
       throw e;
     }
+  }
+
+  /**
+   * SE-422: autoriza a un usuario ya identificado por otra vía (token acotado firmado por el
+   * servidor HTTP). Se revalida contra el fichero de usuarios: revocar al usuario invalida sus tokens.
+   */
+  async authorizeUser(params: { username: string; dome: string; action: AuthAction; tool?: string }): Promise<Authorization> {
+    try {
+      const domeInfo = this.domeRegistry.get(params.dome);
+      if (!domeInfo || !domeInfo.active) throw new AuthError('dome_not_found', `Dome "${params.dome}" not found or inactive`);
+      if (!this.isActive) throw new AuthError('unauthorized', 'No users configured');
+      const user = this.userStore.getUser(params.username);
+      if (!user) throw new AuthError('unauthorized', `User "${params.username}" no longer exists`);
+      return this.checkUser(user, domeInfo, params);
+    } catch (e) {
+      if (e instanceof AuthError) this.recordAudit(params.username, params.dome, params.action, 'denied', e.message, params.tool);
+      throw e;
+    }
+  }
+
+  private checkUser(user: { username: string; permissions: Record<string, { role: UserRole }> }, domeInfo: DomeInfo, params: { dome: string; action: AuthAction; tool?: string }): Authorization {
+    let reason: string | undefined;
+    const username = user.username;
+    const perm = user.permissions[params.dome];
+    if (!perm) {
+      reason = `User "${username}" has no access to dome "${params.dome}"`;
+      throw new AuthError('forbidden', reason);
+    }
+
+    const userRole = perm.role;
+
+    if (ROLE_LEVEL[userRole] < ACTION_LEVEL[params.action]) {
+      reason = `User "${username}" is ${userRole} on "${params.dome}" — ${params.action} requires writer or admin`;
+      throw new AuthError('forbidden', reason);
+    }
+
+    const minRole = params.action === 'read'
+      ? CONFIDENTIALITY_READ_MIN[domeInfo.confidentiality]
+      : CONFIDENTIALITY_WRITE_MIN[domeInfo.confidentiality];
+
+    if (ROLE_LEVEL[userRole] < ROLE_LEVEL[minRole]) {
+      reason = `Dome "${params.dome}" has confidentiality ${domeInfo.confidentiality} — ${params.action} requires ${minRole} (user is ${userRole})`;
+      throw new AuthError('forbidden', reason);
+    }
+
+    if (this.quotaStore && this.quotaStore.isActive()) {
+      const quota = this.quotaStore.check(username);
+      if (!quota.allowed) {
+        reason = `Quota exceeded for "${username}"`;
+        this.recordAudit(username, params.dome, params.action, 'denied', reason, params.tool);
+        throw new AuthError('forbidden', reason);
+      }
+    }
+
+    this.recordAudit(username, params.dome, params.action, 'allowed', undefined, params.tool);
+
+    if (this.quotaStore && this.quotaStore.isActive()) {
+      this.quotaStore.record(username);
+    }
+
+    return { username, role: userRole, dome: params.dome };
   }
 
   private recordAudit(
