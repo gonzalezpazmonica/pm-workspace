@@ -24,6 +24,19 @@ SaviaVaults: una nota con confidentiality mayor que su cúpula deja de servirse 
 MCP y A2A (antes solo RAG la omitía), y vault_write la rechaza. Aprobada por la operadora:
 oculta para todos, admin incluido, como hace RAG.
 
+## 2026-09-30 ROADMAP REPRIORITIZED
+
+Recopilación y orden de próximas sesiones solicitados por la operadora. Se
+conservan ADR-002, fases A–F y WIP SE-407/376/396 (3 + 1 Labs). Cola canónica
+S01–S09 en `planning-state.json → route.session_plan`: estado consistente,
+seguridad y revisión de entregas, deuda certificada, graduación operacional,
+frontera TEE/AEK, conformidad, kernel mínimo, adopción y pilotos.
+Necesidad/urgencia/valor/desbloqueos/esfuerzo son cualitativos; sin ROI inventado.
+Integraciones SE-402–405 y SE-410–419 verificadas en main se registran como
+`delivery`, sin inventar `completion` ni transiciones a IMPLEMENTED. H04 ya
+implementado en #1183, sin ejecución real. Los pendientes privados de Labs
+permanecen en la cúpula. Inventario: `docs/roadmap-inventory-20260930.md`.
+
 ## 2026-09-30 SE-419 APPROVED
 
 Savia Files: permisos por documento (listas readers/writers que restringen y nivel del

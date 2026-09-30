@@ -3,8 +3,12 @@
 > **Fuente única de estado:** `docs/propuestas/planning-state.json` (vista generada:
 > `docs/propuestas/ROADMAP-CURRENT.md`, `bash scripts/roadmap.sh current|next|validate`).
 > **Decisión vigente:** [ADR-002](decisions/adr-002-ruta-evolutiva-harness-conformance-lab.md) (2026-09-26).
-> Este documento abre con la ruta y conserva debajo el historial de eras. Los demás
-> documentos de roadmap del repositorio son históricos.
+> **Consolidación:** 2026-09-30, sobre `main` `88aac851` (sin divergencia con `origin/main`).
+> Este documento abre con la ruta y conserva debajo el historial de eras. La cola de
+> sesiones vive en `planning-state.json → route.session_plan` y se genera en
+> [ROADMAP-CURRENT](propuestas/ROADMAP-CURRENT.md). Los planes satélite aportan contexto;
+> sus calendarios y prioridades antiguas no gobiernan la ejecución.
+> [Inventario y reconciliación de todos los roadmaps](roadmap-inventory-20260930.md).
 
 ## Qué es Savia
 
@@ -20,11 +24,11 @@ comprendida. **WIP:** máximo 3 iniciativas Savia en `IMPLEMENTING` + 1 línea L
 
 | Fase | Objetivo | Gate de salida | Iniciativas |
 |---|---|---|---|
-| **A · Verdad y salud** ← actual | Fuente única, estados reconciliados, suite completa en verde o cuarentena explícita con RCA | Suite sin fallos no cuarentenados; ≤3 `IMPLEMENTING`; un único roadmap | SE-378, SE-376 · Labs (1 línea) |
-| **B · Kernel de gobierno verificable** | Cerrar SE-396; SE-401 reescrita a TEE v1.1; frontera AEK↔Savia (F0 de solo lectura); contrato común de Effect Enforcement Point en Claude Code, Codex y OpenCode | SE-396 graduado; SE-401 aprobada; los tres frontends pasan el mismo contrato | SE-396, SE-401, SE-386, SE-393, SE-394 · Labs (1 línea) |
-| **C · Conformance Lab** | Un laboratorio: Bypass Test por frontend, escenarios adversariales (TEE §22.2), invariantes (§19.8), replay en cuatro niveles | 0 violaciones de invariantes bajo inyección de fallos | SE-377, SE-381, SE-383, SE-384, SE-387 · Labs (1 línea) |
-| **D · Kernel mínimo y portabilidad** | Ablación y retirada de superficie sin uso, SAM F5/F6, runtime común, portability canaries por frontend y tier | Superficie reducida sin regresión; canaries verdes | SE-400, SE-397, SE-392, SE-388, SE-391, SE-380 |
-| **E · Harness adoptable** | Instalador, desktop, documentación pública, Vaults adaptativo, transparencia Art. 50 S4 | Instalación limpia por una persona ajena con doctor en verde | SE-399, SE-398, SE-390, SE-395, SE-289 S4 |
+| **A · Verdad y salud** ← actual | Fuente única, estados reconciliados, suite completa en verde o cuarentena explícita con RCA; seguridad del contexto existente | Suite sin fallos no cuarentenados; ≤3 `IMPLEMENTING`; un único roadmap; riesgos confirmados mitigados | SE-407, SE-376; SE-378 aporta lo ya integrado. Revisión SE-402/405/410–422 · Labs (1 línea) |
+| **B · Kernel de gobierno verificable** | Cerrar SE-396; SE-401 reescrita a TEE v1.1; frontera AEK↔Savia (F0 de solo lectura); contrato común de Effect Enforcement Point en Claude Code, Codex y OpenCode | SE-396 graduado; SE-401 aprobada; los tres frontends pasan el mismo contrato | SE-396, SE-401, SE-386, SE-393, SE-394, SE-404 · Labs (1 línea) |
+| **C · Conformance Lab** | Un laboratorio: Bypass Test por frontend, escenarios adversariales (TEE §22.2), invariantes (§19.8), replay en cuatro niveles y benchmark trazable | 0 violaciones de invariantes bajo inyección de fallos | SE-377, SE-381, SE-383, SE-384, SE-387, SE-403 · Labs (1 línea) |
+| **D · Kernel mínimo y portabilidad** | Ablación y retirada de superficie sin uso, SAM F5/F6, runtime común, portability canaries por frontend y tier | Superficie reducida sin regresión; canaries verdes | SE-400, SE-397, SE-392, SE-388, SE-391, SE-380; SE-409 requiere aprobación |
+| **E · Harness adoptable** | Instalador, desktop, documentación pública, Vaults adaptativo, Files completo y transparencia Art. 50 S4 | Instalación limpia por una persona ajena con doctor en verde; flujo Files seguro y citado | SE-399, SE-398, SE-390, SE-395, SE-289 S4; SE-408 requiere aprobación; deltas Files por spec |
 | **F · Pilotos con evidencia** | Pilotos AEK y experimentos Labs con datos reales | Sin claims de ROI empresarial sin datos | Labs (1 línea) |
 
 **Aparcado hasta superar el Gate D:** federación y multi-vault (SE-281/282), lote enterprise,
@@ -32,6 +36,50 @@ multi-tenant, SE-268, SE-385 (publicación), SE-389 y líneas Labs fuera de la r
 
 Métricas de la ruta: "¿cuántas veces un hallazgo cambió una decisión?" y "¿cuántos bypass
 encontró el laboratorio antes que producción?".
+
+## Cómo se decide la siguiente sesión
+
+Primero se comprueban autoridad, seguridad, fase y WIP. Después se ordena por
+**necesidad, urgencia, valor, dependencias y esfuerzo**. Las valoraciones son
+cualitativas: no hay datos suficientes para publicar scores o ROI numéricos.
+Un riesgo confirmado de exposición o pérdida adelanta su mitigación acotada.
+Un delta nuevo necesita spec aprobada y hueco WIP; el diseño y la revisión de
+entregas existentes permiten avanzar sin activar otra iniciativa.
+
+**Primer foco:** SE-407 S1–S3 y baseline reproducible. La cola generada S01–S09
+detalla entrada, acción, esfuerzo y salida por sesión; una sesión termina con
+evidencia, siguiente paso y rollback, aunque el gate del siguiente trabajo siga cerrado.
+El WIP actual sigue siendo **SE-407, SE-376 y SE-396**. SE-378 fue sustituida
+por SE-407 en #1187; conserva su aportación canónica, sin volver a implementarla.
+
+## Entregas recientes y trabajo que falta
+
+- **SE-410–422 integradas:** RAG y Files ya tienen código en `main`; requieren
+  revisar AC, límites y graduación por spec. `delivery` registra integración;
+  sólo `completion` con revisión humana permite `IMPLEMENTED`.
+- **SE-396 H04:** #1183 integra los canaries y su recibo, pero aún falta la
+  ejecución real expresamente autorizada. H09 sigue requiriendo cotejo humano.
+  El handoff del 29/09 conserva un handback rojo: revalidar el baseline, sin
+  convertir su resumen en un certificado global verde.
+- **SE-376:** remedir deuda tras #1173/#1180. 128/137 es la medida del 27/09;
+  el objetivo sigue siendo pruebas certificadas ≥80, ratchet y excepciones aprobadas.
+- **Identidad para Vaults/Files:** revisar un delta mínimo de principal común,
+  sesiones/PAT con caducidad, permisos y revocación entre vistas. SSO y la
+  interoperabilidad de identidad con AEK quedan para fases posteriores; login
+  no concede autoridad para efectos. Diseño privado en Labs, no implementación aprobada.
+- **Files restante:** serving/tus autenticado → snapshot/CAS y procedencia →
+  digest/citas/visor → lifecycle/restore. La seguridad básica precede a cada
+  nueva superficie. S3, audio/vídeo, comprimidos, correo, transcripciones,
+  conectores y Teams/HLS esperan perfil aprobado y pruebas de conformidad.
+  D08 S3 permanece post-MVP; no rehacer cifrado, ledger o ACL ya integrados.
+- **AEK/AEOS:** frontera READ_ONLY tras SE-396/SE-401; baseline y shadow antes
+  de piloto. AEK sigue independiente; AEOS es coordinación propuesta, sin
+  nuevo emisor de autoridad ni expansión empresarial implícita.
+
+Los pendientes privados de RAG/operación siguen **sólo en SaviaLabs**. La
+recopilación completa y su contexto privado están en el índice de planificación
+de esa cúpula. Los retornos SCL/SAGI, memoria híbrida y cúpulas existentes se
+reutilizan; las validaciones nuevas no reabren automáticamente líneas cerradas.
 
 ---
 

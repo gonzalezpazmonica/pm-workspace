@@ -3,6 +3,51 @@
 
 SCRIPT="scripts/roadmap.sh"
 
+set_session_plan() {
+  set_route 3 A
+  jq '.route.session_plan = [{"id":"S01","phase":"A","priority":"P0","initiatives":["SE-375"],
+    "title":"review existing delivery","action":"verify receipts","prerequisites":"human review pending",
+    "done":"acceptance evidence","necessity":"high","urgency":"high","value":"high",
+    "dependency_value":"unblocks boundary","effort":"small"}]' \
+    "$FIXTURE/docs/propuestas/planning-state.json" > "$FIXTURE/state.tmp"
+  mv "$FIXTURE/state.tmp" "$FIXTURE/docs/propuestas/planning-state.json"
+}
+
+@test "current renders session gates from the canonical plan" {
+  set_session_plan
+  run env REPO_ROOT="$FIXTURE" bash "$SCRIPT" current
+  [ "$status" -eq 0 ]
+  [[ "$output" == *"S01 · P0 · fase A"* ]]
+  [[ "$output" == *"Entrada: human review pending"* ]]
+  [[ "$output" == *"Salida: acceptance evidence"* ]]
+}
+
+@test "validate rejects a session referencing an unknown initiative" {
+  set_session_plan
+  jq '.route.session_plan[0].initiatives=["SE-999"]' "$FIXTURE/docs/propuestas/planning-state.json" > "$FIXTURE/state.tmp"
+  mv "$FIXTURE/state.tmp" "$FIXTURE/docs/propuestas/planning-state.json"
+  run env REPO_ROOT="$FIXTURE" bash "$SCRIPT" validate
+  [ "$status" -ne 0 ]
+  [[ "$output" == *"cola de sesiones inválida"* ]]
+}
+
+@test "validate accepts a well formed session plan without graduating an initiative" {
+  set_session_plan
+  run env REPO_ROOT="$FIXTURE" bash "$SCRIPT" validate
+  [ "$status" -eq 0 ]
+  [[ "$output" == *"PASS: planning state consistente"* ]]
+}
+
+@test "next identifies merged delivery as review work while keeping APPROVED" {
+  set_session_plan
+  jq '.initiatives[0].delivery={"merge_pr":42}' "$FIXTURE/docs/propuestas/planning-state.json" > "$FIXTURE/state.tmp"
+  mv "$FIXTURE/state.tmp" "$FIXTURE/docs/propuestas/planning-state.json"
+  run env REPO_ROOT="$FIXTURE" bash "$SCRIPT" next
+  [ "$status" -eq 0 ]
+  [[ "$output" == *"SE-375 [APPROVED]"*"integrada; revisar evidencia/graduación"* ]]
+  [[ "$output" != *"SE-375 [IMPLEMENTED]"* ]]
+}
+
 setup() {
   cd "$BATS_TEST_DIRNAME/.."
   FIXTURE="$BATS_TEST_TMPDIR/repo"
