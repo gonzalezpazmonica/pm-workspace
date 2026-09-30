@@ -40,7 +40,14 @@ function validFiles(dome: string, files: FilesDomeConfig): FilesDomeConfig {
   if (files.scan !== undefined && !['auto', 'required', 'off'].includes(files.scan)) {
     throw new Error(`Invalid files.scan for dome "${dome}": ${files.scan}. Must be auto, required or off.`);
   }
-  return { enabled: files.enabled === true, ...(files.scan ? { scan: files.scan } : {}) };
+  if (files.encryption !== undefined && typeof files.encryption !== 'boolean') {
+    throw new Error(`Invalid files.encryption for dome "${dome}": ${String(files.encryption)}. Must be true or false.`);
+  }
+  return {
+    enabled: files.enabled === true,
+    ...(files.scan ? { scan: files.scan } : {}),
+    ...(files.encryption !== undefined ? { encryption: files.encryption } : {}),
+  };
 }
 
 function makeConfig(dome: DomeInfo): VaultConfig {

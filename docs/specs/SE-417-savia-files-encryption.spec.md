@@ -170,15 +170,51 @@ porque solo contiene ids opacos, hashes y el contrato.
   `projects/savia-vaults/src/files/service.ts`, `projects/savia-vaults/src/files/rag-source.ts`,
   `projects/savia-vaults/src/files/setup.ts`, `projects/savia-vaults/src/files/types.ts`,
   `projects/savia-vaults/src/rag/store.ts`, `projects/savia-vaults/src/rag/indexer.ts`,
-  `projects/savia-vaults/src/rag/service.ts`, `projects/savia-vaults/src/registry/domes.ts`,
+  `projects/savia-vaults/src/rag/service.ts`, `projects/savia-vaults/src/rag/retriever.ts`,
+  `projects/savia-vaults/src/rag/types.ts`, `projects/savia-vaults/src/registry/domes.ts`,
   `projects/savia-vaults/src/cli/files.ts`, `projects/savia-vaults/src/server/mcp.ts`,
   `projects/savia-vaults/package.json`, `scripts/vaults-backup-cron.sh`.
 - Tests: `projects/savia-vaults/tests/unit/files/keys.test.ts`, `projects/savia-vaults/tests/unit/files/crypto.test.ts`,
   `projects/savia-vaults/tests/unit/files/store.test.ts`, `projects/savia-vaults/tests/unit/rag/store.test.ts`,
-  `projects/savia-vaults/tests/integration/files/encryption.test.ts`, `projects/savia-vaults/tests/unit/files/setup.test.ts`.
+  `projects/savia-vaults/tests/integration/files/encryption.test.ts`, `projects/savia-vaults/tests/unit/files/setup.test.ts`,
+  `projects/savia-vaults/tests/unit/files/extract.test.ts`, `projects/savia-vaults/tests/unit/files/service.test.ts`,
+  `projects/savia-vaults/tests/unit/registry/domes.test.ts`, `projects/savia-vaults/tests/e2e/files.test.ts`,
+  `tests/test-vaults-backup.bats`.
 - Documentación: `projects/savia-vaults/docs/files.md`, `projects/savia-vaults/CHANGELOG.md`,
   `.claude/skills/savia-vaults/SKILL.md`, `CHANGELOG.d/se417-savia-files-encryption.md`,
   `docs/propuestas/planning-state.json`, `docs/propuestas/LOG.md`, `docs/propuestas/ROADMAP-CURRENT.md`.
+
+## Resultados (2026-09-30)
+
+| AC | Evidencia | Estado |
+|---|---|---|
+| AC1 | Lector real + PDF del repo en N3: `READY`, cita p. 2, 0 ficheros con texto/nombre/SHA en almacén e índice, 0 restos en `/dev/shm`; `tests/integration/files/encryption.test.ts` (CSV, cita fila 2) | OK |
+| AC2 | `crypto.test.ts` (bit, frame reordenado/truncado, sin final, AAD ajeno), `store.test.ts`, `rag/store.test.ts` | OK |
+| AC3 | `store.test.ts`: copia previa del almacén + KEK, tras `delete` ⇒ sin DEK | OK (ver desviación 2) |
+| AC4 | `keys.test.ts` (rotación, interrumpida y repetida), integración: re-sella el índice sin re-embeber | OK |
+| AC5 | `store.test.ts` (formato SE-414 incluido) + integración N2 con índice construido: 0 restos en claro, 0 embebidos nuevos, cita | OK |
+| AC6 | `store.test.ts`/`service.test.ts`: `KEY_MISSING`, sin clave nueva | OK |
+| AC7 | Integración: tar nocturno + fichero de recuperación + copia sellada ⇒ bytes idénticos, también de lo subido tras exportar; e2e CLI; BATS (10/10) | OK (ver desviación 3) |
+| AC8 | `extract.test.ts`/`store.test.ts`: `/dev/shm` 0700/0600, liberado con worker fallido y timeout | OK |
+| AC9 | 10 MB: `put` p50 54 → 177 ms, `download` 24 → 58 ms; `vault_rag` 300 ficheros p50 6 → 6 ms, primera consulta 26 → 17 ms | Publicado en `docs/files.md` |
+| AC10 | Suite completa 630 tests en verde, lint limpio | OK |
+
+### Desviaciones
+
+1. **libsodium sumo** en lugar de `libsodium-wrappers`: la build estándar no trae
+   `crypto_pwhash` (Argon2id), necesario para el fichero de recuperación.
+2. **Recuperación en dos piezas.** Exportar solo las KEK no basta: las envolturas de
+   las DEK viven en el mismo disco y se perderían con él. Se añadió un par X25519 de
+   recuperación. El fichero con frase guarda la privada y las KEK; el backup nocturno
+   sella KEK y envolturas para la pública (`files keys backup`).
+   Consecuencia sobre AC3: el borrado criptográfico es total frente al almacén, pero
+   las copias nocturnas de claves anteriores al borrado conservan la envoltura hasta
+   que rotan (retención del backup). Documentado en `docs/files.md`.
+3. **AC7, subida de claves.** Por defecto no se sube nada de claves. Con
+   `SAVIA_BACKUP_UPLOAD_KEYS=true`, que solo va en configuración local por decisión
+   de la operadora, se sube la copia **sellada**, nunca la carpeta de claves.
+4. **Sin deduplicación** en cúpulas cifradas (blob por revisión) para que el
+   borrado criptográfico de una revisión no dependa de otras.
 
 ## Esfuerzo
 
@@ -186,7 +222,7 @@ Agente 9 h · humano 1 h (revisión de seguridad del formato y del modelo de ame
 
 ## Dependencias
 
-SE-413 a SE-416 y SE-410. npm `libsodium-wrappers` 0.8.4 (ISC).
+SE-413 a SE-416 y SE-410. npm `libsodium-wrappers-sumo` 0.8.4 (ISC).
 
 ## Fuera de alcance
 

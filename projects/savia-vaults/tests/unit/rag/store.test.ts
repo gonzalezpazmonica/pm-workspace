@@ -7,7 +7,7 @@ import {
   FlatVectorStore, generationId, ensureSafeHome, readActive, writeActive, gcGeneration, domeDir,
 } from '../../../src/rag/store.js';
 import { HashEmbedder } from '../../../src/rag/embedder.js';
-import type { Chunk, Manifest } from '../../../src/rag/types.js';
+import { RagError, type Chunk, type IndexCipher, type Manifest } from '../../../src/rag/types.js';
 
 function chunk(p: string, ordinal: number, text: string): Chunk {
   return { id: `${p}#${ordinal}`, path: p, ordinal, heading: 'T', text, embedText: `T\n\n${text}`, hash: `h-${p}-${ordinal}`, meta: { title: 'T', modified: '2026-09-01' } };
@@ -127,3 +127,63 @@ describe('ensureSafeHome', () => {
     fs.rmSync(base, { recursive: true, force: true });
   });
 });
+
+describe('SE-417 índice sellado', () => {
+  let home: string;
+  beforeEach(() => { home = fs.mkdtempSync(path.join(os.tmpdir(), 'savia-rag-sealed-')); });
+  afterEach(() => { fs.rmSync(home, { recursive: true, force: true }); });
+
+  /** Cifrador de prueba (XOR con clave + marca de autenticidad); el real vive en files/crypto. */
+  const cipher = (k: number): IndexCipher => ({
+    seal: (data, part) => Buffer.concat([Buffer.from(`${part}|${k}|`), Buffer.from(data.map((b) => b ^ k))]),
+    open: (data, part) => {
+      const prefix = Buffer.from(`${part}|${k}|`);
+      if (!data.subarray(0, prefix.length).equals(prefix)) throw new RagError('CORRUPT_INDEX', 'autenticación fallida');
+      return Buffer.from(data.subarray(prefix.length).map((b) => b ^ k));
+    },
+  });
+
+  const build = async () => {
+    const e = new HashEmbedder(8, { chunkChars: 1200, overlap: 180 } as never, 'h');
+    const contract = await e.contract();
+    const gen = generationId(contract);
+    const chunks = [chunk('files/f_1', 0, 'cláusula secreta del contrato'), chunk('files/f_1', 1, 'otra parte')];
+    const vectors = await e.embed(chunks.map((c) => c.embedText));
+    const manifest: Manifest = { version: 1, dome: 'D', generation: gen, contract, seq: 1, createdAt: '', updatedAt: '', docs: {}, chunkCount: 2, fingerprint: '' };
+    return { dir: path.join(home, gen), manifest, chunks, vectors, contract };
+  };
+
+  it('con cifrador, chunks y vectores no quedan en claro y se leen igual', async () => {
+    const { dir, manifest, chunks, vectors } = await build();
+    FlatVectorStore.write(dir, manifest, chunks, vectors, cipher(7));
+    for (const f of fs.readdirSync(dir)) expect(fs.readFileSync(path.join(dir, f)).includes(Buffer.from('secreta')), f).toBe(false);
+    expect(FlatVectorStore.readManifest(dir)?.sealed).toBe(true);
+    const s = FlatVectorStore.load(dir, undefined, cipher(7));
+    expect(s.chunks.map((c) => c.text)).toEqual(chunks.map((c) => c.text));
+    expect(Array.from(s.vector(1))).toEqual(Array.from(vectors[1]));
+    expect(s.cipher).toBeDefined();
+  });
+
+  it('sellado sin cifrador o con otra clave ⇒ CORRUPT_INDEX', async () => {
+    const { dir, manifest, chunks, vectors } = await build();
+    FlatVectorStore.write(dir, manifest, chunks, vectors, cipher(7));
+    expect(() => FlatVectorStore.load(dir)).toThrow(/CORRUPT_INDEX.*cifrado/);
+    expect(() => FlatVectorStore.load(dir, undefined, cipher(9))).toThrow(/CORRUPT_INDEX/);
+  });
+
+  it('un índice en claro se carga con cifrador (migración sin re-embeber)', async () => {
+    const { dir, manifest, chunks, vectors } = await build();
+    FlatVectorStore.write(dir, manifest, chunks, vectors);
+    const s = FlatVectorStore.load(dir, undefined, cipher(7));
+    expect(s.size).toBe(2);
+    expect(FlatVectorStore.readManifest(dir)?.sealed).toBeUndefined();
+  });
+
+  it('updateManifest conserva la marca de sellado', async () => {
+    const { dir, manifest, chunks, vectors } = await build();
+    FlatVectorStore.write(dir, manifest, chunks, vectors, cipher(7));
+    FlatVectorStore.updateManifest(dir, { ...manifest, fingerprint: 'x' }, cipher(7));
+    expect(FlatVectorStore.readManifest(dir)).toMatchObject({ sealed: true, fingerprint: 'x' });
+  });
+});
+

@@ -244,4 +244,21 @@ describe('DomeRegistry', () => {
     });
     expect(() => new DomeRegistry(domesFile).load()).toThrow(/files\.scan/);
   });
+
+  it('SE-417: files.encryption se carga y valida (booleano)', () => {
+    const domePath = createDomeDir('H');
+    writeDomesFile({
+      version: 1, defaultDome: 'H',
+      domes: { H: { name: 'H', path: domePath, description: '', confidentiality: 'N2', files: { enabled: true, encryption: true } } },
+    });
+    const r = new DomeRegistry(domesFile);
+    r.load();
+    expect(r.get('H')?.files).toEqual({ enabled: true, encryption: true });
+    writeDomesFile({
+      version: 1, defaultDome: 'H',
+      domes: { H: { name: 'H', path: domePath, description: '', confidentiality: 'N2', files: { enabled: true, encryption: 'si' } } },
+    });
+    expect(() => new DomeRegistry(domesFile).load()).toThrow(/files\.encryption/);
+  });
 });
+

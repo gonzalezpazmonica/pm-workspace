@@ -2,7 +2,7 @@ import { createHash } from 'node:crypto';
 import * as fs from 'node:fs';
 import * as os from 'node:os';
 import * as path from 'node:path';
-import { RagError, type ActivePointer, type Chunk, type EmbeddingContract, type Manifest } from './types.js';
+import { RagError, type ActivePointer, type Chunk, type EmbeddingContract, type IndexCipher, type Manifest } from './types.js';
 
 /**
  * SE-410 — Almacén flat exacto por generación.
@@ -116,6 +116,8 @@ export class FlatVectorStore {
     private readonly vectors: Float32Array,
     /** Directorio de la generación (para artefactos derivados como el índice BM25). */
     public readonly dir: string,
+    /** SE-417: cifrador del índice (cúpulas cifradas); también para el BM25 persistido. */
+    public readonly cipher?: IndexCipher,
   ) {}
 
   get size(): number { return this.chunks.length; }
@@ -129,7 +131,7 @@ export class FlatVectorStore {
     }
   }
 
-  static load(dir: string, expected?: EmbeddingContract): FlatVectorStore {
+  static load(dir: string, expected?: EmbeddingContract, cipher?: IndexCipher): FlatVectorStore {
     const manifest = FlatVectorStore.readManifest(dir);
     if (!manifest) throw new RagError('NOT_INDEXED', `sin manifest en ${dir}`);
     if (generationId(manifest.contract) !== manifest.generation) {
@@ -138,16 +140,21 @@ export class FlatVectorStore {
     if (expected && generationId(expected) !== manifest.generation) {
       throw new RagError('CONTRACT_MISMATCH', `la generación ${manifest.generation} no corresponde al contrato solicitado ${generationId(expected)}`);
     }
+    if (manifest.sealed && !cipher) throw new RagError('CORRUPT_INDEX', `el índice de ${manifest.dome} está cifrado y falta su clave`);
+    const openPart = (file: string, part: string): Buffer => {
+      const raw = fs.readFileSync(path.join(dir, file));
+      return manifest.sealed ? cipher!.open(raw, `${part}-${manifest.seq}`) : raw;
+    };
     let chunks: Chunk[];
     let buf: Buffer;
     try {
-      chunks = fs.readFileSync(path.join(dir, `chunks-${manifest.seq}.jsonl`), 'utf-8')
+      chunks = openPart(`chunks-${manifest.seq}.jsonl`, 'chunks').toString('utf-8')
         .split('\n').filter(Boolean)
         .map((line) => {
           const c = JSON.parse(line) as StoredChunk;
           return { ...c, embedText: `${c.heading}\n\n${c.text}` };
         });
-      buf = fs.readFileSync(path.join(dir, `vectors-${manifest.seq}.f32`));
+      buf = openPart(`vectors-${manifest.seq}.f32`, 'vectors');
     } catch (e) {
       throw new RagError('CORRUPT_INDEX', `no se pudo leer la generación ${manifest.generation}: ${e instanceof Error ? e.message : e}`);
     }
@@ -156,10 +163,11 @@ export class FlatVectorStore {
       throw new RagError('CORRUPT_INDEX', `tamaños inconsistentes en ${manifest.generation} (chunks ${chunks.length}/${manifest.chunkCount}, bytes ${buf.byteLength})`);
     }
     const vectors = new Float32Array(buf.buffer.slice(buf.byteOffset, buf.byteOffset + buf.byteLength));
-    return new FlatVectorStore(manifest, chunks, vectors, dir);
+    // Un índice en claro se carga también con cifrador: es la migración (se reescribe sellado).
+    return new FlatVectorStore(manifest, chunks, vectors, dir, cipher);
   }
 
-  static write(dir: string, manifest: Manifest, chunks: Chunk[], vectors: Float32Array[]): void {
+  static write(dir: string, manifest: Manifest, chunks: Chunk[], vectors: Float32Array[], cipher?: IndexCipher): void {
     if (chunks.length !== vectors.length) throw new RagError('CORRUPT_INDEX', 'chunks y vectores desalineados');
     mkdirPrivate(dir);
     const dims = manifest.contract.dims;
@@ -169,14 +177,17 @@ export class FlatVectorStore {
       flat.set(v, i * dims);
     });
     const lines = chunks.map(({ embedText: _e, ...rest }) => JSON.stringify(rest)).join('\n');
-    writeAtomic(path.join(dir, `chunks-${manifest.seq}.jsonl`), lines ? `${lines}\n` : '');
-    writeAtomic(path.join(dir, `vectors-${manifest.seq}.f32`), new Uint8Array(flat.buffer));
-    writeAtomic(path.join(dir, 'manifest.json'), JSON.stringify({ ...manifest, chunkCount: chunks.length }, null, 2));
+    const part = (data: Uint8Array, name: string) => (cipher ? cipher.seal(data, `${name}-${manifest.seq}`) : data);
+    writeAtomic(path.join(dir, `chunks-${manifest.seq}.jsonl`), part(Buffer.from(lines ? `${lines}\n` : ''), 'chunks'));
+    writeAtomic(path.join(dir, `vectors-${manifest.seq}.f32`), part(new Uint8Array(flat.buffer), 'vectors'));
+    const { sealed: _s, ...rest } = manifest;
+    writeAtomic(path.join(dir, 'manifest.json'), JSON.stringify({ ...rest, chunkCount: chunks.length, ...(cipher ? { sealed: true } : {}) }, null, 2));
   }
 
   /** Solo metadatos (mtime, fingerprint) cambiaron: el seq y los datos siguen válidos. */
-  static updateManifest(dir: string, manifest: Manifest): void {
-    writeAtomic(path.join(dir, 'manifest.json'), JSON.stringify(manifest, null, 2));
+  static updateManifest(dir: string, manifest: Manifest, cipher?: IndexCipher): void {
+    const { sealed: _s, ...rest } = manifest;
+    writeAtomic(path.join(dir, 'manifest.json'), JSON.stringify({ ...rest, ...(cipher ? { sealed: true } : {}) }, null, 2));
   }
 
   vector(index: number): Float32Array {

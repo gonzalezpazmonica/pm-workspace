@@ -14,6 +14,7 @@ import {
   boxKeypair, deriveSubkey, keyId, open, openRecovery, openSealedBox, randomKey, seal, sealRecovery, sealTo, type SubkeyKind,
 } from './crypto.js';
 import { FilesError } from './types.js';
+import type { IndexCipher } from '../rag/types.js';
 
 const DOME_RE = /^[A-Za-z0-9][A-Za-z0-9._-]{0,63}$/;
 const REV_RE = /^r_[0-9a-f]{16}$/;
@@ -250,4 +251,24 @@ export function importRecovery(home: string, recoveryFile: Uint8Array, phrase: s
   for (const [d, snap] of Object.entries(snaps)) new KeyStore({ home, dome: d }).restore(snap);
   writeSecret(path.join(home, 'recovery.pub'), rec.recoveryPublicKey);
   return Object.keys(snaps);
+}
+
+/**
+ * SE-417: cifrador del índice de Savia RAG de una cúpula cifrada (subclave `index`; durante una
+ * rotación abre también con la anterior).
+ */
+export function indexCipher(keys: KeyStore): IndexCipher {
+  const aad = (part: string) => ({ schemaVersion: 1, domeId: keys.dome, part, artifactKind: 'index' });
+  return {
+    seal: (data, part) => seal(keys.subkey('index')!, data, aad(part)),
+    open: (data, part) => {
+      try {
+        return open(keys.subkey('index')!, data, aad(part));
+      } catch (e) {
+        const prev = keys.subkey('index', 'prev');
+        if (!prev) throw e;
+        return open(prev, data, aad(part));
+      }
+    },
+  };
 }

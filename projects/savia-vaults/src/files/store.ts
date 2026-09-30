@@ -297,14 +297,15 @@ export class FileStore {
   }
 
   /** SE-417 AC4: KEK nueva, DEK re-envueltas y manifiestos re-sellados. Reanudable. */
-  rotateKeys(): void {
+  rotateKeys(resealOthers?: () => void): void {
     this.locked(() => {
       if (!this.isEncrypted()) throw new FilesError('INVALID_INPUT', `la cúpula ${this.dome} no está cifrada`);
       this.keys.rotate(() => undefined, () => {
-        for (const f of fs.readdirSync(this.docsDir)) {
+        for (const f of fs.existsSync(this.docsDir) ? fs.readdirSync(this.docsDir) : []) {
           const id = f.slice(0, -5);
           if (f.endsWith('.json') && DOCUMENT_RE.test(id)) this.writeDoc(this.readDoc(id));
         }
+        resealOthers?.(); // p. ej. el índice RAG: aún se puede abrir con la clave anterior
       });
       writeAtomic(this.markerPath, JSON.stringify({ v: 1, since: new Date().toISOString(), kekId: this.keys.kekId() }));
     });

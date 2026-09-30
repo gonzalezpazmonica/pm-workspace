@@ -92,3 +92,70 @@ EOF
   run bash -c "! grep -E 'aws |gsutil|az ' $SCRIPT"
   [ "$status" -eq 0 ]
 }
+
+# ── SE-417: almacén de Savia Files y copia de claves ─────────────────────────
+seed_files() {
+  export SAVIA_FILES_HOME="$TESTROOT/files"
+  export SAVIA_FILES_KEYS_HOME="$TESTROOT/keys"
+  mkdir -p "$SAVIA_FILES_HOME/D/blobs" "$SAVIA_FILES_HOME/D/.work" "$SAVIA_FILES_KEYS_HOME/D/wraps"
+  echo "cifrado" > "$SAVIA_FILES_HOME/D/blobs/r_0000000000000001.svf"
+  echo "lock" > "$SAVIA_FILES_HOME/D/files.lock"
+  echo "tmp" > "$SAVIA_FILES_HOME/D/.work/original"
+  printf 'k%.0s' {1..32} > "$SAVIA_FILES_KEYS_HOME/D/kek"
+}
+
+# Sustituto de node: `files keys backup --out F` escribe una copia "sellada" de prueba.
+fake_node() {
+  printf '%s\n' '#!/usr/bin/env bash' \
+    'out=""; while [[ $# -gt 0 ]]; do [[ "$1" == "--out" ]] && out="$2"; shift; done' \
+    '[[ -n "$out" ]] && printf SEALED > "$out" && exit 0' 'exit 1' > "$TESTROOT/node"
+  chmod +x "$TESTROOT/node"
+  export SAVIA_NODE="$TESTROOT/node"
+}
+
+nc_env_down() {
+  printf '%s\n' 'NEXTCLOUD_URL="http://127.0.0.1:1"' 'NEXTCLOUD_USER="test"' 'NEXTCLOUD_PASS="test"' > "$HOME/.savia-vaults/nextcloud.env"
+}
+
+@test "SE-417: el almacén de ficheros entra en el backup sin lock ni temporales" {
+  seed_files
+  run bash "$SCRIPT" run
+  [ "$status" -eq 0 ]
+  local tarf; tarf=$(ls -1 "$SAVIA_VAULTS_BACKUP_DIR"/savia-files-*.tar.gz | head -1)
+  [ -n "$tarf" ]
+  [ -f "$tarf.sha256" ]
+  run tar -tzf "$tarf"
+  [[ "$output" == *"r_0000000000000001.svf"* ]]
+  [[ "$output" != *"files.lock"* ]]
+  [[ "$output" != *".work"* ]]
+}
+
+@test "SE-417: sin fichero de recuperación, copia local de claves 0600 y aviso; nunca se sube" {
+  seed_files
+  nc_env_down
+  run bash "$SCRIPT" run
+  [ "$status" -eq 0 ]
+  local k; k=$(ls -1 "$SAVIA_VAULTS_BACKUP_DIR"/keys/savia-keys-*.tar.gz | head -1)
+  [ -n "$k" ]
+  [ "$(stat -c %a "$k")" = "600" ]
+  [ "$(stat -c %a "$SAVIA_VAULTS_BACKUP_DIR/keys")" = "700" ]
+  grep -q "AVISO: claves sin fichero de recuperación" "$LOG"
+  ! grep nextcloud "$LOG" | grep -q "savia-keys"
+}
+
+@test "SE-417: con recuperación, copia sellada; se sube solo si SAVIA_BACKUP_UPLOAD_KEYS=true" {
+  seed_files
+  fake_node
+  echo "pub" > "$SAVIA_FILES_KEYS_HOME/recovery.pub"
+  nc_env_down
+  run bash "$SCRIPT" run
+  [ "$status" -eq 0 ]
+  local s; s=$(ls -1 "$SAVIA_VAULTS_BACKUP_DIR"/keys/savia-keys-*.sealed | head -1)
+  [ "$(cat "$s")" = "SEALED" ]
+  [ -z "$(ls "$SAVIA_VAULTS_BACKUP_DIR"/keys/savia-keys-*.tar.gz 2>/dev/null)" ]
+  ! grep nextcloud "$LOG" | grep -q "savia-keys"
+  echo 'SAVIA_BACKUP_UPLOAD_KEYS=true' >> "$HOME/.savia-vaults/nextcloud.env"
+  run bash "$SCRIPT" run
+  [ "$status" -eq 0 ]
+  grep nextcloud "$LOG" | grep -q "savia-keys-.*\.sealed"
+}

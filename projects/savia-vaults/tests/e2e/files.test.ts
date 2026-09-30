@@ -93,5 +93,42 @@ describe('SE-413 CLI files', () => {
     expect(r.stdout).toMatch(/antivirus/i);
     expect(r.stdout).toMatch(/files setup/);
   }, 30000);
+
+  it('SE-417: cúpula N3 cifrada, fichero de recuperación y restauración de claves desde la CLI', () => {
+    const root = fs.mkdtempSync(path.join(os.tmpdir(), 'savia-cli-enc-'));
+    folders.push(root);
+    fs.mkdirSync(path.join(root, 'd'));
+    const registry = path.join(root, 'domes.json');
+    fs.writeFileSync(registry, JSON.stringify({ version: 1, defaultDome: 'd', domes: { d: { name: 'd', path: path.join(root, 'd'), description: '', confidentiality: 'N3', files: { enabled: true, scan: 'off' } } } }));
+    const env = (keys: string) => ({ PATH: process.env.PATH || '', HOME: root, SAVIA_FILES_HOME: path.join(root, 'files'), SAVIA_FILES_KEYS_HOME: keys, SAVIA_RAG_HOME: path.join(root, 'rag'), SAVIA_RAG_TEST_PROVIDER: 'hash' });
+    const cli = (keys: string, ...args: string[]) => spawnSync(process.execPath, [
+      '--import', pathToFileURL(path.resolve('node_modules/tsx/dist/loader.mjs')).href, path.resolve('src/cli/index.ts'), 'files', ...args,
+    ], { env: env(keys), encoding: 'utf-8', timeout: 60000 });
+    const keys = path.join(root, 'keys');
+    const src = path.join(root, 'secreto.txt');
+    fs.writeFileSync(src, 'albatros-7731');
+    const add = cli(keys, 'add', src, '--dome', 'd', '--domes-file', registry, '--json');
+    expect(add.status, add.stderr).toBe(0);
+    const [doc] = JSON.parse(add.stdout);
+    expect(fs.existsSync(path.join(root, 'files', 'd', 'encryption.json'))).toBe(true);
+
+    const rec = path.join(root, 'recuperacion');
+    const exp = cli(keys, 'keys', 'export', '--dir', rec);
+    expect(exp.status, exp.stderr).toBe(0);
+    const phrase = fs.readFileSync(path.join(rec, 'frase-de-recuperacion.txt'), 'utf-8').trim();
+    expect(exp.stdout).not.toContain(phrase);
+    const backup = path.join(root, 'claves.sealed');
+    expect(cli(keys, 'keys', 'backup', '--out', backup).status).toBe(0);
+
+    // Disco perdido: claves nuevas vacías, se restauran con fichero + frase + copia sellada
+    const restored = path.join(root, 'keys-restauradas');
+    const phraseFile = path.join(rec, 'frase-de-recuperacion.txt');
+    const imp = cli(restored, 'keys', 'import', path.join(rec, 'savia-claves.recovery'), '--phrase-file', phraseFile, '--backup', backup);
+    expect(imp.status, imp.stderr).toBe(0);
+    const out = path.join(root, 'copia.txt');
+    const get = cli(restored, 'get', doc.documentId, '--dome', 'd', '--domes-file', registry, '-o', out);
+    expect(get.status, get.stderr).toBe(0);
+    expect(fs.readFileSync(out, 'utf-8')).toBe('albatros-7731');
+  }, 120000);
 });
 

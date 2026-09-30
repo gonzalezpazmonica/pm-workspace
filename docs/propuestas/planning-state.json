@@ -395,6 +395,16 @@
       "note": "Linux x86_64 probado de verdad (AC1, AC4); resto de plataformas pendiente de máquina",
       "evidence": "docs/specs/SE-416-savia-files-setup.spec.md",
       "phase": "A"
+    },
+    {
+      "id": "SE-417",
+      "status": "APPROVED",
+      "approval": "Operadora 2026-09-30 en chat (AskUserQuestion): 'Aprobar e implementar'",
+      "priority": "P1",
+      "title": "Savia Files: cifrado en reposo, borrado criptográfico, rotación, migración y copia de seguridad con claves por otro canal",
+      "note": "AC1-AC10 con evidencia; subida de claves configurable (off por defecto)",
+      "evidence": "docs/specs/SE-417-savia-files-encryption.spec.md",
+      "phase": "A"
     }
   ],
   "route": {
