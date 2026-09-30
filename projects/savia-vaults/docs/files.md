@@ -58,22 +58,47 @@ Desactivado por defecto. Se activa por cúpula en `savia-vaults.domes.json`:
 Para que los ficheros aparezcan en `vault_rag`, la cúpula también necesita
 `rag.enabled`.
 
-### Worker de extracción (PDF, DOCX, PPTX, XLSX)
+### Dependencias: instalación sin consola ni administrador (SE-416)
 
-Los formatos ofimáticos se extraen con un proceso Python aparte. Instalación
-(una vez, fuera del repo, con [uv](https://docs.astral.sh/uv/)):
+Savia Files usa dos piezas externas. Las instala `savia-vaults files setup` (o Savia
+desde el chat con `vault_files action: "setup"`) en `~/.savia-vaults/tools`, **sin
+permisos de administrador** y sin que la persona use la consola:
+
+| Componente | Qué hace | Tamaño | Sin él |
+|---|---|---|---|
+| Lector de documentos | Python gestionado + Docling + openpyxl (lock con hashes) | ~1,5 GB (+0,5 GB de modelos en la primera extracción) | PDF, DOCX, PPTX y XLSX quedan `ARCHIVE_ONLY` (`worker-missing`) |
+| Antivirus | ClamAV oficial de Cisco Talos, desempaquetado sin instalar, con firmas propias | ~150 MB | Los ficheros no se analizan (`scan: auto`) o se rechazan (`scan: required`) |
 
 ```bash
-uv venv ~/.savia-vaults/files-venv
-uv pip install --python ~/.savia-vaults/files-venv/bin/python \
-  --extra-index-url https://download.pytorch.org/whl/cpu \
-  -r projects/savia-vaults/workers/files/requirements.lock
+savia-vaults files status              # qué hay y qué falta, en frases llanas
+savia-vaults files setup               # instala ambos (o --extractor / --antivirus)
+savia-vaults files setup --uninstall   # desinstala
 ```
 
-Ocupa ~1,5 GB (torch CPU). La primera conversión descarga los modelos de maquetación de
-Docling a `~/.cache/huggingface`; después el worker funciona **sin red**
-(`HF_HUB_OFFLINE=1`). Sin worker, TXT/MD/CSV/JSON se siguen extrayendo y el resto
-queda `ARCHIVE_ONLY` con `skipped: [{reason: "worker-missing"}]`.
+Cómo funciona:
+
+- **Versiones fijadas**: ClamAV 1.5.4, uv 0.12.21 y Python 3.12. URL y SHA-256
+  están escritos en el código; si una descarga no coincide, se aborta sin tocar
+  nada. Los paquetes Python se instalan con `--require-hashes` desde
+  `workers/files/requirements.lock`, generado desde `requirements.in` con
+  `constraints.txt` (cómo regenerarlo, en la cabecera del lock).
+- **Atómica e idempotente**: todo se prepara en un directorio temporal y se activa
+  solo si funciona; ante un fallo sigue la instalación anterior. Repetirla no
+  descarga nada (medido: 0,5 s).
+- **Sin root**: el paquete `.deb` de ClamAV se lee en TypeScript (formato `ar` +
+  `tar.gz`) y solo se extraen `clamscan`, `freshclam`, sus librerías y los
+  certificados de firma. Los binarios traen rutas fijas a `/usr/local`, que se
+  redirigen en cada llamada con `LD_LIBRARY_PATH` y `CVD_CERTS_DIR`.
+- **Plataformas**: solo Linux x86_64, probado. En macOS, Windows o Linux arm64,
+  `status` dice que todavía no se puede instalar automáticamente.
+- Medido en la máquina de desarrollo: instalación completa en 31 s (depende de la
+  red); lote de un PDF, un XLSX y el fichero de prueba EICAR con antivirus
+  obligatorio en 28 s (PDF y XLSX `READY`, EICAR `QUARANTINED`).
+
+Prioridad del intérprete del worker: `SAVIA_FILES_PYTHON`, después el lector
+gestionado y, por compatibilidad, `~/.savia-vaults/files-venv` (instalación manual
+de SE-413). La primera conversión descarga los modelos de maquetación de Docling a
+`~/.cache/huggingface`; después el worker funciona **sin red** (`HF_HUB_OFFLINE=1`).
 
 ## Modelo de datos
 
@@ -227,7 +252,9 @@ Tiempos medidos en la máquina de desarrollo (RTX 2070, CPU para Docling):
 
 ## Escaneo antivirus
 
-Con ClamAV (`clamscan`), antes de extraer:
+Con ClamAV (`clamscan`), antes de extraer. Todos los ficheros de un lote se analizan
+en **una sola llamada**, porque cada llamada carga 3,3 millones de firmas (~10 s y
+~1 GB de RAM medidos):
 
 | `files.scan` | Hay `clamscan` | No hay `clamscan` |
 |---|---|---|
@@ -240,9 +267,16 @@ Con ClamAV (`clamscan`), antes de extraer:
 - Si el escáner falla en `auto`, la revisión se procesa y se añade
   `skipped: [{reason: "scan-error"}]` (queda `PARTIAL`, no oculta el fallo).
 - Si el escáner falla en `required` durante un `put`, la revisión nueva se deshace.
-- Se busca en `SAVIA_FILES_CLAMSCAN`, `/usr/bin/clamscan`, `/usr/local/bin/clamscan`
-  y `/opt/homebrew/bin/clamscan`. Instalación en Debian/Ubuntu:
-  `sudo apt install clamav && sudo freshclam`.
+- Qué ClamAV se usa: el gestionado por `files setup` (SE-416); si no hay, el de
+  `SAVIA_FILES_CLAMSCAN`, y si no, el del sistema (`/usr/bin/clamscan`,
+  `/usr/local/bin/clamscan`, `/opt/homebrew/bin/clamscan`).
+- **Firmas al día sin intervención (SE-416)**: al instalar se descargan (108 MB,
+  verificadas). Después, si la última comprobación correcta tiene más de 24 h, cada
+  análisis lanza `freshclam` en segundo plano (como mucho una vez cada 4 h), sin
+  esperar.
+- **Firmas caducadas (más de 7 días)**: `required` rechaza con un mensaje que lo
+  explica; `auto` analiza igualmente, lo anota en el resultado y `status` avisa de
+  que no protege frente a amenazas recientes.
 
 ## Savia RAG
 
@@ -287,6 +321,12 @@ Una sola tool con `action`. Respuestas en JSON compacto.
 | `get` | read | `dome`, `id` | documento con todas sus revisiones y cobertura |
 | `text` | read | `dome`, `id`, `revisionId?`, `locator?` (filtro parcial, p. ej. `{"type":"page","page":2}`), `maxChars?` (def. 12 000) | `units[]`, `truncated` |
 | `download` | read | `dome`, `id`, `revisionId?` | `contentBase64`, `sha256`, `mime`, `name` |
+| `status` (SE-416) | — (sin cúpula) | — | por componente: `state`, versión, disco, antigüedad de firmas, `message`; `summary` con frases para la persona; `job` si hay una instalación en curso |
+| `setup` (SE-416) | admin de la máquina* | `components?` (`extractor`, `antivirus`; def. ambos) | arranca la instalación **en segundo plano** y vuelve al instante; el progreso se consulta con `status` |
+
+\* Sin usuarios configurados (servidor local de una persona), cualquiera. Con
+usuarios, hace falta el rol `admin` sobre la cúpula por defecto: instalar software
+en la máquina no es un permiso de cúpula.
 | `delete` | write | `dome`, `id` | `{deleted, revisions}` |
 | `reprocess` | write | `dome`, `id`, `revisionId?` | estado de extracción nuevo |
 
@@ -354,6 +394,7 @@ savia-vaults rag search "penalización por retraso" --domes proyectos
 | `SAVIA_FILES_MAX_UNZIPPED_BYTES` | 268 435 456 (256 MiB) | Tamaño descomprimido máximo de un DOCX/PPTX/XLSX |
 | `SAVIA_FILES_WORKERS` | 1 | Workers Python simultáneos por proceso |
 | `SAVIA_FILES_LOCK_WAIT_MS` | 10 000 | Espera máxima por el lock de escritura |
+| `SAVIA_TOOLS_HOME` | `~/.savia-vaults/tools` | Dónde instala `files setup` (nunca dentro de un repo git) |
 
 ## Errores
 
@@ -369,14 +410,15 @@ savia-vaults rag search "penalización por retraso" --domes proyectos
 | `UNSAFE_HOME` | `SAVIA_FILES_HOME` dentro de un repo git |
 | `SCAN_REQUIRED` | `files.scan: required` sin escáner o con el escáner fallando |
 | `DISABLED` | La cúpula no tiene `files.enabled` |
+| `UNSUPPORTED` | `files setup` en una plataforma sin instalación automática |
 
 ## Operación
 
 - **Copia de seguridad**: `$SAVIA_FILES_HOME` no está en git; inclúyelo en la copia de
   `~/.savia-vaults/`. El índice RAG se puede regenerar desde los ficheros
   (`rag sync --rebuild`); los originales no.
-- **Tras instalar el worker o ClamAV**: `files reprocess` sobre los documentos
-  `ARCHIVE_ONLY` con `worker-missing`.
+- **Tras `files setup`**: `files reprocess` sobre los documentos `ARCHIVE_ONLY`
+  con `worker-missing`.
 - **Tras una caída**: `files gc`.
 - **Manifiesto de documento corrupto** (`corrupt > 0` en `list`): restaurar
   `docs/<id>.json` desde la copia de seguridad. Si no hay copia, borrar ese fichero

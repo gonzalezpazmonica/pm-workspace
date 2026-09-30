@@ -385,6 +385,16 @@
       "note": "Apilada sobre SE-414; AC1-AC7 medidos",
       "evidence": "docs/specs/SE-415-savia-files-extraction-fidelity.spec.md",
       "phase": "A"
+    },
+    {
+      "id": "SE-416",
+      "status": "APPROVED",
+      "approval": "Operadora 2026-09-30 en chat (AskUserQuestion): 'Aprobar e implementar'",
+      "priority": "P1",
+      "title": "Savia Files: instalador de dependencias sin consola ni administrador (lector de documentos y ClamAV)",
+      "note": "Linux x86_64 probado de verdad (AC1, AC4); resto de plataformas pendiente de máquina",
+      "evidence": "docs/specs/SE-416-savia-files-setup.spec.md",
+      "phase": "A"
     }
   ],
   "route": {

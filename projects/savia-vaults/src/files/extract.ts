@@ -7,7 +7,8 @@ import * as path from 'node:path';
 import { execFile } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 import type { FileStore } from './store.js';
-import { scanFile, type ScanMode } from './scan.js';
+import { scanFiles, type ScanMode } from './scan.js';
+import { Tools } from './setup.js';
 import { inspectZip } from './zip-guard.js';
 import type { ExtractUnit, ExtractionInfo, FileType, Locator, TextEncoding } from './types.js';
 
@@ -24,8 +25,14 @@ export interface RawExtraction {
   skipped: { reason: string; count: number }[];
 }
 
+/**
+ * Intérprete del worker: `SAVIA_FILES_PYTHON`, después el extractor instalado por
+ * `files setup` (SE-416) y, por compatibilidad, el venv manual de SE-413.
+ */
 export function defaultPython(): string {
-  return process.env.SAVIA_FILES_PYTHON || path.join(os.homedir(), '.savia-vaults', 'files-venv', 'bin', 'python');
+  return process.env.SAVIA_FILES_PYTHON
+    || new Tools().pythonPath()
+    || path.join(os.homedir(), '.savia-vaults', 'files-venv', 'bin', 'python');
 }
 
 export function workerScript(): string {
@@ -237,13 +244,16 @@ export async function processRevisions(
 ): Promise<ExtractionInfo[]> {
   const python = opts.python ?? defaultPython();
   const pending: Pending[] = [];
-  for (const it of items) {
+  // Existencia e integridad de todo el lote antes de nada; después, un solo análisis antivirus (SE-416).
+  const revs = items.map((it) => {
     const rev = store.revision(it.documentId, it.revisionId);
-    const blob = store.blobPath(rev.sha256);
-    const bytes = store.readBytes(it.documentId, rev.id); // verifica existencia e integridad antes de nada
+    return { it, rev, blob: store.blobPath(rev.sha256), bytes: store.readBytes(it.documentId, rev.id) };
+  });
+  const scans = await scanFiles(revs.map((r) => r.blob), { mode: opts.scan ?? 'auto', clamscan: opts.clamscan });
+  for (const [i, { it, rev, blob, bytes }] of revs.entries()) {
     const p: Pending = { documentId: it.documentId, revisionId: rev.id, scanSkips: [], units: [] };
     pending.push(p);
-    const scan = await scanFile(blob, { mode: opts.scan ?? 'auto', clamscan: opts.clamscan });
+    const scan = scans[i];
     if (scan.verdict === 'infected') {
       p.info = { status: 'QUARANTINED', method: 'clamscan', units: 0, extracted: 0, skipped: [], error: scan.signature };
       continue;

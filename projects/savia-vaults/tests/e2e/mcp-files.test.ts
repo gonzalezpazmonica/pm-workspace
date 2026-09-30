@@ -98,6 +98,12 @@ describe('SE-413 MCP vault_files', () => {
       expect(list.isError).not.toBe(true);
       const other = await client.callTool({ name: 'vault_files', arguments: { action: 'list', dome: 'other' } });
       expect(other.isError).toBe(true);
+      // SE-416 AC7: instalar software exige rol admin; consultar el estado no.
+      const setup = await client.callTool({ name: 'vault_files', arguments: { action: 'setup', components: ['antivirus'] } });
+      expect(setup.isError).toBe(true);
+      const status = await client.callTool({ name: 'vault_files', arguments: { action: 'status' } });
+      expect(status.isError).not.toBe(true);
+      expect(JSON.parse(text(status)).summary.length).toBeGreaterThan(0);
     } finally {
       await client.close();
     }

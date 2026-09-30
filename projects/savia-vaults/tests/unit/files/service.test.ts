@@ -4,7 +4,9 @@ import * as fs from 'node:fs';
 import * as os from 'node:os';
 import * as path from 'node:path';
 import { createHash } from 'node:crypto';
-import { FilesService, type FilesDomeRef } from '../../../src/files/service.js';
+import { FilesService, callFilesTool, type FilesDomeRef } from '../../../src/files/service.js';
+import { Tools } from '../../../src/files/setup.js';
+import { fakeClamavDeb, fakeUvTarGz, serve, sha256 } from './fake-artifacts.js';
 
 const b64 = (s: string | Buffer) => Buffer.from(s).toString('base64');
 const sha = (b: Buffer) => createHash('sha256').update(b).digest('hex');
@@ -152,6 +154,42 @@ describe('FilesService', () => {
     expect(res.map((r) => r.status)).toEqual(['READY', 'READY', 'READY', 'READY']);
     expect(fs.readFileSync(calls, 'utf-8').trim().split('\n')).toHaveLength(1);
     expect(changed).toEqual(['D']);
+  });
+
+  it('SE-416 AC6: status sin cúpula, con frases para la persona', async () => {
+    const svc2 = make({ tools: new Tools({ home: path.join(home, 'tools'), pins: null, env: { HOME: home } }) });
+    const st = await callFilesTool(svc2, { action: 'status' }) as { supported: boolean; summary: string[] };
+    expect(st.supported).toBe(false);
+    expect(st.summary.join(' ')).toMatch(/todavía no puedo instalarlo/);
+    expect(st.summary.join(' ')).not.toMatch(/\/home|\/tmp/);
+  });
+
+  it('SE-416 AC7: setup exige rol de administración de la máquina', async () => {
+    const svc2 = make({ authorizeAdmin: async () => { throw new Error('denegado admin'); } });
+    await expect(callFilesTool(svc2, { action: 'setup', components: ['antivirus'] })).rejects.toThrow(/denegado admin/);
+  });
+
+  it('SE-416: setup por MCP arranca en segundo plano y status informa del resultado', async () => {
+    const deb = fakeClamavDeb(home);
+    const uv = fakeUvTarGz(home);
+    const srv = await serve({ '/c.deb': deb, '/uv.tgz': uv });
+    try {
+      const tools = new Tools({
+        home: path.join(home, 'tools'), env: { PATH: process.env.PATH, HOME: home },
+        pins: { clamav: { version: '9.9.9', url: `${srv.url}/c.deb`, sha256: sha256(deb) }, uv: { version: '0', url: `${srv.url}/uv.tgz`, sha256: sha256(uv) }, python: '3.12', torchIndex: 'x' },
+      });
+      const svc2 = make({ tools, authorizeAdmin: async () => undefined });
+      const started = await callFilesTool(svc2, { action: 'setup', components: ['antivirus'] }) as { started: boolean; summary: string[] };
+      expect(started.started).toBe(true);
+      expect(started.summary.join(' ')).toMatch(/instalando/i);
+      await tools.waitForJob();
+      const st = await callFilesTool(svc2, { action: 'status' }) as { antivirus: { state: string }; summary: string[] };
+      expect(st.antivirus.state).toBe('installed');
+      expect(st.summary.join(' ')).toMatch(/Antivirus activo/);
+      await expect(callFilesTool(svc2, { action: 'setup', components: ['nada'] })).rejects.toThrow(/INVALID_INPUT/);
+    } finally {
+      await srv.close();
+    }
   });
 });
 

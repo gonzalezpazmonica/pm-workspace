@@ -80,4 +80,18 @@ describe('SE-413 CLI files', () => {
     expect(r.status).toBe(1);
     expect(r.stderr).toContain('DISABLED');
   }, 30000);
+
+  it('SE-416: files status explica en lenguaje llano qué falta, sin registro de cúpulas', () => {
+    const { root, run } = setup();
+    const r = spawnSync(process.execPath, [
+      '--import', pathToFileURL(path.resolve('node_modules/tsx/dist/loader.mjs')).href,
+      path.resolve('src/cli/index.ts'), 'files', 'status',
+    ], { env: { PATH: process.env.PATH || '', HOME: root, SAVIA_TOOLS_HOME: path.join(root, 'tools') }, encoding: 'utf-8', timeout: 30000 });
+    void run;
+    expect(r.status, r.stderr).toBe(0);
+    expect(r.stdout).toMatch(/Lector de documentos|lector de documentos/);
+    expect(r.stdout).toMatch(/antivirus/i);
+    expect(r.stdout).toMatch(/files setup/);
+  }, 30000);
 });
+
