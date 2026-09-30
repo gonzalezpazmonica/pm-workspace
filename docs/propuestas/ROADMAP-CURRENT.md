@@ -23,3 +23,4 @@
 - SE-418 [APPROVED] Savia Files: ledger git privado, journal de operaciones y receipts firmados (D01, D03) — evidencia: docs/specs/SE-418-savia-files-ledger.spec.md
 - SE-419 [APPROVED] Savia Files: permisos por documento (nivel y listas readers/writers) en todas las vistas, vault_rag incluido (D02) — evidencia: docs/specs/SE-419-savia-files-document-acl.spec.md
 - SE-420 [APPROVED] SaviaVaults: una nota con nivel mayor que su cúpula no se sirve por ninguna herramienta (MCP, A2A, RAG) — evidencia: docs/specs/SE-420-vaults-note-level.spec.md
+- SE-421 [APPROVED] Savia Files: almacén en streaming (hasta 10 GiB, rangos, antivirus por stdin, tope de extracción) — evidencia: docs/specs/SE-421-savia-files-streaming-store.spec.md

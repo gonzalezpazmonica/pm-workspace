@@ -43,10 +43,14 @@ function validFiles(dome: string, files: FilesDomeConfig): FilesDomeConfig {
   if (files.encryption !== undefined && typeof files.encryption !== 'boolean') {
     throw new Error(`Invalid files.encryption for dome "${dome}": ${String(files.encryption)}. Must be true or false.`);
   }
+  if (files.maxBytes !== undefined && (!Number.isSafeInteger(files.maxBytes) || files.maxBytes < 1 || files.maxBytes > 10 * 1024 ** 3)) {
+    throw new Error(`Invalid files.maxBytes for dome "${dome}": ${String(files.maxBytes)}. Must be an integer between 1 and 10737418240 (10 GiB).`);
+  }
   return {
     enabled: files.enabled === true,
     ...(files.scan ? { scan: files.scan } : {}),
     ...(files.encryption !== undefined ? { encryption: files.encryption } : {}),
+    ...(files.maxBytes !== undefined ? { maxBytes: files.maxBytes } : {}),
   };
 }
 

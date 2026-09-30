@@ -17,6 +17,17 @@ import {
   FilesError, type ExtractUnit, type ExtractionInfo, type FileDocument, type FileRevision, type FilesDomeConfig, type FilesLimits, type Locator,
 } from './types.js';
 
+/** SE-421: un fichero a guardar, en memoria (MCP, ≤ 20 MiB) o como stream (CLI, API HTTP). */
+export interface PutFile {
+  name: string;
+  bytes?: Buffer;
+  /** Abre el stream del contenido (se llama una sola vez, ya dentro de la operación). */
+  stream?: () => AsyncIterable<Uint8Array>;
+  /** Tamaño declarado del stream, si se conoce (para rechazar antes de leer). */
+  size?: number;
+  replaces?: string;
+}
+
 export interface FilesDomeRef {
   name: string;
   confidentiality: string;
@@ -234,7 +245,9 @@ export class FilesService {
     const principal = asPrincipal(await this.o.authorize?.(name, action, TOOL));
     await sodiumReady();
     const store = new FileStore({
-      home: this.env.SAVIA_FILES_HOME || undefined, dome: d.name, domeLevel: d.confidentiality, limits: this.limits,
+      home: this.env.SAVIA_FILES_HOME || undefined, dome: d.name, domeLevel: d.confidentiality,
+      // SE-421: el límite de la cúpula manda si es menor que el global
+      limits: d.files?.maxBytes ? { ...this.limits, maxBytes: Math.min(this.limits.maxBytes, d.files.maxBytes) } : this.limits,
       encrypt: encryptionRequired(d), keysHome: this.keysHome,
     });
     return { d, store, ...(principal ? { principal } : {}) };
@@ -259,13 +272,16 @@ export class FilesService {
    * obligatorio falla, se deshacen todas las revisiones del lote.
    */
   async putMany(input: {
-    dome: string; files: { name: string; bytes: Buffer; replaces?: string }[]; tags?: string[]; confidentiality?: string; idempotencyKey?: string;
+    dome: string; files: PutFile[]; tags?: string[]; confidentiality?: string; idempotencyKey?: string;
   }): Promise<PutResult[]> {
     const { d, store, principal } = await this.open(input.dome, 'write');
     for (const f of input.files) {
       sanitizeName(f.name);
-      if (!Buffer.isBuffer(f.bytes)) throw new FilesError('INVALID_INPUT', 'bytes debe ser un Buffer');
-      if (f.bytes.length > this.limits.maxBytes) throw new FilesError('TOO_LARGE', `${f.name}: ${f.bytes.length} bytes > límite ${this.limits.maxBytes}`);
+      if (f.bytes !== undefined ? !Buffer.isBuffer(f.bytes) : typeof f.stream !== 'function') {
+        throw new FilesError('INVALID_INPUT', 'cada fichero necesita bytes (Buffer) o stream');
+      }
+      const size = f.bytes?.length ?? f.size;
+      if (size !== undefined && size > store.limits.maxBytes) throw new FilesError('TOO_LARGE', `${f.name}: ${size} bytes > límite ${store.limits.maxBytes}`);
     }
     // SE-419: sustituir exige poder escribir el documento; crear, poder escribir su nivel.
     for (const f of input.files) {
@@ -279,7 +295,8 @@ export class FilesService {
     }
     // SE-418: una operación = un commit del ledger con todo el lote, ya extraído.
     const request = input.idempotencyKey === undefined ? undefined : {
-      files: input.files.map((f) => ({ name: f.name, size: f.bytes.length, sha256: sha256(f.bytes), replaces: f.replaces ?? null })),
+      // Un stream no se lee dos veces: su huella es nombre y tamaño declarado.
+      files: input.files.map((f) => ({ name: f.name, size: f.bytes?.length ?? f.size ?? null, sha256: f.bytes ? sha256(f.bytes) : null, replaces: f.replaces ?? null })),
       tags: input.tags ?? null, confidentiality: input.confidentiality ?? null,
     };
     const started = store.beginOperation('put', { idempotencyKey: input.idempotencyKey, request });
@@ -290,7 +307,8 @@ export class FilesService {
     try {
       try {
         for (const f of input.files) {
-          added.push(store.add({ name: f.name, bytes: f.bytes, tags: input.tags, confidentiality: input.confidentiality, replaces: f.replaces }));
+          const meta = { name: f.name, tags: input.tags, confidentiality: input.confidentiality, replaces: f.replaces };
+          added.push(f.bytes ? store.add({ ...meta, bytes: f.bytes }) : await store.addStream({ ...meta, source: f.stream!() }));
         }
         infos = await processRevisions(store, added.map((a) => ({ documentId: a.document.id, revisionId: a.revision.id })), {
           scan: mode, clamscan: this.o.clamscan, python: this.o.python ?? this.env.SAVIA_FILES_PYTHON,
@@ -432,7 +450,14 @@ export class FilesService {
     return { documentId: doc.id, revisionId: rev.id, name: doc.name, mime: rev.mime, sha256: rev.sha256, size: rev.size, contentBase64: bytes.toString('base64') };
   }
 
-  /** Bytes sin límite de transferencia (CLI local). */
+  /** SE-421: lectura en streaming (entera y verificada, o por rango) con los permisos de SE-419. */
+  async openRead(input: DocRef & { range?: { start: number; end?: number } }) {
+    const { d, store, principal } = await this.open(input.dome, 'read');
+    const doc = this.readable(store, d, principal, input.id);
+    return { name: doc.name, ...store.openRead(input.id, input.revisionId, input.range) };
+  }
+
+  /** Bytes en memoria (≤ límite de transferencia; para más, openRead). */
   async readBytes(input: DocRef): Promise<{ name: string; bytes: Buffer }> {
     const { d, store, principal } = await this.open(input.dome, 'read');
     return { name: this.readable(store, d, principal, input.id).name, bytes: store.readBytes(input.id, input.revisionId) };

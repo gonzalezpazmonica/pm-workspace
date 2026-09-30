@@ -1,5 +1,7 @@
 // SE-414 S1 — guardia de descompresión: lee el directorio central de un ZIP (OOXML)
 // sin descomprimir nada y rechaza bombas antes de lanzar el worker de extracción.
+// SE-421: también sobre un fichero en disco, leyendo solo la cola y el directorio central.
+import * as fs from 'node:fs';
 
 export interface ZipLimits {
   maxUnzippedBytes: number;
@@ -24,6 +26,10 @@ const MAX_U32 = 0xffffffff;
 
 const fail = (reason: string, entries = 0, unzippedBytes = 0): ZipInspection => ({ ok: false, reason, entries, unzippedBytes });
 
+/** Acceso de solo lectura por posición: un Buffer en memoria o un fichero en disco (SE-421). */
+type Reader = (offset: number, length: number) => Buffer;
+const MAX_CD_BYTES = 64 * 1024 * 1024;
+
 function findEocd(b: Buffer): number {
   const stop = Math.max(0, b.length - 22 - 0xffff);
   for (let i = b.length - 22; i >= stop; i--) if (b.readUInt32LE(i) === EOCD) return i;
@@ -31,21 +37,52 @@ function findEocd(b: Buffer): number {
 }
 
 export function inspectZip(b: Buffer, limits: ZipLimits): ZipInspection {
-  if (b.length < 22) return fail('ZIP inválido: demasiado corto');
-  const eocd = findEocd(b);
-  if (eocd < 0) return fail('ZIP inválido: sin directorio central');
-  let entries = b.readUInt16LE(eocd + 10);
-  let cdOffset = b.readUInt32LE(eocd + 16);
-  if (entries === 0xffff || cdOffset === MAX_U32) {
+  return inspectZipAt(b.length, (o, l) => b.subarray(o, o + l), limits);
+}
+
+/** SE-421: la misma inspección leyendo solo la cola y el directorio central del fichero. */
+export function inspectZipFile(file: string, limits: ZipLimits): ZipInspection {
+  const fd = fs.openSync(file, 'r');
+  try {
+    const size = fs.fstatSync(fd).size;
+    return inspectZipAt(size, (o, l) => {
+      const len = Math.max(0, Math.min(l, size - o));
+      const buf = Buffer.alloc(len);
+      if (len) fs.readSync(fd, buf, 0, len, o);
+      return buf;
+    }, limits);
+  } finally {
+    fs.closeSync(fd);
+  }
+}
+
+function inspectZipAt(size: number, read: Reader, limits: ZipLimits): ZipInspection {
+  if (size < 22) return fail('ZIP inválido: demasiado corto');
+  const tailStart = Math.max(0, size - 22 - 0xffff);
+  const tail = read(tailStart, size - tailStart);
+  const at = findEocd(tail);
+  if (at < 0) return fail('ZIP inválido: sin directorio central');
+  const eocd = tailStart + at;
+  let entries = tail.readUInt16LE(at + 10);
+  let cdSize = tail.readUInt32LE(at + 12);
+  let cdOffset = tail.readUInt32LE(at + 16);
+  if (entries === 0xffff || cdOffset === MAX_U32 || cdSize === MAX_U32) {
     const loc = eocd - 20;
-    if (loc < 0 || b.readUInt32LE(loc) !== EOCD64_LOCATOR) return fail('ZIP inválido: zip64 sin localizador');
-    const rec = Number(b.readBigUInt64LE(loc + 8));
-    if (rec + 56 > b.length || b.readUInt32LE(rec) !== EOCD64) return fail('ZIP inválido: registro zip64 fuera de rango');
-    entries = Number(b.readBigUInt64LE(rec + 32));
-    cdOffset = Number(b.readBigUInt64LE(rec + 48));
+    const locator = loc >= 0 ? read(loc, 20) : Buffer.alloc(0);
+    if (locator.length < 20 || locator.readUInt32LE(0) !== EOCD64_LOCATOR) return fail('ZIP inválido: zip64 sin localizador');
+    const rec = Number(locator.readBigUInt64LE(8));
+    const r = rec + 56 <= size ? read(rec, 56) : Buffer.alloc(0);
+    if (r.length < 56 || r.readUInt32LE(0) !== EOCD64) return fail('ZIP inválido: registro zip64 fuera de rango');
+    entries = Number(r.readBigUInt64LE(32));
+    cdSize = Number(r.readBigUInt64LE(40));
+    cdOffset = Number(r.readBigUInt64LE(48));
   }
   if (entries > limits.maxEntries) return fail(`demasiadas entradas: ${entries} > ${limits.maxEntries}`, entries);
-  let p = cdOffset;
+  if (cdOffset > size) return fail('ZIP inválido: directorio central truncado', entries, 0);
+  // El directorio central va de cdOffset hasta el EOCD (algunos ZIP declaran mal cdSize).
+  const cdLen = Math.min(Math.max(cdSize, eocd - cdOffset), size - cdOffset, MAX_CD_BYTES);
+  const b = read(cdOffset, cdLen);
+  let p = 0;
   let total = 0;
   for (let i = 0; i < entries; i++) {
     if (p + 46 > b.length || b.readUInt32LE(p) !== CDH) return fail('ZIP inválido: directorio central truncado', entries, total);

@@ -6,6 +6,12 @@
 > Each entry: date, spec ID, status transition, optional rationale.
 > Ref: SE-222 S1 OKF Adoptable Patterns (log.md convention).
 
+## 2026-09-30 SE-421 APPROVED
+
+Savia Files: almacén en streaming (hasta 10 GiB, rangos, cifrado frame a frame, antivirus
+por stdin, tope de extracción). Primera mitad de D09 tratada como producto open source;
+la API HTTP con tus 1.0 es SE-422. Aprobadas ambas por la operadora, PR por spec.
+
 ## 2026-09-30 SE-420 APPROVED
 
 SaviaVaults: una nota con confidentiality mayor que su cúpula deja de servirse por

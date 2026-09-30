@@ -5,6 +5,29 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased] — 2026-09-30 · Savia Files: almacén en streaming (SE-421)
+
+### Added
+- `FileStore.addStream` / `openRead` (entera verificada al final, o por rango).
+  - En claras: blob por SHA-256 con deduplicación.
+  - En cifradas: SVF1 frame a frame (`StreamEncryptor`/`StreamDecryptor`, mismo
+    formato que SE-417).
+  - Memoria acotada: ~160 MiB medidos con 2 GiB.
+- Formato de subida parcial cifrada SVFU1 (`sealUploadChunk`/`openUploadChunks`),
+  reanudable, para SE-422.
+- `scanStream`: clamscan por stdin (cifrados grandes, sin copia en claro).
+  `--max-filesize/--max-scansize` a 4 000 MB en todos los análisis.
+- `inspectZipFile`: guardia de ZIP que lee solo la cola y el directorio central.
+- CLI: `files add` en streaming y `files get --range`, a un `.part` renombrado al
+  verificar.
+- `files.maxBytes` por cúpula y `SAVIA_FILES_MAX_EXTRACT_BYTES`
+  (`too-large-to-extract`).
+
+### Changed
+- `SAVIA_FILES_MAX_BYTES` por defecto 1 GiB (antes 100 MiB), tope de 10 GiB.
+- `readBytes` rechaza lo que supera `maxTransferBytes` (usar `openRead`).
+- `gc` respeta los temporales y envolturas de un alta en curso.
+
 ## [Unreleased] — 2026-09-30 · Notas fuera de nivel (SE-420)
 
 ### Fixed

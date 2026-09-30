@@ -7,9 +7,9 @@ import * as path from 'node:path';
 import { execFile } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 import type { FileStore } from './store.js';
-import { scanFiles, type ScanMode } from './scan.js';
+import { CLAMSCAN_MAX_BYTES, scanFiles, scanStream, type ScanMode } from './scan.js';
 import { Tools } from './setup.js';
-import { inspectZip } from './zip-guard.js';
+import { inspectZipFile } from './zip-guard.js';
 import { sodiumReady } from './crypto.js';
 import type { ExtractUnit, ExtractionInfo, FileType, Locator, TextEncoding } from './types.js';
 
@@ -250,25 +250,43 @@ export async function processRevisions(
   // En cúpulas cifradas (SE-417), antivirus y worker leen una copia en memoria que se borra siempre.
   const plains: string[] = [];
   try {
+    // SE-421: nada se carga entero en memoria. Hasta `maxExtractBytes` hay copia legible (el blob en
+    // claras o una copia en memoria en cifradas); por encima, en cifradas, el antivirus lee por stdin
+    // descifrando al vuelo y no hay extracción.
     const revs = items.map((it) => {
       const rev = store.revision(it.documentId, it.revisionId);
-      const bytes = store.readBytes(it.documentId, rev.id);
-      const blob = store.plainPath(it.documentId, rev.id);
-      plains.push(blob);
-      return { it, rev, blob, bytes };
+      const tooBig = rev.size > store.limits.maxExtractBytes;
+      let blob: string | undefined;
+      if (!rev.enc) blob = store.plainPath(it.documentId, rev.id);
+      else if (!tooBig) { blob = store.plainPath(it.documentId, rev.id); plains.push(blob); }
+      return { it, rev, blob, tooBig };
     });
-    const scans = await scanFiles(revs.map((r) => r.blob), { mode: opts.scan ?? 'auto', clamscan: opts.clamscan });
-    for (const [i, { it, rev, blob, bytes }] of revs.entries()) {
+    const mode = opts.scan ?? 'auto';
+    // Por encima del tope de clamscan no se escanea por ruta (diría «OK» sin haberlo leído entero).
+    const byPath = revs.filter((r) => r.blob && r.rev.size <= CLAMSCAN_MAX_BYTES);
+    const pathScans = await scanFiles(byPath.map((r) => r.blob!), { mode, clamscan: opts.clamscan });
+    const scans = new Map(byPath.map((r, i) => [r.rev.id, pathScans[i]]));
+    for (const r of revs.filter((x) => !scans.has(x.rev.id))) {
+      scans.set(r.rev.id, await scanStream(() => store.openRead(r.it.documentId, r.rev.id).stream, r.rev.size, { mode, clamscan: opts.clamscan }));
+    }
+    for (const { it, rev, blob, tooBig } of revs) {
       const p: Pending = { documentId: it.documentId, revisionId: rev.id, scanSkips: [], units: [] };
       pending.push(p);
-      const scan = scans[i];
+      const scan = scans.get(rev.id)!;
       if (scan.verdict === 'infected') {
         p.info = { status: 'QUARANTINED', method: 'clamscan', units: 0, extracted: 0, skipped: [], error: scan.signature };
         continue;
       }
-      p.scanSkips = scan.verdict === 'error' ? [{ reason: 'scan-error', count: 1 }] : [];
-      const zip = OOXML_TYPES.has(rev.type)
-        ? inspectZip(bytes, { maxUnzippedBytes: store.limits.maxUnzippedBytes, maxRatio: ZIP_MAX_RATIO, maxEntries: ZIP_MAX_ENTRIES })
+      p.scanSkips = scan.verdict === 'error'
+        ? [{ reason: scan.detail === 'too-large-to-scan' ? 'too-large-to-scan' : 'scan-error', count: 1 }]
+        : [];
+      if (rev.type !== 'unknown' && tooBig) {
+        // SE-421: descargable y citable como fichero, sin texto (ni worker ni lectura entera).
+        p.info = { status: 'ARCHIVE_ONLY', method: 'none', units: 0, extracted: 0, skipped: [...p.scanSkips, { reason: 'too-large-to-extract', count: 1 }] };
+        continue;
+      }
+      const zip = OOXML_TYPES.has(rev.type) && blob
+        ? inspectZipFile(blob, { maxUnzippedBytes: store.limits.maxUnzippedBytes, maxRatio: ZIP_MAX_RATIO, maxEntries: ZIP_MAX_ENTRIES })
         : undefined;
       if (rev.type === 'unknown') {
         p.info = { ...rev.extraction, status: 'ARCHIVE_ONLY' };
@@ -278,10 +296,10 @@ export async function processRevisions(
       } else if (WORKER_TYPES.has(rev.type) && !fs.existsSync(python)) {
         p.info = { status: 'ARCHIVE_ONLY', method: 'none', units: 0, extracted: 0, skipped: [{ reason: 'worker-missing', count: 1 }] };
       } else if (WORKER_TYPES.has(rev.type)) {
-        p.job = { type: rev.type, file: blob };
+        p.job = { type: rev.type, file: blob! };
       } else {
         try {
-          const raw = extractTextual(rev.type, bytes, rev.encoding ?? 'utf-8');
+          const raw = extractTextual(rev.type, fs.readFileSync(blob!), rev.encoding ?? 'utf-8');
           p.units = raw.units;
           p.info = finish(raw, p.scanSkips);
         } catch (e) {

@@ -2,7 +2,8 @@
 import { describe, it, expect } from 'vitest';
 import * as fs from 'node:fs';
 import * as path from 'node:path';
-import { inspectZip } from '../../../src/files/zip-guard.js';
+import { inspectZip, inspectZipFile } from '../../../src/files/zip-guard.js';
+import * as os from 'node:os';
 import { craftZip } from './craft-zip.js';
 
 const FIX = path.resolve('tests/fixtures/files');
@@ -50,5 +51,24 @@ describe('inspectZip', () => {
     expect(inspectZip(Buffer.from('PK\x03\x04 basura'), LIMITS)).toMatchObject({ ok: false, reason: expect.stringMatching(/ZIP/) });
     const z = craftZip([{ name: 'a.xml', comp: 10, uncomp: 10 }]);
     expect(inspectZip(z.subarray(0, z.length - 30), LIMITS).ok).toBe(false);
+  });
+
+  it('SE-421 AC7: inspectZipFile (solo cola y directorio central) da lo mismo que en memoria', () => {
+    const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'savia-zipfile-'));
+    try {
+      const cases: Buffer[] = [
+        ...['contrato.docx', 'plan.pptx', 'presupuesto.xlsx'].map((f) => fs.readFileSync(path.join(FIX, f))),
+        craftZip([{ name: 'bomba.xml', comp: 1000, uncomp: 900 * 1024 * 1024 }]),
+        craftZip([{ name: 'grande.xml', comp: 5000, uncomp: 400_000, zip64: true }]),
+        Buffer.from('PK\x03\x04 basura'),
+      ];
+      cases.forEach((b, i) => {
+        const f = path.join(dir, `z${i}.zip`);
+        fs.writeFileSync(f, b);
+        expect(inspectZipFile(f, LIMITS), `caso ${i}`).toEqual(inspectZip(b, LIMITS));
+      });
+    } finally {
+      fs.rmSync(dir, { recursive: true, force: true });
+    }
   });
 });

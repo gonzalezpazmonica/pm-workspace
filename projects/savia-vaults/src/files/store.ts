@@ -16,7 +16,8 @@ import { ensureSafeHome, writeAtomic } from '../rag/store.js';
 import { acquireLock, releaseLock, exceedsDomeLevel } from '../rag/indexer.js';
 import { RagError } from '../rag/types.js';
 import { KeyStore } from './keys.js';
-import { canonicalJson, decryptStream, encryptStream, open, seal } from './crypto.js';
+import { canonicalJson, decryptStream, encryptStream, FRAME_PLAIN_BYTES, open, seal, StreamDecryptor, StreamEncryptor } from './crypto.js';
+import { Readable, Transform } from 'node:stream';
 import { Ledger, type LedgerManifest } from './ledger.js';
 import { Journal, type OpRow, type OutboxEvent } from './journal.js';
 import { ReceiptSigner, type Receipt, type ReceiptRef } from './receipts.js';
@@ -40,13 +41,18 @@ const envInt = (name: string, def: number, env: NodeJS.ProcessEnv = process.env)
   return Number.isFinite(v) && v > 0 ? v : def;
 };
 
+/** SE-421: tope absoluto de un fichero (10 GiB). */
+export const MAX_BYTES_CAP = 10 * 1024 ** 3;
+
 export function defaultLimits(env: NodeJS.ProcessEnv = process.env): FilesLimits {
   return {
-    maxBytes: envInt('SAVIA_FILES_MAX_BYTES', 100 * 1024 * 1024, env),
+    // SE-421: el almacén trabaja en streaming; por defecto 1 GiB, como mucho 10 GiB.
+    maxBytes: Math.min(envInt('SAVIA_FILES_MAX_BYTES', 1024 ** 3, env), MAX_BYTES_CAP),
     maxDocuments: envInt('SAVIA_FILES_MAX_DOCS', 10_000, env),
     extractTimeoutMs: envInt('SAVIA_FILES_EXTRACT_TIMEOUT_MS', 300_000, env),
     maxTransferBytes: envInt('SAVIA_FILES_MAX_TRANSFER_BYTES', 20 * 1024 * 1024, env),
     maxUnzippedBytes: envInt('SAVIA_FILES_MAX_UNZIPPED_BYTES', 256 * 1024 * 1024, env),
+    maxExtractBytes: envInt('SAVIA_FILES_MAX_EXTRACT_BYTES', 256 * 1024 * 1024, env),
     lockWaitMs: envInt('SAVIA_FILES_LOCK_WAIT_MS', 10_000, env),
   };
 }
@@ -109,6 +115,64 @@ export function detectType(name: string, bytes: Buffer): FileType {
   return 'unknown';
 }
 
+/**
+ * SE-421: `detectType` + `textEncoding` sobre un stream, con el mismo resultado que sobre el
+ * fichero entero (se prueba la equivalencia): cabecera, búsqueda de la entrada OOXML a través de
+ * los trozos, UTF-8 incremental estricto y bytes prohibidos en Windows-1252.
+ */
+export class TypeSniffer {
+  private readonly ext: string;
+  private head = Buffer.alloc(0);
+  private readonly needle: Buffer | undefined;
+  private found = false;
+  private tail = Buffer.alloc(0);
+  private readonly text: boolean;
+  private nul = false;
+  private utf8 = true;
+  private cp1252 = true;
+  private readonly decoder = new TextDecoder('utf-8', { fatal: true });
+
+  constructor(name: string) {
+    this.ext = path.extname(name).toLowerCase();
+    const office = OOXML[this.ext.slice(1) as FileType];
+    this.needle = office ? Buffer.from(office) : undefined;
+    this.text = !!TEXT_EXT[this.ext];
+  }
+
+  feed(chunk: Buffer): void {
+    if (this.head.length < 8) this.head = Buffer.concat([this.head, chunk.subarray(0, 8 - this.head.length)]);
+    if (this.needle && !this.found) {
+      const window = Buffer.concat([this.tail, chunk]);
+      if (window.includes(this.needle)) this.found = true;
+      else this.tail = window.subarray(Math.max(0, window.length - (this.needle.length - 1)));
+    }
+    if (this.text) {
+      if (!this.nul && chunk.includes(0)) this.nul = true;
+      if (this.utf8) {
+        try { this.decoder.decode(chunk, { stream: true }); } catch { this.utf8 = false; }
+      }
+      if (this.cp1252) {
+        for (const b of chunk) {
+          if ((b < 0x20 && b !== 0x09 && b !== 0x0a && b !== 0x0d && b !== 0x0c) || b === 0x7f || CP1252_UNDEFINED.has(b)) { this.cp1252 = false; break; }
+        }
+      }
+    }
+  }
+
+  result(): { type: FileType; encoding?: TextEncoding } {
+    if (this.ext === '.pdf') return { type: this.head.subarray(0, 5).toString('latin1') === '%PDF-' ? 'pdf' : 'unknown' };
+    if (this.needle) {
+      const zip = this.head.subarray(0, 4).equals(Buffer.from([0x50, 0x4b, 0x03, 0x04]));
+      return { type: zip && this.found ? this.ext.slice(1) as FileType : 'unknown' };
+    }
+    const text = TEXT_EXT[this.ext];
+    if (!text) return { type: 'unknown' };
+    if (this.utf8) { try { this.decoder.decode(); } catch { this.utf8 = false; } }
+    const encoding: TextEncoding | undefined = this.nul ? undefined : this.utf8 ? 'utf-8' : this.cp1252 ? 'windows-1252' : undefined;
+    return encoding ? { type: text, encoding } : { type: 'unknown' };
+  }
+}
+
 export function mimeOf(type: FileType): string {
   return MIME[type];
 }
@@ -122,6 +186,24 @@ export interface AddInput {
   tags?: string[];
   confidentiality?: string;
   replaces?: string;
+}
+
+/** SE-421: alta desde un stream (CLI, API HTTP): memoria acotada, sin cargar el fichero. */
+export interface AddStreamInput {
+  name: string;
+  source: AsyncIterable<Uint8Array>;
+  tags?: string[];
+  confidentiality?: string;
+  replaces?: string;
+}
+
+/** SE-421: lectura en streaming, entera (verificada al final) o por rango [start, end] inclusivo. */
+export interface OpenedRead {
+  stream: Readable;
+  size: number;
+  start: number;
+  end: number;
+  revision: FileRevision;
 }
 
 export interface FileStoreOptions {
@@ -148,6 +230,17 @@ interface ActiveOp { id: string; kind: string; docs: Set<string>; explicit: bool
 
 export interface VerifyProblem { code: string; id?: string }
 export interface VerifyReport { ok: boolean; documents: number; operations: number; receipts: number; problems: VerifyProblem[] }
+
+/**
+ * SE-421: temporal de un alta en streaming todavía en curso: `<…>.tmp-<pid>-<ms>` de un proceso vivo
+ * de esta máquina y de menos de 24 h. `gc` no lo borra (ni la envoltura de su DEK).
+ */
+const TMP_RE = /\.tmp-(\d+)-(\d+)$/;
+function inFlight(f: string): boolean {
+  const m = TMP_RE.exec(f);
+  if (!m || Date.now() - Number(m[2]) > 24 * 3600_000) return false;
+  try { process.kill(Number(m[1]), 0); return true; } catch (e) { return (e as NodeJS.ErrnoException).code === 'EPERM'; }
+}
 
 const newId = (prefix: string) => `${prefix}_${randomBytes(8).toString('hex')}`;
 const sha256 = (b: Buffer | string) => createHash('sha256').update(b).digest('hex');
@@ -244,13 +337,25 @@ export class FileStore {
   plainPath(documentId: string, revisionId?: string): string {
     const rev = this.revision(documentId, revisionId);
     if (!rev.enc) return this.blobPath(rev.sha256);
-    const bytes = this.readBytes(documentId, rev.id);
     const base = fs.existsSync('/dev/shm') ? '/dev/shm' : path.join(this.dir, '.work');
     fs.mkdirSync(base, { recursive: true, mode: DIR_MODE });
     const dir = fs.mkdtempSync(path.join(base, 'savia-files-'));
     fs.chmodSync(dir, DIR_MODE);
     const file = path.join(dir, 'original');
-    fs.writeFileSync(file, bytes, { mode: 0o600 });
+    // SE-421: descifrado frame a frame directamente a la copia (sin el fichero entero en memoria).
+    try {
+      const fd = fs.openSync(file, 'wx', 0o600);
+      try {
+        const h = createHash('sha256');
+        this.decryptFileSync(documentId, rev, (plain) => { h.update(plain); fs.writeSync(fd, plain); });
+        if (h.digest('hex') !== rev.sha256) throw new FilesError('INTEGRITY', `el blob de ${rev.id} no coincide con su SHA-256`);
+      } finally {
+        fs.closeSync(fd);
+      }
+    } catch (e) {
+      fs.rmSync(dir, { recursive: true, force: true });
+      throw e;
+    }
     return file;
   }
 
@@ -286,10 +391,8 @@ export class FileStore {
         for (const rev of d.revisions) {
           if (rev.enc) continue;
           if (rev.extraction.status !== 'QUARANTINED') {
-            const bytes = fs.readFileSync(this.blobPath(rev.sha256));
-            if (sha256(bytes) !== rev.sha256) throw new FilesError('INTEGRITY', `el blob de ${rev.id} no coincide con su SHA-256; no se cifra`);
             const dek = this.keys.newDek({ documentId: d.id, revisionId: rev.id });
-            rev.blobHash = this.writeEncBlob(rev.id, encryptStream(dek, bytes, this.aad(d.id, rev.id, 'original')));
+            rev.blobHash = this.encryptFileSync(this.blobPath(rev.sha256), rev.sha256, rev.id, dek, this.aad(d.id, rev.id, 'original'));
             const ex = this.extractPath(rev.id);
             if (fs.existsSync(ex)) {
               const content = fs.readFileSync(ex);
@@ -380,12 +483,9 @@ export class FileStore {
     return rev;
   }
 
-  add(input: AddInput): { document: FileDocument; revision: FileRevision } {
+  /** Nombre, nivel y etiquetas validados, comunes a `add` y `addStream`. */
+  private checkAdd(input: { name: string; tags?: string[]; confidentiality?: string }): { name: string; level?: string; tags: string[] } {
     const name = sanitizeName(input.name);
-    if (!Buffer.isBuffer(input.bytes)) throw new FilesError('INVALID_INPUT', 'bytes debe ser un Buffer');
-    if (input.bytes.length > this.limits.maxBytes) {
-      throw new FilesError('TOO_LARGE', `${input.bytes.length} bytes > límite ${this.limits.maxBytes}`);
-    }
     const level = input.confidentiality?.toUpperCase();
     if (level !== undefined && !LEVELS.includes(level)) {
       throw new FilesError('INVALID_INPUT', `confidencialidad no válida: ${input.confidentiality}`);
@@ -394,54 +494,230 @@ export class FileStore {
       throw new FilesError('POLICY_DENIED', `confidencialidad ${level} superior a la cúpula (${this.domeLevel})`);
     }
     const tags = (input.tags ?? []).map((t) => String(t).trim()).filter(Boolean).slice(0, 32);
+    return { name, level, tags };
+  }
+
+  /** Dentro del lock: documento previo (si sustituye) y límite de documentos. */
+  private prepareRecord(replaces?: string): { prev?: FileDocument; count: number } {
+    const prev = replaces ? this.readDoc(replaces) : undefined;
+    const count = prev ? 0 : this.documentCount();
+    if (!prev && count >= this.limits.maxDocuments) throw new FilesError('LIMIT', `la cúpula ya tiene ${count} documentos`);
+    return { prev, count };
+  }
+
+  /** Dentro del lock y con el blob ya en su sitio: revisión nueva y documento escrito. */
+  private recordRevision(o: {
+    name: string; level?: string; tags: string[]; tagsGiven: boolean; prev?: FileDocument; count: number;
+    documentId: string; revisionId: string; sha: string; size: number; type: FileType; encoding?: TextEncoding; blobHash?: string;
+  }): { document: FileDocument; revision: FileRevision } {
+    const now = new Date().toISOString();
+    const revision: FileRevision = {
+      id: o.revisionId, sha256: o.sha, size: o.size, mime: mimeOf(o.type), type: o.type,
+      ...(o.blobHash ? { enc: 1 as const, blobHash: o.blobHash } : {}),
+      ...(TEXT_TYPES.has(o.type) ? { encoding: o.encoding } : {}),
+      createdAt: now,
+      extraction: o.type === 'unknown'
+        ? { status: 'ARCHIVE_ONLY', method: 'none', units: 0, extracted: 0, skipped: [{ reason: 'unsupported-type', count: 1 }] }
+        : { status: 'PENDING', method: 'none', units: 0, extracted: 0, skipped: [] },
+    };
+    let document: FileDocument;
+    if (o.prev) {
+      o.prev.name = o.name;
+      if (o.tagsGiven) o.prev.tags = o.tags;
+      if (o.level) o.prev.confidentiality = o.level as Confidentiality;
+      o.prev.revisions.push(revision);
+      o.prev.currentRevision = revision.id;
+      o.prev.updatedAt = now;
+      document = o.prev;
+    } else {
+      document = {
+        id: o.documentId, name: o.name, tags: o.tags, createdAt: now, updatedAt: now,
+        currentRevision: revision.id, revisions: [revision],
+        ...(o.level ? { confidentiality: o.level as Confidentiality } : {}),
+      };
+    }
+    this.writeDoc(document);
+    if (!o.prev) this.bumpCount(1, o.count);
+    return { document, revision };
+  }
+
+  add(input: AddInput): { document: FileDocument; revision: FileRevision } {
+    const { name, level, tags } = this.checkAdd(input);
+    if (!Buffer.isBuffer(input.bytes)) throw new FilesError('INVALID_INPUT', 'bytes debe ser un Buffer');
+    if (input.bytes.length > this.limits.maxBytes) {
+      throw new FilesError('TOO_LARGE', `${input.bytes.length} bytes > límite ${this.limits.maxBytes}`);
+    }
     return this.locked(() => {
-      const prev = input.replaces ? this.readDoc(input.replaces) : undefined;
-      const count = prev ? 0 : this.documentCount();
-      if (!prev && count >= this.limits.maxDocuments) {
-        throw new FilesError('LIMIT', `la cúpula ya tiene ${count} documentos`);
-      }
-      const hash = sha256(input.bytes);
+      const { prev, count } = this.prepareRecord(input.replaces);
+      const sha = sha256(input.bytes);
       const revisionId = newId('r');
       const documentId = prev?.id ?? newId('f');
-      const encrypted = this.isEncrypted();
       let blobHash: string | undefined;
-      if (encrypted) {
+      if (this.isEncrypted()) {
         const dek = this.keys.newDek({ documentId, revisionId });
         blobHash = this.writeEncBlob(revisionId, encryptStream(dek, input.bytes, this.aad(documentId, revisionId, 'original')));
       } else {
-        this.writeBlob(hash, input.bytes);
+        this.writeBlob(sha, input.bytes);
       }
       const type = detectType(name, input.bytes);
-      const now = new Date().toISOString();
-      const revision: FileRevision = {
-        id: revisionId, sha256: hash, size: input.bytes.length, mime: mimeOf(type), type,
-        ...(encrypted ? { enc: 1 as const, blobHash } : {}),
-        ...(TEXT_TYPES.has(type) ? { encoding: textEncoding(input.bytes) } : {}),
-        createdAt: now,
-        extraction: type === 'unknown'
-          ? { status: 'ARCHIVE_ONLY', method: 'none', units: 0, extracted: 0, skipped: [{ reason: 'unsupported-type', count: 1 }] }
-          : { status: 'PENDING', method: 'none', units: 0, extracted: 0, skipped: [] },
-      };
-      let document: FileDocument;
-      if (prev) {
-        prev.name = name;
-        if (input.tags) prev.tags = tags;
-        if (level) prev.confidentiality = level as Confidentiality;
-        prev.revisions.push(revision);
-        prev.currentRevision = revision.id;
-        prev.updatedAt = now;
-        document = prev;
-      } else {
-        document = {
-          id: documentId, name, tags, createdAt: now, updatedAt: now,
-          currentRevision: revision.id, revisions: [revision],
-          ...(level ? { confidentiality: level as Confidentiality } : {}),
-        };
-      }
-      this.writeDoc(document);
-      if (!prev) this.bumpCount(1, count);
-      return { document, revision };
+      return this.recordRevision({
+        name, level, tags, tagsGiven: !!input.tags, prev, count, documentId, revisionId, sha, size: input.bytes.length, type,
+        encoding: TEXT_TYPES.has(type) ? textEncoding(input.bytes) : undefined, blobHash,
+      });
     }, 'put');
+  }
+
+  /**
+   * SE-421: alta en streaming. Los bytes se vuelcan a un temporal del almacén **fuera** del lock
+   * (hash, tipo y, en cúpulas cifradas, SVF1 frame a frame), y dentro del lock solo se renombra y
+   * se registra la revisión: un fichero de gigas no bloquea al resto de escrituras. Memoria ≈ 2 frames.
+   */
+  async addStream(input: AddStreamInput): Promise<{ document: FileDocument; revision: FileRevision }> {
+    const { name, level, tags } = this.checkAdd(input);
+    this.prepare();
+    if (input.replaces) this.get(input.replaces); // NOT_FOUND antes de leer un byte
+    const encrypted = this.isEncrypted();
+    if (encrypted) this.keys.kek(); // KEY_MISSING: nunca se crea otra clave
+    const encrypt = encrypted || this.wantEncrypt;
+    if (encrypt && !encrypted) this.keys.init(); // la cúpula se cifrará al tomar el lock (SE-417)
+    const revisionId = newId('r');
+    const documentId = input.replaces ?? newId('f');
+    const blobs = path.join(this.dir, 'blobs');
+    fs.mkdirSync(blobs, { recursive: true, mode: DIR_MODE });
+    const tmp = path.join(blobs, `${revisionId}.tmp-${process.pid}-${Date.now()}`);
+    const hash = createHash('sha256');
+    const cipherHash = encrypt ? createHash('sha256') : undefined;
+    const sniff = new TypeSniffer(name);
+    const enc = encrypt
+      ? new StreamEncryptor(this.keys.newDek({ documentId, revisionId }), this.aad(documentId, revisionId, 'original'))
+      : undefined;
+    const fd = fs.openSync(tmp, 'wx', 0o600);
+    const write = (b: Buffer) => { if (b.length) { fs.writeSync(fd, b); cipherHash?.update(b); } };
+    let size = 0;
+    let closed = false;
+    const abort = () => {
+      if (!closed) { fs.closeSync(fd); closed = true; }
+      fs.rmSync(tmp, { force: true });
+      if (enc) this.keys.destroyDek(revisionId);
+    };
+    try {
+      if (enc) write(enc.header());
+      let pending: Buffer[] = [];
+      let pendingBytes = 0;
+      for await (const chunk of input.source) {
+        const c = Buffer.from(chunk.buffer, chunk.byteOffset, chunk.byteLength);
+        size += c.length;
+        if (size > this.limits.maxBytes) throw new FilesError('TOO_LARGE', `más de ${this.limits.maxBytes} bytes: límite de la cúpula`);
+        hash.update(c);
+        sniff.feed(c);
+        if (!enc) { write(c); continue; }
+        pending.push(c);
+        pendingBytes += c.length;
+        // Frames completos de 1 MiB; el resto espera: el último frame lleva TAG_FINAL.
+        while (pendingBytes > FRAME_PLAIN_BYTES) {
+          const all = Buffer.concat(pending);
+          write(enc.push(all.subarray(0, FRAME_PLAIN_BYTES), false));
+          pending = [all.subarray(FRAME_PLAIN_BYTES)];
+          pendingBytes = pending[0].length;
+        }
+      }
+      if (enc) write(enc.push(Buffer.concat(pending), true));
+      fs.fsyncSync(fd);
+      fs.closeSync(fd);
+      closed = true;
+    } catch (e) {
+      abort();
+      throw e;
+    }
+    fs.chmodSync(tmp, BLOB_MODE);
+    const sha = hash.digest('hex');
+    const blobHash = cipherHash?.digest('hex');
+    const { type, encoding } = sniff.result();
+    try {
+      return this.locked(() => {
+        if (this.isEncrypted() !== encrypt) {
+          throw new FilesError('LOCKED', 'la cúpula cambió de cifrado durante la subida; repite la operación');
+        }
+        const { prev, count } = this.prepareRecord(input.replaces);
+        if (enc) {
+          fs.renameSync(tmp, this.encBlobPath(revisionId));
+        } else if (fs.existsSync(this.blobPath(sha))) {
+          fs.rmSync(tmp, { force: true }); // mismos bytes, mismo blob
+        } else {
+          fs.renameSync(tmp, this.blobPath(sha));
+        }
+        return this.recordRevision({
+          name, level, tags, tagsGiven: !!input.tags, prev, count, documentId, revisionId, sha, size, type, encoding, blobHash,
+        });
+      }, 'put');
+    } catch (e) {
+      if (fs.existsSync(tmp)) abort();
+      else if (enc && !this.docOfRevisionSafe(revisionId, documentId)) this.keys.destroyDek(revisionId);
+      throw e;
+    }
+  }
+
+  private docOfRevisionSafe(revisionId: string, documentId: string): boolean {
+    try { return this.get(documentId).revisions.some((r) => r.id === revisionId); } catch { return false; }
+  }
+
+  /**
+   * SE-421: lectura en streaming. Sin rango, verifica el SHA-256 al final (error INTEGRITY en el
+   * stream si no casa). Con rango [start, end] (inclusivo): en cifradas cada frame va autenticado
+   * pero se descifra desde el principio (secretstream no permite saltar); en claras no se verifica.
+   */
+  openRead(id: string, revisionId?: string, range?: { start: number; end?: number }): OpenedRead {
+    const rev = this.revision(id, revisionId);
+    if (rev.extraction.status === 'QUARANTINED') throw new FilesError('NOT_FOUND', `revisión ${rev.id} en cuarentena`);
+    const file = rev.enc ? this.encBlobPath(rev.id) : this.blobPath(rev.sha256);
+    if (!fs.existsSync(file)) throw new FilesError('NOT_FOUND', `bytes de ${rev.id} no disponibles`);
+    const whole = !range;
+    const start = range?.start ?? 0;
+    const end = range?.end ?? rev.size - 1;
+    if (range && (!Number.isSafeInteger(start) || !Number.isSafeInteger(end) || start < 0 || end < start || end >= rev.size)) {
+      throw new FilesError('INVALID_INPUT', `rango ${start}-${end} fuera del fichero (${rev.size} bytes)`);
+    }
+    const expected = rev.sha256;
+    let stream: Readable;
+    if (!rev.enc) {
+      const raw = rev.size === 0 ? Readable.from([]) : fs.createReadStream(file, whole ? {} : { start, end });
+      if (!whole) {
+        stream = raw;
+      } else {
+        const h = createHash('sha256');
+        stream = raw.pipe(new Transform({
+          transform(chunk: Buffer, _e, cb) { h.update(chunk); cb(null, chunk); },
+          flush(cb) { cb(h.digest('hex') === expected ? null : new FilesError('INTEGRITY', `el blob de ${rev.id} no coincide con su SHA-256`)); },
+        }));
+        raw.on('error', (e: Error) => stream.destroy(e));
+      }
+    } else {
+      const dek = this.keys.dek({ documentId: id, revisionId: rev.id });
+      const aad = this.aad(id, rev.id, 'original');
+      stream = Readable.from((async function* () {
+        const dec = new StreamDecryptor(dek, aad);
+        const h = whole ? createHash('sha256') : undefined;
+        let pos = 0;
+        for await (const chunk of fs.createReadStream(file, { highWaterMark: FRAME_PLAIN_BYTES + 64 })) {
+          for (const plain of dec.feed(chunk as Buffer)) {
+            const from = pos;
+            pos += plain.length;
+            if (pos <= start) continue;
+            const a = Math.max(0, start - from);
+            const b = Math.min(plain.length, end - from + 1);
+            if (b > a) {
+              const out = plain.subarray(a, b);
+              h?.update(out);
+              yield out;
+            }
+            if (pos > end && !whole) return; // rango servido: no hace falta seguir
+          }
+        }
+        dec.end();
+        if (h && h.digest('hex') !== expected) throw new FilesError('INTEGRITY', `el blob de ${rev.id} no coincide con su SHA-256`);
+      })());
+    }
+    return { stream, size: rev.size, start, end: Math.max(end, start - 1), revision: rev };
   }
 
   /**
@@ -474,10 +750,16 @@ export class FileStore {
     }, 'policy');
   }
 
-  /** Bytes del original, verificados contra su SHA-256. */
+  /**
+   * Bytes del original en memoria, verificados contra su SHA-256. SE-421: solo hasta
+   * `maxTransferBytes` (MCP en base64); para más, `openRead`.
+   */
   readBytes(id: string, revisionId?: string): Buffer {
     const rev = this.revision(id, revisionId);
     if (rev.extraction.status === 'QUARANTINED') throw new FilesError('NOT_FOUND', `revisión ${rev.id} en cuarentena`);
+    if (rev.size > this.limits.maxTransferBytes) {
+      throw new FilesError('TOO_LARGE', `${rev.size} bytes > ${this.limits.maxTransferBytes} en memoria: usar la lectura en streaming (files get)`);
+    }
     let bytes: Buffer;
     try {
       bytes = fs.readFileSync(rev.enc ? this.encBlobPath(rev.id) : this.blobPath(rev.sha256));
@@ -600,19 +882,23 @@ export class FileStore {
         if (!fs.existsSync(dir)) return 0;
         let n = 0;
         for (const f of fs.readdirSync(dir)) {
-          if (keep(f)) continue;
+          if (keep(f) || inFlight(f)) continue; // SE-421: un alta en streaming en curso no se toca
           fs.rmSync(path.join(dir, f), { force: true });
           n++;
         }
         return n;
       };
       const tmpOnly = (f: string) => !f.includes('.tmp-');
+      const inFlightRevs = new Set((fs.existsSync(path.join(this.dir, 'blobs')) ? fs.readdirSync(path.join(this.dir, 'blobs')) : [])
+        .filter(inFlight).map((f) => f.split('.')[0]));
       sweep('docs', (f) => !f.includes('.tmp-'));
       // Envolturas de DEK sin revisión (caída entre crear la DEK y guardar el documento).
       const wraps = path.join(this.keys.dir, 'wraps');
       if (safe && fs.existsSync(wraps)) {
         const live = new Set(revisions.filter((r) => r.enc && r.extraction.status !== 'QUARANTINED').map((r) => `${r.id}.json`));
-        for (const f of fs.readdirSync(wraps)) if (!live.has(f) && f.endsWith('.json')) this.keys.destroyDek(f.slice(0, -5));
+        for (const f of fs.readdirSync(wraps)) {
+          if (!live.has(f) && f.endsWith('.json') && !inFlightRevs.has(f.slice(0, -5))) this.keys.destroyDek(f.slice(0, -5));
+        }
       }
       return {
         blobs: sweep('blobs', (f) => (safe ? liveBlobs.has(f) : tmpOnly(f))),
@@ -729,6 +1015,60 @@ export class FileStore {
       if (!prev || !(e instanceof FilesError) || e.code !== 'INTEGRITY') throw e;
       return open(prev, sealed, this.metaAad(id));
     }
+  }
+
+  /** SE-421: descifra un original frame a frame (síncrono), entregando el texto en claro por trozos. */
+  private decryptFileSync(documentId: string, rev: FileRevision, onPlain: (b: Buffer) => void): void {
+    const dec = new StreamDecryptor(this.keys.dek({ documentId, revisionId: rev.id }), this.aad(documentId, rev.id, 'original'));
+    const fd = fs.openSync(this.encBlobPath(rev.id), 'r');
+    try {
+      const buf = Buffer.alloc(FRAME_PLAIN_BYTES + 64);
+      let n: number;
+      while ((n = fs.readSync(fd, buf, 0, buf.length, null)) > 0) for (const p of dec.feed(buf.subarray(0, n))) onPlain(p);
+      dec.end();
+    } finally {
+      fs.closeSync(fd);
+    }
+  }
+
+  /** SE-421: cifra un blob en claro a SVF1 en streaming, verificando su SHA-256; devuelve el hash del cifrado. */
+  private encryptFileSync(src: string, expectedSha: string, revisionId: string, dek: Uint8Array, aad: object): string {
+    const enc = new StreamEncryptor(dek, aad);
+    const out = this.encBlobPath(revisionId);
+    const tmp = `${out}.tmp-${process.pid}-${Date.now()}`;
+    const plainHash = createHash('sha256');
+    const cipherHash = createHash('sha256');
+    const fdIn = fs.openSync(src, 'r');
+    const fdOut = fs.openSync(tmp, 'wx', 0o600);
+    const write = (b: Buffer) => { if (b.length) { fs.writeSync(fdOut, b); cipherHash.update(b); } };
+    try {
+      write(enc.header());
+      const buf = Buffer.alloc(FRAME_PLAIN_BYTES);
+      let prev: Buffer | undefined;
+      let n: number;
+      while ((n = fs.readSync(fdIn, buf, 0, buf.length, null)) > 0) {
+        const chunk = Buffer.from(buf.subarray(0, n));
+        plainHash.update(chunk);
+        if (prev) write(enc.push(prev, false));
+        prev = chunk;
+      }
+      write(enc.push(prev ?? Buffer.alloc(0), true));
+      fs.fsyncSync(fdOut);
+    } catch (e) {
+      fs.closeSync(fdOut);
+      fs.rmSync(tmp, { force: true });
+      throw e;
+    } finally {
+      fs.closeSync(fdIn);
+    }
+    fs.closeSync(fdOut);
+    if (plainHash.digest('hex') !== expectedSha) {
+      fs.rmSync(tmp, { force: true });
+      throw new FilesError('INTEGRITY', `el blob de ${revisionId} no coincide con su SHA-256; no se cifra`);
+    }
+    fs.chmodSync(tmp, BLOB_MODE);
+    fs.renameSync(tmp, out);
+    return cipherHash.digest('hex');
   }
 
   /** Escribe el blob cifrado y devuelve su SHA-256 (el del cifrado: es lo que va al ledger). */
