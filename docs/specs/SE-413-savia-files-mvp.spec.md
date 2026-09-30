@@ -127,17 +127,25 @@ servir la revisión anterior tras el siguiente sync (disparadores de SE-410).
 
 ### Entregables (rutas)
 
-- Código: `projects/savia-vaults/src/files/{types,store,scan,extract,rag-source,service}.ts`, `projects/savia-vaults/workers/files/extract.py`,
-  `projects/savia-vaults/src/cli/files.ts`, `projects/savia-vaults/src/cli/index.ts`,
+- Código: `projects/savia-vaults/src/files/types.ts`, `projects/savia-vaults/src/files/store.ts`,
+  `projects/savia-vaults/src/files/scan.ts`, `projects/savia-vaults/src/files/extract.ts`,
+  `projects/savia-vaults/src/files/rag-source.ts`, `projects/savia-vaults/src/files/service.ts`,
+  `projects/savia-vaults/workers/files/extract.py`, `projects/savia-vaults/src/cli/files.ts`,
+  `projects/savia-vaults/src/cli/index.ts`, `projects/savia-vaults/src/cli/rag.ts`,
   `projects/savia-vaults/src/server/mcp.ts`, `projects/savia-vaults/src/registry/domes.ts`,
-  `projects/savia-vaults/src/rag/*.ts`.
-- Tests: `projects/savia-vaults/tests/unit/files/*.test.ts`,
-  `projects/savia-vaults/tests/integration/files/*.test.ts`, `projects/savia-vaults/tests/e2e/mcp-files.test.ts`,
-  `projects/savia-vaults/tests/e2e/files.test.ts` (CLI), `projects/savia-vaults/tests/unit/registry/domes.test.ts`,
-  `projects/savia-vaults/tests/fixtures/files/*`.
+  `projects/savia-vaults/src/rag/types.ts`, `projects/savia-vaults/src/rag/indexer.ts`,
+  `projects/savia-vaults/src/rag/retriever.ts`, `projects/savia-vaults/src/rag/format.ts`,
+  `projects/savia-vaults/src/rag/service.ts`, `projects/savia-vaults/package.json`.
+- Tests: `projects/savia-vaults/tests/unit/files/store.test.ts`, `projects/savia-vaults/tests/unit/files/extract.test.ts`,
+  `projects/savia-vaults/tests/unit/files/scan.test.ts`, `projects/savia-vaults/tests/unit/files/rag-source.test.ts`,
+  `projects/savia-vaults/tests/unit/files/service.test.ts`, `projects/savia-vaults/tests/unit/registry/domes.test.ts`,
+  `projects/savia-vaults/tests/integration/files/rag-files.test.ts`, `projects/savia-vaults/tests/e2e/mcp-files.test.ts`,
+  `projects/savia-vaults/tests/e2e/files.test.ts`,
+  `projects/savia-vaults/tests/fixtures/files/contrato.docx`, `projects/savia-vaults/tests/fixtures/files/contrato.pdf`,
+  `projects/savia-vaults/tests/fixtures/files/plan.pptx`, `projects/savia-vaults/tests/fixtures/files/presupuesto.xlsx`.
 - Documentación: `projects/savia-vaults/docs/files.md`, `projects/savia-vaults/README.md`,
-  `projects/savia-vaults/CHANGELOG.md`, `.claude/skills/savia-vaults/SKILL.md`,
-  `projects/savia-vaults/workers/files/requirements.lock`,
+  `projects/savia-vaults/README.es.md`, `projects/savia-vaults/CHANGELOG.md`, `.claude/skills/savia-vaults/SKILL.md`,
+  `projects/savia-vaults/workers/files/requirements.lock`, `CHANGELOG.d/se413-savia-files-mvp.md`,
   `docs/propuestas/planning-state.json`, `docs/propuestas/LOG.md`, `docs/propuestas/ROADMAP-CURRENT.md`.
 
 ## Criterios de aceptación
