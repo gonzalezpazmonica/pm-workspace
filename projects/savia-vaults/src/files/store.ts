@@ -1,6 +1,8 @@
-// SE-413 F1 / SE-414 — almacén de ficheros por cúpula: originales inmutables direccionados
-// por SHA-256, un manifiesto por documento (docs/<id>.json) con revisiones, extracciones
-// ligadas a su revisión por digest, borrado real y lock entre procesos con espera.
+// SE-413 F1 / SE-414 / SE-417 — almacén de ficheros por cúpula: originales inmutables, un
+// manifiesto por documento (docs/<id>.json) con revisiones, extracciones ligadas a su revisión
+// por digest, borrado real y lock entre procesos con espera. Cúpulas cifradas (SE-417): original
+// y extracción con la DEK de la revisión, manifiesto sellado con la subclave `meta`, borrado
+// criptográfico, sin deduplicación; nunca vuelven a claro.
 import * as fs from 'node:fs';
 import * as os from 'node:os';
 import * as path from 'node:path';
@@ -8,6 +10,8 @@ import { createHash, randomBytes } from 'node:crypto';
 import { ensureSafeHome, writeAtomic } from '../rag/store.js';
 import { acquireLock, releaseLock, exceedsDomeLevel } from '../rag/indexer.js';
 import { RagError } from '../rag/types.js';
+import { KeyStore } from './keys.js';
+import { decryptStream, encryptStream, open, seal } from './crypto.js';
 import {
   FilesError, type Confidentiality, type Extraction, type ExtractionInfo, type FileDocument,
   type FileRevision, type FileType, type FilesLimits, type TextEncoding,
@@ -119,7 +123,15 @@ export interface FileStoreOptions {
   limits?: Partial<FilesLimits>;
   /** Espera máxima por el lock de escritura (def. SAVIA_FILES_LOCK_WAIT_MS o 10 s). */
   lockWaitMs?: number;
+  /** SE-417: la cúpula debe estar cifrada (se migra si no lo está). Una cúpula cifrada lo sigue siempre. */
+  encrypt?: boolean;
+  /** SE-417: dónde están las claves (def. `~/.savia-vaults/keys/files`). */
+  keysHome?: string;
 }
+
+/** Sobre de un manifiesto sellado: en claro solo el id y la versión del formato. */
+interface SealedDoc { id: string; v: 1; sealed: string }
+const ENC_SUFFIX = '.svf';
 
 const newId = (prefix: string) => `${prefix}_${randomBytes(8).toString('hex')}`;
 const sha256 = (b: Buffer | string) => createHash('sha256').update(b).digest('hex');
@@ -155,7 +167,10 @@ export class FileStore {
   readonly limits: FilesLimits;
   private readonly domeLevel: string;
   private readonly lockWaitMs: number;
+  private readonly wantEncrypt: boolean;
+  readonly keys: KeyStore;
   private corrupt = 0;
+  private migrating = false;
 
   constructor(opts: FileStoreOptions) {
     if (!DOME_RE.test(opts.dome)) throw new FilesError('INVALID_INPUT', `cúpula no válida: ${opts.dome}`);
@@ -165,6 +180,134 @@ export class FileStore {
     this.limits = { ...defaultLimits(), ...opts.limits };
     this.domeLevel = opts.domeLevel ?? 'N2';
     this.lockWaitMs = opts.lockWaitMs ?? this.limits.lockWaitMs;
+    this.wantEncrypt = opts.encrypt === true;
+    this.keys = new KeyStore({ home: opts.keysHome, dome: opts.dome });
+  }
+
+  // ── Cifrado (SE-417) ───────────────────────────────────────────────────
+
+  private get markerPath(): string { return path.join(this.dir, 'encryption.json'); }
+
+  /** true si la cúpula está cifrada (marca presente). Nunca se desactiva. */
+  isEncrypted(): boolean {
+    return fs.existsSync(this.markerPath);
+  }
+
+  private sealing(): boolean {
+    return this.migrating || this.isEncrypted();
+  }
+
+  private aad(documentId: string, revisionId: string, artifactKind: 'original' | 'extract') {
+    return { schemaVersion: 1, domeId: this.dome, documentId, revisionId, artifactKind };
+  }
+
+  private metaAad(documentId: string) {
+    return { schemaVersion: 1, domeId: this.dome, documentId, artifactKind: 'meta' };
+  }
+
+  private encBlobPath(revisionId: string): string {
+    return path.join(this.dir, 'blobs', `${revisionId}${ENC_SUFFIX}`);
+  }
+
+  /**
+   * Ruta a los bytes en claro para el worker o el antivirus. En cúpulas cifradas es una copia
+   * en memoria (`/dev/shm`, 0700/0600) o, si no existe, en `<cúpula>/.work`; hay que liberarla
+   * con `releasePlain`. En claro es el propio blob.
+   */
+  plainPath(documentId: string, revisionId?: string): string {
+    const rev = this.revision(documentId, revisionId);
+    if (!rev.enc) return this.blobPath(rev.sha256);
+    const bytes = this.readBytes(documentId, rev.id);
+    const base = fs.existsSync('/dev/shm') ? '/dev/shm' : path.join(this.dir, '.work');
+    fs.mkdirSync(base, { recursive: true, mode: DIR_MODE });
+    const dir = fs.mkdtempSync(path.join(base, 'savia-files-'));
+    fs.chmodSync(dir, DIR_MODE);
+    const file = path.join(dir, 'original');
+    fs.writeFileSync(file, bytes, { mode: 0o600 });
+    return file;
+  }
+
+  /** Borra una copia de `plainPath`; ignora las rutas que no son copias temporales. */
+  releasePlain(file: string): void {
+    const dir = path.dirname(file);
+    if (/^savia-files-/.test(path.basename(dir)) && (path.dirname(dir) === '/dev/shm' || path.dirname(dir) === path.join(this.dir, '.work'))) {
+      fs.rmSync(dir, { recursive: true, force: true });
+    }
+  }
+
+  /** Cifra una cúpula en claro (o termina una migración cortada). Idempotente. */
+  encryptExisting(): { documents: number; revisions: number } {
+    return this.locked(() => {
+      // Si locked() acaba de migrar por la política de la cúpula, ese es el informe.
+      const auto = this.lastMigration;
+      this.lastMigration = undefined;
+      return auto ?? this.encryptExistingLocked();
+    });
+  }
+
+  private lastMigration: { documents: number; revisions: number } | undefined;
+
+  private encryptExistingLocked(): { documents: number; revisions: number } {
+    this.keys.init();
+    this.migrating = true;
+    let documents = 0;
+    let revisions = 0;
+    try {
+      for (const frozen of this.list()) {
+        const d = this.readDoc(frozen.id);
+        let changed = false;
+        for (const rev of d.revisions) {
+          if (rev.enc) continue;
+          if (rev.extraction.status !== 'QUARANTINED') {
+            const bytes = fs.readFileSync(this.blobPath(rev.sha256));
+            if (sha256(bytes) !== rev.sha256) throw new FilesError('INTEGRITY', `el blob de ${rev.id} no coincide con su SHA-256; no se cifra`);
+            const dek = this.keys.newDek({ documentId: d.id, revisionId: rev.id });
+            this.writeEncBlob(rev.id, encryptStream(dek, bytes, this.aad(d.id, rev.id, 'original')));
+            const ex = this.extractPath(rev.id);
+            if (fs.existsSync(ex)) {
+              const content = fs.readFileSync(ex);
+              if (rev.extraction.digest && sha256(content) !== rev.extraction.digest) {
+                throw new FilesError('INTEGRITY', `la extracción de ${rev.id} no coincide con su digest; no se cifra`);
+              }
+              const sealed = seal(dek, content, this.aad(d.id, rev.id, 'extract'));
+              writeAtomic(ex, sealed);
+              rev.extraction = { ...rev.extraction, digest: sha256(sealed) };
+            }
+          }
+          rev.enc = 1;
+          revisions++;
+          changed = true;
+        }
+        const raw = fs.readFileSync(this.docPath(d.id), 'utf-8');
+        if (changed || !raw.includes('"sealed"')) this.writeDoc(d);
+        if (changed) documents++;
+      }
+      if (!this.isEncrypted()) {
+        writeAtomic(this.markerPath, JSON.stringify({ v: 1, since: new Date().toISOString(), kekId: this.keys.kekId() }));
+      }
+      // Originales en claro que ya tienen copia cifrada: fuera.
+      const blobs = path.join(this.dir, 'blobs');
+      for (const f of fs.existsSync(blobs) ? fs.readdirSync(blobs) : []) {
+        if (!f.endsWith(ENC_SUFFIX) && !f.includes('.tmp-')) fs.rmSync(path.join(blobs, f), { force: true });
+      }
+    } finally {
+      this.migrating = false;
+    }
+    return { documents, revisions };
+  }
+
+  /** SE-417 AC4: KEK nueva, DEK re-envueltas y manifiestos re-sellados. Reanudable. */
+  rotateKeys(): void {
+    this.locked(() => {
+      if (!this.isEncrypted()) throw new FilesError('INVALID_INPUT', `la cúpula ${this.dome} no está cifrada`);
+      this.keys.rotate(() => undefined, () => {
+        for (const f of fs.readdirSync(this.docsDir)) {
+          const id = f.slice(0, -5);
+          if (f.endsWith('.json') && DOCUMENT_RE.test(id)) this.writeDoc(this.readDoc(id));
+        }
+      });
+      writeAtomic(this.markerPath, JSON.stringify({ v: 1, since: new Date().toISOString(), kekId: this.keys.kekId() }));
+    });
   }
 
   private get docsDir(): string { return path.join(this.dir, 'docs'); }
@@ -173,6 +316,7 @@ export class FileStore {
   /** Documentos legibles, por fecha de creación. Los corruptos se omiten y se cuentan (`corruptCount`). */
   list(): FileDocument[] {
     this.ensureMigrated();
+    if (this.isEncrypted()) this.keys.kek(); // KEY_MISSING antes que dar todo por corrupto
     let names: string[];
     try { names = fs.readdirSync(this.docsDir); } catch { this.corrupt = 0; return []; }
     const docs: FileDocument[] = [];
@@ -229,11 +373,20 @@ export class FileStore {
         throw new FilesError('LIMIT', `la cúpula ya tiene ${count} documentos`);
       }
       const hash = sha256(input.bytes);
-      this.writeBlob(hash, input.bytes);
+      const revisionId = newId('r');
+      const documentId = prev?.id ?? newId('f');
+      const encrypted = this.isEncrypted();
+      if (encrypted) {
+        const dek = this.keys.newDek({ documentId, revisionId });
+        this.writeEncBlob(revisionId, encryptStream(dek, input.bytes, this.aad(documentId, revisionId, 'original')));
+      } else {
+        this.writeBlob(hash, input.bytes);
+      }
       const type = detectType(name, input.bytes);
       const now = new Date().toISOString();
       const revision: FileRevision = {
-        id: newId('r'), sha256: hash, size: input.bytes.length, mime: mimeOf(type), type,
+        id: revisionId, sha256: hash, size: input.bytes.length, mime: mimeOf(type), type,
+        ...(encrypted ? { enc: 1 as const } : {}),
         ...(TEXT_TYPES.has(type) ? { encoding: textEncoding(input.bytes) } : {}),
         createdAt: now,
         extraction: type === 'unknown'
@@ -251,7 +404,7 @@ export class FileStore {
         document = prev;
       } else {
         document = {
-          id: newId('f'), name, tags, createdAt: now, updatedAt: now,
+          id: documentId, name, tags, createdAt: now, updatedAt: now,
           currentRevision: revision.id, revisions: [revision],
           ...(level ? { confidentiality: level as Confidentiality } : {}),
         };
@@ -268,10 +421,11 @@ export class FileStore {
     if (rev.extraction.status === 'QUARANTINED') throw new FilesError('NOT_FOUND', `revisión ${rev.id} en cuarentena`);
     let bytes: Buffer;
     try {
-      bytes = fs.readFileSync(this.blobPath(rev.sha256));
+      bytes = fs.readFileSync(rev.enc ? this.encBlobPath(rev.id) : this.blobPath(rev.sha256));
     } catch {
       throw new FilesError('NOT_FOUND', `bytes de ${rev.id} no disponibles`);
     }
+    if (rev.enc) bytes = decryptStream(this.keys.dek({ documentId: id, revisionId: rev.id }), bytes, this.aad(id, rev.id, 'original'));
     if (sha256(bytes) !== rev.sha256) throw new FilesError('INTEGRITY', `el blob de ${rev.id} no coincide con su SHA-256`);
     return bytes;
   }
@@ -289,7 +443,8 @@ export class FileStore {
     this.locked(() => {
       const doc = this.docOfRevision(revisionId, documentId);
       const rev = doc.revisions.find((r) => r.id === revisionId)!;
-      const content = JSON.stringify(extraction);
+      let content: Buffer = Buffer.from(JSON.stringify(extraction), 'utf-8');
+      if (rev.enc) content = seal(this.keys.dek({ documentId: doc.id, revisionId }), content, this.aad(doc.id, revisionId, 'extract'));
       fs.mkdirSync(path.join(this.dir, 'extract'), { recursive: true, mode: DIR_MODE });
       writeAtomic(this.extractPath(revisionId), content);
       rev.extraction = { ...(info ?? rev.extraction), digest: sha256(content) };
@@ -302,16 +457,17 @@ export class FileStore {
     this.checkRevisionId(revisionId);
     const doc = this.docOfRevision(revisionId, documentId);
     const rev = doc.revisions.find((r) => r.id === revisionId)!;
-    let content: string;
+    let content: Buffer;
     try {
-      content = fs.readFileSync(this.extractPath(revisionId), 'utf-8');
+      content = fs.readFileSync(this.extractPath(revisionId));
     } catch {
       throw new FilesError('NOT_FOUND', `sin extracción para ${revisionId}`);
     }
     if (rev.extraction.digest && sha256(content) !== rev.extraction.digest) {
       throw new FilesError('INTEGRITY', `la extracción de ${revisionId} no coincide con su digest`);
     }
-    return JSON.parse(content) as Extraction;
+    if (rev.enc) content = open(this.keys.dek({ documentId: doc.id, revisionId }), content, this.aad(doc.id, revisionId, 'extract'));
+    return JSON.parse(content.toString('utf-8')) as Extraction;
   }
 
   /** Cambia el estado de extracción de una revisión; QUARANTINED borra además sus bytes. */
@@ -324,7 +480,7 @@ export class FileStore {
       this.writeDoc(doc);
       if (info.status === 'QUARANTINED') {
         fs.rmSync(this.extractPath(revisionId), { force: true });
-        this.removeUnreferencedBlobs([rev.sha256]);
+        this.removeRevisionBytes(rev);
       }
     });
   }
@@ -347,7 +503,7 @@ export class FileStore {
       if (d.currentRevision === revisionId) d.currentRevision = d.revisions[d.revisions.length - 1].id;
       this.writeDoc(d);
       fs.rmSync(this.extractPath(revisionId), { force: true });
-      this.removeUnreferencedBlobs([rev.sha256]);
+      this.removeRevisionBytes(rev);
     });
   }
 
@@ -360,7 +516,8 @@ export class FileStore {
       docCache.delete(this.docPath(id));
       this.bumpCount(-1, count);
       for (const rev of doc.revisions) fs.rmSync(this.extractPath(rev.id), { force: true });
-      this.removeUnreferencedBlobs(doc.revisions.map((r) => r.sha256));
+      for (const rev of doc.revisions.filter((r) => r.enc)) this.removeRevisionBytes(rev);
+      this.removeUnreferencedBlobs(doc.revisions.filter((r) => !r.enc).map((r) => r.sha256));
       return doc;
     });
   }
@@ -375,7 +532,7 @@ export class FileStore {
     return this.locked(() => {
       const docs = this.list();
       const revisions = docs.flatMap((d) => d.revisions);
-      const liveBlobs = new Set(revisions.filter((r) => r.extraction.status !== 'QUARANTINED').map((r) => r.sha256));
+      const liveBlobs = new Set(revisions.filter((r) => r.extraction.status !== 'QUARANTINED').map((r) => (r.enc ? `${r.id}${ENC_SUFFIX}` : r.sha256)));
       const liveRevs = new Set(revisions.map((r) => `${r.id}.json`));
       const safe = this.corrupt === 0;
       const sweep = (sub: string, keep: (f: string) => boolean) => {
@@ -391,6 +548,12 @@ export class FileStore {
       };
       const tmpOnly = (f: string) => !f.includes('.tmp-');
       sweep('docs', (f) => !f.includes('.tmp-'));
+      // Envolturas de DEK sin revisión (caída entre crear la DEK y guardar el documento).
+      const wraps = path.join(this.keys.dir, 'wraps');
+      if (safe && fs.existsSync(wraps)) {
+        const live = new Set(revisions.filter((r) => r.enc && r.extraction.status !== 'QUARANTINED').map((r) => `${r.id}.json`));
+        for (const f of fs.readdirSync(wraps)) if (!live.has(f) && f.endsWith('.json')) this.keys.destroyDek(f.slice(0, -5));
+      }
       return {
         blobs: sweep('blobs', (f) => (safe ? liveBlobs.has(f) : tmpOnly(f))),
         extractions: sweep('extract', (f) => (safe ? liveRevs.has(f) : tmpOnly(f))),
@@ -398,7 +561,18 @@ export class FileStore {
     });
   }
 
+  /** Bytes de una revisión: cifrada ⇒ blob propio + borrado criptográfico de su DEK; en claro ⇒ si nadie más lo usa. */
+  private removeRevisionBytes(rev: FileRevision): void {
+    if (rev.enc) {
+      fs.rmSync(this.encBlobPath(rev.id), { force: true });
+      this.keys.destroyDek(rev.id);
+    } else {
+      this.removeUnreferencedBlobs([rev.sha256]);
+    }
+  }
+
   private removeUnreferencedBlobs(hashes: string[]): void {
+    if (!hashes.length) return;
     const docs = this.list();
     if (this.corrupt > 0) return; // sin saber qué referencian los corruptos, no se borra; `gc` lo retoma
     const live = new Set(
@@ -445,10 +619,17 @@ export class FileStore {
     const hit = docCache.get(file);
     if (hit && hit.key === key) return mutable ? structuredClone(hit.doc) : hit.doc;
     let doc: FileDocument;
+    let raw: FileDocument | SealedDoc;
     try {
-      doc = JSON.parse(fs.readFileSync(file, 'utf-8')) as FileDocument;
+      raw = JSON.parse(fs.readFileSync(file, 'utf-8')) as FileDocument | SealedDoc;
     } catch {
       throw new FilesError('INTEGRITY', `el manifiesto de ${id} está corrupto`);
+    }
+    if ('sealed' in raw) {
+      if (raw.id !== id) throw new FilesError('INTEGRITY', `el manifiesto de ${id} está corrupto`);
+      doc = JSON.parse(this.openMeta(id, Buffer.from(raw.sealed, 'base64')).toString('utf-8')) as FileDocument;
+    } else {
+      doc = raw;
     }
     if (doc?.id !== id || !Array.isArray(doc.revisions) || !doc.revisions.length) {
       throw new FilesError('INTEGRITY', `el manifiesto de ${id} está corrupto`);
@@ -459,7 +640,30 @@ export class FileStore {
 
   private writeDoc(doc: FileDocument): void {
     fs.mkdirSync(this.docsDir, { recursive: true, mode: DIR_MODE });
-    writeAtomic(this.docPath(doc.id), JSON.stringify(doc));
+    const body: FileDocument | SealedDoc = this.sealing()
+      ? { id: doc.id, v: 1, sealed: seal(this.keys.subkey('meta')!, Buffer.from(JSON.stringify(doc)), this.metaAad(doc.id)).toString('base64') }
+      : doc;
+    writeAtomic(this.docPath(doc.id), JSON.stringify(body));
+  }
+
+  /** Abre un manifiesto sellado con la subclave actual o, durante una rotación, la anterior. */
+  private openMeta(id: string, sealed: Buffer): Buffer {
+    try {
+      return open(this.keys.subkey('meta')!, sealed, this.metaAad(id));
+    } catch (e) {
+      const prev = this.keys.subkey('meta', 'prev');
+      if (!prev || !(e instanceof FilesError) || e.code !== 'INTEGRITY') throw e;
+      return open(prev, sealed, this.metaAad(id));
+    }
+  }
+
+  private writeEncBlob(revisionId: string, data: Buffer): void {
+    fs.mkdirSync(path.join(this.dir, 'blobs'), { recursive: true, mode: DIR_MODE });
+    const file = this.encBlobPath(revisionId);
+    const tmp = `${file}.tmp-${process.pid}-${Date.now()}`;
+    fs.writeFileSync(tmp, data, { mode: 0o600 });
+    fs.chmodSync(tmp, BLOB_MODE);
+    fs.renameSync(tmp, file);
   }
 
   /** SE-414 AC8: reparte el manifest.json del MVP en un fichero por documento, una vez. */
@@ -536,6 +740,8 @@ export class FileStore {
     this.depth++;
     try {
       this.migrate();
+      if (this.isEncrypted()) this.keys.kek(); // KEY_MISSING: nunca se crea otra clave en una cúpula cifrada
+      else if (this.wantEncrypt) this.lastMigration = this.encryptExistingLocked(); // SE-417: N3/N4 u opt-in ⇒ se cifra al primer acceso
       return fn();
     } finally {
       this.depth--;
