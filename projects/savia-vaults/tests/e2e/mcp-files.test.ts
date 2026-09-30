@@ -28,7 +28,7 @@ async function start(withAuth: boolean) {
   fs.writeFileSync(registry, JSON.stringify({ version: 1, defaultDome: 'docs', domes }));
   const env: Record<string, string> = {
     PATH: process.env.PATH || '', SAVIA_RAG_HOME: path.join(root, 'rag-home'), SAVIA_RAG_TEST_PROVIDER: 'hash',
-    SAVIA_FILES_HOME: path.join(root, 'files-home'),
+    SAVIA_FILES_HOME: path.join(root, 'files-home'), SAVIA_FILES_KEYS_HOME: path.join(root, 'keys'), HOME: root,
   };
   if (withAuth) {
     const users = new UserStore(path.join(root, 'savia-vaults.users.json'));
@@ -74,7 +74,9 @@ describe('SE-413 MCP vault_files', () => {
       expect(Buffer.from(dl.contentBase64, 'base64').toString()).toBe('equipo,sala\nservidor ámbar,sala norte\n');
       expect(dl.sha256).toBe(doc.sha256);
 
-      expect(JSON.parse(text(await call({ action: 'delete', id: doc.documentId })))).toEqual({ deleted: doc.documentId, revisions: 1 });
+      expect(JSON.parse(text(await call({ action: 'delete', id: doc.documentId })))).toMatchObject({
+        deleted: doc.documentId, revisions: 1, receipt: { kind: 'delete', status: 'committed' },
+      });
       const gone = await call({ action: 'get', id: doc.documentId });
       expect(gone.isError).toBe(true);
       expect(text(gone)).toContain('NOT_FOUND');

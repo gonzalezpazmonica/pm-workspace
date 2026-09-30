@@ -79,7 +79,9 @@ describe('FilesService', () => {
 
   it('AC5: delete ⇒ get/download/text NOT_FOUND', async () => {
     const put = await svc.put({ dome: 'D', name: 'a.txt', contentBase64: b64('borrar') });
-    expect(await svc.delete({ dome: 'D', id: put.documentId })).toEqual({ deleted: put.documentId, revisions: 1 });
+    expect(await svc.delete({ dome: 'D', id: put.documentId })).toMatchObject({
+      deleted: put.documentId, revisions: 1, receipt: { kind: 'delete', status: 'committed', refs: [{ documentId: put.documentId }] },
+    });
     for (const fn of [svc.get, svc.download, svc.text]) {
       await expect(fn.call(svc, { dome: 'D', id: put.documentId })).rejects.toThrow(/NOT_FOUND/);
     }
@@ -276,6 +278,23 @@ describe('FilesService', () => {
       const st = await callFilesTool(svc2, { action: 'status' }) as { summary: string[] };
       expect(st.summary.join(' ')).toMatch(/N3.*sin fichero de recuperación/);
     });
+  });
+
+  it('SE-418: acciones MCP operation, log, verify, recover y keys rotate-signing', async () => {
+    const svc2 = make({ authorizeAdmin: async () => undefined });
+    const put = await callFilesTool(svc2, { action: 'put', dome: 'D', name: 'a.txt', contentBase64: b64('hola'), idempotencyKey: 'k' }) as { operationId: string; receipt: { status: string } };
+    expect(put.receipt.status).toBe('committed');
+    const op = await callFilesTool(svc2, { action: 'operation', dome: 'D', operationId: put.operationId }) as { operation: { kind: string } };
+    expect(op.operation.kind).toBe('put');
+    const log = await callFilesTool(svc2, { action: 'log', dome: 'D', limit: 5 }) as { operations: { kind: string }[] };
+    expect(log.operations.map((o) => o.kind)).toEqual(['put', 'import']);
+    expect(await callFilesTool(svc2, { action: 'verify', dome: 'D', deep: true })).toMatchObject({ ok: true, documents: 1 });
+    expect(await callFilesTool(svc2, { action: 'recover', dome: 'D' })).toEqual({ dome: 'D', pending: 0 });
+    const k = await callFilesTool(svc2, { action: 'keys', op: 'rotate-signing' }) as { keyId: string };
+    expect(k.keyId).toMatch(/^[0-9a-f]{16}$/);
+    await expect(make({ authorizeAdmin: async () => { throw new Error('solo admin'); } }).rotateSigningKey()).rejects.toThrow(/solo admin/);
+    denied.add('D:read');
+    await expect(svc2.verify({ dome: 'D' })).rejects.toThrow(/denegado/);
   });
 });
 

@@ -405,6 +405,16 @@
       "note": "AC1-AC10 con evidencia; subida de claves configurable (off por defecto)",
       "evidence": "docs/specs/SE-417-savia-files-encryption.spec.md",
       "phase": "A"
+    },
+    {
+      "id": "SE-418",
+      "status": "APPROVED",
+      "approval": "Operadora 2026-09-30 en chat (AskUserQuestion): 'Aprobar e implementar'",
+      "priority": "P1",
+      "title": "Savia Files: ledger git privado, journal de operaciones y receipts firmados (D01, D03)",
+      "note": "AC1-AC10 con evidencia; D02 (ACL por documento) queda para SE-419",
+      "evidence": "docs/specs/SE-418-savia-files-ledger.spec.md",
+      "phase": "A"
     }
   ],
   "route": {

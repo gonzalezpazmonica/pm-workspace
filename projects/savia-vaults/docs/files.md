@@ -17,6 +17,7 @@ Este documento describe el MVP de SE-413. Qué queda fuera y por qué está al f
 7. [Escaneo antivirus](#escaneo-antivirus)
 8. [Savia RAG](#savia-rag)
 8b. [Cifrado en reposo y claves](#cifrado-en-reposo-y-claves)
+8c. [Ledger, journal y receipts](#ledger-journal-y-receipts)
 9. [MCP: `vault_files`](#mcp-vault_files)
 10. [CLI: `savia-vaults files`](#cli-savia-vaults-files)
 11. [Seguridad y permisos](#seguridad-y-permisos)
@@ -38,6 +39,9 @@ Este documento describe el MVP de SE-413. Qué queda fuera y por qué está al f
 | Misma ACL que la cúpula | `read` para consultar, `write` para guardar, borrar o reprocesar |
 | N3/N4 nunca en claro en disco (SE-417) | Original, texto extraído, metadatos e índice RAG cifrados; copias temporales en memoria |
 | Borrado criptográfico (SE-417) | Borrar destruye la clave de la revisión: ninguna copia del almacén sirve ya |
+| Historia y autoridad verificables (SE-418) | Cada operación es un commit en un repo git privado de la cúpula; un manifiesto tocado a mano da `INTEGRITY` |
+| Reintentar es seguro (SE-418) | `idempotencyKey`: el mismo resultado, sin revisión nueva; una operación cortada se completa o se cancela sola |
+| Comprobante de cada operación (SE-418) | Receipt firmado (Ed25519) con el commit del ledger |
 
 ## Activación
 
@@ -57,6 +61,9 @@ Desactivado por defecto. Se activa por cúpula en `savia-vaults.domes.json`:
 |---|---|---|---|
 | `files.enabled` | `true`/`false` | `false` | Sin él, `vault_files` y `savia-vaults files` responden `DISABLED` |
 | `files.scan` | `auto`/`required`/`off` | `auto` | Ver [Escaneo antivirus](#escaneo-antivirus) |
+
+Requiere `git` en el PATH (SE-418; sin él, las escrituras dan `UNSUPPORTED` y las
+lecturas siguen funcionando) y Node ≥ 22.13.
 
 Para que los ficheros aparezcan en `vault_rag`, la cúpula también necesita
 `rag.enabled`.
@@ -148,6 +155,9 @@ $SAVIA_FILES_HOME/<cúpula>/          (0700; def. ~/.savia-vaults/files/)
   blobs/<sha256>                     (0400) originales
   extract/<revisionId>.json          (0600) unidades extraídas, ligadas por digest a su revisión
   files.lock                         lock entre procesos (pid + timestamp; huérfano a los 10 min)
+  ledger/                            repo git privado, sin remoto: la autoridad (SE-418)
+  ledger.json                        marca de que el ledger ya importó los documentos previos
+  journal.db                         (0600) operaciones en curso, outbox y receipts (node:sqlite, WAL)
   manifest.json.migrated             copia del manifiesto único del MVP, tras migrar (SE-414)
 ```
 
@@ -425,27 +435,94 @@ ficheros subidos después de exportar.
 - **Sin la KEK** en una cúpula cifrada: todas las operaciones dan `KEY_MISSING` con
   un mensaje que remite a la restauración. Nunca se crea una clave nueva en silencio.
 
+## Ledger, journal y receipts
+
+(SE-418) Hasta SE-417, el estado de la cúpula era un JSON por documento reescrito en
+sitio. Ahora hay tres piezas:
+
+- **Ledger** (`<cúpula>/ledger/`): la autoridad.
+  - Es un repo git local **sin remoto**, sin hooks, que no lee la configuración
+    global ni las variables `GIT_*`.
+  - Cada operación es **un commit** con los manifiestos compactos de los documentos
+    tocados (`manifests/<id>.json`) y su intent (`intents/<operationId>.json`).
+  - Borrar deja `tombstones/<id>.json`.
+  - Un documento existe si su manifiesto está en el ledger.
+- **Journal** (`journal.db`, `node:sqlite`): lo que aún no está en git.
+  - Guarda operaciones pendientes (con lease y proceso dueño), el outbox y los
+    receipts.
+  - Si se pierde o se corrompe, se aparta a `journal.db.corrupt-*` y se reconstruye
+    desde los intents del ledger. Se pierden los receipts antiguos, no los datos.
+- **Receipts**: comprobante de cada `put`, `delete` y `reprocess`.
+  - Contenido: `{operationId, dome, kind, refs, status, commitSha, manifestHash, at, keyId, signature}`.
+  - Se firman con Ed25519 sobre `"savia-files-receipt-v1\n" + JSON canónico`.
+  - La clave de firma es propia: `~/.savia-vaults/keys/files/_signing/`, 0600,
+    separada de las de cifrado. `registry.json` guarda las públicas: rotar
+    (`files keys rotate-signing`) conserva las anteriores.
+  - La copia sellada de claves (SE-417) incluye el registro y las claves de firma.
+
+**Qué hay en el ledger (y qué no).**
+
+- **En claras:** ids, estado de extracción y su digest, tamaño, tipo y SHA-256 del
+  original.
+- **En cifradas:** solo ids, el SHA-256 del **cifrado** y el estado. Ni tipo, ni
+  tamaño, ni el SHA-256 del original.
+- **Nunca:** nombres, etiquetas, texto, rutas ni claves.
+- **Límite conocido:** la historia git conserva los ids y hashes de lo borrado. En
+  claras, eso incluye el SHA-256 del original. Purgar la historia es una spec
+  posterior.
+
+**Qué pasa si algo se corta.**
+
+| Situación | Resultado |
+|---|---|
+| Git falla al confirmar | La llamada devuelve `COMMIT_PENDING` con el `operationId`; nunca `READY`. El siguiente acceso (o el reintento con la misma `idempotencyKey`) la completa |
+| El proceso muere tras escribir el documento y antes del commit | La siguiente escritura, o `files recover`, completa el commit (queda marcado `(recuperada)`) |
+| El proceso muere antes de escribir nada | La operación queda `failed` (`ABORTED`); el blob que hubiera quedado lo limpia `files gc` |
+| Una revisión quedó `PENDING` | El outbox la extrae en la siguiente escritura o con `files recover`, una sola vez |
+| Alguien edita `docs/<id>.json` a mano | `INTEGRITY` al leerlo; `files verify` lo lista |
+| Alguien añade un remoto al ledger | Las escrituras fallan con `UNSAFE_HOME` hasta quitarlo |
+
+Mientras una operación está abierta, los lectores ven sus documentos (el journal
+dice que se están escribiendo).
+
+**Coste medido (AC8)**, frente a SE-417:
+
+| | Antes | SE-418 |
+|---|---|---|
+| `put` 1 KB, p50, N2 / N3 | 1 / 3 ms | 28 / 39 ms |
+| `put` 10 MB, p50, N2 / N3 | 57 / 176 ms | 93 / 272 ms |
+| `putMany` de 300 ficheros, N2 / N3 | 232 / 569 ms (sin commits) | 711 / 1 056 ms (1 commit) |
+| `list` de ~320 documentos en un proceso nuevo, N2 / N3 | 10 / 17 ms | 21 / 24 ms |
+
+El coste fijo, unos 27 ms por operación, son tres llamadas a git. `node:sqlite` es
+experimental en Node 22: por eso se exige Node ≥ 22.13, y el aviso puede aparecer
+en stderr.
+
 ## MCP: `vault_files`
 
 Una sola tool con `action`. Respuestas en JSON compacto.
 
 | `action` | Permiso | Parámetros | Devuelve |
 |---|---|---|---|
-| `put` | write | `dome`, `name`, `contentBase64` (≤ 20 MiB), `tags?`, `confidentiality?`, `replaces?` | `documentId`, `revisionId`, `sha256`, `size`, `mime`, `status`, `units`, `extracted`, `skipped`, `error?` |
+| `put` | write | `dome`, `name`, `contentBase64` (≤ 20 MiB), `tags?`, `confidentiality?`, `replaces?`, `idempotencyKey?` | `documentId`, `revisionId`, `sha256`, `size`, `mime`, `status`, `units`, `extracted`, `skipped`, `error?`, `operationId`, `receipt` |
+| `delete` | write | `dome`, `id`, `idempotencyKey?` | `{deleted, revisions, operationId, receipt}` |
+| `reprocess` | write | `dome`, `id`, `revisionId?`, `idempotencyKey?` | estado de extracción nuevo, `operationId`, `receipt` |
+| `operation` (SE-418) | read | `dome`, `operationId` | `{operation, receipt?}` |
+| `log` (SE-418) | read | `dome`, `limit?` | últimas operaciones: id, tipo, estado, commit, fecha |
+| `verify` (SE-418) | read | `dome`, `deep?` | `{ok, documents, operations, receipts, problems[{code, id?}]}` |
+| `recover` (SE-418) | write | `dome` | completa operaciones cortadas y extrae lo pendiente |
 | `list` | read | `dome`, `tag?` | `{documents: [...], corrupt}`: resumen por documento (id, nombre, estado, tamaño, revisiones) y número de manifiestos ilegibles |
 | `get` | read | `dome`, `id` | documento con todas sus revisiones y cobertura |
 | `text` | read | `dome`, `id`, `revisionId?`, `locator?` (filtro parcial, p. ej. `{"type":"page","page":2}`), `maxChars?` (def. 12 000) | `units[]`, `truncated` |
 | `download` | read | `dome`, `id`, `revisionId?` | `contentBase64`, `sha256`, `mime`, `name` |
 | `status` (SE-416) | — (sin cúpula) | — | por componente: `state`, versión, disco, antigüedad de firmas, `message`; `summary` con frases para la persona; `job` si hay una instalación en curso |
 | `encrypt` (SE-417) | write | `dome` | `{documents, revisions}` migrados; re-sella el índice |
-| `keys` (SE-417) | admin* | `op: "rotate"` + `dome`, u `op: "export"` + `dir?` | rotación, o carpeta del fichero de recuperación (la frase queda en un fichero, nunca en la respuesta) |
+| `keys` (SE-417) | admin* | `op: "rotate"` + `dome`, `op: "export"` + `dir?`, u `op: "rotate-signing"` (SE-418) | rotación, carpeta del fichero de recuperación (la frase queda en un fichero, nunca en la respuesta) o clave de firma nueva |
 | `setup` (SE-416) | admin de la máquina* | `components?` (`extractor`, `antivirus`; def. ambos) | arranca la instalación **en segundo plano** y vuelve al instante; el progreso se consulta con `status` |
 
 \* Sin usuarios configurados (servidor local de una persona), cualquiera. Con
 usuarios, hace falta el rol `admin` sobre la cúpula por defecto: instalar software
 en la máquina no es un permiso de cúpula.
-| `delete` | write | `dome`, `id` | `{deleted, revisions}` |
-| `reprocess` | write | `dome`, `id`, `revisionId?` | estado de extracción nuevo |
 
 Ejemplo:
 
@@ -472,6 +549,10 @@ savia-vaults files get f_3c… --dome proyectos -o copia.pdf [--revision r_…] 
 savia-vaults files rm f_3c… --dome proyectos
 savia-vaults files reprocess f_3c… --dome proyectos     # tras instalar el worker o ClamAV
 savia-vaults files gc --dome proyectos                  # huérfanos tras una caída
+savia-vaults files verify --dome proyectos [--deep]     # ledger, manifiestos, originales, receipts (SE-418)
+savia-vaults files log --dome proyectos [--limit 20]    # operaciones: id, tipo, estado, commit
+savia-vaults files recover --dome proyectos             # completa operaciones cortadas
+savia-vaults files keys rotate-signing                  # clave de firma de receipts nueva
 savia-vaults rag search "penalización por retraso" --domes proyectos
 ```
 
@@ -532,6 +613,8 @@ savia-vaults rag search "penalización por retraso" --domes proyectos
 | `SCAN_REQUIRED` | `files.scan: required` sin escáner o con el escáner fallando |
 | `DISABLED` | La cúpula no tiene `files.enabled` |
 | `UNSUPPORTED` | `files setup` en una plataforma sin instalación automática |
+| `COMMIT_PENDING` | El ledger no pudo confirmar (git falló). La operación sigue pendiente y se completa en el siguiente acceso; reintentar con la misma `idempotencyKey` es seguro |
+| `IDEMPOTENCY_CONFLICT` | La `idempotencyKey` ya se usó con otra petición |
 | `KEY_MISSING` | Cúpula cifrada sin su clave (restaurar con `files keys import`), o copia de claves sin fichero de recuperación |
 
 ## Operación
@@ -548,7 +631,10 @@ savia-vaults rag search "penalización por retraso" --domes proyectos
   - El índice RAG se puede regenerar (`rag sync --rebuild`); los originales no.
 - **Tras `files setup`**: `files reprocess` sobre los documentos `ARCHIVE_ONLY`
   con `worker-missing`.
-- **Tras una caída**: `files gc`.
+- **Tras una caída**: `files recover` y `files gc`.
+- **Tras restaurar un backup**: `files verify --deep` en cada cúpula debe dar `OK`.
+  El tar nocturno incluye `ledger/` y `journal.db`; si el journal llegara
+  inconsistente, se reconstruye solo desde el ledger.
 - **Manifiesto de documento corrupto** (`corrupt > 0` en `list`): restaurar
   `docs/<id>.json` desde la copia de seguridad. Si no hay copia, borrar ese fichero
   y ejecutar `files gc`. Mientras haya corruptos, `gc` solo limpia temporales.
@@ -561,7 +647,9 @@ savia-vaults rag search "penalización por retraso" --domes proyectos
 Aprobado como MVP recortado. Queda para specs posteriores, una por slice:
 
 - subida reanudable por HTTP (tus) y streaming autenticado;
-- manifiestos en git privado, journal durable y publicación por snapshot;
+- publicación por snapshot (barrier/CAS) y grafo de procedencia;
+- ACL por documento y clearance de usuarios (SE-419);
+- purga de la historia del ledger;
 - digestión LLM, grafo de afirmaciones, citas mixtas y visor;
 - revocación, restauración verificada y purga de derivados y copias;
 - OCR, audio/vídeo, backend S3 y conectores.

@@ -215,3 +215,18 @@ nc_env_down() {
   [ -f "$SAVIA_VAULTS_BACKUP_DIR/keys/savia-keys-2026-01-03T00-00-00.tar.gz" ]
   [ ! -f "$SAVIA_VAULTS_BACKUP_DIR/keys/savia-keys-2026-01-01T00-00-00.tar.gz" ]
 }
+
+@test "SE-418: el tar del almacén incluye el ledger git y el journal (restaurables con files verify)" {
+  seed_files
+  mkdir -p "$SAVIA_FILES_HOME/D/ledger/manifests"
+  git -C "$SAVIA_FILES_HOME/D/ledger" init -q
+  echo '{}' > "$SAVIA_FILES_HOME/D/ledger/manifests/f_0000000000000001.json"
+  echo "sqlite" > "$SAVIA_FILES_HOME/D/journal.db"
+  run bash "$SCRIPT" run
+  [ "$status" -eq 0 ]
+  local tarf; tarf=$(ls -1 "$SAVIA_VAULTS_BACKUP_DIR"/savia-files-*.tar.gz | head -1)
+  run tar -tzf "$tarf"
+  [[ "$output" == *"D/ledger/.git/HEAD"* ]]
+  [[ "$output" == *"D/ledger/manifests/f_0000000000000001.json"* ]]
+  [[ "$output" == *"D/journal.db"* ]]
+}

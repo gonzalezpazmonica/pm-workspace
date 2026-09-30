@@ -15,12 +15,14 @@ import {
 } from './crypto.js';
 import { FilesError } from './types.js';
 import type { IndexCipher } from '../rag/types.js';
+import { ReceiptSigner, type SigningSnapshot } from './receipts.js';
 
 const DOME_RE = /^[A-Za-z0-9][A-Za-z0-9._-]{0,63}$/;
 const REV_RE = /^r_[0-9a-f]{16}$/;
 
+/** `env` es una capa sobre el entorno del proceso: si no fija el almacén de claves, manda el del proceso. */
 export function keysHome(env: NodeJS.ProcessEnv = process.env): string {
-  return env.SAVIA_FILES_KEYS_HOME || path.join(env.HOME || os.homedir(), '.savia-vaults', 'keys', 'files');
+  return env.SAVIA_FILES_KEYS_HOME || process.env.SAVIA_FILES_KEYS_HOME || path.join(env.HOME || os.homedir(), '.savia-vaults', 'keys', 'files');
 }
 
 export interface DekRef { documentId: string; revisionId: string }
@@ -225,7 +227,8 @@ export function sealKeyBackup(home: string = keysHome()): Buffer {
   if (!hasRecovery(home)) throw new FilesError('KEY_MISSING', 'sin copia de recuperación: exporta antes el fichero de recuperación (files keys export)');
   const pub = Buffer.from(fs.readFileSync(path.join(home, 'recovery.pub'), 'utf-8'), 'base64');
   const all = Object.fromEntries(domesIn(home).map((d) => [d, new KeyStore({ home, dome: d }).snapshot()]));
-  return sealTo(pub, Buffer.from(JSON.stringify({ v: 1, createdAt: new Date().toISOString(), domes: all })));
+  const signing = new ReceiptSigner(home).snapshot(); // SE-418: para verificar los receipts tras restaurar
+  return sealTo(pub, Buffer.from(JSON.stringify({ v: 1, createdAt: new Date().toISOString(), domes: all, ...(signing ? { signing } : {}) })));
 }
 
 /**
@@ -237,9 +240,12 @@ export function importRecovery(home: string, recoveryFile: Uint8Array, phrase: s
     recoveryPublicKey: string; recoveryPrivateKey: string; domes: Record<string, { kek: string }>;
   };
   let snaps: Record<string, { kek: string; prev?: string; wraps?: Record<string, string> }> = rec.domes;
+  let signing: SigningSnapshot | undefined;
   if (backup) {
     const opened = openSealedBox(Buffer.from(rec.recoveryPublicKey, 'base64'), Buffer.from(rec.recoveryPrivateKey, 'base64'), backup);
-    snaps = { ...snaps, ...(JSON.parse(opened.toString('utf-8')) as { domes: typeof snaps }).domes };
+    const parsed = JSON.parse(opened.toString('utf-8')) as { domes: typeof snaps; signing?: SigningSnapshot };
+    snaps = { ...snaps, ...parsed.domes };
+    signing = parsed.signing;
   }
   // Comprobar todas antes de escribir ninguna
   for (const [d, snap] of Object.entries(snaps)) {
@@ -249,6 +255,7 @@ export function importRecovery(home: string, recoveryFile: Uint8Array, phrase: s
     }
   }
   for (const [d, snap] of Object.entries(snaps)) new KeyStore({ home, dome: d }).restore(snap);
+  if (signing) new ReceiptSigner(home).restore(signing);
   writeSecret(path.join(home, 'recovery.pub'), rec.recoveryPublicKey);
   return Object.keys(snaps);
 }

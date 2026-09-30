@@ -23,7 +23,10 @@ function setup(files: Record<string, unknown> = { enabled: true, scan: 'off' }) 
     '--import', pathToFileURL(path.resolve('node_modules/tsx/dist/loader.mjs')).href,
     path.resolve('src/cli/index.ts'), 'files', ...args, '--domes-file', registry,
   ], {
-    env: { PATH: process.env.PATH || '', SAVIA_FILES_HOME: path.join(root, 'files-home'), SAVIA_RAG_HOME: path.join(root, 'rag'), SAVIA_RAG_TEST_PROVIDER: 'hash' },
+    env: {
+      PATH: process.env.PATH || '', HOME: root, SAVIA_FILES_HOME: path.join(root, 'files-home'), SAVIA_FILES_KEYS_HOME: path.join(root, 'keys'),
+      SAVIA_RAG_HOME: path.join(root, 'rag'), SAVIA_RAG_TEST_PROVIDER: 'hash',
+    },
     encoding: 'utf-8', timeout: 30000,
   });
   return { root, run };
@@ -56,6 +59,12 @@ describe('SE-413 CLI files', () => {
     const again = run('get', doc.documentId, '--dome', 'd', '-o', out);
     expect(again.status).toBe(1);
     expect(again.stderr).toContain('ya existe');
+
+    // SE-418: verify y log del ledger desde la CLI
+    const verify = run('verify', '--dome', 'd', '--deep');
+    expect(verify.status, verify.stderr).toBe(0);
+    expect(verify.stdout).toMatch(/^OK: 1 documentos/);
+    expect(run('log', '--dome', 'd').stdout).toMatch(/o_[0-9a-f]{16}\s+put\s+committed/);
 
     expect(run('rm', doc.documentId, '--dome', 'd').status).toBe(0);
     const gone = run('show', doc.documentId, '--dome', 'd');
