@@ -129,3 +129,20 @@ Solo `projects/savia-vaults` (TypeScript/Node y worker Python). Nada del workspa
 ### Portability classification
 
 - [x] **PURE_NODE** (H4 usa el worker Python ya existente, sin bindings de frontend)
+
+## Resultados
+
+### H2 (2026-09-30)
+
+| AC | Evidencia | Estado |
+|---|---|---|
+| AC2 | `a2a-guard.test.ts` (4): con host no-loopback (TEST-NET 192.0.2.1) y sin token, no arranca ni el servidor ni la CLI (código 1); sin token en loopback, N4 ausente de `/domes`, `/search`, `/context` y `/share`, y N2 accesible; sin `Access-Control-Allow-Origin`; `Origin` ajeno ⇒ 403 en lectura y en escritura `text/plain`; origen permitido con eco; token de igual longitud distinto ⇒ 401. Sonda real repetida (CLI, loopback, N4): `{"results":[]}` y `{"domes":[]}` | OK |
+
+Desviaciones:
+
+1. **Peticiones con `Origin`** (navegador) se rechazan salvo lista explícita. La spec solo
+   pedía quitar `CORS *`; sin esto, una web podía escribir por `POST /share` con
+   `text/plain`, que no provoca preflight. Clientes sin navegador (CLI, federación, curl)
+   no envían `Origin` y no cambian.
+2. **TLS**: A2A no tiene TLS propio y la documentación de federación decía lo contrario;
+   se corrige la documentación. Exigir TLS o proxy fuera de loopback queda para SE-423.

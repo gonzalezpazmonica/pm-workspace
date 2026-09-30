@@ -67,17 +67,26 @@ Endpoints:
 - `GET /stats` — estadisticas del vault
 - `POST /share` — compartir contenido con otro agente
 
-### Proteccion con token
+### Proteccion con token y seguridad (SE-424)
 
-Configura SAVIA_VAULTS_TOKEN para requerir autenticacion Bearer en todos los endpoints.
+- Sin `SAVIA_VAULTS_TOKEN`, A2A solo escucha en loopback y solo sirve cupulas N1/N2:
+  las N3/N4 no aparecen en `/domes`, busquedas, lecturas ni escrituras.
+- Con `SAVIA_VAULTS_TOKEN`, pide `Authorization: Bearer <token>` en todos los endpoints
+  (comparacion en tiempo constante) y da acceso a todas las cupulas. Es un secreto
+  compartido; los usuarios y permisos por cupula llegan con SE-423.
+- Peticiones de navegador (con cabecera `Origin`): se rechazan (403) salvo los origenes
+  de `SAVIA_A2A_CORS_ORIGINS` (lista separada por comas). No hay `CORS *`.
+- `/domes` no devuelve rutas del disco.
 
 ### Exponer en red
 
 ```bash
-savia-vaults serve --transport a2a --host 0.0.0.0
+SAVIA_VAULTS_TOKEN=... savia-vaults serve --transport a2a --host 0.0.0.0
 ```
 
-Emite warning. Por defecto solo loopback (127.0.0.1).
+Sin token no arranca fuera de loopback. A2A no tiene TLS propio: el token viaja en
+claro salvo que un proxy delante termine TLS. Emite warning. Por defecto solo loopback
+(127.0.0.1).
 
 ## Backups
 
