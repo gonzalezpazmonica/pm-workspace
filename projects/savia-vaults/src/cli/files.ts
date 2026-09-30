@@ -58,10 +58,11 @@ cmd.command('list').description('Lista los documentos de la cúpula').option(...
   .option('--tag <tag>').option('--json', 'salida JSON', false)
   .action(async (opts) => {
     try {
-      const docs = await filesService(opts.domesFile).list({ dome: opts.dome, tag: opts.tag });
-      if (opts.json) return print(docs);
-      for (const d of docs) console.log(`${d.id}  ${d.status.padEnd(12)} ${String(d.size).padStart(10)} B  r${d.revisions}  ${d.name}`);
-      if (!docs.length) console.log('(sin documentos)');
+      const res = await filesService(opts.domesFile).list({ dome: opts.dome, tag: opts.tag });
+      if (opts.json) return print(res);
+      for (const d of res.documents) console.log(`${d.id}  ${d.status.padEnd(12)} ${String(d.size).padStart(10)} B  r${d.revisions}  ${d.name}`);
+      if (!res.documents.length) console.log('(sin documentos)');
+      if (res.corrupt) console.error(`Aviso: ${res.corrupt} documento(s) con manifiesto corrupto; ver docs/files.md (Operación)`);
     } catch (e) { fail(e); }
   });
 

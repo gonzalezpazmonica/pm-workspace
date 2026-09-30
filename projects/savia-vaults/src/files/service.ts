@@ -129,7 +129,7 @@ export class FilesService {
 
   async list(input: { dome: string; tag?: string }) {
     const { store } = await this.open(input.dome, 'read');
-    return store.list()
+    const documents = store.list()
       .filter((doc) => !input.tag || doc.tags.includes(input.tag))
       .map((doc) => {
         const rev = doc.revisions.find((r) => r.id === doc.currentRevision)!;
@@ -139,6 +139,8 @@ export class FilesService {
           size: rev.size, mime: rev.mime, sha256: rev.sha256, status: rev.extraction.status, updatedAt: doc.updatedAt,
         };
       });
+    // SE-414: documentos ilegibles se cuentan en vez de tumbar la lista.
+    return { documents, corrupt: store.corruptCount(false) };
   }
 
   async get(input: DocRef): Promise<FileDocument> {
@@ -151,7 +153,7 @@ export class FilesService {
     const rev = store.revision(input.id, input.revisionId);
     if (rev.extraction.status === 'QUARANTINED') throw new FilesError('NOT_FOUND', `revisión ${rev.id} en cuarentena`);
     const budget = Math.max(1, input.maxChars ?? DEFAULT_TEXT_CHARS);
-    const all = store.readExtraction(rev.id).units.filter((u) => matches(u.locator, input.locator));
+    const all = store.readExtraction(rev.id, input.id).units.filter((u) => matches(u.locator, input.locator));
     const units: ExtractUnit[] = [];
     let used = 0;
     let truncated = false;

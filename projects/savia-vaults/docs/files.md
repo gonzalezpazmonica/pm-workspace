@@ -116,20 +116,39 @@ Localizadores:
 
 ```
 $SAVIA_FILES_HOME/<cúpula>/          (0700; def. ~/.savia-vaults/files/)
-  manifest.json                      (0600) documentos y revisiones; escritura atómica
+  docs/<documentId>.json             (0600) un manifiesto por documento (revisiones); escritura atómica
   blobs/<sha256>                     (0400) originales
-  extract/<revisionId>.json          (0600) unidades extraídas
+  extract/<revisionId>.json          (0600) unidades extraídas, ligadas por digest a su revisión
   files.lock                         lock entre procesos (pid + timestamp; huérfano a los 10 min)
+  manifest.json.migrated             copia del manifiesto único del MVP, tras migrar (SE-414)
 ```
 
 - El almacén se niega a crearse dentro de un repo git (`UNSAFE_HOME`): contiene
   originales y texto extraído que no deben acabar versionados.
 - Dos documentos con los mismos bytes comparten blob; el blob se borra cuando
   ninguna revisión lo referencia.
-- Orden de escritura: blob → manifiesto. Una caída entre ambos deja un blob
-  huérfano, nunca un documento sin bytes. `files gc` lo limpia.
+- Orden de escritura: blob → manifiesto del documento. Una caída entre ambos deja
+  un blob huérfano, nunca un documento sin bytes. `files gc` lo limpia.
+- **Un manifiesto por documento (SE-414)**:
+  - cada escritura toca un solo fichero pequeño, así que el coste no crece con el número de documentos;
+  - un manifiesto corrupto solo afecta a su documento: `list` lo omite y lo cuenta en `corrupt`, y `get` devuelve `INTEGRITY`;
+  - con manifiestos corruptos, el borrado y `gc` no eliminan blobs, porque no se puede saber quién los referencia.
+- **Migración automática**: un almacén del MVP (`manifest.json` único) se reparte
+  en `docs/` al primer acceso, bajo lock. Se conserva `manifest.json.migrated` y se
+  calcula el digest de las extracciones existentes.
+- **Extracción ligada (SE-414)**: al escribir la extracción se guarda su SHA-256
+  en la revisión (`extraction.digest`) y se verifica al leerla. Una extracción
+  editada en disco devuelve `INTEGRITY`, no se publica en RAG y no impide
+  sincronizar el resto de la cúpula. `files reprocess` la regenera.
+- **Lock con espera (SE-414)**: si otro proceso está escribiendo (por ejemplo, la CLI
+  con el servidor MCP activo), se espera hasta `SAVIA_FILES_LOCK_WAIT_MS` (def.
+  10 s) antes de devolver `LOCKED`.
 - El nombre visible nunca es una ruta: se rechazan `/`, `\`, `.`, `..`, caracteres
-  de control y nombres de más de 255 bytes.
+  de control, caracteres Unicode de formato (bidi como U+202E, zero-width como U+200B,
+  BOM U+FEFF), U+2028/U+2029 y nombres de más de 255 bytes. Así, `factura‮fdp.exe`
+  no puede mostrarse como `factuaexe.pdf`.
+- El almacén resuelve symlinks antes de comprobar que no está dentro de git
+  (SE-414; también `SAVIA_RAG_HOME`).
 
 ## Detección de tipo
 
@@ -157,6 +176,21 @@ no es un PDF no llega al worker.
     y fórmula por celda. **No se ejecutan macros ni se recalculan fórmulas.** Si
     una fórmula no tiene valor guardado, se cuenta como
     `formula-without-cached-value` (la revisión queda `PARTIAL`).
+  - **Guardia de descompresión (SE-414)**: antes de lanzar el worker, se lee el
+    directorio central del ZIP de DOCX, PPTX y XLSX, sin descomprimir. Se rechaza
+    (`FAILED`, `error: "decompression-limit: …"`) si:
+    - la suma descomprimida declarada supera `SAVIA_FILES_MAX_UNZIPPED_BYTES` (def. 256 MiB);
+    - una entrada de más de 1 MiB comprime más de 200:1;
+    - hay más de 10 000 entradas;
+    - el ZIP es inválido.
+
+    Medido: un DOCX de 1 MB que se descomprime a 414 MB pasaba 180 s en el worker
+    con 1,2 GB; ahora se rechaza en 3 ms. Si el ZIP miente en sus cabeceras, la
+    lectura de Python se limita al tamaño declarado.
+  - **Un worker a la vez (SE-414)**: cada worker usa ~1,2 GB. Un semáforo por
+    proceso limita los simultáneos (`SAVIA_FILES_WORKERS`, def. 1). Medido: 4 `put`
+    de PDF a la vez pasaban de 4 workers y 4,5 GB a 1 worker y 1,15 GB, a cambio
+    de serializar (17 s → 39 s). El límite no se aplica entre procesos distintos.
   - Aislamiento: proceso aparte con entorno reducido (`PATH`, `HOME`, `LANG`,
     sin red de modelos), timeout (`SAVIA_FILES_EXTRACT_TIMEOUT_MS`, def. 300 s,
     `SIGKILL`), salida máxima de 64 MiB, 50 000 unidades y 20 000 caracteres por
@@ -228,7 +262,7 @@ Una sola tool con `action`. Respuestas en JSON compacto.
 | `action` | Permiso | Parámetros | Devuelve |
 |---|---|---|---|
 | `put` | write | `dome`, `name`, `contentBase64` (≤ 20 MiB), `tags?`, `confidentiality?`, `replaces?` | `documentId`, `revisionId`, `sha256`, `size`, `mime`, `status`, `units`, `extracted`, `skipped`, `error?` |
-| `list` | read | `dome`, `tag?` | resumen por documento (id, nombre, estado, tamaño, revisiones) |
+| `list` | read | `dome`, `tag?` | `{documents: [...], corrupt}`: resumen por documento (id, nombre, estado, tamaño, revisiones) y número de manifiestos ilegibles |
 | `get` | read | `dome`, `id` | documento con todas sus revisiones y cobertura |
 | `text` | read | `dome`, `id`, `revisionId?`, `locator?` (filtro parcial, p. ej. `{"type":"page","page":2}`), `maxChars?` (def. 12 000) | `units[]`, `truncated` |
 | `download` | read | `dome`, `id`, `revisionId?` | `contentBase64`, `sha256`, `mime`, `name` |
@@ -294,6 +328,9 @@ savia-vaults rag search "penalización por retraso" --domes proyectos
 | `SAVIA_FILES_EXTRACT_TIMEOUT_MS` | 300 000 | Timeout del worker |
 | `SAVIA_FILES_MAX_TRANSFER_BYTES` | 20 971 520 (20 MiB) | `put`/`download` por MCP |
 | `SAVIA_FILES_MAX_UNITS` | 50 000 | Unidades por extracción (worker) |
+| `SAVIA_FILES_MAX_UNZIPPED_BYTES` | 268 435 456 (256 MiB) | Tamaño descomprimido máximo de un DOCX/PPTX/XLSX |
+| `SAVIA_FILES_WORKERS` | 1 | Workers Python simultáneos por proceso |
+| `SAVIA_FILES_LOCK_WAIT_MS` | 10 000 | Espera máxima por el lock de escritura |
 
 ## Errores
 
@@ -303,8 +340,8 @@ savia-vaults rag search "penalización por retraso" --domes proyectos
 | `INVALID_INPUT` | Nombre, base64, `revisionId`, confidencialidad o acción no válidos |
 | `TOO_LARGE` | Fichero o transferencia sobre el límite |
 | `LIMIT` | Cúpula con el máximo de documentos |
-| `LOCKED` | Otra escritura en curso en la cúpula |
-| `INTEGRITY` | El blob no coincide con su SHA-256 |
+| `LOCKED` | Otra escritura siguió en curso durante toda la espera |
+| `INTEGRITY` | El blob no coincide con su SHA-256, la extracción no coincide con su digest, o el manifiesto del documento está corrupto |
 | `POLICY_DENIED` | Confidencialidad superior a la cúpula |
 | `UNSAFE_HOME` | `SAVIA_FILES_HOME` dentro de un repo git |
 | `SCAN_REQUIRED` | `files.scan: required` sin escáner o con el escáner fallando |
@@ -318,6 +355,10 @@ savia-vaults rag search "penalización por retraso" --domes proyectos
 - **Tras instalar el worker o ClamAV**: `files reprocess` sobre los documentos
   `ARCHIVE_ONLY` con `worker-missing`.
 - **Tras una caída**: `files gc`.
+- **Manifiesto de documento corrupto** (`corrupt > 0` en `list`): restaurar
+  `docs/<id>.json` desde la copia de seguridad. Si no hay copia, borrar ese fichero
+  y ejecutar `files gc`. Mientras haya corruptos, `gc` solo limpia temporales.
+- **Extracción con `INTEGRITY`**: `files reprocess <id>` la regenera desde el original.
 - **Tests**: `npx vitest run tests/unit/files tests/integration/files tests/e2e/mcp-files.test.ts tests/e2e/files.test.ts`.
   Los que necesitan el worker se omiten solo si no existe el intérprete configurado.
 

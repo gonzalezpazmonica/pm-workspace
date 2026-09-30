@@ -1,5 +1,6 @@
-// SE-413 F1 — almacén de ficheros por cúpula: originales inmutables direccionados por
-// SHA-256, manifiesto atómico con revisiones, extracciones por revisión y borrado real.
+// SE-413 F1 / SE-414 — almacén de ficheros por cúpula: originales inmutables direccionados
+// por SHA-256, un manifiesto por documento (docs/<id>.json) con revisiones, extracciones
+// ligadas a su revisión por digest, borrado real y lock entre procesos con espera.
 import * as fs from 'node:fs';
 import * as os from 'node:os';
 import * as path from 'node:path';
@@ -16,6 +17,9 @@ const LOCK_NAME = 'files.lock';
 const DIR_MODE = 0o700;
 const BLOB_MODE = 0o400;
 const REVISION_RE = /^r_[0-9a-f]{16}$/;
+const DOCUMENT_RE = /^f_[0-9a-f]{16}$/;
+/** Controles, formato (bidi, zero-width, BOM) y separadores de línea/párrafo (SE-414 S3). */
+const BAD_NAME_CHARS = /[/\\\p{Cc}\p{Cf}\u2028\u2029]/u;
 const DOME_RE = /^[A-Za-z0-9][A-Za-z0-9._-]{0,63}$/;
 const LEVELS = ['N1', 'N2', 'N3', 'N4'];
 
@@ -30,6 +34,8 @@ export function defaultLimits(env: NodeJS.ProcessEnv = process.env): FilesLimits
     maxDocuments: envInt('SAVIA_FILES_MAX_DOCS', 10_000, env),
     extractTimeoutMs: envInt('SAVIA_FILES_EXTRACT_TIMEOUT_MS', 300_000, env),
     maxTransferBytes: envInt('SAVIA_FILES_MAX_TRANSFER_BYTES', 20 * 1024 * 1024, env),
+    maxUnzippedBytes: envInt('SAVIA_FILES_MAX_UNZIPPED_BYTES', 256 * 1024 * 1024, env),
+    lockWaitMs: envInt('SAVIA_FILES_LOCK_WAIT_MS', 10_000, env),
   };
 }
 
@@ -40,7 +46,7 @@ export function defaultFilesHome(): string {
 /** Nombre visible del fichero: nunca una ruta. La ruta física la decide el almacén. */
 export function sanitizeName(name: string): string {
   const n = typeof name === 'string' ? name.normalize('NFC') : '';
-  if (!n || n === '.' || n === '..' || /[/\\\u0000-\u001f\u007f]/.test(n) || Buffer.byteLength(n) > 255) {
+  if (!n || n === '.' || n === '..' || BAD_NAME_CHARS.test(n) || Buffer.byteLength(n) > 255) {
     throw new FilesError('INVALID_INPUT', `nombre de fichero no válido: ${JSON.stringify(String(name).slice(0, 80))}`);
   }
   return n;
@@ -82,7 +88,8 @@ export function mimeOf(type: FileType): string {
   return MIME[type];
 }
 
-interface Manifest { version: 1; documents: FileDocument[] }
+/** Formato del MVP (SE-413): un único manifest.json; se migra al primer acceso. */
+interface LegacyManifest { version: 1; documents: FileDocument[] }
 
 export interface AddInput {
   name: string;
@@ -97,10 +104,36 @@ export interface FileStoreOptions {
   dome: string;
   domeLevel?: string;
   limits?: Partial<FilesLimits>;
+  /** Espera máxima por el lock de escritura (def. SAVIA_FILES_LOCK_WAIT_MS o 10 s). */
+  lockWaitMs?: number;
 }
 
 const newId = (prefix: string) => `${prefix}_${randomBytes(8).toString('hex')}`;
-const sha256 = (b: Buffer) => createHash('sha256').update(b).digest('hex');
+const sha256 = (b: Buffer | string) => createHash('sha256').update(b).digest('hex');
+const sleep = (ms: number) => Atomics.wait(new Int32Array(new SharedArrayBuffer(4)), 0, 0, ms);
+
+/**
+ * Caché de documentos leídos, por fichero (inode + mtime + tamaño): `list` no re-parsea
+ * lo que no cambió. Los documentos cacheados están congelados; quien muta pide una copia.
+ */
+const docCache = new Map<string, { key: string; doc: FileDocument }>();
+/** Recuento de documentos por directorio `docs`, válido mientras no cambie su mtime. */
+const countCache = new Map<string, { key: string; count: number }>();
+
+function deepFreeze<T>(o: T): T {
+  if (o && typeof o === 'object' && !Object.isFrozen(o)) {
+    Object.freeze(o);
+    for (const v of Object.values(o as object)) deepFreeze(v);
+  }
+  return o;
+}
+
+const statKey = (p: string) => {
+  const st = fs.statSync(p, { bigint: true });
+  return `${st.ino}:${st.mtimeNs}:${st.size}`;
+};
+const byCreation = (a: FileDocument, b: FileDocument) =>
+  a.createdAt < b.createdAt ? -1 : a.createdAt > b.createdAt ? 1 : a.id < b.id ? -1 : a.id > b.id ? 1 : 0;
 
 export class FileStore {
   readonly home: string;
@@ -108,6 +141,8 @@ export class FileStore {
   readonly dir: string;
   readonly limits: FilesLimits;
   private readonly domeLevel: string;
+  private readonly lockWaitMs: number;
+  private corrupt = 0;
 
   constructor(opts: FileStoreOptions) {
     if (!DOME_RE.test(opts.dome)) throw new FilesError('INVALID_INPUT', `cúpula no válida: ${opts.dome}`);
@@ -116,18 +151,43 @@ export class FileStore {
     this.dir = path.join(this.home, opts.dome);
     this.limits = { ...defaultLimits(), ...opts.limits };
     this.domeLevel = opts.domeLevel ?? 'N2';
+    this.lockWaitMs = opts.lockWaitMs ?? this.limits.lockWaitMs;
   }
 
+  private get docsDir(): string { return path.join(this.dir, 'docs'); }
+  private docPath(id: string): string { return path.join(this.docsDir, `${id}.json`); }
+
+  /** Documentos legibles, por fecha de creación. Los corruptos se omiten y se cuentan (`corruptCount`). */
   list(): FileDocument[] {
-    return this.load().documents;
+    this.ensureMigrated();
+    let names: string[];
+    try { names = fs.readdirSync(this.docsDir); } catch { this.corrupt = 0; return []; }
+    const docs: FileDocument[] = [];
+    let corrupt = 0;
+    for (const f of names) {
+      if (!f.endsWith('.json') || !DOCUMENT_RE.test(f.slice(0, -5))) continue;
+      try { docs.push(this.readDoc(f.slice(0, -5), false)); } catch (e) {
+        if (e instanceof FilesError && e.code === 'NOT_FOUND') continue; // borrado entre readdir y lectura
+        corrupt++;
+      }
+    }
+    this.corrupt = corrupt;
+    return docs.sort(byCreation);
   }
 
+  /** Documentos ilegibles (SE-414 AC7). Sin `fresh`, el recuento del último `list`. */
+  corruptCount(fresh = true): number {
+    if (fresh) this.list();
+    return this.corrupt;
+  }
+
+  /** Documento congelado (solo lectura). */
   get(id: string): FileDocument {
-    const doc = this.load().documents.find((d) => d.id === id);
-    if (!doc) throw new FilesError('NOT_FOUND', `documento ${id} no existe en ${this.dome}`);
-    return doc;
+    this.ensureMigrated();
+    return this.readDoc(id, false);
   }
 
+  /** Revisión congelada (solo lectura). */
   revision(id: string, revisionId?: string): FileRevision {
     const doc = this.get(id);
     const rev = doc.revisions.find((r) => r.id === (revisionId ?? doc.currentRevision));
@@ -150,11 +210,10 @@ export class FileStore {
     }
     const tags = (input.tags ?? []).map((t) => String(t).trim()).filter(Boolean).slice(0, 32);
     return this.locked(() => {
-      const manifest = this.load();
-      const prev = input.replaces ? manifest.documents.find((d) => d.id === input.replaces) : undefined;
-      if (input.replaces && !prev) throw new FilesError('NOT_FOUND', `documento ${input.replaces} no existe`);
-      if (!prev && manifest.documents.length >= this.limits.maxDocuments) {
-        throw new FilesError('LIMIT', `la cúpula ya tiene ${manifest.documents.length} documentos`);
+      const prev = input.replaces ? this.readDoc(input.replaces) : undefined;
+      const count = prev ? 0 : this.documentCount();
+      if (!prev && count >= this.limits.maxDocuments) {
+        throw new FilesError('LIMIT', `la cúpula ya tiene ${count} documentos`);
       }
       const hash = sha256(input.bytes);
       this.writeBlob(hash, input.bytes);
@@ -181,9 +240,9 @@ export class FileStore {
           currentRevision: revision.id, revisions: [revision],
           ...(level ? { confidentiality: level as Confidentiality } : {}),
         };
-        manifest.documents.push(document);
       }
-      this.save(manifest);
+      this.writeDoc(document);
+      if (!prev) this.bumpCount(1, count);
       return { document, revision };
     });
   }
@@ -206,42 +265,51 @@ export class FileStore {
     return path.join(this.dir, 'blobs', hash);
   }
 
-  saveExtraction(revisionId: string, extraction: Extraction, info?: ExtractionInfo): void {
+  /**
+   * Guarda la extracción de una revisión y liga su digest al documento (SE-414 S5).
+   * Con `documentId` no hace falta recorrer la cúpula para encontrar la revisión.
+   */
+  saveExtraction(revisionId: string, extraction: Extraction, info?: ExtractionInfo, documentId?: string): void {
     this.checkRevisionId(revisionId);
     this.locked(() => {
-      const manifest = this.load();
-      const rev = manifest.documents.flatMap((d) => d.revisions).find((r) => r.id === revisionId);
-      if (!rev) throw new FilesError('NOT_FOUND', `revisión ${revisionId} no existe`);
+      const doc = this.docOfRevision(revisionId, documentId);
+      const rev = doc.revisions.find((r) => r.id === revisionId)!;
+      const content = JSON.stringify(extraction);
       fs.mkdirSync(path.join(this.dir, 'extract'), { recursive: true, mode: DIR_MODE });
-      writeAtomic(this.extractPath(revisionId), JSON.stringify(extraction));
-      if (info) {
-        rev.extraction = info;
-        this.save(manifest);
-      }
+      writeAtomic(this.extractPath(revisionId), content);
+      rev.extraction = { ...(info ?? rev.extraction), digest: sha256(content) };
+      this.writeDoc(doc);
     });
   }
 
-  readExtraction(revisionId: string): Extraction {
+  /** Unidades extraídas, verificadas contra el digest guardado en el documento. */
+  readExtraction(revisionId: string, documentId?: string): Extraction {
     this.checkRevisionId(revisionId);
+    const doc = this.docOfRevision(revisionId, documentId);
+    const rev = doc.revisions.find((r) => r.id === revisionId)!;
+    let content: string;
     try {
-      return JSON.parse(fs.readFileSync(this.extractPath(revisionId), 'utf-8')) as Extraction;
+      content = fs.readFileSync(this.extractPath(revisionId), 'utf-8');
     } catch {
       throw new FilesError('NOT_FOUND', `sin extracción para ${revisionId}`);
     }
+    if (rev.extraction.digest && sha256(content) !== rev.extraction.digest) {
+      throw new FilesError('INTEGRITY', `la extracción de ${revisionId} no coincide con su digest`);
+    }
+    return JSON.parse(content) as Extraction;
   }
 
   /** Cambia el estado de extracción de una revisión; QUARANTINED borra además sus bytes. */
-  setExtraction(revisionId: string, info: ExtractionInfo): void {
+  setExtraction(revisionId: string, info: ExtractionInfo, documentId?: string): void {
     this.checkRevisionId(revisionId);
     this.locked(() => {
-      const manifest = this.load();
-      const rev = manifest.documents.flatMap((d) => d.revisions).find((r) => r.id === revisionId);
-      if (!rev) throw new FilesError('NOT_FOUND', `revisión ${revisionId} no existe`);
+      const doc = this.docOfRevision(revisionId, documentId);
+      const rev = doc.revisions.find((r) => r.id === revisionId)!;
       rev.extraction = info;
-      this.save(manifest);
+      this.writeDoc(doc);
       if (info.status === 'QUARANTINED') {
         fs.rmSync(this.extractPath(revisionId), { force: true });
-        this.removeUnreferencedBlobs(manifest, [rev.sha256], revisionId);
+        this.removeUnreferencedBlobs([rev.sha256]);
       }
     });
   }
@@ -257,42 +325,44 @@ export class FileStore {
       return;
     }
     this.locked(() => {
-      const manifest = this.load();
-      const d = manifest.documents.find((x) => x.id === id);
-      const rev = d?.revisions.find((r) => r.id === revisionId);
-      if (!d || !rev) throw new FilesError('NOT_FOUND', `revisión ${revisionId} no existe en ${id}`);
+      const d = this.readDoc(id);
+      const rev = d.revisions.find((r) => r.id === revisionId);
+      if (!rev) throw new FilesError('NOT_FOUND', `revisión ${revisionId} no existe en ${id}`);
       d.revisions = d.revisions.filter((r) => r.id !== revisionId);
       if (d.currentRevision === revisionId) d.currentRevision = d.revisions[d.revisions.length - 1].id;
-      this.save(manifest);
+      this.writeDoc(d);
       fs.rmSync(this.extractPath(revisionId), { force: true });
-      this.removeUnreferencedBlobs(manifest, [rev.sha256]);
+      this.removeUnreferencedBlobs([rev.sha256]);
     });
   }
 
-  /** Borrado real: primero el manifiesto (deja de existir), después bytes y extracciones. */
+  /** Borrado real: primero el documento (deja de existir), después bytes y extracciones. */
   delete(id: string): FileDocument {
     return this.locked(() => {
-      const manifest = this.load();
-      const doc = manifest.documents.find((d) => d.id === id);
-      if (!doc) throw new FilesError('NOT_FOUND', `documento ${id} no existe en ${this.dome}`);
-      manifest.documents = manifest.documents.filter((d) => d.id !== id);
-      this.save(manifest);
+      const doc = this.readDoc(id);
+      const count = this.documentCount();
+      fs.rmSync(this.docPath(id), { force: true });
+      docCache.delete(this.docPath(id));
+      this.bumpCount(-1, count);
       for (const rev of doc.revisions) fs.rmSync(this.extractPath(rev.id), { force: true });
-      this.removeUnreferencedBlobs(manifest, doc.revisions.map((r) => r.sha256));
+      this.removeUnreferencedBlobs(doc.revisions.map((r) => r.sha256));
       return doc;
     });
   }
 
   /**
-   * Limpia lo que una caída entre escribir bytes y escribir el manifiesto puede dejar:
-   * blobs y extracciones que ningún documento referencia, y temporales `.tmp-*`.
+   * Limpia lo que una caída puede dejar: blobs y extracciones que ningún documento
+   * referencia, y temporales `.tmp-*`. Con documentos corruptos no borra blobs: no
+   * se puede saber si los referencian.
    */
   gc(): { blobs: number; extractions: number } {
     if (!fs.existsSync(this.dir)) return { blobs: 0, extractions: 0 };
     return this.locked(() => {
-      const revisions = this.load().documents.flatMap((d) => d.revisions);
+      const docs = this.list();
+      const revisions = docs.flatMap((d) => d.revisions);
       const liveBlobs = new Set(revisions.filter((r) => r.extraction.status !== 'QUARANTINED').map((r) => r.sha256));
       const liveRevs = new Set(revisions.map((r) => `${r.id}.json`));
+      const safe = this.corrupt === 0;
       const sweep = (sub: string, keep: (f: string) => boolean) => {
         const dir = path.join(this.dir, sub);
         if (!fs.existsSync(dir)) return 0;
@@ -304,20 +374,103 @@ export class FileStore {
         }
         return n;
       };
+      const tmpOnly = (f: string) => !f.includes('.tmp-');
+      sweep('docs', (f) => !f.includes('.tmp-'));
       return {
-        blobs: sweep('blobs', (f) => liveBlobs.has(f)),
-        extractions: sweep('extract', (f) => liveRevs.has(f)),
+        blobs: sweep('blobs', (f) => (safe ? liveBlobs.has(f) : tmpOnly(f))),
+        extractions: sweep('extract', (f) => (safe ? liveRevs.has(f) : tmpOnly(f))),
       };
     });
   }
 
-  private removeUnreferencedBlobs(manifest: Manifest, hashes: string[], exceptRevision?: string): void {
+  private removeUnreferencedBlobs(hashes: string[]): void {
+    const docs = this.list();
+    if (this.corrupt > 0) return; // sin saber qué referencian los corruptos, no se borra; `gc` lo retoma
     const live = new Set(
-      manifest.documents.flatMap((d) => d.revisions)
-        .filter((r) => r.id !== exceptRevision && r.extraction.status !== 'QUARANTINED')
-        .map((r) => r.sha256),
+      docs.flatMap((d) => d.revisions).filter((r) => r.extraction.status !== 'QUARANTINED').map((r) => r.sha256),
     );
     for (const h of new Set(hashes)) if (!live.has(h)) fs.rmSync(this.blobPath(h), { force: true });
+  }
+
+  private docOfRevision(revisionId: string, documentId?: string): FileDocument {
+    if (documentId) {
+      const d = this.readDoc(documentId);
+      if (!d.revisions.some((r) => r.id === revisionId)) throw new FilesError('NOT_FOUND', `revisión ${revisionId} no existe en ${documentId}`);
+      return d;
+    }
+    const d = this.list().find((x) => x.revisions.some((r) => r.id === revisionId));
+    if (!d) throw new FilesError('NOT_FOUND', `revisión ${revisionId} no existe`);
+    return this.readDoc(d.id); // copia editable: lo de `list` está congelado
+  }
+
+  private documentCount(): number {
+    let key: string;
+    try { key = statKey(this.docsDir); } catch { return 0; }
+    const hit = countCache.get(this.docsDir);
+    if (hit && hit.key === key) return hit.count;
+    const count = fs.readdirSync(this.docsDir).filter((f) => f.endsWith('.json') && !f.includes('.tmp-')).length;
+    countCache.set(this.docsDir, { key, count });
+    return count;
+  }
+
+  /** Ajusta el recuento cacheado tras una alta o baja propia (evita un readdir por escritura). */
+  private bumpCount(delta: number, before: number): void {
+    try { countCache.set(this.docsDir, { key: statKey(this.docsDir), count: before + delta }); } catch { countCache.delete(this.docsDir); }
+  }
+
+  /** Con `mutable` (def.) devuelve una copia editable; sin él, el objeto cacheado congelado. */
+  private readDoc(id: string, mutable = true): FileDocument {
+    if (typeof id !== 'string' || !DOCUMENT_RE.test(id)) throw new FilesError('NOT_FOUND', `documento ${String(id).slice(0, 40)} no existe en ${this.dome}`);
+    const file = this.docPath(id);
+    let st: fs.BigIntStats;
+    try { st = fs.statSync(file, { bigint: true }); } catch {
+      throw new FilesError('NOT_FOUND', `documento ${id} no existe en ${this.dome}`);
+    }
+    const key = `${st.ino}:${st.mtimeNs}:${st.size}`;
+    const hit = docCache.get(file);
+    if (hit && hit.key === key) return mutable ? structuredClone(hit.doc) : hit.doc;
+    let doc: FileDocument;
+    try {
+      doc = JSON.parse(fs.readFileSync(file, 'utf-8')) as FileDocument;
+    } catch {
+      throw new FilesError('INTEGRITY', `el manifiesto de ${id} está corrupto`);
+    }
+    if (doc?.id !== id || !Array.isArray(doc.revisions) || !doc.revisions.length) {
+      throw new FilesError('INTEGRITY', `el manifiesto de ${id} está corrupto`);
+    }
+    docCache.set(file, { key, doc: deepFreeze(doc) });
+    return mutable ? structuredClone(doc) : doc;
+  }
+
+  private writeDoc(doc: FileDocument): void {
+    fs.mkdirSync(this.docsDir, { recursive: true, mode: DIR_MODE });
+    writeAtomic(this.docPath(doc.id), JSON.stringify(doc));
+  }
+
+  /** SE-414 AC8: reparte el manifest.json del MVP en un fichero por documento, una vez. */
+  private ensureMigrated(): void {
+    if (fs.existsSync(path.join(this.dir, 'manifest.json'))) this.locked(() => undefined);
+  }
+
+  private migrate(): void {
+    const legacyPath = path.join(this.dir, 'manifest.json');
+    if (!fs.existsSync(legacyPath)) return;
+    let legacy: LegacyManifest;
+    try {
+      legacy = JSON.parse(fs.readFileSync(legacyPath, 'utf-8')) as LegacyManifest;
+    } catch {
+      throw new FilesError('INTEGRITY', `manifest.json del MVP corrupto en ${this.dome}; no se migra`);
+    }
+    for (const doc of legacy.documents ?? []) {
+      for (const rev of doc.revisions) {
+        const ex = this.extractPath(rev.id);
+        if (!rev.extraction.digest && fs.existsSync(ex)) rev.extraction.digest = sha256(fs.readFileSync(ex, 'utf-8'));
+      }
+      this.writeDoc(doc);
+    }
+    let target = path.join(this.dir, 'manifest.json.migrated');
+    if (fs.existsSync(target)) target = `${target}-${Date.now()}`;
+    fs.renameSync(legacyPath, target);
   }
 
   private checkRevisionId(revisionId: string): void {
@@ -339,20 +492,6 @@ export class FileStore {
     fs.renameSync(tmp, file);
   }
 
-  private load(): Manifest {
-    try {
-      const m = JSON.parse(fs.readFileSync(path.join(this.dir, 'manifest.json'), 'utf-8')) as Manifest;
-      return Array.isArray(m.documents) ? m : { version: 1, documents: [] };
-    } catch (e) {
-      if ((e as NodeJS.ErrnoException).code === 'ENOENT') return { version: 1, documents: [] };
-      throw e;
-    }
-  }
-
-  private save(manifest: Manifest): void {
-    writeAtomic(path.join(this.dir, 'manifest.json'), JSON.stringify(manifest, null, 1));
-  }
-
   private prepare(): void {
     try {
       ensureSafeHome(this.home);
@@ -366,12 +505,25 @@ export class FileStore {
     fs.chmodSync(this.dir, DIR_MODE);
   }
 
+  private depth = 0;
+
+  /** Lock de escritura entre procesos; espera hasta `lockWaitMs` con retroceso (SE-414 S6). Reentrante. */
   private locked<T>(fn: () => T): T {
+    if (this.depth > 0) return fn();
     this.prepare();
-    if (!acquireLock(this.dir, LOCK_NAME)) throw new FilesError('LOCKED', `otra escritura en curso en ${this.dome}`);
+    const deadline = Date.now() + this.lockWaitMs;
+    let pause = 25;
+    while (!acquireLock(this.dir, LOCK_NAME)) {
+      if (Date.now() >= deadline) throw new FilesError('LOCKED', `otra escritura en curso en ${this.dome}`);
+      sleep(Math.min(pause, Math.max(1, deadline - Date.now())));
+      pause = Math.min(pause * 2, 200);
+    }
+    this.depth++;
     try {
+      this.migrate();
       return fn();
     } finally {
+      this.depth--;
       releaseLock(this.dir, LOCK_NAME);
     }
   }

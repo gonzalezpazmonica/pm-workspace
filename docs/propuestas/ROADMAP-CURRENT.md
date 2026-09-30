@@ -16,3 +16,4 @@
 - SE-411 [APPROVED] Eficiencia de Savia RAG: fusión invariante al orden, caché dimensionada, keep_alive, respuesta compacta y CLI en frío — evidencia: docs/specs/SE-411-rag-efficiency.spec.md
 - SE-412 [APPROVED] Higiene y arranque en frío de vault_search + fallo intermitente del fan-out — evidencia: docs/specs/SE-412-vault-search-hygiene.spec.md
 - SE-413 [APPROVED] Savia Files (MVP): ficheros originales en las cúpulas con extracción por localizador y RAG con cita — evidencia: docs/specs/SE-413-savia-files-mvp.spec.md
+- SE-414 [APPROVED] Savia Files: robustez y seguridad del MVP (bomba zip, límite de workers, nombres, home real, extracción ligada, lock con espera, manifiesto por documento) — evidencia: docs/specs/SE-414-savia-files-hardening.spec.md

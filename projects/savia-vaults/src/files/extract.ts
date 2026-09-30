@@ -7,6 +7,7 @@ import { execFile } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 import type { FileStore } from './store.js';
 import { scanFile, type ScanMode } from './scan.js';
+import { inspectZip } from './zip-guard.js';
 import type { ExtractUnit, ExtractionInfo, FileType, Locator } from './types.js';
 
 const MAX_UNITS = 50_000;
@@ -114,6 +115,28 @@ function validUnit(u: unknown): u is ExtractUnit {
     && !!x.locator && LOCATOR_TYPES.has(x.locator.type);
 }
 
+const OOXML_TYPES = new Set<FileType>(['docx', 'pptx', 'xlsx']);
+const ZIP_MAX_RATIO = 200;
+const ZIP_MAX_ENTRIES = 10_000;
+
+/**
+ * SE-414 S2: semáforo por proceso para el worker Python (≈1,2 GB de RAM cada uno).
+ * `SAVIA_FILES_WORKERS` (def. 1) se lee en cada adquisición.
+ */
+let running = 0;
+const waiting: (() => void)[] = [];
+async function withWorkerSlot<T>(fn: () => Promise<T>): Promise<T> {
+  const max = Math.max(1, Number(process.env.SAVIA_FILES_WORKERS) || 1);
+  while (running >= max) await new Promise<void>((r) => waiting.push(r));
+  running++;
+  try {
+    return await fn();
+  } finally {
+    running--;
+    waiting.shift()?.();
+  }
+}
+
 /** Proceso Python aparte: entorno reducido, sin red de modelos, timeout y salida acotada. */
 export function runWorker(type: FileType, file: string, python: string, timeoutMs: number): Promise<RawExtraction> {
   const env: NodeJS.ProcessEnv = {
@@ -152,25 +175,31 @@ const total = (s: { count: number }[]) => s.reduce((a, b) => a + b.count, 0);
 export async function processRevision(store: FileStore, documentId: string, opts: ProcessOptions = {}): Promise<ExtractionInfo> {
   const rev = store.revision(documentId, opts.revisionId);
   const blob = store.blobPath(rev.sha256);
-  store.readBytes(documentId, rev.id); // verifica existencia e integridad antes de nada
+  const bytes = store.readBytes(documentId, rev.id); // verifica existencia e integridad antes de nada
   const scan = await scanFile(blob, { mode: opts.scan ?? 'auto', clamscan: opts.clamscan });
   if (scan.verdict === 'infected') {
     const info: ExtractionInfo = { status: 'QUARANTINED', method: 'clamscan', units: 0, extracted: 0, skipped: [], error: scan.signature };
-    store.setExtraction(rev.id, info);
+    store.setExtraction(rev.id, info, documentId);
     return info;
   }
   const scanSkips = scan.verdict === 'error' ? [{ reason: 'scan-error', count: 1 }] : [];
   let info: ExtractionInfo;
   let units: ExtractUnit[] = [];
+  const zip = OOXML_TYPES.has(rev.type)
+    ? inspectZip(bytes, { maxUnzippedBytes: store.limits.maxUnzippedBytes, maxRatio: ZIP_MAX_RATIO, maxEntries: ZIP_MAX_ENTRIES })
+    : undefined;
   if (rev.type === 'unknown') {
     info = { ...rev.extraction, status: 'ARCHIVE_ONLY' };
+  } else if (zip && !zip.ok) {
+    // SE-414 S1: bomba de descompresión o ZIP inválido; el worker no llega a lanzarse.
+    info = { status: 'FAILED', method: 'zip-guard', units: 0, extracted: 0, skipped: scanSkips, error: `decompression-limit: ${zip.reason}` };
   } else if (WORKER_TYPES.has(rev.type) && !fs.existsSync(opts.python ?? defaultPython())) {
     info = { status: 'ARCHIVE_ONLY', method: 'none', units: 0, extracted: 0, skipped: [{ reason: 'worker-missing', count: 1 }] };
   } else {
     try {
       const raw = WORKER_TYPES.has(rev.type)
-        ? await runWorker(rev.type, blob, opts.python ?? defaultPython(), opts.timeoutMs ?? store.limits.extractTimeoutMs)
-        : extractTextual(rev.type, store.readBytes(documentId, rev.id));
+        ? await withWorkerSlot(() => runWorker(rev.type, blob, opts.python ?? defaultPython(), opts.timeoutMs ?? store.limits.extractTimeoutMs))
+        : extractTextual(rev.type, bytes);
       units = raw.units;
       const skipped = [...raw.skipped, ...scanSkips];
       info = {
@@ -182,6 +211,6 @@ export async function processRevision(store: FileStore, documentId: string, opts
         skipped: scanSkips, error: (e as Error).message.slice(0, 500) };
     }
   }
-  store.saveExtraction(rev.id, { units }, info);
+  store.saveExtraction(rev.id, { units }, info, documentId);
   return info;
 }

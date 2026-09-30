@@ -5,6 +5,27 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased] — 2026-09-30 · Savia Files: robustez y seguridad (SE-414)
+
+### Security
+- Guardia de descompresión para DOCX, PPTX y XLSX: un fichero de 1 MB que se
+  descomprime a 414 MB se rechaza en 3 ms en vez de ocupar el worker 180 s con 1,2 GB.
+- Un worker Python a la vez por proceso (`SAVIA_FILES_WORKERS`): 4 subidas
+  simultáneas pasan de 4,5 GB a 1,15 GB de RAM.
+- Nombres con caracteres Unicode de formato (bidi, zero-width, BOM) o separadores
+  de línea rechazados.
+- `SAVIA_FILES_HOME` y `SAVIA_RAG_HOME` resuelven symlinks antes de comprobar
+  que no están dentro de un repo git.
+- La extracción queda ligada a su revisión por digest: una edición en disco
+  devuelve `INTEGRITY` y no llega a Savia RAG.
+
+### Changed
+- Un manifiesto por documento (`docs/<id>.json`) con migración automática del
+  MVP: guardar + extraer un TXT con 3000 documentos en la cúpula baja de 49,6 a
+  2,2 ms/doc. Un manifiesto corrupto ya no inutiliza la cúpula.
+- `vault_files list` devuelve `{documents, corrupt}`.
+- Las escrituras esperan el lock hasta `SAVIA_FILES_LOCK_WAIT_MS` (def. 10 s).
+
 ## [Unreleased] — 2026-09-30 · Savia Files MVP (SE-413)
 
 ### Added

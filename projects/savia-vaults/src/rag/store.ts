@@ -57,7 +57,15 @@ function isGitMarker(p: string): boolean {
 /** AC11: el índice copia texto de notas; nunca dentro de un repo git. */
 export function ensureSafeHome(home: string): void {
   const abs = path.resolve(home);
-  let cur = abs;
+  // SE-414: resolver symlinks del ancestro existente más cercano; si no, un enlace
+  // a un directorio dentro de un repo pasaría la comprobación.
+  let existing = abs;
+  const rest: string[] = [];
+  while (!fs.existsSync(existing) && path.dirname(existing) !== existing) {
+    rest.unshift(path.basename(existing));
+    existing = path.dirname(existing);
+  }
+  let cur = path.join(fs.realpathSync(existing), ...rest);
   for (;;) {
     if (isGitMarker(path.join(cur, '.git'))) {
       throw new RagError('UNSAFE_HOME', `SAVIA_RAG_HOME (${abs}) está dentro del repo git ${cur}`);

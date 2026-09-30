@@ -54,7 +54,7 @@ describe('FilesService', () => {
   it('list, get y text con filtro de localizador y maxChars', async () => {
     const put = await svc.put({ dome: 'D', name: 'a.csv', contentBase64: b64('k,v\nuno,1\ndos,2\n') });
     const list = await svc.list({ dome: 'D' });
-    expect(list).toEqual([expect.objectContaining({ id: put.documentId, name: 'a.csv', status: 'READY', revisions: 1 })]);
+    expect(list).toEqual({ documents: [expect.objectContaining({ id: put.documentId, name: 'a.csv', status: 'READY', revisions: 1 })], corrupt: 0 });
     expect((await svc.get({ dome: 'D', id: put.documentId })).revisions).toHaveLength(1);
     const all = await svc.text({ dome: 'D', id: put.documentId });
     expect(all.units).toHaveLength(2);
@@ -105,7 +105,7 @@ describe('FilesService', () => {
     await expect(svc.put({ dome: 'D', name: '../x.txt', contentBase64: b64('x') })).rejects.toThrow(/INVALID_INPUT/);
     const small = make({ env: { SAVIA_FILES_HOME: home, SAVIA_FILES_MAX_TRANSFER_BYTES: '4' } });
     await expect(small.put({ dome: 'D', name: 'a.txt', contentBase64: b64('12345') })).rejects.toThrow(/TOO_LARGE/);
-    expect(fs.existsSync(path.join(home, 'D', 'manifest.json'))).toBe(false);
+    expect(fs.existsSync(path.join(home, 'D', 'docs'))).toBe(false);
   });
 
   it('download por encima del límite de transferencia → TOO_LARGE', async () => {
@@ -123,7 +123,7 @@ describe('FilesService', () => {
     domes[0].files = { enabled: true, scan: 'required' };
     const strict = make({ scanMode: undefined, clamscan: path.join(home, 'no-existe') });
     await expect(strict.put({ dome: 'D', name: 'a.txt', contentBase64: b64('x') })).rejects.toThrow(/SCAN_REQUIRED/);
-    expect(fs.existsSync(path.join(home, 'D', 'manifest.json'))).toBe(false);
+    expect(fs.existsSync(path.join(home, 'D', 'docs'))).toBe(false);
   });
 
   it('AC8: infectado ⇒ QUARANTINED y sin descarga', async () => {

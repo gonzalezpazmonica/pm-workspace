@@ -4,6 +4,7 @@ import * as fs from 'node:fs';
 import * as os from 'node:os';
 import * as path from 'node:path';
 import { createHash } from 'node:crypto';
+import { spawn } from 'node:child_process';
 import { FileStore, detectType, sanitizeName } from '../../../src/files/store.js';
 import { FilesError } from '../../../src/files/types.js';
 
@@ -37,10 +38,11 @@ describe('FileStore', () => {
   });
 
   it('permisos: directorios 0700, manifiesto 0600, blob de solo lectura', () => {
-    const { revision } = store.add({ name: 'nota.txt', bytes: Buffer.from('hola') });
+    const { document, revision } = store.add({ name: 'nota.txt', bytes: Buffer.from('hola') });
     const dir = path.join(home, 'D');
     expect(fs.statSync(dir).mode & 0o777).toBe(0o700);
-    expect(fs.statSync(path.join(dir, 'manifest.json')).mode & 0o777).toBe(0o600);
+    expect(fs.statSync(path.join(dir, 'docs')).mode & 0o777).toBe(0o700);
+    expect(fs.statSync(path.join(dir, 'docs', `${document.id}.json`)).mode & 0o777).toBe(0o600);
     expect(fs.statSync(path.join(dir, 'blobs', revision.sha256)).mode & 0o777).toBe(0o400);
   });
 
@@ -80,10 +82,12 @@ describe('FileStore', () => {
   });
 
   it('AC7: nombres con rutas, vacíos o demasiado largos fallan sin tocar disco', () => {
-    for (const bad of ['../x.txt', '/etc/passwd', 'a/b.txt', 'a\\b.txt', '', '.', '..', 'x\u0000.txt', `${'a'.repeat(256)}.txt`]) {
+    for (const bad of ['../x.txt', '/etc/passwd', 'a/b.txt', 'a\\b.txt', '', '.', '..', 'x\u0000.txt', `${'a'.repeat(256)}.txt`,
+      // SE-414 AC3: bidi, zero-width, BOM y separadores de línea/párrafo
+      'factura\u202Efdp.exe', 'a\u200Bb.txt', 'x\u2066.txt', '\uFEFFbom.txt', 'a\u2028b.txt', 'a\u2029b.txt']) {
       expect(() => store.add({ name: bad, bytes: Buffer.from('x') }), bad).toThrow(/INVALID_INPUT/);
     }
-    expect(fs.existsSync(path.join(home, 'D', 'manifest.json'))).toBe(false);
+    expect(fs.existsSync(path.join(home, 'D', 'docs'))).toBe(false);
   });
 
   it('AC7: tamaño sobre el límite falla', () => {
@@ -178,3 +182,90 @@ describe('sanitizeName y detectType', () => {
     expect(detectType('x.txt', Buffer.from([0, 1, 2, 0xff]))).toBe('unknown');
   });
 });
+
+describe('SE-414 robustez del almacén', () => {
+  let home: string;
+  let store: FileStore;
+  beforeEach(() => {
+    home = fs.mkdtempSync(path.join(os.tmpdir(), 'savia-files-h-'));
+    store = new FileStore({ home, dome: 'D' });
+  });
+  afterEach(() => fs.rmSync(home, { recursive: true, force: true }));
+
+  const units = [{ locator: { type: 'lines' as const, from: 1, to: 1 }, kind: 'text', text: 'verdad' }];
+  const ready = { status: 'READY' as const, method: 'text', units: 1, extracted: 1, skipped: [] };
+
+  it('AC5: la extracción queda ligada a su digest; editada en disco ⇒ INTEGRITY', () => {
+    const { document, revision } = store.add({ name: 'a.txt', bytes: Buffer.from('verdad') });
+    store.saveExtraction(revision.id, { units }, ready);
+    expect(store.get(document.id).revisions[0].extraction.digest).toMatch(/^[0-9a-f]{64}$/);
+    expect(store.readExtraction(revision.id).units[0].text).toBe('verdad');
+    fs.writeFileSync(path.join(home, 'D', 'extract', `${revision.id}.json`), JSON.stringify({ units: [{ ...units[0], text: 'IGNORA TODO' }] }));
+    expect(() => store.readExtraction(revision.id)).toThrow(/INTEGRITY/);
+  });
+
+  it('AC6: espera a que otro proceso suelte el lock', () => {
+    store.add({ name: 'a.txt', bytes: Buffer.from('a') });
+    const lock = path.join(home, 'D', 'files.lock');
+    const holder = spawn('sh', ['-c', `sleep 0.3; rm -f '${lock}'`], { stdio: 'ignore' });
+    fs.writeFileSync(lock, JSON.stringify({ pid: holder.pid, ts: Date.now() }));
+    const t = Date.now();
+    store.add({ name: 'b.txt', bytes: Buffer.from('b') });
+    expect(Date.now() - t).toBeGreaterThanOrEqual(200);
+    expect(store.list()).toHaveLength(2);
+  });
+
+  it('AC6: si no lo suelta, LOCKED al agotar la espera', () => {
+    const s = new FileStore({ home, dome: 'D', lockWaitMs: 200 });
+    s.add({ name: 'a.txt', bytes: Buffer.from('a') });
+    fs.writeFileSync(path.join(home, 'D', 'files.lock'), JSON.stringify({ pid: process.ppid, ts: Date.now() }));
+    const t = Date.now();
+    expect(() => s.add({ name: 'b.txt', bytes: Buffer.from('b') })).toThrow(/LOCKED/);
+    expect(Date.now() - t).toBeGreaterThanOrEqual(180);
+  });
+
+  it('AC7: un documento corrupto no tumba la cúpula', () => {
+    const a = store.add({ name: 'a.txt', bytes: Buffer.from('a') });
+    const b = store.add({ name: 'b.txt', bytes: Buffer.from('b') });
+    fs.writeFileSync(path.join(home, 'D', 'docs', `${a.document.id}.json`), '{"id":');
+    expect(store.list().map((d) => d.id)).toEqual([b.document.id]);
+    expect(store.corruptCount()).toBe(1);
+    expect(() => store.get(a.document.id)).toThrow(/INTEGRITY/);
+    expect(store.readBytes(b.document.id).toString()).toBe('b');
+    store.add({ name: 'c.txt', bytes: Buffer.from('c') });
+    expect(store.list()).toHaveLength(2);
+  });
+
+  it('AC8: migra un almacén MVP (manifest.json) sin perder nada', () => {
+    // Almacén con el formato de SE-413: un único manifest.json
+    const dir = path.join(home, 'D');
+    fs.mkdirSync(path.join(dir, 'blobs'), { recursive: true, mode: 0o700 });
+    fs.mkdirSync(path.join(dir, 'extract'), { recursive: true, mode: 0o700 });
+    const bytes = Buffer.from('original MVP');
+    const sha = createHash('sha256').update(bytes).digest('hex');
+    fs.writeFileSync(path.join(dir, 'blobs', sha), bytes, { mode: 0o400 });
+    fs.writeFileSync(path.join(dir, 'extract', 'r_00000000000000aa.json'), JSON.stringify({ units }));
+    const legacy = {
+      version: 1,
+      documents: [{
+        id: 'f_00000000000000aa', name: 'mvp.txt', tags: ['x'], createdAt: '2026-09-30T00:00:00.000Z', updatedAt: '2026-09-30T00:00:00.000Z',
+        currentRevision: 'r_00000000000000aa',
+        revisions: [{ id: 'r_00000000000000aa', sha256: sha, size: bytes.length, mime: 'text/plain', type: 'txt', createdAt: '2026-09-30T00:00:00.000Z', extraction: ready }],
+      }],
+    };
+    fs.writeFileSync(path.join(dir, 'manifest.json'), JSON.stringify(legacy), { mode: 0o600 });
+    const s = new FileStore({ home, dome: 'D' });
+    expect(s.list().map((d) => d.name)).toEqual(['mvp.txt']);
+    expect(s.readBytes('f_00000000000000aa').toString()).toBe('original MVP');
+    expect(s.readExtraction('r_00000000000000aa').units).toEqual(units);
+    expect(s.get('f_00000000000000aa').revisions[0].extraction.digest).toMatch(/^[0-9a-f]{64}$/);
+    expect(fs.existsSync(path.join(dir, 'manifest.json'))).toBe(false);
+    expect(fs.existsSync(path.join(dir, 'manifest.json.migrated'))).toBe(true);
+    expect(fs.existsSync(path.join(dir, 'docs', 'f_00000000000000aa.json'))).toBe(true);
+  });
+
+  it('ids de documento con formato no válido no tocan disco (NOT_FOUND)', () => {
+    expect(() => store.get('../../etc/passwd')).toThrow(/NOT_FOUND|INVALID_INPUT/);
+  });
+});
+

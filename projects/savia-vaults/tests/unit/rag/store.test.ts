@@ -107,6 +107,18 @@ describe('ensureSafeHome', () => {
     fs.rmSync(repo, { recursive: true, force: true });
   });
 
+  it('SE-414 AC4: un home que es symlink a un directorio dentro de git se rechaza', () => {
+    const repo = fs.mkdtempSync(path.join(os.tmpdir(), 'savia-rag-git-'));
+    fs.mkdirSync(path.join(repo, '.git')); fs.writeFileSync(path.join(repo, '.git', 'HEAD'), 'ref: refs/heads/main\n');
+    fs.mkdirSync(path.join(repo, 'dentro'));
+    const base = fs.mkdtempSync(path.join(os.tmpdir(), 'savia-rag-link-'));
+    fs.symlinkSync(path.join(repo, 'dentro'), path.join(base, 'enlace'));
+    expect(() => ensureSafeHome(path.join(base, 'enlace'))).toThrow(/UNSAFE_HOME/);
+    expect(() => ensureSafeHome(path.join(base, 'enlace', 'sub', 'rag'))).toThrow(/UNSAFE_HOME/);
+    fs.rmSync(repo, { recursive: true, force: true });
+    fs.rmSync(base, { recursive: true, force: true });
+  });
+
   it('crea el home con 0700 fuera de git', () => {
     const base = fs.mkdtempSync(path.join(os.tmpdir(), 'savia-rag-home-'));
     const h = path.join(base, 'rag');
