@@ -6,6 +6,12 @@
 > Each entry: date, spec ID, status transition, optional rationale.
 > Ref: SE-222 S1 OKF Adoptable Patterns (log.md convention).
 
+## 2026-09-30 SE-419 APPROVED
+
+Savia Files: permisos por documento (listas readers/writers que restringen y nivel del
+documento con la tabla de roles), aplicados también a cada hit de vault_rag con la
+política actual. Aprobada por la operadora; la política la cambia un writer con acceso.
+
 ## 2026-09-30 SE-418 APPROVED
 
 Savia Files: ledger git privado por cúpula (sin remoto) como autoridad, journal

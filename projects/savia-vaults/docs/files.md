@@ -511,6 +511,7 @@ Una sola tool con `action`. Respuestas en JSON compacto.
 | `log` (SE-418) | read | `dome`, `limit?` | últimas operaciones: id, tipo, estado, commit, fecha |
 | `verify` (SE-418) | read | `dome`, `deep?` | `{ok, documents, operations, receipts, problems[{code, id?}]}` |
 | `recover` (SE-418) | write | `dome` | completa operaciones cortadas y extrae lo pendiente |
+| `policy` (SE-419) | write + poder escribir el documento | `dome`, `id`, `confidentiality?`, `readers?`, `writers?` (array o `null` = hereda), `expectedPolicyVersion?`, `idempotencyKey?` | `{documentId, confidentiality?, readers?, writers?, policyVersion, operationId, receipt}` |
 | `list` | read | `dome`, `tag?` | `{documents: [...], corrupt}`: resumen por documento (id, nombre, estado, tamaño, revisiones) y número de manifiestos ilegibles |
 | `get` | read | `dome`, `id` | documento con todas sus revisiones y cobertura |
 | `text` | read | `dome`, `id`, `revisionId?`, `locator?` (filtro parcial, p. ej. `{"type":"page","page":2}`), `maxChars?` (def. 12 000) | `units[]`, `truncated` |
@@ -552,6 +553,8 @@ savia-vaults files gc --dome proyectos                  # huérfanos tras una ca
 savia-vaults files verify --dome proyectos [--deep]     # ledger, manifiestos, originales, receipts (SE-418)
 savia-vaults files log --dome proyectos [--limit 20]    # operaciones: id, tipo, estado, commit
 savia-vaults files recover --dome proyectos             # completa operaciones cortadas
+savia-vaults files policy f_3c… --dome proyectos --readers ana,luis --writers ana   # SE-419
+savia-vaults files policy f_3c… --dome proyectos --readers-inherit --level N2
 savia-vaults files keys rotate-signing                  # clave de firma de receipts nueva
 savia-vaults rag search "penalización por retraso" --domes proyectos
 ```
@@ -567,7 +570,38 @@ savia-vaults rag search "penalización por retraso" --domes proyectos
 ## Seguridad y permisos
 
 - ACL: la de la cúpula (SE-291). `list/get/text/download` exigen `read`;
-  `put/delete/reprocess` exigen `write`. Sin `read`, ninguna acción devuelve datos.
+  `put/delete/reprocess/policy` exigen `write`. Sin `read`, ninguna acción devuelve datos.
+- **Permisos por documento (SE-419)**, además de los de la cúpula:
+  - **Nivel:** el nivel del documento (o, si no tiene, el de la cúpula) se aplica
+    con la misma tabla de roles: lectura N3 ⇒ `writer`, N4 ⇒ `admin`.
+    - Al guardar, un documento nunca supera su cúpula, así que esto solo actúa si
+      la cúpula se **reclasifica a la baja**.
+    - En `vault_rag`, lo que supera el nivel de la cúpula ya lo omite el indexador
+      para todos.
+  - **Listas `readers` y `writers`:** solo restringen.
+    - `null` o ausente hereda de la cúpula; `[]` deja solo a `admin`.
+    - Estar en `writers` implica poder leer.
+    - Ser autor no da permisos.
+  - **Qué ve quien no tiene permiso:**
+    - `list` omite lo que no puede leer;
+    - `get`, `text` y `download` dan `NOT_FOUND`, sin revelar que existe;
+    - escribir sin permiso da `POLICY_DENIED` (o `NOT_FOUND` si ni siquiera lo lee).
+  - **Cambiar la política:** `vault_files action:"policy"` (`id`,
+    `confidentiality?`, `readers?`, `writers?` con array o `null`,
+    `expectedPolicyVersion?`, `idempotencyKey?`) o `files policy`.
+    - Puede hacerlo quien puede escribir el documento.
+    - Es una operación del ledger con receipt.
+    - Si otro la cambió antes, `CONFLICT`.
+    - Las listas viven en el payload (sellado en cúpulas cifradas), nunca en el
+      ledger; `get` solo las muestra a quien puede escribir.
+  - **`vault_rag`:** filtra cada hit de fichero con la política **actual** del
+    documento. Un cambio vale en la siguiente consulta, sin sync, y un documento
+    borrado deja de salir antes del siguiente sync.
+    - La cúpula declara `filtered: n` (sin ids).
+    - Coste medido con 300 ficheros: `vault_rag` p50 ~7–8 ms con o sin filtro;
+      `list` ~2 ms.
+  - **Sin usuarios configurados** (servidor local de una persona), todo está
+    permitido; las listas se guardan y se aplican en cuanto haya usuarios.
 - Confidencialidad: `put` con `confidentiality` superior al nivel de la cúpula ⇒
   `POLICY_DENIED`.
 - Entradas que fallan cerradas sin tocar disco: nombre con ruta, tamaño sobre el
@@ -615,6 +649,7 @@ savia-vaults rag search "penalización por retraso" --domes proyectos
 | `UNSUPPORTED` | `files setup` en una plataforma sin instalación automática |
 | `COMMIT_PENDING` | El ledger no pudo confirmar (git falló). La operación sigue pendiente y se completa en el siguiente acceso; reintentar con la misma `idempotencyKey` es seguro |
 | `IDEMPOTENCY_CONFLICT` | La `idempotencyKey` ya se usó con otra petición |
+| `CONFLICT` | `policy` con `expectedPolicyVersion` distinta de la actual (otro la cambió antes) |
 | `KEY_MISSING` | Cúpula cifrada sin su clave (restaurar con `files keys import`), o copia de claves sin fichero de recuperación |
 
 ## Operación
@@ -648,7 +683,8 @@ Aprobado como MVP recortado. Queda para specs posteriores, una por slice:
 
 - subida reanudable por HTTP (tus) y streaming autenticado;
 - publicación por snapshot (barrier/CAS) y grafo de procedencia;
-- ACL por documento y clearance de usuarios (SE-419);
+- clearance de usuarios independiente del rol y grupos;
+- nivel por nota markdown en `vault_read` (hoy solo lo aplica el indexador de RAG);
 - purga de la historia del ledger;
 - digestión LLM, grafo de afirmaciones, citas mixtas y visor;
 - revocación, restauración verificada y purga de derivados y copias;

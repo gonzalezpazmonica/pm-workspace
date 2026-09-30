@@ -33,11 +33,21 @@ export interface FileRevision {
 
 export type Confidentiality = 'N1' | 'N2' | 'N3' | 'N4';
 
+/** SE-419: listas que restringen el acceso a un documento (null o ausente = hereda de la cúpula). */
+export interface DocumentAcl {
+  readers?: string[] | null;
+  writers?: string[] | null;
+}
+
 export interface FileDocument {
   id: string;
   name: string;
   tags: string[];
   confidentiality?: Confidentiality;
+  /** SE-419 */
+  acl?: DocumentAcl;
+  /** SE-419: sube con cada cambio de política (control de concurrencia). */
+  policyVersion?: number;
   createdAt: string;
   updatedAt: string;
   currentRevision: string;
@@ -87,7 +97,7 @@ export interface FilesLimits {
 export type FilesErrorCode =
   | 'NOT_FOUND' | 'INVALID_INPUT' | 'TOO_LARGE' | 'LIMIT' | 'LOCKED'
   | 'INTEGRITY' | 'POLICY_DENIED' | 'UNSAFE_HOME' | 'SCAN_REQUIRED' | 'DISABLED' | 'UNSUPPORTED' | 'KEY_MISSING'
-  | 'COMMIT_PENDING' | 'IDEMPOTENCY_CONFLICT';
+  | 'COMMIT_PENDING' | 'IDEMPOTENCY_CONFLICT' | 'CONFLICT';
 
 export class FilesError extends Error {
   constructor(public readonly code: FilesErrorCode, message: string) {
