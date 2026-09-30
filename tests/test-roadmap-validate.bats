@@ -338,3 +338,19 @@ set_plan_filter() {
   [ "$status" -ne 0 ]
   [[ "$output" == *"cola de sesiones inválida"* ]]
 }
+
+@test "edge: planning_pr_merged finds a merge at the tip of a large history under pipefail" {
+  # Regresión S02 (2026-09-30): grep -q cortaba la tubería y git log moría por SIGPIPE (141).
+  local parent tree i
+  tree=$(git -C "$FIXTURE" rev-parse 'HEAD^{tree}')
+  parent=$(git -C "$FIXTURE" rev-parse HEAD)
+  for i in $(seq 1 250); do
+    parent=$(git -C "$FIXTURE" commit-tree "$tree" -p "$parent" -m "chore: relleno $i con texto largo para llenar la tubería de git log")
+  done
+  parent=$(git -C "$FIXTURE" commit-tree "$tree" -p "$parent" -m 'feat: graduada (#1188)')
+  git -C "$FIXTURE" update-ref refs/remotes/origin/main "$parent"
+  run bash -c 'set -uo pipefail; . scripts/lib/planning-completion.sh; for n in 1 2 3 4 5; do planning_pr_merged "$1" origin/main 1188 || exit 1; done' _ "$FIXTURE"
+  [ "$status" -eq 0 ]
+  run bash -c 'set -uo pipefail; . scripts/lib/planning-completion.sh; planning_pr_merged "$1" origin/main 9999' _ "$FIXTURE"
+  [ "$status" -eq 1 ]
+}

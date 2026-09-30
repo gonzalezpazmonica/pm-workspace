@@ -54,8 +54,9 @@ por SE-407 en #1187; conserva su aportación canónica, sin volver a implementar
 
 ## Entregas recientes y trabajo que falta
 
-- **SE-410–422 integradas:** RAG y Files ya tienen código en `main`; requieren
-  revisar AC, límites y graduación por spec. `delivery` registra integración;
+- **SE-410–422 integradas; S02 revisada el 2026-09-30:** 9 graduadas; SE-412
+  abierta; SE-416/421/422 tras los arreglos SE-424; identidad mínima SE-423 aprobada.
+  Revisar AC, límites y graduación por spec en adelante con el mismo método. `delivery` registra integración;
   sólo `completion` con revisión humana permite `IMPLEMENTED`.
 - **SE-396 H04:** #1183 integra los canaries y su recibo, pero aún falta la
   ejecución real expresamente autorizada. H09 sigue requiriendo cotejo humano.

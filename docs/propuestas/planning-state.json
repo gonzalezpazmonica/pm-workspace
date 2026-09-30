@@ -354,7 +354,7 @@
     },
     {
       "id": "SE-410",
-      "status": "APPROVED",
+      "status": "IMPLEMENTED",
       "approval": "Operadora 2026-09-29 en chat (AskUserQuestion): Aprobada, implementa",
       "priority": "P1",
       "title": "Savia RAG: recuperación híbrida paralela en SaviaVaults + política dinámica de embeddings",
@@ -365,11 +365,28 @@
         "merge_pr": 1188,
         "main_commit": "6b8dd8d1",
         "verified_on": "2026-09-30"
+      },
+      "completion": {
+        "merge_pr": 1188,
+        "acceptance_evidence": [
+          {
+            "criterion": "AC1-AC10: sección Resultados de la spec",
+            "file": "docs/specs/SE-410-savia-rag.spec.md"
+          },
+          {
+            "criterion": "Revisión S02: suite 721/721 y pruebas reales",
+            "file": "docs/evidence/S02-vaults-files-review-20260930.md"
+          }
+        ],
+        "human_review": {
+          "status": "APPROVED",
+          "evidence": "Operadora 2026-09-30 en chat (AskUserQuestion): '9 limpias ahora' sobre docs/evidence/S02-vaults-files-review-20260930.md"
+        }
       }
     },
     {
       "id": "SE-411",
-      "status": "APPROVED",
+      "status": "IMPLEMENTED",
       "priority": "P1",
       "title": "Eficiencia de Savia RAG: fusión invariante al orden, caché dimensionada, keep_alive, respuesta compacta y CLI en frío",
       "note": "Implementada en una PR sin ocupar WIP; AC1-AC6 medidos (ver spec §Resultados); graduación pendiente de revisión humana",
@@ -380,6 +397,23 @@
         "merge_pr": 1190,
         "main_commit": "84634208",
         "verified_on": "2026-09-30"
+      },
+      "completion": {
+        "merge_pr": 1190,
+        "acceptance_evidence": [
+          {
+            "criterion": "AC1-AC6: sección Resultados de la spec",
+            "file": "docs/specs/SE-411-rag-efficiency.spec.md"
+          },
+          {
+            "criterion": "Revisión S02: suite 721/721 y pruebas reales",
+            "file": "docs/evidence/S02-vaults-files-review-20260930.md"
+          }
+        ],
+        "human_review": {
+          "status": "APPROVED",
+          "evidence": "Operadora 2026-09-30 en chat (AskUserQuestion): '9 limpias ahora' sobre docs/evidence/S02-vaults-files-review-20260930.md"
+        }
       }
     },
     {
@@ -399,7 +433,7 @@
     },
     {
       "id": "SE-413",
-      "status": "APPROVED",
+      "status": "IMPLEMENTED",
       "approval": "Operadora 2026-09-30 en chat (AskUserQuestion): 'MVP recortado'; después 'MVP y luego delta por slice' y decisiones D01-D10 de la investigación aprobadas salvo D08",
       "priority": "P1",
       "title": "Savia Files (MVP): ficheros originales en las cúpulas con extracción por localizador y RAG con cita",
@@ -410,11 +444,28 @@
         "merge_pr": 1193,
         "main_commit": "f39466af",
         "verified_on": "2026-09-30"
+      },
+      "completion": {
+        "merge_pr": 1193,
+        "acceptance_evidence": [
+          {
+            "criterion": "AC1-AC9: sección Resultados de la spec",
+            "file": "docs/specs/SE-413-savia-files-mvp.spec.md"
+          },
+          {
+            "criterion": "Revisión S02: suite 721/721 y pruebas reales",
+            "file": "docs/evidence/S02-vaults-files-review-20260930.md"
+          }
+        ],
+        "human_review": {
+          "status": "APPROVED",
+          "evidence": "Operadora 2026-09-30 en chat (AskUserQuestion): '9 limpias ahora' sobre docs/evidence/S02-vaults-files-review-20260930.md"
+        }
       }
     },
     {
       "id": "SE-414",
-      "status": "APPROVED",
+      "status": "IMPLEMENTED",
       "approval": "Operadora 2026-09-30 en chat (AskUserQuestion): 'Aprobar ambas, PR por spec'",
       "priority": "P1",
       "title": "Savia Files: robustez y seguridad del MVP (bomba zip, límite de workers, nombres, home real, extracción ligada, lock con espera, manifiesto por documento)",
@@ -425,11 +476,28 @@
         "merge_pr": 1194,
         "main_commit": "435ae958",
         "verified_on": "2026-09-30"
+      },
+      "completion": {
+        "merge_pr": 1194,
+        "acceptance_evidence": [
+          {
+            "criterion": "AC1-AC10 (AC9 parcial declarado): sección Resultados de la spec",
+            "file": "docs/specs/SE-414-savia-files-hardening.spec.md"
+          },
+          {
+            "criterion": "Revisión S02: suite 721/721 y pruebas reales",
+            "file": "docs/evidence/S02-vaults-files-review-20260930.md"
+          }
+        ],
+        "human_review": {
+          "status": "APPROVED",
+          "evidence": "Operadora 2026-09-30 en chat (AskUserQuestion): '9 limpias ahora' sobre docs/evidence/S02-vaults-files-review-20260930.md"
+        }
       }
     },
     {
       "id": "SE-415",
-      "status": "APPROVED",
+      "status": "IMPLEMENTED",
       "approval": "Operadora 2026-09-30 en chat (AskUserQuestion): 'Aprobar ambas, PR por spec'",
       "priority": "P1",
       "title": "Savia Files: fidelidad de extracción y cobertura honesta (escaneados, JSON, notas PPTX, contexto XLSX, Windows-1252, worker por lotes)",
@@ -440,6 +508,23 @@
         "merge_pr": 1195,
         "main_commit": "b8ed0f49",
         "verified_on": "2026-09-30"
+      },
+      "completion": {
+        "merge_pr": 1195,
+        "acceptance_evidence": [
+          {
+            "criterion": "AC1-AC7: sección Resultados de la spec",
+            "file": "docs/specs/SE-415-savia-files-extraction-fidelity.spec.md"
+          },
+          {
+            "criterion": "Revisión S02: suite 721/721 y pruebas reales",
+            "file": "docs/evidence/S02-vaults-files-review-20260930.md"
+          }
+        ],
+        "human_review": {
+          "status": "APPROVED",
+          "evidence": "Operadora 2026-09-30 en chat (AskUserQuestion): '9 limpias ahora' sobre docs/evidence/S02-vaults-files-review-20260930.md"
+        }
       }
     },
     {
@@ -459,7 +544,7 @@
     },
     {
       "id": "SE-417",
-      "status": "APPROVED",
+      "status": "IMPLEMENTED",
       "approval": "Operadora 2026-09-30 en chat (AskUserQuestion): 'Aprobar e implementar'",
       "priority": "P1",
       "title": "Savia Files: cifrado en reposo, borrado criptográfico, rotación, migración y copia de seguridad con claves por otro canal",
@@ -470,11 +555,28 @@
         "merge_pr": 1197,
         "main_commit": "91bc8580",
         "verified_on": "2026-09-30"
+      },
+      "completion": {
+        "merge_pr": 1197,
+        "acceptance_evidence": [
+          {
+            "criterion": "AC1-AC10: sección Resultados de la spec",
+            "file": "docs/specs/SE-417-savia-files-encryption.spec.md"
+          },
+          {
+            "criterion": "Revisión S02: suite 721/721 y pruebas reales",
+            "file": "docs/evidence/S02-vaults-files-review-20260930.md"
+          }
+        ],
+        "human_review": {
+          "status": "APPROVED",
+          "evidence": "Operadora 2026-09-30 en chat (AskUserQuestion): '9 limpias ahora' sobre docs/evidence/S02-vaults-files-review-20260930.md"
+        }
       }
     },
     {
       "id": "SE-418",
-      "status": "APPROVED",
+      "status": "IMPLEMENTED",
       "approval": "Operadora 2026-09-30 en chat (AskUserQuestion): 'Aprobar e implementar'",
       "priority": "P1",
       "title": "Savia Files: ledger git privado, journal de operaciones y receipts firmados (D01, D03)",
@@ -485,11 +587,28 @@
         "merge_pr": 1198,
         "main_commit": "641968bc",
         "verified_on": "2026-09-30"
+      },
+      "completion": {
+        "merge_pr": 1198,
+        "acceptance_evidence": [
+          {
+            "criterion": "AC1-AC10: sección Resultados de la spec",
+            "file": "docs/specs/SE-418-savia-files-ledger.spec.md"
+          },
+          {
+            "criterion": "Revisión S02: suite 721/721 y pruebas reales",
+            "file": "docs/evidence/S02-vaults-files-review-20260930.md"
+          }
+        ],
+        "human_review": {
+          "status": "APPROVED",
+          "evidence": "Operadora 2026-09-30 en chat (AskUserQuestion): '9 limpias ahora' sobre docs/evidence/S02-vaults-files-review-20260930.md"
+        }
       }
     },
     {
       "id": "SE-419",
-      "status": "APPROVED",
+      "status": "IMPLEMENTED",
       "approval": "Operadora 2026-09-30 en chat (AskUserQuestion): 'Aprobar e implementar'",
       "priority": "P1",
       "title": "Savia Files: permisos por documento (nivel y listas readers/writers) en todas las vistas, vault_rag incluido (D02)",
@@ -500,11 +619,28 @@
         "merge_pr": 1199,
         "main_commit": "88aac851",
         "verified_on": "2026-09-30"
+      },
+      "completion": {
+        "merge_pr": 1199,
+        "acceptance_evidence": [
+          {
+            "criterion": "AC1-AC9: sección Resultados de la spec",
+            "file": "docs/specs/SE-419-savia-files-document-acl.spec.md"
+          },
+          {
+            "criterion": "Revisión S02: suite 721/721 y pruebas reales",
+            "file": "docs/evidence/S02-vaults-files-review-20260930.md"
+          }
+        ],
+        "human_review": {
+          "status": "APPROVED",
+          "evidence": "Operadora 2026-09-30 en chat (AskUserQuestion): '9 limpias ahora' sobre docs/evidence/S02-vaults-files-review-20260930.md"
+        }
       }
     },
     {
       "id": "SE-420",
-      "status": "APPROVED",
+      "status": "IMPLEMENTED",
       "approval": "Operadora 2026-09-30 en chat (AskUserQuestion): 'Aprobar e implementar'",
       "priority": "P1",
       "title": "SaviaVaults: una nota con nivel mayor que su cúpula no se sirve por ninguna herramienta (MCP, A2A, RAG)",
@@ -515,6 +651,23 @@
         "merge_pr": 1200,
         "main_commit": "bf2614a1",
         "verified_on": "2026-09-30"
+      },
+      "completion": {
+        "merge_pr": 1200,
+        "acceptance_evidence": [
+          {
+            "criterion": "AC1-AC7: sección Resultados de la spec",
+            "file": "docs/specs/SE-420-vaults-note-level.spec.md"
+          },
+          {
+            "criterion": "Revisión S02: suite 721/721 y pruebas reales",
+            "file": "docs/evidence/S02-vaults-files-review-20260930.md"
+          }
+        ],
+        "human_review": {
+          "status": "APPROVED",
+          "evidence": "Operadora 2026-09-30 en chat (AskUserQuestion): '9 limpias ahora' sobre docs/evidence/S02-vaults-files-review-20260930.md"
+        }
       }
     },
     {
@@ -546,6 +699,26 @@
         "main_commit": "c9b42de5",
         "verified_on": "2026-09-30"
       }
+    },
+    {
+      "id": "SE-423",
+      "status": "APPROVED",
+      "approval": "Operadora 2026-09-30 en chat (AskUserQuestion): 'Aprobar; token A2A obsoleto' con D1 = 365 días",
+      "priority": "P1",
+      "title": "SaviaVaults: identidad mínima (Subject, credenciales con caducidad y PDP común en MCP/A2A/HTTP/CLI)",
+      "note": "Delta de S02 (H2/H3 generalizados); login/MFA/SSO/AEK fuera. Implementar solo con hueco WIP",
+      "evidence": "docs/specs/SE-423-vaults-minimal-identity.spec.md",
+      "phase": "A"
+    },
+    {
+      "id": "SE-424",
+      "status": "APPROVED",
+      "approval": "Operadora 2026-09-30 en chat (AskUserQuestion): arreglos H1, H2, H3 y H4, un PR Draft por arreglo",
+      "priority": "P1",
+      "title": "SaviaVaults/Files: arreglos de la revisión S02 (escaneo > 2 GiB, guarda A2A, revocación MCP, modelos del lector de PDF)",
+      "note": "Bloquea la graduación de SE-416, SE-421 y SE-422",
+      "evidence": "docs/specs/SE-424-vaults-files-s02-fixes.spec.md",
+      "phase": "A"
     }
   ],
   "route": {
@@ -612,10 +785,12 @@
           "SE-419",
           "SE-420",
           "SE-421",
-          "SE-422"
+          "SE-422",
+          "SE-423",
+          "SE-424"
         ],
         "title": "Seguridad, evidencia y cierre de Vaults/Files",
-        "action": "Revisar entregas integradas por criterio; probar escáner real, ACL/revocación entre vistas, restauración y límites. Diseñar delta mínimo de Subject, sesiones/PAT con caducidad y PDP común; separar el resto de identidad.",
+        "action": "Revisión hecha el 2026-09-30 (docs/evidence/S02-vaults-files-review-20260930.md): 9 graduadas; SE-412 abierta (AC3); SE-416/421/422 esperan a SE-424. Siguiente: SE-424 (H1→H4, PR por arreglo) y después SE-423 con hueco WIP.",
         "necessity": "alta",
         "urgency": "alta",
         "value": "alto",

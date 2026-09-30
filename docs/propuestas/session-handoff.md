@@ -13,9 +13,9 @@
 - Primera sesión: SE-407 S1–S3 y baseline reproducible; reutilizar SE-378.
 - Revisión acotada: S02 seguridad/evidencia Vaults/Files y diseño de identidad
   mínima; implementar delta sólo con aprobación y hueco WIP.
-- SE-410–422 y SE-402–405 integradas: delivery verificada, graduación pendiente.
-  SE-421/422 (streaming + HTTP/tus, fase E por contenido) se entregaron antes
-  de S08 por decisión D09 de la operadora; entran en la revisión S02.
+- S02 hecha (docs/evidence/S02-vaults-files-review-20260930.md): IMPLEMENTED
+  SE-410/411/413/414/415/417/418/419/420; SE-412 abierta (AC3); SE-416/421/422
+  esperan a SE-424 (H1 >2 GiB, H2 A2A, H3 MCP, H4 modelos PDF). SE-423 aprobada.
 - SE-376: remedir deuda tras #1173/#1180; 128/137 es medida 27/09, no actual.
 - SE-396: H04 #1183 integrado, sin ejecución real; H09 requiere cotejo humano
   de A01c. H04 real conserva autorización/coste específicos.
@@ -24,7 +24,7 @@
   7 tests rojos: contrastar/cuarentenar con RCA antes de graduar.
 - Después: TEE v1.1/SE-401 + L31 READ_ONLY → conformidad → kernel mínimo →
   adopción/contexto Files → pilotos. Sin deadlines; gates ADR-002 intactos.
-- Verificado: roadmap validate PASS, BATS PASS, enlaces/17 deliveries y
-  vista generada exactos, diff --check limpio. Suite global no ejecutada.
+- Verificado: validate PASS, 38 BATS, suite savia-vaults 721/721 en c9b42de5.
+  Arreglado falso negativo SIGPIPE en planning_pr_merged (grep -q + pipefail).
 - Integrado tras SE-420–422 (main c9b42de5) en rama agent/roadmap-unified.
   Detalle privado persistido por MCP en Labs.
