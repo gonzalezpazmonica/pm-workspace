@@ -75,7 +75,7 @@ export class MCPVaultServer {
     // SE-410: RAG sobre las cúpulas activas; autorización por cúpula con el mismo controlador.
     this.rag = new RagService({
       domes: () => this.domeRegistry
-        ? this.domeRegistry.listActive().map(d => ({ name: d.name, path: d.path, confidentiality: d.confidentiality, rag: d.rag }))
+        ? this.domeRegistry.listActive().map(d => ({ name: d.name, path: d.path, confidentiality: d.confidentiality, rag: d.rag, files: d.files }))
         : [{ name: this.config.name, path: this.config.path, confidentiality: 'N2', rag: { enabled: true } }],
       authorize: (dome, action, tool) => this.authorize(dome, action, tool),
       background: true,

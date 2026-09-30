@@ -15,7 +15,7 @@ function ragService(domesFile: string): RagService {
   const reg = new DomeRegistry(path.resolve(domesFile));
   reg.load();
   return new RagService({
-    domes: () => reg.listActive().map(d => ({ name: d.name, path: d.path, confidentiality: d.confidentiality, rag: d.rag })),
+    domes: () => reg.listActive().map(d => ({ name: d.name, path: d.path, confidentiality: d.confidentiality, rag: d.rag, files: d.files })),
     background: false,
   });
 }

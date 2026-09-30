@@ -54,6 +54,12 @@ export interface Extraction {
   units: ExtractUnit[];
 }
 
+/** Bloque opcional `files` de una cúpula en savia-vaults.domes.json (desactivado por defecto). */
+export interface FilesDomeConfig {
+  enabled?: boolean;
+  scan?: 'auto' | 'required' | 'off';
+}
+
 export type FileType = 'pdf' | 'docx' | 'pptx' | 'xlsx' | 'txt' | 'md' | 'csv' | 'json' | 'unknown';
 
 export interface FilesLimits {

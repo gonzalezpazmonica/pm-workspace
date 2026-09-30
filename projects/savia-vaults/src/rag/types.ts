@@ -1,4 +1,5 @@
 // SE-410 — Savia RAG: tipos compartidos.
+import type { Locator } from '../files/types.js';
 
 export type Confidentiality = 'N1' | 'N2' | 'N3' | 'N4';
 export type RagMode = 'hybrid' | 'dense' | 'bm25';
@@ -51,6 +52,27 @@ export interface ChunkMeta {
   confidentiality?: string;
 }
 
+/** SE-413: procedencia de un chunk que viene de un fichero de Savia Files. */
+export interface FileSourceRef {
+  kind: 'file';
+  documentId: string;
+  revisionId: string;
+  name: string;
+  locator: Locator;
+  /** Último localizador del chunk si abarca varias unidades (celdas, filas, líneas). */
+  locatorEnd?: Locator;
+}
+
+/** SE-413: fuente no markdown que el indexer trata como documento (`files/<id>`). */
+export interface VirtualSource {
+  path: string;
+  /** Cambia cuando cambia el contenido o el troceado: dispara re-embebido. */
+  hash: string;
+  mtimeMs: number;
+  confidentiality?: string;
+  chunks(opts: { chunkChars: number; overlap: number }): Chunk[];
+}
+
 export interface Chunk {
   id: string;          // `${path}#${ordinal}`
   path: string;
@@ -60,6 +82,7 @@ export interface Chunk {
   embedText: string;   // cabecera contextual + texto (lo que se embebe)
   hash: string;        // sha256(embedText + generationId), rellenado por el indexer
   meta: ChunkMeta;
+  source?: FileSourceRef;
 }
 
 export interface DocEntry {
@@ -113,6 +136,7 @@ export interface RagHit {
   signals: { denseRank?: number; bm25Rank?: number; dense?: number; bm25?: number };
   freshness: { modified: string; status?: string; supersededBy?: string; decay: number };
   generation: string;
+  source?: FileSourceRef;
 }
 
 export interface RagRequest {

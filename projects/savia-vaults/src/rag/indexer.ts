@@ -4,7 +4,7 @@ import * as path from 'node:path';
 import { chunkMarkdown, parseNote } from './chunker.js';
 import type { Embedder } from './embedder.js';
 import { FlatVectorStore, domeDir, ensureSafeHome, generationId, readActive, writeActive } from './store.js';
-import { RAG_LIMITS, RagError, type Chunk, type EmbeddingContract, type Manifest, type ResolvedRagConfig, type SyncReport } from './types.js';
+import { RAG_LIMITS, RagError, type Chunk, type EmbeddingContract, type Manifest, type ResolvedRagConfig, type SyncReport, type VirtualSource } from './types.js';
 
 /**
  * SE-410 — Indexer incremental (P2): hash por documento y por chunk; solo se
@@ -41,11 +41,13 @@ export function listIndexable(vaultPath: string): IndexableFile[] {
   return out.sort((a, b) => a.path.localeCompare(b.path));
 }
 
-/** Fingerprint barato (SE-310): count + max mtime. */
-export function fingerprintOf(files: IndexableFile[]): string {
+/** Fingerprint barato (SE-310): count + max mtime; con fuentes virtuales, hash de sus hashes. */
+export function fingerprintOf(files: IndexableFile[], virtual: VirtualSource[] = []): string {
   let newest = 0;
   for (const f of files) if (f.mtimeMs > newest) newest = f.mtimeMs;
-  return `${files.length}:${Math.round(newest)}`;
+  const base = `${files.length}:${Math.round(newest)}`;
+  if (!virtual.length) return base;
+  return `${base}:v${virtual.length}:${sha256(virtual.map(v => `${v.path}=${v.hash}`).join('\n')).slice(0, 16)}`;
 }
 
 function pidAlive(pid: number): boolean {
@@ -118,6 +120,8 @@ export interface IndexerOptions {
   embedder: Embedder;
   /** Nivel de la cúpula (def. N2). */
   domeLevel?: string;
+  /** SE-413: fuentes no markdown (p. ej. Savia Files) que se indexan junto a las notas. */
+  sources?: () => VirtualSource[];
 }
 
 export interface PendingInfo {
@@ -137,10 +141,12 @@ export class RagIndexer {
   async pending(files = listIndexable(this.o.vaultPath)): Promise<PendingInfo> {
     const active = readActive(this.o.home, this.o.dome).active;
     const manifest = active ? FlatVectorStore.readManifest(path.join(this.dir, active)) : undefined;
-    const fingerprint = fingerprintOf(files);
+    const virtual = this.o.sources?.() ?? [];
+    const fingerprint = fingerprintOf(files, virtual);
+    const totalDocs = files.length + virtual.length;
     if (!manifest) {
-      const oldest = files.reduce((m, f) => Math.min(m, f.mtimeMs), Date.now());
-      return { totalDocs: files.length, pendingDocs: files.length, lagHours: files.length ? (Date.now() - oldest) / 3.6e6 : 0, fingerprint };
+      const oldest = [...files, ...virtual].reduce((m, f) => Math.min(m, f.mtimeMs), Date.now());
+      return { totalDocs, pendingDocs: totalDocs, lagHours: totalDocs ? (Date.now() - oldest) / 3.6e6 : 0, fingerprint };
     }
     let pendingDocs = 0;
     let oldestPending = Infinity;
@@ -153,6 +159,14 @@ export class RagIndexer {
         oldestPending = Math.min(oldestPending, f.mtimeMs);
       }
     }
+    for (const v of virtual) {
+      seen.add(v.path);
+      const d = manifest.docs[v.path];
+      if (!d || d.hash !== v.hash) {
+        pendingDocs++;
+        oldestPending = Math.min(oldestPending, v.mtimeMs);
+      }
+    }
     for (const p of Object.keys(manifest.docs)) {
       if (!seen.has(p)) {
         pendingDocs++;
@@ -160,7 +174,7 @@ export class RagIndexer {
       }
     }
     const lagHours = pendingDocs ? Math.max(0, (Date.now() - oldestPending) / 3.6e6) : 0;
-    return { totalDocs: files.length, pendingDocs, lagHours, fingerprint, generation: manifest.generation };
+    return { totalDocs, pendingDocs, lagHours, fingerprint, generation: manifest.generation };
   }
 
   async sync(opts: { rebuild?: boolean } = {}): Promise<SyncReport> {
@@ -178,6 +192,7 @@ export class RagIndexer {
       previous?.chunks.forEach((c, i) => prevByHash.set(c.hash, i));
 
       const files = listIndexable(this.o.vaultPath);
+      const virtual = this.o.sources?.() ?? [];
       const report: SyncReport = {
         dome: this.o.dome, generation, promoted: false, shadow: false,
         docs: { added: 0, updated: 0, deleted: 0, unchanged: 0, skipped: 0 },
@@ -190,6 +205,20 @@ export class RagIndexer {
       const finalVectors: (Float32Array | undefined)[] = [];
       const toEmbed: number[] = [];
       let mtimeOnly = false;
+      /** Reutiliza el vector si el chunk (por hash) ya existía; si no, lo encola para embeber. */
+      const addChunks = (chunks: Chunk[]) => {
+        for (const c of chunks) {
+          c.hash = sha256(`${generation}\n${c.embedText}`);
+          const reuse = prevByHash.get(c.hash);
+          finalChunks.push(c);
+          if (reuse !== undefined && previous) {
+            finalVectors.push(new Float32Array(previous.vector(reuse)));
+          } else {
+            finalVectors.push(undefined);
+            toEmbed.push(finalChunks.length - 1);
+          }
+        }
+      };
 
       for (const f of files) {
         const prev = prevDocs[f.path];
@@ -220,18 +249,28 @@ export class RagIndexer {
         const chunks = chunkMarkdown(f.path, raw, {
           chunkChars: contract.chunkChars, overlap: contract.overlap, mtime: new Date(f.mtimeMs),
         });
-        for (const c of chunks) {
-          c.hash = sha256(`${generation}\n${c.embedText}`);
-          const reuse = prevByHash.get(c.hash);
-          finalChunks.push(c);
-          if (reuse !== undefined && previous) {
-            finalVectors.push(new Float32Array(previous.vector(reuse)));
-          } else {
-            finalVectors.push(undefined);
-            toEmbed.push(finalChunks.length - 1);
-          }
-        }
+        addChunks(chunks);
         docs[f.path] = { hash, mtimeMs: f.mtimeMs, chunkIds: chunks.map(c => c.id) };
+      }
+      // SE-413: fuentes virtuales; el hash de la fuente (revisión + troceado) decide si se re-trocea.
+      for (const v of virtual) {
+        const prev = prevDocs[v.path];
+        if (prev && prev.hash === v.hash && previous) {
+          this.carry(previous, prev.chunkIds, finalChunks, finalVectors);
+          docs[v.path] = prev;
+          if (prev.skipped) report.docs.skipped++;
+          else report.docs.unchanged++;
+          continue;
+        }
+        if (exceedsDomeLevel(v.confidentiality, this.o.domeLevel ?? 'N2')) {
+          docs[v.path] = { hash: v.hash, mtimeMs: v.mtimeMs, chunkIds: [], skipped: `confidentiality:${v.confidentiality}` };
+          report.docs.skipped++;
+          continue;
+        }
+        prev && !prev.skipped ? report.docs.updated++ : report.docs.added++;
+        const chunks = v.chunks({ chunkChars: contract.chunkChars, overlap: contract.overlap });
+        addChunks(chunks);
+        docs[v.path] = { hash: v.hash, mtimeMs: v.mtimeMs, chunkIds: chunks.map(c => c.id) };
       }
       for (const p of Object.keys(prevDocs)) if (!(p in docs)) report.docs.deleted++;
 
@@ -250,7 +289,7 @@ export class RagIndexer {
         version: 1, dome: this.o.dome, generation, contract,
         seq: changed ? (previous?.manifest.seq ?? 0) + 1 : previous!.manifest.seq,
         createdAt: previous?.manifest.createdAt ?? now, updatedAt: now,
-        docs, chunkCount: finalChunks.length, fingerprint: fingerprintOf(files),
+        docs, chunkCount: finalChunks.length, fingerprint: fingerprintOf(files, virtual),
       };
       if (changed) {
         FlatVectorStore.write(genDir, manifest, finalChunks, finalVectors as Float32Array[]);

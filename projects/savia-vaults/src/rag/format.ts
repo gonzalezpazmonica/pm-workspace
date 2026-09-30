@@ -21,6 +21,8 @@ function leanHit(h: RagHit, withText: boolean) {
     score: round(h.score),
     ...(h.freshness.status ? { status: h.freshness.status } : {}),
     ...(h.freshness.supersededBy ? { supersededBy: h.freshness.supersededBy } : {}),
+    // SE-413: procedencia de fichero (documento, revisión, localizador) para citar.
+    ...(h.source ? { source: h.source } : {}),
   };
 }
 
