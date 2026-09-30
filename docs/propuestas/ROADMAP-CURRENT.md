@@ -17,3 +17,4 @@
 - SE-412 [APPROVED] Higiene y arranque en frío de vault_search + fallo intermitente del fan-out — evidencia: docs/specs/SE-412-vault-search-hygiene.spec.md
 - SE-413 [APPROVED] Savia Files (MVP): ficheros originales en las cúpulas con extracción por localizador y RAG con cita — evidencia: docs/specs/SE-413-savia-files-mvp.spec.md
 - SE-414 [APPROVED] Savia Files: robustez y seguridad del MVP (bomba zip, límite de workers, nombres, home real, extracción ligada, lock con espera, manifiesto por documento) — evidencia: docs/specs/SE-414-savia-files-hardening.spec.md
+- SE-415 [APPROVED] Savia Files: fidelidad de extracción y cobertura honesta (escaneados, JSON, notas PPTX, contexto XLSX, Windows-1252, worker por lotes) — evidencia: docs/specs/SE-415-savia-files-extraction-fidelity.spec.md

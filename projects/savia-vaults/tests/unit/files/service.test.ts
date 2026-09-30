@@ -134,4 +134,24 @@ describe('FilesService', () => {
     expect(put.status).toBe('QUARANTINED');
     await expect(scanning.download({ dome: 'D', id: put.documentId })).rejects.toThrow(/NOT_FOUND/);
   });
+
+  it('SE-415 AC6: putMany extrae los ofimáticos en un solo worker y valida todo antes de guardar', async () => {
+    const calls = path.join(home, 'calls');
+    const py = path.join(home, 'py');
+    fs.writeFileSync(py, `#!/bin/sh\necho call >> '${calls}'\nwhile read line; do echo '{"method":"fake","units":[{"locator":{"type":"page","page":1},"kind":"text","text":"x"}],"skipped":[]}'; done\n`, { mode: 0o700 });
+    const batchSvc = make({ python: py });
+    const pdf = fs.readFileSync(path.resolve('tests/fixtures/files/contrato.pdf'));
+    await expect(batchSvc.putMany({ dome: 'D', files: [{ name: 'ok.txt', bytes: Buffer.from('x') }, { name: '../mal.txt', bytes: Buffer.from('y') }] }))
+      .rejects.toThrow(/INVALID_INPUT/);
+    expect(fs.existsSync(path.join(home, 'D', 'docs'))).toBe(false);
+    const res = await batchSvc.putMany({
+      dome: 'D',
+      files: [1, 2, 3].map((i) => ({ name: `c${i}.pdf`, bytes: Buffer.concat([pdf, Buffer.from(String(i))]) })).concat([{ name: 'n.txt', bytes: Buffer.from('texto') }]),
+      tags: ['lote'],
+    });
+    expect(res.map((r) => r.status)).toEqual(['READY', 'READY', 'READY', 'READY']);
+    expect(fs.readFileSync(calls, 'utf-8').trim().split('\n')).toHaveLength(1);
+    expect(changed).toEqual(['D']);
+  });
 });
+

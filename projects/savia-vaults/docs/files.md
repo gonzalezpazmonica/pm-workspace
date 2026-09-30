@@ -97,7 +97,7 @@ Estados de extracción:
 | `READY` | Extraído entero | Sí | Sí |
 | `PARTIAL` | Extraído con omisiones (`skipped`: imágenes sin OCR, truncados, fórmulas sin valor calculado…) | Sí | Sí |
 | `FAILED` | La extracción falló (`error`) | No | Sí |
-| `ARCHIVE_ONLY` | Formato no soportado o worker ausente | No | Sí |
+| `ARCHIVE_ONLY` | Sin texto utilizable: formato no soportado, worker ausente o **ninguna unidad extraída** (PDF escaneado → `page-without-text`, fichero vacío → `empty`). Nunca `READY` sin unidades (SE-415) | No | Sí |
 | `QUARANTINED` | El escáner lo detectó infectado; bytes borrados | No | No |
 
 Localizadores:
@@ -105,9 +105,9 @@ Localizadores:
 | Formato | Localizador | Ejemplo de etiqueta |
 |---|---|---|
 | PDF | `{type:"page", page}` | `p. 2` |
-| PPTX | `{type:"slide", slide}` | `diapositiva 2` |
+| PPTX | `{type:"slide", slide}`; las notas del presentador van como `kind: "notes"` en su diapositiva (SE-415) | `diapositiva 2` |
 | DOCX | `{type:"element", index}` (orden en el documento; DOCX no tiene páginas fijas) | `elemento 4` |
-| XLSX | `{type:"cell", sheet, cell}` + `formula` | `Presupuesto!B3` |
+| XLSX | `{type:"cell", sheet, cell}` + `formula`. Texto con contexto (SE-415): `Inventario!D2 · Coste anual · Servidor de copias: 4200` | `Presupuesto!B3` |
 | TXT/MD | `{type:"lines", from, to}` (bloques separados por línea en blanco, ≤ 60 líneas) | `líneas 3–4` |
 | CSV | `{type:"row", row}` (fila 1 = cabecera) | `fila 2` |
 | JSON | `{type:"key", path}` (una unidad por valor hoja) | `clave a.b[0]` |
@@ -158,7 +158,7 @@ La extensión propone el tipo y los bytes lo confirman:
 |---|---|
 | `.pdf` | empieza por `%PDF-` |
 | `.docx` / `.pptx` / `.xlsx` | ZIP (`PK\x03\x04`) que contiene `word/document.xml` / `ppt/presentation.xml` / `xl/workbook.xml` |
-| `.txt` `.md` `.markdown` `.csv` `.json` | UTF-8 válido sin bytes NUL |
+| `.txt` `.md` `.markdown` `.csv` `.json` | UTF-8 válido sin bytes NUL; si no, Windows-1252 sin controles ni bytes sin asignar (SE-415, `encoding: "windows-1252"`) |
 
 Si no casan, el tipo es `unknown` y la revisión queda `ARCHIVE_ONLY`. Un `.pdf` que
 no es un PDF no llega al worker.
@@ -169,9 +169,28 @@ no es un PDF no llega al worker.
   parser RFC 4180 (comillas, `""`, saltos de línea entre comillas, separador `;`
   detectado por cabecera) y JSON aplanado por clave. Un JSON inválido deja la
   revisión `FAILED`.
+  - **Codificación (SE-415)**: los ficheros en Windows-1252 (típicos de Excel en
+    español) se decodifican al extraer (`method: text-windows-1252`). La descarga
+    devuelve siempre los bytes originales.
+  - **JSON (SE-415)**: recorrido iterativo, sin límite de pila. Por encima de
+    50 000 hojas las omitidas se declaran (`max-units ×N`, `PARTIAL`), y los
+    subárboles más hondos de 64 niveles como `max-depth`.
 - **Worker Python** (`workers/files/extract.py`):
   - PDF, DOCX y PPTX con Docling, **sin OCR**. Las tablas salen en markdown; las
-    imágenes se cuentan en `skipped` como `image-no-ocr`.
+    imágenes se cuentan en `skipped` como `image-no-ocr`, y las páginas de PDF sin
+    ninguna unidad de texto como `page-without-text` (SE-415).
+  - **Notas del presentador (SE-415)**: python-pptx añade una unidad `notes` por
+    diapositiva con notas; Docling no las extrae.
+  - **Contexto de celda (SE-415)**: por hoja se detecta la cabecera (la primera fila
+    no vacía, si tiene dos o más celdas y todas son texto). Cada celda de datos lleva
+    el nombre de su columna y la etiqueta de su fila (la primera celda de texto de
+    la fila). Así, "coste anual del servidor de copias" encuentra `D2` en una hoja de
+    400 filas.
+  - **Por lotes (SE-415)**: el worker procesa varios ficheros en un solo proceso
+    (`--batch`, una línea JSON por fichero) y carga Docling una vez. Cada fichero
+    tiene su límite de tiempo. Si el proceso muere a mitad, los ficheros ya devueltos
+    se guardan y el resto queda `FAILED`. `files add` de varios ficheros usa un solo
+    lote: los 6 PDF del corpus de evaluación pasan de 73,8 s a 37,1 s.
   - XLSX con openpyxl en modo solo lectura: valor calculado guardado en el fichero
     y fórmula por celda. **No se ejecutan macros ni se recalculan fórmulas.** Si
     una fórmula no tiene valor guardado, se cuenta como
@@ -200,9 +219,11 @@ no es un PDF no llega al worker.
 - El texto extraído es **dato no confiable**: nunca se ejecuta ni se interpreta
   como instrucciones.
 
-Tiempos medidos en la máquina de desarrollo (RTX 2070, CPU para Docling), con los
-ficheros de prueba de 1–2 páginas: PDF, DOCX o PPTX ~9 s en frío, casi todo carga
-de modelos; XLSX ~0,3 s; texto < 10 ms.
+Tiempos medidos en la máquina de desarrollo (RTX 2070, CPU para Docling):
+
+- PDF, DOCX o PPTX de 1–3 páginas en un proceso nuevo: 4,5–12 s, casi todo carga de
+  modelos (~6 s). Dentro de un lote, 2–6 s por PDF (13 s el de 12 páginas).
+- XLSX: ~0,3 s. Texto: < 10 ms.
 
 ## Escaneo antivirus
 
@@ -298,6 +319,8 @@ savia-vaults rag search "penalización por retraso" --domes proyectos
 ```
 
 - `add` usa el nombre base del fichero de origen; la ruta local no se guarda.
+- `add` con varios ficheros valida todos los nombres y tamaños antes de guardar
+  nada y los extrae en un solo worker (SE-415).
 - `get` no sobrescribe sin `--force` y escribe con modo `0600`.
 - Salida con error: código 1 (`3` si hay otra escritura en curso, `LOCKED`).
 - La CLI es de uso local del operador y no aplica la ACL de red. Por MCP, cada

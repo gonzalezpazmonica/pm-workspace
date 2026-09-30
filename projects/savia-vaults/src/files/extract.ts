@@ -1,5 +1,6 @@
-// SE-413 F2 — extracción con localizador: TS para texto (TXT/MD/CSV/JSON) y worker
-// Python aislado (Docling sin OCR + openpyxl) para PDF/DOCX/PPTX/XLSX.
+// SE-413 F2 / SE-415 — extracción con localizador: TS para texto (TXT/MD/CSV/JSON, UTF-8
+// o Windows-1252) y worker Python aislado por lotes (Docling sin OCR + openpyxl) para
+// PDF/DOCX/PPTX/XLSX. Cobertura declarada: sin unidades nunca es READY.
 import * as fs from 'node:fs';
 import * as os from 'node:os';
 import * as path from 'node:path';
@@ -8,7 +9,7 @@ import { fileURLToPath } from 'node:url';
 import type { FileStore } from './store.js';
 import { scanFile, type ScanMode } from './scan.js';
 import { inspectZip } from './zip-guard.js';
-import type { ExtractUnit, ExtractionInfo, FileType, Locator } from './types.js';
+import type { ExtractUnit, ExtractionInfo, FileType, Locator, TextEncoding } from './types.js';
 
 const MAX_UNITS = 50_000;
 const BLOCK_LINES = 60;
@@ -86,27 +87,45 @@ function csvUnits(text: string): ExtractUnit[] {
   });
 }
 
-function jsonUnits(text: string): ExtractUnit[] {
+const MAX_JSON_DEPTH = 64;
+
+/**
+ * JSON aplanado por clave, iterativo (sin desbordar la pila). Declara lo omitido:
+ * hojas por encima del tope (`max-units`) y subárboles más hondos de 64 (`max-depth`).
+ */
+function jsonUnits(text: string): { units: ExtractUnit[]; skipped: RawExtraction['skipped'] } {
   const units: ExtractUnit[] = [];
-  const walk = (v: unknown, p: string) => {
-    if (units.length >= MAX_UNITS) return;
-    if (Array.isArray(v)) return v.forEach((x, i) => walk(x, `${p}[${i}]`));
+  let overflow = 0;
+  let tooDeep = 0;
+  const stack: { v: unknown; p: string; depth: number }[] = [{ v: JSON.parse(text), p: '', depth: 0 }];
+  while (stack.length) {
+    const { v, p, depth } = stack.pop()!;
     if (v !== null && typeof v === 'object') {
-      return Object.entries(v).forEach(([k, x]) => walk(x, p ? `${p}.${k}` : k));
+      if (depth >= MAX_JSON_DEPTH) { tooDeep++; continue; }
+      const entries: [string, unknown][] = Array.isArray(v)
+        ? v.map((x, i) => [`${p}[${i}]`, x])
+        : Object.entries(v).map(([k, x]) => [p ? `${p}.${k}` : k, x]);
+      for (let i = entries.length - 1; i >= 0; i--) stack.push({ v: entries[i][1], p: entries[i][0], depth: depth + 1 });
+      continue;
     }
+    if (units.length >= MAX_UNITS) { overflow++; continue; }
     const key = p || '$';
     units.push({ locator: { type: 'key', path: key }, kind: 'value', text: `${key}: ${v === null ? 'null' : String(v)}` });
-  };
-  walk(JSON.parse(text), '');
-  return units;
+  }
+  const skipped: RawExtraction['skipped'] = [];
+  if (overflow) skipped.push({ reason: 'max-units', count: overflow });
+  if (tooDeep) skipped.push({ reason: 'max-depth', count: tooDeep });
+  return { units, skipped };
 }
 
 /** Extracción sin dependencias de los formatos de texto. JSON inválido lanza. */
-export function extractTextual(type: FileType, bytes: Buffer): RawExtraction {
-  const text = bytes.toString('utf-8').replace(/^﻿/, '');
-  const units = type === 'csv' ? csvUnits(text) : type === 'json' ? jsonUnits(text) : linesUnits(text);
+export function extractTextual(type: FileType, bytes: Buffer, encoding: TextEncoding = 'utf-8'): RawExtraction {
+  const text = new TextDecoder(encoding).decode(bytes).replace(/^\uFEFF/, '');
+  const method = encoding === 'utf-8' ? 'text' : `text-${encoding}`;
+  if (type === 'json') return { method, ...jsonUnits(text) };
+  const units = type === 'csv' ? csvUnits(text) : linesUnits(text);
   const skipped = units.length > MAX_UNITS ? [{ reason: 'max-units', count: units.length - MAX_UNITS }] : [];
-  return { method: 'text', units: units.slice(0, MAX_UNITS), skipped };
+  return { method, units: units.slice(0, MAX_UNITS), skipped };
 }
 
 function validUnit(u: unknown): u is ExtractUnit {
@@ -137,27 +156,45 @@ async function withWorkerSlot<T>(fn: () => Promise<T>): Promise<T> {
   }
 }
 
-/** Proceso Python aparte: entorno reducido, sin red de modelos, timeout y salida acotada. */
-export function runWorker(type: FileType, file: string, python: string, timeoutMs: number): Promise<RawExtraction> {
+function parseWorkerResult(parsed: { error?: string; method?: string; units?: unknown[]; skipped?: RawExtraction['skipped'] }): RawExtraction | Error {
+  if (parsed.error) return new Error(parsed.error);
+  const all = Array.isArray(parsed.units) ? parsed.units : [];
+  const units = all.filter(validUnit);
+  const skipped = [...(parsed.skipped ?? [])];
+  if (units.length < all.length) skipped.push({ reason: 'invalid-unit', count: all.length - units.length });
+  return { method: String(parsed.method ?? 'worker'), units, skipped };
+}
+
+/**
+ * SE-415 E2: un proceso Python para un lote de ficheros (Docling se carga una vez).
+ * Entorno reducido, sin red de modelos, timeout por fichero y total, salida acotada.
+ * Devuelve un resultado por fichero, en orden; los no devueltos (caída o timeout), Error.
+ */
+export function runWorkerBatch(items: { type: FileType; file: string }[], python: string, timeoutMs: number): Promise<(RawExtraction | Error)[]> {
   const env: NodeJS.ProcessEnv = {
     PATH: process.env.PATH, HOME: process.env.HOME, LANG: 'C.UTF-8',
     HF_HUB_OFFLINE: '1', TRANSFORMERS_OFFLINE: '1', PYTHONDONTWRITEBYTECODE: '1',
+    SAVIA_FILES_ITEM_TIMEOUT_S: String(Math.max(1, Math.ceil(timeoutMs / 1000))),
   };
-  return new Promise((resolve, reject) => {
-    execFile(python, [workerScript(), type, file],
-      { env, timeout: timeoutMs, killSignal: 'SIGKILL', maxBuffer: WORKER_MAX_OUTPUT, encoding: 'utf-8' },
+  const total = timeoutMs * items.length;
+  return new Promise((resolve) => {
+    const child = execFile(python, [workerScript(), '--batch'],
+      { env, timeout: total, killSignal: 'SIGKILL', maxBuffer: WORKER_MAX_OUTPUT, encoding: 'utf-8' },
       (err, stdout) => {
-        if (err && (err.killed || err.signal === 'SIGKILL')) return reject(new Error(`timeout del worker (${timeoutMs} ms)`));
-        if (err && /maxBuffer/i.test(err.message)) return reject(new Error('salida del worker demasiado grande'));
-        let parsed: { error?: string; method?: string; units?: unknown[]; skipped?: RawExtraction['skipped'] };
-        try { parsed = JSON.parse(stdout); } catch { return reject(new Error(`worker sin salida válida: ${err?.message ?? 'vacía'}`)); }
-        if (parsed.error || err) return reject(new Error(parsed.error ?? err!.message));
-        const all = Array.isArray(parsed.units) ? parsed.units : [];
-        const units = all.filter(validUnit);
-        const skipped = [...(parsed.skipped ?? [])];
-        if (units.length < all.length) skipped.push({ reason: 'invalid-unit', count: all.length - units.length });
-        resolve({ method: String(parsed.method ?? 'worker'), units, skipped });
+        const lines = String(stdout ?? '').split('\n').filter((l) => l.trim());
+        const killed = err && (err.killed || err.signal === 'SIGKILL');
+        const tooBig = err && /maxBuffer/i.test(err.message);
+        resolve(items.map((_, i) => {
+          if (i < lines.length && !tooBig) {
+            try { return parseWorkerResult(JSON.parse(lines[i])); } catch { return new Error('worker sin salida válida'); }
+          }
+          if (tooBig) return new Error('salida del worker demasiado grande');
+          if (killed) return new Error(`timeout del worker (${total} ms)`);
+          return new Error(`el worker terminó sin devolver este fichero${err ? `: ${err.message.slice(0, 200)}` : ''}`);
+        }));
       });
+    child.stdin?.on('error', () => undefined); // el worker puede cerrar stdin antes de leerlo todo
+    child.stdin?.end(items.map((it) => JSON.stringify({ type: it.type, path: it.file })).join('\n') + '\n');
   });
 }
 
@@ -169,48 +206,94 @@ export interface ProcessOptions {
   timeoutMs?: number;
 }
 
-const total = (s: { count: number }[]) => s.reduce((a, b) => a + b.count, 0);
+const sum = (s: { count: number }[]) => s.reduce((a, b) => a + b.count, 0);
+
+/** SE-415 Q1: sin ninguna unidad nunca es READY: ARCHIVE_ONLY con los motivos (o `empty`). */
+function finish(raw: RawExtraction, scanSkips: RawExtraction['skipped']): ExtractionInfo {
+  const units = raw.units.length;
+  if (units === 0) {
+    const skipped = [...(raw.skipped.length ? raw.skipped : [{ reason: 'empty', count: 1 }]), ...scanSkips];
+    return { status: 'ARCHIVE_ONLY', method: raw.method, units: sum(raw.skipped), extracted: 0, skipped };
+  }
+  const skipped = [...raw.skipped, ...scanSkips];
+  return { status: skipped.length ? 'PARTIAL' : 'READY', method: raw.method, units: units + sum(raw.skipped), extracted: units, skipped };
+}
+
+interface Pending {
+  documentId: string;
+  revisionId: string;
+  scanSkips: RawExtraction['skipped'];
+  info?: ExtractionInfo;
+  units: ExtractUnit[];
+  job?: { type: FileType; file: string };
+}
+
+/**
+ * Escanea, extrae y registra estado y cobertura de varias revisiones. Las que
+ * necesitan el worker se extraen juntas en un solo proceso (SE-415 E2).
+ */
+export async function processRevisions(
+  store: FileStore, items: { documentId: string; revisionId?: string }[], opts: ProcessOptions = {},
+): Promise<ExtractionInfo[]> {
+  const python = opts.python ?? defaultPython();
+  const pending: Pending[] = [];
+  for (const it of items) {
+    const rev = store.revision(it.documentId, it.revisionId);
+    const blob = store.blobPath(rev.sha256);
+    const bytes = store.readBytes(it.documentId, rev.id); // verifica existencia e integridad antes de nada
+    const p: Pending = { documentId: it.documentId, revisionId: rev.id, scanSkips: [], units: [] };
+    pending.push(p);
+    const scan = await scanFile(blob, { mode: opts.scan ?? 'auto', clamscan: opts.clamscan });
+    if (scan.verdict === 'infected') {
+      p.info = { status: 'QUARANTINED', method: 'clamscan', units: 0, extracted: 0, skipped: [], error: scan.signature };
+      continue;
+    }
+    p.scanSkips = scan.verdict === 'error' ? [{ reason: 'scan-error', count: 1 }] : [];
+    const zip = OOXML_TYPES.has(rev.type)
+      ? inspectZip(bytes, { maxUnzippedBytes: store.limits.maxUnzippedBytes, maxRatio: ZIP_MAX_RATIO, maxEntries: ZIP_MAX_ENTRIES })
+      : undefined;
+    if (rev.type === 'unknown') {
+      p.info = { ...rev.extraction, status: 'ARCHIVE_ONLY' };
+    } else if (zip && !zip.ok) {
+      // SE-414 S1: bomba de descompresión o ZIP inválido; el worker no llega a lanzarse.
+      p.info = { status: 'FAILED', method: 'zip-guard', units: 0, extracted: 0, skipped: p.scanSkips, error: `decompression-limit: ${zip.reason}` };
+    } else if (WORKER_TYPES.has(rev.type) && !fs.existsSync(python)) {
+      p.info = { status: 'ARCHIVE_ONLY', method: 'none', units: 0, extracted: 0, skipped: [{ reason: 'worker-missing', count: 1 }] };
+    } else if (WORKER_TYPES.has(rev.type)) {
+      p.job = { type: rev.type, file: blob };
+    } else {
+      try {
+        const raw = extractTextual(rev.type, bytes, rev.encoding ?? 'utf-8');
+        p.units = raw.units;
+        p.info = finish(raw, p.scanSkips);
+      } catch (e) {
+        p.info = { status: 'FAILED', method: 'text', units: 0, extracted: 0, skipped: p.scanSkips, error: (e as Error).message.slice(0, 500) };
+      }
+    }
+  }
+  const jobs = pending.filter((p) => p.job);
+  if (jobs.length) {
+    const results = await withWorkerSlot(() => runWorkerBatch(
+      jobs.map((p) => p.job!), python, opts.timeoutMs ?? store.limits.extractTimeoutMs));
+    jobs.forEach((p, i) => {
+      const r = results[i];
+      if (r instanceof Error) {
+        p.info = { status: 'FAILED', method: 'worker', units: 0, extracted: 0, skipped: p.scanSkips, error: r.message.slice(0, 500) };
+      } else {
+        p.units = r.units;
+        p.info = finish(r, p.scanSkips);
+      }
+    });
+  }
+  for (const p of pending) {
+    if (p.info!.status === 'QUARANTINED') store.setExtraction(p.revisionId, p.info!, p.documentId);
+    else store.saveExtraction(p.revisionId, { units: p.units }, p.info, p.documentId);
+  }
+  return pending.map((p) => p.info!);
+}
 
 /** Escanea (si procede), extrae y registra estado y cobertura de una revisión. */
 export async function processRevision(store: FileStore, documentId: string, opts: ProcessOptions = {}): Promise<ExtractionInfo> {
-  const rev = store.revision(documentId, opts.revisionId);
-  const blob = store.blobPath(rev.sha256);
-  const bytes = store.readBytes(documentId, rev.id); // verifica existencia e integridad antes de nada
-  const scan = await scanFile(blob, { mode: opts.scan ?? 'auto', clamscan: opts.clamscan });
-  if (scan.verdict === 'infected') {
-    const info: ExtractionInfo = { status: 'QUARANTINED', method: 'clamscan', units: 0, extracted: 0, skipped: [], error: scan.signature };
-    store.setExtraction(rev.id, info, documentId);
-    return info;
-  }
-  const scanSkips = scan.verdict === 'error' ? [{ reason: 'scan-error', count: 1 }] : [];
-  let info: ExtractionInfo;
-  let units: ExtractUnit[] = [];
-  const zip = OOXML_TYPES.has(rev.type)
-    ? inspectZip(bytes, { maxUnzippedBytes: store.limits.maxUnzippedBytes, maxRatio: ZIP_MAX_RATIO, maxEntries: ZIP_MAX_ENTRIES })
-    : undefined;
-  if (rev.type === 'unknown') {
-    info = { ...rev.extraction, status: 'ARCHIVE_ONLY' };
-  } else if (zip && !zip.ok) {
-    // SE-414 S1: bomba de descompresión o ZIP inválido; el worker no llega a lanzarse.
-    info = { status: 'FAILED', method: 'zip-guard', units: 0, extracted: 0, skipped: scanSkips, error: `decompression-limit: ${zip.reason}` };
-  } else if (WORKER_TYPES.has(rev.type) && !fs.existsSync(opts.python ?? defaultPython())) {
-    info = { status: 'ARCHIVE_ONLY', method: 'none', units: 0, extracted: 0, skipped: [{ reason: 'worker-missing', count: 1 }] };
-  } else {
-    try {
-      const raw = WORKER_TYPES.has(rev.type)
-        ? await withWorkerSlot(() => runWorker(rev.type, blob, opts.python ?? defaultPython(), opts.timeoutMs ?? store.limits.extractTimeoutMs))
-        : extractTextual(rev.type, bytes);
-      units = raw.units;
-      const skipped = [...raw.skipped, ...scanSkips];
-      info = {
-        status: skipped.length ? 'PARTIAL' : 'READY', method: raw.method,
-        units: units.length + total(raw.skipped), extracted: units.length, skipped,
-      };
-    } catch (e) {
-      info = { status: 'FAILED', method: WORKER_TYPES.has(rev.type) ? 'worker' : 'text', units: 0, extracted: 0,
-        skipped: scanSkips, error: (e as Error).message.slice(0, 500) };
-    }
-  }
-  store.saveExtraction(rev.id, { units }, info, documentId);
+  const [info] = await processRevisions(store, [{ documentId, revisionId: opts.revisionId }], opts);
   return info;
 }

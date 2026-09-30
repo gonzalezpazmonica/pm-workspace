@@ -5,6 +5,21 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased] — 2026-09-30 · Savia Files: fidelidad de extracción y cobertura honesta (SE-415)
+
+### Fixed
+- Un documento del que no se extrae ninguna unidad ya no queda `READY`:
+  `ARCHIVE_ONLY` con el motivo (`page-without-text` en PDF escaneados, `empty`).
+- JSON grandes declaran lo omitido (`max-units`, `max-depth`) y los muy anidados
+  ya no desbordan la pila.
+- CSV y TXT en Windows-1252 se extraen (antes `ARCHIVE_ONLY`).
+
+### Added
+- Notas del presentador de PPTX, citadas por diapositiva.
+- Celdas XLSX con el nombre de su columna y la etiqueta de su fila.
+- Worker por lotes: `files add` de varios ficheros usa un solo proceso (6 PDF:
+  73,8 s → 37,1 s). `FilesService.putMany`.
+
 ## [Unreleased] — 2026-09-30 · Savia Files: robustez y seguridad (SE-414)
 
 ### Security

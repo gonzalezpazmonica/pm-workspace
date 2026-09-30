@@ -13,12 +13,16 @@ export interface ExtractionInfo {
   digest?: string;
 }
 
+/** SE-415: codificación de los ficheros de texto (se decodifica al extraer; la descarga es el original). */
+export type TextEncoding = 'utf-8' | 'windows-1252';
+
 export interface FileRevision {
   id: string;
   sha256: string;
   size: number;
   mime: string;
   type: FileType;
+  encoding?: TextEncoding;
   createdAt: string;
   extraction: ExtractionInfo;
 }
