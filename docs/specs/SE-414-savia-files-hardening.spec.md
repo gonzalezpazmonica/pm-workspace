@@ -90,11 +90,12 @@ problema de escala:
 - Código: `projects/savia-vaults/src/files/store.ts`, `projects/savia-vaults/src/files/extract.ts`,
   `projects/savia-vaults/src/files/types.ts`, `projects/savia-vaults/src/files/zip-guard.ts`,
   `projects/savia-vaults/src/files/service.ts`, `projects/savia-vaults/src/files/rag-source.ts`,
-  `projects/savia-vaults/src/rag/store.ts`, `projects/savia-vaults/src/rag/indexer.ts`.
+  `projects/savia-vaults/src/rag/store.ts`, `projects/savia-vaults/src/cli/files.ts`.
 - Tests: `projects/savia-vaults/tests/unit/files/store.test.ts`, `projects/savia-vaults/tests/unit/files/extract.test.ts`,
   `projects/savia-vaults/tests/unit/files/zip-guard.test.ts`, `projects/savia-vaults/tests/unit/files/service.test.ts`,
   `projects/savia-vaults/tests/unit/files/rag-source.test.ts`, `projects/savia-vaults/tests/unit/rag/store.test.ts`,
-  `projects/savia-vaults/tests/integration/files/rag-files.test.ts`.
+  `projects/savia-vaults/tests/integration/files/rag-files.test.ts`, `projects/savia-vaults/tests/e2e/mcp-files.test.ts`,
+  `projects/savia-vaults/tests/unit/files/craft-zip.ts`.
 - Documentación: `projects/savia-vaults/docs/files.md`, `projects/savia-vaults/CHANGELOG.md`,
   `CHANGELOG.d/se414-savia-files-hardening.md`, `docs/propuestas/planning-state.json`,
   `docs/propuestas/LOG.md`, `docs/propuestas/ROADMAP-CURRENT.md`.
