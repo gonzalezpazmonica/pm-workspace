@@ -71,6 +71,10 @@ export async function scanFiles(files: string[], opts: ScanOptions): Promise<Sca
       { timeout, maxBuffer: 4 * 1024 * 1024, encoding: 'utf-8', ...(scanner.env ? { env: scanner.env } : {}) },
       (err, stdout) => {
         const code = err ? (typeof err.code === 'number' ? err.code : -1) : 0;
+        // SE-424 H1: una lectura incompleta se explica como tal antes que como un código de error genérico.
+        if (opts.mode === 'required' && /Heuristics\.Limits\.Exceeded\S* FOUND/.test(String(stdout ?? ''))) {
+          return reject(new FilesError('SCAN_REQUIRED', 'el antivirus no pudo analizar entero algún fichero (too-large-to-scan)'));
+        }
         if (code !== 0 && code !== 1 && opts.mode === 'required') {
           return reject(new FilesError('SCAN_REQUIRED', `clamscan terminó con código ${code}`));
         }
@@ -79,15 +83,20 @@ export async function scanFiles(files: string[], opts: ScanOptions): Promise<Sca
           const i = line.lastIndexOf(': ');
           if (i > 0) byFile.set(line.slice(0, i), line.slice(i + 2).trim());
         }
+        // Aquí `notScanned` ya no lanza: `required` con lectura incompleta se ha rechazado arriba.
         resolve(files.map((f): ScanResult => {
           const v = byFile.get(f);
           const extra = note ? { detail: note } : {};
           if (v === 'OK') return { verdict: 'clean', ...extra };
           const found = v ? /^(\S+) FOUND$/.exec(v) : null;
+          if (found && LIMITS_EXCEEDED.test(found[1])) return notScanned(opts.mode, f);
           if (found) return { verdict: 'infected', signature: found[1] };
           // Un único fichero sin línea reconocible: decide el código de salida.
           if (files.length === 1 && code === 0) return { verdict: 'clean', ...extra };
-          if (files.length === 1 && code === 1) return { verdict: 'infected', signature: /(\S+) FOUND/.exec(String(stdout))?.[1] ?? 'unknown' };
+          if (files.length === 1 && code === 1) {
+            const sig = /(\S+) FOUND/.exec(String(stdout))?.[1] ?? 'unknown';
+            return LIMITS_EXCEEDED.test(sig) ? notScanned(opts.mode, f) : { verdict: 'infected', signature: sig };
+          }
           return { verdict: 'error', detail: `clamscan terminó con código ${code}${v ? `: ${v}` : ''}` };
         }));
       });
@@ -95,11 +104,21 @@ export async function scanFiles(files: string[], opts: ScanOptions): Promise<Sca
 }
 
 /**
- * SE-421: tope interno de clamscan (4 000 MB). Se sube el de fichero y el de análisis a ese
- * tope: con los valores por defecto (100/400 MB) clamscan dice «OK» de lo que no ha leído entero.
+ * SE-424 H1: ClamAV no analiza más de 2 GiB − 1 bytes por fichero (aunque `--max-filesize` admita
+ * más) y responde «OK» sin haberlo leído. Por encima de este tope no se lanza el análisis.
+ * Los límites propios se suben al máximo y `--alert-exceeds-max` convierte cualquier lectura
+ * incompleta en `Heuristics.Limits.Exceeded`, que aquí es «no analizado» y nunca «limpio».
  */
-export const CLAMSCAN_MAX_BYTES = 4000 * 1024 * 1024;
-const SIZE_ARGS = ['--max-filesize=4000M', '--max-scansize=4000M'];
+export const CLAMSCAN_MAX_BYTES = 2 ** 31 - 1;
+const SIZE_ARGS = ['--max-filesize=4000M', '--max-scansize=4000M', '--alert-exceeds-max=yes'];
+const LIMITS_EXCEEDED = /^Heuristics\.Limits\.Exceeded/;
+const TOO_LARGE: ScanResult = { verdict: 'error', detail: 'too-large-to-scan' };
+
+/** Con `required`, lo que no se puede analizar entero se rechaza; si no, queda como no analizado. */
+function notScanned(mode: ScanMode, what: string): ScanResult {
+  if (mode === 'required') throw new FilesError('SCAN_REQUIRED', `${what}: el antivirus no lo puede analizar entero (too-large-to-scan)`);
+  return { ...TOO_LARGE };
+}
 
 /**
  * SE-421: escanea un stream por stdin (`clamscan -`), p. ej. un original cifrado descifrado al
@@ -107,10 +126,7 @@ const SIZE_ARGS = ['--max-filesize=4000M', '--max-scansize=4000M'];
  */
 export async function scanStream(open: () => Readable, size: number, opts: ScanOptions): Promise<ScanResult> {
   if (opts.mode === 'off') return { verdict: 'skipped', detail: 'scan off' };
-  if (size > CLAMSCAN_MAX_BYTES) {
-    if (opts.mode === 'required') throw new FilesError('SCAN_REQUIRED', `fichero de ${size} bytes: supera el máximo que analiza el antivirus`);
-    return { verdict: 'error', detail: 'too-large-to-scan' };
-  }
+  if (size > CLAMSCAN_MAX_BYTES) return notScanned(opts.mode, `fichero de ${size} bytes`);
   const scanner = resolveScanner(opts.clamscan, opts.tools);
   if (!scanner) {
     if (opts.mode === 'required') throw new FilesError('SCAN_REQUIRED', 'la cúpula exige escaneo y no hay antivirus instalado');
@@ -134,8 +150,11 @@ export async function scanStream(open: () => Readable, size: number, opts: ScanO
     source.pipe(child.stdin);
     child.on('close', (code) => {
       clearTimeout(timer);
-      if (code === 0) return resolve({ verdict: 'clean' });
       const found = /(\S+) FOUND/.exec(out);
+      if (found && LIMITS_EXCEEDED.test(found[1])) {
+        try { return resolve(notScanned(opts.mode, 'el stream')); } catch (e) { return reject(e); }
+      }
+      if (code === 0) return resolve({ verdict: 'clean' });
       if (code === 1 && found) return resolve({ verdict: 'infected', signature: found[1] });
       if (opts.mode === 'required') return reject(new FilesError('SCAN_REQUIRED', `clamscan terminó con código ${code}`));
       resolve({ verdict: 'error', detail: `clamscan terminó con código ${code}` });
