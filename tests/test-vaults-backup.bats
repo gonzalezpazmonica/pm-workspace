@@ -2,6 +2,9 @@
 # BATS tests for scripts/vaults-backup-cron.sh (SE-344/L14)
 # Valida: backup por cúpula (tar.gz+bundle+sha256), verify, status,
 # rotación, nc-push fail-safe y cero egress (CRIT-001).
+# Ref: projects/savia-vaults/docs/specs/SE-417-savia-files-encryption.spec.md (almacén de ficheros y claves)
+# Funciones cubiertas vía `run`: backup_one, backup_files, backup_keys, resolve_node,
+# rotate, rotate_keys, load_nc_env, nc_push y log (aserciones sobre el log).
 
 SCRIPT="scripts/vaults-backup-cron.sh"
 TESTROOT=""
@@ -37,6 +40,8 @@ teardown() {
 @test "script existe y es ejecutable" { [[ -x "$SCRIPT" ]]; }
 
 @test "pasa bash -n" { run bash -n "$SCRIPT"; [ "$status" -eq 0 ]; }
+
+@test "safety: el script declara set -uo pipefail" { grep -q '^set -uo pipefail' "$SCRIPT"; }
 
 count_backups() { find "$1" -name "$2" | wc -l; }
 
@@ -158,4 +163,55 @@ nc_env_down() {
   run bash "$SCRIPT" run
   [ "$status" -eq 0 ]
   grep nextcloud "$LOG" | grep -q "savia-keys-.*\.sealed"
+}
+
+@test "SE-417: almacén de ficheros nonexistent: se omite sin fallar ni crear tar" {
+  export SAVIA_FILES_HOME="$TESTROOT/no-existe"
+  export SAVIA_FILES_KEYS_HOME="$TESTROOT/tampoco"
+  run bash "$SCRIPT" run
+  [ "$status" -eq 0 ]
+  [ -z "$(ls "$SAVIA_VAULTS_BACKUP_DIR"/savia-files-*.tar.gz 2>/dev/null)" ]
+  [ ! -d "$SAVIA_VAULTS_BACKUP_DIR/keys" ]
+  grep -q "skip: savia-files (sin almacén)" "$LOG"
+}
+
+@test "SE-417: almacén empty y claves empty: sin tar de ficheros ni copia de claves" {
+  export SAVIA_FILES_HOME="$TESTROOT/files"
+  export SAVIA_FILES_KEYS_HOME="$TESTROOT/keys"
+  mkdir -p "$SAVIA_FILES_HOME" "$SAVIA_FILES_KEYS_HOME"
+  run bash "$SCRIPT" run
+  [ "$status" -eq 0 ]
+  [ -z "$(ls "$SAVIA_VAULTS_BACKUP_DIR"/savia-files-*.tar.gz 2>/dev/null)" ]
+  [ ! -d "$SAVIA_VAULTS_BACKUP_DIR/keys" ]
+}
+
+@test "SE-417: node nonexistent con recuperación: FAIL en el log y copia local 0600; nada se sube" {
+  seed_files
+  echo "pub" > "$SAVIA_FILES_KEYS_HOME/recovery.pub"
+  export SAVIA_NODE="$TESTROOT/no-hay-node"
+  nc_env_down
+  echo 'SAVIA_BACKUP_UPLOAD_KEYS=true' >> "$HOME/.savia-vaults/nextcloud.env"
+  run bash "$SCRIPT" run
+  [ "$status" -eq 0 ]
+  grep -q "FAIL: copia sellada de claves" "$LOG"
+  local k; k=$(ls -1 "$SAVIA_VAULTS_BACKUP_DIR"/keys/savia-keys-*.tar.gz | head -1)
+  [ "$(stat -c %a "$k")" = "600" ]
+  ! grep nextcloud "$LOG" | grep -q "savia-keys"
+}
+
+@test "SE-417: rotación en el boundary de SAVIA_BACKUP_RETENTION para ficheros y claves" {
+  seed_files
+  export SAVIA_BACKUP_RETENTION=2
+  mkdir -p "$SAVIA_VAULTS_BACKUP_DIR/keys"
+  for i in 1 2 3; do
+    touch -d "2026-01-0$i" "$SAVIA_VAULTS_BACKUP_DIR/savia-files-2026-01-0${i}T00-00-00.tar.gz" \
+      "$SAVIA_VAULTS_BACKUP_DIR/keys/savia-keys-2026-01-0${i}T00-00-00.tar.gz"
+  done
+  run bash "$SCRIPT" run
+  [ "$status" -eq 0 ]
+  [ "$(count_backups "$SAVIA_VAULTS_BACKUP_DIR" "savia-files-*.tar.gz")" -eq 2 ]
+  [ "$(count_backups "$SAVIA_VAULTS_BACKUP_DIR/keys" "savia-keys-*")" -eq 2 ]
+  # sobreviven la de hoy y la más reciente de las antiguas
+  [ -f "$SAVIA_VAULTS_BACKUP_DIR/keys/savia-keys-2026-01-03T00-00-00.tar.gz" ]
+  [ ! -f "$SAVIA_VAULTS_BACKUP_DIR/keys/savia-keys-2026-01-01T00-00-00.tar.gz" ]
 }
