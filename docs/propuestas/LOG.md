@@ -6,6 +6,12 @@
 > Each entry: date, spec ID, status transition, optional rationale.
 > Ref: SE-222 S1 OKF Adoptable Patterns (log.md convention).
 
+## 2026-09-30 SE-415 APPROVED
+
+Savia Files: fidelidad de extracción y cobertura honesta (PDF escaneados, JSON
+grandes, notas PPTX, contexto de celdas XLSX, Windows-1252, worker por lotes).
+Aprobada por la operadora junto a SE-414.
+
 ## 2026-09-30 SE-414 APPROVED
 
 Savia Files: robustez y seguridad del MVP, a partir de la evaluación local

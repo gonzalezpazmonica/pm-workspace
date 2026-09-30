@@ -3,7 +3,7 @@ import { describe, it, expect, beforeEach, afterEach } from 'vitest';
 import * as fs from 'node:fs';
 import * as os from 'node:os';
 import * as path from 'node:path';
-import { extractTextual, processRevision, defaultPython } from '../../../src/files/extract.js';
+import { extractTextual, processRevision, processRevisions, defaultPython } from '../../../src/files/extract.js';
 import { FileStore } from '../../../src/files/store.js';
 import { craftZip } from './craft-zip.js';
 
@@ -40,6 +40,28 @@ describe('extractTextual', () => {
   it('json inválido lanza para que el llamador marque FAILED', () => {
     expect(() => extractTextual('json', Buffer.from('{nope'))).toThrow();
   });
+
+  it('SE-415 AC2: JSON ancho declara las hojas omitidas por el tope', () => {
+    const wide = JSON.stringify(Object.fromEntries(Array.from({ length: 200_000 }, (_, i) => [`k${i}`, i])));
+    const r = extractTextual('json', Buffer.from(wide));
+    expect(r.units).toHaveLength(50_000);
+    expect(r.skipped).toEqual([{ reason: 'max-units', count: 150_000 }]);
+  });
+
+  it('SE-415 AC2: JSON profundo se extrae hasta el nivel 64 y declara el resto', () => {
+    let v: unknown = 'hoja';
+    for (let i = 0; i < 200; i++) v = { n: v, [`x${i}`]: i };
+    const r = extractTextual('json', Buffer.from(JSON.stringify(v)));
+    expect(r.units.length).toBeGreaterThan(60);
+    expect(r.skipped).toEqual([{ reason: 'max-depth', count: 1 }]);
+    expect(Math.max(...r.units.map((u) => (u.locator as { path: string }).path.split('.').length))).toBeLessThanOrEqual(65);
+  });
+
+  it('SE-415 AC5: texto en Windows-1252 se decodifica', () => {
+    const r = extractTextual('csv', Buffer.from('nombre;importe\nPeña;10\n', 'latin1'), 'windows-1252');
+    expect(r.method).toBe('text-windows-1252');
+    expect(r.units[0].text).toBe('nombre: Peña | importe: 10');
+  });
 });
 
 describe('processRevision', () => {
@@ -56,6 +78,22 @@ describe('processRevision', () => {
     const info = await processRevision(store, document.id, { scan: 'off' });
     expect(info).toMatchObject({ status: 'READY', method: 'text', units: 2, extracted: 2, skipped: [] });
     expect(store.readExtraction(revision.id).units).toHaveLength(2);
+  });
+
+  it('SE-415 AC1: un TXT vacío queda ARCHIVE_ONLY (empty), nunca READY sin unidades', async () => {
+    const { document } = store.add({ name: 'vacío.txt', bytes: Buffer.from('\n\n  \n') });
+    const info = await processRevision(store, document.id, { scan: 'off' });
+    expect(info).toMatchObject({ status: 'ARCHIVE_ONLY', extracted: 0, skipped: [{ reason: 'empty', count: 1 }] });
+  });
+
+  it('SE-415 AC5: CSV en Windows-1252 queda READY y se descarga idéntico', async () => {
+    const bytes = Buffer.from('nombre;importe\nPeña;10\nAñil;20\n', 'latin1');
+    const { document, revision } = store.add({ name: 'gastos.csv', bytes });
+    expect(revision).toMatchObject({ type: 'csv', encoding: 'windows-1252' });
+    const info = await processRevision(store, document.id, { scan: 'off' });
+    expect(info).toMatchObject({ status: 'READY', method: 'text-windows-1252', extracted: 2 });
+    expect(store.readExtraction(revision.id).units[0].text).toBe('nombre: Peña | importe: 10');
+    expect(store.readBytes(document.id).equals(bytes)).toBe(true);
   });
 
   it('AC4: ARCHIVE_ONLY no se extrae', async () => {
@@ -155,6 +193,40 @@ describe('SE-414 límites del worker', () => {
   });
 });
 
+describe('SE-415 worker por lotes', () => {
+  let home: string;
+  let store: FileStore;
+  beforeEach(() => {
+    home = fs.mkdtempSync(path.join(os.tmpdir(), 'savia-files-b-'));
+    store = new FileStore({ home, dome: 'D' });
+  });
+  afterEach(() => fs.rmSync(home, { recursive: true, force: true }));
+
+  it('AC6: varios ficheros ofimáticos se extraen en un solo worker, cada uno con su resultado', async () => {
+    const log = path.join(home, 'calls');
+    const py = path.join(home, 'py');
+    // Worker falso en modo lote: una línea JSON por línea de entrada, página = nº de orden
+    fs.writeFileSync(py, `#!/bin/sh\necho call >> '${log}'\nn=0\nwhile read line; do n=$((n+1)); echo "{\\"method\\":\\"fake\\",\\"units\\":[{\\"locator\\":{\\"type\\":\\"page\\",\\"page\\":$n},\\"kind\\":\\"text\\",\\"text\\":\\"f$n\\"}],\\"skipped\\":[]}"; done\n`, { mode: 0o700 });
+    const pdf = fs.readFileSync(path.join(FIX, 'contrato.pdf'));
+    const items = [1, 2, 3].map((i) => store.add({ name: `c${i}.pdf`, bytes: Buffer.concat([pdf, Buffer.from(String(i))]) }));
+    const txt = store.add({ name: 'n.txt', bytes: Buffer.from('texto') });
+    const infos = await processRevisions(store, [...items, txt].map((r) => ({ documentId: r.document.id })), { scan: 'off', python: py });
+    expect(infos.map((i) => i.status)).toEqual(['READY', 'READY', 'READY', 'READY']);
+    expect(fs.readFileSync(log, 'utf-8').trim().split('\n')).toHaveLength(1);
+    expect(items.map((r) => store.readExtraction(r.revision.id).units[0].text)).toEqual(['f1', 'f2', 'f3']);
+  });
+
+  it('si el lote muere a mitad, los ya devueltos se guardan y el resto queda FAILED', async () => {
+    const py = path.join(home, 'py');
+    fs.writeFileSync(py, `#!/bin/sh\nread line\necho '{"method":"fake","units":[{"locator":{"type":"page","page":1},"kind":"text","text":"uno"}],"skipped":[]}'\nexit 1\n`, { mode: 0o700 });
+    const pdf = fs.readFileSync(path.join(FIX, 'contrato.pdf'));
+    const items = [1, 2].map((i) => store.add({ name: `c${i}.pdf`, bytes: Buffer.concat([pdf, Buffer.from(String(i))]) }));
+    const infos = await processRevisions(store, items.map((r) => ({ documentId: r.document.id })), { scan: 'off', python: py });
+    expect(infos[0].status).toBe('READY');
+    expect(infos[1].status).toBe('FAILED');
+  });
+});
+
 describe.skipIf(!hasPython)('worker Python (Docling + openpyxl)', () => {
   let home: string;
   let store: FileStore;
@@ -197,3 +269,51 @@ describe.skipIf(!hasPython)('worker Python (Docling + openpyxl)', () => {
     expect(docx.units.some((u) => u.kind === 'table' && u.text.includes('Licencia'))).toBe(true);
   }, 180_000);
 });
+
+describe.skipIf(!hasPython)('SE-415 fidelidad con el worker real', () => {
+  let home: string;
+  let store: FileStore;
+  beforeEach(() => {
+    home = fs.mkdtempSync(path.join(os.tmpdir(), 'savia-files-f-'));
+    store = new FileStore({ home, dome: 'D' });
+  });
+  afterEach(() => fs.rmSync(home, { recursive: true, force: true }));
+
+  const run = async (name: string) => {
+    const { document, revision } = store.add({ name, bytes: fs.readFileSync(path.join(FIX, name)) });
+    const info = await processRevision(store, document.id, { scan: 'off' });
+    return { info, revision };
+  };
+
+  it('AC1: PDF escaneado sin capa de texto ⇒ ARCHIVE_ONLY con page-without-text', async () => {
+    const { info } = await run('escaneado.pdf');
+    expect(info.status).toBe('ARCHIVE_ONLY');
+    expect(info.extracted).toBe(0);
+    expect(info.skipped).toContainEqual({ reason: 'page-without-text', count: 1 });
+  }, 180_000);
+
+  it('AC3: PPTX con notas del presentador por diapositiva', async () => {
+    const { info, revision } = await run('continuidad.pptx');
+    expect(info.status).toBe('READY');
+    const notes = store.readExtraction(revision.id).units.filter((u) => u.kind === 'notes');
+    expect(notes.map((u) => u.locator)).toEqual([1, 2, 3].map((slide) => ({ type: 'slide', slide })));
+    expect(notes[2].text).toContain('dos horas y diez minutos');
+  }, 180_000);
+
+  it('AC4: celdas XLSX con cabecera de columna y etiqueta de fila', async () => {
+    const { info, revision } = await run('inventario.xlsx');
+    expect(info.status).toBe('READY');
+    const d2 = store.readExtraction(revision.id).units.find((u) => u.locator.type === 'cell' && u.locator.cell === 'D2');
+    expect(d2?.text).toBe('Inventario!D2 · Coste anual · Servidor de copias: 4200');
+    const a1 = store.readExtraction(revision.id).units.find((u) => u.locator.type === 'cell' && u.locator.cell === 'A1');
+    expect(a1?.text).toBe('Inventario!A1: Equipo');
+  }, 60_000);
+
+  it('AC4: la fórmula conserva el formato con contexto', async () => {
+    const { revision } = await run('presupuesto.xlsx');
+    const b3 = store.readExtraction(revision.id).units.find((u) => u.locator.type === 'cell' && u.locator.cell === 'B3');
+    expect(b3).toMatchObject({ formula: '=SUM(B2:B2)' });
+    expect(b3?.text).toBe('Presupuesto!B3 · Coste · Total: 1500 (=SUM(B2:B2))');
+  }, 60_000);
+});
+

@@ -1,11 +1,11 @@
 // SE-413 F4 — FilesService: una sola capa de negocio para la tool MCP `vault_files`
 // y la CLI `savia-vaults files`. Resuelve la cúpula, aplica ACL y límites, guarda,
 // escanea y extrae, y avisa a Savia RAG de cada cambio.
-import { FileStore, defaultLimits } from './store.js';
-import { processRevision } from './extract.js';
+import { FileStore, defaultLimits, sanitizeName } from './store.js';
+import { processRevision, processRevisions } from './extract.js';
 import { scannerAvailable, type ScanMode } from './scan.js';
 import {
-  FilesError, type ExtractUnit, type ExtractionInfo, type FileDocument, type FilesDomeConfig, type FilesLimits, type Locator,
+  FilesError, type ExtractUnit, type ExtractionInfo, type FileDocument, type FileRevision, type FilesDomeConfig, type FilesLimits, type Locator,
 } from './types.js';
 
 export interface FilesDomeRef {
@@ -101,30 +101,54 @@ export class FilesService {
   }
 
   async put(input: PutInput): Promise<PutResult> {
-    const { d, store } = await this.open(input.dome, 'write');
     const bytes = input.bytes ?? decodeBase64(input.contentBase64, this.limits.maxTransferBytes);
+    const [r] = await this.putMany({
+      dome: input.dome, tags: input.tags, confidentiality: input.confidentiality,
+      files: [{ name: input.name, bytes, replaces: input.replaces }],
+    });
+    return r;
+  }
+
+  /**
+   * Guarda varios ficheros y los extrae juntos: los ofimáticos van en un solo worker
+   * (SE-415 E2). Nombres y tamaños se validan antes de guardar nada; si el escaneo
+   * obligatorio falla, se deshacen todas las revisiones del lote.
+   */
+  async putMany(input: { dome: string; files: { name: string; bytes: Buffer; replaces?: string }[]; tags?: string[]; confidentiality?: string }): Promise<PutResult[]> {
+    const { d, store } = await this.open(input.dome, 'write');
+    for (const f of input.files) {
+      sanitizeName(f.name);
+      if (!Buffer.isBuffer(f.bytes)) throw new FilesError('INVALID_INPUT', 'bytes debe ser un Buffer');
+      if (f.bytes.length > this.limits.maxBytes) throw new FilesError('TOO_LARGE', `${f.name}: ${f.bytes.length} bytes > límite ${this.limits.maxBytes}`);
+    }
     const mode = this.scanMode(d);
     if (mode === 'required' && !scannerAvailable(this.o.clamscan)) {
       throw new FilesError('SCAN_REQUIRED', `la cúpula "${d.name}" exige escaneo y no hay clamscan instalado`);
     }
-    const { document, revision } = store.add({
-      name: input.name, bytes, tags: input.tags, confidentiality: input.confidentiality, replaces: input.replaces,
-    });
-    let info: ExtractionInfo;
+    const added: { document: FileDocument; revision: FileRevision }[] = [];
     try {
-      info = await processRevision(store, document.id, {
-        revisionId: revision.id, scan: mode, clamscan: this.o.clamscan, python: this.o.python ?? this.env.SAVIA_FILES_PYTHON,
+      for (const f of input.files) {
+        added.push(store.add({ name: f.name, bytes: f.bytes, tags: input.tags, confidentiality: input.confidentiality, replaces: f.replaces }));
+      }
+    } catch (e) {
+      for (const a of added.reverse()) store.dropRevision(a.document.id, a.revision.id);
+      throw e;
+    }
+    let infos: ExtractionInfo[];
+    try {
+      infos = await processRevisions(store, added.map((a) => ({ documentId: a.document.id, revisionId: a.revision.id })), {
+        scan: mode, clamscan: this.o.clamscan, python: this.o.python ?? this.env.SAVIA_FILES_PYTHON,
       });
     } catch (e) {
-      store.dropRevision(document.id, revision.id); // escaneo obligatorio fallido: no se acepta
+      for (const a of [...added].reverse()) store.dropRevision(a.document.id, a.revision.id); // escaneo obligatorio fallido
       throw e;
     }
     this.o.onChange?.(d.name);
-    return {
+    return added.map(({ document, revision }, i) => ({
       documentId: document.id, revisionId: revision.id, name: document.name, sha256: revision.sha256,
-      size: revision.size, mime: revision.mime, status: info.status, units: info.units, extracted: info.extracted,
-      skipped: info.skipped, ...(info.error ? { error: info.error } : {}),
-    };
+      size: revision.size, mime: revision.mime, status: infos[i].status, units: infos[i].units, extracted: infos[i].extracted,
+      skipped: infos[i].skipped, ...(infos[i].error ? { error: infos[i].error } : {}),
+    }));
   }
 
   async list(input: { dome: string; tag?: string }) {

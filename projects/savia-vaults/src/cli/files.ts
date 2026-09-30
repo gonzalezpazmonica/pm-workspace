@@ -37,15 +37,15 @@ cmd.command('add <paths...>').description('Guarda uno o varios ficheros, los esc
     try {
       if (opts.replaces && paths.length !== 1) throw new FilesError('INVALID_INPUT', '--replaces admite un solo fichero');
       const svc = filesService(opts.domesFile);
-      const out = [];
-      for (const p of paths) {
-        const r = await svc.put({
-          dome: opts.dome, name: path.basename(p), bytes: fs.readFileSync(p),
-          tags: opts.tags ? String(opts.tags).split(',').map((t: string) => t.trim()).filter(Boolean) : undefined,
-          confidentiality: opts.confidentiality, replaces: opts.replaces,
-        });
-        out.push(r);
-        if (!opts.json) {
+      // SE-415: un solo lote; los ofimáticos se extraen en un único worker.
+      const out = await svc.putMany({
+        dome: opts.dome,
+        files: paths.map((p) => ({ name: path.basename(p), bytes: fs.readFileSync(p), replaces: opts.replaces })),
+        tags: opts.tags ? String(opts.tags).split(',').map((t: string) => t.trim()).filter(Boolean) : undefined,
+        confidentiality: opts.confidentiality,
+      });
+      if (!opts.json) {
+        for (const r of out) {
           const skipped = r.skipped.map(s => `${s.reason}×${s.count}`).join(', ');
           console.log(`${r.documentId} ${r.revisionId} ${r.status} ${r.extracted}/${r.units} ${r.name}${skipped ? ` [${skipped}]` : ''}${r.error ? ` — ${r.error}` : ''}`);
         }

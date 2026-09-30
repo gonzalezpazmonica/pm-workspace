@@ -375,6 +375,16 @@
       "note": "Estabilización del MVP antes de crecer; AC9 cumple el tope, la ingesta continua sigue creciendo (+124 %) sin causa medida",
       "evidence": "docs/specs/SE-414-savia-files-hardening.spec.md",
       "phase": "A"
+    },
+    {
+      "id": "SE-415",
+      "status": "APPROVED",
+      "approval": "Operadora 2026-09-30 en chat (AskUserQuestion): 'Aprobar ambas, PR por spec'",
+      "priority": "P1",
+      "title": "Savia Files: fidelidad de extracción y cobertura honesta (escaneados, JSON, notas PPTX, contexto XLSX, Windows-1252, worker por lotes)",
+      "note": "Apilada sobre SE-414; AC1-AC7 medidos",
+      "evidence": "docs/specs/SE-415-savia-files-extraction-fidelity.spec.md",
+      "phase": "A"
     }
   ],
   "route": {

@@ -129,4 +129,29 @@ describe('Savia Files en Savia RAG', () => {
     expect(hit?.source?.locator).toEqual({ type: 'page', page: 2 });
     expect(hit?.heading).toContain('p. 2');
   }, 180_000);
+
+  const hasPy = fs.existsSync(defaultPython());
+  const addFixture = async (name: string) => {
+    const r = store.add({ name, bytes: fs.readFileSync(path.join(FIX, name)) });
+    return { ...r, info: await processRevision(store, r.document.id, { scan: 'off' }) };
+  };
+
+  it.skipIf(!hasPy)('SE-415 AC3: las notas del presentador se citan por diapositiva', async () => {
+    await addFixture('continuidad.pptx');
+    const hit = (await search('cuánto tardó el último simulacro')).find((h) => h.source);
+    expect(hit?.source?.locator).toEqual({ type: 'slide', slide: 3 });
+  }, 180_000);
+
+  it.skipIf(!hasPy)('SE-415 AC4: en una hoja de 400 filas, la celda con su cabecera es el primer hit', async () => {
+    await addFixture('inventario.xlsx');
+    const [top] = await search('coste anual del servidor de copias');
+    expect(top.source?.name).toBe('inventario.xlsx');
+    expect(top.text).toContain('Inventario!D2 · Coste anual · Servidor de copias: 4200');
+  }, 60_000);
+
+  it.skipIf(!hasPy)('SE-415 AC1: un PDF escaneado no entra en RAG', async () => {
+    const r = await addFixture('escaneado.pdf');
+    expect(r.info.status).toBe('ARCHIVE_ONLY');
+    expect((await search('radical honesty')).some((h) => h.source?.documentId === r.document.id)).toBe(false);
+  }, 180_000);
 });

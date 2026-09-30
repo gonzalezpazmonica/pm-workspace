@@ -10,7 +10,7 @@ import { acquireLock, releaseLock, exceedsDomeLevel } from '../rag/indexer.js';
 import { RagError } from '../rag/types.js';
 import {
   FilesError, type Confidentiality, type Extraction, type ExtractionInfo, type FileDocument,
-  type FileRevision, type FileType, type FilesLimits,
+  type FileRevision, type FileType, type FilesLimits, type TextEncoding,
 } from './types.js';
 
 const LOCK_NAME = 'files.lock';
@@ -63,11 +63,24 @@ const MIME: Record<FileType, string> = {
 const OOXML: Partial<Record<FileType, string>> = {
   docx: 'word/document.xml', pptx: 'ppt/presentation.xml', xlsx: 'xl/workbook.xml',
 };
+const TEXT_TYPES = new Set<FileType>(['txt', 'md', 'csv', 'json']);
 const TEXT_EXT: Record<string, FileType> = { '.txt': 'txt', '.md': 'md', '.markdown': 'md', '.csv': 'csv', '.json': 'json' };
 
-function isUtf8Text(bytes: Buffer): boolean {
-  if (bytes.includes(0)) return false;
-  try { new TextDecoder('utf-8', { fatal: true }).decode(bytes); return true; } catch { return false; }
+/** Bytes sin asignar en Windows-1252: si aparecen, no es ese juego de caracteres. */
+const CP1252_UNDEFINED = new Set([0x81, 0x8d, 0x8f, 0x90, 0x9d]);
+
+/**
+ * SE-415 Q5: codificación de un fichero de texto. UTF-8 válido sin NUL; si no, Windows-1252
+ * (exportaciones de Excel en español) cuando no hay NUL, controles salvo tab/salto/avance
+ * de página, ni bytes sin asignar. En otro caso no es texto.
+ */
+export function textEncoding(bytes: Buffer): TextEncoding | undefined {
+  if (bytes.includes(0)) return undefined;
+  try { new TextDecoder('utf-8', { fatal: true }).decode(bytes); return 'utf-8'; } catch { /* no es UTF-8 */ }
+  for (const b of bytes) {
+    if ((b < 0x20 && b !== 0x09 && b !== 0x0a && b !== 0x0d && b !== 0x0c) || b === 0x7f || CP1252_UNDEFINED.has(b)) return undefined;
+  }
+  return 'windows-1252';
 }
 
 /** Tipo por extensión confirmado con la firma de los bytes; si no casan, 'unknown'. */
@@ -80,7 +93,7 @@ export function detectType(name: string, bytes: Buffer): FileType {
     return zip && bytes.includes(OOXML[office]!) ? office : 'unknown';
   }
   const text = TEXT_EXT[ext];
-  if (text) return isUtf8Text(bytes) ? text : 'unknown';
+  if (text) return textEncoding(bytes) ? text : 'unknown';
   return 'unknown';
 }
 
@@ -220,7 +233,9 @@ export class FileStore {
       const type = detectType(name, input.bytes);
       const now = new Date().toISOString();
       const revision: FileRevision = {
-        id: newId('r'), sha256: hash, size: input.bytes.length, mime: mimeOf(type), type, createdAt: now,
+        id: newId('r'), sha256: hash, size: input.bytes.length, mime: mimeOf(type), type,
+        ...(TEXT_TYPES.has(type) ? { encoding: textEncoding(input.bytes) } : {}),
+        createdAt: now,
         extraction: type === 'unknown'
           ? { status: 'ARCHIVE_ONLY', method: 'none', units: 0, extracted: 0, skipped: [{ reason: 'unsupported-type', count: 1 }] }
           : { status: 'PENDING', method: 'none', units: 0, extracted: 0, skipped: [] },
