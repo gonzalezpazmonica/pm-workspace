@@ -58,9 +58,9 @@ function pidAlive(pid: number): boolean {
 }
 
 /** Lock O_EXCL con pid y timestamp; huérfano si el pid no existe o tiene > 10 min. */
-export function acquireLock(dir: string): boolean {
+export function acquireLock(dir: string, lockName = LOCK_FILE): boolean {
   fs.mkdirSync(dir, { recursive: true, mode: 0o700 });
-  const file = path.join(dir, LOCK_FILE);
+  const file = path.join(dir, lockName);
   const payload = JSON.stringify({ pid: process.pid, ts: Date.now() });
   try {
     fs.writeFileSync(file, payload, { flag: 'wx', mode: 0o600 });
@@ -81,8 +81,8 @@ export function acquireLock(dir: string): boolean {
   }
 }
 
-export function releaseLock(dir: string): void {
-  const file = path.join(dir, LOCK_FILE);
+export function releaseLock(dir: string, lockName = LOCK_FILE): void {
+  const file = path.join(dir, lockName);
   try {
     const holder = JSON.parse(fs.readFileSync(file, 'utf-8'));
     if (holder.pid === process.pid) fs.rmSync(file, { force: true });
