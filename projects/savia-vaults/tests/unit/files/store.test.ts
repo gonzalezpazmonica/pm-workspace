@@ -129,6 +129,18 @@ describe('FileStore', () => {
     expect(() => store.readExtraction('../../etc/passwd')).toThrow(/INVALID_INPUT/);
   });
 
+  it('gc borra blobs, extracciones y temporales huérfanos (caída a mitad de escritura)', () => {
+    const { document, revision } = store.add({ name: 'vivo.txt', bytes: Buffer.from('vivo') });
+    const blobs = path.join(home, 'D', 'blobs');
+    fs.writeFileSync(path.join(blobs, 'a'.repeat(64)), 'huérfano', { mode: 0o400 });
+    fs.writeFileSync(path.join(blobs, `${'b'.repeat(64)}.tmp-1-1`), 'tmp');
+    fs.mkdirSync(path.join(home, 'D', 'extract'), { recursive: true });
+    fs.writeFileSync(path.join(home, 'D', 'extract', 'r_0000000000000000.json'), '{}');
+    expect(store.gc()).toEqual({ blobs: 2, extractions: 1 });
+    expect(fs.readdirSync(blobs)).toEqual([revision.sha256]);
+    expect(store.readBytes(document.id).toString()).toBe('vivo');
+  });
+
   it('replaces de un documento inexistente → NOT_FOUND', () => {
     expect(() => store.add({ name: 'a.txt', bytes: Buffer.from('a'), replaces: 'no-existe' })).toThrow(/NOT_FOUND/);
   });

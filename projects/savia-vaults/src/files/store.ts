@@ -260,6 +260,34 @@ export class FileStore {
     });
   }
 
+  /**
+   * Limpia lo que una caída entre escribir bytes y escribir el manifiesto puede dejar:
+   * blobs y extracciones que ningún documento referencia, y temporales `.tmp-*`.
+   */
+  gc(): { blobs: number; extractions: number } {
+    if (!fs.existsSync(this.dir)) return { blobs: 0, extractions: 0 };
+    return this.locked(() => {
+      const revisions = this.load().documents.flatMap((d) => d.revisions);
+      const liveBlobs = new Set(revisions.filter((r) => r.extraction.status !== 'QUARANTINED').map((r) => r.sha256));
+      const liveRevs = new Set(revisions.map((r) => `${r.id}.json`));
+      const sweep = (sub: string, keep: (f: string) => boolean) => {
+        const dir = path.join(this.dir, sub);
+        if (!fs.existsSync(dir)) return 0;
+        let n = 0;
+        for (const f of fs.readdirSync(dir)) {
+          if (keep(f)) continue;
+          fs.rmSync(path.join(dir, f), { force: true });
+          n++;
+        }
+        return n;
+      };
+      return {
+        blobs: sweep('blobs', (f) => liveBlobs.has(f)),
+        extractions: sweep('extract', (f) => liveRevs.has(f)),
+      };
+    });
+  }
+
   private removeUnreferencedBlobs(manifest: Manifest, hashes: string[], exceptRevision?: string): void {
     const live = new Set(
       manifest.documents.flatMap((d) => d.revisions)
