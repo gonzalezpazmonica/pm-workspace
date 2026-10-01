@@ -41,6 +41,9 @@ def classify(files: list[str]) -> dict:
     """Devuelve tier + rationale + requires_human para un set de archivos."""
     tier = 2  # default: reversible módulo
     rationale: list[str] = []
+    if not files:
+        # Fail-closed: sin ficheros no se puede evaluar el riesgo (p. ej. un git diff fallido).
+        return {"tier": 3, "requires_human": True, "rationale": "diff vacío: no se puede evaluar → tier 3", "files": []}
 
     for f in files:
         fl = f.lower()
@@ -58,11 +61,12 @@ def classify(files: list[str]) -> dict:
             rationale.append(f"path sensible: {f}")
             continue
 
-    # Si TODOS los archivos son docs → tier 1
+    # Si TODOS los archivos son docs → tier 1. Cada fichero con su propio nombre
+    # (antes se evaluaba `fl` del bucle anterior: solo contaba el último fichero).
     all_docs = all(
-        (any(fl.startswith(d.lower()) for d in DOCS_PATHS) and fl.endswith((".md", ".txt")))
-        or fl.endswith(LOW_RISK_EXT) and "/" not in fl.replace("docs/", "")
-        for f in (x.lower() for x in files)
+        (any(name.startswith(d.lower()) for d in DOCS_PATHS) and name.endswith((".md", ".txt")))
+        or (name.endswith(LOW_RISK_EXT) and "/" not in name.replace("docs/", ""))
+        for name in (x.lower() for x in files)
     ) if files else False
     if all_docs and tier == 2:
         tier = 1
