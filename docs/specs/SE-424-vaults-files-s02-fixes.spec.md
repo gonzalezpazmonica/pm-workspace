@@ -167,3 +167,19 @@ Desviaciones:
 Coste: `reloadIfChanged` sin cambios, 1,99 µs por llamada (20 000 llamadas).
 Añadido: si el servidor arrancó con usuarios y el fichero desaparece, se deniega en vez de
 volver al modo local.
+
+### H4 (2026-10-01)
+
+| AC | Evidencia | Estado |
+|---|---|---|
+| AC4 | Premisa medida: sin red y sin caché, docling falla (`LocalEntryNotFoundError`); con `models download layout tableformer -o DIR` y `artifacts_path=DIR`, el PDF se extrae. `setup.test.ts` (5): instala con manifiesto SHA-256, segunda ejecución 0 bytes, sin modelos `stale` y solo reinstala modelos (uv no se descarga), modelo manipulado ⇒ `stale` y `setup` lo repara, descarga fallida sin restos, desinstalar los borra. Real: `files setup --extractor` sobre el extractor ya instalado descargó 669 MB en 19 s; la segunda ejecución, 2 s sin descarga; `files add contrato.pdf` con HOME vacío ⇒ `READY` (antes `FAILED`); `extract.test.ts` real con HOME sin caché ⇒ `READY` con cita de la página 2 | OK |
+
+Desviaciones:
+
+1. **AC4 sin reinstalar el venv desde cero.** La prueba real con `SAVIA_TOOLS_HOME` vacío
+   descargaría además ~1,5 GB del venv; se probó el fallo exacto (HOME sin caché) con
+   las herramientas gestionadas existentes y los modelos instalados por el nuevo `setup`.
+2. **Tamaño**: 669 MB, no los ~506 MiB estimados: `layout` incluye también la variante
+   ONNX del modelo de maquetación.
+3. **`status` comprueba tamaño y fecha**; el SHA-256 completo lo comprueba `setup`
+   (unos 2 s por ejecución), para que `status` siga siendo instantáneo.
