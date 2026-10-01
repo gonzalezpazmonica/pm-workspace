@@ -5,6 +5,19 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased] — 2026-10-01 · Savia Files: modelos del lector de PDF en files setup (SE-424 H4)
+
+### Fixed
+- `files setup` no instalaba los modelos de Docling y el worker va sin red: en una
+  máquina sin caché de HuggingFace todos los PDF quedaban `FAILED`. Ahora:
+  - `setup` descarga `layout` y `tableformer` (~670 MB) en `tools/docling-models`,
+    con manifiesto SHA-256 por fichero; idempotente y repara lo manipulado;
+  - `status` distingue «se leen Word/PowerPoint/Excel pero no los PDF» (`stale`);
+  - el worker recibe `SAVIA_FILES_DOCLING_MODELS` (`artifacts_path`);
+  - desinstalar el extractor borra también los modelos.
+- Documentación: el tamaño real del lector es ~2,2 GB; los modelos no se bajaban
+  «en la primera extracción», como decía.
+
 ## [Unreleased] — 2026-09-30 · MCP: revocación en caliente (SE-424 H3)
 
 ### Security
