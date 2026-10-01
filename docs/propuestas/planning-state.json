@@ -799,13 +799,30 @@
     },
     {
       "id": "SE-423",
-      "status": "IMPLEMENTING",
+      "status": "IMPLEMENTED",
       "approval": "Operadora 2026-09-30 en chat (AskUserQuestion): 'Aprobar; token A2A obsoleto' con D1 = 365 días",
       "priority": "P1",
       "title": "SaviaVaults: identidad mínima (Subject, credenciales con caducidad y PDP común en MCP/A2A/HTTP/CLI)",
-      "note": "Entra en el WIP al cerrarse SE-407 (decisión de la operadora 2026-10-01). PR 1: Subject, credenciales con caducidad y migración; PR 2: PDP común, cortes de stream y A2A",
+      "note": "PR 1 #1216 (Subject, credenciales, migración), PR 2 #1218 (A2A por usuario, cortes de stream, svt1 ligado, subjectId). Desviaciones aceptadas: la CLI no usa tokens; los receipts no guardan identidad. Sale del WIP; entra SE-425",
       "evidence": "docs/specs/SE-423-vaults-minimal-identity.spec.md",
-      "phase": "A"
+      "phase": "A",
+      "completion": {
+        "merge_pr": 1218,
+        "acceptance_evidence": [
+          {
+            "criterion": "PR 1: AC4, AC6, AC8, AC10; AC1 en MCP y HTTP (#1216)",
+            "file": "docs/specs/SE-423-vaults-minimal-identity.spec.md"
+          },
+          {
+            "criterion": "PR 2: AC1 en A2A, AC2, AC3, AC5, AC6 (listas), AC7, AC9 medido, AC10 (#1218)",
+            "file": "docs/specs/SE-423-vaults-minimal-identity.spec.md"
+          }
+        ],
+        "human_review": {
+          "status": "APPROVED",
+          "evidence": "Operadora 2026-10-01 en chat (AskUserQuestion): merge de #1218 y 'Graduar SE-423 + SE-425'"
+        }
+      }
     },
     {
       "id": "SE-424",
@@ -819,10 +836,10 @@
     },
     {
       "id": "SE-425",
-      "status": "APPROVED",
+      "status": "IMPLEMENTING",
       "priority": "P2",
       "title": "Lockfiles de npm versionados e instalación reproducible (scripts/, savia-vaults) y CI de savia-vaults",
-      "note": "Hueco real de SE-407 S4. Implementar con hueco WIP (ahora 3/3)",
+      "note": "Entra en el WIP en el hueco de SE-423 (decisión de la operadora 2026-10-01)",
       "evidence": "docs/specs/SE-425-npm-lockfiles.spec.md",
       "phase": "A",
       "approval": "Operadora 2026-10-01 en chat (AskUserQuestion): 'Aprobar con job CI de vaults' (D1 sí; D2 web/monitor al tocarlos)"
@@ -864,7 +881,7 @@
           "SE-378"
         ],
         "title": "Estado consistente y baseline reproducible",
-        "action": "Hecho: SE-407 S1–S4 integrados (#1208–#1210, #1214) e IMPLEMENTED. Siguiente: mantener validate-ci-local como predicado y revisar SE-425 (lockfiles).",
+        "action": "Hecho: SE-407 S1–S4 integrados (#1208–#1210, #1214) e IMPLEMENTED. Siguiente: mantener validate-ci-local como predicado; SE-425 (lockfiles) en el WIP.",
         "necessity": "alta",
         "urgency": "alta",
         "value": "alto",
@@ -898,7 +915,7 @@
           "SE-425"
         ],
         "title": "Seguridad, evidencia y cierre de Vaults/Files",
-        "action": "Hecho: Files/Vaults base IMPLEMENTED (SE-410–422, SE-412 con AC3 aceptado). SE-424 completa. En curso SE-423 (identidad mínima, WIP).",
+        "action": "Hecho: Files/Vaults base IMPLEMENTED (SE-410–422, SE-412 con AC3 aceptado), SE-424 completa y SE-423 IMPLEMENTED (#1216, #1218). En curso SE-425 (lockfiles y CI de savia-vaults, WIP).",
         "necessity": "alta",
         "urgency": "alta",
         "value": "alto",
