@@ -11,7 +11,7 @@ Fase A · WIP 3/3. Estado y cola canónicos; ADR-002.
   Necesidad: alta; urgencia: alta; valor: alto; desbloqueo: desbloquea todo el cierre; esfuerzo: slice pequeño; baseline variable.
 
 - **S02 · P0 · fase A** — Seguridad, evidencia y cierre de Vaults/Files
-  Acción: Revisión hecha el 2026-09-30 (docs/evidence/S02-vaults-files-review-20260930.md): 9 graduadas; SE-412 abierta (AC3); SE-416/421/422 esperan a SE-424. Siguiente: SE-424 (H1→H4, PR por arreglo) y después SE-423 con hueco WIP.
+  Acción: Revisión hecha (docs/evidence/S02-vaults-files-review-20260930.md). IMPLEMENTED: SE-410/411/413/414/415/417/418/419/420 y, tras H1, SE-421/422. SE-412 abierta (AC3). Pendiente: SE-424 H4 → SE-416; SE-423 con hueco WIP.
   Entrada: Revisión/diseño ahora; ejecutar delta nuevo sólo con aprobación y hueco WIP. Streaming/HTTP (SE-421/422, ya integrados) exige autorización vigente y revocación: revisar en este lote. Pendientes privados de evaluación/operación se consultan sólo en Labs.
   Salida: Matriz entrega vs evidencia vs pendiente; decisión humana de graduación por spec; delta de identidad acotado y revisable, sin activar SSO ni conceder authority de efectos.
   Necesidad: alta; urgencia: alta; valor: alto; desbloqueo: protege contexto y serving; esfuerzo: revisión por lote; delta a estimar tras probe.
@@ -76,7 +76,5 @@ Integrada en main no significa graduada; delivery no sustituye completion y revi
 - SE-407 [IMPLEMENTING] Predicado único de estado consistente y cierre de sesión limpio — evidencia: docs/specs/SE-407-consistent-state-predicate.spec.md
 - SE-412 [APPROVED] Higiene y arranque en frío de vault_search + fallo intermitente del fan-out — evidencia: docs/specs/SE-412-vault-search-hygiene.spec.md · integrada #1191; revisar evidencia/graduación
 - SE-416 [APPROVED] Savia Files: instalador de dependencias sin consola ni administrador (lector de documentos y ClamAV) — evidencia: docs/specs/SE-416-savia-files-setup.spec.md · integrada #1196; revisar evidencia/graduación
-- SE-421 [APPROVED] Savia Files: almacén en streaming (hasta 10 GiB, rangos, antivirus por stdin, tope de extracción) — evidencia: docs/specs/SE-421-savia-files-streaming-store.spec.md · integrada #1201; revisar evidencia/graduación
-- SE-422 [APPROVED] Savia Files: API HTTP con subida reanudable (tus 1.0), rangos y autorizaciones acotadas — evidencia: docs/specs/SE-422-savia-files-http-api.spec.md · integrada #1202; revisar evidencia/graduación
 - SE-423 [APPROVED] SaviaVaults: identidad mínima (Subject, credenciales con caducidad y PDP común en MCP/A2A/HTTP/CLI) — evidencia: docs/specs/SE-423-vaults-minimal-identity.spec.md
 - SE-424 [APPROVED] SaviaVaults/Files: arreglos de la revisión S02 (escaneo > 2 GiB, guarda A2A, revocación MCP, modelos del lector de PDF) — evidencia: docs/specs/SE-424-vaults-files-s02-fixes.spec.md
