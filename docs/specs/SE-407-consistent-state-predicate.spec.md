@@ -72,6 +72,13 @@ convención como fallos. El resultado es una métrica externa, no un gate.
 
 - AC7: el informe distingue "hueco real" de "equivalente Savia".
 
+## Entregables (rutas)
+
+- S1: `scripts/validate-ci-local.sh`, `tests/test-validate-ci-fresh.bats`; artefactos regenerados
+  cuando estén desfasados (`docs/rules/domain/rule-manifest.json`, `.scm/`).
+- S2: `scripts/validate-ci-local.sh`, `tests/test-validate-ci-clean-state.bats`.
+- S3: `CLAUDE.md`, `AGENTS.md`.
+
 ## Fuera de alcance
 
 Renombrar ficheros de Savia a las convenciones de LHE; añadir un Makefile.
