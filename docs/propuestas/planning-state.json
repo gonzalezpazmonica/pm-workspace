@@ -836,13 +836,30 @@
     },
     {
       "id": "SE-425",
-      "status": "IMPLEMENTING",
+      "status": "IMPLEMENTED",
       "priority": "P2",
       "title": "Lockfiles de npm versionados e instalación reproducible (scripts/, savia-vaults) y CI de savia-vaults",
-      "note": "Entra en el WIP en el hueco de SE-423 (decisión de la operadora 2026-10-01)",
+      "note": "#1220: lockfiles versionados en scripts/ y savia-vaults, npm ci en CI, auditoría sobre los locks y job de CI de savia-vaults (99 ficheros de test en verde). G7 permite solo el email público del aviso deprecated de npm. Sale del WIP; hueco libre",
       "evidence": "docs/specs/SE-425-npm-lockfiles.spec.md",
       "phase": "A",
-      "approval": "Operadora 2026-10-01 en chat (AskUserQuestion): 'Aprobar con job CI de vaults' (D1 sí; D2 web/monitor al tocarlos)"
+      "approval": "Operadora 2026-10-01 en chat (AskUserQuestion): 'Aprobar con job CI de vaults' (D1 sí; D2 web/monitor al tocarlos)",
+      "completion": {
+        "merge_pr": 1220,
+        "acceptance_evidence": [
+          {
+            "criterion": "AC1-AC4 (lockfiles, npm ci, job de savia-vaults, validate-ci-local)",
+            "file": "docs/specs/SE-425-npm-lockfiles.spec.md"
+          },
+          {
+            "criterion": "AC1/AC4: 14/14 BATS",
+            "file": "tests/test-validate-ci-fresh.bats"
+          }
+        ],
+        "human_review": {
+          "status": "APPROVED",
+          "evidence": "Operadora 2026-10-01 en chat (AskUserQuestion, en remoto): merge de #1220"
+        }
+      }
     }
   ],
   "route": {
@@ -881,7 +898,7 @@
           "SE-378"
         ],
         "title": "Estado consistente y baseline reproducible",
-        "action": "Hecho: SE-407 S1–S4 integrados (#1208–#1210, #1214) e IMPLEMENTED. Siguiente: mantener validate-ci-local como predicado; SE-425 (lockfiles) en el WIP.",
+        "action": "Hecho: SE-407 S1–S4 integrados (#1208–#1210, #1214) e IMPLEMENTED; SE-425 (#1220) cierra el hueco de lockfiles. Siguiente: mantener validate-ci-local como predicado.",
         "necessity": "alta",
         "urgency": "alta",
         "value": "alto",
@@ -915,7 +932,7 @@
           "SE-425"
         ],
         "title": "Seguridad, evidencia y cierre de Vaults/Files",
-        "action": "Hecho: Files/Vaults base IMPLEMENTED (SE-410–422, SE-412 con AC3 aceptado), SE-424 completa y SE-423 IMPLEMENTED (#1216, #1218). En curso SE-425 (lockfiles y CI de savia-vaults, WIP).",
+        "action": "Hecho: Files/Vaults base IMPLEMENTED (SE-410–422, SE-412 con AC3 aceptado), SE-424, SE-423 (#1216, #1218) y SE-425 (#1220: lockfiles y CI de savia-vaults).",
         "necessity": "alta",
         "urgency": "alta",
         "value": "alto",
