@@ -171,3 +171,25 @@ workspace.
 ### Portability classification
 
 - [x] **PURE_NODE**
+
+## Resultados
+
+### PR 1 — Subject, credenciales y migración (2026-10-01)
+
+| AC | Evidencia | Estado |
+|---|---|---|
+| AC1 (MCP y HTTP) | `tests/unit/auth/identity.test.ts`: caducada o revocada ⇒ `Invalid or expired token`; `authorizeUser` con `credentialId` ⇒ «revocada o caducada». `tests/integration/auth/credentials-http.test.ts`: servidor HTTP real, revocar y caducar ⇒ 401 en la siguiente petición aunque el token estuviera en caché | Parcial: A2A y CLI en PR 2 |
+| AC4 | Credencial `domes:[A]`, `maxRole: reader` de un admin de A y B: lee A, no escribe en A (403), no ve B (403), en el controlador y en HTTP | OK |
+| AC6 | Fichero v1 ⇒ el token sigue valiendo, caduca a los 365 días, `.v1.bak` idéntico en `0600`, segunda carga con el mismo `subjectId` y la misma caducidad | OK (listas `readers`/`writers` en PR 2) |
+| AC8 | Escritura atómica (temporal + rename) en `0600`; un fichero previo `0664` pasa a `0600`; sin temporales | OK |
+| AC10 | Suite 748/748, `tsc` y `eslint` limpios; `docs/VAULTS-CLI.md` (sección de usuarios rehecha: describía comandos inexistentes) y `docs/files-http.md` | OK |
+
+Desviaciones:
+
+1. **Migración al cargar y guardado inmediato**, no «en la siguiente escritura»: si no,
+   cada proceso generaría un `subjectId` y una caducidad distintos hasta la primera escritura.
+2. **CLI**: `user tokens`, `user token-create` y `user token-revoke` en lugar de
+   `user token create|list|revoke`, para conservar `user token <usuario> --regenerate`.
+   `--regenerate` revoca ahora todas las credenciales del usuario y crea una nueva.
+3. **`lastUsedAt` no se registra**: escribir en cada validación cambiaría el fichero en
+   cada petición y forzaría recargas en todos los procesos.

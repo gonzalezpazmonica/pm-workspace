@@ -5,6 +5,22 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased] — 2026-10-01 · Identidad mínima: credenciales con caducidad (SE-423 PR 1)
+
+### Added
+- Cada usuario tiene un `subjectId` estable y varias credenciales `sv_…` con caducidad
+  obligatoria (90 días por defecto, máximo `SAVIA_VAULTS_PAT_MAX_DAYS`, 365), alcance
+  opcional (`--domes`, `--max-role`, que solo restringen) y revocación individual:
+  `user tokens`, `user token-create`, `user token-revoke`; `user list` avisa de lo que caduca.
+- MCP y HTTP aplican caducidad, revocación y alcance en la siguiente petición; la caché de
+  tokens HTTP nunca dura más que la credencial.
+
+### Changed
+- `savia-vaults.users.json` pasa al formato v2, escrito de forma atómica en `0600`. El
+  formato v1 se migra al cargar: los tokens siguen valiendo y caducan a los 365 días; copia
+  `savia-vaults.users.json.v1.bak`.
+- `user token --regenerate` revoca todas las credenciales del usuario.
+
 ## [Unreleased] — 2026-10-01 · Savia Files: modelos del lector de PDF en files setup (SE-424 H4)
 
 ### Fixed

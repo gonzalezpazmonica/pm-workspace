@@ -29,7 +29,8 @@ describe('UserStore', () => {
     const user = store2.getUser('alice');
     expect(user).toBeDefined();
     expect(user!.username).toBe('alice');
-    expect(user!.tokenHash).not.toBe(token);
+    expect(user!.credentials[0].hash).not.toBe(token);
+    expect(JSON.stringify(user)).not.toContain(token);
   });
 
   it('validates correct token', () => {

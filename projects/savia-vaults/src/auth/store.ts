@@ -2,7 +2,13 @@ import * as fs from 'node:fs';
 import * as path from 'node:path';
 import * as crypto from 'node:crypto';
 import { hashSync, compareSync } from 'bcryptjs';
-import type { User, UserRole, UsersFile } from './types.js';
+import type { Credential, CredentialInfo, User, UserRole, UsersFile, UserV1 } from './types.js';
+
+const DAY_MS = 86_400_000;
+/** SE-423: caducidad por defecto de una credencial nueva y la de los tokens v1 migrados (D1). */
+const DEFAULT_DAYS = 90;
+const MIGRATED_DAYS = 365;
+const ROLE_LEVEL: Record<UserRole, number> = { reader: 1, writer: 2, admin: 3 };
 
 function generateToken(): string {
   const random = crypto.randomBytes(32).toString('base64url');
@@ -12,6 +18,23 @@ function generateToken(): string {
 function hashToken(token: string): string {
   return hashSync(token, 12);
 }
+
+/** Máximo de días de una credencial: `SAVIA_VAULTS_PAT_MAX_DAYS` (por defecto 365). */
+function maxDays(): number {
+  const v = Number(process.env.SAVIA_VAULTS_PAT_MAX_DAYS);
+  return Number.isInteger(v) && v > 0 ? v : 365;
+}
+
+function isActive(c: Credential, now = Date.now()): boolean {
+  return !c.revokedAt && Date.parse(c.expiresAt) > now;
+}
+
+/** El rol menor de dos (el de la credencial nunca amplía el del Subject). */
+export function minRole(a: UserRole, b?: UserRole): UserRole {
+  return b && ROLE_LEVEL[b] < ROLE_LEVEL[a] ? b : a;
+}
+
+export interface TokenOptions { name: string; expiresDays?: number; domes?: string[]; maxRole?: UserRole }
 
 export class UserStore {
   private filePath: string;
@@ -26,45 +49,64 @@ export class UserStore {
     return fs.existsSync(this.filePath);
   }
 
+  /**
+   * Carga el fichero. SE-423: un fichero v1 se migra y se guarda en el acto (con copia
+   * `.v1.bak` en 0600), para que el Subject y la caducidad sean los mismos en todos los procesos.
+   */
   load(): void {
     if (!fs.existsSync(this.filePath)) return;
     const raw = fs.readFileSync(this.filePath, 'utf-8');
-    const data: UsersFile = JSON.parse(raw);
-
+    const data = JSON.parse(raw) as { version?: number; users: Record<string, User | UserV1> };
     this.users.clear();
-    for (const [username, user] of Object.entries(data.users)) {
-      this.users.set(username, user);
+    let migrated = false;
+    for (const [username, u] of Object.entries(data.users ?? {})) {
+      if ('credentials' in u && Array.isArray(u.credentials)) {
+        this.users.set(username, u);
+      } else {
+        this.users.set(username, migrateV1(u as UserV1));
+        migrated = true;
+      }
+    }
+    if (migrated) {
+      const bak = `${this.filePath}.v1.bak`;
+      if (!fs.existsSync(bak)) fs.writeFileSync(bak, raw, { mode: 0o600 });
+      fs.chmodSync(bak, 0o600);
+      this.save();
     }
   }
 
+  /** Escritura atómica (temporal + rename) en 0600: el fichero guarda hashes de credenciales. */
   save(): void {
-    const data: UsersFile = { version: 1, users: {} };
+    const data: UsersFile = { version: 2, users: {} };
     for (const [username, user] of this.users) {
       data.users[username] = user;
     }
     const dir = path.dirname(this.filePath);
     if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
-    fs.writeFileSync(this.filePath, JSON.stringify(data, null, 2) + '\n');
+    const tmp = `${this.filePath}.tmp-${process.pid}-${Date.now()}`;
+    try {
+      fs.writeFileSync(tmp, JSON.stringify(data, null, 2) + '\n', { mode: 0o600 });
+      fs.chmodSync(tmp, 0o600);
+      fs.renameSync(tmp, this.filePath);
+    } finally {
+      fs.rmSync(tmp, { force: true });
+    }
   }
 
-  createUser(username: string): string {
+  createUser(username: string, opts: { type?: 'human' | 'service'; expiresDays?: number } = {}): string {
     if (this.users.has(username)) {
       throw new Error(`User "${username}" already exists`);
     }
-
-    const token = generateToken();
-    const tokenHash = hashToken(token);
-
     const user: User = {
+      subjectId: crypto.randomUUID(),
+      type: opts.type ?? 'human',
       username,
-      tokenHash,
-      tokenPrefix: token.slice(0, 6),
       createdAt: new Date().toISOString(),
       permissions: {},
+      credentials: [],
     };
-
     this.users.set(username, user);
-    return token;
+    return this.createToken(username, { name: 'principal', expiresDays: opts.expiresDays });
   }
 
   deleteUser(username: string): void {
@@ -74,17 +116,68 @@ export class UserStore {
     this.users.delete(username);
   }
 
-  validateToken(token: string): User | null {
+  /** SE-423: nueva credencial con caducidad y alcance opcional. Devuelve el token (se muestra una vez). */
+  createToken(username: string, opts: TokenOptions): string {
+    const user = this.users.get(username);
+    if (!user) throw new Error(`User "${username}" not found`);
+    const days = opts.expiresDays ?? DEFAULT_DAYS;
+    const max = maxDays();
+    if (!Number.isInteger(days) || days < 1 || days > max) {
+      throw new Error(`La caducidad debe estar entre 1 y ${max} días (SAVIA_VAULTS_PAT_MAX_DAYS)`);
+    }
+    if (opts.domes && !opts.domes.length) throw new Error('domes vacío: omitirlo para no restringir por cúpula');
+    const token = generateToken();
+    const now = Date.now();
+    user.credentials.push({
+      id: `c_${crypto.randomBytes(8).toString('hex')}`,
+      name: opts.name,
+      prefix: token.slice(0, 6),
+      hash: hashToken(token),
+      createdAt: new Date(now).toISOString(),
+      expiresAt: new Date(now + days * DAY_MS).toISOString(),
+      ...(opts.domes ? { domes: [...opts.domes] } : {}),
+      ...(opts.maxRole ? { maxRole: opts.maxRole } : {}),
+    });
+    return token;
+  }
+
+  /** Credenciales de un usuario, sin secretos. */
+  listTokens(username: string): CredentialInfo[] {
+    const user = this.users.get(username);
+    if (!user) throw new Error(`User "${username}" not found`);
+    return user.credentials.map(({ hash: _h, prefix: _p, ...info }) => ({ ...info }));
+  }
+
+  revokeToken(username: string, credentialId: string): void {
+    const user = this.users.get(username);
+    if (!user) throw new Error(`User "${username}" not found`);
+    const c = user.credentials.find((x) => x.id === credentialId);
+    if (!c) throw new Error(`Credencial "${credentialId}" no encontrada para "${username}"`);
+    c.revokedAt ??= new Date().toISOString();
+  }
+
+  /** SE-423: usuario y credencial de un token, si es válido (ni caducado ni revocado). */
+  validateCredential(token: string): { user: User; credential: Credential } | null {
     if (!token || !token.startsWith('sv_')) return null;
     const prefix = token.slice(0, 6);
+    const now = Date.now();
     for (const user of this.users.values()) {
-      if (user.tokenPrefix === prefix) {
-        if (compareSync(token, user.tokenHash)) {
-          return user;
-        }
+      for (const c of user.credentials) {
+        if (c.prefix !== prefix || !isActive(c, now)) continue;
+        if (compareSync(token, c.hash)) return { user, credential: c };
       }
     }
     return null;
+  }
+
+  validateToken(token: string): User | null {
+    return this.validateCredential(token)?.user ?? null;
+  }
+
+  /** Credencial vigente de un usuario por id (vía HTTP tras la caché de tokens). */
+  activeCredential(username: string, credentialId: string): Credential | undefined {
+    const c = this.users.get(username)?.credentials.find((x) => x.id === credentialId);
+    return c && isActive(c) ? c : undefined;
   }
 
   /** SE-422: recarga el fichero si cambió en disco (revocaciones sin reiniciar el servidor). true si recargó. */
@@ -126,23 +219,45 @@ export class UserStore {
     return { ...user.permissions };
   }
 
+  /** Revoca todas las credenciales vigentes del usuario y crea una nueva «principal». */
   regenerateToken(username: string): string {
     const user = this.users.get(username);
     if (!user) throw new Error(`User "${username}" not found`);
-
-    const token = generateToken();
-    user.tokenHash = hashToken(token);
-    user.tokenPrefix = token.slice(0, 6);
-    return token;
+    const now = new Date().toISOString();
+    for (const c of user.credentials) if (!c.revokedAt) c.revokedAt = now;
+    return this.createToken(username, { name: 'principal' });
   }
 
-  listUsers(): User[] {
-    return [...this.users.values()].map(u => ({
+  /** Usuarios sin secretos de credenciales. */
+  listUsers(): Array<Omit<User, 'credentials'> & { credentials: CredentialInfo[] }> {
+    return [...this.users.values()].map((u) => ({
+      subjectId: u.subjectId,
+      type: u.type,
       username: u.username,
-      tokenHash: u.tokenHash,
-      tokenPrefix: u.tokenPrefix,
       createdAt: u.createdAt,
       permissions: { ...u.permissions },
+      credentials: this.listTokens(u.username),
     }));
   }
+}
+
+/** SE-423: usuario v1 → v2. El token existente pasa a ser su primera credencial (caduca a 365 días). */
+function migrateV1(u: UserV1): User {
+  const now = Date.now();
+  return {
+    subjectId: crypto.randomUUID(),
+    type: 'human',
+    username: u.username,
+    createdAt: u.createdAt,
+    permissions: u.permissions ?? {},
+    credentials: [{
+      id: `c_${crypto.randomBytes(8).toString('hex')}`,
+      name: 'migrado',
+      prefix: u.tokenPrefix,
+      hash: u.tokenHash,
+      createdAt: new Date(now).toISOString(),
+      expiresAt: new Date(now + MIGRATED_DAYS * DAY_MS).toISOString(),
+      migrated: true,
+    }],
+  };
 }
