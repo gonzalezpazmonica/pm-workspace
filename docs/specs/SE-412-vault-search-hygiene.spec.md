@@ -124,3 +124,9 @@ Cambiar el motor de `vault_search`; recomendar `vault_rag` ya lo hace la skill.
 ### Portability classification
 
 - [x] **PURE_NODE**
+
+## Cierre (2026-10-01)
+
+Graduada por la operadora con AC3 no cumplido y aceptado: la CLI en caliente tarda
+~500 ms (objetivo < 400 ms) por la deserialización de MiniSearch; para agentes, el camino es
+MCP (7–32 ms por consulta) o `vault_rag`. Un cambio de motor sería otra spec.

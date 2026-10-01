@@ -6,6 +6,31 @@
 > Each entry: date, spec ID, status transition, optional rationale.
 > Ref: SE-222 S1 OKF Adoptable Patterns (log.md convention).
 
+## 2026-10-01 SE-425 PROPOSED
+
+Lockfiles de npm versionados (scripts/, savia-vaults) y CI de savia-vaults: hueco real del
+auditor externo de SE-407 S4. Pendiente de decisión de la operadora (D1/D2).
+
+## 2026-10-01 SE-423 IMPLEMENTING
+
+Identidad mínima entra en el WIP en el hueco de SE-407, por decisión de la operadora.
+Dos PR: credenciales con caducidad y migración; PDP común, streams y A2A.
+
+## 2026-10-01 SE-407 IMPLEMENTED
+
+Predicado de estado consistente completo: S1 #1208, S2 #1209, S3 #1210, S4 #1214 (auditor
+externo fijado). Graduada por decisión de la operadora; sale del WIP.
+
+## 2026-10-01 SE-416 IMPLEMENTED
+
+Instalador sin consola graduado tras SE-424 H4 (#1213): los modelos del lector de PDF se
+instalan con manifiesto SHA-256; PDF READY con HOME limpio. Decisión de la operadora.
+
+## 2026-10-01 SE-412 IMPLEMENTED
+
+Graduada con AC3 no cumplido (CLI ~500 ms frente a < 400 ms, límite de MiniSearch) y aceptado
+por la operadora; para agentes, MCP (7–32 ms) o vault_rag.
+
 ## 2026-10-01 SE-422 IMPLEMENTED
 
 Graduada por decisión de la operadora tras integrar SE-424 H1 (#1204), que cerraba su único

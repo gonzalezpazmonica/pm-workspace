@@ -325,14 +325,31 @@
     },
     {
       "id": "SE-407",
-      "status": "IMPLEMENTING",
+      "status": "IMPLEMENTED",
       "approval": "Operadora 2026-09-29 en chat: aprobada; entra en el WIP sustituyendo a SE-378 (intercambio pendiente de la operadora)",
       "priority": "P0",
       "title": "Predicado único de estado consistente y cierre de sesión limpio",
       "evidence": "docs/specs/SE-407-consistent-state-predicate.spec.md",
       "phase": "A",
       "session_order": 1,
-      "note": "Intercambio de WIP ya registrado en #1187. S1 #1208, S2 #1209 y S3 #1210 integrados; S4 (sonda report-only de fase C) pendiente."
+      "note": "S1 #1208, S2 #1209, S3 #1210, S4 #1214. Sale del WIP; entra SE-423",
+      "completion": {
+        "merge_pr": 1214,
+        "acceptance_evidence": [
+          {
+            "criterion": "S1 AC1-AC3 (#1208), S2 AC4-AC5 (#1209), S3 (#1210), S4 AC6-AC7 (#1214)",
+            "file": "docs/specs/SE-407-consistent-state-predicate.spec.md"
+          },
+          {
+            "criterion": "S4: auditor externo fijado, clasificación hueco real / equivalente",
+            "file": "docs/evidence/SE-407-S4-audit-harness-20261001.md"
+          }
+        ],
+        "human_review": {
+          "status": "APPROVED",
+          "evidence": "Operadora 2026-10-01 en chat (AskUserQuestion): 'SE-407 S4 y cerrar SE-407'"
+        }
+      }
     },
     {
       "id": "SE-408",
@@ -418,17 +435,34 @@
     },
     {
       "id": "SE-412",
-      "status": "APPROVED",
+      "status": "IMPLEMENTED",
       "approval": "Operadora 2026-09-29 en chat: 'Implementa los fix en los gaps pendientes'",
       "priority": "P2",
       "title": "Higiene y arranque en frío de vault_search + fallo intermitente del fan-out",
-      "note": "Implementada en una PR sin ocupar WIP; AC3 no cumplido (0,5 s vs 0,4 s, límite del motor); graduación pendiente de revisión humana",
+      "note": "AC3 no cumplido (CLI ~500 ms, límite de MiniSearch) aceptado por la operadora el 2026-10-01; para agentes, MCP o vault_rag",
       "evidence": "docs/specs/SE-412-vault-search-hygiene.spec.md",
       "phase": "A",
       "delivery": {
         "merge_pr": 1191,
         "main_commit": "a99f9d4a",
         "verified_on": "2026-09-30"
+      },
+      "completion": {
+        "merge_pr": 1191,
+        "acceptance_evidence": [
+          {
+            "criterion": "AC1, AC2, AC4-AC6 cumplidos; AC3 (CLI < 400 ms) no cumplido (~500 ms) y aceptado por la operadora",
+            "file": "docs/specs/SE-412-vault-search-hygiene.spec.md"
+          },
+          {
+            "criterion": "Revisión S02",
+            "file": "docs/evidence/S02-vaults-files-review-20260930.md"
+          }
+        ],
+        "human_review": {
+          "status": "APPROVED",
+          "evidence": "Operadora 2026-10-01 en chat (AskUserQuestion): 'Graduar con AC3 aceptado'"
+        }
       }
     },
     {
@@ -529,7 +563,7 @@
     },
     {
       "id": "SE-416",
-      "status": "APPROVED",
+      "status": "IMPLEMENTED",
       "approval": "Operadora 2026-09-30 en chat (AskUserQuestion): 'Aprobar e implementar'",
       "priority": "P1",
       "title": "Savia Files: instalador de dependencias sin consola ni administrador (lector de documentos y ClamAV)",
@@ -540,6 +574,27 @@
         "merge_pr": 1196,
         "main_commit": "7bd06881",
         "verified_on": "2026-09-30"
+      },
+      "completion": {
+        "merge_pr": 1213,
+        "acceptance_evidence": [
+          {
+            "criterion": "AC1-AC9 (#1196)",
+            "file": "docs/specs/SE-416-savia-files-setup.spec.md"
+          },
+          {
+            "criterion": "H4: modelos del lector de PDF; PDF READY con HOME limpio (#1213)",
+            "file": "docs/specs/SE-424-vaults-files-s02-fixes.spec.md"
+          },
+          {
+            "criterion": "Revisión S02",
+            "file": "docs/evidence/S02-vaults-files-review-20260930.md"
+          }
+        ],
+        "human_review": {
+          "status": "APPROVED",
+          "evidence": "Operadora 2026-10-01 en chat (AskUserQuestion): 'Graduar SE-416'"
+        }
       }
     },
     {
@@ -744,11 +799,11 @@
     },
     {
       "id": "SE-423",
-      "status": "APPROVED",
+      "status": "IMPLEMENTING",
       "approval": "Operadora 2026-09-30 en chat (AskUserQuestion): 'Aprobar; token A2A obsoleto' con D1 = 365 días",
       "priority": "P1",
       "title": "SaviaVaults: identidad mínima (Subject, credenciales con caducidad y PDP común en MCP/A2A/HTTP/CLI)",
-      "note": "Delta de S02 (H2/H3 generalizados); login/MFA/SSO/AEK fuera. Implementar solo con hueco WIP",
+      "note": "Entra en el WIP al cerrarse SE-407 (decisión de la operadora 2026-10-01). PR 1: Subject, credenciales con caducidad y migración; PR 2: PDP común, cortes de stream y A2A",
       "evidence": "docs/specs/SE-423-vaults-minimal-identity.spec.md",
       "phase": "A"
     },
@@ -760,6 +815,15 @@
       "title": "SaviaVaults/Files: arreglos de la revisión S02 (escaneo > 2 GiB, guarda A2A, revocación MCP, modelos del lector de PDF)",
       "note": "H1 #1204, H2 #1205, H3 #1206 y H4 #1213 integrados; SE-416 queda desbloqueada para graduación (decisión de la operadora)",
       "evidence": "docs/specs/SE-424-vaults-files-s02-fixes.spec.md",
+      "phase": "A"
+    },
+    {
+      "id": "SE-425",
+      "status": "PROPOSED",
+      "priority": "P2",
+      "title": "Lockfiles de npm versionados e instalación reproducible (scripts/, savia-vaults) y CI de savia-vaults",
+      "note": "Hueco real hallado por SE-407 S4; decisiones D1/D2 abiertas",
+      "evidence": "docs/specs/SE-425-npm-lockfiles.spec.md",
       "phase": "A"
     }
   ],
@@ -799,7 +863,7 @@
           "SE-378"
         ],
         "title": "Estado consistente y baseline reproducible",
-        "action": "Continuar SE-407 S1-S3; usar lo ya entregado por SE-378; contrastar suites completas y cuarentenas con RCA.",
+        "action": "Hecho: SE-407 S1–S4 integrados (#1208–#1210, #1214) e IMPLEMENTED. Siguiente: mantener validate-ci-local como predicado y revisar SE-425 (lockfiles).",
         "necessity": "alta",
         "urgency": "alta",
         "value": "alto",
@@ -829,10 +893,11 @@
           "SE-421",
           "SE-422",
           "SE-423",
-          "SE-424"
+          "SE-424",
+          "SE-425"
         ],
         "title": "Seguridad, evidencia y cierre de Vaults/Files",
-        "action": "Revisión hecha (docs/evidence/S02-vaults-files-review-20260930.md). IMPLEMENTED: SE-410/411/413/414/415/417/418/419/420 y, tras H1, SE-421/422. SE-412 abierta (AC3). Pendiente: SE-424 H4 → SE-416; SE-423 con hueco WIP.",
+        "action": "Hecho: Files/Vaults base IMPLEMENTED (SE-410–422, SE-412 con AC3 aceptado). SE-424 completa. En curso SE-423 (identidad mínima, WIP).",
         "necessity": "alta",
         "urgency": "alta",
         "value": "alto",
