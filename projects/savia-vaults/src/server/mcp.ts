@@ -38,6 +38,8 @@ export class MCPVaultServer {
   private domeRegistry: DomeRegistry | undefined;
   private userStore: UserStore | undefined;
   private accessController: AccessController | undefined;
+  /** SE-424 H3: el servidor ha tenido usuarios; si el fichero desaparece, se deniega (no vuelve al modo local). */
+  private hadUsers = false;
   private auditLogger: AuditLogger | undefined;
   private quotaStore: UserQuotaStore | undefined;
   private instances: Map<string, VaultInstance> = new Map();
@@ -65,6 +67,7 @@ export class MCPVaultServer {
       this.quotaStore = qs;
 
       this.accessController = new AccessController(us, domeRegistry, al, qs);
+      this.hadUsers = us.exists();
 
       for (const dome of domeRegistry.listActive()) {
         this.instances.set(dome.name, new VaultInstance(dome));
@@ -120,7 +123,13 @@ export class MCPVaultServer {
   /** SE-419: devuelve el principal (usuario y rol) o undefined sin usuarios (modo local). */
   private async authorize(dome: string, action: AuthAction, tool?: string): Promise<Authorization | undefined> {
     if (!this.accessController) return undefined;
-    if (!this.accessController.isActive) return undefined;
+    // SE-424 H3: revocaciones, altas y tokens regenerados valen en la siguiente llamada, sin reiniciar.
+    this.userStore?.reloadIfChanged();
+    if (!this.accessController.isActive) {
+      if (this.hadUsers) throw new AuthError('unauthorized', 'No se encuentra el fichero de usuarios: acceso denegado');
+      return undefined;
+    }
+    this.hadUsers = true;
     const token = readAuthToken();
     return this.accessController.authorize({ authToken: token, dome, action, tool });
   }
