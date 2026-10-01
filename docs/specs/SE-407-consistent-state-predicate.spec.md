@@ -131,3 +131,16 @@ Sin script nuevo: la lógica vive en `validate-ci-local.sh` para no subir la ent
 
 Interpretación: «commits en la sesión» se mide como commits en main posteriores a la
 última actualización de `session-handoff.md` (sin estado de sesión que consultar).
+
+### S3 (2026-10-01)
+
+`CLAUDE.md` dice en sus líneas 3–5 qué es Savia y enlaza clock-in (traspaso,
+`validate-ci-local.sh --quick`, `roadmap.sh current`) y clock-out (`--clean-state` y
+traspaso). 86 → 90 líneas; los imports críticos no se mueven; `claude-md-drift-check.sh`
+y `agents-md-drift-check.sh` en verde. OpenCode carga el mismo `CLAUDE.md`
+(`opencode.json → instructions`), así que la cabecera vale en ambos runtimes; `AGENTS.md`
+es el catálogo de agentes generado y no cambia.
+
+AC6 pendiente de medir: `audit-harness.sh` no está en esta máquina; ejecutarlo fijado por
+SHA y sha256 es justo S4. El cambio responde al FAIL concreto registrado en
+`output/research/harness-referencias-20260929.md` (sin descripción en las 10 primeras líneas).
