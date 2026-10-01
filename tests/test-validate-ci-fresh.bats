@@ -142,3 +142,20 @@ lock_dir() {
   grep -q "savia-vaults:" "$ci"
   grep -q "npx vitest run" "$ci"
 }
+
+@test "SE-425 G7: el email público del aviso deprecated de npm no bloquea; cualquier otro email sí" {
+  mkdir -p "$TMP/scan/scripts"
+  cp "$REPO_ROOT/scripts/confidentiality-scan.sh" "$TMP/scan/scripts/"
+  printf '# vacía\n' > "$TMP/scan/scripts/confidentiality-allowlist.txt"
+  : > "$TMP/scan/blocklist.txt"
+  git -C "$TMP/scan" init -q
+  printf '{"deprecated": "contact i@izs.me"}\n' > "$TMP/scan/package-lock.json"
+  git -C "$TMP/scan" add package-lock.json
+  run bash "$TMP/scan/scripts/confidentiality-scan.sh" --staged --blocklist "$TMP/scan/blocklist.txt"
+  [[ "$output" != *"FAIL i@izs.me"* ]]
+  printf '{"deprecated": "contact persona@correo-real.es"}\n' >> "$TMP/scan/package-lock.json"
+  git -C "$TMP/scan" add package-lock.json
+  run bash "$TMP/scan/scripts/confidentiality-scan.sh" --staged --blocklist "$TMP/scan/blocklist.txt"
+  [ "$status" -ne 0 ]
+  [[ "$output" == *"FAIL persona@correo-real.es"* ]]
+}

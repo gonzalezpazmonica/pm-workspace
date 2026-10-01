@@ -61,6 +61,7 @@ Instalaciones reproducibles donde importa, sin tocar lo que no lo necesita.
 
 - `.gitignore`, `scripts/package-lock.json`, `projects/savia-vaults/package-lock.json`
 - `.github/workflows/ci.yml`, `scripts/validate-ci-local.sh`, `tests/test-validate-ci-fresh.bats`
+- `scripts/confidentiality-scan.sh` (excepción del email público del aviso `deprecated` de npm), `.claude/.project-authorizations`
 
 ## Fuera de alcance
 
@@ -99,4 +100,8 @@ Desviaciones:
    Ambos usan `lockfileVersion: 3`; `npm ci` en la CI lo valida.
 3. El aviso de `validate-ci-local.sh` compara las dependencias declaradas (estático, sin red);
    un lock con el mismo `package.json` pero árbol incoherente lo detecta `npm ci` en la CI.
-
+4. **G7 y hook de privacidad**: el escáner de confidencialidad bloqueaba `i@izs.me`, el aviso
+   público que el registro de npm pone en versiones antiguas de `glob`. Se permite solo ese
+   email (decisión de la operadora 2026-10-01); los lockfiles se siguen escaneando en busca
+   de credenciales. El hook de privacidad leyó `!projects/savia-vaults/package-lock.json`
+   como proyecto nuevo; la operadora lo autorizó en el chat («Si piblico»).
