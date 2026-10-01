@@ -44,4 +44,6 @@ This principle is inherited from SE-273 S5 of the Savia ecosystem.
 
 SaviaVaults binds to `127.0.0.1` by default. Binding to a network interface
 requires an explicit `--host 0.0.0.0` flag which emits a warning. This is a
-fail-closed default (CRIT-023).
+fail-closed default (CRIT-023). Since SE-424, A2A refuses a non-loopback host
+without `SAVIA_VAULTS_TOKEN`, serves only N1/N2 domes without a token, and rejects
+browser requests (`Origin`) unless listed in `SAVIA_A2A_CORS_ORIGINS`.

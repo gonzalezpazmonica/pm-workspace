@@ -124,11 +124,9 @@ Federation settings live in `savia-vaults.config.json`:
 
 ### TLS Encryption
 
-Always use HTTPS in production. Start the server with TLS:
-
-```bash
-savia-vaults serve --transport a2a --tls --cert /etc/ssl/cert.pem --key /etc/ssl/key.pem
-```
+Always use HTTPS in production. A2A has no built-in TLS: put a TLS-terminating
+reverse proxy in front of it and always set `SAVIA_VAULTS_TOKEN` (without it, A2A
+refuses to listen outside loopback).
 
 Register federated domes with `https://` URLs:
 
