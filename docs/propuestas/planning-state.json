@@ -260,7 +260,7 @@
     },
     {
       "id": "SE-402",
-      "status": "APPROVED",
+      "status": "IMPLEMENTED",
       "approval": "Operadora 2026-09-27: 'Redacta todas las specs que necesites y adelante con todas las propuestas en sprint nocturno'",
       "priority": "P1",
       "title": "Attributed Edit Ledger",
@@ -270,6 +270,24 @@
         "merge_pr": 1168,
         "main_commit": "598a0117",
         "verified_on": "2026-09-30"
+      },
+      "note": "#1168. Verificado 2026-10-01: 15 BATS, auditor 89, hook p95 20 ms (async)",
+      "completion": {
+        "merge_pr": 1168,
+        "acceptance_evidence": [
+          {
+            "criterion": "AC1-AC7 (Resultados 2026-10-01)",
+            "file": "docs/specs/SE-402-attributed-edit-ledger.spec.md"
+          },
+          {
+            "criterion": "AC1-AC5, AC7",
+            "file": "tests/test-se402-edit-ledger.bats"
+          }
+        ],
+        "human_review": {
+          "status": "APPROVED",
+          "evidence": "Operadora 2026-10-01 en chat (AskUserQuestion, en remoto): SE-402: 'Graduar'"
+        }
       }
     },
     {
@@ -302,7 +320,7 @@
     },
     {
       "id": "SE-405",
-      "status": "APPROVED",
+      "status": "IMPLEMENTED",
       "approval": "Operadora 2026-09-27: 'Redacta todas las specs que necesites y adelante con todas las propuestas en sprint nocturno'",
       "priority": "P2",
       "title": "Observabilidad: coste por subagente, snapshots de config, timeline de memoria",
@@ -312,6 +330,32 @@
         "merge_pr": 1169,
         "main_commit": "36652663",
         "verified_on": "2026-09-30"
+      },
+      "note": "#1169. Verificado 2026-10-01: 29 BATS, auditor 84-89. Retiró scripts/corporate/engagement-evidence-package.sh (SE-271 PROPOSED, sin llamadores; recuperable de git)",
+      "completion": {
+        "merge_pr": 1169,
+        "acceptance_evidence": [
+          {
+            "criterion": "AC1-AC9 (Resultados 2026-10-01)",
+            "file": "docs/specs/SE-405-harness-observability-increments.spec.md"
+          },
+          {
+            "criterion": "AC1-AC3",
+            "file": "tests/test-se405-runs-cost.bats"
+          },
+          {
+            "criterion": "AC4-AC6",
+            "file": "tests/test-se405-config-snapshot.bats"
+          },
+          {
+            "criterion": "AC7-AC8",
+            "file": "tests/test-se405-memory-timeline.bats"
+          }
+        ],
+        "human_review": {
+          "status": "APPROVED",
+          "evidence": "Operadora 2026-10-01 en chat (AskUserQuestion, en remoto): SE-405: 'Graduar'"
+        }
       }
     },
     {
@@ -826,13 +870,30 @@
     },
     {
       "id": "SE-424",
-      "status": "APPROVED",
+      "status": "IMPLEMENTED",
       "approval": "Operadora 2026-09-30 en chat (AskUserQuestion): arreglos H1, H2, H3 y H4, un PR Draft por arreglo",
       "priority": "P1",
       "title": "SaviaVaults/Files: arreglos de la revisión S02 (escaneo > 2 GiB, guarda A2A, revocación MCP, modelos del lector de PDF)",
-      "note": "H1 #1204, H2 #1205, H3 #1206 y H4 #1213 integrados; SE-416 queda desbloqueada para graduación (decisión de la operadora)",
+      "note": "#1204 H1, #1205 H2, #1206 H3, #1213 H4. Sigue en S02",
       "evidence": "docs/specs/SE-424-vaults-files-s02-fixes.spec.md",
-      "phase": "A"
+      "phase": "A",
+      "completion": {
+        "merge_pr": 1213,
+        "acceptance_evidence": [
+          {
+            "criterion": "H1-H4: AC1-AC5 en OK",
+            "file": "docs/specs/SE-424-vaults-files-s02-fixes.spec.md"
+          },
+          {
+            "criterion": "Revisión S02",
+            "file": "docs/evidence/S02-vaults-files-review-20260930.md"
+          }
+        ],
+        "human_review": {
+          "status": "APPROVED",
+          "evidence": "Operadora 2026-10-01 en chat (AskUserQuestion, en remoto): Graduar SE-424 y revisar 402/405"
+        }
+      }
     },
     {
       "id": "SE-425",

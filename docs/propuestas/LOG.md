@@ -6,6 +6,21 @@
 > Each entry: date, spec ID, status transition, optional rationale.
 > Ref: SE-222 S1 OKF Adoptable Patterns (log.md convention).
 
+## 2026-10-01 SE-405 IMPLEMENTED
+
+Coste por subagente, snapshots de config y timeline de memoria (#1169). AC1–AC9 verificados el
+2026-10-01 (29 BATS). Graduada por la operadora; no ocupaba WIP.
+
+## 2026-10-01 SE-402 IMPLEMENTED
+
+Registro de ediciones atribuidas (#1168). AC1–AC7 verificados el 2026-10-01 (15 BATS, hook p95
+20 ms). Graduada por la operadora; no ocupaba WIP.
+
+## 2026-10-01 SE-424 IMPLEMENTED
+
+Arreglos de la revisión S02 de Vaults/Files: H1 #1204, H2 #1205, H3 #1206, H4 #1213. Graduada
+por la operadora; no ocupaba WIP.
+
 ## 2026-10-01 SE-425 IMPLEMENTED
 
 Lockfiles de npm versionados (scripts/, savia-vaults), `npm ci` en CI, auditoría sobre los locks y

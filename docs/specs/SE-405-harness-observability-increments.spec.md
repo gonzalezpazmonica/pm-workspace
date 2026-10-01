@@ -98,3 +98,13 @@ store si no hay proyecto), marcando la entrada ancla.
 - `docs/hooks-coverage-matrix.md` regenerada (SE-253).
 - Tests TS del plugin: `.opencode/plugins/__tests__/config-snapshot.test.ts`.
 - Entropía neta 0 (SE-380): se retira `scripts/corporate/engagement-evidence-package.sh` (SE-271 PROPOSED, sin llamadores) y la captura de coste vive en `savia-runs.sh capture-cost`.
+
+## Resultados (verificación 2026-10-01)
+
+| AC | Evidencia | Estado |
+|---|---|---|
+| AC1–AC3 | `tests/test-se405-runs-cost.bats` (10): validación de `cost`, `show` con desglose, `status --json` con `cost`, `capture-cost` desde transcript y el hook SubagentStop de extremo a extremo | OK |
+| AC4–AC6 | `tests/test-se405-config-snapshot.bats` (10): snapshot idéntico, `restore` sin `--confirm` ⇒ exit 2, con `--confirm` restaura y guarda el estado sustituido, retención de 30 | OK |
+| AC7–AC8 | `tests/test-se405-memory-timeline.bats` (9): ancla por `topic_key` o prefijo de hash, ventana en orden temporal, ancla inexistente ⇒ exit 1, `--window` no numérico ⇒ exit 2 | OK |
+| AC9 | 29/29 BATS aislados; auditor 84, 84 y 89 | OK |
+
