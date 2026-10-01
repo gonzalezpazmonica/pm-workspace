@@ -134,6 +134,74 @@ describe('Tools', () => {
     expect(fs.existsSync(path.join(home, '.uv-cache'))).toBe(false);
   });
 
+  // SE-424 H4: docling necesita modelos y el worker va sin red; sin ellos, todo PDF queda FAILED.
+  it('H4: el extractor instala los modelos del lector de PDF con manifiesto SHA-256', async () => {
+    const log = path.join(base, 'models.log');
+    const t = make(pins(), { FAKE_MODELS_LOG: log });
+    const [r] = await t.setup(['extractor']);
+    expect(r).toMatchObject({ component: 'extractor', ok: true });
+    const dir = path.join(home, 'docling-models');
+    expect(t.doclingModelsPath()).toBe(dir);
+    expect(fs.readFileSync(log, 'utf-8')).toMatch(/models download layout tableformer -o /);
+    const manifest = JSON.parse(fs.readFileSync(path.join(home, 'docling-models.manifest.json'), 'utf-8'));
+    expect(Object.keys(manifest.files).sort()).toEqual([
+      'docling-project--docling-layout-heron/model.safetensors',
+      'docling-project--docling-models/model_artifacts/tableformer.safetensors',
+    ]);
+    expect(manifest.files['docling-project--docling-layout-heron/model.safetensors'].sha256).toBe(sha256(Buffer.from('pesos-de-maquetacion')));
+    expect(t.status().extractor).toMatchObject({ state: 'installed', message: expect.stringMatching(/se leen PDF/) });
+    expect(fs.readdirSync(home).filter((f) => f.startsWith('.tmp-'))).toEqual([]);
+  });
+
+  it('H4: segunda ejecución sin descargas; sin modelos, status lo dice y setup instala solo los modelos', async () => {
+    const log = path.join(base, 'models.log');
+    const t = make(pins(), { FAKE_MODELS_LOG: log });
+    await t.setup(['extractor']);
+    const [again] = await t.setup(['extractor']);
+    expect(again).toMatchObject({ ok: true, downloadedBytes: 0 });
+    expect(fs.readFileSync(log, 'utf-8').trim().split('\n')).toHaveLength(1);
+    fs.renameSync(path.join(home, 'docling-models'), path.join(base, 'fuera'));
+    expect(t.doclingModelsPath()).toBeUndefined();
+    expect(t.status().extractor).toMatchObject({ state: 'stale', message: expect.stringMatching(/no los PDF.*modelos del lector de PDF/s) });
+    server.hits.clear();
+    const [fix] = await t.setup(['extractor']);
+    expect(fix.ok).toBe(true);
+    expect(server.hits.get('/uv.tar.gz') ?? 0).toBe(0); // el venv no se reinstala
+    expect(t.doclingModelsPath()).toBe(path.join(home, 'docling-models'));
+  });
+
+  it('H4: un modelo manipulado ⇒ status lo marca y setup lo repara', async () => {
+    const t = make();
+    await t.setup(['extractor']);
+    const f = path.join(home, 'docling-models', 'docling-project--docling-layout-heron', 'model.safetensors');
+    fs.writeFileSync(f, 'pesos-alterados-por-alguien');
+    expect(t.doclingModelsPath()).toBeUndefined();
+    expect(t.status().extractor.state).toBe('stale');
+    const [fix] = await t.setup(['extractor']);
+    expect(fix.ok).toBe(true);
+    expect(fs.readFileSync(f, 'utf-8')).toBe('pesos-de-maquetacion');
+    expect(t.status().extractor.state).toBe('installed');
+  });
+
+  it('H4: si la descarga de modelos falla, no se da por instalado y no quedan restos', async () => {
+    const t = make(pins(), { FAKE_MODELS_FAIL: '1' });
+    const [r] = await t.setup(['extractor']);
+    expect(r.ok).toBe(false);
+    expect(r.message).toMatch(/modelos del lector de PDF/);
+    expect(t.doclingModelsPath()).toBeUndefined();
+    expect(fs.existsSync(path.join(home, 'docling-models'))).toBe(false);
+    expect(fs.readdirSync(home).filter((f) => f.startsWith('.tmp-'))).toEqual([]);
+    expect(t.status().extractor.state).toBe('stale');
+  });
+
+  it('H4: desinstalar el extractor borra también los modelos', async () => {
+    const t = make();
+    await t.setup(['extractor']);
+    t.uninstall('extractor');
+    expect(fs.existsSync(path.join(home, 'docling-models'))).toBe(false);
+    expect(fs.existsSync(path.join(home, 'docling-models.manifest.json'))).toBe(false);
+  });
+
   it('extractor: si falla la instalación de paquetes, no queda venv ni se activa', async () => {
     const t = make(pins(), { FAKE_UV_FAIL: '1' });
     const [r] = await t.setup(['extractor']);

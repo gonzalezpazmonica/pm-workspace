@@ -206,7 +206,7 @@ cmd.command('status').description('Qué dependencias de Savia Files hay instalad
   });
 
 cmd.command('setup').description('Instala el lector de documentos y el antivirus sin administrador (en ~/.savia-vaults/tools)')
-  .option('--extractor', 'solo el lector de documentos (~1,5 GB)', false)
+  .option('--extractor', 'solo el lector de documentos (~2,2 GB con los modelos del lector de PDF)', false)
   .option('--antivirus', 'solo el antivirus ClamAV (~150 MB)', false)
   .option('--uninstall', 'desinstalar en vez de instalar', false)
   .action(async (opts) => {

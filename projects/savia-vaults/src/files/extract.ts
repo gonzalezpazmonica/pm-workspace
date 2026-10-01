@@ -178,12 +178,22 @@ function parseWorkerResult(parsed: { error?: string; method?: string; units?: un
  * Entorno reducido, sin red de modelos, timeout por fichero y total, salida acotada.
  * Devuelve un resultado por fichero, en orden; los no devueltos (caída o timeout), Error.
  */
-export function runWorkerBatch(items: { type: FileType; file: string }[], python: string, timeoutMs: number): Promise<(RawExtraction | Error)[]> {
-  const env: NodeJS.ProcessEnv = {
+/**
+ * Entorno del worker: reducido y sin red de modelos. SE-424 H4: docling lee sus modelos de
+ * `SAVIA_FILES_DOCLING_MODELS` o de los gestionados por `files setup`, no de la caché del HOME.
+ */
+export function workerEnv(timeoutMs: number): NodeJS.ProcessEnv {
+  const models = process.env.SAVIA_FILES_DOCLING_MODELS || new Tools().doclingModelsPath();
+  return {
     PATH: process.env.PATH, HOME: process.env.HOME, LANG: 'C.UTF-8',
     HF_HUB_OFFLINE: '1', TRANSFORMERS_OFFLINE: '1', PYTHONDONTWRITEBYTECODE: '1',
     SAVIA_FILES_ITEM_TIMEOUT_S: String(Math.max(1, Math.ceil(timeoutMs / 1000))),
+    ...(models ? { SAVIA_FILES_DOCLING_MODELS: models } : {}),
   };
+}
+
+export function runWorkerBatch(items: { type: FileType; file: string }[], python: string, timeoutMs: number): Promise<(RawExtraction | Error)[]> {
+  const env = workerEnv(timeoutMs);
   const total = timeoutMs * items.length;
   return new Promise((resolve) => {
     const child = execFile(python, [workerScript(), '--batch'],

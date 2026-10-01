@@ -84,13 +84,30 @@ exit 0
   return buildAr({ 'debian-binary': Buffer.from('2.0\n'), 'control.tar.gz': buildTarGz(work, { control: { content: 'x' } }), 'data.tar.gz': tgz });
 }
 
-/** uv falso: `venv <dir>` crea un python que acepta `-c`; `pip sync` deja una marca. */
+/** python falso del venv: acepta `-c` tras el sync y simula `docling.cli.tools models download -o <dir>`. */
+const FAKE_VENV_PYTHON = `#!/bin/sh
+[ -f "$(dirname "$0")/../.synced" ] || exit 1
+if [ "$1" = "-m" ] && [ "$2" = "docling.cli.tools" ]; then
+  [ -n "$FAKE_MODELS_LOG" ] && echo "$*" >> "$FAKE_MODELS_LOG"
+  [ -n "$FAKE_MODELS_FAIL" ] && { echo "sin red" >&2; exit 1; }
+  out=""; while [ $# -gt 0 ]; do [ "$1" = "-o" ] && out="$2"; shift; done
+  mkdir -p "$out/docling-project--docling-models/model_artifacts" "$out/docling-project--docling-layout-heron"
+  printf 'pesos-de-tablas' > "$out/docling-project--docling-models/model_artifacts/tableformer.safetensors"
+  printf 'pesos-de-maquetacion' > "$out/docling-project--docling-layout-heron/model.safetensors"
+  exit 0
+fi
+exit 0
+`;
+
+/** uv falso: `venv <dir>` crea el python falso; `pip sync` deja una marca. */
 export function fakeUvTarGz(work: string): Buffer {
   const uv = `#!/bin/sh
 cmd="$1"; shift
 if [ "$cmd" = "venv" ]; then
   dir="$1"; mkdir -p "$dir/bin"
-  printf '#!/bin/sh\\n[ -f "$(dirname "$0")/../.synced" ] || exit 1\\nexit 0\\n' > "$dir/bin/python"; chmod +x "$dir/bin/python"
+  cat > "$dir/bin/python" <<'PY'
+${FAKE_VENV_PYTHON}PY
+  chmod +x "$dir/bin/python"
   exit 0
 fi
 if [ "$cmd" = "pip" ] && [ "$1" = "sync" ]; then
