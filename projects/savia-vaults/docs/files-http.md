@@ -196,7 +196,7 @@ duración total (una subida grande puede tardar).
 | 413 | Demasiado grande |
 | 415 | `Content-Type` no válido en un `PATCH` |
 | 416 | Rango fuera del fichero |
-| 422 | Antivirus obligatorio no disponible |
+| 422 | Antivirus obligatorio no disponible, o fichero de más de 2 GiB en una cúpula que exige escaneo |
 | 423 | Otro `PATCH` en curso sobre la misma subida |
 | 429 | Límite de peticiones o de subidas activas |
 | 460 | `Upload-Checksum` no coincide |
