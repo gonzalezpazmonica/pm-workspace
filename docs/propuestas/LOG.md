@@ -6,6 +6,11 @@
 > Each entry: date, spec ID, status transition, optional rationale.
 > Ref: SE-222 S1 OKF Adoptable Patterns (log.md convention).
 
+## 2026-10-01 SE-425 IMPLEMENTED
+
+Lockfiles de npm versionados (scripts/, savia-vaults), `npm ci` en CI, auditoría sobre los locks y
+job de CI de la suite de savia-vaults (#1220). Graduada por la operadora; sale del WIP.
+
 ## 2026-10-01 SE-425 IMPLEMENTING
 
 Lockfiles y CI de savia-vaults entran en el WIP en el hueco de SE-423, por decisión de la operadora.
