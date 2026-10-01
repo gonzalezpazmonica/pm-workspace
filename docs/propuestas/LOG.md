@@ -6,6 +6,16 @@
 > Each entry: date, spec ID, status transition, optional rationale.
 > Ref: SE-222 S1 OKF Adoptable Patterns (log.md convention).
 
+## 2026-10-01 SE-422 IMPLEMENTED
+
+Graduada por decisión de la operadora tras integrar SE-424 H1 (#1204), que cerraba su único
+bloqueo (ficheros de más de 2 GiB sin analizar). PR #1202; evidencia S02 y resultados H1.
+
+## 2026-10-01 SE-421 IMPLEMENTED
+
+Graduada por decisión de la operadora tras integrar SE-424 H1 (#1204), que cerraba su único
+bloqueo (ficheros de más de 2 GiB sin analizar). PR #1201; evidencia S02 y resultados H1.
+
 ## 2026-09-30 SE-424 APPROVED
 
 Arreglos de la revisión S02: escaneo que no cubre > 2 GiB falla cerrado (H1), guarda de A2A

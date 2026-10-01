@@ -332,7 +332,7 @@
       "evidence": "docs/specs/SE-407-consistent-state-predicate.spec.md",
       "phase": "A",
       "session_order": 1,
-      "note": "Intercambio de WIP ya registrado en #1187; siguiente entrega S1-S3 del predicado consistente. S4 es sonda report-only de fase C."
+      "note": "Intercambio de WIP ya registrado en #1187. S1 #1208, S2 #1209 y S3 #1210 integrados; S4 (sonda report-only de fase C) pendiente."
     },
     {
       "id": "SE-408",
@@ -672,7 +672,7 @@
     },
     {
       "id": "SE-421",
-      "status": "APPROVED",
+      "status": "IMPLEMENTED",
       "approval": "Operadora 2026-09-30 en chat (AskUserQuestion): 'Aprobar ambas, PR por spec' (SE-421 y SE-422)",
       "priority": "P1",
       "title": "Savia Files: almacén en streaming (hasta 10 GiB, rangos, antivirus por stdin, tope de extracción)",
@@ -683,11 +683,32 @@
         "merge_pr": 1201,
         "main_commit": "43f7f602",
         "verified_on": "2026-09-30"
+      },
+      "completion": {
+        "merge_pr": 1201,
+        "acceptance_evidence": [
+          {
+            "criterion": "AC1-AC10",
+            "file": "docs/specs/SE-421-savia-files-streaming-store.spec.md"
+          },
+          {
+            "criterion": "Revisión S02: suite y pruebas reales",
+            "file": "docs/evidence/S02-vaults-files-review-20260930.md"
+          },
+          {
+            "criterion": "H1 (#1204): más de 2 GiB no se da por limpio",
+            "file": "docs/specs/SE-424-vaults-files-s02-fixes.spec.md"
+          }
+        ],
+        "human_review": {
+          "status": "APPROVED",
+          "evidence": "Operadora 2026-10-01 en chat (AskUserQuestion): 'SE-421 y SE-422 ya', tras integrar SE-424 H1 (#1204)"
+        }
       }
     },
     {
       "id": "SE-422",
-      "status": "APPROVED",
+      "status": "IMPLEMENTED",
       "approval": "Operadora 2026-09-30 en chat (AskUserQuestion): 'Aprobar ambas, PR por spec' (SE-421 y SE-422)",
       "priority": "P1",
       "title": "Savia Files: API HTTP con subida reanudable (tus 1.0), rangos y autorizaciones acotadas",
@@ -698,6 +719,27 @@
         "merge_pr": 1202,
         "main_commit": "c9b42de5",
         "verified_on": "2026-09-30"
+      },
+      "completion": {
+        "merge_pr": 1202,
+        "acceptance_evidence": [
+          {
+            "criterion": "AC1-AC9",
+            "file": "docs/specs/SE-422-savia-files-http-api.spec.md"
+          },
+          {
+            "criterion": "Revisión S02: suite y pruebas reales",
+            "file": "docs/evidence/S02-vaults-files-review-20260930.md"
+          },
+          {
+            "criterion": "H1 (#1204): más de 2 GiB no se da por limpio",
+            "file": "docs/specs/SE-424-vaults-files-s02-fixes.spec.md"
+          }
+        ],
+        "human_review": {
+          "status": "APPROVED",
+          "evidence": "Operadora 2026-10-01 en chat (AskUserQuestion): 'SE-421 y SE-422 ya', tras integrar SE-424 H1 (#1204)"
+        }
       }
     },
     {
@@ -716,7 +758,7 @@
       "approval": "Operadora 2026-09-30 en chat (AskUserQuestion): arreglos H1, H2, H3 y H4, un PR Draft por arreglo",
       "priority": "P1",
       "title": "SaviaVaults/Files: arreglos de la revisión S02 (escaneo > 2 GiB, guarda A2A, revocación MCP, modelos del lector de PDF)",
-      "note": "Bloquea la graduación de SE-416, SE-421 y SE-422",
+      "note": "H1 #1204, H2 #1205, H3 #1206 y H4 #1213 integrados; SE-416 queda desbloqueada para graduación (decisión de la operadora)",
       "evidence": "docs/specs/SE-424-vaults-files-s02-fixes.spec.md",
       "phase": "A"
     }
@@ -790,7 +832,7 @@
           "SE-424"
         ],
         "title": "Seguridad, evidencia y cierre de Vaults/Files",
-        "action": "Revisión hecha el 2026-09-30 (docs/evidence/S02-vaults-files-review-20260930.md): 9 graduadas; SE-412 abierta (AC3); SE-416/421/422 esperan a SE-424. Siguiente: SE-424 (H1→H4, PR por arreglo) y después SE-423 con hueco WIP.",
+        "action": "Revisión hecha (docs/evidence/S02-vaults-files-review-20260930.md). IMPLEMENTED: SE-410/411/413/414/415/417/418/419/420 y, tras H1, SE-421/422. SE-412 abierta (AC3). Pendiente: SE-424 H4 → SE-416; SE-423 con hueco WIP.",
         "necessity": "alta",
         "urgency": "alta",
         "value": "alto",
