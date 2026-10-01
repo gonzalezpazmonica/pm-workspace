@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=3242773e4aca1605461b109c1710e63a96293a0ab3b972f1e0b4864661fb756b
-timestamp=2026-10-01T03:57:12Z
+diff_hash=b6cde6c1b00cd3b0535228736cfd8faab48aeea0c1e50d3816ff07e97ccaa8cd
+timestamp=2026-10-01T04:01:13Z
 branch=agent/overnight-20260930-risk-tier
-head_commit=c4c9655d
-signature=2c7fc4d26a67789a652c47d1912932f57de8546f6cffb6d21dc443ba4745f1e8
+head_commit=7617d137
+signature=ae0b4c3687afda3a894a2ff8979ef4c945aef4e2d432fed0a88411c767a36c2d
