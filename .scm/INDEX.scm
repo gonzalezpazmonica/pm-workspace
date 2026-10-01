@@ -1,6 +1,6 @@
 # Savia Capability Map — INDEX
-> hash: a58fd51f3540 | resources: 1451
-> 295 commands · 139 skills · 90 agents · 927 scripts
+> hash: f5a3b651c3c0 | resources: 1450
+> 295 commands · 139 skills · 90 agents · 926 scripts
 
 [analysis] Trace Optimize — across,distributed,optimize,rates,sampling — cmd:.claude/commands/trace-optimize.md
 [analysis] agent-activity — activity,agent,executions,recent,show — cmd:.claude/commands/agent-activity.md
@@ -635,7 +635,6 @@
 [planning] classifier-corpus-run — clasificación,classifier,corpus,regresión — script:scripts/classifier-corpus-run.sh
 [planning] classify-execution-level — classify,execution,level,origin,script — script:scripts/classify-execution-level.sh
 [planning] claude-md-drift-check — check,claude,coincidan,conteos,drift — script:scripts/claude-md-drift-check.sh
-[planning] clean-state-check — advisory,bloquea,cerrar,check,clean — script:scripts/clean-state-check.sh
 [planning] client-profile — cliente,gestión,perfiles,saviahub — cmd:.claude/commands/client-profile.md
 [planning] client-profile-manager — actualizan,cliente,consultan,crean,perfiles — skill:.claude/skills/client-profile-manager/SKILL.md
 [planning] cobol-developer —  — agent:.opencode/agents/cobol-developer.md

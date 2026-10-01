@@ -1,6 +1,6 @@
 {
-  "hash": "789991833984",
-  "total": 1451,
+  "hash": "beef74631dfa",
+  "total": 1450,
   "resources": [
     {
       "category": "analysis",
@@ -8438,20 +8438,6 @@
       "kind": "script",
       "path": "scripts/claude-md-drift-check.sh",
       "description": "claude-md-drift-check.sh — Valida que los conteos en CLAUDE.md coincidan con"
-    },
-    {
-      "category": "planning",
-      "name": "clean-state-check",
-      "intents": [
-        "advisory",
-        "bloquea",
-        "cerrar",
-        "check",
-        "clean"
-      ],
-      "kind": "script",
-      "path": "scripts/clean-state-check.sh",
-      "description": "clean-state-check.sh — SE-407 S2: estado limpio al cerrar la sesión (advisory, nunca bloquea)."
     },
     {
       "category": "planning",
