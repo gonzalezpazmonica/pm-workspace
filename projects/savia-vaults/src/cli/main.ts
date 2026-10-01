@@ -92,8 +92,15 @@ program.command('serve').description('Start MCP, A2A or HTTP (Savia Files) serve
       const server = new MCPVaultServer(config, domeReg, userStore);
       await server.start();
     } else if (opts.transport === 'a2a') {
-      const server = new A2AServer(config, domeReg);
-      await server.start(parseInt(opts.port ?? '8923', 10), opts.host, authToken);
+      // SE-424 H2: CORS solo para orígenes explícitos; sin token, solo loopback.
+      const corsOrigins = (process.env.SAVIA_A2A_CORS_ORIGINS ?? '').split(',').map((o) => o.trim()).filter(Boolean);
+      const server = new A2AServer(config, domeReg, { corsOrigins });
+      try {
+        await server.start(parseInt(opts.port ?? '8923', 10), opts.host, authToken || undefined);
+      } catch (e) {
+        console.error(e instanceof Error ? e.message : String(e));
+        process.exit(1);
+      }
     } else if (opts.transport === 'http') {
       // SE-422: exige registro de cúpulas y usuarios; fuera de loopback, TLS o --behind-proxy.
       if (!domeReg) { console.error('La API HTTP necesita un registro de cúpulas (--domes).'); process.exit(1); }

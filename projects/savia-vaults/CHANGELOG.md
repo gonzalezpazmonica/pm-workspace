@@ -13,6 +13,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   llamada, ~2 µs) y aplica el cambio en la siguiente llamada.
 - Si el fichero de usuarios desaparece, un servidor que arrancó con usuarios deniega
   el acceso en vez de pasar al modo local (todo permitido).
+## [Unreleased] — 2026-09-30 · A2A: guarda mínima (SE-424 H2)
+
+### Security
+- Sin `SAVIA_VAULTS_TOKEN`, A2A servía cualquier cúpula (N4 incluida) con sus rutas
+  absolutas y `Access-Control-Allow-Origin: *`, y aceptaba escrituras de cualquier web
+  (`text/plain` no pide preflight). Ahora:
+  - sin token no arranca fuera de loopback y solo sirve cúpulas N1/N2;
+  - peticiones con `Origin` rechazadas (403) salvo `SAVIA_A2A_CORS_ORIGINS`;
+  - token comparado en tiempo constante; `/domes` sin rutas.
+- `docs/FEDERATION.md` anunciaba `serve --transport a2a --tls`, que no existe: A2A no tiene
+  TLS propio (proxy delante). Exigir TLS y usuarios por cúpula queda para SE-423.
 ## [Unreleased] — 2026-09-30 · Savia Files: escaneo que no cubre el fichero entero falla cerrado (SE-424 H1)
 
 ### Fixed
