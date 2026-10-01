@@ -102,7 +102,8 @@ detectaba. Evidencia completa en `docs/evidence/S02-vaults-files-review-20260930
   `projects/savia-vaults/tests/integration/files/scan-limits.test.ts`,
   `projects/savia-vaults/tests/integration/server/a2a-guard.test.ts`,
   `projects/savia-vaults/tests/e2e/mcp-revocation.test.ts`,
-  `projects/savia-vaults/tests/unit/files/setup.test.ts`
+  `projects/savia-vaults/tests/unit/files/setup.test.ts`,
+  `projects/savia-vaults/tests/unit/files/extract.test.ts`, `projects/savia-vaults/tests/unit/files/fake-artifacts.ts`
 - `projects/savia-vaults/docs/files.md`, `projects/savia-vaults/docs/files-http.md`
 
 ## Esfuerzo
