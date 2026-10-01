@@ -145,4 +145,4 @@ Desviaciones:
    `text/plain`, que no provoca preflight. Clientes sin navegador (CLI, federación, curl)
    no envían `Origin` y no cambian.
 2. **TLS**: A2A no tiene TLS propio y la documentación de federación decía lo contrario;
-   se corrige la documentación. Exigir TLS o proxy fuera de loopback queda para SE-423.
+   se corrige `projects/savia-vaults/docs/FEDERATION.md`. Exigir TLS o proxy fuera de loopback queda para SE-423.
