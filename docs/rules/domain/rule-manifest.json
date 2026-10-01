@@ -1,8 +1,8 @@
 {
-  "generated": "2026-09-29T01:25:23Z",
-  "total": 310,
+  "generated": "2026-10-01T03:58:12Z",
+  "total": 311,
   "tier1_count": 4,
-  "tier2_count": 302,
+  "tier2_count": 303,
   "dormant_count": 4,
   "rules": {
     "accessibility-output.md": {
@@ -879,6 +879,10 @@
     },
     "radical-honesty.md": {
       "tier": "tier1",
+      "consumers": ""
+    },
+    "rag-embedding-policy.md": {
+      "tier": "tier2",
       "consumers": ""
     },
     "rbac-model.md": {

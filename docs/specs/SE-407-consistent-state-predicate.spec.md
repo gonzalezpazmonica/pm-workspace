@@ -94,3 +94,20 @@ Renombrar ficheros de Savia a las convenciones de LHE; añadir un Makefile.
 ### Portability classification
 
 - [x] **PURE_BASH**
+
+## Resultados
+
+### S1 (2026-10-01)
+
+| AC | Evidencia | Estado |
+|---|---|---|
+| AC1 | `tests/test-validate-ci-fresh.bats`: con cada comprobación fallando (tabla de prueba) el script sale ≠0 y escribe `Generado desfasado: <artefacto> → regenerar: <comando>`; varios desfasados se listan por separado. Integración en un clon real: `INDEX.md` y una regla nueva sin manifiesto se detectan con los `--check` reales | OK |
+| AC2 | Sin desfases, ninguna línea de desfase y cinco «al día». Tiempo: `validate-ci-local.sh` 4,2 s → 11,4 s (+7,2 s, < 15 s); `--quick` 5,7 s | OK |
+| AC3 | `--quick` omite solo `sam.py check`; los otros cuatro siguen bloqueando | OK |
+
+Hallazgo al implementarlo: `main` tenía `rule-manifest.json` desfasado desde #1188 (SE-410
+añadió `rag-embedding-policy.md` sin regenerarlo) y ningún gate lo vio. Se regenera aquí.
+
+Desviación: la spec suponía que un job de CI usa `validate-ci-local.sh`; no es así, solo
+la G10 de `pr-plan`. La CI ya ejecuta `roadmap validate` en «Validate workspace»; añadir
+los otros cuatro a la CI toca `.github/workflows` (tier 4) y queda para revisión humana.

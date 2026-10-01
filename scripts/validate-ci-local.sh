@@ -2,6 +2,7 @@
 # ── validate-ci-local.sh — Parallel CI validation ────────────────────────
 # Runs checks in parallel for speed (~5x faster on Windows).
 # Usage: bash scripts/validate-ci-local.sh [--quick]
+# SE-407 S1: incluye la frescura de los artefactos generados (bloquea); --quick omite solo sam.py check.
 set -uo pipefail
 
 QUICK_MODE=false; [ "${1:-}" = "--quick" ] && QUICK_MODE=true
@@ -102,6 +103,32 @@ check_secrets() {
   else echo "PASS No secrets detected" > "$out"; fi
 }
 
+# ── SE-407 S1: artefactos generados al día ───────────────────────────────
+# Usa los --check de cada generador (no los reimplementa). Cada línea:
+# artefacto|comprobación|cómo regenerarlo. SAVIA_FRESH_CHECKS_FOR_TESTS solo para tests.
+FRESH_CHECKS_DEFAULT='rule-manifest.json|bash scripts/rule-manifest-generate.sh --check|bash scripts/rule-manifest-generate.sh
+settings-hooks pin|bash scripts/contract-pin.sh check settings-hooks|revisar el cambio de .claude/settings.json y, si es intencionado, bash scripts/contract-pin.sh pin settings-hooks --path .claude/settings.json
+.scm/sam.json|python3 scripts/sam.py check|python3 scripts/generate-capability-map.py, commit y python3 scripts/sam.py generate
+docs/propuestas/INDEX.md|bash scripts/propuestas-index-gen.sh --check|bash scripts/propuestas-index-gen.sh
+planning-state.json|bash scripts/roadmap.sh validate|corregir planning-state.json/LOG.md según el error y bash scripts/roadmap.sh render'
+REPO_ROOT_CI="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+
+check_generated_fresh() {
+  local i=0 name check regen
+  while IFS='|' read -r name check regen; do
+    [[ -z "${name// /}" ]] && continue
+    # --quick puede omitir sam.py check (el más lento), nunca los otros.
+    if $QUICK_MODE && [[ "$check" == *"sam.py check"* ]]; then continue; fi
+    i=$((i+1))
+    ( if (cd "$REPO_ROOT_CI" && bash -c "$check") >/dev/null 2>&1; then
+        echo "PASS Generado al día: $name"
+      else
+        echo "FAIL Generado desfasado: $name → regenerar: $regen"
+      fi ) > "$TMPDIR_CI/8-fresh-$i" &
+  done <<< "${SAVIA_FRESH_CHECKS_FOR_TESTS:-$FRESH_CHECKS_DEFAULT}"
+  wait
+}
+
 # ── Run checks in parallel ───────────────────────────────────────────────
 check_branch &
 check_coherence &
@@ -109,6 +136,7 @@ check_file_sizes &
 check_frontmatter &
 check_settings_json &
 check_changelog &
+check_generated_fresh &
 if ! $QUICK_MODE; then
   check_required_files &
   check_secrets &
