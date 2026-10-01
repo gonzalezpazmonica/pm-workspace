@@ -3,7 +3,8 @@ import { describe, it, expect, beforeEach, afterEach } from 'vitest';
 import * as fs from 'node:fs';
 import * as os from 'node:os';
 import * as path from 'node:path';
-import { extractTextual, processRevision, processRevisions, defaultPython } from '../../../src/files/extract.js';
+import { extractTextual, processRevision, processRevisions, defaultPython, workerEnv } from '../../../src/files/extract.js';
+import { Tools } from '../../../src/files/setup.js';
 import { FileStore } from '../../../src/files/store.js';
 import { craftZip } from './craft-zip.js';
 
@@ -360,3 +361,37 @@ describe.skipIf(!hasPython)('SE-415 fidelidad con el worker real', () => {
   }, 60_000);
 });
 
+
+// SE-424 H4: el worker va sin red; los modelos de docling le llegan por ruta.
+describe('SE-424 H4: modelos del lector de PDF', () => {
+  const saved = process.env.SAVIA_FILES_DOCLING_MODELS;
+  afterEach(() => { if (saved === undefined) delete process.env.SAVIA_FILES_DOCLING_MODELS; else process.env.SAVIA_FILES_DOCLING_MODELS = saved; });
+
+  it('workerEnv sigue sin red y pasa la carpeta de modelos (explícita o la gestionada)', () => {
+    process.env.SAVIA_FILES_DOCLING_MODELS = '/ruta/de/modelos';
+    const env = workerEnv(1000);
+    expect(env).toMatchObject({ HF_HUB_OFFLINE: '1', TRANSFORMERS_OFFLINE: '1', SAVIA_FILES_DOCLING_MODELS: '/ruta/de/modelos' });
+    delete process.env.SAVIA_FILES_DOCLING_MODELS;
+    expect(workerEnv(1000).SAVIA_FILES_DOCLING_MODELS).toBe(new Tools().doclingModelsPath());
+  });
+
+  it('real: con los modelos gestionados y un HOME sin caché de HuggingFace, el PDF queda READY con cita', async () => {
+    const models = new Tools().doclingModelsPath();
+    if (!hasPython || !models) return; // sin extractor o sin modelos gestionados en esta máquina
+    const root = fs.mkdtempSync(path.join(os.tmpdir(), 'savia-h4-'));
+    const savedHome = process.env.HOME;
+    try {
+      process.env.SAVIA_FILES_DOCLING_MODELS = models; // las herramientas siguen fuera del HOME vacío
+      process.env.HOME = path.join(root, 'home-vacio'); // sin ~/.cache/huggingface
+      fs.mkdirSync(process.env.HOME);
+      const store = new FileStore({ home: path.join(root, 'files'), dome: 'D' });
+      const { document, revision } = store.add({ name: 'contrato.pdf', bytes: fs.readFileSync(path.join(FIX, 'contrato.pdf')) });
+      const info = await processRevision(store, document.id, { scan: 'off', python: PY });
+      expect(info.status).toBe('READY');
+      expect(store.readExtraction(revision.id).units.some((u) => (u.locator as { page?: number }).page === 2)).toBe(true);
+    } finally {
+      process.env.HOME = savedHome;
+      fs.rmSync(root, { recursive: true, force: true });
+    }
+  }, 300_000);
+});

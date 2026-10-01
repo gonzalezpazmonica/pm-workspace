@@ -39,7 +39,9 @@ const HOUR = 3_600_000;
 const REFRESH_AFTER_H = 24;
 const REFRESH_THROTTLE_H = 4;
 export const STALE_AFTER_H = 7 * 24;
-const SIZE_HINT = { extractor: '1,5 GB', antivirus: '150 MB' } as const;
+const SIZE_HINT = { extractor: '2,2 GB', models: '670 MB', antivirus: '150 MB' } as const;
+/** SE-424 H4: modelos de docling que usa el worker (sin OCR): maquetación y tablas. */
+const DOCLING_MODELS = ['layout', 'tableformer'];
 const PLATFORM_NAMES: Record<string, string> = { darwin: 'macOS', win32: 'Windows', linux: 'Linux' };
 
 export function toolsHome(env: NodeJS.ProcessEnv = process.env): string {
@@ -106,6 +108,38 @@ function dirBytes(p: string): number {
 /** Un proceso solo tiene una instalación en curso a la vez, aunque haya varias instancias. */
 const jobs = new Map<string, { status: JobStatus; promise: Promise<SetupResult[]> }>();
 
+interface ModelsManifest { version: 1; models: string[]; files: Record<string, { size: number; mtimeMs: number; sha256: string }> }
+
+function readManifest(p: string): ModelsManifest | undefined {
+  try {
+    const m = JSON.parse(fs.readFileSync(p, 'utf-8')) as ModelsManifest;
+    return m && m.version === 1 && m.files && Object.keys(m.files).length ? m : undefined;
+  } catch { return undefined; }
+}
+
+/** Ficheros del manifiesto presentes y, con `deep`, con su SHA-256. */
+function manifestMatches(dir: string, m: ModelsManifest, deep: boolean): boolean {
+  for (const [rel, f] of Object.entries(m.files)) {
+    const full = path.join(dir, rel);
+    let st: fs.Stats;
+    try { st = fs.statSync(full); } catch { return false; }
+    if (st.size !== f.size) return false;
+    if (deep && sha256File(full) !== f.sha256) return false;
+  }
+  return true;
+}
+
+/** Rutas relativas (con «/») de todos los ficheros bajo `dir`. */
+function listFiles(dir: string, prefix = ''): string[] {
+  const out: string[] = [];
+  for (const e of fs.readdirSync(path.join(dir, prefix), { withFileTypes: true })) {
+    const rel = prefix ? `${prefix}/${e.name}` : e.name;
+    if (e.isDirectory()) out.push(...listFiles(dir, rel));
+    else if (e.isFile()) out.push(rel);
+  }
+  return out;
+}
+
 export class Tools {
   readonly home: string;
   private readonly env: NodeJS.ProcessEnv;
@@ -124,6 +158,8 @@ export class Tools {
   private get statePath(): string { return path.join(this.home, 'state.json'); }
   private get dbDir(): string { return path.join(this.home, 'clamav', 'db'); }
   private get venvPython(): string { return path.join(this.home, 'files-venv', 'bin', 'python'); }
+  private get modelsDir(): string { return path.join(this.home, 'docling-models'); }
+  private get modelsManifest(): string { return path.join(this.home, 'docling-models.manifest.json'); }
 
   private readState(): State {
     try { return JSON.parse(fs.readFileSync(this.statePath, 'utf-8')) as State; } catch { return {}; }
@@ -138,6 +174,21 @@ export class Tools {
   /** Python del extractor gestionado, si está instalado y verificado. */
   pythonPath(): string | undefined {
     return this.readState().extractor && fs.existsSync(this.venvPython) ? this.venvPython : undefined;
+  }
+
+  /**
+   * SE-424 H4: carpeta de modelos de docling si está completa (tamaño y fecha de cada fichero
+   * como en su manifiesto); `undefined` si falta o se ha tocado. `setup` vuelve a comprobar el SHA-256.
+   */
+  doclingModelsPath(): string | undefined {
+    const m = readManifest(this.modelsManifest);
+    if (!m || !fs.existsSync(this.modelsDir)) return undefined;
+    for (const [rel, f] of Object.entries(m.files)) {
+      let st: fs.Stats;
+      try { st = fs.statSync(path.join(this.modelsDir, rel)); } catch { return undefined; }
+      if (st.size !== f.size || Math.trunc(st.mtimeMs) !== f.mtimeMs) return undefined;
+    }
+    return this.modelsDir;
   }
 
   /** ClamAV gestionado: binarios, entorno y base de firmas propios; `undefined` si no está. */
@@ -186,8 +237,15 @@ export class Tools {
   private extractorStatus(): ComponentStatus {
     const st = this.readState().extractor;
     if (st && fs.existsSync(this.venvPython)) {
+      const version = `python ${st.python}, uv ${st.uv}`;
+      if (!this.doclingModelsPath()) {
+        return {
+          state: 'stale', version, diskBytes: dirBytes(path.join(this.home, 'files-venv')),
+          message: `Se leen Word, PowerPoint y Excel, pero no los PDF: faltan los modelos del lector de PDF (unos ${SIZE_HINT.models} de descarga). Puedo instalarlos; después, files reprocess recupera los PDF que quedaron sin leer.`,
+        };
+      }
       return {
-        state: 'installed', version: `python ${st.python}, uv ${st.uv}`, diskBytes: dirBytes(path.join(this.home, 'files-venv')),
+        state: 'installed', version, diskBytes: dirBytes(path.join(this.home, 'files-venv')) + dirBytes(this.modelsDir),
         message: 'Lector de documentos instalado: se leen PDF, Word, PowerPoint y Excel.',
       };
     }
@@ -384,7 +442,9 @@ export class Tools {
     const lockSha256 = sha256File(this.lockFile);
     const st = this.readState().extractor;
     const final = path.join(this.home, 'files-venv');
-    if (st?.lockSha256 === lockSha256 && st.uv === pins.uv.version && fs.existsSync(this.venvPython)) return 0;
+    if (st?.lockSha256 === lockSha256 && st.uv === pins.uv.version && fs.existsSync(this.venvPython)) {
+      return this.ensureDoclingModels(tmp, onPhase);
+    }
     onPhase?.('lector de documentos: descargando uv');
     const tgz = path.join(tmp, 'uv.tar.gz');
     const bytes = await this.download(pins.uv, tgz);
@@ -427,6 +487,47 @@ export class Tools {
     } finally {
       fs.rmSync(cache, { recursive: true, force: true });
     }
+    return bytes + await this.ensureDoclingModels(tmp, onPhase);
+  }
+
+  /**
+   * SE-424 H4: modelos de docling en `<tools>/docling-models`, descargados con el propio venv
+   * (las revisiones las fija la versión de docling del lock). Se preparan aparte y se activan
+   * de golpe; la primera vez se escribe un manifiesto SHA-256 por fichero. Con los modelos al
+   * día (SHA-256 incluido) no descarga nada.
+   */
+  private async ensureDoclingModels(tmp: string, onPhase?: (p: string) => void): Promise<number> {
+    const m = readManifest(this.modelsManifest);
+    if (m && fs.existsSync(this.modelsDir) && manifestMatches(this.modelsDir, m, true)) return 0;
+    onPhase?.(`lector de documentos: descargando los modelos del lector de PDF (unos ${SIZE_HINT.models})`);
+    const staged = path.join(tmp, 'docling-models');
+    const env: NodeJS.ProcessEnv = {
+      PATH: this.env.PATH, HOME: this.env.HOME, HF_HOME: path.join(tmp, 'hf'), LANG: 'C.UTF-8', ...this.passThrough(),
+    };
+    try {
+      await run(this.venvPython, ['-m', 'docling.cli.tools', 'models', 'download', ...DOCLING_MODELS, '-o', staged], env);
+    } catch (e) {
+      throw new Error(`modelos del lector de PDF: ${(e as Error).message}`);
+    }
+    const files = listFiles(staged).filter((rel) => !rel.split('/').includes('.cache'));
+    if (!files.length) throw new Error('modelos del lector de PDF: la descarga no dejó ficheros');
+    onPhase?.('lector de documentos: activando los modelos del lector de PDF');
+    const old = `${this.modelsDir}.old`;
+    fs.rmSync(old, { recursive: true, force: true });
+    if (fs.existsSync(this.modelsDir)) fs.renameSync(this.modelsDir, old);
+    fs.renameSync(staged, this.modelsDir);
+    fs.rmSync(old, { recursive: true, force: true });
+    const manifest: ModelsManifest = { version: 1, models: DOCLING_MODELS, files: {} };
+    let bytes = 0;
+    for (const rel of files) {
+      const full = path.join(this.modelsDir, rel);
+      const st = fs.statSync(full);
+      manifest.files[rel] = { size: st.size, mtimeMs: Math.trunc(st.mtimeMs), sha256: sha256File(full) };
+      bytes += st.size;
+    }
+    const tmpManifest = `${this.modelsManifest}.tmp`;
+    fs.writeFileSync(tmpManifest, JSON.stringify(manifest, null, 2) + '\n', { mode: 0o600 });
+    fs.renameSync(tmpManifest, this.modelsManifest);
     return bytes;
   }
 
@@ -436,7 +537,8 @@ export class Tools {
       fs.rmSync(path.join(this.home, 'clamav'), { recursive: true, force: true });
       this.writeState((s) => { delete s.antivirus; });
     } else {
-      for (const d of ['files-venv', 'python', 'uv']) fs.rmSync(path.join(this.home, d), { recursive: true, force: true });
+      for (const d of ['files-venv', 'python', 'uv', 'docling-models']) fs.rmSync(path.join(this.home, d), { recursive: true, force: true });
+      fs.rmSync(this.modelsManifest, { force: true });
       this.writeState((s) => { delete s.extractor; });
     }
   }

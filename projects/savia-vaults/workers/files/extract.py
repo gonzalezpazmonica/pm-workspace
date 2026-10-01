@@ -81,7 +81,8 @@ def converter():
         from docling.datamodel.pipeline_options import PdfPipelineOptions
         from docling.document_converter import DocumentConverter, PdfFormatOption
 
-        opts = PdfPipelineOptions(do_ocr=False)
+        # SE-424 H4: modelos de `files setup` (sin red); sin la variable, la caché de HuggingFace.
+        opts = PdfPipelineOptions(do_ocr=False, artifacts_path=os.environ.get("SAVIA_FILES_DOCLING_MODELS") or None)
         _converter = DocumentConverter(format_options={InputFormat.PDF: PdfFormatOption(pipeline_options=opts)})
     return _converter
 
