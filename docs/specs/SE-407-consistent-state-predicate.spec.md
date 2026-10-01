@@ -76,7 +76,7 @@ convención como fallos. El resultado es una métrica externa, no un gate.
 
 - S1: `scripts/validate-ci-local.sh`, `tests/test-validate-ci-fresh.bats`; artefactos regenerados
   cuando estén desfasados (`docs/rules/domain/rule-manifest.json`, `.scm/`).
-- S2: `scripts/validate-ci-local.sh`, `scripts/clean-state-check.sh`, `tests/test-validate-ci-clean-state.bats`.
+- S2: `scripts/validate-ci-local.sh`, `tests/test-validate-ci-clean-state.bats`.
 - S3: `CLAUDE.md`, `AGENTS.md`.
 
 ## Fuera de alcance
@@ -123,8 +123,11 @@ los otros cuatro a la CI toca `.github/workflows` (tier 4) y queda para revisió
 
 | AC | Evidencia | Estado |
 |---|---|---|
-| AC4 | `scripts/clean-state-check.sh` (y `validate-ci-local.sh --clean-state`) informa en líneas separadas checkout principal, worktrees y traspaso; solo PASS/WARN, salida 0. `tests/test-validate-ci-clean-state.bats` (9) con repos git temporales | OK |
+| AC4 | `validate-ci-local.sh --clean-state` (y `--clean-state-only [--repo DIR]`) informa en líneas separadas checkout principal, worktrees y traspaso; solo PASS/WARN, salida 0. `tests/test-validate-ci-clean-state.bats` (11) con repos git temporales, incluido un traspaso borrado | OK |
 | AC5 | Worktree `agent/*` sin cambios cuyo contenido ya está en main ⇒ «retirable», también tras squash y cambios posteriores en los mismos ficheros (patch-id). No retirable si tiene trabajo sin integrar o cambios sin commit. En el repo real marca exactamente los worktrees de #1197–#1204 | OK |
+
+Sin script nuevo: la lógica vive en `validate-ci-local.sh` para no subir la entropía
+(SE-380, ratchet 1623); un primer intento con `clean-state-check.sh` aparte la subía a 1624.
 
 Interpretación: «commits en la sesión» se mide como commits en main posteriores a la
 última actualización de `session-handoff.md` (sin estado de sesión que consultar).

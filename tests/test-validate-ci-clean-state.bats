@@ -4,7 +4,7 @@
 # Ref: docs/specs/SE-407-consistent-state-predicate.spec.md
 set -uo pipefail
 
-SCRIPT="scripts/clean-state-check.sh"
+SCRIPT="scripts/validate-ci-local.sh"
 
 setup() {
   REPO_ROOT="$(cd "$BATS_TEST_DIRNAME/.." && pwd)"
@@ -21,7 +21,7 @@ setup() {
   cd "$REPO_ROOT"
 }
 
-run_check() { run bash "$REPO_ROOT/$SCRIPT" --repo "$T/main" "$@"; }
+run_check() { run bash "$REPO_ROOT/$SCRIPT" --clean-state-only --repo "$T/main" "$@"; }
 
 @test "safety: el script mantiene set -uo pipefail" {
   grep -q "set -uo pipefail" "$REPO_ROOT/$SCRIPT"
@@ -100,14 +100,31 @@ run_check() { run bash "$REPO_ROOT/$SCRIPT" --repo "$T/main" "$@"; }
   [[ "$output" == *"PASS Traspaso"* ]]
 }
 
-@test "error: repo inexistente ⇒ salida 2 con mensaje" {
-  run bash "$REPO_ROOT/$SCRIPT" --repo "$T/no-existe"
+@test "error: nonexistent repo ⇒ salida 2 con mensaje" {
+  run bash "$REPO_ROOT/$SCRIPT" --clean-state-only --repo "$T/no-existe"
   [ "$status" -eq 2 ]
   [[ "$output" == *"no es un repositorio git"* ]]
 }
 
 @test "validate-ci-local --clean-state añade las dimensiones como advisory (nunca FAIL)" {
-  grep -q -- "--clean-state" "$REPO_ROOT/scripts/validate-ci-local.sh"
-  grep -q "clean-state-check.sh" "$REPO_ROOT/scripts/validate-ci-local.sh"
-  ! grep -q '^ *echo "FAIL' "$REPO_ROOT/$SCRIPT"
+  grep -q -- "--clean-state)" "$REPO_ROOT/$SCRIPT"
+  sed -n '/^clean_state_report()/,/^}/p' "$REPO_ROOT/$SCRIPT" > "$T/fn.sh"
+  [ -s "$T/fn.sh" ]
+  ! grep -q 'echo "FAIL' "$T/fn.sh"
+}
+
+@test "edge: nonexistent session-handoff.md en main ⇒ WARN de traspaso, sin error" {
+  git -C "$T/main" rm -q docs/propuestas/session-handoff.md
+  git -C "$T/main" commit -qm "sin traspaso" && git -C "$T/main" push -q origin main
+  git -C "$T/main" fetch -q origin
+  run_check
+  [ "$status" -eq 0 ]
+  [[ "$output" == *"WARN Traspaso: docs/propuestas/session-handoff.md no existe en origin/main"* ]]
+}
+
+@test "edge: zero worktrees agent/* (solo ramas humanas) ⇒ PASS ninguno retirable" {
+  git -C "$T/main" worktree add -q -b feature/humana "$T/wt-humana" main
+  run_check
+  [[ "$output" == *"PASS Worktrees agent/*: ninguno retirable"* ]]
+  [[ "$output" != *"feature/humana"* ]]
 }
