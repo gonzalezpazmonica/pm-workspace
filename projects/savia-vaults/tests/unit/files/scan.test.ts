@@ -3,7 +3,8 @@ import { describe, it, expect, beforeEach, afterEach } from 'vitest';
 import * as fs from 'node:fs';
 import * as os from 'node:os';
 import * as path from 'node:path';
-import { scanFile, scanFiles, scannerAvailable } from '../../../src/files/scan.js';
+import { Readable } from 'node:stream';
+import { CLAMSCAN_MAX_BYTES, scanFile, scanFiles, scanStream, scannerAvailable } from '../../../src/files/scan.js';
 import { Tools } from '../../../src/files/setup.js';
 import { fakeClamavDeb, fakeUvTarGz, serve, sha256 } from './fake-artifacts.js';
 
@@ -34,6 +35,40 @@ describe('scanFile', () => {
     expect(inf).toMatchObject({ verdict: 'infected', signature: 'Eicar-Signature' });
     await expect(scanFile(f, { mode: 'required', clamscan: fakeScanner(2, 'ERROR') })).rejects.toThrow(/SCAN_REQUIRED/);
     expect((await scanFile(f, { mode: 'auto', clamscan: fakeScanner(2, 'ERROR') })).verdict).toBe('error');
+  });
+
+  // SE-424 H1: ClamAV no analiza más de 2 GiB − 1 por fichero y responde «OK»; lo que no lee entero no es «limpio».
+  it('SE-424 H1: el tope real es 2 GiB − 1; por encima no se abre el stream ni se da por limpio', async () => {
+    expect(CLAMSCAN_MAX_BYTES).toBe(2 ** 31 - 1);
+    const clam = fakeScanner(0, 'OK');
+    for (const size of [2 ** 31, 3 * 1024 ** 3]) {
+      let opened = false;
+      expect(await scanStream(() => { opened = true; return Readable.from([]); }, size, { mode: 'auto', clamscan: clam }))
+        .toEqual({ verdict: 'error', detail: 'too-large-to-scan' });
+      expect(opened).toBe(false);
+      await expect(scanStream(() => Readable.from([]), size, { mode: 'required', clamscan: clam })).rejects.toThrow(/too-large-to-scan/);
+    }
+  });
+
+  it('SE-424 H1: Heuristics.Limits.Exceeded es «no analizado», nunca «infectado»; se pide con --alert-exceeds-max', async () => {
+    const f = path.join(dir, 'a.bin');
+    fs.writeFileSync(f, 'x');
+    const argsLog = path.join(dir, 'args');
+    const clam = path.join(dir, 'clamscan-heur');
+    fs.writeFileSync(clam, `#!/bin/sh
+echo "$@" > ${argsLog}
+for a; do last="$a"; done
+echo "$last: Heuristics.Limits.Exceeded.MaxScanSize FOUND"
+exit 1
+`, { mode: 0o700 });
+    expect(await scanFile(f, { mode: 'auto', clamscan: clam })).toEqual({ verdict: 'error', detail: 'too-large-to-scan' });
+    expect(fs.readFileSync(argsLog, 'utf-8')).toContain('--alert-exceeds-max=yes');
+    await expect(scanFile(f, { mode: 'required', clamscan: clam })).rejects.toThrow(/too-large-to-scan/);
+    expect(await scanStream(() => Readable.from([Buffer.from('x')]), 1, { mode: 'auto', clamscan: clam })).toEqual({ verdict: 'error', detail: 'too-large-to-scan' });
+    expect(fs.readFileSync(argsLog, 'utf-8')).toContain('--alert-exceeds-max=yes');
+    await expect(scanStream(() => Readable.from([Buffer.from('x')]), 1, { mode: 'required', clamscan: clam })).rejects.toThrow(/too-large-to-scan/);
+    // Una firma real sigue siendo infección.
+    expect(await scanFile(f, { mode: 'auto', clamscan: fakeScanner(1, 'Win.Test.Real FOUND') })).toMatchObject({ verdict: 'infected', signature: 'Win.Test.Real' });
   });
 });
 
