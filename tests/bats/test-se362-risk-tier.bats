@@ -128,3 +128,30 @@ PY
   [ "$status" -eq 0 ]
   [[ "$output" == *'"tier": 1'* ]]
 }
+
+@test "SAM regenerado (.scm generado) no eleva el tier: views/authority.json con código normal → tier 2" {
+  run python3 "$TIER" --diff ".scm/sam.json .scm/views/authority.json .scm/reports/drift.json .scm/registry.json .scm/INDEX.scm .scm/categories/planning.scm scripts/tool.sh" --json
+  [ "$status" -eq 0 ]
+  echo "$output" | python3 -c "
+import sys, json
+d = json.load(sys.stdin)
+assert d['tier'] == 2, f'tier={d[\"tier\"]} {d[\"rationale\"]}'
+"
+}
+
+@test "reject: las declaraciones del SAM (fuentes a mano, autoridad) siguen elevando el tier" {
+  run python3 "$TIER" --diff ".scm/sam-runtime-declarations.json .scm/views/authority.json" --json
+  [ "$status" -eq 0 ]
+  echo "$output" | python3 -c "
+import sys, json
+d = json.load(sys.stdin)
+assert d['tier'] >= 2, f'tier={d[\"tier\"]}'
+assert '.scm/views/authority.json' not in d['rationale'], d['rationale']
+"
+  run python3 "$TIER" --diff ".scm/sam-authority-declarations.json" --json
+  echo "$output" | python3 -c "
+import sys, json
+d = json.load(sys.stdin)
+assert d['tier'] >= 3, f'tier={d[\"tier\"]}'
+"
+}

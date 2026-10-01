@@ -84,3 +84,13 @@ def test_diff_vacio_fail_closed(rt):
     res = rt.classify([])
     assert res["tier"] == 3
     assert res["requires_human"] is True
+
+
+def test_scm_generado_no_eleva(rt):
+    res = rt.classify([".scm/sam.json", ".scm/views/authority.json", "docs/guide.md"])
+    assert res["tier"] <= 2
+    assert ".scm/views/authority.json" not in res["rationale"]
+
+
+def test_scm_declaraciones_siguen_contando(rt):
+    assert rt.classify([".scm/sam-authority-declarations.json"])["tier"] >= 3

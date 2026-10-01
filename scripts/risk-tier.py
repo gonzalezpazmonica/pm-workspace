@@ -31,6 +31,11 @@ TIER_4_PATHS = (
     "infra/", ".github/workflows", "prod.", "terraform", "bicep", "docker-compose",
     "production", "deploy/", "pii",
 )
+# Artefactos regenerados por generate-capability-map.py y sam.py: reflejan cambios ya
+# clasificados en sus fuentes. Las declaraciones del SAM (*-declarations.json, esquema)
+# se editan a mano y siguen clasificándose.
+SCM_GENERATED_FILES = (".scm/sam.json", ".scm/registry.json", ".scm/resources.json", ".scm/index.scm")
+SCM_GENERATED_DIRS = (".scm/views/", ".scm/reports/", ".scm/categories/")
 # Excluir paths que NO elevan (evitar falsos positivos como "docs/")
 LOW_RISK_EXT = (".md", ".txt", ".json", ".yaml", ".yml", ".scm")
 
@@ -47,6 +52,9 @@ def classify(files: list[str]) -> dict:
 
     for f in files:
         fl = f.lower()
+        # SAM/SCM regenerado: no eleva (p. ej. views/authority.json contiene "auth")
+        if fl in SCM_GENERATED_FILES or fl.startswith(SCM_GENERATED_DIRS):
+            continue
         # docs puros → tier 1 (si todos son docs)
         if any(fl.startswith(d.lower()) for d in DOCS_PATHS) and fl.endswith((".md", ".txt")):
             continue
