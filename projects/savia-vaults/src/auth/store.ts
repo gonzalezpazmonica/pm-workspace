@@ -9,6 +9,7 @@ const DAY_MS = 86_400_000;
 const DEFAULT_DAYS = 90;
 const MIGRATED_DAYS = 365;
 const ROLE_LEVEL: Record<UserRole, number> = { reader: 1, writer: 2, admin: 3 };
+const CACHE_MS = 60_000;
 
 function generateToken(): string {
   const random = crypto.randomBytes(32).toString('base64url');
@@ -36,10 +37,17 @@ export function minRole(a: UserRole, b?: UserRole): UserRole {
 
 export interface TokenOptions { name: string; expiresDays?: number; domes?: string[]; maxRole?: UserRole }
 
+const USERNAME_RE = /^[A-Za-z0-9._-]{1,64}$/;
+
 export class UserStore {
   private filePath: string;
   private users: Map<string, User> = new Map();
   private loadedKey = '';
+  /**
+   * SE-423 AC9: tokens ya validados (sha256 del token → credencial), 60 s como mucho. Cada uso
+   * vuelve a comprobar que la credencial siga vigente: revocar o caducar vale al momento.
+   */
+  private validated = new Map<string, { username: string; credentialId: string; until: number }>();
 
   constructor(filePath: string = 'savia-vaults.users.json') {
     this.filePath = filePath;
@@ -58,6 +66,7 @@ export class UserStore {
     const raw = fs.readFileSync(this.filePath, 'utf-8');
     const data = JSON.parse(raw) as { version?: number; users: Record<string, User | UserV1> };
     this.users.clear();
+    this.validated.clear();
     let migrated = false;
     for (const [username, u] of Object.entries(data.users ?? {})) {
       if ('credentials' in u && Array.isArray(u.credentials)) {
@@ -97,6 +106,7 @@ export class UserStore {
     if (this.users.has(username)) {
       throw new Error(`User "${username}" already exists`);
     }
+    this.assertNameFree(username);
     const user: User = {
       subjectId: crypto.randomUUID(),
       type: opts.type ?? 'human',
@@ -107,6 +117,39 @@ export class UserStore {
     };
     this.users.set(username, user);
     return this.createToken(username, { name: 'principal', expiresDays: opts.expiresDays });
+  }
+
+  /** Un nombre anterior de otro usuario no se reutiliza: seguiría apareciendo en listas por documento. */
+  private assertNameFree(username: string, self?: User): void {
+    const owner = [...this.users.values()].find((u) => u !== self && u.formerNames?.includes(username));
+    if (owner) throw new Error(`El nombre "${username}" fue de otro usuario (${owner.username}) y no se reutiliza`);
+  }
+
+  /**
+   * SE-423 AC7: cambia el nombre conservando `subjectId`, credenciales y permisos. El nombre
+   * anterior queda como alias para las listas readers/writers que lo citan por nombre.
+   */
+  renameUser(oldName: string, newName: string): void {
+    const user = this.users.get(oldName);
+    if (!user) throw new Error(`User "${oldName}" not found`);
+    if (!USERNAME_RE.test(newName)) throw new Error('Nombre de usuario: 1 a 64 caracteres [A-Za-z0-9._-]');
+    if (this.users.has(newName)) throw new Error(`User "${newName}" already exists`);
+    this.assertNameFree(newName, user);
+    this.users.delete(oldName);
+    user.formerNames = [...new Set([...(user.formerNames ?? []).filter((n) => n !== newName), oldName])];
+    user.username = newName;
+    this.users.set(newName, user);
+    this.validated.clear();
+  }
+
+  /** SE-423 AC7: `subjectId` de un nombre actual, o el nombre actual de un `subjectId`. */
+  subjectOf(username: string): string | undefined {
+    return this.users.get(username)?.subjectId;
+  }
+
+  nameOf(subjectId: string): string | undefined {
+    for (const u of this.users.values()) if (u.subjectId === subjectId) return u.username;
+    return undefined;
   }
 
   deleteUser(username: string): void {
@@ -159,12 +202,23 @@ export class UserStore {
   /** SE-423: usuario y credencial de un token, si es válido (ni caducado ni revocado). */
   validateCredential(token: string): { user: User; credential: Credential } | null {
     if (!token || !token.startsWith('sv_')) return null;
-    const prefix = token.slice(0, 6);
     const now = Date.now();
+    const key = crypto.createHash('sha256').update(token).digest('hex');
+    const hit = this.validated.get(key);
+    if (hit && hit.until > now) {
+      const user = this.users.get(hit.username);
+      const credential = user && this.activeCredential(hit.username, hit.credentialId);
+      if (user && credential) return { user, credential };
+    }
+    this.validated.delete(key);
+    const prefix = token.slice(0, 6);
     for (const user of this.users.values()) {
       for (const c of user.credentials) {
         if (c.prefix !== prefix || !isActive(c, now)) continue;
-        if (compareSync(token, c.hash)) return { user, credential: c };
+        if (compareSync(token, c.hash)) {
+          this.validated.set(key, { username: user.username, credentialId: c.id, until: Math.min(now + CACHE_MS, Date.parse(c.expiresAt)) });
+          return { user, credential: c };
+        }
       }
     }
     return null;
@@ -237,6 +291,7 @@ export class UserStore {
       createdAt: u.createdAt,
       permissions: { ...u.permissions },
       credentials: this.listTokens(u.username),
+      ...(u.formerNames?.length ? { formerNames: [...u.formerNames] } : {}),
     }));
   }
 }

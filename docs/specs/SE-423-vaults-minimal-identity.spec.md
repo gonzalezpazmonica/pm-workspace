@@ -138,11 +138,15 @@ quedan para specs posteriores, y esta no debe impedirlas.
   `projects/savia-vaults/src/auth/controller.ts`
 - `projects/savia-vaults/src/server/mcp.ts`, `projects/savia-vaults/src/server/a2a.ts`,
   `projects/savia-vaults/src/server/http.ts`, `projects/savia-vaults/src/server/grants.ts`
-- `projects/savia-vaults/src/files/policy.ts`, `projects/savia-vaults/src/cli/main.ts`
+- `projects/savia-vaults/src/files/policy.ts`, `projects/savia-vaults/src/files/service.ts`,
+  `projects/savia-vaults/src/server/tus.ts`, `projects/savia-vaults/src/cli/main.ts`
 - `projects/savia-vaults/tests/unit/auth/*.test.ts`,
   `projects/savia-vaults/tests/integration/auth/*.test.ts`,
-  `projects/savia-vaults/tests/e2e/identity-revocation.test.ts`
-- `projects/savia-vaults/docs/files-http.md`, `projects/savia-vaults/docs/VAULTS-CLI.md`, `projects/savia-vaults/CHANGELOG.md`
+  `projects/savia-vaults/tests/integration/server/a2a-users.test.ts`,
+  `projects/savia-vaults/tests/e2e/mcp-revocation.test.ts`
+- `projects/savia-vaults/docs/files-http.md`, `projects/savia-vaults/docs/VAULTS-CLI.md`,
+  `projects/savia-vaults/docs/USAGE.md`, `projects/savia-vaults/CHANGELOG.md`,
+  `.claude/skills/savia-vaults/SKILL.md`
 
 ## Esfuerzo
 
@@ -193,3 +197,32 @@ Desviaciones:
    `--regenerate` revoca ahora todas las credenciales del usuario y crea una nueva.
 3. **`lastUsedAt` no se registra**: escribir en cada validación cambiaría el fichero en
    cada petición y forzaría recargas en todos los procesos.
+
+### PR 2 — A2A por usuario, transferencias, svt1 y subjectId (2026-10-01)
+
+| AC | Evidencia | Estado |
+|---|---|---|
+| AC1 | MCP (stdio real) y HTTP del PR 1; A2A real: `tests/integration/server/a2a-users.test.ts`, revocar ⇒ 401 en la siguiente petición sin reiniciar | OK en MCP, A2A y HTTP. CLI: no usa tokens (ver desviación 1) |
+| AC2 | `tests/e2e/mcp-revocation.test.ts` con cliente MCP real y la caché ya caliente: `token-revoke` de la propia credencial ⇒ denegado; revocar otra no afecta; `rename` no corta; `user delete` ⇒ denegado | OK |
+| AC3 | `tests/integration/auth/identity-pr2.test.ts`: descarga real de 64 MiB con umbrales reales, revocada antes de leer ⇒ corte con ≤ 16 MiB recibidos (8 MiB hasta la primera comprobación + búferes); `PATCH` ⇒ 401 y solo lo recibido antes; enlace `svt1` de la credencial revocada ⇒ 401, el de otra credencial sigue valiendo. Sin la comprobación, los dos tests de corte fallan (verificado) | OK |
+| AC5 | A2A: sin token ⇒ 401; un lector de A no ve B en `/domes` ni en la búsqueda, y no lee ni escribe en B (403); `/domes` sin rutas; fuera de loopback exige usuarios; `SAVIA_VAULTS_TOKEN` solo en loopback con aviso; sin el fichero de usuarios no pasa a modo público (401) | OK |
+| AC6 | Listas antiguas por nombre se siguen respetando (`identity-pr2.test.ts`) | OK |
+| AC7 | Las listas fijadas por MCP/HTTP se guardan como `sub:<subjectId>` y se muestran por nombre; `user rename` conserva tokens, permisos y acceso por documento; el nombre anterior queda como alias y no se reutiliza | OK (ver desviación 2) |
+| AC9 | Medido en esta máquina (p50, 2 rondas, main frente a la rama, 120 documentos, 1/3 con lista): PDP en frío (bcrypt coste 12, `bcryptjs`) 341–367 ms en ambos; con caché **0,009–0,011 ms** (main: 360–366 ms, bcrypt en cada llamada); `list` 0,82–1,12 ms frente a 0,82–1,17 ms (ruido); `vault_rag` 108,8–110,3 ms frente a 113,4–114,0 ms (−3 %) | OK |
+| AC10 | Suite 759/759, `tsc` y `eslint` limpios; `docs/files-http.md`, `docs/VAULTS-CLI.md`, `docs/USAGE.md` (A2A) y la skill (citaba `user add`/`passwd`, que no existen) | OK |
+
+Desviaciones:
+
+1. **CLI sin tokens**: la CLI opera sobre el fichero de usuarios como dueña de la máquina;
+   no hay vía CLI con token a la que aplicar AC1. Queda fuera, no se simula.
+2. **Receipts sin identidad**: los receipts de SE-418 no registran quién actuó, así que
+   renombrar no los altera. Añadir el `subjectId` al receipt firmado cambiaría su formato y
+   no entra en esta spec.
+3. **Descarga cortada sin 401**: con las cabeceras `200` ya enviadas, el corte es cerrar la
+   conexión (respuesta truncada). El `PATCH` sí responde 401/403.
+4. **Caché de credenciales en el `UserStore`** (60 s, revalidando revocación y caducidad en
+   cada uso), común a MCP, A2A y HTTP, en lugar de un `decide()` nuevo: el
+   `AccessController` existente ya es el punto de decisión de las tres vías.
+5. **Hallazgo**: A2A que arrancaba con usuarios pasaba a modo público si el fichero
+   desaparecía. Corregido como en MCP (SE-424 H3).
+

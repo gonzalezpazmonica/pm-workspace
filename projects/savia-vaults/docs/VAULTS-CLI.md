@@ -108,6 +108,7 @@ savia-vaults user tokens  <username> [--json]                          # no secr
 savia-vaults user token-create <username> --name <name> [--expires <days>] [--domes a,b] [--max-role reader|writer]
 savia-vaults user token-revoke <username> <token-id>                   # only that token
 savia-vaults user token <username> --regenerate                        # revokes all, issues a new one
+savia-vaults user rename  <username> <new-name>   # keeps subjectId, tokens, permissions and document access
 ```
 
 | Role | Permissions |
@@ -120,8 +121,15 @@ savia-vaults user token <username> --regenerate                        # revokes
 - Tokens from the old format (one token per user, no expiry) are migrated on first load:
   they keep working and expire 365 days after the migration; a copy of the old file is kept
   as `savia-vaults.users.json.v1.bak` (`0600`).
-- Revoking or expiring a token takes effect on the next request in MCP and HTTP, without
-  restarting the server.
+- Revoking or expiring a token takes effect on the next request in MCP, A2A and HTTP,
+  without restarting the server. Long HTTP downloads and uploads re-check every 8 MiB or
+  30 s, and upload/download links (`svt1.…`) stop working when the token that issued
+  them is revoked.
+- Per-document `readers`/`writers` lists set through MCP or HTTP are stored by `subjectId`
+  and shown by current name, so `user rename` keeps document access. Older lists that cite
+  a name keep working: the previous name stays as an alias and cannot be reused by
+  another user.
+- The CLI itself does not use tokens: it acts as the machine owner on the users file.
 
 **Examples:**
 ```bash

@@ -30,6 +30,8 @@ export interface FilesHttpOptions {
   behindProxy?: boolean;
   /** Caducidad de las subidas incompletas (def. 24 h). */
   uploadExpiryMs?: number;
+  /** SE-423 AC3: cada cuántos bytes o ms se revalida una transferencia en curso (def. 8 MiB / 30 s). */
+  fence?: { bytes: number; ms: number };
   /** Peticiones por minuto y usuario (def. SAVIA_FILES_HTTP_RATE o 600). */
   ratePerMinute?: number;
 }
@@ -47,6 +49,27 @@ const STATUS: Record<string, number> = {
   SCAN_REQUIRED: 422, UNSUPPORTED: 501, KEY_MISSING: 503, COMMIT_PENDING: 503, IDEMPOTENCY_CONFLICT: 409, CONFLICT: 409,
   CHECKSUM_MISMATCH: 460, EXPIRED: 410, INTEGRITY: 500, UNSAFE_HOME: 500,
 };
+
+const FENCE = { bytes: 8 * 1024 * 1024, ms: 30_000 };
+
+/**
+ * SE-423 AC3: deja pasar los bytes de una transferencia revalidando al usuario cada `bytes` o
+ * `ms`. El trozo que cruza el umbral no sale hasta que la comprobación pasa; si falla, la
+ * transferencia se corta con ese error y no sale ni se escribe nada más.
+ */
+export async function* fenced(source: AsyncIterable<Uint8Array>, check: () => Promise<void>, every: { bytes: number; ms: number }): AsyncGenerator<Uint8Array> {
+  let bytes = 0;
+  let since = Date.now();
+  for await (const chunk of source) {
+    bytes += chunk.byteLength;
+    if (bytes >= every.bytes || Date.now() - since >= every.ms) {
+      await check();
+      bytes = 0;
+      since = Date.now();
+    }
+    yield chunk;
+  }
+}
 
 /** `Content-Disposition` sin inyección: ASCII escapado + filename* (RFC 6266 / 5987). */
 export function contentDisposition(name: string): string {
@@ -127,6 +150,7 @@ export class FilesHttpServer {
       domes: () => this.domes(), env: this.env,
       // SE-423: cada acción revalida la credencial (revocada o caducada ⇒ 401) y su alcance.
       authorize: (dome, action, tool) => this.o.access.authorizeUser({ username, credentialId, dome, action, tool }),
+      subjects: this.o.access.subjects,
     });
   }
 
@@ -137,14 +161,21 @@ export class FilesHttpServer {
   }
 
   /** Usuario de la petición: token personal (bcrypt, con caché corta) o autorización acotada. */
-  private authenticate(req: http.IncomingMessage, url: URL): { username: string; credentialId?: string; grant?: ScopedToken } {
+  /** El fichero de usuarios cambió: se recarga y la caché de tokens deja de valer. */
+  private recheckUsers(): void {
     if (this.o.users.reloadIfChanged()) this.tokenCache.clear();
+  }
+
+  private authenticate(req: http.IncomingMessage, url: URL): { username: string; credentialId?: string; grant?: ScopedToken } {
+    this.recheckUsers();
     const value = this.bearer(req, url);
     if (!value) throw new HttpError(401, 'unauthorized', 'falta Authorization: Bearer <token>');
     if (TokenSigner.looksLike(value)) {
       const grant = this.grants.verify(value);
       if (!this.o.users.getUser(grant.sub)) throw new HttpError(401, 'unauthorized', 'el usuario de la autorización ya no existe');
-      return { username: grant.sub, grant };
+      // SE-423 AC3: la autorización vale lo que la credencial que la emitió.
+      if (grant.cid && !this.o.users.activeCredential(grant.sub, grant.cid)) throw new HttpError(401, 'unauthorized', 'la credencial que emitió esta autorización está revocada o caducada');
+      return { username: grant.sub, ...(grant.cid ? { credentialId: grant.cid } : {}), grant };
     }
     const key = createHash('sha256').update(value).digest('hex');
     const hit = this.tokenCache.get(key);
@@ -204,6 +235,10 @@ export class FilesHttpServer {
         const ctx: TusContext = {
           svc, dome, username: who.username, grant: g, maxBytes: svc.limits.maxBytes, expiresInMs: this.o.uploadExpiryMs,
           base: `/v1/files/${dome}/uploads`,
+          fence: (src) => fenced(src, async () => {
+            this.recheckUsers();
+            if (id) await svc.uploadInfo({ dome, uploadId: id, owner: who.username }); // vuelve a autorizar escritura
+          }, this.o.fence ?? FENCE),
         };
         if (!id && method === 'POST') {
           if (g) {
@@ -274,8 +309,10 @@ export class FilesHttpServer {
     res.setHeader('Content-Disposition', contentDisposition(doc.name));
     res.setHeader('Content-Security-Policy', 'sandbox');
     if (req.method === 'HEAD') { r.stream.destroy(); res.end(); return; }
+    // SE-423 AC3: revocar la credencial, perder el permiso o cambiar la política del documento corta la descarga.
+    const check = async () => { this.recheckUsers(); await svc.get({ dome, id }); };
     try {
-      await pipeline(r.stream, res);
+      await pipeline(fenced(r.stream, check, this.o.fence ?? FENCE), res);
     } catch {
       res.destroy(); // a mitad: el cliente ve una respuesta truncada, nunca un fichero «completo» erróneo
     }

@@ -44,9 +44,11 @@ vaults backup list|restore <id>|schedule "cron"|status
 vaults confidentiality set N1|N2|N3|N4 --dome <nombre>
 vaults confidentiality get|list|audit --dome <nombre>
 
-# Usuarios
-vaults user add <user> --role admin|reader|writer --dome <dome>
-vaults user list|passwd|perm --dome <dome>
+# Usuarios (SE-423: tokens personales sv_… que siempre caducan; revocar vale en la siguiente llamada)
+savia-vaults user create <user> [--expires <días>] [--service]
+savia-vaults user grant <user> <dome> admin|writer|reader
+savia-vaults user token-create <user> --name <n> [--expires <días>] [--domes a,b] [--max-role reader|writer]
+savia-vaults user tokens|token-revoke|rename|delete|list ...
 
 # Salud
 vaults health
@@ -114,7 +116,7 @@ savia-vaults files list|show|text|get|rm|reprocess|gc ... --dome <cúpula>
 ## Anti-patrones
 
 - NO borrar dome sin backup previo
-- NO exponer domes N3-N4 sin token de autenticacion
+- NO exponer domes N3-N4 sin usuarios (A2A y HTTP no arrancan fuera de loopback sin ellos; `SAVIA_VAULTS_TOKEN` está obsoleto)
 - NO federar en bucle (A→B→C→A). Max 1 hop
 - NO modificar `.savia-vault/` a mano. Usa `vaults` CLI.
 - NO indexar `.git` o `node_modules` (el sandbox los excluye)

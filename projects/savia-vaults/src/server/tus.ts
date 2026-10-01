@@ -23,6 +23,8 @@ export interface TusContext {
   base: string;
   /** Justo antes de crear, ya validado todo (consume la autorización acotada de un solo uso). */
   beforeCreate?: () => Promise<void>;
+  /** SE-423 AC3: envuelve el cuerpo de un PATCH para revalidar al usuario mientras llegan bytes. */
+  fence?: (source: AsyncIterable<Uint8Array>) => AsyncIterable<Uint8Array>;
 }
 
 /** `Upload-Metadata`: pares `clave valor-base64` separados por comas. Claves desconocidas se ignoran. */
@@ -151,7 +153,7 @@ export async function tusPatch(req: IncomingMessage, res: ServerResponse, ctx: T
   }
   const offset = intHeader(req.headers['upload-offset'], 'Upload-Offset');
   const checksum = parseChecksum(req.headers['upload-checksum'] as string | undefined);
-  const r = await ctx.svc.appendUpload({ dome: ctx.dome, uploadId, offset, source: req, owner: ctx.username, checksum });
+  const r = await ctx.svc.appendUpload({ dome: ctx.dome, uploadId, offset, source: ctx.fence ? ctx.fence(req) : req, owner: ctx.username, checksum });
   common(res);
   res.setHeader('Upload-Offset', String(r.offset));
   if (!r.complete) {

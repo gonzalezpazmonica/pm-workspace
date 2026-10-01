@@ -5,6 +5,30 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased] — 2026-10-01 · Identidad mínima: A2A por usuario, transferencias y renombrado (SE-423 PR 2)
+
+### Added
+- A2A con usuarios: cada petición lleva un token personal y pasa por el mismo control que
+  MCP y HTTP (permiso por cúpula, alcance del token, revocación en la siguiente petición);
+  `/domes` y `/search` solo muestran lo que el usuario puede leer.
+- Descargas y `PATCH` HTTP en curso se revalidan cada 8 MiB o 30 s y se cortan si el token
+  se revoca, caduca o pierde el permiso.
+- `user rename <usuario> <nombre>`: conserva `subjectId`, tokens, permisos y acceso por
+  documento; el nombre anterior queda como alias y no se reutiliza.
+
+### Changed
+- Las listas `readers`/`writers` fijadas por MCP o HTTP se guardan por `subjectId` y se
+  muestran por nombre; las antiguas por nombre se siguen respetando.
+- Los enlaces de subida y descarga `svt1.…` quedan ligados al token que los emitió.
+- `SAVIA_VAULTS_TOKEN` en A2A queda obsoleto: solo en loopback y con aviso. Fuera de
+  loopback, A2A exige usuarios.
+- La validación de tokens personales usa una caché de 60 s (bcrypt solo en la primera
+  llamada), revalidada contra revocación y caducidad en cada uso.
+
+### Fixed
+- A2A que arrancó con usuarios ya no pasa a modo público si desaparece el fichero de
+  usuarios: responde 401.
+
 ## [Unreleased] — 2026-10-01 · Identidad mínima: credenciales con caducidad (SE-423 PR 1)
 
 ### Added

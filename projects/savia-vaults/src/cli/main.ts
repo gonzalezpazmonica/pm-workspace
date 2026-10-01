@@ -13,7 +13,7 @@ import { QueryEngine } from '../knowledge/query.js';
 import { QualityEngine } from '../knowledge/quality.js';
 import type { VaultConfig } from '../types.js';
 import { DomeRegistry } from '../registry/domes.js';
-import { UserStore, ConfidentialityGuard, AuditLogger, UserQuotaStore } from '../auth/index.js';
+import { UserStore, ConfidentialityGuard, AuditLogger, UserQuotaStore, AccessController } from '../auth/index.js';
 import * as fs from 'node:fs';
 import * as path from 'node:path';
 
@@ -94,7 +94,11 @@ program.command('serve').description('Start MCP, A2A or HTTP (Savia Files) serve
     } else if (opts.transport === 'a2a') {
       // SE-424 H2: CORS solo para orígenes explícitos; sin token, solo loopback.
       const corsOrigins = (process.env.SAVIA_A2A_CORS_ORIGINS ?? '').split(',').map((o) => o.trim()).filter(Boolean);
-      const server = new A2AServer(config, domeReg, { corsOrigins });
+      // SE-423: con registro de cúpulas, A2A autoriza por usuario en cuanto exista el fichero de usuarios.
+      const access = domeReg
+        ? new AccessController(userStore ?? new UserStore('savia-vaults.users.json'), domeReg, new AuditLogger())
+        : undefined;
+      const server = new A2AServer(config, domeReg, { corsOrigins, access });
       try {
         await server.start(parseInt(opts.port ?? '8923', 10), opts.host, authToken || undefined);
       } catch (e) {
@@ -636,6 +640,20 @@ userCmd.command('token-revoke <username> <id>').description('Revoca un token con
       store.revokeToken(username, id);
       store.save();
       console.log(`Token ${id} de ${username} revocado.`);
+    } catch (e) {
+      console.error(`Error: ${e instanceof Error ? e.message : e}`);
+      process.exit(1);
+    }
+  });
+
+userCmd.command('rename <username> <newName>').description('Cambia el nombre conservando identidad, tokens, permisos y acceso por documento (SE-423)')
+  .action((username, newName) => {
+    const store = new UserStore();
+    store.load();
+    try {
+      store.renameUser(username, newName);
+      store.save();
+      console.log(`${username} ahora es ${newName}. Sus tokens siguen valiendo; "${username}" no podrá reutilizarse.`);
     } catch (e) {
       console.error(`Error: ${e instanceof Error ? e.message : e}`);
       process.exit(1);

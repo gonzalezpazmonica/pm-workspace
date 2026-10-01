@@ -74,4 +74,23 @@ describe('SE-424 H3: revocación en caliente en MCP (stdio real)', () => {
     fs.renameSync(usersFile, `${usersFile}.fuera`);
     expect(await call('vault_list', { vault: 'P' })).toMatch(/^DENEGADO/);
   }, 60_000);
+
+  it('SE-423 AC2: token revoke, rename y user delete se aplican en la siguiente llamada (con la caché de 60 s ya caliente)', async () => {
+    expect(await call('vault_list', { vault: 'P' })).toBe('PERMITIDO'); // la credencial queda en caché
+    // Renombrar no cambia la identidad: el mismo token sigue valiendo.
+    edit((s) => s.renameUser('ana', 'ana-maria'));
+    expect(await call('vault_list', { vault: 'P' })).toBe('PERMITIDO');
+    // Otra credencial revocada no afecta; la propia sí, aunque esté en caché.
+    edit((s) => { s.createToken('ana-maria', { name: 'otra', expiresDays: 1 }); });
+    edit((s) => s.revokeToken('ana-maria', s.listTokens('ana-maria').find((c) => c.name === 'otra')!.id));
+    expect(await call('vault_list', { vault: 'P' })).toBe('PERMITIDO');
+    edit((s) => s.revokeToken('ana-maria', s.listTokens('ana-maria').find((c) => c.name === 'principal')!.id));
+    expect(await call('vault_list', { vault: 'P' })).toMatch(/^DENEGADO .*Invalid or expired token/);
+  }, 60_000);
+
+  it('SE-423 AC2: user delete se aplica en la siguiente llamada', async () => {
+    expect(await call('vault_list', { vault: 'P' })).toBe('PERMITIDO');
+    edit((s) => { s.createUser('otro'); s.deleteUser('ana'); });
+    expect(await call('vault_list', { vault: 'P' })).toMatch(/^DENEGADO .*Invalid or expired token/);
+  }, 60_000);
 });

@@ -14,6 +14,8 @@ export interface Authorization {
   /** SE-423: identidad estable y credencial usada (ausentes para el acceso anónimo N1). */
   subjectId?: string;
   credentialId?: string;
+  /** SE-423 AC7: nombres anteriores del Subject (listas por documento con nombres antiguos). */
+  aliases?: string[];
 }
 
 export class AuthError extends Error {
@@ -63,6 +65,26 @@ export class AccessController {
 
   get isActive(): boolean {
     return this.userStore.exists();
+  }
+
+  /** SE-423: recarga el fichero de usuarios si cambió (revocaciones en caliente en todas las vías). */
+  /** SE-423 AC7: nombre ↔ subjectId para las listas por documento (solo con usuarios). */
+  get subjects(): { idOf(n: string): string | undefined; nameOf(id: string): string | undefined } {
+    return {
+      idOf: (n) => (this.isActive ? this.userStore.subjectOf(n) : undefined),
+      nameOf: (id) => (this.isActive ? this.userStore.nameOf(id) : undefined),
+    };
+  }
+
+  reloadUsers(): boolean {
+    return this.userStore.reloadIfChanged();
+  }
+
+  /** SE-423: identidad de un token sin cúpula concreta (listados). Caducado o revocado ⇒ unauthorized. */
+  identify(authToken?: string): { username: string; subjectId: string; credentialId: string } {
+    const found = authToken ? this.userStore.validateCredential(authToken) : null;
+    if (!found) throw new AuthError('unauthorized', 'Invalid or expired token');
+    return { username: found.user.username, subjectId: found.user.subjectId, credentialId: found.credential.id };
   }
 
   async authorize(params: {
@@ -139,7 +161,7 @@ export class AccessController {
   }
 
   private checkUser(
-    user: { username: string; subjectId?: string; permissions: Record<string, { role: UserRole }> },
+    user: { username: string; subjectId?: string; formerNames?: string[]; permissions: Record<string, { role: UserRole }> },
     domeInfo: DomeInfo, params: { dome: string; action: AuthAction; tool?: string }, credential?: Credential,
   ): Authorization {
     let reason: string | undefined;
@@ -190,6 +212,7 @@ export class AccessController {
       username, role: userRole, dome: params.dome,
       ...(user.subjectId ? { subjectId: user.subjectId } : {}),
       ...(credential ? { credentialId: credential.id } : {}),
+      ...(user.formerNames?.length ? { aliases: [...user.formerNames] } : {}),
     };
   }
 

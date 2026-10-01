@@ -44,9 +44,16 @@ savia-vaults serve --transport http --port 8924 --domes savia-vaults.domes.json
 | Token | Qué permite |
 |---|---|
 | Personal `sv_…` | Lo que la persona puede hacer por MCP: permisos de cúpula (lectura/escritura/admin) y por documento (SE-419). Caduca siempre; puede estar limitado a unas cúpulas y a un rol máximo (SE-423, `user token-create`) |
-| Autorización acotada `svt1.…` | **Subida:** una sola subida a una cúpula, con tamaño máximo, 1 h. **Descarga:** un documento, 15 min. Siempre en nombre de su usuario y con sus permisos actuales |
+| Autorización acotada `svt1.…` | **Subida:** una sola subida a una cúpula, con tamaño máximo, 1 h. **Descarga:** un documento, 15 min. Siempre en nombre de su usuario y con sus permisos actuales. Queda ligada a la credencial que la emitió: si esa credencial se revoca o caduca, la autorización da 401 (SE-423) |
 
 La descarga acepta también `?token=` en la URL, para enlaces de navegador.
+
+**Transferencias en curso (SE-423):** una descarga o un `PATCH` largos vuelven a comprobar
+la credencial, los permisos de cúpula y la política del documento cada 8 MiB o cada 30 s.
+Si algo cambió (token revocado o caducado, permiso retirado, documento restringido), la
+transferencia se corta: un `PATCH` responde 401/403 y conserva solo lo recibido antes de
+la comprobación; una descarga ya tiene enviadas las cabeceras `200`, así que se cierra la
+conexión y el cliente ve una respuesta truncada (nunca un fichero «completo» erróneo).
 
 ## Subir (tus)
 
