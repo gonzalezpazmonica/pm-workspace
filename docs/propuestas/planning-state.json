@@ -758,7 +758,7 @@
       "approval": "Operadora 2026-09-30 en chat (AskUserQuestion): arreglos H1, H2, H3 y H4, un PR Draft por arreglo",
       "priority": "P1",
       "title": "SaviaVaults/Files: arreglos de la revisión S02 (escaneo > 2 GiB, guarda A2A, revocación MCP, modelos del lector de PDF)",
-      "note": "H1 #1204, H2 #1205 y H3 #1206 integrados; H4 (modelos del lector de PDF) pendiente. Bloquea la graduación de SE-416",
+      "note": "H1 #1204, H2 #1205, H3 #1206 y H4 #1213 integrados; SE-416 queda desbloqueada para graduación (decisión de la operadora)",
       "evidence": "docs/specs/SE-424-vaults-files-s02-fixes.spec.md",
       "phase": "A"
     }
