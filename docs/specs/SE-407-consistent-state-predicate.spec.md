@@ -78,6 +78,7 @@ convención como fallos. El resultado es una métrica externa, no un gate.
   cuando estén desfasados (`docs/rules/domain/rule-manifest.json`, `.scm/`).
 - S2: `scripts/validate-ci-local.sh`, `tests/test-validate-ci-clean-state.bats`.
 - S3: `CLAUDE.md`, `AGENTS.md`.
+- S4: `scripts/agents-md-generate.sh`, `AGENTS.md`, `docs/evidence/SE-407-S4-audit-harness-20261001.md`.
 
 ## Fuera de alcance
 
@@ -144,3 +145,13 @@ es el catálogo de agentes generado y no cambia.
 AC6 pendiente de medir: `audit-harness.sh` no está en esta máquina; ejecutarlo fijado por
 SHA y sha256 es justo S4. El cambio responde al FAIL concreto registrado en
 `output/research/harness-referencias-20260929.md` (sin descripción en las 10 primeras líneas).
+
+### S4 (2026-10-01)
+
+| AC | Evidencia | Estado |
+|---|---|---|
+| AC6 | `audit-harness.sh` fijado (commit `38ddcd2b…`, sha256 `9c711d8d…`) sobre `main` + este cambio: «answers 'what is this system?'» PASS. El auditor lee `AGENTS.md` antes que `CLAUDE.md`, así que la línea «What this is» va en el generador de `AGENTS.md` (`scripts/agents-md-generate.sh`) | OK |
+| AC7 | `docs/evidence/SE-407-S4-audit-harness-20261001.md`: cada FAIL y grupo de WARN clasificado como hueco real, equivalente Savia o convención de LHE | OK |
+
+Hueco real nuevo, fuera del alcance de SE-407: los lockfiles de npm están ignorados
+(`**/package-lock.json`); decisión de la operadora.
