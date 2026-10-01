@@ -76,7 +76,7 @@ permisos de administrador** y sin que la persona use la consola:
 
 | Componente | Qué hace | Tamaño | Sin él |
 |---|---|---|---|
-| Lector de documentos | Python gestionado + Docling + openpyxl (lock con hashes) | ~1,5 GB (+0,5 GB de modelos en la primera extracción) | PDF, DOCX, PPTX y XLSX quedan `ARCHIVE_ONLY` (`worker-missing`) |
+| Lector de documentos | Python gestionado + Docling + openpyxl (lock con hashes) y los modelos de Docling para PDF (maquetación y tablas) | ~2,2 GB (de ellos ~670 MB de modelos) | PDF, DOCX, PPTX y XLSX quedan `ARCHIVE_ONLY` (`worker-missing`); sin los modelos, los PDF quedan `FAILED` |
 | Antivirus | ClamAV oficial de Cisco Talos, desempaquetado sin instalar, con firmas propias | ~150 MB | Los ficheros no se analizan (`scan: auto`) o se rechazan (`scan: required`) |
 
 ```bash
@@ -86,6 +86,14 @@ savia-vaults files setup --uninstall   # desinstala
 ```
 
 Cómo funciona:
+
+- **Modelos del lector de PDF (SE-424)**: el worker trabaja sin red, así que
+  `files setup` descarga los modelos de Docling (`layout` y `tableformer`, las
+  revisiones que fija la versión de Docling del lock) en `tools/docling-models`,
+  con un manifiesto SHA-256 por fichero. `status` avisa si faltan o se han tocado
+  (tamaño y fecha) y `setup` los vuelve a comprobar por SHA-256 y los repara. Los PDF
+  que quedaron `FAILED` antes se recuperan con `files reprocess <id>`.
+  `SAVIA_FILES_DOCLING_MODELS` apunta a otra carpeta de modelos.
 
 - **Versiones fijadas**: ClamAV 1.5.4, uv 0.12.21 y Python 3.12. URL y SHA-256
   están escritos en el código; si una descarga no coincide, se aborta sin tocar
@@ -659,6 +667,7 @@ savia-vaults rag search "penalización por retraso" --domes proyectos
 |---|---|---|
 | `SAVIA_FILES_HOME` | `~/.savia-vaults/files` | Raíz del almacén (fuera de git) |
 | `SAVIA_FILES_PYTHON` | `~/.savia-vaults/files-venv/bin/python` | Intérprete del worker |
+| `SAVIA_FILES_DOCLING_MODELS` | `~/.savia-vaults/tools/docling-models` (si está completa) | Modelos de Docling del lector de PDF (el worker va sin red) |
 | `SAVIA_FILES_CLAMSCAN` | rutas estándar | Binario de ClamAV |
 | `SAVIA_FILES_MAX_BYTES` | 1 073 741 824 (1 GiB) | Tamaño máximo por fichero (SE-421: como mucho 10 GiB). `files.maxBytes` en la cúpula lo baja para esa cúpula |
 | `SAVIA_FILES_MAX_EXTRACT_BYTES` | 268 435 456 (256 MiB) | Por encima, el fichero se guarda y se descarga pero no se extrae (`ARCHIVE_ONLY`, `too-large-to-extract`) |

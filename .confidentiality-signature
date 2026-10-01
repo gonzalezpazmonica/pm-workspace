@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=4e32fd4a72d52967be03078580d9d4043ce03983f42490166b4fd7db88d1171a
-timestamp=2026-10-01T07:45:22Z
-branch=agent/se407-s3-entry-20261001
-head_commit=e1e6a9e9
-signature=9df82dbe19a11ee64d903b373d54b5a5e6ba0be5d73b475f79cd9e3cda9de82e
+diff_hash=f6ca6d7fa4f4d8b38521ec30483c93efc24f046f111f34589fab24931609c763
+timestamp=2026-10-01T10:55:26Z
+branch=agent/se424-h4-docling-models
+head_commit=bedc662e
+signature=c9b6d675e56350bc5c998ef6a8e655ba13cba310a132e596df04c2c3fe9db993
