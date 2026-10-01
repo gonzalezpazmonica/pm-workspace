@@ -63,3 +63,24 @@ def test_fail_closed_unknown(rt):
 def test_rationale_presente(rt):
     res = rt.classify(["src/x.py"])
     assert "rationale" in res and res["rationale"]
+
+
+def test_codigo_mas_doc_es_tier_2_en_cualquier_orden(rt):
+    # Regresión: all_docs miraba solo el último fichero del bucle (variable `fl` filtrada),
+    # así que un script seguido de un .md salía tier 1.
+    assert rt.classify(["scripts/validate-ci-local.sh", "CLAUDE.md"])["tier"] == 2
+    assert rt.classify(["CLAUDE.md", "scripts/validate-ci-local.sh"])["tier"] == 2
+    assert rt.classify(["src/x.py", "docs/guide.md", "README.md"])["tier"] == 2
+
+
+def test_tier_independiente_del_orden(rt):
+    import itertools
+    files = ["docs/a.md", "scripts/tool.sh", "README.md", "tests/test_x.py"]
+    tiers = {rt.classify(list(p))["tier"] for p in itertools.permutations(files)}
+    assert tiers == {2}
+
+
+def test_diff_vacio_fail_closed(rt):
+    res = rt.classify([])
+    assert res["tier"] == 3
+    assert res["requires_human"] is True
