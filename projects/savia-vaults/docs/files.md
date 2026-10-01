@@ -346,12 +346,17 @@ memoria.
   - en claras el rango no se verifica: `files verify --deep` comprueba el fichero
     entero.
 - **Antivirus:**
-  - se pide a clamscan que lea hasta su máximo (4 000 MB); con sus valores por
-    defecto decía «OK» de lo que no había leído;
-  - un fichero cifrado por encima del tope de extracción se analiza por stdin,
-    descifrado al vuelo, sin copia en claro;
-  - por encima de 4 000 MB no se analiza (`too-large-to-scan`), y `scan: required`
-    lo rechaza.
+  - ClamAV analiza como mucho **2 GiB − 1 por fichero** (SE-424). Por encima, aunque
+    se le pida más, responde «OK» sin haberlo leído. Savia no lo lanza en ese caso:
+    - con `scan: required`, el alta y la creación de una subida tus se rechazan
+      antes de guardar o aceptar bytes (`SCAN_REQUIRED`, `too-large-to-scan`; 422
+      por HTTP);
+    - con `auto`, se guarda con `too-large-to-scan` en `skipped` (no analizado,
+      nunca «limpio»).
+  - Se le pide leer hasta su máximo y avisar si no llega (`--alert-exceeds-max`):
+    `Heuristics.Limits.Exceeded` cuenta como no analizado, nunca como infección.
+  - Un fichero cifrado por encima del tope de extracción se analiza por stdin,
+    descifrado al vuelo, sin copia en claro.
 - **Extracción:** solo hasta `SAVIA_FILES_MAX_EXTRACT_BYTES`.
 - **Memoria medida** (máximo del proceso en `putMany` + descarga completa):
 
@@ -682,7 +687,7 @@ savia-vaults rag search "penalización por retraso" --domes proyectos
 | `INTEGRITY` | El blob no coincide con su SHA-256, la extracción no coincide con su digest, o el manifiesto del documento está corrupto |
 | `POLICY_DENIED` | Confidencialidad superior a la cúpula |
 | `UNSAFE_HOME` | `SAVIA_FILES_HOME` dentro de un repo git |
-| `SCAN_REQUIRED` | `files.scan: required` sin escáner o con el escáner fallando |
+| `SCAN_REQUIRED` | `files.scan: required` sin escáner, con el escáner fallando o con un fichero de más de 2 GiB, que el antivirus no analiza entero |
 | `DISABLED` | La cúpula no tiene `files.enabled` |
 | `UNSUPPORTED` | `files setup` en una plataforma sin instalación automática |
 | `COMMIT_PENDING` | El ledger no pudo confirmar (git falló). La operación sigue pendiente y se completa en el siguiente acceso; reintentar con la misma `idempotencyKey` es seguro |

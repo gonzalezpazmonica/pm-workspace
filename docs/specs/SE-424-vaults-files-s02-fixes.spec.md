@@ -132,6 +132,17 @@ Solo `projects/savia-vaults` (TypeScript/Node y worker Python). Nada del workspa
 
 ## Resultados
 
+### H1 (2026-09-30)
+
+| AC | Evidencia | Estado |
+|---|---|---|
+| AC1 | `scan-limits.test.ts`: con `required`, un alta de 3 GiB da `SCAN_REQUIRED`/`too-large-to-scan` sin abrir el stream ni guardar; tus da 422 al crear (3 GiB) y 201 con 1 KiB; sin antivirus, 422. ClamAV gestionado real con firma `.ndb`: marcador detectado en 1 MiB; stream de 2,1 GiB → `too-large-to-scan` (antes del arreglo, `clean`). `scan.test.ts`: tope 2³¹−1, `Heuristics.Limits.Exceeded` nunca es infección y se pide `--alert-exceeds-max=yes` | OK |
+| AC5 | Suite completa 726/726, `tsc` y `eslint` limpios; `docs/files.md` y `docs/files-http.md` actualizados | OK |
+
+Desviación: con `scan: optional` (en el código, `auto`) no se crea un campo
+`scan.status`; se reutiliza el motivo `too-large-to-scan` en `skipped`, que ya existía
+desde SE-421 y es visible en `show`, `list` y en el MCP.
+
 ### H3 (2026-09-30)
 
 | AC | Evidencia | Estado |
