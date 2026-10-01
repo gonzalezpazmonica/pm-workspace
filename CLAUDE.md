@@ -1,5 +1,9 @@
 # PM-Workspace — OpenCode / Claude Code
 
+**Qué es**: Savia, PM automatizada con IA (sprints, backlog, informes, agentes de código y cúpulas de conocimiento SaviaVaults) sobre Azure DevOps, Jira o Savia Flow; open source.
+**Entrada (clock-in)**: leer `docs/propuestas/session-handoff.md`, `bash scripts/validate-ci-local.sh --quick` y la cola en `bash scripts/roadmap.sh current`.
+**Cierre (clock-out)**: `bash scripts/validate-ci-local.sh --clean-state` y actualizar `docs/propuestas/session-handoff.md`.
+
 > **Lazy context**: 6 @imports criticos se cargan en cada turno (critical-facts, savia, radical-honesty, autonomous-safety, caveman-default, knowledge-discovery-priority).
 > El resto se lee **bajo demanda** desde los paths documentados abajo.
 
