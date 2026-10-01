@@ -142,7 +142,7 @@ quedan para specs posteriores, y esta no debe impedirlas.
 - `projects/savia-vaults/tests/unit/auth/*.test.ts`,
   `projects/savia-vaults/tests/integration/auth/*.test.ts`,
   `projects/savia-vaults/tests/e2e/identity-revocation.test.ts`
-- `projects/savia-vaults/docs/files-http.md`, `projects/savia-vaults/docs/VAULTS-CLI.md`
+- `projects/savia-vaults/docs/files-http.md`, `projects/savia-vaults/docs/VAULTS-CLI.md`, `projects/savia-vaults/CHANGELOG.md`
 
 ## Esfuerzo
 
