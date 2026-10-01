@@ -1,5 +1,7 @@
 ---
-status: PROPOSED
+status: APPROVED
+approved_at: 2026-10-01
+approval: "Operadora 2026-10-01 en chat (AskUserQuestion): 'Aprobar con job CI de vaults' (D1 sí; D2: web y monitor cuando se toquen)"
 priority: P2
 developer_type: agent-single
 created: 2026-10-01
@@ -41,10 +43,10 @@ Instalaciones reproducibles donde importa, sin tocar lo que no lo necesita.
    se omiten sin ellos.
 5. `validate-ci-local.sh`: aviso si `package.json` cambia sin su lock.
 
-## Decisiones abiertas
+## Decisiones (operadora, 2026-10-01)
 
-- **D1**: añadir el job de CI de savia-vaults en esta spec (recomendado) o aparte.
-- **D2**: ampliar a `savia-web` y `savia-monitor` ahora o cuando se toquen.
+- **D1**: sí, el job de CI de savia-vaults entra en esta spec.
+- **D2**: `savia-web` y `savia-monitor`, cuando se toquen (fuera de esta spec).
 
 ## Criterios de aceptación
 
