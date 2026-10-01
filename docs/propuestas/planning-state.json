@@ -819,12 +819,13 @@
     },
     {
       "id": "SE-425",
-      "status": "PROPOSED",
+      "status": "APPROVED",
       "priority": "P2",
       "title": "Lockfiles de npm versionados e instalación reproducible (scripts/, savia-vaults) y CI de savia-vaults",
-      "note": "Hueco real hallado por SE-407 S4; decisiones D1/D2 abiertas",
+      "note": "Hueco real de SE-407 S4. Implementar con hueco WIP (ahora 3/3)",
       "evidence": "docs/specs/SE-425-npm-lockfiles.spec.md",
-      "phase": "A"
+      "phase": "A",
+      "approval": "Operadora 2026-10-01 en chat (AskUserQuestion): 'Aprobar con job CI de vaults' (D1 sí; D2 web/monitor al tocarlos)"
     }
   ],
   "route": {
