@@ -1,11 +1,18 @@
 #!/usr/bin/env bash
 # ── validate-ci-local.sh — Parallel CI validation ────────────────────────
 # Runs checks in parallel for speed (~5x faster on Windows).
-# Usage: bash scripts/validate-ci-local.sh [--quick]
+# Usage: bash scripts/validate-ci-local.sh [--quick] [--clean-state]
 # SE-407 S1: incluye la frescura de los artefactos generados (bloquea); --quick omite solo sam.py check.
+# SE-407 S2: --clean-state añade el estado limpio al cerrar (advisory: solo PASS/WARN).
 set -uo pipefail
 
-QUICK_MODE=false; [ "${1:-}" = "--quick" ] && QUICK_MODE=true
+QUICK_MODE=false; CLEAN_STATE=false
+for arg in "$@"; do
+  case "$arg" in
+    --quick) QUICK_MODE=true ;;
+    --clean-state) CLEAN_STATE=true ;;
+  esac
+done
 TMPDIR_CI=$(mktemp -d 2>/dev/null || echo "/tmp/ci-$$"); mkdir -p "$TMPDIR_CI"
 trap 'rm -rf "$TMPDIR_CI"' EXIT
 
@@ -129,6 +136,12 @@ check_generated_fresh() {
   wait
 }
 
+# ── SE-407 S2: estado limpio al cerrar (advisory) ─────────────────────────
+check_clean_state() {
+  bash "$REPO_ROOT_CI/scripts/clean-state-check.sh" --repo "$REPO_ROOT_CI" 2>&1 \
+    | grep -E '^(PASS|WARN) ' > "$TMPDIR_CI/9b-clean-state"
+}
+
 # ── Run checks in parallel ───────────────────────────────────────────────
 check_branch &
 check_coherence &
@@ -137,6 +150,7 @@ check_frontmatter &
 check_settings_json &
 check_changelog &
 check_generated_fresh &
+$CLEAN_STATE && check_clean_state &
 if ! $QUICK_MODE; then
   check_required_files &
   check_secrets &
