@@ -5,13 +5,13 @@ Fase A · WIP 3/3. Estado y cola canónicos; ADR-002.
 ## Cola de sesiones (orden por gates, sin fechas)
 
 - **S01 · P0 · fase A** — Estado consistente y baseline reproducible
-  Acción: Hecho: SE-407 S1–S4 integrados (#1208–#1210, #1214) e IMPLEMENTED. Siguiente: mantener validate-ci-local como predicado y revisar SE-425 (lockfiles).
+  Acción: Hecho: SE-407 S1–S4 integrados (#1208–#1210, #1214) e IMPLEMENTED. Siguiente: mantener validate-ci-local como predicado; SE-425 (lockfiles) en el WIP.
   Entrada: Disponible dentro del WIP actual; no ampliar superficie.
   Salida: Predicado único reproducible, artefactos frescos, fallos desglosados con RCA y recibo de cierre; ninguna suite fallida ocultada.
   Necesidad: alta; urgencia: alta; valor: alto; desbloqueo: desbloquea todo el cierre; esfuerzo: slice pequeño; baseline variable.
 
 - **S02 · P0 · fase A** — Seguridad, evidencia y cierre de Vaults/Files
-  Acción: Hecho: Files/Vaults base IMPLEMENTED (SE-410–422, SE-412 con AC3 aceptado). SE-424 completa. En curso SE-423 (identidad mínima, WIP).
+  Acción: Hecho: Files/Vaults base IMPLEMENTED (SE-410–422, SE-412 con AC3 aceptado), SE-424 completa y SE-423 IMPLEMENTED (#1216, #1218). En curso SE-425 (lockfiles y CI de savia-vaults, WIP).
   Entrada: Revisión/diseño ahora; ejecutar delta nuevo sólo con aprobación y hueco WIP. Streaming/HTTP (SE-421/422, ya integrados) exige autorización vigente y revocación: revisar en este lote. Pendientes privados de evaluación/operación se consultan sólo en Labs.
   Salida: Matriz entrega vs evidencia vs pendiente; decisión humana de graduación por spec; delta de identidad acotado y revisable, sin activar SSO ni conceder authority de efectos.
   Necesidad: alta; urgencia: alta; valor: alto; desbloqueo: protege contexto y serving; esfuerzo: revisión por lote; delta a estimar tras probe.
@@ -73,6 +73,5 @@ Integrada en main no significa graduada; delivery no sustituye completion y revi
 - SE-403 [APPROVED] Benchmark evidence: trazas, frontera, hash de selección — evidencia: PR #1171 mergeada 2026-09-28 sin review registrada; graduación pendiente de revisión humana (completion.human_review). Spec: docs/specs/SE-403-benchmark-evidence-frontier.spec.md · integrada #1171; revisar evidencia/graduación
 - SE-404 [APPROVED] Proceso proporcional: G13 v2 y una corrección por revisión — evidencia: PR #1170 mergeada 2026-09-28 sin review registrada; graduación pendiente de revisión humana (completion.human_review). Spec: docs/specs/SE-404-proportional-process-gates.spec.md · integrada #1170; revisar evidencia/graduación
 - SE-405 [APPROVED] Observabilidad: coste por subagente, snapshots de config, timeline de memoria — evidencia: PR #1169 mergeada 2026-09-28 sin review registrada; graduación pendiente de revisión humana (completion.human_review). Spec: docs/specs/SE-405-harness-observability-increments.spec.md · integrada #1169; revisar evidencia/graduación
-- SE-423 [IMPLEMENTING] SaviaVaults: identidad mínima (Subject, credenciales con caducidad y PDP común en MCP/A2A/HTTP/CLI) — evidencia: docs/specs/SE-423-vaults-minimal-identity.spec.md
 - SE-424 [APPROVED] SaviaVaults/Files: arreglos de la revisión S02 (escaneo > 2 GiB, guarda A2A, revocación MCP, modelos del lector de PDF) — evidencia: docs/specs/SE-424-vaults-files-s02-fixes.spec.md
-- SE-425 [APPROVED] Lockfiles de npm versionados e instalación reproducible (scripts/, savia-vaults) y CI de savia-vaults — evidencia: docs/specs/SE-425-npm-lockfiles.spec.md
+- SE-425 [IMPLEMENTING] Lockfiles de npm versionados e instalación reproducible (scripts/, savia-vaults) y CI de savia-vaults — evidencia: docs/specs/SE-425-npm-lockfiles.spec.md

@@ -6,6 +6,16 @@
 > Each entry: date, spec ID, status transition, optional rationale.
 > Ref: SE-222 S1 OKF Adoptable Patterns (log.md convention).
 
+## 2026-10-01 SE-425 IMPLEMENTING
+
+Lockfiles y CI de savia-vaults entran en el WIP en el hueco de SE-423, por decisión de la operadora.
+
+## 2026-10-01 SE-423 IMPLEMENTED
+
+Identidad mínima completa: PR 1 #1216 (credenciales con caducidad, migración) y PR 2 #1218 (A2A
+por usuario, cortes de stream, svt1 ligado, listas por subjectId, `user rename`). Desviaciones en
+la spec (CLI sin tokens, receipts sin identidad). Graduada por la operadora; sale del WIP.
+
 ## 2026-10-01 SE-425 APPROVED
 
 Lockfiles de npm versionados (scripts/, savia-vaults), `npm ci` en CI y job de CI para la suite
