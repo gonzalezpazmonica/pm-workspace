@@ -164,3 +164,26 @@ describe('SE-423 identidad mínima (PR 1)', () => {
     });
   });
 });
+
+describe('SE-423 AC9: caché de credenciales validadas', () => {
+  it('la segunda validación del mismo token no repite bcrypt (< 1 ms) y una revocación la invalida al momento', () => {
+    const dir2 = fs.mkdtempSync(path.join(os.tmpdir(), 'savia-identity-cache-'));
+    try {
+      const s = new UserStore(path.join(dir2, 'u.json'));
+      const t = s.createUser('eva');
+      const t0 = performance.now();
+      expect(s.validateCredential(t)).not.toBeNull();
+      const cold = performance.now() - t0;
+      const t1 = performance.now();
+      for (let i = 0; i < 100; i++) s.validateCredential(t);
+      const warm = (performance.now() - t1) / 100;
+      expect(warm).toBeLessThan(1);
+      expect(cold).toBeGreaterThan(warm * 10);
+      s.revokeToken('eva', s.listTokens('eva')[0].id);
+      expect(s.validateCredential(t)).toBeNull();
+      expect(s.validateCredential('sv_' + 'z'.repeat(43))).toBeNull();
+    } finally {
+      fs.rmSync(dir2, { recursive: true, force: true });
+    }
+  });
+});

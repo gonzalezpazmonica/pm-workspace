@@ -12,7 +12,7 @@ import { createHash } from 'node:crypto';
 import { ReceiptSigner, type Receipt, type ReceiptRef } from './receipts.js';
 import { UploadArea, type UploadInfo, type UploadMeta } from './uploads.js';
 import { TokenSigner } from '../server/grants.js';
-import { asPrincipal, assertRead, assertWrite, canCreateAt, canRead, canWrite, validatePolicy, type Principal } from './policy.js';
+import { asPrincipal, assertRead, assertWrite, canCreateAt, canRead, canWrite, validatePolicy, toNames, toSubjects, type Principal, type SubjectResolver } from './policy.js';
 import { sodiumReady } from './crypto.js';
 import { Tools, type Component, type ToolsStatus } from './setup.js';
 import {
@@ -53,6 +53,8 @@ export interface FilesServiceOptions {
    * usuarios), todo permitido.
    */
   authorize?: (dome: string, action: 'read' | 'write', tool: string) => Promise<unknown>;
+  /** SE-423 AC7: con usuarios, las listas readers/writers se guardan por `subjectId`. */
+  subjects?: SubjectResolver;
   /** Se llama tras cada cambio (evento `rag-sync` del outbox, SE-418) para programar el sync de RAG. */
   onChange?: (dome: string) => void;
   /** Fuerza el modo de escaneo (tests); por defecto, `files.scan` de la cúpula o `auto`. */
@@ -519,6 +521,8 @@ export class FilesService {
   }): Promise<{ documentId: string; confidentiality?: string; readers?: string[]; writers?: string[]; policyVersion: number; operationId: string; receipt: Receipt }> {
     const { d, store, principal } = await this.open(input.dome, 'write');
     const patch = validatePolicy({ confidentiality: input.confidentiality, readers: input.readers, writers: input.writers }, d.confidentiality);
+    if (patch.readers !== undefined) patch.readers = toSubjects(patch.readers, this.o.subjects);
+    if (patch.writers !== undefined) patch.writers = toSubjects(patch.writers, this.o.subjects);
     if (input.expectedPolicyVersion !== undefined && (!Number.isSafeInteger(input.expectedPolicyVersion) || input.expectedPolicyVersion < 0)) {
       throw new FilesError('INVALID_INPUT', 'expectedPolicyVersion debe ser un entero ≥ 0');
     }
@@ -527,7 +531,8 @@ export class FilesService {
     });
     const shape = (doc: FileDocument, receipt: Receipt) => ({
       documentId: doc.id, ...(doc.confidentiality ? { confidentiality: doc.confidentiality } : {}),
-      ...(doc.acl?.readers ? { readers: doc.acl.readers } : {}), ...(doc.acl?.writers ? { writers: doc.acl.writers } : {}),
+      ...(doc.acl?.readers ? { readers: toNames(doc.acl.readers, this.o.subjects) } : {}),
+      ...(doc.acl?.writers ? { writers: toNames(doc.acl.writers, this.o.subjects) } : {}),
       policyVersion: doc.policyVersion ?? 0, operationId: receipt.operationId, receipt,
     });
     if (started.replay) {
@@ -652,7 +657,7 @@ export class FilesService {
     const maxBytes = Math.min(input.maxBytes ?? store.limits.maxBytes, store.limits.maxBytes);
     const ttl = 3600_000;
     const token = new TokenSigner(this.keysHome).sign({
-      kind: 'upload', dome: d.name, sub: principal.username, maxBytes,
+      kind: 'upload', dome: d.name, sub: principal.username, ...(principal.credentialId ? { cid: principal.credentialId } : {}), maxBytes,
       ...(input.name ? { name: input.name } : {}), ...(input.tags ? { tags: input.tags } : {}),
       ...(input.confidentiality ? { confidentiality: input.confidentiality } : {}), ...(input.replaces ? { replaces: input.replaces } : {}),
     }, ttl);
@@ -674,7 +679,7 @@ export class FilesService {
     const doc = this.readable(store, d, principal, input.id);
     const rev = store.revision(doc.id, input.revisionId);
     const ttl = 15 * 60_000;
-    const token = new TokenSigner(this.keysHome).sign({ kind: 'download', dome: d.name, sub: principal.username, documentId: doc.id, revisionId: rev.id }, ttl);
+    const token = new TokenSigner(this.keysHome).sign({ kind: 'download', dome: d.name, sub: principal.username, ...(principal.credentialId ? { cid: principal.credentialId } : {}), documentId: doc.id, revisionId: rev.id }, ttl);
     const url = `${this.httpBase()}/v1/files/${encodeURIComponent(d.name)}/documents/${doc.id}/content?revision=${rev.id}&token=${encodeURIComponent(token)}`;
     return { url, expiresAt: new Date(Date.now() + ttl).toISOString(), name: doc.name, size: rev.size };
   }

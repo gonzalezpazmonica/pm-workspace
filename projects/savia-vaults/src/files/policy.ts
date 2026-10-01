@@ -5,7 +5,30 @@
 import { FilesError, type Confidentiality, type DocumentAcl, type FileDocument } from './types.js';
 
 export type Role = 'reader' | 'writer' | 'admin';
-export interface Principal { username: string; role: Role }
+export interface Principal {
+  username: string;
+  role: Role;
+  /** SE-423 AC7: las listas guardan `sub:<subjectId>`; un renombrado no cambia el acceso. */
+  subjectId?: string;
+  credentialId?: string;
+  /** Nombres anteriores: siguen valiendo en listas antiguas que citan por nombre. */
+  aliases?: string[];
+}
+
+/** Resolución nombre ↔ Subject para fijar y mostrar listas (sin usuarios: ausente). */
+export interface SubjectResolver {
+  idOf(username: string): string | undefined;
+  nameOf(subjectId: string): string | undefined;
+}
+
+export const SUBJECT_PREFIX = 'sub:';
+const SUBJECT_RE = /^sub:[0-9a-f-]{36}$/;
+
+/** Entradas de lista que identifican al principal: nombre, alias y `sub:<subjectId>`. */
+function identities(p: Principal): string[] {
+  return [p.username, ...(p.aliases ?? []), ...(p.subjectId ? [SUBJECT_PREFIX + p.subjectId] : [])];
+}
+const listed = (list: string[], p: Principal) => identities(p).some((id) => list.includes(id));
 
 const ROLE_LEVEL: Record<Role, number> = { reader: 1, writer: 2, admin: 3 };
 const READ_MIN: Record<Confidentiality, Role> = { N1: 'reader', N2: 'reader', N3: 'writer', N4: 'admin' };
@@ -23,14 +46,14 @@ export function canRead(p: Principal | undefined, doc: FileDocument, domeLevel: 
   if (!atLeast(p, READ_MIN[levelOf(doc, domeLevel)])) return false;
   const { readers, writers } = doc.acl ?? {};
   if (readers === null || readers === undefined) return true;
-  return readers.includes(p.username) || (writers ?? []).includes(p.username);
+  return listed(readers, p) || listed(writers ?? [], p);
 }
 
 export function canWrite(p: Principal | undefined, doc: FileDocument, domeLevel: string): boolean {
   if (!p || p.role === 'admin') return true;
   if (!atLeast(p, WRITE_MIN[levelOf(doc, domeLevel)])) return false;
   const writers = doc.acl?.writers;
-  return writers === null || writers === undefined || writers.includes(p.username);
+  return writers === null || writers === undefined || listed(writers, p);
 }
 
 /** Crear un documento a un nivel exige poder escribir ese nivel. */
@@ -56,9 +79,23 @@ function list(v: unknown, field: string): string[] | null {
   if (v === null) return null;
   if (!Array.isArray(v) || v.length > MAX_LIST) throw new FilesError('INVALID_INPUT', `${field}: lista de hasta ${MAX_LIST} usuarios, o null para heredar`);
   const names = v.map((x) => (typeof x === 'string' ? x : ''));
-  if (names.some((n) => !USERNAME_RE.test(n))) throw new FilesError('INVALID_INPUT', `${field}: nombres de usuario de 1 a 64 caracteres [A-Za-z0-9._-]`);
+  if (names.some((n) => !USERNAME_RE.test(n) && !SUBJECT_RE.test(n))) throw new FilesError('INVALID_INPUT', `${field}: nombres de usuario de 1 a 64 caracteres [A-Za-z0-9._-]`);
   if (new Set(names).size !== names.length) throw new FilesError('INVALID_INPUT', `${field}: usuarios repetidos`);
   return [...names].sort();
+}
+
+/** Nombres actuales → `sub:<subjectId>`; los desconocidos se guardan tal cual (compatibilidad SE-419). */
+export function toSubjects(list: string[] | null | undefined, r?: SubjectResolver): string[] | null | undefined {
+  if (!list || !r) return list;
+  const out = list.map((n) => (n.startsWith(SUBJECT_PREFIX) ? n : (r.idOf(n) ? SUBJECT_PREFIX + r.idOf(n) : n)));
+  if (new Set(out).size !== out.length) throw new FilesError('INVALID_INPUT', 'la lista nombra dos veces al mismo usuario');
+  return out.sort();
+}
+
+/** `sub:<subjectId>` → nombre actual, para mostrar; un Subject borrado se muestra como está. */
+export function toNames(list: string[] | undefined, r?: SubjectResolver): string[] | undefined {
+  if (!list || !r) return list;
+  return list.map((n) => (n.startsWith(SUBJECT_PREFIX) ? r.nameOf(n.slice(SUBJECT_PREFIX.length)) ?? n : n));
 }
 
 /** Valida y normaliza un cambio de política. Solo devuelve los campos presentes. */
@@ -81,7 +118,12 @@ export function validatePolicy(patch: PolicyPatch, domeLevel: string): { confide
 /** Normaliza el principal que devuelve `authorize` (cualquier otra cosa ⇒ modo local). */
 export function asPrincipal(v: unknown): Principal | undefined {
   if (!v || typeof v !== 'object') return undefined;
-  const { username, role } = v as { username?: unknown; role?: unknown };
+  const { username, role, subjectId, credentialId, aliases } = v as Record<string, unknown>;
   if (typeof username !== 'string' || !(role === 'reader' || role === 'writer' || role === 'admin')) return undefined;
-  return { username, role };
+  return {
+    username, role,
+    ...(typeof subjectId === 'string' ? { subjectId } : {}),
+    ...(typeof credentialId === 'string' ? { credentialId } : {}),
+    ...(Array.isArray(aliases) ? { aliases: aliases.filter((a): a is string => typeof a === 'string') } : {}),
+  };
 }

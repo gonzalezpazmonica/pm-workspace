@@ -67,13 +67,18 @@ Endpoints:
 - `GET /stats` — estadisticas del vault
 - `POST /share` — compartir contenido con otro agente
 
-### Proteccion con token y seguridad (SE-424)
+### Usuarios y seguridad (SE-424, SE-423)
 
-- Sin `SAVIA_VAULTS_TOKEN`, A2A solo escucha en loopback y solo sirve cupulas N1/N2:
-  las N3/N4 no aparecen en `/domes`, busquedas, lecturas ni escrituras.
-- Con `SAVIA_VAULTS_TOKEN`, pide `Authorization: Bearer <token>` en todos los endpoints
-  (comparacion en tiempo constante) y da acceso a todas las cupulas. Es un secreto
-  compartido; los usuarios y permisos por cupula llegan con SE-423.
+- **Con usuarios** (`savia-vaults user create`), cada peticion lleva
+  `Authorization: Bearer <token personal>` y pasa por el mismo control que MCP y HTTP:
+  permiso por cupula, alcance del token y revocacion o caducidad en la siguiente peticion.
+  `/domes` y `/search` solo muestran las cupulas que el usuario puede leer; leer o buscar
+  en otra da 403; `/share` exige escritura. Con varias cupulas, indica `dome`.
+- **Sin usuarios**, A2A solo escucha en loopback y solo sirve cupulas N1/N2: las N3/N4 no
+  aparecen en `/domes`, busquedas, lecturas ni escrituras.
+- Si arranco con usuarios y el fichero desaparece, todo da 401 (no pasa a modo publico).
+- `SAVIA_VAULTS_TOKEN` (secreto compartido, acceso a todo) esta **obsoleto**: se acepta
+  solo en loopback, con aviso, durante una version. Fuera de loopback se ignora.
 - Peticiones de navegador (con cabecera `Origin`): se rechazan (403) salvo los origenes
   de `SAVIA_A2A_CORS_ORIGINS` (lista separada por comas). No hay `CORS *`.
 - `/domes` no devuelve rutas del disco.
@@ -81,10 +86,12 @@ Endpoints:
 ### Exponer en red
 
 ```bash
-SAVIA_VAULTS_TOKEN=... savia-vaults serve --transport a2a --host 0.0.0.0
+savia-vaults user create agente --service
+savia-vaults user grant agente equipo reader
+savia-vaults serve --transport a2a --host 0.0.0.0
 ```
 
-Sin token no arranca fuera de loopback. A2A no tiene TLS propio: el token viaja en
+Sin usuarios no arranca fuera de loopback. A2A no tiene TLS propio: el token viaja en
 claro salvo que un proxy delante termine TLS. Emite warning. Por defecto solo loopback
 (127.0.0.1).
 

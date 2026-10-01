@@ -8,6 +8,7 @@ import { RateLimiter } from './ratelimit.js';
 import { DomeRegistry } from '../registry/domes.js';
 import type { DomeInfo } from '../registry/domes.js';
 import type { VaultConfig } from '../types.js';
+import type { AccessController, AuthAction } from '../auth/controller.js';
 
 /** SE-424 H2: sin token, A2A solo sirve lo que ya es de lectura amplia (N1/N2) y solo en loopback. */
 const LOOPBACK = new Set(['127.0.0.1', '::1', 'localhost']);
@@ -16,6 +17,8 @@ const PUBLIC_LEVELS = new Set(['N1', 'N2']);
 export interface A2AOptions {
   /** Orígenes de navegador permitidos (CORS). Sin ellos, toda petición con `Origin` se rechaza. */
   corsOrigins?: string[];
+  /** SE-423: con fichero de usuarios, cada petición se autoriza como en MCP y HTTP (token personal). */
+  access?: AccessController;
 }
 
 /** Comparación en tiempo constante (sobre SHA-256 para igualar longitudes). */
@@ -35,10 +38,12 @@ export class A2AServer {
   private domeSearches = new Map<string, SearchEngine>();
   private domeStorages = new Map<string, VaultStorage>();
   private corsOrigins: Set<string>;
+  private access?: AccessController;
   private server?: http.Server;
 
   constructor(config: VaultConfig, domeReg?: DomeRegistry, options: A2AOptions = {}) {
     this.corsOrigins = new Set(options.corsOrigins ?? []);
+    this.access = options.access;
     this.config = config;
     this.storage = new VaultStorage(config);
     this.search = new SearchEngine(config);
@@ -158,9 +163,17 @@ export class A2AServer {
   }
 
   async start(port: number, host = '127.0.0.1', authToken?: string): Promise<{ url: string }> {
-    // SE-424 H2: sin token, nada fuera de loopback (A2A no tiene usuarios hasta SE-423).
-    if (!authToken && !LOOPBACK.has(host)) {
-      throw new Error(`A2A fuera de loopback (${host}) exige SAVIA_VAULTS_TOKEN; sin token solo escucha en 127.0.0.1`);
+    // SE-424 H2 + SE-423 D2: fuera de loopback, solo con usuarios (tokens personales). El secreto
+    // compartido SAVIA_VAULTS_TOKEN queda obsoleto: se acepta solo en loopback, con aviso.
+    const loopback = LOOPBACK.has(host);
+    if (!loopback && !this.access?.isActive) {
+      throw new Error(`A2A fuera de loopback (${host}) exige usuarios (savia-vaults user create); SAVIA_VAULTS_TOKEN solo vale en 127.0.0.1`);
+    }
+    const shared = loopback ? authToken : undefined;
+    // Como en MCP (SE-424 H3): si arrancó con usuarios, perder el fichero no lo abre al modo público.
+    const startedWithUsers = !!this.access?.isActive;
+    if (authToken) {
+      console.warn(`AVISO: SAVIA_VAULTS_TOKEN está obsoleto (SE-423)${loopback ? '' : ' y se ignora fuera de loopback'}; usa tokens personales: savia-vaults user create / token-create`);
     }
     const server = http.createServer(async (req, res) => {
       res.setHeader('Content-Type', 'application/json');
@@ -191,20 +204,51 @@ export class A2AServer {
         return;
       }
 
-      if (authToken) {
-        const auth = req.headers.authorization ?? '';
-        if (!auth.startsWith('Bearer ') || !sameToken(auth.slice(7), authToken)) {
+      // Modo de la petición: secreto compartido (solo loopback), usuario (token personal) o público.
+      const bearer = (req.headers.authorization ?? '').startsWith('Bearer ') ? (req.headers.authorization as string).slice(7).trim() : '';
+      if (startedWithUsers) this.access!.reloadUsers();
+      const usersMode = !!this.access?.isActive;
+      if (startedWithUsers && !usersMode) {
+        res.writeHead(401);
+        res.end(JSON.stringify({ error: 'Unauthorized' }));
+        return;
+      }
+      let mode: 'shared' | 'user' | 'public' = 'public';
+      if (shared && bearer && sameToken(bearer, shared)) {
+        mode = 'shared';
+      } else if (usersMode) {
+        try {
+          this.access!.identify(bearer);
+          mode = 'user';
+        } catch {
           res.writeHead(401);
           res.end(JSON.stringify({ error: 'Unauthorized' }));
           return;
         }
+      } else if (shared) {
+        res.writeHead(401);
+        res.end(JSON.stringify({ error: 'Unauthorized' }));
+        return;
       }
-      // Con token, todas las cúpulas; sin token, solo N1/N2 (niveles desconocidos: no).
-      const visible = (dome?: string) => !!authToken || PUBLIC_LEVELS.has(this.levelOf(dome));
-      const hidden = (dome?: string) => {
-        if (visible(dome)) return false;
-        res.writeHead(404);
-        res.end(JSON.stringify({ error: `Not found in dome ${dome || this.config.name}` }));
+      // Sin secreto ni usuarios: solo N1/N2 (niveles desconocidos: no). Con usuarios: AccessController.
+      const allowed = async (dome: string | undefined, action: AuthAction): Promise<boolean> => {
+        if (mode === 'shared') return true;
+        if (mode === 'public') return PUBLIC_LEVELS.has(this.levelOf(dome));
+        if (!dome) return false;
+        try {
+          await this.access!.authorize({ authToken: bearer, dome, action, tool: 'a2a' });
+          return true;
+        } catch { return false; }
+      };
+      const denied = async (dome: string | undefined, action: AuthAction): Promise<boolean> => {
+        if (await allowed(dome, action)) return false;
+        if (mode === 'user') {
+          res.writeHead(dome ? 403 : 400);
+          res.end(JSON.stringify({ error: dome ? `Sin permiso en la cúpula ${dome}` : 'Indica la cúpula (dome)' }));
+        } else {
+          res.writeHead(404);
+          res.end(JSON.stringify({ error: `Not found in dome ${dome || this.config.name}` }));
+        }
         return true;
       };
 
@@ -221,7 +265,9 @@ export class A2AServer {
             domes: this.domeReg ? this.domeReg.listActive().length : 1,
           }));
         } else if (p === '/domes') {
-          const domes = this.listDomes().filter((d) => visible(this.domeReg ? d.name : undefined))
+          const list = this.listDomes();
+          const ok = await Promise.all(list.map((d) => allowed(this.domeReg ? d.name : undefined, 'read')));
+          const domes = list.filter((_, i) => ok[i])
             .map(({ name, description, confidentiality, active }) => ({ name, description, confidentiality, active }));
           res.writeHead(200);
           res.end(JSON.stringify({ domes }));
@@ -229,15 +275,19 @@ export class A2AServer {
           const q = url.searchParams.get('q') || '';
           const max = parseInt(url.searchParams.get('maxResults') || '10', 10);
           const dome = url.searchParams.get('dome') || undefined;
-          if (hidden(dome)) return;
-          const results = this.searchAll({ query: q, maxResults: max }, dome, (d) => visible(d));
+          if (dome && await denied(dome, 'read')) return;
+          if (!dome && !this.domeReg && await denied(undefined, 'read')) return;
+          // Sin cúpula: solo las que esta petición puede leer.
+          const ok = new Set<string>();
+          for (const d of this.domeReg?.listActive() ?? []) if (await allowed(d.name, 'read')) ok.add(d.name);
+          const results = this.searchAll({ query: q, maxResults: max }, dome, (d) => ok.has(d));
           res.writeHead(200);
           res.end(JSON.stringify({ results }));
         } else if (p.startsWith('/context/')) {
           const parts = p.replace('/context/', '').split('/');
           const dome = url.searchParams.get('dome') || undefined;
           const notePath = parts.slice(1).join('/');
-          if (hidden(dome)) return;
+          if (await denied(dome, 'read')) return;
           const note = dome
             ? await this.readDome(dome, notePath)
             : await this.storage.read(notePath);
@@ -245,7 +295,7 @@ export class A2AServer {
           else res.writeHead(200);
           res.end(JSON.stringify(note ?? {}));
         } else if (p === '/stats') {
-          if (hidden()) return;
+          if (await denied(undefined, 'read')) return;
           const stats = await this.storage.stats();
           res.writeHead(200);
           res.end(JSON.stringify(stats));
@@ -255,7 +305,7 @@ export class A2AServer {
           req.on('end', async () => {
             try {
               const { path: notePath, content, dome } = JSON.parse(body);
-              if (hidden(dome || undefined)) return;
+              if (await denied(dome || undefined, 'write')) return;
               const receipt = dome
                 ? await this.writeDome(dome, notePath, content)
                 : await this.storage.write(notePath, content);

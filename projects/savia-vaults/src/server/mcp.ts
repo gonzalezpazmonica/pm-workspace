@@ -93,6 +93,7 @@ export class MCPVaultServer {
         ? this.domeRegistry.listActive().map(d => ({ name: d.name, confidentiality: d.confidentiality, files: d.files }))
         : [],
       authorize: (dome, action, tool) => this.authorize(dome, action, tool),
+      subjects: this.accessController?.subjects,
       onChange: (dome) => this.rag.scheduleSync(dome),
       // SE-417: índice RAG sellado tras cifrar y re-sellado en cada rotación de claves.
       onEncrypted: (dome) => this.rag.sealIndex(dome),

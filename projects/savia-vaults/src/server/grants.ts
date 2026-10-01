@@ -13,6 +13,8 @@ export interface ScopedTokenInput {
   dome: string;
   /** Usuario en cuyo nombre actúa. */
   sub: string;
+  /** SE-423: credencial que la emitió; revocarla (o que caduque) invalida la autorización. */
+  cid?: string;
   maxBytes?: number;
   name?: string;
   tags?: string[];

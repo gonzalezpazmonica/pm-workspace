@@ -34,6 +34,8 @@ export interface User {
   createdAt: string;
   permissions: Record<string, DomePermission>;
   credentials: Credential[];
+  /** SE-423 AC7: nombres anteriores (`user rename`). Siguen valiendo en listas readers/writers y no se reutilizan. */
+  formerNames?: string[];
 }
 
 export interface UsersFile {
