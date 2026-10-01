@@ -493,11 +493,13 @@ backupCmd.command('status').description('Backup system status').action(() => {
 const userCmd = program.command('user').description('Manage users and permissions');
 
 userCmd.command('create <username>').description('Create a new user and generate token')
-  .action((username) => {
+  .option('--expires <days>', 'días de validez del token (SE-423; por defecto 90, máximo SAVIA_VAULTS_PAT_MAX_DAYS)')
+  .option('--service', 'cuenta de servicio (no humana)', false)
+  .action((username, opts) => {
     const store = new UserStore();
     try { store.load(); } catch {}
     try {
-      const token = store.createUser(username);
+      const token = store.createUser(username, { type: opts.service ? 'service' : 'human', expiresDays: opts.expires ? Number(opts.expires) : undefined });
       store.save();
       console.log('═'.repeat(70));
       console.log(`User "${username}" created.`);
@@ -532,19 +534,28 @@ userCmd.command('list').description('List all users')
     store.load();
     const users = store.listUsers();
     if (users.length === 0) { console.log('No users configured.'); return; }
+    const soon = Date.now() + 14 * 86_400_000;
+    const active = (u: (typeof users)[number]) => u.credentials.filter((c) => !c.revokedAt && Date.parse(c.expiresAt) > Date.now());
     if (opts.json) {
-      const safe = users.map(u => ({ username: u.username, createdAt: u.createdAt, domeCount: Object.keys(u.permissions).length }));
+      const safe = users.map(u => ({
+        username: u.username, subjectId: u.subjectId, type: u.type, createdAt: u.createdAt,
+        domeCount: Object.keys(u.permissions).length, credentials: u.credentials,
+      }));
       console.log(JSON.stringify(safe, null, 2));
     } else {
       for (const u of users) {
         const domes = Object.keys(u.permissions).join(', ') || '(none)';
-        console.log(`  ${u.username}  [${Object.keys(u.permissions).length} domes]  ${domes}`);
+        console.log(`  ${u.username}  [${Object.keys(u.permissions).length} domes]  ${domes}  · ${active(u).length} token(s) vigentes`);
+        for (const c of active(u)) {
+          if (Date.parse(c.expiresAt) < soon) console.log(`    AVISO: el token "${c.name}" (${c.id}) caduca el ${c.expiresAt.slice(0, 10)}; crea otro con user token-create`);
+        }
+        if (!active(u).length) console.log('    AVISO: sin tokens vigentes; crea uno con user token-create');
       }
     }
   });
 
 userCmd.command('token <username>').description('Show or regenerate user token')
-  .option('--regenerate', 'Generate new token (invalidates old)')
+  .option('--regenerate', 'Generate new token (revokes all the previous ones)')
   .action((username, opts) => {
     const store = new UserStore();
     store.load();
@@ -556,11 +567,75 @@ userCmd.command('token <username>').description('Show or regenerate user token')
         console.log(`New token for "${username}":`);
         console.log(`Token:  ${token}`);
         console.log('═'.repeat(70));
-        console.log('Old token is now INVALID. Update your MCP client config.');
+        console.log('Previous tokens are now REVOKED. Update your MCP client config.');
       } else {
         console.log(`Use --regenerate to generate a new token for "${username}".`);
         console.log('The current token cannot be displayed (only its hash is stored).');
       }
+    } catch (e) {
+      console.error(`Error: ${e instanceof Error ? e.message : e}`);
+      process.exit(1);
+    }
+  });
+
+// SE-423: varias credenciales por usuario, con caducidad, alcance y revocación individual.
+userCmd.command('tokens <username>').description('Lista los tokens del usuario (sin secretos)')
+  .option('--json', 'salida JSON', false)
+  .action((username, opts) => {
+    const store = new UserStore();
+    store.load();
+    try {
+      const list = store.listTokens(username);
+      if (opts.json) { console.log(JSON.stringify(list, null, 2)); return; }
+      for (const c of list) {
+        const state = c.revokedAt ? 'revocado' : Date.parse(c.expiresAt) <= Date.now() ? 'caducado' : 'vigente';
+        const scope = [c.domes ? `cúpulas ${c.domes.join(',')}` : '', c.maxRole ? `máx. ${c.maxRole}` : ''].filter(Boolean).join(' · ');
+        console.log(`  ${c.id}  ${c.name.padEnd(16)} ${state.padEnd(9)} caduca ${c.expiresAt.slice(0, 10)}${scope ? `  ${scope}` : ''}`);
+      }
+    } catch (e) {
+      console.error(`Error: ${e instanceof Error ? e.message : e}`);
+      process.exit(1);
+    }
+  });
+
+userCmd.command('token-create <username>').description('Crea un token adicional con caducidad y alcance opcional')
+  .requiredOption('--name <name>', 'nombre del token (p. ej. portátil, servidor)')
+  .option('--expires <days>', 'días de validez (por defecto 90)')
+  .option('--domes <list>', 'solo estas cúpulas (a,b)')
+  .option('--max-role <role>', 'rol máximo: reader o writer (nunca amplía el del usuario)')
+  .action((username, opts) => {
+    if (opts.maxRole && !['admin', 'writer', 'reader'].includes(opts.maxRole)) {
+      console.error('--max-role debe ser reader, writer o admin.');
+      process.exit(1);
+    }
+    const store = new UserStore();
+    store.load();
+    try {
+      const token = store.createToken(username, {
+        name: opts.name, expiresDays: opts.expires ? Number(opts.expires) : undefined,
+        domes: opts.domes ? String(opts.domes).split(',').map((d: string) => d.trim()).filter(Boolean) : undefined,
+        maxRole: opts.maxRole,
+      });
+      store.save();
+      console.log('═'.repeat(70));
+      console.log(`Token "${opts.name}" para "${username}":`);
+      console.log(`Token:  ${token}`);
+      console.log('═'.repeat(70));
+      console.log('Guárdalo ahora: no se vuelve a mostrar.');
+    } catch (e) {
+      console.error(`Error: ${e instanceof Error ? e.message : e}`);
+      process.exit(1);
+    }
+  });
+
+userCmd.command('token-revoke <username> <id>').description('Revoca un token concreto (los demás siguen valiendo)')
+  .action((username, id) => {
+    const store = new UserStore();
+    store.load();
+    try {
+      store.revokeToken(username, id);
+      store.save();
+      console.log(`Token ${id} de ${username} revocado.`);
     } catch (e) {
       console.error(`Error: ${e instanceof Error ? e.message : e}`);
       process.exit(1);

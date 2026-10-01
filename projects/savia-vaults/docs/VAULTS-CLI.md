@@ -91,36 +91,44 @@ vaults dome search "microservices" --federated --max 20
 vaults dome sync my-docs --source ~/Documents/project-docs
 ```
 
-### vaults user — Manage vault users and permissions
+### savia-vaults user — Users, permissions and tokens
+
+Users live in `savia-vaults.users.json` (written atomically with mode `0600`). Each user
+has a stable `subjectId` and one or more personal tokens (`sv_…`) that **always expire**
+(SE-423). A token can be narrowed to some domes and to a maximum role; it never grants
+more than the user has.
 
 ```bash
-vaults user add     <username> [--role admin|reader|writer] [--dome <name>]
-vaults user remove  <username> [--dome <name>]
-vaults user list    [--dome <name>]
-vaults user passwd  <username> [--dome <name>]
-vaults user perm    <username> <permission> <true|false> [--dome <name>]
+savia-vaults user create  <username> [--expires <days>] [--service]   # first token, 90 days by default
+savia-vaults user delete  <username>
+savia-vaults user list    [--json]          # warns about tokens expiring within 14 days
+savia-vaults user grant   <username> <dome> <admin|writer|reader>
+savia-vaults user revoke  <username> <dome>
+savia-vaults user tokens  <username> [--json]                          # no secrets
+savia-vaults user token-create <username> --name <name> [--expires <days>] [--domes a,b] [--max-role reader|writer]
+savia-vaults user token-revoke <username> <token-id>                   # only that token
+savia-vaults user token <username> --regenerate                        # revokes all, issues a new one
 ```
 
 | Role | Permissions |
 |---|---|
-| `admin` | Full access: read, write, delete, federate, backup, manage users |
-| `writer` | Read + write notes, cannot delete dome or manage users |
-| `reader` | Read-only access to notes |
+| `admin` | Full access to the dome, including N4 and user management actions |
+| `writer` | Read + write notes and files |
+| `reader` | Read-only |
 
-| Permission | Description |
-|---|---|
-| `read` | Read notes |
-| `write` | Create/update notes |
-| `delete` | Delete notes |
-| `federate` | Manage federated domes |
-| `backup` | Create/restore backups |
-| `admin` | Manage users and dome configuration |
+- Maximum token lifetime: `SAVIA_VAULTS_PAT_MAX_DAYS` (default 365).
+- Tokens from the old format (one token per user, no expiry) are migrated on first load:
+  they keep working and expire 365 days after the migration; a copy of the old file is kept
+  as `savia-vaults.users.json.v1.bak` (`0600`).
+- Revoking or expiring a token takes effect on the next request in MCP and HTTP, without
+  restarting the server.
 
 **Examples:**
 ```bash
-vaults user add alice --role admin --dome team-docs
-vaults user perm bob write true --dome team-docs
-vaults user passwd alice --dome team-docs
+savia-vaults user create alice
+savia-vaults user grant alice team-docs writer
+savia-vaults user token-create alice --name laptop --expires 30 --domes team-docs --max-role reader
+savia-vaults user tokens alice
 ```
 
 ### vaults backup — Create, restore, and schedule backups
@@ -236,6 +244,7 @@ Shorthand for `vaults dome stats`.
 |---|---|---|
 | `SAVIA_VAULT_ROOT` | `~/.savia/vaults` | Root directory for all domes |
 | `EDITOR` | `vi` | Editor for `vaults config edit` |
+| `SAVIA_VAULTS_PAT_MAX_DAYS` | `365` | Maximum lifetime of a personal token (SE-423) |
 
 ## Exit Codes
 

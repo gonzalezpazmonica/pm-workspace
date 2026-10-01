@@ -74,7 +74,7 @@ export class FilesHttpServer {
   private readonly env: NodeJS.ProcessEnv;
   private readonly limiter: RateLimiter;
   private readonly grants: TokenSigner;
-  private readonly tokenCache = new Map<string, { username: string; until: number }>();
+  private readonly tokenCache = new Map<string, { username: string; credentialId: string; until: number }>();
 
   constructor(private readonly o: FilesHttpOptions) {
     this.env = o.env ?? process.env;
@@ -122,10 +122,11 @@ export class FilesHttpServer {
   }
 
   /** Servicio con la identidad de la petición: cada acción se autoriza como ese usuario (y SE-419). */
-  private service(username: string): FilesService {
+  private service(username: string, credentialId?: string): FilesService {
     return new FilesService({
       domes: () => this.domes(), env: this.env,
-      authorize: (dome, action, tool) => this.o.access.authorizeUser({ username, dome, action, tool }),
+      // SE-423: cada acción revalida la credencial (revocada o caducada ⇒ 401) y su alcance.
+      authorize: (dome, action, tool) => this.o.access.authorizeUser({ username, credentialId, dome, action, tool }),
     });
   }
 
@@ -136,7 +137,7 @@ export class FilesHttpServer {
   }
 
   /** Usuario de la petición: token personal (bcrypt, con caché corta) o autorización acotada. */
-  private authenticate(req: http.IncomingMessage, url: URL): { username: string; grant?: ScopedToken } {
+  private authenticate(req: http.IncomingMessage, url: URL): { username: string; credentialId?: string; grant?: ScopedToken } {
     if (this.o.users.reloadIfChanged()) this.tokenCache.clear();
     const value = this.bearer(req, url);
     if (!value) throw new HttpError(401, 'unauthorized', 'falta Authorization: Bearer <token>');
@@ -147,11 +148,15 @@ export class FilesHttpServer {
     }
     const key = createHash('sha256').update(value).digest('hex');
     const hit = this.tokenCache.get(key);
-    if (hit && hit.until > Date.now() && this.o.users.getUser(hit.username)) return { username: hit.username };
-    const user = this.o.users.validateToken(value);
-    if (!user) throw new HttpError(401, 'unauthorized', 'token no válido');
-    this.tokenCache.set(key, { username: user.username, until: Date.now() + TOKEN_CACHE_MS });
-    return { username: user.username };
+    if (hit && hit.until > Date.now() && this.o.users.activeCredential(hit.username, hit.credentialId)) {
+      return { username: hit.username, credentialId: hit.credentialId };
+    }
+    const found = this.o.users.validateCredential(value);
+    if (!found) throw new HttpError(401, 'unauthorized', 'token no válido o caducado');
+    // La caché nunca dura más que la credencial.
+    const until = Math.min(Date.now() + TOKEN_CACHE_MS, Date.parse(found.credential.expiresAt));
+    this.tokenCache.set(key, { username: found.user.username, credentialId: found.credential.id, until });
+    return { username: found.user.username, credentialId: found.credential.id };
   }
 
   private json(res: http.ServerResponse, status: number, body: unknown): void {
@@ -190,7 +195,7 @@ export class FilesHttpServer {
       }
       const who = this.authenticate(req, url);
       if (!this.limiter.allow(who.username)) throw new HttpError(429, 'LIMIT', 'demasiadas peticiones; espera un momento');
-      const svc = this.service(who.username);
+      const svc = this.service(who.username, who.credentialId);
       const g = who.grant;
       if (g && g.dome !== dome) throw new HttpError(403, 'forbidden', 'la autorización es de otra cúpula');
       if (kind === 'uploads') {

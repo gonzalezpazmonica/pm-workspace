@@ -43,7 +43,7 @@ savia-vaults serve --transport http --port 8924 --domes savia-vaults.domes.json
 
 | Token | Qué permite |
 |---|---|
-| Personal `sv_…` | Lo que la persona puede hacer por MCP: permisos de cúpula (lectura/escritura/admin) y por documento (SE-419) |
+| Personal `sv_…` | Lo que la persona puede hacer por MCP: permisos de cúpula (lectura/escritura/admin) y por documento (SE-419). Caduca siempre; puede estar limitado a unas cúpulas y a un rol máximo (SE-423, `user token-create`) |
 | Autorización acotada `svt1.…` | **Subida:** una sola subida a una cúpula, con tamaño máximo, 1 h. **Descarga:** un documento, 15 min. Siempre en nombre de su usuario y con sus permisos actuales |
 
 La descarga acepta también `?token=` en la URL, para enlaces de navegador.
