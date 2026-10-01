@@ -3,6 +3,51 @@
 
 SCRIPT="scripts/roadmap.sh"
 
+set_session_plan() {
+  set_route 3 A
+  jq '.route.session_plan = [{"id":"S01","phase":"A","priority":"P0","initiatives":["SE-375"],
+    "title":"review existing delivery","action":"verify receipts","prerequisites":"human review pending",
+    "done":"acceptance evidence","necessity":"high","urgency":"high","value":"high",
+    "dependency_value":"unblocks boundary","effort":"small"}]' \
+    "$FIXTURE/docs/propuestas/planning-state.json" > "$FIXTURE/state.tmp"
+  mv "$FIXTURE/state.tmp" "$FIXTURE/docs/propuestas/planning-state.json"
+}
+
+@test "current renders session gates from the canonical plan" {
+  set_session_plan
+  run env REPO_ROOT="$FIXTURE" bash "$SCRIPT" current
+  [ "$status" -eq 0 ]
+  [[ "$output" == *"S01 · P0 · fase A"* ]]
+  [[ "$output" == *"Entrada: human review pending"* ]]
+  [[ "$output" == *"Salida: acceptance evidence"* ]]
+}
+
+@test "validate rejects a session referencing an unknown initiative" {
+  set_session_plan
+  jq '.route.session_plan[0].initiatives=["SE-999"]' "$FIXTURE/docs/propuestas/planning-state.json" > "$FIXTURE/state.tmp"
+  mv "$FIXTURE/state.tmp" "$FIXTURE/docs/propuestas/planning-state.json"
+  run env REPO_ROOT="$FIXTURE" bash "$SCRIPT" validate
+  [ "$status" -ne 0 ]
+  [[ "$output" == *"cola de sesiones inválida"* ]]
+}
+
+@test "validate accepts a well formed session plan without graduating an initiative" {
+  set_session_plan
+  run env REPO_ROOT="$FIXTURE" bash "$SCRIPT" validate
+  [ "$status" -eq 0 ]
+  [[ "$output" == *"PASS: planning state consistente"* ]]
+}
+
+@test "next identifies merged delivery as review work while keeping APPROVED" {
+  set_session_plan
+  jq '.initiatives[0].delivery={"merge_pr":42}' "$FIXTURE/docs/propuestas/planning-state.json" > "$FIXTURE/state.tmp"
+  mv "$FIXTURE/state.tmp" "$FIXTURE/docs/propuestas/planning-state.json"
+  run env REPO_ROOT="$FIXTURE" bash "$SCRIPT" next
+  [ "$status" -eq 0 ]
+  [[ "$output" == *"SE-375 [APPROVED]"*"integrada; revisar evidencia/graduación"* ]]
+  [[ "$output" != *"SE-375 [IMPLEMENTED]"* ]]
+}
+
 setup() {
   cd "$BATS_TEST_DIRNAME/.."
   FIXTURE="$BATS_TEST_TMPDIR/repo"
@@ -251,4 +296,61 @@ set_route() { # <wip> <phase-of-SE-375>
   [ "$status" -eq 0 ]
   [[ "$output" != *"constante entera"* && "$output" != *"invalid arithmetic"* ]]
   [[ "$output" == *"PASS: planning state consistente"* ]]
+}
+
+set_plan_filter() {
+  jq "$1" "$FIXTURE/docs/propuestas/planning-state.json" > "$FIXTURE/state.tmp"
+  mv "$FIXTURE/state.tmp" "$FIXTURE/docs/propuestas/planning-state.json"
+}
+
+@test "edge: validate rejects an empty session plan" {
+  set_session_plan
+  set_plan_filter '.route.session_plan = []'
+  run env REPO_ROOT="$FIXTURE" bash "$SCRIPT" validate
+  [ "$status" -ne 0 ]
+  [[ "$output" == *"cola de sesiones inválida"* ]]
+}
+
+@test "edge: render_sessions omits the queue when the plan has zero sessions" {
+  set_session_plan
+  set_plan_filter '.route.session_plan = []'
+  run env REPO_ROOT="$FIXTURE" bash "$SCRIPT" current
+  [ "$status" -eq 0 ]
+  [[ "$output" != *"Cola de sesiones"* ]]
+  [[ "$output" == *"Iniciativas aprobadas o en curso"* ]]
+}
+
+@test "edge: validate rejects duplicate session IDs at the boundary of two entries" {
+  set_session_plan
+  set_plan_filter '.route.session_plan += [.route.session_plan[0]]'
+  run env REPO_ROOT="$FIXTURE" bash "$SCRIPT" validate
+  [ "$status" -ne 0 ]
+  [[ "$output" == *"cola de sesiones inválida"* ]]
+}
+
+@test "edge: validate rejects an empty criterion string and a null priority" {
+  set_session_plan
+  set_plan_filter '.route.session_plan[0].effort = ""'
+  run env REPO_ROOT="$FIXTURE" bash "$SCRIPT" validate
+  [ "$status" -ne 0 ]
+  set_plan_filter '.route.session_plan[0].effort = "small" | .route.session_plan[0].priority = null'
+  run env REPO_ROOT="$FIXTURE" bash "$SCRIPT" validate
+  [ "$status" -ne 0 ]
+  [[ "$output" == *"cola de sesiones inválida"* ]]
+}
+
+@test "edge: planning_pr_merged finds a merge at the tip of a large history under pipefail" {
+  # Regresión S02 (2026-09-30): grep -q cortaba la tubería y git log moría por SIGPIPE (141).
+  local parent tree i
+  tree=$(git -C "$FIXTURE" rev-parse 'HEAD^{tree}')
+  parent=$(git -C "$FIXTURE" rev-parse HEAD)
+  for i in $(seq 1 250); do
+    parent=$(git -C "$FIXTURE" commit-tree "$tree" -p "$parent" -m "chore: relleno $i con texto largo para llenar la tubería de git log")
+  done
+  parent=$(git -C "$FIXTURE" commit-tree "$tree" -p "$parent" -m 'feat: graduada (#1188)')
+  git -C "$FIXTURE" update-ref refs/remotes/origin/main "$parent"
+  run bash -c 'set -uo pipefail; . scripts/lib/planning-completion.sh; for n in 1 2 3 4 5; do planning_pr_merged "$1" origin/main 1188 || exit 1; done' _ "$FIXTURE"
+  [ "$status" -eq 0 ]
+  run bash -c 'set -uo pipefail; . scripts/lib/planning-completion.sh; planning_pr_merged "$1" origin/main 9999' _ "$FIXTURE"
+  [ "$status" -eq 1 ]
 }

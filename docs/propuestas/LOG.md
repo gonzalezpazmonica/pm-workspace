@@ -6,6 +6,63 @@
 > Each entry: date, spec ID, status transition, optional rationale.
 > Ref: SE-222 S1 OKF Adoptable Patterns (log.md convention).
 
+## 2026-09-30 SE-424 APPROVED
+
+Arreglos de la revisión S02: escaneo que no cubre > 2 GiB falla cerrado (H1), guarda de A2A
+(H2), revocación en caliente en MCP (H3) y modelos del lector de PDF en files setup (H4).
+Aprobados por la operadora, un PR Draft por arreglo. Bloquea graduar SE-416, SE-421 y SE-422.
+
+## 2026-09-30 SE-423 APPROVED
+
+Identidad mínima de SaviaVaults: Subject, credenciales con caducidad y revocación individual,
+PDP común en MCP/A2A/HTTP/CLI y corte de streams. Aprobada por la operadora: tokens migrados
+caducan a los 365 días; SAVIA_VAULTS_TOKEN obsoleto con aviso una versión.
+
+## 2026-09-30 SE-420 IMPLEMENTED
+
+Graduada tras la revisión S02 (docs/evidence/S02-vaults-files-review-20260930.md) por decisión de la operadora («9 limpias ahora»).
+PR #1200; suite 721/721 sobre c9b42de5.
+
+## 2026-09-30 SE-419 IMPLEMENTED
+
+Graduada tras la revisión S02 (docs/evidence/S02-vaults-files-review-20260930.md) por decisión de la operadora («9 limpias ahora»).
+PR #1199; suite 721/721 sobre c9b42de5.
+
+## 2026-09-30 SE-418 IMPLEMENTED
+
+Graduada tras la revisión S02 (docs/evidence/S02-vaults-files-review-20260930.md) por decisión de la operadora («9 limpias ahora»).
+PR #1198; suite 721/721 sobre c9b42de5.
+
+## 2026-09-30 SE-417 IMPLEMENTED
+
+Graduada tras la revisión S02 (docs/evidence/S02-vaults-files-review-20260930.md) por decisión de la operadora («9 limpias ahora»).
+PR #1197; suite 721/721 sobre c9b42de5.
+
+## 2026-09-30 SE-415 IMPLEMENTED
+
+Graduada tras la revisión S02 (docs/evidence/S02-vaults-files-review-20260930.md) por decisión de la operadora («9 limpias ahora»).
+PR #1195; suite 721/721 sobre c9b42de5.
+
+## 2026-09-30 SE-414 IMPLEMENTED
+
+Graduada tras la revisión S02 (docs/evidence/S02-vaults-files-review-20260930.md) por decisión de la operadora («9 limpias ahora»).
+PR #1194; suite 721/721 sobre c9b42de5. AC9 parcial declarado.
+
+## 2026-09-30 SE-413 IMPLEMENTED
+
+Graduada tras la revisión S02 (docs/evidence/S02-vaults-files-review-20260930.md) por decisión de la operadora («9 limpias ahora»).
+PR #1193; suite 721/721 sobre c9b42de5.
+
+## 2026-09-30 SE-411 IMPLEMENTED
+
+Graduada tras la revisión S02 (docs/evidence/S02-vaults-files-review-20260930.md) por decisión de la operadora («9 limpias ahora»).
+PR #1190; suite 721/721 sobre c9b42de5.
+
+## 2026-09-30 SE-410 IMPLEMENTED
+
+Graduada tras la revisión S02 (docs/evidence/S02-vaults-files-review-20260930.md) por decisión de la operadora («9 limpias ahora»).
+PR #1188; suite 721/721 sobre c9b42de5.
+
 ## 2026-09-30 SE-422 APPROVED
 
 Savia Files: API HTTP (serve --transport http) con subida reanudable tus 1.0 propia,
@@ -23,6 +80,19 @@ la API HTTP con tus 1.0 es SE-422. Aprobadas ambas por la operadora, PR por spec
 SaviaVaults: una nota con confidentiality mayor que su cúpula deja de servirse por
 MCP y A2A (antes solo RAG la omitía), y vault_write la rechaza. Aprobada por la operadora:
 oculta para todos, admin incluido, como hace RAG.
+
+## 2026-09-30 ROADMAP REPRIORITIZED
+
+Recopilación y orden de próximas sesiones solicitados por la operadora. Se
+conservan ADR-002, fases A–F y WIP SE-407/376/396 (3 + 1 Labs). Cola canónica
+S01–S09 en `planning-state.json → route.session_plan`: estado consistente,
+seguridad y revisión de entregas, deuda certificada, graduación operacional,
+frontera TEE/AEK, conformidad, kernel mínimo, adopción y pilotos.
+Necesidad/urgencia/valor/desbloqueos/esfuerzo son cualitativos; sin ROI inventado.
+Integraciones SE-402–405 y SE-410–419 verificadas en main se registran como
+`delivery`, sin inventar `completion` ni transiciones a IMPLEMENTED. H04 ya
+implementado en #1183, sin ejecución real. Los pendientes privados de Labs
+permanecen en la cúpula. Inventario: `docs/roadmap-inventory-20260930.md`.
 
 ## 2026-09-30 SE-419 APPROVED
 

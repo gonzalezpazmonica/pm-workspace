@@ -23,6 +23,11 @@ jobs:
       - name: Checkout
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
 
+      # SE-396/SE-378: roadmap validate comprueba que el PR de cada IMPLEMENTED está en los
+      # últimos 200 commits de origin/main; el checkout superficial no trae esa referencia.
+      - name: Fetch main history for planning validation
+        run: git fetch --no-tags --depth=300 origin +refs/heads/main:refs/remotes/origin/main
+
       - name: Verify dependencies
         run: |
           command -v jq

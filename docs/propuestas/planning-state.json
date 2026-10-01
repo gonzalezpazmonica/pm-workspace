@@ -21,7 +21,10 @@
       "status": "IMPLEMENTING",
       "evidence": "2026-09-27: el 133→48 de #1097 era inflado (121 tests de presencia en #1097 y 5 en #1100, score 23; 130 skills marcadas stable sin evidencia). Criterio endurecido: Calibrated exige test certificado >=80. Deuda real 128/137 (incluye 3 skills GRC de #1142); vuelta a wave 0 (baseline 133). Objetivo final 0 o excepciones aprobadas pendiente.",
       "title": "Quality Debt Burn-down",
-      "phase": "A"
+      "phase": "A",
+      "session_order": 2,
+      "priority": "P0",
+      "note": "2026-09-30: baseline de deuda 128/137 corresponde al 27/09; remedir antes de la siguiente wave. #1173 corrige reconocimiento de pruebas certificadas y #1180 entrega agent-messaging con pruebas certificadas. El ratchet y el cierre humano de waves se conservan."
     },
     {
       "id": "SE-377",
@@ -200,9 +203,10 @@
       "approval": "Operadora 2026-09-09: aprobación global de trabajo pendiente",
       "priority": "P0",
       "title": "Harness operational integrity & verifiable substitution",
-      "evidence": "PRs #1112/#1113/#1122/#1129/#1130/#1131/#1132/#1133/#1135 mergeadas. H02/H10/A01b/A01c: autoridad previa al executor, composición aislada y sustitución operacional Codex/OpenCode. Auditoría AC local: docs/evidence/SE-396-closure-review-20260924.md; 127 tests dual-cli, 18 de planificación y gate canónico previo 6/6. Doctor nativo permanece DEGRADED_SAFE; recibo A01c requiere revisión de procedencia.",
-      "note": "Paquete de revisión preparado 2026-09-24. H04 requiere canaries reales y H09 validación humana de evidencia operacional; falta baseline global verde. El merge no autogradúa.",
-      "phase": "B"
+      "evidence": "PRs #1112/#1113/#1122/#1129/#1130/#1131/#1132/#1133/#1135 mergeadas. H02/H10/A01b/A01c: autoridad previa al executor, composición aislada y sustitución operacional Codex/OpenCode. Auditoría AC local: docs/evidence/SE-396-closure-review-20260924.md; 127 tests dual-cli, 18 de planificación y gate canónico previo 6/6. Doctor nativo permanece DEGRADED_SAFE; recibo A01c requiere revisión de procedencia. Actualización 2026-09-30: #1183 integrado (5b03a196), canaries de sesión y validación de recibo implementados, sin ejecución real. Informe delta: docs/evidence/SE-396-closure-review-20260928.md.",
+      "note": "H04 requiere primera ejecución real expresamente autorizada y receipt; H09 cotejo humano de A01c con captura externa. Revalidar baseline global: traspaso 29/09 declara 0 fallos de código y 1 de entorno, pero conserva handback con 7 tests rojos. No graduar con ese resumen; registrar completion sólo tras evidencia AC y revisión humana.",
+      "phase": "B",
+      "session_order": 3
     },
     {
       "id": "SE-397",
@@ -261,7 +265,12 @@
       "priority": "P1",
       "title": "Attributed Edit Ledger",
       "evidence": "PR #1168 mergeada 2026-09-28 sin review registrada; graduación pendiente de revisión humana (completion.human_review). Spec: docs/specs/SE-402-attributed-edit-ledger.spec.md",
-      "phase": "A"
+      "phase": "A",
+      "delivery": {
+        "merge_pr": 1168,
+        "main_commit": "598a0117",
+        "verified_on": "2026-09-30"
+      }
     },
     {
       "id": "SE-403",
@@ -270,7 +279,12 @@
       "priority": "P2",
       "title": "Benchmark evidence: trazas, frontera, hash de selección",
       "evidence": "PR #1171 mergeada 2026-09-28 sin review registrada; graduación pendiente de revisión humana (completion.human_review). Spec: docs/specs/SE-403-benchmark-evidence-frontier.spec.md",
-      "phase": "C"
+      "phase": "C",
+      "delivery": {
+        "merge_pr": 1171,
+        "main_commit": "6d6252b5",
+        "verified_on": "2026-09-30"
+      }
     },
     {
       "id": "SE-404",
@@ -279,7 +293,12 @@
       "priority": "P1",
       "title": "Proceso proporcional: G13 v2 y una corrección por revisión",
       "evidence": "PR #1170 mergeada 2026-09-28 sin review registrada; graduación pendiente de revisión humana (completion.human_review). Spec: docs/specs/SE-404-proportional-process-gates.spec.md",
-      "phase": "B"
+      "phase": "B",
+      "delivery": {
+        "merge_pr": 1170,
+        "main_commit": "504e9d38",
+        "verified_on": "2026-09-30"
+      }
     },
     {
       "id": "SE-405",
@@ -288,14 +307,19 @@
       "priority": "P2",
       "title": "Observabilidad: coste por subagente, snapshots de config, timeline de memoria",
       "evidence": "PR #1169 mergeada 2026-09-28 sin review registrada; graduación pendiente de revisión humana (completion.human_review). Spec: docs/specs/SE-405-harness-observability-increments.spec.md",
-      "phase": "A"
+      "phase": "A",
+      "delivery": {
+        "merge_pr": 1169,
+        "main_commit": "36652663",
+        "verified_on": "2026-09-30"
+      }
     },
     {
       "id": "SE-406",
       "status": "PROPOSED",
-      "priority": "P1",
+      "priority": "P3",
       "title": "Savia Relay: canal activo con la operadora por WhatsApp",
-      "note": "Propuesta para revisión; decisiones D1-D8 abiertas",
+      "note": "Propuesta de canal en fase B, después del núcleo y sus contratos; decisiones D1-D8 abiertas. Sin implementación ni mensajes reales hasta aprobación específica. No desplaza SE-401/L31.",
       "evidence": "docs/specs/SE-406-whatsapp-operator-channel.spec.md",
       "phase": "B"
     },
@@ -306,7 +330,9 @@
       "priority": "P0",
       "title": "Predicado único de estado consistente y cierre de sesión limpio",
       "evidence": "docs/specs/SE-407-consistent-state-predicate.spec.md",
-      "phase": "A"
+      "phase": "A",
+      "session_order": 1,
+      "note": "Intercambio de WIP ya registrado en #1187; siguiente entrega S1-S3 del predicado consistente. S4 es sonda report-only de fase C."
     },
     {
       "id": "SE-408",
@@ -328,23 +354,67 @@
     },
     {
       "id": "SE-410",
-      "status": "APPROVED",
+      "status": "IMPLEMENTED",
       "approval": "Operadora 2026-09-29 en chat (AskUserQuestion): Aprobada, implementa",
       "priority": "P1",
       "title": "Savia RAG: recuperación híbrida paralela en SaviaVaults + política dinámica de embeddings",
       "note": "Implementada en una PR sin ocupar WIP (límite 3 lleno); graduación pendiente de revisión humana",
       "evidence": "docs/specs/SE-410-savia-rag.spec.md",
-      "phase": "A"
+      "phase": "A",
+      "delivery": {
+        "merge_pr": 1188,
+        "main_commit": "6b8dd8d1",
+        "verified_on": "2026-09-30"
+      },
+      "completion": {
+        "merge_pr": 1188,
+        "acceptance_evidence": [
+          {
+            "criterion": "AC1-AC10: sección Resultados de la spec",
+            "file": "docs/specs/SE-410-savia-rag.spec.md"
+          },
+          {
+            "criterion": "Revisión S02: suite 721/721 y pruebas reales",
+            "file": "docs/evidence/S02-vaults-files-review-20260930.md"
+          }
+        ],
+        "human_review": {
+          "status": "APPROVED",
+          "evidence": "Operadora 2026-09-30 en chat (AskUserQuestion): '9 limpias ahora' sobre docs/evidence/S02-vaults-files-review-20260930.md"
+        }
+      }
     },
     {
       "id": "SE-411",
-      "status": "APPROVED",
+      "status": "IMPLEMENTED",
       "priority": "P1",
       "title": "Eficiencia de Savia RAG: fusión invariante al orden, caché dimensionada, keep_alive, respuesta compacta y CLI en frío",
       "note": "Implementada en una PR sin ocupar WIP; AC1-AC6 medidos (ver spec §Resultados); graduación pendiente de revisión humana",
       "evidence": "docs/specs/SE-411-rag-efficiency.spec.md",
       "phase": "A",
-      "approval": "Operadora 2026-09-29 en chat (AskUserQuestion): Aprobar e implementar"
+      "approval": "Operadora 2026-09-29 en chat (AskUserQuestion): Aprobar e implementar",
+      "delivery": {
+        "merge_pr": 1190,
+        "main_commit": "84634208",
+        "verified_on": "2026-09-30"
+      },
+      "completion": {
+        "merge_pr": 1190,
+        "acceptance_evidence": [
+          {
+            "criterion": "AC1-AC6: sección Resultados de la spec",
+            "file": "docs/specs/SE-411-rag-efficiency.spec.md"
+          },
+          {
+            "criterion": "Revisión S02: suite 721/721 y pruebas reales",
+            "file": "docs/evidence/S02-vaults-files-review-20260930.md"
+          }
+        ],
+        "human_review": {
+          "status": "APPROVED",
+          "evidence": "Operadora 2026-09-30 en chat (AskUserQuestion): '9 limpias ahora' sobre docs/evidence/S02-vaults-files-review-20260930.md"
+        }
+      }
     },
     {
       "id": "SE-412",
@@ -354,37 +424,108 @@
       "title": "Higiene y arranque en frío de vault_search + fallo intermitente del fan-out",
       "note": "Implementada en una PR sin ocupar WIP; AC3 no cumplido (0,5 s vs 0,4 s, límite del motor); graduación pendiente de revisión humana",
       "evidence": "docs/specs/SE-412-vault-search-hygiene.spec.md",
-      "phase": "A"
+      "phase": "A",
+      "delivery": {
+        "merge_pr": 1191,
+        "main_commit": "a99f9d4a",
+        "verified_on": "2026-09-30"
+      }
     },
     {
       "id": "SE-413",
-      "status": "APPROVED",
+      "status": "IMPLEMENTED",
       "approval": "Operadora 2026-09-30 en chat (AskUserQuestion): 'MVP recortado'; después 'MVP y luego delta por slice' y decisiones D01-D10 de la investigación aprobadas salvo D08",
       "priority": "P1",
       "title": "Savia Files (MVP): ficheros originales en las cúpulas con extracción por localizador y RAG con cita",
       "note": "Implementada en una PR sin ocupar WIP; AC8 verificado con escáner simulado (ClamAV no instalado en la máquina); graduación pendiente de revisión humana",
       "evidence": "docs/specs/SE-413-savia-files-mvp.spec.md",
-      "phase": "A"
+      "phase": "A",
+      "delivery": {
+        "merge_pr": 1193,
+        "main_commit": "f39466af",
+        "verified_on": "2026-09-30"
+      },
+      "completion": {
+        "merge_pr": 1193,
+        "acceptance_evidence": [
+          {
+            "criterion": "AC1-AC9: sección Resultados de la spec",
+            "file": "docs/specs/SE-413-savia-files-mvp.spec.md"
+          },
+          {
+            "criterion": "Revisión S02: suite 721/721 y pruebas reales",
+            "file": "docs/evidence/S02-vaults-files-review-20260930.md"
+          }
+        ],
+        "human_review": {
+          "status": "APPROVED",
+          "evidence": "Operadora 2026-09-30 en chat (AskUserQuestion): '9 limpias ahora' sobre docs/evidence/S02-vaults-files-review-20260930.md"
+        }
+      }
     },
     {
       "id": "SE-414",
-      "status": "APPROVED",
+      "status": "IMPLEMENTED",
       "approval": "Operadora 2026-09-30 en chat (AskUserQuestion): 'Aprobar ambas, PR por spec'",
       "priority": "P1",
       "title": "Savia Files: robustez y seguridad del MVP (bomba zip, límite de workers, nombres, home real, extracción ligada, lock con espera, manifiesto por documento)",
       "note": "Estabilización del MVP antes de crecer; AC9 cumple el tope, la ingesta continua sigue creciendo (+124 %) sin causa medida",
       "evidence": "docs/specs/SE-414-savia-files-hardening.spec.md",
-      "phase": "A"
+      "phase": "A",
+      "delivery": {
+        "merge_pr": 1194,
+        "main_commit": "435ae958",
+        "verified_on": "2026-09-30"
+      },
+      "completion": {
+        "merge_pr": 1194,
+        "acceptance_evidence": [
+          {
+            "criterion": "AC1-AC10 (AC9 parcial declarado): sección Resultados de la spec",
+            "file": "docs/specs/SE-414-savia-files-hardening.spec.md"
+          },
+          {
+            "criterion": "Revisión S02: suite 721/721 y pruebas reales",
+            "file": "docs/evidence/S02-vaults-files-review-20260930.md"
+          }
+        ],
+        "human_review": {
+          "status": "APPROVED",
+          "evidence": "Operadora 2026-09-30 en chat (AskUserQuestion): '9 limpias ahora' sobre docs/evidence/S02-vaults-files-review-20260930.md"
+        }
+      }
     },
     {
       "id": "SE-415",
-      "status": "APPROVED",
+      "status": "IMPLEMENTED",
       "approval": "Operadora 2026-09-30 en chat (AskUserQuestion): 'Aprobar ambas, PR por spec'",
       "priority": "P1",
       "title": "Savia Files: fidelidad de extracción y cobertura honesta (escaneados, JSON, notas PPTX, contexto XLSX, Windows-1252, worker por lotes)",
       "note": "Apilada sobre SE-414; AC1-AC7 medidos",
       "evidence": "docs/specs/SE-415-savia-files-extraction-fidelity.spec.md",
-      "phase": "A"
+      "phase": "A",
+      "delivery": {
+        "merge_pr": 1195,
+        "main_commit": "b8ed0f49",
+        "verified_on": "2026-09-30"
+      },
+      "completion": {
+        "merge_pr": 1195,
+        "acceptance_evidence": [
+          {
+            "criterion": "AC1-AC7: sección Resultados de la spec",
+            "file": "docs/specs/SE-415-savia-files-extraction-fidelity.spec.md"
+          },
+          {
+            "criterion": "Revisión S02: suite 721/721 y pruebas reales",
+            "file": "docs/evidence/S02-vaults-files-review-20260930.md"
+          }
+        ],
+        "human_review": {
+          "status": "APPROVED",
+          "evidence": "Operadora 2026-09-30 en chat (AskUserQuestion): '9 limpias ahora' sobre docs/evidence/S02-vaults-files-review-20260930.md"
+        }
+      }
     },
     {
       "id": "SE-416",
@@ -394,47 +535,140 @@
       "title": "Savia Files: instalador de dependencias sin consola ni administrador (lector de documentos y ClamAV)",
       "note": "Linux x86_64 probado de verdad (AC1, AC4); resto de plataformas pendiente de máquina",
       "evidence": "docs/specs/SE-416-savia-files-setup.spec.md",
-      "phase": "A"
+      "phase": "A",
+      "delivery": {
+        "merge_pr": 1196,
+        "main_commit": "7bd06881",
+        "verified_on": "2026-09-30"
+      }
     },
     {
       "id": "SE-417",
-      "status": "APPROVED",
+      "status": "IMPLEMENTED",
       "approval": "Operadora 2026-09-30 en chat (AskUserQuestion): 'Aprobar e implementar'",
       "priority": "P1",
       "title": "Savia Files: cifrado en reposo, borrado criptográfico, rotación, migración y copia de seguridad con claves por otro canal",
       "note": "AC1-AC10 con evidencia; subida de claves configurable (off por defecto)",
       "evidence": "docs/specs/SE-417-savia-files-encryption.spec.md",
-      "phase": "A"
+      "phase": "A",
+      "delivery": {
+        "merge_pr": 1197,
+        "main_commit": "91bc8580",
+        "verified_on": "2026-09-30"
+      },
+      "completion": {
+        "merge_pr": 1197,
+        "acceptance_evidence": [
+          {
+            "criterion": "AC1-AC10: sección Resultados de la spec",
+            "file": "docs/specs/SE-417-savia-files-encryption.spec.md"
+          },
+          {
+            "criterion": "Revisión S02: suite 721/721 y pruebas reales",
+            "file": "docs/evidence/S02-vaults-files-review-20260930.md"
+          }
+        ],
+        "human_review": {
+          "status": "APPROVED",
+          "evidence": "Operadora 2026-09-30 en chat (AskUserQuestion): '9 limpias ahora' sobre docs/evidence/S02-vaults-files-review-20260930.md"
+        }
+      }
     },
     {
       "id": "SE-418",
-      "status": "APPROVED",
+      "status": "IMPLEMENTED",
       "approval": "Operadora 2026-09-30 en chat (AskUserQuestion): 'Aprobar e implementar'",
       "priority": "P1",
       "title": "Savia Files: ledger git privado, journal de operaciones y receipts firmados (D01, D03)",
       "note": "AC1-AC10 con evidencia; D02 (ACL por documento) queda para SE-419",
       "evidence": "docs/specs/SE-418-savia-files-ledger.spec.md",
-      "phase": "A"
+      "phase": "A",
+      "delivery": {
+        "merge_pr": 1198,
+        "main_commit": "641968bc",
+        "verified_on": "2026-09-30"
+      },
+      "completion": {
+        "merge_pr": 1198,
+        "acceptance_evidence": [
+          {
+            "criterion": "AC1-AC10: sección Resultados de la spec",
+            "file": "docs/specs/SE-418-savia-files-ledger.spec.md"
+          },
+          {
+            "criterion": "Revisión S02: suite 721/721 y pruebas reales",
+            "file": "docs/evidence/S02-vaults-files-review-20260930.md"
+          }
+        ],
+        "human_review": {
+          "status": "APPROVED",
+          "evidence": "Operadora 2026-09-30 en chat (AskUserQuestion): '9 limpias ahora' sobre docs/evidence/S02-vaults-files-review-20260930.md"
+        }
+      }
     },
     {
       "id": "SE-419",
-      "status": "APPROVED",
+      "status": "IMPLEMENTED",
       "approval": "Operadora 2026-09-30 en chat (AskUserQuestion): 'Aprobar e implementar'",
       "priority": "P1",
       "title": "Savia Files: permisos por documento (nivel y listas readers/writers) en todas las vistas, vault_rag incluido (D02)",
       "note": "AC1-AC9 con evidencia; premisa del problema corregida en la spec (desviación 1)",
       "evidence": "docs/specs/SE-419-savia-files-document-acl.spec.md",
-      "phase": "A"
+      "phase": "A",
+      "delivery": {
+        "merge_pr": 1199,
+        "main_commit": "88aac851",
+        "verified_on": "2026-09-30"
+      },
+      "completion": {
+        "merge_pr": 1199,
+        "acceptance_evidence": [
+          {
+            "criterion": "AC1-AC9: sección Resultados de la spec",
+            "file": "docs/specs/SE-419-savia-files-document-acl.spec.md"
+          },
+          {
+            "criterion": "Revisión S02: suite 721/721 y pruebas reales",
+            "file": "docs/evidence/S02-vaults-files-review-20260930.md"
+          }
+        ],
+        "human_review": {
+          "status": "APPROVED",
+          "evidence": "Operadora 2026-09-30 en chat (AskUserQuestion): '9 limpias ahora' sobre docs/evidence/S02-vaults-files-review-20260930.md"
+        }
+      }
     },
     {
       "id": "SE-420",
-      "status": "APPROVED",
+      "status": "IMPLEMENTED",
       "approval": "Operadora 2026-09-30 en chat (AskUserQuestion): 'Aprobar e implementar'",
       "priority": "P1",
       "title": "SaviaVaults: una nota con nivel mayor que su cúpula no se sirve por ninguna herramienta (MCP, A2A, RAG)",
       "note": "Hueco detectado en SE-419; AC1-AC7 con evidencia",
       "evidence": "docs/specs/SE-420-vaults-note-level.spec.md",
-      "phase": "A"
+      "phase": "A",
+      "delivery": {
+        "merge_pr": 1200,
+        "main_commit": "bf2614a1",
+        "verified_on": "2026-09-30"
+      },
+      "completion": {
+        "merge_pr": 1200,
+        "acceptance_evidence": [
+          {
+            "criterion": "AC1-AC7: sección Resultados de la spec",
+            "file": "docs/specs/SE-420-vaults-note-level.spec.md"
+          },
+          {
+            "criterion": "Revisión S02: suite 721/721 y pruebas reales",
+            "file": "docs/evidence/S02-vaults-files-review-20260930.md"
+          }
+        ],
+        "human_review": {
+          "status": "APPROVED",
+          "evidence": "Operadora 2026-09-30 en chat (AskUserQuestion): '9 limpias ahora' sobre docs/evidence/S02-vaults-files-review-20260930.md"
+        }
+      }
     },
     {
       "id": "SE-421",
@@ -444,7 +678,12 @@
       "title": "Savia Files: almacén en streaming (hasta 10 GiB, rangos, antivirus por stdin, tope de extracción)",
       "note": "Primera mitad de D09; 2 GiB con ~160 MiB de memoria. SE-422 (API HTTP + tus) va apilada",
       "evidence": "docs/specs/SE-421-savia-files-streaming-store.spec.md",
-      "phase": "A"
+      "phase": "A",
+      "delivery": {
+        "merge_pr": 1201,
+        "main_commit": "43f7f602",
+        "verified_on": "2026-09-30"
+      }
     },
     {
       "id": "SE-422",
@@ -452,8 +691,33 @@
       "approval": "Operadora 2026-09-30 en chat (AskUserQuestion): 'Aprobar ambas, PR por spec' (SE-421 y SE-422)",
       "priority": "P1",
       "title": "Savia Files: API HTTP con subida reanudable (tus 1.0), rangos y autorizaciones acotadas",
-      "note": "Segunda mitad de D09; conformidad con tus-js-client y reanudación tras reinicio; apilada sobre SE-421",
+      "note": "Segunda mitad de D09; conformidad con tus-js-client y reanudación tras reinicio; apilada sobre SE-421. El squash c9b42de5 lleva por error el título feat(se421)",
       "evidence": "docs/specs/SE-422-savia-files-http-api.spec.md",
+      "phase": "A",
+      "delivery": {
+        "merge_pr": 1202,
+        "main_commit": "c9b42de5",
+        "verified_on": "2026-09-30"
+      }
+    },
+    {
+      "id": "SE-423",
+      "status": "APPROVED",
+      "approval": "Operadora 2026-09-30 en chat (AskUserQuestion): 'Aprobar; token A2A obsoleto' con D1 = 365 días",
+      "priority": "P1",
+      "title": "SaviaVaults: identidad mínima (Subject, credenciales con caducidad y PDP común en MCP/A2A/HTTP/CLI)",
+      "note": "Delta de S02 (H2/H3 generalizados); login/MFA/SSO/AEK fuera. Implementar solo con hueco WIP",
+      "evidence": "docs/specs/SE-423-vaults-minimal-identity.spec.md",
+      "phase": "A"
+    },
+    {
+      "id": "SE-424",
+      "status": "APPROVED",
+      "approval": "Operadora 2026-09-30 en chat (AskUserQuestion): arreglos H1, H2, H3 y H4, un PR Draft por arreglo",
+      "priority": "P1",
+      "title": "SaviaVaults/Files: arreglos de la revisión S02 (escaneo > 2 GiB, guarda A2A, revocación MCP, modelos del lector de PDF)",
+      "note": "Bloquea la graduación de SE-416, SE-421 y SE-422",
+      "evidence": "docs/specs/SE-424-vaults-files-s02-fixes.spec.md",
       "phase": "A"
     }
   ],
@@ -472,6 +736,205 @@
       "savia_implementing": 3,
       "labs_active": 1
     },
-    "deadlines": "none"
+    "deadlines": "none",
+    "prioritization": {
+      "updated_on": "2026-09-30",
+      "requested_by": "operadora, recopilación y repriorización de todos los roadmaps",
+      "source_revision": "88aac851ff6692bd0d333d903d93837c923dd968",
+      "inventory": "docs/roadmap-inventory-20260930.md",
+      "method": "Primero autoridad, seguridad, fase y WIP; después necesidad, urgencia, valor, dependencias y esfuerzo. Orden cualitativo; sin ROI ni scores numéricos no medidos.",
+      "confidence": "Alta en commits/estados; limitada en graduación operacional, deuda actual y esfuerzo pendiente.",
+      "delivery_rule": "delivery registra integración en main; no es completion ni autoriza IMPLEMENTED. Integrado se revisa antes de proponer reimplementación.",
+      "exception_rule": "Un riesgo confirmado de exposición o pérdida adelanta su mitigación acotada. Un delta nuevo requiere spec aprobada y hueco WIP; efectos externos conservan autoridad específica."
+    },
+    "session_plan": [
+      {
+        "id": "S01",
+        "phase": "A",
+        "priority": "P0",
+        "initiatives": [
+          "SE-407",
+          "SE-378"
+        ],
+        "title": "Estado consistente y baseline reproducible",
+        "action": "Continuar SE-407 S1-S3; usar lo ya entregado por SE-378; contrastar suites completas y cuarentenas con RCA.",
+        "necessity": "alta",
+        "urgency": "alta",
+        "value": "alto",
+        "dependency_value": "desbloquea todo el cierre",
+        "effort": "slice pequeño; baseline variable",
+        "prerequisites": "Disponible dentro del WIP actual; no ampliar superficie.",
+        "done": "Predicado único reproducible, artefactos frescos, fallos desglosados con RCA y recibo de cierre; ninguna suite fallida ocultada."
+      },
+      {
+        "id": "S02",
+        "phase": "A",
+        "priority": "P0",
+        "initiatives": [
+          "SE-402",
+          "SE-405",
+          "SE-410",
+          "SE-411",
+          "SE-412",
+          "SE-413",
+          "SE-414",
+          "SE-415",
+          "SE-416",
+          "SE-417",
+          "SE-418",
+          "SE-419",
+          "SE-420",
+          "SE-421",
+          "SE-422",
+          "SE-423",
+          "SE-424"
+        ],
+        "title": "Seguridad, evidencia y cierre de Vaults/Files",
+        "action": "Revisión hecha el 2026-09-30 (docs/evidence/S02-vaults-files-review-20260930.md): 9 graduadas; SE-412 abierta (AC3); SE-416/421/422 esperan a SE-424. Siguiente: SE-424 (H1→H4, PR por arreglo) y después SE-423 con hueco WIP.",
+        "necessity": "alta",
+        "urgency": "alta",
+        "value": "alto",
+        "dependency_value": "protege contexto y serving",
+        "effort": "revisión por lote; delta a estimar tras probe",
+        "prerequisites": "Revisión/diseño ahora; ejecutar delta nuevo sólo con aprobación y hueco WIP. Streaming/HTTP (SE-421/422, ya integrados) exige autorización vigente y revocación: revisar en este lote. Pendientes privados de evaluación/operación se consultan sólo en Labs.",
+        "done": "Matriz entrega vs evidencia vs pendiente; decisión humana de graduación por spec; delta de identidad acotado y revisable, sin activar SSO ni conceder authority de efectos."
+      },
+      {
+        "id": "S03",
+        "phase": "A",
+        "priority": "P0",
+        "initiatives": [
+          "SE-376"
+        ],
+        "title": "Deuda de calidad con pruebas de comportamiento",
+        "action": "Remedir deuda certificada y elegir el siguiente grupo por riesgo/uso; conservar umbral >=80 y ratchet; usar #1180 como evidencia de entrega, no como cierre de toda la wave.",
+        "necessity": "alta",
+        "urgency": "alta",
+        "value": "alto",
+        "dependency_value": "hace fiables los gates",
+        "effort": "grupo pequeño; no prometer cierre de 128 skills por sesión",
+        "prerequisites": "WIP actual; inventario actualizado; aprobación de avance de wave cuando corresponda.",
+        "done": "Reducción de deuda demostrada por comportamiento discriminante, baseline publicado y excepciones explícitas; no certificar por presencia de ficheros."
+      },
+      {
+        "id": "S04",
+        "phase": "B",
+        "priority": "P0",
+        "initiatives": [
+          "SE-396"
+        ],
+        "title": "Graduación operacional del harness",
+        "action": "Ejecutar H04 con autorización específica; revisión humana H09 y procedencia A01c; actualizar completion por AC y decidir cierre.",
+        "necessity": "alta",
+        "urgency": "alta",
+        "value": "alto",
+        "dependency_value": "abre frontera TEE/AEK",
+        "effort": "4-8 h de análisis compartido históricamente estimadas; costes de canaries a acordar",
+        "prerequisites": "Baseline A demostrado; H04 real requiere autorización y coste; sin autograduación.",
+        "done": "H04/H09 y regresión operacional documentadas; completion y revisión humana; límites L3/L4 intactos."
+      },
+      {
+        "id": "S05",
+        "phase": "B",
+        "priority": "P1",
+        "initiatives": [
+          "SE-401",
+          "SE-386",
+          "SE-393",
+          "SE-394",
+          "SE-404"
+        ],
+        "title": "TEE v1.1 y frontera AEK en solo lectura",
+        "action": "Reescribir SE-401 a Sufficiency/Commitment/Outcome/Disposition/AuthorityLease; mapear issuer/EEP/evidence con L31 F0 y contrato común de tres frontends. Revisar entregas existentes de contratos/proceso.",
+        "necessity": "alta",
+        "urgency": "media",
+        "value": "alto",
+        "dependency_value": "evita duplicar autoridad",
+        "effort": "F0 L31 8-16 h estimadas; implementación aparte",
+        "prerequisites": "SE-396 graduada; contrato/frontera y spec aprobados; Labs máximo una línea activa.",
+        "done": "Mapa revisado, exclusiones y bypass explícitos, pruebas negativas READ_ONLY, contrato EEP común; namespace AEK- ya decidido."
+      },
+      {
+        "id": "S06",
+        "phase": "C",
+        "priority": "P1",
+        "initiatives": [
+          "SE-377",
+          "SE-381",
+          "SE-383",
+          "SE-384",
+          "SE-387",
+          "SE-403"
+        ],
+        "title": "Un laboratorio de conformidad y benchmark",
+        "action": "Unificar matriz negativa, bypass, caos, receipts y replay; graduar cierres parciales; baseline con trazas/selección fijadas.",
+        "necessity": "alta",
+        "urgency": "media",
+        "value": "alto",
+        "dependency_value": "evidencia para portabilidad y pilotos",
+        "effort": "slices por frontend/invariante",
+        "prerequisites": "Gate B y corpus/contratos pinned; no ejecutar todos los experimentos Labs a la vez.",
+        "done": "Cero violaciones de invariantes bajo fallos en los tres frontends y cuatro niveles de replay; evidencia auditable."
+      },
+      {
+        "id": "S07",
+        "phase": "D",
+        "priority": "P2",
+        "initiatives": [
+          "SE-400",
+          "SE-397",
+          "SE-392",
+          "SE-388",
+          "SE-391",
+          "SE-380",
+          "SE-409"
+        ],
+        "title": "Kernel mínimo y portabilidad",
+        "action": "Ablación acotada F0 revisada; SAM F5/F6; runtime/canaries comunes y coste de complejidad. Curación de skills sólo si demuestra utilidad.",
+        "necessity": "media",
+        "urgency": "media",
+        "value": "alto",
+        "dependency_value": "reduce coste de adopción",
+        "effort": "probes antes de retirar componentes",
+        "prerequisites": "Gate C; revisión F0 antes de F1; ninguna retirada unilateral.",
+        "done": "Reducción sin regresiones ni autoridad ampliada; canaries por frontend/tier y decisión de simplificación."
+      },
+      {
+        "id": "S08",
+        "phase": "E",
+        "priority": "P2",
+        "initiatives": [
+          "SE-395",
+          "SE-398",
+          "SE-399",
+          "SE-390",
+          "SE-408"
+        ],
+        "title": "Adopción y contexto de ficheros completo",
+        "action": "Instalación limpia/doctor; desktop y docs; Vaults adaptativo bajo evaluación. Files: serving/tus autenticado, snapshot/CAS, digest/citas/visor y lifecycle; después formatos remotos/media/email/conectores/Teams según demanda.",
+        "necessity": "media",
+        "urgency": "baja",
+        "value": "alto",
+        "dependency_value": "uso externo verificable",
+        "effort": "un flujo de adopción y un perfil de formato cada vez",
+        "prerequisites": "Gate D y autorización/revocación/scanner/restore de Files verificados. D08 S3 y paquetes Labs propuestos requieren aprobación; SE-289 S4 conforme ADR-002.",
+        "done": "Una persona ajena instala y usa un flujo seguro con citas y doctor verde; ampliar perfiles sólo tras conformance."
+      },
+      {
+        "id": "S09",
+        "phase": "F",
+        "priority": "P3",
+        "initiatives": [],
+        "title": "Piloto acotado y evidencia de valor",
+        "action": "AEK/AEOS en shadow antes de efectos; medir calidad, coste y atención humana; reevaluaciones Labs y prospectiva con decisiones reales.",
+        "necessity": "condicionada",
+        "urgency": "baja",
+        "value": "por demostrar",
+        "dependency_value": "justifica expansión futura",
+        "effort": "presupuesto/corpus por piloto",
+        "prerequisites": "Gates A-E; un piloto y una línea Labs; consentimiento, target/verifier/recovery/stop y autoridad específica.",
+        "done": "Resultado positivo o negativo trazable y decisión de mantener/simplificar; sin claim de ROI con datos sintéticos."
+      }
+    ]
   }
 }
