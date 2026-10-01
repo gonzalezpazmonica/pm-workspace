@@ -13013,6 +13013,27 @@
     {
       "depends_on": [],
       "frontend_support": [
+        "opencode"
+      ],
+      "id": "script:scripts/clean-state-check",
+      "intents": [
+        "advisory",
+        "bloquea",
+        "cerrar",
+        "check",
+        "clean"
+      ],
+      "kind": "script",
+      "owner_domain": "planning",
+      "replaced_by": null,
+      "risk_level": null,
+      "source": "scripts/clean-state-check.sh",
+      "status": "active",
+      "tests": []
+    },
+    {
+      "depends_on": [],
+      "frontend_support": [
         "claude",
         "opencode"
       ],
@@ -29604,7 +29625,7 @@
       "tests": []
     }
   ],
-  "content_hash": "beef74631dfa",
+  "content_hash": "789991833984",
   "deferred_kinds": [
     "rule",
     "hook"

@@ -1,5 +1,5 @@
 # planning — Savia Capability Map (L1)
-> 632 resources
+> 633 resources
 
 - **/decide-architecture** (cmd): Clasifica una tarea como WORKFLOW (deterministica) o AGENT (loop). Bias hacia workflow per Anthropic. Sugiere plantilla inicial. Mide accuracy contra corpus curado de 20 tareas.
 - **_template** (skill): TEMPLATE — copia este directorio para crear una skill nueva. NO se carga en runtime.
@@ -84,6 +84,7 @@
 - **classifier-corpus-run** (script): classifier-corpus-run.sh — SE-314 AC-EV: regresión del corpus de clasificación.
 - **classify-execution-level** (script): classify-execution-level.sh — Classify script by origin into execution tier
 - **claude-md-drift-check** (script): claude-md-drift-check.sh — Valida que los conteos en CLAUDE.md coincidan con
+- **clean-state-check** (script): clean-state-check.sh — SE-407 S2: estado limpio al cerrar la sesión (advisory, nunca bloquea).
 - **client-profile** (cmd): Gestión de perfiles de cliente en SaviaHub
 - **client-profile-manager** (skill): Usar cuando se crean, actualizan o consultan perfiles de cliente en SaviaHub.
 - **cobol-developer** (agent): >
