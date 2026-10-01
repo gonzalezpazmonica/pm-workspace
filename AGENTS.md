@@ -3,6 +3,8 @@ lang: es
 ---
 # AGENTS.md
 
+**What this is:** Savia (pm-workspace), an AI project management system: sprints, backlog, reports, code agents and SaviaVaults knowledge domes. Clock-in: read `docs/propuestas/session-handoff.md`, run `bash scripts/validate-ci-local.sh --quick` and `bash scripts/roadmap.sh current`. Clock-out: `bash scripts/validate-ci-local.sh --clean-state` and update the handoff.
+
 > Auto-generated from `.opencode/agents/*.md`. **Do not edit by hand.**
 > Source of truth: `docs/rules/domain/agents-md-source-of-truth.md` (SE-078).
 
