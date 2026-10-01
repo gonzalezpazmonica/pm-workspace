@@ -31,9 +31,9 @@ savia-vaults serve --transport http --port 8924 --domes savia-vaults.domes.json
   - Fuera de loopback (`127.0.0.1`, `::1`) exige TLS propio o `--behind-proxy`.
 - **Ficheros de claves y usuarios:** usa los mismos que MCP y la CLI
   (`SAVIA_FILES_HOME`, `SAVIA_FILES_KEYS_HOME`, `savia-vaults.users.json`).
-- **Cambios de usuarios en caliente:** se leen sin reiniciar. Borrar un usuario o
-  regenerar su token invalida su acceso y sus autorizaciones acotadas en la
-  siguiente petición.
+- **Cambios de usuarios en caliente:** se leen sin reiniciar, aquí y en el servidor MCP
+  (SE-424). Borrar un usuario, quitarle una cúpula o regenerar su token invalida su
+  acceso y sus autorizaciones acotadas en la siguiente petición.
 - **Para `vault_files upload/link`:** define `SAVIA_FILES_HTTP_URL` con la URL
   pública del servidor en el entorno del MCP.
 
