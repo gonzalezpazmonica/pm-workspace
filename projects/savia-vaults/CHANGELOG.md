@@ -16,6 +16,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - token comparado en tiempo constante; `/domes` sin rutas.
 - `docs/FEDERATION.md` anunciaba `serve --transport a2a --tls`, que no existe: A2A no tiene
   TLS propio (proxy delante). Exigir TLS y usuarios por cúpula queda para SE-423.
+## [Unreleased] — 2026-09-30 · Savia Files: escaneo que no cubre el fichero entero falla cerrado (SE-424 H1)
+
+### Fixed
+- ClamAV analiza como mucho 2 GiB − 1 por fichero y respondía «OK» sin leer el resto:
+  con `scan: required`, un fichero de 2–10 GiB se guardaba como limpio. Ahora:
+  - `CLAMSCAN_MAX_BYTES` = 2 GiB − 1 (antes 4 000 MB);
+  - con `required`, el alta y la creación tus se rechazan antes de aceptar bytes
+    (`SCAN_REQUIRED`, `too-large-to-scan`; 422 por HTTP), también sin antivirus;
+  - `--alert-exceeds-max=yes`, y `Heuristics.Limits.Exceeded` cuenta como no
+    analizado, nunca como infección.
+- Probado con el ClamAV gestionado real y una firma propia: detectada por debajo del
+  tope; un stream de 2,1 GiB ya no sale «limpio».
 
 ## [Unreleased] — 2026-09-30 · Savia Files: API HTTP con tus 1.0 (SE-422)
 
