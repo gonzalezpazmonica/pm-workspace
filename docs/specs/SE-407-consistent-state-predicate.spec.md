@@ -118,3 +118,16 @@ añadió `rag-embedding-policy.md` sin regenerarlo) y ningún gate lo vio. Se re
 Desviación: la spec suponía que un job de CI usa `validate-ci-local.sh`; no es así, solo
 la G10 de `pr-plan`. La CI ya ejecuta `roadmap validate` en «Validate workspace»; añadir
 los otros cuatro a la CI toca `.github/workflows` (tier 4) y queda para revisión humana.
+
+### S2 (2026-10-01)
+
+| AC | Evidencia | Estado |
+|---|---|---|
+| AC4 | `validate-ci-local.sh --clean-state` (y `--clean-state-only [--repo DIR]`) informa en líneas separadas checkout principal, worktrees y traspaso; solo PASS/WARN, salida 0. `tests/test-validate-ci-clean-state.bats` (11) con repos git temporales, incluido un traspaso borrado | OK |
+| AC5 | Worktree `agent/*` sin cambios cuyo contenido ya está en main ⇒ «retirable», también tras squash y cambios posteriores en los mismos ficheros (patch-id). No retirable si tiene trabajo sin integrar o cambios sin commit. En el repo real marca exactamente los worktrees de #1197–#1204 | OK |
+
+Sin script nuevo: la lógica vive en `validate-ci-local.sh` para no subir la entropía
+(SE-380, ratchet 1623); un primer intento con `clean-state-check.sh` aparte la subía a 1624.
+
+Interpretación: «commits en la sesión» se mide como commits en main posteriores a la
+última actualización de `session-handoff.md` (sin estado de sesión que consultar).
