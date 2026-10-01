@@ -61,6 +61,7 @@ Instalaciones reproducibles donde importa, sin tocar lo que no lo necesita.
 
 - `.gitignore`, `scripts/package-lock.json`, `projects/savia-vaults/package-lock.json`
 - `.github/workflows/ci.yml`, `scripts/validate-ci-local.sh`, `tests/test-validate-ci-fresh.bats`
+- `scripts/confidentiality-scan.sh` (excepción del email público del aviso `deprecated` de npm), `.claude/.project-authorizations`
 
 ## Fuera de alcance
 
@@ -80,3 +81,27 @@ Ninguno: configuración de npm y CI.
 ### Portability classification
 
 - [x] **PURE_BASH**
+
+## Resultados (2026-10-01)
+
+| AC | Evidencia | Estado |
+|---|---|---|
+| AC1 | `scripts/package-lock.json` (127 paquetes) y `projects/savia-vaults/package-lock.json` (283) versionados; `npm ci` en copias limpias instala exactamente esos árboles; `npm ci` rechaza un `package.json` desfasado sin red (`tests/test-validate-ci-fresh.bats`) | OK |
+| AC2 | `ci.yml`: `npm ci --prefix scripts` en «Validate» y «BATS»; «Dependency Audit» audita los dos locks versionados (sin `--package-lock-only`) | OK (verificación final en la CI del PR) |
+| AC3 | Job `savia-vaults` (Node 22: `npm ci`, `tsc`, `eslint`, `vitest`). En local, copia limpia con `npm ci` y `HOME` vacío: 748 tests pasan y 11 se omiten (extractor y antivirus ausentes) | OK en local; CI del PR |
+| AC4 | `validate-ci-local.sh` avisa (WARN, no bloquea) si un `package.json` no coincide con su lock; 13/13 BATS; sin scripts nuevos (ratchet de entropía) | OK |
+
+Desviaciones:
+
+1. **Lock de savia-vaults tomado del árbol ya instalado y probado** (`node_modules/.package-lock.json`
+   más la entrada raíz), no resuelto de nuevo: así el lock fija exactamente las versiones con
+   las que pasó la suite. `npm ci` confirma que está sincronizado con `package.json`.
+2. **Lock de `scripts/` generado con npm 10.9.2 (Node 22)**, no con el npm de Node 20 de la CI.
+   Ambos usan `lockfileVersion: 3`; `npm ci` en la CI lo valida.
+3. El aviso de `validate-ci-local.sh` compara las dependencias declaradas (estático, sin red);
+   un lock con el mismo `package.json` pero árbol incoherente lo detecta `npm ci` en la CI.
+4. **G7 y hook de privacidad**: el escáner de confidencialidad bloqueaba `i@izs.me`, el aviso
+   público que el registro de npm pone en versiones antiguas de `glob`. Se permite solo ese
+   email (decisión de la operadora 2026-10-01); los lockfiles se siguen escaneando en busca
+   de credenciales. El hook de privacidad leyó `!projects/savia-vaults/package-lock.json`
+   como proyecto nuevo; la operadora lo autorizó en el chat («Si piblico»).

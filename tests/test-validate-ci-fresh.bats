@@ -79,3 +79,83 @@ fake_table() {
   [[ "$output" == *"desfasado: rule-manifest.json → regenerar: bash scripts/rule-manifest-generate.sh"* ]]
   [[ "$output" == *"OK Generado al día: settings-hooks pin"* ]]
 }
+
+# ── SE-425: lockfiles versionados (scripts/ y projects/savia-vaults/) ─────
+# Directorio npm mínimo: package.json y un lock cuya raíz declara `lockdeps` como dependencias.
+lock_dir() {
+  local d="$TMP/$1" deps="$2" lockdeps="$3"
+  mkdir -p "$d"
+  printf '{"name":"x","version":"1.0.0","dependencies":%s}\n' "$deps" > "$d/package.json"
+  [[ -n "$lockdeps" ]] && printf '{"name":"x","version":"1.0.0","lockfileVersion":3,"packages":{"":{"name":"x","version":"1.0.0","dependencies":%s}}}\n' "$lockdeps" > "$d/package-lock.json"
+  echo "$d"
+}
+
+@test "SE-425 AC1: lock coherente ⇒ al día; desfasado o ausente ⇒ aviso con el comando, sin bloquear" {
+  ok=$(lock_dir ok '{"yargs":"17.7.2"}' '{"yargs":"17.7.2"}')
+  drift=$(lock_dir drift '{"yargs":"17.7.1"}' '{"yargs":"17.7.2"}')
+  none=$(lock_dir none '{"yargs":"17.7.2"}' '')
+  run env SAVIA_FRESH_CHECKS_FOR_TESTS=" " SAVIA_LOCK_DIRS_FOR_TESTS="$ok $drift $none" bash "$REPO_ROOT/$SCRIPT" --quick
+  [[ "$output" == *"OK Lockfile al día: $ok"* ]]
+  [[ "$output" == *"WARN Lockfile desfasado: $drift/package.json cambió sin su lock → npm install --package-lock-only --prefix $drift"* ]]
+  [[ "$output" == *"WARN Lockfile ausente: $none/package-lock.json"* ]]
+  [[ "$output" != *"FAIL Lockfile"* ]]
+}
+
+@test "SE-425 edge: un directorio sin package.json se ignora; lock ilegible ⇒ desfasado, no error del script" {
+  mkdir -p "$TMP/vacio"
+  bad=$(lock_dir bad '{"a":"1.0.0"}' '{"a":"1.0.0"}')
+  printf 'no es json' > "$bad/package-lock.json"
+  run env SAVIA_FRESH_CHECKS_FOR_TESTS=" " SAVIA_LOCK_DIRS_FOR_TESTS="$TMP/vacio $bad" bash "$REPO_ROOT/$SCRIPT" --quick
+  [[ "$output" != *"vacio"* ]]
+  [[ "$output" == *"WARN Lockfile desfasado: $bad/package.json"* ]]
+  [[ "$output" == *"Results:"* ]]
+}
+
+@test "SE-425 AC1: los dos lockfiles versionados están al día y fuera del .gitignore" {
+  run bash "$REPO_ROOT/$SCRIPT" --quick
+  [[ "$output" == *"OK Lockfile al día: scripts"* ]]
+  [[ "$output" == *"OK Lockfile al día: projects/savia-vaults"* ]]
+  for f in scripts/package-lock.json projects/savia-vaults/package-lock.json; do
+    run git -C "$REPO_ROOT" check-ignore -q "$f"
+    [ "$status" -ne 0 ]
+  done
+  run git -C "$REPO_ROOT" check-ignore -q projects/savia-web/package-lock.json
+  [ "$status" -eq 0 ] # D2: el resto sigue ignorado hasta que se toque
+}
+
+@test "SE-425 AC1: npm ci rechaza un package.json que no coincide con el lock (sin red)" {
+  command -v npm >/dev/null || skip "npm no disponible"
+  mkdir -p "$TMP/ci"
+  cp "$REPO_ROOT/scripts/package-lock.json" "$TMP/ci/"
+  sed 's/"yargs": "17.7.2"/"yargs": "17.7.1"/' "$REPO_ROOT/scripts/package.json" > "$TMP/ci/package.json"
+  run bash -c "cd '$TMP/ci' && npm ci --offline --ignore-scripts --no-audit --no-fund"
+  [ "$status" -ne 0 ]
+  [[ "$output" == *"in sync"* ]]
+}
+
+@test "SE-425 AC2: la CI instala con npm ci, audita el lock versionado y ejecuta la suite de savia-vaults" {
+  ci="$REPO_ROOT/.github/workflows/ci.yml"
+  run grep -qE "npm install --prefix scripts|package-lock-only" "$ci"
+  [ "$status" -ne 0 ]
+  [ "$(grep -c 'npm ci --prefix scripts' "$ci")" -ge 2 ]
+  grep -q "npm audit --prefix projects/savia-vaults" "$ci"
+  grep -q "savia-vaults:" "$ci"
+  grep -q "npx vitest run" "$ci"
+}
+
+@test "SE-425 G7: el email público del aviso deprecated de npm no bloquea; cualquier otro email sí" {
+  mkdir -p "$TMP/scan/scripts"
+  cp "$REPO_ROOT/scripts/confidentiality-scan.sh" "$TMP/scan/scripts/"
+  printf '# vacía\n' > "$TMP/scan/scripts/confidentiality-allowlist.txt"
+  : > "$TMP/scan/blocklist.txt"
+  git -C "$TMP/scan" init -q
+  printf '{"deprecated": "contact i@izs.me"}\n' > "$TMP/scan/package-lock.json"
+  git -C "$TMP/scan" add package-lock.json
+  run bash "$TMP/scan/scripts/confidentiality-scan.sh" --staged --blocklist "$TMP/scan/blocklist.txt"
+  [[ "$output" != *"FAIL i@izs.me"* ]]
+  printf '{"deprecated": "contact persona@correo-real.es"}\n' >> "$TMP/scan/package-lock.json"
+  git -C "$TMP/scan" add package-lock.json
+  run bash "$TMP/scan/scripts/confidentiality-scan.sh" --staged --blocklist "$TMP/scan/blocklist.txt"
+  [ "$status" -ne 0 ]
+  [[ "$output" == *"FAIL persona@correo-real.es"* ]]
+}

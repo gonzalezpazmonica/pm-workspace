@@ -64,6 +64,9 @@ output/
 # ── Node ─────────────────────────────────────────────────────────────────────
 **/node_modules/
 **/package-lock.json
+# SE-425: lockfiles versionados donde la instalación debe ser reproducible
+!scripts/package-lock.json
+!projects/savia-vaults/package-lock.json
 **/dist/
 
 # ── Python ───────────────────────────────────────────────────────────────────

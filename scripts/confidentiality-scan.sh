@@ -132,6 +132,7 @@ EMAILS=$(echo "$ADDED_LINES" | grep -oiE "[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-z
   | grep -v "\.example$\|\.invalid$\|\.test$" \
   | grep -vE "^@[a-z]+\.[a-z]+$" \
   | grep -vE "@kotlinx\.|@orders\.|@router\.|@app\.|@pytest\.|@override|@mcp\.|@server\." \
+  | grep -vE "^i@izs\.me$" `# SE-425: aviso público de npm (deprecated de glob) en package-lock.json` \
   | sort -u || true)
 if [ -n "$EMAILS" ]; then
   echo "::error::BLOCKED: Real emails found"
