@@ -103,3 +103,18 @@ el registro solo al preparar el PR.
 ### Portability classification
 
 - [x] **DUAL_BINDING**: script bash común; binding Claude Code (settings.json) y OpenCode (plugin) desde Slice 1.
+
+## Resultados (verificación 2026-10-01)
+
+| AC | Evidencia | Estado |
+|---|---|---|
+| AC1 | `tests/test-se402-edit-ledger.bats`: una escritura añade exactamente un registro; una llamada fallida, ninguno | OK |
+| AC2 | El registro guarda `{ts, session, agent, tool, path, sha256_after, repo_root, branch}`, sin contenido (test y registro real) | OK |
+| AC3 | `verify` marca lo cambiado fuera de Edit/Write; la atribución sobrevive al commit | OK |
+| AC4 | Las exclusiones de derivados no se reportan | OK |
+| AC5 | G19 advisory en `pr-plan` (WARN observado en #1218–#1221 sin cambiar el veredicto) | OK |
+| AC6 | 50 eventos PostToolUse reales: p50 20 ms, p95 20 ms, máx. 21 ms; además el hook es `async` | OK |
+| AC7 | 15/15 BATS; auditor 89 | OK |
+
+Fuera de alcance: retiró `scripts/corporate/corporate-attestation-queue.sh` (SE-271 PROPOSED, sin llamadores) para mantener la entropía neta en 0.
+
