@@ -332,7 +332,7 @@
       "evidence": "docs/specs/SE-407-consistent-state-predicate.spec.md",
       "phase": "A",
       "session_order": 1,
-      "note": "Intercambio de WIP ya registrado en #1187; siguiente entrega S1-S3 del predicado consistente. S4 es sonda report-only de fase C.; S1 #1208, S2 #1209 integrados; S3 en #1210; S4 pendiente"
+      "note": "Intercambio de WIP ya registrado en #1187. S1 #1208, S2 #1209 y S3 #1210 integrados; S4 (sonda report-only de fase C) pendiente."
     },
     {
       "id": "SE-408",
