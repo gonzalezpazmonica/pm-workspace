@@ -210,6 +210,33 @@ check_generated_fresh() {
   wait
 }
 
+# ── SE-425: lockfiles versionados coherentes con su package.json (aviso) ──
+# Comparación estática de dependencias declaradas (sin red): `npm ci` en CI fallaría igual.
+LOCK_DIRS_DEFAULT='scripts projects/savia-vaults'
+check_lockfiles() {
+  local i=0 dir
+  for dir in ${SAVIA_LOCK_DIRS_FOR_TESTS:-$LOCK_DIRS_DEFAULT}; do
+    [[ "$dir" = /* ]] || dir="$REPO_ROOT_CI/$dir"
+    [[ -f "$dir/package.json" ]] || continue
+    i=$((i+1))
+    local rel="${dir#"$REPO_ROOT_CI"/}"
+    if [[ ! -f "$dir/package-lock.json" ]]; then
+      echo "WARN Lockfile ausente: $rel/package-lock.json → npm install --package-lock-only --prefix $rel" > "$TMPDIR_CI/8-lock-$i"
+    elif python3 - "$dir" <<'PY' 2>/dev/null
+import json, sys
+d = sys.argv[1]
+pkg = json.load(open(f"{d}/package.json")); root = json.load(open(f"{d}/package-lock.json"))["packages"][""]
+keys = ("dependencies", "devDependencies", "optionalDependencies", "peerDependencies")
+sys.exit(0 if all(pkg.get(k, {}) == root.get(k, {}) for k in keys) else 1)
+PY
+    then
+      echo "PASS Lockfile al día: $rel" > "$TMPDIR_CI/8-lock-$i"
+    else
+      echo "WARN Lockfile desfasado: $rel/package.json cambió sin su lock → npm install --package-lock-only --prefix $rel" > "$TMPDIR_CI/8-lock-$i"
+    fi
+  done
+}
+
 # ── SE-407 S2: estado limpio al cerrar (advisory) ─────────────────────────
 check_clean_state() {
   clean_state_report "$REPO_ROOT_CI" 2>&1 | grep -E '^(PASS|WARN) ' > "$TMPDIR_CI/9b-clean-state"
@@ -223,6 +250,7 @@ check_frontmatter &
 check_settings_json &
 check_changelog &
 check_generated_fresh &
+check_lockfiles &
 $CLEAN_STATE && check_clean_state &
 if ! $QUICK_MODE; then
   check_required_files &

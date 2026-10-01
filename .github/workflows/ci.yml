@@ -39,7 +39,7 @@ jobs:
           node-version: '20'
 
       - name: Install Node.js dependencies
-        run: npm install --prefix scripts
+        run: npm ci --prefix scripts  # SE-425: lock versionado
 
       - name: Validate JSON mock files
         run: |
@@ -289,7 +289,7 @@ jobs:
           command -v bash
           command -v pip3
           pip3 install pytest
-          npm install --prefix scripts
+          npm ci --prefix scripts
           git config --global user.email "ci@example.com"
           git config --global user.name "CI Runner"
 
@@ -539,6 +539,30 @@ jobs:
       - name: SE-311 Standards Compliance Gate (determinista, diff final)
         run: bash scripts/standards-compliance-gate.sh --json
 
+  savia-vaults:
+    # SE-425 D1: la suite del producto no se ejecutaba en ninguna CI. Sin servicios externos:
+    # los tests de ClamAV, del extractor y de Ollama se omiten solos.
+    name: SaviaVaults (tsc, eslint, vitest)
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    defaults:
+      run:
+        working-directory: projects/savia-vaults
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - name: Setup Node.js
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: '22'
+      - name: Install (lock versionado)
+        run: npm ci --no-audit --no-fund
+      - name: Typecheck
+        run: npx tsc --noEmit -p .
+      - name: Lint
+        run: npx eslint src/ tests/
+      - name: Tests
+        run: npx vitest run
+
   dependency-audit:
     runs-on: ubuntu-latest
     name: Dependency Audit (SE-258 Slice 5)
@@ -549,10 +573,10 @@ jobs:
         uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
         with:
           node-version: '20'
-      - name: npm audit (workspace scripts)
+      - name: npm audit (lockfiles versionados, SE-425)
         run: |
-          npm install --prefix scripts --package-lock-only >/dev/null 2>&1 || true
           npm audit --prefix scripts --audit-level=high || true
+          npm audit --prefix projects/savia-vaults --audit-level=high || true
       - name: Python deps check (venv)
         run: |
           command -v python3
