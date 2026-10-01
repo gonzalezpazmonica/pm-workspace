@@ -157,3 +157,13 @@ Desviaciones:
    no envían `Origin` y no cambian.
 2. **TLS**: A2A no tiene TLS propio y la documentación de federación decía lo contrario;
    se corrige `projects/savia-vaults/docs/FEDERATION.md`. Exigir TLS o proxy fuera de loopback queda para SE-423.
+
+### H3 (2026-09-30)
+
+| AC | Evidencia | Estado |
+|---|---|---|
+| AC3 | `tests/e2e/mcp-revocation.test.ts`: cliente MCP real por stdio, un solo proceso: permitido → quitar la cúpula ⇒ denegado (`vault_list` y `vault_search`) → volver a concederla ⇒ permitido → regenerar el token ⇒ `Invalid or expired token` → fichero de usuarios retirado ⇒ denegado (no pasa a modo local). Antes del arreglo, el test fallaba en el segundo paso (`PERMITIDO`) | OK |
+
+Coste: `reloadIfChanged` sin cambios, 1,99 µs por llamada (20 000 llamadas).
+Añadido: si el servidor arrancó con usuarios y el fichero desaparece, se deniega en vez de
+volver al modo local.
