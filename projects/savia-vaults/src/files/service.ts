@@ -6,7 +6,7 @@ import { processRevision, processRevisions } from './extract.js';
 import * as fs from 'node:fs';
 import * as os from 'node:os';
 import * as path from 'node:path';
-import { scannerAvailable, type ScanMode } from './scan.js';
+import { CLAMSCAN_MAX_BYTES, scannerAvailable, type ScanMode } from './scan.js';
 import { exportRecovery as exportRecoveryKeys, hasRecovery, keysHome } from './keys.js';
 import { createHash } from 'node:crypto';
 import { ReceiptSigner, type Receipt, type ReceiptRef } from './receipts.js';
@@ -292,9 +292,7 @@ export class FilesService {
       if (!canCreateAt(principal, level)) throw new FilesError('POLICY_DENIED', `sin permiso para guardar documentos ${level} en ${d.name}`);
     }
     const mode = this.scanMode(d);
-    if (mode === 'required' && !scannerAvailable(this.o.clamscan, this.tools)) {
-      throw new FilesError('SCAN_REQUIRED', `la cúpula "${d.name}" exige antivirus y no está instalado (files setup --antivirus)`);
-    }
+    for (const f of input.files) this.checkScannable(d, f.name, f.bytes?.length ?? f.size);
     // SE-418: una operación = un commit del ledger con todo el lote, ya extraído.
     const request = input.idempotencyKey === undefined ? undefined : {
       // Un stream no se lee dos veces: su huella es nombre y tamaño declarado.
@@ -563,10 +561,25 @@ export class FilesService {
     if (!canCreateAt(principal, level)) throw new FilesError('POLICY_DENIED', `sin permiso para guardar documentos ${level} en ${d.name}`);
   }
 
+  /**
+   * Con `scan: required`, antes de guardar o de aceptar bytes: hay antivirus y el tamaño cabe en lo que
+   * analiza entero (SE-424 H1: ClamAV no pasa de 2 GiB − 1 y diría «OK» sin haberlo leído).
+   */
+  private checkScannable(d: FilesDomeRef, name: string, size: number | undefined): void {
+    if (this.scanMode(d) !== 'required') return;
+    if (!scannerAvailable(this.o.clamscan, this.tools)) {
+      throw new FilesError('SCAN_REQUIRED', `la cúpula "${d.name}" exige antivirus y no está instalado (files setup --antivirus)`);
+    }
+    if (size !== undefined && size > CLAMSCAN_MAX_BYTES) {
+      throw new FilesError('SCAN_REQUIRED', `${name}: ${size} bytes; el antivirus no analiza más de 2 GiB por fichero y la cúpula "${d.name}" exige escaneo (too-large-to-scan)`);
+    }
+  }
+
   /** Crea una subida reanudable (tus). Se valida todo antes de aceptar un byte. */
   async createUpload(input: { dome: string; length: number; meta: UploadMeta; owner: string; expiresInMs?: number }) {
     const { d, store, principal } = await this.open(input.dome, 'write');
     this.checkPut(store, d, principal, input.meta);
+    this.checkScannable(d, input.meta.name, input.length);
     const area = new UploadArea(store);
     if (area.activeFor(input.owner) >= this.maxActiveUploads) {
       throw new FilesError('LIMIT', `demasiadas subidas activas (${this.maxActiveUploads}); termina o cancela alguna`);
