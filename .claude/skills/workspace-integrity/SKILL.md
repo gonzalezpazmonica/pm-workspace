@@ -6,7 +6,7 @@ allowed-tools: [Bash, Read, Glob]
 metadata:
   # --- metadata.savia.* (SE-333) ---
   savia.agent: architect
-  savia.maturity: beta
+  savia.maturity: stable
   savia.category: quality
   savia.context: fork
   savia.disable-model-invocation: false
@@ -42,40 +42,41 @@ metadata:
 
 ## Invocacion
 
-```bash
-# Individual checks
-bash scripts/claude-md-drift-check.sh
-bash scripts/rule-manifest-integrity.sh
-bash scripts/agents-catalog-sync.sh --json
-bash scripts/rule-orphan-detector.sh --json
-bash scripts/agent-size-audit.sh
+Cada línea de este bloque se ejecuta tal cual en `tests/test-workspace-integrity.bats`.
 
-# Ejecucion uniforme (patron de aggregator)
-for script in claude-md-drift-check rule-manifest-integrity agents-catalog-sync rule-orphan-detector; do
-  echo "=== $script ==="
-  bash scripts/$script.sh --json 2>&1 | head -3
-done
+```bash
+bash scripts/claude-md-drift-check.sh                 # texto; exit 0 PASS, 2 drift
+bash scripts/rule-manifest-integrity.sh --json        # exit 0 PASS, 1 finding
+bash scripts/agents-catalog-sync.sh --check --json    # exit 0 en sync, 1 drift
+bash scripts/rule-orphan-detector.sh --json           # exit 0 PASS, 1 orphans
+bash scripts/agent-size-audit.sh --quiet              # exit 0 PASS, 1 agentes > 4096 bytes
 ```
 
-## Exit codes esperados
+## Exit codes reales
 
-- `0` — PASS (sin drift)
-- `1` — DRIFT o FINDING (WARN o ERROR)
-- `2` — usage error
+| Script | PASS | Drift / finding | Uso incorrecto |
+|---|---|---|---|
+| `claude-md-drift-check.sh` | 0 | **2** | — |
+| `rule-manifest-integrity.sh`, `rule-orphan-detector.sh` | 0 | 1 | 2 |
+| `agents-catalog-sync.sh --check` | 0 | 1 | 2 (sin `--check/--generate/--apply`) |
+| `agent-size-audit.sh` | 0 | 1 (`--ratchet`: solo si supera el baseline) | 2 |
+| `baseline-tighten.sh` | 0 | 1 (regresión: actual > baseline; no la enmascara) | 2 |
+
+JSON: `rule-manifest-integrity`, `rule-orphan-detector`, `agents-catalog-sync --check --json`, `agent-size-remediation-plan` y `rule-usage-analyzer`. `claude-md-drift-check` y `agent-size-audit` solo emiten texto.
 
 ## Integracion con CI
 
-Cada script emite JSON parseable. CI puede:
-- Bloquear merge si `claude-md-drift-check.sh` falla (ya activo vía `readiness-check.sh`)
-- Notificar (no bloquear) si `rule-orphan-detector` encuentra >N orphans
-- Reporting mensual via `agent-size-audit` con plan de remediation
+- `claude-md-drift-check.sh` ya bloquea vía `readiness-check.sh`.
+- `rule-orphan-detector` notifica (no bloquea) si encuentra orphans.
+- `agent-size-audit --ratchet` compara con `.ci-baseline/agent-size-violations.count`.
 
-## No hacen
+## Qué escriben
 
-- No modifican ficheros (solo audit)
-- No auto-fixer (SE-062 Era 184 scope)
-- No corren tests (eso es `readiness-check.sh`)
-- No push ni merge (gate via `push-pr.sh`)
+- Los auditores (`claude-md-drift-check`, `rule-manifest-integrity`, `rule-orphan-detector`, `agents-catalog-sync --check`) no modifican ficheros.
+- `agent-size-audit` escribe su informe en `output/`.
+- `agents-catalog-sync --apply` **reescribe** `docs/rules/domain/agents-catalog.md`.
+- `baseline-tighten` **reescribe** el baseline indicado; solo baja, nunca sube, y `--dry-run` no escribe.
+- Ninguno corre tests (eso es `readiness-check.sh`) ni hace push o merge.
 
 ## Decision tree
 

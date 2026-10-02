@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # SE-247 — Instala el hook pre-push de seguridad en el repo actual o en uno dado.
 # Uso: bash scripts/install-prepush-hook.sh [--repo <path>]
-# Compatible con nidos/worktrees (tienen su propio .git/hooks/).
+# En worktrees y con core.hooksPath instala donde git lee los hooks (compartido por todos los worktrees).
 set -uo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
@@ -20,18 +20,18 @@ while [[ $# -gt 0 ]]; do
   esac
 done
 
-# ── Localizar .git/hooks/ ─────────────────────────────────────────────────────
-GIT_DIR="$(git -C "$TARGET_REPO" rev-parse --git-dir 2>/dev/null)" || {
+# ── Localizar el directorio de hooks que git usa de verdad ─────────────────────
+# `--git-path hooks` respeta core.hooksPath y, en worktrees, el directorio común
+# (git ignora .git/worktrees/<n>/hooks: instalar ahí dejaba el push sin gate).
+git -C "$TARGET_REPO" rev-parse --git-dir >/dev/null 2>&1 || {
   echo "ERROR: $TARGET_REPO no es un repositorio git." >&2
   exit 1
 }
-# rev-parse --git-dir devuelve ruta relativa o absoluta
-if [[ "$GIT_DIR" != /* ]]; then
-  GIT_DIR="$TARGET_REPO/$GIT_DIR"
+HOOKS_DIR="$(git -C "$TARGET_REPO" rev-parse --git-path hooks)"
+if [[ "$HOOKS_DIR" != /* ]]; then
+  HOOKS_DIR="$TARGET_REPO/$HOOKS_DIR"
 fi
-HOOKS_DIR="$GIT_DIR/hooks"
 mkdir -p "$HOOKS_DIR"
-
 HOOK_TARGET="$HOOKS_DIR/pre-push"
 GATE_SCRIPT="$DEFAULT_GATE"
 

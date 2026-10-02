@@ -24,7 +24,7 @@
       "phase": "A",
       "session_order": 2,
       "priority": "P0",
-      "note": "2026-10-02: deuda remedida 127/137 (antes 128, 27/09); grupo por riesgo/uso calibrado: agent-messaging (#1180), overnight-sprint y savia-vaults (tests de comportamiento certificados 93 y 86; la skill savia-vaults documentaba un binario y comandos inexistentes) ⇒ 124/137. Ratchet y cierre humano de waves intactos"
+      "note": "2026-10-02: deuda 127 → 121/137 en dos grupos con OK de la operadora: agent-messaging, overnight-sprint, savia-vaults (#1227); git-secret-scanner, workspace-integrity, savia-memory. Cada calibración destapó documentación falsa y dos fallos reales (escaneo de historial fail-open, hook pre-push inactivo en worktrees) y la fuga de tests a ~/.savia-memory. Ratchet y cierre humano de waves intactos"
     },
     {
       "id": "SE-377",

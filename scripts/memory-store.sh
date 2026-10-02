@@ -73,7 +73,13 @@ iso8601_now() { date -u +"%Y-%m-%dT%H:%M:%SZ"; }
 # entries (default 200), the oldest entries (bottom of block) are trimmed.
 _update_memory_index() {
     local topic_key="$1" title="$2" type="$3" origin="${4:-untrusted}"
-    local idx_file="${HOME}/.savia-memory/auto/MEMORY.md"
+    # Dentro de BATS, sin índice explícito, nunca se toca la memoria real del usuario: los tests
+    # que aislaban PROJECT_ROOT pero no HOME llenaban ~/.savia-memory/auto/MEMORY.md (SE-376).
+    local idx_file="${SAVIA_MEMORY_INDEX_FILE:-${HOME}/.savia-memory/auto/MEMORY.md}"
+    if [[ -n "${BATS_TEST_TMPDIR:-}" && -z "${SAVIA_MEMORY_INDEX_FILE:-}" ]]; then
+        local real_home; real_home=$(getent passwd "$(id -un)" 2>/dev/null | cut -d: -f6)
+        [[ -n "$real_home" && "$idx_file" == "$real_home/"* ]] && return 0
+    fi
     [[ ! -f "$idx_file" ]] && return 0
     [[ -z "$topic_key" || "$topic_key" == "null" ]] && return 0
 

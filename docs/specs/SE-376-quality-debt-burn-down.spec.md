@@ -78,3 +78,16 @@ La deuda remedida el 2026-10-02 es 127/137: 120 Incomplete, 7 Stub y 10 Calibrat
 
 Ficheros: `.claude/skills/agent-messaging/SKILL.md`, `.claude/skills/overnight-sprint/SKILL.md` y `.claude/skills/savia-vaults/SKILL.md` (maturity `stable`), `docs/propuestas/SE-376-debt-inventory.tsv` y `docs/propuestas/planning-state.json` (estado).
 
+### 2026-10-02 — grupo seguridad y memoria (124 → 121/137)
+
+| Skill | Test | Auditor | Hallazgos corregidos |
+|---|---|---|---|
+| `git-secret-scanner` | `tests/test-git-secret-scanner.bats` (14) | 88 | `scripts/git-history-secret-scan.sh` daba «limpio» (exit 0) si gitleaks fallaba; ahora sale con 4. `scripts/install-prepush-hook.sh` instalaba en `.git/worktrees/<n>/hooks`, que git no lee; ahora usa `rev-parse --git-path hooks`, que respeta `core.hooksPath`. Los dos tests fallan con el código anterior |
+| `workspace-integrity` | `tests/test-workspace-integrity.bats` (10) | 83 | La skill documentaba `--json` donde no existe, códigos de salida erróneos y «no modifican ficheros» (`--apply` y `baseline-tighten` sí escriben). La ayuda de `scripts/agent-size-audit.sh` decía `.opencode/agents`, pero audita `.claude/agents` |
+| `savia-memory` | `tests/test-savia-memory.bats` (11) | 88 | La skill documentaba `save "<tipo>" "<contenido>"` (se rechaza) y `--source session` (inválido). `scripts/memory-store.sh` escribía el índice real `~/.savia-memory/auto/MEMORY.md` desde 9 ficheros de test; ahora, dentro de BATS, nunca toca el índice del usuario (`SAVIA_MEMORY_INDEX_FILE` para tests). 11 suites verificadas con el fichero intacto |
+
+Las skills `.claude/skills/git-secret-scanner/SKILL.md`, `.claude/skills/workspace-integrity/SKILL.md` y `.claude/skills/savia-memory/SKILL.md` pasan a `stable` con OK de la operadora. `debt-budget-check`: 121 ≤ 133.
+
+Hallazgo fuera de alcance: `.opencode/agents` (90, fuente de `AGENTS.md` y del catálogo) y `.claude/agents` (75, los que lee Claude Code) divergen. 15 agentes solo existen para OpenCode y los comunes tienen contenido distinto.
+
+`.gitignore`: excepción exacta `!tests/test-git-secret-scanner.bats`, en la lista enumerada del escáner (el patrón `**/*-secret*` sigue cerrado).
