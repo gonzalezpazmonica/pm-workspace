@@ -2,7 +2,7 @@
 
 > Máx. 30 líneas. Sin contenido N2/N3. Se sobrescribe en cada cierre.
 
-## 2026-10-02 — S01 y S02 cerradas; SE-426 en el WIP
+## 2026-10-02 — S01 y S02 cerradas; SE-426 en el WIP; S03 en curso
 
 - Fase A; WIP 3/3: SE-376, SE-396 y SE-426. `roadmap.sh next`: sin más candidatas
   en la fase A.
@@ -16,7 +16,10 @@
   de CI de savia-vaults. web/monitor al tocarlos (D2).
 - dist de savia-vaults recompilado con SE-423: reiniciar el MCP para usarlo.
   `SAVIA_VAULTS_TOKEN` en A2A queda obsoleto (solo loopback).
-- SE-376: remedir deuda tras #1173/#1180; 128/137 es medida 27/09, no actual.
+- SE-376 (S03): deuda 127 → 121/137 (#1227, #1228); arreglados docs falsos, escaneo de
+  secretos fail-open, pre-push inactivo en worktrees y tests que escribían en ~/.savia-memory. Propuesta de limpieza de 158 entradas de test en
+  output/research/20261002-memory-cleanup-proposal.md (pendiente de la operadora).
+- Hallazgo: .opencode/agents (90) y .claude/agents (75) divergen; sin spec todavía.
 - SE-396: H04 #1183 integrado, sin ejecución real; H09 requiere cotejo humano de A01c.
 - SE-426 IMPLEMENTING: firma con secreto de CI. Pasos 1 #1224, 2 (secreto creado) y 3 #1225
   integrados; la CI exige el HMAC. Graduar cuando un re-firmado del bot (auto-rebase o
