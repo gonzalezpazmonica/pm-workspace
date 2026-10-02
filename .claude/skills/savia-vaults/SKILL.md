@@ -1,11 +1,11 @@
 ---
 layer: peripheral
 name: savia-vaults
-description: "Usar cuando se interactua con SaviaVaults — cupulas de contexto, busqueda federada, RAG hibrido (Savia RAG), servidores MCP/A2A, backups, confidencialidad. Triggers: 'crea una cupula', 'indexa documentacion', 'busca en los vaults', 'busqueda semantica', 'rag en las cupulas', 'reindexa embeddings', 'federate este dome', 'backup del conocimiento', 'nivel de confidencialidad', 'gestiona cupulas', 'context dome', 'vaults CLI'. NOT para diseno de arquitectura de conocimiento (usar context-dome-manager agent)."
+description: "Usar cuando se interactua con SaviaVaults — cupulas de contexto, busqueda federada, RAG hibrido (Savia RAG), servidores MCP/A2A, backups, confidencialidad. Triggers: 'crea una cupula', 'indexa documentacion', 'busca en los vaults', 'busqueda semantica', 'rag en las cupulas', 'reindexa embeddings', 'federate este dome', 'backup del conocimiento', 'nivel de confidencialidad', 'gestiona cupulas', 'context dome', 'savia-vaults CLI'. NOT para diseno de arquitectura de conocimiento (usar context-dome-manager agent)."
 metadata:
   # --- metadata.savia.* (SE-333) ---
   savia.category: knowledge-management
-  savia.maturity: beta
+  savia.maturity: stable
   savia.context: project
   savia.priority: high
   savia.recommends: "context-dome, knowledge-graph, ubiquitous-language"
@@ -14,35 +14,34 @@ metadata:
 
 # SaviaVaults — Operacion de Cupulas de Contexto
 
-Gestiona cupulas de contexto via CLI `vaults` y MCP tools de SaviaVaults.
+Gestiona cupulas de contexto via CLI `savia-vaults` y MCP tools de SaviaVaults.
 
 ## Comandos esenciales
 
+Cada línea `savia-vaults …` de esta skill existe en la CLI (lo comprueba `tests/test-savia-vaults.bats`).
+
 ```bash
-# Crear y gestionar
-vaults dome create <nombre>
-vaults dome list|info|delete <nombre>
-vaults dome sync <nombre> --source <dir>
-vaults dome index <nombre> --force
+# Cúpulas (registro: savia-vaults.domes.json)
+savia-vaults dome create <nombre> --path <dir> [--confidentiality N1|N2|N3|N4]
+savia-vaults dome list|info|delete|set-default <nombre>
+savia-vaults search "query" [--json]                  # BM25 de una cúpula; para agentes, vault_rag
 
-# Servidores
-vaults server start|stop|status|logs --name <dome> [--transport mcp|a2a|both]
+# Servidores (por defecto solo 127.0.0.1)
+savia-vaults serve --transport mcp|a2a|http [--port <n>] [--host <h>] [--domes <fichero>]
 
-# Busqueda
-vaults dome search "query" [--federated] [--dome <name>]
-vaults search "query"
-
-# Federacion
-vaults dome federate add <id> <url> [--token] [--weight]
-vaults dome federate remove|list|health
+# Federación
+savia-vaults federate add <id> <url> [--token <t>] [--weight <n>]
+savia-vaults federate list|remove|health
 
 # Backups
-vaults backup create --name <dome> --compress
-vaults backup list|restore <id>|schedule "cron"|status
+savia-vaults backup create [--path <dir>]
+savia-vaults backup list|status
+savia-vaults backup restore <id> --target <dir>
 
 # Confidencialidad
-vaults confidentiality set N1|N2|N3|N4 --dome <nombre>
-vaults confidentiality get|list|audit --dome <nombre>
+savia-vaults confidentiality set N1|N2|N3|N4 --dome <nombre>
+savia-vaults confidentiality get --dome <nombre>
+savia-vaults confidentiality audit
 
 # Usuarios (SE-423: tokens personales sv_… que siempre caducan; revocar vale en la siguiente llamada)
 savia-vaults user create <user> [--expires <días>] [--service]
@@ -51,8 +50,7 @@ savia-vaults user token-create <user> --name <n> [--expires <días>] [--domes a,
 savia-vaults user tokens|token-revoke|rename|delete|list ...
 
 # Salud
-vaults health
-vaults config show
+savia-vaults health-report [--json]
 ```
 
 ## Savia RAG (SE-410)
@@ -103,11 +101,11 @@ savia-vaults files list|show|text|get|rm|reprocess|gc ... --dome <cúpula>
 
 ## Flujos comunes
 
-**Crear cupula desde docs**: `vaults dome create mi-docs` → `vaults dome sync mi-docs --source ./docs` → `vaults dome index mi-docs` → `vaults server start --name mi-docs --transport both`
+**Crear cupula desde docs**: `savia-vaults dome create mi-docs --path ./docs` → `savia-vaults rag sync --dome mi-docs` (si tiene `rag.enabled`) → `savia-vaults serve --transport mcp`
 
-**Federar dos cupulas**: Maquina A: `vaults server start --name alpha --transport a2a`. Maquina B: `vaults dome federate add alpha http://IP:PORT --token TOKEN` → `vaults dome search "termino" --federated`
+**Federar dos cupulas**: Máquina A: `savia-vaults user create agente-b --service` y `savia-vaults serve --transport a2a --host 0.0.0.0` (fuera de loopback exige usuarios). Máquina B: `savia-vaults federate add alpha http://IP:8923 --token <token de agente-b>` → `savia-vaults federate health`
 
-**Backup**: `vaults backup create --name docs --compress` → restaurar con `vaults backup restore ID --target /tmp/restored --dry-run`
+**Backup**: `savia-vaults backup create --path ./docs` → restaurar con `savia-vaults backup restore <id> --target /tmp/restaurado`
 
 ## MCP Tools
 
@@ -118,7 +116,7 @@ savia-vaults files list|show|text|get|rm|reprocess|gc ... --dome <cúpula>
 - NO borrar dome sin backup previo
 - NO exponer domes N3-N4 sin usuarios (A2A y HTTP no arrancan fuera de loopback sin ellos; `SAVIA_VAULTS_TOKEN` está obsoleto)
 - NO federar en bucle (A→B→C→A). Max 1 hop
-- NO modificar `.savia-vault/` a mano. Usa `vaults` CLI.
+- NO modificar `.savia-vault/` a mano. Usa la CLI `savia-vaults`.
 - NO indexar `.git` o `node_modules` (el sandbox los excluye)
 - NO poner `SAVIA_RAG_HOME` dentro de un repo git (el servicio se niega: el índice copia texto)
 - NO poner `SAVIA_FILES_HOME` dentro de un repo git (originales y texto extraído; el almacén se niega)

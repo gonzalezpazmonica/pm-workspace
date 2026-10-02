@@ -59,3 +59,20 @@ agent_size:
 ## Referencias
 
 - Auditoría externa §7 · SE-167 · SE-270 · SE-046 `baseline-tighten.sh` · SPEC-109
+
+## Avance
+
+### 2026-10-02 — grupo por riesgo y uso (127 → 124/137)
+
+La deuda remedida el 2026-10-02 es 127/137: 120 Incomplete, 7 Stub y 10 Calibrated. El 27/09 era 128. La operadora eligió un grupo de tres skills por riesgo y uso y aprobó su promoción a `stable`:
+
+| Skill | Test | Auditor | Qué prueba |
+|---|---|---|---|
+| `agent-messaging` | `tests/test-agent-messaging.bats` (#1180) | 87 | ya certificado; faltaba la promoción |
+| `overnight-sprint` | `tests/test-overnight-sprint.bats` (16) | 93 | doble opt-in: los dos factores, el valor exacto, el grant SE-343 y que el bypass solo funcione dentro de BATS; clasificación de fallos SE-250; `STATE.md` de SE-228 |
+| `savia-vaults` | `tests/test-savia-vaults.bats` (9) | 86 | cada comando documentado existe en la CLI; ciclo de usuarios y tokens de SE-423 (0600 y sin el secreto, alcance, revocación, rename, máximo de días) |
+
+**Hallazgo.** `.claude/skills/savia-vaults/SKILL.md` documentaba un binario `vaults` que no existe y comandos que tampoco existen (`server start`, `dome sync`, `dome index`, `health`, `config show`). Se ha reescrito con los comandos reales. El test falla si vuelve a aparecer un comando inexistente: verificado con la versión anterior y con un subcomando inventado.
+
+**Resultado.** `scripts/debt-budget-check.sh` da 124 ≤ 133 (wave 0). Avanzar de wave sigue siendo decisión humana.
+

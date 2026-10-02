@@ -24,7 +24,7 @@
       "phase": "A",
       "session_order": 2,
       "priority": "P0",
-      "note": "2026-09-30: baseline de deuda 128/137 corresponde al 27/09; remedir antes de la siguiente wave. #1173 corrige reconocimiento de pruebas certificadas y #1180 entrega agent-messaging con pruebas certificadas. El ratchet y el cierre humano de waves se conservan."
+      "note": "2026-10-02: deuda remedida 127/137 (antes 128, 27/09); grupo por riesgo/uso calibrado: agent-messaging (#1180), overnight-sprint y savia-vaults (tests de comportamiento certificados 93 y 86; la skill savia-vaults documentaba un binario y comandos inexistentes) ⇒ 124/137. Ratchet y cierre humano de waves intactos"
     },
     {
       "id": "SE-377",
