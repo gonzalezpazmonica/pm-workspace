@@ -76,3 +76,5 @@ La deuda remedida el 2026-10-02 es 127/137: 120 Incomplete, 7 Stub y 10 Calibrat
 
 **Resultado.** `scripts/debt-budget-check.sh` da 124 ≤ 133 (wave 0). Avanzar de wave sigue siendo decisión humana.
 
+Ficheros: `.claude/skills/agent-messaging/SKILL.md`, `.claude/skills/overnight-sprint/SKILL.md` y `.claude/skills/savia-vaults/SKILL.md` (maturity `stable`), `docs/propuestas/SE-376-debt-inventory.tsv` y `docs/propuestas/planning-state.json` (estado).
+
