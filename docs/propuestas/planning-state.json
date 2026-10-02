@@ -931,6 +931,42 @@
       "evidence": "docs/specs/SE-426-confidentiality-hmac-ci-key.spec.md",
       "phase": "A",
       "approval": "Operadora 2026-10-02 en chat (AskUserQuestion, en remoto): 'Aprobar e implementar el paso 1'; secreto: 'Créalo tú, Savia'"
+    },
+    {
+      "id": "SE-428",
+      "status": "PROPOSED",
+      "priority": "P1",
+      "title": "Savia Space como sustituto de OpenCode, con OpenCode como motor",
+      "evidence": "docs/specs/SE-428-savia-space-orchestrator-opencode-engine.spec.md",
+      "note": "Mandato original: cliente sustituto y compatible con OpenCode, arquitectura, flujos y hooks de Savia. Decisiones 2026-10-02: sustituto primero (0.2), hooks bash registrados, interactivo en checkout. Requiere addendum ADR-002 (D1)",
+      "phase": "A"
+    },
+    {
+      "id": "SE-429",
+      "status": "PROPOSED",
+      "priority": "P1",
+      "title": "Savia Space interoperable: API con JWT y OpenAPI, MCP y A2A",
+      "evidence": "docs/specs/SE-429-savia-space-interop-api-mcp-a2a.spec.md",
+      "note": "Mandato 2026-10-02; compatible con AEK/AEOS/TEE sin emitir autoridad; leases bloqueados hasta contrato AEK",
+      "phase": "A"
+    },
+    {
+      "id": "SE-430",
+      "status": "PROPOSED",
+      "priority": "P2",
+      "title": "Savia Space Mobile: cliente Android de Savia Space",
+      "evidence": "docs/specs/SE-430-savia-space-mobile.spec.md",
+      "note": "Mandato 2026-10-02; sustituye funcionalmente a savia-mobile para Space; internet directo bloqueado, VPN recomendada",
+      "phase": "A"
+    },
+    {
+      "id": "SE-431",
+      "status": "PROPOSED",
+      "priority": "P2",
+      "title": "Savia Soul: la Savia proactiva dentro de Savia Space",
+      "evidence": "docs/specs/SE-431-savia-soul.spec.md",
+      "note": "Mandato 2026-10-02; bucle percibir-deliberar-actuar solo vía primitivas de Space; A2A con bots y Relay con la operadora; L2 máximo, efectos externos bloqueados",
+      "phase": "A"
     }
   ],
   "route": {
