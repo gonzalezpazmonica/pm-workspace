@@ -6,6 +6,22 @@
 > Each entry: date, spec ID, status transition, optional rationale.
 > Ref: SE-222 S1 OKF Adoptable Patterns (log.md convention).
 
+## 2026-10-02 SE-431 PROPOSED
+
+Savia Soul: bucle continuo configurable y bajo demanda dentro de Space; A2A con otros bots y mensajería con la operadora.
+
+## 2026-10-02 SE-430 PROPOSED
+
+Savia Space Mobile: app Android nueva, cliente de Space por red local o VPN, aprobación con biometría.
+
+## 2026-10-02 SE-429 PROPOSED
+
+Savia Space interoperable: API JWT/OpenAPI, MCP y A2A; recibos firmados; compatible con AEK, AEOS y TEE.
+
+## 2026-10-02 SE-428 PROPOSED
+
+Savia Space como orquestador con OpenCode como motor (decisión híbrida de la operadora).
+
 ## 2026-10-02 SE-426 IMPLEMENTING
 
 Aprobada por la operadora y en el hueco libre del WIP (3/3). Paso 1: código y tests sin tocar la CI.
