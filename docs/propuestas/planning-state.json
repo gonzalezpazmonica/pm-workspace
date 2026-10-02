@@ -936,9 +936,9 @@
       "id": "SE-428",
       "status": "PROPOSED",
       "priority": "P1",
-      "title": "Savia Space como orquestador: OpenCode como motor de agentes",
+      "title": "Savia Space como sustituto de OpenCode, con OpenCode como motor",
       "evidence": "docs/specs/SE-428-savia-space-orchestrator-opencode-engine.spec.md",
-      "note": "Decisión híbrida de la operadora 2026-10-02. Requiere addendum ADR-002 (D1) antes de ejecuciones con escritura",
+      "note": "Mandato original: cliente sustituto y compatible con OpenCode, arquitectura, flujos y hooks de Savia. Decisiones 2026-10-02: sustituto primero (0.2), hooks bash registrados, interactivo en checkout. Requiere addendum ADR-002 (D1)",
       "phase": "A"
     },
     {

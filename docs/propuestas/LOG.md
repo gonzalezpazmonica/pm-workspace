@@ -20,7 +20,7 @@ Savia Space interoperable: API JWT/OpenAPI, MCP y A2A; recibos firmados; compati
 
 ## 2026-10-02 SE-428 PROPOSED
 
-Savia Space como orquestador con OpenCode como motor (decisión híbrida de la operadora).
+Savia Space como sustituto de OpenCode, con OpenCode como motor (mandato original y decisiones de la operadora).
 
 ## 2026-10-02 SE-426 IMPLEMENTING
 
