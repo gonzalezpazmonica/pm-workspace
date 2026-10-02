@@ -117,8 +117,27 @@ Ninguno: script de shell y workflows de CI.
 | AC2 | La clave de CI y la local con el mismo valor son intercambiables; una firma con otra clave da `HMAC mismatch` | OK |
 | AC3 | Con `CONFIDENTIALITY_REQUIRE_HMAC=1` y sin clave, `sign` no escribe firma ni clave y `verify` falla nombrando `CONFIDENTIALITY_HMAC_KEY`; la variable vacía cuenta como ausente; sin ella, `HMAC: SKIPPED` como antes | OK |
 | AC4 | Test nuevo: una firma calculada con `openssl dgst -hmac` verifica con el script nuevo | OK |
-| AC5 | Paso 3 | Pendiente |
+| AC5 | Paso 3 (abajo) | Ver paso 3 |
 | AC6 | 28/28 BATS (27 de la rama del handback + AC4); auditor 85 | OK |
 
 El contenido exacto del script pasó el `data-sovereignty-gate` en seco: `public` (0,5), ALLOW. Sin cambios en la CI.
+
+### Paso 2 — secreto de CI (2026-10-02)
+
+`CONFIDENTIALITY_HMAC_KEY` creado por Savia con `gh secret set`, por decisión de la operadora, a
+partir de `~/.savia/confidentiality-key` sin el salto de línea final (el script lee el fichero sin
+él). La clave pasó por stdin y no se mostró. `gh secret list` confirma que existe.
+
+### Paso 3 — workflows (2026-10-02)
+
+- `confidentiality-gate.yml` (verify), `auto-rebase-open-prs.yml` y `changelog-consolidate.yml`
+  (re-firman) reciben `CONFIDENTIALITY_HMAC_KEY` y `CONFIDENTIALITY_REQUIRE_HMAC=1` a nivel de job.
+- Test de regresión en `tests/scripts/test-confidentiality-sign.bats`.
+- **AC5:**
+  - La CI de este PR verifica, con el secreto y en modo exigente, la firma hecha en local con la
+    clave de la operadora.
+  - Rechazar una firma hecha con otra clave lo cubre el test `ci-key: reject`.
+  - El re-firmado del bot queda por observar en el próximo auto-rebase.
+- **Riesgo residual:** un PR abierto con firma del bot anterior (clave efímera) fallará la
+  verificación hasta que se re-firme en local o lo re-firme el auto-rebase. El 2026-10-02 no había PR abiertos.
 
