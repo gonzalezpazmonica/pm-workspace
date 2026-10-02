@@ -2,7 +2,7 @@ skill	state	lines	clasificacion	justificacion
 adversarial-security	Incomplete	87	REFACTOR	completar tests/DOMAIN para calibrar (propuesta)
 agent-code-map	Incomplete	150	REFACTOR	completar tests/DOMAIN para calibrar (propuesta)
 agent-file-map	Incomplete	122	REFACTOR	completar tests/DOMAIN para calibrar (propuesta)
-agent-messaging	Incomplete	77	REFACTOR	completar tests/DOMAIN para calibrar (propuesta)
+agent-messaging	Calibrated	77	CALIBRATED	2026-10-02: test de comportamiento certificado (>=80) y maturity stable con OK de la operadora
 agent-runs-board	Stub	130	DELETE	stub sin cuerpo ni DOMAIN: candidata a eliminación (propuesta, requiere revisión)
 ai-labor-impact	Incomplete	82	REFACTOR	completar tests/DOMAIN para calibrar (propuesta)
 android-autonomous-debugger	Incomplete	148	REFACTOR	completar tests/DOMAIN para calibrar (propuesta)
@@ -74,7 +74,7 @@ org-meeting-capture	Incomplete	60	REFACTOR	completar tests/DOMAIN para calibrar 
 org-political-landscape	Incomplete	59	REFACTOR	completar tests/DOMAIN para calibrar (propuesta)
 org-registrar	Stub	67	DELETE	stub sin cuerpo ni DOMAIN: candidata a eliminación (propuesta, requiere revisión)
 org-stakeholder-mapper	Incomplete	67	REFACTOR	completar tests/DOMAIN para calibrar (propuesta)
-overnight-sprint	Incomplete	150	REFACTOR	completar tests/DOMAIN para calibrar (propuesta)
+overnight-sprint	Calibrated	150	CALIBRATED	2026-10-02: test de comportamiento certificado (>=80) y maturity stable con OK de la operadora
 parallel-dispatch	Incomplete	79	REFACTOR	completar tests/DOMAIN para calibrar (propuesta)
 pbi-decomposition	Incomplete	148	REFACTOR	completar tests/DOMAIN para calibrar (propuesta)
 pentesting	Incomplete	132	REFACTOR	completar tests/DOMAIN para calibrar (propuesta)
@@ -101,7 +101,7 @@ savia-identity	Stub	48	DELETE	stub sin cuerpo ni DOMAIN: candidata a eliminació
 savia-labs	Incomplete	64	REFACTOR	completar tests/DOMAIN para calibrar (propuesta)
 savia-memory	Incomplete	113	REFACTOR	completar tests/DOMAIN para calibrar (propuesta)
 savia-school	Incomplete	51	REFACTOR	completar tests/DOMAIN para calibrar (propuesta)
-savia-vaults	Incomplete	76	REFACTOR	completar tests/DOMAIN para calibrar (propuesta)
+savia-vaults	Calibrated	76	CALIBRATED	2026-10-02: test de comportamiento certificado (>=80) y maturity stable con OK de la operadora
 scaling-operations	Incomplete	78	REFACTOR	completar tests/DOMAIN para calibrar (propuesta)
 scheduled-messaging	Incomplete	119	REFACTOR	completar tests/DOMAIN para calibrar (propuesta)
 skill-evaluation	Incomplete	64	REFACTOR	completar tests/DOMAIN para calibrar (propuesta)
