@@ -93,7 +93,9 @@ describe('SE-416 antivirus gestionado', () => {
     const [r] = await tools.setup(['antivirus']);
     expect(r.ok).toBe(true);
   });
-  afterEach(async () => { await close(); fs.rmSync(dir, { recursive: true, force: true }); });
+  // La actualización de firmas corre en segundo plano y escribe en clamav/db: hay que esperarla
+  // antes de borrar el directorio, o el borrado compite con ella (ENOTEMPTY en CI).
+  afterEach(async () => { await tools.whenRefreshSettled(); await close(); fs.rmSync(dir, { recursive: true, force: true }); });
 
   const age = (hours: number) => {
     const old = new Date(Date.now() - hours * 3600_000);
@@ -128,8 +130,14 @@ describe('SE-416 antivirus gestionado', () => {
     await scanFile(f, { mode: 'auto', tools });
     expect(Date.now() - t).toBeLessThan(2000);
     const marker = path.join(dir, 'tools', 'clamav', 'db', '.last-update');
-    for (let i = 0; i < 50 && (Date.now() - fs.statSync(marker).mtimeMs) > 3600_000; i++) await new Promise((r) => setTimeout(r, 100));
+    await tools.whenRefreshSettled();
     expect(Date.now() - fs.statSync(marker).mtimeMs).toBeLessThan(3600_000);
   });
 });
 
+describe('SE-416 actualización de firmas en segundo plano', () => {
+  it('whenRefreshSettled resuelve al instante si no hay actualización en curso', async () => {
+    const t = new Tools({ home: fs.mkdtempSync(path.join(os.tmpdir(), 'savia-scan-r-')), pins: null });
+    await expect(t.whenRefreshSettled()).resolves.toBeUndefined();
+  });
+});

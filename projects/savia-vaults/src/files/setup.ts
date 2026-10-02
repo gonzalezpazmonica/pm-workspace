@@ -145,6 +145,8 @@ export class Tools {
   private readonly env: NodeJS.ProcessEnv;
   private readonly pins: ToolsPins | null;
   private readonly lockFile: string;
+  /** Actualización de firmas en curso (SE-416 AC5); el producto no la espera, los tests sí. */
+  private refresh: Promise<void> | null = null;
 
   constructor(o: ToolsOptions = {}) {
     this.env = o.env ?? process.env;
@@ -434,7 +436,16 @@ export class Tools {
       env: { ...c.env, ...this.passThrough() }, detached: true, stdio: 'ignore',
     });
     child.unref();
+    this.refresh = new Promise<void>((resolve) => {
+      child.once('exit', () => resolve());
+      child.once('error', () => resolve());
+    }).finally(() => { this.refresh = null; });
     return 'started';
+  }
+
+  /** Resuelve cuando termina la actualización de firmas en segundo plano, si hay una en curso. */
+  whenRefreshSettled(): Promise<void> {
+    return this.refresh ?? Promise.resolve();
   }
 
   private async installExtractor(tmp: string, onPhase?: (p: string) => void): Promise<number> {
