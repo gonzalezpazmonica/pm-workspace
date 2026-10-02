@@ -6,7 +6,7 @@ created: 2026-10-02
 author: Savia
 phase: A
 risk: L4
-related_specs: [SE-427, SE-428, SE-429, SE-430, SE-406, SE-409, SPEC-186]
+related_specs: [SE-428, SE-429, SE-430, SE-406, SE-409, SPEC-186]
 origin: "Mandato de la operadora 2026-10-02: Savia Space debe contar con un flujo continuo configurable y activable bajo demanda, Savia Soul, que emule a bots autónomos (OpenClaw, Hermes, OpenAI Five, Meta Muse, Grok Bot), con el que otros bots se comuniquen por A2A y la operadora por chat o mensajería"
 resource: https://github.com/nousresearch/hermes-agent
 ---
@@ -40,7 +40,7 @@ Savia no tiene ese modo, ni una forma de que otros bots hablen con ella.
 
 **Regla madre: Soul solo actúa a través de las primitivas de Space**:
 
-- ejecuciones de evidencia (SE-427);
+- ejecuciones de evidencia (SE-428);
 - tareas de agente con envolvente y mediación de permisos (SE-428);
 - mensajes y A2A (SE-429).
 

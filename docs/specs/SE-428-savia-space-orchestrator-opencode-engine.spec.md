@@ -6,7 +6,7 @@ created: 2026-10-02
 author: Savia
 phase: A
 risk: L3
-related_specs: [SE-427, SE-429, SE-430, SE-431, SE-401, SE-396, SE-304]
+related_specs: [SE-429, SE-430, SE-431, SE-401, SE-396, SE-304]
 origin: "Mandato de la operadora: Savia Space como cliente sustituto de OpenCode, compatible con él, con la arquitectura de Savia y con sus flujos y hooks. Decisiones 2026-10-02 (AskUserQuestion): modelo híbrido con OpenCode como motor; sustituto primero; hooks bash registrados; sesión interactiva en el checkout"
 resource: https://opencode.ai/docs/server/
 ---
@@ -15,11 +15,11 @@ resource: https://opencode.ai/docs/server/
 
 ## Problema
 
-Savia trabaja hoy a través de frontends de agentes, sobre todo OpenCode. Savia Space 0.1
-(SE-427) es solo un espacio de lectura con evidencia: no lleva sesiones de agente, ni
-herramientas, ni comandos, ni hooks. El encargo original de Space era otro: un cliente que
-**sustituya a OpenCode y sea compatible con él**, con la arquitectura, los flujos y los hooks de
-Savia.
+Savia trabaja hoy a través de frontends de agentes, sobre todo OpenCode. El encargo de Savia
+Space es un cliente que **sustituya a OpenCode y sea compatible con él**, con la arquitectura,
+los flujos y los hooks de Savia. Un primer prototipo local (no publicado) se quedó en un espacio
+de lectura con evidencia: sin sesiones de agente, herramientas, comandos ni hooks. La operadora
+lo descartó como entrega; su código se reutiliza aquí (ver «Reutilización»).
 
 ## Objetivo
 
@@ -29,7 +29,7 @@ Que la operadora pueda hacer una jornada normal de Savia en Space sin abrir la T
   plugins y guards de Savia, y los mismos agentes, skills, comandos y MCP.
 - **Sesiones compatibles en los dos sentidos**: también se abren con `opencode attach`.
 - **Más de lo que da OpenCode**:
-  - evidencia de bytes exactos (SE-427);
+  - evidencia de bytes exactos (modo de evidencia, §8);
   - recibos, plano e inspector;
   - interop con terceros (SE-429) y móvil (SE-430);
   - Savia Soul (SE-431).
@@ -88,6 +88,28 @@ Space nunca afloja `opencode.json`; solo puede endurecerlo. Las reglas de seguri
 7. **Flujos de Savia.** Clock-in/clock-out, `pr-plan`, validación local de CI, roadmap, memoria,
    overnight-sprint y code-improvement-loop se ofrecen como acciones ejecutadas por el motor. Space
    no los reescribe.
+8. **Modo de evidencia.** Además de las sesiones de agente, Space conserva un modo propio para
+   trabajo de lectura sobre las cúpulas:
+   - la persona ve los bytes exactos que recibirá un modelo local y aprueba su hash;
+   - las citas se comprueban literalmente contra las fuentes.
+   Es un modo dentro del sustituto, no el producto.
+
+## Reutilización del prototipo
+
+El prototipo descartado (servidor Rust y cliente Vue) se reutiliza en la 0.2:
+
+| Pieza del prototipo | Uso en el sustituto |
+|---|---|
+| JSON estricto, canonicalización JCS (RFC 8785), hashes y vectores de test | contratos, recibos y verificación en el cliente |
+| journal SQLite con eventos por secuencia, idempotencia, retención y bloqueo de instancia | estado de Space: sesiones, eventos del motor normalizados y recibos |
+| máquina de estados de ejecuciones, cancelación con valla y recuperación sin reenvío | supervisión de las ejecuciones del motor y del modo de evidencia |
+| SSE con backlog, deduplicación por secuencia y revalidación de la sesión web | streaming hacia la web y el móvil |
+| seguridad local: Host/Origin, marcas de mutación, cookie `HttpOnly`, emparejado por socket | base de la UI propia |
+| ensamblado de contexto, validación determinista de citas y adaptador de Ollama | modo de evidencia (§8) |
+| cliente Vue: API, reductor de eventos, verificación de hash e inspector | base del cliente sustituto (sesiones, permisos, diff) |
+
+Lo que es nuevo: el adaptador del motor de OpenCode, la paridad de la UI, el bus de hooks y la
+mediación.
 
 ## Fuera de alcance
 

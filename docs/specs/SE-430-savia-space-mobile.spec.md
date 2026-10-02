@@ -6,7 +6,7 @@ created: 2026-10-02
 author: Savia
 phase: A
 risk: L3
-related_specs: [SE-427, SE-428, SE-429]
+related_specs: [SE-428, SE-429]
 origin: "Mandato de la operadora 2026-10-02: migrar Savia Mobile a un proyecto nuevo diseñado para consumir Savia Space por red local, VPN o internet, y adaptar su funcionalidad a Savia Space"
 resource: https://developer.android.com/privacy-and-security/keystore
 ---

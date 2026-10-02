@@ -6,7 +6,7 @@ created: 2026-10-02
 author: Savia
 phase: A
 risk: L3
-related_specs: [SE-427, SE-428, SE-430, SE-423, SE-401]
+related_specs: [SE-428, SE-430, SE-423, SE-401]
 origin: "Mandato de la operadora 2026-10-02: Savia Space con API JWT y contrato OpenAPI, MCP y A2A para ser consumido, ejecutado y usado por terceras aplicaciones, agentes o servicios; compatible con AEK, AEOS y TEE"
 resource: https://spec.openapis.org/oas/v3.1.0
 ---
@@ -15,7 +15,7 @@ resource: https://spec.openapis.org/oas/v3.1.0
 
 ## Problema
 
-Savia Space 0.1 solo lo usa su propia interfaz web, con una cookie local. Hoy no pueden usarlo:
+Savia Space (SE-428) se diseña para su propia interfaz web, con una cookie local. Sin esta spec no podrían usarlo:
 
 - otras aplicaciones: scripts, paneles, la app móvil;
 - otros agentes: OpenCode, Claude Code u otros clientes MCP;
