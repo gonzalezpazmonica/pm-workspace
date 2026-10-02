@@ -50,7 +50,9 @@ lo aplica en cada PR, y el job de CI que ya usa `validate-ci-local.sh` también.
 
 `validate-ci-local.sh --clean-state` (advisory) añade: checkout principal sin
 cambios fuera de `output/`, sin worktrees `agent/*` de PRs ya mergeadas y
-`docs/propuestas/session-handoff.md` actualizado si hubo commits en la sesión.
+traspaso de sesión actualizado si hubo commits en la sesión. Desde el 2026-10-02 el traspaso es
+privado (`~/.savia/session-handoff.md`, o `$SAVIA_HANDOFF_FILE`) y nunca se versiona en este repo
+público; si reaparece versionado, la comprobación avisa para sacarlo.
 
 - AC4: cada dimensión se reporta por separado; solo S1 bloquea, S2 es advisory.
 - AC5: un worktree `agent/*` con PR mergeada y sin cambios aparece como "retirable".
@@ -132,6 +134,8 @@ Sin script nuevo: la lógica vive en `validate-ci-local.sh` para no subir la ent
 
 Interpretación: «commits en la sesión» se mide como commits en main posteriores a la
 última actualización de `session-handoff.md` (sin estado de sesión que consultar).
+Cambio 2026-10-02: la referencia es la fecha de modificación del traspaso privado, ya fuera del
+repo; los tests usan un traspaso en un directorio temporal (13 casos).
 
 ### S3 (2026-10-01)
 
