@@ -6,6 +6,10 @@
 > Each entry: date, spec ID, status transition, optional rationale.
 > Ref: SE-222 S1 OKF Adoptable Patterns (log.md convention).
 
+## 2026-10-03 SE-432 PROPOSED
+
+Savia Space: escritorio infinito y experiencia; superficie principal del sustituto (SE-428), apariencia gestionada por la persona.
+
 ## 2026-10-02 SE-431 PROPOSED
 
 Savia Soul: bucle continuo configurable y bajo demanda dentro de Space; A2A con otros bots y mensajería con la operadora.
