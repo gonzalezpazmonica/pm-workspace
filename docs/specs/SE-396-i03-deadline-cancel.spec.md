@@ -1,5 +1,5 @@
 ---
-status: IMPLEMENTING
+status: APPROVED
 implementation_state: IMPLEMENTED_PENDING_HUMAN_REVIEW
 approval: "Heredada de SE-396: Operadora 2026-09-09 y continuidad 2026-09-21"
 parent: SE-396

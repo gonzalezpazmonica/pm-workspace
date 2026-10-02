@@ -42,6 +42,7 @@ projects/*
 !projects/savia-mobile-android/
 !projects/savia-vaults/
 !projects/savia-sonora/
+!projects/savia-space/
 !projects/proyecto-beta/
 !projects/sala-reservas/
 !projects/savia-mobile-android/
@@ -68,6 +69,7 @@ output/
 # SE-425: lockfiles versionados donde la instalación debe ser reproducible
 !scripts/package-lock.json
 !projects/savia-vaults/package-lock.json
+!projects/savia-space/apps/web/package-lock.json
 **/dist/
 
 # ── Python ───────────────────────────────────────────────────────────────────

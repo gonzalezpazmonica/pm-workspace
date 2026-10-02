@@ -199,12 +199,12 @@
     },
     {
       "id": "SE-396",
-      "status": "IMPLEMENTING",
+      "status": "APPROVED",
       "approval": "Operadora 2026-09-09: aprobación global de trabajo pendiente",
       "priority": "P0",
       "title": "Harness operational integrity & verifiable substitution",
       "evidence": "PRs #1112/#1113/#1122/#1129/#1130/#1131/#1132/#1133/#1135 mergeadas. H02/H10/A01b/A01c: autoridad previa al executor, composición aislada y sustitución operacional Codex/OpenCode. Auditoría AC local: docs/evidence/SE-396-closure-review-20260924.md; 127 tests dual-cli, 18 de planificación y gate canónico previo 6/6. Doctor nativo permanece DEGRADED_SAFE; recibo A01c requiere revisión de procedencia. Actualización 2026-09-30: #1183 integrado (5b03a196), canaries de sesión y validación de recibo implementados, sin ejecución real. Informe delta: docs/evidence/SE-396-closure-review-20260928.md.",
-      "note": "H04 requiere primera ejecución real expresamente autorizada y receipt; H09 cotejo humano de A01c con captura externa. Revalidar baseline global: traspaso 29/09 declara 0 fallos de código y 1 de entorno, pero conserva handback con 7 tests rojos. No graduar con ese resumen; registrar completion sólo tras evidencia AC y revisión humana.",
+      "note": "H04 requiere primera ejecución real expresamente autorizada y receipt; H09 cotejo humano de A01c con captura externa. Revalidar baseline global: traspaso 29/09 declara 0 fallos de código y 1 de entorno, pero conserva handback con 7 tests rojos. No graduar con ese resumen; registrar completion sólo tras evidencia AC y revisión humana.. 2026-10-02: sale del WIP (decisión de la operadora) para dejar hueco a SE-427; vuelve con H04/H09",
       "phase": "B",
       "session_order": 3
     },
@@ -931,6 +931,16 @@
       "evidence": "docs/specs/SE-426-confidentiality-hmac-ci-key.spec.md",
       "phase": "A",
       "approval": "Operadora 2026-10-02 en chat (AskUserQuestion, en remoto): 'Aprobar e implementar el paso 1'; secreto: 'Créalo tú, Savia'"
+    },
+    {
+      "id": "SE-427",
+      "status": "IMPLEMENTING",
+      "priority": "P1",
+      "title": "Savia Space 0.1: espacio de trabajo local de solo lectura sobre las cúpulas",
+      "evidence": "docs/specs/SE-427-savia-space-mvp.spec.md",
+      "note": "MVP funcional en local 2026-10-02 (128 tests Rust, 11 Vitest, e2e UI con gemma3:4b). Pendiente 0.1: copia de seguridad, doctor completo, emparejado Windows, prueba contra Vaults reales",
+      "phase": "A",
+      "approval": "Operadora 2026-10-02 en chat: diseño aceptado y sprint nocturno con permisos de merge; SE-396 sale del WIP"
     }
   ],
   "route": {

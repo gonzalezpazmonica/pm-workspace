@@ -1,0 +1,75 @@
+{
+  "version": 1,
+  "accept": [
+    {
+      "name": "key-order-utf16",
+      "input": "{\"\\ufb33\":1,\"\\ud800\\udc00\":2}",
+      "canonical": "{\"𐀀\":2,\"דּ\":1}",
+      "sha256": "f0a45065b604fd13aeaffc9461fec4ba99d2409bc982d709f8a3894e220086a3"
+    },
+    {
+      "name": "nested-objects",
+      "input": "{\"b\":{\"z\":1,\"a\":[3,2,1]},\"a\":null}",
+      "canonical": "{\"a\":null,\"b\":{\"a\":[3,2,1],\"z\":1}}",
+      "sha256": "cd3390297393d12f33cf1993e97bb58956c9796568f70cc5eaee4a39dfda50ac"
+    },
+    {
+      "name": "escapes",
+      "input": "\"q\\\"b\\\\s\\u0001\\u001f\\n\\t\\r\\b\\f\\u007f\\u2028é\"",
+      "canonical": "\"q\\\"b\\\\s\\u0001\\u001f\\n\\t\\r\\b\\f é\"",
+      "sha256": "5412d024ca721aa0d48b957a59f590c7b2bcd65165b4c6e3ce685c19934ea90f"
+    },
+    {
+      "name": "astral-and-emoji",
+      "input": "{\"t\":\"\\ud83d\\ude00 ok\"}",
+      "canonical": "{\"t\":\"😀 ok\"}",
+      "sha256": "a67755f11f7bbb48d48ea295704da28f7107e63b4448075a5b8ed84a5c5e0169"
+    },
+    {
+      "name": "whitespace-dropped",
+      "input": " { \"a\" : [ 1 , 2 ] } ",
+      "canonical": "{\"a\":[1,2]}",
+      "sha256": "01530d164d479cf08e26d3b1ad9bdba927120d97e2d057a6d792db778780d720"
+    },
+    {
+      "name": "safe-int-bounds",
+      "input": "[9007199254740991,-9007199254740991,0]",
+      "canonical": "[9007199254740991,-9007199254740991,0]",
+      "sha256": "b80bd42d5351670aefcf3e66750d64961095073307e52f6d6b3554d97ed6578f"
+    },
+    {
+      "name": "null-absent-empty",
+      "input": "{\"n\":null,\"e\":\"\",\"l\":[],\"o\":{}}",
+      "canonical": "{\"e\":\"\",\"l\":[],\"n\":null,\"o\":{}}",
+      "sha256": "f91c6a3fdd73beb0b1eea9c75b27f8e4ba3e02d086e8a9e55e09d018cec201cd"
+    },
+    {
+      "name": "crlf-in-string",
+      "input": "\"a\\r\\nb\"",
+      "canonical": "\"a\\r\\nb\"",
+      "sha256": "f74a66d2f8e09050ac1f8d6867d2180196bba5cfe1b9048cd6252a9655db78c3"
+    }
+  ],
+  "reject": [
+    {
+      "name": "float",
+      "input": "{\"a\":1.5}"
+    },
+    {
+      "name": "float-integral",
+      "input": "1.0"
+    },
+    {
+      "name": "unsafe-int",
+      "input": "9007199254740992"
+    },
+    {
+      "name": "duplicate-key",
+      "input": "{\"a\":1,\"a\":2}"
+    },
+    {
+      "name": "exponent",
+      "input": "1e3"
+    }
+  ]
+}

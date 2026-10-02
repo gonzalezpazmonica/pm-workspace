@@ -6,6 +6,19 @@
 > Each entry: date, spec ID, status transition, optional rationale.
 > Ref: SE-222 S1 OKF Adoptable Patterns (log.md convention).
 
+## 2026-10-02 SE-427 IMPLEMENTING
+
+Savia Space 0.1 (solo lectura, local). Entra en el hueco de SE-396 por decisión de la operadora;
+MVP funcional con datos sintéticos N1.
+
+## 2026-10-02 SE-427 APPROVED
+
+Diseño aceptado por la operadora; addendum READ_ONLY de ADR-002.
+
+## 2026-10-02 SE-396 APPROVED
+
+Sale del WIP (decisión de la operadora) a la espera de H04/H09; sin cambio de alcance.
+
 ## 2026-10-02 SE-426 IMPLEMENTING
 
 Aprobada por la operadora y en el hueco libre del WIP (3/3). Paso 1: código y tests sin tocar la CI.

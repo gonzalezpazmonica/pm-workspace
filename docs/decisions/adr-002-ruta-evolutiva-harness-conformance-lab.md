@@ -67,3 +67,11 @@ neuro-orquestación, publicación en redes sociales y líneas Labs fuera de la r
   "¿cuántos bypass encontró el laboratorio antes que producción?".
 - Revisión de esta decisión: cuando se supere el Gate D o si aparece evidencia que contradiga
   el principio de §1.
+
+## Addendum 2026-10-02 — Savia Space 0.1 como producto READ_ONLY
+
+Savia Space (SE-427) entra en la Fase A sin esperar a la Fase D porque no amplía autoridad:
+lee con la credencial de la persona, escribe solo en su estado local, no ejecuta herramientas
+ni efectos y solo habla por loopback. Cualquier efecto, herramienta o acceso remoto queda fuera
+hasta superar el gate correspondiente de esta ruta. Ocupa en el WIP el hueco de SE-396, que
+vuelve a APPROVED a la espera de H04/H09.

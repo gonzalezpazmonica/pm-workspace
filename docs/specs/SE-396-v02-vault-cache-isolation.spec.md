@@ -1,5 +1,5 @@
 ---
-status: IMPLEMENTING
+status: APPROVED
 implementation_state: IMPLEMENTED_PENDING_HUMAN_REVIEW
 approval: "Operadora 2026-09-09: aprobación global de trabajo pendiente"
 priority: P1
