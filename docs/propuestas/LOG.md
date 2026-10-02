@@ -6,6 +6,14 @@
 > Each entry: date, spec ID, status transition, optional rationale.
 > Ref: SE-222 S1 OKF Adoptable Patterns (log.md convention).
 
+## 2026-10-02 SE-426 IMPLEMENTING
+
+Aprobada por la operadora y en el hueco libre del WIP (3/3). Paso 1: código y tests sin tocar la CI.
+
+## 2026-10-02 SE-426 APPROVED
+
+Aprobada por la operadora; el secreto de CI lo crea Savia tras el paso 1.
+
 ## 2026-10-02 SE-426 PROPOSED
 
 Firma de confidencialidad con secreto de CI y HMAC siempre verificado (decisión de la operadora

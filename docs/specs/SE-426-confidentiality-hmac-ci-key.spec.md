@@ -1,5 +1,7 @@
 ---
-status: PROPOSED
+status: APPROVED
+approved_at: 2026-10-02
+approval: "Operadora 2026-10-02 en chat (AskUserQuestion, en remoto): 'Aprobar e implementar el paso 1'; secreto: 'Créalo tú, Savia'"
 priority: P1
 developer_type: agent-single
 created: 2026-10-02
@@ -52,7 +54,7 @@ bloquearía todos los PR.
      efímera y `verify` falla cerrado si no hay clave.
    - **Cálculo:** el HMAC se calcula con la clave por stdin, nunca en argv. Da el mismo
      resultado que `openssl -hmac`, así que las firmas existentes siguen verificando.
-2. **Secreto de CI (operadora).** `CONFIDENTIALITY_HMAC_KEY` en el repo, con el mismo valor
+2. **Secreto de CI.** Lo crea Savia por decisión de la operadora (2026-10-02), tras mergear el paso 1: `CONFIDENTIALITY_HMAC_KEY` en el repo, con el mismo valor
    que la clave local, para que la firma local y la verificación en CI se entiendan.
 3. **Workflows.**
    - `confidentiality-gate.yml` (verify) y los dos workflows que re-firman reciben el secreto.
