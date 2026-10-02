@@ -21,7 +21,8 @@ done
 # ── SE-407 S2: estado limpio al cerrar (advisory, nunca bloquea) ──────────
 # Tres dimensiones en líneas PASS/WARN: checkout principal sin cambios fuera de output/;
 # worktrees agent/* retirables (sin cambios y con su contenido ya en main, también tras
-# squash por patch-id); commits en main posteriores a la última actualización del traspaso.
+# squash por patch-id); commits en main posteriores a la última actualización del traspaso
+# privado (~/.savia/session-handoff.md o $SAVIA_HANDOFF_FILE; nunca dentro del repo).
 clean_state_report() {
   local REPO="$1" MAIN_REF PRIMARY DIRTY RETIRABLE path branch base files merged pid HANDOFF LAST AFTER
   if ! git -C "$REPO" rev-parse --git-dir >/dev/null 2>&1; then
@@ -67,16 +68,18 @@ clean_state_report() {
     /^worktree /{p=substr($0, 10)} /^branch refs\/heads\//{b=substr($0, 19); print p "\t" b}')
   [[ "$RETIRABLE" -eq 0 ]] && echo "PASS Worktrees agent/*: ninguno retirable"
 
-  # 3. Traspaso de sesión.
-  HANDOFF=docs/propuestas/session-handoff.md
-  LAST=$(git -C "$REPO" log -1 --format=%H "$MAIN_REF" -- "$HANDOFF" 2>/dev/null)
-  # Un traspaso borrado también deja historia: cuenta si el fichero existe en main.
-  if [[ -z "$LAST" ]] || ! git -C "$REPO" cat-file -e "$MAIN_REF:$HANDOFF" 2>/dev/null; then
-    echo "WARN Traspaso: $HANDOFF no existe en $MAIN_REF"
+  # 3. Traspaso de sesión: privado, fuera del repo público; nunca se versiona.
+  HANDOFF="${SAVIA_HANDOFF_FILE:-$HOME/.savia/session-handoff.md}"
+  if git -C "$REPO" cat-file -e "$MAIN_REF:docs/propuestas/session-handoff.md" 2>/dev/null; then
+    echo "WARN Traspaso: docs/propuestas/session-handoff.md está versionado en $MAIN_REF; es estado interno y debe salir del repo público"
+  fi
+  if [[ ! -f "$HANDOFF" ]]; then
+    echo "WARN Traspaso: no existe el traspaso privado ($HANDOFF)"
   else
-    AFTER=$(git -C "$REPO" rev-list --count "$LAST..$MAIN_REF")
+    LAST=$(stat -c %Y "$HANDOFF" 2>/dev/null || stat -f %m "$HANDOFF")
+    AFTER=$(git -C "$REPO" rev-list --count --since="@$LAST" "$MAIN_REF")
     if [[ "$AFTER" -gt 0 ]]; then
-      echo "WARN Traspaso: $AFTER commit(s) en main desde la última actualización de session-handoff.md"
+      echo "WARN Traspaso: $AFTER commit(s) en main desde la última actualización del traspaso privado"
     else
       echo "PASS Traspaso al día"
     fi

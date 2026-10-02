@@ -1,6 +1,7 @@
 #!/usr/bin/env bats
 # SE-407 S2 — comprobación de estado limpio al cerrar (advisory): checkout principal, worktrees
-# agent/* retirables y traspaso de sesión. Cada dimensión se informa por separado.
+# agent/* retirables y traspaso de sesión privado (fuera del repo). Cada dimensión se informa
+# por separado. El traspaso de prueba vive en $T (SAVIA_HANDOFF_FILE), nunca en el HOME real.
 # Ref: docs/specs/SE-407-consistent-state-predicate.spec.md
 set -uo pipefail
 
@@ -9,16 +10,19 @@ SCRIPT="scripts/validate-ci-local.sh"
 setup() {
   REPO_ROOT="$(cd "$BATS_TEST_DIRNAME/.." && pwd)"
   T="$(mktemp -d -p "$BATS_TEST_TMPDIR")"
-  # Remoto + clon principal con main, traspaso y un fichero de código
+  # Remoto + clon principal con main y un fichero de código; traspaso privado fuera del repo,
+  # posterior al commit base (fechas fijas para no depender del reloj).
   git init -q --bare "$T/remote.git"
   git clone -q "$T/remote.git" "$T/main" 2>/dev/null
   cd "$T/main"
   git config user.email t@example.invalid; git config user.name T
   mkdir -p docs/propuestas output scripts
-  printf 'traspaso\n' > docs/propuestas/session-handoff.md
   printf 'echo a\n' > scripts/a.sh
-  git add . && git commit -qm base && git branch -M main && git push -q origin main
+  git add . && GIT_COMMITTER_DATE=@1000000000 git commit -qm base && git branch -M main && git push -q origin main
   cd "$REPO_ROOT"
+  export SAVIA_HANDOFF_FILE="$T/handoff.md"
+  printf 'traspaso\n' > "$SAVIA_HANDOFF_FILE"
+  touch -d @1000000100 "$SAVIA_HANDOFF_FILE"
 }
 
 run_check() { run bash "$REPO_ROOT/$SCRIPT" --clean-state-only --repo "$T/main" "$@"; }
@@ -32,7 +36,7 @@ run_check() { run bash "$REPO_ROOT/$SCRIPT" --clean-state-only --repo "$T/main" 
   [ "$status" -eq 0 ]
   [[ "$output" == *"PASS Checkout principal limpio"* ]]
   [[ "$output" == *"PASS Worktrees agent/*: ninguno retirable"* ]]
-  [[ "$output" == *"PASS Traspaso"* ]]
+  [[ "$output" == *"PASS Traspaso al día"* ]]
 }
 
 @test "AC4: cambios fuera de output/ en el checkout principal ⇒ WARN con recuento; output/ no cuenta" {
@@ -87,17 +91,15 @@ run_check() { run bash "$REPO_ROOT/$SCRIPT" --clean-state-only --repo "$T/main" 
   [[ "$output" == *"PASS Worktrees agent/*: ninguno retirable"* ]]
 }
 
-@test "edge: commits en main posteriores al último traspaso ⇒ WARN de traspaso" {
+@test "edge: commits en main posteriores al último traspaso privado ⇒ WARN; al actualizarlo ⇒ PASS" {
   printf 'echo e\n' > "$T/main/scripts/e.sh"
-  git -C "$T/main" add . && git -C "$T/main" commit -qm "feat e" && git -C "$T/main" push -q origin main
-  git -C "$T/main" fetch -q origin
+  git -C "$T/main" add . && GIT_COMMITTER_DATE=@1000000200 git -C "$T/main" commit -qm "feat e"
+  git -C "$T/main" push -q origin main && git -C "$T/main" fetch -q origin
   run_check
-  [[ "$output" == *"WARN Traspaso: 1 commit(s) en main desde la última actualización de session-handoff.md"* ]]
-  printf 'traspaso nuevo\n' > "$T/main/docs/propuestas/session-handoff.md"
-  git -C "$T/main" add . && git -C "$T/main" commit -qm handoff && git -C "$T/main" push -q origin main
-  git -C "$T/main" fetch -q origin
+  [[ "$output" == *"WARN Traspaso: 1 commit(s) en main desde la última actualización del traspaso privado"* ]]
+  touch -d @1000000300 "$SAVIA_HANDOFF_FILE"
   run_check
-  [[ "$output" == *"PASS Traspaso"* ]]
+  [[ "$output" == *"PASS Traspaso al día"* ]]
 }
 
 @test "error: nonexistent repo ⇒ salida 2 con mensaje" {
@@ -113,13 +115,28 @@ run_check() { run bash "$REPO_ROOT/$SCRIPT" --clean-state-only --repo "$T/main" 
   ! grep -q 'echo "FAIL' "$T/fn.sh"
 }
 
-@test "edge: nonexistent session-handoff.md en main ⇒ WARN de traspaso, sin error" {
-  git -C "$T/main" rm -q docs/propuestas/session-handoff.md
-  git -C "$T/main" commit -qm "sin traspaso" && git -C "$T/main" push -q origin main
-  git -C "$T/main" fetch -q origin
+@test "edge: nonexistent traspaso privado ⇒ WARN, sin error" {
+  rm -f "$SAVIA_HANDOFF_FILE"
   run_check
   [ "$status" -eq 0 ]
-  [[ "$output" == *"WARN Traspaso: docs/propuestas/session-handoff.md no existe en origin/main"* ]]
+  [[ "$output" == *"WARN Traspaso: no existe el traspaso privado ($SAVIA_HANDOFF_FILE)"* ]]
+}
+
+@test "reject: traspaso versionado en el repo público ⇒ WARN para sacarlo" {
+  printf 'interno\n' > "$T/main/docs/propuestas/session-handoff.md"
+  git -C "$T/main" add . && git -C "$T/main" commit -qm "traspaso versionado"
+  git -C "$T/main" push -q origin main && git -C "$T/main" fetch -q origin
+  run_check
+  [ "$status" -eq 0 ]
+  [[ "$output" == *"WARN Traspaso: docs/propuestas/session-handoff.md está versionado en origin/main"* ]]
+}
+
+@test "safety: sin SAVIA_HANDOFF_FILE usa ~/.savia y no crea nada en el HOME" {
+  mkdir -p "$T/home"
+  run env -u SAVIA_HANDOFF_FILE HOME="$T/home" bash "$REPO_ROOT/$SCRIPT" --clean-state-only --repo "$T/main"
+  [ "$status" -eq 0 ]
+  [[ "$output" == *"no existe el traspaso privado ($T/home/.savia/session-handoff.md)"* ]]
+  [ -z "$(ls -A "$T/home")" ]
 }
 
 @test "edge: zero worktrees agent/* (solo ramas humanas) ⇒ PASS ninguno retirable" {
