@@ -5,7 +5,7 @@ description: Escanea el historial git o los commits pendientes de push buscando 
 metadata:
   # --- metadata.savia.* (SE-333) ---
   savia.category: security
-  savia.maturity: beta
+  savia.maturity: stable
   savia.context: fork
   savia.context_cost: low
   savia.se: SE-239
@@ -48,6 +48,8 @@ bash scripts/git-history-secret-scan.sh --since v1.0.0
 bash scripts/install-prepush-hook.sh
 ```
 
+Se instala donde git lee los hooks (`git rev-parse --git-path hooks`): en un worktree, el directorio común (afecta a todos los worktrees del repo); con `core.hooksPath`, esa ruta. Un `pre-push` ajeno se guarda como `.bak.<fecha>`.
+
 ## Outputs
 
 | Fichero | Contenido |
@@ -63,8 +65,10 @@ Todos en `output/security/` — git-ignorado (N3, confidencial).
 | Code | Significado |
 |---|---|
 | 0 | Sin findings — repo limpio |
-| 1 | Findings CRITICAL o HIGH |
+| 1 | Findings CRITICAL o HIGH (también: gitleaks no instalado) |
 | 2 | Solo findings MEDIUM o LOW |
+| 3 | `output/` no está en el `.gitignore` del repo: no se escanea |
+| 4 | gitleaks falló o su informe es ilegible: el historial **no** se ha comprobado (nunca se da por limpio) |
 
 ## Severidad
 

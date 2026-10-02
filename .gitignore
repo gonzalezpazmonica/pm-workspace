@@ -27,6 +27,7 @@
 !docs/specs/SE-353-sentinel-secrets.spec.md
 !scripts/git-history-secret-remediate.sh
 !scripts/git-history-secret-scan.sh
+!tests/test-git-secret-scanner.bats
 
 # ── Proyectos: todo ignorado por defecto, solo se publican los de ejemplo ─────
 # Cualquier proyecto nuevo queda automáticamente excluido sin necesidad de

@@ -2,7 +2,8 @@
 # agent-size-audit.sh — SE-038 Slice 1 probe: measure size of every agent.
 #
 # Rule #22 enforces <4KB per agent definition in `.opencode/agents/*.md` to
-# keep agent selection hot path light. This script scans all agents,
+# keep agent selection hot path light. This script scans .claude/agents (no .opencode/agents:
+# hallazgo SE-376 2026-10-02, los dos árboles divergen), all agents,
 # reports bytes + approximate token count (chars ÷ 4), flags violations,
 # and supports an opt-in `size_exception:` frontmatter field for cases
 # with explicit justification.
@@ -24,7 +25,7 @@ usage() {
   cat <<EOF
 Usage: $0 [--quiet] [--ratchet] [--baseline N]
 
-Audits .opencode/agents/*.md against Rule #22 SLA (<4096 bytes each).
+Audits .claude/agents/*.md (definiciones de Claude Code; .opencode/agents no) against Rule #22 SLA (<4096 bytes each).
 Flags violations unless the agent has a documented size_exception marker
 in its frontmatter.
 

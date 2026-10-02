@@ -2,7 +2,8 @@
 # SE-239 — Git history secret scanning
 # Escanea el historial git completo (o un rango) con gitleaks.
 # Uso: bash scripts/git-history-secret-scan.sh [--since <ref>] [--repo <path>]
-# Exit codes: 0=clean, 1=CRITICAL/HIGH findings, 2=MEDIUM/LOW only
+# Exit codes: 0=clean, 1=CRITICAL/HIGH findings (o gitleaks ausente), 2=MEDIUM/LOW only,
+#             3=output/ sin ignorar, 4=el escaneo falló (nunca se da por limpio)
 set -uo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
@@ -98,6 +99,17 @@ gitleaks detect \
   --exit-code 1 \
   2>/dev/null
 GITLEAKS_EXIT=$?
+
+# Fail-closed (SE-376): gitleaks solo sale 0 (limpio) o 1 (findings). Cualquier otro código
+# es un fallo del escáner, y un informe ilegible tras findings tampoco es «limpio».
+if [[ $GITLEAKS_EXIT -ne 0 && $GITLEAKS_EXIT -ne 1 ]]; then
+  echo "ERROR: gitleaks falló (exit $GITLEAKS_EXIT); el historial NO se ha comprobado." >&2
+  exit 4
+fi
+if [[ $GITLEAKS_EXIT -eq 1 ]] && ! python3 -c 'import json,sys; d=json.load(open(sys.argv[1])); sys.exit(0 if isinstance(d, list) and d else 1)' "$TMPFILE" 2>/dev/null; then
+  echo "ERROR: gitleaks informó findings pero su informe está vacío o es ilegible; el historial NO se ha comprobado." >&2
+  exit 4
+fi
 
 # ── 6. Procesar findings ──────────────────────────────────────────────────────
 if [[ $GITLEAKS_EXIT -eq 0 ]]; then

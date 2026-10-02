@@ -6,7 +6,7 @@ license: MIT
 compatibility: opencode
 metadata:
   audience: pm
-  savia.maturity: beta
+  savia.maturity: stable
   workflow: memory-management
   # --- metadata.savia.* (SE-333) ---
   savia.consumes: session_data
@@ -43,18 +43,19 @@ Gestión de la memoria canónica externa del pm-workspace (`.savia-memory/`).
 ## Comandos
 
 ```bash
-# Guardar una entrada en memoria
-bash ~/claude/scripts/memory-store.sh save "<tipo>" "<contenido>"
+# Guardar una entrada (tipo, título y contenido obligatorios; --source con formato válido)
+bash scripts/memory-store.sh save --type decision --title "<título>" --content "<contenido>" \
+  --source user:explicit          # o tool:<nombre> · file:<ruta>:<línea> · verified:<sha>
 
 # Buscar en memoria (search o recall)
-bash ~/claude/scripts/memory-store.sh search "<query>"
-bash ~/claude/scripts/memory-store.sh recall "<query>"
+bash scripts/memory-store.sh search "<query>"
+bash scripts/memory-store.sh recall "<query>"
 
 # Ver estadísticas de memoria
-bash ~/claude/scripts/memory-store.sh stats
+bash scripts/memory-store.sh stats
 
-# Reconstruir índice desde JSONL
-bash ~/claude/scripts/memory-index-rebuild.sh
+# Reconstruir el índice auto/MEMORY.md desde el JSONL
+bash scripts/memory-index-rebuild.sh
 
 # Validar una entrada antes de guardarla (no escribe)
 bash scripts/memory-write-gate.sh --content "<contenido>" --type decision \
@@ -89,21 +90,22 @@ operaciones explícitas. No ejecutarlas automáticamente ni añadirlas a hooks o
 
 ## Escritura de memoria
 
-Usar `scripts/memory-store.sh save` con el formato:
-```
-<tipo>: <descripción>
-<contenido>
-```
+`save` exige `--type` y `--title`. La forma posicional `save "<tipo>" "<contenido>"` se rechaza.
+Antes de guardar algo dudoso, pásalo por `memory-write-gate.sh`: rechaza contenido corto,
+especulativo o de baja confianza. Un contenido idéntico a otro ya guardado se omite como
+duplicado. Cada `save` actualiza el índice `~/.savia-memory/auto/MEMORY.md` (o
+`SAVIA_MEMORY_INDEX_FILE`); dentro de BATS nunca se toca el índice real del usuario.
 
-Tipos: decision, pattern, context, feedback, lesson, reference
+Tipos habituales: decision, pattern, bug, discovery, convention, architecture, config,
+feedback, reference.
 
 ## Anti-patterns
 
 **❌ Guardar sin tipo**: usar `--type custom` para todo en lugar del tipo semántico correcto (`decision`, `discovery`, `bug`, etc.) → memoria no recuperable por topic, búsquedas devuelven ruido.
 **✓ Correcto**: seleccionar el tipo que mejor describe la naturaleza del dato antes de guardar.
 
-**❌ Guardar sin source**: omitir `--source skill:<name>` o `--source session` → trazabilidad rota, entries huérfanas sin origen verificable.
-**✓ Correcto**: siempre incluir `--source` con el skill, comando o sesión que originó la entrada.
+**❌ Guardar sin source**: omitir `--source` → trazabilidad rota, entries huérfanas sin origen verificable. `--source session` o `skill:<name>` no son formatos válidos y se rechazan.
+**✓ Correcto**: `--source tool:<nombre>`, `file:<ruta>:<línea>`, `verified:<sha>` o `user:explicit`.
 **❌ Bulk-dump**: guardar todo indiscriminadamente al final de la sesión → memoria saturada con ruido, las entradas valiosas quedan enterradas.
 **✓ Correcto**: guardar sólo los datos que tienen valor de recuperación real (decisiones, patrones, bugs con causa-raíz).
 
