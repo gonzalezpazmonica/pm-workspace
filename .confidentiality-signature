@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=165cd9fcd2ba69ff472e67dfd78086598981a8fc0769bbaf509b4791534cbac1
-timestamp=2026-10-02T19:23:49Z
-branch=agent/handoff-private-20261002
-head_commit=f4f26a0c
-signature=3a065529cfb5eb89babdd427240fa8dc94a0e5596d42f1f2b7859db428540efa
+diff_hash=0301e109b85c2885d7500ca7d33dea4495ecf47f83a527ecd31b87abab0ae512
+timestamp=2026-10-02T21:39:17Z
+branch=agent/vaults-scan-teardown-20261002
+head_commit=ead93af8
+signature=13a06824767b3fbad564d5bc0b3adcf3b004764be5b5100e8fb1609171ed4fc1
