@@ -18,8 +18,9 @@
   `SAVIA_VAULTS_TOKEN` en A2A queda obsoleto (solo loopback).
 - SE-376: remedir deuda tras #1173/#1180; 128/137 es medida 27/09, no actual.
 - SE-396: H04 #1183 integrado, sin ejecución real; H09 requiere cotejo humano de A01c.
-- SE-426 IMPLEMENTING (firma con secreto de CI; WIP 3/3): RCA del handback HMAC hecho; no bloquea
-  SE-396. Rama con los 7 tests: agent/hmac-signature-ci-20260927 (worktree t20).
+- SE-426 IMPLEMENTING: firma con secreto de CI. Pasos 1 #1224, 2 (secreto creado) y 3 #1225
+  integrados; la CI exige el HMAC. Graduar cuando un re-firmado del bot (auto-rebase o
+  consolidación del CHANGELOG) pase «Verify Audit Signature». Worktree t20 ya obsoleto.
 - Después: TEE v1.1/SE-401 + L31 READ_ONLY → conformidad → kernel mínimo →
   adopción/contexto Files → pilotos. Sin deadlines; gates ADR-002 intactos.
 - Clock-out: `bash scripts/validate-ci-local.sh --clean-state` y este traspaso.
