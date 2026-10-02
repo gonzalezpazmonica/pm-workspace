@@ -21,20 +21,31 @@ get_diff_hash() {
     | sha256sum | awk '{print $1}'
 }
 
-ensure_secret() {
-  if [ ! -f "$SECRET_FILE" ]; then
-    mkdir -p "$(dirname "$SECRET_FILE")"
-    openssl rand -hex 32 > "$SECRET_FILE" 2>/dev/null \
-      || head -c 32 /dev/urandom | xxd -p -c 64 > "$SECRET_FILE"
-    chmod 600 "$SECRET_FILE"
+# Clave: CONFIDENTIALITY_HMAC_KEY (secreto de CI) o el fichero local; vacía = ausente.
+# CONFIDENTIALITY_REQUIRE_HMAC=1: sin clave, sign y verify fallan cerrado.
+hmac_key() {
+  if [ -n "${CONFIDENTIALITY_HMAC_KEY:-}" ]; then printf '%s' "$CONFIDENTIALITY_HMAC_KEY"
+  elif [ -f "$SECRET_FILE" ]; then cat "$SECRET_FILE" 2>/dev/null | tr -d '\n'
   fi
 }
 
+require_hmac() { [ "${CONFIDENTIALITY_REQUIRE_HMAC:-0}" = "1" ]; }
+
+ensure_secret() {
+  [ -n "$(hmac_key)" ] && return 0
+  if require_hmac; then
+    echo "ERROR: HMAC requerido y sin clave: define CONFIDENTIALITY_HMAC_KEY o $SECRET_FILE" >&2
+    exit 1
+  fi
+  mkdir -p "$(dirname "$SECRET_FILE")"
+  openssl rand -hex 32 > "$SECRET_FILE" 2>/dev/null \
+    || head -c 32 /dev/urandom | xxd -p -c 64 > "$SECRET_FILE"
+  chmod 600 "$SECRET_FILE"
+}
+
+# La clave va por stdin, nunca en argv (visible en ps).
 compute_hmac() {
-  local key
-  key=$(cat "$SECRET_FILE" 2>/dev/null)
-  printf '%s' "$1" | openssl dgst -sha256 -hmac "$key" 2>/dev/null \
-    | awk '{print $NF}'
+  { hmac_key; printf '\n%s' "$1"; } | python3 -c 'import hmac,hashlib,sys; k,m=sys.stdin.read().split("\n",1); print(hmac.new(k.encode(),m.encode(),hashlib.sha256).hexdigest())'
 }
 
 do_sign() {
@@ -76,9 +87,12 @@ do_verify() {
     echo "ERROR: Diff hash mismatch."
     exit 1
   fi
-  if [ -f "$SECRET_FILE" ]; then
-    [ "$(compute_hmac "$saved_diff")" != "$saved_sig" ] && echo "ERROR: HMAC mismatch." >&2 && exit 1
+  if [ -n "$(hmac_key)" ]; then
+    [ "$(compute_hmac "$saved_diff")" != "$saved_sig" ] && echo "ERROR: HMAC mismatch." && exit 1
     echo "  HMAC: VERIFIED"
+  elif require_hmac; then
+    echo "ERROR: HMAC requerido y sin clave: define CONFIDENTIALITY_HMAC_KEY (secreto de CI)"
+    exit 1
   else
     echo "  HMAC: SKIPPED (no local key at $SECRET_FILE)"
     echo "  WARNING: Verification is diff-hash only — no cryptographic proof" >&2

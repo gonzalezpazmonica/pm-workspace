@@ -197,3 +197,14 @@ teardown() {
   [ -s "$CONFIDENTIALITY_SIG_FILE" ]
   [ "$(sha256sum "$repo_sig")" = "$before" ]
 }
+
+@test "compat (SE-426 AC4): a signature made the old way (openssl -hmac) still verifies" {
+  command -v openssl >/dev/null || skip "openssl not available"
+  CONFIDENTIALITY_HMAC_KEY="$KEY_A" bash "$SCRIPT" sign >/dev/null
+  diff_hash=$(grep '^diff_hash=' "$CONFIDENTIALITY_SIG_FILE" | cut -d= -f2)
+  old=$(printf '%s' "$diff_hash" | openssl dgst -sha256 -hmac "$KEY_A" | awk '{print $NF}')
+  sed -i "s/^signature=.*/signature=$old/" "$CONFIDENTIALITY_SIG_FILE"
+  CONFIDENTIALITY_HMAC_KEY="$KEY_A" CONFIDENTIALITY_REQUIRE_HMAC=1 run bash "$SCRIPT" verify
+  [ "$status" -eq 0 ]
+  [[ "$output" == *"HMAC: VERIFIED"* ]]
+}

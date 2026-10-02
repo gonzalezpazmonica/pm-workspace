@@ -106,3 +106,19 @@ Ninguno: script de shell y workflows de CI.
 ### Portability classification
 
 - [x] **PURE_BASH**
+
+## Resultados
+
+### Paso 1 — código y tests (2026-10-02)
+
+| AC | Evidencia | Estado |
+|---|---|---|
+| AC1 | `tests/scripts/test-confidentiality-sign.bats`: HMAC = HMAC-SHA256(clave, diff_hash); ningún `-hmac "$…"` en el script. La clave va por stdin a `python3` | OK |
+| AC2 | La clave de CI y la local con el mismo valor son intercambiables; una firma con otra clave da `HMAC mismatch` | OK |
+| AC3 | Con `CONFIDENTIALITY_REQUIRE_HMAC=1` y sin clave, `sign` no escribe firma ni clave y `verify` falla nombrando `CONFIDENTIALITY_HMAC_KEY`; la variable vacía cuenta como ausente; sin ella, `HMAC: SKIPPED` como antes | OK |
+| AC4 | Test nuevo: una firma calculada con `openssl dgst -hmac` verifica con el script nuevo | OK |
+| AC5 | Paso 3 | Pendiente |
+| AC6 | 28/28 BATS (27 de la rama del handback + AC4); auditor 85 | OK |
+
+El contenido exacto del script pasó el `data-sovereignty-gate` en seco: `public` (0,5), ALLOW. Sin cambios en la CI.
+
