@@ -927,7 +927,7 @@
       "status": "IMPLEMENTING",
       "priority": "P1",
       "title": "Firma de confidencialidad con secreto de CI y HMAC siempre verificado",
-      "note": "Entra en el hueco libre del WIP. RCA del handback hmac-signature-ci-20260927 (falso positivo del gate, corregido por #1162). Paso 1 código y tests; paso 2 secreto (Savia); paso 3 workflows",
+      "note": "Pasos 1 (#1224), 2 (secreto creado 2026-10-02) y 3 (#1225) integrados; la CI verificó en modo exigente una firma local (HMAC: VERIFIED). Falta observar el re-firmado del bot (auto-rebase o consolidación) antes de graduar",
       "evidence": "docs/specs/SE-426-confidentiality-hmac-ci-key.spec.md",
       "phase": "A",
       "approval": "Operadora 2026-10-02 en chat (AskUserQuestion, en remoto): 'Aprobar e implementar el paso 1'; secreto: 'Créalo tú, Savia'"
