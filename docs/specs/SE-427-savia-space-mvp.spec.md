@@ -30,6 +30,11 @@ agentes (Claude Code, OpenCode). No hay una superficie para una persona que quie
 Un servidor local y un cliente web que hagan eso con un modelo local (Ollama), sin efectos
 fuera de la máquina y sin conceder autoridad nueva a ningún agente.
 
+**Visión (decisión de la operadora, 2026-10-02):** la 0.1 es el primer paso de Savia Space como
+cliente y orquestador completo de Savia, con OpenCode como motor de agentes (SE-428), consumible
+por terceros con API JWT/OpenAPI, MCP y A2A (SE-429) y desde una app móvil propia (SE-430). Esta
+spec solo cubre la 0.1 de solo lectura; cada paso siguiente tiene su spec y sus gates.
+
 ## Alcance 0.1
 
 - **Solo lectura** (addendum READ_ONLY de ADR-002): lee notas con la credencial de lectura de
