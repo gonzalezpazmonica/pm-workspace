@@ -208,3 +208,11 @@ teardown() {
   [ "$status" -eq 0 ]
   [[ "$output" == *"HMAC: VERIFIED"* ]]
 }
+
+@test "ci (SE-426 AC5): the three workflows that sign or verify use the CI key and require HMAC" {
+  wf="$BATS_TEST_DIRNAME/../../.github/workflows"
+  for f in confidentiality-gate.yml auto-rebase-open-prs.yml changelog-consolidate.yml; do
+    run python3 -c 'import sys,yaml; d=yaml.safe_load(open(sys.argv[1])); envs=[j.get("env",{}) for j in d["jobs"].values()]; ok=[e for e in envs if e.get("CONFIDENTIALITY_REQUIRE_HMAC")=="1" and "secrets.CONFIDENTIALITY_HMAC_KEY" in str(e.get("CONFIDENTIALITY_HMAC_KEY",""))]; sys.exit(0 if ok else 1)' "$wf/$f"
+    [ "$status" -eq 0 ] || { echo "sin clave de CI o sin modo exigente: $f"; false; }
+  done
+}

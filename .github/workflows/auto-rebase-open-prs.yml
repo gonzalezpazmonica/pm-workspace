@@ -31,6 +31,10 @@ jobs:
   rebase:
     runs-on: ubuntu-latest
     if: ${{ !contains(github.event.head_commit.message, '[skip auto-rebase]') }}
+    env:
+      # SE-426: firma y verificación con la clave real (secreto de CI); sin clave, falla cerrado.
+      CONFIDENTIALITY_HMAC_KEY: ${{ secrets.CONFIDENTIALITY_HMAC_KEY }}
+      CONFIDENTIALITY_REQUIRE_HMAC: '1'
     steps:
       - name: Checkout main
         uses: actions/checkout@v4

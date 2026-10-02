@@ -22,6 +22,10 @@ jobs:
     if: github.event_name == 'pull_request'
     runs-on: ubuntu-latest
     name: Verify Audit Signature
+    env:
+      # SE-426: firma y verificación con la clave real (secreto de CI); sin clave, falla cerrado.
+      CONFIDENTIALITY_HMAC_KEY: ${{ secrets.CONFIDENTIALITY_HMAC_KEY }}
+      CONFIDENTIALITY_REQUIRE_HMAC: '1'
     steps:
       - uses: actions/checkout@v4
         with:
