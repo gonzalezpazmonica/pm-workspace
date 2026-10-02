@@ -921,6 +921,15 @@
           "evidence": "Operadora 2026-10-01 en chat (AskUserQuestion, en remoto): merge de #1220"
         }
       }
+    },
+    {
+      "id": "SE-426",
+      "status": "PROPOSED",
+      "priority": "P1",
+      "title": "Firma de confidencialidad con secreto de CI y HMAC siempre verificado",
+      "note": "Decisión de la operadora 2026-09-27; RCA del handback hmac-signature-ci-20260927 (falso positivo del gate, corregido por #1162). Despliegue en 3 pasos; el secreto lo crea la operadora",
+      "evidence": "docs/specs/SE-426-confidentiality-hmac-ci-key.spec.md",
+      "phase": "A"
     }
   ],
   "route": {

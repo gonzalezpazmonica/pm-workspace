@@ -2,7 +2,7 @@
 
 > Máx. 30 líneas. Sin contenido N2/N3. Se sobrescribe en cada cierre.
 
-## 2026-10-01 — S01 y S02 cerradas; SE-423/424/425, SE-402 y SE-405 IMPLEMENTED
+## 2026-10-02 — S01 y S02 cerradas; SE-426 propuesta
 
 - Fase A; WIP 2/3: SE-376 y SE-396; un hueco libre. `roadmap.sh next`: sin más
   candidatas en la fase A; lo que queda es cerrar SE-376 y SE-396.
@@ -17,8 +17,9 @@
 - dist de savia-vaults recompilado con SE-423: reiniciar el MCP para usarlo.
   `SAVIA_VAULTS_TOKEN` en A2A queda obsoleto (solo loopback).
 - SE-376: remedir deuda tras #1173/#1180; 128/137 es medida 27/09, no actual.
-- SE-396: H04 #1183 integrado, sin ejecución real; H09 requiere cotejo humano de
-  A01c. Handback hmac-signature-ci-20260927 (7 tests rojos): RCA antes de graduar.
+- SE-396: H04 #1183 integrado, sin ejecución real; H09 requiere cotejo humano de A01c.
+- SE-426 PROPOSED (firma con secreto de CI): RCA del handback HMAC hecho; no bloquea
+  SE-396. Rama con los 7 tests: agent/hmac-signature-ci-20260927 (worktree t20).
 - Después: TEE v1.1/SE-401 + L31 READ_ONLY → conformidad → kernel mínimo →
   adopción/contexto Files → pilotos. Sin deadlines; gates ADR-002 intactos.
 - Clock-out: `bash scripts/validate-ci-local.sh --clean-state` y este traspaso.
