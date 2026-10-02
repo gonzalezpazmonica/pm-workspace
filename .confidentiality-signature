@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=d7dc20993fdfc7fe96a50b5d8d4cd23eab76d0e4218dae035717c869b11991d1
-timestamp=2026-10-02T21:19:52Z
-branch=agent/space-specs-20261002
-head_commit=195b0ef5
-signature=6fb64aa97eb46de7905969a5dc510a02bd29f0883fbafdd7b98c3c7496b4b813
+diff_hash=2d090e3de6e6dbd6b638b5c10262c12f0a6bb91f9cd4e40f01928ac6c0c8bbf9
+timestamp=2026-10-02T22:18:08Z
+branch=agent/space-desktop-spec-20261003
+head_commit=9b90ce83
+signature=0d0f6883e2fbe1003789be9505e1f99de6731f88c1def733d7b85bfcebb35c0f
