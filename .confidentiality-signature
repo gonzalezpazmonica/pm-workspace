@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=94b1efe0aaaea079ddb16e22b87cf67c283df5178be8185d2b6cd33b2cf16e52
-timestamp=2026-10-02T08:20:48Z
-branch=agent/se376-group-security-memory
-head_commit=2b587e86
-signature=920cf978dcd76b328e8ff82b1664d1f2a8ac84a16e28d1602b7ecbaa81d71d6d
+diff_hash=651d642e027a08539c82c4ef625a321fc9406892653b52d073278fea7c298004
+timestamp=2026-10-02T17:40:10Z
+branch=agent/handoff-20261002
+head_commit=088c0b70
+signature=1bc21e9be8aab489d8aebcc6a3815cc8097b277cd6bb989a73115d36bfc8dbdf
