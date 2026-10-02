@@ -1,6 +1,6 @@
 # Roadmap Current (GENERATED — no editar; fuente: planning-state.json)
 
-Fase A · WIP 2/3. Estado y cola canónicos; ADR-002.
+Fase A · WIP 3/3. Estado y cola canónicos; ADR-002.
 
 ## Cola de sesiones (orden por gates, sin fechas)
 
@@ -71,3 +71,4 @@ Integrada en main no significa graduada; delivery no sustituye completion y revi
 - SE-400 [APPROVED] Model-Agnostic Savia Ablation & Minimal Sufficient Kernel — evidencia: docs/specs/SE-400-f0-model-agnostic-ablation-inventory.md
 - SE-403 [APPROVED] Benchmark evidence: trazas, frontera, hash de selección — evidencia: PR #1171 mergeada 2026-09-28 sin review registrada; graduación pendiente de revisión humana (completion.human_review). Spec: docs/specs/SE-403-benchmark-evidence-frontier.spec.md · integrada #1171; revisar evidencia/graduación
 - SE-404 [APPROVED] Proceso proporcional: G13 v2 y una corrección por revisión — evidencia: PR #1170 mergeada 2026-09-28 sin review registrada; graduación pendiente de revisión humana (completion.human_review). Spec: docs/specs/SE-404-proportional-process-gates.spec.md · integrada #1170; revisar evidencia/graduación
+- SE-426 [IMPLEMENTING] Firma de confidencialidad con secreto de CI y HMAC siempre verificado — evidencia: docs/specs/SE-426-confidentiality-hmac-ci-key.spec.md

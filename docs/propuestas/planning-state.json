@@ -921,6 +921,16 @@
           "evidence": "Operadora 2026-10-01 en chat (AskUserQuestion, en remoto): merge de #1220"
         }
       }
+    },
+    {
+      "id": "SE-426",
+      "status": "IMPLEMENTING",
+      "priority": "P1",
+      "title": "Firma de confidencialidad con secreto de CI y HMAC siempre verificado",
+      "note": "Entra en el hueco libre del WIP. RCA del handback hmac-signature-ci-20260927 (falso positivo del gate, corregido por #1162). Paso 1 código y tests; paso 2 secreto (Savia); paso 3 workflows",
+      "evidence": "docs/specs/SE-426-confidentiality-hmac-ci-key.spec.md",
+      "phase": "A",
+      "approval": "Operadora 2026-10-02 en chat (AskUserQuestion, en remoto): 'Aprobar e implementar el paso 1'; secreto: 'Créalo tú, Savia'"
     }
   ],
   "route": {
