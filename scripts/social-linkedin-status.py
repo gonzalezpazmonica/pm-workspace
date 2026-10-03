@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """social-linkedin-status.py — SE-385 §22/§43: permission discovery + almacén local.
-Sin red: reporta capabilities declaradas y estado del almacén local.
+Sin red: reporta capabilities declaradas y estado del almacén local
+(~/.savia/social/linkedin o $SOCIAL_STORE).
 """
 from __future__ import annotations
 
@@ -8,11 +9,11 @@ import json
 import os
 import sys
 
-STORE = os.path.expanduser("~/.savia/social/linkedin")
 PIN = "li-dma-data-portability-2026-08 (verificado 2026-09-05)"
 
 
 def main() -> int:
+    store = os.environ.get("SOCIAL_STORE") or os.path.expanduser("~/.savia/social/linkedin")
     caps = {
         "read_profile": "UNKNOWN",
         "import_portability": "REQUIRES_APPROVAL",
@@ -26,14 +27,15 @@ def main() -> int:
     }
     n_artifacts = 0
     last_sync = "nunca"
-    manifest_path = os.path.join(STORE, "manifest.json")
+    manifest_path = os.path.join(store, "manifest.json")
     if os.path.exists(manifest_path):
         try:
             m = json.load(open(manifest_path, encoding="utf-8"))
-            last_sync = m.get("last_sync", "nunca")
-        except json.JSONDecodeError:
-            pass
-    norm = os.path.join(STORE, "normalized", "artifacts.jsonl")
+            last_sync = m.get("last_sync", "nunca") if isinstance(m, dict) else "nunca"
+        except json.JSONDecodeError as e:
+            print(f"AVISO: manifest.json corrupto en {store} ({e}); el próximo import lo regenera",
+                  file=sys.stderr)
+    norm = os.path.join(store, "normalized", "artifacts.jsonl")
     if os.path.exists(norm):
         with open(norm, encoding="utf-8") as f:
             n_artifacts = sum(1 for l in f if l.strip())

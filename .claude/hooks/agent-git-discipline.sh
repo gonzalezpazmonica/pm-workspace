@@ -117,6 +117,32 @@ if echo "$NORMALIZED" | grep -qE "${GIT_AT}"'checkout[[:space:]]+(--[[:space:]]+
   exit 2
 fi
 
+# ─── git push --delete / -d / :rama (borrar ramas remotas ajenas) ───────
+# autonomous-safety: NUNCA borrar ramas ajenas. Solo se borran en el remoto las ramas agent/*.
+while IFS= read -r seg; do
+  [[ -z "$seg" ]] && continue
+  read -ra toks <<<"${seg#*push}"
+  deleting=false
+  for t in "${toks[@]}"; do [[ "$t" == "--delete" || "$t" == "-d" ]] && deleting=true; done
+  remote="" foreign=()
+  for t in "${toks[@]}"; do
+    t=${t//[\"\']/}
+    [[ "$t" == -* || "$t" == *[\<\>]* || -z "$t" ]] && continue
+    [[ -z "$remote" ]] && { remote=$t; continue; }
+    if [[ "$t" == :?* ]]; then ref=${t#:}
+    elif $deleting; then ref=$t
+    else continue
+    fi
+    ref=${ref#refs/heads/}
+    [[ "$ref" == agent/* ]] || foreign+=("$ref")
+  done
+  if (( ${#foreign[@]} > 0 )); then
+    echo "BLOCKED [agent-git-discipline]: borrar ramas remotas ajenas (${foreign[*]})." >&2
+    echo "  Un agente solo borra sus ramas agent/*; el resto lo borra la operadora." >&2
+    exit 2
+  fi
+done < <(echo "$NORMALIZED" | grep -oE "${GIT_AT}push([[:space:]]${SEG})?")
+
 # ─── git add -A / git add . (warn, no block) ────────────────────────────
 if echo "$NORMALIZED" | grep -qE "${GIT_AT}"'add[[:space:]]+(-A|\.)[[:space:]]*$'; then
   echo "WARN [agent-git-discipline]: git add -A/. stagea archivos de otros agentes." >&2
