@@ -62,15 +62,10 @@ Pregunta: Hay tareas similares que fracasaron por encuadre (no por ejecucion) en
 
 Instruccion operativa:
 1. Ejecutar `python3 scripts/criterion-simulation/historical-priors.py --task-json '{"tags": [...]}'`
-   (o pasar el contexto por stdin). Lee la tabla `frame_reaffirmations` del KG
-   (`SAVIA_KG_DB`, por defecto `.savia-kg/graph.db`; esquema creado por
-   `scripts/kg-schema-migrate-cs.py`) y devuelve `{count, priors: [{id, summary, date}]}`
-   con hasta 10 filas `FRAME_DOUBT`/`FRAME_REJECT` de la ventana `--lookback`
-   (`SAVIA_CS_LOOKBACK_DAYS`, 90). Las etiquetas se comparan por subcadena literal
-   (`_` y `%` no son comodines). KG ausente, corrupto o sin tabla: `count: 0`, exit 0,
-   aviso en stderr.
-   Hoy ningun script escribe en `frame_reaffirmations` (reaffirmation-log.py escribe
-   JSONL): sin poblar el KG a mano, Q2 no tiene senal.
+   (o stdin): hasta 10 filas `FRAME_DOUBT`/`FRAME_REJECT` de la tabla `frame_reaffirmations`
+   del KG (`SAVIA_KG_DB`, `.savia-kg/graph.db`; esquema de `scripts/kg-schema-migrate-cs.py`)
+   en la ventana `--lookback` (90), con etiquetas por subcadena literal. KG ausente o corrupto:
+   `count: 0`, exit 0. Hoy ningun script escribe esa tabla: sin poblarla, Q2 no tiene senal.
 2. Si hay 2 o mas reversiones con etiquetas similares en 90 dias (trigger-evaluator suma +20):
    - Citar los IDs y resumir por que se revirtieron.
    - Evaluar si el encuadre actual repite el patron.
@@ -136,14 +131,11 @@ NO es burocracia: es la friccion minima para que la confirmacion sea consciente 
 
 ## Activacion (trigger-evaluator)
 
-`python3 scripts/criterion-simulation/trigger-evaluator.py --task-json '{...}'` (o stdin)
-suma: production +25, security +30, human_safety +50, estimated_hours > 16 +15,
-fatigue x 0.3, pressure x 0.2, override_rate x 0.2 y +20 si hay >= 2 priors; tope 100.
-Activa con score >= `SAVIA_CS_TRIGGER_THRESHOLD` (50; un valor no entero avisa y usa 50).
-JSON invalido o que no sea objeto: exit 1 con `{"error": ..., "activate": false}`.
-Si operator-state-signals.py o historical-priors.py no cargan, lo avisa en stderr y
-esa senal vale 0. El hook `criterion-simulation-challenge.sh` (opt-in con
-`SAVIA_CRITERION_SIMULATION=on`) nunca bloquea: ante cualquier fallo registra BYPASS.
+`python3 scripts/criterion-simulation/trigger-evaluator.py --task-json '{...}'` suma: production
++25, security +30, human_safety +50, estimated_hours > 16 +15, fatigue x 0.3, pressure x 0.2,
+override_rate x 0.2 y +20 con >= 2 priors (tope 100). Activa con score >= `SAVIA_CS_TRIGGER_THRESHOLD`
+(50). JSON invalido o no objeto: exit 1 con `activate: false`. Si una senal no carga, avisa en
+stderr y vale 0. El hook (opt-in, `SAVIA_CRITERION_SIMULATION=on`) nunca bloquea.
 
 ## Limitaciones declaradas
 
