@@ -95,6 +95,9 @@ agile_fixtures() {
   fx iterations '{"value":[{"name":"Sprint 1","attributes":{"startDate":"2026-09-21T00:00:00Z","finishDate":"2026-10-02T00:00:00Z"}}]}'
 }
 
+# `! cmd` no hace fallar un test de bats salvo en la última línea; refute sí.
+refute() { if "$@"; then echo "refute: se cumplió: $*" >&2; return 1; fi; }
+
 validate() { run --separate-stderr bash "$REPO_ROOT/$SCRIPT" "$@"; }
 status_of() { jq -r --arg c "$1" '.checks[] | select(.check==$c) | .status' <<<"$output"; }
 
@@ -121,7 +124,7 @@ status_of() { jq -r --arg c "$1" '.checks[] | select(.check==$c) | .status' <<<"
 @test "límite: proyecto con espacio en el nombre se codifica en todas las URLs" {
   validate --project "Acme Web" --team "Core"
   [ "$status" -eq 0 ]
-  ! grep -q ' ' "$FIX/urls.log"
+  refute grep -q ' ' "$FIX/urls.log"
   grep -q '/_apis/projects/Acme%20Web?' "$FIX/urls.log"
 }
 
@@ -129,15 +132,15 @@ status_of() { jq -r --arg c "$1" '.checks[] | select(.check==$c) | .status' <<<"
   validate --project "Acme"
   [ "$status" -eq 0 ]
   [ -s "$STUB_ARGV" ]
-  ! grep -qF "$PAT" "$STUB_ARGV"
-  ! grep -qF "${STUB_EXPECT_AUTH#Basic }" "$STUB_ARGV"
-  ! grep -q 'Authorization' "$STUB_ARGV"
+  refute grep -qF "$PAT" "$STUB_ARGV"
+  refute grep -qF "${STUB_EXPECT_AUTH#Basic }" "$STUB_ARGV"
+  refute grep -q 'Authorization' "$STUB_ARGV"
 }
 
 @test "seguridad: el PAT no aparece en stdout, stderr ni en el informe --output" {
   validate --project "Acme" --output "$TMPDIR/out/report.json"
-  ! grep -qF "$PAT" <<<"$output$stderr"
-  ! grep -qF "$PAT" "$TMPDIR/out/report.json"
+  refute grep -qF "$PAT" <<<"$output$stderr"
+  refute grep -qF "$PAT" "$TMPDIR/out/report.json"
 }
 
 @test "límite: PAT largo de 84 caracteres no rompe la cabecera (sin saltos de base64)" {
