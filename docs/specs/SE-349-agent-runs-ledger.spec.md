@@ -79,6 +79,7 @@ is_terminated = true  → pr.state == merged  ? merged
                      →                      : terminated
 activity_state in (waiting_input, blocked) → needs_input
 tiene pr →
+    state == merged          → merged   (enmienda SE-376, 2026-10-03)
     ci == failing            → ci_failed
     state == draft           → draft
     review == changes_requested → changes_requested
@@ -89,6 +90,13 @@ tiene pr →
 activity_state == active     → working
 cualquier otro caso          → idle
 ```
+
+Enmienda SE-376 (2026-10-03): sin ella, un run vivo con el PR ya mergeado y review
+`approved` salía en READY TO MERGE. Un PR mergeado va a DONE aunque el run no haya
+llamado a `finish`. `state == closed` en un run vivo sigue sin regla propia (pendiente).
+Las reglas viven en una sola definición del script (`_DERIVE_PY`), compartida por `show`,
+`status` y `list`. Las escrituras se serializan con un cerrojo; `capture-cost` (hook) solo lo
+toma si hay `SAVIA_RUN_ID` y espera como mucho 5 s antes de rendirse con exit 0.
 
 ### Mapeo a columnas del board
 
