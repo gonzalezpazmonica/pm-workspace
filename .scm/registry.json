@@ -2463,10 +2463,10 @@
       ],
       "id": "script:scripts/savia-hub-init",
       "intents": [
+        "inicializa",
         "init",
-        "initialize",
         "local",
-        "repository",
+        "repositorio",
         "savia"
       ],
       "kind": "script",
@@ -2495,6 +2495,27 @@
       "replaced_by": null,
       "risk_level": null,
       "source": ".claude/skills/savia-hub-sync/SKILL.md",
+      "status": "active",
+      "tests": []
+    },
+    {
+      "depends_on": [],
+      "frontend_support": [
+        "opencode"
+      ],
+      "id": "script:scripts/savia-hub-sync",
+      "intents": [
+        "flight",
+        "pull",
+        "push",
+        "savia",
+        "saviahub"
+      ],
+      "kind": "script",
+      "owner_domain": "communication",
+      "replaced_by": null,
+      "risk_level": null,
+      "source": "scripts/savia-hub-sync.sh",
       "status": "active",
       "tests": []
     },
@@ -28816,27 +28837,6 @@
       "frontend_support": [
         "opencode"
       ],
-      "id": "script:scripts/test-savia-hub",
-      "intents": [
-        "savia",
-        "saviahub",
-        "structural",
-        "test",
-        "tests"
-      ],
-      "kind": "script",
-      "owner_domain": "quality",
-      "replaced_by": null,
-      "risk_level": null,
-      "source": "scripts/test-savia-hub.sh",
-      "status": "active",
-      "tests": []
-    },
-    {
-      "depends_on": [],
-      "frontend_support": [
-        "opencode"
-      ],
       "id": "script:scripts/test-savia-index",
       "intents": [
         "architecture",
@@ -29604,7 +29604,7 @@
       "tests": []
     }
   ],
-  "content_hash": "fb060e67f76e",
+  "content_hash": "9523bcc98aa0",
   "deferred_kinds": [
     "rule",
     "hook"
