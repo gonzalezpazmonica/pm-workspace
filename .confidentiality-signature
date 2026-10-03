@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=6ad07f38bd5b7b4c7e879594c3b8bf2d48f14e06ddf7efc1bea82f514e6cb81e
-timestamp=2026-10-02T22:29:34Z
-branch=agent/vaults-scan-teardown-20261002
-head_commit=a1da5107
-signature=658c56af1a496ef5ea9eff29b98615f177d2ddef4d3627657e42fd2775c4b19b
+diff_hash=d2e804995fab9d596a8333093d33e4683223bf766a68ca08b9aab6b3db86a4c1
+timestamp=2026-10-03T04:06:58Z
+branch=agent/force-push-prefixes-20261003
+head_commit=17b24406
+signature=c6132df77ec24cc13470034e53c534cb89d4a4da41a4042a017ba1a77cbc3104
