@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=60922e79c04ae78ed85433ff43ac04d617e1780cb1e50516681a7367e702fe91
-timestamp=2026-10-03T02:32:29Z
+diff_hash=e77bfe42481f0144ec4cef3276789db561ea0bbda13a8af8d3a37de9faa73f85
+timestamp=2026-10-03T03:48:53Z
 branch=agent/gates-sandbox-unwrap-20261003
-head_commit=9bdb9763
-signature=e0bcdaa0b05689315d6e11b79d4e329d9c5ec157b2586bc651c0c3abdd17e22a
+head_commit=aa789c2f
+signature=b0699d0a4deeea2603f3e394392585295ed38b431dea0f223dcf9eb4830441a3
