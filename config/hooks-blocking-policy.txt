@@ -1,6 +1,6 @@
 # Política de hooks `blocking: true` (D23-5, decisión D-T2 de 2026-10-03).
 # Ref: docs/rules/domain/hooks-blocking-guards.md
-# Auditor: scripts/hooks-blocking-audit.sh · Test: tests/test-hooks-blocking-audit.bats
+# Auditor: scripts/hooks-integrity-check.sh --blocking · Test: tests/test-hooks-blocking-audit.bats
 #
 # En modo mediado (Savia Space), un hook `blocking: true` que sale con un código
 # distinto de 0/2, se cuelga hasta su timeout o no se puede lanzar BLOQUEA la

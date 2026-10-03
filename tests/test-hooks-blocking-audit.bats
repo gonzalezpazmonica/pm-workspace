@@ -8,7 +8,7 @@
 # llevan la marca y hace fallar la suite si un guard nuevo `block-*` se registra
 # sin clasificar en la política.
 
-SCRIPT="scripts/hooks-blocking-audit.sh"
+SCRIPT="scripts/hooks-integrity-check.sh"
 
 setup() {
   REPO_ROOT="$(cd "$BATS_TEST_DIRNAME/.." && pwd)"
@@ -55,7 +55,7 @@ write_policy() {
 # ── Settings reales del repo (positivo) ───────────────────────────────────────
 
 @test "repo: settings.json real cumple la política (exit 0)" {
-  run bash "$AUDIT"
+  run bash "$AUDIT" --blocking
   [ "$status" -eq 0 ]
   [[ "$output" == *"OK"* ]]
 }
@@ -103,7 +103,7 @@ print(len(hits), any(h.get('blocking') is True for h in hits))"
 @test "reject: guard declarado blocking en la política pero sin la clave en settings falla" {
   write_settings "[$(hook block-force-push)]"
   write_policy "blocking block-force-push"
-  run bash "$AUDIT" --settings "$TMPDIR/settings.json" --policy "$TMPDIR/policy.txt"
+  run bash "$AUDIT" --blocking --settings "$TMPDIR/settings.json" --policy "$TMPDIR/policy.txt"
   [ "$status" -eq 1 ]
   [[ "$output" == *"VIOLATION"*"block-force-push"*"sin blocking"* ]]
 }
@@ -111,21 +111,21 @@ print(len(hits), any(h.get('blocking') is True for h in hits))"
 @test "reject: blocking false explícito en un guard declarado también falla" {
   write_settings "[$(hook block-force-push false)]"
   write_policy "blocking block-force-push"
-  run bash "$AUDIT" --settings "$TMPDIR/settings.json" --policy "$TMPDIR/policy.txt"
+  run bash "$AUDIT" --blocking --settings "$TMPDIR/settings.json" --policy "$TMPDIR/policy.txt"
   [ "$status" -eq 1 ]
 }
 
 @test "reject: blocking como cadena \"true\" no cuenta (Space lee as_bool)" {
   write_settings "[$(hook block-force-push '"true"')]"
   write_policy "blocking block-force-push"
-  run bash "$AUDIT" --settings "$TMPDIR/settings.json" --policy "$TMPDIR/policy.txt"
+  run bash "$AUDIT" --blocking --settings "$TMPDIR/settings.json" --policy "$TMPDIR/policy.txt"
   [ "$status" -eq 1 ]
 }
 
 @test "reject: duplicado con solo una aparición blocking falla (la otra podría ganar el dedup)" {
   write_settings "[$(hook agent-git-discipline true),$(hook agent-git-discipline)]"
   write_policy "blocking agent-git-discipline"
-  run bash "$AUDIT" --settings "$TMPDIR/settings.json" --policy "$TMPDIR/policy.txt"
+  run bash "$AUDIT" --blocking --settings "$TMPDIR/settings.json" --policy "$TMPDIR/policy.txt"
   [ "$status" -eq 1 ]
   [[ "$output" == *"agent-git-discipline"* ]]
 }
@@ -133,7 +133,7 @@ print(len(hits), any(h.get('blocking') is True for h in hits))"
 @test "reject: guard nuevo block-* sin clasificar en la política falla" {
   write_settings "[$(hook block-force-push true),$(hook block-new-danger)]"
   write_policy "blocking block-force-push"
-  run bash "$AUDIT" --settings "$TMPDIR/settings.json" --policy "$TMPDIR/policy.txt"
+  run bash "$AUDIT" --blocking --settings "$TMPDIR/settings.json" --policy "$TMPDIR/policy.txt"
   [ "$status" -eq 1 ]
   [[ "$output" == *"block-new-danger"*"sin clasificar"* ]]
 }
@@ -141,7 +141,7 @@ print(len(hits), any(h.get('blocking') is True for h in hits))"
 @test "reject: hook con blocking true no declarado en la política falla (sin fail-closed implícito)" {
   write_settings "[$(hook some-telemetry true)]"
   write_policy "blocking block-force-push"
-  run bash "$AUDIT" --settings "$TMPDIR/settings.json" --policy "$TMPDIR/policy.txt"
+  run bash "$AUDIT" --blocking --settings "$TMPDIR/settings.json" --policy "$TMPDIR/policy.txt"
   [ "$status" -eq 1 ]
   [[ "$output" == *"some-telemetry"*"no declarado"* ]]
 }
@@ -149,14 +149,14 @@ print(len(hits), any(h.get('blocking') is True for h in hits))"
 @test "reject: guard excluido que aparece con blocking true falla" {
   write_settings "[$(hook data-sovereignty-gate true)]"
   write_policy "excluded data-sovereignty-gate latencia sin acotar"
-  run bash "$AUDIT" --settings "$TMPDIR/settings.json" --policy "$TMPDIR/policy.txt"
+  run bash "$AUDIT" --blocking --settings "$TMPDIR/settings.json" --policy "$TMPDIR/policy.txt"
   [ "$status" -eq 1 ]
 }
 
 @test "reject: guard declarado blocking que ya no está registrado falla (política obsoleta)" {
   write_settings "[$(hook block-force-push true)]"
   write_policy "blocking block-force-push" "blocking block-gone"
-  run bash "$AUDIT" --settings "$TMPDIR/settings.json" --policy "$TMPDIR/policy.txt"
+  run bash "$AUDIT" --blocking --settings "$TMPDIR/settings.json" --policy "$TMPDIR/policy.txt"
   [ "$status" -eq 1 ]
   [[ "$output" == *"block-gone"*"no registrado"* ]]
 }
@@ -164,7 +164,7 @@ print(len(hits), any(h.get('blocking') is True for h in hits))"
 @test "invalid: exclusión sin motivo es error de política" {
   write_settings "[$(hook data-sovereignty-gate)]"
   write_policy "excluded data-sovereignty-gate"
-  run bash "$AUDIT" --settings "$TMPDIR/settings.json" --policy "$TMPDIR/policy.txt"
+  run bash "$AUDIT" --blocking --settings "$TMPDIR/settings.json" --policy "$TMPDIR/policy.txt"
   [ "$status" -eq 2 ]
   [[ "$output" == *"motivo"* ]]
 }
@@ -172,16 +172,16 @@ print(len(hits), any(h.get('blocking') is True for h in hits))"
 @test "invalid: verbo desconocido en la política es error (exit 2)" {
   write_settings "[$(hook block-force-push true)]"
   write_policy "maybe block-force-push"
-  run bash "$AUDIT" --settings "$TMPDIR/settings.json" --policy "$TMPDIR/policy.txt"
+  run bash "$AUDIT" --blocking --settings "$TMPDIR/settings.json" --policy "$TMPDIR/policy.txt"
   [ "$status" -eq 2 ]
 }
 
 @test "error: settings.json inexistente o JSON inválido sale con 2" {
   write_policy "blocking block-force-push"
-  run bash "$AUDIT" --settings "$TMPDIR/no-existe.json" --policy "$TMPDIR/policy.txt"
+  run bash "$AUDIT" --blocking --settings "$TMPDIR/no-existe.json" --policy "$TMPDIR/policy.txt"
   [ "$status" -eq 2 ]
   printf '{not json' > "$TMPDIR/bad.json"
-  run bash "$AUDIT" --settings "$TMPDIR/bad.json" --policy "$TMPDIR/policy.txt"
+  run bash "$AUDIT" --blocking --settings "$TMPDIR/bad.json" --policy "$TMPDIR/policy.txt"
   [ "$status" -eq 2 ]
 }
 
@@ -190,35 +190,35 @@ print(len(hits), any(h.get('blocking') is True for h in hits))"
 @test "pass: guard reviewed (no blocking) con motivo es aceptado" {
   write_settings "[$(hook block-force-push true),$(hook block-branch-switch-dirty)]"
   write_policy "blocking block-force-push" "reviewed block-branch-switch-dirty no es de seguridad"
-  run bash "$AUDIT" --settings "$TMPDIR/settings.json" --policy "$TMPDIR/policy.txt"
+  run bash "$AUDIT" --blocking --settings "$TMPDIR/settings.json" --policy "$TMPDIR/policy.txt"
   [ "$status" -eq 0 ]
 }
 
 @test "boundary: comentarios y líneas vacías de la política se ignoran" {
   write_settings "[$(hook block-force-push true)]"
   write_policy "# cabecera" "" "   " "blocking block-force-push   # guard"
-  run bash "$AUDIT" --settings "$TMPDIR/settings.json" --policy "$TMPDIR/policy.txt"
+  run bash "$AUDIT" --blocking --settings "$TMPDIR/settings.json" --policy "$TMPDIR/policy.txt"
   [ "$status" -eq 0 ]
 }
 
 @test "boundary: settings sin hooks (vacío) y política vacía pasan" {
   printf '{"hooks":{}}\n' > "$TMPDIR/settings.json"
   : > "$TMPDIR/policy.txt"
-  run bash "$AUDIT" --settings "$TMPDIR/settings.json" --policy "$TMPDIR/policy.txt"
+  run bash "$AUDIT" --blocking --settings "$TMPDIR/settings.json" --policy "$TMPDIR/policy.txt"
   [ "$status" -eq 0 ]
 }
 
 @test "boundary: hook con name explícito se identifica por el script, no por el name" {
   printf '{"hooks":{"PreToolUse":[{"matcher":"Bash","hooks":[{"type":"command","command":"bash x/.opencode/hooks/android-adb-validate.sh","name":"otro-nombre","blocking":true}]}]}}\n' > "$TMPDIR/settings.json"
   write_policy "blocking android-adb-validate"
-  run bash "$AUDIT" --settings "$TMPDIR/settings.json" --policy "$TMPDIR/policy.txt"
+  run bash "$AUDIT" --blocking --settings "$TMPDIR/settings.json" --policy "$TMPDIR/policy.txt"
   [ "$status" -eq 0 ]
 }
 
 @test "boundary: varias violaciones se informan todas, no solo la primera" {
   write_settings "[$(hook block-a),$(hook block-b)]"
   write_policy "blocking block-a" "blocking block-b"
-  run bash "$AUDIT" --settings "$TMPDIR/settings.json" --policy "$TMPDIR/policy.txt"
+  run bash "$AUDIT" --blocking --settings "$TMPDIR/settings.json" --policy "$TMPDIR/policy.txt"
   [ "$status" -eq 1 ]
   [ "$(grep -c VIOLATION <<<"$output")" -eq 2 ]
 }

@@ -1,7 +1,7 @@
 # Regla: guards de seguridad con `blocking: true` (D23-5)
 
 > Decisión de la operadora D-T2 (2026-10-03). Fuente de verdad de la lista:
-> `config/hooks-blocking-policy.txt`. Auditor: `scripts/hooks-blocking-audit.sh`.
+> `config/hooks-blocking-policy.txt`. Auditor: `scripts/hooks-integrity-check.sh --blocking`.
 > Test: `tests/test-hooks-blocking-audit.bats`.
 
 ## Qué significa `blocking: true`
@@ -51,7 +51,7 @@ Condición para marcarlo: timeout propio en el clasificador y margen medido bajo
 
 ## Política de regresión
 
-`scripts/hooks-blocking-audit.sh` falla (exit 1) si:
+`scripts/hooks-integrity-check.sh --blocking` falla (exit 1) si:
 
 - un guard declarado `blocking` tiene alguna aparición sin `blocking: true` (booleano);
 - un hook lleva `blocking: true` sin estar declarado en la política;
