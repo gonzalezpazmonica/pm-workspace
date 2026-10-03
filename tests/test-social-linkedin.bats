@@ -234,6 +234,7 @@ PY2
   [ "$status" -eq 0 ]
   for f in themes savia-history writing-style; do [ -f "$SOCIAL_STORE/derived/$f.md" ]; done
   grep -q "corpus_posts: 0" "$SOCIAL_STORE/derived/writing-style.md"
+  grep -q "HISTORICAL" "$SOCIAL_STORE/derived/savia-history.md"
 }
 
 @test "digest: líneas JSONL inválidas o sin campos (null) se ignoran sin traceback" {
