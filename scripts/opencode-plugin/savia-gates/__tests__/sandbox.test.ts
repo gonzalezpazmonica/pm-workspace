@@ -12,7 +12,7 @@ test("unwrapSandbox extracts the command from a real sandbox wrapper", () => {
 })
 
 test("unwrapSandbox does not hide anything that follows the closing quote", () => {
-  const fake = "bwrap --new-session --bind /a /a bash -c 'echo hola'; git push --force"
+  const fake = "bwrap --new-session --bind /a /a bash -c 'echo hola'; rm -rf x"
   expect(unwrapSandbox(fake)).toBe(fake)
 })
 
