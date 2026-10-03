@@ -43,6 +43,23 @@ commit_in() { (cd "$1" && git add -A && git commit -qm "$2"); }
   grep -qE '^set -uo pipefail' "$REPO_ROOT/$SYNC"
 }
 
+# Sustituye a scripts/test-savia-hub.sh (grep de presencia, retirado por el ratchet SE-380).
+@test "docs boundary: comando, reglas y skill ≤150 líneas y cada subcomando del sync está documentado" {
+  local f n sub
+  for f in .claude/commands/savia-hub.md .claude/skills/savia-hub-sync/SKILL.md \
+           docs/rules/domain/savia-hub-config.md docs/rules/domain/savia-hub-offline.md; do
+    n=$(wc -l < "$REPO_ROOT/$f"); [ "$n" -le 150 ] || { echo "$f: $n líneas > 150"; return 1; }
+  done
+  for sub in status push pull "flight on" "flight off"; do
+    cat "$REPO_ROOT/.claude/commands/savia-hub.md" "$REPO_ROOT/.claude/skills/savia-hub-sync/SKILL.md" \
+        "$REPO_ROOT/docs/rules/domain/savia-hub-offline.md" | grep -qF "savia-hub-sync.sh $sub" \
+      || { echo "subcomando sin documentar: $sub"; return 1; }
+    grep -qE "^${sub%% *}\)" "$REPO_ROOT/$SYNC" || { echo "documentado pero no implementado: $sub"; return 1; }
+  done
+  grep -qF '.savia-hub-config.md' "$REPO_ROOT/docs/rules/domain/savia-hub-config.md"
+  grep -qF '.sync-queue.jsonl' "$REPO_ROOT/docs/rules/domain/savia-hub-offline.md"
+}
+
 @test "init local: estructura, commit inicial en main y árbol limpio en ruta con espacios" {
   run bash "$INIT"
   [ "$status" -eq 0 ]
