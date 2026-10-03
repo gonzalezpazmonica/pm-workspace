@@ -1,5 +1,5 @@
 # quality — Savia Capability Map (L1)
-> 268 resources
+> 267 resources
 
 - **/speckit.analyze** (cmd): Alias spec-kit compatible. Review cruzado de una spec antes de implementar. Invoca skill consensus-validation. Compatible con github/spec-kit.
 - **Coherence Court** (cmd): Audit consistency of a stage output against premises fixed in earlier stages of the same flow (SE-350)
@@ -230,7 +230,6 @@
 - **test-savia-crypto** (script): test-savia-crypto.sh — Tests for RSA+AES encryption
 - **test-savia-flow** (script): test-savia-flow.sh — Tests for Savia Flow on branch-based architecture (~25 tests)
 - **test-savia-flow-tasks** (script): test-savia-flow-tasks.sh — Git-native task tests via savia-branch.sh
-- **test-savia-hub** (script): test-savia-hub.sh — Structural tests for SaviaHub (Era 30)
 - **test-savia-index** (script): test-savia-index.sh — Tests for indexes on branch-based architecture
 - **test-savia-messaging** (script): test-savia-messaging.sh — Tests for savia branch-based messaging infrastructure
 - **test-savia-school** (script): test-savia-school.sh — Tests for Savia School educational vertical
