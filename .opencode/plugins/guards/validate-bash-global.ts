@@ -37,7 +37,8 @@ const RULES: Array<{ rx: RegExp; msg: string }> = [
     msg: "--admin bypasses branch protection. Requires human review.",
   },
   {
-    rx: /^[\s]*sudo[\s]/i,
+    // Al inicio de cualquier orden: tras separador o subshell, y con prefijos (VAR=valor, env…).
+    rx: /(^|[;&|(`]|\$\()\s*(([A-Za-z_][A-Za-z0-9_]*=\S*|env|command|nohup|time|exec)\s+)*sudo(\s|$)/i,
     msg: "sudo not permitted from agents. Request elevation from operator.",
   },
 ];
