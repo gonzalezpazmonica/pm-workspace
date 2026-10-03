@@ -13,20 +13,23 @@ Manage SaviaHub — the shared Git repository for company, clients, users, and p
 
 ## Subcommands
 
+Each subcommand runs a deterministic script; exit codes and edge cases are in the
+`savia-hub-sync` skill and covered by `tests/test-savia-hub-sync.bats`.
+
 ### `/savia-hub init [--remote URL]`
-Initialize SaviaHub structure. Without `--remote`: creates local repo at `$SAVIA_HUB_PATH` (default: `~/.savia-hub`). With `--remote`: clones existing hub.
+`bash scripts/savia-hub-init.sh [--remote URL]`. Without `--remote`: creates local repo (branch `main`) at `$SAVIA_HUB_PATH` (default: `~/.savia-hub`). With `--remote`: clones existing hub; an empty remote gets the structure committed locally, nothing pushed. Idempotent.
 
 ### `/savia-hub status`
-Show sync status: local/remote mode, flight mode, pending changes, last sync timestamp, divergence summary.
+`bash scripts/savia-hub-sync.sh status`. Flight mode, pending changes, last sync and a `Sync:` line that only says `sincronizado` when nothing is ahead, behind or uncommitted; otherwise `solo local` or `remote inalcanzable`.
 
 ### `/savia-hub push`
-Upload local changes to remote. Fails gracefully if no remote configured or offline. Shows diff summary before pushing.
+`bash scripts/savia-hub-sync.sh push` previews the file list without pushing; after the PM confirms, `push --yes`. Exit 3 without remote, 4 in flight mode, 5 unreachable, 7 if the remote is ahead (pull first).
 
 ### `/savia-hub pull`
-Download remote changes to local. Detects conflicts and proposes resolution. Updates `.savia-hub-config.md` with last sync timestamp.
+`bash scripts/savia-hub-sync.sh pull`. Rebase onto the remote; on conflict lists files, aborts the rebase (local data intact) and exits 8 — the PM resolves by hand. Updates `last_sync`.
 
 ### `/savia-hub flight-mode on|off`
-Toggle offline mode. When ON: all writes go to local only, queued for later sync. When OFF: triggers immediate sync if remote is configured.
+`bash scripts/savia-hub-sync.sh flight on|off`. ON blocks push and pull (exit 4). OFF only clears the flag; run pull and push afterwards.
 
 ## Prerequisites
 - `@docs/rules/domain/savia-hub-config.md` — Structure and path configuration
@@ -62,18 +65,17 @@ savia-hub/
 ### Push/Pull flow
 ```
 1. Check remote configured → error if not
-2. Check flight mode → warn if ON
-3. Run git status → show pending changes
-4. Confirm with PM
-5. Execute git push/pull
-6. Handle conflicts: show diff, ask PM to resolve
-7. Update last_sync in .savia-hub-config.md
+2. Check flight mode → block if ON (exit 4) unless --force
+3. Fetch remote → error if unreachable (exit 5), never report "synced"
+4. Show pending files (push preview) → confirm with PM → push --yes
+5. Handle conflicts: list files, abort rebase, PM resolves by hand
+6. Update last_sync in .savia-hub-config.md
 ```
 
 ### Flight mode
 ```
-ON:  All writes → local only. Queue in .sync-queue.jsonl
-OFF: Drain queue → push to remote. Resume normal sync
+ON:  push and pull blocked. Pending work = git status (no script writes .sync-queue.jsonl)
+OFF: clears the flag only. Run pull, then push
 ```
 
 ## Output format

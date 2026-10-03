@@ -1,5 +1,5 @@
 # Savia Capability Map — INDEX
-> hash: f5a3b651c3c0 | resources: 1450
+> hash: 1f0ca37df75b | resources: 1450
 > 295 commands · 139 skills · 90 agents · 926 scripts
 
 [analysis] Trace Optimize — across,distributed,optimize,rates,sampling — cmd:.claude/commands/trace-optimize.md
@@ -124,8 +124,9 @@
 [communication] savia-goal — codex,cross,equivalente,establece,gestiona — cmd:.claude/commands/savia-goal.md
 [communication] savia-goal — goal,lifecycle,management,savia — script:scripts/savia-goal.sh
 [communication] savia-goals — claimed,durables,goals,heartbeats,lección — script:scripts/savia-goals.sh
-[communication] savia-hub-init — init,initialize,local,repository,savia — script:scripts/savia-hub-init.sh
+[communication] savia-hub-init — inicializa,init,local,repositorio,savia — script:scripts/savia-hub-init.sh
 [communication] savia-hub-sync — local,repositorio,saviahub,sincroniza,workspace — skill:.claude/skills/savia-hub-sync/SKILL.md
+[communication] savia-hub-sync — flight,pull,push,savia,saviahub — script:scripts/savia-hub-sync.sh
 [communication] savia-identity — cargar,completa,comportamiento,identidad,inicio — skill:.claude/skills/savia-identity/SKILL.md
 [communication] savia-ignore — exclusion,ignore,layer,savia,specific — script:scripts/savia-ignore.sh
 [communication] savia-inbox —  — cmd:.claude/commands/savia-inbox.md
@@ -1413,7 +1414,6 @@
 [quality] test-savia-crypto — crypto,encryption,savia,test,tests — script:scripts/test-savia-crypto.sh
 [quality] test-savia-flow — architecture,based,branch,flow,savia — script:scripts/test-savia-flow.sh
 [quality] test-savia-flow-tasks — branch,flow,native,savia,task — script:scripts/test-savia-flow-tasks.sh
-[quality] test-savia-hub — savia,saviahub,structural,test,tests — script:scripts/test-savia-hub.sh
 [quality] test-savia-index — architecture,based,branch,index,indexes — script:scripts/test-savia-index.sh
 [quality] test-savia-messaging — based,branch,infrastructure,messaging,savia — script:scripts/test-savia-messaging.sh
 [quality] test-savia-school — educational,savia,school,test,tests — script:scripts/test-savia-school.sh
