@@ -76,6 +76,20 @@ _split_call() {
   done < <(printf '%s\n' "$call" | xargs printf '%s\0')
 }
 
+# Maximum arguments per public function: extra words are REJECTED rather
+# than silently ignored ("adb_tap 1 2 ; touch x" must not look valid).
+declare -A MAX_ARGS=(
+  [adb_auto_select]=0 [adb_devices]=0 [adb_device_info]=0 [adb_find_binary]=0
+  [adb_install]=1 [adb_uninstall]=1 [adb_is_installed]=1 [adb_launch]=2
+  [adb_stop]=1 [adb_clear_data]=1 [adb_screenshot]=1 [adb_record_start]=2
+  [adb_record_pull]=2 [adb_tap]=2 [adb_long_press]=3 [adb_swipe]=5
+  [adb_scroll_down]=0 [adb_scroll_up]=0 [adb_type]=1 [adb_key]=1
+  [adb_hierarchy]=1 [adb_find_by_id]=1 [adb_find_by_text]=1 [adb_tap_id]=1
+  [adb_tap_text]=1 [adb_logcat_clear]=0 [adb_logcat_errors]=2
+  [adb_logcat_recent]=1 [adb_detect_crash]=1 [adb_meminfo]=1 [adb_snapshot]=1
+  [adb_wait_for_text]=3 [adb_wait_for_id]=3 [adb_selftest]=0
+)
+
 FAILED=0
 for cmd in "$@"; do
   if ! _split_call "$cmd"; then
@@ -85,6 +99,13 @@ for cmd in "$@"; do
   fn="${WORDS[0]:-}"
   if [[ ! "$fn" =~ ^adb_[a-z0-9_]+$ ]] || ! declare -F "$fn" >/dev/null; then
     echo "REJECTED: not an adb-wrapper function: $cmd" >&2
+    FAILED=$((FAILED + 1))
+    continue
+  fi
+
+  max="${MAX_ARGS[$fn]:-}"
+  if [[ -n "$max" ]] && (( ${#WORDS[@]} - 1 > max )); then
+    echo "REJECTED: $fn takes at most $max argument(s): $cmd" >&2
     FAILED=$((FAILED + 1))
     continue
   fi

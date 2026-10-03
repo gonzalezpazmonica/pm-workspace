@@ -55,11 +55,12 @@ case "${args[0]:-}" in
     exit 0 ;;
   logcat)
     [[ " ${args[*]} " == *" -c "* ]] && exit 0
+    [[ -f "$F/logcat-fail" ]] && { echo "error: closed" >&2; exit 1; }
     cat "$F/logcat" 2>/dev/null; exit 0 ;;
   shell)
     cmd="${args[*]:1}"
     case "$cmd" in
-      "date +%s") echo "1700000000" ;;
+      "date +%s") [[ -f "$F/date-fail" ]] && exit 1; echo "1700000000" ;;
       "getprop ro.build.version.release") echo "14" ;;
       "getprop ro.build.version.sdk") echo "34" ;;
       "getprop ro.product.model") echo "Pixel \"8\"" ;;
@@ -400,9 +401,68 @@ PY
   [ "$status" -eq 0 ]
   [ "${lines[0]}" = "CRASH_DETECTED" ]
   [[ "$output" == *"NullPointerException"* ]]
+  echo "I ActivityManager: Start proc 123:com.savia.mobile" > "$FAKE_ADB_DIR/logcat"
+  run bash "$SCRIPT" "adb_detect_crash 60"
+  [ "$status" -eq 0 ]
+  [ "$output" = "NO_CRASH" ]
+}
+
+@test "detect_crash: logcat failure is LOGCAT_ERROR rc!=0, never NO_CRASH (fail closed)" {
+  export ADB_DEVICE=SER1
+  echo "I ActivityManager: Start proc 123:com.savia.mobile" > "$FAKE_ADB_DIR/logcat"
+  touch "$FAKE_ADB_DIR/logcat-fail"
+  run bash "$SCRIPT" "adb_detect_crash 60"
+  [ "$status" -ne 0 ]
+  [[ "$output" == *"LOGCAT_ERROR"* ]]
+  [[ "$output" != *"NO_CRASH"* ]]
+}
+
+@test "detect_crash: empty logcat is NO_LOGS rc!=0, never NO_CRASH" {
+  export ADB_DEVICE=SER1
   : > "$FAKE_ADB_DIR/logcat"
   run bash "$SCRIPT" "adb_detect_crash 60"
-  [ "$output" = "NO_CRASH" ]
+  [ "$status" -ne 0 ]
+  [[ "$output" == *"NO_LOGS"* ]]
+  [[ "$output" != *"NO_CRASH"* ]]
+}
+
+@test "detect_crash: 'Process has died' at level I is detected" {
+  export ADB_DEVICE=SER1
+  echo "I ActivityManager: Process com.savia.mobile (pid 4242) has died: fg TOP" > "$FAKE_ADB_DIR/logcat"
+  run bash "$SCRIPT" "adb_detect_crash 60"
+  [ "$status" -eq 0 ]
+  [ "${lines[0]}" = "CRASH_DETECTED" ]
+}
+
+@test "logcat_errors/recent: logcat or device clock failure returns error" {
+  export ADB_DEVICE=SER1
+  touch "$FAKE_ADB_DIR/logcat-fail"
+  run bash "$SCRIPT" "adb_logcat_errors 30"
+  [ "$status" -ne 0 ]
+  run bash "$SCRIPT" "adb_logcat_recent 30"
+  [ "$status" -ne 0 ]
+  mv "$FAKE_ADB_DIR/logcat-fail" "$TMPDIR/unused"
+  touch "$FAKE_ADB_DIR/date-fail"
+  : > "$FAKE_ADB_DIR/calls.log"
+  run bash "$SCRIPT" "adb_logcat_errors 30"
+  [ "$status" -ne 0 ]
+  [[ "$output" == *"device clock"* ]]
+  run grep -c '\[logcat\] \[-d\]' "$FAKE_ADB_DIR/calls.log"
+  [ "$output" -eq 0 ]
+}
+
+@test "snapshot: failed logcat is counted (failed:1) and returns non-zero" {
+  export ADB_DEVICE=SER1
+  printf 'PNG' > "$FAKE_ADB_DIR/screen.png"
+  _hierarchy
+  echo "I x: y" > "$FAKE_ADB_DIR/logcat"
+  run bash "$SCRIPT" "adb_snapshot $TMPDIR/snap"
+  [ "$status" -eq 0 ]
+  [[ "$output" == *'"failed":0'* ]]
+  touch "$FAKE_ADB_DIR/logcat-fail"
+  run bash "$SCRIPT" "adb_snapshot $TMPDIR/snap2"
+  [ "$status" -ne 0 ]
+  [[ "$output" == *'"failed":1'* ]]
 }
 
 # ── Packages ───────────────────────────────────────────────
@@ -455,6 +515,9 @@ PY
   run timeout 10 bash "$SCRIPT" "adb_wait_for_text Nope 2 0"
   [ "$status" -ne 124 ]
   [ "$status" -ne 0 ]
+  [[ "$output" == *"interval must be an integer >= 1"* ]]
+  run _calls
+  [ -z "$output" ]
 }
 
 @test "wait_for_text: found returns 0, absent times out with an error" {
@@ -478,4 +541,94 @@ PY
   [ "${lines[3]}" = "risky" ]
   [ "${lines[4]}" = "safe" ]
   [ "${lines[5]}" = "safe" ]
+}
+
+# ── Review fixes (maker-checker HOLD) ──────────────────────
+
+@test "uninstall: offline device fails; not-installed package is idempotent" {
+  export ADB_DEVICE=SER1
+  touch "$FAKE_ADB_DIR/fail-all"
+  run bash "$SCRIPT" "adb_uninstall com.savia.mobile"
+  [ "$status" -ne 0 ]
+  mv "$FAKE_ADB_DIR/fail-all" "$TMPDIR/unused"
+  echo 1 > "$FAKE_ADB_DIR/uninstall.rc"
+  printf 'package:com.other.app\n' > "$FAKE_ADB_DIR/packages"
+  run bash "$SCRIPT" "adb_uninstall com.savia.mobile"
+  [ "$status" -eq 0 ]
+  printf 'package:com.savia.mobile\n' > "$FAKE_ADB_DIR/packages"
+  run bash "$SCRIPT" "adb_uninstall com.savia.mobile"
+  [ "$status" -ne 0 ]
+  [[ "$output" == *"still installed"* ]]
+}
+
+@test "injection: invalid activity, screenrecord path and uninstall package are rejected" {
+  export ADB_DEVICE=SER1
+  run bash "$SCRIPT" "adb_launch com.x '.Main;reboot'"
+  [ "$status" -ne 0 ]
+  run bash "$SCRIPT" "adb_record_start '/sdcard/a.mp4;reboot' 5"
+  [ "$status" -ne 0 ]
+  run bash "$SCRIPT" "adb_uninstall 'com.x;reboot'"
+  [ "$status" -ne 0 ]
+  run _calls
+  [ -z "$output" ]
+}
+
+@test "type: dollar, backtick and redirection reach the device as literal text" {
+  export ADB_DEVICE=SER1
+  run bash "$SCRIPT" "adb_type 'x\$HOME\`id\`>$TMPDIR/out'"
+  [ "$status" -eq 0 ]
+  [ ! -e "$TMPDIR/out" ]
+  [ "$(cat "$FAKE_ADB_DIR/typed")" = "x\$HOME\`id\`>$TMPDIR/out" ]
+}
+
+@test "runner: an abort inside one call (unbound variable) does not stop the batch" {
+  adb_boom() { echo "$undefined_variable_for_test"; }
+  export -f adb_boom
+  run bash "$SCRIPT" adb_boom adb_devices
+  [ "$status" -eq 1 ]
+  [[ "$output" == *"FAILED: adb_boom"* ]]
+  [[ "$output" == *'"serial":"SER1"'* ]]
+}
+
+@test "runner: extra arguments are rejected, the call is not executed" {
+  export ADB_DEVICE=SER1
+  run bash "$SCRIPT" "adb_tap 1 2 ; touch $TMPDIR/zz"
+  [ "$status" -ne 0 ]
+  [[ "$output" == *"REJECTED"* ]]
+  [ ! -e "$TMPDIR/zz" ]
+  run _calls
+  [ -z "$output" ]
+}
+
+@test "integers: leading zero is rejected with a clear message, not a bash error" {
+  export ADB_DEVICE=SER1
+  run bash "$SCRIPT" "adb_logcat_errors 08"
+  [ "$status" -ne 0 ]
+  [[ "$output" == *"non-negative integer"* ]]
+  [[ "$output" != *"base"* ]]
+}
+
+@test "screenshot: failed pull keeps an existing local file intact" {
+  export ADB_DEVICE=SER1
+  echo precious > "$TMPDIR/keep.png"
+  run bash "$SCRIPT" "adb_screenshot $TMPDIR/keep.png"
+  [ "$status" -ne 0 ]
+  [ "$(cat "$TMPDIR/keep.png")" = "precious" ]
+}
+
+@test "devices: adb failure is an error, not an empty list" {
+  touch "$FAKE_ADB_DIR/fail-all"
+  run bash "$SCRIPT" adb_devices
+  [ "$status" -ne 0 ]
+}
+
+@test "selftest: a failed capture makes it fail, temp files stay under TMPDIR" {
+  export ADB_DEVICE=SER1
+  _hierarchy
+  echo "I x: y" > "$FAKE_ADB_DIR/logcat"
+  run bash "$SCRIPT" adb_selftest
+  [ "$status" -ne 0 ]
+  [[ "$output" == *"4. Screenshot: FAIL"* ]]
+  run grep -v "^$TMPDIR/" "$FAKE_ADB_DIR/pull-dst.log"
+  [ -z "$output" ]
 }

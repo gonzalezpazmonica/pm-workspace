@@ -34,7 +34,7 @@ source scripts/lib/adb-wrapper.sh && adb_auto_select && adb_screenshot /tmp/s.pn
 
 Each argument is one function call. Inner quotes group words (`"adb_tap_text 'Conectar ahora'"`).
 Calls are **not** shell-evaluated: only public `adb_*` functions are accepted; `;`, `$(...)`,
-unbalanced quotes or any other command are `REJECTED`. Each call runs isolated: a failing call
+unbalanced quotes, extra arguments or any other command are `REJECTED`. Each call runs isolated: a failing call
 prints `FAILED: <call>`, the rest still run, exit 1 at the end.
 
 ## Prerequisites
@@ -54,7 +54,7 @@ prints `FAILED: <call>`, the rest still run, exit 1 at the end.
 ### 2. APK Lifecycle
 ```bash
 ./scripts/adb-run.sh adb_auto_select "adb_install ./path/to/app.apk"
-./scripts/adb-run.sh adb_auto_select "adb_uninstall com.package.name"
+./scripts/adb-run.sh adb_auto_select "adb_uninstall com.package.name"  # not installed = ok; adb error = fail
 ./scripts/adb-run.sh adb_auto_select "adb_launch com.package.name"
 ./scripts/adb-run.sh adb_auto_select "adb_stop com.package.name"
 ./scripts/adb-run.sh adb_auto_select "adb_clear_data com.package.name"
@@ -83,7 +83,7 @@ prints `FAILED: <call>`, the rest still run, exit 1 at the end.
 ./scripts/adb-run.sh adb_auto_select adb_logcat_clear
 ./scripts/adb-run.sh adb_auto_select "adb_logcat_errors 30"   # last 30 s by device clock
 ./scripts/adb-run.sh adb_auto_select "adb_logcat_errors 60 com.savia.mobile"  # not running -> unfiltered + WARN
-./scripts/adb-run.sh adb_auto_select "adb_detect_crash 60"
+./scripts/adb-run.sh adb_auto_select "adb_detect_crash 60"  # CRASH_DETECTED|NO_CRASH rc0; LOGCAT_ERROR|NO_LOGS rc2
 ./scripts/adb-run.sh adb_auto_select "adb_meminfo com.savia.mobile"
 ```
 
@@ -144,6 +144,6 @@ every argument that reaches `adb shell` (integers, package names, key names) and
 | `ADB_TIMEOUT` | 30 | Command timeout (seconds) |
 ## Tips for Agents
 - **ALWAYS use `./scripts/adb-run.sh`** — never `source wrapper.sh && ...`
-- Captures fail if the pull fails (a stale local file never counts); `adb_snapshot` reports `"failed":N`
+- Fail closed: a logcat error is never `NO_CRASH`; captures fail if the pull fails (old file kept, never reported as new); `adb_snapshot` reports `"failed":N`
 - Always start with `adb_auto_select`; chain many functions in one call
 - Screenshots BEFORE and AFTER each interaction; use `adb_wait_for_text` instead of `sleep`

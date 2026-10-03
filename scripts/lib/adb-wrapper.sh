@@ -195,7 +195,7 @@ adb_classify() {
 # Arguments are joined into a device-side shell command by `adb shell`, so
 # anything reaching it must be validated or escaped (no injection on device).
 
-_adb_is_uint() { [[ "${1:-}" =~ ^[0-9]+$ ]]; }
+_adb_is_uint() { [[ "${1:-}" =~ ^(0|[1-9][0-9]*)$ ]]; }
 
 _adb_need_uint() {
     local name="$1" value="${2:-}"
@@ -262,7 +262,7 @@ adb_devices() {
     local adb
     adb="$(adb_find_binary)" || return 1
     local raw
-    if ! raw="$("$adb" devices -l)"; then
+    if ! raw="$("$adb" devices -l)" || [[ "$raw" != *"List of devices"* ]]; then
         echo "ERROR: adb devices failed" >&2
         return 1
     fi
@@ -369,12 +369,36 @@ adb_install() {
     _adb_exec install -r -t "$apk_path"
 }
 
-# Uninstall package. Idempotent: a package that is not installed is not an error.
+# Package state on device: prints "installed" or "absent"; fails if adb fails.
+_adb_package_state() {
+    local list
+    list="$(_adb_exec shell pm list packages)" || return 1
+    if printf '%s\n' "${list//$'\r'/}" | grep -qxF "package:$1"; then
+        echo "installed"
+    else
+        echo "absent"
+    fi
+}
+
+# Uninstall package. Idempotent: a package that is not installed is not an
+# error, but an adb failure (device offline) is.
 adb_uninstall() {
     _adb_need_package "${1:-}" || return 1
     local package="$1"
     echo "Uninstalling: $package" >&2
-    _adb_exec uninstall "$package" 2>/dev/null || true
+    if _adb_exec uninstall "$package" >/dev/null 2>&1; then
+        return 0
+    fi
+    local state
+    if ! state="$(_adb_package_state "$package" 2>/dev/null)"; then
+        echo "ERROR: uninstall failed and package state is unknown: $package" >&2
+        return 1
+    fi
+    if [[ "$state" == "absent" ]]; then
+        return 0
+    fi
+    echo "ERROR: uninstall failed, package still installed: $package" >&2
+    return 1
 }
 
 # Check if package is installed (exact name, not a prefix).
@@ -423,16 +447,20 @@ adb_clear_data() {
 
 # ─── Screenshot & Recording ────────────────────────────────────────────────
 
-# Pull a device file to a local path. Any stale local file is removed first,
-# so success always means a fresh capture.
+# Pull a device file to a local path. The pull lands in a temp file next to
+# the target and replaces it only on success: a stale file never counts as a
+# fresh capture, and an existing file is not lost when the pull fails.
 _adb_pull_fresh() {
-    local device_path="$1" output="$2"
-    if [[ -e "$output" ]] && ! rm -f -- "$output"; then
-        echo "ERROR: cannot replace existing file: $output" >&2
+    local device_path="$1" output="$2" tmp
+    if ! tmp="$(mktemp "$(dirname -- "$output")/.savia-adb-pull-XXXXXX")"; then
+        echo "ERROR: cannot write next to: $output" >&2
         return 1
     fi
-    _adb_exec pull "$device_path" "$output" >/dev/null || return 1
-    [[ -f "$output" ]]
+    if _adb_exec pull "$device_path" "$tmp" >/dev/null && [[ -s "$tmp" ]] && mv -f -- "$tmp" "$output"; then
+        return 0
+    fi
+    rm -f -- "$tmp"
+    return 1
 }
 
 # Capture screenshot and pull to local path.
@@ -706,7 +734,10 @@ adb_logcat_errors() {
 
     local since
     since="$(_adb_logcat_since "$seconds")" || return 1
-    _adb_exec logcat -d -t "$since" "${filter[@]}" "*:E" 2>/dev/null || true
+    if ! _adb_exec logcat -d -t "$since" "${filter[@]}" "*:E"; then
+        echo "ERROR: logcat failed" >&2
+        return 1
+    fi
 }
 
 # Get all logs for last N seconds.
@@ -715,28 +746,36 @@ adb_logcat_recent() {
     _adb_need_uint "seconds" "$seconds" || return 1
     local since
     since="$(_adb_logcat_since "$seconds")" || return 1
-    _adb_exec logcat -d -t "$since" 2>/dev/null || true
+    if ! _adb_exec logcat -d -t "$since"; then
+        echo "ERROR: logcat failed" >&2
+        return 1
+    fi
 }
 
-# Search logcat for crash patterns. Returns structured output.
+# Search logcat (all levels) for crash patterns. Fails closed:
+#   CRASH_DETECTED (rc 0) + matching lines
+#   NO_CRASH       (rc 0) only when logcat answered with lines and none match
+#   LOGCAT_ERROR   (rc 2) adb/logcat failed: the device is NOT vouched for
+#   NO_LOGS        (rc 2) logcat returned nothing: cannot confirm, not NO_CRASH
+# All levels, not only *:E: "Process ... has died" is logged at level I.
 adb_detect_crash() {
     local seconds="${1:-60}"
+    _adb_need_uint "seconds" "$seconds" || return 1
     local logs
-    logs="$(adb_logcat_errors "$seconds")" || return 1
-
-    local has_crash=false
-    local crash_lines=""
-
-    # Look for common crash indicators
-    if echo "$logs" | grep -qiE "FATAL EXCEPTION|AndroidRuntime|Process.*has died|ANR in"; then
-        has_crash=true
-        crash_lines="$(echo "$logs" | grep -iE "FATAL EXCEPTION|AndroidRuntime|Process.*has died|ANR in|Caused by|at com\." | head -30)"
+    if ! logs="$(adb_logcat_recent "$seconds")"; then
+        echo "LOGCAT_ERROR"
+        return 2
+    fi
+    if [[ -z "${logs//[[:space:]]/}" ]]; then
+        echo "NO_LOGS"
+        return 2
     fi
 
-    if $has_crash; then
+    local pattern="FATAL EXCEPTION|Process .* has died|ANR in"
+    if printf '%s\n' "$logs" | grep -qiE "$pattern"; then
         echo "CRASH_DETECTED"
         echo "---"
-        echo "$crash_lines"
+        printf '%s\n' "$logs" | grep -iE "$pattern|AndroidRuntime|Caused by|[[:space:]]at com[.]" | head -30
     else
         echo "NO_CRASH"
     fi
@@ -764,7 +803,9 @@ adb_snapshot() {
 
     adb_screenshot "$screenshot_path" >/dev/null || failed=$((failed + 1))
     adb_hierarchy "$hierarchy_path" >/dev/null || failed=$((failed + 1))
-    adb_logcat_recent 30 > "$logcat_path" || failed=$((failed + 1))
+    if ! adb_logcat_recent 30 > "$logcat_path" || [[ ! -s "$logcat_path" ]]; then
+        failed=$((failed + 1))
+    fi
 
     printf '{"screenshot":"%s","hierarchy":"%s","logcat":"%s","failed":%d}\n' \
         "$(_adb_json_escape "$screenshot_path")" "$(_adb_json_escape "$hierarchy_path")" \
@@ -812,6 +853,7 @@ adb_wait_for_id() {
 # Run basic self-test to verify ADB setup.
 adb_selftest() {
     echo "=== ADB Wrapper Self-Test ==="
+    local failures=0 tmpd
 
     echo -n "1. ADB binary: "
     if adb_find_binary >/dev/null 2>&1; then
@@ -831,48 +873,41 @@ adb_selftest() {
 
     echo -n "3. Device info: "
     local info
-    info="$(adb_device_info 2>/dev/null)"
-    if [[ -n "$info" ]]; then
+    if info="$(adb_device_info 2>/dev/null)" && [[ -n "$info" ]]; then
         echo "OK"
         echo "   $info"
     else
         echo "FAIL"
-        return 1
+        failures=$((failures + 1))
     fi
 
+    tmpd="$(mktemp -d "${TMPDIR:-/tmp}/savia-adb-selftest-XXXXXX")" || return 1
+
     echo -n "4. Screenshot: "
-    local ss
-    ss="$(adb_screenshot /tmp/_selftest_screen.png 2>/dev/null)"
-    if [[ -f "$ss" ]]; then
-        local size
-        size="$(stat -c%s "$ss" 2>/dev/null || echo "0")"
-        echo "OK (${size} bytes)"
-        rm -f "$ss"
+    if adb_screenshot "$tmpd/screen.png" >/dev/null 2>&1; then
+        echo "OK ($(stat -c%s "$tmpd/screen.png" 2>/dev/null || echo "?") bytes)"
     else
         echo "FAIL"
+        failures=$((failures + 1))
     fi
 
     echo -n "5. Hierarchy dump: "
-    local hier
-    hier="$(adb_hierarchy /tmp/_selftest_hier.xml 2>/dev/null)"
-    if [[ -f "$hier" ]]; then
-        local lines
-        lines="$(wc -l < "$hier")"
-        echo "OK (${lines} lines)"
-        rm -f "$hier"
+    if adb_hierarchy "$tmpd/hier.xml" >/dev/null 2>&1; then
+        echo "OK ($(wc -l < "$tmpd/hier.xml") lines)"
     else
         echo "FAIL"
+        failures=$((failures + 1))
     fi
+    rm -f -- "$tmpd/screen.png" "$tmpd/hier.xml"
+    rmdir -- "$tmpd" || echo "WARN: could not remove $tmpd" >&2
 
     echo -n "6. Logcat: "
     local logs
-    logs="$(adb_logcat_recent 5 2>/dev/null)"
-    if [[ -n "$logs" ]]; then
-        local log_lines
-        log_lines="$(echo "$logs" | wc -l)"
-        echo "OK (${log_lines} lines)"
+    if logs="$(adb_logcat_recent 5 2>/dev/null)" && [[ -n "$logs" ]]; then
+        echo "OK ($(printf '%s\n' "$logs" | wc -l) lines)"
     else
-        echo "FAIL (empty)"
+        echo "FAIL"
+        failures=$((failures + 1))
     fi
 
     echo -n "7. Security classification: "
@@ -884,7 +919,9 @@ adb_selftest() {
         echo "OK (safe/risky/blocked)"
     else
         echo "FAIL ($s1/$s2/$s3)"
+        failures=$((failures + 1))
     fi
 
-    echo "=== Self-Test Complete ==="
+    echo "=== Self-Test Complete: $failures failure(s) ==="
+    (( failures == 0 ))
 }
