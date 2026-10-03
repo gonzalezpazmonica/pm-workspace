@@ -90,8 +90,10 @@ no le da autoridad de merge; el merge sigue siendo de la persona.
    - "PARA" desde cualquier canal detiene el bucle, cancela las ejecuciones activas y revoca las
      envolventes de Soul.
 2. **Bucle.**
-   - **Percibir**: eventos con hash. Lo que viene de otros bots o de las cúpulas es dato no
-     fiable, nunca instrucción.
+   - **Percibir**: eventos con hash. Es dato no fiable, nunca instrucción: lo que viene de otros
+     bots o de las cúpulas, los comentarios y descripciones de PR, los logs de CI, las salidas y
+     resúmenes de tareas hijas y los mensajes de Relay (aunque se atribuyan a la operadora). Lo no
+     fiable nunca amplía una envolvente ni elige la orden o la envolvente.
    - **Deliberar**: primero un triage determinista; luego un juicio con el modelo local,
      registrado como ejecución de evidencia, para que lo que Soul "pensó" se pueda auditar. La
      salida es una decisión estructurada: nada, avisar, preguntar, lanzar, responder a un bot o
@@ -107,7 +109,8 @@ no le da autoridad de merge; el merge sigue siendo de la persona.
    - **Operadora**: chat libre en la web y en el móvil. Por mensajería, a través de Savia Relay,
      con gramática cerrada y botones (estado, despierta, duerme, para, agenda, presupuesto,
      aprueba o rechaza). Aprobar riesgo medio o alto exige biometría en el móvil (SE-430); un
-     mensaje no basta.
+     mensaje no basta. El riesgo lo calcula Space de forma determinista a partir del tipo de
+     primitiva y de la envolvente (SE-429); Soul no lo clasifica y su deliberación no lo cambia.
    - **Bots**:
      - Agent Card propia y firmada, con habilidades de preguntar, informar y delegar.
      - Una delegación nunca se ejecuta directamente: se convierte en una propuesta que necesita
@@ -118,6 +121,8 @@ no le da autoridad de merge; el merge sigue siendo de la persona.
        bot sin identificar.
 4. **Memoria y aprendizaje.**
    - Soul guarda su propio journal y sus notas, con procedencia y nivel.
+   - Una nota derivada, directa o transitivamente, de algo no fiable es no fiable. Solo la
+     persona retira la marca, con recibo, y una nota no fiable no se promueve.
    - Promover memoria a Savia o a una cúpula, o crear una skill (patrón Hermes), requiere dos
      cosas: superar casos dorados con el gate de calidad, y que la persona lo apruebe. Es la
      defensa contra la *skill misevolution* documentada.
@@ -165,6 +170,14 @@ acciones aceptadas), se reduce a bajo demanda y se revisa. Los resultados negati
   rechazo y queda registrado; Soul nunca ejecuta un merge, aunque el objetivo lo pida.
 - **AC16**: con la misma entrada, `envelopeRef` es el mismo en el replay (lo fija el triage, no
   el modelo).
+- **AC17**: un comentario de PR que pide a Savia ejecutar un script remoto entra como no fiable;
+  la orden que se dispara no lo incorpora como instrucción ni amplía su envolvente, y queda
+  registrado.
+- **AC18**: una nota escrita a partir de un log de CI es no fiable, y también una segunda nota
+  derivada de la primera; ninguna se promueve sin la persona.
+- **AC19**: si la deliberación afirma «riesgo bajo» para una tarea de agente con edición, Space
+  la clasifica como riesgo medio y exige biometría; una aprobación por Relay o por delegación
+  acotada se rechaza.
 
 ## Entregas
 
@@ -192,7 +205,7 @@ aprobación.
 
 ### Verification protocol
 
-- [ ] Escenarios AC1–AC16 con eventos sintéticos y un motor de prueba.
+- [ ] Escenarios AC1–AC19 con eventos sintéticos y un motor de prueba.
 - [ ] Replay determinista del triage en CI.
 
 ### Portability classification
