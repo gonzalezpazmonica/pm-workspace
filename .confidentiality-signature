@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=ddefc0f05e4419d26aacf74ce1af716445791585faccb53e9bb620b223c8fb80
-timestamp=2026-10-03T05:04:03Z
-branch=agent/sovereignty-traversal-20261003
-head_commit=180ccd25
-signature=b351d9b560087e41c0a2c677c95044a81d502cc9e0cd77248184308dc819bf75
+diff_hash=1f66fb0cef7949bcfa4008d31b8dc74e94350c189fe7a9dc1f1f026090c7b41b
+timestamp=2026-10-03T05:46:47Z
+branch=agent/destructive-anchoring-20261003
+head_commit=f543fa10
+signature=c51c1cc317f4826d6566146b9d87134927dfd0951ca8b5b8f098175119288995
