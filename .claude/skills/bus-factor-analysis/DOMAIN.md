@@ -55,11 +55,19 @@ la busqueda greedy es O(n*k) y suficientemente precisa para la practica).
 
 ### Casos especiales
 
-- `total_changes = 0`: no hay historial. Score = 0, warning: no_history
+- `total_changes = 0`: no hay historial. Score = 0, warning: no_history.
+  Si ningun fichero del modulo tiene historial, BF = 0 y riesgo `UNKNOWN`
+  (no `CRITICAL`): no hay datos, no un unico conocedor
 - Ningun dev alcanza el threshold: el mayor contribuidor se asigna como owner
   con warning: no_clear_owner
 - Shallow clone: warning en el JSON, resultados pueden ser incompletos
-- Bots (dependabot, renovate, github-actions): filtrados del calculo
+- Bots (dependabot, renovate, github-actions, `noreply@`, `ci@`): filtrados
+  del calculo. Los humanos con `*@users.noreply.github.com` cuentan
+- Identidad: email del autor tras `.mailmap` (`git log --use-mailmap`, `%aE`)
+- Umbral de cobertura: `>= 0.50` de los ficheros. Dos devs que se reparten un
+  modulo a partes iguales dan BF=1 (cualquiera de los dos cubre el 50%).
+  El truck factor de Avelino et al. usa `> 50%` de ficheros huerfanos al
+  retirar devs, y daria 2 en ese caso: esta skill es mas alarmista a proposito
 
 ## Cuando ejecutar
 
