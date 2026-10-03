@@ -28,4 +28,4 @@ Execute: `bash scripts/savia-flow-timesheet.sh log <@handle> <task_id> <hours> [
 📁 Rama `user/{handle}`, fichero `flow/timesheet/{YYYY-MM}.md`, una linea por entrada:
 `YYYY-MM-DD HH:MM | task_id | {horas}h | notas` (`|` y saltos de linea en notas se sustituyen).
 
-Exit: 0 ok · 1 sin repo de empresa · 2 entrada invalida (no escribe nada).
+Exit: 0 ok (publicado en origin) · 1 sin repo de empresa, remoto inaccesible o push no confirmado · 2 entrada invalida (no escribe nada).

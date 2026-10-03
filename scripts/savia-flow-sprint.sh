@@ -21,16 +21,15 @@ _sprint_field() {  # _sprint_field <campo> <contenido>
   echo "$2" | grep -m1 "^$1:" | cut -d: -f2- | sed 's/^ *//; s/^"\(.*\)"$/\1/' || true
 }
 
-_sprint_write_new() {  # bajo lock: asigna el siguiente ID del anio y escribe
-  local repo_dir="$1" team="$2" goal="$3" start_date="$4" end_date="$5" capacity_h="$6"
+_sprint_write_new() {  # dentro de do_txn (cwd = team/<team> fresco): siguiente ID del anio
+  local goal="$1" start_date="$2" end_date="$3" capacity_h="$4"
   local year="${start_date:0:4}" max=0 n f
-  do_ensure_orphan "$repo_dir" "team/$team" "init: team/$team" >/dev/null 2>&1
-  while IFS= read -r f; do
-    f=$(basename "$f")
-    [[ "$f" =~ ^SPR-${year}-([0-9]+)$ ]] || continue
+  for f in "$SPRINTS_DIR"/SPR-"$year"-*; do
+    [ -d "$f" ] || continue
+    [[ "${f##*/}" =~ ^SPR-${year}-([0-9]+)$ ]] || continue
     n=$((10#${BASH_REMATCH[1]}))
     if [ "$n" -gt "$max" ]; then max=$n; fi
-  done < <(do_list "$repo_dir" "team/$team" "$SPRINTS_DIR")
+  done
   local sprint_id; sprint_id="SPR-${year}-$(printf '%02d' $((max + 1)))"
   local sprint_content="---
 id: $sprint_id
@@ -51,8 +50,8 @@ $goal
 ## Key Results
 
 - [ ] Result 1"
-  do_write "$repo_dir" "team/$team" "$SPRINTS_DIR/${sprint_id}/sprint.md" "$sprint_content" \
-    "[flow: sprint-create] $sprint_id" >/dev/null
+  mkdir -p "$SPRINTS_DIR/$sprint_id"
+  printf '%s\n' "$sprint_content" > "$SPRINTS_DIR/$sprint_id/sprint.md"
   echo "✅ Created $sprint_id: $goal"
 }
 
@@ -66,36 +65,38 @@ sprint_create() {
   [[ ! "$start_date" > "$end_date" ]] || { _sprint_err 2 "fin ($end_date) anterior al inicio ($start_date)"; return; }
   [[ "$capacity_h" =~ ^[0-9]+$ ]] && [ "$((10#$capacity_h))" -gt 0 ] \
     || { _sprint_err 2 "capacity_h invalida: '$capacity_h' (entero > 0)"; return; }
-  do_with_lock "$repo_dir" "team/$team" \
-    _sprint_write_new "$repo_dir" "$team" "$goal" "$start_date" "$end_date" "$((10#$capacity_h))"
+  do_with_lock "$repo_dir" "team/$team" do_txn "$repo_dir" "team/$team" "[flow: sprint-create] $goal" \
+    _sprint_write_new "$goal" "$start_date" "$end_date" "$((10#$capacity_h))" \
+    || { _sprint_err 1 "sprint NO creado (sin push confirmado a origin)"; return; }
 }
 
 _sprint_check_id() {
   [[ "${1:-}" =~ ^SPR-[0-9]{4}-[0-9]{2,}$ ]] || { _sprint_err 2 "sprint_id invalido: '${1:-}' (SPR-YYYY-NN)"; return; }
 }
 
-_sprint_write_close() {
-  local repo_dir="$1" team="$2" sprint_id="$3"
-  local sprint_path="$SPRINTS_DIR/${sprint_id}/sprint.md" content
-  content=$(do_read "$repo_dir" "team/$team" "$sprint_path") || { _sprint_err 1 "Sprint $sprint_id not found"; return; }
+_sprint_write_close() {  # dentro de do_txn (cwd = team/<team> fresco)
+  local sprint_id="$1" f="$SPRINTS_DIR/$1/sprint.md" content
+  [ -f "$f" ] || { _sprint_err 1 "Sprint $sprint_id not found"; return; }
+  content=$(cat "$f")
   if [ "$(_sprint_field status "$content")" = "closed" ]; then
     echo "ℹ️  $sprint_id ya estaba cerrado ($(_sprint_field closed "$content")); sin cambios"
     return 0
   fi
-  content=$(echo "$content" | sed "s/^status: .*/status: closed/; s/^closed: .*/closed: $(date +%Y-%m-%d)/")
-  do_write "$repo_dir" "team/$team" "$sprint_path" "$content" "[flow: sprint-close] $sprint_id" >/dev/null
+  echo "$content" | sed "s/^status: .*/status: closed/; s/^closed: .*/closed: $(date +%Y-%m-%d)/" > "$f"
   echo "✅ Closed $sprint_id"
 }
 
 sprint_close() {
   local repo_dir="${1:?}" team="${2:?}" sprint_id="${3:-}"
   _sprint_check_id "$sprint_id" || return
-  do_with_lock "$repo_dir" "team/$team" _sprint_write_close "$repo_dir" "$team" "$sprint_id"
+  do_with_lock "$repo_dir" "team/$team" do_txn "$repo_dir" "team/$team" \
+    "[flow: sprint-close] $sprint_id" _sprint_write_close "$sprint_id"
 }
 
 sprint_board() {
   local repo_dir="${1:?}" team="${2:?}" sprint_id="${3:-}"
   _sprint_check_id "$sprint_id" || return
+  do_fetch_branch "$repo_dir" "team/$team"
   local content
   content=$(do_read "$repo_dir" "team/$team" "$SPRINTS_DIR/${sprint_id}/sprint.md") \
     || { _sprint_err 1 "Sprint $sprint_id not found"; return; }
@@ -108,6 +109,7 @@ sprint_board() {
 
 sprint_velocity() {
   local repo_dir="${1:?}" team="${2:?}" f id content
+  do_fetch_branch "$repo_dir" "team/$team"
   echo "📈 Historical Velocity (via team/$team)"
   while IFS= read -r f; do
     [ -n "$f" ] || continue

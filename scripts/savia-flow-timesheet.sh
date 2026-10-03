@@ -47,14 +47,12 @@ norm_hours() {
   echo "$h"
 }
 
-_append_entry() {
-  local repo_dir="$1" handle="$2" ts_path="$3" line="$4" msg="$5"
-  do_ensure_orphan "$repo_dir" "user/$handle" "init: user/$handle" >/dev/null 2>&1
-  local content
-  content=$(do_read "$repo_dir" "user/$handle" "$ts_path") \
-    || content="# Timesheet — @${handle} — $(date +%Y-%m)"
-  do_write "$repo_dir" "user/$handle" "$ts_path" "${content}
-${line}" "$msg" >/dev/null
+_append_entry() {  # dentro de do_txn: cwd = worktree de user/<handle> recien traido
+  local handle="$1" ts_path="$2" line="$3"
+  mkdir -p "$(dirname "$ts_path")"
+  local ym="${ts_path##*/}"
+  [ -f "$ts_path" ] || echo "# Timesheet — @${handle} — ${ym%.md}" > "$ts_path"
+  printf '%s\n' "$line" >> "$ts_path"
 }
 
 timesheet_log() {
@@ -65,10 +63,12 @@ timesheet_log() {
   task_id=$(norm_id task_id "$3")
   hours=$(norm_hours "$4")
   notes=$(printf '%s' "${5:-}" | tr '\n|' ' /')
-  local ts_path; ts_path="flow/timesheet/$(date +%Y-%m).md"
-  local line; line="$(date '+%Y-%m-%d %H:%M') | ${task_id} | ${hours}h | ${notes}"
-  do_with_lock "$repo_dir" "user/$handle" \
-    _append_entry "$repo_dir" "$handle" "$ts_path" "$line" "[flow: log-time] ${task_id}: ${hours}h"
+  local now; now=$(date '+%Y-%m-%d %H:%M')  # una sola lectura del reloj: fichero y linea coinciden
+  local ts_path="flow/timesheet/${now:0:7}.md"
+  local line="${now} | ${task_id} | ${hours}h | ${notes}"
+  do_with_lock "$repo_dir" "user/$handle" do_txn "$repo_dir" "user/$handle" \
+    "[flow: log-time] ${task_id}: ${hours}h" _append_entry "$handle" "$ts_path" "$line" \
+    || die 1 "NO registrado: ${hours} h en $task_id (sin push confirmado a origin)"
   echo "✅ Logged ${hours} h for $task_id by @$handle"
 }
 
@@ -78,6 +78,7 @@ timesheet_day() {
   local handle; handle=$(norm_id handle "$2")
   local date="${3:-$(date +%Y-%m-%d)}"
   portable_valid_date "$date" || die 2 "fecha invalida: '$date' (YYYY-MM-DD)"
+  do_fetch_branch "$repo_dir" "user/$handle"
   local content
   content=$(do_read "$repo_dir" "user/$handle" "flow/timesheet/${date:0:7}.md") \
     || die 1 "No timesheet for @$handle in ${date:0:7}"
@@ -93,6 +94,7 @@ timesheet_report() {
   portable_valid_date "$from" || die 2 "fecha invalida: '$from'"
   portable_valid_date "$to" || die 2 "fecha invalida: '$to'"
   [[ ! "$from" > "$to" ]] || die 2 "rango invalido: $from > $to"
+  do_fetch_branch "$repo_dir" "user/$handle"
   echo "📊 Timesheet Report: @$handle ($from to $to)"
   local y=$((10#${from:0:4})) m=$((10#${from:5:2})) ym all=""
   local end_ym="${to:0:7}"

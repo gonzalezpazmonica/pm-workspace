@@ -45,27 +45,29 @@ norm_handle() {
 
 _backlog() { echo "projects/$1/backlog"; }
 
-# Fichero de una tarea por su id (TASK-NNNN -> pbi-NNNN.md); vacio si no existe
+# Fichero de una tarea por su id (TASK-NNNN -> pbi-NNNN.md); cwd = worktree de do_txn
 _task_file() {
-  local repo_dir="$1" team="$2" project="$3" task_id="$4"
+  local project="$1" task_id="$2"
   [[ "$task_id" =~ ^TASK-([0-9]{4,})$ ]] || die 2 "task_id invalido: '$task_id' (TASK-NNNN)"
-  local f="pbi-${BASH_REMATCH[1]}.md"
-  if do_read "$repo_dir" "team/$team" "$(_backlog "$project")/$f" >/dev/null 2>&1; then echo "$f"; fi
+  local f; f="$(_backlog "$project")/pbi-${BASH_REMATCH[1]}.md"
+  if [ -f "$f" ]; then echo "$f"; fi
 }
 
-_task_write_new() {  # bajo lock: siguiente id = max existente + 1
-  local repo_dir="$1" team="$2" project="$3" content_tpl="$4" title="$5"
-  local max=0 f n
-  do_ensure_orphan "$repo_dir" "team/$team" "init: team/$team" >/dev/null 2>&1
-  while IFS= read -r f; do
-    f=$(basename "$f")
-    [[ "$f" =~ ^pbi-([0-9]+)\.md$ ]] || continue
+_task_write_new() {  # dentro de do_txn (cwd = team/<team> fresco): id = max existente + 1
+  local project="$1" content_tpl="$2" title="$3" sprint="$4"
+  local max=0 f n dir; dir=$(_backlog "$project")
+  if [ -n "$sprint" ] && [ ! -f "$SPRINT_BASE/$sprint/sprint.md" ]; then
+    echo "❌ sprint $sprint no existe (crealo con /flow-sprint-create)" >&2; return 1
+  fi
+  for f in "$dir"/pbi-*.md; do
+    [ -f "$f" ] || continue
+    [[ "${f##*/}" =~ ^pbi-([0-9]+)\.md$ ]] || continue
     n=$((10#${BASH_REMATCH[1]}))
     if [ "$n" -gt "$max" ]; then max=$n; fi
-  done < <(do_list "$repo_dir" "team/$team" "$(_backlog "$project")")
+  done
   local task_id; task_id=$(printf "TASK-%04d" $((max + 1)))
-  do_write "$repo_dir" "team/$team" "$(_backlog "$project")/$(printf 'pbi-%04d.md' $((max + 1)))" \
-    "${content_tpl//@@ID@@/$task_id}" "[flow: task-create] $task_id" >/dev/null
+  mkdir -p "$dir"
+  printf '%s\n' "${content_tpl//@@ID@@/$task_id}" > "$dir/$(printf 'pbi-%04d.md' $((max + 1)))"
   echo "✅ Created $task_id: $title"
 }
 
@@ -81,8 +83,6 @@ task_create() {
   case "$priority" in critical|high|medium|low) ;; *) die 2 "priority invalida: '$priority'" ;; esac
   if [ -n "$sprint" ]; then
     [[ "$sprint" =~ ^SPR-[0-9]{4}-[0-9]{2,}$ ]] || die 2 "sprint invalido: '$sprint'"
-    do_read "$repo_dir" "team/$team" "$SPRINT_BASE/$sprint/sprint.md" >/dev/null 2>&1 \
-      || die 1 "sprint $sprint no existe (crealo con /flow-sprint-create)"
   fi
   local tpl="---
 id: \"@@ID@@\"
@@ -100,25 +100,26 @@ created: \"$(date +%Y-%m-%d)\"
 ## Acceptance Criteria
 
 - [ ] Criterion 1"
-  do_with_lock "$repo_dir" "team/$team" _task_write_new "$repo_dir" "$team" "$project" "$tpl" "$title"
+  do_with_lock "$repo_dir" "team/$team" do_txn "$repo_dir" "team/$team" "[flow: task-create] $title" \
+    _task_write_new "$project" "$tpl" "$title" "$sprint" \
+    || die 1 "tarea NO creada (sprint inexistente o sin push confirmado a origin)"
 }
 
-_task_set_field() {  # bajo lock: cambia un campo del frontmatter
-  local repo_dir="$1" team="$2" project="$3" task_id="$4" field="$5" value="$6"
-  local f; f=$(_task_file "$repo_dir" "$team" "$project" "$task_id")
-  [ -n "$f" ] || die 1 "tarea $task_id no encontrada"
-  local path; path="$(_backlog "$project")/$f"
-  local content; content=$(do_read "$repo_dir" "team/$team" "$path")
-  content=$(echo "$content" | sed "s/^${field}: .*/${field}: \"${value}\"/")
-  do_write "$repo_dir" "team/$team" "$path" "$content" "[flow: task-$field] $task_id → $value" >/dev/null
+_task_set_field() {  # dentro de do_txn: cambia un campo del frontmatter
+  local project="$1" task_id="$2" field="$3" value="$4" f
+  f=$(_task_file "$project" "$task_id")
+  [ -n "$f" ] || { echo "❌ tarea $task_id no encontrada" >&2; return 1; }
+  sed "s/^${field}: .*/${field}: \"${value}\"/" "$f" > "$f.tmp" && mv "$f.tmp" "$f"
 }
 
 task_move() {
   local repo_dir="${1:?}" team="${2:?}" project="${3:?}" task_id="${4:-}" new_status="${5:-}"
   case "$new_status" in todo|in-progress|review|done) ;;
     *) die 2 "estado invalido: '$new_status' (todo|in-progress|review|done)" ;; esac
-  do_with_lock "$repo_dir" "team/$team" \
-    _task_set_field "$repo_dir" "$team" "$project" "$task_id" status "$new_status"
+  [[ "$task_id" =~ ^TASK-[0-9]{4,}$ ]] || die 2 "task_id invalido: '$task_id' (TASK-NNNN)"
+  do_with_lock "$repo_dir" "team/$team" do_txn "$repo_dir" "team/$team" "[flow: task-status] $task_id → $new_status" \
+    _task_set_field "$project" "$task_id" status "$new_status" \
+    || die 1 "$task_id NO actualizada (inexistente o sin push confirmado a origin)"
   echo "✅ $task_id → $new_status"
 }
 
@@ -126,13 +127,16 @@ task_assign() {
   local repo_dir="${1:?}" team="${2:?}" project="${3:?}" task_id="${4:-}" handle
   handle=$(norm_handle "${5:-}")
   [ -n "$handle" ] || die 2 "Uso: assign <TASK-NNNN> <@handle>"
-  do_with_lock "$repo_dir" "team/$team" \
-    _task_set_field "$repo_dir" "$team" "$project" "$task_id" assigned "$handle"
+  [[ "$task_id" =~ ^TASK-[0-9]{4,}$ ]] || die 2 "task_id invalido: '$task_id' (TASK-NNNN)"
+  do_with_lock "$repo_dir" "team/$team" do_txn "$repo_dir" "team/$team" "[flow: task-assigned] $task_id → $handle" \
+    _task_set_field "$project" "$task_id" assigned "$handle" \
+    || die 1 "$task_id NO actualizada (inexistente o sin push confirmado a origin)"
   echo "✅ $task_id → @$handle"
 }
 
 task_list() {
   local repo_dir="${1:?}" team="${2:?}" project="${3:?}" f c
+  do_fetch_branch "$repo_dir" "team/$team"
   echo "📋 Tasks in $project via team/$team"
   while IFS= read -r f; do
     [[ "$(basename "$f")" =~ ^pbi-[0-9]+\.md$ ]] || continue

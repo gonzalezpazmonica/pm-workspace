@@ -107,6 +107,7 @@ do_metrics() {
   local repo_dir; repo_dir=$(get_repo)
   local team; team=$(get_team)
   validate_project "$repo_dir" "$project"
+  do_fetch_branch "$repo_dir" "team/$team"
   local pbis; pbis=$(do_list "$repo_dir" "team/$team" "projects/$project/backlog")
   [ -z "$pbis" ] && { echo "📊 Metrics: $project (no PBIs)"; return 0; }
   # Sin pipe: el bucle corre en este shell y los contadores sobreviven

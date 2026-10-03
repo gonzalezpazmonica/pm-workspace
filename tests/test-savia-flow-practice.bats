@@ -22,7 +22,8 @@ setup() {
   git config --global commit.gpgsign false
   git config --global init.defaultBranch main
   REPO="$TMPDIR_TEST/company repo"
-  git init -q --bare "$TMPDIR_TEST/company.git"
+  BARE="$TMPDIR_TEST/company.git"
+  git init -q --bare "$BARE"
   git clone -q "$TMPDIR_TEST/company.git" "$REPO" 2>/dev/null
   mkdir -p "$REPO/projects/webapp"
   echo "# webapp" > "$REPO/projects/webapp/README.md"
@@ -43,21 +44,38 @@ ts()     { bash "$ROOT/$SCRIPT" "$@"; }
 sprint() { bash "$ROOT/$SPRINT_SH" "$@"; }
 tasks()  { bash "$ROOT/$TASKS_SH" "$@"; }
 flow()   { bash "$ROOT/$FLOW_SH" "$@"; }
-show()   { git -C "$REPO" show "$1:$2"; }
+show()   { git -C "$BARE" show "$1:$2"; }  # la verdad es el remoto, no el clon
 
-# seed <branch> <path> <contenido>: escribe un fichero en una rama del repo
+# seed <branch> <path> <contenido>: publica un fichero en una rama del remoto
+# (plumbing directo sobre el bare: no depende de do_write ni de un clon)
 seed() {
-  bash "$ROOT/$BRANCH_SH" ensure-orphan "$REPO" "$1" >/dev/null 2>&1
-  bash "$ROOT/$BRANCH_SH" write "$REPO" "$1" "$2" "$3" "seed" >/dev/null 2>&1
+  local idx="$TMPDIR_TEST/idx-$RANDOM" parent blob tree commit
+  parent=$(git -C "$BARE" rev-parse -q --verify "refs/heads/$1" || true)
+  if [ -n "$parent" ]; then GIT_INDEX_FILE="$idx" git -C "$BARE" read-tree "$parent"; fi
+  blob=$(printf '%s\n' "$3" | git -C "$BARE" hash-object -w --stdin)
+  GIT_INDEX_FILE="$idx" git -C "$BARE" update-index --add --cacheinfo 100644 "$blob" "$2"
+  tree=$(GIT_INDEX_FILE="$idx" git -C "$BARE" write-tree)
+  commit=$(git -C "$BARE" commit-tree "$tree" ${parent:+-p "$parent"} -m seed)
+  git -C "$BARE" update-ref "refs/heads/$1" "$commit"
+}
+
+# use_clone <dir>: apunta la configuracion de empresa a otro clon del remoto
+use_clone() {
+  printf 'LOCAL_PATH=%s\nUSER_HANDLE=alice\nTEAM_NAME=backend\n' "$1" > "$HOME/.pm-workspace/company-repo"
 }
 
 # ── Contrato de los scripts ─────────────────────────────────────────
 
-@test "contrato: los scripts usan set -uo pipefail y pasan bash -n" {
-  for f in "$SCRIPT" "$SPRINT_SH" "$TASKS_SH" "$FLOW_SH"; do
-    grep -qE '^set -[a-z]*u[a-z]*o pipefail' "$ROOT/$f"
-    bash -n "$ROOT/$f"
+@test "set -uo pipefail: sin HOME los tres scripts fallan cerrados sin escribir (null)" {
+  for f in "$SCRIPT" "$SPRINT_SH" "$TASKS_SH"; do
+    run env -u HOME bash "$ROOT/$f" help
+    [ "$status" -ne 0 ]
+    [[ "$output" == *"HOME"* ]]
   done
+  run env -u HOME bash "$ROOT/$SCRIPT" log alice TASK-0001 1 x
+  [ "$status" -ne 0 ]
+  run git -C "$BARE" rev-parse --verify -q user/alice
+  [ "$status" -ne 0 ]
 }
 
 @test "timesheet: subcomando desconocido falla con exit 2 y help con exit 0" {
@@ -84,7 +102,7 @@ seed() {
   run show user/alice "flow/timesheet/$MONTH.md"
   [ "$status" -eq 0 ]
   [[ "$output" == *"| TASK-0001 | 2h | API login"* ]]
-  run git -C "$REPO" rev-parse --verify -q "user/@alice"
+  run git -C "$BARE" rev-parse --verify -q "user/@alice"
   [ "$status" -ne 0 ]
 }
 
@@ -140,16 +158,16 @@ seed() {
   [[ "$output" == *"| TASK-0003 | 1h | a/b c"* ]]
 }
 
-@test "timesheet log: 6 imputaciones concurrentes no pierden ninguna entrada" {
+@test "timesheet log: 6 imputaciones concurrentes: todas exit 0 y 7 entradas distintas" {
   ts log alice T-0 1 seed >/dev/null 2>&1
-  local pids="" i
+  local pids=() i p
   for i in 1 2 3 4 5 6; do
     ts log alice "T-$i" 1 n >/dev/null 2>&1 &
-    pids="$pids $!"
+    pids+=("$!")
   done
-  wait $pids
+  for p in "${pids[@]}"; do wait "$p"; done
   run show user/alice "flow/timesheet/$MONTH.md"
-  local n; n=$(echo "$output" | grep -c "| T-")
+  local n; n=$(echo "$output" | grep "| T-" | cut -d'|' -f2 | sort -u | wc -l)
   [ "$n" -eq 7 ]
 }
 
@@ -160,6 +178,84 @@ seed() {
   run ts day alice "$TODAY"
   [ "$status" -eq 0 ]
   [[ "$output" == *"TASK-0001"* ]]
+}
+
+# ── Varios clones del mismo repo de empresa (uso real: un clon por persona) ──
+
+@test "dos clones: imputaciones alternas A, B, A no se pierden en origin" {
+  local B="$TMPDIR_TEST/clon b"
+  git clone -q "$BARE" "$B" 2>/dev/null
+  use_clone "$REPO"; run ts log alice T-A1 1 a; [ "$status" -eq 0 ]
+  use_clone "$B";    run ts log alice T-B1 1 b; [ "$status" -eq 0 ]
+  use_clone "$REPO"; run ts log alice T-A2 1 a; [ "$status" -eq 0 ]
+  run show user/alice "flow/timesheet/$MONTH.md"
+  [[ "$output" == *"| T-A1 |"* ]]
+  [[ "$output" == *"| T-B1 |"* ]]
+  [[ "$output" == *"| T-A2 |"* ]]
+}
+
+@test "dos clones: 3 + 3 imputaciones en paralelo publican las 6 (reintento tras push rechazado)" {
+  local B="$TMPDIR_TEST/clon b" pids=() p i c
+  git clone -q "$BARE" "$B" 2>/dev/null
+  printf 'LOCAL_PATH=%s\nTEAM_NAME=backend\n' "$REPO" > "$TMPDIR_TEST/cfg-a"
+  printf 'LOCAL_PATH=%s\nTEAM_NAME=backend\n' "$B" > "$TMPDIR_TEST/cfg-b"
+  for i in 1 2 3; do
+    for c in a b; do
+      mkdir -p "$TMPDIR_TEST/h-$c-$i/.pm-workspace"
+      cp "$TMPDIR_TEST/cfg-$c" "$TMPDIR_TEST/h-$c-$i/.pm-workspace/company-repo"
+      cp "$HOME/.gitconfig" "$TMPDIR_TEST/h-$c-$i/.gitconfig"
+      HOME="$TMPDIR_TEST/h-$c-$i" bash "$ROOT/$SCRIPT" log alice "T-$c$i" 1 n >/dev/null 2>&1 &
+      pids+=("$!")
+    done
+  done
+  for p in "${pids[@]}"; do wait "$p"; done
+  run show user/alice "flow/timesheet/$MONTH.md"
+  local n; n=$(echo "$output" | grep -E "\| T-[ab][123] \|" | cut -d'|' -f2 | sort -u | wc -l)
+  [ "$n" -eq 6 ]
+}
+
+@test "dos clones: tasks create desde A y B da TASK-0001 y TASK-0002 en origin" {
+  local B="$TMPDIR_TEST/clon b"
+  git clone -q "$BARE" "$B" 2>/dev/null
+  use_clone "$REPO"; run tasks create task "desde A"; [ "$status" -eq 0 ]
+  use_clone "$B";    run tasks create task "desde B"; [ "$status" -eq 0 ]
+  [[ "$output" == *"TASK-0002"* ]]
+  run show team/backend projects/default/backlog/pbi-0001.md
+  [[ "$output" == *'title: "desde A"'* ]]
+  run show team/backend projects/default/backlog/pbi-0002.md
+  [[ "$output" == *'title: "desde B"'* ]]
+}
+
+@test "remoto caido: log, sprint y task fallan con exit 1 y sin exito falso (fail)" {
+  ts log alice T-0 1 seed >/dev/null 2>&1
+  mv "$BARE" "$BARE.off"
+  run ts log alice T-X1 1 x
+  [ "$status" -eq 1 ]
+  [[ "$output" == *"NO registrado"* ]]
+  [[ "$output" != *"✅"* ]]
+  run sprint create "Offline" 2026-10-05 2026-10-16
+  [ "$status" -eq 1 ]
+  [[ "$output" != *"✅"* ]]
+  run tasks create task "Offline"
+  [ "$status" -eq 1 ]
+  [[ "$output" != *"✅"* ]]
+  mv "$BARE.off" "$BARE"
+  run ts log alice T-X3 1 x
+  [ "$status" -eq 0 ]
+  run show user/alice "flow/timesheet/$MONTH.md"
+  [[ "$output" == *"| T-0 |"* ]]
+  [[ "$output" == *"| T-X3 |"* ]]
+  [[ "$output" != *"T-X1"* ]]
+}
+
+@test "remoto caido: report avisa de datos posiblemente desfasados" {
+  ts log alice T-0 2 seed >/dev/null 2>&1
+  mv "$BARE" "$BARE.off"
+  run ts report alice "$TODAY" "$TODAY"
+  mv "$BARE.off" "$BARE"
+  [ "$status" -eq 0 ]
+  [[ "$output" == *"desfasados"* ]]
+  [[ "$output" == *"Total: 2.00 h"* ]]
 }
 
 # ── Informe de horas ────────────────────────────────────────────────
@@ -239,7 +335,7 @@ seed() {
   [ "$status" -eq 2 ]
   run sprint create "" 2026-10-05 2026-10-16
   [ "$status" -eq 2 ]
-  run git -C "$REPO" rev-parse --verify -q team/backend
+  run git -C "$BARE" rev-parse --verify -q team/backend
   [ "$status" -ne 0 ]
 }
 
@@ -249,7 +345,7 @@ seed() {
   sprint create "B" 2026-10-05 2026-10-16 >/dev/null 2>&1 &
   local p2=$!
   wait "$p1" "$p2"
-  run git -C "$REPO" ls-tree --name-only team/backend projects/backlog/sprints/
+  run git -C "$BARE" ls-tree --name-only team/backend projects/backlog/sprints/
   local n; n=$(echo "$output" | grep -c "SPR-2026-0")
   [ "$n" -eq 2 ]
 }
@@ -359,6 +455,19 @@ seed() {
   [ "$status" -eq 2 ]
   run tasks create task "$(printf 'a%.0s' {1..100})"
   [ "$status" -eq 0 ]
+}
+
+@test "tasks create: 3 altas en paralelo dan 3 tareas distintas (concurrencia)" {
+  local pids=() p i
+  for i in 1 2 3; do
+    tasks create task "Paralela $i" >/dev/null 2>&1 &
+    pids+=("$!")
+  done
+  for p in "${pids[@]}"; do wait "$p"; done
+  run git -C "$BARE" ls-tree --name-only team/backend projects/default/backlog/
+  [ "$(echo "$output" | grep -c 'pbi-000[123].md')" -eq 3 ]
+  local t; t=$(for i in 1 2 3; do git -C "$BARE" show "team/backend:projects/default/backlog/pbi-000$i.md" | grep '^title:'; done | sort -u | wc -l)
+  [ "$t" -eq 3 ]
 }
 
 @test "tasks move, assign y list operan sobre la tarea real" {

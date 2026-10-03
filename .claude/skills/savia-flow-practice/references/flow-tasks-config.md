@@ -69,8 +69,13 @@ rama user/{handle}
 └── flow/timesheet/YYYY-MM.md                                     # savia-flow-timesheet.sh
 ```
 
-Las escrituras pasan por un lock por rama (`do_with_lock` en `savia-branch.sh`):
-imputaciones o altas concurrentes no se pisan.
+Cada escritura es una transaccion contra `origin` (`do_txn` en `savia-branch.sh`):
+fetch de la rama, cambio en un worktree temporal, commit y push verificado. Si el push
+se rechaza porque otro clon publico antes, se repite sobre la version nueva (max 6).
+Remoto inaccesible o push fallido: exit 1 sin mensaje de exito; no hay cola offline,
+hay que repetir el comando con conexion. Dentro de un mismo clon, `do_with_lock`
+serializa ademas los procesos concurrentes. Las lecturas hacen fetch previo y avisan
+si solo pueden leer datos locales.
 
 ## Comandos
 

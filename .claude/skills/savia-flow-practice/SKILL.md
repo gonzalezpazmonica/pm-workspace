@@ -113,7 +113,11 @@ Exit comun: 0 ok · 1 sin repo / entidad inexistente · 2 uso o entrada invalida
 | `savia-flow-sprint.sh` (`/flow-sprint-*`, `/flow-velocity`) | `create`, `close`, `board`, `velocity` | ID `SPR-<anio de inicio>-NN`; `close` idempotente; `burndown` no implementado (exit 2) |
 | `savia-flow-tasks.sh` (`/flow-task-*`) | `create`, `move`, `assign`, `list` | ID `TASK-NNNN` = max + 1; sprint indicado debe existir |
 
-Escrituras bajo lock por rama: imputaciones o altas concurrentes no se pierden.
+Cada escritura es una transaccion contra `origin` (`do_txn` en `savia-branch.sh`): fetch,
+cambio, commit y push verificado; si otro clon publico antes, reintenta sobre su version
+(hasta 6 veces). Sin remoto o con push fallido: exit 1 y nada de "✅" (no hay cola offline).
+Lecturas (`day`, `report`, `board`, `velocity`, `list`): fetch previo; sin remoto avisan
+"datos ... posiblemente desfasados". Probado con dos clones de un mismo remoto bare.
 No implementado: velocity automatica al cerrar, mover pendientes, `board --ready`, burndown.
 Tests: `tests/test-savia-flow-practice.bats`.
 
