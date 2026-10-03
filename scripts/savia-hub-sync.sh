@@ -29,6 +29,15 @@ require_remote() {  # require_remote <force>: remote, modo vuelo y red, en ese o
   if in_flight && [ "$1" != 1 ]; then die 4 "Modo vuelo activo: sync bloqueado (flight off o --force)"; fi
   net_fetch || die 5 "Remote inalcanzable ($(g remote get-url origin)). Sin cambios en el remote; usa flight on si sigues sin red."
 }
+guard_local_only() {  # antes de stagear: exclusión asegurada (también en hubs antiguos) y nada local rastreado
+  local ex="$HUB/.git/info/exclude" f
+  mkdir -p "$HUB/.git/info"; touch "$ex"
+  for f in "${LOCAL_ONLY[@]}"; do
+    grep -qxF "$f" "$ex" || echo "$f" >> "$ex"
+    [ -z "$(g ls-files -- "$f")" ] || die 6 "$f está rastreado por git: contiene config local y no debe subir. git rm --cached $f"
+    [ ! -e "$HUB/$f" ] || g check-ignore -q -- "$f" || die 6 "$f no queda ignorado (¿regla ! en .gitignore?): no se sube"
+  done
+}
 mark_synced() { set_cfg last_sync "\"$(date -u +%Y-%m-%dT%H:%M:%SZ)\""; [ -f "$QUEUE" ] && : > "$QUEUE"; return 0; }
 
 g rev-parse --verify -q HEAD >/dev/null 2>&1 || die 2 "SaviaHub no inicializado en $HUB (bash scripts/savia-hub-init.sh)"
@@ -57,14 +66,12 @@ status)
   fi ;;
 push)
   require_remote "$FORCE"
-  for f in "${LOCAL_ONLY[@]}"; do
-    [ -z "$(g ls-files -- "$f")" ] || die 6 "$f está rastreado por git: contiene config local y no debe subir. git rm --cached $f"
-  done
+  guard_local_only
   if remote_branch; then
     [ "$(g rev-list --count "HEAD..origin/$BR")" -eq 0 ] || die 7 "El remote tiene cambios nuevos: ejecuta pull antes de push"
-    files=$( { g diff --name-only "origin/$BR..HEAD"; g status --porcelain | cut -c4-; } | sort -u)
+    files=$( { g diff --name-only "origin/$BR..HEAD"; g status --porcelain --untracked-files=all | cut -c4-; } | sort -u)
   else
-    files=$( { g ls-tree -r --name-only HEAD; g status --porcelain | cut -c4-; } | sort -u)
+    files=$( { g ls-tree -r --name-only HEAD; g status --porcelain --untracked-files=all | cut -c4-; } | sort -u)
   fi
   if [ -z "$files" ]; then echo "Nada que sincronizar"; mark_synced; exit 0; fi
   echo "Se van a subir $(echo "$files" | wc -l) ficheros a origin/$BR:"; echo "$files" | sed 's/^/  /'
@@ -78,7 +85,10 @@ push)
   mark_synced; echo "Sincronizado: origin/$BR al día" ;;
 pull)
   require_remote "$FORCE"
+  guard_local_only
   if ! remote_branch; then echo "Remote sin rama $BR: nada que bajar"; mark_synced; exit 0; fi
+  [ -z "$(g ls-tree -r --name-only "origin/$BR" -- "${LOCAL_ONLY[@]}")" ] \
+    || die 6 "El remote rastrea config local (fuga previa): el pull la pisaría. Retírala del remote antes."
   if [ "$(g rev-list --count "HEAD..origin/$BR")" -eq 0 ]; then echo "Ya actualizado"; mark_synced; exit 0; fi
   if [ -n "$(g status --porcelain)" ]; then
     g add -A && g commit -q -m "[savia-hub] local: cambios previos al pull" || die 1 "no se pudo commitear lo local"

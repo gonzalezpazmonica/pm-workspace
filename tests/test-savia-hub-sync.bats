@@ -24,7 +24,15 @@ setup() {
 
 teardown() { rm -rf "$TMP"; }
 
-bare() { git init -q --bare "$REMOTE"; }
+bare() { git init -q --bare -b main "$REMOTE"; }
+# refute <cmd>: falla el test si la orden tiene éxito (un «!» intermedio no lo hace en bats).
+refute() { if "$@"; then echo "refute: $*"; return 1; fi; }
+seeded_remote() {  # remote con contenido y sin .gitignore
+  git init -q -b main "$TMP/seed"; echo x > "$TMP/seed/a.md"; commit_in "$TMP/seed" s
+  bare; git -C "$TMP/seed" push -q "$REMOTE" main
+}
+cached_has_config() { git -C "$SAVIA_HUB_PATH" diff --cached --name-only | grep -q savia-hub-config; }
+remote_has_config() { remote_files | grep -q savia-hub-config; }
 hub_with_remote() { bare; bash "$INIT" --remote "$REMOTE" >/dev/null 2>&1; }
 other_clone() { SAVIA_HUB_PATH="$TMP/other hub" bash "$INIT" --remote "$REMOTE" >/dev/null 2>&1; }
 remote_files() { git --git-dir="$REMOTE" ls-tree -r --name-only HEAD 2>/dev/null; }
@@ -85,12 +93,63 @@ commit_in() { (cd "$1" && git add -A && git commit -qm "$2"); }
 }
 
 @test "init --remote poblado sin .gitignore: la config local nunca entra en git add -A (block fuga)" {
-  git init -q -b main "$TMP/seed"; echo x > "$TMP/seed/a.md"; commit_in "$TMP/seed" s
-  bare; git -C "$TMP/seed" push -q "$REMOTE" main
+  seeded_remote
   run bash "$INIT" --remote "$REMOTE"
   [ "$status" -eq 0 ]
+  [ ! -f "$SAVIA_HUB_PATH/.gitignore" ]   # el clon no trae .gitignore: protege info/exclude
   git -C "$SAVIA_HUB_PATH" add -A
-  ! git -C "$SAVIA_HUB_PATH" diff --cached --name-only | grep -q 'savia-hub-config'
+  refute cached_has_config
+}
+
+@test "init --remote con HEAD del remote roto (boundary): usa la rama existente, sin historia paralela" {
+  git init -q -b main "$TMP/seed"; echo x > "$TMP/seed/a.md"; commit_in "$TMP/seed" s
+  git init -q --bare -b master "$REMOTE"; git -C "$TMP/seed" push -q "$REMOTE" main
+  run bash "$INIT" --remote "$REMOTE"
+  [ "$status" -eq 0 ]
+  [ "$(git -C "$SAVIA_HUB_PATH" branch --show-current)" = "main" ]
+  [ "$(git -C "$SAVIA_HUB_PATH" rev-list --count HEAD)" -eq 1 ]
+  [ -f "$SAVIA_HUB_PATH/a.md" ]
+}
+
+@test "init interrumpido y relanzado con --remote: configura origin y adopta el contenido remoto" {
+  seeded_remote
+  mkdir -p "$SAVIA_HUB_PATH" && git -C "$SAVIA_HUB_PATH" init -q
+  run bash "$INIT" --remote "$REMOTE"
+  [ "$status" -eq 0 ]
+  [ "$(git -C "$SAVIA_HUB_PATH" remote get-url origin)" = "$REMOTE" ]
+  [ -f "$SAVIA_HUB_PATH/a.md" ]
+}
+
+@test "push en hub antiguo sin info/exclude ni .gitignore: block, la config nunca sube" {
+  seeded_remote
+  git clone -q "$REMOTE" "$SAVIA_HUB_PATH"   # clon hecho con el init anterior
+  printf -- '---\nremote_url: "%s"\nflight_mode: false\nlast_sync: null\n---\n' "$REMOTE" > "$SAVIA_HUB_PATH/.savia-hub-config.md"
+  echo nuevo > "$SAVIA_HUB_PATH/b.md"
+  run bash "$SY" push
+  [[ "$output" != *"savia-hub-config"* ]]
+  run bash "$SY" push --yes
+  [ "$status" -eq 0 ]
+  remote_files | grep -q '^b.md$'
+  refute remote_has_config
+}
+
+@test "pull con la config rastreada en el remote (fuga ajena): reject exit 6 sin pisar la config local" {
+  seeded_remote
+  bash "$INIT" --remote "$REMOTE" >/dev/null 2>&1
+  echo LOCAL-CFG >> "$SAVIA_HUB_PATH/.savia-hub-config.md"
+  echo ajena > "$TMP/seed/.savia-hub-config.md"; commit_in "$TMP/seed" fuga; git -C "$TMP/seed" push -q "$REMOTE" main
+  run bash "$SY" pull
+  [ "$status" -eq 6 ]
+  grep -q LOCAL-CFG "$SAVIA_HUB_PATH/.savia-hub-config.md"
+}
+
+@test "push preview cuenta cada fichero de un directorio nuevo (boundary untracked)" {
+  hub_with_remote; bash "$SY" push --yes >/dev/null
+  mkdir -p "$SAVIA_HUB_PATH/clients/acme"
+  for f in profile contacts rules a b; do echo x > "$SAVIA_HUB_PATH/clients/acme/$f.md"; done
+  run bash "$SY" push
+  [[ "$output" == *"Se van a subir 5 ficheros"* ]]
+  [[ "$output" == *"clients/acme/rules.md"* ]]
 }
 
 @test "init --remote inalcanzable: error exit 3, mensaje claro y sin directorio a medias" {
@@ -152,8 +211,8 @@ commit_in() { (cd "$1" && git add -A && git commit -qm "$2"); }
   run bash "$SY" push --yes
   [ "$status" -eq 0 ]
   remote_files | grep -q '^company/identity.md$'
-  ! remote_files | grep -q 'savia-hub-config'
-  ! grep -q '^last_sync: null' "$SAVIA_HUB_PATH/.savia-hub-config.md"
+  refute remote_has_config
+  refute grep -q '^last_sync: null' "$SAVIA_HUB_PATH/.savia-hub-config.md"
   run bash "$SY" status
   [[ "$output" == *"Sync:"*"sincronizado"* ]]
 }

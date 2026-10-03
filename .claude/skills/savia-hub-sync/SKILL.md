@@ -28,6 +28,9 @@ SAVIA_HUB_REMOTE="${SAVIA_HUB_REMOTE:-}"                # solo lo lee init; vac�
 SAVIA_HUB_NET_TIMEOUT=20                                # segundos para fetch y push
 ```
 
+Requiere GNU/Linux: usa `timeout` de coreutils y `sed -i` de GNU. En macOS sin
+coreutils, fetch falla siempre y push y pull salen con exit 5.
+
 El remote efectivo de sync es `git remote get-url origin` del hub, no la variable.
 La rama es la actual del hub (`main` en los hubs creados en local).
 
@@ -40,13 +43,15 @@ La rama es la actual del hub (`main` en los hubs creados en local).
 | Sin remote | `git init` en rama `main` + company/, clients/, users/ + `.gitignore` + commit inicial |
 | Remote con contenido | `git clone`; verifica company/, clients/, users/ y avisa si falta alguno (no los crea) |
 | Remote vacío | `git clone` + siembra la estructura + commit **local**; no sube nada |
+| Remote con HEAD roto (apunta a una rama que no existe) | adopta `origin/main` o la primera rama remota; no crea una historia paralela |
 | Remote inalcanzable | exit 3, «No se pudo clonar», no deja directorio |
 | Hub ya existe (repo con commits) | exit 0, no toca nada (idempotente) |
-| `.git` sin commits (init interrumpido) | completa el init |
+| `.git` sin commits (init interrumpido) | completa el init; con `--remote`, añade `origin`, hace fetch y adopta su rama |
 
 Siempre crea `.savia-hub-config.md` si falta y añade `.savia-hub-config.md` y
 `.sync-queue.jsonl` a `.git/info/exclude`: quedan fuera de `git add -A` aunque
-el remote no traiga `.gitignore`. Exit: 0 ok · 1 uso · 3 clon fallido · 4 commit fallido.
+el remote no traiga `.gitignore`. Exit: 0 ok · 1 uso · 3 remote inalcanzable · 4 commit fallido.
+La rama es `main` en los hubs locales; un clon hereda la rama del remote.
 
 ## 2. Sync
 
@@ -62,8 +67,12 @@ el remote no traiga `.gitignore`. Exit: 0 ok · 1 uso · 3 clon fallido · 4 com
 
 Precondiciones de push y pull, en orden: remote configurado (si no, exit 3),
 flight mode OFF o `--force` (si no, exit 4), remote alcanzable (si no, exit 5).
-Push además exige que `.savia-hub-config.md` y `.sync-queue.jsonl` no estén
-rastreados (exit 6) y que el remote no vaya por delante (exit 7: pull primero).
+Antes de stagear, push y pull añaden las exclusiones locales a `.git/info/exclude`
+si faltan (protege los hubs creados con el init anterior) y se niegan con exit 6
+si `.savia-hub-config.md` o `.sync-queue.jsonl` están rastreados o no quedan
+ignorados. Pull también da exit 6 si el remote ya rastrea uno de ellos (lo
+pisaría). Push exige además que el remote no vaya por delante (exit 7: pull primero).
+La vista previa cuenta cada fichero, también los de directorios nuevos.
 
 ### Conflictos
 
@@ -77,8 +86,8 @@ fichero (local, remoto o merge manual), o descartar una de las versiones.
 Flight mode es un bloqueo: con ON, push y pull salen con exit 4. La fuente de
 verdad de lo pendiente es `git status` y `git log`, no la cola: ningún script
 escribe hoy `.sync-queue.jsonl`; push la vacía tras un sync correcto. No hay
-sync automático por intervalo ni `auto_sync_on_change` implementados (campos de
-config reservados).
+sync automático: init sigue escribiendo `sync_interval_seconds` y
+`auto_sync_on_change` en la config, pero ningún proceso los lee (reservados).
 
 ## Exit codes de savia-hub-sync.sh
 

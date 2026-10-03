@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # savia-hub-init.sh — Inicializa el repositorio local de SaviaHub
 # Uso: bash scripts/savia-hub-init.sh [--remote URL] [--path PATH]
-# Exit: 0 creado o ya existente · 1 uso · 3 no se pudo clonar · 4 fallo de git
+# Exit: 0 creado o ya existente · 1 uso · 3 remote inalcanzable · 4 fallo de git
 set -euo pipefail
 
 SAVIA_HUB_PATH="${SAVIA_HUB_PATH:-$HOME/.savia-hub}"
@@ -11,15 +11,9 @@ LOCAL_ONLY=(.savia-hub-config.md .sync-queue.jsonl)
 die() { echo "ERROR: $2" >&2; exit "$1"; }
 
 usage() {
-  cat <<'EOF'
-Uso: savia-hub-init.sh [--remote URL] [--path PATH]
-
-  --remote URL   Clona un SaviaHub existente (si está vacío, siembra la estructura)
-  --path PATH    Ubicación (por defecto: ~/.savia-hub)
-  --help         Esta ayuda
-
-Variables de entorno: SAVIA_HUB_PATH (= --path), SAVIA_HUB_REMOTE (= --remote)
-EOF
+  printf '%s\n' "Uso: savia-hub-init.sh [--remote URL] [--path PATH] [--help]" \
+    "  --remote URL  clona un SaviaHub (vacío: siembra la estructura) · --path PATH  ubicación (~/.savia-hub)" \
+    "Entorno: SAVIA_HUB_PATH (= --path), SAVIA_HUB_REMOTE (= --remote)"
 }
 
 while [[ $# -gt 0 ]]; do
@@ -33,8 +27,7 @@ while [[ $# -gt 0 ]]; do
   esac
 done
 
-# Ficheros locales fuera de git aunque el remote no traiga .gitignore:
-# .git/info/exclude nunca se sube, así la config (con la URL del remote) no se filtra.
+# .git/info/exclude nunca se sube: la config (con la URL del remote) no se filtra aunque el remote no traiga .gitignore.
 ensure_local_excludes() {
   local ex="$SAVIA_HUB_PATH/.git/info/exclude" f
   mkdir -p "$(dirname "$ex")"; touch "$ex"
@@ -99,30 +92,43 @@ auto_sync_on_change: true
 EOF
 }
 
-echo "SaviaHub — repositorio compartido de conocimiento"
-
-# Ya existe = repo git con al menos un commit. Un .git sin commits es un init
-# interrumpido y se completa en vez de darlo por bueno.
+# Ya existe = repo con al menos un commit; un .git sin commits es un init interrumpido y se completa.
 if git -C "$SAVIA_HUB_PATH" rev-parse --verify -q HEAD >/dev/null 2>&1; then
   echo "SaviaHub ya existe en: $SAVIA_HUB_PATH (sin cambios)"
   echo "  Estado: bash scripts/savia-hub-sync.sh status"
   exit 0
 fi
 
+NOREACH="No se pudo conectar con $SAVIA_HUB_REMOTE (sin red, sin permisos o remote inexistente)."
 if [ -n "$SAVIA_HUB_REMOTE" ] && [ ! -d "$SAVIA_HUB_PATH/.git" ]; then
   echo "Clonando desde: $SAVIA_HUB_REMOTE"
   GIT_TERMINAL_PROMPT=0 git clone -q "$SAVIA_HUB_REMOTE" "$SAVIA_HUB_PATH" 2>&1 \
-    || die 3 "No se pudo clonar $SAVIA_HUB_REMOTE (sin red, sin permisos o remote inexistente). No se ha creado nada."
+    || die 3 "No se pudo clonar: $NOREACH No se ha creado nada."
 else
   mkdir -p "$SAVIA_HUB_PATH"
   if [ ! -d "$SAVIA_HUB_PATH/.git" ]; then
     git -C "$SAVIA_HUB_PATH" init -q
     git -C "$SAVIA_HUB_PATH" symbolic-ref HEAD refs/heads/main   # rama documentada
   fi
+  if [ -n "$SAVIA_HUB_REMOTE" ]; then   # init interrumpido relanzado con --remote
+    git -C "$SAVIA_HUB_PATH" remote get-url origin >/dev/null 2>&1 \
+      || git -C "$SAVIA_HUB_PATH" remote add origin "$SAVIA_HUB_REMOTE"
+    GIT_TERMINAL_PROMPT=0 git -C "$SAVIA_HUB_PATH" fetch -q origin 2>&1 || die 3 "$NOREACH"
+  fi
 fi
 
 ensure_local_excludes
 write_config
+
+# Sin commit pero con ramas remotas (HEAD roto o init relanzado): adoptar origin/main o la primera, sin historia paralela.
+if ! git -C "$SAVIA_HUB_PATH" rev-parse --verify -q HEAD >/dev/null 2>&1; then
+  rb=$(git -C "$SAVIA_HUB_PATH" for-each-ref --format='%(refname:lstrip=3)' refs/remotes/origin | grep -vx HEAD || true)
+  b=$(grep -x main <<<"$rb" || head -1 <<<"$rb")
+  if [ -n "$b" ]; then
+    echo "AVISO: el remote no tiene un HEAD utilizable; se adopta origin/$b"
+    git -C "$SAVIA_HUB_PATH" checkout -q -B "$b" --track "origin/$b"
+  fi
+fi
 
 if git -C "$SAVIA_HUB_PATH" rev-parse --verify -q HEAD >/dev/null 2>&1; then
   # Clon de un hub con contenido: se verifica la estructura, no se toca.
@@ -130,8 +136,7 @@ if git -C "$SAVIA_HUB_PATH" rev-parse --verify -q HEAD >/dev/null 2>&1; then
     [ -d "$SAVIA_HUB_PATH/$d" ] || echo "AVISO: el hub clonado no tiene $d/"
   done
 else
-  # Hub nuevo o remote vacío: estructura + commit local. No se sube nada:
-  # el push exige confirmación (savia-hub-sync.sh push --yes).
+  # Hub nuevo o remote vacío: estructura + commit local; nada se sube sin push --yes.
   seed_structure
   git -C "$SAVIA_HUB_PATH" add -A
   git -C "$SAVIA_HUB_PATH" commit -q -m "[savia-hub] init: repositorio creado" \
@@ -140,8 +145,5 @@ else
 fi
 
 echo "Ruta:   $SAVIA_HUB_PATH"
-if [ -n "$SAVIA_HUB_REMOTE" ]; then
-  echo "Remote: $SAVIA_HUB_REMOTE (nada subido; usa savia-hub-sync.sh push)"
-else
-  echo "Modo:   solo local (añade remote con git remote add origin URL)"
-fi
+if [ -n "$SAVIA_HUB_REMOTE" ]; then echo "Remote: $SAVIA_HUB_REMOTE (nada subido; usa savia-hub-sync.sh push)"
+else echo "Modo:   solo local (añade remote con git remote add origin URL)"; fi

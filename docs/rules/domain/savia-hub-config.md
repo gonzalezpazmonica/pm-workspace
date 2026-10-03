@@ -83,7 +83,8 @@ Scripts: `scripts/savia-hub-init.sh` y `scripts/savia-hub-sync.sh` (ver skill `s
 - `.savia-hub-config.md` es **local**: init lo añade a `.gitignore` (hub nuevo)
   y siempre a `.git/info/exclude`, también al clonar un remote sin `.gitignore`
 - `.sync-queue.jsonl` es **local** (mismo tratamiento)
-- `savia-hub-sync.sh push` se niega (exit 6) si alguno de los dos está rastreado
+- `savia-hub-sync.sh` push y pull añaden esas exclusiones si faltan (hubs antiguos) y se niegan (exit 6)
+  si alguno está rastreado, no queda ignorado o el remote ya lo rastrea
 - Datos sensibles de clientes (emails, teléfonos) → `contacts.md` puede
   estar en `.gitignore` si el equipo decide no compartir contactos
 - PATs y secrets NUNCA en SaviaHub
