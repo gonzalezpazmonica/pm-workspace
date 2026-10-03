@@ -41,14 +41,24 @@ if [[ -z "$PROJECT_PATH" ]]; then
   echo "ERROR: --project es obligatorio" >&2; usage
 fi
 
+if [[ "$FORMAT" != "markdown" && "$FORMAT" != "json" ]]; then
+  echo "ERROR: formato no soportado: $FORMAT (markdown|json)" >&2
+  exit 1
+fi
+
 PROJECT_NAME="$(basename "$PROJECT_PATH")"
 
 # -- Encontrar JSON del scan --------------------------------------------------
-SCAN_JSON=$(ls -t "$BF_OUTPUT_DIR"/"${PROJECT_NAME}"-*.json 2>/dev/null | head -1 \
-            || ls -t "$BF_OUTPUT_DIR"/*.json 2>/dev/null | head -1 || true)
+# Solo scans de ESTE proyecto: <nombre>-<YYYYMMDD>T<HHMMSS>Z.json (nombre por
+# defecto de bus-factor-scan.sh) o <nombre>.json. Sin fallback a otro
+# proyecto ni a prefijos parecidos (app vs app-backend).
+SCAN_JSON=$(ls -t "$BF_OUTPUT_DIR"/"${PROJECT_NAME}".json \
+              "$BF_OUTPUT_DIR"/"${PROJECT_NAME}"-[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]T[0-9][0-9][0-9][0-9][0-9][0-9]Z.json \
+              2>/dev/null | head -1)
 
 if [[ -z "$SCAN_JSON" ]] || [[ ! -f "$SCAN_JSON" ]]; then
   echo "ERROR: no se encontro JSON de scan en $BF_OUTPUT_DIR" >&2
+  echo "INFO: nombres aceptados: ${PROJECT_NAME}.json o ${PROJECT_NAME}-<YYYYMMDD>T<HHMMSS>Z.json" >&2
   echo "INFO: ejecuta primero: bash scripts/bus-factor-scan.sh --project $PROJECT_PATH" >&2
   exit 1
 fi
@@ -61,8 +71,12 @@ import sys
 scan_file = sys.argv[1]
 fmt       = sys.argv[2]
 
-with open(scan_file) as f:
-    data = json.load(f)
+try:
+    with open(scan_file, encoding="utf-8") as f:
+        data = json.load(f)
+except (OSError, ValueError) as e:
+    print(f"ERROR: scan JSON ilegible en {scan_file}: {e}", file=sys.stderr)
+    sys.exit(2)
 
 project  = data.get("project", "desconocido")
 gen_at   = data.get("generated_at", "")
@@ -71,6 +85,7 @@ summary  = data.get("summary", {})
 warnings = data.get("warnings", [])
 
 risk_rank = {"CRITICAL": 4, "HIGH": 3, "MEDIUM": 2, "LOW": 1, "UNKNOWN": 0}
+# UNKNOWN = sin historial atribuible (BF=0); se lista al final
 modules_sorted = sorted(modules, key=lambda m: -risk_rank.get(m.get("risk_level", "LOW"), 0))
 
 if fmt == "json":
@@ -125,6 +140,7 @@ else:
     lines.append(f"| HIGH (BF=2) | {summary.get('high', 0)} |")
     lines.append(f"| MEDIUM (BF<=3) | {summary.get('medium', 0)} |")
     lines.append(f"| LOW | {summary.get('low', 0)} |")
+    lines.append(f"| UNKNOWN (sin historial) | {summary.get('unknown', 0)} |")
     lines.append("")
 
     if warnings:
@@ -170,6 +186,10 @@ else:
     print("\n".join(lines))
 PYEOF
 )
+PY_RC=$?
+if [[ $PY_RC -ne 0 ]]; then
+  exit "$PY_RC"
+fi
 
 # -- Output -------------------------------------------------------------------
 if [[ -n "$OUTPUT_FILE" ]]; then
