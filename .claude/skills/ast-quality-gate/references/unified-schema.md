@@ -1,50 +1,31 @@
 # Unified JSON Schema — AST Quality Gate Output
 
+Contrato del informe que escribe `scripts/ast-quality-gate.sh` en
+`output/quality-gates/`. La normalización real (jq por herramienta y asignación
+de gates) vive en el script; este documento describe el resultado.
+
 ## Schema
 
 ```json
 {
   "meta": {
-    "timestamp": "2026-03-29T14:30:22Z",
+    "timestamp": "2026-10-03T07:18:17Z",
     "language": "typescript",
-    "target": "src/services/AuthService.ts",
-    "files_analyzed": 3,
-    "tool_chain": ["eslint", "semgrep"],
-    "semgrep_rules": 12,
-    "duration_ms": 4200
+    "target": "/abs/path/src/services/AuthService.ts",
+    "files_analyzed": 1,
+    "coverage": "partial",
+    "tool_chain": [
+      {"layer": "native",  "tool": "eslint",  "status": "missing", "detail": "'eslint' no está en el PATH"},
+      {"layer": "semgrep", "tool": "semgrep", "status": "ok",      "detail": "exit 0"}
+    ]
   },
   "score": {
-    "total": 72,
+    "total": 74,
     "grade": "C",
-    "verdict": "REVIEW",
-    "by_gate": {
-      "QG-01": 100,
-      "QG-02": 100,
-      "QG-03": 0,
-      "QG-04": 70,
-      "QG-05": 0,
-      "QG-06": 100,
-      "QG-07": 80,
-      "QG-08": 100,
-      "QG-09": 100,
-      "QG-10": 100,
-      "QG-11": 90,
-      "QG-12": 100
-    }
+    "verdict": "BLOCK",
+    "blocking_gates": ["QG-05"]
   },
   "issues": [
-    {
-      "gate": "QG-03",
-      "severity": "error",
-      "file": "src/services/AuthService.ts",
-      "line": 47,
-      "column": 12,
-      "message": "Object 'user' is possibly 'null' or 'undefined'",
-      "source_tool": "tsc",
-      "rule_id": "ts2531",
-      "fixable": false,
-      "snippet": "const token = user.generateToken();"
-    },
     {
       "gate": "QG-05",
       "severity": "error",
@@ -53,136 +34,63 @@
       "column": 3,
       "message": "Empty catch block silences errors",
       "source_tool": "semgrep",
-      "rule_id": "llm-empty-catch",
-      "fixable": true,
+      "rule_id": "…references.llm-empty-catch",
+      "fixable": false,
       "snippet": "} catch (e) { }"
-    },
-    {
-      "gate": "QG-04",
-      "severity": "warning",
-      "file": "src/services/AuthService.ts",
-      "line": 23,
-      "column": 18,
-      "message": "Magic number 3600 — extract to constant TOKEN_EXPIRY_SECONDS",
-      "source_tool": "eslint",
-      "rule_id": "no-magic-numbers",
-      "fixable": false,
-      "snippet": "const expires = Date.now() + 3600 * 1000;"
-    },
-    {
-      "gate": "QG-07",
-      "severity": "warning",
-      "file": "src/services/AuthService.ts",
-      "line": 45,
-      "column": 1,
-      "message": "Function 'validateToken' is 67 lines (max: 50)",
-      "source_tool": "eslint",
-      "rule_id": "max-lines-per-function",
-      "fixable": false,
-      "snippet": "async function validateToken(token: string) {"
     }
   ],
-  "summary": {
-    "errors": 2,
-    "warnings": 2,
-    "infos": 0,
-    "fixable": 1,
-    "blocker_gates": ["QG-03", "QG-05"]
-  }
+  "summary": {"errors": 1, "warnings": 2, "infos": 0, "fixable": 0}
 }
 ```
 
-## Campos obligatorios
+## Campos
 
 ### meta
 - `timestamp` — ISO 8601 UTC
-- `language` — uno de los 16 lenguajes detectados
-- `target` — ruta del fichero o directorio analizado
-- `tool_chain` — herramientas ejecutadas (array)
+- `language` — lenguaje detectado (`unknown` si ninguno)
+- `target` — ruta absoluta del fichero o directorio analizado
+- `files_analyzed` — ficheros bajo el target (sin `.git/` ni `node_modules/`)
+- `coverage` — `full` (todas las capas pedidas corrieron), `partial` (alguna no), `none` (ninguna)
+- `tool_chain[]` — una entrada por capa pedida: `layer` (`native`|`semgrep`), `tool`,
+  `status` (`ok`|`missing`|`failed`|`unsupported`) y `detail` (exit code o motivo)
+
+Una capa es `ok` cuando su salida se interpreta con la forma esperada, aunque la
+herramienta salga con 1 (los linters lo hacen al encontrar issues). Salida no
+interpretable = `failed`, nunca "sin hallazgos".
 
 ### score
-- `total` — 0-100
-- `grade` — A/B/C/D/F
-- `verdict` — PASS | PASS_WITH_WARNINGS | REVIEW | FAIL | BLOCK
+- `total` — 0-100, o `null` si `coverage` es `none`
+- `grade` — A/B/C/D/F, o `null`
+- `verdict` — PASS | PASS_WITH_WARNINGS | REVIEW | FAIL | BLOCK | UNVERIFIED
+- `blocking_gates` — gates bloqueantes (QG-01, 03, 05, 09, 12) con al menos un error;
+  si no está vacío, `verdict` es `BLOCK`
 
 ### issues[]
-- `gate` — QG-01..QG-12
+- `gate` — QG-01..QG-12, o `null` si el `rule_id` nativo no se asocia a ningún gate
 - `severity` — error | warning | info
-- `file` — ruta relativa al target
-- `line` — número de línea
-- `message` — descripción human-readable
-- `source_tool` — herramienta que lo detectó
+- `file`, `line`, `column` — ubicación tal como la da la herramienta
+- `message`, `source_tool`, `rule_id`, `fixable`; Semgrep añade `snippet`
 
 ### summary
-- `errors` — count de issues con severity=error
-- `warnings` — count de issues con severity=warning
-- `blocker_gates` — gates QG-01,QG-03,QG-05,QG-09,QG-12 con al menos 1 error
+- `errors`, `warnings`, `infos`, `fixable` — recuentos sobre `issues`
 
-## Normalización desde formatos nativos
+## Gates y severidad
 
-### ESLint JSON → Unified
+- Semgrep: el gate sale de `metadata.gate` de la regla; `ERROR`→error, `WARNING`→warning, resto→info.
+- Nativo: el gate se asigna por patrón del `rule_id` (p. ej. `no-floating-promises`→QG-01,
+  `E722`/`BLE001`→QG-05, `S105-S107`→QG-09, `F401`/`*unused*`→QG-11).
+- Ruff reporta todo como `warning`, así que por sí solo nunca bloquea.
 
-```bash
-jq '[.[] | {
-  gate: (if .ruleId | test("no-magic") then "QG-04"
-         elif .ruleId | test("max-lines") then "QG-07"
-         elif .ruleId | test("empty-catch|@typescript-eslint/no-empty") then "QG-05"
-         else "QG-11" end),
-  severity: (if .severity == 2 then "error" else "warning" end),
-  file: .filePath,
-  line: .line,
-  message: .message,
-  source_tool: "eslint",
-  rule_id: .ruleId,
-  fixable: (.fix != null)
-}]' eslint-output.json
+## Score
+
+```
+score = max(0, 100 - errores×10 - warnings×3 - infos×1)
 ```
 
-### Ruff JSON → Unified
-
-```bash
-jq '[.[] | {
-  gate: (if .code | test("^B006|^B007") then "QG-05"
-         elif .code | test("^F401") then "QG-11"
-         elif .code | test("^PLR2004") then "QG-04"
-         else "QG-11" end),
-  severity: "warning",
-  file: .filename,
-  line: .location.row,
-  message: .message,
-  source_tool: "ruff",
-  rule_id: .code,
-  fixable: (.fix != null)
-}]' ruff-output.json
-```
-
-### Semgrep JSON → Unified
-
-```bash
-jq '[.results[] | {
-  gate: .extra.metadata.gate,
-  severity: (if .extra.severity == "ERROR" then "error"
-             elif .extra.severity == "WARNING" then "warning"
-             else "info" end),
-  file: .path,
-  line: .start.line,
-  message: .extra.message,
-  source_tool: "semgrep",
-  rule_id: .check_id,
-  fixable: (.extra.fix != null)
-}]' semgrep-output.json
-```
-
-## Score computation
-
-```bash
-compute_score() {
-  local errors=$1
-  local warnings=$2
-  local infos=$3
-
-  local penalty=$(( errors * 10 + warnings * 3 + infos * 1 ))
-  if [ $penalty -gt 100 ]; then penalty=100; fi
-  echo $(( 100 - penalty ))
-}
-```
+| Score | Grade | Veredicto |
+|-------|-------|-----------|
+| 90-100 | A | PASS |
+| 75-89 | B | PASS_WITH_WARNINGS |
+| 60-74 | C | REVIEW |
+| 40-59 | D | FAIL |
+| 0-39 | F | BLOCK |
