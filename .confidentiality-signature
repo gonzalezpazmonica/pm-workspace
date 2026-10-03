@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=2fe5f832d5b1530683a37a1826f52e53f1e5fcac56ae2a3fd52160a14c5a370b
-timestamp=2026-10-03T19:32:02Z
+diff_hash=c3577de74f4190ff00829c45ee2d835e1e795e32d167e644c0d43ca26d034450
+timestamp=2026-10-03T19:53:03Z
 branch=agent/space-adv-hardening-20261003
-head_commit=2fd38e71
-signature=aa8c17ddf746d92e18610d43fb060f6cd418a09e313fe7ead596ee5f097fbba3
+head_commit=b6be0c51
+signature=1972b45bd18c44d897c054dcbf97b801b35a2349aa1a255c4d3c2e2ccffb3f8b
