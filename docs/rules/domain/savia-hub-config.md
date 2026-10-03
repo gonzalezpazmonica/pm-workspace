@@ -70,16 +70,21 @@ auto_sync_on_change: true
 
 ## Operaciones Git
 
-- **Init local**: `git init` + crear estructura + commit inicial
-- **Init remote**: `git clone $SAVIA_HUB_REMOTE $SAVIA_HUB_PATH`
-- **Push**: `git add -A && git commit -m "[savia-hub] ..." && git push`
-- **Pull**: `git pull --rebase` (preferir rebase sobre merge para historial limpio)
-- **Conflictos**: NUNCA auto-resolver. Mostrar diff al PM, pedir decisión
+Scripts: `scripts/savia-hub-init.sh` y `scripts/savia-hub-sync.sh` (ver skill `savia-hub-sync`).
+
+- **Init local**: `git init` en rama `main` + crear estructura + commit inicial
+- **Init remote**: `git clone $SAVIA_HUB_REMOTE $SAVIA_HUB_PATH`; si el remote está vacío, siembra la estructura y commitea en local
+- **Push**: vista previa; con `--yes`, `git add -A && git commit -m "[savia-hub] sync: ..." && git push`
+- **Pull**: rebase sobre `origin/<rama>` (equivale a `git pull --rebase`)
+- **Conflictos**: NUNCA auto-resolver. El script aborta el rebase y lista los ficheros; decide el PM
 
 ## Seguridad
 
-- `.savia-hub-config.md` es **local** (añadir a `.gitignore` del hub)
-- `.sync-queue.jsonl` es **local** (añadir a `.gitignore` del hub)
+- `.savia-hub-config.md` es **local**: init lo añade a `.gitignore` (hub nuevo)
+  y siempre a `.git/info/exclude`, también al clonar un remote sin `.gitignore`
+- `.sync-queue.jsonl` es **local** (mismo tratamiento)
+- `savia-hub-sync.sh` push y pull añaden esas exclusiones si faltan (hubs antiguos) y se niegan (exit 6)
+  si alguno está rastreado, no queda ignorado o el remote ya lo rastrea
 - Datos sensibles de clientes (emails, teléfonos) → `contacts.md` puede
   estar en `.gitignore` si el equipo decide no compartir contactos
 - PATs y secrets NUNCA en SaviaHub
