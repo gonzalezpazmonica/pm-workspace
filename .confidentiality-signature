@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=2111cd0a26725cd66eb052b22551757e7d04a4ffc58e718b2197aff9d90180c0
-timestamp=2026-10-03T04:31:46Z
+diff_hash=2fddd582417a058cc74bcb6a0ad0a6d6e530449775d159e658b6cf2d0f9a2e51
+timestamp=2026-10-03T04:53:20Z
 branch=agent/destructive-anchoring-20261003
-head_commit=12a4254d
-signature=78a94ed55dfb20877a03dd578b5dbfc215b921015579537ea7afb2118a9950be
+head_commit=942e5b4b
+signature=c372401896cb7afb21cd203f6b2c5109492476ef7248e09595db70d748d0ee96
