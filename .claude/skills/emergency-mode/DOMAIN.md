@@ -7,8 +7,8 @@ Cubre el escenario de cloud-down donde Savia debe continuar operando con infraes
 ## Concepts canónicos
 
 - **Cloud endpoint**: API de Anthropic (api.anthropic.com).
-- **Emergency endpoint**: LocalAI expuesto en localhost:8080/v1 con compatibilidad Anthropic API.
-- **Switchover**: cambio de endpoint vía `ANTHROPIC_BASE_URL`.
+- **Emergency endpoint**: LocalAI en `http://localhost:8080` (sirve `/v1/messages`, compatibilidad Anthropic API).
+- **Switchover**: `ANTHROPIC_BASE_URL` a la base sin `/v1` (Claude Code añade `/v1/messages`) más `ANTHROPIC_MODEL` y `ANTHROPIC_SMALL_FAST_MODEL` con un id cargado en LocalAI.
 - **Readiness**: estado validado del stack local antes del switchover.
 
 ## Invariantes

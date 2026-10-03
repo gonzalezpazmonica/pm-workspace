@@ -29,8 +29,10 @@ NUNCA activar preventivamente — requiere trigger real.
 2. Redirige variables:
    ```
    export ANTHROPIC_BASE_URL=http://localhost:8080   # sin /v1: el cliente añade /v1/messages
-   export ANTHROPIC_MODEL=claude-compatible-local
+   export ANTHROPIC_MODEL=claude-compatible-local          # id exacto cargado en LocalAI
+   export ANTHROPIC_SMALL_FAST_MODEL=claude-compatible-local
    ```
+   Si el modelo pedido no está cargado, el check da exit 2 y lista los ids: repetir con `--model <id>` y exportar ese id.
 3. Feature-flags desactivadas automáticamente:
    - WebFetch / WebSearch (sin internet asumido)
    - MCPs externos (Gmail/GCal/GDrive)
@@ -80,7 +82,7 @@ disponibilidad, no de gobernanza.
 ```
 
 1. Check cloud: `curl https://api.anthropic.com/v1/health` — debe responder 200/204.
-2. Unset vars `ANTHROPIC_BASE_URL` y `ANTHROPIC_MODEL`.
+2. `unset ANTHROPIC_BASE_URL ANTHROPIC_MODEL ANTHROPIC_SMALL_FAST_MODEL`.
 3. Re-habilita feature-flags.
 4. Emit audit log entry: inicio/fin + razón + turns processed bajo emergency.
 

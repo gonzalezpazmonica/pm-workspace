@@ -10,6 +10,8 @@ SCRIPT="scripts/localai-readiness-check.sh"
 setup() {
   REPO_ROOT="$(cd "$BATS_TEST_DIRNAME/.." && pwd)"
   TMPDIR="$(mktemp -d)"
+  # Umbrales a 0: los tests no dependen de la RAM ni del disco de la máquina que los ejecuta.
+  export LOCALAI_RAM_OK_GB=0 LOCALAI_RAM_MIN_GB=0 LOCALAI_DISK_OK_GB=0 LOCALAI_DISK_MIN_GB=0
   cat > "$TMPDIR/fake_localai.py" <<'EOF'
 import http.server, json, os, sys
 MODE = os.environ.get("FAKE_MODE", "ready")
@@ -75,14 +77,112 @@ check_status() {
 @test "readiness prints the switchover base URL without /v1" {
   start_fake ready
   run bash "$REPO_ROOT/$SCRIPT" --url "$URL"
-  [[ "$output" == *"ANTHROPIC_BASE_URL=$URL"* ]]
-  [[ "$output" != *"ANTHROPIC_BASE_URL=$URL/v1"* ]]
+  [[ "$output" == *"ANTHROPIC_BASE_URL=\"$URL\""* ]]
+  [[ "$output" != *"$URL/v1"* ]]
 }
 
-@test "other model loaded is a WARN for model_available" {
+@test "requested model missing is a FAIL (exit 2): switching over would break the first request" {
   start_fake other-model
   run bash "$REPO_ROOT/$SCRIPT" --url "$URL" --json
-  [ "$(check_status "$output" model_available)" = "WARN" ]
+  [ "$status" -eq 2 ]
+  [ "$(check_status "$output" model_available)" = "FAIL" ]
+  [[ "$output" == *"qwen2.5:7b"* ]]
+  [[ "$output" == *"--model"* ]]
+}
+
+@test "requested model missing prints no switchover line" {
+  start_fake other-model
+  run bash "$REPO_ROOT/$SCRIPT" --url "$URL"
+  [ "$status" -eq 2 ]
+  [[ "$output" != *"export ANTHROPIC_"* ]]
+}
+
+@test "a substring of a loaded id does not satisfy the requested model (exact match)" {
+  start_fake other-model
+  run bash "$REPO_ROOT/$SCRIPT" --url "$URL" --model qwen --json
+  [ "$(check_status "$output" model_available)" != "OK" ]
+  [ "$status" -eq 2 ]
+}
+
+@test "switchover exports base URL, ANTHROPIC_MODEL and ANTHROPIC_SMALL_FAST_MODEL" {
+  start_fake ready
+  run bash "$REPO_ROOT/$SCRIPT" --url "$URL"
+  [ "$status" -eq 0 ]
+  [[ "$output" == *"export ANTHROPIC_BASE_URL=\"$URL\""* ]]
+  [[ "$output" == *'export ANTHROPIC_MODEL="claude-compatible-local"'* ]]
+  [[ "$output" == *'export ANTHROPIC_SMALL_FAST_MODEL="claude-compatible-local"'* ]]
+}
+
+@test "JSON switchover carries the model next to the base URL" {
+  start_fake ready
+  run bash "$REPO_ROOT/$SCRIPT" --url "$URL" --json
+  python3 -c "
+import json,sys
+sw=json.loads(sys.argv[1])['switchover']
+assert sw=={'ANTHROPIC_BASE_URL':sys.argv[2],'ANTHROPIC_MODEL':'claude-compatible-local','ANTHROPIC_SMALL_FAST_MODEL':'claude-compatible-local'}, sw
+" "$output" "$URL"
+}
+
+@test "printed switchover lines are shell-safe: eval sets the exact model with quotes" {
+  start_fake quoted
+  run bash "$REPO_ROOT/$SCRIPT" --url "$URL" --model 'mi "modelo"'
+  [ "$status" -eq 0 ]
+  lines_=$(printf '%s\n' "$output" | grep '^  export ANTHROPIC_')
+  got=$(eval "$lines_"; printf '%s|%s' "$ANTHROPIC_MODEL" "$ANTHROPIC_BASE_URL")
+  [ "$got" = "mi \"modelo\"|$URL" ]
+}
+
+@test "trailing slash in --url is stripped (no //v1/messages)" {
+  start_fake ready
+  run bash "$REPO_ROOT/$SCRIPT" --url "$URL/" --json
+  [ "$(check_status "$output" anthropic_compat)" = "OK" ]
+  python3 -c "import json,sys; assert json.loads(sys.argv[1])['switchover']['ANTHROPIC_BASE_URL']==sys.argv[2]" "$output" "$URL"
+}
+
+@test "trailing slash in LOCALAI_URL env is stripped too" {
+  start_fake ready
+  LOCALAI_URL="$URL/" run bash "$REPO_ROOT/$SCRIPT"
+  [[ "$output" == *"export ANTHROPIC_BASE_URL=\"$URL\""* ]]
+  [[ "$output" != *"$URL/\""* ]]
+}
+
+@test "--url followed by another flag is rejected (exit 2), not taken as the URL" {
+  run bash "$REPO_ROOT/$SCRIPT" --url --json
+  [ "$status" -eq 2 ]
+  [[ "$output" == *"needs a value"* ]]
+  [[ "$output" != *"localai_running"* ]]
+  run bash "$REPO_ROOT/$SCRIPT" --model --json
+  [ "$status" -eq 2 ]
+  [[ "$output" == *"needs a value"* ]]
+}
+
+@test "unmeasurable RAM (no /proc/meminfo, e.g. macOS) is a WARN 'no medido', not a FAIL" {
+  start_fake ready
+  LOCALAI_MEMINFO="$TMPDIR/absent" run bash "$REPO_ROOT/$SCRIPT" --url "$URL" --json
+  [ "$(check_status "$output" ram)" = "WARN" ]
+  [[ "$output" == *"no medido"* ]]
+  [ "$status" -eq 1 ]
+}
+
+@test "unmeasurable disk is a WARN 'no medido' and still prints the switchover" {
+  start_fake ready
+  LOCALAI_DISK_PATH="$TMPDIR/absent" run bash "$REPO_ROOT/$SCRIPT" --url "$URL"
+  [[ "$output" == *"[WARN] disk"*"no medido"* ]]
+  [ "$status" -eq 1 ]
+  [[ "$output" == *"export ANTHROPIC_MODEL="* ]]
+}
+
+@test "boundary: RAM threshold above the machine RAM is a FAIL, injected via env" {
+  start_fake ready
+  LOCALAI_RAM_MIN_GB=999999 LOCALAI_RAM_OK_GB=999999 run bash "$REPO_ROOT/$SCRIPT" --url "$URL" --json
+  [ "$(check_status "$output" ram)" = "FAIL" ]
+  [ "$status" -eq 2 ]
+}
+
+@test "invalid threshold value is a usage error (exit 2)" {
+  LOCALAI_DISK_MIN_GB=abc run bash "$REPO_ROOT/$SCRIPT" --url "http://127.0.0.1:1" --json
+  [ "$status" -eq 2 ]
+  [[ "$output" == *"LOCALAI_DISK_MIN_GB"* ]]
 }
 
 @test "no models loaded is a FAIL with exit 2" {
@@ -108,7 +208,7 @@ check_status() {
 @test "a lookalike model id does not satisfy the requested model" {
   start_fake lookalike
   run bash "$REPO_ROOT/$SCRIPT" --url "$URL" --model "qwen2.5:7b" --json
-  [ "$(check_status "$output" model_available)" = "WARN" ]
+  [ "$(check_status "$output" model_available)" = "FAIL" ]
 }
 
 @test "JSON stays valid when the model name contains quotes" {
@@ -127,9 +227,25 @@ check_status() {
 
 @test "documented switchover never points ANTHROPIC_BASE_URL at /v1" {
   # Claude Code pide <base>/v1/messages: una base terminada en /v1 da /v1/v1/messages (404).
-  ! grep -nE 'ANTHROPIC_BASE_URL="?https?://[^" ]*/v1"?([[:space:]]|$)' \
-    "$REPO_ROOT/.claude/skills/emergency-mode/SKILL.md" \
-    "$REPO_ROOT/docs/rules/domain/emergency-mode-protocol.md"
+  local docs=("$REPO_ROOT/.claude/skills/emergency-mode/SKILL.md"
+    "$REPO_ROOT/.claude/skills/emergency-mode/DOMAIN.md"
+    "$REPO_ROOT/docs/rules/domain/emergency-mode-protocol.md")
+  ! grep -nE 'ANTHROPIC_BASE_URL="?https?://[^" ]*/v1"?([[:space:]]|$)' "${docs[@]}"
+  # Tampoco el endpoint local descrito en prosa (localhost:8080/v1 invita al mismo error).
+  ! grep -nE '(localhost|127\.0\.0\.1):[0-9]+/v1([^/]|$)' "${docs[@]}"
+}
+
+@test "skill and protocol export every variable the script prints, and unset them on the way back" {
+  start_fake ready
+  run bash "$REPO_ROOT/$SCRIPT" --url "$URL"
+  vars=$(printf '%s\n' "$output" | sed -nE 's/^  export (ANTHROPIC_[A-Z_]+)=.*/\1/p')
+  [ -n "$vars" ]
+  for doc in "$REPO_ROOT/.claude/skills/emergency-mode/SKILL.md" "$REPO_ROOT/docs/rules/domain/emergency-mode-protocol.md"; do
+    for v in $vars; do
+      grep -qE "export $v=" "$doc" || { echo "$doc: falta export $v"; return 1; }
+      grep -qE "unset .*\b$v\b|\b$v\b.*unset|Unset vars .*\b$v\b" "$doc" || { echo "$doc: falta unset $v"; return 1; }
+    done
+  done
 }
 
 @test "skill documents the verdicts the script really prints" {

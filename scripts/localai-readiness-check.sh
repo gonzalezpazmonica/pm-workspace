@@ -7,16 +7,20 @@
 #   bash scripts/localai-readiness-check.sh [--url URL] [--model MODEL] [--json]
 #
 # Env:
-#   LOCALAI_URL     default http://localhost:8080
-#   LOCALAI_MODEL   default claude-compatible-local (checked for presence)
+#   LOCALAI_URL     default http://localhost:8080 (barra final eliminada)
+#   LOCALAI_MODEL   default claude-compatible-local (id exacto en /v1/models)
+#   LOCALAI_RAM_OK_GB / LOCALAI_RAM_MIN_GB    umbrales RAM, default 16 / 8
+#   LOCALAI_DISK_OK_GB / LOCALAI_DISK_MIN_GB  umbrales disco libre, default 20 / 5
+#   LOCALAI_MEMINFO, LOCALAI_DISK_PATH        fuentes medidas (default /proc/meminfo, $HOME)
 #
 # Exit codes:
 #   0 = READY (all checks OK)
-#   1 = WARNING (non-blocking issues)
-#   2 = FAIL (cannot operate — LocalAI down / no model / version too old) or usage error
+#   1 = WARNING (non-blocking: RAM/disco justos o no medidos)
+#   2 = FAIL (LocalAI caído / sin /v1/messages / modelo pedido no cargado) or usage error
 #
-# Switchover (decisión humana): ANTHROPIC_BASE_URL=<LOCALAI_URL>, sin /v1 — Claude Code
-# añade /v1/messages a la base.
+# Requiere jq. Switchover (decisión humana), solo si exit < 2:
+#   ANTHROPIC_BASE_URL=<LOCALAI_URL> (sin /v1: Claude Code añade /v1/messages),
+#   ANTHROPIC_MODEL y ANTHROPIC_SMALL_FAST_MODEL=<LOCALAI_MODEL>.
 
 set -uo pipefail
 
@@ -30,18 +34,31 @@ MIN_VERSION="3.10.0"  # Anthropic API compat desde v3.10.0
 while [[ $# -gt 0 ]]; do
   case "$1" in
     --url|--model)
-      [[ $# -ge 2 && -n "$2" ]] || { echo "Error: $1 needs a value" >&2; exit 2; }
-      if [[ "$1" == "--url" ]]; then LOCALAI_URL="${2%/}"; else LOCALAI_MODEL="$2"; fi
+      [[ $# -ge 2 && -n "$2" && "$2" != -* ]] || { echo "Error: $1 needs a value" >&2; exit 2; }
+      if [[ "$1" == "--url" ]]; then LOCALAI_URL="$2"; else LOCALAI_MODEL="$2"; fi
       shift 2 ;;
     --json) OUTPUT_JSON=true; shift ;;
     --help|-h)
-      sed -n '2,15p' "$0" | sed 's/^# \?//'
+      sed -n '2,23p' "$0" | sed 's/^# \?//'
       exit 0 ;;
     *)
       echo "Error: unknown option $1" >&2
       exit 2 ;;
   esac
 done
+
+# Barra final fuera, venga de --url o de LOCALAI_URL: evita //v1/messages.
+while [[ "$LOCALAI_URL" == */ ]]; do LOCALAI_URL="${LOCALAI_URL%/}"; done
+
+RAM_OK_GB="${LOCALAI_RAM_OK_GB:-16}"
+RAM_MIN_GB="${LOCALAI_RAM_MIN_GB:-8}"
+DISK_OK_GB="${LOCALAI_DISK_OK_GB:-20}"
+DISK_MIN_GB="${LOCALAI_DISK_MIN_GB:-5}"
+for t in RAM_OK_GB RAM_MIN_GB DISK_OK_GB DISK_MIN_GB; do
+  [[ "${!t}" =~ ^[0-9]+$ ]] || { echo "Error: LOCALAI_$t must be a non-negative integer" >&2; exit 2; }
+done
+MEMINFO="${LOCALAI_MEMINFO:-/proc/meminfo}"
+DISK_PATH="${LOCALAI_DISK_PATH:-$HOME}"
 
 # ── state ─────────────────────────────────────────────────────────────────
 declare -a CHECKS=()
@@ -54,6 +71,13 @@ record() {
     WARN) (( OVERALL < 1 )) && OVERALL=1 ;;
     FAIL) OVERALL=2 ;;
   esac
+}
+
+# Entre comillas dobles y seguro para pegar en bash: escapa \ " $ y `.
+dquote() {
+  local v="$1"
+  v="${v//\\/\\\\}"; v="${v//\"/\\\"}"; v="${v//\$/\\\$}"; v="${v//\`/\\\`}"
+  printf '"%s"' "$v"
 }
 
 # ── checks ────────────────────────────────────────────────────────────────
@@ -96,8 +120,9 @@ check_model_available() {
     return 0
   fi
   # Check ANY model loaded
+  # Otro modelo cargado no basta: Claude Code pediría '$LOCALAI_MODEL' y fallaría la primera petición.
   if [[ -n "$ids" ]]; then
-    record "WARN" "model_available" "Model '$LOCALAI_MODEL' NOT loaded (but other models available)"
+    record "FAIL" "model_available" "Model '$LOCALAI_MODEL' NOT loaded; loaded: $(printf '%s' "$ids" | paste -sd, -) — re-run with --model <loaded id>"
     return 1
   fi
   record "FAIL" "model_available" "NO models loaded in LocalAI"
@@ -105,24 +130,37 @@ check_model_available() {
 }
 
 check_ram() {
-  local ram_kb; ram_kb=$(awk '/MemTotal/{print $2}' /proc/meminfo 2>/dev/null || echo "0")
+  local ram_kb="" bytes
+  if [[ -r "$MEMINFO" ]]; then
+    ram_kb=$(awk '/MemTotal/{print $2}' "$MEMINFO" 2>/dev/null)
+  elif bytes=$(sysctl -n hw.memsize 2>/dev/null) && [[ "$bytes" =~ ^[0-9]+$ ]]; then
+    ram_kb=$(( bytes / 1024 ))  # macOS
+  fi
+  if ! [[ "$ram_kb" =~ ^[0-9]+$ ]]; then
+    record "WARN" "ram" "RAM no medido (sin $MEMINFO ni sysctl hw.memsize)"
+    return 0
+  fi
   local ram_gb=$(( ram_kb / 1024 / 1024 ))
-  if (( ram_gb >= 16 )); then
+  if (( ram_gb >= RAM_OK_GB )); then
     record "OK" "ram" "RAM ${ram_gb}GB (sufficient for 4-bit 7-13B models)"
-  elif (( ram_gb >= 8 )); then
+  elif (( ram_gb >= RAM_MIN_GB )); then
     record "WARN" "ram" "RAM ${ram_gb}GB (limited — use 4-bit small models only)"
   else
-    record "FAIL" "ram" "RAM ${ram_gb}GB insufficient (<8GB)"
+    record "FAIL" "ram" "RAM ${ram_gb}GB insufficient (<${RAM_MIN_GB}GB)"
   fi
 }
 
 check_disk() {
+  # df -Pk es POSIX (GNU y macOS): columna 4 = KiB disponibles.
   local free_gb
-  free_gb=$(df -BG --output=avail "$HOME" 2>/dev/null | tail -1 | tr -d 'G ' || echo "0")
-  free_gb="${free_gb:-0}"
-  if (( free_gb >= 20 )); then
+  free_gb=$(df -Pk "$DISK_PATH" 2>/dev/null | awk 'NR==2{print int($4/1024/1024)}')
+  if ! [[ "$free_gb" =~ ^[0-9]+$ ]]; then
+    record "WARN" "disk" "Disk free no medido (df falla en $DISK_PATH)"
+    return 0
+  fi
+  if (( free_gb >= DISK_OK_GB )); then
     record "OK" "disk" "Disk free ${free_gb}GB"
-  elif (( free_gb >= 5 )); then
+  elif (( free_gb >= DISK_MIN_GB )); then
     record "WARN" "disk" "Disk free ${free_gb}GB (limited for model downloads)"
   else
     record "FAIL" "disk" "Disk free ${free_gb}GB insufficient"
@@ -143,8 +181,8 @@ if $OUTPUT_JSON; then
   for c in "${CHECKS[@]}"; do
     IFS='|' read -r status check msg <<< "$c"
     jq -nc --arg s "$status" --arg c "$check" --arg m "$msg" '{status:$s, check:$c, message:$m}'
-  done | jq -sc --argjson o "$OVERALL" --arg u "$LOCALAI_URL" \
-    '{overall:$o, checks:., switchover:{ANTHROPIC_BASE_URL:$u}}'
+  done | jq -sc --argjson o "$OVERALL" --arg u "$LOCALAI_URL" --arg m "$LOCALAI_MODEL" \
+    '{overall:$o, checks:., switchover:{ANTHROPIC_BASE_URL:$u, ANTHROPIC_MODEL:$m, ANTHROPIC_SMALL_FAST_MODEL:$m}}'
 else
   echo "=== LocalAI Readiness Check ==="
   for c in "${CHECKS[@]}"; do
@@ -160,7 +198,9 @@ else
   if (( OVERALL < 2 )); then
     echo ""
     echo "Switchover (decisión humana, sin /v1: Claude Code añade /v1/messages):"
-    echo "  export ANTHROPIC_BASE_URL=$LOCALAI_URL"
+    printf '  export ANTHROPIC_BASE_URL=%s\n' "$(dquote "$LOCALAI_URL")"
+    printf '  export ANTHROPIC_MODEL=%s\n' "$(dquote "$LOCALAI_MODEL")"
+    printf '  export ANTHROPIC_SMALL_FAST_MODEL=%s\n' "$(dquote "$LOCALAI_MODEL")"
   fi
 fi
 
