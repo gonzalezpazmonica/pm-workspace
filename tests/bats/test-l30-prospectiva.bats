@@ -44,9 +44,11 @@ FIXTURES="tests/fixtures/l30-prospectiva"
 
 @test "L30: micmac rechaza valores fuera de escala (exit 2)" {
     BAD="$(mktemp)"
-    echo '{"variables":["A","B"],"matrix":[[0,9],[0,0]]}' > "$BAD"
+    # 4x4 valida en tamaño: el rechazo debe venir de la escala, no del minimo de variables.
+    echo '{"variables":["A","B","C","D"],"matrix":[[0,9,0,0],[0,0,1,0],[0,0,0,1],[1,0,0,0]]}' > "$BAD"
     run python3 scripts/micmac.py --matrix "$BAD"
     [ "$status" -eq 2 ]
+    [[ "$output" == *"0..3"* ]]
     rm -f "$BAD"
 }
 
