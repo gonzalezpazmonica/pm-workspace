@@ -1,5 +1,5 @@
 {
-  "hash": "beef74631dfa",
+  "hash": "15c0024a7faa",
   "total": 1450,
   "resources": [
     {
@@ -1580,15 +1580,15 @@
       "category": "communication",
       "name": "savia-hub-init",
       "intents": [
+        "inicializa",
         "init",
-        "initialize",
         "local",
-        "repository",
+        "repositorio",
         "savia"
       ],
       "kind": "script",
       "path": "scripts/savia-hub-init.sh",
-      "description": "savia-hub-init.sh — Initialize SaviaHub local repository"
+      "description": "savia-hub-init.sh — Inicializa el repositorio local de SaviaHub"
     },
     {
       "category": "communication",
@@ -1603,6 +1603,20 @@
       "kind": "skill",
       "path": ".claude/skills/savia-hub-sync/SKILL.md",
       "description": "Usar cuando se sincroniza el repositorio SaviaHub con el workspace local."
+    },
+    {
+      "category": "communication",
+      "name": "savia-hub-sync",
+      "intents": [
+        "flight",
+        "pull",
+        "push",
+        "savia",
+        "saviahub"
+      ],
+      "kind": "script",
+      "path": "scripts/savia-hub-sync.sh",
+      "description": "savia-hub-sync.sh — status / push / pull / flight de SaviaHub (skill savia-hub-sync)"
     },
     {
       "category": "communication",
@@ -18641,20 +18655,6 @@
       "kind": "script",
       "path": "scripts/test-savia-flow-tasks.sh",
       "description": "test-savia-flow-tasks.sh — Git-native task tests via savia-branch.sh"
-    },
-    {
-      "category": "quality",
-      "name": "test-savia-hub",
-      "intents": [
-        "savia",
-        "saviahub",
-        "structural",
-        "test",
-        "tests"
-      ],
-      "kind": "script",
-      "path": "scripts/test-savia-hub.sh",
-      "description": "test-savia-hub.sh — Structural tests for SaviaHub (Era 30)"
     },
     {
       "category": "quality",
