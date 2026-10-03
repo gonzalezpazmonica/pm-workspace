@@ -30,6 +30,8 @@ Precedencia: el error gana a los hallazgos. Con hallazgos y SBOM fallido el scri
 (los hallazgos se listan igualmente): un pipeline de release que solo mire el código de salida
 debe enterarse de que falta el SBOM. El informe solo se acepta con `SchemaVersion` 2 de Trivy;
 otro esquema es error, nunca «limpio».
+Trivy con rc ≠ 0 es error aunque escriba informe. Temporal propio por ejecución (escaneos simultáneos
+no se cruzan); el informe se nombra por día: varios proyectos el mismo día, un `DEP_SCAN_OUTPUT_DIR` cada uno.
 
 Zero false positives policy: solo se reporta lo que tiene impacto real confirmado.
 
