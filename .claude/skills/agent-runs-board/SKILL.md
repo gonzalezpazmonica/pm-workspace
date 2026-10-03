@@ -101,7 +101,7 @@ bash scripts/savia-runs.sh show "$R"       # hechos + derivado + traza de preced
 | NEEDS YOU | `needs_input`, `ci_failed`, `changes_requested`, `merge_conflict`, `blocked` | **aquí está el trabajo**: input, fix CI, resolver cambios o conflicto |
 | IN REVIEW | PR abierto/draft esperando review | revisar o esperar revisores |
 | READY TO MERGE | PR aprobado y mergeable | merge humano |
-| DONE | PR merged | archivar |
+| DONE | PR merged (aunque el run no haya hecho `finish`) | archivar |
 | TERMINATED | run terminado sin merge | revisar por qué |
 
 ## Reglas de datos (CRIT-001)
@@ -109,6 +109,10 @@ bash scripts/savia-runs.sh show "$R"       # hechos + derivado + traza de preced
 - Todo es **local** (`data/agent-runs-ledger.jsonl`, gitignored). Cero red,
   cero telemetría a proveedor (AO usa PostHog cloud — SE-349 lo rechaza).
 - NO escribas el ledger a mano; usa el CLI (upsert por `run_id`).
+- Concurrencia: cada subcomando que escribe (`start`, `state`, `pr`, `finish`, `cost`,
+  `reset`) toma un cerrojo exclusivo (`<ledger>.lock` con `flock`, o `mkdir` si no hay
+  `flock`) durante todo el leer-modificar-reescribir. Varios runs a la vez no se pisan.
+- `SAVIA_RUNS_LEDGER` cambia la ruta del ledger (tests, sandboxes).
 - N3+ no sale del workspace; el ledger es dato operativo interno.
 
 ## Referencia rápida del CLI

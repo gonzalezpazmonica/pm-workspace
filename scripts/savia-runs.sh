@@ -73,7 +73,7 @@ _upsert_record() {
   local run_id="$1"
   local new_json="$2"
   local tmp
-  tmp="$(mktemp)"
+  tmp="$(mktemp "$LEDGER.tmp.XXXXXX")"
   python3 - "$LEDGER" "$run_id" "$new_json" "$tmp" <<'PY'
 import sys, json
 ledger, run_id, new_json, tmp = sys.argv[1], sys.argv[2], sys.argv[3], sys.argv[4]
@@ -97,6 +97,7 @@ with open(ledger, encoding="utf-8", errors="replace") as fh, open(tmp, "w", enco
         out.write(json.dumps(json.loads(new_json), ensure_ascii=False) + "\n")
 PY
   if [[ $? -ne 0 ]]; then
+    mv "$tmp" "$tmp.failed" 2>/dev/null || true
     echo "ERROR: ledger update failed for run_id '$run_id'" >&2
     return 1
   fi
@@ -120,6 +121,7 @@ def derive(r):
         return "needs_input", "activity_state=%s in (waiting_input, blocked)" % act
     pr = r.get("pr")
     if pr:
+        if pr.get("state") == "merged": return "merged", "pr.state=merged"
         if pr.get("ci") == "failing": return "ci_failed", "pr.ci=failing"
         if pr.get("state") == "draft": return "draft", "pr.state=draft"
         if pr.get("review") == "changes_requested": return "changes_requested", "pr.review=changes_requested"
@@ -382,7 +384,14 @@ print(json.dumps(r, ensure_ascii=False))' "$now")"
 cmd_status() {
   local json_mode=""
   [[ "${1:-}" == "--json" ]] && json_mode="1"
-  [[ -f "$LEDGER" ]] || { echo "ledger=$LEDGER (empty)"; return 0; }
+  if [[ ! -f "$LEDGER" ]]; then
+    if [[ -n "$json_mode" ]]; then
+      printf '{"as_of": "%s", "columns": {}, "runs": []}\n' "$(_now)"
+    else
+      echo "ledger=$LEDGER (empty)"
+    fi
+    return 0
+  fi
 
   if ! _py3; then
     echo "ERROR: python3 required for status" >&2; exit 1
@@ -401,6 +410,7 @@ def derive(r):
         return "needs_input"
     pr = r.get("pr")
     if pr:
+        if pr.get("state") == "merged": return "merged"
         if pr.get("ci") == "failing": return "ci_failed"
         if pr.get("state") == "draft": return "draft"
         if pr.get("review") == "changes_requested": return "changes_requested"
@@ -459,6 +469,7 @@ def derive(r):
         return "needs_input"
     pr = r.get("pr")
     if pr:
+        if pr.get("state") == "merged": return "merged"
         if pr.get("ci") == "failing": return "ci_failed"
         if pr.get("state") == "draft": return "draft"
         if pr.get("review") == "changes_requested": return "changes_requested"
@@ -557,6 +568,7 @@ def derive(r):
         return "needs_input"
     pr = r.get("pr")
     if pr:
+        if pr.get("state") == "merged": return "merged"
         if pr.get("ci") == "failing": return "ci_failed"
         if pr.get("state") == "draft": return "draft"
         if pr.get("review") == "changes_requested": return "changes_requested"
@@ -739,6 +751,26 @@ cmd_reset() {
 # ── Dispatcher ───────────────────────────────────────────────────────────
 SUBCOMMAND="${1:-}"
 shift || true
+
+# Cerrojo exclusivo para todo subcomando que escribe: leer-modificar-reescribir el ledger sin él
+# pierde actualizaciones cuando varios runs autónomos escriben a la vez (SE-376).
+_lock_ledger() {
+  _ensure_ledger
+  if command -v flock &>/dev/null; then
+    exec 9>"$LEDGER.lock"
+    flock -w 30 9 || { echo "ERROR: ledger lock timeout ($LEDGER.lock)" >&2; exit 1; }
+  else
+    local i
+    for i in $(seq 1 300); do
+      mkdir "$LEDGER.lockdir" 2>/dev/null && { trap 'rmdir "$LEDGER.lockdir" 2>/dev/null' EXIT; return 0; }
+      sleep 0.1
+    done
+    echo "ERROR: ledger lock timeout ($LEDGER.lockdir)" >&2; exit 1
+  fi
+}
+case "$SUBCOMMAND" in
+  init|start|state|pr|finish|cost|capture-cost|reset) _lock_ledger ;;
+esac
 
 case "$SUBCOMMAND" in
   init)   cmd_init   "$@" ;;

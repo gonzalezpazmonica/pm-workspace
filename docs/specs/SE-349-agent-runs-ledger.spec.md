@@ -79,6 +79,7 @@ is_terminated = true  → pr.state == merged  ? merged
                      →                      : terminated
 activity_state in (waiting_input, blocked) → needs_input
 tiene pr →
+    state == merged          → merged   (enmienda SE-376, 2026-10-03)
     ci == failing            → ci_failed
     state == draft           → draft
     review == changes_requested → changes_requested
@@ -89,6 +90,10 @@ tiene pr →
 activity_state == active     → working
 cualquier otro caso          → idle
 ```
+
+Enmienda SE-376 (2026-10-03): sin ella, un run vivo con el PR ya mergeado y review
+`approved` salía en READY TO MERGE. Un PR mergeado va a DONE aunque el run no haya
+llamado a `finish`. `state == closed` en un run vivo sigue sin regla propia (pendiente).
 
 ### Mapeo a columnas del board
 
