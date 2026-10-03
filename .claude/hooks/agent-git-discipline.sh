@@ -27,52 +27,55 @@ fi
 
 NORMALIZED=$(echo "$COMMAND" | sed 's/^[[:space:]]*//')
 
-# ─── rm -rf / rm -r (recursive delete) ──────────────────────────────────
-# Matches: rm -r, rm -rf, rm -fr, rm -R, rm --recursive
+# Ancla de inicio de orden: principio de línea, separador (; & |), subshell ( o $(,
+# espacios y prefijos que no cambian la orden (VAR=x, env, command, sudo, nohup, time, exec).
+# Una mención dentro de un mensaje de commit o de un echo no queda anclada y no bloquea. La comilla
+# invertida no ancla: en texto markdown (cuerpos de PR, heredocs) es una mención, no una subshell.
+AT='(^|[;&|(]|\$\()[[:space:]]*(([A-Za-z_][A-Za-z0-9_]*=[^[:space:]]*|env|command|sudo|nohup|time|exec)[[:space:]]+)*'
+GIT_AT="${AT}"'git(([[:space:]]+(-C|-c|--git-dir|--work-tree)[[:space:]]+("[^"]*"|'"'"'[^'"'"']*'"'"'|[^[:space:]]+))|([[:space:]]+--?[A-Za-z][A-Za-z-]*(=[^[:space:]]+)?))*[[:space:]]+'
+# Tramo de una orden hasta el siguiente separador: las exenciones (-i, dry-run, rutas seguras)
+# valen solo para su propia orden, no para toda la línea.
+SEG='[^;&|`)]*'
+INTERACTIVE='(^|[[:space:]])(-i|--interactive)([[:space:]]|$)'
+
+# ─── rm -rf / rm -r (recursive delete) y rm sin confirmación ─────────────
+# Matches: rm -r, rm -rf, rm -fr, rm -R, rm --recursive · rm sin -i fuera de rutas seguras
 # Does NOT match: rm --interactive, rm -i (those are allowed)
-if echo "$NORMALIZED" | grep -qE '(^|[;&|])([[:space:]]*sudo[[:space:]]+)?rm[[:space:]]+.*(\s-[a-zA-Z]*[rR][a-zA-Z]*\b|--recursive)'; then
-  if echo "$NORMALIZED" | grep -qE '\s--interactive|\s-i\b'; then
-    :
-  else
+SAFE_PATHS="/tmp/opencode|/tmp/recovery|/tmp/extundelete|/tmp/testdisk"
+while IFS= read -r seg; do
+  [[ -z "$seg" ]] && continue
+  echo "$seg" | grep -qE "$INTERACTIVE" && continue
+  if echo "$seg" | grep -qE '\s-[a-zA-Z]*[rR][a-zA-Z]*\b|--recursive'; then
     echo "BLOCKED [agent-git-discipline]: rm recursivo (rm -rf / rm -r)." >&2
     echo "  La eliminación recursiva requiere confirmación humana directa." >&2
     exit 2
   fi
-fi
-
-# ─── rm sin -i ni paths seguros (sin confirmación humana) ─────────────
-if echo "$NORMALIZED" | grep -qE '(^|[;&|])([[:space:]]*sudo[[:space:]]+)?rm[[:space:]]+'; then
-  SAFE_PATHS="/tmp/opencode|/tmp/recovery|/tmp/extundelete|/tmp/testdisk"
-  if echo "$NORMALIZED" | grep -qE "$SAFE_PATHS"; then
-    :
-  elif echo "$NORMALIZED" | grep -qE '\-i[[:space:]]|--interactive'; then
-    :
-  else
+  if ! echo "$seg" | grep -qE "$SAFE_PATHS"; then
     echo "BLOCKED [agent-git-discipline]: rm sin confirmación humana (-i / --interactive)." >&2
     echo "  Usa rm -i o elimina archivos desde tu terminal." >&2
     exit 2
   fi
-fi
+done < <(echo "$NORMALIZED" | grep -oE "${AT}rm[[:space:]]+${SEG}")
 
 # ─── Truncado destructivo de archivos (> file, :> file) ────────────────
-if echo "$NORMALIZED" | grep -qE '(^|[;&|])([[:space:]]*sudo[[:space:]]+)?(cat[[:space:]]+/dev/null|true|:)[[:space:]]*>[[:space:]]*(~|/home|/etc|/boot|/root)'; then
+if echo "$NORMALIZED" | grep -qE "${AT}"'(cat[[:space:]]+/dev/null|true|:)[[:space:]]*>[[:space:]]*(~|/home|/etc|/boot|/root)'; then
   echo "BLOCKED [agent-git-discipline]: truncado de archivos del sistema/usuario." >&2
   exit 2
 fi
 
 # ─── Escritura directa a dispositivos de bloque ────────────────────────
-if echo "$NORMALIZED" | grep -qE '(^|[;&|])[[:space:]]*(sudo[[:space:]]+)?dd[[:space:]]+.*of=/dev/[sh]n?d'; then
+if echo "$NORMALIZED" | grep -qE "${AT}dd[[:space:]]+${SEG}"'of=/dev/[sh]n?d'; then
   echo "BLOCKED [agent-git-discipline]: dd escribiendo a dispositivo de bloque." >&2
   exit 2
 fi
 
-if echo "$NORMALIZED" | grep -qE '(^|[;&|])[[:space:]]*(sudo[[:space:]]+)?mkfs\.'; then
+if echo "$NORMALIZED" | grep -qE "${AT}"'mkfs\.'; then
   echo "BLOCKED [agent-git-discipline]: mkfs (formateo de disco)." >&2
   exit 2
 fi
 
 # ─── chown recursivo sobre home del usuario ────────────────────────────
-if echo "$NORMALIZED" | grep -qE '(^|[;&|])[[:space:]]*(sudo[[:space:]]+)?chown[[:space:]]+-R[[:space:]]+.*(~|/home|/root)'; then
+if echo "$NORMALIZED" | grep -qE "${AT}chown[[:space:]]+-R[[:space:]]+${SEG}"'(~|/home|/root)'; then
   echo "BLOCKED [agent-git-discipline]: chown -R sobre home del usuario." >&2
   exit 2
 fi
@@ -81,42 +84,67 @@ fi
 # GIT destructive operations (SE-266 original, Pi-inspired)
 # ═══════════════════════════════════════════════════════════════════════
 
-if ! echo "$NORMALIZED" | grep -qE '^[[:space:]]*git[[:space:]]+'; then
+if ! echo "$NORMALIZED" | grep -qE "$GIT_AT"; then
   exit 0
 fi
 
 # ─── git reset --hard ───────────────────────────────────────────────────
-if echo "$NORMALIZED" | grep -qE 'git[[:space:]]+reset[[:space:]]+--hard'; then
+if echo "$NORMALIZED" | grep -qE "${GIT_AT}reset[[:space:]]+${SEG}--hard"; then
   echo "BLOCKED [agent-git-discipline]: git reset --hard — destruye todo el trabajo no commiteado." >&2
   exit 2
 fi
 
 # ─── git clean (bloquear todo menos dry-run) ────────────────────────────
-if echo "$NORMALIZED" | grep -qE 'git[[:space:]]+clean'; then
-  if echo "$NORMALIZED" | grep -qE 'clean[[:space:]].*(-[a-z]*n[a-z]*|-n|--dry-run)'; then
-    :
-  else
+while IFS= read -r seg; do
+  [[ -z "$seg" ]] && continue
+  if ! echo "$seg" | grep -qE 'clean[[:space:]].*(-[a-z]*n[a-z]*|-n|--dry-run)'; then
     echo "BLOCKED [agent-git-discipline]: git clean — elimina archivos no trackeados de todos los agentes." >&2
     echo "  Usa git clean -n o --dry-run para previsualizar primero." >&2
     exit 2
   fi
-fi
+done < <(echo "$NORMALIZED" | grep -oE "${GIT_AT}clean([[:space:]]${SEG})?")
 
 # ─── git stash ──────────────────────────────────────────────────────────
-if echo "$NORMALIZED" | grep -qE 'git[[:space:]]+stash'; then
+if echo "$NORMALIZED" | grep -qE "${GIT_AT}stash"; then
   echo "BLOCKED [agent-git-discipline]: git stash oculta cambios staged de otros agentes." >&2
   echo "  Alternativa: commitea a tu rama agent/*." >&2
   exit 2
 fi
 
-# ─── git checkout . ─────────────────────────────────────────────────────
-if echo "$NORMALIZED" | grep -qE 'git[[:space:]]+checkout[[:space:]]+\.'; then
+# ─── git checkout . / git checkout -- . ─────────────────────────────────
+if echo "$NORMALIZED" | grep -qE "${GIT_AT}"'checkout[[:space:]]+(--[[:space:]]+)?\.([[:space:]]|$|[;&|)])'; then
   echo "BLOCKED [agent-git-discipline]: git checkout . destruye el working tree de todos los agentes." >&2
   exit 2
 fi
 
+# ─── git push --delete / -d / :rama (borrar ramas remotas ajenas) ───────
+# autonomous-safety: NUNCA borrar ramas ajenas. Solo se borran en el remoto las ramas agent/*.
+while IFS= read -r seg; do
+  [[ -z "$seg" ]] && continue
+  read -ra toks <<<"${seg#*push}"
+  deleting=false
+  for t in "${toks[@]}"; do [[ "$t" == "--delete" || "$t" == "-d" ]] && deleting=true; done
+  remote="" foreign=()
+  for t in "${toks[@]}"; do
+    t=${t//[\"\']/}
+    [[ "$t" == -* || "$t" == *[\<\>]* || -z "$t" ]] && continue
+    [[ -z "$remote" ]] && { remote=$t; continue; }
+    if [[ "$t" == :?* ]]; then ref=${t#:}
+    elif $deleting; then ref=$t
+    else continue
+    fi
+    ref=${ref#refs/heads/}
+    [[ "$ref" == agent/* ]] || foreign+=("$ref")
+  done
+  if (( ${#foreign[@]} > 0 )); then
+    echo "BLOCKED [agent-git-discipline]: borrar ramas remotas ajenas (${foreign[*]})." >&2
+    echo "  Un agente solo borra sus ramas agent/*; el resto lo borra la operadora." >&2
+    exit 2
+  fi
+done < <(echo "$NORMALIZED" | grep -oE "${GIT_AT}push([[:space:]]${SEG})?")
+
 # ─── git add -A / git add . (warn, no block) ────────────────────────────
-if echo "$NORMALIZED" | grep -qE 'git[[:space:]]+add[[:space:]]+(-A|\.)[[:space:]]*$'; then
+if echo "$NORMALIZED" | grep -qE "${GIT_AT}"'add[[:space:]]+(-A|\.)[[:space:]]*$'; then
   echo "WARN [agent-git-discipline]: git add -A/. stagea archivos de otros agentes." >&2
   echo "  Usa: git add <path1> <path2>" >&2
 fi
