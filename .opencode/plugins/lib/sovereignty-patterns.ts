@@ -217,7 +217,7 @@ export function isScriptPath(path: string): boolean {
 
 // SE-221: alineado con .claude/hooks/data-sovereignty-gate.sh linea 174. Incluye .opencode/{skills,agents,commands,hooks,plugins}/
 // SE-310: CHANGELOG.d/ son fragments de changelog publicos (mismo tier que CHANGELOG.md) — N1, no deben bloquearse como AMBIGUOUS.
-const N1_DEST_RX = /(\/docs\/|\.claude\/rules\/|\.claude\/skills\/|\.claude\/agents\/|\.claude\/commands\/|\.claude\/hooks\/|\.opencode\/skills\/|\.opencode\/agents\/|\.opencode\/commands\/|\.opencode\/hooks\/|\.opencode\/plugins\/|scripts\/|tests\/|\.github\/|CLAUDE\.md|CHANGELOG\.md|CHANGELOG\.d\/|README)/i;
+const N1_DEST_RX = /((?:^|\/)docs\/|\.claude\/rules\/|\.claude\/skills\/|\.claude\/agents\/|\.claude\/commands\/|\.claude\/hooks\/|\.opencode\/skills\/|\.opencode\/agents\/|\.opencode\/commands\/|\.opencode\/hooks\/|\.opencode\/plugins\/|scripts\/|tests\/|\.github\/|CLAUDE\.md|CHANGELOG\.md|CHANGELOG\.d\/|README)/i;
 
 export function isN1Destination(path: string): boolean {
   return N1_DEST_RX.test(path);
