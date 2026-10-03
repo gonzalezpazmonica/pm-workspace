@@ -48,7 +48,7 @@ Muestra diagnóstico completo:
 - RAM y GPU disponible
 - Problemas detectados con sugerencias
 
-Equivale a: `./scripts/emergency-status.sh`
+Equivale a: `./scripts/emergency-status.sh` (exit 0 = listo, 1 = problemas)
 
 ### `/emergency-mode activate`
 
@@ -56,7 +56,7 @@ Activa el modo emergencia:
 
 1. Verifica que Ollama está instalado y servidor activo
 2. Si no hay servidor → intenta iniciarlo (`ollama serve`)
-3. Configura `ANTHROPIC_BASE_URL=http://localhost:11434`
+3. Configura `ANTHROPIC_BASE_URL=http://localhost:11434` (sin `/v1`: Claude Code pide `/v1/messages`, que Ollama >= 0.20.0 sirve) y el placeholder `ANTHROPIC_AUTH_TOKEN=ollama` con `ANTHROPIC_API_KEY=""`
 4. Configura `PM_EMERGENCY_MODE=active`
 5. Ejecuta test básico de conectividad
 

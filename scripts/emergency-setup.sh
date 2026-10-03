@@ -10,15 +10,24 @@ source "$SCRIPT_DIR_EM/lib/os-detect.sh" 2>/dev/null && setup_paths || true
 RED='\033[0;31m'; GREEN='\033[0;32m'; YELLOW='\033[1;33m'
 BLUE='\033[0;34m'; CYAN='\033[0;36m'; NC='\033[0m'; BOLD='\033[1m'
 
-DEFAULT_MODEL="qwen2.5:7b"; MODEL=""
+MODEL=""
+MIN_OLLAMA="0.20.0"  # primera version con /v1/messages nativo (docs/savia-dual.md)
+MEMINFO="${EMERGENCY_MEMINFO:-/proc/meminfo}"
 iso_date() { date -Iseconds 2>/dev/null || date -u +"%Y-%m-%dT%H:%M:%S+00:00"; }
 [[ "${1:-}" == "--help" || "${1:-}" == "-h" ]] && {
   echo -e "${BOLD}PM-Workspace Emergency Setup${NC} — Instala Ollama + LLM local"
   echo "Uso: $0 [--model MODEL]. Soporta Linux/macOS. Windows: usar .ps1"
-  echo "Modelos: 8GB→qwen2.5:3b | 16GB→qwen2.5:7b (default) | 32GB+→qwen2.5:14b"; exit 0; }
+  echo "Modelos: 8GB→qwen2.5:3b | 16GB→qwen2.5:7b (default) | 32GB+→qwen2.5:14b"
+  echo "--model fija un unico modelo para todos los alias. Requiere Ollama >= 0.20.0"; exit 0; }
 
-while [[ $# -gt 0 ]]; do case "$1" in --model) MODEL="$2"; shift 2 ;; *) shift ;; esac; done
-MODEL="${MODEL:-$DEFAULT_MODEL}"
+while [[ $# -gt 0 ]]; do
+  case "$1" in
+    --model)
+      [[ -n "${2:-}" ]] || { echo "ERROR: --model requiere un valor (p. ej. --model qwen2.5:3b)" >&2; exit 2; }
+      MODEL="$2"; shift 2 ;;
+    *) echo "ERROR: argumento desconocido: $1 (ver --help)" >&2; exit 2 ;;
+  esac
+done
 CACHE_DIR="$HOME/.pm-workspace-emergency"; OFFLINE=false
 
 echo -e "\n${BOLD}${CYAN}PM-Workspace · Emergency Setup${NC}\n"
@@ -29,10 +38,12 @@ OS="$(uname -s)"; ARCH="$(uname -m)"
 if [[ "$OS" == "Darwin" ]]; then
   RAM_BYTES=$(sysctl -n hw.memsize 2>/dev/null || echo 0); RAM_GB=$((RAM_BYTES / 1024 / 1024 / 1024))
 else
-  RAM_KB=$(grep MemTotal /proc/meminfo 2>/dev/null | awk '{print $2}' || echo 0); RAM_GB=$((RAM_KB / 1024 / 1024))
+  # Redondeo al GB mas cercano: un equipo de 16 GB reporta ~15.6 GiB en MemTotal
+  RAM_KB=$(awk '/^MemTotal:/ {print $2}' "$MEMINFO" 2>/dev/null || true)
+  RAM_GB=$(( (${RAM_KB:-0} + 524288) / 1048576 ))
 fi
 echo -e "  OS: ${GREEN}$OS${NC} · Arch: ${GREEN}$ARCH${NC} · RAM: ${GREEN}${RAM_GB}GB${NC}"
-[[ $RAM_GB -lt 8 ]] && echo -e "  ${YELLOW}⚠ RAM < 8GB${NC}" && [[ "$MODEL" == "$DEFAULT_MODEL" ]] && MODEL="qwen2.5:3b"
+[[ $RAM_GB -lt 8 ]] && echo -e "  ${YELLOW}⚠ RAM < 8GB${NC}"
 
 # Model alias mapping (opus/sonnet/haiku → local models)
 if [[ $RAM_GB -ge 32 ]]; then
@@ -41,6 +52,12 @@ elif [[ $RAM_GB -ge 16 ]]; then
   MODEL_LARGE="qwen2.5:7b"; MODEL_MEDIUM="qwen2.5:7b"; MODEL_SMALL="qwen2.5:3b"
 else
   MODEL_LARGE="qwen2.5:3b"; MODEL_MEDIUM="qwen2.5:3b"; MODEL_SMALL="qwen2.5:3b"
+fi
+# --model fija un unico modelo para todos los alias; sin el, el default es el del tramo
+if [[ -n "$MODEL" ]]; then
+  MODEL_LARGE="$MODEL"; MODEL_MEDIUM="$MODEL"; MODEL_SMALL="$MODEL"
+else
+  MODEL="$MODEL_LARGE"
 fi
 
 # GPU
@@ -99,6 +116,15 @@ else
   echo -e "  ${GREEN}✓${NC} Ollama instalado"
 fi
 
+# Claude Code pide <base>/v1/messages: Ollama solo lo sirve desde MIN_OLLAMA
+OLLAMA_VERSION=$(ollama --version 2>/dev/null | grep -oE '[0-9]+\.[0-9]+\.[0-9]+' | head -1 || true)
+if [[ -z "$OLLAMA_VERSION" ]]; then
+  echo -e "  ${YELLOW}⚠${NC} No se pudo leer la version de Ollama; requiere >= $MIN_OLLAMA"
+elif [[ "$(printf '%s\n%s\n' "$MIN_OLLAMA" "$OLLAMA_VERSION" | sort -V | head -1)" != "$MIN_OLLAMA" ]]; then
+  echo -e "  ${RED}✗${NC} Ollama $OLLAMA_VERSION no sirve /v1/messages (API Anthropic). Actualiza a >= $MIN_OLLAMA"
+  exit 1
+fi
+
 # ── 3. Iniciar servidor ─────────────────────────────────────────────────────
 echo -e "\n${BLUE}[3/5]${NC} Verificando servidor Ollama..."
 if curl -s http://localhost:11434/api/tags &>/dev/null; then
@@ -112,19 +138,32 @@ else
     || { echo -e "  ${RED}✗${NC} No se pudo iniciar. Ejecuta: ollama serve"; exit 1; }
 fi
 
-# ── 4. Verificar/descargar modelo ────────────────────────────────────────────
-echo -e "\n${BLUE}[4/5]${NC} Verificando modelo ${CYAN}$MODEL${NC}..."
-if ollama list 2>/dev/null | grep -q "$MODEL"; then
-  echo -e "  ${GREEN}✓${NC} Modelo disponible"
-elif [[ "$OFFLINE" == true ]]; then
-  if ollama list 2>/dev/null | grep -q .; then
-    AVAILABLE=$(ollama list 2>/dev/null | tail -n +2 | awk '{print $1}' | head -1)
-    echo -e "  ${YELLOW}⚠${NC} $MODEL no disponible offline. Usando: ${CYAN}$AVAILABLE${NC}"; MODEL="$AVAILABLE"
-  else echo -e "  ${RED}✗${NC} No hay modelos cacheados. Ejecuta emergency-plan.sh con conexión."; fi
-else
-  echo -e "  ${YELLOW}→${NC} Descargando (puede tardar minutos)..."; ollama pull "$MODEL"
-  echo -e "  ${GREEN}✓${NC} Modelo descargado"
-fi
+# ── 4. Verificar/descargar modelos ───────────────────────────────────────────
+# Todos los alias deben resolver a un modelo presente: Claude Code usa haiku
+# para tareas de fondo aunque el modelo principal sea otro.
+installed_models() { ollama list 2>/dev/null | tail -n +2 | awk '{print $1}'; }
+has_model() { installed_models | grep -qxF "$1"; }
+NEEDED=$(printf '%s\n' "$MODEL" "$MODEL_LARGE" "$MODEL_MEDIUM" "$MODEL_SMALL" | awk '!seen[$0]++')
+echo -e "\n${BLUE}[4/5]${NC} Verificando modelos: ${CYAN}$(echo $NEEDED)${NC}..."
+for m in $NEEDED; do
+  if has_model "$m"; then
+    echo -e "  ${GREEN}✓${NC} $m disponible"
+  elif [[ "$OFFLINE" == true ]]; then
+    AVAILABLE=$(installed_models | head -1)
+    if [[ -z "$AVAILABLE" ]]; then
+      echo -e "  ${RED}✗${NC} No hay modelos cacheados. Ejecuta emergency-plan.sh con conexión."; exit 1
+    fi
+    echo -e "  ${YELLOW}⚠${NC} $m no disponible offline. Usando: ${CYAN}$AVAILABLE${NC}"
+    [[ "$MODEL" == "$m" ]] && MODEL="$AVAILABLE"
+    [[ "$MODEL_LARGE" == "$m" ]] && MODEL_LARGE="$AVAILABLE"
+    [[ "$MODEL_MEDIUM" == "$m" ]] && MODEL_MEDIUM="$AVAILABLE"
+    [[ "$MODEL_SMALL" == "$m" ]] && MODEL_SMALL="$AVAILABLE"
+  else
+    echo -e "  ${YELLOW}→${NC} Descargando $m (puede tardar minutos)..."
+    ollama pull "$m" || { echo -e "  ${RED}✗${NC} Fallo al descargar $m"; exit 1; }
+    echo -e "  ${GREEN}✓${NC} $m descargado"
+  fi
+done
 
 # ── 5. Configurar variables ─────────────────────────────────────────────────
 echo -e "\n${BLUE}[5/5]${NC} Configuración para Claude Code..."
@@ -132,6 +171,10 @@ ENV_FILE="$HOME/.pm-workspace-emergency.env"
 cat > "$ENV_FILE" << ENVEOF
 # PM-Workspace Emergency Mode — generado $(iso_date)
 export ANTHROPIC_BASE_URL="http://localhost:11434"
+# Placeholder: Ollama no valida credenciales; evita que Claude Code envie la
+# clave u OAuth reales a localhost o se niegue a arrancar sin login.
+export ANTHROPIC_AUTH_TOKEN="ollama"
+export ANTHROPIC_API_KEY=""
 export PM_EMERGENCY_MODEL="$MODEL"
 export PM_EMERGENCY_MODE="active"
 export ANTHROPIC_DEFAULT_OPUS_MODEL="$MODEL_LARGE"
