@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=e9adea6ef0b06dbe44810f243682617cbeb1629aa661251e1073c3b4d8cb47ea
-timestamp=2026-10-03T19:51:43Z
+diff_hash=70c6e0dec9a2c2722931e6fe080da346882de2865d6ced6e039492fdc2be183e
+timestamp=2026-10-03T20:11:44Z
 branch=agent/hooks-sync-io-20261003
-head_commit=ab745961
-signature=3a0067359d509eb5d2dc2ecf9e3b46f35132e2cfa52b6ba0a4bb244a8fe96ab6
+head_commit=b4bcc7b0
+signature=801868e2e2bdd5b5697eae7183acf44f1850a3c8c3d1d669d6dfc6580bbe1eed
