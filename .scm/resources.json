@@ -1,6 +1,6 @@
 {
-  "hash": "beef74631dfa",
-  "total": 1450,
+  "hash": "05ba41ca75b3",
+  "total": 1451,
   "resources": [
     {
       "category": "analysis",
@@ -1580,15 +1580,15 @@
       "category": "communication",
       "name": "savia-hub-init",
       "intents": [
+        "inicializa",
         "init",
-        "initialize",
         "local",
-        "repository",
+        "repositorio",
         "savia"
       ],
       "kind": "script",
       "path": "scripts/savia-hub-init.sh",
-      "description": "savia-hub-init.sh — Initialize SaviaHub local repository"
+      "description": "savia-hub-init.sh — Inicializa el repositorio local de SaviaHub"
     },
     {
       "category": "communication",
@@ -1603,6 +1603,20 @@
       "kind": "skill",
       "path": ".claude/skills/savia-hub-sync/SKILL.md",
       "description": "Usar cuando se sincroniza el repositorio SaviaHub con el workspace local."
+    },
+    {
+      "category": "communication",
+      "name": "savia-hub-sync",
+      "intents": [
+        "flight",
+        "pull",
+        "push",
+        "savia",
+        "saviahub"
+      ],
+      "kind": "script",
+      "path": "scripts/savia-hub-sync.sh",
+      "description": "savia-hub-sync.sh — status / push / pull / flight de SaviaHub (skill savia-hub-sync)"
     },
     {
       "category": "communication",

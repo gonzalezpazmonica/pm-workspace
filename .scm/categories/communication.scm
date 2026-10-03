@@ -1,5 +1,5 @@
 # communication — Savia Capability Map (L1)
-> 107 resources
+> 108 resources
 
 - **archive-digest** (agent): >
 - **contract-pin** (script): contract-pin.sh — SE-369 Contract Digest Pins
@@ -49,8 +49,9 @@
 - **savia-goal** (cmd): Establece, gestiona y persigue objetivos persistentes cross-turn — equivalente Savia de /goal de Codex
 - **savia-goal** (script): savia-goal.sh — Goal lifecycle management for Savia
 - **savia-goals** (script): savia-goals.sh — Goals durables + heartbeats claimed-due (SE-347 lección PMA)
-- **savia-hub-init** (script): savia-hub-init.sh — Initialize SaviaHub local repository
+- **savia-hub-init** (script): savia-hub-init.sh — Inicializa el repositorio local de SaviaHub
 - **savia-hub-sync** (skill): Usar cuando se sincroniza el repositorio SaviaHub con el workspace local.
+- **savia-hub-sync** (script): savia-hub-sync.sh — status / push / pull / flight de SaviaHub (skill savia-hub-sync)
 - **savia-identity** (skill): Usar al inicio de sesión para cargar la identidad completa y las reglas de comportamiento de Savia.
 - **savia-ignore** (script): savia-ignore.sh — SE-218 S5: tool-specific exclusion layer
 - **savia-inbox** (cmd): >

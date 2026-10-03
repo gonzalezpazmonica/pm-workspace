@@ -2463,10 +2463,10 @@
       ],
       "id": "script:scripts/savia-hub-init",
       "intents": [
+        "inicializa",
         "init",
-        "initialize",
         "local",
-        "repository",
+        "repositorio",
         "savia"
       ],
       "kind": "script",
@@ -2495,6 +2495,27 @@
       "replaced_by": null,
       "risk_level": null,
       "source": ".claude/skills/savia-hub-sync/SKILL.md",
+      "status": "active",
+      "tests": []
+    },
+    {
+      "depends_on": [],
+      "frontend_support": [
+        "opencode"
+      ],
+      "id": "script:scripts/savia-hub-sync",
+      "intents": [
+        "flight",
+        "pull",
+        "push",
+        "savia",
+        "saviahub"
+      ],
+      "kind": "script",
+      "owner_domain": "communication",
+      "replaced_by": null,
+      "risk_level": null,
+      "source": "scripts/savia-hub-sync.sh",
       "status": "active",
       "tests": []
     },
@@ -29604,7 +29625,7 @@
       "tests": []
     }
   ],
-  "content_hash": "beef74631dfa",
+  "content_hash": "05ba41ca75b3",
   "deferred_kinds": [
     "rule",
     "hook"

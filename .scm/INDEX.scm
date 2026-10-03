@@ -1,6 +1,6 @@
 # Savia Capability Map — INDEX
-> hash: f5a3b651c3c0 | resources: 1450
-> 295 commands · 139 skills · 90 agents · 926 scripts
+> hash: f00bfa60db4b | resources: 1451
+> 295 commands · 139 skills · 90 agents · 927 scripts
 
 [analysis] Trace Optimize — across,distributed,optimize,rates,sampling — cmd:.claude/commands/trace-optimize.md
 [analysis] agent-activity — activity,agent,executions,recent,show — cmd:.claude/commands/agent-activity.md
@@ -124,8 +124,9 @@
 [communication] savia-goal — codex,cross,equivalente,establece,gestiona — cmd:.claude/commands/savia-goal.md
 [communication] savia-goal — goal,lifecycle,management,savia — script:scripts/savia-goal.sh
 [communication] savia-goals — claimed,durables,goals,heartbeats,lección — script:scripts/savia-goals.sh
-[communication] savia-hub-init — init,initialize,local,repository,savia — script:scripts/savia-hub-init.sh
+[communication] savia-hub-init — inicializa,init,local,repositorio,savia — script:scripts/savia-hub-init.sh
 [communication] savia-hub-sync — local,repositorio,saviahub,sincroniza,workspace — skill:.claude/skills/savia-hub-sync/SKILL.md
+[communication] savia-hub-sync — flight,pull,push,savia,saviahub — script:scripts/savia-hub-sync.sh
 [communication] savia-identity — cargar,completa,comportamiento,identidad,inicio — skill:.claude/skills/savia-identity/SKILL.md
 [communication] savia-ignore — exclusion,ignore,layer,savia,specific — script:scripts/savia-ignore.sh
 [communication] savia-inbox —  — cmd:.claude/commands/savia-inbox.md
