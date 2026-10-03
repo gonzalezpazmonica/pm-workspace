@@ -63,6 +63,7 @@ import { blockBlindSigning } from "./guards/block-blind-signing.ts";
 import { dispatchTrace } from "./guards/dispatch-trace.ts";
 // SCL-003/SCL-008: inject human-authorized criteria at chat.message
 import { learningRecallGuard } from "./guards/learning-recall-guard.ts";
+import { runGuardsOnVariants } from "./lib/sandbox.ts";
 
 const BEFORE_GUARDS = [
   // Cheap guards first — fail fast.
@@ -110,9 +111,8 @@ export const SaviaFoundationPlugin: Plugin = async ({ project, $, directory }) =
       applyModelTiers(cfg, directory);
     },
     "tool.execute.before": async (input: any, output: any) => {
-      for (const guard of BEFORE_GUARDS) {
-        await guard(input, output);
-      }
+      // Si un plugin de sandbox ya envolvió la orden, los guards ven también la de dentro.
+      await runGuardsOnVariants(BEFORE_GUARDS, input, output);
     },
     "chat.message": async (input: any, output: any) => {
       try {
