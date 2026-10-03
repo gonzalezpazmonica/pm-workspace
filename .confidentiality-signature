@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=29c1a3c9f651fcfada555efd6e39c911313fcc9b7689874fa170767789ef3deb
-timestamp=2026-10-03T13:30:55Z
+diff_hash=a017e90ce78526f4af838fbc93f0f9e6bc733614ae8d280b2e108e6bec86c98c
+timestamp=2026-10-03T19:32:57Z
 branch=agent/se376-iac-scanner-20261003
-head_commit=0a975ec1
-signature=eb40ae808f6c679295fd65955854dcea211f1b3d82863fc779a4e68ae8c05901
+head_commit=b4a5dc0b
+signature=0fc7308570d161aa7b8a26a99d5c455f5e9a28434219e2e39b62f62d3155325a
