@@ -84,6 +84,10 @@ fi
 
 log "pre-push-bats: $(echo "$changed_files" | wc -l) file(s) changed vs $BASE_BRANCH"
 
+# .opencode/{hooks,skills} are symlinks to .claude/: git reports the .claude/
+# path, so normalise it or the mappings below (and G14) never match.
+changed_files=$(printf '%s\n' "$changed_files" | sed -E 's#^\.claude/(hooks|skills)/#.opencode/\1/#')
+
 # ── Map files to tests ─────────────────────────────────────────────────────
 
 map_file_to_test() {
@@ -131,39 +135,39 @@ done <<< "$changed_files"
 # Deduplicate.
 unique_tests=$(echo -e "$relevant_tests" | grep -v '^$' | sort -u)
 
+# No early exit when no test maps: G14 below must still audit changed skills.
 if [[ -z "$unique_tests" ]]; then
   log "pre-push-bats: no related tests mapped for the changed files"
   log "pre-push-bats: (this is OK for docs-only / config-only changes)"
-  exit 0
-fi
+else
+  test_count=$(echo "$unique_tests" | wc -l)
+  log "pre-push-bats: running $test_count related .bats test file(s):"
+  while IFS= read -r t; do
+    log "  - $t"
+  done <<< "$unique_tests"
 
-test_count=$(echo "$unique_tests" | wc -l)
-log "pre-push-bats: running $test_count related .bats test file(s):"
-while IFS= read -r t; do
-  log "  - $t"
-done <<< "$unique_tests"
+  # ── Execute ───────────────────────────────────────────────────────────────
 
-# ── Execute ───────────────────────────────────────────────────────────────
+  failures=0
+  while IFS= read -r t; do
+    [[ -z "$t" ]] && continue
+    [[ ! -f "$REPO_ROOT/$t" ]] && continue
+    if [[ "$QUIET" -eq 1 ]]; then
+      bats "$REPO_ROOT/$t" >/dev/null 2>&1 || failures=$((failures+1))
+    else
+      bats "$REPO_ROOT/$t" || failures=$((failures+1))
+    fi
+  done <<< "$unique_tests"
 
-failures=0
-while IFS= read -r t; do
-  [[ -z "$t" ]] && continue
-  [[ ! -f "$REPO_ROOT/$t" ]] && continue
-  if [[ "$QUIET" -eq 1 ]]; then
-    bats "$REPO_ROOT/$t" >/dev/null 2>&1 || failures=$((failures+1))
-  else
-    bats "$REPO_ROOT/$t" || failures=$((failures+1))
+  if [[ "$failures" -gt 0 ]]; then
+    log ""
+    log "pre-push-bats: ❌ $failures test file(s) failed"
+    exit 1
   fi
-done <<< "$unique_tests"
 
-if [[ "$failures" -gt 0 ]]; then
   log ""
-  log "pre-push-bats: ❌ $failures test file(s) failed"
-  exit 1
+  log "pre-push-bats: ✅ $test_count related test file(s) passed"
 fi
-
-log ""
-log "pre-push-bats: ✅ $test_count related test file(s) passed"
 
 # ── G14 — Skill quality gate (SE-084 Slice 2) ─────────────────────────────
 # Run skill-catalog-auditor on any modified SKILL.md or DOMAIN.md files.
