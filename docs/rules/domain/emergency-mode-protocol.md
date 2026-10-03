@@ -28,7 +28,7 @@ NUNCA activar preventivamente — requiere trigger real.
    Si FAIL (exit 2) → abort con error "LocalAI no preparado".
 2. Redirige variables:
    ```
-   export ANTHROPIC_BASE_URL=http://localhost:8080/v1
+   export ANTHROPIC_BASE_URL=http://localhost:8080   # sin /v1: el cliente añade /v1/messages
    export ANTHROPIC_MODEL=claude-compatible-local
    ```
 3. Feature-flags desactivadas automáticamente:

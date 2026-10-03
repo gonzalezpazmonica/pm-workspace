@@ -25,13 +25,15 @@ metadata:
 
 ## Activación
 
-1. **Verificar readiness**: `bash scripts/localai-readiness-check.sh`
-   - Debe reportar `VERDICT: VIABLE` o `READY`.
-   - Si `NEEDS_INSTALL`: instalar LocalAI antes del switchover.
-2. **Apuntar cliente al endpoint local**:
+1. **Verificar readiness**: `bash scripts/localai-readiness-check.sh [--url URL] [--model MODEL] [--json]`
+   - `Estado: READY` (exit 0) o `READY (con warnings)` (exit 1, p. ej. otro modelo cargado): se puede cambiar.
+   - `Estado: NOT READY` (exit 2): LocalAI caído, sin `/v1/messages` (LocalAI < 3.10.0) o sin modelos. Instalar o arrancar LocalAI antes del switchover. Exit 2 también para argumentos inválidos.
+   - Comprueba 5 cosas: LocalAI responde, shim Anthropic `/v1/messages`, modelo por id exacto en `/v1/models`, RAM y disco.
+2. **Apuntar cliente al endpoint local** (el script imprime la línea exacta):
    ```bash
-   export ANTHROPIC_BASE_URL="http://localhost:8080/v1"
+   export ANTHROPIC_BASE_URL="http://localhost:8080"
    ```
+   Sin `/v1`: Claude Code añade `/v1/messages` a la base; con `…/8080/v1` pediría `/v1/v1/messages` (404).
 3. **Arrancar Claude Code normalmente** — usa el mismo binario, cambia solo el backend.
 
 ## Lo que cambia
