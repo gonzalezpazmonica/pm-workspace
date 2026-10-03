@@ -117,7 +117,9 @@ def main():
         return 2
 
     try:
-        data = json.load(sys.stdin)
+        # The text wrapper may use surrogateescape and accept invalid bytes.
+        # Decode strictly, independently of PYTHONIOENCODING and locale.
+        data = json.loads(sys.stdin.buffer.read().decode("utf-8"))
     except json.JSONDecodeError as e:
         sys.stderr.write(f"ERROR: invalid JSON input: {e}\n")
         return 1

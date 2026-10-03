@@ -194,8 +194,9 @@ field() { python3 -c "import sys,json; d=json.load(sys.stdin); print($1)"; }
 }
 
 @test "error: invalid UTF-8 on stdin fails with exit 1 and no traceback" {
-  run bash -c "printf '{\"query\":\"\xff\",\"candidates\":[]}' | python3 '$SCRIPT'"
+  run bash -c "printf '{\"query\":\"\xff\",\"candidates\":[]}' | PYTHONIOENCODING=utf-8:surrogateescape python3 '$SCRIPT'"
   [ "$status" -eq 1 ]
+  [[ "$output" == *"not valid UTF-8"* ]]
   [[ "$output" != *"Traceback"* ]]
 }
 
