@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# transcriptor-scan.sh — listar reuniones listas para digerir de Savia Sonora
+# transcriptor-scan.sh — listar reuniones listas para digerir de Savia Transcriptor
 # Usage: bash scripts/transcriptor-scan.sh [--all]
 #
 # Por defecto imprime en stdout, una por linea, las reuniones TRANSCRITAS y sin

@@ -1,9 +1,8 @@
 #!/usr/bin/env bats
 # test-transcriptor-digest.bats — calibracion SE-376 de la skill transcriptor-digest
 # Ref: .claude/skills/transcriptor-digest/SKILL.md
-# Ref: projects/savia-sonora/app/specs/SE-308-savia-transcriptor.spec.md
 # Reuniones sinteticas en mktemp -d (meta.json con la forma que escribe
-# MeetingStore.new_session y el postprocesador de Savia Sonora). El riesgo que
+# MeetingStore.new_session y el postprocesador de la app de grabacion). El riesgo que
 # se vigila: marcar como digerida una reunion que no se digirio (se pierde sin
 # aviso) o declarar exito sin haber escrito nada.
 
