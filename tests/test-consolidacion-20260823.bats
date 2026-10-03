@@ -24,7 +24,9 @@ from automations.models import Schedule
 s = TaskStore(sys.argv[1])
 assert s._normalize_cron("daily 08:30") == "30 8 * * *"
 n = s._compute_next_run(Schedule(kind="cron", cron="daily 08:30"))
-assert n is not None and "T08:30:00" in n, n
+# next_run se guarda en UTC; el cron se interpreta en hora local (SE-376).
+from datetime import datetime
+assert n is not None and datetime.fromisoformat(n).astimezone().strftime("%H:%M") == "08:30", n
 print(n)
 PY
 }
@@ -55,7 +57,9 @@ PY
     --schedule "daily 09:00" --instructions "test" >/dev/null 2>&1
   out=$(bash scripts/savia-automations.sh compute 2>&1)
   echo "$out" | grep -q "next_run="
-  echo "$out" | grep -q "T09:00:00"
+  # next_run en UTC; las 09:00 son hora local (SE-376).
+  next=$(echo "$out" | sed -n 's/.*test-diario: next_run=//p')
+  [[ "$(python3 -c 'import sys; from datetime import datetime; print(datetime.fromisoformat(sys.argv[1]).astimezone().strftime("%H:%M"))' "$next")" == "09:00" ]]
 }
 
 # ── R2: run-due ejecuta tareas atrasadas ────────────────────────────────────
