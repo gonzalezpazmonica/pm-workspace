@@ -1,6 +1,6 @@
 # Savia Capability Map — INDEX
-> hash: f5a3b651c3c0 | resources: 1450
-> 295 commands · 139 skills · 90 agents · 926 scripts
+> hash: 2bfb0e824749 | resources: 1451
+> 295 commands · 139 skills · 90 agents · 927 scripts
 
 [analysis] Trace Optimize — across,distributed,optimize,rates,sampling — cmd:.claude/commands/trace-optimize.md
 [analysis] agent-activity — activity,agent,executions,recent,show — cmd:.claude/commands/agent-activity.md
@@ -1250,6 +1250,7 @@
 [quality] hook-matcher-audit — audit,hook,matcher,slice,specificity — script:scripts/hook-matcher-audit.sh
 [quality] hook-test-coverage-audit — audit,bats,coverage,detect,hook — script:scripts/hook-test-coverage-audit.sh
 [quality] hook-type-audit — audit,handler,hook,slice,type — script:scripts/hook-type-audit.sh
+[quality] hooks-blocking-audit — audit,blocking,guards,hooks,llevan — script:scripts/hooks-blocking-audit.sh
 [quality] hooks-coverage-matrix — coverage,hooks,matrix,scripts,slice — script:scripts/hooks-coverage-matrix.sh
 [quality] hub-audit — agentes,auditar,comandos,dependencias,dominio — cmd:.claude/commands/hub-audit.md
 [quality] iac-security-baseline — baseline,inicial,legacy,proyecto,security — script:scripts/iac-security-baseline.sh

@@ -25549,6 +25549,27 @@
       "frontend_support": [
         "opencode"
       ],
+      "id": "script:scripts/hooks-blocking-audit",
+      "intents": [
+        "audit",
+        "blocking",
+        "guards",
+        "hooks",
+        "llevan"
+      ],
+      "kind": "script",
+      "owner_domain": "quality",
+      "replaced_by": null,
+      "risk_level": null,
+      "source": "scripts/hooks-blocking-audit.sh",
+      "status": "active",
+      "tests": []
+    },
+    {
+      "depends_on": [],
+      "frontend_support": [
+        "opencode"
+      ],
       "id": "script:scripts/hooks-coverage-matrix",
       "intents": [
         "coverage",
@@ -29604,7 +29625,7 @@
       "tests": []
     }
   ],
-  "content_hash": "beef74631dfa",
+  "content_hash": "205370839229",
   "deferred_kinds": [
     "rule",
     "hook"

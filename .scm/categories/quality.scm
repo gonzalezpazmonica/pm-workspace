@@ -1,5 +1,5 @@
 # quality — Savia Capability Map (L1)
-> 268 resources
+> 269 resources
 
 - **/speckit.analyze** (cmd): Alias spec-kit compatible. Review cruzado de una spec antes de implementar. Invoca skill consensus-validation. Compatible con github/spec-kit.
 - **Coherence Court** (cmd): Audit consistency of a stage output against premises fixed in earlier stages of the same flow (SE-350)
@@ -67,6 +67,7 @@
 - **hook-matcher-audit** (script): hook-matcher-audit.sh — SE-270 Slice 5: hook matcher specificity audit.
 - **hook-test-coverage-audit** (script): hook-test-coverage-audit.sh — Detect hooks in .opencode/hooks/ without BATS tests.
 - **hook-type-audit** (script): hook-type-audit.sh — SE-270 Slice 5: hook handler type audit.
+- **hooks-blocking-audit** (script): hooks-blocking-audit.sh — Verifica que los guards de seguridad llevan `blocking: true`
 - **hooks-coverage-matrix** (script): scripts/hooks-coverage-matrix.sh — SE-253 Slice 2
 - **hub-audit** (cmd): Auditar dependencias entre reglas de dominio, comandos y agentes — recalcular el índice de hubs
 - **iac-security-baseline** (script): iac-security-baseline.sh — Genera .trivyignore inicial para un proyecto legacy

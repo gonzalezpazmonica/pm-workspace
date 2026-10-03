@@ -1,6 +1,6 @@
 {
-  "hash": "beef74631dfa",
-  "total": 1450,
+  "hash": "205370839229",
+  "total": 1451,
   "resources": [
     {
       "category": "analysis",
@@ -16532,6 +16532,20 @@
       "kind": "script",
       "path": "scripts/hook-type-audit.sh",
       "description": "hook-type-audit.sh — SE-270 Slice 5: hook handler type audit."
+    },
+    {
+      "category": "quality",
+      "name": "hooks-blocking-audit",
+      "intents": [
+        "audit",
+        "blocking",
+        "guards",
+        "hooks",
+        "llevan"
+      ],
+      "kind": "script",
+      "path": "scripts/hooks-blocking-audit.sh",
+      "description": "hooks-blocking-audit.sh — Verifica que los guards de seguridad llevan `blocking: true`"
     },
     {
       "category": "quality",
