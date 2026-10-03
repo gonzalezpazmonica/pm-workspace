@@ -64,8 +64,9 @@ Instruccion operativa:
 1. Ejecutar `python3 scripts/criterion-simulation/historical-priors.py --task-json '{"tags": [...]}'`
    (o stdin): hasta 10 filas `FRAME_DOUBT`/`FRAME_REJECT` de la tabla `frame_reaffirmations`
    del KG (`SAVIA_KG_DB`, `.savia-kg/graph.db`; esquema de `scripts/kg-schema-migrate-cs.py`)
-   en la ventana `--lookback` (90), con etiquetas por subcadena literal. KG ausente o corrupto:
-   `count: 0`, exit 0. Hoy ningun script escribe esa tabla: sin poblarla, Q2 no tiene senal.
+   en la ventana `--lookback` (90), con etiquetas por subcadena literal (`ai` casa con `maintenance`).
+   Sin tags ni flags no hay similitud: `count: 0`. `source` dice por que: absent, no_table, no_tags,
+   ok o unreadable (exit 0 siempre). Hoy ningun script escribe esa tabla: sin poblarla, Q2 no tiene senal.
 2. Si hay 2 o mas reversiones con etiquetas similares en 90 dias (trigger-evaluator suma +20):
    - Citar los IDs y resumir por que se revirtieron.
    - Evaluar si el encuadre actual repite el patron.
@@ -87,8 +88,8 @@ Instruccion operativa:
    - override_rate (0-20) = reaffirm / (reaffirm + reframe) en los ultimos 90 dias del
      log de reaffirmation-log.py (`SAVIA_CS_REAFFIRMATION_LOG`). Mide cuantas veces se
      mantuvo el encuadre interpelado en vez de reformularlo. Alerta: >= 15.
-   - pressure_score (0-20) = `deadline_proximity` (0.0-1.0) de `~/.savia/preferences.yaml`
-     x 20; admite coma decimal ("0,8") y comentario final. Alerta: >= 15.
+   - pressure_score (0-20) = `deadline_proximity` (0.0-1.0, clave exacta) de `~/.savia/preferences.yaml`
+     x 20; admite coma decimal ("0,8") y comentario final; nan/inf valen 0. Alerta: >= 15.
 3. Si hay senales: NO juzgar al operador. Nombrar la senal sin dramatizar.
 4. Proponer mitigacion: "revisar manana", "consultar a un par", "dormir y releer".
 
@@ -134,14 +135,14 @@ NO es burocracia: es la friccion minima para que la confirmacion sea consciente 
 `python3 scripts/criterion-simulation/trigger-evaluator.py --task-json '{...}'` suma: production
 +25, security +30, human_safety +50, estimated_hours > 16 +15, fatigue x 0.3, pressure x 0.2,
 override_rate x 0.2 y +20 con >= 2 priors (tope 100). Activa con score >= `SAVIA_CS_TRIGGER_THRESHOLD`
-(50). JSON invalido o no objeto: exit 1 con `activate: false`. Si una senal no carga, avisa en
-stderr y vale 0. El hook (opt-in, `SAVIA_CRITERION_SIMULATION=on`) nunca bloquea.
+(50). JSON invalido o no objeto: exit 1 con `activate: false`. Si una senal no carga o el KG es
+ilegible, vale 0, avisa en stderr y queda en `signals_degraded`, que el hook (opt-in,
+`SAVIA_CRITERION_SIMULATION=on`, nunca bloquea) guarda en events.jsonl con `priors_source`.
 
 ## Limitaciones declaradas
 
 1. Q1 puede tener falsos positivos en tareas bien planteadas. El operador lo sabe.
-2. Q2 depende de la calidad del KG. Sin historial, no hay senales; hoy la tabla no se
-   alimenta sola.
+2. Q2 depende de la calidad del KG; hoy la tabla no se alimenta sola y sin historial no hay senal.
 3. Q3 hora != fatiga real. Hora 23:00 no prueba cansancio. Es un proxy.
 4. Q4 puede proponer simplificaciones que ignoran contexto importante.
 5. La confianza del judge NO es certeza. Es convergencia de senales heuristicas.

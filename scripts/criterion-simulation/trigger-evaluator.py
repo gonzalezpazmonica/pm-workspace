@@ -5,7 +5,8 @@ Decides whether to activate the criterion-simulation layer based on
 task context and operator-state signals.
 
 Input:  JSON task_context dict via --task-json flag or stdin
-Output: JSON {activate: bool, score: int 0-100, reasons: [], operator_state: {}, priors: {}}
+Output: JSON {activate: bool, score: int 0-100, reasons: [], operator_state: {},
+              priors: {}, signals_degraded: []}
 
 Threshold: SAVIA_CS_TRIGGER_THRESHOLD env (default 50).
 
@@ -47,6 +48,9 @@ TRIGGER_THRESHOLD = _env_int("SAVIA_CS_TRIGGER_THRESHOLD", DEFAULT_THRESHOLD)
 # The sibling scripts have hyphenated file names, so a plain `import` can never
 # find them: they are loaded by path. A failure is reported on stderr instead of
 # silently zeroing the signals (that silent fallback hid both modules for months).
+# The hook drops stderr, so each failure is also listed in `signals_degraded`.
+_DEGRADED: list[str] = []
+
 def _load_sibling(filename: str):
     spec = importlib.util.spec_from_file_location(
         filename.replace("-", "_").removesuffix(".py"), SCRIPT_DIR / filename
@@ -62,6 +66,7 @@ try:
     compute_operator_state = _load_sibling("operator-state-signals.py").compute_operator_state
 except (ImportError, OSError, SyntaxError, AttributeError) as exc:
     print(f"trigger-evaluator: operator-state-signals no disponible ({exc}); senales a 0", file=sys.stderr)
+    _DEGRADED.append("operator_state")
 
     def compute_operator_state(operator_id: str = "default") -> dict:  # type: ignore[misc]
         return {"fatigue_score": 0, "pressure_score": 0, "override_rate": 0, "time_band": "normal"}
@@ -70,13 +75,14 @@ try:
     get_recent_failed_frames = _load_sibling("historical-priors.py").get_recent_failed_frames
 except (ImportError, OSError, SyntaxError, AttributeError) as exc:
     print(f"trigger-evaluator: historical-priors no disponible ({exc}); sin precedentes", file=sys.stderr)
+    _DEGRADED.append("historical_priors")
 
     def get_recent_failed_frames(task_context: dict, lookback_days: int = 90) -> dict:  # type: ignore[misc]
-        return {"count": 0, "priors": []}
+        return {"count": 0, "priors": [], "source": "unavailable"}
 
 
 def should_activate(task_context: dict) -> dict:
-    """Returns {activate: bool, score: int 0-100, reasons: [], operator_state: {}, priors: {}}.
+    """Returns {activate, score 0-100, reasons, operator_state, priors, signals_degraded}.
 
     Activates if score >= TRIGGER_THRESHOLD (default 50).
 
@@ -91,8 +97,11 @@ def should_activate(task_context: dict) -> dict:
         pressure_score * 0.2  (0-20 -> 0-4)
         override_rate  * 0.2  (0-20 -> 0-4)
 
-    Historical priors:
+    Historical priors (only for tasks with tags/flags; see historical-priors):
         >= 2 similar reverts  +20
+
+    signals_degraded lists the signal sources that failed (module not
+    loadable, KG unreadable) and therefore counted as 0.
     """
     score   = 0
     reasons = []
@@ -138,6 +147,10 @@ def should_activate(task_context: dict) -> dict:
         score += 20
         reasons.append(f"{priors['count']} similar reverts")
 
+    degraded = list(_DEGRADED)
+    if priors.get("source") == "unreadable" and "historical_priors" not in degraded:
+        degraded.append("historical_priors")
+
     final_score = min(100, int(score))
 
     return {
@@ -146,6 +159,7 @@ def should_activate(task_context: dict) -> dict:
         "reasons":        reasons,
         "operator_state": state,
         "priors":         priors,
+        "signals_degraded": degraded,
     }
 
 

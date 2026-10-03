@@ -16,6 +16,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import math
 import os
 import sys
 from datetime import datetime, timedelta, timezone
@@ -82,7 +83,7 @@ def _compute_fatigue_score(now_hour: int) -> tuple[int, str]:
 
 def _compute_pressure_score(deadline_proximity: float | None) -> int:
     """0-20 heuristic from deadline_proximity (0.0-1.0 float from preferences.yaml)."""
-    if deadline_proximity is None:
+    if deadline_proximity is None or not math.isfinite(deadline_proximity):
         return 0
     # Clamp to [0,1]
     p = max(0.0, min(1.0, float(deadline_proximity)))
@@ -142,6 +143,7 @@ def _read_deadline_proximity() -> float | None:
     """Read deadline_proximity from ~/.savia/preferences.yaml. Returns None if absent.
 
     Accepts a trailing comment, quotes and the es_ES decimal comma ("0,8").
+    Only the exact key counts (not deadline_proximity_days); nan/inf -> None.
     """
     if not PREFS_FILE.exists():
         return None
@@ -149,13 +151,16 @@ def _read_deadline_proximity() -> float | None:
         with PREFS_FILE.open(encoding="utf-8") as f:
             for line in f:
                 line = line.strip()
-                if not line.startswith("deadline_proximity"):
-                    continue
                 parts = line.split(":", 1)
-                if len(parts) != 2:
+                if len(parts) != 2 or parts[0].strip() != "deadline_proximity":
                     continue
                 value = parts[1].split("#", 1)[0].strip().strip("'\"").replace(",", ".")
-                return float(value)
+                proximity = float(value)
+                if not math.isfinite(proximity):
+                    print(f"operator-state-signals: deadline_proximity={value!r} no es finito; presion=0",
+                          file=sys.stderr)
+                    return None
+                return proximity
     except (OSError, ValueError) as exc:
         print(f"operator-state-signals: deadline_proximity ilegible ({exc}); presion=0", file=sys.stderr)
     return None

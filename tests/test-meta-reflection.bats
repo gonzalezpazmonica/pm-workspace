@@ -19,11 +19,46 @@ setup() {
   mkdir -p "$WS/output/criterion-simulation"
   export CLAUDE_PROJECT_DIR="$WS"
   export SAVIA_KG_DB="$WS/kg dir/graph.db"
-  export SAVIA_CS_REAFFIRMATION_LOG="$WS/output/criterion-simulation/reaffirmations.jsonl"
+  # Ruta distinta del default ($WS/output/...): si un lector ignora la
+  # variable, lee un log vacio y los tests de override_rate fallan.
+  export SAVIA_CS_REAFFIRMATION_LOG="$TMPDIR_T/log dir/reaffirmations.jsonl"
+  mkdir -p "$TMPDIR_T/log dir"
   export HOME="$TMPDIR_T/home"
   mkdir -p "$HOME/.savia"
-  unset SAVIA_CS_TRIGGER_THRESHOLD SAVIA_CS_LOOKBACK_DAYS SAVIA_CS_FATIGUE_HOUR_BAND
+  unset SAVIA_CS_TRIGGER_THRESHOLD SAVIA_CS_LOOKBACK_DAYS
+  # Franja "normal" por defecto: el score no depende de la hora del reloj.
+  SAVIA_CS_FATIGUE_HOUR_BAND="$(band_at 8 1)"
+  export SAVIA_CS_FATIGUE_HOUR_BAND
   cd "$REPO_ROOT"
+}
+
+# Franja de fatiga relativa a la hora actual: inicio = ahora+<desfase>,
+# fin = inicio+<ancho>. Aguanta un cambio de hora durante el test:
+#   band_at 0 1 -> atypical   band_at 2 0 -> transition   band_at 8 1 -> normal
+band_at() {
+  python3 -c "import datetime,sys; h=(datetime.datetime.now().hour+int(sys.argv[1]))%24; print(f'{h:02d}:00-{(h+int(sys.argv[2]))%24:02d}:00')" "$1" "$2"
+}
+
+# Ejecuta el trigger real y deja SCORE, ACTIVATE y OUT.
+trigger_score() {
+  run --separate-stderr python3 "$SCRIPT" --task-json "$1"
+  [ "$status" -eq 0 ] || return 1
+  OUT="$output"
+  SCORE="$(echo "$OUT" | json_get 'd["score"]')"
+  ACTIVATE="$(echo "$OUT" | json_get 'd["activate"]')"
+}
+
+reaffirm_n() {
+  for i in $(seq 1 "$1"); do
+    python3 "$CS_DIR/reaffirmation-log.py" reaffirm --task "R$i" --reason "revisado con dependencias y riesgos" >/dev/null
+  done
+}
+
+# Copia los scripts a un workspace temporal y rompe un modulo hermano.
+broken_sibling_ws() {
+  mkdir -p "$WS/scripts"
+  cp -r "$REPO_ROOT/$CS_DIR" "$WS/scripts/"
+  printf 'def compute_operator_state(:\n' > "$WS/$CS_DIR/$1"
 }
 
 teardown() {
@@ -186,6 +221,115 @@ json_get() {
   [ "$(echo "$output" | json_get 'd["activate"]')" = "False" ]
 }
 
+# ── trigger-evaluator.py: score y activacion deterministas (P1 de la revision) ─
+# Cada test fija franja, presion, log y KG, y comprueba el score exacto: si se
+# anula el peso de una senal o la regla de priors, el score cambia y el test cae.
+
+@test "trigger score: baseline sin senales, security+large da 45 y no activa (boundary)" {
+  trigger_score '{"touches_security":true,"estimated_hours":20}'
+  [ "$SCORE" = "45" ]
+  [ "$ACTIVATE" = "False" ]
+}
+
+@test "trigger score: franja atypical suma 9 y cruza el umbral de 45 a 54" {
+  SAVIA_CS_FATIGUE_HOUR_BAND="$(band_at 0 1)"
+  trigger_score '{"touches_security":true,"estimated_hours":20}'
+  [ "$SCORE" = "54" ]
+  [ "$ACTIVATE" = "True" ]
+  [[ "$OUT" == *"atypical_hour"* ]]
+}
+
+@test "trigger score: presion deadline_proximity 1.0 suma 4" {
+  printf 'deadline_proximity: 1.0\n' > "$HOME/.savia/preferences.yaml"
+  trigger_score '{"touches_security":true}'
+  [ "$SCORE" = "34" ]
+}
+
+@test "trigger score: override_rate 100 por cien reaffirm suma 4" {
+  reaffirm_n 3
+  trigger_score '{"touches_security":true}'
+  [ "$SCORE" = "34" ]
+}
+
+@test "trigger score: 2 priors suman 20 y activan en el umbral exacto 50 (boundary)" {
+  make_kg 2 FRAME_DOUBT "security" 2
+  trigger_score '{"touches_security":true}'
+  [ "$SCORE" = "50" ]
+  [ "$ACTIVATE" = "True" ]
+  [[ "$OUT" == *"2 similar reverts"* ]]
+}
+
+@test "trigger score: 1 solo prior no suma (reject por debajo de 2)" {
+  make_kg 2 FRAME_DOUBT "security" 1
+  trigger_score '{"touches_security":true}'
+  [ "$SCORE" = "30" ]
+  [ "$ACTIVATE" = "False" ]
+  [[ "$OUT" != *"similar reverts"* ]]
+}
+
+@test "trigger score: prod+large con transition, presion y override suma 52 y activa" {
+  SAVIA_CS_FATIGUE_HOUR_BAND="$(band_at 2 0)"
+  printf 'deadline_proximity: 1.0\n' > "$HOME/.savia/preferences.yaml"
+  reaffirm_n 2
+  trigger_score '{"touches_production":true,"estimated_hours":20}'
+  [ "$SCORE" = "52" ]
+  [ "$ACTIVATE" = "True" ]
+  [[ "$OUT" == *"transition_hour"* ]]
+}
+
+@test "trigger score: empty context sin tags no suma priors aunque el KG tenga reverts" {
+  make_kg 2 FRAME_REJECT "frontend" 3
+  trigger_score '{}'
+  [ "$SCORE" = "0" ]
+  [ "$(echo "$OUT" | json_get 'd["priors"]["count"]')" = "0" ]
+  [ "$(echo "$OUT" | json_get 'd["priors"]["source"]')" = "no_tags" ]
+}
+
+# ── Degradacion visible (P2-3): el fallo no se pierde con el stderr ───────────
+
+@test "trigger degradacion: KG absent queda como priors.source absent sin degradar" {
+  trigger_score '{"touches_security":true}'
+  [ "$(echo "$OUT" | json_get 'd["priors"]["source"]')" = "absent" ]
+  [ "$(echo "$OUT" | json_get 'd["signals_degraded"]')" = "[]" ]
+}
+
+@test "trigger degradacion: KG corrupto se marca en signals_degraded (error visible)" {
+  mkdir -p "$(dirname "$SAVIA_KG_DB")"
+  printf 'esto no es sqlite' > "$SAVIA_KG_DB"
+  trigger_score '{"touches_security":true}'
+  [ "$(echo "$OUT" | json_get 'd["priors"]["source"]')" = "unreadable" ]
+  [ "$(echo "$OUT" | json_get '",".join(d["signals_degraded"])')" = "historical_priors" ]
+}
+
+@test "trigger degradacion: modulo hermano roto se marca en signals_degraded y no falla" {
+  broken_sibling_ws operator-state-signals.py
+  run --separate-stderr python3 "$WS/$SCRIPT" --task-json '{"touches_security":true}'
+  [ "$status" -eq 0 ]
+  [ "$(echo "$output" | json_get '",".join(d["signals_degraded"])')" = "operator_state" ]
+  [[ "$stderr" == *"operator-state-signals no disponible"* ]]
+}
+
+@test "hook degradacion: la telemetria registra signals_degraded y priors_source" {
+  command -v jq >/dev/null 2>&1 || skip "jq no disponible"
+  broken_sibling_ws historical-priors.py
+  export SAVIA_CS_LOG="$TMPDIR_T/events.jsonl"
+  run bash -c "echo '{\"touches_security\":true}' | SAVIA_CRITERION_SIMULATION=on bash '$REPO_ROOT/$HOOK'"
+  [ "$status" -eq 0 ]
+  [ "$(jq -r '.signals_degraded | join(",")' "$SAVIA_CS_LOG")" = "historical_priors" ]
+  [ "$(jq -r '.priors_source' "$SAVIA_CS_LOG")" = "unavailable" ]
+}
+
+@test "hook degradacion: sin fallos la telemetria deja signals_degraded vacio" {
+  command -v jq >/dev/null 2>&1 || skip "jq no disponible"
+  mkdir -p "$WS/scripts"
+  cp -r "$REPO_ROOT/$CS_DIR" "$WS/scripts/"
+  export SAVIA_CS_LOG="$TMPDIR_T/events.jsonl"
+  run bash -c "echo '{\"touches_security\":true}' | SAVIA_CRITERION_SIMULATION=on bash '$REPO_ROOT/$HOOK'"
+  [ "$status" -eq 0 ]
+  [ "$(jq -c '.signals_degraded' "$SAVIA_CS_LOG")" = "[]" ]
+  [ "$(jq -r '.priors_source' "$SAVIA_CS_LOG")" = "absent" ]
+}
+
 # ── operator-state-signals.py (Q3) ────────────────────────────────────────────
 
 @test "operator-state: _compute_override_rate zero cuando solo hay reframes" {
@@ -229,6 +373,26 @@ json_get() {
 
 @test "operator-state: _read_deadline_proximity acepta coma decimal es_ES y comentario" {
   printf 'deadline_proximity: 0,5  # sprint cierra el viernes\n' > "$HOME/.savia/preferences.yaml"
+  run python3 "$CS_DIR/operator-state-signals.py"
+  [ "$status" -eq 0 ]
+  [ "$(echo "$output" | json_get 'd["pressure_score"]')" = "10" ]
+}
+
+@test "operator-state: deadline_proximity nan o inf es invalid y da presion cero" {
+  printf 'deadline_proximity: nan\n' > "$HOME/.savia/preferences.yaml"
+  run --separate-stderr python3 "$CS_DIR/operator-state-signals.py"
+  [ "$status" -eq 0 ]
+  [ "$(echo "$output" | json_get 'd["pressure_score"]')" = "0" ]
+  [[ "$stderr" == *"no es finito"* ]]
+  run pyeval operator-state-signals.py '[m._compute_pressure_score(float("nan")), m._compute_pressure_score(float("inf"))]'
+  [ "$output" = "[0, 0]" ]
+  printf 'deadline_proximity: inf\n' > "$HOME/.savia/preferences.yaml"
+  run --separate-stderr python3 "$CS_DIR/operator-state-signals.py"
+  [ "$(echo "$output" | json_get 'd["pressure_score"]')" = "0" ]
+}
+
+@test "operator-state: reject claves con prefijo deadline_proximity_days" {
+  printf 'deadline_proximity_days: 1.0\ndeadline_proximity: 0.5\n' > "$HOME/.savia/preferences.yaml"
   run python3 "$CS_DIR/operator-state-signals.py"
   [ "$status" -eq 0 ]
   [ "$(echo "$output" | json_get 'd["pressure_score"]')" = "10" ]
