@@ -34,16 +34,18 @@ metadata:
 
 8 checks, in order — each returns PASS / WARN / FAIL:
 
-| # | Check | What | FAIL if |
-|---|---|---|---|
-| 1 | Connectivity | PAT can reach org | HTTP != 200 |
-| 2 | Project | Project name exists | Not found |
-| 3 | Process | Template is Agile | Basic or CMMI |
-| 4 | Types | Epic, Feature, US, Task, Bug | Any missing |
-| 5 | States | New, Active, Resolved, Closed per type | Required state missing |
-| 6 | Fields | StoryPoints, RemainingWork, etc. per type | Required field missing |
-| 7 | Backlog | Hierarchy + bug behavior | — (WARN only) |
-| 8 | Iterations | Sprints have dates | No iterations at all |
+| # | Check | What | FAIL if | WARN if |
+|---|---|---|---|---|
+| 1 | Connectivity | PAT can reach org | HTTP != 2xx or no network | — |
+| 2 | Project | Project name exists | Not found (404) | — |
+| 3 | Process | Template (or its parent) is Agile | Basic, CMMI or unknown | Scrum |
+| 4 | Types | Epic, Feature, User Story, Task, Bug | Any missing | — |
+| 5 | States | US/Bug: New, Active, Resolved, Closed · Task: New, Active, Closed | Required state missing | — |
+| 6 | Fields | StoryPoints, RemainingWork, etc. per type | — | Required field missing (queries return nulls) |
+| 7 | Backlog | User Story in requirements backlog + bugs as requirements | — | Either condition unmet |
+| 8 | Iterations | Team sprints have start dates | No iterations at all | Iterations without dates |
+
+**Fail-closed:** in any check, an API error (HTTP non-2xx, no network) or a response that is not a JSON object is FAIL with message `API request failed: <reason>`. A crashed check is recorded as FAIL. Network or credential problems never produce PASS or WARN.
 
 Full field/state mapping: → `references/ideal-agile-config.md`
 
@@ -58,7 +60,13 @@ scripts/validate-devops.sh \
   --output output/devops-validation.json
 ```
 
-Returns JSON report to stdout and optionally to file.
+Returns JSON report to stdout and optionally to file (directory created). Logs go to stderr.
+
+- `--team` defaults to `"{project} Team"`. Project, team and type names are URL-encoded, so names with spaces work.
+- `AZURE_DEVOPS_ORG_URL` is required: the placeholder default (`MI-ORGANIZACION`) is rejected before any request.
+- PAT from `AZURE_DEVOPS_PAT_FILE` (default `~/.azure/devops-pat`); empty or missing file is rejected. The PAT reaches curl through stdin (`curl -K -`), never as a process argument, and never appears in logs or in the report. Long PATs (84 chars) are supported.
+
+**Exit codes:** `0` no FAIL (PASS/WARN only) · `1` at least one FAIL · `2` usage or configuration error (missing PAT, placeholder org URL, bad arguments); no report is emitted. `--help` works without PAT or network.
 
 ---
 
