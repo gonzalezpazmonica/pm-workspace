@@ -161,23 +161,29 @@ class TaskStore:
         # Already standard 5-field? Pass through.
         if len(parts) == 5:
             return " ".join(parts)
+        def hhmm(tok: str) -> tuple[int, int]:
+            hh, mm = tok.split(":")
+            return int(hh), int(mm)
+
+        # Unrecognised words or extra tokens → None, never a silent default.
         try:
-            if parts and parts[0] == "daily":
-                if len(parts) >= 2 and ":" in parts[1]:
-                    hh, mm = parts[1].split(":")
-                    return f"{int(mm)} {int(hh)} * * *"
+            if parts[0] == "daily" and len(parts) <= 2:
+                if len(parts) == 2:
+                    hh, mm = hhmm(parts[1])
+                    return f"{mm} {hh} * * *"
                 return "0 8 * * *"  # daily default 08:00
-            if parts and parts[0] == "weekly":
+            if parts[0] == "weekly" and len(parts) <= 3:
                 if len(parts) >= 2 and parts[1] in self._HUMAN_DAYS:
                     dow = self._HUMAN_DAYS[parts[1]]
-                    if len(parts) >= 3 and ":" in parts[2]:
-                        hh, mm = parts[2].split(":")
-                        return f"{int(mm)} {int(hh)} * * {dow}"
+                    if len(parts) == 3:
+                        hh, mm = hhmm(parts[2])
+                        return f"{mm} {hh} * * {dow}"
                     return f"0 8 * * {dow}"
-                if len(parts) >= 2 and ":" in parts[1]:
-                    hh, mm = parts[1].split(":")
-                    return f"{int(mm)} {int(hh)} * * *"
-                return "0 8 * * *"
+                if len(parts) == 2:
+                    hh, mm = hhmm(parts[1])
+                    return f"{mm} {hh} * * *"
+                if len(parts) == 1:
+                    return "0 8 * * *"
         except (ValueError, IndexError):
             return None
         return None
