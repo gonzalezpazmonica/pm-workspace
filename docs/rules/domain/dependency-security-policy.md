@@ -21,9 +21,10 @@ pre-merge.
 | Severidad | CVSSv3 | Comportamiento | Exit code CI |
 |---|---|---|---|
 | CRITICAL | >= 9.0 | Bloquea siempre — fix obligatorio | 1 |
-| HIGH | >= 7.0 | Bloquea cuando existe fix disponible | 1 |
+| HIGH | >= 7.0 | Bloquea; sin fix disponible se suprime con justificación en `.trivyignore` | 1 |
 | MEDIUM | 4.0–6.9 | Informativo — no bloquea | 0 |
 | LOW | < 4.0 | Informativo — no bloquea | 0 |
+| (error) | — | Trivy/Docker ausente, escaneo fallido o SBOM no generado: ni limpio ni vulnerable | 2 |
 
 Zero false positives policy: solo se reporta lo que tiene impacto real confirmado.
 
@@ -99,8 +100,11 @@ dependencias incluidas en el software, sus versiones y licencias.
 **Generación**:
 ```bash
 bash scripts/dependency-scan.sh --path ./project/ --generate-sbom
-# → output/security/sbom-YYYYMMDD.json (CycloneDX JSON)
+# → output/security/sbom-YYYYMMDD.json (CycloneDX JSON, `trivy fs --format cyclonedx`)
 ```
+
+Si Trivy no genera el SBOM, el script sale con 2 y no escribe ningún fichero: nunca se
+fabrica un SBOM vacío como artefacto de release.
 
 **Conservación**: el SBOM de cada release se archiva junto con los artefactos
 de build. Permite responder a "¿usábamos X cuando salió CVE-Y?" meses después.

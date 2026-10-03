@@ -9,7 +9,7 @@ metadata:
   savia.context: fork
   savia.context_cost: low
   savia.priority: high
-  savia.summary: "Escanea manifiestos de dependencias con Trivy filesystem mode. Detecta CVEs en npm, pip, nuget, maven, cargo, go.mod, bundler. Genera SBOM CycloneDX JSON como artefacto de release. Bloqueante: CRITICAL/HIGH → exit 1. Informativo: MEDIUM/LOW. Output en output/security/."
+  savia.summary: "Escanea manifiestos de dependencias con Trivy filesystem mode. Detecta CVEs en npm, pip, nuget, maven, cargo, go.mod, bundler. Genera SBOM CycloneDX JSON como artefacto de release. Bloqueante: CRITICAL/HIGH → exit 1. Informativo: MEDIUM/LOW. Error del escáner o SBOM fallido → exit 2. Output en output/security/."
   savia.tags: "security, dependencies, trivy, sbom, cve, supply-chain"
   savia.trigger_keywords: "escanea dependencias, vulnerabilidades en paquetes, dep scan, SBOM, supply chain security, CVE en npm, CVE en pip, vulnerabilidades node, vulnerabilidades python, dependency vulnerability"
 ---
@@ -58,6 +58,11 @@ bash scripts/dependency-scan.sh --path ./project/ --severity CRITICAL
 bash scripts/dependency-scan.sh --path ./project/ --skip-update
 ```
 
+Códigos de salida: `0` limpio en las severidades pedidas · `1` hallazgos (se listan
+severidad, CVE, paquete, versión → fix y manifiesto) · `2` error de argumentos, sin
+Trivy ni Docker, escaneo fallido o SBOM no generado. Requiere Trivy >= 0.37 (`--scanners`)
+y `jq`. `DEP_SCAN_OUTPUT_DIR` cambia el directorio de salida.
+
 ## §3 Auto-detección de tipo de proyecto
 
 El script detecta automáticamente el tipo de proyecto buscando manifiestos
@@ -71,11 +76,15 @@ Si Trivy no está instalado localmente:
 docker run --rm -v "$(pwd):/workspace" aquasec/trivy:latest fs /workspace
 ```
 
+El script lo hace solo: monta el path escaneado en `/workspace` y pasa las mismas
+banderas (el `.trivyignore` del path se usa; el de la raíz del workspace no está montado).
+
 ## §5 SBOM — Software Bill of Materials
 
 El SBOM en formato CycloneDX es un artefacto de release obligatorio para
 proyectos enterprise. Documenta exactamente qué dependencias incluye el
-software. Generarlo no requiere conectividad extra (DB local).
+software. Generarlo no requiere conectividad extra (DB local). Si Trivy falla, no se
+escribe SBOM (exit 2): nunca se fabrica uno vacío.
 
 ```
 output/security/sbom-YYYYMMDD.json     ← SBOM CycloneDX
