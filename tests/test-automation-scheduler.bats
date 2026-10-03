@@ -6,9 +6,11 @@
 # Código: scripts/automations/cron.py (parser), store.py (next_run, due), savia-automations.sh (CLI).
 set -uo pipefail
 
+SCRIPT="scripts/savia-automations.sh"
+
 setup() {
   REPO_ROOT="$(cd "$BATS_TEST_DIRNAME/.." && pwd)"
-  CLI="$REPO_ROOT/scripts/savia-automations.sh"
+  CLI="$REPO_ROOT/$SCRIPT"
   WORK="$(mktemp -d -p "$BATS_TEST_TMPDIR")"
   export SAVIA_AUTOMATIONS_DIR="$WORK/automations"
   export SAVIA_AUTOMATIONS_OUTPUT="$WORK/output"
@@ -44,6 +46,12 @@ task_field() {  # task_field <id> <campo>
 }
 
 created_id() { sed -n 's/^created \([^:]*\):.*/\1/p' <<<"$output"; }
+
+@test "safety: la CLI declara set -euo pipefail y propaga el exit de Python" {
+  head -5 "$CLI" | grep -q "set -euo pipefail"
+  run bash "$CLI" show
+  [ "$status" -ne 0 ]
+}
 
 # ── Día de la semana: cron 0=domingo, 1=lunes … 7=domingo ───────────────────
 
