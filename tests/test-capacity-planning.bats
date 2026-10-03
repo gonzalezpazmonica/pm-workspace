@@ -253,3 +253,16 @@ print(json.dumps([{'asignado':'P%02d'%(i%20),'restante_h':1.5} for i in range(20
   [ "$(jget 'len(r["carga_por_persona"])')" = "20" ]
   [ "$(jget 'r["carga_por_persona"]["P07"]["remaining_h"]')" = "150.0" ]
 }
+
+@test "dias_habiles_entre con festivos vacios (empty) no vuelve a los de 2026" {
+  run python3 -c "
+import importlib.util, sys
+from datetime import date
+spec = importlib.util.spec_from_file_location('cc', sys.argv[1])
+m = importlib.util.module_from_spec(spec); spec.loader.exec_module(m)
+print(len(m.dias_habiles_entre(date(2026,10,12), date(2026,10,16), [])))
+print(len(m.dias_habiles_entre(date(2026,10,12), date(2026,10,16))))" "$PY"
+  [ "$status" -eq 0 ]
+  [ "${lines[0]}" = "5" ]
+  [ "${lines[1]}" = "4" ]
+}
