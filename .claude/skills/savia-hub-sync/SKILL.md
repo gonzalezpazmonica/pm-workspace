@@ -10,115 +10,85 @@ metadata:
   savia.context: fork
   savia.context_cost: low
   savia.priority: medium
-  savia.summary: "Orquesta sincronizacion del repositorio SaviaHub. Detecta cambios locales vs remotos, resuelve conflictos. Soporta modo offline con cola de sync."
+  savia.summary: "Init y sync (status/push/pull/flight) de SaviaHub con scripts deterministas. Nunca auto-resuelve conflictos; sin remote o sin red lo dice."
   savia.tags: "sync, savia-hub, repository, backup"
 ---
 
 # Skill: savia-hub-sync
 
-> Gestiona la sincronización entre la instancia local de SaviaHub y el remote
-> opcional. Incluye init, push, pull, flight mode y resolución de conflictos.
+> Sincroniza la instancia local de SaviaHub con un remote opcional. Dos scripts
+> deterministas: `scripts/savia-hub-init.sh` (alta) y `scripts/savia-hub-sync.sh`
+> (status, push, pull, flight). Tests: `tests/test-savia-hub-sync.bats`.
 
 ## Configuración
 
 ```bash
-SAVIA_HUB_PATH="${SAVIA_HUB_PATH:-$HOME/.savia-hub}"
-SAVIA_HUB_REMOTE="${SAVIA_HUB_REMOTE:-}"   # vacío = solo local
-SYNC_QUEUE="$SAVIA_HUB_PATH/.sync-queue.jsonl"
-HUB_CONFIG="$SAVIA_HUB_PATH/.savia-hub-config.md"
+SAVIA_HUB_PATH="${SAVIA_HUB_PATH:-$HOME/.savia-hub}"   # admite rutas con espacios
+SAVIA_HUB_REMOTE="${SAVIA_HUB_REMOTE:-}"                # solo lo lee init; vacío = solo local
+SAVIA_HUB_NET_TIMEOUT=20                                # segundos para fetch y push
 ```
 
----
+El remote efectivo de sync es `git remote get-url origin` del hub, no la variable.
+La rama es la actual del hub (`main` en los hubs creados en local).
 
 ## 1. Inicialización
 
-Ejecutar `bash scripts/savia-hub-init.sh [--remote URL] [--path PATH]`.
+`bash scripts/savia-hub-init.sh [--remote URL] [--path PATH]`
 
-- **Sin remote**: `git init` + crear estructura (company/, clients/, users/) + commit inicial
-- **Con remote**: `git clone $SAVIA_HUB_REMOTE` + crear config local
-- En ambos casos: crear `.savia-hub-config.md` (local, gitignored) y `.gitignore`
+| Caso | Comportamiento |
+|---|---|
+| Sin remote | `git init` en rama `main` + company/, clients/, users/ + `.gitignore` + commit inicial |
+| Remote con contenido | `git clone`; verifica company/, clients/, users/ y avisa si falta alguno (no los crea) |
+| Remote vacío | `git clone` + siembra la estructura + commit **local**; no sube nada |
+| Remote inalcanzable | exit 3, «No se pudo clonar», no deja directorio |
+| Hub ya existe (repo con commits) | exit 0, no toca nada (idempotente) |
+| `.git` sin commits (init interrumpido) | completa el init |
 
----
+Siempre crea `.savia-hub-config.md` si falta y añade `.savia-hub-config.md` y
+`.sync-queue.jsonl` a `.git/info/exclude`: quedan fuera de `git add -A` aunque
+el remote no traiga `.gitignore`. Exit: 0 ok · 1 uso · 3 clon fallido · 4 commit fallido.
 
-## 2. Push (local → remote)
+## 2. Sync
 
-### Precondiciones
-- Remote configurado (`remote_url` no vacío)
-- Flight mode OFF (o forzar con `--force`)
-- Al menos 1 cambio local pendiente
+`bash scripts/savia-hub-sync.sh <subcomando>`
 
-### Flujo
-```
-1. cd $SAVIA_HUB_PATH
-2. git add -A
-3. git status --porcelain → listar cambios
-4. Si no hay cambios → "Nada que sincronizar"
-5. Mostrar resumen al PM:
-   "Se van a subir N ficheros: [lista]"
-6. Confirmar con PM
-7. git commit -m "[savia-hub] sync: {resumen}"
-8. git push origin main
-9. Actualizar last_sync en config
-10. Drenar .sync-queue.jsonl si existe
-```
+| Subcomando | Comportamiento |
+|---|---|
+| `status` | Ruta, flight mode, last_sync, nº de clientes y users, cambios sin commit y una línea `Sync:` honesta: `solo local`, `remote inalcanzable`, `sincronizado` (solo con 0 por subir, 0 por bajar y 0 sin commit) o los contadores |
+| `push` | Vista previa: lista los ficheros que subirían y **no sube nada** |
+| `push --yes` | Tras confirmación del PM: `git add -A`, commit `[savia-hub] sync: N ficheros`, `git push` a la rama actual, actualiza `last_sync` y vacía `.sync-queue.jsonl` |
+| `pull` | `git fetch`; si hay cambios locales sin commit los commitea en local; rebase sobre `origin/<rama>` (equivale a `git pull --rebase`); actualiza `last_sync` |
+| `flight on` / `flight off` | Cambia `flight_mode` en la config. `off` no sincroniza: indica ejecutar pull y luego push |
 
----
+Precondiciones de push y pull, en orden: remote configurado (si no, exit 3),
+flight mode OFF o `--force` (si no, exit 4), remote alcanzable (si no, exit 5).
+Push además exige que `.savia-hub-config.md` y `.sync-queue.jsonl` no estén
+rastreados (exit 6) y que el remote no vaya por delante (exit 7: pull primero).
 
-## 3. Pull (remote → local)
+### Conflictos
 
-### Flujo
-```
-1. cd $SAVIA_HUB_PATH
-2. git fetch origin
-3. Comparar HEAD vs origin/main
-4. Si no hay cambios remotos → "Ya actualizado"
-5. git pull --rebase
-6. Si conflicto:
-   a. Listar ficheros en conflicto
-   b. Para cada uno: mostrar diff al PM
-   c. PM decide: [local] [remote] [manual]
-   d. git add fichero && git rebase --continue
-7. Actualizar last_sync en config
-```
+Si el rebase del pull choca, el script lista los ficheros en conflicto, **aborta
+el rebase** (el hub queda con lo local commiteado e intacto) y sale con exit 8.
+El PM decide: repetir el pull con rebase a mano en el hub y resolver cada
+fichero (local, remoto o merge manual), o descartar una de las versiones.
 
----
+## 3. Flight mode y cola
 
-## 4. Flight Mode
+Flight mode es un bloqueo: con ON, push y pull salen con exit 4. La fuente de
+verdad de lo pendiente es `git status` y `git log`, no la cola: ningún script
+escribe hoy `.sync-queue.jsonl`; push la vacía tras un sync correcto. No hay
+sync automático por intervalo ni `auto_sync_on_change` implementados (campos de
+config reservados).
 
-### Activar
-```
-1. Setear flight_mode: true en .savia-hub-config.md
-2. Mostrar: "✈️ Modo vuelo activado"
-```
+## Exit codes de savia-hub-sync.sh
 
-### Desactivar
-```
-1. Setear flight_mode: false
-2. Si hay remote configurado:
-   a. Drenar cola → commit + push
-   b. Pull cambios remotos
-   c. Resolver conflictos si los hay
-3. Mostrar: "✅ Online, sincronizado"
-```
-
-### Cola de escritura
-Cada escritura durante flight mode se registra en `.sync-queue.jsonl`:
-```json
-{"ts":"2026-03-05T14:30:00Z","action":"write","path":"clients/acme/profile.md"}
-```
-
----
-
-## 5. Status
-
-Muestra: path, modo (local/remote), flight mode, remote URL, last sync, nº clientes/users, cambios pendientes. El fichero `clients/.index.md` se auto-regenera al crear/eliminar clientes.
-
----
+0 ok · 1 uso · 2 hub no inicializado · 3 sin remote · 4 modo vuelo · 5 remote
+inalcanzable o push rechazado · 6 fichero local rastreado · 7 remote por delante · 8 conflicto
 
 ## Reglas de seguridad
 
-1. NUNCA auto-resolver conflictos en datos de clientes
-2. NUNCA pushear sin confirmación del PM
-3. `.savia-hub-config.md` SIEMPRE local (gitignored)
-4. PATs/secrets NUNCA en SaviaHub
+1. NUNCA auto-resolver conflictos en datos de clientes (el script aborta el rebase)
+2. NUNCA pushear sin confirmación del PM (`push` sin `--yes` es solo vista previa)
+3. `.savia-hub-config.md` SIEMPRE local (`.git/info/exclude` + bloqueo exit 6)
+4. PATs y secrets NUNCA en SaviaHub: el script no escanea contenido; pasar `git-secret-scanner` antes de `push --yes`
 5. Contactos sensibles → el equipo decide si van en `.gitignore`
