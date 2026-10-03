@@ -31,6 +31,11 @@ if [ -z "$COMMAND" ]; then
   exit 0
 fi
 
+# Inicio de una orden git real: al principio, tras un separador o al abrir un subshell, con lo
+# que puede ir delante (VAR=valor, env, command, sudo, nohup, time, exec) y opciones globales de
+# git (-C dir, -c clave=valor, --no-pager…). Una mención dentro de un mensaje o de un echo no casa.
+GIT_AT='(^|[;&|(`]|\$\()[[:space:]]*(([A-Za-z_][A-Za-z0-9_]*=[^[:space:]]*|env|command|sudo|nohup|time|exec)[[:space:]]+)*git(([[:space:]]+(-C|-c|--git-dir|--work-tree)[[:space:]]+(\"[^\"]*\"|'"'"'[^'"'"']*'"'"'|[^[:space:]]+))|([[:space:]]+--?[A-Za-z][A-Za-z-]*(=[^[:space:]]+)?))*[[:space:]]+'
+
 # Bloquear force push (permite --force-with-lease en ramas no-main)
 # --force-with-lease es más seguro: falla si el remoto avanzó sin nuestro conocimiento.
 # Requerido en flujo de rebase de PRs en cola (SPEC-105).
@@ -38,10 +43,10 @@ IS_FORCE_WITH_LEASE=no
 IS_BARE_FORCE=no
 IS_PUSH_TO_MAIN=no
 
-if echo "$COMMAND" | grep -iE '(^|[;&|])[[:space:]]*git[[:space:]]+push[[:space:]]+.*--force-with-lease' > /dev/null; then
+if echo "$COMMAND" | grep -iE "${GIT_AT}push[[:space:]]+.*--force-with-lease" > /dev/null; then
   IS_FORCE_WITH_LEASE=yes
 fi
-if echo "$COMMAND" | grep -iE '(^|[;&|])[[:space:]]*git[[:space:]]+push[[:space:]]+(.*[[:space:]])?--force([[:space:]]|$)|(^|[;&|])[[:space:]]*git[[:space:]]+push[[:space:]]+-f[[:space:]]' > /dev/null; then
+if echo "$COMMAND" | grep -iE "${GIT_AT}push[[:space:]]+([^;&|]*[[:space:]])?--force([[:space:]]|\$)|${GIT_AT}push[[:space:]]+([^;&|]*[[:space:]])?-f([[:space:]]|\$)" > /dev/null; then
   IS_BARE_FORCE=yes
 fi
 if echo "$COMMAND" | grep -iE 'git[[:space:]]+push[[:space:]]+.*\b(main|master)\b' > /dev/null; then
@@ -62,21 +67,21 @@ fi
 
 # Bloquear push directo a main/master
 # FIX: Add anchoring for compound command separators
-if echo "$COMMAND" | grep -iE '(^|[;&|])[[:space:]]*git[[:space:]]+push[[:space:]]+(origin[[:space:]]+)?(main|master)([[:space:]]|$|[;&|])' > /dev/null; then
+if echo "$COMMAND" | grep -iE "${GIT_AT}push[[:space:]]+(origin[[:space:]]+)?(main|master)([[:space:]]|\$|[;&|)])" > /dev/null; then
   echo "BLOQUEADO: Push directo a main/master no permitido. Usa rama + PR." >&2
   exit 2
 fi
 
 # Bloquear commit --amend sin confirmación explícita
 # FIX: Add anchoring for compound command separators
-if echo "$COMMAND" | grep -iE '(^|[;&|])[[:space:]]*git[[:space:]]+commit[[:space:]]+.*--amend' > /dev/null; then
+if echo "$COMMAND" | grep -iE "${GIT_AT}commit[[:space:]]+.*--amend" > /dev/null; then
   echo "BLOQUEADO: git commit --amend puede destruir commits anteriores. Crea un commit nuevo." >&2
   exit 2
 fi
 
 # Bloquear reset --hard
 # FIX: Add anchoring for compound command separators
-if echo "$COMMAND" | grep -iE '(^|[;&|])[[:space:]]*git[[:space:]]+reset[[:space:]]+--hard' > /dev/null; then
+if echo "$COMMAND" | grep -iE "${GIT_AT}reset[[:space:]]+--hard" > /dev/null; then
   echo "BLOQUEADO: git reset --hard puede perder trabajo. Usa git stash o git revert." >&2
   exit 2
 fi
