@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=91561973a5759bdbc4e62c1fb2026d3ed4f9572fdd2e09ed6ec80b45a293a9dd
-timestamp=2026-10-03T08:06:38Z
-branch=agent/se376-sovereignty-auditor-20261003
-head_commit=4f66996f
-signature=e9fef87befbe1f6a84824028c84b7c25f2a51c1fc62d621e205233e5391aa1a3
+diff_hash=3af4d0f3dbb080478ab07a0ad072f52de6709b85fea0d645bfadf97a76485ef1
+timestamp=2026-10-03T13:49:06Z
+branch=agent/space-adv-hardening-20261003
+head_commit=99d407fa
+signature=bea4c6b0c9619722b6ee898a29c017e09d3fcf0770aabbf0c1d265a957b24615
