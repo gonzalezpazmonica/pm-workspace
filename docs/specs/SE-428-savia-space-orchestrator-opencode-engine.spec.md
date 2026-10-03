@@ -147,6 +147,65 @@ mediación.
 - **AC10**: cinco jornadas de trabajo real de la operadora solo con Space, sin abrir la TUI de
   OpenCode para nada de P0. Cada apertura necesaria se registra con su causa.
 
+## Hallazgos de la implementación (2026-10-03)
+
+Medidos en el prototipo local contra OpenCode 1.18.32, con un modelo local (Ollama).
+
+- **Contraseña del motor**: `OPENCODE_SERVER_PASSWORD` activa HTTP Basic con usuario fijo
+  `opencode`. Sin cabecera, con otro usuario o con Bearer, responde 401 (AC2).
+- **Guards ya dentro del motor**: el plugin de guards de Savia ejecuta el registro de hooks bash
+  del workspace. Un `git push --force` pedido por el agente se bloqueó antes de pedir permiso
+  (AC3). En interactivo, el bus de Space no repite PreToolUse.
+- **Reglas de sesión**: un `PermissionRuleset` pasado al crear una sesión prevalece sobre la
+  configuración global. Con `bash: ask` global, una sesión creada con `bash * allow` ejecutó sin
+  preguntar.
+  - `PATCH /session` añade reglas y gana la última.
+  - La API de Space no acepta reglas de sesión.
+  - En modo mediado, Space neutraliza las que traiga cualquier otro cliente del motor (añade
+    `ask *`, con aviso y freno anti-bucle).
+  - En interactivo, avisa.
+- **Salida a red sin preguntar**: con la configuración por defecto, el modelo pidió varios
+  `webfetch` a URLs inventadas, una de ellas para descargar un script.
+  - El modo mediado superpone una configuración más estricta (`OPENCODE_CONFIG_CONTENT`): lo no
+    denegado pasa a `ask` y nunca se relaja un `deny`.
+  - El resultado se verifica regla a regla.
+- **Sandbox del usuario**: algunos plugins envuelven el comando (`bwrap … bash -c '<cmd>'`) en
+  la entrada de la herramienta y en el patrón del permiso.
+  - Desenvolver no basta: `bwrap … -c 'echo hola'; rm -rf x` se desenvolvería a `echo hola`.
+  - Solo se desenvuelve un envoltorio limpio (tras la última comilla simple, solo cierres de
+    comillas) y los guards evalúan la forma original y la desenvuelta; manda la más estricta.
+  - La interfaz muestra el comando entero si no es un envoltorio limpio.
+- **Orden de plugins**: si el plugin de sandbox se carga antes que el de guards, los guards del
+  motor reciben la orden ya envuelta. Con los guards reales, `rm -rf` y `sudo` dejaron de
+  bloquearse (rc 2 → 0). El plugin de guards debe evaluar ambas formas (PR #1237) y Space avisa
+  del orden.
+- **«Permitir siempre»**: el motor guarda la aprobación en su base de datos, por proyecto y sin
+  caducidad, y deja de preguntar. Space no recibiría la petición de permiso para mediarla, así que
+  no ofrece «siempre» y su diagnóstico lista las aprobaciones permanentes que existan.
+- **Doble disparo** (canario por hook, modo mediado): `UserPromptSubmit` y `PreToolUse` se
+  ejecutan en el motor y en Space; `PostCompact`, solo en el motor. El contexto inyectado llegaba
+  dos veces: con el plugin de guards presente, Space decide el bloqueo pero no lo inyecta.
+- **Contrato de salida distinto**: un hook de prompt que escribe texto plano añade contexto en
+  Claude Code y bloquea el prompt en el plugin de guards del motor. El prompt se perdía en
+  silencio; Space muestra ahora el motivo.
+- **Sesión ocupada**: revertir con la sesión trabajando devuelve 409; compactar se queda colgado.
+  Space rechaza antes y la interfaz desactiva esas acciones. `POST /api/session/{id}/compact`
+  devuelve 503 en 1.18.32; se usa `POST /session/{id}/summarize` con el modelo de la sesión.
+- **Contexto de modelos locales**: el prompt del motor ocupa ~14 800 tokens y Ollama lo trunca a
+  4 096 por defecto, sin error. El diagnóstico y el selector de modelo lo avisan.
+- **Cambios de sesión**: `GET /session/{id}/diff` volvió vacío aunque el agente escribió un
+  fichero. Space calcula los cambios con el git del workspace, solo con rutas dentro de él.
+- **Parada del motor**: `opencode serve` ignora SIGTERM. Space lo para con SIGKILL al apagarse y,
+  al arrancar, recoge un motor huérfano de una ejecución anterior.
+- **Compatibilidad con `opencode attach` (AC6)**: la contraseña llega por un canal local del
+  mismo usuario y nunca pasa por HTTP. La historia vista por el motor y por Space coincide.
+
+## Decisiones tomadas
+
+- **D23-5 (operadora, 2026-10-03)**: en modo mediado, un hook marcado `blocking: true` que
+  falla o no responde bloquea el permiso con la causa. En interactivo, el fallo no bloquea, como
+  en Claude Code, y queda en la traza.
+
 ## Decisiones pendientes
 
 - **D1**: addendum a ADR-002 — Space como frontend de Savia no amplía la autoridad: herramientas
