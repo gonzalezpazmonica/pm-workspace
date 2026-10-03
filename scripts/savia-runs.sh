@@ -73,7 +73,7 @@ _upsert_record() {
   local run_id="$1"
   local new_json="$2"
   local tmp
-  tmp="$(mktemp)"
+  tmp="$(mktemp "$LEDGER.tmp.XXXXXX")"
   python3 - "$LEDGER" "$run_id" "$new_json" "$tmp" <<'PY'
 import sys, json
 ledger, run_id, new_json, tmp = sys.argv[1], sys.argv[2], sys.argv[3], sys.argv[4]
@@ -97,29 +97,30 @@ with open(ledger, encoding="utf-8", errors="replace") as fh, open(tmp, "w", enco
         out.write(json.dumps(json.loads(new_json), ensure_ascii=False) + "\n")
 PY
   if [[ $? -ne 0 ]]; then
-    echo "ERROR: ledger update failed for run_id '$run_id'" >&2
+    rm -f "$tmp"
+    echo "ERROR: ledger update failed for run_id '$run_id' (ledger intacto)" >&2
     return 1
   fi
   mv "$tmp" "$LEDGER"
 }
 
 # Derive display status from durable facts — ALWAYS at read time, never stored.
-# Echoes: STATUS<TAB>TRACE
-_derive() {
-  local record="$1"
-  python3 -c '
-import sys, json
+# Única definición de las reglas de precedencia: show, status y list la cargan desde
+# SAVIA_RUNS_DERIVE_PY (antes había 4 copias y una edición parcial reintroducía bugs).
+# derive(r) -> (status, trace)
+_DERIVE_PY='
 def derive(r):
     if r.get("is_terminated"):
         pr = r.get("pr") or {}
         if pr.get("state") == "merged":
             return "merged", "is_terminated=true and pr.state=merged"
-        return "terminated", "is_terminated=true and pr.state!=\u0027merged\u0027"
+        return "terminated", "is_terminated=true and pr.state!='merged'"
     act = r.get("activity_state", "spawning")
     if act in ("waiting_input", "blocked"):
         return "needs_input", "activity_state=%s in (waiting_input, blocked)" % act
     pr = r.get("pr")
     if pr:
+        if pr.get("state") == "merged": return "merged", "pr.state=merged"
         if pr.get("ci") == "failing": return "ci_failed", "pr.ci=failing"
         if pr.get("state") == "draft": return "draft", "pr.state=draft"
         if pr.get("review") == "changes_requested": return "changes_requested", "pr.review=changes_requested"
@@ -129,9 +130,18 @@ def derive(r):
         return "pr_open", "pr.state=open (no other signal)"
     if act == "active": return "working", "activity_state=active"
     return "idle", "no pr and activity_state=" + act
+'
+export SAVIA_RUNS_DERIVE_PY="$_DERIVE_PY"
+_RUN_COLUMNS="working needs_input ci_failed changes_requested merge_conflict draft review_pending pr_open approved merged terminated idle"
+
+# Echoes: STATUS<TAB>TRACE
+_derive() {
+  python3 -c '
+import os, sys, json
+exec(os.environ["SAVIA_RUNS_DERIVE_PY"])
 s, t = derive(json.loads(sys.stdin.read()))
 print(s + "\t" + t)
-' <<< "$record"
+' <<< "$1"
 }
 
 # ── Subcommand: init ─────────────────────────────────────────────────────
@@ -382,37 +392,28 @@ print(json.dumps(r, ensure_ascii=False))' "$now")"
 cmd_status() {
   local json_mode=""
   [[ "${1:-}" == "--json" ]] && json_mode="1"
-  [[ -f "$LEDGER" ]] || { echo "ledger=$LEDGER (empty)"; return 0; }
+  if [[ ! -f "$LEDGER" ]]; then
+    if [[ -n "$json_mode" ]]; then
+      local c cols="" sep=""
+      for c in $_RUN_COLUMNS; do cols+="$sep\"$c\": []"; sep=", "; done
+      printf '{"as_of": "%s", "columns": {%s}, "runs": []}\n' "$(_now)" "$cols"
+    else
+      echo "ledger=$LEDGER (empty)"
+    fi
+    return 0
+  fi
 
   if ! _py3; then
     echo "ERROR: python3 required for status" >&2; exit 1
   fi
 
   if [[ -n "$json_mode" ]]; then
-    python3 - "$LEDGER" <<'PY'
-import sys, json, datetime
+    python3 - "$LEDGER" "$_RUN_COLUMNS" <<'PY'
+import os, sys, json, datetime
 
-def derive(r):
-    if r.get("is_terminated"):
-        pr = r.get("pr") or {}
-        return "merged" if pr.get("state") == "merged" else "terminated"
-    act = r.get("activity_state", "spawning")
-    if act in ("waiting_input", "blocked"):
-        return "needs_input"
-    pr = r.get("pr")
-    if pr:
-        if pr.get("ci") == "failing": return "ci_failed"
-        if pr.get("state") == "draft": return "draft"
-        if pr.get("review") == "changes_requested": return "changes_requested"
-        if pr.get("mergeable") == "false": return "merge_conflict"
-        if pr.get("review") == "approved": return "approved"
-        if pr.get("review") == "requested": return "review_pending"
-        return "pr_open"
-    if act == "active": return "working"
-    return "idle"
+exec(os.environ["SAVIA_RUNS_DERIVE_PY"])
 
-cols = ["working", "needs_input", "ci_failed", "changes_requested", "merge_conflict",
-        "draft", "review_pending", "pr_open", "approved", "merged", "terminated", "idle"]
+cols = sys.argv[2].split()
 runs = []
 with open(sys.argv[1], encoding="utf-8", errors="replace") as fh:
     for line in fh:
@@ -422,7 +423,7 @@ with open(sys.argv[1], encoding="utf-8", errors="replace") as fh:
             r = json.loads(line)
         except Exception:
             continue
-        r["derived_status"] = derive(r)
+        r["derived_status"] = derive(r)[0]
         runs.append(r)
 
 out = {"as_of": datetime.datetime.now(datetime.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
@@ -434,7 +435,7 @@ PY
   fi
 
   python3 - "$LEDGER" <<'PY'
-import sys, json, datetime
+import os, sys, json, datetime
 
 COLUMN_ORDER = [
     ("WORKING",         "working"),
@@ -450,24 +451,7 @@ COLUMN_ORDER = [
     ("TERMINATED",      "terminated"),
 ]
 
-def derive(r):
-    if r.get("is_terminated"):
-        pr = r.get("pr") or {}
-        return "merged" if pr.get("state") == "merged" else "terminated"
-    act = r.get("activity_state", "spawning")
-    if act in ("waiting_input", "blocked"):
-        return "needs_input"
-    pr = r.get("pr")
-    if pr:
-        if pr.get("ci") == "failing": return "ci_failed"
-        if pr.get("state") == "draft": return "draft"
-        if pr.get("review") == "changes_requested": return "changes_requested"
-        if pr.get("mergeable") == "false": return "merge_conflict"
-        if pr.get("review") == "approved": return "approved"
-        if pr.get("review") == "requested": return "review_pending"
-        return "pr_open"
-    if act == "active": return "working"
-    return "idle"
+exec(os.environ["SAVIA_RUNS_DERIVE_PY"])
 
 def short_task(t, n=26):
     t = t or ""
@@ -491,7 +475,7 @@ with open(sys.argv[1], encoding="utf-8", errors="replace") as fh:
             r = json.loads(line)
         except Exception:
             continue
-        r["derived_status"] = derive(r)
+        r["derived_status"] = derive(r)[0]
         runs.append(r)
 runs.sort(key=lambda x: x.get("started_at", ""))
 
@@ -546,26 +530,9 @@ cmd_list() {
   fi
 
   python3 - "$LEDGER" "$mode_filter" "$json_mode" <<'PY'
-import sys, json
+import os, sys, json
 
-def derive(r):
-    if r.get("is_terminated"):
-        pr = r.get("pr") or {}
-        return "merged" if pr.get("state") == "merged" else "terminated"
-    act = r.get("activity_state", "spawning")
-    if act in ("waiting_input", "blocked"):
-        return "needs_input"
-    pr = r.get("pr")
-    if pr:
-        if pr.get("ci") == "failing": return "ci_failed"
-        if pr.get("state") == "draft": return "draft"
-        if pr.get("review") == "changes_requested": return "changes_requested"
-        if pr.get("mergeable") == "false": return "merge_conflict"
-        if pr.get("review") == "approved": return "approved"
-        if pr.get("review") == "requested": return "review_pending"
-        return "pr_open"
-    if act == "active": return "working"
-    return "idle"
+exec(os.environ["SAVIA_RUNS_DERIVE_PY"])
 
 ledger, mode_filter, json_mode = sys.argv[1], sys.argv[2], sys.argv[3]
 rows = []
@@ -579,7 +546,7 @@ with open(ledger, encoding="utf-8", errors="replace") as fh:
             continue
         if mode_filter and r.get("mode") != mode_filter:
             continue
-        r["derived_status"] = derive(r)
+        r["derived_status"] = derive(r)[0]
         rows.append(r)
 rows.sort(key=lambda x: x.get("started_at", ""))
 
@@ -724,6 +691,11 @@ PY
 ) || return 0
   [[ -z "$summary" ]] && return 0
   IFS=$'\t' read -r agent model tin tout <<<"$summary"
+  # Cerrojo con espera corta y después del parseo del transcript: un hook no bloquea al agente.
+  if ! _acquire_lock "${SAVIA_RUNS_HOOK_LOCK_WAIT:-5}"; then
+    echo "WARN: capture-cost sin cerrojo del ledger; coste de '$agent' no registrado (run $SAVIA_RUN_ID)" >&2
+    return 0
+  fi
   # Subshell: cmd_cost exits on invalid input; the hook must never fail.
   ( cmd_cost "$SAVIA_RUN_ID" --agent "$agent" --model "$model" \
     --tokens-in "$tin" --tokens-out "$tout" ) >/dev/null 2>&1 || true
@@ -739,6 +711,66 @@ cmd_reset() {
 # ── Dispatcher ───────────────────────────────────────────────────────────
 SUBCOMMAND="${1:-}"
 shift || true
+
+# Cerrojo exclusivo para todo subcomando que escribe: leer-modificar-reescribir el ledger sin él
+# pierde actualizaciones cuando varios runs autónomos escriben a la vez (SE-376).
+# _acquire_lock <segundos> → 0 si lo obtiene, 1 si vence la espera (no sale del proceso).
+# Implementación: flock sobre <ledger>.lock; sin flock (macOS) o con SAVIA_RUNS_LOCK_IMPL=mkdir,
+# un directorio <ledger>.lockdir con el PID del dueño. Un lockdir huérfano (PID muerto, o sin PID
+# y con más de LOCKDIR_STALE_MIN minutos) se rompe: un SIGKILL no deja el ledger bloqueado.
+LOCKDIR_STALE_MIN=2
+_lockdir_is_stale() {
+  local dir="$1" pid=""
+  [[ -d "$dir" ]] || return 1
+  pid="$(cat "$dir/pid" 2>/dev/null || true)"
+  if [[ "$pid" =~ ^[0-9]+$ ]]; then
+    kill -0 "$pid" 2>/dev/null && return 1
+    return 0
+  fi
+  [[ -n "$(find "$dir" -maxdepth 0 -mmin +"$LOCKDIR_STALE_MIN" 2>/dev/null)" ]]
+}
+_remove_lockdir() {
+  rm -f "$1/pid" 2>/dev/null
+  rmdir "$1" 2>/dev/null || true
+}
+_acquire_lock() {
+  local wait_s="$1"
+  _ensure_ledger
+  if [[ "${SAVIA_RUNS_LOCK_IMPL:-}" != "mkdir" ]] && command -v flock &>/dev/null; then
+    exec 9>"$LEDGER.lock"
+    flock -w "$wait_s" 9 && return 0
+    echo "ERROR: ledger lock timeout tras ${wait_s}s ($LEDGER.lock)" >&2
+    return 1
+  fi
+  local dir="$LEDGER.lockdir" deadline=$(( SECONDS + ${wait_s%.*} + 1 ))
+  while :; do
+    if mkdir "$dir" 2>/dev/null; then
+      echo "$$" > "$dir/pid"
+      trap '_remove_lockdir "$LEDGER.lockdir"' EXIT
+      return 0
+    fi
+    if _lockdir_is_stale "$dir"; then
+      # Rename atómico: solo un proceso se queda con el huérfano; el resto reintenta mkdir.
+      local graveyard="$dir.stale.$$"
+      if mv "$dir" "$graveyard" 2>/dev/null; then
+        echo "WARN: cerrojo huérfano roto ($dir, dueño $(cat "$graveyard/pid" 2>/dev/null || echo '?'))" >&2
+        _remove_lockdir "$graveyard"
+      fi
+      continue
+    fi
+    (( SECONDS >= deadline )) && break
+    sleep 0.1
+  done
+  echo "ERROR: ledger lock timeout tras ${wait_s}s ($dir, dueño PID $(cat "$dir/pid" 2>/dev/null || echo '?')). Si ese proceso ya no existe, borra el directorio $dir" >&2
+  return 1
+}
+_lock_ledger() {
+  _acquire_lock "${SAVIA_RUNS_LOCK_WAIT:-30}" || exit 1
+}
+# capture-cost NO va aquí: es un hook (timeout 15 s) y toma el cerrojo él mismo, solo si hay run.
+case "$SUBCOMMAND" in
+  init|start|state|pr|finish|cost|reset) _lock_ledger ;;
+esac
 
 case "$SUBCOMMAND" in
   init)   cmd_init   "$@" ;;
