@@ -31,7 +31,21 @@ DEFAULT_DB  = Path(os.environ.get(
     "SAVIA_KG_DB",
     str(WORKSPACE / ".savia-kg" / "graph.db")
 ))
-LOOKBACK_DAYS = int(os.environ.get("SAVIA_CS_LOOKBACK_DAYS", 90))
+
+
+def _env_int(name: str, default: int) -> int:
+    """Read an int env var; on invalid value warn on stderr and use default."""
+    raw = os.environ.get(name)
+    if raw is None or raw.strip() == "":
+        return default
+    try:
+        return int(raw)
+    except ValueError:
+        print(f"historical-priors: {name}={raw!r} no es entero; uso {default}", file=sys.stderr)
+        return default
+
+
+LOOKBACK_DAYS = _env_int("SAVIA_CS_LOOKBACK_DAYS", 90)
 
 EMPTY_RESULT: dict = {"count": 0, "priors": []}
 
@@ -64,7 +78,13 @@ def _extract_tags(task_context: dict) -> list[str]:
     return [t.lower() for t in tags if t]
 
 
-def get_recent_failed_frames(task_context: dict, lookback_days: int = LOOKBACK_DAYS) -> dict:
+def _like_escape(tag: str) -> str:
+    """Escape LIKE wildcards so '_' or '%' in a tag match literally."""
+    return tag.replace("\\", "\\\\").replace("%", "\\%").replace("_", "\\_")
+
+
+def get_recent_failed_frames(task_context: dict, lookback_days: int = LOOKBACK_DAYS,
+                             db_path: Path | None = None) -> dict:
     """Return {count: int, priors: [{id, summary, date}]} from local KG.
 
     Searches frame_reaffirmations table for reverted/failed tasks with
@@ -72,7 +92,7 @@ def get_recent_failed_frames(task_context: dict, lookback_days: int = LOOKBACK_D
 
     Graceful: returns EMPTY_RESULT if KG absent or table missing.
     """
-    db_path = DEFAULT_DB
+    db_path = Path(db_path) if db_path is not None else DEFAULT_DB
 
     if not db_path.exists():
         return dict(EMPTY_RESULT)
@@ -100,12 +120,12 @@ def get_recent_failed_frames(task_context: dict, lookback_days: int = LOOKBACK_D
                 WHERE ts >= ?
                   AND verdict_before IN ('FRAME_DOUBT', 'FRAME_REJECT')
                   AND (
-                    {" OR ".join(["tags LIKE ?" for _ in tags])}
+                    {" OR ".join(["tags LIKE ? ESCAPE '\\'" for _ in tags])}
                   )
                 ORDER BY ts DESC
                 LIMIT 10
             """
-            like_params = [f"%{t}%" for t in tags]
+            like_params = [f"%{_like_escape(t)}%" for t in tags]
             rows = cursor.execute(query, [cutoff] + like_params).fetchall()
         else:
             # No tags: return any recent doubt/reject frames
@@ -131,7 +151,9 @@ def get_recent_failed_frames(task_context: dict, lookback_days: int = LOOKBACK_D
         ]
         return {"count": len(priors), "priors": priors}
 
-    except (sqlite3.Error, OSError):
+    except (sqlite3.Error, OSError) as exc:
+        # Degradacion declarada: KG ilegible equivale a "sin precedentes".
+        print(f"historical-priors: KG no legible ({exc}); sin precedentes", file=sys.stderr)
         return dict(EMPTY_RESULT)
 
 
@@ -153,10 +175,6 @@ def main() -> None:
     )
     args = parser.parse_args()
 
-    # Allow overriding DB path
-    global DEFAULT_DB  # noqa: PLW0603
-    DEFAULT_DB = Path(args.db)
-
     if args.task_json:
         raw = args.task_json
     elif not sys.stdin.isatty():
@@ -166,10 +184,16 @@ def main() -> None:
 
     try:
         task_context = json.loads(raw) if raw else {}
-    except json.JSONDecodeError:
+    except json.JSONDecodeError as exc:
+        print(f"historical-priors: contexto JSON invalido ({exc}); uso contexto vacio", file=sys.stderr)
         task_context = {}
 
-    result = get_recent_failed_frames(task_context, lookback_days=args.lookback)
+    if not isinstance(task_context, dict):
+        print("historical-priors: el contexto no es un objeto JSON; uso contexto vacio", file=sys.stderr)
+        task_context = {}
+
+    result = get_recent_failed_frames(task_context, lookback_days=args.lookback,
+                                      db_path=Path(args.db))
     print(json.dumps(result))
 
 

@@ -16,6 +16,7 @@ Usage:
 from __future__ import annotations
 
 import argparse
+import importlib.util
 import json
 import os
 import sys
@@ -25,21 +26,51 @@ SCRIPT_DIR = Path(__file__).resolve().parent
 
 # ── Threshold ─────────────────────────────────────────────────────────────────
 DEFAULT_THRESHOLD = 50
-TRIGGER_THRESHOLD = int(os.environ.get("SAVIA_CS_TRIGGER_THRESHOLD", DEFAULT_THRESHOLD))
 
-# ── Operator state import ─────────────────────────────────────────────────────
-sys.path.insert(0, str(SCRIPT_DIR))
+
+def _env_int(name: str, default: int) -> int:
+    """Read an int env var; on invalid value warn on stderr and use default."""
+    raw = os.environ.get(name)
+    if raw is None or raw.strip() == "":
+        return default
+    try:
+        return int(raw)
+    except ValueError:
+        print(f"trigger-evaluator: {name}={raw!r} no es entero; uso {default}", file=sys.stderr)
+        return default
+
+
+TRIGGER_THRESHOLD = _env_int("SAVIA_CS_TRIGGER_THRESHOLD", DEFAULT_THRESHOLD)
+
+
+# ── Sibling modules ───────────────────────────────────────────────────────────
+# The sibling scripts have hyphenated file names, so a plain `import` can never
+# find them: they are loaded by path. A failure is reported on stderr instead of
+# silently zeroing the signals (that silent fallback hid both modules for months).
+def _load_sibling(filename: str):
+    spec = importlib.util.spec_from_file_location(
+        filename.replace("-", "_").removesuffix(".py"), SCRIPT_DIR / filename
+    )
+    if spec is None or spec.loader is None:
+        raise ImportError(f"no se puede cargar {filename}")
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module
+
+
 try:
-    from operator_state_signals import compute_operator_state
-except ImportError:
-    # Fallback: return zero scores if module unavailable
+    compute_operator_state = _load_sibling("operator-state-signals.py").compute_operator_state
+except (ImportError, OSError, SyntaxError, AttributeError) as exc:
+    print(f"trigger-evaluator: operator-state-signals no disponible ({exc}); senales a 0", file=sys.stderr)
+
     def compute_operator_state(operator_id: str = "default") -> dict:  # type: ignore[misc]
         return {"fatigue_score": 0, "pressure_score": 0, "override_rate": 0, "time_band": "normal"}
 
-# ── Historical priors import ───────────────────────────────────────────────────
 try:
-    from historical_priors import get_recent_failed_frames
-except ImportError:
+    get_recent_failed_frames = _load_sibling("historical-priors.py").get_recent_failed_frames
+except (ImportError, OSError, SyntaxError, AttributeError) as exc:
+    print(f"trigger-evaluator: historical-priors no disponible ({exc}); sin precedentes", file=sys.stderr)
+
     def get_recent_failed_frames(task_context: dict, lookback_days: int = 90) -> dict:  # type: ignore[misc]
         return {"count": 0, "priors": []}
 
@@ -100,7 +131,7 @@ def should_activate(task_context: dict) -> dict:
         reasons.append("transition_hour")
 
     # ── Historical priors ─────────────────────────────────────────────────────
-    lookback = int(os.environ.get("SAVIA_CS_LOOKBACK_DAYS", 90))
+    lookback = _env_int("SAVIA_CS_LOOKBACK_DAYS", 90)
     priors   = get_recent_failed_frames(task_context, lookback_days=lookback)
 
     if priors.get("count", 0) >= 2:
@@ -139,6 +170,10 @@ def main() -> None:
         task_context = json.loads(raw) if raw else {}
     except json.JSONDecodeError as exc:
         print(json.dumps({"error": f"invalid JSON: {exc}", "activate": False, "score": 0, "reasons": [], "operator_state": {}, "priors": {}}))
+        sys.exit(1)
+
+    if not isinstance(task_context, dict):
+        print(json.dumps({"error": "task context must be a JSON object", "activate": False, "score": 0, "reasons": [], "operator_state": {}, "priors": {}}))
         sys.exit(1)
 
     result = should_activate(task_context)
