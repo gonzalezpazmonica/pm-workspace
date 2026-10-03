@@ -49,21 +49,21 @@ La pregunta correcta no es *"cuanto cabe?"* sino *"cuando cortar?"*.
 3. La sesion sigue enfocada en un mismo tema?
    - Si, larga pero coherente → **/compact con hint** especifico
    - No, cambio de tema → **/clear** + notas manuales
-4. Token counter > 75%?
+4. Token counter >= 75%?
    - Si → accion proactiva AHORA (compact/clear/subagent)
-   - 60-75% → yellow flag, planifica el corte
+   - 60-74% → yellow flag, planifica el corte
    - < 60% → **Continue**
 
-## Umbrales de token usage
+## Umbrales de token usage (% entero, suelo de `usado*100/max`; cada limite abre la banda superior)
 
-| % del context | Flag | Recomendacion |
-|---|---|---|
-| 0-60% | Verde | Continue libre |
-| 60-75% | Amarillo | Planifica corte; usa subagents para proximos steps grandes |
-| 75-90% | Rojo | Compact PROACTIVO antes de auto-compact (el modelo esta en su peor punto de atencion cuando auto dispara) |
-| 90%+ | Critico | /clear + notas; no confies en compact automatico a este nivel |
+| % del context | Banda (`--rot`) | Accion (`--rot`) | Recomendacion |
+|---|---|---|---|
+| 0-59 | `verde` | `continue` | Continue libre |
+| 60-74 | `amarillo` | `plan-cut` | Planifica corte; compact con hint AHORA si el frontend auto-compacta al 75%; subagents para los proximos steps grandes |
+| 75-89 | `rojo` | `compact` | Compact PROACTIVO con hint (el modelo esta en su peor punto de atencion cuando auto dispara) |
+| 90-100 | `critico` | `clear` | /clear + notas; no confies en compact automatico a este nivel |
 
-Settings actual: `CLAUDE_AUTOCOMPACT_PCT_OVERRIDE=75` (ajustado para disparar antes del pico de rot).
+Claude Code: `CLAUDE_AUTOCOMPACT_PCT_OVERRIDE=75` (`.claude/settings.json`) auto-compacta al entrar en `rojo`, asi que alli el compact proactivo va en `amarillo`; `rojo`/`critico` solo se alcanzan en frontends sin ese override (p. ej. OpenCode).
 
 ## Opciones en detalle
 
@@ -129,15 +129,17 @@ Subagent tiene su propio context window fresco. Solo la conclusion vuelve al mai
 
 ## Invocacion
 
-Como meta-skill, este skill no se ejecuta autonomamente. Sirve de rubrica mental antes de cada turno cuando la sesion se alarga. Invocacion tipica:
+Meta-skill: rubrica antes de cada turno, no se ejecuta sola. Invocacion: `/context-rot-strategy`. El usuario decide la opcion.
 
+Helper (advisor SE-069): modo `--rot` de `scripts/context-meter.sh`. Ningun frontend exporta el % por env: pasalo o da los tokens.
+
+```bash
+bash scripts/context-meter.sh --rot --pct 72      # o CONTEXT_PCT=72; o CONTEXT_WINDOW_USED+_MAX
+bash scripts/context-meter.sh --rot --json        # {"pct","used","max","status","source","rot":{band,action,thresholds}}
 ```
-/skill context-rot-strategy
-```
 
-Muestra la decision checklist + umbrales actuales. El usuario decide la opcion.
-
-Script helper: `scripts/context-rot-advisor.sh` — lee el % de context usage si esta disponible como env var y devuelve la recomendacion.
+- Entrada: `--pct` > `CONTEXT_PCT` > tokens > snapshot `CONTEXT_METER_SNAPSHOT` (def. `output/context-snapshot.json` del cwd). Umbrales `CONTEXT_ROT_YELLOW/RED/CRITICAL` (60/75/90).
+- Sin datos (o `max`=0): `unknown` + `continue-with-caution`, exit 0. Entrada invalida (no entero, fuera de 0-100, `used`>`max`, >15 digitos, umbrales desordenados, opcion desconocida): exit 2 sin consejo. Solo lee.
 
 ## Referencias
 
