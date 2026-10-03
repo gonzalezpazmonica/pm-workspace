@@ -23188,9 +23188,9 @@
       "intents": [
         "digerir",
         "listar",
+        "listas",
         "reuniones",
-        "savia",
-        "scan"
+        "savia"
       ],
       "kind": "script",
       "owner_domain": "planning",
@@ -29604,7 +29604,7 @@
       "tests": []
     }
   ],
-  "content_hash": "beef74631dfa",
+  "content_hash": "365673126919",
   "deferred_kinds": [
     "rule",
     "hook"
