@@ -381,3 +381,21 @@ STUB
   [ "$status" -eq 0 ]
   [ "$(jget "$(report)" 'd["summary"]["suppressed"]')" = "5" ]
 }
+
+@test "baseline → scan: sin --output escribe <path>/.trivyignore y el scan lo aplica (flujo documentado)" {
+  run bash "$BASE" --path "$INFRA"
+  [ "$status" -eq 0 ]
+  [ -f "$INFRA/.trivyignore" ]
+  [ ! -e "$WORK/cwd/.trivyignore" ]
+  run bash "$SCAN" --path "$INFRA"
+  [ "$status" -eq 0 ]
+  [ "$(jget "$(report)" 'd["summary"]["suppressed"]')" = "5" ]
+}
+
+@test "scan: exp: con formato inválido (2099/12/01) no se aplica y se avisa (reject)" {
+  only "$(mis DS002 AVD-DS-0002 'Root user' HIGH)"
+  printf 'DS002 exp:2099/12/01\n' > "$INFRA/.trivyignore"
+  run bash "$SCAN" --path "$INFRA"
+  [ "$status" -eq 1 ]
+  [[ "$output" == *"exp: inválido"*"DS002"* ]]
+}

@@ -4,7 +4,8 @@
 # SE-376: calibrado — fail-closed y sin sobrescribir supresiones existentes.
 #
 # Uso:
-#   bash scripts/iac-security-baseline.sh --path ./infra/ [--output .trivyignore] [--force]
+#   bash scripts/iac-security-baseline.sh --path ./infra/ [--output <f>] [--force]
+#   Por defecto escribe <path>/.trivyignore, que es lo que aplica iac-security-scan.sh.
 #
 # El fichero generado NO se aplica automáticamente — el humano decide si usarlo.
 # Su propósito es permitir detectar regresiones en proyectos legacy sin bloquear
@@ -28,7 +29,7 @@ SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 source "$SCRIPT_DIR/iac-security-scan.sh"
 
 SCAN_PATH=""
-OUTPUT_FILE=".trivyignore"
+OUTPUT_FILE=""
 FORCE=false
 DATE="$(date +%Y%m%d)"
 
@@ -42,10 +43,11 @@ while [[ $# -gt 0 ]]; do
 done
 
 if [[ -z "$SCAN_PATH" ]]; then
-  echo "  Ejemplo: $0 --path ./infra/ --output .trivyignore" >&2
+  echo "  Ejemplo: $0 --path ./infra/   (escribe ./infra/.trivyignore)" >&2
   die "Especifica --path <dir>"
 fi
 [[ -d "$SCAN_PATH" ]] || die "El path no existe: $SCAN_PATH"
+[[ -n "$OUTPUT_FILE" ]] || OUTPUT_FILE="$SCAN_PATH/.trivyignore"
 if [[ -e "$OUTPUT_FILE" && "$FORCE" != "true" ]]; then
   die "$OUTPUT_FILE ya existe; contiene supresiones justificadas a mano. Usa --force para sobrescribirlo o --output <otro>."
 fi
@@ -110,7 +112,9 @@ COUNT="$(grep -cvE '^(#|$)' "$WORKDIR/entries")"
     cat "$WORKDIR/entries"
   fi
 } > "$WORKDIR/out" || die "No se pudo componer el baseline"
-mv "$WORKDIR/out" "$OUTPUT_FILE" || die "No se pudo escribir $OUTPUT_FILE"
+# Temporal junto al destino: mv dentro del mismo sistema de ficheros es atómico.
+DEST_TMP="$(mktemp "$(dirname "$OUTPUT_FILE")/.trivyignore.XXXXXX")" || die "No se puede escribir junto a $OUTPUT_FILE"
+cp "$WORKDIR/out" "$DEST_TMP" && mv "$DEST_TMP" "$OUTPUT_FILE" || { rm -f "$DEST_TMP"; die "No se pudo escribir $OUTPUT_FILE"; }
 
 echo "Fichero generado: $OUTPUT_FILE ($COUNT ID(s))"
 echo "SIGUIENTE PASO: Revisa $OUTPUT_FILE y decide si aplicarlo al proyecto."

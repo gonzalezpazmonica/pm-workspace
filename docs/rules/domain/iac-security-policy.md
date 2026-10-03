@@ -48,7 +48,7 @@ bash scripts/iac-security-scan.sh --path ./infra/ --severity CRITICAL,HIGH
 bash scripts/iac-security-scan.sh --image myapp:latest
 
 # Generar baseline para proyectos legacy
-bash scripts/iac-security-baseline.sh --path ./infra/ --output .trivyignore
+bash scripts/iac-security-baseline.sh --path ./infra/   # escribe ./infra/.trivyignore
 ```
 
 ## Gestión de falsos positivos con .trivyignore
@@ -65,7 +65,8 @@ AVD-AWS-0089
 
 El scan aplica `<path>/.trivyignore` o el `--ignorefile` explícito; nunca el
 `.trivyignore` del directorio actual de forma implícita. Lo suprimido se lista
-en la salida y en el report; `ID exp:YYYY-MM-DD` caduca la supresión. La
+en la salida y en el report; `ID exp:YYYY-MM-DD` caduca la supresión (otro
+formato de fecha no se aplica y se avisa). La
 supresión es por ID en todo el path escaneado.
 
 Reglas del `.trivyignore`:

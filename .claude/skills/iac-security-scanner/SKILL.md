@@ -76,7 +76,8 @@ El script detecta (hasta 5 niveles, rutas con espacios incluidas):
 - **Kubernetes**: `*.yaml|*.yml` con una línea `kind: <Tipo>`
 
 Si no detecta IaC y Trivy no reporta nada, el resultado es `NO_IAC` (exit 0)
-y no `PASS`: no se ha validado nada. Revisa el `--path`.
+y no `PASS`. Revisa el `--path`. Límite: un path solo con CloudFormation, ARM
+o Helm que Trivy escanee limpio también sale como `NO_IAC` (exit 0).
 
 ## §4 Configurar Trivy sin instalación local
 
@@ -94,7 +95,7 @@ La primera ejecución por Docker descarga la imagen (requiere red).
 
 ```bash
 # Generar baseline de misconfiguraciones conocidas
-bash scripts/iac-security-baseline.sh --path ./infra/ --output ./infra/.trivyignore
+bash scripts/iac-security-baseline.sh --path ./infra/   # → ./infra/.trivyignore (lo que aplica el scan)
 # → Cada entrada lleva severidad, título y ficheros afectados; justificar antes de commitear
 # → Si el --output ya existe, se niega (exit 2) salvo --force
 ```
@@ -103,7 +104,7 @@ bash scripts/iac-security-baseline.sh --path ./infra/ --output ./infra/.trivyign
   `.trivyignore` del directorio actual **no** se aplica de forma implícita.
 - Las supresiones se informan (`[SUPRIMIDO]`); un CRITICAL suprimido emite WARN
   (requiere aprobación de security-guardian). `ID exp:YYYY-MM-DD` caduca la
-  supresión; las caducadas no se aplican y se avisan. Las que no casan con ningún
+  supresión; las caducadas o con fecha no ISO no se aplican y se avisan. Las que no casan con ningún
   hallazgo se listan como candidatas a borrar. Se casa por `ID` o `AVDID`.
 - La supresión es por ID en todo el path: una nueva aparición del mismo ID en
   otro fichero también queda suprimida.

@@ -106,7 +106,7 @@ iac_detect_types() {
 # Exit: 0 sin bloqueantes, 1 con bloqueantes, 3 JSON inválido.
 iac_evaluate() {
   python3 - "$@" <<'PYEOF'
-import datetime, json, os, sys
+import datetime, json, os, re, sys
 
 
 def _fail(exc_type, exc, tb):
@@ -132,7 +132,7 @@ except (OSError, ValueError) as exc:
     sys.exit(3)
 
 today = datetime.date.today().isoformat()
-active, expired = {}, []
+active, expired, bad_exp = {}, [], []
 if ignore_path:
     with open(ignore_path) as fh:
         for line in fh:
@@ -141,7 +141,9 @@ if ignore_path:
                 continue
             parts = line.split()
             exp = next((p[4:] for p in parts[1:] if p.startswith("exp:")), "")
-            if exp and exp < today:
+            if any(p.startswith("exp:") for p in parts[1:]) and not re.fullmatch(r"\d{4}-\d{2}-\d{2}", exp):
+                bad_exp.append(parts[0])
+            elif exp and exp < today:
                 expired.append(parts[0])
             else:
                 active[parts[0]] = 0
@@ -177,6 +179,7 @@ summary = {
     "suppressed": len(supp),
     "suppressed_critical": sum(f["severity"] == "CRITICAL" for f in supp),
     "expired_ignores": sorted(set(expired)),
+    "invalid_exp_ignores": sorted(set(bad_exp)),
     "unused_ignores": sorted(k for k, n in active.items() if n == 0),
 }
 report = {"tool": "trivy", "kind": kind, "target": target,
@@ -197,6 +200,9 @@ with open(text_path, "w") as fh:
                  "aprobación de security-guardian.\n" % summary["suppressed_critical"])
     if expired:
         fh.write("WARN: supresiones caducadas (no aplicadas): %s\n" % ", ".join(summary["expired_ignores"]))
+    if bad_exp:
+        fh.write("WARN: supresiones con exp: inválido (formato YYYY-MM-DD; no aplicadas): %s\n"
+                 % ", ".join(summary["invalid_exp_ignores"]))
     if summary["unused_ignores"]:
         fh.write("INFO: supresiones sin hallazgo asociado (candidatas a borrar): %s\n"
                  % ", ".join(summary["unused_ignores"]))
