@@ -226,7 +226,10 @@ case "$MODE" in
     echo "wrote ${TARGET} ($(wc -l < "$TARGET") lines)"
 
     if $MANIFEST; then
-      build_manifest | write_atomic "$MANIFEST_FILE" || exit 1
+      # Build fully before touching the target: a half-built manifest
+      # must never reach the rename.
+      manifest=$(build_manifest) || { echo "ERROR: manifest generation failed" >&2; exit 1; }
+      printf '%s\n' "$manifest" | write_atomic "$MANIFEST_FILE" || exit 1
       echo "wrote ${MANIFEST_FILE} ($(wc -l < "$MANIFEST_FILE") lines)"
     fi
     ;;

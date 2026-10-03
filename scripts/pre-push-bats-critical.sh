@@ -21,8 +21,8 @@
 #   2  — usage error
 #
 # Ref: SPEC-SE-012 Module 3, ROADMAP.md §Tier 5
-# Integration: optional gate in /pr-plan (Gate G6c, opt-in via
-# PR_PLAN_ENABLE_CRITICAL_BATS=1).
+# Integration: not wired to any git hook or to /pr-plan (the G6c opt-in
+# PR_PLAN_ENABLE_CRITICAL_BATS does not exist there); run it manually.
 #
 # Safety: `set -uo pipefail`. Read-only (no git mutations).
 
@@ -184,6 +184,12 @@ if [[ -n "$modified_skills" ]]; then
   g14_fail=0
   while IFS= read -r skill; do
     [[ -z "$skill" ]] && continue
+    # A deleted (or renamed-away) skill has nothing left to audit; the
+    # auditor would report "not found" and block a legitimate removal.
+    if [[ ! -d "$REPO_ROOT/.opencode/skills/$skill" ]]; then
+      log "  skipping deleted skill: $skill"
+      continue
+    fi
     log "  auditing skill: $skill"
     if ! bash "$REPO_ROOT/scripts/skill-catalog-auditor.sh" --skill "$skill"; then
       log "G14 FAIL: skill '$skill' failed quality gate"

@@ -363,3 +363,33 @@ make_fixture_repo() {
   [ "$status" -eq 0 ]
   [[ "$output" == *"WARN"*"201 chars > 200"* ]]
 }
+
+# ── Revisión maker-checker: borrado legítimo y deriva de cabecera ────────────
+
+@test "G14: deleting a skill is legitimate and does not block pre-push" {
+  make_fixture_repo
+  SK="$FX/.claude/skills"
+  make_skill vieja 'description: "Usar cuando la skill va a borrarse."'
+  make_skill otra 'description: "Usar cuando la skill va a renombrarse."'
+  git -C "$FX" add -A
+  git -C "$FX" -c user.email=t@example.invalid -c user.name=t commit -q -m base2
+  git -C "$FX" update-ref refs/remotes/origin/main HEAD
+  git -C "$FX" rm -q -r .claude/skills/vieja
+  git -C "$FX" mv .claude/skills/otra .claude/skills/renombrada
+  git -C "$FX" -c user.email=t@example.invalid -c user.name=t commit -q -m borrar
+  cd "$FX"
+  REPO_ROOT="$FX" run bash "$REPO/$PREPUSH"
+  [ "$status" -eq 0 ]
+  [[ "$output" == *"skipping deleted skill: vieja"* ]]
+  [[ "$output" == *"auditing skill: renombrada"* ]]
+  [[ "$output" == *"G14 skill quality gate passed"* ]]
+}
+
+@test "generator: --check detects drift in manifest version" {
+  make_skill version 'description: "Usar cuando cambia la version del manifiesto."'
+  gen --apply --manifest
+  sed -i 's/"version": "1.0"/"version": "0.9"/' "$WORK/manifest.json"
+  gen --check --manifest
+  [ "$status" -eq 1 ]
+  [[ "$output" == *"drift detected in skills-manifest.json"* ]]
+}

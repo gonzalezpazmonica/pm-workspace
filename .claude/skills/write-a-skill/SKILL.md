@@ -85,7 +85,7 @@ Registrar en SKILLS.md
    - FAIL: falta SKILL.md o DOMAIN.md; `name` sin valor o sin clave `description`; SKILL.md > 150 lineas; DOMAIN.md <= 3 lineas; cuerpo < 20 caracteres; patron malicioso; `consumes`/`produces` vacios.
    - WARN (no bloquea): SKILL.md > 100 lineas (SE-208), DOMAIN.md > 60 lineas, ningun path citado, descripcion < 20 o > 200 caracteres o sin palabra disparadora (`when`, `cuando`, `usar`, `use` como palabra completa, sin distinguir mayusculas; SE-209). Las descripciones en bloque (`>`, `|`) se leen como texto.
    - El barrido completo solo cubre los hijos directos del directorio de skills y omite `_template`; las skills anidadas (`professional-domain/<familia>/<skill>`) no se auditan. `--skill <nombre>` audita ese directorio aunque sea `_template`.
-   - Al hacer push con `scripts/pre-push-bats-critical.sh` (G14), el auditor se ejecuta sobre cada skill modificada y bloquea si da FAIL.
+   - `bash scripts/pre-push-bats-critical.sh` (G14) audita cada skill modificada frente a `main` y sale con 1 si alguna da FAIL; las skills borradas se omiten. No esta conectado a ningun hook de push: hay que lanzarlo a mano.
 
 5. **Registrar**: `bash scripts/skills-md-generate.sh --apply --manifest` reescribe SKILLS.md y `skills-manifest.json`. Sin `--apply` solo imprime (dry run); `--check [--manifest]` sale con 1 si hay deriva (el campo `generated_at` no cuenta). Con sesion activa (`SAVIA_SESSION_ACTIVE=1` o `data/.cache-session-active`, SE-371) `--apply` sale con 3 sin escribir. La descripcion del catalogo se corta a 100 caracteres (97 + `...`).
 
