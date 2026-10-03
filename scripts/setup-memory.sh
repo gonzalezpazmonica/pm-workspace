@@ -27,6 +27,10 @@ esac
 if [[ "$PROJECT_NAME" == *[[:cntrl:]]* ]]; then
     invalid_name "$(printf '%q' "$PROJECT_NAME")"
 fi
+# Controles bidi Unicode (U+200E/F, U+202A-202E, U+2066-2069): engañan a la vista en listados.
+if printf '%s' "$PROJECT_NAME" | LC_ALL=C grep -qE $'\xe2\x80[\x8e\x8f\xaa-\xae]|\xe2\x81[\xa6-\xa9]'; then
+    invalid_name "$(printf '%q' "$PROJECT_NAME") (contiene controles bidi Unicode)"
+fi
 if [ "$(printf '%s' "$PROJECT_NAME" | LC_ALL=C wc -c)" -gt 255 ]; then
     invalid_name "${PROJECT_NAME:0:40}… (demasiado largo)"
 fi
@@ -35,6 +39,14 @@ if [ -n "${SAVIA_MEMORY_DIR:-}" ]; then
     MEMORY_DIR="$SAVIA_MEMORY_DIR"
 elif [ -n "${HOME:-}" ]; then
     MEMORY_DIR="$HOME/.savia/projects/$PROJECT_NAME/memory"
+    # Un symlink en <proyecto>/ o en memory/ haría que mkdir -p y las escrituras
+    # salieran de ~/.savia/projects; ~/.savia en sí puede ser un enlace legítimo.
+    for link in "$HOME/.savia/projects/$PROJECT_NAME" "$MEMORY_DIR"; do
+        if [ -L "$link" ]; then
+            echo "❌ $link es un enlace simbólico: me niego a escribir a través de él." >&2
+            exit 2
+        fi
+    done
 else
     echo "❌ HOME no está definida y tampoco SAVIA_MEMORY_DIR: no sé dónde crear la memoria." >&2
     exit 2
@@ -42,31 +54,43 @@ fi
 
 TODAY="$(date +%Y-%m-%d)"
 
+# Permisos de los ficheros creados: los de la umask, como haría una redirección normal
+# (mktemp crea en 0600 y ln conserva el inodo).
+FILE_MODE="$(printf '%o' $(( 0666 & ~$(umask) )))"
+
 # write_if_absent <destino> — lee el contenido de stdin y lo publica de forma atómica
 # solo si el destino no existe. Devuelve 0 si lo creó y 3 si ya existía. Un temporal
-# + ln (que falla si el destino existe) evita ficheros a medias y carreras entre
-# ejecuciones simultáneas.
+# + ln (que falla si el destino existe) garantiza que nadie lee un fichero a medias y
+# que dos ejecuciones simultáneas no se pisan. En sistemas sin hard links (exFAT, SMB)
+# cae a mv -n, que sigue siendo un rename atómico sin sobrescribir.
+# Se invoca siempre como destino de una tubería, así que corre en un subshell propio:
+# sus traps (limpieza del temporal al salir o al recibir INT/TERM) no afectan al script.
 write_if_absent() {
     local dst="$1" tmp rc=0
-    if [ -e "$dst" ]; then
+    if [ -e "$dst" ] || [ -L "$dst" ]; then
         cat >/dev/null
         return 3
     fi
     tmp="$(mktemp "$dst.tmp.XXXXXX")" || return 1
-    if ! cat >"$tmp"; then
+    trap 'rm -f "$tmp"' EXIT
+    trap 'exit 130' INT
+    trap 'exit 143' TERM
+    if ! cat >"$tmp" || ! chmod "$FILE_MODE" "$tmp"; then
         echo "❌ No se pudo escribir $tmp" >&2
-        rm -f "$tmp"
         return 1
     fi
     if ! ln "$tmp" "$dst" 2>/dev/null; then
-        if [ -e "$dst" ]; then
+        if [ -e "$dst" ] || [ -L "$dst" ]; then
+            rc=3
+        elif mv -n "$tmp" "$dst" 2>/dev/null && [ ! -e "$tmp" ]; then
+            rc=0
+        elif [ -e "$dst" ]; then
             rc=3
         else
             echo "❌ No se pudo crear $dst" >&2
             rc=1
         fi
     fi
-    rm -f "$tmp"
     return "$rc"
 }
 

@@ -179,6 +179,93 @@ all_files() { (cd "$TMP" && find . -type f | sort); }
   [ ! -e "$BASE/$huge" ]
 }
 
+# fake_bin <nombre> <cuerpo> — crea un ejecutable en $TMP/bin que sustituye a <nombre> vía PATH.
+fake_bin() {
+  mkdir -p "$TMP/bin"
+  printf '#!/bin/bash\n%s\n' "$2" > "$TMP/bin/$1"
+  chmod +x "$TMP/bin/$1"
+}
+
+@test "atomicidad: MEMORY.md no existe mientras se escribe su contenido (solo se publica completo)" {
+  [ -d /proc/self/fd ] || skip "sin /proc"
+  real_cat="$(command -v cat)"
+  # cat espía: anota a qué fichero escribe y si MEMORY.md ya es visible en ese momento.
+  fake_bin cat "out=\$(readlink /proc/\$\$/fd/1); vis=no; [ -e \"$BASE/mi-api/memory/MEMORY.md\" ] && vis=yes
+echo \"\$out \$vis\" >> \"$TMP/spy.log\"; exec $real_cat \"\$@\""
+  run env PATH="$TMP/bin:$PATH" bash "$TARGET" mi-api
+  [ "$status" -eq 0 ]
+  [ "$(head -1 "$BASE/mi-api/memory/MEMORY.md")" = "# Memory — mi-api" ]
+  # Se escribió en un temporal y, en ese instante, el destino aún no existía.
+  grep -qE 'memory/MEMORY\.md\.tmp\.[^ ]+ no$' "$TMP/spy.log"
+  run grep -E 'memory/MEMORY\.md (yes|no)$' "$TMP/spy.log"
+  [ "$status" -ne 0 ]
+}
+
+@test "error: memory/ existente sin permiso de escritura aborta con exit 1 (fail-closed) y sin MEMORY.md" {
+  mkdir -p "$BASE/mi-api/memory"
+  chmod 0555 "$BASE/mi-api/memory"
+  run bash "$TARGET" mi-api
+  chmod 0755 "$BASE/mi-api/memory"
+  [ "$status" -eq 1 ]
+  [[ "$output" == *"Abortado"* ]]
+  [ ! -e "$BASE/mi-api/memory/MEMORY.md" ]
+  [[ "$output" != *"Auto Memory inicializada"* ]]
+}
+
+@test "permisos: los ficheros respetan la umask (644 con umask 022), no quedan en 600" {
+  run bash -c 'umask 022 && bash "$1" mi-api' _ "$TARGET"
+  [ "$status" -eq 0 ]
+  for f in "$BASE/mi-api/memory/"*.md; do
+    [ "$(stat -c %a "$f")" = "644" ]
+  done
+  run bash -c 'umask 077 && bash "$1" otro' _ "$TARGET"
+  [ "$(stat -c %a "$BASE/otro/memory/MEMORY.md")" = "600" ]
+}
+
+@test "interrupción: SIGTERM durante la escritura no deja temporales huérfanos" {
+  real_cat="$(command -v cat)"
+  # El primer cat que escribe en un temporal envía SIGTERM a su padre y sigue.
+  fake_bin cat "case \$(readlink /proc/\$\$/fd/1) in *.tmp.*) [ -e \"$TMP/killed\" ] || { touch \"$TMP/killed\"; kill -TERM \$PPID; } ;; esac
+exec $real_cat \"\$@\""
+  run env PATH="$TMP/bin:$PATH" bash "$TARGET" mi-api
+  [ -e "$TMP/killed" ]
+  [ "$status" -ne 0 ]
+  [ -z "$(find "$BASE" -name '*.tmp.*')" ]
+  [ ! -e "$BASE/mi-api/memory/MEMORY.md" ]
+}
+
+@test "sin hard links: si ln falla (exFAT, SMB) cae a mv -n y crea los 6 ficheros" {
+  fake_bin ln "exit 1"
+  run env PATH="$TMP/bin:$PATH" bash "$TARGET" mi-api
+  [ "$status" -eq 0 ]
+  [ "$(find "$BASE/mi-api/memory" -type f | wc -l)" -eq 6 ]
+  [ "$(head -1 "$BASE/mi-api/memory/MEMORY.md")" = "# Memory — mi-api" ]
+  run env PATH="$TMP/bin:$PATH" bash "$TARGET" mi-api
+  [ "$status" -eq 0 ]
+  [[ "$output" == *"MEMORY.md ya existe"* ]]
+}
+
+@test "reject: proyecto o memory/ que es symlink hacia fuera se rechaza sin escribir en el destino" {
+  mkdir -p "$BASE" "$TMP/fuera"
+  ln -s "$TMP/fuera" "$BASE/evil"
+  run bash "$TARGET" evil
+  [ "$status" -eq 2 ]
+  [ -z "$(ls -A "$TMP/fuera")" ]
+  mkdir -p "$BASE/evil2"
+  ln -s "$TMP/fuera" "$BASE/evil2/memory"
+  run bash "$TARGET" evil2
+  [ "$status" -eq 2 ]
+  [ -z "$(ls -A "$TMP/fuera")" ]
+}
+
+@test "reject: caracteres Unicode de control bidi (U+202E) se rechazan con exit 2" {
+  run bash "$TARGET" $'abc‮exe.md'
+  [ "$status" -eq 2 ]
+  run bash "$TARGET" $'x⁦y'
+  [ "$status" -eq 2 ]
+  [ ! -e "$BASE" ] || [ -z "$(ls -A "$BASE")" ]
+}
+
 @test "contrato skill: los /comandos que anuncian la skill y su comando existen (sin /onboarding-ask fantasma)" {
   missing=""
   for f in "$REPO_ROOT/.claude/skills/onboarding-dev/SKILL.md" "$REPO_ROOT/.claude/commands/onboarding-dev.md"; do

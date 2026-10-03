@@ -129,8 +129,9 @@ El agente buddy responde con explicaciones breves y accionables, cita fuentes in
 La skill es prosa que ejecuta el agente. Lo ejecutable de su cadena es el prerrequisito
 `/project-new`, que llama a `scripts/setup-memory.sh {proyecto}`: crea `MEMORY.md` y 5 topic
 files en `$SAVIA_MEMORY_DIR` o `~/.savia/projects/{proyecto}/memory/`, sin sobrescribir notas y
-con escritura atómica. Exit 0 ok · 1 fallo de escritura · 2 nombre inválido (`/`, `.`, `..`,
-guion inicial, control, >255 bytes) o sin `HOME`. Pruebas: `tests/test-onboarding-dev.bats`.
+con escritura atómica (permisos según la umask). Exit 0 ok · 1 fallo de escritura · 2 nombre
+inválido (`/`, `.`, `..`, guion inicial, control, bidi Unicode, >255 bytes), symlink en
+`{proyecto}/` o `memory/`, o sin `HOME`. Pruebas: `tests/test-onboarding-dev.bats`.
 
 ## Cuándo NO usar
 
