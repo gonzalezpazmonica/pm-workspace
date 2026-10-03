@@ -43,9 +43,13 @@ cd ~\claude
 ```
 
 El script detectará automáticamente tu SO y hardware, y te guiará por:
-1. Instalación de Ollama (gestor de LLMs locales)
-2. Descarga del modelo recomendado para tu RAM
-3. Configuración automática de variables
+1. Instalación de Ollama (gestor de LLMs locales). Requiere **Ollama >= 0.20.0**: es la primera versión que sirve `/v1/messages` (API Anthropic), la ruta que pide Claude Code. Con una versión anterior el script sale con código 1.
+2. Descarga de todos los modelos a los que apuntan los alias opus/sonnet/haiku (no solo el principal)
+3. Escritura de las variables en `~/.pm-workspace-emergency.env` (no toca `~/.bashrc` ni ningún fichero de shell: la emergencia es transitoria)
+
+La base es `ANTHROPIC_BASE_URL=http://localhost:11434`, **sin `/v1` final**: Claude Code añade `/v1/messages` y con `/v1` pediría `/v1/v1/messages`. El fichero fija además `ANTHROPIC_AUTH_TOKEN="ollama"` y `ANTHROPIC_API_KEY=""`: Ollama no valida credenciales, y sin ese placeholder Claude Code enviaría tu clave u OAuth reales a localhost o pediría `/login`.
+
+Si no hay internet y la caché no tiene ningún modelo, el script sale con código 1 y no escribe el fichero de variables.
 
 Si no hay internet, usará la caché local de `emergency-plan` automáticamente.
 
@@ -54,13 +58,15 @@ Si tu equipo tiene **menos de 16GB de RAM**, usa un modelo más pequeño:
 ./scripts/emergency-setup.sh --model qwen2.5:3b
 ```
 
+`--model` fija ese único modelo para todos los alias. Un argumento desconocido o `--model` sin valor sale con código 2.
+
 ### Paso 2: Verificar que funciona
 
 ```bash
 ./scripts/emergency-status.sh
 ```
 
-Deberías ver todo en verde (). Si hay problemas, el script te dice qué hacer.
+Sale con código 0 y «Sistema listo» solo si: Ollama >= 0.20.0 instalado, servidor en `:11434`, existe `~/.pm-workspace-emergency.env` y están descargados todos los modelos que ese fichero configura. Con el modo activo comprueba también que `ANTHROPIC_BASE_URL` no acabe en `/v1` y que haya `ANTHROPIC_AUTH_TOKEN`. Cualquier fallo: código 1 y la sugerencia para arreglarlo.
 
 ### Paso 3: Activar el modo emergencia
 
@@ -105,7 +111,7 @@ Ahora Claude Code / OpenCode usará el LLM local en lugar del cloud.
 
 ## Mapeo de Modelos
 
-Los aliases `opus`/`sonnet`/`haiku` de los 27 agentes se resuelven a modelos locales según RAM: 8GB→`3b` para todos · 16GB→`7b`/`7b`/`3b` · 32GB+→`14b`/`7b`/`3b`. Variables oficiales de Claude Code: `ANTHROPIC_DEFAULT_{OPUS,SONNET,HAIKU}_MODEL` y `CLAUDE_CODE_SUBAGENT_MODEL`. Personalízalas en `~/.pm-workspace-emergency.env`. Para usuarios de [Claude Code Router](https://github.com/musistudio/claude-code-router) (proyecto comunitario): tag `CCR-SUBAGENT-MODEL` permite override por agente.
+Los aliases `opus`/`sonnet`/`haiku` de los 27 agentes se resuelven a modelos locales según la RAM redondeada al GB (un equipo de 16 GB reporta ~15,6 GiB y cuenta como 16): 8GB→`3b` para todos · 16GB→`7b`/`7b`/`3b` · 32GB+→`14b`/`7b`/`3b`. Variables oficiales de Claude Code: `ANTHROPIC_DEFAULT_{OPUS,SONNET,HAIKU}_MODEL` y `CLAUDE_CODE_SUBAGENT_MODEL`. Personalízalas en `~/.pm-workspace-emergency.env`. Para usuarios de [Claude Code Router](https://github.com/musistudio/claude-code-router) (proyecto comunitario): tag `CCR-SUBAGENT-MODEL` permite override por agente.
 
 ## Volver a modo normal
 
@@ -115,9 +121,12 @@ Cuando el servicio cloud vuelva a estar disponible:
 unset ANTHROPIC_BASE_URL PM_EMERGENCY_MODE PM_EMERGENCY_MODEL
 unset ANTHROPIC_DEFAULT_OPUS_MODEL ANTHROPIC_DEFAULT_SONNET_MODEL
 unset ANTHROPIC_DEFAULT_HAIKU_MODEL CLAUDE_CODE_SUBAGENT_MODEL
+unset ANTHROPIC_AUTH_TOKEN ANTHROPIC_API_KEY
 ```
 
-O simplemente cierra y abre una nueva terminal.
+O simplemente cierra y abre una nueva terminal (Linux/macOS).
+
+**Windows**: `emergency-setup.ps1` persiste las variables a nivel de usuario (`[Environment]::SetEnvironmentVariable(..., "User")`), así que cerrar la terminal **no** basta: cada terminal nueva seguirá apuntando a localhost. Bórralas con `[Environment]::SetEnvironmentVariable("ANTHROPIC_BASE_URL", $null, "User")` y lo mismo para `PM_EMERGENCY_MODE`, `PM_EMERGENCY_MODEL`, `ANTHROPIC_DEFAULT_OPUS_MODEL`, `ANTHROPIC_DEFAULT_SONNET_MODEL`, `ANTHROPIC_DEFAULT_HAIKU_MODEL` y `CLAUDE_CODE_SUBAGENT_MODEL`.
 
 ## Troubleshooting
 
