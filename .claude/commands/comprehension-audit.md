@@ -6,6 +6,7 @@ allowed-tools:
   - Glob
   - Grep
   - Read
+  - Write
 model_tier: fast
 context_cost: low
 tier: core
