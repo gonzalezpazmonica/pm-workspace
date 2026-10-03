@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=3fcd942c3d6532d2f2d8d1d0862a51fc77dfdd75abfe526dd5b53d89d4d00439
-timestamp=2026-10-03T19:42:24Z
-branch=agent/pr1257-utf8-fix-20261003
-head_commit=0a2dbcc7
-signature=d8bd3e4d9b1bd6da5a2b7f2080f348bb696b5e641658fc654d3e1ce3f6885d30
+diff_hash=ce4c9f8fb672385f4d2141b0903a8a710820500a2ddb7bf5ee3ab20403c312b1
+timestamp=2026-10-03T19:53:56Z
+branch=agent/se376-reranker-20261003
+head_commit=91c0c6e5
+signature=488e00c080fecb05608964c35f6329fd1d6bea64f13f0fe7329499546b7996ed
