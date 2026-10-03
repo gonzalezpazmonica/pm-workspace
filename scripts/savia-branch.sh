@@ -7,7 +7,7 @@
 # Commands: read, list, write, exists, ensure-orphan, check-permission, fetch-messages
 
 set -euo pipefail
-SCRIPTS_DIR="$(cd "$(dirname "$0")" && pwd)"
+SCRIPTS_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 source "$SCRIPTS_DIR/savia-compat.sh"
 
 # ── Read file from branch without checkout ─────────────────────
@@ -79,6 +79,30 @@ do_ensure_orphan() {
   cd "$repo_dir"
   git -C "$repo_dir" worktree remove "$wtdir" 2>/dev/null || rm -rf "$wtdir"
   git -C "$repo_dir" fetch origin "$branch" 2>/dev/null || true
+}
+
+# ── Run a read-modify-write under an exclusive per-branch lock ──
+# Serializa escrituras concurrentes sobre la misma rama: sin lock, dos
+# procesos leen la misma version y el ultimo do_write pisa al primero.
+do_with_lock() {
+  local repo_dir="$1" name="$2"; shift 2
+  local common; common=$(git -C "$repo_dir" rev-parse --git-common-dir) || return 1
+  case "$common" in /*) ;; *) common="$repo_dir/$common" ;; esac
+  local lock="$common/savia-lock-${name//\//_}"
+  if command -v flock >/dev/null 2>&1; then
+    ( flock -w 60 9 || { echo "ERR lock timeout: $name" >&2; exit 75; }; "$@" ) 9>"$lock"
+    return
+  fi
+  local tries=0
+  until mkdir "$lock.d" 2>/dev/null; do
+    tries=$((tries + 1))
+    [ "$tries" -ge 600 ] && { echo "ERR lock timeout: $name" >&2; return 75; }
+    sleep 0.1
+  done
+  local rc=0
+  ( "$@" ) || rc=$?
+  rmdir "$lock.d"
+  return "$rc"
 }
 
 # ── Validate write permission for handle on branch ─────────────
