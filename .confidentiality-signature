@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=91561973a5759bdbc4e62c1fb2026d3ed4f9572fdd2e09ed6ec80b45a293a9dd
-timestamp=2026-10-03T08:06:38Z
-branch=agent/se376-sovereignty-auditor-20261003
-head_commit=4f66996f
-signature=e9fef87befbe1f6a84824028c84b7c25f2a51c1fc62d621e205233e5391aa1a3
+diff_hash=adc94e1ea5f1dff4c8082225e5c9b9c12e64db70cb4caf4d561220b444ff5b82
+timestamp=2026-10-03T16:49:07Z
+branch=agent/se376-calib-context-caching-20261003
+head_commit=ca95f786
+signature=e581399e5ebfb7bf66c8426d4335b8a981619ed7d1f00609d51d5ce53820b4fa
