@@ -11,17 +11,20 @@ code_files:
   - "src/AuthController.cs"
   - "tests/AuthServiceTests.cs"
 test_results: "dotnet test output" (optional — extract if not provided)
-agent_notes: ".claude/agent-notes/{task-id}.md" (optional)
+agent_notes: "projects/{proyecto}/agent-notes/{ticket}-*.md" (optional, docs/agent-notes-protocol.md)
 ```
 
 ## Output Schema
 
 ```
 output/comprehension/
-├── YYYYMMDD-{task-id}-mental-model.md    [main report, 5-8 pages]
-├── YYYYMMDD-{task-id}-flow.mermaid       [diagram source]
-└── YYYYMMDD-{task-id}-flow.png           [diagram PNG export]
+├── YYYYMMDD-{task-slug}-mental-model.md    [main report, 5-8 pages, max 15]
+├── YYYYMMDD-{task-slug}-flow.mermaid       [diagram source]
+└── YYYYMMDD-{task-slug}-flow.png           [only if mmdc is installed]
 ```
+
+`{task-slug}`: task-id with every character outside `[A-Za-z0-9._-]` replaced
+by `-` (`AB#1234` -> `AB-1234`, `sprint-12/feature-auth` -> `sprint-12-feature-auth`).
 
 ## Failure Heuristic Template
 
