@@ -10,7 +10,7 @@ metadata:
   savia.category: sdd-framework
   savia.context: project
   savia.priority: high
-  savia.summary: "Formato .acm (INDEX + mapas por capa) que el agente redacta y carga por capas. scripts/refresh-agent-maps.sh refresca cabeceras por repo, detecta checkouts vacios y .acm ausentes, y emite JSON. El hash y la generacion son manuales."
+  savia.summary: "Formato .acm que el agente redacta y carga por capas. refresh-agent-maps.sh refresca cabeceras por repo y emite JSON; hash y generacion son manuales."
   savia.tags: "acm, agent-maps, codemap, context, sdd, architecture"
   savia.user-invocable: True
 ---
@@ -40,11 +40,11 @@ bash scripts/refresh-agent-maps.sh <slug> <repo>   # un solo repo
   ignorando mayúsculas, `-` y `_` (`Api_Core` → `api-core.acm`).
 - Reescribe solo la **primera línea `> `** (cabecera): `refreshed: AAAA-MM-DD`; repo con solo
   `.git` → `status: stale-no-checkout`. El cuerpo no se toca. Escritura atómica (segura en concurrencia).
-- Actualiza `refreshed:` en `INDEX.acm`. **No** calcula hash ni crea `.acm`: sin `.acm` → `missing-acm`.
+- Actualiza `refreshed:` en `INDEX.acm` (también atómico). **No** calcula hash ni crea `.acm`: sin `.acm` → `missing-acm`.
 - stdout: JSON válido `{"slug","ts","repos":[{"repo","status","acm","counts":{cs,vue,sql,tf,csproj,controllers},"last_commit"}]}`.
   `status` ∈ `refreshed | missing-acm | stale-no-checkout | missing-repo | error`.
-- Exit: `0` ok · `1` falta `repos/` o `.agent-maps/repos/`, o el repo pedido no existe · `2` slug o repo inválido
-  (solo `[A-Za-z0-9._-]`, sin `..`).
+- Exit: `0` ok · `1` falta `repos/` o `.agent-maps/repos/`, algún repo en `missing-repo` o `error` (.acm no escribible;
+  no toca `INDEX.acm` ni imprime `OK`) · `2` slug o repo inválido (solo `[A-Za-z0-9._-]`, sin `..`).
 
 Tests: `tests/test-agent-code-map.bats`.
 
@@ -110,9 +110,9 @@ marca `refreshed:` y `stale-no-checkout`.
 
 ## Sistema @include
 
-Los agentes cargan .acm bajo demanda (`@include domain/entities.acm`) para
-minimizar tokens; el agente resuelve el include leyendo el fichero. Reglas: máximo 150 líneas por .acm. Si crece, dividir en subdirectorios:
-`domain/entities/user.acm`, `domain/entities/order.acm`, etc.
+Carga bajo demanda (`@include domain/entities.acm`): el agente lo resuelve leyendo
+el fichero. Máximo 150 líneas por .acm; si crece, dividir en subdirectorios
+(`domain/entities/user.acm`, `domain/entities/order.acm`, etc.).
 
 ## Integración en pipeline SDD
 

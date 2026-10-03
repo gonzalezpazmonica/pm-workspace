@@ -48,10 +48,69 @@ valid_json() {
   python3 -c 'import json,sys; json.load(open(sys.argv[1], encoding="utf-8"))' "$1"
 }
 
-@test "target script uses set -uo pipefail" {
-  run grep -c '^set -uo pipefail' "$REPO_ROOT/$SCRIPT"
+# El objetivo corre con set -uo pipefail: con un entorno vacio (sin HOME,
+# TMPDIR, LANG...) no debe abortar por variable sin definir.
+@test "runs with an empty environment without unbound variable errors" {
+  mkrepo api "feat: x"
+  acm api.acm
+  run env -i PATH="$PATH" bash "$RUN" demo
   [ "$status" -eq 0 ]
-  [ "$output" -ge 1 ]
+  [[ "$output" != *"unbound variable"* && "$output" != *"variable sin asignar"* ]]
+  [[ "$output" == *'"status":"refreshed"'* ]]
+}
+
+@test "existing refreshed date in header is replaced, not duplicated" {
+  mkrepo api "feat: x"
+  printf '# R\n> hash: sha256:abc | generated: 2026-01-01 | refreshed: 2000-01-01\n' > "$MAPS/api.acm"
+  run bash "$RUN" demo
+  [ "$status" -eq 0 ]
+  run sed -n 2p "$MAPS/api.acm"
+  [ "$output" = "> hash: sha256:abc | generated: 2026-01-01 | refreshed: $(date +%Y-%m-%d)" ]
+}
+
+@test "placeholder refreshed ?? left by stale marking is replaced on next refresh" {
+  mkrepo api "feat: x"
+  printf '# R\n> hash: sha256:auto | generated: ?? | refreshed: ?? | status: x\n' > "$MAPS/api.acm"
+  printf '# INDEX\n> refreshed: ??\n' > "$P/.agent-maps/INDEX.acm"
+  run bash "$RUN" demo
+  [ "$status" -eq 0 ]
+  run grep -c "refreshed: $(date +%Y-%m-%d)" "$MAPS/api.acm"
+  [ "$output" = "1" ]
+  run grep -c "refreshed: $(date +%Y-%m-%d)" "$P/.agent-maps/INDEX.acm"
+  [ "$output" = "1" ]
+}
+
+@test "write error on acm fails with error status and exit 1 (no fail-open)" {
+  [ "$(id -u)" -ne 0 ] || skip "root ignora permisos de escritura"
+  mkrepo api "feat: x"
+  mkdir -p "$REPOS/empty/.git"
+  acm api.acm
+  acm empty.acm
+  printf '# INDEX\n> refreshed: 2000-01-01\n' > "$P/.agent-maps/INDEX.acm"
+  chmod 555 "$MAPS"
+  run bash -c '"$0" demo 2>"$1/err"' "$RUN" "$TMPDIR_TEST"
+  chmod 755 "$MAPS"
+  [ "$status" -eq 1 ]
+  [[ "$output" == *'"repo":"api","status":"error"'* ]]
+  [[ "$output" == *'"repo":"empty","status":"error"'* ]]
+  run cat "$TMPDIR_TEST/err"
+  [[ "$output" != *"OK refresh-agent-maps"* ]]
+  run grep -c "refreshed: 2000-01-01" "$P/.agent-maps/INDEX.acm"
+  [ "$output" = "1" ]
+  run grep -c "refreshed:" "$MAPS/api.acm"
+  [ "$output" = "0" ]
+}
+
+@test "unique temp file: a pre-existing acm.tmp is neither consumed nor overwritten" {
+  mkrepo api "feat: x"
+  acm api.acm
+  echo "centinela ajeno" > "$MAPS/api.acm.tmp"
+  run bash "$RUN" demo
+  [ "$status" -eq 0 ]
+  run cat "$MAPS/api.acm.tmp"
+  [ "$output" = "centinela ajeno" ]
+  run grep -c "refreshed: $(date +%Y-%m-%d)" "$MAPS/api.acm"
+  [ "$output" = "1" ]
 }
 
 @test "refresh positive: updates header, keeps body and reports counts" {
@@ -118,9 +177,11 @@ valid_json() {
 @test "missing single repo fails with non-zero exit" {
   acm api.acm
   run bash -c '"$0" demo nope 2>&1' "$RUN"
-  [ "$status" -ne 0 ]
-  [[ "$output" == *"nope"* ]]
+  [ "$status" -eq 1 ]
+  [[ "$output" == *'"repo":"nope","status":"missing-repo"'* ]]
   [[ "$output" != *"OK refresh-agent-maps"* ]]
+  run bash -c '"$0" demo nope 2>/dev/null > "$1/out.json"' "$RUN" "$TMPDIR_TEST"
+  valid_json "$TMPDIR_TEST/out.json"
 }
 
 @test "missing slug argument is rejected with usage" {
@@ -166,8 +227,11 @@ valid_json() {
 @test "concurrent runs leave the acm header intact" {
   mkrepo api "feat: x"
   acm api.acm
-  for i in 1 2 3 4; do bash "$RUN" demo >/dev/null 2>&1 & done
-  wait
+  local round i
+  for round in 1 2 3; do
+    for i in 1 2 3 4 5 6 7 8; do bash "$RUN" demo >/dev/null 2>&1 & done
+    wait
+  done
   run grep -c '^> hash: sha256:abc' "$MAPS/api.acm"
   [ "$output" = "1" ]
   run grep -c 'refreshed:' "$MAPS/api.acm"
