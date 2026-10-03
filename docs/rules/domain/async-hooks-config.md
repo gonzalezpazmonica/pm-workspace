@@ -33,6 +33,17 @@ Mark them as `async: true` so they run in the background.
 | `plan-gate.sh` | Command | No | Plan approval — must block |
 | `pre-commit-review.sh` | Command | No | Review gate — must block |
 
+## Sin red ni `sleep` en primer plano (arranque blindado)
+
+Un hook síncrono de `SessionStart`, `UserPromptSubmit` o `PreToolUse` no espera a la red ni duerme. Patrón: el sondeo corre en segundo plano (`( … ) </dev/null >/dev/null 2>&1 &`), escribe un fichero de estado `clave=valor` (escritura atómica con `mv`) y el **siguiente** arranque lo lee validando cada clave, nunca con `source`. Toda tarea de fondo redirige stdout: si lo hereda, quien espera EOF de la tubería del hook espera también a la tarea.
+
+| Hook | Estado | Red en segundo plano |
+|---|---|---|
+| `session-init.sh` | `~/.savia/session-probes.state` (`SAVIA_PROBE_STATE`) | Ollama `/api/tags` + pre-carga, salud de Shield |
+| `shield-autostart.sh` | `~/.savia/shield-autostart.state` (`SAVIA_SHIELD_STATE`) | `shield-launcher.py start` + salud; `flock` evita arranques dobles |
+
+Excepción: un gate que necesita la respuesta (`pr-summary-gate.sh`) acota la espera (conexión 3 s, respuesta `PR_SUMMARY_LLM_TIMEOUT`, 30 s) y falla abierto con aviso. Sigue contando como E/S síncrona en el lint de G5b: es deliberado.
+
 ## Implementation
 
 In `.claude/settings.json`, async hooks use:
