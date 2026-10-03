@@ -299,3 +299,17 @@ setup() {
   grep -qF '/tmp/savia-gates-*-hook-*.json' "$ROOT_DIR/scripts/opencode-gates-heal.sh"
   grep -qF 'kill_target' "$ROOT_DIR/scripts/opencode-gates-heal.sh"
 }
+
+@test "plugin: PreToolUse sees through sandbox wrappers without trusting them (both forms, any block wins)" {
+  grep -qF 'guardVariants(input.tool, output.args)' "$PLUGIN_DIR/index.ts"
+  grep -qF 'export function unwrapSandbox' "$PLUGIN_DIR/lib/sandbox.ts"
+  # Only a clean wrapper is unwrapped: nothing but closing quotes may follow the last single quote.
+  grep -qF '/^[\\"\s]*$/' "$PLUGIN_DIR/lib/sandbox.ts"
+  [ -f "$PLUGIN_DIR/__tests__/sandbox.test.ts" ]
+}
+
+@test "savia-foundation: TS guards also run on the unwrapped sandbox command (both forms, any block wins)" {
+  grep -qF 'runGuardsOnVariants(BEFORE_GUARDS, input, output)' "$ROOT_DIR/.opencode/plugins/savia-foundation.ts"
+  grep -qF 'export async function runGuardsOnVariants' "$ROOT_DIR/.opencode/plugins/lib/sandbox.ts"
+  [ -f "$ROOT_DIR/.opencode/plugins/__tests__/sandbox-variants.test.ts" ]
+}
