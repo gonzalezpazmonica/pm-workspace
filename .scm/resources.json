@@ -1,5 +1,5 @@
 {
-  "hash": "365673126919",
+  "hash": "f7c2343ee53f",
   "total": 1450,
   "resources": [
     {
@@ -15000,7 +15000,7 @@
       ],
       "kind": "script",
       "path": "scripts/transcriptor-scan.sh",
-      "description": "transcriptor-scan.sh — listar reuniones listas para digerir de Savia Sonora"
+      "description": "transcriptor-scan.sh — listar reuniones listas para digerir de Savia Transcriptor"
     },
     {
       "category": "planning",
