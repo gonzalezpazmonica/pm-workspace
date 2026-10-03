@@ -55,8 +55,13 @@ Checklist:
 Flag if code changed significantly since last report:
 ```
 WARN Code AB#2847 has changed 15% since last comprehension report (2026-03-05).
-   Recommend: /comprehension-report AB#2847 --refresh
+   Recommend: /comprehension-report AB#2847
 ```
+
+No hay detector automático de este porcentaje: lo estima quien revisa
+(p. ej. `git diff --stat` desde la fecha del informe). Regenerar es volver a
+ejecutar `/comprehension-report` con el mismo task-id; el comando no tiene
+flag `--refresh`.
 
 Thresholds:
 - **Minor** (<5% change): no action
