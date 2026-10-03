@@ -22,7 +22,7 @@
 # Environment:
 #   ADB_PATH     — Override ADB binary location
 #   ADB_DEVICE   — Target device serial (auto-detected if one device)
-#   ADB_RETRIES  — Max retries for transient failures (default: 3)
+#   ADB_RETRIES  — Max attempts per command, transient failures (default: 3, min 1)
 #   ADB_TIMEOUT  — Command timeout in seconds (default: 30)
 #
 # Author: Savia PM-Workspace
@@ -96,9 +96,14 @@ _BLOCKED_OPERATIONS=(
 
 # Find ADB binary. Returns path or exits with error.
 adb_find_binary() {
-    if [[ -n "$ADB_PATH" && -x "$ADB_PATH" ]]; then
-        echo "$ADB_PATH"
-        return 0
+    # An explicit ADB_PATH is authoritative: never fall back to another adb.
+    if [[ -n "$ADB_PATH" ]]; then
+        if [[ -f "$ADB_PATH" && -x "$ADB_PATH" ]]; then
+            echo "$ADB_PATH"
+            return 0
+        fi
+        echo "ERROR: ADB_PATH is not an executable file: $ADB_PATH" >&2
+        return 1
     fi
 
     for path in "${_ADB_SEARCH_PATHS[@]}"; do
@@ -124,24 +129,30 @@ adb_find_binary() {
 # Usage: _adb_exec [args...]
 _adb_exec() {
     local adb
-    adb="$(adb_find_binary)"
+    adb="$(adb_find_binary)" || return 1
 
-    local device_flag=""
+    local -a cmd=("$adb")
     if [[ -n "$ADB_DEVICE" ]]; then
-        device_flag="-s $ADB_DEVICE"
+        cmd+=(-s "$ADB_DEVICE")
     fi
 
     local attempt=0
-    local max_attempts=$ADB_RETRIES
+    local max_attempts=1
+    if _adb_is_uint "$ADB_RETRIES" && (( ADB_RETRIES > 1 )); then
+        max_attempts=$ADB_RETRIES
+    fi
+    local tmo=30
+    if _adb_is_uint "$ADB_TIMEOUT" && (( ADB_TIMEOUT > 0 )); then
+        tmo=$ADB_TIMEOUT
+    fi
     local delay=1
 
     while (( attempt < max_attempts )); do
-        # shellcheck disable=SC2086
-        if timeout "$ADB_TIMEOUT" $adb $device_flag "$@" 2>&1; then
+        # stderr stays on stderr: adb error text must never be parsed as data
+        if timeout "$tmo" "${cmd[@]}" "$@"; then
             return 0
         fi
 
-        local exit_code=$?
         attempt=$((attempt + 1))
 
         if (( attempt < max_attempts )); then
@@ -158,17 +169,20 @@ _adb_exec() {
 # Classify a command's security level.
 # Returns: "safe", "risky", or "blocked"
 adb_classify() {
-    local cmd="$*"
+    local cmd=" $* "
 
-    for blocked in "${_BLOCKED_OPERATIONS[@]}"; do
-        if [[ "$cmd" == *"$blocked"* ]]; then
+    # Patterns match whole words: "pull /sdcard/rootfs.img" is not "root".
+    # A pattern ending in "=" (dd if=) is a prefix of its argument.
+    local pat
+    for pat in "${_BLOCKED_OPERATIONS[@]}"; do
+        if [[ "$cmd" == *" $pat "* || ( "$pat" == *"=" && "$cmd" == *" $pat"* ) ]]; then
             echo "blocked"
             return 0
         fi
     done
 
-    for risky in "${_RISKY_OPERATIONS[@]}"; do
-        if [[ "$cmd" == *"$risky"* ]]; then
+    for pat in "${_RISKY_OPERATIONS[@]}"; do
+        if [[ "$cmd" == *" $pat "* ]]; then
             echo "risky"
             return 0
         fi
@@ -177,25 +191,95 @@ adb_classify() {
     echo "safe"
 }
 
+# ─── Input Validation ──────────────────────────────────────────────────────
+# Arguments are joined into a device-side shell command by `adb shell`, so
+# anything reaching it must be validated or escaped (no injection on device).
+
+_adb_is_uint() { [[ "${1:-}" =~ ^[0-9]+$ ]]; }
+
+_adb_need_uint() {
+    local name="$1" value="${2:-}"
+    if ! _adb_is_uint "$value"; then
+        echo "ERROR: $name must be a non-negative integer, got: '$value'" >&2
+        return 1
+    fi
+}
+
+_adb_need_package() {
+    if [[ ! "${1:-}" =~ ^[A-Za-z][A-Za-z0-9_]*(\.[A-Za-z0-9_]+)+$ ]]; then
+        echo "ERROR: invalid package name: '${1:-}'" >&2
+        return 1
+    fi
+}
+
+_adb_need_arg() {
+    if [[ -z "${2:-}" ]]; then
+        echo "ERROR: missing argument: $1" >&2
+        return 1
+    fi
+}
+
+# Escape a string for JSON output.
+_adb_json_escape() {
+    local s="$1"
+    s="${s//\\/\\\\}"
+    s="${s//\"/\\\"}"
+    s="${s//$'\t'/\\t}"
+    s="${s//$'\r'/}"
+    s="${s//$'\n'/\\n}"
+    printf '%s' "$s"
+}
+
+# Escape text for the device shell used by `input text` (spaces become %s).
+_adb_escape_input_text() {
+    local text="$1" out="" ch i
+    for (( i = 0; i < ${#text}; i++ )); do
+        ch="${text:i:1}"
+        case "$ch" in
+            " ") out+="%s" ;;
+            [\\\'\"\`\$\;\&\|\<\>\(\)\*\?\~\!\#\[\]\{\}]) out+="\\$ch" ;;
+            *) out+="$ch" ;;
+        esac
+    done
+    printf '%s' "$out"
+}
+
+# Screen size "WxH" (override size wins over physical). Fails if unknown.
+_adb_screen_size() {
+    local size
+    size="$(_adb_exec shell wm size 2>/dev/null | grep -oP '\d+x\d+' | tail -1 || true)"
+    if [[ ! "$size" =~ ^[0-9]+x[0-9]+$ ]]; then
+        echo "ERROR: could not read screen size (wm size)" >&2
+        return 1
+    fi
+    echo "$size"
+}
+
 # ─── Device Management ──────────────────────────────────────────────────────
 
 # List connected devices as JSON array.
 adb_devices() {
     local adb
-    adb="$(adb_find_binary)"
+    adb="$(adb_find_binary)" || return 1
     local raw
-    raw="$($adb devices -l 2>&1)"
+    if ! raw="$("$adb" devices -l)"; then
+        echo "ERROR: adb devices failed" >&2
+        return 1
+    fi
 
     echo "["
     local first=true
+    local line serial state model device transport
     while IFS= read -r line; do
-        # Skip header and empty lines
+        line="${line%$'\r'}"
+        # Skip header, empty lines and daemon banners ("* daemon started ...")
         [[ "$line" == "List of devices"* ]] && continue
-        [[ -z "$line" ]] && continue
+        [[ "$line" == "*"* ]] && continue
+        [[ -z "${line// /}" ]] && continue
 
-        local serial model device transport state
         serial="$(echo "$line" | awk '{print $1}')"
         state="$(echo "$line" | awk '{print $2}')"
+        [[ -z "$state" ]] && continue
 
         # Extract model and device from the line
         model="$(echo "$line" | grep -oP 'model:\K\S+' || echo "unknown")"
@@ -208,7 +292,9 @@ adb_devices() {
             echo ","
         fi
         printf '  {"serial":"%s","state":"%s","model":"%s","device":"%s","transport_id":"%s"}' \
-            "$serial" "$state" "$model" "$device" "$transport"
+            "$(_adb_json_escape "$serial")" "$(_adb_json_escape "$state")" \
+            "$(_adb_json_escape "$model")" "$(_adb_json_escape "$device")" \
+            "$(_adb_json_escape "$transport")"
     done <<< "$raw"
     echo ""
     echo "]"
@@ -221,44 +307,57 @@ adb_auto_select() {
     fi
 
     local adb
-    adb="$(adb_find_binary)"
-    local count
-    count="$($adb devices | grep -c 'device$' || true)"
+    adb="$(adb_find_binary)" || return 1
+    local ready
+    ready="$("$adb" devices | tr -d '\r' | awk '$2 == "device" {print $1}')"
+    local count=0
+    [[ -n "$ready" ]] && count="$(printf '%s\n' "$ready" | wc -l)"
 
     if (( count == 0 )); then
         echo "ERROR: No Android devices connected." >&2
         return 1
     elif (( count == 1 )); then
-        ADB_DEVICE="$($adb devices | grep 'device$' | awk '{print $1}')"
+        ADB_DEVICE="$ready"
         echo "Auto-selected device: $ADB_DEVICE" >&2
         return 0
     else
         echo "ERROR: Multiple devices connected. Set ADB_DEVICE." >&2
-        $adb devices -l >&2
+        "$adb" devices -l >&2
         return 1
     fi
 }
 
-# Get device properties as JSON.
+# Read one getprop value; fails if the device does not answer.
+_adb_getprop() {
+    local value
+    value="$(_adb_exec shell getprop "$1")" || return 1
+    printf '%s' "${value//$'\r'/}"
+}
+
+# Get device properties as JSON. Fails (no JSON) if the device does not answer.
 adb_device_info() {
     adb_auto_select || return 1
 
     local android_ver sdk_ver model manufacturer screen_size density
-    android_ver="$(_adb_exec shell getprop ro.build.version.release 2>/dev/null | tr -d '\r')"
-    sdk_ver="$(_adb_exec shell getprop ro.build.version.sdk 2>/dev/null | tr -d '\r')"
-    model="$(_adb_exec shell getprop ro.product.model 2>/dev/null | tr -d '\r')"
-    manufacturer="$(_adb_exec shell getprop ro.product.manufacturer 2>/dev/null | tr -d '\r')"
-    screen_size="$(_adb_exec shell wm size 2>/dev/null | grep -oP '\d+x\d+' | tail -1 || echo "unknown")"
-    density="$(_adb_exec shell wm density 2>/dev/null | grep -oP '\d+' | tail -1 || echo "unknown")"
+    android_ver="$(_adb_getprop ro.build.version.release)" || { echo "ERROR: device not responding: $ADB_DEVICE" >&2; return 1; }
+    sdk_ver="$(_adb_getprop ro.build.version.sdk)" || return 1
+    model="$(_adb_getprop ro.product.model)" || return 1
+    manufacturer="$(_adb_getprop ro.product.manufacturer)" || return 1
+    screen_size="$(_adb_screen_size 2>/dev/null || echo "unknown")"
+    density="$(_adb_exec shell wm density 2>/dev/null | grep -oP '\d+' | tail -1 || true)"
+    [[ -n "$density" ]] || density="unknown"
 
-    printf '{"serial":"%s","android":"%s","sdk":"%s","model":"%s","manufacturer":"%s","screen":"%s","density":"%s"}' \
-        "$ADB_DEVICE" "$android_ver" "$sdk_ver" "$model" "$manufacturer" "$screen_size" "$density"
+    printf '{"serial":"%s","android":"%s","sdk":"%s","model":"%s","manufacturer":"%s","screen":"%s","density":"%s"}\n' \
+        "$(_adb_json_escape "$ADB_DEVICE")" "$(_adb_json_escape "$android_ver")" \
+        "$(_adb_json_escape "$sdk_ver")" "$(_adb_json_escape "$model")" \
+        "$(_adb_json_escape "$manufacturer")" "$screen_size" "$density"
 }
 
 # ─── APK Operations ─────────────────────────────────────────────────────────
 
 # Install APK on device.
 adb_install() {
+    _adb_need_arg "apk path" "${1:-}" || return 1
     local apk_path="$1"
 
     if [[ ! -f "$apk_path" ]]; then
@@ -270,31 +369,38 @@ adb_install() {
     _adb_exec install -r -t "$apk_path"
 }
 
-# Uninstall package.
+# Uninstall package. Idempotent: a package that is not installed is not an error.
 adb_uninstall() {
+    _adb_need_package "${1:-}" || return 1
     local package="$1"
     echo "Uninstalling: $package" >&2
     _adb_exec uninstall "$package" 2>/dev/null || true
 }
 
-# Check if package is installed.
+# Check if package is installed (exact name, not a prefix).
 adb_is_installed() {
+    _adb_need_package "${1:-}" || return 1
     local package="$1"
-    _adb_exec shell pm list packages 2>/dev/null | grep -q "package:$package"
+    _adb_exec shell pm list packages 2>/dev/null | tr -d '\r' | grep -qxF "package:$package"
 }
 
 # Launch app by package/activity.
 adb_launch() {
+    _adb_need_package "${1:-}" || return 1
     local package="$1"
     local activity="${2:-}"
 
     if [[ -n "$activity" ]]; then
+        if [[ ! "$activity" =~ ^[A-Za-z0-9_.]+$ ]]; then
+            echo "ERROR: invalid activity name: '$activity'" >&2
+            return 1
+        fi
         _adb_exec shell am start -n "$package/$activity"
     else
         # Use am start with LAUNCHER intent (faster and cleaner than monkey)
         local launcher
-        launcher="$(_adb_exec shell cmd package resolve-activity --brief "$package" 2>/dev/null | tail -1 | tr -d '\r')"
-        if [[ -n "$launcher" && "$launcher" == *"/"* ]]; then
+        launcher="$(_adb_exec shell cmd package resolve-activity --brief "$package" 2>/dev/null | tail -1 | tr -d '\r' || true)"
+        if [[ "$launcher" =~ ^[A-Za-z0-9_.]+/[A-Za-z0-9_.]+$ ]]; then
             _adb_exec shell am start -n "$launcher" 2>/dev/null
         else
             # Fallback: use monkey (slower but works when resolve-activity fails)
@@ -305,28 +411,37 @@ adb_launch() {
 
 # Force-stop app.
 adb_stop() {
-    local package="$1"
-    _adb_exec shell am force-stop "$package"
+    _adb_need_package "${1:-}" || return 1
+    _adb_exec shell am force-stop "$1"
 }
 
 # Clear app data.
 adb_clear_data() {
-    local package="$1"
-    _adb_exec shell pm clear "$package"
+    _adb_need_package "${1:-}" || return 1
+    _adb_exec shell pm clear "$1"
 }
 
 # ─── Screenshot & Recording ────────────────────────────────────────────────
 
+# Pull a device file to a local path. Any stale local file is removed first,
+# so success always means a fresh capture.
+_adb_pull_fresh() {
+    local device_path="$1" output="$2"
+    if [[ -e "$output" ]] && ! rm -f -- "$output"; then
+        echo "ERROR: cannot replace existing file: $output" >&2
+        return 1
+    fi
+    _adb_exec pull "$device_path" "$output" >/dev/null || return 1
+    [[ -f "$output" ]]
+}
+
 # Capture screenshot and pull to local path.
 adb_screenshot() {
-    local output="${1:-/tmp/android-screenshot-$(date +%s).png}"
+    local output="${1:-${TMPDIR:-/tmp}/android-screenshot-$(date +%s).png}"
     local device_path="/sdcard/savia-screenshot.png"
 
-    _adb_exec shell screencap -p "$device_path" && \
-    _adb_exec pull "$device_path" "$output" >/dev/null 2>&1 && \
-    _adb_exec shell rm "$device_path" 2>/dev/null
-
-    if [[ -f "$output" ]]; then
+    if _adb_exec shell screencap -p "$device_path" && _adb_pull_fresh "$device_path" "$output"; then
+        _adb_exec shell rm "$device_path" >/dev/null 2>&1 || echo "WARN: could not delete $device_path on device" >&2
         echo "$output"
     else
         echo "ERROR: Screenshot failed" >&2
@@ -339,6 +454,11 @@ adb_record_start() {
     local output="${1:-/sdcard/savia-recording.mp4}"
     local duration="${2:-30}"
 
+    _adb_need_uint "duration" "$duration" || return 1
+    if [[ ! "$output" =~ ^/[A-Za-z0-9_./-]+$ ]]; then
+        echo "ERROR: invalid device path: '$output'" >&2
+        return 1
+    fi
     _adb_exec shell screenrecord --time-limit "$duration" "$output" &
     echo $!
 }
@@ -346,9 +466,9 @@ adb_record_start() {
 # Pull recording from device.
 adb_record_pull() {
     local device_path="${1:-/sdcard/savia-recording.mp4}"
-    local local_path="${2:-/tmp/android-recording-$(date +%s).mp4}"
+    local local_path="${2:-${TMPDIR:-/tmp}/android-recording-$(date +%s).mp4}"
 
-    _adb_exec pull "$device_path" "$local_path" >/dev/null 2>&1
+    _adb_pull_fresh "$device_path" "$local_path" || { echo "ERROR: Recording pull failed" >&2; return 1; }
     echo "$local_path"
 }
 
@@ -356,26 +476,34 @@ adb_record_pull() {
 
 # Tap at coordinates.
 adb_tap() {
-    local x="$1" y="$2"
-    _adb_exec shell input tap "$x" "$y" >/dev/null
+    _adb_need_uint "x" "${1:-}" || return 1
+    _adb_need_uint "y" "${2:-}" || return 1
+    _adb_exec shell input tap "$1" "$2" >/dev/null
 }
 
 # Long press at coordinates (duration in ms).
 adb_long_press() {
-    local x="$1" y="$2" duration="${3:-1000}"
+    local x="${1:-}" y="${2:-}" duration="${3:-1000}"
+    _adb_need_uint "x" "$x" || return 1
+    _adb_need_uint "y" "$y" || return 1
+    _adb_need_uint "duration" "$duration" || return 1
     _adb_exec shell input swipe "$x" "$y" "$x" "$y" "$duration" >/dev/null
 }
 
 # Swipe from (x1,y1) to (x2,y2) over duration ms.
 adb_swipe() {
-    local x1="$1" y1="$2" x2="$3" y2="$4" duration="${5:-300}"
+    local x1="${1:-}" y1="${2:-}" x2="${3:-}" y2="${4:-}" duration="${5:-300}"
+    local v
+    for v in "$x1" "$y1" "$x2" "$y2" "$duration"; do
+        _adb_need_uint "swipe argument" "$v" || return 1
+    done
     _adb_exec shell input swipe "$x1" "$y1" "$x2" "$y2" "$duration" >/dev/null
 }
 
 # Scroll down (swipe up gesture).
 adb_scroll_down() {
     local screen_info
-    screen_info="$(_adb_exec shell wm size 2>/dev/null | grep -oP '\d+x\d+' | tail -1)"
+    screen_info="$(_adb_screen_size)" || return 1
     local w h
     w="${screen_info%x*}"
     h="${screen_info#*x}"
@@ -390,7 +518,7 @@ adb_scroll_down() {
 # Scroll up (swipe down gesture).
 adb_scroll_up() {
     local screen_info
-    screen_info="$(_adb_exec shell wm size 2>/dev/null | grep -oP '\d+x\d+' | tail -1)"
+    screen_info="$(_adb_screen_size)" || return 1
     local w h
     w="${screen_info%x*}"
     h="${screen_info#*x}"
@@ -402,18 +530,22 @@ adb_scroll_up() {
     adb_swipe "$cx" "$y_start" "$cx" "$y_end" 300
 }
 
-# Type text on device.
+# Type text on device. Spaces become %s (so a literal "%s" cannot be typed);
+# shell metacharacters are escaped for the device shell.
 adb_type() {
+    _adb_need_arg "text" "${1:-}" || return 1
     local text="$1"
-    # ADB input text needs spaces escaped
-    local escaped="${text// /%s}"
-    _adb_exec shell input text "$escaped" >/dev/null
+    if [[ "$text" == *$'\n'* || "$text" == *$'\t'* ]]; then
+        echo "ERROR: adb_type does not support newlines or tabs (use adb_key enter/tab)" >&2
+        return 1
+    fi
+    _adb_exec shell input text "$(_adb_escape_input_text "$text")" >/dev/null
 }
 
 # Press key by keycode name or number.
 # Common: BACK=4, HOME=3, ENTER=66, TAB=61, DEL=67
 adb_key() {
-    local key="$1"
+    local key="${1:-}"
     case "$key" in
         back|BACK)    _adb_exec shell input keyevent 4 >/dev/null ;;
         home|HOME)    _adb_exec shell input keyevent 3 >/dev/null ;;
@@ -422,7 +554,12 @@ adb_key() {
         delete|DEL)   _adb_exec shell input keyevent 67 >/dev/null ;;
         recent|RECENT) _adb_exec shell input keyevent 187 >/dev/null ;;
         menu|MENU)    _adb_exec shell input keyevent 82 >/dev/null ;;
-        *)            _adb_exec shell input keyevent "$key" >/dev/null ;;
+        *)
+            if [[ ! "$key" =~ ^[A-Za-z0-9_]+$ ]]; then
+                echo "ERROR: invalid key: '$key'" >&2
+                return 1
+            fi
+            _adb_exec shell input keyevent "$key" >/dev/null ;;
     esac
 }
 
@@ -430,14 +567,11 @@ adb_key() {
 
 # Dump UI hierarchy to local file. Returns path.
 adb_hierarchy() {
-    local output="${1:-/tmp/android-hierarchy-$(date +%s).xml}"
+    local output="${1:-${TMPDIR:-/tmp}/android-hierarchy-$(date +%s).xml}"
     local device_path="/sdcard/savia-hierarchy.xml"
 
-    _adb_exec shell uiautomator dump "$device_path" >/dev/null 2>&1
-    _adb_exec pull "$device_path" "$output" >/dev/null 2>&1
-    _adb_exec shell rm "$device_path" 2>/dev/null
-
-    if [[ -f "$output" ]]; then
+    if _adb_exec shell uiautomator dump "$device_path" >/dev/null && _adb_pull_fresh "$device_path" "$output"; then
+        _adb_exec shell rm "$device_path" >/dev/null 2>&1 || echo "WARN: could not delete $device_path on device" >&2
         echo "$output"
     else
         echo "ERROR: Hierarchy dump failed" >&2
@@ -445,98 +579,90 @@ adb_hierarchy() {
     fi
 }
 
-# Find element bounds by resource-id. Returns "x1,y1,x2,y2" or empty.
-adb_find_by_id() {
-    local resource_id="$1"
-    local hierarchy_file
-    hierarchy_file="$(adb_hierarchy /tmp/_hierarchy_tmp.xml)"
-
-    if [[ ! -f "$hierarchy_file" ]]; then
-        return 1
-    fi
-
-    # Extract bounds attribute for matching resource-id
-    local bounds
-    bounds="$(grep -oP "resource-id=\"[^\"]*${resource_id}[^\"]*\"[^>]*bounds=\"\[\K[0-9,]+\]\[[0-9,]+\]" "$hierarchy_file" | head -1 || true)"
-
-    if [[ -z "$bounds" ]]; then
-        rm -f "$hierarchy_file"
-        return 1
-    fi
-
-    # Parse [x1,y1][x2,y2] format
-    local x1 y1 x2 y2
-    x1="$(echo "$bounds" | grep -oP '^\d+')"
-    y1="$(echo "$bounds" | grep -oP '(?<=,)\d+(?=\])'  | head -1)"
-    x2="$(echo "$bounds" | grep -oP '(?<=\[)\d+' | tail -1)"
-    y2="$(echo "$bounds" | grep -oP '\d+(?=\]$)')"
-
-    rm -f "$hierarchy_file"
-    echo "$x1,$y1,$x2,$y2"
+# Escape a literal for comparison against XML attribute values.
+_adb_xml_escape() {
+    local s="$1"
+    s="${s//&/&amp;}"
+    s="${s//</&lt;}"
+    s="${s//>/&gt;}"
+    s="${s//\"/&quot;}"
+    s="${s//\'/&apos;}"
+    printf '%s' "$s"
 }
 
-# Find element bounds by text content. Returns "x1,y1,x2,y2" or empty.
-adb_find_by_text() {
-    local text="$1"
-    local hierarchy_file
-    hierarchy_file="$(adb_hierarchy /tmp/_hierarchy_tmp.xml)"
+# Print "x1,y1,x2,y2" of the first node containing any of the given literal
+# attribute fragments (fixed strings, no regex). Fails if none matches.
+# The dump goes to a private mktemp file (no fixed /tmp path shared between runs).
+_adb_find_bounds() {
+    local hierarchy_file node bounds
+    hierarchy_file="$(mktemp "${TMPDIR:-/tmp}/savia-adb-hierarchy-XXXXXX")" || return 1
 
-    if [[ ! -f "$hierarchy_file" ]]; then
+    if ! adb_hierarchy "$hierarchy_file" >/dev/null; then
+        rm -f -- "$hierarchy_file"
         return 1
     fi
 
-    local bounds
-    bounds="$(grep -oP "text=\"${text}\"[^>]*bounds=\"\[\K[0-9,]+\]\[[0-9,]+\]" "$hierarchy_file" | head -1 || true)"
+    local -a grep_args=()
+    local frag
+    for frag in "$@"; do
+        grep_args+=(-e "$frag")
+    done
+    node="$(grep -oP '<node [^>]*>' "$hierarchy_file" | grep -F "${grep_args[@]}" | head -1 || true)"
+    rm -f -- "$hierarchy_file"
 
+    bounds="$(printf '%s' "$node" | grep -oP 'bounds="\[\K\d+,\d+\]\[\d+,\d+(?=\]")' || true)"
     if [[ -z "$bounds" ]]; then
-        rm -f "$hierarchy_file"
         return 1
     fi
+    # "x1,y1][x2,y2" -> "x1,y1,x2,y2"
+    echo "${bounds/][/,}"
+}
 
-    local x1 y1 x2 y2
-    x1="$(echo "$bounds" | grep -oP '^\d+')"
-    y1="$(echo "$bounds" | grep -oP '(?<=,)\d+(?=\])'  | head -1)"
-    x2="$(echo "$bounds" | grep -oP '(?<=\[)\d+' | tail -1)"
-    y2="$(echo "$bounds" | grep -oP '\d+(?=\]$)')"
+# Find element bounds by resource-id. Returns "x1,y1,x2,y2" or fails.
+# Accepts the short id (login_button) or the full one (com.app:id/login_button).
+adb_find_by_id() {
+    _adb_need_arg "resource-id" "${1:-}" || return 1
+    local id
+    id="$(_adb_xml_escape "$1")"
+    _adb_find_bounds " resource-id=\"$id\"" ":id/$id\""
+}
 
-    rm -f "$hierarchy_file"
-    echo "$x1,$y1,$x2,$y2"
+# Find element bounds by exact text content. Returns "x1,y1,x2,y2" or fails.
+adb_find_by_text() {
+    _adb_need_arg "text" "${1:-}" || return 1
+    _adb_find_bounds " text=\"$(_adb_xml_escape "$1")\""
 }
 
 # Tap on element by resource-id (finds center of bounds).
 adb_tap_id() {
-    local resource_id="$1"
+    local resource_id="${1:-}"
     local bounds
-    bounds="$(adb_find_by_id "$resource_id")"
+    bounds="$(adb_find_by_id "$resource_id" || true)"
 
     if [[ -z "$bounds" ]]; then
         echo "ERROR: Element not found: $resource_id" >&2
         return 1
     fi
 
+    local x1 y1 x2 y2
     IFS=',' read -r x1 y1 x2 y2 <<< "$bounds"
-    local cx=$(( (x1 + x2) / 2 ))
-    local cy=$(( (y1 + y2) / 2 ))
-
-    adb_tap "$cx" "$cy"
+    adb_tap $(( (x1 + x2) / 2 )) $(( (y1 + y2) / 2 ))
 }
 
 # Tap on element by text content.
 adb_tap_text() {
-    local text="$1"
+    local text="${1:-}"
     local bounds
-    bounds="$(adb_find_by_text "$text")"
+    bounds="$(adb_find_by_text "$text" || true)"
 
     if [[ -z "$bounds" ]]; then
         echo "ERROR: Element not found with text: $text" >&2
         return 1
     fi
 
+    local x1 y1 x2 y2
     IFS=',' read -r x1 y1 x2 y2 <<< "$bounds"
-    local cx=$(( (x1 + x2) / 2 ))
-    local cy=$(( (y1 + y2) / 2 ))
-
-    adb_tap "$cx" "$cy"
+    adb_tap $(( (x1 + x2) / 2 )) $(( (y1 + y2) / 2 ))
 }
 
 # ─── Logcat & Debugging ────────────────────────────────────────────────────
@@ -546,31 +672,57 @@ adb_logcat_clear() {
     _adb_exec logcat -c 2>/dev/null
 }
 
+# logcat -t value for "the last N seconds". A bare "N.0" would be read by
+# logcat as epoch second N (the whole buffer), so use device time minus N.
+_adb_logcat_since() {
+    local seconds="$1" now
+    now="$(_adb_exec shell date +%s 2>/dev/null | tr -d '\r' || true)"
+    if ! _adb_is_uint "$now"; then
+        echo "ERROR: could not read device clock (date +%s)" >&2
+        return 1
+    fi
+    printf '%s.000' "$(( now - seconds ))"
+}
+
 # Get error-level logs for last N seconds. Returns log text.
+# If the package is not running (e.g. it just crashed) the logs are not
+# filtered by pid, with a warning on stderr.
 adb_logcat_errors() {
     local seconds="${1:-30}"
     local package="${2:-}"
 
-    local filter=""
+    _adb_need_uint "seconds" "$seconds" || return 1
+    local -a filter=()
     if [[ -n "$package" ]]; then
-        filter="--pid=$(_adb_exec shell pidof "$package" 2>/dev/null | tr -d '\r' || echo "0")"
+        _adb_need_package "$package" || return 1
+        local pid
+        pid="$(_adb_exec shell pidof "$package" 2>/dev/null | tr -d '\r' | awk '{print $1}' || true)"
+        if _adb_is_uint "$pid"; then
+            filter=("--pid=$pid")
+        else
+            echo "WARN: $package is not running; showing errors from all processes" >&2
+        fi
     fi
 
-    # shellcheck disable=SC2086
-    _adb_exec logcat -d -t "${seconds}.0" $filter "*:E" 2>/dev/null || true
+    local since
+    since="$(_adb_logcat_since "$seconds")" || return 1
+    _adb_exec logcat -d -t "$since" "${filter[@]}" "*:E" 2>/dev/null || true
 }
 
 # Get all logs for last N seconds.
 adb_logcat_recent() {
     local seconds="${1:-10}"
-    _adb_exec logcat -d -t "${seconds}.0" 2>/dev/null || true
+    _adb_need_uint "seconds" "$seconds" || return 1
+    local since
+    since="$(_adb_logcat_since "$seconds")" || return 1
+    _adb_exec logcat -d -t "$since" 2>/dev/null || true
 }
 
 # Search logcat for crash patterns. Returns structured output.
 adb_detect_crash() {
     local seconds="${1:-60}"
     local logs
-    logs="$(adb_logcat_errors "$seconds")"
+    logs="$(adb_logcat_errors "$seconds")" || return 1
 
     local has_crash=false
     local crash_lines=""
@@ -592,67 +744,67 @@ adb_detect_crash() {
 
 # Get memory info for a package.
 adb_meminfo() {
-    local package="$1"
-    _adb_exec shell dumpsys meminfo "$package" 2>/dev/null | head -30
+    _adb_need_package "${1:-}" || return 1
+    _adb_exec shell dumpsys meminfo "$1" 2>/dev/null | head -30
 }
 
 # ─── Convenience Orchestration ──────────────────────────────────────────────
 
 # Full debug snapshot: screenshot + hierarchy + recent logs.
-# Returns paths to all captured files.
+# Prints the paths as JSON plus how many captures failed; non-zero if any did.
 adb_snapshot() {
-    local prefix="${1:-/tmp/android-snapshot-$(date +%s)}"
+    local prefix="${1:-${TMPDIR:-/tmp}/android-snapshot-$(date +%s)}"
 
     adb_auto_select || return 1
 
     local screenshot_path="${prefix}-screen.png"
     local hierarchy_path="${prefix}-hierarchy.xml"
     local logcat_path="${prefix}-logcat.txt"
+    local failed=0
 
-    adb_screenshot "$screenshot_path" >/dev/null 2>&1
-    adb_hierarchy "$hierarchy_path" >/dev/null 2>&1
-    adb_logcat_recent 30 > "$logcat_path" 2>/dev/null
+    adb_screenshot "$screenshot_path" >/dev/null || failed=$((failed + 1))
+    adb_hierarchy "$hierarchy_path" >/dev/null || failed=$((failed + 1))
+    adb_logcat_recent 30 > "$logcat_path" || failed=$((failed + 1))
 
-    printf '{"screenshot":"%s","hierarchy":"%s","logcat":"%s"}' \
-        "$screenshot_path" "$hierarchy_path" "$logcat_path"
+    printf '{"screenshot":"%s","hierarchy":"%s","logcat":"%s","failed":%d}\n' \
+        "$(_adb_json_escape "$screenshot_path")" "$(_adb_json_escape "$hierarchy_path")" \
+        "$(_adb_json_escape "$logcat_path")" "$failed"
+    (( failed == 0 ))
+}
+
+# Poll a finder until it succeeds or the timeout (seconds) expires.
+_adb_wait() {
+    local what="$1" timeout="$2" interval="$3"
+    shift 3
+    _adb_need_uint "timeout" "$timeout" || return 1
+    if ! _adb_is_uint "$interval" || (( interval < 1 )); then
+        echo "ERROR: interval must be an integer >= 1, got: '$interval'" >&2
+        return 1
+    fi
+
+    local deadline=$(( SECONDS + timeout ))
+    while :; do
+        if "$@" >/dev/null 2>&1; then
+            return 0
+        fi
+        (( SECONDS >= deadline )) && break
+        sleep "$interval"
+    done
+
+    echo "TIMEOUT: $what not found after ${timeout}s" >&2
+    return 1
 }
 
 # Wait for element to appear (polling). Returns 0 if found, 1 if timeout.
 adb_wait_for_text() {
-    local text="$1"
-    local timeout="${2:-10}"
-    local interval="${3:-1}"
-    local elapsed=0
-
-    while (( elapsed < timeout )); do
-        if adb_find_by_text "$text" >/dev/null 2>&1; then
-            return 0
-        fi
-        sleep "$interval"
-        elapsed=$((elapsed + interval))
-    done
-
-    echo "TIMEOUT: Element with text '$text' not found after ${timeout}s" >&2
-    return 1
+    _adb_need_arg "text" "${1:-}" || return 1
+    _adb_wait "Element with text '$1'" "${2:-10}" "${3:-1}" adb_find_by_text "$1"
 }
 
 # Wait for element by resource-id. Returns 0 if found, 1 if timeout.
 adb_wait_for_id() {
-    local resource_id="$1"
-    local timeout="${2:-10}"
-    local interval="${3:-1}"
-    local elapsed=0
-
-    while (( elapsed < timeout )); do
-        if adb_find_by_id "$resource_id" >/dev/null 2>&1; then
-            return 0
-        fi
-        sleep "$interval"
-        elapsed=$((elapsed + interval))
-    done
-
-    echo "TIMEOUT: Element '$resource_id' not found after ${timeout}s" >&2
-    return 1
+    _adb_need_arg "resource-id" "${1:-}" || return 1
+    _adb_wait "Element '$1'" "${2:-10}" "${3:-1}" adb_find_by_id "$1"
 }
 
 # ─── Self-test ──────────────────────────────────────────────────────────────
