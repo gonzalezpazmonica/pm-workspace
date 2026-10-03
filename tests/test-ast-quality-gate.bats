@@ -321,3 +321,86 @@ report() { cat "$TMPDIR"/out/*.json; }
   [ "$status" -eq 0 ]
   grep -q '^semgrep' "$FAKE_LOG"
 }
+
+@test "fail-closed: cargo without clippy (empty stdout, exit 101) is failed, not an empty pass" {
+  mkdir -p "$TMPDIR/rs"; touch "$TMPDIR/rs/Cargo.toml"
+  fake cargo 101 ''
+  gate "$TMPDIR/rs" --native-only
+  [ "$status" -eq 3 ]
+  [ "$(report | jq -r '.meta.tool_chain[0].status')" = "failed" ]
+}
+
+@test "fail-closed: cargo exit 101 with only build-finished lines (no compiler-message) is failed" {
+  mkdir -p "$TMPDIR/rs"; touch "$TMPDIR/rs/Cargo.toml"
+  fake cargo 101 '{"reason":"build-finished","success":false}'
+  gate "$TMPDIR/rs" --native-only
+  [ "$status" -eq 3 ]
+}
+
+@test "findings: cargo exit 101 with compiler errors keeps them and blocks nothing it cannot map" {
+  mkdir -p "$TMPDIR/rs"; touch "$TMPDIR/rs/Cargo.toml"
+  fake cargo 101 '{"reason":"compiler-message","message":{"level":"error","message":"mismatched types","code":{"code":"E0308"},"spans":[{"file_name":"src/main.rs","line_start":3}]}}'
+  gate "$TMPDIR/rs" --native-only
+  [ "$status" -eq 0 ]
+  [ "$(report | jq -r '.meta.tool_chain[0].status')" = "ok" ]
+  [ "$(report | jq -r .summary.errors)" -eq 1 ]
+}
+
+@test "fail-closed: empty stdout from a JSON linter with exit 0 is failed, not zero findings" {
+  fake ruff 0 ''
+  gate "$TMPDIR/py proj" --native-only
+  [ "$status" -eq 3 ]
+}
+
+@test "fail-closed: semgrep exit 7 with a non-empty errors array is failed, not full coverage" {
+  fake ruff 0 '[]'
+  fake semgrep 7 '{"results":[],"errors":[{"level":"error","type":"InvalidRuleSchemaError","message":"bad rule"}]}'
+  gate "$TMPDIR/py proj"
+  [ "$(report | jq -r '.meta.tool_chain[] | select(.layer == "semgrep") | .status')" = "failed" ]
+  [ "$(report | jq -r .meta.coverage)" = "partial" ]
+  gate "$TMPDIR/py proj" --semgrep-only
+  [ "$status" -eq 3 ]
+}
+
+@test "fail-closed: semgrep exit 0 but errors of level error in the JSON is failed" {
+  fake semgrep 0 '{"results":[],"errors":[{"level":"error","message":"rule crashed"}]}'
+  gate "$TMPDIR/py proj" --semgrep-only
+  [ "$status" -eq 3 ]
+}
+
+@test "semgrep: warning-level errors (e.g. a skipped file) do not invalidate real results" {
+  fake semgrep 0 "$(semgrep_json QG-04 WARNING | jq -c '.errors = [{"level":"warn","message":"skipped big file"}]')"
+  gate "$TMPDIR/py proj" --semgrep-only
+  [ "$status" -eq 0 ]
+  [ "$(report | jq -r '.meta.tool_chain[0].status')" = "ok" ]
+}
+
+@test "languages: vendored node_modules/*/tsconfig.json or requirements.txt do not drive detection" {
+  mkdir -p "$TMPDIR/js2/node_modules/pkg"; echo '{}' > "$TMPDIR/js2/package.json"
+  echo '{}' > "$TMPDIR/js2/node_modules/pkg/tsconfig.json"; touch "$TMPDIR/js2/node_modules/pkg/requirements.txt"
+  gate "$TMPDIR/js2" --advisory
+  [ "$(report | jq -r .meta.language)" = "javascript" ]
+}
+
+@test "dotnet: a clean build (exit 0, zero diagnostics) is ok with zero findings, not failed" {
+  mkdir -p "$TMPDIR/cs"; touch "$TMPDIR/cs/App.csproj"
+  fake dotnet 0 "$(printf '%s\n' 'Build succeeded.' '    0 Warning(s)' '    0 Error(s)')"
+  gate "$TMPDIR/cs" --native-only
+  [ "$status" -eq 0 ]
+  [ "$(report | jq -r '.meta.tool_chain[0].status')" = "ok" ]
+  [ "$(report | jq -r .score.verdict)" = "PASS" ]
+}
+
+@test "fail-closed: cargo exit 0 with empty stdout is failed (slurped empty input is not [])" {
+  mkdir -p "$TMPDIR/rs"; touch "$TMPDIR/rs/Cargo.toml"
+  fake cargo 0 ''
+  gate "$TMPDIR/rs" --native-only
+  [ "$status" -eq 3 ]
+}
+
+@test "fail-closed: semgrep fatal exit 2 with a well-formed but empty JSON is failed" {
+  fake semgrep 2 '{"results":[],"errors":[]}'
+  gate "$TMPDIR/py proj" --semgrep-only
+  [ "$status" -eq 3 ]
+  [[ "$(report | jq -r '.meta.tool_chain[0].detail')" == "exit 2"* ]]
+}

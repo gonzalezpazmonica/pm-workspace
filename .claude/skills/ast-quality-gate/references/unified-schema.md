@@ -55,8 +55,12 @@ de gates) vive en el script; este documento describe el resultado.
   `status` (`ok`|`missing`|`failed`|`unsupported`) y `detail` (exit code o motivo)
 
 Una capa es `ok` cuando su salida se interpreta con la forma esperada, aunque la
-herramienta salga con 1 (los linters lo hacen al encontrar issues). Salida no
-interpretable = `failed`, nunca "sin hallazgos".
+herramienta salga con 1 (los linters lo hacen al encontrar issues). Cuentan como
+`failed`, nunca como "sin hallazgos": salida vacía o no interpretable; `cargo`
+con exit distinto de 0 y sin ningún `compiler-message` (clippy ausente, manifiesto
+roto); `dotnet` con exit distinto de 0 y sin diagnósticos; Semgrep con exit >= 2 o
+con entradas de nivel `error` en `.errors` (regla inválida). Un `dotnet build`
+limpio (exit 0, sin diagnósticos) sí es `ok`.
 
 ### score
 - `total` — 0-100, o `null` si `coverage` es `none`
@@ -80,6 +84,8 @@ interpretable = `failed`, nunca "sin hallazgos".
 - Nativo: el gate se asigna por patrón del `rule_id` (p. ej. `no-floating-promises`→QG-01,
   `E722`/`BLE001`→QG-05, `S105-S107`→QG-09, `F401`/`*unused*`→QG-11).
 - Ruff reporta todo como `warning`, así que por sí solo nunca bloquea.
+- golangci-lint solo da el linter (`gosec`), no la regla: en Go, QG-09 (credenciales)
+  depende únicamente de Semgrep.
 
 ## Score
 

@@ -56,7 +56,10 @@ CHAIN="$WORK_TMP/chain.jsonl"
 
 # ── Language detection ────────────────────────────────────────────────────────
 
-has_file() { find "$1" -maxdepth 3 \( "${@:2}" \) -print -quit 2>/dev/null | grep -q .; }
+# Vendored code (node_modules) must not decide the project language.
+has_file() {
+  find "$1" -maxdepth 3 -name node_modules -prune -o \( "${@:2}" \) -print -quit 2>/dev/null | grep -q .
+}
 
 detect_language() {
   local t="$1"
@@ -110,9 +113,10 @@ record() { # layer tool status detail
 # normalize <layer> <tool> <rc> <raw> <out> <jq-filter> [jq-flags...]
 # The exit code is NOT taken as failure: linters exit 1 when they find issues.
 # Success = the raw output parses into an array with the expected shape.
+# Empty output is never "no findings": an analyser that ran always emits JSON.
 normalize() {
   local layer="$1" tool="$2" rc="$3" raw="$4" out="$5" filter="$6"; shift 6
-  if jq "$@" "$filter" "$raw" > "$out" 2>/dev/null && jq -e 'type == "array"' "$out" &>/dev/null; then
+  if grep -q '[^[:space:]]' "$raw" 2>/dev/null && jq "$@" "$filter" "$raw" > "$out" 2>/dev/null && jq -e 'type == "array"' "$out" &>/dev/null; then
     record "$layer" "$tool" ok "exit $rc"
   else
     echo "[]" > "$out"
@@ -161,6 +165,10 @@ run_native_linter() {
         record native dotnet failed "exit $rc sin diagnósticos: $(head -c 200 "$raw" | tr '\n' ' ')"
         return
       fi
+      if [[ ! -s "$raw.diag" ]]; then    # clean build: exit 0 and nothing to report
+        record native dotnet ok "exit 0, sin diagnósticos"
+        return
+      fi
       normalize native dotnet "$rc" "$raw.diag" "$out" \
         'split("\n") | map(select(length > 0) |
           capture("^(?<f>.*)\\((?<l>[0-9]+),(?<c>[0-9]+)\\): (?<s>error|warning) (?<id>[A-Z]+[0-9]+): ?(?<m>.*)$") |
@@ -189,6 +197,11 @@ run_native_linter() {
       ;;
     rust)
       (cd "$WORK_DIR" && cargo clippy --message-format json) > "$raw" 2>"$raw.err"; rc=$?
+      # Without clippy, or with a broken manifest, cargo exits non-zero before compiling.
+      if [[ $rc -ne 0 ]] && ! grep -q '"reason":"compiler-message"' "$raw"; then
+        record native cargo failed "exit $rc sin diagnósticos: $(tr -s '\n ' ' ' < "$raw.err" | head -c 200)"
+        return
+      fi
       normalize native cargo "$rc" "$raw" "$out" \
         '[.[] | select(.reason == "compiler-message") | .message | select(.level != "note") | {
           source_tool: "cargo-clippy", file: (.spans[0].file_name // "unknown"),
@@ -264,6 +277,14 @@ run_semgrep() {
     return
   fi
   semgrep --config "$RULES_FILE" --json --no-git-ignore --quiet "$target" > "$raw" 2>"$raw.err"; rc=$?
+  # Exit >= 2 or error-level entries in .errors (invalid rule, crash): the scan did not happen,
+  # even if an empty .results is present. Warning-level entries (skipped files) are tolerated.
+  local sg_err
+  sg_err="$(jq -r '[.errors[]? | select(.level == "error") | (.message // .type // "error")] | first // empty' "$raw" 2>/dev/null)"
+  if [[ $rc -ge 2 || -n "$sg_err" ]]; then
+    record semgrep semgrep failed "exit $rc; ${sg_err:-$(tr -s '\n ' ' ' < "$raw.err" | head -c 200)}"
+    return
+  fi
   normalize semgrep semgrep "$rc" "$raw" "$out" \
     '[.results[] | {source_tool: "semgrep", gate: (.extra.metadata.gate // null), file: .path,
       line: .start.line, column: .start.col, message: .extra.message, rule_id: .check_id,
