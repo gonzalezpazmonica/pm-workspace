@@ -1,5 +1,5 @@
 #!/usr/bin/env bats
-# audit: score=88 hash=6c7553fd date=2026-10-03
+# audit: score=88 hash=b206ca12 date=2026-10-04
 # test-company-messaging.bats — calibración SE-376 de la skill company-messaging
 # Ref: .claude/skills/company-messaging/SKILL.md
 # Ref: .claude/skills/company-messaging/references/message-schema.md
@@ -458,4 +458,107 @@ remote_files() {
   run bash "$REPO_ROOT/$PRIVACY" "$TMPDIR_TEST/clone-bob" bob
   [ "$status" -eq 0 ]
   [[ "$output" == *"PASSED"* ]]
+}
+
+# ── Revisión PR #1279: fallo en abierto >64 KiB, argv, IDs, cifrado ──
+
+# padding <bytes>: texto inocuo en líneas de 100 bytes
+padding() {
+  local n=$(( $1 / 100 )) i
+  for ((i = 0; i < n; i++)); do printf '%099d\n' 0; done
+}
+
+@test "privacy --stdin: secreto en la 1a línea con 70 KB detrás se bloquea (large, SIGPIPE)" {
+  local hdr="-----BEGIN"
+  local kb
+  for kb in 70000 300000; do
+    { echo "$hdr PRIVATE KEY-----"; padding "$kb"; } > "$TMPDIR_TEST/msg.md"
+    run bash "$REPO_ROOT/$PRIVACY" --stdin < "$TMPDIR_TEST/msg.md"
+    [ "$status" -eq 1 ]
+    [[ "$output" == *"Private key content"* ]]
+  done
+}
+
+@test "privacy --stdin: varios secretos grandes se informan todos (large)" {
+  local hdr="-----BEGIN" ip="10.1.2.3"
+  { echo "$hdr PRIVATE KEY-----"; echo "host $ip"; padding 100000; } > "$TMPDIR_TEST/msg.md"
+  run bash "$REPO_ROOT/$PRIVACY" --stdin < "$TMPDIR_TEST/msg.md"
+  [ "$status" -eq 1 ]
+  [[ "$output" == *"Private key content"* ]]
+  [[ "$output" == *"Private IP address"* ]]
+}
+
+@test "send: cuerpo de 70 KB con una clave privada al principio se bloquea (large)" {
+  company_repo
+  member alice
+  local hdr="-----BEGIN" body
+  body="$(echo "$hdr PRIVATE KEY-----"; padding 70000)"
+  run as alice send bob "grande" "$body"
+  [ "$status" -ne 0 ]
+  [[ "$output" == *"blocked by privacy check"* ]]
+  run remote_files exchange
+  [[ "$output" != *pending/* ]]
+}
+
+@test "crypto: ni el texto en claro ni la clave AES viajan en argv de openssl" {
+  mkdir -p "$HOME/.pm-workspace/savia-keys" "$TMPDIR_TEST/bin"
+  cp "$KEYS_CACHE/bob/"*.pem "$HOME/.pm-workspace/savia-keys/"
+  local real
+  real=$(command -v openssl)
+  printf '#!/bin/bash\nprintf "%%s\\n" "$*" >> "%s"\nexec "%s" "$@"\n' \
+    "$TMPDIR_TEST/argv.log" "$real" > "$TMPDIR_TEST/bin/openssl"
+  chmod +x "$TMPDIR_TEST/bin/openssl"
+  local pkg
+  pkg=$(PATH="$TMPDIR_TEST/bin:$PATH" bash "$REPO_ROOT/$CRYPTO" encrypt \
+    "$KEYS_CACHE/bob/public.pem" "texto-muy-secreto")
+  run env PATH="$TMPDIR_TEST/bin:$PATH" bash "$REPO_ROOT/$CRYPTO" decrypt "$pkg"
+  [ "$output" = "texto-muy-secreto" ]
+  [ -s "$TMPDIR_TEST/argv.log" ]
+  run grep -c -e 'texto-muy-secreto' -e ' -K ' -e ' -iv ' -e '[0-9a-f]\{64\}' "$TMPDIR_TEST/argv.log"
+  [ "$output" = "0" ]
+}
+
+@test "crypto: descifra paquetes del formato anterior (-K/-iv) (boundary, compatibilidad)" {
+  mkdir -p "$HOME/.pm-workspace/savia-keys"
+  cp "$KEYS_CACHE/bob/"*.pem "$HOME/.pm-workspace/savia-keys/"
+  local k iv
+  k=$(openssl rand -hex 32); iv=$(openssl rand -hex 16)
+  printf 'mensaje v1' | openssl enc -aes-256-cbc -K "$k" -iv "$iv" -out "$TMPDIR_TEST/b.enc"
+  printf '%s:%s' "$k" "$iv" | openssl pkeyutl -encrypt -pubin \
+    -inkey "$KEYS_CACHE/bob/public.pem" -out "$TMPDIR_TEST/k.enc"
+  run bash "$REPO_ROOT/$CRYPTO" decrypt \
+    "$(base64 -w0 "$TMPDIR_TEST/k.enc"):::$(base64 -w0 "$TMPDIR_TEST/b.enc")"
+  [ "$status" -eq 0 ]
+  [ "$output" = "mensaje v1" ]
+}
+
+@test "broadcast: IDs distintos aunque el reloj no avance (boundary, date congelado)" {
+  company_repo
+  member alice
+  mkdir -p "$TMPDIR_TEST/bin"
+  printf '#!/bin/bash\necho 20261003-120000\n' > "$TMPDIR_TEST/bin/date"
+  chmod +x "$TMPDIR_TEST/bin/date"
+  PATH="$TMPDIR_TEST/bin:$PATH" run as alice broadcast "Aviso" "texto"
+  [ "$status" -eq 0 ]
+  [ "$(remote_files exchange | grep -c '^pending/.*\.md$')" -eq 2 ]
+}
+
+@test "send --encrypt: clave pública inválida del destinatario falla sin escribir nada (invalid)" {
+  company_repo
+  member alice
+  echo "no es una clave" > "$TMPDIR_TEST/seed/pubkeys/bob.pem"
+  git -C "$TMPDIR_TEST/seed" commit -qam "clave rota"
+  git -C "$TMPDIR_TEST/seed" push -q origin main
+  run as alice send bob "x" "secreto" --encrypt
+  [ "$status" -ne 0 ]
+  run remote_files exchange
+  [[ "$output" != *pending/* ]]
+}
+
+@test "inbox: remoto inalcanzable avisa en vez de mostrar la caché en silencio (fail)" {
+  company_repo
+  member bob
+  git -C "$TMPDIR_TEST/clone-bob" remote set-url origin "$TMPDIR_TEST/no-existe.git"
+  run as bob inbox
+  [[ "$output" == *"could not be delivered"* ]]
 }

@@ -88,8 +88,13 @@ do_create() {
   fi
 
   # Push user/{admin_handle} and exchange branches
-  git -C "$local_path" push -u origin "user/$admin_handle" 2>/dev/null || true
-  git -C "$local_path" push -u origin exchange 2>/dev/null || true
+  # A failed push is reported; "savia-branch.sh ensure-orphan" republishes
+  # local-only branches on the next run.
+  local b
+  for b in "user/$admin_handle" exchange; do
+    git -C "$local_path" push -q -u origin "$b" 2>/dev/null \
+      || log_warn "Could not push $b (it stays local until the next ensure-orphan)"
+  done
 
   # Save config
   write_config "REPO_URL" "$repo_url"

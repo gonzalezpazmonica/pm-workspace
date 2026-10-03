@@ -101,6 +101,10 @@ do_send() {
   handle=$(get_handle)
   msg_id=$(gen_id)
 
+  # Fresh directory and pubkeys: a rotated or revoked key must not be used.
+  # Offline, the last fetched view is used and the user is told so.
+  git -C "$repo_dir" fetch -q origin main 2>/dev/null \
+    || log_warn "Could not refresh main: using the last fetched directory and keys"
   resolve_handle "$repo_dir" "$recipient" || return 1
 
   # Subject sensitivity check (warn, don't block)
@@ -115,7 +119,8 @@ do_send() {
     local pubkey_file
     pubkey_file=$(mktemp)
     echo "$pubkey_content" > "$pubkey_file"
-    final_body=$(bash "$SCRIPTS_DIR/savia-crypto.sh" encrypt "$pubkey_file" "$body") \
+    # Body through stdin, not argv (/proc/<pid>/cmdline is world-readable)
+    final_body=$(printf '%s' "$body" | bash "$SCRIPTS_DIR/savia-crypto.sh" encrypt "$pubkey_file") \
       || { rm -f "$pubkey_file"; log_error "Encryption for @$recipient failed"; return 1; }
     rm -f "$pubkey_file"
   fi

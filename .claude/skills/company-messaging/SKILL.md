@@ -9,7 +9,7 @@ metadata:
   savia.maturity: beta
   savia.disable-model-invocation: false
   savia.priority: medium
-  savia.summary: "Mensajeria interna Company Savia con cifrado E2E basado en ramas git. Soporta mensajes directos, broadcasts y threading. Datos en company repo compartido. Nivel N2 (empresa)."
+  savia.summary: "Mensajeria interna Company Savia sobre ramas git con cifrado hibrido RSA+AES (confidencialidad, sin autenticacion ni integridad). Soporta mensajes directos, broadcasts y threading. Datos en company repo compartido. Nivel N2 (empresa)."
   savia.tags: "messaging, company, encryption, privacy"
   savia.user-invocable: False
 ---
@@ -43,14 +43,15 @@ líneas `@bob` sueltas.
 
 ## Ciclo de vida de un mensaje
 
-1. `send <handle> <asunto> <cuerpo> [--encrypt] [--priority p]`: resuelve el
+1. `send <handle> <asunto> <cuerpo> [--encrypt] [--priority p]`: trae `main`
+   (directorio y claves frescos; sin red avisa y usa la última vista), resuelve el
    handle, cifra el cuerpo si se pide, pasa el mensaje entero por
    `privacy-check-company.sh --stdin` (bloquea si hay secretos) y lo escribe
    en `exchange:pending/{id}.md` más una copia en `user/{remitente}:outbox/`.
 2. `inbox`: entrega los pendientes dirigidos al usuario
    (`exchange:pending` → `user/{handle}:inbox/unread/`) y lista no leídos y
    anuncios. Un mensaje ya presente en `unread/` o `read/` no se vuelve a
-   entregar.
+   entregar. Sin acceso al remoto avisa y muestra la última vista.
 3. `read <id>`: muestra el mensaje y lo mueve de `unread/` a `read/` en un
    solo commit (sale de `unread/`).
 4. `reply <id> <cuerpo>`: hereda `thread` del original (o usa su id) y fija
@@ -75,7 +76,9 @@ implementada.
 - Con remoto `origin`: base en `origin/<rama>` recién traída (una rama local
   obsoleta perdería mensajes de otros), commit y `push HEAD:<rama>`. Si el
   push se rechaza por no ser fast-forward (otro miembro escribió a la vez),
-  reintenta hasta 3 veces. Cualquier otro fallo de push devuelve código 1
+  reintenta hasta 5 veces con espera aleatoria creciente; con muchos
+  escritores simultáneos puede agotar los reintentos, siempre con error
+  visible. Cualquier otro fallo de push devuelve código 1
   con el motivo en stderr: nunca se traga en silencio.
 - La rama local se adelanta si no está extraída en ningún worktree; la rama
   extraída (normalmente `main`) no se toca para no desincronizar su árbol.
@@ -84,12 +87,18 @@ implementada.
 
 ## Cifrado (`savia-crypto.sh`)
 
-Híbrido RSA-4096 + AES-256-CBC con openssl:
+Híbrido RSA-4096 + AES-256-CBC con openssl. Da confidencialidad, no
+autenticación: no es "E2E" en sentido fuerte (ver límites).
 
 - `keygen [--force]`: par en `~/.pm-workspace/savia-keys/` (privada en 600).
   Sin `--force` no sobrescribe un par existente.
 - `encrypt <pubkey.pem> [texto]`: sin texto lee stdin; un texto vacío cifra
-  vacío. Salida `base64(clave cifrada):::base64(cuerpo cifrado)`.
+  vacío. Salida `base64(clave cifrada):::base64(cuerpo cifrado)`. Un secreto
+  aleatorio de 256 bits por mensaje deriva clave e IV (PBKDF2 con sal) y llega
+  a openssl por fichero (`-pass file:`), nunca por argv; `send` pasa el cuerpo
+  por stdin. El secreto viaja cifrado con RSA como `p:<secreto>`.
+- `decrypt` acepta también el formato anterior (`<clave>:<iv>` con `-K/-iv`),
+  que sí expone la clave en argv al descifrar.
 - `decrypt [paquete|-]`: con `-` o sin argumento lee stdin. Los paquetes de
   más de 128 KB solo caben por stdin (límite de un argumento en Linux).
 - Descifrar con otra clave privada o un paquete sin `:::` falla con código
@@ -106,8 +115,10 @@ MAC (el cifrado no detecta manipulación) y sin firma del remitente, así que
 ## Privacidad (`privacy-check-company.sh`)
 
 - `--stdin`: analiza un mensaje (claves AWS, PAT de GitHub, claves `sk-`,
-  JWT, IP privadas, cadenas de conexión, claves privadas PEM). Lo invocan
-  `send` y `announce` antes de cualquier push.
+  JWT, IP privadas, cadenas de conexión, claves privadas PEM) de cualquier
+  tamaño. Lo invocan `send` y `announce` antes de cualquier push. Con
+  `--encrypt` analiza el mensaje ya cifrado: el cuerpo en claro no se
+  inspecciona (solo frontmatter y asunto).
 - `<repo> <handle>`: analiza `user/{handle}:inbox/unread/` y `documents/` por
   rama, y los cambios staged solo si el clon está en `user/{handle}` o
   `exchange`.

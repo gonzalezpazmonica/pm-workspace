@@ -34,14 +34,14 @@ do_list() {
 # With an origin remote the base is the freshly fetched origin/<branch>
 # (a stale local branch would make the push lose other members' work)
 # and the result is pushed as HEAD:<branch>; a non-fast-forward
-# rejection refetches and reapplies, up to 3 attempts. Any other failure
+# rejection refetches and reapplies, up to 5 attempts with random backoff. Any other failure
 # returns 1 with the reason on stderr: a push is never swallowed.
 # Without an origin remote the commit lands on the local branch.
 _branch_commit() {
   local repo_dir="$1" branch="$2" msg="$3"; shift 3
   local has_remote=0 attempt base wtdir push_err head
   git -C "$repo_dir" remote get-url origin >/dev/null 2>&1 && has_remote=1
-  for attempt in 1 2 3; do
+  for attempt in 1 2 3 4 5; do
     if [ "$has_remote" -eq 1 ]; then
       # Fails when the branch is not on the remote yet: the local branch
       # is then the base and the push below creates it remotely.
@@ -89,12 +89,15 @@ _branch_commit() {
     fi
     _branch_cleanup "$repo_dir" "$wtdir"
     case "$push_err" in
-      *"non-fast-forward"*|*"fetch first"*|*"rejected"*|*"cannot lock ref"*) continue ;;
+      *"non-fast-forward"*|*"fetch first"*|*"rejected"*|*"cannot lock ref"*)
+        # Random backoff (0.1-1.5 s, growing) so concurrent writers spread out
+        sleep "$(( (RANDOM % 5 + 1) * attempt / 3 )).$(( RANDOM % 10 ))"
+        continue ;;
     esac
     echo "savia-branch: push of $branch failed: $push_err" >&2
     return 1
   done
-  echo "savia-branch: push of $branch rejected 3 times (concurrent writers)" >&2
+  echo "savia-branch: push of $branch rejected 5 times (concurrent writers)" >&2
   return 1
 }
 
@@ -226,7 +229,10 @@ do_check_permission() {
 # ── Fetch pending messages for handle from exchange ─────────────
 do_fetch_messages() {
   local repo_dir="$1" handle="$2"
-  git -C "$repo_dir" fetch origin exchange 2>/dev/null || return 0
+  if ! git -C "$repo_dir" fetch -q origin exchange 2>/dev/null; then
+    echo "savia-branch: cannot fetch exchange from origin; pending messages could not be delivered" >&2
+    return 1
+  fi
   # Fresh view of the inbox: a message already delivered (unread or read)
   # is not delivered again, so reading it really empties the unread count.
   git -C "$repo_dir" fetch -q origin "+refs/heads/user/${handle}:refs/remotes/origin/user/${handle}" \

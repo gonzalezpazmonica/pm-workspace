@@ -23,24 +23,28 @@ log_error() { echo -e "${RED}❌${NC} $1"; }
 check_content() {
   local content="$1"
   local violations=()
+  # Here-strings, not "echo | grep -q": grep -q exits on the first match,
+  # echo then dies of SIGPIPE once the content exceeds the 64 KiB pipe
+  # buffer, and under pipefail the match itself read as "no match" (the
+  # check failed open for any message over 64 KiB).
 
   # PATs and tokens
-  echo "$content" | grep -qEi 'AKIA[0-9A-Z]{16}' && violations+=("AWS Access Key")
-  echo "$content" | grep -qEi 'ghp_[a-zA-Z0-9]{36}' && violations+=("GitHub PAT")
-  echo "$content" | grep -qEi 'sk-[a-zA-Z0-9]{20,}' && violations+=("API key (sk-)")
-  echo "$content" | grep -qE 'eyJ[a-zA-Z0-9_-]{10,}\.[a-zA-Z0-9_-]{10,}' && violations+=("JWT token")
+  grep -qEi 'AKIA[0-9A-Z]{16}' <<< "$content" && violations+=("AWS Access Key")
+  grep -qEi 'ghp_[a-zA-Z0-9]{36}' <<< "$content" && violations+=("GitHub PAT")
+  grep -qEi 'sk-[a-zA-Z0-9]{20,}' <<< "$content" && violations+=("API key (sk-)")
+  grep -qE 'eyJ[a-zA-Z0-9_-]{10,}\.[a-zA-Z0-9_-]{10,}' <<< "$content" && violations+=("JWT token")
 
   # Private IPs
-  echo "$content" | grep -qE '(10\.[0-9]+\.[0-9]+\.[0-9]+|192\.168\.[0-9]+\.[0-9]+)' \
+  grep -qE '(10\.[0-9]+\.[0-9]+\.[0-9]+|192\.168\.[0-9]+\.[0-9]+)' <<< "$content" \
     && violations+=("Private IP address")
 
   # Connection strings
-  echo "$content" | grep -qEi '(Server=.*Password=|jdbc:|mongodb\+srv://)' \
+  grep -qEi '(Server=.*Password=|jdbc:|mongodb\+srv://)' <<< "$content" \
     && violations+=("Connection string")
 
   # Private keys (actual key content, not pubkey references).
   # -e: a pattern starting with "-" would otherwise be parsed as an option
-  echo "$content" | grep -qE -e '-----BEGIN (RSA |EC |OPENSSH )?PRIVATE KEY-----' \
+  grep -qE -e '-----BEGIN (RSA |EC |OPENSSH )?PRIVATE KEY-----' <<< "$content" \
     && violations+=("Private key content")
 
   printf '%s\n' "${violations[@]+"${violations[@]}"}"

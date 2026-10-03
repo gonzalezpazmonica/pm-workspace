@@ -26,20 +26,20 @@ do_encrypt() {
     cat > "$tmp_dir/plain.txt"
   fi
 
-  # Generate random AES-256 key and IV
-  openssl rand -hex 32 > "$tmp_dir/aes.key"
-  openssl rand -hex 16 > "$tmp_dir/aes.iv"
-
-  # Encrypt body with AES-256-CBC
+  # Random 256-bit secret per message, kept in a 600 file: it reaches
+  # openssl through -pass file:, never through argv (/proc/<pid>/cmdline
+  # is readable by any local user). Key and IV derive from it with PBKDF2
+  # and a random salt.
+  ( umask 077; openssl rand -hex 32 | tr -d '\n' > "$tmp_dir/secret" )
   openssl enc -aes-256-cbc -salt -pbkdf2 -iter 10000 \
-    -K "$(cat "$tmp_dir/aes.key")" -iv "$(cat "$tmp_dir/aes.iv")" \
+    -pass "file:$tmp_dir/secret" \
     -in "$tmp_dir/plain.txt" -out "$tmp_dir/body.enc" 2>/dev/null
 
-  # Encrypt AES key+IV with recipient's RSA public key
-  local key_bundle
-  key_bundle="$(cat "$tmp_dir/aes.key"):$(cat "$tmp_dir/aes.iv")"
-  echo -n "$key_bundle" | openssl pkeyutl -encrypt \
-    -pubin -inkey "$pubkey_file" -out "$tmp_dir/key.enc" 2>/dev/null
+  # Encrypt the bundle "p:<secret>" with the recipient's RSA public key
+  # (v1 bundles were "<hexkey>:<hexiv>", still accepted by do_decrypt)
+  { printf 'p:'; cat "$tmp_dir/secret"; } > "$tmp_dir/bundle"
+  openssl pkeyutl -encrypt -pubin -inkey "$pubkey_file" \
+    -in "$tmp_dir/bundle" -out "$tmp_dir/key.enc" 2>/dev/null
 
   # Output: base64(encrypted_key):::base64(encrypted_body)
   local enc_key enc_body
@@ -81,17 +81,20 @@ do_decrypt() {
 
   # Decode and decrypt AES key with own RSA private key
   echo -n "$enc_key" | portable_base64_decode > "$tmp_dir/key.enc"
-  local key_bundle
-  key_bundle=$(openssl pkeyutl -decrypt \
-    -inkey "$KEYS_DIR/private.pem" -in "$tmp_dir/key.enc" 2>/dev/null)
+  ( umask 077; openssl pkeyutl -decrypt -inkey "$KEYS_DIR/private.pem" \
+      -in "$tmp_dir/key.enc" -out "$tmp_dir/bundle" 2>/dev/null )
 
-  local aes_key aes_iv
-  aes_key=$(echo "$key_bundle" | cut -d':' -f1)
-  aes_iv=$(echo "$key_bundle" | cut -d':' -f2)
-
-  # Decode and decrypt body with AES
   echo -n "$enc_body" | portable_base64_decode > "$tmp_dir/body.enc"
-  openssl enc -d -aes-256-cbc -pbkdf2 -iter 10000 \
-    -K "$aes_key" -iv "$aes_iv" \
-    -in "$tmp_dir/body.enc" 2>/dev/null
+  if [ "$(head -c 2 "$tmp_dir/bundle")" = "p:" ]; then
+    tail -c +3 "$tmp_dir/bundle" > "$tmp_dir/secret"
+    openssl enc -d -aes-256-cbc -pbkdf2 -iter 10000 \
+      -pass "file:$tmp_dir/secret" -in "$tmp_dir/body.enc" 2>/dev/null
+  else
+    # v1 package: raw key and IV (they pass through argv; legacy only)
+    local aes_key aes_iv
+    aes_key=$(cut -d':' -f1 < "$tmp_dir/bundle")
+    aes_iv=$(cut -d':' -f2 < "$tmp_dir/bundle")
+    openssl enc -d -aes-256-cbc -K "$aes_key" -iv "$aes_iv" \
+      -in "$tmp_dir/body.enc" 2>/dev/null
+  fi
 }
