@@ -43,9 +43,13 @@ cd ~\claude
 ```
 
 The script auto-detects your OS and hardware, then guides you through:
-1. Installing Ollama (local LLM manager)
-2. Downloading the recommended model for your RAM
-3. Automatic environment variable configuration
+1. Installing Ollama (local LLM manager). Requires **Ollama >= 0.20.0**, the first release that serves `/v1/messages` (Anthropic API), the path Claude Code requests. With an older version the script exits 1.
+2. Downloading every model the opus/sonnet/haiku aliases point to (not only the main one)
+3. Writing the variables to `~/.pm-workspace-emergency.env` (it never touches `~/.bashrc` or any shell file: emergency is transient)
+
+The base is `ANTHROPIC_BASE_URL=http://localhost:11434`, **without a trailing `/v1`**: Claude Code appends `/v1/messages`, so `/v1` would request `/v1/v1/messages`. The file also sets `ANTHROPIC_AUTH_TOKEN="ollama"` and `ANTHROPIC_API_KEY=""`: Ollama does not check credentials, and without that placeholder Claude Code would send your real key or OAuth token to localhost, or ask for `/login`.
+
+If offline and the cache holds no model, the script exits 1 and writes no variables file.
 
 If offline, it will automatically use the local cache from `emergency-plan`.
 
@@ -54,11 +58,15 @@ If your machine has **less than 16GB RAM**, use a smaller model:
 ./scripts/emergency-setup.sh --model qwen2.5:3b
 ```
 
+`--model` sets that single model for every alias. An unknown argument or `--model` without a value exits 2.
+
 ### Step 2: Verify it works
 
 ```bash
 ./scripts/emergency-status.sh
 ```
+
+Exits 0 with "ready" only if: Ollama >= 0.20.0 installed, server on `:11434`, `~/.pm-workspace-emergency.env` exists and every model it configures is downloaded. With the mode active it also checks that `ANTHROPIC_BASE_URL` does not end in `/v1` and that `ANTHROPIC_AUTH_TOKEN` is set. Any failure: exit 1 plus the fix.
 
 You should see all green (). If there are issues, the script tells you what to do.
 
@@ -115,7 +123,10 @@ When the cloud service is back online:
 unset ANTHROPIC_BASE_URL PM_EMERGENCY_MODE PM_EMERGENCY_MODEL
 unset ANTHROPIC_DEFAULT_OPUS_MODEL ANTHROPIC_DEFAULT_SONNET_MODEL
 unset ANTHROPIC_DEFAULT_HAIKU_MODEL CLAUDE_CODE_SUBAGENT_MODEL
+unset ANTHROPIC_AUTH_TOKEN ANTHROPIC_API_KEY
 ```
+
+**Windows**: `emergency-setup.ps1` persists the variables at user level (`[Environment]::SetEnvironmentVariable(..., "User")`), so closing the terminal is **not** enough: every new terminal keeps pointing to localhost. Remove each one with `[Environment]::SetEnvironmentVariable("ANTHROPIC_BASE_URL", $null, "User")` (same for the other six variables).
 
 Or simply close and open a new terminal.
 
