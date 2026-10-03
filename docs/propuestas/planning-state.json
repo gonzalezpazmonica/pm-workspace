@@ -934,12 +934,13 @@
     },
     {
       "id": "SE-428",
-      "status": "PROPOSED",
+      "status": "IMPLEMENTING",
       "priority": "P1",
       "title": "Savia Space como sustituto de OpenCode, con OpenCode como motor",
       "evidence": "docs/specs/SE-428-savia-space-orchestrator-opencode-engine.spec.md",
       "note": "Mandato original: cliente sustituto y compatible con OpenCode, arquitectura, flujos y hooks de Savia. Decisiones 2026-10-02: sustituto primero (0.2), hooks bash registrados, interactivo en checkout. Requiere addendum ADR-002 (D1)",
-      "phase": "A"
+      "phase": "A",
+      "approval": "Operadora 2026-10-03 (AskUserQuestion): 'Subir el WIP a 4' para que SE-428/432 entren como trabajo oficial; addendum ADR-002 'Redáctalo como PR Draft'"
     },
     {
       "id": "SE-429",
@@ -974,7 +975,7 @@
       "priority": "P1",
       "title": "Savia Space: escritorio infinito y experiencia",
       "evidence": "docs/specs/SE-432-savia-space-infinite-desktop-experience.spec.md",
-      "note": "Mandato 2026-10-02; superficie principal de SE-428; render híbrido WebGL+DOM; apariencia gestionada por la persona; atmósfera nunca imita actividad; prototipo medido a 60 fps con 10k objetos",
+      "note": "Mandato 2026-10-02; superficie principal de SE-428; render híbrido WebGL+DOM; apariencia gestionada por la persona; atmósfera nunca imita actividad; prototipo medido a 60 fps con 10k objetos; dirección visual aceptada por la operadora 2026-10-03 (D25-1); se implementa dentro de la 0.2 de SE-428",
       "phase": "A"
     }
   ],
@@ -990,8 +991,9 @@
       "F"
     ],
     "wip_limit": {
-      "savia_implementing": 3,
-      "labs_active": 1
+      "savia_implementing": 4,
+      "labs_active": 1,
+      "note": "Temporal (addendum ADR-002, 2026-10-03): 4.º hueco solo para Savia Space (SE-428); vuelve a 3 al cerrar Space 0.2"
     },
     "deadlines": "none",
     "prioritization": {
