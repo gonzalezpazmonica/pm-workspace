@@ -126,19 +126,11 @@ El agente buddy responde con explicaciones breves y accionables, cita fuentes in
 
 ## Parte ejecutable y verificación
 
-La skill es prosa que ejecuta el agente: no hay script propio de generación. Lo
-ejecutable de su cadena es el prerrequisito `/project-new`, que inicializa la
-memoria del proyecto con `scripts/setup-memory.sh {proyecto}`:
-
-- Destino: `$SAVIA_MEMORY_DIR` si está definida; si no, `~/.savia/projects/{proyecto}/memory/`.
-- Crea `MEMORY.md` y 5 topic files (`sprint-history`, `architecture`, `debugging`,
-  `team-patterns`, `devops-notes`). Idempotente: nunca sobrescribe notas existentes;
-  escritura atómica, segura con ejecuciones simultáneas.
-- Exit 0 ok · 1 fallo de escritura · 2 nombre inválido (`/`, `.`, `..`, guion inicial,
-  caracteres de control, >255 bytes) o sin `HOME` ni `SAVIA_MEMORY_DIR`.
-
-Pruebas de comportamiento: `tests/test-onboarding-dev.bats` (incluye que
-`projects/*/onboarding/` está git-ignorado y que los comandos citados aquí existen).
+La skill es prosa que ejecuta el agente. Lo ejecutable de su cadena es el prerrequisito
+`/project-new`, que llama a `scripts/setup-memory.sh {proyecto}`: crea `MEMORY.md` y 5 topic
+files en `$SAVIA_MEMORY_DIR` o `~/.savia/projects/{proyecto}/memory/`, sin sobrescribir notas y
+con escritura atómica. Exit 0 ok · 1 fallo de escritura · 2 nombre inválido (`/`, `.`, `..`,
+guion inicial, control, >255 bytes) o sin `HOME`. Pruebas: `tests/test-onboarding-dev.bats`.
 
 ## Cuándo NO usar
 
