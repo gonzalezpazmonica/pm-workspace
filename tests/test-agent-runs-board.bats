@@ -119,19 +119,129 @@ assert r['activity_state']=='waiting_input', r
   [ "$(wc -l < "$SAVIA_RUNS_LEDGER")" -eq 12 ]
 }
 
-@test "ledger rewrite leaves no temp files outside the ledger directory" {
+@test "ledger rewrite works with an unusable TMPDIR and leaves no temp files" {
   R=$(start_run)
-  bash "$CLI" state "$R" active >/dev/null
-  run grep -rl "$R" "$TMPDIR" --include='tmp.*'
-  [ "$status" -ne 0 ]
+  run env TMPDIR=/nonexistent/savia-runs bash "$CLI" state "$R" active
+  [ "$status" -eq 0 ]
+  [ "$(column_of "$R")" = "working" ]
   ls "$TMPDIR/data" | grep -vqE '^agent-runs-ledger\.jsonl(\.lock)?$' && return 1
   true
 }
 
-@test "edge: status on an empty ledger shows all columns with zero runs" {
+@test "edge: status --json with no ledger and with an empty ledger lists every column empty" {
+  check_empty() {
+    python3 -c "
+import json,sys
+d=json.loads(sys.argv[1])
+cols=['working','needs_input','ci_failed','changes_requested','merge_conflict','draft',
+      'review_pending','pr_open','approved','merged','terminated','idle']
+assert sorted(d['columns'])==sorted(cols), d['columns']
+assert all(v==[] for v in d['columns'].values()), d['columns']
+assert d['runs']==[], d['runs']
+" "$1"
+  }
   run bash "$CLI" status --json
   [ "$status" -eq 0 ]
-  python3 -c "import json,sys; d=json.loads(sys.argv[1]); assert isinstance(d, (dict, list))" "$output"
+  [ ! -e "$SAVIA_RUNS_LEDGER" ]
+  check_empty "$output"
+  bash "$CLI" init >/dev/null
+  run bash "$CLI" status --json
+  [ "$status" -eq 0 ]
+  check_empty "$output"
+}
+
+@test "merged PR on a live run is DONE in list, status, status --json and show" {
+  R=$(start_run)
+  bash "$CLI" state "$R" active >/dev/null
+  bash "$CLI" pr "$R" 40 --state merged --ci passing --review approved --mergeable true >/dev/null
+  [ "$(column_of "$R")" = "merged" ]
+  run bash "$CLI" status --json
+  [ "$status" -eq 0 ]
+  python3 -c "
+import json,sys
+d=json.loads(sys.argv[1]); R=sys.argv[2]
+assert d['columns']['merged']==[R], d['columns']
+assert d['columns']['approved']==[], d['columns']
+assert d['runs'][0]['derived_status']=='merged', d['runs'][0]
+" "$output" "$R"
+  run bash "$CLI" status
+  [ "$status" -eq 0 ]
+  [[ "$output" == *"READY TO MERGE (0)"* ]]
+  [[ "$output" == *"DONE (1)"* ]]
+  run bash "$CLI" show "$R"
+  [ "$status" -eq 0 ]
+  [[ "$output" == *"derived_status : merged"* ]]
+  [[ "$output" == *"trace          : pr.state=merged"* ]]
+}
+
+@test "capture-cost without SAVIA_RUN_ID is a no-op: no ledger, no lock file" {
+  run bash -c "echo '{}' | env -u SAVIA_RUN_ID bash '$CLI' capture-cost"
+  [ "$status" -eq 0 ]
+  [ ! -e "$TMPDIR/data" ]
+}
+
+@test "capture-cost under a held lock gives up quickly with exit 0 and a stderr warning" {
+  R=$(start_run)
+  tr="$TMPDIR/sub.jsonl"
+  echo '{"message":{"model":"m","usage":{"input_tokens":5,"output_tokens":2}}}' > "$tr"
+  flock "$SAVIA_RUNS_LEDGER.lock" sleep 9 &
+  holder=$!
+  for _ in $(seq 1 50); do flock -n "$SAVIA_RUNS_LEDGER.lock" true || break; sleep 0.1; done
+  t0=$(date +%s)
+  run bash -c "echo '{\"agent_transcript_path\":\"$tr\",\"agent_type\":\"x\"}' | SAVIA_RUN_ID='$R' bash '$CLI' capture-cost 2>&1"
+  t1=$(date +%s)
+  wait "$holder"
+  [ "$status" -eq 0 ]
+  [ $((t1 - t0)) -lt 8 ]
+  [[ "$output" == *"lock"* ]]
+  python3 -c "import json,sys; r=json.loads(open(sys.argv[1]).readline()); assert not r.get('cost'), r" "$SAVIA_RUNS_LEDGER"
+}
+
+@test "mkdir fallback: concurrent updates are all kept and the lockdir is released" {
+  export SAVIA_RUNS_LOCK_IMPL=mkdir
+  for i in $(seq 1 8); do start_run "t$i" >/dev/null; done
+  i=0
+  for R in $(python3 -c "import json,sys; [print(json.loads(l)['run_id']) for l in open(sys.argv[1])]" "$SAVIA_RUNS_LEDGER"); do
+    i=$((i+1)); bash "$CLI" pr "$R" "$i" --state open >/dev/null &
+  done
+  wait
+  [ "$(python3 -c "import json,sys; print(sum(1 for l in open(sys.argv[1]) if json.loads(l)['pr']))" "$SAVIA_RUNS_LEDGER")" -eq 8 ]
+  [ ! -e "$SAVIA_RUNS_LEDGER.lockdir" ]
+}
+
+@test "mkdir fallback: an orphan lock whose owner PID is dead is broken" {
+  export SAVIA_RUNS_LOCK_IMPL=mkdir
+  R=$(start_run)
+  bash -c 'exit 0' & dead=$!
+  wait "$dead"
+  mkdir "$SAVIA_RUNS_LEDGER.lockdir"
+  echo "$dead" > "$SAVIA_RUNS_LEDGER.lockdir/pid"
+  run env SAVIA_RUNS_LOCK_WAIT=3 bash "$CLI" state "$R" active
+  [ "$status" -eq 0 ]
+  [ "$(column_of "$R")" = "working" ]
+  [ ! -e "$SAVIA_RUNS_LEDGER.lockdir" ]
+}
+
+@test "mkdir fallback: an old orphan lock without PID file is broken" {
+  export SAVIA_RUNS_LOCK_IMPL=mkdir
+  R=$(start_run)
+  mkdir "$SAVIA_RUNS_LEDGER.lockdir"
+  touch -d '5 minutes ago' "$SAVIA_RUNS_LEDGER.lockdir"
+  run env SAVIA_RUNS_LOCK_WAIT=3 bash "$CLI" state "$R" active
+  [ "$status" -eq 0 ]
+  [ "$(column_of "$R")" = "working" ]
+}
+
+@test "mkdir fallback: a lock held by a live process times out with a recovery hint" {
+  export SAVIA_RUNS_LOCK_IMPL=mkdir
+  R=$(start_run)
+  mkdir "$SAVIA_RUNS_LEDGER.lockdir"
+  echo "$$" > "$SAVIA_RUNS_LEDGER.lockdir/pid"
+  run env SAVIA_RUNS_LOCK_WAIT=1 bash "$CLI" state "$R" active
+  [ "$status" -ne 0 ]
+  [[ "$output" == *"lock timeout"* ]]
+  [[ "$output" == *"$SAVIA_RUNS_LEDGER.lockdir"* ]]
+  [ "$(column_of "$R")" = "idle" ]
 }
 
 @test "edge: task text with quotes stays valid JSON" {
