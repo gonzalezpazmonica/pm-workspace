@@ -58,7 +58,11 @@ no le da autoridad de merge; el merge sigue siendo de la persona.
 - El recurso escaso es el reloj y el tiempo de la operadora, no los tokens: Soul no espera en
   serie a CI ni a una tarea larga si hay otra independiente que lanzar.
 - Paralelismo acotado por configuración (`orchestration.maxParallelRuns`, por defecto 4) y por los
-  presupuestos de ejecuciones por hora; nunca por encima de ellos.
+  presupuestos de ejecuciones por hora; nunca por encima de ellos. `maxParallelRuns` es un
+  máximo, no un valor fijo: el límite efectivo lo da un probe de recursos de la máquina (VRAM
+  libre, `OLLAMA_NUM_PARALLEL` y el `num_ctx` que necesita cada modelo) y es el mínimo de ambos.
+  Si el probe falla o no puede medir, el límite es 1. El valor y sus entradas quedan en el
+  journal del ciclo.
 - **Delegar nunca amplía autoridad.** Una envolvente E' es «igual o más estrecha» que E si y solo
   si, componente a componente: herramientas(E') ⊆ herramientas(E); rutas de escritura(E') ⊆
   rutas(E); egreso(E') ⊆ egreso(E); `autonomy`(E') ≤ `autonomy`(E) en el orden OBSERVE < PROPOSE <
@@ -105,6 +109,11 @@ no le da autoridad de merge; el merge sigue siendo de la persona.
    - Cada ciclo queda en el journal con sus entradas, su decisión, sus acciones y su coste.
    - Fail-safe: 3 fallos seguidos, la misma acción 3 veces o el presupuesto agotado lo detienen
      y avisan.
+   - **Estado de fail-safe durable**: detenido, en pausa, el contador de fallos seguidos, el
+     presupuesto gastado del día y las envolventes revocadas por "PARA" se guardan antes de
+     actuar y sobreviven a reinicios y caídas. Un crash cuenta como fallo. Soul nunca se reanuda
+     sola: reanudar o reactivar envolventes exige una acción explícita de la operadora, con
+     recibo.
 3. **Conversación.**
    - **Operadora**: chat libre en la web y en el móvil. Por mensajería, a través de Savia Relay,
      con gramática cerrada y botones (estado, despierta, duerme, para, agenda, presupuesto,
@@ -178,6 +187,11 @@ acciones aceptadas), se reduce a bajo demanda y se revisa. Los resultados negati
 - **AC19**: si la deliberación afirma «riesgo bajo» para una tarea de agente con edición, Space
   la clasifica como riesgo medio y exige biometría; una aprobación por Relay o por delegación
   acotada se rechaza.
+- **AC20**: con Soul detenida (por fail-safe o por "PARA"), un reinicio de Space, o tres caídas
+  seguidas en el arranque, la dejan detenida, con el contador sin reiniciar y las envolventes
+  revocadas; no lanza nada hasta la acción de la operadora.
+- **AC21**: con `maxParallelRuns` = 4 y un probe que solo admite 2 ejecuciones, nunca hay más de 2
+  hijas vivas; con el probe fallido, como máximo 1; el journal registra el límite y sus entradas.
 
 ## Entregas
 
@@ -205,7 +219,7 @@ aprobación.
 
 ### Verification protocol
 
-- [ ] Escenarios AC1–AC19 con eventos sintéticos y un motor de prueba.
+- [ ] Escenarios AC1–AC21 con eventos sintéticos y un motor de prueba.
 - [ ] Replay determinista del triage en CI.
 
 ### Portability classification

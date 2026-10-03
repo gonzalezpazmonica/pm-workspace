@@ -66,6 +66,11 @@ aprueba con biometría.
      - otra para aprobar, que exige biometría fuerte (clase 3) en cada uso, sin admitir el PIN
        o el patrón del dispositivo, y que queda invalidada si se añade o se borra una huella
        (`setInvalidatedByBiometricEnrollment(true)`); entonces hay que volver a emparejar.
+   - **Confirmación activa**: tras el registro, el dispositivo queda pendiente. La interfaz web y
+     el teléfono muestran a la vez su nombre y una huella corta de su clave de autenticación
+     (thumbprint RFC 7638 truncado, en grupos legibles). Solo cuando la persona confirma en la web
+     que coinciden, el dispositivo se activa y puede pedir tokens. Sin confirmación dentro de la
+     ventana de 5 minutos, o con rechazo, el registro se descarta y el código queda consumido.
 5. **Tokens.**
    - `client_credentials` con `private_key_jwt` produce tokens de 300 s ligados por DPoP.
    - Revocar el dispositivo desde la web lo corta en la siguiente petición. Al recibir esa
@@ -114,6 +119,11 @@ aprueba con biometría.
 - **AC10**: tras añadir una huella nueva en el sistema, la clave de aprobación queda invalidada:
   la app no firma y pide volver a emparejar.
 - **AC11**: con solo PIN o patrón, la clave de aprobación no firma.
+- **AC12**: un dispositivo registrado con un QR válido pero sin confirmación en la web no obtiene
+  tokens (401) y desaparece al cerrarse la ventana; con confirmación, se activa.
+- **AC13**: la huella corta que muestra la web (calculada por el servidor) y la que muestra el
+  teléfono coinciden para la misma clave, con un vector de test compartido; dos registros en
+  carrera con el mismo QR producen uno solo.
 
 ## Entregas
 
@@ -142,7 +152,7 @@ Ninguno: app Android cliente de una API HTTP; no añade hooks, agentes ni skills
 ### Verification protocol
 
 - [ ] Tests unitarios Kotlin y vectores de canonicalización compartidos con Rust y TypeScript.
-- [ ] Escenarios AC1–AC11 contra una instancia de Space de prueba.
+- [ ] Escenarios AC1–AC13 contra una instancia de Space de prueba.
 
 ### Portability classification
 
