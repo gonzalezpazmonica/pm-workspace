@@ -40,7 +40,21 @@ Pipeline: LIST, CREATE, TEST, MONITOR, MANAGE.
 
 Cada tarea declara always_allowed_tools. Estado real: el runner aun NO invoca la
 skill ni el agente; escribe las instrucciones en el fichero de salida y registra
-el run como `completed`. `validate_scoped_approvals` existe pero nadie la llama.
+el run como `recorded`, nunca `completed`. `validate_scoped_approvals` existe pero
+nadie la llama.
+
+## Estados de un run
+
+| Estado | Significado | `run` sale con |
+|---|---|---|
+| `running` | en curso | — |
+| `recorded` | instrucciones registradas, sin ejecutar skill ni agente | 0 |
+| `completed` | ejecucion real terminada (reservado: hoy ningun runner lo emite) | 0 |
+| `error` | fallo, incluido un directorio de salida imposible | 1 |
+| `cancelled` | cancelado | 1 |
+
+`run`, `run-due`, `history` y `list` anaden `(not executed)` a todo `recorded`;
+`run-due` resume `N/M tasks processed, R recorded without execution`.
 
 ## Politicas
 

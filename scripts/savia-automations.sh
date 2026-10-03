@@ -28,6 +28,9 @@ from automations.store import TaskStore
 
 store = TaskStore(str(_data))
 
+# 'recorded' = instrucciones registradas sin ejecutar skill ni agente; se dice siempre.
+NOT_EXECUTED = {"recorded": " (not executed)"}
+
 def fail(msg, code=1):
     print(msg, file=sys.stderr)
     sys.exit(code)
@@ -69,7 +72,7 @@ def cmd_list():
         print(f"[{state}] {t.id}  {t.name}{due}")
         sched = t.schedule.cron or t.schedule.fire_at or "none"
         print(f"     schedule: {t.schedule.kind}={sched}")
-        print(f"     last: {t.last_status or 'never'}  runs: {t.run_count}  next: {t.next_run or 'none'}")
+        print(f"     last: {t.last_status or 'never'}{NOT_EXECUTED.get(t.last_status, '')}  runs: {t.run_count}  next: {t.next_run or 'none'}")
 
 def cmd_show():
     t = need_task("show <task-id>")
@@ -117,12 +120,12 @@ def cmd_run():
     result = asyncio.run(run_scheduled_task(
         t, "manual", output_dir=_out))
     record_run(t.id, result)
-    print(f"run {result.id}: {result.status}")
+    print(f"run {result.id}: {result.status}{NOT_EXECUTED.get(result.status, '')}")
     if result.output:
         print(f"  output: {result.output}")
     if result.error:
         print(f"  error: {result.error}")
-    if result.status != "completed":
+    if result.status not in ("completed", "recorded"):
         sys.exit(1)
 
 def cmd_run_due():
@@ -145,16 +148,19 @@ def cmd_run_due():
         return
     import asyncio
     executed = 0
+    recorded = 0
     from automations.runner import run_scheduled_task
     for t in due[:max_tasks]:
         result = asyncio.run(run_scheduled_task(
             t, "schedule", output_dir=_out))
         record_run(t.id, result)  # counters + recomputed next_run
         executed += 1
-        print(f"run-due {t.id} ({t.name}): {result.status}")
+        if result.status == "recorded":
+            recorded += 1
+        print(f"run-due {t.id} ({t.name}): {result.status}{NOT_EXECUTED.get(result.status, '')}")
         if result.error:
             print(f"  error: {result.error}")
-    print(f"run-due: {executed}/{len(due)} tasks executed")
+    print(f"run-due: {executed}/{len(due)} tasks processed, {recorded} recorded without execution")
 
 def cmd_compute():
     """Materialize next_run for every task (normalize + recompute)."""
@@ -199,10 +205,10 @@ def cmd_history():
     if not runs:
         print("(no runs)")
         return
-    icons = {"completed": "\u2713", "running": "\u25CB", "error": "\u2717", "cancelled": "\u2298"}
+    icons = {"completed": "\u2713", "recorded": "\u25A1", "running": "\u25CB", "error": "\u2717", "cancelled": "\u2298"}
     for r in runs:
         icon = icons.get(r.status, "?")
-        print(f"[{icon}] {r.id}  {r.status}  {r.trigger}  {r.started_at}")
+        print(f"[{icon}] {r.id}  {r.status}  {r.trigger}  {r.started_at}{NOT_EXECUTED.get(r.status, '')}")
         if r.error:
             print(f"     error: {r.error}")
 

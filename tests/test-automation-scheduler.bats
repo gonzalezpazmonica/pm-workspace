@@ -208,9 +208,9 @@ PY
   [[ "$output" == *"cada-cuarto DUE"* ]]
   run bash "$CLI" run-due
   [ "$status" -eq 0 ]
-  [[ "$output" == *"run-due $id (cada-cuarto): completed"* ]]
+  [[ "$output" == *"run-due $id (cada-cuarto): recorded"* ]]
   [ "$(task_field "$id" run_count)" = "1" ]
-  [ "$(task_field "$id" last_status)" = "completed" ]
+  [ "$(task_field "$id" last_status)" = "recorded" ]
   next="$(task_field "$id" next_run)"
   python3 -c 'import sys; from datetime import datetime, timezone; assert datetime.fromisoformat(sys.argv[1]) > datetime.now(timezone.utc)' "$next"
   run bash "$CLI" run-due
@@ -222,7 +222,7 @@ PY
   [ "$status" -eq 0 ]
   id="$(created_id)"
   run bash "$CLI" run-due
-  [[ "$output" == *"1/1 tasks executed"* ]]
+  [[ "$output" == *"1/1 tasks processed, 1 recorded without execution"* ]]
   [ "$(task_field "$id" next_run)" = "None" ]
   run bash "$CLI" run-due
   [[ "$output" == *"no due tasks"* ]]
@@ -236,7 +236,52 @@ PY
   [ "$(task_field "$id" run_count)" = "1" ]
   run bash "$CLI" history "$id"
   [ "$status" -eq 0 ]
-  [[ "$output" == *"completed  manual"* ]]
+  [[ "$output" == *"recorded  manual"* ]]
+}
+
+# ── estado honesto: sin ejecución real no hay 'completed' ──────────────────
+# Fallo medido el 2026-10-03: 'run' escribía las instrucciones en un .md sin invocar
+# skill ni agente y registraba el run como 'completed' (history ✓, list last: completed).
+
+@test "run: sin ejecución real el run queda 'recorded', nunca 'completed', en run, history, list y salida" {
+  run bash "$CLI" create --name honesto --schedule "0 8 * * 1" --instructions "haz algo"
+  id="$(created_id)"
+  run bash "$CLI" run "$id"
+  [ "$status" -eq 0 ]
+  [[ "$output" == *": recorded"* ]]
+  [[ "$output" == *"not executed"* ]]
+  [[ "$output" != *"completed"* ]] || { echo "run dice completed: $output"; return 1; }
+  [ "$(task_field "$id" last_status)" = "recorded" ]
+  run bash "$CLI" history "$id"
+  [[ "$output" == *"recorded  manual"* ]]
+  [[ "$output" == *"not executed"* ]]
+  [[ "$output" != *"completed"* ]] || { echo "history dice completed: $output"; return 1; }
+  [[ "$output" != *$'\u2713'* ]]
+  run bash "$CLI" list
+  [[ "$output" == *"last: recorded (not executed)"* ]]
+  out_md="$(ls "$SAVIA_AUTOMATIONS_OUTPUT/$id"/*.md)"
+  run grep -c "Completed" "$out_md"
+  [ "$output" = "0" ]
+  grep -q "Recorded, not executed" "$out_md"
+}
+
+@test "run error: directorio de salida imposible ⇒ status 'error', exit 1 y nunca 'recorded'" {
+  run bash "$CLI" create --name rota --schedule "0 8 * * 1" --instructions x
+  id="$(created_id)"
+  : > "$WORK/no-es-dir"
+  SAVIA_AUTOMATIONS_OUTPUT="$WORK/no-es-dir" run bash "$CLI" run "$id"
+  [ "$status" -eq 1 ]
+  [[ "$output" == *": error"* ]]
+  [ "$(task_field "$id" last_status)" = "error" ]
+}
+
+@test "run-due boundary: empty queue keeps 'no due tasks' and records nothing" {
+  run bash "$CLI" create --name futura --schedule "0 8 * * 1" --instructions x
+  id="$(created_id)"
+  run bash "$CLI" run-due
+  [ "$status" -eq 0 ]
+  [[ "$output" == *"no due tasks"* ]]
+  [ "$(task_field "$id" run_count)" = "0" ]
 }
 
 @test "due: compara como fecha, no como texto (offsets distintos)" {

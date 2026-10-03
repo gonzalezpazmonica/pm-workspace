@@ -111,9 +111,9 @@ PY
   export SAVIA_AUTOMATIONS_OUTPUT="$FIXDIR/out"
   run bash scripts/savia-automations.sh run-due --max 1
   [[ "$status" -eq 0 ]]
-  [[ "$output" == *"run-due: 1/2 tasks executed"* ]]
+  [[ "$output" == *"run-due: 1/2 tasks processed, 1 recorded without execution"* ]]
   run bash scripts/savia-automations.sh run-due
-  [[ "$output" == *"run-due: 1/1 tasks executed"* ]]
+  [[ "$output" == *"run-due: 1/1 tasks processed, 1 recorded without execution"* ]]
 }
 
 # ── R3: log de instalación ─────────────────────────────────────────────────

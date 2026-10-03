@@ -8,7 +8,7 @@ Savia opera automatizaciones programadas (morning briefs, weekly reports, PR sta
 
 - **ScheduledTask** — entidad persistente con nombre, instrucciones, schedule (cron/once), skill/agente opcional, y scoped approvals (always_allowed_tools)
 - **Schedule** — tipo cron ("0 9 * * 1-5", hora local o zona IANA) o one-time (fire_at ISO); `next_run` en UTC
-- **TaskRun** — ejecucion individual de una tarea (status: running/completed/error/cancelled, trigger: schedule/catchup/manual)
+- **TaskRun** — ejecucion individual de una tarea (status: running/recorded/completed/error/cancelled — `recorded` = registrado sin ejecutar, trigger: schedule/catchup/manual)
 - **TaskStore** — persistencia JSON en .savia/automations/tasks.json + runs/{task_id}/
 - **AutomationScheduler** — loop asyncrono con catch-up en restart y skip-on-overlap
 - **Scoped approvals** — lista de tools permitidas por tarea; el runner rechaza tools no autorizadas
