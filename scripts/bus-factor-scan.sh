@@ -26,7 +26,6 @@ Options:
 Variables de entorno:
   BF_OUTPUT_DIR           Directorio de salida (default: output/bus-factor/)
   BF_OWNERSHIP_THRESHOLD  Score minimo para ser owner (default: 0.50)
-  BF_MIN_COMMITS          Commits minimos para incluir archivo (default: 5)
   BF_EXCLUDE_PATTERNS     Patrones a excluir, separados por comas
   BF_MODULE_DEPTH         Profundidad de agrupacion de modulos (default: 2)
   BF_MAX_HISTORY_DEPTH    Limite de commits a analizar (0 = sin limite)
@@ -48,6 +47,11 @@ done
 if [[ -z "$PROJECT_PATH" ]]; then
   echo "ERROR: --project es obligatorio" >&2
   usage
+fi
+
+if [[ "$FORMAT" != "json" ]]; then
+  echo "ERROR: formato no soportado: $FORMAT (solo json)" >&2
+  exit 1
 fi
 
 # -- Verificar dependencias ---------------------------------------------------
@@ -99,10 +103,13 @@ if [[ ! -f "$PYTHON_SCRIPT" ]]; then
   exit 1
 fi
 
-python3 "$PYTHON_SCRIPT" \
+if ! python3 "$PYTHON_SCRIPT" \
   --project "$PROJECT_NAME" \
   --output  "$OUTPUT_FILE" \
-  "$PROJECT_PATH"
+  "$PROJECT_PATH"; then
+  echo "ERROR: el motor bus-factor-scan.py fallo; no se escribio $OUTPUT_FILE" >&2
+  exit 1
+fi
 
 echo "INFO: output escrito en $OUTPUT_FILE" >&2
 

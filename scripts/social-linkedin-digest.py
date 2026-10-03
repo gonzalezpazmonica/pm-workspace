@@ -29,17 +29,30 @@ def load(store: str) -> list:
     path = os.path.join(store, "normalized", "artifacts.jsonl")
     if not os.path.exists(path):
         return []
-    out = []
+    out, bad = [], 0
     for line in open(path, encoding="utf-8"):
-        try:
-            out.append(json.loads(line))
-        except json.JSONDecodeError:
+        if not line.strip():
             continue
+        try:
+            a = json.loads(line)
+        except json.JSONDecodeError:
+            a = None
+        if isinstance(a, dict) and isinstance(a.get("text"), str) and a.get("artifact_type"):
+            out.append(a)
+        else:
+            bad += 1
+    if bad:
+        print(f"AVISO: {bad} líneas inválidas en {path} ignoradas", file=sys.stderr)
     return out
 
 
+def cell(s: str) -> str:
+    """Texto seguro para una celda de tabla markdown: una línea, | escapado."""
+    return " ".join(str(s).split()).replace("|", "\\|")
+
+
 def main() -> int:
-    store = os.environ.get("SOCIAL_STORE", DEFAULT_STORE)
+    store = os.environ.get("SOCIAL_STORE") or DEFAULT_STORE
     arts = load(store)
     derived = os.path.join(store, "derived")
     os.makedirs(derived, exist_ok=True)
@@ -64,8 +77,8 @@ def main() -> int:
         low = a["text"].lower()
         matched = [t for t in SAVIA_TERMS if t in low]
         if matched:
-            hits.append((a.get("created_at", "s/f"), a["id"],
-                         ",".join(matched[:4]), a["text"][:200]))
+            hits.append((cell(a.get("created_at") or "s/f"), cell(a.get("id", "")),
+                         ",".join(matched[:4]), cell(a["text"][:200])))
     with open(os.path.join(derived, "savia-history.md"), "w", encoding="utf-8") as f:
         f.write("# Savia History (derivado; idea pública ≠ posición actual, §13/§14)\n\n")
         f.write("Estados temporales: HISTORICAL por defecto; ninguna entrada es creencia actual.\n\n")
