@@ -111,3 +111,10 @@ assert d['shield_status'] == 'active', \
   grep -q "Claude Code" "$DOC"
   grep -q "OpenCode" "$DOC"
 }
+
+@test "data-sovereignty-gate.ts resolves «..» so a public destination cannot pass as private" {
+  local f="$BATS_TEST_DIRNAME/../../.opencode/plugins/guards/data-sovereignty-gate.ts"
+  grep -qF 'posix.normalize(' "$f"
+  ! grep -qF '.replace(/\/\.\.\//g, "/")' "$f"
+  [ -f "$BATS_TEST_DIRNAME/../../.opencode/plugins/__tests__/data-sovereignty-traversal.test.ts" ]
+}

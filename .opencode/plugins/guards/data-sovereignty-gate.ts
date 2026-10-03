@@ -32,6 +32,7 @@ import {
   isShieldScript,
   isN1Destination,
 } from "../lib/sovereignty-patterns.ts";
+import { posix } from "node:path";
 
 // ── Daemon path REMOVED 2026-05-06 (OpenCode-native migration) ──────────
 // Shield daemons no longer run. Guard relies on inline regex + base64
@@ -56,8 +57,9 @@ function auditLog(entry: Record<string, unknown>): void {
 // ── Path normalization ────────────────────────────────────────────────────
 
 function normalizePath(path: string): string {
-  // Replace backslashes, resolve ../
-  return path.replace(/\\/g, "/").replace(/\/\.\.\//g, "/");
+  // Barras de Windows a «/» y «..» resueltos de verdad: «/r/projects/../docs/x» es «/r/docs/x»
+  // (antes quedaba «/r/projects/docs/x», que contaba como privado y se saltaba el escaneo).
+  return posix.normalize(path.replace(/\\/g, "/"));
 }
 
 // ── Helper: read existing file content for cross-write detection ──────────
