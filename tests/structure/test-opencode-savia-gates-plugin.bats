@@ -299,3 +299,11 @@ setup() {
   grep -qF '/tmp/savia-gates-*-hook-*.json' "$ROOT_DIR/scripts/opencode-gates-heal.sh"
   grep -qF 'kill_target' "$ROOT_DIR/scripts/opencode-gates-heal.sh"
 }
+
+@test "plugin: PreToolUse sees through sandbox wrappers without trusting them (both forms, any block wins)" {
+  grep -qF 'guardVariants(input.tool, output.args)' "$PLUGIN_DIR/index.ts"
+  grep -qF 'export function unwrapSandbox' "$PLUGIN_DIR/lib/sandbox.ts"
+  # Only a clean wrapper is unwrapped: nothing but closing quotes may follow the last single quote.
+  grep -qF '/^[\\"\s]*$/' "$PLUGIN_DIR/lib/sandbox.ts"
+  [ -f "$PLUGIN_DIR/__tests__/sandbox.test.ts" ]
+}
