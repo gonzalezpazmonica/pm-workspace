@@ -37,7 +37,8 @@ teardown() {
 }
 
 @test "no stdin returns 0 silently" {
-  run bash "$HOOK"
+  # /dev/null: an inherited open pipe (agent shells) would make cat wait forever
+  run bash "$HOOK" < /dev/null
   [[ "$status" -eq 0 ]]
 }
 

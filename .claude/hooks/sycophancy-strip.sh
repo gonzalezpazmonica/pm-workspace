@@ -83,8 +83,8 @@ EXTRACT='def blocks: if type == "string" then .
     else empty end;
   [ (.tool_response | if type == "object" then (.output, .content, .text) else . end | blocks),
     (.tool_input.text | blocks) ] | map(select(length > 0)) | (.[0] // "")'
-if printf "%s" "$INPUT" | jq -e 'type == "object"' >/dev/null 2>&1; then
-  DRAFT=$(printf "%s" "$INPUT" | jq -r "$EXTRACT" 2>/dev/null)
+# One jq pass: exits non-zero when the input is not a JSON object (raw text).
+if DRAFT=$(printf "%s" "$INPUT" | jq -r "if type == \"object\" then ($EXTRACT) else error(\"raw\") end" 2>/dev/null); then
   if [[ -z "$DRAFT" ]]; then
     # Envelope without agent text (e.g. async launch): nothing to inspect.
     log_telemetry "1" "NO_TEXT" "0" "none" "" "-1" "0"
@@ -112,15 +112,17 @@ fi
 # Run detector. The draft goes through stdin: as an argument, drafts over
 # ~128 KB hit ARG_MAX and the detector never ran.
 RESULT=$(printf "%s" "$DRAFT" | python3 "$DETECTOR" --draft - --patterns "$PATTERNS" --json 2>/dev/null)
-if [[ -z "$RESULT" ]] || ! printf "%s" "$RESULT" | jq -e . >/dev/null 2>&1; then
+# One jq pass validates the result and extracts the fields (US-separated, so
+# an empty pattern does not shift the columns).
+FIELDS=""
+if [[ -n "$RESULT" ]]; then
+  FIELDS=$(printf "%s" "$RESULT" | jq -r '[(.score // 0), (.category // "none"), (.pattern // ""), (.position // -1)] | map(tostring) | join("\u001f")' 2>/dev/null)
+fi
+if [[ -z "$FIELDS" ]]; then
   log_telemetry "1" "FAIL_OPEN" "0" "detector_error" "" "-1" "$DRAFT_LEN"
   exit 0
 fi
-
-SCORE=$(printf "%s" "$RESULT" | jq -r ".score // 0")
-CATEGORY=$(printf "%s" "$RESULT" | jq -r ".category // \"none\"")
-PATTERN=$(printf "%s" "$RESULT" | jq -r ".pattern // \"\"")
-POSITION=$(printf "%s" "$RESULT" | jq -r ".position // -1")
+IFS=$'\x1f' read -r SCORE CATEGORY PATTERN POSITION <<< "$FIELDS"
 
 if [[ "$SCORE" -eq 0 ]]; then
   log_telemetry "1" "PASS" "0" "none" "" "-1" "$DRAFT_LEN"
