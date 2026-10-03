@@ -1,1 +1,1 @@
-{"edge_ids":[],"limitations":["GENERATED_FROM_SAM","REPORT_ONLY"],"model_revision":"bc28a3b304f8a77826e63fff915608d4c6a5f374cfa5087a41ee012b261de357","node_ids":["evidence:sam-contract-tests","policy:human-control","system:savia"],"schema_version":2,"view":"foundation"}
+{"edge_ids":[],"limitations":["GENERATED_FROM_SAM","REPORT_ONLY"],"model_revision":"d0b3abb13312965572317a06418191eb93711a427d32206595902bb886dcc13d","node_ids":["evidence:sam-contract-tests","policy:human-control","system:savia"],"schema_version":2,"view":"foundation"}
