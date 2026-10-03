@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=35dae5ddf100f50c222d1e1c6e886ebc94d4dedaba767f730252db4ed33ca7de
-timestamp=2026-10-03T04:53:26Z
+diff_hash=781ef6d6099d45ca113c2fddffcd533bad830cc7a13aa44e83753112ddef1e1d
+timestamp=2026-10-03T05:03:45Z
 branch=agent/sudo-anchoring-20261003
-head_commit=23df54d1
-signature=1bb0a3440446b2835ee085e90b35abeef7fd12eb9c9302551b687b5a23d08f96
+head_commit=1e933a0b
+signature=b1078b15a5d87d7b0ce512b401bed7eace4b7d1fac60325df2287fc8acae898e
