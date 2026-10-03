@@ -47,6 +47,20 @@ Savia no tiene ese modo, ni una forma de que otros bots hablen con ella.
 No tiene ningún otro camino al mundo. La mediación de Space es su "Sentinel": no puede
 saltársela ni reconfigurarla.
 
+**Principio imperativo: orquestadora antes que ejecutora** (operadora, 2026-10-03). Ante un
+objetivo, Soul primero lo **descompone** en tareas independientes, las **reparte en paralelo**
+entre tareas de agente de Space (cada una con su envolvente y aislada en su worktree y rama
+`agent/*`), **coordina**, **revisa** lo que devuelven y **decide**. Solo ejecuta ella misma lo que
+exige su juicio (decisiones, síntesis, revisión, merges autorizados) o lo que no se puede partir.
+
+- El recurso escaso es el reloj y el tiempo de la operadora, no los tokens: Soul no espera en
+  serie a CI ni a una tarea larga si hay otra independiente que lanzar.
+- Paralelismo acotado por configuración (`orchestration.maxParallelRuns`, por defecto 4) y por los
+  presupuestos de ejecuciones por hora; nunca por encima de ellos.
+- Una tarea hija hereda una envolvente igual o más estrecha que la de Soul: delegar nunca amplía
+  autoridad, y las puertas son las mismas (PR en Draft, sin merge sin grant ni revisión humana).
+- Antipatrón: Soul ejecutando en serie trabajo que podía repartir.
+
 ## Diseño
 
 1. **Configuración.**
@@ -57,6 +71,7 @@ saltársela ni reconfigurarla.
      proponer o actuar).
    - Canales, bots permitidos y presupuestos (tokens, ejecuciones, coste, preguntas al día,
      fallos seguidos).
+   - Orquestación: `maxParallelRuns` (por defecto 4) y preferencia por delegar.
    - Solo la persona cambia la configuración, la identidad y las órdenes, con recibo. **Soul no
      puede escribir nada de eso**, y nada de lo que recibe lo cambia. Así se cierra el ataque por
      guía inyectada documentado en OpenClaw.
@@ -125,6 +140,13 @@ acciones aceptadas), se reduce a bajo demanda y se revisa. Los resultados negati
   humana.
 - **AC9**: una propuesta de skill que falla los casos dorados no llega a la persona.
 - **AC10**: el replay de los ciclos reproduce las mismas decisiones del triage determinista.
+- **AC11**: un objetivo con N subtareas independientes (N ≤ `maxParallelRuns`) lanza N tareas de
+  agente concurrentes en el mismo ciclo; con N > `maxParallelRuns`, nunca hay más de
+  `maxParallelRuns` vivas a la vez.
+- **AC12**: una tarea hija nunca recibe una envolvente más amplia que la de la orden que la
+  originó; un intento de ampliarla se convierte en pregunta (AC3).
+- **AC13**: el informe del ciclo distingue lo orquestado (tareas hijas, en paralelo) de lo
+  ejecutado por Soul, con el tiempo de pared por objetivo.
 
 ## Entregas
 
@@ -152,7 +174,7 @@ aprobación.
 
 ### Verification protocol
 
-- [ ] Escenarios AC1–AC10 con eventos sintéticos y un motor de prueba.
+- [ ] Escenarios AC1–AC13 con eventos sintéticos y un motor de prueba.
 - [ ] Replay determinista del triage en CI.
 
 ### Portability classification
