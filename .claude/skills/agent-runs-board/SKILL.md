@@ -101,7 +101,7 @@ bash scripts/savia-runs.sh show "$R"       # hechos + derivado + traza de preced
 | NEEDS YOU | `needs_input`, `ci_failed`, `changes_requested`, `merge_conflict`, `blocked` | **aquí está el trabajo**: input, fix CI, resolver cambios o conflicto |
 | IN REVIEW | PR abierto/draft esperando review | revisar o esperar revisores |
 | READY TO MERGE | PR aprobado y mergeable | merge humano |
-| DONE | PR merged | archivar |
+| DONE | PR merged (aunque el run no haya hecho `finish`) | archivar |
 | TERMINATED | run terminado sin merge | revisar por qué |
 
 ## Reglas de datos (CRIT-001)
@@ -109,6 +109,21 @@ bash scripts/savia-runs.sh show "$R"       # hechos + derivado + traza de preced
 - Todo es **local** (`data/agent-runs-ledger.jsonl`, gitignored). Cero red,
   cero telemetría a proveedor (AO usa PostHog cloud — SE-349 lo rechaza).
 - NO escribas el ledger a mano; usa el CLI (upsert por `run_id`).
+- Concurrencia: cada subcomando que escribe (`init`, `start`, `state`, `pr`, `finish`,
+  `cost`, `reset`) toma un cerrojo exclusivo durante todo el leer-modificar-reescribir.
+  Varios runs a la vez no se pisan. Espera máxima `SAVIA_RUNS_LOCK_WAIT` (30 s); al
+  vencer sale con error y no toca el ledger.
+  - Con `flock` (Linux): `<ledger>.lock`; el kernel lo libera aunque el proceso muera.
+  - Sin `flock` (macOS) o con `SAVIA_RUNS_LOCK_IMPL=mkdir`: directorio `<ledger>.lockdir`
+    con el PID del dueño. Un cerrojo huérfano (PID muerto, o sin PID y con más de 2 min)
+    se rompe solo. Si el error de timeout nombra un PID que ya no existe, borra el
+    directorio a mano.
+- `capture-cost` (hook SubagentStop) no toca nada sin `SAVIA_RUN_ID`. Con run, toma el
+  cerrojo después de leer el transcript y espera como mucho `SAVIA_RUNS_HOOK_LOCK_WAIT`
+  (5 s); si vence, avisa por stderr, no registra ese coste y sale con 0.
+- La columna derivada sale de una sola definición (`_DERIVE_PY`); `show`, `status` y
+  `list` la comparten.
+- `SAVIA_RUNS_LEDGER` cambia la ruta del ledger (tests, sandboxes).
 - N3+ no sale del workspace; el ledger es dato operativo interno.
 
 ## Referencia rápida del CLI
