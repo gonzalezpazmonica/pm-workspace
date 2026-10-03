@@ -51,14 +51,25 @@ saltársela ni reconfigurarla.
 objetivo, Soul primero lo **descompone** en tareas independientes, las **reparte en paralelo**
 entre tareas de agente de Space (cada una con su envolvente y aislada en su worktree y rama
 `agent/*`), **coordina**, **revisa** lo que devuelven y **decide**. Solo ejecuta ella misma lo que
-exige su juicio (decisiones, síntesis, revisión, merges autorizados) o lo que no se puede partir.
+exige su juicio (decisiones, síntesis, revisión de lo entregado) o lo que no se puede partir.
+Soul **nunca** hace merge, ni propio ni de sus tareas hijas (§Diseño, punto de acción): orquestar
+no le da autoridad de merge; el merge sigue siendo de la persona.
 
 - El recurso escaso es el reloj y el tiempo de la operadora, no los tokens: Soul no espera en
   serie a CI ni a una tarea larga si hay otra independiente que lanzar.
 - Paralelismo acotado por configuración (`orchestration.maxParallelRuns`, por defecto 4) y por los
   presupuestos de ejecuciones por hora; nunca por encima de ellos.
-- Una tarea hija hereda una envolvente igual o más estrecha que la de Soul: delegar nunca amplía
-  autoridad, y las puertas son las mismas (PR en Draft, sin merge sin grant ni revisión humana).
+- **Delegar nunca amplía autoridad.** Una envolvente E' es «igual o más estrecha» que E si y solo
+  si, componente a componente: herramientas(E') ⊆ herramientas(E); rutas de escritura(E') ⊆
+  rutas(E); egreso(E') ⊆ egreso(E); `autonomy`(E') ≤ `autonomy`(E) en el orden OBSERVE < PROPOSE <
+  ACT; y presupuestos(E') ≤ presupuestos(E). Space lo comprueba antes de lanzar cada hija; si no
+  se cumple, la hija no se lanza y se convierte en pregunta (AC3).
+- **Presupuestos repartidos, no copiados.** Lo que gastan las hijas se descuenta del presupuesto
+  de la orden que las originó; N hijas en paralelo no multiplican el gasto por N.
+- **Profundidad acotada.** Solo Soul crea tareas hijas: una hija no puede crear nietas (ni por el
+  MCP ni por el A2A de Space); `orchestration.maxDepth` = 1.
+- **Envolvente elegida por el triage determinista**, nunca por el modelo: `envelopeRef` sale de la
+  orden permanente o del disparador, no de la salida del LLM.
 - Antipatrón: Soul ejecutando en serie trabajo que podía repartir.
 
 ## Diseño
@@ -71,7 +82,7 @@ exige su juicio (decisiones, síntesis, revisión, merges autorizados) o lo que 
      proponer o actuar).
    - Canales, bots permitidos y presupuestos (tokens, ejecuciones, coste, preguntas al día,
      fallos seguidos).
-   - Orquestación: `maxParallelRuns` (por defecto 4) y preferencia por delegar.
+   - Orquestación: `maxParallelRuns` (por defecto 4), `maxDepth` = 1 y preferencia por delegar.
    - Solo la persona cambia la configuración, la identidad y las órdenes, con recibo. **Soul no
      puede escribir nada de eso**, y nada de lo que recibe lo cambia. Así se cierra el ataque por
      guía inyectada documentado en OpenClaw.
@@ -143,10 +154,17 @@ acciones aceptadas), se reduce a bajo demanda y se revisa. Los resultados negati
 - **AC11**: un objetivo con N subtareas independientes (N ≤ `maxParallelRuns`) lanza N tareas de
   agente concurrentes en el mismo ciclo; con N > `maxParallelRuns`, nunca hay más de
   `maxParallelRuns` vivas a la vez.
-- **AC12**: una tarea hija nunca recibe una envolvente más amplia que la de la orden que la
-  originó; un intento de ampliarla se convierte en pregunta (AC3).
+- **AC12**: para cada componente del orden de envolventes (herramientas, rutas, egreso,
+  autonomía, presupuestos), una hija con ese componente más amplio que el de su orden no se lanza
+  y se convierte en pregunta (AC3): un caso de prueba por componente.
 - **AC13**: el informe del ciclo distingue lo orquestado (tareas hijas, en paralelo) de lo
   ejecutado por Soul, con el tiempo de pared por objetivo.
+- **AC14**: con 4 hijas en paralelo, el gasto total de tokens y ejecuciones nunca supera el
+  presupuesto de la orden (reparto, no copia).
+- **AC15**: una tarea hija que intenta crear otra tarea (por el MCP o el A2A de Space) recibe un
+  rechazo y queda registrado; Soul nunca ejecuta un merge, aunque el objetivo lo pida.
+- **AC16**: con la misma entrada, `envelopeRef` es el mismo en el replay (lo fija el triage, no
+  el modelo).
 
 ## Entregas
 
@@ -174,7 +192,7 @@ aprobación.
 
 ### Verification protocol
 
-- [ ] Escenarios AC1–AC13 con eventos sintéticos y un motor de prueba.
+- [ ] Escenarios AC1–AC16 con eventos sintéticos y un motor de prueba.
 - [ ] Replay determinista del triage en CI.
 
 ### Portability classification
