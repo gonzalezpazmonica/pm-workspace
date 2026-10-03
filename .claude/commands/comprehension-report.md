@@ -6,6 +6,8 @@ allowed-tools:
   - Read
   - Glob
   - Grep
+  - Bash
+  - Write
 model_tier: heavy
 context_cost: medium
 tier: core
@@ -39,17 +41,22 @@ Generate a comprehensive mental model document explaining the architecture decis
 
 ## Output
 
+`{task-slug}` = task-id con todo carácter fuera de `[A-Za-z0-9._-]` sustituido
+por `-` (`AB#2847` -> `AB-2847`, `sprint-12/feature-auth` -> `sprint-12-feature-auth`).
+`Write` guarda el informe; `Bash` resuelve el commit (`git log`) y, si existe
+`mmdc`, exporta el PNG. Sin `mmdc` no hay PNG: se entrega solo el `.mermaid`.
+
 ```
-📊 Mental Model Report Generated
-├─ Main report: output/comprehension/YYYYMMDD-{task-id}-mental-model.md
-├─ Flow diagram: output/comprehension/YYYYMMDD-{task-id}-flow.mermaid
-└─ PNG export: output/comprehension/YYYYMMDD-{task-id}-flow.png
+Mental Model Report Generated
+├─ Main report: output/comprehension/YYYYMMDD-{task-slug}-mental-model.md
+├─ Flow diagram: output/comprehension/YYYYMMDD-{task-slug}-flow.mermaid
+└─ PNG export: output/comprehension/YYYYMMDD-{task-slug}-flow.png (solo con mmdc)
 
 Coherence: 92%
 Completeness: 5 modules, 8 failure scenarios, 6 implicit dependencies
 Páginas: 7 (1-page TL;DR + detailed sections)
 
-⏱️ Duración: ~3 min
+Duración: ~3 min
 ```
 
 ## Example
@@ -91,7 +98,7 @@ Generates report for User Authentication feature (Azure DevOps AB#2847):
 
 **Phase 7: Report Generation**
 - Compile markdown document
-- Render Mermaid diagrams
+- Render Mermaid diagrams (PNG only if `mmdc` is installed)
 - Coherence validation
 - Save to output/comprehension/
 
