@@ -1,27 +1,40 @@
 # shellcheck shell=bash
 # validate-devops-checks.sh — Check functions (sourced by validate-devops.sh)
 # Each returns JSON: {check, status, message, details?, remediation?}
-# Requires: ORG_URL, API_VERSION, PROJECT, TEAM, PROJECT_ID from caller.
+# Requires: ORG_URL, API_VERSION, PROJECT, TEAM, P_ENC, T_ENC and api_get from caller.
+# Fail-closed: an API error or unreadable response is FAIL, never PASS/WARN.
+
+api_fail() {
+  jq -n --arg c "$1" --arg e "$2" '{check:$c,status:"FAIL",
+    message:"API request failed: \($e)",
+    remediation:"Check network, AZURE_DEVOPS_ORG_URL and PAT scopes, then re-run"}'
+}
+
+# missing_from JSON_ARRAY_OF_HAVE REQUIRED_CSV → comma-separated list of missing items
+missing_from() {
+  jq -rn --argjson have "$1" --arg req "$2" '[$req | split(",")[] | select(. as $r | $have | index($r) | not)] | join(", ")'
+}
 
 check_connectivity() {
-  local code
-  code=$(curl -s -o /dev/null -w "%{http_code}" -H "$(auth_header)" \
-    "$ORG_URL/_apis/projects?\$top=1&api-version=$API_VERSION")
-  if [[ "$code" == "200" ]]; then
+  local resp
+  if resp=$(api_get "$ORG_URL/_apis/projects?\$top=1&api-version=$API_VERSION"); then
     jq -n '{check:"connectivity",status:"PASS",message:"PAT authentication successful"}'
   else
-    jq -n --arg c "$code" '{check:"connectivity",status:"FAIL",
-      message:"Cannot authenticate (HTTP \($c))",
+    jq -n --arg e "$resp" '{check:"connectivity",status:"FAIL",
+      message:"Cannot authenticate (\($e))",
       remediation:"Regenerate PAT with scopes: Work Items R/W, Project+Team R, Analytics R, Code R/W, Build R/W, Process R"}'
   fi
 }
 
 check_project() {
-  local resp
-  resp=$(api_get "$ORG_URL/_apis/projects/$PROJECT?api-version=$API_VERSION")
-  PROJECT_ID=$(echo "$resp" | jq -r '.id // empty')
-  if [[ -n "$PROJECT_ID" ]]; then
-    jq -n --arg id "$PROJECT_ID" '{check:"project",status:"PASS",message:"Project found",details:{projectId:$id}}'
+  local resp project_id
+  if ! resp=$(api_get "$ORG_URL/_apis/projects/$P_ENC?api-version=$API_VERSION"); then
+    [[ "$resp" == "HTTP 404" ]] || { api_fail project "$resp"; return 0; }
+    resp='{}'
+  fi
+  project_id=$(jq -r '.id // empty' <<<"$resp")
+  if [[ -n "$project_id" ]]; then
+    jq -n --arg id "$project_id" '{check:"project",status:"PASS",message:"Project found",details:{projectId:$id}}'
   else
     jq -n --arg p "$PROJECT" '{check:"project",status:"FAIL",
       message:"Project \($p) not found",
@@ -30,16 +43,16 @@ check_project() {
 }
 
 check_process() {
-  local proc_id proc_name processes
-  processes=$(api_get "$ORG_URL/_apis/process/processes?api-version=$API_VERSION")
-  proc_id=$(api_get "$ORG_URL/_apis/projects/$PROJECT/properties?keys=System.ProcessTemplateType&api-version=7.1-preview.1" \
-    | jq -r '.value[]? | select(.name=="System.ProcessTemplateType") | .value // empty')
-  proc_name=$(echo "$processes" | jq -r --arg id "$proc_id" '.value[]? | select(.typeId==$id) | .name // empty')
-  local parent
-  parent=$(echo "$processes" | jq -r --arg id "$proc_id" '.value[]? | select(.typeId==$id) | .parentProcessTypeId // empty')
-  local parent_name=""
-  [[ -n "$parent" && "$parent" != "null" ]] && \
-    parent_name=$(echo "$processes" | jq -r --arg id "$parent" '.value[]? | select(.typeId==$id) | .name // empty')
+  local processes props proc_id proc_name parent parent_name=""
+  processes=$(api_get "$ORG_URL/_apis/process/processes?api-version=$API_VERSION") \
+    || { api_fail process "$processes"; return 0; }
+  props=$(api_get "$ORG_URL/_apis/projects/$P_ENC/properties?keys=System.ProcessTemplateType&api-version=7.1-preview.1") \
+    || { api_fail process "$props"; return 0; }
+  proc_id=$(jq -r '.value[]? | select(.name=="System.ProcessTemplateType") | .value // empty' <<<"$props")
+  proc_name=$(jq -r --arg id "$proc_id" '.value[]? | select(.typeId==$id) | .name // empty' <<<"$processes")
+  parent=$(jq -r --arg id "$proc_id" '.value[]? | select(.typeId==$id) | .parentProcessTypeId // empty' <<<"$processes")
+  [[ -n "$parent" ]] && \
+    parent_name=$(jq -r --arg id "$parent" '.value[]? | select(.typeId==$id) | .name // empty' <<<"$processes")
   local base="${parent_name:-$proc_name}"
   if [[ "$base" == "Agile" ]]; then
     jq -n --arg n "$proc_name" '{check:"process",status:"PASS",message:"Process template is Agile (\($n))"}'
@@ -55,12 +68,12 @@ check_process() {
 }
 
 check_types() {
-  local types missing=""
-  types=$(api_get "$ORG_URL/$PROJECT/_apis/wit/workitemtypes?api-version=$API_VERSION" \
-    | jq -r '[.value[].name] | join(",")')
-  for t in "Epic" "Feature" "User Story" "Task" "Bug"; do
-    echo ",$types," | grep -qi ",$t," || missing="${missing}${missing:+, }$t"
-  done
+  local resp have missing
+  resp=$(api_get "$ORG_URL/$P_ENC/_apis/wit/workitemtypes?api-version=$API_VERSION") \
+    || { api_fail types "$resp"; return 0; }
+  have=$(jq -c '[.value[]?.name | ascii_downcase]' <<<"$resp")
+  missing=$(jq -rn --argjson have "$have" \
+    '["Epic","Feature","User Story","Task","Bug"] | map(select(ascii_downcase as $t | $have | index($t) | not)) | join(", ")')
   if [[ -z "$missing" ]]; then
     jq -n '{check:"types",status:"PASS",message:"All required types present (Epic,Feature,User Story,Task,Bug)"}'
   else
@@ -69,19 +82,18 @@ check_types() {
   fi
 }
 
-_get_wit_data() { api_get "$ORG_URL/$PROJECT/_apis/wit/workitemtypes/${1// /%20}?api-version=$API_VERSION"; }
+_get_wit_data() { api_get "$ORG_URL/$P_ENC/_apis/wit/workitemtypes/$(urlenc "$1")?api-version=$API_VERSION"; }
 
 check_states() {
-  local all_ok=true details="[]"
+  local all_ok=true details="[]" wit data missing
   local -A expected=(["User Story"]="New,Active,Resolved,Closed" ["Task"]="New,Active,Closed" ["Bug"]="New,Active,Resolved,Closed")
   for wit in "User Story" "Task" "Bug"; do
-    local states missing=""
-    states=$(_get_wit_data "$wit" | jq -r '[.states[]?.name] | join(",")')
-    IFS=',' read -ra exp <<< "${expected[$wit]}"
-    for s in "${exp[@]}"; do
-      echo ",$states," | grep -q ",$s," || { missing="${missing}${missing:+, }$s"; all_ok=false; }
-    done
-    [[ -n "$missing" ]] && details=$(echo "$details" | jq --arg w "$wit" --arg m "$missing" '. + [{type:$w,missing:$m}]')
+    data=$(_get_wit_data "$wit") || { api_fail states "$data ($wit)"; return 0; }
+    missing=$(missing_from "$(jq -c '[.states[]?.name]' <<<"$data")" "${expected[$wit]}")
+    if [[ -n "$missing" ]]; then
+      all_ok=false
+      details=$(jq -c --arg w "$wit" --arg m "$missing" '. + [{type:$w,missing:$m}]' <<<"$details")
+    fi
   done
   if $all_ok; then
     jq -n '{check:"states",status:"PASS",message:"All required states present per type"}'
@@ -92,20 +104,19 @@ check_states() {
 }
 
 check_fields() {
-  local all_ok=true details="[]"
+  local all_ok=true details="[]" wit data missing
   local -A wit_fields=(
     ["User Story"]="Microsoft.VSTS.Scheduling.StoryPoints,Microsoft.VSTS.Common.Priority"
     ["Task"]="Microsoft.VSTS.Scheduling.OriginalEstimate,Microsoft.VSTS.Scheduling.RemainingWork,Microsoft.VSTS.Scheduling.CompletedWork,Microsoft.VSTS.Common.Priority,Microsoft.VSTS.Common.Activity"
     ["Bug"]="Microsoft.VSTS.Scheduling.StoryPoints,Microsoft.VSTS.Common.Priority,Microsoft.VSTS.Common.Severity"
   )
   for wit in "User Story" "Task" "Bug"; do
-    local fields missing=""
-    fields=$(_get_wit_data "$wit" | jq -r '[.fields[]?.referenceName] | join(",")')
-    IFS=',' read -ra req <<< "${wit_fields[$wit]}"
-    for f in "${req[@]}"; do
-      echo ",$fields," | grep -q ",$f," || { missing="${missing}${missing:+, }$f"; all_ok=false; }
-    done
-    [[ -n "$missing" ]] && details=$(echo "$details" | jq --arg w "$wit" --arg m "$missing" '. + [{type:$w,missing:$m}]')
+    data=$(_get_wit_data "$wit") || { api_fail fields "$data ($wit)"; return 0; }
+    missing=$(missing_from "$(jq -c '[.fields[]?.referenceName]' <<<"$data")" "${wit_fields[$wit]}")
+    if [[ -n "$missing" ]]; then
+      all_ok=false
+      details=$(jq -c --arg w "$wit" --arg m "$missing" '. + [{type:$w,missing:$m}]' <<<"$details")
+    fi
   done
   if $all_ok; then
     jq -n '{check:"fields",status:"PASS",message:"All required fields present"}'
@@ -117,9 +128,10 @@ check_fields() {
 
 check_backlog() {
   local resp bugs_behavior has_us issues=""
-  resp=$(api_get "$ORG_URL/$PROJECT/$TEAM/_apis/work/backlogconfiguration?api-version=$API_VERSION")
-  bugs_behavior=$(echo "$resp" | jq -r '.bugsBehavior // "unknown"')
-  has_us=$(echo "$resp" | jq '[.requirementBacklog.workItemTypes[]?.name] | any(. == "User Story")')
+  resp=$(api_get "$ORG_URL/$P_ENC/$T_ENC/_apis/work/backlogconfiguration?api-version=$API_VERSION") \
+    || { api_fail backlog "$resp"; return 0; }
+  bugs_behavior=$(jq -r '.bugsBehavior // "unknown"' <<<"$resp")
+  has_us=$(jq '[.requirementBacklog.workItemTypes[]?.name] | any(. == "User Story")' <<<"$resp")
   [[ "$bugs_behavior" != "asRequirements" ]] && issues="Bug behavior is '$bugs_behavior' (expected 'asRequirements')"
   [[ "$has_us" != "true" ]] && issues="${issues}${issues:+; }User Story not in requirements backlog"
   if [[ -z "$issues" ]]; then
@@ -132,9 +144,10 @@ check_backlog() {
 
 check_iterations() {
   local resp total with_dates
-  resp=$(api_get "$ORG_URL/$PROJECT/$TEAM/_apis/work/teamsettings/iterations?api-version=$API_VERSION")
-  total=$(echo "$resp" | jq '[.value[]?] | length')
-  with_dates=$(echo "$resp" | jq '[.value[]? | select(.attributes.startDate != null)] | length')
+  resp=$(api_get "$ORG_URL/$P_ENC/$T_ENC/_apis/work/teamsettings/iterations?api-version=$API_VERSION") \
+    || { api_fail iterations "$resp"; return 0; }
+  total=$(jq '[.value[]?] | length' <<<"$resp")
+  with_dates=$(jq '[.value[]? | select(.attributes.startDate != null)] | length' <<<"$resp")
   if [[ "$total" -eq 0 ]]; then
     jq -n '{check:"iterations",status:"FAIL",message:"No iterations configured",
       remediation:"Project Settings > Boards > Iterations: add sprints with start/end dates"}'

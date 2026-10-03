@@ -60,6 +60,8 @@ Ejecutar: `bash scripts/validate-devops.sh --project "$PROJECT" --team "$TEAM" -
 
 Donde `OUTPUT_FILE` = `output/validations/YYYYMMDD-devops-validate-{project}.json`
 
+Exit code: `0` sin FAIL · `1` hay al menos un FAIL (el JSON se genera igual) · `2` error de uso o configuración (PAT ausente o vacío, `AZURE_DEVOPS_ORG_URL` con placeholder): no hay JSON, mostrar el stderr y volver al paso 3. Un error de API o red cuenta como FAIL, nunca como PASS/WARN.
+
 ## 5. Mostrar resultado
 
 Parsear el JSON report. Presentar tabla resumen:
