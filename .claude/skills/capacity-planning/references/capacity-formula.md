@@ -22,8 +22,8 @@ def calcular_horas_disponibles(fecha_inicio, fecha_fin,
     # Contar días hábiles (excluye sábados y domingos)
     dias_sprint = dias_habiles_entre(fecha_inicio, fecha_fin)
     
-    # Unir y contar días off
-    dias_off = union(dias_off_persona, dias_off_equipo)
+    # Unir días off y contar solo los que caen en día hábil del sprint
+    dias_off = union(dias_off_persona, dias_off_equipo) & dias_sprint
     dias_disponibles = dias_sprint - len(dias_off)
     
     # Aplicar factor de foco
@@ -63,10 +63,10 @@ if utilizacion > 100:
     estado = "🔴 SOBRE-CARGADO — redistribuir trabajo"
 elif utilizacion >= 85:
     estado = "🟡 AL LÍMITE — vigilar de cerca"
-elif utilizacion >= 0:
-    estado = "🟢 OK"
 else:
-    estado = "⚪ SIN DATOS — configurar en AzDO"
+    estado = "🟢 OK"
+# utilizacion None (0 h disponibles) -> "⚪ SIN DATOS — configurar en AzDO"
+# Implementación: scripts/capacity-calculator.py (semaforo)
 ```
 
 ## Configuración

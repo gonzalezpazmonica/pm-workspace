@@ -44,10 +44,12 @@ Flujo completo de Sprint Planning asistido por IA: calcula capacity, propone quÃ
 ```bash
 # Capacity por persona para el sprint objetivo
 # (misma lÃ³gica que /report-capacity)
-./scripts/azdevops-queries.sh capacities {proyecto} "{equipo}"
+./scripts/azdevops-queries.sh items {proyecto} "{equipo}" > /tmp/sprint-items.json
+./scripts/azdevops-queries.sh capacities {proyecto} "{equipo}" > /tmp/capacities.json
 python3 scripts/capacity-calculator.py \
+  --items /tmp/sprint-items.json --capacities /tmp/capacities.json \
   --sprint-start {fecha_inicio} \
-  --sprint-end {fecha_fin}
+  --sprint-end {fecha_fin} --output-json
 ```
 
 Resultado: `{persona: horas_disponibles}` para cada miembro.
