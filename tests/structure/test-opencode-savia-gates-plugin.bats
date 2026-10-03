@@ -307,3 +307,9 @@ setup() {
   grep -qF '/^[\\"\s]*$/' "$PLUGIN_DIR/lib/sandbox.ts"
   [ -f "$PLUGIN_DIR/__tests__/sandbox.test.ts" ]
 }
+
+@test "savia-foundation: TS guards also run on the unwrapped sandbox command (both forms, any block wins)" {
+  grep -qF 'runGuardsOnVariants(BEFORE_GUARDS, input, output)' "$ROOT_DIR/.opencode/plugins/savia-foundation.ts"
+  grep -qF 'export async function runGuardsOnVariants' "$ROOT_DIR/.opencode/plugins/lib/sandbox.ts"
+  [ -f "$ROOT_DIR/.opencode/plugins/__tests__/sandbox-variants.test.ts" ]
+}
