@@ -1,6 +1,6 @@
 {
-  "hash": "05ba41ca75b3",
-  "total": 1451,
+  "hash": "15c0024a7faa",
+  "total": 1450,
   "resources": [
     {
       "category": "analysis",
@@ -18655,20 +18655,6 @@
       "kind": "script",
       "path": "scripts/test-savia-flow-tasks.sh",
       "description": "test-savia-flow-tasks.sh — Git-native task tests via savia-branch.sh"
-    },
-    {
-      "category": "quality",
-      "name": "test-savia-hub",
-      "intents": [
-        "savia",
-        "saviahub",
-        "structural",
-        "test",
-        "tests"
-      ],
-      "kind": "script",
-      "path": "scripts/test-savia-hub.sh",
-      "description": "test-savia-hub.sh — Structural tests for SaviaHub (Era 30)"
     },
     {
       "category": "quality",

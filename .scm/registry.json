@@ -28837,27 +28837,6 @@
       "frontend_support": [
         "opencode"
       ],
-      "id": "script:scripts/test-savia-hub",
-      "intents": [
-        "savia",
-        "saviahub",
-        "structural",
-        "test",
-        "tests"
-      ],
-      "kind": "script",
-      "owner_domain": "quality",
-      "replaced_by": null,
-      "risk_level": null,
-      "source": "scripts/test-savia-hub.sh",
-      "status": "active",
-      "tests": []
-    },
-    {
-      "depends_on": [],
-      "frontend_support": [
-        "opencode"
-      ],
       "id": "script:scripts/test-savia-index",
       "intents": [
         "architecture",
@@ -29625,7 +29604,7 @@
       "tests": []
     }
   ],
-  "content_hash": "05ba41ca75b3",
+  "content_hash": "15c0024a7faa",
   "deferred_kinds": [
     "rule",
     "hook"
