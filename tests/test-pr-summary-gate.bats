@@ -2,8 +2,13 @@
 # BATS tests for .opencode/hooks/pr-summary-gate.sh
 # PreToolUse (gh pr create): exige .pr-summary.md y lo revisa con un LLM vía proxy.
 # La revisión LLM tiene un plazo corto y determinista: conexión ≤ 3 s y respuesta
-# ≤ PR_SUMMARY_LLM_TIMEOUT (30 s por defecto). Si el proxy no contesta a tiempo,
-# el gate se omite con aviso (fail-open documentado) y no bloquea 90 s.
+# ≤ PR_SUMMARY_LLM_TIMEOUT (90 s por defecto, como antes). Si el proxy no
+# existe o no contesta a tiempo, el gate se omite con aviso (fail-open documentado).
+#
+# Limitación conocida: no hay test fiable de `--connect-timeout 3`. Un puerto
+# cerrado se rechaza al instante y el servidor blackhole sí completa la conexión
+# TCP, así que ninguno ejercita el plazo de conexión; hacerlo exigiría una
+# dirección no enrutable, dependiente de la red de la máquina (test inestable).
 # Ref: docs/rules/domain/pr-natural-language-summary.md
 
 SCRIPT=".opencode/hooks/pr-summary-gate.sh"

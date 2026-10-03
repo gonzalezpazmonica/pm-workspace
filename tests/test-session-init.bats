@@ -107,7 +107,8 @@ wait_for_state() {
   point_services_to "$(closed_port)"
   run_timed
   [ "$STATUS" -eq 0 ]
-  # Antes: ~1 s de proceso pero 10-11 s hasta EOF (tareas de fondo con stdout heredado).
+  # Con HOME aislado el hook antiguo también pasa; la retención de stdout la
+  # discrimina el test de mantenimiento lento de fondo.
   [ "$ELAPSED_MS" -lt 4000 ]
 }
 
@@ -165,6 +166,17 @@ wait_for_state() {
   [[ "$OUT" != *"touch"* ]]
   [[ "$OUT" != *"Ollama: activo"* ]]
   [[ "$OUT" != *"Shield: daemon activo"* ]]
+}
+
+@test "boundary: probe older than 24h is not announced as active" {
+  point_services_to "$(closed_port)"
+  printf 'ts=%s\nollama=up\nshield_daemon=up\nshield_proxy=up\n' "$(( $(date +%s) - 90000 ))" \
+    > "$SAVIA_PROBE_STATE"
+  run_timed
+  [ "$STATUS" -eq 0 ]
+  [[ "$OUT" != *"Ollama: activo"* ]]
+  [[ "$OUT" != *"Shield: daemon activo"* ]]
+  [[ "$OUT" == *"caducado"* ]]
 }
 
 @test "edge: empty state file is tolerated" {

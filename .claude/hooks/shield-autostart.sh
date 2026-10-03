@@ -72,8 +72,12 @@ if [ -f "$STATE" ]; then
   done < "$STATE"
 fi
 _word() { [ "$1" = "up" ] && echo "activo" || echo "no responde"; }
-if [ -n "$_ts" ] && [ -n "$_d" ] && [ -n "$_p" ]; then
+_age=-1
+if [ -n "$_ts" ]; then
   _age=$(( $(date +%s) - _ts )); [ "$_age" -lt 0 ] && _age=0
+fi
+# Resultado de más de 24 h: no se presenta como estado actual
+if [ -n "$_d" ] && [ -n "$_p" ] && [ "$_age" -ge 0 ] && [ "$_age" -le 86400 ]; then
   if   [ "$_age" -lt 120 ];  then _when="${_age}s"
   elif [ "$_age" -lt 7200 ]; then _when="$(( _age / 60 ))min"
   else                            _when="$(( _age / 3600 ))h"; fi

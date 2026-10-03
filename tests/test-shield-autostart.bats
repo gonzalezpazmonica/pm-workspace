@@ -181,6 +181,15 @@ wait_for() {
   [[ "$OUT" != *"daemon activo"* ]]
 }
 
+@test "boundary: result older than 24h is not reported as current" {
+  ports_to "$(closed_port)"
+  printf 'ts=%s\ndaemon=up\nproxy=up\n' "$(( $(date +%s) - 90000 ))" > "$SAVIA_SHIELD_STATE"
+  run_timed
+  [ "$STATUS" -eq 0 ]
+  [[ "$OUT" != *"daemon activo"* ]]
+  [[ "$OUT" == *"arranque lanzado en segundo plano"* ]]
+}
+
 @test "edge: empty or random stdin always exits 0" {
   ports_to "$(closed_port)"
   local input

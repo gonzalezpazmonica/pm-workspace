@@ -42,7 +42,7 @@ Un hook síncrono de `SessionStart`, `UserPromptSubmit` o `PreToolUse` no espera
 | `session-init.sh` | `~/.savia/session-probes.state` (`SAVIA_PROBE_STATE`) | Ollama `/api/tags` + pre-carga, salud de Shield |
 | `shield-autostart.sh` | `~/.savia/shield-autostart.state` (`SAVIA_SHIELD_STATE`) | `shield-launcher.py start` + salud; `flock` evita arranques dobles |
 
-Excepción: un gate que necesita la respuesta (`pr-summary-gate.sh`) acota la espera (conexión 3 s, respuesta `PR_SUMMARY_LLM_TIMEOUT`, 30 s) y falla abierto con aviso. Sigue contando como E/S síncrona en el lint de G5b: es deliberado.
+Excepción: un gate que necesita la respuesta (`pr-summary-gate.sh`) acota la espera (conexión 3 s, respuesta `PR_SUMMARY_LLM_TIMEOUT`, 90 s) y falla abierto con aviso. Es E/S síncrona deliberada. Un sondeo de más de 24 h no se anuncia como «activo».
 
 ## Implementation
 

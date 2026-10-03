@@ -250,9 +250,14 @@ if [ -n "$_pr_ts" ]; then
   if   [ "$_pr_age" -lt 120 ];  then _pr_when="${_pr_age}s"
   elif [ "$_pr_age" -lt 7200 ]; then _pr_when="$(( _pr_age / 60 ))min"
   else                               _pr_when="$(( _pr_age / 3600 ))h"; fi
-  [ "$_pr_ollama" = "up" ] && ITEMS+=("Ollama: activo (sondeo de hace $_pr_when; pre-carga en segundo plano)")
-  [ "$_pr_daemon" = "up" ] && ITEMS+=("Shield: daemon activo (sondeo de hace $_pr_when)")
-  [ "$_pr_proxy" = "up" ]  && ITEMS+=("Shield proxy: activo (localhost:$SHIELD_PROXY_PORT, sondeo de hace $_pr_when)")
+  if [ "$_pr_age" -gt 86400 ]; then
+    # Un sondeo de más de 24 h no prueba nada sobre el estado actual
+    ITEMS+=("Servicios locales: último sondeo caducado (hace $_pr_when); nuevo sondeo en segundo plano")
+  else
+    [ "$_pr_ollama" = "up" ] && ITEMS+=("Ollama: activo (sondeo de hace $_pr_when; pre-carga en segundo plano)")
+    [ "$_pr_daemon" = "up" ] && ITEMS+=("Shield: daemon activo (sondeo de hace $_pr_when)")
+    [ "$_pr_proxy" = "up" ]  && ITEMS+=("Shield proxy: activo (localhost:$SHIELD_PROXY_PORT, sondeo de hace $_pr_when)")
+  fi
 else
   ITEMS+=("Servicios locales: sondeo en segundo plano (resultado en el próximo arranque)")
 fi
