@@ -54,9 +54,7 @@ La pregunta correcta no es *"cuanto cabe?"* sino *"cuando cortar?"*.
    - 60-74% → yellow flag, planifica el corte
    - < 60% → **Continue**
 
-## Umbrales de token usage
-
-Porcentaje entero (suelo de `usado*100/max`); cada limite pertenece a la banda superior.
+## Umbrales de token usage (% entero, suelo de `usado*100/max`; cada limite abre la banda superior)
 
 | % del context | Banda (`--rot`) | Accion (`--rot`) | Recomendacion |
 |---|---|---|---|
@@ -65,10 +63,7 @@ Porcentaje entero (suelo de `usado*100/max`); cada limite pertenece a la banda s
 | 75-89 | `rojo` | `compact` | Compact PROACTIVO con hint (el modelo esta en su peor punto de atencion cuando auto dispara) |
 | 90-100 | `critico` | `clear` | /clear + notas; no confies en compact automatico a este nivel |
 
-Settings actual (Claude Code): `CLAUDE_AUTOCOMPACT_PCT_OVERRIDE=75` en `.claude/settings.json`.
-Consecuencia: en Claude Code el auto-compact dispara justo al entrar en `rojo`, asi que
-el compact proactivo hay que hacerlo en `amarillo`. Las bandas `rojo` y `critico` solo se
-alcanzan en frontends sin ese override (p. ej. OpenCode).
+Claude Code: `CLAUDE_AUTOCOMPACT_PCT_OVERRIDE=75` (`.claude/settings.json`) auto-compacta al entrar en `rojo`, asi que alli el compact proactivo va en `amarillo`; `rojo`/`critico` solo se alcanzan en frontends sin ese override (p. ej. OpenCode).
 
 ## Opciones en detalle
 
@@ -134,38 +129,17 @@ Subagent tiene su propio context window fresco. Solo la conclusion vuelve al mai
 
 ## Invocacion
 
-Como meta-skill, este skill no se ejecuta autonomamente. Sirve de rubrica mental antes de cada turno cuando la sesion se alarga. Invocacion tipica (skill `user-invocable`):
+Meta-skill: rubrica antes de cada turno, no se ejecuta sola. Invocacion: `/context-rot-strategy`. El usuario decide la opcion.
 
-```
-/context-rot-strategy
-```
-
-Muestra la decision checklist + umbrales actuales. El usuario decide la opcion.
-
-### Helper: `scripts/context-meter.sh --rot`
-
-El advisor de SE-069 es el modo `--rot` de `context-meter.sh` (SE-219 S2). Ningun
-frontend exporta el % de contexto como variable de entorno: hay que pasarlo
-(el contador de la sesion) o dar los tokens.
+Helper (advisor SE-069): modo `--rot` de `scripts/context-meter.sh`. Ningun frontend exporta el % por env: pasalo o da los tokens.
 
 ```bash
-bash scripts/context-meter.sh --rot --pct 72          # % directo 0-100
-CONTEXT_PCT=72 bash scripts/context-meter.sh --rot    # idem por env
-CONTEXT_WINDOW_USED=150000 CONTEXT_WINDOW_MAX=200000 \
-  bash scripts/context-meter.sh --rot --json          # tokens → % (suelo)
+bash scripts/context-meter.sh --rot --pct 72      # o CONTEXT_PCT=72; o CONTEXT_WINDOW_USED+_MAX
+bash scripts/context-meter.sh --rot --json        # {"pct","used","max","status","source","rot":{band,action,thresholds}}
 ```
 
-- Prioridad de la entrada: `--pct` > `CONTEXT_PCT` > `CONTEXT_WINDOW_USED`+`CONTEXT_WINDOW_MAX` >
-  snapshot `CONTEXT_METER_SNAPSHOT` (por defecto `output/context-snapshot.json` relativo al cwd).
-- Salida texto: `CONTEXT_PCT`, `CONTEXT_TOKENS_USED`, `CONTEXT_TOKENS_MAX`, `CONTEXT_STATUS`
-  (umbrales SE-219 70/85) y, con `--rot`, `CONTEXT_ROT_BAND` y `CONTEXT_ROT_ACTION`.
-- Salida `--json`: `{"pct","used","max","status","source", "rot": {"band","action","thresholds"}}`.
-- Umbrales: `CONTEXT_ROT_YELLOW` (60), `CONTEXT_ROT_RED` (75), `CONTEXT_ROT_CRITICAL` (90);
-  enteros 0-100 con yellow < red < critical.
-- Sin datos (o `max` = 0): banda `unknown`, accion `continue-with-caution`, exit 0.
-- Exit 2 sin consejo: % fuera de 0-100 o no entero, tokens negativos/no enteros/>15 digitos,
-  `used` > `max`, snapshot con campos no enteros, umbrales invalidos u opcion desconocida.
-- Solo lee; no escribe ficheros. Tests: `tests/test-context-rot-strategy.bats`.
+- Entrada: `--pct` > `CONTEXT_PCT` > tokens > snapshot `CONTEXT_METER_SNAPSHOT` (def. `output/context-snapshot.json` del cwd). Umbrales `CONTEXT_ROT_YELLOW/RED/CRITICAL` (60/75/90).
+- Sin datos (o `max`=0): `unknown` + `continue-with-caution`, exit 0. Entrada invalida (no entero, fuera de 0-100, `used`>`max`, >15 digitos, umbrales desordenados, opcion desconocida): exit 2 sin consejo. Solo lee.
 
 ## Referencias
 
