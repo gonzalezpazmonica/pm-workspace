@@ -3,7 +3,8 @@
 # Uso: ast-comprehend.sh <target> [--surface-only] [--legacy-mode] [--output <path>]
 # Salida: JSON unificado en stdout (o en --output si se especifica).
 #   Fichero → objeto {meta, structure, complexity, summary}; directorio → array.
-# Exit: 0 ok · 1 target ausente o inexistente · 2 argumento invalido.
+# Exit: 0 ok · 1 target ausente o inexistente, o --output no escribible · 2 argumento invalido
+#       · 3 algun fichero no se pudo leer o analizar (su structure.error lo dice; el JSON se emite igual).
 # Requiere python3 (construye el JSON). tree-sitter, ts-morph y gopls son opcionales.
 set -uo pipefail
 
@@ -228,10 +229,18 @@ print(json.dumps(extract_structure(tree, {"classes": [], "functions": [], "impor
 
 # ── Procesar un fichero ───────────────────────────────────────────────────────
 
+# Emite el objeto JSON del fichero. Devuelve 3 si no se pudo leer ni extraer:
+# un analisis imposible nunca se presenta como "0 clases" con exito.
 process_file() {
   local file="$1"
-  local lang lines tool_used="" structure_json="" result=""
+  local lang lines tool_used="" structure_json="" result="" rc=0
   lang=$(detect_language "$file")
+
+  if [[ ! -r "$file" ]]; then
+    echo "ast-comprehend: no se puede leer $file" >&2
+    emit_file_json "$file" "$lang" 0 "none" 0 '{"error": "unreadable"}'
+    return 3
+  fi
   lines=$(count_lines "$file")
 
   # Capa 1: tree-sitter. Capa 2: herramienta nativa semantica. Capa 3: grep.
@@ -257,14 +266,24 @@ process_file() {
   fi
 
   if [[ -z "$structure_json" ]]; then
-    structure_json=$(grep_structural_extract "$file")
     tool_used="grep-structural"
+    if ! structure_json=$(grep_structural_extract "$file") || [[ -z "$structure_json" ]]; then
+      echo "ast-comprehend: la extraccion grep-structural fallo en $file" >&2
+      structure_json='{"error": "extraction failed"}'
+      rc=3
+    fi
   fi
 
   local complexity
   complexity=$(count_complexity "$file")
 
-  STRUCTURE_JSON="$structure_json" python3 -c '
+  emit_file_json "$file" "$lang" "$lines" "$tool_used" "$complexity" "$structure_json" || rc=3
+  return "$rc"
+}
+
+# emit_file_json <file> <lang> <lines> <tool> <complexity> <structure-json>
+emit_file_json() {
+  STRUCTURE_JSON="$6" python3 -c '
 import json, os, sys
 file_path, lang, lines, tool, complexity = sys.argv[1:6]
 lines, complexity = int(lines or 0), int(complexity or 0)
@@ -275,9 +294,13 @@ except ValueError as e:
 for key in ("classes", "functions", "imports"):
     structure.setdefault(key, [])
 n_cls, n_fn = len(structure["classes"]), len(structure["functions"])
-summary = ("Fichero %s (%s). %d clase(s), %d función(es). Complejidad ciclomática "
-           "aproximada: %d puntos de decisión." % (os.path.basename(file_path), lang,
-                                                    n_cls, n_fn, complexity))
+if structure.get("error") in ("unreadable", "extraction failed"):
+    summary = ("No se pudo leer el fichero %s (%s): %s. La estructura vacía no significa "
+               "que no tenga símbolos." % (os.path.basename(file_path), lang, structure["error"]))
+else:
+    summary = ("Fichero %s (%s). %d clase(s), %d función(es). Complejidad ciclomática "
+               "aproximada: %d puntos de decisión." % (os.path.basename(file_path), lang,
+                                                        n_cls, n_fn, complexity))
 print(json.dumps({
     "meta": {"file": file_path, "language": lang, "lines": lines, "tool": tool},
     "structure": structure,
@@ -285,7 +308,7 @@ print(json.dumps({
                    "hotspots": [{"warn": complexity > 15, "total": complexity}]},
     "summary": summary,
 }, ensure_ascii=False, indent=2))
-' "$file" "$lang" "$lines" "$tool_used" "$complexity"
+' "$1" "$2" "$3" "$4" "$5"
 }
 
 # ── Procesar directorio ───────────────────────────────────────────────────────
@@ -294,10 +317,17 @@ process_directory() {
   local dir="$1"
   local results=()
   local extensions="cs|ts|tsx|js|jsx|py|go|rs|java|php|rb|swift|kt|dart|tf"
-  local file
+  local file entry rc=0
 
   while IFS= read -r -d '' file; do
-    results+=("$(process_file "$file")")
+    entry=$(process_file "$file") || rc=3
+    # Una entrada vacia romperia el array ("[,{...}]"): se registra y se omite.
+    if [[ -z "$entry" ]]; then
+      echo "ast-comprehend: sin salida para $file" >&2
+      rc=3
+      continue
+    fi
+    results+=("$entry")
   done < <(find "$dir" -type f -regextype posix-extended \
     -regex ".*\.(${extensions})$" \
     ! -path "*/node_modules/*" \
@@ -309,16 +339,20 @@ process_directory() {
   local joined
   joined=$(IFS=','; echo "${results[*]:-}")
   echo "[${joined}]"
+  return "$rc"
 }
 
 # ── Punto de entrada principal ────────────────────────────────────────────────
 
 main() {
-  local output
+  local output rc=0
+  if [[ -n "$OUTPUT_FILE" && -d "$OUTPUT_FILE" ]]; then
+    usage_error "--output is a directory: $OUTPUT_FILE"
+  fi
   if [[ -f "$TARGET" ]]; then
-    output=$(process_file "$TARGET")
+    output=$(process_file "$TARGET") || rc=$?
   elif [[ -d "$TARGET" ]]; then
-    output=$(process_directory "$TARGET")
+    output=$(process_directory "$TARGET") || rc=$?
   else
     python3 -c 'import json,sys; print(json.dumps({"error": "Target not found: " + sys.argv[1]}))' "$TARGET" >&2
     exit 1
@@ -329,11 +363,17 @@ main() {
     # Escritura atomica: tmp en el mismo directorio + mv (escritores concurrentes).
     local tmp
     tmp=$(mktemp "${OUTPUT_FILE}.XXXXXX") || { echo "Cannot write $OUTPUT_FILE" >&2; exit 1; }
-    echo "$output" > "$tmp" && mv -f "$tmp" "$OUTPUT_FILE"
+    if ! { echo "$output" > "$tmp" && mv -f "$tmp" "$OUTPUT_FILE"; }; then
+      rm -f "$tmp"
+      echo "Cannot write $OUTPUT_FILE" >&2
+      exit 1
+    fi
     echo "Comprehension report saved: $OUTPUT_FILE" >&2
   else
     echo "$output"
   fi
+  return "$rc"
 }
 
 main
+exit $?

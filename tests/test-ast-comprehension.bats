@@ -80,6 +80,9 @@ EOF
   run jq_py "len(d['structure']['classes']), len(d['structure']['functions'])" <<< "$out"
   [ "$output" = "(1, 3)" ]
   [[ "$out" == *"1 clase(s), 3 función(es)"* ]]
+  # Contrato: functions incluye los metodos (ast.walk) y va ordenado por linea.
+  run jq_py "[f['name'] for f in d['structure']['functions']]" <<< "$out"
+  [ "$output" = "['bar', 'qux', 'baz']" ]
 }
 
 @test "grep fallback: go structs, interfaces and funcs detected without gawk" {
@@ -103,12 +106,12 @@ EOF
 }
 
 @test "grep fallback: rust import line with colons is not truncated" {
-  printf 'use std::collections::HashMap;\nstruct Cache {}\nfn get() {}\n' > "$TMPDIR_TEST/c.rs"
+  printf 'use std::collections::HashMap;\nstruct Cache {}\npub trait Store {}\nfn get() {}\n' > "$TMPDIR_TEST/c.rs"
   out=$(bash "$SH" "$TMPDIR_TEST/c.rs" --surface-only)
   run jq_py "d['structure']['imports']" <<< "$out"
   [ "$output" = "['use std::collections::HashMap;']" ]
   run jq_py "[c['name'] for c in d['structure']['classes']], [f['name'] for f in d['structure']['functions']]" <<< "$out"
-  [ "$output" = "(['Cache'], ['get'])" ]
+  [ "$output" = "(['Cache', 'Store'], ['get'])" ]
 }
 
 @test "tool field is truthful: never claims gopls or ts-morph when absent" {
@@ -245,6 +248,89 @@ EOF
   [ "$output" = "python" ]
   run bash -c "ls '$TMPDIR_TEST' | grep -c 'r.json.'"
   [ "$output" = "0" ]
+}
+
+# ── Ficheros ilegibles (fail-closed) ─────────────────────────────────────────
+
+@test "error: unreadable go file fails with exit 3 and structure.error, not an empty success" {
+  [ "$(id -u)" -ne 0 ] || skip "root lee ficheros con modo 000"
+  mk_go "$TMPDIR_TEST/u.go"
+  chmod 000 "$TMPDIR_TEST/u.go"
+  run --separate-stderr bash "$SH" "$TMPDIR_TEST/u.go" --surface-only
+  chmod 600 "$TMPDIR_TEST/u.go"
+  [ "$status" -eq 3 ]
+  run jq_py "d['structure']['error'], d['meta']['tool']" <<< "$output"
+  [ "$output" = "('unreadable', 'none')" ]
+}
+
+@test "error: unreadable python file is rejected through the python-ast layer too" {
+  [ "$(id -u)" -ne 0 ] || skip "root lee ficheros con modo 000"
+  mk_python "$TMPDIR_TEST/u.py"
+  chmod 000 "$TMPDIR_TEST/u.py"
+  run --separate-stderr bash "$SH" "$TMPDIR_TEST/u.py"
+  chmod 600 "$TMPDIR_TEST/u.py"
+  [ "$status" -eq 3 ]
+  run jq_py "d['structure']['error'], d['summary'].startswith('No se pudo leer')" <<< "$output"
+  [ "$output" = "('unreadable', True)" ]
+}
+
+@test "error: directory with one unreadable file keeps the rest and exits 3" {
+  [ "$(id -u)" -ne 0 ] || skip "root lee ficheros con modo 000"
+  mkdir -p "$TMPDIR_TEST/d"
+  mk_python "$TMPDIR_TEST/d/a.py"
+  mk_go "$TMPDIR_TEST/d/b.go"
+  chmod 000 "$TMPDIR_TEST/d/b.go"
+  run --separate-stderr bash "$SH" "$TMPDIR_TEST/d"
+  chmod 600 "$TMPDIR_TEST/d/b.go"
+  [ "$status" -eq 3 ]
+  run jq_py "[(x['meta']['language'], x['structure'].get('error')) for x in d]" <<< "$output"
+  [ "$output" = "[('python', None), ('go', 'unreadable')]" ]
+}
+
+# ── Discriminacion adicional (P2 de la revision) ─────────────────────────────
+
+@test "grep fallback: csharp class with public and private methods" {
+  cat > "$TMPDIR_TEST/s.cs" <<'EOF'
+using System;
+namespace App {
+  public class Svc {
+    public int Run(int x) { return x; }
+    private static List<string> Helper() { return null; }
+  }
+}
+EOF
+  run bash "$SH" "$TMPDIR_TEST/s.cs"
+  [ "$status" -eq 0 ]
+  run jq_py "[c['name'] for c in d['structure']['classes']], [f['name'] for f in d['structure']['functions']], d['structure']['imports']" <<< "$output"
+  [ "$output" = "(['Svc'], ['Run', 'Helper'], ['using System;'])" ]
+}
+
+@test "directory: skips vendor and dist, and lists files in sorted path order" {
+  mkdir -p "$TMPDIR_TEST/p/vendor/v" "$TMPDIR_TEST/p/dist" "$TMPDIR_TEST/p/src"
+  echo 'func V() {}' > "$TMPDIR_TEST/p/vendor/v/v.go"
+  echo 'function d(){}' > "$TMPDIR_TEST/p/dist/d.js"
+  for n in e c a d b; do echo "fn $n() {}" > "$TMPDIR_TEST/p/src/$n.rs"; done
+  run bash "$SH" "$TMPDIR_TEST/p"
+  [ "$status" -eq 0 ]
+  run jq_py "[x['meta']['file'].rsplit('/', 1)[1] for x in d]" <<< "$output"
+  [ "$output" = "['a.rs', 'b.rs', 'c.rs', 'd.rs', 'e.rs']" ]
+}
+
+@test "meta.lines counts lines of a non-empty file" {
+  mk_go "$TMPDIR_TEST/b.go"
+  run bash "$SH" "$TMPDIR_TEST/b.go" --surface-only
+  [ "$status" -eq 0 ]
+  run jq_py "d['meta']['lines']" <<< "$output"
+  [ "$output" = "6" ]
+}
+
+@test "invalid: --output pointing to an existing directory fails and leaves no temp file" {
+  mk_python "$TMPDIR_TEST/a.py"
+  mkdir -p "$TMPDIR_TEST/outdir"
+  run --separate-stderr bash "$SH" "$TMPDIR_TEST/a.py" --output "$TMPDIR_TEST/outdir"
+  [ "$status" -ne 0 ]
+  run bash -c "ls -A '$TMPDIR_TEST/outdir' | wc -l; ls '$TMPDIR_TEST' | grep -c 'outdir\\.' || true"
+  [ "$output" = "$(printf '0\n0')" ]
 }
 
 @test "locale es_ES: output is identical to C locale" {
