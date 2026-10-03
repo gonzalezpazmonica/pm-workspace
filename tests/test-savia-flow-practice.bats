@@ -248,6 +248,19 @@ use_clone() {
   [[ "$output" != *"T-X1"* ]]
 }
 
+@test "push rechazado por el servidor (pre-receive): exit 1 sin reintentos ni exito falso (reject)" {
+  printf '#!/bin/sh\necho "politica: rama cerrada" >&2\nexit 1\n' > "$BARE/hooks/pre-receive"
+  chmod +x "$BARE/hooks/pre-receive"
+  run ts log alice T-1 1 x
+  [ "$status" -eq 1 ]
+  [[ "$output" == *"NO registrado"* ]]
+  [[ "$output" == *"pre-receive"* ]]
+  [[ "$output" != *"6 veces"* ]]
+  [[ "$output" != *"✅"* ]]
+  run git -C "$BARE" rev-parse --verify -q user/alice
+  [ "$status" -ne 0 ]
+}
+
 @test "remoto caido: report avisa de datos posiblemente desfasados" {
   ts log alice T-0 2 seed >/dev/null 2>&1
   mv "$BARE" "$BARE.off"

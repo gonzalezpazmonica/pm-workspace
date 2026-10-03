@@ -156,8 +156,10 @@ _txn_once() {  # 0 publicado · 10 reintentar · otro = fallo
         || { echo "ERR commit fallido en $branch" >&2; rc=1; }
       if [ "$rc" -eq 0 ]; then
         out=$(git -C "$repo_dir" push --porcelain origin "$commit:refs/heads/$branch" 2>&1) || {
-          if echo "$out" | grep -qE '^!.*(rejected|fetch first|non-fast-forward|stale info)'; then rc=10
-          else echo "ERR push a origin/$branch fallido: $(echo "$out" | tail -1)" >&2; rc=1; fi
+          if echo "$out" | grep -qE '^!.*(fetch first|non-fast-forward|stale info|failed to update ref|cannot lock ref|already exists)'; then rc=10
+          else  # rechazo del servidor (hook, permisos) o red: reintentar no sirve
+            echo "ERR push a origin/$branch fallido: $(echo "$out" | grep -m1 '^!' || echo "$out" | tail -1)" >&2; rc=1
+          fi
         }
       fi
     fi
