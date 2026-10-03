@@ -37,7 +37,7 @@ mod() {
 
 # scan <modules-json> [project-name] [file]: escribe el JSON de bus-factor-scan.
 scan() {
-  local name="${2:-proj}" file="${3:-$OUT/proj-20261003.json}"
+  local name="${2:-proj}" file="${3:-$OUT/proj-20261003T000000Z.json}"
   printf '{"project": "%s", "modules": %s}' "$name" "$1" > "$file"
 }
 
@@ -115,11 +115,12 @@ print(json.dumps(yaml.safe_load(t[1]),default=str,ensure_ascii=False))' "$1"
   grep -qF "o'brien@x.com" "$P/src/pay/CONTEXT_DOME.md"
 }
 
-@test "error: JSON de scan corrupto falla con exit 1 y no escribe nada" {
+@test "error: JSON de scan corrupto falla con exit 2 (ilegible) y no escribe nada" {
   mod src/pay
-  printf '{"project": "proj", "modules": [' > "$OUT/proj-1.json"
+  printf '{"project": "proj", "modules": [' > "$OUT/proj.json"
   gen
-  [ "$status" -eq 1 ]
+  [ "$status" -eq 2 ]
+  [[ "$output" == *"ilegible"* ]]
   [[ "$output" == *"ERROR"* ]]
   [ ! -e "$P/src/pay/CONTEXT_DOME.md" ]
 }
@@ -141,7 +142,7 @@ print(json.dumps(yaml.safe_load(t[1]),default=str,ensure_ascii=False))' "$1"
 }
 
 @test "error: --project inexistente falla con exit 1" {
-  scan "[$(m src/pay)]" nope "$OUT/nope-1.json"
+  scan "[$(m src/pay)]" nope "$OUT/nope.json"
   run bash "$GEN" --project "$TMPDIR_T/nope" --min-risk LOW
   [ "$status" -eq 1 ]
   [[ "$output" == *"no es un directorio"* ]]
@@ -149,7 +150,7 @@ print(json.dumps(yaml.safe_load(t[1]),default=str,ensure_ascii=False))' "$1"
 
 @test "block N4: no usa el scan de OTRO proyecto aunque sea el único JSON del directorio" {
   mod src/pay
-  scan "[$(m src/pay secreto@clienteA.com)]" clienteA "$OUT/clienteA-20261003.json"
+  scan "[$(m src/pay secreto@clienteA.com)]" clienteA "$OUT/clienteA-20261003T000000Z.json"
   gen
   [ "$status" -eq 1 ]
   [[ "$output" == *"no se encontro JSON de scan"* ]]
@@ -159,11 +160,40 @@ print(json.dumps(yaml.safe_load(t[1]),default=str,ensure_ascii=False))' "$1"
 
 @test "block N4: un scan de 'proj-legacy' no se toma por el de 'proj' (prefijo)" {
   mod src/pay
-  scan "[$(m src/pay ajeno@legacy.com)]" proj-legacy "$OUT/proj-legacy-20261003.json"
+  scan "[$(m src/pay ajeno@legacy.com)]" proj-legacy "$OUT/proj-legacy-20261003T000000Z.json"
   gen
   [ "$status" -eq 1 ]
   run grep -rF "ajeno@legacy.com" "$P"
   [ "$status" -ne 0 ]
+}
+
+@test "block N4: un scan de otro proyecto con nombre <proj>-<texto>.json no vale" {
+  mod src/pay
+  scan "[$(m src/pay ajeno@x.com)]" proj "$OUT/proj-backup.json"
+  gen
+  [ "$status" -eq 1 ]
+  run grep -rF "ajeno@x.com" "$P"
+  [ "$status" -ne 0 ]
+}
+
+@test "block N4: un scan renombrado a proj.json pero con project ajeno se rechaza" {
+  mod src/pay
+  scan "[$(m src/pay ajeno@x.com)]" clienteA "$OUT/proj.json"
+  gen
+  [ "$status" -eq 1 ]
+  [[ "$output" == *"es del proyecto 'clienteA'"* ]]
+  run grep -rF "ajeno@x.com" "$P"
+  [ "$status" -ne 0 ]
+}
+
+@test "positive: elige el scan con timestamp mas reciente del proyecto" {
+  mod src/pay
+  scan "[$(m src/pay viejo@x.com)]" proj "$OUT/proj-20260101T000000Z.json"
+  touch -d '2026-01-01' "$OUT/proj-20260101T000000Z.json"
+  scan "[$(m src/pay nuevo@x.com)]" proj "$OUT/proj-20261003T120000Z.json"
+  gen
+  [ "$status" -eq 0 ]
+  grep -q "nuevo@x.com" "$P/src/pay/CONTEXT_DOME.md"
 }
 
 @test "block N4: las decisiones (why:) se extraen y solo de HEAD, no de ramas sin integrar" {
@@ -276,7 +306,7 @@ print(json.dumps(yaml.safe_load(t[1]),default=str,ensure_ascii=False))' "$1"
 
 @test "positive: usa el path del módulo aunque el name sea distinto" {
   mod src/pay
-  printf '{"project":"proj","modules":[{"name":"payments","path":"src/pay","bus_factor":1,"risk_level":"CRITICAL","owners":[],"warnings":[]}]}' > "$OUT/proj-1.json"
+  printf '{"project":"proj","modules":[{"name":"payments","path":"src/pay","bus_factor":1,"risk_level":"CRITICAL","owners":[],"warnings":[]}]}' > "$OUT/proj.json"
   gen
   [ "$status" -eq 0 ]
   [ -f "$P/src/pay/CONTEXT_DOME.md" ]

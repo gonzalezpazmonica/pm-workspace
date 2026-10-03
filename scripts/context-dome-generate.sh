@@ -4,7 +4,9 @@ set -uo pipefail
 # SE-252 -- Bus Factor Shield
 #
 # Exit codes: 0 ok (incluye "nada que generar" y modulos saltados con WARN)
-#             1 uso o entrada invalida (argumentos, proyecto, scan ausente o corrupto)
+#             1 uso o entrada invalida (argumentos, proyecto, sin scan del proyecto,
+#               scan de otro proyecto)
+#             2 scan JSON ilegible (corrupto o sin lista 'modules')
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 PROJECT_DIR="${CLAUDE_PROJECT_DIR:-$(cd "$SCRIPT_DIR/.." && pwd)}"
@@ -69,28 +71,15 @@ fi
 PROJECT_NAME="$(basename "$(cd "$PROJECT_PATH" && pwd)")"
 
 # -- Encontrar JSON del scan mas reciente DE ESTE proyecto --------------------
-# Aislamiento N4: solo vale un scan cuyo campo "project" coincide con el
-# proyecto. Nunca se cae al scan de otro proyecto (sus owners se filtrarian).
-# Un JSON corrupto con el nombre del proyecto se elige igualmente, para que
-# el parseo lo reporte como error en vez de ignorarlo en silencio.
+# Aislamiento N4 (mismo criterio que bus-factor-report/-distribute): solo
+# <nombre>.json o <nombre>-<YYYYMMDD>T<HHMMSS>Z.json (nombre por defecto de
+# bus-factor-scan.sh). Sin fallback a otro proyecto ni a prefijos parecidos
+# (app vs app-backend): sus owners acabarian en esta cupula.
 find_latest_scan() {
-  local dir="$1" name="$2" f
-  while IFS= read -r f; do
-    [[ -f "$f" ]] || continue
-    if python3 - "$f" "$name" <<'PY' 2>/dev/null; then
-import json, os, sys
-path, name = sys.argv[1:3]
-try:
-    d = json.load(open(path, encoding="utf-8"))
-except ValueError:
-    base = os.path.basename(path)
-    sys.exit(0 if base == name + ".json" or base.startswith(name + "-") else 1)
-sys.exit(0 if isinstance(d, dict) and d.get("project") == name else 1)
-PY
-      echo "$f"
-      return
-    fi
-  done < <(ls -t "$dir"/*.json 2>/dev/null)
+  local dir="$1" name="$2"
+  ls -t "$dir/$name.json" \
+        "$dir/$name"-[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]T[0-9][0-9][0-9][0-9][0-9][0-9]Z.json \
+        2>/dev/null | head -1
 }
 
 SCAN_JSON=$(find_latest_scan "$BF_OUTPUT_DIR" "$PROJECT_NAME")
@@ -104,17 +93,22 @@ echo "INFO: usando scan: $SCAN_JSON" >&2
 
 # -- Extraer modulos elegibles del JSON (una linea JSON por modulo) -----------
 # Los valores viajan por argv, nunca interpolados en el codigo Python.
-MODULES_JSONL=$(python3 - "$SCAN_JSON" "$MIN_RISK" "$MODULE_FILTER" <<'PY'
+MODULES_JSONL=$(python3 - "$SCAN_JSON" "$MIN_RISK" "$MODULE_FILTER" "$PROJECT_NAME" <<'PY'
 import json, sys
-scan, min_risk, module_filter = sys.argv[1:4]
+scan, min_risk, module_filter, project = sys.argv[1:5]
 risk_map = {'CRITICAL': 4, 'HIGH': 3, 'MEDIUM': 2, 'LOW': 1}
 try:
-    data = json.load(open(scan, encoding='utf-8'))
+    with open(scan, encoding='utf-8') as fh:
+        data = json.load(fh)
     modules = data['modules']
     assert isinstance(modules, list), "'modules' no es una lista"
-except Exception as e:
-    print(f"ERROR: scan JSON invalido ({scan}): {e}", file=sys.stderr)
+except (OSError, ValueError, KeyError, TypeError, AssertionError) as e:
+    print(f"ERROR: scan JSON ilegible en {scan}: {e}", file=sys.stderr)
     sys.exit(2)
+# Defensa adicional: un scan renombrado de otro proyecto tampoco vale.
+if data.get('project') not in (None, project):
+    print(f"ERROR: el scan {scan} es del proyecto '{data.get('project')}', no de '{project}'", file=sys.stderr)
+    sys.exit(1)
 for mod in modules:
     rl = mod.get('risk_level', 'LOW')
     if risk_map.get(rl, 0) < risk_map[min_risk]:
@@ -131,7 +125,11 @@ for mod in modules:
         'warnings': mod.get('warnings') or [],
     }))
 PY
-) || exit 1
+)
+PY_RC=$?
+if [[ $PY_RC -ne 0 ]]; then
+  exit "$PY_RC"
+fi
 
 if [[ -z "$MODULES_JSONL" ]]; then
   echo "INFO: no hay modulos con riesgo >= $MIN_RISK" >&2

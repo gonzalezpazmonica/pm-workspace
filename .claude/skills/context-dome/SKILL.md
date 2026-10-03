@@ -60,7 +60,8 @@ Requiere un scan previo (`scripts/bus-factor-scan.sh`) en `BF_OUTPUT_DIR`
 | Codigo | Caso |
 |--------|------|
 | 0 | Cupulas generadas, sin cambios, nada que generar, o modulos saltados con `WARN` (directorio ausente, ruta insegura, symlink, edicion manual) |
-| 1 | Uso invalido: falta `--project` o su valor, `--min-risk` desconocido, proyecto que no es directorio, sin scan del proyecto, scan corrupto |
+| 1 | Uso invalido: falta `--project` o su valor, `--min-risk` desconocido, proyecto que no es directorio, sin scan del proyecto, scan con `project` de otro proyecto |
+| 2 | Scan JSON ilegible (corrupto o sin lista `modules`) |
 
 ## Estructura del CONTEXT_DOME.md generado
 
@@ -103,8 +104,9 @@ modulo (campo `path` del scan); rutas absolutas o con `..` se rechazan.
 
 ## Confidencialidad
 
-- Aislamiento N4: solo se usa un scan cuyo campo `project` coincide con
-  el nombre del directorio del proyecto. Nunca el de otro proyecto.
+- Aislamiento N4: solo se aceptan `<proyecto>.json` o
+  `<proyecto>-<YYYYMMDD>T<HHMMSS>Z.json` (el mas reciente), y su campo
+  `project` debe coincidir. Nunca otro proyecto ni prefijos parecidos.
 - Decisiones e historial salen de `HEAD`: commits de ramas sin integrar
   no acaban en la cupula.
 - Los owners son emails git (dato personal). En repos publicos usar
