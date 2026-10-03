@@ -17,6 +17,8 @@ set -uo pipefail
 # Master switch: SAVIA_ANTIADULATION=off disables everything.
 #
 # Telemetry: output/anti-adulation-telemetry.jsonl (one JSON per invocation).
+# Decisions: PASS, SHADOW_DETECTED, WARN, STRIPPED, BLOCKED,
+# BELOW_BLOCK_THRESHOLD, NO_TEXT (envelope without agent text), FAIL_OPEN.
 #
 # Ref: SPEC-192 docs/propuestas/SPEC-192-anti-adulation-illusory-truth.md
 
@@ -70,13 +72,28 @@ fi
 [[ -z "$INPUT" ]] && exit 0
 
 DRAFT=""
-# Try to parse as PostToolUse JSON envelope
-if printf "%s" "$INPUT" | jq -e . >/dev/null 2>&1; then
-  DRAFT=$(printf "%s" "$INPUT" | jq -r ".tool_response.output // .tool_input.text // empty" 2>/dev/null)
+# PostToolUse JSON envelope. Claude Code sends the Task/Agent result as
+# .tool_response.content[] text blocks (or a plain string); .output and
+# .tool_input.text are kept for other emitters. A JSON object must never be
+# scanned raw: the ^-anchored patterns would see "{" and pass silently.
+# shellcheck disable=SC2016
+EXTRACT='def blocks: if type == "string" then .
+    elif type == "array" then (map(if type == "string" then . elif type == "object" then (.text // empty) else empty end)
+      | map(select(type == "string")) | join("\n"))
+    else empty end;
+  [ (.tool_response | if type == "object" then (.output, .content, .text) else . end | blocks),
+    (.tool_input.text | blocks) ] | map(select(length > 0)) | (.[0] // "")'
+if printf "%s" "$INPUT" | jq -e 'type == "object"' >/dev/null 2>&1; then
+  DRAFT=$(printf "%s" "$INPUT" | jq -r "$EXTRACT" 2>/dev/null)
+  if [[ -z "$DRAFT" ]]; then
+    # Envelope without agent text (e.g. async launch): nothing to inspect.
+    log_telemetry "1" "NO_TEXT" "0" "none" "" "-1" "0"
+    exit 0
+  fi
+else
+  # Raw draft piped by tests or by other scripts
+  DRAFT="$INPUT"
 fi
-# Fallback: treat raw input as draft
-[[ -z "$DRAFT" ]] && DRAFT="$INPUT"
-[[ -z "$DRAFT" ]] && exit 0
 
 DRAFT_LEN=${#DRAFT}
 
@@ -85,14 +102,19 @@ HOOK_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 DETECTOR="$HOOK_DIR/../../scripts/anti-adulation/lexical-strip.py"
 PATTERNS="${SAVIA_ANTIADULATION_PATTERNS:-$HOOK_DIR/../../scripts/anti-adulation/regex-patterns.json}"
 
+# Fail-open (never block on our own failure) but leave a FAIL_OPEN trace, so
+# a broken Layer 1 shows up in telemetry instead of looking like PASS.
 if [[ ! -f "$DETECTOR" || ! -f "$PATTERNS" ]]; then
-  exit 0  # fail-open
+  log_telemetry "1" "FAIL_OPEN" "0" "detector_or_patterns_missing" "" "-1" "$DRAFT_LEN"
+  exit 0
 fi
 
-# Run detector
-RESULT=$(python3 "$DETECTOR" --draft "$DRAFT" --patterns "$PATTERNS" --json 2>/dev/null)
+# Run detector. The draft goes through stdin: as an argument, drafts over
+# ~128 KB hit ARG_MAX and the detector never ran.
+RESULT=$(printf "%s" "$DRAFT" | python3 "$DETECTOR" --draft - --patterns "$PATTERNS" --json 2>/dev/null)
 if [[ -z "$RESULT" ]] || ! printf "%s" "$RESULT" | jq -e . >/dev/null 2>&1; then
-  exit 0  # fail-open
+  log_telemetry "1" "FAIL_OPEN" "0" "detector_error" "" "-1" "$DRAFT_LEN"
+  exit 0
 fi
 
 SCORE=$(printf "%s" "$RESULT" | jq -r ".score // 0")
