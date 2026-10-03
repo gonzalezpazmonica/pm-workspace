@@ -17,6 +17,7 @@ metadata:
 
 > Regla: @docs/rules/domain/ai-governance.md
 > Complementa: @.opencode/commands/governance-audit.md (cumplimiento normativo)
+> Tests: `tests/test-sovereignty-auditor.bats` (D2: emergency-setup.sh / emergency-status.sh)
 
 ## Prerequisitos
 
@@ -35,11 +36,17 @@ Calcula el Sovereignty Score analizando 5 dimensiones:
 5. Score: % datos en formatos abiertos × presencia de SaviaHub/BacklogGit
 
 ### Paso 2 — D2: Independencia LLM (25%)
-1. Verificar `scripts/emergency-setup.sh` existe
-2. Comprobar si Ollama está mencionado en configuración
+1. Readiness real, no presencia: `bash scripts/emergency-status.sh` → exit 0 = listo,
+   exit 1 = problemas. Comprueba Ollama >= 0.20.0 (sirve `/v1/messages`), servidor en
+   `:11434`, `~/.pm-workspace-emergency.env` y todos los modelos que configura.
+   Que `scripts/emergency-setup.sh` exista solo indica que el modo se puede preparar.
+2. Configuración del switchover: base `http://localhost:11434` sin `/v1` final (Claude
+   Code pide `<base>/v1/messages`) y placeholder `ANTHROPIC_AUTH_TOKEN` para no enviar
+   credenciales reales a localhost. Nunca persistida en `~/.bashrc` (emergencia transitoria;
+   en Windows `emergency-setup.ps1` sí persiste a nivel de usuario: ver `docs/EMERGENCY.md`)
 3. Analizar smart-frontmatter: ¿hay variedad de modelos? (haiku/sonnet/opus)
 4. Buscar dependencias Claude-específicas en prompts
-5. Score: emergency_mode_ready × multi_model_usage × prompt_portability
+5. Score: emergency_mode_ready (exit de emergency-status.sh) × multi_model_usage × prompt_portability
 
 ### Paso 3 — D3: Protección del grafo (20%)
 1. Verificar `.gitignore` excluye datos sensibles (PAT, credenciales, PII)
