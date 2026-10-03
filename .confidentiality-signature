@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=fc810a39fca3ffc9d96c7795062d63838f53a939d003267709bf831710d887de
-timestamp=2026-10-03T20:32:12Z
+diff_hash=f2f68e0ff6333f9770ca9bc0ad1e8a8bad4c61a572d86b61350c25a2c4f612ba
+timestamp=2026-10-03T21:07:14Z
 branch=agent/savia-gates-pinned-registry-20261003
-head_commit=ba596d9e
-signature=b0ffdcdf8f1f110a4a45bb90cd072fca5fe01893051ea97be4bf77e90c658146
+head_commit=30b78824
+signature=ae7a88a19298f5b36d94bab2088f40c1d7498de008c00fc60559171940937def
