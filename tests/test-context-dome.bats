@@ -346,3 +346,57 @@ print(json.dumps(yaml.safe_load(t[1]),default=str,ensure_ascii=False))' "$1"
   [[ "$output" == *"symlink"* ]]
   [ "$(cat "$TMPDIR_T/victima.txt")" = "victima" ]
 }
+
+@test "idempotencia: generar, commitear la cúpula y regenerar da UNCHANGED (3 ciclos)" {
+  mod src/pay
+  scan "[$(m src/pay)]"
+  for i in 1 2 3; do
+    gen
+    [ "$status" -eq 0 ]
+    if [ "$i" -gt 1 ]; then [[ "$output" == *"UNCHANGED"* ]]; fi
+    git -C "$P" add -A
+    git -C "$P" commit -qm "docs: why: cúpula ciclo $i" || true
+  done
+  run section "$P/src/pay/CONTEXT_DOME.md" "Historial de cambios relevantes"
+  [[ "$output" != *"cúpula ciclo"* ]]
+  run section "$P/src/pay/CONTEXT_DOME.md" "Decisiones no obvias"
+  [[ "$output" != *"cúpula ciclo"* ]]
+}
+
+@test "boundary: historial excluye commits chore/format/typo/style" {
+  mod src/pay "feat: real"
+  mod src/pay "chore: ruido"
+  mod src/pay "style: espacios"
+  scan "[$(m src/pay)]"
+  gen
+  run section "$P/src/pay/CONTEXT_DOME.md" "Historial de cambios relevantes"
+  [[ "$output" == *"feat: real"* ]]
+  [[ "$output" != *"chore: ruido"* && "$output" != *"style: espacios"* ]]
+}
+
+@test "portabilidad: sin sha256sum ni sed -i GNU (como macOS) la huella sigue funcionando" {
+  shim="$TMPDIR_T/shim"; mkdir -p "$shim"
+  printf '#!/bin/sh\necho "sha256sum: no existe" >&2; exit 127\n' > "$shim/sha256sum"
+  printf '#!/bin/sh\nfor a in "$@"; do [ "$a" = "-i" ] && { echo "sed BSD: -i exige sufijo" >&2; exit 1; }; done\nexec %s "$@"\n' "$(command -v sed)" > "$shim/sed"
+  chmod +x "$shim/sha256sum" "$shim/sed"
+  mod src/pay
+  scan "[$(m src/pay)]"
+  PATH="$shim:$PATH" gen
+  [ "$status" -eq 0 ]
+  f="$P/src/pay/CONTEXT_DOME.md"
+  grep -qE '^dome_hash: [0-9a-f]{16}$' "$f"
+  printf '\nNota manual\n' >> "$f"
+  PATH="$shim:$PATH" gen
+  [[ "$output" == *"editada manualmente"* ]]
+  grep -q "Nota manual" "$f"
+}
+
+@test "reject: módulo que es un directorio symlink hacia fuera del proyecto" {
+  mkdir -p "$TMPDIR_T/externo" "$P/src"
+  ln -s "$TMPDIR_T/externo" "$P/src/pay"
+  scan "[$(m src/pay)]"
+  gen
+  [ "$status" -eq 0 ]
+  [[ "$output" == *"fuera del proyecto"* ]]
+  [ ! -e "$TMPDIR_T/externo/CONTEXT_DOME.md" ]
+}

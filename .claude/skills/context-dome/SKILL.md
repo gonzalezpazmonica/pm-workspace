@@ -92,12 +92,16 @@ dome_hash: <huella del contenido>
 Los valores de texto del frontmatter van entre comillas JSON: un owner o
 una ruta con `:`, `#`, `*`, espacios o unicode no rompen el YAML. Sin
 owners, `knowledge_owners: []`. La cupula se escribe en `<path>/` del
-modulo (campo `path` del scan); rutas absolutas o con `..` se rechazan.
+modulo (campo `path` del scan); rutas absolutas, con `..` o directorios
+symlink que salen del proyecto se rechazan.
 
 ## Idempotencia
 
 - Regenerar sin cambios en las fuentes no toca el fichero (`UNCHANGED`).
 - Si el scan o el historial cambian, se reescribe entera; nunca duplica.
+- Los commits que solo tocan `CONTEXT_DOME.md` no cuentan como historial
+  ni como decisiones: commitear la cupula no la hace cambiar.
+- Huella y edicion en python3 (sin `sha256sum` ni `sed -i` GNU): portable a macOS.
 - `dome_hash` detecta ediciones manuales: si la cupula se edito tras
   generarse (o no tiene huella, como las de versiones anteriores), no
   se pisa sin `--force`.

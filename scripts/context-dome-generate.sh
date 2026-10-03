@@ -180,7 +180,7 @@ extract_key_decisions() {
   local patterns="why:|because|NOTE:|HACK:|FIXME:|decision:|tradeoff:|SE-|SPEC-"
   local log_output
   log_output=$(git -C "$PROJECT_PATH" log --oneline -E --grep="$patterns" \
-    --max-count=20 -- "$mod_path/" 2>/dev/null) || true
+    --max-count=20 -- "$mod_path/" ":(exclude)$mod_path/CONTEXT_DOME.md" 2>/dev/null) || true
 
   if [[ -z "$log_output" ]]; then
     echo "[sin decisiones documentadas en commits -- revisar ADRs del proyecto]"
@@ -278,20 +278,38 @@ extract_runbook() {
 
 extract_recent_commits() {
   local mod_path="$1"
-  # Excluir merge commits, chore, format, typo
+  # Excluir merge commits, chore, format, typo, style (-E: '\|' es GNU) y los
+  # commits que solo tocan la propia cupula (si no, cada commit de la cupula
+  # la cambiaria y se regeneraria en cada ciclo).
   git -C "$PROJECT_PATH" log \
     --oneline \
     --max-count=10 \
     --no-merges \
-    --invert-grep \
-    --grep="^chore\|^format\|^typo\|^style" \
-    -- "$mod_path/" 2>/dev/null || true
+    -E --invert-grep \
+    --grep="^(chore|format|typo|style)" \
+    -- "$mod_path/" ":(exclude)$mod_path/CONTEXT_DOME.md" 2>/dev/null || true
 }
 
 # Huella del contenido generado, sin las lineas volatiles (generated_at y la
 # propia huella). Detecta si la cupula se edito a mano desde que se genero.
+# En python: sha256sum no existe en macOS.
 dome_digest() {
-  grep -v -E '^(generated_at|dome_hash): ' "$1" | sha256sum | cut -c1-16
+  python3 - "$1" <<'PY'
+import hashlib, re, sys
+lines = open(sys.argv[1], encoding='utf-8').read().splitlines(keepends=True)
+body = ''.join(l for l in lines if not re.match(r'(generated_at|dome_hash): ', l))
+print(hashlib.sha256(body.encode('utf-8')).hexdigest()[:16])
+PY
+}
+
+# Fija la huella en el frontmatter (sin sed -i: su sintaxis difiere en BSD).
+set_dome_hash() {
+  python3 - "$1" "$2" <<'PY'
+import sys
+path, h = sys.argv[1:3]
+text = open(path, encoding='utf-8').read()
+open(path, 'w', encoding='utf-8').write(text.replace('\ndome_hash: PENDING\n', f'\ndome_hash: {h}\n', 1))
+PY
 }
 
 # Campos del modulo, normalizados y con quoting YAML/markdown seguro.
@@ -360,6 +378,15 @@ generate_dome() {
 
   if [[ ! -d "$full_path" ]]; then
     echo "WARN: directorio no existe: $full_path (saltando)" >&2
+    return
+  fi
+
+  # Un directorio del modulo que sea symlink hacia fuera tampoco vale.
+  local real_mod real_proj
+  real_mod=$(cd "$full_path" && pwd -P)
+  real_proj=$(cd "$PROJECT_PATH" && pwd -P)
+  if [[ "$real_mod/" != "$real_proj/"* ]]; then
+    echo "WARN: $full_path apunta fuera del proyecto ($real_mod) (saltando)" >&2
     return
   fi
 
@@ -451,7 +478,7 @@ DOMEEOF
     echo "UNCHANGED: $dome_path" >&2
     return
   fi
-  sed -i "s/^dome_hash: PENDING\$/dome_hash: $new_hash/" "$tmp"
+  set_dome_hash "$tmp" "$new_hash" || { echo "WARN: no se pudo fijar dome_hash en $dome_path (saltando)" >&2; return; }
   # mktemp crea 0600; la cupula es un fichero normal del repo (umask).
   chmod "$(printf '%o' $(( 0666 & ~0$(umask) )))" "$tmp"
   if ! mv -f "$tmp" "$dome_path"; then
