@@ -15,6 +15,7 @@ import { randomUUID } from "node:crypto"
 import { loadHookMap, runHooksForEvent, sweepOrphanedHooks } from "./lib/shell-bridge"
 import { decidePermission } from "./lib/permission"
 import { auditLog } from "./lib/audit"
+import { guardVariants } from "./lib/sandbox"
 import { writeManifest } from "./lib/manifest"
 
 function resolveProjectRoot(directory: string | undefined): string {
@@ -43,19 +44,27 @@ export const SaviaGates: Plugin = async (ctx: PluginInput) => {
 
   return {
     "tool.execute.before": async (input, output) => {
-      const payload = JSON.stringify({
-        hook_event_name: "PreToolUse",
-        tool_name: input.tool,
-        tool_input: output.args,
-        session_id: input.sessionID,
-        call_id: input.callID,
-      })
-      const result = await runHooksForEvent(root, hookMap, "PreToolUse", input.tool, payload)
-      if (result.blocked) {
-        await auditLog({ event: "tool-blocked", tool: input.tool, reason: result.stderr })
-        throw new Error(`savia-gates: ${result.stderr || "PreToolUse blocked"}`)
+      // A sandbox plugin may already have wrapped the command: hooks see the
+      // original and the unwrapped form, and any block wins (lib/sandbox.ts).
+      const variants = guardVariants(input.tool, output.args)
+      let mutated: Record<string, unknown> | undefined
+      for (const [n, toolInput] of variants.entries()) {
+        const payload = JSON.stringify({
+          hook_event_name: "PreToolUse",
+          tool_name: input.tool,
+          tool_input: toolInput,
+          session_id: input.sessionID,
+          call_id: input.callID,
+        })
+        const result = await runHooksForEvent(root, hookMap, "PreToolUse", input.tool, payload)
+        if (result.blocked) {
+          await auditLog({ event: "tool-blocked", tool: input.tool, reason: result.stderr, unwrapped: n > 0 })
+          throw new Error(`savia-gates: ${result.stderr || "PreToolUse blocked"}`)
+        }
+        // Mutations only apply to the args OpenCode will actually run.
+        if (n === 0 && result.mutatedArgs) mutated = result.mutatedArgs
       }
-      if (result.mutatedArgs) output.args = result.mutatedArgs
+      if (mutated) output.args = mutated
     },
 
     "tool.execute.after": async (input, output) => {

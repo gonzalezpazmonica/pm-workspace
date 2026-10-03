@@ -67,3 +67,30 @@ neuro-orquestación, publicación en redes sociales y líneas Labs fuera de la r
   "¿cuántos bypass encontró el laboratorio antes que producción?".
 - Revisión de esta decisión: cuando se supere el Gate D o si aparece evidencia que contradiga
   el principio de §1.
+
+## Addendum 2026-10-03 — Savia Space como frontend de Savia
+
+> **Decision owner**: operadora (AskUserQuestion, 2026-10-03). Specs: SE-428 y SE-432.
+
+1. **Space es un frontend de Savia, como Claude Code u OpenCode.** Sustituye a la TUI de
+   OpenCode y usa `opencode serve` como motor, con la misma configuración, el mismo plugin de
+   guards y los mismos agentes, skills y comandos.
+2. **No amplía autoridad.**
+   - Las herramientas locales solo se ejecutan a través del motor. Los hooks de Savia deciden
+     antes: el bus de Space ejecuta los hooks registrados en `.claude/settings.json` con el
+     contrato de Claude Code, y el plugin de guards sigue cargado en el motor.
+   - Los efectos externos (push, merge, publicación, escritura en Azure DevOps) exigen los mismos
+     grants y gates que hoy. Space no los emite ni los relaja.
+   - Space nunca aprueba permisos por su cuenta. Desde su interfaz no se aceptan respuestas que
+     cambien la configuración persistente del motor.
+3. **Modo mediado.** Un hook marcado `blocking: true` que falla o no responde bloquea el
+   permiso. En modo interactivo, el comportamiento sigue siendo el de Claude Code (D23-5).
+4. **Contrato común.** Space debe pasar el mismo contrato de Effect Enforcement Point que los
+   demás frontends cuando exista (Fase B). Hasta entonces, sus escenarios de aceptación son los
+   de SE-428.
+5. **Excepción de ruta y WIP.**
+   - La superficie de escritorio adelanta una parte de la Fase E por mandato de la operadora.
+     Ese adelanto no cuenta como progreso de la Fase E ni la desbloquea.
+   - El límite pasa **temporalmente a 4 iniciativas Savia en `IMPLEMENTING`**. El cuarto hueco
+     es solo para Savia Space (SE-428) y vuelve a 3 al cerrar su 0.2.
+
