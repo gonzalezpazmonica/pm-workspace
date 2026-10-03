@@ -8,7 +8,8 @@ set -uo pipefail
 
 setup() {
   REPO_ROOT="$(cd "$BATS_TEST_DIRNAME/.." && pwd)"
-  SCRIPT="$REPO_ROOT/scripts/wave-executor.sh"
+  SCRIPT="scripts/wave-executor.sh"
+  SCRIPT="$REPO_ROOT/$SCRIPT"
   WORK="$(mktemp -d -p "$BATS_TEST_TMPDIR")"
   cd "$WORK" || return 1
   export WAVE_KILL_AFTER=1
