@@ -120,7 +120,8 @@ fi
 
 # Bloquear sudo sin excepción explícita
 # FIX: \s not POSIX ERE. Use [[:space:]] instead.
-if echo "$COMMAND" | grep -iE '^[[:space:]]*sudo[[:space:]]' > /dev/null; then
+# Al inicio de cualquier orden: tras separador o subshell, y con prefijos (VAR=valor, env…).
+if echo "$COMMAND" | grep -iE '(^|[;&|(`]|\$\()[[:space:]]*(([A-Za-z_][A-Za-z0-9_]*=[^[:space:]]*|env|command|nohup|time|exec)[[:space:]]+)*sudo([[:space:]]|$)' > /dev/null; then
   echo "BLOQUEADO: sudo no permitido desde agentes. Solicita elevación al PM." >&2
   exit 2
 fi
