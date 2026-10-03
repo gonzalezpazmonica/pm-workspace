@@ -61,6 +61,7 @@ SCAN_JSON=$(ls -t "$BF_OUTPUT_DIR"/"${PROJECT_NAME}".json \
 
 if [[ -z "$SCAN_JSON" ]] || [[ ! -f "$SCAN_JSON" ]]; then
   echo "ERROR: no se encontro JSON de scan en $BF_OUTPUT_DIR" >&2
+  echo "INFO: nombres aceptados: ${PROJECT_NAME}.json o ${PROJECT_NAME}-<YYYYMMDD>T<HHMMSS>Z.json" >&2
   echo "INFO: ejecuta primero: bash scripts/bus-factor-scan.sh --project $PROJECT_PATH" >&2
   exit 1
 fi

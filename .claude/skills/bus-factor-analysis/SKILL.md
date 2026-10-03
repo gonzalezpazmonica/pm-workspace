@@ -36,9 +36,12 @@ Ojo: BF=1 no significa que nadie mas haya tocado el modulo. Con 3 ficheros,
 
 Identidad de autor: el email tras aplicar `.mailmap` del repo (`%aE`); dos
 emails de la misma persona cuentan como uno solo si el `.mailmap` los une.
-Se excluyen bots (`[bot]`, `dependabot`, `renovate`, `github-actions`,
-`snyk-bot`, `automated`, y emails `noreply@`, `no-reply@`, `ci@`,
-`action@github.com`). Los humanos con `*@users.noreply.github.com` SI cuentan.
+Se excluyen bots: `[bot]`, `dependabot`, `renovate`, `github-actions`,
+`snyk-bot`, `automated` (buscados en nombre y email, asi que una persona con
+uno de esos terminos en el nombre tambien se excluye), `action@github.com`, y
+partes locales `ci@`, `noreply@` o `no-reply@` como segmento propio (al inicio
+o tras `-`, `_`, `.`, `+`: `gitlab-ci@`, `build-noreply@`). `marci@`,
+`marcinoreply@` y `*@users.noreply.github.com` son humanos y SI cuentan.
 
 ## Cuando usar
 
@@ -94,7 +97,9 @@ ASCII se tratan literalmente.
 
 `bus-factor-report.sh` y `bus-factor-distribute.sh` solo leen el scan de ese
 proyecto: `<proyecto>.json` o `<proyecto>-<timestamp>.json` en
-`BF_OUTPUT_DIR` (el mas reciente). Nunca caen al scan de otro proyecto.
+`BF_OUTPUT_DIR` (el mas reciente). Nunca caen al scan de otro proyecto. Un
+scan guardado con `scan.sh --output` y otro nombre no se encuentra: usa el
+nombre por defecto o `--output "$BF_OUTPUT_DIR/<proyecto>.json"`.
 
 ### Codigos de salida
 

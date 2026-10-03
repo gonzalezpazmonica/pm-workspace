@@ -48,12 +48,13 @@ BF_EXCLUDE_GENERATED_PATTERNS = _env_list(
 )
 
 # Patrones de bots, evaluados sobre "nombre <email>" del autor (tras mailmap).
-# Las partes locales van ancladas: "marci@..." es humano, "ci@..." no.
-# Los humanos con email *@users.noreply.github.com NO son bots.
+# ci@ y noreply@ van anclados a un segmento de la parte local: al inicio o
+# tras -, _, . o + ("gitlab-ci@", "build-noreply@" son bots; "marci@",
+# "marcinoreply@" son humanos). *@users.noreply.github.com NO es bot.
 BOT_PATTERNS_LIST = [
     r"\[bot\]",
-    r"<no-?reply@",
-    r"<ci@",
+    r"(<|[-_.+])no-?reply@",
+    r"(<|[-_.+])ci@",
     r"<action@github\.com>",
     r"dependabot",
     r"github-actions",

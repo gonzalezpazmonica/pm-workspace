@@ -35,7 +35,8 @@ commit_as() {
   mkdir -p "$(dirname "$repo/$file")"
   for ((i = 1; i <= n; i++)); do echo "$name linea $i $RANDOM" >> "$repo/$file"; done
   git -C "$repo" add -A
-  git -C "$repo" -c user.name="$name" -c user.email="$email" commit -q -m "cambio $file"
+  git -C "$repo" -c user.name="$name" -c user.email="$email" -c commit.gpgsign=false \
+    commit -q --no-verify -m "cambio $file"
 }
 
 # scan <repo>: ejecuta el motor y deja el JSON en $TMPDIR_TEST/scan.json
@@ -91,7 +92,8 @@ jq_py() {
   commit_as "$r" Bob bob@corp.example src/m/a.py 15
   printf 'Ana <ana@corp.example> <ana.casa@home.example>\n' > "$r/.mailmap"
   git -C "$r" add .mailmap
-  git -C "$r" -c user.name=Ana -c user.email=ana@corp.example commit -q -m mailmap
+  git -C "$r" -c user.name=Ana -c user.email=ana@corp.example -c commit.gpgsign=false \
+    commit -q --no-verify -m mailmap
   scan "$r"
   # Ana suma 20 de 35 cambios (0.57): owner claro; sin mailmap ganaba Bob con 0.43
   [ "$(jq_py "[o['dev'] for m in d['modules'] if m['name']=='src/m' for f in m['files'] for o in f['owners']]")" = "['ana@corp.example']" ]
@@ -115,13 +117,33 @@ jq_py() {
   [ "$(jq_py "d['modules'][0]['files'][0]['owners'][0]['score']")" = "1.0" ]
 }
 
+@test "bots de CI con prefijo (gitlab-ci@, jenkins-ci@, build-noreply@, release-no-reply@) se excluyen" {
+  local r="$TMPDIR_TEST/cibots"; mkrepo "$r"
+  commit_as "$r" Ana ana@corp.example src/m/a.py 5
+  commit_as "$r" "GitLab CI" gitlab-ci@corp.example src/m/a.py 40
+  commit_as "$r" Jenkins jenkins-ci@corp.example src/m/a.py 40
+  commit_as "$r" Build build-noreply@corp.example src/m/a.py 40
+  commit_as "$r" Release release-no-reply@corp.example src/m/a.py 40
+  scan "$r"
+  [ "$(jq_py "[(o['dev'], o['score']) for o in d['modules'][0]['files'][0]['owners']]")" = "[('ana@corp.example', 1.0)]" ]
+}
+
+@test "frontera humano/bot: ci@ o noreply dentro de una palabra no es bot (luci@, marcinoreply@)" {
+  local r="$TMPDIR_TEST/cihumanos"; mkrepo "$r"
+  commit_as "$r" Luci luci@corp.example src/m/a.py 10
+  commit_as "$r" Marci marcinoreply@corp.example src/m/b.py 10
+  scan "$r"
+  [ "$(jq_py "sorted(o['dev'] for f in d['modules'][0]['files'] for o in f['owners'])")" = "['luci@corp.example', 'marcinoreply@corp.example']" ]
+}
+
 @test "merge: el autor del commit de merge no se convierte en owner" {
   local r="$TMPDIR_TEST/merge" wt="$TMPDIR_TEST/merge-wt"; mkrepo "$r"
   commit_as "$r" Ana ana@corp.example src/m/a.py 10
   git -C "$r" worktree add -q -b feat "$wt"
   commit_as "$wt" Bob bob@corp.example src/m/b.py 20
   commit_as "$r" Ana ana@corp.example src/m/c.py 5
-  git -C "$r" -c user.name=Merger -c user.email=merger@corp.example merge -q --no-ff feat -m merge
+  git -C "$r" -c user.name=Merger -c user.email=merger@corp.example -c commit.gpgsign=false \
+    merge -q --no-ff --no-verify feat -m merge
   scan "$r"
   [ "$(jq_py "sorted({o['dev'] for f in d['modules'][0]['files'] for o in f['owners']})")" = "['ana@corp.example', 'bob@corp.example']" ]
 }
