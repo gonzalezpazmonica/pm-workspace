@@ -38,7 +38,6 @@ BF_OWNERSHIP_THRESHOLD        = _env_float("BF_OWNERSHIP_THRESHOLD", 0.50)
 BF_RISK_CRITICAL              = _env_int("BF_RISK_CRITICAL", 1)
 BF_RISK_HIGH                  = _env_int("BF_RISK_HIGH", 2)
 BF_RISK_MEDIUM                = _env_int("BF_RISK_MEDIUM", 3)
-BF_MIN_COMMITS                = _env_int("BF_MIN_COMMITS", 5)
 BF_MAX_HISTORY_DEPTH          = _env_int("BF_MAX_HISTORY_DEPTH", 0)
 BF_MODULE_DEPTH               = _env_int("BF_MODULE_DEPTH", 2)
 BF_EXCLUDE_PATTERNS           = _env_list("BF_EXCLUDE_PATTERNS", "vendor/,node_modules/,*.lock")
@@ -48,12 +47,14 @@ BF_EXCLUDE_GENERATED_PATTERNS = _env_list(
     "*.pb.go,*_generated*,*auto_generated*,*.min.js,*.min.css"
 )
 
-# Patrones de identificadores de bots en campo email
+# Patrones de bots, evaluados sobre "nombre <email>" del autor (tras mailmap).
+# Las partes locales van ancladas: "marci@..." es humano, "ci@..." no.
+# Los humanos con email *@users.noreply.github.com NO son bots.
 BOT_PATTERNS_LIST = [
     r"\[bot\]",
-    r"noreply",
-    r"no-reply",
-    r"ci@",
+    r"<no-?reply@",
+    r"<ci@",
+    r"<action@github\.com>",
     r"dependabot",
     r"github-actions",
     r"renovate",
@@ -97,11 +98,15 @@ def is_binary_file(repo, path):
 
 
 def get_tracked_files(repo):
-    """Devuelve la lista de archivos versionados en HEAD."""
-    rc, out, _ = _run(["git", "ls-files", "--full-name"], repo)
+    """Devuelve los archivos versionados bajo `repo`, relativos a `repo`.
+
+    -z evita el quoting de git en rutas no ASCII; sin --full-name las rutas
+    son relativas al directorio escaneado, el mismo cwd que usa git log.
+    """
+    rc, out, _ = _run(["git", "ls-files", "-z"], repo)
     if rc != 0:
         return []
-    return [f for f in out.splitlines() if f]
+    return [f for f in out.split("\0") if f]
 
 
 def should_exclude(path):
@@ -123,17 +128,19 @@ def is_bot_author(author_field):
 
 # -- Algoritmo CST -------------------------------------------------------------
 
+AUTHOR_MARK = "@@BF-AUTHOR@@"
+
+
 def get_file_stats(repo, path):
     """
     Devuelve {author_email: total_changes} para un archivo usando git log --numstat.
+    %aN/%aE aplican .mailmap: varios emails de una persona cuentan como uno.
     """
-    base_cmd = ["git", "log", "--use-mailmap", "--follow", "-C", "-M",
-                "--numstat", "--format=%ae", "--", path]
+    cmd = ["git", "log"]
     if BF_MAX_HISTORY_DEPTH > 0:
-        cmd = ["git", "log", f"-{BF_MAX_HISTORY_DEPTH}", "--use-mailmap",
-               "--follow", "-C", "-M", "--numstat", "--format=%ae", "--", path]
-    else:
-        cmd = base_cmd
+        cmd.append(f"-{BF_MAX_HISTORY_DEPTH}")
+    cmd += ["--use-mailmap", "--follow", "-C", "-M", "--numstat",
+            f"--format={AUTHOR_MARK}%aN <%aE>", "--", path]
 
     rc, out, _ = _run(cmd, repo, timeout=120)
     if rc != 0 or not out.strip():
@@ -146,12 +153,13 @@ def get_file_stats(repo, path):
         line = line.strip()
         if not line:
             continue
-        # Linea de autor (sin tabuladores)
-        if "\t" not in line:
-            if not is_bot_author(line):
-                current_author = line
-            else:
+        # Linea de autor: "@@BF-AUTHOR@@Nombre <email>"
+        if line.startswith(AUTHOR_MARK):
+            ident = line[len(AUTHOR_MARK):]
+            if is_bot_author(ident):
                 current_author = None
+            else:
+                current_author = ident[ident.rfind("<") + 1:].rstrip(">")
             continue
         # Linea numstat: "added\tdeleted\tfilename"
         parts = line.split("\t")
@@ -197,6 +205,9 @@ def compute_file_bus_factor(stats):
 
 
 def risk_level(bf):
+    # BF=0 significa sin historial atribuible: no hay datos, no es CRITICAL.
+    if bf <= 0:
+        return "UNKNOWN"
     if bf <= BF_RISK_CRITICAL:
         return "CRITICAL"
     if bf <= BF_RISK_HIGH:
@@ -270,6 +281,12 @@ def compute_module_bus_factor(files_data):
 
 # -- Escaneo principal ---------------------------------------------------------
 
+def _utc_now_iso():
+    """Fecha UTC ISO-8601 con sufijo Z (sin utcnow, obsoleto en 3.12)."""
+    now = datetime.datetime.now(datetime.timezone.utc).replace(tzinfo=None)
+    return now.isoformat() + "Z"
+
+
 def scan_repo(repo, project_name):
     """Escanea un repositorio y devuelve el JSON de bus factor."""
     warnings_global = []
@@ -280,10 +297,11 @@ def scan_repo(repo, project_name):
     all_files = get_tracked_files(repo)
     if not all_files:
         return {
-            "generated_at": datetime.datetime.utcnow().isoformat() + "Z",
+            "generated_at": _utc_now_iso(),
             "project": project_name,
             "modules": [],
-            "summary": {"total_modules": 0, "critical": 0, "high": 0, "medium": 0, "low": 0},
+            "summary": {"total_modules": 0, "critical": 0, "high": 0,
+                        "medium": 0, "low": 0, "unknown": 0},
             "warnings": ["no_tracked_files"],
         }
 
@@ -340,10 +358,11 @@ def scan_repo(repo, project_name):
         "high":     sum(1 for m in modules_output if m["risk_level"] == "HIGH"),
         "medium":   sum(1 for m in modules_output if m["risk_level"] == "MEDIUM"),
         "low":      sum(1 for m in modules_output if m["risk_level"] == "LOW"),
+        "unknown":  sum(1 for m in modules_output if m["risk_level"] == "UNKNOWN"),
     }
 
     return {
-        "generated_at": datetime.datetime.utcnow().isoformat() + "Z",
+        "generated_at": _utc_now_iso(),
         "project": project_name,
         "modules": modules_output,
         "summary": summary,

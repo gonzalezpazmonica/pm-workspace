@@ -52,8 +52,12 @@ fi
 PROJECT_NAME="$(basename "$PROJECT_PATH")"
 
 # -- Encontrar JSON del scan --------------------------------------------------
-SCAN_JSON=$(ls -t "$BF_OUTPUT_DIR"/"${PROJECT_NAME}"-*.json 2>/dev/null | head -1 \
-            || ls -t "$BF_OUTPUT_DIR"/*.json 2>/dev/null | head -1 || true)
+# Solo scans de ESTE proyecto: <nombre>-<YYYYMMDD>T<HHMMSS>Z.json (nombre por
+# defecto de bus-factor-scan.sh) o <nombre>.json. Sin fallback a otro
+# proyecto ni a prefijos parecidos (app vs app-backend).
+SCAN_JSON=$(ls -t "$BF_OUTPUT_DIR"/"${PROJECT_NAME}".json \
+              "$BF_OUTPUT_DIR"/"${PROJECT_NAME}"-[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]T[0-9][0-9][0-9][0-9][0-9][0-9]Z.json \
+              2>/dev/null | head -1)
 
 if [[ -z "$SCAN_JSON" ]] || [[ ! -f "$SCAN_JSON" ]]; then
   echo "ERROR: no se encontro JSON de scan en $BF_OUTPUT_DIR" >&2
@@ -75,8 +79,12 @@ target_dev = sys.argv[2]
 proj_path  = sys.argv[3]
 fmt        = sys.argv[4]
 
-with open(scan_file) as f:
-    data = json.load(f)
+try:
+    with open(scan_file, encoding="utf-8") as f:
+        data = json.load(f)
+except (OSError, ValueError) as e:
+    print(f"ERROR: scan JSON ilegible en {scan_file}: {e}", file=sys.stderr)
+    sys.exit(2)
 
 risk_rank = {"CRITICAL": 4, "HIGH": 3, "MEDIUM": 2, "LOW": 1}
 
@@ -168,6 +176,10 @@ else:
     print("\n".join(lines))
 PYEOF
 )
+PY_RC=$?
+if [[ $PY_RC -ne 0 ]]; then
+  exit "$PY_RC"
+fi
 
 # -- Output -------------------------------------------------------------------
 if [[ -n "$OUTPUT_FILE" ]]; then

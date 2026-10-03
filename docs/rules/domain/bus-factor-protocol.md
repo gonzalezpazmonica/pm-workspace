@@ -92,7 +92,6 @@ el nuevo conocimiento. Verificar despues de 2-3 sprints.
 ```bash
 # .env del proyecto o variables de sesion
 export BF_OWNERSHIP_THRESHOLD=0.50
-export BF_MIN_COMMITS=5
 export BF_MODULE_DEPTH=2
 export BF_EXCLUDE_PATTERNS="vendor/,node_modules/,*.lock,*.sum"
 export BF_OUTPUT_DIR="output/bus-factor/"
