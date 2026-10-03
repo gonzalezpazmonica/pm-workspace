@@ -24,7 +24,12 @@ pre-merge.
 | HIGH | >= 7.0 | Bloquea; sin fix disponible se suprime con justificación en `.trivyignore` | 1 |
 | MEDIUM | 4.0–6.9 | Informativo — no bloquea | 0 |
 | LOW | < 4.0 | Informativo — no bloquea | 0 |
-| (error) | — | Trivy/Docker ausente, escaneo fallido o SBOM no generado: ni limpio ni vulnerable | 2 |
+| (error) | — | Trivy/Docker ausente, escaneo fallido, informe con esquema desconocido o SBOM no generado: ni limpio ni vulnerable | 2 |
+
+Precedencia: el error gana a los hallazgos. Con hallazgos y SBOM fallido el script sale con 2
+(los hallazgos se listan igualmente): un pipeline de release que solo mire el código de salida
+debe enterarse de que falta el SBOM. El informe solo se acepta con `SchemaVersion` 2 de Trivy;
+otro esquema es error, nunca «limpio».
 
 Zero false positives policy: solo se reporta lo que tiene impacto real confirmado.
 
@@ -103,8 +108,11 @@ bash scripts/dependency-scan.sh --path ./project/ --generate-sbom
 # → output/security/sbom-YYYYMMDD.json (CycloneDX JSON, `trivy fs --format cyclonedx`)
 ```
 
-Si Trivy no genera el SBOM, el script sale con 2 y no escribe ningún fichero: nunca se
-fabrica un SBOM vacío como artefacto de release.
+Si Trivy no genera el SBOM, el script sale con 2 y no escribe `sbom-YYYYMMDD.json`: nunca se
+fabrica un SBOM vacío como artefacto de release. Lo que Trivy haya dejado queda como
+`sbom-YYYYMMDD.json.failed` (diagnóstico) y un SBOM anterior del mismo día se renombra a
+`sbom-YYYYMMDD.json.stale` para que nadie lo tome por el actual. Igual con el informe: un
+escaneo fallido deja `dep-scan-YYYYMMDD.json.failed` y no pisa el informe válido anterior.
 
 **Conservación**: el SBOM de cada release se archiva junto con los artefactos
 de build. Permite responder a "¿usábamos X cuando salió CVE-Y?" meses después.

@@ -14,7 +14,7 @@ setup() {
   printf '{"name":"demo","dependencies":{"lodash":"4.17.0"}}\n' > "$TMPDIR/proj/package.json"
   export DEP_SCAN_OUTPUT_DIR="$TMPDIR/out"
   export FAKE_LOG="$TMPDIR/calls.log"
-  export FAKE_JSON='{"Results":[]}'
+  export FAKE_JSON='{"SchemaVersion":2,"Results":[]}'
   export FAKE_RC=0
   export FAKE_SBOM_RC=0
   # trivy falso: registra la llamada; con --format json escribe FAKE_JSON; con cyclonedx, un SBOM.
@@ -47,7 +47,7 @@ teardown() {
 }
 
 vuln_json() {
-  printf '{"Results":[{"Target":"package-lock.json","Vulnerabilities":[{"VulnerabilityID":"%s","PkgName":"lodash","InstalledVersion":"4.17.0","FixedVersion":"4.17.21","Severity":"%s"}]}]}' "$1" "$2"
+  printf '{"SchemaVersion":2,"Results":[{"Target":"package-lock.json","Vulnerabilities":[{"VulnerabilityID":"%s","PkgName":"lodash","InstalledVersion":"4.17.0","FixedVersion":"4.17.21","Severity":"%s"}]}]}' "$1" "$2"
 }
 
 @test "target has safety flags" {
@@ -154,10 +154,10 @@ EOF
 }
 
 @test "edge: null Results and empty Vulnerabilities count as clean" {
-  FAKE_JSON='{"Results":null}'
+  FAKE_JSON='{"SchemaVersion":2,"Results":null}'
   run bash "$REPO_ROOT/$SCRIPT" --path "$TMPDIR/proj"
   [ "$status" -eq 0 ]
-  FAKE_JSON='{"Results":[{"Target":"x","Vulnerabilities":[]}]}'
+  FAKE_JSON='{"SchemaVersion":2,"Results":[{"Target":"x","Vulnerabilities":[]}]}'
   run bash "$REPO_ROOT/$SCRIPT" --path "$TMPDIR/proj"
   [ "$status" -eq 0 ]
 }
@@ -169,4 +169,76 @@ EOF
   run env PATH="$TMPDIR/bin:/usr/bin:/bin" bash "$REPO_ROOT/$SCRIPT" --path "$TMPDIR/proj"
   [ "$status" -eq 2 ]
   [[ "$output" == *"Instala Trivy"* ]]
+}
+
+@test "unknown report schema is an error, not PASS (fail-closed on Trivy format changes)" {
+  FAKE_JSON='{"SchemaVersion":99,"Matches":[{"Severity":"CRITICAL","VulnerabilityID":"CVE-2099-0001"}]}'
+  run bash "$REPO_ROOT/$SCRIPT" --path "$TMPDIR/proj"
+  [ "$status" -eq 2 ]
+  [[ "$output" == *"ERROR"* ]]
+  [[ "$output" != *"PASS"* ]]
+}
+
+@test "malformed Results (not an array of objects) is rejected with exit 2, never PASS" {
+  FAKE_JSON='{"SchemaVersion":2,"Results":{"x":1}}'
+  run bash "$REPO_ROOT/$SCRIPT" --path "$TMPDIR/proj"
+  [ "$status" -eq 2 ]
+  [[ "$output" != *"PASS"* ]]
+  FAKE_JSON='{"SchemaVersion":2,"Results":[1]}'
+  run bash "$REPO_ROOT/$SCRIPT" --path "$TMPDIR/proj"
+  [ "$status" -eq 2 ]
+  [[ "$output" != *"PASS"* ]]
+}
+
+@test "docker fallback passes the mounted .trivyignore (/workspace path, not the host path)" {
+  PATH="/usr/bin:/bin" command -v trivy >/dev/null && skip "trivy real en /usr/bin"
+  mv "$TMPDIR/bin/trivy" "$TMPDIR/trivy.real"
+  printf 'CVE-2020-0001\n' > "$TMPDIR/proj/.trivyignore"
+  printf '#!/usr/bin/env bash\necho "docker $*" >> "$FAKE_LOG"\nprintf "%%s\\n" "$FAKE_JSON"\n' > "$TMPDIR/bin/docker"
+  chmod +x "$TMPDIR/bin/docker"
+  run env PATH="$TMPDIR/bin:/usr/bin:/bin" bash "$REPO_ROOT/$SCRIPT" --path "$TMPDIR/proj"
+  [ "$status" -eq 0 ]
+  grep -q -- "--ignorefile /workspace/.trivyignore" "$FAKE_LOG"
+  ! grep -q -- "--ignorefile $TMPDIR/proj" "$FAKE_LOG"
+}
+
+@test "workspace-root .trivyignore is used when the scanned path has none" {
+  mkdir -p "$TMPDIR/ws/scripts"
+  cp "$REPO_ROOT/$SCRIPT" "$TMPDIR/ws/scripts/"
+  printf 'CVE-2020-0002\n' > "$TMPDIR/ws/.trivyignore"
+  run bash "$TMPDIR/ws/$SCRIPT" --path "$TMPDIR/proj"
+  [ "$status" -eq 0 ]
+  grep -q -- "--ignorefile $TMPDIR/ws/.trivyignore" "$FAKE_LOG"
+}
+
+@test "findings plus failed SBOM exit 2: the missing release artifact is not hidden" {
+  FAKE_JSON="$(vuln_json CVE-2021-23337 HIGH)"
+  FAKE_SBOM_RC=1
+  run bash "$REPO_ROOT/$SCRIPT" --path "$TMPDIR/proj" --generate-sbom
+  [ "$status" -eq 2 ]
+  [[ "$output" == *"CVE-2021-23337"* ]]
+  [[ "$output" == *"SBOM no generado"* ]]
+}
+
+@test "failed scan does not overwrite a valid report from an earlier run of the same day" {
+  run bash "$REPO_ROOT/$SCRIPT" --path "$TMPDIR/proj"
+  [ "$status" -eq 0 ]
+  report="$(ls "$TMPDIR/out"/dep-scan-*.json)"
+  FAKE_JSON='no es json'
+  run bash "$REPO_ROOT/$SCRIPT" --path "$TMPDIR/proj"
+  [ "$status" -eq 2 ]
+  jq -e '.SchemaVersion == 2' "$report"
+  ls "$TMPDIR/out"/dep-scan-*.json.failed
+  ! ls "$TMPDIR/out"/*.tmp 2>/dev/null
+}
+
+@test "failed SBOM retires an earlier same-day SBOM so it cannot pass as current" {
+  run bash "$REPO_ROOT/$SCRIPT" --path "$TMPDIR/proj" --generate-sbom
+  [ "$status" -eq 0 ]
+  FAKE_SBOM_RC=1
+  run bash "$REPO_ROOT/$SCRIPT" --path "$TMPDIR/proj" --generate-sbom
+  [ "$status" -eq 2 ]
+  ! ls "$TMPDIR/out"/sbom-*.json 2>/dev/null
+  ls "$TMPDIR/out"/sbom-*.json.stale
+  ! ls "$TMPDIR/out"/*.tmp 2>/dev/null
 }
