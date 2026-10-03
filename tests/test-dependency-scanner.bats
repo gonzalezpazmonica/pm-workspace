@@ -31,12 +31,14 @@ while [[ $# -gt 0 ]]; do
 done
 if [[ "$fmt" == "cyclonedx" ]]; then
   [[ "$FAKE_SBOM_RC" -ne 0 ]] && exit "$FAKE_SBOM_RC"
-  printf '{"bomFormat":"CycloneDX","components":[{"name":"lodash"}]}\n' > "$out"
-  exit 0
+  sbom='{"bomFormat":"CycloneDX","components":[{"name":"lodash"}]}'
+  printf '%s\n' "${FAKE_SBOM:-$sbom}" > "$out"
+  exit "${FAKE_SBOM_RC_AFTER_WRITE:-0}"
 fi
 [[ "$FAKE_RC" -ne 0 ]] && { echo "FATAL fake trivy failure" >&2; exit "$FAKE_RC"; }
 [[ -n "$out" ]] && printf '%s\n' "$FAKE_JSON" > "$out"
-exit 0
+[[ -n "${FAKE_DELAY:-}" ]] && sleep "$FAKE_DELAY"
+exit "${FAKE_RC_AFTER_WRITE:-0}"
 EOF
   chmod +x "$TMPDIR/bin/trivy"
   PATH="$TMPDIR/bin:$PATH"
@@ -83,6 +85,8 @@ vuln_json() {
   [[ "$output" == *"ERROR"* ]]
   [[ "$output" != *"PASS"* ]]
   [[ "$output" != *"Vulnerabilidades CRITICAL/HIGH detectadas"* ]]
+  run ls "$TMPDIR/out"
+  [ -z "$output" ]
 }
 
 @test "invalid JSON from the scanner is an error, not a clean result" {
@@ -229,7 +233,7 @@ EOF
   [ "$status" -eq 2 ]
   jq -e '.SchemaVersion == 2' "$report"
   ls "$TMPDIR/out"/dep-scan-*.json.failed
-  ! ls "$TMPDIR/out"/*.tmp 2>/dev/null
+  ! ls "$TMPDIR/out"/*.tmp* 2>/dev/null
 }
 
 @test "failed SBOM retires an earlier same-day SBOM so it cannot pass as current" {
@@ -238,7 +242,138 @@ EOF
   FAKE_SBOM_RC=1
   run bash "$REPO_ROOT/$SCRIPT" --path "$TMPDIR/proj" --generate-sbom
   [ "$status" -eq 2 ]
-  ! ls "$TMPDIR/out"/sbom-*.json 2>/dev/null
+  run ls "$TMPDIR/out"/sbom-*.json
+  [ "$status" -ne 0 ]
   ls "$TMPDIR/out"/sbom-*.json.stale
-  ! ls "$TMPDIR/out"/*.tmp 2>/dev/null
+  ! ls "$TMPDIR/out"/*.tmp* 2>/dev/null
+}
+
+# ── Calibración SE-376 (2026-10-03): casos que la batería anterior no discriminaba ──
+
+@test "trivy failing after writing a valid report is an error (exit 2), not PASS" {
+  export FAKE_RC_AFTER_WRITE=3
+  run bash "$REPO_ROOT/$SCRIPT" --path "$TMPDIR/proj"
+  [ "$status" -eq 2 ]
+  [[ "$output" == *"trivy rc=3"* ]]
+  [[ "$output" != *"PASS"* ]]
+}
+
+@test "SBOM written but trivy exits non-zero is rejected (exit 2), no SBOM published" {
+  export FAKE_SBOM_RC_AFTER_WRITE=1
+  run bash "$REPO_ROOT/$SCRIPT" --path "$TMPDIR/proj" --generate-sbom
+  [ "$status" -eq 2 ]
+  run ls "$TMPDIR/out"/sbom-*.json
+  [ "$status" -ne 0 ]
+  ls "$TMPDIR/out"/sbom-*.json.failed
+}
+
+@test "SBOM that is not CycloneDX (empty object) is rejected with exit 2" {
+  export FAKE_SBOM="{}"
+  run bash "$REPO_ROOT/$SCRIPT" --path "$TMPDIR/proj" --generate-sbom
+  [ "$status" -eq 2 ]
+  [[ "$output" == *"SBOM no generado"* ]]
+  run ls "$TMPDIR/out"/sbom-*.json
+  [ "$status" -ne 0 ]
+}
+
+@test "finding lists fixed version, manifest target, and 'sin fix' when there is none" {
+  FAKE_JSON='{"SchemaVersion":2,"Results":[{"Target":"package-lock.json","Vulnerabilities":[
+    {"VulnerabilityID":"CVE-2021-23337","PkgName":"lodash","InstalledVersion":"4.17.0","FixedVersion":"4.17.21","Severity":"HIGH"},
+    {"VulnerabilityID":"CVE-2022-0002","PkgName":"minimist","InstalledVersion":"1.2.0","Severity":"CRITICAL"}]}]}'
+  run bash "$REPO_ROOT/$SCRIPT" --path "$TMPDIR/proj"
+  [ "$status" -eq 1 ]
+  [[ "$output" == *"Hallazgos (2)"* ]]
+  [[ "$output" == *"lodash 4.17.0 → 4.17.21"*"package-lock.json"* ]]
+  [[ "$output" == *"minimist 1.2.0 → sin fix"* ]]
+}
+
+@test "malformed Vulnerabilities (not objects) is an error (exit 2), never a silent PASS" {
+  FAKE_JSON='{"SchemaVersion":2,"Results":[{"Target":"x","Vulnerabilities":{"a":1}}]}'
+  run bash "$REPO_ROOT/$SCRIPT" --path "$TMPDIR/proj"
+  [ "$status" -eq 2 ]
+  [[ "$output" != *"PASS"* ]]
+}
+
+@test "invalid severity list is rejected as usage error (exit 2) before running trivy" {
+  run bash "$REPO_ROOT/$SCRIPT" --path "$TMPDIR/proj" --severity "high;rm"
+  [ "$status" -eq 2 ]
+  [[ "$output" == *"severidades inválidas"* ]]
+  [ ! -s "$FAKE_LOG" ]
+}
+
+@test "flag without value (--path last) fails fast with exit 2, no infinite loop" {
+  run timeout 10 bash "$REPO_ROOT/$SCRIPT" --path
+  [ "$status" -eq 2 ]
+  run timeout 10 bash "$REPO_ROOT/$SCRIPT" --path "$TMPDIR/proj" --severity
+  [ "$status" -eq 2 ]
+}
+
+@test "missing jq is an error (exit 2) instead of an unverifiable verdict" {
+  mkdir -p "$TMPDIR/nojq"
+  for f in /usr/bin/*; do
+    [[ "$(basename "$f")" == jq ]] || ln -s "$f" "$TMPDIR/nojq/" 2>/dev/null || true
+  done
+  run env PATH="$TMPDIR/bin:$TMPDIR/nojq" bash "$REPO_ROOT/$SCRIPT" --path "$TMPDIR/proj"
+  [ "$status" -eq 2 ]
+  [[ "$output" == *"jq no disponible"* ]]
+}
+
+@test "project type detection names every manifest and ignores node_modules" {
+  printf 'requests==2.0\n' > "$TMPDIR/proj/requirements.txt"
+  run bash "$REPO_ROOT/$SCRIPT" --path "$TMPDIR/proj"
+  [ "$status" -eq 0 ]
+  [[ "$output" == *"detectados: node python-requirements"* ]]
+  mkdir -p "$TMPDIR/vendored/node_modules/x"
+  printf '{}\n' > "$TMPDIR/vendored/node_modules/x/package.json"
+  run bash "$REPO_ROOT/$SCRIPT" --path "$TMPDIR/vendored"
+  [[ "$output" == *"detectados: unknown"* ]]
+}
+
+@test "path with spaces is passed to trivy as a single absolute argument" {
+  mkdir -p "$TMPDIR/my proj"
+  cp "$TMPDIR/proj/package.json" "$TMPDIR/my proj/"
+  run bash "$REPO_ROOT/$SCRIPT" --path "$TMPDIR/my proj"
+  [ "$status" -eq 0 ]
+  grep -q -- "$TMPDIR/my proj$" "$FAKE_LOG"
+}
+
+@test "docker fallback with a relative --path mounts an absolute path plus the DB cache" {
+  PATH="/usr/bin:/bin" command -v trivy >/dev/null && skip "trivy real en /usr/bin"
+  mv "$TMPDIR/bin/trivy" "$TMPDIR/trivy.real"
+  printf '#!/usr/bin/env bash\necho "docker $*" >> "$FAKE_LOG"\nprintf "%%s\\n" "$FAKE_JSON"\n' > "$TMPDIR/bin/docker"
+  chmod +x "$TMPDIR/bin/docker"
+  cd "$TMPDIR"
+  run env PATH="$TMPDIR/bin:/usr/bin:/bin" bash "$REPO_ROOT/$SCRIPT" --path proj
+  [ "$status" -eq 0 ]
+  grep -q -- "-v $TMPDIR/proj:/workspace" "$FAKE_LOG"
+  grep -q -- "-v $HOME/.cache/trivy:/root/.cache/trivy" "$FAKE_LOG"
+}
+
+@test "docker fallback does not pass the host-only workspace-root .trivyignore" {
+  PATH="/usr/bin:/bin" command -v trivy >/dev/null && skip "trivy real en /usr/bin"
+  mkdir -p "$TMPDIR/ws/scripts"
+  cp "$REPO_ROOT/$SCRIPT" "$TMPDIR/ws/scripts/"
+  printf 'CVE-2020-0002\n' > "$TMPDIR/ws/.trivyignore"
+  mv "$TMPDIR/bin/trivy" "$TMPDIR/trivy.real"
+  printf '#!/usr/bin/env bash\necho "docker $*" >> "$FAKE_LOG"\nprintf "%%s\\n" "$FAKE_JSON"\n' > "$TMPDIR/bin/docker"
+  chmod +x "$TMPDIR/bin/docker"
+  run env PATH="$TMPDIR/bin:/usr/bin:/bin" bash "$TMPDIR/ws/$SCRIPT" --path "$TMPDIR/proj"
+  [ "$status" -eq 0 ]
+  run grep -q -- "--ignorefile" "$FAKE_LOG"
+  [ "$status" -ne 0 ]
+}
+
+@test "concurrent scans of two projects into one output dir keep each verdict (no shared .tmp)" {
+  mkdir -p "$TMPDIR/clean"
+  cp "$TMPDIR/proj/package.json" "$TMPDIR/clean/"
+  # A (vulnerable) escribe su informe y tarda; B (limpio) escribe el suyo mientras A sigue en Trivy.
+  FAKE_JSON="$(vuln_json CVE-2021-23337 HIGH)" FAKE_DELAY=2 \
+    bash "$REPO_ROOT/$SCRIPT" --path "$TMPDIR/proj" > "$TMPDIR/a.out" 2>&1 &
+  pid_a=$!
+  sleep 0.5
+  run bash "$REPO_ROOT/$SCRIPT" --path "$TMPDIR/clean"
+  [ "$status" -eq 0 ]
+  rc_a=0; wait "$pid_a" || rc_a=$?
+  [ "$rc_a" -eq 1 ]
+  grep -q "CVE-2021-23337" "$TMPDIR/a.out"
 }
