@@ -83,11 +83,13 @@ Fórmula: `horas_disponibles = (dias_habiles - dias_off) * horas_dia * factor_fo
 
 ## Flujo 5 — Calcular Utilización vs Carga Asignada
 
-Obtener RemainingWork por persona desde WIQL y cruzar con capacidad calculada:
+Obtener RemainingWork y CompletedWork por persona desde WIQL y cruzar con la capacidad del sprint completo:
 
 ```bash
-Utilización = sum(RemainingWork por persona) / horas_disponibles_por_persona
+Utilización = sum(RemainingWork + CompletedWork por persona) / horas_disponibles_por_persona
 ```
+
+Las horas disponibles cubren el sprint entero, así que el numerador incluye también lo ya completado.
 
 **Umbrales:**
 - 🔴 > 100% — SOBRE-CARGADO
@@ -110,6 +112,8 @@ python3 scripts/capacity-calculator.py --items items.json --capacities caps.json
 - Días off = unión personales + `--team-days-off`; solo restan si caen en día hábil.
 - Festivos por defecto: Comunidad de Madrid 2026. Fuera de 2026 avisa (`[WARN]`): pasar `--team-days-off`.
 - Sin fechas de sprint: 10 días hábiles por defecto.
+- Los miembros presentes en `--capacities` salen aunque no tengan items (carga 0): útil en sprint planning.
+- `azdevops-queries.sh capacities` e `items` leen la iteración **actual**; para otra iteración, obtener sus capacidades por API (Flujo 2 con su `ITER_ID`).
 - Coma decimal aceptada (`4,5`). Exit: 0 ok · 1 entrada inválida · 2 argumento inválido (fechas invertidas, una sola fecha, foco fuera de (0,1]).
 
 ---

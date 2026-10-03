@@ -279,6 +279,9 @@ def analizar(items: list, capacities: Optional[dict] = None, team_off: Optional[
     """Carga + capacidad + utilización + semáforo por persona (tabla y JSON comparten esto)."""
     carga = calcular_carga_por_persona(items)
     capacities, team_off = capacities or {}, team_off or set()
+    # Sprint planning: los miembros con capacidad configurada aparecen aunque no tengan items
+    for persona in capacities:
+        carga.setdefault(persona, {"remaining_h": 0.0, "completed_h": 0.0, "items": 0})
     for persona, datos in carga.items():
         datos["remaining_h"] = round(datos["remaining_h"], 2)
         datos["completed_h"] = round(datos["completed_h"], 2)

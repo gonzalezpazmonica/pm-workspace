@@ -47,13 +47,14 @@ Sprint de 2 semanas (10 días hábiles):
 ## Función: calcular_utilizacion
 
 ```python
-def calcular_utilizacion(remaining_work_persona, horas_disponibles):
+def calcular_utilizacion(remaining_work, completed_work, horas_disponibles):
     """
-    Calcula el porcentaje de utilización.
+    Calcula el porcentaje de utilización sobre la capacidad del sprint completo
+    (por eso suma también lo completado).
     """
     if horas_disponibles == 0:
         return None  # Sin datos
-    return (remaining_work_persona / horas_disponibles) * 100
+    return ((remaining_work + completed_work) / horas_disponibles) * 100
 ```
 
 ## Umbrales de Alerta

@@ -266,3 +266,41 @@ print(len(m.dias_habiles_entre(date(2026,10,12), date(2026,10,16))))" "$PY"
   [ "${lines[0]}" = "5" ]
   [ "${lines[1]}" = "4" ]
 }
+
+@test "dia off de equipo fuera de los personales tambien se resta (union real)" {
+  items '[{"asignado":"Ana","restante_h":10}]'
+  printf '%s' '["2026-09-14"]' > "$D/team.json"
+  printf '%s\n' '{"persona":"Ana","actividades":[{"capacityPerDay":8}],"dias_off":[{"start":"2026-09-10T00:00:00Z","end":"2026-09-10T00:00:00Z"}]}' > "$D/caps.json"
+  run python3 "$PY" --items "$D/items.json" --capacities "$D/caps.json" --team-days-off "$D/team.json" "${S1[@]}" --output-json
+  [ "$status" -eq 0 ]
+  # personal {10} + equipo {14} -> 8 dias * 8 * 0.75 = 48h
+  [ "$(jget 'r["carga_por_persona"]["Ana"]["horas_disponibles"]')" = "48.0" ]
+}
+
+@test "--team-days-off sin --capacities resta el dia a todos" {
+  items '[{"asignado":"Ana","restante_h":10},{"asignado":"Bo","restante_h":10}]'
+  printf '%s' '{"daysOff":[{"start":"2026-09-10T00:00:00Z","end":"2026-09-10T00:00:00Z"}]}' > "$D/team.json"
+  run python3 "$PY" --items "$D/items.json" --team-days-off "$D/team.json" "${S1[@]}" --output-json
+  [ "$status" -eq 0 ]
+  [ "$(jget 'r["carga_por_persona"]["Ana"]["horas_disponibles"]')" = "54.0" ]
+  [ "$(jget 'r["carga_por_persona"]["Bo"]["horas_disponibles"]')" = "54.0" ]
+}
+
+@test "utilizacion = (restante + completado) / disponibles del sprint completo" {
+  items '[{"asignado":"Ana","restante_h":15,"completado_h":15}]'
+  run python3 "$PY" --items "$D/items.json" "${S1[@]}" --output-json
+  [ "$status" -eq 0 ]
+  # (15 + 15) / 60 = 50%; solo restante daria 25%
+  [ "$(jget 'r["carga_por_persona"]["Ana"]["utilizacion_pct"]')" = "50.0" ]
+}
+
+@test "sprint planning: miembros de capacities sin items salen con carga zero" {
+  items '[]'
+  printf '%s\n' '{"persona":"Ana","actividades":[{"capacityPerDay":8}],"dias_off":[]}' '{"persona":"Bo","actividades":[{"capacityPerDay":4}],"dias_off":[]}' > "$D/caps.json"
+  run python3 "$PY" --items "$D/items.json" --capacities "$D/caps.json" "${S1[@]}" --output-json
+  [ "$status" -eq 0 ]
+  [ "$(jget 'r["carga_por_persona"]["Ana"]["horas_disponibles"]')" = "60.0" ]
+  [ "$(jget 'r["carga_por_persona"]["Bo"]["horas_disponibles"]')" = "30.0" ]
+  [ "$(jget 'r["carga_por_persona"]["Bo"]["items"]')" = "0" ]
+  [ "$(jget 'r["carga_por_persona"]["Bo"]["utilizacion_pct"]')" = "0.0" ]
+}
