@@ -61,6 +61,13 @@ Current Savia skills cover context optimization (`context-optimized-dev`, `conte
 - Recommends one of the 5 options based on thresholds
 - BATS tests cover threshold boundaries + output format
 
+> **Nota de calibración (2026-10-03, SE-376)**: `context-rot-advisor.sh` nunca se
+> entregó aunque la spec figuraba IMPLEMENTED y la SKILL lo citaba. Se implementa como
+> modo `--rot` de `scripts/context-meter.sh` (consolidación; un script nuevo subiría el
+> ratchet de entropía SE-380). Ningún frontend exporta el % de contexto por env: la
+> entrada es `--pct N`, `CONTEXT_PCT` o tokens. Sin datos → `continue-with-caution`;
+> entrada inválida → exit 2 sin consejo. Tests: `tests/test-context-rot-strategy.bats`.
+
 ## Acceptance criteria
 
 - Skill + DOMAIN.md follow existing 85-skill structure (frontmatter, Decision Checklist, Parameters)

@@ -132,6 +132,12 @@ bash scripts/context-meter.sh --threshold-warn 70 --threshold-critical 85
 # Configurable thresholds
 ```
 
+Calibración 2026-10-03 (SE-376): `ok` < warn ≤ `warn` < critical ≤ `critical` (límites
+inclusivos). Valores no enteros, negativos, de más de 15 dígitos, `used` > `max`, umbrales
+inválidos u opciones desconocidas → exit 2 (antes: exit 0/1 según el caso y ejecución de
+Python con el valor de `CONTEXT_WINDOW_USED`). Snapshot configurable con
+`CONTEXT_METER_SNAPSHOT`. Modo `--rot` / `--pct`: advisor de SE-069 (context-rot-strategy).
+
 Fuente de datos: el log de tokens de la sesión actual, o `$CONTEXT_WINDOW_USED` /
 `$CONTEXT_WINDOW_MAX` si están en entorno (inyectados por OpenCode via hook).
 

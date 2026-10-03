@@ -49,21 +49,26 @@ La pregunta correcta no es *"cuanto cabe?"* sino *"cuando cortar?"*.
 3. La sesion sigue enfocada en un mismo tema?
    - Si, larga pero coherente → **/compact con hint** especifico
    - No, cambio de tema → **/clear** + notas manuales
-4. Token counter > 75%?
+4. Token counter >= 75%?
    - Si → accion proactiva AHORA (compact/clear/subagent)
-   - 60-75% → yellow flag, planifica el corte
+   - 60-74% → yellow flag, planifica el corte
    - < 60% → **Continue**
 
 ## Umbrales de token usage
 
-| % del context | Flag | Recomendacion |
-|---|---|---|
-| 0-60% | Verde | Continue libre |
-| 60-75% | Amarillo | Planifica corte; usa subagents para proximos steps grandes |
-| 75-90% | Rojo | Compact PROACTIVO antes de auto-compact (el modelo esta en su peor punto de atencion cuando auto dispara) |
-| 90%+ | Critico | /clear + notas; no confies en compact automatico a este nivel |
+Porcentaje entero (suelo de `usado*100/max`); cada limite pertenece a la banda superior.
 
-Settings actual: `CLAUDE_AUTOCOMPACT_PCT_OVERRIDE=75` (ajustado para disparar antes del pico de rot).
+| % del context | Banda (`--rot`) | Accion (`--rot`) | Recomendacion |
+|---|---|---|---|
+| 0-59 | `verde` | `continue` | Continue libre |
+| 60-74 | `amarillo` | `plan-cut` | Planifica corte; compact con hint AHORA si el frontend auto-compacta al 75%; subagents para los proximos steps grandes |
+| 75-89 | `rojo` | `compact` | Compact PROACTIVO con hint (el modelo esta en su peor punto de atencion cuando auto dispara) |
+| 90-100 | `critico` | `clear` | /clear + notas; no confies en compact automatico a este nivel |
+
+Settings actual (Claude Code): `CLAUDE_AUTOCOMPACT_PCT_OVERRIDE=75` en `.claude/settings.json`.
+Consecuencia: en Claude Code el auto-compact dispara justo al entrar en `rojo`, asi que
+el compact proactivo hay que hacerlo en `amarillo`. Las bandas `rojo` y `critico` solo se
+alcanzan en frontends sin ese override (p. ej. OpenCode).
 
 ## Opciones en detalle
 
@@ -129,15 +134,38 @@ Subagent tiene su propio context window fresco. Solo la conclusion vuelve al mai
 
 ## Invocacion
 
-Como meta-skill, este skill no se ejecuta autonomamente. Sirve de rubrica mental antes de cada turno cuando la sesion se alarga. Invocacion tipica:
+Como meta-skill, este skill no se ejecuta autonomamente. Sirve de rubrica mental antes de cada turno cuando la sesion se alarga. Invocacion tipica (skill `user-invocable`):
 
 ```
-/skill context-rot-strategy
+/context-rot-strategy
 ```
 
 Muestra la decision checklist + umbrales actuales. El usuario decide la opcion.
 
-Script helper: `scripts/context-rot-advisor.sh` — lee el % de context usage si esta disponible como env var y devuelve la recomendacion.
+### Helper: `scripts/context-meter.sh --rot`
+
+El advisor de SE-069 es el modo `--rot` de `context-meter.sh` (SE-219 S2). Ningun
+frontend exporta el % de contexto como variable de entorno: hay que pasarlo
+(el contador de la sesion) o dar los tokens.
+
+```bash
+bash scripts/context-meter.sh --rot --pct 72          # % directo 0-100
+CONTEXT_PCT=72 bash scripts/context-meter.sh --rot    # idem por env
+CONTEXT_WINDOW_USED=150000 CONTEXT_WINDOW_MAX=200000 \
+  bash scripts/context-meter.sh --rot --json          # tokens → % (suelo)
+```
+
+- Prioridad de la entrada: `--pct` > `CONTEXT_PCT` > `CONTEXT_WINDOW_USED`+`CONTEXT_WINDOW_MAX` >
+  snapshot `CONTEXT_METER_SNAPSHOT` (por defecto `output/context-snapshot.json` relativo al cwd).
+- Salida texto: `CONTEXT_PCT`, `CONTEXT_TOKENS_USED`, `CONTEXT_TOKENS_MAX`, `CONTEXT_STATUS`
+  (umbrales SE-219 70/85) y, con `--rot`, `CONTEXT_ROT_BAND` y `CONTEXT_ROT_ACTION`.
+- Salida `--json`: `{"pct","used","max","status","source", "rot": {"band","action","thresholds"}}`.
+- Umbrales: `CONTEXT_ROT_YELLOW` (60), `CONTEXT_ROT_RED` (75), `CONTEXT_ROT_CRITICAL` (90);
+  enteros 0-100 con yellow < red < critical.
+- Sin datos (o `max` = 0): banda `unknown`, accion `continue-with-caution`, exit 0.
+- Exit 2 sin consejo: % fuera de 0-100 o no entero, tokens negativos/no enteros/>15 digitos,
+  `used` > `max`, snapshot con campos no enteros, umbrales invalidos u opcion desconocida.
+- Solo lee; no escribe ficheros. Tests: `tests/test-context-rot-strategy.bats`.
 
 ## Referencias
 
