@@ -59,8 +59,9 @@ bash scripts/dependency-scan.sh --path ./project/ --skip-update
 ```
 
 Códigos de salida: `0` limpio en las severidades pedidas · `1` hallazgos (se listan
-severidad, CVE, paquete, versión → fix y manifiesto) · `2` error de argumentos, sin
-Trivy ni Docker, escaneo fallido, esquema de informe desconocido o SBOM no generado. El 2
+severidad, CVE, paquete, versión → fix —o `sin fix`— y manifiesto) · `2` error de argumentos (incluidas
+severidades fuera de `^[A-Z]+(,[A-Z]+)*$`), sin jq, sin Trivy ni Docker, Trivy con rc ≠ 0
+(aunque haya escrito un informe), esquema de informe desconocido o SBOM no generado o no CycloneDX. El 2
 gana al 1: hallazgos con SBOM fallido salen con 2 (los hallazgos se listan igualmente). Requiere Trivy >= 0.37 (`--scanners`)
 y `jq`. `DEP_SCAN_OUTPUT_DIR` cambia el directorio de salida.
 
@@ -88,6 +89,10 @@ software. Generarlo no requiere conectividad extra (DB local). Si Trivy falla, n
 escribe SBOM (exit 2): nunca se fabrica uno vacío. La salida de Trivy queda como
 `sbom-YYYYMMDD.json.failed` y un SBOM anterior del mismo día pasa a `.stale`. Un escaneo
 fallido deja `dep-scan-YYYYMMDD.json.failed` sin pisar el informe válido anterior.
+Cada ejecución escribe en un temporal propio (`*.tmp.XXXXXX`), así que dos escaneos
+simultáneos en el mismo directorio no se cruzan el veredicto. El nombre final es por día,
+no por proyecto: para escanear varios proyectos el mismo día y conservar cada informe, usa un
+`DEP_SCAN_OUTPUT_DIR` distinto por proyecto (si no, el último sustituye al anterior).
 
 ```
 output/security/sbom-YYYYMMDD.json     ← SBOM CycloneDX
