@@ -110,6 +110,7 @@ hook bash. La parity-audit los excluye del gap.
 - OK `permission.ask` retorna `deny` para acciones destructivas en branches `agent/*` o `spec-*`
 - OK AUTONOMOUS_REVIEWER respetado vía variable de entorno (mismo contrato que Claude Code)
 - OK Audit log append-only en `~/.savia/audit/savia-gates.jsonl`
+- OK Plugins de sandbox (`opencode-sandbox`): si envuelven el comando antes que savia-gates (`bwrap … bash -c '<cmd>'`), los hooks `PreToolUse` evalúan la forma original y la desenvuelta, y basta con que una bloquee. Solo se desenvuelve un envoltorio limpio (tras la última comilla simple no queda más que cierres de comillas): `bwrap … -c 'echo hola'; rm -rf x` se evalúa entero (`lib/sandbox.ts`). Los guards TS de `savia-foundation` siguen la misma regla (`.opencode/plugins/lib/sandbox.ts`); antes, `sudo` envuelto pasaba.
 
 ## Parity audit + canary
 
