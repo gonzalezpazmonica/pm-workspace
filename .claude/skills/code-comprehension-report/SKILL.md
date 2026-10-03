@@ -15,14 +15,20 @@ metadata:
 
 # Code Comprehension Report — Mental Model Generation
 
-Addresses AI-generated code opacity. After each SDD dev-session, auto-generate a mental model document explaining implementation decisions, failure points, debugging heuristics, and implicit dependencies.
+Addresses AI-generated code opacity. After an SDD dev-session, generate on request a mental model document explaining implementation decisions, failure points, debugging heuristics, and implicit dependencies.
+
+## Naturaleza (calibrado SE-376, 2026-10-03)
+
+**Solo prosa**: sin script, hook ni plantilla ejecutable. La ejecuta el agente
+`architect` vía `/comprehension-report`. Nada se dispara solo (Savia lo sugiere,
+la operadora confirma); los Quality Gates son criterios del agente, no
+validación automática; el PNG exige `mmdc` (no es dependencia del workspace).
 
 ## When to Use
 
 - After implementing a feature (post-SDD completion)
 - After fixing a complex bug
 - When onboarding new team members to undocumented code
-- When code lacks sufficient inline documentation
 - User asks to `/comprehension-report {task-id}`
 
 ## 7-Phase Pipeline
@@ -30,7 +36,7 @@ Addresses AI-generated code opacity. After each SDD dev-session, auto-generate a
 ### Phase 1: Collect Implementation Data (5 min)
 
 - **Input**: spec path, git commit hash, or task ID
-- **Collect**: SDD spec, implemented code files, test results, agent notes
+- **Collect**: SDD spec, code files, test results, agent notes (`projects/{proyecto}/agent-notes/{ticket}-*.md`)
 - **Verify**: code compiles, tests pass, spec is complete
 - **Store**: in `output/dev-sessions/{task-id}/phase-1-data.md`
 
@@ -53,7 +59,7 @@ Output: table format with Decision | Rationale | Alternatives | Risks
   - State transitions if applicable
   - External integrations highlighted
 
-Output: `.mermaid` file embedded in report + PNG export
+Output: `.mermaid` file embedded in report; PNG export only when `mmdc` is available
 
 ### Phase 4: Failure Heuristics (15 min)
 
@@ -93,7 +99,9 @@ Format: table with Dependency Type | What's Required | Impact if Missing
 ### Phase 7: Generate Report (5 min)
 
 - **Compile all phases** into single markdown document
-- **Save to**: `output/comprehension/YYYYMMDD-{task-id}-mental-model.md`
+- **Save to**: `output/comprehension/YYYYMMDD-{task-slug}-mental-model.md`
+- **`{task-slug}`**: task-id with chars outside `[A-Za-z0-9._-]` -> `-`
+  (`AB#2847` -> `AB-2847`, `sprint-12/feature-auth` -> `sprint-12-feature-auth`)
 - **Format**: 
   - Summary (1 page TL;DR)
   - Architecture decisions (1 page)
@@ -108,7 +116,7 @@ Format: table with Dependency Type | What's Required | Impact if Missing
 
 Input/output schemas and templates: `references/schemas.md`
 
-## Quality Gates
+## Quality Gates (criterios del agente, sin validador automático)
 
 - **Phase 1**: All input files exist and are readable
 - **Phase 2**: ≥3 decisions documented, each with alternatives
@@ -116,7 +124,7 @@ Input/output schemas and templates: `references/schemas.md`
 - **Phase 4**: ≥2 failure heuristics per module touched
 - **Phase 5**: ≥5 implicit dependencies documented
 - **Phase 6**: ≥3 steps per common scenario, escalation clear
-- **Phase 7**: Report ≤ 15 pages, coherence ≥ 85%
+- **Phase 7**: Report ≤ 15 pages (typical 5-8), coherence ≥ 85% (`coherence-validator`)
 
 ## Limitations
 
@@ -127,10 +135,8 @@ Input/output schemas and templates: `references/schemas.md`
 
 ## Integration
 
-Triggered by:
-- `/comprehension-report {task-id}` — generate on demand
-- `/dev-session` auto-completion (optional post-session)
-- `/spec-completion` → "Generate mental model? [y/n]"
+Triggered only by `/comprehension-report {task-id}`. Al cerrar una dev-session
+Savia lo sugiere (`docs/rules/domain/code-comprehension.md`); no hay disparo automático.
 
 Used by:
 - Team onboarding: new developers understand decisions + caveats
@@ -140,4 +146,5 @@ Used by:
 ## Related Skills
 
 - `.opencode/skills/spec-driven-development/SKILL.md` — generates specs that feed this skill
-- `.opencode/skills/code-review/SKILL.md` — uses comprehension as context for better reviews
+- `docs/rules/domain/code-review-rules.md` y el agente `cognitive-judge` — evalúan "debuggable at 3AM" en el Code Review Court
+- `/comprehension-audit` — cobertura de informes por proyecto (también solo prosa)
