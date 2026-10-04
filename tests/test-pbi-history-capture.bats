@@ -377,3 +377,43 @@ EOF
   run bash "$HOOK" <<< '{"tool_name":"Edit","tool_input":{"file_path":"/nonexistent"}}'
   [ "$status" -eq 0 ]
 }
+
+# ── Invariantes de datos reales de los PBIs (consolidado desde scripts/test-pbi-history.sh, SE-380) ──
+pbi_files() {
+  local d; for d in projects/savia-web/backlog/pbi projects/savia-web/backlog/archive; do
+    [[ -d "$d" ]] && ls "$d"/PBI-*.md 2>/dev/null; done
+}
+
+@test "data: cada PBI con ## Historial tiene la cabecera de tabla correcta" {
+  local f bad=0
+  for f in $(pbi_files); do
+    grep -q '## Historial' "$f" || continue
+    grep -qF '| Fecha | Autor | Campo | Anterior | Nuevo |' "$f" || { echo "sin cabecera: $f"; bad=$((bad+1)); }
+  done
+  [ "$bad" -eq 0 ]
+}
+
+@test "data: las entradas _migrated tienen formato fecha-hora y autor @system" {
+  local f line bad=0
+  for f in $(pbi_files); do
+    line=$(grep '_migrated' "$f" 2>/dev/null || true)
+    [[ -z "$line" ]] && continue
+    echo "$line" | grep -qE '^\| [0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2} \| @system' || { echo "mal formato: $f"; bad=$((bad+1)); }
+  done
+  [ "$bad" -eq 0 ]
+}
+
+@test "boundary: el hook no supera el límite de 150 líneas" {
+  [ "$(wc -l < "$HOOK")" -le 150 ]
+}
+
+@test "hook es ejecutable" { [[ -x "$HOOK" ]]; }
+
+@test "data: todos los PBIs tienen ## Historial y entrada _migrated" {
+  local f missing=0 n=0
+  for f in $(pbi_files); do
+    n=$((n+1))
+    grep -q '## Historial' "$f" && grep -q '_migrated' "$f" || { echo "incompleto: $f"; missing=$((missing+1)); }
+  done
+  [ "$missing" -eq 0 ]
+}
