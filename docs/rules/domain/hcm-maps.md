@@ -118,6 +118,8 @@ projects/{proyecto}/
 
 ## Comandos
 
+> Estado (calibración SE-376, 2026-10-04): ninguno de estos cuatro comandos existe en `.claude/commands/`. Son diseño pendiente; hoy el .hcm se genera con la skill `human-code-map` (prosa, sin script) y el debt-score se calcula a mano.
+
 - `/codemap:generate-human [path]` — Genera borrador .hcm desde .acm + código
 - `/codemap:walk [componente]` — Sesión guiada de re-lectura con AI (refresh)
 - `/codemap:debt-report` — Muestra debt-scores de todos los .hcm del proyecto
