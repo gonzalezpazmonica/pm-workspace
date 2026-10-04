@@ -10,6 +10,7 @@
 from __future__ import annotations
 
 import json
+import logging
 import os
 import uuid
 from copy import deepcopy
@@ -19,6 +20,8 @@ from typing import Optional, List
 
 from . import cron
 from .models import ScheduledTask, TaskRun, Schedule, now_iso
+
+logger = logging.getLogger("savia.automations")
 
 
 class TaskStore:
@@ -190,6 +193,8 @@ class TaskStore:
 
     def validate_schedule(self, schedule: Schedule) -> None:
         """Raise ValueError when the schedule can never produce a run."""
+        if not is_valid_timezone(schedule.timezone):
+            raise ValueError(f"unknown timezone '{schedule.timezone}'")
         if schedule.kind == "once":
             if parse_datetime(schedule.fire_at or "", schedule.timezone) is None:
                 raise ValueError(f"invalid fire_at: '{schedule.fire_at}'")
@@ -224,6 +229,19 @@ class TaskStore:
         return when.isoformat() if when else None
 
 
+def is_valid_timezone(tz: str) -> bool:
+    """True for ``local``/empty or an IANA name that zoneinfo can load."""
+    if tz in ("", "local"):
+        return True
+    from zoneinfo import ZoneInfo
+    try:
+        ZoneInfo(tz)
+    except (ValueError, KeyError, OSError) as exc:  # NotFound es KeyError
+        logger.debug("timezone '%s' rejected: %s", tz, exc)
+        return False
+    return True
+
+
 def parse_datetime(value: str, tz: str = "local") -> Optional[datetime]:
     """Parse an ISO datetime to aware UTC; naive values are read in ``tz``."""
     if not value:
@@ -235,6 +253,8 @@ def parse_datetime(value: str, tz: str = "local") -> Optional[datetime]:
     if dt.tzinfo is None:
         if tz in ("", "local"):
             dt = dt.astimezone()
+        elif not is_valid_timezone(tz):
+            return None
         else:
             from zoneinfo import ZoneInfo
             dt = dt.replace(tzinfo=ZoneInfo(tz))

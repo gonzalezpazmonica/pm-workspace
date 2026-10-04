@@ -299,3 +299,72 @@ assert s.is_due(t, "2026-10-03T09:00:00Z")
 assert not s.is_due(t, "2026-10-03T08:00:00Z")
 PY
 }
+
+# ── Runner sin resultado y zona horaria inválida (HOLD #1263) ───────────────
+
+@test "scheduler error: runner que devuelve None ⇒ 'error', nunca 'completed' (loop y run_now)" {
+  python3 - "$REPO_ROOT/scripts" "$WORK" <<'PY'
+import asyncio, sys
+sys.path.insert(0, sys.argv[1])
+from automations.store import TaskStore
+from automations.models import Schedule, ScheduledTask
+from automations.scheduler import AutomationScheduler
+
+async def runner_none(task, trigger):
+    return None
+
+store = TaskStore(sys.argv[2])
+for tid in ("loop", "manual"):
+    store.save(ScheduledTask(id=tid, name=tid, description="", instructions="x",
+                             schedule=Schedule(kind="cron", cron="0 8 * * 1")))
+sched = AutomationScheduler(store, runner_none)
+
+async def main():
+    await sched._execute_task(store.get("loop"), trigger="scheduled")
+    await sched.run_now("manual")
+
+asyncio.run(main())
+loop = store.get("loop")
+assert loop.last_status == "error", loop.last_status
+runs = store.list_runs("loop")
+assert [r.status for r in runs] == ["error"], [r.status for r in runs]
+assert "no result" in (runs[0].error or ""), runs[0].error
+manual = store.get("manual")
+assert manual.last_status == "error", manual.last_status
+PY
+}
+
+@test "create: --timezone inválida en tarea 'once' se rechaza con 2, sin traza y sin guardar" {
+  run bash "$CLI" create --name marte --schedule 2026-12-01T09:00:00 --timezone Mars/Olympus --instructions x
+  [ "$status" -eq 2 ]
+  [[ "$output" == *"invalid schedule"*"unknown timezone"* ]]
+  [[ "$output" != *"Traceback"* ]] || { echo "traza: $output"; return 1; }
+  run bash "$CLI" list
+  [ "$output" = "(no tasks)" ]
+}
+
+@test "create: --timezone inválida en tarea cron también se rechaza con 2" {
+  run bash "$CLI" create --name marte --schedule "0 8 * * 1" --timezone Mars/Olympus --instructions x
+  [ "$status" -eq 2 ]
+  [[ "$output" == *"unknown timezone"* ]]
+}
+
+@test "create boundary: tarea 'once' con --timezone válida guarda next_run en UTC" {
+  run bash "$CLI" create --name ny --schedule 2026-12-01T09:00:00 --timezone America/New_York --instructions x
+  [ "$status" -eq 0 ]
+  id="$(created_id)"
+  [ "$(task_field "$id" next_run)" = "2026-12-01T14:00:00+00:00" ]
+}
+
+@test "next_run null: tarea 'once' guardada con zona inválida da None, no excepción" {
+  python3 - "$REPO_ROOT/scripts" "$WORK" <<'PY'
+import sys
+sys.path.insert(0, sys.argv[1])
+from automations.store import TaskStore, parse_datetime
+from automations.models import Schedule
+assert parse_datetime("2026-12-01T09:00:00", "Mars/Olympus") is None
+s = TaskStore(sys.argv[2])
+assert s._compute_next_run(Schedule(kind="once", fire_at="2026-12-01T09:00:00",
+                                    timezone="Mars/Olympus")) is None
+PY
+}

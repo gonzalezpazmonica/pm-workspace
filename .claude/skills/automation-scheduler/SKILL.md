@@ -32,7 +32,8 @@ Pipeline: LIST, CREATE, TEST, MONITOR, MANAGE.
 - Una fecha ISO (`2026-10-05T09:00`) crea una tarea `once`: se ejecuta una vez.
 - Las horas son hora local (como el cron del sistema; respeta `TZ`) o la zona IANA
   de `--timezone`. `next_run` se guarda en UTC y se compara como fecha.
-- `create` rechaza con exit 2 un cron invalido o que no dispara en 4 anos.
+- `create` rechaza con exit 2 un cron invalido, uno que no dispara en 4 anos o una
+  zona `--timezone` desconocida (tambien en tareas `once`).
 - Tras cambiar el parser, `savia-automations.sh compute` recalcula `next_run`
   de las tareas existentes.
 
@@ -50,7 +51,7 @@ nadie la llama.
 | `running` | en curso | — |
 | `recorded` | instrucciones registradas, sin ejecutar skill ni agente | 0 |
 | `completed` | ejecucion real terminada (reservado: hoy ningun runner lo emite) | 0 |
-| `error` | fallo, incluido un directorio de salida imposible | 1 |
+| `error` | fallo, incluido un directorio de salida imposible o un runner sin resultado | 1 |
 | `cancelled` | cancelado | 1 |
 
 `run`, `run-due`, `history` y `list` anaden `(not executed)` a todo `recorded`;
