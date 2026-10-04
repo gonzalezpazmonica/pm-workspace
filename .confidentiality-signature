@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=585c24f9b78c6747048e92a0ba030b9bdd1fea0e14db8e61386bbfd9d1fbe3a8
-timestamp=2026-10-04T11:03:01Z
+diff_hash=f08522fde6c9346e61a7bf4682d2e49f53c2e9c020fc86b132aca7a73e469180
+timestamp=2026-10-04T11:36:22Z
 branch=agent/se376-context-dome-20261003
-head_commit=9c2083d3
-signature=c0eb5b7440d1f5ace2cc01c77aa5aeb56af104baa133a30991b22af0aed0509d
+head_commit=95c336d7
+signature=e1e540a7e240cae4665ec4dd98520d083557d42721e05df29a76ecbbba636916
