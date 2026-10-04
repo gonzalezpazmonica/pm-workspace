@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=f74252aa3b4ea5c8caf63ecbd13aa1f57934a51b59b115bb00cf1bdd8f845f51
-timestamp=2026-10-04T12:01:19Z
+diff_hash=927556b354d854e679d47e853f189fc423d68ab35b9350cf4299438afc06876b
+timestamp=2026-10-04T12:30:32Z
 branch=agent/se376-calib-governance-enterprise-20261003
-head_commit=86c41cc2
-signature=a34db7139c8997007d2374db4b5019cf9003de22735c85cf65f3bb294b3cdaeb
+head_commit=0c3c4e7f
+signature=d044be00e5c397047cc650d50a4914e80c103533f833a36f4b94df142f99f460
