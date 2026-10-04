@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=2edb77b6a5f8f6feb20832f9fa2e98d428fcbd0ae02f079f910f8944751e0bf4
-timestamp=2026-10-04T15:33:31Z
+diff_hash=3dafb19b3349efb0bf70cc3e53db75911557d0ec6c4bb3332adb1a988be9c83f
+timestamp=2026-10-04T15:50:14Z
 branch=agent/hooks-blocking-guards-20261003
-head_commit=13b03db5b
-signature=13639bc8c255e43e6cbf9a54b33fa5f570280104ee8019bef61d74cb7c0900ee
+head_commit=46cd3998c
+signature=8e024e46f32e2f82a513e33bac11438549b19d1fb2154a14ca579148e13ef76d
