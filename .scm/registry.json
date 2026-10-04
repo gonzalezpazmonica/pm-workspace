@@ -18236,6 +18236,27 @@
       "frontend_support": [
         "opencode"
       ],
+      "id": "script:scripts/merge-sprint",
+      "intents": [
+        "acotada",
+        "autorización",
+        "bajo",
+        "humana",
+        "merge"
+      ],
+      "kind": "script",
+      "owner_domain": "planning",
+      "replaced_by": null,
+      "risk_level": null,
+      "source": "scripts/merge-sprint.sh",
+      "status": "active",
+      "tests": []
+    },
+    {
+      "depends_on": [],
+      "frontend_support": [
+        "opencode"
+      ],
       "id": "script:scripts/meta-control",
       "intents": [
         "control",
@@ -28484,27 +28505,6 @@
       "frontend_support": [
         "opencode"
       ],
-      "id": "script:scripts/test-pbi-history",
-      "intents": [
-        "field",
-        "history",
-        "implementation",
-        "level",
-        "test"
-      ],
-      "kind": "script",
-      "owner_domain": "quality",
-      "replaced_by": null,
-      "risk_level": null,
-      "source": "scripts/test-pbi-history.sh",
-      "status": "active",
-      "tests": []
-    },
-    {
-      "depends_on": [],
-      "frontend_support": [
-        "opencode"
-      ],
       "id": "script:scripts/test-pbi-spec-links",
       "intents": [
         "bidirectional",
@@ -29604,7 +29604,7 @@
       "tests": []
     }
   ],
-  "content_hash": "d48ac891e7b7",
+  "content_hash": "05a6be53c422",
   "deferred_kinds": [
     "rule",
     "hook"
