@@ -189,7 +189,7 @@ resync() {  # resync <pr> → 0 al día (sincronizado y empujado) · 2 conflicto
 
 wait_ci() {  # wait_ci <pr> → pass | fail | pending (agotado el plazo)
   local st i
-  for i in $(seq 1 "${MERGE_SPRINT_CI_POLLS:-60}"); do st=$(required_ok "$1"); [[ "$st" != pending ]] && break; sleep "${MERGE_SPRINT_POLL_S:-30}"; done
+  for _ in $(seq 1 "${MERGE_SPRINT_CI_POLLS:-60}"); do st=$(required_ok "$1"); [[ "$st" != pending ]] && break; sleep "${MERGE_SPRINT_POLL_S:-30}"; done
   echo "$st"
 }
 
@@ -235,7 +235,7 @@ cmd_run() {
     ledger event=MERGED pr="$pr" tier="$t" head="$cur" merge_commit="$mc"
     echo "  MERGED #$pr → ${mc:0:8}"
     local st i
-    for i in $(seq 1 "${MERGE_SPRINT_MAIN_POLLS:-40}"); do st=$(main_ci "$mc"); [[ "$st" != pending ]] && break; sleep "${MERGE_SPRINT_POLL_S:-30}"; done
+    for _ in $(seq 1 "${MERGE_SPRINT_MAIN_POLLS:-40}"); do st=$(main_ci "$mc"); [[ "$st" != pending ]] && break; sleep "${MERGE_SPRINT_POLL_S:-30}"; done
     [[ "$st" == pass ]] || { ledger event=STOP reason="main_$st" pr="$pr"; echo "STOP: main '$st' tras #$pr (sin revert)"; return 0; }
   done <<<"$entries"
   ledger event=END merged="$merged"; echo "sprint terminado: $merged merges"
