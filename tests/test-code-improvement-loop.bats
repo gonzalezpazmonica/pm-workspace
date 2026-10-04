@@ -207,6 +207,52 @@ print(d[\"premises\"][0][\"content\"])'"
   [ ! -e "$TMP_DIR/pwned" ]
 }
 
+# Cada sumidero aritmético protegido por _require_uint, uno a uno: quitar
+# cualquiera de las guardas reabre la ejecución de órdenes y este test falla.
+_assert_injection_blocked() {
+  local label="$1"; shift
+  local canary="$TMP_DIR/pwned-$label"
+  local payload="HOME[\$(touch $canary)]"
+  local -a argv=()
+  local a
+  for a in "$@"; do argv+=("${a//@P@/$payload}"); done
+  run "${argv[@]}"
+  if [ "$status" -eq 0 ] || [ -e "$canary" ]; then
+    echo "inyección no bloqueada en $label: status=$status canary=$([ -e "$canary" ] && echo creado || echo ausente)" >&2
+    echo "$output" >&2
+    return 1
+  fi
+}
+
+@test "score y gate: inyección en cada argumento y env se rechaza sin ejecutar nada" {
+  _assert_injection_blocked score-C bash "$SCRIPT" score '@P@' 0 0 0
+  _assert_injection_blocked score-H bash "$SCRIPT" score 0 '@P@' 0 0
+  _assert_injection_blocked score-M bash "$SCRIPT" score 0 0 '@P@' 0
+  _assert_injection_blocked score-L bash "$SCRIPT" score 0 0 0 '@P@'
+  _assert_injection_blocked score-env-pass \
+    env COHERENCE_SCORE_PASS='@P@' bash "$SCRIPT" score 0 0 0 0
+  _assert_injection_blocked score-env-cond \
+    env COHERENCE_SCORE_CONDITIONAL='@P@' bash "$SCRIPT" score 0 0 0 0
+  _assert_injection_blocked gate-threshold bash "$SCRIPT" gate 50 --threshold '@P@'
+  _assert_injection_blocked gate-conditional bash "$SCRIPT" gate 50 --conditional '@P@'
+  _assert_injection_blocked gate-env-pass \
+    env COHERENCE_SCORE_PASS='@P@' bash "$SCRIPT" gate 50
+  _assert_injection_blocked gate-env-cond \
+    env COHERENCE_SCORE_CONDITIONAL='@P@' bash "$SCRIPT" gate 50
+}
+
+@test "check y skeleton: flujo con barra se rechaza y no lee premisas fuera del directorio" {
+  # flow "x/../../outside" resolvería a $TMP_DIR/outside.jsonl sin _require_flow.
+  mkdir -p "$COHERENCE_PREMISES_DIR/coherence-premises-x"
+  printf '{"premise_id":"p1","kind":"fact","content":"fuera-del-dir"}\n' > "$TMP_DIR/outside.jsonl"
+  run bash "$SCRIPT" check --flow 'x/../../outside' --stage-output "$TMP_DIR/stage.md"
+  [ "$status" -ne 0 ]
+  [[ "$output" != *"PASS"* ]]
+  run bash "$SCRIPT" skeleton 'x/../../outside' "$TMP_DIR/stage.md"
+  [ "$status" -ne 0 ]
+  [[ "$output" != *"fuera-del-dir"* ]]
+}
+
 @test "score: conteos negativos se rechazan (invalid, inflarían el score)" {
   run bash "$SCRIPT" score -4 0 0 0
   [ "$status" -ne 0 ]
