@@ -140,9 +140,25 @@ SCRIPT="$BATS_TEST_DIRNAME/../scripts/scrapling-fetch.sh"
   [[ "$output" -ge 2 ]]
 }
 
-@test "coverage: script implements scrapling path" {
-  run grep -c "fetch_with_scrapling" "$SCRIPT"
-  [[ "$output" -ge 2 ]]
+@test "backend: with scrapling installed the download is still curl (Fetcher never called)" {
+  local py="$BATS_TEST_TMPDIR/py"
+  mkdir -p "$py/scrapling"
+  cat > "$py/scrapling/__init__.py" <<'PY'
+import os
+
+
+class Fetcher:
+    @staticmethod
+    def get(url, **kw):
+        open(os.environ["STUB_FETCH_LOG"], "a").write(url + "\n")
+        raise RuntimeError("Fetcher no debe usarse: resolveria el nombre por su cuenta")
+PY
+  STUB_FETCH_LOG="$BATS_TEST_TMPDIR/fetch.log" PYTHONPATH="$py" \
+    run timeout 10 bash "$SCRIPT" "http://127.0.0.1:1/t" --json --allow-private --timeout 3
+  [ "$status" -eq 1 ]
+  [[ "$output" == *'"fetcher": "curl"'* ]]
+  [[ "$output" == *"curl ("* ]]
+  [ ! -e "$BATS_TEST_TMPDIR/fetch.log" ]
 }
 
 @test "coverage: script uses mktemp for curl buffer" {
