@@ -33,6 +33,10 @@ created_at: 2026-08-24
 
 ---
 
+> **Enmienda propuesta (SE-433, D7, 2026-10-04):** el grant `merge` exigirá la misma firma con
+> passphrase que merge-sprint; un grant escrito por un agente dejará de bastar para
+> `push-pr.sh --merge`. Ver `docs/specs/SE-433-merge-sprint.spec.md` §2.11. Pendiente de spec propia.
+
 ## 1. Origen y problema
 
 La operadora detectó fricción repetida en dos gates del workspace:

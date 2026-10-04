@@ -1,6 +1,6 @@
 ---
 context_tier: L3
-token_budget: 1400
+token_budget: 1600
 spec: SE-433
 status: PROPOSED
 ---
@@ -8,119 +8,140 @@ status: PROPOSED
 # merge-sprint — merges autónomos bajo autorización humana previa (SE-433)
 
 > Apéndice de `autonomous-safety.md`. **PROPOSED**: hasta que la operadora apruebe SE-433 y exista
-> `scripts/merge-sprint.sh`, ningún merge en serie es válido y rige la regla de merge uno a uno
+> `scripts/merge-sprint.sh`, ningún merge en serie es válido y rige el merge uno a uno
 > (`autonomous-safety-merge-grant.md`).
 
 ## Principio
 
-La autorización solo fluye de la firma humana. Ninguna salida de un agente puede añadir un PR,
-subir un tier ni sustituir una revisión. Las salidas de agentes (revisiones, CI, clasificador de
-riesgo) solo pueden **restar**: aparcar un PR o parar el sprint. La IA propone; la operadora
-dispone una vez, antes, por escrito y con firma; un script determinista ejecuta.
+La autorización solo nace de la firma humana. Ninguna salida de un agente puede añadir un PR, subir
+un tier, prorrogar el sprint ni sustituir una revisión. Las revisiones, el juez, la CI y el
+clasificador de riesgo solo pueden **mantener o restar**: dejar seguir un PR ya firmado, aparcarlo o
+parar el sprint. Lo irreversible se decide con confirmación humana (`savia-ethical-principles.md`).
+Lo que se afirma es «lo autorizó un humano, con firma, sobre una lista concreta y tras ver las
+revisiones de agentes». No se afirma que un humano haya leído el diff.
 
 ## Ciclo
 
-1. `plan`: un agente prepara un manifiesto: lista congelada de PRs con head SHA, tier y el hash
-   del informe de revisión.
-2. `grant`: solo la operadora, en su terminal. Lee el resumen y firma el digest del manifiesto con
-   su clave (passphrase o llave FIDO2).
-3. `run`: el ejecutor mergea en serie, del PR más antiguo al más nuevo, lo que la firma cubre.
-4. `report`: un informe local con los merges, los PRs aparcados y el motivo de fin.
+1. `review-register`: cada revisión y cada veredicto de juez se registra en un registro encadenado,
+   con espejo como comentario del PR.
+2. `plan`: un agente prepara un borrador de manifiesto. No es de confianza.
+3. `grant`: lo ejecuta solo la operadora, en su terminal y nunca en la sesión de un agente. Recalcula
+   todo desde GitHub y `origin/main`, muestra un resumen determinista y firma con su clave ed25519
+   cifrada con passphrase.
+4. `run`: un ejecutor determinista mergea en serie, del PR más antiguo al más nuevo.
+5. `report`: genera un informe local.
 
 ## Grant
 
 ```text
 NUNCA   un agente emite, amplía, prorroga ni re-firma un grant de merge-sprint
-NUNCA   un grant sin TTL, sin máximo de merges, sin tiers enumerados o con consulta sin resolver
-SIEMPRE manifiesto congelado: PRs explícitos con head SHA y hash de revisión
-SIEMPRE firma con un factor que el agente no posee; la frase tecleada sola no basta
-SIEMPRE clave pública verificada desde origin/main, nunca desde el árbol de trabajo
+NUNCA   tier 4 · consulta sin resolver · grant sin TTL, máximo ni tiers enumerados
+SIEMPRE manifiesto congelado: PR, head SHA, ficheros, tier, todas las revisiones, blobs del
+        ejecutor/clasificador/firmantes, checks obligatorios y workflows de main
+SIEMPRE firma ssh-keygen -Y con clave cifrada por passphrase; clave pública leída de origin/main
+SIEMPRE por defecto TTL 12 h, 40 merges, ≤ 50 PRs; topes absolutos TTL ≤ 24 h, parks ≤ 3
 ```
 
 ## Revisión
 
-- La primera línea es `VERDICT: APPROVE|HOLD pr=<N> sha=<40 hex> tier=<n> reviewer=<id>
-  author=<id> p0=<n> p1=<n> p2=<n>`. Cualquier otra forma equivale a HOLD.
-- `APPROVE` exige `p0=0 p1=0`. Un P2 marcado «antes del merge» es HOLD.
-- El SHA de la revisión es el del head del manifiesto. Revisor ≠ autor ≠ orquestador del sprint.
-- Por cada PR y SHA cuenta la primera revisión registrada: no se re-lanzan revisores hasta obtener
-  APPROVE.
-- La revisión se congela antes de la firma. Una revisión posterior no autoriza nada. Una revisión
-  modificada aparca el PR.
+- Primera línea: `VERDICT: APPROVE|HOLD pr= sha= role=correctness|security tier= reviewer= author=
+  p0= p1= p2= p2_blocking=`. Cualquier otra forma equivale a HOLD.
+- `APPROVE` exige `p0=p1=p2_blocking=0`. El SHA es el del head firmado. El revisor es distinto del
+  autor y del orquestador.
+- Se recogen **todas** las revisiones registradas de cada PR y SHA: un solo HOLD lo excluye.
+- Tier 1/2 necesita una APPROVE `correctness`. Tier 3 necesita además una APPROVE `security` y el
+  número del PR tecleado al firmar.
+- Basta con revisores independientes del autor; no hace falta que sean de otro modelo.
 
 ## Ejecución
 
 ```text
-SIEMPRE ejecutor determinista (script); el LLM no decide un merge
-SIEMPRE en serie, del PR más antiguo al más nuevo; re-sync con main por merge, nunca rebase
-SIEMPRE checks obligatorios en verde sobre el SHA exacto; merge con --match-head-commit
-SIEMPRE tras cada merge, CI de main en verde antes del siguiente
+SIEMPRE ejecutor determinista; el LLM no decide un merge
+SIEMPRE en serie; re-sync con main por merge (nunca rebase); auto-rebase pausado (etiqueta)
+SIEMPRE checks obligatorios en verde sobre el SHA S; merge con --match-head-commit S
+SIEMPRE tras cada merge, todos los workflows de main en success sobre ese SHA
 NUNCA   force-push · revert automático · reintento de CI · PRs fuera del manifiesto
-NUNCA   bajar un tier: el tier es el máximo de risk-tier, de las revisiones y de las retenciones
+NUNCA   bajar un tier; los paths de gobernanza son tier 4
 ```
 
-Cambios admitidos en el head tras la firma, verificados mecánicamente:
+Equivalencia del head, comparando árboles (blob y modo):
 
-- merge de `main` sin conflicto fuera de `.scm/`;
-- regeneración de `.scm/`.
+- Se admiten sin juez:
+  - un merge de `main`;
+  - la regeneración de los artefactos SAM generados;
+  - `.confidentiality-signature`, solo si la auditoría repetida sobre el nuevo head da PASSED.
+- Cualquier otro cambio va al juez.
 
-Cualquier otro cambio aparca el PR y exige una nueva firma.
+## Juez de cambios posteriores a la firma
+
+- **Prefiltro determinista.** Antes de consultar al juez, provoca STOP cualquier delta que:
+  - toque ficheros fuera de los firmados;
+  - toque paths de tier 3 o de gobernanza;
+  - suba el tier;
+  - añada o borre ficheros;
+  - elimine tests;
+  - cambie binarios o modos;
+  - supere 200 líneas.
+- **Veredicto.** Primera línea: `JUDGE: SAFE|STOP pr= from= to= judge= fix_author= scope= security=
+  reason=`. El juez es distinto del autor del fix, del autor original y del orquestador. Ante la
+  duda, STOP.
+- **Comprobación del ejecutor.** El ejecutor verifica el formato, los SHA, la independencia y la
+  unicidad. Un veredicto `SAFE` solo deja seguir al PR, con CI nueva. `STOP` detiene el sprint para
+  revisión humana.
 
 | Evento | Acción |
 |---|---|
-| CI roja del PR, conflicto real, head movido, revisión cambiada, tier elevado, merge rechazado | Aparcar y seguir |
-| `main` roja tras un merge | Parar |
-| Firma inválida, manifiesto alterado, ejecutor distinto, merge externo de un PR del manifiesto | Parar (anomalía) |
+| CI roja del PR (con tarea de causa raíz), conflicto real, revisión cambiada o HOLD nuevo, tier elevado, merge rechazado | Aparcar (vuelve a Draft) y seguir |
+| CI de `main` no verde tras un merge (rojo, pending, ausente, cancelled, skipped) | Parar |
+| Firma inválida, manifiesto o blobs alterados, merge externo, base cambiada, checks reducidos | Parar (anomalía) |
+| Juez `STOP`, veredicto inválido o fuera de plazo | Parar |
 | Máximo de merges, TTL, fichero STOP, 3 aparcamientos seguidos | Parar |
 
-Parar siempre es seguro y cualquiera puede hacerlo. Un sprint parado por una condición de parada
-no se reanuda: hace falta una firma nueva.
+Parar siempre es seguro. Un sprint parado por una condición de parada no se reanuda sin una firma
+nueva.
 
 ## Tier 3/4
 
-- **Tier 3.** Cuenta como «revisión humana explícita del PR concreto» (SE-362) cuando la entrada
-  firmada lleva el `ack` que la operadora produce tecleando el número del PR tras ver su resumen.
-  Exige además:
-  - dos revisiones independientes: corrección, y seguridad sin el cuerpo del PR;
-  - como máximo 3 PRs de tier 3 por sprint;
-  - CI de `main` en verde tras cada merge de tier 3.
-- **Tier 4.** Fuera de merge-sprint: con una operadora única no hay el doble humano que exige
-  SE-362.
+- **Tier 3.** Por decisión de la operadora, la firma del manifiesto que lista el PR por número es la
+  revisión humana del PR concreto (SE-362), junto con una revisión de seguridad de un agente
+  independiente. Esto modifica la lectura de SE-362 y de Rule 8 E1 para tier 3. Ningún humano lee el
+  diff.
+- **Tier 4.** Nunca entra. Incluye el ejecutor, `risk-tier.py`, `config/merge-sprint/`, la
+  configuración de permisos de Claude Code y OpenCode, las reglas `autonomous-safety*`, `CLAUDE.md`,
+  `AGENTS.md`, los principios éticos, la honestidad radical y `.github/workflows/`.
 
 ## Auditoría
 
-Ledger local append-only y encadenado por hash. Cada merge registra:
+El ledger local es append-only y está encadenado por hash; se valida con `verify-ledger`. Cada merge
+registra el grant y el digest del manifiesto, el tier, el SHA firmado, el mergeado y el tipo de
+equivalencia, la referencia al juez, los hashes de las revisiones, los ids de CI y los checks
+obligatorios, el commit de merge, la CI de `main` y las horas.
 
-- el id del grant y el digest del manifiesto;
-- el PR y su tier;
-- el SHA firmado y el SHA mergeado, con el tipo de equivalencia;
-- el hash de la revisión;
-- los ids de CI y los checks obligatorios;
-- el commit de merge y el CI de `main`;
-- las horas.
-
-Al terminar, informe para la operadora. Nada de esto se versiona en el repo.
+Al final se genera un informe para la operadora. Nada de esto se versiona.
 
 ## Permiso en el frontend
 
 Lo concede la operadora en sus settings, nunca un agente:
 
-- **allow** solo `bash scripts/merge-sprint.sh run|status|stop|plan`;
-- **deny** `gh pr merge`, `merge-sprint.sh grant` y la edición del ejecutor y de
-  `config/merge-sprint/`.
+- **Allow** solo `bash scripts/merge-sprint.sh run|status|stop|plan|review-register|verify-ledger`.
+- **Deny**:
+  - `gh pr merge`;
+  - `merge-sprint.sh grant`;
+  - la edición del ejecutor, de `risk-tier.py` y de `config/merge-sprint/`.
 
-El permiso por sí solo no mergea: sin un manifiesto firmado y vigente, `run` termina con error. No
-es eludir el clasificador. Es la operadora quien concede, acotado y auditable, un único camino que
-se niega a actuar sin su firma.
+Sin un manifiesto firmado y vigente, `run` termina con error. No elude el clasificador: es la
+operadora quien concede un único camino, acotado y auditable.
 
 ## Límite declarado
 
-Un agente con shell arbitraria del mismo usuario puede saltarse cualquier script. Contra eso
-protegen los permisos del frontend, no esta regla. Revisores del mismo modelo comparten sesgos: la
-revisión de agente es una condición necesaria, no una garantía.
+Un agente con shell arbitraria del mismo usuario puede saltarse cualquier script; lo contienen los
+permisos del frontend, no esta regla. El revisor, el revisor de seguridad y el juez son instancias del
+mismo modelo y comparten sesgos. Las identidades de los agentes son autodeclaradas: el registro
+encadenado detecta que alguien compre veredictos antes de `plan`, pero no lo impide.
 
 ## Referencias
 
 - Spec: `docs/specs/SE-433-merge-sprint.spec.md`
-- `autonomous-safety.md` · `autonomous-safety-merge-grant.md` (SE-343) · `maker-checker-protocol.md`
-- `scripts/risk-tier.py` (SE-362) · reservas F5 (SE-387)
+- Reglas: `autonomous-safety.md` · `autonomous-safety-merge-grant.md` (SE-343) ·
+  `maker-checker-protocol.md`
+- Scripts: `scripts/risk-tier.py` (SE-362) · reservas F5 (SE-387)
