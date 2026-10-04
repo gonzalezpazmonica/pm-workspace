@@ -212,7 +212,8 @@ resync() {  # resync <pr> → 0 al día (sincronizado y empujado) · 2 conflicto
     git -C "$wt" add .scm && { git -C "$wt" diff --cached --quiet || git -C "$wt" commit -q -m "chore(scm): SAM regenerado (merge-sprint)"; }
   fi
   if [[ -f "$wt/scripts/confidentiality-scan.sh" ]]; then
-    (cd "$wt" && bash scripts/confidentiality-scan.sh --pr 2>&1 | tail -1 | grep -q PASSED) || return 3
+    # Veredicto por código de salida: 0 = CLEAN o PASSED con avisos; ≠0 = BLOCKED. Nunca por el texto.
+    (cd "$wt" && bash scripts/confidentiality-scan.sh --pr >/dev/null 2>&1) || return 3
     (cd "$wt" && bash scripts/confidentiality-sign.sh sign >/dev/null 2>&1) || return 3
     git -C "$wt" add .confidentiality-signature && { git -C "$wt" diff --cached --quiet || git -C "$wt" commit -q -m "chore: sign confidentiality audit (merge-sprint)"; }
   fi
