@@ -26517,6 +26517,27 @@
       "frontend_support": [
         "opencode"
       ],
+      "id": "script:scripts/pr-wait",
+      "intents": [
+        "crit",
+        "espera",
+        "forma",
+        "honesta",
+        "wait"
+      ],
+      "kind": "script",
+      "owner_domain": "quality",
+      "replaced_by": null,
+      "risk_level": null,
+      "source": "scripts/pr-wait.sh",
+      "status": "active",
+      "tests": []
+    },
+    {
+      "depends_on": [],
+      "frontend_support": [
+        "opencode"
+      ],
       "id": "script:scripts/pre-push-security-gate",
       "intents": [
         "gate",
@@ -28195,24 +28216,6 @@
       "frontend_support": [
         "opencode"
       ],
-      "id": "script:scripts/test-governance",
-      "intents": [
-        "governance",
-        "test"
-      ],
-      "kind": "script",
-      "owner_domain": "quality",
-      "replaced_by": null,
-      "risk_level": null,
-      "source": "scripts/test-governance.sh",
-      "status": "active",
-      "tests": []
-    },
-    {
-      "depends_on": [],
-      "frontend_support": [
-        "opencode"
-      ],
       "id": "script:scripts/test-governance-enterprise",
       "intents": [
         "audit",
@@ -29604,7 +29607,7 @@
       "tests": []
     }
   ],
-  "content_hash": "faf83c83c3f7",
+  "content_hash": "410bbcaa28e1",
   "deferred_kinds": [
     "rule",
     "hook"

@@ -9,6 +9,8 @@ set -uo pipefail
 #            ("la próxima vez X", "a partir de ahora X", ...) sin diff/artefacto
 #   DOD-002  Afirmación material sin referencia verificable        → WARN
 #   DOD-003  Idioma de la respuesta ≠ idioma del perfil activo     → WARN
+#   DOD-004  Estado afirmado sin comprobación en el turno (CRIT-034) → BLOCK
+#   DOD-005  Decisión preguntada en prosa sin AskUserQuestion (CRIT-038) → BLOCK
 #
 # *BLOCK solo en modo block (SAVIA_DOD_GATE_MODE=block). Por defecto warn
 #  (SE-336 S2: primer sprint WARN-only, promoción condicionada a FP medidos).
@@ -113,6 +115,51 @@ if [[ -n "$PROMISE_HIT" ]]; then
       REASON="DoD Gate [DOD-001]: tu respuesta contiene una promesa de mejora sin acción de respaldo en este turno (patrón: '$PROMISE_HIT'). Una promesa sin acción es una afirmación vacía (LP-20260822-b20596e1). Continúa UNA iteración: convierte la promesa en acción concreta (crea el artefacto, edita el fichero, registra la propuesta) o reformula la respuesta sin la promesa. No repitas la promesa."
       jq -n --arg r "$REASON" '{decision: "block", reason: $r}'
     fi
+    exit 0
+  fi
+fi
+
+# ── DOD-004 / DOD-005 (CRIT-034, CRIT-038): estado sin verificar y decisiones en prosa ──
+# Solo se paga el coste de leer el turno si el texto casa con los patrones (grep barato primero).
+# Bloquean por defecto (SAVIA_DOD_STATUS_MODE=block); antiloop por turno, no por sesión.
+STATUS_MODE="${SAVIA_DOD_STATUS_MODE:-block}"
+STATUS_RE='(esta|sigue|queda|va) (en marcha|en curso|corriendo)|ya esta listo|esta listo para|estoy esperando|sigo esperando|te aviso (en cuanto|cuando)|en cuanto termine'
+PROSE_Q_RE='[?][[:space:]]*$'
+PROSE_Q_WORDS='quieres|prefieres|lo lanzo|espero|sigo con|te parece|lo hago|confirmas|procedo|empiezo|lanzas|hago'
+HIT_STATUS=""; HIT_PROSE=""
+printf '%s' "$NORMALIZED" | grep -qE "$STATUS_RE" && HIT_STATUS=1
+printf '%s' "$NORMALIZED" | grep -E "$PROSE_Q_WORDS" | grep -qE "$PROSE_Q_RE" && HIT_PROSE=1
+if [[ -n "$HIT_STATUS$HIT_PROSE" ]]; then
+  # Herramientas usadas en el turno actual (desde el último mensaje de texto del usuario).
+  TURN_TOOLS=$(python3 - "$TRANSCRIPT" <<'PYEOF' 2>/dev/null || true
+import json, sys
+tools = []
+for line in reversed(open(sys.argv[1], encoding="utf-8").read().splitlines()):
+    try: e = json.loads(line)
+    except Exception: continue
+    c = (e.get("message") or {}).get("content")
+    if e.get("type") == "user":
+        if isinstance(c, str) or any(isinstance(b, dict) and b.get("type") == "text" for b in (c or [])):
+            break
+        continue
+    if e.get("type") == "assistant" and isinstance(c, list):
+        tools += [b.get("name", "") for b in c if isinstance(b, dict) and b.get("type") == "tool_use"]
+print(" ".join(tools))
+PYEOF
+)
+  TURN_KEY=$(printf '%s' "$LAST_TEXT" | sha256sum | cut -c1-16)
+  TURN_COUNTER="${TMPDIR:-/tmp}/stop-dod-gate-${SESSION_ID}-${TURN_KEY}.turn"
+  REASON=""
+  if [[ -n "$HIT_PROSE" && " $TURN_TOOLS " != *" AskUserQuestion "* ]]; then
+    log_event "DOD-005" "block" "decision question in prose without AskUserQuestion"
+    REASON="DoD Gate [DOD-005] (CRIT-038): planteas una decisión o confirmación como pregunta en prosa. Toda decisión de la operadora va con AskUserQuestion (opciones, consecuencias y recomendación). Sustituye la pregunta en prosa por una pregunta interactiva."
+  elif [[ -n "$HIT_STATUS" && -z "${TURN_TOOLS// /}" ]]; then
+    log_event "DOD-004" "block" "status claim without verification in turn"
+    REASON="DoD Gate [DOD-004] (CRIT-034): afirmas estado («en marcha», «listo», «esperando», «te aviso…») sin ninguna comprobación en este turno. Verifica la fuente ahora (git y ficheros, estado y SHA del PR, checks del SHA exacto, marca de fin del agente) y reformula con lo comprobado, o elimina la afirmación."
+  fi
+  if [[ -n "$REASON" && "$STATUS_MODE" == "block" && ! -f "$TURN_COUNTER" ]]; then
+    echo 1 > "$TURN_COUNTER" 2>/dev/null || true
+    jq -n --arg r "$REASON" '{decision: "block", reason: $r}'
     exit 0
   fi
 fi

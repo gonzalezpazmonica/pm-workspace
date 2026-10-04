@@ -112,6 +112,7 @@
 - **pr-rebase** (script): pr-rebase.sh — Rebase current PR branch onto origin/main and re-sign.
 - **pr-review** (cmd): >
 - **pr-thermal-receipt** (script): pr-thermal-receipt.sh — Thermal receipt for PRs (CodeFlow-inspired)
+- **pr-wait** (script): pr-wait.sh <PR> — espera la CI de un PR de forma honesta (CRIT-034).
 - **pre-push-security-gate** (script): SE-247 — Pre-push security gate
 - **prompt-security-scan** (script): prompt-security-scan.sh — Static analyzer for prompt injection/leakage
 - **python-sbom** (script): python-sbom.sh — SE-056 Slice 1 Python SBOM + requirements audit.
@@ -196,7 +197,6 @@
 - **test-era18-rules** (script): ── test-era18-rules.sh — Era 18 rule/config validation ──
 - **test-evolving-playbooks** (script): Test Suite: Evolving Playbooks (ACE) — v0.63.0
 - **test-frontend-testing** (script): test-frontend-testing.sh — Tests for Frontend Testing Nueva Era
-- **test-governance** (script): Test: Governance v0.71.0 (Era 13)
 - **test-governance-enterprise** (script): ── Test: governance-enterprise (Era 40 — Governance & Audit Trail) ──
 - **test-hub-audit** (script): ── test-hub-audit.sh ─────────────────────────────────────────────────────
 - **test-install** (script): test-install.sh — Structural validation for pm-workspace installers
