@@ -107,15 +107,36 @@ pr_tier() {  # tier calculado por risk-tier.py sobre los ficheros del PR
   python3 "$ROOT/scripts/risk-tier.py" --diff "$files" --json 2>/dev/null | python3 -c 'import json,sys; print(json.load(sys.stdin).get("tier",4))' 2>/dev/null || echo 4
 }
 
+reviewed_shas() {  # reviewed_shas <pr> → shas con revisión registrada, del más reciente al más antiguo
+  [[ -f "$REG" ]] || return 0
+  python3 -c 'import json,sys
+seen=[]
+for l in reversed(open(sys.argv[1]).read().splitlines()):
+    d=json.loads(l)
+    if d["pr"]==int(sys.argv[2]) and d["sha"] not in seen: seen.append(d["sha"])
+print(" ".join(seen))' "$REG" "$1"
+}
+
 cmd_plan() {
   verify_chain "$REG" || die "registro de revisiones manipulado" 4
+  git -C "$GITROOT" fetch -q origin 2>/dev/null
   local max_prs allowed; max_prs=$(policy max_prs) || exit 2; allowed=$(policy allowed_tiers) || exit 2
   local out="[]" n head tier
   for n in $($GH pr list -R "$REPO" --state open --limit 200 --json number --jq '[.[].number]|sort|.[]'); do
     head=$($GH pr view "$n" -R "$REPO" --json headRefOid --jq .headRefOid)
     tier=$(pr_tier "$n")
     [[ ",$allowed," == *",$tier,"* ]] || continue
-    reviews_ok "$n" "$head" "$tier" || continue
+    # El workflow remoto integra main en las ramas tras cada merge: si el head actual no tiene revisión
+    # propia, vale la revisión más reciente cuyo sha sea equivalente al head (§2.6). El manifiesto lleva
+    # el sha revisado; run vuelve a exigir la equivalencia con el head de ese momento.
+    if ! reviews_ok "$n" "$head" "$tier"; then
+      local cand found=""
+      for cand in $(reviewed_shas "$n"); do
+        reviews_ok "$n" "$cand" "$tier" && head_equivalent "$cand" "$head" && { found="$cand"; break; }
+      done
+      [[ -n "$found" ]] || continue
+      head="$found"
+    fi
     out=$(python3 -c 'import json,sys; a=json.loads(sys.argv[1]); a.append({"pr":int(sys.argv[2]),"head":sys.argv[3],"tier":int(sys.argv[4])}); print(json.dumps(a))' "$out" "$n" "$head" "$tier")
   done
   python3 -c 'import json,sys; a=json.loads(sys.argv[1])[:int(sys.argv[2])]; print(json.dumps({"repo":sys.argv[3],"prs":a},sort_keys=True,separators=(",",":")))' "$out" "$max_prs" "$REPO" > "$MANIFEST"
@@ -149,6 +170,10 @@ required_ok() {  # checks obligatorios del PR: pass | fail | pending
   echo pass
 }
 
+# Derivados regenerables: conflictos admisibles y diferencias ignoradas al comparar heads.
+DERIVED_RE='^(\.scm/|\.confidentiality-signature$|docs/rules/INDEX\.md$|docs/rules/domain/rule-manifest\.json$)'
+is_derived() { grep -qE "$DERIVED_RE" <<<"$1"; }
+
 head_equivalent() {  # head_equivalent <sha_revisado> <sha_actual> → 0 si el actual == merge(revisado, main) salvo derivados
   [[ "$1" == "$2" ]] && return 0
   git -C "$GITROOT" cat-file -e "$1^{commit}" 2>/dev/null && git -C "$GITROOT" cat-file -e "$2^{commit}" 2>/dev/null || return 1
@@ -159,7 +184,7 @@ head_equivalent() {  # head_equivalent <sha_revisado> <sha_actual> → 0 si el a
   [[ -n "$tree" ]] || return 1
   changed=$(git -C "$GITROOT" diff --name-only "$tree" "$2" 2>/dev/null) || return 1
   while IFS= read -r f; do
-    [[ -z "$f" || "$f" == .scm/* || "$f" == .confidentiality-signature ]] && continue
+    { [[ -z "$f" ]] || is_derived "$f"; } && continue
     return 1
   done <<<"$changed"
 }
@@ -175,8 +200,12 @@ resync() {  # resync <pr> → 0 al día (sincronizado y empujado) · 2 conflicto
   if ! git -C "$wt" merge -q --no-edit origin/main >/dev/null 2>&1; then
     c=$(git -C "$wt" diff --name-only --diff-filter=U)
     [[ -n "$c" ]] || { git -C "$wt" merge --abort 2>/dev/null; return 5; }   # fallo sin conflicto (identidad, hooks…)
-    if grep -qvE '^(\.scm/|\.confidentiality-signature$)' <<<"$c"; then git -C "$wt" merge --abort; return 2; fi
+    if grep -qvE "$DERIVED_RE" <<<"$c"; then git -C "$wt" merge --abort; return 2; fi
     git -C "$wt" restore -q --theirs -- $c && git -C "$wt" add -- $c && git -C "$wt" commit -q --no-edit || return 5
+  fi
+  if [[ -f "$wt/scripts/rules-index-generate.sh" ]]; then
+    (cd "$wt" && { [[ ! -f scripts/rule-manifest-generate.sh ]] || bash scripts/rule-manifest-generate.sh >/dev/null 2>&1; } && bash scripts/rules-index-generate.sh >/dev/null 2>&1) || return 5
+    git -C "$wt" add docs/rules && { git -C "$wt" diff --cached --quiet || git -C "$wt" commit -q -m "chore(rules): índice y manifiesto regenerados (merge-sprint)"; }
   fi
   if [[ -f "$wt/scripts/sam.py" ]]; then
     (cd "$wt" && { [[ -f scripts/generate-capability-map.py ]] && python3 scripts/generate-capability-map.py >/dev/null 2>&1; python3 scripts/sam.py generate >/dev/null 2>&1; }) || return 5
@@ -218,21 +247,32 @@ cmd_run() {
     local t; t=$(pr_tier "$pr")
     (( t <= tier )) && [[ ",$allowed," == *",$t,"* ]] || { park "$pr" "tier_$t"; continue; }
     reviews_ok "$pr" "$head" "$tier" || { park "$pr" revision; continue; }
-    if [[ "$RESYNC" == 1 ]]; then
-      local rs; resync "$pr"; rs=$?
-      case $rs in 0) ;; 2) park "$pr" conflicto_real; continue ;; 3) park "$pr" confidencialidad; continue ;; *) park "$pr" resync_fallo; continue ;; esac
-      sleep "${MERGE_SPRINT_CI_SETTLE_S:-60}"
-    fi
-    local cur; cur=$($GH pr view "$pr" -R "$REPO" --json headRefOid --jq .headRefOid)
-    git -C "$GITROOT" fetch -q origin 2>/dev/null
-    head_equivalent "$head" "$cur" || { park "$pr" head_cambiado_requiere_juez; continue; }
-    case "$(wait_ci "$pr")" in
-      pass) ;;
-      fail) park "$pr" ci_roja; continue ;;
-      *) park "$pr" ci_pendiente; continue ;;
-    esac
-    $GH pr ready "$pr" -R "$REPO" >/dev/null 2>&1
-    if ! $GH pr merge "$pr" -R "$REPO" --squash --match-head-commit "$cur" >/dev/null 2>&1; then park "$pr" merge_rechazado; continue; fi
+    # Si main avanza durante la espera de CI (otro merge), GitHub rechaza el merge por desfase:
+    # se re-sincroniza y se vuelve a esperar, hasta MERGE_SPRINT_TRIES intentos.
+    local try reason="" cur="" ok=0 ms rs
+    for try in $(seq 1 "${MERGE_SPRINT_TRIES:-3}"); do
+      if [[ "$RESYNC" == 1 ]]; then
+        resync "$pr"; rs=$?
+        case $rs in 0) ;; 2) reason=conflicto_real; break ;; 3) reason=confidencialidad; break ;; *) reason=resync_fallo; break ;; esac
+        sleep "${MERGE_SPRINT_CI_SETTLE_S:-60}"
+      fi
+      cur=$($GH pr view "$pr" -R "$REPO" --json headRefOid --jq .headRefOid)
+      git -C "$GITROOT" fetch -q origin 2>/dev/null
+      head_equivalent "$head" "$cur" || { reason=head_cambiado_requiere_juez; break; }
+      case "$(wait_ci "$pr")" in
+        pass) ;;
+        fail) reason=ci_roja; break ;;
+        *) reason=ci_pendiente; break ;;
+      esac
+      $GH pr ready "$pr" -R "$REPO" >/dev/null 2>&1
+      if $GH pr merge "$pr" -R "$REPO" --squash --match-head-commit "$cur" >/dev/null 2>&1; then ok=1; break; fi
+      ms=$($GH pr view "$pr" -R "$REPO" --json mergeStateStatus --jq .mergeStateStatus 2>/dev/null)
+      if [[ "$RESYNC" == 1 && ( "$ms" == DIRTY || "$ms" == BEHIND ) ]]; then
+        ledger event=RETRY pr="$pr" try="$try" reason=main_movido; reason=main_movido_sin_converger; continue
+      fi
+      reason=merge_rechazado; break
+    done
+    (( ok )) || { park "$pr" "$reason"; continue; }
     merged=$((merged+1))
     python3 -c 'import json,sys; d=json.load(open(sys.argv[1])); d["merged"]=int(sys.argv[2]); json.dump(d,open(sys.argv[1],"w"))' "$GRANT" "$merged"
     local mc; mc=$($GH pr view "$pr" -R "$REPO" --json mergeCommit --jq .mergeCommit.oid)
