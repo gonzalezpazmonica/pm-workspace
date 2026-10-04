@@ -122,6 +122,9 @@ fi
 # ── DOD-004 / DOD-005 (CRIT-034, CRIT-038): estado sin verificar y decisiones en prosa ──
 # Solo se paga el coste de leer el turno si el texto casa con los patrones (grep barato primero).
 # Bloquean por defecto (SAVIA_DOD_STATUS_MODE=block); antiloop por turno, no por sesión.
+# Excepción explícita a SE-336 S2/RN-02 (warn-first): CRIT-034 y CRIT-038 son linea_roja
+# human_authored (operadora, 2026-10-04) tras repetirse el fallo en producción; warn ya se
+# demostró insuficiente. Reversible con SAVIA_DOD_STATUS_MODE=warn.
 STATUS_MODE="${SAVIA_DOD_STATUS_MODE:-block}"
 STATUS_RE='(esta|sigue|queda|va) (en marcha|en curso|corriendo)|ya esta listo|esta listo para|estoy esperando|sigo esperando|te aviso (en cuanto|cuando)|en cuanto termine'
 PROSE_Q_RE='[?][[:space:]]*$'

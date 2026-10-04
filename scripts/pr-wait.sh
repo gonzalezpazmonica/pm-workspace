@@ -19,8 +19,9 @@ for _ in $(seq 1 "$POLLS"); do
   out=$($GH pr checks "$N" -R "$REPO" 2>/dev/null)
   b=$(awk -F'\t' 'NF>1{print $2}' <<<"$out" | sort -u | paste -sd, -)
   if [[ -n "$b" && "$b" != *pending* ]]; then
-    if [[ "$b" == *fail* ]]; then
-      echo "#$N ${sha:0:9}: CI en rojo"; awk -F'\t' '$2=="fail"{print "  fail: " $1}' <<<"$out"; exit 1
+    # Solo «pass» y «skipping» cuentan como verde; cancel, fail o cualquier estado desconocido es rojo.
+    if grep -qvxE 'pass|skipping' <<<"$(tr ',' '\n' <<<"$b")"; then
+      echo "#$N ${sha:0:9}: CI en rojo"; awk -F'\t' '$2!="pass" && $2!="skipping"{print "  " $2 ": " $1}' <<<"$out"; exit 1
     fi
     echo "#$N ${sha:0:9}: CI pass"; exit 0
   fi

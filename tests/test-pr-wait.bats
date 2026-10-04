@@ -76,3 +76,12 @@ teardown() { rm -rf "$T"; }
   run bash "$SCRIPT" 1290
   [ "$status" -eq 3 ]
 }
+
+@test "fail: un check cancelado o en estado desconocido no cuenta como verde" {
+  printf 'CI\tpass\nE2E\tcancel\n' > "$F/checks"
+  run bash "$SCRIPT" 1290
+  [ "$status" -eq 1 ]
+  printf 'CI\tpass\nX\traro\n' > "$F/checks"
+  run bash "$SCRIPT" 1290
+  [ "$status" -eq 1 ]
+}
