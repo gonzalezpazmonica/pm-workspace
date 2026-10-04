@@ -81,17 +81,71 @@ srv.serve_forever()
 PY
   python3 "$SRV_DIR/srv.py" "$SRV_DIR/port" 2>/dev/null &
   echo $! > "$SRV_DIR/pid"
+  # Par para DNS rebinding: PUBLIC en 127.0.0.2:P (el sitecustomize de los tests lo
+  # trata como IP global) e INTERNAL en 127.0.0.1:P, que cuenta cada peticion.
+  cat > "$SRV_DIR/pair.py" <<'PY'
+import http.server
+import sys
+import threading
+
+out_dir = sys.argv[1]
+
+
+def handler(label):
+    class H(http.server.BaseHTTPRequestHandler):
+        def log_message(self, *a):
+            pass
+
+        def do_GET(self):
+            with open("%s/%s.hits" % (out_dir, label), "a") as fh:
+                fh.write(self.path + "\n")
+            if self.path.startswith("/redir?to="):
+                self.send_response(302)
+                self.send_header("Location", self.path.split("=", 1)[1])
+                self.send_header("Content-Length", "0")
+                self.end_headers()
+                return
+            body = ("<html><title>%s</title><p>body-%s</p></html>" % (label, label)).encode()
+            self.send_response(200)
+            self.send_header("Content-Type", "text/html; charset=utf-8")
+            self.send_header("Content-Length", str(len(body)))
+            self.end_headers()
+            self.wfile.write(body)
+    return H
+
+
+for _ in range(50):
+    pub = http.server.ThreadingHTTPServer(("127.0.0.2", 0), handler("PUBLIC"))
+    port = pub.server_address[1]
+    try:
+        internal = http.server.ThreadingHTTPServer(("127.0.0.1", port), handler("INTERNAL"))
+        break
+    except OSError as e:
+        print("puerto %d ocupado en 127.0.0.1 (%s), se reintenta" % (port, e), file=sys.stderr)
+        pub.server_close()
+else:
+    sys.exit("sin puerto libre comun en 127.0.0.1/127.0.0.2")
+threading.Thread(target=pub.serve_forever, daemon=True).start()
+with open("%s/rport" % out_dir, "w") as fh:
+    fh.write(str(port))
+internal.serve_forever()
+PY
+  python3 "$SRV_DIR/pair.py" "$SRV_DIR" 2>/dev/null &
+  echo $! > "$SRV_DIR/pairpid"
   local i
   for i in $(seq 1 50); do
-    [[ -s "$SRV_DIR/port" ]] && break
+    [[ -s "$SRV_DIR/port" && -s "$SRV_DIR/rport" ]] && break
     sleep 0.1
   done
 }
 
 teardown_file() {
-  if [[ -s "$SRV_DIR/pid" ]]; then
-    kill "$(cat "$SRV_DIR/pid")" 2>/dev/null || true
-  fi
+  local f
+  for f in pid pairpid; do
+    if [[ -s "$SRV_DIR/$f" ]]; then
+      kill "$(cat "$SRV_DIR/$f")" 2>/dev/null || true
+    fi
+  done
   rm -rf "$SRV_DIR"
 }
 
@@ -102,12 +156,106 @@ setup() {
 }
 
 teardown() {
+  # servidor IPv6 de un solo uso: si el test falla antes de usarlo, no debe quedar vivo
+  if [[ -s "$TMPDIR_T/v6pid" ]]; then
+    kill "$(cat "$TMPDIR_T/v6pid")" 2>/dev/null || true
+  fi
   rm -rf "$TMPDIR_T"
 }
 
 # Lee un campo del JSON (ultima linea: run mezcla stderr, donde van ERROR/WARN).
 jget() {
   python3 -c 'import json,sys; d=json.loads(sys.stdin.read().strip().splitlines()[-1]); v=d.get(sys.argv[1]); print("" if v is None else v)' "$1"
+}
+
+# Peticiones que ha recibido el servidor INTERNAL del par de rebinding.
+internal_hits() {
+  if [[ -f "$SRV_DIR/INTERNAL.hits" ]]; then wc -l < "$SRV_DIR/INTERNAL.hits"; else echo 0; fi
+}
+
+# sitecustomize: para Python, `localhost` resuelve a 127.0.0.2 y esa IP es global.
+# curl sigue resolviendo `localhost` con el sistema (127.0.0.1, el servidor INTERNAL).
+# REBIND_MODE=alternate: TTL 0 hostil, publica en las llamadas impares e interna en las pares.
+rebind_site() {
+  mkdir -p "$TMPDIR_T/py"
+  cat > "$TMPDIR_T/py/sitecustomize.py" <<'PY'
+import ipaddress
+import os
+import socket
+
+_MODE = os.environ.get("REBIND_MODE")
+if _MODE:
+    _PUB, _INT = "127.0.0.2", "127.0.0.1"
+    _CNT = os.environ["REBIND_COUNTER"]
+    _orig_ga = socket.getaddrinfo
+
+    def _ga(host, port, *a, **k):
+        h = host.decode() if isinstance(host, bytes) else host
+        if h and h.lower() == "localhost":
+            ip = _PUB
+            if _MODE == "alternate":
+                n = 1
+                if os.path.exists(_CNT):
+                    with open(_CNT) as fh:
+                        n = int(fh.read() or 0) + 1
+                with open(_CNT, "w") as fh:
+                    fh.write(str(n))
+                ip = _PUB if n % 2 else _INT
+            return _orig_ga(ip, port, *a, **k)
+        return _orig_ga(host, port, *a, **k)
+
+    socket.getaddrinfo = _ga
+    _orig_global = ipaddress.IPv4Address.is_global
+    ipaddress.IPv4Address.is_global = property(lambda s: str(s) == _PUB or _orig_global.fget(s))
+PY
+  export PYTHONPATH="$TMPDIR_T/py" REBIND_MODE="$1" REBIND_COUNTER="$TMPDIR_T/rebind.count"
+  RBASE="http://localhost:$(cat "$SRV_DIR/rport")"
+  : > "$SRV_DIR/INTERNAL.hits"
+}
+
+# Scrapling simulado: Selector parsea HTML; Fetcher descarga por su cuenta (urllib,
+# resolviendo el nombre otra vez) como la libreria real y anota cada llamada.
+scrapling_stub() {
+  mkdir -p "$TMPDIR_T/py/scrapling"
+  cat > "$TMPDIR_T/py/scrapling/__init__.py" <<'PY'
+import os
+import re
+import urllib.request
+
+
+class _Node:
+    def __init__(self, text):
+        self.text = text
+
+
+class Selector:
+    def __init__(self, content=None, url=None, **kw):
+        self._doc = content or ""
+        self.url = url
+        self.status = 0
+
+    def css_first(self, sel):
+        found = self.css(sel)
+        return found[0] if found else None
+
+    def css(self, sel):
+        return [_Node(t) for t in re.findall(r"<%s[^>]*>(.*?)</%s>" % (sel, sel), self._doc, re.S | re.I)]
+
+    def get_all_text(self, strip=True):
+        return "stub:" + " ".join(re.sub(r"<[^>]+>", " ", self._doc).split())
+
+
+class Fetcher:
+    @staticmethod
+    def get(url, timeout=20, **kw):
+        with open(os.environ["STUB_FETCH_LOG"], "a") as fh:
+            fh.write(url + "\n")
+        with urllib.request.urlopen(url, timeout=timeout) as r:
+            page = Selector(r.read().decode("utf-8", "replace"), url=r.geturl())
+            page.status = r.status
+        return page
+PY
+  export PYTHONPATH="$TMPDIR_T/py" STUB_FETCH_LOG="$TMPDIR_T/fetcher.log"
 }
 
 # --- Positivos ---
@@ -297,44 +445,109 @@ jget() {
   [[ "$output" == *'"backend": "curl"'* ]]
 }
 
-@test "honesty: scrapling stub returning 503 fails with backend scrapling" {
-  mkdir -p "$TMPDIR_T/py/scrapling"
-  cat > "$TMPDIR_T/py/scrapling/__init__.py" <<'PY'
-import os
-
-
-class _Node:
-    def __init__(self, text):
-        self.text = text
-
-
-class _Page:
-    def __init__(self, url):
-        self.status = int(os.environ.get("STUB_STATUS", "200"))
-        self.url = os.environ.get("STUB_URL") or url
-
-    def css_first(self, sel):
-        return _Node("Titulo stub")
-
-    def css(self, sel):
-        return [_Node("nodo")]
-
-    def get_all_text(self, strip=True):
-        return "contenido stub"
-
-
-class Fetcher:
-    @staticmethod
-    def get(url, timeout=20, **kw):
-        return _Page(url)
-PY
-  STUB_STATUS=503 PYTHONPATH="$TMPDIR_T/py" run bash "$SCRIPT" "$BASE/ok" --json --allow-private
+@test "honesty: scrapling installed parses the curl download; 503 still fails with backend scrapling" {
+  scrapling_stub
+  run bash "$SCRIPT" "$BASE/ok" --json --allow-private --selector p
+  [ "$status" -eq 0 ]
+  [[ "$output" == *'"backend": "scrapling"'* ]]
+  [[ "$output" == *'"fetcher": "curl"'* ]]
+  # --selector p lo aplica el parser de Scrapling (el extractor propio daria todo el texto)
+  [[ "$(echo "$output" | jget text)" == "Texto "* ]]
+  run bash "$SCRIPT" "$BASE/503" --json --allow-private
   [ "$status" -eq 1 ]
   [[ "$output" == *'"backend": "scrapling"'* ]]
   [[ "$output" == *'"status": 503'* ]]
-  STUB_URL="http://169.254.169.254/latest/" PYTHONPATH="$TMPDIR_T/py" run bash "$SCRIPT" "$BASE/ok" --json --allow-private
+  run bash "$SCRIPT" "$BASE/redir?to=http://169.254.169.254/latest/" --json --allow-private
   [ "$status" -eq 3 ]
-  [[ "$output" != *"contenido stub"* ]]
+  [[ "$output" != *"stub:"* ]]
+  # la libreria nunca descarga: no puede seguir redirecciones ni resolver por su cuenta
+  [ ! -e "$STUB_FETCH_LOG" ]
+}
+
+@test "block: DNS rebinding (TTL 0) with scrapling installed never returns internal content" {
+  rebind_site alternate
+  scrapling_stub
+  run bash "$SCRIPT" "$RBASE/" --json
+  [ "$status" -eq 0 ]
+  [[ "$output" == *"PUBLIC"* ]]
+  [[ "$output" != *"INTERNAL"* ]]
+  [ "$(internal_hits)" -eq 0 ]
+  # una sola resolucion: la que se valida es la que se usa
+  [ "$(cat "$REBIND_COUNTER")" -eq 1 ]
+}
+
+@test "block: redirect to internal with scrapling installed sends no request to the internal server" {
+  rebind_site fixed
+  scrapling_stub
+  run bash "$SCRIPT" "$RBASE/redir?to=http://127.0.0.1:$(cat "$SRV_DIR/rport")/secreto" --json
+  [ "$status" -eq 3 ]
+  [ "$(internal_hits)" -eq 0 ]
+  [ "$(echo "$output" | jget url_final)" = "http://127.0.0.1:$(cat "$SRV_DIR/rport")/secreto" ]
+}
+
+@test "block: curl pins the validated IP (--resolve), so the system resolver cannot redirect it to an internal host" {
+  rebind_site fixed
+  run bash "$SCRIPT" "$RBASE/" --json
+  [ "$status" -eq 0 ]
+  [ "$(echo "$output" | jget title)" = "PUBLIC" ]
+  [ "$(internal_hits)" -eq 0 ]
+}
+
+@test "block: --allow-private never reaches cloud metadata (AWS IPv6, Alibaba, Azure wireserver, Oracle)" {
+  local u
+  for u in "http://[fd00:ec2::254]/latest/" "http://100.100.100.200/latest/meta-data/" \
+           "http://168.63.129.16/machine" "http://192.0.0.192/latest/"; do
+    run bash "$SCRIPT" "$u" --json --allow-private --timeout 2
+    [ "$status" -eq 3 ]
+    [[ "$output" == *"metadatos"* ]]
+  done
+}
+
+@test "positive: IPv6 literal [::1] with --allow-private is fetched; without it, blocked as internal" {
+  python3 - "$TMPDIR_T/v6port" <<'PY' >/dev/null 2>&1 3>&- &
+import http.server
+import socket
+import sys
+
+
+class S(http.server.HTTPServer):
+    address_family = socket.AF_INET6
+
+
+class H(http.server.BaseHTTPRequestHandler):
+    def log_message(self, *a):
+        pass
+
+    def do_GET(self):
+        body = b"<html><title>v6</title><p>seis</p></html>"
+        self.send_response(200)
+        self.send_header("Content-Type", "text/html")
+        self.send_header("Content-Length", str(len(body)))
+        self.end_headers()
+        self.wfile.write(body)
+
+
+srv = S(("::1", 0), H)
+with open(sys.argv[1], "w") as fh:
+    fh.write(str(srv.server_address[1]))
+srv.handle_request()
+PY
+  echo $! > "$TMPDIR_T/v6pid"
+  local i
+  for i in $(seq 1 50); do [[ -s "$TMPDIR_T/v6port" ]] && break; sleep 0.1; done
+  [[ -s "$TMPDIR_T/v6port" ]] || skip "sin IPv6 en loopback"
+  run bash "$SCRIPT" "http://[::1]:$(cat "$TMPDIR_T/v6port")/" --json
+  [ "$status" -eq 3 ]
+  [[ "$output" == *"red interna"* ]]
+  run bash "$SCRIPT" "http://[::1]:$(cat "$TMPDIR_T/v6port")/" --json --allow-private
+  [ "$status" -eq 0 ]
+  [ "$(echo "$output" | jget title)" = "v6" ]
+}
+
+@test "honesty: --stealth warns that it has no effect because curl always downloads" {
+  run bash "$SCRIPT" "$BASE/ok" --json --allow-private --stealth
+  [ "$status" -eq 0 ]
+  [[ "$output" == *"WARN"*"stealth"* ]]
 }
 
 @test "honesty: no curl and no scrapling reports missing backend with exit 1" {
@@ -369,7 +582,9 @@ PY
   [ "$bad" -eq 0 ]
 }
 
-@test "safety: target script declares set -uo pipefail" {
-  run grep -cE '^set -uo pipefail' "$SCRIPT"
-  [ "$output" -ge 1 ]
+@test "safety: target script runs set -uo pipefail before parsing arguments" {
+  run bash -x "$SCRIPT" --help
+  [ "$status" -eq 0 ]
+  local trace; trace=$(printf '%s\n' "$output" | grep -nE '^\+ (set -uo pipefail|URL=)' | head -2)
+  [[ "$trace" == *"+ set -uo pipefail"*"+ URL="* ]]
 }

@@ -22,7 +22,7 @@ Savia interactuar con paginas web como un humano.
 Savia agent → skill lightpanda-browser
   → ¿Lightpanda instalado?
     SI → lightpanda fetch --dump markdown $URL
-    NO → fallback: scripts/scrapling-fetch.sh --json (scrapling o curl)
+    NO → fallback: scripts/scrapling-fetch.sh --json (curl; parser scrapling si esta)
   → output markdown → digest pipeline → KG extraction
 ```
 

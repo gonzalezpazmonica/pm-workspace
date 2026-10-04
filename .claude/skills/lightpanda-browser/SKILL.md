@@ -104,13 +104,14 @@ else
 fi
 ```
 
-Fallback `scripts/scrapling-fetch.sh` (Scrapling si esta instalado, si no
-curl; el campo `backend` dice cual se uso):
+Fallback `scripts/scrapling-fetch.sh`: descarga siempre con curl y parsea con
+Scrapling si esta instalado (si no, con su extractor propio); `backend` dice
+que parser se uso y `fetcher` es siempre `curl`:
 
 | Exit | Significado |
 |---|---|
 | 0 | Respuesta 2xx |
-| 1 | Error de red, timeout, 4xx/5xx, > `--max-bytes`, > 5 redirecciones, sin backend |
+| 1 | Error de red, timeout, 4xx/5xx, > `--max-bytes`, > 5 redirecciones, sin curl |
 | 2 | Uso incorrecto (flag sin valor, `--timeout 0`, URL no http/https) |
 | 3 | Destino bloqueado por la politica anti-SSRF |
 
@@ -118,13 +119,17 @@ El JSON se emite tambien en error, con `error` relleno y `text_truncated`.
 
 ## Seguridad de destinos (SSRF)
 
-- `scrapling-fetch.sh` solo admite http/https, valida cada salto de
-  redireccion y fija la IP resuelta. Link-local (169.254.169.254, metadatos
-  cloud) y reservadas: bloqueadas siempre. Loopback y redes privadas:
-  bloqueadas salvo `--allow-private`.
-- Con backend Scrapling la libreria sigue las redirecciones: se valida la
-  URL inicial y la final (el contenido interno se descarta), pero la
-  peticion intermedia ya se habra hecho.
+- `scrapling-fetch.sh` solo admite http/https. Cada salto (URL inicial y
+  cada redireccion) se resuelve una vez, se valida y curl conecta a esa IP
+  (`--resolve`): un DNS rebinding no puede colar una IP interna entre la
+  validacion y la conexion. Las redirecciones las sigue el script.
+- Metadatos cloud (169.254.0.0/16, fe80::/10, `fd00:ec2::254`,
+  `100.100.100.200`, `168.63.129.16`, `192.0.0.192`), multicast y
+  reservadas: bloqueadas siempre, tambien con `--allow-private`. Loopback
+  (127/8, `::1`) y redes privadas: bloqueadas salvo `--allow-private`.
+- Scrapling, si esta instalado, solo parsea el HTML ya descargado: su
+  `Fetcher` resolveria y seguiria redirecciones por su cuenta. Coste: sin
+  el bypass anti-bot de Scrapling; `--stealth` no tiene efecto y lo avisa.
 - Lightpanda NO bloquea redes internas por defecto: pasar siempre
   `--block-private-networks`.
 - Limites: `--timeout` total (>= 1 s) y `--max-bytes` (5 MiB por defecto);

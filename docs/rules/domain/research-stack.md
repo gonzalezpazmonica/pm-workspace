@@ -17,8 +17,8 @@ Para URLs que requieren extracción de contenido (no solo snippet/title de searc
 2. WebFetch tool (Claude Code / OpenCode)
      ↓ (403/429/503/empty)
 3. scripts/scrapling-fetch.sh --json
-     ↓ (scrapling no instalado)
-4. curl con user-agent SaviaResearch/1.0 (fallback automático en el wrapper)
+     (descarga siempre curl con IP validada; parser Scrapling si está
+      instalado, si no el extractor propio del wrapper)
 ```
 
 Cada nivel tiene exit codes claros, JSON output, y telemetría local. La skill consumidora decide continuar o abortar según verdict.
@@ -29,8 +29,10 @@ Cada nivel tiene exit codes claros, JSON output, y telemetría local. La skill c
 |---|---|---|---|
 | Cache | URL ya fetcheada en TTL | 0 | N/A |
 | WebFetch | URL pública sin gates | token/call | Básico |
-| `scrapling-fetch.sh` + Scrapling | Cloudflare/DataDome/Akamai gated | CPU local | Alto |
-| `scrapling-fetch.sh` + curl | Sites abiertos, fallback | Red | Ninguno |
+| `scrapling-fetch.sh` (curl + parser Scrapling) | Sites abiertos, `--selector` CSS | Red + CPU local | Ninguno |
+| `scrapling-fetch.sh` (curl + extractor propio) | Sites abiertos, fallback | Red | Ninguno |
+
+El bypass anti-bot de Scrapling (`Fetcher`, `--stealth`) no se usa: resuelve y redirige por su cuenta, y eso permitía un DNS rebinding hacia la red interna (SE-376). Para sitios con Cloudflare/DataDome, Lightpanda/Obscura o el MCP de Scrapling (opt-in, abajo) bajo decisión explícita.
 
 ## Reglas de uso
 
@@ -38,7 +40,7 @@ Cada nivel tiene exit codes claros, JSON output, y telemetría local. La skill c
 2. **Rate limiting**: Max 1 request/segundo al mismo dominio salvo que el site publique `Crawl-Delay: 0`. El wrapper no lo impone — responsabilidad del caller.
 3. **ToS awareness**: scraping ≠ API legítima. Cada dominio tiene política propia. Para research legítima/pública está aceptado; para extracción comercial masiva no.
 4. **GDPR**: No extraer datos personales identificables (nombres, emails, teléfonos) sin base legal. Si el site protege con login, no bypassearlo.
-5. **Destinos internos (SSRF)**: `scrapling-fetch.sh` sale con exit 3 ante loopback/redes privadas (salvo `--allow-private`) y SIEMPRE ante link-local/metadatos cloud (169.254.169.254), también tras una redirección. 4xx/5xx salen con exit 1, nunca como éxito. Límites: `--timeout` total ≥ 1 s y `--max-bytes` (5 MiB por defecto).
+5. **Destinos internos (SSRF)**: `scrapling-fetch.sh` sale con exit 3 ante loopback/redes privadas (salvo `--allow-private`) y SIEMPRE ante metadatos cloud (169.254.0.0/16, fe80::/10, `fd00:ec2::254`, `100.100.100.200`, `168.63.129.16`, `192.0.0.192`), también tras una redirección y ante un DNS rebinding: cada salto se resuelve una vez y curl conecta a la IP validada. 4xx/5xx salen con exit 1, nunca como éxito. Límites: `--timeout` total ≥ 1 s y `--max-bytes` (5 MiB por defecto).
 6. **Attribution**: Los informes generados por research agents DEBEN citar la URL origen en `Fuentes`.
 
 ## No hacer

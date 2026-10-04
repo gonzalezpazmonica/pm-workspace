@@ -1,8 +1,9 @@
 #!/usr/bin/env bash
 # scrapling-fetch.sh — SE-061 Slice 2 adaptive fetch wrapper.
 #
-# Wrapper estable sobre Scrapling (parser-only, sin Chromium required).
-# Con fallback automatico a curl cuando Scrapling no esta instalado.
+# Descarga SIEMPRE con curl (validacion anti-SSRF + IP fijada) y, si Scrapling
+# esta instalado, lo usa solo como parser del HTML descargado (--selector).
+# Sin Scrapling, extractor HTML propio.
 #
 # Usage:
 #   scrapling-fetch.sh URL [SELECTOR]
@@ -17,14 +18,15 @@
 #   TITLE: ...
 #   STATUS: 200
 #   URL_FINAL: https://...
-#   BACKEND: scrapling|curl
+#   BACKEND: scrapling|curl   (parser; la descarga es siempre curl)
 #   [ERROR: ...]            (solo si falla)
 #   ---
 #   <extracted text>
 #
 # Output (--json), tambien en errores de red, HTTP o politica:
 #   {"status":200,"title":"...","url_final":"...","text":"...",
-#    "text_truncated":false,"error":null,"backend":"scrapling|curl"}
+#    "text_truncated":false,"error":null,"backend":"scrapling|curl",
+#    "fetcher":"curl"}
 #
 # Exit codes:
 #   0 — OK (respuesta 2xx)
@@ -35,15 +37,18 @@
 #
 # Politica de destinos (SE-376, calibracion lightpanda-browser):
 #   - Solo http/https, tambien en cada salto de redireccion.
-#   - Link-local (169.254.0.0/16, fe80::/10: metadatos cloud), multicast,
-#     reservadas y 0.0.0.0: bloqueadas SIEMPRE.
-#   - Loopback, redes privadas y demas no globales: bloqueadas salvo
-#     --allow-private.
-#   - Con curl se valida cada salto y se fija la IP resuelta (--resolve)
-#     para que no cambie entre la validacion y la conexion.
-#   - Con scrapling las redirecciones las sigue la libreria: se validan la
-#     URL inicial y la final, y si la final es interna se descarta el
-#     contenido (exit 3). La peticion intermedia ya se habra hecho.
+#   - Metadatos cloud: link-local (169.254.0.0/16, fe80::/10), fd00:ec2::254
+#     (AWS IPv6), 100.100.100.200 (Alibaba), 168.63.129.16 (Azure wireserver)
+#     y 192.0.0.192 (Oracle); ademas multicast, reservadas y 0.0.0.0:
+#     bloqueadas SIEMPRE, tambien con --allow-private.
+#   - Loopback (127/8, ::1), redes privadas y demas no globales: bloqueadas
+#     salvo --allow-private.
+#   - Cada salto (URL inicial y cada redireccion) se resuelve UNA vez, se
+#     valida y curl conecta a esa IP (--resolve): un DNS rebinding no puede
+#     cambiarla entre la validacion y la conexion. Las redirecciones las
+#     sigue el script, nunca curl ni Scrapling.
+#   - Scrapling no descarga nada (su Fetcher resolveria y redirigiria por su
+#     cuenta): --stealth no tiene efecto y lo avisa por stderr.
 #
 # Ref: SE-061, docs/propuestas/SE-061-scrapling-research-backend.md
 # Safety: set -uo pipefail. Egress limitado a URL del usuario.
@@ -66,17 +71,20 @@ Usage:
   $0 URL [--selector CSS] [--json] [--stealth] [--timeout SEC]
          [--max-bytes N] [--allow-private]
 
-Fetch URL with Scrapling (adaptive parser). Falls back to curl if unavailable.
+Fetch URL with curl (validated, IP-pinned hops); parse with Scrapling if
+installed, else with the built-in HTML extractor.
 
 Arguments:
   URL                    Required. Must be http(s)://
-  --selector CSS         Extract only matching nodes (scrapling only; curl
-                         ignores it and warns on stderr)
+  --selector CSS         Extract only matching nodes (needs scrapling as
+                         parser; without it, ignored with a warning)
   --json                 Machine-readable JSON output
-  --stealth              Request stealth mode (scrapling only, no-op for curl)
+  --stealth              No effect: downloads always use curl with the
+                         validated IP (anti-SSRF); warns on stderr
   --timeout SEC          Max total fetch time in seconds, >= 1 (default 20)
   --max-bytes N          Abort if the body exceeds N bytes (default 5242880)
-  --allow-private        Allow loopback/private destinations (never metadata)
+  --allow-private        Allow loopback/private destinations (never cloud
+                         metadata endpoints)
 
 Exit codes: 0 OK (2xx) | 1 fetch/HTTP error | 2 usage | 3 blocked destination
 Ref: SE-061 Slice 2.
@@ -136,14 +144,15 @@ if ! command -v python3 >/dev/null 2>&1; then
   exit 1
 fi
 
-# Detect backend: scrapling if installed, else curl
+# La descarga exige curl (unica via con IP fijada). Parser: scrapling si esta, si no el propio.
+if ! command -v curl >/dev/null 2>&1; then
+  echo "ERROR: curl requerido: es el unico backend que descarga con la IP validada (scrapling solo parsea)" >&2
+  exit 1
+fi
 if python3 -c "import scrapling" 2>/dev/null; then
   BACKEND="scrapling"
-elif command -v curl >/dev/null 2>&1; then
-  BACKEND="curl"
 else
-  echo "ERROR: no hay backend de fetch: ni scrapling (python) ni curl instalados" >&2
-  exit 1
+  BACKEND="curl"
 fi
 
 WORK=$(mktemp -d 2>/dev/null) || { echo "ERROR: mktemp failed" >&2; exit 1; }
@@ -158,6 +167,10 @@ from html.parser import HTMLParser
 
 TEXT_MAX = 500000
 BLOCKED = "destino bloqueado"
+# Endpoints de metadatos cloud fuera de link-local: bloqueados incluso con --allow-private.
+METADATA = [ipaddress.ip_network(n) for n in (
+    "169.254.0.0/16", "fe80::/10", "fd00:ec2::254/128", "100.100.100.200/32",
+    "168.63.129.16/32", "192.0.0.192/32")]
 
 
 def check(url, allow_private):
@@ -186,8 +199,12 @@ def check(url, allow_private):
         ip = ipaddress.ip_address(raw.split("%")[0])
         if ip.version == 6 and ip.ipv4_mapped:
             ip = ip.ipv4_mapped
-        if ip.is_link_local or ip.is_multicast or ip.is_unspecified or ip.is_reserved:
-            print("%s: %s resuelve a %s (link-local/metadatos o reservada)" % (BLOCKED, host, ip), file=sys.stderr)
+        if any(ip in net for net in METADATA if net.version == ip.version):
+            print("%s: %s resuelve a %s (metadatos cloud / link-local)" % (BLOCKED, host, ip), file=sys.stderr)
+            sys.exit(3)
+        # ::1 cae en ::/8 (reservada): se trata como 127.0.0.1, interna con --allow-private.
+        if not ip.is_loopback and (ip.is_multicast or ip.is_unspecified or ip.is_reserved):
+            print("%s: %s resuelve a %s (multicast, reservada o sin especificar)" % (BLOCKED, host, ip), file=sys.stderr)
             sys.exit(3)
         if not ip.is_global and not allow_private:
             print("%s: %s resuelve a %s (red interna); usa --allow-private si es intencionado" % (BLOCKED, host, ip), file=sys.stderr)
@@ -260,6 +277,43 @@ def extract(body_file, ctype, status, url_final, out):
         json.dump(res, fh, ensure_ascii=False)
 
 
+def _first(page, sel):
+    f = getattr(page, "css_first", None)  # Scrapling 0.2 (Adaptor)
+    if f is not None:
+        return f(sel)
+    found = page.css(sel)  # Scrapling 0.3 (Selector): lista con .first
+    return getattr(found, "first", None) if hasattr(found, "first") else (found[0] if found else None)
+
+
+def scrape(body_file, ctype, status, url_final, selector, out):
+    """Parsea con Scrapling el cuerpo YA descargado por curl. Exit 4: sin parser."""
+    try:
+        from scrapling import Selector as Parser
+    except ImportError:
+        try:
+            from scrapling import Adaptor as Parser
+        except ImportError as e:
+            print("scrapling sin parser utilizable (Selector/Adaptor): %s" % e, file=sys.stderr)
+            sys.exit(4)
+    with open(body_file, "rb") as fh:
+        raw = fh.read()
+    doc = raw.decode(_charset(ctype, raw), errors="replace")
+    try:
+        page = Parser(doc, url=url_final)
+        node = _first(page, "title")
+        title = " ".join((node.text or "").split()) if node is not None else ""
+        if selector:
+            text = "\n".join(n.text.strip() for n in page.css(selector) if n.text)
+        else:
+            text = page.get_all_text(strip=True)
+    except Exception as e:  # API de la libreria variable entre versiones: degradar al extractor propio
+        print("scrapling no pudo parsear (%s: %s)" % (type(e).__name__, e), file=sys.stderr)
+        sys.exit(4)
+    res = {"status": int(status or 0), "title": title[:200], "url_final": url_final, "text": text or ""}
+    with open(out, "w", encoding="utf-8") as fh:
+        json.dump(res, fh, ensure_ascii=False)
+
+
 def emit(result_file, backend, error, as_json, url, status):
     d = {"status": int(status or 0), "title": "", "url_final": url, "text": ""}
     if os.path.exists(result_file) and os.path.getsize(result_file) > 0:
@@ -272,6 +326,7 @@ def emit(result_file, backend, error, as_json, url, status):
     d["text"] = text[:TEXT_MAX]
     d["error"] = error or None
     d["backend"] = backend
+    d["fetcher"] = "curl"
     if as_json == "1":
         print(json.dumps(d, ensure_ascii=False))
         return
@@ -290,6 +345,8 @@ if cmd == "check":
     check(sys.argv[2], sys.argv[3] == "1")
 elif cmd == "extract":
     extract(*sys.argv[2:7])
+elif cmd == "scrape":
+    scrape(*sys.argv[2:8])
 elif cmd == "emit":
     emit(*sys.argv[2:8])
 PY
@@ -312,63 +369,28 @@ check_target() {
   return $rc
 }
 
-# Exit 4: scrapling importable pero sin Fetcher (instalacion rota).
-fetch_with_scrapling() {
-  local py_script rc meta
-  read -r -d '' py_script <<'PY' || true  # EOF esperado
-import json, os, sys
-url = os.environ.get("FETCH_URL", "")
-selector = os.environ.get("FETCH_SELECTOR", "")
-stealth = os.environ.get("FETCH_STEALTH", "0") == "1"
-timeout = int(os.environ.get("FETCH_TIMEOUT", "20"))
-out = os.environ["FETCH_OUT"]
-try:
-    from scrapling import Fetcher
-except ImportError as e:
-    print("scrapling sin Fetcher utilizable: %s" % e, file=sys.stderr)
-    sys.exit(4)
-try:
-    f = Fetcher.get(url, timeout=timeout, stealth=stealth) if stealth else Fetcher.get(url, timeout=timeout)
-    status = int(getattr(f, "status", 0) or 0)
-    url_final = getattr(f, "url", url) or url
-    title_sel = f.css_first("title")
-    title = title_sel.text.strip() if title_sel else ""
-    if selector:
-        nodes = f.css(selector)
-        text = "\n".join(n.text.strip() for n in nodes if n.text)
-    else:
-        text = f.get_all_text(strip=True)
-except Exception as e:  # la libreria propaga errores de red de varios tipos
-    print("scrapling: %s: %s" % (type(e).__name__, e), file=sys.stderr)
-    sys.exit(1)
-with open(out, "w", encoding="utf-8") as fh:
-    json.dump({"status": status, "title": title, "url_final": url_final, "text": text or ""}, fh, ensure_ascii=False)
-PY
-  FETCH_URL="$URL" FETCH_SELECTOR="$SELECTOR" FETCH_STEALTH="$STEALTH" \
-    FETCH_TIMEOUT="$TIMEOUT" FETCH_OUT="$RESULT" \
-    python3 -c "$py_script" 2>"$WORK/scrapling.err"; rc=$?
-  if [[ $rc -ne 0 ]]; then
-    FETCH_ERROR=$(<"$WORK/scrapling.err")
-    return $rc
-  fi
-  meta=$(python3 -c 'import json,sys; d=json.load(open(sys.argv[1])); print(d.get("status",0)); print(d.get("url_final",""))' "$RESULT")
-  STATUS="${meta%%$'\n'*}"
-  URL_FINAL="${meta#*$'\n'}"
-  # La libreria sigue redirecciones por su cuenta: validar el destino final.
-  check_target "$URL_FINAL" || return $?
-  return 0
+# Parsea con Scrapling el cuerpo descargado. Exit 4: Scrapling sin parser usable.
+parse_with_scrapling() {
+  local rc
+  py scrape "$WORK/body" "$CTYPE" "$STATUS" "$URL_FINAL" "$SELECTOR" "$RESULT" 2>"$WORK/scrape.err"; rc=$?
+  [[ $rc -ne 0 ]] && FETCH_ERROR=$(<"$WORK/scrape.err")
+  return $rc
 }
 
 fetch_with_curl() {
   local cur="$URL" hops=0 start=$SECONDS remaining meta rc host port ip
-  local body="$WORK/body" ctype="" redirect=""
-  if [[ -n "$SELECTOR" ]]; then
-    echo "WARN: --selector ignorado con backend curl (solo scrapling lo aplica)" >&2
-  fi
+  local body="$WORK/body" redirect="" pin=()
   while :; do
-    check_target "$cur" || return $?
+    # Una sola resolucion por salto: la IP validada es la que usa curl.
+    check_target "$cur" || { rc=$?; URL_FINAL="$cur"; return $rc; }
     read -r host port ip <<<"$CHECK_OUT"
-    [[ "$ip" == *:* ]] && ip="[$ip]"
+    # Un literal IP no se resuelve (no hay rebinding posible) y curl no admite un
+    # host IPv6 en --resolve: solo se fija la IP cuando el host es un nombre.
+    pin=()
+    if [[ "$host" != "$ip" ]]; then
+      [[ "$ip" == *:* ]] && ip="[$ip]"
+      pin=(--resolve "$host:$port:$ip")
+    fi
     remaining=$(( TIMEOUT - (SECONDS - start) ))
     if [[ $remaining -lt 1 ]]; then
       FETCH_ERROR="timeout: se agotaron ${TIMEOUT}s"
@@ -377,7 +399,7 @@ fetch_with_curl() {
     : > "$body"
     meta=$(curl -sS --proto '=http,https' --max-redirs 0 \
       --max-time "$remaining" --max-filesize "$MAX_BYTES" \
-      --resolve "$host:$port:$ip" \
+      "${pin[@]}" \
       -A 'Mozilla/5.0 (compatible; SaviaResearch/1.0)' \
       -o "$body" -w '%{http_code}\n%{content_type}\n%{redirect_url}' \
       "$cur" 2>"$WORK/curl.err"); rc=$?
@@ -391,7 +413,7 @@ fetch_with_curl() {
       *) FETCH_ERROR="curl ($rc): $(<"$WORK/curl.err")"; return 1 ;;
     esac
     meta="${meta#*$'\n'}"
-    ctype="${meta%%$'\n'*}"
+    CTYPE="${meta%%$'\n'*}"
     redirect="${meta#*$'\n'}"
     if [[ "$STATUS" =~ ^3 && -n "$redirect" ]]; then
       hops=$((hops + 1))
@@ -404,29 +426,31 @@ fetch_with_curl() {
     fi
     break
   done
-  py extract "$body" "$ctype" "$STATUS" "$URL_FINAL" "$RESULT"
 }
 
+CTYPE=""
+if [[ $STEALTH -eq 1 ]]; then
+  echo "WARN: --stealth sin efecto: la descarga la hace siempre curl contra la IP validada (anti-SSRF)" >&2
+fi
+if [[ -n "$SELECTOR" && "$BACKEND" == "curl" ]]; then
+  echo "WARN: --selector ignorado sin scrapling (el extractor propio no aplica selectores)" >&2
+fi
+
 EXIT_CODE=0
-if [[ "$BACKEND" == "scrapling" ]]; then
-  if check_target "$URL"; then
-    fetch_with_scrapling || EXIT_CODE=$?
-    if [[ $EXIT_CODE -eq 4 ]]; then
-      if command -v curl >/dev/null 2>&1; then
-        echo "WARN: ${FETCH_ERROR}; fallback a curl" >&2
-        BACKEND="curl"
-        FETCH_ERROR=""
-        EXIT_CODE=0
-        fetch_with_curl || EXIT_CODE=$?
-      else
-        EXIT_CODE=1
-      fi
+fetch_with_curl || EXIT_CODE=$?
+if [[ $EXIT_CODE -eq 0 ]]; then
+  if [[ "$BACKEND" == "scrapling" ]]; then
+    parse_with_scrapling || EXIT_CODE=$?
+    if [[ $EXIT_CODE -ne 0 ]]; then
+      echo "WARN: ${FETCH_ERROR:-scrapling fallo}; se usa el extractor propio" >&2
+      BACKEND="curl"
+      FETCH_ERROR=""
+      EXIT_CODE=0
     fi
-  else
-    EXIT_CODE=$?
   fi
-else
-  fetch_with_curl || EXIT_CODE=$?
+  if [[ "$BACKEND" == "curl" ]]; then
+    py extract "$WORK/body" "$CTYPE" "$STATUS" "$URL_FINAL" "$RESULT" || EXIT_CODE=1
+  fi
 fi
 
 if [[ $EXIT_CODE -eq 0 && ! "$STATUS" =~ ^2[0-9][0-9]$ ]]; then
