@@ -303,7 +303,7 @@ CRIT-034 — Afirmar estado solo tras comprobarlo en el mismo turno
   ejemplo: antes de avisar de que la CI de un PR está en verde, comprobar que el PR sigue abierto y que los checks son del último push.
   contraejemplo: decir que una implementación está en marcha sin mirar si los ficheros existen; esperar la CI de un PR que ya se mergeó.
   evidencia: incidente de orquestación del 2026-10-04 (estado anunciado sin comprobar, espera de un PR ya mergeado).
-  enforcement: solo-criterio (mecanismo propuesto en el PR de guardas DOD-004 y pr-wait; se enlazará al mergearlo)
+  enforcement: solo-criterio (pendiente: DOD-004 y pr-wait de #1292)
   provenance: human_authored
   autorizado_utc: 2026-10-04T09:28:35Z
   autorizacion: AskUserQuestion de la operadora, 2026-10-04: «¿Qué lecciones activas como criterio humano?» → CRIT-034, CRIT-035, CRIT-036, CRIT-037 y CRIT-038
@@ -347,7 +347,7 @@ CRIT-038 — Decisiones siempre por pregunta interactiva
   ejemplo: «¿Cómo seguimos?» con 2-4 opciones y la recomendada en primer lugar.
   contraejemplo: «¿Lo lanzas tal cual o espero esos dos minutos?» al final de un párrafo.
   evidencia: petición repetida de la operadora («Preguntas siempre interactivas», 2026-10-03 y 2026-10-04).
-  enforcement: solo-criterio (DOD-005 propuesto en el PR de guardas; se enlazará al mergearlo)
+  enforcement: solo-criterio (pendiente: DOD-005 de #1292)
   provenance: human_authored
   autorizado_utc: 2026-10-04T09:28:35Z
   autorizacion: AskUserQuestion de la operadora, 2026-10-04: «¿Qué lecciones activas como criterio humano?» → CRIT-034, CRIT-035, CRIT-036, CRIT-037 y CRIT-038
