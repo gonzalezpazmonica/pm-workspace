@@ -8,7 +8,8 @@ setup() {
   TMPDIR_T="$(mktemp -d)"
   export MERGE_SPRINT_HOME="$TMPDIR_T/state"
   export MERGE_SPRINT_POLICY="$TMPDIR_T/policy.conf"
-  export MERGE_SPRINT_POLL_S=0 MERGE_SPRINT_MAIN_POLLS=2
+  export MERGE_SPRINT_POLL_S=0 MERGE_SPRINT_MAIN_POLLS=2 MERGE_SPRINT_CI_POLLS=1 MERGE_SPRINT_CI_SETTLE_S=0
+  export MERGE_SPRINT_RESYNC=0   # los tests v1 no re-sincronizan; los v2 lo activan con su repo temporal
   printf 'allowed_tiers=1,2,3\nttl_hours=12\nmax_merges=40\nmax_prs=50\n' > "$MERGE_SPRINT_POLICY"
   export FAKE="$TMPDIR_T/fake"; mkdir -p "$FAKE"
   # gh falso: estado en $FAKE/<pr>.{head,files,checks,state}, $FAKE/main_ci, log de merges en $FAKE/merged
@@ -20,7 +21,8 @@ case "$1 $2" in
   "pr view")
     n=$3
     case "$a" in
-      *headRefOid*) cat "$F/$n.head" ;;
+      *headRefOid*) if [[ -f "$F/$n.branch" ]]; then git --git-dir="$BARE" rev-parse "refs/heads/$(cat "$F/$n.branch")"; else cat "$F/$n.head"; fi ;;
+      *headRefName*) cat "$F/$n.branch" ;;
       *mergeCommit*) echo "m${n}0000000000000000000000000000000000000" ;;
       *state*) cat "$F/$n.state" 2>/dev/null || echo OPEN ;;
     esac ;;
@@ -203,4 +205,57 @@ plan_and_grant() {
   for f in "$MERGE_SPRINT_HOME"/reviews/30-*; do echo "x" >> "$f"; done
   run bash "$SCRIPT" plan
   [[ "$output" != *"#30"* ]]
+}
+
+# ── v2: re-sync autónomo con main (repo git temporal con remoto bare; nunca GitHub) ──
+v2_repo() {
+  export BARE="$TMPDIR_T/origin.git"; git init -q --bare "$BARE"
+  export MERGE_SPRINT_GIT_ROOT="$TMPDIR_T/clone"; export MERGE_SPRINT_RESYNC=1
+  git clone -q "$BARE" "$MERGE_SPRINT_GIT_ROOT" 2>/dev/null
+  git -C "$MERGE_SPRINT_GIT_ROOT" config user.email t@t; git -C "$MERGE_SPRINT_GIT_ROOT" config user.name t
+  git -C "$MERGE_SPRINT_GIT_ROOT" config commit.gpgsign false
+  G() { git -C "$MERGE_SPRINT_GIT_ROOT" -c user.email=t@t -c user.name=t -c commit.gpgsign=false "$@"; }
+  echo base > "$MERGE_SPRINT_GIT_ROOT/a.txt"; G add a.txt; G commit -qm base; G branch -M main; G push -q origin main
+}
+v2_pr() {  # v2_pr <n> <fichero> <contenido> : rama pr-<n> con un commit; registra la revisión sobre su head
+  G switch -q -c "pr-$1" main; echo "$3" > "$MERGE_SPRINT_GIT_ROOT/$2"; G add "$2"; G commit -qm "pr $1"; G push -q origin "pr-$1"; G switch -q main
+  echo "pr-$1" > "$FAKE/$1.branch"; echo x > "$FAKE/$1.head"; echo "scripts/x$1.sh" > "$FAKE/$1.files"
+  local s; s=$(git --git-dir="$BARE" rev-parse "refs/heads/pr-$1")
+  echo "VERDICT: APPROVE pr=$1 sha=$s role=correctness tier=2 reviewer=rev-agent author=impl-agent p0=0 p1=0 p2=0 p2_blocking=0" > "$TMPDIR_T/r$1.md"
+  bash "$SCRIPT" review-register "$1" "$TMPDIR_T/r$1.md"
+}
+main_moves() {  # main_moves <fichero> <contenido>
+  echo "$2" > "$MERGE_SPRINT_GIT_ROOT/$1"; G add "$1"; G commit -qm "main $1"; G push -q origin main
+}
+
+@test "v2 positivo: PR desfasado sin conflicto se re-sincroniza, se empuja y se mergea" {
+  v2_repo; v2_pr 40 b.txt pr40
+  main_moves c.txt main1
+  plan_and_grant
+  run bash "$SCRIPT" run
+  [ "$status" -eq 0 ]
+  grep -qx 40 "$FAKE/merged"
+  git --git-dir="$BARE" merge-base --is-ancestor refs/heads/main refs/heads/pr-40
+  grep -q '"event":"RESYNC"' "$MERGE_SPRINT_HOME/ledger.jsonl"
+}
+
+@test "v2 conflict: conflicto real fuera de derivados aparca el PR sin mergear ni empujar" {
+  v2_repo; v2_pr 41 a.txt pr41
+  main_moves a.txt main-cambia-a
+  local before; before=$(git --git-dir="$BARE" rev-parse refs/heads/pr-41)
+  plan_and_grant
+  run bash "$SCRIPT" run
+  [ ! -e "$FAKE/merged" ]
+  grep -q '"reason":"conflicto_real"' "$MERGE_SPRINT_HOME/ledger.jsonl"
+  [ "$(git --git-dir="$BARE" rev-parse refs/heads/pr-41)" = "$before" ]
+}
+
+@test "v2 block: commit de código posterior a la revisión aparca (requiere juez)" {
+  v2_repo; v2_pr 42 d.txt pr42
+  plan_and_grant
+  G switch -q pr-42; echo cambio-colado >> "$MERGE_SPRINT_GIT_ROOT/d.txt"; G commit -qam sneaky; G push -q origin pr-42; G switch -q main
+  main_moves e.txt main2
+  run bash "$SCRIPT" run
+  [ ! -e "$FAKE/merged" ]
+  grep -q '"reason":"head_cambiado_requiere_juez"' "$MERGE_SPRINT_HOME/ledger.jsonl"
 }
