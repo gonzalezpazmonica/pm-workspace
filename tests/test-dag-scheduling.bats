@@ -15,7 +15,8 @@ setup() {
   export WAVE_KILL_AFTER=1
   unset SDD_MAX_PARALLEL_AGENTS SDD_DEFAULT_TIMEOUT_MIN
   # duración única por test: permite localizar SOLO nuestros procesos
-  NAP="2$((RANDOM % 9)).$((RANDOM % 9))$((RANDOM % 9))7"
+  # (PID del test + RANDOM: dos tests de suites paralelas no comparten valor)
+  NAP="2$((RANDOM % 9)).$(( $$ % 100000 ))$((RANDOM))7"
 }
 
 teardown() {
@@ -30,9 +31,12 @@ no_orphans() {
   if pgrep -x -f "sleep $NAP" >/dev/null; then echo "quedan procesos sleep $NAP" >&2; return 1; fi
 }
 
-@test "safety: el motor y su librería declaran set -uo pipefail" {
-  grep -q "set -uo pipefail" "$SCRIPT"
-  grep -q "set -uo pipefail" "$REPO_ROOT/scripts/wave-executor-lib.sh"
+@test "safety: cargar la librería activa set -uo pipefail (nounset y pipefail on)" {
+  run bash -c 'set +uo pipefail; source "$1"; [[ -o nounset && -o pipefail ]]' _ "$REPO_ROOT/scripts/wave-executor-lib.sh"
+  [ "$status" -eq 0 ]
+  # el motor no depende de -e: una variable no definida aborta en vez de seguir
+  run bash -c 'source "$1"; echo "$NO_DEFINIDA_SE376"' _ "$REPO_ROOT/scripts/wave-executor-lib.sh"
+  [ "$status" -ne 0 ]
 }
 
 # ── waves y paralelismo ─────────────────────────────────────────────────────
@@ -131,6 +135,21 @@ no_orphans() {
   no_orphans
 }
 
+@test "timeout: sin timeout_seconds se aplica SDD_DEFAULT_TIMEOUT_MIN (1 min = 60 s)" {
+  # timeout instrumentado: registra sus argumentos y delega en el real
+  local real; real=$(command -v timeout)
+  mkdir -p "$WORK/bin"
+  printf '#!/usr/bin/env bash\n[[ "$1" == --version ]] && { echo "timeout (GNU coreutils) stub"; exit 0; }\necho "$*" >> "%s/timeout.args"\nexec "%s" "$@"\n' "$WORK" "$real" > "$WORK/bin/timeout"
+  chmod +x "$WORK/bin/timeout"
+  export SDD_DEFAULT_TIMEOUT_MIN=1
+  graph '{"tasks":[{"id":"a","command":"true","depends_on":[]},{"id":"b","command":"true","depends_on":[],"timeout_seconds":7}]}'
+  PATH="$WORK/bin:$PATH" we
+  [ "$status" -eq 0 ]
+  grep -qx -- '-k 1 60 bash -c true' "$WORK/timeout.args"
+  grep -qx -- '-k 1 7 bash -c true' "$WORK/timeout.args"
+  [ "$(wc -l < "$WORK/timeout.args")" -eq 2 ]
+}
+
 @test "timeout: SDD_DEFAULT_TIMEOUT_MIN=0 es invalid (no se lanza nada con timeout 0)" {
   export SDD_DEFAULT_TIMEOUT_MIN=0
   graph '{"tasks":[{"id":"a","command":"true","depends_on":[]}]}'
@@ -143,8 +162,12 @@ no_orphans() {
   bash "$SCRIPT" "$WORK/g.json" >/dev/null 2>&1 &
   local ep=$! i
   for i in $(seq 1 50); do pgrep -x -f "sleep $NAP" >/dev/null && break; sleep 0.1; done
+  local t0=$SECONDS rc=0
   kill -TERM "$ep"
-  wait "$ep" || true
+  wait "$ep" || rc=$?
+  # matar, no esperar: las tareas duermen ~20 s; el motor debe salir en segundos
+  [ $((SECONDS - t0)) -le 3 ]
+  [ "$rc" -eq 143 ]
   sleep 0.5
   no_orphans
 }
@@ -180,6 +203,40 @@ no_orphans() {
   graph '{"tasks":"x"}'
   we
   [ "$status" -eq 2 ]
+}
+
+@test "validate_graph: nivel superior que no es objeto ([], \"x\", 3, null) es invalid, no success" {
+  local g
+  for g in '[]' '"x"' '3' 'null' '[{"tasks":[]}]'; do
+    graph "$g"
+    we
+    [ "$status" -eq 2 ]
+    [[ "$output" != *success* ]]
+    [[ "$output" == *"graph must be an object"* ]]
+  done
+}
+
+@test "validate_graph: si jq falla en la validación de esquema el grafo es invalid (fail-closed)" {
+  # jq instrumentado: rompe solo el filtro de esquema (p. ej. un jq antiguo sin un builtin)
+  local real; real=$(command -v jq)
+  mkdir -p "$WORK/bin"
+  printf '#!/usr/bin/env bash\ncase "$*" in *"def posint"*) echo "jq: error: simulated" >&2; exit 5;; esac\nexec "%s" "$@"\n' "$real" > "$WORK/bin/jq"
+  chmod +x "$WORK/bin/jq"
+  graph '{"tasks":[{"id":"a","command":"touch ran","depends_on":[]}]}'
+  PATH="$WORK/bin:$PATH" we
+  [ "$status" -eq 2 ]
+  [ ! -e ran ]
+  [[ "$output" == *"schema check failed"* ]]
+}
+
+@test "validate_graph: fichero empty o con dos documentos JSON es invalid (exit 2), no success" {
+  local g
+  for g in '' '   ' '{"tasks":[]} {"tasks":[]}'; do
+    graph "$g"
+    we
+    [ "$status" -eq 2 ]
+    [[ "$output" != *success* ]]
+  done
 }
 
 @test "validate_graph: depends_on ausente equivale a [] (wave 0)" {

@@ -94,7 +94,9 @@ Delegar ejecucion al motor generico `scripts/wave-executor.sh`
 bash scripts/wave-executor.sh graph.json [--report report.json]
 ```
 
-- Valida el grafo antes de ejecutar nada (exit 2): `tasks` array; `id`
+- Valida el grafo antes de ejecutar nada (exit 2): un unico documento JSON
+  cuyo nivel superior es un objeto (`[]`, `"x"`, `null` o un fichero vacio
+  son invalidos; si jq falla al validar, tambien); `tasks` array; `id`
   `[A-Za-z0-9._-]` (1-64); `command` no vacio; `depends_on` array de ids
   (ausente = `[]`); `timeout_seconds` y `max_parallel` enteros >= 1;
   sin ids duplicados, dependencias desconocidas, ciclos ni `..` en
@@ -107,8 +109,8 @@ bash scripts/wave-executor.sh graph.json [--report report.json]
   Una tarea que sale con 124 por si misma es `failed`, no `timeout`.
 - Verifica `expected_files`; un fallo o timeout termina su wave y marca las
   siguientes como `skipped`.
-- Si el motor recibe SIGTERM/SIGINT/SIGHUP, termina las tareas en curso y
-  sale con 143/130.
+- Si el motor recibe SIGTERM/SIGINT/SIGHUP, manda TERM a las tareas en curso
+  (no espera a que acaben) y sale con 143 (TERM y HUP) o 130 (INT).
 - Exit: 0 ok · 1 tarea fallida · 2 entrada invalida · 3 timeout.
 
 El motor NO calcula camino critico ni holgura (Fases 2-3, analisis previo con

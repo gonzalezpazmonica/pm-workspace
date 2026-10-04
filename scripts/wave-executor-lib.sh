@@ -12,10 +12,13 @@ detect_timeout_cmd() {
 }
 
 # Contrato de campos (SPEC-WAVE-DAG §2.1). Imprime el primer error o nada.
+# Si jq falla (entrada que el filtro no sabe indexar) devuelve != 0: quien llama
+# debe tratarlo como grafo inválido, nunca como «sin error».
 schema_error() {
   jq -r '
     def posint: type == "number" and . == floor and . >= 1;
-    if (.tasks | type) != "array" then "tasks must be an array"
+    if type != "object" then "graph must be an object with a tasks array"
+    elif (.tasks | type) != "array" then "tasks must be an array"
     elif has("max_parallel") and (.max_parallel | posint | not) then "max_parallel must be an integer >= 1"
     else
       [.tasks[] |
@@ -35,8 +38,11 @@ schema_error() {
 
 validate_graph() {
   local gf="$1"
-  jq -e . "$gf" >/dev/null 2>&1 || { echo "bad JSON" >&2; return 1; }
-  local serr; serr=$(schema_error "$gf" | tr -d '\r')
+  # exactamente un documento JSON: un fichero vacío o con dos documentos no es un grafo
+  jq -e -s 'length == 1' "$gf" >/dev/null 2>&1 || { echo "bad JSON (expected one JSON document)" >&2; return 1; }
+  local serr
+  serr=$(schema_error "$gf") || { echo "graph schema check failed (jq error)" >&2; return 1; }
+  serr=$(printf '%s' "$serr" | tr -d '\r')
   [[ -n "$serr" ]] && { echo "$serr" >&2; return 1; }
   local count; count=$(jq '.tasks | length' "$gf")
   [[ $count -gt 100 ]] && { echo "too many tasks: $count (max 100)" >&2; return 1; }
