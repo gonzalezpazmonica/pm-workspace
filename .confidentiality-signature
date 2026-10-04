@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=df95d7e461df7abbd799190d0c7420a267abfd7f5a7cb6c808b9bbb4018b9b63
-timestamp=2026-10-04T11:03:21Z
+diff_hash=aea3ac6e7f6cfd0591d430a1620925f3db75e4cdf80c4bdbee30a77d794d1cb3
+timestamp=2026-10-04T12:33:11Z
 branch=agent/se376-lightpanda-fetch-20261003
-head_commit=7013864d
-signature=ece216825464c100ff7c50ef34055add7f2a29633a6bcf1213be0e6714f5a1e7
+head_commit=8c521dbe
+signature=074f04b19cd822b63898d953fc10584bb5241fa6763599d70999c5d51a10c3e2
