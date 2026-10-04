@@ -8,8 +8,12 @@ phase: A
 risk: L3
 related_specs: [SE-343, SE-362, SE-228, SE-387]
 origin: "Petición de la operadora: reglas y concepto de merge-sprint para que Savia pueda hacer sprints de merge seguros y con criterio, sin supervisión durante la ejecución, bajo estricta autorización humana previa."
+timeline:
+  - from: "2026-10-04"
+    learned: "2026-10-04"
+    value: "PROPOSED"
+    source: "spec-lifecycle:auto"
 ---
-
 # SE-433 — merge-sprint: merges autónomos bajo autorización humana previa
 
 ## Problema

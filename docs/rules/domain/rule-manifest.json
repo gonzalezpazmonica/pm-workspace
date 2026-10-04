@@ -1,8 +1,8 @@
 {
-  "generated": "2026-10-01T03:58:12Z",
-  "total": 311,
+  "generated": "2026-10-04T07:45:13Z",
+  "total": 312,
   "tier1_count": 4,
-  "tier2_count": 303,
+  "tier2_count": 304,
   "dormant_count": 4,
   "rules": {
     "accessibility-output.md": {
@@ -134,6 +134,10 @@
       "consumers": ""
     },
     "autonomous-safety-merge-grant.md": {
+      "tier": "tier2",
+      "consumers": ""
+    },
+    "autonomous-safety-merge-sprint.md": {
       "tier": "tier2",
       "consumers": ""
     },
