@@ -303,7 +303,7 @@ CRIT-034 — Afirmar estado solo tras comprobarlo en el mismo turno
   ejemplo: antes de avisar de que la CI de un PR está en verde, comprobar que el PR sigue abierto y que los checks son del último push.
   contraejemplo: decir que una implementación está en marcha sin mirar si los ficheros existen; esperar la CI de un PR que ya se mergeó.
   evidencia: incidente de orquestación del 2026-10-04 (estado anunciado sin comprobar, espera de un PR ya mergeado).
-  enforcement: stop-dod-gate.sh (estado sin verificación) + scripts/pr-wait.sh
+  enforcement: solo-criterio (mecanismo propuesto en el PR de guardas DOD-004 y pr-wait; se enlazará al mergearlo)
   provenance: human_authored
   autorizado_utc: 2026-10-04T09:28:35Z
   autorizacion: AskUserQuestion de la operadora, 2026-10-04: «¿Qué lecciones activas como criterio humano?» → CRIT-034, CRIT-035, CRIT-036, CRIT-037 y CRIT-038
@@ -314,7 +314,7 @@ CRIT-035 — Orquestar con visibilidad, sin huecos ni trabajo perdido
   ejemplo: con 20 PRs revisables y la máquina libre, lanzar revisiones en paralelo y vigilar sus marcas de fin.
   contraejemplo: decir «sigo atenta» con la máquina ociosa; parar y relanzar un agente y perder su trabajo.
   evidencia: incidentes de orquestación del 2026-10-03 y del 2026-10-04 (horas de máquina ociosa, trabajo perdido).
-  enforcement: hook de marcas de fin (agent-done) + capacity watch
+  enforcement: solo-criterio
   provenance: human_authored
   autorizado_utc: 2026-10-04T09:28:35Z
   autorizacion: AskUserQuestion de la operadora, 2026-10-04: «¿Qué lecciones activas como criterio humano?» → CRIT-034, CRIT-035, CRIT-036, CRIT-037 y CRIT-038
@@ -336,7 +336,7 @@ CRIT-037 — Ningún merge ni PR sin revisión independiente escrita
   ejemplo: el publicador espera a reviews/<slug>.md con APTO; merge-sprint exige review-register sobre el head.
   contraejemplo: publicar siete PRs y retenerlos a mano después; revisar con un agente de solo lectura que no puede dejar el informe.
   evidencia: incidente del 2026-10-03 (PRs publicados antes de su revisión).
-  enforcement: pr-opener gate + merge-sprint review-register
+  enforcement: scripts/merge-sprint.sh (review-register exige veredicto independiente ligado al SHA)
   provenance: human_authored
   autorizado_utc: 2026-10-04T09:28:35Z
   autorizacion: AskUserQuestion de la operadora, 2026-10-04: «¿Qué lecciones activas como criterio humano?» → CRIT-034, CRIT-035, CRIT-036, CRIT-037 y CRIT-038
@@ -347,7 +347,7 @@ CRIT-038 — Decisiones siempre por pregunta interactiva
   ejemplo: «¿Cómo seguimos?» con 2-4 opciones y la recomendada en primer lugar.
   contraejemplo: «¿Lo lanzas tal cual o espero esos dos minutos?» al final de un párrafo.
   evidencia: petición repetida de la operadora («Preguntas siempre interactivas», 2026-10-03 y 2026-10-04).
-  enforcement: stop-dod-gate.sh (pregunta en prosa) + learning-recall
+  enforcement: solo-criterio (DOD-005 propuesto en el PR de guardas; se enlazará al mergearlo)
   provenance: human_authored
   autorizado_utc: 2026-10-04T09:28:35Z
   autorizacion: AskUserQuestion de la operadora, 2026-10-04: «¿Qué lecciones activas como criterio humano?» → CRIT-034, CRIT-035, CRIT-036, CRIT-037 y CRIT-038
