@@ -78,6 +78,13 @@ export const SaviaGates: Plugin = async (ctx: PluginInput) => {
     return null
   }
 
+  // La copia solo se verificaba antes del pipeline: una escritura en ella mientras corren los hooks
+  // (cientos de ms) llegaba al guard sin detectarse en esa decisión. Cualquier escritura que un hook
+  // pudo leer cambia el ctime antes de esta segunda verificación, así que cierra la carrera (#1264).
+  async function pinViolationAfterHooks(): Promise<string | null> {
+    return pinViolation(null, undefined)
+  }
+
   await writeManifest(hookMap)
   await auditLog({ event: "plugin-loaded", root, events: Object.keys(hookMap).length })
 
@@ -115,6 +122,8 @@ export const SaviaGates: Plugin = async (ctx: PluginInput) => {
         // Mutations only apply to the args OpenCode will actually run.
         if (n === 0 && result.mutatedArgs) mutated = result.mutatedArgs
       }
+      const after = await pinViolationAfterHooks()
+      if (after) throw new Error(`savia-gates: ${after}`)
       if (mutated) output.args = mutated
     },
 
@@ -147,6 +156,8 @@ export const SaviaGates: Plugin = async (ctx: PluginInput) => {
         await auditLog({ event: "prompt-blocked", reason: result.stderr })
         throw new Error(`savia-gates: prompt blocked — ${result.stderr}`)
       }
+      const after = await pinViolationAfterHooks()
+      if (after) throw new Error(`savia-gates: prompt blocked — ${after}`)
       if (result.injectedContext) {
         // OpenCode v1.18 Part schema: id must start with "prt_", and the
         // part's messageID MUST reference an existing message row (FK). Only
@@ -194,6 +205,8 @@ export const SaviaGates: Plugin = async (ctx: PluginInput) => {
       if (result.blocked) {
         throw new Error(`savia-gates: command ${input.command} blocked — ${result.stderr}`)
       }
+      const after = await pinViolationAfterHooks()
+      if (after) throw new Error(`savia-gates: command ${input.command} blocked — ${after}`)
     },
 
     "event": async (input) => {

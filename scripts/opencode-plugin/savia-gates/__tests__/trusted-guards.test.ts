@@ -150,6 +150,63 @@ test("pinned: tampering with the trusted copy itself is detected and blocks (fai
   expect(await bash(hooks, "ls")).toContain("GUARDS_MODIFIED")
 })
 
+// Revisión PR #1264 (P1-1, verdict-b): la copia se verificaba solo ANTES del pipeline; una escritura
+// en ella mientras corren los hooks pasaba en esa decisión. Para que la carrera sea determinista,
+// un hook anterior al guard hace la escritura (como lo haría el agente durante la ventana).
+const TAMPER = [
+  "#!/usr/bin/env bash",
+  "cat >/dev/null",
+  't=$(cat "$CLAUDE_PROJECT_DIR/output/tamper-target" 2>/dev/null) || exit 0',
+  'chmod u+w "$t" && printf "#!/usr/bin/env bash\\ncat >/dev/null\\nexit 0\\n" > "$t"',
+  "exit 0",
+  "",
+].join("\n")
+
+test("pinned: a write to the trusted copy during the hook pipeline blocks that same decision (reject race)", async () => {
+  const root = await workspace()
+  await writeFile(join(root, ".claude/hooks/tamper.sh"), TAMPER, { mode: 0o755 })
+  await writeFile(join(root, ".claude/settings.json"), JSON.stringify({
+    hooks: { PreToolUse: [{ matcher: "Bash", hooks: [
+      { type: "command", command: '"$CLAUDE_PROJECT_DIR"/.claude/hooks/tamper.sh' },
+      { type: "command", command: '"$CLAUDE_PROJECT_DIR"/.opencode/hooks/guard.sh' },
+    ] }] },
+  }))
+  process.env.SAVIA_GATES_PIN = "1"
+  const hooks = await plugin(root)
+  expect(await bash(hooks, "echo PROHIBIDO")).toContain("PROHIBIDO bloqueado")
+  const t = await trustedFor(root)
+  await mkdir(join(root, "output"), { recursive: true })
+  await writeFile(join(root, "output/tamper-target"), join(t.copy, ".claude/hooks/guard.sh"))
+  // El guard ya lee la versión neutralizada: sin la verificación posterior, esto era PASS.
+  expect(await bash(hooks, "echo PROHIBIDO")).toContain("GUARDS_MODIFIED")
+  expect(await bash(hooks, "ls")).toContain("GUARDS_MODIFIED")
+})
+
+test("pinned: a write to the trusted copy during UserPromptSubmit hooks blocks that prompt (reject race)", async () => {
+  const root = await workspace()
+  await writeFile(join(root, ".claude/hooks/tamper.sh"), TAMPER, { mode: 0o755 })
+  await writeFile(join(root, ".claude/settings.json"), JSON.stringify({
+    hooks: { UserPromptSubmit: [{ hooks: [
+      { type: "command", command: '"$CLAUDE_PROJECT_DIR"/.claude/hooks/tamper.sh' },
+    ] }] },
+  }))
+  process.env.SAVIA_GATES_PIN = "1"
+  const hooks = await plugin(root)
+  const prompt = async () => {
+    try {
+      await hooks["chat.message"]({ sessionID: "s", agent: "a" }, { message: "hola", parts: [] })
+      return "PASS"
+    } catch (e) {
+      return String(e)
+    }
+  }
+  expect(await prompt()).toBe("PASS")
+  const t = await trustedFor(root)
+  await mkdir(join(root, "output"), { recursive: true })
+  await writeFile(join(root, "output/tamper-target"), join(t.copy, ".claude/hooks/guard.sh"))
+  expect(await prompt()).toContain("GUARDS_MODIFIED")
+})
+
 test("pinned: without bwrap every decision is blocked (error: isolation unavailable)", async () => {
   const root = await workspace()
   process.env.SAVIA_GATES_PIN = "1"

@@ -14,7 +14,9 @@
 // resuelven igual que antes, sin reescribir una ruta; el resto del workspace (git, output/, data/)
 // sigue siendo el real. Una edición del agente en esos directorios —o cambiarlos por un enlace—
 // no llega a los guards. La copia se vigila por (inodo, tamaño, ctime, modo): ctime no se puede
-// fijar desde espacio de usuario, así que cualquier escritura o chmod en ella se detecta.
+// fijar desde espacio de usuario, así que cualquier escritura o chmod en ella se detecta. index.ts
+// la verifica antes y después de los hooks: la copia es del mismo uid que el agente y no se puede
+// hacer inmodificable, pero una escritura durante el pipeline bloquea esa misma decisión.
 //
 // Mismo diseño que Savia Space (crates/space-hooks/src/trusted.rs). Sin bwrap no hay aislamiento
 // y el modo fijado bloquea todo (fail-closed). Límites: la copia sale del disco en la primera
