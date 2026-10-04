@@ -361,7 +361,7 @@ SH
   grep -q '^set -uo pipefail' "$REPO_ROOT/$SCRIPT"
 }
 
-@test "setup: sin doble opt-in escribe solo ~/.savia/dual y no toca rc, sudo ni systemd" {
+@test "setup: sin doble opt-in no instala servicio ni toca rc ni sudo" {
   setup_installer
   run bash "$REPO_ROOT/$SCRIPT" --no-launch
   [ "$status" -eq 0 ]
@@ -371,6 +371,25 @@ SH
   refute_grep '^sudo' "$CALLS"
   [[ "$output" == *"--confirm-autonomous"* ]]
   [[ "$output" != *"installed and running"* ]]
+}
+
+@test "boundary: sin doble opt-in la descarga del modelo sí ocurre (fuera de la puerta, documentado)" {
+  setup_installer
+  FAKE_MODELS="" run bash "$REPO_ROOT/$SCRIPT" --no-launch
+  [ "$status" -eq 0 ]
+  grep -q '^pull gemma4:' "$CALLS"
+  grep -q 'La puerta de doble opt-in cubre solo el paso 7' "$REPO_ROOT/docs/savia-dual.md"
+}
+
+@test "boundary: --reconfigure no descarga modelo ni arranca Ollama (nada global sin opt-in)" {
+  setup_installer
+  FAKE_MODELS="" run bash "$REPO_ROOT/$SCRIPT" --reconfigure --no-launch
+  [ "$status" -eq 0 ]
+  [ -f "$HOME/.savia/dual/config.json" ]
+  refute_grep '^pull' "$CALLS"
+  refute_grep '^sudo' "$CALLS"
+  refute_grep '^systemctl' "$CALLS"
+  [ "$(cat "$HOME/.bashrc")" = "# rc original" ]
 }
 
 @test "setup: con solo la variable (sin --confirm-autonomous) sigue bloqueando lo global" {

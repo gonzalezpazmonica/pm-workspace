@@ -89,6 +89,7 @@ en memoria durante la ejecución del installer.
 | `~/.savia/dual/config.json` | Config local del usuario | N3 local |
 | `~/.savia/dual/env` (`env.ps1`) | Export de `ANTHROPIC_BASE_URL` | N3 local |
 | servicio systemd/launchd, bloque en `~/.bashrc`/`~/.zshrc` | Activación persistente; solo con doble opt-in (SPEC-186) | global |
+| Ollama (binario y daemon) y el modelo gemma4 | Los instala el installer siempre, fuera de la puerta de opt-in; `--reconfigure` los omite | global |
 | `~/.savia/dual/events.jsonl` | Log append-only de routing decisions | N3 local |
 
 ## Formato de events.jsonl (auditoría)

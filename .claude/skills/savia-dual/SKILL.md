@@ -56,7 +56,9 @@ El installer:
 5. Escribe `~/.savia/dual/config.json` y `~/.savia/dual/env`
 6. Solo con doble opt-in (`SAVIA_DUAL_FAILOVER_ENABLED=true` y
    `--confirm-autonomous`): servicio systemd/launchd y bloque en
-   `~/.bashrc`/`~/.zshrc`. Sin él no toca nada fuera de `~/.savia/dual`.
+   `~/.bashrc`/`~/.zshrc`. La puerta cubre solo este paso: los pasos 1 y
+   4 (instalar y arrancar Ollama, y descargar el modelo) se ejecutan
+   siempre y actúan fuera de `~/.savia/dual`. `--reconfigure` los omite.
 7. Resume el estado real (servicio, salud del proxy) y sale con 0 (ok),
    1 (falló un paso pedido) o 2 (argumento inválido)
 

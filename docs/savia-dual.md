@@ -81,8 +81,17 @@ El installer:
    SAVIA_DUAL_FAILOVER_ENABLED=true bash scripts/setup-savia-dual.sh --confirm-autonomous
    ```
 
-   Sin él, no toca nada fuera de `~/.savia/dual` y explica cómo arrancar
-   el proxy a mano. Salida: 0 ok, 1 paso fallido, 2 argumento inválido.
+   Sin él, no instala el servicio ni modifica `~/.bashrc`/`~/.zshrc`, y
+   explica cómo arrancar el proxy a mano. Salida: 0 ok, 1 paso fallido,
+   2 argumento inválido.
+
+   La puerta de doble opt-in cubre solo el paso 7. Los pasos 1, 2 y 5 se
+   ejecutan siempre y actúan fuera de `~/.savia/dual`: instalan Ollama
+   con el installer oficial (que puede pedir privilegios de
+   administrador), arrancan su daemon (vía la unidad systemd `ollama` si
+   existe) y descargan el modelo. Si no quieres que el installer toque
+   nada global, instala Ollama y el modelo antes por tu cuenta, o usa
+   `--reconfigure`, que omite esos pasos y regenera solo la config.
 
 Los datos de hardware detectados permanecen en memoria durante el
 installer. Nunca se escriben a ficheros versionados ni se transmiten

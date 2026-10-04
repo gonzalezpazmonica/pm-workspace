@@ -399,7 +399,9 @@ $endmark"
   done
 }
 
-# ── Double opt-in (SPEC-186) for anything outside ~/.savia/dual ────────────
+# ── Double opt-in (SPEC-186) for service + shell rc ────────────────────────
+# Ollama install/daemon start and the model pull ran above, ungated: they
+# are the installer's purpose and docs/savia-dual.md says so.
 # The gate prints its own diagnostics; here they are folded into one notice.
 GLOBAL_OK=0
 optin_args=(--skill savia-dual)
