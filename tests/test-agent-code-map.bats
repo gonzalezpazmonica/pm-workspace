@@ -101,6 +101,37 @@ valid_json() {
   [ "$output" = "0" ]
 }
 
+# Ruta refreshed aislada (sin repo stale que fuerce RC=1 por otro camino):
+# la mas comun en produccion; protege la salida de estado de refresh_repo.
+@test "write error on refreshed-path acm alone fails with exit 1 in all-repos mode" {
+  [ "$(id -u)" -ne 0 ] || skip "root ignora permisos de escritura"
+  mkrepo api "feat: x"
+  acm api.acm
+  printf '# INDEX\n> refreshed: 2000-01-01\n' > "$P/.agent-maps/INDEX.acm"
+  chmod 555 "$MAPS"
+  run bash -c '"$0" demo 2>"$1/err"' "$RUN" "$TMPDIR_TEST"
+  chmod 755 "$MAPS"
+  [ "$status" -eq 1 ]
+  [[ "$output" == *'"repo":"api","status":"error"'* ]]
+  run cat "$TMPDIR_TEST/err"
+  [[ "$output" != *"OK refresh-agent-maps"* ]]
+  run grep -c "refreshed: 2000-01-01" "$P/.agent-maps/INDEX.acm"
+  [ "$output" = "1" ]
+}
+
+@test "write error on refreshed-path acm fails with exit 1 in single-repo mode" {
+  [ "$(id -u)" -ne 0 ] || skip "root ignora permisos de escritura"
+  mkrepo api "feat: x"
+  acm api.acm
+  chmod 555 "$MAPS"
+  run bash -c '"$0" demo api 2>"$1/err"' "$RUN" "$TMPDIR_TEST"
+  chmod 755 "$MAPS"
+  [ "$status" -eq 1 ]
+  [[ "$output" == *'"repo":"api","status":"error"'* ]]
+  run cat "$TMPDIR_TEST/err"
+  [[ "$output" != *"OK refresh-agent-maps"* ]]
+}
+
 @test "unique temp file: a pre-existing acm.tmp is neither consumed nor overwritten" {
   mkrepo api "feat: x"
   acm api.acm
