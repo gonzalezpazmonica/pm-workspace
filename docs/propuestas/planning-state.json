@@ -980,12 +980,13 @@
     },
     {
       "id": "SE-433",
-      "status": "PROPOSED",
+      "status": "APPROVED",
       "priority": "P1",
       "title": "merge-sprint: merges autónomos bajo autorización humana previa",
       "evidence": "docs/specs/SE-433-merge-sprint.spec.md",
-      "note": "Petición de la operadora 2026-10-04; manifiesto congelado firmado con factor que el agente no posee; ejecutor determinista; revisión ligada al SHA que solo resta; tier 4 excluido; pendiente de aprobación",
-      "phase": "A"
+      "note": "Aprobada por la operadora 2026-10-04 (AskUserQuestion: «Apruebo SE-433»); autorización por respuesta en la sesión orquestadora (D1 revisada); ejecutor determinista; revisión ligada al SHA que solo resta; tier 4 excluido",
+      "phase": "A",
+      "approval": "Operadora 2026-10-04 (AskUserQuestion): '¿Apruebas SE-433 (merge-sprint) con tus 9 decisiones…?' → 'Apruebo SE-433'"
     }
   ],
   "route": {

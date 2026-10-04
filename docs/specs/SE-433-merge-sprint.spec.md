@@ -1,5 +1,8 @@
 ---
-status: PROPOSED
+status: APPROVED
+approved_at: 2026-10-04
+approved_by: operadora
+approval_source: "AskUserQuestion 2026-10-04 — pregunta: «¿Apruebas SE-433 (merge-sprint) con tus 9 decisiones…?»; respuesta: «Apruebo SE-433»"
 priority: P1
 developer_type: agent-single
 created: 2026-10-04
@@ -13,8 +16,11 @@ timeline:
     learned: "2026-10-04"
     value: "PROPOSED"
     source: "spec-lifecycle:auto"
+  - from: "2026-10-04"
+    learned: "2026-10-04"
+    value: "APPROVED"
+    source: "spec-lifecycle:auto"
 ---
-
 # SE-433 — merge-sprint: merges autónomos bajo autorización humana previa
 
 ## Problema
@@ -44,15 +50,16 @@ diagnóstico es correcto.
 
 ## Objetivo
 
-Que la afirmación «**lo autorizó un humano, con firma, sobre una lista concreta y tras ver la
-revisión de agentes**» sea verdad y se compruebe mecánicamente. Un **merge-sprint** es una ventana
-acotada en la que un ejecutor determinista (un script, sin LLM) mergea en serie una lista congelada
-de PRs que la operadora autorizó antes con una firma que solo ella puede producir.
+Que la afirmación «**lo autorizó un humano, de forma expresa, sobre una lista concreta y tras ver la
+revisión de agentes**» sea verdad y quede registrada de forma verificable. Un **merge-sprint** es una
+ventana acotada en la que un ejecutor determinista (un script, sin LLM) mergea en serie una lista
+congelada de PRs que la operadora autorizó antes respondiendo a una pregunta interactiva que le muestra
+el manifiesto completo.
 
-**Principio rector:** la autorización solo nace de la firma humana. Ninguna salida de un agente puede
+**Principio rector:** la autorización solo nace de la respuesta expresa de la operadora (el grant). Ninguna salida de un agente puede
 añadir un PR, subir un tier permitido, prorrogar el sprint ni sustituir una revisión. Las salidas de
 agentes (revisiones, el juez de cambios, la CI y el clasificador de riesgo) solo pueden **mantener o
-restar**: dejar seguir un PR ya firmado, aparcarlo o parar el sprint. Esto aplica la línea roja de
+restar**: dejar seguir un PR ya autorizado, aparcarlo o parar el sprint. Esto aplica la línea roja de
 `savia-ethical-principles.md`: lo irreversible se decide con confirmación humana; la IA propone y la
 operadora dispone.
 
@@ -66,37 +73,42 @@ operadora dispone.
 | A4 | Agente adversarial con shell arbitraria del mismo usuario: edita el ejecutor o llama a `gh pr merge`. | No. Lo contiene la capa de permisos del frontend, no un script. Se declara, no se oculta. |
 
 Hecho de partida: los agentes usan las credenciales de GitHub y el usuario del sistema de la
-operadora. Cualquier señal en GitHub o en disco es reproducible por un agente. El único factor que un
-agente no puede producir es un secreto que no posee.
+operadora, y cualquier señal en GitHub o en disco es reproducible por un agente. La operadora trabaja
+en remoto desde el móvil, así que un secreto tecleado en una terminal local no es practicable. Por
+eso el factor humano es su respuesta en la sesión interactiva (D1), y **su autenticidad descansa en el
+harness de Claude Code y en el clasificador, no en criptografía** (§2.3, «Límite»).
 
 ## Coherencia con Rule 8, SE-343 y SE-362
 
 - **Rule 8** («Code Review (E1) SIEMPRE humano; NUNCA autoaprobar; merge con grant expreso y gates de
   riesgo»). En un merge-sprint, para tier 1/2, E1 es la revisión de agente congelada más la
-  autorización humana firmada. Es el mismo estatus que hoy tiene el grant de SE-343 tras CI y gates,
-  con un factor humano más fuerte. Ningún humano lee el diff de esos PRs: se dice así.
+  autorización humana registrada en el grant. Es el mismo estatus que hoy tiene el grant de SE-343
+  tras CI y gates, con más contexto ligado (pregunta y respuesta literales, hash del manifiesto). Ningún humano lee el diff de esos PRs: se dice así.
 - **Tier 3 (SE-362: «revisión humana explícita del PR concreto»).** Por decisión expresa de la
-  operadora, en un merge-sprint esa revisión es la firma de un manifiesto que lista el PR por número
-  y con su `ack`, junto con una revisión de seguridad específica de un agente independiente del autor.
+  operadora, en un merge-sprint esa revisión es su aprobación de un manifiesto que lista el PR por
+  número, con su `ack` (selección explícita de ese PR), junto con una revisión de seguridad específica de un agente independiente del autor.
   **Esto modifica la lectura de SE-362 y de Rule 8 E1 para tier 3**: la operadora autoriza tras ver
   el resumen y las revisiones, no tras leer el código. Aprobar SE-433 es aceptar esa modificación; la
   enmienda textual se propone en §2.11.
 - **Tier 4**: nunca entra en un merge-sprint (SE-362 exige doble humano).
-- **SE-343**: el grant `merge` se unificará con este modelo de firma. La enmienda se propone en
+- **SE-343**: el grant `merge` se unificará con este modelo de autorización. La enmienda se propone en
   §2.11 y no se implementa en esta spec.
 
 ## Decisiones (operadora, 2026-10-04)
 
+SE-433 fue **aprobada** por la operadora el 2026-10-04 (AskUserQuestion: «¿Apruebas SE-433
+(merge-sprint) con tus 9 decisiones…?» → «Apruebo SE-433»). Después, D1 cambió por decisión suya.
+
 | # | Tema | Decisión |
 |---|---|---|
-| D1 | Factor de firma | Clave ed25519 local en `~/.savia`, cifrada con una passphrase que solo la operadora teclea por TTY. |
-| D2 | Tier 3 | Entra en v1. Cada PR va listado por número en el manifiesto firmado, que actúa como revisión humana del PR concreto, y lleva además una revisión de seguridad específica. Tier 4 siempre queda fuera. |
-| D3 | Commit de código posterior a la firma | Un agente juez independiente del autor del fix lo analiza. Si es seguro, el sprint sigue; si cambia el alcance o la seguridad, STOP para revisión humana. Fail-closed y todo en el ledger. El ejecutor verifica el veredicto, que solo puede mantener o parar (§2.7). |
+| D1 | Factor de autorización | «Respuesta en esta sesión»: la operadora autoriza un sprint respondiendo a una pregunta interactiva (AskUserQuestion) de la sesión orquestadora que le muestra el manifiesto completo (PRs, tiers, TTL, límites). Sustituye a la decisión inicial de passphrase por TTY, inviable trabajando desde el móvil. |
+| D2 | Tier 3 | Entra en v1. Cada PR va listado por número en el manifiesto autorizado, que actúa como revisión humana del PR concreto, y lleva además una revisión de seguridad específica. Tier 4 siempre queda fuera. |
+| D3 | Commit de código posterior al grant | Un agente juez independiente del autor del fix lo analiza. Si es seguro, el sprint sigue; si cambia el alcance o la seguridad, STOP para revisión humana. Fail-closed y todo en el ledger. El ejecutor verifica el veredicto, que solo puede mantener o parar (§2.7). |
 | D4 | Revisor de otro modelo | No hace falta. Basta un revisor independiente del autor. |
 | D5 | CI inestable | Sin reintento. El PR se aparca y se registra una tarea de causa raíz. |
 | D6 | Auto-rebase | Se pausa para los PRs del manifiesto vigente. |
-| D7 | SE-343 | El grant `merge` también exigirá firma con passphrase (enmienda propuesta, §2.11). |
-| D8 | Límites por defecto | TTL de 12 h, 40 merges y 50 PRs por manifiesto. Configurables al firmar, dentro de los topes absolutos (§2.3). |
+| D7 | SE-343 | El grant `merge` se unifica con el mismo modelo: autorización expresa registrada con pregunta, respuesta, sesión y hash (enmienda propuesta, §2.11). La decisión original decía «firma con passphrase»; se adapta al cambio de D1. |
+| D8 | Límites por defecto | TTL de 12 h, 40 merges y 50 PRs por manifiesto. Configurables al autorizar, dentro de los topes absolutos (§2.3). |
 | D9 | `.confidentiality-signature` | Se admite como derivado en la equivalencia solo si el ejecutor repite la auditoría de confidencialidad sobre el nuevo head con resultado PASSED. |
 
 ## 2. Contrato técnico
@@ -105,26 +117,26 @@ agente no puede producir es un secreto que no posee.
 
 | Subcomando | Quién | Qué hace |
 |---|---|---|
-| `init-key` | **solo la operadora, en su propia terminal** | Crea la clave ed25519 en `~/.savia`, cifrada con passphrase, y muestra la clave pública que debe versionarse en `config/merge-sprint/allowed_signers` mediante un PR tier 4 mergeado a mano. |
 | `review-register <pr> <informe>` | agente revisor o juez | Único registro válido de revisiones y veredictos de juez: añade una entrada al registro append-only y encadenado y publica un espejo como comentario del PR. |
-| `plan --prs <N…> \| --query <q>` | agente u operadora | Resuelve la lista y escribe un borrador de manifiesto. No es de confianza: `sign` lo recalcula todo. |
-| `sign <manifest>` (alias `grant`) | **solo la operadora, en su propia terminal** | Recalcula, muestra, pide confirmaciones y firma (§2.3). |
+| `plan --prs <N…> \| --query <q>` | agente u operadora | Resuelve la lista y escribe un borrador de manifiesto. No es de confianza: `render-question` lo recalcula todo. |
+| `render-question <manifest>` | sesión orquestadora | Recalcula el manifiesto y emite el texto exacto de la pregunta y de la opción de aprobación (§2.3). |
+| `grant --manifest <m> --session <id> --question-file <q> --answer-file <a>` | **solo la sesión orquestadora, justo después de la respuesta** | Registra el grant (§2.3). |
+| `revoke <id>` | cualquiera | Revocación inmediata: STOP y grant invalidado. |
 | `run <id>` | agente con permiso acotado | Verifica y ejecuta (§2.5). |
 | `status <id>` · `stop [<id>]` · `report <id>` · `verify-ledger <id>` | cualquiera | Parar siempre es seguro. Un sprint parado por una condición de parada no se reanuda. |
 
-El estado local vive en `~/.savia/merge-sprints/<id>/` (manifiesto, firma, ledger, solicitudes al
+El estado local vive en `~/.savia/merge-sprints/<id>/` (manifiesto, grant, ledger, solicitudes al
 juez, informe) y nunca en el repo. Hay dos ficheros STOP: el global `~/.savia/merge-sprints/STOP` y
 el de cada sprint, `~/.savia/merge-sprints/<id>/STOP`.
 
 ### 2.2 Manifiesto
 
-Es un JSON canónico (claves ordenadas, sin espacios). El digest que se firma es su SHA-256.
+Es un JSON canónico (claves ordenadas, sin espacios). Su SHA-256 es el digest al que se liga el grant.
 
-- `id`, `repo`, `base`, `created_at`, `expires_at`, `max_merges`, `allowed_tiers` ⊆ {1,2,3},
+- `id`, `repo`, `base`, `created_at`, `ttl_hours` (cuenta desde `issued_at` del grant), `max_merges`, `allowed_tiers` ⊆ {1,2,3},
   `max_consecutive_parks`.
 - `runner_blob` y `classifier_blob`: blobs de `scripts/merge-sprint.sh` y `scripts/risk-tier.py` en
   `origin/main`.
-- `signers_blob`: blob de `config/merge-sprint/allowed_signers` en `origin/main`.
 - `required_checks`: instantánea de los checks obligatorios de la protección de `base`. No puede estar
   vacía.
 - `main_workflows`: workflows cuyo resultado sobre `base` cuenta como «CI de main».
@@ -134,43 +146,97 @@ Es un JSON canónico (claves ordenadas, sin espacios). El digest que se firma es
   - `tier` y `tier_reason`;
   - `reviews[]`, con `{sha256, role: correctness|security, verdict, reviewer, author, registered_at}`.
     Son **todas** las revisiones registradas para `(pr, head)`.
-  - `ack`, solo en tier 3: el número del PR tecleado por la operadora.
+  - `ack`, solo en tier 3: la selección explícita de ese PR por la operadora en la pregunta.
 
 `tier` es el máximo de tres valores: `risk-tier.py` (en la versión de `classifier_blob`) sobre el
 diff, el tier que declare cualquier revisión y cualquier retención registrada. Es monótono: nada lo
 baja.
 
-### 2.3 Emisión del grant (`sign`)
+### 2.3 Emisión del grant (D1: respuesta en la sesión)
 
-- **Factor (D1).** Firma con `ssh-keygen -Y sign -n savia-merge-sprint` y una clave ed25519 de la
-  operadora en `~/.savia`, cifrada con passphrase y no cargada en `ssh-agent`. Se verifica con
-  `ssh-keygen -Y verify` contra `config/merge-sprint/allowed_signers`, leído de `origin/main` y nunca
-  del árbol de trabajo.
-- **`sign` no confía en `plan`.** Recalcula desde GitHub y `origin/main`:
-  - heads y base;
-  - ficheros y modos;
-  - el tier;
-  - todas las revisiones registradas de cada `(pr, head)`, vueltas a parsear;
-  - los blobs;
-  - los checks obligatorios y los workflows de `main`.
+**Flujo**
 
-  Ante cualquier discrepancia con el borrador, aborta sin firmar. Excluye cualquier PR con al menos
-  un HOLD.
-- **Resumen.** Lo genera `sign`, no `plan`. Por PR muestra primero los campos deterministas
-  (ficheros, diffstat, tier y su motivo, número de revisiones por rol y veredictos). Después, el texto
-  libre (título y hallazgos), marcado como no fiable. Resalta cualquier cambio de `runner_blob`,
-  `classifier_blob` o `signers_blob` respecto al último grant.
-- **Confirmaciones.**
-  - Una frase `MERGE <n> PRs <id>`, que asegura deliberación pero no es un factor de seguridad.
-  - Para cada PR de tier 3, teclear su número (`ack`).
-  - Para cada límite fuera de los valores por defecto, teclear el valor.
-- **Límites (D8).**
-  - Por defecto: `expires_at` = ahora + 12 h, `max_merges` = 40 y como máximo 50 PRs.
-  - Topes absolutos que impone el ejecutor, firme lo que firme la operadora: TTL ≤ 24 h, PRs ≤ 50,
-    `max_merges` ≤ número de PRs, `max_consecutive_parks` ≤ 3 y `allowed_tiers` ⊆ {1,2,3}.
-- **Dónde no se ejecuta.** `sign` (y `init-key`) no se ejecuta en la sesión de un agente (tampoco con `!`): la frase
-  y el resumen acabarían en la conversación. Un agente no puede emitir, ampliar, prorrogar ni
-  re-firmar un grant, y cambiar un byte del manifiesto invalida la firma.
+1. **`render-question` no confía en `plan`.** Recalcula desde GitHub y `origin/main`:
+   - heads, base, ficheros y modos;
+   - el tier;
+   - todas las revisiones registradas de cada `(pr, head)`, vueltas a parsear;
+   - los blobs;
+   - los checks obligatorios y los workflows de `main`.
+
+   Ante cualquier discrepancia con el borrador, aborta. Excluye cualquier PR con al menos un HOLD.
+   Escribe el manifiesto definitivo y emite:
+   - **El texto exacto de la pregunta.** Contiene el manifiesto completo y el digest SHA-256
+     completo:
+     - por PR, primero los campos deterministas (número, ficheros, diffstat, tier y su motivo, número
+       de revisiones por rol y veredictos) y después el texto libre (título y hallazgos), marcado como
+       no fiable;
+     - TTL, `max_merges`, `allowed_tiers` y los límites que se salgan de los valores por defecto;
+     - los cambios de `runner_blob` o `classifier_blob` respecto al último grant.
+   - **La opción de aprobación literal**, `Apruebo merge-sprint <id> <digest[:12]>`, frente a
+     `Rechazo`.
+   - **Para los PRs de tier 3, una pregunta de selección múltiple.** Cada PR de tier 3 que la
+     operadora no seleccione expresamente sale del manifiesto (su `ack`). Hay una pregunta por cada
+     bloque de PRs que admita el control, y si el manifiesto cambia se vuelve a `render-question`.
+2. **La sesión orquestadora la formula con AskUserQuestion, sin editarla.** Si el texto completo no
+   cabe en la pregunta, se muestra en el mensaje inmediatamente anterior y la pregunta cita el digest
+   completo y el recuento por tier.
+3. **Justo después de la respuesta, la misma sesión ejecuta `grant`.** El comando escribe `grant.json`
+   con:
+   - `manifest_digest`;
+   - `question` y `answer`, literales;
+   - `session_id` e `issued_at`;
+   - el contexto de emisión (§ Mitigaciones).
+
+   Después lo añade al ledger encadenado. `grant` falla, y no escribe nada, en estos casos:
+   - la respuesta no es exactamente la opción de aprobación;
+   - la pregunta no contiene el digest del manifiesto;
+   - el manifiesto cambió desde `render-question`;
+   - ya existe un grant para ese manifiesto.
+
+**Límites (D8)**
+
+- Por defecto: TTL de 12 h desde `issued_at`, `max_merges` = 40 y como máximo 50 PRs.
+- Topes absolutos que impone el ejecutor, autorice lo que autorice el grant: TTL ≤ 24 h, PRs ≤ 50,
+  `max_merges` ≤ número de PRs, `max_consecutive_parks` ≤ 3 y `allowed_tiers` ⊆ {1,2,3}.
+
+**Límite (dicho sin rodeos)**
+
+El grant es un fichero que escribe un agente. Su autenticidad, es decir, que esa respuesta la dio la
+operadora y no un agente, depende del harness de Claude Code (AskUserQuestion solo devuelve lo que
+respondió la persona) y del clasificador. No depende de criptografía. Un agente con shell arbitraria
+(A4) podría fabricar un `grant.json`. Las mitigaciones de abajo hacen que fabricarlo sea detectable o
+inútil, pero no imposible.
+
+**Mitigaciones**
+
+- **Coincidencia exacta.** El ejecutor solo acepta un grant cuyo `manifest_digest` coincida byte a byte
+  con el manifiesto que ejecuta y cuya `answer` sea la opción de aprobación de ese digest. Un grant
+  sirve para un único manifiesto y no se puede ampliar, prorrogar ni reutilizar.
+- **Ledger encadenado.** La emisión, cada merge, cada aparcamiento y cada parada quedan en el ledger
+  encadenado por hash; `verify-ledger` lo valida.
+- **Informe a la operadora.** El acuse del grant (id, digest, PRs, TTL) se le envía al arrancar `run`,
+  y el informe final al terminar o parar, por la sesión y por el canal de notificación que tenga
+  configurado. Un grant que ella no reconozca es visible de inmediato.
+- **Un subagente nunca emite un grant** (comprobación del contexto de emisión, si es viable). Un hook
+  PreToolUse rechaza `merge-sprint.sh grant` cuando la entrada del hook identifica la llamada como de
+  un subagente o de un compañero de equipo. `grant` registra ese contexto. Si la implementación
+  demuestra que el harness no expone el dato, se documenta como no verificable y queda solo la regla
+  de permisos.
+- **Contraste con el transcript** (si es viable). El ejecutor localiza el transcript de `session_id` y
+  comprueba que la pregunta y la respuesta literales figuran como `tool_use`/`tool_result` de
+  AskUserQuestion, en ese orden y antes de `issued_at`. Es una comprobación de coherencia, no una
+  prueba: el transcript también es un fichero del mismo usuario.
+- **Permiso `ask` para `grant`.** La operadora aprueba también la llamada a `grant` desde la interfaz
+  remota: es una segunda interacción humana con el harness.
+- **Revocación inmediata.** `revoke <id>`, `stop` o el fichero STOP invalidan el grant y paran el
+  sprint antes del siguiente paso. La operadora puede pedirlo en la sesión con una sola palabra.
+
+**Mejoras futuras (fuera de alcance)**
+
+- Una cuenta bot de GitHub con aprobación de la operadora desde su propia cuenta.
+- Aprobación en Savia Mobile con biometría y firma en el dispositivo.
+
+Ambas añadirían un factor que un agente no puede reproducir.
 
 ### 2.4 Revisión
 
@@ -189,7 +255,7 @@ VERDICT: APPROVE|HOLD pr=<N> sha=<40 hex minúsculas> role=correctness|security 
   - tier 1/2: al menos una revisión APPROVE con `role=correctness`;
   - tier 3: además, una APPROVE con `role=security`. Basta con que cada revisión sea de una instancia
     independiente del autor, sin exigir otro modelo (D4).
-- Las revisiones se congelan antes de la firma. Una revisión posterior no autoriza nada, y una
+- Las revisiones se congelan antes del grant. Una revisión posterior no autoriza nada, y una
   revisión modificada (hash distinto) aparca el PR. `run` vuelve a parsear cada revisión y no se
   limita a comprobar su hash.
 
@@ -197,12 +263,12 @@ VERDICT: APPROVE|HOLD pr=<N> sha=<40 hex minúsculas> role=correctness|security 
 
 Precondiciones de `run`, todas fail-closed:
 
-- firma válida;
-- `now < expires_at`;
+- grant válido: existe, su `manifest_digest` coincide exactamente, la respuesta es la opción de aprobación de ese digest y no está revocado;
+- `now < grant.issued_at + ttl_hours`;
 - `merged < max_merges`;
 - topes absolutos respetados;
 - sin fichero STOP;
-- blobs del ejecutor, del clasificador y de los firmantes iguales a los firmados;
+- blobs del ejecutor y del clasificador iguales a los del manifiesto;
 - checks obligatorios vivos ⊇ `required_checks` y no vacíos;
 - lock exclusivo (un sprint por máquina).
 
@@ -217,18 +283,18 @@ En la reconciliación tras una caída, se consulta la reserva F5 (SE-387) `pr.me
 
 Por cada entrada, en orden ascendente:
 
-1. Revalidar firma, TTL, contador y STOP. Comprobar la CI de `main`. Si no está en verde: STOP.
+1. Revalidar el grant, TTL, contador y STOP. Comprobar la CI de `main`. Si no está en verde: STOP.
 2. Comprobar el PR:
    - si está cerrado y reabierto desde `plan`, o han cambiado su `baseRefName` o su `head_repo`,
      anomalía y STOP;
    - si el head cambió, pasar al paso 6.
 3. Volver a parsear las revisiones y comprobar sus hashes. Si alguna cambió o hay un HOLD nuevo
    registrado para ese SHA, aparcar.
-4. Recalcular el tier con el clasificador firmado. Si sube o queda fuera de `allowed_tiers`, aparcar.
+4. Recalcular el tier con el clasificador del manifiesto. Si sube o queda fuera de `allowed_tiers`, aparcar.
 5. Re-sync: merge de `origin/main` en la rama, nunca rebase ni force-push. Los conflictos solo en
    derivados (§2.6) se regeneran. Cualquier otro conflicto aparca el PR. Push con commit
    `agent(merge-sprint): …`: el push con las credenciales de la operadora dispara la CI.
-6. Equivalencia (§2.6) entre el `head` firmado y el head actual:
+6. Equivalencia (§2.6) entre el `head` autorizado y el head actual:
    - si se cumple, fijar `S` = head actual;
    - si no, el PR pasa a `awaiting_judge` (§2.7) y se sigue con el siguiente.
 7. Esperar, con plazo, los `required_checks` sobre `S`. Si en cualquier punto el head es distinto de
@@ -250,7 +316,7 @@ Al aparcar un PR que ya salió de Draft, vuelve a Draft.
 | CI roja del PR, conflicto real, revisión cambiada o con HOLD nuevo, tier elevado, merge rechazado, timeout de CI | Aparcar, registrar y seguir |
 | Equivalencia fallida | `awaiting_judge` (§2.7) |
 | CI de `main` que no queda en verde tras un merge | STOP |
-| Firma inválida, manifiesto alterado, blobs distintos, merge externo, base o repo cambiados, PR reabierto, checks obligatorios reducidos | STOP (anomalía) |
+| Grant inválido o revocado, manifiesto alterado, blobs distintos, merge externo, base o repo cambiados, PR reabierto, checks obligatorios reducidos | STOP (anomalía) |
 | Veredicto `STOP` del juez, o veredicto inválido o fuera de plazo | STOP |
 | Máximo de merges, TTL o fichero STOP | STOP |
 | `max_consecutive_parks` aparcamientos seguidos | STOP |
@@ -261,7 +327,7 @@ una garantía frente a A4.
 
 ### 2.6 Equivalencia del head (por árbol)
 
-Sean `H0` el `head` firmado, `H1` el head actual y `M` el commit de `main` integrado en `H1`.
+Sean `H0` el `head` autorizado, `H1` el head actual y `M` el commit de `main` integrado en `H1`.
 
 - `T = git merge-tree --write-tree M H0`. Los conflictos solo pueden estar en derivados.
 - Para cada path fuera de la lista de derivados, el blob y el modo en `H1` deben ser iguales a los de
@@ -274,12 +340,12 @@ Sean `H0` el `head` firmado, `H1` el head actual y `M` el commit de `main` integ
     sobre `H1` con resultado PASSED y la re-firma con `scripts/confidentiality-sign.sh`. Sin PASSED,
     el PR se aparca. La CI (`confidentiality-gate`) verifica la firma.
 
-### 2.7 Juez de cambios posteriores a la firma (D3)
+### 2.7 Juez de cambios posteriores al grant (D3)
 
 El ejecutor sigue sin usar ningún LLM. El juez es un agente externo, consultado de forma asíncrona:
 
 1. **Solicitud** (`<id>/judge/<pr>-<sha>.request.json`):
-   - `pr`, `from` (el head firmado) y `to` (el head actual);
+   - `pr`, `from` (el head autorizado) y `to` (el head actual);
    - el diff `from..to` sin los derivados;
    - la entrada del manifiesto y los hashes de las revisiones previas;
    - `fix_author` (trailer de los commits) y el tier.
@@ -305,7 +371,7 @@ El ejecutor sigue sin usar ningún LLM. El juez es un agente externo, consultado
    `SAFE` exige `scope=unchanged security=unchanged`.
 5. **Verificación del ejecutor.** Si falla cualquiera de estos puntos, STOP:
    - el formato es válido;
-   - `from` es el head firmado y `to` es el head actual;
+   - `from` es el head autorizado y `to` es el head actual;
    - `judge` es distinto de `fix_author`, del autor original y del orquestador;
    - hay un único veredicto para `(pr, to)`;
    - llega dentro del plazo (60 min por defecto).
@@ -322,7 +388,7 @@ El ejecutor sigue sin usar ningún LLM. El juez es un agente externo, consultado
   Como en todo merge, se espera la CI de `main` antes del siguiente.
 - **Tier 4.** Se excluye siempre.
 - **Paths de gobernanza, clasificados tier 4** (cambio en `risk-tier.py`):
-  - `scripts/merge-sprint.sh`, `scripts/risk-tier.py` y `config/merge-sprint/`;
+  - `scripts/merge-sprint.sh` y `scripts/risk-tier.py`;
   - `.claude/settings*.json` y `.opencode/` (permisos y plugins);
   - `docs/rules/domain/autonomous-safety*.md`, `CLAUDE.md` y `AGENTS.md`;
   - `docs/rules/domain/savia-ethical-principles.md` y `docs/rules/domain/radical-honesty.md`;
@@ -350,33 +416,41 @@ Los aparcamientos, las paradas, las solicitudes al juez y las tareas de causa ra
 registran, con su motivo.
 
 El informe local para la operadora incluye: los merges, los PRs aparcados con su causa, las tareas de
-causa raíz, las decisiones del juez, el motivo de fin y los PRs que necesitan arreglo y una nueva
-firma.
+causa raíz, las decisiones del juez, el motivo de fin y los PRs que necesitan arreglo y un grant
+nuevo. Se envía a la operadora (§2.3, Mitigaciones).
 
 ### 2.10 Permiso mínimo en el frontend
 
 Lo añade la operadora en sus settings, nunca un agente:
 
-- **Allow**: solo `bash scripts/merge-sprint.sh run|status|stop|plan|review-register|verify-ledger`.
+- **Allow**: `bash scripts/merge-sprint.sh run|status|stop|revoke|report|plan|render-question|review-register|verify-ledger`.
+- **Ask**: `bash scripts/merge-sprint.sh grant`. La operadora aprueba también esta llamada desde la
+  interfaz remota.
 - **Deny**:
   - `gh pr merge` en general;
-  - `merge-sprint.sh sign`, su alias `grant` e `init-key`;
-  - editar `scripts/merge-sprint.sh`, `scripts/risk-tier.py` y `config/merge-sprint/`.
+  - editar `scripts/merge-sprint.sh` y `scripts/risk-tier.py`;
+  - escribir en `~/.savia/merge-sprints/`.
 
-El permiso por sí solo no mergea: sin un manifiesto firmado y vigente, `run` termina con error.
+Los settings no distinguen la sesión orquestadora de un subagente. Esa distinción la hace, si es
+viable, el hook de contexto de emisión (§2.3).
 
-No elude el clasificador. El clasificador protege a la operadora de merges que ella no autorizó; aquí
-ella autoriza la lista con un factor que el agente no tiene y concede un único camino, acotado y con
-rastro.
+El permiso por sí solo no mergea: sin un grant vigente para el manifiesto exacto, `run` termina con
+error.
+
+No elude el clasificador. El clasificador protege a la operadora de merges que ella no autorizó. Aquí
+ella autoriza la lista de forma expresa en la sesión, y el ejecutor solo actúa con ese registro: un
+único camino, acotado y con rastro. Este modelo depende de que el clasificador y el harness sigan
+impidiendo que un agente responda por ella (§2.3, «Límite»).
 
 ### 2.11 Enmiendas propuestas (se aplican al implementar, no en esta spec)
 
 - **`autonomous-safety.md`.** Añadir esta excepción a «NUNCA merge de ninguna rama» y a «grant de
-  merge expreso vigente»: «salvo el ejecutor de merge-sprint con un manifiesto firmado vigente
+  merge expreso vigente»: «salvo el ejecutor de merge-sprint con un manifiesto autorizado vigente
   (`autonomous-safety-merge-sprint.md`); el re-sync con `main` de las ramas del manifiesto lo hace
   solo ese ejecutor».
-- **SE-343 (D7).** `operator-grant.sh grant --scope merge` exigirá la misma firma con passphrase. Un
-  grant escrito por un agente dejará de bastar para `push-pr.sh --merge`. Spec de enmienda aparte.
+- **SE-343 (D7).** `operator-grant.sh grant --scope merge` exigirá el mismo modelo de autorización:
+  pregunta y respuesta literales, sesión y hash del PR. Un grant sin ese registro dejará de bastar para
+  `push-pr.sh --merge`. Va en una spec de enmienda aparte.
 - **SE-362 / Rule 8 E1.** Añadir la lectura de tier 3 de la sección «Coherencia».
 - **`auto-rebase-open-prs.yml` (D6).** Omitir los PRs con la etiqueta `merge-sprint:<id>`.
 - **`risk-tier.py`.** Añadir los paths de gobernanza de §2.8.
@@ -390,12 +464,13 @@ Esta propuesta, que es solo documental:
 - `docs/rules/domain/autonomous-safety.md` (enlace)
 - `docs/specs/SE-343-operator-grant-switch.spec.md` (nota de enmienda propuesta, D7)
 - `docs/rules/domain/rule-manifest.json`, `docs/propuestas/planning-state.json` y
-  `docs/propuestas/LOG.md` (registro)
+  `docs/propuestas/LOG.md`, `docs/propuestas/ROADMAP-CURRENT.md` (registro)
 - `CHANGELOG.d/merge-sprint-spec.md`
 
 La implementación, cuando se apruebe:
 
-- `scripts/merge-sprint.sh`, `scripts/risk-tier.py` y `config/merge-sprint/allowed_signers`;
+- `scripts/merge-sprint.sh` y `scripts/risk-tier.py`;
+- el hook PreToolUse de contexto de emisión (si es viable);
 - `.github/workflows/auto-rebase-open-prs.yml`;
 - `tests/test-merge-sprint.bats`.
 
@@ -403,19 +478,22 @@ Los ficheros de tier 4 de la implementación se mergean a mano, nunca en un merg
 
 ## Criterios de aceptación
 
-Firma y grant:
+Grant:
 
-- **AC-01** `run` sin firma, con firma de otra clave o con un manifiesto alterado en un byte: exit ≠ 0,
-  ningún merge y evento `STOP:signature`.
-- **AC-02** `allowed_signers` se lee de `origin/main`. Si el árbol de trabajo tiene otra clave pública,
-  una firma hecha con la clave del árbol se rechaza.
-- **AC-03** `sign` (o su alias `grant`) sin TTY o sin la passphrase no produce firma. Ningún subcomando accesible al agente
-  escribe `manifest.sig`.
+- **AC-01** `run` sin grant, con un grant de otro manifiesto, con un manifiesto alterado en un byte o
+  con un grant revocado: exit ≠ 0, ningún merge y evento `STOP:grant`.
+- **AC-02** `grant` no escribe nada si la respuesta no es exactamente la opción de aprobación del
+  digest, si la pregunta no contiene el digest completo, si el manifiesto cambió desde
+  `render-question` o si ya existe un grant para ese manifiesto.
+- **AC-03** `grant.json` contiene la pregunta y la respuesta literales, `session_id`, `issued_at`,
+  `manifest_digest` y el contexto de emisión, y su emisión queda en el ledger. Si es viable, el hook
+  rechaza `grant` invocado desde un subagente (test con una entrada de hook simulada), y el contraste
+  con un transcript simulado sin la respuesta produce STOP.
 - **AC-04** Un borrador editado tras `plan` (`verdict`, `head`, `tier`, `files` o una revisión
-  omitida) hace que `sign` aborte sin firmar.
-- **AC-05** `sign` sin valores explícitos produce TTL de 12 h, `max_merges` 40 y rechaza más de 50
+  omitida) hace que `render-question` aborte.
+- **AC-05** Sin valores explícitos, el grant produce TTL de 12 h, `max_merges` 40 y rechaza más de 50
   PRs. Un manifiesto con TTL de 25 h, 51 PRs, parks > 3 o tier 4 en `allowed_tiers` hace que `run`
-  termine con error aunque esté firmado.
+  termine con error aunque tenga grant.
 
 Revisión:
 
@@ -437,11 +515,11 @@ Revisión:
   14. BOM o CRLF;
   15. `VERDICT：` con dos puntos de ancho completo;
   16. texto tras `p2_blocking`;
-  17. `tier=` mayor que el firmado;
+  17. `tier=` mayor que el autorizado;
   18. la línea válida.
 - **AC-07** Para un `(pr, sha)` con un HOLD y un APPROVE registrados posteriormente, el PR queda
-  excluido en `sign` y aparcado en `run`.
-- **AC-08** Una revisión con un hash distinto tras la firma aparca el PR con `review_changed`, y el
+  excluido en `render-question` y aparcado en `run`.
+- **AC-08** Una revisión con un hash distinto tras el grant aparca el PR con `review_changed`, y el
   sprint continúa.
 - **AC-09** Tier 3 sin `ack`, o sin revisión `role=security` APPROVE: aparcado. Tier 3 con ambas: se
   mergea.
@@ -471,11 +549,11 @@ Equivalencia y juez:
   - dos veredictos para el mismo `(pr, to)`;
   - el plazo vencido.
 
-  El veredicto nunca cambia `entries`, `allowed_tiers` ni `expires_at`.
+  El veredicto nunca cambia `entries`, `allowed_tiers` ni `ttl_hours`.
 
 Ejecución:
 
-- **AC-13** Un PR con el tier recalculado mayor que el firmado, o tier 4, queda aparcado. Cada path de
+- **AC-13** Un PR con el tier recalculado mayor que el autorizado, o tier 4, queda aparcado. Cada path de
   gobernanza de §2.8 se clasifica tier 4.
 - **AC-14** CI obligatoria en rojo: el PR queda aparcado, con cero reintentos (el `gh` falso registra
   una sola consulta de resultado por SHA) y una tarea de causa raíz en `<id>/tasks/`. El siguiente PR
@@ -489,7 +567,7 @@ Ejecución:
 
   En la traza no aparece ningún `git push --force` ni `git revert`.
 - **AC-16** Checks obligatorios vivos vacíos o reducidos respecto a `required_checks`: STOP.
-- **AC-17** `runner_blob`, `classifier_blob` o `signers_blob` distintos: STOP.
+- **AC-17** `runner_blob` o `classifier_blob` distintos: STOP. `revoke <id>` entre dos merges: el siguiente no se ejecuta.
 - **AC-18** Un PR reapuntado a otra base, con otro repo de head o cerrado y reabierto: STOP por
   anomalía.
 - **AC-19** `gh pr merge` siempre lleva `--match-head-commit S`, con el mismo `S` que superó la
@@ -517,13 +595,16 @@ Entrega:
 - **AC-28** El test BATS `tests/test-merge-sprint.bats`, con `gh` y repo git falsos, cubre AC-01 a
   AC-27 y lo certifica con ≥80 `scripts/test-auditor.sh`.
 - **AC-29** OpenCode: con su configuración de permisos (`permission.bash` y `permission.edit`) se
-  deniegan `gh pr merge`, `merge-sprint.sh sign|grant|init-key` y la edición del ejecutor, y se permite `run`.
+  deniegan `gh pr merge` y la edición del ejecutor, `grant` queda en `ask` y se permite `run`.
 - **AC-30** `autonomous-safety.md` enlaza `autonomous-safety-merge-sprint.md` y sigue por debajo de 150
   líneas.
 
 ## Fuera de alcance
 
 - Contener a un agente adversarial con shell arbitraria (A4).
+- Un factor de autorización criptográfico. Quedan como mejora futura:
+  - una cuenta bot de GitHub con aprobación de la operadora desde su cuenta;
+  - Savia Mobile con biometría y firma en el dispositivo.
 - Tier 4 en un merge-sprint.
 - Implementar la enmienda de SE-343 (spec aparte).
 - Revertir automáticamente o corregir `main` desde el ejecutor.
@@ -538,8 +619,11 @@ Entrega:
   revisiones de agentes (D2).
 - **Alcance de la CI.** Una CI verde prueba que no se rompió lo que se mide, no que el cambio sea
   correcto.
-- **Fatiga de firma.** Un manifiesto de hasta 50 PRs firmado sin leer vacía la firma de valor. Lo
+- **Fatiga de aprobación.** Un manifiesto de hasta 50 PRs aprobado sin leer vacía la aprobación de valor. Lo
   mitiga solo en parte el resumen determinista.
+- **Autenticidad del grant sin criptografía.** El grant lo escribe un agente. Que la respuesta sea de
+  la operadora depende del harness y del clasificador (§2.3). Las mitigaciones hacen que fabricarlo
+  sea detectable o inútil, no imposible.
 - **Identidades autodeclaradas.** Las identidades de los agentes que figuran en revisiones y
   veredictos son cadenas autodeclaradas. A3 queda detectado, no impedido, antes de `plan`.
 
@@ -552,6 +636,8 @@ Entrega:
 | `scripts/merge-sprint.sh` | Script bash invocado por Bash | Script bash idéntico |
 | `scripts/risk-tier.py` | Paths de gobernanza a tier 4 | Idéntico |
 | Permiso mínimo | `permissions.allow`/`deny` en los settings de la operadora | `permission.bash` y `permission.edit` con los mismos patrones |
+| Pregunta interactiva | AskUserQuestion en la sesión orquestadora | Herramienta de pregunta de OpenCode; mismo texto de `render-question` y misma opción literal |
+| Hook de contexto de emisión | PreToolUse (si el harness expone la identidad de subagente) | Plugin `savia-gates`, si OpenCode expone el dato; si no, SKIP documentado |
 | Regla | `docs/rules/domain/autonomous-safety-merge-sprint.md` | Misma regla (AGENTS.md generado) |
 
 ### Verification protocol
@@ -563,5 +649,9 @@ Entrega:
 
 ### Portability classification
 
-- [x] **PURE_BASH**: usa bash, git, `gh`, `ssh-keygen` y la librería estándar de python3, sin bindings
-  de frontend. Los permisos se expresan en la configuración nativa de cada motor.
+- [x] **DUAL_BINDING**:
+  - el ejecutor y `grant` son bash, git, `gh` y la librería estándar de python3, idénticos en los dos
+    motores;
+  - la pregunta interactiva y el hook de contexto de emisión son bindings de frontend, que se
+    implementan en Claude Code y OpenCode desde el primer slice;
+  - los permisos se expresan en la configuración nativa de cada motor.

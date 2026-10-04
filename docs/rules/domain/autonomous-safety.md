@@ -31,7 +31,7 @@ SIEMPRE tier 3/4: revisión humana explícita del PR concreto (SE-362)
 SIEMPRE tier 1/2: grant de merge expreso vigente (SE-343) + CI
 ```
 
-Merge: `autonomous-safety-merge-grant.md`. Merges en serie bajo firma previa: `autonomous-safety-merge-sprint.md` (SE-433, PROPOSED). Sin operadora ni reviewer elegible (`AUTONOMOUS_REVIEWER`, fuentes locales gitignored): abortar.
+Merge: `autonomous-safety-merge-grant.md`. Merges en serie bajo autorización previa: `autonomous-safety-merge-sprint.md` (SE-433, APPROVED). Sin operadora ni reviewer elegible (`AUTONOMOUS_REVIEWER`, fuentes locales gitignored): abortar.
 
 ## Investigación
 
