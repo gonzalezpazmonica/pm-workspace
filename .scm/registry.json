@@ -14102,6 +14102,27 @@
     {
       "depends_on": [],
       "frontend_support": [
+        "opencode"
+      ],
+      "id": "script:scripts/criticality-items",
+      "intents": [
+        "access",
+        "backlog",
+        "criticality",
+        "engine",
+        "items"
+      ],
+      "kind": "script",
+      "owner_domain": "planning",
+      "replaced_by": null,
+      "risk_level": null,
+      "source": "scripts/criticality-items.sh",
+      "status": "active",
+      "tests": []
+    },
+    {
+      "depends_on": [],
+      "frontend_support": [
         "claude",
         "opencode"
       ],
@@ -29604,7 +29625,7 @@
       "tests": []
     }
   ],
-  "content_hash": "15c0024a7faa",
+  "content_hash": "6de7ddcc0803",
   "deferred_kinds": [
     "rule",
     "hook"

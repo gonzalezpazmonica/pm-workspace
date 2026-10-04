@@ -1,5 +1,5 @@
 # planning — Savia Capability Map (L1)
-> 632 resources
+> 633 resources
 
 - **/decide-architecture** (cmd): Clasifica una tarea como WORKFLOW (deterministica) o AGENT (loop). Bias hacia workflow per Anthropic. Sugiere plantilla inicial. Mide accuracy contra corpus curado de 20 tareas.
 - **_template** (skill): TEMPLATE — copia este directorio para crear una skill nueva. NO se carga en runtime.
@@ -137,6 +137,7 @@
 - **criticality-assess** (cmd): Evaluar criticidad de un item con desglose de 5 dimensiones y perfil CoD
 - **criticality-dashboard** (cmd): Vista cross-project de items criticos P0-P3 con heatmap por equipo
 - **criticality-engine** (script): criticality-engine.sh — Operations: assess, dashboard, rebalance. Sourced by criticality.sh.
+- **criticality-items** (script): criticality-items.sh — Local backlog access for the criticality engine:
 - **criticality-rebalance** (cmd): Redistribuir carga de trabajo del equipo respetando criticidad y capacidad
 - **criticality-scoring** (script): criticality-scoring.sh — Pure scoring functions. Sourced by criticality-engine.sh.
 - **daily-activation-plan** (script): daily-activation-plan.sh — SE-034: Daily Agent Activation Plan

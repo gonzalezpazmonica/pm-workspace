@@ -1,6 +1,6 @@
 # Savia Capability Map — INDEX
-> hash: 1f0ca37df75b | resources: 1450
-> 295 commands · 139 skills · 90 agents · 926 scripts
+> hash: 0cdd138716a7 | resources: 1451
+> 295 commands · 139 skills · 90 agents · 927 scripts
 
 [analysis] Trace Optimize — across,distributed,optimize,rates,sampling — cmd:.claude/commands/trace-optimize.md
 [analysis] agent-activity — activity,agent,executions,recent,show — cmd:.claude/commands/agent-activity.md
@@ -689,6 +689,7 @@
 [planning] criticality-assess — criticidad,desglose,dimensiones,evaluar,item — cmd:.claude/commands/criticality-assess.md
 [planning] criticality-dashboard — criticos,cross,equipo,heatmap,items — cmd:.claude/commands/criticality-dashboard.md
 [planning] criticality-engine — assess,criticality,dashboard,engine,operations — script:scripts/criticality-engine.sh
+[planning] criticality-items — access,backlog,criticality,engine,items — script:scripts/criticality-items.sh
 [planning] criticality-rebalance — capacidad,carga,criticidad,equipo,redistribuir — cmd:.claude/commands/criticality-rebalance.md
 [planning] criticality-scoring — criticality,engine,functions,pure,scoring — script:scripts/criticality-scoring.sh
 [planning] daily-activation-plan — activation,agent,daily,plan — script:scripts/daily-activation-plan.sh
