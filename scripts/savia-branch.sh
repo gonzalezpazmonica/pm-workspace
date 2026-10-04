@@ -136,8 +136,12 @@ _apply_move() {
 }
 
 # ── Write file to specific branch via worktree ─────────────────
+# content "-": read from stdin (keeps message bodies out of argv)
 do_write() {
   local repo_dir="$1" branch="$2" filepath="$3" content="$4"
+  if [ "$content" = "-" ]; then
+    content=$(cat)
+  fi
   local msg="${5:-"auto: update $filepath"}"
   _branch_commit "$repo_dir" "$branch" "$msg" _apply_write "$filepath" "$content"
 }

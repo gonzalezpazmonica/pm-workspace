@@ -43,7 +43,19 @@ líneas `@bob` sueltas.
 
 ## Ciclo de vida de un mensaje
 
-1. `send <handle> <asunto> <cuerpo> [--encrypt] [--priority p]`: trae `main`
+El cuerpo NUNCA va en argv (`/proc/<pid>/cmdline` es legible por cualquier
+usuario local durante todo el envío): llega por stdin o con
+`--body-file <fichero>`, que debe tener modo 0600 (o 0400); `--body-file -`
+es stdin. Un cuerpo como argumento posicional se rechaza con código 2 y un
+cuerpo vacío con código 1. Internamente el mensaje llega a
+`savia-branch.sh write ... -` y a `savia-crypto.sh encrypt` también por
+stdin. Ejemplo:
+
+```bash
+printf '%s' "$cuerpo" | bash scripts/savia-messaging.sh send bob "Asunto" --encrypt
+```
+
+1. `send <handle> <asunto> [--body-file f] [--encrypt] [--priority p]`: trae `main`
    (directorio y claves frescos; sin red avisa y usa la última vista), resuelve el
    handle, cifra el cuerpo si se pide, pasa el mensaje entero por
    `privacy-check-company.sh --stdin` (bloquea si hay secretos) y lo escribe
@@ -54,11 +66,11 @@ líneas `@bob` sueltas.
    entregar. Sin acceso al remoto avisa y muestra la última vista.
 3. `read <id>`: muestra el mensaje y lo mueve de `unread/` a `read/` en un
    solo commit (sale de `unread/`).
-4. `reply <id> <cuerpo>`: hereda `thread` del original (o usa su id) y fija
+4. `reply <id> [--body-file f]`: hereda `thread` del original (o usa su id) y fija
    `reply_to`.
-5. `broadcast <asunto> <cuerpo>`: un `send` independiente por cada handle del
+5. `broadcast <asunto> [--body-file f]`: un `send` independiente por cada handle del
    directorio salvo el propio; devuelve error si falla alguno.
-6. `announce <asunto> <cuerpo>`: escribe en `main:company/inbox/` (sin
+6. `announce <asunto> [--body-file f]`: escribe en `main:company/inbox/` (sin
    cifrar). Lectura de anuncios en `$HOME/.pm-workspace/company-inbox-read.log`.
 
 Los ids son `AAAAMMDD-HHMMSS-PID-aleatorio`: los mensajes de un mismo

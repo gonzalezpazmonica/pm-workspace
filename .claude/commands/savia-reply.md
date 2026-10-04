@@ -31,7 +31,7 @@ tier: core
 3. Buscar mensaje original por ID (unread, read, company-inbox)
 4. Mostrar mensaje original como contexto
 5. Preguntar: "¿Qué quieres responder?"
-6. Ejecutar: `bash scripts/savia-messaging.sh reply <msg_id> <body> [--encrypt]`
+6. Ejecutar con el cuerpo por stdin, NUNCA como argumento: `printf '%s' "$BODY" | bash scripts/savia-messaging.sh reply <msg_id> [--encrypt]` (o `--body-file <fichero 0600>`)
 7. El reply hereda el thread del original (o crea uno nuevo si no tiene)
 8. Preguntar si sincronizar: `bash scripts/company-repo.sh sync`
 9. Mostrar banner de finalización

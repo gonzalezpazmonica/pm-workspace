@@ -4,7 +4,7 @@
 
 # ── Announce: post to main:company/inbox/ ───────────────────────────
 do_announce() {
-  local subject="${1:?Uso: savia-messaging.sh announce <subject> <body> [--priority high]}"
+  local subject="${1:?Uso: savia-messaging.sh announce <subject> [--body-file f] [--priority high] < body}"
   local body="${2:?Falta body}"
   local priority="normal"
   shift 2
@@ -38,7 +38,7 @@ EOF
   printf '%s\n' "$msg_content" | bash "$SCRIPTS_DIR/privacy-check-company.sh" --stdin \
     || { log_error "Announcement blocked by privacy check"; return 1; }
 
-  bash "$SCRIPTS_DIR/savia-branch.sh" write "$repo_dir" main "company/inbox/${msg_id}.md" "$msg_content" \
+  printf '%s\n' "$msg_content" | bash "$SCRIPTS_DIR/savia-branch.sh" write "$repo_dir" main "company/inbox/${msg_id}.md" - \
     "[main] announce: $subject" || { log_error "Announcement NOT posted"; return 1; }
 
   log_ok "Announcement posted: $subject"
@@ -47,7 +47,7 @@ EOF
 
 # ── Broadcast: send encrypted to all handles via exchange ──────────
 do_broadcast() {
-  local subject="${1:?Uso: savia-messaging.sh broadcast <subject> <body>}"
+  local subject="${1:?Uso: savia-messaging.sh broadcast <subject> [--body-file f] < body}"
   local body="${2:?Falta body}"
   shift 2
 

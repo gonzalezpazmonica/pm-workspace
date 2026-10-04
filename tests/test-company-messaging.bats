@@ -87,6 +87,12 @@ as() {
   HOME="$TMPDIR_TEST/home-$h" bash "$REPO_ROOT/$MESSAGING" "$@"
 }
 
+# asb <handle> <cuerpo> <args...>: como "as", con el cuerpo por stdin (nunca argv)
+asb() {
+  local h="$1" body="$2"; shift 2
+  printf '%s' "$body" | as "$h" "$@"
+}
+
 remote_files() {
   git -C "$REMOTE" ls-tree -r --name-only "$1"
 }
@@ -327,7 +333,7 @@ remote_files() {
 @test "send: resuelve @bob en el directorio en formato tabla y deja el mensaje en exchange" {
   company_repo
   member alice
-  run as alice send bob "Planificación" "cuerpo uno"
+  run asb alice "cuerpo uno" send bob "Planificación"
   [ "$status" -eq 0 ]
   run remote_files exchange
   [[ "$output" == *pending/*.md* ]]
@@ -338,10 +344,10 @@ remote_files() {
 @test "send: handle desconocido o prefijo de otro (@bo no es @bob) se rechaza (reject)" {
   company_repo
   member alice
-  run as alice send carol "x" "y"
+  run asb alice "y" send carol "x"
   [ "$status" -ne 0 ]
   [[ "$output" == *"not found"* ]]
-  run as alice send bo "x" "y"
+  run asb alice "y" send bo "x"
   [ "$status" -ne 0 ]
   run remote_files exchange
   [[ "$output" != *pending/* ]]
@@ -350,7 +356,7 @@ remote_files() {
 @test "send: handle con ruta (../x) es inválido y no escribe nada (invalid)" {
   company_repo
   member alice
-  run as alice send "../bob" "x" "y"
+  run asb alice "y" send "../bob" "x"
   [ "$status" -ne 0 ]
   run remote_files exchange
   [[ "$output" != *pending/* ]]
@@ -361,7 +367,7 @@ remote_files() {
   member alice
   git -C "$TMPDIR_TEST/clone-alice" fetch -q origin
   git -C "$TMPDIR_TEST/clone-alice" remote set-url origin "$TMPDIR_TEST/no-existe.git"
-  run as alice send bob "x" "y"
+  run asb alice "y" send bob "x"
   [ "$status" -ne 0 ]
   [[ "$output" != *"Message sent"* ]]
 }
@@ -370,7 +376,7 @@ remote_files() {
   company_repo
   member alice
   local hdr="-----BEGIN"
-  run as alice send bob "x" "$hdr RSA PRIVATE KEY----- abc"
+  run asb alice "$hdr RSA PRIVATE KEY----- abc" send bob "x"
   [ "$status" -ne 0 ]
   [[ "$output" == *"Private key"* ]]
   run remote_files exchange
@@ -380,7 +386,7 @@ remote_files() {
 @test "send --encrypt: el cuerpo viaja cifrado y bob lo descifra con su clave" {
   company_repo
   member alice
-  run as alice send bob "Aviso" "cifra 3,14 secreta" --encrypt
+  run asb alice "cifra 3,14 secreta" send bob "Aviso" --encrypt
   [ "$status" -eq 0 ]
   local f body
   f=$(remote_files exchange | grep '^pending/.*\.md$' | head -1)
@@ -396,7 +402,7 @@ remote_files() {
   company_repo
   member alice
   member bob
-  as alice send bob "Planificación" "cuerpo"
+  asb alice "cuerpo" send bob "Planificación"
   run as bob inbox
   [ "$status" -eq 0 ]
   [[ "$output" == *"@alice: Planificación"* ]]
@@ -415,7 +421,7 @@ remote_files() {
   company_repo
   member alice
   member bob
-  as alice send bob "Asunto" "cuerpo leído"
+  asb alice "cuerpo leído" send bob "Asunto"
   as bob inbox >/dev/null
   local id
   id=$(remote_files user/bob | sed -n 's#^inbox/unread/\(.*\)\.md$#\1#p' | head -1)
@@ -433,7 +439,7 @@ remote_files() {
 @test "broadcast: cada destinatario del directorio recibe su propio mensaje (sin colisión de ID)" {
   company_repo
   member alice
-  run as alice broadcast "Aviso general" "texto"
+  run asb alice "texto" broadcast "Aviso general"
   [ "$status" -eq 0 ]
   [[ "$output" == *"Broadcast sent to 2 recipient(s)"* ]]
   local n
@@ -493,7 +499,7 @@ padding() {
   member alice
   local hdr="-----BEGIN" body
   body="$(echo "$hdr PRIVATE KEY-----"; padding 70000)"
-  run as alice send bob "grande" "$body"
+  run asb alice "$body" send bob "grande"
   [ "$status" -ne 0 ]
   [[ "$output" == *"blocked by privacy check"* ]]
   run remote_files exchange
@@ -538,7 +544,7 @@ padding() {
   mkdir -p "$TMPDIR_TEST/bin"
   printf '#!/bin/bash\necho 20261003-120000\n' > "$TMPDIR_TEST/bin/date"
   chmod +x "$TMPDIR_TEST/bin/date"
-  PATH="$TMPDIR_TEST/bin:$PATH" run as alice broadcast "Aviso" "texto"
+  PATH="$TMPDIR_TEST/bin:$PATH" run asb alice "texto" broadcast "Aviso"
   [ "$status" -eq 0 ]
   [ "$(remote_files exchange | grep -c '^pending/.*\.md$')" -eq 2 ]
 }
@@ -549,7 +555,7 @@ padding() {
   echo "no es una clave" > "$TMPDIR_TEST/seed/pubkeys/bob.pem"
   git -C "$TMPDIR_TEST/seed" commit -qam "clave rota"
   git -C "$TMPDIR_TEST/seed" push -q origin main
-  run as alice send bob "x" "secreto" --encrypt
+  run asb alice "secreto" send bob "x" --encrypt
   [ "$status" -ne 0 ]
   run remote_files exchange
   [[ "$output" != *pending/* ]]
@@ -561,4 +567,75 @@ padding() {
   git -C "$TMPDIR_TEST/clone-bob" remote set-url origin "$TMPDIR_TEST/no-existe.git"
   run as bob inbox
   [[ "$output" == *"could not be delivered"* ]]
+}
+
+# ── Revisión merge-sprint #1279: el cuerpo nunca por argv ────────────
+
+@test "send: un cuerpo como argumento posicional se rechaza sin escribir nada (reject argv)" {
+  company_repo
+  member alice
+  run as alice send bob "x" "cuerpo en argv"
+  [ "$status" -eq 2 ]
+  [[ "$output" == *"--body-file"* ]]
+  run remote_files exchange
+  [[ "$output" != *pending/* ]]
+}
+
+@test "send --body-file: acepta un fichero 0600 y rechaza uno legible por otros (block 0644)" {
+  company_repo
+  member alice
+  printf 'desde fichero' > "$TMPDIR_TEST/body con espacios.txt"
+  chmod 644 "$TMPDIR_TEST/body con espacios.txt"
+  run as alice send bob "x" --body-file "$TMPDIR_TEST/body con espacios.txt" < /dev/null
+  [ "$status" -ne 0 ]
+  [[ "$output" == *"0600"* ]]
+  chmod 600 "$TMPDIR_TEST/body con espacios.txt"
+  run as alice send bob "x" --body-file "$TMPDIR_TEST/body con espacios.txt" < /dev/null
+  [ "$status" -eq 0 ]
+  local f
+  f=$(remote_files exchange | grep '^pending/.*\.md$' | head -1)
+  [[ "$(git -C "$REMOTE" show "exchange:$f")" == *"desde fichero"* ]]
+}
+
+@test "send: cuerpo vacío por stdin se rechaza (empty)" {
+  company_repo
+  member alice
+  run asb alice "" send bob "x"
+  [ "$status" -ne 0 ]
+  run remote_files exchange
+  [[ "$output" != *pending/* ]]
+}
+
+@test "send --encrypt y reply: el cuerpo no aparece en /proc/<pid>/cmdline de ningún proceso" {
+  company_repo
+  member alice
+  member bob
+  # git y openssl envueltos: cada llamada vuelca el cmdline de toda su
+  # cadena de procesos padre (savia-messaging, savia-crypto, bash...)
+  mkdir -p "$TMPDIR_TEST/bin"
+  local tool real
+  for tool in git openssl; do
+    real=$(command -v "$tool")
+    cat > "$TMPDIR_TEST/bin/$tool" <<WRAP
+#!/bin/bash
+p=\$\$
+while [ "\$p" -gt 1 ] && [ -r "/proc/\$p/cmdline" ]; do
+  tr '\0' ' ' < "/proc/\$p/cmdline" >> "$TMPDIR_TEST/cmdline.log"; echo >> "$TMPDIR_TEST/cmdline.log"
+  p=\$(awk '/^PPid:/ {print \$2}' "/proc/\$p/status")
+done
+exec "$real" "\$@"
+WRAP
+    chmod +x "$TMPDIR_TEST/bin/$tool"
+  done
+  PATH="$TMPDIR_TEST/bin:$PATH" run asb alice "cuerpo-ultrasecreto-77" send bob "Aviso" --encrypt
+  [ "$status" -eq 0 ]
+  as bob inbox >/dev/null
+  local id
+  id=$(remote_files user/bob | sed -n 's#^inbox/unread/\(.*\)\.md$#\1#p' | head -1)
+  PATH="$TMPDIR_TEST/bin:$PATH" run asb bob "respuesta-ultrasecreta-88" reply "$id"
+  [ "$status" -eq 0 ]
+  [ -s "$TMPDIR_TEST/cmdline.log" ]
+  grep -q "savia-messaging.sh send bob" "$TMPDIR_TEST/cmdline.log"
+  run grep -c -e "ultrasecreto-77" -e "ultrasecreta-88" "$TMPDIR_TEST/cmdline.log"
+  [ "$output" = "0" ]
 }

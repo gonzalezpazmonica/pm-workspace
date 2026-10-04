@@ -1,6 +1,8 @@
 #!/bin/bash
 # savia-messaging.sh — Message creation, delivery, and inbox management
 # Uso: bash scripts/savia-messaging.sh {send|inbox|reply|announce|broadcast|read|directory} [args]
+#      El cuerpo NUNCA va en argv: --body-file <fichero 0600|-> o stdin.
+#        printf '%s' "$cuerpo" | savia-messaging.sh send <handle> <asunto> [--encrypt]
 #
 # Async messaging for Company Savia via exchange orphan branch.
 # Messages flow through exchange:pending/, then to user/:handle/inbox/
@@ -80,7 +82,7 @@ source "$SCRIPTS_DIR/savia-messaging-privacy.sh"
 
 # ── Send: direct message to @handle via exchange branch ────────────
 do_send() {
-  local recipient="${1:?Uso: savia-messaging.sh send <handle> <subject> <body> [--encrypt]}"
+  local recipient="${1:?Uso: savia-messaging.sh send <handle> <subject> [--body-file f] [--encrypt] < body}"
   local subject="${2:?Falta subject}"
   local body="${3:?Falta body}"
   local encrypt="false" priority="normal" thread="" reply_to=""
@@ -150,17 +152,58 @@ EOF
 
   # Write to exchange:pending/ (explicit returns: do_send also runs
   # inside "&&" in broadcast, where set -e does not apply)
-  bash "$SCRIPTS_DIR/savia-branch.sh" write "$repo_dir" exchange "pending/${msg_id}.md" "$msg_content" \
+  # Content through stdin ("-"): it holds the body, which must not reach argv
+  printf '%s\n' "$msg_content" | bash "$SCRIPTS_DIR/savia-branch.sh" write "$repo_dir" exchange "pending/${msg_id}.md" - \
     "[exchange] msg: @$handle → @$recipient" \
     || { log_error "Delivery to exchange failed: message NOT sent"; return 1; }
 
   # Save copy to sender's outbox
-  bash "$SCRIPTS_DIR/savia-branch.sh" write "$repo_dir" "user/$handle" "outbox/${msg_id}.md" "$msg_content" \
+  printf '%s\n' "$msg_content" | bash "$SCRIPTS_DIR/savia-branch.sh" write "$repo_dir" "user/$handle" "outbox/${msg_id}.md" - \
     "[user/$handle] outbox: sent to @$recipient" \
     || log_warn "Message delivered, but the outbox copy could not be saved"
 
   log_ok "Message sent to @$recipient: $subject"
   echo "  ID: $msg_id"
+}
+
+# ── CLI body: --body-file <0600 file|-> or stdin, never argv ───────
+# /proc/<pid>/cmdline is readable by every local user for the whole run
+# (fetch, privacy gate, push), so a body passed as an argument would leak
+# even when the message is sent with --encrypt. Leaves CLI_POS (positional
+# args), CLI_OPTS (options to forward) and CLI_BODY.
+cli_body() {
+  local max_pos="$1" file="" mode
+  shift
+  CLI_POS=(); CLI_OPTS=(); CLI_BODY=""
+  while [ $# -gt 0 ]; do
+    case "$1" in
+      --body-file) file="${2:-}"; [ -n "$file" ] || { log_error "--body-file needs a path"; exit 2; }; shift 2 ;;
+      --priority|--thread|--reply-to) CLI_OPTS+=("$1" "${2:-}"); shift; [ $# -gt 0 ] && shift ;;
+      --*) CLI_OPTS+=("$1"); shift ;;
+      *) CLI_POS+=("$1"); shift ;;
+    esac
+  done
+  if [ "${#CLI_POS[@]}" -gt "$max_pos" ]; then
+    log_error "The message body is not accepted as an argument (visible in /proc/<pid>/cmdline)."
+    log_error "Use --body-file <file with mode 0600> or pipe the body on stdin."
+    exit 2
+  fi
+  if [ -n "$file" ] && [ "$file" != "-" ]; then
+    [ -f "$file" ] || { log_error "Body file not found: $file"; exit 1; }
+    mode=$(stat -c '%a' "$file" 2>/dev/null || stat -f '%Lp' "$file")
+    case "$mode" in
+      600|400) ;;
+      *) log_error "Body file must be 0600 (it is $mode): $file"; exit 1 ;;
+    esac
+    CLI_BODY=$(cat -- "$file")
+  else
+    if [ -z "$file" ] && [ -t 0 ]; then
+      log_error "No message body: use --body-file <file> or pipe it on stdin"
+      exit 1
+    fi
+    CLI_BODY=$(cat)
+  fi
+  [ -n "$CLI_BODY" ] || { log_error "Empty message body"; exit 1; }
 }
 
 # ── Main ────────────────────────────────────────────────────────────
@@ -169,11 +212,15 @@ main() {
   shift || true
 
   case "$cmd" in
-    send)      do_send "$@" ;;
+    send)      cli_body 2 "$@"
+               do_send "${CLI_POS[0]:-}" "${CLI_POS[1]:-}" "$CLI_BODY" "${CLI_OPTS[@]}" ;;
     inbox)     do_inbox ;;
-    reply)     do_reply "$@" ;;
-    announce)  do_announce "$@" ;;
-    broadcast) do_broadcast "$@" ;;
+    reply)     cli_body 1 "$@"
+               do_reply "${CLI_POS[0]:-}" "$CLI_BODY" "${CLI_OPTS[@]}" ;;
+    announce)  cli_body 1 "$@"
+               do_announce "${CLI_POS[0]:-}" "$CLI_BODY" "${CLI_OPTS[@]}" ;;
+    broadcast) cli_body 1 "$@"
+               do_broadcast "${CLI_POS[0]:-}" "$CLI_BODY" "${CLI_OPTS[@]}" ;;
     read)      do_read "$@" ;;
     directory) do_directory ;;
     help|*) echo "Usage: savia-messaging.sh {send|inbox|reply|announce|broadcast|read|directory} [args]" ;;

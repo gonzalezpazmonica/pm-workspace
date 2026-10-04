@@ -122,7 +122,7 @@ do_read() {
 
 # ── Reply: respond to a message ────────────────────────────────────
 do_reply() {
-  local msg_id="${1:?Uso: savia-messaging.sh reply <msg_id> <body> [--encrypt]}"
+  local msg_id="${1:?Uso: savia-messaging.sh reply <msg_id> [--body-file f] [--encrypt] < body}"
   local body="${2:?Falta body}"
   shift 2
 
