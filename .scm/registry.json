@@ -28505,27 +28505,6 @@
       "frontend_support": [
         "opencode"
       ],
-      "id": "script:scripts/test-pbi-history",
-      "intents": [
-        "field",
-        "history",
-        "implementation",
-        "level",
-        "test"
-      ],
-      "kind": "script",
-      "owner_domain": "quality",
-      "replaced_by": null,
-      "risk_level": null,
-      "source": "scripts/test-pbi-history.sh",
-      "status": "active",
-      "tests": []
-    },
-    {
-      "depends_on": [],
-      "frontend_support": [
-        "opencode"
-      ],
       "id": "script:scripts/test-pbi-spec-links",
       "intents": [
         "bidirectional",
@@ -29625,7 +29604,7 @@
       "tests": []
     }
   ],
-  "content_hash": "20a69b05c471",
+  "content_hash": "faf83c83c3f7",
   "deferred_kinds": [
     "rule",
     "hook"

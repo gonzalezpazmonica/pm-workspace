@@ -1,6 +1,6 @@
 # Savia Capability Map — INDEX
-> hash: 71f887f3cda7 | resources: 1451
-> 295 commands · 139 skills · 90 agents · 927 scripts
+> hash: ebfd43a352f5 | resources: 1450
+> 295 commands · 139 skills · 90 agents · 926 scripts
 
 [analysis] Trace Optimize — across,distributed,optimize,rates,sampling — cmd:.claude/commands/trace-optimize.md
 [analysis] agent-activity — activity,agent,executions,recent,show — cmd:.claude/commands/agent-activity.md
@@ -1397,7 +1397,6 @@
 [quality] test-okr-strategy — strategy,test — script:scripts/test-okr-strategy.sh
 [quality] test-onboard-enterprise — enterprise,onboard,onboarding,scale,test — script:scripts/test-onboard-enterprise.sh
 [quality] test-orgchart-diagrams —  — script:scripts/test-orgchart-diagrams.sh
-[quality] test-pbi-history — field,history,implementation,level,test — script:scripts/test-pbi-history.sh
 [quality] test-pbi-spec-links — bidirectional,linkage,links,spec,test — script:scripts/test-pbi-spec-links.sh
 [quality] test-performance-quality — performance,quality,test — script:scripts/test-performance-quality.sh
 [quality] test-pipeline-devops — devops,pipeline,test — script:scripts/test-pipeline-devops.sh

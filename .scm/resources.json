@@ -1,6 +1,6 @@
 {
-  "hash": "20a69b05c471",
-  "total": 1451,
+  "hash": "faf83c83c3f7",
+  "total": 1450,
   "resources": [
     {
       "category": "analysis",
@@ -18442,20 +18442,6 @@
       "kind": "script",
       "path": "scripts/test-orgchart-diagrams.sh",
       "description": "============================================================================"
-    },
-    {
-      "category": "quality",
-      "name": "test-pbi-history",
-      "intents": [
-        "field",
-        "history",
-        "implementation",
-        "level",
-        "test"
-      ],
-      "kind": "script",
-      "path": "scripts/test-pbi-history.sh",
-      "description": "test-pbi-history.sh — Validates PBI Field-Level History implementation"
     },
     {
       "category": "quality",
