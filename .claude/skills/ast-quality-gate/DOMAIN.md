@@ -20,7 +20,7 @@ antes de que el código llegue a PR.
 
 - **RN-AST-01**: Gates QG-01, QG-03, QG-05, QG-09, QG-12 son bloqueantes — ningún código con estos errores puede llegar a PR.
 - **RN-AST-02**: El análisis es siempre no-destructivo — solo lee, nunca modifica código.
-- **RN-AST-03**: Si la herramienta nativa no está instalada, Semgrep es fallback obligatorio (cobertura parcial, notificado).
+- **RN-AST-03**: Una capa que no corre (herramienta ausente, caída o lenguaje sin soporte) se declara en `meta.tool_chain` y baja `meta.coverage`; nunca cuenta como "sin hallazgos". Sin ninguna capa, el veredicto es `UNVERIFIED` (exit 3), no PASS.
 - **RN-AST-04**: Output siempre a `output/quality-gates/` nunca en conversación (regla output-first).
 - **RN-AST-05**: Score < 60 bloquea merge hasta corrección humana o override explícito.
 
@@ -34,7 +34,7 @@ antes de que el código llegue a PR.
 
 ## Decisiones clave
 
-- **3 capas, no 1** — Herramienta nativa (precisión), Semgrep (cobertura), LSP (semántica). Ninguna cubre el 100% sola; las 3 en capas sí.
+- **3 capas, no 1** — Herramienta nativa (precisión), Semgrep (cobertura), LSP (semántica, en el editor; el script no la ejecuta). Ninguna cubre el 100% sola.
 - **Semgrep como denominador común** — Una sola regla YAML puede aplicar a 8+ lenguajes. Reduce 16 configuraciones a 1 fichero mantenible.
 - **JSON unificado** — Abstrae la heterogeneidad de formatos (ESLint, SARIF, Ruff, SpotBugs XML) en un contrato estable que los agentes consumen sin conocer el lenguaje.
 - **Async hook** — El gate corre en background (async: true) para no bloquear la velocidad de edición del agente. Solo bloquea el commit (Stop hook).
