@@ -977,6 +977,16 @@
       "evidence": "docs/specs/SE-432-savia-space-infinite-desktop-experience.spec.md",
       "note": "Mandato 2026-10-02; superficie principal de SE-428; render híbrido WebGL+DOM; apariencia gestionada por la persona; atmósfera nunca imita actividad; prototipo medido a 60 fps con 10k objetos; dirección visual aceptada por la operadora 2026-10-03 (D25-1); se implementa dentro de la 0.2 de SE-428",
       "phase": "A"
+    },
+    {
+      "id": "SE-433",
+      "status": "APPROVED",
+      "priority": "P1",
+      "title": "merge-sprint: merges autónomos bajo autorización humana previa",
+      "evidence": "docs/specs/SE-433-merge-sprint.spec.md",
+      "note": "Aprobada por la operadora 2026-10-04 (AskUserQuestion: «Apruebo SE-433»); autorización por respuesta en la sesión orquestadora (D1 revisada); ejecutor determinista; revisión ligada al SHA que solo resta; tier 4 excluido",
+      "phase": "A",
+      "approval": "Operadora 2026-10-04 (AskUserQuestion): '¿Apruebas SE-433 (merge-sprint) con tus 9 decisiones…?' → 'Apruebo SE-433'"
     }
   ],
   "route": {
