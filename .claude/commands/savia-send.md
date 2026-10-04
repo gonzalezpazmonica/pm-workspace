@@ -36,7 +36,7 @@ tier: core
 5. Preguntar asunto del mensaje
 6. Preguntar cuerpo del mensaje
 7. Si `--encrypt` → verificar que el destinatario tiene pubkey
-8. Ejecutar: `bash scripts/savia-messaging.sh send <handle> <subject> <body> [--encrypt] [--priority]`
+8. Ejecutar con el cuerpo por stdin, NUNCA como argumento (quedaría en `/proc/<pid>/cmdline`): `printf '%s' "$BODY" | bash scripts/savia-messaging.sh send <handle> <subject> [--encrypt] [--priority]` (o `--body-file <fichero 0600>`)
 9. Preguntar si sincronizar ahora: `bash scripts/company-repo.sh sync`
 10. Mostrar banner de finalización
 
