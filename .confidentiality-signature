@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=cdd9c9822530ea0f326417bf15fce042a4d5f28fb9492701da62232242c1e761
-timestamp=2026-10-04T12:53:33Z
+diff_hash=3aee53d1caadea736281b2db22b88a1f5a3fca7008dcf46bec90a12eb3f0a8f6
+timestamp=2026-10-04T13:29:46Z
 branch=agent/se376-calib-epistemic-humility-20261003
-head_commit=8d5235fd
-signature=76526bac3468406e3edae1413883f0d8cb3b05eadb16ecc6bc9c17cc58056f8d
+head_commit=a09600d9
+signature=858183bc9b5c13a7b78fcb274ffde011f5ed78b8c1c7c07db8bda7e3728be657
