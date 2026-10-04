@@ -364,3 +364,33 @@ fake_scanner() {  # fake_scanner <salida> <exit> : escáner y firmador falsos en
   [ ! -e "$FAKE/merged" ]
   grep -q '"reason":"confidencialidad"' "$MERGE_SPRINT_HOME/ledger.jsonl"
 }
+
+fake_sam() {  # SAM falso que, como el real, registra el último commit de .scm/registry.json
+  mkdir -p "$MERGE_SPRINT_GIT_ROOT/scripts"
+  cat > "$MERGE_SPRINT_GIT_ROOT/scripts/generate-capability-map.py" <<'PY'
+import os, time
+os.makedirs(".scm", exist_ok=True)
+open(".scm/registry.json", "w").write(str(time.time_ns()))
+PY
+  cat > "$MERGE_SPRINT_GIT_ROOT/scripts/sam.py" <<'PY'
+import os, subprocess, sys
+cur = subprocess.run(["git", "log", "-1", "--format=%H", "--", ".scm/registry.json"], capture_output=True, text=True).stdout.strip()
+if sys.argv[1] == "generate":
+    os.makedirs(".scm", exist_ok=True); open(".scm/sam.json", "w").write(cur)
+else:
+    print("SAM: FRESH" if os.path.exists(".scm/sam.json") and open(".scm/sam.json").read() == cur else "SAM: STALE")
+PY
+  G add scripts; G commit -qm "SAM falso"; G push -q origin main
+}
+
+@test "v3 positivo: el resync deja el SAM FRESH sobre el árbol commiteado (registry regenerado en el mismo paso)" {
+  v2_repo; fake_sam
+  v2_pr 80 q.txt pr80
+  main_moves r.txt main80
+  plan_and_grant
+  run bash "$SCRIPT" run
+  [ "$status" -eq 0 ]
+  grep -qx 80 "$FAKE/merged"
+  local t="$TMPDIR_T/chk"; git clone -q -b pr-80 "$BARE" "$t"
+  [ "$(cd "$t" && python3 scripts/sam.py check)" = "SAM: FRESH" ]
+}
