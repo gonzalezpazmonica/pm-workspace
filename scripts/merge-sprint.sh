@@ -34,10 +34,14 @@ policy() {  # policy <clave> → valor; fail-closed si falta el fichero o la cla
   echo "$v"
 }
 
-chain_append() {  # chain_append <fichero> <json-sin-prev>  → añade {"prev":…} encadenado
-  local f="$1" body="$2" prev="genesis"
-  [[ -s "$f" ]] && prev=$(tail -1 "$f" | sha)
-  python3 -c 'import json,sys; d=json.loads(sys.argv[1]); d["prev"]=sys.argv[2]; print(json.dumps(d,sort_keys=True,separators=(",",":")))' "$body" "$prev" >> "$f"
+chain_append() {  # chain_append <fichero> <json-sin-prev> → añade {"prev":…} encadenado, bajo cerrojo exclusivo
+  local f="$1" body="$2"
+  (
+    flock -x 8 || exit 1   # sin cerrojo, dos escritores concurrentes rompen la cadena (prev duplicado)
+    local prev="genesis"
+    [[ -s "$f" ]] && prev=$(tail -1 "$f" | sha)
+    python3 -c 'import json,sys; d=json.loads(sys.argv[1]); d["prev"]=sys.argv[2]; print(json.dumps(d,sort_keys=True,separators=(",",":")))' "$body" "$prev" >> "$f"
+  ) 8>"$f.lock"
 }
 
 verify_chain() {  # verify_chain <fichero> → 0 íntegro
