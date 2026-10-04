@@ -208,11 +208,20 @@ resync() {  # resync <pr> → 0 al día (sincronizado y empujado) · 2 conflicto
     git -C "$wt" add docs/rules && { git -C "$wt" diff --cached --quiet || git -C "$wt" commit -q -m "chore(rules): índice y manifiesto regenerados (merge-sprint)"; }
   fi
   if [[ -f "$wt/scripts/sam.py" ]]; then
-    (cd "$wt" && { [[ -f scripts/generate-capability-map.py ]] && python3 scripts/generate-capability-map.py >/dev/null 2>&1; python3 scripts/sam.py generate >/dev/null 2>&1; }) || return 5
-    git -C "$wt" add .scm && { git -C "$wt" diff --cached --quiet || git -C "$wt" commit -q -m "chore(scm): SAM regenerado (merge-sprint)"; }
+    (cd "$wt" && { [[ ! -f scripts/generate-capability-map.py ]] || python3 scripts/generate-capability-map.py >/dev/null 2>&1; }) || return 5
+    # El SAM registra el último commit de cada fuente, .scm/registry.json incluido: si el mapa cambió en
+    # este mismo commit, el SAM nace STALE. Se regenera y commitea hasta que check dé FRESH.
+    local _i fresh=0
+    for _i in 1 2 3; do
+      (cd "$wt" && python3 scripts/sam.py generate >/dev/null 2>&1) || return 5
+      git -C "$wt" add .scm && { git -C "$wt" diff --cached --quiet || git -C "$wt" commit -q -m "chore(scm): SAM regenerado (merge-sprint)"; }
+      (cd "$wt" && python3 scripts/sam.py check 2>/dev/null | grep -q FRESH) && { fresh=1; break; }
+    done
+    (( fresh )) || return 5
   fi
   if [[ -f "$wt/scripts/confidentiality-scan.sh" ]]; then
-    (cd "$wt" && bash scripts/confidentiality-scan.sh --pr 2>&1 | tail -1 | grep -q PASSED) || return 3
+    # Veredicto por código de salida: 0 = CLEAN o PASSED con avisos; ≠0 = BLOCKED. Nunca por el texto.
+    (cd "$wt" && bash scripts/confidentiality-scan.sh --pr >/dev/null 2>&1) || return 3
     (cd "$wt" && bash scripts/confidentiality-sign.sh sign >/dev/null 2>&1) || return 3
     git -C "$wt" add .confidentiality-signature && { git -C "$wt" diff --cached --quiet || git -C "$wt" commit -q -m "chore: sign confidentiality audit (merge-sprint)"; }
   fi
