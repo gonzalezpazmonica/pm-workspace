@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=e777a35a56f86d50c8a9f39b72cfc34f322166d443b15e5f7a5c233143bc0f2a
-timestamp=2026-10-04T11:33:16Z
+diff_hash=03fc67db611eb2c413912c3370e5d61e0cf34dbee517e05b5291627d886fd951
+timestamp=2026-10-04T12:02:04Z
 branch=agent/se376-calib-onboarding-dev-20261003
-head_commit=0024b24a
-signature=a63c6fad22037e7e9fd41d130fcc32374559cff03eba3f7f3681d332982caf52
+head_commit=637d5015
+signature=3395f4fbfefd2206debd9c09c5783d17277c97bdbdfe6ff503c6c655ca1ab07c
