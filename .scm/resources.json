@@ -1,5 +1,5 @@
 {
-  "hash": "9523bcc98aa0",
+  "hash": "efe7f4d91265",
   "total": 1450,
   "resources": [
     {
@@ -11810,6 +11810,20 @@
     },
     {
       "category": "planning",
+      "name": "merge-sprint",
+      "intents": [
+        "acotada",
+        "autorización",
+        "bajo",
+        "humana",
+        "merge"
+      ],
+      "kind": "script",
+      "path": "scripts/merge-sprint.sh",
+      "description": "merge-sprint.sh — SE-433 v1: merges en serie bajo autorización humana previa y acotada."
+    },
+    {
+      "category": "planning",
       "name": "meta-control",
       "intents": [
         "control",
@@ -18428,20 +18442,6 @@
       "kind": "script",
       "path": "scripts/test-orgchart-diagrams.sh",
       "description": "============================================================================"
-    },
-    {
-      "category": "quality",
-      "name": "test-pbi-history",
-      "intents": [
-        "field",
-        "history",
-        "implementation",
-        "level",
-        "test"
-      ],
-      "kind": "script",
-      "path": "scripts/test-pbi-history.sh",
-      "description": "test-pbi-history.sh — Validates PBI Field-Level History implementation"
     },
     {
       "category": "quality",
