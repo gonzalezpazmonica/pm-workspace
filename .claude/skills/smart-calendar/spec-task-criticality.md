@@ -70,6 +70,9 @@ criticality = (impacto×0.30) + (urgencia×0.25) + (deps×0.20)
 esfuerzo_inv = 6 - min(5, ceil(SP/4))
 ```
 
+Cada dimension vive en 1-5: SP 0 o vacio cuenta como sin estimar (SP 3), no
+como esfuerzo_inv 6. Implementacion local: `scripts/criticality.sh` (ver SKILL.md).
+
 P0 Critical (>=4.0), P1 High (3.0-3.9), P2 Medium (2.0-2.9), P3 Low (<2.0)
 
 ## Auto-escalado temporal

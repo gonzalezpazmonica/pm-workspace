@@ -1,109 +1,118 @@
 #!/usr/bin/env bash
 # criticality-engine.sh — Operations: assess, dashboard, rebalance. Sourced by criticality.sh.
+# Exit codes: 0 ok · 1 item/project not found · 2 usage error or ambiguous item.
 set -uo pipefail
 
 source "$SCRIPT_DIR/criticality-scoring.sh"
+source "$SCRIPT_DIR/criticality-items.sh"
+
+usage_err() { echo "ERROR: $*" >&2; }
+
+# parse_project_opt <args...> — sets OPT_PROJECT and OPT_REST (positional args).
+parse_project_opt() {
+  OPT_PROJECT="" OPT_REST=()
+  while [[ $# -gt 0 ]]; do
+    case "$1" in
+      --project)
+        [[ $# -ge 2 && -n "$2" ]] || { usage_err "--project requires a project name"; return 2; }
+        valid_project "$2" || { usage_err "invalid project name: $2"; return 2; }
+        OPT_PROJECT="$2"; shift 2 ;;
+      --dry-run) shift ;;
+      -*) usage_err "unknown option: $1"; return 2 ;;
+      *) OPT_REST+=("$1"); shift ;;
+    esac
+  done
+}
 
 # ── Assess single item ───────────────────────────────────────────────────────
 do_assess() {
-  local item_id="${1:-}"
-  [[ -z "$item_id" ]] && { echo "Usage: criticality.sh assess <item-id> [--project name]"; return 1; }
-  local project=""
-  [[ "${2:-}" == "--project" ]] && project="${3:-}"
-
-  local item_file=""
-  if [[ -n "$project" ]]; then
-    item_file=$(find "$WORKSPACE_ROOT/projects/$project/backlog" -name "*${item_id}*" -print -quit 2>/dev/null)
-  else
-    item_file=$(find "$WORKSPACE_ROOT/projects/*/backlog" -name "*${item_id}*" -print -quit 2>/dev/null)
+  parse_project_opt "$@" || return 2
+  local item_id="${OPT_REST[0]:-}" project="$OPT_PROJECT"
+  if [[ -z "$item_id" || ${#OPT_REST[@]} -gt 1 ]]; then
+    echo "Usage: criticality.sh assess <item-id> [--project name]" >&2; return 2
   fi
-  [[ -z "$item_file" || ! -f "$item_file" ]] && { echo "Item $item_id not found in local backlog."; return 1; }
+  valid_item_id "$item_id" || { usage_err "invalid item id: $item_id"; return 2; }
+  if [[ -n "$project" && ! -d "$WORKSPACE_ROOT/projects/$project/backlog" ]]; then
+    echo "Project $project has no local backlog." >&2; return 1
+  fi
 
-  local title; title=$(parse_frontmatter "$item_file" "title")
-  [[ -z "$title" ]] && title="$(basename "$item_file" .md)"
-  local state; state=$(parse_frontmatter "$item_file" "status")
-  local sp; sp=$(parse_frontmatter "$item_file" "story_points"); [[ -z "$sp" ]] && sp=3
-  local assigned; assigned=$(parse_frontmatter "$item_file" "assigned_to")
-  local impact; impact=$(parse_frontmatter "$item_file" "impact"); [[ -z "$impact" ]] && impact=3
-  local deps; deps=$(parse_frontmatter "$item_file" "dependencies"); [[ -z "$deps" ]] && deps=1
-  local deadline; deadline=$(parse_frontmatter "$item_file" "deadline")
+  local matches; matches=$(find_item "$item_id" "$project")
+  [[ -z "$matches" ]] && { echo "Item $item_id not found in local backlog." >&2; return 1; }
+  if [[ "$matches" == *$'\n'* ]]; then
+    echo "Item $item_id is ambiguous; use --project or a full id:" >&2
+    local m; while IFS= read -r m; do echo "  ${m#"$WORKSPACE_ROOT"/}" >&2; done <<< "$matches"
+    return 2
+  fi
 
-  local days_left=999
-  [[ -n "$deadline" ]] && days_left=$(days_between "$(today_epoch)" "$(date_epoch "$deadline")")
-  local urgency; urgency=$(urgency_boost "$days_left" 3)
-  local cpct; cpct=$(confidence_decay "$(file_age_days "$item_file")")
-  local conf_dim=$(( 5 * cpct / 100 )); (( conf_dim < 1 )) && conf_dim=1
-  local eff_inv; eff_inv=$(effort_inverse "$sp")
-  local score; score=$(compute_score "$impact" "$urgency" "$deps" "$cpct" "$sp")
-  local class; class=$(classify "$score")
+  local f="$matches" title state assigned
+  title=$(parse_frontmatter "$f" title); [[ -z "$title" ]] && title="$(basename "$f" .md)"
+  state=$(fm_first "$f" state status)
+  assigned=$(parse_frontmatter "$f" assigned_to)
+  local score impact urg deps c10 ei sp days cpct
+  read -r score impact urg deps c10 ei sp days cpct <<< "$(item_metrics "$f")"
 
   echo "Assessment: $item_id — $title"
   echo "  State: ${state:-unknown} | SP: $sp | Assigned: ${assigned:-unassigned}"
   echo ""
   echo "  Impact       $(bar5 "$impact") $impact/5  x0.30"
-  echo "  Urgency      $(bar5 "$urgency") $urgency/5  x0.25  (${days_left}d)"
+  echo "  Urgency      $(bar5 "$urg") $urg/5  x0.25  (${days}d)"
   echo "  Dependencies $(bar5 "$deps") $deps/5  x0.20"
-  echo "  Confidence   $(bar5 "$conf_dim") $conf_dim/5  x0.15  (decay: ${cpct}%)"
-  echo "  Effort inv   $(bar5 "$eff_inv") $eff_inv/5  x0.10"
+  echo "  Confidence   $(bar5 $((c10 / 10))) $((c10 / 10)).$((c10 % 10))/5  x0.15  (decay: ${cpct}%)"
+  echo "  Effort inv   $(bar5 "$ei") $ei/5  x0.10"
   echo "  ─────────────────────"
-  echo "  Score: $(score_display "$score") → $class"
+  echo "  Score: $(score_display "$score") → $(classify "$score")"
 }
 
 # ── Dashboard ─────────────────────────────────────────────────────────────────
 do_dashboard() {
-  local project=""
-  [[ "${1:-}" == "--project" ]] && project="${2:-}"
-
-  local items; items=$(scan_items "$project")
+  parse_project_opt "$@" || return 2
+  local project="$OPT_PROJECT" items
+  if ! items=$(scan_items "$project"); then
+    echo "Project $project has no local backlog." >&2; return 1
+  fi
   [[ -z "$items" ]] && { echo "No items in local backlog."; return 0; }
 
-  local p0=0 p1=0 p2=0 p3=0 p0_lines="" p1_lines="" alerts=""
+  local rows="" f title assigned score
   while IFS= read -r f; do
     [[ -z "$f" || ! -f "$f" ]] && continue
-    local title; title=$(parse_frontmatter "$f" "title")
-    [[ -z "$title" ]] && title="$(basename "$f" .md)"
-    local assigned; assigned=$(parse_frontmatter "$f" "assigned_to"); [[ -z "$assigned" ]] && assigned="?"
-    local score; score=$(score_item "$f")
-    local cls; cls=$(classify "$score")
-    local line="  $(score_display "$score") | $title | $assigned"
-    case "$cls" in
-      "P0 Critical") p0=$((p0+1)); p0_lines+="$line\n"
-        [[ "$assigned" == "?" ]] && alerts+="  ALERT: P0 unassigned — $title\n" ;;
-      "P1 High")     p1=$((p1+1)); p1_lines+="$line\n" ;;
-      "P2 Medium")   p2=$((p2+1)) ;;
-      *)             p3=$((p3+1)) ;;
-    esac
+    is_active "$f" || continue
+    title=$(parse_frontmatter "$f" title); [[ -z "$title" ]] && title="$(basename "$f" .md)"
+    assigned=$(parse_frontmatter "$f" assigned_to); [[ -z "$assigned" ]] && assigned="?"
+    read -r score _ <<< "$(item_metrics "$f")"
+    rows+="$score"$'\t'"${title//$'\t'/ }"$'\t'"${assigned//$'\t'/ }"$'\n'
   done <<< "$items"
 
-  echo "Criticality Dashboard — $(date +%Y-%m-%d)"
-  echo ""
-  echo "P0 Critical ($p0)"
-  [[ -n "$p0_lines" ]] && printf "%b" "$p0_lines"
-  echo "P1 High ($p1)"
-  [[ -n "$p1_lines" ]] && printf "%b" "$p1_lines"
-  echo "P2 Medium ($p2)"
-  echo "P3 Low ($p3)"
+  local p0=() p1=() n2=0 n3=0 alerts=() line s t a
+  while IFS=$'\t' read -r s t a; do
+    [[ -z "$s" ]] && continue
+    line="  $(score_display "$s") | $t | $a"
+    case "$(classify "$s")" in
+      "P0 Critical") p0+=("$line"); [[ "$a" == "?" ]] && alerts+=("  ALERT: P0 unassigned — $t") ;;
+      "P1 High")     p1+=("$line") ;;
+      "P2 Medium")   n2=$((n2 + 1)) ;;
+      *)             n3=$((n3 + 1)) ;;
+    esac
+  done < <(printf '%s' "$rows" | LC_ALL=C sort -t$'\t' -k1,1nr -s)
 
-  (( p0 > 3 )) && alerts+="  ALERT: $p0 P0 items — capacity critical\n"
-  if [[ -n "$alerts" ]]; then
-    echo ""; printf "%b" "$alerts"
-  else
-    echo ""; echo "No alerts."
-  fi
+  echo "Criticality Dashboard — $(today_ymd)"
+  echo ""
+  echo "P0 Critical (${#p0[@]})"
+  (( ${#p0[@]} )) && printf '%s\n' "${p0[@]}"
+  echo "P1 High (${#p1[@]})"
+  (( ${#p1[@]} )) && printf '%s\n' "${p1[@]}"
+  echo "P2 Medium ($n2)"
+  echo "P3 Low ($n3)"
+
+  (( ${#p0[@]} > 3 )) && alerts+=("  ALERT: ${#p0[@]} P0 items — capacity critical")
+  echo ""
+  if (( ${#alerts[@]} )); then printf '%s\n' "${alerts[@]}"; else echo "No alerts."; fi
 }
 
 # ── Rebalance ─────────────────────────────────────────────────────────────────
 do_rebalance() {
-  local project=""
-  while [[ $# -gt 0 ]]; do
-    case "$1" in
-      --project) project="$2"; shift 2 ;;
-      --dry-run) shift ;;
-      *) shift ;;
-    esac
-  done
+  parse_project_opt "$@" || return 2
   echo "Analyzing current assignments..."
-  do_dashboard ${project:+--project "$project"}
+  do_dashboard ${OPT_PROJECT:+--project "$OPT_PROJECT"} || return $?
   echo ""
   echo "Interactive rebalancing requires /criticality-rebalance in Claude Code."
 }
