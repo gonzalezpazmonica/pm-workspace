@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=9ae174c1ef29682e7f28929b1d23b70e98e03a45aec6ae4181dec9954d9b3e3b
-timestamp=2026-10-04T14:00:58Z
-branch=agent/se376-calib-savia-school-20261003
-head_commit=7ab8def9
-signature=6b00a019fc731179128f8fc824e0d68ad4efbe244aa037ef91ed2ec7a078805c
+diff_hash=f44ce00372cdceafaea4a2229d8407e3ffc290e3a47bd49b454bd1c4833cc466
+timestamp=2026-10-04T19:17:11Z
+branch=HEAD
+head_commit=14f31accd
+signature=9c4ff7c2433a67ee152f5e37964c29e668009b3a80e8cfcd40fafcb2d3c1c128
