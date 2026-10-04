@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=d37184ced758a32aa2bf43f98f4d0c9175ded74a8ba6d9564b731863aea3fcab
-timestamp=2026-10-04T09:38:51Z
+diff_hash=5783bfb4392a980a029d0931615cfe5708819000ee374dc2e1935800a2552853
+timestamp=2026-10-04T10:58:44Z
 branch=agent/dod-guards-20261004
-head_commit=fd7fe7af5
-signature=cd222d571a6aebc5782b3dbeffa4053f25c67d160b0061f834276d9e148ca7c6
+head_commit=5bf7900b
+signature=632f3572caafe95afed2abb7c3ceae5ad311fc7eae3ec49f7d432db1e2056247
