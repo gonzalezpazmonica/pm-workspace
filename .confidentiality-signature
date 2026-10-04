@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=6c3bafba0353f7e3d249978b6035ab52130495dcf2fd9ebe8596ae97c23a48eb
-timestamp=2026-10-04T19:37:39Z
-branch=HEAD
-head_commit=2393df0ea
-signature=c6d9395d37ac82db50ed2f3707c4e36f70d5febfec4da340357e9e9238e933a2
+diff_hash=c4286b204259a767fe915615ad8764419b6c557a75a9f1fa67f1b7d87d0f5c2c
+timestamp=2026-10-04T20:06:49Z
+branch=agent/merge-sprint-sam-fresh-20261004
+head_commit=4258e16a0
+signature=438b991ba714e093c61106fc7aa0fc7aed6424a958178b21d61cc66d63d7846f
