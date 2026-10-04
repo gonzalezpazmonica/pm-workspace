@@ -33,7 +33,7 @@ tier: core
 5. Preguntar: asunto del anuncio
 6. Preguntar: cuerpo del anuncio
 7. Confirmar: "¿Publicar este anuncio para toda la empresa?"
-8. Ejecutar: `bash scripts/savia-messaging.sh announce <subject> <body> [--priority]`
+8. Ejecutar con el cuerpo por stdin, NUNCA como argumento: `printf '%s' "$BODY" | bash scripts/savia-messaging.sh announce <subject> [--priority]` (o `--body-file <fichero 0600>`)
 9. Preguntar si sincronizar: `bash scripts/company-repo.sh sync`
 10. Mostrar banner de finalización
 
