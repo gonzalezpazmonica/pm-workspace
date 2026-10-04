@@ -4,6 +4,8 @@
 > **Phase**: 1 (measurement + opt-in). Phases 2 (friction hooks) y 3 (retrieval drill) follow-up.
 > **Status**: opt-in por defecto (CD-04). No se activa sin decisión explícita.
 
+> **Incumplimiento conocido (calibración SE-376, 2026-10-04)**: el `.claude/settings.json` versionado registra `cognitive-debt-telemetry` y `cognitive-debt-hypothesis-first` desde #783, y el hook de telemetría no tiene puerta. En una instalación limpia, `status` dice ENABLED y la telemetría se escribe en cada Edit/Write/Task. Hasta que se corrija el registro (cambio tier 3, en un PR aparte), ejecuta `bash scripts/cognitive-debt.sh disable` si no quieres la medición.
+
 ---
 
 ## Tesis (one paragraph)

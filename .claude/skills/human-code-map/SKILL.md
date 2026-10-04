@@ -28,9 +28,11 @@ Referencia: https://addyosmani.com/blog/comprehension-debt/
 **Qué es ejecutable (calibrado SE-376)**: nada de esta skill tiene script; las
 4 fases las ejecuta el agente con Read/Grep/Write y el debt-score se calcula a
 mano. Los `/codemap:*` de `hcm-maps.md` no existen. El único ejecutable afín es
-`scripts/cognitive-debt.sh` (SPEC-107, medición opt-in de deuda cognitiva:
-`enable|disable|status|summary|forget`), cubierto por `tests/test-human-code-map.bats`;
-contrato en `docs/cognitive-debt-guide.md`.
+`scripts/cognitive-debt.sh` (SPEC-107, medición de deuda cognitiva diseñada
+opt-in: `enable|disable|status|summary|forget`), cubierto por
+`tests/test-human-code-map.bats`; contrato en `docs/cognitive-debt-guide.md`.
+Ojo: el `settings.json` versionado ya registra sus hooks (desde #783), así que
+hoy está activa por defecto y CD-04 no se cumple; `disable` la apaga.
 
 ## Regla del skill
 

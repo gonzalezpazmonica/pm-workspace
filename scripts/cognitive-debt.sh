@@ -55,14 +55,16 @@ require_valid_json() {
 
 backup_settings() {
   local backup="$SETTINGS.bak.$(date +%Y%m%d-%H%M%S).$$"
-  cp "$SETTINGS" "$backup"
+  cp "$SETTINGS" "$backup" || { echo "ERROR: could not write backup $backup" >&2; return 1; }
   echo "Backup: $backup"
 }
 
 # Shared Python prelude for enable/disable. ensure_ascii=False keeps accents
 # verbatim (settings.json round-trips byte-identical); os.replace is atomic.
 PY_SETTINGS_IO='import json, os, sys, tempfile
-path = sys.argv[1]
+# realpath: a symlinked settings.json (dotfiles, override) is updated at its
+# target; os.replace on the link itself would swap it for a regular file.
+path = os.path.realpath(sys.argv[1])
 def read_settings():
     with open(path, encoding="utf-8") as f:
         return json.load(f)
@@ -202,7 +204,7 @@ cmd_enable() {
   fi
 
   require_valid_json || exit 6
-  backup_settings
+  backup_settings || exit 6
 
   # Python does the JSON edit; write_settings() keeps non-ASCII text verbatim
   # and replaces the file atomically.
@@ -249,7 +251,7 @@ cmd_disable() {
   fi
 
   require_valid_json || exit 6
-  backup_settings
+  backup_settings || exit 6
 
   { printf '%s\n' "$PY_SETTINGS_IO"; cat <<'PY'; } | python3 - "$SETTINGS" \
     || { echo "ERROR: could not update $SETTINGS" >&2; exit 6; }

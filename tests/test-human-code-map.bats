@@ -203,6 +203,24 @@ PY
   [[ "$output" == *"shape-ok"* ]]
 }
 
+@test "enable: settings symlink is followed — target updated, link kept" {
+  echo '{"hooks":{}}' > "$TMP/real.json"
+  ln -s "$TMP/real.json" "$TMP/link.json"
+  SAVIA_SETTINGS_OVERRIDE="$TMP/link.json" run bash "$CD" enable
+  [ "$status" -eq 0 ]
+  [ -L "$TMP/link.json" ]
+  run grep -c 'cognitive-debt-telemetry.sh' "$TMP/real.json"
+  [ "$output" -eq 1 ]
+}
+
+@test "enable: preserves the settings file mode (0644, not mkstemp 0600)" {
+  echo '{"hooks":{}}' > "$SET"
+  chmod 644 "$SET"
+  run bash "$CD" enable
+  [ "$status" -eq 0 ]
+  [ "$(stat -c %a "$SET")" = "644" ]
+}
+
 @test "enable: missing settings file errors out with exit 5" {
   run bash "$CD" enable
   [ "$status" -eq 5 ]
@@ -242,6 +260,15 @@ PY
   run bash "$CD" summary
   [ "$status" -eq 0 ]
   [[ "$output" == *"Total events (last 7d):  3"* ]]
+  [[ "$output" == *"Fast-accept ratio:       50%"* ]]
+  [[ "$output" == *"timed events: 2"* ]]
+}
+
+@test "summary: boundary — 4999 ms is fast, 5000 ms is not, boolean is not a duration" {
+  printf '{"ts":"%s","duration_ms":4999}\n{"ts":"%s","duration_ms":5000}\n{"ts":"%s","duration_ms":true}\n' \
+    "$(utc_days_ago 0)" "$(utc_days_ago 0)" "$(utc_days_ago 0)" > "$LOG"
+  run bash "$CD" summary
+  [ "$status" -eq 0 ]
   [[ "$output" == *"Fast-accept ratio:       50%"* ]]
   [[ "$output" == *"timed events: 2"* ]]
 }
