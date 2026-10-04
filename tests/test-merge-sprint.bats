@@ -259,3 +259,13 @@ main_moves() {  # main_moves <fichero> <contenido>
   [ ! -e "$FAKE/merged" ]
   grep -q '"reason":"head_cambiado_requiere_juez"' "$MERGE_SPRINT_HOME/ledger.jsonl"
 }
+
+@test "boundary: 12 registros concurrentes dejan la cadena íntegra (cerrojo en chain_append)" {
+  local n
+  for n in $(seq 50 61); do mkpr "$n" "scripts/c$n.sh"; done
+  for n in $(seq 50 61); do review "$n" APPROVE correctness >/dev/null & done
+  wait
+  [ "$(wc -l < "$MERGE_SPRINT_HOME/reviews.jsonl")" -eq 12 ]
+  run bash "$SCRIPT" verify-ledger
+  [ "$status" -eq 0 ]
+}
