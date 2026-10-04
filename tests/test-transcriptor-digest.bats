@@ -29,6 +29,11 @@ meeting() {
   printf '%s\n' "$2" > "$M/$1/meta.json"
 }
 
+# age <nombre>: envejece 1 hora todos los ficheros de la reunion (sin actividad reciente)
+age() {
+  find "$M/$1" -exec touch -d '-1 hour' {} +
+}
+
 # field <nombre> <clave>: valor de una clave del meta.json (repr de Python)
 field() {
   python3 -c 'import json,sys;print(json.load(open(sys.argv[1])).get(sys.argv[2]))' "$M/$1/meta.json" "$2"
@@ -163,9 +168,48 @@ field() {
   [ "$(cat "$M/rec/meta.json")" = "$before" ]
 }
 
-@test "mark --force: marca una reunion sin transcribir cuando se pide expresamente" {
+@test "mark: el exit 3 no sugiere --force como remedio (un agente lo reintentaria)" {
   meeting rec '{"digested": false, "transcribed": false}'
+  run bash "$MARK_SH" rec
+  [ "$status" -eq 3 ]
+  [[ "$output" != *"--force"* ]]
+  [[ "$output" == *"no reintentes"* ]]
+}
+
+@test "mark --force sin --confirm se rechaza (block) y no toca el meta.json" {
+  meeting rec '{"digested": false, "transcribed": false}'
+  age rec
+  before="$(cat "$M/rec/meta.json")"
   run bash "$MARK_SH" --force rec
+  [ "$status" -eq 1 ]
+  [[ "$output" == *"--confirm"* ]]
+  [ "$(cat "$M/rec/meta.json")" = "$before" ]
+}
+
+@test "mark --force con --confirm de otra carpeta se rechaza (invalid)" {
+  meeting rec '{"digested": false, "transcribed": false}'
+  age rec
+  before="$(cat "$M/rec/meta.json")"
+  run bash "$MARK_SH" --force --confirm otra rec
+  [ "$status" -eq 1 ]
+  [ "$(cat "$M/rec/meta.json")" = "$before" ]
+}
+
+@test "mark --force rechaza una reunion con actividad reciente (grabacion en curso)" {
+  meeting rec '{"digested": false, "transcribed": false}'
+  age rec
+  printf 'audio' > "$M/rec/audio.wav"
+  before="$(cat "$M/rec/meta.json")"
+  run bash "$MARK_SH" --force --confirm rec rec
+  [ "$status" -eq 3 ]
+  [[ "$output" == *"actividad reciente"* ]]
+  [ "$(cat "$M/rec/meta.json")" = "$before" ]
+}
+
+@test "mark --force --confirm: marca una reunion sin transcribir y sin actividad cuando se pide expresamente" {
+  meeting rec '{"digested": false, "transcribed": false}'
+  age rec
+  run bash "$MARK_SH" --force --confirm rec rec
   [ "$status" -eq 0 ]
   [ "$(field rec digested)" = "True" ]
 }

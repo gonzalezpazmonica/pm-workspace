@@ -36,14 +36,20 @@ Savia Sonora (ex-Savia Transcriptor) captura reuniones automaticamente (audio + 
 
 4. **MARK**: marcar la reunion como digerida:
    ```bash
-   bash scripts/transcriptor-mark-digested.sh [--force] <carpeta>
+   bash scripts/transcriptor-mark-digested.sh <carpeta>
    ```
    Solo despues de que el digest este guardado (paso 3). `<carpeta>` es el nombre
    que da el scan o una ruta con `/`.
    - Exit 0: marcada (anade `digested_at`) o ya lo estaba (idempotente).
-   - Exit 3: reunion sin transcribir; no se toca. `--force` la marca igualmente.
+   - Exit 3: reunion sin transcribir; no se toca. NO se reintenta: informar a la
+     usuaria y esperar a que la transcripcion termine.
+   - `--force --confirm <carpeta>`: solo por peticion expresa de la usuaria (nunca
+     como reaccion a un exit 3). Exige `--confirm` con el nombre exacto de la
+     carpeta y se niega con exit 3 si algun fichero de la reunion cambio en los
+     ultimos `SAVIA_TRANSCRIPTOR_ACTIVE_SECS` segundos (300 por defecto): una
+     grabacion en curso no se marca nunca.
    - Exit 1: uso, carpeta inexistente, `.`/`..`, meta.json ilegible o no objeto,
-     python3 ausente o fallo de escritura. Nunca imprime "Marcada" si no marco.
+     `--force` sin `--confirm` valido, python3 ausente o fallo de escritura. Nunca imprime "Marcada" si no marco.
    - Escritura atomica (temporal + rename) y relectura de verificacion; conserva
      el resto de campos y los permisos. Si falta meta.json en una reunion
      transcrita, lo crea.

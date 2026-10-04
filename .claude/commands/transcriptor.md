@@ -27,7 +27,7 @@ Para cada reunion nueva:
 3. Delegar a meeting-digest (notas estructuradas) + visual-digest (contexto visual)
 4. Cruzar con reglas de negocio → alertas
 5. Guardar digest en SaviaVaults (N3)
-6. bash scripts/transcriptor-mark-digested.sh <carpeta> — solo tras guardar el digest; exit 3 si la reunion aun no esta transcrita
+6. bash scripts/transcriptor-mark-digested.sh <carpeta> — solo tras guardar el digest; exit 3 si la reunion aun no esta transcrita: no reintentar ni usar --force; informar y esperar (--force solo por peticion expresa de la usuaria)
 
 ## Confidencialidad
 
