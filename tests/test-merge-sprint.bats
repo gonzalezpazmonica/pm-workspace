@@ -336,3 +336,31 @@ pr_absorbs_main() {  # pr_absorbs_main <n> : el workflow remoto integra main en 
   run bash "$SCRIPT" plan
   [[ "$output" != *"#61"* ]]
 }
+
+fake_scanner() {  # fake_scanner <salida> <exit> : escáner y firmador falsos en main del repo temporal
+  mkdir -p "$MERGE_SPRINT_GIT_ROOT/scripts"
+  printf '#!/usr/bin/env bash\necho "%s"; exit %s\n' "$1" "$2" > "$MERGE_SPRINT_GIT_ROOT/scripts/confidentiality-scan.sh"
+  printf '#!/usr/bin/env bash\ndate +%%s%%N > .confidentiality-signature\n' > "$MERGE_SPRINT_GIT_ROOT/scripts/confidentiality-sign.sh"
+  G add scripts; G commit -qm "escáner falso"; G push -q origin main
+}
+
+@test "v3 positivo: escáner CLEAN sin avisos (exit 0) cuenta como aprobado y el PR se mergea" {
+  v2_repo; fake_scanner "CLEAN — no violations" 0
+  v2_pr 70 m.txt pr70
+  main_moves n.txt main70
+  plan_and_grant
+  run bash "$SCRIPT" run
+  [ "$status" -eq 0 ]
+  grep -qx 70 "$FAKE/merged"
+  ! grep -q '"reason":"confidencialidad"' "$MERGE_SPRINT_HOME/ledger.jsonl"
+}
+
+@test "v3 block: escáner con violaciones (exit 1) aparca por confidencialidad aunque imprima PASSED" {
+  v2_repo; fake_scanner "BLOCKED — PASSED es parte del texto" 1
+  v2_pr 71 o.txt pr71
+  main_moves p.txt main71
+  plan_and_grant
+  run bash "$SCRIPT" run
+  [ ! -e "$FAKE/merged" ]
+  grep -q '"reason":"confidencialidad"' "$MERGE_SPRINT_HOME/ledger.jsonl"
+}
