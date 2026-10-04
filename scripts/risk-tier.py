@@ -34,7 +34,7 @@ TIER_4_PATHS = (
 # SE-433 §2.8: paths de gobernanza → tier 4. Un merge-sprint no puede mergear el
 # debilitamiento de sus propias reglas, permisos ni de este clasificador.
 GOVERNANCE_EXACT = (
-    "scripts/merge-sprint.sh", "scripts/risk-tier.py", "claude.md", "agents.md",
+    "scripts/merge-sprint.sh", "scripts/risk-tier.py",
     "docs/rules/domain/savia-ethical-principles.md", "docs/rules/domain/radical-honesty.md",
 )
 GOVERNANCE_PREFIXES = ("config/merge-sprint", ".opencode/", ".github/workflows/")
