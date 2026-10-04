@@ -119,17 +119,11 @@ El JSON se emite tambien en error, con `error` relleno y `text_truncated`.
 
 ## Seguridad de destinos (SSRF)
 
-- `scrapling-fetch.sh` solo admite http/https. Cada salto (URL inicial y
-  cada redireccion) se resuelve una vez, se valida y curl conecta a esa IP
-  (`--resolve`): un DNS rebinding no puede colar una IP interna entre la
-  validacion y la conexion. Las redirecciones las sigue el script.
-- Metadatos cloud (169.254.0.0/16, fe80::/10, `fd00:ec2::254`,
-  `100.100.100.200`, `168.63.129.16`, `192.0.0.192`), multicast y
-  reservadas: bloqueadas siempre, tambien con `--allow-private`. Loopback
-  (127/8, `::1`) y redes privadas: bloqueadas salvo `--allow-private`.
-- Scrapling, si esta instalado, solo parsea el HTML ya descargado: su
-  `Fetcher` resolveria y seguiria redirecciones por su cuenta. Coste: sin
-  el bypass anti-bot de Scrapling; `--stealth` no tiene efecto y lo avisa.
+- `scrapling-fetch.sh`: solo http/https; cada salto se resuelve una vez, se
+  valida y curl conecta a esa IP (`--resolve`, anti DNS rebinding).
+  Metadatos cloud (link-local, `fd00:ec2::254`, `100.100.100.200`,
+  `168.63.129.16`, `192.0.0.192`): bloqueados siempre. Loopback y privadas:
+  salvo `--allow-private`. Scrapling solo parsea (sin bypass anti-bot).
 - Lightpanda NO bloquea redes internas por defecto: pasar siempre
   `--block-private-networks`.
 - Limites: `--timeout` total (>= 1 s) y `--max-bytes` (5 MiB por defecto);
@@ -151,5 +145,4 @@ El JSON se emite tambien en error, con `error` relleno y `text_truncated`.
 - Sin renderizado grafico (solo headless)
 - Sin binario nativo Windows (usar WSL2)
 - Telemetry activado por defecto (desactivar con LIGHTPANDA_DISABLE_TELEMETRY=true)
-- Calibracion SE-376 (2026-10-03): tests en `tests/test-lightpanda-browser.bats`
-  contra servidor HTTP local; sin red externa.
+- Calibracion SE-376: `tests/test-lightpanda-browser.bats` (servidor local).
