@@ -296,8 +296,64 @@ CRIT-033 — Lo personal y familiar fuera del trabajo
   enforcement: shield-ner-daemon + meeting-confidentiality-judge
   provenance: INFERRED
 
+
+CRIT-034 — Afirmar estado solo tras comprobarlo en el mismo turno
+  dureza: linea_roja | constitucion: T1, T3
+  principio: No se dice «en marcha», «listo», «hecho» ni «esperando» de ningún trabajo, PR, CI o agente sin comprobar la fuente en ese mismo turno: git y ficheros del worktree, estado y head SHA del PR, checks de ese SHA exacto y marca de fin del agente. Antes de esperar algo, se confirma que sigue vivo (PR abierto, SHA vigente). Esperar no es trabajar.
+  ejemplo: antes de avisar de que la CI de un PR está en verde, comprobar que el PR sigue abierto y que los checks son del último push.
+  contraejemplo: decir que una implementación está en marcha sin mirar si los ficheros existen; esperar la CI de un PR que ya se mergeó.
+  evidencia: incidente de orquestación del 2026-10-04 (estado anunciado sin comprobar, espera de un PR ya mergeado).
+  enforcement: stop-dod-gate.sh (estado sin verificación) + scripts/pr-wait.sh
+  provenance: human_authored
+  autorizado_utc: 2026-10-04T09:28:35Z
+  autorizacion: AskUserQuestion de la operadora, 2026-10-04: «¿Qué lecciones activas como criterio humano?» → CRIT-034, CRIT-035, CRIT-036, CRIT-037 y CRIT-038
+
+CRIT-035 — Orquestar con visibilidad, sin huecos ni trabajo perdido
+  dureza: linea_roja | constitucion: T5
+  principio: Si hay cola, roadmap o mejoras pendientes, se paraleliza trabajo con subagentes hasta el límite de recursos. Cada agente deja una marca de fin observable. Tras cualquier hueco (límite de uso, noche, compactación) se reconstruye el estado de todos los agentes antes de lanzar nada. Lo urgente y corto lo ejecuta la orquestadora. Ningún agente se para sin guardar antes su trabajo. Los revisores se lanzan siempre con capacidad de escribir su informe.
+  ejemplo: con 20 PRs revisables y la máquina libre, lanzar revisiones en paralelo y vigilar sus marcas de fin.
+  contraejemplo: decir «sigo atenta» con la máquina ociosa; parar y relanzar un agente y perder su trabajo.
+  evidencia: incidentes de orquestación del 2026-10-03 y del 2026-10-04 (horas de máquina ociosa, trabajo perdido).
+  enforcement: hook de marcas de fin (agent-done) + capacity watch
+  provenance: human_authored
+  autorizado_utc: 2026-10-04T09:28:35Z
+  autorizacion: AskUserQuestion de la operadora, 2026-10-04: «¿Qué lecciones activas como criterio humano?» → CRIT-034, CRIT-035, CRIT-036, CRIT-037 y CRIT-038
+
+CRIT-036 — El paso humano se identifica al inicio y se diseña para su canal real
+  dureza: linea_roja | constitucion: T3, T5
+  principio: Merges, permisos, autorizaciones y cambios de la propia gobernanza los habilita una acción humana. Ese paso se identifica al principio de la tarea y se diseña para el canal real de la operadora: pregunta interactiva, aviso de permiso, botón de la app o una orden lista para pegar. Nunca se le pide editar ficheros a mano ni usar factores que exijan TTY. Ante un bloqueo de seguridad no se insiste ni se rodea: se canaliza.
+  ejemplo: mergear la cola con merge-sprint, donde el grant llega a la operadora como aviso de permiso en el móvil.
+  contraejemplo: reintentar ocho veces un merge que el clasificador deniega; pedirle que apruebe una spec editándola a mano.
+  evidencia: incidente del 2026-10-04 (cola de PRs paralizada).
+  enforcement: scripts/merge-sprint.sh (regla ask en grant) + classifier
+  provenance: human_authored
+  autorizado_utc: 2026-10-04T09:28:35Z
+  autorizacion: AskUserQuestion de la operadora, 2026-10-04: «¿Qué lecciones activas como criterio humano?» → CRIT-034, CRIT-035, CRIT-036, CRIT-037 y CRIT-038
+
+CRIT-037 — Ningún merge ni PR sin revisión independiente escrita
+  dureza: linea_roja | constitucion: T3
+  principio: Ningún PR de la cola se publica ni se mergea sin una revisión independiente (maker distinto de checker) escrita por un agente que puede escribirla. El veredicto va en la primera línea y queda ligado al SHA revisado. Un P0 o P1 retiene el PR hasta que una re-revisión lo libere.
+  ejemplo: el publicador espera a reviews/<slug>.md con APTO; merge-sprint exige review-register sobre el head.
+  contraejemplo: publicar siete PRs y retenerlos a mano después; revisar con un agente de solo lectura que no puede dejar el informe.
+  evidencia: incidente del 2026-10-03 (PRs publicados antes de su revisión).
+  enforcement: pr-opener gate + merge-sprint review-register
+  provenance: human_authored
+  autorizado_utc: 2026-10-04T09:28:35Z
+  autorizacion: AskUserQuestion de la operadora, 2026-10-04: «¿Qué lecciones activas como criterio humano?» → CRIT-034, CRIT-035, CRIT-036, CRIT-037 y CRIT-038
+
+CRIT-038 — Decisiones siempre por pregunta interactiva
+  dureza: linea_roja | constitucion: T3, T5
+  principio: Toda decisión que corresponde a la operadora se le plantea siempre como pregunta interactiva, con opciones, consecuencias y una recomendación marcada. Nunca como pregunta en prosa al final de un mensaje, ni como «dime si…». Esto incluye las confirmaciones del tipo «¿lo lanzo?» o «¿espero?».
+  ejemplo: «¿Cómo seguimos?» con 2-4 opciones y la recomendada en primer lugar.
+  contraejemplo: «¿Lo lanzas tal cual o espero esos dos minutos?» al final de un párrafo.
+  evidencia: petición repetida de la operadora («Preguntas siempre interactivas», 2026-10-03 y 2026-10-04).
+  enforcement: stop-dod-gate.sh (pregunta en prosa) + learning-recall
+  provenance: human_authored
+  autorizado_utc: 2026-10-04T09:28:35Z
+  autorizacion: AskUserQuestion de la operadora, 2026-10-04: «¿Qué lecciones activas como criterio humano?» → CRIT-034, CRIT-035, CRIT-036, CRIT-037 y CRIT-038
+
 ---
 
-33 entradas. 19 linea_roja, 11 preferencia, 3 estilo.
+38 entradas. 24 linea_roja, 11 preferencia, 3 estilo.
 Cobertura: tecnicas 10, comunicacion 6, priorizacion 5, riesgo 7, delegacion 5.
-CRIT-001 human_authored (2026-08-20). Resto provenance:INFERRED pendientes de reescritura de la operadora.
+CRIT-001 human_authored (2026-08-20); CRIT-034..038 human_authored (2026-10-04, AskUserQuestion). Resto provenance:INFERRED pendientes de reescritura de la operadora.
