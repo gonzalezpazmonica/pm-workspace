@@ -304,7 +304,11 @@ Por cada entrada, en orden ascendente:
      aprobación.
    - Si vence el plazo, aparcar con `ci_timeout`.
 8. Último chequeo del fichero STOP. Después, `gh pr ready` y
-   `gh pr merge --squash --match-head-commit S`. Si GitHub lo rechaza, aparcar.
+   `gh pr merge --squash --match-head-commit S`. Si GitHub lo rechaza:
+   - si `mergeStateStatus` es `DIRTY` o `BEHIND` (main avanzó durante la espera, por otro merge), se
+     registra `RETRY` y se vuelve al paso 5, hasta `MERGE_SPRINT_TRIES` intentos (3 por defecto).
+     Agotados, se aparca con `main_movido_sin_converger`;
+   - con cualquier otro estado, aparcar con `merge_rechazado`, sin reintento.
 9. Registrar en el ledger. Esperar la CI de `main` sobre el commit de merge:
    - cuenta solo si **todos** los `main_workflows` aplicables terminan en `success` sobre ese SHA exacto;
    - pending tras el plazo, ninguna ejecución, `cancelled`, `skipped` o rojo: STOP, sin revert.
@@ -333,7 +337,9 @@ Sean `H0` el `head` autorizado, `H1` el head actual y `M` el commit de `main` in
 - Para cada path fuera de la lista de derivados, el blob y el modo en `H1` deben ser iguales a los de
   `T`. Se comparan árboles, no diffs: los cambios de espacios, de binarios y de modo cuentan.
 - **Derivados admitidos.** Solo los artefactos generados del SAM, tal como `risk-tier.py` los lista en
-  `SCM_GENERATED_FILES` y `SCM_GENERATED_DIRS`, más `.confidentiality-signature` (D9).
+  `SCM_GENERATED_FILES` y `SCM_GENERATED_DIRS`, más `.confidentiality-signature` (D9), más el índice
+  y el manifiesto de reglas (`docs/rules/INDEX.md`, `docs/rules/domain/rule-manifest.json`), que se
+  regeneran con `rules-index-generate.sh` y `rule-manifest-generate.sh`.
   - Cada derivado se regenera con el código de `origin/main` y debe coincidir.
   - Las declaraciones de `.scm/` editadas a mano no son derivados.
   - `.confidentiality-signature` se admite solo si el ejecutor repite la auditoría de confidencialidad

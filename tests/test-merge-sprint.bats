@@ -23,13 +23,15 @@ case "$1 $2" in
     case "$a" in
       *headRefOid*) if [[ -f "$F/$n.branch" ]]; then git --git-dir="$BARE" rev-parse "refs/heads/$(cat "$F/$n.branch")"; else cat "$F/$n.head"; fi ;;
       *headRefName*) cat "$F/$n.branch" ;;
+      *mergeStateStatus*) cat "$F/$n.mss" 2>/dev/null || echo CLEAN ;;
       *mergeCommit*) echo "m${n}0000000000000000000000000000000000000" ;;
       *state*) cat "$F/$n.state" 2>/dev/null || echo OPEN ;;
     esac ;;
   "pr diff") cat "$F/$3.files" ;;
   "pr checks") printf 'CI\t%s\n' "$(cat "$F/$3.checks" 2>/dev/null || echo pass)" ;;
   "pr ready") exit 0 ;;
-  "pr merge") echo "$3" >> "$F/merged"; echo MERGED > "$F/$3.state" ;;
+  "pr merge") if [[ -f "$F/$3.reject" ]]; then n=$(cat "$F/$3.reject"); (( n > 0 )) && { echo $((n-1)) > "$F/$3.reject"; exit 1; }; fi
+              echo "$3" >> "$F/merged"; echo MERGED > "$F/$3.state" ;;
   "api repos/"*) echo "$(cat "$F/main_ci" 2>/dev/null || echo pass)" ;;
   *) exit 1 ;;
 esac
@@ -268,4 +270,47 @@ main_moves() {  # main_moves <fichero> <contenido>
   [ "$(wc -l < "$MERGE_SPRINT_HOME/reviews.jsonl")" -eq 12 ]
   run bash "$SCRIPT" verify-ledger
   [ "$status" -eq 0 ]
+}
+
+@test "v3 positivo: main avanza tras el resync, el merge se rechaza por desfase y al reintentar se mergea" {
+  v2_repo; v2_pr 50 f.txt pr50
+  echo 1 > "$FAKE/50.reject"; echo DIRTY > "$FAKE/50.mss"
+  plan_and_grant
+  run bash "$SCRIPT" run
+  [ "$status" -eq 0 ]
+  grep -qx 50 "$FAKE/merged"
+  grep -q '"event":"RETRY"' "$MERGE_SPRINT_HOME/ledger.jsonl"
+}
+
+@test "v3 boundary: desfase persistente agota MERGE_SPRINT_TRIES y aparca sin mergear" {
+  v2_repo; v2_pr 51 g.txt pr51
+  echo 9 > "$FAKE/51.reject"; echo BEHIND > "$FAKE/51.mss"
+  export MERGE_SPRINT_TRIES=2
+  plan_and_grant
+  run bash "$SCRIPT" run
+  [ ! -e "$FAKE/merged" ]
+  [ "$(grep -c '"event":"RETRY"' "$MERGE_SPRINT_HOME/ledger.jsonl")" -eq 2 ]
+  grep -q '"reason":"main_movido_sin_converger"' "$MERGE_SPRINT_HOME/ledger.jsonl"
+}
+
+@test "v3 block: merge rechazado sin desfase (CLEAN) aparca como merge_rechazado sin reintentar" {
+  v2_repo; v2_pr 52 h.txt pr52
+  echo 1 > "$FAKE/52.reject"
+  plan_and_grant
+  run bash "$SCRIPT" run
+  [ ! -e "$FAKE/merged" ]
+  ! grep -q '"event":"RETRY"' "$MERGE_SPRINT_HOME/ledger.jsonl"
+  grep -q '"reason":"merge_rechazado"' "$MERGE_SPRINT_HOME/ledger.jsonl"
+}
+
+@test "v3 positivo: conflicto solo en el índice de reglas se trata como derivado y se mergea" {
+  v2_repo; mkdir -p "$MERGE_SPRINT_GIT_ROOT/docs/rules"
+  main_moves docs/rules/INDEX.md base-index
+  v2_pr 53 docs/rules/INDEX.md index-pr53
+  main_moves docs/rules/INDEX.md index-main
+  plan_and_grant
+  run bash "$SCRIPT" run
+  [ "$status" -eq 0 ]
+  grep -qx 53 "$FAKE/merged"
+  ! grep -q '"reason":"conflicto_real"' "$MERGE_SPRINT_HOME/ledger.jsonl"
 }
