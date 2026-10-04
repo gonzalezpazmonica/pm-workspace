@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=93c45cb4ae306c127e0a41142811db34f17ca13c7614264effcf51d10439a8c5
-timestamp=2026-10-04T21:53:33Z
-branch=agent/scm-main-sam-fresh-20261004
-head_commit=1453379c4
-signature=c5939137d94d593556aa7ec35d19504f8a43adb62c3477607324744a9591d59b
+diff_hash=74377d246e229121bcc9344f91c2283763fe9b09ec2483a25012cad797aa8db3
+timestamp=2026-10-04T22:42:04Z
+branch=HEAD
+head_commit=0c344a9c2
+signature=3199d8d4dab3688690f1e4f298585a5b43a032fb10aa0590f0708d17332b6bb1
