@@ -1,5 +1,5 @@
 # Savia Capability Map — INDEX
-> hash: 1f0ca37df75b | resources: 1450
+> hash: ebfd43a352f5 | resources: 1450
 > 295 commands · 139 skills · 90 agents · 926 scripts
 
 [analysis] Trace Optimize — across,distributed,optimize,rates,sampling — cmd:.claude/commands/trace-optimize.md
@@ -893,6 +893,7 @@
 [planning] mcp-recommend —  — cmd:.claude/commands/mcp-recommend.md
 [planning] measure-reliability — across,capability,consistency,measure,reliability — script:scripts/measure-reliability.sh
 [planning] memvid-backup — backup,crea,externa,memoria,portable — skill:.claude/skills/memvid-backup/SKILL.md
+[planning] merge-sprint — acotada,autorización,bajo,humana,merge — script:scripts/merge-sprint.sh
 [planning] meta-control — control,meta,metacognitivo,orquestador,sagi — script:scripts/meta-control.sh
 [planning] meta-monitor — juicio,meta,metacognitivo,monitor,monitoreo — script:scripts/meta-monitor.sh
 [planning] meta-recalibra-ledger — ledger,meta,real,recalibra,recalibración — script:scripts/meta-recalibra-ledger.sh
@@ -1396,7 +1397,6 @@
 [quality] test-okr-strategy — strategy,test — script:scripts/test-okr-strategy.sh
 [quality] test-onboard-enterprise — enterprise,onboard,onboarding,scale,test — script:scripts/test-onboard-enterprise.sh
 [quality] test-orgchart-diagrams —  — script:scripts/test-orgchart-diagrams.sh
-[quality] test-pbi-history — field,history,implementation,level,test — script:scripts/test-pbi-history.sh
 [quality] test-pbi-spec-links — bidirectional,linkage,links,spec,test — script:scripts/test-pbi-spec-links.sh
 [quality] test-performance-quality — performance,quality,test — script:scripts/test-performance-quality.sh
 [quality] test-pipeline-devops — devops,pipeline,test — script:scripts/test-pipeline-devops.sh
