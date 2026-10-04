@@ -25,7 +25,7 @@ revisiones de agentes». No se afirma que un humano haya leído el diff.
 1. `review-register`: cada revisión y cada veredicto de juez se registra en un registro encadenado,
    con espejo como comentario del PR.
 2. `plan`: un agente prepara un borrador de manifiesto. No es de confianza.
-3. `grant`: lo ejecuta solo la operadora, en su terminal y nunca en la sesión de un agente. Recalcula
+3. `sign` (alias `grant`; la clave se crea antes con `init-key`): lo ejecuta solo la operadora, en su terminal y nunca en la sesión de un agente. Recalcula
    todo desde GitHub y `origin/main`, muestra un resumen determinista y firma con su clave ed25519
    cifrada con passphrase.
 4. `run`: un ejecutor determinista mergea en serie, del PR más antiguo al más nuevo.
@@ -126,7 +126,7 @@ Lo concede la operadora en sus settings, nunca un agente:
 - **Allow** solo `bash scripts/merge-sprint.sh run|status|stop|plan|review-register|verify-ledger`.
 - **Deny**:
   - `gh pr merge`;
-  - `merge-sprint.sh grant`;
+  - `merge-sprint.sh sign`, `grant` e `init-key`;
   - la edición del ejecutor, de `risk-tier.py` y de `config/merge-sprint/`.
 
 Sin un manifiesto firmado y vigente, `run` termina con error. No elude el clasificador: es la

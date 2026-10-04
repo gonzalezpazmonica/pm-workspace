@@ -105,9 +105,10 @@ agente no puede producir es un secreto que no posee.
 
 | Subcomando | Quién | Qué hace |
 |---|---|---|
+| `init-key` | **solo la operadora, en su propia terminal** | Crea la clave ed25519 en `~/.savia`, cifrada con passphrase, y muestra la clave pública que debe versionarse en `config/merge-sprint/allowed_signers` mediante un PR tier 4 mergeado a mano. |
 | `review-register <pr> <informe>` | agente revisor o juez | Único registro válido de revisiones y veredictos de juez: añade una entrada al registro append-only y encadenado y publica un espejo como comentario del PR. |
-| `plan --prs <N…> \| --query <q>` | agente u operadora | Resuelve la lista y escribe un borrador de manifiesto. No es de confianza: `grant` lo recalcula todo. |
-| `grant <manifest>` | **solo la operadora, en su propia terminal** | Recalcula, muestra, pide confirmaciones y firma (§2.3). |
+| `plan --prs <N…> \| --query <q>` | agente u operadora | Resuelve la lista y escribe un borrador de manifiesto. No es de confianza: `sign` lo recalcula todo. |
+| `sign <manifest>` (alias `grant`) | **solo la operadora, en su propia terminal** | Recalcula, muestra, pide confirmaciones y firma (§2.3). |
 | `run <id>` | agente con permiso acotado | Verifica y ejecuta (§2.5). |
 | `status <id>` · `stop [<id>]` · `report <id>` · `verify-ledger <id>` | cualquiera | Parar siempre es seguro. Un sprint parado por una condición de parada no se reanuda. |
 
@@ -139,13 +140,13 @@ Es un JSON canónico (claves ordenadas, sin espacios). El digest que se firma es
 diff, el tier que declare cualquier revisión y cualquier retención registrada. Es monótono: nada lo
 baja.
 
-### 2.3 Emisión del grant
+### 2.3 Emisión del grant (`sign`)
 
 - **Factor (D1).** Firma con `ssh-keygen -Y sign -n savia-merge-sprint` y una clave ed25519 de la
   operadora en `~/.savia`, cifrada con passphrase y no cargada en `ssh-agent`. Se verifica con
   `ssh-keygen -Y verify` contra `config/merge-sprint/allowed_signers`, leído de `origin/main` y nunca
   del árbol de trabajo.
-- **`grant` no confía en `plan`.** Recalcula desde GitHub y `origin/main`:
+- **`sign` no confía en `plan`.** Recalcula desde GitHub y `origin/main`:
   - heads y base;
   - ficheros y modos;
   - el tier;
@@ -155,7 +156,7 @@ baja.
 
   Ante cualquier discrepancia con el borrador, aborta sin firmar. Excluye cualquier PR con al menos
   un HOLD.
-- **Resumen.** Lo genera `grant`, no `plan`. Por PR muestra primero los campos deterministas
+- **Resumen.** Lo genera `sign`, no `plan`. Por PR muestra primero los campos deterministas
   (ficheros, diffstat, tier y su motivo, número de revisiones por rol y veredictos). Después, el texto
   libre (título y hallazgos), marcado como no fiable. Resalta cualquier cambio de `runner_blob`,
   `classifier_blob` o `signers_blob` respecto al último grant.
@@ -167,7 +168,7 @@ baja.
   - Por defecto: `expires_at` = ahora + 12 h, `max_merges` = 40 y como máximo 50 PRs.
   - Topes absolutos que impone el ejecutor, firme lo que firme la operadora: TTL ≤ 24 h, PRs ≤ 50,
     `max_merges` ≤ número de PRs, `max_consecutive_parks` ≤ 3 y `allowed_tiers` ⊆ {1,2,3}.
-- **Dónde no se ejecuta.** `grant` no se ejecuta en la sesión de un agente (tampoco con `!`): la frase
+- **Dónde no se ejecuta.** `sign` (y `init-key`) no se ejecuta en la sesión de un agente (tampoco con `!`): la frase
   y el resumen acabarían en la conversación. Un agente no puede emitir, ampliar, prorrogar ni
   re-firmar un grant, y cambiar un byte del manifiesto invalida la firma.
 
@@ -359,7 +360,7 @@ Lo añade la operadora en sus settings, nunca un agente:
 - **Allow**: solo `bash scripts/merge-sprint.sh run|status|stop|plan|review-register|verify-ledger`.
 - **Deny**:
   - `gh pr merge` en general;
-  - `merge-sprint.sh grant`;
+  - `merge-sprint.sh sign`, su alias `grant` e `init-key`;
   - editar `scripts/merge-sprint.sh`, `scripts/risk-tier.py` y `config/merge-sprint/`.
 
 El permiso por sí solo no mergea: sin un manifiesto firmado y vigente, `run` termina con error.
@@ -408,11 +409,11 @@ Firma y grant:
   ningún merge y evento `STOP:signature`.
 - **AC-02** `allowed_signers` se lee de `origin/main`. Si el árbol de trabajo tiene otra clave pública,
   una firma hecha con la clave del árbol se rechaza.
-- **AC-03** `grant` sin TTY o sin la passphrase no produce firma. Ningún subcomando accesible al agente
+- **AC-03** `sign` (o su alias `grant`) sin TTY o sin la passphrase no produce firma. Ningún subcomando accesible al agente
   escribe `manifest.sig`.
 - **AC-04** Un borrador editado tras `plan` (`verdict`, `head`, `tier`, `files` o una revisión
-  omitida) hace que `grant` aborte sin firmar.
-- **AC-05** `grant` sin valores explícitos produce TTL de 12 h, `max_merges` 40 y rechaza más de 50
+  omitida) hace que `sign` aborte sin firmar.
+- **AC-05** `sign` sin valores explícitos produce TTL de 12 h, `max_merges` 40 y rechaza más de 50
   PRs. Un manifiesto con TTL de 25 h, 51 PRs, parks > 3 o tier 4 en `allowed_tiers` hace que `run`
   termine con error aunque esté firmado.
 
@@ -439,7 +440,7 @@ Revisión:
   17. `tier=` mayor que el firmado;
   18. la línea válida.
 - **AC-07** Para un `(pr, sha)` con un HOLD y un APPROVE registrados posteriormente, el PR queda
-  excluido en `grant` y aparcado en `run`.
+  excluido en `sign` y aparcado en `run`.
 - **AC-08** Una revisión con un hash distinto tras la firma aparca el PR con `review_changed`, y el
   sprint continúa.
 - **AC-09** Tier 3 sin `ack`, o sin revisión `role=security` APPROVE: aparcado. Tier 3 con ambas: se
@@ -516,7 +517,7 @@ Entrega:
 - **AC-28** El test BATS `tests/test-merge-sprint.bats`, con `gh` y repo git falsos, cubre AC-01 a
   AC-27 y lo certifica con ≥80 `scripts/test-auditor.sh`.
 - **AC-29** OpenCode: con su configuración de permisos (`permission.bash` y `permission.edit`) se
-  deniegan `gh pr merge`, `merge-sprint.sh grant` y la edición del ejecutor, y se permite `run`.
+  deniegan `gh pr merge`, `merge-sprint.sh sign|grant|init-key` y la edición del ejecutor, y se permite `run`.
 - **AC-30** `autonomous-safety.md` enlaza `autonomous-safety-merge-sprint.md` y sigue por debajo de 150
   líneas.
 
