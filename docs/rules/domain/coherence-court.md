@@ -33,8 +33,10 @@ Orchestrator: `coherence-court-orchestrator` (L4) — convenes, consolidates, ga
 4. 4 judges review in parallel (fork agents, isolated context)
 5. coherence-court-orchestrator consolidates → .coherence.crc
 6. coherence-court.sh gate <score> → 0 PASS / 2 CONDITIONAL / 1 FAIL
-   (score, --threshold, --conditional y los C H M L de `score`: enteros >= 0,
-   validados antes de evaluar; --conditional <= --threshold; flujo sin '/')
+   (score, --threshold, --conditional y COHERENCE_SCORE_*: enteros 0-100; los
+   C H M L de `score`: 0-999999; sin ceros a la izquierda, validados con cota de
+   longitud antes de evaluar, sin desbordar 64 bits; --conditional <= --threshold;
+   flujo sin '/'; fuera de rango → error y FAIL, nunca PASS)
 7. If FAIL → puerta humana: NO continuar el flujo; humano decide (CRITERIO.md)
 ```
 

@@ -30,9 +30,15 @@ _py3() { command -v python3 &>/dev/null; }
 
 # Enteros no negativos validados ANTES de cualquier contexto aritmético:
 # $(( )) y [[ -ge ]] evalúan subíndices, así que "HOME[$(cmd)]" ejecutaría cmd.
+# Además bash envuelve en 64 bits sin aviso (2^64-4 * 25 da score=200), así que
+# la regex acota la longitud a 6 dígitos y sin ceros a la izquierda (evita la
+# base octal de "08"); solo entonces se compara con el máximo, ya sin desbordar.
+COHERENCE_COUNT_MAX=999999
 _require_uint() {
-  local name="$1" value="$2"
-  [[ "$value" =~ ^[0-9]+$ ]] || die "$name must be a non-negative integer: '$value'"
+  local name="$1" value="$2" max="${3:-$COHERENCE_COUNT_MAX}"
+  [[ "$value" =~ ^(0|[1-9][0-9]{0,5})$ ]] \
+    || die "$name must be an integer 0-$max without leading zeros: '$value'"
+  [[ "$value" -le "$max" ]] || die "$name out of range 0-$max: '$value'"
 }
 
 # El flujo forma parte del nombre de fichero: sin "/" no puede salir del directorio.
@@ -284,8 +290,8 @@ EOF
 cmd_score() {
   local c="${1:-0}" h="${2:-0}" m="${3:-0}" l="${4:-0}"
   _require_uint C "$c"; _require_uint H "$h"; _require_uint M "$m"; _require_uint L "$l"
-  _require_uint COHERENCE_SCORE_PASS "$COHERENCE_SCORE_PASS"
-  _require_uint COHERENCE_SCORE_CONDITIONAL "$COHERENCE_SCORE_CONDITIONAL"
+  _require_uint COHERENCE_SCORE_PASS "$COHERENCE_SCORE_PASS" 100
+  _require_uint COHERENCE_SCORE_CONDITIONAL "$COHERENCE_SCORE_CONDITIONAL" 100
   local score=$((100 - c * 25 - h * 10 - m * 3 - l * 1))
   [[ "$score" -lt 0 ]] && score=0
 
@@ -312,9 +318,9 @@ cmd_gate() {
     esac
   done
   [[ -z "$score" ]] && die "gate requires <score>"
-  [[ "$score" =~ ^[0-9]+$ ]] || die "score must be an integer: '$score'"
-  _require_uint threshold "$threshold"
-  _require_uint conditional "$conditional"
+  _require_uint score "$score" 100
+  _require_uint threshold "$threshold" 100
+  _require_uint conditional "$conditional" 100
   [[ "$conditional" -le "$threshold" ]] || die "conditional threshold ($conditional) must be <= pass threshold ($threshold)"
 
   if [[ "$score" -ge "$threshold" ]]; then

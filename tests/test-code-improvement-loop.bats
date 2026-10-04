@@ -259,6 +259,76 @@ _assert_injection_blocked() {
   [[ "$output" != *"score=200"* ]]
 }
 
+# Bash envuelve la aritmética en 64 bits sin aviso: un entero enorme que pase
+# la regex vuelve negativo el producto (score=200) o el umbral (PASS seguro).
+# Todos deben rechazarse antes de evaluar, con error y sin veredicto de paso.
+_assert_rejected_no_pass() {
+  local label="$1"; shift
+  run "$@"
+  if [ "$status" -eq 0 ] || [[ "$output" == *"verdict=pass"* ]] \
+     || [[ "$output" == *"PASS: score"* ]] || [[ "$output" != *"ERROR"* ]]; then
+    echo "aceptado en $label: status=$status output=$output" >&2
+    return 1
+  fi
+}
+
+@test "score: overflow de 64 bits en conteos se rechaza (2^64-4, 2^63, 2^63-1, 20+ dígitos)" {
+  _assert_rejected_no_pass c-2p64m4 bash "$SCRIPT" score 18446744073709551612 0 0 0
+  _assert_rejected_no_pass c-2p63 bash "$SCRIPT" score 9223372036854775808 0 0 0
+  _assert_rejected_no_pass c-2p63m1 bash "$SCRIPT" score 9223372036854775807 0 0 0
+  _assert_rejected_no_pass h-2p63m1 bash "$SCRIPT" score 0 9223372036854775807 0 0
+  _assert_rejected_no_pass m-2p64 bash "$SCRIPT" score 0 0 18446744073709551616 0
+  _assert_rejected_no_pass l-25dig bash "$SCRIPT" score 0 0 0 1234567890123456789012345
+  _assert_rejected_no_pass c-large bash "$SCRIPT" score 1000000 0 0 0
+}
+
+@test "score: overflow de 2^64 en COHERENCE_SCORE_PASS y CONDITIONAL se rechaza" {
+  _assert_rejected_no_pass env-pass-2p64 \
+    env COHERENCE_SCORE_PASS=18446744073709551616 bash "$SCRIPT" score 9 9 9 9
+  _assert_rejected_no_pass env-pass-2p63 \
+    env COHERENCE_SCORE_PASS=9223372036854775808 bash "$SCRIPT" score 9 9 9 9
+  _assert_rejected_no_pass env-cond-2p64 \
+    env COHERENCE_SCORE_CONDITIONAL=18446744073709551616 bash "$SCRIPT" score 0 1 0 0
+}
+
+@test "gate: overflow en score, --threshold, --conditional y env se rechaza sin PASS" {
+  _assert_rejected_no_pass score-2p64p90 bash "$SCRIPT" gate 18446744073709551706
+  _assert_rejected_no_pass score-2p63 bash "$SCRIPT" gate 9223372036854775808
+  _assert_rejected_no_pass thr-2p64 bash "$SCRIPT" gate 5 --threshold 18446744073709551616 --conditional 0
+  _assert_rejected_no_pass thr-2p63m1 bash "$SCRIPT" gate 5 --threshold 9223372036854775807 --conditional 0
+  _assert_rejected_no_pass cond-2p64 bash "$SCRIPT" gate 95 --threshold 90 --conditional 18446744073709551616
+  _assert_rejected_no_pass env-pass-2p64 \
+    env COHERENCE_SCORE_PASS=18446744073709551616 COHERENCE_SCORE_CONDITIONAL=0 bash "$SCRIPT" gate 5
+}
+
+@test "gate: rango 0-100 en score y umbrales, 100 es el límite aceptado y 101 se rechaza" {
+  run bash "$SCRIPT" gate 100
+  [ "$status" -eq 0 ]
+  run bash "$SCRIPT" gate 50 --threshold 100 --conditional 0
+  [ "$status" -eq 2 ]
+  _assert_rejected_no_pass score-101 bash "$SCRIPT" gate 101
+  _assert_rejected_no_pass thr-101 bash "$SCRIPT" gate 100 --threshold 101 --conditional 0
+}
+
+@test "score y gate: ceros a la izquierda se rechazan con error claro, no octal" {
+  run env LC_ALL=C bash "$SCRIPT" score 08 0 0 0
+  [ "$status" -ne 0 ]
+  [[ "$output" == *"ERROR: C must be an integer 0-999999 without leading zeros"* ]]
+  [[ "$output" != *"value too great"* ]]
+  run env LC_ALL=C bash "$SCRIPT" gate 09
+  [ "$status" -ne 0 ]
+  [[ "$output" == *"ERROR: score must be an integer 0-100 without leading zeros"* ]]
+  [[ "$output" != *"value too great"* ]]
+  run bash "$SCRIPT" gate 95 --threshold 090
+  [ "$status" -ne 0 ]
+  [[ "$output" == *"ERROR: threshold"* ]]
+  # "010" es octal válido (8): sin rechazo, score 9 pasaría un umbral que se lee como 10.
+  _assert_rejected_no_pass thr-octal bash "$SCRIPT" gate 9 --threshold 010 --conditional 0
+  run bash "$SCRIPT" gate 0
+  [ "$status" -eq 1 ]
+  [[ "$output" == FAIL* ]]
+}
+
 @test "score: límites exactos 90 pass, 70 conditional, 69 fail" {
   run bash "$SCRIPT" score 0 1 0 0
   [ "$output" = "score=90 verdict=pass (C=0 H=1 M=0 L=0)" ]
