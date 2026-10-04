@@ -346,6 +346,10 @@ Sean `H0` el `head` autorizado, `H1` el head actual y `M` el commit de `main` in
     sobre `H1` con resultado PASSED y la re-firma con `scripts/confidentiality-sign.sh`. Sin PASSED,
     el PR se aparca. La CI (`confidentiality-gate`) verifica la firma.
 
+- **En `plan`.** Si el head actual no tiene revisiones suficientes, se usa el sha revisado más reciente
+  que las tenga y sea equivalente al head según esta sección. El manifiesto lleva ese sha revisado, y
+  `run` vuelve a exigir la equivalencia con el head que haya en ese momento.
+
 ### 2.7 Juez de cambios posteriores al grant (D3)
 
 El ejecutor sigue sin usar ningún LLM. El juez es un agente externo, consultado de forma asíncrona:

@@ -107,15 +107,36 @@ pr_tier() {  # tier calculado por risk-tier.py sobre los ficheros del PR
   python3 "$ROOT/scripts/risk-tier.py" --diff "$files" --json 2>/dev/null | python3 -c 'import json,sys; print(json.load(sys.stdin).get("tier",4))' 2>/dev/null || echo 4
 }
 
+reviewed_shas() {  # reviewed_shas <pr> → shas con revisión registrada, del más reciente al más antiguo
+  [[ -f "$REG" ]] || return 0
+  python3 -c 'import json,sys
+seen=[]
+for l in reversed(open(sys.argv[1]).read().splitlines()):
+    d=json.loads(l)
+    if d["pr"]==int(sys.argv[2]) and d["sha"] not in seen: seen.append(d["sha"])
+print(" ".join(seen))' "$REG" "$1"
+}
+
 cmd_plan() {
   verify_chain "$REG" || die "registro de revisiones manipulado" 4
+  git -C "$GITROOT" fetch -q origin 2>/dev/null
   local max_prs allowed; max_prs=$(policy max_prs) || exit 2; allowed=$(policy allowed_tiers) || exit 2
   local out="[]" n head tier
   for n in $($GH pr list -R "$REPO" --state open --limit 200 --json number --jq '[.[].number]|sort|.[]'); do
     head=$($GH pr view "$n" -R "$REPO" --json headRefOid --jq .headRefOid)
     tier=$(pr_tier "$n")
     [[ ",$allowed," == *",$tier,"* ]] || continue
-    reviews_ok "$n" "$head" "$tier" || continue
+    # El workflow remoto integra main en las ramas tras cada merge: si el head actual no tiene revisión
+    # propia, vale la revisión más reciente cuyo sha sea equivalente al head (§2.6). El manifiesto lleva
+    # el sha revisado; run vuelve a exigir la equivalencia con el head de ese momento.
+    if ! reviews_ok "$n" "$head" "$tier"; then
+      local cand found=""
+      for cand in $(reviewed_shas "$n"); do
+        reviews_ok "$n" "$cand" "$tier" && head_equivalent "$cand" "$head" && { found="$cand"; break; }
+      done
+      [[ -n "$found" ]] || continue
+      head="$found"
+    fi
     out=$(python3 -c 'import json,sys; a=json.loads(sys.argv[1]); a.append({"pr":int(sys.argv[2]),"head":sys.argv[3],"tier":int(sys.argv[4])}); print(json.dumps(a))' "$out" "$n" "$head" "$tier")
   done
   python3 -c 'import json,sys; a=json.loads(sys.argv[1])[:int(sys.argv[2])]; print(json.dumps({"repo":sys.argv[3],"prs":a},sort_keys=True,separators=(",",":")))' "$out" "$max_prs" "$REPO" > "$MANIFEST"

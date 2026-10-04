@@ -314,3 +314,25 @@ main_moves() {  # main_moves <fichero> <contenido>
   grep -qx 53 "$FAKE/merged"
   ! grep -q '"reason":"conflicto_real"' "$MERGE_SPRINT_HOME/ledger.jsonl"
 }
+
+pr_absorbs_main() {  # pr_absorbs_main <n> : el workflow remoto integra main en la rama del PR (merge, sin código propio)
+  G switch -q "pr-$1"; G merge -q --no-edit main; G push -q origin "pr-$1"; G switch -q main
+}
+
+@test "v3 positivo: plan admite el PR si el head solo absorbió main tras la revisión (manifiesto con el sha revisado)" {
+  v2_repo; v2_pr 60 i.txt pr60
+  local reviewed; reviewed=$(git --git-dir="$BARE" rev-parse refs/heads/pr-60)
+  main_moves j.txt main60; pr_absorbs_main 60
+  run bash "$SCRIPT" plan
+  [ "$status" -eq 0 ]
+  [[ "$output" == *"#60"* ]]
+  grep -q "\"head\":\"$reviewed\"" "$MERGE_SPRINT_HOME/manifest.json"
+}
+
+@test "v3 block: plan excluye el PR si tras la revisión entró código propio aunque también absorbiera main" {
+  v2_repo; v2_pr 61 k.txt pr61
+  G switch -q pr-61; echo colado >> "$MERGE_SPRINT_GIT_ROOT/k.txt"; G commit -qam sneaky; G push -q origin pr-61; G switch -q main
+  main_moves l.txt main61; pr_absorbs_main 61
+  run bash "$SCRIPT" plan
+  [[ "$output" != *"#61"* ]]
+}
