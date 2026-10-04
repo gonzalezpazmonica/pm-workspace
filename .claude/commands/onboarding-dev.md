@@ -87,7 +87,7 @@ Adaptando para: {nombre} ({rol}, {seniority})
    Base de conocimiento: 12 documentos del proyecto
    Capas: Orientación · Ejecución · Contexto
 
-   Uso: /onboarding-ask {pregunta}
+   Uso: preguntar en la conversación (sin comando dedicado)
 
    Guardarraíles activos:
    ⚠️ No inventa — si no sabe, lo dice
@@ -104,7 +104,7 @@ Adaptando para: {nombre} ({rol}, {seniority})
 👤 Nuevo miembro: {nombre} ({rol}, {seniority})
 📁 Documentación: projects/{proyecto}/onboarding/ (12 documentos)
 📋 Plan: projects/{proyecto}/onboarding/{nombre}-plan-30-60-90.md
-🤖 Buddy IA: activo vía /onboarding-ask
+🤖 Buddy IA: activo en la conversación
 
 📊 Métricas a rastrear:
   - Tiempo hasta primer PR: objetivo ≤ {3|5} días
