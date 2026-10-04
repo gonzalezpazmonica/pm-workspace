@@ -37,6 +37,11 @@ export type HookEntry = CommandHookEntry | HttpHookEntry | UnsupportedHookEntry
 
 export type HookMap = Record<string, HookEntry[]>
 
+/** Opciones de ejecución: `wrap` devuelve el argv que sustituye a `bash -c <command>`. */
+export interface RunOptions {
+  wrap?: (command: string) => string[]
+}
+
 export interface HookResult {
   blocked: boolean
   stderr: string
@@ -100,8 +105,10 @@ function loadHttpHook(
   }
 }
 
-export async function loadHookMap(projectRoot: string): Promise<HookMap> {
-  const settingsPath = `${projectRoot}/.claude/settings.json`
+export async function loadHookMap(
+  projectRoot: string,
+  settingsPath = `${projectRoot}/.claude/settings.json`,
+): Promise<HookMap> {
   const raw = await readFile(settingsPath, "utf-8").catch(() => "")
   if (!raw) return { __configuration__: [{ type: "unsupported", declared_event: "configuration" }] }
   let parsed: any = {}
@@ -250,6 +257,7 @@ async function spawnHook(
   h: CommandHookEntry,
   payload: string,
   ignoreOutput: boolean,
+  opts: RunOptions = {},
 ): Promise<{ proc: any; pid: number; cleanup: () => Promise<void> }> {
   const { path: stdinPath, cleanup } = stdinPayloadPath()
   await writeFile(stdinPath, payload, "utf8")
@@ -261,7 +269,7 @@ async function spawnHook(
     // handles plain paths (shebang), `bash "..."` prefixes, redirections and
     // `||` chains that appear in settings.json.
     const proc = Bun.spawn({
-      cmd: ["bash", "-c", h.command],
+      cmd: opts.wrap ? opts.wrap(h.command) : ["bash", "-c", h.command],
       cwd: projectRoot,
       env: { ...process.env, CLAUDE_PROJECT_DIR: projectRoot, CLAUDE_JSON_INPUT: payload },
       stdin: Bun.file(stdinPath),
@@ -319,8 +327,9 @@ async function runHookOnce(
   h: CommandHookEntry,
   payload: string,
   fireAndForget = false,
+  opts: RunOptions = {},
 ): Promise<{ exit: number; stdout: string; stderr: string }> {
-  const { proc, pid, cleanup } = await spawnHook(projectRoot, h, payload, fireAndForget)
+  const { proc, pid, cleanup } = await spawnHook(projectRoot, h, payload, fireAndForget, opts)
   const cap = fireAndForget ? 60000 : timeoutFor(h) + 1000
   let timedOut = false
   const killTimer = setTimeout(() => {
@@ -568,6 +577,7 @@ export async function runHooksForEvent(
   event: string,
   tool: string | null,
   payload: string,
+  opts: RunOptions = {},
 ): Promise<HookResult> {
   const result: HookResult = { blocked: false, stderr: "", stdout: "" }
   if (hookMap.__configuration__?.length) {
@@ -587,12 +597,12 @@ export async function runHooksForEvent(
       // `async: true` hooks are fire-and-forget (Claude Code semantics):
       // their exit code and output are ignored, and the caller never waits.
       if (h.async) {
-        if (h.type === "command") void runHookOnce(projectRoot, h, payload, true).catch(() => {})
+        if (h.type === "command") void runHookOnce(projectRoot, h, payload, true, opts).catch(() => {})
         else void runHttpHookOnce(h, payload).catch(() => {})
         continue
       }
       const { exit, stdout, stderr } = h.type === "command"
-        ? await runHookOnce(projectRoot, h, payload, false)
+        ? await runHookOnce(projectRoot, h, payload, false, opts)
         : await runHttpHookOnce(h, payload)
       if (exit !== 0) {
         result.blocked = true

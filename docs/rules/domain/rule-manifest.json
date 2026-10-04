@@ -1,9 +1,9 @@
 {
-  "generated": "2026-10-04T08:16:39Z",
-  "total": 312,
+  "generated": "2026-10-04T23:18:44Z",
+  "total": 313,
   "tier1_count": 4,
   "tier2_count": 304,
-  "dormant_count": 4,
+  "dormant_count": 5,
   "rules": {
     "accessibility-output.md": {
       "tier": "tier2",
@@ -567,6 +567,10 @@
     },
     "hook-profiles.md": {
       "tier": "tier2",
+      "consumers": ""
+    },
+    "hooks-blocking-guards.md": {
+      "tier": "dormant",
       "consumers": ""
     },
     "http-query-method.md": {

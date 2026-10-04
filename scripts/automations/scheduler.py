@@ -13,12 +13,15 @@ import logging
 import uuid
 from typing import Callable, Awaitable, Optional, Set
 
-from .models import ScheduledTask, TaskRun, now_iso
+from .models import RUN_ERROR, ScheduledTask, TaskRun, now_iso
 from .store import TaskStore
 
 logger = logging.getLogger("savia.automations")
 
-Runner = Callable[[ScheduledTask, str], Awaitable[TaskRun]]
+Runner = Callable[[ScheduledTask, str], Awaitable[Optional[TaskRun]]]
+
+# Un runner sin TaskRun no demuestra ejecución: nunca se registra como 'completed'.
+NO_RESULT_ERROR = "runner returned no result"
 
 
 class AutomationScheduler:
@@ -124,8 +127,11 @@ class AutomationScheduler:
                 result.id = run_id
                 result.finished_at = now_iso()
                 self.store.update_run(result)
+                run.status = result.status
             else:
-                run.status = "completed"
+                logger.error("task %s: %s", task.id, NO_RESULT_ERROR)
+                run.status = RUN_ERROR
+                run.error = NO_RESULT_ERROR
                 run.finished_at = now_iso()
                 self.store.update_run(run)
         except Exception as exc:
@@ -154,10 +160,12 @@ class AutomationScheduler:
             result = await self.runner(task, "manual")
         finally:
             self._running_ids.discard(task.id)
+        if result is None:
+            logger.error("task %s: %s", task.id, NO_RESULT_ERROR)
         fresh = self.store.get(task_id)
         if fresh is not None:
             fresh.run_count += 1
             fresh.last_run = now_iso()
-            fresh.last_status = result.status if result else "completed"
+            fresh.last_status = result.status if result else RUN_ERROR
             self.store.save(fresh)
         return run_id
