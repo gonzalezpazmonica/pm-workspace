@@ -1,6 +1,6 @@
 {
-  "hash": "15c0024a7faa",
-  "total": 1450,
+  "hash": "20a69b05c471",
+  "total": 1451,
   "resources": [
     {
       "category": "analysis",
@@ -11807,6 +11807,20 @@
       "kind": "skill",
       "path": ".claude/skills/memvid-backup/SKILL.md",
       "description": "Usar cuando se crea un backup portable de la memoria externa de Savia."
+    },
+    {
+      "category": "planning",
+      "name": "merge-sprint",
+      "intents": [
+        "acotada",
+        "autorización",
+        "bajo",
+        "humana",
+        "merge"
+      ],
+      "kind": "script",
+      "path": "scripts/merge-sprint.sh",
+      "description": "merge-sprint.sh — SE-433 v1: merges en serie bajo autorización humana previa y acotada."
     },
     {
       "category": "planning",

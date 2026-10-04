@@ -18236,6 +18236,27 @@
       "frontend_support": [
         "opencode"
       ],
+      "id": "script:scripts/merge-sprint",
+      "intents": [
+        "acotada",
+        "autorización",
+        "bajo",
+        "humana",
+        "merge"
+      ],
+      "kind": "script",
+      "owner_domain": "planning",
+      "replaced_by": null,
+      "risk_level": null,
+      "source": "scripts/merge-sprint.sh",
+      "status": "active",
+      "tests": []
+    },
+    {
+      "depends_on": [],
+      "frontend_support": [
+        "opencode"
+      ],
       "id": "script:scripts/meta-control",
       "intents": [
         "control",
@@ -29604,7 +29625,7 @@
       "tests": []
     }
   ],
-  "content_hash": "15c0024a7faa",
+  "content_hash": "20a69b05c471",
   "deferred_kinds": [
     "rule",
     "hook"
