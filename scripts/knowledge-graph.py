@@ -36,6 +36,7 @@ import os
 import re
 import sqlite3
 import sys
+import time
 from collections import deque
 from pathlib import Path
 
@@ -106,10 +107,41 @@ if _SKILLS_DIR.exists():
 
 # ── DB helpers ───────────────────────────────────────────────────────────────
 
+# Concurrency: several processes may open (and create) the same DB at once.
+# busy_timeout makes ordinary statements wait for the lock; switching to WAL
+# needs an exclusive lock that SQLite may refuse immediately, so it is retried
+# with a bounded backoff; migrations run inside BEGIN IMMEDIATE so only one
+# process adds the missing columns.
+_LOCK_TIMEOUT_S = 30.0
+_WAL_RETRIES = 50
+
+
+def _set_wal(conn: sqlite3.Connection) -> None:
+    delay = 0.01
+    for attempt in range(_WAL_RETRIES):
+        try:
+            conn.execute("PRAGMA journal_mode=WAL")
+            return
+        except sqlite3.OperationalError as exc:
+            if "locked" not in str(exc) or attempt == _WAL_RETRIES - 1:
+                raise
+            time.sleep(delay)
+            delay = min(delay * 2, 0.5)
+
+
+_MIGRATIONS = (
+    ("project_id", "ALTER TABLE entities ADD COLUMN project_id TEXT"),
+    ("memory_type", "ALTER TABLE entities ADD COLUMN memory_type TEXT DEFAULT 'unknown'"),
+    ("confidence", "ALTER TABLE entities ADD COLUMN confidence REAL DEFAULT 0.8"),
+    ("provenance", "ALTER TABLE entities ADD COLUMN provenance TEXT DEFAULT 'unknown'"),
+)
+
+
 def open_db(db_path: Path) -> sqlite3.Connection:
     db_path.parent.mkdir(parents=True, exist_ok=True)
-    conn = sqlite3.connect(str(db_path))
-    conn.execute("PRAGMA journal_mode=WAL")
+    conn = sqlite3.connect(str(db_path), timeout=_LOCK_TIMEOUT_S)
+    conn.execute(f"PRAGMA busy_timeout={int(_LOCK_TIMEOUT_S * 1000)}")
+    _set_wal(conn)
     conn.execute("PRAGMA foreign_keys=ON")
     # Create tables using schema without project_id unique constraint first (compat)
     _SCHEMA_COMPAT = """
@@ -138,37 +170,24 @@ CREATE INDEX IF NOT EXISTS idx_ent_name ON entities(name);
 CREATE INDEX IF NOT EXISTS idx_ent_type ON entities(type);
 """
     conn.executescript(_SCHEMA_COMPAT)
-    # SE-151: add project_id column if missing (idempotent migration)
+    # SE-151 / SE-211 / SE-213: idempotent column migrations, serialized
+    # across processes by the write lock of BEGIN IMMEDIATE and re-checked
+    # inside it, so two openers never add the same column twice.
     cols = {row[1] for row in conn.execute("PRAGMA table_info(entities)")}
-    if "project_id" not in cols:
-        conn.execute("ALTER TABLE entities ADD COLUMN project_id TEXT")
-        conn.execute(
-            "CREATE INDEX IF NOT EXISTS idx_ent_project ON entities(project_id)"
-        )
-    # SE-211: add memory_type column (idempotent migration)
-    if "memory_type" not in cols:
+    if any(col not in cols for col, _ in _MIGRATIONS):
+        conn.execute("BEGIN IMMEDIATE")
         try:
+            cols = {row[1] for row in conn.execute("PRAGMA table_info(entities)")}
+            for col, ddl in _MIGRATIONS:
+                if col not in cols:
+                    conn.execute(ddl)
             conn.execute(
-                "ALTER TABLE entities ADD COLUMN memory_type TEXT DEFAULT 'unknown'"
+                "CREATE INDEX IF NOT EXISTS idx_ent_project ON entities(project_id)"
             )
+            conn.commit()
         except Exception:
-            pass  # column already exists
-    # SE-213: add confidence and provenance columns (idempotent migration)
-    if "confidence" not in cols:
-        try:
-            conn.execute(
-                "ALTER TABLE entities ADD COLUMN confidence REAL DEFAULT 0.8"
-            )
-        except Exception:
-            pass
-    if "provenance" not in cols:
-        try:
-            conn.execute(
-                "ALTER TABLE entities ADD COLUMN provenance TEXT DEFAULT 'unknown'"
-            )
-        except Exception:
-            pass
-    conn.commit()
+            conn.rollback()
+            raise
     return conn
 
 

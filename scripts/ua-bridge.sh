@@ -93,8 +93,13 @@ _ua_diff() {
   if ! git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
     echo "WARN: not a git work tree — diff impact reported as 0." >&2
   else
-    diff_count=$( { git diff --name-only --cached; git diff --name-only; } 2>/dev/null \
-      | sort -u | grep -c . )
+    # A failing git diff must not yield a silently partial count.
+    local staged unstaged
+    if ! staged=$(git diff --name-only --cached) || ! unstaged=$(git diff --name-only); then
+      echo "ERROR: git diff failed — cannot count changed files." >&2
+      exit 1
+    fi
+    diff_count=$(printf '%s\n%s\n' "$staged" "$unstaged" | sort -u | grep -c .)
   fi
 
   if $count_only; then

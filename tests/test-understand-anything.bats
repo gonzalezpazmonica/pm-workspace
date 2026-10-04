@@ -129,6 +129,16 @@ EOF
   [[ "$stderr" == *"not a git"* ]]
 }
 
+@test "diff --count: si git diff falla dentro del repo -> error, no recuento parcial" {
+  mk_repo
+  printf '#!/usr/bin/env bash\nif [ "$1" = diff ]; then echo boom >&2; exit 128; fi\nexec /usr/bin/git "$@"\n' > "$STUB/git"
+  chmod +x "$STUB/git"
+  cd "$REPO"
+  run --separate-stderr bridge "$UA_ON" diff --count
+  [ "$status" -eq 1 ]
+  [[ "$stderr" == *"git diff failed"* ]]
+}
+
 @test "diff --count: UA ausente devuelve 0 sin mirar git" {
   mk_repo
   echo b > "$REPO/b.txt"; git -C "$REPO" add b.txt
@@ -371,14 +381,39 @@ for i in range(3000): print(json.dumps({"topic": f"topic-{i}", "type": "decision
   [ "$output" = "3000" ]
 }
 
-@test "kg build: dos builds concurrentes sobre la misma DB terminan bien" {
+@test "kg build: builds concurrentes sobre una DB nueva no fallan (WAL + migración)" {
+  # Regresión: dos procesos abriendo una DB nueva chocaban en PRAGMA
+  # journal_mode=WAL («database is locked») y en el ALTER TABLE de la
+  # migración («duplicate column name»). 5 rondas x 6 procesos.
   printf '%s\n' '{"topic":"c1","type":"decision","content":"SPEC-111"}' > "$STORE"
-  kg build --db "$TMP/kg.db" > "$TMP/b1.out" 2>&1 & p1=$!
-  kg build --db "$TMP/kg.db" > "$TMP/b2.out" 2>&1 & p2=$!
-  wait "$p1"; s1=$?
-  wait "$p2"; s2=$?
-  [ "$s1" -eq 0 ]
-  [ "$s2" -eq 0 ]
-  run sql "$TMP/kg.db" "select count(*) from entities where name='c1'"
+  local fails=0 round i p
+  for round in 1 2 3 4 5; do
+    local pids=()
+    for i in 1 2 3 4 5 6; do
+      kg build --db "$TMP/conc-$round.db" > "$TMP/b-$round-$i.out" 2>&1 &
+      pids+=("$!")
+    done
+    for p in "${pids[@]}"; do
+      wait "$p" || fails=$((fails + 1))
+    done
+  done
+  if [ "$fails" -ne 0 ]; then
+    cat "$TMP"/b-*.out | grep -i error | sort | uniq -c >&2
+  fi
+  [ "$fails" -eq 0 ]
+  run sql "$TMP/conc-5.db" "select count(*) from entities where name='c1'"
   [ "$output" = "1" ]
+}
+
+@test "kg impact --project: el recorrido no cruza a entidades de otro proyecto" {
+  printf '%s\n' '{"topic":"gamma-topic","type":"decision","content":"SPEC-112"}' > "$STORE"
+  kg build --db "$TMP/kg.db" --project projA >/dev/null
+  # Retag del destino a otro proyecto: la relación gamma-topic -> SPEC-112 cruza proyectos.
+  python3 -c 'import sqlite3,sys
+c=sqlite3.connect(sys.argv[1]); c.execute("UPDATE entities SET project_id=? WHERE name=?",("projB","SPEC-112")); c.commit()' "$TMP/kg.db"
+  run kg impact gamma-topic --project projA --db "$TMP/kg.db"
+  [ "$status" -eq 0 ]
+  [[ "$output" != *"SPEC-112"* ]]
+  run kg impact gamma-topic --db "$TMP/kg.db"
+  [[ "$output" == *"SPEC-112"* ]]
 }
