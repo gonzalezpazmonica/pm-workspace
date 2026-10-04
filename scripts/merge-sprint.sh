@@ -19,6 +19,8 @@ GH="${GH:-gh}"
 ORCH="${MERGE_SPRINT_ORCHESTRATOR:-savia-orchestrator}"
 REG="$HOME_MS/reviews.jsonl"; LEDGER="$HOME_MS/ledger.jsonl"; GRANT="$HOME_MS/grant.json"
 STOPF="$HOME_MS/STOP"; MANIFEST="$HOME_MS/manifest.json"
+GITROOT="${MERGE_SPRINT_GIT_ROOT:-$ROOT}"     # repo git sobre el que se re-sincronizan las ramas
+RESYNC="${MERGE_SPRINT_RESYNC:-1}"           # v2: re-sync con main dentro de run (0 = solo v1)
 
 die() { echo "merge-sprint: $*" >&2; exit "${2:-1}"; }
 now() { date -u +%Y-%m-%dT%H:%M:%SZ; }
@@ -143,15 +145,52 @@ required_ok() {  # checks obligatorios del PR: pass | fail | pending
   echo pass
 }
 
-head_equivalent() {  # head_equivalent <sha_revisado> <sha_actual> → 0 si solo cambian derivados (.scm/, .confidentiality-signature) o merges de main
+head_equivalent() {  # head_equivalent <sha_revisado> <sha_actual> → 0 si el actual == merge(revisado, main) salvo derivados
   [[ "$1" == "$2" ]] && return 0
-  local changed; changed=$(git -C "$ROOT" diff --name-only "$1" "$2" 2>/dev/null) || return 1
-  local main_files; main_files=$(git -C "$ROOT" diff --name-only "$1" "$(git -C "$ROOT" merge-base "$2" origin/main 2>/dev/null)" 2>/dev/null)
+  git -C "$GITROOT" cat-file -e "$1^{commit}" 2>/dev/null && git -C "$GITROOT" cat-file -e "$2^{commit}" 2>/dev/null || return 1
+  local m tree changed f
+  m=$(git -C "$GITROOT" merge-base "$2" origin/main 2>/dev/null) || return 1
+  # Árbol resultante de mergear la versión revisada con ese main (conflictos solo admisibles en derivados).
+  tree=$(git -C "$GITROOT" merge-tree --write-tree --name-only "$1" "$m" 2>/dev/null | head -1)
+  [[ -n "$tree" ]] || return 1
+  changed=$(git -C "$GITROOT" diff --name-only "$tree" "$2" 2>/dev/null) || return 1
   while IFS= read -r f; do
     [[ -z "$f" || "$f" == .scm/* || "$f" == .confidentiality-signature ]] && continue
-    grep -qxF "$f" <<<"$main_files" && continue
     return 1
   done <<<"$changed"
+}
+
+resync() {  # resync <pr> → 0 al día (sincronizado y empujado) · 2 conflicto real · 3 confidencialidad · 5 fallo
+  local pr="$1" br wt c
+  br=$($GH pr view "$pr" -R "$REPO" --json headRefName --jq .headRefName) || return 5
+  git -C "$GITROOT" fetch -q origin "$br" main || return 5
+  wt="$HOME_MS/wt/$pr"
+  if [[ -d "$wt" ]]; then git -C "$wt" switch -q --detach "origin/$br" || return 5
+  else mkdir -p "$HOME_MS/wt"; git -C "$GITROOT" worktree add -q --detach "$wt" "origin/$br" || return 5; fi
+  git -C "$wt" merge-base --is-ancestor origin/main HEAD && return 0
+  if ! git -C "$wt" merge -q --no-edit origin/main >/dev/null 2>&1; then
+    c=$(git -C "$wt" diff --name-only --diff-filter=U)
+    [[ -n "$c" ]] || { git -C "$wt" merge --abort 2>/dev/null; return 5; }   # fallo sin conflicto (identidad, hooks…)
+    if grep -qvE '^(\.scm/|\.confidentiality-signature$)' <<<"$c"; then git -C "$wt" merge --abort; return 2; fi
+    git -C "$wt" restore -q --theirs -- $c && git -C "$wt" add -- $c && git -C "$wt" commit -q --no-edit || return 5
+  fi
+  if [[ -f "$wt/scripts/sam.py" ]]; then
+    (cd "$wt" && { [[ -f scripts/generate-capability-map.py ]] && python3 scripts/generate-capability-map.py >/dev/null 2>&1; python3 scripts/sam.py generate >/dev/null 2>&1; }) || return 5
+    git -C "$wt" add .scm && { git -C "$wt" diff --cached --quiet || git -C "$wt" commit -q -m "chore(scm): SAM regenerado (merge-sprint)"; }
+  fi
+  if [[ -f "$wt/scripts/confidentiality-scan.sh" ]]; then
+    (cd "$wt" && bash scripts/confidentiality-scan.sh --pr 2>&1 | tail -1 | grep -q PASSED) || return 3
+    (cd "$wt" && bash scripts/confidentiality-sign.sh sign >/dev/null 2>&1) || return 3
+    git -C "$wt" add .confidentiality-signature && { git -C "$wt" diff --cached --quiet || git -C "$wt" commit -q -m "chore: sign confidentiality audit (merge-sprint)"; }
+  fi
+  git -C "$wt" push -q origin "HEAD:$br" 2>/dev/null || return 5
+  ledger event=RESYNC pr="$pr" head="$(git -C "$wt" rev-parse HEAD)"
+}
+
+wait_ci() {  # wait_ci <pr> → pass | fail | pending (agotado el plazo)
+  local st i
+  for _ in $(seq 1 "${MERGE_SPRINT_CI_POLLS:-60}"); do st=$(required_ok "$1"); [[ "$st" != pending ]] && break; sleep "${MERGE_SPRINT_POLL_S:-30}"; done
+  echo "$st"
 }
 
 park() { ledger event=PARK pr="$1" reason="$2"; echo "  aparcado #$1: $2"; }
@@ -174,11 +213,16 @@ cmd_run() {
     [[ "$($GH pr view "$pr" -R "$REPO" --json state --jq .state)" == OPEN ]] || { park "$pr" no_abierto; continue; }
     local t; t=$(pr_tier "$pr")
     (( t <= tier )) && [[ ",$allowed," == *",$t,"* ]] || { park "$pr" "tier_$t"; continue; }
-    local cur; cur=$($GH pr view "$pr" -R "$REPO" --json headRefOid --jq .headRefOid)
-    git -C "$ROOT" fetch -q origin 2>/dev/null
-    head_equivalent "$head" "$cur" || { park "$pr" head_cambiado_requiere_juez; continue; }
     reviews_ok "$pr" "$head" "$tier" || { park "$pr" revision; continue; }
-    case "$(required_ok "$pr")" in
+    if [[ "$RESYNC" == 1 ]]; then
+      local rs; resync "$pr"; rs=$?
+      case $rs in 0) ;; 2) park "$pr" conflicto_real; continue ;; 3) park "$pr" confidencialidad; continue ;; *) park "$pr" resync_fallo; continue ;; esac
+      sleep "${MERGE_SPRINT_CI_SETTLE_S:-60}"
+    fi
+    local cur; cur=$($GH pr view "$pr" -R "$REPO" --json headRefOid --jq .headRefOid)
+    git -C "$GITROOT" fetch -q origin 2>/dev/null
+    head_equivalent "$head" "$cur" || { park "$pr" head_cambiado_requiere_juez; continue; }
+    case "$(wait_ci "$pr")" in
       pass) ;;
       fail) park "$pr" ci_roja; continue ;;
       *) park "$pr" ci_pendiente; continue ;;
@@ -191,7 +235,7 @@ cmd_run() {
     ledger event=MERGED pr="$pr" tier="$t" head="$cur" merge_commit="$mc"
     echo "  MERGED #$pr → ${mc:0:8}"
     local st i
-    for i in $(seq 1 "${MERGE_SPRINT_MAIN_POLLS:-40}"); do st=$(main_ci "$mc"); [[ "$st" != pending ]] && break; sleep "${MERGE_SPRINT_POLL_S:-30}"; done
+    for _ in $(seq 1 "${MERGE_SPRINT_MAIN_POLLS:-40}"); do st=$(main_ci "$mc"); [[ "$st" != pending ]] && break; sleep "${MERGE_SPRINT_POLL_S:-30}"; done
     [[ "$st" == pass ]] || { ledger event=STOP reason="main_$st" pr="$pr"; echo "STOP: main '$st' tras #$pr (sin revert)"; return 0; }
   done <<<"$entries"
   ledger event=END merged="$merged"; echo "sprint terminado: $merged merges"
