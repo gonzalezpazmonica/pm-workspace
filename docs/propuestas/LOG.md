@@ -6,6 +6,14 @@
 > Each entry: date, spec ID, status transition, optional rationale.
 > Ref: SE-222 S1 OKF Adoptable Patterns (log.md convention).
 
+## 2026-10-04 SE-433 APPROVED
+
+Aprobada por la operadora (AskUserQuestion 2026-10-04: «Apruebo SE-433»). D1 cambia después a autorización por respuesta en la sesión orquestadora.
+
+## 2026-10-04 SE-433 PROPOSED
+
+merge-sprint: merges en serie de una lista congelada de PRs firmada antes por la operadora; ejecutor determinista; las salidas de agentes solo restan.
+
 ## 2026-10-03 SE-428 IMPLEMENTING
 
 La operadora sube el WIP a 4 con un hueco temporal solo para Savia Space (addendum ADR-002); Space es frontend de Savia sin ampliar autoridad.
