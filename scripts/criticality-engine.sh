@@ -45,17 +45,18 @@ do_assess() {
   fi
 
   local f="$matches" title state assigned
-  title=$(parse_frontmatter "$f" title); [[ -z "$title" ]] && title="$(basename "$f" .md)"
-  state=$(fm_first "$f" state status)
-  assigned=$(parse_frontmatter "$f" assigned_to)
-  local score impact urg deps c10 ei sp days cpct
-  read -r score impact urg deps c10 ei sp days cpct <<< "$(item_metrics "$f")"
+  title=$(clean_text "$(parse_frontmatter "$f" title)"); [[ -z "$title" ]] && title="$(basename "$f" .md)"
+  state=$(clean_text "$(fm_first "$f" state status)")
+  assigned=$(clean_text "$(parse_frontmatter "$f" assigned_to)")
+  local score impact urg deps c10 ei sp days cpct dstate dlabel
+  read -r score impact urg deps c10 ei sp days cpct dstate <<< "$(item_metrics "$f")"
+  case "$dstate" in ok) dlabel="${days}d" ;; invalid) dlabel="invalid deadline" ;; *) dlabel="no deadline" ;; esac
 
   echo "Assessment: $item_id — $title"
   echo "  State: ${state:-unknown} | SP: $sp | Assigned: ${assigned:-unassigned}"
   echo ""
   echo "  Impact       $(bar5 "$impact") $impact/5  x0.30"
-  echo "  Urgency      $(bar5 "$urg") $urg/5  x0.25  (${days}d)"
+  echo "  Urgency      $(bar5 "$urg") $urg/5  x0.25  ($dlabel)"
   echo "  Dependencies $(bar5 "$deps") $deps/5  x0.20"
   echo "  Confidence   $(bar5 $((c10 / 10))) $((c10 / 10)).$((c10 % 10))/5  x0.15  (decay: ${cpct}%)"
   echo "  Effort inv   $(bar5 "$ei") $ei/5  x0.10"
@@ -72,17 +73,21 @@ do_dashboard() {
   fi
   [[ -z "$items" ]] && { echo "No items in local backlog."; return 0; }
 
-  local rows="" f title assigned score
+  local rows="" f title assigned score dstate dl alerts=()
   while IFS= read -r f; do
     [[ -z "$f" || ! -f "$f" ]] && continue
     is_active "$f" || continue
-    title=$(parse_frontmatter "$f" title); [[ -z "$title" ]] && title="$(basename "$f" .md)"
-    assigned=$(parse_frontmatter "$f" assigned_to); [[ -z "$assigned" ]] && assigned="?"
-    read -r score _ <<< "$(item_metrics "$f")"
+    title=$(clean_text "$(parse_frontmatter "$f" title)"); [[ -z "$title" ]] && title="$(basename "$f" .md)"
+    assigned=$(clean_text "$(parse_frontmatter "$f" assigned_to)"); [[ -z "$assigned" ]] && assigned="?"
+    read -r score _ _ _ _ _ _ _ _ dstate <<< "$(item_metrics "$f")"
+    if [[ "$dstate" == invalid ]]; then
+      dl=$(clean_text "$(parse_frontmatter "$f" deadline)")
+      alerts+=("  ALERT: invalid deadline '$dl' — $title")
+    fi
     rows+="$score"$'\t'"${title//$'\t'/ }"$'\t'"${assigned//$'\t'/ }"$'\n'
   done <<< "$items"
 
-  local p0=() p1=() n2=0 n3=0 alerts=() line s t a
+  local p0=() p1=() n2=0 n3=0 line s t a
   while IFS=$'\t' read -r s t a; do
     [[ -z "$s" ]] && continue
     line="  $(score_display "$s") | $t | $a"

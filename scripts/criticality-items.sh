@@ -36,7 +36,7 @@ today_ymd() { echo "${CRITICALITY_TODAY:-$(date +%Y-%m-%d)}"; }
 # ymd_epoch <YYYY-MM-DD[Thh:mm]> — UTC midnight epoch; fails on invalid dates.
 # Both ends at UTC midnight: day differences are exact (no DST, no time of day).
 ymd_epoch() {
-  [[ "$1" =~ ^([0-9]{4}-[0-9]{2}-[0-9]{2})([T\ ].*)?$ ]] || return 1
+  [[ "$1" =~ ^([0-9]{4}-[0-9]{2}-[0-9]{2})([T\ ][0-9]{2}:[0-9]{2}(:[0-9]{2})?)?$ ]] || return 1
   local d="${BASH_REMATCH[1]}" e
   e=$(date -u -d "$d" +%s 2>/dev/null) \
     || e=$(date -u -j -f "%Y-%m-%d %H:%M:%S" "$d 00:00:00" +%s 2>/dev/null) || return 1
@@ -44,20 +44,38 @@ ymd_epoch() {
   echo "$e"
 }
 
-# deadline_days <deadline> <source> — days until deadline; 999 when absent/invalid.
-deadline_days() {
-  local dl="$1" src="$2" d t
-  [[ -z "$dl" ]] && { echo 999; return 0; }
-  if ! d=$(ymd_epoch "$dl") || ! t=$(ymd_epoch "$(today_ymd)"); then
-    crit_warn "invalid deadline '$dl' in $src; ignored"; echo 999; return 0
-  fi
-  echo $(( (d - t) / 86400 ))
+# valid_today — CRITICALITY_TODAY, if set, must be a real YYYY-MM-DD date.
+valid_today() {
+  [[ -z "${CRITICALITY_TODAY:-}" ]] && return 0
+  [[ "$CRITICALITY_TODAY" =~ ^[0-9]{4}-[0-9]{2}-[0-9]{2}$ ]] && ymd_epoch "$CRITICALITY_TODAY" >/dev/null
 }
 
-file_age_days() {
-  local mod; mod=$(stat -c %Y "$1" 2>/dev/null || stat -f %m "$1" 2>/dev/null || echo 0)
-  echo $(( ($(date +%s) - mod) / 86400 ))
+# deadline_days <deadline> <source> → "<days> none|ok|invalid".
+# Absent or invalid deadline: 999 days (urgency stays at base 3, as without deadline).
+deadline_days() {
+  local dl="$1" src="$2" d t
+  [[ -z "$dl" ]] && { echo "999 none"; return 0; }
+  t=$(ymd_epoch "$(today_ymd)") || { echo "999 invalid"; return 0; }
+  if ! d=$(ymd_epoch "$dl"); then
+    crit_warn "invalid deadline '$dl' in $src; ignored"; echo "999 invalid"; return 0
+  fi
+  echo "$(( (d - t) / 86400 )) ok"
 }
+
+# Age against the end of the reference day: with CRITICALITY_TODAY the decay
+# does not depend on the wall clock either.
+file_age_days() {
+  local mod ref; mod=$(stat -c %Y "$1" 2>/dev/null || stat -f %m "$1" 2>/dev/null || echo 0)
+  if [[ -n "${CRITICALITY_TODAY:-}" ]]; then
+    ref=$(( $(ymd_epoch "$CRITICALITY_TODAY") + 86399 ))
+  else
+    ref=$(date +%s)
+  fi
+  echo $(( (ref - mod) / 86400 ))
+}
+
+# Text fields go to a terminal: drop control characters (ANSI escapes, BEL...).
+clean_text() { printf '%s' "$1" | LC_ALL=C tr -d '\000-\037\177'; }
 
 valid_project() { [[ -n "$1" && "$1" != *"/"* && "$1" != "." && "$1" != ".." ]]; }
 valid_item_id() { [[ "$1" =~ ^[A-Za-z0-9][A-Za-z0-9_.#-]*$ ]]; }
@@ -95,15 +113,15 @@ find_item() {
   printf '%s' "${by_id:-$by_name}"
 }
 
-# item_metrics <file> → "score impact urgency deps conf10 eff_inv sp days_left decay%"
+# item_metrics <file> → "score impact urgency deps conf10 eff_inv sp days_left decay% deadline_state"
 item_metrics() {
-  local f="$1" impact deps sp days urg cpct
+  local f="$1" impact deps sp days dstate urg cpct
   impact=$(dim_value "$(parse_frontmatter "$f" impact)" 3 impact "$f")
   deps=$(dim_value "$(parse_frontmatter "$f" dependencies)" 1 dependencies "$f")
   sp=$(sp_value "$(fm_first "$f" story_points estimation_sp)" "$f")
-  days=$(deadline_days "$(parse_frontmatter "$f" deadline)" "$f")
+  read -r days dstate <<< "$(deadline_days "$(parse_frontmatter "$f" deadline)" "$f")"
   urg=$(urgency_boost "$days" 3)
   cpct=$(confidence_decay "$(file_age_days "$f")")
   echo "$(compute_score "$impact" "$urg" "$deps" "$cpct" "$sp") $impact $urg $deps" \
-    "$(conf_tenths "$cpct") $(effort_inverse "$sp") $sp $days $cpct"
+    "$(conf_tenths "$cpct") $(effort_inverse "$sp") $sp $days $cpct $dstate"
 }

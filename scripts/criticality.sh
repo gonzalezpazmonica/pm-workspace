@@ -16,6 +16,10 @@ usage() {
   echo "  rebalance [--project name] [--dry-run]  Redistribute workload"
 }
 
+if ! valid_today; then
+  echo "ERROR: invalid CRITICALITY_TODAY '${CRITICALITY_TODAY}' (expected YYYY-MM-DD)" >&2; exit 2
+fi
+
 case "${1:-help}" in
   assess)    shift; do_assess "$@" ;;
   dashboard) shift; do_dashboard "$@" ;;

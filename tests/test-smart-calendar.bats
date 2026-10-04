@@ -127,7 +127,7 @@ item() {
   run bash "$CRIT" assess PBI-2 --project alpha
   [ "$status" -eq 0 ]
   [[ "$output" == *"WARN: invalid deadline 'someday'"* ]]
-  [[ "$output" == *"Urgency      ███░░ 3/5"* ]]
+  [[ "$output" == *"Urgency      ███░░ 3/5  x0.25  (invalid deadline)"* ]]
   run bash "$CRIT" assess PBI-3 --project alpha
   [[ "$output" == *"WARN: invalid deadline"* ]]
   [[ "$output" == *"Urgency      ███░░ 3/5"* ]]
@@ -188,11 +188,99 @@ item() {
   [ "${lines[8]}" = "5.00" ]
 }
 
-@test "confidence decay: item sin tocar 40 dias aplica 75%" {
+@test "confidence decay: 40 dias = 75% (3.7/5) y 20 dias = 90% (4.5/5, sin truncar)" {
   item "$BL/PBI-10.md" "title: Viejo"
-  touch -d "@$(( $(date +%s) - 40 * 86400 ))" "$BL/PBI-10.md"
+  item "$BL/PBI-14.md" "title: Medio"
+  touch -d "2026-01-29 12:00 UTC" "$BL/PBI-10.md"
+  touch -d "2026-02-18 12:00 UTC" "$BL/PBI-14.md"
   run bash "$CRIT" assess PBI-10 --project alpha
-  [[ "$output" == *"(decay: 75%)"* ]]
+  [[ "$output" == *"Confidence   ███░░ 3.7/5  x0.15  (decay: 75%)"* ]]
+  run bash "$CRIT" assess PBI-14 --project alpha
+  [[ "$output" == *"Confidence   ████░ 4.5/5  x0.15  (decay: 90%)"* ]]
+  [[ "$output" == *"Score: 3.02 → P1 High"* ]]
+}
+
+@test "CRITICALITY_TODAY fija tambien la antiguedad (informe reproducible)" {
+  item "$BL/PBI-15.md" "title: Fijo"
+  touch -d "2026-03-01 12:00 UTC" "$BL/PBI-15.md"
+  run bash "$CRIT" assess PBI-15 --project alpha
+  [[ "$output" == *"(decay: 100%)"* ]]
+  CRITICALITY_TODAY=2026-06-01 run bash "$CRIT" assess PBI-15 --project alpha
+  [[ "$output" == *"(decay: 30%)"* ]]
+}
+
+@test "CRITICALITY_TODAY invalido es error de uso (exit 2), no culpa al deadline" {
+  item "$BL/PBI-16.md" "title: Hoy" "deadline: 2026-03-10"
+  for bad in 10-03-2026 2026-02-30 '2026-03-10$(touch x)' 2026-03-10T10:00; do
+    CRITICALITY_TODAY="$bad" run bash "$CRIT" dashboard
+    [ "$status" -eq 2 ]
+    [[ "$output" == *"invalid CRITICALITY_TODAY"* ]]
+    [[ "$output" != *"invalid deadline"* ]]
+  done
+}
+
+@test "story points: 0 es sin estimar (3) y 2,4 redondea hacia arriba (boundary)" {
+  item "$BL/PBI-17.md" "title: Cero" "story_points: 0"
+  item "$BL/PBI-18.md" "title: Poco" "story_points: 2,4"
+  item "$BL/PBI-19.md" "title: Grande" "story_points: 21"
+  run bash "$CRIT" assess PBI-17 --project alpha
+  [[ "$output" == *"SP: 3 "* ]]
+  [[ "$output" == *"Effort inv   █████ 5/5"* ]]
+  run bash "$CRIT" assess PBI-18 --project alpha
+  [[ "$output" == *"SP: 3 "* ]]
+  run bash "$CRIT" assess PBI-19 --project alpha
+  [[ "$output" == *"Effort inv   █░░░░ 1/5"* ]]
+}
+
+@test "lookup: el id del frontmatter tiene prioridad y no distingue mayusculas" {
+  item "$BL/PBI-5.md" "id: OTRO-1" "title: Nombre"
+  item "$BL/zzz.md" "id: PBI-5" "title: Frontmatter"
+  item "$BL/aaa.md" "id: Pbi-077" "title: Mixto"
+  run bash "$CRIT" assess PBI-5 --project alpha
+  [ "$status" -eq 0 ]
+  [[ "$output" == *"— Frontmatter"* ]]
+  run bash "$CRIT" assess pbi-077 --project alpha
+  [ "$status" -eq 0 ]
+  [[ "$output" == *"— Mixto"* ]]
+}
+
+@test "frontmatter: comentario final se elimina; deadline con basura se rechaza" {
+  item "$BL/PBI-26.md" "title: Coment" "impact: 4  # alto"
+  item "$BL/PBI-27.md" "title: Basura" "deadline: 2026-03-10banana"
+  item "$BL/PBI-28.md" "title: TBasura" "deadline: 2026-03-10Tbanana"
+  run bash "$CRIT" assess PBI-26 --project alpha
+  [[ "$output" == *"Impact       ████░ 4/5"* ]]
+  [[ "$output" != *"WARN"* ]]
+  for id in PBI-27 PBI-28; do
+    run bash "$CRIT" assess "$id" --project alpha
+    [[ "$output" == *"WARN: invalid deadline"* ]]
+    [[ "$output" == *"(invalid deadline)"* ]]
+  done
+}
+
+@test "deadline invalido visible en dashboard como ALERT y es_ES 01/03/2026 rechazado" {
+  item "$BL/PBI-29.md" "title: Fecha es" "deadline: 01/03/2026" "assigned_to: eva"
+  run bash "$CRIT" dashboard --project alpha
+  [ "$status" -eq 0 ]
+  [[ "$output" == *"ALERT: invalid deadline '01/03/2026' — Fecha es"* ]]
+  [[ "$output" != *"No alerts."* ]]
+}
+
+@test "rebalance propaga exit 1 de proyecto inexistente; opcion desconocida exit 2" {
+  run bash "$CRIT" rebalance --project nadie
+  [ "$status" -eq 1 ]
+  run bash "$CRIT" dashboard --bogus
+  [ "$status" -eq 2 ]
+  [[ "$output" == *"unknown option: --bogus"* ]]
+  run bash "$CRIT" assess PBI-1 --bogus
+  [ "$status" -eq 2 ]
+}
+
+@test "titulos con secuencias de control se imprimen sin ellas" {
+  printf -- '---\ntitle: Limpio\033[2Jx\nassigned_to: e\033]0;y\n---\n' > "$BL/PBI-31.md"
+  run bash "$CRIT" dashboard --project alpha
+  [[ "$output" != *$'\033'* ]]
+  [[ "$output" == *"Limpio[2Jx"* ]]
 }
 
 @test "frontmatter: CRLF, sin frontmatter y separadores del cuerpo" {
