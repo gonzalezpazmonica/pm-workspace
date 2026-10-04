@@ -5,5 +5,5 @@ section: Fixed
 
 ### Fixed
 
-- savia-gates: con SAVIA_GATES_PIN=1 (Space en modo mediado) fija por hash el registro y los scripts de guard al cargar cada directorio y bloquea (GUARDS_MODIFIED) si cambian; las ediciones de guards se bloquean (GUARD_PROTECTED). Antes, un guard editado en el worktree del agente valía en la siguiente llamada (T1).
+- savia-gates: con SAVIA_GATES_PIN=1 (Space en modo mediado) fija por hash el registro y los scripts de guard al cargar cada directorio y bloquea (GUARDS_MODIFIED) si cambian; las ediciones de guards se bloquean (GUARD_PROTECTED). Los hooks se ejecutan bajo bwrap desde una copia de confianza de .claude/hooks y scripts/, así que editar scripts/savia-env.sh u otro helper no anula los guards, y la primera violación se queda hasta reiniciar el motor. Antes, un guard editado en el worktree del agente valía en la siguiente llamada (T1).
 

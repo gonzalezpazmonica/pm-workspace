@@ -8,8 +8,11 @@
 //
 // Conjunto de guards: el registro; cada fichero que nombra un comando dentro del proyecto
 // (también si aún no existe); y el árbol del directorio de cada script (librerías con `source`),
-// salvo la raíz del proyecto o árboles de más de MAX_DIR_FILES ficheros.
-// No cubre lo que un hook carga fuera de esos directorios (p. ej. scripts/savia-env.sh).
+// salvo la raíz del proyecto o árboles de más de MAX_DIR_FILES ficheros; además `.env` y
+// `.venv/bin/activate`, que savia-env.sh carga en cada hook.
+// Lo que un hook carga de `scripts/` (savia-env.sh…) no se fija aquí: los hooks se ejecutan
+// desde una copia de confianza montada sobre esas rutas (trusted-guards.ts).
+// Una violación se queda (latch): restaurar el fichero no levanta el bloqueo.
 
 import { createHash } from "node:crypto"
 import { readdir, readFile, realpath, stat } from "node:fs/promises"
@@ -25,7 +28,12 @@ export interface GuardPin {
   files: Map<string, string | null>
   /** Directorio canónico → ficheros que contenía al fijar (ordenados). */
   dirs: Map<string, string[]>
+  /** Primera violación detectada: desde entonces verifyPin la devuelve siempre. */
+  tripped?: string[]
 }
+
+/** Ficheros que el entorno de los hooks carga desde el workspace (scripts/savia-env.sh). */
+const ENV_FILES = [".env", ".venv/bin/activate"]
 
 async function sha(path: string): Promise<string | null> {
   try {
@@ -100,6 +108,10 @@ export async function capturePin(root: string, hookMap: HookMap): Promise<GuardP
   const dirs = new Map<string, string[]>()
   const registry = canonical(join(root, ".claude/settings.json"))
   files.set(registry, await sha(registry))
+  for (const rel of ENV_FILES) {
+    const p = canonical(join(root, rel))
+    files.set(p, await sha(p))
+  }
   const canonRoot = canonical(root)
   for (const entries of Object.values(hookMap)) {
     for (const h of entries) {
@@ -121,8 +133,9 @@ export async function capturePin(root: string, hookMap: HookMap): Promise<GuardP
   return { files, dirs }
 }
 
-/** Rutas que cambiaron, aparecieron o desaparecieron desde que se fijó el pin. */
+/** Rutas que cambiaron, aparecieron o desaparecieron desde que se fijó el pin (con latch). */
 export async function verifyPin(pin: GuardPin): Promise<string[]> {
+  if (pin.tripped) return pin.tripped
   const changed = new Set<string>()
   for (const [path, digest] of pin.files) if ((await sha(path)) !== digest) changed.add(path)
   for (const [dir, before] of pin.dirs) {
@@ -132,7 +145,8 @@ export async function verifyPin(pin: GuardPin): Promise<string[]> {
     for (const f of now) if (!a.has(f)) changed.add(f)
     for (const f of before) if (!b.has(f)) changed.add(f)
   }
-  return [...changed].sort()
+  if (changed.size > 0) pin.tripped = [...changed].sort()
+  return pin.tripped ?? []
 }
 
 /** ¿La ruta (relativa al proyecto o absoluta) es un guard o cae en un directorio de guards? */

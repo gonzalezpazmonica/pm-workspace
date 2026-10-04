@@ -18,6 +18,8 @@ import { auditLog } from "./lib/audit"
 import { guardVariants } from "./lib/sandbox"
 import { writeManifest } from "./lib/manifest"
 import { patchPaths, pinFor, protectsPath, verifyPin } from "./lib/guard-pin"
+import { REGISTRY, trustedFor, verifyTrusted, wrapCommand } from "./lib/trusted-guards"
+import type { TrustedGuards } from "./lib/trusted-guards"
 
 function resolveProjectRoot(directory: string | undefined): string {
   if (directory) return directory
@@ -27,17 +29,40 @@ function resolveProjectRoot(directory: string | undefined): string {
 export const SaviaGates: Plugin = async (ctx: PluginInput) => {
   const { $, directory } = ctx
   const root = resolveProjectRoot(directory)
-  const hookMap = await loadHookMap(root)
+  const pinned = process.env.SAVIA_GATES_PIN === "1"
+  // T1b: con SAVIA_GATES_PIN=1 (Space en modo mediado) los hooks se ejecutan bajo bwrap desde una
+  // copia de confianza de .claude/hooks y scripts/, y el registro se lee de esa copia
+  // (lib/trusted-guards.ts). Sin bwrap no hay aislamiento: todo se bloquea.
+  let trusted: TrustedGuards | null = null
+  let isolationError: string | null = null
+  if (pinned) {
+    try {
+      trusted = await trustedFor(root)
+    } catch (e) {
+      const msg = e instanceof Error ? e.message : String(e)
+      isolationError = msg.startsWith("GUARDS_ISOLATION_UNAVAILABLE") ? msg : `GUARDS_ISOLATION_UNAVAILABLE: ${msg}`
+      await auditLog({ event: "guards-isolation-unavailable", root, reason: isolationError })
+    }
+  }
+  const hookMap = await loadHookMap(root, trusted ? `${trusted.copy}/${REGISTRY}` : undefined)
+  const runOpts = trusted ? { wrap: (command: string) => wrapCommand(trusted as TrustedGuards, command) } : {}
   let lastCwd: string | null = null
-  // T1: con SAVIA_GATES_PIN=1 (Space en modo mediado) los guards se fijan la primera vez que se
-  // carga este directorio y se verifican antes de cada decisión (lib/guard-pin.ts).
-  const pin = process.env.SAVIA_GATES_PIN === "1" ? await pinFor(root, hookMap) : null
+  // T1: además los guards se fijan por hash la primera vez que se carga este directorio y se
+  // verifican antes de cada decisión (lib/guard-pin.ts); la primera violación se queda.
+  const pin = pinned ? await pinFor(root, hookMap) : null
 
   async function pinViolation(tool: string | null, args: Record<string, unknown> | undefined): Promise<string | null> {
     if (!pin) return null
-    const changed = await verifyPin(pin)
+    if (isolationError) return isolationError
+    const already = pin.tripped !== undefined
+    let changed = await verifyPin(pin)
+    if (changed.length === 0 && trusted) {
+      const copyChanged = await verifyTrusted(trusted)
+      if (copyChanged.length > 0) changed = pin.tripped = copyChanged
+    }
     if (changed.length > 0) {
-      await auditLog({ event: "guards-modified", root, changed: changed.slice(0, 20) })
+      // Una sola línea de auditoría por pin: el bloqueo es permanente hasta reiniciar.
+      if (!already) await auditLog({ event: "guards-modified", root, changed: changed.slice(0, 20) })
       return `GUARDS_MODIFIED: ${changed.slice(0, 5).join(", ")}${changed.length > 5 ? ` (+${changed.length - 5})` : ""} — reinicia el motor desde una copia de confianza`
     }
     const targets: string[] = []
@@ -82,7 +107,7 @@ export const SaviaGates: Plugin = async (ctx: PluginInput) => {
           session_id: input.sessionID,
           call_id: input.callID,
         })
-        const result = await runHooksForEvent(root, hookMap, "PreToolUse", input.tool, payload)
+        const result = await runHooksForEvent(root, hookMap, "PreToolUse", input.tool, payload, runOpts)
         if (result.blocked) {
           await auditLog({ event: "tool-blocked", tool: input.tool, reason: result.stderr, unwrapped: n > 0 })
           throw new Error(`savia-gates: ${result.stderr || "PreToolUse blocked"}`)
@@ -102,7 +127,7 @@ export const SaviaGates: Plugin = async (ctx: PluginInput) => {
         session_id: input.sessionID,
         call_id: input.callID,
       })
-      const result = await runHooksForEvent(root, hookMap, "PostToolUse", input.tool, payload)
+      const result = await runHooksForEvent(root, hookMap, "PostToolUse", input.tool, payload, runOpts)
       if (result.blocked) {
         await auditLog({ event: "post-hook-warning", tool: input.tool, reason: result.stderr })
       }
@@ -117,7 +142,7 @@ export const SaviaGates: Plugin = async (ctx: PluginInput) => {
         agent: input.agent,
         prompt_text: typeof output.message === "string" ? output.message : JSON.stringify(output.message),
       })
-      const result = await runHooksForEvent(root, hookMap, "UserPromptSubmit", null, payload)
+      const result = await runHooksForEvent(root, hookMap, "UserPromptSubmit", null, payload, runOpts)
       if (result.blocked) {
         await auditLog({ event: "prompt-blocked", reason: result.stderr })
         throw new Error(`savia-gates: prompt blocked — ${result.stderr}`)
@@ -165,7 +190,7 @@ export const SaviaGates: Plugin = async (ctx: PluginInput) => {
         session_id: input.sessionID,
         arguments: input.arguments,
       })
-      const result = await runHooksForEvent(root, hookMap, "PreToolUse", null, payload)
+      const result = await runHooksForEvent(root, hookMap, "PreToolUse", null, payload, runOpts)
       if (result.blocked) {
         throw new Error(`savia-gates: command ${input.command} blocked — ${result.stderr}`)
       }
@@ -195,7 +220,7 @@ export const SaviaGates: Plugin = async (ctx: PluginInput) => {
       if (!targets) return
       for (const t of targets) {
         const payload = JSON.stringify({ hook_event_name: t.cc, event: ev, ...(t.augment?.(ev) ?? {}) })
-        await runHooksForEvent(root, hookMap, t.cc, null, payload).catch(() => {})
+        await runHooksForEvent(root, hookMap, t.cc, null, payload, runOpts).catch(() => {})
       }
     },
 
@@ -203,13 +228,13 @@ export const SaviaGates: Plugin = async (ctx: PluginInput) => {
       // Called AFTER compaction succeeds — the PostCompact hook point.
       const payload = JSON.stringify({ hook_event_name: "PostCompact", session_id: input.sessionID })
       await auditLog({ event: "session-compacted", session_id: input.sessionID }).catch(() => {})
-      await runHooksForEvent(root, hookMap, "PostCompact", null, payload).catch(() => {})
+      await runHooksForEvent(root, hookMap, "PostCompact", null, payload, runOpts).catch(() => {})
     },
 
     "experimental.session.compacting": async (input, _output) => {
       const payload = JSON.stringify({ hook_event_name: "PreCompact", session_id: input.sessionID })
       await auditLog({ event: "session-compacting", session_id: input.sessionID }).catch(() => {})
-      await runHooksForEvent(root, hookMap, "PreCompact", null, payload).catch(() => {})
+      await runHooksForEvent(root, hookMap, "PreCompact", null, payload, runOpts).catch(() => {})
     },
 
     "config": async (input) => {
@@ -219,7 +244,7 @@ export const SaviaGates: Plugin = async (ctx: PluginInput) => {
         source: "opencode-config",
         file_path: `${root}/opencode.json`,
       })
-      await runHooksForEvent(root, hookMap, "ConfigChange", null, payload).catch(() => {})
+      await runHooksForEvent(root, hookMap, "ConfigChange", null, payload, runOpts).catch(() => {})
     },
 
     "shell.env": async (input, _output) => {
@@ -228,7 +253,7 @@ export const SaviaGates: Plugin = async (ctx: PluginInput) => {
       if (typeof cwd === "string" && cwd !== lastCwd) {
         lastCwd = cwd
         const payload = JSON.stringify({ hook_event_name: "CwdChanged", cwd })
-        await runHooksForEvent(root, hookMap, "CwdChanged", null, payload).catch(() => {})
+        await runHooksForEvent(root, hookMap, "CwdChanged", null, payload, runOpts).catch(() => {})
       }
     },
   }
