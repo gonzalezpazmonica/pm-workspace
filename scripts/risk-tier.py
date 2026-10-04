@@ -31,6 +31,27 @@ TIER_4_PATHS = (
     "infra/", ".github/workflows", "prod.", "terraform", "bicep", "docker-compose",
     "production", "deploy/", "pii",
 )
+# SE-433 §2.8: paths de gobernanza → tier 4. Un merge-sprint no puede mergear el
+# debilitamiento de sus propias reglas, permisos ni de este clasificador.
+GOVERNANCE_EXACT = (
+    "scripts/merge-sprint.sh", "scripts/risk-tier.py",
+    "docs/rules/domain/savia-ethical-principles.md", "docs/rules/domain/radical-honesty.md",
+)
+GOVERNANCE_PREFIXES = ("config/merge-sprint", ".opencode/", ".github/workflows/")
+
+
+def is_governance(path: str) -> bool:
+    """True si el path pertenece a la gobernanza del workspace (SE-433 §2.8)."""
+    p = path.lower()
+    if p in GOVERNANCE_EXACT or p.startswith(GOVERNANCE_PREFIXES):
+        return True
+    if p.startswith(".claude/settings") and p.endswith(".json") and "/" not in p[len(".claude/"):]:
+        return True
+    name = p.rsplit("/", 1)[-1]
+    return p.startswith("docs/rules/domain/") and "/" not in p[len("docs/rules/domain/"):] \
+        and name.startswith("autonomous-safety") and name.endswith(".md")
+
+
 # Artefactos regenerados por generate-capability-map.py y sam.py: reflejan cambios ya
 # clasificados en sus fuentes. Las declaraciones del SAM (*-declarations.json, esquema)
 # se editan a mano y siguen clasificándose.
@@ -52,6 +73,11 @@ def classify(files: list[str]) -> dict:
 
     for f in files:
         fl = f.lower()
+        # SE-433: gobernanza antes que cualquier exención (docs, SCM)
+        if is_governance(f):
+            tier = max(tier, 4)
+            rationale.append(f"path de gobernanza: {f}")
+            continue
         # SAM/SCM regenerado: no eleva (p. ej. views/authority.json contiene "auth")
         if fl in SCM_GENERATED_FILES or fl.startswith(SCM_GENERATED_DIRS):
             continue
