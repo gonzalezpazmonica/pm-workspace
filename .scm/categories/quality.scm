@@ -46,7 +46,7 @@
 - **enterprise/activation-plan-review** (script): activation-plan-review.sh — SE-034 Agent Activation Plan
 - **enterprise/audit-purge** (script): audit-purge.sh — SPEC-SE-037 Audit Log Retention Purge CLI
 - **enterprise/audit-search** (script): audit-search.sh — SPEC-SE-037 Audit Log CLI Inspector
-- **enterprise/governance-audit-trail** (script): governance-audit-trail.sh — SPEC-SE-006 Signed Audit Trail for Governance & Compliance
+- **enterprise/governance-audit-trail** (script): governance-audit-trail.sh — SPEC-SE-006 Hash-chained Audit Trail for Governance & Compliance
 - **eval-lint** (script): eval-lint.sh — SE-316 S1: valida golden sets de tribunales (SE-274 S2).
 - **evidence-first-development** (skill): Desarrollo evidence-first: rodea la implementación con un SPEC aprobado y un gauntlet de restricciones para que el line-by-line review sea opcional. Usar cuando se pide alta garantía (prove it works, no leeré el código), o en dominios de al
 - **executive-audit** (script): executive-audit.sh — Executive Audit for PM Workspace

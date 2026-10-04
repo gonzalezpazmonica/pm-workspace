@@ -1,5 +1,5 @@
 # Savia Capability Map — INDEX
-> hash: 1f0ca37df75b | resources: 1450
+> hash: 1182b6ee2807 | resources: 1450
 > 295 commands · 139 skills · 90 agents · 926 scripts
 
 [analysis] Trace Optimize — across,distributed,optimize,rates,sampling — cmd:.claude/commands/trace-optimize.md
@@ -1230,7 +1230,7 @@
 [quality] enterprise/activation-plan-review — activation,agent,plan,review — script:scripts/enterprise/activation-plan-review.sh
 [quality] enterprise/audit-purge — audit,purge,retention,spec — script:scripts/enterprise/audit-purge.sh
 [quality] enterprise/audit-search — audit,inspector,search,spec — script:scripts/enterprise/audit-search.sh
-[quality] enterprise/governance-audit-trail — audit,compliance,governance,signed,spec — script:scripts/enterprise/governance-audit-trail.sh
+[quality] enterprise/governance-audit-trail — audit,chained,compliance,governance,hash — script:scripts/enterprise/governance-audit-trail.sh
 [quality] eval-lint — eval,golden,lint,sets,tribunales — script:scripts/eval-lint.sh
 [quality] evidence-first-development — alta,aprobado,código,desarrollo,dominios — skill:.claude/skills/evidence-first-development/SKILL.md
 [quality] executive-audit — audit,executive,workspace — script:scripts/executive-audit.sh
