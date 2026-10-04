@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=3a3d6348dec27677fc61fcfa7a12d8435dd24f01f867745a67e448e649a154e4
-timestamp=2026-10-04T12:55:51Z
+diff_hash=7e8329ac25416ad01b012e68e946307b16c701c64f018f61b60ff32713d0edb7
+timestamp=2026-10-04T13:31:46Z
 branch=agent/se376-savia-dual-20261003
-head_commit=7ef9d75a
-signature=a40a543b9ec75f2c8709272659bb6584381e3395f5fd4264a89dafbe28e37065
+head_commit=ae90e139
+signature=deecf5b07533ea477655d10857959447b2cc72bc6215ba4ca84c8e39050f005e
