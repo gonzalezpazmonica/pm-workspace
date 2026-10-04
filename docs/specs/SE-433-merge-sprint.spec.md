@@ -240,6 +240,19 @@ Esto no elude el clasificador. El clasificador protege a la operadora de merges 
 aquí la operadora revisa la lista y firma con un factor que el agente no tiene. Lo que concede es
 un único camino, acotado, con rastro de cada paso.
 
+## Entregables (rutas)
+
+Esta propuesta (documental):
+
+- `docs/specs/SE-433-merge-sprint.spec.md`
+- `docs/rules/domain/autonomous-safety-merge-sprint.md`
+- `docs/rules/domain/autonomous-safety.md` (enlace)
+- `docs/rules/domain/rule-manifest.json`, `docs/propuestas/planning-state.json`, `docs/propuestas/LOG.md` (registro)
+- `CHANGELOG.d/merge-sprint-spec.md`
+
+La implementación, cuando se apruebe: `scripts/merge-sprint.sh`, `scripts/risk-tier.py`,
+`config/merge-sprint/allowed_signers` y `tests/test-merge-sprint.bats`.
+
 ## Criterios de aceptación
 
 - **AC-01** `run` sin firma, con firma de otra clave o con un manifiesto alterado en un byte → exit ≠ 0, ningún merge y evento `STOP:signature` en el ledger.
