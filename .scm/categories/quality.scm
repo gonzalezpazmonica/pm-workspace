@@ -1,5 +1,5 @@
 # quality — Savia Capability Map (L1)
-> 267 resources
+> 266 resources
 
 - **/speckit.analyze** (cmd): Alias spec-kit compatible. Review cruzado de una spec antes de implementar. Invoca skill consensus-validation. Compatible con github/spec-kit.
 - **Coherence Court** (cmd): Audit consistency of a stage output against premises fixed in earlier stages of the same flow (SE-350)
@@ -212,7 +212,6 @@
 - **test-okr-strategy** (script): ── test-okr-strategy.sh ──────────────────────────────────────────────────────
 - **test-onboard-enterprise** (script): ── Test: onboard-enterprise (Era 39 — Onboarding at Scale) ──
 - **test-orgchart-diagrams** (script): ============================================================================
-- **test-pbi-history** (script): test-pbi-history.sh — Validates PBI Field-Level History implementation
 - **test-pbi-spec-links** (script): test-pbi-spec-links.sh — Tests for PBI ↔ Spec bidirectional linkage
 - **test-performance-quality** (script): Test: Performance & Quality v0.71.0 (Era 13)
 - **test-pipeline-devops** (script): Test: Pipeline & DevOps v0.71.0 (Era 13)
