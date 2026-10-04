@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=29f7a07cb904d2f8d7c0a08d7e12c1e606ff4d13e44ac392fcf14d54e7dbe302
-timestamp=2026-10-04T14:01:37Z
-branch=agent/se376-calib-capacity-planning-20261003
-head_commit=17505577
-signature=2f3db5db943005612e4669ef140cf97ce4ad714be4a96bc22d3bed1ef859e9fe
+diff_hash=2b352aaea781dcdeba99837485647366d4b5e4cc733ebabc9ce6ca548842a929
+timestamp=2026-10-04T15:38:58Z
+branch=HEAD
+head_commit=47c6567d4
+signature=9e6c05815e779f4297766052a7570c95b2b400e5821c3da19ec1499112c74adb
