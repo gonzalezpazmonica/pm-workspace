@@ -87,6 +87,13 @@ fixture_spec() {
     [ "$status" -eq 0 ]
   done
   [[ "$output" == *"rev: 2"* ]]
+  # El UPSERT debe dejar una sola línea del topic; "rev: 2" solo no lo prueba.
+  local store="$TMP/output/.memory-store.jsonl"
+  [ -f "$store" ]
+  [ "$(grep -c '"topic_key":"decision/interface-design-cache-store"' "$store")" -eq 1 ]
+  grep -qF '"content":"Diseno C"' "$store"
+  run grep -qF '"content":"Diseno A"' "$store"
+  [ "$status" -ne 0 ]
 }
 
 @test "puente SE-074: la orden documentada planifica las tres alternativas como specs" {
