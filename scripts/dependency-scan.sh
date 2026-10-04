@@ -8,7 +8,8 @@
 # Salida:
 #   output/security/dep-scan-YYYYMMDD.json    (report de vulnerabilidades, JSON de Trivy)
 #   output/security/sbom-YYYYMMDD.json        (SBOM CycloneDX, con --generate-sbom)
-#   DEP_SCAN_OUTPUT_DIR cambia el directorio de salida.
+#   DEP_SCAN_OUTPUT_DIR cambia el directorio de salida. El nombre es por día, no por proyecto:
+#   para varios proyectos el mismo día, un DEP_SCAN_OUTPUT_DIR por proyecto.
 #
 # Exit codes:
 #   0 = sin vulnerabilidades en las severidades pedidas
@@ -17,7 +18,7 @@
 #       Un error nunca se presenta como «limpio» ni como «vulnerabilidades».
 #   Precedencia: 2 gana a 1 (hallazgos + SBOM fallido → 2; los hallazgos se listan igualmente).
 #
-# Artefactos ante fallo: el informe se escribe a .tmp y solo se publica si es JSON de Trivy
+# Artefactos ante fallo: el informe se escribe a un temporal único (.tmp.XXXXXX) y solo se publica si es JSON de Trivy
 #   válido (SchemaVersion 2); si no, queda como dep-scan-YYYYMMDD.json.failed y el informe
 #   válido anterior del mismo día no se toca. Un SBOM fallido queda como sbom-YYYYMMDD.json.failed
 #   y un SBOM anterior del mismo día se renombra a .stale.
@@ -63,7 +64,7 @@ done
 command -v jq &>/dev/null || { echo "ERROR: jq no disponible; no se puede interpretar el informe." >&2; exit 2; }
 
 SCAN_PATH="$(cd "$SCAN_PATH" && pwd)"
-mkdir -p "$OUTPUT_DIR"
+mkdir -p "$OUTPUT_DIR" || { echo "ERROR: no se puede crear el directorio de salida: $OUTPUT_DIR" >&2; exit 2; }
 
 # ── Detección de Trivy ────────────────────────────────────────────────────────
 TRIVY_CMD=""
@@ -120,6 +121,9 @@ fi
 
 REPORT_JSON="$OUTPUT_DIR/dep-scan-${DATE}.json"
 SBOM_JSON="$OUTPUT_DIR/sbom-${DATE}.json"
+# Temporales únicos por ejecución: dos escaneos simultáneos en el mismo directorio de salida
+# (p. ej. dos proyectos en CI el mismo día) no pueden leer ni mover el informe del otro.
+REPORT_TMP="$(mktemp "$REPORT_JSON.tmp.XXXXXX")" || { echo "ERROR: no se puede escribir en $OUTPUT_DIR" >&2; exit 2; }
 
 echo "Escaneando dependencias en: $SCAN_PATH"
 echo "Tipos de proyecto detectados: $(detect_project_type "$SCAN_PATH")"
@@ -127,29 +131,30 @@ echo "Severidades: $SEVERITY"
 echo ""
 
 # ── Escaneo: una sola pasada en JSON; el veredicto sale del informe ──────────
-# Se escribe a .tmp y solo se publica si es un informe Trivy válido: un fallo nunca pisa
+# Se escribe al temporal único y solo se publica si es un informe Trivy válido: un fallo nunca pisa
 # el informe bueno de una ejecución anterior; lo recibido se conserva como .failed para diagnóstico.
 # Esquema exigido: SchemaVersion 2 y Results array (o null) de objetos. Un esquema distinto
 # (p. ej. una versión futura de Trivy) es error, no «limpio».
 SCHEMA_OK='.SchemaVersion == 2 and ((.Results // []) | type == "array" and all(.[]; type == "object"))'
 scan_failed() {
-  mv -f "$REPORT_JSON.tmp" "$REPORT_JSON.failed" 2>/dev/null || echo "  (Trivy no dejó salida que conservar)" >&2
+  if [[ -s "$REPORT_TMP" ]]; then mv -f "$REPORT_TMP" "$REPORT_JSON.failed"
+  else rm -f "$REPORT_TMP"; echo "  (Trivy no dejó salida que conservar)" >&2; fi
   echo "ERROR: el escaneo no se completó ($1). Diagnóstico: $REPORT_JSON.failed" >&2
   echo "  Ni limpio ni vulnerable: revisa Trivy (versión >= 0.37, base de datos, red) y repite." >&2
   exit 2
 }
 rc=0
-run_trivy_fs "$REPORT_JSON.tmp" "${FLAGS[@]}" --format json || rc=$?
+run_trivy_fs "$REPORT_TMP" "${FLAGS[@]}" --format json || rc=$?
 [[ $rc -eq 0 ]] || scan_failed "trivy rc=$rc"
-jq -e "$SCHEMA_OK" "$REPORT_JSON.tmp" >/dev/null 2>&1 || scan_failed "informe ilegible o esquema desconocido"
+jq -e "$SCHEMA_OK" "$REPORT_TMP" >/dev/null 2>&1 || scan_failed "informe ilegible o esquema desconocido"
 
 FINDINGS=$(jq -r --arg sev "$SEVERITY" '
   ($sev | split(",")) as $wanted
   | [.Results[]? | .Target as $t | .Vulnerabilities[]?
      | select(.Severity as $s | $wanted | index($s))
      | "\(.Severity)\t\(.VulnerabilityID)\t\(.PkgName) \(.InstalledVersion) → \(.FixedVersion // "sin fix")\t\($t)"]
-  | .[]' "$REPORT_JSON.tmp") || scan_failed "jq no pudo extraer los hallazgos"
-mv -f "$REPORT_JSON.tmp" "$REPORT_JSON"
+  | .[]' "$REPORT_TMP") || scan_failed "jq no pudo extraer los hallazgos"
+mv -f "$REPORT_TMP" "$REPORT_JSON"
 
 if [[ -n "$FINDINGS" ]]; then
   echo "Hallazgos ($(printf '%s\n' "$FINDINGS" | wc -l)):"
@@ -162,15 +167,17 @@ if [[ "$GENERATE_SBOM" == "true" ]]; then
   echo ""
   echo "Generando SBOM (CycloneDX JSON)..."
   sbom_rc=0
-  run_trivy_fs "$SBOM_JSON.tmp" --format cyclonedx || sbom_rc=$?
-  if [[ $sbom_rc -eq 0 ]] && jq -e '.bomFormat == "CycloneDX"' "$SBOM_JSON.tmp" >/dev/null 2>&1; then
-    mv "$SBOM_JSON.tmp" "$SBOM_JSON"
+  SBOM_TMP="$(mktemp "$SBOM_JSON.tmp.XXXXXX")" || { echo "ERROR: no se puede escribir en $OUTPUT_DIR" >&2; exit 2; }
+  run_trivy_fs "$SBOM_TMP" --format cyclonedx || sbom_rc=$?
+  if [[ $sbom_rc -eq 0 ]] && jq -e '.bomFormat == "CycloneDX"' "$SBOM_TMP" >/dev/null 2>&1; then
+    mv -f "$SBOM_TMP" "$SBOM_JSON"
     echo "SBOM generado: $SBOM_JSON"
   else
     # Nunca se fabrica un SBOM vacío: un artefacto de release sin componentes reales es evidencia falsa.
     # Lo recibido queda como .failed (diagnóstico) y un SBOM anterior del mismo día pasa a .stale
     # para que nadie lo tome por el de esta ejecución.
-    mv -f "$SBOM_JSON.tmp" "$SBOM_JSON.failed" 2>/dev/null || echo "  (Trivy no dejó salida de SBOM que conservar)" >&2
+    if [[ -s "$SBOM_TMP" ]]; then mv -f "$SBOM_TMP" "$SBOM_JSON.failed"
+    else rm -f "$SBOM_TMP"; echo "  (Trivy no dejó salida de SBOM que conservar)" >&2; fi
     if [[ -f "$SBOM_JSON" ]]; then
       mv -f "$SBOM_JSON" "$SBOM_JSON.stale"
       echo "WARN: el SBOM anterior de hoy se renombra a $SBOM_JSON.stale (no corresponde a esta ejecución)." >&2
