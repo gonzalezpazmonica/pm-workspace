@@ -2299,11 +2299,11 @@
       ],
       "id": "script:scripts/savia-flow-tasks",
       "intents": [
-        "delegates",
+        "branch",
         "flow",
+        "isolation",
         "management",
-        "savia",
-        "task"
+        "savia"
       ],
       "kind": "script",
       "owner_domain": "communication",
@@ -23230,9 +23230,9 @@
       "intents": [
         "digerir",
         "listar",
+        "listas",
         "reuniones",
-        "savia",
-        "scan"
+        "savia"
       ],
       "kind": "script",
       "owner_domain": "planning",
@@ -29604,7 +29604,7 @@
       "tests": []
     }
   ],
-  "content_hash": "642a90d87e0a",
+  "content_hash": "50a02225e4c3",
   "deferred_kinds": [
     "rule",
     "hook"

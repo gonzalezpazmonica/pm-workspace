@@ -1,5 +1,5 @@
 {
-  "hash": "642a90d87e0a",
+  "hash": "50a02225e4c3",
   "total": 1450,
   "resources": [
     {
@@ -1475,15 +1475,15 @@
       "category": "communication",
       "name": "savia-flow-tasks",
       "intents": [
-        "delegates",
+        "branch",
         "flow",
+        "isolation",
         "management",
-        "savia",
-        "task"
+        "savia"
       ],
       "kind": "script",
       "path": "scripts/savia-flow-tasks.sh",
-      "description": "savia-flow-tasks.sh — Task management (delegates to savia-flow-ops.sh)"
+      "description": "savia-flow-tasks.sh — Task management via branch isolation (PBI = task)"
     },
     {
       "category": "communication",
@@ -3075,7 +3075,7 @@
       ],
       "kind": "skill",
       "path": ".claude/skills/design-an-interface/SKILL.md",
-      "description": "Design-an-interface skill with N=3 parallel alternatives and architectural vocabulary. Use when designing a new module interface, when user mentions 'varias alternativas', 'design this module', or '/design-interface'."
+      "description": "Design-an-interface skill with N=3 parallel alternatives and architectural vocabulary. Use when designing a new module interface, when user mentions 'varias alternativas', 'design this module', or '/design-an-interface'."
     },
     {
       "category": "development",
@@ -15022,13 +15022,13 @@
       "intents": [
         "digerir",
         "listar",
+        "listas",
         "reuniones",
-        "savia",
-        "scan"
+        "savia"
       ],
       "kind": "script",
       "path": "scripts/transcriptor-scan.sh",
-      "description": "transcriptor-scan.sh — listar reuniones sin digerir de Savia Transcriptor"
+      "description": "transcriptor-scan.sh — listar reuniones listas para digerir de Savia Transcriptor"
     },
     {
       "category": "planning",
