@@ -987,6 +987,16 @@
       "note": "Aprobada por la operadora 2026-10-04 (AskUserQuestion: «Apruebo SE-433»); autorización por respuesta en la sesión orquestadora (D1 revisada); ejecutor determinista; revisión ligada al SHA que solo resta; tier 4 excluido",
       "phase": "A",
       "approval": "Operadora 2026-10-04 (AskUserQuestion): '¿Apruebas SE-433 (merge-sprint) con tus 9 decisiones…?' → 'Apruebo SE-433'"
+    },
+    {
+      "id": "SE-434",
+      "status": "APPROVED",
+      "priority": "P0",
+      "title": "Savia Space: modo mediado con sandbox propio como frontera",
+      "evidence": "docs/specs/SE-434-savia-space-mediated-sandbox.spec.md",
+      "note": "Aprobada por la operadora 2026-10-05 (AskUserQuestion: «Apruebo, pero S1 y S2 a la vez»); decisiones D-MED-1..6; slices S1–S5",
+      "phase": "A",
+      "approval": "Operadora 2026-10-05 (AskUserQuestion): 'Apruebo, pero S1 y S2 a la vez'"
     }
   ],
   "route": {
