@@ -20,7 +20,7 @@ capa de análisis — no reemplaza `.hcm` (narrativa humana) ni `codebase-map`
 
 - Proyecto N4b (PM-Only): el grafo contendría código privado del proyecto.
 - Proyecto pequeño (<100 ficheros): grep es suficiente y más rápido.
-- UA no instalado y la tarea no justifica instalarlo: usar knowledge-graph.py.
+- UA no instalado y la tarea no justifica instalarlo: no hay análisis de codebase equivalente; knowledge-graph.py solo cubre la memoria del workspace.
 
 ## Límites
 

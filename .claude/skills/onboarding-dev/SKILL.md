@@ -102,7 +102,8 @@ Generar:
 Configurar agente buddy con:
   - Base de conocimiento: documentos generados en Fase 1
   - System prompt con guardarraíles de Manfred (ver abajo)
-  - Disponible vía /onboarding-ask {pregunta}
+  - Disponible en la conversación: el nuevo miembro pregunta y el agente responde
+    con los documentos de Fase 1 como base (sin comando dedicado)
 ```
 
 ## Buddy IA — Comportamiento (Manfred v3.0)
@@ -122,6 +123,15 @@ El agente buddy responde con explicaciones breves y accionables, cita fuentes in
 | Primera contribución significativa | ≤ 30 días | ≤ 15 días | ≤ 7 días |
 | Independencia (tasks sin spec) | ≤ 30 días | ≤ 15 días | ≤ 7 días |
 | Confianza autoreportada (≥7/10) | Día 15 | Día 10 | Día 5 |
+
+## Parte ejecutable y verificación
+
+La skill es prosa que ejecuta el agente. Lo ejecutable de su cadena es el prerrequisito
+`/project-new`, que llama a `scripts/setup-memory.sh {proyecto}`: crea `MEMORY.md` y 5 topic
+files en `$SAVIA_MEMORY_DIR` o `~/.savia/projects/{proyecto}/memory/`, sin sobrescribir notas y
+con escritura atómica (permisos según la umask). Exit 0 ok · 1 fallo de escritura · 2 nombre
+inválido (`/`, `.`, `..`, guion inicial, control, bidi Unicode, >255 bytes), symlink en
+`{proyecto}/` o `memory/`, o sin `HOME`. Pruebas: `tests/test-onboarding-dev.bats`.
 
 ## Cuándo NO usar
 
