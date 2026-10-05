@@ -1,5 +1,5 @@
 # Savia Capability Map — INDEX
-> hash: dd02d9d74bca | resources: 1451
+> hash: 8e0c3e5f4b40 | resources: 1451
 > 295 commands · 139 skills · 90 agents · 927 scripts
 
 [analysis] Trace Optimize — across,distributed,optimize,rates,sampling — cmd:.claude/commands/trace-optimize.md
@@ -116,7 +116,7 @@
 [communication] savia-flow-ops — assignments,branch,crud,flow,isolation — script:scripts/savia-flow-ops.sh
 [communication] savia-flow-practice — dual,flow,flujo,implementa,métricas — skill:.claude/skills/savia-flow-practice/SKILL.md
 [communication] savia-flow-sprint — branch,flow,isolation,lifecycle,savia — script:scripts/savia-flow-sprint.sh
-[communication] savia-flow-tasks — delegates,flow,management,savia,task — script:scripts/savia-flow-tasks.sh
+[communication] savia-flow-tasks — branch,flow,isolation,management,savia — script:scripts/savia-flow-tasks.sh
 [communication] savia-flow-templates — branch,flow,isolation,member,project — script:scripts/savia-flow-templates.sh
 [communication] savia-flow-timesheet — branch,flow,savia,time,timesheet — script:scripts/savia-flow-timesheet.sh
 [communication] savia-forget —  — cmd:.claude/commands/savia-forget.md
@@ -1139,7 +1139,7 @@
 [planning] tracked-vs-nivel — nivel,slice,tracked — script:scripts/tracked-vs-nivel.sh
 [planning] trajectory-detector — desviación,detección,detector,minutos,trajectory — script:scripts/trajectory-detector.sh
 [planning] transcriptor — capturadas,capturas,digeridas,digerir,escanear — cmd:.claude/commands/transcriptor.md
-[planning] transcriptor-scan — digerir,listar,reuniones,savia,scan — script:scripts/transcriptor-scan.sh
+[planning] transcriptor-scan — digerir,listar,listas,reuniones,savia — script:scripts/transcriptor-scan.sh
 [planning] tribunal-critic — critic,quantitative,scoring,tribunal,verdicts — script:scripts/tribunal-critic.sh
 [planning] tribunal-status — depth,evaluations,pending,queue,recent — cmd:.claude/commands/tribunal-status.md
 [planning] tribunal-tiered-runner — execution,runner,tiered,tribunal — script:scripts/tribunal-tiered-runner.sh
