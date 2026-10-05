@@ -1,5 +1,7 @@
 ---
-status: PROPOSED
+status: APPROVED
+approved_at: 2026-10-05
+approved_by: "operadora, AskUserQuestion 2026-10-05: «Apruebo, pero S1 y S2 a la vez»"
 priority: P0
 developer_type: agent-team
 created: 2026-10-05
