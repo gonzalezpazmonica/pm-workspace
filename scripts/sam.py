@@ -14,6 +14,8 @@ from sam_model import (
     _read_json,
     _validate_model,
     build_model,
+    canonical_json,
+    content_projection,
     query_node,
     serialized_outputs,
     validate_model,
@@ -54,6 +56,24 @@ def _generate(root: Path) -> int:
     return 0
 
 
+def _same_content(actual: bytes, expected: bytes) -> bool:
+    """Compare artifacts by content: every sha256 and the derived graph.
+
+    The informative ``source_commit`` is ignored because a squash merge creates
+    a commit no PR can predict. Everything else must match exactly, in the
+    canonical byte form that generate writes.
+    """
+    if actual == expected:
+        return True
+    try:
+        document = json.loads(actual.decode("utf-8"))
+    except (UnicodeError, json.JSONDecodeError):
+        return False
+    if canonical_json(document) + b"\n" != actual:
+        return False
+    return content_projection(document) == content_projection(json.loads(expected))
+
+
 def _check(root: Path) -> int:
     expected_model = build_model(root)
     expected = serialized_outputs(expected_model, root)
@@ -68,7 +88,7 @@ def _check(root: Path) -> int:
             actual = (root / relative).read_bytes()
         except OSError as exc:
             raise SamValidationError("INVALID_MODEL", relative) from exc
-        if actual != content:
+        if not _same_content(actual, content):
             print(f"SAM: STALE ({relative})")
             return 1
     print(f"SAM: FRESH ({len(expected_model['nodes'])} nodes)")
