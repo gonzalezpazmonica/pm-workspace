@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=126af12d83dcae5542fcdcf4c778a31327d7973f1455bac4c7f57333fb97d8f1
-timestamp=2026-10-05T05:01:17Z
-branch=HEAD
-head_commit=7729f624b
-signature=354d2e066ae1f562bddfbd3f76d5596c101a76c08ab2bea81809c9a975ce5b4c
+diff_hash=6436d023df6baad730e2cf0d670bc09b2bed13b035658f30d607f64d0b474c7d
+timestamp=2026-10-05T06:53:39Z
+branch=agent/se434-space-mediated-sandbox
+head_commit=f5bf048ed
+signature=6c5a5f448baaafdcc52731fa7ef2fc2760915c2196ac620f15b78de2912cf430
