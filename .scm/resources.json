@@ -1,5 +1,5 @@
 {
-  "hash": "e7d8e7aa1dd9",
+  "hash": "1314f1c752b5",
   "total": 1450,
   "resources": [
     {
@@ -9135,15 +9135,15 @@
       "category": "planning",
       "name": "criticality-engine",
       "intents": [
-        "assess",
+        "access",
+        "backlog",
         "criticality",
-        "dashboard",
-        "engine",
-        "operations"
+        "dates",
+        "engine"
       ],
       "kind": "script",
       "path": "scripts/criticality-engine.sh",
-      "description": "criticality-engine.sh — Operations: assess, dashboard, rebalance. Sourced by criticality.sh."
+      "description": "criticality-engine.sh — Local backlog access (frontmatter, dates, item lookup,"
     },
     {
       "category": "planning",

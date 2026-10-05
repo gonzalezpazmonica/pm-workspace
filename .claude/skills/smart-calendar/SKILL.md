@@ -141,3 +141,9 @@ Comandos de criticidad:
 Integracion: `/calendar-plan` ordena por criticality_score. Items P0 crean
 bloques de emergencia (override focus time). Auto-escalado temporal aplica
 a `/calendar-deadlines`. Confidence decay limpia backlog automaticamente.
+
+### Motor local: `scripts/criticality.sh`
+
+Unico ejecutable de la skill: `assess`, `dashboard` y `rebalance` sobre el
+backlog local. Contrato (exit codes, campos, decimales es_ES, fechas,
+busqueda exacta): `criticality-engine.md`. Tests: `tests/test-smart-calendar.bats`.

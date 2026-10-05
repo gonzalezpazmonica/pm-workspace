@@ -136,7 +136,7 @@
 - **criticality** (script): criticality.sh — Dispatcher for criticality operations
 - **criticality-assess** (cmd): Evaluar criticidad de un item con desglose de 5 dimensiones y perfil CoD
 - **criticality-dashboard** (cmd): Vista cross-project de items criticos P0-P3 con heatmap por equipo
-- **criticality-engine** (script): criticality-engine.sh — Operations: assess, dashboard, rebalance. Sourced by criticality.sh.
+- **criticality-engine** (script): criticality-engine.sh — Local backlog access (frontmatter, dates, item lookup,
 - **criticality-rebalance** (cmd): Redistribuir carga de trabajo del equipo respetando criticidad y capacidad
 - **criticality-scoring** (script): criticality-scoring.sh — Pure scoring functions. Sourced by criticality-engine.sh.
 - **daily-activation-plan** (script): daily-activation-plan.sh — SE-034: Daily Agent Activation Plan

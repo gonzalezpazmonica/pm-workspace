@@ -14085,11 +14085,11 @@
       ],
       "id": "script:scripts/criticality-engine",
       "intents": [
-        "assess",
+        "access",
+        "backlog",
         "criticality",
-        "dashboard",
-        "engine",
-        "operations"
+        "dates",
+        "engine"
       ],
       "kind": "script",
       "owner_domain": "planning",
@@ -29607,7 +29607,7 @@
       "tests": []
     }
   ],
-  "content_hash": "e7d8e7aa1dd9",
+  "content_hash": "1314f1c752b5",
   "deferred_kinds": [
     "rule",
     "hook"
