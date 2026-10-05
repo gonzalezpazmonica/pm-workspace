@@ -1010,6 +1010,15 @@
       "note": "Decisión D-MED-7; aprobada 2026-10-05",
       "phase": "A",
       "approval": "Operadora 2026-10-05 (AskUserQuestion): 'Apruebo, empieza por D1'"
+    },
+    {
+      "id": "SE-436",
+      "status": "PROPOSED",
+      "priority": "P1",
+      "title": "Savia Space: proyectos y cúpulas desde Space",
+      "evidence": "docs/specs/SE-436-savia-space-projects-and-domes.spec.md",
+      "note": "Huecos G-01, G-02, G-03, G-06 y G-07 del e2e del gallinero; decisiones abiertas D30-1..D30-6 y D23-14",
+      "phase": "A"
     }
   ],
   "route": {
