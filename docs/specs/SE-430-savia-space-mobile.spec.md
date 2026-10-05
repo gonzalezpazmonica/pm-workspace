@@ -164,8 +164,9 @@ aprueba con biometría.
 
 - **2026-10-05** (operadora, AskUserQuestion 2026-10-05, D-ORCA-1): el teléfono como mando remoto
   de las sesiones del escritorio, patrón tomado de [Orca](https://github.com/stablyai/orca) sin
-  su relé en la nube. La spec sigue APPROVED. Reparto propuesto, pendiente de confirmar: M2
-  (vista de chat, comandos rápidos y endpoints editables) y M3 (respuestas con dictado y foto).
+  su relé en la nube. La spec sigue APPROVED. Reparto: M2 (vista de chat, comandos
+  rápidos y endpoints editables) y M3 (respuestas con dictado y foto, que van con la bandeja de
+  aprobaciones y preguntas).
 
 ## Entregas
 

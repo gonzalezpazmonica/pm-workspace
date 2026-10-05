@@ -189,15 +189,18 @@ mediación.
 - **AC10**: cinco jornadas de trabajo real de la operadora solo con Space, sin abrir la TUI de
   OpenCode para nada de P0. Cada apertura necesaria se registra con su causa.
 - **AC14** (D-ORCA-3): con la hibernación activa, una ejecución hecha, inactiva 30 minutos y sin
-  ninguna otra condición en contra se pausa; con una pregunta pendiente, un subagente vivo, un
-  intento sin cerrar, un móvil que la controla o la frontera fuera de `LIVE` (un caso de prueba
-  por condición), no se pausa. Al reanudarla, la sesión y el worktree son los mismos y no se
-  envía ningún prompt.
+  ninguna otra condición en contra se pausa. No se pausa, con un caso de prueba negativo por cada
+  una de las diez condiciones: (1) turno en curso (no hecha), (2) en primer plano, (3) teclas
+  recibidas tras terminar, (4) sesión no reanudable, (5) menos de N minutos inactiva, (6) un
+  móvil que la controla, (7) un intento sin cerrar, (8) un subagente vivo, (9) una pregunta o
+  una petición de permiso o aprobación pendiente, (10) en mediado, la frontera fuera de `LIVE`.
+  Al reanudarla, la sesión y el worktree son los mismos y no se envía ningún prompt.
 - **AC15** (D-ORCA-3): en una instalación nueva la hibernación está apagada y ninguna ejecución se
   pausa.
 - **AC16** (D-ORCA-5): con una ejecución viva, Space se reinicia en otro puerto y el siguiente
-  evento de un hook llega al puerto nuevo; con el fichero del endpoint en modo 0644, el hook no
-  envía y lo registra.
+  evento de un hook llega al puerto nuevo; con el fichero del endpoint en modo 0644 o ausente,
+  el hook no envía y lo registra. El fichero del endpoint nunca contiene la contraseña del motor
+  (prueba que lo inspecciona).
 
 ## Hallazgos de la implementación (2026-10-03)
 
