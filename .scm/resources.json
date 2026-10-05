@@ -1,5 +1,5 @@
 {
-  "hash": "faf83c83c3f7",
+  "hash": "50a02225e4c3",
   "total": 1450,
   "resources": [
     {
@@ -1475,15 +1475,15 @@
       "category": "communication",
       "name": "savia-flow-tasks",
       "intents": [
-        "delegates",
+        "branch",
         "flow",
+        "isolation",
         "management",
-        "savia",
-        "task"
+        "savia"
       ],
       "kind": "script",
       "path": "scripts/savia-flow-tasks.sh",
-      "description": "savia-flow-tasks.sh — Task management (delegates to savia-flow-ops.sh)"
+      "description": "savia-flow-tasks.sh — Task management via branch isolation (PBI = task)"
     },
     {
       "category": "communication",
@@ -3075,7 +3075,7 @@
       ],
       "kind": "skill",
       "path": ".claude/skills/design-an-interface/SKILL.md",
-      "description": "Design-an-interface skill with N=3 parallel alternatives and architectural vocabulary. Use when designing a new module interface, when user mentions 'varias alternativas', 'design this module', or '/design-interface'."
+      "description": "Design-an-interface skill with N=3 parallel alternatives and architectural vocabulary. Use when designing a new module interface, when user mentions 'varias alternativas', 'design this module', or '/design-an-interface'."
     },
     {
       "category": "development",
@@ -15022,13 +15022,13 @@
       "intents": [
         "digerir",
         "listar",
+        "listas",
         "reuniones",
-        "savia",
-        "scan"
+        "savia"
       ],
       "kind": "script",
       "path": "scripts/transcriptor-scan.sh",
-      "description": "transcriptor-scan.sh — listar reuniones sin digerir de Savia Transcriptor"
+      "description": "transcriptor-scan.sh — listar reuniones listas para digerir de Savia Transcriptor"
     },
     {
       "category": "planning",
@@ -16274,14 +16274,14 @@
       "name": "enterprise/governance-audit-trail",
       "intents": [
         "audit",
+        "chained",
         "compliance",
         "governance",
-        "signed",
-        "spec"
+        "hash"
       ],
       "kind": "script",
       "path": "scripts/enterprise/governance-audit-trail.sh",
-      "description": "governance-audit-trail.sh — SPEC-SE-006 Signed Audit Trail for Governance & Compliance"
+      "description": "governance-audit-trail.sh — SPEC-SE-006 Hash-chained Audit Trail for Governance & Compliance"
     },
     {
       "category": "quality",

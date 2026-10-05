@@ -4,7 +4,7 @@
 
 # ── Announce: post to main:company/inbox/ ───────────────────────────
 do_announce() {
-  local subject="${1:?Uso: savia-messaging.sh announce <subject> <body> [--priority high]}"
+  local subject="${1:?Uso: savia-messaging.sh announce <subject> [--body-file f] [--priority high] < body}"
   local body="${2:?Falta body}"
   local priority="normal"
   shift 2
@@ -35,8 +35,11 @@ ${body}
 EOF
 )
 
-  bash "$SCRIPTS_DIR/savia-branch.sh" write "$repo_dir" main "company/inbox/${msg_id}.md" "$msg_content" \
-    "[main] announce: $subject"
+  printf '%s\n' "$msg_content" | bash "$SCRIPTS_DIR/privacy-check-company.sh" --stdin \
+    || { log_error "Announcement blocked by privacy check"; return 1; }
+
+  printf '%s\n' "$msg_content" | bash "$SCRIPTS_DIR/savia-branch.sh" write "$repo_dir" main "company/inbox/${msg_id}.md" - \
+    "[main] announce: $subject" || { log_error "Announcement NOT posted"; return 1; }
 
   log_ok "Announcement posted: $subject"
   echo "  ID: $msg_id"
@@ -44,7 +47,7 @@ EOF
 
 # ── Broadcast: send encrypted to all handles via exchange ──────────
 do_broadcast() {
-  local subject="${1:?Uso: savia-messaging.sh broadcast <subject> <body>}"
+  local subject="${1:?Uso: savia-messaging.sh broadcast <subject> [--body-file f] < body}"
   local body="${2:?Falta body}"
   shift 2
 
@@ -55,14 +58,22 @@ do_broadcast() {
   local directory
   directory=$(bash "$SCRIPTS_DIR/savia-branch.sh" read "$repo_dir" main "directory.md") || { log_error "No directory found"; return 1; }
 
-  while IFS= read -r line; do
-    [[ "$line" =~ ^@([a-zA-Z0-9_-]+) ]] || continue
-    local target="${BASH_REMATCH[1]}"
+  local target failed=0
+  while IFS= read -r target; do
+    [ -z "$target" ] && continue
     [ "$target" = "$handle" ] && continue
-    do_send "$target" "$subject" "$body" "$@" 2>/dev/null && count=$((count + 1))
-  done <<< "$directory"
+    if do_send "$target" "$subject" "$body" "$@"; then
+      count=$((count + 1))
+    else
+      failed=$((failed + 1))
+    fi
+  done < <(printf '%s\n' "$directory" | directory_handles)
 
   log_ok "Broadcast sent to $count recipient(s)"
+  if [ "$failed" -gt 0 ]; then
+    log_error "Broadcast failed for $failed recipient(s)"
+    return 1
+  fi
 }
 
 # ── Directory: read from main:directory.md ───────────────────────────

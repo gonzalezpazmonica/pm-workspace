@@ -109,7 +109,7 @@ PROJECT_{SLUG}_LOCAL_PATH     = "projects/{name}"
 ### Step 6 — Initialize memory
 
 Run: `bash scripts/setup-memory.sh {name}`
-Creates 6 template files in `~/.claude/projects/{name}/memory/`.
+Creates 6 template files in `~/.savia/projects/{name}/memory/` (or `$SAVIA_MEMORY_DIR`). Idempotent: never overwrites existing notes. Exit 2 if `{name}` is not a single directory name (`/`, `.`, `..`, leading `-`, control chars, >255 bytes).
 
 ### Step 7 — Generate .env.example in config.local/
 

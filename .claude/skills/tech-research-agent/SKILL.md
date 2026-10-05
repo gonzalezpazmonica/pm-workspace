@@ -133,10 +133,9 @@ Cuando `WebFetch` tool devuelve 403/429/503 o contenido vacío sobre una URL que
 bash scripts/scrapling-fetch.sh "https://ejemplo-cloudflare.com/docs" --json --timeout 25
 ```
 
-- Si Scrapling está instalado: bypass nativo de Cloudflare/DataDome/Akamai/Kasada/Incapsula
-- Si Scrapling NO está instalado: fallback transparente a curl con user-agent `SaviaResearch/1.0`
-- Salida JSON con `status`, `title`, `url_final`, `text`, `backend`
-- Exit code 0 = OK, 1 = fetch error, 2 = usage error
+- Descarga siempre con curl (user-agent `SaviaResearch/1.0`) contra la IP validada; Scrapling, si está instalado, solo parsea. No hay bypass de Cloudflare/DataDome: el `Fetcher` de Scrapling permitía DNS rebinding hacia la red interna (SE-376)
+- Salida JSON con `status`, `title`, `url_final`, `text`, `text_truncated`, `error`, `backend` (parser) y `fetcher` (siempre `curl`), también en error
+- Exit code 0 = OK (2xx), 1 = fetch error (incluye 4xx/5xx), 2 = usage error, 3 = destino bloqueado (loopback/privado sin `--allow-private`, metadatos 169.254.x siempre)
 
 Ver `docs/rules/domain/research-stack.md` para la cadena completa de backends y las consideraciones de legalidad/ToS.
 
