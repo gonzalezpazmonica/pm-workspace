@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=a51bb8c5261eb75e661be10c48c0d2d2dd4e07e4695a04928a5bb43ad80d348c
-timestamp=2026-10-05T09:52:17Z
+diff_hash=7b37feaca3bc0a206230b143468bde16351f879dd25db9731268092f808d6e8b
+timestamp=2026-10-05T10:32:49Z
 branch=agent/sam-content-freshness-20261005
-head_commit=02e352bd8
-signature=7a7bc73e159a6e63e1c93423ed79e44da4141d642910fa92eec1c695130c595a
+head_commit=a4b73ecd
+signature=4f8d909886ef2937d55457f8599633f57dce75f0da89e28ecf9ef2b81a60ffdb
