@@ -944,21 +944,23 @@
     },
     {
       "id": "SE-429",
-      "status": "PROPOSED",
+      "status": "APPROVED",
       "priority": "P1",
       "title": "Savia Space interoperable: API con JWT y OpenAPI, MCP y A2A",
       "evidence": "docs/specs/SE-429-savia-space-interop-api-mcp-a2a.spec.md",
-      "note": "Mandato 2026-10-02; compatible con AEK/AEOS/TEE sin emitir autoridad; leases bloqueados hasta contrato AEK",
-      "phase": "A"
+      "note": "Mandato 2026-10-02; compatible con AEK/AEOS/TEE sin emitir autoridad; leases bloqueados hasta contrato AEK; aprobada por la operadora 2026-10-05 (AskUserQuestion)",
+      "phase": "A",
+      "approval": "Operadora 2026-10-05 (AskUserQuestion): SE-429, SE-430 y SE-432 aprobadas"
     },
     {
       "id": "SE-430",
-      "status": "PROPOSED",
+      "status": "APPROVED",
       "priority": "P2",
       "title": "Savia Space Mobile: cliente Android de Savia Space",
       "evidence": "docs/specs/SE-430-savia-space-mobile.spec.md",
-      "note": "Mandato 2026-10-02; sustituye funcionalmente a savia-mobile para Space; internet directo bloqueado, VPN recomendada",
-      "phase": "A"
+      "note": "Mandato 2026-10-02; sustituye funcionalmente a savia-mobile para Space; internet directo bloqueado, VPN recomendada; aprobada por la operadora 2026-10-05 (AskUserQuestion)",
+      "phase": "A",
+      "approval": "Operadora 2026-10-05 (AskUserQuestion): SE-429, SE-430 y SE-432 aprobadas"
     },
     {
       "id": "SE-431",
@@ -971,12 +973,13 @@
     },
     {
       "id": "SE-432",
-      "status": "PROPOSED",
+      "status": "APPROVED",
       "priority": "P1",
       "title": "Savia Space: escritorio infinito y experiencia",
       "evidence": "docs/specs/SE-432-savia-space-infinite-desktop-experience.spec.md",
-      "note": "Mandato 2026-10-02; superficie principal de SE-428; render híbrido WebGL+DOM; apariencia gestionada por la persona; atmósfera nunca imita actividad; prototipo medido a 60 fps con 10k objetos; dirección visual aceptada por la operadora 2026-10-03 (D25-1); se implementa dentro de la 0.2 de SE-428",
-      "phase": "A"
+      "note": "Mandato 2026-10-02; superficie principal de SE-428; render híbrido WebGL+DOM; apariencia gestionada por la persona; atmósfera nunca imita actividad; prototipo medido a 60 fps con 10k objetos; dirección visual aceptada por la operadora 2026-10-03 (D25-1); se implementa dentro de la 0.2 de SE-428; aprobada por la operadora 2026-10-05 (AskUserQuestion)",
+      "phase": "A",
+      "approval": "Operadora 2026-10-05 (AskUserQuestion): SE-429, SE-430 y SE-432 aprobadas"
     },
     {
       "id": "SE-433",
