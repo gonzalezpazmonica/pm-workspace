@@ -14085,38 +14085,17 @@
       ],
       "id": "script:scripts/criticality-engine",
       "intents": [
-        "assess",
+        "access",
+        "backlog",
         "criticality",
-        "dashboard",
-        "engine",
-        "operations"
+        "dates",
+        "engine"
       ],
       "kind": "script",
       "owner_domain": "planning",
       "replaced_by": null,
       "risk_level": null,
       "source": "scripts/criticality-engine.sh",
-      "status": "active",
-      "tests": []
-    },
-    {
-      "depends_on": [],
-      "frontend_support": [
-        "opencode"
-      ],
-      "id": "script:scripts/criticality-items",
-      "intents": [
-        "access",
-        "backlog",
-        "criticality",
-        "engine",
-        "items"
-      ],
-      "kind": "script",
-      "owner_domain": "planning",
-      "replaced_by": null,
-      "risk_level": null,
-      "source": "scripts/criticality-items.sh",
       "status": "active",
       "tests": []
     },
@@ -29625,7 +29604,7 @@
       "tests": []
     }
   ],
-  "content_hash": "ac3f92295474",
+  "content_hash": "7f2c8695554e",
   "deferred_kinds": [
     "rule",
     "hook"
