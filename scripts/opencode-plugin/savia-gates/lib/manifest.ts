@@ -1,17 +1,25 @@
 // manifest.ts — emits a sibling JSON manifest of registered bindings.
 //
 // The parity-audit script (SE-077 Slice 2) reads this file to compare against
-// .claude/settings.json instead of parsing the TS source. Idempotent.
+// .claude/settings.json instead of parsing the TS source.
+//
+// The plugin never writes it while loading: the install dir is part of the
+// engine fingerprint (Savia Space pluginSetHash), and a write per load turned
+// every engine start into ENGINE_INTEGRITY DEGRADED. opencode-install.sh runs
+// this file as a CLI; the content is deterministic (no timestamp) and the file
+// is only rewritten when the bindings change.
+//
+//   bun lib/manifest.ts [project-root]   # writes $SAVIA_PLUGIN_DIR/manifest.json
 
-import type { HookMap } from "./shell-bridge"
-import { mkdir, writeFile } from "node:fs/promises"
+import { loadHookMap, type HookMap } from "./shell-bridge"
+import { mkdir, readFile, writeFile } from "node:fs/promises"
 
-const MANIFEST_DIR =
-  process.env.SAVIA_PLUGIN_DIR ??
-  `${process.env.HOME ?? ""}/.savia/opencode/plugins/savia-gates`
-const MANIFEST_FILE = `${MANIFEST_DIR}/manifest.json`
+function manifestDir(): string {
+  return process.env.SAVIA_PLUGIN_DIR ?? `${process.env.HOME ?? ""}/.savia/opencode/plugins/savia-gates`
+}
 
-export async function writeManifest(hookMap: HookMap): Promise<void> {
+/** Manifest JSON for a hook map; same map, same bytes. */
+export function buildManifest(hookMap: HookMap): string {
   const bindings: Array<{
     claudeHook: string
     event: string
@@ -65,12 +73,22 @@ export async function writeManifest(hookMap: HookMap): Promise<void> {
       }
     }
   }
-  const manifest = {
-    spec: "SE-077",
-    plugin: "savia-gates",
-    generated_at: new Date().toISOString(),
-    bindings,
-  }
-  await mkdir(MANIFEST_DIR, { recursive: true }).catch(() => {})
-  await writeFile(MANIFEST_FILE, JSON.stringify(manifest, null, 2)).catch(() => {})
+  const manifest = { spec: "SE-077", plugin: "savia-gates", bindings }
+  return JSON.stringify(manifest, null, 2) + "\n"
+}
+
+/** Writes manifest.json in `dir` only if its content changed. Returns whether it wrote. */
+export async function writeManifestIfChanged(hookMap: HookMap, dir = manifestDir()): Promise<boolean> {
+  const file = `${dir}/manifest.json`
+  const next = buildManifest(hookMap)
+  if ((await readFile(file, "utf8").catch(() => null)) === next) return false
+  await mkdir(dir, { recursive: true })
+  await writeFile(file, next)
+  return true
+}
+
+if (import.meta.main) {
+  const root = process.argv[2] ?? process.env.PROJECT_ROOT ?? process.cwd()
+  const wrote = await writeManifestIfChanged(await loadHookMap(root))
+  console.log(`${wrote ? "written" : "unchanged"}: ${manifestDir()}/manifest.json`)
 }

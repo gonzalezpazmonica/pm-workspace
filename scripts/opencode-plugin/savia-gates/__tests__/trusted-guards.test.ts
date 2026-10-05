@@ -258,3 +258,66 @@ test("wrapCommand: read-only binds of both guard dirs onto the canonical workspa
   }
   expect(argv.slice(-3)).toEqual(["bash", "-c", "echo hola"])
 })
+
+// Space e2e 2026-10-05: un workspace con registro pero sin .claude/hooks hacía fallar la copia con
+// ENOENT (copiaba .claude/settings.json sin crear antes .claude) y el modo mediado bloqueaba todo.
+test("prepareTrusted: registry without .claude/hooks is copied (no ENOENT) and the copy verifies clean", async () => {
+  const root = await mkdtemp(join(tmpdir(), "savia-trusted-test-"))
+  roots.push(root)
+  await mkdir(join(root, ".claude"), { recursive: true })
+  await writeFile(join(root, ".claude/settings.json"), JSON.stringify({ hooks: {} }))
+  const t = await prepareTrusted(root)
+  expect(await readFile(join(t.copy, ".claude/settings.json"), "utf8")).toBe(JSON.stringify({ hooks: {} }))
+  expect(existsSync(join(t.copy, ".claude/hooks"))).toBe(true)
+  expect(existsSync(join(t.copy, "scripts"))).toBe(true)
+  expect(await verifyTrusted(t)).toEqual([])
+})
+
+test("pinned: a workspace without .claude/hooks or scripts/ does not block prompts or tools", async () => {
+  const root = await mkdtemp(join(tmpdir(), "savia-trusted-test-"))
+  roots.push(root)
+  await mkdir(join(root, ".claude"), { recursive: true })
+  await writeFile(join(root, ".claude/settings.json"), JSON.stringify({ hooks: {} }))
+  process.env.SAVIA_GATES_PIN = "1"
+  const hooks = await plugin(root)
+  expect(await bash(hooks, "echo hola")).toBe("PASS")
+  const output = { message: {}, parts: [{ type: "text", text: "hola" }] }
+  await hooks["chat.message"]({ sessionID: "s" }, output)
+})
+
+// Space e2e 2026-10-05: un motor que muere con SIGKILL no ejecuta el handler de salida y su copia
+// se quedaba en /tmp (179 acumuladas). Al preparar una copia nueva se barren las de PIDs muertos.
+async function deadPid(): Promise<number> {
+  const p = Bun.spawn(["true"])
+  await p.exited
+  return p.pid
+}
+
+test("prepareTrusted: sweeps copies of dead engines; keeps live ones, legacy names, symlinks and others", async () => {
+  const root = await workspace()
+  const base = await mkdtemp(join(tmpdir(), "savia-trusted-base-"))
+  roots.push(base)
+  const dead = await deadPid()
+  const outside = await mkdtemp(join(tmpdir(), "savia-trusted-outside-"))
+  roots.push(outside)
+  await writeFile(join(outside, "keep"), "x")
+  const deadCopy = join(base, `savia-gates-trusted-${dead}-a1B2c3`)
+  await mkdir(join(deadCopy, "scripts"), { recursive: true })
+  await writeFile(join(deadCopy, "scripts/x.sh"), "exit 0\n", { mode: 0o400 })
+  await chmod(join(deadCopy, "scripts"), 0o500) // como la copia real: no impide barrerla
+  const live = join(base, `savia-gates-trusted-1-zzzzzz`) // PID 1 siempre vive
+  await mkdir(live)
+  const legacy = join(base, "savia-gates-trusted-AbCdEf") // formato anterior, sin PID: no se toca
+  await mkdir(legacy)
+  const link = join(base, `savia-gates-trusted-${dead}-link00`)
+  await symlink(outside, link)
+  const other = join(base, "otra-cosa")
+  await mkdir(other)
+
+  const t = await prepareTrusted(root, { base })
+  expect(t.copy.startsWith(join(base, `savia-gates-trusted-${process.pid}-`))).toBe(true)
+  // El nombre real es el que barre la próxima carga cuando este PID haya muerto.
+  expect(/^savia-gates-trusted-\d+-[A-Za-z0-9]{6}$/.test(t.copy.split("/").pop() as string)).toBe(true)
+  expect(existsSync(deadCopy)).toBe(false)
+  for (const p of [live, legacy, link, other, join(outside, "keep"), t.copy]) expect(existsSync(p)).toBe(true)
+})
