@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=126af12d83dcae5542fcdcf4c778a31327d7973f1455bac4c7f57333fb97d8f1
-timestamp=2026-10-05T05:01:17Z
-branch=HEAD
-head_commit=7729f624b
-signature=354d2e066ae1f562bddfbd3f76d5596c101a76c08ab2bea81809c9a975ce5b4c
+diff_hash=f67cffcfb37cf13d0d18616f142ed66b776622c266c9397377ab483265bfda17
+timestamp=2026-10-05T09:29:55Z
+branch=agent/savia-gates-space-fixes-20261005
+head_commit=11a376e56
+signature=a940919e809327c6c648044d615347fe37b60b4621878c2fc7cacacc68d7cf6b
