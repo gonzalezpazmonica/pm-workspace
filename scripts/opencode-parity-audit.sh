@@ -2,8 +2,9 @@
 # opencode-parity-audit.sh — SE-077 Slice 2
 #
 # Compares Claude Code hook registration (.claude/settings.json) against the
-# OpenCode plugin manifest emitted at plugin load time
-# (~/.savia/opencode/plugins/savia-gates/manifest.json). Reports the gap as
+# OpenCode plugin manifest generated at install time by opencode-install.sh
+# (~/.savia/opencode/plugins/savia-gates/manifest.json; regenerate with
+# `bun scripts/opencode-plugin/savia-gates/lib/manifest.ts`). Reports the gap as
 # the count of unjustified missing bindings. CI uses --check vs the baseline
 # (.ci-baseline/opencode-parity-gap.count) to prevent regressions.
 #

@@ -156,6 +156,12 @@ setup() {
   grep -qE 'cc: "InstructionsLoaded"|cc:"InstructionsLoaded"' "$PLUGIN_DIR/index.ts"
 }
 
+@test "plugin: manifest is generated at install, never on plugin load (stable pluginSetHash)" {
+  ! grep -q 'writeManifest' "$PLUGIN_DIR/index.ts"
+  ! grep -q 'generated_at' "$PLUGIN_DIR/lib/manifest.ts"
+  grep -q 'lib/manifest.ts' "$SCRIPT"
+}
+
 @test "plugin: manifest HANDLERS table covers the six remaining events" {
   grep -q 'PostCompact' "$PLUGIN_DIR/lib/manifest.ts"
   grep -q 'FileChanged' "$PLUGIN_DIR/lib/manifest.ts"
