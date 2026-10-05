@@ -10,6 +10,14 @@
 #   6. DOMAIN.md is not empty (> 3 lines)
 #   7. SKILL.md references at least one real file path (contains /)
 #
+# Severity: FAIL (exit 1) = missing SKILL.md/DOMAIN.md, empty name/description
+# key, SKILL.md > 150 lines, DOMAIN.md <= 3 lines, empty body, malicious
+# pattern, empty consumes/produces. WARN (exit 0) = SKILL.md > 100 lines,
+# DOMAIN.md > 60 lines, no path reference, description < 20 or > 200 chars or
+# without trigger word (SE-209).
+# Full scan covers direct children of the skills dir and skips _template;
+# an explicit --skill NAME audits that directory whatever its name.
+#
 # Usage:
 #   bash scripts/skill-catalog-auditor.sh              # table output
 #   bash scripts/skill-catalog-auditor.sh --json       # JSON array
@@ -40,10 +48,16 @@ FIX_REPORT=false
 while [[ $# -gt 0 ]]; do
   case "$1" in
     --json)        MODE_JSON=true ;;
-    --skill)       shift; FILTER_SKILL="${1:-}" ;;
+    --skill)
+      shift
+      if [[ $# -eq 0 || -z "$1" ]]; then
+        echo "ERROR: --skill requires a skill name" >&2
+        exit 2
+      fi
+      FILTER_SKILL="$1" ;;
     --fix-report)  FIX_REPORT=true ;;
     --help|-h)
-      sed -n '2,12p' "$0" | sed 's/^# //'
+      sed -n '2,24p' "$0" | sed 's/^# \{0,1\}//'
       exit 0 ;;
     *) echo "Unknown flag: $1" >&2; exit 1 ;;
   esac
@@ -60,6 +74,45 @@ count_total=0
 results_json=()
 results_table=()
 
+# Lines in a file, counting a last line without trailing newline (wc -l does not).
+count_lines() {
+  awk 'END { print NR }' "$1"
+}
+
+# JSON string escaping for names and reasons (backslash first, then quotes).
+json_escape() {
+  local s="$1"
+  s="${s//\\/\\\\}"
+  s="${s//\"/\\\"}"
+  s="${s//$'\t'/\\t}"
+  printf '%s' "$s"
+}
+
+# Frontmatter description as plain text. Handles block scalars (>, >-, |, |-):
+# the value is the indented lines that follow, joined with single spaces.
+extract_description() {
+  awk '
+    /^---[[:space:]]*$/ { c++; if (c >= 2) exit; next }
+    c == 1 {
+      if (collecting) {
+        if ($0 ~ /^[^[:space:]]/) exit
+        line = $0
+        sub(/^[[:space:]]+/, "", line); sub(/[[:space:]]+$/, "", line)
+        if (line != "") buf = (buf == "" ? line : buf " " line)
+        next
+      }
+      if ($0 ~ /^description:/) {
+        v = $0
+        sub(/^description:[[:space:]]*/, "", v)
+        if (v ~ /^[>|][-+0-9]*[[:space:]]*$/) { collecting = 1; next }
+        print v
+        exit
+      }
+    }
+    END { if (collecting) print buf }
+  ' "$1"
+}
+
 # ── SE-209: Check description format ─────────────────────────────────────────
 # Returns: sets global _desc_warn_reasons (array) — caller merges into reasons
 # Emits WARN if description < 20 chars or missing trigger keyword
@@ -68,8 +121,7 @@ check_description_format() {
   _desc_warn_reasons=()
 
   local raw_desc
-  raw_desc=$(awk '/^---/{p++} p==1 && /^description:/' "$skill_md" \
-    | sed 's/^description:[[:space:]]*//')
+  raw_desc=$(extract_description "$skill_md")
   # Strip surrounding quotes (single or double)
   local desc="${raw_desc#[\"\']}"
   desc="${desc%[\"\']}"
@@ -79,7 +131,15 @@ check_description_format() {
     _desc_warn_reasons+=("SKILL.md: description < 20 chars (SE-209: too short to be useful)")
   fi
 
-  if ! echo "$desc" | grep -qE "(when|cuando|Usar|Use)"; then
+  # Characters, not bytes: under LC_ALL=C ${#desc} counts UTF-8 bytes.
+  local desc_chars
+  desc_chars=$(printf '%s' "$desc" | LC_ALL=C awk '{ n += gsub(/[^\200-\277]/, "") } END { print n + 0 }')
+  if [[ "$desc_chars" -gt 200 ]]; then
+    _desc_warn_reasons+=("SKILL.md: description ${desc_chars} chars > 200 (SE-209: keep routing keywords short)")
+  fi
+
+  # Whole words, any case: "User"/"house" are not triggers, "When" is.
+  if ! printf '%s' "$desc" | grep -qiE '(^|[^[:alnum:]_])(when|cuando|usar|use)([^[:alnum:]_]|$)'; then
     _desc_warn_reasons+=("SKILL.md: description missing trigger keyword (SE-209: add when/cuando/Usar/Use)")
   fi
 }
@@ -111,7 +171,8 @@ audit_skill() {
   if [[ -f "$skill_md" ]]; then
     # 3. Frontmatter: `name` and `description`
     local has_name has_desc
-    has_name=$(awk '/^---/{p++} p==1 && /^name:/' "$skill_md" | wc -l)
+    # name needs a value: "name:" alone leaves the skill without identity.
+    has_name=$(awk '/^---/{p++} p==1 && /^name:[[:space:]]*[^[:space:]#]/' "$skill_md" | wc -l)
     has_desc=$(awk '/^---/{p++} p==1 && /^description:/' "$skill_md" | wc -l)
     if [[ "$has_name" -eq 0 || "$has_desc" -eq 0 ]]; then
       status="FAIL"
@@ -121,10 +182,10 @@ audit_skill() {
 
     # 4. SKILL.md <= 150 lines
     local skill_lines
-    skill_lines=$(wc -l < "$skill_md")
+    skill_lines=$(count_lines "$skill_md")
     if [[ "$skill_lines" -gt 150 ]]; then
       [[ "$status" == "OK" ]] && status="FAIL"
-      reasons+=("SKILL.md: ${skill_lines} lines ≥ 150 (hard limit exceeded)")
+      reasons+=("SKILL.md: ${skill_lines} lines > 150 (hard limit exceeded)")
     fi
 
     # SE-208: WARN if SKILL.md > 100 lines (progressive disclosure recommended)
@@ -199,7 +260,7 @@ audit_skill() {
   if [[ -f "$domain_md" ]]; then
     # 5. DOMAIN.md <= 60 lines
     local domain_lines
-    domain_lines=$(wc -l < "$domain_md")
+    domain_lines=$(count_lines "$domain_md")
     if [[ "$domain_lines" -gt 60 ]]; then
       [[ "$status" == "OK" ]] && status="WARN"
       reasons+=("DOMAIN.md: ${domain_lines} lines (max 60)")
@@ -231,9 +292,7 @@ audit_skill() {
   esac
 
   if $MODE_JSON; then
-    local reason_json
-    reason_json="${reason_str//\"/\\\"}"
-    results_json+=("{\"skill\":\"$name\",\"status\":\"$status\",\"reason\":\"$reason_json\"}")
+    results_json+=("{\"skill\":\"$(json_escape "$name")\",\"status\":\"$status\",\"reason\":\"$(json_escape "$reason_str")\"}")
   else
     printf "%-42s  %-6s  %s\n" "$name" "$status" "$reason_str"
     if $FIX_REPORT; then
@@ -263,7 +322,7 @@ fi
 
 for dir in "${skill_dirs[@]}"; do
   bname="$(basename "$dir")"
-  [[ "$bname" == "_template" ]] && continue
+  [[ -z "$FILTER_SKILL" && "$bname" == "_template" ]] && continue
   audit_skill "$dir"
 done
 

@@ -79,12 +79,13 @@ extract_field() {
     c==1 {
       if ($0 ~ field) {
         sub(field, ""); sub(/^[[:space:]]+/, "")
-        if ($0 ~ /^>/) { collecting = 1; buf = ""; next }
+        if ($0 ~ /^[>|]/) { collecting = 1; buf = ""; next }
         gsub(/^"|"$/, ""); print; exit
       }
       if (collecting) {
         if ($0 ~ /^[[:alpha:]_][^[:space:]]*:/) {
-          gsub(/^[[:space:]]+|[[:space:]]+$/, "", buf); print buf; exit
+          gsub(/^[[:space:]]+|[[:space:]]+$/, "", buf); print buf
+          collecting = 0; exit
         }
         gsub(/^[[:space:]]+|[[:space:]]+$/, "")
         if ($0 != "") buf = buf " " $0
@@ -96,11 +97,41 @@ extract_field() {
   ' "$file"
 }
 
-sanitise() {
+# Truncate to $2 characters (not bytes) under LC_ALL=C: longer strings keep
+# $2-3 characters plus "...". UTF-8 continuation bytes (0x80-0xBF) do not
+# start a character, so the cut never splits a multibyte sequence.
+truncate_chars() {
+  local s="$1" max="$2" len i n=0 cut=0 b
+  len=${#s}
+  if [[ $len -le $max ]]; then printf '%s' "$s"; return 0; fi
+  for ((i = 0; i < len; i++)); do
+    b="${s:i:1}"
+    if [[ "$b" < $'\x80' || ! "$b" < $'\xc0' ]]; then
+      n=$((n + 1))
+      [[ $n -eq $((max - 2)) ]] && cut=$i
+    fi
+  done
+  if [[ $n -gt $max ]]; then printf '%s...' "${s:0:cut}"; else printf '%s' "$s"; fi
+}
+
+# Collapse whitespace and truncate; plain text for the JSON manifest.
+normalise() {
   local s="$1"
   s=$(printf '%s' "$s" | tr -s '[:space:]' ' ' | sed -E 's/^ +| +$//g')
-  s="${s//|/\\|}"
-  if [[ ${#s} -gt 100 ]]; then s="${s:0:97}..."; fi
+  truncate_chars "$s" 100
+}
+
+# Markdown table cell: normalised text with pipes escaped.
+sanitise() {
+  local s
+  s=$(normalise "$1")
+  printf '%s' "${s//|/\\|}"
+}
+
+json_escape() {
+  local s="$1"
+  s="${s//\\/\\\\}"
+  s="${s//\"/\\\"}"
   printf '%s' "$s"
 }
 
@@ -157,18 +188,16 @@ build_manifest() {
     [[ -z "$name" ]] && name=$(basename "$(dirname "$f")")
     desc=$(extract_field "$f" "description")
     [[ -z "$desc" ]] && desc="—"
-    desc=$(sanitise "$desc")
+    desc=$(normalise "$desc")
     maturity=$(extract_field "$f" "maturity")
     [[ -z "$maturity" ]] && maturity="unknown"
     local rel="${f#${ROOT}/}"
 
     $first && first=false || printf ',\n'
-    # Escape JSON strings
-    desc=$(printf '%s' "$desc" | python3 -c "import sys,json; print(json.dumps(sys.stdin.read().strip()))" 2>/dev/null || echo "\"$desc\"")
-    printf '    "%s": {\n' "$name"
-    printf '      "path": "%s",\n' "$rel"
-    printf '      "description": %s,\n' "$desc"
-    printf '      "maturity": "%s"\n' "$maturity"
+    printf '    "%s": {\n' "$(json_escape "$name")"
+    printf '      "path": "%s",\n' "$(json_escape "$rel")"
+    printf '      "description": "%s",\n' "$(json_escape "$desc")"
+    printf '      "maturity": "%s"\n' "$(json_escape "$maturity")"
     printf '    }'
   done
 
@@ -177,18 +206,30 @@ build_manifest() {
 
 GENERATED=$(build)
 
+# Atomic write: temp file in the target directory (same filesystem, so mv is a
+# rename) with umask permissions; mktemp alone would leave it 0600.
+write_atomic() {
+  local dest="$1" tmp
+  tmp=$(mktemp "${dest}.tmp.XXXXXX") || { echo "ERROR: cannot create temp file next to $dest" >&2; return 1; }
+  cat > "$tmp"
+  chmod "$(printf '%o' $(( 0666 & ~$(umask) )))" "$tmp"
+  mv "$tmp" "$dest"
+}
+
+# generated_at changes on every run; drift is about content only.
+strip_timestamp() { grep -v '^  "generated_at": '; }
+
 case "$MODE" in
   generate) printf '%s\n' "$GENERATED" ;;
   apply)
-    tmp=$(mktemp)
-    printf '%s\n' "$GENERATED" > "$tmp"
-    mv "$tmp" "$TARGET"
+    printf '%s\n' "$GENERATED" | write_atomic "$TARGET" || exit 1
     echo "wrote ${TARGET} ($(wc -l < "$TARGET") lines)"
 
     if $MANIFEST; then
-      mtmp=$(mktemp)
-      build_manifest > "$mtmp"
-      mv "$mtmp" "$MANIFEST_FILE"
+      # Build fully before touching the target: a half-built manifest
+      # must never reach the rename.
+      manifest=$(build_manifest) || { echo "ERROR: manifest generation failed" >&2; exit 1; }
+      printf '%s\n' "$manifest" | write_atomic "$MANIFEST_FILE" || exit 1
       echo "wrote ${MANIFEST_FILE} ($(wc -l < "$MANIFEST_FILE") lines)"
     fi
     ;;
@@ -208,7 +249,7 @@ case "$MODE" in
       if [[ ! -f "$MANIFEST_FILE" ]]; then
         echo "drift: $MANIFEST_FILE missing — run --apply --manifest" >&2
         exit_code=1
-      elif ! diff -u "$MANIFEST_FILE" <(build_manifest) >/dev/null; then
+      elif ! diff -u <(strip_timestamp < "$MANIFEST_FILE") <(build_manifest | strip_timestamp) >/dev/null; then
         echo "drift detected in skills-manifest.json — run --apply --manifest" >&2
         exit_code=1
       else
