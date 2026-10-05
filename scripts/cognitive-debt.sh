@@ -33,7 +33,7 @@ HOOK_TELEMETRY="$ROOT_DIR/.opencode/hooks/cognitive-debt-telemetry.sh"
 HOOK_HYPOTHESIS="$ROOT_DIR/.opencode/hooks/cognitive-debt-hypothesis-first.sh"
 
 usage() {
-  sed -n '2,21p' "${BASH_SOURCE[0]}" | sed 's/^# //; s/^#//'
+  sed -n '3,21p' "${BASH_SOURCE[0]}" | sed 's/^# //; s/^#//'
   exit 2
 }
 
@@ -44,6 +44,37 @@ ensure_telemetry_dir() {
   }
   chmod 700 "$TELEMETRY_DIR" 2>/dev/null || true
 }
+
+# settings.json must parse before we back it up or touch it: otherwise the
+# edit fails half-way and the old code still reported success.
+require_valid_json() {
+  python3 -c 'import json,sys; json.load(open(sys.argv[1]))' "$SETTINGS" 2>/dev/null && return 0
+  echo "ERROR: $SETTINGS is not valid JSON — left untouched." >&2
+  return 1
+}
+
+backup_settings() {
+  local backup="$SETTINGS.bak.$(date +%Y%m%d-%H%M%S).$$"
+  cp "$SETTINGS" "$backup" || { echo "ERROR: could not write backup $backup" >&2; return 1; }
+  echo "Backup: $backup"
+}
+
+# Shared Python prelude for enable/disable. ensure_ascii=False keeps accents
+# verbatim (settings.json round-trips byte-identical); os.replace is atomic.
+PY_SETTINGS_IO='import json, os, sys, tempfile
+# realpath: a symlinked settings.json (dotfiles, override) is updated at its
+# target; os.replace on the link itself would swap it for a regular file.
+path = os.path.realpath(sys.argv[1])
+def read_settings():
+    with open(path, encoding="utf-8") as f:
+        return json.load(f)
+def write_settings(cfg):
+    fd, tmp = tempfile.mkstemp(dir=os.path.dirname(os.path.abspath(path)))
+    with os.fdopen(fd, "w", encoding="utf-8") as f:
+        json.dump(cfg, f, indent=2, ensure_ascii=False)
+        f.write("\n")
+    os.chmod(tmp, os.stat(path).st_mode & 0o777)
+    os.replace(tmp, path)'
 
 # ── Subcommand: status ──────────────────────────────────────────────────────
 
@@ -70,7 +101,10 @@ cmd_status() {
     local lines size today_count
     lines=$(wc -l < "$TELEMETRY_LOG" 2>/dev/null || echo 0)
     size=$(du -h "$TELEMETRY_LOG" 2>/dev/null | awk '{print $1}')
-    today_count=$(grep -c "$(date +%Y-%m-%d)" "$TELEMETRY_LOG" 2>/dev/null || echo 0)
+    # Timestamps are written in UTC by the telemetry hook: compare in UTC.
+    # grep -c prints 0 and exits 1 on no match; keep its output, not a 2nd 0.
+    today_count=$(grep -cE "\"ts\": ?\"$(date -u +%Y-%m-%d)" "$TELEMETRY_LOG" 2>/dev/null)
+    today_count="${today_count:-0}"
     echo "  Total events: $lines"
     echo "  Today:        $today_count events"
     echo "  Log size:     $size"
@@ -101,33 +135,40 @@ cmd_summary() {
   python3 - "$TELEMETRY_LOG" <<'PY'
 import json, sys
 from collections import defaultdict
-from datetime import date, timedelta
+from datetime import datetime, timedelta, timezone
 
 path = sys.argv[1]
-today = date.today()
-week_ago = today - timedelta(days=7)
+# The hook writes UTC timestamps: the window is the last 7 UTC days,
+# today included (today-6 .. today).
+window_start = str(datetime.now(timezone.utc).date() - timedelta(days=6))
 
 per_day = defaultdict(int)
-fast_accept = 0
-total = 0
+fast_accept = timed = total = 0
 
-with open(path) as f:
+with open(path, errors="replace") as f:
     for line in f:
         try:
             ev = json.loads(line)
-            ts = ev.get("ts", "")
-            d = ts[:10]
-            if d >= str(week_ago):
-                per_day[d] += 1
-                total += 1
-                if ev.get("duration_ms", 999) < 5000:
-                    fast_accept += 1
-        except Exception:
+        except ValueError:
+            continue  # malformed line: skipped by design, the log is best-effort
+        if not isinstance(ev, dict) or not isinstance(ev.get("ts"), str):
+            continue  # not an event record
+        d = ev["ts"][:10]
+        if d < window_start:
             continue
+        per_day[d] += 1
+        total += 1
+        # No numeric duration (the hook writes null when the payload has none)
+        # says nothing about acceptance speed: excluded from the ratio.
+        dur = ev.get("duration_ms")
+        if isinstance(dur, (int, float)) and not isinstance(dur, bool):
+            timed += 1
+            fast_accept += dur < 5000
 
+ratio = f"{fast_accept / timed * 100:.0f}%" if timed else "n/a"
 print(f"  Total events (last 7d):  {total}")
-print(f"  Fast-accept ratio:       {(fast_accept/total*100 if total else 0):.0f}%   "
-      f"(<5s between suggest and accept — proxy for skip-verification)")
+print(f"  Fast-accept ratio:       {ratio}   (timed events: {timed}; "
+      f"<5s between suggest and accept — proxy for skip-verification)")
 print()
 print("  Per day:")
 for d in sorted(per_day):
@@ -162,36 +203,34 @@ cmd_enable() {
     return 0
   fi
 
-  # Backup
-  local backup="$SETTINGS.bak.$(date +%Y%m%d-%H%M%S)"
-  cp "$SETTINGS" "$backup"
-  echo "Backup: $backup"
+  require_valid_json || exit 6
+  backup_settings || exit 6
 
-  # Use python to do safe JSON edit (preserves formatting where possible).
-  python3 - "$SETTINGS" "$HOOK_TELEMETRY" "$HOOK_HYPOTHESIS" <<'PY'
-import json, sys
-path, hook_telem, hook_hypo = sys.argv[1], sys.argv[2], sys.argv[3]
-with open(path) as f:
-    cfg = json.load(f)
+  # Python does the JSON edit; write_settings() keeps non-ASCII text verbatim
+  # and replaces the file atomically.
+  { printf '%s\n' "$PY_SETTINGS_IO"; cat <<'PY'; } | python3 - "$SETTINGS" \
+    || { echo "ERROR: could not update $SETTINGS" >&2; exit 6; }
+cfg = read_settings()
 cfg.setdefault("hooks", {})
 
-def add_hook(event, command, matcher="*"):
+# Same entry shape as the workspace's own registration: quoted project dir
+# (paths with spaces), named, non-blocking, short timeout.
+def add_hook(event, name, matcher, timeout):
+    hook = {"type": "command",
+            "command": f'bash "$CLAUDE_PROJECT_DIR"/.opencode/hooks/{name}.sh',
+            "name": name, "blocking": False, "timeout": timeout}
     arr = cfg["hooks"].setdefault(event, [])
     for entry in arr:
         if entry.get("matcher") == matcher:
-            for h in entry.get("hooks", []):
-                if h.get("command") == command:
-                    return  # already present
-            entry["hooks"].append({"type": "command", "command": command})
+            if not any(name in h.get("command", "") for h in entry.get("hooks", [])):
+                entry.setdefault("hooks", []).append(hook)
             return
-    arr.append({"matcher": matcher, "hooks": [{"type": "command", "command": command}]})
+    arr.append({"matcher": matcher, "hooks": [hook]})
 
-add_hook("PostToolUse", f"$CLAUDE_PROJECT_DIR/.opencode/hooks/cognitive-debt-telemetry.sh", "Edit|Write|Task")
-add_hook("PreToolUse",  f"$CLAUDE_PROJECT_DIR/.opencode/hooks/cognitive-debt-hypothesis-first.sh", "Edit|Write")
+add_hook("PostToolUse", "cognitive-debt-telemetry", "Edit|Write|Task", 2)
+add_hook("PreToolUse", "cognitive-debt-hypothesis-first", "Edit|Write", 3)
 
-with open(path, "w") as f:
-    json.dump(cfg, f, indent=2)
-    f.write("\n")
+write_settings(cfg)
 print("Hooks wired in settings.json")
 PY
 
@@ -211,22 +250,23 @@ cmd_disable() {
     return 0
   fi
 
-  local backup="$SETTINGS.bak.$(date +%Y%m%d-%H%M%S)"
-  cp "$SETTINGS" "$backup"
+  require_valid_json || exit 6
+  backup_settings || exit 6
 
-  python3 - "$SETTINGS" <<'PY'
-import json, sys
-path = sys.argv[1]
-with open(path) as f:
-    cfg = json.load(f)
+  { printf '%s\n' "$PY_SETTINGS_IO"; cat <<'PY'; } | python3 - "$SETTINGS" \
+    || { echo "ERROR: could not update $SETTINGS" >&2; exit 6; }
+cfg = read_settings()
 hooks = cfg.get("hooks", {})
+# Only the two hooks that `enable` wires. cognitive-debt-check.sh is a
+# separate opt-in (SAVIA_COGNITIVE_MONITOR) and must survive a disable.
+OURS = ("cognitive-debt-telemetry.sh", "cognitive-debt-hypothesis-first.sh")
 
 def strip_event(event):
     arr = hooks.get(event, [])
     new_arr = []
     for entry in arr:
         entry["hooks"] = [h for h in entry.get("hooks", [])
-                          if "cognitive-debt-" not in h.get("command", "")]
+                          if not any(o in h.get("command", "") for o in OURS)]
         if entry["hooks"]:
             new_arr.append(entry)
     if new_arr:
@@ -237,9 +277,7 @@ def strip_event(event):
 strip_event("PostToolUse")
 strip_event("PreToolUse")
 
-with open(path, "w") as f:
-    json.dump(cfg, f, indent=2)
-    f.write("\n")
+write_settings(cfg)
 print("Hooks removed from settings.json")
 PY
 
