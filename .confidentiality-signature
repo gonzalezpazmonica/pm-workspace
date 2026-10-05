@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=92b1e11cf9503d554d904a1d149071c87732570dedc0fd8be8d99f0a31841048
-timestamp=2026-10-05T10:46:07Z
+diff_hash=79c95446beadb099b15177930dd4e5bc850fa294caac41b43c2e7b0445c4c8a2
+timestamp=2026-10-05T11:12:02Z
 branch=agent/space-specs-approval-20261005
-head_commit=797603ff
-signature=3dc23b72cb2e9446c0107b44e5eb65b438815d466187d0fdfb259265102865b0
+head_commit=9ff95f43f
+signature=48413e749130162be2a51777fe68ba0744ab768c7802f19ae9d31d3c13aebbcc
