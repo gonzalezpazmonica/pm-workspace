@@ -2299,11 +2299,11 @@
       ],
       "id": "script:scripts/savia-flow-tasks",
       "intents": [
-        "delegates",
+        "branch",
         "flow",
+        "isolation",
         "management",
-        "savia",
-        "task"
+        "savia"
       ],
       "kind": "script",
       "owner_domain": "communication",
@@ -23230,9 +23230,9 @@
       "intents": [
         "digerir",
         "listar",
+        "listas",
         "reuniones",
-        "savia",
-        "scan"
+        "savia"
       ],
       "kind": "script",
       "owner_domain": "planning",
@@ -25155,10 +25155,10 @@
       "id": "script:scripts/enterprise/governance-audit-trail",
       "intents": [
         "audit",
+        "chained",
         "compliance",
         "governance",
-        "signed",
-        "spec"
+        "hash"
       ],
       "kind": "script",
       "owner_domain": "quality",
@@ -29607,7 +29607,7 @@
       "tests": []
     }
   ],
-  "content_hash": "410bbcaa28e1",
+  "content_hash": "e7d8e7aa1dd9",
   "deferred_kinds": [
     "rule",
     "hook"

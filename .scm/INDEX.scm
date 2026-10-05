@@ -1,5 +1,5 @@
 # Savia Capability Map — INDEX
-> hash: ff0b6afd1bb8 | resources: 1450
+> hash: 4998a450d82d | resources: 1450
 > 295 commands · 139 skills · 90 agents · 926 scripts
 
 [analysis] Trace Optimize — across,distributed,optimize,rates,sampling — cmd:.claude/commands/trace-optimize.md
@@ -116,7 +116,7 @@
 [communication] savia-flow-ops — assignments,branch,crud,flow,isolation — script:scripts/savia-flow-ops.sh
 [communication] savia-flow-practice — dual,flow,flujo,implementa,métricas — skill:.claude/skills/savia-flow-practice/SKILL.md
 [communication] savia-flow-sprint — branch,flow,isolation,lifecycle,savia — script:scripts/savia-flow-sprint.sh
-[communication] savia-flow-tasks — delegates,flow,management,savia,task — script:scripts/savia-flow-tasks.sh
+[communication] savia-flow-tasks — branch,flow,isolation,management,savia — script:scripts/savia-flow-tasks.sh
 [communication] savia-flow-templates — branch,flow,isolation,member,project — script:scripts/savia-flow-templates.sh
 [communication] savia-flow-timesheet — branch,flow,savia,time,timesheet — script:scripts/savia-flow-timesheet.sh
 [communication] savia-forget —  — cmd:.claude/commands/savia-forget.md
@@ -1138,7 +1138,7 @@
 [planning] tracked-vs-nivel — nivel,slice,tracked — script:scripts/tracked-vs-nivel.sh
 [planning] trajectory-detector — desviación,detección,detector,minutos,trajectory — script:scripts/trajectory-detector.sh
 [planning] transcriptor — capturadas,capturas,digeridas,digerir,escanear — cmd:.claude/commands/transcriptor.md
-[planning] transcriptor-scan — digerir,listar,reuniones,savia,scan — script:scripts/transcriptor-scan.sh
+[planning] transcriptor-scan — digerir,listar,listas,reuniones,savia — script:scripts/transcriptor-scan.sh
 [planning] tribunal-critic — critic,quantitative,scoring,tribunal,verdicts — script:scripts/tribunal-critic.sh
 [planning] tribunal-status — depth,evaluations,pending,queue,recent — cmd:.claude/commands/tribunal-status.md
 [planning] tribunal-tiered-runner — execution,runner,tiered,tribunal — script:scripts/tribunal-tiered-runner.sh
@@ -1231,7 +1231,7 @@
 [quality] enterprise/activation-plan-review — activation,agent,plan,review — script:scripts/enterprise/activation-plan-review.sh
 [quality] enterprise/audit-purge — audit,purge,retention,spec — script:scripts/enterprise/audit-purge.sh
 [quality] enterprise/audit-search — audit,inspector,search,spec — script:scripts/enterprise/audit-search.sh
-[quality] enterprise/governance-audit-trail — audit,compliance,governance,signed,spec — script:scripts/enterprise/governance-audit-trail.sh
+[quality] enterprise/governance-audit-trail — audit,chained,compliance,governance,hash — script:scripts/enterprise/governance-audit-trail.sh
 [quality] eval-lint — eval,golden,lint,sets,tribunales — script:scripts/eval-lint.sh
 [quality] evidence-first-development — alta,aprobado,código,desarrollo,dominios — skill:.claude/skills/evidence-first-development/SKILL.md
 [quality] executive-audit — audit,executive,workspace — script:scripts/executive-audit.sh
