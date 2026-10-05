@@ -1,6 +1,6 @@
 #!/usr/bin/env bats
 # Tests de comportamiento del motor de criticidad de la skill smart-calendar
-# (criticality.sh + criticality-engine.sh + criticality-scoring.sh + criticality-items.sh).
+# (criticality.sh + criticality-engine.sh + criticality-scoring.sh).
 # Ref: .claude/skills/smart-calendar/SKILL.md
 # Ref: .claude/skills/smart-calendar/spec-task-criticality.md
 # Ref: docs/propuestas/SE-376-debt-inventory.tsv
@@ -11,14 +11,13 @@
 SCRIPT="scripts/criticality.sh"
 ENGINE="scripts/criticality-engine.sh"
 SCORING="scripts/criticality-scoring.sh"
-ITEMS="scripts/criticality-items.sh"
 
 setup() {
   REPO="$(cd "$BATS_TEST_DIRNAME/.." && pwd)"
   TMP_DIR="$(mktemp -d)"
   WS="$TMP_DIR/ws"
   mkdir -p "$WS/scripts" "$WS/projects/alpha/backlog"
-  cp "$REPO/$SCRIPT" "$REPO/$ENGINE" "$REPO/$SCORING" "$REPO/$ITEMS" "$WS/scripts/"
+  cp "$REPO/$SCRIPT" "$REPO/$ENGINE" "$REPO/$SCORING" "$WS/scripts/"
   CRIT="$WS/$SCRIPT"
   BL="$WS/projects/alpha/backlog"
   export CRITICALITY_TODAY="2026-03-10"
@@ -35,8 +34,8 @@ item() {
   { echo "---"; printf '%s\n' "$@"; echo "---"; echo "Cuerpo."; } > "$f"
 }
 
-@test "safety: los cuatro scripts declaran set -uo pipefail" {
-  for s in "$SCRIPT" "$ENGINE" "$SCORING" "$ITEMS"; do
+@test "safety: los tres scripts declaran set -uo pipefail" {
+  for s in "$SCRIPT" "$ENGINE" "$SCORING"; do
     run grep -c '^set -uo pipefail' "$REPO/$s"
     [ "$status" -eq 0 ]
     [ "$output" -ge 1 ]
