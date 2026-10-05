@@ -4,6 +4,7 @@ from __future__ import annotations
 import copy
 import hashlib
 import json
+import os
 from pathlib import Path
 import shutil
 import subprocess
@@ -20,6 +21,7 @@ from sam_model import (  # noqa: E402
     build_model,
     build_views,
     canonical_json,
+    content_projection,
     query_node,
     validate_model,
 )
@@ -101,7 +103,9 @@ class SamTest(unittest.TestCase):
         second_bytes = {p: (self.root / p).read_bytes() for p in first_bytes}
         self.assertEqual(first_bytes, second_bytes)
         payload = {k: first[k] for k in ("inputs", "nodes", "edges", "known_unknowns")}
-        self.assertEqual(hashlib.sha256(canonical_json(payload)).hexdigest(), first["model_revision"])
+        # The revision hashes content only: source_commit is informative.
+        self.assertEqual(hashlib.sha256(canonical_json(content_projection(payload))).hexdigest(),
+                         first["model_revision"])
 
     def test_history_rewrite_does_not_make_unchanged_projection_stale(self):
         tool = self.root / "scripts/tool.sh"
@@ -151,19 +155,126 @@ class SamTest(unittest.TestCase):
 
     def test_existing_prior_commit_with_other_content_is_refreshed(self):
         # Generated before committing the input: the recorded commit exists but
-        # holds different bytes, so the provenance must move to the real commit.
+        # holds different bytes. Freshness is judged by content, so check stays
+        # FRESH, while generate still moves the informative provenance.
         tool = self.root / "scripts/tool.sh"
         tool.write_bytes(tool.read_bytes() + b"# uncommitted\n")
         self._generate()
         self._git("add", "scripts/tool.sh")
         self._git("commit", "-qm", "commit input after generation")
-        self.assertEqual(1, self._cli("check").returncode)
+        self.assertEqual(0, self._cli("check").returncode)
         head = subprocess.run(["git", "rev-parse", "HEAD"], cwd=self.root, text=True,
                               stdout=subprocess.PIPE, check=True).stdout.strip()
         regenerated = self._generate()
         commit = next(item["source_commit"] for item in regenerated["inputs"]
                       if item["path"] == "scripts/tool.sh")
         self.assertEqual(head, commit)
+
+    def _commit_at(self, message: str, seconds: int) -> None:
+        # Explicit dates keep `git log` ordering deterministic within one test.
+        stamp = f"2026-10-05T10:00:{seconds:02d}+00:00"
+        subprocess.run(["git", "commit", "-qm", message], cwd=self.root, check=True,
+                       stdout=subprocess.PIPE, stderr=subprocess.PIPE,
+                       env={**os.environ, "GIT_AUTHOR_DATE": stamp, "GIT_COMMITTER_DATE": stamp})
+
+    def _squash_two_branches_touching_one_source(self) -> None:
+        """Reproduce #1278/#1279: two PRs touch one source, both squash-merged.
+
+        Branch `b` lands first. Branch `a` resyncs with a merge of main, so the
+        merged bytes live in a merge commit that `git log --name-only` hides,
+        and the SAM generated on `a` records a commit that holds other bytes.
+        The squash of `a` then becomes the newest commit of that source.
+        """
+        self._git("branch", "-M", "main")
+        tool = self.root / "scripts/tool.sh"
+        base = tool.read_bytes()
+        self._git("checkout", "-qb", "b")
+        tool.write_bytes(base + b"# from b\n")
+        self._git("add", "scripts/tool.sh")
+        self._commit_at("b: change", 1)
+        self._generate()
+        self._git("add", ".scm")
+        self._commit_at("b: sam", 2)
+        self._git("checkout", "-q", "main")
+        self._git("checkout", "-qb", "a")
+        tool.write_bytes(b"# from a\n" + base)
+        self._git("add", "scripts/tool.sh")
+        self._commit_at("a: change", 3)
+        self._generate()
+        self._git("add", ".scm")
+        self._commit_at("a: sam", 4)
+        self._git("checkout", "-q", "main")
+        self._git("merge", "--squash", "b")
+        self._commit_at("squash b", 5)
+        self._git("checkout", "-q", "a")
+        merged = subprocess.run(["git", "merge", "-q", "--no-edit", "main"], cwd=self.root,
+                                stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        if merged.returncode != 0:
+            # Only the derived .scm artifacts may conflict; take main's and regenerate.
+            self._git("checkout", "--theirs", "--", ".scm")
+            self._git("add", ".scm")
+            self._commit_at("a: merge main", 6)
+        self.assertEqual(b"# from a\n" + base + b"# from b\n", tool.read_bytes())
+        self._generate()
+        self._git("add", ".scm")
+        self._commit_at("a: sam resync", 7)
+        self.assertEqual(0, self._cli("check").returncode)
+        self._git("checkout", "-q", "main")
+        self._git("merge", "--squash", "a")
+        self._commit_at("squash a", 8)
+
+    def test_squash_merge_of_unchanged_content_stays_fresh(self):
+        self._squash_two_branches_touching_one_source()
+        recorded = next(item["source_commit"] for item in
+                        json.loads((self.root / ".scm/sam.json").read_text())["inputs"]
+                        if item["path"] == "scripts/tool.sh")
+        newest = subprocess.run(["git", "log", "-1", "--format=%H", "--", "scripts/tool.sh"],
+                                cwd=self.root, text=True, stdout=subprocess.PIPE,
+                                check=True).stdout.strip()
+        # The squash made a commit the PR could not predict: provenance differs,
+        # content does not, and content is what freshness judges.
+        self.assertNotEqual(newest, recorded)
+        result = self._cli("check")
+        self.assertEqual(0, result.returncode, result.stdout + result.stderr)
+        self.assertIn("SAM: FRESH", result.stdout)
+
+    def test_squash_merge_then_real_source_change_is_stale(self):
+        self._squash_two_branches_touching_one_source()
+        tool = self.root / "scripts/tool.sh"
+        tool.write_bytes(tool.read_bytes() + b"# real change\n")
+        result = self._cli("check")
+        self.assertEqual(1, result.returncode, result.stdout + result.stderr)
+        self.assertIn("SAM: STALE", result.stdout)
+
+    def test_check_ignores_informative_source_commit(self):
+        self._generate()
+        sam = self.root / ".scm/sam.json"
+        document = json.loads(sam.read_text())
+        old = next(item["source_commit"] for item in document["inputs"]
+                   if item["path"] == "scripts/tool.sh")
+        other = "f" * 40
+        self.assertNotEqual(old, other)
+        sam.write_text(sam.read_text().replace(f'"source_commit":"{old}"',
+                                               f'"source_commit":"{other}"'))
+        result = self._cli("check")
+        self.assertEqual(0, result.returncode, result.stdout + result.stderr)
+
+    def test_check_detects_tampered_sha256_and_graph(self):
+        self._generate()
+        sam = self.root / ".scm/sam.json"
+        original = sam.read_text()
+        entry = next(item for item in json.loads(original)["inputs"]
+                     if item["path"] == "scripts/tool.sh")
+        sam.write_text(original.replace(f'"sha256":"{entry["sha256"]}"', f'"sha256":"{"0" * 64}"'))
+        self.assertNotEqual(0, self._cli("check").returncode)
+        sam.write_text(original)
+        view = self.root / ".scm/views/structural.json"
+        view_text = view.read_text()
+        tampered_view = json.loads(view_text)
+        tampered_view["node_ids"].pop()
+        view.write_bytes(canonical_json(tampered_view) + b"\n")
+        result = self._cli("check")
+        self.assertEqual(1, result.returncode, result.stdout + result.stderr)
 
     def test_f3_reports_are_deterministic_and_trace_static_evidence(self):
         self._generate()
@@ -471,7 +582,8 @@ class SamTest(unittest.TestCase):
         payload = {key: model[key] for key in (
             "inputs", "nodes", "edges", "known_unknowns",
         )}
-        model["model_revision"] = hashlib.sha256(canonical_json(payload)).hexdigest()
+        model["model_revision"] = hashlib.sha256(
+            canonical_json(content_projection(payload))).hexdigest()
         with self.assertRaises(SamValidationError) as raised:
             validate_model(model, self.root)
         self.assertEqual("INVALID_MODEL", raised.exception.code)

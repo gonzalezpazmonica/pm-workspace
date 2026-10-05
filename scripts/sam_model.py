@@ -49,6 +49,8 @@ KNOWN_UNKNOWNS = [
 ID_RE = re.compile(r"^[A-Za-z][A-Za-z0-9._:/-]{2,255}$")
 SHA_RE = re.compile(r"^[0-9a-f]{64}$")
 COMMIT_RE = re.compile(r"^[0-9a-f]{40}$")
+# Provenance carried as information only; never part of revision or freshness.
+INFORMATIVE_FIELDS = frozenset({"source_commit"})
 
 GOLDEN_FLOWS = [
     "flow:bash", "flow:edit", "flow:external-effect",
@@ -152,6 +154,26 @@ def canonical_json(value: object) -> bytes:
     except (TypeError, ValueError) as exc:
         raise SamValidationError("INVALID_MODEL", "$") from exc
     return text.encode("utf-8")
+
+
+def content_projection(value: object) -> object:
+    """Return ``value`` without informative provenance fields.
+
+    A commit id is not stable across squash or rebase: GitHub's squash merge
+    creates a commit that no PR can predict. The model revision and freshness
+    are therefore judged by content (the sha256 of every source plus the
+    derived graph), and ``source_commit`` is carried only as information.
+    """
+    if isinstance(value, dict):
+        return {key: content_projection(item) for key, item in value.items()
+                if key not in INFORMATIVE_FIELDS}
+    if isinstance(value, list):
+        return [content_projection(item) for item in value]
+    return value
+
+
+def model_revision(payload: dict) -> str:
+    return hashlib.sha256(canonical_json(content_projection(payload))).hexdigest()
 
 
 def _read_json(path: Path, code: str) -> object:
@@ -579,7 +601,7 @@ def build_model(root: Path) -> dict:
         "known_unknowns": sorted(KNOWN_UNKNOWNS),
     }
     revision_payload = {key: model[key] for key in ("inputs", "nodes", "edges", "known_unknowns")}
-    model["model_revision"] = hashlib.sha256(canonical_json(revision_payload)).hexdigest()
+    model["model_revision"] = model_revision(revision_payload)
     return validate_model(model, root)
 
 
@@ -694,7 +716,7 @@ def _validate_model(model: object, root: Path, verify_sources: bool) -> dict:
         last_edge = key
     _validate_runtime_projection(document["nodes"], document["edges"])
     payload = {key: document[key] for key in ("inputs", "nodes", "edges", "known_unknowns")}
-    if hashlib.sha256(canonical_json(payload)).hexdigest() != document["model_revision"]:
+    if model_revision(payload) != document["model_revision"]:
         raise SamValidationError("INVALID_MODEL", "$/model_revision")
     if document != original:
         raise SamValidationError("INVALID_MODEL", "$")
