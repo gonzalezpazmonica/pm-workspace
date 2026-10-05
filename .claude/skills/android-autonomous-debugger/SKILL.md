@@ -32,12 +32,10 @@ source scripts/lib/adb-wrapper.sh && adb_auto_select && adb_screenshot /tmp/s.pn
 ./scripts/adb-run.sh adb_auto_select "adb_screenshot /tmp/s.png"
 ```
 
-Each argument is one function call. Quote arguments with spaces:
-```bash
-./scripts/adb-run.sh adb_auto_select "adb_tap 500 900" "adb_screenshot /tmp/after.png"
-./scripts/adb-run.sh adb_auto_select "adb_install ./app.apk" "adb_launch com.savia.mobile"
-./scripts/adb-run.sh adb_auto_select "adb_logcat_errors 30 com.savia.mobile"
-```
+Each argument is one function call. Inner quotes group words (`"adb_tap_text 'Conectar ahora'"`).
+Calls are **not** shell-evaluated: only public `adb_*` functions are accepted; `;`, `$(...)`,
+unbalanced quotes, extra arguments or any other command are `REJECTED`. Each call runs isolated: a failing call
+prints `FAILED: <call>`, the rest still run, exit 1 at the end.
 
 ## Prerequisites
 
@@ -56,7 +54,7 @@ Each argument is one function call. Quote arguments with spaces:
 ### 2. APK Lifecycle
 ```bash
 ./scripts/adb-run.sh adb_auto_select "adb_install ./path/to/app.apk"
-./scripts/adb-run.sh adb_auto_select "adb_uninstall com.package.name"
+./scripts/adb-run.sh adb_auto_select "adb_uninstall com.package.name"  # not installed = ok; adb error = fail
 ./scripts/adb-run.sh adb_auto_select "adb_launch com.package.name"
 ./scripts/adb-run.sh adb_auto_select "adb_stop com.package.name"
 ./scripts/adb-run.sh adb_auto_select "adb_clear_data com.package.name"
@@ -72,20 +70,20 @@ Each argument is one function call. Quote arguments with spaces:
 ### 4. UI Interaction
 ```bash
 ./scripts/adb-run.sh adb_auto_select "adb_tap 500 900"
-./scripts/adb-run.sh adb_auto_select "adb_tap_id login_button"
-./scripts/adb-run.sh adb_auto_select "adb_tap_text Conectar"
+./scripts/adb-run.sh adb_auto_select "adb_tap_id login_button"     # exact id (short or pkg:id/...)
+./scripts/adb-run.sh adb_auto_select "adb_tap_text 'Conectar (beta)'"  # exact literal text
 ./scripts/adb-run.sh adb_auto_select "adb_swipe 500 1200 500 400 300"
 ./scripts/adb-run.sh adb_auto_select adb_scroll_down
-./scripts/adb-run.sh adb_auto_select "adb_type hello_world"
+./scripts/adb-run.sh adb_auto_select "adb_type 'hola mundo'"  # metachars escaped; spaces -> %s
 ./scripts/adb-run.sh adb_auto_select "adb_key back"
 ```
 
 ### 5. Debugging
 ```bash
 ./scripts/adb-run.sh adb_auto_select adb_logcat_clear
-./scripts/adb-run.sh adb_auto_select "adb_logcat_errors 30"
-./scripts/adb-run.sh adb_auto_select "adb_logcat_errors 60 com.savia.mobile"
-./scripts/adb-run.sh adb_auto_select "adb_detect_crash 60"
+./scripts/adb-run.sh adb_auto_select "adb_logcat_errors 30"   # last 30 s by device clock
+./scripts/adb-run.sh adb_auto_select "adb_logcat_errors 60 com.savia.mobile"  # not running -> unfiltered + WARN
+./scripts/adb-run.sh adb_auto_select "adb_detect_crash 60"  # CRASH_DETECTED|NO_CRASH rc0; LOGCAT_ERROR|NO_LOGS rc2
 ./scripts/adb-run.sh adb_auto_select "adb_meminfo com.savia.mobile"
 ```
 
@@ -94,7 +92,7 @@ Each argument is one function call. Quote arguments with spaces:
 ./scripts/adb-run.sh adb_auto_select "adb_find_by_id btn_send"
 ./scripts/adb-run.sh adb_auto_select "adb_find_by_text Savia"
 ./scripts/adb-run.sh adb_auto_select "adb_wait_for_text Welcome 15"
-./scripts/adb-run.sh adb_auto_select "adb_wait_for_id main_screen 10"
+./scripts/adb-run.sh adb_auto_select "adb_wait_for_id main_screen 10"   # [timeout s] [interval s >= 1]
 ```
 
 ## Autonomous Debug Cycle
@@ -134,15 +132,18 @@ Operations are classified into three security levels:
 | **Safe** | screenshot, logcat, hierarchy, tap, type | Auto-approved |
 | **Risky** | install, uninstall, force-stop, clear data | Logged, allowed |
 | **Blocked** | rm -rf, format, su, dd | Always rejected |
-The `android-adb-validate.sh` hook enforces this classification.
+The `android-adb-validate.sh` hook classifies the command text. The wrapper also validates
+every argument that reaches `adb shell` (integers, package names, key names) and escapes
+`adb_type` text, so no call can inject commands into the device shell.
 ## Environment Variables
 | Variable | Default | Description |
 |----------|---------|-------------|
-| `ADB_PATH` | auto-detect | Path to ADB binary |
+| `ADB_PATH` | auto-detect | ADB binary; if set and not executable, error (no fallback) |
 | `ADB_DEVICE` | auto-select | Target device serial |
-| `ADB_RETRIES` | 3 | Max retries per command |
+| `ADB_RETRIES` | 3 | Max attempts per command (min 1) |
 | `ADB_TIMEOUT` | 30 | Command timeout (seconds) |
 ## Tips for Agents
 - **ALWAYS use `./scripts/adb-run.sh`** — never `source wrapper.sh && ...`
+- Fail closed: a logcat error is never `NO_CRASH`; captures fail if the pull fails (old file kept, never reported as new); `adb_snapshot` reports `"failed":N`
 - Always start with `adb_auto_select`; chain many functions in one call
 - Screenshots BEFORE and AFTER each interaction; use `adb_wait_for_text` instead of `sleep`

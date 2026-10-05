@@ -22,6 +22,37 @@ metadata:
 
 Orquesta audit trail, revisión preliminar de cumplimiento y registro de decisiones. Para evaluaciones basadas en evidencia, usar `grc-auditor`.
 
+## Qué es ejecutable y qué es prosa
+
+Los flujos 1-3 son procedimientos que sigue el modelo; no hay script que los implemente (`.audit-trail/actions.jsonl` no lo escribe ningún ejecutable del repo). Lo único ejecutable y probado (`tests/test-governance-enterprise.bats`) son estos dos scripts de SPEC-SE-006:
+
+| Script | Qué hace de verdad | Exit |
+|---|---|---|
+| `scripts/enterprise/governance-audit-trail.sh` | `append` / `verify [--anchor H]` / `export md\|json` / `chain-status` sobre `${CLAUDE_ENTERPRISE_AUDIT_BASE:-.claude/enterprise/audit}/{tenant}/audit-trail.jsonl` | 0 íntegro · 1 manipulado, vacío o fallo · 2 argumentos |
+| `scripts/enterprise/compliance-check.sh` | Revisión documental por marco (`eu-ai-act`, `gdpr`, `nis2`, `dora`, `all`); JSON con `score = aprobados*100/total` | 0 solo si todo marco da 100 · 1 brechas · 2 argumentos o salida no escribible |
+
+Garantías del audit trail:
+
+- Append bajo lock (`mkdir` atómico): escrituras concurrentes producen una cadena válida.
+- Cada línea tiene forma canónica exacta; `verify` rechaza claves duplicadas, campos extra, líneas en blanco, CRLF, BOM, bytes NUL (el fichero entero) y la última línea aunque no acabe en salto de línea. Revalida cada campo (sin tabuladores ni vacíos) y exige `ts` con rangos de calendario válidos y sin retroceder.
+- `verify --tenant T` falla si alguna entrada es de otro tenant (trail copiado a un directorio ajeno). `append` se niega a escribir si el reloj es anterior a la última entrada.
+- El hash cubre `ts`, `tenant`, `actor`, `action`, `spec` y `prev_hash`, un campo por línea (sin fronteras ambiguas). `prev_hash` es el hash hexadecimal de la entrada previa.
+- Campos validados al escribir: tenant `[A-Za-z0-9][A-Za-z0-9._-]{0,63}` (sin path traversal); actor/action/spec de 1-256 caracteres sin comillas, barras invertidas ni caracteres de control.
+- `append` se niega a encadenar sobre una cola corrupta; nunca reinicia la cadena desde génesis.
+- `verify` sobre un trail vacío falla (`CHAIN EMPTY`): no hay nada que demuestre integridad.
+
+Límite: es sha256 sin clave ni firma. Quien pueda escribir el fichero puede recalcular la cadena entera, y truncar la cola deja una cadena válida. Para detectarlo, publicar fuera del trail el hash completo de `chain-status` y verificar con `verify --anchor <hash>`. El ancla solo protege hasta la entrada anclada: lo escrito después del último ancla publicado puede reescribirse sin detección.
+
+Garantías de `compliance-check`: ningún check aprueba por mera presencia de un fichero o directorio. Exige contenido:
+
+- Documentos de política: al menos 3 líneas sustantivas (sin títulos, citas, separadores ni vacías) y las palabras clave del tema (revisión humana, audit trail, sesgo, niveles N4, un plazo de retención concreto, gates de `agent/`/PR Draft/merge). PII, postura de seguridad y política de parches buscan en `docs/` documentos que cumplan lo mismo.
+- Model cards: todas con contenido y secciones `Purpose` y `Limitations`; una card hueca suspende el check.
+- Incidentes: al menos un postmortem `.md` con contenido en `output/postmortems/`.
+- `manifest.json`: objeto JSON no vacío con `modules` no vacío; manifiesto GLM: objeto no vacío. `null`, `[]` y `{}` suspenden; sin `python3` no se pueden analizar y suspenden.
+- `audit_trail_exists`: al menos un trail y todos pasan `verify --tenant <directorio>` (incluidos los enlazados simbólicamente). Sin `--anchor` la evidencia lo dice («without anchor: truncation or full recomputation not excluded»); `--tenant T --anchor H` exige que el ancla siga en la cadena. Sin verificador disponible suspende como «not verified».
+
+Las palabras clave siguen siendo una heurística: no juzgan la calidad del texto ni prueban eficacia operativa. La salida lleva `"tenant": "all"` salvo con `--tenant`. `SAVIA_COMPLIANCE_ROOT` permite evaluar otro workspace.
+
 ## Flujo 1 — Audit Trail (`audit-trail`)
 
 1. Leer `.audit-trail/actions.jsonl` (activo) + archive/YYYY-MM.jsonl (histórico)
@@ -66,8 +97,8 @@ No emitir certificados ni declaraciones de conformidad, con independencia del sc
 
 | Error | Acción |
 |---|---|
-| Audit trail no encontrado | Crear `.audit-trail/actions.jsonl` vacío |
-| Control sin evidencia | Marcar como gap; no bloquear certificación si ≥ 80% |
+| Audit trail no encontrado | Informarlo como gap; el trail SE-006 se inicializa con `governance-audit-trail.sh append` |
+| Control sin evidencia | Marcar como gap; ningún score habilita una certificación |
 | Decision registry corrupto | Validar YAML; mostrar errores |
 | Solicitud de certificado oficial | Preparar dossier de evidencias; no certificar |
 

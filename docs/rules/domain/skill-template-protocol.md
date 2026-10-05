@@ -63,7 +63,7 @@ Reglas:
 - SKILL.md enlaza a los satélites en la sección `## Related`.
 - Los satélites **no** se cargan por defecto — el agente los lee bajo demanda.
 - DOMAIN.md: solo cuando hay terminología de dominio real. No crear por defecto.
-- Exit codes del auditor: WARN no bloquea CI; FAIL (≥150 líneas) sí bloquea.
+- Exit codes del auditor: WARN no bloquea CI; FAIL (>150 líneas) sí bloquea.
 
 Ejemplo mínimo de satélite bien formado (`REFERENCE.md`):
 ```markdown
@@ -82,8 +82,8 @@ Formato canónico: `[qué hace esta skill]. Usar cuando [trigger 1], [trigger 2]
 
 Reglas:
 - Mínimo 20 caracteres.
-- Al menos 1 trigger explícito con situación detectable: debe contener `when`, `cuando`, `Usar` o `Use`.
-- Máximo 200 caracteres (compatibilidad SE-203 keyword routing).
+- Al menos 1 trigger explícito con situación detectable: debe contener `when`, `cuando`, `usar` o `use` como palabra completa (sin distinguir mayúsculas; `User` no cuenta).
+- Máximo 200 caracteres (compatibilidad SE-203 keyword routing). El auditor lo avisa con WARN.
 - **Prohibido**: descriptions que solo repiten el nombre de la skill.
 - Relación con SE-203: la `description` es la fuente primaria para keyword routing automático.
 
