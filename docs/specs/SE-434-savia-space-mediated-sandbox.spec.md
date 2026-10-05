@@ -35,7 +35,9 @@ Que el modo mediado sea **seguro y funcional**:
 
 ## Diseño
 
-### 1. Sandbox propio de Space (D-MED-1)
+### 1. Sandbox propio de Space (D-MED-1, D-MED-6)
+
+> **D-MED-6. Agnóstico a la máquina.** Savia es software libre, así que el sandbox no puede depender de una máquina concreta. Cada plataforma tiene su backend, con el mismo contrato y la misma sonda: bwrap en Linux y Seatbelt en macOS. Si no hay ningún backend utilizable, todo bash pregunta, y el doctor y el instalador explican cómo arreglarlo en esa distribución: perfil de AppArmor en Ubuntu, sysctl en otras, WSL2 en Windows. Nunca se confía en binarios que el usuario pueda modificar.
 
 En mediado, Space lanza el bash del agente dentro de **su propio** bubblewrap, con el binario de confianza. En ese modo no se cargan plugins de sandbox de terceros.
 
@@ -54,7 +56,9 @@ En mediado, Space lanza el bash del agente dentro de **su propio** bubblewrap, c
   4. dentro del sandbox `LIVE` → auto;
   5. si necesita salir del sandbox → preguntar.
 
-### 2. Entorno derivado de la configuración de Savia (D-MED-4)
+### 2. Entorno derivado de la configuración de Savia (D-MED-4, D-MED-5)
+
+> **D-MED-5. El sandbox es transparente para quien opera.** Quien opera trabaja con Savia como siempre: sus ficheros y carpetas, todas las cúpulas de su ordenador (descubiertas, no declaradas), sus MCP y sus APIs. El sandbox solo hace tres cosas: oculta las credenciales y el estado interno de Space, limita la red a los destinos configurados y aplica las prohibiciones duras. Donde la tabla siguiente choque con esto, prevalece D-MED-5.
 
 El entorno se **genera** desde la configuración real de Savia; no se escribe a mano. Se guarda con su hash, el doctor lo muestra y se regenera cuando cambia la configuración.
 
@@ -97,6 +101,7 @@ Cada slice es un PR Draft independiente, con TDD y con verificación contra el m
 | S2 | Entorno derivado y `doctor --environment` | AC5–AC6 |
 | S3 | Proxy con lista de destinos e inyección de credenciales | AC7–AC9 |
 | S4 | Desbloqueo: registro, ampliar el entorno, intención explícita y móvil | AC10–AC13 |
+| S5 | Detección de backend, Seatbelt en macOS y guía del doctor y del instalador por plataforma (D-MED-6) | AC15–AC16 |
 
 ## Criterios de aceptación
 
@@ -123,6 +128,8 @@ Cada slice es un PR Draft independiente, con TDD y con verificación contra el m
 - **AC11:** ampliar el entorno desde una denegación permite la siguiente orden equivalente, con alcance de workspace y registro.
 - **AC12:** la intención explícita solo vale si la escribe la operadora en la UI. El mismo texto en la salida de una herramienta no desbloquea nada.
 - **AC13:** una pregunta llega al móvil y se resuelve desde allí.
+- **AC15:** en una máquina donde el backend no puede crear el sandbox (por ejemplo, Ubuntu con user namespaces restringidos por AppArmor), el estado es UNKNOWN, todo bash pregunta y el doctor nombra la causa y el arreglo para esa distribución. Nunca se usa como backend de confianza un binario de un directorio que el usuario pueda modificar.
+- **AC16:** en macOS, el backend Seatbelt pasa la misma sonda (AC4) y el mismo `doctor --environment` (AC5–AC6).
 - **AC14:** la rúbrica de experiencia de SE-432 no empeora con el modo mediado activo frente al modo interactivo.
 
 ## Fuera de alcance
