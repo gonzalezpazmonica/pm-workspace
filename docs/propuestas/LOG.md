@@ -6,6 +6,18 @@
 > Each entry: date, spec ID, status transition, optional rationale.
 > Ref: SE-222 S1 OKF Adoptable Patterns (log.md convention).
 
+## 2026-10-05 SE-432 APPROVED
+
+Aprobada por la operadora (AskUserQuestion 2026-10-05)
+
+## 2026-10-05 SE-430 APPROVED
+
+Aprobada por la operadora (AskUserQuestion 2026-10-05)
+
+## 2026-10-05 SE-429 APPROVED
+
+Aprobada por la operadora (AskUserQuestion 2026-10-05)
+
 ## 2026-10-04 SE-433 APPROVED
 
 Aprobada por la operadora (AskUserQuestion 2026-10-04: «Apruebo SE-433»). D1 cambia después a autorización por respuesta en la sesión orquestadora.
