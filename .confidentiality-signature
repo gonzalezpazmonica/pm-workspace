@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=93e3fbcee8bf65b48df46e3766ccf438338a9093769a52704de6b9b28ce98bcd
-timestamp=2026-10-05T00:36:30Z
-branch=HEAD
-head_commit=7b9550305
-signature=b85d5e0bab3bee6ea1a73dc1be747255209907e6ab12534abf73ea8e29d46272
+diff_hash=7a1b3725e5afcb5fec63148ecc3e7f2f55fe7cf528bddea90c7192172c06ad25
+timestamp=2026-10-05T00:41:46Z
+branch=agent/se376-calib-smart-calendar-20261003
+head_commit=15f760914
+signature=44cab57049e7c278cad3957a5883f684a2de03c8c114753f5124b7b9e1d140dd
