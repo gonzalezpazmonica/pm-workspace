@@ -1,0 +1,641 @@
+#!/usr/bin/env bats
+# audit: score=88 hash=b206ca12 date=2026-10-04
+# test-company-messaging.bats — calibración SE-376 de la skill company-messaging
+# Ref: .claude/skills/company-messaging/SKILL.md
+# Ref: .claude/skills/company-messaging/references/message-schema.md
+# Ref: docs/rules/domain/messaging-subject-safety.md
+#
+# Todo ocurre contra un remoto bare local creado con mktemp: ningún remoto
+# real, ninguna clave real. HOME se aísla por usuario sintético (alice, bob).
+
+SCRIPT="scripts/savia-branch.sh"
+CRYPTO="scripts/savia-crypto.sh"
+MESSAGING="scripts/savia-messaging.sh"
+PRIVACY="scripts/privacy-check-company.sh"
+
+setup_file() {
+  # Las claves RSA-4096 tardan: se generan una vez por fichero.
+  export KEYS_CACHE="$BATS_FILE_TMPDIR/keys"
+  local h
+  for h in alice bob mallory; do
+    mkdir -p "$KEYS_CACHE/$h"
+    openssl genpkey -algorithm RSA -pkeyopt rsa_keygen_bits:4096 \
+      -out "$KEYS_CACHE/$h/private.pem" 2>/dev/null
+    openssl rsa -in "$KEYS_CACHE/$h/private.pem" -pubout \
+      -out "$KEYS_CACHE/$h/public.pem" 2>/dev/null
+  done
+}
+
+setup() {
+  REPO_ROOT="$(cd "$BATS_TEST_DIRNAME/.." && pwd)"
+  TMPDIR_TEST="$(mktemp -d)"
+  export HOME="$TMPDIR_TEST/home"
+  mkdir -p "$HOME"
+  export GIT_CONFIG_NOSYSTEM=1
+  export GIT_AUTHOR_NAME=t GIT_AUTHOR_EMAIL=t@test.local
+  export GIT_COMMITTER_NAME=t GIT_COMMITTER_EMAIL=t@test.local
+  export LC_ALL=es_ES.UTF-8 LANG=es_ES.UTF-8
+}
+
+teardown() {
+  [ -n "${TMPDIR_TEST:-}" ] && rm -rf "$TMPDIR_TEST"
+}
+
+# ── Helpers ──────────────────────────────────────────────────────────
+
+# company_repo: remoto bare con main (directorio en formato tabla, como lo
+# genera company-repo-templates-init.sh) y ramas exchange y user/*.
+company_repo() {
+  REMOTE="$TMPDIR_TEST/remote.git"
+  git init -q --bare -b main "$REMOTE"
+  git clone -q "$REMOTE" "$TMPDIR_TEST/seed" 2>/dev/null
+  mkdir -p "$TMPDIR_TEST/seed/pubkeys"
+  cat > "$TMPDIR_TEST/seed/directory.md" <<'EOF'
+# Team Directory — Synthetic Org
+
+| Handle | Name | Role | Status |
+|--------|------|------|--------|
+| @alice | Alice | Admin | active |
+| @bob | Bob | Member | active |
+| @bobby | Bobby | Member | active |
+EOF
+  cp "$KEYS_CACHE/bob/public.pem" "$TMPDIR_TEST/seed/pubkeys/bob.pem"
+  git -C "$TMPDIR_TEST/seed" add -A
+  git -C "$TMPDIR_TEST/seed" commit -q -m init
+  git -C "$TMPDIR_TEST/seed" push -q origin main
+  local b
+  for b in exchange user/alice user/bob user/bobby; do
+    bash "$REPO_ROOT/$SCRIPT" ensure-orphan "$TMPDIR_TEST/seed" "$b" >/dev/null 2>&1
+  done
+}
+
+# member <handle>: clon propio + HOME propio con config y claves
+member() {
+  local h="$1"
+  git clone -q "$REMOTE" "$TMPDIR_TEST/clone-$h" 2>/dev/null
+  mkdir -p "$TMPDIR_TEST/home-$h/.pm-workspace/savia-keys"
+  printf 'LOCAL_PATH=%s\nUSER_HANDLE=%s\n' "$TMPDIR_TEST/clone-$h" "$h" \
+    > "$TMPDIR_TEST/home-$h/.pm-workspace/company-repo"
+  if [ -d "$KEYS_CACHE/$h" ]; then
+    cp "$KEYS_CACHE/$h/"*.pem "$TMPDIR_TEST/home-$h/.pm-workspace/savia-keys/"
+  fi
+}
+
+# as <handle> <args...>: ejecuta savia-messaging.sh como ese miembro
+as() {
+  local h="$1"; shift
+  HOME="$TMPDIR_TEST/home-$h" bash "$REPO_ROOT/$MESSAGING" "$@"
+}
+
+# asb <handle> <cuerpo> <args...>: como "as", con el cuerpo por stdin (nunca argv)
+asb() {
+  local h="$1" body="$2"; shift 2
+  printf '%s' "$body" | as "$h" "$@"
+}
+
+remote_files() {
+  git -C "$REMOTE" ls-tree -r --name-only "$1"
+}
+
+# ── Contrato del script ──────────────────────────────────────────────
+
+@test "savia-branch.sh y savia-crypto.sh declaran set -uo pipefail" {
+  grep -q 'set -[a-z]*u[a-z]*o pipefail' "$REPO_ROOT/$SCRIPT"
+  grep -q 'set -[a-z]*u[a-z]*o pipefail' "$REPO_ROOT/$CRYPTO"
+  grep -q 'set -[a-z]*u[a-z]*o pipefail' "$REPO_ROOT/$MESSAGING"
+}
+
+# ── Cifrado ──────────────────────────────────────────────────────────
+
+@test "crypto keygen: crea el par con la clave privada en 600" {
+  run bash "$REPO_ROOT/$CRYPTO" keygen
+  [ "$status" -eq 0 ]
+  [ -f "$HOME/.pm-workspace/savia-keys/public.pem" ]
+  [ "$(stat -c '%a' "$HOME/.pm-workspace/savia-keys/private.pem")" = "600" ]
+}
+
+@test "crypto keygen: rechaza sobrescribir un par existente sin --force" {
+  mkdir -p "$HOME/.pm-workspace/savia-keys"
+  cp "$KEYS_CACHE/alice/"*.pem "$HOME/.pm-workspace/savia-keys/"
+  run bash "$REPO_ROOT/$CRYPTO" keygen
+  [ "$status" -eq 1 ]
+  cmp "$KEYS_CACHE/alice/private.pem" "$HOME/.pm-workspace/savia-keys/private.pem"
+}
+
+@test "crypto: ida y vuelta de un cuerpo multilínea UTF-8 en locale es_ES" {
+  mkdir -p "$HOME/.pm-workspace/savia-keys"
+  cp "$KEYS_CACHE/bob/"*.pem "$HOME/.pm-workspace/savia-keys/"
+  local plain=$'Reunión 1,5 h con el equipo\nsegunda línea: ñandú'
+  run bash "$REPO_ROOT/$CRYPTO" encrypt "$KEYS_CACHE/bob/public.pem" "$plain"
+  [ "$status" -eq 0 ]
+  [[ "$output" == *":::"* ]]
+  [[ "$output" != *"ñandú"* ]]
+  local pkg="$output"
+  run bash "$REPO_ROOT/$CRYPTO" decrypt "$pkg"
+  [ "$status" -eq 0 ]
+  [ "$output" = "$plain" ]
+}
+
+@test "crypto: un texto con forma de opción (-n, -e) no se pierde en el cifrado (boundary)" {
+  mkdir -p "$HOME/.pm-workspace/savia-keys"
+  cp "$KEYS_CACHE/bob/"*.pem "$HOME/.pm-workspace/savia-keys/"
+  local word pkg
+  for word in "-n" "-e" "-E"; do
+    pkg=$(bash "$REPO_ROOT/$CRYPTO" encrypt "$KEYS_CACHE/bob/public.pem" "$word")
+    run bash "$REPO_ROOT/$CRYPTO" decrypt "$pkg"
+    [ "$status" -eq 0 ]
+    [ "$output" = "$word" ]
+  done
+}
+
+@test "crypto: un argumento vacío cifra vacío y no lee stdin (empty)" {
+  mkdir -p "$HOME/.pm-workspace/savia-keys"
+  cp "$KEYS_CACHE/bob/"*.pem "$HOME/.pm-workspace/savia-keys/"
+  local pkg
+  pkg=$(echo "texto ajeno en stdin" | bash "$REPO_ROOT/$CRYPTO" encrypt "$KEYS_CACHE/bob/public.pem" "")
+  run bash "$REPO_ROOT/$CRYPTO" decrypt "$pkg"
+  [ "$status" -eq 0 ]
+  [ -z "$output" ]
+}
+
+@test "crypto: cuerpo grande (200 KB) por stdin hace ida y vuelta (large)" {
+  mkdir -p "$HOME/.pm-workspace/savia-keys"
+  cp "$KEYS_CACHE/bob/"*.pem "$HOME/.pm-workspace/savia-keys/"
+  head -c 150000 /dev/urandom | base64 > "$TMPDIR_TEST/big.txt"
+  bash "$REPO_ROOT/$CRYPTO" encrypt "$KEYS_CACHE/bob/public.pem" \
+    < "$TMPDIR_TEST/big.txt" > "$TMPDIR_TEST/pkg.txt"
+  # El paquete supera MAX_ARG_STRLEN (128 KB): solo cabe por stdin
+  [ "$(wc -c < "$TMPDIR_TEST/pkg.txt")" -gt 131072 ]
+  bash "$REPO_ROOT/$CRYPTO" decrypt - < "$TMPDIR_TEST/pkg.txt" > "$TMPDIR_TEST/out.txt"
+  cmp "$TMPDIR_TEST/big.txt" "$TMPDIR_TEST/out.txt"
+}
+
+@test "crypto: descifrar con la clave privada de otro falla (reject wrong key)" {
+  mkdir -p "$HOME/.pm-workspace/savia-keys"
+  cp "$KEYS_CACHE/mallory/"*.pem "$HOME/.pm-workspace/savia-keys/"
+  local pkg
+  pkg=$(bash "$REPO_ROOT/$CRYPTO" encrypt "$KEYS_CACHE/bob/public.pem" "solo para bob")
+  run bash "$REPO_ROOT/$CRYPTO" decrypt "$pkg"
+  [ "$status" -ne 0 ]
+  [[ "$output" != *"solo para bob"* ]]
+}
+
+@test "crypto: paquete sin separador ::: es inválido (invalid)" {
+  mkdir -p "$HOME/.pm-workspace/savia-keys"
+  cp "$KEYS_CACHE/bob/"*.pem "$HOME/.pm-workspace/savia-keys/"
+  run bash "$REPO_ROOT/$CRYPTO" decrypt "c29sbyB1bmEgcGFydGU="
+  [ "$status" -eq 1 ]
+  [[ "$output" == *"Invalid encrypted package"* ]]
+}
+
+@test "crypto: encrypt con clave pública inexistente falla con error (missing)" {
+  run bash "$REPO_ROOT/$CRYPTO" encrypt "$TMPDIR_TEST/no existe.pem" "x"
+  [ "$status" -eq 1 ]
+  [[ "$output" == *"Public key not found"* ]]
+}
+
+# ── Capa de ramas: escritura y push ──────────────────────────────────
+
+@test "branch write: el fichero llega al remoto" {
+  company_repo
+  member alice
+  run bash "$REPO_ROOT/$SCRIPT" write "$TMPDIR_TEST/clone-alice" exchange "pending/m1.md" "hola"
+  [ "$status" -eq 0 ]
+  [ "$(git -C "$REMOTE" show exchange:pending/m1.md)" = "hola" ]
+}
+
+@test "branch write: con exchange local obsoleto no pierde el mensaje del otro miembro (concurrencia)" {
+  company_repo
+  member alice
+  member bob
+  bash "$REPO_ROOT/$SCRIPT" write "$TMPDIR_TEST/clone-bob" exchange "pending/de-bob.md" "b"
+  run bash "$REPO_ROOT/$SCRIPT" write "$TMPDIR_TEST/clone-alice" exchange "pending/de-alice.md" "a"
+  [ "$status" -eq 0 ]
+  run remote_files exchange
+  [[ "$output" == *"pending/de-bob.md"* ]]
+  [[ "$output" == *"pending/de-alice.md"* ]]
+}
+
+@test "branch write: dos escrituras simultáneas acaban ambas en el remoto (concurrencia)" {
+  company_repo
+  member alice
+  member bob
+  bash "$REPO_ROOT/$SCRIPT" write "$TMPDIR_TEST/clone-alice" exchange "pending/p1.md" "1" &
+  local p1=$!
+  bash "$REPO_ROOT/$SCRIPT" write "$TMPDIR_TEST/clone-bob" exchange "pending/p2.md" "2" &
+  local p2=$!
+  wait "$p1"; local s1=$?
+  wait "$p2"; local s2=$?
+  [ "$s1" -eq 0 ] && [ "$s2" -eq 0 ]
+  run remote_files exchange
+  [[ "$output" == *"pending/p1.md"* ]]
+  [[ "$output" == *"pending/p2.md"* ]]
+}
+
+@test "branch write: remoto inalcanzable devuelve error, no éxito silencioso (fail)" {
+  company_repo
+  member alice
+  git -C "$TMPDIR_TEST/clone-alice" remote set-url origin "$TMPDIR_TEST/no-existe.git"
+  run bash "$REPO_ROOT/$SCRIPT" write "$TMPDIR_TEST/clone-alice" exchange "pending/m.md" "x"
+  [ "$status" -ne 0 ]
+  [[ "$output" == *"push"* ]]
+}
+
+@test "branch write: reescribir el mismo contenido es un no-op con éxito (idempotent)" {
+  company_repo
+  member alice
+  bash "$REPO_ROOT/$SCRIPT" write "$TMPDIR_TEST/clone-alice" exchange "pending/m.md" "igual"
+  local before
+  before=$(git -C "$REMOTE" rev-parse exchange)
+  run bash "$REPO_ROOT/$SCRIPT" write "$TMPDIR_TEST/clone-alice" exchange "pending/m.md" "igual"
+  [ "$status" -eq 0 ]
+  [ "$(git -C "$REMOTE" rev-parse exchange)" = "$before" ]
+}
+
+@test "branch write: no deja worktrees temporales registrados" {
+  company_repo
+  member alice
+  bash "$REPO_ROOT/$SCRIPT" write "$TMPDIR_TEST/clone-alice" exchange "pending/m.md" "x"
+  [ "$(git -C "$TMPDIR_TEST/clone-alice" worktree list | wc -l)" -eq 1 ]
+}
+
+@test "branch write: avanza la rama local no extraída y deja intacta la extraída (main)" {
+  company_repo
+  member alice
+  git -C "$TMPDIR_TEST/clone-alice" branch exchange origin/exchange
+  local main_before
+  main_before=$(git -C "$TMPDIR_TEST/clone-alice" rev-parse main)
+  bash "$REPO_ROOT/$SCRIPT" write "$TMPDIR_TEST/clone-alice" exchange "pending/m.md" "x"
+  bash "$REPO_ROOT/$SCRIPT" write "$TMPDIR_TEST/clone-alice" main "notes.md" "y"
+  [ "$(git -C "$TMPDIR_TEST/clone-alice" rev-parse exchange)" = "$(git -C "$REMOTE" rev-parse exchange)" ]
+  [ "$(git -C "$TMPDIR_TEST/clone-alice" rev-parse main)" = "$main_before" ]
+  [ -z "$(git -C "$TMPDIR_TEST/clone-alice" status --porcelain)" ]
+}
+
+@test "branch write: repo sin remoto escribe en la rama local (sin origin)" {
+  git init -q -b main "$TMPDIR_TEST/local"
+  echo r > "$TMPDIR_TEST/local/README.md"
+  git -C "$TMPDIR_TEST/local" add -A
+  git -C "$TMPDIR_TEST/local" commit -q -m init
+  run bash "$REPO_ROOT/$SCRIPT" write "$TMPDIR_TEST/local" main "notes/a.md" "nota"
+  [ "$status" -eq 0 ]
+  [ "$(git -C "$TMPDIR_TEST/local" show main:notes/a.md)" = "nota" ]
+}
+
+@test "branch move: mueve el fichero entre carpetas en un solo commit" {
+  company_repo
+  member bob
+  bash "$REPO_ROOT/$SCRIPT" write "$TMPDIR_TEST/clone-bob" user/bob "inbox/unread/m.md" "x"
+  run bash "$REPO_ROOT/$SCRIPT" move "$TMPDIR_TEST/clone-bob" user/bob "inbox/unread/m.md" "inbox/read/m.md"
+  [ "$status" -eq 0 ]
+  run remote_files user/bob
+  [[ "$output" == *"inbox/read/m.md"* ]]
+  [[ "$output" != *"inbox/unread/m.md"* ]]
+}
+
+@test "branch move: origen inexistente es error (missing source)" {
+  company_repo
+  member bob
+  run bash "$REPO_ROOT/$SCRIPT" move "$TMPDIR_TEST/clone-bob" user/bob "inbox/unread/nada.md" "inbox/read/nada.md"
+  [ "$status" -ne 0 ]
+}
+
+@test "branch ensure-orphan: push fallido devuelve error (savia-branch.sh:78 tragaba el fallo)" {
+  company_repo
+  member alice
+  git -C "$TMPDIR_TEST/clone-alice" remote set-url origin "$TMPDIR_TEST/no-existe.git"
+  run bash "$REPO_ROOT/$SCRIPT" ensure-orphan "$TMPDIR_TEST/clone-alice" team/nuevo
+  [ "$status" -ne 0 ]
+}
+
+@test "branch ensure-orphan: rama local nunca publicada se publica al reintentar" {
+  company_repo
+  member alice
+  git -C "$TMPDIR_TEST/clone-alice" branch huerfana main
+  run bash "$REPO_ROOT/$SCRIPT" ensure-orphan "$TMPDIR_TEST/clone-alice" huerfana
+  [ "$status" -eq 0 ]
+  git -C "$REMOTE" rev-parse --verify huerfana
+}
+
+@test "branch check-permission: main solo admin; user/x solo su dueño (block)" {
+  run bash "$REPO_ROOT/$SCRIPT" check-permission main bob member
+  [ "$status" -eq 1 ]
+  run bash "$REPO_ROOT/$SCRIPT" check-permission main alice admin
+  [ "$status" -eq 0 ]
+  run bash "$REPO_ROOT/$SCRIPT" check-permission user/bob alice member
+  [ "$status" -eq 1 ]
+  run bash "$REPO_ROOT/$SCRIPT" check-permission user/bob bob member
+  [ "$status" -eq 0 ]
+}
+
+# ── Mensajería de extremo a extremo ──────────────────────────────────
+
+@test "send: resuelve @bob en el directorio en formato tabla y deja el mensaje en exchange" {
+  company_repo
+  member alice
+  run asb alice "cuerpo uno" send bob "Planificación"
+  [ "$status" -eq 0 ]
+  run remote_files exchange
+  [[ "$output" == *pending/*.md* ]]
+  run remote_files user/alice
+  [[ "$output" == *"outbox/"* ]]
+}
+
+@test "send: handle desconocido o prefijo de otro (@bo no es @bob) se rechaza (reject)" {
+  company_repo
+  member alice
+  run asb alice "y" send carol "x"
+  [ "$status" -ne 0 ]
+  [[ "$output" == *"not found"* ]]
+  run asb alice "y" send bo "x"
+  [ "$status" -ne 0 ]
+  run remote_files exchange
+  [[ "$output" != *pending/* ]]
+}
+
+@test "send: handle con ruta (../x) es inválido y no escribe nada (invalid)" {
+  company_repo
+  member alice
+  run asb alice "y" send "../bob" "x"
+  [ "$status" -ne 0 ]
+  run remote_files exchange
+  [[ "$output" != *pending/* ]]
+}
+
+@test "send: fallo de push devuelve error en vez de 'Message sent' (fail)" {
+  company_repo
+  member alice
+  git -C "$TMPDIR_TEST/clone-alice" fetch -q origin
+  git -C "$TMPDIR_TEST/clone-alice" remote set-url origin "$TMPDIR_TEST/no-existe.git"
+  run asb alice "y" send bob "x"
+  [ "$status" -ne 0 ]
+  [[ "$output" != *"Message sent"* ]]
+}
+
+@test "send: bloquea un cuerpo en claro con una clave privada (privacy block)" {
+  company_repo
+  member alice
+  local hdr="-----BEGIN"
+  run asb alice "$hdr RSA PRIVATE KEY----- abc" send bob "x"
+  [ "$status" -ne 0 ]
+  [[ "$output" == *"Private key"* ]]
+  run remote_files exchange
+  [[ "$output" != *pending/* ]]
+}
+
+@test "send --encrypt: el cuerpo viaja cifrado y bob lo descifra con su clave" {
+  company_repo
+  member alice
+  run asb alice "cifra 3,14 secreta" send bob "Aviso" --encrypt
+  [ "$status" -eq 0 ]
+  local f body
+  f=$(remote_files exchange | grep '^pending/.*\.md$' | head -1)
+  body=$(git -C "$REMOTE" show "exchange:$f" | tail -1)
+  [[ "$body" != *"secreta"* ]]
+  member bob
+  HOME="$TMPDIR_TEST/home-bob" run bash "$REPO_ROOT/$CRYPTO" decrypt "$body"
+  [ "$status" -eq 0 ]
+  [ "$output" = "cifra 3,14 secreta" ]
+}
+
+@test "inbox: bob ve el mensaje recibido con remitente y asunto" {
+  company_repo
+  member alice
+  member bob
+  asb alice "cuerpo" send bob "Planificación"
+  run as bob inbox
+  [ "$status" -eq 0 ]
+  [[ "$output" == *"@alice: Planificación"* ]]
+  [[ "$output" == *"Total: 1 unread"* ]]
+}
+
+@test "inbox vacío: cero mensajes sin error (empty)" {
+  company_repo
+  member bob
+  run as bob inbox
+  [ "$status" -eq 0 ]
+  [[ "$output" == *"Total: 0 unread"* ]]
+}
+
+@test "read: saca el mensaje de unread y no se vuelve a entregar desde exchange" {
+  company_repo
+  member alice
+  member bob
+  asb alice "cuerpo leído" send bob "Asunto"
+  as bob inbox >/dev/null
+  local id
+  id=$(remote_files user/bob | sed -n 's#^inbox/unread/\(.*\)\.md$#\1#p' | head -1)
+  [ -n "$id" ]
+  run as bob read "$id"
+  [ "$status" -eq 0 ]
+  [[ "$output" == *"cuerpo leído"* ]]
+  run remote_files user/bob
+  [[ "$output" == *"inbox/read/$id.md"* ]]
+  [[ "$output" != *"inbox/unread/$id.md"* ]]
+  run as bob inbox
+  [[ "$output" == *"Total: 0 unread"* ]]
+}
+
+@test "broadcast: cada destinatario del directorio recibe su propio mensaje (sin colisión de ID)" {
+  company_repo
+  member alice
+  run asb alice "texto" broadcast "Aviso general"
+  [ "$status" -eq 0 ]
+  [[ "$output" == *"Broadcast sent to 2 recipient(s)"* ]]
+  local n
+  n=$(remote_files exchange | grep -c '^pending/.*\.md$')
+  [ "$n" -eq 2 ]
+}
+
+@test "privacy-check: detecta una clave privada en el inbox de bob estando en main" {
+  company_repo
+  member bob
+  local hdr="-----BEGIN"
+  bash "$REPO_ROOT/$SCRIPT" write "$TMPDIR_TEST/clone-bob" user/bob "inbox/unread/k.md" "$hdr PRIVATE KEY-----"
+  run bash "$REPO_ROOT/$PRIVACY" "$TMPDIR_TEST/clone-bob" bob
+  [ "$status" -eq 1 ]
+  [[ "$output" == *"Private key content"* ]]
+}
+
+@test "privacy-check: inbox limpio pasa (zero violations)" {
+  company_repo
+  member bob
+  bash "$REPO_ROOT/$SCRIPT" write "$TMPDIR_TEST/clone-bob" user/bob "inbox/unread/ok.md" "nada sensible"
+  run bash "$REPO_ROOT/$PRIVACY" "$TMPDIR_TEST/clone-bob" bob
+  [ "$status" -eq 0 ]
+  [[ "$output" == *"PASSED"* ]]
+}
+
+# ── Revisión PR #1279: fallo en abierto >64 KiB, argv, IDs, cifrado ──
+
+# padding <bytes>: texto inocuo en líneas de 100 bytes
+padding() {
+  local n=$(( $1 / 100 )) i
+  for ((i = 0; i < n; i++)); do printf '%099d\n' 0; done
+}
+
+@test "privacy --stdin: secreto en la 1a línea con 70 KB detrás se bloquea (large, SIGPIPE)" {
+  local hdr="-----BEGIN"
+  local kb
+  for kb in 70000 300000; do
+    { echo "$hdr PRIVATE KEY-----"; padding "$kb"; } > "$TMPDIR_TEST/msg.md"
+    run bash "$REPO_ROOT/$PRIVACY" --stdin < "$TMPDIR_TEST/msg.md"
+    [ "$status" -eq 1 ]
+    [[ "$output" == *"Private key content"* ]]
+  done
+}
+
+@test "privacy --stdin: varios secretos grandes se informan todos (large)" {
+  local hdr="-----BEGIN" ip="10.1.2.3"
+  { echo "$hdr PRIVATE KEY-----"; echo "host $ip"; padding 100000; } > "$TMPDIR_TEST/msg.md"
+  run bash "$REPO_ROOT/$PRIVACY" --stdin < "$TMPDIR_TEST/msg.md"
+  [ "$status" -eq 1 ]
+  [[ "$output" == *"Private key content"* ]]
+  [[ "$output" == *"Private IP address"* ]]
+}
+
+@test "send: cuerpo de 70 KB con una clave privada al principio se bloquea (large)" {
+  company_repo
+  member alice
+  local hdr="-----BEGIN" body
+  body="$(echo "$hdr PRIVATE KEY-----"; padding 70000)"
+  run asb alice "$body" send bob "grande"
+  [ "$status" -ne 0 ]
+  [[ "$output" == *"blocked by privacy check"* ]]
+  run remote_files exchange
+  [[ "$output" != *pending/* ]]
+}
+
+@test "crypto: ni el texto en claro ni la clave AES viajan en argv de openssl" {
+  mkdir -p "$HOME/.pm-workspace/savia-keys" "$TMPDIR_TEST/bin"
+  cp "$KEYS_CACHE/bob/"*.pem "$HOME/.pm-workspace/savia-keys/"
+  local real
+  real=$(command -v openssl)
+  printf '#!/bin/bash\nprintf "%%s\\n" "$*" >> "%s"\nexec "%s" "$@"\n' \
+    "$TMPDIR_TEST/argv.log" "$real" > "$TMPDIR_TEST/bin/openssl"
+  chmod +x "$TMPDIR_TEST/bin/openssl"
+  local pkg
+  pkg=$(PATH="$TMPDIR_TEST/bin:$PATH" bash "$REPO_ROOT/$CRYPTO" encrypt \
+    "$KEYS_CACHE/bob/public.pem" "texto-muy-secreto")
+  run env PATH="$TMPDIR_TEST/bin:$PATH" bash "$REPO_ROOT/$CRYPTO" decrypt "$pkg"
+  [ "$output" = "texto-muy-secreto" ]
+  [ -s "$TMPDIR_TEST/argv.log" ]
+  run grep -c -e 'texto-muy-secreto' -e ' -K ' -e ' -iv ' -e '[0-9a-f]\{64\}' "$TMPDIR_TEST/argv.log"
+  [ "$output" = "0" ]
+}
+
+@test "crypto: descifra paquetes del formato anterior (-K/-iv) (boundary, compatibilidad)" {
+  mkdir -p "$HOME/.pm-workspace/savia-keys"
+  cp "$KEYS_CACHE/bob/"*.pem "$HOME/.pm-workspace/savia-keys/"
+  local k iv
+  k=$(openssl rand -hex 32); iv=$(openssl rand -hex 16)
+  printf 'mensaje v1' | openssl enc -aes-256-cbc -K "$k" -iv "$iv" -out "$TMPDIR_TEST/b.enc"
+  printf '%s:%s' "$k" "$iv" | openssl pkeyutl -encrypt -pubin \
+    -inkey "$KEYS_CACHE/bob/public.pem" -out "$TMPDIR_TEST/k.enc"
+  run bash "$REPO_ROOT/$CRYPTO" decrypt \
+    "$(base64 -w0 "$TMPDIR_TEST/k.enc"):::$(base64 -w0 "$TMPDIR_TEST/b.enc")"
+  [ "$status" -eq 0 ]
+  [ "$output" = "mensaje v1" ]
+}
+
+@test "broadcast: IDs distintos aunque el reloj no avance (boundary, date congelado)" {
+  company_repo
+  member alice
+  mkdir -p "$TMPDIR_TEST/bin"
+  printf '#!/bin/bash\necho 20261003-120000\n' > "$TMPDIR_TEST/bin/date"
+  chmod +x "$TMPDIR_TEST/bin/date"
+  PATH="$TMPDIR_TEST/bin:$PATH" run asb alice "texto" broadcast "Aviso"
+  [ "$status" -eq 0 ]
+  [ "$(remote_files exchange | grep -c '^pending/.*\.md$')" -eq 2 ]
+}
+
+@test "send --encrypt: clave pública inválida del destinatario falla sin escribir nada (invalid)" {
+  company_repo
+  member alice
+  echo "no es una clave" > "$TMPDIR_TEST/seed/pubkeys/bob.pem"
+  git -C "$TMPDIR_TEST/seed" commit -qam "clave rota"
+  git -C "$TMPDIR_TEST/seed" push -q origin main
+  run asb alice "secreto" send bob "x" --encrypt
+  [ "$status" -ne 0 ]
+  run remote_files exchange
+  [[ "$output" != *pending/* ]]
+}
+
+@test "inbox: remoto inalcanzable avisa en vez de mostrar la caché en silencio (fail)" {
+  company_repo
+  member bob
+  git -C "$TMPDIR_TEST/clone-bob" remote set-url origin "$TMPDIR_TEST/no-existe.git"
+  run as bob inbox
+  [[ "$output" == *"could not be delivered"* ]]
+}
+
+# ── Revisión merge-sprint #1279: el cuerpo nunca por argv ────────────
+
+@test "send: un cuerpo como argumento posicional se rechaza sin escribir nada (reject argv)" {
+  company_repo
+  member alice
+  run as alice send bob "x" "cuerpo en argv"
+  [ "$status" -eq 2 ]
+  [[ "$output" == *"--body-file"* ]]
+  run remote_files exchange
+  [[ "$output" != *pending/* ]]
+}
+
+@test "send --body-file: acepta un fichero 0600 y rechaza uno legible por otros (block 0644)" {
+  company_repo
+  member alice
+  printf 'desde fichero' > "$TMPDIR_TEST/body con espacios.txt"
+  chmod 644 "$TMPDIR_TEST/body con espacios.txt"
+  run as alice send bob "x" --body-file "$TMPDIR_TEST/body con espacios.txt" < /dev/null
+  [ "$status" -ne 0 ]
+  [[ "$output" == *"0600"* ]]
+  chmod 600 "$TMPDIR_TEST/body con espacios.txt"
+  run as alice send bob "x" --body-file "$TMPDIR_TEST/body con espacios.txt" < /dev/null
+  [ "$status" -eq 0 ]
+  local f
+  f=$(remote_files exchange | grep '^pending/.*\.md$' | head -1)
+  [[ "$(git -C "$REMOTE" show "exchange:$f")" == *"desde fichero"* ]]
+}
+
+@test "send: cuerpo vacío por stdin se rechaza (empty)" {
+  company_repo
+  member alice
+  run asb alice "" send bob "x"
+  [ "$status" -ne 0 ]
+  run remote_files exchange
+  [[ "$output" != *pending/* ]]
+}
+
+@test "send --encrypt y reply: el cuerpo no aparece en /proc/<pid>/cmdline de ningún proceso" {
+  company_repo
+  member alice
+  member bob
+  # git y openssl envueltos: cada llamada vuelca el cmdline de toda su
+  # cadena de procesos padre (savia-messaging, savia-crypto, bash...)
+  mkdir -p "$TMPDIR_TEST/bin"
+  local tool real
+  for tool in git openssl; do
+    real=$(command -v "$tool")
+    cat > "$TMPDIR_TEST/bin/$tool" <<WRAP
+#!/bin/bash
+p=\$\$
+while [ "\$p" -gt 1 ] && [ -r "/proc/\$p/cmdline" ]; do
+  tr '\0' ' ' < "/proc/\$p/cmdline" >> "$TMPDIR_TEST/cmdline.log"; echo >> "$TMPDIR_TEST/cmdline.log"
+  p=\$(awk '/^PPid:/ {print \$2}' "/proc/\$p/status")
+done
+exec "$real" "\$@"
+WRAP
+    chmod +x "$TMPDIR_TEST/bin/$tool"
+  done
+  PATH="$TMPDIR_TEST/bin:$PATH" run asb alice "cuerpo-ultrasecreto-77" send bob "Aviso" --encrypt
+  [ "$status" -eq 0 ]
+  as bob inbox >/dev/null
+  local id
+  id=$(remote_files user/bob | sed -n 's#^inbox/unread/\(.*\)\.md$#\1#p' | head -1)
+  PATH="$TMPDIR_TEST/bin:$PATH" run asb bob "respuesta-ultrasecreta-88" reply "$id"
+  [ "$status" -eq 0 ]
+  [ -s "$TMPDIR_TEST/cmdline.log" ]
+  grep -q "savia-messaging.sh send bob" "$TMPDIR_TEST/cmdline.log"
+  run grep -c -e "ultrasecreto-77" -e "ultrasecreta-88" "$TMPDIR_TEST/cmdline.log"
+  [ "$output" = "0" ]
+}

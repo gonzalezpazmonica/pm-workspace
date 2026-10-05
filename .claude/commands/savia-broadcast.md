@@ -33,7 +33,7 @@ tier: core
 5. Mostrar lista de destinatarios (todos los @handles excepto el remitente)
 6. Confirmar: "¿Enviar este mensaje a X destinatarios?"
 7. Si `--encrypt` → verificar que todos tienen pubkey
-8. Ejecutar: `bash scripts/savia-messaging.sh broadcast <subject> <body> [--encrypt]`
+8. Ejecutar con el cuerpo por stdin, NUNCA como argumento: `printf '%s' "$BODY" | bash scripts/savia-messaging.sh broadcast <subject> [--encrypt]` (o `--body-file <fichero 0600>`)
 9. Preguntar si sincronizar: `bash scripts/company-repo.sh sync`
 10. Mostrar banner con resumen: "Enviado a X de Y destinatarios"
 

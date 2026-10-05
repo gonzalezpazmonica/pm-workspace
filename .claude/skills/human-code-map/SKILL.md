@@ -25,13 +25,18 @@ con la persona que lo escribió.
 
 Referencia: https://addyosmani.com/blog/comprehension-debt/
 
----
+**Qué es ejecutable (calibrado SE-376)**: nada de esta skill tiene script; las
+4 fases las ejecuta el agente con Read/Grep/Write y el debt-score se calcula a
+mano. Los `/codemap:*` de `hcm-maps.md` no existen. El único ejecutable afín es
+`scripts/cognitive-debt.sh` (SPEC-107, medición de deuda cognitiva diseñada
+opt-in: `enable|disable|status|summary|forget`), cubierto por
+`tests/test-human-code-map.bats`; contrato en `docs/cognitive-debt-guide.md`.
+Ojo: el `settings.json` versionado ya registra sus hooks (desde #783), así que
+hoy está activa por defecto y CD-04 no se cumple; `disable` la apaga.
 
 ## Regla del skill
 
 Ver `docs/rules/domain/hcm-maps.md` — formato, lifecycle, debt score, relación con .acm.
-
----
 
 ## Fase 1 — Cargar contexto del componente
 
@@ -44,18 +49,14 @@ Ver `docs/rules/domain/hcm-maps.md` — formato, lifecycle, debt score, relació
 
 **Output**: contexto suficiente para generar narración precisa sin inventar.
 
----
-
 ## Fase 2 — Análisis de deuda
 
 Calcular debt-score antes de generar (fórmula en `hcm-maps.md`):
 - Staleness penalty: días sin paseo / 30 × 2 (máx 4)
-- Complexity: líneas >200 → 3, >80 → 2, ≤80 → 1
+- Complexity (indicador 0-3 de `hcm-maps.md`, medido por líneas): >200 → 3, >80 → 2, ≤80 → 1
 - Coverage gap: (1 - cobertura) × 3
 
 Si `DEBT_SCORE > 7` → avisar al PM antes de generar.
-
----
 
 ## Fase 3 — Generar borrador narrativo
 
@@ -99,18 +100,16 @@ Buscar en:
 - Áreas marcadas con TODO/FIXME
 - Código que el análisis detecta pero ningún test cubre
 
----
-
 ## Fase 4 — Ciclo de validación
 
 El borrador generado NO es el .hcm final. Requiere validación humana.
 
 Output al usuario:
 ```
-📝 Borrador .hcm generado: .human-maps/{path}.hcm
+Borrador .hcm generado: .human-maps/{path}.hcm
    debt-score estimado: {N}/10
 
-   ⚠️ ACCIÓN REQUERIDA antes de marcar como válido:
+   ACCIÓN REQUERIDA antes de marcar como válido:
    [ ] Leer la sección "La historia" — ¿describe el problema correcto?
    [ ] Leer "Gotchas" — ¿hay algo que falta o que está incorrecto?
    [ ] Leer "Por qué está construido así" — ¿captura las decisiones reales?
@@ -122,8 +121,6 @@ Output al usuario:
 El campo `last-walk:` solo se actualiza cuando el humano confirma la validación.
 Un .hcm con `last-walk:` = fecha de generación automática sin validación = no es fiable.
 
----
-
 ## Integración con .acm
 
 | Evento | .acm | .hcm |
@@ -133,16 +130,12 @@ Un .hcm con `last-walk:` = fecha de generación automática sin validación = no
 | Componente eliminado | Eliminar sección | Archivar en `.human-maps/_archived/` |
 | Dev nuevo llega | — | Cargar .hcm del módulo que va a tocar |
 
----
-
 ## Cuándo NO generar .hcm
 
 - Componentes con < 50 líneas de código (overhead mayor que beneficio)
 - Ficheros de configuración pura (el .hcm sería solo repetición del .acm)
 - Código generado automáticamente (migrations, scaffolding)
 - Scripts de un solo uso (no hay deuda cognitiva a gestionar)
-
----
 
 ## Output esperado
 
