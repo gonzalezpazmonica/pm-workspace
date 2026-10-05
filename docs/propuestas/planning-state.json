@@ -997,6 +997,16 @@
       "note": "Aprobada por la operadora 2026-10-05 (AskUserQuestion: «Apruebo, pero S1 y S2 a la vez»); decisiones D-MED-1..6; slices S1–S5",
       "phase": "A",
       "approval": "Operadora 2026-10-05 (AskUserQuestion): 'Apruebo, pero S1 y S2 a la vez'"
+    },
+    {
+      "id": "SE-435",
+      "status": "APPROVED",
+      "priority": "P1",
+      "title": "Savia Space: distribución agnóstica (paquetes nativos y savia-space setup)",
+      "evidence": "docs/specs/SE-435-savia-space-distribution.spec.md",
+      "note": "Decisión D-MED-7; aprobada 2026-10-05",
+      "phase": "A",
+      "approval": "Operadora 2026-10-05 (AskUserQuestion): 'Apruebo, empieza por D1'"
     }
   ],
   "route": {
