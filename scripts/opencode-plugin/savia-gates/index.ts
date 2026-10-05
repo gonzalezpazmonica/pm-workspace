@@ -16,7 +16,6 @@ import { loadHookMap, runHooksForEvent, sweepOrphanedHooks } from "./lib/shell-b
 import { decidePermission } from "./lib/permission"
 import { auditLog } from "./lib/audit"
 import { guardVariants } from "./lib/sandbox"
-import { writeManifest } from "./lib/manifest"
 import { patchPaths, pinFor, protectsPath, verifyPin } from "./lib/guard-pin"
 import { REGISTRY, trustedFor, verifyTrusted, wrapCommand } from "./lib/trusted-guards"
 import type { TrustedGuards } from "./lib/trusted-guards"
@@ -85,7 +84,8 @@ export const SaviaGates: Plugin = async (ctx: PluginInput) => {
     return pinViolation(null, undefined)
   }
 
-  await writeManifest(hookMap)
+  // manifest.json lo genera la instalación (lib/manifest.ts): cargar no escribe en el directorio
+  // del plugin, que forma parte de la huella del motor (pluginSetHash de Savia Space).
   await auditLog({ event: "plugin-loaded", root, events: Object.keys(hookMap).length })
 
   // Self-heal: kill hook processes left behind by dead opencode instances

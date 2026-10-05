@@ -38,7 +38,7 @@ bash scripts/opencode-install.sh --dry-run
 bash scripts/opencode-install.sh --uninstall
 ```
 
-Tras la instalación, el plugin escribe un manifest `~/.savia/opencode/plugins/savia-gates/manifest.json` que la herramienta de parity-audit usa para detectar gaps.
+La instalación (`opencode-install.sh`) genera el manifest `~/.savia/opencode/plugins/savia-gates/manifest.json` que la herramienta de parity-audit usa para detectar gaps; es determinista y se regenera con `bun scripts/opencode-plugin/savia-gates/lib/manifest.ts`. El plugin no escribe en su directorio al cargarse: forma parte de la huella del motor (pluginSetHash de Savia Space).
 
 ## Arquitectura
 

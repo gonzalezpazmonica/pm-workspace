@@ -112,6 +112,18 @@ if [[ "$DRY_RUN" -ne 1 ]]; then
   ln -s "${PLUGIN_SRC}" "${PLUGIN_DST}"
 fi
 
+# Step 3b: parity manifest. The plugin no longer writes it on load (its install
+# dir is part of the engine fingerprint); it is generated here, deterministic and
+# rewritten only when the bindings change. Soft-fail without bun.
+if [[ "$DRY_RUN" -eq 1 ]]; then
+  echo "DRY-RUN: would generate ${PLUGIN_DST}/manifest.json"
+elif command -v bun >/dev/null 2>&1; then
+  SAVIA_PLUGIN_DIR="${PLUGIN_DST}" bun "${PLUGIN_SRC}/lib/manifest.ts" "${ROOT}" \
+    || echo "WARN: manifest generation failed (parity-audit will report it missing)" >&2
+else
+  echo "WARN: bun not found — manifest.json not generated (parity-audit needs it)" >&2
+fi
+
 # Step 4: register opencode.json so OpenCode picks the plugin up automatically
 OC_CONFIG="${OPENCODE_DIR}/opencode.json"
 if [[ "$DRY_RUN" -ne 1 ]]; then
