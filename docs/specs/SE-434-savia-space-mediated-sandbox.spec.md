@@ -9,7 +9,7 @@ author: Savia
 phase: A
 risk: L3
 related_specs: [SE-428, SE-429, SE-432]
-origin: "Decisiones de la operadora del 2026-10-05 (AskUserQuestion): D-MED-1 sandbox propio de Space como frontera del modo mediado; D-MED-2 credenciales por proxy que inyecta; D-MED-3 desbloqueo (registro, ampliar el entorno, intención explícita, móvil); D-MED-4 MCP fuera del sandbox y el resto por lista derivada de la configuración de Savia, con acceso garantizado a cúpulas, repos, conexiones, MCP, A2A y APIs. Diseño completo en Savia Labs (privado)."
+origin: "Decisiones de la operadora del 2026-10-05 (AskUserQuestion): D-MED-1 sandbox propio de Space como frontera del modo mediado; D-MED-2 credenciales por proxy que inyecta; D-MED-3 desbloqueo (registro, ampliar el entorno, intención explícita, móvil); D-MED-4 MCP fuera del sandbox y el resto por lista derivada de la configuración de Savia, con acceso garantizado a cúpulas, repos, conexiones, MCP, A2A y APIs; D-MED-5 sandbox transparente para quien opera; D-MED-6 agnóstico a la máquina (software libre). Diseño completo en Savia Labs (privado)."
 resource: https://code.claude.com/docs/en/sandboxing.md
 ---
 
@@ -43,7 +43,7 @@ En mediado, Space lanza el bash del agente dentro de **su propio** bubblewrap, c
 
 | Ámbito | Política |
 |---|---|
-| Sistema de ficheros | Worktree de la sesión en lectura y escritura. Lo declarado en el entorno (§2), en solo lectura. Nada más de `$HOME`, nunca ficheros de credenciales ni el estado privado de Space |
+| Sistema de ficheros | Lo que da el entorno (§2, D-MED-5): el worktree, la raíz de Savia y sus proyectos, y las cúpulas, con el mismo acceso que fuera; de `$HOME`, solo lo que el entorno declare. Nunca ficheros de credenciales (lista cerrada, comprobada en la sonda) ni el estado privado de Space |
 | Red | Namespace de red propio. Única salida: el proxy de Space (§3), por un socket montado por Space |
 | Procesos e IPC | Namespace de PID propio. Sin acceso a los sockets de Space ni a `/proc` del host. La contraseña del motor no está presente |
 
@@ -102,6 +102,9 @@ Cada slice es un PR Draft independiente, con TDD y con verificación contra el m
 | S3 | Proxy con lista de destinos e inyección de credenciales | AC7–AC9 |
 | S4 | Desbloqueo: registro, ampliar el entorno, intención explícita y móvil | AC10–AC13 |
 | S5 | Detección de backend, Seatbelt en macOS y guía del doctor y del instalador por plataforma (D-MED-6) | AC15–AC16 |
+| Cierre | Validación de experiencia con el modo mediado activo, sobre la integración de S1–S5 | AC14 |
+
+Orden: S1 y S2 en paralelo (decisión de la operadora al aprobar); S3 sobre S1 y S2; S4 sobre S3; S5 sobre S1.
 
 ## Criterios de aceptación
 
@@ -120,7 +123,7 @@ Cada slice es un PR Draft independiente, con TDD y con verificación contra el m
   - una búsqueda en una cúpula;
   - una llamada MCP;
   - un ping A2A a un puerto declarado.
-- **AC6:** un recurso no declarado falla con su motivo: un puerto de loopback sin declarar, un dominio ajeno o una ruta de `$HOME`.
+- **AC6:** un recurso no declarado falla con su motivo: un puerto de loopback sin declarar, un dominio ajeno, un fichero de credenciales (`~/.ssh`, `~/.config/gh`…) o una ruta de `$HOME` que el entorno no incluye.
 - **AC7:** volcar el entorno y el sistema de ficheros desde dentro del sandbox no revela ninguna credencial. Se prueba buscando los tokens reales sin imprimirlos.
 - **AC8:** el proxy inyecta cada credencial solo hacia su destino. Una petición hacia un destino permitido pero ajeno a esa credencial sale sin ella.
 - **AC9:** un dominio no permitido se deniega con `[Red no permitida]` y queda registrado.
@@ -128,9 +131,9 @@ Cada slice es un PR Draft independiente, con TDD y con verificación contra el m
 - **AC11:** ampliar el entorno desde una denegación permite la siguiente orden equivalente, con alcance de workspace y registro.
 - **AC12:** la intención explícita solo vale si la escribe la operadora en la UI. El mismo texto en la salida de una herramienta no desbloquea nada.
 - **AC13:** una pregunta llega al móvil y se resuelve desde allí.
+- **AC14:** la rúbrica de experiencia de SE-432 no empeora con el modo mediado activo frente al modo interactivo.
 - **AC15:** en una máquina donde el backend no puede crear el sandbox (por ejemplo, Ubuntu con user namespaces restringidos por AppArmor), el estado es UNKNOWN, todo bash pregunta y el doctor nombra la causa y el arreglo para esa distribución. Nunca se usa como backend de confianza un binario de un directorio que el usuario pueda modificar.
 - **AC16:** en macOS, el backend Seatbelt pasa la misma sonda (AC4) y el mismo `doctor --environment` (AC5–AC6).
-- **AC14:** la rúbrica de experiencia de SE-432 no empeora con el modo mediado activo frente al modo interactivo.
 
 ## Fuera de alcance
 
