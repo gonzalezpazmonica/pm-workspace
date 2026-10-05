@@ -18,13 +18,18 @@
 // la verifica antes y después de los hooks: la copia es del mismo uid que el agente y no se puede
 // hacer inmodificable, pero una escritura durante el pipeline bloquea esa misma decisión.
 //
+// La copia se llama savia-gates-trusted-<pid>-XXXXXX. El handler de salida no corre si el motor
+// muere con SIGKILL, así que al preparar una copia se barren las de PIDs que ya no existen
+// (sweepOrphans): solo directorios reales del mismo uid con ese nombre; los enlaces, los nombres
+// sin PID (formato anterior) y lo de otros usuarios no se tocan.
+//
 // Mismo diseño que Savia Space (crates/space-hooks/src/trusted.rs). Sin bwrap no hay aislamiento
 // y el modo fijado bloquea todo (fail-closed). Límites: la copia sale del disco en la primera
 // carga (no de HEAD); no cubre `.venv` (lo fija guard-pin solo como fichero `bin/activate`) ni lo
 // que un hook lea fuera de esos directorios.
 
 import { copyFile, lstat, mkdir, mkdtemp, readFile, readdir, readlink, realpath, symlink, chmod } from "node:fs/promises"
-import { lstatSync, mkdirSync, readdirSync, readlinkSync, realpathSync, rmSync } from "node:fs"
+import { chmodSync, lstatSync, mkdirSync, readdirSync, readlinkSync, realpathSync, rmSync } from "node:fs"
 import { tmpdir } from "node:os"
 import { dirname, join, relative, sep } from "node:path"
 
@@ -124,17 +129,70 @@ function aliases(ws: string, registry: string): Array<{ from: string; to: string
   return [...out].map(([to, from]) => ({ from, to }))
 }
 
+const COPY_PREFIX = "savia-gates-trusted-"
+const COPY_NAME = /^savia-gates-trusted-(\d+)-[A-Za-z0-9]{6}$/
+
+function alive(pid: number): boolean {
+  try {
+    process.kill(pid, 0)
+    return true
+  } catch (e) {
+    return (e as NodeJS.ErrnoException).code === "EPERM" // existe, de otro usuario
+  }
+}
+
+/** Borra las copias de motores muertos en `base`. Devuelve las rutas borradas. */
+export function sweepOrphans(base: string): string[] {
+  const removed: string[] = []
+  const uid = process.getuid?.()
+  let names: string[] = []
+  try {
+    names = readdirSync(base)
+  } catch {
+    return removed
+  }
+  for (const name of names) {
+    const m = COPY_NAME.exec(name)
+    if (!m || Number(m[1]) === process.pid || alive(Number(m[1]))) continue
+    const path = join(base, name)
+    try {
+      const s = lstatSync(path)
+      if (!s.isDirectory() || s.isSymbolicLink() || (uid !== undefined && s.uid !== uid)) continue
+      // La copia tiene directorios sin escritura (solo lectura tras el chmod de copyTree o a mano).
+      const stack = [path]
+      while (stack.length) {
+        const d = stack.pop() as string
+        chmodSync(d, 0o700)
+        for (const n of readdirSync(d)) {
+          const c = join(d, n)
+          if (lstatSync(c).isDirectory()) stack.push(c)
+        }
+      }
+      rmSync(path, { recursive: true, force: true })
+      removed.push(path)
+    } catch (e) {
+      console.error(`savia-gates: no se pudo barrer ${path}: ${e}`)
+    }
+  }
+  return removed
+}
+
 /** Hace la copia. Lanza (cerrado) si no hay bwrap utilizable. */
 export async function prepareTrusted(workspace: string, opts: { bwrap?: string; base?: string } = {}): Promise<TrustedGuards> {
   const bwrap = opts.bwrap ?? process.env.SAVIA_GATES_BWRAP ?? "bwrap"
   probe(bwrap)
   const ws = await realpath(workspace)
-  const copy = await mkdtemp(join(opts.base ?? tmpdir(), "savia-gates-trusted-"))
+  const base = opts.base ?? tmpdir()
+  sweepOrphans(base)
+  const copy = await mkdtemp(join(base, `${COPY_PREFIX}${process.pid}-`))
   // Copia privada y temporal: se borra al salir el proceso del motor.
   process.once("exit", () => rmSync(copy, { recursive: true, force: true }))
   for (const rel of [...OVERLAY_DIRS, REGISTRY]) {
     const src = await realpath(join(ws, rel)).catch(() => null)
-    if (src) await copyTree(src, join(copy, rel))
+    if (!src) continue // sin hooks o sin scripts: se monta un directorio vacío
+    // El registro puede existir sin .claude/hooks: su directorio padre aún no está en la copia.
+    await mkdir(dirname(join(copy, rel)), { recursive: true, mode: 0o700 })
+    await copyTree(src, join(copy, rel))
   }
   for (const d of OVERLAY_DIRS) await mkdir(join(copy, d), { recursive: true, mode: 0o700 })
   await chmod(join(copy, ".claude"), 0o700)
