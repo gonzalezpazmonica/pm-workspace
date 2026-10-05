@@ -1,5 +1,5 @@
 {
-  "hash": "f56fd245618e",
+  "hash": "50a02225e4c3",
   "total": 1450,
   "resources": [
     {
@@ -16274,14 +16274,14 @@
       "name": "enterprise/governance-audit-trail",
       "intents": [
         "audit",
+        "chained",
         "compliance",
         "governance",
-        "signed",
-        "spec"
+        "hash"
       ],
       "kind": "script",
       "path": "scripts/enterprise/governance-audit-trail.sh",
-      "description": "governance-audit-trail.sh — SPEC-SE-006 Signed Audit Trail for Governance & Compliance"
+      "description": "governance-audit-trail.sh — SPEC-SE-006 Hash-chained Audit Trail for Governance & Compliance"
     },
     {
       "category": "quality",

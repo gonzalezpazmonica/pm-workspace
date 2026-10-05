@@ -25155,10 +25155,10 @@
       "id": "script:scripts/enterprise/governance-audit-trail",
       "intents": [
         "audit",
+        "chained",
         "compliance",
         "governance",
-        "signed",
-        "spec"
+        "hash"
       ],
       "kind": "script",
       "owner_domain": "quality",
@@ -29604,7 +29604,7 @@
       "tests": []
     }
   ],
-  "content_hash": "f56fd245618e",
+  "content_hash": "50a02225e4c3",
   "deferred_kinds": [
     "rule",
     "hook"
