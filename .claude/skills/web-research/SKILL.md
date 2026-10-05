@@ -78,9 +78,8 @@ Para URLs resultantes de SearxNG/WebSearch que requieren extracción de contenid
 bash scripts/scrapling-fetch.sh "${URL}" --json --timeout 25
 ```
 
-- Backend `scrapling` si está instalado: bypass Cloudflare/DataDome nativo
-- Fallback transparente a `curl` con user-agent `SaviaResearch/1.0`
-- Exit 0/1/2, JSON con `status|title|url_final|text|backend`
+- Descarga siempre con `curl` (user-agent `SaviaResearch/1.0`, IP validada en cada salto); Scrapling, si está instalado, solo parsea (`--selector`). Sin bypass anti-bot: su `Fetcher` permitía DNS rebinding (SE-376)
+- Exit 0 (2xx) / 1 (red, 4xx/5xx, timeout, > `--max-bytes`) / 2 (uso) / 3 (destino interno o metadatos bloqueado, anti-SSRF); JSON con `status|title|url_final|text|text_truncated|error|backend|fetcher`, también en error
 
 Usar cuando WebFetch tool devuelve 403/429/503 o cuando el snippet no es suficiente. No usar para fetch masivo sin respetar robots.txt — ver `docs/rules/domain/research-stack.md`.
 

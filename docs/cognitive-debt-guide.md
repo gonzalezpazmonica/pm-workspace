@@ -4,6 +4,8 @@
 > **Phase**: 1 (measurement + opt-in). Phases 2 (friction hooks) y 3 (retrieval drill) follow-up.
 > **Status**: opt-in por defecto (CD-04). No se activa sin decisión explícita.
 
+> **Incumplimiento conocido (calibración SE-376, 2026-10-04)**: el `.claude/settings.json` versionado registra `cognitive-debt-telemetry` y `cognitive-debt-hypothesis-first` desde #783, y el hook de telemetría no tiene puerta. En una instalación limpia, `status` dice ENABLED y la telemetría se escribe en cada Edit/Write/Task. Hasta que se corrija el registro (cambio tier 3, en un PR aparte), ejecuta `bash scripts/cognitive-debt.sh disable` si no quieres la medición.
+
 ---
 
 ## Tesis (one paragraph)
@@ -50,8 +52,10 @@ bash scripts/cognitive-debt.sh forget --confirm
 Sobre la telemetría JSONL (cada línea = 1 invocación de tool):
 
 - **Total events / día**: cuántas veces invocaste Edit / Write / Task.
-- **Fast-accept ratio**: % de tool calls con `duration_ms < 5000` — proxy de "skip-verification" (Microsoft + CMU 2025).
-- **Distribución por día** (últimos 7 días): histograma simple en terminal.
+- **Fast-accept ratio**: % de tool calls con `duration_ms < 5000` — proxy de "skip-verification" (Microsoft + CMU 2025). El denominador son solo los eventos con `duration_ms` numérico (`timed events`); los que no lo traen (el hook escribe `null` cuando el payload no da duración) quedan fuera, y si no hay ninguno el ratio sale `n/a`, no 0 %.
+- **Distribución por día** (últimos 7 días UTC, hoy incluido): histograma simple en terminal. `status` cuenta «Today» también en UTC, como los timestamps del hook.
+
+`enable` y `disable` validan que `settings.json` sea JSON antes de tocarlo (si no lo es, salen con código 6 sin backup ni cambios), conservan los acentos tal cual y escriben de forma atómica. `disable` retira solo los dos hooks que `enable` registra (telemetry e hypothesis-first); `cognitive-debt-check.sh` es un opt-in aparte (`SAVIA_COGNITIVE_MONITOR=on`) y se queda.
 
 NO se computa: "calidad" del código, "deuda cognitiva real" (eso requeriría EEG), juicios de comportamiento. Solo proxies conductuales con interpretación documentada.
 
