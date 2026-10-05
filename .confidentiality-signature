@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=b11a39ba529aa02b3ffe5e1fab73cfd157b0f0e72110fc04cf7e7d46ec0560b5
-timestamp=2026-10-05T12:21:51Z
-branch=agent/se435-space-distribution
-head_commit=7ab5d1ced
-signature=361bdd9bf91beada3d4f0b4ae5c37e44e8b713defe0619f36542f882a4698fe9
+diff_hash=094f9d6b6512ebfc0ea516ba97f76a6636705358548ce29209073fd0342cc9a7
+timestamp=2026-10-05T14:11:00Z
+branch=agent/orca-deltas-specs
+head_commit=2396a2276
+signature=1b8d886d7a000580d9e4341eb833a8c7db2a9795b28a93a431673084ff626797
