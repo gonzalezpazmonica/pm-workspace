@@ -2,6 +2,7 @@
 status: APPROVED
 approved_at: 2026-10-05
 approved_by: "operadora, AskUserQuestion 2026-10-05"
+delta_approved: "operadora, AskUserQuestion 2026-10-05, D-ORCA-1"
 priority: P2
 developer_type: agent-single
 created: 2026-10-02
@@ -49,6 +50,24 @@ aprueba con biometría.
    - **Instancias**: varias, con varios endpoints cada una.
    - **Lo que no tiene equivalente en Space** (gestión de proyectos del Bridge) queda en la app
      antigua congelada.
+   - **Mando remoto de las sesiones del escritorio (D-ORCA-1).** El teléfono manda sobre lo que
+     corre en el escritorio; no es un editor.
+     - **Vista de chat de la sesión**: muestra como chat una sesión o ejecución del escritorio,
+       con su estado (trabajando, hecho, esperando). Usa el mismo streaming y el mismo reductor
+       por secuencia que la pantalla Sesión, y respeta el nivel del dispositivo.
+     - **Responder a una pregunta pendiente** (una pregunta de Soul o del motor) con texto,
+       dictado o foto. El dictado se transcribe en el teléfono y la persona ve y puede editar el
+       texto antes de enviarlo: se envía texto, no audio. La foto llega al agente como entrada no
+       fiable, con el nivel del dispositivo como tope. Responder no es aprobar: si la pregunta
+       implica riesgo medio o alto, la app abre el flujo de aprobación con biometría (punto 6).
+     - **Comandos rápidos sincronizados**: prompts cortos que la persona define en Space y que el
+       teléfono recibe de Space, sin copia local editable. Lanzar uno equivale a escribirlo en la
+       sesión: pasa por la misma mediación y la misma envolvente.
+     - **Editar la dirección del host sin volver a emparejar**: la persona añade, edita o reordena
+       los endpoints de una instancia. El pin, la audiencia, las claves y el registro del
+       dispositivo no cambian, y un endpoint nuevo solo conecta si presenta el mismo pin.
+     - **Solo ruta directa**: red local o VPN (Tailscale o WireGuard). Sin relé en la nube ni
+       inicio de sesión de terceros para el móvil.
 3. **Conectividad.**
    - Space escucha en interfaces de red declaradas una a una, nunca en todas por defecto. Solo
      sirve la API con bearer; la interfaz web sigue en loopback.
@@ -127,6 +146,27 @@ aprueba con biometría.
   teléfono coinciden para la misma clave, con un vector de test compartido; dos registros en
   carrera con el mismo QR producen uno solo.
 
+- **AC14** (D-ORCA-1): la vista de chat de una ejecución del escritorio recibe los mismos eventos,
+  en el mismo orden, que la interfaz web; un dispositivo N2 no ve los mensajes N3 de esa sesión.
+- **AC15** (D-ORCA-1): una respuesta por dictado a una pregunta pendiente llega a Space como texto
+  (no audio) con canal móvil; si la pregunta es de riesgo medio, la respuesta sola no lanza nada y
+  se exige la firma con biometría.
+- **AC16** (D-ORCA-1): una foto adjunta a una respuesta llega a su consumidor marcada como no
+  fiable y nunca por encima del nivel del dispositivo.
+- **AC17** (D-ORCA-1): un comando rápido creado en Space aparece en el teléfono sin acción local,
+  y al lanzarlo pasa por la misma mediación que el mismo texto escrito en la sesión.
+- **AC18** (D-ORCA-1): cambiar la dirección del host en la app conecta sin nuevo QR ni nuevo
+  registro; un endpoint con otra clave se rechaza igual que en AC2.
+- **AC19** (D-ORCA-1): con la app en uso, el teléfono no abre conexiones hacia ningún servicio
+  intermedio: solo hacia los endpoints declarados de la instancia.
+
+## Deltas aprobados
+
+- **2026-10-05** (operadora, AskUserQuestion 2026-10-05, D-ORCA-1): el teléfono como mando remoto
+  de las sesiones del escritorio, patrón tomado de [Orca](https://github.com/stablyai/orca) sin
+  su relé en la nube. La spec sigue APPROVED. Reparto propuesto, pendiente de confirmar: M2
+  (vista de chat, comandos rápidos y endpoints editables) y M3 (respuestas con dictado y foto).
+
 ## Entregas
 
 Calendario único de SE-428: M1–M3 entran en Space **0.4**, junto con la interoperabilidad
@@ -154,7 +194,7 @@ Ninguno: app Android cliente de una API HTTP; no añade hooks, agentes ni skills
 ### Verification protocol
 
 - [ ] Tests unitarios Kotlin y vectores de canonicalización compartidos con Rust y TypeScript.
-- [ ] Escenarios AC1–AC13 contra una instancia de Space de prueba.
+- [ ] Escenarios AC1–AC19 contra una instancia de Space de prueba.
 
 ### Portability classification
 

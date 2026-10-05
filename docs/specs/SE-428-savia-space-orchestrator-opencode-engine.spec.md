@@ -57,6 +57,22 @@ Space nunca afloja `opencode.json`; solo puede endurecerlo. Las reglas de seguri
      motor queda en modo degradado y no admite sesiones con escritura.
    - Si el motor cae, la ejecución queda interrumpida y nunca se reenvía un prompt
      automáticamente.
+   - **Hibernación de ejecuciones (D-ORCA-3).** Entra en 0.3 y nace apagada
+     (`hibernation.enabled: false`). Con ella activa, Space pausa una ejecución de agente para
+     liberar memoria solo si se cumplen **todas** estas condiciones a la vez:
+     - la ejecución está hecha (sin turno en curso);
+     - no está en primer plano en ninguna vista;
+     - no ha recibido teclas en su terminal ni en su chat;
+     - su sesión del motor es reanudable;
+     - lleva N minutos inactiva (`hibernation.idleMinutes`, 30 por defecto);
+     - ningún móvil la controla (SE-430);
+     - no tiene ningún intento de tarea sin cerrar (SE-431, D-ORCA-2);
+     - no tiene subagentes vivos;
+     - no tiene nada pendiente de aprobación (permiso, pregunta o petición de aprobación);
+     - en el perfil mediado, la frontera está en estado `LIVE`.
+     Si falla una sola, no se pausa. Se reanuda con la orden de reanudar del motor sobre la misma
+     sesión y con el mismo entorno (worktree, envolvente, plugins y variables), nunca con un
+     prompt nuevo. La pausa y la reanudación quedan en el journal.
 2. **Paridad con OpenCode.**
    - **P0**: sesiones (crear, listar, renombrar, borrar, fork), prompt con streaming y abort,
      permisos y preguntas, cambio de agente y de modelo, paleta de comandos, catálogo de agentes
@@ -69,6 +85,12 @@ Space nunca afloja `opencode.json`; solo puede endurecerlo. Las reglas de seguri
      exportar; crear ramas o PR Draft; compactar; fin de turno), Space ejecuta **los mismos hooks
      registrados en `.claude/settings.json`**, con el contrato de Claude Code y sin reimplementarlos.
    - Sin doble disparo: lo que ya cubre el plugin no se repite.
+   - **Endpoint de los hooks releído en cada llamada (D-ORCA-5).** La dirección a la que los
+     hooks y el plugin de Savia del motor envían sus eventos a Space vive en un fichero del estado
+     privado de Space con modo 0600. Cada hook lo relee en cada llamada y no lo guarda al
+     arrancar: una sesión larga sobrevive al reinicio de Space sin enviar a un puerto muerto. Si
+     el fichero falta o no tiene modo 0600, el hook no envía y lo registra. El fichero no contiene
+     la contraseña del motor.
    - Nunca se ejecutan hooks declarados en assets importados.
 4. **Instrucciones y modelos.**
    - Las sesiones de agente cargan las instrucciones de `opencode.json`, como hoy.
@@ -166,6 +188,16 @@ mediación.
   sigue declarada en los recibos.
 - **AC10**: cinco jornadas de trabajo real de la operadora solo con Space, sin abrir la TUI de
   OpenCode para nada de P0. Cada apertura necesaria se registra con su causa.
+- **AC14** (D-ORCA-3): con la hibernación activa, una ejecución hecha, inactiva 30 minutos y sin
+  ninguna otra condición en contra se pausa; con una pregunta pendiente, un subagente vivo, un
+  intento sin cerrar, un móvil que la controla o la frontera fuera de `LIVE` (un caso de prueba
+  por condición), no se pausa. Al reanudarla, la sesión y el worktree son los mismos y no se
+  envía ningún prompt.
+- **AC15** (D-ORCA-3): en una instalación nueva la hibernación está apagada y ninguna ejecución se
+  pausa.
+- **AC16** (D-ORCA-5): con una ejecución viva, Space se reinicia en otro puerto y el siguiente
+  evento de un hook llega al puerto nuevo; con el fichero del endpoint en modo 0644, el hook no
+  envía y lo registra.
 
 ## Hallazgos de la implementación (2026-10-03)
 
@@ -226,6 +258,12 @@ Medidos en el prototipo local contra OpenCode 1.18.32, con un modelo local (Olla
   falla o no responde bloquea el permiso con la causa. En interactivo, el fallo no bloquea, como
   en Claude Code, y queda en la traza.
 
+## Deltas aprobados
+
+- **2026-10-05** (operadora, AskUserQuestion 2026-10-05, D-ORCA-3 y D-ORCA-5): hibernación de
+  ejecuciones con condiciones conjuntivas y endpoint de hooks releído en cada llamada, patrones
+  tomados de [Orca](https://github.com/stablyai/orca). La spec no cambia de estado.
+
 ## Decisiones pendientes
 
 - **D1**: addendum a ADR-002 — Space como frontend de Savia no amplía la autoridad: herramientas
@@ -247,7 +285,7 @@ Medidos en el prototipo local contra OpenCode 1.18.32, con un modelo local (Olla
 
 - [ ] Tests de contrato del adaptador contra la versión de OpenCode fijada.
 - [ ] Canarios por hook: cada evento se dispara una sola vez (motor o bus).
-- [ ] Escenarios AC1–AC9 y AC11–AC13 en CI con un motor local de prueba; AC10 con la operadora.
+- [ ] Escenarios AC1–AC9 y AC11–AC16 en CI con un motor local de prueba; AC10 con la operadora.
 
 ### Portability classification
 

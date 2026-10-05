@@ -84,6 +84,13 @@ no le da autoridad de merge; el merge sigue siendo de la persona.
      ejecuciones, aprobaciones, cúpulas, mensajes).
    - Órdenes permanentes: cada una con objetivo, disparador, envolvente y autonomía (observar,
      proponer o actuar).
+   - **Precomprobación de órdenes programadas (D-ORCA-4).** Toda orden permanente nace con
+     `enabled: false`; solo la persona la activa, con recibo. Una orden con disparador programado
+     acepta `precheck: {cmd, egress}`:
+     - `cmd` es una orden determinista que corre dentro del sandbox de Space y no llama al modelo;
+     - sin red, salvo los destinos declarados en `egress`;
+     - si sale con código distinto de cero, el ciclo se registra en el journal como `skipped`, con
+       el código de salida, y no se gasta modelo ni se lanza nada.
    - Canales, bots permitidos y presupuestos (tokens, ejecuciones, coste, preguntas al día,
      fallos seguidos).
    - Orquestación: `maxParallelRuns` (por defecto 4), `maxDepth` = 1 y preferencia por delegar.
@@ -105,6 +112,17 @@ no le da autoridad de merge; el merge sigue siendo de la persona.
    - **Actuar**: solo si la orden permite actuar y la acción cabe en su envolvente. Si no,
      pregunta a la operadora con opciones y recomendación. Nunca hace merge, push forzado,
      aprobación de PRs ni efectos externos sin admisión externa (AEK).
+   - **Task → Dispatch con cierre obligatorio (D-ORCA-2).** Cada tarea que Soul reparte es una
+     `Task`; cada intento de ejecutarla es un `Dispatch` con su propio `dispatchId`. Un reintento
+     es siempre un Dispatch nuevo.
+     - El trabajador cierra cada intento con `worker_done{taskId, dispatchId, outcome}`, con
+       `outcome` en `succeeded | failed | blocked`. Es la única marca de fin válida: Soul no deduce
+       el final vigilando ficheros ni la salida de la tarea.
+     - El latido es por intento (`dispatchId`), no por tarea.
+     - Un Dispatch sin `worker_done` ni latido dentro de su time-box pasa a `failed` y cuenta como
+       fallo para el fail-safe.
+     - Una puerta de decisión de un trabajador bloquea su Task y se convierte en una pregunta a la
+       operadora (decisión `ASK`). Soul no la resuelve sola.
    - **Reflexionar**: propone memoria y skills; nunca las aplica sola.
    - Cada ciclo queda en el journal con sus entradas, su decisión, sus acciones y su coste.
    - Fail-safe: 3 fallos seguidos, la misma acción 3 veces o el presupuesto agotado lo detienen
@@ -193,6 +211,26 @@ acciones aceptadas), se reduce a bajo demanda y se revisa. Los resultados negati
 - **AC21**: con `maxParallelRuns` = 4 y un probe que solo admite 2 ejecuciones, nunca hay más de 2
   hijas vivas; con el probe fallido, como máximo 1; el journal registra el límite y sus entradas.
 
+- **AC22** (D-ORCA-2): un trabajador que termina sin `worker_done` y sin latido dentro de su
+  time-box deja su Dispatch en `failed`, el contador de fallos seguidos sube en 1 y el reintento
+  lleva un `dispatchId` distinto.
+- **AC23** (D-ORCA-2): un `worker_done` con un `dispatchId` que no existe o que ya está cerrado se
+  rechaza y queda registrado; no cambia el estado de la Task.
+- **AC24** (D-ORCA-2): una puerta de decisión de un trabajador produce una decisión `ASK` a la
+  operadora y la Task queda bloqueada hasta su respuesta; ningún ciclo la resuelve sin ella.
+- **AC25** (D-ORCA-4): una orden programada con `precheck` que sale con código 1 deja un ciclo
+  `skipped` en el journal con el código de salida y cero tokens de modelo consumidos.
+- **AC26** (D-ORCA-4): una orden permanente recién creada tiene `enabled: false` y no se dispara
+  hasta que la persona la activa; un `precheck` que intenta salir a un destino no declarado en
+  `egress` falla dentro del sandbox.
+
+## Deltas aprobados
+
+- **2026-10-05** (operadora, AskUserQuestion 2026-10-05, D-ORCA-2 y D-ORCA-4): patrones de
+  orquestación con cierre obligatorio y de automatizaciones con precomprobación tomados de
+  [Orca](https://github.com/stablyai/orca), adaptados al sandbox y a la mediación de Space. La
+  spec sigue PROPOSED.
+
 ## Entregas
 
 - **S1**: bajo demanda en la web; observar e informar; disparadores deterministas.
@@ -219,7 +257,7 @@ aprobación.
 
 ### Verification protocol
 
-- [ ] Escenarios AC1–AC21 con eventos sintéticos y un motor de prueba.
+- [ ] Escenarios AC1–AC26 con eventos sintéticos y un motor de prueba.
 - [ ] Replay determinista del triage en CI.
 
 ### Portability classification
