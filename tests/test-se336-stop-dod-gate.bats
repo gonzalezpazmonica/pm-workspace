@@ -1,6 +1,7 @@
 #!/usr/bin/env bats
 # SE-336 S2 — stop-dod-gate: DoD de la respuesta final
 # Spec: docs/specs/SE-336-turn-sdlc.spec.md (AC-02..AC-05, AC-09, AC-10 parcial)
+# Ref: docs/specs/SE-336-turn-sdlc.spec.md · CRITERIO.md CRIT-034, CRIT-038
 #
 # Fixtures: transcript JSONL sintético con último mensaje assistant de texto,
 # en el formato que producen los hooks de Claude Code (.type=assistant,
@@ -166,4 +167,91 @@ PYEOF
   run bash "$HOOK" <<< "$(make_input "$t")"
   [[ "$status" -eq 0 ]]
   [[ "$output" != *"decision"* ]]
+}
+
+# ── DOD-004 / DOD-005 (CRIT-034, CRIT-038) ──
+# Transcript con turno: user texto → assistant [tool_use…] → assistant texto final.
+make_turn() {
+  local text="$1" tools="${2:-}" f="$FIXDIR/turn.jsonl"
+  python3 - "$f" "$text" "$tools" <<'PYEOF'
+import json, sys
+f, text, tools = sys.argv[1], sys.argv[2], sys.argv[3].split()
+with open(f, "w") as fh:
+    fh.write(json.dumps({"type":"user","message":{"content":[{"type":"text","text":"turno anterior"}]}})+"\n")
+    fh.write(json.dumps({"type":"assistant","message":{"content":[{"type":"tool_use","name":"Bash","input":{}}]}})+"\n")
+    fh.write(json.dumps({"type":"user","message":{"content":[{"type":"text","text":"nuevo turno"}]}})+"\n")
+    for t in tools:
+        fh.write(json.dumps({"type":"assistant","message":{"content":[{"type":"tool_use","name":t,"input":{}}]}})+"\n")
+        fh.write(json.dumps({"type":"user","message":{"content":[{"type":"tool_result","content":"ok"}]}})+"\n")
+    fh.write(json.dumps({"type":"assistant","message":{"content":[{"type":"text","text":text}]}})+"\n")
+PYEOF
+  echo "$f"
+}
+
+@test "DOD-004 block: estado afirmado sin ninguna herramienta en el turno" {
+  run bash "$HOOK" <<< "$(make_input "$(make_turn "La revisión está en marcha, te aviso en cuanto termine.")")"
+  [[ "$status" -eq 0 ]]
+  [[ "$output" == *'"decision": "block"'* && "$output" == *DOD-004* ]]
+}
+
+@test "DOD-004 positivo: estado afirmado tras comprobar en el turno no bloquea" {
+  run bash "$HOOK" <<< "$(make_input "$(make_turn "La CI está en marcha sobre 1e6151c." "Bash")")"
+  [[ "$output" != *DOD-004* ]]
+}
+
+@test "DOD-004 boundary: la herramienta de un turno anterior no cuenta como comprobación" {
+  run bash "$HOOK" <<< "$(make_input "$(make_turn "Sigo esperando a la CI.")")"
+  [[ "$output" == *DOD-004* ]]
+}
+
+@test "DOD-005 block: decisión en prosa sin AskUserQuestion, aunque haya otras herramientas" {
+  run bash "$HOOK" <<< "$(make_input "$(make_turn "He preparado el script. ¿Lo lanzo ya o espero?" "Bash")")"
+  [[ "$output" == *'"decision": "block"'* && "$output" == *DOD-005* ]]
+}
+
+@test "DOD-005 positivo: con AskUserQuestion en el turno no bloquea" {
+  run bash "$HOOK" <<< "$(make_input "$(make_turn "Te he preguntado cómo seguimos. ¿Lo lanzo ya o espero?" "AskUserQuestion")")"
+  [[ "$output" != *DOD-005* ]]
+}
+
+@test "DOD-005 empty: texto sin pregunta de decisión no bloquea" {
+  run bash "$HOOK" <<< "$(make_input "$(make_turn "PR #1290 mergeado.")")"
+  [[ "$output" != *DOD-00[45]* ]]
+}
+
+@test "DOD-004 antiloop por turno: el segundo Stop del mismo texto no vuelve a bloquear" {
+  local t; t=$(make_turn "Está en marcha.")
+  bash "$HOOK" <<< "$(make_input "$t")" >/dev/null
+  run bash "$HOOK" <<< "$(make_input "$t")"
+  [[ "$output" != *'"decision": "block"'* ]]
+}
+
+@test "DOD-004 invalid: SAVIA_DOD_STATUS_MODE=warn no bloquea" {
+  SAVIA_DOD_STATUS_MODE=warn run bash "$HOOK" <<< "$(make_input "$(make_turn "Está en marcha.")")"
+  [[ "$output" != *'"decision": "block"'* ]]
+}
+
+@test "safety: el hook usa set -uo pipefail" {
+  grep -q 'set -uo pipefail' "$HOOK"
+}
+
+@test "edge: transcript inexistente o vacío sale 0 sin bloquear" {
+  run bash "$HOOK" <<< '{"session_id":"x","transcript_path":"/nonexistent/empty.jsonl"}'
+  [[ "$status" -eq 0 && "$output" != *block* ]]
+  : > "$FIXDIR/empty.jsonl"
+  run bash "$HOOK" <<< "{\"session_id\":\"x\",\"transcript_path\":\"$FIXDIR/empty.jsonl\"}"
+  [[ "$status" -eq 0 && "$output" != *block* ]]
+}
+
+@test "edge: entrada JSON nula o inválida no bloquea" {
+  run bash "$HOOK" <<< 'null'
+  [[ "$status" -eq 0 && "$output" != *block* ]]
+  run bash "$HOOK" <<< 'no-json'
+  [[ "$status" -eq 0 && "$output" != *block* ]]
+}
+
+@test "edge: texto muy largo con estado sin comprobar sigue bloqueando (large)" {
+  local long; long="$(printf 'contexto %.0s' $(seq 1 3000)) La CI está en marcha."
+  run bash "$HOOK" <<< "$(make_input "$(make_turn "$long")")"
+  [[ "$output" == *DOD-004* ]]
 }

@@ -7,11 +7,17 @@ sources (.md, .jsonl). SQLite is a derived cache — plain text stays source of
 truth.
 
 Usage:
-    python3 scripts/knowledge-graph.py build   [--db PATH] [--root PATH] [--project SLUG] [--memory-type TYPE]
-    python3 scripts/knowledge-graph.py query   "question" [--db PATH] [--limit N] [--project SLUG] [--min-confidence FLOAT]
-    python3 scripts/knowledge-graph.py impact  "entity"   [--db PATH] [--depth N] [--project SLUG]
+    python3 scripts/knowledge-graph.py build   [--db PATH] [--project SLUG] [--memory-type TYPE]
+    python3 scripts/knowledge-graph.py query   "question" [--db PATH] [--limit N>=1] [--project SLUG]
+    python3 scripts/knowledge-graph.py impact  "entity"   [--db PATH] [--depth N>=0] [--project SLUG]
     python3 scripts/knowledge-graph.py status             [--db PATH] [--project SLUG]
-    python3 scripts/knowledge-graph.py entities [--type TYPE] [--db PATH] [--project SLUG] [--min-confidence FLOAT]
+    python3 scripts/knowledge-graph.py entities [--type TYPE] [--memory-type TYPE] [--min-confidence FLOAT] [--json] [--db PATH] [--project SLUG]
+    python3 scripts/knowledge-graph.py import-audience --tsv PATH [--db PATH] [--project SLUG] [--quiet]
+
+Sources (relative to PROJECT_ROOT): output/.memory-store.jsonl, docs/ROADMAP.md,
+docs/rules/domain/*.md, plus ~/.savia/memory-cache.db. It is a memory graph of
+the Savia workspace, not a codebase analysis: it takes no source-path argument.
+Search terms are literal substrings (% and _ are not wildcards).
 
 Entity types : project, person, skill, decision, spec, concept, tool, rule
 Relation types: uses, owns, blocks, depends_on, decided, implements, mentions
@@ -30,6 +36,7 @@ import os
 import re
 import sqlite3
 import sys
+import time
 from collections import deque
 from pathlib import Path
 
@@ -100,10 +107,41 @@ if _SKILLS_DIR.exists():
 
 # ── DB helpers ───────────────────────────────────────────────────────────────
 
+# Concurrency: several processes may open (and create) the same DB at once.
+# busy_timeout makes ordinary statements wait for the lock; switching to WAL
+# needs an exclusive lock that SQLite may refuse immediately, so it is retried
+# with a bounded backoff; migrations run inside BEGIN IMMEDIATE so only one
+# process adds the missing columns.
+_LOCK_TIMEOUT_S = 30.0
+_WAL_RETRIES = 50
+
+
+def _set_wal(conn: sqlite3.Connection) -> None:
+    delay = 0.01
+    for attempt in range(_WAL_RETRIES):
+        try:
+            conn.execute("PRAGMA journal_mode=WAL")
+            return
+        except sqlite3.OperationalError as exc:
+            if "locked" not in str(exc) or attempt == _WAL_RETRIES - 1:
+                raise
+            time.sleep(delay)
+            delay = min(delay * 2, 0.5)
+
+
+_MIGRATIONS = (
+    ("project_id", "ALTER TABLE entities ADD COLUMN project_id TEXT"),
+    ("memory_type", "ALTER TABLE entities ADD COLUMN memory_type TEXT DEFAULT 'unknown'"),
+    ("confidence", "ALTER TABLE entities ADD COLUMN confidence REAL DEFAULT 0.8"),
+    ("provenance", "ALTER TABLE entities ADD COLUMN provenance TEXT DEFAULT 'unknown'"),
+)
+
+
 def open_db(db_path: Path) -> sqlite3.Connection:
     db_path.parent.mkdir(parents=True, exist_ok=True)
-    conn = sqlite3.connect(str(db_path))
-    conn.execute("PRAGMA journal_mode=WAL")
+    conn = sqlite3.connect(str(db_path), timeout=_LOCK_TIMEOUT_S)
+    conn.execute(f"PRAGMA busy_timeout={int(_LOCK_TIMEOUT_S * 1000)}")
+    _set_wal(conn)
     conn.execute("PRAGMA foreign_keys=ON")
     # Create tables using schema without project_id unique constraint first (compat)
     _SCHEMA_COMPAT = """
@@ -132,37 +170,24 @@ CREATE INDEX IF NOT EXISTS idx_ent_name ON entities(name);
 CREATE INDEX IF NOT EXISTS idx_ent_type ON entities(type);
 """
     conn.executescript(_SCHEMA_COMPAT)
-    # SE-151: add project_id column if missing (idempotent migration)
+    # SE-151 / SE-211 / SE-213: idempotent column migrations, serialized
+    # across processes by the write lock of BEGIN IMMEDIATE and re-checked
+    # inside it, so two openers never add the same column twice.
     cols = {row[1] for row in conn.execute("PRAGMA table_info(entities)")}
-    if "project_id" not in cols:
-        conn.execute("ALTER TABLE entities ADD COLUMN project_id TEXT")
-        conn.execute(
-            "CREATE INDEX IF NOT EXISTS idx_ent_project ON entities(project_id)"
-        )
-    # SE-211: add memory_type column (idempotent migration)
-    if "memory_type" not in cols:
+    if any(col not in cols for col, _ in _MIGRATIONS):
+        conn.execute("BEGIN IMMEDIATE")
         try:
+            cols = {row[1] for row in conn.execute("PRAGMA table_info(entities)")}
+            for col, ddl in _MIGRATIONS:
+                if col not in cols:
+                    conn.execute(ddl)
             conn.execute(
-                "ALTER TABLE entities ADD COLUMN memory_type TEXT DEFAULT 'unknown'"
+                "CREATE INDEX IF NOT EXISTS idx_ent_project ON entities(project_id)"
             )
+            conn.commit()
         except Exception:
-            pass  # column already exists
-    # SE-213: add confidence and provenance columns (idempotent migration)
-    if "confidence" not in cols:
-        try:
-            conn.execute(
-                "ALTER TABLE entities ADD COLUMN confidence REAL DEFAULT 0.8"
-            )
-        except Exception:
-            pass
-    if "provenance" not in cols:
-        try:
-            conn.execute(
-                "ALTER TABLE entities ADD COLUMN provenance TEXT DEFAULT 'unknown'"
-            )
-        except Exception:
-            pass
-    conn.commit()
+            conn.rollback()
+            raise
     return conn
 
 
@@ -190,7 +215,7 @@ def upsert_entity(
 
     # SE-211: validate memory_type
     resolved_mtype: str = "unknown"
-    if memory_type is not None:
+    if memory_type is not None and memory_type != "unknown":
         if memory_type in MEMORY_TYPES:
             resolved_mtype = memory_type
         else:
@@ -204,8 +229,17 @@ def upsert_entity(
         " VALUES(?,?,?,?,?,?)",
         (name, etype, project_id, resolved_mtype, confidence, provenance),
     )
+    # An upsert that carries no quality information (unknown memory_type and
+    # provenance) must not erase what an earlier, explicit source recorded:
+    # it only refreshes last_seen and the project tag.
+    if resolved_mtype == "unknown" and provenance == "unknown":
+        conn.execute(
+            "UPDATE entities SET last_seen=datetime('now'),"
+            " project_id=COALESCE(?, project_id) WHERE name=? AND type=?",
+            (project_id, name, etype),
+        )
     # Update last_seen; if project_id provided, retag (within this build project_id is consistent)
-    if project_id is not None:
+    elif project_id is not None:
         conn.execute(
             "UPDATE entities SET last_seen=datetime('now'), project_id=?,"
             " memory_type=?, confidence=?, provenance=?"
@@ -271,22 +305,35 @@ def ingest_memory_store(conn: sqlite3.Connection, project_id: str | None = None)
                 continue
             try:
                 entry = json.loads(line)
-            except json.JSONDecodeError:
+            except json.JSONDecodeError as exc:
+                print(f"[WARN] memory-store: skipping invalid JSON line ({exc.msg})",
+                      file=sys.stderr)
+                continue
+            if not isinstance(entry, dict):
+                print("[WARN] memory-store: skipping non-object line", file=sys.stderr)
                 continue
             topic = entry.get("topic", entry.get("title", ""))
+            if not isinstance(topic, str) or not topic.strip():
+                print("[WARN] memory-store: skipping entry without a text topic",
+                      file=sys.stderr)
+                continue
             content = entry.get("content", "")
-            etype = entry.get("type", "concept")
-            if etype not in ("decision", "discovery", "feedback", "concept",
-                             "spec", "rule", "tool", "project"):
-                etype = "concept"
-            # SE-211: map store type to memory_type; SE-213: provenance explicit_statement
+            if not isinstance(content, str):
+                content = json.dumps(content, ensure_ascii=False)
+            raw_type = entry.get("type", "concept")
+            # SE-211: map the raw store type to memory_type BEFORE coercing the
+            # entity type, otherwise bug/pattern/architecture/... never map.
             _mtype_map = {
                 "decision": "decision", "discovery": "observation",
                 "bug": "error", "architecture": "artifact",
                 "pattern": "learning", "session-summary": "context",
                 "feedback": "observation", "episode": "event",
             }
-            m_type = _mtype_map.get(etype, "unknown")
+            m_type = _mtype_map.get(raw_type, "unknown") if isinstance(raw_type, str) else "unknown"
+            etype = raw_type
+            if etype not in ("decision", "discovery", "feedback", "concept",
+                             "spec", "rule", "tool", "project"):
+                etype = "concept"
             topic_id = upsert_entity(
                 conn, topic, etype, project_id,
                 memory_type=m_type,
@@ -409,6 +456,23 @@ def ingest_rules(conn: sqlite3.Connection, project_id: str | None = None) -> int
 
 # ── Commands ─────────────────────────────────────────────────────────────────
 
+def _like_escape(term: str) -> str:
+    """Escape LIKE metacharacters so search terms match literally."""
+    return term.replace("\\", "\\\\").replace("%", "\\%").replace("_", "\\_")
+
+
+def _int_at_least(minimum: int):
+    def parse(value: str) -> int:
+        try:
+            n = int(value)
+        except ValueError:
+            raise argparse.ArgumentTypeError(f"invalid integer: {value!r}")
+        if n < minimum:
+            raise argparse.ArgumentTypeError(f"must be >= {minimum}, got {n}")
+        return n
+    return parse
+
+
 
 
 
@@ -438,6 +502,16 @@ def cmd_build(args: argparse.Namespace) -> None:
     n_cache = ingest_memory_cache_db(conn, project_id)
     n_road  = ingest_roadmap(conn, project_id)
     n_rules = ingest_rules(conn, project_id)
+
+    # SE-211: --memory-type overrides memory_type for everything ingested.
+    override = getattr(args, "memory_type", None)
+    if override:
+        if project_id:
+            conn.execute("UPDATE entities SET memory_type=? WHERE project_id=?",
+                         (override, project_id))
+        else:
+            conn.execute("UPDATE entities SET memory_type=?", (override,))
+        conn.commit()
 
     total_e = conn.execute("SELECT COUNT(*) FROM entities").fetchone()[0]
     total_r = conn.execute("SELECT COUNT(*) FROM relations").fetchone()[0]
@@ -486,8 +560,13 @@ def cmd_status(args: argparse.Namespace) -> None:
         print(f"    {row[0]:15s} {row[1]}")
     print()
     print("  Relations by type:")
+    rel_where = ("WHERE entity_a IN (SELECT id FROM entities WHERE project_id=?)"
+                 " OR entity_b IN (SELECT id FROM entities WHERE project_id=?)"
+                 if project_id else "")
+    rel_params = (project_id, project_id) if project_id else ()
     for row in conn.execute(
-        "SELECT relation, COUNT(*) FROM relations GROUP BY relation ORDER BY 2 DESC"
+        f"SELECT relation, COUNT(*) FROM relations {rel_where} GROUP BY relation ORDER BY 2 DESC",
+        rel_params
     ):
         print(f"    {row[0]:15s} {row[1]}")
 
@@ -547,7 +626,7 @@ def cmd_query(args: argparse.Namespace) -> None:
         sys.exit(1)
     project_id: str | None = getattr(args, "project", None) or None
     conn = open_db(db)
-    q = f"%{args.question}%"
+    q = f"%{_like_escape(args.question)}%"
     proj_filter = "AND e.project_id=?" if project_id else ""
     proj_params = (project_id,) if project_id else ()
     rows = conn.execute(
@@ -557,14 +636,14 @@ def cmd_query(args: argparse.Namespace) -> None:
            FROM entities e
            JOIN relations r ON (r.entity_a=e.id OR r.entity_b=e.id)
            JOIN entities e2 ON (CASE WHEN r.entity_a=e.id THEN r.entity_b ELSE r.entity_a END = e2.id)
-           WHERE (e.name LIKE ? OR e.type LIKE ?) {proj_filter}
+           WHERE (e.name LIKE ? ESCAPE '\\' OR e.type LIKE ? ESCAPE '\\') {proj_filter}
            ORDER BY e.name
            LIMIT ?""",
         (q, q) + proj_params + (args.limit,)
     ).fetchall()
     if not rows:
         # fallback: plain entity search
-        fallback_where = "WHERE name LIKE ?" + (" AND project_id=?" if project_id else "")
+        fallback_where = "WHERE name LIKE ? ESCAPE '\\'" + (" AND project_id=?" if project_id else "")
         fallback_params = (q,) + proj_params + (args.limit,)
         rows2 = conn.execute(
             f"SELECT name, type FROM entities {fallback_where} LIMIT ?",
@@ -589,9 +668,13 @@ def cmd_impact(args: argparse.Namespace) -> None:
         sys.exit(1)
     conn = open_db(db)
     entity = args.entity
+    project_id: str | None = getattr(args, "project", None) or None
+    proj_filter = " AND project_id=?" if project_id else ""
+    proj_params = (project_id,) if project_id else ()
     row = conn.execute(
-        "SELECT id, type FROM entities WHERE name LIKE ? LIMIT 1",
-        (f"%{entity}%",)
+        "SELECT id, type FROM entities WHERE name LIKE ? ESCAPE '\\'"
+        + proj_filter + " LIMIT 1",
+        (f"%{_like_escape(entity)}%",) + proj_params
     ).fetchone()
     if not row:
         print(f"Entity '{entity}' not found")
@@ -620,6 +703,10 @@ def cmd_impact(args: argparse.Namespace) -> None:
             (node_id, node_id)
         ).fetchall()
         for relation, eid, ename, etype in rels:
+            if project_id and conn.execute(
+                "SELECT project_id FROM entities WHERE id=?", (eid,)
+            ).fetchone()[0] != project_id:
+                continue
             indent = "  " * (depth + 1)
             print(f"{indent}--{relation}-->  [{etype}] {ename}")
             if eid not in visited:
@@ -683,6 +770,7 @@ def main() -> None:
     p_build.add_argument("--db", default=str(DEFAULT_DB))
     p_build.add_argument("--project", default=None, help="SE-151: tag entities with project slug")
     p_build.add_argument("--memory-type", dest="memory_type", default=None,
+                         choices=sorted(MEMORY_TYPES),
                          help="SE-211: override default memory_type for all ingested entities")
 
     p_status = sub.add_parser("status", help="Show graph statistics")
@@ -702,13 +790,13 @@ def main() -> None:
 
     p_q = sub.add_parser("query", help="Query graph")
     p_q.add_argument("question", help="Search term")
-    p_q.add_argument("--limit", type=int, default=20)
+    p_q.add_argument("--limit", type=_int_at_least(1), default=20)
     p_q.add_argument("--db", default=str(DEFAULT_DB))
     p_q.add_argument("--project", default=None, help="SE-151: filter by project slug")
 
     p_imp = sub.add_parser("impact", help="Show impact cascade")
     p_imp.add_argument("entity", help="Entity name (partial match)")
-    p_imp.add_argument("--depth", type=int, default=3)
+    p_imp.add_argument("--depth", type=_int_at_least(0), default=3)
     p_imp.add_argument("--db", default=str(DEFAULT_DB))
     p_imp.add_argument("--project", default=None, help="SE-151: filter by project slug")
 

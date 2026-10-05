@@ -130,3 +130,24 @@ assert second['prev_hash'] == first['hash'], f'{second[\"prev_hash\"]} != {first
   [[ "$status" -ne 0 ]]
   [[ "$output" == *"ERROR"* ]]
 }
+
+# ── Comandos governance-* (consolidado desde scripts/test-governance.sh, SE-380) ──
+# Se omite la comprobación «CLAUDE.md menciona governance-»: ya fallaba en main porque
+# CLAUDE.md carga el contexto bajo demanda y no enumera comandos.
+@test "governance-*: los 4 comandos existen con name, description y ≤150 líneas" {
+  local c f
+  for c in governance-policy governance-audit governance-report governance-certify; do
+    f=".opencode/commands/$c.md"
+    [ -f "$f" ]
+    grep -q '^name: ' "$f"
+    grep -q '^description: ' "$f"
+    [ "$(wc -l < "$f")" -le 150 ]
+  done
+}
+
+@test "governance-*: cada comando trata su concepto clave" {
+  grep -qiE 'policy|compliance' .opencode/commands/governance-policy.md
+  grep -qi 'audit' .opencode/commands/governance-audit.md
+  grep -qi 'report' .opencode/commands/governance-report.md
+  grep -qiE 'certif|verify' .opencode/commands/governance-certify.md
+}

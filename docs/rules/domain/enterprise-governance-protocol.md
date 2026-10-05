@@ -30,15 +30,26 @@ gates that must not be bypassed.
 
 ## Audit Trail
 
-Each enterprise action generates a signed JSONL entry with chain hash:
+Each enterprise action generates a canonical JSONL entry with chain hash:
 
-    sha256(ts + tenant + actor + action + prev_hash)
+    sha256(ts \n tenant \n actor \n action \n spec \n prev_hash \n)
 
-Storage: .claude/enterprise/audit/{tenant}/audit-trail.jsonl (append-only)
+prev_hash is the hex hash of the previous entry (genesis: 64 zeros). Fields
+cannot contain quotes, backslashes or control characters, so field boundaries
+are unambiguous. Appends run under a lock.
+
+Storage: .claude/enterprise/audit/{tenant}/audit-trail.jsonl (append-only;
+override with CLAUDE_ENTERPRISE_AUDIT_BASE)
+
+Integrity limit: unkeyed sha256, no digital signature. Anyone with write access
+can recompute the whole chain, and truncating the tail leaves a valid chain.
+Publish the full hash from chain-status outside the trail and check it with
+verify --anchor to detect both. An anchor only protects entries up to the
+anchored one. verify --tenant T rejects entries of another tenant.
 
 Operations:
   append      -- add entry: governance-audit-trail.sh append --tenant T --actor A --action X
-  verify      -- check chain: governance-audit-trail.sh verify --file PATH
+  verify      -- check chain: governance-audit-trail.sh verify --file PATH [--anchor HASH]
   export      -- auditor export: governance-audit-trail.sh export --tenant T --format md
   chain-status -- status: governance-audit-trail.sh chain-status --tenant T
 
@@ -53,7 +64,12 @@ Storage: .claude/enterprise/model-cards/{agent}.md
 ## Compliance Scoring
 
 scripts/enterprise/compliance-check.sh --framework eu-ai-act|nis2|gdpr|dora|all
-Output: JSON with score 0-100 and gap list per check.
+Output: JSON with score 0-100 and gap list per check. Preliminary documentary
+review: no check passes on file presence alone. Documents need substantive
+content and topic keywords, manifests must be non-empty JSON objects, and
+audit_trail_exists passes only if every evaluated trail verifies (optionally
+against --tenant T --anchor H). Keywords are a heuristic, not proof of
+operational effectiveness.
 
 ## Human Oversight Gates (Rule 8 - INVARIANT)
 
