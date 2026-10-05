@@ -1,5 +1,5 @@
 {
-  "hash": "7f2c8695554e",
+  "hash": "1314f1c752b5",
   "total": 1450,
   "resources": [
     {
@@ -16274,14 +16274,14 @@
       "name": "enterprise/governance-audit-trail",
       "intents": [
         "audit",
+        "chained",
         "compliance",
         "governance",
-        "signed",
-        "spec"
+        "hash"
       ],
       "kind": "script",
       "path": "scripts/enterprise/governance-audit-trail.sh",
-      "description": "governance-audit-trail.sh — SPEC-SE-006 Signed Audit Trail for Governance & Compliance"
+      "description": "governance-audit-trail.sh — SPEC-SE-006 Hash-chained Audit Trail for Governance & Compliance"
     },
     {
       "category": "quality",
@@ -17159,6 +17159,20 @@
       "kind": "script",
       "path": "scripts/pr-thermal-receipt.sh",
       "description": "pr-thermal-receipt.sh — Thermal receipt for PRs (CodeFlow-inspired)"
+    },
+    {
+      "category": "quality",
+      "name": "pr-wait",
+      "intents": [
+        "crit",
+        "espera",
+        "forma",
+        "honesta",
+        "wait"
+      ],
+      "kind": "script",
+      "path": "scripts/pr-wait.sh",
+      "description": "pr-wait.sh <PR> — espera la CI de un PR de forma honesta (CRIT-034)."
     },
     {
       "category": "quality",
@@ -18244,17 +18258,6 @@
       "kind": "script",
       "path": "scripts/test-frontend-testing.sh",
       "description": "test-frontend-testing.sh — Tests for Frontend Testing Nueva Era"
-    },
-    {
-      "category": "quality",
-      "name": "test-governance",
-      "intents": [
-        "governance",
-        "test"
-      ],
-      "kind": "script",
-      "path": "scripts/test-governance.sh",
-      "description": "Test: Governance v0.71.0 (Era 13)"
     },
     {
       "category": "quality",

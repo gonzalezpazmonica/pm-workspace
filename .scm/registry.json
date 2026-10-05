@@ -25155,10 +25155,10 @@
       "id": "script:scripts/enterprise/governance-audit-trail",
       "intents": [
         "audit",
+        "chained",
         "compliance",
         "governance",
-        "signed",
-        "spec"
+        "hash"
       ],
       "kind": "script",
       "owner_domain": "quality",
@@ -26509,6 +26509,27 @@
       "replaced_by": null,
       "risk_level": null,
       "source": "scripts/pr-thermal-receipt.sh",
+      "status": "active",
+      "tests": []
+    },
+    {
+      "depends_on": [],
+      "frontend_support": [
+        "opencode"
+      ],
+      "id": "script:scripts/pr-wait",
+      "intents": [
+        "crit",
+        "espera",
+        "forma",
+        "honesta",
+        "wait"
+      ],
+      "kind": "script",
+      "owner_domain": "quality",
+      "replaced_by": null,
+      "risk_level": null,
+      "source": "scripts/pr-wait.sh",
       "status": "active",
       "tests": []
     },
@@ -28195,24 +28216,6 @@
       "frontend_support": [
         "opencode"
       ],
-      "id": "script:scripts/test-governance",
-      "intents": [
-        "governance",
-        "test"
-      ],
-      "kind": "script",
-      "owner_domain": "quality",
-      "replaced_by": null,
-      "risk_level": null,
-      "source": "scripts/test-governance.sh",
-      "status": "active",
-      "tests": []
-    },
-    {
-      "depends_on": [],
-      "frontend_support": [
-        "opencode"
-      ],
       "id": "script:scripts/test-governance-enterprise",
       "intents": [
         "audit",
@@ -29604,7 +29607,7 @@
       "tests": []
     }
   ],
-  "content_hash": "7f2c8695554e",
+  "content_hash": "1314f1c752b5",
   "deferred_kinds": [
     "rule",
     "hook"

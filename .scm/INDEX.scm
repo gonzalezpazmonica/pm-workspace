@@ -1,5 +1,5 @@
 # Savia Capability Map — INDEX
-> hash: 63aec3120e40 | resources: 1450
+> hash: 0a228f62146c | resources: 1450
 > 295 commands · 139 skills · 90 agents · 926 scripts
 
 [analysis] Trace Optimize — across,distributed,optimize,rates,sampling — cmd:.claude/commands/trace-optimize.md
@@ -1231,7 +1231,7 @@
 [quality] enterprise/activation-plan-review — activation,agent,plan,review — script:scripts/enterprise/activation-plan-review.sh
 [quality] enterprise/audit-purge — audit,purge,retention,spec — script:scripts/enterprise/audit-purge.sh
 [quality] enterprise/audit-search — audit,inspector,search,spec — script:scripts/enterprise/audit-search.sh
-[quality] enterprise/governance-audit-trail — audit,compliance,governance,signed,spec — script:scripts/enterprise/governance-audit-trail.sh
+[quality] enterprise/governance-audit-trail — audit,chained,compliance,governance,hash — script:scripts/enterprise/governance-audit-trail.sh
 [quality] eval-lint — eval,golden,lint,sets,tribunales — script:scripts/eval-lint.sh
 [quality] evidence-first-development — alta,aprobado,código,desarrollo,dominios — skill:.claude/skills/evidence-first-development/SKILL.md
 [quality] executive-audit — audit,executive,workspace — script:scripts/executive-audit.sh
@@ -1297,6 +1297,7 @@
 [quality] pr-rebase — branch,current,main,onto,origin — script:scripts/pr-rebase.sh
 [quality] pr-review —  — cmd:.claude/commands/pr-review.md
 [quality] pr-thermal-receipt — codeflow,inspired,receipt,thermal — script:scripts/pr-thermal-receipt.sh
+[quality] pr-wait — crit,espera,forma,honesta,wait — script:scripts/pr-wait.sh
 [quality] pre-push-security-gate — gate,push,security — script:scripts/pre-push-security-gate.sh
 [quality] prompt-security-scan — analyzer,injection,leakage,prompt,scan — script:scripts/prompt-security-scan.sh
 [quality] python-sbom — audit,python,requirements,sbom,slice — script:scripts/python-sbom.sh
@@ -1381,7 +1382,6 @@
 [quality] test-era18-rules — config,rule,rules,test,validation — script:scripts/test-era18-rules.sh
 [quality] test-evolving-playbooks — evolving,playbooks,suite,test — script:scripts/test-evolving-playbooks.sh
 [quality] test-frontend-testing — frontend,nueva,test,testing,tests — script:scripts/test-frontend-testing.sh
-[quality] test-governance — governance,test — script:scripts/test-governance.sh
 [quality] test-governance-enterprise — audit,enterprise,governance,test,trail — script:scripts/test-governance-enterprise.sh
 [quality] test-hub-audit — audit,test — script:scripts/test-hub-audit.sh
 [quality] test-install — install,installers,structural,test,validation — script:scripts/test-install.sh
