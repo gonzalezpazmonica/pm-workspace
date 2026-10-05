@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=3b0d3478affee29a74fc1c57835b760a335833617d0d061694930bf3d37de1ce
-timestamp=2026-10-04T13:59:19Z
-branch=agent/se376-calib-human-code-map-20261003
-head_commit=5063efc5
-signature=e4f18d860748df981b9c30e6ab88b12363f797d6fe1d048a922afa646749bbea
+diff_hash=e4f32ec42e981689447ccdfdf62ef0381a084d19831ea708c976cddb43e1b30e
+timestamp=2026-10-05T00:00:47Z
+branch=HEAD
+head_commit=e789c4c24
+signature=3386983f1a7e081be909ffb707a7155a376785b78dc9d2f4304162f1b57413ee
