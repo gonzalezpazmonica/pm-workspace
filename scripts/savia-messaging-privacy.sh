@@ -13,44 +13,44 @@ check_subject_sensitivity() {
   local warnings=()
 
   # Money / amounts (€, $, USD, EUR + number combos)
-  echo "$subject" | grep -qEi '[0-9]+[.,]?[0-9]*\s*(EUR|USD|GBP|€|\$|£|mill|M€|M\$)' \
+  grep -qEi '[0-9]+[.,]?[0-9]*\s*(EUR|USD|GBP|€|\$|£|mill|M€|M\$)' <<< "$subject" \
     && warnings+=("monetary amount")
-  echo "$subject" | grep -qEi '(EUR|USD|GBP|€|\$|£)\s*[0-9]' \
+  grep -qEi '(EUR|USD|GBP|€|\$|£)\s*[0-9]' <<< "$subject" \
     && warnings+=("monetary amount")
 
   # Dates that suggest deadlines / contract terms
-  echo "$subject" | grep -qEi '[0-9]{1,2}[/-][0-9]{1,2}[/-][0-9]{2,4}' \
+  grep -qEi '[0-9]{1,2}[/-][0-9]{1,2}[/-][0-9]{2,4}' <<< "$subject" \
     && warnings+=("specific date")
 
   # Names (common patterns: company names with Ltd/SL/SA)
-  echo "$subject" | grep -qEi '\b(S\.?L\.?|S\.?A\.?|Ltd|GmbH|Inc|Corp)\b' \
+  grep -qEi '\b(S\.?L\.?|S\.?A\.?|Ltd|GmbH|Inc|Corp)\b' <<< "$subject" \
     && warnings+=("company name")
 
   # Secrets / credentials patterns (reuse privacy-check patterns)
-  echo "$subject" | grep -qEi 'AKIA[0-9A-Z]{16}' && warnings+=("AWS key")
-  echo "$subject" | grep -qEi 'ghp_[a-zA-Z0-9]{36}' && warnings+=("GitHub PAT")
-  echo "$subject" | grep -qEi 'sk-[a-zA-Z0-9]{20,}' && warnings+=("API key")
-  echo "$subject" | grep -qEi '(password|contraseña|clave|passwd|secret)' \
+  grep -qEi 'AKIA[0-9A-Z]{16}' <<< "$subject" && warnings+=("AWS key")
+  grep -qEi 'ghp_[a-zA-Z0-9]{36}' <<< "$subject" && warnings+=("GitHub PAT")
+  grep -qEi 'sk-[a-zA-Z0-9]{20,}' <<< "$subject" && warnings+=("API key")
+  grep -qEi '(password|contraseña|clave|passwd|secret)' <<< "$subject" \
     && warnings+=("credential keyword")
 
   # IPs / connection strings
-  echo "$subject" | grep -qE '(10\.[0-9]+\.[0-9]+\.[0-9]+|192\.168\.)' \
+  grep -qE '(10\.[0-9]+\.[0-9]+\.[0-9]+|192\.168\.)' <<< "$subject" \
     && warnings+=("private IP")
-  echo "$subject" | grep -qEi '(jdbc:|mongodb|Server=.*Password)' \
+  grep -qEi '(jdbc:|mongodb|Server=.*Password)' <<< "$subject" \
     && warnings+=("connection string")
 
   # Emails / phones
-  echo "$subject" | grep -qEi '[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-z]{2,}' \
+  grep -qEi '[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-z]{2,}' <<< "$subject" \
     && warnings+=("email address")
-  echo "$subject" | grep -qE '\+?[0-9]{2,4}[\s.-]?[0-9]{6,}' \
+  grep -qE '\+?[0-9]{2,4}[\s.-]?[0-9]{6,}' <<< "$subject" \
     && warnings+=("phone number")
 
   # DNI/NIF/NIE (Spanish ID)
-  echo "$subject" | grep -qEi '\b[0-9]{8}[A-Z]\b|\b[XYZ][0-9]{7}[A-Z]\b' \
+  grep -qEi '\b[0-9]{8}[A-Z]\b|\b[XYZ][0-9]{7}[A-Z]\b' <<< "$subject" \
     && warnings+=("ID number (DNI/NIE)")
 
   # IBAN
-  echo "$subject" | grep -qEi '\b[A-Z]{2}[0-9]{2}\s?[0-9A-Z]{4}\s?[0-9]{4}' \
+  grep -qEi '\b[A-Z]{2}[0-9]{2}\s?[0-9A-Z]{4}\s?[0-9]{4}' <<< "$subject" \
     && warnings+=("IBAN")
 
   if [ ${#warnings[@]} -gt 0 ]; then
