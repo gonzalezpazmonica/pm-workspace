@@ -19,15 +19,13 @@ import { guardVariants } from "./lib/sandbox"
 import { patchPaths, pinFor, protectsPath, verifyPin } from "./lib/guard-pin"
 import { REGISTRY, trustedFor, verifyTrusted, wrapCommand } from "./lib/trusted-guards"
 import type { TrustedGuards } from "./lib/trusted-guards"
-
-function resolveProjectRoot(directory: string | undefined): string {
-  if (directory) return directory
-  return process.env.PROJECT_ROOT || `${process.env.HOME}/claude`
-}
+import { resolveProjectRoot } from "./lib/root"
 
 export const SaviaGates: Plugin = async (ctx: PluginInput) => {
-  const { $, directory } = ctx
-  const root = resolveProjectRoot(directory)
+  const { $, directory, worktree } = ctx
+  const root = resolveProjectRoot(directory, worktree)
+  // Las rutas relativas de las herramientas son relativas a la sesión, no a la raíz.
+  const cwd = directory || root
   const pinned = process.env.SAVIA_GATES_PIN === "1"
   // T1b: con SAVIA_GATES_PIN=1 (Space en modo mediado) los hooks se ejecutan bajo bwrap desde una
   // copia de confianza de .claude/hooks y scripts/, y el registro se lee de esa copia
@@ -69,7 +67,7 @@ export const SaviaGates: Plugin = async (ctx: PluginInput) => {
       if (typeof args?.[k] === "string") targets.push(args[k] as string)
     }
     if (typeof args?.patchText === "string") targets.push(...patchPaths(args.patchText as string))
-    const hit = tool && tool !== "bash" ? targets.find((t) => protectsPath(pin, root, t)) : undefined
+    const hit = tool && tool !== "bash" ? targets.find((t) => protectsPath(pin, cwd, t)) : undefined
     if (hit) {
       await auditLog({ event: "guard-protected", tool, path: hit })
       return `GUARD_PROTECTED: ${hit}`
