@@ -153,6 +153,20 @@ Con tres garantías:
   - enlaces nuevos: `PROPOSES` (sesión → propuesta), `WRITES` (recibo → nota o fichero) y `ATTACHED_TO` (nota o cúpula → sesión, con soporte `DECLARED`).
 - **Traza:** una pestaña «Traza» en el inspector de sesión y en el de run, que sobrevive a recargar la página.
 
+### 8. Decisiones abiertas (opciones y recomendación de Savia)
+
+El diseño de §1–§7 aplica las recomendaciones. Si la operadora elige otra opción, cambian el slice y los AC indicados.
+
+| ID | Pregunta | Opciones | Recomendación | Afecta a |
+|---|---|---|---|---|
+| D30-1 | Dónde vive un proyecto creado desde Space | (a) en `projects/{slug}/` del workspace, con el binding en `config.json`; (b) solo en el estado privado de Space; (c) no crear: solo enlazar proyectos que ya existen | **(a)**: un único proyecto para Savia y para Space, y la regla de leer `projects/{nombre}/CLAUDE.md` sigue valiendo. (b) crea proyectos que Savia no ve; (c) deja G-01 sin resolver | S1, AC1–AC4 |
+| D30-2 | Dónde se registran las cúpulas nuevas | (a) en el registro base versionado de SaviaVaults; (b) en un registro local no versionado que SaviaVaults fusiona con el base; (c) en un registro propio de Space que solo lee Space | **(b)**: (a) publica nombres y rutas en el repositorio; (c) deja la cúpula invisible para el MCP y para los demás frontends | S2, AC5 |
+| D30-3 | Qué niveles crea y muestra Space | (a) crea N1 y N2; N3, N4 y N4b se crean por CLI y aparecen opacos; (b) crea todos los niveles y muestra el contenido N3 o superior solo con inferencia local; (c) solo N1 | **(a)** ahora; **(b)** cuando se resuelva la semántica de revocación de N2 y superiores (D-N2). (c) no sirve para proyectos de empresa | S2, AC8; S4, AC15 |
+| D23-14 | Adjuntar notas de las cúpulas a sesiones del motor (reformulada tras D-MODEL-CLOUD) | (a) solo con modelo local; (b) solo notas N1, a cualquier proveedor; (c) nunca; (d) por nivel y destino: N1 sin fricción; N2 hacia la nube solo con vista previa, confirmación y recibo; N3 o superior nunca hacia la nube; con un perfil local, N1 y N2 sin el paso extra | **(d)**. Con la inferencia local desactivada por defecto, (a) deja adjuntar inservible; la combinación anterior, (a) y (b), da cero casos útiles por defecto. (d) cumple «nada N2 o superior a la nube en silencio» y da uso real | S4, AC13–AC16 |
+| D30-4 | Lecturas y escrituras directas del motor sobre cúpulas en modo interactivo | (a) declararlo y no hacer nada; (b) guard con `ask`: escritura en una cúpula, y lectura de una cúpula N2 o superior no adjunta con proveedor de nube; (c) denegar | **(b)**. Con (a), adjuntar no protege nada, porque el motor lee lo que su configuración permite; (c) rompe la paridad del modo interactivo | S5, AC17–AC18 |
+| D30-5 | Traza de los runs en modo interactivo | (a) traza observada, persistida y sin firma; (b) `AgentRunReceipt` firmado también en interactivo; (c) nada | **(a)**: (b) aparenta una mediación que en interactivo no existe; (c) deja G-06 abierto | S6, AC19–AC21 |
+| D30-6 | Registrar el proyecto nuevo en `CLAUDE.local.md` | (a) siempre, de forma automática; (b) con una casilla visible, marcada por defecto; (c) nunca | **(b)**: Savia conoce el proyecto sin pasos manuales, y la persona ve y decide qué se escribe fuera de `projects/{slug}/` | S1, AC1 |
+
 ## Slices
 
 | Slice | Contenido | Depende de | Aceptación |
