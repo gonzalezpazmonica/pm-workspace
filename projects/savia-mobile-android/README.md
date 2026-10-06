@@ -1,6 +1,6 @@
 # Savia Mobile — Asistente de PM con IA en Android
 
-> **Congelada (D2, SE-430):** Esta app mantiene soporte para pm-workspace clásico. Para acceder a Savia Space desde Android, usa el cliente de Savia Space en desarrollo (SE-430 M1–M4), que se conecta por red local o VPN (Tailscale, WireGuard) y proporciona acceso a sesiones del motor, búsqueda en cúpulas y control remoto.
+> **Congelada (D2, SE-430):** Sigue disponible para la gestión de proyectos vía Bridge, sin nuevas funciones. Para acceder a Savia Space desde Android, usa Savia Space Mobile en desarrollo (SE-430), que se conecta por red local o VPN (Tailscale, WireGuard) y proporciona acceso a sesiones del motor, búsqueda en cúpulas y control remoto.
 
 > **Savia en tu bolsillo.** Accede a tu workspace de pm-workspace desde cualquier lugar, conectado o sin conexión.
 
