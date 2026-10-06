@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=937ddcd287bd143fe25adde28d30047908dd3e976e0378b84f86e7f02d62fdd5
-timestamp=2026-10-06T07:32:02Z
-branch=agent/se436-projects-domes-spec
-head_commit=eecdd4697
-signature=72e91c8f59998b87b4d3b73c3d00bcd06548e04f40cffcbbe2b5460906c197ce
+diff_hash=b30a6bfda9560e52826c8d85e804e0d9d9532af345b1dc70fe15b8b53416c8f5
+timestamp=2026-10-06T10:17:19Z
+branch=agent/se436-approve
+head_commit=b6c7fcd3e
+signature=741914a83438be69be8cc969cd9025efb0d5207c171ce2f12928278227acaf1b
