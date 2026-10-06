@@ -2,7 +2,9 @@ import { describe, it, expect, beforeEach, afterEach } from 'vitest';
 import * as fs from 'node:fs';
 import * as path from 'node:path';
 import * as os from 'node:os';
-import { DomeRegistry } from '../../../src/registry/domes.js';
+import { spawnSync } from 'node:child_process';
+import { fileURLToPath } from 'node:url';
+import { DomeRegistry, isGitTracked } from '../../../src/registry/domes.js';
 
 describe('DomeRegistry', () => {
   let tmpDir: string;
@@ -262,3 +264,35 @@ describe('DomeRegistry', () => {
   });
 });
 
+describe('registro de cúpulas fuera de git', () => {
+  const pkgDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../../..');
+
+  it('isGitTracked: true para un fichero versionado, false fuera de un repo', () => {
+    expect(isGitTracked(path.join(pkgDir, 'package.json'))).toBe(true);
+    const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'vaults-nogit-'));
+    try {
+      fs.writeFileSync(path.join(tmp, 'savia-vaults.domes.json'), '{}');
+      expect(isGitTracked(path.join(tmp, 'savia-vaults.domes.json'))).toBe(false);
+    } finally {
+      fs.rmSync(tmp, { recursive: true, force: true });
+    }
+  });
+
+  it('el registro real no está versionado y el ejemplo no lleva rutas absolutas', () => {
+    expect(isGitTracked(path.join(pkgDir, 'savia-vaults.domes.json'))).toBe(false);
+    const r = spawnSync('git', ['check-ignore', '-q', 'savia-vaults.domes.json'], { cwd: pkgDir });
+    expect(r.status).toBe(0);
+    const example = JSON.parse(fs.readFileSync(path.join(pkgDir, 'savia-vaults.domes.example.json'), 'utf-8'));
+    for (const dome of Object.values(example.domes) as Array<{ path: string }>) {
+      expect(path.isAbsolute(dome.path)).toBe(false);
+      expect(dome.path).not.toMatch(/^~|\/home\/|\/Users\//);
+    }
+  });
+
+  it('el ejemplo carga como registro válido', () => {
+    const reg = new DomeRegistry(path.join(pkgDir, 'savia-vaults.domes.example.json'));
+    expect(() => reg.load()).not.toThrow();
+    expect(reg.list().length).toBeGreaterThan(0);
+    expect(reg.defaultDome).toBe('example-context');
+  });
+});

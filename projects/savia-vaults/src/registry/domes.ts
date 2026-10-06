@@ -1,5 +1,6 @@
 import * as fs from 'node:fs';
 import * as path from 'node:path';
+import { spawnSync } from 'node:child_process';
 import { VaultStorage } from '../storage/index.js';
 import { SearchEngine } from '../search/index.js';
 import { VaultSecurity } from '../security/index.js';
@@ -67,6 +68,18 @@ function makeConfig(dome: DomeInfo): VaultConfig {
   };
 }
 
+/**
+ * True si git versiona el fichero. El registro de cúpulas guarda rutas de la
+ * máquina y nombres privados: debe vivir en un fichero local ignorado.
+ */
+export function isGitTracked(filePath: string): boolean {
+  const abs = path.resolve(filePath);
+  const r = spawnSync('git', ['ls-files', '--error-unmatch', '--', path.basename(abs)], {
+    cwd: path.dirname(abs), stdio: 'ignore',
+  });
+  return r.status === 0;
+}
+
 export class DomeRegistry {
   private filePath: string;
   private domes: Map<string, DomeInfo> = new Map();
@@ -74,6 +87,10 @@ export class DomeRegistry {
 
   constructor(filePath: string = 'savia-vaults.domes.json') {
     this.filePath = filePath;
+  }
+
+  getFilePath(): string {
+    return path.resolve(this.filePath);
   }
 
   load(): void {

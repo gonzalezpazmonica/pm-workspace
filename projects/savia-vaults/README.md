@@ -106,6 +106,23 @@ savia-vaults search "architecture" --path vaults/my-knowledge
 savia-vaults backup create --path vaults/my-knowledge
 ```
 
+### Registro local de cúpulas
+
+`savia-vaults.domes.json` es local y está en `.gitignore`: guarda rutas de tu
+máquina y nombres de tus cúpulas, así que nunca se versiona. Créalo copiando el
+ejemplo y ajusta rutas y nombres:
+
+```bash
+cp savia-vaults.domes.example.json savia-vaults.domes.json
+bash seed-example-context.sh            # opcional: puebla vaults/example-context
+savia-vaults dome create mi-cupula      # añade cúpulas al registro local
+savia-vaults serve --transport mcp --domes savia-vaults.domes.json
+```
+
+Las rutas relativas se resuelven contra el directorio del propio registro.
+`dome create` escribe en ese registro local, indica la ruta y se niega si el
+fichero está versionado en git.
+
 ## Development
 
 ```bash
