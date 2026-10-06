@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=e9525e1dd132be57bff61aac51235dfa18e11168ed4bd9756b84e250c093012e
-timestamp=2026-10-05T15:02:20Z
-branch=agent/orca-deltas-specs
-head_commit=df05abd5b
-signature=80b97e5b6238c7d80822675c8bb272040ffc2e3392cb3173840c639a719f2043
+diff_hash=3b9ff0403671d25445baf50e2ff8e67c4c1c44561bdfe1d5d04dc560e30b5e2f
+timestamp=2026-10-06T05:10:56Z
+branch=agent/se436-projects-domes-spec
+head_commit=a0424f53c
+signature=bb4accb770cd8df4aaed9e57c58c76809563044d8415915ca66fa203dad49c67
