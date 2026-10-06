@@ -1,5 +1,7 @@
 ---
-status: PROPOSED
+status: APPROVED
+approved_at: 2026-10-06
+approved_by: "operadora, AskUserQuestion 2026-10-06 (con las recomendaciones de Savia)"
 priority: P1
 developer_type: agent-team
 created: 2026-10-06
@@ -7,7 +9,7 @@ author: Savia
 phase: A
 risk: L3
 related_specs: [SE-428, SE-432, SE-434]
-origin: "Validación e2e del caso «gallinero autónomo» en Savia Space (2026-10-06): 2 de 7 pasos OK. Esta spec cubre los huecos G-01 (crear proyecto), G-02 (crear cúpula y escribir notas), G-03 (adjuntar contexto a una sesión), G-06 (traza en modo interactivo) y G-07 (guardar el resultado). Diseño interno SS30. Decisiones abiertas: D30-1..D30-6 y D23-14, reformulada tras D-MODEL-CLOUD (inferencia en la nube por defecto)."
+origin: "Validación e2e del caso «gallinero autónomo» en Savia Space (2026-10-06): 2 de 7 pasos OK. Esta spec cubre los huecos G-01 (crear proyecto), G-02 (crear cúpula y escribir notas), G-03 (adjuntar contexto a una sesión), G-06 (traza en modo interactivo) y G-07 (guardar el resultado). Diseño interno SS30. Decisiones D30-1..D30-6 y D23-14 (reformulada tras D-MODEL-CLOUD (inferencia en la nube por defecto)) resueltas con la recomendación de Savia el 2026-10-06."
 timeline:
   - from: "2026-10-06"
     learned: "2026-10-06"
@@ -112,7 +114,7 @@ Con tres garantías:
 - **API:** `PUT /api/v1/sessions/{id}/attachments`. Entrada:
   `{items: ({kind: NOTE, domeId, path, contentHash} | {kind: DOME, domeId})[1..8], providerProfileId, expectedRevision, idempotencyKey}`
 - Salida: `AttachmentSet = {revision, items, destination: CLOUD | LOCAL, egressPreview: {bytes, hashes, levels}, requiresConfirmation: boolean}`.
-- **Política por nivel y destino** (recomendación (d) de D23-14; se aplica la opción que se decida):
+- **Política por nivel y destino** (D23-14 resuelta con la opción (d), aprobada el 2026-10-06):
 
 | Nivel | Destino LOCAL | Destino CLOUD |
 |---|---|---|
@@ -153,11 +155,11 @@ Con tres garantías:
   - enlaces nuevos: `PROPOSES` (sesión → propuesta), `WRITES` (recibo → nota o fichero) y `ATTACHED_TO` (nota o cúpula → sesión, con soporte `DECLARED`).
 - **Traza:** una pestaña «Traza» en el inspector de sesión y en el de run, que sobrevive a recargar la página.
 
-### 8. Decisiones abiertas (opciones y recomendación de Savia)
+### 8. Decisiones (resueltas el 2026-10-06: la operadora aprobó la recomendación de Savia en cada una)
 
-El diseño de §1–§7 aplica las recomendaciones. Si la operadora elige otra opción, cambian el slice y los AC indicados.
+El diseño de §1–§7 aplica estas decisiones, todas resueltas con la recomendación de Savia (operadora, 2026-10-06).
 
-| ID | Pregunta | Opciones | Recomendación | Afecta a |
+| ID | Pregunta | Opciones | Decisión (recomendación aprobada) | Afecta a |
 |---|---|---|---|---|
 | D30-1 | Dónde vive un proyecto creado desde Space | (a) en `projects/{slug}/` del workspace, con el binding en `config.json`; (b) solo en el estado privado de Space; (c) no crear: solo enlazar proyectos que ya existen | **(a)**: un único proyecto para Savia y para Space, y la regla de leer `projects/{nombre}/CLAUDE.md` sigue valiendo. (b) crea proyectos que Savia no ve; (c) deja G-01 sin resolver | S1, AC1–AC4 |
 | D30-2 | Dónde se registran las cúpulas nuevas | (a) en el registro base versionado de SaviaVaults; (b) en un registro local no versionado que SaviaVaults fusiona con el base; (c) en un registro propio de Space que solo lee Space | **(b)**: (a) publica nombres y rutas en el repositorio; (c) deja la cúpula invisible para el MCP y para los demás frontends | S2, AC5 |
@@ -174,8 +176,8 @@ El diseño de §1–§7 aplica las recomendaciones. Si la operadora elige otra o
 | S1 | Binding v2, migración, `POST /api/v1/projects` y `/link`, hoja de alta, estado vacío, recibos `PROJECT_CREATE` | — | AC1–AC4 |
 | S2 | Registro local de cúpulas, `POST /api/v1/domes`, lectura y escritura de notas, editor, recibos `DOME_CREATE` y `NOTE_WRITE` | S1 | AC5–AC8 |
 | S3 | `Proposal`, «Guardar como nota» y «Guardar en el proyecto», tool `space_propose_write`, aceptar y rechazar, destinos denegados | S2 | AC9–AC12 |
-| S4 | Adjuntos, política por nivel y destino, vista previa y confirmación, anillo de contexto | S2 y D23-14 | AC13–AC16 |
-| S5 | Guard de cúpulas en el bus de Space y en savia-gates | S2 y D30-4 | AC17–AC18 |
+| S4 | Adjuntos, política por nivel y destino, vista previa y confirmación, anillo de contexto | S2 (D23-14 resuelta) | AC13–AC16 |
+| S5 | Guard de cúpulas en el bus de Space y en savia-gates | S2 (D30-4 resuelta) | AC17–AC18 |
 | S6 | Traza observada en interactivo, pestaña Traza y receipts con 200 | — | AC19–AC21 |
 
 Orden: S1 → S2 → (S3 en paralelo con S4) → S5. S6 va en paralelo desde el principio. El e2e del gallinero se repite al final como AC22.
