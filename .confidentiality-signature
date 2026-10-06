@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=630bd1839a7ce6ab17b81cef46ce5ec04370f1758f1ac3ed7cb08309554a3faa
-timestamp=2026-10-06T12:07:37Z
-branch=agent/fix-domes-registry-leak
-head_commit=0b42cdeb
-signature=3994a95d5632a6b1a2505254b64528dc11d3e3660d386a9d91e7db37a1ee5b0e
+diff_hash=aabbca8a8fcc1ce45af89d94c268f7663307fc155d34e229a8c3326fe169dce8
+timestamp=2026-10-06T13:36:28Z
+branch=agent/fix-savia-gates-hook-config
+head_commit=aba21c728
+signature=0651444cee7ace94941c78d672cc8f5f638581011e0e10a128b6239e5b23d13e
