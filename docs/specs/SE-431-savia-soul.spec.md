@@ -1,5 +1,7 @@
 ---
 status: APPROVED
+approved_at: 2026-10-06
+approved_by: "operadora, AskUserQuestion 2026-10-06"
 priority: P2
 developer_type: agent-single
 created: 2026-10-02
@@ -229,7 +231,7 @@ acciones aceptadas), se reduce a bajo demanda y se revisa. Los resultados negati
 - **2026-10-05** (operadora, AskUserQuestion 2026-10-05, D-ORCA-2 y D-ORCA-4): patrones de
   orquestación con cierre obligatorio y de automatizaciones con precomprobación tomados de
   [Orca](https://github.com/stablyai/orca), adaptados al sandbox y a la mediación de Space. La
-  spec sigue PROPOSED.
+  spec quedó APPROVED el 2026-10-06 con estos deltas incluidos.
 
 ## Entregas
 
