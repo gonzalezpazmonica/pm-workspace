@@ -16,14 +16,22 @@ teardown() {
   rm -rf "$TMPD" 2>/dev/null || true
 }
 
-@test "L23: dome SaviaDomains registrado en savia-vaults.domes.json (N1)" {
+@test "L23: el registro de ejemplo declara una cúpula N1 de dominios con ruta relativa" {
+  # El registro real (savia-vaults.domes.json) es local y gitignored: el test usa el ejemplo.
   python3 -c "
-import json
-d=json.load(open('$ROOT_DIR/projects/savia-vaults/savia-vaults.domes.json'))
-dom=d['domes'].get('SaviaDomains')
-assert dom, 'SaviaDomains no registrado'
-assert dom['confidentiality']=='N1', dom
+import json, os
+d=json.load(open('$ROOT_DIR/projects/savia-vaults/savia-vaults.domes.example.json'))
+n1=[x for x in d['domes'].values() if x['confidentiality']=='N1']
+assert n1, 'sin cúpula N1 en el ejemplo'
+assert all(not os.path.isabs(x['path']) for x in d['domes'].values()), d
 "
+}
+
+@test "L23: el registro real de cúpulas no está versionado (gitignored)" {
+  cd "$ROOT_DIR"
+  run git ls-files --error-unmatch projects/savia-vaults/savia-vaults.domes.json
+  [ "$status" -ne 0 ]
+  git check-ignore -q projects/savia-vaults/savia-vaults.domes.json
 }
 
 @test "L23: generador existe y crea cúpulas para los 34 dominios del catálogo" {

@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=dd52587eefafc4bf6f4773067804b59b5334cdb92512fb429d0a552994febdce
-timestamp=2026-10-06T11:53:59Z
-branch=agent/se436-approve
-head_commit=63f1c6e1b
-signature=cb78a3c0aca9e1e13f5b24c4497360b683426cfcaeb65d619e618f22c5a307e1
+diff_hash=630bd1839a7ce6ab17b81cef46ce5ec04370f1758f1ac3ed7cb08309554a3faa
+timestamp=2026-10-06T12:07:37Z
+branch=agent/fix-domes-registry-leak
+head_commit=0b42cdeb
+signature=3994a95d5632a6b1a2505254b64528dc11d3e3660d386a9d91e7db37a1ee5b0e

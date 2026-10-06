@@ -12,7 +12,7 @@ import { PPRRanker } from '../knowledge/ppr.js';
 import { QueryEngine } from '../knowledge/query.js';
 import { QualityEngine } from '../knowledge/quality.js';
 import type { VaultConfig } from '../types.js';
-import { DomeRegistry } from '../registry/domes.js';
+import { DomeRegistry, isGitTracked } from '../registry/domes.js';
 import { UserStore, ConfidentialityGuard, AuditLogger, UserQuotaStore, AccessController } from '../auth/index.js';
 import * as fs from 'node:fs';
 import * as path from 'node:path';
@@ -725,6 +725,12 @@ domeCmd.command('create <name>').description('Create a new dome')
   .option('--confidentiality <level>', 'N1|N2|N3|N4', 'N2')
   .action((name, opts) => {
     const registry = new DomeRegistry();
+    const registryFile = registry.getFilePath();
+    if (isGitTracked(registryFile)) {
+      console.error(`Error: ${registryFile} está versionado en git; el registro de cúpulas guarda rutas locales.`);
+      console.error('  Sácalo del índice (git rm --cached) y añádelo a .gitignore, o copia savia-vaults.domes.example.json fuera del repo.');
+      process.exit(1);
+    }
     const domePath = opts.path || path.join(process.cwd(), 'vaults', name);
     fs.mkdirSync(domePath, { recursive: true });
 
@@ -743,6 +749,7 @@ domeCmd.command('create <name>').description('Create a new dome')
       });
       registry.save();
       console.log(`Dome "${name}" created at ${domePath}`);
+      console.log(`  Registry (local, no versionado): ${registryFile}`);
       if (!registry.defaultDome) {
         registry.setDefault(name);
         console.log(`  Set as default dome`);

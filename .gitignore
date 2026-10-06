@@ -192,6 +192,8 @@ labs
 
 # Savia Vaults runtime state (MCP quota store, regenerable)
 savia-vaults.quotas.json
+# Registro local de cúpulas: rutas del HOME y cúpulas privadas (copiar el .example.json)
+savia-vaults.domes.json
 tests/bats/.deps.json
 
 # ── Índices AST (regenerables, N4: nunca en git) ─────────────────────────────

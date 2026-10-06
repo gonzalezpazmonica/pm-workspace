@@ -1,0 +1,27 @@
+{
+  "version": 1,
+  "defaultDome": "example-context",
+  "domes": {
+    "example-context": {
+      "name": "example-context",
+      "path": "vaults/example-context",
+      "description": "Cupula de ejemplo (seed-example-context.sh): specs del producto como entidades",
+      "confidentiality": "N2",
+      "schemaDir": "projects/savia-vaults/schema/entities",
+      "rag": {
+        "enabled": true,
+        "model": "qwen3-embedding:0.6b"
+      }
+    },
+    "example-domains": {
+      "name": "example-domains",
+      "path": "vaults/example-domains",
+      "description": "Cupula N1 de ejemplo: conocimiento publico de referencia por dominio",
+      "confidentiality": "N1",
+      "rag": {
+        "enabled": true,
+        "model": "qwen3-embedding:0.6b"
+      }
+    }
+  }
+}
