@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=7264d62acaf7f611aef35301be7f5b796ea8273feaec27f767a8f98499b8d8d4
-timestamp=2026-10-06T07:49:52Z
+diff_hash=8505350185ff721a6f4afbf3b9a263daacc4463295dae5011940ddf0de665780
+timestamp=2026-10-06T11:56:24Z
 branch=agent/fix-domes-registry-leak
-head_commit=1d7d53d8
-signature=2b84a85fde4e95208247ed8c2b48bdda2ea9f1517ae0bf930757f6c754e94ef4
+head_commit=e5b0e7cf8
+signature=009faa80ef13c669a89ce3dba4a0185e5fb3246ce5c63cdfa469e12290c7bdca
