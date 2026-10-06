@@ -6,6 +6,10 @@
 > Each entry: date, spec ID, status transition, optional rationale.
 > Ref: SE-222 S1 OKF Adoptable Patterns (log.md convention).
 
+## 2026-10-06 SE-436 APPROVED
+
+operadora, AskUserQuestion 2026-10-06: aprobada con las recomendaciones de Savia (D30-1..6, D23-14)
+
 ## 2026-10-06 SE-436 PROPOSED
 
 Propuesta tras la validación e2e del gallinero (huecos G-01, G-02, G-03, G-06, G-07)

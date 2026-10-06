@@ -1,5 +1,7 @@
 ---
-status: PROPOSED
+status: APPROVED
+approved_at: 2026-10-06
+approved_by: "operadora, AskUserQuestion 2026-10-06 (con las recomendaciones de Savia)"
 priority: P1
 developer_type: agent-team
 created: 2026-10-06
@@ -7,7 +9,7 @@ author: Savia
 phase: A
 risk: L3
 related_specs: [SE-428, SE-432, SE-434]
-origin: "Validación e2e del caso «gallinero autónomo» en Savia Space (2026-10-06): 2 de 7 pasos OK. Esta spec cubre los huecos G-01 (crear proyecto), G-02 (crear cúpula y escribir notas), G-03 (adjuntar contexto a una sesión), G-06 (traza en modo interactivo) y G-07 (guardar el resultado). Diseño interno SS30. Decisiones abiertas: D30-1..D30-6 y D23-14, reformulada tras D-MODEL-CLOUD (inferencia en la nube por defecto)."
+origin: "Validación e2e del caso «gallinero autónomo» en Savia Space (2026-10-06): 2 de 7 pasos OK. Esta spec cubre los huecos G-01 (crear proyecto), G-02 (crear cúpula y escribir notas), G-03 (adjuntar contexto a una sesión), G-06 (traza en modo interactivo) y G-07 (guardar el resultado). Diseño interno SS30. Decisiones D30-1..D30-6 y D23-14 (reformulada tras D-MODEL-CLOUD (inferencia en la nube por defecto)) resueltas con la recomendación de Savia el 2026-10-06."
 timeline:
   - from: "2026-10-06"
     learned: "2026-10-06"
@@ -153,7 +155,7 @@ Con tres garantías:
   - enlaces nuevos: `PROPOSES` (sesión → propuesta), `WRITES` (recibo → nota o fichero) y `ATTACHED_TO` (nota o cúpula → sesión, con soporte `DECLARED`).
 - **Traza:** una pestaña «Traza» en el inspector de sesión y en el de run, que sobrevive a recargar la página.
 
-### 8. Decisiones abiertas (opciones y recomendación de Savia)
+### 8. Decisiones (resueltas el 2026-10-06: la operadora aprobó la recomendación de Savia en cada una)
 
 El diseño de §1–§7 aplica las recomendaciones. Si la operadora elige otra opción, cambian el slice y los AC indicados.
 
