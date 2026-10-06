@@ -10,6 +10,10 @@
 
 Propuesta tras la validación e2e del gallinero (huecos G-01, G-02, G-03, G-06, G-07)
 
+## 2026-10-06 SE-431 APPROVED
+
+operadora, AskUserQuestion 2026-10-06
+
 ## 2026-10-05 SE-435 APPROVED
 
 Aprobada por la operadora (AskUserQuestion 2026-10-05: «Apruebo, empieza por D1»)
