@@ -5,6 +5,16 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased] — 2026-10-07 · Registro local de cúpulas fusionado con el base (SE-436 D30-2)
+
+### Added
+- Además de `savia-vaults.domes.json`, el registro lee `savia-vaults.domes.local.json` (junto a él,
+  ignorado por git): ahí escribe Savia Space las cúpulas que crea. Los dos se fusionan; con el
+  mismo nombre gana el local. Funciona con solo el fichero local.
+
+### Changed
+- `save()` devuelve cada cúpula al fichero de donde salió: lo creado por Space no se mezcla con el base.
+
 ## [Unreleased] — 2026-10-01 · Identidad mínima: A2A por usuario, transferencias y renombrado (SE-423 PR 2)
 
 ### Added
