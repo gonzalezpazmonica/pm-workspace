@@ -120,6 +120,11 @@ savia-vaults serve --transport mcp --domes savia-vaults.domes.json
 ```
 
 Las rutas relativas se resuelven contra el directorio del propio registro.
+
+Junto al registro base se lee un **registro local** (`savia-vaults.domes.local.json`, también ignorado por
+git), que es donde escribe Savia Space al crear cúpulas (SE-436 D30-2). Se fusionan; con el mismo nombre
+gana el local, y `dome create` y `setDefault` devuelven cada cúpula al fichero de donde salió. Sirve con solo
+el local, sin fichero base.
 `dome create` escribe en ese registro local, indica la ruta y se niega si el
 fichero está versionado en git.
 
