@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=aabbca8a8fcc1ce45af89d94c268f7663307fc155d34e229a8c3326fe169dce8
-timestamp=2026-10-06T13:36:28Z
-branch=agent/fix-savia-gates-hook-config
-head_commit=aba21c728
-signature=0651444cee7ace94941c78d672cc8f5f638581011e0e10a128b6239e5b23d13e
+diff_hash=46d81b83e1665439418925769c093d74e7c3b66a17249b3742f2b76343bd06fe
+timestamp=2026-10-06T23:25:29Z
+branch=agent/mobile-android-freeze
+head_commit=1bd66f884
+signature=72194098a3b1faf97bd752f41a0465a47bef45370d282f189dae061dcb42da2a
