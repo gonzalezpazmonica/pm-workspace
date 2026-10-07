@@ -296,3 +296,90 @@ describe('registro de cúpulas fuera de git', () => {
     expect(reg.defaultDome).toBe('example-context');
   });
 });
+
+describe('SE-436 D30-2: registro local fusionado con el base', () => {
+  let tmpDir: string;
+  let base: string;
+  let local: string;
+
+  beforeEach(() => {
+    tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), 'vaults-local-'));
+    base = path.join(tmpDir, 'savia-vaults.domes.json');
+    local = path.join(tmpDir, 'savia-vaults.domes.local.json');
+  });
+  afterEach(() => {
+    fs.rmSync(tmpDir, { recursive: true, force: true });
+  });
+
+  const dir = (n: string) => {
+    const d = path.join(tmpDir, n);
+    fs.mkdirSync(d, { recursive: true });
+    return d;
+  };
+  const file = (p: string, defaultDome: string, domes: Record<string, object>) =>
+    fs.writeFileSync(p, JSON.stringify({ version: 1, defaultDome, domes }, null, 2));
+  const entry = (name: string, p: string, level = 'N2') => ({ name, path: p, description: '', confidentiality: level });
+
+  it('el fichero local se llama como el base con .local antes de .json', () => {
+    expect(path.basename(new DomeRegistry(base).getLocalFilePath())).toBe('savia-vaults.domes.local.json');
+  });
+
+  it('fusiona base y local; en un nombre repetido gana el local', () => {
+    file(base, 'a', { a: entry('a', dir('a')), b: entry('b', dir('b'), 'N1') });
+    file(local, '', { b: entry('b', dir('b2'), 'N2'), c: entry('c', dir('c')) });
+    const r = new DomeRegistry(base);
+    r.load();
+    expect(r.list().map((d) => d.name).sort()).toEqual(['a', 'b', 'c']);
+    expect(r.get('b')?.confidentiality).toBe('N2');
+    expect(r.get('b')?.path.endsWith('b2')).toBe(true);
+    expect(r.defaultDome).toBe('a');
+  });
+
+  it('el defaultDome del local manda si lo trae', () => {
+    file(base, 'a', { a: entry('a', dir('a')) });
+    file(local, 'c', { c: entry('c', dir('c')) });
+    const r = new DomeRegistry(base);
+    r.load();
+    expect(r.defaultDome).toBe('c');
+  });
+
+  it('funciona con solo el local, sin fichero base', () => {
+    file(local, '', { c: entry('c', dir('c'), 'N1') });
+    const r = new DomeRegistry(base);
+    r.load();
+    expect(r.list().map((d) => d.name)).toEqual(['c']);
+  });
+
+  it('sin base ni local sigue fallando', () => {
+    expect(() => new DomeRegistry(base).load()).toThrow(/not found/);
+  });
+
+  it('un local mal formado falla y no se ignora en silencio', () => {
+    file(base, 'a', { a: entry('a', dir('a')) });
+    fs.writeFileSync(local, '{no json');
+    expect(() => new DomeRegistry(base).load()).toThrow(/Invalid JSON/);
+  });
+
+  it('save() devuelve cada cúpula a su fichero: lo local no entra en el base', () => {
+    file(base, 'a', { a: entry('a', dir('a')) });
+    file(local, '', { c: entry('c', dir('c')) });
+    const r = new DomeRegistry(base);
+    r.load();
+    r.add({ name: 'd', path: dir('d'), description: '', confidentiality: 'N1', active: true });
+    r.save();
+    const b = JSON.parse(fs.readFileSync(base, 'utf-8'));
+    const l = JSON.parse(fs.readFileSync(local, 'utf-8'));
+    expect(Object.keys(b.domes).sort()).toEqual(['a', 'd']);
+    expect(Object.keys(l.domes)).toEqual(['c']);
+  });
+
+  it('las rutas relativas del local se resuelven contra su propio directorio', () => {
+    file(base, 'a', { a: entry('a', dir('a')) });
+    dir('rel');
+    file(local, '', { r: entry('r', 'rel') });
+    const r = new DomeRegistry(base);
+    r.load();
+    expect(r.get('r')?.path).toBe(path.join(tmpDir, 'rel'));
+    expect(r.get('r')?.active).toBe(true);
+  });
+});

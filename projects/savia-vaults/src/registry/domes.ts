@@ -80,9 +80,38 @@ export function isGitTracked(filePath: string): boolean {
   return r.status === 0;
 }
 
+type Origin = 'base' | 'local';
+
+/** Lee y valida la estructura de un fichero de cúpulas. */
+function readDomesFile(filePath: string): DomesFile {
+  let raw: string;
+  try {
+    raw = fs.readFileSync(filePath, 'utf-8');
+  } catch {
+    throw new Error(`Cannot read domes file: ${filePath}`);
+  }
+  let data: DomesFile;
+  try {
+    data = JSON.parse(raw);
+  } catch {
+    throw new Error(`Invalid JSON in domes file: ${filePath}`);
+  }
+  if (!data.version || !data.domes || typeof data.domes !== 'object') {
+    throw new Error(`Invalid domes file structure in ${filePath}: expected { version, defaultDome, domes }`);
+  }
+  return data;
+}
+
+/**
+ * Registro de cúpulas. SE-436 D30-2: además del fichero base (`savia-vaults.domes.json`) lee un registro
+ * LOCAL junto a él (`savia-vaults.domes.local.json`, ignorado por git), que es donde escribe Savia Space;
+ * se fusionan y, con el mismo nombre, gana el local. `save()` devuelve cada cúpula al fichero de donde salió.
+ */
 export class DomeRegistry {
   private filePath: string;
   private domes: Map<string, DomeInfo> = new Map();
+  private origin: Map<string, Origin> = new Map();
+  private localDefault: string = '';
   public defaultDome: string = '';
 
   constructor(filePath: string = 'savia-vaults.domes.json') {
@@ -93,57 +122,59 @@ export class DomeRegistry {
     return path.resolve(this.filePath);
   }
 
+  /** Registro local: el base con `.local` antes de la extensión. */
+  getLocalFilePath(): string {
+    const abs = this.getFilePath();
+    const ext = path.extname(abs);
+    return abs.slice(0, abs.length - ext.length) + '.local' + ext;
+  }
+
   load(): void {
-    if (!fs.existsSync(this.filePath)) {
+    const localPath = this.getLocalFilePath();
+    const hasBase = fs.existsSync(this.filePath);
+    const hasLocal = fs.existsSync(localPath);
+    if (!hasBase && !hasLocal) {
       throw new Error(`Domes file not found: ${this.filePath}. Create one with 'savia-vaults dome create <name>' or use --path for single-dome mode.`);
     }
 
-    let raw: string;
-    try {
-      raw = fs.readFileSync(this.filePath, 'utf-8');
-    } catch {
-      throw new Error(`Cannot read domes file: ${this.filePath}`);
-    }
+    const base = hasBase ? readDomesFile(this.filePath) : null;
+    const loc = hasLocal ? readDomesFile(localPath) : null;
 
-    let data: DomesFile;
-    try {
-      data = JSON.parse(raw);
-    } catch {
-      throw new Error(`Invalid JSON in domes file: ${this.filePath}`);
-    }
-
-    if (!data.version || !data.domes || typeof data.domes !== 'object') {
-      throw new Error(`Invalid domes file structure in ${this.filePath}: expected { version, defaultDome, domes }`);
-    }
-
-    this.defaultDome = data.defaultDome || '';
+    this.defaultDome = loc?.defaultDome || base?.defaultDome || '';
+    this.localDefault = loc?.defaultDome || '';
     this.domes.clear();
+    this.origin.clear();
 
-    for (const [name, dome] of Object.entries(data.domes)) {
-      // SE-310: resolver relativo al directorio del fichero de domes, NO al cwd
-      // (el CLI puede correr desde cualquier cwd; la cupula vive junto al registry).
-      const resolvedPath = path.resolve(path.dirname(this.filePath), dome.path);
-      const active = fs.existsSync(resolvedPath) && fs.statSync(resolvedPath).isDirectory();
+    const sources: Array<[DomesFile | null, string, Origin]> = [[base, this.filePath, 'base'], [loc, localPath, 'local']];
+    for (const [data, file, origin] of sources) {
+      if (!data) continue;
+      for (const [name, dome] of Object.entries(data.domes)) {
+        // SE-310: resolver relativo al directorio del fichero de domes, NO al cwd
+        // (el CLI puede correr desde cualquier cwd; la cupula vive junto al registry).
+        const resolvedPath = path.resolve(path.dirname(file), dome.path);
+        const active = fs.existsSync(resolvedPath) && fs.statSync(resolvedPath).isDirectory();
 
-      if (!active) {
-        console.warn(`Dome "${name}" path not found: ${resolvedPath} — marked inactive`);
+        if (!active) {
+          console.warn(`Dome "${name}" path not found: ${resolvedPath} — marked inactive`);
+        }
+
+        const level = dome.confidentiality?.toUpperCase() || 'N2';
+        if (!['N1', 'N2', 'N3', 'N4'].includes(level)) {
+          throw new Error(`Invalid confidentiality level for dome "${name}": ${dome.confidentiality}. Must be N1, N2, N3, or N4.`);
+        }
+
+        this.domes.set(name, {
+          name: dome.name || name,
+          path: resolvedPath,
+          description: dome.description || '',
+          confidentiality: level as ConfidentialityLevel,
+          schemaDir: dome.schemaDir,
+          ...(dome.rag && typeof dome.rag === 'object' ? { rag: dome.rag } : {}),
+          ...(dome.files && typeof dome.files === 'object' ? { files: validFiles(name, dome.files) } : {}),
+          active,
+        });
+        this.origin.set(name, origin);
       }
-
-      const level = dome.confidentiality?.toUpperCase() || 'N2';
-      if (!['N1', 'N2', 'N3', 'N4'].includes(level)) {
-        throw new Error(`Invalid confidentiality level for dome "${name}": ${dome.confidentiality}. Must be N1, N2, N3, or N4.`);
-      }
-
-      this.domes.set(name, {
-        name: dome.name || name,
-        path: resolvedPath,
-        description: dome.description || '',
-        confidentiality: level as ConfidentialityLevel,
-        schemaDir: dome.schemaDir,
-        ...(dome.rag && typeof dome.rag === 'object' ? { rag: dome.rag } : {}),
-        ...(dome.files && typeof dome.files === 'object' ? { files: validFiles(name, dome.files) } : {}),
-        active,
-      });
     }
   }
 
@@ -176,6 +207,7 @@ export class DomeRegistry {
     dome.path = resolvedPath;
     dome.active = fs.existsSync(resolvedPath) && fs.statSync(resolvedPath).isDirectory();
     this.domes.set(dome.name, { ...dome });
+    this.origin.set(dome.name, 'base');
   }
 
   remove(name: string): void {
@@ -186,12 +218,13 @@ export class DomeRegistry {
       throw new Error(`Cannot remove default dome "${name}". Change defaultDome first.`);
     }
     this.domes.delete(name);
+    this.origin.delete(name);
   }
 
   save(): void {
-    const domes: Record<string, unknown> = {};
+    const byOrigin: Record<Origin, Record<string, unknown>> = { base: {}, local: {} };
     for (const [name, dome] of this.domes) {
-      domes[name] = {
+      byOrigin[this.origin.get(name) ?? 'base'][name] = {
         name: dome.name,
         path: dome.path,
         description: dome.description,
@@ -202,13 +235,18 @@ export class DomeRegistry {
       };
     }
 
-    const data: DomesFile = {
-      version: 1,
-      defaultDome: this.defaultDome,
-      domes: domes as DomesFile['domes'],
+    const write = (file: string, defaultDome: string, domes: Record<string, unknown>) => {
+      const data: DomesFile = { version: 1, defaultDome, domes: domes as DomesFile['domes'] };
+      fs.writeFileSync(file, JSON.stringify(data, null, 2) + '\n');
     };
-
-    fs.writeFileSync(this.filePath, JSON.stringify(data, null, 2) + '\n');
+    // El base se escribe siempre que exista o tenga cúpulas; el local solo si existe o tiene cúpulas.
+    const baseDefault = this.defaultDome === this.localDefault && this.localDefault ? '' : this.defaultDome;
+    if (fs.existsSync(this.filePath) || Object.keys(byOrigin.base).length > 0 || !fs.existsSync(this.getLocalFilePath())) {
+      write(this.filePath, baseDefault, byOrigin.base);
+    }
+    if (fs.existsSync(this.getLocalFilePath()) || Object.keys(byOrigin.local).length > 0) {
+      write(this.getLocalFilePath(), this.localDefault, byOrigin.local);
+    }
   }
 
   setDefault(name: string): void {
