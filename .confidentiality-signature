@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=aabbca8a8fcc1ce45af89d94c268f7663307fc155d34e229a8c3326fe169dce8
-timestamp=2026-10-06T13:36:28Z
-branch=agent/fix-savia-gates-hook-config
-head_commit=aba21c728
-signature=0651444cee7ace94941c78d672cc8f5f638581011e0e10a128b6239e5b23d13e
+diff_hash=ae8280da147a0edd34c3ffbb08b83a5a14bb92a181575a33eaae39f2740ce63a
+timestamp=2026-10-07T07:28:39Z
+branch=agent/fix-dni-nif-checkletter
+head_commit=94dd572f9
+signature=3b9220b366cee070b3b7cdd1008d4cf8831e24f654676549370530013ec1d2d8
