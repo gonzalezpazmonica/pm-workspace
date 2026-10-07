@@ -1,0 +1,30 @@
+// SE-429 S14c · savia-space MCP template (stdio, binario independiente del frontend)
+// Savia Space expone sesiones, evidencias y ejecuciones por MCP. Solo lectura y envío de
+// aprobaciones pendientes: ninguna tool aprueba. Una ejecución solo arranca cuando la persona
+// confirma los bytes frescos en Space. Mismo bloque para OpenCode y Claude Code.
+//
+// El token de cliente NO va aquí: el servidor lo relee de un fichero 0600 del usuario en cada
+// petición (SAVIA_SPACE_MCP_TOKEN_FILE), porque los access tokens duran como máximo 300 s.
+// Registro del cliente y emisión del token: Space > ajustes > clientes.
+{
+  "mcp": {
+    "savia-space": {
+      "type": "local",
+      "command": ["savia-space", "mcp"],
+      "environment": {
+        "SAVIA_SPACE_MCP_TOKEN_FILE": "{env:SAVIA_SPACE_MCP_TOKEN_FILE}"
+      },
+      "enabled": false,
+      "timeout": 30000,
+      "_savia_meta": {
+        "scope": "sessions:read evidence:read runs:read runs:prepare runs:approve runs:cancel",
+        "auth": "bearer JWT de cliente registrado (fichero 0600)",
+        "rotation_days": 1,
+        "trigger": "agente necesita leer sesiones o evidencias de Space, o pedir aprobación de una ejecución",
+        "token_budget": "medium",
+        "bluerock_audit": "local stdio - sin red propia; texto de fuentes marcado untrusted; sin SSRF",
+        "status": "bloqueado: el subcomando `savia-space mcp` (stdio) no existe todavía; space-mcp solo se monta por HTTP"
+      }
+    }
+  }
+}
