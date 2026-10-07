@@ -1,6 +1,6 @@
 # Confidentiality audit signature — DO NOT EDIT
-diff_hash=8754e0e2ff8b72bddf29f8d81593388d7126c0d1bb5e0e53e562e81a56813d1f
-timestamp=2026-10-07T08:34:34Z
-branch=agent/se436-s2-vaults-local
-head_commit=113cbc90
-signature=1dec4fcc9c1ba5d67d9c39aeb72d54622a1d5397a442734a017cadbd399f10d1
+diff_hash=5bdd6a8d4e053588d9c41b3b28458792fbebb46729083388fa8fbeb8cd6b8399
+timestamp=2026-10-07T08:45:31Z
+branch=agent/fix-dni-nif-checkletter
+head_commit=e9a5c2ae
+signature=d41dd374bc85a1bd498f48010a12600da4c30451919bb26555a3fa300ebbc8b1

@@ -36,6 +36,9 @@ REPO_ROOT="${CLAUDE_PROJECT_DIR:-$(git rev-parse --show-toplevel 2>/dev/null || 
 PROMPT_FILE="$REPO_ROOT/config/classifier/prompt-v3.txt"
 CACHE_DIR="$REPO_ROOT/output/classifier-cache"
 PROMPT_VERSION="classify-prompt-v3+$(sha256sum "$PROMPT_FILE" 2>/dev/null | cut -c1-8)"  # hash: editing the prompt invalidates the cache
+# Hash of this script (layer-1 detectors included): changing a deterministic rule
+# must not reuse verdicts cached under the old rule.
+PROMPT_VERSION="${PROMPT_VERSION}+l1-$(sha256sum "${BASH_SOURCE[0]}" 2>/dev/null | cut -c1-8)"
 SEED=42
 OLLAMA_URL="${OLLAMA_URL:-http://127.0.0.1:11434}"
 OLLAMA_TIMEOUT="${OLLAMA_TIMEOUT:-15}"
@@ -73,7 +76,40 @@ detect "connection_string" '(jdbc:|mongodb[+]srv://|Server=.*[Pp]assword=)'
 detect "azure_sas"        'sv=20[0-9]{2}-'
 detect "private_key"      -- '-----BEGIN.*PRIV[AEIOU]*TE KEY-----'
 detect "internal_ip"      '(192\.168\.[0-9]+\.[0-9]+|10\.[0-9]+\.[0-9]+\.[0-9]+|172\.(1[6-9]|2[0-9]|3[01])\.[0-9]+\.[0-9]+)'
-detect "dni_nif"            '(^|[^0-9])[0-9]{8}[A-Za-z]([^0-9]|$)'
+
+# DNI/NIF y NIE: solo cuentan si la letra de control es válida
+# (TRWAGMYFPDXBNJZSQVHLCKE[número % 23]; en el NIE, X=0, Y=1, Z=2). Sin esta
+# comprobación, cualquier literal con 8 dígitos + letra (p. ej. el alfabeto
+# "23456789ABCDEFGHJKMNPQRSTVWXYZ") se bloqueaba como confidencial.
+has_valid_spanish_id() {
+  # LC_ALL=C: en locales UTF-8, [0-9] de =~ casa dígitos no ASCII (١, ۱, ०…) y
+  # la aritmética posterior abortaba la detección entera (fail-open).
+  local LC_ALL=C
+  local rest="$1" core num letter
+  local letters="TRWAGMYFPDXBNJZSQVHLCKE"
+  local re='(^|[^0-9A-Za-z])([XYZxyz])([0-9]{7})([A-Za-z])([^0-9]|$)|(^|[^0-9])([0-9]{8})([A-Za-z])([^0-9]|$)'
+  while [[ "$rest" =~ $re ]]; do
+    if [[ -n "${BASH_REMATCH[2]}" ]]; then
+      core="${BASH_REMATCH[2]}${BASH_REMATCH[3]}${BASH_REMATCH[4]}"
+      case "${BASH_REMATCH[2]}" in [Xx]) num=0 ;; [Yy]) num=1 ;; *) num=2 ;; esac
+      num="$num${BASH_REMATCH[3]}"; letter="${BASH_REMATCH[4]}"
+    else
+      core="${BASH_REMATCH[7]}${BASH_REMATCH[8]}"
+      num="${BASH_REMATCH[7]}"; letter="${BASH_REMATCH[8]}"
+    fi
+    # Guarda: solo dígitos ASCII llegan a $((…)); un candidato raro se salta,
+    # nunca aborta la revisión del resto del texto.
+    if [[ "$num" =~ ^[0-9]+$ && "${letters:$((10#$num % 23)):1}" == "${letter^^}" ]]; then
+      return 0
+    fi
+    rest="${rest#*"$core"}"   # avanza: los bordes no se consumen entre candidatos
+  done
+  return 1
+}
+if has_valid_spanish_id "$NORM_TEXT"; then
+  DETECTED+=("dni_nif")
+  DET_COUNT=$((DET_COUNT + 1))
+fi
 
 DET_JSON="[]"
 if [[ "$DET_COUNT" -gt 0 ]]; then
