@@ -73,7 +73,33 @@ detect "connection_string" '(jdbc:|mongodb[+]srv://|Server=.*[Pp]assword=)'
 detect "azure_sas"        'sv=20[0-9]{2}-'
 detect "private_key"      -- '-----BEGIN.*PRIV[AEIOU]*TE KEY-----'
 detect "internal_ip"      '(192\.168\.[0-9]+\.[0-9]+|10\.[0-9]+\.[0-9]+\.[0-9]+|172\.(1[6-9]|2[0-9]|3[01])\.[0-9]+\.[0-9]+)'
-detect "dni_nif"            '(^|[^0-9])[0-9]{8}[A-Za-z]([^0-9]|$)'
+
+# DNI/NIF y NIE: solo cuentan si la letra de control es válida
+# (TRWAGMYFPDXBNJZSQVHLCKE[número % 23]; en el NIE, X=0, Y=1, Z=2). Sin esta
+# comprobación, cualquier literal con 8 dígitos + letra (p. ej. el alfabeto
+# "23456789ABCDEFGHJKMNPQRSTVWXYZ") se bloqueaba como confidencial.
+has_valid_spanish_id() {
+  local rest="$1" core num letter
+  local letters="TRWAGMYFPDXBNJZSQVHLCKE"
+  local re='(^|[^0-9A-Za-z])([XYZxyz])([0-9]{7})([A-Za-z])([^0-9]|$)|(^|[^0-9])([0-9]{8})([A-Za-z])([^0-9]|$)'
+  while [[ "$rest" =~ $re ]]; do
+    if [[ -n "${BASH_REMATCH[2]}" ]]; then
+      core="${BASH_REMATCH[2]}${BASH_REMATCH[3]}${BASH_REMATCH[4]}"
+      case "${BASH_REMATCH[2]}" in [Xx]) num=0 ;; [Yy]) num=1 ;; *) num=2 ;; esac
+      num="$num${BASH_REMATCH[3]}"; letter="${BASH_REMATCH[4]}"
+    else
+      core="${BASH_REMATCH[7]}${BASH_REMATCH[8]}"
+      num="${BASH_REMATCH[7]}"; letter="${BASH_REMATCH[8]}"
+    fi
+    [[ "${letters:$((10#$num % 23)):1}" == "${letter^^}" ]] && return 0
+    rest="${rest#*"$core"}"   # avanza: los bordes no se consumen entre candidatos
+  done
+  return 1
+}
+if has_valid_spanish_id "$NORM_TEXT"; then
+  DETECTED+=("dni_nif")
+  DET_COUNT=$((DET_COUNT + 1))
+fi
 
 DET_JSON="[]"
 if [[ "$DET_COUNT" -gt 0 ]]; then

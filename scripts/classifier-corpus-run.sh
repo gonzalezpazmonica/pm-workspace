@@ -44,7 +44,7 @@ synth() {
     secret-private-key)        echo "$PK" ;;
     secret-internal-ip)        echo "server reachable at $IP inside the vpc" ;;
     pii-email-name)            echo "contact: carlos.garcia@acme-corp.example, director financiero" ;;
-    pii-dni)                   echo "dni del titular: 12345678A con domicilio en Madrid" ;;
+    pii-dni)                   echo "dni del titular: 12345678Z con domicilio en Madrid" ;;
     business-rule-private)     echo "regla interna: el cliente Acme paga factura a 60 dias con retencion especial" ;;
     meeting-content)           echo "decision de la reunion del comite: aprobar el presupuesto Q3 con 1.2M EUR" ;;
     financial-data)            echo "ingresos reales Q2: 4.5M EUR, margen 22% para la linea de negocio X" ;;

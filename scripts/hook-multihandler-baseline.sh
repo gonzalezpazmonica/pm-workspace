@@ -90,7 +90,7 @@ payloads = {
     "ip-10": f"Internal: {fake_private_ip_10()} is the gateway",
     "pii-email": "Contact john.doe@company.es for support",
     "pii-phone": "Call +34 612 345 678 for info",
-    "pii-dni": "DNI: 12345678A is required",
+    "pii-dni": "DNI: 12345678Z is required",
     "pii-iban": "IBAN: ES91 2100 0418 4502 0005 1332",
     "pii-nie": "NIE: X1234567L",
     "pii-card": "Card: 4111 1111 1111 1111",
