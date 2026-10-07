@@ -36,6 +36,9 @@ REPO_ROOT="${CLAUDE_PROJECT_DIR:-$(git rev-parse --show-toplevel 2>/dev/null || 
 PROMPT_FILE="$REPO_ROOT/config/classifier/prompt-v3.txt"
 CACHE_DIR="$REPO_ROOT/output/classifier-cache"
 PROMPT_VERSION="classify-prompt-v3+$(sha256sum "$PROMPT_FILE" 2>/dev/null | cut -c1-8)"  # hash: editing the prompt invalidates the cache
+# Hash of this script (layer-1 detectors included): changing a deterministic rule
+# must not reuse verdicts cached under the old rule.
+PROMPT_VERSION="${PROMPT_VERSION}+l1-$(sha256sum "${BASH_SOURCE[0]}" 2>/dev/null | cut -c1-8)"
 SEED=42
 OLLAMA_URL="${OLLAMA_URL:-http://127.0.0.1:11434}"
 OLLAMA_TIMEOUT="${OLLAMA_TIMEOUT:-15}"
@@ -79,6 +82,9 @@ detect "internal_ip"      '(192\.168\.[0-9]+\.[0-9]+|10\.[0-9]+\.[0-9]+\.[0-9]+|
 # comprobación, cualquier literal con 8 dígitos + letra (p. ej. el alfabeto
 # "23456789ABCDEFGHJKMNPQRSTVWXYZ") se bloqueaba como confidencial.
 has_valid_spanish_id() {
+  # LC_ALL=C: en locales UTF-8, [0-9] de =~ casa dígitos no ASCII (١, ۱, ०…) y
+  # la aritmética posterior abortaba la detección entera (fail-open).
+  local LC_ALL=C
   local rest="$1" core num letter
   local letters="TRWAGMYFPDXBNJZSQVHLCKE"
   local re='(^|[^0-9A-Za-z])([XYZxyz])([0-9]{7})([A-Za-z])([^0-9]|$)|(^|[^0-9])([0-9]{8})([A-Za-z])([^0-9]|$)'
@@ -91,7 +97,11 @@ has_valid_spanish_id() {
       core="${BASH_REMATCH[7]}${BASH_REMATCH[8]}"
       num="${BASH_REMATCH[7]}"; letter="${BASH_REMATCH[8]}"
     fi
-    [[ "${letters:$((10#$num % 23)):1}" == "${letter^^}" ]] && return 0
+    # Guarda: solo dígitos ASCII llegan a $((…)); un candidato raro se salta,
+    # nunca aborta la revisión del resto del texto.
+    if [[ "$num" =~ ^[0-9]+$ && "${letters:$((10#$num % 23)):1}" == "${letter^^}" ]]; then
+      return 0
+    fi
     rest="${rest#*"$core"}"   # avanza: los bordes no se consumen entre candidatos
   done
   return 1
